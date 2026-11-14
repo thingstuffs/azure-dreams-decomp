@@ -80,7 +80,7 @@ typedef struct S_812A524C_40 {
     void * unk_0C;
 } S_812A524C_40;   /* ((S_812A524C_5 *)(&D_800FBE54))->unk_00 in func_80170A4C */
 
-s32 enqueue_runtime_pool_script(void *input_data); /* extern */
+s32 queue_pool_service_script(void *input_data); /* extern */
 void clear_slots_of_type();
 void func_80042B68(ActorRecord *owner, s8 match_type);                /* extern */
 void advance_sprite_animation_and_textures(void *entity);                      /* extern */

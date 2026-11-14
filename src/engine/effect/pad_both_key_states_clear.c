@@ -13,7 +13,7 @@ void *dispatch_after_controller_release(void *data) {
 
     if (dispatch->image_ready != 0) {
         if (dispatch->data_ready != 0) {
-            while (pad_both_key_states_clear() == 0) {
+            while (is_sound_mode_unblocked() == 0) {
                 update_vsync_frame_id(2);
             }
             result = effect_state_callbacks[dispatch->callback_index]((u8 *)dispatch - 0x20);

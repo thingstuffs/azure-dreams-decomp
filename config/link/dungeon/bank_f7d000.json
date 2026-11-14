@@ -30,7 +30,7 @@
     },
     {
       "row": "dungeon/func_80F5D668",
-      "tu": "src/dungeon/monster/blume/update_actor_dungeon_behavior_and_animation.c",
+      "tu": "src/dungeon/monster/blume/dispatch_blume_actions.c",
       "home": "dungeon/func_80DBA620",
       "foff": "0xF7D668",
       "vma": "0x80170E68",
@@ -138,7 +138,7 @@
     },
     {
       "row": "dungeon/func_80F5E8AC",
-      "tu": "src/dungeon/monster/hikewne/update_entity_state_from_query.c",
+      "tu": "src/dungeon/monster/hikewne/relink_hikewne_path.c",
       "home": "dungeon/func_80976E28",
       "foff": "0xF7E8AC",
       "vma": "0x801720AC",
@@ -204,7 +204,7 @@
     },
     {
       "row": "dungeon/func_80F5F708",
-      "tu": "src/dungeon/monster/ifrit/update_directional_motion_and_settle.c",
+      "tu": "src/dungeon/monster/ifrit/update_ifrit_recoil.c",
       "home": "dungeon/func_80A1F8B8",
       "foff": "0xF7F708",
       "vma": "0x80172F08",
@@ -231,7 +231,7 @@
     },
     {
       "row": "dungeon/func_80F5FA2C",
-      "tu": "src/dungeon/effect/state/forward_actor_effect_state.c",
+      "tu": "src/dungeon/effect/state/update_hop_and_shrink_callback.c",
       "home": "dungeon/func_800AD90C",
       "foff": "0xF7FA2C",
       "vma": "0x8017322C",
@@ -290,7 +290,7 @@
     },
     {
       "row": "dungeon/func_80F604EC",
-      "tu": "src/dungeon/monster/kewne/update_actor_state_after_map_check.c",
+      "tu": "src/dungeon/monster/kewne/update_kewne_parent_motion.c",
       "home": "dungeon/func_809A2D74",
       "foff": "0xF804EC",
       "vma": "0x80173CEC",
@@ -302,7 +302,7 @@
     },
     {
       "row": "dungeon/func_80F605B4",
-      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F8A600",
       "foff": "0xF805B4",
       "vma": "0x80173DB4",
@@ -369,7 +369,7 @@
     },
     {
       "row": "dungeon/func_80F6091C",
-      "tu": "src/dungeon/actor/set_actor_data_pointer.c",
+      "tu": "src/dungeon/actor/set_default_action_after_floor_trap.c",
       "home": "dungeon/func_800CF1BC",
       "foff": "0xF8091C",
       "vma": "0x8017411C",

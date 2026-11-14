@@ -92,7 +92,7 @@ void *spawn_animated_monster(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_
         initialize_actor_sprite_and_animation(call_a1, part_a, part_b, spawn_flags);
         actor->action_id = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C.address = update_actor_state_and_select_target;
+        actor->unk_8C.address = update_arachne_turn_action;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
@@ -122,7 +122,7 @@ void update_arachne_motion_and_facing(ActorRecord *entity, ObjectPosition *motio
 
     if (g_dungeon_status.flags & 0x2000) {
         callback = entity->unk_8C.handler;
-        if (callback == update_actor_state_and_select_target) {
+        if (callback == update_arachne_turn_action) {
             {
                 call_self = entity;
                 callback(call_self, motion, part, call_self);
@@ -249,7 +249,7 @@ void update_arachne_motion_and_facing(ActorRecord *entity, ObjectPosition *motio
 }
 
 /* Selects movement, attacks, and spells from actor status, MP, and its position relative to the player. */
-void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor) {
+void update_arachne_turn_action(ActorRecord *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor) {
     u8 *effect_table;
     s32 next_state;
     s16 path_distance;
@@ -386,7 +386,7 @@ void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *c
             owner = primary_actor_record;
             actor->facing = target_angle;
             if (owner->action_id == 0x11) {
-                begin_actor_spell_action(entity, context, sprite, arachne_frame_set, ((u8 *)update_actor_state_and_select_target));
+                begin_actor_spell_action(entity, context, sprite, arachne_frame_set, ((u8 *)update_arachne_turn_action));
                 return;
             }
 
@@ -397,7 +397,7 @@ void update_actor_state_and_select_target(ActorRecord *entity, ObjectPosition *c
         case 0:
         case 1:
         case 2:
-            begin_actor_spell_action(entity, context, sprite, arachne_frame_set, ((u8 *)update_actor_state_and_select_target));
+            begin_actor_spell_action(entity, context, sprite, arachne_frame_set, ((u8 *)update_arachne_turn_action));
             return;
 
         default:
@@ -890,7 +890,7 @@ void finish_arachne_tile_move(ActorRecord *state, ObjectPosition *context, Sprit
         if ((check_actor_floor_trap(source, target) << 0x10) <= 0) {
             return;
         }
-        state->unk_8C.handler = update_actor_state_and_select_target;
+        state->unk_8C.handler = update_arachne_turn_action;
         state->unk_90.value = 0;
     }
     if (g_dungeon_status.flags & 0x80) {
@@ -1004,26 +1004,26 @@ void complete_actor_arc_movement(ActorRecord *action, ObjectPosition *motion, Sp
         }
 
         if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-            action->unk_8C.address = ((void *)update_actor_state_and_select_target);
+            action->unk_8C.address = ((void *)update_arachne_turn_action);
             on_actor_status_updated(actor);
         }
     }
 }
 
 /*
- * Runs update_linked_actor_motion and installs update_actor_state_and_select_target only when it
+ * Runs update_linked_actor_motion and installs update_arachne_turn_action only when it
  * succeeds and the signed floor-trap check returns positive.
  */
 void finish_arachne_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_linked_actor_motion(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->unk_8C.handler = update_actor_state_and_select_target;
+            state->unk_8C.handler = update_arachne_turn_action;
         }
     }
 }
 
 /* Animates a backward step and wireframe attack, applies damage, then recenters the actor and spends MP. */
-void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+void advance_arachne_attack(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     s16 effect_offset[3];
     s32 dir_x;
     s32 dir_y;
@@ -1146,7 +1146,7 @@ void advance_action_and_spawn_effect(ActorRecord *body, ObjectPosition *position
             position->velocity_x = 0;
             set_record_integer_tile_center(position,(u8)sprite->tile_x,(u8)sprite->tile_y);
             spend_actor_mp(actor, 0x100);
-            body->unk_8C.address = ((void *)update_actor_state_and_select_target);
+            body->unk_8C.address = ((void *)update_arachne_turn_action);
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             if (actor->pending_turn_updates == 0) {
@@ -1261,7 +1261,7 @@ void advance_actor_motion_and_wait(ActorRecord *action, ObjectPosition *transfor
         primary_actor_record->unk_A4.halves.high.u = primary_actor_record->unk_A4.halves.high.u - 1;
         advance_status_timers(actor);
         actor->pending_turn_updates = actor->pending_turn_updates - 1;
-        action->unk_8C.address = ((u8 *)update_actor_state_and_select_target);
+        action->unk_8C.address = ((u8 *)update_arachne_turn_action);
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -1311,7 +1311,7 @@ void advance_actor_motion_and_wait(ActorRecord *action, ObjectPosition *transfor
         }
         ((R12_80172AF8_S_80172AF8_7 *)action_state)->unk_0A = ((R12_80172AF8_S_80172AF8_7 *)action_state)->unk_0A - 1;
         sprite->flags &= 0xF7FF;
-        action->unk_8C.address = ((u8 *)update_actor_state_and_select_target);
+        action->unk_8C.address = ((u8 *)update_arachne_turn_action);
         advance_status_timers(actor);
         if (actor->pending_turn_updates > 0) {
             actor->pending_turn_updates = actor->pending_turn_updates - 1;
@@ -1325,7 +1325,7 @@ void advance_actor_motion_and_wait(ActorRecord *action, ObjectPosition *transfor
 }
 
 /* Applies a value change and knockback, decelerates the actor, then recenters it and restores movement. */
-void apply_knockback_then_restore_target_selection(R12_80172FE8_S_801730B8_1 *action, ObjectPosition *motion, SpriteFrameState *entity, ActorRecord *source)
+void update_arachne_recoil(R12_80172FE8_S_801730B8_1 *action, ObjectPosition *motion, SpriteFrameState *entity, ActorRecord *source)
 {
     s16 timer;
     s32 direction;
@@ -1417,7 +1417,7 @@ void apply_knockback_then_restore_target_selection(R12_80172FE8_S_801730B8_1 *ac
         if (tracked_addr == (s32)((u8 *)source - 0x20)) {
             g_dungeon_status.pending_display_owner = tracked_addr & 0x7FFFFFFF;
         }
-        action->unk_8C = ((void *)update_actor_state_and_select_target);
+        action->unk_8C = ((void *)update_arachne_turn_action);
         return;
 
     default:
@@ -1533,12 +1533,12 @@ void advance_arachne_removal(void *state, void *motion, void *position, void *ac
 }
 
 /*
- * Runs update_actor_hop_and_grow and installs update_actor_state_and_select_target when it returns
+ * Runs update_actor_hop_and_grow and installs update_arachne_turn_action when it returns
  * nonzero.
  */
 void finish_arachne_hop_and_grow(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_actor_hop_and_grow(state, motion, position, actor)) {
-        state->unk_8C.handler = update_actor_state_and_select_target;
+        state->unk_8C.handler = update_arachne_turn_action;
     }
 }
 
@@ -1673,7 +1673,7 @@ void advance_arachne_status_action(ActorRecord *in_controller, ObjectPosition *i
     }
     actor->flags1C &= ~ACTOR_ASLEEP;
     in_controller = (ActorRecord *)((u8 *)in_controller + 0x8C);
-    *(void **)in_controller = ((u8 *)update_actor_state_and_select_target);
+    *(void **)in_controller = ((u8 *)update_arachne_turn_action);
 }
 
 /* Waits for MP recovery while processing actor status, then restores the normal animation and movement. */
@@ -1771,7 +1771,7 @@ void resume_arachne_after_status_animation(ActorRecord *controller, ObjectPositi
 
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             entity->flags1C &= ~(ACTOR_MP_EMPTY | ACTOR_ASLEEP);
-            controller->unk_8C.address = ((void *)update_actor_state_and_select_target);
+            controller->unk_8C.address = ((void *)update_arachne_turn_action);
         }
 
         return;
@@ -1786,7 +1786,7 @@ void resume_arachne_after_status_animation(ActorRecord *controller, ObjectPositi
 void update_arachne_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object) {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
         if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
-            actor->unk_8C.handler = update_actor_state_and_select_target;
+            actor->unk_8C.handler = update_arachne_turn_action;
             return;
         }
     } else if (entity->frameTable == arachne_alt_direction_frames &&
@@ -1797,44 +1797,44 @@ void update_arachne_parent_motion(ActorRecord *actor, ObjectPosition *action, Sp
 }
 
 /*
- * Runs update_thrown_actor_travel and installs update_actor_state_and_select_target only when it
+ * Runs update_thrown_actor_travel and installs update_arachne_turn_action only when it
  * succeeds and the signed floor-trap check returns positive.
  */
 void finish_arachne_thrown_travel(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_thrown_actor_travel(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->unk_8C.handler = update_actor_state_and_select_target;
+            state->unk_8C.handler = update_arachne_turn_action;
         }
     }
 }
 
 /*
- * Runs interpolate_actor_to_terrain_tile and installs update_actor_state_and_select_target when it
+ * Runs interpolate_actor_to_terrain_tile and installs update_arachne_turn_action when it
  * returns nonzero.
  */
 void finish_arachne_terrain_move(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
-        state->unk_8C.handler = update_actor_state_and_select_target;
+        state->unk_8C.handler = update_arachne_turn_action;
     }
 }
 
 /*
- * Runs update_spinning_actor_fall and installs update_actor_state_and_select_target when it
+ * Runs update_spinning_actor_fall and installs update_arachne_turn_action when it
  * returns nonzero.
  */
 void finish_arachne_spinning_fall(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
-        state->unk_8C.handler = update_actor_state_and_select_target;
+        state->unk_8C.handler = update_arachne_turn_action;
     }
 }
 
 /*
- * Runs update_actor_fade_in and installs update_actor_state_and_select_target when it returns
+ * Runs update_actor_fade_in and installs update_arachne_turn_action when it returns
  * nonzero.
  */
 void finish_arachne_fade_in(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_actor_fade_in(state, motion, position)) {
-        state->unk_8C.handler = update_actor_state_and_select_target;
+        state->unk_8C.handler = update_arachne_turn_action;
     }
 }
 
@@ -2531,7 +2531,7 @@ void build_animated_spherical_wireframe(void *effect, ObjectPosition *origin, Sp
 }
 
 /* Creates a gray spherical wireframe effect offset vertically from the supplied position. */
-void create_offset_effect(void *source_arg, ObjectPosition *spawn_pos_arg, SpriteFrameState *unused_context)
+void create_wireframe_sphere_effect(void *source_arg, ObjectPosition *spawn_pos_arg, SpriteFrameState *unused_context)
 {
     ObjectPosition *spawn_pos = spawn_pos_arg;
     u16 render_flags;
@@ -2683,7 +2683,7 @@ void advance_effect_sequence_and_restore_actor(ActorRecord *sequence, ObjectPosi
         select_nearby_target_and_initialize_slot(NODE_HEADER(actor), position, 8, 0x300);
         sequence->action_timer = 0x10;
         sequence->action_phase++;
-        create_offset_effect(sequence, position, record);
+        create_wireframe_sphere_effect(sequence, position, record);
 
     case 3:
         timer = sequence->action_timer;
@@ -2802,21 +2802,21 @@ store_next_state:
 }
 
 /*
- * Runs resolve_actor_floor_trap_once and installs update_actor_state_and_select_target when it
+ * Runs resolve_actor_floor_trap_once and installs update_arachne_turn_action when it
  * returns positive.
  */
 void finish_arachne_floor_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (resolve_actor_floor_trap_once(state, motion, position, actor) > 0) {
-        state->unk_8C.handler = update_actor_state_and_select_target;
+        state->unk_8C.handler = update_arachne_turn_action;
     }
 }
 
 /*
- * Runs propagate_actor_action_flag and installs update_actor_state_and_select_target when it
+ * Runs propagate_actor_action_flag and installs update_arachne_turn_action when it
  * returns positive.
  */
 void finish_arachne_action_flag(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (propagate_actor_action_flag(state, motion, position, actor) > 0) {
-        state->unk_8C.handler = update_actor_state_and_select_target;
+        state->unk_8C.handler = update_arachne_turn_action;
     }
 }

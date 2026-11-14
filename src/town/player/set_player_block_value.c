@@ -22,7 +22,7 @@ void set_player_block_value(s32 value)
     header = NODE_HEADER(block);
     header_param_08 = header->position;
     header_param_0c = *(s32 *)&header->sprite;
-    clear_entity_record_fields(header_param_08);
+    clear_object_velocity(header_param_08);
     *(s16 *)((s8 *)block + 0x10) = value & 0xFFF;
     dispatch_selected_entry_if_nonzero(town_scene_record_handlers, block, header_param_0c);
     init_motion_action_callback(block, (s32)header_param_08, header_param_0c);

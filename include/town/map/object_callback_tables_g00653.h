@@ -14,7 +14,7 @@ extern u8 D_800C1E50[];
 
 
 /* Functions defined in this translation unit. */
-void initialize_object_and_replace_callbacks(void);
-void invoke_callbacks_until_terminator(void);
+void install_map_trigger_handlers(void);
+void run_map_trigger_callbacks(void);
 
 #endif

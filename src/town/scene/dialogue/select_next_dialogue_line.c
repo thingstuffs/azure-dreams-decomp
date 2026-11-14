@@ -40,8 +40,8 @@ s8 *select_next_dialogue_line(void) {
         initial = 1;
     }
 
-    if (get_script_flag_mask(initial) == 0 && get_linked_record_field_2_d_60() != 0) {
-        if (get_linked_record_field_2_d_60() >= 5) {
+    if (get_script_flag_mask(initial) == 0 && get_town_state_count() != 0) {
+        if (get_town_state_count() >= 5) {
             if (get_script_flag_mask(Ftt_fkoya_isaku_scene00_first) == 0) {
                 if (get_script_flag_mask(F_ie_huusya_no_sasoi_once) == 0) {
                     set_script_flag_bit(F_ie_huusya_no_sasoi_once);

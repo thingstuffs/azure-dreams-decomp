@@ -38,8 +38,8 @@ extern void D_800B3E68(void *);
 extern void initialize_entity_display_parts();
 
 /* Functions defined in this translation unit. */
-void initialize_dual_child_entries(StorageMenuObject *owner);
-void initialize_object_data_blocks_and_entries(StorageMenuObject *object);
+void initialize_storage_menu_parts(StorageMenuObject *owner);
+void load_entity_display_data(StorageMenuObject *object);
 void bind_storage_menu_object_color_update(void *record_values, s32 base_value);
 void initialize_entity_display_owner(u8 *owner, s32 base_value);
 

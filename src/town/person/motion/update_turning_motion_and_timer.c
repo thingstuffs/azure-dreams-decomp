@@ -39,7 +39,7 @@ void update_turning_motion_and_timer(TownObjectRecord *actor, ObjectPosition *po
             } else if (axis == 1) {
                 position->y.v -= adjustment->amount;
             }
-            initialize_object_from_context(actor, position, update_param);
+            start_random_wait_select_setup(actor, position, update_param);
             return;
         }
     }
@@ -47,6 +47,6 @@ void update_turning_motion_and_timer(TownObjectRecord *actor, ObjectPosition *po
     timer = actor->timer - 1;
     actor->timer = timer;
     if ((s32)(timer << 16) <= 0) {
-        initialize_object_from_context(actor, position, update_param);
+        start_random_wait_select_setup(actor, position, update_param);
     }
 }

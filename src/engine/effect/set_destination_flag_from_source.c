@@ -33,5 +33,5 @@ void initialize_shared_sprite_fade_display(void) {
     vec->y.w.i = 0x8D;
     vec->z.w.i = 0x10;
     context->step = ramp_fade_up_fast;
-    runtime_set_destination_flag_from_source(context, dst);
+    set_fade_has_source(context, dst);
 }

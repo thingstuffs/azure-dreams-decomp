@@ -52,10 +52,10 @@ extern void strcat(void *dest, void *source);
 
 /* Complete member contracts, one prototype per line. */
 void card_boot_reset_operation_and_drain_events(void);
-s32 card_boot_latch_hardware_status_one(void);
-s32 card_boot_latch_hardware_status_two(void);
-s32 card_boot_latch_hardware_status_three(void);
-s32 card_boot_latch_hardware_status_four(void);
+s32 card_boot_latch_hw_done(void);
+s32 card_boot_latch_hw_error(void);
+s32 card_boot_latch_hw_timeout(void);
+s32 card_boot_latch_hw_new_card(void);
 void card_boot_open_events(void);
 s32 func_8002137C(void);
 s32 card_boot_request_info(s32 card_channel);

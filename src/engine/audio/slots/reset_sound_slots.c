@@ -20,14 +20,13 @@ typedef struct {
 } S_80086A40; /* size 0x1C (28) */
 
 /* D_80086C00: sound-slot table, 12-byte stride (canonical layout from
- * func_8005AE08/sound_activate_loaded_sequence_slot/copy_indexed_entry_pair/set_sequence_slot_gains/update_sequence_slot_state).
+ * func_8005AE08/sound_activate_loaded_sequence_slot/get_sequence_slot_gains/set_sequence_slot_gains/update_sequence_slot_state).
  * This init function walks 16 entries (0x80086A40 + 16*0x1C == 0x80086C00,
  * and 0x80086C00 + 16*0xC == 0x80086CC0), touching field_0/field_2/field_8/
  * field_A but not field_4. */
  /* size 0xC (12) */
 
 extern S_80086A40 audio_bank_slots[16];
-extern SoundSequenceSlot audio_sequence_slots[16];
 extern s32 audio_slot_service_word[3]; /* forced hi/lo via size > 8 */
 
 /* Resets the sound slot tables to their free defaults and restores the global counter. */

@@ -35,7 +35,7 @@ void init_cursor_sprite_object(void *node_addr, Rec_D_80081FDC *transform, s32 *
     state->script = script_data;
     state->enabled = 1;
     state->cursor_offset = cursor_offset;
-    runtime_initialize_state_value(transform, *script_data);
+    init_unit_scale_record(transform, *script_data);
     state->model = transform;
     transform->unk_60 = 6;
     state->model->unk_10 = 0x47;

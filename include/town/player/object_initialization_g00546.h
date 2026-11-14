@@ -19,7 +19,7 @@ void tick_countdown_and_initialize_target(UnsignedCountdownView *state, struct O
 void target_action_update_address(UnsignedCountdownView *state, s32 value);
 
 /* Functions defined in this translation unit. */
-void initialize_object_with_count_four(TownObjectRecord *object, struct ObjectPosition *setupValue, void *ptr2);
+void begin_target_init_countdown(TownObjectRecord *object, struct ObjectPosition *setupValue, void *ptr2);
 void begin_target_action_update(TownObjectRecord *object, struct ObjectPosition *setupContext, void *ptr2);
 
 #endif

@@ -30,7 +30,7 @@ void initialize_indexed_render_state(void *object, ObjectPosition *unused, Sprit
     render_state->unk_04 = 0;
     render_state->frame_ticks = 0;
     render_state->source = D_800F148C;
-    register_node(NODE_HEADER(object), runtime_render_linked_textured_sprites);
+    register_node(NODE_HEADER(object), draw_sprites_with_dimmed_copies);
     angle_table = (u8 *) D_800D0A10;
     render_state->tpage_abr = 0x20;
     render_state->flags |= 0x1C;

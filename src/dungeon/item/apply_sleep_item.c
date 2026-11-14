@@ -37,7 +37,7 @@ s32 apply_sleep_item(ActorRecord *entity, DungeonItemEntry *item, s16 use_type) 
     if (try_apply_action_by_chance(entity, 0x400, 8) != 0) {
         play_sound_if_enabled(0x520);
     }
-    clear_slot_and_update_linked_state(item);
+    clear_item_slot(item);
     g_dungeon_status.activity_counts.parts.pending_action_count--;
     return 1;
 }

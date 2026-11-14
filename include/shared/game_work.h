@@ -18,7 +18,7 @@ typedef struct ViewSlot {
     /* 0x018 */ int unk_18; /* three-component interpolation progress, initialized to 0; callback clamps completion at 0x1000 */
     /* 0x01C */ int unk_1C; /* interpolation step: 0x400 / duration when nonzero, otherwise 0x1000; duration is not a direct frame count */
     /* 0x020 */ unsigned char pad_20[0x4];
-    /* 0x024 */ void * position_source; /* position source read at +2/+6/+0xA by copy_view_halfword_triplet */
+    /* 0x024 */ void * position_source; /* position source read at +2/+6/+0xA by copy_camera_position_from_object */
     /* 0x028 */ short transition_frames_left;        /* lh 1, sh 4 (4 rows, slot 0) */
     /* 0x02A */ short target_view_offset_z;        /* sh 4 (4 rows, slot 0) */
     /* 0x02C */ int unk_2C;          /* sw 3 (3 rows, slot 0) */

@@ -23,7 +23,7 @@ typedef struct S_800C4030_1 {
 #include "dungeon/item/state.h"
 #include "dungeon/effect/screen.h"
 
-extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern s32 resolve_item_attack(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 #include "dungeon/player/state/clear_slot_and_update_linked_state_api.h"
 
 extern u8 D_800893DC[];
@@ -46,7 +46,7 @@ s32 convert_ground_items_to_gold(ActorRecord *target, s32 action, s16 action_typ
     void *saved_context;
 
     if (action_type == 0xD) {
-        return process_record_and_update_linked_state(action, action_param);
+        return resolve_item_attack(action, action_param);
     }
 
     if (target == dungeon_actor_ring_anchor) {
@@ -101,7 +101,7 @@ s32 convert_ground_items_to_gold(ActorRecord *target, s32 action, s16 action_typ
     first_arg = action;
     result--;
     ((S_800C4030_1 *)table_base)->unk_0A = result;
-    clear_slot_and_update_linked_state(first_arg);
+    clear_item_slot(first_arg);
     return 1;
 
 }

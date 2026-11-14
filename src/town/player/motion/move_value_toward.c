@@ -2,12 +2,12 @@
 #include "town/player/motion.h"
 #include "shared/sprite_frame_state.h"
 
-   /* arg1 in move_value_toward_300 */
+   /* arg1 in step_y_toward_fixed_target */
 
 extern s32 init_record_target_approach(TownObjectRecord *record, ObjectPosition *field_ptr, SpriteFrameState *other_value);
 
 /* Moves the halfword at +6 toward 0x300 by four and calls the next handler when it reaches that value. */
-s32 move_value_toward_300(TownObjectRecord *record, ObjectPosition *field_ptr, SpriteFrameState *other_value)
+s32 step_y_toward_fixed_target(TownObjectRecord *record, ObjectPosition *field_ptr, SpriteFrameState *other_value)
 {
     s16 current;
     u16 raw;

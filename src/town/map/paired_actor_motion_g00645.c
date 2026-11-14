@@ -17,7 +17,7 @@ void update_randomized_actor_movement(TownObjectRecord *actor, ObjectPosition *m
     s32 home_dx;
 
     sequence = 0;
-    if ((service_script_controller() != 0) && (check_transform_identifier_and_hook((s32)actor) != 0)) {
+    if ((service_script_controller() != 0) && (check_town_target_and_callback((s32)actor) != 0)) {
         if (!(actor->unk_AC & 1)) {
             SD_Call(0x60B);
             actor->unk_AC |= 1;
@@ -374,7 +374,7 @@ void init_paired_actor_motion(TownObjectRecord *object, ObjectPosition *params, 
 }
 
 /* Randomize paired object motion until both pass the stop position, then set completion flags. */
-void randomize_paired_object_motion(void *pair_data) {
+void update_tori_pair_motion(void *pair_data) {
     EventToriInBody *pair = pair_data;
     s32 state;
     s32 random_value;
@@ -470,7 +470,7 @@ void randomize_paired_object_motion(void *pair_data) {
 }
 
 /* Advance motion, update every eighth tick, and flag zero horizontal velocity. */
-void advance_motion_and_flag_zero_velocity(Actor *actor, Motion *motion, SpriteFrameState *actor_id) {
+void update_tori_child_sprite(Actor *actor, Motion *motion, SpriteFrameState *actor_id) {
     u16 tick;
 
     advance_sprite_animation_and_textures(actor_id);
@@ -513,12 +513,12 @@ s32 event_tori_in(void *source) {
     if (object != NULL) {
         child_slot = ((void *)object) + 0x20;
         pair_body = child_slot;
-        object->update_callback = randomize_paired_object_motion;
+        object->update_callback = update_tori_pair_motion;
         pair_body->position = ((MotionSource *)source_data)->position;
         pair_body->motion = ((MotionSource *)source_data)->motion;
     }
     child_index = 1;
-    child_handler = advance_motion_and_flag_zero_velocity;
+    child_handler = update_tori_child_sprite;
     x_step = 0x300000;
     child_slot = child_slot + 4;
     do {

@@ -281,7 +281,7 @@ s32 render_linked_jittered_effect_strips(DirectionalActorEffectBody *node_data) 
 }
 
 /* Copies one of six table pairs into the linked record's scale fields, defaulting to pair zero. */
-void copy_selected_table_pair(ActorRecord *record_field, s32 pair_index) {
+void select_target_sprite_scale(ActorRecord *record_field, s32 pair_index) {
     u16 value_pairs[12];
     s32 shifted_index;
     Row_818E786C_S_8002506C_1 *linked_record;

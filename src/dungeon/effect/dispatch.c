@@ -31,6 +31,8 @@ struct ObjectPosition;
 #include "dungeon/actor/effect.h"
 #include "dungeon/data.h"
 #include "dungeon/player/object.h"
+#include "dungeon/player/camera_pitch_presets_data.h"
+#include "dungeon/player/camera_pitch_index_data.h"
 
 typedef struct S_800C55F4_0 {
     u8 ** unk_00;
@@ -1704,9 +1706,6 @@ typedef struct Sub {
 } Sub;
 
 /* View over the D_80083178 dispatch/blend record (fields not in game.h struct) */
-
-extern s16 camera_pitch_index;
-extern s16 camera_pitch_presets[];
 
 /* Blend toward the entity target, then dispatch the next state. */
 void blend_entity_toward_target_state(void *entity_data) {

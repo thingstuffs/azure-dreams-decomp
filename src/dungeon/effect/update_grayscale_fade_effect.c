@@ -2,6 +2,7 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "dungeon/effect.h"
+#include "dungeon/effect/rectangle_effect_updated_data.h"
 
 typedef struct S_800250C0_0 {
     u16 unk_00;
@@ -25,7 +26,6 @@ typedef struct S_800250C0_1 {
 } S_800250C0_1;   /* arg2 in update_grayscale_fade_effect */
 
 
-extern s16 rectangle_effect_updated[];
 
 /* Updates an effect's grayscale intensity and animation frame, marking it finished at the end of its lifetime. */
 void update_grayscale_fade_effect(void *effect, s32 age, S_800250C0_1 *color, s32 fade_ticks) {
@@ -35,7 +35,7 @@ void update_grayscale_fade_effect(void *effect, s32 age, S_800250C0_1 *color, s3
 
     age = ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_06;
     fade_ticks = ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_0C;
-    rectangle_effect_updated[0] = 1;
+    rectangle_effect_updated = 1;
     if (age < fade_ticks) {
         fade_scaled = age * 3;
     } else {

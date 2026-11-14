@@ -82,7 +82,7 @@ void create_settings_controller(void) {
     } while (child_index >= 0);
     object = allocate_flagged_object_node(1);
     if (object != NULL) {
-        object->update_callback = (void *)sync_object_with_sub_object;
+        object->update_callback = (void *)sync_settings_object_with_child;
         register_node(object, &display_registration_tag);
         effect_state = NODE_BODY(object);
         effect_state->position_y = 0x60;

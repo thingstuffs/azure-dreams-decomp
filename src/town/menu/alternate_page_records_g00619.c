@@ -34,9 +34,9 @@ void update_alternate_menu_page_bounds(Object *obj)
 }
 
 /* Update the linked record components and finalize the data at offset 0x68. */
-void update_and_finalize_record(Rec_func_800B2DA0_arg1 *record) {
-    update_linked_record_data(record);
+void update_paged_menu_record(Rec_func_800B2DA0_arg1 *record) {
+    fill_paged_menu_slots(record);
     update_alternate_menu_page_bounds((Object *)record);
-    prepare_linked_record_data(record);
+    populate_record_page_entries(record);
     forward_paged_record_data(record->unk_A8 + 0x68, (void * *)(record));
 }

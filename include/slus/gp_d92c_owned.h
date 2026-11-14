@@ -6,12 +6,10 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "slus/animation_tick_data.h"
+#include "slus/saved_volume_scales_data.h"
 
 extern short camera_shoulder_hold_ticks;
 extern short camera_shoulder_repeat_latch;
-extern short saved_cd_playback_volume_scale;
-extern short saved_sequence_volume_scale;
-extern short saved_voice_gain_scale;
 extern u8 runtime_state_restore_requested;
 extern u8 scene_music_hold;
 extern u8 D_80080AA0;

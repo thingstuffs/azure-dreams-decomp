@@ -55,7 +55,7 @@ typedef union Row_818E6F98_WorkOutput {
 void *allocate_list_node(s32, void *);
 void register_node(void *, void *);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
-s32 get_definition_entry_byte_13(s16 entry_index);
+s32 get_spell_range(s16 entry_index);
 s32 scan_actor_along_heading(void *, u8, u8, s16, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 void unlink_node(void *);
 void initialize_timed_motion_step(s32, s32);

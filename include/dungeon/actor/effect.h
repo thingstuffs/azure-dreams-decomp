@@ -58,7 +58,7 @@ void unmark_selected_item(void *selection);
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *object_data);
 
-s32 try_apply_effect_four_by_chance(void *actor, s32 chance, s32 action);
+s32 try_apply_paralysis_effect(void *actor, s32 chance, s32 action);
 void *create_item_render_object(void *parent, void *sprite_source, s16 x, s32 y, s16 z);
 s32 find_floor_item_at_world_position(s32 input_x, s32 input_y, s32 input_z);
 
@@ -71,7 +71,7 @@ struct State;
 void *create_source_linked_fading_effect(struct ObjectNodeHeader *source, s16 copy_position);
 s32 get_item_category_value(void *item_data);
 void pack_item_flag_400_bitmap(u16 unused_saved_setting);
-s32 roll_chance_and_apply_effect_four(struct State *state, s16 value, s16 flag);
+s32 roll_paralysis_effect(struct State *state, s16 value, s16 flag);
 s32 roll_poison_effect(struct State *state_ptr, s16 limit_input, s16 byte_input);
 s32 roll_blind_effect(struct State *state_ptr, s16 limit_input, s16 byte_input);
 s32 try_apply_blind_effect(void *entity, s16 chance, s16 effect_value);

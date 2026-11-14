@@ -41,7 +41,7 @@
     {
       "row": "town/func_808813CC",
       "home": "town/func_808813CC",
-      "tu": "src/town/devkit/process_table_entry_pair.c",
+      "tu": "src/town/devkit/clear_table_flag_pair.c",
       "foff": "0x8013CC",
       "vma": "0x80700BCC",
       "size": 88,

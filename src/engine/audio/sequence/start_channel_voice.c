@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/audio_update_guard_data.h"
 #include "slus/audio_voice_data.h"
 #include "engine/audio/channel_voice.h"
 #include "engine/audio/sequence.h"
@@ -90,7 +91,6 @@ typedef struct
 }
 S_8005BBFC_req;
 extern S_80085458 audio_voice_records[24];
-extern s32 audio_update_guard[4];
 extern S_80086A40 audio_bank_slots[16];
 /* Starts a channel voice with sample, pitch, envelope, and panned volume settings. */
 s32 start_voice_on_channel(channel_arg, bank_arg, program_arg, tone_arg, note_arg, fine_note_arg, left_gain_arg, right_gain_arg)
@@ -137,7 +137,7 @@ u16 right_gain_arg;
     left_gain = left_gain_arg;
     tone = tone_arg;
     right_gain = right_gain_arg;
-    audio_update_guard[0] = 1;
+    audio_update_guard.value = 1;
     if ((audio_voice_count[0] - 1) < channel) {
         channel = -1;
     }
@@ -246,16 +246,16 @@ u16 right_gain_arg;
             }
             apply_voice_attributes_and_key_on(&voice_request);
             if (tone_data->f01 & 4) {
-                update_spu_register_pair_cc_cd(1, audio_voice_masks[channel]);
+                set_reverb_voice_mask(1, audio_voice_masks[channel]);
             }
             else {
-                update_spu_register_pair_cc_cd(0, audio_voice_masks[channel]);
+                set_reverb_voice_mask(0, audio_voice_masks[channel]);
             }
         }
         else {
             channel = -1;
         }
     }
-    audio_update_guard[0] = 0;
+    audio_update_guard.value = 0;
     return channel;
 }

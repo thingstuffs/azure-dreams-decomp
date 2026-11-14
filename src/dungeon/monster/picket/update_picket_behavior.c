@@ -142,7 +142,7 @@ void update_picket_behavior(ActorRecord *actor, ObjectPosition *context, SpriteF
                     }
                 }
             }
-            if ((update_entity_state_from_query(actor, context, sprite, 0) << 16) == 0) {
+            if ((relink_hikewne_path(actor, context, sprite, 0) << 16) == 0) {
                 return;
             }
             action_state = entity->action_flags | 0x4000;
@@ -156,8 +156,8 @@ void update_picket_behavior(ActorRecord *actor, ObjectPosition *context, SpriteF
         action_state = entity->action_flags & ACTOR_ACTION_CODE_MASK;
         switch (action_state) {
         case 8:
-            if ((check_actor_transition_and_start_effect(actor, context, sprite, entity) << 16) == 0) {
-                start_directional_actor_effect(actor, context, sprite, entity);
+            if ((try_dragon_attack(actor, context, sprite, entity) << 16) == 0) {
+                begin_dragon_attack(actor, context, sprite, entity);
             }
             return;
 

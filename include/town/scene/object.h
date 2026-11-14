@@ -40,7 +40,7 @@ typedef union SpriteSixRender {
     } record;
 } SpriteSixRender;
 
-void initialize_sprite_six(TownObjectRecord *state, ObjectPosition *position, SpriteSixRender *render);
+void init_lit_mesh_sprite(TownObjectRecord *state, ObjectPosition *position, SpriteSixRender *render);
 
 /* Callback entry points. */
 void update_panel_aggregate_value(void *entry);

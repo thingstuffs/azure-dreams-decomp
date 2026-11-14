@@ -10,7 +10,7 @@
     {
       "row": "dungeon/func_80D8F668",
       "home": "dungeon/func_80D8F668",
-      "tu": "src/dungeon/monster/dreamin/dispatch_actor_behavior_and_facing.c",
+      "tu": "src/dungeon/monster/dreamin/dispatch_dreamin_actions.c",
       "foff": "0x00DAF668",
       "vma": "0x80170E68",
       "size": 1312

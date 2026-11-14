@@ -18,6 +18,6 @@ void move_position_toward_target_and_finish(u8 *motion, ObjectPosition *position
     }
     position->x.unsigned_parts.integer = *(u16 *)(motion + 0x30);
     position->y.unsigned_parts.integer = *(u16 *)(motion + 0x32);
-    clear_entity_record_fields(position);
+    clear_object_velocity(position);
     initialize_record_with_handler_table(motion, (position), sprite);
 }

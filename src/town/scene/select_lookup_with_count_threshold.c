@@ -12,7 +12,7 @@ s32 select_lookup_with_count_threshold(s32 object, s32 check_value, s32 selectio
         return (s32)&scene_result_fallback;
     }
     response = apply_entry_position(&D_8001A954, &scene_override_context, object, selection);
-    if (get_linked_record_field_2_d_60() >= 10) {
+    if (get_town_state_count() >= 10) {
         func_80019880();
         response = (s32)&D_800211DC;
     }

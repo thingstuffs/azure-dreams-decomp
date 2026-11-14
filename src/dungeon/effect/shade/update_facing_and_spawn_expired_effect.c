@@ -79,7 +79,7 @@ void update_facing_and_spawn_expired_effect(ActorItemActionEffectBody *state, Mo
             effect_render->color.c.g = 0x80;
             effect_render->color.c.r = 0x80;
             effect_render->depth_bias = (u16) ((u16)(sprite->depth_bias));
-            effect->update_callback = update_effect_and_retain_flags;
+            effect->update_callback = update_effect_until_animation_ends;
             owner = ((S_800D58D8_0_pre *)state)[-1].unk_00;
             if (resolve_record_orientation_or_fallback(owner->unk_08, owner, &delta, 0) != 0) {
                 effect_pos->x.w.i = (u16) ((u16)effect_pos->x.w.i + delta.x);

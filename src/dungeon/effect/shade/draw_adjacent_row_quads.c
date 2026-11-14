@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "dungeon/effect/shade.h"
+#include "dungeon/effect/shade/row_quad_colors.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgpu_types.h"
 #include "sdk/libgpu_packets.h"
@@ -34,8 +35,6 @@ typedef struct EmptyCallArg {
 } EmptyCallArg;
 
 extern s16 D_80026476;
-extern u32 row_quad_top_color;
-extern u32 row_quad_bottom_color;
 extern u32 particle_quad_vertices[];
 
 extern u32 RotTransPers4(

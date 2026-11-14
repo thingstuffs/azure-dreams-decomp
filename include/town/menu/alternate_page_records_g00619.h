@@ -34,11 +34,11 @@ extern u8 item_menu_primary_page_data[];
 extern u8 card_selection_display_data[];
 void forward_paged_record_data(s32, void * *);
 /* extern */
-void update_linked_record_data(Rec_func_800B2DA0_arg1 *);
-void prepare_linked_record_data(struct Rec_func_800B2DA0_arg1 *);
+void fill_paged_menu_slots(Rec_func_800B2DA0_arg1 *);
+void populate_record_page_entries(struct Rec_func_800B2DA0_arg1 *);
 
 /* Functions defined in this translation unit. */
 void update_alternate_menu_page_bounds(Object *obj);
-void update_and_finalize_record(Rec_func_800B2DA0_arg1 *record);
+void update_paged_menu_record(Rec_func_800B2DA0_arg1 *record);
 
 #endif

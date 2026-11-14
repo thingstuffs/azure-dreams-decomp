@@ -141,7 +141,7 @@ that live removal. Frogged donor cleanup can leak its native resource slot:
 
 Verified by reading
 [`process_selected_actor_record`](../../../src/dungeon/actor/process_selected_actor_record.c),
-[`Kid's level-up caller`](../../../src/dungeon/monster/kid/update_dungeon_actor_state.c),
+[`Kid's level-up caller`](../../../src/dungeon/monster/kid/update_kid_behavior.c),
 [`advance_actor_replacement_sequence`](../../../src/dungeon/monster/kid/advance_actor_replacement_sequence.c)
 and [`advance_staged_entity_load`](../../../src/dungeon/actor/entity_spawn_load.c).
 After a level gain, the processor reports evolution eligibility when all these

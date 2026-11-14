@@ -105,21 +105,21 @@ u8 *record_check_returned(void *unused)
 }
 
 /* Prepares D_8001B218, passes it to the active object's callback, and saves the result. */
-S_80018174_0 *prepare_passes_active_object_callback(void) {
+S_80018174_0 *register_check_event_records(void) {
     clear_bytes((s8 *)town_event_records, 0x100);
     record_check_returned(town_event_records);
     return scene_registered_event_handle = (S_80018174_0 *)town_scene_root->services->callback_068(0, 0, 1, town_event_records);
 }
 
 /* Prepares D_8001B218 for the active object's callback and stores its result. */
-S_80018174_0 *prepare_active_object_callback(void) {
+S_80018174_0 *register_coordinate_event_records(void) {
     clear_bytes((s8 *)town_event_records, 0x100);
     copy_and_terminate_coordinate_entries(town_event_records);
     return scene_registered_event_handle = (S_80018174_0 *)town_scene_root->services->callback_068(0, 1, 1, town_event_records);
 }
 
 /* Cache the value at offset 0x24 and return the value at offset 0x20. */
-s32 cache_value_at_offset_0x24(void) {
+s32 cache_event_handle_value_and_get_id(void) {
     D_8001B31C = scene_registered_event_handle->unk_24;
     return scene_registered_event_handle->unk_20;
 }

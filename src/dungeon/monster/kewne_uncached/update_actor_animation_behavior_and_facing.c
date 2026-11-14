@@ -21,7 +21,7 @@
 #include "dungeon/monster/kewne.h"
 
 #include "dungeon/item/find_active_rect_containing_point_api.h"
-extern void select_bank_actor_movement(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
+extern void select_zu_movement(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 extern s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
 extern void func_80175078(void *, void *, void *, void *);
 
@@ -151,7 +151,7 @@ void update_actor_animation_behavior_and_facing(ActorRecord *actor, ObjectPositi
             return;
         }
         if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
-            select_bank_actor_movement(actor, actor_aux, sprite, entity);
+            select_zu_movement(actor, actor_aux, sprite, entity);
             return;
         }
         if (!(entity->action_flags & ACTOR_ACTION_PENDING)) {
@@ -170,7 +170,7 @@ void update_actor_animation_behavior_and_facing(ActorRecord *actor, ObjectPositi
                     }
                 }
             }
-            if ((update_entity_state_from_query(actor, actor_aux, sprite, 0) << 16) == 0) {
+            if ((relink_hikewne_path(actor, actor_aux, sprite, 0) << 16) == 0) {
                 return;
             }
             action_state = entity->action_flags | 0x4000;
@@ -224,7 +224,7 @@ void update_actor_animation_behavior_and_facing(ActorRecord *actor, ObjectPositi
                 break;
             }
         }
-        select_bank_actor_movement(actor, actor_aux, sprite, entity);
+        select_zu_movement(actor, actor_aux, sprite, entity);
         return;
     }
 

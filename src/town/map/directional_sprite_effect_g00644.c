@@ -64,7 +64,7 @@ s32 create_directional_sprite_effect(void *position, s16 angle) {
 }
 
 /* Advance the two coordinates and propagate status flags to the object and global state. */
-void advance_coordinates_and_propagate_flags(void *object_data, ObjectPosition *motion, SpriteFrameState *status) {
+void move_directional_sprite_effect(void *object_data, ObjectPosition *motion, SpriteFrameState *status) {
     advance_sprite_animation_and_textures(status);
     motion->x.v = (s32) (motion->x.v + motion->velocity_x);
     motion->y.v = (s32) (motion->y.v + motion->velocity_y);
@@ -75,7 +75,7 @@ void advance_coordinates_and_propagate_flags(void *object_data, ObjectPosition *
 }
 
 /* Waits 60 updates, then processes the record until a reset flag is set. */
-void wait_then_process_record(S_800BC764_0 *context, void *unused, SpriteFrameState *record) {
+void update_directional_sprite_loop(S_800BC764_0 *context, void *unused, SpriteFrameState *record) {
     s16 state;
     u16 ticks_left;
 
@@ -103,7 +103,7 @@ void wait_then_process_record(S_800BC764_0 *context, void *unused, SpriteFrameSt
 }
 
 /* Initializes the record and its associated resources. */
-void initialize_record_resources(TownObjectRecord *record, ObjectPosition *init_context, SpriteFrameState *resource_target) {
+void init_directional_sprite_loop(TownObjectRecord *record, ObjectPosition *init_context, SpriteFrameState *resource_target) {
     ((S_800BC840_0 *)((u8 *)record - 0x10))->unk_00 = &D_800BC764;
     record->unk_50.as_s32 = 0;
     register_node(NODE_HEADER(record), project_sprite_chain);

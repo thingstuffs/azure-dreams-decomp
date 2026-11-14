@@ -74,7 +74,7 @@ void *spawn_hikewne_actor(s16 mask, s16 value_at_24, s16 value_at_25, s32 value_
         initialize_actor_sprite_and_animation(object, part_a, part_b, mask);
         actor2->action_id = 0xFF;
         actor2->unk_9C = -1;
-        actor2->unk_8C.address = update_actor_behavior_animation_and_facing;
+        actor2->unk_8C.address = update_hikewne_actor_behavior;
         actor->flags1C |= 0x40000;
         actor2->unk_90.parts.high = -0x20;
         part_b->tpage_abr = 0x20;

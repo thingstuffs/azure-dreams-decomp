@@ -15,7 +15,7 @@ typedef struct S_8004F95C {
  * counter value reaches the limit.
  */
 void animate_selection_menu_index_transition(S_8004F95C *state) {
-    reorder_and_interpolate_selection_menu_entries(state);
+    reorder_selection_menu_entries(state);
     if (state->counter++ >= state->limit) {
         state->func = noop_selection_menu_animation_idle;
     }

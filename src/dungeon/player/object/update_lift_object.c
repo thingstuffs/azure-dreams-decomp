@@ -1,3 +1,4 @@
+#include "dungeon/player/saved_held_item_data.h"
 #include "dungeon/item/message.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "shared/sprite_frame_state.h"
@@ -20,7 +21,7 @@ extern u8 player_wait_frames[8];
 extern u8 player_carry_frames[8];
 extern u8 D_800E0523[];
 extern u8 D_800E0683[];
-extern s32 saved_held_item_word;
+
 
 #line 1 "a"
 

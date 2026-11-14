@@ -32,7 +32,7 @@ void resume_multi_form_actor_control(void *controller, void *unused_1, void *unu
         *(u32 *)&state->pending_display_owner &= 0x7FFFFFFF;
     }
 
-    enqueue_runtime_pool_script(encounter_transition_pool_script);
+    queue_pool_service_script(encounter_transition_pool_script);
     object_index = 0;
     active_object[0x6D] = 0;
     ((u8 *)controller)[0x9B] = 0;

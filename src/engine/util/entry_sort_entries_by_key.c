@@ -43,7 +43,7 @@ s32 reserve_sound_ram_region(s32 size)
 found:
     entry->address.s = end_offset;
     entry->size = alloc_size;
-    sort_entries_by_key();
+    sort_sound_ram_blocks();
     return offset;
 
 loop_start:
@@ -69,6 +69,6 @@ loop_start:
     }
 
 tail:
-    sort_entries_by_key();
+    sort_sound_ram_blocks();
     return offset;
 }

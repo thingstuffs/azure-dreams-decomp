@@ -1,9 +1,9 @@
 #include "common.h"
+#include "slus/audio_update_guard_data.h"
 #include "slus/audio_voice_data.h"
 #include "engine/audio/sequence.h"
 #include "slus.h"
 extern SoundVoiceRecord audio_voice_records[24];
-extern s32 audio_update_guard[4]; /* forced hi/lo access via size > 8 */
 
 
 /* Clears matching active indirect-channel slots, redispatches each twice, and applies their combined flags. */
@@ -16,7 +16,7 @@ void audio_stop_matching_effect_voices(s32 packed_key, s32 packed_channel)
 
     slot_index = 0;
     combined_flags = slot_index;
-    audio_update_guard[0] = 1;
+    audio_update_guard.value = 1;
 
     if (audio_voice_count[0] > 0) {
         slot_flags = audio_voice_masks;
@@ -42,5 +42,5 @@ loop:
     }
 
     SpuSetKey(0, combined_flags);
-    audio_update_guard[0] = 0;
+    audio_update_guard.value = 0;
 }

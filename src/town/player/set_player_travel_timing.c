@@ -21,7 +21,7 @@ void set_player_travel_timing(void *actor, ObjectPosition *motion, SpriteFrameSt
     s8 *movement_state;
     *(((*((s32 *) (((s8 *) actor) + 0x40))) * 8) + ((u8 *)object_index_slots)) = 0;
     *((s32 **) (((s8 *) actor) + 4)) = &advance_player_position_and_angle;
-    distance = runtime_estimate_vector_length(((*((s16 *) (((s8 *) actor) + 0x36))) << 0x10) - motion->x.v,
+    distance = estimate_vector_length(((*((s16 *) (((s8 *) actor) + 0x36))) << 0x10) - motion->x.v,
         ((*((s16 *) (((s8 *) actor) + 0x38))) << 0x10) - motion->y.v);
     if (distance < 0) {
         distance += 0x1FFFF;

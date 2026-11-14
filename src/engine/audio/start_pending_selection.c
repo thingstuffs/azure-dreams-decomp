@@ -41,7 +41,7 @@ void start_pending_selection(void)
     sound_playback_state.unk_26 = entry_index;
     entry_value = pending_sound_selection_entries[((u16)sound_playback_state.unk_20)][entry_index];
     if (entry_value != 0) {
-        submit_shifted_stereo_sound_parameters(entry_value, entry_value);
+        set_reverb_depth(entry_value, entry_value);
     }
     sound_playback_state.unk_22 = allocate_sequence_bank_slot(
         audio_selection_record_pointers[((u16)sound_playback_state.unk_20)][sound_playback_state.unk_26], 0);

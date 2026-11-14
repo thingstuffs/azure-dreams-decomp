@@ -27,7 +27,7 @@ s32 reserve_sound_ram_block(u32 addr, s32 size)
         if (addr + size < (u32)(0x80000 - sound_ram_reserved_sizes[*(u8 *)sound_ram_reserve_mode])) {
             audio_ram_blocks[0].address.u = addr;
             block->size = size;
-            sort_entries_by_key();
+            sort_sound_ram_blocks();
             return addr;
         }
         return -1;
@@ -96,6 +96,6 @@ check_slot:
         return -1;
     }
 
-    sort_entries_by_key();
+    sort_sound_ram_blocks();
     return addr;
 }

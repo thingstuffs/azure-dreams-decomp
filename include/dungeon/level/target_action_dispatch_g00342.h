@@ -48,7 +48,7 @@ extern u8 floor_objects[16];
 
 /* Functions defined in this translation unit. */
 s32 place_floor_trap_at_tile(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value);
-s32 process_target_with_action_seven(void *target);
+s32 apply_speed_status_to_target(void *target);
 s32 clear_confusion_status(void *object);
 
 #endif

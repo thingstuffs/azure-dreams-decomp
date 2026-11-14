@@ -61,7 +61,7 @@ s32 use_item_to_cure_poison(ActorRecord *entity, DungeonItemEntry *item, s16 act
         display_text_with_fullwidth_adjustment(message_start);
     }
     clear_slots_of_type(entity, STATUS_POISON);
-    clear_slot_and_update_linked_state(item);
+    clear_item_slot(item);
     item_counts = &g_dungeon_status;
     item_counts->activity_counts.parts.pending_action_count = (u16) ((u16) item_counts->activity_counts.parts.pending_action_count - 1);
     return 1;

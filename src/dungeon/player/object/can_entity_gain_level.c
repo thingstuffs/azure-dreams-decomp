@@ -807,7 +807,7 @@ s32 has_pending_actor_or_turn_action(void *unused_actor) {
 }
 
 /* Returns whether either state field at offset 0x0A or 0x0C is nonzero. */
-s32 has_actor_or_actions(ActorRecord *body) {
+s32 has_active_actor_or_pending_action(ActorRecord *body) {
     s32 has_value;
 
     has_value = 0;

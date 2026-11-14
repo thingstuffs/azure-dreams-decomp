@@ -14,7 +14,7 @@
  * Calls the indexed inventory_menu_handlers entry with the context and the address of that handler
  * entry.
  */
-void inventory_dispatch_indexed_handler(void *context, s32 handler_index) {
+void dispatch_item_window_action(void *context, s32 handler_index) {
     DispatchFunc *table;
     DispatchFunc *handler_entry;
 
@@ -24,7 +24,7 @@ void inventory_dispatch_indexed_handler(void *context, s32 handler_index) {
 }
 
 /* Writes index times 16 minus 0x38 to the vertical offset of both linked entries. */
-void inventory_set_paired_index_offset(ovl_1830850_81810888_S_80025888_0 *pair, s32 index) {
+void set_item_window_cursor_row(ovl_1830850_81810888_S_80025888_0 *pair, s32 index) {
     s16 offset;
 
     offset = (index * 0x10) - 0x38;
@@ -62,7 +62,7 @@ void restore_item_text_before_edit(void *item_object)
  * Selects null data when the object byte-pair check passes, or inventory_default_entry_data
  * otherwise.
  */
-void inventory_select_null_or_default_data(void *object)
+void select_item_window_entry_data(void *object)
 {
     if (has_text_editor_content(*(s32 *)((u8 *)*(void **)((u8 *)object + 0x18) + 0x28))) {
         **(void ***)((u8 *)*(void **)((u8 *)object + 0x54) + 0x30) = 0;
@@ -73,7 +73,7 @@ void inventory_select_null_or_default_data(void *object)
 }
 
 /* Returns whether the context is type 4 and its linked object fails the byte-pair content check. */
-s32 inventory_check_type_four_linked_object(Rec_func_80025850_arg0 *context) {
+s32 is_final_action_text_empty(Rec_func_80025850_arg0 *context) {
     s32 check_passed;
 
     check_passed = 0;
@@ -84,17 +84,17 @@ s32 inventory_check_type_four_linked_object(Rec_func_80025850_arg0 *context) {
 }
 
 /* Handles inventory cancel and activation buttons and moves among five actions with held-button repeat. */
-void inventory_handle_menu_actions_and_repeat(ovl_1830850_81810A0C_DungeonArg *menu) {
+void handle_item_window_input(ovl_1830850_81810A0C_DungeonArg *menu) {
     GameWork *input = &g_game_work;
     s32 selection_step;
 
     if (input->buttons != 0 && menu->unk10 != 0) {
         if (input->pressed_buttons & 0x20) {
             SD_Call(AUDIO_CANCEL);
-            set_object_data_pointer(menu->unk14);
+            install_mode_gated_callback(menu->unk14);
             restore_item_text_before_edit(menu);
         } else if (input->pressed_buttons & 0x40) {
-            if (inventory_menu_returns_zero(menu) != 0 || inventory_check_type_four_linked_object(menu) != 0) {
+            if (inventory_menu_returns_zero(menu) != 0 || is_final_action_text_empty(menu) != 0) {
                 SD_Call(0x506);
             } else {
                 if (menu->unk8 == 4) {
@@ -102,11 +102,11 @@ void inventory_handle_menu_actions_and_repeat(ovl_1830850_81810A0C_DungeonArg *m
                 } else {
                     SD_Call(AUDIO_ACCEPT);
                 }
-                inventory_dispatch_indexed_handler(menu, menu->unk8);
+                dispatch_item_window_action(menu, menu->unk8);
             }
         } else if (input->pressed_buttons & 0x10) {
             menu->unk8 = 4;
-            inventory_set_paired_index_offset(menu->unk54, menu->unk8);
+            set_item_window_cursor_row(menu->unk54, menu->unk8);
         } else if (input->buttons & 0x5000) {
             selection_step = 0;
             if (input->pressed_buttons & 0x5000) {
@@ -131,16 +131,16 @@ void inventory_handle_menu_actions_and_repeat(ovl_1830850_81810A0C_DungeonArg *m
             if (selection_step != 0) {
                 SD_Call(AUDIO_CURSOR_MOVE);
                 menu->unk8 = advance_index_with_single_wrap(selection_step, menu->unk8, 5);
-                inventory_set_paired_index_offset(menu->unk54, menu->unk8);
+                set_item_window_cursor_row(menu->unk54, menu->unk8);
             }
         }
     }
 
-    inventory_select_null_or_default_data(menu);
+    select_item_window_entry_data(menu);
 }
 
-/* Calls inventory_handle_menu_actions_and_repeat with menu. */
-void update_inventory_menu(void *menu) { inventory_handle_menu_actions_and_repeat(menu); }
+/* Calls handle_item_window_input with menu. */
+void update_inventory_menu(void *menu) { handle_item_window_input(menu); }
 
 /* Steps the inventory opening transform for five updates, then installs its regular menu callback. */
 void step_inventory_open_animation(ovl_1830850_81810BF4_Entity *entity) {
@@ -155,22 +155,22 @@ void step_inventory_open_animation(ovl_1830850_81810BF4_Entity *entity) {
         entity->state = 0;
         *(void **)((u8 *)entity - 0x10) = (void *)update_inventory_menu;
     }
-    inventory_handle_menu_actions_and_repeat((ovl_1830850_81810A0C_DungeonArg *)entity);
+    handle_item_window_input((ovl_1830850_81810A0C_DungeonArg *)entity);
 }
 
 /* Clears the word addressed by the entry field at offset 4. */
-void inventory_clear_entry_value(ovl_1830850_81810C4C_S_80025C4C_0 *entry) {
+void clear_item_window_entry_data(ovl_1830850_81810C4C_S_80025C4C_0 *entry) {
     *entry->unk_04 = 0;
 }
 
 /* Stores D_800789B8 through the destination field at offset 4. */
-void set_destination_byte_pointer(ovl_1830850_81810C58_S_80025C58_0 *dest) {
+void set_item_window_entry_default_data(ovl_1830850_81810C58_S_80025C58_0 *dest) {
     *dest->unk_04 = D_800789B8;
 }
 
 /* Initializes five 12-byte sprite entries at 16-pixel intervals and marks the last entry as the
    terminator. */
-void *inventory_initialize_five_shared_entries(void *entryBuffer) {
+void *init_action_row_sprites(void *entryBuffer) {
     s32 entryIndex;
     s32 sharedEntryValue;
     ovl_1830850_81810C6C_Entry *entries;
@@ -192,7 +192,7 @@ void *inventory_initialize_five_shared_entries(void *entryBuffer) {
 }
 
 /* Initializes the large inventory sprite descriptor with a zero payload and sets its end bit. */
-void inventory_initialize_packet_and_set_flag(ovl_1830850_81810CD8_S_80025CD8_0 *packet) {
+void init_large_editor_descriptor(ovl_1830850_81810CD8_S_80025CD8_0 *packet) {
     s32 zero;
     s32 payload;
 
@@ -208,7 +208,7 @@ void inventory_initialize_packet_and_set_flag(ovl_1830850_81810CD8_S_80025CD8_0 
 }
 
 /* Initializes the small inventory sprite descriptor with payload 0xB8C8 and sets its end bit. */
-void initialize_inventory_packet(Rec_func_80025D28_arg0 *packet) {
+void init_small_editor_descriptor(Rec_func_80025D28_arg0 *packet) {
     s32 initial_payload;
     s32 payload;
     u8 flags;
@@ -234,7 +234,7 @@ S_800491F4 *create_item_window_chain(S_800491F4 **context) {
 }
 
 /* Copies default display records into the inventory widget and sets its position, depth, and flags. */
-void inventory_initialize_owner_patch_and_state(void *unused, ovl_1830850_81810D9C_Owner *owner, ovl_1830850_81810D9C_S_8002E5D8 *patch,
+void init_item_window_display_defaults(void *unused, ovl_1830850_81810D9C_Owner *owner, ovl_1830850_81810D9C_S_8002E5D8 *patch,
                    ovl_1830850_81810D9C_S_8002E5E8 *state) {
     ovl_1830850_81810D9C_S_8002E5D8 *patch_defaults = &display_block_defaults;
     ovl_1830850_81810D9C_S_8002E5E8 *state_defaults = &display_vector_defaults;
@@ -274,11 +274,11 @@ void initialize_item_window_layout(ovl_1830850_81810E3C_Source *source, ovl_1830
 
     owners[2]->unk0 = source->unk74 + 12;
     owners[2]->unk4->unk8 = -20;
-    inventory_set_paired_index_offset(owners, 0);
+    set_item_window_cursor_row(owners, 0);
 
     owners[3]->unk0 = source->unk74;
     owners[3]->unk4->unkA = -64;
-    inventory_initialize_five_shared_entries(source->unk74 + 24);
+    init_action_row_sprites(source->unk74 + 24);
 
     owners[4]->unk0 = source->unk74 + 24;
     owners[4]->unk4->unk8 = -20;
@@ -294,7 +294,7 @@ void initialize_item_window_layout(ovl_1830850_81810E3C_Source *source, ovl_1830
         owners[owner_idx]->unk4->unkA = (owner_idx * 16) - 137;
     }
 
-    inventory_select_null_or_default_data(source);
+    select_item_window_entry_data(source);
     owners[12]->unk4->unk8 = -12;
     owners[12]->unk4->unkA = 23;
 }
@@ -305,8 +305,8 @@ void initialize_text_editor_context(void *object, s32 range_start, s32 initial_v
 {
     u8 *data = object;
 
-    inventory_initialize_packet_and_set_flag(*(s32 *)(data + 0x74));
-    initialize_inventory_packet(*(s32 *)(data + 0x74) + 0xC);
+    init_large_editor_descriptor(*(s32 *)(data + 0x74));
+    init_small_editor_descriptor(*(s32 *)(data + 0x74) + 0xC);
     *(s32 *)(data + 0x0C) = initial_value;
     *(s32 *)(data + 0x14) = range_start;
     *(s32 *)(data + 0x18) = range_start + 0x20;
@@ -319,15 +319,15 @@ void initialize_text_editor_context(void *object, s32 range_start, s32 initial_v
  * Initializes the text editor context, binds the three embedded owner-data blocks, and initializes
  * pointers from the linked owner state.
  */
-void inventory_initialize_object_from_embedded_data(void *object, s32 init_value, s32 init_value_2, s32 init_value_3) {
+void init_item_window_object(void *object, s32 init_value, s32 init_value_2, s32 init_value_3) {
     initialize_text_editor_context(object, init_value, init_value_2, init_value_3);
-    inventory_initialize_owner_patch_and_state(object, object + 0x44, object + 0x1C, object + 0x2C);
+    init_item_window_display_defaults(object, object + 0x44, object + 0x1C, object + 0x2C);
     initialize_item_window_layout(
         object, ((ovl_1830850_81811168_DungeonSub81811168 *)object)->value54);
 }
 
 /* Allocates inventory widget buffers, copies the default vector, and shares it among 13 entries. */
-s32 inventory_copy_state_vector_after_buffers(ovl_1830850_818110CC_Unk818110CC *state, s32 input)
+s32 allocate_item_window_buffers(ovl_1830850_818110CC_Unk818110CC *state, s32 input)
 {
     s32 success = 0;
     s32 *buffer = state->unk58;
@@ -336,7 +336,7 @@ s32 inventory_copy_state_vector_after_buffers(ovl_1830850_818110CC_Unk818110CC *
     call_result = func_80049004(buffer, input, 6);
     state->unk54 = call_result;
     if (call_result != 0) {
-        call_result = allocate_and_append_callback_payload(buffer, 6);
+        call_result = append_allocated_node_body(buffer, 6);
         state->unk74 = call_result;
         if (call_result != 0) {
             state->unk38[0] = display_vector_defaults.unk0;
@@ -358,12 +358,12 @@ ovl_1830850_81811168_DungeonObj81811168 *inventory_allocate_and_initialize_child
     obj = allocate_flagged_object_node(0);
     state = &obj->sub20;
     if (obj != 0) {
-        if (inventory_copy_state_vector_after_buffers(state, 13) != 0) {
+        if (allocate_item_window_buffers(state, 13) != 0) {
             obj->field0C = (u8 *)obj + 0x64;
             state->value50 = (s32)create_item_window_chain(state->value54);
-            inventory_initialize_object_from_embedded_data(state, parent_obj, initial_value, text_addr);
+            init_item_window_object(state, parent_obj, initial_value, text_addr);
             register_node(obj, (void *)draw_tinted_node_sprites_scratch);
-            inventory_set_embedded_state_one(obj);
+            enable_item_window(obj);
         } else {
             release_null_terminated_entries((u8 *)obj + 0x78);
             obj->flags1E |= 0x8000;
@@ -375,7 +375,7 @@ ovl_1830850_81811168_DungeonObj81811168 *inventory_allocate_and_initialize_child
 }
 
 /* Flags the referenced object for removal and clears its handle. */
-void inventory_clear_referenced_handle(ovl_1830850_81811250_S_80026250_0 *context) {
+void release_item_window_handle(ovl_1830850_81811250_S_80026250_0 *context) {
     flag_optional_object_for_removal(*context->unk_14);
     *context->unk_14 = 0;
 }
@@ -390,7 +390,7 @@ void inventory_process_resources_and_set_flags(void *object)
     s32 global_flags;
 
     if (object != 0) {
-        inventory_clear_referenced_handle(*(void **)((u8 *)object + 0x74));
+        release_item_window_handle(*(void **)((u8 *)object + 0x74));
         release_null_terminated_entries(((u8 *)object + 0x78));
         object_flags = *(u16 *)((u8 *)object + 0x1E);
         global_flags = object_flag_block.flags;
@@ -405,16 +405,16 @@ void inventory_clear_object_field_and_entry(s32 object_addr) {
 
     object_data = object_addr + 0x20;
     object_data->unk_10 = 0;
-    inventory_clear_entry_value(object_data->unk_54);
+    clear_item_window_entry_data(object_data->unk_54);
 }
 
 /* Sets the payload state to 1 and restores its destination byte pointer. */
-void inventory_set_embedded_state_one(s32 object_addr) {
+void enable_item_window(s32 object_addr) {
     ovl_1830850_81811314_S_80026314_0 *state;
 
     state = object_addr + 0x20;
     state->unk_10 = 1;
-    set_destination_byte_pointer(state->unk_54);
+    set_item_window_entry_default_data(state->unk_54);
 }
 
 /* Sets the payload type to 4 and positions both linked entries for index 4. */
@@ -423,5 +423,5 @@ void inventory_set_embedded_state_four(s32 object_addr) {
 
     state = object_addr + 0x20;
     state->unk_08 = 4;
-    inventory_set_paired_index_offset(state->unk_54, 4);
+    set_item_window_cursor_row(state->unk_54, 4);
 }

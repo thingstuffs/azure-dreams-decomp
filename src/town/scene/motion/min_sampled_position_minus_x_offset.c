@@ -22,5 +22,5 @@ s16 min_sampled_position_minus_x_offset(void *position) {
     record.x = *(s32 *)position - *(s32 *)((u8 *)position + 0xC);
     record.y = *(s32 *)((u8 *)position + 4);
     record.z = *(s32 *)((u8 *)position + 8);
-    return min_indexed_query(&record.x, &D_800CFD58, 2);
+    return min_summed_vector_minus_base(&record.x, &D_800CFD58, 2);
 }

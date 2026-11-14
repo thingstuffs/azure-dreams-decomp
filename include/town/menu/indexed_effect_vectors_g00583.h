@@ -30,7 +30,7 @@ extern s32 town_target_height_offset;
 extern void unlink_node_if_registered(void *object);
 
 /* Functions defined in this translation unit. */
-void create_indexed_effect_object(s32 index, s32 kind);
-void copy_adjusted_vector_or_flag_object(IndexedEffectObject *object, s32 *out_vector, void *unused);
+void create_item_category_effect(s32 index, s32 kind);
+void follow_view_reference_or_retire(IndexedEffectObject *object, s32 *out_vector, void *unused);
 
 #endif

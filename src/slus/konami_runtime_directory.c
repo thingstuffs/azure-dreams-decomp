@@ -47,7 +47,7 @@ s32 find_or_load_runtime_resource_key(void *key)
     }
 
     if (index == -1) {
-        bind_and_load_indexed_resource_record(key, runtime_directory_entry_count - 1);
+        load_indexed_resource_record(key, runtime_directory_entry_count - 1);
         index = runtime_directory_entry_count - 1;
     }
 

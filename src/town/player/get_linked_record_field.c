@@ -7,6 +7,6 @@
 
 
 /* Returns the field at offset 0x2D60 in the record linked through D_80016000. */
-s32 get_linked_record_field_2_d_60(void) {
+s32 get_town_state_count(void) {
     return town_scene_root->town_state->unk_2D60;
 }

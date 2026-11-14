@@ -46,7 +46,7 @@ void update_scene_effect_controller(Controller *controller)
             controller->finished++;
         }
         if (controller->group != 0) {
-            reset_group_and_flag_children(controller->group);
+            mark_group_for_removal(controller->group);
         }
         SD_Call(0xB4);
         controller->timer = 0;
@@ -134,7 +134,7 @@ void update_scene_effect_controller(Controller *controller)
             controller->finished++;
         }
         if (controller->group != 0) {
-            reset_group_and_flag_children(controller->group);
+            mark_group_for_removal(controller->group);
         }
         if (controller->attached != controller->finished) {
             return;

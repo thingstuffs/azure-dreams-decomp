@@ -3,8 +3,8 @@
 
 #include "common.h"
 
-s32 query_event_d_82(void);
-s32 dispatch_event_63_a_through_194_d_8(void);
+s32 get_script_flag_tt_pad81(void);
+s32 get_script_flag_sbs14_pad22(void);
 s32 get_script_flag_sbs20_pad07(void);
 s32 invoke_callback_event_11(void);
 
@@ -16,16 +16,16 @@ void initialize_active_event_data(void);
 s32 check_event_value_in_list(s32 target_value);
 void forward_context_request_to_handler(void *context, s32 request);
 void forward_context_request_to_handler_c_68(void *context, s32 request);
-void process_event_145_c_and_dispatch(void *dispatch_value, s32 unused, s32 dispatch_context);
-void *select_event_data_and_fallback(void *object, s32 unused, s32 eventCode);
+void select_response_setting_niko_and_gosh(void *dispatch_value, s32 unused, s32 dispatch_context);
+void *select_special_event_response(void *object, s32 unused, s32 eventCode);
 void set_ending_event_state(void);
 
 s32 *clear_event_resource_state_and_get_buffer(s32 unused_selected_entry);
-void dispatch_event_63_a_through_193_e_0(void);
+void set_script_flag_sbs14_pad22(void);
 u8 *get_event_data_pointer(void);
 
 void forward_stored_pair(void);
-void query_event_626(void);
+void clear_script_flag_sbs14_pad02(void);
 
 s32 query_priority_event_state(void);
 

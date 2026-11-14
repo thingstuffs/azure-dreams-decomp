@@ -11,6 +11,6 @@ void process_flagged_entries_mode_append(void *entries) {
 }
 
 /* Process the flagged entries that follow the four-byte header, in mode 1. */
-void process_flagged_entries_follow_four(u8 *entries) {
+void process_flagged_entries_after_header(u8 *entries) {
     lookup_entry_with_default_fallback(entries + 4, 1);
 }

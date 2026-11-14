@@ -15,7 +15,7 @@ typedef struct CopyBlock {
 } CopyBlock;
 
 /* Creates an object with the supplied value and 48-byte initialization block. */
-void create_scene_object_with_payload(s32 init_value, void *init_data)
+void create_text_sprite_object(s32 init_value, void *init_data)
 {
     ObjectNodeHeader *obj;
 

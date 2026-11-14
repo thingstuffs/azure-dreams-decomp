@@ -223,23 +223,23 @@ void dispatch_monster_move_attack_spell(ActorRecord *controller, ObjectPosition 
 void advance_stored_entity_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_actor_path_with_item_search(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 #include "dungeon/monster/dragon/transition_effect.h"
-s32 dispatch_actor_path_state_and_relink_entity(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg);
+s32 relink_dragon_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg);
 void finish_actor_tile_move_and_check_trap(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void complete_dragon_jump_to_destination(struct ActorRecord *jump, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor);
 void update_dragon_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 void advance_actor_attack_and_resolve_damage(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void finish_timed_actor_movement(ActorRecord *body, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor);
-void slow_directional_movement_to_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *source);
+void damp_dragon_motion_and_recenter(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *source);
 void remove_defeated_dragon(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void shrink_hopping_dragon(void *state, void *motion, void *position, void *actor);
 void advance_dragon_removal(void *state, void *motion, void *position, void *actor);
 void grow_hopping_dragon(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
-void update_actor_status_and_restore_handler(ActorRecord *in_controller, ObjectPosition *in_context, SpriteFrameState *sprite, ActorRecord *in_actor);
+void wait_dragon_status_and_animate(ActorRecord *in_controller, ObjectPosition *in_context, SpriteFrameState *sprite, ActorRecord *in_actor);
 void wait_for_dragon_mp(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 void update_dragon_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object);
 void update_thrown_dragon(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 void settle_dragon_on_tile(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
-void install_move_attack_dispatch_after_spinning_fall(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
+void finish_dragon_spinning_fall(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void fade_in_dragon(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void resolve_dragon_floor_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void propagate_dragon_action_flag(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);

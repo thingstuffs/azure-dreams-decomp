@@ -55,14 +55,14 @@ typedef struct S_800B9464_a0 {
  * for the load and the store, matching this function's tail. */
 extern int D_800814A0;
 extern void release_null_terminated_entries(u16 **a0);
-void process_object_data_by_mode(void *);
+void build_monster_status_display(void *);
 struct Rec_func_800B683C_arg0;
 /* extern */
-s32 invalidate_cached_state_and_queue_read(struct Rec_func_800B683C_arg0 *);
+s32 queue_monster_status_reload(struct Rec_func_800B683C_arg0 *);
 
 /* Functions defined in this translation unit. */
-void process_handled_entry_types(void **entries);
-void process_object_pointer_array(S_800B9464_a0 *object);
+void release_monster_status_entries(void **entries);
+void destroy_monster_status_object(S_800B9464_a0 *object);
 void change_monster_status_display_target(s32 objectAddress, s32 field04Value, s16 field08Value);
 
 #endif

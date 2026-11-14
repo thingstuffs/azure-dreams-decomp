@@ -4,7 +4,7 @@
 #include "town/scene.h"
 #include "modules/town_ovl_3fe0d0_p00.h"
 
-void dispatch_town_callback_or_default(s32 value0, s32 value1)
+void run_entry_callback_or_default(s32 value0, s32 value1)
 {
     SceneCallType2 callback;
 

@@ -35,7 +35,7 @@ void create_blinking_cursor_object(void *node_addr, Rec_D_80081FDC *record, s32 
     state->script = config;
     state->enabled = 1;
     state->cursor_offset = initial_mode;
-    runtime_initialize_state_value(record, *config);
+    init_unit_scale_record(record, *config);
     state->model = record;
     record->unk_60 = 6;
     state->model->unk_10 = 0x47;

@@ -127,7 +127,7 @@ void advance_action_through_recovery(ActorRecord *action_state, ObjectPosition *
         (*(u16 *)((u8 *)&primary_actor_record->unk_A4.value + 2)) = primary_actor_record->unk_A4.halves.high.u - 1;
         advance_status_timers(actor);
         actor->pending_turn_updates = actor->pending_turn_updates - 1;
-        action_state->unk_8C.address = update_long_actor_action;
+        action_state->unk_8C.address = update_mandara_behavior;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -177,7 +177,7 @@ void advance_action_through_recovery(ActorRecord *action_state, ObjectPosition *
         }
         g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
         sprite->flags &= 0xF7FF;
-        action_state->unk_8C.address = update_long_actor_action;
+        action_state->unk_8C.address = update_mandara_behavior;
         advance_status_timers(actor);
         if (actor->pending_turn_updates > 0) {
             actor->pending_turn_updates = actor->pending_turn_updates - 1;

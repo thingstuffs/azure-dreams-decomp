@@ -19,7 +19,7 @@ void play_selected_movie_and_restore_display(void) {
         drain_audio_commands_and_service_channels();
     }
 
-    submit_tagged_driver_byte(0, 0, 1);
+    set_cd_ext_reverb_or_mix(0, 0, 1);
     movie_volume = 0x7F;
     set_spu_cd_or_ext_volume(0, (s16) movie_volume, (s16) movie_volume);
 
@@ -393,7 +393,7 @@ s32 play_movie_frames_with_skip_fade(s32 unused,s32 frame_limit,s32 stream,s32 m
             if (movie_volume < 0) movie_volume = 0;
             set_spu_cd_or_ext_volume(0,(s16)movie_volume,(s16)movie_volume);
             if (!movie_volume) {
-                submit_tagged_driver_byte(0,0,0);
+                set_cd_ext_reverb_or_mix(0,0,0);
                 break;
             }
         }

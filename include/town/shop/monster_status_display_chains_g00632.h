@@ -24,6 +24,6 @@ void func_800B640C(s32, s32, s32);
 /* Functions defined in this translation unit. */
 void *link_monster_status_main_entries(s32 nodes);
 void join_monster_status_display_chains(ItemMenuPart *owner, s32 source);
-void process_object_data_by_mode(Rec_func_800B683C_arg0 *object);
+void build_monster_status_display(Rec_func_800B683C_arg0 *object);
 
 #endif

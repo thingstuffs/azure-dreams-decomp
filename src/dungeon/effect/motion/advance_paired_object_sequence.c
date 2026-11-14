@@ -123,15 +123,15 @@ extern u8 D_80025028[];
 extern u8 D_80025068[];
 extern u8 D_800287F0[];
 
-extern void *create_and_link_six_offset_objects(s16, s16, s16, void *);
-extern void *create_six_offset_effects(void *, void *, void *, void *);
+extern void *create_six_trailing_effects(s16, s16, s16, void *);
+extern void *create_six_trailing_effects_for_target(void *, void *, void *, void *);
 #include "dungeon/effect/screen.h"
 #include "dungeon/actor/object.h"
 #include "engine/scene.h"
 #include "dungeon/item.h"
 
-extern void process_adjacent_objects_with_gray_nodes(void *, void *);
-extern void *create_linked_objects(void *, void *, s32, s16);
+extern void draw_paired_clipped_sprites(void *, void *);
+extern void *create_linked_graphic_chain(void *, void *, s32, s16);
 extern void * build_status_effect_name_list(void *, void *);
 
 /* Advance the paired-object sequence, animating both objects and displaying the result. */
@@ -356,7 +356,7 @@ case 4:
         if (ticks > 0) {
             return;
         }
-        create_and_link_six_offset_objects(position->unk_02, position->unk_06,
+        create_six_trailing_effects(position->unk_02, position->unk_06,
             position->unk_0A, actor);
         {
             coord_delta = 32;
@@ -381,7 +381,7 @@ case 4:
             void *call_position = position;
             void *call_actor = actor;
             object_m = ((S_800253C0_4 *)(void *)page_cursor)->unk_AC;
-            create_six_offset_effects(call_position, ((S_800253C0_5_pre *)object_m)[-1].unk_00, object_m, call_actor);
+            create_six_trailing_effects_for_target(call_position, ((S_800253C0_5_pre *)object_m)[-1].unk_00, object_m, call_actor);
             page_cursor += 4;
             object_index_m++;
         } while (object_index_m < 2);
@@ -399,7 +399,7 @@ case 4:
     }
 
     case 7:
-        process_adjacent_objects_with_gray_nodes(sequence->unk_AC.address, sequence->unk_B0.address);
+        draw_paired_clipped_sprites(sequence->unk_AC.address, sequence->unk_B0.address);
         {
             s16 ticks = sequence->action_timer - 1;
             sequence->action_timer = ticks;
@@ -416,7 +416,7 @@ case 4:
         }
 
     case 8:
-        process_adjacent_objects_with_gray_nodes(sequence->unk_AC.address, sequence->unk_B0.address);
+        draw_paired_clipped_sprites(sequence->unk_AC.address, sequence->unk_B0.address);
         {
             s16 ticks = sequence->action_timer - 1;
             sequence->action_timer = ticks;
@@ -424,7 +424,7 @@ case 4:
                 return;
             }
         }
-        if (has_enough_available_runtime_nodes(13) == 0) {
+        if (has_enough_available_nodes(13) == 0) {
             return;
         }
         {
@@ -451,7 +451,7 @@ case 4:
                         child_slot = (S_800253C0_4 *)((u8 *)sequence + object_index_m * sizeof(void *));
                         slot_value = (s16)object_index_m;
                         other = child_slot->unk_AC;
-                        create_linked_objects(((S_800253C0_14_pre *)other)[-1].unk_00, other,
+                        create_linked_graphic_chain(((S_800253C0_14_pre *)other)[-1].unk_00, other,
                             slot_value, object_m == other);
                         if (object_m == child_slot->unk_AC) {
                             s32 angle;
@@ -506,7 +506,7 @@ case 4:
         }
 
     case 9:
-        process_adjacent_objects_with_gray_nodes(sequence->unk_AC.address, sequence->unk_B0.address);
+        draw_paired_clipped_sprites(sequence->unk_AC.address, sequence->unk_B0.address);
         {
             void *child_slot = sequence;
             object_index_m = 0;

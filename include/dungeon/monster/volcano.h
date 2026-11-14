@@ -27,6 +27,7 @@ struct ObjectPosition;
 #include "shared/object_flags.h"
 #include "records/Rec_func_80173204_arg0.h"
 #include "shared/object_node.h"
+#include "shared/def_table.h"
 #include "shared/slus_callbacks.h"
 #include "sdk/abs.h"
 #include "sdk/libgte.h"
@@ -260,11 +261,6 @@ typedef struct E_80172A58_S_80172A58_0 {
     u8 unk_9B;
 } E_80172A58_S_80172A58_0;   /* arg0 in func_80172A58 */
 
-typedef struct E_80172A58_S_80172A58_2 {
-    u8 pad_00[0x12];
-    u8 unk_12;
-} E_80172A58_S_80172A58_2;   /* ((*var_s0 * 0x14) + D_8006DE24) in func_80172A58 */
-
 typedef struct E_80172A58_S_80172A58_3_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -492,7 +488,6 @@ typedef struct E_801742AC_S_80DE6AAC_4 {
 
 /* Build an encoded message from the record and this bank's suffix. */
 extern s16 actor_turn_angle_offsets[8];
-extern u8 item_action_definitions[];
 
 extern E_801742AC_M2C_UNK D_800DEEC0;
 extern u8 volcano_frame_set_3[];
@@ -574,7 +569,7 @@ void advance_actor_path_step(ActorRecord *action, ObjectPosition *action_id, Spr
 void set_actor_directional_animation(ActorRecord *object, ObjectPosition *unused, SpriteFrameState *display, ActorRecord *orientation);
 s32 begin_actor_directional_attack(ActorRecord *action_state, ObjectPosition *action_ctx, SpriteFrameState *sprite, ActorRecord *actor);
 void begin_actor_attack_after_status_check(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
-s32 check_actor_ahead_height(ActorRecord *action_state, ObjectPosition *source_pos, SpriteFrameState *sprite, ActorRecord *actor);
+s32 try_begin_action_on_tile_ahead(ActorRecord *action_state, ObjectPosition *source_pos, SpriteFrameState *sprite, ActorRecord *actor);
 void start_actor_directional_animation(ActorRecord *actor_state, ObjectPosition *action_param, SpriteFrameState *sprite, ActorRecord *actor);
 void move_volcano_to_tile_and_check_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void update_actor_hop_to_tile(ActorRecord *anim, ObjectPosition *motion, struct SpriteFrameState *actor, ActorRecord *actor_state);
@@ -587,7 +582,7 @@ void shrink_hopping_volcano(void *state,void *motion,void *sprite,void *actor);
 void advance_entity_motion_fade_and_removal(void *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target);
 void finish_volcano_hop_and_grow(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void wait_volcano_pending_action(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
-void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
+void wait_for_volcano_mp(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
 void update_actor_landing_and_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void update_thrown_actor_and_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void finish_volcano_terrain_interpolation(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
@@ -598,10 +593,10 @@ void finish_volcano_flag_propagation(ActorRecord *state, ObjectPosition *motion,
 void advance_actor_state_with_child(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *creature);
 void advance_actor_state_when_allowed(ActorRecord *state_ctx, ObjectPosition *entity_id, SpriteFrameState *action, ActorRecord *entity);
 s32 select_actor_relation_state(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg);
-void dampen_actor_motion(void *state_data, s32 *motion, SpriteFrameState *object);
-void create_four_directional_effects(ActorRecord *owner_arg, ObjectPosition *motion_arg, SpriteFrameState *origin_arg);
-void advance_effect_record_counters(u16 *counter, ObjectPosition *unused_position, SpriteFrameState *record);
-void * create_directional_effect_object(ActorRecord *source, ObjectPosition *initial_position, SpriteFrameState *tile_origin);
+void update_gray_sprite_burst_effect(void *state_data, s32 *motion, SpriteFrameState *object);
+void create_four_gray_sprite_effects(ActorRecord *owner_arg, ObjectPosition *motion_arg, SpriteFrameState *origin_arg);
+void update_growing_gray_sprite_effect(u16 *counter, ObjectPosition *unused_position, SpriteFrameState *record);
+void * create_gray_sprite_ahead(ActorRecord *source, ObjectPosition *initial_position, SpriteFrameState *tile_origin);
 void display_formatted_actor_message(ActorRecord *record);
 void display_entity_action_message(void *record);
 #endif

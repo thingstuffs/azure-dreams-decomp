@@ -98,14 +98,14 @@ void advance_transition_animation(DungeonState *state, Arg1 *motion, SpriteFrame
                 s32 resource_flag;
                 void *effect;
 
-                allocate_type_12_object();
+                create_scene_brighten_effect();
                 effect = D_800F93AA;
                 state->unk8c = ghosh_action_resume_address;
                 g_dungeon_status.active_actor = 0;
                 g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1;
                 *(u16 *)((u8 *)actor + 0x46) &= 0x7FFF;
                 *&system_update_flags = system_update_flags | 8;
-                enqueue_runtime_pool_script(effect);
+                queue_pool_service_script(effect);
                 entry_index = 0;
                 resource_flag = 0x80000000;
                 actor->unk6d = 0;

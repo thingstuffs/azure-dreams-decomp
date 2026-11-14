@@ -28,7 +28,7 @@ s16 evaluate_summed_vector_minus_base(S_8008ECC0 *position, S_8008ECC0 *offsets,
     query_position.x = position->x + offset->x;
     query_position.y = position->y + offset->y;
     query_position.z = position->z + offset->z;
-    result = forward_smallest_surface_x_query(&query_position);
+    result = find_smallest_surface_x_at(&query_position);
 
     if (result == (s16)0x7FFF) {
         return (u16)0x7FFF;

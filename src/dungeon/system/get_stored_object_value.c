@@ -1,0 +1,13 @@
+#include "common.h"
+#include "m2c_compat.h"
+#include "dungeon/system.h"
+
+typedef struct S_80025524_0 {
+    u8 pad_00[0x40];
+    s32 unk_40;
+} S_80025524_0;   /* arg0 in get_stored_object_value */
+
+/* Returns the object's value at offset 0x40. */
+s32 get_stored_object_value(S_80025524_0 *object) {
+    return object->unk_40;
+}

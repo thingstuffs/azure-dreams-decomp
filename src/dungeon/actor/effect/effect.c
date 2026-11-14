@@ -1,3 +1,4 @@
+#include "dungeon/player/saved_held_item_data.h"
 #include "dungeon/item.h"
 #include "dungeon/item/message/buffer.h"
 #include "dungeon/player/object.h"
@@ -914,7 +915,7 @@ s32 check_neighbor_tile_blocking();
 void *find_eligible_actor_at_tile_and_height(struct Node *node, s32 x, s32 y_in, s16 value);
 extern s32 held_item_record;
 extern u8 D_800DD7DC[];
-extern s32 saved_held_item_word;
+
 
 #define DUNGEON_FLAGS_PAGE ((s8 *)0x80080000)
 

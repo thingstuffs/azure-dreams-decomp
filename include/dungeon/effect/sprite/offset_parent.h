@@ -59,7 +59,7 @@ typedef union Row_818E6F98_WorkOutput {
 /* Queues a textured quad at the supplied world position. */
 void *allocate_list_node(s32, void *);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
-s32 get_definition_entry_byte_13(s16 entry_index);
+s32 get_spell_range(s16 entry_index);
 void unlink_node(void *);
 void initialize_timed_motion_step(s32, s32);
 extern u8 directional_particle_node_callback[];

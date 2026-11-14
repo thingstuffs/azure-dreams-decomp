@@ -40,7 +40,7 @@ typedef struct Row_818F33BC_S_80024BBC_6 {
 void *allocate_list_node(s32, void *);
 extern s16 D_800259AC;
 void decrement_effect_counter_by_twelve(RandomOffsetEffectObjectBody *object);
-void create_random_offset_effect_object(
+void create_jittered_countdown_effect(
     EntityRec *source, s16 field_14_value, void *payload, s16 field_32_value,
     s16 x_offset, s16 y_offset, s16 z_offset);
 #endif

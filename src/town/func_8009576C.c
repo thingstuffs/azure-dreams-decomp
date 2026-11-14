@@ -31,12 +31,12 @@ void update_actor_movement_with_radial_effects(s32 object_id, ObjectPosition *ob
     }
     update_threshold = query_capped_surface_height(object, &position_query_scratch);
     if (object->z.w.i >= update_threshold) {
-        select_sound_command_from_mode();
+        play_overlay_height_sound();
         set_height_and_slope_velocity((object), update_threshold, (struct TownVec * *)(&position_query_scratch));
         spawn_person_radial_effects(object);
         initialize_actor_movement_interaction_action(object_id, object, update_context);
     } else if (town_action_state_flag != 0) {
-        select_sound_command_from_mode();
+        play_overlay_height_sound();
         object->velocity_z = 0;
         copy_z_to_collision_motion((object));
         initialize_actor_movement_interaction_action(object_id, object, update_context);

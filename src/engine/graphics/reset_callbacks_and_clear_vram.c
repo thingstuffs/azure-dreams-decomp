@@ -13,7 +13,7 @@ void reset_callbacks_and_clear_vram(void)
     s32 vram_rect[2];
 
     ResetCallback();
-    clear_vram_callback_state();
+    clear_card_server_initialized_flag();
     init_double_buffered_gpu_environments();
     vram_rect[0] = 0;
     vram_rect[1] = 0x02000400;

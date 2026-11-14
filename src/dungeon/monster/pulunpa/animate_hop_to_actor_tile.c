@@ -133,7 +133,7 @@ void animate_hop_to_actor_tile(ActorRecord *action, ObjectPosition *motion, Spri
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &target_distance);
             }
         }
-        apply_capped_damage_and_hit_effect(actor, motion);
+        apply_poison_damage(actor, motion);
         if ((check_actor_floor_trap(sprite, actor) << 0x10) > 0) {
             action->unk_8C.address = pulunpa_action_resume_address;
             on_actor_status_updated(actor);

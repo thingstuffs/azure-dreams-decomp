@@ -32,7 +32,7 @@ void *card_boot_create_command_panel(void *init_value)
         object = initialize_scene_object_in_buffer(0, object, 0x112);
         register_node(object, card_boot_render_panel_hierarchy);
     } else {
-        card_boot_destroy_three_row_panel(object);
+        card_boot_destroy_command_panel(object);
         object->flags &= 0x7FFF;
         bzero(state, 0x428);
     }
@@ -41,8 +41,8 @@ void *card_boot_create_command_panel(void *init_value)
     object->sprite = state->sprite;
     state->chain = card_boot_link_command_panel_nodes(state->nodes);
     card_boot_init_command_panel(state, init_value);
-    object->update_callback = card_boot_animate_three_row_selection;
+    object->update_callback = card_boot_animate_command_panel_selection;
     body = state;
-    card_boot_animate_three_row_selection(body);
+    card_boot_animate_command_panel_selection(body);
     return object;
 }

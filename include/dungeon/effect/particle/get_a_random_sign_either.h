@@ -5,6 +5,7 @@
 #include "shared/object_flags.h"
 #include "sdk/libc.h"
 #include "dungeon/level.h"
+#include "dungeon/effect/rectangle_effect_updated_data.h"
 struct Row_818ED25C_S_80024A5C_5;
 /* extern */
 
@@ -116,5 +117,4 @@ void spawn_linked_effect_particle(Row_818ED7A0_ParticleNode *owner, s32 age, s32
 void update_grayscale_fade_effect(void *effect, s32 age, Row_818ED8C0_S_800250C0_1 *color, s32 fade_ticks);
 void update_timed_value_ramp_effect(void *object_ptr);
 void update_timed_rectangle_effect(void *effect_arg, void *unused, void *sprite_arg);
-extern u8 rectangle_effect_updated[];
 #endif

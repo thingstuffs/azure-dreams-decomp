@@ -17,5 +17,5 @@ void close_catalog_and_restore_textures(void *object)
     NODE_HEADER(object)->flags =
         (u16)(NODE_HEADER(object)->flags | NODE_REMOVE);
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
-    scene_load_variant_texture_set();
+    load_variant_texture_set();
 }

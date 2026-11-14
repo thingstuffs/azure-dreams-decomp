@@ -136,7 +136,7 @@ void render_shaded_map_tiles(void) {
     scratch.ptr->unk_14C = 0xFFFF;
     scratch.ptr->unk_174 = 4;
     scratch.ptr->unk_164 = (u8 *) packet + 0xCCCC;
-    scratch.ptr->unk_0C = (s16) runtime_initialize_polygon_edges(work_ptr,  coord_offset,  edge_count);
+    scratch.ptr->unk_0C = (s16) init_polygon_edges(work_ptr,  coord_offset,  edge_count);
     if (scratch.ptr->unk_174 != 0) {
         one = 1;
         vertex_input = &scratch.ptr->unk_E0;
@@ -712,7 +712,7 @@ void draw_empty_map_cell_quads(u32 packet_limit)
     edge_count_addr = (s32)scratch;
     edge_count_addr |= 0x170;
     scratch->scan_y.value =
-        (s16)runtime_initialize_polygon_edges(clip_vertices,
+        (s16)init_polygon_edges(clip_vertices,
                       (s32 *)edge_buffer,
                       (u16 *)edge_count_addr);
 

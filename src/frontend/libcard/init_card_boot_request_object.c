@@ -7,7 +7,7 @@
 #include "sdk/libc.h"
 #include "slus.h"
 
-/* Linked-list node shape shared with find_active_list_node/mark_active_nodes_by_callback's Node/
+/* Linked-list node shape shared with find_active_list_node/flag_nodes_with_callback_for_removal's Node/
  * S_80081498: next ptr @0x0, a pointer field @0x10, a 16-bit flags field
  * @0x1E. D_8002BB08 is accessed via %hi/%lo (not $gp), so declare it with
  * a size well past the -G8 small-data threshold. */

@@ -11,7 +11,7 @@
 
 /* Initialize state and set the output pointer to the shared data. */
 void initialize_input_driven_scene_object(s32 **outputData, ObjectPosition *state, s32 setupValue) {
-    dispatch_sound_by_global_flag();
+    play_sound_by_height_range();
     state->velocity_z = 0xFFEF0000;
     dispatch_selected_entry_if_nonzero(D_800D0140, (struct TownObjectRecord *)(outputData), (void *)(setupValue));
     *outputData = update_town_object_from_input;

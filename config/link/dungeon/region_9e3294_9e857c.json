@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_809C3294",
-      "tu": "src/dungeon/monster/kewne/update_actor_callbacks_and_ground.c",
+      "tu": "src/dungeon/monster/kewne/update_kewne_actor.c",
       "home": "dungeon/func_8099F294",
       "foff": "0x9e3294",
       "vma": "0x8014ca94",
@@ -101,7 +101,7 @@
     },
     {
       "row": "dungeon/func_809C50A8",
-      "tu": "src/dungeon/monster/kewne/update_movement_height_and_animation.c",
+      "tu": "src/dungeon/monster/kewne/advance_kewne_trail_attack.c",
       "home": "dungeon/func_809A10A8",
       "foff": "0x9e50a8",
       "vma": "0x8014e8a8",
@@ -128,7 +128,7 @@
     },
     {
       "row": "dungeon/func_809C55DC",
-      "tu": "src/dungeon/monster/kewne/update_staged_movement_and_idle.c",
+      "tu": "src/dungeon/monster/kewne/advance_kewne_ellipse_attack.c",
       "home": "dungeon/func_809A15DC",
       "foff": "0x9e55dc",
       "vma": "0x8014eddc",
@@ -181,7 +181,7 @@
     },
     {
       "row": "dungeon/func_809C78E4",
-      "tu": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",
+      "tu": "src/dungeon/monster/kewne/update_ellipse_ring_effect.c",
       "home": "dungeon/func_809A38E4",
       "foff": "0x9e78e4",
       "vma": "0x801510e4",

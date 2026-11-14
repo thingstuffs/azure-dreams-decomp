@@ -10,7 +10,7 @@ extern u8 D_80018AE5[9];
 
 
 /* Selects a result for the context, applying an override when both checks pass. */
-void *select_checked_table_pointer(void *context, s32 unused, s32 mode)
+void *select_response_if_entry_flag_set(void *context, s32 unused, s32 mode)
 {
     void *result;
 

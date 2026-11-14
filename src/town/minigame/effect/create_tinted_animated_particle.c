@@ -19,7 +19,7 @@ void create_tinted_animated_particle(s32 color, s32 x, s32 y, s32 z)
     ObjectNodeHeader *object;
     object = allocate_flagged_object_node(0x136);
     if (object != 0) {
-        object->update_callback = advance_fading_particle_until_animation_boundary;
+        object->update_callback = fade_falling_particle_until_done;
         register_node(object, project_sprite_chain);
         sprite = object->sprite;
         (object->position)->x.v = x;

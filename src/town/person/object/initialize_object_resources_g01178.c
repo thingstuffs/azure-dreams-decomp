@@ -13,7 +13,7 @@
 void initialize_camera_chase_object(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *display_state) {
     ObjectPosition *shared_position;
 
-    initialize_object_and_register_slot(object, 0x1D, &D_800D5120, &D_800D5124,
+    register_object_slot_with_tables(object, 0x1D, &D_800D5120, &D_800D5124,
                   &D_800D50F0, &D_800D50F8);
     position->z.v = 0xFF800000;
     object->descriptor->entries[1] = &D_800D50DC;
@@ -30,7 +30,7 @@ void initialize_camera_chase_object(TownObjectRecord *object, ObjectPosition *po
     shared_position = &view_reference_entity;
     shared_position->y.v = (s32) position->y.v;
     shared_position->z.v = (s32) position->z.v;
-    copy_entity_record_fields(&town_position_reference_state, shared_position);
+    copy_object_position_and_velocity(&town_position_reference_state, shared_position);
 }
 
 /* Set camera chase data and the object handler when the request succeeds. */
@@ -53,14 +53,14 @@ void set_camera_chase_data(TownObjectRecord *object, ObjectPosition *chase_data,
  * Clears the object-index slot selected by the word at offset 0x60, then runs
  * apply_object_setup_and_update.
  */
-void clear_object_slot_table_run(TownObjectRecord *obj, void *param_a, void *param_b)
+void clear_slot_flag_and_update(TownObjectRecord *obj, void *param_a, void *param_b)
 {
     object_index_slots[obj->slot].unk_00 = 0;
     apply_object_setup_and_update(obj, param_a, param_b);
 }
 
 /* Updates and clamps record motion, delegating when the lower bound is reached. */
-void accelerate_object_coordinates_to_lower_limits(TownObjectRecord *context, ObjectPosition *record, SpriteFrameState *callback_arg) {
+void accelerate_to_lower_limit(TownObjectRecord *context, ObjectPosition *record, SpriteFrameState *callback_arg) {
     if (record->z.v == -0x08000000) {
         apply_object_setup_and_update(context, record, callback_arg);
         return;
@@ -109,7 +109,7 @@ void *create_gray_sprite_user_object(s32 user_data)
         register u16 flags;
         register s32 part_value;
 
-        object->unk_10 = compute_offset_position;
+        object->unk_10 = place_at_owner_sprite_offset;
         object->unk_BC = user_data;
         part = object->unk_0C;
         part->scale_y = 0x1800;

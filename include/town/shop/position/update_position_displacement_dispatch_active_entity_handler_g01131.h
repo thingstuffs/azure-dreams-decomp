@@ -112,14 +112,14 @@ extern u8 D_8009EE9C[];
 extern u32 D_8009EF88;
 /* arg2 in bob_entity_and_wait_for_event */
 short SD_Call(int flags);
-AllocatedObject *allocate_object_with_callbacks();
+AllocatedObject *create_animated_menu_ring();
 /* extern */
-void check_adjusted_input_indices();
+void spawn_randomized_motion_burst();
 extern void D_800935BC();
 void unlink_node_if_registered(void *block_data);
 extern void D_8009F2A8();
 /* extern */
-void *runtime_get_mode_indexed_value(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+void *get_mode_table_entry(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 /* extern */
 void func_8003E188(s32 field_index, s32 flag);
 void build_entity_slot_snapshot(S_800422DC_Self *snapshot, S_800422DC_Other *source);
@@ -128,7 +128,7 @@ void apply_actor_template_and_direction(S_800423C0_Obj *obj, s16 unused, S_80042
 void func_80042640(void *obj, s16 monsterId);
 /* extern */
 /* extern */
-void set_object_state_for_mode(void *,struct SpriteFrameState *, s32, s32);
+void set_window_sprite_for_mode(void *,struct SpriteFrameState *, s32, s32);
 extern s32 town_actor_scratch;
 
 /* Shared import declarations; data casts preserve each measured view. */

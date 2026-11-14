@@ -4,5 +4,5 @@
 
 /* Returns whether func_80018B00 reports zero. */
 s32 is_status_zero(void) {
-    return get_linked_record_field_2_d_60() == 0;
+    return get_town_state_count() == 0;
 }

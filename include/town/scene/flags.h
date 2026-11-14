@@ -16,15 +16,15 @@ void set_referenced_object_active_flag(void);
 void clear_indexed_flag_bit_unless_index_one(s32 bit_index);
 
 
-/* update_flag_test_target.c */
-void update_flag_test_target(s16 sourceId, s16 targetId);
+/* copy_flag_state_to_target.c */
+void copy_flag_state_to_target(s16 sourceId, s16 targetId);
 
 
 /* set_indexed_flag_bit.c */
 void set_indexed_flag_bit(s32 flag_id);
 
 /* Callback entry points. */
-void clear_global_entry_flag(void);
+void reset_catalog_lookup_count(void);
 void fade_panel_after_linked_flag(void *effect);
 
 void update_dependent_entry_ids(s16 checked_id, s16 first_id, s16 second_id);
@@ -50,7 +50,7 @@ s32 resolve_entry_flag(void *entry_table, void *context, s32 entry_key);
 u8 *select_context_data_with_flag_override(void *context, s32 unused, s32 selector);
 s32 set_record_flag_on_query_failure(void *record_field, s32 query_value);
 s32 test_indexed_flag_bit(s32 bit);
-s32 update_scene_flag_5_c_4(void);
+s32 mirror_sbs11_pad32_flag(void);
 
 #include "shared/entity.h"
 #include "records/Rec_D_800CFCB4.h"
@@ -58,7 +58,7 @@ s32 update_scene_flag_5_c_4(void);
 #include "records/Rec_func_8008F2D4_arg1.h"
 struct ScriptContext;
 struct ScriptEntry8;
-s32 get_2_flag_flag(s32 unused_captured_value);
+s32 get_selected_flag_stage(s32 unused_captured_value);
 s32 query_referenced_flag_for_table_entry(struct ScriptEntry8 *entry_table, struct ScriptContext *context, s32 entry_key);
 void stop_at_max_x(Rec_func_8008F2D4_arg0 *control, Rec_func_8008F2D4_arg1 *record, s32 initial_value);
 void stop_at_min_x(Rec_func_8008F2D4_arg0 *record, Rec_func_8008F2D4_arg1 *state, s32 value);
@@ -74,7 +74,7 @@ void process_pair_16_bit_table(void);
 void clear_indexed_entry_flag(void);
 void set_indexed_entry_flag(Rec_func_800165F4_arg0 *record, s32 entry_index);
 void set_current_entry_flag(void);
-s32 update_entry_flags(void *record, s32 entry_index);
+s32 replace_record_flag_with_entry_flag(void *record, s32 entry_index);
 
 /* Address-qualified entries of distinct diagnostic devkit builds; docs/evidence/r141w_town_dev.md. */
 void clear_indexed_flag_bit_unless_index_one_80700d20(s32 bit_index);
@@ -83,7 +83,7 @@ void clear_indexed_flag_bit_unless_index_one_80700d20(s32 bit_index);
 void dispatch_entry_flags_a0700244(s32 index);
 void dispatch_entry_flags_80700c54(s32 index);
 
-void dispatch_entry_test_flag_test(s32 entry_index);
-void update_flag_based_flags(void);
+void update_entry_value_flag_from_test_flag(s32 entry_index);
+void update_combined_flag_from_two_flags(void);
 
 #endif

@@ -38,7 +38,7 @@ typedef void (*EntityCallback)(void *, void *, void *, void *);
  * initialize_enabled_scene_object owns the node through create_town_effect_object. */
 typedef struct {
     s8 pad00[0x50];
-    void (*callback)(void *, s32, void *, void *); /* movement/heading callback installed as update_actor_position_and_heading */
+    void (*callback)(void *, s32, void *, void *); /* movement/heading callback installed as update_bicycle_position_and_heading */
 } Obj;
 
 typedef struct { u8 pad00[0x15]; u8 flag15; } State;
@@ -86,6 +86,6 @@ extern void *D_80100E28[1];
 void initialize_enabled_scene_object(void);
 void update_entity_sprite_and_effects(void *entity, EntityRec *position, SpriteFrameState *sprite);
 void start_bicycle_at_view_reference(Obj *obj, State *state, VecState *motion, void *callback_arg);
-void update_actor_position_and_heading(void *actor, s32 update_context, void *position, void *setup_context);
+void update_bicycle_position_and_heading(void *actor, s32 update_context, void *position, void *setup_context);
 
 #endif

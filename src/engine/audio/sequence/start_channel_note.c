@@ -453,21 +453,21 @@ void start_channel_note(u8 channel_id, s16 note, u8 velocity)
                 if (channel->f30 == 0) {
                     if (tone->f01 & 4) {
                         do {
-                            update_spu_register_pair_cc_cd(1, audio_voice_masks[voice_idx]);
-                        } while (!(read_spu_register_pair_cc_cd() & audio_voice_masks[voice_idx]));
+                            set_reverb_voice_mask(1, audio_voice_masks[voice_idx]);
+                        } while (!(get_reverb_voice_mask() & audio_voice_masks[voice_idx]));
                     } else {
                         do {
-                            update_spu_register_pair_cc_cd(0, audio_voice_masks[voice_idx]);
-                        } while (read_spu_register_pair_cc_cd() & audio_voice_masks[voice_idx]);
+                            set_reverb_voice_mask(0, audio_voice_masks[voice_idx]);
+                        } while (get_reverb_voice_mask() & audio_voice_masks[voice_idx]);
                     }
                 } else if (channel->f30 != 1) {
                     do {
-                        update_spu_register_pair_cc_cd(1, audio_voice_masks[voice_idx]);
-                    } while (!(read_spu_register_pair_cc_cd() & audio_voice_masks[voice_idx]));
+                        set_reverb_voice_mask(1, audio_voice_masks[voice_idx]);
+                    } while (!(get_reverb_voice_mask() & audio_voice_masks[voice_idx]));
                 } else {
                     do {
-                        update_spu_register_pair_cc_cd(0, audio_voice_masks[voice_idx]);
-                    } while (read_spu_register_pair_cc_cd() & audio_voice_masks[voice_idx]);
+                        set_reverb_voice_mask(0, audio_voice_masks[voice_idx]);
+                    } while (get_reverb_voice_mask() & audio_voice_masks[voice_idx]);
                 }
             }
         }

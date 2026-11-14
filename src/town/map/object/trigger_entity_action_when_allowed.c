@@ -37,5 +37,5 @@ void trigger_entity_action_when_allowed(Entity *entity)
     }
 
     SD_Call(entity->argument);
-    entity->handler = (map_trigger_callback_fn)trigger_action_when_position_limit_exceeded;
+    entity->handler = (map_trigger_callback_fn)rearm_trigger_when_player_leaves;
 }

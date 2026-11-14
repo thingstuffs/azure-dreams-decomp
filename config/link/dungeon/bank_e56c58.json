@@ -26,7 +26,7 @@
     },
     {
       "row": "dungeon/func_80E376E4",
-      "tu": "src/dungeon/monster/manoeva/update_actor_controller.c",
+      "tu": "src/dungeon/monster/manoeva/update_manoeva_behavior.c",
       "home": "dungeon/func_80E376E4",
       "foff": "0xE576E4",
       "vma": "0x80170EE4",
@@ -82,7 +82,7 @@
     },
     {
       "row": "dungeon/func_80E38A40",
-      "tu": "src/dungeon/monster/saber/reset_eligible_entity_state.c",
+      "tu": "src/dungeon/monster/saber/finish_saber_tile_move.c",
       "home": "dungeon/func_80AC7330",
       "foff": "0xE58A40",
       "vma": "0x80172240",
@@ -90,7 +90,7 @@
     },
     {
       "row": "dungeon/func_80E38E40",
-      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F88C30",
       "foff": "0xE58E40",
       "vma": "0x80172640",
@@ -114,7 +114,7 @@
     },
     {
       "row": "dungeon/func_80E398A4",
-      "tu": "src/dungeon/effect/state/forward_actor_effect_state.c",
+      "tu": "src/dungeon/effect/state/update_hop_and_shrink_callback.c",
       "home": "dungeon/func_800AD90C",
       "foff": "0xE598A4",
       "vma": "0x801730A4",
@@ -154,7 +154,7 @@
     },
     {
       "row": "dungeon/func_80E3A080",
-      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F8A600",
       "foff": "0xE5A080",
       "vma": "0x80173880",
@@ -236,7 +236,7 @@
     },
     {
       "row": "dungeon/func_80E3AD80",
-      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F8A6D4",
       "foff": "0xE5AD80",
       "vma": "0x80174580",
@@ -244,7 +244,7 @@
     },
     {
       "row": "dungeon/func_80E3ADB8",
-      "tu": "src/dungeon/actor/set_actor_data_pointer.c",
+      "tu": "src/dungeon/actor/set_default_action_after_floor_trap.c",
       "home": "dungeon/func_800CF1BC",
       "foff": "0xE5ADB8",
       "vma": "0x801745B8",

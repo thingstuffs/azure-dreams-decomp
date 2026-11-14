@@ -135,8 +135,8 @@ void card_dev_clear_ten_values(void *state);
 /* card_dev_close_events.c */
 void card_dev_close_events(void);
 
-/* card_dev_commit_pending_value.c */
-void card_dev_commit_pending_value(void *record_data);
+/* install_pending_completion_callback.c */
+void install_pending_completion_callback(void *record_data);
 
 /* card_dev_count_cached_slots.c */
 s32 card_dev_count_cached_slots(void);
@@ -445,14 +445,14 @@ void clear_card_selection_flag(void);
 /* clear_global_if_value_zero.c */
 void clear_global_if_value_zero(struct S_8001B93C_0 *object);
 
-/* complete_pending_object_state.c */
-void complete_pending_object_state(u8 *ptr);
+/* layout_slot_window_entries.c */
+void layout_slot_window_entries(u8 *ptr);
 
 /* fade_four_entries.c */
 void fade_four_entries(void *object);
 
-/* fill_value_output_fields.c */
-void fill_value_output_fields(struct MainValue **value_slot, ObjectPosition *output, struct MainValue *value);
+/* set_value_output_position.c */
+void set_value_output_position(struct MainValue **value_slot, ObjectPosition *output, struct MainValue *value);
 
 /* find_text_word_bounds.c */
 void find_text_word_bounds(u8 *text, s32 limit, s32 *start_out, s32 *length_out, s32 *total_out);
@@ -490,9 +490,9 @@ void init_menu_entry_pointers(void *state, s32 entry_count);
 /* init_menu_row_entry.c */
 void *init_menu_row_entry(void *context, void *entry, s32 row_index);
 
-/* mark_object_flags_dirty.c */
+/* mark_node_for_removal.c */
 void func_80089A14(unsigned short *data);
-void mark_object_flags_dirty(unsigned short *data);
+void mark_node_for_removal(unsigned short *data);
 
 /* no_op_card_hook.c */
 void no_op_card_hook(s32 value);
@@ -508,7 +508,7 @@ void create_settings_controller_and_flag_removal(void *entry);
 
 /* save_copy_completion_g00392.c */
 void initialize_save_description(void *owner, s32 value);
-void process_five_context_entries_or_fallback(void *context);
+void write_save_and_refresh_slot_windows(void *context);
 
 /* save_file_updates_g00378.c */
 s32 card_boot_verify_save_xor_checksum(void *save_data);
@@ -521,11 +521,11 @@ void set_layout_params(struct S_8001BEA4_0 *record, s32 value_14, s32 value_08, 
 /* toggle_card_selection_state.c */
 void toggle_card_selection_state(void);
 
-/* update_global_dialog_state.c */
-s32 update_global_dialog_state(s32 flag_linked_object);
+/* refresh_card_message_object.c */
+s32 refresh_card_message_object(s32 flag_linked_object);
 
-/* update_object_and_flag_linked.c */
-void update_object_and_flag_linked(void *object_data, s32 first_value, s32 second_value);
+/* update_card_object_and_linked_value.c */
+void update_card_object_and_linked_value(void *object_data, s32 first_value, s32 second_value);
 
 void card_boot_open_events(void);
 void card_boot_init_server(void);
@@ -533,6 +533,6 @@ void card_boot_close_events(void);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 struct SettingsSyncObjectBody;
-void sync_object_with_sub_object(struct SettingsSyncObjectBody *object);
+void sync_settings_object_with_child(struct SettingsSyncObjectBody *object);
 
 #endif

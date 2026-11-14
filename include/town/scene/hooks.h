@@ -44,11 +44,11 @@ s32 forward_pair_to_handler(s32 object, s32 entry_index);
 /* forward_pair_to_handler_b.c */
 s32 forward_pair_to_handler_b(s32 object, s32 entry_index);
 
-/* forward_request_if_ready.c */
-s32 forward_request_if_ready(void *request_value);
+/* match_request_input_to_state.c */
+s32 match_request_input_to_state(void *request_value);
 
-/* forward_request_with_local_template.c */
-void forward_request_with_local_template(s32 first_value, s32 unused, s32 second_value);
+/* dispatch_scene_request_with_template.c */
+void dispatch_scene_request_with_template(s32 first_value, s32 unused, s32 second_value);
 
 /* forward_request_with_local_words.c */
 void dispatch_scene_request_with_local_words(s32 request, s32 unused, s32 value);
@@ -110,11 +110,11 @@ void noop_hook_j(void);
 void func_800161DC(void);
 void point_shared_buffer_at_data(void);
 
-/* point_shared_buffer_at_data_e.c */
-void point_shared_buffer_at_data_e(void);
+/* set_state_table_pointer.c */
+void set_state_table_pointer(void);
 
-/* refresh_shared_state.c */
-void refresh_shared_state(void);
+/* process_goods_and_charge_price.c */
+void process_goods_and_charge_price(void);
 
 /* register_shared_data.c */
 void register_shared_data(void);

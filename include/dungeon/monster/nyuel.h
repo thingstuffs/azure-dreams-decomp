@@ -18,14 +18,14 @@ void update_actor_state_and_directional_effect(ActorRecord *controller, ObjectPo
 
 
 
-void advance_action_phases_and_animation(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void advance_nyuel_attack_lunge(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void func_80171B58(void *action, s32 context, SpriteFrameState *sprite, void *state);
 
 void create_cylindrical_effect(ActorRecord *source, ObjectPosition *origin);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-void update_entity_actions_facing_and_animation(ActorRecord *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
+void update_nyuel_behavior(ActorRecord *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 
-void update_eligible_actor_and_reset_entity(ActorRecord *body, ObjectPosition *position, SpriteFrameState *value_arg, ActorRecord *actor_arg);
+void finish_nyuel_tile_move(ActorRecord *body, ObjectPosition *position, SpriteFrameState *value_arg, ActorRecord *actor_arg);
 
 #endif

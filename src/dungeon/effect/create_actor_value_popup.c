@@ -186,17 +186,17 @@ void *create_actor_value_popup(s32 flags, void *source_data, s16 value, u16 call
         if (callback_kind == 1) {
             callback = &update_attached_fading_effect;
             (object->update_callback) = callback;
-            text_metrics = find_first_ended_record(text);
+            text_metrics = find_record_list_end(text);
             text_position = state + 0x20;
         } else {
             callback = &update_anchored_fading_effect;
             (object->update_callback) = callback;
-            text_metrics = find_first_ended_record(text);
+            text_metrics = find_record_list_end(text);
             text_position = state + 0x20;
         }
         offset_record_coordinates(text_position, 0x80 - ((s32) (text_metrics->unk_02 + 0x88) / 2),
             (s16) ((0 - (s8) ((S_800B4C7C_1 *)state)->unk_23) - 4));
-        apply_record_flags_through_end(text_position, 0x20);
+        or_record_list_halfword_flags(text_position, 0x20);
     }
     return object;
 }

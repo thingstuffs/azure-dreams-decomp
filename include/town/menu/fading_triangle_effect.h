@@ -4,7 +4,7 @@
 #include "common.h"
 #include "town/menu/view_state.h"
 
-/* Body allocated by allocate_randomized_effect_object for the fading triangle callback. */
+/* Body allocated by create_flickering_triangle for the fading triangle callback. */
 typedef struct FadingTriangleEffectBody {
     /* 0x00 */ u8 pad_00[4];
     /* 0x04 */ u16 ticks_left;

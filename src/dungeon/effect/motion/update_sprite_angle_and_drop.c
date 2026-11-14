@@ -1,0 +1,20 @@
+#include "common.h"
+#include "shared/sprite_frame_state.h"
+#include "shared/game_work.h"
+#include "shared/object_flags.h"
+#include "dungeon/effect/motion.h"
+#include "sdk/libgte.h"
+#include "slus.h"
+
+/* Update the derived angle and offset, then propagate status flags. */
+void update_sprite_angle_and_drop(RadialOffsetSpriteEffectBody *angle_source, void *offset_state, SpriteFrameState *angle_state)
+{
+    angle_state->angle_z =
+        (s16)((s32)(-((rcos(angle_source->unk_08 - g_game_work.view.camera_rotation.parts.viewAngle) >> 4) << 8)) >> 8);
+    *(u16 *)((u8 *)offset_state + 0xA) = *(u16 *)((u8 *)offset_state + 0xA) - 8;
+    advance_sprite_animation_and_textures(angle_state);
+    if (angle_state->flags & 0x6000) {
+        *(u16 *)((u8 *)angle_source - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
+    }
+}

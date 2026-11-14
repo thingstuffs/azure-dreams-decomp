@@ -16,7 +16,7 @@ extern void func_80019988(void); /* this scene's placed copy of set_current_entr
 s32 update_and_test_pending_entry_flags(Rec_func_800165F4_arg0 *kind, s32 value) {
     Rec_D_80016000 *root;
 
-    set_script_flag_94c();
+    set_script_flag_sbs32_pad34();
     if (get_script_flag_mask(F_sbs32_pad25) != 0) {
         func_80019988();
         if (apply_selected_entry_values(kind, value) != 0) {

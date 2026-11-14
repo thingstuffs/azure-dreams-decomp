@@ -113,7 +113,7 @@ void *create_mandara_actor(s16 mode, s32 value1, s16 value2, s16 value3)
         value = monster->clut;
         actor->action_id = 0xFF;
         actor->unk_9C = -1;
-        (*(ActorActionHandler *)((u8 *)actor + 0x8C)) = update_long_actor_action;
+        (*(ActorActionHandler *)((u8 *)actor + 0x8C)) = update_mandara_behavior;
         (*(s16 *)((u8 *)actor + 0xAE)) = value;
 
         entry = *(u8 * *)&monster->source;

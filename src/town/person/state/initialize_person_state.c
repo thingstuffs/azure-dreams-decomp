@@ -12,7 +12,7 @@
 /* Initialize state and copy default values, adjusting the final output value. */
 void initialize_person_state(void *state, void *output) {
     *(void **)((s8 *)state - 0x10) = update_person_view_and_record;
-    fill_person_records();
+    fill_position_history();
     *(s16 *)((s8 *)state + 0x90) = 0;
     *(void **)((s8 *)state + 0x50) = move_person_toward_sample;
     *(s16 *)((s8 *)state + 0x6A) = 0;
@@ -20,6 +20,6 @@ void initialize_person_state(void *state, void *output) {
     {
         *(u16 *)((s8 *)output + 2) = ((u16)view_reference_entity.x.w.i);
         *(u16 *)((s8 *)output + 6) = ((u16)view_reference_entity.y.w.i);
-        *(s16 *)((s8 *)output + 0xA) = ((u16)view_reference_entity.z.w.i) - get_person_lookup_step(output);
+        *(s16 *)((s8 *)output + 0xA) = ((u16)view_reference_entity.z.w.i) - get_map_cell_step_size(output);
     }
 }

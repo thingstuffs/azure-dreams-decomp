@@ -12,6 +12,7 @@ struct ObjectPosition;
 /* Spell resource ids shared declarations. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800A3C30, PD:dungeon/engine:800DD8E7. */
 #include "common.h"
+#include "dungeon/level/direction_offsets.h"
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
 #include "shared/def_table.h"
@@ -75,12 +76,9 @@ typedef struct S_800A94A0_9 {
     s16 unk_88;
 } S_800A94A0_9;
 
-/* 49 resource slots occupy the byte span before the next spell table. */
-extern u8 spell_resource_ids[49];
+#include "dungeon/actor/spell_resource_ids_data.h"
 /* *D_800E3D7C in create_actor_spell_effect */
 extern u8 active_spell_parameters[];
-extern u16 direction_x_offsets[];
-extern u16 direction_y_offsets[];
 s16 get_tile_chebyshev_distance();
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 extern u8 D_80089080[];

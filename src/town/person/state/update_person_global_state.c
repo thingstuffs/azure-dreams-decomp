@@ -7,7 +7,7 @@ extern u8 town_input_motion_address[];
 extern s32 *town_saved_motion_pointer;
 extern u16 D_80100D62;
 
-/* Copy global state into the object and values, then conditionally call initialize_person_vector. */
+/* Copy global state into the object and values, then conditionally call set_person_velocity_from_angle. */
 void update_person_global_state(void *object, s32 call_arg, s32 *values) {
     u16 saved_value = D_80100D62;
     s32 *saved_values = town_saved_motion_pointer;
@@ -20,6 +20,6 @@ void update_person_global_state(void *object, s32 call_arg, s32 *values) {
     }
 
     if (scene_object_payload_alias != (s32)town_input_motion_address) {
-        initialize_person_vector(object, call_arg, values);
+        set_person_velocity_from_angle(object, call_arg, values);
     }
 }

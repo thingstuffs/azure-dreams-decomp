@@ -89,7 +89,7 @@ void spawn_random_velocity_offset_effect(ObjectNodeHeader *parent, s16 effect_id
 
 /* Spawn the overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 /* Creates Noise with default frames at D_80174E88, applies spawn flags, and attempts valid tile placement. */
-void *create_actor_with_direction_behavior(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
+void *spawn_noise(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s32 kind;
     ActorRecord *work;
@@ -160,7 +160,7 @@ void *create_actor_with_direction_behavior(s16 flags, s16 kind_id, s16 variant, 
         initialize_actor_sprite_and_animation(call_a1, part_a, part_b, flags);
         actor->byte9a = 0xFF;
         actor->byte9c = -1;
-        actor->ptr8c = &update_actor_behavior_and_direction;
+        actor->ptr8c = &update_noise_behavior;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

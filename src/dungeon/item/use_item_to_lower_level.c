@@ -45,7 +45,7 @@ s32 use_item_to_lower_level(ActorRecord *entity, DungeonItemEntry *item, s16 act
     if (lower_entity_level(entity, 1) == 0) {
         adjust_source_value_and_finalize(entity, D_800E173A);
     }
-    clear_slot_and_update_linked_state(item);
+    clear_item_slot(item);
     {
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
     }

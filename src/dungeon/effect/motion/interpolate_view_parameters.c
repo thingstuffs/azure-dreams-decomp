@@ -191,7 +191,7 @@ void create_counted_sprite_effect(void *context, s32 unused, Row_81916C1C_Arg819
     }
 }
 
-void create_short_timed_effect_node(s32 initial_value) {
+void create_translucent_screen_quad(s32 initial_value) {
     Row_81916D2C_S_8002452C_0 *object;
 
     object = allocate_flagged_object_node(0x212);
@@ -262,7 +262,7 @@ void *create_rotating_particle_sprite(s32 *owner_data, Row_81916E00_Copy24 *init
 
 /* Advances a point along the radial direction given by two angles and increments the owner's update
    counter. */
-void update_two_angle_drift_effect(Row_81916F10_S_80024710_0 *object, Row_81916F10_S_80024710_2 *position) {
+void update_orbit_projectile_trail(Row_81916F10_S_80024710_0 *object, Row_81916F10_S_80024710_2 *position) {
     s32 angle_scale_x;
     s32 angle_scale_y;
     Row_81916F10_S_80024710_1 *state;
@@ -348,7 +348,7 @@ void *create_radial_effect_from_source(void *source_arg, Row_81917004_Copy24 *or
 
 /* Retires three child nodes, resets the sprite, scatters its position on a sphere, and creates a new
    child. */
-void update_sphere_scatter_effect(void *object, Rec_func_80024600_arg1 *position, SpriteFrameState *visual) {
+void burst_orbit_projectile(void *object, Rec_func_80024600_arg1 *position, SpriteFrameState *visual) {
     s16 azimuth;
     s16 polar_angle;
     s32 radial_x;
@@ -413,7 +413,7 @@ void update_sphere_scatter_effect(void *object, Rec_func_80024600_arg1 *position
 
 /* Moves a rotating sprite along its radial direction, then scatters, expands, and fades it at its
    travel limit. */
-void advance_radial_effect_state(Row_8191740C_S_80024C0C_0 *motion, void *position_arg, SpriteFrameState *effect) {
+void update_orbit_projectile(Row_8191740C_S_80024C0C_0 *motion, void *position_arg, SpriteFrameState *effect) {
     Rec_func_80024600_arg1 *position = position_arg;
     s32 direction_scale;
     s32 sin_a;
@@ -466,7 +466,7 @@ void advance_radial_effect_state(Row_8191740C_S_80024C0C_0 *motion, void *positi
                 return;
             }
         }
-        update_sphere_scatter_effect(motion, position_arg, effect);
+        burst_orbit_projectile(motion, position_arg, effect);
         motion->unk_04++;
         break;
     case 1:
@@ -494,7 +494,7 @@ void advance_radial_effect_state(Row_8191740C_S_80024C0C_0 *motion, void *positi
 
 /* Creates a sprite aimed from the supplied position toward the owner's saved coordinates and adds
    three trail sprites. */
-void *create_owner_trail_sprite(AttachedRandomAngleEffectBody *owner, Rec_func_80024E80_arg1 *start_pos) {
+void *create_orbit_projectile(AttachedRandomAngleEffectBody *owner, Rec_func_80024E80_arg1 *start_pos) {
     ObjectNodeHeader *owner_node;
     ObjectNodeHeader *effect;
     Row_81917680_S_80024E80_2 *state;
@@ -609,7 +609,7 @@ void update_growing_orbit_sprite(AttachedRandomAngleEffectBody *effect, Rec_func
     case 2:
         if (effect->unk_06 >=
             effect->unk_08) {
-            create_owner_trail_sprite(effect, transform);
+            create_orbit_projectile(effect, transform);
             (*(u16 *)((u8 *)effect + (-2))) =
                 (u16) (((Row_81917894_S_80025094_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -794,7 +794,7 @@ void launch_effect_to_target_and_apply_damage(Row_81917C08_ActionState *action, 
             motion->z.v -= 0x20000;
         if (action->ticks < 0x3C)
             break;
-        create_short_timed_effect_node(action);
+        create_translucent_screen_quad(action);
         target = actor->target;
         if (target) {
             target_motion = NODE_HEADER(target)->position;

@@ -99,7 +99,7 @@ s32 apply_holy_beam_tile_item(ActorRecord *body, DungeonItemEntry *object_data, 
     }
 
     cycle_map_cell_flags(entity->tile_x, entity->tile_y, 2);
-    clear_slot_and_update_linked_state(object_data);
+    clear_item_slot(object_data);
     g_dungeon_status.activity_counts.parts.pending_action_count--;
     return 1;
 }

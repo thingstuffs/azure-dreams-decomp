@@ -37,5 +37,5 @@ void init_gauge_blocks(void *unused, MenuDisplayNode *object,
     object->block->fields.x = -0x6C;
     object->block->fields.y = -0x10;
     object->block->fields.mode = 4;
-    set_color_components_and_scaled_fields(object, 0, 1);
+    set_gauge_color_ratio(object, 0, 1);
 }

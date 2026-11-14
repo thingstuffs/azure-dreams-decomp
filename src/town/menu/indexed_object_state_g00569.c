@@ -9,7 +9,7 @@
 #include "town/menu/state_callbacks_api.h"
 
 /* Lowers the third coordinate by 0x240000 and creates up to twelve indexed objects, stopping on failure. */
-void check_adjusted_input_indices(Unk800A5C88 *input) {
+void spawn_randomized_motion_burst(Unk800A5C88 *input) {
     Unk800A5C88 adjustedInput;
     s32 checkIndex;
 
@@ -19,7 +19,7 @@ void check_adjusted_input_indices(Unk800A5C88 *input) {
     adjustedInput.unk8 = input->unk8 - 0x240000;
 
     do {
-        if (allocate_object_with_initial_state((EffectInitialState *)&adjustedInput.unk0, checkIndex) == 0) {
+        if (create_scattered_motion_object((EffectInitialState *)&adjustedInput.unk0, checkIndex) == 0) {
             break;
         }
         checkIndex++;
@@ -27,7 +27,7 @@ void check_adjusted_input_indices(Unk800A5C88 *input) {
 }
 
 /* Creates an object with copied input data, preset references, and an initial value. */
-void *allocate_object_with_initial_state(EffectInitialState *source_data, s32 initial_value)
+void *create_scattered_motion_object(EffectInitialState *source_data, s32 initial_value)
 {
     ObjectNodeHeader *object;
     ObjectPosition *object_data;

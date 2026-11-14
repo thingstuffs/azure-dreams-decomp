@@ -129,7 +129,7 @@ s32 select_weighted_floor_item(s8 *category_out, s8 *item_out);
 void generate_random_dungeon_item_drops(void);
 void restore_spawns_and_place_floor_traps(void);
 void clear_dungeon_object_entries(void);
-void create_tinted_dungeon_object(s16 x, s16 y, s16 tinted, s32 render_param);
+void create_floor_label_sprite(s16 x, s16 y, s16 tinted, s32 render_param);
 void draw_dungeon_value_and_label(void);
 extern u8 dungeon_ground_item_positions[];
 extern u8 floor_special_item_selected[];

@@ -10,26 +10,18 @@ struct Elem;
 
 extern u8 actor_alternate_frames[];
 
-typedef struct S_80097898_0 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0xA];
-    s8 unk_9A;
-    s8 unk_9B;
-} S_80097898_0;   /* arg0 in run_saved_actor_action */
-
 /* Resets the actor action state, sometimes clears flags 0x620, and selects the alternate animation for
    its facing. */
-void run_saved_actor_action(void *object_arg, void *unused, SpriteFrameState *animation, ActorRecord *actor) {
-        S_80097898_0 *object = object_arg;
+void run_saved_actor_action(ActorRecord *object_arg, void *unused, SpriteFrameState *animation, ActorRecord *actor) {
+        ActorRecord *object = object_arg;
         /* MATCH: retain retail's a0 table base after the explicit argument call. */
     u8 *table;
         /* MATCH: save a2 then a3 before loading the state-byte constant. */
     SpriteFrameState *saved2 = animation;
     ActorRecord *saved = actor;
-    object->unk_9A = 0x39;
-    object->unk_9B = 0;
-    object->unk_8C = 0;
+    object->action_id = 0x39;
+    object->action_phase = 0;
+    object->unk_8C.word = 0;
     if (!(generate_random_value() & 3)) {
         saved->flags1C = (s32) (saved->flags1C & ~0x620);
     }

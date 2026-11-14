@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_809A37C0",
-      "tu": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",
+      "tu": "src/dungeon/monster/kewne/update_ellipse_ring_effect.c",
       "home": "dungeon/func_809A37C0",
       "foff": "0x9c37c0",
       "vma": "0x80174fc0",

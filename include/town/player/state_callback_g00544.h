@@ -14,6 +14,6 @@ extern s32 *town_player_action_callback[3];
 
 /* Functions defined in this translation unit. */
 void dispatch_state_callback_by_mode(s32 value, void *ptr, void *ptr2, s32 unused);
-void forward_value_context_data_mode(s32 value, void *context, void *data, s32 mode);
+void forward_state_callback_dispatch(s32 value, void *context, void *data, s32 mode);
 
 #endif

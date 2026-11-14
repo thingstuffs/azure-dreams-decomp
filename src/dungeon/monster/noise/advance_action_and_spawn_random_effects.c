@@ -168,7 +168,7 @@ void advance_action_and_spawn_random_effects(ActorRecord *action, ObjectPosition
     case 3:
     if (sprite->flags & 0xE000) {
         spend_actor_mp(actor, 0x100);
-        action->unk_8C.handler = &update_actor_behavior_and_direction;
+        action->unk_8C.handler = &update_noise_behavior;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         actor->action_flags = (u16) (actor->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);

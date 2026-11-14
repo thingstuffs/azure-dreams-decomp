@@ -52,7 +52,7 @@ s32 find_nearest_unflagged_record_result(s32 record_set, ObjectPosition *target)
         flag_base = (u8 *)0x80010000;
         do {
             if (flag_base[0x981] == 0) {
-                distance = runtime_estimate_vector_length(
+                distance = estimate_vector_length(
                     ((record->x + base_x) - target->x.w.i) << 16,
                     ((record->y + base_y) - target->y.w.i) << 16);
                 if (distance < best_distance) {

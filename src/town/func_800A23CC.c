@@ -11,7 +11,7 @@ typedef struct S_800422DC_Self S_800422DC_Self;
 typedef struct S_800423C0_Obj S_800423C0_Obj;
 typedef struct S_800423C0_Src S_800423C0_Src;
 
-void *runtime_get_mode_indexed_value(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */        /* extern */
+void *get_mode_table_entry(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */        /* extern */
 void *find_unused_default_pool_slot();                              /* extern */
 typedef struct {
     s32 words[0x15];
@@ -72,7 +72,7 @@ void *copy_item_entry_to_slot(s32 slot_index, S_8009FB2C_1 *source_entry) {
         copy_dst = (record_index * 0x54) + (u8 *)0x800102F0;
         *(Record84 *)copy_dst = *(Record84 *)copy_src;
         detail_dst = (record_index * 0x54) + (u8 *)0x80010324;
-        detail_src = runtime_get_mode_indexed_value(entry->unk_00);
+        detail_src = get_mode_table_entry(entry->unk_00);
         *(Copy10 *)detail_dst = *(Copy10 *)detail_src;
         entry->unk_03 = (u8) ((entry->unk_03 & 0xC0) | record_index);
     }

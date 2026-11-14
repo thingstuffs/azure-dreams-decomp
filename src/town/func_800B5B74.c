@@ -11,7 +11,7 @@ typedef struct S_800B32D4_1 {
 } S_800B32D4_1;
 
 /* Prepare the linked data and update its offset 0x40 using the source record. */
-void prepare_linked_record_data(Rec_func_800B2DA0_arg1 *record) {
+void populate_record_page_entries(Rec_func_800B2DA0_arg1 *record) {
     void *source_record;
 
     func_800B39E4(record->unk_A8);

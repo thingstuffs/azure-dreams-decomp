@@ -14,7 +14,7 @@
 #include "engine/object/test_resident_bitmap_bit_api.h"                         /* extern */
 #include "town/player/coordinates.h"
 struct TownObjectRecord; struct ObjectPosition; void initialize_actor_action_state(struct TownObjectRecord *, struct ObjectPosition *, s32);     /* extern */
-void initialize_action_handler_with_count_six(TownObjectRecord *record, void *ptr, void *ptr2);
+void initialize_interaction_fallback_action(TownObjectRecord *record, void *ptr, void *ptr2);
 void initialize_actor_movement_interaction_action(s32 **record, void *ptr, void *ptr2);
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"                      /* extern */
 #include "town/player/move_both_components_toward_zero_direction_dependent_steps_clamping_zero_api.h"                      /* extern */
@@ -68,7 +68,7 @@ void update_actor_movement_actions(TownObjectRecord *action, ObjectPosition *act
             return;
         }
     } else if (select_entry_by_input_direction(&town_actor_control) <= 0) {
-        initialize_action_handler_with_count_six(action, actor, context);
+        initialize_interaction_fallback_action(action, actor, context);
     }
     return;
 }

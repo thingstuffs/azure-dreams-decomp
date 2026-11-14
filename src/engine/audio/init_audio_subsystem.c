@@ -14,10 +14,10 @@ void init_audio_subsystem(void) {
     set_sound_flag_update_suppression(0);
     set_audio_bank(4);
     SpuClearReverbWorkArea(4);
-    enable_available_spu_reverb();
-    submit_shifted_stereo_sound_parameters(0x3C, 0x3C);
+    enable_spu_reverb();
+    set_reverb_depth(0x3C, 0x3C);
     sound_set_spu_master_volume(0x7F, 0x7F);
-    submit_tagged_driver_byte(0, 0, 0);
+    set_cd_ext_reverb_or_mix(0, 0, 0);
     set_spu_cd_or_ext_volume(0, 0, 0);
     set_cd_audio_mix_mode(2);
     reset_audio_status();

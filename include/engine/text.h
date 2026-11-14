@@ -17,7 +17,7 @@ void *build_positioned_text_glyphs(u8 *glyph_buf, u8 *text, s32 style);
 /* decode_glyph_fields.c */
 void *decode_glyph_fields(void *record_ptr, s32 code);
 
-/* decode_glyph_id_to_byte_rectangle.c */
+/* initialize_styled_glyph_rectangle.c */
 void initialize_styled_glyph_rectangle(s32 data_id, s32 style_flags, struct S_8004D98C *effect);
 
 /* draw_double_byte_text.c */
@@ -43,7 +43,7 @@ char *format_reversed_unsigned_decimal(u32 value, s32 width, char *buf, s32 pad)
 void get_glyph_vram_rectangle(s32 rect_id, struct RECT *vram_rect);
 
 /* pad_both_key_states_clear.c */
-s32 pad_both_key_states_clear(void);
+s32 is_sound_mode_unblocked(void);
 
 /* remap_flagged_string_bytes.c */
 u8 *remap_flagged_string_bytes(u8 *string);

@@ -41,7 +41,7 @@ extern Vec3 display_vector_defaults;
 extern M2C_UNK D_800E2804;
 extern Template0 D_800E2828[9];
 extern M2C_UNK D_800E28B8;
-extern void initialize_complemented_state(void *);
+extern void invalidate_hud_cache(void *);
 extern s32 run_object_setup_and_finalize(void *, s32);
 extern int dungeon_menu_tag(void *forwarded_ptr, int unused_arg, void *second_ptr);
 
@@ -50,6 +50,6 @@ extern void *dungeon_menu_object[];
 /* Functions defined in this translation unit. */
 void initialize_nine_records_and_vectors(u8 *object);
 s32 initialize_nine_record_tables(S_800DCCF4_0 *object, void *mode);
-void *allocate_object_with_failure_flag(void);
+void *create_dungeon_menu_object(void);
 
 #endif

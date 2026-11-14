@@ -89,7 +89,7 @@ void update_encounter_retreat_fade(void) {
             effect->field_9E = 0x14;
             effect->field_9A++;
             initialize_timed_motion_step(6, 12);
-            create_offset_animation_sprite(effect, position, sprite);
+            create_fixed_offset_effect_sprite(effect, position, sprite);
             play_sound_if_enabled(0x601);
             position->velocity_x = -0x200000;
             sprite->tpage_abr = 0x20;

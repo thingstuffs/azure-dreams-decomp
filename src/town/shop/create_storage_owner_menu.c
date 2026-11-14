@@ -20,9 +20,9 @@ StorageMenuNode *create_storage_owner_menu(ItemMenuStateNode *owner) {
     object = allocate_flagged_object_node(0);
     menu = &object->menu;
     if (object != 0) {
-        if (initialize_object_resources(menu, 41) != 0) {
+        if (initialize_storage_menu_resources(menu, 41) != 0) {
             object->header.sprite = &object->menu.links;
-            menu->chain = process_target_with_code_41(menu->parts);
+            menu->chain = link_storage_owner_menu_parts(menu->parts);
             initialize_four_slot_object_owner(menu, owner);
             register_node(object, dungeon_menu_tag);
             return object;

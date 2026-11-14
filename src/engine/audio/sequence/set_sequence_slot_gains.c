@@ -1,7 +1,6 @@
 #include "common.h"
 #include "engine/audio/sequence.h"
 
-extern SoundSequenceSlot audio_sequence_slots[8];
 
 /* Stores two 7-bit values in the selected entry, then calls audio_refresh_sequence_voice_volumes for it. */
 void set_sequence_slot_gains(s16 index, s32 value_8, s32 value_a)

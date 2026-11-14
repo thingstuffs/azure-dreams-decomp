@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "town/func_804762B8",
-      "tu": "src/town/scene/hooks/forward_request_with_local_template.c",
+      "tu": "src/town/scene/hooks/dispatch_scene_request_with_template.c",
       "home": "town/func_804762B8",
       "foff": "0x3F62B8",
       "vma": "0x800172B8",
@@ -25,7 +25,7 @@
     },
     {
       "row": "town/func_8047641C",
-      "tu": "src/town/scene/call_set_global_pointer.c",
+      "tu": "src/town/scene/process_history_and_bind_pointers.c",
       "home": "town/func_8047641C",
       "foff": "0x3F641C",
       "vma": "0x8001741C",
@@ -41,7 +41,7 @@
     },
     {
       "row": "town/func_804767B0",
-      "tu": "src/town/scene/select_variant_byte_array.c",
+      "tu": "src/town/scene/select_variant_data.c",
       "home": "town/func_804767B0",
       "foff": "0x3F67B0",
       "vma": "0x800177B0",
@@ -129,7 +129,7 @@
     },
     {
       "row": "town/func_80476FAC",
-      "tu": "src/town/scene/store_indexed_entry_unless_state_4.c",
+      "tu": "src/town/scene/store_choice_entry_unless_state_four.c",
       "home": "town/func_80476FAC",
       "foff": "0x3F6FAC",
       "vma": "0x80017FAC",
@@ -149,7 +149,7 @@
     },
     {
       "row": "town/func_803D76B0",
-      "tu": "src/town/scene/find_entry_index_assert.c",
+      "tu": "src/town/scene/find_eight_byte_entry_or_assert.c",
       "home": "town/func_8032ECE4",
       "foff": "0x3F76B0",
       "vma": "0x800186B0",

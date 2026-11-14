@@ -50,7 +50,7 @@ void emit_particles_until_expired(Rec_func_800D4BD4_arg1 *emitter, ObjectPositio
         do {
             particle = allocate_flagged_object_node(0x212);
             if (particle != NULL) {
-                initialize_effect_object_state(particle, emitter, position, init_param);
+                init_fading_particle_from_emitter(particle, emitter, position, init_param);
                 particle_state = NODE_BODY(particle);
                 particle_state->remaining_ticks = 0xA;
                 particle_state->initial_ticks = 0xA;

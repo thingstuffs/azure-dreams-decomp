@@ -36,6 +36,7 @@ typedef union {
 /* cfail-repair: tf7-phase1-cache-v3 */
 void apply_random_actor_value_adjustment(struct Row_818FE800_Target *target, s32 level, void *record);          /* extern */
 #include "dungeon/effect/particle.h"
+#include "dungeon/effect/particle/particle_update_flag.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/sprite.h"
 #include "dungeon/effect/sprite_callbacks_api.h"
@@ -50,7 +51,6 @@ extern Packed12 D_80025E34;
 extern Packed12 D_80025E40;
 extern Packed12 D_80025E58;
 extern Packed12 D_80025E70;
-extern s16 particle_update_flag;
 extern u8 current_spell_effect_variant;
 
 

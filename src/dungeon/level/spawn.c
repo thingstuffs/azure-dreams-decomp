@@ -757,7 +757,7 @@ void clear_dungeon_object_entries(void) {
 }
 
 /* Creates a label sprite at the requested screen position with a normal or alternate tint. */
-void create_tinted_dungeon_object(s16 x, s16 y, s16 tinted, s32 render_param)
+void create_floor_label_sprite(s16 x, s16 y, s16 tinted, s32 render_param)
 {
     u16 flags;
     SpriteFrameState *render_state;
@@ -813,11 +813,11 @@ void draw_dungeon_value_and_label(void)
     }
 
     if (special_label != 0) {
-        create_tinted_dungeon_object(0xAA, 0x78, 0, special_label);
+        create_floor_label_sprite(0xAA, 0x78, 0, special_label);
         return;
     }
 
-    create_tinted_dungeon_object(0xAA, 0x78, draw_mode, D_80077DE8);
+    create_floor_label_sprite(0xAA, 0x78, draw_mode, D_80077DE8);
     /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: dungeon/func_8028C450). */
     do {
         digit_ptr = digits;
@@ -835,7 +835,7 @@ void draw_dungeon_value_and_label(void)
         do {
             digit = *digit_ptr;
             if (digit != blank_code) {
-                create_tinted_dungeon_object(draw_x, draw_y_fixed >> 16, draw_mode, D_8001F5B4[digit]);
+                create_floor_label_sprite(draw_x, draw_y_fixed >> 16, draw_mode, D_8001F5B4[digit]);
             }
             digit_ptr++;
             draw_x += 0x12;

@@ -35,7 +35,7 @@
     {
       "row": "town/func_804D09D4",
       "home": "town/func_8032ECE4",
-      "tu": "src/town/scene/find_entry_index_assert.c",
+      "tu": "src/town/scene/find_eight_byte_entry_or_assert.c",
       "foff": "0x004509D4",
       "vma": "0x800161D4",
       "size": 212,
@@ -145,7 +145,7 @@
     {
       "row": "town/func_804D0E78",
       "home": "town/func_8032F188",
-      "tu": "src/town/scene/flags/update_entry_flags.c",
+      "tu": "src/town/scene/flags/replace_record_flag_with_entry_flag.c",
       "foff": "0x00450E78",
       "vma": "0x80016678",
       "size": 84,

@@ -110,7 +110,7 @@ void advance_actor_timed_tile_motion(ActorRecord *controller, ObjectPosition *tr
         if (((s32)g_dungeon_status.pending_display_owner) == (s32)actor - 0x20) {
             *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
-        controller->unk_8C.address = update_actor_behavior;
+        controller->unk_8C.address = update_troll_behavior;
         break;
     }
 }

@@ -12,8 +12,8 @@ s32 town_sd_sq_callagain_sub(s32 sequence_flags) {
     u16 town_sequence;
     u16 fallback_effect;
     u16 fallback_sequence;
-    u8 *town_entry;
-    u8 *town_entries;
+    TownEntry *town_entry;
+    TownEntry *town_entries;
     u16 *fallback_entries;
     u16 *fallback_entry;
     s32 fallback_index;
@@ -26,22 +26,22 @@ s32 town_sd_sq_callagain_sub(s32 sequence_flags) {
 
         current_sound = town_saved_sound;
         town_entries = map_sound_settings;
-        town_entry = town_entries + (entry_index * 10);
-        town_effect = *(u16 *)(town_entry + 6);
+        town_entry = town_entries + entry_index;
+        town_effect = town_entry->unk6;
         current_sound[2] = town_effect;
         if ((s16)town_effect != -1) {
-            select_sound_stream(*(s16 *)(town_entry + 6), 0);
+            select_sound_stream(town_entry->unk6, 0);
         }
-        town_sequence = *(u16 *)(town_entry + 8);
+        town_sequence = town_entry->unk8;
         current_sound[3] = town_sequence;
         if ((s16)town_sequence == -1) {
             return 1;
         }
-        sequence = *(u16 *)(town_entry + 8);
+        sequence = (u16)town_entry->unk8;
         sequence |= sequence_flags;
         sequence = (u16)sequence;
     } else {
-        fallback_index = find_target_byte_index_in_list();
+        fallback_index = find_target_index_in_list();
         fallback_entries = fallback_sound_pairs;
         fallback_entry = fallback_entries + (fallback_index * 2);
         fallback_effect = fallback_entry[0];

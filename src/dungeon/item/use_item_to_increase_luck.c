@@ -42,7 +42,7 @@ s32 use_item_to_increase_luck(ActorRecord *entity, DungeonItemEntry *event, s16 
         }
     }
     create_colored_effect_with_sound(NODE_HEADER(entity), 0x202020, 0x616);
-    clear_slot_and_update_linked_state(event);
+    clear_item_slot(event);
 
     g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
     return 1;

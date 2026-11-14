@@ -33,18 +33,18 @@ typedef struct BoundsExpiryObject {
 
 /* allocate_and_initialize_display_object_g01137.c */
 void *allocate_and_initialize_display_object(s32 object_key, s32 payload_value, s32 payload_param, s32 payload_halfword, void *object_param, s32 object_value);
-s32 create_objects_descending_by_count(s32 object_key, s32 payload_value, s32 payload_param, s32 count);
+s32 create_display_object_series(s32 object_key, s32 payload_value, s32 payload_param, s32 count);
 void run_callback_until_state_clears(struct Func800A4A20Object *object, s32 context, void *output);
 void initialize_directional_object_state(void *object, ObjectPosition *placement, struct S_800A21EC_0 *state);
-void copy_signed_inner_value_by_flag(struct Func800A4B70Object *object, s32 unused, struct Func800A4B70Output *out);
-void *create_object_with_shared_data(s32 input_first, s32 input_second, s32 input_third, s32 input_fourth);
+void copy_directional_value(struct Func800A4B70Object *object, s32 unused, struct Func800A4B70Output *out);
+void *create_default_display_object(s32 input_first, s32 input_second, s32 input_third, s32 input_fourth);
 
-/* create_display_object_with_callbacks.c */
-void *create_display_object_with_callbacks(s32 payload_word, s32 payload_halfword, void *unused_item_data);
+/* create_shaded_primitive_object.c */
+void *create_shaded_primitive_object(s32 payload_word, s32 payload_halfword, void *unused_item_data);
 
 /* create_positioned_sprite_object_g01142.c */
-ObjectNodeHeader *create_positioned_sprite_object(IntVector3 *position, s32 state_value, SpriteSourceEntry *graphic_id);
-void copy_indexed_motion_value_and_advance(Rec_D_80082D58 *object, ObjectPosition *output, s32 unused);
+ObjectNodeHeader *create_emote_sprite_object(IntVector3 *position, s32 state_value, SpriteSourceEntry *graphic_id);
+void load_emote_launch_velocity(Rec_D_80082D58 *object, ObjectPosition *output, s32 unused);
 void invoke_emote_object_callback(struct EmoteCallbackObject *object, ObjectPosition *motion, s32 context);
 void advance_emote_motion(struct S_800A7360_1 *object, ObjectPosition *motion);
 void advance_position_and_handle_ground_contact(void *entity, ObjectPosition *motion, s32 context);

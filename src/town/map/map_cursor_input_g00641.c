@@ -7,7 +7,7 @@
 #include "slus.h"
 
 /* Store the state byte and invoke the handler at the stored tile center. */
-void store_state_and_update_tile_center(s32 state)
+void select_building_and_request_scene(s32 state)
 {
     town_map_selection_state[6] = state;
     request_scene_state_with_parameters(0xC, ((town_map_selection_state[0] + 1) << 6) | 0x20,
@@ -15,8 +15,8 @@ void store_state_and_update_tile_center(s32 state)
                   runtime_dispatch_state.flags16);
 }
 
-/* Updates two wrapping indices from input flags and calls store_state_and_update_tile_center on a button combination. */
-void update_wrapping_indices_and_input(void) {
+/* Updates two wrapping indices from input flags and calls select_building_and_request_scene on a button combination. */
+void update_map_cursor_from_input(void) {
     GameWork *input_state = &g_game_work;
     s32 input_flags = (input_state->pressed_buttons);
     u32 buttons;
@@ -41,6 +41,6 @@ void update_wrapping_indices_and_input(void) {
     buttons = input_state->buttons;
     masked_buttons = buttons & 0x500000;
     if (masked_buttons == 0x500000) {
-        store_state_and_update_tile_center(D_800D185D);
+        select_building_and_request_scene(D_800D185D);
     }
 }

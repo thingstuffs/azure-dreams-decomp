@@ -6,7 +6,7 @@ s32 check_progress_interaction_accepted(void) {
     s32 result = 0;
 
     if ((check_callback_record_bytes(13, 3) != 0) ||
-        (is_four_arg_result_valid(13, 3) != 0)) {
+        (has_entry_with_grid_bytes(13, 3) != 0)) {
         result = 1;
     }
     return result;

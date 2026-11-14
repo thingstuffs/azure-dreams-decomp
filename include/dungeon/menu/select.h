@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_1829800_H
 #define DUNGEON_OVL_1829800_H
 #include "common.h"
+#include "dungeon/level/direction_offsets.h"
 #include "shared/gpu_packets.h"
 #include "sdk/libgpu_packets.h"
 #include "dungeon/item/monster_resource_slots_g00325.h"
@@ -656,8 +657,6 @@ struct ObjectNodeHeader;
 extern void func_80048AC8(void *, s32);
 extern s16 selection_menu_closing;
 extern u8 player_camera_reset_frames[];
-extern u16 direction_x_offsets[];
-extern u16 direction_y_offsets[];
 extern void drain_cd_command_queue(void);
 extern void func_80042640(void *, s16);
 extern void copy_entity_record(void *, void *);

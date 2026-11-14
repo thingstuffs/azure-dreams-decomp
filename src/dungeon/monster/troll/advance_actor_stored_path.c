@@ -129,7 +129,7 @@ void advance_actor_stored_path_2(ActorRecord *movement, ObjectPosition *actor_in
  * Chooses Troll's next clear step toward an actor or player-relative tile, records its path, and
  * updates occupancy and height.
  */
-void select_and_advance_actor_move(ActorRecord *move_input, ObjectPosition *action_context, SpriteFrameState *position, ActorRecord *actor) {
+void choose_troll_move(ActorRecord *move_input, ObjectPosition *action_context, SpriteFrameState *position, ActorRecord *actor) {
     s32 near_target;
     s32 attempt;
     register u8 *x_offsets;
@@ -155,7 +155,7 @@ void select_and_advance_actor_move(ActorRecord *move_input, ObjectPosition *acti
 
     if ((state_flags & 0x4000) || ((s8)actor->movement_queue_state >= 0)) {
         if ((actor->unk_12 >= 2) ||
-            ((check_and_prepare_actor_move(move_input, action_context, position, actor) << 16) == 0)) {
+            ((try_begin_troll_attack(move_input, action_context, position, actor) << 16) == 0)) {
             update_actor_status_and_mp(actor);
             return;
         }
@@ -420,7 +420,7 @@ void reset_actor_directional_animation(ActorRecord *state, ObjectPosition *unuse
 }
 
 /* Initializes an actor action and resolves its target and chained effects. */
-s32 check_and_prepare_actor_move(ActorRecord *action_state, ObjectPosition *facing, SpriteFrameState *origin, ActorRecord *actor) {
+s32 try_begin_troll_attack(ActorRecord *action_state, ObjectPosition *facing, SpriteFrameState *origin, ActorRecord *actor) {
     ActorRecord *initial_target;
     s32 result = 0;
     s32 range_left;
@@ -558,7 +558,7 @@ loop:
 }
 
 /* Resolves action targets, updates the actor position, and sets the follow-up state. */
-void prepare_actor_path_movement(ActorRecord *action_input, ObjectPosition *x_offset_input, SpriteFrameState *position_input, ActorRecord *actor_input) {
+void begin_troll_attack(ActorRecord *action_input, ObjectPosition *x_offset_input, SpriteFrameState *position_input, ActorRecord *actor_input) {
     ActorRecord *actor = actor_input;
     s32 remaining_steps;
     s32 next_x;

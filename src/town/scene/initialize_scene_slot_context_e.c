@@ -10,5 +10,5 @@ extern u8 D_800D5EB4[];
 /* Registers the object in scene slot 60 using the four local setup tables. */
 void initialize_scene_slot_60_context(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
 {
-    initialize_object_and_register_slot(object, 60, D_800D5EB0, D_800D5EB4, D_800D5E80, D_800D5E88);
+    register_object_slot_with_tables(object, 60, D_800D5EB0, D_800D5EB4, D_800D5E80, D_800D5E88);
 }

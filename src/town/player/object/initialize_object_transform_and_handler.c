@@ -15,7 +15,7 @@
 void initialize_object_transform_and_handler(TownObjectRecord *object, ObjectPosition *transform, void *ptr2) {
     dispatch_selected_entry_if_nonzero(D_800D0170, object, ptr2);
     object->unk_04 = &update_actor_and_select_ground_handler;
-    clear_entity_record_fields(transform);
+    clear_object_velocity(transform);
     transform->velocity_x = 0xFFFE0000;
     transform->velocity_y = 0x40000;
     transform->velocity_z = 0xFFF90000;

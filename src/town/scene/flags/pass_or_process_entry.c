@@ -9,7 +9,7 @@
  */
 s32 pass_or_process_entry(void *context, s32 entry_index) {
     if ((get_script_flag_mask(F_sbs22_pad28) != 0) || (get_script_flag_mask(F_sbs22_pad29) != 0)) {
-        pass_indexed_entry(context, entry_index);
+        set_flag_from_indexed_entry(context, entry_index);
         return 1;
     }
     return process_checked_entry(context, entry_index);

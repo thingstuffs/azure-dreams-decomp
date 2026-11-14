@@ -8,6 +8,7 @@
 #include "slus.h"
 #include "slus/runtime_saved_state_data.h"
 #include "slus/animation_tick_data.h"
+#include "slus/saved_volume_scales_data.h"
 
 typedef struct Gfx
 {
@@ -19,9 +20,6 @@ typedef struct Gfx
     u8 pad7;
 }
 Gfx;
-extern s32 saved_cd_playback_volume_scale;
-extern s32 saved_sequence_volume_scale;
-extern s32 saved_voice_gain_scale;
 extern s32 volume_slider_levels[3];
 /* Handles the options menu, adjusting audio levels and applying display settings. */
 void handle_settings_menu_input(SettingsScreenBody *menu)

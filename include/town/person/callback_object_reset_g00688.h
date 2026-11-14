@@ -10,12 +10,12 @@ struct TownObjectRecord;
 #include "shared/object_index_slots.h"
 
 
-s32 create_object_from_three_values(s32 *);
+s32 create_burst_particle_spawner(s32 *);
 #include "town/person/object_setup.h"
 extern u8 D_800D6CA8[];
 
 /* Functions defined in this translation unit. */
-void prepare_and_forward_callback(struct TownObjectRecord *object, void *context, SpriteFrameState *callback_arg);
+void create_object_and_brighten(struct TownObjectRecord *object, void *context, SpriteFrameState *callback_arg);
 void reset_object_entry_and_brighten(struct TownObjectRecord *object, void *draw_arg, SpriteFrameState *packet);
 
 #endif

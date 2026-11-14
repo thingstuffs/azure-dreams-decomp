@@ -33,7 +33,7 @@ void update_person_view_and_record(void *ptr, void *value, SpriteFrameState *rec
     if (buf[1] != view_reference_entity.x.w.i || buf[3] != view_reference_entity.y.w.i ||
         buf[5] != view_reference_entity.z.w.i || service_script_controller() != 0 ||
         (work->buttons & 0xF000) != 0) {
-        shift_history_and_store_current_values();
+        push_position_history();
         (*(s16 *)((u8 *)ptr + (0x90))) = 0;
     } else {
         (*(s16 *)((u8 *)ptr + (0x90))) = (*(s16 *)((u8 *)ptr + (0x90))) + 1;
@@ -75,5 +75,5 @@ void update_person_view_and_record(void *ptr, void *value, SpriteFrameState *rec
 
          /* MATCH: keep the flag store in the common tail. */
     record->flags = flag_value;
-    dispatch_object_when_idle(ptr, record, 0, 0);
+    advance_object_animation_when_idle(ptr, record, 0, 0);
 }

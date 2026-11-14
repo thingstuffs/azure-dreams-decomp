@@ -5,6 +5,6 @@ struct ActorRecord;
 struct ObjectPosition;
 struct SpriteFrameState;
 
-void advance_stored_path_motion(struct ActorRecord *action, struct ObjectPosition *action_id, struct SpriteFrameState *entity, struct ActorRecord *move_state);
+void advance_grineut_stored_path(struct ActorRecord *action, struct ObjectPosition *action_id, struct SpriteFrameState *entity, struct ActorRecord *move_state);
 
 #endif

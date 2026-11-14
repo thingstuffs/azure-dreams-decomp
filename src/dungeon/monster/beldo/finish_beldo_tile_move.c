@@ -28,7 +28,7 @@ void finish_beldo_tile_move(void *entity_ptr, void *motion, void *check_arg, voi
         }
         /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: dungeon/func_81252C74). */
         do {
-            entity->unk_8C = update_object_animation;
+            entity->unk_8C = update_beldo_turn_action;
         } while (0);
     }
     if (g_dungeon_status.flags & 0x80) {

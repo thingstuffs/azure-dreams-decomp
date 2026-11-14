@@ -69,8 +69,8 @@ void format_save_heading_text(u8 *base_addr);
 /* card_boot_store_save_icon_clut_and_frames.c */
 void card_boot_store_save_icon_clut_and_frames(void *dest, s32 record_index);
 
-/* release_three_row_panel_text.c */
-void release_three_row_panel_text(struct CardSaveHeadingDisplayPrefix *object);
+/* release_save_heading_text.c */
+void release_save_heading_text(struct CardSaveHeadingDisplayPrefix *object);
 
 /* card_boot_update_save_slot_menu_input.c */
 void card_boot_update_save_slot_menu_input(struct CardSaveMenuBody *menu);

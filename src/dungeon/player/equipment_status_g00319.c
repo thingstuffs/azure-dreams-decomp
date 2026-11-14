@@ -101,7 +101,7 @@ void equip_item_and_update_status(ActorRecord *context, DungeonItemEntry *item) 
             clear_alternate_texture_regions(1);
             return;
         }
-        load_equipment_palette_for_category_sixteen(tail_index);
+        load_wand_palette(tail_index);
     } else {
         context->unk_84 = D_800DD2C4[tail_index];
         context->unk_85 = D_800DD2B4[tail_index];

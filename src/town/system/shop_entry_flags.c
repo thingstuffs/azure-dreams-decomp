@@ -29,7 +29,7 @@ void toggle_selected_entry_flag(Rec_func_800AD7F8_arg0 *state) {
 
 
 /* Sum results for flagged entries using the selected mode. */
-s32 sum_flagged_entry_values(u8 *entry, s32 mode) {
+s32 sum_flagged_entry_prices(u8 *entry, s32 mode) {
     register s32 total;
 
     total = 0;

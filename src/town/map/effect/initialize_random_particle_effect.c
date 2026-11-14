@@ -74,7 +74,7 @@ void initialize_random_particle_effect(MapParticleEffect *parent_core, ObjectPos
     SpriteFrameState *texture_prim;
     IntVector3 *child_pos;
 
-    NODE_HEADER(parent_core)->update_callback = update_object_link_or_angle_state;
+    NODE_HEADER(parent_core)->update_callback = spin_object_until_outside_bounds;
     quotient = rand();
     random_value = quotient;
     quotient >>= 12;
@@ -93,7 +93,7 @@ void initialize_random_particle_effect(MapParticleEffect *parent_core, ObjectPos
     do {
         child_obj = allocate_list_node(0x136, NODE_HEADER(parent_core));
         if (child_obj != NULL) {
-            child_obj->update_callback = process_zero_status_record;
+            child_obj->update_callback = retire_record_when_status_clear;
             register_node(child_obj, draw_linked_lit_meshes);
             parent_value = parent_core->value;
             child_core = NODE_BODY(child_obj);
@@ -124,7 +124,7 @@ void initialize_random_particle_effect(MapParticleEffect *parent_core, ObjectPos
     do {
         child_obj = allocate_list_node(0x36, NODE_HEADER(parent_core));
         if (child_obj != NULL) {
-            child_obj->update_callback = update_inactive_object_state;
+            child_obj->update_callback = spin_object_until_flag_clears;
             register_node(child_obj, draw_linked_sprites_clipped);
             parent_value = parent_core->value;
             child_core = NODE_BODY(child_obj);
@@ -154,7 +154,7 @@ void initialize_random_particle_effect(MapParticleEffect *parent_core, ObjectPos
     parent_obj = NODE_HEADER(parent_core);
     child_obj = allocate_list_node(0x36, parent_obj);
     if (child_obj != NULL) {
-        child_obj->update_callback = update_inactive_object_state;
+        child_obj->update_callback = spin_object_until_flag_clears;
         register_node(child_obj, draw_linked_sprites_clipped);
         parent_value = parent_core->value;
         child_core = NODE_BODY(child_obj);

@@ -45,7 +45,7 @@ s32 place_floor_trap_at_tile(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value) 
 }
 
 /* Process the target with parameters 7 and 0x10 and report success. */
-s32 process_target_with_action_seven(void *target) {
+s32 apply_speed_status_to_target(void *target) {
     set_or_clear_actor_status_slot(target, STATUS_SPEED, 0x10);
     return 1;
 }

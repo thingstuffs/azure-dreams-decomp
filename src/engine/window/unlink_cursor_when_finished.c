@@ -33,8 +33,8 @@ s32 unlink_cursor_when_finished(Func37534State *state) {
     }
 
     cursor[0x50] = 1;
-    runtime_clear_value((s32 *)state->clear_target);
-    runtime_unlink_doubly_linked_node((u8 *)state + 0x54);
+    clear_word((s32 *)state->clear_target);
+    unlink_owner_list_node((u8 *)state + 0x54);
     node = NODE_HEADER(state);
     unlink_node(node);
     unlink_active_node(node);

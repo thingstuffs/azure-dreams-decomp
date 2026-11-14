@@ -6,7 +6,7 @@
  * type / 0 / param / 0 and returns the index (-1 if all are used); slus/w_8003F6F4 services type 5 and 6 slots and
  * frees them (type = 0).  The dungeon takes a type-6 slot with param 0x20 on a type-3 tile and sets unk_6 = 1.
  * Declared by slus/slot_transition.h's module as SlotTransitionSlot (now this type).  r78 type consolidation 7. */
-/* One of eight resident transition slots initialized by reserve_runtime_slot.
+/* One of eight resident transition slots initialized by reserve_transition_slot.
  * tick_screen_fade_slots services absolute types 5 and 6 and frees completed fades. */
 typedef struct TransitionSlot {
     /* 0x0 */ short type; /* slot kind: zero is free; absolute 5 decreases fade intensity, absolute 6 increases it */

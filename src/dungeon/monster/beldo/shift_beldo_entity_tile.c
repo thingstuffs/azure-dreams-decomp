@@ -1,0 +1,48 @@
+#include "common.h"
+#include "dungeon/level.h"
+#include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
+#include "shared/tile_object.h"
+#include "dungeon/monster/beldo.h"
+#include "dungeon/player/object.h"
+
+typedef struct S_8125414C_1 {
+    u8 pad_00[0x1C];
+    u32 unk_1C;
+} S_8125414C_1;   /* state in shift_beldo_entity_tile */
+
+extern u8 *beldo_active_entity;
+
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
+/* Repositions the current entity relative to the origin and updates its motion. */
+void shift_beldo_entity_tile(s32 offset_index)
+{
+    s16 offsets[2] = { 1, -1 };
+    ObjectNodeHeader *object;
+    S_8125414C_1 *state;
+    u8 *entity;
+    void *motion;
+    u8 *offset_bytes;
+    TileObject *origin;
+
+    object = beldo_active_entity;
+    state = NODE_BODY(object);
+    entity = *(u8 * *)&object->sprite;
+    motion = object->position;
+
+    ((SpriteFrameState *)entity)->flags &= 0xFF7F;
+
+    update_map_cell_flags_with_item_limit(entity[0x24], entity[0x25],
+                  (state->unk_1C & 0x2000) ? 0x300 : 0x3000);
+
+    origin = &reference_tile_object;
+    offset_bytes = (u8 *)&offsets[offset_index * 2];
+    entity[0x24] = origin->tile_position.parts.tile_x + offset_bytes[0];
+    entity[0x25] = origin->tile_position.parts.tile_y + offset_bytes[2];
+
+    set_record_integer_tile_center(motion, entity[0x24], entity[0x25]);
+
+    cycle_map_cell_flags(entity[0x24], entity[0x25],
+                  (state->unk_1C & 0x2000) ? 0x300 : 0x3000);
+}

@@ -62,7 +62,7 @@ s32 use_magic_ball(ActorRecord *object, DungeonItemEntry *data, s16 action, void
 
 
     if (action == 13) {
-        return process_record_and_update_linked_state(data, context);
+        return resolve_item_attack(data, context);
     }
 
     current_object = dungeon_actor_ring_anchor;
@@ -81,7 +81,7 @@ s32 use_magic_ball(ActorRecord *object, DungeonItemEntry *data, s16 action, void
         if (data->unk_02 >= 10 && data->unk_00 < 16) {
             slot = ((data->unk_00 - 1) * 3) + 1;
             if ((s16)find_slot_by_item_group(object, slot) >= 0) {
-                clear_slot_and_update_linked_state(data);
+                clear_item_slot(data);
                 tail_status = (u8 *)0x80080000;
             } else {
                 message_table = item_action_definitions;
@@ -121,7 +121,7 @@ scan_next:
                         goto scan_next;
                     }
                 }
-                clear_slot_and_update_linked_state(data);
+                clear_item_slot(data);
                 tail_status = (u8 *)0x80080000;
             }
         } else {
@@ -133,7 +133,7 @@ scan_next:
                 place_actor_item(object, data);
                 return 1;
             }
-            clear_slot_and_update_linked_state(data);
+            clear_item_slot(data);
             tail_status = (u8 *)0x80080000;
         }
         tail_status += 0x3460;

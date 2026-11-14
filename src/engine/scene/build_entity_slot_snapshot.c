@@ -31,7 +31,7 @@ typedef struct S_800422DC_Other {
 void build_entity_slot_snapshot(S_800422DC_Self *snapshot, S_800422DC_Other *source)
 {
     clear_slots_of_type(source, 0x1A);
-    find_slot_by_type(source, 0x1B);
+    take_status_slot_value(source, 0x1B);
     clear_slots_of_type(source, 0x1C);
     clear_slots_of_type(source, 0x1D);
 

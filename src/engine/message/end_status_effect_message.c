@@ -157,7 +157,7 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
                 u8 *slot_base;
                 u8 *slot_data;
                 int entity_index;
-                spawn_mode = find_entity_slot_by_field_ac(ent);
+                spawn_mode = find_linked_object_slot_index(ent);
                 slot_base = (u8 *)((s16)spawn_mode * 4 + (unsigned long)((u8 *)dungeon_actor_ring_anchor));
                 slot_data = *(u8 **)(slot_base + 0xD0);
                 entity_index = *(slot_data + 3) & 0x1F;

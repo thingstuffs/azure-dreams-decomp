@@ -14,7 +14,7 @@
 /* Colored point-effect payload at pooled node +0x20; point spawners allocate it with flags 0x211.
  * func_80024758 and create_random_jitter_child seed its color and motion/fade parameters. */
 typedef struct PointRecord { u8 pad_00[8]; u32 color; /* packed RGB/command word copied to the point tile before channel scaling */ u8 pad_0C[4]; s32 unk_10; s16 unk_14; /* spawner parameter; used as the direction-table index by advance_scattered_directional_particle */ u8 pad_16[0x1C]; s16 brightness; /* brightness/motion/lifetime parameter; point renderers scale by /128 or /256 depending on the callback */ } PointRecord;
-/* spawn_random_offset_effect_record installs the countdown callback and the
+/* spawn_jittered_rising_quad installs the countdown callback and the
  * scaled point renderer on this pooled node body. The renderer multiplies
  * each color channel by scale / scale_max. */
 typedef struct RisingPointEffectBody {

@@ -10,7 +10,7 @@
     {
       "row": "dungeon/func_809A32D4",
       "home": "dungeon/func_809A32D4",
-      "tu": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",
+      "tu": "src/dungeon/monster/kewne/update_ellipse_ring_effect.c",
       "foff": "0x9c32d4",
       "vma": "0x80174ad4",
       "size": 716

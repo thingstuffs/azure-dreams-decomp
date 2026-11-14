@@ -20,7 +20,7 @@ typedef struct TownState {
     u8 *entries;
 } TownState;
 
-extern void decrement_current_entry_counter_condition(void *);
+extern void decrement_entry_counter_if_flag(void *);
 
 extern s16 scene_request_flag_id;
 extern s32 D_80018B40;
@@ -49,7 +49,7 @@ void refresh_scene_active_entry(void *update_arg, s32 unused, s32 entry_arg)
             do {
                 entries[(entry_index * 8) + 1] = value_index;
             } while (0);
-            decrement_current_entry_counter_condition(entries);
+            decrement_entry_counter_if_flag(entries);
         }
     }
     final_state = (TownState *)town_scene_root;

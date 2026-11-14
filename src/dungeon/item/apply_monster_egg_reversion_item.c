@@ -101,7 +101,7 @@ s32 apply_monster_egg_reversion_item(void *entity, DungeonItemEntry *source, s16
         unmark_selected_item(spawn_data);
 
         position = ((S_800BE6F0_0_pre *)entity)[-1].unk_00;
-        create_effect_or_fallback(
+        create_item_drop_effect(
             position->x.w.i,
             position->y.w.i,
             position->z.w.i,
@@ -148,7 +148,7 @@ s32 apply_monster_egg_reversion_item(void *entity, DungeonItemEntry *source, s16
         place_actor_item(entity, source);
         return 1;
     }
-    clear_slot_and_update_linked_state(source);
+    clear_item_slot(source);
     g_dungeon_status.activity_counts.parts.pending_action_count--;
     return 1;
 }

@@ -40,11 +40,11 @@ void emit_randomized_relative_particles(Rec_func_800D4BD4_arg1 *emitter, ObjectP
     if ((s16) tick_or_offset < 0x14) {
         particle_index = 0;
         particle_size = 0x20;
-        particle_data = update_effect_motion_and_color;
+        particle_data = update_phased_jitter_effect;
         do {
             particle = allocate_flagged_object_node(0x212);
             if (particle != NULL) {
-                initialize_effect_object_state(particle, emitter, position, spawn_context);
+                init_fading_particle_from_emitter(particle, emitter, position, spawn_context);
                 particle_state = NODE_BODY(particle);
                 particle_state->remaining_ticks = particle_size;
                 particle_state->initial_ticks = particle_size;

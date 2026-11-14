@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_8125414C",
-      "tu": "src/dungeon/monster/beldo/reposition_global_effect_entity.c",
+      "tu": "src/dungeon/monster/beldo/shift_beldo_entity_tile.c",
       "home": "dungeon/func_8125414C",
       "foff": "0x127414c",
       "vma": "0x8125414c",

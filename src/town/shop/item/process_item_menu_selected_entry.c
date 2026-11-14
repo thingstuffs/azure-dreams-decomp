@@ -10,7 +10,7 @@
 void process_item_menu_selected_entry(ItemMenuObject *record) {
     ItemMenuState *selection;
 
-    update_item_menu_enabled_record(record);
+    start_item_menu_cursor(record);
     populate_item_menu_lower_entries(record);
     populate_current_item_menu_page(record);
     update_item_menu_page_bounds(record);

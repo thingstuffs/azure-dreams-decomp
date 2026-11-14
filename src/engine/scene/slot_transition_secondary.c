@@ -28,7 +28,7 @@ void load_object_scene_dispatch_resources(void)
     if (run_dispatch_entry_callbacks(state->field_B)) {
         scene_save_previous_mode_and_reset_callbacks();
     } else {
-        secondary_transition_slot_index = reserve_runtime_slot(5, 8);
+        secondary_transition_slot_index = reserve_transition_slot(5, 8);
         runtime_dispatch_state.field_0 &= ~1;
         set_scene_phase_callback((s32)render_object_scene_until_slot_idle);
     }
@@ -49,10 +49,10 @@ void render_object_scene_until_slot_idle(void) {
 void await_object_scene_confirmation(void) {
     render_object_scene_frame();
     if (runtime_dispatch_state.unk_0E != 0) {
-        secondary_transition_slot_index = reserve_runtime_slot(6, 8);
+        secondary_transition_slot_index = reserve_transition_slot(6, 8);
         set_scene_phase_callback((int) finish_object_scene_when_slot_idle);
     } else {
-        update_shoulder_button_angle();
+        update_reset_button_hold();
     }
 }
 

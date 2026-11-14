@@ -9,7 +9,7 @@
 #include "shared/entity.h"
 #include "dungeon/monster/picket.h"
 
-extern void clear_slot_and_update_linked_state(void *, void *); /* Unprototyped: retail call passes more arguments than the callee reads */
+extern void clear_item_slot(void *, void *); /* Unprototyped: retail call passes more arguments than the callee reads */
 
 extern s32 dungeon_actor_ring_anchor[];
 extern s32 D_80162FE4[];
@@ -87,7 +87,7 @@ typedef struct { s32 value; } ItemWord;
                     shared_base[0] = item_data;
 
 
-                    clear_slot_and_update_linked_state(item_ptr, (void *)slot_index);
+                    clear_item_slot(item_ptr, (void *)slot_index);
                     return shared_base;
                 }
             }

@@ -24,7 +24,7 @@ typedef struct {
     void *field_34;
 } Entity;
 
-extern void cleanup_object_resources();
+extern void remove_selection_child_object();
 
 /* Processes entity fields and copies its string for selected type and state values. */
 void release_entity_children(Entity *entity) {
@@ -32,12 +32,12 @@ void release_entity_children(Entity *entity) {
 
     inventory_process_resources_and_set_flags(entity->field_20);
     retire_menu_object(entity->field_24);
-    cleanup_object_resources(entity->field_28);
+    remove_selection_child_object(entity->field_28);
     flag_object_and_release_inner(entity->field_2C, 0);
     flag_object_and_release_inner(entity->field_30, 0);
     flag_object_and_release_inner(entity->field_34, 0);
     if (runtime_dispatch_state.mode != 1) {
-        set_state_flag_when_clear();
+        set_dungeon_menu_flag_if_idle();
     }
     if (entity->field_14 == 0x13) {
         state = entity->field_1C;

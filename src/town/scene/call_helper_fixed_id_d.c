@@ -4,4 +4,4 @@
 #include "town/player/state.h"
 
 /* Calls func_8001A64C with F_bar_top and returns its result. */
-s32 call_helper_with_fixed_id_0x118a(void) { return get_script_flag_mask(F_bar_top); }
+s32 is_bar_top_flag_set(void) { return get_script_flag_mask(F_bar_top); }

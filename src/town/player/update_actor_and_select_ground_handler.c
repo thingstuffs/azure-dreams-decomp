@@ -19,7 +19,7 @@ void update_actor_and_select_ground_handler(s32 context, ObjectPosition *record,
     threshold = query_capped_surface_height(record, &position_query_scratch);
     if (record->z.w.i >= threshold) {
         set_height_and_slope_velocity((record), threshold, (struct TownVec * *)(&position_query_scratch));
-        bind_handler_and_initialize_entity(context, record, action_data);
+        start_ground_motion_adjust(context, record, action_data);
         return;
     }
     add_vertical_gravity(record);

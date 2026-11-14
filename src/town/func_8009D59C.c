@@ -17,10 +17,10 @@ extern s32 D_800D0198;
  * Selects D_800D0198, clears the indexed object slot and entity motion fields, and installs
  * D_8009AD70 with count 0x14.
  */
-void initialize_object_handler_and_countdown(TownObjectRecord *object, ObjectPosition *context, void *ptr2) {
+void init_player_halfway_move_action(TownObjectRecord *object, ObjectPosition *context, void *ptr2) {
     dispatch_selected_entry_if_nonzero(&D_800D0198, object, ptr2);
     object_index_slots[object->unk_40].unk_00 = 0;
     object->unk_0A = 0x14;
-    clear_entity_record_fields((context));
+    clear_object_velocity((context));
     object->unk_04 = move_player_halfway_to_target;
 }

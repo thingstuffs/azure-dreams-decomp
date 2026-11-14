@@ -250,7 +250,7 @@ void dispatch_monster_move_attack_spell(ActorRecord *record, ObjectPosition *ent
 
     if (g_dungeon_status.flags & 0x1000) {
         record->action_id = 0xE;
-        advance_stored_path_motion(record, entity, object, other_entity);
+        advance_grineut_stored_path(record, entity, object, other_entity);
         return;
     }
 
@@ -494,7 +494,7 @@ void dispatch_monster_move_attack_spell(ActorRecord *record, ObjectPosition *ent
 
 /* Advances one stored path step, updates occupied tiles and facing, and selects the movement animation and
  * delay. */
-void advance_stored_path_motion(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state) {
+void advance_grineut_stored_path(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state) {
     ActorRecord *state = move_state;
     s32 tile_mask;
     s16 move_result;
@@ -547,7 +547,7 @@ void advance_stored_path_motion(ActorRecord *action, ObjectPosition *action_id, 
 
     if (move_result == 3 && !(g_dungeon_status.flags & 0x80)
         && !(entity->flags & 0x8000)) {
-        initialize_opposite_facing_effect(action, action_id, entity, state);
+        begin_grineut_backstep(action, action_id, entity, state);
         action->unk_8C.word = 0;
     } else {
         action->action_id = 0x0F;
@@ -787,7 +787,7 @@ void choose_grineut_move(ActorRecord *move_data, ObjectPosition *context, Sprite
 }
 
 /* Starts the directional movement animation and shifts the position opposite the actor's facing. */
-void initialize_opposite_facing_effect(ActorRecord *effect, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *source) {
+void begin_grineut_backstep(ActorRecord *effect, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *source) {
     s32 direction;
     s16 *direction_x;
 
@@ -937,7 +937,7 @@ void move_grineut_to_tile(ActorRecord *state, ObjectPosition *context, SpriteFra
 }
 
 /* Hops to the destination tile, updates landing animation, spends MP, and checks for a floor trap. */
-void advance_target_hop(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
+void hop_grineut_to_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 state;
     s32 move_ticks;
@@ -1072,7 +1072,7 @@ void update_grineut_linked_motion(ActorRecord *state, ObjectPosition *entity, Sp
 }
 
 /* Animates a backward step and forward attack, applies damage, then recenters the actor and spends MP. */
-void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+void advance_grineut_attack_step(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     s16 timer;
     s32 direction_y;
     s32 direction;

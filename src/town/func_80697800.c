@@ -7,5 +7,5 @@
 
 /* Passes D_80018AE8 to func_800171D8. */
 void dispatch_scene_entry_table(void) {
-    process_flagged_entries_follow_four(&D_80018AE8);
+    process_flagged_entries_after_header(&D_80018AE8);
 }

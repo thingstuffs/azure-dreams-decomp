@@ -45,7 +45,7 @@ void init_message_window(RuntimeInput *input, u8 mode) {
     u8 initial_value;
 
     object->field80 = (u8 *)input;
-    copy_four_halfword_coordinates(object, message_window_object_template);
+    copy_window_rect(object, message_window_object_template);
     object->field2A = 1;
     object->field24 = 0x20;
     object->field0C = (s16)0xFC;

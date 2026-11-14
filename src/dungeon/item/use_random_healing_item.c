@@ -113,7 +113,7 @@ s32 use_random_healing_item(DungeonObject *obj, DungeonItemEntry *payload, s16 e
         }
         display_text_with_fullwidth_adjustment(message_handle);
     }
-    clear_slot_and_update_linked_state(payload);
+    clear_item_slot(payload);
     {
         DungeonGlobalStatus *counter_base;
 

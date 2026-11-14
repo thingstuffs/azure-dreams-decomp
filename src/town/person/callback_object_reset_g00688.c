@@ -5,8 +5,8 @@
 #include "town/person/object.h"
 
 /* Prepare the context and forward the arguments to the next handler. */
-void prepare_and_forward_callback(TownObjectRecord *object, void *context, SpriteFrameState *callback_arg) {
-    create_object_from_three_values(context);
+void create_object_and_brighten(TownObjectRecord *object, void *context, SpriteFrameState *callback_arg) {
+    create_burst_particle_spawner(context);
     reset_object_entry_and_brighten(object, context, callback_arg);
 }
 

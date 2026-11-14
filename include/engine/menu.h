@@ -132,9 +132,9 @@ void handle_selection_menu_input(void *object);
 /* init_paired_packet_records.c */
 void *init_paired_packet_records(void *record, void *source);
 
-/* init_sub_record_pair.c */
+/* init_packet_pair_and_gradient.c */
 void func_80049D80(void *record_pair, void *init_data);
-void init_sub_record_pair(void *record_pair, void *init_data);
+void init_packet_pair_and_gradient(void *record_pair, void *init_data);
 
 /* initialize_menu_backdrop_display_nodes.c */
 void initialize_menu_backdrop_display_nodes(SevenEntryMenuBackdropBody *body, s32 node_count);
@@ -146,7 +146,7 @@ void initialize_menu_backdrop_layout(SevenEntryMenuBackdropBody *object, int ini
 void layout_menu_backdrop_display_entries(SevenEntryMenuBackdropBody *body);
 
 /* initialize_seventeen_object_pointers.c */
-void initialize_seventeen_object_pointers(s32 *objects, s32 *group_bases);
+void assign_menu_object_data_pointers(s32 *objects, s32 *group_bases);
 
 /* interpolate_selection_menu_entry_coordinates.c */
 void interpolate_selection_menu_entry_coordinates(struct S_8004F684 *state);
@@ -154,14 +154,14 @@ void interpolate_selection_menu_entry_coordinates(struct S_8004F684 *state);
 /* interpolate_selection_menu_entry_shade.c */
 void interpolate_selection_menu_entry_shade(struct S_8004F780 *state);
 
-/* lookup_first_mask_value.c */
-s32 lookup_first_mask_value(s32 flags);
+/* lookup_menu_value_for_flags.c */
+s32 lookup_menu_value_for_flags(s32 flags);
 
 /* lookup_item_category_mapped_value.c */
 s32 lookup_item_category_mapped_value(s32 category_index, s32 record_index);
 
-/* reset_six_object_leaf_records.c */
-void reset_six_object_leaf_records(void *slots);
+/* reset_menu_slot_leaf_records.c */
+void reset_menu_slot_leaf_records(void *slots);
 
 /* reset_six_object_leaf_records_second.c */
 void initialize_gauge_menu_display_rows(struct S_800506BC_Obj *obj, struct S_800506BC_Ctx *ctx, void *unused_data);
@@ -172,8 +172,8 @@ s32 run_state_callback_and_restore(void *state);
 /* set_object_cleanup_flag.c */
 void set_object_cleanup_flag(unsigned short *object_fields);
 
-/* sound_initialize_ordered_elements.c */
-void sound_initialize_ordered_elements(struct AnimatedMenuPanelBody *obj);
+/* init_animated_panel_elements.c */
+void init_animated_panel_elements(struct AnimatedMenuPanelBody *obj);
 
 /* update_animated_selection_menu.c */
 void update_animated_selection_menu(AnimatedSelectionMenuBody *object);

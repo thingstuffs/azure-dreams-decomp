@@ -10,7 +10,7 @@
 void initialize_save_description(void *owner, s32 value) { card_boot_build_save_description(owner, value); card_boot_store_save_icon_clut_and_frames(owner, value); }
 
 /* Process five context entries if checks pass, or schedule the fallback callback. */
-void process_five_context_entries_or_fallback(void *context_arg) {
+void write_save_and_refresh_slot_windows(void *context_arg) {
     S_80025398_0 *context = context_arg;
     s32 entry_value;
     s32 entry_count;

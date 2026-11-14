@@ -86,7 +86,7 @@
       "fix": "Refreshed actual GCC declaration expression/size audit without changing source; runtime view shrunk where declared scalar is four bytes.",
       "scratch_result": "BLOCKED review; whole-TU retail+genuine PASS",
       "hold_reason": "membership/type/ownership review incomplete",
-      "review_findings": "include/modules/dungeon_ovl_1831370.h:181: warning: conflicting types for built-in function `strcpy'; src/dungeon/modules/../func_818113C0.c:4: warning: passing arg 1 of `release_object_handle' from incompatible pointer type",
+      "review_findings": "include/modules/dungeon_ovl_1831370.h:181: warning: conflicting types for built-in function `strcpy'; src/dungeon/modules/../func_818113C0.c:4: warning: passing arg 1 of `release_menu_part_handle' from incompatible pointer type",
       "next_step": "Review docs/evidence/dungeon_ovl_1831370.membership.json, include/modules/dungeon_ovl_1831370.h and docs/evidence/dungeon_ovl_1831370.imports.json; resolve remaining opaque/contradictory interfaces, record reviewer, then certify the complete TU and every affected window.",
       "initial_log": "scratch/logs/initial_dungeon_ovl_1831370.log",
       "prepared_log": ""
@@ -112,7 +112,7 @@
       "fix": "Refreshed actual GCC declaration expression/size audit without changing source; runtime view shrunk where declared scalar is four bytes.",
       "scratch_result": "BLOCKED review; whole-TU retail+genuine PASS",
       "hold_reason": "membership/type/ownership review incomplete",
-      "review_findings": "include/modules/dungeon_ovl_1830850.h:212: warning: conflicting types for built-in function `strcpy'; src/dungeon/modules/../func_81810A0C.c:13: warning: passing arg 1 of `inventory_check_type_four_linked_object' from incompatible pointer type",
+      "review_findings": "include/modules/dungeon_ovl_1830850.h:212: warning: conflicting types for built-in function `strcpy'; src/dungeon/modules/../func_81810A0C.c:13: warning: passing arg 1 of `is_final_action_text_empty' from incompatible pointer type",
       "next_step": "Review docs/evidence/dungeon_ovl_1830850.membership.json, include/modules/dungeon_ovl_1830850.h and docs/evidence/dungeon_ovl_1830850.imports.json; resolve remaining opaque/contradictory interfaces, record reviewer, then certify the complete TU and every affected window.",
       "initial_log": "scratch/logs/initial_dungeon_ovl_1830850.log",
       "prepared_log": ""
@@ -138,7 +138,7 @@
       "fix": "Refreshed actual GCC declaration expression/size audit without changing source; runtime view shrunk where declared scalar is four bytes.",
       "scratch_result": "BLOCKED review; whole-TU retail+genuine PASS",
       "hold_reason": "membership/type/ownership review incomplete",
-      "review_findings": "src/dungeon/modules/../func_81982864.c:42: warning: passing arg 1 of `allocate_two_part_object' makes pointer from integer without a cast; src/dungeon/modules/../func_81982864.c:42: warning: passing arg 2 of `allocate_two_part_object' makes integer from pointer without a cast",
+      "review_findings": "src/dungeon/modules/../func_81982864.c:42: warning: passing arg 1 of `create_double_ellipse_sprite_effect' makes pointer from integer without a cast; src/dungeon/modules/../func_81982864.c:42: warning: passing arg 2 of `create_double_ellipse_sprite_effect' makes integer from pointer without a cast",
       "next_step": "Review docs/evidence/dungeon_ovl_19a332c.membership.json, include/modules/dungeon_ovl_19a332c.h and docs/evidence/dungeon_ovl_19a332c.imports.json; resolve remaining opaque/contradictory interfaces, record reviewer, then certify the complete TU and every affected window.",
       "initial_log": "scratch/logs/initial_dungeon_ovl_19a332c.log",
       "prepared_log": ""
@@ -190,7 +190,7 @@
       "fix": "Refreshed actual GCC declaration expression/size audit without changing source; runtime view shrunk where declared scalar is four bytes.",
       "scratch_result": "BLOCKED review; whole-TU retail+genuine PASS",
       "hold_reason": "membership/type/ownership review incomplete",
-      "review_findings": "src/dungeon/modules/../func_81862B74.c:13: warning: passing arg 1 of `spawn_jittered_type_212_effect' makes integer from pointer without a cast; src/dungeon/modules/../func_81862B74.c:13: warning: passing arg 2 of `spawn_jittered_type_212_effect' makes pointer from integer without a cast",
+      "review_findings": "src/dungeon/modules/../func_81862B74.c:13: warning: passing arg 1 of `spawn_rising_sprite_at_source' makes integer from pointer without a cast; src/dungeon/modules/../func_81862B74.c:13: warning: passing arg 2 of `spawn_rising_sprite_at_source' makes pointer from integer without a cast",
       "next_step": "Review docs/evidence/dungeon_ovl_188298c.membership.json, include/modules/dungeon_ovl_188298c.h and docs/evidence/dungeon_ovl_188298c.imports.json; resolve remaining opaque/contradictory interfaces, record reviewer, then certify the complete TU and every affected window.",
       "initial_log": "scratch/logs/initial_dungeon_ovl_188298c.log",
       "prepared_log": ""

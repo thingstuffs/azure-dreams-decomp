@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_81254060",
-      "tu": "src/dungeon/monster/beldo/process_global_effect_flags.c",
+      "tu": "src/dungeon/monster/beldo/cancel_beldo_effect_on_button.c",
       "home": "dungeon/func_81254060",
       "foff": "0x1274060",
       "vma": "0x81254060",

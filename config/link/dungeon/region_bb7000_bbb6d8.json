@@ -25,7 +25,7 @@
     },
     {
       "row": "dungeon/func_80B9A1D0",
-      "tu": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+      "tu": "src/dungeon/monster/clown/update_clown_actor.c",
       "home": "dungeon/func_80BEDE04",
       "foff": "0xbba1d0",
       "vma": "0x801739d0",

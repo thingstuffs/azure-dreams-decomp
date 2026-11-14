@@ -77,7 +77,7 @@ extern void           func_80042710(S_80042BDC *obj, S_80042BDC *ent);
 extern void update_owner_class_bits(void *entity);
 extern void           func_80042984(S_80042BDC *obj);
 extern void           update_actor_status_and_mp(S_80042BDC *obj);
-extern int            find_entity_slot_by_field_ac(S_80042BDC *ent);
+extern int            find_linked_object_slot_index(S_80042BDC *ent);
 extern void begin_actor_move_to_target_facing(S_80042BDC *obj,void *a1, void *a2, S_80042BDC *a3);
 extern s32 update_actor_transform_from_parent(S_80042BDC *obj, void *a1, void *a2,void *a3);
 extern void           unlink_entity_node(S_80042BDC *ent);

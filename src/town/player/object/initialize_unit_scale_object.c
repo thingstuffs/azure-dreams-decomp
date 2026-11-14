@@ -16,7 +16,7 @@ extern M2C_UNK D_800D0DC0;
 void initialize_unit_scale_object(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *transform) {
     NODE_HEADER(object)->update_callback = retire_object_on_check_or_callback;
     object->unk_50.as_pv = &start_effect_when_bookshelf_fell;
-    initialize_object_transform_and_state((s32)(object), transform, 0xA);
+    initialize_sprite_defaults((s32)(object), transform, 0xA);
     init_scene_node_mode_3(object, position, &D_800D0DC0);
     transform->offset_x = 0x1000;
     transform->scale_y = 0x1000;

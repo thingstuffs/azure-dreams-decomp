@@ -8,7 +8,7 @@ typedef struct {
     u8 pad8[4];
 } DungeonState;
 
-extern s16 dungeon_room_count;
+#include "dungeon/level/room_count_data.h"
 
 
 /* Counts down turns until a monster spawn, then resets the spawn timer. */

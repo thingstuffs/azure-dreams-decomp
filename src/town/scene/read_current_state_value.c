@@ -5,5 +5,5 @@
 
 /* Read the current state value and discard the result. */
 void read_current_state_value(void) {
-    get_linked_record_field_2_d_60();
+    get_town_state_count();
 }

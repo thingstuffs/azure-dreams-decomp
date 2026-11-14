@@ -60,7 +60,7 @@ void *func_8004E21C(void *dest, u8 item_code);
 void delete_items_and_reset_state(void);
 
 /* entry_del_t_item_w_ptr.c */
-void remove_monster_items_with_negative_status(void);
+void delete_negative_status_familiar_items(void);
 
 /* find_item_data_slot.c */
 int find_item_data_slot(int first_value, int second_value);
@@ -78,8 +78,8 @@ s32 get_item_category_flags(struct DungeonItemEntry *item);
 /* get_or_create_item_data.c */
 void *get_or_create_item_data(s32 category, s32 item);
 
-/* mark_record_pair_dirty.c */
-void mark_record_pair_dirty(void *first_ptr, void *second_ptr);
+/* mark_and_release_record_pair.c */
+void mark_and_release_record_pair(void *first_ptr, void *second_ptr);
 
 /* open_view_alternate.c */
 void open_view_alternate(void *first_data, void *second_data, void *extra_data);
@@ -100,8 +100,8 @@ void release_counted_entries(u16 **entries, s32 count);
 void func_8004B248(u16 **entries);
 void release_null_terminated_entries(u16 **entries);
 
-/* resolve_indexed_value.c */
-int resolve_indexed_value(int index);
+/* resolve_familiar_slot_value.c */
+int resolve_familiar_slot_value(int index);
 
 /* selection_sort_elements.c */
 void selection_sort_elements(u8 *base, s32 count, s32 size, s32 (*compar)(u8 *, u8 *));
@@ -114,7 +114,7 @@ void shuffle_enabled_item_categories(void);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "shared/dungeon_item_entries.h"
-int resolve_record_value(DungeonItemEntry *record);
+int resolve_item_record_slot_value(DungeonItemEntry *record);
 
 s32 format_item_name(u8 *text_target, DungeonItemEntry *item);
 

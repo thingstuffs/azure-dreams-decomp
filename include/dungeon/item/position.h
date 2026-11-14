@@ -15,11 +15,11 @@ s32 apply_malicious_light_tile_item(void *actor, DungeonItemEntry *item, s16 act
 /* create_and_initialize_player_tile_actor.c */
 s32 create_and_initialize_player_tile_actor(void);
 
-/* find_neighbor_with_negative_tile_probe.c */
-s32 find_neighbor_with_negative_tile_probe(u8 *entity, s16 *direction);
+/* find_neighbor_outside_room.c */
+s32 find_neighbor_outside_room(u8 *entity, s16 *direction);
 
-/* find_neighbor_with_nonnegative_tile_probe.c */
-s32 find_neighbor_with_nonnegative_tile_probe(u8 *object, s16 *direction_out);
+/* find_neighbor_inside_room.c */
+s32 find_neighbor_inside_room(u8 *object, s16 *direction_out);
 
 /* forward_monster_coordinate_delta.c */
 s32 calculate_planar_heading(s16 start_x, s16 start_y, s16 end_x, s16 end_y);

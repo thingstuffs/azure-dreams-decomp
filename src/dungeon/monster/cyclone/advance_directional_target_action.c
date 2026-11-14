@@ -1,0 +1,116 @@
+#include "engine/graphics/select_sprite_entry_api.h"
+#include "common.h"
+#include "dungeon/monster/cyclone.h"
+#include "shared/sprite_frame_state.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
+#include "dungeon/player/object.h"
+#include "dungeon/system.h"
+#include "dungeon/monster/cyclone_frames.h"
+
+typedef struct {
+    u8 pad_00[0x8C];
+    void *field_8C;
+    u8 pad_90[6];
+    u16 field_96;
+    u16 field_98;
+    u8 pad_9A;
+    u8 state;
+} D0;
+
+typedef struct {
+    u8 pad_00[4];
+    s8 kind;
+    u8 pad_05[0x0F];
+    u16 flags;
+    u8 pad_16[0x0E];
+    u8 value_24;
+    u8 value_25;
+    u8 pad_26[6];
+    void *field_2C;
+} D2;
+
+typedef struct {
+    u8 pad_00[0x14];
+    u32 flags;
+    u8 pad_18[0x12];
+    s16 value_2A;
+    u8 pad_2C[0x1A];
+    u16 value_46;
+    u8 pad_48[0x18];
+    void *field_60;
+} D3;
+
+typedef struct {
+    u8 pad_00[0x14];
+    u32 flags;
+} D3Nested;
+
+extern void spend_actor_mp(D3 *, s32);
+struct SpriteFrameState;
+extern void *create_directional_target_object(ActorRecord *, void *, SpriteFrameState *);
+extern void show_entity_message(s32, D3 *);
+
+/* Advances a timed actor state sequence and updates its sprite direction. */
+void advance_directional_target_action(ActorRecord *action, ObjectPosition *position, SpriteFrameState *sprite, D3 *actor) {
+    u16 sprite_flags;
+    u16 ticks_left;
+
+    switch (action->action_phase) {
+    case 0:
+        sprite_flags = sprite->flags;
+        if (sprite_flags & 0x8000) {
+            sprite->flags = sprite_flags | 0x6000;
+            action->action_phase = 2;
+            return;
+        }
+        if (!(sprite->unk_04 == 1 && (sprite_flags & 0x1000)) && (sprite_flags & 0x6000) == 0) {
+            break;
+        }
+        create_directional_target_object(action, position, sprite);
+        if (actor->flags & 0x4000) {
+            show_entity_message(1, actor);
+        } else if (((D3Nested *) actor->field_60)->flags & 0x4000) {
+            show_entity_message(0, actor);
+        }
+        play_sound_if_enabled(0x80D);
+        action->action_timer = 0x20;
+        action->action_phase = action->action_phase + 1;
+        break;
+
+    case 1:
+        ticks_left = action->action_timer - 1;
+        action->action_timer = ticks_left;
+        if ((ticks_left << 16) != 0) {
+            if (!(sprite->flags & 0x8000)) {
+                break;
+            }
+        }
+        action->action_timer = 4;
+        action->action_phase = action->action_phase + 1;
+        break;
+
+    case 2:
+        ticks_left = action->action_timer - 1;
+        action->action_timer = ticks_left;
+        if ((ticks_left << 16) != 0) {
+            if (!(sprite->flags & 0xE000)) {
+                return;
+            }
+        }
+        spend_actor_mp(actor, 0x400);
+        set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
+        action->unk_8C.address = dispatch_cyclone_actions;
+        g_dungeon_status.active_actor = 0;
+        actor->value_46 &= 0x7FFF;
+        break;
+    }
+
+    if (sprite->flags & 0xE000) {
+        sprite->frameTable = cyclone_move_direction_frames;
+        select_sprite_entry(sprite, cyclone_move_direction_frames[(((g_game_work.view.camera_rotation.parts.viewAngle + actor->value_2A + 0x100) >> 9) & 7)], 0);
+        action->action_state_flags &= 0xFFF7;
+    }
+
+    return;
+}

@@ -5,12 +5,12 @@
 #include "town/map.h"
 
 #include "town/map/sound_sequence_replay_g00650.h"
-s32 apply_nearby_object_effects();                       /* extern */
+s32 trigger_effect_when_in_range();                       /* extern */
 extern M2C_UNK map_active_callbacks;
 
 /* Call town_sd_sq_callagain when either global object check returns zero. */
 void retry_sound_sequence_when_ready(void) {
-    if ((find_unflagged_node_by_key(run_callbacks_unless_suppressed) == 0) || (apply_nearby_object_effects(&map_active_callbacks) == 0)) {
+    if ((find_unflagged_node_by_key(run_callbacks_unless_suppressed) == 0) || (trigger_effect_when_in_range(&map_active_callbacks) == 0)) {
         town_sd_sq_callagain();
     }
 }

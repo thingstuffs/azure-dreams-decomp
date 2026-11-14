@@ -113,7 +113,7 @@ s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, st
                 distribute_experience_and_report_gains((EntityRec *)entity);
                 detach_record_and_update_slot_state(entity);
                 if (entity->unk_49 != 0 && !(entity->unk_4B & 0x20)) {
-                    create_effect_or_fallback(position->x.w.i, position->y.w.i,
+                    create_item_drop_effect(position->x.w.i, position->y.w.i,
                         entity->ground_height, (u8 *)entity + 0x48);
                 }
                 break;

@@ -65,8 +65,8 @@ void reset_state_defaults(void);
 /* reset_tagged_entry_states.c */
 void reset_tagged_entry_states(void);
 
-/* runtime_save_or_restore_state.c */
-void runtime_save_or_restore_state(void);
+/* swap_saved_state_block.c */
+void swap_saved_state_block(void);
 
 /* test_item_action_pattern.c */
 s32 test_item_action_pattern(s16 entry_id);

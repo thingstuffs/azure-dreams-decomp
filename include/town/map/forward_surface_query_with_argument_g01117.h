@@ -446,10 +446,10 @@ extern s32 town_map_row_extent;
 s32 check_scratch_quad_half_turn_gaps(void *scratch);
 
 /* Functions defined in this translation unit. */
-s16 forward_surface_query_with_argument(SignedPositionView *record, void **plane_out);
-s16 forward_highest_surface_query(SignedPositionView *record);
-s16 forward_smallest_surface_x_query(SignedPositionView *record);
-s16 query_greatest_cell_intersection(SignedPositionView *components);
+s16 find_min_qualifying_plane_height_at(SignedPositionView *record, void **plane_out);
+s16 find_highest_surface_within_range_at(SignedPositionView *record);
+s16 find_smallest_surface_x_at(SignedPositionView *record);
+s16 find_greatest_cell_intersection_at(SignedPositionView *components);
 s16 find_lowest_surface_height_at(SignedPositionView *components);
 s16 find_highest_valid_cell_height_at(SignedPositionView *components);
 void update_map_world_extents(void);

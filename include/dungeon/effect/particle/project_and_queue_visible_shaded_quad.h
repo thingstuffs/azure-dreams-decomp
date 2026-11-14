@@ -4,7 +4,7 @@
 #include "common.h"
 #include "dungeon/effect/spell_effect.h"
 
-/* State for the fading sprite sequence advanced by advance_effect_sequence. */
+/* State for the fading sprite sequence advanced by run_fading_sprite_sequence. */
 typedef struct FadingSpriteSequenceBody {
     SpellEffectHeader spell;
     u8 pad_0C[0x20];
@@ -61,5 +61,5 @@ typedef struct OriginFollowingFadeSpriteBody {
 
 /* Bank flag: scalar declaration matches retail scheduling; following tail views remain external. */
 extern s16 fading_quad_effect_updated;
-void advance_effect_sequence(FadingSpriteSequenceBody *, void *, void *);
+void run_fading_sprite_sequence(FadingSpriteSequenceBody *, void *, void *);
 #endif

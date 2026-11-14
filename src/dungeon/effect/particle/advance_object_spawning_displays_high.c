@@ -346,7 +346,7 @@ void advance_timed_effect_animation(DungeonObject *object, s32 unused, void *han
 }
 
 /* Decrements the object counter and sets flags when it reaches zero. */
-void decrement_object_counter(PackedSpriteEffectBody *object)
+void tick_packed_sprite_countdown(PackedSpriteEffectBody *object)
 {
     u16 counter;
 
@@ -378,7 +378,7 @@ void *create_packed_sprite_effect(void *source, ObjectPosition *unused_1, Sprite
     if (object != NULL) {
         state = NODE_BODY(object);
         state->remaining = 0x3C;
-        (object->update_callback) = &decrement_object_counter;
+        (object->update_callback) = &tick_packed_sprite_countdown;
         register_node(object, project_sprite_chain);
         render_state = object->sprite;
         render_state->flags |= 0xC;

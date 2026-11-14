@@ -10,7 +10,7 @@ s32 check_inputs_after_threshold_five(s32 check_value, s32 check_data) {
     s32 check_passed;
 
     check_passed = 0;
-    if (get_linked_record_field_2_d_60() >= 5) {
+    if (get_town_state_count() >= 5) {
         check_passed = process_checked_entry(check_value, check_data) != 0;
     }
     return check_passed;

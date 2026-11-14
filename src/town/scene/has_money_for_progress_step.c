@@ -1,0 +1,13 @@
+#include "common.h"
+#include "shared/record_ptrs.h"
+#include "shared/town_root.h"
+#include "m2c_compat.h"
+#include "town/scene.h"
+#include "town/scene/progress_data.h"
+
+
+
+/* Checks whether the stored value meets the D_8001C368 threshold. */
+s32 has_money_for_progress_step(void) {
+    return (u32) town_scene_root->town_state->money >= (u32) scene_progress_step;
+}

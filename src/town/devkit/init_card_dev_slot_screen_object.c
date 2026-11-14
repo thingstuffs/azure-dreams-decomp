@@ -1,0 +1,30 @@
+#include "common.h"
+#include "frontend/card.h"
+#include "town/devkit.h"
+#include "frontend/card/server_imports.h"
+
+
+extern u8 D_8040C5C0[];
+extern u16 D_8040C5DE_LOAD[5];
+extern u16 D_8040C5DE_STORE[5];
+extern u8 D_8040086C[];
+extern u8 D_80400894[];
+extern void set_record_values(void *state, s32 init_value_a, s32 init_value_b);
+extern void release_devkit_node_handles(void *object);
+
+/* Creates or resets the town object, initializes its state, and installs its callback. */
+void *init_card_dev_slot_screen_object(s32 init_value_a, s32 init_value_b) {
+    void *object;
+    u8 *state;
+
+    object = D_8040C5C0;
+    state = (u8 *)object + 0x20;
+    if (func_80047FD8(object) != 0 || ((object = func_8003C714(0, D_8040C5C0, 0x19)) == 0 && (func_8007C040(D_8040086C, D_80400894, 0x173), func_8007BEF0(1), 1))) {
+        release_devkit_node_handles(object);
+        D_8040C5DE_STORE[0] = (u16) (D_8040C5DE_LOAD[0] & 0x7FFF);
+        func_8007BFE0(state, 0x44);
+    }
+    set_record_values(state, init_value_a, init_value_b);
+    *(void **)((u8 *)object + 0x10) = (void *)card_dev_create_slot_screen_objects;
+    return object;
+}

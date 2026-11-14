@@ -46,5 +46,5 @@ void card_boot_layout_command_panel(CardCommandPanelBody *panel) {
         row_y += 0x10;
         row_index += 1;
     } while (row_index < 3);
-    card_boot_reset_three_row_highlight(panel);
+    card_boot_reset_command_panel_highlight(panel);
 }

@@ -13,6 +13,7 @@
 #include "town/shop/object.h"
 #include "town/minigame/state.h"
 #include "town/minigame/column_tiles_data.h"
+#include "town/minigame/pickup_bounds_data.h"
 #include "town/menu.h"
 #include "town/player.h"
 #include "town/data.h"
@@ -27,7 +28,6 @@
 extern u8 D_80020224[];
 extern s32 town_money[];
 extern s16 D_800244E8[16];
-extern u8 minigame_pickup_bounds[0x10];
 extern u8 D_80024470[];
 
 extern u8 D_8007947C[];
@@ -141,7 +141,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
             return;
         }
         SD_Call(0x523);
-        slot_bet_display_object[0] = (s32)create_dual_buffer_object(0, -80, 64);
+        slot_bet_display_object[0] = (s32)create_floating_number_widget(0, -80, 64);
         D_800834C8[0] = 0;
         stop_scene_player_and_defer_action_setup();
         money[0] -= 100;

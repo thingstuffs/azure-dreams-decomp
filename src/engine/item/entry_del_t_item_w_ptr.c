@@ -7,7 +7,7 @@ extern u8 *town_item_list[];
 extern void del_t_item_w_ptr(u8 *entry);
 
 /* Process type-0x13 entries whose indexed status is negative. */
-void remove_monster_items_with_negative_status(void)
+void delete_negative_status_familiar_items(void)
 {
     if (town_item_list[0] != 0) {
         u32 target_type = ITEM_KIND_FAMILIAR;

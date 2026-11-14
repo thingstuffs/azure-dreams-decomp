@@ -49,7 +49,7 @@ void select_title_object_handler(TownObject *obj)
         return;
     }
 
-    if ((runtime_estimate_vector_length(town_position_reference_state.field_C,
+    if ((estimate_vector_length(town_position_reference_state.field_C,
                        town_position_reference_state.field_10) > 0xDFFFF) &&
         ((s16)map_scene_selector_alias != 0xC)) {
         obj->field_4 = 0x448;

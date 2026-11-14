@@ -16,7 +16,7 @@ void stop_audio_playback(void)
         handle_sequence_control_code(0x71);
     }
 
-    dispatch_combined_driver_flags(0);
+    key_off_active_voices(0);
 
     for (channel = 0; channel < 4; channel++) {
         release_enabled_sound_channel(channel);

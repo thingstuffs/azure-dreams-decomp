@@ -7,15 +7,15 @@
 
 
 
-/* Calls process_lshop_entries with the supplied value and a zero second argument. */
+/* Calls apply_shop_transaction with the supplied value and a zero second argument. */
 
-/* Calls process_lshop_entries with value, 0. */
-void process_lshop_value(void *value) {
-    process_lshop_entries(value, 0);
+/* Calls apply_shop_transaction with value, 0. */
+void buy_flagged_entries(void *value) {
+    apply_shop_transaction(value, 0);
 }
 
 
-/* Forwards the base value plus four to process_lshop_entries with mode 1. */
-void process_lshop_value_plus_four(u8 *base_value) {
-    process_lshop_entries(base_value + 4, 1);
+/* Forwards the base value plus four to apply_shop_transaction with mode 1. */
+void sell_flagged_entries(u8 *base_value) {
+    apply_shop_transaction(base_value + 4, 1);
 }

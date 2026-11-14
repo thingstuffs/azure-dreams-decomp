@@ -15,6 +15,6 @@ void init_item_flag_check_object(TownObjectRecord *record_data, ObjectPosition *
     ObjectPosition *state = placement;
 
     NODE_HEADER(record_data)->update_callback = &retire_object_on_check_or_callback;
-    record_data->unk_50.as_pm = &set_resident_flag_when_item_present;
+    record_data->unk_50.as_pm = &set_ultima_egg_pickup_flag;
     state->z.v = 0;
 }

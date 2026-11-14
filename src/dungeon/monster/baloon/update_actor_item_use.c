@@ -142,7 +142,7 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
             primary_actor_record->unk_A4.halves.high.u--;
             advance_status_timers(actor);
             actor->pending_turn_updates = actor->pending_turn_updates - 1;
-            body->unk_8C.address = update_actor_turn_behavior;
+            body->unk_8C.address = update_baloon_turn_action;
             actor->target_tile_y = 0;
             actor->target_tile_x = 0;
             actor->action_flags &= 0x7FFF;
@@ -295,7 +295,7 @@ void update_actor_item_use(ActorRecord *body, ObjectPosition *motion, SpriteFram
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;
-            body->unk_8C.address = update_actor_turn_behavior;
+            body->unk_8C.address = update_baloon_turn_action;
             advance_status_timers(actor);
         }
         actor->target_tile_y = 0;

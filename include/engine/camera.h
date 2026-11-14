@@ -40,9 +40,9 @@ s32 set_camera_targets_packed(struct S_8004D45C_Src *source, void *forwarded_ptr
 /* state_defaults.c */
 void reset_camera_transition_fields(void);
 
-/* update_shoulder_button_angle.c */
+/* update_reset_button_hold.c */
 int func_8003D92C(void);
-int update_shoulder_button_angle(void);
+int update_reset_button_hold(void);
 
 /* Data declarations. */
 extern s32 camera_default_origin_tail;

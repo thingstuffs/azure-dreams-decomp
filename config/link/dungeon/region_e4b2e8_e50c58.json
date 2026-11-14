@@ -22,7 +22,7 @@
     },
     {
       "row": "dungeon/func_80E2D498",
-      "tu": "src/dungeon/monster/cyclone/advance_backward_forward_motion.c",
+      "tu": "src/dungeon/monster/cyclone/advance_cyclone_lunge_attack.c",
       "home": "dungeon/func_80E0F498",
       "foff": "0xe4d498",
       "vma": "0x80154c98",
@@ -93,7 +93,7 @@
     },
     {
       "row": "dungeon/func_80E30178",
-      "tu": "src/dungeon/monster/cyclone/advance_motion_output_animation.c",
+      "tu": "src/dungeon/monster/cyclone/advance_cyclone_bobbing_effect.c",
       "home": "dungeon/func_80E12178",
       "foff": "0xe50178",
       "vma": "0x80157978",

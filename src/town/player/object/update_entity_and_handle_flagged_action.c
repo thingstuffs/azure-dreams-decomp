@@ -22,7 +22,7 @@ void update_entity_and_handle_flagged_action(void *record_arg, void *context, Sp
     dispatch_actor_interaction_actions(record_arg, context, sprite);
     if (previous_state == record->unk_00) {
         if (global_state->buttons & 0x80) {
-            clear_entity_record_fields(context);
+            clear_object_velocity(context);
             sync_collision_motion_xyz(context);
             if (create_item_menu_unless_minigame(record_arg - 0x20) != 0) {
                 initialize_shared_scene_data(record_arg, context, sprite);

@@ -10,7 +10,7 @@
 #include "engine/effect.h"
 
 /* Builds a formatted marker string for the object's value, including an odd remainder. */
-void *format_object_value_marker(void *output, void *object)
+void *format_gauge_text(void *output, void *object)
 {
     u32 value;
     s32 pair_test;
@@ -120,7 +120,7 @@ void format_and_display_entity_stats(ActorRecord *stats, void *panels) {
     set_storage_entry_text(*(s32 *)((u8 *)panels + 0x4C), D_80089324, 0, 0x48,
                   0xB8);
     set_storage_entry_text(*(s32 *)((u8 *)panels + 0x14),
-                  format_object_value_marker(text, stats), 0, 0x48, 0xC0);
+                  format_gauge_text(text, stats), 0, 0x48, 0xC0);
 }
 
 /* Collect nonzero record values, including the extra value for the selected record. */

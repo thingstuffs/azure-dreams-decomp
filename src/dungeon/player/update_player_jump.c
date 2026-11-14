@@ -1,3 +1,4 @@
+#include "dungeon/player/saved_held_item_data.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "dungeon/player/input.h"
 #include "shared/entity.h"
@@ -20,7 +21,7 @@ extern s32 held_item_record;
 
 extern u8 D_800DD048[8];
 extern u8 player_throw_frame_set[8];
-extern s32 saved_held_item_word[3];
+
 
 /* Advance the entity action through its motion, animation, and linked-child effects. */
 void update_player_jump(u8 *action, ObjectPosition *motion, u8 *sprite, u8 *entity) {
@@ -94,7 +95,7 @@ void update_player_jump(u8 *action, ObjectPosition *motion, u8 *sprite, u8 *enti
                         *(u8 **)(sprite + 0x2C) = player_jump_frame_set;
                         angle = g_game_work.view.camera_rotation.parts.viewAngle;
                         heading = *(s16 *)(entity + 0x2A);
-                        saved_held_item_word[0] = saved_state;
+                        saved_held_item_word = saved_state;
                         set_sprite_animation_frame(sprite, player_jump_frame_set[((angle + heading + 0x100) >> 9) & 7], 5, 1);
                     }
                     play_sound_if_enabled(0x512);

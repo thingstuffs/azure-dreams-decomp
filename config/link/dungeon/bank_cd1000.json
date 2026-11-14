@@ -87,7 +87,7 @@
     },
     {
       "row": "dungeon/func_80CB2A98",
-      "tu": "src/dungeon/monster/hikewne/update_entity_state_from_query.c",
+      "tu": "src/dungeon/monster/hikewne/relink_hikewne_path.c",
       "home": "dungeon/func_80976E28",
       "foff": "0xCD2A98",
       "vma": "0x80154298",
@@ -95,7 +95,7 @@
     },
     {
       "row": "dungeon/func_80CB2BDC",
-      "tu": "src/dungeon/monster/saber/reset_eligible_entity_state.c",
+      "tu": "src/dungeon/monster/saber/finish_saber_tile_move.c",
       "home": "dungeon/func_80AC7330",
       "foff": "0xCD2BDC",
       "vma": "0x801543DC",
@@ -103,7 +103,7 @@
     },
     {
       "row": "dungeon/func_80CB3144",
-      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F88C30",
       "foff": "0xCD3144",
       "vma": "0x80154944",
@@ -127,7 +127,7 @@
     },
     {
       "row": "dungeon/func_80CB3B24",
-      "tu": "src/dungeon/effect/state/forward_actor_effect_state.c",
+      "tu": "src/dungeon/effect/state/update_hop_and_shrink_callback.c",
       "home": "dungeon/func_800AD90C",
       "foff": "0xCD3B24",
       "vma": "0x80155324",
@@ -159,7 +159,7 @@
     },
     {
       "row": "dungeon/func_80CB4238",
-      "tu": "src/dungeon/monster/kewne/update_actor_state_after_map_check.c",
+      "tu": "src/dungeon/monster/kewne/update_kewne_parent_motion.c",
       "home": "dungeon/func_809A2D74",
       "foff": "0xCD4238",
       "vma": "0x80155A38",
@@ -167,7 +167,7 @@
     },
     {
       "row": "dungeon/func_80CB4300",
-      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F8A600",
       "foff": "0xCD4300",
       "vma": "0x80155B00",
@@ -238,7 +238,7 @@
     },
     {
       "row": "dungeon/func_80CB533C",
-      "tu": "src/dungeon/monster/kid/initialize_counted_entity_action.c",
+      "tu": "src/dungeon/monster/kid/wait_for_kid_action_slot.c",
       "home": "dungeon/func_809F7148",
       "foff": "0xCD533C",
       "vma": "0x80156B3C",
@@ -246,7 +246,7 @@
     },
     {
       "row": "dungeon/func_80CB53E8",
-      "tu": "src/dungeon/monster/kid/blend_effect_channels_to_gray.c",
+      "tu": "src/dungeon/monster/kid/finish_kid_effect_and_tint.c",
       "home": "dungeon/func_809F71F4",
       "foff": "0xCD53E8",
       "vma": "0x80156BE8",

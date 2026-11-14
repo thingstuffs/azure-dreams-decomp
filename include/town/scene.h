@@ -5,8 +5,8 @@
 #include "records/Rec_func_800165F4_arg0.h"
 
 
-/* dispatch_inputs_by_current_state.c */
-s32 dispatch_inputs_by_current_state(s32 input_a, s32 input_b, s32 input_c, s32 input_d);
+/* select_data_by_cell_code.c */
+s32 select_data_by_cell_code(s32 input_a, s32 input_b, s32 input_c, s32 input_d);
 
 /* process_town_records.c */
 void process_town_records(s32 records_addr, s32 record_count);
@@ -37,16 +37,16 @@ void *return_zero_event_value(s32 unused);
 extern void *D_800166F8[];
 extern void *D_80016718[];
 
-s32 forward_request_if_ready(void *request_value);
-s32 pass_and_clear_selected_entry_byte(void *context, s32 entry_index);
+s32 match_request_input_to_state(void *request_value);
+s32 process_entry_and_clear_cell_code(void *context, s32 entry_index);
 
 s32 apply_scene_override_flag(s32 unused_first, s32 unused_second);
 s32 check_any_entry_matches_predicate(void);
 s32 lookup_variant_with_special_overrides(s32 requiredFlag, s32 completionFlag);
 s32 *select_state_result_with_lookup_overrides(s32 first_value, s32 second_value, s32 unused_context);
 
-void run_events_5a5_5c2_and_reset(void);
-s32 increment_and_check_three(void);
+void reset_sbs11_flags_and_counter(void);
+s32 bump_event_counter_to_three(void);
 
 s32 check_counter_threshold(void);
 void subtract_threshold_from_counter(void);
@@ -54,7 +54,7 @@ void subtract_threshold_from_counter(void);
 void request_handler_state_9(void);
 void request_handler_command_17(void);
 
-s32 set_indexed_entry_flag_if_dac(void *object, s32 entry_index);
+s32 set_indexed_entry_flag_when_dac_flag_set(void *object, s32 entry_index);
 
 struct Rec_func_800165F4_arg0;
 s32 process_entry_with_script_flag(struct Rec_func_800165F4_arg0 *object, s32 entry_index);
@@ -64,10 +64,10 @@ struct RuntimeState;
 void reserve_town_monster_load_two(struct RuntimeState *unused_transition, void *unused_map_data);
 
 /* Complete TOWN callbacks at the validated phase load addresses. */
-s32 process_entry_linked_nonzero(void *object, s32 entry_index);
-s32 process_entry_linked_five(void *object, s32 entry_index);
+s32 process_entry_marking_flag_if_nonzero(void *object, s32 entry_index);
+s32 process_entry_marking_flag_at_five(void *object, s32 entry_index);
 s32 set_entry_flag_when_enabled(void *object, s32 entry_index);
-void set_script_flag_94c(void);
+void set_script_flag_sbs32_pad34(void);
 void start_keima_and_clear_flag(void);
 void set_active_entry_script_flag(void);
 void mark_active_entry_script_flag(void);
@@ -125,11 +125,11 @@ typedef struct {
     s16 script_flag;
     s16 reserved;
 } TownSceneChoice;
-s32 apply_gate_5217_entry(SquareSceneEntry *entry, s32 entry_index);
-s32 apply_gate_5000_entry(SquareSceneEntry *entry, s32 entry_index);
-s32 apply_gate_5000_flag_entry(SquareSceneEntry *entry, s32 entry_index);
-s32 apply_gate_5211_flag_entry(SquareSceneEntry *entry, s32 entry_index);
-s32 apply_gate_5003_flag_entry(SquareSceneEntry *entry, s32 entry_index);
+s32 apply_entry_mia_bikou_start(SquareSceneEntry *entry, s32 entry_index);
+s32 apply_entry_selfy_rescued(SquareSceneEntry *entry, s32 entry_index);
+s32 apply_checked_entry_selfy_rescued(SquareSceneEntry *entry, s32 entry_index);
+s32 apply_entry_selfy_got_egg(SquareSceneEntry *entry, s32 entry_index);
+s32 apply_entry_selfy_all_talk(SquareSceneEntry *entry, s32 entry_index);
 void *select_square_entry_or_fallback(SquareSceneEntry *entry, s32 entry_index, s32 selection);
 void *select_square_entry_or_alternate(SquareSceneEntry *entry, s32 entry_index, s32 selection);
 s32 flag_entry_if_record_eleven(SquareSceneEntry *entry, s32 entry_index);
@@ -169,7 +169,7 @@ struct Node *find_overlapping_active_node(struct Node *origin);
 
 s32 count_listed_enabled_records(void);
 
-void advance_dispatch_state_to_two(void);
+void advance_event_dispatch_state(void);
 s32 advance_to_next_enabled_entry(void);
 s32 apply_selected_entry_values(Rec_func_800165F4_arg0 *record, s32 entry_index);
 s32 check_callback_record_bytes(s32 expected_second, s32 expected_first);
@@ -180,11 +180,11 @@ s32 process_checked_entry(void *object, s32 entryIndex);
 s32 select_status_code_from_callback(void);
 
 void dispatch_paired_table_values(void);
-void process_flagged_type_0x18_entries(void);
+void process_flagged_goods_entries(void);
 
 struct S_func_8001A854_4;
 s32 blend_point_2s_by_signed_weight(void *base_point, void *other_point, s32 blend_weight, s32 other_weight, void *result_point);
-void call_state_handler_and_copy_values(struct S_func_8001A854_4 *output, s32 handler_arg);
+void fetch_scene_position_xy(struct S_func_8001A854_4 *output, s32 handler_arg);
 
 void copy_words_backward_from_offset(s32 dest_addr, s32 src_addr, s32 byte_count);
 
@@ -202,14 +202,14 @@ u8 *get_special_data_by_id(s32 id);
 s32 has_matching_entry_result(s32 first_value, s32 second_value);
 void invoke_match_callback_or_lookup(void);
 s32 *lookup_with_override_fallback(void *key, s32 unused, s32 context);
-void post_code_0x107_when_slot_ready(s32 group, s32 slot);
+void post_slot_ready_code(s32 group, s32 slot);
 s32 prepare_stored_value_pair(void);
 void print_scene_sequence_number_sno(s32 kind);
-void process_flagged_entries_follow_four(u8 *entries);
-void run_setup_and_remap_mode_records(s32 table_index, s32 mode);
-s32 try_decrement_state_counter(s32 grid_y, s32 grid_x);
+void process_flagged_entries_after_header(u8 *entries);
+void load_record_list_by_mode(s32 table_index, s32 mode);
+s32 has_entry_at_grid_position(s32 grid_y, s32 grid_x);
 
-u8 *select_town_byte_array(void);
+u8 *select_town_response_data(void);
 
 void init_scene_node_mode_1(void *record, void *position, void *bounds);
 
@@ -218,20 +218,20 @@ s32 advance_counter_modulo_eight(void);
 void advance_town_events_and_dispatch_entry(void);
 void apply_record_value_when_enabled(Rec_func_800165F4_arg0 *record, s32 handler_context);
 s32 blit_default_rectangle(void);
-s32 call_helper_with_fixed_id_0x118a(void);
+s32 is_bar_top_flag_set(void);
 void init_scene_node_mode_4(void *record, void *position, void *bounds);
-void dispatch_mode_two_by_state(s32 state_input);
+void set_dispatch_mode_two(s32 state_input);
 s32 find_eligible_entry(void *context, s32 unused_group_bits);
-s32 get_helper_result(void);
+s32 get_linked_record_value(void);
 s32 get_min_surface_probe_capped(EntityRec *source, s32 *out_detail);
 s32 is_angle_within_tolerance(s32 value_a, s32 value_b);
-void pass_2(s32 dispatch_context, s32 unused, s32 dispatch_arg);
-s32 process_request_and_notify(void *context, s32 request);
+void lookup_entry_after_grid_match(s32 dispatch_context, s32 unused, s32 dispatch_arg);
+s32 apply_entry_and_write_flag_range(void *context, s32 request);
 char *select_address_based_input(void);
-void *select_data_for_condition_d_83(s32 unused_value, s32 unused_special_value, s32 unused_code);
+void *select_data_for_pad82_flag(s32 unused_value, s32 unused_special_value, s32 unused_code);
 void *select_data_pointer_based_result(void);
 s32 *select_item_gift_response(s32 unused_first_value, s32 unused_second_value, s32 unused_code);
-void set_up_town_resolves_record(s32 unused_list_length, s32 unused_record_value);
+void load_fixed_record_list(s32 unused_list_length, s32 unused_record_value);
 void write_value_through_pointer(s32 *destination, s32 value);
 
 void fall_to_ground_height(s32 unused, ObjectPosition *position);
@@ -239,7 +239,7 @@ void fall_to_ground_height(s32 unused, ObjectPosition *position);
 struct Entry;
 void apply_entry_keyed_values(s16 *entryTable, void *resource, s32 entryKey);
 s32 find_entry_index_or_assert(struct Entry *entries, s32 key);
-s32 lookup_entry_apply_record_code(void *table, void *context, s32 lookup_key);
+s32 lookup_entry_value_and_set_flag(void *table, void *context, s32 lookup_key);
 void process_flagged_entries_mode_append(void *entries);
 s32 *select_fallback_when_below_threshold(void *input);
 /* Address-qualified entries of distinct diagnostic devkit builds; docs/evidence/r141w_town_dev.md. */
@@ -253,7 +253,7 @@ s32 match_input_low_bits_to_state(struct TownInput *input);
 s32 is_player_in_target_region(void);
 s32 find_first_enabled_paired_entry(void);
 s32 are_all_checks_set(void);
-s32 find_entry_8_index_or_assert(void *entries, s32 entry_id);
+s32 find_eight_byte_entry_or_assert(void *entries, s32 entry_id);
 void *init_sequential_command_records(void *records);
 
 s32 sum_flagged_terminated_entries(void *entry, s32 callback_mode);

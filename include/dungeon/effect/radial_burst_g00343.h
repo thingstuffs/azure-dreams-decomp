@@ -8,6 +8,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_moving_views.h"
+#include "shared/entity.h"
 #include "sdk/libgte.h"
 #include "sdk/rand.h"
 
@@ -37,6 +38,6 @@ extern void select_record_entry_and_value(void *state, void *entries, short inde
 #include "dungeon/effect/sprite/directional_entries.h"
 
 /* Functions defined in this translation unit. */
-void spawn_randomized_radial_burst(MovingPosition *origin);
+void spawn_randomized_radial_burst(ObjectPosition *origin);
 
 #endif

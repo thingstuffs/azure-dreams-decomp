@@ -15,7 +15,7 @@ typedef struct S_80025398_0 {
     s32 unk_40;
 } S_80025398_0;
 
-/* arg0 in process_five_context_entries_or_fallback */
+/* arg0 in write_save_and_refresh_slot_windows */
 typedef struct S_80025398_1 {
     u8 pad_00[0x4];
     s32 unk_04;
@@ -32,6 +32,6 @@ extern void no_op_card_hook(s32);
 
 /* Functions defined in this translation unit. */
 void initialize_save_description(void *owner, s32 value);
-void process_five_context_entries_or_fallback(void *context);
+void write_save_and_refresh_slot_windows(void *context);
 
 #endif

@@ -9,7 +9,7 @@
 #include "dungeon/level.h"
 
 /* Emits scattered effects at evenly spaced angles unless the tile to the left blocks them. */
-void emit_scattered_effects_unless_blocked(void *source)
+void emit_scattered_effects_unless_blocked(ObjectPosition *source)
 {
     DungeonEffect effect;
     s32 tile_x;
@@ -20,8 +20,8 @@ void emit_scattered_effects_unless_blocked(void *source)
     s32 emitted;
     u16 source_field_a;
 
-    tile_x = *(s16 *)((u8 *)source + 2) / 64 - 1;
-    tile_y = *(s16 *)((u8 *)source + 6) / 64;
+    tile_x = source->x.w.i / 64 - 1;
+    tile_y = source->y.w.i / 64;
     get_offset_map_cell_value_and_flags(tile_x, tile_y, 0, &effect.flags);
     if (effect.flags & 0x400) {
         spawn_randomized_radial_burst(source);
@@ -31,13 +31,13 @@ void emit_scattered_effects_unless_blocked(void *source)
     effect_count = (rand() & 7) | 4;
     angle_step = 0x1000 / effect_count;
     angle = rand();
-    source_field_a = *(u16 *)((u8 *)source + 0xA);
+    source_field_a = (u16)source->z.w.i;
     effect.field_16 = -4;
     effect.field_A = source_field_a;
     for (emitted = 0; emitted < effect_count; emitted++) {
-        effect.x = *(u16 *)((u8 *)source + 2) +
+        effect.x = (u16)source->x.w.i +
                    (rand() & 0x1F) - 0x10;
-        effect.y = *(u16 *)((u8 *)source + 6) +
+        effect.y = (u16)source->y.w.i +
                    (rand() & 0x1F) - 0x10;
         effect.field_C = rcos(angle) << 5;
         effect.field_10 = rsin(angle) << 5;
@@ -47,7 +47,7 @@ void emit_scattered_effects_unless_blocked(void *source)
 }
 
 /* Spawns a randomized radial burst of particles at the given position. */
-void spawn_randomized_radial_burst(MovingPosition *origin)
+void spawn_randomized_radial_burst(ObjectPosition *origin)
 {
     s32 particle_count;
     s32 angle_step;
@@ -73,10 +73,10 @@ void spawn_randomized_radial_burst(MovingPosition *origin)
                 particle->update_callback = advance_effect_fade_and_flag;
                 register_node(particle, project_sprite_chain);
                 motion->x.w.i =
-                    origin->x + (rcos(angle) >> 11);
+                    (u16)origin->x.w.i + (rcos(angle) >> 11);
                 motion->y.w.i =
-                    origin->y + (rsin(angle) >> 11);
-                motion->z.w.i = origin->z;
+                    (u16)origin->y.w.i + (rsin(angle) >> 11);
+                motion->z.w.i = (u16)origin->z.w.i;
                 motion->velocity_x = rcos(angle) << 6;
                 motion->velocity_y = rsin(angle) << 6;
                 motion->velocity_z = 0xFFFD0000;

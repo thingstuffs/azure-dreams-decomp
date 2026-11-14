@@ -10,8 +10,8 @@ struct S_8003AF58_1;
 /* append_town_movie_list_node.c */
 void append_list_tail(void *list_head, struct S_8003AF58_1 *new_node);
 
-/* clear_town_movie_object_field.c */
-void clear_town_movie_object_field(MovieListNode *object);
+/* reset_callback_list.c */
+void reset_callback_list(MovieListNode *object);
 
 /* load_dispatch_entry_files.c */
 void play_movie_with_fixed_display_flag(s32 table_index, s32 flags);

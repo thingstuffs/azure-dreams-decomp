@@ -13,7 +13,6 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
 
-typedef s32 M2C_UNK;
 #include "records/Rec_func_800AA258_arg2.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
@@ -22,6 +21,7 @@ typedef s32 M2C_UNK;
 #include "dungeon.h"
 #include "dungeon/level.h"
 #include "dungeon/monster/pulunpa_frames.h"
+#include "dungeon/monster/pulunpa_frame_set_3.h"
 
 typedef struct S_8017405C_1 S_8017405C_1;
 
@@ -49,7 +49,6 @@ extern s32 check_object_action_and_clear_flags(ActorRecord *object, s32 query_x,
 s32 select_nearby_target_and_start_action(ActorRecord *action_state, ObjectPosition *unused, SpriteFrameState *actor_pos_arg, ActorRecord *actor);
 
 extern u8 D_80176358[];
-extern M2C_UNK pulunpa_frame_set_3;
 extern u8 D_80176370[];
 
 /*
@@ -78,14 +77,14 @@ void update_creature_actions_and_animation(ActorRecord *actor, ObjectPosition *c
     }
     if (creature->mp_value.parts.whole == 0) {
         advance_actor_pending_action(actor, context, sprite, creature);
-        if (sprite->frameTable == &pulunpa_frame_set_3) {
+        if (sprite->frameTable == pulunpa_frame_set_3) {
             return;
         }
         set_map(sprite, creature, (u8 *)&D_80176358);
         return;
     }
     if (creature->flags1C & ACTOR_ASLEEP) {
-        if (sprite->frameTable == &pulunpa_frame_set_3) {
+        if (sprite->frameTable == pulunpa_frame_set_3) {
             actor->action_id = 13;
             actor->action_phase = 1;
             actor->unk_8C.word = 0;

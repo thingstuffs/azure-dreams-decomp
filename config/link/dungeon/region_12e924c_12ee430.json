@@ -117,7 +117,7 @@
     },
     {
       "row": "dungeon/func_812CE164",
-      "tu": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",
+      "tu": "src/dungeon/monster/kewne/update_ellipse_ring_effect.c",
       "home": "dungeon/func_809A38E4",
       "foff": "0x12ee164",
       "vma": "0x80151964",

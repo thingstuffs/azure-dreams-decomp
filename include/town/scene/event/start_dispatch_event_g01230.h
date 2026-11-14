@@ -31,7 +31,7 @@ extern s32 advance_to_next_enabled_entry(void);
 
 /* Functions defined in this translation unit. */
 s32 start_dispatch_event(void *init_arg);
-s32 dispatch_active_event_27(void);
+s32 continue_town_event_dispatch(void);
 s32 is_dispatch_state_two(void);
 void select_next_event_state(void);
 

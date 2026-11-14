@@ -157,7 +157,7 @@ void advance_actor_item_use_sequence(ActorRecord *body, ObjectPosition *position
         if ((sprite->unk_04 == 3 &&
              (sprite->flags & 0x1000)) ||
             (sprite->flags & 0xE000)) {
-            create_offset_actor_object(body, position, sprite);
+            create_actor_animation_effect(body, position, sprite);
             body->action_phase++;
         }
 

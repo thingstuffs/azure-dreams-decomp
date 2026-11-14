@@ -740,7 +740,7 @@ void create_attenuating_moving_effect(ObjectNodeHeader **alloc_arg, s32 child_x,
     object = allocate_list_node(0x12, alloc_arg);
     if (object != NULL) {
         object->unk10 = attenuate_effect_scale_and_brightness;
-        register_node(object, process_linked_mesh_states_mode_0);
+        register_node(object, draw_linked_segment_aligned_quads);
         child = object->child;
         child->unk2 = input->unk0;
         child->unk6 = input->unk2;
@@ -1588,7 +1588,7 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
                     s32 action;
                     s32 amount;
                     GlobalObj *object;
-                    result = get_special_table_data_index(work->handle);
+                    result = get_item_slot_number(work->handle);
                     action = 0x48;
                     result = (s32)((u32)result << 16);
                     amount = result >> 16;
@@ -1597,7 +1597,7 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
                 } else {
                     s32 amount;
                     GlobalObj *object;
-                    result = get_special_table_data_index((work->handle));
+                    result = get_item_slot_number((work->handle));
                     amount = (s16)result;
                     object = *((GlobalObj * *)(&dungeon_actor_ring_anchor));
                     append_packed_action_record(object, 0x50,
@@ -1713,7 +1713,7 @@ typedef struct D_80083780_t {
     u16 fA;
 } D_80083780_t;
 
-extern s32 has_enough_available_runtime_nodes(s32 limit);
+extern s32 has_enough_available_nodes(s32 limit);
 
 extern s32 is_selectable_menu_target(ActorRecord *object);
 
@@ -1743,7 +1743,7 @@ void *create_item_target_selector(u8 *selection_data) {
     S_800BA074_1 *global_page;
     s32 last_part;
 
-    if (has_enough_available_runtime_nodes(3) == 0) {
+    if (has_enough_available_nodes(3) == 0) {
         return 0;
     }
 
@@ -2169,7 +2169,7 @@ typedef struct S_800BA810_0 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void update_pulsing_sprite_color(void *channel_config, void *unused, void *output);
-void mark_active_nodes_by_callback(s32 *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */                  /* extern */
+void flag_nodes_with_callback_for_removal(s32 *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */                  /* extern */
 typedef struct S_8006DE24_Entry {
     u8 pad[0x12];
     u8 type;
@@ -2218,7 +2218,7 @@ void update_selection_tile_markers(S_800B50B0_Entity *entity, s32 selection) {
 
     if (entity == NULL) {
         menu_effect_cached_actor = NULL;
-        mark_active_nodes_by_callback(update_pulsing_sprite_color);
+        flag_nodes_with_callback_for_removal(update_pulsing_sprite_color);
         return;
     }
     tile_list = update_pulsing_sprite_color;
@@ -2227,7 +2227,7 @@ void update_selection_tile_markers(S_800B50B0_Entity *entity, s32 selection) {
         menu_effect_cached_actor = entity;
         D_800DF378 = selection;
         D_800DF37A = angle;
-        mark_active_nodes_by_callback(update_pulsing_sprite_color);
+        flag_nodes_with_callback_for_removal(update_pulsing_sprite_color);
         direction = (entity->angle2a >> 9) & 7;
         mode = selection & 0x3FFF;
         position = ((S_800BA810_0 *)((u8 *)entity - 0x18))->unk_00;
@@ -2472,7 +2472,7 @@ extern s32 draw_particle_effect_primitives(struct DungeonObject *object, u16 *po
 
 
 /* Initializes random values, advances counters, and flags the object when inactive. */
-void advance_particle_effect_state(ActorLinkedParticleEffectBody *object) {
+void update_actor_linked_particle_effect(ActorLinkedParticleEffectBody *object) {
     s16 next_index;
     s16 state;
     s16 sample_index;
@@ -2532,7 +2532,7 @@ typedef struct S_800BB044_1 {
     u16 unk_42;
 } S_800BB044_1;   /* arg0 in create_actor_linked_effect; pointer addresses record offset 0x18 */
 
-extern void advance_particle_effect_state(ActorLinkedParticleEffectBody *object);
+extern void update_actor_linked_particle_effect(ActorLinkedParticleEffectBody *object);
 
 /* Creates an object linked to the source data and copies its record fields. */
 void create_actor_linked_effect(ActorRecord *source_data) {
@@ -2540,7 +2540,7 @@ void create_actor_linked_effect(ActorRecord *source_data) {
 
     created_object = allocate_list_node(0x202, &NODE_HEADER(source_data)->next);
     if (created_object != 0) {
-        created_object->unk_10 = advance_particle_effect_state;
+        created_object->unk_10 = update_actor_linked_particle_effect;
         created_object->unk_20 = source_data;
         created_object->unk_08 = (s32) ((S_800BB044_1 *)((u8 *)source_data - 0x18))->unk_00;
         created_object->unk_2C = (u16) ((S_800BB044_1 *)((u8 *)source_data - 0x18))->unk_42;
@@ -2671,14 +2671,14 @@ void update_pulsing_color_fade(void *effect_data, register S_800BB14C *effect, S
     return;
 }
 
-   /* state in draw_content_or_rect */
+   /* state in draw_sprite_or_fill_rect */
 
 typedef struct S_800BB2E4_1 {
     u16 unk_00;
     union { u16 u; s16 s; } unk_02;   /* accessed as both */
     u16 unk_04;
     u16 unk_06;
-} S_800BB2E4_1;   /* arg2_r in draw_content_or_rect */
+} S_800BB2E4_1;   /* arg2_r in draw_sprite_or_fill_rect */
 
 typedef struct S_800BB2E4_2 {
     u8 pad_00[0x3];
@@ -2695,7 +2695,7 @@ typedef struct S_800BB2E4_2 {
         struct { u16 v; } at00u;
         struct { u8 pad[0x2]; u16 v; } at02;
     } unk_0C;   /* overlapping accesses */
-} S_800BB2E4_2;   /* packet in draw_content_or_rect */
+} S_800BB2E4_2;   /* packet in draw_sprite_or_fill_rect */
 
 typedef struct {
     s16 x;
@@ -2711,7 +2711,7 @@ struct Position;
 extern u8 upper_draw_context[16];
 
 /* Queues a line or filled rectangle with optional content and drawing state commands. */
-void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, void *content_id)
+void draw_sprite_or_fill_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, void *content_id)
 {
     CoordPair bottom_center;
     u8 **state_addr;
@@ -2861,7 +2861,7 @@ void update_five_point_effect(FivePointEffectBody *effect, ObjectPosition *posit
     advance_sprite_animation_and_textures(packet_or_angle_2);
     saved_link = restore_link;
     NODE_HEADER(effect)->sprite = packet_or_angle_2;
-    draw_content_or_rect(NULL, NULL, draw_params, 0, effect);
+    draw_sprite_or_fill_rect(NULL, NULL, draw_params, 0, effect);
     base_angle = start_angle;
     for (point_index = 0; point_index < 5; point_index++) {
         packet_or_angle = base_angle << 0x10;
@@ -2880,7 +2880,7 @@ void update_five_point_effect(FivePointEffectBody *effect, ObjectPosition *posit
             >> 0xB);
         effect->point_angles[point_index] = base_angle;
         base_angle += 0x999;
-        draw_content_or_rect(start_xy, end_xy, draw_params, 0, NULL);
+        draw_sprite_or_fill_rect(start_xy, end_xy, draw_params, 0, NULL);
     }
     base_angle = start_angle;
     for (point_index = 0; point_index < 5; point_index++) {
@@ -2896,7 +2896,7 @@ void update_five_point_effect(FivePointEffectBody *effect, ObjectPosition *posit
             packet_or_angle >>= 16;
             end_xy[0] = (rcos(packet_or_angle) >> 7) + 0x362;
             end_xy[1] = (rsin((s16)packet_or_angle) >> 7) + 0x122;
-            draw_content_or_rect(start_xy, end_xy, draw_params, 0, NULL);
+            draw_sprite_or_fill_rect(start_xy, end_xy, draw_params, 0, NULL);
             start_xy[0] = (u16) end_xy[0];
             start_xy[1] = (u16) end_xy[1];
         }
@@ -2915,7 +2915,7 @@ void update_five_point_effect(FivePointEffectBody *effect, ObjectPosition *posit
             effect->unk_4C = 0x20;
         }
     }
-    draw_content_or_rect(NULL, NULL, draw_params, 1, NULL);
+    draw_sprite_or_fill_rect(NULL, NULL, draw_params, 1, NULL);
     NODE_HEADER(effect)->sprite = (SpriteFrameState *)(unsigned long)saved_link;
     if (effect->unk_4A != 0) {
         effect->unk_4E = (u16) (effect->unk_4E + 0x100);
@@ -2964,13 +2964,13 @@ void update_five_point_effect(FivePointEffectBody *effect, ObjectPosition *posit
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Pass the buffer, value, and data to draw_linked_sprites_clipped and return zero. */
-s32 process_linked_menu_effect(u8 *buffer, s32 value, SpriteFrameState *data) {
+s32 draw_linked_menu_sprites(u8 *buffer, s32 value, SpriteFrameState *data) {
     draw_linked_sprites_clipped(buffer, value, data);
     return 0;
 }
 
 extern void update_five_point_effect(FivePointEffectBody *effect, ObjectPosition *position, s32 restore_link);
-extern s32 process_linked_menu_effect(u8 *buffer, s32 value, SpriteFrameState *data);
+extern s32 draw_linked_menu_sprites(u8 *buffer, s32 value, SpriteFrameState *data);
 extern M2C_UNK familiar_restore_sprite_data;
 
 /* Creates an effect at the tile center and initializes its rendering and five angles. */
@@ -2987,7 +2987,7 @@ void *create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transfor
 
     call_data[0] = 0x01000340;
     call_data[1] = 0x01000080;
-    draw_content_or_rect(0, 0, call_data, 1, 0);
+    draw_sprite_or_fill_rect(0, 0, call_data, 1, 0);
     effect = allocate_list_node(0x12, &scene_object_list_anchor.next);
     if (effect != NULL) {
         s32 angle_index;
@@ -2995,7 +2995,7 @@ void *create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transfor
 
         play_sound_if_enabled(0x704);
         effect->update_callback = update_five_point_effect;
-        register_node(effect, process_linked_menu_effect);
+        register_node(effect, draw_linked_menu_sprites);
         position = effect->position;
         position->x.w.i = (s16) (((s32) (tile_x << 0x10) >> 0xA) + 0x20);
         position->y.w.i = (s16) (((s32) (tile_y << 0x10) >> 0xA) + 0x20);

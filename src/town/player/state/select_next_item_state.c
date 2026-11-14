@@ -14,7 +14,7 @@ extern s32 town_interaction_pending;
 void select_next_item_state(void *object, void *position, void *context) {
     if (get_item_chk() == -1) {
         write_resource_command(&D_80088D44, 0x11);
-        set_item_selection_data_pointer(object, position, context);
+        set_deferred_dispatch_handler(object, position, context);
         town_player_action_callback = initialize_scene_action_record;
         return;
     }

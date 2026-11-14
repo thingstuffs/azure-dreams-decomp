@@ -40,7 +40,7 @@ s32 dispatch_selected_item_action(u32 target, DungeonItemEntry *action, s16 acti
     u8 item_type;
 
     if (action_kind == 0xD) {
-        return process_record_and_update_linked_state(action, call_context);
+        return resolve_item_attack(action, call_context);
     }
 
     state = dungeon_actor_ring_anchor;
@@ -101,6 +101,6 @@ s32 dispatch_selected_item_action(u32 target, DungeonItemEntry *action, s16 acti
     }
 
     g_dungeon_status.activity_counts.parts.pending_action_count--;
-    clear_slot_and_update_linked_state(action);
+    clear_item_slot(action);
     return 1;
 }

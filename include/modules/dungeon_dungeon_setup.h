@@ -1,9 +1,11 @@
 #ifndef DUNGEON_DUNGEON_SETUP_H
 #define DUNGEON_DUNGEON_SETUP_H
+#include "dungeon/player/saved_held_item_data.h"
 #include "sdk/libgte.h"
 #include "dungeon/level.h"
 #include "dungeon/level/sprite_bundle_data.h"
 #include "dungeon/player/camera_depth_presets_data.h"
+#include "dungeon/player/camera_pitch_presets_data.h"
 #include "dungeon/player/actor_sprite_sources.h"
 
 struct ObjectPosition;
@@ -293,7 +295,6 @@ extern void *create_pulsing_effect_object(void);
 extern s32 dungeon_mode_state;
 extern s8 random_pickup_enabled;
 extern s8 D_80082A3B;
-extern s32 saved_held_item_word;
 extern s32 held_item_record;
 extern s32 temporary_item_record;
 extern void *actor_direction_sprites;
@@ -304,7 +305,6 @@ extern u8 player_attack_frame_groups_alt;
 extern s32 D_800E3D48[];
 extern void *actor_default_frames[];
 extern u8 player_wait_frames[];
-extern u16 camera_pitch_presets[];
 extern u8 dungeon_camera_targets[];
 extern s32 dungeon_menu_action_state[];
 extern u8 monster_resource_cache_slots[];

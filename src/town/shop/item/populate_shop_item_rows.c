@@ -68,6 +68,6 @@ void populate_shop_item_rows(ShopWindow *ctx) {
         row_widgets->rows[4][0]->value.word = item_value;
         row_offset += 4;
     }
-    update_shop_state_flags(ctx);
+    update_shop_page_edge_flags(ctx);
     update_current_shop_page(ctx);
 }

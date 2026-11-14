@@ -24,7 +24,7 @@
 
 
 #include "dungeon/item/find_active_rect_containing_point_api.h"
-extern void select_bank_actor_movement(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
+extern void select_zu_movement(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 extern s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
 extern void func_8015D078(void *, void *, void *, void *);
 
@@ -165,7 +165,7 @@ void update_actor_animation_and_dungeon_behavior(ActorRecord *actor, ObjectPosit
                         }
                     }
                 }
-                if ((update_entity_state_from_query(actor, context, sprite, 0) << 16) == 0) {
+                if ((relink_hikewne_path(actor, context, sprite, 0) << 16) == 0) {
                     return;
                 }
                 behavior = entity->action_flags | 0x4000;
@@ -219,7 +219,7 @@ void update_actor_animation_and_dungeon_behavior(ActorRecord *actor, ObjectPosit
             }
         }
 
-        select_bank_actor_movement(actor, context, sprite, entity);
+        select_zu_movement(actor, context, sprite, entity);
         return;
     }
 

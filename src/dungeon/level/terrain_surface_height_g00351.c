@@ -75,7 +75,7 @@ s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height) {
                     p3_y = work->p3.half.y - local_y;
                     work->p3.half.x = p3_x;
                     work->p3.half.y = p3_y;
-                    if (are_quad_corner_turns_within_half_revolution(work) != 0) {
+                    if (is_point_in_quad(work) != 0) {
                         Vertex *normal = (Vertex *)(
                             (unsigned long)(primitive->next * sizeof(Vertex)) +
                             (unsigned long)normals);
@@ -130,7 +130,7 @@ s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height) {
 }
 
 /* True unless the quad's corner angles are laid out so that one of its successive turns exceeds half a revolution. */
-s32 are_quad_corner_turns_within_half_revolution(S_800BCE7C_0 *poly) {
+s32 is_point_in_quad(S_800BCE7C_0 *poly) {
     s32 delta_3;
     s32 angle_1;
     s32 delta_1;

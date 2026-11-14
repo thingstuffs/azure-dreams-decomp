@@ -17,14 +17,14 @@ typedef struct BoundEntityHandlerState {
     void (*handler)(s32, ObjectPosition *, s32);
 } BoundEntityHandlerState;
 
-/* bind_handler_and_initialize_entity.c */
-void bind_handler_and_initialize_entity(struct BoundEntityHandlerState *state, ObjectPosition *record, void *unused_action_data);
+/* start_ground_motion_adjust.c */
+void start_ground_motion_adjust(struct BoundEntityHandlerState *state, ObjectPosition *record, void *unused_action_data);
 
-/* clear_entity_record_fields.c */
-void clear_entity_record_fields(ObjectPosition *record);
+/* clear_object_velocity.c */
+void clear_object_velocity(ObjectPosition *record);
 
-/* clear_handled_object_or_callback.c */
-void clear_handled_object_or_callback(struct S_func_800A6C4C_0 *object, s32 input, s32 callback_data);
+/* retire_object_on_check_or_call_handler.c */
+void retire_object_on_check_or_call_handler(struct S_func_800A6C4C_0 *object, s32 input, s32 callback_data);
 
 /* initialize_action_object_and_play_sound.c */
 void initialize_action_object_and_play_sound(s32 **record, ObjectPosition *unused, s32 setup_value);
@@ -85,8 +85,8 @@ void tick_countdown_and_initialize_object(UnsignedCountdownView *state, ObjectPo
 
 /* update_object_and_countdown.c */
 
-/* update_threshold_bound_object.c */
-void update_threshold_bound_object(void *context, ObjectPosition *object, void *update_arg);
+/* update_airborne_object_with_land_effects.c */
+void update_airborne_object_with_land_effects(void *context, ObjectPosition *object, void *update_arg);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "shared/sprite_frame_state.h"

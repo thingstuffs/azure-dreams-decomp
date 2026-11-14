@@ -14,7 +14,7 @@
     {
       "row": "town/func_808B9244",
       "home": "town/func_808B7DD4",
-      "tu": "src/town/scene/flags/dispatch_entry_test_flag.c",
+      "tu": "src/town/scene/flags/update_entry_value_flag_from_test_flag.c",
       "foff": "0x839244",
       "vma": "0xA0700244",
       "size": 148,

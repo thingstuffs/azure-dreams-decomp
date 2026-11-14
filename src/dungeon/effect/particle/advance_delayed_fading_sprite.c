@@ -90,7 +90,7 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
         if ((F(animation, u16, 0) & 0x80) == 0)
             return;
         if ((owner->target = scan_actor_along_heading( owner, owner_record->tile_x, owner_record->tile_y,
-            owner->facing, (s16)get_definition_entry_byte_13(8))) == 0) {
+            owner->facing, (s16)get_spell_range(8))) == 0) {
             owner->target_tile_x = owner_record->tile_x;
             owner->target_tile_y = owner_record->tile_y;
         } else {

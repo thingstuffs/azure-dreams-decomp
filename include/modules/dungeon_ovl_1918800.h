@@ -67,7 +67,7 @@ void draw_wave_sprite_in_draw_area(struct ParticleState *wave, void *context, st
 s32 draw_linked_brightness_points(struct PointRecord *start_node, ObjectPosition *start_coords);
 s32 random_unit_sign(void);
 void create_random_jitter_child( ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
-void advance_record_counter(struct CountdownRecord *record);
+void tick_wave_effect_countdown(struct CountdownRecord *record);
 void update_expanding_wave_impact_effect(struct ParticleState *effect, void *unused, struct SpriteFrameState *output);
 void advance_grayscale_fade(struct ParticleState *state, s32 unused, struct SpriteFrameState *out);
 void update_timed(struct ParticleState *state, struct ObjectPosition *position_out, struct SpriteFrameState *effect_arg);

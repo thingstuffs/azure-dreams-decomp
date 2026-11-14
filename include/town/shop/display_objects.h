@@ -4,6 +4,6 @@
 #include "common.h"
 #include "shared/object_node.h"
 
-void *create_dual_buffer_object(s32 setup_value, s32 x, s32 y);
+void *create_floating_number_widget(s32 setup_value, s32 x, s32 y);
 
 #endif

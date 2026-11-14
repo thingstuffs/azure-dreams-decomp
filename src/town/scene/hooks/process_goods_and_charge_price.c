@@ -1,0 +1,18 @@
+#include "common.h"
+#include "shared/town_event_buffer.h"
+#include "shared/record_ptrs.h"
+#include "shared/town_root.h"
+#include "town/scene/value_handler_modes_g00712.h"
+#include "town/scene.h"
+#include "town/scene/hooks.h"
+#include "town/data.h"
+
+/* Refresh the shared state and subtract D_8001B210 from the context counter. */
+void process_goods_and_charge_price(void) {
+    TownStateRecord *context;
+
+    process_flagged_goods_entries();
+    process_lshop_entries_default(town_event_records);
+    context = town_scene_root->town_state;
+    context->money = (s32) (((signed int)context->money) - scene_price);
+}

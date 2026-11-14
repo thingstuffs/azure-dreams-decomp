@@ -26,7 +26,7 @@ s32 apply_entry_position(ScenePositionEntry *entries, void *object, void *contex
 
     saved_object = object;
 
-    entry_index = find_entry_8_index_or_assert(entries, selection);
+    entry_index = find_eight_byte_entry_or_assert(entries, selection);
     selector = entries[entry_index].selector;
     table = *(s32 *)((u8 *)context + 0x14);
     position = (Position *)(selector * 8 + table);

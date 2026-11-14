@@ -1,0 +1,94 @@
+#include "common.h"
+#include "town/map/animation.h"
+#include "shared/sprite_frame_state.h"
+#include "shared/object_node.h"
+#include "shared/slus_callbacks.h"
+#include "shared/object_flags.h"
+#include "engine/node.h"
+#include "town/map/state.h"
+#include "town/map/map_animation_entries.h"
+
+
+/* Moves the object through its animation states, spawns an effect, and marks completion. */
+void update_falling_object(TownMapFallingObject *object)
+{
+    s32 state;
+    ObjectNodeHeader *effect;
+    SpriteFrameState *effect_sprite;
+
+    state = object->state.s;
+    object->timer.u = (u16) ((object->timer.u) - 1);
+    switch (state) {
+    case 0:
+        object->timer.u = 3;
+        object->motion.fixed.velocity_x.w.i = -4;
+        object->motion.fixed.velocity_z.w.i = 0x14;
+        object->state.u = (u16) ((object->state.u) + 1);
+
+    case 1:
+        object->motion.fixed.x.v += object->motion.fixed.velocity_x.v;
+        object->motion.fixed.z.v += object->motion.fixed.velocity_z.v;
+        if ((object->timer.s) > 0) {
+            return;
+        }
+        object->state.u =
+            (u16) ((object->state.u) + 1);
+        return;
+
+    case 2:
+        object->unk_0C.u = (u16) ((object->unk_0C.u)
+            + (((object->motion.fixed.velocity_x.w.i) * 3) >> 2));
+        object->unk_10.u = (u16) ((object->unk_10.u)
+            + (((object->motion.fixed.velocity_z.w.i) * 3) >> 2));
+        object->motion.fixed.z.v += object->motion.fixed.velocity_z.v;
+        object->motion.fixed.x.v += object->motion.fixed.velocity_x.v;
+        if ((object->motion.fixed.z.w.i) <= 0) {
+            return;
+        }
+        object->motion.fixed.z.w.i = 0;
+        effect = allocate_list_node(0x312, &scene_object_list_anchor.next);
+        if (effect != 0) {
+            effect->update_callback = fade_sprite_until_animation_ends;
+            register_node(effect, project_sprite_chain);
+            effect_sprite = effect->sprite;
+            effect->position->x.v = object->motion.fixed.x.v;
+            effect->position->y.v = object->motion.fixed.y.v;
+            effect->position->z.v = object->motion.fixed.z.v;
+            *((s16 *) (((u8 *) effect_sprite) + 0x1E)) = 0xC00;
+            *((s16 *) (((u8 *) effect_sprite) + 0x1C)) = 0xC00;
+            *((s16 *) (((u8 *) effect_sprite) + 0x10)) = 0x60;
+            *((s32 *) (((u8 *) effect_sprite) + 0xC)) = 0xA0A0A0;
+            *((void **) (((u8 *) effect_sprite) + 0)) = map_animation_sprite_entries;
+            *((u16 *) (((u8 *) effect_sprite) + 0x14)) |= 0xC;
+            effect_sprite->source = map_animation_sprite_entries[0].source;
+            effect_sprite->unk_04 = 0;
+            effect_sprite->frame_ticks = 0;
+        }
+        object->timer.u = 4;
+        object->state.u =
+            (u16) ((object->state.u) + 1);
+        return;
+
+    case 3:
+        object->unk_0C.u = (u16) ((object->unk_0C.u)
+            + (((object->motion.fixed.velocity_x.w.i) * 3) >> 2));
+        object->unk_10.u = (u16) ((object->unk_10.u)
+            + (((object->motion.fixed.velocity_z.w.i) * 3) >> 2));
+        if ((object->timer.s) > 0) {
+            return;
+        }
+        {
+            u16 *state_field = &object->state.u;
+            *state_field = 0xFF;
+        }
+        return;
+
+    case 0xFF:
+        *((u16 *) (((u8 *) object) + (-2))) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
+
+        return;
+    default:
+        return;
+    }
+}

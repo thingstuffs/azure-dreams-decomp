@@ -279,37 +279,37 @@ typedef struct TownWindowItemRecord { u8 pad_00[0x14]; u8 unk_14; u8 pad_15[0x37
 #define PP(p, off) (*(u8 **)((u8 *)(p) + (off)))
 #define TB(idx, off) (D_80010000[(idx) * 4 + (off)])
 
-s32 *initialize_shared_script_data(void);
+s32 *reset_script_rect_list(void);
 void **append_scaled_rect_to_script_list(s32 firstX, s32 firstY, s32 secondX, s32 secondY, func_8009F66C_CoordPair *coords);
 void create_entry_builder_controller(void);
-void build_entries_and_update_state(void);
-void update_shared_state_and_clear_flag(void);
+void update_entry_builder(void);
+void update_script_entry_lists(void);
 void build_entry_list_and_process_items(void);
 s32 classify_object_against_bounds(func_8009F880_S_8009CFE0_0 *object, void *position_data);
 s32 classify_record_by_state_and_position(Rec_D_80082D58 *record, void *position_data);
-s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, s32 state_94, u8 state_95, u8 state_96, u8 height_mode, s32 state_48, s16 coord_x, s16 coord_z, void *spawn_entry);
-void init_and_publish_script_state(void **entries);
-void process_zero_terminated_entry_lists(void **entries);
+s32 spawn_town_entry_object(s32 callback_id, s32 angle_index, s32 state_94, u8 state_95, u8 state_96, u8 height_mode, s32 state_48, s16 coord_x, s16 coord_z, void *spawn_entry);
+void initialize_town_resource_context(void **entries);
+void clear_script_entry_statuses(void **entries);
 void clear_record_status_bytes(s8 *records);
 void compute_four_point_coordinate_bounds(void *points, func_800A00A8_S_8009D808_2 *max_point, func_800A00A8_S_8009D808_1 *min_point);
 void collect_overlapping_rectangles(func_800A01E0_S_8009D940_1 *query_max, func_800A01E0_S_8009D940_2 *query_min, void **entries, void **matches);
 void rectangle_to_four_corners(func_800A0284_S_8009D9E4_0 *rectangle, func_800A0284_S_8009D9E4_1 *vertices);
 void process_eligible_entries(func_800A02F0_S_8009DA50_2 *entries, void *bounds, s32 origin_x, s32 origin_y);
-void set_object_state_for_mode(void *owner, struct SpriteFrameState *object, s32 mode, s32 flags);
-void cleanup_or_dispatch_object(void *object, s32 source, s32 context);
+void set_window_sprite_for_mode(void *owner, struct SpriteFrameState *object, s32 mode, s32 flags);
+void retire_or_run_record_callback(void *object, s32 source, s32 context);
 void invoke_entity_callback_and_follow_up(func_800A06C8_EntityLike *entity, s32 callback_id, SpriteFrameState *callback_data);
 void dispatch_object_or_switch_alternate_state(func_800A075C_S_func_8009DEBC_0 *object, s32 source, s32 context);
 void install_state_dispatch_callback(func_800A075C_S_func_8009DEBC_0 *object, void *context);
-s32 store_selected_record_fields(void);
-s32 initialize_shared_state_from_table(void);
-s32 pass_shared_data_to_window_handler(void);
+s32 store_target_record_script_state(void);
+s32 open_monster_status_window(void);
+s32 close_monster_status_window(void);
 s32 create_selected_record_view(void);
 s32 get_current_high_bit_flag(void);
 s32 kewn_namewin_open(void);
 s32 kewn_namewin_close_check(void);
 s32 t_soukowin_open(void);
 s32 t_soukowin_close_check(void);
-void set_object_types_and_resource(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output);
+void initialize_town_object_by_mode(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output);
 void update_object_pulse_brightness(TownObjectRecord *object, s32 context, struct SpriteFrameState *primitive);
 void init_pulsing_item_entity(TownObjectRecord *entity, ObjectPosition *placement, struct SpriteFrameState *state);
 
@@ -320,7 +320,7 @@ void run_dual_context_callbacks(void);
 s32 test_resident_bitmap_bit(s32 bit_id);
 s32 check_four_vector_half_turn_gaps();
 extern void *allocate_list_node(s32 size, void *template);
-extern void runtime_set_record_value_and_buffer(void *, s32);
+extern void set_script_text_pointer(void *, s32);
 extern void ensure_packed_resource_list(u8 *entries_in);
 void select_record_entry_and_value(void *state, void *entries, short index);
 void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
@@ -337,10 +337,10 @@ extern void initialize_object_and_maybe_play_sound(void *object, void *object_ag
 extern void del_t_item_w_ptr(void *object_data);
 void restore_actor_stats_from_snapshot();
 void *load_and_open_monster_status_display(s32 first_arg, s32 second_arg, s32 third_arg, s32 fourth_arg, s32 fifth_arg);
-void process_object_pointer_array();
+void destroy_monster_status_object();
 extern void *create_item_view_for_entry(s32 first, void *data, s32 value);
 extern void *func_8004B854(s32 first, void *data, s32 value);
-void clear_global_80110_ec_0_global_80082_a_39(void);
+void clear_action_globals(void);
 void * open_twin_souko(s32 option);
 
 extern u8 lit_mesh_renderer_address[];
@@ -348,7 +348,6 @@ extern s32 *town_script_slot_cursor;
 extern s32 town_script_state_slots[];
 extern s32 D_801006D0;
 extern s32 town_overlap_slots[];
-extern u16 scaled_window_quad_points[];
 extern s16 map_scene_selector_alias;
 typedef void (*TownObjectCallback)(TownObjectRecord *state, ObjectPosition *position, SpriteFrameState *sprite);
 typedef union TownObjectCallbackEntry {

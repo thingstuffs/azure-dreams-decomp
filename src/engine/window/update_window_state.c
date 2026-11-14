@@ -32,8 +32,8 @@ void update_window_state(RuntimeObject *object, s32 handler_arg1, s32 handler_ar
 
         if (state == unset) {
             entry[0x50] = 1;
-            runtime_clear_value(object->sub);
-            runtime_unlink_doubly_linked_node((u8 *)object + 0x54);
+            clear_word(object->sub);
+            unlink_owner_list_node((u8 *)object + 0x54);
             node = NODE_HEADER(object);
             unlink_node(node);
             unlink_active_node(node);

@@ -8,8 +8,8 @@ struct CopyBlock;
 struct OvWork;
 struct S_802EE4E8_0;
 
-/* advance_stage_1_when_ready.c */
-s32 advance_stage_1_when_ready(s32 entry);
+/* set_stage_flag_four_if_ready.c */
+s32 set_stage_flag_four_if_ready(s32 entry);
 
 /* call_devkit_callback_at_first_failure.c */
 s32 call_devkit_callback_at_first_failure(void);
@@ -104,8 +104,8 @@ void grid_run_bit_set_operation_a(s32 row, s32 column);
 /* grid_run_bit_set_operation_b.c */
 void grid_run_bit_set_operation_b(s32 row, s32 column);
 
-/* grid_run_indexed_operation_a.c */
-s32 grid_run_indexed_operation_a(s32 table_index, s32 call_input, s32 call_param, s32 call_extra);
+/* run_indexed_operation_and_get_value.c */
+s32 run_indexed_operation_and_get_value(s32 table_index, s32 call_input, s32 call_param, s32 call_extra);
 
 /* run_indexed_operation_plus_base.c */
 s32 run_indexed_operation_plus_base(s32 table_index, s32 call_input, s32 call_param);
@@ -119,29 +119,29 @@ void invoke_indexed_runtime_operation(s32 scene_index);
 /* load_scene_data_block.c */
 void load_scene_data_block(s32 scene, s32 mode);
 
-/* memory_init_work_object_and_callback.c */
-void *memory_init_work_object_and_callback(s32 init_value_a, s32 init_value_b);
+/* init_card_dev_slot_screen_object.c */
+void *init_card_dev_slot_screen_object(s32 init_value_a, s32 init_value_b);
 
 /* noop_hook_k.c */
 void noop_hook_k(void);
 
-/* pass_indexed_devkit_value.c */
-void pass_indexed_devkit_value(s32 index);
+/* clear_devkit_flag_for_index.c */
+void clear_devkit_flag_for_index(s32 index);
 
 /* pass_indexed_table.c */
 s32 set_stage_flag_two_if_ready(s32 fallback_result);
 
-/* process_memory_target_fixed_parameters.c */
-void process_memory_target_fixed_parameters(s32 target);
+/* reinit_card_and_write_sector.c */
+void reinit_card_and_write_sector(s32 target);
 
-/* process_memory_target_mode_one.c */
-void process_memory_target_mode_one(s32 target);
+/* start_card_dev_slot_screen_mode_one.c */
+void start_card_dev_slot_screen_mode_one(s32 target);
 
-/* process_memory_target_mode_zero.c */
-void process_memory_target_mode_zero(s32 target);
+/* start_card_dev_slot_screen_mode_zero.c */
+void start_card_dev_slot_screen_mode_zero(s32 target);
 
-/* process_table_entry_pair.c */
-void process_table_entry_pair(void);
+/* clear_table_flag_pair.c */
+void clear_table_flag_pair(void);
 
 /* read_selected_table_value.c */
 s32 read_selected_table_value(void);
@@ -152,17 +152,17 @@ void redraw_busy_entry_list(void);
 /* redraw_devkit_list_and_rekey_rows.c */
 void redraw_devkit_list_and_rekey_rows(s32 unused_list_length, s32 unused_row_value);
 
-/* refresh_status_when_alt_gate_passes.c */
-s32 refresh_status_when_alt_gate_passes(s32 entry);
+/* dispatch_scene_stage_at_count_two.c */
+s32 dispatch_scene_stage_at_count_two(s32 entry);
 
 /* refresh_status_when_gate_and_counter_pass.c */
 s32 dispatch_scene_stage_if_counter_positive(s32 fallback_result);
 
-/* refresh_status_when_second_gate_passes.c */
-s32 refresh_status_when_second_gate_passes(s32 entry);
+/* dispatch_scene_stage_at_count_three.c */
+s32 dispatch_scene_stage_at_count_three(s32 entry);
 
-/* register_object_handles_and_flag.c */
-void register_object_handles_and_flag(void *object);
+/* mark_card_dev_object_handles_dirty.c */
+void mark_card_dev_object_handles_dirty(void *object);
 
 /* reset_cursor_and_redraw_list.c */
 s32 reset_cursor_and_redraw_list(void);
@@ -173,14 +173,14 @@ void clear_six_devkit_bitmap_bits(void);
 /* run_devkit_page_redraw_scan.c */
 s32 run_devkit_page_0_redraw_scan(void);
 
-/* run_memory_callbacks.c */
-void run_memory_callbacks(void);
+/* stop_card_services.c */
+void stop_card_services(void);
 
-/* run_memory_setup_sequence.c */
-void run_memory_setup_sequence(void *context);
+/* init_card_services.c */
+void init_card_services(void *context);
 
-/* run_memory_setup_with_zero.c */
-void run_memory_setup_with_zero(void);
+/* start_card_services.c */
+void start_card_services(void);
 
 /* run_stage_updates_when_ready.c */
 s32 run_stage_updates_when_ready(s32 entry);
@@ -198,7 +198,7 @@ void select_memory_task_exit(struct S_802EE4E8_0 *object);
 void set_devkit_value_to_nine(void);
 
 /* set_global_object_field_f.c */
-int set_global_object_field_12_f_4(void);
+int set_overlay_mode_to_nine(void);
 
 /* set_overlay_kind_from_callback.c */
 void set_overlay_kind_from_callback(void);
@@ -231,10 +231,10 @@ s32 read_flag_row_fallback(void);
 s32 read_stored_runtime_word(void);
 
 /* shop_get_indexed_value_at_f.c */
-s32 get_shop_selection_value_a(void);
+s32 get_shop_second_table_value(void);
 
 /* shop_get_indexed_value_at_fa.c */
-s32 shop_get_indexed_value_at_1_fa_8(void);
+s32 get_shop_third_table_value(void);
 
 /* shop_process_entry_pairs.c */
 void clear_three_flag_pairs(void);

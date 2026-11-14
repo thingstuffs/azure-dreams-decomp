@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "town/func_80614C34",
-      "tu": "src/town/scene/select_query.c",
+      "tu": "src/town/scene/apply_cheriru_hospital_position.c",
       "home": "town/func_80614C34",
       "foff": "0x594c34",
       "vma": "0x80016434",
@@ -17,7 +17,7 @@
     },
     {
       "row": "town/func_80574CE4",
-      "tu": "src/town/scene/select_query.c",
+      "tu": "src/town/scene/apply_cheriru_hospital_position.c",
       "home": "town/func_80614C34",
       "foff": "0x594ce4",
       "vma": "0x800164e4",
@@ -32,7 +32,7 @@
     },
     {
       "row": "town/func_80574D94",
-      "tu": "src/town/scene/select_query.c",
+      "tu": "src/town/scene/apply_cheriru_hospital_position.c",
       "home": "town/func_80614C34",
       "foff": "0x594d94",
       "vma": "0x80016594",

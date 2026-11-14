@@ -62,7 +62,7 @@ s32 apply_monster_equipment_item(u8 *entity, DungeonItemEntry *target, s16 actio
 
     if (action == 0xD) {
         if ((((S_800C08A4_0 *)(entity - 0x18))->unk_2B != MONSTER_TROLL) || ((generate_random_value() & 1) != 0)) {
-            return process_record_and_update_linked_state(target, context);
+            return resolve_item_attack(target, context);
         }
     }
     compare_ptr = ((u8 *)dungeon_actor_ring_anchor);
@@ -82,7 +82,7 @@ s32 apply_monster_equipment_item(u8 *entity, DungeonItemEntry *target, s16 actio
                 place_actor_item(entity, target);
                 return 1;
             }
-            clear_slot_and_update_linked_state(target);
+            clear_item_slot(target);
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
             return 1;
 
@@ -115,7 +115,7 @@ s32 apply_monster_equipment_item(u8 *entity, DungeonItemEntry *target, s16 actio
             clear_byte_and_advance(expand_text_control_codes(D_8008937C, external_entity_value));
         }
         display_text_with_fullwidth_adjustment(script);
-        clear_slot_and_update_linked_state(target);
+        clear_item_slot(target);
     } else {
         script = get_unused_text_buffer();
         external_entity_value = append_entity_display_text(entity, script);

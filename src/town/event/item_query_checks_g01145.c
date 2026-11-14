@@ -223,7 +223,7 @@ void delete_carry_item_and_retry_sound(void) {
 }
 
 /* Selects a response for the source and target, storing any associated text. */
-void *select_response_for_source_and_target(void *source, void *target) {
+void *select_response_text(void *source, void *target) {
     s32 response_kind;
     void *data_base;
 

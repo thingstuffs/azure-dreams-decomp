@@ -1,5 +1,6 @@
 #include "shared/entity.h"
 #include "dungeon/effect/shade.h"
+#include "dungeon/effect/shade/row_quad_colors.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -41,8 +42,6 @@ typedef struct {
 
 
 extern s16 D_80026476;
-extern s32 row_quad_top_color;
-extern s32 row_quad_bottom_color;
 extern Cell particle_quad_vertices[];
 extern Cell D_80026648[];
 

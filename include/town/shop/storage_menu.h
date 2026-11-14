@@ -23,8 +23,8 @@ typedef struct StorageWork {
     u8 pad_00[0x7C];
     DisplayPositionWords vector;
     u8 pad_88[0x10];
-    ItemMenuPart **parts; /* +0x98: part table from realloc_field_0_buffer */
-    s32 buffer; /* +0x9C: first word of the buffer list realloc_field_0_buffer fills */
+    ItemMenuPart **parts; /* +0x98: part table from rebuild_pointer_pool */
+    s32 buffer; /* +0x9C: first word of the buffer list rebuild_pointer_pool fills */
 } StorageWork;
 typedef struct StorageOwner {
     void *owner;
@@ -34,7 +34,7 @@ typedef struct StorageOwner {
     FrameState cursor; /* +0x14: cursor stream initialize_storage_cursor starts on part 4 */
     u8 pad_20[0x38];
     ItemMenuPart *chain; /* +0x58: part chain installed by create_storage_owner_menu */
-    ItemMenuPart **parts; /* +0x5C: the 41-part table initialize_object_resources builds (StorageMenuObject.parts) */
+    ItemMenuPart **parts; /* +0x5C: the 41-part table initialize_storage_menu_resources builds (StorageMenuObject.parts) */
 } StorageOwner;
 typedef struct StorageSource {
     u8 pad_00[0x2C];
@@ -77,12 +77,12 @@ typedef struct StorageMenuNode {
 
 void arrange_storage_item_columns(StorageEntry **objects);
 void refresh_storage_page(StoragePageOwner *object);
-void *process_target_with_code_33(void *target);
-void *process_target_with_code_41(void *parts);
+void *link_storage_item_menu_parts(void *target);
+void *link_storage_owner_menu_parts(void *parts);
 StorageMenuNode *create_storage_item_menu(ItemMenuStateNode *owner);
 StorageMenuNode *create_storage_owner_menu(ItemMenuStateNode *owner);
 s32 load_storage_display_resource(StorageWork *work, s32 resource);
 
-void forward_offset_to_effect_finalizer(void *node);
+void update_storage_display_node(void *node);
 
 #endif

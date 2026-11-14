@@ -32,7 +32,7 @@ extern u8 shared_decode_staging_buffer[16400];
 extern u8 *tile_coordinate_records;
 
 /* Marks and processes up to ten eligible tiles in each perpendicular direction, returning the total. */
-s16 process_perpendicular_eligible_tiles(s16 direction, s16 origin_x, s16 origin_y) {
+s16 mark_tiles_beside_direction(s16 direction, s16 origin_x, s16 origin_y) {
     register MapGrid *settings = &g_game_work.map;
     s16 second_stopped = 0;
     s16 first_stopped = 0;
@@ -152,7 +152,7 @@ s32 scan_flagged_tiles_along_direction(s16 scan_direction, s32 start_x, s32 star
         if ((get_offset_map_cell_value_and_flags(x, y, direction, &flags) << 16) != 0 &&
             (flags & 4)) {
             count++;
-            if (process_perpendicular_eligible_tiles(direction, x, y) >= 2) {
+            if (mark_tiles_beside_direction(direction, x, y) >= 2) {
                 break;
             }
         }
@@ -206,7 +206,7 @@ void clear_listed_tile_flags(void) {
 }
 
 /* Processes directions around the current position based on the facing angle. */
-void process_current_facing_directions(void) {
+void mark_tiles_in_view_direction(void) {
     GameWork *state;
     S_800D13B8_1 *direction_work;
     s32 next_axis_direction;
@@ -231,7 +231,7 @@ void process_current_facing_directions(void) {
 
     state = &g_game_work;
     direction_work = (S_800D13B8_1 *)((u8 *)state + 0x18);
-    if (runtime_update_saved_vectors() != 0) {
+    if (sync_saved_view_vectors() != 0) {
         facing = 2 - ((s32) (state->view.camera_rotation.parts.viewAngle + 0x100) >> 9);
         clear_listed_tile_flags();
         coord_x = (u16) direction_work->unk_A4 >> 6;

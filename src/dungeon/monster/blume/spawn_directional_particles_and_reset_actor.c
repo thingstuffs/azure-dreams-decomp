@@ -269,7 +269,7 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
             state->action_phase++;
             active_object = actor->target;
             if (active_object != 0) {
-                toggle_attacker_target_status_pair(actor, active_object);
+                try_toggle_brainwash_status(actor, active_object);
             }
         }
         return;

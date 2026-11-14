@@ -17,7 +17,7 @@ typedef struct WorkVec {
     s32 unused[3];
 } WorkVec;
 
-extern s32 query_greatest_cell_intersection(WorkVec *);
+extern s32 find_greatest_cell_intersection_at(WorkVec *);
 
 /* Evaluate the vector sum and adjust a nonzero result by the entry's integer x component. */
 s16 query_offset_position_minus_x(Vec4 *vector, Vec4 *entries, s32 entry_index)
@@ -30,7 +30,7 @@ s16 query_offset_position_minus_x(Vec4 *vector, Vec4 *entries, s32 entry_index)
     sum.x = vector->x + entry->x;
     sum.y = vector->y + entry->y;
     sum.z = vector->z + entry->z;
-    result = query_greatest_cell_intersection(&sum);
+    result = find_greatest_cell_intersection_at(&sum);
 
     if ((result << 16) == 0) {
         return 0;

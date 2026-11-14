@@ -31,7 +31,7 @@ s32 process_flag_test_record(u32 records, s32 condition_arg, u32 context, s32 re
     record_index = find_entry_index_or_assert(records, record_selector);
     pair = (((S_8001670C_0 *)(record_index * 8 + records))->unk_02 * 4)
     + ((S_8001670C_1 *)context)->unk_14;
-    update_flag_test_target(((FlagTestTargetPair16 *)pair)->unk_00, ((FlagTestTargetPair16 *)pair)->unk_02);
+    copy_flag_state_to_target(((FlagTestTargetPair16 *)pair)->unk_00, ((FlagTestTargetPair16 *)pair)->unk_02);
     if (condition_arg != 0 && check_all_flags_set(condition_arg) != 0) {
         set_object_bitmap_bit(((S_8001670C_1 *)context)->unk_18);
     }

@@ -21,7 +21,7 @@ typedef struct {
 extern u8 D_800A2690[9];
 
 /* Functions defined in this translation unit. */
-void update_view_driven_state(State *state);
-void *allocate_randomized_effect_object(State *state_value);
+void spawn_flickering_triangles_from_view(State *state);
+void *create_flickering_triangle(State *state_value);
 
 #endif

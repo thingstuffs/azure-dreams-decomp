@@ -13,7 +13,7 @@ s32 dispatch_entry_by_799_flag(void *context, s32 entryIndex) {
         D_8001B208 = 0;
         result = process_checked_entry(context, entryIndex);
     } else {
-        pass_indexed_entry(context, entryIndex);
+        set_flag_from_indexed_entry(context, entryIndex);
         result = 1;
     }
     return result;

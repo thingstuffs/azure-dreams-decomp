@@ -24,7 +24,7 @@
 #include "dungeon/effect/screen.h"
 #include "dungeon/item/effect.h"
 
-void * (*const resource10_slot0_entry0)(s16 flags, s16 kind_id, s16 variant, s32 spawn_value) = create_actor_with_optional_status;
+void * (*const resource10_slot0_entry0)(s16 flags, s16 kind_id, s16 variant, s32 spawn_value) = spawn_snowman;
 void (*const resource10_slot0_entry1)(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite) = update_actor_callbacks_animation_and_ground;
 
 /* Projects linked effect positions and queues their colored pixel and drawing-mode packets by depth. */
@@ -212,7 +212,7 @@ void create_converging_fading_sprite(
 
 /* Creates a Snowman actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
-void *create_actor_with_optional_status(s16 flags, s16 kind_id, s16 variant, s32 spawn_value)
+void *spawn_snowman(s16 flags, s16 kind_id, s16 variant, s32 spawn_value)
 {
     s32 kind;
     s32 flags0;
@@ -621,7 +621,7 @@ void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg
             begin_snowman_attack(actor_arg, context_arg, sprite_arg, entity_arg);
             return;
         case 9:
-            select_actor_target_and_advance_status(actor_arg, context_arg, sprite_arg, entity_arg);
+            begin_snowman_action_and_spend_turn(actor_arg, context_arg, sprite_arg, entity_arg);
             return;
         case 5:
         case 6:
@@ -1337,7 +1337,7 @@ void advance_timed_attack_animation_and_damage(ActorRecord *action, ObjectPositi
 
 /* Starts a targeted spell effect, emits converging particles, and restores actor status after the
  * animation. */
-void advance_actor_spell_effect_sequence(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *tile_arg, ActorRecord *action) {
+void advance_snowman_spell_action(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *tile_arg, ActorRecord *action) {
     s16 particle_index;
     s32 offset_y;
     s32 offset_x;
@@ -1565,7 +1565,7 @@ const Resource10DirectionOffset D_80170874[8] = {
 
 /* Applies a value change and directional displacement, then returns the actor to its tile and restores
  * movement. */
-void displace_actor_then_recenter(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *entity, ActorRecord *actor) {
+void advance_snowman_hit_recoil(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *entity, ActorRecord *actor) {
     s32 state;
 
     state = action->action_phase;
@@ -1989,7 +1989,7 @@ void fade_in_snowman(ActorRecord *state, ObjectPosition *motion, SpriteFrameStat
 
 /* Finds actors at the target tile and height, resolves attack damage, and bursts particles for kinds
  * 0x33-0x36. */
-void resolve_linked_attack_hits_and_particle_bursts(void *node, s32 target_x, s32 target_y, s32 target_height)
+void resolve_snowman_attack_at_tile(void *node, s32 target_x, s32 target_y, s32 target_height)
 {
     R10_8017442C_OffsetTable offsets = (*(R10_8017442C_OffsetTable *)&D_80170854);
     void *head = node;
@@ -2081,7 +2081,7 @@ void prepare_directional_attacks_for_neighbor_entities(ActorRecord *node, s32 ti
 }
 
 /* Claims an action slot, starts the directional action animation, and advances status and turn counters. */
-void select_actor_target_and_advance_status(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor) {
+void begin_snowman_action_and_spend_turn(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor) {
     actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target(NODE_HEADER(actor), effect_arg, 8, 0x300);
@@ -2162,7 +2162,7 @@ void advance_directional_attack_sequence(ActorRecord *action, ObjectPosition *po
             y_offset = direction_offset->y;
             offset_coord = sprite->tile_y + y_offset;
             x = target_x & 0xFFFF;
-            resolve_linked_attack_hits_and_particle_bursts(entity, x, offset_coord & 0xFFFF, height);
+            resolve_snowman_attack_at_tile(entity, x, offset_coord & 0xFFFF, height);
         }
         if ((action->action_timer <= 0) ||
             (sprite->flags & 0x8000)) {
@@ -2490,7 +2490,7 @@ void restore_snowman_scene_tint(u8 *task, void *context, SpriteFrameState *input
 }
 
 /* Loads transition effects, fades the view tint, replaces the actor, and restores the new actor's facing. */
-void advance_actor_transition_and_restore_facing(ActorRecord *transition, ObjectPosition *position, SpriteFrameState *record, ActorRecord *actor) {
+void advance_snowman_cd_image_sequence(ActorRecord *transition, ObjectPosition *position, SpriteFrameState *record, ActorRecord *actor) {
     void *object_data = ((&g_game_work));
     u8 state;
     u32 next_state;

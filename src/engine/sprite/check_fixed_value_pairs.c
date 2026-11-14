@@ -1,7 +1,7 @@
 #include "common.h"
 #include "engine/sprite.h"
 
-extern int check_fixed_value_pairs(void);
+extern int check_required_building_slots(void);
 extern int get_item_name_text(void *a0, int *a1);
 
 extern int item_text_checked_fallback_pair[4]; /* >8B forces %hi/%lo addressing (matches target's lui/addiu) */
@@ -11,7 +11,7 @@ extern int item_text_default_fallback_pair[4]; /* >8B forces %hi/%lo addressing 
 int get_item_name_with_fallback_pair(void *object)
 {
     void *saved_object = object;
-    int check_result = check_fixed_value_pairs();
+    int check_result = check_required_building_slots();
     int *selected_array;
 
     if (check_result) {

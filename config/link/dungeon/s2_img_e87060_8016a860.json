@@ -25,7 +25,7 @@
     },
     {
       "row": "dungeon/func_80E67EF4",
-      "tu": "src/dungeon/monster/barong/update_actor_direction_and_animation.c",
+      "tu": "src/dungeon/monster/barong/update_barong_turn_action.c",
       "home": "dungeon/func_80E61EF4",
       "foff": "0xe87ef4",
       "vma": "0x8016b6f4",

@@ -10,7 +10,7 @@ void append_valid_key_pair(s32 first_value, s32 second_value, u32 unused_cell) {
     S_80081508 *entry;
 
     if (tile_key_pair_count < 64) {
-        if ((s16)has_runtime_key_pair((u16)first_value, (u16)second_value) == 0) {
+        if ((s16)has_tile_coordinate_pair((u16)first_value, (u16)second_value) == 0) {
             entry = &tile_coordinate_records[0][tile_key_pair_count];
             entry->a = (u8)first_value;
             entry->b = (u8)second_value;
@@ -269,7 +269,7 @@ void clear_flagged_cells_and_reset_list(void) {
 }
 
 /* Clears visited tile flags, then scans from the camera's tile in a direction selected by the view angle. */
-void refresh_state_and_dispatch_angles(void) {
+void scan_flagged_tiles_from_camera(void) {
     GameView *state = &g_game_work.view;
     u32 firstScaledAngle;
     u32 secondScaledAngle;

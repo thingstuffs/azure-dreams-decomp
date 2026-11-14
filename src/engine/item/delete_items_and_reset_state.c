@@ -9,5 +9,5 @@
 void delete_items_and_reset_state(void) {
     reset_entry_flags();
     delete_all_town_items();
-    clear_selected_scene_entry_flags();
+    reset_town_record_slots();
 }

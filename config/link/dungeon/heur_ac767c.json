@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_80AC767C",
-      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+      "tu": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
       "home": "dungeon/func_80A9B67C",
       "foff": "0xac767c",
       "vma": "0x80164e7c",

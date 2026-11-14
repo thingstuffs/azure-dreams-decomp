@@ -9,7 +9,7 @@
 #include "frontend/libcard_callbacks_api.h"
 
 extern void func_80024EEC(void *object);
-extern s32 update_effect_color_rotation_and_motion(void *target); /* Unprototyped: compile_error */
+extern s32 link_file_list_node_pointers(void *target); /* Unprototyped: compile_error */
 extern void init_card_file_list_panel(CardFileListPanel *panel, s32 selection);
 
 
@@ -35,7 +35,7 @@ void *card_boot_create_or_reset_file_list_panel(s32 parent, s32 context, s32 mod
     work->mode = mode;
     init_card_file_list_nodes(work, 0x15);
     base->sprite = &work->list_heading;
-    work->list_heading.unk_0C = update_effect_color_rotation_and_motion(work->pointers);
+    work->list_heading.unk_0C = link_file_list_node_pointers(work->pointers);
     init_card_file_list_panel(work, parent);
     base->update_callback = 0;
     return base;

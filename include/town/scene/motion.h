@@ -13,11 +13,11 @@ struct S_80019DE0_0;
 struct ScenePositionEntry;
 struct SpriteFrameState;
 
-/* adjust_fixed_point_value_at_bounds.c */
-void adjust_fixed_point_value_at_bounds(s32 context, s32 *value);
+/* clamp_position_y_to_bounds.c */
+void clamp_position_y_to_bounds(s32 context, s32 *value);
 
-/* advance_player_position_b.c */
-void advance_player_position_b(void);
+/* advance_player_position_by_step.c */
+void advance_player_position_by_step(void);
 
 /* advance_three_component_motion.c */
 void advance_three_component_motion(void *timer_state, void *motion);
@@ -86,13 +86,13 @@ void submit_player_position_record(void);
 /* submit_position_record_copy.c */
 void submit_position_record_copy(void);
 
-/* update_first_axis_slot_value.c */
-void update_first_axis_slot_value(struct ColliderView *collider, ObjectPosition *position, struct CollisionScratch *entry);
+/* apply_collider_y_response.c */
+void apply_collider_y_response(struct ColliderView *collider, ObjectPosition *position, struct CollisionScratch *entry);
 
 /* update_motion_and_brightness.c */
 void update_motion_and_brightness(void *object, void *motion, void *visual);
 
-/* update_second_axis_slot_value.c */
-void update_second_axis_slot_value(struct ColliderView *collider, ObjectPosition *position, struct CollisionScratch *entry);
+/* apply_collider_z_response.c */
+void apply_collider_z_response(struct ColliderView *collider, ObjectPosition *position, struct CollisionScratch *entry);
 
 #endif

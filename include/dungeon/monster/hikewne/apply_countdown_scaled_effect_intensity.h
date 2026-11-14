@@ -56,7 +56,7 @@ typedef struct {
 
 extern void select_sprite_entry(void *, u8, s32);
 extern void func_80047784(void *, u8, s32);
-void advance_and_fade_transformed_effect(HikewneExpandingFadeBody *effect, ObjectPosition *transform, SpriteFrameState *render_state);
+void grow_and_fade_tracking_sprite(HikewneExpandingFadeBody *effect, ObjectPosition *transform, SpriteFrameState *render_state);
 extern u8 D_80174128[8];
 
 typedef struct S_80975244_3 {

@@ -58,7 +58,7 @@ void set_position_from_tile_and_entry_offsets(s32 unused, u32 x, u32 y)
 }
 
 /* Stores two values scaled by 32 in the current record's auxiliary data. */
-void set_record_scaled_auxiliary_values(s32 unused, s32 value_04, s32 value_08) {
+void set_position_from_half_tiles(s32 unused, s32 value_04, s32 value_08) {
     town_scene_root->position->x = (s32) (value_04 << 5);
     town_scene_root->position->y = (s32) (value_08 << 5);
 }

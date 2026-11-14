@@ -6,6 +6,7 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "town/minigame/pickup_data.h"
+#include "town/minigame/source_bounds_data.h"
 
 typedef struct { s32 words[22]; } Payload88;
 typedef struct { s32 words[6]; } Initial24;
@@ -38,7 +39,7 @@ typedef struct {
 struct ObjectNodeHeader;
 struct SpriteFrameState;
 extern void init_scene_node_mode_1(void *, void *, void *);
-extern u8 D_80020014[], minigame_source_bounds[];
+extern u8 D_80020014[];
 extern s32 project_sprite_chain(void *, s32, struct SpriteFrameState *, s32);
 extern s32 func_80045340(void *, s32, struct SpriteFrameState *, s32);
 extern s32 minigame_pickup_sprite_sources[];

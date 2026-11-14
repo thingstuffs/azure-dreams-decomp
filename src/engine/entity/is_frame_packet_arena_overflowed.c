@@ -92,10 +92,10 @@ void set_audio_channel_program(unsigned char entry_index, unsigned char value) {
     audio_channel_controls[entry_index].unk00 = value;
 }
 
-/* Sort the array of four-byte elements using subtract_pointed_int_values. */
+/* Sort the array of four-byte elements using compare_int_values. */
 void sort_signed_word_array(int count, void *base)
 {
-    forward_selection_sort_request(base, count, 4, subtract_pointed_int_values);
+    sort_with_comparator(base, count, 4, compare_int_values);
 }
 
 /* Return the word at offset 0xC in the selected table entry. */

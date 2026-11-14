@@ -112,7 +112,7 @@ void troll_jump_arc_to_tile_and_end_turn(ActorRecord *animation, ObjectPosition 
         }
     }
     if ((check_actor_floor_trap(tile, actor) << 16) > 0) {
-        animation->unk_8C.handler = update_actor_behavior;
+        animation->unk_8C.handler = update_troll_behavior;
         on_actor_status_updated(actor);
     }
 }

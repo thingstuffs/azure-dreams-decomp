@@ -116,35 +116,35 @@ s32 build_settings_sprite_tiles(void *node_data, ObjectPosition *scroll_state);
 /* create_settings_controller.c */
 void create_settings_controller(void);
 
-/* create_type.c */
-void *create_type(struct SettingsPositionPair *position, s32 object_value, s32 render_value, SettingsScreenBody *extra_value);
+/* create_settings_sprite_object.c */
+void *create_settings_sprite_object(struct SettingsPositionPair *position, s32 object_value, s32 render_value, SettingsScreenBody *extra_value);
 
 /* handle_settings_menu_input.c */
 void handle_settings_menu_input(SettingsScreenBody *menu);
 
-/* initialize_and_submit_record.c */
-void initialize_and_submit_record(void *callback_address, void *data);
+/* create_settings_color_effect.c */
+void create_settings_color_effect(void *callback_address, void *data);
 
-/* initialize_available.c */
-void initialize_available(s32 value, void *data);
+/* create_settings_value_entry.c */
+void create_settings_value_entry(s32 value, void *data);
 
 /* initialize_settings_screen.c */
 void initialize_settings_screen(void);
 
-/* load_indexed.c */
-void load_indexed(void *entry);
+/* update_color_channel_entry.c */
+void update_color_channel_entry(void *entry);
 
 /* load_signed_state.c */
 void update_settings_color_cycle(struct ColorEffect *effect);
 
-/* load_table.c */
-void load_table(struct MainTitleValueEntry *entry);
+/* update_volume_slider_entry.c */
+void update_volume_slider_entry(struct MainTitleValueEntry *entry);
 
-/* pack_three_capped_components_and_flag.c */
-void pack_three_capped_components_and_flag(void *dest);
+/* update_packed_color_entry.c */
+void update_packed_color_entry(void *dest);
 
-/* propagate_record_high_bit.c */
-void propagate_record_high_bit(void *record);
+/* remove_value_entry_with_marked_source.c */
+void remove_value_entry_with_marked_source(void *record);
 
 /* queue_settings_sprite_grid.c */
 s32 queue_settings_sprite_grid(u8 *entry_data, u8 *scroll_data);
@@ -157,7 +157,7 @@ void update_settings_effect_color(struct ColorRampEffect *effect);
 
 /* update_settings_effect_object.c */
 void update_settings_effect_object(SettingsEffectObjectBody *object, ObjectPosition *motion, SpriteFrameState *sprite);
-void sync_object_with_sub_object(SettingsSyncObjectBody *object);
+void sync_settings_object_with_child(SettingsSyncObjectBody *object);
 
 /* update_settings_menu_animation.c */
 void update_settings_menu_animation(struct Obj *obj, s32 *position);

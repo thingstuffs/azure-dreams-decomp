@@ -19,5 +19,5 @@ void begin_fade_to_black(void) {
         fade_manager_state.step = fade_manager_step_black;
     }
 
-    runtime_set_destination_flag_from_source(manager, state);
+    set_fade_has_source(manager, state);
 }

@@ -17,13 +17,13 @@ typedef struct SourceLinkedFadeEffectBody {
     u8 pad_AC[0x8];
     s16 unk_B4;
 } SourceLinkedFadeEffectBody;
-void apply_effect_bonuses(s16 effect_id, ActorRecord *unused_arg, ActorRecord *record);
-void *create_mode_configured_object(s16 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a_value, s32 part_b_value);
+void apply_spell_element_bonus(s16 effect_id, ActorRecord *unused_arg, ActorRecord *record);
+void *create_actor_node_at_tile(s16 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a_value, s32 part_b_value);
 void create_record_with_effect_callback(void);
 void *create_actor_value_popup(s32 flags, void *source_data, s16 value, u16 callback_mode);
 void advance_actor_hop_and_dispatch(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *render, ActorRecord *context);
 void dispatch_target_action(ActorRecord *actor, s32 action_context, SpriteFrameState *destination, ActorRecord *target);
-void emit_scattered_effects_unless_blocked(void *source);
+void emit_scattered_effects_unless_blocked(ObjectPosition *source);
 void process_nearby_object_midpoint(u8 *start_obj, u8 *end_obj, s16 start_height, s16 end_height, s16 call_param, s32 call_arg);
 void run_indexed_callback_list(s16 list_index);
 void spawn_directed_and_scattered_particles(s32 x, s32 y, s32 z);
@@ -49,12 +49,12 @@ void update_oriented_offset_effect_position(PayloadObjectBody *state, MovingPosi
 struct Object;
 struct Other;
 s32 prepare_quarter_damage_return(struct Object *object, ActorRecord *source);
-s32 process_linked_mesh_states_mode_0(void *initial_state, s32 value, void *data);
+s32 draw_linked_segment_aligned_quads(void *initial_state, s32 value, void *data);
 s32 select_nearby_target_and_initialize_slot(void *tracked_object, void *target_data, s32 target_id, s32 slot_value);
 void setup_object_within_planar_range(void *object, s32 x, s32 y, s32 height, s32 mode, s32 settings);
 
 struct ObjectNodeHeader;
-void *create_effect_or_fallback(u32 x, u32 y, s32 z, void *effect_data);
+void *create_item_drop_effect(u32 x, u32 y, s32 z, void *effect_data);
 void *create_moving_fading_particle(ObjectPosition *origin, s16 angle, s16 radius, s16 height_offset, struct ObjectNodeHeader **allocation_head);
 void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record, void *mesh_data, s32 depth_offset);
 
@@ -72,7 +72,7 @@ void dispatch_action_callback_by_opcode(struct FloorCollapseWork *w);
 void draw_sprite_parts_as_quad_grid(ActorRecord *context, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias);
 void *func_8002522C(ObjectPosition *origin, s16 angle, s16 radius, s16 height_offset, ObjectNodeHeader **allocation_head);
 void mark_all_actors_with_high_flag(void);
-s32 run_action_ten_if_eligible(ActorRecord *entity, s8 action_arg);
+s32 apply_frog_status_if_eligible(ActorRecord *entity, s8 action_arg);
 void set_ground_item_value_at_tile(s16 x, s16 y, s16 value);
 void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound);
 s32 take_map_item_slot(ActorRecord *object, s16 slot);

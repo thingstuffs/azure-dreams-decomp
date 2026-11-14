@@ -19,16 +19,16 @@ void card_boot_toggle_channel(void);
 void card_boot_reset_operation_and_drain_events(void);
 
 /* func_8000DA30.c */
-s32 card_boot_latch_hardware_status_one(void);
+s32 card_boot_latch_hw_done(void);
 
 /* func_8000DA44.c */
-s32 card_boot_latch_hardware_status_two(void);
+s32 card_boot_latch_hw_error(void);
 
 /* func_8000DA58.c */
-s32 card_boot_latch_hardware_status_three(void);
+s32 card_boot_latch_hw_timeout(void);
 
 /* func_8000DA6C.c */
-s32 card_boot_latch_hardware_status_four(void);
+s32 card_boot_latch_hw_new_card(void);
 
 /* func_8000DA80.c */
 void card_boot_open_events(void);
@@ -52,11 +52,11 @@ s32 card_boot_poll_state_two_transition(void);
 s32 card_poll_selected_operation_state(void);
 
 /* func_8000E37C.c */
-s32 consume_pending_event_flag(void);
+s32 card_boot_timeout_operation(void);
 s32 func_8002137C(void);
 
 /* func_8000E3A0.c */
-s32 card_boot_reset_operation_return_five(void);
+s32 card_boot_fail_operation(void);
 
 /* func_8000E3C4.c */
 s32 card_boot_request_info(s32 card_channel);

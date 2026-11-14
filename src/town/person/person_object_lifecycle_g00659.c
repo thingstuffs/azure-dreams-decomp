@@ -67,7 +67,7 @@ void update_object_motion_and_flags(TargetObj *obj, void *callback_arg, void *mo
             motion_flags = *(u16 *)((u8 *)motion + 0x14) | 1;
         }
         *(u16 *)((u8 *)motion + 0x14) = motion_flags;
-        dispatch_object_when_idle(obj, motion, 0, 0);
+        advance_object_animation_when_idle(obj, motion, 0, 0);
     }
 }
 
@@ -76,7 +76,7 @@ void dispatch_object_state(TownObjectRecord *object, void *context, void *dispat
     TownObjectRecord *object_bytes = object;
     u8 state;
 
-    if (runtime_is_record_field_set(object) != 0) {
+    if (is_node_registered(object) != 0) {
         object_bytes->unk_15 = 1;
     }
     state = *(u8 *)&object_bytes->unk_94;

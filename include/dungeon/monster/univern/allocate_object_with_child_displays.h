@@ -33,7 +33,7 @@ extern void select_sprite_entry(void *, s32, s32);
 extern void func_80047784(void *, s32, s32);
 extern void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(void *, void *, s32);
 
-extern s16 view_facing_angle_alias;
+#include "slus/view_facing_angle.h"
 extern u8 child_texture_entries[];
 extern u8 child_object_update_address[];
 extern u8 D_80158BB8[];

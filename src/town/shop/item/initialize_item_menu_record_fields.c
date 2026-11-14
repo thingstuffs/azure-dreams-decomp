@@ -12,5 +12,5 @@ void initialize_item_menu_record_fields(void *record_arg, s32 value_3c, s32 valu
     record->unk_34 = value_34;
     record->entry_count = value_28;
     record->entry_data_address = value_38;
-    dispatch_item_menu_data_update(record_arg + 0x40);
+    init_item_menu_sub_record_pair(record_arg + 0x40);
 }

@@ -17,7 +17,7 @@
 
 
 void update_monster_facing_and_contact(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite);
-void update_entity_actions_facing_and_animation(ActorRecord *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
+void update_nyuel_behavior(ActorRecord *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 extern void func_80174ED8(void);
 extern void func_80174F00(void);
 
@@ -68,7 +68,7 @@ void *spawn_mode_configured_monster(s32 spawn_flags, s8 tile_x, s16 tile_y, s16 
             s32 left_one;
             s32 right_one;
 
-            ((ActorRecord *)work)->unk_8C.address = update_entity_actions_facing_and_animation;
+            ((ActorRecord *)work)->unk_8C.address = update_nyuel_behavior;
             left_one = ((ActorRecord *)work)->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
             right_one = ((ActorRecord *)work)->flags1C | 0x6000;
             ((ActorRecord *)work)->flags14 = left_one;
@@ -78,7 +78,7 @@ void *spawn_mode_configured_monster(s32 spawn_flags, s8 tile_x, s16 tile_y, s16 
             s32 left_many;
             s32 right_many;
 
-            ((ActorRecord *)work)->unk_8C.address = update_entity_actions_facing_and_animation;
+            ((ActorRecord *)work)->unk_8C.address = update_nyuel_behavior;
             left_many = ((ActorRecord *)work)->flags14 | ACTOR_CLASS_ENABLED;
             right_many = ((ActorRecord *)work)->flags1C | 0x2000;
             ((ActorRecord *)work)->flags14 = left_many;

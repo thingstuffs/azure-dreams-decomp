@@ -7,5 +7,5 @@ extern Rec_D_80082A38 runtime_script_state;
 
 /* Set the global runtime's script address using mode zero. */
 void set_script_address(s32 script_addr) {
-    prepare_script_controller_and_set_cursor(&runtime_script_state, script_addr, 0);
+    reset_script_message_window(&runtime_script_state, script_addr, 0);
 }

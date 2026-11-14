@@ -97,7 +97,7 @@ struct DungeonItemEntry;
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
-s16 find_entity_slot_by_field_ac();
+s16 find_linked_object_slot_index();
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/item.h"
 #include "dungeon/item/effect.h"
@@ -164,7 +164,7 @@ s32 advance_actor_removal(ActorRecord *state, ObjectPosition *unused_context, Sp
         register s32 next_state;
 
         if (((Rec_D_80082E80 *)actor)->unk_43 != 0xFD) {
-            if ((has_actor_or_actions(actor) << 0x10) != 0) {
+            if ((has_active_actor_or_pending_action(actor) << 0x10) != 0) {
                 break;
             }
         } else {
@@ -246,7 +246,7 @@ s32 advance_actor_removal(ActorRecord *state, ObjectPosition *unused_context, Sp
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         mark_owned_linked_actor_actions(actor);
-        actor_slot4 = find_entity_slot_by_field_ac(actor);
+        actor_slot4 = find_linked_object_slot_index(actor);
         if (actor_slot4 >= 0) {
             void *actor_base4;
 
@@ -265,7 +265,7 @@ s32 advance_actor_removal(ActorRecord *state, ObjectPosition *unused_context, Sp
             familiar_record_storage[object_id4].field13 = 0;
             globals4 = globals_page4->unk_3D7C;
             *object_slot4 = NULL;
-            clear_slot_and_update_linked_state(globals4->unk_110);
+            clear_item_slot(globals4->unk_110);
         } else {
             decrement_monster_entry_count(((Rec_D_80082E80 *)actor)->unk_12.at01_u8.v, 2);
         }
@@ -315,7 +315,7 @@ s32 advance_actor_removal(ActorRecord *state, ObjectPosition *unused_context, Sp
         template_index = actor_type;
         build_entity_slot_snapshot(&((u8 *)template_base)[template_index * 0x54], actor);
         decrement_monster_entry_count(((Rec_D_80082E80 *)actor)->unk_12.at01_u8.v, 3);
-        actor_slot16 = find_entity_slot_by_field_ac(actor);
+        actor_slot16 = find_linked_object_slot_index(actor);
         if (actor_slot16 >= 0) {
             void *actor_base16;
 
@@ -332,7 +332,7 @@ s32 advance_actor_removal(ActorRecord *state, ObjectPosition *unused_context, Sp
         familiar_record_storage[object_id16].field13 = 0;
         globals16 = globals_page16->unk_3D7C;
         *object_slot16 = NULL;
-        clear_slot_and_update_linked_state(globals16->unk_110);
+        clear_item_slot(globals16->unk_110);
         if ((get_entity_effect_value(actor, STATUS_NO_TILE_OCCUPANCY) << 0x10) == 0) {
             effect_actor_flags = ((Rec_D_80082E80 *)actor)->unk_1C.at00_s32.v;
             effect_x = visual->tile_x;

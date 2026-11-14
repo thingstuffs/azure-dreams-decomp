@@ -111,7 +111,7 @@ s32 advance_staged_entity_load(s32 unused, ActorRecord *entity)
     if (count != 1) {
         return 0;
     }
-    if (has_enough_available_runtime_nodes(8) == 0) {
+    if (has_enough_available_nodes(8) == 0) {
         return 0;
     }
 
@@ -197,7 +197,7 @@ case 2:
         tail_dst->unk_9A = base->unk_9A;
         tail_dst->unk_9B = base->unk_9B;
 
-        offset = find_entity_slot_by_field_ac(entity);
+        offset = find_linked_object_slot_index(entity);
         record = ((S_800A504C_5 *)primary_actor_record);
         offset = (offset << 16) >> 14;
         offset += (s32)record;
@@ -265,7 +265,7 @@ case 2:
                         (s16)(entity->ground_height - 0x20));
         if (replacement != NULL) {
             replacement->unk_14 |= ACTOR_PARTY_MEMBER;
-            offset = find_entity_slot_by_field_ac(entity);
+            offset = find_linked_object_slot_index(entity);
             record = ((S_800A504C_5 *)primary_actor_record);
             offset = (offset << 16) >> 14;
             offset += (s32)record;

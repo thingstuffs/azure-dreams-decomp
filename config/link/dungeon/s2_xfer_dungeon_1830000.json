@@ -18,7 +18,7 @@
     },
     {
       "row": "dungeon/func_818107C0",
-      "tu": "src/dungeon/system/process_record_resolved_value.c",
+      "tu": "src/dungeon/system/clear_inventory_object_and_init_menu.c",
       "home": "dungeon/func_818107C0",
       "foff": "0x18307c0",
       "vma": "0x800257c0",
@@ -26,7 +26,7 @@
     },
     {
       "row": "dungeon/func_81810808",
-      "tu": "src/dungeon/system/process_record_resolved_value.c",
+      "tu": "src/dungeon/system/clear_inventory_object_and_init_menu.c",
       "home": "dungeon/func_818107C0",
       "foff": "0x1830808",
       "vma": "0x80025808",

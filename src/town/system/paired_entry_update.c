@@ -39,8 +39,8 @@ static void set_paired_entry_brightness(void *object) {
  * Processes the entry lookup and expired resource countdowns, then updates paired entry brightness
  * for the same entry ID.
  */
-void run_entry_update_steps(s32 entry_id) {
-    process_valid_entry_lookup(entry_id);
-    process_resources_for_expired_slot_countdowns(entry_id);
+void update_entry_resources_and_brightness(s32 entry_id) {
+    apply_input_choice_value(entry_id);
+    fade_choice_slot_colors(entry_id);
     set_paired_entry_brightness(entry_id);
 }

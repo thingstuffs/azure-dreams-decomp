@@ -38,7 +38,7 @@ extern Packet12 D_80174694;
 typedef struct S_801732C4_1_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_801732C4_1_pre;   /* the 0x14 bytes before active in advance_death_item_use_sequence, addressed as active[-1] */
+} S_801732C4_1_pre;   /* the 0x14 bytes before active in cast_death_targeted_spell, addressed as active[-1] */
 
 
 
@@ -50,14 +50,14 @@ typedef struct S_801732C4_5 {
     u8 pad_05[0x15];
     s16 unk_1A;
     s16 unk_1C;
-} S_801732C4_5;   /* object_base in advance_death_item_use_sequence */
+} S_801732C4_5;   /* object_base in cast_death_targeted_spell */
 
-   /* transform in advance_death_item_use_sequence */
+   /* transform in cast_death_targeted_spell */
 
 /* Advances an actor's item-use sequence, animation, and particle effects. */
 /* Starts a targeted spell, emits returning particles and a 20-particle burst, then restores the actor's
  * idle state. */
-void advance_death_item_use_sequence(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
+void cast_death_targeted_spell(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     u8 *item_slot;
     s32 special;

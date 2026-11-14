@@ -166,7 +166,7 @@ void update_actor_turn_and_action(ActorRecord *entity, ObjectPosition *context, 
                     }
                 }
             }
-            if ((update_entity_state_from_query(entity, context, sprite, 0) << 16) == 0) {
+            if ((relink_hikewne_path(entity, context, sprite, 0) << 16) == 0) {
                 return;
             }
             action_state = actor->action_flags | 0x4000;
@@ -196,7 +196,7 @@ void update_actor_turn_and_action(ActorRecord *entity, ObjectPosition *context, 
 
         case 10:
             if (entity->unk_B4.bytes[1] == 0) {
-                reset_action_and_decrement_actor_count(entity, context, sprite, actor);
+                finish_actor_effect_action(entity, context, sprite, actor);
                 return;
             }
             begin_actor_exclusive_action(entity, context, sprite, 1, 0);

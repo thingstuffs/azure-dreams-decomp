@@ -9,7 +9,7 @@ extern void func_80024BB4(CardDisplayNode *entry, CardDisplayBlock *block, Displ
 /* Store the selection, link the panel's heading templates, and lay out its display. */
 void init_card_file_list_panel(CardFileListPanel *panel, s32 selection)
 {
-    store_word_at_address(&panel->selection, selection);
+    set_file_list_selection(&panel->selection, selection);
     func_80024BB4(&panel->list_heading, &panel->heading_block, &panel->heading_vector);
     configure_card_file_list_windows(panel);
 }

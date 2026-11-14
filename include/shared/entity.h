@@ -135,7 +135,7 @@ typedef struct EntityRec {
 } EntityRec;
 
 /* ActorRecord: the body of a live actor (monster, familiar or the player), the 0xBC bytes after a 0x20-byte
- * ObjectNodeHeader in a pooled 0x124-byte node allocated with flags 0x112 (runtime_reset_object_pool strides
+ * ObjectNodeHeader in a pooled 0x124-byte node allocated with flags 0x112 (reset_node_pool strides
  * 0x124; allocate_list_node then puts the ObjectPosition at node+0xDC and the SpriteFrameState at node+0xF4, so
  * actor+0xBC is already the position record).  r121 opus_entity2 (decision 73 draft) split it out of EntityRec:
  * +0x00..+0x14 are packed innate stats, ability slots and the actor flags word, NOT world coordinates (those live
@@ -252,7 +252,7 @@ typedef struct ActorRecord {
     /* 0x09C */ signed char unk_9C;
     /* 0x09D */ signed char unk_9D;
     /* 0x09E */ short unk_9E;
-    /* UNION: src/dungeon/monster/kewne/update_staged_movement_and_idle.c:65,67,69,80 (high half) and :111,142 (whole word) -
+    /* UNION: src/dungeon/monster/kewne/advance_kewne_ellipse_attack.c:65,67,69,80 (high half) and :111,142 (whole word) -
      * the same ActorRecord body reads and writes the high half and updates the whole scratch word. */
     /* 0x0A0 */ union {
         int value;

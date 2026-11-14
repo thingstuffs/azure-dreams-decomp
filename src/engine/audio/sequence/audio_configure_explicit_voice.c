@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/audio_update_guard_data.h"
 #include "slus/audio_voice_data.h"
 #include "engine/audio/sequence.h"
 #include "engine/audio/spu.h"
@@ -60,7 +61,6 @@ typedef struct S_8005C2C0_req
 }
 S_8005C2C0_req;
 extern S_8005C2C0_slot audio_voice_records;
-extern s32 audio_update_guard[4];
 extern S_8005C2C0_kind audio_bank_slots;
 /* Initialize a sound voice with the requested volume, pitch, and note. */
 s16 audio_configure_explicit_voice(s16 sound_id, s32 voice_id, s16 note, unsigned short note_offset, u16 pitch, u16 left_volume,
@@ -75,7 +75,7 @@ s16 audio_configure_explicit_voice(s16 sound_id, s32 voice_id, s16 note, unsigne
     s32 key_status;
     s32 key_off_status;
     s8 full_volume;
-    audio_update_guard[0] = 1;
+    audio_update_guard.value = 1;
     if (sound_id != (-1)) {
         if (voice_id < 0x18) {
             sound_reset_indexed_voice_envelope(voice_id);
@@ -132,6 +132,6 @@ s16 audio_configure_explicit_voice(s16 sound_id, s32 voice_id, s16 note, unsigne
             apply_voice_attributes_and_key_on(&voice_attr);
         }
     }
-    audio_update_guard[0] = 0;
+    audio_update_guard.value = 0;
     return voice_id;
 }

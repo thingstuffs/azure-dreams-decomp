@@ -46,7 +46,7 @@ void card_dev_update_menu_input(u8 *root)
         flags10 = boot_pressed_buttons;
         if (flags10 & 0x20) {
             func_80063FF8(0x514);
-            advance_indexed_object_operation(root);
+            select_save_slot_callback(root);
         } else {
             flags5000 = boot_pad_state;
             if (flags5000 & 0x5000) {

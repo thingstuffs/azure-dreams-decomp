@@ -6,7 +6,7 @@
 #include "town/person/motion.h"
 #include "town/player.h"
 
-void initialize_reaction_object_four(PersonSetupState *, void *, void *);
+void start_reaction_countdown(PersonSetupState *, void *, void *);
 
 
 /* Advance motion and handle reaching the position limit. */
@@ -23,7 +23,7 @@ void advance_reaction_motion_to_limit(Rec_func_800C9B44_arg0 *state, EntityRec *
             choose_reaction_action_and_heading(state, motion, context);
             return;
         }
-        initialize_reaction_object_four(state, motion, context);
+        start_reaction_countdown(state, motion, context);
         return;
     }
     add_vertical_gravity(motion);

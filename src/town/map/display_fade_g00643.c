@@ -7,7 +7,7 @@
 #include "engine/audio/sequence.h"
 
 /* Advances a timed color fade and sets completion flags when it finishes. */
-void advance_color_fade_and_set_completion(TimedColorFadeObject *fade_state, s32 unused, SpriteFrameState *visual)
+void fade_timed_color_object(TimedColorFadeObject *fade_state, s32 unused, SpriteFrameState *visual)
 {
     s32 ticks_left;
 
@@ -50,7 +50,7 @@ void advance_color_fade_and_set_completion(TimedColorFadeObject *fade_state, s32
 }
 
 /* Advance a timed state sequence, decrease its value, and set completion flags. */
-void advance_timed_state_and_set_completion(TimedDisplayDecayBody *object)
+void decay_timed_display_object(TimedDisplayDecayBody *object)
 {
     s32 state;
     s32 timer;
@@ -90,7 +90,7 @@ void advance_timed_state_and_set_completion(TimedDisplayDecayBody *object)
 }
 
 /* Builds two display entries and initializes a display object. */
-void build_two_display_entries(void *data_id, s32 position_offset)
+void create_two_text_display_entries(void *data_id, s32 position_offset)
 {
     Copy8 layout;
     ObjectNodeHeader *display_obj;

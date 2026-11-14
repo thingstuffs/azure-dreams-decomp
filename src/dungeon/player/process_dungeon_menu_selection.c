@@ -181,7 +181,7 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
     }
     switch (selected_item_action_alias) {
     case 1:
-        append_packed_action_record(actor, 0x48, get_special_table_data_index(selected_item_record_alias.unk_00.as_pv), 0);
+        append_packed_action_record(actor, 0x48, get_item_slot_number(selected_item_record_alias.unk_00.as_pv), 0);
         if (((S_80090C10_6 *)selected_item_record_alias.unk_00.as_pv)->unk_01 == ITEM_KIND_SHIELD) {
             change_equipped_item_and_notify(actor, selected_item_record_alias.unk_00.as_pv);
             selected_item_action_alias = 0;
@@ -192,12 +192,12 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
         break;
     case 2:
         if (((S_80090C10_13 *)selected_item_record_alias.unk_00.as_pv)->unk_01 == ITEM_KIND_SHIELD) {
-            append_packed_action_record(actor, 0x48, get_special_table_data_index(actor->unk_50.address), 0);
+            append_packed_action_record(actor, 0x48, get_item_slot_number(actor->unk_50.address), 0);
             change_equipped_item_and_notify(actor, NULL);
             selected_item_action_alias = 0;
             break;
         }
-        append_packed_action_record(actor, 0x48, get_special_table_data_index(actor->unk_4C), 0);
+        append_packed_action_record(actor, 0x48, get_item_slot_number(actor->unk_4C), 0);
         equip_item_and_update_status(actor, NULL);
         selected_item_action_alias = 0;
         break;
@@ -219,8 +219,8 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
     case 20:
         item_result = dispatch_dungeon_category_action(actor, selected_item_record_alias.unk_00.as_pv, 3, 0);
         if (item_result >= 0) {
-            item_text_id = (s16) get_special_table_data_index(selected_item_record_alias.unk_00.as_pv);
-            append_packed_action_record(actor, 0x48, item_text_id, get_special_table_data_index(selected_item_record_alias.unk_04));
+            item_text_id = (s16) get_item_slot_number(selected_item_record_alias.unk_00.as_pv);
+            append_packed_action_record(actor, 0x48, item_text_id, get_item_slot_number(selected_item_record_alias.unk_04));
             if (item_result > 0) {
                 goto block_64;
             }
@@ -234,13 +234,13 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
         ((Rec_func_8008D024_arg0 *)state)->unk_9B.as_u8 = 3U;
         return;
     case 5:
-        append_packed_action_record(actor, 0x58, 0, get_special_table_data_index(selected_item_record_alias.unk_00.as_pv));
+        append_packed_action_record(actor, 0x58, 0, get_item_slot_number(selected_item_record_alias.unk_00.as_pv));
         begin_holding_item(state, context, sprite, selected_item_record_alias.unk_00.as_pv);
         selected_item_action_alias = 0;
         break;
     case 8:
     case 9:
-        append_packed_action_record(actor, 0x98, 0, get_special_table_data_index(selected_item_record_alias.unk_00.as_pv));
+        append_packed_action_record(actor, 0x98, 0, get_item_slot_number(selected_item_record_alias.unk_00.as_pv));
         if (((S_80090C10_6 *)selected_item_record_alias.unk_00.as_pv)->unk_03 & 0x20) {
             resolve_familiar_deployment_request(state, context, sprite, selected_item_record_alias.unk_00.as_pv);
             selected_item_action_alias = 0;

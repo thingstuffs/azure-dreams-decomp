@@ -8,10 +8,10 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_item_entries.h"
 void create_familiar_deployment_effect_with_owner_state(void *owner_body, ObjectPosition *source_pos, SpriteFrameState *owner);
-void enter_directional_state_17(ActorRecord *state, ObjectPosition *unused, void *animation, ActorRecord *orientation);
+void enter_idle_timeout_pose(ActorRecord *state, ObjectPosition *unused, void *animation, ActorRecord *orientation);
 
 
-void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
-s32 process_record_and_update_linked_state(DungeonItemEntry *request, void *record_data);
+void clear_item_slot(DungeonItemEntry *slot);
+s32 resolve_item_attack(DungeonItemEntry *request, void *record_data);
 
 #endif

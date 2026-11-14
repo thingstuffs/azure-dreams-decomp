@@ -9,7 +9,7 @@
     {
       "row": "town/func_8046A308",
       "home": "town/func_8046A308",
-      "tu": "src/town/scene/event/event_state_store_b.c",
+      "tu": "src/town/scene/event/store_prepared_buffer_if_mode_three.c",
       "foff": "0x3ea308",
       "vma": "0x8001b308",
       "size": 108,

@@ -18,6 +18,7 @@
 #include "sdk/libetc.h"
 #include "sdk/libgpu.h"
 #include "dungeon/level.h"
+#include "dungeon/level/room_count_data.h"
 typedef struct floor_generate_isolated_8028444C_S_8001744C_0 {
     s16 unk_00;
 } floor_generate_isolated_8028444C_S_8001744C_0;
@@ -476,7 +477,6 @@ void retreat_generation_step_pair(void *step_state, s32 update_id);
 s16 get_minimum_stepped_cell_value(s32 x, s32 y, s32 count, s16 x_step, s16 y_step);
 void update_active_area_tiles(void);
 extern floor_generate_isolated_80286AF8_MapCell generation_cells[];
-extern u8 dungeon_room_count[];
 extern u8 current_dungeon_floor[];
 extern u8 floor_objects[];
 extern u8 dungeon_ground_item_positions[];

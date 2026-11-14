@@ -21,19 +21,19 @@ void initialize_door_variant(TownObjectRecord *record_data, ObjectPosition *posi
     u32 variant;
 
     variant = ((u8)(record_data->unk_94));
-    ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_00 = &handle_door_check_result;
+    ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_00 = &update_door_object;
     {
         union { s32 *pointer; s32 value; } handler;
 
         if (variant == 1) {
             handler.value = 2;
             record_data->unk_90 = handler.value;
-            handler.pointer = &advance_door_step;
+            handler.pointer = &create_door_transition_objects;
             record_data->unk_6E = 0;
         } else if (variant == 0) {
-            handler.pointer = &trigger_door_interaction_effect;
+            handler.pointer = &check_door_entry_and_change_map;
         } else {
-            handler.pointer = &install_next_door_handler;
+            handler.pointer = &create_door_shared_object;
             record_data->unk_6E = 0;
         }
         record_data->unk_50.as_pm = handler.pointer;
@@ -44,7 +44,7 @@ void initialize_door_variant(TownObjectRecord *record_data, ObjectPosition *posi
 }
 
 /* Clear and flag the object on a nonzero check result, or invoke its callback. */
-void handle_door_check_result(S_func_800A0708_0 *object, void *callback_arg, s32 callback_data)
+void update_door_object(S_func_800A0708_0 *object, void *callback_arg, s32 callback_data)
 {
     s8 *linked_flag;
     s32 check_result;
@@ -74,17 +74,17 @@ void handle_door_check_result(S_func_800A0708_0 *object, void *callback_arg, s32
 }
 
 /* Install the next object handler when the update call succeeds. */
-void install_next_door_handler(TownObjectRecord *object, TownObjectRecord *unused_context, void *update_context, SpriteFrameState *unused_data) {
+void create_door_shared_object(TownObjectRecord *object, TownObjectRecord *unused_context, void *update_context, SpriteFrameState *unused_data) {
     s32 linked_record = *(s32 *)((u8 *)object + 0x98);
     u8 status_byte = ((u8)(object->unk_94));
 
-    if (create_object_with_shared_data(object, linked_record, update_context, status_byte) != 0) {
-        object->unk_50.as_s32 = (s32) &emit_door_position_effect;
+    if (create_default_display_object(object, linked_record, update_context, status_byte) != 0) {
+        object->unk_50.as_s32 = (s32) &check_door_entry_and_open;
     }
 }
 
 /* Set the entity effect and emit it at the supplied position when the checks pass. */
-void emit_door_position_effect(S800A3088Arg0 *entity, void *action, S800A3088Arg2 *position) {
+void check_door_entry_and_open(S800A3088Arg0 *entity, void *action, S800A3088Arg2 *position) {
     s32 position_x;
     if (entity->unk68 == 0) {
         if (check_door_status_inverted(entity) != 0) {
@@ -148,7 +148,7 @@ void advance_door_close_angle(S_800A0958_0 *door) {
     door->unk_6E = opening_angle;
     if ((opening_angle << 0x10) <= 0) {
         door->unk_6E = 0U;
-        door->unk_50 = &emit_door_position_effect;
+        door->unk_50 = &check_door_entry_and_open;
     }
 }
 
@@ -164,7 +164,7 @@ void *find_door_keyed_node(s32 requested_value)
 
     node = active_node_list_head.head;
     if (node != 0) {
-        required_node_key = (s32)&handle_door_check_result;
+        required_node_key = (s32)&update_door_object;
         do {
             node_key = node->field_10;
             next_node = node->next;
@@ -221,12 +221,12 @@ void into_dn_door_demo_set(void) {
     door = NODE_BODY(door_object);
     if (door_object != 0) {
         door->unk_90 = 6;
-        door->unk_50 = &update_door_completion_state;
+        door->unk_50 = &start_door_transition_effect;
     }
 }
 
 /* Check interaction conditions, apply the target value, and trigger a positional effect. */
-void trigger_door_interaction_effect(void *actor, void *target, void *position) {
+void check_door_entry_and_change_map(void *actor, void *target, void *position) {
     if (*(s16 *)((u8 *)actor + 0x68) == 0) {
         if (check_door_status_inverted(actor) != 0) {
             return;
@@ -255,7 +255,7 @@ void change_door_map(void *map_source, s32 *map_table) {
         s32 map_index;
 
         if (selection_mode == 1) {
-            map_index = find_target_byte_index_in_list();
+            map_index = find_target_index_in_list();
         } else {
             map_index = get_player_homerank();
         }
@@ -265,10 +265,10 @@ void change_door_map(void *map_source, s32 *map_table) {
 }
 
 /* Update the entity step state and switch handlers when the result is zero. */
-void advance_door_step(void *entity, TownObjectRecord *unused_context, void *update_context, SpriteFrameState *unused_data) {
+void create_door_transition_objects(void *entity, TownObjectRecord *unused_context, void *update_context, SpriteFrameState *unused_data) {
     s16 step_result;
 
-    step_result = create_objects_descending_by_count(entity, *(s32 *)((u8 *)entity + 0x98), update_context, *(s16 *)((u8 *)entity
+    step_result = create_display_object_series(entity, *(s32 *)((u8 *)entity + 0x98), update_context, *(s16 *)((u8 *)entity
         + 0x90));
     *(s16 *)((u8 *)entity + 0x90) = step_result;
     if ((step_result << 0x10) == 0) {
@@ -279,33 +279,33 @@ void advance_door_step(void *entity, TownObjectRecord *unused_context, void *upd
 /* Selects the door's entrance or waiting handler according to whether the entry count is below six. */
 void start_door_entry_or_wait(S_800A0C30_0 *script_state, void *unused_context, S_800A0C30_1 *event_params) {
     if (check_door_input_and_angle(script_state, unused_context) != 0) {
-        if (count_consecutive_nonzero_entries_up_twenty() < 6) {
+        if (count_used_item_slots() < 6) {
             script_state->unk_90 = 6;
-            script_state->unk_50 = &update_door_completion_state;
+            script_state->unk_50 = &start_door_transition_effect;
             initialize_entity_handlers_and_position(script_state->unk_72, event_params->unk_02, event_params->unk_06);
             return;
         }
-        script_state->unk_50 = &set_door_handler_if_ready;
+        script_state->unk_50 = &resume_door_entry_when_script_idle;
         set_player_block_value(script_state->unk_72);
     }
 }
 
 /* Set the object handler when service_script_controller returns zero. */
-void set_door_handler_if_ready(S_800A0CC0_0 *object, s32 value_1, s32 value_2, s32 value_3) {
+void resume_door_entry_when_script_idle(S_800A0CC0_0 *object, s32 value_1, s32 value_2, s32 value_3) {
     if (service_script_controller() == 0) {
         object->unk_50 = &start_door_entry_or_wait;
     }
 }
 
 /* Updates the object's state and applies completion effects when it reaches zero. */
-void update_door_completion_state(u8 *object, s32 unused, s32 state_id, s32 state_arg) {
+void start_door_transition_effect(u8 *object, s32 unused, s32 state_id, s32 state_arg) {
     s16 state;
 
     state = initialize_object_items_in_reverse(&door_transition_state, state_id, *(s16 *)(object + 0x90));
     *(s16 *)(object + 0x90) = state;
     if ((s32)(state << 0x10) == 0) {
         no_op_callback_a(&door_transition_state, state_id, state_arg);
-        *(void **)(object + 0x50) = advance_door_state_counter;
+        *(void **)(object + 0x50) = update_door_transition_spin;
         load_indexed_resource_package(0);
         sound_set_cd_cue_parameters(0, cd_cue_base[0], 0x0600065E, 0x030008B6);
         SD_Call(0x300);
@@ -313,8 +313,8 @@ void update_door_completion_state(u8 *object, s32 unused, s32 state_id, s32 stat
 }
 
 /* Advance the state counter and apply the next state when the check succeeds. */
-void advance_door_state_counter(S_800A0DAC_0 *state, s32 unused, s32 context_a, s32 context_b) {
-    decrease_value_and_advance_counter(&door_transition_state, context_a, context_b);
+void update_door_transition_spin(S_800A0DAC_0 *state, s32 unused, s32 context_a, s32 context_b) {
+    step_door_transition_sprite(&door_transition_state, context_a, context_b);
     state->unk_6E = (u16)(state->unk_6E + 0x10);
     if (animate_spinning_shrinking_object(&door_transition_state, context_a, context_b) != 0) {
         state->unk_6C = 0x20;
@@ -326,7 +326,7 @@ void advance_door_state_counter(S_800A0DAC_0 *state, s32 unused, s32 context_a, 
 void tick_door_countdown(Rec_func_800A0668_arg0 *object, S_800A0E3C_1 *source, s32 update_arg_a, s32 update_arg_b) {
     u16 remaining_count;
 
-    decrease_value_and_advance_counter(&door_transition_state, update_arg_a, update_arg_b);
+    step_door_transition_sprite(&door_transition_state, update_arg_a, update_arg_b);
     remaining_count = object->unk_6C - 1;
     object->unk_6C = remaining_count;
     if ((remaining_count << 0x10) <= 0) {
@@ -341,7 +341,7 @@ void into_dn_door_jobs(void) {
     clear_resident_bit_patterns();
     clear_resident_bitmap_bit(sn_mam_pan_give);
     apply_building_pending_updates();
-    dispatch_conditional_table_pairs();
+    sync_resident_flag_pairs();
     current_dungeon_floor = 1;
     runtime_dispatch_state.flags16 = 0;
     system_update_flags &= 0xFFF8;

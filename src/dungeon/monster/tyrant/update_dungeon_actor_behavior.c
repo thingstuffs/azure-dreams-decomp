@@ -146,7 +146,7 @@ void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
                     }
                 }
             }
-            if ((s16)update_entity_state_from_query(actor_arg, context_arg, map_object_arg, 0) == 0) {
+            if ((s16)relink_hikewne_path(actor_arg, context_arg, map_object_arg, 0) == 0) {
                 return;
             }
             actor_state_arg->action_flags |= 0x4000;
@@ -159,7 +159,7 @@ void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
         switch (actor_state_arg->action_flags & 0x3FFF) {
         case 8:
             if ((s16)try_begin_tyrant_attack(actor_arg, context_arg, map_object_arg, actor_state_arg) == 0) {
-                start_directional_actor_effect(actor_arg, context_arg, map_object_arg, actor_state_arg);
+                begin_dragon_attack(actor_arg, context_arg, map_object_arg, actor_state_arg);
                 return;
             }
             return;

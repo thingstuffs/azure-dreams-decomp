@@ -6,13 +6,13 @@ struct B22_81893474_EffectState;
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_moving_views.h"
 struct S_7FFE83DC_3;
-void create_positioned_color_sprite(struct S_7FFE83DC_3 *source, s32 color);
-void * create_indexed_color_sprite(MovingPosition *origin, u16 index);
+void create_brief_positioned_color_effect(struct S_7FFE83DC_3 *source, s32 color);
+void * create_orbit_sprite_at_index(MovingPosition *origin, u16 index);
 s32 draw_counter_rotating_cylinders(struct B22_81893474_EffectState *effect, MovingPosition *center, s32 unused_value);
 void spawn_jittered_child_effect( void *source, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
 void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u32 variant);
 
-/* Body allocated by create_effect_or_fallback and advanced until the item is
+/* Body allocated by create_item_drop_effect and advanced until the item is
  * placed at its saved grid position. */
 typedef struct ItemDropEffectBody {
     u8 pad_00[0xA2];
@@ -23,7 +23,7 @@ typedef struct ItemDropEffectBody {
     s16 grid_y;
 } ItemDropEffectBody;
 
-void animate_object_motion_and_scale(ItemDropEffectBody *object, ObjectPosition *motion, SpriteFrameState *display);
+void animate_item_drop_effect(ItemDropEffectBody *object, ObjectPosition *motion, SpriteFrameState *display);
 
 /* Body allocated with flags 0x201 by the bank timed-visual sequence and its
  * relinks. create_cylindrical_effect decrements +0x48, advances +0x4C and
@@ -39,7 +39,7 @@ typedef struct CylindricalEffectWork {
     s32 shade;
 } CylindricalEffectWork;
 
-/* Effect parameters and countdown used by process_effect_modes_and_completion. */
+/* Effect parameters and countdown used by update_spiral_spawner. */
 typedef struct SpiralingEffectObjectBody {
     u8 pad_00[0xC];
     ActorRecord *unk_0C;
@@ -58,12 +58,12 @@ extern s16 particle_effect_active;
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 s32 draw_concentric_effect_layers(struct B22_81893474_EffectState *effect, s32 position, s32 render_param);
-s32 draw_cylindrical(struct B22_81893474_EffectState *effect, s32 position, s32 render_param);
-void process_effect_modes_and_completion(void *state);
+s32 draw_static_cylinder_pair(struct B22_81893474_EffectState *effect, s32 position, s32 render_param);
+void update_spiral_spawner(void *state);
 
 void advance_linked_object_counter(void *entry, s32 unused, SpriteFrameState *target);
 
-void copy_selected_table_pair(ActorRecord *record_field, s32 pair_index);
+void select_target_sprite_scale(ActorRecord *record_field, s32 pair_index);
 
 /* Orbit center and angle for the indexed-color sprite. */
 typedef struct IndexedColorSpriteBody {

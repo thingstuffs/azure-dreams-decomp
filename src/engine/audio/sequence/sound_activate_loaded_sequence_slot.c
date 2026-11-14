@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/audio_update_guard_data.h"
 #include "engine/audio/sequence.h"
 
 /* S_80086C00: 12-byte-stride entry table (8 entries), indexed by the "slot
@@ -6,12 +7,10 @@
  * pointer value, field_8/field_A are u16 (not accessed here). */
  /* size 0xC (12) */
 
-extern SoundSequenceSlot audio_sequence_slots[8];
 extern s16 audio_current_bank_slot[8];  /* forced hi/lo access via size > 8 */
 extern s16 audio_active_sequence_sub_id[8];  /* forced hi/lo access via size > 8 */
 extern s32 audio_sequence_stream_limit[4];  /* forced hi/lo access via size > 8 */
 extern s32 audio_sequence_active[4];  /* forced hi/lo access via size > 8 */
-extern s32 audio_update_guard[4];  /* forced hi/lo access via size > 8 */
 
 /* Activates an occupied slot with the requested sub-id and mode. */
 void sound_activate_loaded_sequence_slot(s16 slot_index, u8 mode, s16 sub_id)
@@ -26,11 +25,11 @@ void sound_activate_loaded_sequence_slot(s16 slot_index, u8 mode, s16 sub_id)
             initialize_audio_sequence_tracks();
             if (!(mode & 0xFF)) {
                 audio_sequence_active[0] = 0;
-                audio_update_guard[0] = 1;
+                audio_update_guard.value = 1;
                 audio_sequence_slots[slot_index].state = 4;
             } else {
                 audio_sequence_active[0] = 1;
-                audio_update_guard[0] = 0;
+                audio_update_guard.value = 0;
                 audio_sequence_slots[slot_index].state = 1;
             }
         }

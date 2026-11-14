@@ -9,7 +9,7 @@
  * Copies runtime_script_state word 0x20 to record word 0xC and its Record68 block at word 0x32 to
  * record word 0xD.
  */
-void copy_global_state_and_record_block(s32 *record) {
+void save_shop_script_state(s32 *record) {
     s32 *base = (s32 *)&runtime_script_state;
 
     record[0xC] = base[0x20];
@@ -17,7 +17,7 @@ void copy_global_state_and_record_block(s32 *record) {
 }
 
 /* Initialize town state from the source value and block, clearing two state fields. */
-void initialize_state_from_source(Source *source) {
+void restore_shop_script_state(Source *source) {
     runtime_script_state.value38 = source->value;
     runtime_script_state.valueA8 = source->value;
     runtime_script_state.valueBA = 0;
@@ -42,25 +42,25 @@ void *open_shop(s32 unused, s32 primary_param, s32 secondary_param, s32 shared_p
         shop->update_callback = &advance_dispatch_when_countdown_expires;
         shop_state->subrecord = allocate_paged_shop_item_list(shop, shop_state->selected_index, shop_state->entry_count, shop_state->selected_row,
             shop_state->field_10, shop_state->entry_base, primary_param);
-        second_resource = create_dual_buffer_object(shop, 0x48, -0xC);
+        second_resource = create_floating_number_widget(shop, 0x48, -0xC);
         shop_state->field_2C = second_resource;
         if ((shop_state->subrecord == 0) || (second_resource == 0)) {
-            process_record_and_apply_flags((struct FuncArg *)(shop_state));
+            close_shop((struct FuncArg *)(shop_state));
             shop = 0;
         }
-        copy_global_state_and_record_block((s32 *)(shop_state));
+        save_shop_script_state((s32 *)(shop_state));
     }
     return shop;
 }
 
 /* Marks the shop record for cleanup, updates its child handlers, and restores shared shop state. */
-void process_record_and_apply_flags(FuncArg *record) {
+void close_shop(FuncArg *record) {
     s32 firstUpdateValue;
     NODE_HEADER(record)->flags |= 0x8000;
     firstUpdateValue = record->field28;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
-    set_shop_object_data_if_present(firstUpdateValue);
+    set_shop_fade_out_callback(firstUpdateValue);
     set_advance_inner_value_callback(record->field2C);
     D_80082AB4[0] = record->field4;
-    initialize_state_from_source((Source *)record);
+    restore_shop_script_state((Source *)record);
 }

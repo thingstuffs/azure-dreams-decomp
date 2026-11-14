@@ -32,7 +32,7 @@ void card_boot_finish_slot_load_and_change_scene(Object_800128C8 *object) {
     *(s16 *)(global_page + 0x3714) = object_mode;
     runtime_dispatch_state.flags16 = state_flags | 2;
     card_boot_destroy_slot_selection_menu(((void *)object) - 0x20);
-    runtime_save_or_restore_state();
+    swap_saved_state_block();
     global_mode = 6;
     if (*(u16 *)(global_page + 0x208) != 0) {
         global_mode = 5;

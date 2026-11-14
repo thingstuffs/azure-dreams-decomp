@@ -16,7 +16,7 @@ struct S_800B2CE8_0;
 /* Body of the shop object that delegates its update to the first method. */
 typedef struct ShopFirstCallbackObject {
     /* 0x00 */ s32 (*first_callback)(void *object);
-    /* 0x04 */ s32 unk_04; /* first argument forwarded by process_object_data_by_mode */
+    /* 0x04 */ s32 unk_04; /* first argument forwarded by build_monster_status_display */
     /* 0x08 */ s16 slot_index; /* selects the display-entry setup path */
     /* 0x0A */ u16 unk_0A;
     /* 0x0C */ s16 unk_0C;
@@ -34,18 +34,18 @@ void *create_monster_status_object(s32 resource_id, s32 slot_index, s32 x, s32 y
 /* create_item_menu_handler_object.c */
 ItemMenuObjectNode *create_item_menu_handler_object(ItemMenuStateNode *owner);
 
-/* initialize_four_slot_object_variant.c */
-void initialize_four_slot_object_variant(struct Obj *object);
+/* initialize_storage_menu_slots.c */
+void initialize_storage_menu_slots(struct Obj *object);
 
 /* initialize_item_menu_object_slots.c */
 void initialize_item_menu_object_slots(ItemMenuObject *object);
 
-/* initialize_object_resources.c */
+/* initialize_storage_menu_resources.c */
 s32 func_800B4ED8(void *object, s32 resource_id);
-s32 initialize_object_resources(void *object, s32 resource_id);
+s32 initialize_storage_menu_resources(void *object, s32 resource_id);
 
-/* interpolate_paired_object_positions_and_shades.c */
-void interpolate_paired_object_positions_and_shades(void **pair_state);
+/* ease_paired_objects_to_presets.c */
+void ease_paired_objects_to_presets(void **pair_state);
 
 /* invoke_item_menu_node_callback.c */
 void invoke_item_menu_node_callback(struct ItemMenuTransition *state);
@@ -63,17 +63,17 @@ void compact_lshop_entry_list(void);
 void *find_unused_item_slot(void **slot_list);
 void append_town_item(const struct Copy4 *input);
 
-/* process_shop_object_data.c */
-void process_shop_object_data(s32 object_addr);
+/* apply_shop_object_slot_colors.c */
+void apply_shop_object_slot_colors(s32 object_addr);
 
 /* set_object_data_pointer.c */
 void set_advance_inner_value_callback(ObjectNodeHeader *object);
 
-/* set_apply_record_values_callback_if_present.c */
-void set_apply_record_values_callback_if_present(struct S_800B2CE8_0 *object);
+/* set_apply_record_values_callback.c */
+void set_apply_record_values_callback(struct S_800B2CE8_0 *object);
 
-/* set_shop_object_data_if_present.c */
-void set_shop_object_data_if_present(struct S_800B1718_0 *object);
+/* set_shop_fade_out_callback.c */
+void set_shop_fade_out_callback(struct S_800B1718_0 *object);
 
 /* set_shop_object_ready.c */
 void set_shop_object_ready(struct S_800B1730_0 *object);

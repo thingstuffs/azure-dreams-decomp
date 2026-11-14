@@ -19,14 +19,14 @@ extern u8 D_800E11FD[];
 #include "dungeon/system.h"
 #include "dungeon/item/message.h"
 
-extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern s32 resolve_item_attack(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 #include "dungeon/player/state/clear_slot_and_update_linked_state_api.h"
 
 /* Applies an item to the target and removes it when consumed. */
 s32 use_item_to_reveal_floor_map(ActorRecord *target, DungeonItemEntry *item, s16 target_kind, s32 target_data)
 {
     if (target_kind == 13) {
-        return process_record_and_update_linked_state(item, target_data);
+        return resolve_item_attack(item, target_data);
     }
 
     if (target == dungeon_actor_ring_anchor) {
@@ -51,6 +51,6 @@ s32 use_item_to_reveal_floor_map(ActorRecord *target, DungeonItemEntry *item, s1
     }
 
     g_dungeon_status.activity_counts.parts.pending_action_count--;
-    clear_slot_and_update_linked_state(item);
+    clear_item_slot(item);
     return 1;
 }

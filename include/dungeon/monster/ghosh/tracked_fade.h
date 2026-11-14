@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-/* create_boss_linked_effect installs update_boss_effect_growth for this body.
+/* create_tracked_fade_sprite installs update_boss_effect_growth for this body.
  * The callback brightens the sprite, tracks the supplied position, then fades it. */
 typedef struct GhoshTrackedFadeBody {
     u8 pad_00[0x12];

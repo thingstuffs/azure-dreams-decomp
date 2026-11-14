@@ -52,8 +52,8 @@ s32 initialize_catalog_display_nodes(CatalogDisplay *context) {
         prev_node = *node_slot;
         node_slot += 1;
     } while (node_count < 0x62);
-    apply_block_16_template_to_nodes(catalog_display_node_slots, 0x62);
-    apply_vector_3_template_to_nodes(catalog_display_node_slots, 0x62);
+    apply_display_block_defaults(catalog_display_node_slots, 0x62);
+    apply_display_vector_defaults(catalog_display_node_slots, 0x62);
     context->parts.nodes = catalog_display_node_slots;
     context->last_node = catalog_display_node_slots[97];
     result = 1;

@@ -39,7 +39,7 @@ void *allocate_and_initialize_display_object(s32 object_key, s32 payload_value, 
 }
 
 /* Create objects with descending indices until allocation fails or index zero is reached. */
-s32 create_objects_descending_by_count(s32 object_key, s32 payload_value, s32 payload_param, s32 count) {
+s32 create_display_object_series(s32 object_key, s32 payload_value, s32 payload_param, s32 count) {
     s32 index;
     index = count;
     do {
@@ -77,7 +77,7 @@ void initialize_directional_object_state(void *object_arg, ObjectPosition *place
     placement->x.v = (s32) ((IntVector3 *)(object->unk_14))->x;
     placement->y.v = (s32) ((IntVector3 *)(object->unk_14))->y;
     placement->z.v = (s32) ((IntVector3 *)(object->unk_14))->z;
-    object->unk_00 = &copy_signed_inner_value_by_flag;
+    object->unk_00 = &copy_directional_value;
     if (object->unk_20 == 0) {
         s32 heading;
         heading = 1;
@@ -95,7 +95,7 @@ void initialize_directional_object_state(void *object_arg, ObjectPosition *place
 }
 
 /* Copy the inner value into the output, negated unless the object's flag is set. */
-void copy_signed_inner_value_by_flag(Func800A4B70Object *object, s32 unused, Func800A4B70Output *out) {
+void copy_directional_value(Func800A4B70Object *object, s32 unused, Func800A4B70Output *out) {
     Func800A4B70Inner *inner = object->inner;
 
     if (object->flag != 0) {
@@ -106,6 +106,6 @@ void copy_signed_inner_value_by_flag(Func800A4B70Object *object, s32 unused, Fun
 }
 
 /* Forward four inputs to allocate_and_initialize_display_object with two fixed data pointers. */
-void *create_object_with_shared_data(s32 input_first, s32 input_second, s32 input_third, s32 input_fourth) {
-    return allocate_and_initialize_display_object(input_first, input_second, input_third, input_fourth, flag_inactive_object_or_run_callback, initialize_object_position_state);
+void *create_default_display_object(s32 input_first, s32 input_second, s32 input_third, s32 input_fourth) {
+    return allocate_and_initialize_display_object(input_first, input_second, input_third, input_fourth, flag_inactive_object_or_run_callback, initialize_lit_mesh_object_with_phase);
 }

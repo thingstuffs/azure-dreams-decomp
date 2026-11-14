@@ -54,8 +54,8 @@ extern void initialize_actor_movement_interaction_action(void *object, void *pos
 #include "town/player/action_initializers.h"
 extern s32 find_free_entry_index(void *ptr, s32 value);
 s32 is_map_state_in_special_range(void);
-extern s32 count_live_type_four_links(void);
-extern s32 find_target_byte_index_in_list(void);
+extern s32 count_live_item_links(void);
+extern s32 find_target_index_in_list(void);
 extern u8 item_suffix_strings_ball_fruit_seed[];
 extern u8 item_suffix_strings_herb[];
 extern u8 D_80088C8C[];

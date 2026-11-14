@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "dungeon/effect.h"
+#include "dungeon/effect/rectangle_effect_updated_data.h"
 
 
 typedef struct S_80025360_0 {
@@ -43,7 +44,6 @@ typedef struct Work {
 } Work;
 
 extern Rect D_80024048;
-extern s16 rectangle_effect_updated;
 
 /* Updates a timed rectangle effect, fading its color in and out and marking completion. */
 void update_timed_rectangle_effect(void *effect_arg, void *unused, void *sprite_arg)

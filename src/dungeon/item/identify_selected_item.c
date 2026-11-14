@@ -25,7 +25,7 @@ extern u8 D_800E11F5[];
 #include "dungeon/player/item.h"
 #include "dungeon/item/message.h"
 #include "dungeon/system.h"
-extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern s32 resolve_item_attack(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 #include "dungeon/player/state/clear_slot_and_update_linked_state_api.h"
 #include "dungeon/actor/effect.h"
 #include "dungeon/actor.h"
@@ -42,7 +42,7 @@ s32 identify_selected_item(ActorRecord *entity, DungeonItemEntry *action_id, s16
     void *saved_message_pos;
 
     if (action_type == 0xD) {
-        return process_record_and_update_linked_state(action_id, action_arg);
+        return resolve_item_attack(action_id, action_arg);
     }
 
     if (entity == dungeon_actor_ring_anchor) {
@@ -69,6 +69,6 @@ s32 identify_selected_item(ActorRecord *entity, DungeonItemEntry *action_id, s16
     }
 
     g_dungeon_status.activity_counts.parts.pending_action_count--;
-    clear_slot_and_update_linked_state(action_id);
+    clear_item_slot(action_id);
     return 1;
 }

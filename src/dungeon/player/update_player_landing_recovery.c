@@ -1,3 +1,4 @@
+#include "dungeon/player/saved_held_item_data.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
@@ -22,7 +23,7 @@ typedef struct S_8008E504_0 {
 } S_8008E504_0;   /* arg0 in update_player_landing_recovery */
 
 extern s32 held_item_record;
-extern s32 saved_held_item_word;
+
 
 #include "dungeon/player/input.h"
 

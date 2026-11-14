@@ -27,7 +27,7 @@ extern u8 D_800E1303[];
 #include "dungeon/item/state.h"
 #include "dungeon/system.h"
 
-extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern s32 resolve_item_attack(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 #include "dungeon/player/state/clear_slot_and_update_linked_state_api.h"
 
 typedef struct S_800BF7FC_1 {
@@ -47,7 +47,7 @@ s32 apply_room_holy_beam_item(ActorRecord *target, DungeonItemEntry *item, s16 a
     s8 record_index;
 
     if (action == 13) {
-        return process_record_and_update_linked_state(item, action_param);
+        return resolve_item_attack(item, action_param);
     }
 
     if (target == ((u8 *)dungeon_actor_ring_anchor)) {
@@ -89,6 +89,6 @@ s32 apply_room_holy_beam_item(ActorRecord *target, DungeonItemEntry *item, s16 a
     }
 
     g_dungeon_status.activity_counts.parts.pending_action_count--;
-    clear_slot_and_update_linked_state(item);
+    clear_item_slot(item);
     return 1;
 }

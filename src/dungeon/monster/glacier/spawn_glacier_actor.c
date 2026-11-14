@@ -39,7 +39,7 @@ void *spawn_glacier_actor(s16 flags, s16 kind_id, s16 variant, s32 spawn_value)
     if (object != 0) {
         result = object;
         result = (ActorRecord *)((u8 *)result + 0x20);
-        object->update_callback = update_monster_appearance_motion;
+        object->update_callback = update_glacier_actor;
         result->species = MONSTER_GLACIER;
         register_node(object, project_sprite_chain);
 
@@ -83,7 +83,7 @@ void *spawn_glacier_actor(s16 flags, s16 kind_id, s16 variant, s32 spawn_value)
         initialize_actor_sprite_and_animation(object, part0, part1, flags);
         result_copy->action_id = 0xFF;
         result_copy->unk_9C = -1;
-        result_copy->unk_8C.address = update_actor_timed_effects;
+        result_copy->unk_8C.address = update_glacier_actor_behavior;
         try_move_actor_to_valid_position(result_copy, part0, part1, result);
     }
     return result;

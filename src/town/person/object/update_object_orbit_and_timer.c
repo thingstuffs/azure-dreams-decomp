@@ -43,5 +43,5 @@ void update_object_orbit_and_timer(TownObjectRecord *object, ObjectPosition *pos
             return;
         }
     }
-    initialize_object_from_context(object, position, update_arg);
+    start_random_wait_select_setup(object, position, update_arg);
 }

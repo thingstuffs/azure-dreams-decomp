@@ -85,7 +85,7 @@
     },
     {
       "row": "town/func_8094D464",
-      "tu": "src/town/scene/flags/update_flag_test_target.c",
+      "tu": "src/town/scene/flags/copy_flag_state_to_target.c",
       "home": "town/func_806D2D10",
       "foff": "0x8CD464",
       "vma": "0x80016464",

@@ -38,7 +38,7 @@ void render_scene_frame_with_timing(void)
     drain_audio_commands_and_service_channels();
     copied_value = gpu_scratch_buffer_base;
     gpu_scratch_write_pointer = copied_value;
-    run_runtime_callbacks();
+    run_frame_callbacks();
     update_controller_buttons_and_triggers();
 
     next_buffer = upper_draw_context;

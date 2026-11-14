@@ -25,7 +25,7 @@ void set_cd_audio_mix_mode(unsigned char mix_mode) {
         cd_volume.val1 = cd_volume.val3 = 0x4F;
         sound_playback_state.flags00 = (sound_playback_state.flags00 & ~0x10) | 0x20;
     } else {
-        clear_cd_audio_mix_mode();
+        audio_disable_mono_mix();
         cd_volume.val0 = cd_volume.val2 = 0x7F;
         cd_volume.val1 = cd_volume.val3 = 0;
         sound_playback_state.flags00 = (sound_playback_state.flags00 & ~0x20) | 0x10;

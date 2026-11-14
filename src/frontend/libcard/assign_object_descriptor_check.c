@@ -5,7 +5,7 @@
 #include "slus/resource_transition_task.h"
 
 /* Assigns the object descriptor when the object check succeeds. */
-void assign_object_descriptor_on_check(void *object_data_addr) {
+void start_settings_after_transition(void *object_data_addr) {
     ObjectNodeHeader *object;
 
     object = object_data_addr;

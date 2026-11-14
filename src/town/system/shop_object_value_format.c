@@ -53,7 +53,7 @@ void *allocate_and_initialize_shop_object(DungeonItemEntry *item) {
     void *allocated_object;
     void *result_object;
 
-    allocated_object = create_callback_pair_default(0x100);
+    allocated_object = allocate_node_body(0x100);
     result_object = allocated_object;
     if (allocated_object != 0) {
         result_object = allocated_object;

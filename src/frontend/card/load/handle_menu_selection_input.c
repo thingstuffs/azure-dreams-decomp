@@ -46,7 +46,7 @@ void handle_menu_selection_input(void *object_arg)
         }
         if (pressed_buttons & 0x20) {
             func_80063FF8(0x514);
-            reset_menu_object_state(object);
+            select_load_slot_callback(object);
         } else if (held_buttons & 0x5000) {
             if (pressed_buttons & 0x5000) {
                 buttons = (s32 *)((u8 *)object + 0x30);

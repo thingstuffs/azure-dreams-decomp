@@ -11,7 +11,7 @@
 
 extern s32 D_800814A0;
 
-extern void refresh_state_and_dispatch_angles(void);
+extern void scan_flagged_tiles_from_camera(void);
 extern void render_shaded_map_tiles(void);
 
 /* Runs node callbacks, removes flagged nodes, and updates movement and drawing state. */
@@ -33,7 +33,7 @@ void update_active_nodes(void)
         integrate_active_node_vectors();
         run_view_callbacks();
         if (state->map.cells != 0) {
-            refresh_state_and_dispatch_angles();
+            scan_flagged_tiles_from_camera();
             render_shaded_map_tiles();
         }
     }

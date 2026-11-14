@@ -235,14 +235,14 @@ void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, 
 void update_entity_facing_motion_and_ground(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *part);
 void dispatch_monster_move_attack_spell(ActorRecord *record, ObjectPosition *entity, SpriteFrameState *object, ActorRecord *other_entity);
 void choose_grineut_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
-void initialize_opposite_facing_effect(ActorRecord *effect, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *source);
+void begin_grineut_backstep(ActorRecord *effect, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *source);
 s32 try_grineut_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor);
 void begin_grineut_attack(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 s32 relink_grineut_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg);
 void move_grineut_to_tile(ActorRecord *state, ObjectPosition *context, SpriteFrameState *source, ActorRecord *target);
-void advance_target_hop(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void hop_grineut_to_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void update_grineut_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
-void complete_staged_destination_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void advance_grineut_attack_step(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_actor_stored_path_2(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void settle_directional_motion_at_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
 void remove_defeated_grineut(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);

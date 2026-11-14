@@ -10,5 +10,5 @@ extern u8 D_800D7970[];
 /* Registers the object in scene slot 12 using the four local setup tables. */
 void initialize_scene_slot_12(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
 {
-    initialize_object_and_register_slot(object, 12, D_800D796C, D_800D7970, D_800D793C, D_800D7944);
+    register_object_slot_with_tables(object, 12, D_800D796C, D_800D7970, D_800D793C, D_800D7944);
 }

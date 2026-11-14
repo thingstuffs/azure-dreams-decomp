@@ -62,11 +62,11 @@ void update_projected_effect_points(void *object_arg, s32 phase, void *source_da
     object->unk_115 = (s8) ((rsin(source->unk_12 + double_phase) + 0x1000) / 128);
     object->unk_116 = (s8) ((rsin(source->unk_16 + double_phase) + 0x1000) / 128);
     start_point = object_arg + 0x74;
-    copy_low_halfword_coordinates(start_point, source_data);
+    copy_position_integer_parts(start_point, source_data);
     mid_point = object_arg + 0x7C;
-    copy_low_halfword_coordinates(mid_point, source_data);
+    copy_position_integer_parts(mid_point, source_data);
     end_point = object_arg + 0x84;
-    copy_low_halfword_coordinates(end_point, source_data);
+    copy_position_integer_parts(end_point, source_data);
     x_offset = (rsin(offset_phase) * extent->scale_x) / 4096;
     y_offset = (rcos(offset_phase) * extent->scale_y) / 4096;
     projection_scale = object_arg + 0x94;

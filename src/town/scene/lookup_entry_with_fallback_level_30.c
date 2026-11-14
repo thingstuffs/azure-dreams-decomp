@@ -14,7 +14,7 @@ extern M2C_UNK D_80019C79;
 s32 *lookup_entry_with_fallback_level_30(s32 selection_id, s32 unused, s32 context) {
     s32 *result;
 
-    if (get_linked_record_field_2_d_60() >= 0x1E) {
+    if (get_town_state_count() >= 0x1E) {
         func_800179A0();
     }
     result = apply_entry_position(&D_8001896C, &D_80018AD0, selection_id, context);

@@ -35,6 +35,6 @@ extern s32 func_80018BD0(s32);
 
 /* Functions defined in this translation unit. */
 void apply_selected_entry_position(void *firstValue, s32 unusedValue, s32 secondValue);
-s32 run_global_interface_setup_sequence(void);
+s32 reset_hospital_flags_and_pick_entry(void);
 
 #endif

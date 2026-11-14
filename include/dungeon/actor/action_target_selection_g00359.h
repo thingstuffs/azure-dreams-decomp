@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800C4A80, CL:dungeon/func_800C4CE4, CL:dungeon/func_800C5028, CL:dungeon/func_800C51DC, CL:dungeon/func_800C5334. */
 
 #include "common.h"
+#include "dungeon/level/direction_offsets.h"
 #include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
@@ -47,8 +48,6 @@ typedef struct {
 } DungeonTableEntry;
 
 /* object in get_adjacent_tile_for_action */
-extern u16 direction_x_offsets[];
-extern u16 direction_y_offsets[];
 s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 #include "dungeon/item/find_active_rect_containing_point_api.h"

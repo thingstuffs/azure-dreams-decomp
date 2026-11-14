@@ -55,7 +55,7 @@ void position_menu_grid_entries(ovl_1831cd8_81811D0C_S_80026D0C_0 *display, s32 
 char *configure_menu_resource(s32 setup_value, s32 setup_data) {
     char *resource;
 
-    resource = create_callback_pair_default(0x91);
+    resource = allocate_node_body(0x91);
     if (resource != 0) {
         resource = copy_indexed_menu_string(resource, setup_value, setup_data, 0x48);
     }
@@ -188,7 +188,7 @@ s32 pack_selected_menu_entries(s32 held_entry_set, s32 position, s32 entry_count
     entry_index = position;
     entry_index /= 72;
     copy_count = entry_count;
-    buffer = create_callback_pair_default(0x91);
+    buffer = allocate_node_body(0x91);
     if (buffer != 0) {
         start_entry = entry_index << 3;
         copy_count -= start_entry;
@@ -238,7 +238,7 @@ s32 build_menu_text_page(s32 context, s32 scroll_y, s32 entry_count, s32 list_ty
 
     entry_type = list_type;
     scroll_y /= 72;
-    buffer = create_callback_pair_default(0x91);
+    buffer = allocate_node_body(0x91);
     if (buffer != 0) {
         entry_count -= scroll_y * 8;
         if (entry_count >= 9) {
@@ -289,7 +289,7 @@ s32 build_menu_text_page(s32 context, s32 scroll_y, s32 entry_count, s32 list_ty
  */
 void *refresh_menu_record_resource(Rec_func_80027328_arg0 *record, s32 resource_arg) {
     flag_object_for_removal(record->unk_08);
-    record->unk_04 = get_half_byte_length(record->unk_00);
+    record->unk_04 = get_indexed_string_half_length(record->unk_00);
     record->unk_08 = configure_menu_resource(record->unk_00, resource_arg);
     return record;
 }
@@ -376,7 +376,7 @@ void handle_menu_grid_input(ovl_1831cd8_818124F0_S_800274F0_Arg *menu) {
     if (pressed_buttons & 0x10) {
         SD_Call(AUDIO_MENU_CONFIRM);
         reset_menu_countdown_object(menu);
-        forward_stored_object_value(menu->unk44);
+        set_item_state_from_object(menu->unk44);
         return;
     }
     if (pressed_buttons & 0x40) {
@@ -388,7 +388,7 @@ void handle_menu_grid_input(ovl_1831cd8_818124F0_S_800274F0_Arg *menu) {
         if (menu->unk14 == 1 ||
             has_available_object(menu->unk48->unk28) != 0) {
             reset_menu_countdown_object(menu);
-            forward_stored_object_value(menu->unk44);
+            set_item_state_from_object(menu->unk44);
         }
         return;
     }
@@ -478,7 +478,7 @@ void handle_menu_button_input(void *menu_arg) {
     if (buttons & 0x10) {
         SD_Call(AUDIO_MENU_CONFIRM);
         reset_menu_countdown_object(menu);
-        forward_stored_object_value(menu->unk_44);
+        set_item_state_from_object(menu->unk_44);
         return;
     }
 
@@ -749,7 +749,7 @@ S_800491F4 *build_menu_entry_chain(S_800491F4 **nodes) { return build_reverse_in
  * Copies the menu template and, for mode one, overrides both pairs of halfwords with -0x31 and
  * 0x63; returns the object.
  */
-void *initialize_menu_mode_one_fields(ovl_1831cd8_81812FF4_S_80027FF4_0 *object, s32 mode) {
+void *initialize_menu_record_for_mode(ovl_1831cd8_81812FF4_S_80027FF4_0 *object, s32 mode) {
     copy_menu_record_template(object);
     if (mode == 1) {
         object->unk_02 = -0x31;
@@ -856,7 +856,7 @@ s32 allocate_menu_object_buffers(ovl_1831cd8_81813284_Unk818110CC *object, s32 b
     allocated_buffer = func_80049004(buffers, buffer_param, 8);
     object->unk88 = allocated_buffer;
     if (allocated_buffer != 0) {
-        allocated_buffer = allocate_and_append_callback_payload(buffers, 8);
+        allocated_buffer = append_allocated_node_body(buffers, 8);
         object->unk4C = allocated_buffer;
         if (allocated_buffer != 0) {
             object->unk6C[0] = display_vector_defaults.unk0;
@@ -880,7 +880,7 @@ void initialize_menu_object_state(s32 object_addr, s32 initial_value) {
     ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_18 = 0;
     dispatch_menu_state_update(object_addr + 0x58, ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_24, 0,
         ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_38);
-    initialize_menu_mode_one_fields(((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_5C, ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_24);
+    initialize_menu_record_for_mode(((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_5C, ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_24);
     ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_94 = (s32)link_menu_record_nodes(((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_98);
     clear_menu_value_objects(((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_98);
     mark_menu_object_ready(object_addr);
@@ -899,7 +899,7 @@ void install_menu_object_handler(s32 object_addr) {
     object_state->unk_38 = object_state->unk_18;
     dispatch_menu_state_update(object_addr + 0x58, object_state->unk_14, 0,
         object_state->unk_28);
-    initialize_menu_mode_one_fields(object_state->unk_4C, object_state->unk_14);
+    initialize_menu_record_for_mode(object_state->unk_4C, object_state->unk_14);
     object_state->unk_84 = (s32)link_menu_record_nodes(object_state->unk_88);
     clear_menu_value_objects(object_state->unk_88);
     mark_menu_object_ready(object_addr);

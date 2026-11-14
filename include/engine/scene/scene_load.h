@@ -9,5 +9,5 @@ typedef struct SceneLoadBody {
     void *result;
     s32 unk_0C;
 } SceneLoadBody;
-void propagate_scene_flag(SceneLoadBody *record);
+void propagate_task_flag_to_parent(SceneLoadBody *record);
 #endif

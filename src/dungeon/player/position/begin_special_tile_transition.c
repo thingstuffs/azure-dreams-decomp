@@ -31,7 +31,7 @@ void begin_special_tile_transition(ActorRecord *state, s32 unused, SpriteFrameSt
     }
     tile_type = lookup_definition_pair_value(entity->tile_x, entity->tile_y);
     if (tile_type == 3) {
-        slot_index = reserve_runtime_slot(6, 0x20);
+        slot_index = reserve_transition_slot(6, 0x20);
         transition_runtime_slot_index = slot_index;
         runtime_transition_slots[slot_index].unk_6 = 1;
         state->action_phase = 0x10;

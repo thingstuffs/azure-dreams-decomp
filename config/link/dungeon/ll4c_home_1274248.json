@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_81254248",
-      "tu": "src/dungeon/monster/beldo/update_global_effect_object.c",
+      "tu": "src/dungeon/monster/beldo/update_beldo_active_entity.c",
       "home": "dungeon/func_81254248",
       "foff": "0x1274248",
       "vma": "0x81254248",

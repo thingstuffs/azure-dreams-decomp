@@ -22,7 +22,7 @@ s32 find_containing_range_group(s32 value, s16 **range_groups)
 }
 
 /* Return the group containing value in the shared range table. */
-s32 pass_value_and_range_groups(s32 value) {
+s32 find_shared_range_group(s32 value) {
     return find_containing_range_group(value, (s16 **)&D_800D456C);
 }
 

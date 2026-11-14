@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_812543F0",
-      "tu": "src/dungeon/monster/beldo/load_global_effect_table_entry.c",
+      "tu": "src/dungeon/monster/beldo/load_beldo_effect_script.c",
       "home": "dungeon/func_812543F0",
       "foff": "0x12743f0",
       "vma": "0x812543f0",

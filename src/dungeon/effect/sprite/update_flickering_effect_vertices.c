@@ -73,7 +73,7 @@ void run_ground_trail_projectile(void *state, TrailMotion *motion, void *source_
     {
         TrailSprite *tile_data;
         s32 search_mode;
-        start_y = (s16)get_definition_entry_byte_13(3);
+        start_y = (s16)get_spell_range(3);
         search_mode = start_y << 0x10;
         tile_data = actor_data;
         end_x = tile_data->tile_x;

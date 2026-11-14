@@ -73,7 +73,7 @@ typedef struct ShortLivedSpawnerObject {
     s16 count;
 } ShortLivedSpawnerObject;
 
-/* initialize_object_header_and_state installs the phase callback and
+/* initialize_white_points_effect installs the phase callback and
  * clears these fields; completion clears the linked activity byte. */
 typedef struct TownMapPhaseObject {
     u8 pad_00[0x66];
@@ -92,7 +92,7 @@ struct SpriteFrameState;
 /* Node update callback installed by spawn_burst_particles_around_origin. */
 void update_effect_motion_size_and_brightness(void *effect_fields, struct ObjectPosition *position, struct SpriteFrameState *sprite);
 
-void advance_object_animation_and_effect(TownMapFallingObject *object);
+void update_falling_object(TownMapFallingObject *object);
 void spawn_randomized_timed_objects(TownMapSpawnState *source);
 void update_four_phase_animation(TownMapPhaseObject *entity, void *context);
 
@@ -100,6 +100,6 @@ void update_four_phase_animation(TownMapPhaseObject *entity, void *context);
 void advance_building_animation_frame(BuildingSelectionHandlerBody *state);
 void advance_building_texture_frame(BuildingSelectionHandlerBody *state);
 
-void copy_low_halfword_coordinates(u16 *destination, const u16 *source);
+void copy_position_integer_parts(u16 *destination, const u16 *source);
 
 #endif

@@ -40,8 +40,8 @@ void decode_audio_selector(s32 selector);
 /* dispatch_audio_event.c */
 void dispatch_audio_event(s32 event);
 
-/* dispatch_combined_driver_flags.c */
-void dispatch_combined_driver_flags(s32 unused);
+/* key_off_active_voices.c */
+void key_off_active_voices(s32 unused);
 
 /* entry_release_enabled_sound_channel.c */
 void release_sound_channel_and_mark_pending(s16 channel);
@@ -85,8 +85,8 @@ void reset_audio_command_state(void);
 /* reset_audio_status.c */
 void reset_audio_status(void);
 
-/* scene_initialize_sixteen_sprite_sequence.c */
-void scene_initialize_sixteen_sprite_sequence(struct CdCueSequenceNode *entity, void *owner);
+/* init_shaded_line_effect_sequence.c */
+void init_shaded_line_effect_sequence(struct CdCueSequenceNode *entity, void *owner);
 
 /* select_marker_table.c */
 void select_marker_table(s32 marker_code);
@@ -157,8 +157,8 @@ void set_spu_cd_or_ext_volume(s32 mode, s32 value_1, s32 value_2);
 /* submit_scaled_driver_halfword_pair_second.c */
 void apply_scaled_cd_stream_volume(void);
 
-/* submit_tagged_driver_byte.c */
-void submit_tagged_driver_byte(u8 type_group, u8 type_variant, u8 value);
+/* set_cd_ext_reverb_or_mix.c */
+void set_cd_ext_reverb_or_mix(u8 type_group, u8 type_variant, u8 value);
 
 /* test_sound_channel_availability.c */
 s32 test_sound_channel_availability(s16 bit_index);

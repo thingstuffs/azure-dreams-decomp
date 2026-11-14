@@ -23,7 +23,7 @@
     },
     {
       "row": "town/func_80468BB0",
-      "tu": "src/town/scene/pass_callback_selected_entry.c",
+      "tu": "src/town/scene/copy_selected_three_components.c",
       "home": "town/func_80468BB0",
       "foff": "0x3E8BB0",
       "vma": "0x80019BB0",
@@ -31,7 +31,7 @@
     },
     {
       "row": "town/func_803C8BFC",
-      "tu": "src/town/scene/pass_callback_selected_entry.c",
+      "tu": "src/town/scene/copy_selected_three_components.c",
       "home": "town/func_80468BB0",
       "foff": "0x3E8BFC",
       "vma": "0x80019BFC",
@@ -42,7 +42,7 @@
     },
     {
       "row": "town/func_803C8C48",
-      "tu": "src/town/scene/pass_callback_selected_entry.c",
+      "tu": "src/town/scene/copy_selected_three_components.c",
       "home": "town/func_80468BB0",
       "foff": "0x3E8C48",
       "vma": "0x80019C48",
@@ -55,7 +55,7 @@
     },
     {
       "row": "town/func_803C8C94",
-      "tu": "src/town/scene/pass_callback_selected_entry.c",
+      "tu": "src/town/scene/copy_selected_three_components.c",
       "home": "town/func_80468BB0",
       "foff": "0x3E8C94",
       "vma": "0x80019C94",
@@ -150,7 +150,7 @@
     },
     {
       "row": "town/func_803CC450",
-      "tu": "src/town/scene/find_entry_index_assert.c",
+      "tu": "src/town/scene/find_eight_byte_entry_or_assert.c",
       "home": "town/func_8032ECE4",
       "foff": "0x3EC450",
       "vma": "0x8001D450",

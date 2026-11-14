@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-/* Body allocated by allocate_jittered_effect_node and advanced by update_spark_effect. */
+/* Body allocated by create_spark_effect and advanced by update_spark_effect. */
 typedef struct JitteredSparkEffectBody {
     u8 pad_00[0x1A];
     s16 heading;

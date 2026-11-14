@@ -151,7 +151,7 @@ void update_actor_behavior_from_position(ActorRecord *actor, ObjectPosition *con
             return;
         }
         if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
-            select_movement_direction_and_advance(actor, context, sprite, entity);
+            choose_hikewne_move(actor, context, sprite, entity);
             return;
         }
         if (!(entity->action_flags & ACTOR_ACTION_PENDING)) {
@@ -170,13 +170,13 @@ void update_actor_behavior_from_position(ActorRecord *actor, ObjectPosition *con
                     }
                 }
             }
-            if ((update_entity_state_from_query(actor, context, sprite, 0) << 16) == 0) {
+            if ((relink_hikewne_path(actor, context, sprite, 0) << 16) == 0) {
                 return;
             }
             behavior_flags = entity->action_flags | 0x4000;
             entity->action_flags = behavior_flags;
             if (!(behavior_flags & 0x8000)) {
-                select_movement_direction_and_advance(actor, context, sprite, entity);
+                choose_hikewne_move(actor, context, sprite, entity);
                 return;
             }
         }
@@ -223,7 +223,7 @@ sw_case567:
             return;
 
         default:
-            select_movement_direction_and_advance(actor, context, sprite, entity);
+            choose_hikewne_move(actor, context, sprite, entity);
             return;
         }
     }

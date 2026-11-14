@@ -87,7 +87,7 @@ void run_warp_effect_sequence(EventState *event) {
         if ((**(u16 **)((u8 *)event + 4) & 0x80) == 0) {
             break;
         }
-        event->result = (s32)allocate_initialized_effect_object(*(void **)(*(u8 **)event - 0x18), event->source);
+        event->result = (s32)create_warp_phase_effect(*(void **)(*(u8 **)event - 0x18), event->source);
         if (event->result == 0) {
             break;
         }
@@ -262,7 +262,7 @@ void draw_textured_ellipse(void *parameters, GpuRect *rectangle, u16 fill_rect, 
 extern u8 D_8002746C[9];
 
 /* Allocate and initialize an effect object from the supplied part data. */
-void *allocate_initialized_effect_object(EntityRec *source_pos, s32 offset_base) {
+void *create_warp_phase_effect(EntityRec *source_pos, s32 offset_base) {
     GpuRectBuffer init_data;
     ObjectNodeHeader *object;
     WarpPhaseEffectBody *record;
@@ -507,7 +507,7 @@ void *spawn_nine_warp_trail_sprites(MovingPosition *src)
         obj = allocate_flagged_object_node(18);
         if (obj != NULL) {
             obj->update_callback = handler;
-            register_node(obj, process_linked_mesh_states_mode_0);
+            register_node(obj, draw_linked_segment_aligned_quads);
             coords = obj->position;
             x = src->x;
             part = NODE_BODY(obj);
@@ -933,7 +933,7 @@ void update_warp_camera_and_effects(LinkedWarpProjectileBody *entity, void *moti
         }
         create_positioned_linked_mesh_effect(((S_819AD81C_2 *)motion)->unk_00.at02.v, ((S_819AD81C_2 *)motion)->unk_04.at02.v,
             ((S_819AD81C_2 *)motion)->unk_08.at02.v, entity->heading);
-        create_copied_effect_object(entity, motion, gfx);
+        create_fading_copy_effect(entity, motion, gfx);
         return;
     } else {
         attached = (void *) ((s32) link | 0x80000000);
@@ -958,7 +958,7 @@ void update_warp_camera_and_effects(LinkedWarpProjectileBody *entity, void *moti
         node = NODE_BODY(attached);
         if ((want_kind >= 0) && (info->unk_04 == want_kind)) {
             PushMatrix(attached);
-            build_install(entity, motion, gfx);
+            set_effect_gte_matrix(entity, motion, gfx);
             zero_vec.unk0 = 0;
             zero_vec.unk2 = 0;
             zero_vec.unk4 = 0;
@@ -1013,7 +1013,7 @@ typedef struct S_800255B8_2 {
 
 extern u8 D_80027580[];
 
-extern s32 has_enough_available_runtime_nodes(s32 limit);
+extern s32 has_enough_available_nodes(s32 limit);
 
 /* Reads the signed halfword at the supplied byte offset in the direction table. */
 static __inline__ s16 dir_step(s16 *table, u16 offset) {
@@ -1036,7 +1036,7 @@ void *create_linked_sprite_pieces(s16 x, s16 y, s16 z, s16 heading) {
     s32 y_offset;
     u16 sprite_flags;
 
-    if (has_enough_available_runtime_nodes(12) == 0) {
+    if (has_enough_available_nodes(12) == 0) {
         return 0;
     }
 
@@ -1203,7 +1203,7 @@ typedef struct S_8002593C_0 {
     s16 unk_5C;
     s16 unk_5E;
     s16 unk_60;
-} S_8002593C_0;   /* scratch in build_install */
+} S_8002593C_0;   /* scratch in set_effect_gte_matrix */
 
 typedef struct S_8002593C_1 {
     u8 pad_00[0x2];
@@ -1212,14 +1212,14 @@ typedef struct S_8002593C_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_8002593C_1;   /* arg1 in build_install */
+} S_8002593C_1;   /* arg1 in set_effect_gte_matrix */
 
 typedef struct S_8002593C_2 {
     u8 pad_00[0x16];
     u16 unk_16;
     u16 unk_18;
     u16 unk_1A;
-} S_8002593C_2;   /* arg2 in build_install */
+} S_8002593C_2;   /* arg2 in set_effect_gte_matrix */
 
 #include "sdk/libgte_matrix.h"
 
@@ -1233,7 +1233,7 @@ extern void RotMatrixY(u16, void *);
 extern void RotMatrixZ(u16, void *);
 
 /* Build and install a transform from position, rotation, and a base matrix. */
-void build_install(void *base_matrix, S_8002593C_1 *position, S_8002593C_2 *rotation)
+void set_effect_gte_matrix(void *base_matrix, S_8002593C_1 *position, S_8002593C_2 *rotation)
 {
     S_8002593C_0 *scratch = (S_8002593C_0 *)0x1F800000;
     MATRIX matrix;
@@ -1260,7 +1260,7 @@ void build_install(void *base_matrix, S_8002593C_1 *position, S_8002593C_2 *rota
 
 
 /* Fade RGB toward black and set flags when red falls below eight. */
-void fade_color_to_black(void *owner, ObjectPosition *unused, void *color_data) {
+void fade_warp_color_by_half(void *owner, ObjectPosition *unused, void *color_data) {
     u8 red;
     u8 green;
     u8 blue;
@@ -1290,7 +1290,7 @@ typedef struct Entry {
 extern void transform_shade_and_queue_model_quads(void *parent_matrix, void *translation, void *model, s16 depth_bias);
 
 /* Processes twelve buffer slots for each entry in a linked state chain. */
-s32 process_effect_buffer_chain(void *initial_state, s32 initial_value, Entry *initial_entry)
+s32 draw_warp_pieces(void *initial_state, s32 initial_value, Entry *initial_entry)
 {
     void *state = initial_state;
     s32 value = initial_value;
@@ -1331,7 +1331,7 @@ return 0;
 #define NULL 0
 #endif
 
-   /* arg1 in create_copied_effect_object */
+   /* arg1 in create_fading_copy_effect */
 
 typedef struct S_80025B78_4 {
     s32 unk_00;
@@ -1348,14 +1348,14 @@ typedef struct S_80025B78_4 {
     u16 unk_1C;
     u16 unk_1E;
     u16 unk_20;
-} S_80025B78_4;   /* arg2 in create_copied_effect_object */
+} S_80025B78_4;   /* arg2 in create_fading_copy_effect */
 
 typedef struct Block32 {
     u8 bytes[0x20];
 } Block32;
 
 /* Creates an object and copies the supplied triplet, state fields, and 32-byte data block. */
-void *create_copied_effect_object(void *source_data, MovingPosition *source_triplet, S_80025B78_4 *source_state)
+void *create_fading_copy_effect(void *source_data, MovingPosition *source_triplet, S_80025B78_4 *source_state)
 {
     ObjectNodeHeader *object;
     ObjectPosition *triplet;
@@ -1363,8 +1363,8 @@ void *create_copied_effect_object(void *source_data, MovingPosition *source_trip
 
     object = allocate_flagged_object_node(0x202);
     if (object != NULL) {
-        object->update_callback = fade_color_to_black;
-        register_node(object, process_effect_buffer_chain);
+        object->update_callback = fade_warp_color_by_half;
+        register_node(object, draw_warp_pieces);
         triplet = object->position;
         triplet->x.w.i = source_triplet->x;
         triplet->y.w.i = source_triplet->y;
@@ -1489,7 +1489,7 @@ void *create_positioned_linked_mesh_effect(s16 x, s16 y, s16 z, s16 effect_param
     effect = allocate_flagged_object_node(0x202);
     if (effect != NULL) {
         effect->update_callback = animate_waving_point_pair_and_fade;
-        register_node(effect, process_linked_mesh_states_mode_0);
+        register_node(effect, draw_linked_segment_aligned_quads);
         position = effect->position;
         effect_state = NODE_BODY(effect);
         *((s16 *)&position->velocity_x + 1) = x;
@@ -1527,7 +1527,7 @@ typedef struct EffectColor {
 } EffectColor;
 
 /* Fade the effect color and set flags when red falls below four. */
-void fade_effect_color_to_black(void *record, ObjectPosition *unused, EffectColor *color) {
+void fade_warp_color_by_quarter(void *record, ObjectPosition *unused, EffectColor *color) {
     u8 red;
     u8 green;
     u8 blue;
@@ -1607,7 +1607,7 @@ void *spawn_warp_trail_sprites(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor) 
     if (spawn_actor != 0) {
         actor = allocate_flagged_object_node(530);
         if (actor != NULL) {
-            actor->update = fade_effect_color_to_black;
+            actor->update = fade_warp_color_by_quarter;
             register_node(actor, project_sprite_chain);
             coord = actor->pos;
             coord->x.w.i = x;

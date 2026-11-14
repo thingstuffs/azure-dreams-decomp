@@ -1,0 +1,8 @@
+#ifndef TOWN_OVL_65B134_H
+#define TOWN_OVL_65B134_H
+#include "common.h"
+#include "shared/record_ptrs.h"
+#include "shared/town_root.h"
+u32 get_scene_command_cost(s32 unused_query, s32 unused_param);
+s32 can_afford_scene_command(s32 query_input, s32 query_param);
+#endif

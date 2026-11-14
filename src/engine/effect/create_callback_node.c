@@ -11,7 +11,7 @@ void create_marked_callback_node(void) {
     FadeManagerBody *manager;
 
     node = initialize_scene_object_in_buffer(0x15, &callback_node_storage, 0x49);
-    node->update_callback = &run_node_callback_and_set_marker;
+    node->update_callback = &update_fade_manager;
     manager = NODE_BODY(node);
     manager->step = 0;
 }

@@ -45,7 +45,7 @@ s32 format_item_name(u8 *text_target, DungeonItemEntry *item)
     if (kind == 3) {
         s32 subtype = item->unk_03 & 0x1F;
         if ((subtype < 0x14) && (runtime_dispatch_mode_alias.unk0 != 1)) {
-            S_800492B0_Ret *entry = resolve_indexed_value(subtype);
+            S_800492B0_Ret *entry = resolve_familiar_slot_value(subtype);
             if (entry->unk28 == 0) {
                 text[0] = 0x7A;
             }

@@ -1,0 +1,50 @@
+#include "common.h"
+#include "shared/object_node.h"
+#include "shared/object_flags.h"
+#include "engine/resource.h"
+#include "town/shop.h"
+
+typedef struct Inner_800B45A0 {
+    u8 pad0[8];
+    s16 field8;
+} Inner_800B45A0;
+
+typedef struct Obj_800B45A0 {
+    u8 pad0[4];
+    s32 field4;
+    void *field8;
+    void *fieldC;
+    u8 pad10[0x3C - 0x10];
+    Inner_800B45A0 *field3C;
+    u8 pad40[0x54 - 0x40];
+    void **field54;
+} Obj_800B45A0;
+
+extern void noop_release_notification(void *ptr_a); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+
+/* Advance the inner value and mark completion when it exceeds the object's threshold. */
+void ease_value_and_remove_node(Obj_800B45A0 *obj)
+{
+    Inner_800B45A0 *inner;
+    u16 old_value;
+    s32 next_value;
+    s32 delta_step;
+
+    inner = obj->field3C;
+    old_value = inner->field8;
+    next_value = old_value + 4;
+    delta_step = (s16)old_value;
+    delta_step += 4;
+    delta_step -= obj->field4;
+    delta_step >>= 2;
+    next_value += delta_step;
+    inner->field8 = next_value;
+
+    if (obj->field4 + 0x80 < obj->field3C->field8) {
+        noop_release_notification(*obj->field54);
+        flag_object_for_removal(obj->field8);
+        flag_object_for_removal(obj->fieldC);
+        NODE_HEADER(obj)->flags |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
+    }
+}

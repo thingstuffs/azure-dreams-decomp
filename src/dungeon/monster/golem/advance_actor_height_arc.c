@@ -184,7 +184,7 @@ void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, Sprit
             (record->flags & 0xE000)) {
             if (resolve_attack_damage_and_effects(actor, record, actor->facing, 1) != 0) {
                 play_sound_if_enabled(0x809);
-                create_primitive_state_object(action, motion, record);
+                create_large_animation_effect(action, motion, record);
             }
         }
 

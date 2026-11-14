@@ -5,7 +5,7 @@
 #include "shared/entity.h"
 
 /* TownObjectRecord: the body of a pooled TOWN scene object (the 0x20-byte ObjectNodeHeader of
- * shared/object_node.h is in front of it).  create_object_and_initialize_render_state allocates these nodes
+ * shared/object_node.h is in front of it).  spawn_town_entry_object allocates these nodes
  * with allocate_list_node(0x136), installs one of town_object_callbacks[] (persons, doors, shop and map
  * objects) and seeds the shared fields below (+0x48, +0x6E/+0x70..+0x72, +0x84/+0x86, +0x93..+0x98); the
  * other town creators (create_town_effect_object 0x116, the yorozu map items 0x132, minigame and effect
@@ -45,7 +45,7 @@ typedef struct TownObjectRecord {
     /* 0x3E */ s16 unk_3E;
     /* 0x40 */ s32 unk_40;
     /* 0x44 */ s32 **handler_entries; /* D_800D05E0: pointers to indexed handler tables */
-    /* 0x48 */ s32 unk_48; /* creation argument word stored by create_object_and_initialize_render_state */
+    /* 0x48 */ s32 unk_48; /* creation argument word stored by spawn_town_entry_object */
     /* 0x4C */ u8 unk_4C;
     /* 0x4D */ u8 unk_4D;
     /* 0x4E */ u8 unk_4E;

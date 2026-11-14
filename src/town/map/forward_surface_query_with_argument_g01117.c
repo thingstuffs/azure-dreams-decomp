@@ -4,22 +4,22 @@
 #include "town/map/forward_surface_query_with_argument_g01117.h"
 
 /* Pass the signed position components and plane output to the height query. */
-s16 forward_surface_query_with_argument(SignedPositionView *record, void **plane_out) {
+s16 find_min_qualifying_plane_height_at(SignedPositionView *record, void **plane_out) {
     return find_min_qualifying_plane_height(record->x, record->y, record->z, plane_out);
 }
 
 /* Pass three signed record components to find_highest_surface_within_range. */
-s16 forward_highest_surface_query(SignedPositionView *record) {
+s16 find_highest_surface_within_range_at(SignedPositionView *record) {
     return find_highest_surface_within_range(record->x, record->y, record->z);
 }
 
 /* Pass three signed record components to find_smallest_surface_x_across_tiles. */
-s16 forward_smallest_surface_x_query(SignedPositionView *record) {
+s16 find_smallest_surface_x_at(SignedPositionView *record) {
     return find_smallest_surface_x_across_tiles(record->x, record->y, record->z);
 }
 
 /* Evaluate the three signed components stored in the input record. */
-s16 query_greatest_cell_intersection(SignedPositionView *components) {
+s16 find_greatest_cell_intersection_at(SignedPositionView *components) {
     return find_greatest_cell_intersection(components->x, components->y, components->z);
 }
 

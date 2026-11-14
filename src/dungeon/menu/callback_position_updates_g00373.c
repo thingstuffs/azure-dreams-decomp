@@ -153,7 +153,7 @@ void advance_wrapped_cycle_index(void) {
 }
 
 /* Runs callbacks for slots 1 through 7, then processes the object and its final callback. */
-void process_callback_slots_and_object(u8 *object) {
+void update_dungeon_menu_object(u8 *object) {
     s32 slot;
     FinalFunc final_callback;
 

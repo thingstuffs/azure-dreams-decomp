@@ -57,7 +57,7 @@ s32 use_item_to_enrage_actor(ActorRecord *object, DungeonItemEntry *action, s16 
         clear_byte_and_advance(message_end);
         display_text_with_fullwidth_adjustment(message);
     }
-    clear_slot_and_update_linked_state(action);
+    clear_item_slot(action);
     g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
     return 1;
 }

@@ -15,6 +15,6 @@ typedef struct S_800A6EA4_0 {
 void start_effect_when_bookshelf_fell(S_800A6EA4_0 *object) {
     if (test_resident_bitmap_bit(F_bookshelf_fall) != 0) {
         object->unk_90 = 0;
-        object->unk_50 = &accumulate_effect_step;
+        object->unk_50 = &advance_effect_ramp_and_spawn_pair;
     }
 }

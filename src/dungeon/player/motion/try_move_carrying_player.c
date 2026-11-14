@@ -93,7 +93,7 @@ void try_move_carrying_player(ActorRecord *controller, void *actor_id, SpriteFra
         return;
     }
 
-    clear_pending_item_action_state();
+    clear_pending_action_event();
     check_tile_entry_at_adjusted_height(controller, actor_id, actor, actor_data);
     actor_data->flags1C |= ACTOR_REFRESH_GROUND;
     g_dungeon_status.flags |= 0x812;

@@ -43,7 +43,7 @@ void spawn_randomized_timed_objects(TownMapSpawnState *source)
     spawn_count = count_bits >> 0x11;
     town = &g_game_work;
     if (spawn_count >= 0) {
-        kind = (u8 *)&advance_object_animation_and_effect;
+        kind = (u8 *)&update_falling_object;
         do {
             new_object = allocate_list_node((s32)((void *)0x202), &scene_object_list_anchor.next);
             if (new_object != NULL) {

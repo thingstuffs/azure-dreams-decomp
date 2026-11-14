@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_80B9D69C",
-      "tu": "src/dungeon/monster/nyuel/update_entity_actions_facing_and_animation.c",
+      "tu": "src/dungeon/monster/nyuel/update_nyuel_behavior.c",
       "home": "dungeon/func_80B9769C",
       "foff": "0xbbd69c",
       "vma": "0x8016ae9c",

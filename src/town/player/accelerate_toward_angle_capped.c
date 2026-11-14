@@ -21,7 +21,7 @@ void accelerate_toward_angle_capped(s16 angle, s32 max_length, ObjectPosition *v
     second_step = rcos(angle) << 6;
     vector->velocity_x += first_step;
     vector->velocity_y += second_step;
-    length = runtime_estimate_vector_length(vector->velocity_x, vector->velocity_y);
+    length = estimate_vector_length(vector->velocity_x, vector->velocity_y);
     if (max_length < length) {
         vector->velocity_x = vector->velocity_x / ((length + 0xFFF) / 0x1000) * (max_length / 0x1000);
         vector->velocity_y = vector->velocity_y / ((length + 0xFFF) / 0x1000) * (max_length / 0x1000);

@@ -32,10 +32,10 @@ Task *create_deferred_resource_transition_task(s16 mode, s16 lookup_id, void *(*
         task->callback = update_deferred_resource_transition_task;
         payload = &task->payload;
         if (mode == 1) {
-            payload->field_8 = reserve_runtime_slot(6, lookup_id);
+            payload->field_8 = reserve_transition_slot(6, lookup_id);
         } else if (mode == 0) {
-            payload->field_8 = reserve_runtime_slot(5, lookup_id);
-            clear_flags_on_resource_list();
+            payload->field_8 = reserve_transition_slot(5, lookup_id);
+            unflag_all_active_nodes();
             animation_tick_scale[2] = 0;
         }
         payload->field_4 = context;

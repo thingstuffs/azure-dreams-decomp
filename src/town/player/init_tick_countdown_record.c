@@ -13,5 +13,5 @@ void init_tick_countdown_record(TownObjectRecord *record, ObjectPosition *positi
     dispatch_selected_entry_if_nonzero(D_800D0170, record, ptr2);
     record->unk_04 = &tick_countdown_and_initialize_target;
     record->unk_0A = 0x10;
-    clear_entity_record_fields(position);
+    clear_object_velocity(position);
 }

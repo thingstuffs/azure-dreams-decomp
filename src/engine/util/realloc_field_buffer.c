@@ -5,14 +5,14 @@
 #include "engine/resource.h"
 
 /* Rebuilds the pointer buffer and links corresponding records from two sub-buffer banks. */
-s32 *realloc_field_0_buffer(s32 *buffer_slot, s32 entry_count, s32 clear_words)
+s32 *rebuild_pointer_pool(s32 *buffer_slot, s32 entry_count, s32 clear_words)
 {
     s32 *entries;
     s32 *bank_slot;
     s32 bank_bases[32];
 
     bzero((void *) buffer_slot[0], clear_words * 4);
-    entries = create_callback_pair_default(0x104);
+    entries = allocate_node_body(0x104);
     buffer_slot[0] = (s32) entries;
     buffer_slot += 1;
     if (entries != 0) {
@@ -49,7 +49,7 @@ s32 *realloc_field_0_buffer(s32 *buffer_slot, s32 entry_count, s32 clear_words)
                         entry_slot++;
                     } while (entry_index < entry_count);
                 }
-                apply_block_16_template_to_nodes(entries, entry_count);
+                apply_display_block_defaults(entries, entry_count);
             }
         }
     }

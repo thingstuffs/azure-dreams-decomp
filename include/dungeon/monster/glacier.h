@@ -27,7 +27,7 @@ extern u8 glacier_direction_frames[];
 
 
 
-void update_staged_item_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *target, ActorRecord *actor);
+void update_glacier_hit_recoil(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *target, ActorRecord *actor);
 
 
 
@@ -35,25 +35,25 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
 
 
 
-void update_item_hop_animation(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void update_glacier_hop_animation(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
-void update_actor_timed_effects(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *sprite_arg, ActorRecord *stats_arg);
+void update_glacier_actor_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *sprite_arg, ActorRecord *stats_arg);
 
 /* Callback entry points. */
 struct DirectionalEffectBody;
-void advance_item_motion_collision(struct DirectionalEffectBody *motion, ObjectPosition *position, SpriteFrameState *update_arg);
-void update_monster_appearance_motion(ActorRecord *entity_arg, ObjectPosition *motion_arg, SpriteFrameState *monster_arg);
+void advance_particle_with_collision(struct DirectionalEffectBody *motion, ObjectPosition *position, SpriteFrameState *update_arg);
+void update_glacier_actor(ActorRecord *entity_arg, ObjectPosition *motion_arg, SpriteFrameState *monster_arg);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
+void advance_glacier_spell_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
 #include "records/Rec_func_801744DC_arg0.h"
 #include "records/Rec_func_801744DC_arg1.h"
-void initialize_item_sprite_frame(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-void spawn_directional_effect(Rec_func_801744DC_arg0 *source, ObjectPosition *origin, void *unused);
+void set_action_sprite_frame(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
+void spawn_brief_directional_particle(Rec_func_801744DC_arg0 *source, ObjectPosition *origin, void *unused);
 void spawn_directional_particle(Rec_func_801744DC_arg0 *source, ObjectPosition *origin, void *unused_sprite);
 
-void *find_nearby_eligible_entry(u8 *current, s32 wanted_24, s32 wanted_25, s32 height_center);
+void *find_eligible_actor_on_tile(u8 *current, s32 wanted_24, s32 wanted_25, s32 height_center);
 
 void grow_terrain_colliding_sprite(CollidingSpriteParticleBody *effect, ObjectPosition *position, SpriteFrameState *sprite);
 

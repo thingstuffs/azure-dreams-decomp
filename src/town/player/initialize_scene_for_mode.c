@@ -57,7 +57,7 @@ void initialize_scene_for_mode(void)
 
     state = &map_runtime_state;
     if (state->mode == 0x37000C) {
-        initialize_object_at_current_position();
+        init_view_reference_entity();
         return;
     }
 
@@ -73,7 +73,7 @@ void initialize_scene_for_mode(void)
         scene->x.w.i = state->x_offset + coords[0];
         scene->y.w.i = state->y_offset + coords[1];
         scene->z.w.i = 0;
-        copy_entity_record_fields(town_position_reference_state, scene);
+        copy_object_position_and_velocity(town_position_reference_state, scene);
         return;
     }
 
@@ -304,7 +304,7 @@ void process_scene_record_update(TownPlayerRecord *context, ObjectPosition *inpu
         } else if (input->y.w.i < 0x400) {
             clear_record_state_or_update(input);
         } else {
-            movement = runtime_estimate_vector_length(input->velocity_x,
+            movement = estimate_vector_length(input->velocity_x,
                                      input->velocity_y);
             if (movement == 0) {
                 work->view.camera_rotation.parts.viewAngle =
@@ -325,7 +325,7 @@ void process_scene_record_update(TownPlayerRecord *context, ObjectPosition *inpu
     if ((callback == (void *)dispatch_actor_input_actions) ||
         (callback == (void *)update_actor_input_and_interaction)) {
         context->unk_18 =
-            step_angle_12_toward(context->unk_18,
+            step_angle_toward(context->unk_18,
                           context->unk_10, 0x200);
     } else {
         context->unk_18 = (u16)context->unk_10;
@@ -352,7 +352,7 @@ void process_scene_record_update(TownPlayerRecord *context, ObjectPosition *inpu
     {
         u8 *state = town_position_reference_state;
 
-        copy_entity_record_fields(state, input);
+        copy_object_position_and_velocity(state, input);
         if (camera_height_mode[0] == 0) {
             *(s32 *)(state + 8) = 0;
             return;

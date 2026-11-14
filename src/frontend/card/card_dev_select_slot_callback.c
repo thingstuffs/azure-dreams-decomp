@@ -12,7 +12,7 @@ void card_dev_select_slot_callback(u8 *task) {
     ObjectNodeHeader *owner = NODE_HEADER(task);
 
     if (*(s32 *)(card_slot_header_cache + (*(u32 *)(task + 0x28) << 7)) != 0) {
-        *(void **)(task + 0x34) = (void *)process_five_object_entries;
+        *(void **)(task + 0x34) = (void *)finish_save_slot_operation;
         card_dev_show_delete_confirmation(owner, task + 0x38);
         *(void **)(task - 0x10) = (void *)func_80405A64;
         return;

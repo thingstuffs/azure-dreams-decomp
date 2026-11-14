@@ -37,6 +37,6 @@ extern s32 D_800D15C4;
 
 /* Functions defined in this translation unit. */
 void initialize_shop_display_records(void *destination, S_800B0870_1 *source);
-void process_shop_record_and_subrecord(u8 *record_address);
+void build_shop_panel_records(u8 *record_address);
 
 #endif

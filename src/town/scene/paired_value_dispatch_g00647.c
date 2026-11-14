@@ -7,10 +7,10 @@
 #include "engine/object.h"
 
 /* Run setup, assign the retrieved object handler when present, and return -1. */
-s32 run_setup_and_get_object_handler(s32 context, s32 value, s32 options) {
+s32 clear_paired_flags_and_install_handler(s32 context, s32 value, s32 options) {
     S_800C0C48_0 *object;
 
-    process_paired_arrays_until_terminator();
+    clear_paired_resident_flags();
     object = allocate_flagged_object_node(0);
     if (object != NULL) {
         object->unk_10 = forward_context_value_options;
@@ -47,7 +47,7 @@ void dispatch_paired_table_values(void)
 }
 
 /* Processes paired array entries until the first array's zero terminator. */
-void process_paired_arrays_until_terminator(void) {
+void clear_paired_resident_flags(void) {
 
     if (paired_scene_flag_ids[0] != 0) {
         s32 entryIndex = 0;

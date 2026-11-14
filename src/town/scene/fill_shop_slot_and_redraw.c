@@ -33,6 +33,6 @@ s32 fill_shop_slot_and_redraw(void *owner, s32 slot_index)
 
     D_80019BBC[5] = value;
     scene_choice_index = value;
-    pass_indexed_entry(owner, slot_index);
+    set_flag_from_indexed_entry(owner, slot_index);
     return 0;
 }

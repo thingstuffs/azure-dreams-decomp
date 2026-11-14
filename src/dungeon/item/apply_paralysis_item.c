@@ -31,10 +31,10 @@ s32 apply_paralysis_item(ActorRecord *target, DungeonItemEntry *item, s16 use_ty
             return 1;
         }
     }
-    if (try_apply_effect_four_by_chance(target, 0x400, 8) != 0) {
+    if (try_apply_paralysis_effect(target, 0x400, 8) != 0) {
         play_sound_if_enabled(0x612);
     }
-    clear_slot_and_update_linked_state(item);
+    clear_item_slot(item);
     g_dungeon_status.activity_counts.parts.pending_action_count--;
     return 1;
 }

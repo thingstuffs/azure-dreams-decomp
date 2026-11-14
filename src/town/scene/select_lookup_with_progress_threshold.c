@@ -12,7 +12,7 @@ void *select_lookup_with_progress_threshold(s32 selector, s32 check_value, s32 l
         return &scene_result_fallback;
     }
     result = apply_entry_position(&D_8001A94C, &scene_override_context, selector, lookup_value);
-    if (get_linked_record_field_2_d_60() >= 5) {
+    if (get_town_state_count() >= 5) {
         func_80019880();
         result = &D_80020E5C;
     }

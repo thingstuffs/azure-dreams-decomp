@@ -10,7 +10,7 @@
     {
       "row": "dungeon/func_809AB0B4",
       "home": "dungeon/func_8099F0B4",
-      "tu": "src/dungeon/monster/kewne/create_grid_position_entity.c",
+      "tu": "src/dungeon/monster/kewne/spawn_kewne_actor.c",
       "foff": "0x9CB0B4",
       "vma": "0x801648B4",
       "size": 480,

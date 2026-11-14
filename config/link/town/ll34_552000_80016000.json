@@ -45,7 +45,7 @@
     },
     {
       "row": "town/func_805D2D14",
-      "tu": "src/town/scene/dispatch_inputs_by_current_state.c",
+      "tu": "src/town/scene/select_data_by_cell_code.c",
       "home": "town/func_805D23C4",
       "foff": "0x552D14",
       "vma": "0x80016D14",
@@ -96,7 +96,7 @@
     },
     {
       "row": "town/func_805D2F7C",
-      "tu": "src/town/scene/dispatch_inputs_by_current_state.c",
+      "tu": "src/town/scene/select_data_by_cell_code.c",
       "home": "town/func_805D23C4",
       "foff": "0x552F7C",
       "vma": "0x80016F7C",
@@ -111,7 +111,7 @@
     },
     {
       "row": "town/func_805D3294",
-      "tu": "src/town/scene/dispatch_inputs_by_current_state.c",
+      "tu": "src/town/scene/select_data_by_cell_code.c",
       "home": "town/func_805D23C4",
       "foff": "0x553294",
       "vma": "0x80017294",
@@ -127,7 +127,7 @@
     {
       "row": "town/func_805D3604",
       "home": "town/func_803E8320",
-      "tu": "src/town/scene/service/invoke_scene_service.c",
+      "tu": "src/town/scene/service/play_town_sound_1704.c",
       "foff": "0x553604",
       "vma": "0x80017604",
       "size": 56,
@@ -146,7 +146,7 @@
     },
     {
       "row": "town/func_805D3984",
-      "tu": "src/town/scene/is_progress_at_threshold.c",
+      "tu": "src/town/scene/has_money_for_progress_step.c",
       "home": "town/func_8032E22C",
       "foff": "0x553984",
       "vma": "0x80017984",
@@ -159,7 +159,7 @@
     },
     {
       "row": "town/func_805D39AC",
-      "tu": "src/town/scene/tick_scene_state_counter.c",
+      "tu": "src/town/scene/subtract_scene_cost_from_money.c",
       "home": "town/func_804804BC",
       "foff": "0x5539AC",
       "vma": "0x800179ac",
@@ -277,7 +277,7 @@
     },
     {
       "row": "town/func_805D3E94",
-      "tu": "src/town/scene/find_entry_index_assert.c",
+      "tu": "src/town/scene/find_eight_byte_entry_or_assert.c",
       "home": "town/func_8032ECE4",
       "foff": "0x553E94",
       "vma": "0x80017E94",
@@ -387,7 +387,7 @@
     },
     {
       "row": "town/func_805D4338",
-      "tu": "src/town/scene/flags/update_entry_flags.c",
+      "tu": "src/town/scene/flags/replace_record_flag_with_entry_flag.c",
       "home": "town/func_8032F188",
       "foff": "0x554338",
       "vma": "0x80018338",
@@ -587,7 +587,7 @@
     },
     {
       "row": "town/func_805D4944",
-      "tu": "src/town/scene/flags/get_first_entry_flag.c",
+      "tu": "src/town/scene/flags/find_first_eligible_entry.c",
       "home": "town/func_80481D78",
       "foff": "0x554944",
       "vma": "0x80018944",
@@ -941,7 +941,7 @@
     },
     {
       "row": "town/func_805D5584",
-      "tu": "src/town/scene/service/call_scene_service_280_d1.c",
+      "tu": "src/town/scene/service/play_town_sound_d1.c",
       "home": "town/func_804735BC",
       "foff": "0x555584",
       "vma": "0x80019584",

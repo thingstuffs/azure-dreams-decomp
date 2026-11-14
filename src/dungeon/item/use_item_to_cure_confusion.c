@@ -63,7 +63,7 @@ s32 use_item_to_cure_confusion(ActorRecord *entity, DungeonItemEntry *update_val
         display_text_with_fullwidth_adjustment(saved_context);
     }
     clear_slots_of_type(entity, STATUS_CONFUSION);
-    clear_slot_and_update_linked_state(update_value);
+    clear_item_slot(update_value);
     g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
     return 1;
 }

@@ -1,0 +1,31 @@
+#include "common.h"
+#include "town/devkit.h"
+#include "town/scene.h"
+#include "town/scene/hooks.h"
+
+typedef struct S_80700A20_0 {
+    u8 pad_00[0x8];
+    s32 *unk_08;
+} S_80700A20_0;
+
+typedef struct S_80700A20_1 {
+    u8 pad_00[0xE];
+    u8 unk_0E;
+} S_80700A20_1;
+extern void func_807002D4(s32 index);
+
+/* When gate 2 and the counter both pass, refresh the status byte and return the stage handler's result. */
+s32 refresh_status_when_gate_passes(s32 entry)
+{
+    S_80700A20_1 *status;
+
+    if ((check_devkit_secondary_condition_8070021c(2) != 0) &&
+        (*((S_80700A20_0 *)(*(void **)0xA0700F5C))->unk_08 > 0)) {
+        forward_indexed_table_value(2);
+        status = *(void **)0xA0700F40;
+        status->unk_0E = status->unk_0E;
+        return dispatch_first_failed_entry_b();
+    }
+    func_807002D4(2);
+    return entry;
+}

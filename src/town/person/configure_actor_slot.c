@@ -12,5 +12,5 @@ extern u8 D_800D535C[];
 
 /* Calls func_800C3050 with actor, 0x10, D_800D5358, D_800D535C, D_800D5328, D_800D5330. */
 void configure_actor_slot_16(TownObjectRecord *actor, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite) {
-    initialize_object_and_register_slot(actor, 0x10, D_800D5358, D_800D535C, D_800D5328, D_800D5330);
+    register_object_slot_with_tables(actor, 0x10, D_800D5358, D_800D535C, D_800D5328, D_800D5330);
 }

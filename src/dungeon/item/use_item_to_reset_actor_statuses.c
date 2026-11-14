@@ -63,7 +63,7 @@ s32 use_item_to_reset_actor_statuses(ActorRecord *actor, DungeonItemEntry *cause
     while (slot < 0x21);
     actor->flags1C = (s32) (actor->flags1C & 0xFBFFE10F);
     apply_entity_effects(actor);
-    clear_slot_and_update_linked_state(cause);
+    clear_item_slot(cause);
     counters = &g_dungeon_status;
     counters->activity_counts.parts.pending_action_count = (u16) ((((u16)(counters->activity_counts.parts.pending_action_count))) - 1);
     return 1;

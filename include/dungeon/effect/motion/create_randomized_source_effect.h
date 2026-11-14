@@ -284,7 +284,7 @@ extern M2C_UNK D_80024F74;
 extern s32 clipped_sprite_renderer_address(u8 *first_data, s32 link_value, SpriteFrameState *value_record);
 void move_sprite_in_radial_direction(RandomizedSourceEffectBody *motion, Row_8191C848_S_8191C848_3 *position, SpriteFrameState *status);
 void *create_randomized_source_effect(Row_8191C938_S_8191C938_3 *source);
-void advance_timed_effect_motion(ScaledRotatingEffectBody *object, Row_8191CA88_S_8191CA88_3 *motion, Row_8191CA88_S_8191CA88_2 *effect);
+void advance_scaled_rotating_effect(ScaledRotatingEffectBody *object, Row_8191CA88_S_8191CA88_3 *motion, Row_8191CA88_S_8191CA88_2 *effect);
 void * create_scaled_rotating_effect(void *params_input, void *transform_input);
 void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_8191CD78_S_func_80024578_2 *position, void *render_data);
 #endif

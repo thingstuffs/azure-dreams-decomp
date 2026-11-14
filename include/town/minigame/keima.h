@@ -44,7 +44,7 @@ typedef struct KeimaPath {
 } KeimaPath;
 
 /* Body installed with D_80023260 at node+20 by the interface initializer.
- * +14/+16 are the cycle count/index passed to advance_bounded_entry_index. */
+ * +14/+16 are the cycle count/index passed to advance_path_waypoint. */
 typedef struct KeimaPathActor {
     KeimaState *owner;
     s32 speed;

@@ -19,7 +19,7 @@
     {
       "row": "town/func_8032BEC8",
       "home": "town/func_8032BEC8",
-      "tu": "src/town/scene/flags/set_indexed_entry_flag_if_dac.c",
+      "tu": "src/town/scene/flags/set_indexed_entry_flag_when_dac_flag_set.c",
       "foff": "0x2ABEC8",
       "vma": "0x800166C8",
       "size": 84,
@@ -221,7 +221,7 @@
     },
     {
       "row": "town/func_8032E22C",
-      "tu": "src/town/scene/is_progress_at_threshold.c",
+      "tu": "src/town/scene/has_money_for_progress_step.c",
       "home": "town/func_8032E22C",
       "foff": "0x2AE22C",
       "vma": "0x80018a2c",

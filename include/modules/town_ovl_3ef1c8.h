@@ -135,7 +135,7 @@ void invoke_alternate_handler_with_code_7_a_1(void);
 #include "town/scene/record_services.h"
 void invoke_handler_with_code_47_d(void);
 s32 *select_response_by_selector_and_flags(s32 context, s32 check_value, s32 selector);
-s32 select_dialogue_with_799_override(s32 speaker, s32 interaction, s32 dialogue_id);
+s32 select_dialogue_with_flag_override(s32 speaker, s32 interaction, s32 dialogue_id);
 s32 select_lookup_or_threshold_fallback(s32 value, s32 check_value, s32 lookup_value);
 s32 select_object_response_by_status(void *object, s32 check_mode, s32 context);
 s8 *get_progress_byte_pointer(void);
@@ -170,7 +170,7 @@ void invoke_handler_with_code_79_e(void);
 void select_scene_choice_by_mode(void);
 void invoke_handler_with_code_798(void);
 void invoke_handler_with_code_799(void);
-void invoke_handler_with_code_11_fb(void);
+void set_far_kenkatyu_flag(void);
 void clear_far_kenkatyu_flag(void);
 #include "town/scene/fixed_position.h"
 s32 start_callback_with_fixed_parameters(void);

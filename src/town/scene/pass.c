@@ -11,7 +11,7 @@ extern s32 D_80018EAC;
 extern s32 D_80018EC4;
 
 /* Update flag 0x681 when triggered and dispatch the corresponding record. */
-void pass_2(s32 dispatch_context, s32 unused, s32 dispatch_arg)
+void lookup_entry_after_grid_match(s32 dispatch_context, s32 unused, s32 dispatch_arg)
 {
     s8 *callback_table;
 

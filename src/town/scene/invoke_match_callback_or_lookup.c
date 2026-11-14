@@ -12,6 +12,6 @@ void invoke_match_callback_or_lookup(void)
     }
     lookup_result = find_entry_index_by_grid_bytes(0xD, 3);
     if (lookup_result != (-1)) {
-        apply_four_values_and_refresh(lookup_result);
+        release_lshop_entry_and_compact(lookup_result);
     }
 }

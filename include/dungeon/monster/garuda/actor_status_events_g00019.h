@@ -14,7 +14,7 @@
 #include "shared/entity.h"
 #include "records/Rec_func_800AA258_arg2.h"
 
-/* copy_arg0 in update_actor_status_callback */
+/* copy_arg0 in wait_garuda_status_and_animate */
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern s32 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
@@ -30,6 +30,6 @@ extern void select_sprite_entry(void *, s16, s16);
 extern u8 garuda_action_resume_address[];
 
 /* Functions defined in this translation unit. */
-void update_actor_status_callback(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
+void wait_garuda_status_and_animate(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
 #endif

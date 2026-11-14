@@ -34,7 +34,7 @@ void initialize_building_region_resources(void) {
     S_800B8248_0 *slot;
     S_800B8248_1 *region;
 
-    initialize_shared_script_data();
+    reset_script_rect_list();
     append_scaled_rect_to_script_list(0x3FU, 0U, 0x10U, 0x10U, D_800D43F0);
     slot_counter = 0;
     state_base = (void *)0x80010000;

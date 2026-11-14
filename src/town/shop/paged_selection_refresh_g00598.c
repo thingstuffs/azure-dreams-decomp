@@ -4,7 +4,7 @@
 #include "town/shop.h"
 
 /* Counts four-byte entries until an entry's second byte is zero. */
-s32 count_entries_until_second_byte_zero(void *entries) {
+s32 count_leading_typed_records(void *entries) {
     s32 count;
     void *entry;
 
@@ -22,7 +22,7 @@ s32 count_entries_until_second_byte_zero(void *entries) {
 /* Refresh the entry count, clamp the selection, and update five-entry page indices. */
 void refresh_paged_selection_state(TownRecord *record) {
     if (record != 0) {
-        if ((record->field_08 = count_entries_until_second_byte_zero((void *)record->field_20)) != 0) {
+        if ((record->field_08 = count_leading_typed_records((void *)record->field_20)) != 0) {
             record->field_10 = (record->field_08 - 1) / 5;
             if (record->field_04 >= record->field_08) {
                 record->field_04 = record->field_08 - 1;

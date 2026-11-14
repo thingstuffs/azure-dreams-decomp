@@ -60,14 +60,14 @@ typedef struct S_801730E4_7 {
     u16 unk_1E;
     u8 pad_20[0xC];
     void * unk_2C;
-} S_801730E4_7;   /* target in advance_selected_item_action_2 */
+} S_801730E4_7;   /* target in advance_glacier_spell_action */
 
 
 
 /* Advances the selected item's action, visual effect, and cleanup states. */
 /* Starts a targeted spell with an attached copied sprite, waits for its animation, then recenters and
  * updates status. */
-void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor)
+void advance_glacier_spell_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor)
 {
     u16 position_delta[3];
     s16 is_special;
@@ -184,7 +184,7 @@ void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position,
         }
         advance_status_timers(actor);
         (actor->pending_turn_updates)--;
-        body->unk_8C.address = update_actor_timed_effects;
+        body->unk_8C.address = update_glacier_actor_behavior;
         (actor->target_tile_y) = 0;
         (actor->target_tile_x) = 0;
         (actor->action_flags) &= 0x7FFF;
@@ -295,7 +295,7 @@ void advance_selected_item_action_2(ActorRecord *body, ObjectPosition *position,
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
-        body->unk_8C.address = update_actor_timed_effects;
+        body->unk_8C.address = update_glacier_actor_behavior;
         advance_status_timers(actor);
         (actor->target_tile_y) = 0;
         (actor->target_tile_x) = 0;

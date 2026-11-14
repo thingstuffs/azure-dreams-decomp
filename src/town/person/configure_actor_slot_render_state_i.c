@@ -14,7 +14,7 @@ extern u8 D_800D6C80[];
  * clears flag 0x100 in halfword 10.
  */
 void configure_actor_slot_44_and_render_state(TownObjectRecord *context, ObjectPosition *unused, struct SpriteFrameState *stateWords) {
-    initialize_object_and_register_slot(context, 0x2C, D_800D6C7C, D_800D6C80, D_800D6C4C,
+    register_object_slot_with_tables(context, 0x2C, D_800D6C7C, D_800D6C80, D_800D6C4C,
                   D_800D6C54);
     stateWords->clut = 0x2C0;
     stateWords->flags &= ~0x100;

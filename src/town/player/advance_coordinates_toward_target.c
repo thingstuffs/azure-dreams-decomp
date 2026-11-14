@@ -41,6 +41,6 @@ void advance_coordinates_toward_target(S_80098544_0 *state, ObjectPosition *posi
     }
     position->x.v = (s32) (state->unk_36 << 0x10);
     position->y.v = (s32) (state->unk_38 << 0x10);
-    clear_entity_record_fields((position));
+    clear_object_velocity((position));
     state->unk_04 = &update_falling_actor_and_handle_ground;
 }

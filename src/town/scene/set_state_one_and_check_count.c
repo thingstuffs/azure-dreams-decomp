@@ -7,7 +7,7 @@
 s32 set_state_one_and_check_count(void) {
     scene_update_state = 1;
     if (count_enabled_town_entries() != 0) {
-        if (get_linked_record_field_2_d_60() >= 20) {
+        if (get_town_state_count() >= 20) {
             return 1;
         }
     }

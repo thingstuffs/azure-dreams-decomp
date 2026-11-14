@@ -4,7 +4,7 @@
 
 typedef void (*Callback)(void *, s32);
 
-extern void refresh_formatted_global_display(void *);
+extern void refresh_money_display(void *);
 
 typedef struct S_800B1890_0 {
     u8 pad_00[0x8];
@@ -38,8 +38,8 @@ void lower_value_toward_target(ObjectNodeHeader *object) {
         state->unk_08 = current_bits + adjustment;
     } else {
         state->unk_08 = ((ValueTransition *)object)->target;
-        (object)[-1].update_callback = refresh_formatted_global_display;
+        (object)[-1].update_callback = refresh_money_display;
     }
 
-    refresh_formatted_global_display(object);
+    refresh_money_display(object);
 }

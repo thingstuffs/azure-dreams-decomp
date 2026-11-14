@@ -77,7 +77,7 @@ void create_randomized_item_object(ActorRecord *owner, ObjectPosition *source_po
         return;
     }
 
-    entity->header.update_callback = update_motion_and_terrain_collision;
+    entity->header.update_callback = update_tossed_item_motion;
     register_node(&entity->header, project_sprite_chain);
 
     render = entity->header.sprite;

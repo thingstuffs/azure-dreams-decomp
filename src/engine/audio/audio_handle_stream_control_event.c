@@ -28,7 +28,7 @@ void audio_handle_stream_control_event(s32 event) {
 
     switch (opcode) {
     case 0x74:
-        submit_tagged_driver_byte(0, 0, 0);
+        set_cd_ext_reverb_or_mix(0, 0, 0);
         Control_CD(9, 0, 0);
         sound_playback_state.flags00 &= ~0x400;
         if (sound_playback_state.unk_18 == 0) {

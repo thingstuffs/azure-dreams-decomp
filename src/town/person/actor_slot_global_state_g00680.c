@@ -11,7 +11,7 @@
 void configure_actor_slot_75_and_copy_global(TownObjectRecord *actor, ObjectPosition *unused, struct SpriteFrameState *state) {
     actor->unk_93 = 1;
     state->animation_resource = loaded_town_resource_attributes[0];
-    initialize_object_and_register_slot(actor, 0x4B, D_800D66A4, D_800D66A8, D_800D6674,
+    register_object_slot_with_tables(actor, 0x4B, D_800D66A4, D_800D66A8, D_800D6674,
                   D_800D667C);
 }
 
@@ -22,7 +22,7 @@ void configure_actor_slot_75_and_copy_global(TownObjectRecord *actor, ObjectPosi
 void configure_actor_slot_76_and_copy_global(TownObjectRecord *actor, ObjectPosition *unused, struct SpriteFrameState *state) {
     actor->unk_93 = 1;
     state->animation_resource = loaded_town_resource_attributes[0];
-    initialize_object_and_register_slot(actor, 0x4C, D_800D66A4, D_800D66A8, D_800D6674,
+    register_object_slot_with_tables(actor, 0x4C, D_800D66A4, D_800D66A8, D_800D6674,
                   D_800D667C);
 }
 
@@ -33,7 +33,7 @@ void configure_actor_slot_76_and_copy_global(TownObjectRecord *actor, ObjectPosi
 void configure_actor_slot_77_and_copy_global(TownObjectRecord *actor, ObjectPosition *unused, struct SpriteFrameState *state) {
     actor->unk_93 = 1;
     state->animation_resource = loaded_town_resource_attributes[0];
-    initialize_object_and_register_slot(actor, 0x4D, D_800D66A4, D_800D66A8, D_800D6674,
+    register_object_slot_with_tables(actor, 0x4D, D_800D66A4, D_800D66A8, D_800D6674,
                   D_800D667C);
 }
 
@@ -44,6 +44,6 @@ void configure_actor_slot_77_and_copy_global(TownObjectRecord *actor, ObjectPosi
 void configure_actor_slot_78_and_copy_global(TownObjectRecord *actor, ObjectPosition *unused, struct SpriteFrameState *state) {
     actor->unk_93 = 1;
     state->animation_resource = loaded_town_resource_attributes[0];
-    initialize_object_and_register_slot(actor, 0x4E, D_800D66A4, D_800D66A8, D_800D6674,
+    register_object_slot_with_tables(actor, 0x4E, D_800D66A4, D_800D66A8, D_800D6674,
                   D_800D667C);
 }

@@ -7,7 +7,7 @@
 #include "town/scene/object.h"
 
 /* Global 32-bit "used"/flags word, same one touched by func_8004B530 /
- * set_object_cleanup_flag / propagate_scene_flag family. Declared as an array (>8B) so gcc
+ * set_object_cleanup_flag / propagate_task_flag_to_parent family. Declared as an array (>8B) so gcc
  * uses %hi/%lo addressing with a SINGLE shared base register across the
  * read and write halves of the |= (see w_800510DC.c), matching retail's
  * one lui reused for both the load and the store. */

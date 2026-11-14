@@ -37,7 +37,6 @@ typedef struct {
 } S_800561D8_Arg1;
 
 extern S_800561D8_D80086A40 audio_bank_slots[16];
-extern SoundSequenceSlot audio_sequence_slots[8];
 
 /* Compute voice pan and stereo volumes from channel gains and sound parameters. */
 void audio_compute_voice_stereo_volumes(S_800561D8_Arg0 *voice_arg, S_800561D8_Arg1 *sound_params)

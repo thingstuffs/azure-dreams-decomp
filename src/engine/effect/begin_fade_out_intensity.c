@@ -17,5 +17,5 @@ void begin_fade_out_intensity(void) {
     }
 
     fade_manager_state.step = fade_manager_step_out;
-    runtime_set_destination_flag_from_source(manager, state);
+    set_fade_has_source(manager, state);
 }

@@ -36,30 +36,30 @@ void initialize_building_scene_objects(void *draw_param) {
     s16 draw_kind;
     u32 overlay_index;
 
-    initialize_shared_script_data();
+    reset_script_rect_list();
     draw_state = town_map_selection_state;
     if (draw_state[6] != 0) {
         draw_x = draw_state[0];
         entry_kind = town_map_variants[draw_state[6] * 32];
         draw_kind = entry_kind;
-        blit_indexed_origin_u16_block(draw_x, draw_state[1], draw_kind, draw_param);
+        blit_indexed_tile_block_with_origin(draw_x, draw_state[1], draw_kind, draw_param);
         if (draw_kind == 0x26) {
             overlay_index = town_building_scene_index - 6;
             switch (overlay_index) {
             case 0:
-                blit_origin_u16_block(0x2E, 0x24, D_8012669C, draw_param);
+                blit_tile_block_with_origin(0x2E, 0x24, D_8012669C, draw_param);
                 break;
             case 2:
-                blit_origin_u16_block(0x2E, 0x24, D_80126884, draw_param);
+                blit_tile_block_with_origin(0x2E, 0x24, D_80126884, draw_param);
                 break;
             case 3:
-                blit_origin_u16_block(0x2E, 0x24, D_80126A6C, draw_param);
+                blit_tile_block_with_origin(0x2E, 0x24, D_80126A6C, draw_param);
                 break;
             case 5:
-                blit_origin_u16_block(0x2E, 0x24, D_80126C54, draw_param);
+                blit_tile_block_with_origin(0x2E, 0x24, D_80126C54, draw_param);
                 break;
             case 6:
-                blit_origin_u16_block(0x2E, 0x24, D_80126E3C, draw_param);
+                blit_tile_block_with_origin(0x2E, 0x24, D_80126E3C, draw_param);
                 break;
             }
             {
@@ -70,10 +70,10 @@ void initialize_building_scene_objects(void *draw_param) {
                 status_c8 = status_c8_page[0x33C8];
                 status_page = (u8 *)0x80010000;
                 if (7 == status_c8) {
-                    blit_origin_u16_block(0x40, 0xC, D_80127024, draw_param);
+                    blit_tile_block_with_origin(0x40, 0xC, D_80127024, draw_param);
                 }
                 if (status_page[0x33C4] == 5) {
-                    blit_origin_u16_block(0xE, 0xE, D_80126494, draw_param);
+                    blit_tile_block_with_origin(0xE, 0xE, D_80126494, draw_param);
                 }
             }
         } else if (draw_kind == 0x27) {
@@ -83,7 +83,7 @@ void initialize_building_scene_objects(void *draw_param) {
             status_c4_page = (u8 *)0x80010000;
             status_c4 = status_c4_page[0x33C4];
             if (5 == status_c4) {
-                blit_origin_u16_block(0x38, 0xE, D_80127FA8, draw_param);
+                blit_tile_block_with_origin(0x38, 0xE, D_80127FA8, draw_param);
             }
         }
         event_table = D_800D1910;

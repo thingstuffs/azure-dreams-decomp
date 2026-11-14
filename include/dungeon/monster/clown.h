@@ -325,18 +325,18 @@ extern u8 D_801742D4[];
 extern u8 clown_image_load_done[];
 extern u8 clown_effect_load_done[];
 void *spawn_clown_actor(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c);
-void update_entity_facing_and_ground(ActorRecord *entity, struct ObjectPosition *motion, SpriteFrameState *sprite);
-void update_actor_state_and_dispatch_transition(ActorRecord *actor, ObjectPosition *actor_context, SpriteFrameState *map_object, ActorRecord *creature);
+void update_clown_actor(ActorRecord *entity, struct ObjectPosition *motion, SpriteFrameState *sprite);
+void dispatch_clown_actions(ActorRecord *actor, ObjectPosition *actor_context, SpriteFrameState *map_object, ActorRecord *creature);
 void advance_clown_path_step(ActorRecord *motion_state, ObjectPosition *unused, SpriteFrameState *entity, ActorRecord *path_state);
 void choose_clown_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
-s32 initialize_transition_action(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *source_obj, ActorRecord *actor);
-void begin_eligible_actor_action(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *actor);
+s32 try_clown_attack(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *source_obj, ActorRecord *actor);
+void begin_clown_attack(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *actor);
 s32 relink_clown_path(ActorRecord *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 void finish_clown_tile_move(ActorRecord *state, void *motion, void *source, void *target);
 void finish_clown_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
 
 void update_overlay_object_action(ActorRecord *body, ObjectPosition *position, struct SpriteFrameState *sprite, ActorRecord *actor);
-void damp_actor_motion_then_recenter(R16_801729D8_S_80173294_0 *motion_state, ObjectPosition *motion, SpriteFrameState *tile_state, ActorRecord *entity);
+void damp_actor_motion_and_recenter(R16_801729D8_S_80173294_0 *motion_state, ObjectPosition *motion, SpriteFrameState *tile_state, ActorRecord *entity);
 void remove_defeated_clown(void *state, void *motion, void *position, void *actor);
 void shrink_hopping_clown(R16_80172CCC_S_80173588_0 *state, void *context, SpriteFrameState *data, void *render);
 void advance_clown_removal(void *state, void *motion, void *position, void *actor);
@@ -356,7 +356,7 @@ void create_angled_source_effect(
     s32 unused_0, struct ObjectPosition *origin, SpriteFrameState *unused_sprite, s32 unused_3, s16 angle, u16 depth_offset);
 void wait_for_clown_action_slot(ActorRecord *entity_data, ObjectPosition *unused_position, SpriteFrameState *unused_sprite, void *other_data);
 void fade_entity_colors_to_neutral(void *entity_data, void *unused, SpriteFrameState *source_data);
-void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, struct ObjectPosition *position, struct SpriteFrameState *actor, void *model);
+void advance_clown_cd_cue_effect(Rec_func_801732A4_arg0 *state, struct ObjectPosition *position, struct SpriteFrameState *actor, void *model);
 
 
 void finish_actor_action_animation(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *anim, ActorRecord *actor);

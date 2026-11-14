@@ -7,8 +7,8 @@ void noop_user_data_object(void);
 
 
 struct TownObjectRecord;
-void decrement_object_timer_and_update(struct TownObjectRecord *object, void *callback_arg_1, void *callback_arg_2);
-/* Registered code-address alias for decrement_object_timer_and_update. */
+void run_setup_on_timer_expiry(struct TownObjectRecord *object, void *callback_arg_1, void *callback_arg_2);
+/* Registered code-address alias for run_setup_on_timer_expiry. */
 void person_countdown_update_address(struct TownObjectRecord *object, void *callback_arg_1, void *callback_arg_2);
 
 #endif

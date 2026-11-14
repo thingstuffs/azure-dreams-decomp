@@ -124,7 +124,7 @@ s32 apply_genus_change_item(ActorRecord *target, DungeonItemEntry *event, s32 va
         display_text_with_fullwidth_adjustment(message_start);
     }
 
-    clear_slot_and_update_linked_state(event);
+    clear_item_slot(event);
     g_dungeon_status.activity_counts.parts.pending_action_count -= 1;
     return 1;
 }

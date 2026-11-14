@@ -39,7 +39,7 @@ void advance_pulsing_effect_animation(State *state, Position *position, Motion *
 
     switch (state->state_9b) {
     case 0:
-        if ((has_actor_or_actions(object) << 16) != 0) {
+        if ((has_active_actor_or_pending_action(object) << 16) != 0) {
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1;

@@ -13,8 +13,8 @@ s32 update_indexed_entry_unless_current(void) {
     TownServiceTable *callback_owner;
     s32 status;
 
-    set_script_flag_94c();
-    if (town_table_contains_first_byte_b(0xB) != 0) {
+    set_script_flag_sbs32_pad34();
+    if (town_pair_table_has_first(0xB) != 0) {
         set_script_flag_bit(F_sbs32_pad17);
     }
 

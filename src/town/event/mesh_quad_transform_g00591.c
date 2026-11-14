@@ -6,7 +6,7 @@
 #include "town/event.h"
 
 /* Copies three spaced halfwords into contiguous fields. */
-void copy_even_halfwords_3(S_800AA044_0 *dst, S_800AA044_1 *src) {
+void narrow_vector_to_svector(S_800AA044_0 *dst, S_800AA044_1 *src) {
     dst->unk_00 = (u16) src->unk_00;
     dst->unk_02 = (u16) src->unk_04;
     dst->unk_04 = (u16) src->unk_08;
@@ -22,7 +22,7 @@ void transform_vector(s32 transform, void *vector, void *transformed) {
     SetRotMatrix(0x1F800054);
     SetTransMatrix(0x1F800054);
     RotTrans(vector, transformed, &flags);
-    copy_even_halfwords_3(vector, transformed);
+    narrow_vector_to_svector(vector, transformed);
 }
 
 /* Transform and queue mesh quads with randomized vertex colors. */
@@ -79,10 +79,10 @@ void transform_and_queue_mesh_quads(S_func_800AC9AC_0 *mesh, void *transform)
             SetLineG4(quad);
             SetSemiTrans(quad, 1);
 
-            copy_menu_vector_halfwords(vertex_0, vertices + (quad_indices[0] * 8));
-            copy_menu_vector_halfwords(vertex_1, vertices + (quad_indices[1] * 8));
-            copy_menu_vector_halfwords(vertex_2, vertices + (quad_indices[2] * 8));
-            copy_menu_vector_halfwords(vertex_3, vertices + (quad_indices[3] * 8));
+            copy_menu_point(vertex_0, vertices + (quad_indices[0] * 8));
+            copy_menu_point(vertex_1, vertices + (quad_indices[1] * 8));
+            copy_menu_point(vertex_2, vertices + (quad_indices[2] * 8));
+            copy_menu_point(vertex_3, vertices + (quad_indices[3] * 8));
 
             PushMatrix();
             transform_vector((s32)mesh, vertex_0, vertex_work);

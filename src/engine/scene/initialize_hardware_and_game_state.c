@@ -9,13 +9,13 @@
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
 #include "slus/data.h"
+#include "slus/default_textured_quad_color_data.h"
 #include "slus.h"
 #include "sdk/libapi.h"
 
 /* D_80083160[0] holds the current CD/streaming state pointer; default value is
  * the sentinel D_801C9E40. size>8 to force %hi/%lo. */
 extern void *D_80083160[3];
-extern u32 default_textured_quad_color[3];
 
 /* short globals D_80080A94/98/9C read via %hi/%lo; accessed via fixed
  * absolute-address casts (see D_80013180 group note below) so gcc reuses the
@@ -99,7 +99,7 @@ void initialize_hardware_and_game_state(void)
     *stream_slot = stream_state;
     *(u32 *)(stream_state + 0x8D0) = (u32)(stream_state + 0x8D4);
     default_textured_quad_color[0] = 0x2C808080;
-    initialize_runtime_table_defaults();
+    reset_scene_sprite_history();
 
     {
         u32 *buffer_ptrs = frame_packet_limit_pointers;

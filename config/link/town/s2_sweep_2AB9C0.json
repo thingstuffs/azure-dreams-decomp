@@ -26,7 +26,7 @@
     {
       "row": "town/func_8032C2DC",
       "home": "town/func_8032C2DC",
-      "tu": "src/town/scene/dispatch_active_code.c",
+      "tu": "src/town/scene/select_response_with_special_branch.c",
       "foff": "0x002AC2DC",
       "vma": "0x80016ADC",
       "size": 136
@@ -34,7 +34,7 @@
     {
       "row": "town/func_8032C618",
       "home": "town/func_8032C2DC",
-      "tu": "src/town/scene/dispatch_active_code.c",
+      "tu": "src/town/scene/select_response_with_special_branch.c",
       "foff": "0x002AC618",
       "vma": "0x80016E18",
       "size": 136,
@@ -52,7 +52,7 @@
     {
       "row": "town/func_8032D35C",
       "home": "town/func_8032CFFC",
-      "tu": "src/town/scene/dispatch_entry_or_return_override.c",
+      "tu": "src/town/scene/select_response_with_override.c",
       "foff": "0x002AD35C",
       "vma": "0x80017B5C",
       "size": 128,
@@ -69,7 +69,7 @@
     {
       "row": "town/func_8032D434",
       "home": "town/func_8032CFFC",
-      "tu": "src/town/scene/dispatch_entry_or_return_override.c",
+      "tu": "src/town/scene/select_response_with_override.c",
       "foff": "0x002AD434",
       "vma": "0x80017C34",
       "size": 128,
@@ -99,7 +99,7 @@
     {
       "row": "town/func_8032D5B4",
       "home": "town/func_8032CFFC",
-      "tu": "src/town/scene/dispatch_entry_or_return_override.c",
+      "tu": "src/town/scene/select_response_with_override.c",
       "foff": "0x002AD5B4",
       "vma": "0x80017DB4",
       "size": 128,
@@ -172,7 +172,7 @@
     {
       "row": "town/func_8032F188",
       "home": "town/func_8032F188",
-      "tu": "src/town/scene/flags/update_entry_flags.c",
+      "tu": "src/town/scene/flags/replace_record_flag_with_entry_flag.c",
       "foff": "0x002AF188",
       "vma": "0x80019988",
       "size": 84
@@ -292,7 +292,7 @@
     {
       "row": "town/func_8033068C",
       "home": "town/func_804735BC",
-      "tu": "src/town/scene/service/call_scene_service_280_d1.c",
+      "tu": "src/town/scene/service/play_town_sound_d1.c",
       "foff": "0x002B068C",
       "vma": "0x8001AE8C",
       "size": 60,

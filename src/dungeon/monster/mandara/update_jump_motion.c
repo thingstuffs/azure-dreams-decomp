@@ -126,7 +126,7 @@ void update_mandara_jump_to_tile(ActorRecord *action, ObjectPosition *motion, Sp
         }
 
         if ((check_actor_floor_trap(unit, actor) << 16) > 0) {
-            action->unk_8C.handler = update_long_actor_action;
+            action->unk_8C.handler = update_mandara_behavior;
             on_actor_status_updated(actor);
         }
     }

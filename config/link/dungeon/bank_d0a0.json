@@ -204,7 +204,7 @@
     },
     {
       "row": "dungeon/func_8002DFA8",
-      "tu": "src/town/person/object/assign_four_object_data_pointers.c",
+      "tu": "src/town/person/object/set_object_data_tables.c",
       "home": "town/func_800CB1C8",
       "foff": "0x4DFA8",
       "vma": "0x800cb708",

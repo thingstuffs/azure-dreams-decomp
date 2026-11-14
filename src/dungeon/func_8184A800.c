@@ -8,7 +8,7 @@
 
 #include "sdk/rand.h"
 extern void func_80025090(void);
-extern void get_half_byte_length(void);
+extern void get_indexed_string_half_length(void);
 extern void func_80025058(void);
 extern void func_80025068(void);
 extern void func_80025078(void);
@@ -28,13 +28,13 @@ static Callback const func_8184A800_table[]
 __attribute__((section(".text.func_8184A800"))) = {
     func_80025090,
     0,
-    get_half_byte_length,
-    get_half_byte_length,
-    get_half_byte_length,
+    get_indexed_string_half_length,
+    get_indexed_string_half_length,
+    get_indexed_string_half_length,
     func_80025058,
     func_80025068,
     func_80025078,
-    get_half_byte_length,
+    get_indexed_string_half_length,
     0,
     func_8002510C,
     raise_entity_to_ground,

@@ -14,6 +14,6 @@ extern u8 D_800D77F4[];
  */
 void initialize_scene_slot_16(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
 {
-    initialize_object_and_register_slot(object, 16, D_800D77F0, D_800D77F4, D_800D77C0, D_800D77C8);
+    register_object_slot_with_tables(object, 16, D_800D77F0, D_800D77F4, D_800D77C0, D_800D77C8);
     context->clut = 0x40;
 }

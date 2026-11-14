@@ -21,8 +21,8 @@ void cleanup_window_object(void *record_arg) {
 
     if (record->unk_50 == 0x101) {
         clear_graphics_record(record->unk_74);
-        runtime_clear_value(record->unk_00);
-        runtime_unlink_doubly_linked_node(record_arg + 0x54);
+        clear_word(record->unk_00);
+        unlink_owner_list_node(record_arg + 0x54);
         object_base = record_arg - 0x20;
         unlink_node(object_base);
         unlink_active_node(object_base);

@@ -13,7 +13,7 @@ typedef struct TablePage {
     s16 entries[1];
 } TablePage;
 
-extern s16 find_entity_slot_by_field_ac(void *);
+extern s16 find_linked_object_slot_index(void *);
 
 extern u8 D_800E18F5[];
 extern u8 D_800E195C[];
@@ -64,7 +64,7 @@ u32 advance_eligible_actor_or_perform_action(ActorRecord *actor, s16 action_arg_
         state_index = actor->unk_12;
         if ((state_index != 4) && (actor->species != 0)) {
             actor->unk_12 = state_index + 1;
-            raw_state_index = find_entity_slot_by_field_ac(actor);
+            raw_state_index = find_linked_object_slot_index(actor);
             shifted_index = raw_state_index << 16;
             state_index = shifted_index >> 16;
             if (state_index >= 0) {
@@ -76,10 +76,10 @@ u32 advance_eligible_actor_or_perform_action(ActorRecord *actor, s16 action_arg_
             adjust_source_value_and_finalize(actor, D_800E195C);
             return 1;
         }
-        try_apply_effect_four_by_chance(actor, action_arg_1, action_arg_2);
+        try_apply_paralysis_effect(actor, action_arg_1, action_arg_2);
         return 1;
     }
 
-    effect_result = try_apply_effect_four_by_chance(actor, action_arg_1, action_arg_2);
+    effect_result = try_apply_paralysis_effect(actor, action_arg_1, action_arg_2);
     return (u32)~effect_result >> 31;
 }

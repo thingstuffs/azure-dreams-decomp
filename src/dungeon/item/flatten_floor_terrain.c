@@ -52,7 +52,7 @@ s32 flatten_floor_terrain(ActorRecord *target, DungeonItemEntry *effect_arg, s16
     grid_base = dungeon_state[119];
     effect_code = effect_id;
     if (effect_code == 13) {
-        return process_record_and_update_linked_state(effect_arg, context);
+        return resolve_item_attack(effect_arg, context);
     }
     if (target == dungeon_actor_ring_anchor) {
         ((PlayerRecord *)target)->pending_item_action = effect_arg;
@@ -109,11 +109,11 @@ s32 flatten_floor_terrain(ActorRecord *target, DungeonItemEntry *effect_arg, s16
         refresh_packed_grid_nibbles();
         clear_mask = 0x3FF7FFFF;
         dungeon_floor_flags = dungeon_floor_flags & clear_mask;
-        mark_active_nodes_by_callback(update_long_lived_trap_effect);
+        flag_nodes_with_callback_for_removal(update_long_lived_trap_effect);
     } else {
         display_formatted_context_message(&D_800E1863);
     }
     g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
-    clear_slot_and_update_linked_state(effect_arg);
+    clear_item_slot(effect_arg);
     return 1;
 }

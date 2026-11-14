@@ -34,7 +34,7 @@ typedef struct S_80095A10_3 {
 
    /* ((S_80095A10_2 *)arg3)->unk_60 in update_familiar_summoning */
 
-void runtime_map_type_16_entry_code();
+void map_familiar_spawn_variant_code();
 s32 queue_cd_resource(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 loaded_entity_sprite_resource;
 extern u8 player_wait_frames[];
@@ -90,7 +90,7 @@ void update_familiar_summoning(ActorRecord *actor, ObjectPosition *position, Spr
         if (entity_resource_read_complete == 0) {
             return;
         }
-        runtime_no_op_callback(state);
+        upload_resource_queue_tiles(state);
         previous_state = actor->action_phase;
         actor->action_phase = (u8) (previous_state + 1);
         return;
@@ -99,7 +99,7 @@ void update_familiar_summoning(ActorRecord *actor, ObjectPosition *position, Spr
         if (spawn_resource == 0) {
             return;
         }
-        runtime_map_type_16_entry_code(((u8 *)reference_tile_object.selected_item));
+        map_familiar_spawn_variant_code(((u8 *)reference_tile_object.selected_item));
         object = load_monster_code_module(resource_info->unk_00, spawn_resource, 1)(6,
             context->target_tile_x, context->target_tile_y,
             (s16) (context->ground_height - 0x20));

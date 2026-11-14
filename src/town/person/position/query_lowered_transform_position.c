@@ -1,7 +1,7 @@
 #include "common.h"
 #include "town/person/position.h"
 
-extern s16 forward_surface_query_with_argument(); /* Unprototyped: two or three arguments; the third register argument is ignored. */
+extern s16 find_min_qualifying_plane_height_at(); /* Unprototyped: two or three arguments; the third register argument is ignored. */
 
 typedef struct {
     s32 unk0;
@@ -22,7 +22,7 @@ s16 query_lowered_transform_position(void *position) {
     adjusted_position.unk4 = *(s32 *)((s8 *)position + 4);
     result_ptr = &result_storage;
     adjusted_position.unk8 = *(s32 *)((s8 *)position + 8) + 0xFFF80000;
-    return forward_surface_query_with_argument(&adjusted_position, &result_ptr);
+    return find_min_qualifying_plane_height_at(&adjusted_position, &result_ptr);
 }
 
 /* MECHANISM: A 24-byte escaped record plus an 8-byte pointee force the retail 0x40 frame.

@@ -39,7 +39,7 @@ typedef struct ShopWindow {
     /* 0x08 */ s32 selected_entry;
     /* 0x0C */ s32 entry_count;
     /* 0x10 */ s32 page;
-    /* 0x14 */ s32 page_limit; /* upper page bound used by update_shop_state_flags */
+    /* 0x14 */ s32 page_limit; /* upper page bound used by update_shop_page_edge_flags */
     /* 0x18 */ s32 price_mode;
     /* 0x1C */ s32 page_edge_flags; /* low two bits mark the page bounds */
     /* 0x20 */ u8 pad_20[4];
@@ -67,7 +67,7 @@ typedef struct S_800B1390_1 {
     s32 unk_24;
 } S_800B1390_1;
 
-void process_shop_record_and_subrecord(u8 *);
+void build_shop_panel_records(u8 *);
 void position_shop_row_widgets(ShopWindow *menu);
 extern M2C_UNK D_800788E0;
 extern FrameNode shop_cursor_template;
@@ -77,7 +77,7 @@ extern void initialize_shop_parts(void *, void *, void *);
 
 /* Functions defined in this translation unit. */
 void initialize_shop_window_layout(ShopWindow *ui);
-void initialize_shop_subrecord(void *record_data, s32 value_20, s32 value_08, s32 value_0c, s32 value_10, s32 value_14, s32 value_24, s32 value_18);
-void configure_shop_object_and_finalize(void *object, s32 setup_value_1, s32 setup_value_2, s32 setup_value_3, s32 setup_value_4, s32 setup_value_5, s32 setup_value_6, s32 setup_value_7);
+void initialize_shop_window_state(void *record_data, s32 value_20, s32 value_08, s32 value_0c, s32 value_10, s32 value_14, s32 value_24, s32 value_18);
+void setup_shop_window(void *object, s32 setup_value_1, s32 setup_value_2, s32 setup_value_3, s32 setup_value_4, s32 setup_value_5, s32 setup_value_6, s32 setup_value_7);
 
 #endif

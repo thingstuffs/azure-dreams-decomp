@@ -17,9 +17,9 @@
 s32 init_record_target_approach(TownObjectRecord *record, ObjectPosition *position, SpriteFrameState *init_context) {
     s32 result;
 
-    clear_entity_record_fields((position));
+    clear_object_velocity((position));
     dispatch_selected_entry_if_nonzero(approach_action_handler_table, record, init_context);
-    record->unk_04 = raise_record_value_to_target;
+    record->unk_04 = step_x_toward_fixed_target;
     result = 0x400;
     record->unk_10 = result;
     return result;

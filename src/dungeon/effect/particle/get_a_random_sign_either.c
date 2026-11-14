@@ -19,7 +19,7 @@ s32 random_sign(void) {
 }
 
 void lift_particle_above_terrain_and_age(ParticleWork *work, ParticlePosition *position) {
-    *(s16 *)rectangle_effect_updated = 1;
+    rectangle_effect_updated = 1;
     if (position->z.half.high < (s16)sample_terrain_surface_height(position->x, position->y, (s16)((u16)position->z.half.high + 2))) {
         position->z.word += 0x20000 + (rand() & 0xFFF);
     }

@@ -83,10 +83,10 @@ typedef struct S_800BCE7C_0 {
     s32 unk_180;
 } S_800BCE7C_0;
 
-/* arg0 in are_quad_corner_turns_within_half_revolution */
+/* arg0 in is_point_in_quad */
 
 /* Functions defined in this translation unit. */
 /* The result is the sign-extended terrain-height halfword. */
-s32 are_quad_corner_turns_within_half_revolution(S_800BCE7C_0 *poly);
+s32 is_point_in_quad(S_800BCE7C_0 *poly);
 
 #endif

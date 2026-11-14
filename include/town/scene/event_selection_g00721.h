@@ -40,6 +40,6 @@ extern s32 func_8001E670(s32);
 /* Functions defined in this translation unit. */
 s32 choose_valid_entry_or_fallback(s32 candidate);
 void initialize_event_selection_state(s32 unused, s32 unused_second);
-s32 handle_event_or_fallback(s32 fallback_first, s32 fallback_second);
+s32 start_event_or_init_selection(s32 fallback_first, s32 fallback_second);
 
 #endif

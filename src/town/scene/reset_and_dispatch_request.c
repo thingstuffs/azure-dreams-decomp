@@ -9,7 +9,7 @@
 
 /* Conditionally reset the subsystem, select 0xD7F, and forward the request. */
 void reset_and_dispatch_request(Rec_func_800165F4_arg0 *request, s32 request_data) {
-    if (get_linked_record_field_2_d_60() >= 5) {
+    if (get_town_state_count() >= 5) {
         set_current_entry_script_flag();
     }
     set_script_flag_bit(Ftt_pad78);

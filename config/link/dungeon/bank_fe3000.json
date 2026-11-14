@@ -23,7 +23,7 @@
     },
     {
       "row": "dungeon/func_80FC376C",
-      "tu": "src/dungeon/monster/mandara/update_long_actor_action.c",
+      "tu": "src/dungeon/monster/mandara/update_mandara_behavior.c",
       "home": "dungeon/func_80FB176C",
       "foff": "0xFE376C",
       "vma": "0x8015ef6c",
@@ -126,7 +126,7 @@
     },
     {
       "row": "dungeon/func_80FC4E58",
-      "tu": "src/dungeon/monster/hikewne/update_entity_state_from_query.c",
+      "tu": "src/dungeon/monster/hikewne/relink_hikewne_path.c",
       "home": "dungeon/func_80976E28",
       "foff": "0xFE4E58",
       "vma": "0x80160658",
@@ -165,7 +165,7 @@
     },
     {
       "row": "dungeon/func_80FC5398",
-      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F88C30",
       "foff": "0xFE5398",
       "vma": "0x80160B98",
@@ -222,7 +222,7 @@
     },
     {
       "row": "dungeon/func_80FC5FB4",
-      "tu": "src/dungeon/effect/state/forward_actor_effect_state.c",
+      "tu": "src/dungeon/effect/state/update_hop_and_shrink_callback.c",
       "home": "dungeon/func_800AD90C",
       "foff": "0xFE5FB4",
       "vma": "0x801617B4",
@@ -256,7 +256,7 @@
     },
     {
       "row": "dungeon/func_80FC5FF4",
-      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F89D44",
       "foff": "0xFE5FF4",
       "vma": "0x801617F4",
@@ -320,7 +320,7 @@
     },
     {
       "row": "dungeon/func_80FC6A50",
-      "tu": "src/dungeon/monster/kewne/update_actor_state_after_map_check.c",
+      "tu": "src/dungeon/monster/kewne/update_kewne_parent_motion.c",
       "home": "dungeon/func_809A2D74",
       "foff": "0xFE6A50",
       "vma": "0x80162250",
@@ -331,7 +331,7 @@
     },
     {
       "row": "dungeon/func_80FC6B18",
-      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F8A600",
       "foff": "0xFE6B18",
       "vma": "0x80162318",
@@ -398,7 +398,7 @@
     },
     {
       "row": "dungeon/func_80FC6E68",
-      "tu": "src/dungeon/monster/mandara/spawn_rotate_and_restore_actor_state.c",
+      "tu": "src/dungeon/monster/mandara/cast_mandara_spin_spell.c",
       "home": "dungeon/func_80FB4E68",
       "foff": "0xfe6e68",
       "vma": "0x80162668",
@@ -483,7 +483,7 @@
     },
     {
       "row": "dungeon/func_80FC79E0",
-      "tu": "src/dungeon/actor/set_actor_data_pointer.c",
+      "tu": "src/dungeon/actor/set_default_action_after_floor_trap.c",
       "home": "dungeon/func_800CF1BC",
       "foff": "0xFE79E0",
       "vma": "0x801631E0",

@@ -7,7 +7,7 @@
 #include "town/shop/state.h"
 
 /* Processes 24 entries by type and clears the handle and type of handled entries. */
-void process_handled_entry_types(void **entries) {
+void release_monster_status_entries(void **entries) {
     s32 entry_index;
     u8 entry_type;
     S_800B6B10_0 *entry;
@@ -29,14 +29,14 @@ void process_handled_entry_types(void **entries) {
 }
 
 /* Process an object's pointer array and embedded state, then set its and the global 0x8000 flags. */
-void process_object_pointer_array(S_800B9464_a0 *object)
+void destroy_monster_status_object(S_800B9464_a0 *object)
 {
     S_800B9464_sub *objectState;
 
     if (object != 0) {
         objectState = &object->sub;
         release_null_terminated_entries(object->arr_bc);
-        process_handled_entry_types((void **)objectState->unk98);
+        release_monster_status_entries((void **)objectState->unk98);
         release_monster_status_request_handles(objectState);
         object->field_1E |= 0x8000;
         D_800814A0 |= OBJECT_REMOVE_PENDING;
@@ -49,10 +49,10 @@ void change_monster_status_display_target(s32 objectAddress, s32 field04Value, s
 
     if (objectAddress != 0) {
         objectState = objectAddress + 0x20;
-        process_handled_entry_types((void * *)(objectState->unk_98));
+        release_monster_status_entries((void * *)(objectState->unk_98));
         objectState->unk_08 = field08Value;
         objectState->unk_04 = field04Value;
-        process_object_data_by_mode(objectState);
-        invalidate_cached_state_and_queue_read(objectState);
+        build_monster_status_display(objectState);
+        queue_monster_status_reload(objectState);
     }
 }

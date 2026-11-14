@@ -27,7 +27,7 @@ void apply_countdown_scaled_effect_intensity(void *record_data, void *unused, Sp
 }
 
 /* Follows the source position while growing and fading the sprite, then removes it when the timer expires. */
-void advance_and_fade_transformed_effect(HikewneExpandingFadeBody *effect_arg, ObjectPosition *transform, SpriteFrameState *render_state)
+void grow_and_fade_tracking_sprite(HikewneExpandingFadeBody *effect_arg, ObjectPosition *transform, SpriteFrameState *render_state)
 {
     HikewneExpandingFadeBody *effect = effect_arg;
     s16 ticks_left;
@@ -59,7 +59,7 @@ void advance_and_fade_transformed_effect(HikewneExpandingFadeBody *effect_arg, O
 }
 
 /* Copies a sprite template into a gray directional effect linked to the source position. */
-void create_directional_template_effect(void *unused, ObjectPosition *source_pos, void *sprite_template, S_80975244_3 *facing_source) {
+void create_tracking_fade_sprite(void *unused, ObjectPosition *source_pos, void *sprite_template, S_80975244_3 *facing_source) {
     SpriteFrameState *sprite;
     ObjectNodeHeader *effect;
     HikewneExpandingFadeBody *effect_state;
@@ -75,7 +75,7 @@ void create_directional_template_effect(void *unused, ObjectPosition *source_pos
         effect_state = NODE_BODY(effect);
         effect_state->ticks_left = 7;
         effect_state->duration = 7;
-        effect->update_callback = advance_and_fade_transformed_effect;
+        effect->update_callback = grow_and_fade_tracking_sprite;
         effect_state->source_position = source_pos;
         sprite = effect->sprite;
         src = template_data;

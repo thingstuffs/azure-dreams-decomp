@@ -7,7 +7,7 @@
 #include "town/menu/effect_callbacks_api.h"
 
 /* Increases the step by four, adds it to a capped value, and creates paired effects when it reaches 0x400. */
-void accumulate_effect_step(void *updateState, s32 unused1, s32 unused2, void *accumulatorState) {
+void advance_effect_ramp_and_spawn_pair(void *updateState, s32 unused1, s32 unused2, void *accumulatorState) {
     u16 step;
     u16 accumulatedValue;
 

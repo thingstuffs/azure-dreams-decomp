@@ -64,7 +64,7 @@ void *create_item_object_at(S_800A027C_5 *config, MovingPosition *position) {
 }
 
 /* Clears all 20 shop_record_queue words in reverse order. */
-void clear_entry_table(void) {
+void clear_shop_record_queue(void) {
     s32 *entry;
     s32 index;
 
@@ -148,7 +148,7 @@ void spawn_queued_item_object(s32 check_value) {
 }
 
 /* Process active type-4 town links that have no associated object. */
-void process_unlinked_type_four_entries(void)
+void enqueue_unlinked_item_entries(void)
 {
     TownLink *sentinel = (TownLink *)&town_actor_control;
     TownLink *link = sentinel->next;

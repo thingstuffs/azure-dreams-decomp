@@ -14,9 +14,9 @@ typedef struct PayloadObjectBody {
     union { u16 u; s16 s; } unk_8E;
 } PayloadObjectBody;
 #include "shared/object_node.h"
-void allocate_payload_object(ObjectNodeHeader *owner, s32 payloadValue, s16 payloadShortValue);
+void create_oriented_offset_effect(ObjectNodeHeader *owner, s32 payloadValue, s16 payloadShortValue);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-void *allocate_object_at_coordinates(void *source, s32 *init_value, s16 unused_dispatch_mode);
+void *create_egg_bomb_effect(void *source, s32 *init_value, s16 unused_dispatch_mode);
 
 #endif

@@ -7,6 +7,6 @@ extern s32 D_80019438;
 extern M2C_UNK D_80019440;
 
 /* Update D_80019438 with the result of func_80016B20(&D_80019440, 1). */
-s32 update_result_1(void) {
+s32 compute_scene_cost_total(void) {
     return D_80019438 = sum_flagged_terminated_entries(&D_80019440, 1);
 }

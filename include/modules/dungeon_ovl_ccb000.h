@@ -929,7 +929,7 @@ extern s16 get_tile_chebyshev_distance(void *, void *);
 extern s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
 extern s16 get_actor_height_difference(void *,void *);
 extern void apply_monster_koyaw_data(s32 flags, s8 *dst);
-extern void *find_adjacent_actor(void *entity, u16 x, u16 y);
+extern void *find_adjacent_actor(ActorRecord *entity, u16 x, u16 y);
 extern s32 probe_directional_neighbor(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void *scan_actor_along_heading(ActorRecord *source, s32 start_x, s32 start_y, s16 heading, s16 max_steps);
 extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);

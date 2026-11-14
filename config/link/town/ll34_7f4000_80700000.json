@@ -23,7 +23,7 @@
     {
       "row": "town/func_80874D24",
       "home": "town/func_80874D24",
-      "tu": "src/town/devkit/pass_indexed_devkit_value.c",
+      "tu": "src/town/devkit/clear_devkit_flag_for_index.c",
       "foff": "0x7F4D24",
       "vma": "0x80700D24",
       "size": 48,
@@ -31,7 +31,7 @@
     },
     {
       "row": "town/func_80874D54",
-      "tu": "src/town/scene/pass_indexed_table.c",
+      "tu": "src/town/scene/set_devkit_flag_by_index.c",
       "home": "town/func_80874D54",
       "foff": "0x7F4D54",
       "vma": "0x80700D54",
@@ -68,7 +68,7 @@
     {
       "row": "town/func_8087503C",
       "home": "town/func_8087503C",
-      "tu": "src/town/devkit/state/clear_devkit_state_bit.c",
+      "tu": "src/town/devkit/state/clear_devkit_status_flag.c",
       "foff": "0x7F503C",
       "vma": "0x8070103C",
       "size": 36,
@@ -131,7 +131,7 @@
     {
       "row": "town/func_80875364",
       "home": "town/func_80875364",
-      "tu": "src/town/devkit/advance_stage_1_when_ready.c",
+      "tu": "src/town/devkit/set_stage_flag_four_if_ready.c",
       "foff": "0x7F5364",
       "vma": "0x80701364",
       "size": 152,

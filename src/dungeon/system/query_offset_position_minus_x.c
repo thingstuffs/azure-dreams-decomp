@@ -3,7 +3,7 @@
 
 
 
-extern s32 query_greatest_cell_intersection(s32 *);
+extern s32 find_greatest_cell_intersection_at(s32 *);
 
 typedef struct S_8008C570_0 {
     s32 unk_00;
@@ -31,7 +31,7 @@ s32 query_offset_position_minus_x(S_8008C570_0 *vector, s32 entry_base, s32 entr
     summed_vector[0] = vector->unk_00 + entry->unk_00;
     summed_vector[1] = vector->unk_04 + entry->unk_04;
     summed_vector[2] = vector->unk_08 + entry->unk_08;
-    result = query_greatest_cell_intersection(summed_vector);
+    result = find_greatest_cell_intersection_at(summed_vector);
     if ((result << 0x10) == 0) {
         return 0;
     }

@@ -33,7 +33,7 @@ void build_display_entry_string(s32 text_id, S_800B52F4_1 *context) {
     strcat(text, D_800892C8);
     strcat(text, D_800892CC);
     strcat(text, D_800892D8);
-    strcat(text, select_object_state_value(text_id));
+    strcat(text, select_status_text(text_id));
     set_display_entry_text_and_position(context->unk_0C, text, 0, 0x47, 0x88);
 }
 

@@ -4,4 +4,4 @@
 #include "town/player/state.h"
 
 /* Calls func_80018C74 with Ft_cheriru_love. */
-void call_helper_with_fixed_id_0x1478(void) { set_script_flag_bit(Ft_cheriru_love); }
+void set_cheriru_love_flag(void) { set_script_flag_bit(Ft_cheriru_love); }

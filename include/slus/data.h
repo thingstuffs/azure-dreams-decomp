@@ -83,7 +83,7 @@ extern u8 cd_location_third_byte_alias[ 1 ];
 extern u8 cd_read_status_bytes[ 8 ];
 extern unsigned char cd_sector_position_result[ 8 ];
 extern u32 cd_stream_end_sector[ 3 ];
-struct S_80038464_0; extern void clear_runtime_state_and_set_handler(struct S_80038464_0 *);
+struct S_80038464_0; extern void wait_for_message_flag(struct S_80038464_0 *);
 extern void *cursor_blink_variant_values[ ];
 extern u8 cursor_sprite_source[ ];
 extern u8 cursor_texture_descriptor_0[ ];

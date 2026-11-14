@@ -16,7 +16,7 @@
 extern s32 D_80019178[];
 
 /* Apply the fixed operation codes and clear the first D_80019178 entry. */
-void run_events_5a5_5c2_and_reset(void) {
+void reset_sbs11_flags_and_counter(void) {
     set_script_flag_bit(F_sbs11_pad02);
     clear_script_flag_bit(F_sbs11_pad31);
     clear_script_flag_bit(F_sbs11_pad28);
@@ -25,7 +25,7 @@ void run_events_5a5_5c2_and_reset(void) {
 }
 
 /* Increment the counter and report whether it has reached three. */
-s32 increment_and_check_three(void) {
+s32 bump_event_counter_to_three(void) {
     s32 count;
 
     count = D_80019178[0] + 1;

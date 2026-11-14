@@ -72,7 +72,7 @@ void *create_golem_actor(s16 spawn_flags, s32 tile_x, s32 tile_y, s32 spawn_heig
         initialize_actor_sprite_and_animation(object, part0, part1, (s16)flags_copy);
         result_copy->action_id = 0xFF;
         result_copy->unk_9C = -1;
-        result_copy->unk_8C.address = update_dungeon_actor_actions;
+        result_copy->unk_8C.address = update_golem_actor_behavior;
         try_move_actor_to_valid_position(result_copy, part0, part1, result);
     }
     return result;

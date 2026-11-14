@@ -2,7 +2,7 @@
 #define ENGINE_TEXT_GLYPH_BODY_H
 #include "common.h"
 /* Common observed prefix of the text nodes drawn by build_text_glyph_sprites.
- * initialize_and_submit_record copies 0x30 bytes; callback-specific tail and
+ * create_settings_color_effect copies 0x30 bytes; callback-specific tail and
  * owner fields are intentionally not inferred here. */
 typedef struct TextGlyphBody {
     u8 pad_00[4];

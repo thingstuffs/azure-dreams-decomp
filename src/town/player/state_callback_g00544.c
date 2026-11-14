@@ -28,6 +28,6 @@ void dispatch_state_callback_by_mode(s32 value, void *ptr, void *ptr2, s32 unuse
 }
 
 /* Forward the value, context, data, and mode to dispatch_state_callback_by_mode. */
-void forward_value_context_data_mode(s32 value, void *context, void *data, s32 mode) {
+void forward_state_callback_dispatch(s32 value, void *context, void *data, s32 mode) {
     dispatch_state_callback_by_mode(value, context, data, mode);
 }

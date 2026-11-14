@@ -187,7 +187,7 @@ void compact_generation_regions(void) {
             dungeon_rooms[entry_index].entries = 0;
         } while (++entry_index < 0x24);
     }
-    ((s16 *)dungeon_room_count)[0] = entry_count;
+    dungeon_room_count = entry_count;
 }
 
 void clear_generation_region_entries(void) {
@@ -697,7 +697,7 @@ void load_dungeon_layout(s16 layout_number)
     }
     room_header += 4;
     data = (u8 *)room_header;
-    (*(s16 *)dungeon_room_count) = entry_index;
+    dungeon_room_count = entry_index;
     entry_index = 0;
     while (*data != 0) {
         dungeon_floor_marker_entries[entry_index].kind = data[2] + 2;

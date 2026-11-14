@@ -10,7 +10,7 @@
    cursor; this one-byte used view does not assert historical allocation. */
 
 /* Registers the object or its fallback in the next slot and advances the slot counter. */
-void runtime_register_object_or_fallback_slot(void *object)
+void register_message_command_object(void *object)
 {
     void *registered_ptr = object;
     if (registered_ptr == 0) {

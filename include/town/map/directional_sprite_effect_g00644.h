@@ -64,7 +64,7 @@ extern s32 D_800D20E4;
 extern void advance_sprite_animation_and_textures(void *);
 /* Functions defined in this translation unit. */
 s32 create_directional_sprite_effect(void *position, s16 angle);
-void advance_coordinates_and_propagate_flags(void *object_data, ObjectPosition *motion,struct SpriteFrameState *status);
-void wait_then_process_record(S_800BC764_0 *context, void *unused, struct SpriteFrameState *record);
+void move_directional_sprite_effect(void *object_data, ObjectPosition *motion,struct SpriteFrameState *status);
+void update_directional_sprite_loop(S_800BC764_0 *context, void *unused, struct SpriteFrameState *record);
 
 #endif

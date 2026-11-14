@@ -24,7 +24,7 @@ typedef struct {
 } TownRecord;
 
 /* Functions defined in this translation unit. */
-s32 count_entries_until_second_byte_zero(void *entries);
+s32 count_leading_typed_records(void *entries);
 void refresh_paged_selection_state(TownRecord *record);
 
 #endif

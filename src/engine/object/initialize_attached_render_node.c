@@ -29,7 +29,7 @@ void initialize_attached_message_window_node(void *node_storage, void *attached_
     object->active = 1;
     object->object_id = object_id;
 
-    runtime_initialize_state_value(attached_object, *init_data);
+    init_unit_scale_record(attached_object, *init_data);
 
     object->attached_object = attached_object;
     object->unk_04 = 0;

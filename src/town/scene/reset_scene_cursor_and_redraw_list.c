@@ -15,6 +15,6 @@ s32 reset_scene_cursor_and_redraw_list(void) {
     pass_pair_table_values();
     list_length = select_first_unmet_table_entry();
     D_00000D9C = list_length;
-    set_up_town_resolves_record(list_length, D_00000DA0);
+    load_fixed_record_list(list_length, D_00000DA0);
     return D_00000D9C;
 }

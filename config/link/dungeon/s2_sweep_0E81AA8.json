@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_80E61EF4",
-      "tu": "src/dungeon/monster/barong/update_actor_direction_and_animation.c",
+      "tu": "src/dungeon/monster/barong/update_barong_turn_action.c",
       "home": "dungeon/func_80E61EF4",
       "foff": "0xe81ef4",
       "vma": "0x801716f4",
@@ -74,14 +74,14 @@
     {
       "row": "dungeon/func_80E64FF0",
       "home": "dungeon/func_80E64FF0",
-      "tu": "src/dungeon/monster/barong/update_motion_and_terrain_collision.c",
+      "tu": "src/dungeon/monster/barong/update_tossed_item_motion.c",
       "foff": "0x00E84FF0",
       "vma": "0x801747F0",
       "size": 1448
     },
     {
       "row": "dungeon/func_80E658F8",
-      "tu": "src/dungeon/monster/barong/advance_deforming_action_animation.c",
+      "tu": "src/dungeon/monster/barong/advance_barong_item_replacement.c",
       "home": "dungeon/func_80E658F8",
       "foff": "0xe858f8",
       "vma": "0x801750f8",

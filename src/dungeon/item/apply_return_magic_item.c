@@ -26,7 +26,7 @@ extern u8 D_800E13B7[];
 #include "engine/runtime.h"
 #include "dungeon/item/message.h"
 
-extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern s32 resolve_item_attack(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 #include "dungeon/player/state/clear_slot_and_update_linked_state_api.h"
 
 /* Apply an event to the target and update the event count on completion. */
@@ -34,7 +34,7 @@ s32 apply_return_magic_item(ActorRecord *entity, DungeonItemEntry *event, s16 ta
     u8 *entity_info;
 
     if (target_type == 0xD) {
-        return process_record_and_update_linked_state(event, target_record);
+        return resolve_item_attack(event, target_record);
     }
     if ((void *)entity == ((u8 *)dungeon_actor_ring_anchor)) {
         ((PlayerRecord *)entity)->pending_item_action = event;
@@ -52,7 +52,7 @@ s32 apply_return_magic_item(ActorRecord *entity, DungeonItemEntry *event, s16 ta
         if (*(s32 *)0x80012090 == 0 && current_dungeon_floor == 0x28 && test_resident_bit(0xA2) == 0) {
             display_formatted_context_message(D_800E1375);
             ((Struct_80083460 *)&g_dungeon_status)->count--;
-            clear_slot_and_update_linked_state(event);
+            clear_item_slot(event);
             return 1;
         }
         entity_info = *(u8 **)(((u8 *)entity) - 0x14);
@@ -64,6 +64,6 @@ s32 apply_return_magic_item(ActorRecord *entity, DungeonItemEntry *event, s16 ta
         display_formatted_context_message(D_800E13B7);
         ((Struct_80083460 *)&g_dungeon_status)->count++;
     }
-    clear_slot_and_update_linked_state(event);
+    clear_item_slot(event);
     return 1;
 }

@@ -200,7 +200,7 @@ void allocate_effect_and_initialize_sprite(ObjectNodeHeader *effect_data, u16 *e
 
 /* Orbits a sprite around its saved position through a transform while rotating, shrinking, and fading
    it to removal. */
-void update_rotating_effect_and_fade(TexturedOffsetObjectBody *effect, void *position_arg, SpriteFrameState *sprite) {
+void update_circling_offset_effect(TexturedOffsetObjectBody *effect, void *position_arg, SpriteFrameState *sprite) {
     Row_8194CD5C_S_8002455C_2 *position = position_arg;
     Row_8194CD5C_InputVector local_offset;
     Row_8194CD5C_OutputVector rotated_offset;
@@ -329,7 +329,7 @@ void create_textured_offset_object(EffectWithEndpointsBody *source_object)
 
 /* Advances an effect along its saved travel steps and emits textured orbiting sprites until its step
    counter reaches nine. */
-void advance_object_motion_and_animation(EffectWithEndpointsBody *object) {
+void update_textured_offset_effect(EffectWithEndpointsBody *object) {
     s16 next_tick;
     s32 velocity_y;
     s32 velocity_z;

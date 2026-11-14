@@ -27,6 +27,6 @@ void save_player_value_and_run_service_44(void) {
 }
 
 /* Call the context callback with the two global values. */
-void run_service_4c_with_saved_values(void) {
+void build_land_building_from_saved_values(void) {
     town_scene_root->services->BuildLandBuilding(scene_saved_player_value, D_800183D0);
 }

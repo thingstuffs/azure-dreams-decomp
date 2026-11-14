@@ -34,7 +34,7 @@ void invoke_callback_and_set_shared_pointer(void) {
     } else {
         clear_script_flag_bit(F_sbs48_pad06);
     }
-    if ((get_linked_record_field_2_d_60() < 5) || ((get_linked_record_field_2_d_60() >= 5) && (get_script_flag_mask(Ftt_fkoya_isaku_scene01_ok) != 0))) {
+    if ((get_town_state_count() < 5) || ((get_town_state_count() >= 5) && (get_script_flag_mask(Ftt_fkoya_isaku_scene01_ok) != 0))) {
         set_script_flag_bit(F_sbs48_pad07);
     } else {
         clear_script_flag_bit(F_sbs48_pad07);

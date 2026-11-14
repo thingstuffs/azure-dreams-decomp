@@ -19,7 +19,7 @@ void submit_script_with_registered_context(void *context)
     entry_value = buffer_value;
     script_message_command_words[write_index] = entry_value;
     message_command_write_index = header_index + 1;
-    runtime_register_object_or_fallback_slot(context);
+    register_message_command_object(context);
 
     buffer_value = message_command_write_index;
     write_index = buffer_value;

@@ -59,7 +59,7 @@ s32 use_item_to_increase_attack(ActorRecord *entity, DungeonItemEntry *action_id
         adjust_source_value_and_finalize(entity, D_800E1350);
     }
     create_colored_effect_with_sound(NODE_HEADER(entity), 0x2020F0, 0x616);
-    clear_slot_and_update_linked_state(action_id);
+    clear_item_slot(action_id);
     g_dungeon_status.activity_counts.parts.pending_action_count--;
     return 1;
 }

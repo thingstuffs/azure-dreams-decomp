@@ -10,7 +10,7 @@
     {
       "row": "dungeon/func_80D00CBC",
       "home": "dungeon/func_80CE8CBC",
-      "tu": "src/dungeon/monster/troll/update_actor_behavior.c",
+      "tu": "src/dungeon/monster/troll/update_troll_behavior.c",
       "foff": "0xD20CBC",
       "vma": "0x8015A4BC",
       "size": 2052,

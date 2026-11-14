@@ -23,11 +23,11 @@ typedef struct MainMemoryPage {
 
 extern void initialize_circular_list_head(void);
 extern void init_town_motion_list(void);
-extern void clear_entry_table(void);
+extern void clear_shop_record_queue(void);
 extern void reserve_twch_load(s32 load_selector);
 extern void reserve_tw_mon_load(s32 load_selector);
-extern void copy_record_tail_bytes(void);
-extern void process_state_entries_and_referenced_objects(void);
+extern void load_building_slot_states(void);
+extern void refresh_all_snapshots(void);
 extern void load_resource_data(void);
 extern void load_and_apply_town_building_tiles(void);
 extern void town_sd_se_load_init(void);
@@ -42,25 +42,25 @@ void dispatch_town_transition(void)
     u16 runtime_flags;
     MainMemoryPage *page;
 
-    clear_town_movie_object_field(town_movie_callback_list);
-    clear_town_movie_object_field(town_transition_callback_list);
+    reset_callback_list(town_movie_callback_list);
+    reset_callback_list(town_transition_callback_list);
     initialize_circular_list_head();
     init_town_motion_list();
-    clear_entry_table();
+    clear_shop_record_queue();
     map_runtime_state[0] = 0;
     obj_disp23_cancel_sw_set(0);
 
     runtime_flags = runtime_dispatch_state.flags16;
     if (runtime_flags & 0x4000) {
-        set_resident_mode_flags(0);
+        set_dungeon_exit_flags(0);
         reset_town_items();
         chg_map_second_house_sel();
         reserve_twch_load(1);
         reserve_tw_mon_load(1);
         file_load_com(&town_scene_resource);
     } else if (runtime_flags & 0x8000) {
-        set_resident_mode_flags(1);
-        add_counter_increment_capped();
+        set_dungeon_exit_flags(1);
+        refresh_items_and_add_counter();
         if ((test_resident_bitmap_bit(F_veld_kill) == 0) ||
             (test_resident_bitmap_bit(F_end_ending) != 0)) {
             change_map_by_home_rank_secondary();
@@ -82,7 +82,7 @@ void dispatch_town_transition(void)
         if (runtime_flags & 2) {
             page->flags_3714 &= 0xFFFD;
             if (page->status_020A != 0) {
-                set_resident_mode_flags(1);
+                set_dungeon_exit_flags(1);
                 page->status_020A = 0;
                 delete_items_and_reset_state();
                 chg_map_second_house_sel();
@@ -95,7 +95,7 @@ void dispatch_town_transition(void)
         } else {
             reset_state_defaults();
             page->red_collar_status = 1;
-            copy_record_tail_bytes();
+            load_building_slot_states();
             page->word_2D5C = 0;
             change_map(town_transition_map_descriptor);
             reserve_twch_load(0);
@@ -104,7 +104,7 @@ void dispatch_town_transition(void)
     }
 
     runtime_dispatch_state.flags16 &= 0x3FF9;
-    process_state_entries_and_referenced_objects();
+    refresh_all_snapshots();
     load_resource_data();
     load_and_apply_town_building_tiles();
     town_sd_se_load_init();

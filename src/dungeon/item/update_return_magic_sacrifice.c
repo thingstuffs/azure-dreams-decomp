@@ -169,7 +169,7 @@ void update_return_magic_sacrifice(S_800C2824_0 *effect, S_800C2824_3 *vertices,
         vertex_z = (u16)object_vertices->z.w.i;
         vertices->unk_0A = vertex_z;
         vertices->unk_16 = vertex_z;
-        register_node(NODE_HEADER(effect), process_linked_mesh_states_mode_1);
+        register_node(NODE_HEADER(effect), draw_linked_oriented_mesh_quads);
         sprite->tpage_abr = 0x20;
         sprite->source = &return_magic_sprite_data;
         sprite->color.word = 0x808080;

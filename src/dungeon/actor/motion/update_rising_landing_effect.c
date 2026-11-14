@@ -504,16 +504,16 @@ typedef struct {
 } EntryTable;
 
 /* Advance the actor animation, move toward the entry position, and spawn trailing particles. */
-void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor *actor, Vec3 *target, SpriteFrameState *sprite) {
+void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor *actor, ObjectPosition *target, SpriteFrameState *sprite) {
     u16 entry_pos[3];
     u16 start_pos[3];
 
     actor->counter = actor->counter + 1;
     ((u16 *)actor->field0)[0x29] = ((u16 *)actor->field0)[0x29] | 0x8000;
     advance_sprite_animation_and_textures(sprite);
-    start_pos[0] = target->x.half.coord;
-    start_pos[1] = target->y.half.coord;
-    start_pos[2] = target->z.half.coord;
+    start_pos[0] = target->x.w.i;
+    start_pos[1] = target->y.w.i;
+    start_pos[2] = target->z.w.i;
 
     switch ((s16)actor->state) {
     default:
@@ -524,10 +524,10 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
             sprite->scale_x = sprite->scale_y;
         }
         if (resolve_record_orientation_or_fallback(((void *)reference_tile_object.sprite_source), (&reference_tile_object), entry_pos, 0) != 0) {
-            target->x.word += ((((s16)entry_pos[0] + view_reference_entity.x.w.i) - (s16)target->x.half.coord) << 14);
-            target->y.word += ((((s16)entry_pos[1] + view_reference_entity.y.w.i) - (s16)target->y.half.coord) << 14);
-            target->z.word += ((((s16)entry_pos[2] + view_reference_entity.z.w.i) - (s16)target->z.half.coord) << 14);
-            target->z.word -= (rsin(((s16)actor->counter << 11) / 10) << 9);
+            target->x.v += ((((s16)entry_pos[0] + view_reference_entity.x.w.i) - (s16)target->x.w.i) << 14);
+            target->y.v += ((((s16)entry_pos[1] + view_reference_entity.y.w.i) - (s16)target->y.w.i) << 14);
+            target->z.v += ((((s16)entry_pos[2] + view_reference_entity.z.w.i) - (s16)target->z.w.i) << 14);
+            target->z.v -= (rsin(((s16)actor->counter << 11) / 10) << 9);
         }
         if ((s16)actor->counter >= 10) {
             sprite->flags = sprite->flags | 0x800;
@@ -536,9 +536,9 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
         break;
     case 1:
         if (resolve_record_orientation_or_fallback(((void *)reference_tile_object.sprite_source), (&reference_tile_object), entry_pos, 0) != 0) {
-            target->x.word += ((((s16)entry_pos[0] + view_reference_entity.x.w.i) - (s16)target->x.half.coord) << 15);
-            target->y.word += ((((s16)entry_pos[1] + view_reference_entity.y.w.i) - (s16)target->y.half.coord) << 15);
-            target->z.word += ((((s16)entry_pos[2] + view_reference_entity.z.w.i) - (s16)target->z.half.coord) << 15);
+            target->x.v += ((((s16)entry_pos[0] + view_reference_entity.x.w.i) - (s16)target->x.w.i) << 15);
+            target->y.v += ((((s16)entry_pos[1] + view_reference_entity.y.w.i) - (s16)target->y.w.i) << 15);
+            target->z.v += ((((s16)entry_pos[2] + view_reference_entity.z.w.i) - (s16)target->z.w.i) << 15);
         }
         if ((s16)actor->counter >= 0x12) {
             sprite->flags = sprite->flags & 0xF7FF;
@@ -601,20 +601,20 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
                     spawn->callback = particle_callback;
                     register_node(spawn, project_sprite_chain);
                     state = spawn->state;
-                    coord_magnitude = abs((s16)target->x.half.coord - (s16)start_pos[0]);
+                    coord_magnitude = abs((s16)target->x.w.i - (s16)start_pos[0]);
                     child = &spawn->child;
                     if (coord_magnitude == 0) {
                         coord_magnitude = 1;
                     }
                     x_offset = rand() % coord_magnitude;
-                    spawn->position->x.half.coord = (s16)((((s16)target->x.half.coord + (s16)start_pos[0]) >> 1)
+                    spawn->position->x.half.coord = (s16)((((s16)target->x.w.i + (s16)start_pos[0]) >> 1)
                         + x_offset - (coord_magnitude >> 1));
-                    target_y = (s16)target->y.half.coord;
+                    target_y = (s16)target->y.w.i;
                     start_y = (s16)start_pos[1];
                     start_y_bits = start_pos[1];
                     coord_magnitude = abs(target_y + start_y);
                     if (coord_magnitude == 0) {
-                        spawn->position->y.word = target->y.word;
+                        spawn->position->y.word = target->y.v;
                     } else {
                         spawn->position->y.half.coord =
                             (s16)(start_y_bits + ((target_y - start_y) * x_offset) / coord_magnitude);
@@ -622,7 +622,7 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
                     spawn->position->x.word += (((rand() & 0x3FF) - 0x1FF) << 10);
                     spawn->position->y.word += (((rand() & 0x3FF) - 0x1FF) << 10);
                     z_jitter = rand();
-                    spawn->position->z.word = target->z.word + (((z_jitter & 0x3FF) - 0x1FF) << 10);
+                    spawn->position->z.word = target->z.v + (((z_jitter & 0x3FF) - 0x1FF) << 10);
                     state->scale_y = 0x1800;
                     state->scale_x = 0x1800;
                     state->tpage_abr = 0x60;

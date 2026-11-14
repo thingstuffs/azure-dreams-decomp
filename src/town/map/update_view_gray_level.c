@@ -56,7 +56,7 @@ void update_view_gray_level(void)
     }
 
     target_level &= 0xFF;
-    level = step_angle_12_toward(channels->view.tint.parts.tint_r, target_level, 8);
+    level = step_angle_toward(channels->view.tint.parts.tint_r, target_level, 8);
     channels->view.tint.parts.tint_r = level;
     channels->view.tint.parts.tint_g = level;
     channels->view.tint.parts.tint_b = level;

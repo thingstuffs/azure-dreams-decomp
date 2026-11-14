@@ -2,7 +2,7 @@
 #include "shared/dungeon_floor.h"
 #include "dungeon/item.h"
 
-extern s16 dungeon_room_count;
+#include "dungeon/level/room_count_data.h"
 
 /* Return the first active record containing the coordinates, or -1 if none matches. */
 s32 find_padded_rectangle(s32 pos_x, s32 pos_y) {

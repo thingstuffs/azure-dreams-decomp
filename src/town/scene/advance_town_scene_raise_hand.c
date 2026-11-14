@@ -10,8 +10,8 @@ extern void func_80019988(void); /* this scene's placed copy of set_current_entr
 
 /* Advance the town scene: raise 0x94B, then hand back to the scene callback unless flag 0x943 and the step check both pass. */
 s32 advance_town_scene_raise_hand(Rec_func_800165F4_arg0 *kind, s32 value) {
-    set_script_flag_94c();
-    initialize_resources_assigns_pointer_lookup();
+    set_script_flag_sbs32_pad34();
+    init_okami_give_cape_state();
     set_script_flag_bit(F_sbs32_pad33);
     if (get_script_flag_mask(F_sbs32_pad25) == 0) {
         town_scene_root->services->callback_2F8(0xE, 0x200);

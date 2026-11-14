@@ -20,9 +20,9 @@ typedef struct TimedModelTintSpellBody {
 
 void update_directional_actor_effect(TimedModelTintSpellBody *, void *);
 void update_spiraling_effect_growth_and_fade(SpiralingBody *, ObjectPosition *, struct SpriteFrameState *);
-void spawn_spiraling(void *, s16, s16, void *, s32);
-void process_effect_modes_and_completion(void *);
-void allocate_and_initialize_effect_object(ObjectNodeHeader *, s16, s16, ActorRecord *);
+void spawn_spiral_effect(void *, s16, s16, void *, s32);
+void update_spiral_spawner(void *);
+void create_spiral_spawner(ObjectNodeHeader *, s16, s16, ActorRecord *);
 #include "dungeon/effect/screen.h"
 #include "sdk/libgte.h"
 extern u8 D_800DF334[];

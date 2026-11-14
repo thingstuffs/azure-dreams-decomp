@@ -28,7 +28,7 @@
 
 s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
 extern void start_kewne_attack_action(ActorRecord *controller, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
-extern void update_actor_state_after_map_check(void *, ObjectPosition *, void *, ActorRecord *);
+extern void update_kewne_parent_motion(void *, ObjectPosition *, void *, ActorRecord *);
 
 extern u8 D_80175E48[];
 extern u8 D_80175E98[];
@@ -136,7 +136,7 @@ void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *con
             actor->unk_A0.parts.high = 0;
             actor->unk_9E = 0;
             actor->unk_90.parts.high = adjusted_offset;
-            update_actor_state_after_map_check(actor, context, sprite, entity);
+            update_kewne_parent_motion(actor, context, sprite, entity);
             return;
         }
 
@@ -154,7 +154,7 @@ void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *con
             return;
         }
         if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
-            select_movement_direction_and_advance(actor, context, sprite, entity);
+            choose_hikewne_move(actor, context, sprite, entity);
             return;
         }
         if (!(entity->action_flags & ACTOR_ACTION_PENDING)) {
@@ -179,7 +179,7 @@ void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *con
             action_flags = entity->action_flags | 0x4000;
             entity->action_flags = action_flags;
             if (!(action_flags & 0x8000)) {
-                select_movement_direction_and_advance(actor, context, sprite, entity);
+                choose_hikewne_move(actor, context, sprite, entity);
             return;
             }
         }
@@ -230,7 +230,7 @@ void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *con
             case 9:
             case 10:
             default:
-                select_movement_direction_and_advance(actor, context, sprite, entity);
+                choose_hikewne_move(actor, context, sprite, entity);
                 return;
             }
         }

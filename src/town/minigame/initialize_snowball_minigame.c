@@ -160,7 +160,7 @@ s32 initialize_snowball_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_ar
     draw.unk02 = 0x10;
     draw.unk04 = root_part;
     draw.flags |= 3;
-    create_scene_object_with_record_payload(D_8002017C, draw_ptr);
+    create_menu_line_object(D_8002017C, draw_ptr);
 
     draw.unk0C = 0x7A;
     draw.unk0E = 0x40;
@@ -172,7 +172,7 @@ s32 initialize_snowball_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_ar
     draw.unk02 = 0x10;
     draw.unk04 = root_part;
     draw.flags |= 0xFFFD;
-    create_scene_object_with_record_payload(D_80020260, draw_ptr);
+    create_menu_line_object(D_80020260, draw_ptr);
 
     draw.unk0E = 0xA2;
     draw.unk10 = 1;
@@ -184,7 +184,7 @@ s32 initialize_snowball_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_ar
     index = 8;
     do {
         draw.unk0C = 0x60 + index * 0x10;
-        create_scene_object_with_record_payload(D_80020360, &draw);
+        create_menu_line_object(D_80020360, &draw);
         index--;
     } while (index >= 0);
 
@@ -192,7 +192,7 @@ s32 initialize_snowball_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_ar
     draw.unk0E = 0xB0;
     draw.unk10 = 0xDC;
     draw.unk12 = 1;
-    create_scene_object_with_record_payload(D_80020360, &draw);
+    create_menu_line_object(D_80020360, &draw);
 
     tile.unk10 = 0x808080;
     tile.unk14 = 0x34;
@@ -204,7 +204,7 @@ s32 initialize_snowball_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_ar
     tile.unk02 = 0x10;
     tile.unk0C = root_part;
     tile.unk04 = D_80026F04[0];
-    create_scene_object_with_payload(D_800203F4, &tile);
+    create_text_sprite_object(D_800203F4, &tile);
 
     {
         void **image_base = D_80026EE0;
@@ -216,18 +216,18 @@ s32 initialize_snowball_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_ar
     do {
         tile.unk04 = images[index];
         tile.unk14 = 0x64 + index * 0x10;
-        create_scene_object_with_payload(D_800203F4, &tile);
+        create_text_sprite_object(D_800203F4, &tile);
         index--;
     } while (index >= 0);
 
     tile.unk14 = 0xF4;
     tile.unk16 = 0xB6;
     tile.unk04 = D_800272C0;
-    create_scene_object_with_payload(tick_summed_scene_value_text, &tile);
+    create_text_sprite_object(tick_summed_scene_value_text, &tile);
 
     tile.unk14 = 0x7E;
     tile.unk16 = 0x44;
     tile.unk04 = D_80026F08[0];
-    create_scene_object_with_payload(D_80020488, &tile);
+    create_text_sprite_object(D_80020488, &tile);
     return 0;
 }

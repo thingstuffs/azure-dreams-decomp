@@ -24,5 +24,5 @@ void initialize_object_from_motion_data(void *object, ObjectPosition *initializa
     *(short *)((unsigned char *)object + 0xA) = 8;
     *(int **)((unsigned char *)object + 4) = interpolate_position_by_angle_offset;
     *(unsigned short *)((unsigned char *)object + 0x32) = secondaryValue;
-    clear_entity_record_fields(initializationData);
+    clear_object_velocity(initializationData);
 }

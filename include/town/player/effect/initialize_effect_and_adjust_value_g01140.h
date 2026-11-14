@@ -110,7 +110,7 @@ s32 read_map_cell_at_world_position(s16, s16);
 /* extern */
 extern u8 D_800D0000[];
 extern u8 D_800A5DF8;
-s32 runtime_estimate_vector_length(s32, s32);
+s32 estimate_vector_length(s32, s32);
 extern short SD_Call(int flags);
 void spawn_directional_effects(ObjectPosition *, s32);
 /* extern */

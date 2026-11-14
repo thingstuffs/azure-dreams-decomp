@@ -29,7 +29,7 @@ void step_falling_object(OwnerCallbackObject *entity, ObjectPosition *motion, Sp
             initialize_falling_object_sprite(entity, motion, output);
             return;
         }
-        load_indexed_state_value(entity, motion, output);
+        set_bounce_velocity(entity, motion, output);
         return;
     }
     add_vertical_gravity(motion);

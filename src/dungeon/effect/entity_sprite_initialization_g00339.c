@@ -36,7 +36,7 @@ void initialize_entity_sprite_effect(void *entity, EntityRec *position, SpriteFr
 }
 
 /* Create an object and initialize its components and flags from the mode and supplied values. */
-void *create_mode_configured_object(s16 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a_value,
+void *create_actor_node_at_tile(s16 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a_value,
                     s32 part_b_value)
 {
     s16 saved_byte_24;

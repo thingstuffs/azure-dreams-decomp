@@ -26,7 +26,7 @@ typedef void (*DungeonCallback)(void *, void *, void *, void *);
 #include "dungeon/item/find_active_rect_containing_point_api.h"
 extern s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
 extern void advance_stored_entity_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-extern void update_actor_action_and_direction(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
+extern void begin_flame_attack(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80173834(void *, void *, void *, void *);
 extern u8 garuda_walk_direction_frames[];
 extern u8 D_80174890[];
@@ -144,7 +144,7 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
                     }
                 }
             }
-            if ((update_entity_state_from_query(actor, context, sprite, 0) << 16) == 0) {
+            if ((relink_hikewne_path(actor, context, sprite, 0) << 16) == 0) {
                 return;
             }
             action = creature->action_flags | 0x4000;
@@ -173,17 +173,17 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
                 return;
             }
             if ((*((((u8 *) (*((void **) (((u8 *) actor) + 0xA8)))) + 0x13))) < 0x33) {
-                advance_actor_walk_animation(actor, context, sprite, creature);
+                begin_garuda_walk(actor, context, sprite, creature);
                 return;
             }
             choose_block_move_slot_a(actor, context, sprite, creature);
             return;
         }
         case 7:
-            if ((check_actor_transition_and_start_effect(actor, context, sprite, creature) << 16) != 0) {
+            if ((try_dragon_attack(actor, context, sprite, creature) << 16) != 0) {
                 return;
             }
-            update_actor_action_and_direction(actor, context, sprite, creature);
+            begin_flame_attack(actor, context, sprite, creature);
             return;
         case 4:
         case 5:

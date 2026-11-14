@@ -35,7 +35,7 @@ void begin_familiar_deployment_change(ActorRecord *obj, s32 unused, void *displa
         register s32 action_arg;
 
         if (reference_tile_object.selected_item != 0) {
-            lookup_result = get_special_table_data_index(reference_tile_object.selected_item);
+            lookup_result = get_item_slot_number(reference_tile_object.selected_item);
             action_obj = obj;
             action_kind = 0x68;
             field_value = obj->unk_8A;

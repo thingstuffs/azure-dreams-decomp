@@ -12,6 +12,6 @@ void initialize_mother_event_object_state(void *object, s32 unused, void *initia
     *(s32 *)((u8 *)object + 0xA0) = 0;
     initialize_object_entries(object, initializationArg, D_800D6110);
     object_index_slots[*(s32 *)((u8 *)object + 0x60)].unk_00 = 0;
-    *(void **)((u8 *)object + 0x54) = update_output_adding_eight_state;
+    *(void **)((u8 *)object + 0x54) = raise_object_while_counter_runs;
     *(s16 *)((u8 *)object + 0x6C) = 0x62;
 }

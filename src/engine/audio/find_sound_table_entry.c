@@ -7,7 +7,7 @@ u32 *find_sound_table_entry(s32 sound_id)
 {
     s32 index;
 
-    index = runtime_find_sentinel_table_value(sound_id);
+    index = find_resource_key_index(sound_id);
     if (index >= 0) {
         return (u32 *)0x800135C4 + index;
     }

@@ -4,7 +4,7 @@
 #include "town/scene/position_entries.h"
 #include "town/scene/flags.h"
 
-void decrement_current_entry_counter_condition(void);                            /* extern */
+void decrement_entry_counter_if_flag(void);                            /* extern */
 extern s16 scene_request_flag_id;
 extern ScenePositionEntry D_80018B28;
 extern s32 D_80018E38;
@@ -15,7 +15,7 @@ s32 run_operation(void *input, s32 unused, s32 aux_input) {
 
     result = apply_entry_position(&D_80018B28, &D_80018E38, input, aux_input);
     if ((get_script_flag_mask(scene_request_flag_id) == 0) && (resolve_entry_flag(&D_80018B28, input, aux_input) == 0)) {
-        decrement_current_entry_counter_condition();
+        decrement_entry_counter_if_flag();
     }
     return result;
 }

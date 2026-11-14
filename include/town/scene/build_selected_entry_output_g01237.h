@@ -19,7 +19,7 @@ typedef struct {
     s32 field8;
 } Record12;
 
-extern void dispatch_records_by_kind(void *, void *);
+extern void fill_records_from_selection_kinds(void *, void *);
 extern s32 func_8001E670(s32);
 extern u8 D_80017ADC;
 extern u8 D_80017AE8;

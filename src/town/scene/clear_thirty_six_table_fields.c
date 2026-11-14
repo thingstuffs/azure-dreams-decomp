@@ -13,7 +13,7 @@ extern void (*D_80017618)(void);
 extern void clear_thirty_six_table_fields(void);
 
 /* Installs the town callback, enforces a minimum town value of 40, and runs the setup sequence. */
-void initialize_town_counter_and_callback(void)
+void init_town_event_counter(void)
 {
     s32 current_town_value;
     TownStateRecord *town = town_scene_root->town_state;

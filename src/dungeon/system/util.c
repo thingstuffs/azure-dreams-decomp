@@ -81,7 +81,7 @@ s32 display_text_with_fullwidth_adjustment(s8 *text) {
                 ((S_800A5720_0 *)cursor)->unk_01 = (u8) (trail_byte - 0x21);
             }
         }
-        return enqueue_runtime_pool_script(text);
+        return queue_pool_service_script(text);
     }
     return 0;
 }
@@ -394,7 +394,7 @@ void create_timed_status_object(void) {
 /* extern */
 
 /* Applies damage capped to leave one HP and displays the hit effect when applicable. */
-void apply_capped_damage_and_hit_effect(ActorRecord *entity, ObjectPosition *effect_pos) {
+void apply_poison_damage(ActorRecord *entity, ObjectPosition *effect_pos) {
     s32 current_hp;
     s32 rounded_hp;
     s32 damage;
@@ -438,7 +438,7 @@ void place_actor_item(void *object_context, struct DungeonItemEntry *target) {
                   *(s16 *)((s8 *)object + 0xA),
                   lookup_item_category_mapped_value(target->kind, target->unk_00), target);
     play_sound_if_enabled(0x50C);
-    clear_slot_and_update_linked_state(target);
+    clear_item_slot(target);
     g_dungeon_status.activity_counts.parts.pending_action_count--;
 }
 #include "records/Rec_D_80083160.h"
@@ -655,7 +655,7 @@ typedef struct S_800A634C_1 {
 } S_800A634C_1;
 
 /* Allocates an object and initializes its state with the supplied value. */
-void *create_fullscreen_quad_updater(s16 initialValue) {
+void *create_fullscreen_grayscale_ramp(s16 initialValue) {
     void *object;
     S_800A634C_1 *objectState;
 
@@ -724,7 +724,7 @@ extern s32 D_800DCF44;
 extern s32 D_800DCF48;
 
 /* Selects a value from object flags and the highest matching state index. */
-s32 select_object_state_value(void *object) {
+s32 select_status_text(void *object) {
     s32 state_result;
     s32 state_index;
     s32 special_index;
@@ -784,7 +784,7 @@ typedef struct S_800A6620_2 {
 #include "dungeon/level/unlink_entity_node_api.h"
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
-extern s16 find_entity_slot_by_field_ac(void *object);
+extern s16 find_linked_object_slot_index(void *object);
 
 extern void *familiar_record_slots[];
 
@@ -814,7 +814,7 @@ s32 release_entity_slot_and_update_flags(void *handle, s32 extra_cleanup)
     }
 
     if (((u8 *)handle)[3] & 0x20) {
-        index = find_entity_slot_by_field_ac(object);
+        index = find_linked_object_slot_index(object);
         if (index >= 0) {
             state_entry = (void *)(index * 4 + ((long)dungeon_actor_ring_anchor));
             state_entry->unk_AC = 0;
@@ -840,7 +840,7 @@ s32 release_entity_slot_and_update_flags(void *handle, s32 extra_cleanup)
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
-    clear_slot_and_update_linked_state(handle);
+    clear_item_slot(handle);
     return index;
 }
 
@@ -869,14 +869,14 @@ extern s8 dungeon_event_pending_flag[];
 extern s32 call_script(void *arg); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* When unblocked, clears a set flag and decrements its counter before running updates. */
-void clear_pending_item_action_state(void) {
+void clear_pending_action_event(void) {
     if (!(dungeon_floor_flags & 0x200000) && !(system_update_flags & 8)) {
         if (dungeon_event_pending_flag[0] != 0) {
             dungeon_event_pending_flag[0] = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         call_script(&restore_actor_script[0]);
-        runtime_clear_state_and_entry_range();
+        clear_script_pending_values();
     }
 }
 
@@ -894,13 +894,13 @@ s32 get_random_scaled_value(s16 input_value) {
 }
 
 /* Save and clear bit 4 of the current record flags. */
-void save_and_clear_entity_flag_ten(void) {
+void save_and_clear_actor_blind_flag(void) {
     D_800DD878 = ((u32) ((u32)dungeon_actor_ring_anchor->flags1C) >> 4) & 1;
     dungeon_actor_ring_anchor->flags1C = (u32) (((u32)dungeon_actor_ring_anchor->flags1C) & ~ACTOR_BLIND);
 }
 
 /* Restore bit 4 of the current record flags when it was saved as set. */
-void restore_entity_flag_ten(void) {
+void restore_actor_blind_flag(void) {
     if (D_800DD878 != 0) {
         dungeon_actor_ring_anchor->flags1C = (s32) (dungeon_actor_ring_anchor->flags1C | ACTOR_BLIND);
     }
@@ -1019,7 +1019,7 @@ typedef struct S_800A6A9C_0 {
 } S_800A6A9C_0;
 
 /* Restores item flag 0x400 across the item category table from the RAM bitmap, then calls clear_fixed_item_mark_flag. */
-void restore_item_flag_400_bitmap(void)
+void restore_marked_item_flags(void)
 {
     S_800A6A9C_0 *group;
     s32 bitmap_byte;
@@ -1098,7 +1098,7 @@ typedef struct {
 } Record;
 
 /* Adds successive multiples of the step to record values through the terminal record. */
-void advance_record_values_by_step(Record *record, s16 step)
+void stagger_record_values_by_step(Record *record, s16 step)
 {
     u8 *value;
     s32 offset;
@@ -1195,9 +1195,9 @@ void *create_pulsing_effect_object(void) {
         glyph_end.pointer = decode_fullwidth_text(sprite, D_80089074, 0);
         ((S_800A6C00_0 *)object)->unk_F0 = glyph_end.bits & 0x7FFFFFFF;
         offset_record_coordinates(sprite, 0xA8, (s16)((0 - (s8)sprite->unk_03) + 8));
-        advance_record_values_by_step(sprite, 4);
+        stagger_record_values_by_step(sprite, 4);
         set_record_flags_and_negate_x(sprite, 8);
-        apply_record_flags_through_end(sprite, 0x20);
+        or_record_list_halfword_flags(sprite, 0x20);
         or_flags_into_record_list(sprite, 2);
         ((S_800A6C00_0 *)object)->unk_C0 = 0x808080;
         ((S_800A6C00_0 *)object)->unk_F4 = 0;

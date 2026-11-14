@@ -206,13 +206,13 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
             action_state->action_timer = 4U;
             action_state->action_state_flags = (u16) (action_state->action_state_flags & 0xFFF7);
             action_state->action_phase = (u8) (action_state->action_phase + 1);
-            allocate_payload_object(NODE_HEADER(action_state), ((PlayerRecord *)action_state)->unk_F4, 0x40);
+            create_oriented_offset_effect(NODE_HEADER(action_state), ((PlayerRecord *)action_state)->unk_F4, 0x40);
             mix_animations = ((S_800B348C_0 *)action_state)->unk_CC;
             (*(u8 **)((u8 *)animation + 0x2C)) = mix_animations;
             set_sprite_animation_frame(animation, *(mix_animations + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                 >> 9) & 7)), 0, 1);
             ((S_800B348C_0 *)action_state)->unk_CC = player_attack_start_frames;
-            apply_effect_bonuses((u8)(action_state->unk_A8), actor->target, actor);
+            apply_spell_element_bonus((u8)(action_state->unk_A8), actor->target, actor);
             return;
         }
         break;

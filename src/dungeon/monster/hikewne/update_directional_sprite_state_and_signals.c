@@ -44,7 +44,7 @@ void update_directional_sprite_state_and_signals(void *controller, void *update_
 
     if (update_actor_transform_from_parent(controller, update_arg, sprite, actor) != 0) {
         if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-            ((Rec_func_8017360C_arg0 *)controller)->unk_8C.as_pu8 = update_actor_behavior_animation_and_facing;
+            ((Rec_func_8017360C_arg0 *)controller)->unk_8C.as_pu8 = update_hikewne_actor_behavior;
         }
     } else if ((*(u8 **)&sprite->frameTable == hikewne_frame_set_2) &&
                !(actor->flags1C & (ACTOR_MP_EMPTY | ACTOR_ASLEEP))) {

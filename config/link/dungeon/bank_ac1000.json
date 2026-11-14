@@ -26,7 +26,7 @@
     },
     {
       "row": "dungeon/func_80AA167C",
-      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+      "tu": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
       "home": "dungeon/func_80A9B67C",
       "foff": "0xac167c",
       "vma": "0x8016ae7c",
@@ -84,7 +84,7 @@
     },
     {
       "row": "dungeon/func_80AA1FF8",
-      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+      "tu": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
       "home": "dungeon/func_80A9BFF8",
       "foff": "0xac1ff8",
       "vma": "0x8016b7f8",
@@ -142,7 +142,7 @@
     },
     {
       "row": "dungeon/func_80AA2A80",
-      "tu": "src/dungeon/monster/hikewne/update_entity_state_from_query.c",
+      "tu": "src/dungeon/monster/hikewne/relink_hikewne_path.c",
       "home": "dungeon/func_80976E28",
       "foff": "0xAC2A80",
       "vma": "0x8016C280",
@@ -163,7 +163,7 @@
     },
     {
       "row": "dungeon/func_80AA2C5C",
-      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+      "tu": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
       "home": "dungeon/func_80A9CC5C",
       "foff": "0xac2c5c",
       "vma": "0x8016c45c",
@@ -201,7 +201,7 @@
     },
     {
       "row": "dungeon/func_80AA3030",
-      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+      "tu": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
       "home": "dungeon/func_80A9D030",
       "foff": "0xAC3030",
       "vma": "0x8016C830",
@@ -209,7 +209,7 @@
     },
     {
       "row": "dungeon/func_80AA34E8",
-      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+      "tu": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
       "home": "dungeon/func_80A9D4E8",
       "foff": "0xAC34E8",
       "vma": "0x8016CCE8",
@@ -225,7 +225,7 @@
     },
     {
       "row": "dungeon/func_80AA3EA8",
-      "tu": "src/dungeon/effect/state/forward_actor_effect_state.c",
+      "tu": "src/dungeon/effect/state/update_hop_and_shrink_callback.c",
       "home": "dungeon/func_800AD90C",
       "foff": "0xAC3EA8",
       "vma": "0x8016D6A8",
@@ -251,7 +251,7 @@
     },
     {
       "row": "dungeon/func_80AA3EE8",
-      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F89D44",
       "foff": "0xAC3EE8",
       "vma": "0x8016D6E8",
@@ -267,7 +267,7 @@
     },
     {
       "row": "dungeon/func_80AA4720",
-      "tu": "src/dungeon/monster/kewne/update_actor_state_after_map_check.c",
+      "tu": "src/dungeon/monster/kewne/update_kewne_parent_motion.c",
       "home": "dungeon/func_809A2D74",
       "foff": "0xAC4720",
       "vma": "0x8016DF20",
@@ -275,7 +275,7 @@
     },
     {
       "row": "dungeon/func_80AA47E8",
-      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F8A600",
       "foff": "0xAC47E8",
       "vma": "0x8016DFE8",
@@ -330,7 +330,7 @@
     },
     {
       "row": "dungeon/func_80AA4980",
-      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+      "tu": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
       "home": "dungeon/func_80A9E980",
       "foff": "0xAC4980",
       "vma": "0x8016E180",
@@ -338,7 +338,7 @@
     },
     {
       "row": "dungeon/func_80AA49D0",
-      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+      "tu": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
       "home": "dungeon/func_80A9E9D0",
       "foff": "0xac49d0",
       "vma": "0x8016e1d0",
@@ -354,7 +354,7 @@
     },
     {
       "row": "dungeon/func_80AA4B18",
-      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+      "tu": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
       "home": "dungeon/func_80A9EB18",
       "foff": "0xAC4B18",
       "vma": "0x8016E318",
@@ -362,7 +362,7 @@
     },
     {
       "row": "dungeon/func_80AA4BBC",
-      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+      "tu": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
       "home": "dungeon/func_80A9EBBC",
       "foff": "0xAC4BBC",
       "vma": "0x8016E3BC",
@@ -370,7 +370,7 @@
     },
     {
       "row": "dungeon/func_80AA4C70",
-      "tu": "src/dungeon/monster/kid/initialize_counted_entity_action.c",
+      "tu": "src/dungeon/monster/kid/wait_for_kid_action_slot.c",
       "home": "dungeon/func_809F7148",
       "foff": "0xAC4C70",
       "vma": "0x8016E470",
@@ -378,7 +378,7 @@
     },
     {
       "row": "dungeon/func_80AA4D1C",
-      "tu": "src/dungeon/monster/kid/blend_effect_channels_to_gray.c",
+      "tu": "src/dungeon/monster/kid/finish_kid_effect_and_tint.c",
       "home": "dungeon/func_809F71F4",
       "foff": "0xAC4D1C",
       "vma": "0x8016E51C",

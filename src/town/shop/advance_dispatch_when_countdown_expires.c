@@ -10,7 +10,7 @@ void advance_dispatch_when_countdown_expires(GridMenuObject *state_data) {
         if (state_data->dispatch_mode != 0) {
             handler = handle_twin_shop_input;
         } else {
-            pass_indexed_entry_address(state_data);
+            refresh_selected_item_name_with_fallback(state_data);
             handler = handle_grid_menu_input;
         }
         NODE_HEADER(state_data)->update_callback = handler;

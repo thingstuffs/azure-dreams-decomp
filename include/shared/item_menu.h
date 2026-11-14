@@ -35,7 +35,7 @@ typedef struct ItemMenuFlagsView {
     int unk_1C;
 } ItemMenuFlagsView;
 
-/* Second 16-byte record of one item-menu display part (realloc_field_0_buffer bank B).
+/* Second 16-byte record of one item-menu display part (rebuild_pointer_pool bank B).
  * Word +0 is the part's packed colour word (update_item_menu_selection stores D_800891F4 there and
  * fade_color_to_gray eases it toward grey); x/y are the part's screen offsets. */
 typedef struct ItemMenuPartPosition {
@@ -45,7 +45,7 @@ typedef struct ItemMenuPartPosition {
     short y; /* vertical screen offset */
 } ItemMenuPartPosition;
 
-/* One item-menu display part (realloc_field_0_buffer bank A, 16-byte records). The item-menu object
+/* One item-menu display part (rebuild_pointer_pool bank A, 16-byte records). The item-menu object
  * keeps a pointer to an array of 40 part pointers (allocated by load_actor_display_resource):
  * parts 0-3 are the panel slots, 4 and 5 the selection cursor pair, 6-35 the item rows,
  * 38 and 39 the side indicators. */
@@ -61,7 +61,7 @@ typedef struct ItemMenuPart {
 typedef struct ItemMenuState {
     struct ObjectNodeHeader *menu_object; /* item-menu object node from create_item_menu_child_object */
     void *display_controller; /* selected-entry display controller, or null */
-    void *dual_buffer_object; /* create_dual_buffer_object result */
+    void *dual_buffer_object; /* create_floating_number_widget result */
     unsigned char pad_0C[0x4];
     int page; /* current page of ten entries */
     int last_page; /* (count - 1) / 10 */
@@ -81,7 +81,7 @@ typedef struct ItemMenuStateNode {
 typedef struct ItemMenuDisplayBlock {
     int unk_00;
     short unk_04;
-    short ramp; /* 0..0x1000 opening ramp written by advance_item_menu_step; handler objects start at 0x1000 */
+    short ramp; /* 0..0x1000 opening ramp written by advance_item_menu_open_ramp; handler objects start at 0x1000 */
     short x;
     short y;
     short depth;
@@ -101,7 +101,7 @@ typedef struct ItemMenuDisplayLinks {
 typedef struct ItemMenuObject {
     /* 0x00 */ ItemMenuState *menu; /* owning menu's state (owner node + 0x20) */
     /* 0x04 */ void *saved_update; /* node update callback saved while the selected-entry check runs */
-    /* 0x08 */ int open_step; /* opening ramp step, 0..6 (advance_item_menu_step) */
+    /* 0x08 */ int open_step; /* opening ramp step, 0..6 (advance_item_menu_open_ramp) */
     /* 0x0C */ int repeat_delay; /* held-direction repeat counter */
     /* 0x10 */ int enabled;
     /* 0x14 */ unsigned int page_flags; /* bit 0: no next page, bit 1: no previous page */

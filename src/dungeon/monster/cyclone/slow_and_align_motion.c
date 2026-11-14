@@ -115,7 +115,7 @@ void slow_and_align_motion(ActorRecord *motion_state, ObjectPosition *motion, Sp
                 g_dungeon_status.pending_display_owner = velocity_or_entity & 0x7FFFFFFF;
             }
         }
-        motion_state->unk_8C.handler = update_actor_animation;
+        motion_state->unk_8C.handler = dispatch_cyclone_actions;
     default:
         return;
     }

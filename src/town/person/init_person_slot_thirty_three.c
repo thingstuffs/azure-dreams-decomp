@@ -5,5 +5,5 @@
 void init_person_slot_thirty_three(TownObjectRecord *body, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite) {
     TownObjectRecord *object = body;
 
-    initialize_object_and_register_slot(object, 33, D_800D6C7C, D_800D6C80, D_800D6C4C, D_800D6C54);
+    register_object_slot_with_tables(object, 33, D_800D6C7C, D_800D6C80, D_800D6C4C, D_800D6C54);
 }

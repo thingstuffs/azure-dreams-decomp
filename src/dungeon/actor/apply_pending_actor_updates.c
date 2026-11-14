@@ -13,8 +13,9 @@
 extern s32 menu_action_argument;
 
 /* Apply pending actor updates and handle input-driven state transitions. */
-void apply_pending_actor_updates(void *controller, ObjectPosition *move_state, SpriteFrameState *entity, ActorRecord *actor)
+void apply_pending_actor_updates(ActorRecord *controller, ObjectPosition *move_state, SpriteFrameState *entity, ActorRecord *actor)
 {
+    PlayerRecord *player = (PlayerRecord *)controller;
     s16 pending_delta = actor->hp_delta;
     GameWork *input_state = &g_game_work;
 
@@ -33,12 +34,12 @@ void apply_pending_actor_updates(void *controller, ObjectPosition *move_state, S
         menu_action_argument = 2;
         begin_player_menu_action(controller, move_state, entity, create_animated_selection_menu_owner);
         reference_tile_object.selected_item = 0;
-        *(s32 *)((u8 *)controller + 0xC8) = 0;
-        *(s32 *)((u8 *)controller + 0x104) = 0;
+        player->unk_C8 = 0;
+        player->unk_104 = 0;
         return;
     }
 
-    if (*((u8 *)controller + 0x9A) != 0x3A &&
+    if (controller->action_id != 0x3A &&
         (actor->flags1C & 0x200)) {
         entity->flags &= 0xF7FF;
         finish_paralyzed_actor_action(controller, move_state, entity, actor);

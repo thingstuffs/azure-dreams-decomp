@@ -62,7 +62,7 @@ s32 use_item_to_restore_eyesight(ActorRecord *entity_arg, DungeonItemEntry *item
         display_text_with_fullwidth_adjustment(initial_id);
     }
     clear_slots_of_type(entity_arg, STATUS_BLIND);
-    clear_slot_and_update_linked_state(item);
+    clear_item_slot(item);
     g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
     return 1;
 }

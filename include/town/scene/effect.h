@@ -40,10 +40,10 @@ typedef union EffectPointer {
     ObjectPosition *position;
 } EffectPointer;
 
-void initialize_effect_with_sprite_set_nine(EffectState *parent, ObjectPosition *position, SpriteFrameState *unused_sprite);
+void create_map_particle_effect(EffectState *parent, ObjectPosition *position, SpriteFrameState *unused_sprite);
 
 /* Callback entry points. */
-void reset_effect_callback_state(void *ptr);
+void fade_effect_color_until_done(void *ptr);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 struct SpawnSeed;

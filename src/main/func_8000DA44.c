@@ -3,7 +3,7 @@
 #include "main.h"
 
 /* Set (*(s32 *)(&card_hardware_status)) to 2 and return zero. */
-s32 card_boot_latch_hardware_status_two(void) {
+s32 card_boot_latch_hw_error(void) {
     (*(s32 *)(&card_hardware_status)) = 2;
     return 0;
 }

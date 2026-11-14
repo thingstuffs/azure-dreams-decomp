@@ -21,7 +21,7 @@ typedef struct Node8002BB08 Node8002BB08;
 extern s8 animation_tick_scale;
 extern void configure_shared_fade_primitive(void);
 extern s32 D_800814A0;
-void save_and_clear_entity_flag_ten(void);
+void save_and_clear_actor_blind_flag(void);
 
 /* Shared import declarations; data casts preserve each measured view. */
 
@@ -29,7 +29,7 @@ void save_and_clear_entity_flag_ten(void);
 /* Functions defined in this translation unit. */
 void card_boot_stop_timer_and_init_server(void);
 void *card_boot_open_save_slot_selection(struct ObjectNodeHeader *request);
-void *dispatch_request_mode_two(void *request);
+void *card_boot_open_request_mode_two(void *request);
 void *card_boot_open_request_at_screen_center(void *request);
 
 #endif

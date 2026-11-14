@@ -6,5 +6,5 @@
 
 /* func_koya_tamago_pal_ld: load the hut egg palette. */
 s32 scr_func_koya_tamago_pal_ld(void) {
-    return store_record_value_and_table_lookup(0, 0, 0, 0);
+    return store_target_record_value_and_kind(0, 0, 0, 0);
 }

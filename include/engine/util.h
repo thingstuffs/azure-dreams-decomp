@@ -10,8 +10,8 @@ struct S_8004DA24_dst;
 struct S_8004DA24_src;
 struct S_Src;
 
-/* activate_entries_and_clear_state.c */
-void activate_entries_and_clear_state(void);
+/* reset_sequence_track_state.c */
+void reset_sequence_track_state(void);
 
 /* add_byte_pair_and_copy_byte_pair.c */
 void add_byte_pair_and_copy_byte_pair(struct S_8004DA24_dst *destination, struct S_8004DA24_src *source);
@@ -31,11 +31,11 @@ void *func_80048EE4(void **pool, s32 record_count);
 s32 bcd_to_int(s32 packed_bcd);
 s32 func_8003F688(s32 packed_bcd);
 
-/* copy_global_short_triplet.c */
-void copy_global_short_triplet(struct S_Src *object);
+/* copy_view_source_position.c */
+void copy_view_source_position(struct S_Src *object);
 
-/* copy_indexed_entry_pair.c */
-void copy_indexed_entry_pair(short index, int unused, unsigned short *out_field_8, unsigned short *out_field_a);
+/* get_sequence_slot_gains.c */
+void get_sequence_slot_gains(short index, int unused, unsigned short *out_field_8, unsigned short *out_field_a);
 
 /* entry_sort_entries_by_key.c */
 s32 reserve_sound_ram_region(s32 size);
@@ -44,18 +44,18 @@ s32 reserve_sound_ram_region(s32 size);
 char *format_int_space_padded(int value, unsigned short width, char *buf);
 char *func_8004E5A0(int value, unsigned short width, char *buf);
 
-/* mark_record_if_indirect_value_zero.c */
-void mark_record_if_indirect_value_zero(u16 *record_data, struct S_8004B298_a1 *value_ref);
+/* flag_removal_when_value_zero.c */
+void flag_removal_when_value_zero(u16 *record_data, struct S_8004B298_a1 *value_ref);
 
 /* realloc_field_buffer.c */
 s32 *func_80049004(s32 *buffer_slot, s32 entry_count, s32 clear_words);
-s32 *realloc_field_0_buffer(s32 *buffer_slot, s32 entry_count, s32 clear_words);
+s32 *rebuild_pointer_pool(s32 *buffer_slot, s32 entry_count, s32 clear_words);
 
 /* reverse_bytes.c */
 void *reverse_bytes(u8 *buf, u16 len);
 
-/* runtime_advance_three_component_interpolation.c */
-void runtime_advance_three_component_interpolation(CameraInterpolationBody *record_data);
+/* advance_camera_interpolation.c */
+void advance_camera_interpolation(CameraInterpolationBody *record_data);
 
 /* lookup_resident_byte_by_key.c */
 s32 lookup_resident_byte_by_key(s32 key);
@@ -64,8 +64,8 @@ s32 lookup_resident_byte_by_key(s32 key);
 void func_8003E188(s32 field_index, s32 flag);
 void set_packed_2bit_flag(s32 field_index, s32 flag);
 
-/* sort_entries_by_key.c */
-void sort_entries_by_key(void);
+/* sort_sound_ram_blocks.c */
+void sort_sound_ram_blocks(void);
 
 /* table_handle_assign_consecutive_byte_data_blocks_items_selected_category_index.c */
 void assign_item_category_data_blocks(void);
@@ -79,7 +79,7 @@ char *uint_to_dec_str(u32 num, char *buf);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "shared/entity.h"
-s32 find_slot_by_type(ActorRecord *slots, s8 type);
+s32 take_status_slot_value(ActorRecord *slots, s8 type);
 s32 func_80042518(ActorRecord *slots, s8 type);
 
 #endif

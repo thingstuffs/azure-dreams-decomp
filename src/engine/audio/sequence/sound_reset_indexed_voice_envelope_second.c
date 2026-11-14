@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/audio_update_guard_data.h"
 #include "slus/audio_voice_data.h"
 #include "engine/audio/sequence.h"
 #include "engine/audio/spu.h"
@@ -98,7 +99,6 @@ typedef struct S_8005B4D0_req
 }
 S_8005B4D0_req;
 extern S_80085458 audio_voice_records[24];
-extern s32 audio_update_guard[4];
 extern S_80086A40 audio_bank_slots[16];
 /* Allocates and configures voices for program tones matching the requested note. */
 void start_sound_effect_program_voices(s32 bank_program, s32 note_pitch, s16 left_gain, s16 right_gain, s32 force_effect)
@@ -135,7 +135,7 @@ void start_sound_effect_program_voices(s32 bank_program, s32 note_pitch, s16 lef
     used_programs = 0;
     program_id = bank_program & 0x7F;
     bank_index = bank_program >> 8;
-    audio_update_guard[0] = 1;
+    audio_update_guard.value = 1;
     left_scale = left_gain;
     right_scale = right_gain;
     bank_header = audio_bank_slots[(s16) bank_index].unk4;
@@ -157,7 +157,7 @@ void start_sound_effect_program_voices(s32 bank_program, s32 note_pitch, s16 lef
     program = (S_8005B4D0_hdr *) (bank_data + ((program_id * 0x10) + 0x20));
     note = note_pitch >> 8;
     if (program->unk00 == 0) {
-        audio_update_guard[0] = 0;
+        audio_update_guard.value = 0;
         return;
     }
     do {
@@ -280,15 +280,15 @@ void start_sound_effect_program_voices(s32 bank_program, s32 note_pitch, s16 lef
                 }
                 apply_voice_attributes_and_key_on(&voice_req);
                 if ((tone->unk01 & 4) || (force_effect != 0)) {
-                    update_spu_register_pair_cc_cd(1, audio_voice_masks[voice_slot]);
+                    set_reverb_voice_mask(1, audio_voice_masks[voice_slot]);
                 }
                 else {
-                    update_spu_register_pair_cc_cd(0, audio_voice_masks[voice_slot]);
+                    set_reverb_voice_mask(0, audio_voice_masks[voice_slot]);
                 }
             }
         }
         tone_id += 1;
     }
     while (tone_id < ((s32) program->unk00));
-    audio_update_guard[0] = 0;
+    audio_update_guard.value = 0;
 }

@@ -30,30 +30,30 @@ void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 s32 begin_ready_actor_directional_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, u8 *direction_frames);
 s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 void *spawn_zu_actor(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);
-void update_bank_actor_movement(ActorRecord *entity, ObjectPosition *motion_arg, SpriteFrameState *sprite_arg);
-void update_bank_actor_state(ActorRecord *actor, ObjectPosition *context, struct SpriteFrameState *sprite, ActorRecord *stats_in);
-void advance_bank_actor_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-void select_bank_actor_movement(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
-s32 begin_bank_directional_effect(ActorRecord *action_state, ObjectPosition *motion_param, struct SpriteFrameState *sprite, ActorRecord *actor);
-void initialize_bank_actor_action(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *entity);
+void update_zu_movement(ActorRecord *entity, ObjectPosition *motion_arg, SpriteFrameState *sprite_arg);
+void update_zu_behavior(ActorRecord *actor, ObjectPosition *context, struct SpriteFrameState *sprite, ActorRecord *stats_in);
+void advance_zu_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
+void select_zu_movement(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
+s32 try_begin_zu_directional_action(ActorRecord *action_state, ObjectPosition *motion_param, struct SpriteFrameState *sprite, ActorRecord *actor);
+void begin_zu_action(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *entity);
 s32 check_zu_action_ready(struct ActorRecord *actor, ObjectPosition *primary_context, SpriteFrameState *secondary_context, s32 force_move);
-void select_bank_resident_callback(ActorRecord *state, ObjectPosition *motion, struct SpriteFrameState *source, ActorRecord *target);
-void select_bank_actor_callback(ActorRecord *state, ObjectPosition *action, struct SpriteFrameState *source, ActorRecord *target);
-void update_bank_staged_movement(ActorRecord *body, ObjectPosition *motion,struct SpriteFrameState *sprite, ActorRecord *actor);
-void update_bank_actor_targeted_action(ActorRecord *owner_input, ObjectPosition *motion_input, SpriteFrameState *actor_input, ActorRecord *object);
-void restore_bank_actor_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
+void select_zu_tile_movement_callback(ActorRecord *state, ObjectPosition *motion, struct SpriteFrameState *source, ActorRecord *target);
+void select_zu_linked_motion_callback(ActorRecord *state, ObjectPosition *action, struct SpriteFrameState *source, ActorRecord *target);
+void update_zu_windup_strike(ActorRecord *body, ObjectPosition *motion,struct SpriteFrameState *sprite, ActorRecord *actor);
+void update_zu_spell_action(ActorRecord *owner_input, ObjectPosition *motion_input, SpriteFrameState *actor_input, ActorRecord *object);
+void restore_zu_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
 void update_zu_defeat_removal(ActorRecord *effect_data, void *motion_data, SpriteFrameState *sprite_data, void *object_data);
 void update_zu_hop_and_shrink(ActorRecord *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target);
 void forward_actor_removal_callback(void *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target);
 void finish_zu_hop_and_grow(ActorRecord *state, ObjectPosition *action, struct SpriteFrameState *source, ActorRecord *target);
-void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void advance_bank_actor_animation(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
-void update_bank_actor_sprite_state(ActorRecord *actor, ObjectPosition *action, struct SpriteFrameState *sprite, ActorRecord *target);
+void update_sleeping_zu(ActorRecord *controller, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void advance_zu_animation(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
+void update_zu_sprite_state(ActorRecord *actor, ObjectPosition *action, struct SpriteFrameState *sprite, ActorRecord *target);
 void update_directional_sprite_state_and_signals(ActorRecord *state, ObjectPosition *action, struct SpriteFrameState *source, ActorRecord *target);
 void restore_after_terrain_interpolation(ActorRecord *state, ObjectPosition *action, struct SpriteFrameState *source, ActorRecord *target);
 void restore_after_spinning_fall(ActorRecord *state, ObjectPosition *action, struct SpriteFrameState *source, ActorRecord *target);
 void restore_after_fade_in(ActorRecord *state, ObjectPosition *action, struct SpriteFrameState *source, ActorRecord *target);
-void update_bank_effect_fade(void *effect, ObjectPosition *position, struct SpriteFrameState *visual);
+void update_zu_effect_fade(void *effect, ObjectPosition *position, struct SpriteFrameState *visual);
 struct CylindricalEffectWork;
 
 /* Spin, height drift, and fade phase for a bank effect particle. */
@@ -71,7 +71,7 @@ typedef struct BankEffectFadeBody {
 } BankEffectFadeBody;
 
 void start_bank_actor_hit_reaction(ActorRecord *work, ObjectPosition *part_a, SpriteFrameState *part_b, ActorRecord *actor);
-void update_bank_timed_effect(ActorRecord *state_input, ObjectPosition *motion_input, SpriteFrameState *animation_input, ActorRecord *actor_input);
+void update_zu_timed_effect(ActorRecord *state_input, ObjectPosition *motion_input, SpriteFrameState *animation_input, ActorRecord *actor_input);
 void create_cylindrical_effect(struct CylindricalEffectWork *state);
 #endif
 

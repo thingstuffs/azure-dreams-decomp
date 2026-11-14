@@ -26,10 +26,10 @@
 #include "dungeon/actor.h"
 #include "dungeon/data.h"
 
-extern s32 allocate_panel_offset_or_zero(void);
+extern s32 allocate_text_record_buffer(void);
 extern M2C_UNK D_80077FEC;
 /* Creates an entity panel with numeric labels, centered text, and a shaded background. */
-void *create_panel_effect_object(ActorRecord *owner)
+void *create_actor_status_panel(ActorRecord *owner)
 {
     s8 text_buf[16];
     s32 prim_index;
@@ -76,7 +76,7 @@ void *create_panel_effect_object(ActorRecord *owner)
         *((void **) (((s8 *) panel_data) + 4)) = (((void *)panel) + 0x58);
         *((s32 **) (((s8 *) panel) + 0x70)) = &D_80077FEC;
         *((s32 *) (((s8 *) panel) + 0x58)) = color_or_addr;
-        prim = allocate_panel_offset_or_zero();
+        prim = allocate_text_record_buffer();
         *((void **) (((s8 *) panel_data) + 0x28)) = prim;
         if (prim != 0) {
             void *child_position;
@@ -172,7 +172,7 @@ void *create_panel_effect_object(ActorRecord *owner)
  * Allocates an unflagged object node and returns its data address at offset 0x20, or zero if
  * allocation fails.
  */
-s32 allocate_panel_offset_or_zero(void) {
+s32 allocate_text_record_buffer(void) {
     void *value;
     s32 adjusted_value;
 
@@ -228,12 +228,12 @@ void set_record_flags_and_negate_x(u8 *record, s32 flags) {
  *
  * The row's rowbase record already fires: true link base 0x800B13AC (PROVEN
  * region xfer_dungeon_A3000), so owner decision B applies -- this TU defines
- * stamp_halfword_across_records and must never spell the synthetic row name anywhere in the
+ * set_record_list_value and must never spell the synthetic row name anywhere in the
  * file (the collect/frontier naming screen, tools/codex_wave.py::_naming_defect,
  * matches on the raw text, comments included; the gate refuses the TU either
  * way).  Retail word 4 is `j 0x800B13AC` -- a jump to the function's OWN first
  * instruction, i.e. a LOOP BACK-EDGE, not a tail call.  The census candidate
- * modelled it as a self-recursive call `stamp_halfword_across_records()` (a fake zero-arg
+ * modelled it as a self-recursive call `set_record_list_value()` (a fake zero-arg
  * extern that happens to name the function's own true address); maspsx LEAD 22
  * SHAPE A then flipped the jal to j and LEAD 19 elided the frame, reproducing
  * 7 of 8 words -- but a CALL's delay slot can never receive the loop induction
@@ -260,7 +260,7 @@ void set_record_flags_and_negate_x(u8 *record, s32 flags) {
  * Writes the halfword at offset 6 in each 12-byte record, including the terminating record whose
  * signed tag is negative.
  */
-void stamp_halfword_across_records(void *list, s16 value) {
+void set_record_list_value(void *list, s16 value) {
     for (;;) {
         s32 tag = *(s8 *)list;
         *(s16 *)((u8 *)list + 6) = value;
@@ -272,7 +272,7 @@ void stamp_halfword_across_records(void *list, s16 value) {
 }
 
 /* Applies a flag mask to each record through the terminal record. */
-void apply_record_flags_through_end(void *record, s32 flag_mask) {
+void or_record_list_halfword_flags(void *record, s32 flag_mask) {
     u16 *flags;
 
     for (;;) {
@@ -297,7 +297,7 @@ void or_flags_into_record_list(u8 *record, s32 flags) {
 }
 
 /* Copy records through the end marker and return the next destination slot. */
-void *copy_records_through_end(void *dest, void *src) {
+void *copy_record_list(void *dest, void *src) {
     void *src_tail = src + 8;
     void *dest_tail = dest + 8;
 
@@ -316,7 +316,7 @@ void *copy_records_through_end(void *dest, void *src) {
 }
 
 /* Find the first record with its end marker set. */
-s8 *find_first_ended_record(s8 *record) {
+s8 *find_record_list_end(s8 *record) {
     if (*record >= 0) {
         record += 0xC;
         while (*record >= 0) {
@@ -570,7 +570,7 @@ extern void *D_80073618[];
 extern void update_fading_effect_scale(S_800B14FC_0 *effect, ObjectPosition *unused, void *render_arg);
 extern s32 D_800DF03C[];
 
-extern s32 allocate_panel_offset_or_zero(void);
+extern s32 allocate_text_record_buffer(void);
 
 /* Build the floating number/icon widget: allocate it and lay out its digit sprites for the given style. */
 void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u16 unused_flags) {
@@ -627,7 +627,7 @@ void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style,
         sub->field24 = (s16)((style_hold << 0x10) >> 0x18);
         sub->field00 = &sub->slots[0];
         sub->field04 = cursor;
-        buf = allocate_panel_offset_or_zero();
+        buf = allocate_text_record_buffer();
         sub->field28 = buf;
         if (buf != NULL) {
             if (icon_held != 0) {
@@ -637,7 +637,7 @@ void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style,
                 obj->sub.slots[0] = (void *)slot_x;
                 value_a = count;
                 buf = D_80073618[icon_held];
-                buf = copy_records_through_end((void *)slot_x, buf);
+                buf = copy_record_list((void *)slot_x, buf);
                 obj->sub.field38 = 0x808080;
             } else {
                 value_a = 0;
@@ -664,7 +664,7 @@ void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style,
                 gap = 4;
             }
             set_record_flags_and_negate_x(buf, gap);
-            apply_record_flags_through_end(buf, 0x20);
+            or_record_list_halfword_flags(buf, 0x20);
             or_flags_into_record_list(buf, 2);
             color1 = 0x808080;
             *(u32 *)cursor = color1;
@@ -673,7 +673,7 @@ void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style,
             *(void **)((u8 *)sub + 0x50 + count++ * 4) = buf;
             slot_x = (s32)buf;
             prev_arg = (u8 *)buf - 0x60;
-            new_buf = copy_records_through_end((void *)slot_x, prev_arg);
+            new_buf = copy_record_list((void *)slot_x, prev_arg);
             slot_x = (s32)buf;
             buf = new_buf;
             offset_record_coordinates((void *)slot_x, 1, 1);
@@ -804,7 +804,7 @@ typedef struct S_800B1B10_6 {
     s32 unk_50;
 } S_800B1B10_6;   /* ((style_held++ * 4) + sub) in build_owned_floating_number_widget */
 
-extern s32 allocate_panel_offset_or_zero(void);
+extern s32 allocate_text_record_buffer(void);
 extern void update_fading_effect_scale(S_800B14FC_0 *effect, ObjectPosition *unused, void *render_arg);
 
 /* Build the floating number/icon widget for the owner: allocate it and lay out its digit sprites. */
@@ -861,16 +861,16 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
         sub->unk_0C = b_held;
         sub->unk_00 = (obj + 0x70);
         sub->unk_04 = (obj + 0x58);
-        if (has_enough_available_runtime_nodes(call_kind) != 0) {
-            a_held = (s32) allocate_panel_offset_or_zero();
+        if (has_enough_available_nodes(call_kind) != 0) {
+            a_held = (s32) allocate_text_record_buffer();
             slots = (obj + 0x5C);
             sub->unk_28 = a_held;
             b_held = a_held;
             ((S_800B1B10_0 *)obj)->unk_70 = b_held;
             part = lookup_item_category_mapped_value(owner_held->unk_01, owner_held->unk_00);
             style_held = 2;
-            b_held = (s32) copy_records_through_end((void *) b_held, part);
-            apply_record_flags_through_end((void *) a_held, 0x20);
+            b_held = (s32) copy_record_list((void *) b_held, part);
+            or_record_list_halfword_flags((void *) a_held, 0x20);
             or_flags_into_record_list((void *) a_held, style_held);
             {
                 s32 color_v0;
@@ -899,7 +899,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
                 offset = 4;
             }
             set_record_flags_and_negate_x((void *) b_held, offset);
-            apply_record_flags_through_end((void *) b_held, 0x20);
+            or_record_list_halfword_flags((void *) b_held, 0x20);
             or_flags_into_record_list((void *) b_held, 2);
             {
                 s32 color_v0;
@@ -908,16 +908,16 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
             }
             slots++;
             strlen(value_4);
-            b_held = (s32) allocate_panel_offset_or_zero();
+            b_held = (s32) allocate_text_record_buffer();
             sub->unk_2C = b_held;
             {
                 s32 mask_v0;
                 mask_v0 = 0x7FFFFFFF;
                 ((S_800B1B10_6 *)(((style_held++ * 4) + (u8 *)sub)))->unk_50 = b_held & mask_v0;
             }
-            copy_records_through_end((void *) b_held, glyph_end.pointer);
+            copy_record_list((void *) b_held, glyph_end.pointer);
             offset_record_coordinates(glyph_end.pointer, 1, 1);
-            b_held = (s32) allocate_panel_offset_or_zero();
+            b_held = (s32) allocate_text_record_buffer();
             sub->unk_30 = b_held;
             *slots = 0x80808;
             geom = 0x80000;
@@ -957,7 +957,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
 }
 
 /* Advance the cyclic table index every four ticks and apply the selected entry. */
-void advance_cyclic_panel_entry(EntityPanelObjectBody *state) {
+void cycle_dungeon_palette_row(EntityPanelObjectBody *state) {
     u16 ticks_left;
     u16 entry_index;
 
@@ -980,13 +980,13 @@ typedef struct S_800B1F00_0 {
     void (*unk_10)(EntityPanelObjectBody *);
 } S_800B1F00_0;
 
-/* Create an object and assign advance_cyclic_panel_entry to its data pointer. */
-void create_entity_panel_object(void) {
+/* Create an object and assign cycle_dungeon_palette_row to its data pointer. */
+void create_palette_cycle_object(void) {
     S_800B1F00_0 *object;
 
     object = allocate_flagged_object_node(0);
     if (object != 0) {
-        object->unk_10 = advance_cyclic_panel_entry;
+        object->unk_10 = cycle_dungeon_palette_row;
     }
 }
 
@@ -1120,7 +1120,7 @@ s32 create_map_position_object(s32 world_x, s32 world_z) {
 extern struct { s32 unk0; s32 pad[2]; } D_800814A0;
 
 /* Advances the accumulator and decrements the counter, setting flags on underflow. */
-void advance_panel_accumulator(void *counter_state, void *accumulator, void *update_arg) {
+void update_sprite_chain_countdown(void *counter_state, void *accumulator, void *update_arg) {
     s16 remaining;
 
     *((s32 *) accumulator + 2) = *((s32 *) accumulator + 2) + 0x8000;
@@ -1153,11 +1153,11 @@ typedef struct {
 } Object;
 
 
-extern void advance_panel_accumulator(void *counter_state, void *accumulator, void *update_arg);
+extern void update_sprite_chain_countdown(void *counter_state, void *accumulator, void *update_arg);
 #include "dungeon/effect/sprite/shared_entries.h"
 
 /* Creates an object from the source block and initializes its render part. */
-void create_rendered_panel_object(CopyBlock *source)
+void create_sprite_chain_effect(CopyBlock *source)
 {
     Object *object;
     SpriteFrameState *part;
@@ -1166,7 +1166,7 @@ void create_rendered_panel_object(CopyBlock *source)
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        object->node.update_callback = advance_panel_accumulator;
+        object->node.update_callback = update_sprite_chain_countdown;
         register_node(&object->node, project_sprite_chain);
         copy_data = object->node.position;
         copy_dst = copy_data;

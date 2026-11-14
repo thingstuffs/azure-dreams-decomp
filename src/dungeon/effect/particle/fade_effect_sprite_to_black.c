@@ -165,13 +165,13 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
             sprite_color = ((S_8182C800_6 *)sprite_or_step_x)->unk_14 | 0xC;
             ((S_8182C800_6 *)sprite_or_step_x)->unk_14 = sprite_color;
             target = scan_actor_along_heading(owner, owner_sprite->tile_x, owner_sprite->tile_y, owner->unk_2A,
-                (s16) (sprite_work = get_definition_entry_byte_13(5, launch_tpage)));
+                (s16) (sprite_work = get_spell_range(5, launch_tpage)));
             owner->unk_60 = target;
             if (target == 0) {
                 distance_sum = 0;
                 step_y = 0;
                 sprite_or_step_x = 0;
-                while (distance_sum < get_definition_entry_byte_13(5)) {
+                while (distance_sum < get_spell_range(5)) {
                     tile_origin_x = (owner_sprite->tile_x + sprite_or_step_x) << 6;
                     distance_x = tile_origin_x + 0x20;
                     tile_origin_y = (owner_sprite->tile_y + step_y) << 6;

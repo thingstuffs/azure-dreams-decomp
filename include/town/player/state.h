@@ -25,8 +25,8 @@ void clear_shared_flag_and_initialize_object(void *state, void *context, void *m
 /* sync_collision_motion_y.c */
 void sync_collision_motion_y(ObjectPosition *source);
 
-/* dispatch_sound_by_global_flag.c */
-void dispatch_sound_by_global_flag(void);
+/* play_sound_by_height_range.c */
+void play_sound_by_height_range(void);
 
 /* ease_object_value_and_advance_state.c */
 void ease_object_value_and_advance_state(UnsignedCountdownView *state, ObjectPosition *object);

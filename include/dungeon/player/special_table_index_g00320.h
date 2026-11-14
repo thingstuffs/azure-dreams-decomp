@@ -10,7 +10,7 @@ extern DungeonItemEntry held_item_record;
 extern u8 temporary_item_record[];
 
 /* Functions defined in this translation unit. */
-s32 find_table_entry_address_index(s32 entry_address);
-s16 get_special_table_data_index(s32 dataAddress);
+s32 find_item_slot_index(s32 entry_address);
+s16 get_item_slot_number(s32 dataAddress);
 
 #endif

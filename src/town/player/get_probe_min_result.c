@@ -24,13 +24,13 @@ s32 get_probe_min_result(ObjectPosition *input_pos) {
     probe_pos.x = input_pos->x.v;
     probe_pos.y = input_pos->y.v;
     probe_pos.z = input_pos->z.v;
-    initial_result = min_indexed_query((s32)(&probe_pos), town_primary_probe_samples[0], 6);
+    initial_result = min_summed_vector_minus_base((s32)(&probe_pos), town_primary_probe_samples[0], 6);
     x_delta = town_primary_probe_offset;
     if (abs(x_delta) <= 0x140000) {
         return initial_result;
     }
     probe_pos.x = input_pos->x.v - (x_delta / 2);
-    result = min_indexed_query((s32)(&probe_pos), town_primary_probe_samples[0], 6);
+    result = min_summed_vector_minus_base((s32)(&probe_pos), town_primary_probe_samples[0], 6);
     if (result < initial_result) {
         return result;
     }

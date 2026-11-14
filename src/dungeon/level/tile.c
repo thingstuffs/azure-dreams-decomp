@@ -12,6 +12,7 @@ struct ObjectNodeHeader;
 #include "dungeon/level/outer_ring.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "dungeon/level/direction_offsets.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/effect.h"
@@ -376,8 +377,6 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags)
     }
 }
 #include "modules/dungeon_engine_tile_map_abi_views.h"
-extern s16 direction_y_offsets[];
-extern s16 direction_x_offsets[];
 
 /* Checks the sides of a diagonal direction for terrain above 0x200. */
 s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height)
@@ -413,8 +412,6 @@ s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height
 
 #include "dungeon/item/find_active_rect_containing_point_api.h"
 
-extern s16 direction_x_offsets[];
-extern s16 direction_y_offsets[];
 
 /* Checks movement clearance and classifies the destination height relative to the actor. */
 s32 check_movement_clearance_and_height(u32 move_flags, FuncArg1 *position, FuncArg2 *actor, s16 height_offset) {
@@ -518,8 +515,6 @@ typedef struct {
     u8 pad02[6];
 } StackU16;
 
-extern s16 direction_x_offsets[];
-extern s16 direction_y_offsets[];
 
 /* Check a directional move against map bounds, collisions, monsters, and floor height. */
 s32 check_directional_move_and_terrain(u32 move_flags, FuncArg1 *actor, ActorRecord *body, u16 height_offset) {
@@ -833,8 +828,6 @@ s32 can_push_adjacent_actor(S_8009ADB8_0 *facing_state, ActorRecord *actor, s16 
     return 0;
     return 1;
 }
-extern s16 direction_y_offsets[];
-extern s16 direction_x_offsets[];
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -938,22 +931,15 @@ s32 measure_directional_stopping_distance(u32 direction_flags, ObjectPosition *o
 
 
 typedef struct {
-    s32 unk0[2];
-    s32 unk8;
-    s32 unkC[2];
-    s32 unk14;
-} Arg1;
-
-typedef struct {
     u8 pad0[0x24];
     u8 x;
     u8 y;
 } Arg2;
 
 /* Checks the neighboring tile in the encoded direction for blocking flags and height. */
-s32 check_neighbor_tile_blocking(u32 direction_bits, Arg1 *state_in, Arg2 *position_in) {
+s32 check_neighbor_tile_blocking(u32 direction_bits, ObjectPosition *state_in, Arg2 *position_in) {
     u16 tile_flags;
-    Arg1 *state;
+    ObjectPosition *state;
     Arg2 *position;
     s32 direction;
     s32 next_x;
@@ -969,7 +955,7 @@ s32 check_neighbor_tile_blocking(u32 direction_bits, Arg1 *state_in, Arg2 *posit
         next_x = position->x + ((u16 *)dir_step_x)[direction];
         next_y = position->y + ((u16 *)dir_step_y)[direction];
         if (map_height_short((((s32) (next_x << 0x10) >> 0xA) | 0x20) & 0xFFE0,
-            (((s32) (next_y << 0x10) >> 0xA) | 0x20) & 0xFFE0, (s32) (state->unk8 + (state->unk14 * 2)) >> 0x10)
+            (((s32) (next_y << 0x10) >> 0xA) | 0x20) & 0xFFE0, (s32) (state->z.v + (state->velocity_z * 2)) >> 0x10)
             < 0x200) {
             return 1;
         }

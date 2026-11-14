@@ -28,6 +28,6 @@ s32 begin_target_flagged_action(void *actor, s32 action_arg, SpriteFrameState *u
     *(s8 *)((u8 *)actor + 0x9B) = 0;
     *(s32 *)((u8 *)actor + 0x8C) = 0;
     select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, action_arg, 8, 0x300);
-    append_packed_action_record(target, 0x48, get_special_table_data_index(*(s32 *)((u8 *)actor + 0xBC)), 0);
+    append_packed_action_record(target, 0x48, get_item_slot_number(*(s32 *)((u8 *)actor + 0xBC)), 0);
     return 1;
 }

@@ -158,8 +158,8 @@ void bob_entity_and_wait_for_event(void *state_arg, s32 event_id, DelayMotionZ *
     state->timer = (s16) ((u16) ((s16)state->timer) + 0x40);
     active_event = (*town_target_record);
     if ((active_event == event_id) && ((*scene_object_payload_alias) == &D_800935BC)) {
-        check_adjusted_input_indices(target);
-        allocate_object_with_callbacks(target);
+        spawn_randomized_motion_burst(target);
+        create_animated_menu_ring(target);
         SD_Call(0x513);
         snapshot_entity_slot_and_start_jitter(state_arg, active_event, (s32)(target), (void *)(context));
     }
@@ -225,7 +225,7 @@ void snapshot_entity_slot_and_start_jitter(TownObjectRecord *entity, s32 unused_
     stored_entry = (void *) 0x80010AB4;
     record_offset = record_index * 0x54;
     stored_entry = (u8 *)stored_entry + record_offset;
-    source_entry = runtime_get_mode_indexed_value(entity->unk_4C);
+    source_entry = get_mode_table_entry(entity->unk_4C);
     *(struct PackedTownEntry *)stored_entry = *source_entry;
     data_base = (void *) 0x80010000;
     slot_flags = (slot_index * 4) + (u8 *)data_base;
@@ -236,7 +236,7 @@ void snapshot_entity_slot_and_start_jitter(TownObjectRecord *entity, s32 unused_
     record_index = (u8) (((S_8009F4C0_4 *)(((entity->unk_95 * 4) + (u8 *)data_base)))->unk_983 & 0x3F);
     record_value = ((S_8009F4C0_5 *)(((record_index * 0x54) + (u8 *)data_base)))->unk_A94;
     func_8003E188(entity->unk_4C, 1);
-    set_object_state_for_mode(entity, context, entity->unk_4C, record_value);
+    set_window_sprite_for_mode(entity, context, entity->unk_4C, record_value);
     entity->unk_50.as_pm = &jitter_and_pulse_entity_scale;
     entity->timer = 0xA;
 }

@@ -1,0 +1,424 @@
+#include "shared/sprite_frame_state.h"
+#include "common.h"
+#include "shared/object_flags.h"
+#include "shared/entity.h"
+#include "dungeon/actor/state.h"
+#include "dungeon/player/object.h"
+#include "dungeon/system.h"
+#include "dungeon/monster/glacier.h"
+
+typedef struct S_func_810332A4_1 {
+    u8 pad_00[0x16];
+    u16 unk_16;
+    u8 pad_18[4];
+    s16 unk_1C;
+    u16 unk_1E;
+    u8 pad_20[6];
+    s16 unk_26;
+    void *unk_28;
+    void *unk_2C;
+    void *unk_30;
+    u8 pad_34[0x18];
+    s8 unk_4C;
+    s8 unk_4D;
+} S_func_810332A4_1;
+
+
+
+
+typedef struct S_func_810332A4_5 {
+    u8 pad_00[8];
+    void *unk_08;
+    void *unk_0C;
+} S_func_810332A4_5;
+
+typedef struct S_func_810332A4_6 {
+    u8 pad_00[0x24];
+    u8 unk_24;
+    u8 unk_25;
+} S_func_810332A4_6;
+
+typedef struct S_func_810332A4_7 {
+    u8 pad_00[0x14];
+    u32 unk_14;
+    u8 pad_18[4];
+    u32 unk_1C;
+    u8 pad_20[0x68];
+    s16 unk_88;
+} S_func_810332A4_7;
+
+typedef struct S_func_810332A4_8 {
+    u8 unk_00;
+    u8 pad_01[1];
+    u8 unk_02;
+} S_func_810332A4_8;
+
+typedef struct {
+    s16 x;
+    s16 y;
+} Pair16;
+
+extern void cycle_map_cell_flags(s32, s32, s32);
+extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
+extern void apply_attack_power_and_element_effects();
+s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
+extern s16 sample_terrain_surface_height(u16, u16, s16);
+extern void * find_species_actor_on_tile(ActorRecord *node, u16 key_a, u16 key_b, s16 range_center);
+
+extern Pair16 glacier_direction_offsets[];
+
+/* Update a moving effect, its pushed objects, and its collision and end animations. */
+/* Moves an effect and pushed actors along tiles, checks terrain and occupants, and applies damage when
+ * blocked. */
+void update_pushing_effect(S_func_810332A4_1 *effect, ObjectPosition *motion, SpriteFrameState *sprite)
+{
+    u16 collision_flags;
+    ActorRecord *owner;
+    S_func_810332A4_5 *object;
+    S_func_810332A4_5 *new_object;
+    S_func_810332A4_6 *display;
+    ObjectPosition *transform;
+    s32 blocked;
+    s32 stop_mask;
+    s32 step_x;
+    s32 pos_y;
+    s32 cleanup_mask;
+    u8 next_tile;
+    s32 collision_coord;
+    s32 coord_base;
+    s16 converted_x;
+    S_func_810332A4_7 *object_data;
+    s32 state;
+    s32 burst_index;
+    u32 check_x;
+    u32 check_y;
+    s32 object_y;
+    s32 floor_height;
+    s32 object_tile_x;
+    s32 hit_state;
+    s32 world_coord;
+    s32 tile_x;
+    s32 floor_x;
+    s32 floor_y;
+    s32 fade_value;
+    s32 delay_pending;
+    u16 timer;
+    ActorRecord *effect_owner;
+
+
+    effect_owner = effect->unk_28;
+    state = ((s16)effect->unk_16);
+    owner = effect_owner;
+    switch (state) {
+    case 0:
+        timer = effect->unk_1E + 1;
+        effect->unk_1E = timer;
+        fade_value = ((s16)timer << 7) / 10;
+        sprite->color.c.b = fade_value;
+        sprite->color.c.g = fade_value;
+        sprite->color.c.r = fade_value;
+        fade_value = ((s16)effect->unk_1E) < 10;
+        if (fade_value) {
+            return;
+        }
+        effect->unk_1E = 0;
+        effect->unk_16++;
+        return;
+
+    case 1:
+        timer = effect->unk_1E + 1;
+        effect->unk_1E = timer;
+        if ((s16)timer < 30) {
+            return;
+        }
+        effect->unk_16++;
+        effect->unk_1E = 0;
+        motion->velocity_x = glacier_direction_offsets[effect->unk_1C].x << 20;
+        motion->velocity_y = glacier_direction_offsets[effect->unk_1C].y << 20;
+        play_sound_if_enabled(0x808);
+        return;
+
+    case 2:
+        if ((effect->unk_4C << 6) + 0x20 == motion->x.w.i) {
+            if ((effect->unk_4D << 6) + 0x20 == motion->y.w.i) {
+                effect->unk_26 = 0;
+                get_offset_map_cell_value_and_flags(effect->unk_4C, effect->unk_4D,
+                              effect->unk_1C, &collision_flags);
+                if (collision_flags & 0x8400) {
+                    effect->unk_26 = 1;
+                }
+                (*(u8 *)&effect->unk_4C) += (u8)glacier_direction_offsets[effect->unk_1C].x;
+                collision_coord = effect->unk_1C << 2;
+                collision_coord += (s32)glacier_direction_offsets;
+                next_tile = ((u8)effect->unk_4D);
+                next_tile += ((S_func_810332A4_8 *)collision_coord)->unk_02;
+                (*(u8 *)&effect->unk_4D) = next_tile;
+                step_x = effect->unk_4C;
+                pos_y = effect->unk_4D << 6;
+                step_x <<= 6;
+                hit_state = effect->unk_26;
+                step_x += 0x20;
+                converted_x = step_x;
+                coord_base = converted_x;
+                object_y = pos_y + 0x20;
+                if (hit_state == 0) {
+                    check_x = (u16)coord_base;
+                    check_y = object_y;
+                    if ((check_left_tile_and_center_height(check_x, (u16)check_y,
+                                       motion->z.w.i) << 16) != 0) {
+                        effect->unk_26 = 1;
+                    }
+                    if (effect->unk_26 == 0) {
+                        if (find_species_actor_on_tile(owner, (u16)(s8)((u8)effect->unk_4C),
+                                          (u16)(s8)((u8)effect->unk_4D),
+                                          motion->z.w.i) != 0) {
+                            effect->unk_26 = 1;
+                        }
+                    }
+                    if (effect->unk_26 == 0) {
+                        floor_height = sample_terrain_surface_height(check_x, (u16)check_y,
+                                              (s16)((u16)motion->z.w.i - 0x20));
+                        if (floor_height >= 0x200) {
+                            effect->unk_26 = 1;
+                        } else if (floor_height > motion->z.w.i + 0x20) {
+                            effect->unk_26 = 1;
+                        } else if (floor_height < motion->z.w.i) {
+                            effect->unk_26 = 1;
+                        }
+                    }
+                }
+                if (effect->unk_26 == 1) {
+                    (*(s16 *)&effect->unk_16) = 10;
+                    (*(s16 *)&effect->unk_1E) = 0;
+                    motion->velocity_y = 0;
+                    motion->velocity_x = 0;
+                    object = effect->unk_30;
+                    if (object == 0) {
+                        return;
+                    }
+                    object_data = (S_func_810332A4_7 *)((u8 *)object + 0x20);
+                    display = object->unk_0C;
+                    transform = object->unk_08;
+                    cleanup_mask = 0xFFEFFFFF;
+                    state = object_data->unk_14;
+                    state &= cleanup_mask;
+                    object_data->unk_14 = state;
+                    set_record_integer_tile_center(transform, display->unk_24, display->unk_25);
+                    cycle_map_cell_flags(display->unk_24, display->unk_25,
+                                  (object_data->unk_1C & 0x2000) ? 0x300 : 0x3000);
+                    refresh_actor_proximity_state(object_data);
+                    return;
+                }
+
+                if (effect->unk_2C == 0) {
+                    new_object = find_eligible_actor_on_tile(owner,
+                                (u16)(s8)((u8)effect->unk_4C),
+                                (u16)(s8)((u8)effect->unk_4D),
+                                motion->z.w.i);
+                    effect->unk_2C = new_object;
+                    if (new_object == 0) {
+                        goto secondary_object;
+                    }
+                    object = new_object;
+                    object_data = (S_func_810332A4_7 *)((u8 *)object + 0x20);
+                    display = object->unk_0C;
+                    object_data->unk_14 |= 0x100000;
+                    update_map_cell_flags_with_item_limit(display->unk_24, display->unk_25,
+                                  (object_data->unk_1C & 0x2000) ? 0x300 : 0x3000);
+                }
+            }
+        }
+        if (effect->unk_2C != 0) {
+            object = effect->unk_2C;
+            display = object->unk_0C;
+            transform = object->unk_08;
+            object_data = (S_func_810332A4_7 *)((u8 *)object + 0x20);
+            if ((((volatile S_func_810332A4_6 *)display)->unk_24 << 6) + 0x20 ==
+                transform->x.w.i) {
+                if ((((volatile S_func_810332A4_6 *)display)->unk_25 << 6) + 0x20 ==
+                    transform->y.w.i) {
+                    get_offset_map_cell_value_and_flags(display->unk_24, display->unk_25,
+                                  effect->unk_1C, &collision_flags);
+                    blocked = (collision_flags & 0x8400) != 0;
+                    display->unk_24 += (u8)glacier_direction_offsets[effect->unk_1C].x;
+                    display->unk_25 += (u8)glacier_direction_offsets[effect->unk_1C].y;
+                    coord_base = (display->unk_24 << 6) + 0x20;
+                    object_y = (display->unk_25 << 6) + 0x20;
+
+                    if (!blocked) {
+                        if ((check_left_tile_and_center_height((u16)coord_base, (u16)object_y,
+                                           transform->z.w.i) << 16) != 0) {
+                            blocked = 1;
+                        }
+                    }
+                    if (!blocked) {
+                        if (find_species_actor_on_tile(owner, display->unk_24,
+                                          display->unk_25,
+                                          motion->z.w.i) != 0) {
+                            blocked = 1;
+                        }
+                    }
+                    if (!blocked) {
+                        floor_height = sample_terrain_surface_height((u16)coord_base, (u16)object_y,
+                                              (s16)((u16)object_data->unk_88 - 0x20));
+                        if (floor_height >= 0x200) {
+                            blocked = 1;
+                        } else if (floor_height > object_data->unk_88 + 0x20) {
+                            blocked = 1;
+                        } else if (floor_height < object_data->unk_88) {
+                            blocked = 1;
+                        }
+                    }
+
+                    if (find_eligible_actor_on_tile(object_data, display->unk_24,
+                                      display->unk_25, object_data->unk_88) != 0) {
+                        blocked = 1;
+                    }
+                    if (blocked == 1) {
+                        stop_mask = 0xFFEFFFFF;
+                        object_data->unk_14 &= stop_mask;
+                        display->unk_24 -=
+                            (u8)glacier_direction_offsets[effect->unk_1C].x;
+                        display->unk_25 -=
+                            (u8)glacier_direction_offsets[effect->unk_1C].y;
+                        set_record_integer_tile_center(transform, display->unk_24, display->unk_25);
+                        cycle_map_cell_flags(display->unk_24, display->unk_25,
+                                      (object_data->unk_1C & 0x2000) ? 0x300 : 0x3000);
+                        refresh_actor_proximity_state(object_data);
+                        (*(s16 *)&effect->unk_16) = 10;
+                        (*(s16 *)&effect->unk_1E) = 0;
+                        motion->velocity_y = 0;
+                        motion->velocity_x = 0;
+                        apply_attack_power_and_element_effects(object_data, 7, owner->level, 10,
+                                      owner->facing, (u32)owner | 0xA0000000, 2);
+
+                        new_object = effect->unk_30;
+                        if (new_object == 0) {
+                            return;
+                        }
+                        object = new_object;
+                        object_data = (S_func_810332A4_7 *)((u8 *)object + 0x20);
+                        display = object->unk_0C;
+                        transform = object->unk_08;
+                        object_data->unk_14 &= stop_mask;
+                        set_record_integer_tile_center(transform, display->unk_24, display->unk_25);
+                        cycle_map_cell_flags(display->unk_24, display->unk_25,
+                                      (object_data->unk_1C & 0x2000) ? 0x300 : 0x3000);
+                        refresh_actor_proximity_state(object_data);
+                        return;
+                    }
+                }
+            }
+            object_tile_x = display->unk_24;
+            if ((object_tile_x - glacier_direction_offsets[effect->unk_1C].x) * 64 + 0x20 !=
+                transform->x.w.i ||
+                (display->unk_25 - glacier_direction_offsets[effect->unk_1C].y) * 64 + 0x20 !=
+                transform->y.w.i) {
+                floor_height = sample_terrain_surface_height((object_tile_x << 6) | 0x20,
+                                      (display->unk_25 << 6) | 0x20,
+                                      object_data->unk_88);
+                if (transform->z.w.i < floor_height) {
+                    transform->z.unsigned_parts.integer += 0x10;
+                    object_data->unk_88 = floor_height;
+                }
+            }
+            transform->x.v += motion->velocity_x;
+            transform->y.v += motion->velocity_y;
+
+        }
+
+secondary_object:
+        new_object = effect->unk_30;
+        if (new_object != 0) {
+            object = new_object;
+            display = object->unk_0C;
+            transform = object->unk_08;
+            object_data = (S_func_810332A4_7 *)((u8 *)object + 0x20);
+            if ((display->unk_24 << 6) + 0x20 == transform->x.w.i &&
+                (display->unk_25 << 6) + 0x20 == transform->y.w.i) {
+                display->unk_24 +=
+                    (u8)glacier_direction_offsets[effect->unk_1C].x;
+                display->unk_25 +=
+                    (u8)glacier_direction_offsets[effect->unk_1C].y;
+            } else {
+                floor_height = sample_terrain_surface_height((display->unk_24 << 6) | 0x20,
+                                      (display->unk_25 << 6) | 0x20,
+                                      object_data->unk_88);
+                if (transform->z.w.i < floor_height) {
+                    transform->z.unsigned_parts.integer += 0x10;
+                    object_data->unk_88 = floor_height;
+                }
+            }
+            transform->x.v += motion->velocity_x;
+            transform->y.v += motion->velocity_y;
+        }
+
+        tile_x = effect->unk_4C;
+        if ((tile_x - glacier_direction_offsets[effect->unk_1C].x) * 64 + 0x20 !=
+            motion->x.w.i) {
+            world_coord = tile_x << 6;
+        } else {
+            if ((effect->unk_4D - glacier_direction_offsets[effect->unk_1C].y) * 64 + 0x20 ==
+                motion->y.w.i) {
+                motion->x.v += motion->velocity_x;
+                motion->y.v += motion->velocity_y;
+                return;
+            }
+            world_coord = tile_x << 6;
+        }
+        {
+            coord_base = world_coord + 0x20;
+            floor_x = coord_base & 0xFFE0;
+            world_coord = effect->unk_4D << 6;
+            world_coord += 0x20;
+            floor_y = world_coord & 0xFFE0;
+            floor_height = sample_terrain_surface_height(floor_x, floor_y, motion->z.w.i);
+            if (motion->z.w.i < floor_height) {
+                motion->z.unsigned_parts.integer += 0x10;
+            }
+        }
+        motion->x.v += motion->velocity_x;
+        motion->y.v += motion->velocity_y;
+        return;
+
+    case 10:
+        for (burst_index = 0; burst_index < 16; burst_index++) {
+            spawn_directional_particle(effect, motion, sprite);
+        }
+        for (burst_index = 0; burst_index < 16; burst_index++) {
+            spawn_brief_directional_particle(effect, motion, sprite);
+        }
+        play_sound_if_enabled(0x80B);
+        effect->unk_1E = 0;
+        effect->unk_16++;
+        sprite->flags |= 0x80;
+
+    case 11:
+        timer = effect->unk_1E + 1;
+        effect->unk_1E = timer;
+        delay_pending = (s16)timer < 10;
+        if (delay_pending) {
+            return;
+        }
+        effect->unk_1E = 0;
+        effect->unk_16++;
+        return;
+
+    case 12:
+        effect_owner->unk_AC.byte = 0x4D;
+        *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
+
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+    default:
+        return;
+    }
+}

@@ -1,7 +1,6 @@
 #include "common.h"
 #include "frontend/card/service.h"
-
-extern u8 dev_card_directory[];
+#include "frontend/card/dev_card_directory_data.h"
 
 /* Returns whether text matches a record prefix, comparing at most 21 bytes. */
 s32 card_devkit_has_directory_name_prefix(s32 count, u8 *text)
@@ -9,7 +8,7 @@ s32 card_devkit_has_directory_name_prefix(s32 count, u8 *text)
     s32 record_index;
     s32 matched;
     s32 mismatch;
-    u8 *record;
+    DevCardDirectoryEntry *record;
     u8 *record_pos;
     u8 *text_pos;
     u8 *record_end;
@@ -23,9 +22,9 @@ s32 card_devkit_has_directory_name_prefix(s32 count, u8 *text)
         record = dev_card_directory;
         do {
             mismatch = 0;
-            record_pos = record;
+            record_pos = record->name;
             text_pos = text;
-            record_end = record + 21;
+            record_end = record->name + 21;
             while (1) {
                 text_byte = *text_pos;
                 if (text_byte == 0) {
@@ -45,7 +44,7 @@ s32 card_devkit_has_directory_name_prefix(s32 count, u8 *text)
                 break;
             }
             record_index++;
-            record += 40;
+            record++;
         } while (record_index < count);
     }
     return matched;

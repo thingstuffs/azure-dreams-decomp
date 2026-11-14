@@ -37,7 +37,7 @@ void transfer_linked_object_state(ActorRecord *owner, ObjectPosition *object_id,
         }
 
         if (dest_state->flags14 & 0x4000) {
-            call_result = find_entity_slot_by_field_ac(linked_state);
+            call_result = find_linked_object_slot_index(linked_state);
             state_table = dungeon_actor_ring_anchor;
             slot_address = (s32)(s16)call_result * 4;
             slot_address += (long)state_table;

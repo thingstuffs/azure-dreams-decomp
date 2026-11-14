@@ -29,11 +29,11 @@ extern u8 D_800BB6C4[];
 
 
 /* Functions defined in this translation unit. */
-void clear_object_link_and_mark_complete(S_func_800BB508_0 *object, void *context);
-void initialize_object_state_and_appearance(void *object_id, ObjectPosition *object, SpriteFrameState *sprite);
-void advance_object_state_angle(void *object, void *context, SpriteFrameState *state);
-void clear_object_link_and_complete(void *object, void *value);
-void initialize_object_appearance_with_delay_b(void *object, void *context, void *state);
-void init_object_with_countdown_b(void *object, void *context, void *state);
+void retire_object_when_out_of_bounds(S_func_800BB508_0 *object, void *context);
+void init_lit_mesh_object(void *object_id, ObjectPosition *object, SpriteFrameState *sprite);
+void update_spinning_object(void *object, void *context, SpriteFrameState *state);
+void update_static_object(void *object, void *value);
+void init_static_object_long_delay(void *object, void *context, void *state);
+void init_static_object_short_delay(void *object, void *context, void *state);
 
 #endif

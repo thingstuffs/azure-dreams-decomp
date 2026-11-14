@@ -14,7 +14,7 @@
 #include "dungeon/level.h"
 
 /* Advance the actor action state, handle status flags, and update directional animation. */
-void advance_actor_action_state_handle_status(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+void wait_death_status_and_animate(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 state;
 
     DungeonGlobalStatus *world_state;
@@ -195,7 +195,7 @@ void advance_actor_action_state_handle_status(ActorRecord *body, ObjectPosition 
 }
 
 /* Advance actor states and directional animations while handling entity flags. */
-void advance_actor_states_and_entity_flags(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity) {
+void wait_death_mp_and_animate(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity) {
     s32 state;
 
     state = actor->action_phase;

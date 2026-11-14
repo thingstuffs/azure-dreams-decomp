@@ -1,0 +1,10 @@
+#include "common.h"
+#include "shared/town_dispatch_data.h"
+#include "town/scene.h"
+#include "town/data.h"
+
+
+/* Store the result of calling func_80016B1C on D_80018AE8. */
+void store_flagged_entries_total(void) {
+    town_stored_amount = sum_flagged_terminated_entries(&D_80018AE8, 0);
+}

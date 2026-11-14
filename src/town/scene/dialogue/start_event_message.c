@@ -1,0 +1,22 @@
+#include "script_symbols.h"
+#include "shared/town_event_state.h"
+#include "common.h"
+#include "shared/record_ptrs.h"
+#include "shared/town_root.h"
+#include "town/scene/dialogue.h"
+#include "town/scene/event.h"
+#include "town/player/state.h"
+
+/* Dispatch the enabled town message coordinates and advance the town state. */
+s32 start_event_message(void) {
+    TownEventArgumentPair16 *message;
+
+    if (town_event_state->dispatchState == 1) {
+        message = select_event_data_table(0, town_event_state->selection_mode);
+        town_scene_root->services->callback_2F8(message->unk_00, message->unk_02);
+        town_event_state->dispatchState++;
+        set_script_flag_bit(F_sbs01_pad19);
+        return 1;
+    }
+    return 0;
+}

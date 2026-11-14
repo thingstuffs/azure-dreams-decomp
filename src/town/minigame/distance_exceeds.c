@@ -22,7 +22,7 @@ static s32 state;
 
 
 /* Updates the object state, position, and timed target adjustments. */
-void update_object_state_position(ObjectStatePositionObject *self, s32 *position, S1 *target) {
+void update_proximity_triggered_object(ObjectStatePositionObject *self, s32 *position, S1 *target) {
     register s32 phase;
     ObjectStatePositionObject *object = self;
     s32 y_limit;
@@ -61,7 +61,7 @@ void update_object_state_position(ObjectStatePositionObject *self, s32 *position
         if (service_script_controller(target_x, position, target) == 0) {
             return;
         }
-        if (check_transform_identifier_and_hook(object) == 0) {
+        if (check_town_target_and_callback(object) == 0) {
             return;
         }
         SD_Call(0x50B);
@@ -87,7 +87,7 @@ void update_object_state_position(ObjectStatePositionObject *self, s32 *position
     case 2:
     case 5:
         if (service_script_controller((s32)self, position, target) != 0) {
-            if (check_transform_identifier_and_hook(object) != 0) {
+            if (check_town_target_and_callback(object) != 0) {
                 return;
             }
         }

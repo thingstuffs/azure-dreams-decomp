@@ -53,7 +53,7 @@ typedef struct CdCueEffectNode {
     CdCueEffectBody body;
 } CdCueEffectNode;
 
-void scene_initialize_arc_motion_sprite(CdCueEffectNode *object, struct Controller *owner);
+void init_arc_motion_sprite(CdCueEffectNode *object, struct Controller *owner);
 
 /* Sprite sources the fade-in-out effect cycles through (seven retail pointers), indexed by its entry index. */
 extern void *fade_effect_visual_table[7];
@@ -110,8 +110,8 @@ void fade_manager_step_out(FadeManagerBody *manager, struct ObjectPosition *unus
 /* flag_fade_manager_dirty.c */
 void flag_fade_manager_dirty(void);
 
-/* has_runtime_key_pair.c */
-s32 has_runtime_key_pair(s32 first_value, s32 second_value);
+/* has_tile_coordinate_pair.c */
+s32 has_tile_coordinate_pair(s32 first_value, s32 second_value);
 
 /* init_color_fade_effect.c */
 void init_color_fade_effect(CdCueEffectNode *object, struct Controller *context);
@@ -134,24 +134,24 @@ void ramp_fade_up_fast(FadeManagerBody *manager, struct ObjectPosition *unused, 
 /* ramp_fade_up_slow.c */
 void ramp_fade_up_slow(FadeManagerBody *manager, struct ObjectPosition *unused, SpriteFrameState *state);
 
-/* reorder_and_interpolate_selection_menu_entries.c */
-void reorder_and_interpolate_selection_menu_entries(struct S_8004F884_arg *list);
+/* reorder_selection_menu_entries.c */
+void reorder_selection_menu_entries(struct S_8004F884_arg *list);
 
-/* reset_group_and_flag_children.c */
+/* mark_group_for_removal.c */
 void func_800530C4(struct Main *main);
-void reset_group_and_flag_children(struct Main *main);
+void mark_group_for_removal(struct Main *main);
 
 /* resolve_animated_selection_menu.c */
 void *ensure_selection_menu_and_register_draw(struct S_80050EF8 *object);
 
-/* runtime_initialize_polygon_edges.c */
-s32 runtime_initialize_polygon_edges(void *vertex_data, s32 *edges, u16 *edge_count);
+/* init_polygon_edges.c */
+s32 init_polygon_edges(void *vertex_data, s32 *edges, u16 *edge_count);
 
 /* relocate_resource_type_lists.c */
 void relocate_resource_type_lists(s32 data_base, s16 type_index);
 
-/* runtime_update_saved_vectors.c */
-s32 runtime_update_saved_vectors(void);
+/* sync_saved_view_vectors.c */
+s32 sync_saved_view_vectors(void);
 
 /* set_destination_flag_from_source.c */
 void initialize_shared_sprite_fade_display(void);

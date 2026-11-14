@@ -4,9 +4,9 @@
 
 struct SpriteFrameState;
 
-void spawn_fixed_effect_object(TownObjectRecord *caller_data, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite);
-void spawn_effect_object_with_packet(TownObjectRecord *caller_data, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite);
+void spawn_cursor_animation_object(TownObjectRecord *caller_data, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite);
+void spawn_state_position_object(TownObjectRecord *caller_data, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite);
 
-void create_positioned_linked_visual_child(void *object, ObjectPosition *position, struct SpriteFrameState *state);
+void initialize_actor_with_visual_child(void *object, ObjectPosition *position, struct SpriteFrameState *state);
 
 #endif

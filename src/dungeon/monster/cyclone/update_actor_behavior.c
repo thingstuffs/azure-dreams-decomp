@@ -69,7 +69,7 @@ void update_actor_behavior_2(ActorRecord *body, ObjectPosition *position, Sprite
             0);
         actor->flags1C = (u32)((u32)(actor->flags1C) | (0x40000));
         if (sprite->flags & 0x8000) {
-            body->unk_8C.address = update_actor_animation;
+            body->unk_8C.address = dispatch_cyclone_actions;
             break;
         }
         {
@@ -157,7 +157,7 @@ void update_actor_behavior_2(ActorRecord *body, ObjectPosition *position, Sprite
             0);
         actor->flags1C = (u32)((u32)(actor->flags1C) | (0x40000));
         if (sprite->flags & 0x8000) {
-            body->unk_8C.address = update_actor_animation;
+            body->unk_8C.address = dispatch_cyclone_actions;
             break;
         }
         {
@@ -173,7 +173,7 @@ void update_actor_behavior_2(ActorRecord *body, ObjectPosition *position, Sprite
 
             counter_base = (S_80173DD4_3 *)&g_dungeon_status.turn_scale;
             counter_base->unk_0A--;
-            body->unk_8C.address = update_actor_animation;
+            body->unk_8C.address = dispatch_cyclone_actions;
         } else {
             create_randomized_motion_object(body, position);
             create_randomized_motion_object(body, position);

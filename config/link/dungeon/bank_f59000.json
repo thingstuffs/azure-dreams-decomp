@@ -23,7 +23,7 @@
     },
     {
       "row": "dungeon/func_80F39694",
-      "tu": "src/dungeon/monster/blume/update_actor_dungeon_behavior_and_animation.c",
+      "tu": "src/dungeon/monster/blume/dispatch_blume_actions.c",
       "home": "dungeon/func_80DBA620",
       "foff": "0xF59694",
       "vma": "0x8016AE94",
@@ -118,7 +118,7 @@
     },
     {
       "row": "dungeon/func_80F3A9F8",
-      "tu": "src/dungeon/monster/hikewne/update_entity_state_from_query.c",
+      "tu": "src/dungeon/monster/hikewne/relink_hikewne_path.c",
       "home": "dungeon/func_80976E28",
       "foff": "0xF5A9F8",
       "vma": "0x8016C1F8",
@@ -220,7 +220,7 @@
     },
     {
       "row": "dungeon/func_80F3C10C",
-      "tu": "src/dungeon/monster/viper/spawn_appearance_object_and_advance_actor.c",
+      "tu": "src/dungeon/monster/viper/spawn_appearance_object.c",
       "home": "dungeon/func_80F3610C",
       "foff": "0xF5C10C",
       "vma": "0x8016D90C",
@@ -233,7 +233,7 @@
     },
     {
       "row": "dungeon/func_80F3C328",
-      "tu": "src/dungeon/effect/state/forward_actor_effect_state.c",
+      "tu": "src/dungeon/effect/state/update_hop_and_shrink_callback.c",
       "home": "dungeon/func_800AD90C",
       "foff": "0xF5C328",
       "vma": "0x8016DB28",
@@ -295,7 +295,7 @@
     },
     {
       "row": "dungeon/func_80F3CA78",
-      "tu": "src/dungeon/monster/kewne/update_actor_state_after_map_check.c",
+      "tu": "src/dungeon/monster/kewne/update_kewne_parent_motion.c",
       "home": "dungeon/func_809A2D74",
       "foff": "0xF5CA78",
       "vma": "0x8016E278",
@@ -388,7 +388,7 @@
     {
       "row": "dungeon/func_80F3D204",
       "home": "dungeon/func_800CF1BC",
-      "tu": "src/dungeon/actor/set_actor_data_pointer.c",
+      "tu": "src/dungeon/actor/set_default_action_after_floor_trap.c",
       "foff": "0x00F5D204",
       "vma": "0x8016EA04",
       "size": 56,
@@ -402,7 +402,7 @@
     {
       "row": "dungeon/func_80F3D23C",
       "home": "dungeon/func_800CF1BC",
-      "tu": "src/dungeon/actor/set_actor_data_pointer.c",
+      "tu": "src/dungeon/actor/set_default_action_after_floor_trap.c",
       "foff": "0x00F5D23C",
       "vma": "0x8016EA3C",
       "size": 56,

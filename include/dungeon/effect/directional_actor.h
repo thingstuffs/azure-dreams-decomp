@@ -168,7 +168,7 @@ typedef struct {
 void *allocate_list_node(s32, void *);
 void jitter_effect_position_and_fade(void *, s32); /* Unprototyped: retail call passes a different argument count */
 void initialize_timed_motion_step(s32, s32);
-s32 get_definition_entry_byte_13(s16 entry_index);
+s32 get_spell_range(s16 entry_index);
 void advance_sprite_animation_and_textures(void *);
 void transform_rotated_vertices(void *);
 extern u8 directional_effect_entries[];

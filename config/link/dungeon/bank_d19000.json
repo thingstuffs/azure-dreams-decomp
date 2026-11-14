@@ -213,7 +213,7 @@
     {
       "row": "dungeon/func_80CFACBC",
       "home": "dungeon/func_80CE8CBC",
-      "tu": "src/dungeon/monster/troll/update_actor_behavior.c",
+      "tu": "src/dungeon/monster/troll/update_troll_behavior.c",
       "foff": "0x00D1ACBC",
       "vma": "0x801604BC",
       "size": 2052,
@@ -312,7 +312,7 @@
     },
     {
       "row": "dungeon/func_80CFC6AC",
-      "tu": "src/dungeon/monster/hikewne/update_entity_state_from_query.c",
+      "tu": "src/dungeon/monster/hikewne/relink_hikewne_path.c",
       "home": "dungeon/func_80976E28",
       "foff": "0xD1C6AC",
       "vma": "0x80161EAC",
@@ -327,7 +327,7 @@
     },
     {
       "row": "dungeon/func_80CFC7F0",
-      "tu": "src/dungeon/monster/saber/reset_eligible_entity_state.c",
+      "tu": "src/dungeon/monster/saber/finish_saber_tile_move.c",
       "home": "dungeon/func_80AC7330",
       "foff": "0xD1C7F0",
       "vma": "0x80161FF0",
@@ -357,7 +357,7 @@
     },
     {
       "row": "dungeon/func_80CFCB60",
-      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F88C30",
       "foff": "0xD1CB60",
       "vma": "0x80162360",
@@ -380,7 +380,7 @@
     },
     {
       "row": "dungeon/func_80CFD7D8",
-      "tu": "src/dungeon/effect/state/forward_actor_effect_state.c",
+      "tu": "src/dungeon/effect/state/update_hop_and_shrink_callback.c",
       "home": "dungeon/func_800AD90C",
       "foff": "0xD1D7D8",
       "vma": "0x80162FD8",
@@ -410,7 +410,7 @@
     },
     {
       "row": "dungeon/func_80CFD818",
-      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F89D44",
       "foff": "0xD1D818",
       "vma": "0x80163018",
@@ -483,7 +483,7 @@
     {
       "row": "dungeon/func_80CFE554",
       "home": "dungeon/func_800CF1BC",
-      "tu": "src/dungeon/actor/set_actor_data_pointer.c",
+      "tu": "src/dungeon/actor/set_default_action_after_floor_trap.c",
       "foff": "0x00D1E554",
       "vma": "0x80163D54",
       "size": 56,

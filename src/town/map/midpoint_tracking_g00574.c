@@ -5,18 +5,18 @@
 #include "town/map.h"
 
 /* Restart tracking when the current point changes; otherwise update the midpoint. */
-void restart_or_update_midpoint_tracking(TownCameraState *state) {
+void track_camera_midpoint(TownCameraState *state) {
     IntVector3 *current;
 
     current = state->target;
     if (current != state->previous_target) {
         state->steps = 9;
-        state->track_target = reset_or_advance_target_midpoint;
+        state->track_target = blend_camera_toward_midpoint;
         state->unk14 = 0;
         state->unk18 = 0;
         state->unk1C = 0;
         state->previous_target = state->target;
-        reset_or_advance_target_midpoint(state);
+        blend_camera_toward_midpoint(state);
         return;
     }
     state->x = (current->x + state->other->x) / 2;
@@ -25,7 +25,7 @@ void restart_or_update_midpoint_tracking(TownCameraState *state) {
 }
 
 /* Reset on target changes or move toward the midpoint of the two targets. */
-void reset_or_advance_target_midpoint(TownCameraState *state) {
+void blend_camera_toward_midpoint(TownCameraState *state) {
     IntVector3 *target;
 
     target = state->target;
@@ -35,7 +35,7 @@ void reset_or_advance_target_midpoint(TownCameraState *state) {
         state->unk18 = 0;
         state->unk1C = 0;
         state->previous_target = state->target;
-        restart_or_update_midpoint_tracking(state);
+        track_camera_midpoint(state);
         return;
     }
     state->x += (((target->x + state->other->x) / 2) - state->x) / state->steps;
@@ -43,6 +43,6 @@ void reset_or_advance_target_midpoint(TownCameraState *state) {
     state->z += (((state->target->z + state->other->z) / 2) - state->z) / state->steps;
     state->steps--;
     if (state->steps <= 0) {
-        state->track_target = restart_or_update_midpoint_tracking;
+        state->track_target = track_camera_midpoint;
     }
 }

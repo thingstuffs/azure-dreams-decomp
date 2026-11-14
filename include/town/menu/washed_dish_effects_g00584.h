@@ -28,7 +28,7 @@ extern s32 dish_counter;
 extern TownRecord D_800F8A70[];
 
 /* Functions defined in this translation unit. */
-void finalize_object_or_select_town_record(TownObjectRecord *object, void *check_context, SpriteFrameState *record_holder);
+void select_washed_dish_record_or_retire(TownObjectRecord *object, void *check_context, SpriteFrameState *record_holder);
 s32 washed_dish_suu_set(s32 new_count);
 s32 washed_dish_suu_inc(void);
 

@@ -103,7 +103,7 @@ void advance_actor_animation_and_fall(ActorRecord *action, ObjectPosition *motio
             return;
         }
         spend_actor_mp(actor, 0x100);
-        action->unk_8C.address = update_actor_turn_behavior;
+        action->unk_8C.address = update_baloon_turn_action;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;

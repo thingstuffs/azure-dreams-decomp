@@ -47,7 +47,7 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
 
 
 
-void advance_actor_states_and_entity_flags(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity);
+void wait_death_mp_and_animate(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity);
 
 struct S_80173C40_0;
 void initialize_object_and_clear_state(struct S_80173C40_0 *object, ObjectPosition *position, SpriteFrameState *init_context, ActorRecord *actor);
@@ -60,8 +60,8 @@ void create_parent_return_effect(void *parent_obj, s16 effect_param, s32 initial
 void spawn_parent_offset_random_motion_effect(void *parent_arg, register s16 effect_param_arg, register s32 state_value_arg, register s32 unused_arg, register s32 offset_x_arg, register s32 offset_y_arg, register s32 offset_z_arg);
 
 void advance_entity_path_state(ActorRecord *motion_state, ObjectPosition *unused, SpriteFrameState *entity, ActorRecord *path_state);
-void apply_conditional_actor_effect(ActorRecord *action_state, ObjectPosition *effect_context, SpriteFrameState *action_context, ActorRecord *actor);
-s32 attempt_target_action(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *target, ActorRecord *actor);
-void dispatch_actor_animation_and_action(ActorRecord *motion_in, ObjectPosition *context_in, SpriteFrameState *entity_in, ActorRecord *actor_in);
+void begin_death_attack(ActorRecord *action_state, ObjectPosition *effect_context, SpriteFrameState *action_context, ActorRecord *actor);
+s32 try_death_attack(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *target, ActorRecord *actor);
+void dispatch_death_actions(ActorRecord *motion_in, ObjectPosition *context_in, SpriteFrameState *entity_in, ActorRecord *actor_in);
 
 #endif

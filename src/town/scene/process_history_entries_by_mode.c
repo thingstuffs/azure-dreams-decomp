@@ -21,9 +21,9 @@ void process_history_entries_by_mode(void) {
     u8 entry;
 
     state = town_scene_root->town_state;
-    if (town_table_contains_first_byte_b(1) != 0) {
+    if (town_pair_table_has_first(1) != 0) {
         mode = 0;
-    } else if (town_table_contains_first_byte_b(2) != 0) {
+    } else if (town_pair_table_has_first(2) != 0) {
         mode = 1;
     } else {
         mode = 2;

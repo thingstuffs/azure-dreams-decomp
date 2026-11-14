@@ -11,7 +11,7 @@ void *create_label_glyph_entries(char *text, s32 glyph_style)
 {
     void *entries;
 
-    entries = create_callback_pair_default(0x100);
+    entries = allocate_node_body(0x100);
     if (entries != 0) {
         if (decode_fullwidth_text(entries, text, glyph_style) != 0) {
             if (count_tagged_records(entries) < 0x16) {

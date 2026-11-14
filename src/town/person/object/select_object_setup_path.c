@@ -13,7 +13,7 @@ s32 select_object_setup_path(void *object, void *request_data, void *request_par
 
     if (check_active_transform_object(object) != 0 ||
         D_80082A39[0] == *(s32 *)((u8 *)object + 0x60)) {
-        initialize_object_and_update(object, request_data, request_param);
+        reset_heading_and_update_object(object, request_data, request_param);
         return 1;
     }
 

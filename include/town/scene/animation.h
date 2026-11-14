@@ -33,7 +33,7 @@ typedef struct RisingEffectObject {
 /* draw_rotating_collection_frame.c */
 void draw_rotating_collection_frame(struct TownCollectionSequence *object);
 
-/* Body passed to the collection-center update callback installed by create_town_object_group. */
+/* Body passed to the collection-center update callback installed by create_collection_center_group. */
 typedef struct CollectionCenterControlBody {
     /* 0x00 */ void *work;
     /* 0x04 */ s32 unk_04;
@@ -53,7 +53,7 @@ typedef struct CollectionCenterControlBody {
 /* Callback entry points. */
 void animate_collection_center_sprite(CollectionCenterControlBody *ctrl, struct ObjectPosition *setup, struct SpriteFrameState *view);
 void animate_falling_timed_object(struct FallingTimedSceneObject *obj, struct ObjectPosition *motion, void *incoming_out);
-void animate_rising_effect_object(RisingEffectObject *obj, void *state_in, void *input);
+void animate_rising_effect_object(RisingEffectObject *obj, struct ObjectPosition *state_in, void *input);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 struct Actor;

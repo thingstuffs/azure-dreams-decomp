@@ -104,7 +104,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
         ((ActorRecord *)entity)->flags14 = (s32) (flags14 & 0xFFFDFFFF);
     }
     if (!(((Rec_func_8008ACDC_arg0 *)object)->unk_A2 & 0x10)) {
-        select_state_16_directional_animation(object, aux_entity, sprite, entity);
+        select_player_motion_animation(object, aux_entity, sprite, entity);
         return;
     }
     flags1C = ((ActorRecord *)entity)->flags1C;

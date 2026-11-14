@@ -89,7 +89,7 @@ s32 update_attached_effect_state(s16 tile_index, Entity800B4194 *entityp, Contex
             if (!(blocked || (entityp->flags1C & ACTOR_PARALYZED))) {
                 value = generate_random_value();
                 range = (dungeon_actor_ring_anchor[0][0xA9] >> 2) + 2;
-                if (roll_chance_and_apply_effect_four(entityp, dungeon_actor_ring_anchor[0][0xA9] + 0x80, range + (value & 3)) != 0) {
+                if (roll_paralysis_effect(entityp, dungeon_actor_ring_anchor[0][0xA9] + 0x80, range + (value & 3)) != 0) {
                     saved = get_unused_text_buffer();
                     text = expand_text_control_codes(D_800E0BDC, saved);
                     text = append_entity_display_text(entityp, text);
@@ -130,7 +130,7 @@ s32 update_attached_effect_state(s16 tile_index, Entity800B4194 *entityp, Contex
         if (blocked || (entityp->flags1C & ACTOR_PARALYZED)) {
             return 0;
         }
-        if (roll_chance_and_apply_effect_four(entityp, 8, 8) == 0) {
+        if (roll_paralysis_effect(entityp, 8, 8) == 0) {
             return 0;
         }
         play_sound_if_enabled(0x700);

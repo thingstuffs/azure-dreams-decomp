@@ -32,7 +32,7 @@ s16 query_capped_surface_height(void *position_data, s32 *out_value) {
     local_pos.x = position[0];
     local_pos.y = position[1];
     local_pos.z = position[2] - height_base[5];
-    min_result = forward_surface_query_with_argument(&local_pos, query_value_ptr);
+    min_result = find_min_qualifying_plane_height_at(&local_pos, query_value_ptr);
     *out_value = query_value;
     local_pos.x = position[0];
     local_pos.y = position[1];

@@ -20,5 +20,5 @@ void init_seven_tick_record_action(TownObjectRecord *object, ObjectPosition *mot
     town_action_reset_byte = 0;
     object->unk_04 = &record_action_update_address;
     object->unk_0A = 7;
-    clear_entity_record_fields((motion_context));
+    clear_object_velocity((motion_context));
 }

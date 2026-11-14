@@ -111,7 +111,7 @@ typedef struct S_func_80024064_9 {
     s16 unk_04;
 } S_func_80024064_9;   /* planes + ((S_func_80024064_4 *)current)->unk_10 * 8 in func_80024064 */
 
-extern s32 are_quad_corner_turns_within_half_revolution(void *);
+extern s32 is_point_in_quad(void *);
 
 /* Finds a map polygon at the query position using containment and plane height. */
 void *find_impact_surface_polygon(s32 world_x, s32 world_y, s16 min_height) {
@@ -198,7 +198,7 @@ void *find_impact_surface_polygon(s32 world_x, s32 world_y, s16 min_height) {
                     scratch->unk_160.at02.v =
                         scratch->unk_160.at02u.v - cell_y;
 
-                    if (are_quad_corner_turns_within_half_revolution(scratch) != 0) {
+                    if (is_point_in_quad(scratch) != 0) {
                         plane =
                             (S_func_80024064_6 *)((unsigned long)((S_func_80024064_4 *)polygon)->unk_10 *
                                    8 +
@@ -442,7 +442,7 @@ s32 rand_below_limit_rejection(s32 limit) {
 
 
 /* Advance effect motion and animation, then mark it finished when its lifetime expires. */
-void advance_effect_motion_and_animation(ImpactParticleWork *effect, ObjectPosition *position, SpriteFrameState *visual) {
+void update_impact_particle_slow_shrink(ImpactParticleWork *effect, ObjectPosition *position, SpriteFrameState *visual) {
     s32 accel_y;
     s32 accel_z;
     u16 frame_count;
@@ -574,7 +574,7 @@ void shrink_effect_and_spawn_particles(S_800247C0_0 *effect, S_800247C0_2 *origi
             }
             particle_state = NODE_BODY(object);
             particle_state->unk_28 = 0x14;
-            ((ObjectNodeHeader *)object)->update_callback = (void *)advance_effect_motion_and_animation;
+            ((ObjectNodeHeader *)object)->update_callback = (void *)update_impact_particle_slow_shrink;
             register_node(object, project_sprite_chain);
             sprite = ((ObjectNodeHeader *)object)->sprite;
             sprite->tpage_abr = 0x20;
@@ -1260,7 +1260,7 @@ typedef struct S_func_80025710_3 {
 } S_func_80025710_3;
 
 /* Mark and process entries at the given coordinates with thresholds in the specified range. */
-void process_entries_at_coordinates(void *list_head, s32 x, s32 y, s16 upper_bound, s16 lower_bound) {
+void spawn_shrinking_particles_at_tile(void *list_head, s32 x, s32 y, s16 upper_bound, s16 lower_bound) {
     s32 match_x = x;
     s32 match_y = y;
     s32 upper_limit;
@@ -1405,9 +1405,9 @@ void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition
                 effect_in->min_index = 0;
                 effect_in->max_index = 1;
                 effect_in->entry_step = 1;
-                resolve_and_step_entry_index(visual_in, &effect_in->entry_step,
+                step_entry_index_clamped(visual_in, &effect_in->entry_step,
                               effect_in->min_index, effect_in->max_index);
-                copy_and_expand_effect_record(effect_in, visual_in->unk_00);
+                copy_effect_transform(effect_in, visual_in->unk_00);
                 break;
             }
             effect_in->move_ticks = 0;
@@ -1421,9 +1421,9 @@ void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition
                 effect_in->min_index = state;
                 effect_in->max_index = 0xF;
                 effect_in->entry_step = state;
-                resolve_and_step_entry_index(visual_in, &effect_in->entry_step,
+                step_entry_index_clamped(visual_in, &effect_in->entry_step,
                               effect_in->min_index, effect_in->max_index);
-                copy_and_expand_effect_record(effect_in, visual_in->unk_00);
+                copy_effect_transform(effect_in, visual_in->unk_00);
             }
             if (primary_actor_record->action_timer == 0) {
                 effect_in->move_ticks = 0;
@@ -1469,7 +1469,7 @@ void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition
                     point_offset = column * sizeof(LocalPoint) +
                                    row * 3 * sizeof(LocalPoint);
                     point = (LocalPoint *)((u8 *)&offsets + point_offset);
-                    process_entries_at_coordinates(world,
+                    spawn_shrinking_particles_at_tile(world,
                                   (tile_x = point->x, tile_x = (base_x + tile_x) & 0xFFFF),
                                   (tile_y = base_y + point->y),
                                   position_in->z.w.i,
@@ -1510,8 +1510,8 @@ void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition
         flags |= 0xC;
         visual_in->flags = flags;
         visual_in->tpage_abr = half_tile;
-        set_mesh_entry_address(visual_in, owner_visual->unk_04);
-        copy_and_expand_effect_record(effect_in, visual_in->unk_00);
+        select_mesh_entry(visual_in, owner_visual->unk_04);
+        copy_effect_transform(effect_in, visual_in->unk_00);
         visual_in->scale_x = owner_visual->scale_x;
         visual_in->scale_y = owner_visual->scale_y;
         visual_in->offset_x = owner_visual->offset_x;
@@ -1710,7 +1710,7 @@ typedef struct S_80025FB0_0 {
     s8 unk_13;
     s8 unk_14;
     s8 unk_15;
-} S_80025FB0_0;   /* arg1 in copy_and_expand_effect_record */
+} S_80025FB0_0;   /* arg1 in copy_effect_transform */
 
 typedef struct S_80025FB0_1 {
     u8 pad_00[0x10];
@@ -1719,10 +1719,10 @@ typedef struct S_80025FB0_1 {
     s32 unk_14;
     s32 unk_18;
     s32 unk_1C;
-} S_80025FB0_1;   /* arg0 in copy_and_expand_effect_record */
+} S_80025FB0_1;   /* arg0 in copy_effect_transform */
 
 /* Copy a compact record, widen its signed fields, and apply zero values when its flag is clear. */
-void copy_and_expand_effect_record(S_80025FB0_1 *dst, S_80025FB0_0 *src) {
+void copy_effect_transform(S_80025FB0_1 *dst, S_80025FB0_0 *src) {
     s32 zero_args[4];
     s32 signed_field;
 
@@ -1760,7 +1760,7 @@ typedef struct Bank19de800_19e0860_EntryCursor {
 } Bank19de800_19e0860_EntryCursor;
 
 /* Resolve the current entry, apply an index step, and enforce the index bounds. */
-void resolve_and_step_entry_index(void *object, s16 *index_step, s32 min_index, s32 max_index) {
+void step_entry_index_clamped(void *object, s16 *index_step, s32 min_index, s32 max_index) {
     s16 step;
     u32 clamp_flags;
     u8 index;
@@ -1809,13 +1809,13 @@ typedef struct Bank19de800_19e092c_EntryCursor {
 } Bank19de800_19e092c_EntryCursor;
 
 /* Sets the object entry address using a 22-byte stride. */
-void set_mesh_entry_address(Bank19de800_19e092c_EntryCursor *object, s16 entry_index) {
+void select_mesh_entry(Bank19de800_19e092c_EntryCursor *object, s16 entry_index) {
     object->entry = object->owner->entries + entry_index * 0x16;
 }
 
 
 /* Updates effect motion and visual state, marking the effect inactive when its lifetime expires. */
-void update_effect_motion_and_visual(ImpactParticleWork *effect, ObjectPosition *position, SpriteFrameState *visual) {
+void update_impact_particle_fast_shrink(ImpactParticleWork *effect, ObjectPosition *position, SpriteFrameState *visual) {
     s32 accel_y;
     s32 accel_z;
     u16 frame;
@@ -1861,7 +1861,7 @@ typedef struct S_8002626C_0 {
 } S_8002626C_0;
 
 /* Creates a colored effect at an offset position with velocity toward its base. */
-void create_offset_colored_effect(
+void create_impact_particle_at_offset(
     s32 unused_0, s32 unused_1, s32 unused_2, s32 unused_3,
     s32 offset_x, s32 offset_y, s32 offset_z, s32 base_x, s32 base_y, s32 base_z) {
     s16 color_channel;
@@ -1873,7 +1873,7 @@ void create_offset_colored_effect(
     if (effect != 0) {
         effect_state = NODE_BODY(effect);
         effect_state->unk_28 = 0x14;
-        effect->update_callback = (void *)update_effect_motion_and_visual;
+        effect->update_callback = (void *)update_impact_particle_fast_shrink;
         register_node(effect, project_sprite_chain);
         sprite = effect->sprite;
         sprite->tpage_abr = 0x40;
@@ -2057,7 +2057,7 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
             spread_x = (s16)((rand() & 0x7F) - 0x40);
             spread_z = (s16)((rand() & 0x7F) - 0x40);
 
-            create_offset_colored_effect((u8 *)effect - 0x20, effect->unk_24,
+            create_impact_particle_at_offset((u8 *)effect - 0x20, effect->unk_24,
                           0x00C0C0C0, 0x28, spread_y, spread_x, spread_z,
                           (s16)(((u16)position->x.w.i) + ({
                               OffsetPair *offset = (OffsetPair *)

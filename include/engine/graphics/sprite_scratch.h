@@ -91,7 +91,7 @@ typedef struct SpriteLinkedScratch {
 } SpriteLinkedScratch;
 
 /* Attachment transform scratchpad slots, based on the calls to RotMatrix,
- * ScaleMatrix and RotTransSV in runtime_transform_sprite_attachment_point. */
+ * ScaleMatrix and RotTransSV in transform_sprite_attachment_point. */
 typedef struct SpriteAttachmentScratch {
     u16 transformed_x;
     u16 transformed_y;

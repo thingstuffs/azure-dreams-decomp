@@ -106,7 +106,7 @@ void update_motion_and_recenter_entity(ActorRecord *action, ObjectPosition *moti
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
             g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
-        action->unk_8C.handler = update_long_actor_action;
+        action->unk_8C.handler = update_mandara_behavior;
         return;
 
     default:

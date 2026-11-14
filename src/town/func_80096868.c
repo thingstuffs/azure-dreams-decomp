@@ -15,7 +15,7 @@
 void accelerate_toward_input_angle(ObjectPosition *context);
 
 
-void init_periodic_effect_action(TownObjectRecord *object, ObjectPosition *motion, SpriteFrameState *sprite) {
+void init_input_angle_random_timer_action(TownObjectRecord *object, ObjectPosition *motion, SpriteFrameState *sprite) {
     object->unk_3E = 6;
     store_input_angle(object);
     accelerate_toward_input_angle(motion);

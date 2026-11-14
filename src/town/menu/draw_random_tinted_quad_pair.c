@@ -11,8 +11,8 @@
 
 #define SCALE255(value) ((u32)(value) / 255)
 
-extern void copy_odd_halfwords_3(void *, void *);
-extern void copy_menu_vector_halfwords(void *, void *);
+extern void copy_moving_position_to_menu_point(void *, void *);
+extern void copy_menu_point(void *, void *);
 
    /* ctx in draw_random_tinted_quad_pair */
 
@@ -71,10 +71,10 @@ void draw_random_tinted_quad_pair(u8 *effect)
         SetLineG4(quad);
         SetSemiTrans(quad, 1);
 
-        copy_odd_halfwords_3(scratch->vertices[0], ((ObjectPayloadView *)(vertex_group->unk_54))->unk_08);
-        copy_odd_halfwords_3(scratch->vertices[1], ((ObjectPayloadView *)(vertex_group->unk_58))->unk_08);
-        copy_odd_halfwords_3(scratch->vertices[2], ((ObjectPayloadView *)(vertex_group->unk_5C))->unk_08);
-        copy_menu_vector_halfwords(scratch->vertices[3], scratch->vertices[0]);
+        copy_moving_position_to_menu_point(scratch->vertices[0], ((ObjectPayloadView *)(vertex_group->unk_54))->unk_08);
+        copy_moving_position_to_menu_point(scratch->vertices[1], ((ObjectPayloadView *)(vertex_group->unk_58))->unk_08);
+        copy_moving_position_to_menu_point(scratch->vertices[2], ((ObjectPayloadView *)(vertex_group->unk_5C))->unk_08);
+        copy_menu_point(scratch->vertices[3], scratch->vertices[0]);
         scratch->depth = RotTransPers4(
             scratch->vertices[0], scratch->vertices[1], scratch->vertices[2], scratch->vertices[3], &scratch->screen.words[0], &scratch->screen.words[1],
             &scratch->screen.words[2], &scratch->screen.words[3], &scratch->interp, &scratch->flag) - 0x30;

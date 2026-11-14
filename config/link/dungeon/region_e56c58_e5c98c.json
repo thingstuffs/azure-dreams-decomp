@@ -39,7 +39,7 @@
     {
       "row": "dungeon/func_80E39FB8",
       "home": "dungeon/func_809A2D74",
-      "tu": "src/dungeon/monster/kewne/update_actor_state_after_map_check.c",
+      "tu": "src/dungeon/monster/kewne/update_kewne_parent_motion.c",
       "foff": "0x00E59FB8",
       "vma": "0x801737B8",
       "size": 200,

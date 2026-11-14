@@ -12,12 +12,12 @@ void retarget_entity_to_nearest_entry(void *object, TownObjectRecord *status, Ob
     position->velocity_x = 0;
     position->velocity_y = 0;
     position->velocity_z = 0;
-    *(s32 **)((u8 *)object + 0x50) = move_toward_target_finalize_countdown_expires;
+    *(s32 **)((u8 *)object + 0x50) = move_item_to_shop_target_and_store;
     *(s16 *)((u8 *)object + 0x6C) = 0xA;
     if (*((u8 *)object + 0x4D) == 0x13) {
         result = D_80100B3B;
     } else {
-        result = find_nearest_unflagged_record_result(find_target_byte_index_in_list(), position);
+        result = find_nearest_unflagged_record_result(find_target_index_in_list(), position);
     }
     set_shop_target_to_entry(result);
 }

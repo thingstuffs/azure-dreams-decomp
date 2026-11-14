@@ -1,0 +1,24 @@
+#include "common.h"
+#include "dungeon/monster/ghosh.h"
+#include "dungeon/item/effect.h"
+
+struct EntityFields;
+
+/* Store the object query result and set an active flag and countdown when nonzero. */
+s32 start_actor_fade_effect(void) {
+    void *result;
+    void *source = ghosh_actor_node;
+    s32 flag;
+    void *status;
+
+    status = (u8 *)source + 0x20;
+    result = create_linked_actor_fade_effect(source);
+    *(void **)((s8 *)status + 0xA4) = result;
+    if (result == 0) {
+        return 0;
+    }
+    flag = 1;
+    *((s8 *)status + 0xB0) = flag;
+    *((s8 *)status + 0xB1) = 60;
+    return flag;
+}

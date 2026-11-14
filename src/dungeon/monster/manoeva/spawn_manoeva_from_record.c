@@ -47,7 +47,7 @@ void *spawn_manoeva_from_record(ActorRecord *body, ObjectPosition *unused1, Spri
 
     source_ref = spawn_data->unk_60.as_s32;
     if (source_ref > 0) {
-        entity = create_mode_configured_object(((u32)spawn_data->unk_1C.at00_u32.v >> 0xD) & 1,
+        entity = create_actor_node_at_tile(((u32)spawn_data->unk_1C.at00_u32.v >> 0xD) & 1,
                                position->tile_x, position->tile_y,
                                spawn_data->unk_88.as_s16,
                                get_item_category_value(((s32)(((u16)spawn_data->unk_60.as_s32 - 1) << 0x10) >> 0xE)
@@ -94,7 +94,7 @@ void *spawn_manoeva_from_record(ActorRecord *body, ObjectPosition *unused1, Spri
         }
     }
     if (spawn_data->unk_14.at00_s32.v & 0x4000) {
-        table_offset = find_entity_slot_by_field_ac(spawn_data);
+        table_offset = find_linked_object_slot_index(spawn_data);
         table_base = ((u8 *)dungeon_actor_ring_anchor);
         table_entry = (void *)(((s32)(table_offset << 0x10) >> 0xE) +
                                (long)table_base);

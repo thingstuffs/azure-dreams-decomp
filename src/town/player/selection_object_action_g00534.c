@@ -73,14 +73,14 @@ void create_selected_town_object(void) {
         case 0: {
             if (is_town_state_pair_accepted() != 0) {
                 write_resource_command(item_suffix_strings_ball_fruit_seed, 0x11);
-            } else if (count_live_type_four_links() >= 0x12) {
+            } else if (count_live_item_links() >= 0x12) {
                 write_resource_command(item_suffix_strings_herb, 0x11);
             } else if (work.bytes.unk1 == 0x13) {
                 write_resource_command(D_80088C8C, 0x11);
             } else {
                 break;
             }
-            set_item_selection_data_pointer(object, position, callback_data);
+            set_deferred_dispatch_handler(object, position, callback_data);
             town_player_action_callback = (void (*)(void *, void *, void *))&town_motion_action_address;
             town_interaction_pending = 0;
             return;
@@ -88,17 +88,17 @@ void create_selected_town_object(void) {
         default: {
             if (work.bytes.unk1 != 0x13) {
                 if (work.bytes.unk1 == 0x12) {
-                    mode = find_target_byte_index_in_list();
+                    mode = find_target_index_in_list();
                     if (find_free_entry_index((void *)0x80010980, town_record_capacities[mode]) == -1) {
                         write_resource_command(D_80088CCC, 0x11);
-                        set_item_selection_data_pointer(object, position, callback_data);
+                        set_deferred_dispatch_handler(object, position, callback_data);
                         town_player_action_callback = (void (*)(void *, void *, void *))&town_motion_action_address;
                         town_interaction_pending = 0;
                         return;
                     }
                 } else {
                     write_resource_command(D_80088D04, 0x11);
-                    set_item_selection_data_pointer(object, position, callback_data);
+                    set_deferred_dispatch_handler(object, position, callback_data);
                     town_player_action_callback = (void (*)(void *, void *, void *))&town_motion_action_address;
                     town_interaction_pending = 0;
                     return;
@@ -115,7 +115,7 @@ void create_selected_town_object(void) {
         if (state_is_12_or_13) {
             mode = is_available != 0;
         }
-        created_entry = create_configured_object(((S_80093894_3 *)(&item_menu_scene_state))->unk_00, &work.pos, mode);
+        created_entry = create_selection_entry_object(((S_80093894_3 *)(&item_menu_scene_state))->unk_00, &work.pos, mode);
         if (created_entry != 0) {
             Unk96134State *state = (Unk96134State *)town_actor_control;
             void *next_object;

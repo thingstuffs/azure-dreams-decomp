@@ -373,7 +373,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, Objec
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        clear_slot_and_update_linked_state(&held_item_record);
+        clear_item_slot(&held_item_record);
         {
             void *callback = handle_player_input;
             event_flags = ((S_func_800B1364_15 *)&dungeon_floor_flags)->unk_00 & 0xFFDFFFFF;
@@ -436,7 +436,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, Objec
         creature->unk_14 = (s32) (creature->unk_14 | 0x104000);
         linked_creature = actor->unk_60;
         linked_creature->action_state_flags = (u16) (linked_creature->action_state_flags | 0xC);
-        strcpy((u8 *)creature + 0x34, runtime_get_mode_indexed_value(creature->unk_13));
+        strcpy((u8 *)creature + 0x34, get_mode_table_entry(creature->unk_13));
         experience = level_experience_table[dungeon_actor_ring_anchor->level];
         level_thresholds = level_experience_table + 1;
         creature->unk_18 = experience;
@@ -509,7 +509,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, Objec
         sprite->flags = sprite->flags | 0x200;
         create_familiar_deployment_effect_with_owner_state(action, position, sprite);
         create_familiar_deployment_overlay(action, position, sprite);
-        save_slot = find_first_unused_entity_entry();
+        save_slot = find_free_familiar_record_slot();
         item_entry = D_80010000_PTR->table[actor->unk_8A];
         item_entry->unk_01 = 0x13;
         species = (u8) *action->unk_C0;

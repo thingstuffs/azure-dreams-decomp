@@ -18,7 +18,7 @@ typedef struct Node {
     s32 field_0x20;
 } Node;
 
-extern void process_indexed_entry_record(s32);
+extern void pack_map_row_into_table(s32);
 
 extern void *town_map_processor;
 

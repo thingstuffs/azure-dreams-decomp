@@ -140,7 +140,7 @@ void update_knockback_travel_object(KnockbackTravelObjectBody *motion, void *pos
                     return;
                 }
             }
-            if (has_enough_available_runtime_nodes(3) == 0) {
+            if (has_enough_available_nodes(3) == 0) {
                 return;
             }
 

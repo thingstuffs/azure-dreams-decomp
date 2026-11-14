@@ -18,7 +18,7 @@
     {
       "row": "town/func_805D23C4",
       "home": "town/func_805D23C4",
-      "tu": "src/town/scene/dispatch_inputs_by_current_state.c",
+      "tu": "src/town/scene/select_data_by_cell_code.c",
       "foff": "0x005523C4",
       "vma": "0x800163C4",
       "size": 72
@@ -26,7 +26,7 @@
     {
       "row": "town/func_805D240C",
       "home": "town/func_805D240C",
-      "tu": "src/town/scene/pass_and_clear_selected_entry_byte.c",
+      "tu": "src/town/scene/process_entry_and_clear_cell_code.c",
       "foff": "0x0055240C",
       "vma": "0x8001640C",
       "size": 116
@@ -72,7 +72,7 @@
     {
       "row": "town/func_805D25B0",
       "home": "town/func_805D23C4",
-      "tu": "src/town/scene/dispatch_inputs_by_current_state.c",
+      "tu": "src/town/scene/select_data_by_cell_code.c",
       "foff": "0x005525B0",
       "vma": "0x800165B0",
       "size": 72,
@@ -88,7 +88,7 @@
     {
       "row": "town/func_805D25F8",
       "home": "town/func_805D240C",
-      "tu": "src/town/scene/pass_and_clear_selected_entry_byte.c",
+      "tu": "src/town/scene/process_entry_and_clear_cell_code.c",
       "foff": "0x005525F8",
       "vma": "0x800165F8",
       "size": 116,
@@ -143,7 +143,7 @@
     {
       "row": "town/func_805D279C",
       "home": "town/func_805D23C4",
-      "tu": "src/town/scene/dispatch_inputs_by_current_state.c",
+      "tu": "src/town/scene/select_data_by_cell_code.c",
       "foff": "0x0055279C",
       "vma": "0x8001679C",
       "size": 72,

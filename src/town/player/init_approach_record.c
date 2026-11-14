@@ -11,8 +11,8 @@
 
 /* Initialize the record and set its handler and initial value. */
 void init_approach_record(TownObjectRecord *record, ObjectPosition *position, SpriteFrameState *init_context) {
-    clear_entity_record_fields((position));
+    clear_object_velocity((position));
     dispatch_selected_entry_if_nonzero(approach_action_handler_table, record, init_context);
-    record->unk_04 = &move_value_toward_300;
+    record->unk_04 = &step_y_toward_fixed_target;
     record->unk_10 = 0x800;
 }

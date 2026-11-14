@@ -57,7 +57,7 @@ s32 use_item_to_apply_poison(ActorRecord *entity, DungeonItemEntry *item, s16 ac
     if (((set_or_clear_actor_status_slot(entity, STATUS_POISON, 8) << 0x10) != 0) && (entity->flags14 & 0x4000)) {
         adjust_source_value_and_finalize(entity, D_800E1729);
     }
-    clear_slot_and_update_linked_state(item);
+    clear_item_slot(item);
     {
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
     }

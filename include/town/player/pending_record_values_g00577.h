@@ -26,7 +26,7 @@ extern TownRecord ****loaded_town_resource_attributes;
 extern s32 D_80100E2C[3];
 
 /* Functions defined in this translation unit. */
-TownRecord *lookup_signed_index_value(s32 index);
+TownRecord *get_town_record_by_index(s32 index);
 void set_flagged_record_values(TownRecord *record, s32 entryValue);
 void apply_pending_indexed_value(s32 index, s32 value);
 void apply_pending_table_entry(s32 index, s32 entryValue);

@@ -24,7 +24,7 @@ typedef struct S_800A9C18_0 {
 } S_800A9C18_0;
 
 /* Singly-linked list node headed by D_80081498 (shared shape with
-   func_80040418/remove_marked_active_nodes/find_active_list_node/mark_active_nodes_by_callback): next ptr @0x0,
+   func_80040418/remove_marked_active_nodes/find_active_list_node/flag_nodes_with_callback_for_removal): next ptr @0x0,
    a 32-bit id/value field @0x10, and a 16-bit flags field @0x1E. */
 typedef struct S_80081498 {
     struct S_80081498 *next; /* 0x00 */
@@ -84,6 +84,6 @@ s32 test_niko_kenkatyu(void);
 s32 test_far_kenkatyu(void);
 void *find_unflagged_node_by_key(s32 target_key);
 void delete_carry_item_and_retry_sound(void);
-void *select_response_for_source_and_target(void *source, void *target);
+void *select_response_text(void *source, void *target);
 
 #endif

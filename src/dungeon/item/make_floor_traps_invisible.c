@@ -31,7 +31,7 @@ s32 make_floor_traps_invisible(ActorRecord *entity, DungeonItemEntry *event, s16
     s32 slot_index;
 
     if (event_type == 0xD) {
-        return process_record_and_update_linked_state(event, event_arg);
+        return resolve_item_attack(event, event_arg);
     }
     if (entity == dungeon_actor_ring_anchor) {
         ((PlayerRecord *)entity)->pending_item_action = event;
@@ -72,6 +72,6 @@ s32 make_floor_traps_invisible(ActorRecord *entity, DungeonItemEntry *event, s16
     event_state = (u8 *)&g_dungeon_status.turn_scale;
     pending_count = (u16 *)(event_state + 0xA);
     *pending_count = *pending_count - 1;
-    clear_slot_and_update_linked_state(event);
+    clear_item_slot(event);
     return 1;
 }

@@ -327,7 +327,7 @@ void update_collection_cutscene_step(TownCollectionSequence *scene)
         draw.h00 = 0;
         draw.h02 = 0;
         draw.p0C = scene;
-        create_scene_object_with_payload(tick_scene_value_text, &draw);
+        create_text_sprite_object(tick_scene_value_text, &draw);
         scene->state.s = 8;
         break;
     }

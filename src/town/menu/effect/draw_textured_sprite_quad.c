@@ -48,8 +48,8 @@ extern void SetSemiTrans();
 extern void SetPolyF4();
 extern void SetPolyFT4();
 extern void SetDrawMode();
-struct MovingPosition; struct S_800A130C_0; void copy_odd_halfwords_3(struct S_800A130C_0 *, struct MovingPosition *);
-struct S_800A1330_0; struct S_800A1330_1; void copy_menu_vector_halfwords(struct S_800A1330_0 *, struct S_800A1330_1 *);
+struct MovingPosition; struct S_800A130C_0; void copy_moving_position_to_menu_point(struct S_800A130C_0 *, struct MovingPosition *);
+struct S_800A1330_0; struct S_800A1330_1; void copy_menu_point(struct S_800A1330_0 *, struct S_800A1330_1 *);
 extern s16 D_800D0A40;
 
 /* Project and enqueue a textured sprite quad with a translucent overlay. */
@@ -143,10 +143,10 @@ void draw_textured_sprite_quad(void *sprite_arg, s32 position) {
         textured_quad->v2 = bottom_v;
     }
 
-    copy_odd_halfwords_3((void *)&scratch->corners[0], (struct MovingPosition *)(position));
-    copy_odd_halfwords_3((void *)&scratch->corners[1], (struct MovingPosition *)(position));
-    copy_odd_halfwords_3((void *)&scratch->corners[2], (struct MovingPosition *)(position));
-    copy_menu_vector_halfwords((void *)&scratch->corners[3], (void *)&scratch->corners[0]);
+    copy_moving_position_to_menu_point((void *)&scratch->corners[0], (struct MovingPosition *)(position));
+    copy_moving_position_to_menu_point((void *)&scratch->corners[1], (struct MovingPosition *)(position));
+    copy_moving_position_to_menu_point((void *)&scratch->corners[2], (struct MovingPosition *)(position));
+    copy_menu_point((void *)&scratch->corners[3], (void *)&scratch->corners[0]);
 
     screen_xy0 = &scratch->screen[0];
     screen_xy1 = &scratch->screen[1];

@@ -159,7 +159,7 @@ void fade_four_colors_to_black(Row_81922EC4_DungeonColorWork *work)
     s16 color_index;
     Row_81922EC4_DungeonColor *color;
 
-    (*(s16 *)shaded_effect_update_flag) = 1;
+    shaded_effect_update_flag = 1;
     work->remaining--;
 
     for (color_index = 0; color_index < 4; color_index++) {
@@ -259,7 +259,7 @@ void update_effect_values_and_expire(Row_819231FC_S_800249FC_1 *object, s32 unus
 
     effect->unk_1A += 0x2BC;
     ticks_left = object->unk_5A;
-    ((s16 *)shaded_effect_update_flag)[0] = 1;
+    shaded_effect_update_flag = 1;
 
     if (ticks_left >= 0x29) {
         paired_value = effect->unk_1E + 0xC8;
@@ -332,7 +332,7 @@ void grow_sprite_to_double_scale_and_fade(void *entity_data, s32 unused, SpriteF
     s32 fade_level;
 
     ticks_left = *(u16 *)(entity_data + 0x5A);
-    *(s16 *)((u8 *)&(*(Row_8192340C_DungeonActive *)shaded_effect_update_flag)) = 1;
+    shaded_effect_update_flag = 1;
     if (!(ticks_left & 3)) {
         advance_sprite_animation_and_textures(effect_data);
     }
@@ -456,7 +456,7 @@ void update_effect_cycle_and_bursts(Row_8192365C_S_80024E5C_0 *effect, Row_81923
     Row_8192365C_S_80024E5C_3 *target_position;
 
     initial_state = effect->unk_58;
-    (*(s16 *)shaded_effect_update_flag) = 1;
+    shaded_effect_update_flag = 1;
     if (initial_state < 3U) {
         sprite->color.c.b = 0x3C;
         sprite->color.c.g = 0x3C;

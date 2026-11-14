@@ -17,7 +17,7 @@ typedef struct {
     s32 words[6];
 } Copy24;
 
-extern s16 view_facing_angle_alias;
+#include "slus/view_facing_angle.h"
 extern u8 D_80083220[];
 
 /* Updates entity state and selects direction-dependent table entries. */

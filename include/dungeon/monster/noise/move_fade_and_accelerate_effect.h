@@ -9,7 +9,7 @@
 #include "engine/node/allocation.h"
 #ifndef NULL
 #define NULL 0
-void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor);
+void update_noise_behavior(ActorRecord *motion, ObjectPosition *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor);
 /* Draw callback copy of queue_projected_mesh_points_and_texture_packets. */
 s32 func_80170D2C(u8 *node_data, u16 *position);
 #endif
@@ -124,8 +124,8 @@ extern u8 D_80171358[];
 void move_fade_and_accelerate_effect(T_80170F0C_S_func_80D1170C_1 *effect, IntVector3 *position);
 void spawn_random_velocity_offset_effect(ObjectNodeHeader *parent, s16 effect_id, s32 effect_param, s32 unused, s16 x_offset,
     s16 y_offset, s16 z_offset);
-void * create_actor_with_direction_behavior(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);
-void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor);
+void * spawn_noise(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);
+void update_noise_behavior(ActorRecord *motion, ObjectPosition *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor);
 /* Draw callback copy of queue_projected_mesh_points_and_texture_packets. */
 s32 func_80170D2C(u8 *node_data, u16 *position);
 #endif

@@ -12,7 +12,7 @@
  * layout inferred purely from the offsets this function touches.
  */
 void reset_audio_command_state(void) {
-    submit_tagged_driver_byte(0, 0, 0);
+    set_cd_ext_reverb_or_mix(0, 0, 0);
     initialize_audio_ramp_defaults(&sound_stream_task);
 
     sound_playback_state.unk_08 = 0;

@@ -27,10 +27,10 @@ char *select_response_selector_status_flags(long long unused, s32 selection)
     case 6:
         return D_80022694;
     case 0:
-        if (town_table_contains_first_byte_b(6) != 0) {
+        if (town_pair_table_has_first(6) != 0) {
             set_script_flag_bit(F_sbs32_pad16);
         }
-        if (town_table_contains_first_byte_b(0xB) != 0) {
+        if (town_pair_table_has_first(0xB) != 0) {
             set_script_flag_bit(F_sbs32_pad17);
         }
         if (get_script_flag_mask(F_sbs32_pad16) == 0) {

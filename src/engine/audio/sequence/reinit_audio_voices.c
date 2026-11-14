@@ -7,8 +7,8 @@
 void reinit_audio_voices(void)
 {
     flush_pending_sound_voice_flags();
-    dispatch_combined_driver_flags(0);
+    key_off_active_voices(0);
     audio_disable_reverb();
     SpuClearReverbWorkArea(4);
-    enable_available_spu_reverb();
+    enable_spu_reverb();
 }

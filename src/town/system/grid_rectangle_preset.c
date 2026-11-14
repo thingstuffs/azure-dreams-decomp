@@ -10,14 +10,14 @@ typedef struct S_80018094_1 {
     u16 unk_0E;
 } S_80018094_1;
 /* (((Rec_D_80016000 *)D_80016000)->unk_08.at00_s32.v << 5) +
-            *((Rec_D_80016000 *)D_80016000)->unk_30.as_ps32 in apply_target_grid_rectangle */
+            *((Rec_D_80016000 *)D_80016000)->unk_30.as_ps32 in is_position_near_grid_cell */
 
 
 #include "m2c_compat.h"
 #include "town/player.h"
 
 /* Scales a tile target by 64, adds the grid origin and 32, then tests it against the current position. */
-static u32 apply_target_grid_rectangle(s32 target_x, s32 target_y)
+static u32 is_position_near_grid_cell(s32 target_x, s32 target_y)
 {
     SVECTOR current_rect;
     SVECTOR target_rect;
@@ -39,7 +39,7 @@ static u32 apply_target_grid_rectangle(s32 target_x, s32 target_y)
     return points_within_squared_threshold(&current_rect, &target_rect, 0x20);
 }
 
-/* Calls apply_target_grid_rectangle with 0x10, 7. */
-u32 apply_rectangle_preset_10x7(void) {
-    return apply_target_grid_rectangle(0x10, 7);
+/* Calls is_position_near_grid_cell with 0x10, 7. */
+u32 is_position_near_fixed_grid_cell(void) {
+    return is_position_near_grid_cell(0x10, 7);
 }

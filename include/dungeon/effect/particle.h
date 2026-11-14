@@ -265,7 +265,7 @@ typedef struct LayeredSpritePulseBody {
 } LayeredSpritePulseBody;
 
 void clear_circular_list_flags(void);
-void process_entries_at_coordinates(void *list_head, s32 x, s32 y, s16 upper_bound, s16 lower_bound);
+void spawn_shrinking_particles_at_tile(void *list_head, s32 x, s32 y, s16 upper_bound, s16 lower_bound);
 
 #include "records/Rec_func_80167A98_arg0.h"
 #include "records/Rec_func_80167A98_arg1.h"
@@ -277,7 +277,7 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
 struct TargetParticleStatusSpellBody;
 void update_animated_effect_sprite(struct TargetParticleStatusSpellBody *effect, ObjectPosition *entity, SpriteFrameState *sprite);
 void create_eight_part_textured_ribbon(ActorRecord *source, void *origin, SpriteFrameState *unused, ObjectPosition *effect_position);
-void subtract_limit_or_flag_record(void *record);
+void expire_node_when_counter_below_limit(void *record);
 
 void create_source_positioned_object(ObjectPosition *source_pos, s16 initial_value);
 

@@ -10,13 +10,13 @@
 #include "slus.h"
 #include "town/scene/object.h"
 #include "town/minigame/pickup_data.h"
+#include "town/minigame/source_bounds_data.h"
 #include "town/data.h"
 
 
 
 extern s32 town_money[];
 extern TownRewardValues D_80020020;
-extern Box minigame_source_bounds[];
 extern s32 D_8007947C[];
 extern Box D_800D0420;
 

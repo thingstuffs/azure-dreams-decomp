@@ -3,6 +3,6 @@
 
 #include "shared/dungeon_item_entries.h"
 
-void clear_slot_and_update_linked_state(DungeonItemEntry *slot);
+void clear_item_slot(DungeonItemEntry *slot);
 
 #endif

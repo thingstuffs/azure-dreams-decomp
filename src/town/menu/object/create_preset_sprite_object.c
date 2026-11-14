@@ -7,5 +7,5 @@ extern u8 D_800A74D8[];
 
 /* Creates an object at the given position with preset state and sprite data. */
 ObjectNodeHeader *create_preset_sprite_object(IntVector3 *position) {
-    return create_positioned_sprite_object(position, D_800A74D8, emote_sprite_entries);
+    return create_emote_sprite_object(position, D_800A74D8, emote_sprite_entries);
 }

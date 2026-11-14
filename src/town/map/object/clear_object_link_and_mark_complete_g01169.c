@@ -9,7 +9,7 @@
 #include "shared/sprite_frame_state.h"
 
 /* On a successful object check, clear its linked byte and set object and global flags. */
-void clear_object_link_and_mark_complete(S_func_800BB508_0 *object, void *context) {
+void retire_object_when_out_of_bounds(S_func_800BB508_0 *object, void *context) {
     if (classify_object_against_bounds(object, context) != 0) {
         unlink_scene_list_node(object);
         if (object->unk_98 != 0) {
@@ -22,7 +22,7 @@ void clear_object_link_and_mark_complete(S_func_800BB508_0 *object, void *contex
 }
 
 /* Initialize object state, scale, and color, then offset and configure the object. */
-void initialize_object_state_and_appearance(void *object_id, ObjectPosition *object, SpriteFrameState *sprite) {
+void init_lit_mesh_object(void *object_id, ObjectPosition *object, SpriteFrameState *sprite) {
     register_node(NODE_HEADER(object_id), lit_mesh_renderer_address);
 
     sprite->clut = 0;
@@ -46,44 +46,44 @@ void initialize_object_state_and_appearance(void *object_id, ObjectPosition *obj
 }
 
 /* Update the object and advance its state angle by 0x20 modulo 0x1000. */
-void advance_object_state_angle(void *object, void *context, SpriteFrameState *state) {
+void update_spinning_object(void *object, void *context, SpriteFrameState *state) {
     u16 *angle = &state->angle_z;
     s32 t;
-    clear_object_link_and_mark_complete(object, context);
+    retire_object_when_out_of_bounds(object, context);
     *angle += 0x20;
     t = *angle;
     *angle = t & 0xFFF;
 }
 
 /* Set the object handler table, initialize its state, and set its counter to 30. */
-void initialize_object_appearance_with_delay(TownObjectRecord *object, ObjectPosition *context, void *state) {
+void init_spinning_object_long_delay(TownObjectRecord *object, ObjectPosition *context, void *state) {
     NODE_HEADER(object)->update_callback = D_800BB640;
-    initialize_object_state_and_appearance(object, context, state);
+    init_lit_mesh_object(object, context, state);
     ((s32 *)state)[2] = 30;
 }
 
-/* Forward the object and value to clear_object_link_and_mark_complete. */
-void clear_object_link_and_complete(void *object, void *value) {
-    clear_object_link_and_mark_complete(object, value);
+/* Forward the object and value to retire_object_when_out_of_bounds. */
+void update_static_object(void *object, void *value) {
+    retire_object_when_out_of_bounds(object, value);
 }
 
 /* Set the object handler table, initialize its state, and set its counter to 30. */
-void initialize_object_appearance_with_delay_b(void *object, void *context, void *state) {
+void init_static_object_long_delay(void *object, void *context, void *state) {
     NODE_HEADER(object)->update_callback = D_800BB6C4;
-    initialize_object_state_and_appearance(object, context, state);
+    init_lit_mesh_object(object, context, state);
     ((s32 *)state)[2] = 30;
 }
 
 /* Set the object handler table, initialize its state, and set its counter to 14. */
-void init_object_with_countdown(TownObjectRecord *object, ObjectPosition *context, void *state) {
+void init_spinning_object_short_delay(TownObjectRecord *object, ObjectPosition *context, void *state) {
     NODE_HEADER(object)->update_callback = D_800BB640;
-    initialize_object_state_and_appearance(object, context, state);
+    init_lit_mesh_object(object, context, state);
     ((s32 *)state)[2] = 14;
 }
 
 /* Set the object handler table, initialize its state, and set its counter to 14. */
-void init_object_with_countdown_b(void *object, void *context, void *state) {
+void init_static_object_short_delay(void *object, void *context, void *state) {
     NODE_HEADER(object)->update_callback = D_800BB6C4;
-    initialize_object_state_and_appearance(object, context, state);
+    init_lit_mesh_object(object, context, state);
     ((s32 *)state)[2] = 14;
 }

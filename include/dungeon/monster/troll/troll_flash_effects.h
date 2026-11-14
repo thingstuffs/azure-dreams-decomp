@@ -80,7 +80,7 @@ typedef struct T_80170F94_S_80170F94_1 {
 
 #ifndef NULL
 #define NULL 0
-void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
+void update_troll_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 
 #endif
 
@@ -380,6 +380,6 @@ void spawn_growing_rotating_flash(ActorRecord *unused, ObjectPosition *position,
 void update_tracked_attachment_sprite(TrackedAttachmentSpriteBody *object, ObjectPosition *position, SpriteFrameState *part_state);
 void create_tracked_attachment_sprite(ActorRecord *attachment, ObjectPosition *base_position);
 void * create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_height);
-void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
+void update_troll_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 
 #endif

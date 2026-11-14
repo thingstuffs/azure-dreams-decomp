@@ -10,6 +10,6 @@ extern u8 battnel_direction_frames[];
 
 
 
-void decelerate_and_center_actor_on_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void update_battnel_recoil(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 #endif

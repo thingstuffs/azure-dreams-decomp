@@ -129,7 +129,7 @@ void update_betting_effect(TownEffect *input)
                     scratch.d = 0;
                     scratch.a = grid_origin_x - (grid_x << 22);
                     scratch.c = -((s32)message.y << 19);
-                    initialize_source_and_initial_data(message_ptr, &scratch);
+                    create_bouncing_pickup(message_ptr, &scratch);
                 }
                 if (--message.y < 0)
                     break;
@@ -170,7 +170,7 @@ void update_betting_effect(TownEffect *input)
             break;
         }
         SD_Call(0x523);
-        display_object = create_dual_buffer_object(0, -80, 64);
+        display_object = create_floating_number_widget(0, -80, 64);
         payout_scale = 6 / (effect->phase + 1);
         betting_display_object = display_object;
         effect->payout_scale = payout_scale;
@@ -581,7 +581,7 @@ void update_betting_effect(TownEffect *input)
             scratch.d = (s32)((u32)(rsin(angle) * 5) << 6);
             scratch.e = (s32)((u32)(rcos(angle) * 5) << 6);
             scratch.f = (s32)0xFFF80000;
-            initialize_source_and_initial_data(&message, &scratch);
+            create_bouncing_pickup(&message, &scratch);
             particle_index++;
         }
         effect->state = 9;

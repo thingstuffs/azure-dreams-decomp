@@ -22,7 +22,7 @@ void ease_object_value_and_advance_state(UnsignedCountdownView *state_arg, Objec
     }
 
     object->z.v = (s32)0xFF800000;
-    clear_entity_record_fields(object);
+    clear_object_velocity(object);
     state->timer = 10;
     state->unk_04 = D_80098544;
 }

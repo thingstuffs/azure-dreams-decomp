@@ -19,7 +19,7 @@ extern u8 scene_mode_code;
 #include "slus.h"
 #include "main.h"
 
-extern void restore_entity_flag_ten(void);
+extern void restore_actor_blind_flag(void);
 
 
 
@@ -51,7 +51,7 @@ void card_boot_update_card_chooser_input(CardChooserBody *menu)
                 object = menu->request;
                 object->flags |= 0x2000;
                 if (menu->mode == 2) {
-                    restore_entity_flag_ten();
+                    restore_actor_blind_flag();
                 }
             }
         } else if (button_flags & 0x40) {

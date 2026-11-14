@@ -73,7 +73,7 @@ void *create_actor_graphics_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16
             state->unk_14 = (s32) (state->unk_14 | ACTOR_CLASS_ENABLED);
             state->unk_1C = (s32) (state->unk_1C | ACTOR_PLAYER_SIDE);
         }
-        register_node(object, &process_actor_state_chain);
+        register_node(object, &render_actor_part_chain);
         position = object->position;
         position->z.w.i = saved_height;
         graphics = object->sprite;

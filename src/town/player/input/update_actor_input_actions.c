@@ -14,7 +14,7 @@
 extern void init_threshold_countdown_action(void *, void *,void *);
 extern void initialize_actor_action_state(void *, void *, s32);
 extern void initialize_action_object(void *, void *, s32);
-extern void initialize_action_handler_with_count_six(void *, void *,void *);
+extern void initialize_interaction_fallback_action(void *, void *,void *);
 extern void initialize_action_object_with_counter(void *, ObjectPosition *, s32);
 extern void initialize_actor_movement_interaction_action(void *, void *,void *);
 
@@ -68,7 +68,7 @@ void update_actor_input_actions(void *context, ObjectPosition *entity, s32 updat
                 return;
             }
         }
-        initialize_action_handler_with_count_six(context, entity, update_arg);
+        initialize_interaction_fallback_action(context, entity, update_arg);
     }
 
     return;

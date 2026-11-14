@@ -13,5 +13,5 @@ extern s32 D_800D6540[];
 void initialize_reaction_object_and_clear_flag(TownObjectRecord *object, s32 unused, void *context) {
     initialize_object_entries((object), context, D_800D6540);
     D_800826B8 = 0;
-    object->handler = &forward_reaction_object;
+    object->handler = &update_reaction_vertical_ease;
 }

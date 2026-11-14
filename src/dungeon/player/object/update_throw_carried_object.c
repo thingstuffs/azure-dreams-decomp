@@ -1,3 +1,4 @@
+#include "dungeon/player/saved_held_item_data.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "dungeon/player/input.h"
 #include "shared/sprite_frame_state.h"
@@ -23,7 +24,7 @@ extern s32 measure_directional_stopping_distance(s16, ObjectPosition *, void *, 
 extern u8 player_wait_frames[8];
 extern u8 player_carry_frames[8];
 extern u8 player_throw_frame_set[8];
-extern s32 saved_held_item_word[];
+
 
    /* state0_call_arg in update_throw_carried_object */
 
@@ -151,7 +152,7 @@ void update_throw_carried_object(ActorRecord *actor, ObjectPosition *motion, u8 
             ((SpriteAnimationTableView *)active_anim)->frame_table = active_table;
             active_entry = g_game_work.view.camera_rotation.parts.viewAngle;
             entity_angle = entity->facing;
-            saved_held_item_word[0] = saved_value;
+            saved_held_item_word = saved_value;
             active_entry += entity_angle;
             active_entry += 0x100;
             active_entry >>= 9;

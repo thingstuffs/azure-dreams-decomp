@@ -25,8 +25,8 @@ void remove_all_controller_nodes(void *controller)
         u8 *object;
 
         if (U32AT(owner, 0x00) != 0)
-            runtime_clear_value(PPTR(U32AT(owner, 0x00)));
-        runtime_unlink_doubly_linked_node(node);
+            clear_word(PPTR(U32AT(owner, 0x00)));
+        unlink_owner_list_node(node);
         object = owner - 32;
         unlink_node(object);
         unlink_active_node(object);

@@ -87,7 +87,7 @@ typedef struct S_func_81008664_12 {
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 #include "dungeon/actor/spend_actor_mp_api.h"
-extern s16 dungeon_room_count;
+#include "dungeon/level/room_count_data.h"
 extern u8 D_801748F0[];
 extern u8 D_801748F8[];
 

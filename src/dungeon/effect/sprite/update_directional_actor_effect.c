@@ -147,7 +147,7 @@ void update_directional_actor_effect(TimedTargetHitSpellBody *state_data, Object
         if (state_data->unk_50 <= 0) {
             object = allocate_list_node(0x302, &scene_object_list_anchor.next);
             if (object != 0) {
-                object->update_callback = update_segment;
+                object->update_callback = update_directional_grid_segments;
                 register_node(object, &D_80024D58);
                 actor = (void *)((u8 *)(&reference_tile_object));
                 offset[0] = (primary_actor_record->facing >> 9) & 7;
@@ -581,23 +581,23 @@ void mark_referenced_object_and_update_flags(FragmentSpawningEffectBody *entry, 
 typedef struct S_80024B20_1 {
     u8 pad_00[0x10];
     u16 unk_10;
-} S_80024B20_1;   /* src in update_segment */
+} S_80024B20_1;   /* src in update_directional_grid_segments */
 
 
 typedef struct S_80024B20_3 {
     u8 pad_00[0x12];
     u16 unk_12;
     s16 unk_14;
-} S_80024B20_3;   /* p in update_segment */
+} S_80024B20_3;   /* p in update_directional_grid_segments */
 
 
 typedef struct S_80024B20_5 {
     u8 pad_00[0x14A0];
     u32 unk_14A0;
-} S_80024B20_5;   /* page in update_segment */
+} S_80024B20_5;   /* page in update_directional_grid_segments */
 
 /* Updates an eight-segment effect's samples, motion, color, and lifetime. */
-void update_segment(DirectionalGridEffectBody *effect) {
+void update_directional_grid_segments(DirectionalGridEffectBody *effect) {
     s32 segment_index;
     u16 state;
     s32 base_speed;

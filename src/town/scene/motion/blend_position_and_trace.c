@@ -20,7 +20,7 @@ void blend_position_and_trace(s32 first_input, s32 second_input, s32 blend_weigh
     const char *first_format;
     const char *second_format;
     const char *result_format;
-    call_state_handler_and_copy_values(&s0, first_input);
+    fetch_scene_position_xy(&s0, first_input);
     {
         ReportValue report;
         report = town_scene_root->services->callback_168;
@@ -28,7 +28,7 @@ void blend_position_and_trace(s32 first_input, s32 second_input, s32 blend_weigh
         report(first_format, D_80016118, s0.x);
     }
     first_format = 0;
-    call_state_handler_and_copy_values(&s1, second_input);
+    fetch_scene_position_xy(&s1, second_input);
     {
         ReportValue report;
         report = town_scene_root->services->callback_168;

@@ -157,7 +157,7 @@ void *spawn_univern_actor(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
                     call_zero = 0;
                     outer_child->update_callback = child_object_update_address;
                     (*(void **)((u8 *)item + 0x2C)) = table;
-                    direction_index = (((*(s16 *)view_facing_angle_alias) +
+                    direction_index = ((view_facing_angle_alias +
                         object->facing + 0x100) >> 9) & 7;
                     select_sprite_entry(item,
                         *(u8 *)((R17_8017089C_uptr)direction_index + (R17_8017089C_uptr)table), call_zero);

@@ -10,7 +10,7 @@ typedef struct Position {
     s16 y;
 } Position;
 
-extern s32 apply_nearby_object_effects(void);
+extern s32 trigger_effect_when_in_range(void);
 
 
 typedef struct S_800C21F8_0 {
@@ -34,7 +34,7 @@ s32 switch_callback_beyond_distance_limit(S_800C21F8_0 *object) {
     if ((object->unk_0C < (x_distance >> 16)) ||
         ((s16)y_distance > object->unk_0E)) {
         town_sd_sq_callagain();
-        object->unk_00 = (void (*)(void))apply_nearby_object_effects;
+        object->unk_00 = (void (*)(void))trigger_effect_when_in_range;
 
         return 1;
     }

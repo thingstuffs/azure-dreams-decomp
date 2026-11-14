@@ -19,7 +19,7 @@
 extern void submit_object_resource_data();
 void init_ground_input_fallback(s32 * *, void *, void *);
 struct TownObjectRecord; void initialize_randomized_object_action(struct TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
-struct TownObjectRecord; void init_periodic_effect_action(struct TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+struct TownObjectRecord; void init_input_angle_random_timer_action(struct TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 struct TownObjectRecord;
 struct TownObjectRecord; struct ObjectPosition; void initialize_actor_action_state(struct TownObjectRecord *, struct ObjectPosition *, s32);
 void initialize_action_object(s32 * *, void *, void *);
@@ -111,7 +111,7 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, ObjectPosition *position,
         if (actor->unk_16 == 1) {
             tile_id = read_map_cell_at_world_position(position->x.w.i, position->y.w.i);
             if (check_masked_value_in_current_range((u16)tile_id) != 0 &&position->z.v > 0) {
-                init_periodic_effect_action((struct TownObjectRecord *)(actor), (position), sprite);
+                init_input_angle_random_timer_action((struct TownObjectRecord *)(actor), (position), sprite);
                 return;
             } else {
                 init_ground_input_fallback((s32 * *)(actor), position, sprite);

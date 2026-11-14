@@ -28,7 +28,7 @@ s16 query_offset_position_minus_z(LocalVec *position, S_8008ECC0 *offsets, s32 o
     query_position.x = position->x + offset->x;
     query_position.y = position->y + offset->y;
     query_position.z = position->z + offset->z;
-    result = forward_highest_surface_query(&query_position);
+    result = find_highest_surface_within_range_at(&query_position);
 
     if (result == (s16)0x8001) {
         return (u16)0x8001;

@@ -61,23 +61,23 @@ void draw_nearby_map_markers(void *ordering_table, InactiveTypeTwelveObjectBody 
 
     if (dungeon_floor_flags & 0x1000) {
         dungeon_floor_flags &= ~0x1000;
-        redraw_type_three_floor_markers();
+        redraw_map_cell_markers();
     }
     if (dungeon_floor_flags & FLOOR_REVEAL_MONSTERS) {
         dungeon_floor_flags &= ~FLOOR_REVEAL_MONSTERS;
-        draw_red_active_entry_markers();
+        draw_monster_map_markers();
     }
     if (dungeon_floor_flags & FLOOR_REVEAL_ITEMS) {
         dungeon_floor_flags &= ~FLOOR_REVEAL_ITEMS;
-        draw_blue_enabled_entry_markers();
+        draw_item_map_markers();
     }
     if (dungeon_floor_flags & FLOOR_REVEAL_TRAPS) {
         dungeon_floor_flags &= ~FLOOR_REVEAL_TRAPS;
-        draw_purple_entry_markers();
+        draw_trap_map_markers();
     }
     if (dungeon_floor_flags & FLOOR_REVEAL_ELEVATOR) {
         dungeon_floor_flags &= ~FLOOR_REVEAL_ELEVATOR;
-        draw_green_type_two_markers();
+        draw_elevator_map_markers();
     }
 
     brightness = (rsin(system->unk_004 << 8) >> 6) + 0x80;
@@ -151,7 +151,7 @@ void draw_nearby_map_markers(void *ordering_table, InactiveTypeTwelveObjectBody 
     do {
         if (info[playerAndIndex].active != 0) {
             if ((dungeon_floor_flags & FLOOR_ITEMS_VISIBLE) ||
-                get_masked_grid_nibble(mapEntry[playerAndIndex].x,
+                get_packed_tile_height(mapEntry[playerAndIndex].x,
                               mapEntry[playerAndIndex].y)) {
                 append_map_dot_tile(mapEntry[playerAndIndex].x,
                               mapEntry[playerAndIndex].y, colour, ordering_table);
@@ -166,7 +166,7 @@ void draw_nearby_map_markers(void *ordering_table, InactiveTypeTwelveObjectBody 
     colour[1] = brightness;
     for (; playerAndIndex < 4 && objectEntry[playerAndIndex].kind == 2; playerAndIndex++) {
         if ((dungeon_floor_flags & FLOOR_ELEVATOR_VISIBLE) ||
-            get_masked_grid_nibble(objectEntry[playerAndIndex].x,
+            get_packed_tile_height(objectEntry[playerAndIndex].x,
                           objectEntry[playerAndIndex].y)) {
             append_map_dot_tile((u16)objectEntry[playerAndIndex].x,
                           (u16)objectEntry[playerAndIndex].y, colour, ordering_table);
@@ -185,7 +185,7 @@ void draw_nearby_map_markers(void *ordering_table, InactiveTypeTwelveObjectBody 
             !(info[playerAndIndex].flags & 0x40)) {
             if ((dungeon_floor_flags & FLOOR_TRAPS_VISIBLE) ||
                 (!(info[playerAndIndex].flags & 0x80) &&
-                 get_masked_grid_nibble(largeMapEntry[playerAndIndex].x,
+                 get_packed_tile_height(largeMapEntry[playerAndIndex].x,
                                largeMapEntry[playerAndIndex].y))) {
                 append_map_dot_tile(largeMapEntry[playerAndIndex].x,
                               largeMapEntry[playerAndIndex].y, colour, ordering_table);

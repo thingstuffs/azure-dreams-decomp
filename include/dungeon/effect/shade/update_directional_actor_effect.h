@@ -287,9 +287,9 @@ void update_directional_actor_effect(s16 start_x, s16 start_y, s16 start_z, s16 
                    s16 end_z, s16 *angles);
 void update_homing_arc_and_brighten_effect(EffectAndInitializeSpriteBody *effect, Row_8194C8F0_S_800240F0_2 *motion, void *sprite);
 void allocate_effect_and_initialize_sprite(ObjectNodeHeader *effect_data, u16 *effect_param, void *render_param);
-void update_rotating_effect_and_fade(TexturedOffsetObjectBody *effect, void *position,struct SpriteFrameState *sprite);
+void update_circling_offset_effect(TexturedOffsetObjectBody *effect, void *position,struct SpriteFrameState *sprite);
 void create_textured_offset_object(EffectWithEndpointsBody *source_object);
-void advance_object_motion_and_animation(EffectWithEndpointsBody *object);
+void update_textured_offset_effect(EffectWithEndpointsBody *object);
 void allocate_effect_with_endpoints(s32 object_value, ObjectPosition *start_pos, void *end_pos, s16 setting, Row_8194D1E4_FourWords params_a,
     Row_8194D1E4_FourWords params_b, Row_8194D1E4_Packed8 packed_params);
 void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectPosition *position);

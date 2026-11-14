@@ -13,7 +13,7 @@
 #include "shared/entity.h"
 #include "sdk/libgte.h"
 
-/* Body installed by allocate_object_with_initial_state and called through dispatch_menu_state_callback. */
+/* Body installed by create_scattered_motion_object and called through dispatch_menu_state_callback. */
 typedef struct RandomizedEffectMotionBody {
     /* 0x00 */ void (*callback)();
     /* 0x04 */ u8 pad_04[0x1E];

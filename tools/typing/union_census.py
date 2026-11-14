@@ -34,9 +34,9 @@ R118_ZERO_SITES = {
     'src/dungeon/menu/draw_nearby_map_markers.c': {
         'entryFlag', 'entryType', 'markerKind', 'kind', 'object',
     },
-    'src/dungeon/effect/particle/update_effect_base_state.c': {'effect'},
+    'src/dungeon/effect/particle/update_staged_color_flash_effect.c': {'effect'},
     'src/dungeon/effect/travel/cycle_seven_color_fade.c': {'fade_out_red'},
-    'src/dungeon/monster/kewne/update_actor_render_effect_and_position.c': {'segment_limit'},
+    'src/dungeon/monster/kewne/update_ellipse_ring_effect.c': {'segment_limit'},
     'src/town/scene/object/create_town_hud.c': {'rgb', 'state'},
 }
 WIDTHS = {

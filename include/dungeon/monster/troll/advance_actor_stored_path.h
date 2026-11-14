@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_7F469800_P03_H
 #define DUNGEON_OVL_7F469800_P03_H
 #include "common.h"
+#include "dungeon/level/direction_offsets.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -192,8 +193,6 @@ extern s16 actor_turn_angle_offsets[];
 extern u8 D_80175E9C[];
 extern u8 D_80175EA4[];
 extern u8 D_80175EAC[];
-extern u16 direction_x_offsets[];
-extern u16 direction_y_offsets[];
 void advance_actor_stored_path_2(ActorRecord *movement, ObjectPosition *actor_index, SpriteFrameState *actor, ActorRecord *path_state);
 void reset_actor_directional_animation(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *display, ActorRecord *entity);
 #endif

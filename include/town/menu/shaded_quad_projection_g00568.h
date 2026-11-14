@@ -32,8 +32,8 @@ typedef struct {
     u32 w1;
 } __attribute__((packed)) Packed8;
 
-extern void copy_odd_halfwords_3();
-extern void copy_menu_vector_halfwords();
+extern void copy_moving_position_to_menu_point();
+extern void copy_menu_point();
 
 /* Functions defined in this translation unit. */
 void project_and_enqueue_shaded_quad(Coord8 vertex_0, Coord8 vertex_1, Packed8 vertex_2, Packed8 vertex_3, s32 shade);

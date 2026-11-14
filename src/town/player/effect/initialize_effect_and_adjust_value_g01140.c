@@ -76,16 +76,16 @@ void turn_entity_toward_target(TownPlayerRecord *entity, void *transform, Sprite
             target_angle = entity->unk_10;
             current_angle = entity->unk_18;
             target_angle -= 0x200;
-            entity->unk_18 = step_angle_12_toward(current_angle, target_angle, 0x200);
+            entity->unk_18 = step_angle_toward(current_angle, target_angle, 0x200);
         } else if (entity_type == (u8 *)update_actor_movement_and_actions && (input_state->buttons & 0x8000)) {
             target_angle = entity->unk_10;
             current_angle = entity->unk_18;
             target_angle += 0x200;
-            entity->unk_18 = step_angle_12_toward(current_angle, target_angle, 0x200);
+            entity->unk_18 = step_angle_toward(current_angle, target_angle, 0x200);
         } else {
             current_angle = entity->unk_18;
             target_angle = entity->unk_10;
-            entity->unk_18 = step_angle_12_toward(current_angle, target_angle, 0x200);
+            entity->unk_18 = step_angle_toward(current_angle, target_angle, 0x200);
         }
     }
     direction = view_relative_angle_sector(entity->unk_18);
@@ -109,7 +109,7 @@ void turn_entity_toward_target(TownPlayerRecord *entity, void *transform, Sprite
     {
         u8 *render_state = town_position_reference_state;
 
-        copy_entity_record_fields(render_state, transform);
+        copy_object_position_and_velocity(render_state, transform);
         *(s32 *)(render_state + 8) = 0;
     }
 }
@@ -161,7 +161,7 @@ void update_object_view_transition(S_800A58CC_2 *state_arg, ObjectPosition *obje
     apply_velocity_friction((object_ref));
     apply_velocity_friction((object_ref));
     target_yaw = (state_arg->unk_10 - 0x800) & 0xFFF;
-    yaw = step_angle_12_toward(town->view.camera_rotation.parts.viewAngle, target_yaw, 0x80);
+    yaw = step_angle_toward(town->view.camera_rotation.parts.viewAngle, target_yaw, 0x80);
     town->view.camera_rotation.parts.viewAngle = yaw;
     yaw_delta = abs((yaw & 0xFFF) - target_yaw);
     if (yaw_delta < 0x80) {
@@ -238,7 +238,7 @@ void update_actor_movement_and_actions(State *state, ObjectPosition *actor) {
         actor->velocity_z -= compute_height_based_offset((actor));
     }
 
-    speed = runtime_estimate_vector_length(actor->velocity_x, actor->velocity_y);
+    speed = estimate_vector_length(actor->velocity_x, actor->velocity_y);
     if (town_movement_speed != 0) {
         {
             s32 speed_delta;
@@ -337,7 +337,7 @@ void update_actor_effect_transition(S_800A5DF8_4 *state, ObjectPosition *actor, 
     }
     apply_velocity_friction((actor));
     apply_velocity_friction((actor));
-    angle = step_angle_12_toward(scene_state->view.camera_rotation.parts.viewAngle, 0, 0x80);
+    angle = step_angle_toward(scene_state->view.camera_rotation.parts.viewAngle, 0, 0x80);
     scene_state->view.camera_rotation.parts.viewAngle = angle;
     if ((angle & 0xFFF) < 0x80) {
         scene_state->view.camera_rotation.parts.viewAngle = 0;
@@ -430,7 +430,7 @@ void update_town_movement_and_actions(TownPlayerRecord *state, ObjectPosition *t
         table->velocity_z -= compute_height_based_offset(table);
     }
 
-    speed = runtime_estimate_vector_length(table->velocity_x,
+    speed = estimate_vector_length(table->velocity_x,
                           table->velocity_y);
     if (town_movement_speed != 0) {
         speed_delta = abs(town_movement_speed - speed);

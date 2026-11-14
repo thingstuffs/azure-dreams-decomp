@@ -28,7 +28,7 @@ extern u8 D_800E1C8A[38];
 #include "dungeon/effect/screen.h"
 
 /* Applies a directional effect and reports the result for flagged entities. */
-void apply_random_duration_actor_status(void *entity, s32 direction, void *unused)
+void apply_water_protect_status(void *entity, s32 direction, void *unused)
 {
     void *message_start;
     void *message_end;
@@ -1456,7 +1456,7 @@ L1_calc:
             fade_entry->unk_0E = 0x80;
             fade_entry->unk_0D = 0x80;
             fade_entry->unk_0C = 0x80;
-            apply_random_duration_actor_status(obj->target, effect->spell.variant, obj);
+            apply_water_protect_status(obj->target, effect->spell.variant, obj);
         }
         effect->unk_84 = 13;
         effect->spell.phase++;

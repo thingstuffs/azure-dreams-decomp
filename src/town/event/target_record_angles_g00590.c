@@ -5,7 +5,7 @@
 #include "town/event.h"
 
 /* Initialize and apply the two town records to the target. */
-void apply_two_records_to_target(void *target, ObjectPosition *setup_data)
+void queue_two_mesh_quad_sets(void *target, ObjectPosition *setup_data)
 {
     s32 record_value;
     s32 record_value2;
@@ -60,6 +60,6 @@ void update_positions_from_origin(ObjectPosition *origin)
         town_motion_offset_position.x = origin->x.v + scale * 0x1800;
         town_motion_offset_position.y = origin->y.v;
         town_motion_offset_position.z = origin->z.v;
-        apply_two_records_to_target(&town_motion_offset_position, (origin));
+        queue_two_mesh_quad_sets(&town_motion_offset_position, (origin));
     }
 }

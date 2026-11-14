@@ -15,7 +15,7 @@ void install_table_and_test_entries(void) {
     if (record_value_table_contains(7) != 0) {
         set_script_flag_bit(F_sbs36_pad08);
     }
-    if (town_table_contains_first_byte_b(7) != 0) {
+    if (town_pair_table_has_first(7) != 0) {
         set_script_flag_bit(F_sbs36_pad07);
     }
 }

@@ -29,6 +29,6 @@ extern void *town_item_list;
 void refresh_entity_slot_snapshot(s32 record_ref);
 void refresh_active_slot_snapshots(void);
 void refresh_item_list_snapshots(void);
-void process_state_entries_and_referenced_objects(void);
+void refresh_all_snapshots(void);
 
 #endif

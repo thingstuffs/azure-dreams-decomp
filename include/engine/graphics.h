@@ -7,7 +7,7 @@
 #include "records/Rec_D_80082A38.h"
 
 struct ItemMenuPart;
-void apply_vector_3_template_to_nodes(struct ItemMenuPart **objects, s32 object_count);
+void apply_display_vector_defaults(struct ItemMenuPart **objects, s32 object_count);
 
 struct ObjectPosition;
 struct SpriteFrameState;
@@ -43,7 +43,7 @@ struct Tint8004C080;
 s32 advance_timed_tagged_stream(struct FrameState *state);
 
 /* apply_block_template_to_nodes.c */
-void apply_block_16_template_to_nodes(struct S_8004CC38_Node **nodes, s32 node_count);
+void apply_display_block_defaults(struct S_8004CC38_Node **nodes, s32 node_count);
 
 /* apply_command_colors.c */
 void *apply_command_colors(void *tint0, void *tint1, u8 *packet, void *record, u8 *command, s32 *count);
@@ -191,8 +191,8 @@ void reset_callbacks_and_clear_vram(void);
 /* reset_graphics_state.c */
 void reset_graphics_state(void);
 
-/* resource_load_indexed_sprite_bundle.c */
-void *resource_load_indexed_sprite_bundle(s32 resource_id);
+/* load_indexed_sprite_bundle.c */
+void *load_indexed_sprite_bundle(s32 resource_id);
 
 /* run_cd_image_commands.c */
 void func_80041588(u32 *stream_ref, u8 *state, s32 execute);
@@ -202,35 +202,35 @@ void run_cd_image_commands(u32 *stream_ref, u8 *state, s32 execute);
 void func_80041344(s32 data_base, void *scratch);
 void run_image_load_commands(s32 data_base, void *scratch);
 
-/* runtime_transform_sprite_attachment_point.c */
-void runtime_transform_sprite_attachment_point(struct SpriteFrameState *transform, void *point, void *result);
+/* transform_sprite_attachment_point.c */
+void transform_sprite_attachment_point(struct SpriteFrameState *transform, void *point, void *result);
 
 /* scale_four_points_about_center.c */
 void copy_and_scale_screen_outline_points(void);
 
-/* scene_begin_transition_texture_read.c */
-void scene_begin_transition_texture_read(unsigned char *task_state);
+/* begin_transition_texture_read.c */
+void begin_transition_texture_read(unsigned char *task_state);
 
-/* scene_initialize_orbit_motion_sprite.c */
+/* init_orbit_motion_sprite.c */
 struct SineMotionEffectNode;
 struct Controller;
-void scene_initialize_orbit_motion_sprite(struct SineMotionEffectNode *object, struct Controller *owner);
+void init_orbit_motion_sprite(struct SineMotionEffectNode *object, struct Controller *owner);
 
-/* scene_load_texture_and_data_pair.c */
-void scene_load_texture_and_data_pair(s8 *status);
+/* load_scene_texture_and_data.c */
+void load_scene_texture_and_data(s8 *status);
 
-/* scene_load_variant_texture_set.c */
-void scene_load_variant_texture_set(void);
+/* load_variant_texture_set.c */
+void load_variant_texture_set(void);
 
 /* select_sprite_entry.c */
 void func_80047784(void *object, s16 table_index, s16 entry_index);
 void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 
-/* set_color_components_and_scaled_fields.c */
-void set_color_components_and_scaled_fields(struct S_80050550_Outer *outputs, s32 numerator, s32 denominator);
+/* set_gauge_color_ratio.c */
+void set_gauge_color_ratio(struct S_80050550_Outer *outputs, s32 numerator, s32 denominator);
 
 /* set_color_components_and_scaled_fields_second.c */
-void advance_gauge_color_then_decay(struct S_800505BC *state, s32 unused_1, s32 unused_2);
+void advance_gauge_ramp_and_decay(struct S_800505BC *state, s32 unused_1, s32 unused_2);
 
 /* set_sprite_animation_frame.c */
 void set_sprite_animation_frame(SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index);
@@ -296,6 +296,6 @@ void step_actor_animation(SpriteFrameState *entity, s32 slot_index);
 
 struct CdCueEffectNode;
 struct Controller;
-void scene_initialize_arc_motion_sprite(struct CdCueEffectNode *object, struct Controller *sub_object);
+void init_arc_motion_sprite(struct CdCueEffectNode *object, struct Controller *sub_object);
 
 #endif

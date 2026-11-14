@@ -18,7 +18,7 @@
 void submit_object_resource_data();                         /* extern */
 struct TownObjectRecord; void initialize_actor_position_interaction_action(struct TownObjectRecord *, ObjectPosition *, s32);     /* extern */
 struct ObjectPosition; void initialize_input_driven_scene_object(s32 * *, struct ObjectPosition *, s32);     /* extern */
-void initialize_action_callback_from_entry(s32 **record, void *ptr, void *ptr2);
+void init_radial_effects_action(s32 **record, void *ptr, void *ptr2);
 void initialize_busy_checked_countdown_action(TownObjectRecord *record,void *unused,void *setup_value);
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"                      /* extern */
 #include "town/player/move_both_components_toward_zero_direction_dependent_steps_clamping_zero_api.h"                      /* extern */
@@ -59,7 +59,7 @@ void update_actor_movement_and_interaction(void *actor, ObjectPosition *position
     ground_height = query_capped_surface_height(position, &position_query_scratch);
     if ((ground_height - position->z.w.i) >= 4) {
         if (town_action_state_flag == 0) {
-            initialize_action_callback_from_entry(actor, position, context);
+            init_radial_effects_action(actor, position, context);
             return;
         }
     } else {
@@ -78,10 +78,10 @@ void update_actor_movement_and_interaction(void *actor, ObjectPosition *position
             town_interaction_pending[0] = 1;
             return;
         }
-        clear_entity_record_fields(position);
+        clear_object_velocity(position);
         sync_collision_motion_xyz(position);
         if (create_item_menu_unless_minigame((s32)(actor - 0x20)) != 0) {
-            set_default_scene_data_pointer(actor, position, context);
+            set_no_op_scene_handler(actor, position, context);
             town_player_action_callback = &begin_town_actor_interaction;
             return;
         }
@@ -101,7 +101,7 @@ void update_actor_movement_and_interaction(void *actor, ObjectPosition *position
                 }
             }
             interaction = (S_800927EC_4 *)&town_actor_control;
-            interaction_result = select_response_for_source_and_target(interaction->unk_10,
+            interaction_result = select_response_text(interaction->unk_10,
                 ((TownObjectRecord *)actor)->unk_2C);
             if (interaction_result != 0) {
                 call_script(interaction_result);

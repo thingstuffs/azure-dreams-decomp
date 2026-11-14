@@ -1,0 +1,13 @@
+#include "town/scene.h"
+#include "town/player.h"
+#include "town/scene/flags.h"
+
+
+/* Update the current script flag when the linked value passes the check. */
+s32 process_entry_marking_flag_at_five(void *object, s32 entry_index)
+{
+    if (get_town_state_count() >= 5) {
+        mark_active_entry_script_flag();
+    }
+    return process_checked_entry(object, entry_index);
+}

@@ -19,6 +19,6 @@ extern GpTablePrefix runtime_directory_defaults;
 extern u8 runtime_dispatch_mode_alias[];
 extern u8 runtime_single_resource_data[];
 
-void bind_and_load_indexed_resource_record(void *data, s32 entry_index);
+void load_indexed_resource_record(void *data, s32 entry_index);
 
 #endif

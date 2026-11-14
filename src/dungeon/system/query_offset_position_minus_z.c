@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 #include "dungeon/system.h"
 
-extern s32 forward_highest_surface_query(s32 *);
+extern s32 find_highest_surface_within_range_at(s32 *);
 
 typedef struct S_8008C420_0 {
     s32 unk_00;
@@ -30,7 +30,7 @@ s16 query_offset_position_minus_z(S_8008C420_0 *origin, s32 offset_table, s32 of
     position[0] = origin->unk_00 + offset->unk_00;
     position[1] = origin->unk_04 + offset->unk_04;
     position[2] = origin->unk_08 + offset->unk_08;
-    query_result = forward_highest_surface_query(position);
+    query_result = find_highest_surface_within_range_at(position);
     if ((s16) query_result == -0x7FFF) {
         return -0x7FFF;
     }

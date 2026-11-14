@@ -17,7 +17,7 @@ s32 copy_processed_vram_tile_backward(s32 tile_index)
     rect.h = 1;
     StoreImage(&rect, pixels);
     DrawSync(0);
-    mark_palette_colors_with_high_bit((s32)pixels, 1, 0);
+    set_palette_stp_bits((s32)pixels, 1, 0);
     upload_vram_row_and_cache((s32)pixels, tile_index - 0x80, 1, 2);
     return DrawSync(0);
 }

@@ -6,7 +6,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor/animation.h"
 #define F(p,t,o) (*(t)((u8 *)(p)+(o)))
-extern s16 view_facing_angle_alias;
+#include "slus/view_facing_angle.h"
 extern s32 D_801714B0, ghosh_frame_set;
 struct ObjectNodeHeader;
 #include "dungeon/level/unlink_entity_node_api.h"

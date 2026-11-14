@@ -7,7 +7,7 @@
 #include "town/shop/stat_panel_callbacks_api.h"
 
 /* Initialize an entry with a mode-dependent value offset and a fixed data offset. */
-void initialize_mode_offset_entry(s32 mode, s32 value_base, S_800B6CCC_0 *entry, s32 data_base) {
+void fill_cd_read_descriptor(s32 mode, s32 value_base, S_800B6CCC_0 *entry, s32 data_base) {
     s32 entry_value;
 
     entry_value = value_base + 0x42E6;
@@ -19,7 +19,7 @@ void initialize_mode_offset_entry(s32 mode, s32 value_base, S_800B6CCC_0 *entry,
 }
 
 /* Returns a mapped code for the object, or its fallback value when the code is zero. */
-s32 get_mapped_object_code(void *object) {
+s32 get_monster_status_species_code(void *object) {
     s32 code = *((u8 *) object + 0x13);
 
     if (code != 0) {
@@ -34,9 +34,9 @@ s32 get_mapped_object_code(void *object) {
 }
 
 /* Set the object data pointer and initialize its coordinate-based data. */
-void initialize_coordinate_entry(void *object) {
+void set_monster_status_cd_read_target(void *object) {
     *(void **)((u8 *)object + 0xE0) = (void *)0x8002B800;
-    initialize_mode_offset_entry(*(s16 *)((u8 *)object + 8), *(s16 *)((u8 *)object + 0xA),
+    fill_cd_read_descriptor(*(s16 *)((u8 *)object + 8), *(s16 *)((u8 *)object + 0xA),
                   (S_800B6CCC_0 *)((u8 *)object + 0xD8), (s32)0x8002B800);
 }
 
@@ -61,12 +61,12 @@ void clear_monster_status_texture(void *texture) {
 }
 
 /* Invalidates changed cached state and starts the corresponding CD operations. */
-s32 invalidate_cached_state_and_queue_read(Rec_func_800B683C_arg0 *state) {
+s32 queue_monster_status_reload(Rec_func_800B683C_arg0 *state) {
     s32 state_code;
     s32 cache_addr;
     CachedObjectCodePair *cached_state;
 
-    state->unk_0A = (s16)get_mapped_object_code((void *)state->unk_04);
+    state->unk_0A = (s16)get_monster_status_species_code((void *)state->unk_04);
     state_code = get_enabled_record_flag_priority(state->unk_04);
     state->unk_10 = state_code;
     if (state_code == 3) {
@@ -85,7 +85,7 @@ s32 invalidate_cached_state_and_queue_read(Rec_func_800B683C_arg0 *state) {
         ((S_800B6E3C_2 *)((void *)cache_addr))->unk_02 = -1;
         clear_monster_status_texture((void *)(state->unk_14));
         state->unk_DC = 0;
-        initialize_coordinate_entry(state);
+        set_monster_status_cd_read_target(state);
         state->unk_D0 = Control_CD(6, &state->cd_read_target, NULL);
         state->unk_D4 = Control_CD(0xFF, complete_display_transfer, state);
         return 1;

@@ -15,6 +15,6 @@ void initialize_threshold_interaction_action(void *record, void *unused_entity, 
     S_8009431C_0 *object;
 
     object = record;
-    object->unk_00 = &update_threshold_and_interaction;
+    object->unk_00 = &update_airborne_object_with_land_timer;
     object->unk_0A = 0;
 }

@@ -19,7 +19,7 @@ typedef struct S_800AA044_0 {
     u16 unk_04;
 } S_800AA044_0;
 
-/* arg0 in copy_even_halfwords_3 */
+/* arg0 in narrow_vector_to_svector */
 typedef struct S_800AA044_1 {
     u16 unk_00;
     u8 pad_02[0x2];
@@ -74,11 +74,11 @@ typedef struct S_func_800AC9AC_3 {
 
 /* extern */
 extern s32 D_800D11C0[4];
-extern void copy_menu_vector_halfwords(void *, void *);
+extern void copy_menu_point(void *, void *);
 extern void add_entity_position_to_menu_vector(void *, void *);
 
 /* Functions defined in this translation unit. */
-void copy_even_halfwords_3(S_800AA044_0 *dst, S_800AA044_1 *src);
+void narrow_vector_to_svector(S_800AA044_0 *dst, S_800AA044_1 *src);
 void transform_vector(s32 transform, void *vector, void *transformed);
 
 #endif

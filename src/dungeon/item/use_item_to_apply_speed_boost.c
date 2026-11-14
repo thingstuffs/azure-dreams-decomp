@@ -47,7 +47,7 @@ s32 use_item_to_apply_speed_boost(ActorRecord *entity, DungeonItemEntry *event_i
         adjust_source_value_and_finalize(entity, D_800E206A);
     }
     create_colored_effect_with_sound(NODE_HEADER(entity), 0xF02020, 0x616);
-    clear_slot_and_update_linked_state(event_id);
+    clear_item_slot(event_id);
     g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
     return 1;
 }

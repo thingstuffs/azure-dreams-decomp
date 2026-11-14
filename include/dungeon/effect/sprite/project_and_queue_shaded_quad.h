@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_7E6E1800_H
 #define DUNGEON_OVL_7E6E1800_H
 #include "common.h"
+#include "dungeon/effect/sprite/shaded_effect_update_flag.h"
 #include "sdk/libgte_matrix.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_sprite_data.h"
@@ -301,5 +302,4 @@ void create_positioned_render_effect(Row_819232EC_S_80024AEC_1 *source, Rec_func
 void grow_sprite_to_double_scale_and_fade(void *entity_data, s32 unused, SpriteFrameState *effect_data);
 void create_random_offset_effect(void *unused, Rec_func_800247B8_arg1 *origin, void *unused_sprite);
 void update_effect_cycle_and_bursts(Row_8192365C_S_80024E5C_0 *effect, Row_8192365C_S_80024E5C_2 *motion, SpriteFrameState *sprite);
-extern u8 shaded_effect_update_flag[];
 #endif

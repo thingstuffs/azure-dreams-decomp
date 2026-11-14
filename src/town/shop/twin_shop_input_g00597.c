@@ -5,12 +5,12 @@
 #include "town/shop/twin_shop_input_g00597.h"
 
 /* Calls get_item_name with record->unk_20 +(record->unk_04 * 4). */
-void pass_indexed_record_to_loader(Rec_func_800AD7F8_arg0 *record) {
+void refresh_selected_item_name(Rec_func_800AD7F8_arg0 *record) {
     get_item_name(record->unk_20 + (record->unk_04 * 4));
 }
 
 /* Calls get_item_name_with_fallback_pair with entry_table->unk_20 +(entry_table->unk_04 * 4). */
-void pass_indexed_entry_address(GridMenuObject *entry_table) {
+void refresh_selected_item_name_with_fallback(GridMenuObject *entry_table) {
     get_item_name_with_fallback_pair(entry_table->entry_base + (entry_table->selected_index * 4));
 }
 
@@ -31,7 +31,7 @@ void handle_twin_shop_input(s32 *menu) {
 
     if ((pad_state->pressed_buttons) & 0x10) {
         SD_Call(AUDIO_ACCEPT);
-        store_record_check_result(menu);
+        set_status_from_flagged_total(menu);
         close_twin_shop((s8 *)menu - 0x20);
         return;
     }
@@ -86,11 +86,11 @@ void handle_twin_shop_input(s32 *menu) {
     menu[1] = selection;
     if (row != menu[3]) {
         menu[3] = row;
-        set_shop_subrecord_values(menu[10], row, selection);
+        set_shop_page_and_selection(menu[10], row, selection);
     }
-    store_shop_embedded_value(menu[10], selection);
+    set_shop_selected_entry(menu[10], selection);
     if (pad_state->buttons & 0x40) {
         confirm_selected_entry(menu);
     }
-    pass_indexed_record_to_loader((Rec_func_800AD7F8_arg0 *)menu);
+    refresh_selected_item_name((Rec_func_800AD7F8_arg0 *)menu);
 }

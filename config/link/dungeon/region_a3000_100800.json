@@ -38,7 +38,7 @@
     },
     {
       "row": "dungeon/func_800C31A0",
-      "tu": "src/dungeon/actor/effect/try_apply_effect_four_by_chance.c",
+      "tu": "src/dungeon/actor/effect/try_apply_paralysis_effect.c",
       "home": "dungeon/func_800C31A0",
       "foff": "0xE31A0",
       "vma": "0x800c8900",
@@ -46,7 +46,7 @@
     },
     {
       "row": "dungeon/func_800C32DC",
-      "tu": "src/dungeon/actor/effect/try_apply_effect_four_by_chance.c",
+      "tu": "src/dungeon/actor/effect/try_apply_paralysis_effect.c",
       "home": "dungeon/func_800C31A0",
       "foff": "0xE32DC",
       "vma": "0x800c8a3c",

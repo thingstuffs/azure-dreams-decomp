@@ -709,7 +709,7 @@ def diff_line_map(root, base, renames=None):
                            for m in re.finditer(r'^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@', out, re.M)]
         return cache[path]
 
-    def line_map(path, line):
+    def line_map(path, line, inplace=False):
         shift = 0
         for old_start, old_len, new_start, new_len in hunks(path):
             # git names the line before the change for an empty side (pure insertion or deletion)
@@ -718,9 +718,12 @@ def diff_line_map(root, base, renames=None):
             if line < old_first:
                 break
             if line < old_first + old_len:
-                return None
+                # an edited line is None, unless the hunk replaces lines one for one (inplace): a callee renamed
+                # on the line rewrites it where it stands
+                return line + new_first - old_first if inplace and old_len == new_len else None
             shift = (new_first + new_len) - (old_first + old_len)
         return line + shift
+    line_map.inplace = lambda path, line: line_map(path, line, True)
     return line_map
 
 
@@ -734,6 +737,16 @@ def mapped_sites(sites, line_map):
                 return None
             out.append(f'{path}:{head}:{col}')
     return ';'.join(out)
+
+
+def same_after_renames(base_message, head_message, names):
+    """Two warning messages are one message when they differ only in quoted identifiers that config/names.tsv
+    records at one address (a callee renamed between BASE and HEAD)."""
+    quoted = re.compile(r"'([A-Za-z_]\w*)'")
+    if quoted.sub("''", base_message or '') != quoted.sub("''", head_message or ''):
+        return False
+    return all(a == b or (names.get(a, set()) & names.get(b, set()))
+               for a, b in zip(quoted.findall(base_message or ''), quoted.findall(head_message or '')))
 
 
 def proven_rename(base_findings, row, old, names, line_map=None, renames=None):
@@ -753,7 +766,15 @@ def proven_rename(base_findings, row, old, names, line_map=None, renames=None):
             if sites == row['sites'] or site_lines(sites) == site_lines(row['sites']):
                 return True
             mapped = mapped_sites(sites, line_map) if line_map else None
-            return mapped is not None and (mapped == row['sites'] or site_lines(mapped) == site_lines(row['sites']))
+            if mapped is not None and (mapped == row['sites'] or site_lines(mapped) == site_lines(row['sites'])):
+                return True
+            # the rename also rewrote the warning's own line (a renamed callee): carry the sites through lines
+            # edited in place, and then require the same count and the same messages after the callee renames
+            inplace = getattr(line_map, 'inplace', None)
+            mapped = mapped_sites(sites, inplace) if inplace else None
+            return (mapped is not None and site_lines(mapped) == site_lines(row['sites'])
+                    and str(b.get('count')) == str(row.get('head_count'))
+                    and same_after_renames(b.get('messages'), row.get('messages'), names))
     return False
 
 
@@ -814,7 +835,9 @@ def carried_rows(head, before, names, renames, stale_files=frozenset()):
     from HEAD, the warning class is the same, the file is the same or git records it renamed (renames: {HEAD
     path: BASE path}) or the BASE row names a file BASE no longer has (stale_files: a rename that landed before
     BASE left the row behind), config/names.tsv records both function names at one address (names:
-    recorded_renames) and the HEAD count is not higher.  Exactly one BASE row must match; such a row is the
+    recorded_renames) and the HEAD count is not higher; or the function keeps its name and only its file is
+    renamed (git records the HEAD file renamed from the BASE row's file: the file took a renamed neighbour's
+    name).  Exactly one BASE row must match; such a row is the
     BASE record under its new key, so it is neither added nor raised and honours nothing."""
     out = {}
     gone = [k for k in before if k not in head]
@@ -823,9 +846,10 @@ def carried_rows(head, before, names, renames, stale_files=frozenset()):
             continue
         file, function, warning = key
         base_file = (renames or {}).get(file, file)
-        match = [b for b in gone if b[2] == warning and (b[0] == base_file or b[0] in stale_files)
-                 and b[1] != function
-                 and (names.get(b[1], set()) & names.get(function, set())) and sites <= before[b]]
+        match = [b for b in gone if b[2] == warning and sites <= before[b]
+                 and (((b[0] == base_file or b[0] in stale_files) and b[1] != function
+                       and (names.get(b[1], set()) & names.get(function, set())))
+                      or (b[1] == function and base_file != file and b[0] == base_file))]
         if len(match) == 1:
             out[key] = match[0]
     return out

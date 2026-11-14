@@ -23,7 +23,7 @@
 
 
 #include "dungeon/item/find_active_rect_containing_point_api.h"
-extern void select_bank_actor_movement(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
+extern void select_zu_movement(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 extern s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
 extern void func_8016F078(void *, void *, void *, void *);
 
@@ -152,7 +152,7 @@ void choose_kewne_uncached_action(ActorRecord *actor, ObjectPosition *context, S
             return;
         }
         if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
-            select_bank_actor_movement(actor, context, sprite, entity);
+            select_zu_movement(actor, context, sprite, entity);
             return;
         }
         if (!(entity->action_flags & ACTOR_ACTION_PENDING)) {
@@ -171,7 +171,7 @@ void choose_kewne_uncached_action(ActorRecord *actor, ObjectPosition *context, S
                     }
                 }
             }
-            if ((update_entity_state_from_query(actor, context, sprite, 0) << 16) == 0) {
+            if ((relink_hikewne_path(actor, context, sprite, 0) << 16) == 0) {
                 return;
             }
             action = entity->action_flags | 0x4000;
@@ -223,7 +223,7 @@ void choose_kewne_uncached_action(ActorRecord *actor, ObjectPosition *context, S
                 break;
             }
         }
-        select_bank_actor_movement(actor, context, sprite, entity);
+        select_zu_movement(actor, context, sprite, entity);
         return;
     }
 

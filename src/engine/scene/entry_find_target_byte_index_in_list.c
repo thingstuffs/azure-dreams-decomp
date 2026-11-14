@@ -4,8 +4,8 @@
 #include "town/shop.h"
 
 /* Clears the first byte of each 0x54-byte entry using the selected entry count. */
-void clear_selected_scene_entry_flags(void) {
-    s32 table_index = find_target_byte_index_in_list();
+void reset_town_record_slots(void) {
+    s32 table_index = find_target_index_in_list();
     s32 entry_count = town_record_capacities[table_index];
     s32 entry_index;
 

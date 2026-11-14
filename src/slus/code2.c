@@ -64,13 +64,13 @@ void reset_scene_frame_callback_list(void) {
 
 /* func_8004D0C8 */
 
-void copy_view_halfword_triplet(void);
+void copy_camera_position_from_object(void);
 
-/* Registers the state pointer and the default callback copy_view_halfword_triplet. */
+/* Registers the state pointer and the default callback copy_camera_position_from_object. */
 void bind_view_triplet_source(void *state)
 {
     game_view_state_alias.slot[0].position_source = state;
-    game_view_state_alias.slot[0].callback = copy_view_halfword_triplet;
+    game_view_state_alias.slot[0].callback = copy_camera_position_from_object;
 }
 
 /* func_800419EC */
@@ -100,11 +100,11 @@ void initialize_timed_motion_step(unsigned short countdown, unsigned int amount)
 /* func_8004D110 */
 
 
-/* Registers the state pointer and the default callback copy_global_short_triplet. */
+/* Registers the state pointer and the default callback copy_view_source_position. */
 void bind_global_triplet_source(void *state)
 {
     game_view_state_alias.slot[0].unk_04 = state;
-    game_view_state_alias.slot[0].callback = copy_global_short_triplet;
+    game_view_state_alias.slot[0].callback = copy_view_source_position;
 }
 
 extern unsigned char audio_force_center_pan[16];
@@ -202,7 +202,7 @@ int monster_get_species_name_text(int index)
 extern int vram_row_upload_cache[128];
 
 /* Clears all 128 vram_row_upload_cache words from the last entry to the first. */
-void clear_runtime_slot_word_table(void) {
+void clear_vram_row_upload_cache(void) {
     s32 index;
 
     for (index = 0x7F; index >= 0; index--) {

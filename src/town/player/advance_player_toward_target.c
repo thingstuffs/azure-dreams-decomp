@@ -28,7 +28,7 @@ void advance_player_toward_target(void *state_arg, ObjectPosition *motion, void 
     state->timer = ticks_left;
     if (((s16) ticks_left * 0x10000) <= 0) {
         motion->y.v = (s32) ((u32) (state->unk_32 * 0x10000) + (u32) *target_base);
-        clear_entity_record_fields(motion);
+        clear_object_velocity(motion);
         state->unk_10 = 0x400;
         state->timer = 0xA;
         dispatch_selected_entry_if_nonzero(town_scene_record_handlers, state_arg, context);

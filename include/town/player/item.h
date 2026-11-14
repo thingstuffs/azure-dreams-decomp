@@ -16,8 +16,8 @@ void plt_carry_item_del_ext(void);
 /* set_hold_item_callback.c */
 s32 set_hold_item_callback(void);
 
-/* set_item_selection_data_pointer.c */
-void set_item_selection_data_pointer(void *object, void *unused_position, void *unused_context);
+/* set_deferred_dispatch_handler.c */
+void set_deferred_dispatch_handler(void *object, void *unused_position, void *unused_context);
 
 /* set_return_item_callback.c */
 s32 set_return_item_callback(void);

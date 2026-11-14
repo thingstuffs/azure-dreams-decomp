@@ -21,7 +21,7 @@ void initialize_shop_window_layout(ShopWindow *ui) {
     header = ui->header_record;
     ui->widgets->record_widget->value.pointer = header;
     ui->widgets->record_widget->data->y = 0x2F;
-    process_shop_record_and_subrecord(header);
+    build_shop_panel_records(header);
     position_shop_row_widgets(ui);
     initialize_scaled_entry_cursor(&ui->cursor_record, &shop_cursor_template, &ui->widgets->cursor->value.word);
     row = 4;
@@ -62,7 +62,7 @@ void initialize_shop_window_layout(ShopWindow *ui) {
 }
 
 /* Stores the supplied shop subrecord values, enables it, and installs its update callback. */
-void initialize_shop_subrecord(void *record_data, s32 value_20, s32 value_08, s32 value_0c, s32 value_10,
+void initialize_shop_window_state(void *record_data, s32 value_20, s32 value_08, s32 value_0c, s32 value_10,
                    s32 value_14, s32 value_24, s32 value_18) {
     S_800B1390_1 *r = record_data;
     r->unk_04 = 1;
@@ -77,9 +77,9 @@ void initialize_shop_subrecord(void *record_data, s32 value_20, s32 value_08, s3
 }
 
 /* Configure the object, update its embedded records, and finalize it. */
-void configure_shop_object_and_finalize(void *object, s32 setup_value_1, s32 setup_value_2, s32 setup_value_3,
+void setup_shop_window(void *object, s32 setup_value_1, s32 setup_value_2, s32 setup_value_3,
                    s32 setup_value_4, s32 setup_value_5, s32 setup_value_6, s32 setup_value_7) {
-    initialize_shop_subrecord(object, setup_value_1, setup_value_2, setup_value_3, setup_value_4, setup_value_5, setup_value_6,
+    initialize_shop_window_state(object, setup_value_1, setup_value_2, setup_value_3, setup_value_4, setup_value_5, setup_value_6,
         setup_value_7);
     initialize_shop_parts((u8 *)object + 0xBC, (u8 *)object + 0x94,
                   (u8 *)object + 0xA4);

@@ -153,7 +153,7 @@ void advance_target_chasing_emitter(void *object, struct S_800244BC_2 *position,
 void *create_object_ring_effect(s32 value, void *source, s32 unused, s32 context);
 struct POLY_FT4;
 void *draw_sprite_effect_quads(u8 *sprite_list, ObjectPosition *position, SpriteFrameState *render_state_addr, u8 *placement, struct POLY_FT4 *packet_buf);
-void process_effect_block_entries(void *block);
+void advance_block_sprite_entries(void *block);
 struct Inner;
 void update_owner_positioned_sprite(OwnerPositionedSpriteBody *body, struct Inner *fields_target, struct Inner *field_c_target);
 void add_hp_delta_and_show_popup(ActorRecord *object, s32 unused, ActorRecord *record);

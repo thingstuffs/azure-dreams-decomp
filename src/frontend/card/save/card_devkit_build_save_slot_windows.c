@@ -17,7 +17,7 @@ void card_devkit_build_save_slot_windows(void *ptr) {
         } else {
             *(void (**)(void))((u8 *)base + 0x34) = card_dev_update_save_slot_selection;
             initialize_card_message_object_with_code_0xb((u8 *)base - 0x20);
-            *(void (**)(void))((u8 *)base - 0x10) = card_dev_commit_pending_value;
+            *(void (**)(void))((u8 *)base - 0x10) = install_pending_completion_callback;
         }
     }
     if (idx == 5) {

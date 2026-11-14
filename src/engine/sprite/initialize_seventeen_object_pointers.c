@@ -23,8 +23,8 @@ s32 allocate_selection_menu_entry_buffers(S_80050AF0 *state, s32 allocation_arg)
     if (buffer_address != 0) {
         buffer_address = (s32)allocate_entry_slots(sub_buffers, 9, 0xC);
         if (buffer_address != 0) {
-            initialize_seventeen_object_pointers((s32 *)state->unk68, buffer_address);
-            buffer_address = allocate_and_append_callback_payload(sub_buffers, 0xC);
+            assign_menu_object_data_pointers((s32 *)state->unk68, buffer_address);
+            buffer_address = append_allocated_node_body(sub_buffers, 0xC);
             success = (buffer_address != 0);
             state->unk2C = buffer_address;
         }

@@ -300,7 +300,7 @@ s32 queue_linked_visible_rectangle_copies(void *initial_state, void *input_value
 struct S_Rect;
 
 /* Processes linked entries with position values staged in scratchpad memory. */
-s32 process_linked_entries_at_position(void *entry_data, void *position) {
+s32 queue_linked_rectangles_at_position(void *entry_data, void *position) {
     register u8 *data = entry_data;
     register SpriteQuadScratch *scratch = (SpriteQuadScratch *)0x1F800000;
     register u8 *next_node;

@@ -17,12 +17,12 @@ void initialize_monster_status_state(Rec_func_800B683C_arg0 *record, s32 context
     record->unk_0E = 0;
     record->unk_00 = advance_monster_status_opening;
     record->unk_14 = get_monster_status_type_data(record->unk_08);
-    invalidate_cached_state_and_queue_read(record);
+    queue_monster_status_reload(record);
 }
 
 /* Initialize an object's position, internal links, and resource state. */
 void initialize_monster_status_object(void *object, s32 entityId, s32 resourceIndex, s32 positionX, s32 positionY, s32 positionZ) {
     initialize_positioned_display_templates((u8 *)object + 0x88, (u8 *)object + 0x60, (u8 *)object + 0x70, positionX, positionY, positionZ);
-    clear_linked_entry_state(object);
+    reset_monster_status_links(object);
     initialize_monster_status_state((Rec_func_800B683C_arg0 *)object, entityId, resourceIndex);
 }

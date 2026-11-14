@@ -47,5 +47,5 @@ void display_speaker_name_plate(Func80035AF8State *state) {
             return;
         }
     }
-    state->callback = grow_window_extent_to_sixty_four;
+    state->callback = grow_window_extent_to_limit;
 }

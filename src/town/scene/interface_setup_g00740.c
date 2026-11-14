@@ -24,7 +24,7 @@ void apply_selected_entry_position(void *firstValue, s32 unusedValue, s32 second
 }
 
 /* Runs the global interface setup sequence and saves its initial result. */
-s32 run_global_interface_setup_sequence(void) {
+s32 reset_hospital_flags_and_pick_entry(void) {
     D_80018FB4 = ((S_func_80016D74_2 *)
         ((S_func_80016D74_1 *)
          ((S_func_80016D74_0 *)((s8 *)(&town_scene_root)))->unk_00)->unk_20)->unk_54(3);

@@ -7,6 +7,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "dungeon/item/message.h"
+#include "dungeon/effect/sprite/shaded_effect_update_flag.h"
 #include "engine/node.h"
 #include "slus.h"
 #include "dungeon/item.h"
@@ -26,7 +27,6 @@ extern DirectionTable resolved_item_direction_table;
 extern u8 D_80024024[];
 extern u8 D_80024E5C[];
 extern u8 D_80025B40[];
-extern s16 shaded_effect_update_flag;
 
 extern u8 dir_step_x[];
 extern u8 dir_step_y[];

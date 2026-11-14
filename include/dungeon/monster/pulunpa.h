@@ -21,11 +21,11 @@ void advance_directional_action_and_reset(ActorRecord *action, ObjectPosition *m
 
 void animate_hop_to_actor_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
-void select_variant_object_data(ActorRecord *object, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *extra);
-void select_variant_object_data_when_positive(ActorRecord *object, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
+void finish_pulunpa_hop_and_grow(ActorRecord *object, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *extra);
+void finish_pulunpa_floor_trap_check(ActorRecord *object, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
 void display_record_name_message(void *record);
-void build_and_display_encoded_message(ActorRecord *source);
+void display_actor_message(ActorRecord *source);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void advance_selected_item_action(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);

@@ -12,8 +12,8 @@ extern u8 pulunpa_action_resume_address[];
 extern u8 pulunpa_variant_action_address[];
 extern u8 D_801762C8[];
 #include "dungeon/monster/pulunpa.h"
+#include "dungeon/monster/pulunpa_frame_set_3.h"
 extern u8 D_80176328[];
-extern u8 pulunpa_frame_set_3[];
 
 /* Updates object state or selects a source table entry from the target direction. */
 /* Updates Pulunpa's parent-relative motion and floor traps, then restores the idle frames for its normal

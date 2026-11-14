@@ -131,7 +131,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
         return;
     }
     if (!(((ActorRecord *)actor)->unk_A0.parts.high & 0x10)) {
-        select_state_16_directional_animation(actor, motion, sprite, stats);
+        select_player_motion_animation(actor, motion, sprite, stats);
         return;
     }
     if (((ActorRecord *)stats)->flags1C & 0x200) {
@@ -426,7 +426,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                             ((ActorRecord *)actor)->unk_A4.halves.low.u = idle_ticks;
                             if ((s16) idle_ticks >= 0x3D) {
                                 ((ActorRecord *)actor)->unk_A4.halves.low.u = 0x3CU;
-                                enter_directional_state_17(actor, motion, sprite, stats);
+                                enter_idle_timeout_pose(actor, motion, sprite, stats);
                                 return;
                             }
                         }

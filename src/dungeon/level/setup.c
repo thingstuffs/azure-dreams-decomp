@@ -429,7 +429,7 @@ retry_position:
         u16 height_index;
         u16 display_value;
 
-        u16 *display_table = camera_pitch_presets;
+        s16 *display_table = camera_pitch_presets;
         call_target = (u8 *)(u32)((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_24;
         display_index = *(u16 *)((u8 *)entry_index + 0x20A2);
         tile_y = ((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_25;

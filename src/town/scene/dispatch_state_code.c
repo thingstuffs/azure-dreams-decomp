@@ -12,7 +12,7 @@ s32 dispatch_by_state_code_0x798(void *handler_arg_a, s32 handler_arg_b) {
     if (get_script_flag_mask(F_sbs22_pad28) == 0) {
         result = process_checked_entry(handler_arg_a, handler_arg_b);
     } else {
-        pass_indexed_entry(handler_arg_a, handler_arg_b);
+        set_flag_from_indexed_entry(handler_arg_a, handler_arg_b);
         result = 1;
     }
     return result;

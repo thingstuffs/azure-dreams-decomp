@@ -24,7 +24,7 @@
     {
       "row": "town/func_8074C8F8",
       "home": "town/func_8074C8F8",
-      "tu": "src/town/scene/flags/process_entry_linked_five.c",
+      "tu": "src/town/scene/flags/process_entry_marking_flag_at_five.c",
       "foff": "0x6CC8F8",
       "vma": "0x800160F8",
       "size": 84,
@@ -73,7 +73,7 @@
     },
     {
       "row": "town/func_8074C9A0",
-      "tu": "src/town/scene/find_entry_index_assert.c",
+      "tu": "src/town/scene/find_eight_byte_entry_or_assert.c",
       "home": "town/func_8032ECE4",
       "foff": "0x6CC9A0",
       "vma": "0x800161A0",
@@ -183,7 +183,7 @@
     },
     {
       "row": "town/func_8074CE44",
-      "tu": "src/town/scene/flags/update_entry_flags.c",
+      "tu": "src/town/scene/flags/replace_record_flag_with_entry_flag.c",
       "home": "town/func_8032F188",
       "foff": "0x6CCE44",
       "vma": "0x80016644",
@@ -383,7 +383,7 @@
     },
     {
       "row": "town/func_8074D450",
-      "tu": "src/town/scene/flags/get_first_entry_flag.c",
+      "tu": "src/town/scene/flags/find_first_eligible_entry.c",
       "home": "town/func_80481D78",
       "foff": "0x6CD450",
       "vma": "0x80016C50",

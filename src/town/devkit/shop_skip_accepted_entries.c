@@ -16,7 +16,7 @@ s32 test_flag_list_terminator(s32 list_index) {
     s16 *entry;
 
     entry = D_80701DEC[devkit_shop_flag_links[list_index].next];
-    while (test_linked_flag(*entry) != 0) {
+    while (test_indexed_flag(*entry) != 0) {
         entry += 1;
     }
     return *entry == 0;

@@ -14,5 +14,5 @@ void init_sound_threshold_action(s32 **record, ObjectPosition *unused_position, 
     SD_Call(0x512);
     store_input_angle(record);
     dispatch_selected_entry_if_nonzero(action_object_handler_table, (struct TownObjectRecord *)(record), (void *)(setup_value));
-    *record = update_threshold_object;
+    *record = update_airborne_object_until_ground;
 }

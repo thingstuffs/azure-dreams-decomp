@@ -123,7 +123,7 @@ void update_settings_effect(SettingsVisualEffectBody *effect) {
         break;
     }
     color_step_or_index = 9;
-    callback = (void *)mark_object_flags_dirty;
+    callback = (void *)mark_node_for_removal;
     do {
         element = allocate_flagged_object_node(0x111);
         if (element != NULL) {

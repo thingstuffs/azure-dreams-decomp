@@ -1,0 +1,335 @@
+#include "engine/graphics/select_sprite_entry_api.h"
+#include "dungeon/actor.h"
+#include "shared/audio_commands.h"
+#include "shared/slus_callbacks.h"
+#include "shared/actor_status_flags.h"
+#include "common.h"
+#include "dungeon/monster/ifrit.h"
+#include "shared/actor_action_flags.h"
+#include "shared/def_table.h"
+#include "shared/object_node.h"
+#include "shared/record_ptrs.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
+#include "shared/entity.h"
+#include "engine/cd.h"
+#include "dungeon/actor/status.h"
+#include "engine/node.h"
+#include "engine/node/allocation.h"
+#include "dungeon/player/object.h"
+#include "dungeon/effect/particle.h"
+#include "sdk/libc.h"
+extern u8 D_801740FC[];
+
+typedef struct S_801728C4_3_pre {
+    void * unk_00;
+    u8 pad_04[0x10];
+} S_801728C4_3_pre;   /* the 0x14 bytes before parent in advance_item_use_with_impact_effect, addressed as parent[-1] */
+
+typedef struct S_801728C4_3 {
+    u8 pad_00[0xC];
+    union { void * s; s32 u; } unk_0C;   /* accessed as both */
+    u16 unk_10;
+    u16 unk_12;
+    u16 unk_14;
+    u8 pad_16[0x6];
+    u16 unk_1C;
+    u16 unk_1E;
+    u8 pad_20[0x4];
+    u8 unk_24;
+    u8 unk_25;
+    u8 pad_26[0x2];
+    s32 unk_28;
+} S_801728C4_3;   /* parent in advance_item_use_with_impact_effect */
+
+typedef struct S_801728C4_4 {
+    u8 pad_00[0x4];
+    s8 unk_04;
+    u8 pad_05[0x3];
+    void * unk_08;
+    void * unk_0C;
+    u8 pad_10[0x2];
+    u16 unk_12;
+    u16 unk_14;
+    u8 pad_16[0xE];
+    u8 unk_24;
+    u8 unk_25;
+    u8 pad_26[0x2];
+    s32 unk_28;
+    void * unk_2C;
+} S_801728C4_4;   /* arg2 in advance_item_use_with_impact_effect */
+
+
+
+extern u8 ifrit_action_resume_address[];
+#include "dungeon/item.h"
+#include "dungeon/system.h"
+
+extern u8 D_80174850[];
+
+extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
+
+/* Updates actor action states, movement, and impact effects. */
+/* Starts a targeted spell with two rows of effects, emits impact particles at the sprite attachment, then
+ * restores idle. */
+void advance_item_use_with_impact_effect(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
+{
+    u16 pos[3];
+    u16 delta[3];
+    s32 state;
+    u32 anim_id;
+    u32 action_kind;
+    u32 dispatch_index;
+    s16 special_mode;
+    s32 special_test;
+    s32 particle_count;
+    s32 current_state;
+    u8 *anim;
+    u16 timer;
+    ObjectNodeHeader *effect;
+    ActorImpactEffectBody *effect_state;
+    struct SpriteFrameState *target_sprite;
+    void (*callback)(void);
+    ActorRecord *player_state;
+    ObjectNodeHeader *special_target;
+    s32 offset_x;
+    s32 abs_x;
+    s32 abs_y;
+    s32 offset_y;
+    s32 flags;
+
+    special_mode = 0;
+    state = body->action_phase;
+    switch (state) {
+    case 0:
+        if (actor->flags1C & ACTOR_PLAYER_SIDE) {
+            action_kind = actor->action_flags & ACTOR_ACTION_CODE_MASK;
+            dispatch_index = action_kind - 1;
+            switch (dispatch_index) {
+            case 6:
+                special_mode = 1;
+            case 2:
+                anim = (u8 *)actor + 0xE;
+                break;
+            case 5:
+                special_mode = 1;
+            case 1:
+                anim = (u8 *)actor + 0xB;
+                break;
+            case 4:
+                special_mode = 1;
+            case 0:
+                anim = (u8 *)actor + 8;
+                break;
+            default:
+                anim = 0;
+                break;
+            }
+        } else {
+            switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
+            case 3:
+                anim = (u8 *)actor + 0xE;
+                break;
+            case 2:
+                anim = (u8 *)actor + 0xB;
+                break;
+            case 1:
+                anim = (u8 *)actor + 8;
+                break;
+            default:
+                anim = 0;
+                break;
+            }
+        }
+        if (*anim != 0) {
+            body->action_state_flags &= 0xFF7F;
+            special_test = special_mode;
+            if (special_test != 0) {
+                special_target = ((ObjectNodeHeader *)primary_actor_record);
+                actor->target = special_target;
+                target_sprite = (special_target - 1)->sprite;
+                actor->target_tile_x = target_sprite->tile_x;
+                actor->target_tile_y = target_sprite->tile_y;
+            } else {
+                anim_id = *anim;
+                if (item_action_definitions[anim_id].kind == 2) {
+                    target_sprite = actor->target;
+                    if (target_sprite != 0) {
+                        target_sprite = ((S_801728C4_3_pre *)target_sprite)[-1].unk_00;
+                        actor->target_tile_x = target_sprite->tile_x;
+                        actor->target_tile_y = target_sprite->tile_y;
+                    }
+                } else {
+                    actor->target = scan_actor_along_heading(
+                        actor, sprite->tile_x, sprite->tile_y,
+                        actor->facing, 0x10);
+                    abs_x = abs(actor->target_tile_x);
+                    abs_y = abs(actor->target_tile_y);
+                    actor->target_tile_x = abs_x;
+                    actor->target_tile_y = abs_y;
+                }
+            }
+
+            pos[0] = ((u16)motion->x.w.i);
+            pos[1] = ((u16)motion->y.w.i);
+            pos[2] = ((u16)motion->z.w.i);
+            if (create_actor_spell_effect(actor, anim, special_mode, (u8 *)body + 0x98) != 0) {
+                sprite->flags &= 0xF7FF;
+                play_sound_if_enabled(0x703);
+                create_two_row_object_group(pos, (s16)((*anim - 1) % 3));
+                current_state = body->action_phase;
+                body->action_timer = 30000;
+                body->action_phase = current_state + 1;
+                return;
+            }
+            return;
+        } else {
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
+            set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
+            player_state = primary_actor_record;
+            g_dungeon_status.active_actor = 0;
+            player_state->unk_A4.halves.high.u--;
+            advance_status_timers(actor);
+            (*(u8 *)&actor->pending_turn_updates)--;
+            body->unk_8C.address = ifrit_action_resume_address;
+            actor->target_tile_y = 0;
+            actor->target_tile_x = 0;
+            actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
+            return;
+        }
+    case 1:
+        if (get_cd_command_queue_depth() != 0) {
+            sprite->flags |= 0x800;
+            return;
+        }
+        sprite->flags &= 0xF7FF;
+        body->action_phase++;
+    case 2:
+        if (resolve_record_orientation_or_fallback(sprite->source, sprite, delta, 0) == 0) {
+            delta[0] = delta[1] = delta[2] = 0;
+        }
+        if ((sprite->unk_04 == 3 && (sprite->flags & 0x1000)) ||
+            (sprite->flags & 0xE000)) {
+            sprite->flags |= 0x800;
+            body->action_timer = 6;
+            body->action_state_flags |= 0x80;
+            if (!(sprite->flags & 0x8000)) {
+                flags = body->action_state_flags;
+                body->action_state_flags = flags | 0x8000;
+                effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
+                if (effect != 0) {
+                    register_node(effect, project_sprite_chain);
+                    effect_state = NODE_BODY(effect);
+                    effect->update_callback = tick_object_motion_and_expire;
+                    effect->position->x.w.i =
+                        ((u16)motion->x.w.i) + delta[0];
+                    effect->position->y.w.i =
+                        ((u16)motion->y.w.i) + delta[1];
+                    effect->position->z.w.i =
+                        ((u16)motion->z.w.i) + delta[2];
+                    effect_state->unk_A4.s = 0;
+                    effect_state->unk_96 = 4;
+                    target_sprite = effect->sprite;
+                    target_sprite->animation_resource = sprite->animation_resource;
+                    target_sprite->scale_y = 0x1000;
+                    target_sprite->scale_x = 0x1000;
+                    target_sprite->flags = sprite->flags;
+                    target_sprite->clut = sprite->clut;
+                    ((S_801728C4_3 *)target_sprite)->unk_0C.s = ((S_801728C4_4 *)sprite)->unk_0C;
+                    select_sprite_entry(target_sprite, 0x2D, 0);
+                }
+            }
+        }
+
+        timer = body->action_timer - 1;
+        body->action_timer = timer;
+        if ((s32)(timer << 16) <= 0) {
+            body->action_state_flags &= 0x7FFF;
+            sprite->flags &= 0xF7FF;
+        }
+
+        if (body->action_state_flags & 0x8000) {
+            particle_count = 7;
+            callback = (void *)D_801740FC;
+            do {
+                effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
+                if (effect != 0) {
+                    register_node(effect, project_sprite_chain);
+                    effect->update_callback = callback;
+                    effect->position->x.w.i =
+                        ((u16)motion->x.w.i) + delta[0] + (rand() & 0xF) - 8;
+                    effect->position->y.w.i =
+                        ((u16)motion->y.w.i) + delta[1] + (rand() & 0xF) - 8;
+                    effect->position->z.w.i =
+                        ((u16)motion->z.w.i) + delta[2] + (rand() & 0xF) - 8;
+                    effect->position->velocity_x =
+                        ((rand() & 0xFF) - 0x80) << 11;
+                    effect->position->velocity_y =
+                        ((rand() & 0xFF) - 0x80) << 11;
+                    effect->position->velocity_z =
+                        -(rand() & 0xFF) << 12;
+                    effect_state = NODE_BODY(effect);
+                    effect_state->unk_A4.s = 0;
+                    effect_state->unk_96 = 7;
+                    target_sprite = effect->sprite;
+                    target_sprite->animation_resource = sprite->animation_resource;
+                    target_sprite->scale_y = 0x1000;
+                    target_sprite->scale_x = 0x1000;
+                    target_sprite->flags = sprite->flags;
+                    target_sprite->clut = sprite->clut - 0x80;
+                    target_sprite->tpage_abr = 0x60;
+                    target_sprite->color.word = 0x00808080;
+                    target_sprite->flags |= 0xC;
+                    select_sprite_entry(target_sprite, 0x2F, 0);
+                }
+                particle_count--;
+            } while (particle_count >= 0);
+        }
+
+        if (sprite->flags & 0xE000) {
+            sprite->flags &= 0xF7FF;
+            sprite->frameTable = D_80174850;
+            select_sprite_entry(
+                sprite,
+                D_80174850[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                0);
+            body->action_phase = body->action_phase + 1;
+            return;
+        }
+        return;
+    case 3:
+        if (!(sprite->flags & 0xE000)) {
+            return;
+        }
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
+        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
+        if (sprite->frameTable != ifrit_direction_frames) {
+            sprite->frameTable = ifrit_direction_frames;
+            select_sprite_entry(
+                sprite,
+                ifrit_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                0);
+        }
+        if ((g_dungeon_status.active_actor) == 0) {
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
+            sprite->flags &= 0xF7FF;
+            body->unk_8C.address = ifrit_action_resume_address;
+            advance_status_timers(actor);
+            if (actor->pending_turn_updates > 0) {
+                (*(u8 *)&actor->pending_turn_updates)--;
+            }
+            actor->target_tile_y = 0;
+            actor->target_tile_x = 0;
+            actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
+            play_sound_if_enabled(AUDIO_FADE_CD_FAST);
+        }
+
+        return;
+    default:
+        return;
+    }
+}

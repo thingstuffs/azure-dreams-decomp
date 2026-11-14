@@ -50,10 +50,10 @@ const struct CallbackBlock saber_slot_g_callback_table __attribute__((section(".
         func_80171B54, func_80171B80, func_80171B00, func_80171B00,
         func_80171B00, func_80171AAC, func_80171AE4, func_80171B80,
         func_80171B80, func_80171B44, func_80173020, func_80173070,
-        advance_selected_item_action_2, func_80173158, func_801731D0, 0,
+        advance_glacier_spell_action, func_80173158, func_801731D0, 0,
         func_8017329C, func_801734CC, advance_timed_sprite_flashing_sequence, func_80173744,
         func_801737CC, 0, func_8017334C, func_80173344,
-        func_8017333C, complete_directional_hop_to_tile, func_801732F8, func_801732F0,
+        func_8017333C, update_kid_recoil, func_801732F8, func_801732F0,
         func_801732E8
     },
     {

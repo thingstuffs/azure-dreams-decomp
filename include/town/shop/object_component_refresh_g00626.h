@@ -24,7 +24,7 @@ void flag_optional_object_for_removal(void *object);
 extern void release_null_terminated_entries(void *entries);
 
 /* Functions defined in this translation unit. */
-void submit_five_paired_entry_values(S_800B4648_0 *owner);
-void refresh_object_components_and_high_flag(struct StorageMenuNode *object);
+void release_paired_entry_objects(S_800B4648_0 *owner);
+void release_storage_item_menu(struct StorageMenuNode *object);
 
 #endif

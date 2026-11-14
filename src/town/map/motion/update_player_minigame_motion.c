@@ -250,7 +250,7 @@ void update_player_minigame_motion(TownCourseActor *actor, ObjectPosition *motio
         break;
     case 3:
         prev_stage = progress->unk_00;
-        advance_bounded_entry_index(motion, progress);
+        advance_path_waypoint(motion, progress);
         fill_eligible_negative_slots(course, &progress->unk_00, 0);
         if (progress->unk_00 != prev_stage) {
             s32 *best_time;
@@ -298,6 +298,6 @@ void update_player_minigame_motion(TownCourseActor *actor, ObjectPosition *motio
         sprite->flags &= 0xFFFE;
     }
     step_actor_animation(sprite, 0);
-    copy_entity_record_fields((struct ObjectPosition *)(&town_position_reference_state), motion);
+    copy_object_position_and_velocity((struct ObjectPosition *)(&town_position_reference_state), motion);
     ((&town_position_reference_state))->unk_08 = 0;
 }

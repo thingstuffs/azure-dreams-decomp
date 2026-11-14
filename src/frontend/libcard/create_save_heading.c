@@ -20,7 +20,7 @@ void *create_save_heading(s32 init_value)
         object = initialize_scene_object_in_buffer(0, object, 0x68);
         register_node(object, card_boot_render_panel_hierarchy);
     } else {
-        card_boot_destroy_three_row_panel(object);
+        card_boot_destroy_command_panel(object);
         object->flags &= 0x7FFF;
         bzero(work_state, 0x180);
     }

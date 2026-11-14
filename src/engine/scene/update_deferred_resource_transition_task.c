@@ -25,9 +25,9 @@ void update_deferred_resource_transition_task(ScheduleDeferredResourceTransition
         if ((*((u8 *) controller->resource)) != 0) {
             s16 slot_arg = controller->slot_argument;
             if (slot_arg != 0) {
-                controller->slot_index = reserve_runtime_slot(5, slot_arg);
+                controller->slot_index = reserve_transition_slot(5, slot_arg);
             }
-            clear_flags_on_resource_list();
+            unflag_all_active_nodes();
             D_80080A86_store = 0;
             controller->state = 0;
         }

@@ -4,7 +4,7 @@
 #include "sdk/libgpu.h"
 #include "slus.h"
 
-extern void mark_palette_colors_with_high_bit(u16 *entry, s32 groupCount, s32 contiguousMode);
+extern void set_palette_stp_bits(u16 *entry, s32 groupCount, s32 contiguousMode);
 extern s32 relocate_sprite_metadata_pointers(void *object_addr);
 extern void offset_sprite_part_chains(void *a0, u16 a1, u16 a2, u16 a3);
 
@@ -17,7 +17,7 @@ void *upload_image_tiles(void *object, u16 texture_page, s32 clut_id, s32 altern
     palette_addr = get_image_palette_address(image_addr);
     upload_vram_row_and_cache(palette_addr, clut_id, 0x10, 2);
     DrawSync(0);
-    mark_palette_colors_with_high_bit(palette_addr, 0x10, 0);
+    set_palette_stp_bits(palette_addr, 0x10, 0);
     upload_vram_row_and_cache(palette_addr, clut_id - 0x80, 0x10, 2);
     relocate_sprite_metadata_pointers(object);
     offset_sprite_part_chains(object, texture_page, clut_id, alternate_page);

@@ -1,0 +1,80 @@
+#include "common.h"
+#include "dungeon/monster/ghosh.h"
+#include "shared/monster_ids.h"
+#include "shared/sprite_frame_state.h"
+#include "shared/object_node.h"
+#include "shared/tile_object.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
+#include "shared/entity.h"
+#include "dungeon/actor/animation.h"
+#include "engine/node/allocation.h"
+#include "engine/graphics.h"
+#include "engine/node.h"
+#include "dungeon/item.h"
+#include "dungeon/monster/ghosh_frames.h"
+
+typedef struct S_func_8132B8AC_1 S_func_8132B8AC_1;
+typedef struct S_func_8132B8AC_2 S_func_8132B8AC_2;
+
+void unlink_entity_node(); /* extern */
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+void func_801730AC(ActorRecord *actor, S_func_8132B8AC_1 *motion, S_func_8132B8AC_2 *sprite);
+
+typedef struct S_80173F6C_0 {
+    u8 pad_00[0x13];
+    s8 unk_13;
+    u8 pad_14[0x8];
+    s32 unk_1C;
+    u8 pad_20[0xA];
+    s16 unk_2A;
+    u8 pad_2C[0x6A];
+    s16 unk_96;
+    u8 pad_98[0x2];
+    s8 unk_9A;
+    u8 pad_9B[0x1B];
+    s8 unk_B6;
+} S_80173F6C_0;
+
+
+
+/* Create and initialize an object with offset coordinates and directional animation. */
+void create_scripted_ghosh_actor(void) {
+    s32 unused;
+    SpriteFrameState *sprite;
+    S_80173F6C_0 *object_state;
+    ObjectPosition *model;
+    ObjectNodeHeader *object;
+    u16 sprite_flags;
+
+    object = allocate_list_node(0x112, &scene_object_list_anchor.next);
+    if (object != 0) {
+        object_state = NODE_BODY(object);
+        object_state->unk_13 = MONSTER_U_BOAT;
+        object_state->unk_9A = 0;
+        object_state->unk_96 = 0;
+        object->update_callback = &func_801730AC;
+        register_node(object, project_sprite_chain);
+        model = object->position;
+        model->z.w.i = (u16) ((ObjectPosition *)((*(void * *)&((EntityRec *)((u8 *)(&scene_object_list_anchor)))->z)))->z.unsigned_parts.integer;
+        sprite = object->sprite;
+        sprite->tile_x = (u8) (reference_tile_object.tile_position.parts.tile_x + 9);
+        sprite->tile_y = (u8) (reference_tile_object.tile_position.parts.tile_y - 9);
+        sprite->frameTable = ghosh_frame_set_1;
+        initialize_actor_sprite_and_animation(object, model, sprite, 0);
+        object_state->unk_B6 = 1;
+        object_state->unk_2A = 0x800;
+        select_sprite_entry(sprite, (*(u8 * *)&sprite->frameTable)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + 0x900) >> 9) & 7], 0);
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
+        update_map_cell_flags_with_item_limit(sprite->tile_x, sprite->tile_y,
+                      (object_state->unk_1C & 0x2000) ? 0x300 : 0x3000);
+        unlink_entity_node(object_state);
+        object->update_callback = (s32 *) ((s32) object->update_callback | 0x80000000);
+        create_tracked_fade_sprite(object_state, model, sprite);
+        sprite_flags = sprite->flags;
+        ghosh_scripted_actor = object;
+        sprite->flags = (u16) (sprite_flags | 0x80);
+        retain_spawn_resource(0x18, 1);
+    }
+}

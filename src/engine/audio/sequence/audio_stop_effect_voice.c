@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/audio_update_guard_data.h"
 #include "slus/audio_voice_data.h"
 #include "engine/audio/sequence.h"
 #include "engine/audio/spu.h"
@@ -7,13 +8,12 @@
 typedef SoundVoiceRecord S_80085458;
 
 extern S_80085458 audio_voice_records[24];
-extern s32 audio_update_guard[3];
 
 
 /* Services an active SPU slot until completion and clears the busy flag. */
 s32 audio_stop_effect_voice(s16 slot_id)
 {
-    u8 *busy_or_slot = (u8 *)audio_update_guard;
+    u8 *busy_or_slot = (u8 *)&audio_update_guard.value;
     u8 *slots = (u8 *)audio_voice_records;
     s32 slot_index = slot_id;
     s32 slot_handle;
@@ -40,9 +40,9 @@ s32 audio_stop_effect_voice(s16 slot_id)
             }
         } while (status != 0);
     } else {
-        audio_update_guard[0] = 0;
+        audio_update_guard.value = 0;
         return -1;
     }
-    audio_update_guard[0] = 0;
+    audio_update_guard.value = 0;
     return 0;
 }

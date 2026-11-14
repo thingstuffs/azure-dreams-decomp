@@ -4,7 +4,7 @@
 #include "town/scene.h"
 
 s16 select_lowest_corrected_probe(); /* extern */
-s16 forward_surface_query_with_argument(); /* Unprototyped: two or three arguments; the third register argument is ignored. */                    /* extern */
+s16 find_min_qualifying_plane_height_at(); /* Unprototyped: two or three arguments; the third register argument is ignored. */                    /* extern */
 extern M2C_UNK D_800CFD18;
 
 typedef struct {
@@ -27,7 +27,7 @@ s32 get_min_surface_probe_capped(EntityRec *source, s32 *out_detail) {
     query.unk0 = source->x.v;
     query.unk4 = source->y.v;
     query.unk8 = source->z.v - source->flags14;
-    minimum = forward_surface_query_with_argument(&query, &detail);
+    minimum = find_min_qualifying_plane_height_at(&query, &detail);
     *out_detail = detail;
     query.unk0 = source->x.v;
     query.unk4 = source->y.v;

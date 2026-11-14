@@ -138,5 +138,5 @@ extern s32 troll_frame_set_4;
 void update_actor_activity_state(ActorRecord *task, ObjectPosition *task_id, SpriteFrameState *sprite_in, ActorRecord *actor_in);
 void update_actor_action_animation_state(T_80175574_Obj0 *controller, ObjectPosition *context, SpriteFrameState *animation, T_80175574_Obj3 *actor);
 void update_directional_action_display(T_801759A0_Obj0 *actor, ObjectPosition *context, SpriteFrameState *display_arg, T_801759A0_Obj3 *state_arg);
-void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
+void update_troll_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 #endif

@@ -106,7 +106,7 @@ void advance_multi_stage_actor_effect(ActorRecord *body, void *incoming_entity, 
         set_record_integer_tile_center(entity, object->tile_x, object->tile_y);
         spend_actor_mp(actor, 0x800);
         actor->action_flags &= 0x7FFF;
-        state_work->unk_8C.address = update_dungeon_actor_actions;
+        state_work->unk_8C.address = update_golem_actor_behavior;
         g_dungeon_status.active_actor = 0;
         break;
 
@@ -126,7 +126,7 @@ void advance_multi_stage_actor_effect(ActorRecord *body, void *incoming_entity, 
         set_record_integer_tile_center(entity, object->tile_x, object->tile_y);
         spend_actor_mp(actor, 0x800);
         actor->action_flags &= 0x7FFF;
-        state_work->unk_8C.address = update_dungeon_actor_actions;
+        state_work->unk_8C.address = update_golem_actor_behavior;
         g_dungeon_status.active_actor = 0;
         break;
     default:

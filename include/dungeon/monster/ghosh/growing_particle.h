@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-/* Body initialized by create_boss_randomized_effect and advanced by its callback. */
+/* Body initialized by create_random_velocity_particle and advanced by its callback. */
 typedef struct GhoshGrowingParticleBody {
     u8 pad_00[0x16];
     u16 remaining_ticks;

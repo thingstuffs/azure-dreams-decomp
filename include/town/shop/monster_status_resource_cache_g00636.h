@@ -32,10 +32,10 @@ extern s16 display_resource_cache_keys[8];
 
 
 /* Functions defined in this translation unit. */
-void initialize_mode_offset_entry(s32 mode, s32 value_base, S_800B6CCC_0 *entry, s32 data_base);
-s32 get_mapped_object_code(void *object);
-void initialize_coordinate_entry(void *object);
+void fill_cd_read_descriptor(s32 mode, s32 value_base, S_800B6CCC_0 *entry, s32 data_base);
+s32 get_monster_status_species_code(void *object);
+void set_monster_status_cd_read_target(void *object);
 void clear_monster_status_texture(void *texture);
-s32 invalidate_cached_state_and_queue_read(Rec_func_800B683C_arg0 *state);
+s32 queue_monster_status_reload(Rec_func_800B683C_arg0 *state);
 
 #endif

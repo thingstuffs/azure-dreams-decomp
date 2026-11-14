@@ -69,7 +69,7 @@ void update_active_nodes_and_render_frame(void) {
         }
         if (work->map.cells != 0) {
             run_view_callbacks();
-            process_current_facing_directions();
+            mark_tiles_in_view_direction();
             if (!(primary_actor_record->flags1C & 0x10)) {
                 render_map_cell_mesh();
             }

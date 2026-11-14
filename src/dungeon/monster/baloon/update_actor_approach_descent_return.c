@@ -365,7 +365,7 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            action->unk_8C.word_ptr = update_actor_turn_behavior;
+            action->unk_8C.word_ptr = update_baloon_turn_action;
             action->action_id = 0xE;
             g_dungeon_status.active_actor = 0;
             actor->flags1C |= 0x40000;

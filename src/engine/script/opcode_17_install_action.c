@@ -11,5 +11,5 @@ typedef struct S_80039568_0 {
 
 /* Opcode 0x11: Wait for a button press. */
 void script_wait_button(S_80039568_0 *script_ctx) {
-    script_ctx->unk_10 = &clear_runtime_state_and_set_handler;
+    script_ctx->unk_10 = &wait_for_message_flag;
 }

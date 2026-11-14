@@ -23,7 +23,7 @@ typedef struct {
 /* extern */
 struct EntityRec;
 
-extern s16 max_adjusted_z_query();
+extern s16 max_position_minus_z();
 extern s32 D_800D040C[];
 /* extern */
 extern s8 D_800CFCE8;

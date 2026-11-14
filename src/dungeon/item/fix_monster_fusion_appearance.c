@@ -103,7 +103,7 @@ s32 fix_monster_fusion_appearance(ActorRecord *entity, DungeonItemEntry *data, s
         place_actor_item(entity, data);
         return 1;
     }
-    clear_slot_and_update_linked_state(data);
+    clear_item_slot(data);
     g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
     return 1;
 }

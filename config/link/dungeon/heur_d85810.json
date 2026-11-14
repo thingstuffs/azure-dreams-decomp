@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_80D65810",
-      "tu": "src/dungeon/monster/baloon/create_origin_motion_effect.c",
+      "tu": "src/dungeon/monster/baloon/create_timed_collision_effect.c",
       "home": "dungeon/func_80D65810",
       "foff": "0xd85810",
       "vma": "0x80171010",

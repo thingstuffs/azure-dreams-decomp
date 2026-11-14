@@ -156,7 +156,7 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
                     offset.vz = (actor_data->flags & 0x8000) ? -48 : 0;
                 }
                 target = scan_actor_along_heading(actor, actor_data->tile_x, actor_data->tile_y, actor->facing,
-                                       (s16)get_definition_entry_byte_13(36));
+                                       (s16)get_spell_range(36));
                 actor->target = target;
                 if (target == 0) {
                     actor->target_tile_x = actor_data->tile_x;
@@ -294,10 +294,10 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
             return;
 
         case 241:
-            copy_selected_table_pair(actor->target, effect->ticks_left.s);
+            select_target_sprite_scale(actor->target, effect->ticks_left.s);
             if (effect->ticks_left.s == 6 && try_trigger_target_record_effect(actor->target, 4, actor) == 0 &&
                 actor->target != 0) {
-                try_apply_effect_four_by_chance(actor->target, current_spell_effect_variant[0] == 255 ? 255 : 16, 4);
+                try_apply_paralysis_effect(actor->target, current_spell_effect_variant[0] == 255 ? 255 : 16, 4);
             }
             if (effect->ticks_left.s > 0)
                 break;

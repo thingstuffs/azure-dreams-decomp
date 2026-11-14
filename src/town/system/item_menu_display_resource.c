@@ -28,7 +28,7 @@ extern void register_node(void *object, void *callback);
 /* Allocates menu display entries, copies the default vector, and shares it among the entries on success. */
 static s32 load_item_menu_display_resource(void *object, s32 resource_id) {
     s32 success = 0;
-    s32 handle = realloc_field_0_buffer((s32 *)((s8 *)object + 0xDC), resource_id, 8);
+    s32 handle = rebuild_pointer_pool((s32 *)((s8 *)object + 0xDC), resource_id, 8);
 
     *(s32 *)((s8 *)object + 0xD8) = handle;
     if (handle != 0) {

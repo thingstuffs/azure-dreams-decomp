@@ -30,6 +30,6 @@ extern PositionRotationPair town_event_motion_pair;
 extern void draw_random_colored_line(s32, void *);
 
 /* Functions defined in this translation unit. */
-void apply_two_records_to_target(void *target, struct ObjectPosition *setup_data);
+void queue_two_mesh_quad_sets(void *target, struct ObjectPosition *setup_data);
 
 #endif

@@ -84,7 +84,7 @@ void update_actor_movement_and_height(ActorRecord *body, ObjectPosition *positio
 
     if (actor->unk_BB == 0 && g_dungeon_status.activity_counts.parts.pending_action_count == 0) {
         actor->unk_BB = 1;
-        enqueue_runtime_pool_script(beldo_effect_pool_script);
+        queue_pool_service_script(beldo_effect_pool_script);
         actor->pending_turn_updates = 0;
         actor->action_phase = 0;
     }
@@ -107,7 +107,7 @@ void update_actor_movement_and_height(ActorRecord *body, ObjectPosition *positio
 
     if (g_dungeon_status.flags & 0x2000) {
         callback = body->unk_8C.handler;
-        if (callback == (Callback)&update_object_animation) {
+        if (callback == (Callback)&update_beldo_turn_action) {
             callback(body, position, sprite, actor);
             return;
         }

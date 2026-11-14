@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_812542E4",
-      "tu": "src/dungeon/monster/beldo/process_global_effect_slots.c",
+      "tu": "src/dungeon/monster/beldo/release_beldo_effect_slots.c",
       "home": "dungeon/func_812542E4",
       "foff": "0x12742e4",
       "vma": "0x812542e4",

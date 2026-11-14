@@ -25,7 +25,7 @@ void card_boot_layout_five_entry_list(struct CardMessageDialogBody *context);
 void card_boot_layout_command_panel(CardCommandPanelBody *panel);
 void card_boot_position_dialog_selection_marker(struct CardMessageDialogBody *context, s32 column, s32 mode, s32 row, s32 row_value);
 void card_boot_refresh_paired_choice_labels(u8 *state);
-void card_boot_reset_three_row_highlight(CardCommandPanelBody *panel);
+void card_boot_reset_command_panel_highlight(CardCommandPanelBody *panel);
 void card_boot_resume_menu_after_slot_refresh(void *object_data);
 void card_boot_show_copying_progress(ObjectNodeHeader *owner, void *data);
 void card_boot_show_no_space_overwrite_notice(ObjectNodeHeader *value);

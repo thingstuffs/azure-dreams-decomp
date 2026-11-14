@@ -18,7 +18,7 @@ extern ValueHolder *devkit_stage_value_owner[3];
 extern State *devkit_state_slots[3];
 
 extern void shift_index_and_add_offset(s32 entry);
-extern void pass_indexed_table(s32 entry);
+extern void set_devkit_flag_by_index(s32 entry);
 
 /* When the gate and the counter both pass, set the stage flag and return the stage handler's result. */
 s32 set_stage_flag_one_if_ready(s32 fallback_result) {
@@ -28,6 +28,6 @@ s32 set_stage_flag_one_if_ready(s32 fallback_result) {
         devkit_state_slots[0]->flags |= 1;
         return func_80701404();
     }
-    pass_indexed_table(1);
+    set_devkit_flag_by_index(1);
     return fallback_result;
 }

@@ -71,7 +71,7 @@ void advance_interaction_state_animating_cursor(FixedInteractionEffectBody *self
         if (service_script_controller() == 0) {
             return;
         }
-        if (check_transform_identifier_and_hook(self) == 0) {
+        if (check_town_target_and_callback(self) == 0) {
             return;
         }
         SD_Call(0x50B);
@@ -96,7 +96,7 @@ void advance_interaction_state_animating_cursor(FixedInteractionEffectBody *self
 
     case 2:
     case 5:
-        if (service_script_controller() != 0 && check_transform_identifier_and_hook(self) != 0) {
+        if (service_script_controller() != 0 && check_town_target_and_callback(self) != 0) {
             return;
         }
         {

@@ -1,0 +1,41 @@
+#include "shared/entity.h"
+#include "common.h"
+#include "engine/graphics/select_sprite_entry_api.h"
+#include "shared/sprite_frame_state.h"
+#include "shared/game_work.h"
+#include "dungeon/monster/barong.h"
+
+typedef struct {
+    u8 pad00[0x1E];
+    s16 field1E;
+    u8 pad20[0x0C];
+    u8 *field2C;
+} Obj;
+
+typedef struct {
+    u8 pad00[0x2A];
+    s16 field2A;
+} Other;
+
+typedef struct {
+    u8 pad00[0x9A];
+    s8 field9A;
+    s8 field9B;
+    u8 pad9C[2];
+    s16 field9E;
+} First;
+
+extern u8 D_8017556C[];
+struct SpriteFrameState;
+
+/* Initialize state and configure the object using the direction lookup table. */
+void start_barong_facing_pose(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *object, ActorRecord *angle_source) {
+    state->action_id = 0x10;
+    state->action_phase = 0;
+    state->unk_9E = 2;
+    object->frameTable = D_8017556C;
+    select_sprite_entry(object,
+                  D_8017556C[((g_game_work.view.camera_rotation.parts.viewAngle + angle_source->facing + 0x100) >> 9) & 7],
+                  0);
+    object->scale_y = 0xC00;
+}

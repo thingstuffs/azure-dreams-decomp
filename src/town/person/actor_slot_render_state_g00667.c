@@ -6,19 +6,19 @@
 /* Registers the object in scene slot 53 using the four local setup tables. */
 void initialize_scene_slot_53(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
 {
-    initialize_object_and_register_slot(object, 53, D_800D5E04, D_800D5E08, D_800D5DD4, D_800D5DDC);
+    register_object_slot_with_tables(object, 53, D_800D5E04, D_800D5E08, D_800D5DD4, D_800D5DDC);
 }
 
 /* Registers the object in scene slot 55 using the four local setup tables. */
 void initialize_scene_slot_55(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
 {
-    initialize_object_and_register_slot(object, 55, D_800D5E04, D_800D5E08, D_800D5DD4, D_800D5DDC);
+    register_object_slot_with_tables(object, 55, D_800D5E04, D_800D5E08, D_800D5DD4, D_800D5DDC);
 }
 
 /* Registers the object in scene slot 49 using the four local setup tables. */
 void initialize_scene_slot_49(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
 {
-    initialize_object_and_register_slot(object, 49, D_800D5E04, D_800D5E08, D_800D5DD4, D_800D5DDC);
+    register_object_slot_with_tables(object, 49, D_800D5E04, D_800D5E08, D_800D5DD4, D_800D5DDC);
 }
 
 /*
@@ -26,7 +26,7 @@ void initialize_scene_slot_49(TownObjectRecord *object, ObjectPosition *unused, 
  * clears flag 0x100 in halfword 10.
  */
 void configure_actor_slot_28_and_render_state(TownObjectRecord *context, ObjectPosition *unused, struct SpriteFrameState *stateWords) {
-    initialize_object_and_register_slot(context, 0x1C, (s32)D_800D5E04, (s32)D_800D5E08, (s32)D_800D5DD4,
+    register_object_slot_with_tables(context, 0x1C, (s32)D_800D5E04, (s32)D_800D5E08, (s32)D_800D5DD4,
                   (s32)D_800D5DDC);
     stateWords->clut = 0x240;
     stateWords->flags &= ~0x100;

@@ -20,7 +20,7 @@ void release_sound_ram_block(u32 addr)
                     break;
                 }
             }
-            sort_entries_by_key();
+            sort_sound_ram_blocks();
             return;
         }
     }

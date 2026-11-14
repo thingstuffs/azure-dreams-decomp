@@ -3,7 +3,7 @@
 #include "town/map/object_callback.h"
 #include "town/map.h"
 
-extern void apply_nearby_object_effects(void);
+extern void trigger_effect_when_in_range(void);
 extern void *map_active_callbacks[];
 
 /* Set the preceding handler pointer and replace each active table callback. */
@@ -14,7 +14,7 @@ void replace_active_table_callbacks(TownObjectRecord *entry_data, ObjectPosition
     p = map_active_callbacks;
     if (*p != 0) {
         do {
-            *p = (void *)apply_nearby_object_effects;
+            *p = (void *)trigger_effect_when_in_range;
             p += 6;
         } while (*p != 0);
     }

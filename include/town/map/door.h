@@ -167,9 +167,9 @@ typedef struct S_800A0E3C_1 {
 
 s32 check_door_status_inverted(void *object);
 
-void handle_door_check_result(S_func_800A0708_0 *object, void *callback_arg, s32 callback_data);
-void install_next_door_handler(TownObjectRecord *object, TownObjectRecord *unused_context, void *update_context, SpriteFrameState *unused_data);
-void emit_door_position_effect(S800A3088Arg0 *entity, void *action, S800A3088Arg2 *position);
+void update_door_object(S_func_800A0708_0 *object, void *callback_arg, s32 callback_data);
+void create_door_shared_object(TownObjectRecord *object, TownObjectRecord *unused_context, void *update_context, SpriteFrameState *unused_data);
+void check_door_entry_and_open(S800A3088Arg0 *entity, void *action, S800A3088Arg2 *position);
 void open_door_to_target(TownObjectRecord *object, void *context);
 void door_no_op(void);
 void advance_door_open_angle(S_800A08F0_0 *door);
@@ -180,13 +180,13 @@ void door_open_demo_set_sub(s32 door_id, s16 demo_angle);
 void door_open_demo_set(s32 script_context);
 void door_atari_on_off(s32 door_id, s16 collision_enabled);
 void into_dn_door_demo_set(void);
-void trigger_door_interaction_effect(void *actor, void *target, void *position);
+void check_door_entry_and_change_map(void *actor, void *target, void *position);
 void change_door_map(void *map_source, s32 *map_table);
-void advance_door_step(void *entity, TownObjectRecord *unused_context, void *update_context, SpriteFrameState *unused_data);
+void create_door_transition_objects(void *entity, TownObjectRecord *unused_context, void *update_context, SpriteFrameState *unused_data);
 void start_door_entry_or_wait(S_800A0C30_0 *script_state, void *unused_context, S_800A0C30_1 *event_params);
-void set_door_handler_if_ready(S_800A0CC0_0 *object, s32 value_1, s32 value_2, s32 value_3);
-void update_door_completion_state(u8 *object, s32 unused, s32 state_id, s32 state_arg);
-void advance_door_state_counter(S_800A0DAC_0 *state, s32 unused, s32 context_a, s32 context_b);
+void resume_door_entry_when_script_idle(S_800A0CC0_0 *object, s32 value_1, s32 value_2, s32 value_3);
+void start_door_transition_effect(u8 *object, s32 unused, s32 state_id, s32 state_arg);
+void update_door_transition_spin(S_800A0DAC_0 *state, s32 unused, s32 context_a, s32 context_b);
 void tick_door_countdown(Rec_func_800A0668_arg0 *object, S_800A0E3C_1 *source, s32 update_arg_a, s32 update_arg_b);
 void into_dn_door_jobs(void);
 s32 check_door_input_and_angle(Rec_func_800A0668_arg0 *object, void *test_value);
@@ -194,11 +194,11 @@ s32 check_door_input_and_angle(Rec_func_800A0668_arg0 *object, void *test_value)
 extern void unlink_node_if_registered(void *);
 extern void func_80033D08(void *);
 extern s32 classify_object_against_bounds(void *, void *);
-extern void * create_object_with_shared_data(void *input_first, s32 input_second, s32 input_third, u8 input_fourth); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern void * create_default_display_object(void *input_first, s32 input_second, s32 input_third, u8 input_fourth); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void initialize_player_entity_callbacks(s32 entity_id, s32 x, s32 y);
 extern void change_map(struct InputRecord *input);
-extern s32 create_objects_descending_by_count(s32 object_key, s32 payload_value, s32 payload_param, s32 count);
-s32 count_consecutive_nonzero_entries_up_twenty(void);
+extern s32 create_display_object_series(s32 object_key, s32 payload_value, s32 payload_param, s32 count);
+s32 count_used_item_slots(void);
 void set_player_block_value(s32 value);
 s32 func_800352FC(void);
 s16 initialize_object_items_in_reverse(void *ptr, s32 stateId, s16 currentState);
@@ -208,7 +208,7 @@ void SD_Call(s32 value);
 extern void clear_resident_bit_patterns(void);
 extern void clear_resident_bitmap_bit(s32 a0);
 extern void apply_building_pending_updates(void);
-extern void dispatch_conditional_table_pairs(void);
+extern void sync_resident_flag_pairs(void);
 
 extern s32 D_800D09E0;
 extern ListHead active_node_list_head;

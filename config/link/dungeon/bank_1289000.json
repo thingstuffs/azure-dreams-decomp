@@ -94,7 +94,7 @@
     },
     {
       "row": "dungeon/func_81269784",
-      "tu": "src/dungeon/monster/beldo/create_entity_and_initialize_placement.c",
+      "tu": "src/dungeon/monster/beldo/spawn_beldo_at_tile.c",
       "home": "dungeon/func_81251784",
       "foff": "0x1289784",
       "vma": "0x80158F84",
@@ -140,7 +140,7 @@
     },
     {
       "row": "dungeon/func_81269D14",
-      "tu": "src/dungeon/monster/beldo/update_object_animation.c",
+      "tu": "src/dungeon/monster/beldo/update_beldo_turn_action.c",
       "home": "dungeon/func_81251D14",
       "foff": "0x1289D14",
       "vma": "0x80159514",
@@ -175,7 +175,7 @@
     },
     {
       "row": "dungeon/func_8126A3E0",
-      "tu": "src/dungeon/monster/hikewne/select_movement_direction_and_advance.c",
+      "tu": "src/dungeon/monster/hikewne/choose_hikewne_move.c",
       "home": "dungeon/func_80976434",
       "foff": "0x128A3E0",
       "vma": "0x80159BE0",
@@ -222,7 +222,7 @@
     },
     {
       "row": "dungeon/func_8126AB30",
-      "tu": "src/dungeon/monster/hikewne/update_entity_state_from_query.c",
+      "tu": "src/dungeon/monster/hikewne/relink_hikewne_path.c",
       "home": "dungeon/func_80976E28",
       "foff": "0x128AB30",
       "vma": "0x8015A330",
@@ -305,7 +305,7 @@
     },
     {
       "row": "dungeon/func_8126B34C",
-      "tu": "src/dungeon/monster/hikewne/slow_directional_motion.c",
+      "tu": "src/dungeon/monster/hikewne/update_hikewne_recoil.c",
       "home": "dungeon/func_80977A94",
       "foff": "0x128B34C",
       "vma": "0x8015AB4C",
@@ -433,7 +433,7 @@
     },
     {
       "row": "dungeon/func_8126B6C4",
-      "tu": "src/dungeon/monster/hikewne/advance_actor_state_sequence.c",
+      "tu": "src/dungeon/monster/hikewne/update_sleeping_hikewne.c",
       "home": "dungeon/func_80977E0C",
       "foff": "0x128B6C4",
       "vma": "0x8015aec4",
@@ -450,7 +450,7 @@
     },
     {
       "row": "dungeon/func_8126BB64",
-      "tu": "src/dungeon/monster/hikewne/advance_actor_states_and_process_actions.c",
+      "tu": "src/dungeon/monster/hikewne/wait_for_hikewne_mp_recovery.c",
       "home": "dungeon/func_809782AC",
       "foff": "0x128bb64",
       "vma": "0x8015b364",
@@ -490,7 +490,7 @@
     },
     {
       "row": "dungeon/func_8126BF1C",
-      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F8A600",
       "foff": "0x128BF1C",
       "vma": "0x8015B71C",
@@ -552,7 +552,7 @@
     },
     {
       "row": "dungeon/func_8126C028",
-      "tu": "src/dungeon/actor/set_actor_data_pointer.c",
+      "tu": "src/dungeon/actor/set_default_action_after_floor_trap.c",
       "home": "dungeon/func_800CF1BC",
       "foff": "0x128C028",
       "vma": "0x8015B828",
@@ -579,7 +579,7 @@
     },
     {
       "row": "dungeon/func_8126C060",
-      "tu": "src/dungeon/monster/beldo/process_global_effect_flags.c",
+      "tu": "src/dungeon/monster/beldo/cancel_beldo_effect_on_button.c",
       "home": "dungeon/func_81254060",
       "foff": "0x128c060",
       "vma": "0x8015b860",
@@ -629,7 +629,7 @@
     },
     {
       "row": "dungeon/func_8126C0F8",
-      "tu": "src/dungeon/monster/beldo/reset_global_effect_state.c",
+      "tu": "src/dungeon/monster/beldo/reset_beldo_effect_state_for_entry.c",
       "home": "dungeon/func_812540F8",
       "foff": "0x128c0f8",
       "vma": "0x8015b8f8",
@@ -641,7 +641,7 @@
     },
     {
       "row": "dungeon/func_8126C134",
-      "tu": "src/dungeon/monster/beldo/is_global_effect_enabled.c",
+      "tu": "src/dungeon/monster/beldo/is_beldo_effect_enabled.c",
       "home": "dungeon/func_81254134",
       "foff": "0x128c134",
       "vma": "0x8015b934",
@@ -653,7 +653,7 @@
     },
     {
       "row": "dungeon/func_8126C14C",
-      "tu": "src/dungeon/monster/beldo/reposition_global_effect_entity.c",
+      "tu": "src/dungeon/monster/beldo/shift_beldo_entity_tile.c",
       "home": "dungeon/func_8125414C",
       "foff": "0x128c14c",
       "vma": "0x8015b94c",
@@ -669,7 +669,7 @@
     },
     {
       "row": "dungeon/func_8126C248",
-      "tu": "src/dungeon/monster/beldo/update_global_effect_object.c",
+      "tu": "src/dungeon/monster/beldo/update_beldo_active_entity.c",
       "home": "dungeon/func_81254248",
       "foff": "0x128c248",
       "vma": "0x8015ba48",
@@ -685,7 +685,7 @@
     },
     {
       "row": "dungeon/func_8126C2E4",
-      "tu": "src/dungeon/monster/beldo/process_global_effect_slots.c",
+      "tu": "src/dungeon/monster/beldo/release_beldo_effect_slots.c",
       "home": "dungeon/func_812542E4",
       "foff": "0x128c2e4",
       "vma": "0x8015bae4",
@@ -700,7 +700,7 @@
     },
     {
       "row": "dungeon/func_8126C374",
-      "tu": "src/dungeon/monster/beldo/clear_global_effect_flags.c",
+      "tu": "src/dungeon/monster/beldo/respawn_floor_monsters.c",
       "home": "dungeon/func_81254374",
       "foff": "0x128c374",
       "vma": "0x8015bb74",
@@ -767,7 +767,7 @@
     },
     {
       "row": "dungeon/func_8126C3F0",
-      "tu": "src/dungeon/monster/beldo/load_global_effect_table_entry.c",
+      "tu": "src/dungeon/monster/beldo/load_beldo_effect_script.c",
       "home": "dungeon/func_812543F0",
       "foff": "0x128c3f0",
       "vma": "0x8015bbf0",
@@ -782,7 +782,7 @@
     },
     {
       "row": "dungeon/func_8126C430",
-      "tu": "src/dungeon/monster/beldo/reset_global_effect_configured_value.c",
+      "tu": "src/dungeon/monster/beldo/reset_beldo_effect_state.c",
       "home": "dungeon/func_81254430",
       "foff": "0x128c430",
       "vma": "0x8015bc30",
@@ -794,7 +794,7 @@
     },
     {
       "row": "dungeon/func_8126C460",
-      "tu": "src/dungeon/monster/beldo/process_global_effect_slots_after_reset.c",
+      "tu": "src/dungeon/monster/beldo/reset_and_release_beldo_effect_slots.c",
       "home": "dungeon/func_81254460",
       "foff": "0x128c460",
       "vma": "0x8015bc60",

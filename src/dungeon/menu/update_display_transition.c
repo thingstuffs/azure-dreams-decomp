@@ -215,11 +215,11 @@ void update_display_transition(S_800DC1F8_0 *transition, void *anim_data) {
         page_base = (S_800DC1F8_10 *)0x80080000;
         first_counter = ((ActorRecord *)(page_base->unk_14A8.i))->hp;
         if (first_counter != transition->unk_10) {
-            draw_filler_first_number(first_counter, transition->unk_10, 3, 0x1CA, 0x19C, 1);
+            draw_hud_number_tall(first_counter, transition->unk_10, 3, 0x1CA, 0x19C, 1);
         }
         second_counter = ((ActorRecord *)(page_base->unk_14A8.p))->max_hp;
         if (second_counter != transition->unk_14) {
-            draw_padded_first_number(second_counter, transition->unk_14, 3, 0x1DA, 0x1A4, 1);
+            draw_hud_number_short(second_counter, transition->unk_14, 3, 0x1DA, 0x1A4, 1);
         }
     }
 }

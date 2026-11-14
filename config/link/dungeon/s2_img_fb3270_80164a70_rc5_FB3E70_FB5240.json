@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_80F94C94",
-      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F88C94",
       "foff": "0xfb4c94",
       "vma": "0x80166494",

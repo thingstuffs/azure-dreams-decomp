@@ -26,7 +26,7 @@ void select_record_entry_and_value(void *state_data, void *entry_data, short ind
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 
 
-extern void * find_first_entry_matching_keys(ActorRecord *node, u16 key_a, u16 key_b, s16 range_center);
+extern void * find_species_actor_on_tile(ActorRecord *node, u16 key_a, u16 key_b, s16 range_center);
 extern void create_facing_offset_object(ActorRecord *, ObjectPosition *, SpriteFrameState *);
 
 extern u8 D_80170B48[];
@@ -178,7 +178,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
                 }
             }
             if (((s8)actor->unk_AC.bytes[1]) == 0) {
-                if (find_first_entry_matching_keys(entity,
+                if (find_species_actor_on_tile(entity,
                         animation->tile_x +
                             directions[(((u16)entity->facing) >> 9) & 7].x,
                         animation->tile_y +
@@ -315,7 +315,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
 
     case 9:
         spend_actor_mp(entity, 0x800);
-        actor->unk_8C.address = update_actor_timed_effects;
+        actor->unk_8C.address = update_glacier_actor_behavior;
         g_dungeon_status.active_actor = 0;
         (entity->action_flags) &= 0x7FFF;
 

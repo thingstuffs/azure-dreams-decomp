@@ -30,14 +30,14 @@ extern TownCameraState town_camera_chase_state;
 extern TownCameraCallback saved_camera_callbacks[2];
 extern IntVector3 town_position_reference_state;
 
-void initialize_control_block(TownCameraState *state);
-void initialize_transition_state(TownCameraState *state);
-void set_object_callback_when_active(TownCameraState *state);
-void select_object_value_with_idle_fallback(TownCameraState *state);
-void reset_or_copy_state_values(TownCameraState *state);
-void restart_or_advance_target_interpolation(TownCameraState *state);
-void restart_or_update_midpoint_tracking(TownCameraState *state);
-void reset_or_advance_target_midpoint(TownCameraState *state);
+void init_town_camera_chase_state(TownCameraState *state);
+void initialize_midpoint_tracking(TownCameraState *state);
+void enable_camera_target_selection(TownCameraState *state);
+void select_camera_target(TownCameraState *state);
+void follow_camera_target(TownCameraState *state);
+void interpolate_camera_to_target(TownCameraState *state);
+void track_camera_midpoint(TownCameraState *state);
+void blend_camera_toward_midpoint(TownCameraState *state);
 void tcame_chase_set(void);
 void tcame_chase2_set(void);
 void tcame_chase_fix_reset(void);
@@ -47,6 +47,6 @@ void tcame_return(void);
 void tcame_return_plus(void);
 
 extern IntVector3 *D_80100D90;
-void apply_and_store_setting(IntVector3 *setting);
+void set_view_triplet_source(IntVector3 *setting);
 
 #endif

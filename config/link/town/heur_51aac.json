@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "town/func_800D1AAC",
-      "tu": "src/town/scene/initialize_scene_entry_group_i.c",
+      "tu": "src/town/scene/init_countdown_entry_group_4.c",
       "home": "town/func_800D1AAC",
       "foff": "0x51aac",
       "vma": "0x800cf20c",

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene/active_object_overlap_g00529.h"
 #include "town/minigame.h"
+#include "town/minigame/pickup_bounds_data.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity_objects.h"
@@ -20,7 +21,6 @@ typedef struct S_800236BC_3 {
 
 extern s32 town_money[];
 extern TownRewardValues D_80020278;
-extern Box minigame_pickup_bounds[];
 extern s32 D_800244DC[];
 extern Box D_800D0420;
 

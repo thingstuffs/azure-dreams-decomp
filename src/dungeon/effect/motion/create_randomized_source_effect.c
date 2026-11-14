@@ -76,7 +76,7 @@ void *create_randomized_source_effect(Row_8191C938_S_8191C938_3 *source)
 }
 
 /* Rotates a sprite through timed movement, a pause, and accelerating vertical motion before removal. */
-void advance_timed_effect_motion(ScaledRotatingEffectBody *object, Row_8191CA88_S_8191CA88_3 *motion, Row_8191CA88_S_8191CA88_2 *effect) {
+void advance_scaled_rotating_effect(ScaledRotatingEffectBody *object, Row_8191CA88_S_8191CA88_3 *motion, Row_8191CA88_S_8191CA88_2 *effect) {
     s32 state;
     u16 state_unsigned;
     s32 timer;

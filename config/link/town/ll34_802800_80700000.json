@@ -23,7 +23,7 @@
     {
       "row": "town/func_80883198",
       "home": "town/func_80883198",
-      "tu": "src/town/scene/post_code_slot_ready.c",
+      "tu": "src/town/scene/post_slot_ready_code.c",
       "foff": "0x803198",
       "vma": "0x80700998",
       "size": 72,
@@ -59,7 +59,7 @@
     {
       "row": "town/func_80883380",
       "home": "town/func_80883380",
-      "tu": "src/town/scene/read_table_between_one_setup.c",
+      "tu": "src/town/scene/read_selected_devkit_entry_value.c",
       "foff": "0x803380",
       "vma": "0x80700B80",
       "size": 88,

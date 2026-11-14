@@ -28,7 +28,7 @@ typedef struct {
 } ItemResult;
 
 extern ItemCategory itemCategoryTable[];
-extern int resolve_record_value(DungeonItemEntry *record);
+extern int resolve_item_record_slot_value(DungeonItemEntry *record);
 extern void *get_item_data_record(s32 category, s32 index);
 extern void *get_or_create_item_data(s32 category, s32 index);
 
@@ -45,7 +45,7 @@ void set_item_data_from_lookup(ItemResult *result, ItemId *item, void *data)
     if (item->category == 19) {
         s32 data_addr;
 
-        data_addr = resolve_record_value(item) + 52;
+        data_addr = resolve_item_record_slot_value(item) + 52;
         item_data = (void *)data_addr;
     } else {
         item_data = get_item_data_record(item->category, item->index);

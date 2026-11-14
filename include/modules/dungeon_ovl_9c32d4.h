@@ -173,9 +173,9 @@ extern s16 dir_step_x[];
 extern s16 dir_step_y[];
 extern s32 D_800814A0;
 extern u8 D_80175F9C[12];
-void update_actor_render_effect_and_position(u8 *actor_data, ObjectPosition *output_data, SpriteFrameState *sprite);
-void create_parent_position_effect(EntityRec *parent, s32 effect_param, u8 *effect_data);
+void update_ellipse_ring_effect(u8 *actor_data, ObjectPosition *output_data, SpriteFrameState *sprite);
+void create_ellipse_ring_effect(EntityRec *parent, s32 effect_param, u8 *effect_data);
 void advance_directional_effect_motion(ovl_9c32d4_809A3698_MotionState *state, ovl_9c32d4_809A3698_MotionPosition *position);
-void spawn_randomized_directional_motion_object(ovl_9c32d4_809A37C0_MotionObject *parent, s16 direction, s32 value);
+void spawn_randomized_motion_sprite(ovl_9c32d4_809A37C0_MotionObject *parent, s16 direction, s32 value);
 static __inline__ s16 project_ring_coordinate(s32 radius, s32 trig, u16 center);
 #endif

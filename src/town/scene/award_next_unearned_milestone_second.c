@@ -35,7 +35,7 @@ void *award_next_unearned_milestone(s32 counter_id)
     base = D_8001B160;
     slot = &base[index];
     if (*slot == 0) {
-        count = get_linked_record_field_2_d_60();
+        count = get_town_state_count();
         less = count < 5;
         if (less || (event_base = (s16 *)((u8 *)milestone_response_table - 0x14), events = &event_base[index * 3],
             get_script_flag_mask(events[0])) == 0) {

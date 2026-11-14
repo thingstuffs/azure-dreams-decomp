@@ -299,7 +299,7 @@ s32 interpolate_actor_to_terrain_tile(struct S_800AC480_0 *move_state, ObjectPos
 s32 update_spinning_actor_fall();
 s32 update_actor_fade_in();
 extern u8 univern_frame_set[];
-extern u8 view_facing_angle_alias[];
+#include "slus/view_facing_angle.h"
 extern u8 child_texture_entries[];
 extern u8 child_object_update_address[];
 extern u8 univern_direction_frames[];

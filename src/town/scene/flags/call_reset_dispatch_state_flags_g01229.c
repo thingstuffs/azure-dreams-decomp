@@ -7,7 +7,7 @@
 #include "town/player/state.h"
 
 /* Resets dispatch state and flags, increments the first town event byte, and returns zero. */
-void *call_reset_dispatch_state_flags(void) {
+void *advance_event_state_after_reset(void) {
     reset_dispatch_state_and_flags();
     town_event_state->unk_00 += 1;
     return 0;
@@ -18,7 +18,7 @@ void *tick_shop_event_state(void) {
     if (get_script_flag_mask(sn_open_sekkyo_end) == 0) {
         return D_80018A30;
     }
-    if (get_linked_record_field_2_d_60() != 0) {
+    if (get_town_state_count() != 0) {
         reset_dispatch_state_and_flags();
     }
     town_event_state->unk_00 += 1;

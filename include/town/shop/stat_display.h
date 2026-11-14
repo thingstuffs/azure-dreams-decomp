@@ -80,7 +80,7 @@ extern void set_storage_entry_text(s32 entry, const void *text, s32 style, s32 x
 extern u8 D_80089304[];
 
 /* Functions defined in this translation unit. */
-void *format_object_value_marker(void *output, void *object);
+void *format_gauge_text(void *output, void *object);
 s32 compare_values_to_display_code(s32 left, s32 right);
 void *format_compared_stat_pairs(void *text, ActorRecord *stats);
 void format_and_display_entity_stats(struct ActorRecord *stats, void *panels);

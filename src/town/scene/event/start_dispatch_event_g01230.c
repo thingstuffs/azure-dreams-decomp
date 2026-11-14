@@ -27,7 +27,7 @@ s32 start_dispatch_event(void *init_arg) {
 }
 
 /* Checks the active event and dispatches the 0x27/0x200 handler when matched. */
-s32 dispatch_active_event_27(void) {
+s32 continue_town_event_dispatch(void) {
     TownEventArgumentPair16 *event;
 
     if ((u8) town_event_state->dispatchState < 2U) {

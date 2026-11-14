@@ -11,7 +11,7 @@ void copy_selected_sound_pair(void *output) {
     u16 *pair_table;
     u16 *pair;
 
-    pair_index = find_target_byte_index_in_list();
+    pair_index = find_target_index_in_list();
     pair_table = fallback_sound_pairs;
     pair = pair_table + (pair_index * 2);
     ((u16 *)output)[2] = pair[0];
@@ -19,7 +19,7 @@ void copy_selected_sound_pair(void *output) {
 }
 
 /* Builds a four-value town entry result using table data or a fallback lookup. */
-s16 *build_four_value_entry_result(s32 unused, s32 index) {
+s16 *build_town_sound_selection(s32 unused, s32 index) {
     s32 entry_index;
     s16 entry_code;
     s16 *output;
@@ -74,7 +74,7 @@ s16 *build_four_value_entry_result(s32 unused, s32 index) {
 }
 
 /* Loads a four-value record and applies the pending override to its first value. */
-void load_pending_sound_record(void) {
+void load_town_sound_selection(void) {
     u16 *record_values;
     u16 *current_values;
 
@@ -85,7 +85,7 @@ void load_pending_sound_record(void) {
     audio_load_sound_effect_bank(2);
     load_sound_set(0);
 
-    record_values = (u16 *)build_four_value_entry_result((s16)map_runtime_state.field18, (s16)map_runtime_state.field1A);
+    record_values = (u16 *)build_town_sound_selection((s16)map_runtime_state.field18, (s16)map_runtime_state.field1A);
     town_sound_selection[0] = record_values[0];
     current_values = town_sound_selection;
     current_values[1] = record_values[1];
@@ -105,7 +105,7 @@ void load_pending_sound_record(void) {
 }
 
 /* Apply pending selections, update playback, and save the active state. */
-void apply_sound_selections_and_update(void)
+void apply_town_sound_selection(void)
 {
     s16 *pending;
     s16 *active;

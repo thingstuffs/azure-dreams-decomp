@@ -100,7 +100,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, Row_818E0800_S_818E0
         found_target = scan_actor_along_heading(
             (ActorRecord *)actor, actor_data->unk_24, actor_data->unk_25,
             actor->unk_2A,
-            (s16)get_definition_entry_byte_13(0x23));
+            (s16)get_spell_range(0x23));
         actor->unk_60 = found_target;
         if (found_target == 0) {
             actor->unk_72.s = actor_data->unk_24;
@@ -193,7 +193,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, Row_818E0800_S_818E0
             if (((Row_818E0800_S_818E0800_15 *)(actor->unk_60))->unk_14 & 1) {
                 if (actor->unk_60 != 0) {
                     hit_effect = (((Row_818E0800_S_818E0800_11 *)current_spell_effect_variant)->unk_00 == 0xFF) ? 0xFF : 0x10;
-                    try_apply_effect_four_by_chance(actor->unk_60, hit_effect, 2);
+                    try_apply_paralysis_effect(actor->unk_60, hit_effect, 2);
                 }
             }
         }

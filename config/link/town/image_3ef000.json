@@ -177,7 +177,7 @@
     },
     {
       "row": "town/func_803D21A4",
-      "tu": "src/town/scene/find_entry_index_assert.c",
+      "tu": "src/town/scene/find_eight_byte_entry_or_assert.c",
       "home": "town/func_8032ECE4",
       "foff": "0x3F21A4",
       "vma": "0x800191A4",
@@ -374,7 +374,7 @@
     {
       "row": "town/func_804735BC",
       "home": "town/func_804735BC",
-      "tu": "src/town/scene/service/call_scene_service_280_d1.c",
+      "tu": "src/town/scene/service/play_town_sound_d1.c",
       "foff": "0x003F35BC",
       "vma": "0x8001A5BC",
       "size": 60

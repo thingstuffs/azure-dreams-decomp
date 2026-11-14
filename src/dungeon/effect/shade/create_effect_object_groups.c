@@ -27,7 +27,7 @@ void *create_effect_object_groups(s16 x, s16 y, s16 z)
     void *callback;
     void *texture;
 
-    if (has_enough_available_runtime_nodes(0x30) == 0) {
+    if (has_enough_available_nodes(0x30) == 0) {
         return 0;
     }
     group_index = 2;

@@ -2,9 +2,9 @@
 #include "engine/item.h"
 #include "engine/resource.h"
 
-/* Allocator wrapper: the retail definition of create_callback_pair_default (code7.c, gcc 2.8.1)
- * declares "void create_callback_pair_default(int,int,int,int)" but is a tail-call forwarder to
- * create_callback_pair_payload, whose return value passes through in $v0 untouched. This call
+/* Allocator wrapper: the retail definition of allocate_node_body (code7.c, gcc 2.8.1)
+ * declares "void allocate_node_body(int,int,int,int)" but is a tail-call forwarder to
+ * create_node_with_record_pair, whose return value passes through in $v0 untouched. This call
  * site only ever sets $a0 (the size), so we prototype/call it with just that one
  * argument and treat it as value-returning, matching the "value-returning wrapper"
  * idiom (v0 flows through from the tail jal, never re-touched before jr). */
@@ -21,7 +21,7 @@ void *create_item_label(void *init_data)
 {
     void *object;
 
-    object = create_callback_pair_default(0x104);
+    object = allocate_node_body(0x104);
     if (object != 0) {
         if (format_item_name(object, init_data) == 0) {
             flag_object_for_removal(object);

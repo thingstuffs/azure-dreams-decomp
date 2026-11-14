@@ -14,7 +14,7 @@
  * category 0x12 or the category lookup otherwise. Registers sprite projection and initializes its
  * adjusted vector.
  */
-void create_indexed_effect_object(s32 index, s32 kind) {
+void create_item_category_effect(s32 index, s32 kind) {
     s32 object_id;
     IndexedEffectObject *state;
     SpriteFrameState *data;
@@ -39,12 +39,12 @@ void create_indexed_effect_object(s32 index, s32 kind) {
             data->source = dispatch_result;
         }
         register_node_if_unregistered(state, project_sprite_chain);
-        copy_adjusted_vector_or_flag_object(state, (s32 *)object_id, data);
+        follow_view_reference_or_retire(state, (s32 *)object_id, data);
     }
 }
 
 /* Copy the adjusted vector when state references match; otherwise process and flag the object. */
-void copy_adjusted_vector_or_flag_object(IndexedEffectObject *object, s32 *out_vector, void *unused)
+void follow_view_reference_or_retire(IndexedEffectObject *object, s32 *out_vector, void *unused)
 {
     s32 *state_refs = scene_object_payload_alias;
 

@@ -27,7 +27,7 @@ void initialize_event_selection_state(s32 unused, s32 unused_second)
 }
 
 /* Applies flag-dependent setup or forwards the arguments to the fallback handler. */
-s32 handle_event_or_fallback(s32 fallback_first, s32 fallback_second) {
+s32 start_event_or_init_selection(s32 fallback_first, s32 fallback_second) {
     LocalValues indexed_values;
     S_8001BD20_0 *page;
     s32 second_or_base;

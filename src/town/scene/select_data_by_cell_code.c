@@ -1,0 +1,21 @@
+#include "common.h"
+#include "town/scene/mode_data.h"
+#include "town/scene.h"
+
+extern s32 select_data_by_kind_and_index(s32, s32, s32);
+
+/*
+ * Uses lookup overrides for scene_cell_dispatch_code zero and kind/index selection for code two;
+ * returns zero for all other codes.
+ */
+s32 select_data_by_cell_code(s32 input_a, s32 input_b, s32 input_c, s32 input_d) {
+    s32 state = scene_cell_dispatch_code;
+
+    if (state == 0) {
+        return select_state_result_with_lookup_overrides(input_a, input_b, input_c);
+    }
+    if (state == 2) {
+        return select_data_by_kind_and_index(input_a, input_b, input_c);
+    }
+    return 0;
+}

@@ -40,7 +40,7 @@ void start_directional_action_and_record_tile(ActorRecord *action_state, ObjectP
 /* Advances a timed actor effect, spawning and positioning its visual object before cleanup. */
 /* Creates a timed Noise sprite at its target or source, waits 45 ticks, checks the target action, then
  * spends MP. */
-void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition *position, SpriteFrameState *source_mesh, ActorRecord *actor) {
+void advance_noise_sprite_copy_action(ActorRecord *effect_state, ObjectPosition *position, SpriteFrameState *source_mesh, ActorRecord *actor) {
     T_801748D0_LocalFrame frame;
     TimedActorVisualEffectBody *effect_body;
     SpriteFrameState *effect_mesh;
@@ -185,10 +185,10 @@ void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition
     case 3:
         owner_link = actor->target;
         if (owner_link != 0) {
-            check_action_six_eligibility(actor, owner_link);
+            try_apply_magic_bind_scaled(actor, owner_link);
         }
         spend_actor_mp(actor, 0x400);
-        effect_state->unk_8C.address = update_actor_behavior_and_direction;
+        effect_state->unk_8C.address = update_noise_behavior;
         g_dungeon_status.active_actor = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
 

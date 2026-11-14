@@ -4,7 +4,7 @@
 #include "town/player.h"
 
 /*
- * Subtracts D_800FE5D4 from a copy of Z and returns max_adjusted_z_query over four entries from
+ * Subtracts D_800FE5D4 from a copy of Z and returns max_position_minus_z over four entries from
  * D_800D040C.
  */
 s32 query_position_upper_bound(ObjectPosition *position) {
@@ -13,7 +13,7 @@ s32 query_position_upper_bound(ObjectPosition *position) {
     pos.x = (u32)position->x.v;
     pos.y = position->y.v;
     pos.z = position->z.v - D_800FE5D4;
-    return max_adjusted_z_query(&pos, D_800D040C[0], 4);
+    return max_position_minus_z(&pos, D_800D040C[0], 4);
 }
 
 /* Set the record value, clear its secondary value, and refresh it with the global flag set. */

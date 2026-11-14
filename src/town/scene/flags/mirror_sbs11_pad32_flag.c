@@ -1,0 +1,16 @@
+#include "script_symbols.h"
+#include "common.h"
+#include "town/player/script_flags.h"
+#include "town/scene/flags.h"
+
+
+/* Updates flag 0x5C4 to reflect flag 0x5C3 and returns its state. */
+s32 mirror_sbs11_pad32_flag(void) {
+    if (get_script_flag_mask(F_sbs11_pad32) != 0) {
+        set_script_flag_bit(F_sbs11_pad33);
+        return 1;
+    }
+
+    clear_script_flag_bit(F_sbs11_pad33);
+    return 0;
+}

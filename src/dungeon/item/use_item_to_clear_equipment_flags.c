@@ -15,7 +15,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
 
-extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern s32 resolve_item_attack(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 #include "dungeon/player/state/clear_slot_and_update_linked_state_api.h"
 
 extern u8 D_800E1756[];
@@ -30,7 +30,7 @@ s32 use_item_to_clear_equipment_flags(ActorRecord *target, DungeonItemEntry *ite
     s32 uncursed;
 
     if (use_mode == 13) {
-        return process_record_and_update_linked_state(item, use_context);
+        return resolve_item_attack(item, use_context);
     }
 
     if (target == ((u8 *)dungeon_actor_ring_anchor)) {
@@ -87,6 +87,6 @@ s32 use_item_to_clear_equipment_flags(ActorRecord *target, DungeonItemEntry *ite
     }
 
     g_dungeon_status.activity_counts.parts.pending_action_count--;
-    clear_slot_and_update_linked_state(item);
+    clear_item_slot(item);
     return 1;
 }

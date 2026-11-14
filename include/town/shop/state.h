@@ -10,22 +10,22 @@ void set_monster_status_panel_height(struct S_800B6580_0 *object, s16 height);
 
 s32 set_item_menu_flag_and_return_one(void *state, void *unused_config);
 
-s32 test_linked_flag(s32 flag_index);
+s32 test_indexed_flag(s32 flag_index);
 
 struct ShopWindow;
-/* update_shop_state_flags.c */
-void update_shop_state_flags(struct ShopWindow *window);
+/* update_shop_page_edge_flags.c */
+void update_shop_page_edge_flags(struct ShopWindow *window);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-s32 count_flagged_entries(void *entries);
+s32 count_equipped_entries(void *entries);
 s32 func_800B44F0(void *state, s32 input);
-void set_linked_flag(s32 bit_index);
+void set_indexed_flag(s32 bit_index);
 
 #include "shared/item_menu.h"
 #include "records/Rec_func_800B683C_arg0.h"
 void *link_monster_status_display_entries(void *target);
 s32 release_monster_status_request_handles(Rec_func_800B683C_arg0 *owner);
-void reset_item_menu_object_state(ItemMenuObjectNode *object);
+void release_item_menu_child_object(ItemMenuObjectNode *object);
 
 /* Address-qualified entries of distinct diagnostic devkit builds; docs/evidence/r141w_town_dev.md. */
 s32 test_linked_flag_80700c7c(s32 flag_index);
@@ -37,7 +37,7 @@ s32 test_linked_flag_80700dc0(s32 flag_index);
 /* Additional diagnostic copies recovered while resolving import floors. */
 s32 test_linked_flag_80000c6c(s32 index);
 
-void process_lshop_entries(void *entries, s32 entry_mode);
-void decay_shop_state_and_cleanup(void *object_arg);
+void apply_shop_transaction(void *entries, s32 entry_mode);
+void fade_out_shop_window(void *object_arg);
 
 #endif

@@ -26,8 +26,8 @@ void activate_delayed_window_resource(Func80035BE0State *state) {
     counter--;
     state->counter = counter;
     if ((s16)counter < 0) {
-        activate_indexed_resource_and_upload_images(state->resource_group, state->resource_index);
+        activate_resource_and_upload(state->resource_group, state->resource_index);
         initialize_shared_sprite_fade_display();
-        state->callback = grow_window_extent_to_sixty_four;
+        state->callback = grow_window_extent_to_limit;
     }
 }

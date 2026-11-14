@@ -28,8 +28,8 @@ void change_item_menu_selection(ObjectNodeHeader *object, s32 value_arg, s32 res
 /* clear_item_menu_entry_groups.c */
 void clear_item_menu_entry_groups(ItemMenuPart **parts);
 
-/* dispatch_item_menu_data_update.c */
-void dispatch_item_menu_data_update(void *data);
+/* init_item_menu_sub_record_pair.c */
+void init_item_menu_sub_record_pair(void *data);
 
 /* dispatch_item_menu_entry_callback.c */
 s32 dispatch_item_menu_entry_callback(ItemMenuTransition *state, s32 callback_arg);
@@ -47,8 +47,8 @@ s32 get_item_menu_table_entry(s32 index);
 /* initialize_item_menu_linked_blocks.c */
 void initialize_item_menu_linked_blocks(struct S_800AFF00_4 *state, struct S_800AFF00_0 *primary, DisplayPositionWords *secondary);
 
-/* initialize_item_menu_linked_record_vectors.c */
-void initialize_item_menu_linked_record_vectors(ItemMenuTransition *vectors, struct S_800AEBC4_4 *config, s32 *position_data, s32 *secondary_data, s32 x, s32 y);
+/* init_item_menu_list_position.c */
+void init_item_menu_list_position(ItemMenuTransition *vectors, struct S_800AEBC4_4 *config, s32 *position_data, s32 *secondary_data, s32 x, s32 y);
 
 /* initialize_item_menu_list_display.c */
 void initialize_item_menu_list_display(s32 objectData, s32 owner, s32 listConfig, s32 entryCount, s32 x, s32 y, s32 entryIds);
@@ -65,8 +65,8 @@ void initialize_item_menu_record_fields(void *record, s32 value_3c, s32 value_34
 /* initialize_item_menu_scene_value.c */
 s32 initialize_item_menu_scene_value(s32 value);
 
-/* invoke_item_menu_offset_handler.c */
-s32 invoke_item_menu_offset_handler(u8 *object, s32 callback_arg);
+/* invoke_item_menu_object_callback.c */
+s32 invoke_item_menu_object_callback(u8 *object, s32 callback_arg);
 
 /* item_menu_no_op.c */
 void item_menu_no_op(struct ItemMenuPart **parts, struct ItemMenuObject *object);
@@ -101,8 +101,8 @@ void populate_shop_item_rows(struct ShopWindow *ctx);
 /* process_item_menu_selected_entry.c */
 void process_item_menu_selected_entry(ItemMenuObject *record);
 
-/* run_item_menu_record_handlers.c */
-void run_item_menu_record_handlers(void *record_payload);
+/* release_item_menu_record_child.c */
+void release_item_menu_record_child(void *record_payload);
 
 /* schedule_item_menu_child_release.c */
 void schedule_item_menu_child_release(ObjectNodeHeader *object);
@@ -125,15 +125,15 @@ void set_item_menu_secondary_handler(ItemMenuStateNode *owner);
 /* tick_item_menu_selection_delay.c */
 void tick_item_menu_selection_delay(struct ItemMenuTransition *state);
 
-/* update_item_menu_enabled_record.c */
-void update_item_menu_enabled_record(ItemMenuObject *object);
+/* start_item_menu_cursor.c */
+void start_item_menu_cursor(ItemMenuObject *object);
 
 /* update_item_menu_record_g01150.c */
-void update_item_menu_record(ItemMenuObject *record);
-void *place_selected_item_menu_entry(ItemMenuObject *entry);
-void store_item_menu_check_result(ItemMenuObject *record_data);
+void refresh_item_menu_page(ItemMenuObject *record);
+void *open_selected_item_display(ItemMenuObject *entry);
+void retry_open_item_display(ItemMenuObject *record_data);
 void update_item_menu_selection(ItemMenuObject *obj);
-void reset_item_menu_entity_state(ItemMenuObject *entity);
-void advance_item_menu_step(ItemMenuObject *object);
+void update_item_menu_frame(ItemMenuObject *entity);
+void advance_item_menu_open_ramp(ItemMenuObject *object);
 
 #endif

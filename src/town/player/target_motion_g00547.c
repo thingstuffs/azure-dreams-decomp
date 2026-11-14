@@ -16,7 +16,7 @@ void move_player_toward_target(UnsignedCountdownView *state_arg_arg, ObjectPosit
     state->timer = ticks_left;
     if ((s16) ticks_left < 0) {
         object->z.v = player_target_position[2];
-        clear_entity_record_fields(object);
+        clear_object_velocity(object);
         state->timer = 0xA;
         state->unk_04 = &D_8009AAB8;
     }
@@ -39,7 +39,7 @@ void approach_player_target_position(UnsignedCountdownView *state_arg, ObjectPos
     if ((s16)ticks_left < 0) {
         motion->x.v = player_target_position[0];
         motion->y.v = player_target_position[1];
-        clear_entity_record_fields(motion);
+        clear_object_velocity(motion);
         state->unk_04 = &D_8009AB74;
         state->unk_10 = 0;
     }

@@ -22,7 +22,7 @@
     },
     {
       "row": "dungeon/func_80FF96A8",
-      "tu": "src/dungeon/monster/killer/update_entity_action_facing.c",
+      "tu": "src/dungeon/monster/killer/update_killer_behavior.c",
       "home": "dungeon/func_80FDB6A8",
       "foff": "0x10196A8",
       "vma": "0x80152ea8",
@@ -128,7 +128,7 @@
     },
     {
       "row": "dungeon/func_80FFAA30",
-      "tu": "src/dungeon/monster/hikewne/update_entity_state_from_query.c",
+      "tu": "src/dungeon/monster/hikewne/relink_hikewne_path.c",
       "home": "dungeon/func_80976E28",
       "foff": "0x101AA30",
       "vma": "0x80154230",
@@ -193,7 +193,7 @@
     },
     {
       "row": "dungeon/func_80FFAFEC",
-      "tu": "src/dungeon/monster/killer/advance_timed_directional_animation.c",
+      "tu": "src/dungeon/monster/killer/advance_killer_attack_animation.c",
       "home": "dungeon/func_80FDCFEC",
       "foff": "0x101AFEC",
       "vma": "0x801547EC",
@@ -247,7 +247,7 @@
     },
     {
       "row": "dungeon/func_80FFBB34",
-      "tu": "src/dungeon/effect/state/forward_actor_effect_state.c",
+      "tu": "src/dungeon/effect/state/update_hop_and_shrink_callback.c",
       "home": "dungeon/func_800AD90C",
       "foff": "0x101BB34",
       "vma": "0x80155334",
@@ -313,7 +313,7 @@
     },
     {
       "row": "dungeon/func_80FFC284",
-      "tu": "src/dungeon/monster/kewne/update_actor_state_after_map_check.c",
+      "tu": "src/dungeon/monster/kewne/update_kewne_parent_motion.c",
       "home": "dungeon/func_809A2D74",
       "foff": "0x101C284",
       "vma": "0x80155A84",
@@ -325,7 +325,7 @@
     },
     {
       "row": "dungeon/func_80FFC34C",
-      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F8A600",
       "foff": "0x101C34C",
       "vma": "0x80155B4C",
@@ -363,7 +363,7 @@
     },
     {
       "row": "dungeon/func_80FFC420",
-      "tu": "src/dungeon/monster/killer/advance_directional_lift_effect.c",
+      "tu": "src/dungeon/monster/killer/advance_killer_jump_attack.c",
       "home": "dungeon/func_80FDE420",
       "foff": "0x101C420",
       "vma": "0x80155C20",
@@ -388,7 +388,7 @@
     },
     {
       "row": "dungeon/func_80FFC7C0",
-      "tu": "src/dungeon/actor/set_actor_data_pointer.c",
+      "tu": "src/dungeon/actor/set_default_action_after_floor_trap.c",
       "home": "dungeon/func_800CF1BC",
       "foff": "0x101C7C0",
       "vma": "0x80155FC0",

@@ -28,7 +28,7 @@ void join_monster_status_display_chains(ItemMenuPart *owner, s32 source) {
 }
 
 /* Processes the object's embedded data, then selects a handler by its mode flag. */
-void process_object_data_by_mode(Rec_func_800B683C_arg0 *object) {
+void build_monster_status_display(Rec_func_800B683C_arg0 *object) {
     join_monster_status_display_chains((void *)object + 0x88, (s32)object->unk_98);
     if (object->unk_08 != 0) {
         func_800B640C(object->unk_04, (s32)object->unk_98,

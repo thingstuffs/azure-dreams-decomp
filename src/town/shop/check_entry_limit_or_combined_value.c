@@ -19,8 +19,8 @@ s32 check_entry_limit_or_combined_value(UnkStruct800B023C *entry) {
         if ((u32) (entry->unk20[(entry->unk04 * 4) + 1] - 0x17) < 2U) {
             return 1;
         }
-        total = count_nonzero_fixed_table_words();
-        total += count_flagged_entries(entry->unk20);
+        total = count_town_items_at_fixed_table();
+        total += count_equipped_entries(entry->unk20);
         return total < 20;
     }
     return 1;

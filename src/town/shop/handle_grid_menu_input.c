@@ -83,8 +83,8 @@ void handle_grid_menu_input(GridMenuObject *menu) {
     menu->selected_index = selection;
     if (row != menu->selected_row) {
         menu->selected_row = row;
-        set_shop_subrecord_values(menu->subrecord, row, selection);
+        set_shop_page_and_selection(menu->subrecord, row, selection);
     }
-    store_shop_embedded_value(menu->subrecord, selection);
-    pass_indexed_entry_address(menu);
+    set_shop_selected_entry(menu->subrecord, selection);
+    refresh_selected_item_name_with_fallback(menu);
 }

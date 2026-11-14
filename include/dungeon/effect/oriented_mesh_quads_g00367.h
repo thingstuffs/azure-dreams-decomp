@@ -179,7 +179,7 @@ s32 RotMatrix(void *, void *);
 u16 ratan2();
 
 /* Functions defined in this translation unit. */
-s32 process_linked_mesh_states_mode_1(void *initial_state, s32 value, void *data);
+s32 draw_linked_oriented_mesh_quads(void *initial_state, s32 value, void *data);
 void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints, S_800CEFB8_1 *sprite, s16 depth_bias, s16 orient_mode);
 
 #endif

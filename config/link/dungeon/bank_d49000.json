@@ -125,7 +125,7 @@
     },
     {
       "row": "dungeon/func_80D29F60",
-      "tu": "src/dungeon/monster/noise/update_actor_behavior_and_direction.c",
+      "tu": "src/dungeon/monster/noise/update_noise_behavior.c",
       "home": "dungeon/func_80D11F60",
       "foff": "0xD49F60",
       "vma": "0x80159760",
@@ -230,7 +230,7 @@
     },
     {
       "row": "dungeon/func_80D2B1AC",
-      "tu": "src/dungeon/monster/hikewne/update_entity_state_from_query.c",
+      "tu": "src/dungeon/monster/hikewne/relink_hikewne_path.c",
       "home": "dungeon/func_80976E28",
       "foff": "0xD4B1AC",
       "vma": "0x8015A9AC",
@@ -244,7 +244,7 @@
     },
     {
       "row": "dungeon/func_80D2B2F0",
-      "tu": "src/dungeon/monster/saber/reset_eligible_entity_state.c",
+      "tu": "src/dungeon/monster/saber/finish_saber_tile_move.c",
       "home": "dungeon/func_80AC7330",
       "foff": "0xD4B2F0",
       "vma": "0x8015AAF0",
@@ -271,7 +271,7 @@
     },
     {
       "row": "dungeon/func_80D2B798",
-      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F88C30",
       "foff": "0xD4B798",
       "vma": "0x8015AF98",
@@ -337,7 +337,7 @@
     },
     {
       "row": "dungeon/func_80D2C684",
-      "tu": "src/dungeon/effect/state/forward_actor_effect_state.c",
+      "tu": "src/dungeon/effect/state/update_hop_and_shrink_callback.c",
       "home": "dungeon/func_800AD90C",
       "foff": "0xD4C684",
       "vma": "0x8015BE84",
@@ -425,7 +425,7 @@
     },
     {
       "row": "dungeon/func_80D2CD98",
-      "tu": "src/dungeon/monster/kewne/update_actor_state_after_map_check.c",
+      "tu": "src/dungeon/monster/kewne/update_kewne_parent_motion.c",
       "home": "dungeon/func_809A2D74",
       "foff": "0xD4CD98",
       "vma": "0x8015C598",
@@ -439,7 +439,7 @@
     },
     {
       "row": "dungeon/func_80D2CE60",
-      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F8A600",
       "foff": "0xD4CE60",
       "vma": "0x8015C660",

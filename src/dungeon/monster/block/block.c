@@ -1774,9 +1774,9 @@ void create_randomized_rotated_effect(void *unused_context, ObjectPosition *sour
 }
 
 /* Projects an effect quad, checks its screen bounds and depth, and queues visible shaded polygons. */
-void project_visible_effect_quad(ActorRecord *body, ObjectPosition *position_arg, void *render_info_arg, s16 depth_bias)
+void project_visible_effect_quad(ActorRecord *body, ObjectPosition *position_arg, SpriteFrameState *render_info_arg, s16 depth_bias)
 {
-    CB_80173E40_S_80173E40_2 *render_info = render_info_arg;
+    SpriteFrameState *render_info = render_info_arg;
     ObjectPosition *position = position_arg;
     ShadedQuadScratch *scratch = (ShadedQuadScratch *)0x1F800000;
     DR_MODE *mode;
@@ -1793,16 +1793,16 @@ void project_visible_effect_quad(ActorRecord *body, ObjectPosition *position_arg
     scratch->local_matrix.t[0] = position->x.w.i;
     scratch->local_matrix.t[1] = position->y.w.i;
     scratch->local_matrix.t[2] = position->z.w.i;
-    render_info->unk_14 |= 0x8000;
+    render_info->flags |= 0x8000;
 
     PushMatrix();
 
     scratch->scale.vz = 0x2000;
     scratch->scale.vy = 0x2000;
     scratch->scale.vx = 0x2000;
-    scratch->angles.vx = render_info->unk_16;
-    scratch->angles.vz = render_info->unk_1A;
-    scratch->angles.vy = render_info->unk_18;
+    scratch->angles.vx = render_info->angle_x;
+    scratch->angles.vz = render_info->angle_z;
+    scratch->angles.vy = render_info->angle_y;
     RotMatrix(&scratch->angles, &scratch->local_matrix);
     ReadRotMatrix(&current_matrix);
     CompMatrix(&current_matrix, &scratch->local_matrix, &scratch->composed_matrix);
@@ -1810,8 +1810,8 @@ void project_visible_effect_quad(ActorRecord *body, ObjectPosition *position_arg
     SetTransMatrix(&scratch->composed_matrix);
     SetRotMatrix(&scratch->composed_matrix);
 
-    texture = (*(u8 * *)((u8 *)render_info + 8));
-    scratch->render_flags = render_info->unk_14;
+    texture = render_info->source;
+    scratch->render_flags = render_info->flags;
     mode = ((GpuContext *)g_game_work.draw_buffer)->packetCursor;
     ((GpuContext *)g_game_work.draw_buffer)->packetCursor = mode + 1;
     texture_page = GetTPage(0, 0, 0, 0);
@@ -1861,12 +1861,12 @@ void project_visible_effect_quad(ActorRecord *body, ObjectPosition *position_arg
              ((u16)(packet->y2 + 0x20) < 0x121)) |
             (((u16)(packet->x3 + 0x20) < 0x181) &&
              ((u16)(packet->y3 + 0x20) < 0x121))) {
-            render_info->unk_14 &= 0x7FFF;
+            render_info->flags &= 0x7FFF;
             texture_flags = texture[1];
-            render_info->unk_0F = texture_flags;
+            render_info->color.c.code = texture_flags;
             render_flags = scratch->render_flags;
             if (render_flags & 8) {
-                render_info->unk_0F = (render_flags & 4) ?
+                render_info->color.c.code = (render_flags & 4) ?
                     (texture_flags | 2) : (texture_flags & 0xFD);
             }
 
@@ -1906,7 +1906,7 @@ void project_visible_effect_quad(ActorRecord *body, ObjectPosition *position_arg
 }
 
 /* Traverses linked effect nodes and projects each node's visible quad into render packets. */
-s32 project_linked_effect_quads(void *point, ObjectPosition *position, void *color) {
+s32 project_linked_effect_quads(void *point, ObjectPosition *position, SpriteFrameState *color) {
  void *next;
  for (;;) {
   project_visible_effect_quad(point,position,color,0);

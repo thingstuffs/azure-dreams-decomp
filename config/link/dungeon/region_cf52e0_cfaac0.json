@@ -44,7 +44,7 @@
     {
       "row": "dungeon/func_80CD8030",
       "home": "dungeon/func_80CBED38",
-      "tu": "src/dungeon/monster/pulunpa/select_object_data_by_flag.c",
+      "tu": "src/dungeon/monster/pulunpa/finish_pulunpa_linked_move.c",
       "foff": "0xcf8030",
       "vma": "0x8015b830",
       "size": 128,
@@ -60,7 +60,7 @@
     {
       "row": "dungeon/func_80CD80B0",
       "home": "dungeon/func_80CBF800",
-      "tu": "src/dungeon/monster/pulunpa/select_variant_object_data.c",
+      "tu": "src/dungeon/monster/pulunpa/finish_pulunpa_hop_and_grow.c",
       "foff": "0x00CF80B0",
       "vma": "0x8015B8B0",
       "size": 84,
@@ -76,7 +76,7 @@
     {
       "row": "dungeon/func_80CD8104",
       "home": "dungeon/func_80CBF800",
-      "tu": "src/dungeon/monster/pulunpa/select_variant_object_data.c",
+      "tu": "src/dungeon/monster/pulunpa/finish_pulunpa_hop_and_grow.c",
       "foff": "0x00CF8104",
       "vma": "0x8015B904",
       "size": 84,
@@ -92,7 +92,7 @@
     {
       "row": "dungeon/func_80CD8158",
       "home": "dungeon/func_80CBF800",
-      "tu": "src/dungeon/monster/pulunpa/select_variant_object_data.c",
+      "tu": "src/dungeon/monster/pulunpa/finish_pulunpa_hop_and_grow.c",
       "foff": "0x00CF8158",
       "vma": "0x8015B958",
       "size": 84,
@@ -108,7 +108,7 @@
     {
       "row": "dungeon/func_80CD8200",
       "home": "dungeon/func_80CBF800",
-      "tu": "src/dungeon/monster/pulunpa/select_variant_object_data.c",
+      "tu": "src/dungeon/monster/pulunpa/finish_pulunpa_hop_and_grow.c",
       "foff": "0x00CF8200",
       "vma": "0x8015BA00",
       "size": 84,

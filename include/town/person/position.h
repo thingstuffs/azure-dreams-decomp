@@ -15,7 +15,7 @@ unsigned int get_facing_sector(int angle);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "shared/vector.h"
-void compute_offset_position_linked_object(OwnerFollowingSpriteBody *object, struct ObjectPosition *out_pos);
+void place_at_linked_object_offset(OwnerFollowingSpriteBody *object, struct ObjectPosition *out_pos);
 
 void move_position_toward_target(void *work_data, struct ObjectPosition *position_data, void *completion_arg);
 
@@ -28,6 +28,6 @@ s16 clamp_transform_coordinate_deltas(s32 x, s32 y, void *origin);
 #include "shared/entity.h"
 #include "shared/town_object.h"
 void ease_reaction_position_to_target(TownObjectRecord *state, ObjectPosition *position, void *update_arg);
-void copy_global_position_output_offset(s32 unused, ObjectPosition *position_out);
+void copy_view_position_with_height(s32 unused, ObjectPosition *position_out);
 
 #endif

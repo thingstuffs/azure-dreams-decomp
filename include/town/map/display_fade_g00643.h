@@ -18,7 +18,7 @@ typedef struct TimedColorFadeObject {
     /* 0x02 */ union { u16 u; s16 s; } timer;
 } TimedColorFadeObject;
 
-/* Body advanced by advance_timed_state_and_set_completion. */
+/* Body advanced by decay_timed_display_object. */
 typedef struct TimedDisplayDecayBody {
     /* 0x00 */ union { s16 s; u16 u; } state;
     /* 0x02 */ union { u16 u; s16 s; } timer;
@@ -28,16 +28,16 @@ typedef struct TimedDisplayDecayBody {
     /* 0x14 */ s16 completion_state;
 } TimedDisplayDecayBody;
 
-/* arg0 in advance_color_fade_and_set_completion */
+/* arg0 in fade_timed_color_object */
 
-/* arg0 in advance_color_fade_and_set_completion */
+/* arg0 in fade_timed_color_object */
 
 typedef struct {
     u32 word0;
     u32 word4;
 } __attribute__((packed)) Copy8;
 
-/* arg2 in advance_color_fade_and_set_completion */
+/* arg2 in fade_timed_color_object */
 extern void noop_release_notification(void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern u8 D_80111FB0[8];
 extern void noop_display_setup_hook(void);
@@ -49,8 +49,8 @@ extern u8 D_800BC290[8];
 extern u8 D_800BC390[8];
 
 /* Functions defined in this translation unit. */
-void advance_color_fade_and_set_completion(TimedColorFadeObject *fade_state, s32 unused, SpriteFrameState *visual);
-void advance_timed_state_and_set_completion(TimedDisplayDecayBody *object);
-void build_two_display_entries(void *data_id, s32 position_offset);
+void fade_timed_color_object(TimedColorFadeObject *fade_state, s32 unused, SpriteFrameState *visual);
+void decay_timed_display_object(TimedDisplayDecayBody *object);
+void create_two_text_display_entries(void *data_id, s32 position_offset);
 
 #endif

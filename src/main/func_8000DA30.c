@@ -5,7 +5,7 @@
 
 
 /* Latches card_hardware_status as 1 and returns zero. */
-s32 card_boot_latch_hardware_status_one(void) {
+s32 card_boot_latch_hw_done(void) {
     (*(s32 *)(&card_hardware_status)) = 1;
     return 0;
 }

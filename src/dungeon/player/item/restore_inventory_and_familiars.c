@@ -134,7 +134,7 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
         (s16)((u16)page_view->unk_3714 | 2);
     spawn_x = base_x;
     spawn_y = base_y;
-    restore_item_flag_400_bitmap();
+    restore_marked_item_flags();
     restore_actor_stats_from_snapshot(actor, (s32)cursor_ptr | 0x2194);
     dungeon->unk_F8 = (u16)page_view->unk_2D50;
     dungeon->unk_FC = (s32)page_view->unk_2D58;

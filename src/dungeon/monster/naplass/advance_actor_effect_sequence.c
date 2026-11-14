@@ -39,7 +39,7 @@ s16 get_tile_chebyshev_distance();
 
 #include "dungeon/actor/state.h"
 
-void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, ObjectPosition *position,struct SpriteFrameState *actor, void *model);
+void advance_clown_cd_cue_effect(Rec_func_801732A4_arg0 *state, ObjectPosition *position,struct SpriteFrameState *actor, void *model);
 extern u8 effect_update_tag[];
 extern u8 naplass_action_continuation_address[];
 extern u8 D_801741EC[];
@@ -140,7 +140,7 @@ void advance_naplass_sleep_and_wake_sequence(ActorRecord *body, void *transform,
         }
         if (action_flags & 0x80000) {
             begin_actor_move_to_target_facing(body, transform, sprite, actor_state);
-            advance_actor_effect_sequence(body, transform, sprite, actor_state);
+            advance_clown_cd_cue_effect(body, transform, sprite, actor_state);
             return;
         }
         if (actor_state->pending_turn_updates == 0)
@@ -252,7 +252,7 @@ void advance_naplass_sleep_and_wake_sequence(ActorRecord *body, void *transform,
         body->unk_8C.address = naplass_action_continuation_address;
         return;
     case 5:
-        start_directional_actor_effect(body, transform, sprite, actor_state);
+        begin_dragon_attack(body, transform, sprite, actor_state);
         return;
     }
 }

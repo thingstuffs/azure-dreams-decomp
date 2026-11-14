@@ -65,7 +65,7 @@ void advance_baloon_along_path(ActorRecord *body, ObjectPosition *position, Spri
 
         actor->facing = heading;
         if (x == 3 && !(g_dungeon_status.flags & 0x80) && !(sprite->flags & 0x8000)) {
-            initialize_angle_indexed_target(body, position, sprite, actor);
+            start_baloon_facing_pose(body, position, sprite, actor);
             body->unk_8C.word = 0;
         } else {
             body->action_id = 0xF;

@@ -7,11 +7,11 @@
 /* Registers the object in scene slot 41 using the four local setup tables. */
 void initialize_scene_slot_41_context(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
 {
-    initialize_object_and_register_slot(object, 41, D_800D5F24, D_800D5F28, D_800D5EF4, D_800D5EFC);
+    register_object_slot_with_tables(object, 41, D_800D5F24, D_800D5F28, D_800D5EF4, D_800D5EFC);
 }
 
 /* Registers the object in scene slot 42 using the four local setup tables. */
 void initialize_scene_slot_42_context(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
 {
-    initialize_object_and_register_slot(object, 42, D_800D5F24, D_800D5F28, D_800D5EF4, D_800D5EFC);
+    register_object_slot_with_tables(object, 42, D_800D5F24, D_800D5F28, D_800D5EF4, D_800D5EFC);
 }

@@ -743,7 +743,7 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
             (s16)init_flags);
         record_addr->action_id = 0xFF;
         record_addr->unk_9C = -1;
-        ((T_80171D64_S_80171D64_4 *)((void *)record_addr))->unk_8C = update_actor_behavior;
+        ((T_80171D64_S_80171D64_4 *)((void *)record_addr))->unk_8C = update_troll_behavior;
         try_move_actor_to_valid_position(record_addr, position, sprite, result);
 
         kind = result->unk_48;

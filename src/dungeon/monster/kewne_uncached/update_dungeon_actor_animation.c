@@ -24,7 +24,7 @@
 
 
 #include "dungeon/item/find_active_rect_containing_point_api.h"
-extern void select_bank_actor_movement(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
+extern void select_zu_movement(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 extern s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
 extern void func_80169078(void *, void *, void *, void *);
 
@@ -149,7 +149,7 @@ state_done:
             return;
         }
         if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
-            select_bank_actor_movement(actor, actor_aux, sprite, actor_data);
+            select_zu_movement(actor, actor_aux, sprite, actor_data);
             return;
         }
         if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
@@ -168,13 +168,13 @@ state_done:
                     }
                 }
             }
-            if ((update_entity_state_from_query(actor, actor_aux, sprite, 0) << 16) == 0) {
+            if ((relink_hikewne_path(actor, actor_aux, sprite, 0) << 16) == 0) {
                 return;
             }
             action_state = actor_data->action_flags | 0x4000;
             actor_data->action_flags = action_state;
             if (!(action_state & 0x8000)) {
-                select_bank_actor_movement(actor, actor_aux, sprite, actor_data);
+                select_zu_movement(actor, actor_aux, sprite, actor_data);
                 return;
             }
         }
@@ -220,7 +220,7 @@ state_done:
 
         case 11:
         default:
-            select_bank_actor_movement(actor, actor_aux, sprite, actor_data);
+            select_zu_movement(actor, actor_aux, sprite, actor_data);
             return;
         }
     }

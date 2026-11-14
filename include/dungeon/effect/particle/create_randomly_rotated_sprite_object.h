@@ -244,12 +244,12 @@ void *create_randomly_rotated_sprite_object(struct B22_81893474_EffectState *con
 void accelerate_and_expire_animated_sprite(VerticalAccelerationSpriteBody *step_state, void *accumulator, SpriteFrameState *target);
 void *create_vertical_acceleration_sprite(s32 state_value, B22_81892AF0_Copy24 *source_transform, s16 variant);
 void expire_counted_child_effect(TimedTransformCopyEffectBody *counter_state);
-s32 draw_red(TimedTransformCopyEffectBody *effect, B22_81892C5C_S_81892C5C_2 *center);
+s32 draw_red_triangle_fan(TimedTransformCopyEffectBody *effect, B22_81892C5C_S_81892C5C_2 *center);
 void *create_timed_transform_copy_effect(s32 object_arg, ObjectPosition *source_data, s16 initial_value, s16 field_delta);
 void emit_animated_transform_copies(void *state, ObjectPosition *draw_context, SpriteFrameState *update_context);
 void step_sprite_height_and_animation(AnimatedSpriteBurstBody *entry, B22_818931B8_S_818931B8_2 *source, SpriteFrameState *target);
 void create_animated_sprite_burst(s32 source, B22_81893244_Func81893244Data *initial_data, s16 status_param);
-void update_effect_launch_travel_impact_cleanup(struct B22_81893474_EffectState *effect_state, ObjectPosition *effect_motion, B22_81893474_ColorPart *color_part);
+void update_launched_projectile_effect(struct B22_81893474_EffectState *effect_state, ObjectPosition *effect_motion, B22_81893474_ColorPart *color_part);
 void select_record_entry_and_value(void *state, void *entries, short index);
 extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *, void *);
 extern s32 generate_random_value(void);

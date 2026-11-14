@@ -10,7 +10,7 @@
     {
       "row": "dungeon/func_80BA369C",
       "home": "dungeon/func_80B9769C",
-      "tu": "src/dungeon/monster/nyuel/update_entity_actions_facing_and_animation.c",
+      "tu": "src/dungeon/monster/nyuel/update_nyuel_behavior.c",
       "foff": "0x00BC369C",
       "vma": "0x80164E9C",
       "size": 1396,
@@ -107,7 +107,7 @@
     },
     {
       "row": "dungeon/func_80BA61D0",
-      "tu": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+      "tu": "src/dungeon/monster/clown/update_clown_actor.c",
       "home": "dungeon/func_80BEDE04",
       "foff": "0xbc61d0",
       "vma": "0x801679d0",

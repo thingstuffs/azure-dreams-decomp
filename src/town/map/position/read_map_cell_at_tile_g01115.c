@@ -44,17 +44,17 @@ void write_wrapped_packed_nibble(s32 nibble, s32 index, s32 nibble_count, u8 *pa
 }
 
 /* Converts and processes all 128 entries for the given lookup key. */
-void process_all_lookup_entries(s32 lookup_key, void *context) {
+void pack_map_row_nibbles(s32 lookup_key, void *context) {
     s32 entry_index;
 
     for (entry_index = 0; entry_index < 0x80; entry_index++) {
-        write_wrapped_packed_nibble(pass_value_and_range_groups(read_map_cell_at_tile((s16)entry_index, (s16)lookup_key) & 0xFFFF), entry_index, 0x80, context);
+        write_wrapped_packed_nibble(find_shared_range_group(read_map_cell_at_tile((s16)entry_index, (s16)lookup_key) & 0xFFFF), entry_index, 0x80, context);
     }
 }
 
-/* Pass the entry index and its 64-byte record to process_all_lookup_entries. */
-void process_indexed_entry_record(s32 entry_index) {
-    process_all_lookup_entries(entry_index, (entry_index << 6) + &D_800FC428);
+/* Pass the entry index and its 64-byte record to pack_map_row_nibbles. */
+void pack_map_row_into_table(s32 entry_index) {
+    pack_map_row_nibbles(entry_index, (entry_index << 6) + &D_800FC428);
 }
 
 /*
@@ -72,7 +72,7 @@ void advance_index_and_mark_completion(TownMapEntryProcessorBody *processor)
 {
     s32 nextIndex;
 
-    process_indexed_entry_record(processor->current_index);
+    pack_map_row_into_table(processor->current_index);
     nextIndex = processor->current_index + 1;
     processor->current_index = nextIndex;
     if (nextIndex >= 0x80) {

@@ -61,17 +61,17 @@ s32 func_800B0718(void);
 /* extern */
 void handle_item_move_menu_input(u8 *menu);
 extern void func_800B3A80(s32);
-extern void refresh_object_components_and_high_flag(StorageMenuNode *object);
-extern void process_object_resources_and_high_flag(u8 *object);
+extern void release_storage_item_menu(StorageMenuNode *object);
+extern void release_storage_owner_menu(u8 *object);
 s32 obj_disp23_cancel_sw_set(s32 cancel_switch);
 void came_bright_set(u32 brightness);
 
 /* Functions defined in this translation unit. */
 void collect_enabled_entry_pointers(UA32 **entries, s32 entry_count);
 s32 count_nonzero_entries(s32 *entries);
-UA32 **acquire_resource_and_initialize_state(ItemMenuInputObject *state);
-void fill_item_value_buffer(ItemMenuInputObject *table);
-void initialize_record_table_and_group(ItemMenuInputObject *record);
+UA32 **allocate_item_pointer_list(ItemMenuInputObject *state);
+void write_back_item_table(ItemMenuInputObject *table);
+void init_item_list_group(ItemMenuInputObject *record);
 void * open_twin_souko(s32 option);
 
 #endif

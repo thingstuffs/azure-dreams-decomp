@@ -43,12 +43,12 @@ s32 use_return_magic(Entity *entity, DungeonItemEntry *item, s16 action_type) {
                 display_formatted_context_message(D_800E15FE);
                 counter = &g_dungeon_status;
                 (*(u16 *)&counter->activity_counts.parts.pending_action_count)--;
-                clear_slot_and_update_linked_state(item);
+                clear_item_slot(item);
                 return 1;
             }
             if (create_return_magic_effect(entity) != 0) {
                 DungeonGlobalStatus *counter;
-                clear_slot_and_update_linked_state(item);
+                clear_item_slot(item);
                 counter = &g_dungeon_status;
                 (*(u16 *)&counter->activity_counts.parts.pending_action_count)--;
                 return 1;

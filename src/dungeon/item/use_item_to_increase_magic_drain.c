@@ -53,7 +53,7 @@ s32 use_item_to_increase_magic_drain(ActorRecord *target, DungeonItemEntry *item
     } else {
         display_formatted_context_message(D_800E10F2);
     }
-    clear_slot_and_update_linked_state(item);
+    clear_item_slot(item);
     g_dungeon_status.activity_counts.parts.pending_action_count--;
     return 1;
 }

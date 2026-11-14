@@ -141,7 +141,7 @@ void update_actor_behavior_facing_and_animation_2(ActorRecord *actor, ObjectPosi
                     }
                 }
             }
-            if ((s16)update_entity_state_from_query(actor, context, sprite, 0) == 0) {
+            if ((s16)relink_hikewne_path(actor, context, sprite, 0) == 0) {
                 return;
             }
             status->action_flags |= 0x4000;
@@ -154,8 +154,8 @@ void update_actor_behavior_facing_and_animation_2(ActorRecord *actor, ObjectPosi
         switch ((status->action_flags & 0x3FFF) - 1) {
         case 7:
         case 8:
-            if ((s16)check_actor_transition_and_start_effect(actor, context, sprite, status) == 0) {
-                start_directional_actor_effect(actor, context, sprite, status);
+            if ((s16)try_dragon_attack(actor, context, sprite, status) == 0) {
+                begin_dragon_attack(actor, context, sprite, status);
             }
             return;
 

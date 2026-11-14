@@ -70,25 +70,25 @@ s32 scan_forward_tiles_for_target(GolemActionWork *action_state, ObjectPosition 
 
 
 void advance_actor_height_arc(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *record, ActorRecord *actor);
-void advance_timed_target_flags(CopiedRenderObjectBody *state, void *output, SpriteFrameState *target);
-void update_staged_target_motion(RandomizedOffsetObjectBody *motion, RandomizedOffsetVector *trajectory, void *context);
+void update_copied_render_object(CopiedRenderObjectBody *state, void *output, SpriteFrameState *target);
+void update_line_effect_toward_target(RandomizedOffsetObjectBody *motion, RandomizedOffsetVector *trajectory, void *context);
 
-void update_dungeon_actor_actions(struct GolemActionWork *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *stats);
+void update_golem_actor_behavior(struct GolemActionWork *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *stats);
 
 /* Directional frame entries; the full allocation extent is not inferred. */
 extern u8 golem_frame_set_1[];
 s32 consume_pending_flag(ActorRecord *body, ActorRecord *flag_record);
 void finish_successful_actor_action(ActorRecord *action_entity, ObjectPosition *action, SpriteFrameState *source_actor, ActorRecord *target_actor);
-void * create_offset_actor_object(ActorRecord *unused, ObjectPosition *position, SpriteFrameState *sprite);
+void * create_actor_animation_effect(ActorRecord *unused, ObjectPosition *position, SpriteFrameState *sprite);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_80172D08_arg1.h"
-void *create_primitive_state_object(ActorRecord *unused, ObjectPosition *position, Rec_D_80082E80 *source);
+void *create_large_animation_effect(ActorRecord *unused, ObjectPosition *position, Rec_D_80082E80 *source);
 
 void advance_timed_directional_reset(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void func_80170E94(struct GolemActionWork *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *stats);
-void update_eligible_actor_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
+void begin_golem_attack(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 
 void advance_multi_stage_actor_effect(ActorRecord *body, void *incoming_entity, SpriteFrameState *sprite, ActorRecord *incoming_actor);
 

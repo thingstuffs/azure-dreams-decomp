@@ -31,6 +31,7 @@
 #include "engine/effect.h"
 #include "sdk/libspu.h"
 #include "slus/data.h"
+#include "slus/audio_timer_update_enabled_data.h"
 
 extern int   card_server_initialized[3];
 extern short audio_voice_drain_suppressed[5];
@@ -343,7 +344,7 @@ void load_default_object_palette(short index)
 }
 
 /* Load the indexed entry from table one and return the result. */
-int load_equipment_palette_for_category_sixteen(short index)
+int load_wand_palette(short index)
 {
     return load_resource_and_mirror_palette(index, 1);
 }
@@ -354,28 +355,28 @@ void load_equipment_change_palette(short index)
     load_resource_and_mirror_palette(index, 2);
 }
 
-extern int resource_load_indexed_sprite_bundle(int a0); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern int load_indexed_sprite_bundle(int a0); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Return the result of query zero. */
 int load_dungeon_sprite_bundle(void)
 {
-    return resource_load_indexed_sprite_bundle(0);
+    return load_indexed_sprite_bundle(0);
 }
 
-extern int resource_load_indexed_sprite_bundle(int a0);
+extern int load_indexed_sprite_bundle(int a0);
 
 /* Return the result of query one. */
 int load_town_sprite_bundle(void)
 {
-    return resource_load_indexed_sprite_bundle(1);
+    return load_indexed_sprite_bundle(1);
 }
 
-extern int resource_load_indexed_sprite_bundle(int);
+extern int load_indexed_sprite_bundle(int);
 
 /* Return the result of query two. */
 int load_alternate_town_sprite_bundle(void)
 {
-    return resource_load_indexed_sprite_bundle(2);
+    return load_indexed_sprite_bundle(2);
 }
 
 /* Return the indexed global table value. */
@@ -546,7 +547,7 @@ void clear_floor_resource_state_table(void) {
 }
 
 /* Compare two signed words by subtraction. */
-int subtract_pointed_int_values(int *left, int *right)
+int compare_int_values(int *left, int *right)
 {
     return *left - *right;
 }
@@ -578,14 +579,14 @@ int compare_mapped_leading_bytes(unsigned char **left, unsigned char **right)
 }
 
 /* Sort the supplied elements using their comparator. */
-void forward_selection_sort_request(u8 *base, s32 count, s32 size, s32 (*compar)(u8 *, u8 *))
+void sort_with_comparator(u8 *base, s32 count, s32 size, s32 (*compar)(u8 *, u8 *))
 {
     selection_sort_elements(base, count, size, compar);
 }
 
 /* Forward an object with fixed leading arguments zero and one. */
 void create_single_callback_payload(void *object) {
-    create_callback_pair_payload(0, (void *)1, (unsigned long)object);
+    create_node_with_record_pair(0, (void *)1, (unsigned long)object);
 }
 
 /* Find the target node in the global linked list. */
@@ -689,7 +690,7 @@ void set_message_mode(int value)
 }
 
 /* Clear both global values. */
-void clear_message_command_words(void)
+void reset_message_command_queue(void)
 {
     message_command_write_index = 0;
     message_command_start_index = 0;
@@ -744,7 +745,7 @@ void noop_display_setup_hook(void) {
 }
 
 /* Clear the first word of the global state. */
-void clear_vram_callback_state(void) {
+void clear_card_server_initialized_flag(void) {
     card_server_initialized[0] = 0;
 }
 
@@ -786,7 +787,7 @@ void *link_menu_backdrop_display_nodes(void *entries)
 }
 
 /* Store a word through the supplied pointer. */
-void set_menu_backdrop_initial_value(int *dst, int value)
+void set_menu_backdrop_owner(int *dst, int value)
 {
     *dst = value;
 }
@@ -850,13 +851,13 @@ void resolve_selected_menu_entry(char *object)
 }
 
 /* Calls handle_selection_menu_input with object. */
-void forward_object_input_handler(MenuSelectionBody *object)
+void handle_selection_menu_object_input(MenuSelectionBody *object)
 {
     handle_selection_menu_input(object);
 }
 
 /* Leading handler of a node body; it takes the node update callback's (body, position, sprite):
- * advance_gauge_color_then_decay passes position and sprite on to the next stage. */
+ * advance_gauge_ramp_and_decay passes position and sprite on to the next stage. */
 struct VtableObj {
     void (*func)(struct VtableObj *object, void *position, void *sprite);
 };
@@ -870,7 +871,7 @@ void invoke_leading_object_callback(struct VtableObj *object, void *position, vo
 extern unsigned char selection_menu_link_indices[16];
 
 /* Link entries using the fixed index table and limit 0x11. */
-void *link_seventeen_indexed_entries(void *entries)
+void *link_selection_menu_entries(void *entries)
 {
     return build_reverse_indexed_chain(entries, selection_menu_link_indices, 0x11);
 }
@@ -1138,14 +1139,12 @@ void set_audio_timer_state(int value) {
     audio_slot_service_word[0] = value;
 }
 
-extern s32 audio_timer_update_enabled[4];
-
 extern void sound_run_guarded_sequence_update(void);
 
 /* Invoke sound_run_guarded_sequence_update when the global value is nonzero. */
 void run_enabled_sound_sequence_update(void)
 {
-    if (audio_timer_update_enabled[0]) {
+    if (audio_timer_update_enabled.value) {
         sound_run_guarded_sequence_update();
     }
 }
@@ -1153,7 +1152,7 @@ void run_enabled_sound_sequence_update(void)
 extern unsigned char audio_force_center_pan[16];
 
 /* Clear the global byte flag. */
-void clear_cd_audio_mix_mode(void) {
+void audio_disable_mono_mix(void) {
     audio_force_center_pan[0] = 0;
 }
 
@@ -1184,7 +1183,7 @@ void flush_pending_sound_voice_flags(void)
 
 
 /* Run both setup routines with mode one. */
-void enable_available_spu_reverb(void) {
+void enable_spu_reverb(void) {
     SpuReserveReverbWorkArea(1);
     SpuSetReverb(1);
 }
@@ -1202,7 +1201,7 @@ struct Msg8005B3D8 {
 };
 
 /* Send a type-six message with coordinates scaled by 256. */
-int submit_shifted_stereo_sound_parameters(short x, short y) {
+int set_reverb_depth(short x, short y) {
     struct Msg8005B3D8 msg;
     int scaled_x = x;
     int scaled_y = y;
@@ -1271,10 +1270,10 @@ void reset_and_release_audio_sequence_banks(void)
     audio_reset_and_release_sequence_banks();
 }
 
-/* Forward the low bytes of three values to submit_tagged_driver_byte. */
+/* Forward the low bytes of three values to set_cd_ext_reverb_or_mix. */
 void submit_audio_driver_byte_command(s32 first, s32 second, s32 third)
 {
-    submit_tagged_driver_byte(first, second, third);
+    set_cd_ext_reverb_or_mix(first, second, third);
 }
 
 /* Forward a byte code and two signed halfword values to set_spu_cd_or_ext_volume. */
@@ -1283,15 +1282,15 @@ void submit_audio_driver_scaled_pair(unsigned char code, short first, short seco
     set_spu_cd_or_ext_volume(code, first, second);
 }
 
-/* Forward the value as a signed halfword to dispatch_combined_driver_flags. */
+/* Forward the value as a signed halfword to key_off_active_voices. */
 void dispatch_audio_driver_halfword_flags(s32 value)
 {
-    dispatch_combined_driver_flags((s16)value);
+    key_off_active_voices((s16)value);
 }
 
 
 /* Calls _SpuInit with 0. */
-void reset_audio_sequence_state_default(void)
+void initialize_spu_default(void)
 {
     _SpuInit(0);
 }
@@ -1344,12 +1343,12 @@ s32 is_tone_parameter_flag_set(void) {
 }
 
 /* Forward two values with fixed trailing arguments 0xCC and 0xCD. */
-s32 update_spu_register_pair_cc_cd(s32 first, s32 second) {
+s32 set_reverb_voice_mask(s32 first, s32 second) {
     return update_spu_register_pair(first, second, 0xCC, 0xCD);
 }
 
 /* Invoke read_spu_register_pair with values 0xCC and 0xCD. */
-s32 read_spu_register_pair_cc_cd(void)
+s32 get_reverb_voice_mask(void)
 {
     return read_spu_register_pair(0xCC, 0xCD);
 }

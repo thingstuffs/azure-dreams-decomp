@@ -24,38 +24,38 @@ s32 load_menu_display_resource(struct MenuResourceOwner *, s32);
 struct func_8009F880_S_8009CFE0_0;
 s32 classify_object_against_bounds(struct func_8009F880_S_8009CFE0_0 *object, void *position_data);
 
-void initialize_object_transform_and_state(s32 slot_id, SpriteFrameState *object, s32 object_id);
+void initialize_sprite_defaults(s32 slot_id, SpriteFrameState *object, s32 object_id);
 
-void create_indexed_effect_object(s32 index, s32 kind);
+void create_item_category_effect(s32 index, s32 kind);
 
 struct MenuDisplay;
 void func_800B47BC(struct MenuDisplay *object);
 
 #include "records/Rec_func_800B2DA0_arg1.h"
-void update_and_finalize_record(Rec_func_800B2DA0_arg1 *record);
+void update_paged_menu_record(Rec_func_800B2DA0_arg1 *record);
 
 struct ObjectPosition;
 struct S_800A2A18_1;
 s32 test_three_axis_box_overlap(struct S_800A2A18_1 *box, struct ObjectPosition *offset);
 
 void create_entry_builder_controller(void);
-s32 *initialize_shared_script_data(void);
+s32 *reset_script_rect_list(void);
 
 #include "records/Rec_D_80082D58.h"
 s32 classify_record_by_state_and_position(Rec_D_80082D58 *record, void *position_data);
 
 #include "shared/town_object.h"
 #include "shared/entity.h"
-void *create_configured_object(void *object_data, void *source_position, s32 alternate_callback);
+void *create_selection_entry_object(void *object_data, void *source_position, s32 alternate_callback);
 s16 *get_cached_catalog_glyph(s16 char_code);
 void initialize_menu_overlay_objects(u8 *owner, s32 value);
 void initialize_randomized_scale_timer(TownObjectRecord *object, void *unused_state, void *unused_context);
 void update_opposing_scale_effect(TownObjectRecord *state, s32 unused_1, SpriteFrameState *scale, s32 unused_3);
 u8 is_catalog_entry_available(s32 index);
 void no_op_callback_a(void *unused_ptr, s32 unused_state_id, s32 unused_state_arg);
-s32 store_record_value_and_table_lookup(void *unused_arg0, void *unused_arg1, void *unused_arg2, void *unused_arg3);
+s32 store_target_record_value_and_kind(void *unused_arg0, void *unused_arg1, void *unused_arg2, void *unused_arg3);
 
-void accumulate_effect_step(void *updateState, s32 unused1, s32 unused2, void *accumulatorState);
+void advance_effect_ramp_and_spawn_pair(void *updateState, s32 unused1, s32 unused2, void *accumulatorState);
 void draw_random_tinted_quad_pair(u8 *effect);
 void draw_segmented_menu_ring(s32 center_source, s32 radius_a, s32 radius_b, s16 segment_arg);
 void initialize_catalog_entry_packets(void);
@@ -65,7 +65,7 @@ void reset_linked_value_records(void);
 void store_cached_value_at_pointer(void);
 
 struct CatalogDisplay;
-void decrement_record_timer_and_reset(TownObjectRecord *record);
+void register_sprite_when_timer_expires(TownObjectRecord *record);
 void initialize_catalog_slot_records(void);
 void run_record_handler_if_active(void *record, s32 context, s32 update_data);
 void update_catalog_scroll_availability(struct CatalogDisplay *entry);

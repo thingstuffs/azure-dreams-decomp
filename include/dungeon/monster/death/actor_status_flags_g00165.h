@@ -16,13 +16,13 @@
 
 
 
-/* arg0 in advance_actor_states_and_entity_flags */
+/* arg0 in wait_death_mp_and_animate */
 typedef struct S_8017409C_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
 } S_8017409C_2;
 
-/* base in advance_actor_states_and_entity_flags */
+/* base in wait_death_mp_and_animate */
 typedef struct S_8017409C_4 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -30,7 +30,7 @@ typedef struct S_8017409C_4 {
     u16 unk_0A;
 } S_8017409C_4;
 
-/* global in advance_actor_action_state_handle_status */
+/* global in wait_death_status_and_animate */
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
@@ -43,6 +43,6 @@ extern s32 death_action_resume_address;
 extern u8 death_frame_set_3[];
 
 /* Functions defined in this translation unit. */
-void advance_actor_action_state_handle_status(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
+void wait_death_status_and_animate(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
 #endif

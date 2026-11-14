@@ -105,7 +105,7 @@
     },
     {
       "row": "town/func_8046FCF4",
-      "tu": "src/town/scene/dialogue/wait_for_dialogue_then_close.c",
+      "tu": "src/town/scene/dialogue/process_entry_or_start_message.c",
       "home": "town/func_8046FCF4",
       "foff": "0x3EFCF4",
       "vma": "0x80016cf4",
@@ -181,7 +181,7 @@
     },
     {
       "row": "town/func_80470724",
-      "tu": "src/town/scene/dialogue/wait_for_dialogue_then_close.c",
+      "tu": "src/town/scene/dialogue/process_entry_or_start_message.c",
       "home": "town/func_8046FCF4",
       "foff": "0x3F0724",
       "vma": "0x80017724",
@@ -277,7 +277,7 @@
     },
     {
       "row": "town/func_804712B4",
-      "tu": "src/town/scene/store_result_calling.c",
+      "tu": "src/town/scene/store_scene_price_total.c",
       "home": "town/func_804712B4",
       "foff": "0x3F12B4",
       "vma": "0x800182b4",
@@ -293,7 +293,7 @@
     },
     {
       "row": "town/func_8047130C",
-      "tu": "src/town/scene/is_progress_at_threshold.c",
+      "tu": "src/town/scene/has_money_for_progress_step.c",
       "home": "town/func_8032E22C",
       "foff": "0x3F130C",
       "vma": "0x8001830c",
@@ -306,7 +306,7 @@
     },
     {
       "row": "town/func_804713B8",
-      "tu": "src/town/scene/add_global_increment_current_state.c",
+      "tu": "src/town/scene/add_scene_price_to_money.c",
       "home": "town/func_804713B8",
       "foff": "0x3F13B8",
       "vma": "0x800183b8",
@@ -409,7 +409,7 @@
     },
     {
       "row": "town/func_80472618",
-      "tu": "src/town/scene/pass_indexed_entry.c",
+      "tu": "src/town/scene/set_flag_from_indexed_entry.c",
       "home": "town/func_8046C8C4",
       "foff": "0x3F2618",
       "vma": "0x80019618",
@@ -423,7 +423,7 @@
     {
       "row": "town/func_80472648",
       "home": "town/func_8032F188",
-      "tu": "src/town/scene/flags/update_entry_flags.c",
+      "tu": "src/town/scene/flags/replace_record_flag_with_entry_flag.c",
       "foff": "0x003F2648",
       "vma": "0x80019648",
       "size": 84,
@@ -569,7 +569,7 @@
     },
     {
       "row": "town/func_80472C54",
-      "tu": "src/town/scene/flags/get_first_entry_flag.c",
+      "tu": "src/town/scene/flags/find_first_eligible_entry.c",
       "home": "town/func_80481D78",
       "foff": "0x3F2C54",
       "vma": "0x80019C54",

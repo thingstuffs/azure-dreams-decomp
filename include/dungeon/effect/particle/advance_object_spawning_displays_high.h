@@ -136,7 +136,7 @@ void lower_timed_effect_position(Entity *entity, State *state);
 void spawn_lowering_effect_under_parent(struct ObjectNodeHeader *source, s32 state_14_value, s32 state_08_value, s32 state_32_value, s16 x_offset, s16 y_offset, s16 z_offset);
 void expand_rotating_countdown_sprite(RotatingCountdownSpriteBody *countdown_state, ObjectPosition *unused, SpriteFrameState *animation_state);
 void advance_timed_effect_animation(DungeonObject *object, s32 unused, void *handlerContext);
-void decrement_object_counter(PackedSpriteEffectBody *object);
+void tick_packed_sprite_countdown(PackedSpriteEffectBody *object);
 void *create_packed_sprite_effect(void *source, ObjectPosition *unused_1, SpriteFrameState *unused_2, void *packed_data, s32 render_param, s32 render_x, s32 render_y, s32 render_mode);
 /* Work at node +0x20 for advance_actor_tint_particle_sequence. Attachment
  * coordinates are returned by get_sprite_attachment_vector; the previous and

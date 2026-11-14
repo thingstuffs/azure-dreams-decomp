@@ -21,5 +21,5 @@ void update_directional_actor_effect(TimedTargetHitSpellBody *state, struct Obje
 s32 create_counted_sprite_effect(void *first_item);
 void update_effect_and_spawn_fragments(struct MainObject *object);
 void mark_referenced_object_and_update_flags(FragmentSpawningEffectBody *entry, void *unused, SpriteFrameState *target);
-void update_segment(struct DirectionalGridEffectBody *effect);
+void update_directional_grid_segments(struct DirectionalGridEffectBody *effect);
 #endif

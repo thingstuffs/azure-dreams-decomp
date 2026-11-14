@@ -22,7 +22,7 @@ void move_coordinates_halfway_toward_target(TownObjectRecord *state, s32 *coords
     timer = state->timer - 1;
     state->timer = timer;
     if ((s16)timer <= 0) {
-        state->handler = copy_global_position_output_offset;
+        state->handler = copy_view_position_with_height;
         object_index_slots[state->slot].unk_01 = 0;
     }
 }

@@ -36,7 +36,7 @@ void move_player_halfway_to_target(TownObjectRecord *state, ObjectPosition *posi
         position->x.v = target->x;
         position->y.v = target->y;
         position->z.v = target->z;
-        clear_entity_record_fields(position);
+        clear_object_velocity(position);
 
         state->unk_30 = ((u16)position->x.w.i);
         state->unk_32 = ((u16)position->y.w.i);

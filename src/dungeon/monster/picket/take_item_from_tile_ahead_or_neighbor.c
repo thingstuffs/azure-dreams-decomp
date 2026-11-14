@@ -108,7 +108,7 @@ scan_loop:
                     item_slot += item_offset;
                     item_data = *(s32 *)item_slot;
                     picket_slot_f_item_result[0] = item_data;
-                    clear_slot_and_update_linked_state(item_slot);
+                    clear_item_slot(item_slot);
                     return (s32)picket_slot_f_item_result;
                 }
             }

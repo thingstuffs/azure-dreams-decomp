@@ -86,7 +86,7 @@ s32 select_nearby_target_and_start_action(ActorRecord *action_state, ObjectPosit
         actor_pos_arg->frameTable = D_80176348;
         select_sprite_entry(actor_pos_arg, D_80176348[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 9) & 7], 0);
-        build_and_display_encoded_message(actor);
+        display_actor_message(actor);
         result = 1;
         return result;
     }

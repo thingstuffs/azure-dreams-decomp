@@ -29,6 +29,6 @@ extern void select_sprite_entry(void *, s16, s16);
 extern Ent *prepare_directional_attack(Ent *, Pos *, u32, s32, Ent *);
 
 /* Functions defined in this translation unit. */
-void update_eligible_actor_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
+void begin_golem_attack(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 
 #endif

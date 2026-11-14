@@ -38,6 +38,6 @@ void initialize_entry_object_and_play_sound(TownObject *object, ObjectPosition *
     object->handler = move_entity_in_current_direction;
     object->state = 3;
     object->value = entry_value;
-    clear_entity_record_fields(table_target);
+    clear_object_velocity(table_target);
     SD_Call(0x519);
 }

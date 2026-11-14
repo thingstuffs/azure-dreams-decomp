@@ -16,6 +16,7 @@
 #include "dungeon/system.h"
 #include "dungeon/player/object.h"
 #include "engine/entity.h"
+#include "slus/default_textured_quad_color_data.h"
 
 /* Advances sprite animation and textures for the third argument, leaving the first two unused. */
 void update_sprite_from_third_argument(ObjectNodeHeader *unused_first, ObjectPosition *unused_second, SpriteFrameState *value) {
@@ -195,7 +196,6 @@ void advance_dungeon_tile_action_state(SlotViewMarkerBody *state, ObjectPosition
 const DirectionOffsets dungeon_7ce800_directions = {1,0,1,1,0,1,-1,1,-1,0,-1,-1,0,-1,1,-1};
 
 s32 draw_linked_lit_meshes(void *,void *,void *);
-extern s32 default_textured_quad_color;
 
 /* Creates a dungeon object at the given position and records it in its slot. */
 void create_slot_positioned_effect(s16 x, s16 y, s32 slot) {
@@ -210,7 +210,7 @@ void create_slot_positioned_effect(s16 x, s16 y, s32 slot) {
     if (object != NULL) {
         object->update_callback = (void *)advance_dungeon_tile_action_state;
         register_node(object, draw_linked_lit_meshes);
-        render_config = default_textured_quad_color;
+        render_config = default_textured_quad_color[0];
         model = object->sprite;
         (*(s16 *)((u8 *)model + 0x20)) = 0x1000;
         model->scale_y = 0x1000;

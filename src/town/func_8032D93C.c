@@ -4,7 +4,7 @@
 #include "town/scene/grid_queries.h"
 #include "town.h"
 
-/* Calls apply_target_grid_rectangle with parameters 0x10 and 7. */
-u32 apply_rectangle_preset_10x7(void) {
-    return apply_target_grid_rectangle(0x10, 7);
+/* Calls is_position_near_grid_cell with parameters 0x10 and 7. */
+u32 is_position_near_fixed_grid_cell(void) {
+    return is_position_near_grid_cell(0x10, 7);
 }

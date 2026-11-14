@@ -20,7 +20,7 @@ void start_person_target_move(TownObjectRecord *object, ObjectPosition *position
     slots = object_index_slots;
     slots[object->slot].unk_00 = 0;
     object->handler = move_position_toward_target;
-    distance = runtime_estimate_vector_length((object->target_x << 16) - position->x.v,
+    distance = estimate_vector_length((object->target_x << 16) - position->x.v,
                            (object->target_y << 16) - position->y.v);
     timer = distance / 0x20000;
     object->timer = timer;

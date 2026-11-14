@@ -31,7 +31,7 @@ typedef struct TownEventEntryValueView {
 
 /* Paired town-event arguments returned by select_event_data_table. */
 /* Two signed arguments selected from the town event data tables by select_event_data_table.
- * start_dispatch_event and dispatch_enabled_message_coordinates pass them to service +0x2F8. */
+ * start_dispatch_event and start_event_message pass them to service +0x2F8. */
 typedef struct TownEventArgumentPair16 {
     short unk_00; /* first event-service argument, checked against 0x27 by the active-event handler */
     short unk_02; /* second event-service argument, checked against 0x200 by the active-event handler */

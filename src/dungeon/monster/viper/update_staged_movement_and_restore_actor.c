@@ -153,7 +153,7 @@ void update_staged_movement_and_restore_actor(ActorRecord *body, ObjectPosition 
         } else {
             effect = allocate_list_node(1, &scene_object_list_anchor.next);
             if (effect != NULL) {
-                (((ObjectNodeHeader *)effect)->update_callback) = &subtract_limit_or_flag_record;
+                (((ObjectNodeHeader *)effect)->update_callback) = &expire_node_when_counter_below_limit;
                 register_node(effect, &draw_fading_linked_quads);
                 effect_data = effect + 0x20;
                 effect_data->unk_10 = (u16) body->unk_AC.halves.low.u;

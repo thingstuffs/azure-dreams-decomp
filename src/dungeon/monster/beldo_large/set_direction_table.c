@@ -72,7 +72,7 @@ static __inline__ void set_direction_table(SpriteFrameState *object, DungeonInpu
 }
 
 /* Advance the timed dungeon object sequence and update its direction table. */
-void run_timed_three_effect_sequence(DungeonState *state, DungeonWork *work,
+void advance_beldo_large_pose_sequence(DungeonState *state, DungeonWork *work,
                    DungeonObject *object, DungeonInput *input) {
     u32 state_index;
     state_index = state->state;

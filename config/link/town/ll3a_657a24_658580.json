@@ -33,7 +33,7 @@
     {
       "row": "town/func_806D7C1C",
       "home": "town/func_8032C0AC",
-      "tu": "src/town/scene/event/process_request_after_threshold.c",
+      "tu": "src/town/scene/event/apply_entry_values_flag_at_fifteen.c",
       "foff": "0x00657C1C",
       "vma": "0x8001641C",
       "size": 84,
@@ -69,7 +69,7 @@
     {
       "row": "town/func_806D7D58",
       "home": "town/func_8032C138",
-      "tu": "src/town/scene/event/process_request_after_threshold_b.c",
+      "tu": "src/town/scene/event/apply_entry_values_flag_at_twenty.c",
       "foff": "0x00657D58",
       "vma": "0x80016558",
       "size": 84,

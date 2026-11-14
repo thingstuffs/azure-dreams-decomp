@@ -16,5 +16,5 @@ void install_stored_value_handler(void *object, void *unused, void *update_arg) 
     } *object_fields = object;
 
     initialize_object_entries(object, update_arg, *object_fields->unk7C);
-    object_fields->unk50 = forward_object_update_values;
+    object_fields->unk50 = forward_to_select_setup_path;
 }

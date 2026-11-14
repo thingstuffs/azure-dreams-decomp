@@ -65,7 +65,7 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
     SpriteFrameState *sprite;
     void *parent_obj;
 
-    NODE_HEADER(parent)->update_callback = update_object_link_or_angle_state;
+    NODE_HEADER(parent)->update_callback = spin_object_until_outside_bounds;
     angle_random = rand();
     parent->unk_66 = angle_random % 0x1000;
     variation_random = rand();
@@ -122,7 +122,7 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
     } while (part_index < 4);
 
     part_index = 0;
-    sprite_callback = update_inactive_object_state;
+    sprite_callback = spin_object_until_flag_clears;
     sprite_texture = map_particle_first_sprite_entries;
     brightness = 0x80;
     do {
@@ -165,7 +165,7 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
     parent_obj = NODE_HEADER(parent);
     node = allocate_list_node(0x36, parent_obj);
     if (node != 0) {
-        node->update_callback = update_inactive_object_state;
+        node->update_callback = spin_object_until_flag_clears;
         register_node(node, draw_linked_sprites_clipped);
         parent_value = ((S_800BA00C_0 *)parent)->unk_98;
         entity = NODE_BODY(node);

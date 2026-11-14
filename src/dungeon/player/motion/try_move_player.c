@@ -162,7 +162,7 @@ void try_move_player(ActorRecord *move_state, s32 actor_id, SpriteFrameState *sp
     actor->flags1C = actor_flags;
     flags_2 = &g_dungeon_status;
     flags_2->flags |= 0x812;
-    clear_pending_item_action_state();
+    clear_pending_action_event();
     check_tile_entry_at_adjusted_height(move_state, actor_id, sprite, actor);
     if (!(system_update_flags & 8)) {
         return;

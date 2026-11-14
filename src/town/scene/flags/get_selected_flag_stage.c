@@ -7,7 +7,7 @@ extern u16 D_00003F5A[];
 s32 test_indexed_flag_treating_indices(s32 flag_index);                             /* extern */
 
 /* Return 2 when the selected flag is set and flag 0x1F9 is clear. */
-s32 get_2_flag_flag(s32 unused_captured_value) {
+s32 get_selected_flag_stage(s32 unused_captured_value) {
     s32 result;
 
     result = 0;

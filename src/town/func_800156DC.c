@@ -12,7 +12,7 @@ typedef struct ItemMenuStatePosition24View {
 
 /* Places the selection cursor pair (parts 4 and 5) on the entry chosen by the last decimal digit
  * of the selected position: two columns of five rows. */
-void position_decimal_digit_parts(ItemMenuObject *object) {
+void place_item_menu_cursor_parts(ItemMenuObject *object) {
     s32 slot;
     s32 column;
 

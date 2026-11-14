@@ -12,8 +12,8 @@ typedef struct S_80098B70_0 {
     void (*unk_04)();
 } S_80098B70_0;   /* arg0 in bind_default_data_and_clear_record */
 
-/* Sets the object's data pointer and forwards the argument to clear_entity_record_fields. */
+/* Sets the object's data pointer and forwards the argument to clear_object_velocity. */
 void bind_default_data_and_clear_record(S_80098B70_0 *object, ObjectPosition *forwarded_arg) {
     object->unk_04 = tick_countdown_and_initialize_target;
-    clear_entity_record_fields((forwarded_arg));
+    clear_object_velocity((forwarded_arg));
 }

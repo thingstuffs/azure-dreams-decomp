@@ -61,7 +61,7 @@
     },
     {
       "row": "main/func_80011D10",
-      "tu": "src/frontend/libcard/store_word_at_address.c",
+      "tu": "src/frontend/libcard/set_file_list_selection.c",
       "home": "main/func_80011D10",
       "foff": "0x261D10",
       "vma": "0x80024D10",
@@ -150,7 +150,7 @@
     },
     {
       "row": "main/func_8001431C",
-      "tu": "src/frontend/libcard/store_word_at_address.c",
+      "tu": "src/frontend/libcard/set_file_list_selection.c",
       "home": "main/func_80011D10",
       "foff": "0x26431C",
       "vma": "0x8002731C",

@@ -79,7 +79,7 @@ s32 apply_frog_transformation_item(ActorRecord *entity, DungeonItemEntry *action
                     display_text_with_fullwidth_adjustment(text);
                 }
 
-                clear_slot_and_update_linked_state(action_id);
+                clear_item_slot(action_id);
                 g_dungeon_status.activity_counts.parts.pending_action_count--;
                 return 1;
             }
@@ -114,7 +114,7 @@ s32 apply_frog_transformation_item(ActorRecord *entity, DungeonItemEntry *action
         }
         result = special_case;
         if (result == 0) {
-            clear_slot_and_update_linked_state(action_id);
+            clear_item_slot(action_id);
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             return 1;
         }
@@ -130,7 +130,7 @@ s32 apply_frog_transformation_item(ActorRecord *entity, DungeonItemEntry *action
             display_text_with_fullwidth_adjustment(text);
         }
 
-        clear_slot_and_update_linked_state(action_id);
+        clear_item_slot(action_id);
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         return 1;
     }

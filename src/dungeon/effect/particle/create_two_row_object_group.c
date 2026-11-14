@@ -658,7 +658,7 @@ void advance_jittered_effect_modes(D_800DB420_Obj *state, D_800DB420_RngOut *pos
 }
 
 /* Subtracts the limit when available, otherwise marks the record and global flags. */
-void subtract_limit_or_flag_record(void *record) {
+void expire_node_when_counter_below_limit(void *record) {
     s32 current = *(s32 *)((s8 *)record + 0x18);
     s32 limit = *(s32 *)((s8 *)record + 0x1C);
 

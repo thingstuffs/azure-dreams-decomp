@@ -134,7 +134,7 @@ void run_timed_sprite_projectile(ProjectileState *effect, ProjectileMotion *moti
         motion->z.s = caster_obj->position->z.v +
                               ((s32)launch_offset[2] << 16);
         register_node((u8 *)effect - 0x20, draw_animated_projectile_quads);
-        range = (s16)get_definition_entry_byte_13(7);
+        range = (s16)get_spell_range(7);
         offset_y = caster_sprite->tile_x;
         target = scan_actor_along_heading(caster, offset_y,
                                        caster_sprite->tile_y,
@@ -144,7 +144,7 @@ void run_timed_sprite_projectile(ProjectileState *effect, ProjectileMotion *moti
             distance = 0;
             tile_dy = distance;
             tile_dx = distance;
-            while (distance < get_definition_entry_byte_13(7)) {
+            while (distance < get_spell_range(7)) {
                 index_or_x = (caster_sprite->tile_x + tile_dx) * 64 + 32;
                 offset_y = (caster_sprite->tile_y + tile_dy) * 64 + 32;
                 sprite_or_x = index_or_x & 0xFFFF;

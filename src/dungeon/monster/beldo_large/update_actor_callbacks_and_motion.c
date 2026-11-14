@@ -64,7 +64,7 @@ void update_actor_callbacks_and_motion(ActorRecord *body, ObjectPosition *motion
     if (body->unk_B0.bytes[1] == 0 &&
         !(system_update_flags & 1) && g_dungeon_status.activity_counts.parts.pending_action_count == 0) {
         body->unk_B0.bytes[1] = 1;
-        enqueue_runtime_pool_script(D_80173DDC);
+        queue_pool_service_script(D_80173DDC);
         body->pending_turn_updates = 0;
         body->action_phase = 0;
     }

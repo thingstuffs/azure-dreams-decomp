@@ -6,10 +6,10 @@
 
 /* Calls func_80018FDC with the supplied value and a zero second argument. */
 void process_lshop_entries_default(void *entries) {
-    process_lshop_entries(entries, 0);
+    apply_shop_transaction(entries, 0);
 }
 
 /* Forwards the index plus four to func_80018FDC with mode 1. */
 void process_lshop_entries_after_header(u8 *entries) {
-    process_lshop_entries(entries + 4, 1);
+    apply_shop_transaction(entries + 4, 1);
 }

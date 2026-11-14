@@ -28,7 +28,7 @@
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */                /* extern */
 s32 rand();                /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
-s32 get_definition_entry_byte_13(s16);                         /* extern */
+s32 get_spell_range(s16);                         /* extern */
 
 typedef struct S_func_81832800_1 {
     void *unk_00;
@@ -231,7 +231,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
     case 0:
         if (*effect->unk_04 & 0x80) {
             found_target = scan_actor_along_heading(source, source_sprite->tile_x, source_sprite->tile_y, source->facing,
-                (s32)(s16) get_definition_entry_byte_13(6));
+                (s32)(s16) get_spell_range(6));
             source->target = found_target;
             if (found_target == NULL) {
                 source->target_tile_x = source_sprite->tile_x;

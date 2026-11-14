@@ -4,6 +4,6 @@
 #include "common.h"
 #include "shared/item_menu.h"
 
-void position_decimal_digit_parts(ItemMenuObject *object);
+void place_item_menu_cursor_parts(ItemMenuObject *object);
 
 #endif

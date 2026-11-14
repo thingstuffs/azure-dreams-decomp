@@ -109,11 +109,11 @@ extern Rec_D_800CFCB4 town_actor_control;
 /* Functions defined in this translation unit. */
 void start_item_object_motion(S_800A022C_2 *object, S_800A022C_0 *state, ObjectPosition *record, void *unused_render);
 void *create_item_object_at(S_800A027C_5 *config, MovingPosition *position);
-void clear_entry_table(void);
+void clear_shop_record_queue(void);
 void enqueue_shop_record(TownRecord *record);
 s32 *get_shop_record_queue(void);
 void dequeue_shop_record(void);
 void spawn_queued_item_object(s32 check_value);
-void process_unlinked_type_four_entries(void);
+void enqueue_unlinked_item_entries(void);
 
 #endif

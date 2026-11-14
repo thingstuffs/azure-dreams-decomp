@@ -14,7 +14,7 @@
 #include "dungeon/level.h"
 
 /* Updates actor state, animation, and callback according to entity status flags. */
-void update_actor_status_callback(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+void wait_garuda_status_and_animate(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     void *context = position;
     s32 status_flags;
     u16 current_value;
@@ -181,7 +181,7 @@ void update_actor_status_callback(ActorRecord *body, ObjectPosition *position, S
 }
 
 /* Advance the entity state, updating directional sprites and handling actor events. */
-void advance_entity_directional_events(void *entity_arg, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor) {
+void wait_garuda_mp_and_animate(void *entity_arg, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor) {
     ActorRecord *entity = entity_arg;
     s32 state;
 

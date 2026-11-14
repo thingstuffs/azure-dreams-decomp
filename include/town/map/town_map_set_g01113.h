@@ -19,8 +19,8 @@ struct Container;
 
 struct Source;
 
-extern s32 runtime_find_unused_pool_slot(void); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern void runtime_clear_value(s32 *value);
+extern s32 find_free_pool_record(void); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern void clear_word(s32 *value);
 extern void *allocate_flagged_object_node(s32);
 extern void unlink_active_node(s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void push_node_onto_free_list(struct ObjectNodeHeader *);
@@ -36,7 +36,7 @@ extern u8 D_800CFC38[];
 extern s32 D_800CFC44[];
 
 /* Shared import declarations; data casts preserve each measured view. */
-void runtime_initialize_state_value(struct Rec_D_80081FDC *, s32);
+void init_unit_scale_record(struct Rec_D_80081FDC *, s32);
 extern u8 town_map_status[];
 
 /* Functions defined in this translation unit. */

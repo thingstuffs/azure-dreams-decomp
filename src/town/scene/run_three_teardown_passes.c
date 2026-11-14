@@ -14,8 +14,8 @@ s32 run_three_teardown_passes(s32 kind, s32 value)
 {
     s32 result;
 
-    set_script_flag_94c();
-    initialize_resources_assigns_pointer_lookup();
+    set_script_flag_sbs32_pad34();
+    init_okami_give_cape_state();
     func_80019988();
     if (apply_selected_entry_values(kind, value) == 0) {
         call_scene_service_2f4_fixed();

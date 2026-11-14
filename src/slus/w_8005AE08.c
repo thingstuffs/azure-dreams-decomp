@@ -4,7 +4,6 @@
 
 /* Sound driver "sequence slot" table; 8 entries, 12 bytes each. */
 
-extern SoundSequenceSlot audio_sequence_slots[8];
 
 /* Registers a recognized sequence header in the first free slot, returning its index or -1 on failure. */
 s16 allocate_sequence_bank_slot(void *header, s32 sequence_id)

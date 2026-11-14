@@ -172,7 +172,7 @@ void update_familiar_command_selection(ActorRecord *state, s32 context_a, Sprite
                             if (candidate_flags & 0x20000) {
                                 if (!(candidate_flags & 0x80000)) {
                                     (*(void **)((u8 *)state + 0x104)) = candidate;
-                                    create_panel_effect_object(candidate);
+                                    create_actor_status_panel(candidate);
                                     return;
                                 }
                             }

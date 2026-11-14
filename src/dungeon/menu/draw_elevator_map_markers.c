@@ -1,0 +1,23 @@
+#include "dungeon/level/floor_flags.h"
+#include "common.h"
+#include "dungeon/menu.h"
+
+extern void * create_map_marker(s32 x, s32 y, s32 initial_value, s32 update_param, s32 mode);
+
+/* Create green markers for up to four leading type-2 entries. */
+void draw_elevator_map_markers(void) {
+    DungeonFloorMarker *record;
+    s32 entry_count;
+    s32 color;
+
+    begin_map_marker_draw();
+    for (entry_count = 0; entry_count < 4; entry_count++) {
+        record = &dungeon_floor_marker_entries[entry_count];
+        if (record->kind != 2) {
+            break;
+        }
+        color = 0x208020;
+        create_map_marker(record->x, record->y, color, FLOOR_ELEVATOR_VISIBLE, 0);
+    }
+
+}

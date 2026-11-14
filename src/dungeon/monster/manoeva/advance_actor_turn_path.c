@@ -47,7 +47,7 @@ void advance_actor_turn_path(ActorRecord *move_data_in, ObjectPosition *context,
 
     if ((dungeon_flags & 0x4000) || (s8)actor_in->movement_queue_state >= 0) {
         if (actor_in->unk_12 >= 2 ||
-            (s16)check_actor_transition_and_start_effect(move_data_in, context, tile_in, actor_in) == 0) {
+            (s16)try_dragon_attack(move_data_in, context, tile_in, actor_in) == 0) {
             update_actor_status_and_mp(actor_in);
             return;
         }

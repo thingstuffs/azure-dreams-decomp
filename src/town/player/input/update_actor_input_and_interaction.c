@@ -112,7 +112,7 @@ void update_actor_input_and_interaction(void *action_state, ObjectPosition *acto
         accelerate_toward_input_angle(actor);
         return;
     }
-    action_result = runtime_estimate_vector_length(actor->velocity_x, actor->velocity_y);
+    action_result = estimate_vector_length(actor->velocity_x, actor->velocity_y);
     if (action_result > 0xFFFFF) {
         init_unchanged_action_fallback(action_state, actor, (s32)sprite);
         return;

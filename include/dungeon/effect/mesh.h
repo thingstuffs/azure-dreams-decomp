@@ -124,8 +124,8 @@ typedef struct TargetTintWork {
 
 void update_directional_actor_effect(TargetTintWork *state);
 
-s16 process_perpendicular_eligible_tiles(s16 direction, s16 origin_x, s16 origin_y);
-void process_current_facing_directions(void);
+s16 mark_tiles_beside_direction(s16 direction, s16 origin_x, s16 origin_y);
+void mark_tiles_in_view_direction(void);
 
 /* Base address view used by clear_listed_tile_flags; cells start at +0x4000. */
 extern u8 shared_decode_staging_buffer[16400];

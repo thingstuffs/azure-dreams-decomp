@@ -125,7 +125,7 @@ void advance_actor_hop_animation(ActorRecord *body, ObjectPosition *position, Sp
         }
 
         if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-            body->unk_8C.address = update_actor_turn_behavior;
+            body->unk_8C.address = update_baloon_turn_action;
             on_actor_status_updated(actor);
         }
     }

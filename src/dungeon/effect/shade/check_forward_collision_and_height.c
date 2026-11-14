@@ -14,7 +14,7 @@ typedef struct S_800D5F80_2 {
 } S_800D5F80_2;
 
 /* Checks whether the position ahead passes the collision and height tests. */
-s16 check_forward_collision_and_height(EntityRec *position, ActorRecord *orientation) {
+s16 check_forward_collision_and_height(ObjectPosition *position, ActorRecord *orientation) {
     s16 surface_height;
     s32 probe_y;
     s32 probe_x;

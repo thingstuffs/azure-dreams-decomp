@@ -9,7 +9,7 @@
 
 
 
-struct MovingPosition; struct S_800A130C_0; void copy_odd_halfwords_3(struct S_800A130C_0 *, struct MovingPosition *);
+struct MovingPosition; struct S_800A130C_0; void copy_moving_position_to_menu_point(struct S_800A130C_0 *, struct MovingPosition *);
 
 
 /* Queues a randomly colored line between two projected points with draw mode commands. */
@@ -43,8 +43,8 @@ void draw_random_colored_line(s32 end_point, void *start_point)
     SetLineG2(line);
     SetSemiTrans(line, 1);
 
-    copy_odd_halfwords_3((struct S_800A130C_0 *)(scratch->vertices[0]), (struct MovingPosition *)(start_pos));
-    copy_odd_halfwords_3((struct S_800A130C_0 *)(scratch->vertices[1]), (struct MovingPosition *)(end_pos));
+    copy_moving_position_to_menu_point((struct S_800A130C_0 *)(scratch->vertices[0]), (struct MovingPosition *)(start_pos));
+    copy_moving_position_to_menu_point((struct S_800A130C_0 *)(scratch->vertices[1]), (struct MovingPosition *)(end_pos));
     scratch->depth = RotTransPers(
         scratch->vertices[0], &scratch->screen.words[0], &scratch->interp, &scratch->flag);
     RotTransPers(

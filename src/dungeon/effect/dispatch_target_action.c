@@ -9,7 +9,7 @@
 #include "dungeon/player/object.h"
 
 #include "dungeon/item/find_active_rect_containing_point_api.h"
-extern void * find_monster_neighbor_candidate(void *entity, u16 x, u16 y);
+extern void * find_compatible_adjacent_actor(void *entity, u16 x, u16 y);
 #include "dungeon/player/object/action_state.h"
 
 extern void update_actor_transform_from_parent_callback(void *, s32, void *, void *);
@@ -69,7 +69,7 @@ void dispatch_target_action(ActorRecord *actor, s32 action_context, SpriteFrameS
             if ((has_pending_actor_or_turn_action(0) << 16) != 0) {
                 return;
             }
-            if (find_monster_neighbor_candidate(target, destination->tile_x,
+            if (find_compatible_adjacent_actor(target, destination->tile_x,
                               destination->tile_y) != 0) {
                 actor->unk_AC.bytes[1] = 0;
                 begin_actor_flagged_action(actor, action_context, destination, target);

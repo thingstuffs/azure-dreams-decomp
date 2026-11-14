@@ -19,9 +19,9 @@
 #include "dungeon/item/find_active_rect_containing_point_api.h"
 extern void advance_entity_along_stored_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 extern void choose_griffon_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
-/* Bank copy of update_actor_state_after_map_check. */
+/* Bank copy of update_kewne_parent_motion. */
 extern void func_801743E8(void *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
-void clear_actor_flag_and_apply_effect(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor);
+void begin_saber_action_and_spend_turn(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor);
 
 #include "dungeon/monster/saber.h"
 #include "dungeon/item.h"
@@ -146,7 +146,7 @@ void update_saber_behavior(ActorRecord *actor_in, ObjectPosition *context_in, Sp
                     }
                 }
             }
-            if ((update_entity_state_from_query(actor_in, context_in, sprite, 0) << 16) == 0) {
+            if ((relink_hikewne_path(actor_in, context_in, sprite, 0) << 16) == 0) {
                 return;
             }
             action_flags = creature_in->action_flags | 0x4000;
@@ -160,14 +160,14 @@ void update_saber_behavior(ActorRecord *actor_in, ObjectPosition *context_in, Sp
         action_flags = creature_in->action_flags & ACTOR_ACTION_CODE_MASK;
         switch (action_flags) {
         case 8:
-            if ((check_actor_transition_and_start_effect(actor_in, context_in, sprite, creature_in) << 16) != 0) {
+            if ((try_dragon_attack(actor_in, context_in, sprite, creature_in) << 16) != 0) {
                 return;
             }
-            start_directional_actor_effect(actor_in, context_in, sprite, creature_in);
+            begin_dragon_attack(actor_in, context_in, sprite, creature_in);
             return;
 
         case 9:
-            clear_actor_flag_and_apply_effect(actor_in, context_in, sprite, creature_in);
+            begin_saber_action_and_spend_turn(actor_in, context_in, sprite, creature_in);
             return;
 
         case 5:

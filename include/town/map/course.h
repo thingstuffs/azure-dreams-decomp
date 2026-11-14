@@ -19,7 +19,7 @@ typedef struct TownCourse {
     s16 surface_kind;
 } TownCourse;
 
-/* Node body installed by initialize_object_rendering_resources. This is a
+/* Node body installed by init_minigame_player_actor. This is a
  * course callback record, separate from the stat-bearing ActorRecord. */
 typedef struct TownCourseActor {
     u8 pad_00[8];
@@ -40,7 +40,7 @@ typedef struct TownCourseActor {
     s32 impulse_y;
 } TownCourseActor;
 
-void initialize_object_rendering_resources(TownCourseActor *object_data, void *unused, SpriteFrameState *render_data);
+void init_minigame_player_actor(TownCourseActor *object_data, void *unused, SpriteFrameState *render_data);
 void update_player_minigame_motion(TownCourseActor *actor, ObjectPosition *motion, SpriteFrameState *sprite);
 
 #endif

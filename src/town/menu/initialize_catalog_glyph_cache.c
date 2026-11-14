@@ -30,5 +30,5 @@ void initialize_catalog_glyph_cache(void) {
         catalog_cache_nodes[entry_index].value = entry_index * 48;
         catalog_cache_nodes[entry_index].state = 0;
     }
-    append_terminated_runtime_word(clear_global_entry_flag);
+    append_terminated_runtime_word(reset_catalog_lookup_count);
 }

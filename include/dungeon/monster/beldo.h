@@ -41,10 +41,10 @@ void update_actor_movement_and_height(ActorRecord *entity_arg, ObjectPosition *m
 
 void advance_actor_action_and_target(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_queued_movement_step(ActorRecord *motion, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *path);
-void *create_entity_and_initialize_placement(s16 entity_id, s32 tile_x, s16 tile_y, u16 initial_height);
+void *spawn_beldo_at_tile(s16 entity_id, s32 tile_x, s16 tile_y, u16 initial_height);
 void update_actor_part_brightness(void *root_data, void *position_out, void *part_out);
 void update_beldo_attached_part(struct S_81275000_0 *root_data, void *position_data, void *render_data);
-void update_object_animation(ActorRecord *obj, ObjectPosition *motion, SpriteFrameState *part, ActorRecord *state);
+void update_beldo_turn_action(ActorRecord *obj, ObjectPosition *motion, SpriteFrameState *part, ActorRecord *state);
 
 s32 replay_actor_direction_commands(ActorRecord *actor, ObjectPosition *action_context, SpriteFrameState *sprite);
 #endif

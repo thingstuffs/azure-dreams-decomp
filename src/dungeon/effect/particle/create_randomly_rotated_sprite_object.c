@@ -10,7 +10,7 @@
 #include "dungeon/effect/particle.h"
 #include "sdk/libc.h"
 #include "dungeon/data.h"
-void (*const dungeon_18b2800_entry)(B22_81893474_EffectState *, ObjectPosition *, B22_81893474_ColorPart *) = update_effect_launch_travel_impact_cleanup;
+void (*const dungeon_18b2800_entry)(B22_81893474_EffectState *, ObjectPosition *, B22_81893474_ColorPart *) = update_launched_projectile_effect;
 #include "shared/object_flags.h"
 
 /* Advance motion and rotation, then set completion flags when the timer exceeds its limit. */
@@ -158,28 +158,28 @@ void expire_counted_child_effect(TimedTransformCopyEffectBody *counter_state) {
 }
 #include "shared/game_work.h"
 
-   /* scratch in draw_red */
+   /* scratch in draw_red_triangle_fan */
 
-   /* the 0x8 bytes before arg0 in draw_red, addressed as arg0[-1] */
+   /* the 0x8 bytes before arg0 in draw_red_triangle_fan, addressed as arg0[-1] */
 
-   /* arg0 in draw_red */
+   /* arg0 in draw_red_triangle_fan */
 
-   /* arg1 in draw_red */
+   /* arg1 in draw_red_triangle_fan */
 
-   /* context in draw_red */
+   /* context in draw_red_triangle_fan */
 
-   /* prim in draw_red */
+   /* prim in draw_red_triangle_fan */
 
-   /* context2 in draw_red */
+   /* context2 in draw_red_triangle_fan */
 
-   /* next in draw_red */
+   /* next in draw_red_triangle_fan */
 
 #define setaddr(p, _addr) (((B22_81892C5C_P_TAG *)(p))->addr = (u32)(_addr))
 #define getaddr(p) (u32)(((B22_81892C5C_P_TAG *)(p))->addr)
 #define addPrim(ot, p) setaddr(p, getaddr(ot)), setaddr(ot, p)
 
 /* Draw a red ring around the effect center using eight projected polylines. */
-s32 draw_red(TimedTransformCopyEffectBody *effect, B22_81892C5C_S_81892C5C_2 *center)
+s32 draw_red_triangle_fan(TimedTransformCopyEffectBody *effect, B22_81892C5C_S_81892C5C_2 *center)
 {
     B22_81892C5C_S_81892C5C_0 *scratch = (B22_81892C5C_S_81892C5C_0 *)0x1F800000;
     void *initial_context;
@@ -324,7 +324,7 @@ void *create_timed_transform_copy_effect(s32 object_arg, ObjectPosition *source_
         data = object->data;
         *data = *src;
         data->z.w.i = (s16) (((u16)(data->z.w.i)) + field_delta);
-        register_node(object, draw_red);
+        register_node(object, draw_red_triangle_fan);
     } else {
         return NULL;
     }
@@ -436,7 +436,7 @@ void create_animated_sprite_burst(s32 source, B22_81893244_Func81893244Data *ini
 #define map_flags scratch.map_flags
 
 /* Updates the effect's launch, travel, impact, and cleanup states. */
-void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect_state, ObjectPosition *effect_motion, B22_81893474_ColorPart *color_part)
+void update_launched_projectile_effect(B22_81893474_EffectState *effect_state, ObjectPosition *effect_motion, B22_81893474_ColorPart *color_part)
 {
     B22_81893474_EffectState *state;
     ObjectPosition *motion;

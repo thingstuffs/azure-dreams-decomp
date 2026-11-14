@@ -93,7 +93,7 @@ typedef struct MotionSource {
 } MotionSource;
 
 /* arg1 in update_randomized_actor_movement */
-extern s32 check_transform_identifier_and_hook(s32);
+extern s32 check_town_target_and_callback(s32);
 extern s16 SD_Call(s32);
 extern void unlink_node_if_registered(void *);
 extern s32 D_800E9E34[];
@@ -114,8 +114,8 @@ extern s32 D_800E9E14[];
 /* Functions defined in this translation unit. */
 void update_randomized_actor_movement(TownObjectRecord *actor, ObjectPosition *motion,struct SpriteFrameState *sprite, s32 update_mode);
 void init_paired_actor_motion(TownObjectRecord *object, ObjectPosition *params, SpriteFrameState *dispatch_context);
-void randomize_paired_object_motion(void *pair_in);
-void advance_motion_and_flag_zero_velocity(Actor *actor, Motion *motion, struct SpriteFrameState *actor_id);
+void update_tori_pair_motion(void *pair_in);
+void update_tori_child_sprite(Actor *actor, Motion *motion, struct SpriteFrameState *actor_id);
 s32 event_tori_in(void *source);
 
 #endif

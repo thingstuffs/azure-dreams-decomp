@@ -45,7 +45,7 @@ typedef struct S_8016FCE4_4 {
 
 s32 check_movement_clearance_and_height(s32, void *, void *, s32);
 s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
-void *find_adjacent_actor(void *entity, u16 x, u16 y);
+void *find_adjacent_actor(ActorRecord *entity, u16 x, u16 y);
 s32 probe_directional_neighbor(void *, s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 s16 get_rounded_facing_and_rounding_flag(s32, s32, s32, s32, void *); /* Unprototyped: retail call narrows its arguments to this declaration; no shared prototype keeps it */
 s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);

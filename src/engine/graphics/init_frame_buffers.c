@@ -28,7 +28,7 @@ void init_frame_buffers(void)
     do {
         gpu_scratch_write_pointer = saved_state;
     } while (0);
-    runtime_reset_object_pool(saved_state);
+    reset_node_pool(saved_state);
     reset_scene_frame_callback_list();
     g_game_work.draw_buffer = upper_draw_context;
     ClearOTagR((OT_TYPE *)(upper_draw_context + 0x70), 0x218);
@@ -38,6 +38,6 @@ void init_frame_buffers(void)
         *(void **)(frame_data + 0x8D0) = frame_data + 0x8D4;
     }
     SetDispMask(1);
-    clear_runtime_slot_word_table();
+    clear_vram_row_upload_cache();
     set_scene_phase_callback((s32)begin_scene_dispatch_resource_loading);
 }

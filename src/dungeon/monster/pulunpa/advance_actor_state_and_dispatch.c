@@ -14,6 +14,7 @@
 
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor/state.h"
+#include "dungeon/monster/pulunpa_frame_set_3.h"
 
 extern void update_object_or_select_directional_data(void *, ObjectPosition *, void *, ActorRecord *);
 
@@ -22,7 +23,6 @@ extern u8 pulunpa_variant_action_address[];
 #include "dungeon/monster/pulunpa.h"
 #include "dungeon/actor.h"
 extern u8 D_80176308[];
-extern u8 pulunpa_frame_set_3[];
 extern u8 D_80176368[];
 
 /* Advance the actor state, select directional sprite data, and dispatch entity actions. */

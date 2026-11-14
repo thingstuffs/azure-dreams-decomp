@@ -6,7 +6,7 @@
 
 extern u8 runtime_script_state[];
 
-/* Passes the value and the shared object to runtime_set_record_value_and_buffer. */
+/* Passes the value and the shared object to set_script_text_pointer. */
 void set_script_record_buffer(s32 value) {
-    runtime_set_record_value_and_buffer(&runtime_script_state, value);
+    set_script_text_pointer(&runtime_script_state, value);
 }

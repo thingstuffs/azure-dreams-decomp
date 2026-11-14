@@ -604,7 +604,7 @@ merge_donor_primary:
              * (adrando.com/guide/bugs.html).
              */
             decrement_monster_entry_count(donor->unk_13, 3);
-            slot_index = find_entity_slot_by_field_ac(donor);
+            slot_index = find_linked_object_slot_index(donor);
             {
                 u8 *slot_page = resident_globals_page;
                 slot_base = *(u8 **) (slot_page + 0x14A8);
@@ -636,7 +636,7 @@ merge_donor_primary:
 
                 *(s32 *) (room_base + (room_index * 4)) = 0;
             }
-            slot_index = find_entity_slot_by_field_ac(donor);
+            slot_index = find_linked_object_slot_index(donor);
             {
                 u8 *slot_page = resident_globals_page;
                 u8 *runtime_base;
@@ -648,7 +648,7 @@ merge_donor_primary:
             }
             zero_words(&familiar_record_storage[(((S_800277F4_20 *)donor_runtime)->unk_03 & 0x1F) * 0x8C], 0x23);
             familiar_record_slots[((S_800277F4_20 *)donor_runtime)->unk_03 & 0x1F] = 0;
-            clear_slot_and_update_linked_state(donor_runtime);
+            clear_item_slot(donor_runtime);
             result_traits = result->unk_54;
             if ((result_traits & 0x800000) &&
                 ((result_kind = result->unk_13) != MONSTER_KEWNE) &&

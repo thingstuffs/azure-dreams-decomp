@@ -1,0 +1,20 @@
+#include "common.h"
+#include "town/menu/motion.h"
+#include "m2c_compat.h"
+#include "records/Rec_D_80100B70.h"
+#include "town/menu.h"
+
+
+
+/* Decrease the value with a floor of four, advance the cyclic counter, and update the record. */
+void step_door_transition_sprite(Rec_D_80100B70 *record, s32 value, s32 unused_context) {
+    u16 reduced_value;
+
+    reduced_value = record->unk_12 - 4;
+    record->unk_12 = reduced_value;
+    if ((s16) reduced_value < 4) {
+        record->unk_12 = 4U;
+    }
+    record->unk_6E = (u16) ((record->unk_6E + 1) & 0x7F);
+    draw_textured_sprite_quad(record, value);
+}

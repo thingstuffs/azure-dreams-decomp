@@ -18,7 +18,7 @@
 
 #include "dungeon/actor/state.h"
 
-extern void update_actor_state_after_map_check(void *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
+extern void update_kewne_parent_motion(void *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 
 extern s32 kewne_action_resume_address;
 
@@ -94,7 +94,7 @@ void advance_actor_action_and_update_status(ActorRecord *actor, ObjectPosition *
             actor->unk_A0.parts.high = 0;
             actor->unk_9E = 0;
             actor->unk_90.parts.high = stat_value - stat_delta;
-            update_actor_state_after_map_check(actor, context, animation, entity);
+            update_kewne_parent_motion(actor, context, animation, entity);
             return;
         }
 

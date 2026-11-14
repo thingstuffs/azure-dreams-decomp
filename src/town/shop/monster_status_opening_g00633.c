@@ -6,7 +6,7 @@
 #include "town/shop/monster_status_idle.h"
 
 /* Updates two display entries for the mode and adjusts their spacing. */
-void update_mode_display_spacing(S_800B65D8_3 *base, s32 display_mode) {
+void layout_monster_status_entries(S_800B65D8_3 *base, s32 display_mode) {
     s32 mode;
     s32 total_width;
     s32 entry_index;
@@ -54,10 +54,10 @@ void advance_monster_status_opening(ShopFirstCallbackObject *object) {
 
     step = object->opening_step.as_s16;
     if (step < 5) {
-        update_mode_display_spacing((S_800B65D8_3 *)object->resource_id.as_s32, step);
+        layout_monster_status_entries((S_800B65D8_3 *)object->resource_id.as_s32, step);
         object->opening_step.as_u16 = object->opening_step.as_u16 + 1;
         return;
     }
-    process_object_data_by_mode(object);
+    build_monster_status_display(object);
     *(void **)object = noop_monster_status_idle;
 }

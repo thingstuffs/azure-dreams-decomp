@@ -31,10 +31,10 @@ void project_visible_textured_quad(struct S_80024BF4_4 *quad, struct ObjectPosit
 void spawn_randomized_textured_particles(s32, s32, s16, s16);
 /* Retail callers pass promoted scalar words; the callee reads their low halves. */
 s32 func_80025CE8(s32, s32, s32, s32);
-void copy_and_expand_effect_record(struct S_80025FB0_1 *dst, struct S_80025FB0_0 *src);
-void resolve_and_step_entry_index(void *, s16 *, s32, s32);
-void set_mesh_entry_address(struct Bank19de800_19e092c_EntryCursor *object, s16 entry_index);
-void create_offset_colored_effect(s32,s32,s32,s32,s32,s32,s32,s32,s32,s32);
+void copy_effect_transform(struct S_80025FB0_1 *dst, struct S_80025FB0_0 *src);
+void step_entry_index_clamped(void *, s16 *, s32, s32);
+void select_mesh_entry(struct Bank19de800_19e092c_EntryCursor *object, s16 entry_index);
+void create_impact_particle_at_offset(s32,s32,s32,s32,s32,s32,s32,s32,s32,s32);
 void advance_particle_fade_and_cleanup(struct S_func_80026418_0 *effect);
 s32 register_node(void *, void *, ...);
 void select_record_entry_and_value(void *state, void *entries, short index);
@@ -58,7 +58,7 @@ typedef struct ImpactParticleWork {
 } ImpactParticleWork;
 
 void scale_effect_by_phase(void *);
-void advance_effect_motion_and_animation(ImpactParticleWork *, struct ObjectPosition *, struct SpriteFrameState *);
+void update_impact_particle_slow_shrink(ImpactParticleWork *, struct ObjectPosition *, struct SpriteFrameState *);
 struct S_800247C0_0;
 struct S_800247C0_2;
 void shrink_effect_and_spawn_particles(struct S_800247C0_0 *, struct S_800247C0_2 *);
@@ -66,5 +66,5 @@ s32 draw_linked_meshes(void *, void *, void *);
 void advance_rotating_ballistic_particle_and_expire(ImpactParticleWork *, struct ObjectPosition *, struct SpriteFrameState *);
 struct OwnerFollowingWork;
 void update_owner_following_effect(struct OwnerFollowingWork *, struct ObjectPosition *, struct SpriteFrameState *);
-void update_effect_motion_and_visual(ImpactParticleWork *, struct ObjectPosition *, struct SpriteFrameState *);
+void update_impact_particle_fast_shrink(ImpactParticleWork *, struct ObjectPosition *, struct SpriteFrameState *);
 #endif

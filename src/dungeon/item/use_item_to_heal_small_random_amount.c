@@ -82,7 +82,7 @@ s32 use_item_to_heal_small_random_amount(ActorRecord *target, DungeonItemEntry *
     }
 
     create_timed_paired_particle_emitter(NODE_HEADER(target)->position, 0x20E020, target);
-    clear_slot_and_update_linked_state(source);
+    clear_item_slot(source);
     g_dungeon_status.activity_counts.parts.pending_action_count--;
     return 1;
 }

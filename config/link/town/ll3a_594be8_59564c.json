@@ -40,7 +40,7 @@
     {
       "row": "town/func_80615130",
       "home": "town/func_80615130",
-      "tu": "src/town/scene/flags/reset_two_flags_state_callback.c",
+      "tu": "src/town/scene/flags/clear_hospital_first_flags_run_callback.c",
       "foff": "0x00595130",
       "vma": "0x80016930",
       "size": 76
@@ -120,7 +120,7 @@
     {
       "row": "town/func_806154B4",
       "home": "town/func_80615130",
-      "tu": "src/town/scene/flags/reset_two_flags_state_callback.c",
+      "tu": "src/town/scene/flags/clear_hospital_first_flags_run_callback.c",
       "foff": "0x005954B4",
       "vma": "0x80016CB4",
       "size": 76,

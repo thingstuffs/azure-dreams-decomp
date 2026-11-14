@@ -6,7 +6,7 @@
 #include "dungeon/effect.h"
 
 /* Process each linked state with draw_mesh_quads_with_orientation_mode in mode zero. */
-s32 process_linked_mesh_states_mode_0(void *initial_state, s32 value, void *data) {
+s32 draw_linked_segment_aligned_quads(void *initial_state, s32 value, void *data) {
     u8 *state = initial_state;
 
     for (;;) {
@@ -23,7 +23,7 @@ s32 process_linked_mesh_states_mode_0(void *initial_state, s32 value, void *data
 }
 
 /* Process each linked state with draw_mesh_quads_with_orientation_mode in mode one. */
-s32 process_linked_mesh_states_mode_1(void *initial_state, s32 value, void *data) {
+s32 draw_linked_oriented_mesh_quads(void *initial_state, s32 value, void *data) {
     u8 *state = initial_state;
     s32 mode = 1;
 

@@ -54,10 +54,10 @@ extern s32 D_80017870;
 /* Placed copy of clear_script_flag_bit. */
 void func_800175E0(s32 bit_index);
 s32 dispatch_town_callback_or_fallback(void);
-void dispatch_town_callback_or_default(s32 value0, s32 value1);
+void run_entry_callback_or_default(s32 value0, s32 value1);
 void initialize_context_entry_tables_variant_1(s32 unused_a, s32 unused_b);
 void install_floor_event_counter_context(void);
-void play_town_sound_b1(void);
+void fade_sequence_audio_fast(void);
 void advance_floor_event_counter(void);
 void set_active_position_state_record(void);
 

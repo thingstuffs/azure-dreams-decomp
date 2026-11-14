@@ -20,7 +20,7 @@
     },
     {
       "row": "dungeon/func_80E5B6E4",
-      "tu": "src/dungeon/monster/manoeva/update_actor_controller.c",
+      "tu": "src/dungeon/monster/manoeva/update_manoeva_behavior.c",
       "home": "dungeon/func_80E376E4",
       "foff": "0xE7B6E4",
       "vma": "0x8014CEE4",
@@ -101,7 +101,7 @@
     },
     {
       "row": "dungeon/func_80E5CA40",
-      "tu": "src/dungeon/monster/saber/reset_eligible_entity_state.c",
+      "tu": "src/dungeon/monster/saber/finish_saber_tile_move.c",
       "home": "dungeon/func_80AC7330",
       "foff": "0xE7CA40",
       "vma": "0x8014E240",
@@ -139,7 +139,7 @@
     },
     {
       "row": "dungeon/func_80E5CE40",
-      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F88C30",
       "foff": "0xE7CE40",
       "vma": "0x8014E640",
@@ -214,7 +214,7 @@
     },
     {
       "row": "dungeon/func_80E5D8A4",
-      "tu": "src/dungeon/effect/state/forward_actor_effect_state.c",
+      "tu": "src/dungeon/effect/state/update_hop_and_shrink_callback.c",
       "home": "dungeon/func_800AD90C",
       "foff": "0xE7D8A4",
       "vma": "0x8014F0A4",
@@ -312,7 +312,7 @@
     },
     {
       "row": "dungeon/func_80E5DFB8",
-      "tu": "src/dungeon/monster/kewne/update_actor_state_after_map_check.c",
+      "tu": "src/dungeon/monster/kewne/update_kewne_parent_motion.c",
       "home": "dungeon/func_809A2D74",
       "foff": "0xE7DFB8",
       "vma": "0x8014F7B8",
@@ -323,7 +323,7 @@
     },
     {
       "row": "dungeon/func_80E5E080",
-      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F8A600",
       "foff": "0xE7E080",
       "vma": "0x8014F880",
@@ -428,7 +428,7 @@
     },
     {
       "row": "dungeon/func_80E5ED80",
-      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F8A6D4",
       "foff": "0xE7ED80",
       "vma": "0x80150580",
@@ -439,7 +439,7 @@
     },
     {
       "row": "dungeon/func_80E5EDB8",
-      "tu": "src/dungeon/actor/set_actor_data_pointer.c",
+      "tu": "src/dungeon/actor/set_default_action_after_floor_trap.c",
       "home": "dungeon/func_800CF1BC",
       "foff": "0xE7EDB8",
       "vma": "0x801505B8",

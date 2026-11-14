@@ -79,7 +79,7 @@ void advance_directional_effect_action(ActorRecord *action, ObjectPosition *moti
             y_offset = offset->y.s;
             coord_value = sprite->tile_y + y_offset;
             x = x_sum & 0xFFFF;
-            process_nodes_at_target_tile(actor, x, coord_value & 0xFFFF, height);
+            resolve_saber_hits_on_target_tile(actor, x, coord_value & 0xFFFF, height);
         }
         if ((action->action_timer <= 0) ||
             (sprite->flags & 0x8000)) {

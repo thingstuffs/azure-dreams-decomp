@@ -10,7 +10,7 @@
 
 /* actor: entity/actor-like struct; only the status/flag halfword at 0x14 is
  * touched directly here (bits 0x6000), the rest is opaque and forwarded on
- * to runtime_transform_sprite_attachment_point. */
+ * to transform_sprite_attachment_point. */
 
 /* Compute orientation from a matching record, or reset it when actor flags require a fallback. */
 SpriteAttachment *resolve_record_orientation_or_fallback(SpriteAttachment *records, SpriteFrameState *actor, SVECTOR *out_vec, s16 record_id) {
@@ -19,7 +19,7 @@ SpriteAttachment *resolve_record_orientation_or_fallback(SpriteAttachment *recor
 
     record = find_flagged_record_by_id(records, record_id);
     if (record != NULL) {
-        runtime_transform_sprite_attachment_point(actor, record, &orientation);
+        transform_sprite_attachment_point(actor, record, &orientation);
         out_vec->vx = orientation.vx;
         out_vec->vy = orientation.vy;
         out_vec->vz = orientation.vz;

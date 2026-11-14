@@ -35,7 +35,7 @@ typedef struct S_800B23F8_0 {
     void (*unk_10)();
 } S_800B23F8_0;
 
-/* obj in create_mode_configured_object */
+/* obj in create_actor_node_at_tile */
 typedef struct S_800B23F8_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -44,16 +44,16 @@ typedef struct S_800B23F8_1 {
     s32 unk_1C;
 } S_800B23F8_1;
 
-/* work in create_mode_configured_object */
+/* work in create_actor_node_at_tile */
 
-/* part_a in create_mode_configured_object */
+/* part_a in create_actor_node_at_tile */
 
 /* state in initialize_entity_sprite_effect */
 #include "dungeon/item/find_active_rect_containing_point_api.h"
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *);
 extern void create_tracked_effect(void *, s32, void *, void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-/* (void *)reg_s3 in create_mode_configured_object */
+/* (void *)reg_s3 in create_actor_node_at_tile */
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
 

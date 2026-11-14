@@ -13,7 +13,7 @@ static void start_adjustment_at_value_bounds(s32 context, s32 *value);
 /* Applies both sets of fixed-point boundary adjustments to the same value and context. */
 void apply_bound_adjustments(s32 value, s32 context) {
     start_adjustment_at_value_bounds(value, context);
-    adjust_fixed_point_value_at_bounds(value, context);
+    clamp_position_y_to_bounds(value, context);
 }
 
 /*

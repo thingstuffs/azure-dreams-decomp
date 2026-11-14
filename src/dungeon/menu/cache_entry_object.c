@@ -94,7 +94,7 @@ s32 prepare_cached_menu_entries(MenuEntryState *state, s32 count)
 {
     s32 ready = 0;
 
-    state->entries = realloc_field_0_buffer(state->resources, count, 12);
+    state->entries = rebuild_pointer_pool(state->resources, count, 12);
     if (state->entries != 0) {
         state->entry_common.word0 = menu_entry_common_template.word0;
         state->entry_common.word1 = menu_entry_common_template.word1;

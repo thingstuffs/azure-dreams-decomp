@@ -9,7 +9,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
 #include "dungeon/item.h"
-void (*const dungeon_1924800_entry)(S_func_81905FD0_1 *, S_func_81905FD0_2 *, S_func_81905FD0_3 *) = update_traveling;
+void (*const dungeon_1924800_entry)(S_func_81905FD0_1 *, S_func_81905FD0_2 *, S_func_81905FD0_3 *) = update_traveling_strip_effect;
 const u16 strip_texture_rect[4] = {832,256,96,84};
 const u16 strip_small_texture_rect[4] = {832,340,4,4};
 const s16 strip_direction_steps[8][2] = {{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,-32},{0,-32},{32,-32}};
@@ -482,7 +482,7 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
  *
  * Link packet: tag word (next address + length), then payload.
  */
-void draw_sprite_strips_with_clip_and_fill_rect(s32 draw_data, ScreenRect *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param)
+void draw_clipped_sprite_strips(s32 draw_data, ScreenRect *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param)
 {
     u16 draw_pos[2];
     u16 clear_enabled;
@@ -790,7 +790,7 @@ void update_effect_animation_slots(TravelingSpriteEffectBody *anim_state)
  *
  * Effect record: the object header precedes it.
  */
-void tick_effect_record(CountdownRecord *record)
+void tick_strip_effect_countdown(CountdownRecord *record)
 {
     u16 counter;
 
@@ -852,7 +852,7 @@ void update_effect_brightness_pulse(TravelingSpriteEffectBody *effect, void *unu
 }
 
 /* Builds an inverted pixel mask and updates a timed fade effect. */
-void build_inverted(TravelingSpriteEffectBody *context, void *unused, void *effect_data) {
+void update_inverted_mask_strip_effect(TravelingSpriteEffectBody *context, void *unused, void *effect_data) {
     Box image_rect;
     Box mask_rect;
     Point center;
@@ -933,7 +933,7 @@ void build_inverted(TravelingSpriteEffectBody *context, void *unused, void *effe
         image_rect.h = 0x54;
         center.x = 0x370;
         center.y = 0x12a;
-        draw_sprite_strips_with_clip_and_fill_rect(context->unk_48, &image_rect, &center, one, one);
+        draw_clipped_sprite_strips(context->unk_48, &image_rect, &center, one, one);
         frame = (s16)context->unk_02;
         if (frame < 0x15) {
             *(s8 *)((u8 *)effect_data + 0xe) = (frame << 7) / 20;
@@ -964,7 +964,7 @@ void build_inverted(TravelingSpriteEffectBody *context, void *unused, void *effe
 }
 
 /* Updates a traveling effect, its target animation, and its cleanup state. */
-void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_func_81905FD0_3 *render)
+void update_traveling_strip_effect(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_func_81905FD0_3 *render)
 {
     SpriteFrameState *target_render;
     u8 scratch[56];
@@ -1272,7 +1272,7 @@ update_coords:
             if (upper_effect != 0) {
                 child_data = NODE_BODY(upper_effect);
                 child_data->unk_02 = 120;
-                upper_effect->update_callback = (void *)tick_effect_record;
+                upper_effect->update_callback = (void *)tick_strip_effect_countdown;
                 register_node(upper_effect, project_sprite_chain);
                 child_render = upper_effect->sprite;
                 {
@@ -1416,7 +1416,7 @@ update_coords:
                 child_data->unk_44 = (void *)((u32)((u32)(NODE_BODY(upper_effect))));
                 child_data->unk_48 = NODE_BODY(ring_effect);
                 child_data->unk_4C = NODE_BODY(lower_effect);
-                control_script = (void *)build_inverted;
+                control_script = (void *)update_inverted_mask_strip_effect;
                 child_data->unk_40 = effect;
                 child_data->unk_3C = owner_target;
                 control_effect->update_callback = control_script;

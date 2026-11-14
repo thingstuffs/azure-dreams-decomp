@@ -1,0 +1,34 @@
+/* gcc 2.8.1 -O2 — own TU (copy_view_source_position: callback fwd-decl conflict) */
+/* Registers/copies a 3-short position (x,y,z) from a nested pointer into the
+ * global state table D_80083160 at offsets 0xBC/0xBE/0xC0. Sibling of
+ * copy_camera_position_from_object (same D_80083160 fields):
+ * a0 is a pointer to a struct whose offset 0 holds a pointer to a small
+ * struct of three shorts at offsets 0x0/0x2/0x4. */
+
+struct Vec3s {
+    short x;
+    short y;
+    short z;
+};
+
+struct S_Src {
+    struct Vec3s *ptr; /* offset 0x0 */
+};
+
+/* declared >8 bytes to force %hi/%lo addressing (not $gp-relative) */
+extern struct {
+    char pad[0xBC];
+    short field_BC;
+    short field_BE;
+    short field_C0;
+} g_game_work;
+
+/* Copies the nested position into the global state. */
+void copy_view_source_position(struct S_Src *object)
+{
+    struct Vec3s *position = object->ptr;
+
+    g_game_work.field_BC = position->x;
+    g_game_work.field_BE = position->y;
+    g_game_work.field_C0 = position->z;
+}

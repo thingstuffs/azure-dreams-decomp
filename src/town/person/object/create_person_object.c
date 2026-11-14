@@ -9,7 +9,7 @@
 #endif
 
 extern void *create_town_effect_object(s32 parent, s32 position, void *object_value, s32 state_value); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern void fill_person_records(void);
+extern void fill_position_history(void);
 #include "town/person/object/initialize_object_entries_api.h"
 #include "town/person.h"
 #include "engine/node.h"
@@ -37,12 +37,12 @@ void create_person_object(void) {
         render_data->animation_resource = loaded_town_resource_attributes[0];
         initialize_object_entries(state, render_data, D_800D1200);
         register_node_if_unregistered(state, project_sprite_chain);
-        fill_person_records();
+        fill_position_history();
         *(s16 *)(state + 0x90) = 0;
         *(void **)(state + 0x50) = person_approach_state_address;
         *(s16 *)(state + 0x6A) = 0;
         position->x.w.i = (u16) ((u16)view_reference_entity.x.w.i);
         position->y.w.i = (u16) ((u16)view_reference_entity.y.w.i);
-        position->z.w.i = (s16) (((u16)view_reference_entity.z.w.i) - get_person_lookup_step(position));
+        position->z.w.i = (s16) (((u16)view_reference_entity.z.w.i) - get_map_cell_step_size(position));
     }
 }

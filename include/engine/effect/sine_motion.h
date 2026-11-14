@@ -10,5 +10,5 @@ typedef struct SineMotionEffectNode {
 } SineMotionEffectNode;
 /* Imported descriptor selector, with its established resident signature. */
 void select_record_entry_and_value(void *record, void *source, s16 slot);
-void scene_initialize_orbit_motion_sprite(SineMotionEffectNode *object, struct Controller *owner);
+void init_orbit_motion_sprite(SineMotionEffectNode *object, struct Controller *owner);
 #endif

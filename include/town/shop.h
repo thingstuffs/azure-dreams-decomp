@@ -13,7 +13,7 @@ struct ActorRecord;
 s32 get_player_homerank(void);
 
 s32 dispatch_item_menu_entry_callback(ItemMenuTransition *state, s32 callback_arg);
-s32 invoke_item_menu_offset_handler(u8 *object, s32 callback_arg);
+s32 invoke_item_menu_object_callback(u8 *object, s32 callback_arg);
 
 void initialize_item_menu_request_state(ItemMenuObject *object, ItemMenuStateNode *owner);
 
@@ -64,25 +64,25 @@ void advance_five_step_fixed_point_ramp(void *sub_object);
 void *build_encoded_display_sequence(s32 source, u8 *outputBuffer);
 void close_twin_shop(struct S_800AE30C_0 *shop);
 void collect_selected_record_values(s32 *output, EntityRec *record);
-s32 count_nonzero_fixed_table_words(void);
+s32 count_town_items_at_fixed_table(void);
 void ease_rgb_to_neutral_gray(u8 *object);
 void fill_display_slots(EntityRec *source, s32 output);
 void fill_ten_paged_entry_slots(s32 **outputs, struct S_800B2D00_0 *page_info, s32 entries_base);
-s32 find_target_byte_index_in_list(void);
+s32 find_target_index_in_list(void);
 u32 find_unused_pool_slot(s32 *used_addrs, s32 pool_index, s32 slot_count);
 s32 find_free_entry_index(void *entry, s32 entry_count);
 s32 get_mode_selected_value(void);
 void handle_grid_menu_input(GridMenuObject *menu);
 void handle_twin_shop_input(s32 *menu);
-void pass_indexed_entry_address(GridMenuObject *entry_table);
+void refresh_selected_item_name_with_fallback(GridMenuObject *entry_table);
 void populate_display_row(DungeonItemEntry *entry, s32 widgets_base, s32 row);
-void populate_display_row_with_icon(void *entry_data, s32 display_base, s32 row_index);
-void process_shop_embedded_data(ShopEmbeddedDataObject *record);
+void populate_action_display_row(void *entry_data, s32 display_base, s32 row_index);
+void fade_shop_change_indicators(ShopEmbeddedDataObject *record);
 s32 select_choice_from_input_flags(s32 *choice_values);
 void set_shop_slot_colors(struct TownObject *object, s32 index);
-void set_shop_subrecord_values(s32 record_address, s32 value_10, s32 value_08);
-void store_record_check_result(void *record);
-void store_shop_embedded_value(s32 base_addr, s32 value);
+void set_shop_page_and_selection(s32 record_address, s32 value_10, s32 value_08);
+void set_status_from_flagged_total(void *record);
+void set_shop_selected_entry(s32 base_addr, s32 value);
 
 #include "records/Rec_func_800B15B8_arg0.h"
 struct ItemMenuTransition;
@@ -94,7 +94,7 @@ void reset_five_shop_slots(Rec_func_800B15B8_arg0 *owner);
 void update_current_shop_page(void *list);
 
 struct Obj_800B45A0;
-void advance_inner_value_and_complete(struct Obj_800B45A0 *obj);
+void ease_value_and_remove_node(struct Obj_800B45A0 *obj);
 void apply_linked_record_defaults(void *record);
 
 struct MotionVector;
@@ -119,15 +119,15 @@ void update_storage_display(struct StorageOwner *object);
 
 struct FuncArg;
 struct ItemMenuInputObject;
-void apply_record_values_and_process_record(struct ItemMenuInputObject *record);
-void configure_shop_object_and_finalize(void *object, s32 setup_value_1, s32 setup_value_2, s32 setup_value_3, s32 setup_value_4, s32 setup_value_5, s32 setup_value_6, s32 setup_value_7);
+void close_item_move_menu(struct ItemMenuInputObject *record);
+void setup_shop_window(void *object, s32 setup_value_1, s32 setup_value_2, s32 setup_value_3, s32 setup_value_4, s32 setup_value_5, s32 setup_value_6, s32 setup_value_7);
 s32 get_mode_value_or_default(s32 mode);
-void process_record_and_apply_flags(struct FuncArg *record);
-void reset_record_resources(struct ShopRecordResetObject *object);
+void close_shop(struct FuncArg *record);
+void fade_menu_side_indicators(struct ShopRecordResetObject *object);
 
 void decrement_entry_and_notify_handlers(void *state_arg);
 s32 move_item_to_list(void *state);
-void process_valid_entry_lookup(s32 entry_id);
+void apply_input_choice_value(s32 entry_id);
 void update_active_entry_and_notify_handlers(s8 *state_arg, s32 input);
 
 void *format_compared_stat_pairs(void *text, ActorRecord *stats);

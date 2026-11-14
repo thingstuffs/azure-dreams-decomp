@@ -3,5 +3,5 @@
 
 /* Sets the object's pointer at offset 0x10 to D_800AE494. */
 void set_item_menu_secondary_handler(ItemMenuStateNode *owner) {
-    owner->header.update_callback = run_item_menu_record_handlers;
+    owner->header.update_callback = release_item_menu_record_child;
 }

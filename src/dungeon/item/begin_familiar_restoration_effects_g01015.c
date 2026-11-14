@@ -13,14 +13,14 @@
 #include "engine/scene.h"
 #include "dungeon/item/message.h"
 
-/* Processes the two object slots if has_enough_available_runtime_nodes(2) succeeds. */
+/* Processes the two object slots if has_enough_available_nodes(2) succeeds. */
 s32 begin_familiar_restoration_effects(void)
 {
     s32 slot;
     u8 *object;
     u8 *linked_object;
 
-    if (has_enough_available_runtime_nodes(2) == 0) {
+    if (has_enough_available_nodes(2) == 0) {
         return 0;
     }
 
@@ -43,7 +43,7 @@ s32 use_item_to_draw_full_recovery_circle(ActorRecord *target, DungeonItemEntry 
     void *target_data;
 
     if (action_type == 0xD) {
-        return process_record_and_update_linked_state(action_id, action_arg);
+        return resolve_item_attack(action_id, action_arg);
     }
     if (target == dungeon_actor_ring_anchor) {
         ((PlayerRecord *)target)->pending_item_action = action_id;
@@ -65,7 +65,7 @@ s32 use_item_to_draw_full_recovery_circle(ActorRecord *target, DungeonItemEntry 
         }
         display_formatted_context_message(&D_800E14A6);
     }
-    clear_slot_and_update_linked_state(action_id);
+    clear_item_slot(action_id);
     return 1;
 }
 

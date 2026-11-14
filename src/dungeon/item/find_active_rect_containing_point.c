@@ -3,7 +3,7 @@
 #include "dungeon/item.h"
 #include "dungeon/item/find_active_rect_containing_point_api.h"
 
-extern s16 dungeon_room_count;
+#include "dungeon/level/room_count_data.h"
 
 /* Returns the first active rectangle containing the point, or -1 if none does. */
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y) {

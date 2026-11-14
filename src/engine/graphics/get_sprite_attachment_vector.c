@@ -18,10 +18,10 @@ typedef struct SpriteAttachmentEntry {
 
 /* arg1: entity/actor-like struct; only the status/flag halfword at 0x14 is
  * touched directly here (bits 0x6000); rest is opaque and forwarded to
- * runtime_transform_sprite_attachment_point. */
+ * transform_sprite_attachment_point. */
 
 /* Output vector (3 signed halfwords); also the stack temp filled by
- * runtime_transform_sprite_attachment_point's third parameter. */
+ * transform_sprite_attachment_point's third parameter. */
 typedef struct S_8003DF74_Vec {
     s16 x;
     s16 y;
@@ -37,7 +37,7 @@ SpriteAttachmentEntry *get_sprite_attachment_vector(SpriteAttachmentEntry *table
 
     entry = find_last_flagged_record_by_id(table, entry_id, &entry_index);
     if (entry != NULL) {
-        runtime_transform_sprite_attachment_point(entity, entry, &vector);
+        transform_sprite_attachment_point(entity, entry, &vector);
         out_vec->x = vector.x;
         out_vec->y = vector.y;
         out_vec->z = vector.z;

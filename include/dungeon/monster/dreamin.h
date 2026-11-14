@@ -10,8 +10,8 @@ extern u8 dreamin_direction_frames[];
 
 
 
-s32 attempt_actor_transition(ActorRecord *state, ObjectPosition *action_id, SpriteFrameState *sprite, ActorRecord *actor);
-void advance_timed_directional_movement(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
+s32 try_dreamin_attack(ActorRecord *state, ObjectPosition *action_id, SpriteFrameState *sprite, ActorRecord *actor);
+void damp_dreamin_motion_and_recenter(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void *damp_effect_motion_and_fade_sprite(s16 init_flags, s16 value_24, s16 value_25, s16 value_0a);

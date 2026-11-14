@@ -1,0 +1,126 @@
+#include "common.h"
+#include "dungeon/monster/troll.h"
+#include "shared/actor_action_flags.h"
+#include "shared/sprite_frame_state.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
+#include "records/Rec_D_80082E80.h"
+#include "shared/entity.h"
+#include "dungeon/actor/status.h"
+#include "dungeon/actor/spell_resource_ids_g01008.h"
+#include "engine/graphics.h"
+#include "dungeon/system.h"
+#include "dungeon/actor.h"
+#include "dungeon/effect/screen.h"
+
+
+extern void func_8015921C(void *, void *, void *, void *);
+extern void func_801594FC(void *, void *, void *, void *);
+
+extern u8 troll_slot_c_action_callback[];
+extern u8 D_8015DDDC[8];
+extern u8 D_8015DDE4[8];
+extern u8 D_8015DDEC[8];
+
+/* Advances the actor's timed action sequence, updating animation and sound effects. */
+void advance_troll_attack_sequence(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+    s16 timer;
+    u8 state;
+
+    state = action->action_phase;
+    switch (state) {
+
+    case 0:
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
+        action->action_timer = 0;
+        action->action_phase++;
+        if (!(sprite->flags & 0x8000)) {
+            return;
+        }
+
+    case 1:
+        timer = action->action_timer + 1;
+        action->action_timer = timer;
+        if ((timer != 4) && !(sprite->flags & 0x8000)) {
+            return;
+        }
+        action->action_timer = 0;
+        action->action_phase++;
+        switch (actor->unk_48) {
+        case 13:
+            sprite->frameTable = D_8015DDDC;
+            select_sprite_entry(sprite,
+                D_8015DDDC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                0);
+            return;
+        case 14:
+            sprite->frameTable = D_8015DDE4;
+            select_sprite_entry(sprite,
+                D_8015DDE4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                0);
+            return;
+        case 15:
+            sprite->frameTable = D_8015DDEC;
+            select_sprite_entry(sprite,
+                D_8015DDEC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                0);
+            action->action_phase = 5;
+            play_sound_if_enabled(0x60C);
+            return;
+        default:
+            return;
+        }
+
+    case 2:
+        timer = action->action_timer + 1;
+        action->action_timer = timer;
+        if ((timer == 5) || (sprite->flags & 0x8000)) {
+            resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
+            action->action_timer = 0;
+            action->action_phase++;
+        }
+        if (action->action_timer == 3) {
+            play_sound_if_enabled(0x804);
+            return;
+        }
+        return;
+
+    case 3:
+        if (sprite->flags & 0xE000) {
+            spend_actor_mp(actor, 0x100);
+            action->unk_8C.address = troll_slot_c_action_callback;
+            g_dungeon_status.active_actor = 0;
+            advance_status_timers(actor);
+            actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
+        }
+        return;
+
+    case 5:
+        timer = action->action_timer + 1;
+        action->action_timer = timer;
+        if ((timer == 10) || (sprite->flags & 0x8000)) {
+            sprite->flags |= 0x0800;
+            play_sound_if_enabled(0x804);
+            func_8015921C(action, motion, sprite, actor);
+            func_801594FC(action, motion, sprite, actor);
+        }
+        if ((action->action_timer == 12) ||
+            (sprite->flags & 0x8000)) {
+            resolve_attack_damage_and_effects(actor, sprite, actor->facing,
+                action->unk_AA);
+        }
+        if ((action->action_timer != 20) &&
+            !(sprite->flags & 0x8000)) {
+            break;
+        }
+        sprite->flags &= 0xF7FF;
+        action->action_timer = 0;
+        action->action_phase = 3;
+
+    case 4:
+    default:
+        break;
+    }
+}

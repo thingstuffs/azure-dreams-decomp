@@ -27,7 +27,7 @@
     {
       "row": "town/func_8065BA50",
       "home": "town/func_8065BA50",
-      "tu": "src/town/scene/check_inputs_after_threshold_two.c",
+      "tu": "src/town/scene/apply_entry_values_if_weight_two_plus.c",
       "foff": "0x005DBA50",
       "vma": "0x80016250",
       "size": 96
@@ -123,7 +123,7 @@
     {
       "row": "town/func_8065BD80",
       "home": "town/func_8065BA50",
-      "tu": "src/town/scene/check_inputs_after_threshold_two.c",
+      "tu": "src/town/scene/apply_entry_values_if_weight_two_plus.c",
       "foff": "0x005DBD80",
       "vma": "0x80016580",
       "size": 96,

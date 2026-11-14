@@ -22,7 +22,7 @@
 extern void begin_pushed_actor_move(void *state_in, ObjectPosition *unused, void *position_in, void *actor_in);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
-extern void advance_stored_path_motion(void *, void *, void *, void *);
+extern void advance_grineut_stored_path(void *, void *, void *, void *);
 extern void choose_block_move_slot_a(void *, void *, void *, void *);
 extern void func_8016DA84(void *, void *, void *, void *);
 
@@ -51,7 +51,7 @@ void update_dungeon_entity_action_and_facing(ActorRecord *body, ObjectPosition *
 
     if (dungeon_flags & 0x1000) {
         body->action_id = 0xE;
-        advance_stored_path_motion(body, position, sprite, actor);
+        advance_grineut_stored_path(body, position, sprite, actor);
         return;
     }
 
@@ -135,7 +135,7 @@ void update_dungeon_entity_action_and_facing(ActorRecord *body, ObjectPosition *
                     return;
                 }
             }
-            if ((s16)update_entity_state_from_query(body, position, sprite, 0) == 0) {
+            if ((s16)relink_hikewne_path(body, position, sprite, 0) == 0) {
                     return;
             }
             actor->action_flags |= 0x4000;

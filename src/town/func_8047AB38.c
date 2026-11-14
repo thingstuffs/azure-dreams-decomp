@@ -4,6 +4,6 @@
 #include "town/player/state.h"
 
 /* Calls func_800198D0 with argument 0x15. */
-void run_event_15(void) {
+void check_open_end_script_flag(void) {
     get_script_flag_mask(sn_open_end);
 }

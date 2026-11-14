@@ -31,6 +31,6 @@ extern u8 menu_element_order[4];
 
 /* Initialize element defaults and link elements in the configured order. */
 
-void sound_initialize_ordered_elements(AnimatedMenuPanelBody *obj);
+void init_animated_panel_elements(AnimatedMenuPanelBody *obj);
 
 #endif

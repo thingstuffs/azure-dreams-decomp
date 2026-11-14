@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_812CFBDC",
-      "tu": "src/dungeon/monster/kewne/create_three_linked_palette_objects.c",
+      "tu": "src/dungeon/monster/kewne/create_three_trail_objects.c",
       "home": "dungeon/func_809A3110",
       "foff": "0x12cfbdc",
       "vma": "0x8016f3dc",

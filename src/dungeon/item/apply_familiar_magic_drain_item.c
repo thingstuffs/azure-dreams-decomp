@@ -63,12 +63,12 @@ s32 apply_familiar_magic_drain_item(ActorRecord *entity, DungeonItemEntry *actio
         if (entity->flags14 & ACTOR_PARTY_MEMBER) {
             adjust_source_value_and_finalize(entity, D_800E17C6);
         }
-        clear_slot_and_update_linked_state(action);
+        clear_item_slot(action);
     } else if (entity->species == 0) {
         display_formatted_context_message(&D_800E17EF);
         play_sound_if_enabled(0x506);
     } else {
-        clear_slot_and_update_linked_state(action);
+        clear_item_slot(action);
         display_formatted_context_message(&D_800E180E);
     }
     counter_base = &g_dungeon_status;

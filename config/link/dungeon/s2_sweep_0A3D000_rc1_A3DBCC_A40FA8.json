@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_80A1F0C4",
-      "tu": "src/dungeon/monster/ifrit/update_actor_actions_and_impact_effects.c",
+      "tu": "src/dungeon/monster/ifrit/advance_item_use_with_impact_effect.c",
       "home": "dungeon/func_80A1F0C4",
       "foff": "0xA3F0C4",
       "vma": "0x801728c4",
@@ -17,7 +17,7 @@
     },
     {
       "row": "dungeon/func_80A1FBBC",
-      "tu": "src/dungeon/monster/ifrit/update_particles_projectile_and_fade.c",
+      "tu": "src/dungeon/monster/ifrit/update_ifrit_defeat.c",
       "home": "dungeon/func_80A1FBBC",
       "foff": "0xa3fbbc",
       "vma": "0x801733bc",

@@ -50,14 +50,14 @@ void create_cd_cue_effect(void)
 
         slot0 = allocate_list_node(0x212, &node->header.next);
         if (slot0 != 0) {
-            scene_initialize_arc_motion_sprite(slot0, slots);
+            init_arc_motion_sprite(slot0, slots);
             slots->child0 = slot0;
             slots->attached++;
         }
         if (test_resident_bitmap_bit(F_qyun_misuteta) == 0) {
             slot1 = allocate_list_node(0x212, &node->header.next);
             if (slot1 != 0) {
-                scene_initialize_orbit_motion_sprite(slot1, slots);
+                init_orbit_motion_sprite(slot1, slots);
                 slots->child1 = slot1;
                 slots->attached++;
             }
@@ -76,7 +76,7 @@ void create_cd_cue_effect(void)
         }
         slot4 = allocate_list_node(0x212, &node->header.next);
         if (slot4 != 0) {
-            scene_initialize_sixteen_sprite_sequence(slot4, slots);
+            init_shaded_line_effect_sequence(slot4, slots);
             slots->group = slot4;
             slots->attached++;
         }

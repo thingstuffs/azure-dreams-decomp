@@ -49,25 +49,25 @@ typedef struct S_8016B0E8_0 {
     u8 unk_B1;
     u8 pad_B2[0x2];
     u8 unk_B4;
-} S_8016B0E8_0;   /* arg0 in update_actor_animation_movement_and_terrain */
+} S_8016B0E8_0;   /* arg0 in update_ghosh_actor */
 
 typedef struct S_8016B0E8_1 {
     u8 pad_00[0x3610];
     u8 unk_3610;
     u8 unk_3611;
-} S_8016B0E8_1;   /* page_8001 in update_actor_animation_movement_and_terrain */
+} S_8016B0E8_1;   /* page_8001 in update_ghosh_actor */
 
 
 
 typedef struct S_8016B0E8_4 {
     u8 pad_00[0x3D7C];
     s32 unk_3D7C;
-} S_8016B0E8_4;   /* page_e in update_actor_animation_movement_and_terrain */
+} S_8016B0E8_4;   /* page_e in update_ghosh_actor */
 
 typedef struct S_8016B0E8_5 {
     u8 pad_00[0xAC];
     s32 unk_AC;
-} S_8016B0E8_5;   /* entry_base in update_actor_animation_movement_and_terrain */
+} S_8016B0E8_5;   /* entry_base in update_ghosh_actor */
 
 typedef struct S_8016B0E8_6 {
     u8 pad_00[0x10];
@@ -97,7 +97,7 @@ typedef struct S_8016B0E8_14 {
     u8 unk_25;
     u8 pad_26[0x6];
     s32 unk_2C;
-} S_8016B0E8_14;   /* arg2 in update_actor_animation_movement_and_terrain */
+} S_8016B0E8_14;   /* arg2 in update_ghosh_actor */
 
 
 typedef struct S_8016B0E8_16 {
@@ -117,7 +117,7 @@ static __inline__ u16 clamp_level(u32 level)
  * Initializes Ghosh's experience and scripted events, then runs callbacks, updates facing, and
  * resolves movement and ground height.
  */
-void update_actor_animation_movement_and_terrain(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *sprite) {
+void update_ghosh_actor(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *sprite) {
     register s32 (*update_callback)(void *, void *, void *, void *);
     register s32 (*paused_callback)(void *, void *, void *, void *);
     register s16 base_height;
@@ -202,7 +202,7 @@ void update_actor_animation_movement_and_terrain(ActorRecord *entity, ObjectPosi
 
             (*(s16 *)&system_update_flags) = (s16) (system_update_flags | 8);
 
-            enqueue_runtime_pool_script(message);
+            queue_pool_service_script(message);
             actor_index = 0;
             actors_page = (S_8016B0E8_4 *)0x800E0000;
             inactive_mask = 0x80000000;

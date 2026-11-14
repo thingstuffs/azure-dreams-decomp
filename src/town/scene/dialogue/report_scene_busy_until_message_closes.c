@@ -13,7 +13,7 @@ typedef s32 (*TownCallback)(s32, s32);
 s32 report_scene_busy_until_message_closes(void) {
     s32 result;
 
-    set_script_flag_94c();
+    set_script_flag_sbs32_pad34();
     if (get_script_flag_mask(F_sbs32_pad08) == 0) {
         call_scene_service_2f4_fixed();
         ((TownCallback)(town_scene_root->services->callback_2F8))(0xE, 0x200);

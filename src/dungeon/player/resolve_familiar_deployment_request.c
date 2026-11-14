@@ -12,7 +12,7 @@ extern u8 D_800E0B18[16];
 extern u8 D_800E0B2B[16];
 extern u8 D_800E202D[16];
 
-extern s16 find_entity_slot_by_field_ac(void *target_value);
+extern s16 find_linked_object_slot_index(void *target_value);
 extern s32 find_actor_ring_slot_by_value(void *target_value); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 extern u8 D_800E05E1[];
@@ -52,7 +52,7 @@ void resolve_familiar_deployment_request(void *context_ptr_data, s32 unused_one,
 
     object = familiar_record_slots[((S_800956B8_0 *)selection_ptr)->unk_03 & 0x1F];
     if (!(((ActorRecord *)object)->flags1C & 0x20000)) {
-        result = find_entity_slot_by_field_ac(object);
+        result = find_linked_object_slot_index(object);
                 /* Retail callee sets a3 = 10 at 0x80099114 before reading it; no incoming argument. */
         context_ptr = get_unused_text_buffer();
         {
@@ -94,7 +94,7 @@ void resolve_familiar_deployment_request(void *context_ptr_data, s32 unused_one,
         }
     }
 
-    index = find_entity_slot_by_field_ac(object);
+    index = find_linked_object_slot_index(object);
     {
         ActorRecord *st;
 

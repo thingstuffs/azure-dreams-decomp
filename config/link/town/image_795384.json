@@ -26,7 +26,7 @@
     },
     {
       "row": "town/func_80816788",
-      "tu": "src/town/minigame/object/create_scene_object_with_record_payload.c",
+      "tu": "src/town/minigame/object/create_menu_line_object.c",
       "home": "town/func_80816788",
       "foff": "0x796788",
       "vma": "0x80020788",

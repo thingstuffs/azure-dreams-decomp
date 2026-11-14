@@ -9,7 +9,7 @@
  */
 void initialize_scene_slot_62(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
 {
-    initialize_object_and_register_slot(object, 62, D_800D7610, D_800D7614, D_800D75E0, D_800D75E8);
+    register_object_slot_with_tables(object, 62, D_800D7610, D_800D7614, D_800D75E0, D_800D75E8);
     context->clut = 0x40;
 }
 
@@ -19,6 +19,6 @@ void initialize_scene_slot_62(TownObjectRecord *object, ObjectPosition *unused, 
  */
 void initialize_scene_slot_57(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
 {
-    initialize_object_and_register_slot(object, 57, D_800D7610, D_800D7614, D_800D75E0, D_800D75E8);
+    register_object_slot_with_tables(object, 57, D_800D7610, D_800D7614, D_800D75E0, D_800D75E8);
     context->clut = 0x40;
 }

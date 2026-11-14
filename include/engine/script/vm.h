@@ -44,13 +44,13 @@ struct S_8003AB14_0;
 struct S_8003AB14_1;
 
 /* command.c */
-void copy_four_halfword_coordinates(struct S_8003AB14_0 *dest, struct S_8003AB14_1 *source);
+void copy_window_rect(struct S_8003AB14_0 *dest, struct S_8003AB14_1 *source);
 
-/* runtime_copy_state_pair_to_words.c */
-void runtime_copy_state_pair_to_words(void);
+/* widen_script_state_pair.c */
+void widen_script_state_pair(void);
 
-/* runtime_store_signed_state_pair.c */
-void runtime_store_signed_state_pair(s16 value_ac, s16 value_ae);
+/* store_script_state_pair.c */
+void store_script_state_pair(s16 value_ac, s16 value_ae);
 
 /* vm_op_add_values.c */
 void script_add(struct RuntimeState *state);

@@ -22,7 +22,7 @@ s32 check_any_entry_matches_predicate(void) {
 
     if (D_8001A92C != 0) {
         do {
-            if (town_table_contains_first_byte_b(*entry) != 0) {
+            if (town_pair_table_has_first(*entry) != 0) {
                 return 1;
             }
             entry++;
@@ -53,7 +53,7 @@ s32 *select_state_result_with_lookup_overrides(s32 first_value, s32 second_value
     if (apply_scene_override_flag(first_value, second_value) != 0) {
         result = &D_8001EC04;
     } else {
-        value = get_linked_record_field_2_d_60();
+        value = get_town_state_count();
         if ((get_script_flag_mask(F_sbs22_pad30) == 0) && ((value < 5) || (lookup_variant_with_special_overrides(0x47E, 0x79A) != 0))) {
             result = &D_8001E2F8;
             set_script_flag_bit(F_sbs04_pad08);

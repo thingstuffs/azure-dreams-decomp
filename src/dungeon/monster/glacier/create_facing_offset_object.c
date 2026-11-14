@@ -141,7 +141,7 @@ void create_facing_offset_object(ActorRecord *owner, ObjectPosition *position, S
         child->color.c.r = 0;
         *(Copy12 *)((u8 *)allocated + 0x54) = *(Copy12 *)D_8017612C;
         child->source = (u8 *)allocated + 0x54;
-        secondary = find_nearby_eligible_entry(owner, (u16)(s8)block->field4c, (u16)(s8)block->field4d, payload->z.w.i);
+        secondary = find_eligible_actor_on_tile(owner, (u16)(s8)block->field4c, (u16)(s8)block->field4d, payload->z.w.i);
         block->field30 = secondary;
         if (secondary != 0) {
             secondary_block = (SecondaryBlock *)((u8 *)secondary + 0x20);

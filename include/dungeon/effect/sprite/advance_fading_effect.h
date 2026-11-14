@@ -216,9 +216,9 @@ extern s32 check_layer_offset_height();
 static __inline__ s32 first_delta_s32_s32(s32 end, s32 start);
 void apply_status_to_nearby_actors(s32 x, s32 y, void *kind, s32 flags);
 void advance_fading_effect(ovl_188298c_8186298C_Arg0Ent *state, void *unused, ovl_188298c_8186298C_Arg2Ent *effect);
-void spawn_jittered_type_212_effect(s32 owner, void *source);
+void spawn_rising_sprite_at_source(s32 owner, void *source);
 void advance_counter_and_propagate_target_flags(RadiusDirectionalEffectsBody *state, M2C_UNK context,struct SpriteFrameState *target);
 void create_radius_directional_effects(s32 effect_param, ObjectPosition *origin_arg, s16 radius_arg, u8 *blocked_dirs);
 s32 project_and_queue_shaded_line(void *line, SpriteFrameState *unused_render_context);
-void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Controller *ctrl, ObjectPosition *motion, SpriteFrameState *render_data);
+void move_to_linked_object(ovl_188298c_818632E4_Controller *ctrl, ObjectPosition *motion, SpriteFrameState *render_data);
 #endif

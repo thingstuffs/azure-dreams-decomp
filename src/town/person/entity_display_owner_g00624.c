@@ -7,7 +7,7 @@
 #include "town/shop_callbacks_api.h"
 
 /* Initializes two child entries with data addresses and coordinate offsets. */
-void initialize_dual_child_entries(StorageMenuObject *owner) {
+void initialize_storage_menu_parts(StorageMenuObject *owner) {
     owner->parts[30]->handler = owner->data + 0x48;
     owner->parts[30]->position->x = -0x20;
     owner->parts[30]->position->y = -0x18;
@@ -17,7 +17,7 @@ void initialize_dual_child_entries(StorageMenuObject *owner) {
 }
 
 /* Processes three data blocks and five table entries for the object. */
-void initialize_object_data_blocks_and_entries(StorageMenuObject *object) {
+void load_entity_display_data(StorageMenuObject *object) {
     EntityDisplayLayout *entry_data;
     s32 entry_index;
 
@@ -32,7 +32,7 @@ void initialize_object_data_blocks_and_entries(StorageMenuObject *object) {
         entry_index += 1;
         entry_data += 1;
     } while (entry_index < 5);
-    initialize_dual_child_entries(object);
+    initialize_storage_menu_parts(object);
 }
 
 /* Sets the record's base value, offset value, and data pointer. */
@@ -41,7 +41,7 @@ void bind_storage_menu_object_color_update(void *record_values, s32 base_value) 
 
     object->unk_04 = base_value;
     object->unk_00 = (s32)(base_value + 0x20);
-    NODE_HEADER(record_values)->update_callback = update_subobject_and_normalize_color;
+    NODE_HEADER(record_values)->update_callback = fade_entry_to_neutral;
 }
 
 /*
@@ -51,5 +51,5 @@ void bind_storage_menu_object_color_update(void *record_values, s32 base_value) 
 void initialize_entity_display_owner(u8 *owner, s32 base_value) {
     bind_storage_menu_object_color_update(owner, base_value);
     initialize_entity_display_parts(owner + 0x4C, owner + 0x24, owner + 0x34);
-    initialize_object_data_blocks_and_entries((struct StorageMenuObject *)(owner));
+    load_entity_display_data((struct StorageMenuObject *)(owner));
 }

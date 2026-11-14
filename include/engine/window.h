@@ -18,6 +18,7 @@ struct Func80035AF8State;
 struct Func80035BE0State;
 struct Func80035C80Object;
 struct Func80037C7CState;
+struct MenuChoiceCursorStorage;
 struct Object;
 struct RuntimeObject;
 struct S_800355EC_0;
@@ -98,7 +99,7 @@ void handle_wrapping_menu_cursor_input(struct CursorState *cursor, s32 unused_1,
 void display_speaker_name_plate(struct Func80035AF8State *state);
 
 /* init_cursor_color_object.c */
-void init_cursor_color_object(void *object, void *model, s32 *data, s16 index, s16 table_index, void *list);
+void init_cursor_color_object(struct MenuChoiceCursorStorage *object, void *model, s32 *data, s16 index, s16 table_index, void *list);
 
 /* init_cursor_sprite_object.c */
 #include "engine/window/cursor_init.h"

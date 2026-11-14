@@ -39,7 +39,7 @@ s32 select_item_data(DungeonItemEntry *item, s32 *out_mode)
     *out_mode = 0;
     if (runtime_dispatch_mode_alias.f0 != 1) {
         if (item->kind == ITEM_KIND_FAMILIAR) {
-            data_addr = resolve_record_value(item) + 0x34;
+            data_addr = resolve_item_record_slot_value(item) + 0x34;
         }
         else {
             item_flags = get_item_category_flags(item);

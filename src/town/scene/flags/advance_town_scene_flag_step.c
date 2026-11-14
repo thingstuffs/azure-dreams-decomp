@@ -12,8 +12,8 @@ typedef void (*Callback)(s32, s32);
 
 /* Advance the town scene: clear flag 0x943 when it is set and the step check passes, otherwise hand back to the scene callback. */
 s32 advance_town_scene_flag_step(s32 kind, s32 value) {
-    set_script_flag_94c();
-    initialize_resources_assigns_pointer_lookup();
+    set_script_flag_sbs32_pad34();
+    init_okami_give_cape_state();
 
     if (get_script_flag_mask(F_sbs32_pad25) != 0) {
         func_80019988();

@@ -11,7 +11,7 @@ typedef struct {
 
 /* Initialize the target, assign the state table, and clear the global flag. */
 void initialize_target_and_handler_table(Struct8009B228 *state, ObjectPosition *target) {
-    clear_entity_record_fields(target);
+    clear_object_velocity(target);
     state->unk4 = dispatch_state_callback_by_mode;
     player_handler_reset_byte = 0;
 }

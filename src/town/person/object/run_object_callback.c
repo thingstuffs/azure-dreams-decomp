@@ -27,6 +27,6 @@ void run_object_callback(TownObjectRecord *object, ObjectPosition *context, Spri
             flags = record->flags & 0xFFFE;
         }
         record->flags = flags;
-        dispatch_object_when_idle(object, record, 0, 0);
+        advance_object_animation_when_idle(object, record, 0, 0);
     }
 }

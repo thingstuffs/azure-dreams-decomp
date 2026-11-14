@@ -1,0 +1,47 @@
+#include "common.h"
+#include "shared/object_flags.h"
+#include "records/Rec_func_800B15B8_arg0.h"
+#include "shared/object_links.h"
+#include "engine/item.h"
+#include "town/shop.h"
+#include "town/shop/state.h"
+
+   /* the 0x2 bytes before arg0 in fade_out_shop_window, addressed as arg0[-1] */
+
+
+typedef struct S_800B1664_1 {
+    u8 pad_00[0x6];
+    u16 unk_06;
+} S_800B1664_1;
+
+typedef struct S_800B1664_2 {
+    u8 pad_00[0x4];
+    u16 unk_04;
+} S_800B1664_2;
+
+typedef struct S_800B1664_4 {
+    u8 pad_00[0x6];
+    u16 unk_06;
+} S_800B1664_4;   /* ((Rec_func_800B15B8_arg0 *)arg0)->unk_C0 in fade_out_shop_window */
+
+/* Halve a state value, decrement another, and trigger cleanup below the threshold. */
+void fade_out_shop_window(void *object_arg) {
+    Rec_func_800B15B8_arg0 *object = object_arg;
+    u16 decay_value;
+    s32 decay_shifted;
+    S_800B1664_1 *decay_state;
+    S_800B1664_2 *counter_state;
+
+    decay_state = object->unk_C0;
+    decay_value = decay_state->unk_06;
+    decay_shifted = decay_value << 0x10;
+    decay_state->unk_06 = (u16) (decay_value - ((s32) ((decay_shifted >> 0x10) + ((u32) decay_shifted >> 0x1F)) >> 1));
+    counter_state = object->unk_C0;
+    counter_state->unk_04 = (u16) (counter_state->unk_04 - 0x100);
+    if ((s16) ((S_800B1664_4 *)(object->unk_C0))->unk_06 < 0x11) {
+        release_null_terminated_entries(object_arg + 0xD0);
+        reset_five_shop_slots(object_arg);
+        ((ObjectRetirementFlags *)object)[-1].flags = (u16) (((ObjectRetirementFlags *)object)[-1].flags | 0x8000);
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
+    }
+}

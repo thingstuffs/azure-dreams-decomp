@@ -34,7 +34,7 @@ void begin_wake_nearby_monsters(ActorRecord *state_ptr, void *value, u8 *target_
 void clear_player_linked_action_flags(void);
 s32 dispatch_dungeon_category_action(void *actor, void *action, s16 dispatch_mode, s32 handler_param);
 s32 reject_forbidden_familiar_recall(s32 entry_index);
-void select_state_16_directional_animation(void *entity, ObjectPosition *unused, void *animation, ActorRecord *state);
+void select_player_motion_animation(void *entity, ObjectPosition *unused, void *animation, ActorRecord *state);
 void set_familiar_formation_offset(s32 entry_index, s8 value);
 void set_linked_actor_code_and_mirror(s16 object_index, s8 value);
 void set_linked_actor_pending_value(s32 entry_index, s32 value);
@@ -76,7 +76,7 @@ void change_equipped_item_and_notify(ActorRecord *actor, struct DungeonItemEntry
 
 void restore_player_control_callback(void *target, void *source);
 
-s16 get_special_table_data_index(s32 dataAddress);
+s16 get_item_slot_number(s32 dataAddress);
 
 void resolve_familiar_deployment_request(void *context_ptr, s32 unused_one, void *unused_two, void *selection_ptr);
 s32 reveal_triggered_trap(void *actor, s32 unused_context_a, s32 unused_context_b, s32 unused_target);
@@ -88,7 +88,7 @@ void update_floor_exit_transition(PlayerRecord *state, ObjectPosition *unused_po
 
 void advance_actor_death_transition(ActorRecord *context, ObjectPosition *unused, SpriteFrameState *input, ActorRecord *entity);
 
-void advance_banked_category_action(ActorRecord *object, ObjectPosition *unused_1, SpriteFrameState *unused_2, ActorRecord *context);
+void advance_category_action_callback(ActorRecord *object, ObjectPosition *unused_1, SpriteFrameState *unused_2, ActorRecord *context);
 
 void finish_player_action_animation(ActorRecord *target, ObjectPosition *unused, SpriteFrameState *flag_data, ActorRecord *source);
 

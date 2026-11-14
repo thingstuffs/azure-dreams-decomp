@@ -44,9 +44,9 @@ void change_map_by_home_rank_tertiary(void);
 /* chg_map_second_house_sel.c */
 void chg_map_second_house_sel(void);
 
-/* create_callback_pair_payload.c */
+/* create_node_with_record_pair.c */
 /* Allocation wrappers forward a third value which this routine ignores. */
-void *create_callback_pair_payload(void *second_value, void *first_value, unsigned long unused_value);
+void *create_node_with_record_pair(void *second_value, void *first_value, unsigned long unused_value);
 
 /* create_deferred_resource_transition_task.c */
 struct Task *create_deferred_resource_transition_task(s16 mode, s16 lookup_id, void *(*handler)(void *), void *context);
@@ -55,7 +55,7 @@ struct Task *create_deferred_resource_transition_task(s16 mode, s16 lookup_id, v
 void *create_gauge_with_selection_menu(s32 context);
 
 /* entry_find_target_byte_index_in_list.c */
-void clear_selected_scene_entry_flags(void);
+void reset_town_record_slots(void);
 
 /* entry_itm_mon_koyaw_set.c */
 void refresh_monster_items_from_creature_records(void);
@@ -66,8 +66,8 @@ void file_load_com(void *packed_data);
 /* find_last_flagged_record_by_id.c */
 struct SpriteAttachmentEntry *find_last_flagged_record_by_id(struct SpriteAttachmentEntry *entry, s32 want, u16 *idx_out);
 
-/* has_enough_available_runtime_nodes.c */
-s32 has_enough_available_runtime_nodes(s32 limit);
+/* has_enough_available_nodes.c */
+s32 has_enough_available_nodes(s32 limit);
 
 /* init_double_buffered_gpu_environments.c */
 void init_double_buffered_gpu_environments(void);
@@ -75,8 +75,8 @@ void init_double_buffered_gpu_environments(void);
 /* initialize_hardware_and_game_state.c */
 void initialize_hardware_and_game_state(void);
 
-/* initialize_runtime_table_defaults.c */
-void initialize_runtime_table_defaults(void);
+/* reset_scene_sprite_history.c */
+void reset_scene_sprite_history(void);
 
 /* inline_fn.c */
 inline s32 inline_fn(s32 value);
@@ -100,8 +100,8 @@ void load_scene_resource_group(s16 entry_index);
 /* load_shared_resource_once.c */
 void load_movie_overlay_once(void);
 
-/* mark_active_nodes_by_callback.c */
-void mark_active_nodes_by_callback(s32 target_id);
+/* flag_nodes_with_callback_for_removal.c */
+void flag_nodes_with_callback_for_removal(s32 target_id);
 
 /* play_scene_movie.c */
 void play_scene_movie(void);
@@ -124,14 +124,14 @@ void render_object_scene_frame(void);
 /* render_scene_frame_with_timing.c */
 void render_scene_frame_with_timing(void);
 
-/* reserve_runtime_slot.c */
-s16 reserve_runtime_slot(s16 slot_id, s16 slot_value);
+/* reserve_transition_slot.c */
+s16 reserve_transition_slot(s16 slot_id, s16 slot_value);
 
 /* reset_game_state_preserving_session_fields.c */
 void reset_game_state_preserving_session_fields(void);
 
-/* reset_runtime_slot_state.c */
-void reset_runtime_slot_state(void);
+/* reset_transition_state.c */
+void reset_transition_state(void);
 
 /* resolve_record_orientation_or_fallback.c */
 struct SpriteAttachment *func_8003DE58(struct SpriteAttachment *records, struct SpriteFrameState *actor, SVECTOR *out_vec, s16 record_id);
@@ -146,8 +146,8 @@ void run_deferred_callbacks(void *head);
 /* runtime_load_packed_resource_chunks.c */
 void runtime_load_packed_resource_chunks(s16 entry_id, u8 *stream);
 
-/* runtime_reset_object_pool.c */
-void runtime_reset_object_pool(s32 unused_mode);
+/* reset_node_pool.c */
+void reset_node_pool(s32 unused_mode);
 
 /* scene_begin_transition_data_read.c */
 void scene_begin_transition_data_read(u8 *state);
@@ -161,8 +161,8 @@ void select_next_scene_mode(void);
 /* select_second_house_map.c */
 void select_second_house_map(void);
 
-/* set_next_scene_phase.c */
-void set_next_scene_phase(void);
+/* begin_object_scene_resource_loading.c */
+void begin_object_scene_resource_loading(void);
 
 /* shared_slot_state.c */
 void render_cd_wait_animation_on_new_field(void);
@@ -170,9 +170,9 @@ void draw_cd_wait_sprite_trail(s32 blend_step);
 
 /* slot_transition.c */
 void load_scene_dispatch_resources(void);
-void render_scene_until_runtime_slot_idle(void);
-void await_scene_confirmation_and_reserve_slot(void);
-void finish_scene_when_runtime_slot_idle(void);
+void render_scene_until_slot_idle(void);
+void await_scene_confirmation(void);
+void finish_scene_when_slot_idle(void);
 
 /* slot_transition_secondary.c */
 void load_object_scene_dispatch_resources(void);

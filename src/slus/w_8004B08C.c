@@ -30,7 +30,7 @@ void sort_entries_by_category(S_8004AFE8 **entries) {
     work_buf_2 = (u8 *)original_entries;
     memcpy(work_buf_2, group, count * 4);
     ((S_8004AFE8 **)work_buf_2)[count] = 0;
-    forward_selection_sort_request(group, count, 4, compare_record_sort_weights);
+    sort_with_comparator(group, count, 4, compare_record_sort_weights);
     group_category = 0;
     if (*group != 0) {
         work_buf = rank_table;
@@ -42,7 +42,7 @@ next_group:
                 bzero(work_buf, 0x80);
                 count = count_entries_matching_first(group);
                 stamp_first_matching_entry_ranks(work_buf, original_entries, group_category);
-                forward_selection_sort_request(group, count, 4, compare_mapped_leading_bytes);
+                sort_with_comparator(group, count, 4, compare_mapped_leading_bytes);
                 group = group + count;
             }
             if (*group != 0) {

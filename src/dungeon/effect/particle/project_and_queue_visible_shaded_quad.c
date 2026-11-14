@@ -12,7 +12,7 @@
 #include "slus.h"
 #include "dungeon/system.h"
 
-void (* const dungeon_1990800_entry)(FadingSpriteSequenceBody *, void *, void *) = advance_effect_sequence;
+void (* const dungeon_1990800_entry)(FadingSpriteSequenceBody *, void *, void *) = run_fading_sprite_sequence;
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "dungeon/effect/particle.h"
 #include "shared/game_work.h"
@@ -312,7 +312,7 @@ void advance_rising_quad_countdown(RisingPointEffectBody *state, ObjectPosition 
 extern s32 rand();
 
 /* Spawn and initialize an effect at a randomly offset position relative to the source. */
-void spawn_random_offset_effect_record(
+void spawn_jittered_rising_quad(
     ObjectNodeHeader *source,
     s32 property_34,
     s32 property_28,
@@ -510,7 +510,7 @@ void fade_and_spin_sprite_until_expired(void *effect, s32 unused, void *packet)
 #define U8_AT(p, off) (*(u8 *)((u8 *)(p) + (off)))
 
 /* Advances a timed visual update and sets completion flags when the countdown expires. */
-void advance_timed_visual(void *effect, s32 unused, void *visual)
+void pulse_timed_visual_brightness(void *effect, s32 unused, void *visual)
 {
     u8 *effect_bytes;
     u16 countdown;
@@ -734,11 +734,11 @@ void create_origin_following_fade_sprite(void *unused_0, void *origin_data, Spri
 
 
 
-   /* gbase in advance_effect_sequence */
+   /* gbase in run_fading_sprite_sequence */
 
 typedef struct S_8197192C_4 {
     u16 unk_00;
-} S_8197192C_4;   /* D_80025FF4 in advance_effect_sequence */
+} S_8197192C_4;   /* D_80025FF4 in run_fading_sprite_sequence */
 
 typedef struct S_8197192C_7 {
     u8 pad_00[0xC];
@@ -766,9 +766,9 @@ typedef struct S_8197192C_7 {
     u16 unk_5E;
     u16 unk_60;
     u16 unk_62;
-} S_8197192C_7;   /* work in advance_effect_sequence */
+} S_8197192C_7;   /* work in run_fading_sprite_sequence */
 
-   /* part in advance_effect_sequence */
+   /* part in run_fading_sprite_sequence */
 
 typedef struct S_8197192C_9 {
     u8 pad_00[0x2];
@@ -781,19 +781,19 @@ typedef struct S_8197192C_9 {
     s16 unk_4C;
     s16 unk_4E;
     s16 unk_50;
-} S_8197192C_9;   /* dst in advance_effect_sequence */
+} S_8197192C_9;   /* dst in run_fading_sprite_sequence */
 
 typedef struct S_8197192C_11 {
     u8 pad_00[0x4C];
     s16 unk_4C;
     s16 unk_4E;
     s16 unk_50;
-} S_8197192C_11;   /* dst2 in advance_effect_sequence */
+} S_8197192C_11;   /* dst2 in run_fading_sprite_sequence */
 
 typedef struct S_8197192C_12 {
     u8 pad_00[0x2E94];
     u16 unk_2E94;
-} S_8197192C_12;   /* status_page in advance_effect_sequence */
+} S_8197192C_12;   /* status_page in run_fading_sprite_sequence */
 
 
 
@@ -811,7 +811,7 @@ extern Data12 visible_quad_payload_template;
 extern s32 rand(void);
 
 /* Advance the effect sequence, spawning sprites and particles along its sampled path. */
-void advance_effect_sequence(FadingSpriteSequenceBody *effect, void *owner, void *context_arg)
+void run_fading_sprite_sequence(FadingSpriteSequenceBody *effect, void *owner, void *context_arg)
 {
     ObjectPosition *position;
     S_8197192C_7 *effect_data_m;
@@ -885,7 +885,7 @@ void advance_effect_sequence(FadingSpriteSequenceBody *effect, void *owner, void
                     (u8 *)effect + 0x2E, 0) != 0) {
                     step = 0;
                     do {
-                        spawn_random_offset_effect_record((u8 *)(*(void **)&((EntityRec *)((void **)(&primary_actor_record)))->x) - 0x20, 0,
+                        spawn_jittered_rising_quad((u8 *)(*(void **)&((EntityRec *)((void **)(&primary_actor_record)))->x) - 0x20, 0,
                                       0xE04040, (rand() & 0x3F) | 0x40,
                                       effect->unk_2E,
                                       effect->unk_30,
@@ -907,7 +907,7 @@ void advance_effect_sequence(FadingSpriteSequenceBody *effect, void *owner, void
                         effect_data_m = NODE_BODY(effect_obj);
                         effect_data_m->unk_38 = 20;
                         effect_data_m->unk_3A = 20;
-                        effect_obj->update_callback = (void *)advance_timed_visual;
+                        effect_obj->update_callback = (void *)pulse_timed_visual_brightness;
                         register_node(effect_obj, project_sprite_chain);
                         sprite = effect_obj->sprite;
                         world_pos = &view_reference_entity;

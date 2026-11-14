@@ -74,9 +74,9 @@ void initialize_three_display_entries(s32 source_value, Func800B8500Entry **entr
 }
 
 /* Returns the global in mode 1, otherwise calls the default handler. */
-s32 get_mode_specific_value(void *entry) {
+s32 get_monster_status_label(void *entry) {
     if (runtime_dispatch_state.mode != 1) {
-        return select_object_state_value(entry);
+        return select_status_text(entry);
     }
     return D_800D1790[0];
 }
@@ -88,7 +88,7 @@ void draw_formatted_monster_status_text(void *entry, void *display) {
     memcpy(text, D_800892C0, 5);
     strcat(text, (u8 *)entry + 0x34);
     strcat(text, D_8008933C);
-    strcat(text, (u8 *)get_mode_specific_value(entry));
+    strcat(text, (u8 *)get_monster_status_label(entry));
     set_display_entry_text_and_position(*(s32 *)((u8 *)display + 0x10), text, 0, 0x47, 0x88);
 }
 
@@ -140,6 +140,6 @@ void draw_entity_stats_panel(void *entity, void *panel) {
     }
     set_display_entry_text_and_position(*(s32 *)((u8 *)panel + 0x18), display_value, text_style, 0x68, 0x98);
     set_storage_entry_text(*(s32 *)((u8 *)panel + 0x4C), D_80089324, 0, 0x48, 0xB8);
-    set_storage_entry_text(*(s32 *)((u8 *)panel + 0x1C), format_object_value_marker(&text, entity), 0, 0x48, 0xC8);
+    set_storage_entry_text(*(s32 *)((u8 *)panel + 0x1C), format_gauge_text(&text, entity), 0, 0x48, 0xC8);
     set_storage_entry_text(*(s32 *)((u8 *)panel + 0x48), format_compared_stat_pairs(&text, entity), 0, 0x48, 0xB8);
 }

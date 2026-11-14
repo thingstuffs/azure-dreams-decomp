@@ -17,7 +17,7 @@ void expire_effect_at_unit_scale(ParticleCleanupEffectBody *state, ObjectPositio
     *(s16 *)(scale + 0x1C) = 0x1000;
     *(s16 *)(scale + 0x1E) = 0x1000;
     remaining_ticks = state->unk_02.u;
-    ((s16 *)particle_update_flag)[0] = 1;
+    particle_update_flag = 1;
     if (remaining_ticks <= 0) {
         NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -31,7 +31,7 @@ void expire_effect_at_unit_scale(ParticleCleanupEffectBody *state, ObjectPositio
 void finish_timed_visual_effect(void *object) {
     u16 *flags = (u16 *)object - 1;
 
-    (*(s16 *)particle_update_flag) = 1;
+    particle_update_flag = 1;
     *flags |= 0x8000;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }
@@ -46,7 +46,7 @@ void advance_timed_visual_effect(ParticleCleanupEffectBody *state, void *positio
     s16 ticks_left;
 
     object = state->unk_30;
-    (*(s16 *)particle_update_flag) = 1;
+    particle_update_flag = 1;
     if ((u32)(((Row_818FEF80_S_818FEF80_1 *)object)->unk_13 - 0x33) < 4U) {
         NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -112,7 +112,7 @@ void update_tiled_fade_effect(ParticleCleanupEffectBody *effect, void *offset_st
     moving_rect = D_80024028;
     tile_rect = D_80024030;
     offset_applied = effect->unk_0A;
-    (*(s16 *)particle_update_flag) = 1;
+    particle_update_flag = 1;
     if (offset_applied == 0) {
         effect->unk_0A = 1;
         offset_state->unk_08 += -0x20000;

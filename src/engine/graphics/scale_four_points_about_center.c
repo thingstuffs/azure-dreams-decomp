@@ -2,14 +2,13 @@
 #include "shared/game_work.h"
 
 #include "engine/graphics.h"
+#include "engine/graphics/outline_points_data.h"
 #include "engine/resource.h"
-
-extern u8 scaled_window_quad_points[0x100];
 
 /* Copies three fields from each of six records and processes the destination buffer. */
 void copy_and_scale_screen_outline_points(void)
 {
-    u16 *dst_first = (u16 *)scaled_window_quad_points;
+    u16 *dst_first = scaled_window_quad_points;
     u8 *source_data = ((u8 *)(&g_game_work));
     u16 *src_first = (u16 *)(source_data + 0x20);
     s32 record_count = 0;
@@ -30,5 +29,5 @@ void copy_and_scale_screen_outline_points(void)
         dst_third += 4;
     } while (record_count < 6);
 
-    runtime_scale_four_points_about_center((u16 *)scaled_window_quad_points, 6, 4);
+    scale_quad_points_about_center(scaled_window_quad_points, 6, 4);
 }

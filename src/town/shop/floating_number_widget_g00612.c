@@ -32,7 +32,7 @@ void initialize_panel_content_and_positions(S_800B19F8_0 *panel)
     ((S_800B19F8_9 *)(((S_800B19F8_5 *)(content->unk_50))->unk_04))->unk_08 = 0x67;
     ((S_800B19F8_9 *)(((S_800B19F8_5 *)(content->unk_50))->unk_04))->unk_0A = 0x88;
 
-    refresh_formatted_global_display(panel);
+    refresh_money_display(panel);
     func_800B18F8(panel->unk_08);
 }
 
@@ -45,7 +45,7 @@ void store_pair_values(S_800B1B04_0 *pair, s32 first, s32 second) {
 /* Set up the object, update its embedded records, and finalize it. */
 void initialize_floating_number_widget_part(s32 object_addr, s32 setup_value, s32 update_value_1, s32 update_value_2) {
     store_pair_values((S_800B1B04_0 *)object_addr, setup_value, update_value_1);
-    initialize_templated_state_and_position(object_addr + 0x38, object_addr + 0x10, object_addr + 0x20, update_value_1, update_value_2);
+    init_display_blocks_at_position(object_addr + 0x38, object_addr + 0x10, object_addr + 0x20, update_value_1, update_value_2);
     initialize_panel_content_and_positions((S_800B19F8_0 *)object_addr);
 }
 
@@ -83,7 +83,7 @@ void initialize_four_anchored_nodes(void *state)
 }
 
 /* Create an object with two buffers and initialize its state and position. */
-void *create_dual_buffer_object(s32 setup_value, s32 x, s32 y)
+void *create_floating_number_widget(s32 setup_value, s32 x, s32 y)
 {
     ObjectNodeHeader *object;
     S_800B1BEC_0 *part;
@@ -94,8 +94,8 @@ void *create_dual_buffer_object(s32 setup_value, s32 x, s32 y)
     object = allocate_flagged_object_node(0);
     if (object != 0) {
         part = (u8 *)object + 0x20;
-        part->unk_08 = create_callback_pair_default(0xCC);
-        second_buffer = create_callback_pair_default(0xCC);
+        part->unk_08 = allocate_node_body(0xCC);
+        second_buffer = allocate_node_body(0xCC);
         part->unk_0C = second_buffer;
 
         if (part->unk_08 != 0 && second_buffer != 0) {

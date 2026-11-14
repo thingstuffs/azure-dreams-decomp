@@ -31,8 +31,8 @@ s32 find_free_sprite_resource_slot(void);
 /* find_sprite_resource_slot_by_id.c */
 s32 find_sprite_resource_slot_by_id(s32 slot_id);
 
-/* mark_palette_colors_with_high_bit.c */
-void mark_palette_colors_with_high_bit(u16 *entry, s32 groupCount, s32 contiguousMode);
+/* set_palette_stp_bits.c */
+void set_palette_stp_bits(u16 *entry, s32 groupCount, s32 contiguousMode);
 
 /* mark_sprite_resource_for_purge.c */
 void mark_sprite_resource_for_purge(s16 lookup_key);
@@ -64,9 +64,9 @@ s32 relocate_sprite_metadata_pointers(void *object_addr);
 /* retain_sprite_resource_in_cache.c */
 s32 retain_sprite_resource_in_cache(s16 slot_id);
 
-/* runtime_no_op_callback.c */
+/* upload_resource_queue_tiles.c */
 void *load_and_publish_texture_resource_pair(int resource_id);
-void runtime_no_op_callback(u32 unused_state);
+void upload_resource_queue_tiles(u32 unused_state);
 void prepare_resource_queue_sprites(void);
 void func_80047E30(void);
 

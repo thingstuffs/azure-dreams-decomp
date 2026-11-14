@@ -153,7 +153,7 @@
     "handle_menu_panel_input": "0x8001a7f0",
     "menu_entry_common_template": "0x8002e5e8",
     "menu_entry_link_table": "0x800247ac",
-    "realloc_field_0_buffer": "0x80049004",
+    "rebuild_pointer_pool": "0x80049004",
     "set_entry_common_pointers": "0x800491cc",
     "build_reverse_indexed_chain": "0x800491f4",
     "initialize_menu_display_templates": "0x80017f0c",

@@ -28,7 +28,7 @@ typedef struct {
     s16 field16;
 } Config;
 
-extern s32 has_runtime_key_pair(s32, s32);
+extern s32 has_tile_coordinate_pair(s32, s32);
 /* One 24-byte access prefix of the 32-byte GameWork.map subobject.
  * This alias has no repeated GridInfo records. */
 extern GridInfo scene_geometry;
@@ -40,6 +40,6 @@ void append_valid_key_pair(s32 first_value, s32 second_value, u32 unused_cell);
 s32 count_flagged_cells_in_opposite_directions(s32 dir, s16 start_x, s16 start_y);
 s32 count_flagged_tiles_along_direction(s16 direction, s16 start_x, s16 start_y);
 void clear_flagged_cells_and_reset_list(void);
-void refresh_state_and_dispatch_angles(void);
+void scan_flagged_tiles_from_camera(void);
 
 #endif

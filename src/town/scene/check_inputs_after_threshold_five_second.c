@@ -28,7 +28,7 @@ void check_inputs_after_threshold_five(void)
     callback(zero);
 
     if (get_script_flag_mask(F_sbs32_pad24) != 0) {
-        if (town_table_contains_first_byte_b(0xB) != 0) {
+        if (town_pair_table_has_first(0xB) != 0) {
             set_script_flag_bit(F_sbs43_pad12);
             if (get_script_flag_mask(F_sbs43_pad13) == 0) {
                 set_script_flag_bit(F_sbs43_pad11);

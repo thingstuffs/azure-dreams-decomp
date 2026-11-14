@@ -1,3 +1,4 @@
+#include "dungeon/player/saved_held_item_data.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
@@ -5,7 +6,7 @@
 #include "dungeon/player.h"
 
 extern s32 held_item_record;
-extern s32 saved_held_item_word;
+
 
 /* Clear the root and linked object flags, saving and resetting D_80081484 when the root flag is set. */
 void clear_player_linked_action_flags(void) {

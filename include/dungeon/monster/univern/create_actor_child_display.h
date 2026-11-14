@@ -29,7 +29,7 @@ typedef struct S_8014C89C_8 {
     void * unk_A4;
 } S_8014C89C_8;   /* slot_base in func_8014C89C */
 
-extern s16 view_facing_angle_alias;
+#include "slus/view_facing_angle.h"
 
 extern s32 generate_random_value(void);
 extern void select_sprite_entry(void *, s32, s32);

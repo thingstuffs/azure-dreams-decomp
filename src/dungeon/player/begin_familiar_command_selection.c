@@ -36,7 +36,7 @@ s32 begin_familiar_command_selection(Rec_func_8008D024_arg0 *actor, ObjectPositi
                 actor->unk_9A = 0x27;
                 actor->unk_9B.as_s8 = 0;
                 actor->unk_8C = 0;
-                create_panel_effect_object(target);
+                create_actor_status_panel(target);
                 if ((action_mode << 0x10) == 0) {
                     build_floating_number_widget(0x21, 0xE0, 0x84, 0, 0, 0);
                     build_floating_number_widget(0x22, 0xF2, 0x98, 1, 0, 2);

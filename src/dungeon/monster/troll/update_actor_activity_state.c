@@ -174,7 +174,7 @@ void update_actor_activity_state(ActorRecord *task, ObjectPosition *task_id, Spr
         }
 
         if (sprite_in->flags & 0x8000) {
-            task->unk_8C.handler = update_actor_behavior;
+            task->unk_8C.handler = update_troll_behavior;
             return;
         }
         ((T_80175050_S_80175050_3 *)((u8 *)(&g_dungeon_status)))->unk_0A++;
@@ -185,7 +185,7 @@ void update_actor_activity_state(ActorRecord *task, ObjectPosition *task_id, Spr
     case 2:
         if (sprite_in->flags & 0xE000) {
             ((T_80175050_S_80175050_3 *)((u8 *)(&g_dungeon_status)))->unk_0A--;
-            task->unk_8C.handler = update_actor_behavior;
+            task->unk_8C.handler = update_troll_behavior;
         }
         return;
 
@@ -405,7 +405,7 @@ increment_state:
 
             counter_base->activity_counts.parts.pending_action_count--;
         }
-        controller->field8c = update_actor_behavior;
+        controller->field8c = update_troll_behavior;
         return;
 
     default:
@@ -479,7 +479,7 @@ void update_directional_action_display(T_801759A0_Obj0 *actor, ObjectPosition *c
 
     if (update_actor_transform_from_parent(actor, context, display, state) != 0) {
         if ((check_actor_floor_trap(display, state) << 16) > 0) {
-            actor->field8c = update_actor_behavior;
+            actor->field8c = update_troll_behavior;
         }
         return;
     }

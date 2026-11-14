@@ -63,7 +63,7 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
     if (object != 0) {
         work = NODE_BODY(object);
         ghosh_actor_node = object;
-        object->update_callback = update_actor_animation_movement_and_terrain;
+        object->update_callback = update_ghosh_actor;
         work->species = MONSTER_GHOSH;
         register_node(object, project_sprite_chain);
 

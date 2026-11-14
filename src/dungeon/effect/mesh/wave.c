@@ -681,7 +681,7 @@ typedef struct CountdownRecord {
 } CountdownRecord;
 
 /* Decrement the record counter and set completion flags when it reaches zero. */
-void advance_record_counter(CountdownRecord *record)
+void tick_wave_effect_countdown(CountdownRecord *record)
 {
     u16 counter;
 
@@ -1318,7 +1318,7 @@ void update_wave_projectile_effect(ProjectileSelf *self, ObjectPosition *positio
                 flash = allocate_flagged_object_node(0x212);
                 if (flash != 0) {
                     flash->unk_22 = 120;
-                    flash->callback = advance_record_counter;
+                    flash->callback = tick_wave_effect_countdown;
                     register_node(flash, project_sprite_chain);
                     flash_data = flash->render;
                     flash_data->unk_14 |= 0x0C;

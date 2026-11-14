@@ -25,7 +25,7 @@ extern void register_node(void *a0, void *a1);
 /* Allocates actor display entries, shares a default vector across 40 entries, and reports success. */
 static s32 load_actor_display_resource(ItemMenuObject *object, s32 entry_count) {
     s32 success = 0;
-    ItemMenuPart **parts = realloc_field_0_buffer(object->allocations, entry_count, 12);
+    ItemMenuPart **parts = rebuild_pointer_pool(object->allocations, entry_count, 12);
 
     object->parts = parts;
     if (parts != 0) {

@@ -32,7 +32,7 @@ typedef struct S_800C13C8_0 {
 
 
 /* extern */
-s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */           /* extern */
+s32 resolve_item_attack(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */           /* extern */
 #include "dungeon/player/state/clear_slot_and_update_linked_state_api.h"
 extern u8 D_800E1482[];
 
@@ -42,7 +42,7 @@ s32 use_item_to_draw_flame_circle(ActorRecord *object, DungeonItemEntry *value, 
     s32 result;
 
     if (operation == 0xD) {
-        return process_record_and_update_linked_state(value, context);
+        return resolve_item_attack(value, context);
     }
     if (object == dungeon_actor_ring_anchor) {
         ((PlayerRecord *)object)->pending_item_action = value;
@@ -66,7 +66,7 @@ s32 use_item_to_draw_flame_circle(ActorRecord *object, DungeonItemEntry *value, 
         }
         display_formatted_context_message(&D_800E1482);
     }
-    clear_slot_and_update_linked_state(value);
+    clear_item_slot(value);
     result = 1;
     return result;
 }

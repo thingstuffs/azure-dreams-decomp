@@ -9,8 +9,8 @@ typedef s32 (*card_event_callback_fn)(void);
 
 s32 card_advance_selected_operation(void);
 s32 card_boot_poll_state_two_transition(void);
-s32 card_boot_reset_operation_return_five(void);
-s32 consume_pending_event_flag(void);
+s32 card_boot_fail_operation(void);
+s32 card_boot_timeout_operation(void);
 s32 card_poll_selected_operation_state(void);
 
 #endif

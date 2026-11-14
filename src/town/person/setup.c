@@ -28,7 +28,7 @@ void * create_owner_following_sprite(TownObjectRecord *linked_object) {
     callback_arg = *(s32 *)&object->position;
     render_data = object->sprite;
     state->linked_object = linked_object;
-    object->update_callback = compute_offset_position_linked_object;
+    object->update_callback = place_at_linked_object_offset;
     render_data->scale_y = 0x1000;
     render_data->scale_x = 0x1000;
     render_data->color.word = 0x808080;

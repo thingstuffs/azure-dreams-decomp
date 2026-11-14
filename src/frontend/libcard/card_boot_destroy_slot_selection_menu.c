@@ -24,7 +24,7 @@ void card_boot_destroy_slot_selection_menu(UnkStruct1E *object)
     if (object != 0) {
         handle_count = 0;
         set_object_cleanup_flag(*(UnkStruct1E **)((u8 *)object + 0x20));
-        card_boot_destroy_three_row_panel(*(s32 *)((u8 *)handle_cursor + 0x18));
+        card_boot_destroy_command_panel(*(s32 *)((u8 *)handle_cursor + 0x18));
         func_80024EEC(*(s32 *)((u8 *)handle_cursor + 0x1C));
         do {
             handle = *(s32 *)((u8 *)handle_cursor + 4);

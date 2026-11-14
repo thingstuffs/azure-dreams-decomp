@@ -1,0 +1,59 @@
+#include "shared/monster_ids.h"
+#include "common.h"
+#include "dungeon/actor.h"
+#include "dungeon/monster/glacier.h"
+
+typedef struct S_801748FC_0_pre {
+    u8 * unk_00;
+    u8 pad_04[0x10];
+} S_801748FC_0_pre;   /* the 0x14 bytes before current in find_eligible_actor_on_tile, addressed as current[-1] */
+
+
+
+
+
+/* Find the first eligible entry matching both object filters within 32 units of the target height. */
+/* Finds an eligible actor on the target tile within 32 height units, excluding classes 0x33-0x36; returns
+ * its object node. */
+void *find_eligible_actor_on_tile(u8 *current, s32 wanted_24, s32 wanted_25, s32 height_center)
+{
+    u8 *entry;
+    s32 target_height;
+    u8 *sentinel;
+    s32 min_height;
+    s32 filter_25;
+    s32 scratch;
+    s32 filter_24;
+    SpriteFrameState *object;
+    s16 height;
+
+    sentinel = current;
+    filter_24 = wanted_24;
+    filter_25 = wanted_25;
+    current = NODE_BODY(((ActorRecord *)current)->next_actor_header);
+    if (current != sentinel) {
+        scratch = height_center << 0x10;
+        target_height = scratch >> 0x10;
+        min_height = target_height - 0x20;
+        do {
+            ActorRecord *actor = (ActorRecord *)current;
+            object = (SpriteFrameState *)((S_801748FC_0_pre *)current)[-1].unk_00;
+            entry = current - 0x20;
+            if ((object->tile_x == (filter_24 & 0xFFFF)) &&
+                (object->tile_y == (filter_25 & 0xFFFF)) &&
+                (height = actor->ground_height,
+                 height <= target_height + 0x20) &&
+                (height >= min_height) &&
+                ((u32)(actor->species - MONSTER_WALL_OF_FIRE) >= 4U)) {
+                scratch = check_entity_eligibility(current);
+                scratch <<= 0x10;
+                if (scratch != 0) {
+                    return entry;
+                }
+            }
+            current = NODE_BODY(((ActorRecord *)current)->next_actor_header);
+        } while (current != sentinel);
+    }
+
+    return 0;
+}

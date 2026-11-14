@@ -11,7 +11,7 @@
 
 extern void D_800C8FF0();
 extern s32 D_800D6268[];
-void finish_countdown_and_set_flags(TownObjectRecord *object, s32 *position);
+void slide_until_countdown_expires(TownObjectRecord *object, s32 *position);
 
 /* Functions defined in this translation unit. */
 void turn_object_after_timeout(TownObjectRecord *object, s32 unused, void *updateContext);

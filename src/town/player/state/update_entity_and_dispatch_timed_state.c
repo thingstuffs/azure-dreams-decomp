@@ -26,7 +26,7 @@ void update_entity_and_dispatch_timed_state(void *state_arg, void *entity, void 
     countdown = ((u16)state->unk_0A) - 1;
     state->unk_0A = countdown;
     if (countdown < 0) {
-        clear_entity_record_fields(entity);
+        clear_object_velocity(entity);
         sync_collision_motion_xyz(entity);
         if (town_interaction_pending != 0 && create_item_menu_unless_minigame((s32)(state_arg - 0x20)) != 0) {
             dispatch_selected_entry_if_nonzero((s32 *)(&town_scene_record_handlers), state_arg, transition_arg);

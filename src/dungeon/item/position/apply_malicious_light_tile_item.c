@@ -62,7 +62,7 @@ s32 apply_malicious_light_tile_item(void *actor, DungeonItemEntry *item, s16 act
         display_formatted_context_message(D_800E16E3);
         try_apply_confusion_status(actor, 0x100, 0x10);
         cycle_map_cell_flags(sprite->tile_x, sprite->tile_y, 0x10);
-        clear_slot_and_update_linked_state(item);
+        clear_item_slot(item);
         counter_base = &g_dungeon_status;
         (*(u16 *)&counter_base->activity_counts.parts.pending_action_count)--;
         return 1;

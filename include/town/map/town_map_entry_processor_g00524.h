@@ -27,8 +27,8 @@ extern s32 D_8008C304[];
 
 /* Functions defined in this translation unit. */
 void write_wrapped_packed_nibble(s32 nibble, s32 index, s32 nibble_count, u8 *packed_data);
-void process_all_lookup_entries(s32 lookup_key, void *context);
-void process_indexed_entry_record(s32 entry_index);
+void pack_map_row_nibbles(s32 lookup_key, void *context);
+void pack_map_row_into_table(s32 entry_index);
 void upload_town_movie_pixels(void);
 struct TownMapEntryProcessorBody;
 void advance_index_and_mark_completion(struct TownMapEntryProcessorBody *processor);

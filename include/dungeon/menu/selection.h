@@ -191,26 +191,26 @@ extern int func_8004CAA0(void *object, int unused, void *data);
 void flag_optional_object_for_removal(void *object);
 extern int D_800814A0;
 extern u8 text_editor_empty_pair[12];
-void set_indexed_object_field(ovl_1831370_81811370_S_80026370_0 *object, s32 index);
-s32 adjust_selection_by_item_count(s32 input_value, s32 target, s32 lookup_index);
+void position_text_editor_cursor(ovl_1831370_81811370_S_80026370_0 *object, s32 index);
+s32 wrap_text_editor_selection(s32 input_value, s32 target, s32 lookup_index);
 void inventory_set_object_entry_address(ovl_1831370_818113C0_S_800263C0_0 *object, M2C_UNK source);
 void update_menu_selection_from_input(ovl_1831370_8181140C_MenuState *menu);
-void update_embedded_state_from_table(s32 object_addr);
+void move_text_editor_selection_back(s32 object_addr);
 void clear_object_buffer_and_state(void *objectAddress);
 void write_text_and_advance_selection(s32 objectAddress, s32 updateValue);
 void step_menu_open_animation(ovl_1831370_8181140C_MenuState *step);
 void *initialize_variant_packet(ovl_1831370_81811708_Packet *packet, s32 variant);
 void set_descriptor_fields_and_flag(void *descriptor);
-S_800491F4 *forward_value_to_shared_helper(S_800491F4 **value);
-void initialize_owner_defaults(void *unused, ovl_1831370_818117D8_Owner *owner, ovl_1831370_818117D8_S_8002E5D8 *patch_data,
+S_800491F4 *build_menu_selection_chain(S_800491F4 **value);
+void copy_display_defaults_to_menu_parts(void *unused, ovl_1831370_818117D8_Owner *owner, ovl_1831370_818117D8_S_8002E5D8 *patch_data,
                    ovl_1831370_818117D8_S_8002E5E8 *aux_data);
 void initialize_object_destination_fields(ovl_1831370_81811878_Source *src, ovl_1831370_81811878_Destinations *dst);
-void initialize_object_phase_data(void *recordFields, ObjectNodeHeader *recordValue2C, s32 typeCode, s32 recordValue24);
-void initialize_embedded_object_state(void *state, ObjectNodeHeader *parent, s32 type, s32 config);
-s32 get_and_position_object_handle(void *object);
-void release_object_handle(ovl_1831370_81811B44_S_80026B44_0 *owner);
-void cleanup_object_resources(ovl_1831370_81811B94_CleanupObject *object);
+void initialize_selection_child_type(void *recordFields, ObjectNodeHeader *recordValue2C, s32 typeCode, s32 recordValue24);
+void initialize_selection_child_state(void *state, ObjectNodeHeader *parent, s32 type, s32 config);
+s32 allocate_menu_part_handle(void *object);
+void release_menu_part_handle(ovl_1831370_81811B44_S_80026B44_0 *owner);
+void remove_selection_child_object(ovl_1831370_81811B94_CleanupObject *object);
 u32 has_available_object(void *object);
 s32 has_text_editor_content(s32 object_addr);
-void forward_menu_object_to_selection_updater(ovl_1831370_8181140C_MenuState *menu);
+void update_text_editor_selection(ovl_1831370_8181140C_MenuState *menu);
 #endif

@@ -19,5 +19,5 @@ void set_handler_counter_and_clear_flag(S_80098C04_0 *state, ObjectPosition *tar
     state->unk_04 = &D_80098104;
     town_action_reset_byte = 0;
     state->unk_0A = 0xC;
-    clear_entity_record_fields((target));
+    clear_object_velocity((target));
 }

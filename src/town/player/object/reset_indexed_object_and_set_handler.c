@@ -15,6 +15,6 @@ void reset_indexed_object_and_set_handler(TownObjectRecord *object, ObjectPositi
     dispatch_selected_entry_if_nonzero(D_800D00A8, object, ptr2);
     object_index_slots[object->unk_40].unk_00 = 0;
     object->unk_0A = 0xA;
-    clear_entity_record_fields((context));
+    clear_object_velocity((context));
     object->unk_04 = &move_player_toward_target;
 }

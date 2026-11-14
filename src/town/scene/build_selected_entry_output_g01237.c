@@ -33,7 +33,7 @@ u8 *build_selected_entry_output(s32 selected_index) {
 
     }
 
-    dispatch_records_by_kind(output_base, &D_80017ADC);
+    fill_records_from_selection_kinds(output_base, &D_80017ADC);
     copy_callback_value_to_destination(output_base, &D_80017AE8);
     if (first_marked != 0) {
         *(s16 *)(output_base + 0xA2) = 0x400;
@@ -55,7 +55,7 @@ void *build_entry_list(s32 entry_index) {
         *(s16 *)(entries + (entry_index * 0x14) + 2) = 0x400;
     }
 
-    dispatch_records_by_kind(entries, &D_80017ADC);
+    fill_records_from_selection_kinds(entries, &D_80017ADC);
     copy_callback_value_to_destination(entries, &D_80017AE8);
 
     if (entry_index == 1) {
@@ -76,7 +76,7 @@ void *build_selected_record_buffer(s32 entry_index) {
     u8 *buffer = D_80017E54;
 
     *(s32 *)(buffer + 0xC) = *(s32 *)(town_selection_records + (entry_index * 0xC));
-    dispatch_records_by_kind(buffer, &D_80017AD0);
+    fill_records_from_selection_kinds(buffer, &D_80017AD0);
     copy_callback_value_to_destination(buffer + 0x14, &D_80017B0C);
     copy_callback_value_to_destination(buffer + 0x28, &D_80017B18);
     return buffer;

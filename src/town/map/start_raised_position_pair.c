@@ -12,7 +12,7 @@
 void start_raised_position_pair(TownObjectRecord *record_data, ObjectPosition *placement, struct SpriteFrameState *unused_sprite) {
     ObjectPosition *output = placement;
 
-    NODE_HEADER(record_data)->update_callback = &process_raised_position_pair;
+    NODE_HEADER(record_data)->update_callback = &spawn_paired_radial_effects;
     output->z.v = (s32) (((s8)record_data->variant) << 0x10);
     record_data->timer = 5;
 }

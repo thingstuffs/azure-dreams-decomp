@@ -4,7 +4,7 @@
 #include "common.h"
 #include "shared/entity.h"
 
-/* update_actor_timed_effects initializes this body and installs
+/* update_glacier_actor_behavior initializes this body and installs
  * apply_relative_projected_depth to track depth against a reference position. */
 typedef struct GlacierProjectedDepthBody {
     u8 pad_00[0x1C];

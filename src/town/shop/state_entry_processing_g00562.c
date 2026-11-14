@@ -18,7 +18,7 @@ void refresh_active_slot_snapshots(void) {
     u8 *entry;
     u8 state;
 
-    entry_count = town_record_capacities[find_target_byte_index_in_list()];
+    entry_count = town_record_capacities[find_target_index_in_list()];
     entry = (u8 *)0x80010000;
     for (entry_index = 0; entry_index < entry_count; entry_index++) {
         state = entry[0x981 + entry_index * 4];
@@ -58,7 +58,7 @@ void refresh_item_list_snapshots(void) {
 }
 
 /* Calls refresh_active_slot_snapshots followed by refresh_item_list_snapshots. */
-void process_state_entries_and_referenced_objects(void) {
+void refresh_all_snapshots(void) {
     refresh_active_slot_snapshots();
     refresh_item_list_snapshots();
 }

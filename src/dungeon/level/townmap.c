@@ -61,11 +61,11 @@ s32 town_map_set(s32 value_7c, s32 value_78) {
         if (object == 0) {
             break;
         }
-        resource = runtime_find_unused_pool_slot();
+        resource = find_free_pool_record();
         if (resource == 0) {
             break;
         }
-        runtime_initialize_state_value(resource, 0);
+        init_unit_scale_record(resource, 0);
         *object_cursor++ = object;
         *resource_cursor++ = resource;
         count++;
@@ -86,7 +86,7 @@ s32 town_map_set(s32 value_7c, s32 value_78) {
         if (resource_cursor != resources) {
             do {
                 --resource_cursor;
-                runtime_clear_value(*resource_cursor);
+                clear_word(*resource_cursor);
             } while (resource_cursor != resources);
         }
         return 0;
@@ -159,7 +159,7 @@ void initialize_town_map_object_state(s32 mode, s32 *list, u8 *init_context, u8 
     if (list != 0) {
         list_value = *list;
     }
-    runtime_initialize_state_value(object, list_value);
+    init_unit_scale_record(object, list_value);
     mode_table = D_800CFB74;
     *(u8 **)(context + 0x20) = object;
     *(u32 *)(object + 0x60) = 2;
@@ -263,7 +263,7 @@ void raise_town_map_value_to_input(town_map_7FFEE3F0_Actor *actor) {
  * Subtracts 0x200 from the inner field at offset 8; once negative, clamps it to zero and restores
  * indexed town-map input state.
  */
-void decrease_substructure_value_and_reset(town_map_7FFEE474_MainStruct *object) {
+void lower_town_map_value_and_resume_input(town_map_7FFEE474_MainStruct *object) {
     object->sub->unk8 -= 0x200;
     if ((s16)object->sub->unk8 < 0) {
         object->sub->unk8 = 0;
@@ -397,7 +397,7 @@ void restore_town_map_input_state(town_map_7FFEE778_S_8008BED8_0 *state) {
 /* Clears the referenced runtime record and callback, then sets local and global removal flags. */
 void release_town_map_record(void *record) {
     int global_flags;
-    runtime_clear_value(*(void **)record);
+    clear_word(*(void **)record);
     NODE_HEADER(record)->flags |= 0x8000;
     global_flags = object_flag_block.flags;
     ((s32 *)record)[-4] = 0;

@@ -73,7 +73,7 @@
     },
     {
       "row": "dungeon/func_80B5C8B4",
-      "tu": "src/dungeon/monster/hikewne/update_entity_state_from_query.c",
+      "tu": "src/dungeon/monster/hikewne/relink_hikewne_path.c",
       "home": "dungeon/func_80976E28",
       "foff": "0xB7C8B4",
       "vma": "0x8015A0B4",
@@ -97,7 +97,7 @@
     },
     {
       "row": "dungeon/func_80B5CDF0",
-      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F88C30",
       "foff": "0xB7CDF0",
       "vma": "0x8015A5F0",
@@ -121,7 +121,7 @@
     },
     {
       "row": "dungeon/func_80B5D7E8",
-      "tu": "src/dungeon/monster/ifrit/update_directional_motion_and_settle.c",
+      "tu": "src/dungeon/monster/ifrit/update_ifrit_recoil.c",
       "home": "dungeon/func_80A1F8B8",
       "foff": "0xB7D7E8",
       "vma": "0x8015AFE8",
@@ -137,7 +137,7 @@
     },
     {
       "row": "dungeon/func_80B5DE14",
-      "tu": "src/dungeon/effect/state/forward_actor_effect_state.c",
+      "tu": "src/dungeon/effect/state/update_hop_and_shrink_callback.c",
       "home": "dungeon/func_800AD90C",
       "foff": "0xB7DE14",
       "vma": "0x8015B614",
@@ -177,7 +177,7 @@
     },
     {
       "row": "dungeon/func_80B5E564",
-      "tu": "src/dungeon/monster/kewne/update_actor_state_after_map_check.c",
+      "tu": "src/dungeon/monster/kewne/update_kewne_parent_motion.c",
       "home": "dungeon/func_809A2D74",
       "foff": "0xB7E564",
       "vma": "0x8015BD64",
@@ -185,7 +185,7 @@
     },
     {
       "row": "dungeon/func_80B5E62C",
-      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F8A600",
       "foff": "0xB7E62C",
       "vma": "0x8015BE2C",
@@ -272,7 +272,7 @@
     },
     {
       "row": "dungeon/func_80B5FA6C",
-      "tu": "src/dungeon/monster/kid/initialize_counted_entity_action.c",
+      "tu": "src/dungeon/monster/kid/wait_for_kid_action_slot.c",
       "home": "dungeon/func_809F7148",
       "foff": "0xB7FA6C",
       "vma": "0x8015D26C",

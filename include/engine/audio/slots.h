@@ -39,7 +39,7 @@ s16 set_audio_bank(s16 value);
 /* set_audio_entry_count.c */
 int set_audio_entry_count(int level_index);
 
-/* set_sound_slot_byte_pair.c */
+/* apply_scaled_sound_slot_volume.c */
 void apply_scaled_sound_slot_volume(void);
 
 /* upload_sample_to_sound_slot.c */

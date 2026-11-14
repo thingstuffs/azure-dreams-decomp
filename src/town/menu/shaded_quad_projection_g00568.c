@@ -105,11 +105,11 @@ void draw_segmented_menu_ring(s32 center_source, s32 radius_a, s32 radius_b, s16
     register s32 angle;
     s32 segment_count;
 
-    copy_odd_halfwords_3(&center, center_source);
+    copy_moving_position_to_menu_point(&center, center_source);
     start_a = &point_a;
-    copy_menu_vector_halfwords(start_a, &center);
+    copy_menu_point(start_a, &center);
     start_b = &point_b;
-    copy_menu_vector_halfwords(start_b, &center);
+    copy_menu_point(start_b, &center);
     point_a.h[0] = offset_coord(point_a.h[0], scale_trig(rsin(0), radius_a));
     point_a.h[1] = offset_coord(point_a.h[1], scale_trig(rcos(0), radius_a));
     point_b.h[0] = offset_coord(point_b.h[0], scale_trig(rsin(0), radius_b));
@@ -123,11 +123,11 @@ void draw_segmented_menu_ring(s32 center_source, s32 radius_a, s32 radius_b, s16
         s32 upper_mask = 0xFFFF0000;
 
         do {
-            copy_menu_vector_halfwords(&prev_a, point_a_ptr);
-            copy_menu_vector_halfwords(&prev_b, point_b_ptr);
+            copy_menu_point(&prev_a, point_a_ptr);
+            copy_menu_point(&prev_b, point_b_ptr);
             angle += 0x100;
-            copy_menu_vector_halfwords(point_a_ptr, &center);
-            copy_menu_vector_halfwords(point_b_ptr, &center);
+            copy_menu_point(point_a_ptr, &center);
+            copy_menu_point(point_b_ptr, &center);
             point_a.h[0] = offset_coord(point_a.h[0], scale_trig(rsin(angle), radius_a));
             point_a.h[1] = offset_coord(point_a.h[1], scale_trig(rcos(angle), radius_a));
             point_b.h[0] = offset_coord(point_b.h[0], scale_trig(rsin(angle), radius_b));

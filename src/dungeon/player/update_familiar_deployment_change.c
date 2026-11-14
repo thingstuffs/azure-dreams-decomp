@@ -22,7 +22,7 @@
 #include "dungeon/actor/entity_resource_read_complete.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void runtime_map_type_16_entry_code();                      /* extern */
+void map_familiar_spawn_variant_code();                      /* extern */
 s32 begin_sprite_resource_load(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */                   /* extern */
 void set_sprite_animation_frame(SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
 #include "dungeon/player/object/action_state.h"
@@ -209,7 +209,7 @@ void update_familiar_deployment_change(ActorRecord *actor, ObjectPosition *map, 
         message_or_list.base = selected_item_record_alias;
         create_id = find_or_retain_sprite_resource_slot(((S_8009345C_7 *)(*message_or_list.base))->unk_00, 3);
         if (create_id != 0) {
-            runtime_map_type_16_entry_code(*message_or_list.base);
+            map_familiar_spawn_variant_code(*message_or_list.base);
             new_object = load_monster_code_module(((S_8009345C_7 *)(*message_or_list.base))->unk_00, create_id, 1)(1,
                 context->target_tile_x, context->target_tile_y,
                 (s16) (context->ground_height - 0x20));

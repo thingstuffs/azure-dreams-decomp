@@ -7,37 +7,37 @@
 /* Registers the object in scene slot 46 using the four local setup tables. */
 void initialize_scene_slot_46(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
 {
-    initialize_object_and_register_slot(object, 46, scene_slot_b_value_58, scene_slot_b_value_5c, scene_slot_b_value_7c, scene_slot_b_value_80);
+    register_object_slot_with_tables(object, 46, scene_slot_b_value_58, scene_slot_b_value_5c, scene_slot_b_value_7c, scene_slot_b_value_80);
 }
 
 /* Registers the object in scene slot 38 using the four local setup tables. */
 void initialize_scene_slot_38(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
 {
-    initialize_object_and_register_slot(object, 38, scene_slot_b_value_58, scene_slot_b_value_5c, scene_slot_b_value_7c, scene_slot_b_value_80);
+    register_object_slot_with_tables(object, 38, scene_slot_b_value_58, scene_slot_b_value_5c, scene_slot_b_value_7c, scene_slot_b_value_80);
 }
 
 /* Registers the object in scene slot 30 using the four local setup tables. */
 void initialize_scene_slot_30(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
 {
-    initialize_object_and_register_slot(object, 30, scene_slot_b_value_58, scene_slot_b_value_5c, scene_slot_b_value_7c, scene_slot_b_value_80);
+    register_object_slot_with_tables(object, 30, scene_slot_b_value_58, scene_slot_b_value_5c, scene_slot_b_value_7c, scene_slot_b_value_80);
 }
 
 /* Registers the object in scene slot 57 using the four local setup tables. */
 void initialize_scene_slot_57_context(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
 {
-    initialize_object_and_register_slot(object, 57, scene_slot_b_value_58, scene_slot_b_value_5c, scene_slot_b_value_7c, scene_slot_b_value_80);
+    register_object_slot_with_tables(object, 57, scene_slot_b_value_58, scene_slot_b_value_5c, scene_slot_b_value_7c, scene_slot_b_value_80);
 }
 
 /* Registers the object in scene slot 62 using the four local setup tables. */
 void initialize_scene_slot_62_context(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
 {
-    initialize_object_and_register_slot(object, 62, scene_slot_b_value_58, scene_slot_b_value_5c, scene_slot_b_value_7c, scene_slot_b_value_80);
+    register_object_slot_with_tables(object, 62, scene_slot_b_value_58, scene_slot_b_value_5c, scene_slot_b_value_7c, scene_slot_b_value_80);
 }
 
 /* Registers the object in scene slot 24 using the four local setup tables. */
 void initialize_scene_slot_24(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
 {
-    initialize_object_and_register_slot(object, 24, scene_slot_b_value_58, scene_slot_b_value_5c, scene_slot_b_value_7c, scene_slot_b_value_80);
+    register_object_slot_with_tables(object, 24, scene_slot_b_value_58, scene_slot_b_value_5c, scene_slot_b_value_7c, scene_slot_b_value_80);
 }
 
 /*
@@ -45,7 +45,7 @@ void initialize_scene_slot_24(TownObjectRecord *object, ObjectPosition *unused, 
  * clears flag 0x100 in halfword 10.
  */
 void configure_actor_slot_25_and_render_state(TownObjectRecord *context, ObjectPosition *unused, struct SpriteFrameState *stateWords) {
-    initialize_object_and_register_slot(context, 0x19, scene_slot_b_value_58, scene_slot_b_value_5c, scene_slot_b_value_7c,
+    register_object_slot_with_tables(context, 0x19, scene_slot_b_value_58, scene_slot_b_value_5c, scene_slot_b_value_7c,
                   scene_slot_b_value_80);
     stateWords->clut = 0x240;
     stateWords->flags &= ~0x100;
@@ -54,5 +54,5 @@ void configure_actor_slot_25_and_render_state(TownObjectRecord *context, ObjectP
 /* Registers the object in scene slot 69 using the four local setup tables. */
 void initialize_scene_slot_69(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
 {
-    initialize_object_and_register_slot(object, 69, scene_slot_b_value_58, scene_slot_b_value_5c, scene_slot_b_value_7c, scene_slot_b_value_80);
+    register_object_slot_with_tables(object, 69, scene_slot_b_value_58, scene_slot_b_value_5c, scene_slot_b_value_7c, scene_slot_b_value_80);
 }

@@ -7,40 +7,40 @@
 
 
 /* Initialize minigame_module_read_descriptor with selector 6 and run the follow-up setup. */
-void initialize_resource_selector_six(void) {
+void load_minigame_module(void) {
     Control_CD(6, &minigame_module_read_descriptor, 0);
     drain_cd_command_queue();
 }
 
 /* start_mogura_func: initialize the mogura activity and reset its four control values. */
 void start_mogura_func(void) {
-    initialize_resource_selector_six();
+    load_minigame_module();
     initialize_mogura_minigame(0, 0, 0, 0);
 }
 
 
 /* Run start_tako_func initialization and reset the four control values. */
 void start_tako_func(void) {
-    initialize_resource_selector_six();
+    load_minigame_module();
     initialize_tako_minigame(0, 0, 0, 0);
 }
 
 
 /* Run func_sn_ball initialization and reset the four control values. */
 void scr_func_sn_ball(void) {
-    initialize_resource_selector_six();
+    load_minigame_module();
     initialize_snowball_minigame(0, 0, 0, 0);
 }
 
 
 /* start_gym_func: Prepare and start the gym event. */
 void start_gym_func(void) {
-    initialize_resource_selector_six();
+    load_minigame_module();
     initialize_gym_minigame(0, 0, 0, 0);
 }
 
 /* Pass the keima resource to handler 6 and finalize the operation. */
-void finalize_keima_resource_operation(void) {
+void load_keima_resource(void) {
     Control_CD(6, &D_800D4748, 0);
     drain_cd_command_queue();
 }
@@ -49,33 +49,33 @@ s32 func_80020300(s32, s32, s32, s32);
 
 /* start_keima_func: Prepare and start the keima event. */
 void start_keima_func(void) {
-    finalize_keima_resource_operation();
+    load_keima_resource();
     func_80020300(0, 0, 0, 0);
 }
 
 
 /* start_keima2_func: Prepare and start the second keima event. */
 void start_keima2_func(void) {
-    finalize_keima_resource_operation();
+    load_keima_resource();
     initialize_keima_interface(0, 0, 0, 0);
 }
 
 /* Pass the town resource to handler 6 and finalize the operation. */
-void finalize_town_resource_operation(void) {
+void load_town_resource(void) {
     Control_CD(6, &D_800D4750, 0);
     drain_cd_command_queue();
 }
 
 /* Run the two handlers for town script call 100. */
 void scr_func_sn_casino(void) {
-    finalize_town_resource_operation();
+    load_town_resource();
     initialize_casino_minigame();
 }
 
 
 /* func_sn_casino_slot: prepare and run the casino slot event. */
 void scr_func_sn_casino_slot(void) {
-    finalize_town_resource_operation();
+    load_town_resource();
     create_minigame_display_objects();
 }
 
@@ -92,7 +92,7 @@ s32 change_map_of(s32 map_index) {
 extern s16 D_800D4770[];
 
 /* Dispatches each table pair's second value according to the test of its first value. */
-void dispatch_conditional_table_pairs(void) {
+void sync_resident_flag_pairs(void) {
     s16 *test_id;
     s16 *target_id;
 

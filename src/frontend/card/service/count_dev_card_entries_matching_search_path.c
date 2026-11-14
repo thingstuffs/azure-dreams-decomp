@@ -3,16 +3,16 @@
 #include "frontend/card/server_aliases.h"
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
+#include "frontend/card/dev_card_directory_data.h"
 
 extern s32 dev_card_paths[2];
-extern s8 dev_card_directory[];
 
 
 /* Collects entries matching the selected search path and returns their count. */
 s32 count_dev_card_entries_matching_search_path(void) {
     s32 search_path[8];
     s32 *path_prefix;
-    s8 *entry;
+    DevCardDirectoryEntry *entry;
     s32 entry_count;
 
     entry_count = 0;
@@ -26,7 +26,7 @@ s32 count_dev_card_entries_matching_search_path(void) {
     if (func_8007CAB8(&search_path, entry) != 0) {
         do {
             entry_count += 1;
-            entry += 0x28;
+            entry++;
         } while (func_8007CAC8(entry) == entry);
     }
     return entry_count;

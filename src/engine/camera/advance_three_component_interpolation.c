@@ -25,7 +25,7 @@ void initialize_three_component_interpolation(void *state_data, u16 *target, s32
         state->delta[1].s = target[1] - values[1];
         delta_z = target[2] - values[2];
         state->output = values;
-        ((ViewSlot *)((u8 *)state - 4))->callback = runtime_advance_three_component_interpolation;
+        ((ViewSlot *)((u8 *)state - 4))->callback = advance_camera_interpolation;
         state->delta[2].s = delta_z;
     }
 }

@@ -12,7 +12,7 @@
 /* Calls the handler when the object status is zero. */
 
 /* Advances the supplied sprite animation only when the object halfword at offset 0x92 is zero. */
-void dispatch_object_when_idle(TownObjectRecord *object, void *callback_arg, s32 unused_a, s32 unused_b) {
+void advance_object_animation_when_idle(TownObjectRecord *object, void *callback_arg, s32 unused_a, s32 unused_b) {
     if (object->unk_92 == 0) {
         advance_sprite_animation_and_textures(callback_arg);
     }

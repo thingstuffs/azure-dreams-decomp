@@ -6,8 +6,8 @@
 
 struct S_func_804061C4_0;
 
-/* advance_indexed_object_operation.c */
-void advance_indexed_object_operation(void *inputPtr);
+/* select_save_slot_callback.c */
+void select_save_slot_callback(void *inputPtr);
 
 /* card_devkit_build_save_slot_windows.c */
 void card_devkit_build_save_slot_windows(void *ptr);
@@ -18,8 +18,8 @@ void card_devkit_refresh_save_slot_pair_highlights(void *ptr);
 /* card_devkit_refresh_save_slot_selection.c */
 void card_devkit_refresh_save_slot_selection(void *menu);
 
-/* complete_object_operation.c */
-void complete_object_operation(void *context);
+/* finish_save_slot_check.c */
+void finish_save_slot_check(void *context);
 
 /* handle_object_menu_input.c */
 void handle_object_menu_input(void *menu);
@@ -27,13 +27,13 @@ void handle_object_menu_input(void *menu);
 /* refresh_save_slot_selection_and_resume_menu_input.c */
 void refresh_save_slot_selection_and_resume_menu_input(void *record_data);
 
-/* process_five_object_entries.c */
-void process_five_object_entries(struct S_func_804061C4_0 *state);
+/* finish_save_slot_operation.c */
+void finish_save_slot_operation(struct S_func_804061C4_0 *state);
 
-/* process_object_entry_batch.c */
-void process_object_entry_batch(void *ptr);
+/* commit_save_and_refresh_slots.c */
+void commit_save_and_refresh_slots(void *ptr);
 
-/* select_object_callback_by_entry.c */
-void select_object_callback_by_entry(void *object_state);
+/* select_slot_menu_callback.c */
+void select_slot_menu_callback(void *object_state);
 
 #endif

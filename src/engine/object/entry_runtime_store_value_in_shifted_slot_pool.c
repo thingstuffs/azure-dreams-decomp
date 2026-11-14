@@ -17,7 +17,7 @@ extern State80082A38 runtime_script_state;
  * Enqueues the supplied value, first clearing slots 10 through 14 and starting
  * runtime_pool_service_script when that script is not already active. Returns one.
  */
-s32 enqueue_runtime_pool_script(void *input_data) {
+s32 queue_pool_service_script(void *input_data) {
     s32 entry_index;
 
     if (service_script_controller() == 0 || runtime_script_handler_alias[0] != runtime_pool_service_script) {

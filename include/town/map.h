@@ -56,17 +56,17 @@ void advance_town_map_countdown_callback(struct S_8008BA00_0 *state, void *posit
 /* akichi_vivian_chk.c */
 u8 akichi_vivian_chk(void);
 
-/* apply_and_store_setting.c */
-void apply_and_store_setting(IntVector3 *setting);
+/* set_view_triplet_source.c */
+void set_view_triplet_source(IntVector3 *setting);
 
 /* apply_building_pending_updates.c */
 void apply_building_pending_updates(void);
 
 /* blit_indexed_origin_block.c */
-void blit_indexed_origin_u16_block(s32 dst_x, s32 dst_y, s32 image_id, void *dst);
+void blit_indexed_tile_block_with_origin(s32 dst_x, s32 dst_y, s32 image_id, void *dst);
 
 /* blit_origin_block.c */
-void blit_origin_u16_block(s32 dst_x, s32 dst_y, u16 *src, void *dst);
+void blit_tile_block_with_origin(s32 dst_x, s32 dst_y, u16 *src, void *dst);
 
 /* build_current_event_entry_list.c */
 void build_current_event_entry_list(void);
@@ -94,13 +94,13 @@ void tcame_return_plus(void);
 s32 CheckBuildBuildingLand(s32 record_key);
 
 /* check_fixed_value_pairs.c */
-s32 check_fixed_value_pairs(void);
+s32 check_required_building_slots(void);
 
 /* check_scratch_quad_half_turn_gaps.c */
 s32 check_scratch_quad_half_turn_gaps(struct ScratchQuad *scratch);
 
-/* clear_first_record_field_and_counter.c */
-void clear_first_record_field_and_counter(void);
+/* reset_tile_coordinate_records.c */
+void reset_tile_coordinate_records(void);
 
 /* clear_global_halfword_grid.c */
 void clear_town_tile_grid(void);
@@ -108,14 +108,14 @@ void clear_town_tile_grid(void);
 /* clear_selected_entry_at_bottom_center.c */
 void clear_selected_entry_at_bottom_center(void);
 
-/* clear_transition_word.c */
-void clear_transition_word(void);
+/* reset_view_brightness.c */
+void reset_view_brightness(void);
 
-/* copy_low_halfword_coordinates.c */
-void copy_low_halfword_coordinates(u16 *destination, const u16 *source);
+/* copy_position_integer_parts.c */
+void copy_position_integer_parts(u16 *destination, const u16 *source);
 
-/* copy_record_tail_bytes.c */
-void copy_record_tail_bytes(void);
+/* load_building_slot_states.c */
+void load_building_slot_states(void);
 
 /* copy_variant_building_tiles.c */
 void copy_variant_building_tiles(s16 x, s16 y, u16 *src_tiles);
@@ -128,22 +128,22 @@ void lower_town_map_record_value(void **record_ref);
 
 /* directional_sprite_effect_g00644.c */
 s32 create_directional_sprite_effect(void *position, s16 angle);
-void advance_coordinates_and_propagate_flags(void *object_data, ObjectPosition *motion, SpriteFrameState *status);
-void wait_then_process_record(struct S_800BC764_0 *context, void *unused, SpriteFrameState *record);
-void initialize_record_resources(TownObjectRecord *record, ObjectPosition *init_context, SpriteFrameState *resource_target);
+void move_directional_sprite_effect(void *object_data, ObjectPosition *motion, SpriteFrameState *status);
+void update_directional_sprite_loop(struct S_800BC764_0 *context, void *unused, SpriteFrameState *record);
+void init_directional_sprite_loop(TownObjectRecord *record, ObjectPosition *init_context, SpriteFrameState *resource_target);
 
 /* display_fade_g00643.c */
 struct TimedColorFadeObject;
 struct TimedDisplayDecayBody;
-void advance_color_fade_and_set_completion(struct TimedColorFadeObject *fade_state, s32 unused, SpriteFrameState *visual);
-void advance_timed_state_and_set_completion(struct TimedDisplayDecayBody *object);
-void build_two_display_entries(void *data_id, s32 position_offset);
+void fade_timed_color_object(struct TimedColorFadeObject *fade_state, s32 unused, SpriteFrameState *visual);
+void decay_timed_display_object(struct TimedDisplayDecayBody *object);
+void create_two_text_display_entries(void *data_id, s32 position_offset);
 
 /* door.c */
 s32 check_door_status_inverted(void *object);
 void initialize_door_variant(TownObjectRecord *record_data, ObjectPosition *position, struct SpriteFrameState *unused_sprite);
-void handle_door_check_result(struct S_func_800A0708_0 *object, void *callback_arg, s32 callback_data);
-void install_next_door_handler(TownObjectRecord *object, TownObjectRecord *unused_context, void *update_context, SpriteFrameState *unused_data);
+void update_door_object(struct S_func_800A0708_0 *object, void *callback_arg, s32 callback_data);
+void create_door_shared_object(TownObjectRecord *object, TownObjectRecord *unused_context, void *update_context, SpriteFrameState *unused_data);
 void open_door_to_target(TownObjectRecord *object, void *context);
 void door_no_op(void);
 void advance_door_open_angle(struct S_800A08F0_0 *door);
@@ -154,13 +154,13 @@ void door_open_demo_set_sub(s32 door_id, s16 demo_angle);
 void door_open_demo_set(s32 script_context);
 void door_atari_on_off(s32 door_id, s16 collision_enabled);
 void into_dn_door_demo_set(void);
-void trigger_door_interaction_effect(void *actor, void *target, void *position);
+void check_door_entry_and_change_map(void *actor, void *target, void *position);
 void change_door_map(void *map_source, s32 *map_table);
-void advance_door_step(void *entity, TownObjectRecord *unused_context, void *update_context, SpriteFrameState *unused_data);
+void create_door_transition_objects(void *entity, TownObjectRecord *unused_context, void *update_context, SpriteFrameState *unused_data);
 void start_door_entry_or_wait(struct S_800A0C30_0 *script_state, void *unused_context, struct S_800A0C30_1 *event_params);
-void set_door_handler_if_ready(struct S_800A0CC0_0 *object, s32 value_1, s32 value_2, s32 value_3);
-void update_door_completion_state(u8 *object, s32 unused, s32 state_id, s32 state_arg);
-void advance_door_state_counter(struct S_800A0DAC_0 *state, s32 unused, s32 context_a, s32 context_b);
+void resume_door_entry_when_script_idle(struct S_800A0CC0_0 *object, s32 value_1, s32 value_2, s32 value_3);
+void start_door_transition_effect(u8 *object, s32 unused, s32 state_id, s32 state_arg);
+void update_door_transition_spin(struct S_800A0DAC_0 *state, s32 unused, s32 context_a, s32 context_b);
 void tick_door_countdown(Rec_func_800A0668_arg0 *object, struct S_800A0E3C_1 *source, s32 update_arg_a, s32 update_arg_b);
 void into_dn_door_jobs(void);
 s32 check_door_input_and_angle(Rec_func_800A0668_arg0 *object, void *test_value);
@@ -191,13 +191,13 @@ void append_valid_key_pair(s32 first_value, s32 second_value, u32 unused_cell);
 s32 count_flagged_cells_in_opposite_directions(s32 dir, s16 start_x, s16 start_y);
 s32 count_flagged_tiles_along_direction(s16 direction, s16 start_x, s16 start_y);
 void clear_flagged_cells_and_reset_list(void);
-void refresh_state_and_dispatch_angles(void);
+void scan_flagged_tiles_from_camera(void);
 
 /* forward_surface_query_with_argument_g01117.c */
-s16 forward_surface_query_with_argument(SignedPositionView *record, void **plane_out);
-s16 forward_highest_surface_query(SignedPositionView *record);
-s16 forward_smallest_surface_x_query(SignedPositionView *record);
-s16 query_greatest_cell_intersection(SignedPositionView *components);
+s16 find_min_qualifying_plane_height_at(SignedPositionView *record, void **plane_out);
+s16 find_highest_surface_within_range_at(SignedPositionView *record);
+s16 find_smallest_surface_x_at(SignedPositionView *record);
+s16 find_greatest_cell_intersection_at(SignedPositionView *components);
 s16 find_lowest_surface_height_at(SignedPositionView *components);
 s16 find_highest_valid_cell_height_at(SignedPositionView *components);
 void update_map_world_extents(void);
@@ -207,7 +207,7 @@ s16 find_smallest_surface_x_across_tiles(s32 query_x, s32 query_y, s32 query_z);
 s32 find_highest_valid_cell_height(s32 world_x, s32 world_z, s32 world_y);
 
 /* grid_base.c */
-void blit_nonzero_u16_block_to_grid(s16 dst_x, s16 dst_y, u16 *src);
+void copy_nonzero_tiles_to_grid(s16 dst_x, s16 dst_y, u16 *src);
 
 /* handle_town_map_input.c */
 void handle_town_map_input(TownMapBody *object, ObjectPosition *transform, SpriteFrameState *context);
@@ -230,11 +230,11 @@ void initialize_building_scene_objects(void *draw_param);
 /* initialize_building_selection_handler.c */
 void initialize_building_selection_handler(void);
 
-/* initialize_building_shared_buffer.c */
-void initialize_building_shared_buffer(void);
+/* init_town_tile_grid_map.c */
+void init_town_tile_grid_map(void);
 
-/* initialize_control_block.c */
-void initialize_control_block(struct TownCameraState *control);
+/* init_town_camera_chase_state.c */
+void init_town_camera_chase_state(struct TownCameraState *control);
 
 /* initialize_record_with_defaults.c */
 void initialize_record_with_defaults(TownObjectRecord *record_data, ObjectPosition *placement, struct SpriteFrameState *unused_sprite);
@@ -243,8 +243,8 @@ void initialize_record_with_defaults(TownObjectRecord *record_data, ObjectPositi
 void interpolate_view_components(struct S_800A526C_1 *transition);
 
 /* map_cursor_input_g00641.c */
-void store_state_and_update_tile_center(s32 state);
-void update_wrapping_indices_and_input(void);
+void select_building_and_request_scene(s32 state);
+void update_map_cursor_from_input(void);
 
 /* mark_populated_building_entities.c */
 void mark_populated_building_entities(void);
@@ -253,11 +253,11 @@ void mark_populated_building_entities(void);
 void mark_referenced_building_records(void);
 
 /* midpoint_tracking_g00574.c */
-void restart_or_update_midpoint_tracking(struct TownCameraState *state);
-void reset_or_advance_target_midpoint(struct TownCameraState *state);
+void track_camera_midpoint(struct TownCameraState *state);
+void blend_camera_toward_midpoint(struct TownCameraState *state);
 
-/* min_indexed_query.c */
-s16 min_indexed_query(s32 context, void *data, s32 count);
+/* min_summed_vector_minus_base.c */
+s16 min_summed_vector_minus_base(s32 context, void *data, s32 count);
 
 /* no_op_building_callback.c */
 void no_op_building_callback(struct GameWork *work, s32 size, s32 limit);
@@ -272,8 +272,8 @@ void no_op_entry_callback(void);
 void no_op_map_callback(void);
 
 /* object_callback_tables_g00653.c */
-void initialize_object_and_replace_callbacks(void);
-void invoke_callbacks_until_terminator(void);
+void install_map_trigger_handlers(void);
+void run_map_trigger_callbacks(void);
 
 /* p_came_rotset.c */
 void p_came_rotset(s32 rotation);
@@ -284,14 +284,14 @@ void p_came_set(s32 position);
 /* paired_actor_motion_g00645.c */
 void update_randomized_actor_movement(TownObjectRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite, s32 update_mode);
 void init_paired_actor_motion(TownObjectRecord *object, ObjectPosition *params, SpriteFrameState *dispatch_context);
-void randomize_paired_object_motion(void *pair);
+void update_tori_pair_motion(void *pair);
 s32 event_tori_in(void *source);
 
 /* process_enabled_entries.c */
 void load_and_apply_town_building_tiles(void);
 
-/* process_linked_record_values.c */
-s32 process_linked_record_values(void *object, s32 x, s32 initial_value);
+/* draw_linked_shaded_quad_rings.c */
+s32 draw_linked_shaded_quad_rings(void *object, s32 x, s32 initial_value);
 
 /* queue_adjacent_shaded_quads.c */
 void queue_adjacent_shaded_quads(struct Func800AB788Arg *strip);
@@ -306,7 +306,7 @@ void build_randomized_offset_records(void *origin, void *spread, s32 count);
 
 /* range_group_checks_g00652.c */
 s32 find_containing_range_group(s32 value, s16 **range_groups);
-s32 pass_value_and_range_groups(s32 value);
+s32 find_shared_range_group(s32 value);
 s32 check_masked_value_in_current_range(s32 value);
 
 /* release_town_map_record.c */
@@ -355,9 +355,9 @@ void draw_empty_map_cell_quads(u32 packet_limit);
 
 /* sound_selection_g00648.c */
 void copy_selected_sound_pair(void *output);
-s16 *build_four_value_entry_result(s32 unused, s32 index);
-void load_pending_sound_record(void);
-void apply_sound_selections_and_update(void);
+s16 *build_town_sound_selection(s32 unused, s32 index);
+void load_town_sound_selection(void);
+void apply_town_sound_selection(void);
 
 /* sound_sequence_load_g00649.c */
 s32 tw_sd_sq_ld_call_sub(s32 sequence_id, s32 load_id, s32 load_flags);
@@ -388,8 +388,8 @@ void store_normalized_building_code(s32 code);
 s32 switch_callback_beyond_distance_limit(struct S_800C21F8_0 *object);
 
 /* target_interpolation_g00573.c */
-void reset_or_copy_state_values(struct TownCameraState *state);
-void restart_or_advance_target_interpolation(struct TownCameraState *state);
+void follow_camera_target(struct TownCameraState *state);
+void interpolate_camera_to_target(struct TownCameraState *state);
 
 /* tcame_chase_fix.c */
 void tcame_chase_fix(IntVector3 *target);
@@ -407,7 +407,7 @@ void tcame_chase_tgt_reset(void);
 void tcame_chase2_set(void);
 
 /* textured_resource_strips_g00571.c */
-s32 process_linked_state_chain(void *initial_state, s32 carrier1, u8 *carrier2);
+s32 emit_linked_segment_chain(void *initial_state, s32 carrier1, u8 *carrier2);
 s32 emit_bidirectional_angular_segments(struct S_800A3B80_3 *object, s32 unused, void *context);
 void *project_visible_textured_strips(void *origin, void *render_flags, struct TownStripScratch *draw_state, void *prim_buffer, u16 texture_index);
 void create_resource_display_object(s16 resource_index);
@@ -427,8 +427,8 @@ void town_rain_in(s16 x, s16 y);
 /* town_sd_se_callagain.c */
 s32 town_sd_se_callagain(void);
 
-/* trigger_action_and_finish_record.c */
-void trigger_action_and_finish_record(u16 *record);
+/* set_guy_sword_pickup_flag.c */
+void set_guy_sword_pickup_flag(u16 *record);
 
 /* tw_sd_se_ld_call.c */
 s32 tw_sd_se_ld_call(s32 sound_id, s32 sequence_id);
@@ -445,8 +445,8 @@ void update_current_and_saved_coordinates(struct S_800A51CC_0 *object);
 /* update_random_idle_wander.c */
 void update_random_idle_wander(void *actor, ObjectPosition *motion, SpriteFrameState *sprite, s32 update_context);
 
-/* update_record_output_grid.c */
-void update_record_output_grid(struct S_800BDE7C_0 *record, s32 unused_value, TownGridOutputView *output, s32 unused_value2);
+/* cycle_prop_output_values.c */
+void cycle_prop_output_values(struct S_800BDE7C_0 *record, s32 unused_value, TownGridOutputView *output, s32 unused_value2);
 
 /* update_view_gray_level.c */
 void update_view_gray_level(void);

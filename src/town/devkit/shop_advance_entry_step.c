@@ -11,15 +11,15 @@ typedef struct {
 extern u16 D_80701DCE[];
 extern TownPair devkit_shop_flag_links[];
 
-extern void clear_linked_flag(s32 value);
+extern void clear_indexed_flag(s32 value);
 
 /* Advance the selected flag row and process entry zero when required. */
 s32 advance_selected_flag_row(s32 index) {
-    if (test_linked_flag(D_80701DCE[0]) == 0 &&
-        test_linked_flag(0x1F9) != 0) {
+    if (test_indexed_flag(D_80701DCE[0]) == 0 &&
+        test_indexed_flag(0x1F9) != 0) {
         if (test_flag_list_terminator(index) != 0) {
-            set_linked_flag(devkit_shop_flag_links[index].field_0);
-            clear_linked_flag(0x1F9);
+            set_indexed_flag(devkit_shop_flag_links[index].field_0);
+            clear_indexed_flag(0x1F9);
             return advance_clear_flag_row();
         }
         set_entry_bit_flag(index, 0);

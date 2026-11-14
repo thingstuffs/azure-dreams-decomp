@@ -6,7 +6,7 @@
 
 /* Run setup and invoke the state callback with 0xF and 0x200. */
 s32 run_setup_state_callback(void) {
-    set_script_flag_94c();
+    set_script_flag_sbs32_pad34();
     town_scene_root->services->callback_2F8(0xF, 0x200);
     return 0;
 }

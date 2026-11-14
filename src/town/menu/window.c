@@ -29,13 +29,14 @@
 #include "town/shop/position.h"
 #include "town/map/state.h"
 #include "engine/menu.h"
+#include "engine/graphics/outline_points_data.h"
 #include "engine/window.h"
 #include "shared/town_object.h"
 #include "town/map.h"
 
 
 /* Initializes an object with default transform and global state values. */
-void initialize_object_transform_and_state(s32 slot_id, SpriteFrameState *object, s32 object_id)
+void initialize_sprite_defaults(s32 slot_id, SpriteFrameState *object, s32 object_id)
 {
 
     object->offset_x = 0x1000;
@@ -59,7 +60,7 @@ void initialize_object_transform_and_state(s32 slot_id, SpriteFrameState *object
 }
 
 /* Initializes the shared data pointer, clears its first word and returns it. */
-s32 *initialize_shared_script_data(void) {
+s32 *reset_script_rect_list(void) {
     town_script_slot_cursor = town_script_state_slots;
     town_script_state_slots[0] = 0;
     return town_script_state_slots;
@@ -86,23 +87,23 @@ void **append_scaled_rect_to_script_list(s32 firstX, s32 firstY, s32 secondX, s3
 
 /* Create a record, assign its handler, and run the remaining initialization routines. */
 void create_entry_builder_controller(void) {
-    ((func_8009F6D4_S_8009CE34_0 *)(initialize_scene_object_in_buffer(0x11, &D_801006D0, 0x49)))->unk_10 = &build_entries_and_update_state;
+    ((func_8009F6D4_S_8009CE34_0 *)(initialize_scene_object_in_buffer(0x11, &D_801006D0, 0x49)))->unk_10 = &update_entry_builder;
     dispatch_parameterized_or_default(&town_script_state_slots);
     update_map_world_extents();
 }
 
 /* Runs build_entry_list_and_process_items followed by run_dual_context_callbacks. */
-void build_entries_and_update_state(void) {
+void update_entry_builder(void) {
     build_entry_list_and_process_items();
     run_dual_context_callbacks();
 }
 
 /* Run both update routines on the shared state and clear the global flag. */
-void update_shared_state_and_clear_flag(void) {
+void update_script_entry_lists(void) {
     void *state = town_script_state_slots;
 
-    init_and_publish_script_state(state);
-    process_zero_terminated_entry_lists(state);
+    initialize_town_resource_context(state);
+    clear_script_entry_statuses(state);
     town_overlap_slots[0] = 0;
 }
 
@@ -247,7 +248,7 @@ s32 classify_record_by_state_and_position(Rec_D_80082D58 *record, void *position
 }
 
 /* Create an object, initialize its position and render state, and invoke its callback. */
-s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, s32 state_94, u8 state_95, u8 state_96, u8 height_mode, s32 state_48, s16 coord_x, s16 coord_z, void *spawn_entry)
+s32 spawn_town_entry_object(s32 callback_id, s32 angle_index, s32 state_94, u8 state_95, u8 state_96, u8 height_mode, s32 state_48, s16 coord_x, s16 coord_z, void *spawn_entry)
 {
     TownObjectCallbackEntry initializer;
     s32 saved_angle_index;
@@ -376,7 +377,7 @@ s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, 
 }
 
 /* Sets up town state and runs initialization and list callbacks. */
-void init_and_publish_script_state(void **entries) {
+void initialize_town_resource_context(void **entries) {
     s16 mode;
     void **entry_cursor;
     u8 *state_buffer;
@@ -410,7 +411,7 @@ void init_and_publish_script_state(void **entries) {
         state->field40 = (void *)0x80013188;
         state->field3C = town_building_slot_rectangles;
         TOWN_SYSTEM_SCRATCH->state = (void *)state;
-        runtime_set_record_value_and_buffer(system_work, (void *)TOWN_SYSTEM_SCRATCH->payload);
+        set_script_text_pointer(system_work, (void *)TOWN_SYSTEM_SCRATCH->payload);
         *(s32 *)(system_work + 0x84) = 0;
         init_object = window_node_list_storage;
         init_callback = *(func_8009FE60_InitCallback *)(init_object + 0x10);
@@ -424,11 +425,11 @@ void init_and_publish_script_state(void **entries) {
             entry_callback();
         entry_cursor++;
     }
-    runtime_set_record_value_and_buffer(runtime_script_state, *(void **)((u8 *)runtime_script_state + 0x88));
+    set_script_text_pointer(runtime_script_state, *(void **)((u8 *)runtime_script_state + 0x88));
 }
 
 /* Process each zero-terminated value list in the null-terminated entry array. */
-void process_zero_terminated_entry_lists(void **entries) {
+void clear_script_entry_statuses(void **entries) {
     s32 *value_ptr;
     s32 value;
     void **entry_ptr;
@@ -613,7 +614,7 @@ void process_eligible_entries(func_800A02F0_S_8009DA50_2 *entries, void *bounds,
                          (s16)(((func_800A02F0_S_8009DA50_1 *)bounds)->unk_1A - test_y)) != 0) ||
                     (map_scene_selector_alias == 0xC) ||
                     (entries->unk_01 & 0x10)) {
-                    if (create_object_and_initialize_render_state(entries->unk_0C, entries->unk_04, entries->unk_05, entries->unk_06,
+                    if (spawn_town_entry_object(entries->unk_0C, entries->unk_04, entries->unk_05, entries->unk_06,
                             entries->unk_07, entries->unk_01 & 0x20, entries->unk_08,
                             (s16)entry_x, (s16)entry_y, entries) != 0) {
                         entries->unk_00 = 1;
@@ -629,7 +630,7 @@ void process_eligible_entries(func_800A02F0_S_8009DA50_2 *entries, void *bounds,
 }
 
 /* Sets the object state for the selected mode and flags. */
-void set_object_state_for_mode(void *owner, SpriteFrameState *object, s32 mode, s32 flags) {
+void set_window_sprite_for_mode(void *owner, SpriteFrameState *object, s32 mode, s32 flags) {
     if (mode == 2) {
         ((TownObjectRecord *)owner)->unk_93 = 1;
         (*(s32 *)((u8 *)object + (0x28))) = loaded_town_resource_attributes[0];
@@ -649,7 +650,7 @@ void set_object_state_for_mode(void *owner, SpriteFrameState *object, s32 mode, 
 }
 
 /* Cleans up an object when its state check succeeds, or dispatches its callback and updates it. */
-void cleanup_or_dispatch_object(void *object_arg, s32 source, s32 context) {
+void retire_or_run_record_callback(void *object_arg, s32 source, s32 context) {
     Rec_D_80082D58 *object = object_arg;
     s8 *status_ptr;
 
@@ -719,7 +720,7 @@ void install_state_dispatch_callback(func_800A075C_S_func_8009DEBC_0 *object, vo
 }
 
 /* Creates an object with the supplied data, position, and callback mode. */
-void *create_configured_object(void *object_data, void *source_position, s32 alternate_callback)
+void *create_selection_entry_object(void *object_data, void *source_position, s32 alternate_callback)
 {
     ObjectNodeHeader *created;
     SpriteFrameState *render_state;
@@ -776,7 +777,7 @@ void *create_configured_object(void *object_data, void *source_position, s32 alt
     if (type == 0x12) {
         render_state->source = &item_effect_descriptor;
     } else if (type == 0x13) {
-        set_object_state_for_mode(object, render_state, BYTE_AT(object, 0x4C), D_80100B0C);
+        set_window_sprite_for_mode(object, render_state, BYTE_AT(object, 0x4C), D_80100B0C);
     } else {
         render_state->source = (void *)lookup_item_category_mapped_value(
             BYTE_AT(object, 0x4D), BYTE_AT(object, 0x4C));
@@ -789,14 +790,14 @@ void *create_configured_object(void *object_data, void *source_position, s32 alt
 }
 
 /* Store the current record's signed value and table lookup in the script globals. */
-s32 store_record_value_and_table_lookup(void *unused_arg0, void *unused_arg1, void *unused_arg2, void *unused_arg3) {
+s32 store_target_record_value_and_kind(void *unused_arg0, void *unused_arg1, void *unused_arg2, void *unused_arg3) {
     runtime_script_state[0x12] = (s8)town_target_record->value;
     runtime_script_state[0x13] = item_kind_script_words[town_target_record->kind];
     return 0;
 }
 
 // Populate three global slots with a signed byte, lookup value, and record pointer from the first entry.
-s32 store_selected_record_fields(void) {
+s32 store_target_record_script_state(void) {
     runtime_script_state[0x12] = (s8)town_target_record->value;
     runtime_script_state[0x13] = item_kind_script_words[town_target_record->kind];
     runtime_script_state[0x14] =
@@ -806,7 +807,7 @@ s32 store_selected_record_fields(void) {
 }
 
 /* Initializes the shared state from the selected table entry and stores the result. */
-s32 initialize_shared_state_from_table(void) {
+s32 open_monster_status_window(void) {
     u8 *record_table = (u8 *)0x80010A80;
     u32 record_index = town_target_record->unk_4F & 0x3F;
     s32 *state = &town_actor_scratch;
@@ -816,9 +817,9 @@ s32 initialize_shared_state_from_table(void) {
     return 0;
 }
 
-/* Processes monster_status_window as an object pointer array and returns zero. */
-s32 pass_shared_data_to_window_handler(void) {
-    process_object_pointer_array(monster_status_window);
+/* Destroys monster_status_window (destroy_monster_status_object) and returns zero. */
+s32 close_monster_status_window(void) {
+    destroy_monster_status_object(monster_status_window);
     return 0;
 }
 
@@ -868,7 +869,7 @@ s32 kewn_namewin_close_check(void) {
 
 /* t_soukowin_open: Initialize and open the storage window, saving its handle. */
 s32 t_soukowin_open(void) {
-    clear_global_80110_ec_0_global_80082_a_39();
+    clear_action_globals();
     D_80100A08 = open_twin_souko(0);
     return 0;
 }
@@ -879,7 +880,7 @@ s32 t_soukowin_close_check(void) {
 }
 
 /* Sets object type fields and selects the corresponding resource. */
-void set_object_types_and_resource(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output)
+void initialize_town_object_by_mode(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output)
 {
     u32 resource;
     u8 mode;
@@ -913,7 +914,7 @@ void set_object_types_and_resource(TownObjectRecord *object, ObjectPosition *pos
     }
 
     if (is_map_state_in_special_range() == 0) {
-        resource = (u32)&cleanup_or_dispatch_object;
+        resource = (u32)&retire_or_run_record_callback;
         PP(object, -0x10) = (u8 *)resource;
     } else {
         resource = (u32)dispatch_object_or_switch_alternate_state;
@@ -929,7 +930,7 @@ void set_object_types_and_resource(TownObjectRecord *object, ObjectPosition *pos
     } else if (type == 0x13) {
         u8 *data_base = (u8 *)0x80010000;
 
-        set_object_state_for_mode(
+        set_window_sprite_for_mode(
             object,
             output,
             BU(object, 0x4C),
@@ -1010,7 +1011,7 @@ void init_pulsing_item_entity(TownObjectRecord *entity, ObjectPosition *placemen
     if (entry_type == 0x12) {
         state->source = &item_effect_descriptor;
     } else {
-        set_object_state_for_mode(entity, state, entity->unk_4C,
+        set_window_sprite_for_mode(entity, state, entity->unk_4C,
             ((func_800A10FC_S_8009E85C_6 *)(table_page + ((table_page[(entity->unk_95 * 4)
             + 0x983] & 0x3F) * 0x54)))->unk_A94);
     }
@@ -1047,14 +1048,14 @@ extern void initialize_flagged_actor_action_d(TownObjectRecord *, ObjectPosition
 extern void initialize_projected_sprite_chain_a(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void initialize_projected_sprite_chain_b(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void initialize_projected_sprite_chain_c(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
-extern void initialize_object_data_transform_color(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void init_player_spun_object(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void initialize_camera_chase_object(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void func_800C60DC(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void func_800C620C(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void func_800C629C(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void func_800C65C8(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void initialize_scene_slot_6_context(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
-extern void initialize_object_configuration_x(TownObjectRecord *object, ObjectPosition *position_unused, struct SpriteFrameState *sprite_unused);
+extern void initialize_scene_slot_10_entry(TownObjectRecord *object, ObjectPosition *position_unused, struct SpriteFrameState *sprite_unused);
 extern void func_800C83F0(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void initialize_scene_slot_11(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void initialize_scene_slot_18_context(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
@@ -1070,8 +1071,8 @@ TownObjectCallback town_object_callbacks[172] = {
     initialize_scene_slot_6_context, /* 3 */
     func_800CC2E8, /* 4 */
     init_person_slot_eight, /* 5 */
-    initialize_object_slot_9_data, /* 6 */
-    initialize_object_configuration_x, /* 7 */
+    initialize_scene_slot_9_data, /* 6 */
+    initialize_scene_slot_10_entry, /* 7 */
     initialize_scene_slot_11, /* 8 */
     initialize_scene_slot_12_context, /* 9 */
     initialize_scene_slot_thirteen, /* 10 */
@@ -1084,7 +1085,7 @@ TownObjectCallback town_object_callbacks[172] = {
     configure_actor_slot_20, /* 17 */
     configure_actor_slot_21_and_render_state, /* 18 */
     configure_actor_slot_22, /* 19 */
-    initialize_object_slot_0x17, /* 20 */
+    initialize_scene_slot_23, /* 20 */
     initialize_scene_slot_24, /* 21 */
     configure_actor_slot_25_and_render_state, /* 22 */
     configure_actor_slot_26_and_render_state, /* 23 */
@@ -1099,7 +1100,7 @@ TownObjectCallback town_object_callbacks[172] = {
     initialize_scene_slot_36, /* 32 */
     initialize_scene_slot_37, /* 33 */
     initialize_scene_slot_38, /* 34 */
-    reset_object_substate_and_flag, /* 35 */
+    initialize_scene_slot_39, /* 35 */
     initialize_scene_slot_forty_sprite, /* 36 */
     initialize_scene_slot_41_context, /* 37 */
     initialize_scene_slot_42_context, /* 38 */
@@ -1146,7 +1147,7 @@ TownObjectCallback town_object_callbacks[172] = {
     configure_actor_slot_78_and_copy_global, /* 79 */
     initialize_door_variant, /* 80 */
     initialize_person_resources, /* 81 */
-    set_object_types_and_resource, /* 82 */
+    initialize_town_object_by_mode, /* 82 */
     initialize_object_resource_table, /* 83 */
     initialize_object_resource_tables, /* 84 */
     initialize_object_resources_and_state, /* 85 */
@@ -1158,19 +1159,19 @@ TownObjectCallback town_object_callbacks[172] = {
     initialize_optional_scene_state_c, /* 91 */
     initialize_object_action_with_default_data, /* 92 */
     initialize_transform_object, /* 93 */
-    initialize_object_header_and_state, /* 94 */
-    initialize_object_appearance_with_delay, /* 95 */
-    initialize_object_data_transform_color, /* 96 */
+    initialize_white_points_effect, /* 94 */
+    init_spinning_object_long_delay, /* 95 */
+    init_player_spun_object, /* 96 */
     initialize_effect_with_child_sprites, /* 97 */
     initialize_effect_with_random_angle, /* 98 */
-    initialize_object_slot_9_and_display, /* 99 */
+    initialize_scene_slot_9_and_display, /* 99 */
     func_800C65C8, /* 100 */
     func_800C83F0, /* 101 */
     initialize_scene_slot_ten, /* 102 */
     initialize_falling_object_sprite, /* 103 */
     initialize_variant_object, /* 104 */
     initialize_record_from_table_index, /* 105 */
-    initialize_reaction_object_type_4_f, /* 106 */
+    initialize_scene_slot_79, /* 106 */
     initialize_reaction_context, /* 107 */
     configure_actor_slot_80, /* 108 */
     initialize_scaled_effect_object, /* 109 */
@@ -1199,7 +1200,7 @@ TownObjectCallback town_object_callbacks[172] = {
     func_800C60DC, /* 132 */
     configure_actor_mode_13, /* 133 */
     func_800C620C, /* 134 */
-    initialize_record_resources, /* 135 */
+    init_directional_sprite_loop, /* 135 */
     init_paired_actor_motion, /* 136 */
     initialize_scene_slot_18_context, /* 137 */
     no_op_secondary_effect_callback, /* 138 */
@@ -1210,15 +1211,15 @@ TownObjectCallback town_object_callbacks[172] = {
     init_pulsing_item_entity, /* 143 */
     start_random_radial_spawns, /* 144 */
     start_raised_position_pair, /* 145 */
-    initialize_timed_resource_object, /* 146 */
-    initialize_randomized_object_state, /* 147 */
-    initialize_indexed_resource_object, /* 148 */
+    initialize_washed_dish_effect, /* 146 */
+    initialize_randomized_velocity_object, /* 147 */
+    initialize_item_effect_sprite, /* 148 */
     initialize_resource_object, /* 149 */
     replace_active_table_callbacks, /* 150 */
-    initialize_object_motion_and_animation, /* 151 */
-    spawn_fixed_effect_object, /* 152 */
-    spawn_effect_object_with_packet, /* 153 */
-    create_positioned_linked_visual_child, /* 154 */
+    init_random_wander_object, /* 151 */
+    spawn_cursor_animation_object, /* 152 */
+    spawn_state_position_object, /* 153 */
+    initialize_actor_with_visual_child, /* 154 */
     initialize_timed_object_action, /* 155 */
     initialize_projected_sprite_chain_a, /* 156 */
     initialize_projected_sprite_chain_b, /* 157 */
@@ -1227,12 +1228,12 @@ TownObjectCallback town_object_callbacks[172] = {
     initialize_flagged_actor_action_b, /* 160 */
     initialize_flagged_actor_action_c, /* 161 */
     initialize_flagged_actor_action_d, /* 162 */
-    initialize_object_with_default_data, /* 163 */
+    init_default_sprite_object, /* 163 */
     initialize_actor_action_with_default_data, /* 164 */
     initialize_record_with_defaults, /* 165 */
-    init_object_with_countdown, /* 166 */
-    initialize_sprite_six, /* 167 */
-    initialize_effect_with_sprite_set_nine, /* 168 */
+    init_spinning_object_short_delay, /* 166 */
+    init_lit_mesh_sprite, /* 167 */
+    create_map_particle_effect, /* 168 */
     initialize_random_particle_effect, /* 169 */
     init_trigger_action_object, /* 170 */
     init_item_flag_check_object, /* 171 */

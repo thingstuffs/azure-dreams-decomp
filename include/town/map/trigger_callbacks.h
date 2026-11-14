@@ -27,6 +27,6 @@ struct map_trigger_record {
 
 extern map_trigger_record town_map_callback_entries[];
 void trigger_entity_action_when_allowed(map_trigger_record *record);
-void trigger_action_when_position_limit_exceeded(map_trigger_record *record);
+void rearm_trigger_when_player_leaves(map_trigger_record *record);
 
 #endif

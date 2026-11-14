@@ -1,0 +1,20 @@
+#include "common.h"
+#include "shared/game_work.h"
+#include "shared/object_flags.h"
+#include "dungeon/monster/ghosh.h"
+
+/* Increments three state bytes while the first is below 0x80, otherwise sets flag bits. */
+void brighten_scene_tint(u16 *words)
+{
+    u8 state_value = g_game_work.view.tint.parts.tint_r;
+
+    if (state_value < 0x80U) {
+        g_game_work.view.tint.parts.tint_r = state_value + 4;
+        g_game_work.view.tint.parts.tint_g += 4;
+        g_game_work.view.tint.parts.tint_b += 4;
+        return;
+    }
+
+    words[-1] |= 0x8000;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
+}

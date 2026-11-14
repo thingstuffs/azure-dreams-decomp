@@ -174,7 +174,7 @@ void update_main_actor_action_and_facing(ActorRecord *actor, ObjectPosition *con
             if ((begin_ghosh_front_attack(actor, context, map_actor, entity) << 0x10) != 0) {
                 return;
             }
-            clear_actor_flag_and_advance_action(actor, context, map_actor, entity);
+            begin_ghosh_directional_attack(actor, context, map_actor, entity);
             return;
         case 12:
             update_actor_status_and_mp(entity);

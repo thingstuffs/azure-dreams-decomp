@@ -1,0 +1,25 @@
+#include "script_symbols.h"
+#include "common.h"
+#include "town/scene/state_data.h"
+#include "town/scene.h"
+#include "town/player.h"
+#include "town/player/state.h"
+
+/*
+ * Clears scene_update_state and accepts the egg flag without the Niko love flag, or the secondary
+ * check with a value of at least 20.
+ */
+s32 reset_scene_update_and_check_egg(void) {
+    scene_update_state = 0;
+
+    if ((get_script_flag_mask(F_selfy_get_tamago) != 0) &&
+        (get_script_flag_mask(Ft_niko_love) == 0)) {
+        return 1;
+    }
+
+    if ((count_enabled_town_entries() != 0) && (get_town_state_count() >= 20)) {
+        return 1;
+    }
+
+    return 0;
+}

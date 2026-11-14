@@ -29,11 +29,11 @@ void fade_color_to_gray(ItemMenuPart *part, s32 stop_at_gray);
 extern s32 item_menu_record_callback[];
 
 /* Functions defined in this translation unit. */
-void update_item_menu_record(ItemMenuObject *record);
-void *place_selected_item_menu_entry(ItemMenuObject *entry);
-void store_item_menu_check_result(ItemMenuObject *record_data);
+void refresh_item_menu_page(ItemMenuObject *record);
+void *open_selected_item_display(ItemMenuObject *entry);
+void retry_open_item_display(ItemMenuObject *record_data);
 void update_item_menu_selection(ItemMenuObject *obj);
-void reset_item_menu_entity_state(ItemMenuObject *entity);
-void advance_item_menu_step(ItemMenuObject *object);
+void update_item_menu_frame(ItemMenuObject *entity);
+void advance_item_menu_open_ramp(ItemMenuObject *object);
 
 #endif

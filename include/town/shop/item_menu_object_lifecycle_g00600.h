@@ -31,8 +31,8 @@ extern void *allocate_list_node(s32 flags, s32 list_head);
 extern void set_message_mode(s32 value);
 extern void runtime_call_selected_mode_handler(void);
 extern s32 func_800B0718(void);
-extern void *create_dual_buffer_object(void *setup_value, s32 x, s32 y);
-extern void reset_item_menu_object_state(s32 object); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern void *create_floating_number_widget(void *setup_value, s32 x, s32 y);
+extern void release_item_menu_child_object(s32 object); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void schedule_item_menu_child_release(ObjectNodeHeader *object);
 extern void set_advance_inner_value_callback(s32 object); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void enqueue_script_message_command(void);

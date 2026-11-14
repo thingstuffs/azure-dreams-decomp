@@ -57,7 +57,7 @@ void update_pending_entity_action(Rec_func_800A9E70_arg0 *actor, ObjectPosition 
                     entity->unk_71 = 0;
                     entity->flags1C &= 0xFDFFFFFF;
                     if (entity->flags14 & 0x20000000) {
-                        initialize_actor_object_action(actor, update_arg1, update_arg2, entity);
+                        begin_actor_fade_draw(actor, update_arg1, update_arg2, entity);
                         return;
                     }
                     actor->unk_9A.as_u8 = 0;

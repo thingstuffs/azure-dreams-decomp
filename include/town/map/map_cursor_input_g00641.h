@@ -14,7 +14,7 @@ extern u8 D_800D185C;
 extern u8 D_800D185D;
 
 /* Functions defined in this translation unit. */
-void store_state_and_update_tile_center(s32 state);
-void update_wrapping_indices_and_input(void);
+void select_building_and_request_scene(s32 state);
+void update_map_cursor_from_input(void);
 
 #endif

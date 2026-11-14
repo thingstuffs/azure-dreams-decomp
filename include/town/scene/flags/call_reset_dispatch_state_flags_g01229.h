@@ -41,7 +41,7 @@ extern u32 func_8001E670(s32 condition_id);
 extern void func_8001E5F0(s32 event_flag_id);
 
 /* Functions defined in this translation unit. */
-void *call_reset_dispatch_state_flags(void);
+void *advance_event_state_after_reset(void);
 void *tick_shop_event_state(void);
 void *query_event_state_or_reset(void);
 void *get_callback_selected_table_value(void);

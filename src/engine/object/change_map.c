@@ -50,8 +50,8 @@ typedef struct PairRecord {
 
 typedef void (*RuntimeCallback)(RuntimeState *, void *);
 
-extern void process_unlinked_type_four_entries(void);
-extern PairRecord *build_four_value_entry_result(s16, s16);
+extern void enqueue_unlinked_item_entries(void);
+extern PairRecord *build_town_sound_selection(s16, s16);
 
 extern RuntimeState map_runtime_state;
 extern RuntimeState map_change_state;
@@ -72,7 +72,7 @@ void change_map(InputRecord *input)
     void *state_data;
     u16 entry_index;
 
-    process_unlinked_type_four_entries();
+    enqueue_unlinked_item_entries();
     map_runtime_state.field_28 = map_runtime_state.field_18;
     map_change_state.field_28 = map_runtime_state.field_18;
     map_runtime_state.field_2A = map_runtime_state.field_1A;
@@ -93,7 +93,7 @@ void change_map(InputRecord *input)
                                (input->field_02 << 5));
     }
 
-    pair = build_four_value_entry_result(map_change_state.field_18,
+    pair = build_town_sound_selection(map_change_state.field_18,
                          map_change_state.field_1A);
     if (pair->field_04 == town_saved_stream_index &&
         pair->field_06 == town_saved_sequence_command) {
@@ -130,7 +130,7 @@ void change_map(InputRecord *input)
 
     system_update_flags[0] &= 0xFFFD;
     {
-        s32 check_result = runtime_is_record_handler_changed(runtime_script_state);
+        s32 check_result = has_active_script_handler(runtime_script_state);
         if (check_result != 0) {
             map_change_pending[0] = 1;
         } else {

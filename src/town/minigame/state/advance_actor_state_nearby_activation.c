@@ -37,7 +37,7 @@ void advance_actor_state_nearby_activation(Rec_D_80082D58 *actor, s32 *position,
 
             threshold = distance_exceeds(threshold, distance);
             if ((threshold == 0) && (service_script_controller(check_value, position, check_param, check_mode) != 0)
-                && (check_transform_identifier_and_hook(actor) != 0)) {
+                && (check_town_target_and_callback(actor) != 0)) {
                 SD_Call(0x50B);
                 distance = (u16)actor->unk_68;
                 threshold = 0x20;
@@ -51,7 +51,7 @@ void advance_actor_state_nearby_activation(Rec_D_80082D58 *actor, s32 *position,
         break;
     case 1:
     case 3:
-        if ((service_script_controller(check_value, position, check_param, check_mode) == 0) || (check_transform_identifier_and_hook(actor) == 0)) {
+        if ((service_script_controller(check_value, position, check_param, check_mode) == 0) || (check_town_target_and_callback(actor) == 0)) {
             next_state = ((u16) actor->unk_68 + 1) & 3;
         } else {
             return;

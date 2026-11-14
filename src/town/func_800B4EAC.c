@@ -30,7 +30,7 @@ void handle_item_move_menu_input(u8 *menu) {
         pressed_buttons = pad_state->pressed_buttons;
         if (pressed_buttons & 0x20) {
             SD_Call(AUDIO_CANCEL);
-            set_apply_record_values_callback_if_present(menu - 0x20);
+            set_apply_record_values_callback(menu - 0x20);
         } else if (pressed_buttons & 0x40) {
             select_result = move_item_to_list(menu);
             if (select_result == 0) {
@@ -89,5 +89,5 @@ void handle_item_move_menu_input(u8 *menu) {
         }
     }
 
-    interpolate_paired_object_positions_and_shades(menu);
+    ease_paired_objects_to_presets(menu);
 }

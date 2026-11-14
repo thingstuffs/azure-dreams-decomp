@@ -186,7 +186,7 @@
     },
     {
       "row": "dungeon/func_80C83064",
-      "tu": "src/dungeon/monster/hikewne/update_entity_state_from_query.c",
+      "tu": "src/dungeon/monster/hikewne/relink_hikewne_path.c",
       "home": "dungeon/func_80976E28",
       "foff": "0xCA3064",
       "vma": "0x8015A864",
@@ -197,7 +197,7 @@
     },
     {
       "row": "dungeon/func_80C831A8",
-      "tu": "src/dungeon/monster/saber/reset_eligible_entity_state.c",
+      "tu": "src/dungeon/monster/saber/finish_saber_tile_move.c",
       "home": "dungeon/func_80AC7330",
       "foff": "0xCA31A8",
       "vma": "0x8015A9A8",
@@ -235,7 +235,7 @@
     },
     {
       "row": "dungeon/func_80C835A0",
-      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F88C30",
       "foff": "0xCA35A0",
       "vma": "0x8015ADA0",
@@ -246,7 +246,7 @@
     },
     {
       "row": "dungeon/func_80C83604",
-      "tu": "src/dungeon/monster/metal/advance_timed_actor_animation_and_restore.c",
+      "tu": "src/dungeon/monster/metal/advance_metal_attack_animation.c",
       "home": "dungeon/func_80C6B604",
       "foff": "0xCA3604",
       "vma": "0x8015AE04",
@@ -285,7 +285,7 @@
     },
     {
       "row": "dungeon/func_80C83E74",
-      "tu": "src/dungeon/monster/hikewne/slow_directional_motion.c",
+      "tu": "src/dungeon/monster/hikewne/update_hikewne_recoil.c",
       "home": "dungeon/func_80977A94",
       "foff": "0xCA3E74",
       "vma": "0x8015B674",
@@ -313,7 +313,7 @@
     },
     {
       "row": "dungeon/func_80C84168",
-      "tu": "src/dungeon/effect/state/forward_actor_effect_state.c",
+      "tu": "src/dungeon/effect/state/update_hop_and_shrink_callback.c",
       "home": "dungeon/func_800AD90C",
       "foff": "0xCA4168",
       "vma": "0x8015B968",
@@ -414,7 +414,7 @@
     },
     {
       "row": "dungeon/func_80C8487C",
-      "tu": "src/dungeon/monster/kewne/update_actor_state_after_map_check.c",
+      "tu": "src/dungeon/monster/kewne/update_kewne_parent_motion.c",
       "home": "dungeon/func_809A2D74",
       "foff": "0xCA487C",
       "vma": "0x8015C07C",
@@ -425,7 +425,7 @@
     },
     {
       "row": "dungeon/func_80C84944",
-      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F8A600",
       "foff": "0xCA4944",
       "vma": "0x8015C144",
@@ -475,7 +475,7 @@
     },
     {
       "row": "dungeon/func_80C84A50",
-      "tu": "src/dungeon/actor/set_actor_data_pointer.c",
+      "tu": "src/dungeon/actor/set_default_action_after_floor_trap.c",
       "home": "dungeon/func_800CF1BC",
       "foff": "0xCA4A50",
       "vma": "0x8015C250",

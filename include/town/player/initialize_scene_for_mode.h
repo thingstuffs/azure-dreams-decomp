@@ -137,7 +137,7 @@ extern void init_secondary_list_record(void *record, func_80092868_ScenePos *sce
 extern void init_probe_sample_buffers(void);
 extern void sync_collision_motion_xyz(ObjectPosition *context);
 extern void create_person_object(void);
-extern void initialize_object_at_current_position(void);
+extern void init_view_reference_entity(void);
 s32 load_town_sprite_bundle(void);
 s32 load_alternate_town_sprite_bundle(void);
 void dispatch_selected_entry_if_nonzero();
@@ -152,10 +152,10 @@ extern void update_record_overlap_node(void *owner);
 extern s32 has_attached_state_type_1_or_3(void *owner);
 extern void set_height_and_slope_velocity(ObjectPosition *obj, s32 base_value, struct TownVec **vec_ptr);
 extern s32 update_object_and_clear_status_fields(void *owner);
-extern s32 runtime_estimate_vector_length(s32, s32);
+extern s32 estimate_vector_length(s32, s32);
 #include "engine/texture.h"
 extern void func_80048AC8(void *, s32);
-extern s32 step_angle_12_toward(s32 angle_delta, s32 target_angle, s32 step);
+extern s32 step_angle_toward(s32 angle_delta, s32 target_angle, s32 step);
 extern u32 view_relative_angle_sector(s32 angle);
 #include "town/player/fallback_handler_position_g00541.h"
 

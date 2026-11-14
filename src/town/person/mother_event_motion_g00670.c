@@ -46,7 +46,7 @@ void apply_mother_event_motion_offset(void *object, void *position, s32 update_a
 void reset_mother_event_callback_on_expiry(void *object, void *motion, void *init_data, s32 check_arg) {
     if (select_object_setup_path(object, motion, init_data) == 0) {
         if (--mother_event_ticks.value <= 0) {
-            initialize_mother_event_with_timer_16(object, motion, init_data);
+            start_mother_event_ticks(object, motion, init_data);
         }
     }
 }
@@ -137,7 +137,7 @@ void choose_mother_event_direction(TownObjectRecord *entity, S_800C7AC4_1 *bound
 }
 
 /* Initialize the object callback and set the shared timer to 16. */
-void initialize_mother_event_with_timer_16(void *object, void *unused, void *init_data) {
+void start_mother_event_ticks(void *object, void *unused, void *init_data) {
     Timer *timer;
 
     initialize_object_entries(object, init_data, &mother_event_object_entries);

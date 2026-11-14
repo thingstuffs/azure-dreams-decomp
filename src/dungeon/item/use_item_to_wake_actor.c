@@ -48,7 +48,7 @@ s32 use_item_to_wake_actor(ActorRecord *entity, DungeonItemEntry *event, s16 eve
         display_formatted_context_message(D_800E0E9B);
     }
     clear_slots_of_type(entity, STATUS_SLEEP);
-    clear_slot_and_update_linked_state(event);
+    clear_item_slot(event);
     g_dungeon_status.activity_counts.parts.pending_action_count--;
     return 1;
 }

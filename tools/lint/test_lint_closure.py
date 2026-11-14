@@ -309,6 +309,18 @@ class AcceptedSitesTests(unittest.TestCase):
             self.assertIn(self.PTR + '\tsrc/new.c\tnew_name\t2\tStoreImage',
                           (root / C.ACCEPTED).read_text().splitlines())
 
+    def test_row_of_an_unrenamed_function_in_a_renamed_file_is_carried(self):
+        text = '# old\n' + C.ACCEPTED_HEADER + '\n' + self.PTR + '\tsrc/old.c\tkept\t2\tStoreImage\n'
+        root = self.repo(text)
+        moved = text.replace('src/old.c\tkept', 'src/new.c\tkept')
+        (root / C.ACCEPTED).write_text(moved)
+        names = {'old_name': {'0x80025ffc'}, 'new_name': {'0x80025ffc'}}
+        self.assertEqual(C.accepted_rows(root, 'HEAD', names, {'src/new.c': 'src/old.c'}), ({}, []))
+        # without git's rename record, or with a raised count, the moved key is an added row
+        self.assertEqual(len(C.accepted_rows(root, 'HEAD', names, {})[1]), 1)
+        (root / C.ACCEPTED).write_text(moved.replace('\t2\t', '\t3\t'))
+        self.assertEqual(len(C.accepted_rows(root, 'HEAD', names, {'src/new.c': 'src/old.c'})[1]), 1)
+
     def test_sdk_functions_reads_include_sdk(self):
         root = self.repo()
         (root / 'include/sdk').mkdir(parents=True)
@@ -390,6 +402,55 @@ class RenameAndFullTests(unittest.TestCase):
         other_line = [finding('src/a.c', 'new_name', '-Wint-conversion', ['src/a.c:5:40'])]
         with redirect_stdout(io.StringIO()):
             self.assertEqual(C.report(base, other_line, [], [], {}, 0, names), 1)   # another line is new
+
+    def test_function_and_callee_renamed_with_line_shift_is_not_new(self):
+        msg = "passing argument 4 of '%s' makes integer from pointer without a cast"
+        base = [dict(finding('src/a.c', 'old_fn', '-Wint-conversion', ['src/a.c:779:80'], 2),
+                     messages=msg % 'old_callee')]
+        head = [dict(finding('src/a.c', 'new_fn', '-Wint-conversion', ['src/a.c:780:81'], 2),
+                     messages=msg % 'new_callee')]
+        names = {'old_fn': {'0x80024050'}, 'new_fn': {'0x80024050'},
+                 'old_callee': {'0x80024100'}, 'new_callee': {'0x80024100'}}
+
+        def line_map(path, line):                                   # the line is edited, an include sits above
+            return None if line == 779 else line + 1
+        line_map.inplace = lambda path, line: line + 1
+        with redirect_stdout(io.StringIO()) as out:
+            self.assertEqual(C.report(base, head, [], [], {}, 0, names, line_map), 0, out.getvalue())
+        self.assertIn('renamed -Wint-conversion src/a.c old_fn -> new_fn', out.getvalue())
+        # the callee rename is not recorded at one address: the message differs, so the group is new
+        with redirect_stdout(io.StringIO()):
+            self.assertEqual(C.report(base, head, [], [], {}, 0, dict(names, new_callee={'0x1'}), line_map), 1)
+
+    def test_callee_renamed_but_count_rises_is_new(self):
+        msg = "passing argument 4 of '%s' makes integer from pointer without a cast"
+        base = [dict(finding('src/a.c', 'old_fn', '-Wint-conversion', ['src/a.c:779:80'], 2),
+                     messages=msg % 'old_callee')]
+        names = {'old_fn': {'0x80024050'}, 'new_fn': {'0x80024050'},
+                 'old_callee': {'0x80024100'}, 'new_callee': {'0x80024100'}}
+        line_map = lambda path, line: None if line == 779 else line + 1
+        line_map.inplace = lambda path, line: line + 1
+        head = [dict(finding('src/a.c', 'new_fn', '-Wint-conversion', ['src/a.c:780:81'], 3),
+                     messages=msg % 'new_callee')]
+        with redirect_stdout(io.StringIO()):
+            self.assertEqual(C.report(base, head, [], [], {}, 0, names, line_map), 1)
+        head = [dict(finding('src/a.c', 'new_fn', '-Wint-conversion', ['src/a.c:780:81', 'src/a.c:900:5'], 2),
+                     messages=msg % 'new_callee')]
+        with redirect_stdout(io.StringIO()):
+            self.assertEqual(C.report(base, head, [], [], {}, 0, names, line_map), 1)
+
+    def test_diff_line_map_inplace_follows_a_line_rewritten_where_it_stands(self):
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        root = Path(tmp.name)
+        git(root, 'init', '-q')
+        (root / 'a.c').write_text('l1\nl2\nl3\nl4\n')
+        git(root, 'add', '-A'); git(root, 'commit', '-qm', 'base')
+        (root / 'a.c').write_text('inc\nl1\nl2\nL3\nl4\n')
+        line_map = C.diff_line_map(root, 'HEAD')
+        self.assertEqual(line_map('a.c', 2), 3)
+        self.assertIsNone(line_map('a.c', 3))
+        self.assertEqual(line_map.inplace('a.c', 3), 4)
 
     def test_two_renames_in_one_file_with_equal_site_counts_are_not_new(self):
         base = [finding('src/a.c', 'old_one', '-Wshadow', ['src/a.c:4:1']),

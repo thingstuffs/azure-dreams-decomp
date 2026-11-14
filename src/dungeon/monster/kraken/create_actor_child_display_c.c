@@ -120,7 +120,7 @@ void *create_actor_child_display_c(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 
 
                     elem->clut = ((s16)(part_b->clut)) - 128;
                     elem->color.word = ((u32)(0x00C0C0C0));
-                    ((ObjectNodeHeader *)base->unk_A4)->update_callback = process_effect_block_entries;
+                    ((ObjectNodeHeader *)base->unk_A4)->update_callback = advance_block_sprite_entries;
 
                     select_sprite_entry(elem, 39, 0);
                     elem_offset += 48;

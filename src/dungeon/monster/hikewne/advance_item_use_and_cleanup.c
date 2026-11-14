@@ -22,7 +22,7 @@
 #include "dungeon/data.h"
 #include "dungeon/monster/hikewne_frames.h"
 
-extern void create_directional_template_effect(void *, ObjectPosition *, void *, void *);
+extern void create_tracking_fade_sprite(void *, ObjectPosition *, void *, void *);
 
 extern u8 D_80174110[];
 
@@ -159,7 +159,7 @@ void advance_item_use_and_cleanup(ActorRecord *action, ObjectPosition *motion, S
         primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(item);
         (*((u8 *)item + 0x6D))--;
-        action->unk_8C.handler = update_actor_behavior_animation_and_facing;
+        action->unk_8C.handler = update_hikewne_actor_behavior;
         (*((u8 *)item + 0x73)) = 0;
         (*((u8 *)item + 0x72)) = 0;
         (*(u16 *)((u8 *)item + 0x46)) &= 0x7FFF;
@@ -213,7 +213,7 @@ void advance_item_use_and_cleanup(ActorRecord *action, ObjectPosition *motion, S
         return;
 
     case 4:
-        create_directional_template_effect(action, motion, actor, item);
+        create_tracking_fade_sprite(action, motion, actor, item);
         {
             s16 timer;
 
@@ -284,7 +284,7 @@ void advance_item_use_and_cleanup(ActorRecord *action, ObjectPosition *motion, S
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        action->unk_8C.handler = update_actor_behavior_animation_and_facing;
+        action->unk_8C.handler = update_hikewne_actor_behavior;
         advance_status_timers(item);
         (*((u8 *)item + 0x73)) = 0;
         (*((u8 *)item + 0x72)) = 0;
@@ -342,7 +342,7 @@ void advance_item_use_and_cleanup(ActorRecord *action, ObjectPosition *motion, S
         return;
 
     case 19:
-        create_directional_template_effect(action, motion, actor, item);
+        create_tracking_fade_sprite(action, motion, actor, item);
         {
             s16 timer;
 
@@ -362,7 +362,7 @@ void advance_item_use_and_cleanup(ActorRecord *action, ObjectPosition *motion, S
     case 20:
         actor->flags |= 0x800;
         if ((action->action_timer) < 5) {
-            create_directional_template_effect(action, motion, actor, item);
+            create_tracking_fade_sprite(action, motion, actor, item);
         }
         {
             s16 timer;

@@ -13,7 +13,7 @@ typedef struct ItemMenuInput {
 } ItemMenuInput;
 
 void release_item_menu_object(ItemMenuParameters *parameters);
-void run_item_menu_record_handlers(void *record_payload);
+void release_item_menu_record_child(void *record_payload);
 /* Code-address alias installed by set_item_menu_secondary_handler. */
 
 

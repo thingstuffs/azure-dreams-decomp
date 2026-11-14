@@ -38,7 +38,7 @@ void *allocate_paged_shop_item_list(s32 parent, s32 selected_index, s32 item_cou
         if (load_menu_display_resource(sub, 0x1F) != 0) {
             node->field_0xC = (u8 *)node + 0xDC;
             sub->result = link_shop_nodes_in_configured_order(sub->input);
-            configure_shop_object_and_finalize(sub, parent, selected_index, item_count, page_index, last_page, item_base, display_mode);
+            setup_shop_window(sub, parent, selected_index, item_count, page_index, last_page, item_base, display_mode);
             register_node(node, (void *)draw_tinted_node_sprites_scratch);
             return node;
         }

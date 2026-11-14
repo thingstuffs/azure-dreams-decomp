@@ -3,7 +3,6 @@
 
 /* 12-byte struct; entries in D_80086C00[8] */
 
-extern SoundSequenceSlot audio_sequence_slots[8];
 
 /* Advances an entry's state from 1 to 3 when get_sequence_play_state returns 3, then returns the state. */
 s16 update_sequence_slot_state(s16 entry_index)

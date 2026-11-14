@@ -14,6 +14,6 @@ extern u8 D_800D6200[];
 void set_actor_flag_copy_global(TownObjectRecord *actor, ObjectPosition *unused, struct SpriteFrameState *state) {
     actor->unk_93 = 1;
     state->animation_resource = loaded_town_resource_attributes[0];
-    initialize_object_and_register_slot(actor, 2, D_800D61F4, D_800D6200, D_800D61C4,
+    register_object_slot_with_tables(actor, 2, D_800D61F4, D_800D6200, D_800D61C4,
                   D_800D61CC);
 }

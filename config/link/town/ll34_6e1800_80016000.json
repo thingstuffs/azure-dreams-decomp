@@ -128,7 +128,7 @@
     },
     {
       "row": "town/func_80761DFC",
-      "tu": "src/town/scene/find_entry_index_assert.c",
+      "tu": "src/town/scene/find_eight_byte_entry_or_assert.c",
       "home": "town/func_8032ECE4",
       "foff": "0x6E1DFC",
       "vma": "0x800165FC",
@@ -238,7 +238,7 @@
     },
     {
       "row": "town/func_807622A0",
-      "tu": "src/town/scene/flags/update_entry_flags.c",
+      "tu": "src/town/scene/flags/replace_record_flag_with_entry_flag.c",
       "home": "town/func_8032F188",
       "foff": "0x6E22A0",
       "vma": "0x80016AA0",
@@ -438,7 +438,7 @@
     },
     {
       "row": "town/func_807628AC",
-      "tu": "src/town/scene/flags/get_first_entry_flag.c",
+      "tu": "src/town/scene/flags/find_first_eligible_entry.c",
       "home": "town/func_80481D78",
       "foff": "0x6E28AC",
       "vma": "0x800170AC",

@@ -112,7 +112,7 @@ void advance_target_interaction(ActorRecord *action, ObjectPosition *scene, Spri
         if ((timer << 16) == 0 || (sprite->flags & 0xE000)) {
             spend_actor_mp(actor, 0x400);
             set_record_integer_tile_center(scene, sprite->tile_x, sprite->tile_y);
-            action->unk_8C.address = update_actor_animation;
+            action->unk_8C.address = dispatch_cyclone_actions;
             g_dungeon_status.active_actor = 0;
             (actor->action_flags) &= 0x7FFF;
         }

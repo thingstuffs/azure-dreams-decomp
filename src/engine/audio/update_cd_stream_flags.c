@@ -20,7 +20,7 @@ void update_cd_stream_flags(void) {
         if (!(sound_playback_state.flags00 & 0x4000)) {
             sound_playback_state.flags00 |= 0x400;
             apply_scaled_cd_stream_volume();
-            submit_tagged_driver_byte(0, 0, 1);
+            set_cd_ext_reverb_or_mix(0, 0, 1);
         }
     }
 }

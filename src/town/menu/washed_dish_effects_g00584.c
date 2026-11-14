@@ -9,10 +9,10 @@
 #include "engine/node.h"
 
 /* Initialize the object state, shared counter, context resource, and callback. */
-void initialize_timed_resource_object(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context) {
+void initialize_washed_dish_effect(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context) {
     TownRecord *resource_base;
 
-    NODE_HEADER(object)->update_callback = &finalize_object_or_select_town_record;
+    NODE_HEADER(object)->update_callback = &select_washed_dish_record_or_retire;
     dish_counter = 0x14;
     resource_base = D_800F8A70;
     context->source = (s8 *)resource_base + 0xF0;
@@ -20,7 +20,7 @@ void initialize_timed_resource_object(TownObjectRecord *object, ObjectPosition *
 }
 
 /* Clears and flags a handled object, or clamps the town index and selects a record. */
-void finalize_object_or_select_town_record(TownObjectRecord *object, void *check_context, SpriteFrameState *record_holder)
+void select_washed_dish_record_or_retire(TownObjectRecord *object, void *check_context, SpriteFrameState *record_holder)
 {
     u8 *state_byte;
 

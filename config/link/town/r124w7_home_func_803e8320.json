@@ -9,7 +9,7 @@
     {
       "row": "town/func_803E8320",
       "home": "town/func_803E8320",
-      "tu": "src/town/scene/service/invoke_scene_service.c",
+      "tu": "src/town/scene/service/play_town_sound_1704.c",
       "foff": "0x3e8320",
       "vma": "0x80019320",
       "size": 56,

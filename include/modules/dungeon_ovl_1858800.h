@@ -11,7 +11,7 @@
 extern void *allocate_list_node(s32, void *);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, s16 *, s32);
 extern void register_node(void *, void *);
-extern s32 get_definition_entry_byte_13(s16 entry_index);
+extern s32 get_spell_range(s16 entry_index);
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
 extern void unlink_node(void *);
 void advance_sprite_animation_and_textures(void *);                 /* extern */

@@ -22,7 +22,7 @@ StorageMenuNode *create_storage_item_menu(ItemMenuStateNode *owner) {
     if (object != 0) {
         if (func_800B44F0(menu, 33) != 0) {
             object->header.sprite = &object->menu.links;
-            menu->chain = process_target_with_code_33(menu->parts);
+            menu->chain = link_storage_item_menu_parts(menu->parts);
             func_800B44B0(menu, owner);
             register_node(object, dungeon_menu_tag);
             return object;

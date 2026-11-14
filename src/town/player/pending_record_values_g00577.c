@@ -4,7 +4,7 @@
 #include "town/player.h"
 
 /* Looks up a table value using the signed low 16 bits of the index. */
-TownRecord *lookup_signed_index_value(s32 index) {
+TownRecord *get_town_record_by_index(s32 index) {
     TownRecord **table = **D_80082EA8.p;
     index = (s16)index;
     return table[index];
@@ -33,7 +33,7 @@ void set_flagged_record_values(TownRecord *record, s32 entryValue)
 /* Resolve the low-byte index, apply its value, and clear the pending state. */
 void apply_pending_indexed_value(s32 index, s32 value) {
     s32 *pending_state;
-    set_flagged_record_values(lookup_signed_index_value(index & 0xFF), value);
+    set_flagged_record_values(get_town_record_by_index(index & 0xFF), value);
     pending_state = D_80100E2C;
     *pending_state = 0;
 }

@@ -5,7 +5,7 @@
 #include "dungeon/actor.h"
 
 // Processes the source object's value, sets global flags, and assigns the destination object's data.
-void process_actor_link_callback(void *destinationObject, void *unused1, void *unused2, void *sourceObject) {
+void resume_actor_after_linked_entries(void *destinationObject, void *unused1, void *unused2, void *sourceObject) {
     process_unflagged_linked_entries_alt(*(void **)((u8 *)sourceObject + 0x5C));
     process_unflagged_linked_entries(*(void **)((u8 *)sourceObject + 0x5C));
     g_dungeon_status.flags |= 0x812;

@@ -9,7 +9,7 @@
 void *allocate_list_node(s32, void *);
 void register_node(void *, void *);
 void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
-s32 get_definition_entry_byte_13(s16);
+s32 get_spell_range(s16);
 void transform_rotated_vertices(LocalPacket *);
 void run_ground_trail_projectile(void *, TrailMotion *, void *);
 void update_flickering_effect_vertices(DungeonObj *);

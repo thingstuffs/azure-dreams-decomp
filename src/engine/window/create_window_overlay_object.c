@@ -72,7 +72,7 @@ void create_window_overlay_object(void *node_addr, void *display, u8 *image, s32
     node_data->unk_4A = (s16)option;
     ClearImage(image + 4, 0, 0, 0);
 
-    runtime_initialize_state_value(display, *state_ref);
+    init_unit_scale_record(display, *state_ref);
     node_data->unk_00 = display;
     node_data->unk_04 = image;
     node_data->unk_08 = draw_window_rects;

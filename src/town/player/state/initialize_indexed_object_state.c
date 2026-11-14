@@ -23,5 +23,5 @@ void initialize_indexed_object_state(Struct_func_8009BDDC_arg0 *object, ObjectPo
     object_index_slots[1].unk_01 = 0;
     object->unk4 = target_action_update_address;
     object->unkA = 4;
-    clear_entity_record_fields(context);
+    clear_object_velocity(context);
 }

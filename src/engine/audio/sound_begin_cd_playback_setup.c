@@ -34,7 +34,7 @@ void sound_begin_cd_playback_setup(void) {
     status->unk_2D = pending_2d;
     status->flags04 |= 0x200;
 
-    submit_tagged_driver_byte(0, 0, 0);
+    set_cd_ext_reverb_or_mix(0, 0, 0);
     set_spu_cd_or_ext_volume(0, 0, 0);
     Control_CD(0xE, 0, &status->unk_28);
     Control_CD(0xD, (void *)(s32) status->unk_08, &status->unk_2C);

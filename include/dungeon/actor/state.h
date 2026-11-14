@@ -15,7 +15,7 @@ void set_actor_action_state_eight(void *record_data, void *unused_position, void
 
 struct ObjectPosition;
 struct S_800D491C_0;
-void set_actor_data_pointer(ActorRecord *body, ObjectPosition *position, struct SpriteFrameState *source, ActorRecord *actor);
+void set_default_action_after_floor_trap(ActorRecord *body, ObjectPosition *position, struct SpriteFrameState *source, ActorRecord *actor);
 
 s32 propagate_actor_action_flag(struct ActorRecord *body, struct ObjectPosition *position, struct SpriteFrameState *sprite, struct ActorRecord *actor);
 void install_trap_handler_after_action_flag_propagation(void *owner, s32 context, s32 sprite, s32 *record);
@@ -46,9 +46,9 @@ s16 relink_entity_and_clear_high_flag(void *context, void *position, ActorRecord
 s32 reset_actor_action_state(void *actor, struct ObjectPosition *unused, SpriteFrameState *sprite, u8 *direction_frames);
 
 struct Entry;
-s32 process_actor_state_chain(void *state_base, void *entry_data, struct Entry *entry);
+s32 render_actor_part_chain(void *state_base, void *entry_data, struct Entry *entry);
 
-u32 toggle_attacker_target_status_pair(ActorRecord *attacker, ActorRecord *target);
+u32 try_toggle_brainwash_status(ActorRecord *attacker, ActorRecord *target);
 
 void retire_effect_when_status_set(void *record_arg);
 

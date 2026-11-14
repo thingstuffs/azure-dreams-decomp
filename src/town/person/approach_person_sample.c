@@ -32,8 +32,8 @@ void approach_person_sample(Rec_func_800AB030_arg0 *state, S_800AB5C0_1 *coords)
         state->unk_50 = move_person_toward_sample;
     }
     load_position_history_entry(sampled_coords, 4);
-    z_offset = get_person_lookup_step(coords);
-    sampled_coords[5] -= z_offset + advance_person_lookup_value(state);
+    z_offset = get_map_cell_step_size(coords);
+    sampled_coords[5] -= z_offset + advance_person_sine_offset(state);
     ticks_left = state->unk_6C - 1;
     state->unk_6C = ticks_left;
     if ((s16)ticks_left < 0) {

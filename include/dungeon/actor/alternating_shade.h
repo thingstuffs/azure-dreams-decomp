@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-/* Created by create_visual_object and advanced through its installed shade callback. */
+/* Created by create_alternating_shade_sprite and advanced through its installed shade callback. */
 typedef struct AlternatingShadeBody {
     u8 pad_00[0x66];
     u16 ticks_left;

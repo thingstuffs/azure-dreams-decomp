@@ -16,7 +16,7 @@ static s32 has_direct_actor_sprite_frames(ActorRecord *record);
 #include "engine/texture.h"
 #include "slus.h"
 
-extern void initialize_actor_object_action(void *object_state, s32 unused_context, void *properties, void *status); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern void begin_actor_fade_draw(void *object_state, s32 unused_context, void *properties, void *status); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 /* arg2 in refresh_actor_facing_and_lifecycle */
 
 static s32 has_direct_actor_sprite_frames(ActorRecord *record) {
@@ -138,7 +138,7 @@ s32 refresh_actor_facing_and_lifecycle(Rec_func_800A9E70_arg0 *anim, s32 action_
                     entity->movement_queue_state = 0;
                     entity->flags1C &= 0xFDFFFFFF;
                     if (entity->flags14 & 0x20000000) {
-                        initialize_actor_object_action(anim, action_arg, sprite, entity);
+                        begin_actor_fade_draw(anim, action_arg, sprite, entity);
                         return 0;
                     }
                     anim->unk_9A.as_u8 = 0;

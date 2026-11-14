@@ -16,7 +16,7 @@ s32 set_town_pointer_town_callback(void) {
     void *callbackTable;
     TownCallback callback;
 
-    set_script_flag_94c();
+    set_script_flag_sbs32_pad34();
     if (get_script_flag_mask(F_sbs32_pad15) != 0) {
         return 1;
     }

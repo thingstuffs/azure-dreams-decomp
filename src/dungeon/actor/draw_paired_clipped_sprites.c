@@ -1,0 +1,47 @@
+#include "common.h"
+#include "dungeon/actor.h"
+
+typedef struct {
+    u8 unk0[0xC];
+    s32 value;
+} DungeonNode;
+
+extern void draw_transformed_sprite_with_clip_rect(void *, u16 *, u16 *, s32, s32);
+
+/* Processes both objects at adjacent coordinates with node values temporarily set to 0x808080. */
+void draw_paired_clipped_sprites(void *left_object, void *right_object) {
+    u16 coords[6];
+    s32 x_offset;
+    DungeonNode *node;
+    s32 saved_value;
+    void *object;
+    u8 *node_slot;
+    s16 x;
+
+    coords[1] = 0x100;
+    coords[2] = 0x40;
+    coords[3] = 0x80;
+    coords[5] = 0x13C;
+    x_offset = coords[2];
+    do {
+        x = x_offset + 0x340;
+        coords[0] = x;
+        x += (s16)coords[2] / 2;
+        coords[4] = x;
+        if (x_offset == 0) {
+            node_slot = (u8 *)left_object - 0x14;
+        } else {
+            node_slot = (u8 *)right_object - 0x14;
+        }
+        node = *(DungeonNode **)node_slot;
+        saved_value = node->value;
+        node->value = 0x808080;
+        object = right_object;
+        if (x_offset == 0) {
+            object = left_object;
+        }
+        draw_transformed_sprite_with_clip_rect(object, &coords[0], &coords[4], 1, 2);
+        x_offset -= 0x40;
+        node->value = saved_value;
+    } while (x_offset >= 0);
+}

@@ -10,7 +10,7 @@ void lookup_code_with_special_results(s32 forwardedValue, s32 unused, s32 forwar
     s32 biasedSelectionValue;
     s32 selectionValue;
 
-    selectionValue = get_linked_record_field_2_d_60();
+    selectionValue = get_town_state_count();
     biasedSelectionValue = selectionValue;
     apply_entry_position(((selectionValue - ((biasedSelectionValue / 4) * 4)) * 8) + D_80017570, D_80017658,
         forwardedValue, forwardedData);

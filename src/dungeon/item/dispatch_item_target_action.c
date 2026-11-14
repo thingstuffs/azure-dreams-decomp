@@ -13,7 +13,7 @@
 #include "dungeon/system.h"
 #include "dungeon/item/message.h"
 
-extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *request, s32 record_data); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern s32 resolve_item_attack(struct DungeonItemEntry *request, s32 record_data); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 #include "dungeon/player/state/clear_slot_and_update_linked_state_api.h"
 
 typedef struct {
@@ -41,7 +41,7 @@ s32 dispatch_item_target_action(ActorRecord *target, DungeonItemEntry *item, s16
     u16 selector_bits;
 
     if (action_type == 0xD) {
-        return process_record_and_update_linked_state(item, action_value);
+        return resolve_item_attack(item, action_value);
     }
     if (target == (dungeon_actor_ring_anchor)) {
         ((PlayerRecord *)target)->pending_item_action = item;
@@ -65,7 +65,7 @@ s32 dispatch_item_target_action(ActorRecord *target, DungeonItemEntry *item, s16
             place_actor_item(target, item);
             return 1;
         }
-        clear_slot_and_update_linked_state(item);
+        clear_item_slot(item);
     } else {
         display_formatted_context_message(&D_800E101C);
     }

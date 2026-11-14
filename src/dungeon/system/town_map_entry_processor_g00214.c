@@ -11,7 +11,7 @@
 void advance_index_and_mark_completion(void *counterPtr) {
     s32 nextCounter;
 
-    process_indexed_entry_record(*(s32 *)counterPtr);
+    pack_map_row_into_table(*(s32 *)counterPtr);
     nextCounter = *(s32 *)counterPtr + 1;
     *(s32 *)counterPtr = nextCounter;
     if (nextCounter >= 0x80) {

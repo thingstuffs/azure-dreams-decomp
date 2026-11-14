@@ -153,7 +153,7 @@ void update_settings_menu_animation(SettingsMenuBody *obj, s32 *position) {
                 obj->state = next_state;
                 break;
             }
-            *(void **) ((u8 *) child + 16) = (void *) assign_object_descriptor_on_check;
+            *(void **) ((u8 *) child + 16) = (void *) start_settings_after_transition;
             obj->state = 253;
             break;
         case 1:

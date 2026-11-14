@@ -5,7 +5,7 @@
 
 
 /* Clears the pending flag and returns 4 if it was set, otherwise 0. */
-s32 consume_pending_event_flag(void) {
+s32 card_boot_timeout_operation(void) {
     s32 status;
 
     status = 0;

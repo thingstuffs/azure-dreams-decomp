@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_800AD90C",
-      "tu": "src/dungeon/effect/state/forward_actor_effect_state.c",
+      "tu": "src/dungeon/effect/state/update_hop_and_shrink_callback.c",
       "home": "dungeon/func_800AD90C",
       "foff": "0xCD90C",
       "vma": "0x800B306C",
@@ -93,7 +93,7 @@
     },
     {
       "row": "dungeon/func_800CDF70",
-      "tu": "src/dungeon/actor/state/process_actor_state_chain.c",
+      "tu": "src/dungeon/actor/state/render_actor_part_chain.c",
       "home": "dungeon/func_800CDF70",
       "foff": "0xEDF70",
       "vma": "0x800D36D0",
@@ -109,7 +109,7 @@
     },
     {
       "row": "dungeon/func_800CF1BC",
-      "tu": "src/dungeon/actor/set_actor_data_pointer.c",
+      "tu": "src/dungeon/actor/set_default_action_after_floor_trap.c",
       "home": "dungeon/func_800CF1BC",
       "foff": "0xEF1BC",
       "vma": "0x800D491C",

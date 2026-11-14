@@ -7,7 +7,7 @@
 struct InactiveTypeTwelveObjectBody;
 struct ObjectPosition;
 struct SpriteFrameState;
-void process_callback_slots_and_object(u8 *object);
+void update_dungeon_menu_object(u8 *object);
 void update_viewport_transition(struct InactiveTypeTwelveObjectBody *transition, struct ObjectPosition *center, struct SpriteFrameState *render_params, int *context);
 
 #endif

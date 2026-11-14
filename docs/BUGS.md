@@ -278,7 +278,7 @@ sites of the slot-index return-value defect described in DB003-DB006.
   With all four slots holding IDs 1-4, insertion of status 18, 19 or 20 fails and
   instead prints the success message. Insertion into slot 3 reports success normally.
   Sources: [apply_random_actor_value_adjustment](../src/dungeon/effect/particle/view_parameter_transition.c),
-  [apply_random_duration_actor_status](../src/dungeon/effect/particle/project_textured_quad_or_callback.c),
+  [apply_water_protect_status](../src/dungeon/effect/particle/project_textured_quad_or_callback.c),
   [try_apply_wind_protection](../src/dungeon/effect/mesh/transform_and_queue_mesh_primitives.c).
 - **DB011-DB013 — three more spells suppress success and announce rejected statuses.**
   The handlers for status IDs 21, 22 and 23 also treat the returned slot index as a

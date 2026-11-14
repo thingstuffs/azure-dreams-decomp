@@ -17,5 +17,5 @@ void reset_indexed_object_and_process_context(TownObjectRecord *object, ObjectPo
     object_index_slots[object->unk_40].unk_00 = 0;
     object->unk_04 = tick_countdown_and_initialize_target;
     object->unk_0A = 6;
-    clear_entity_record_fields((context));
+    clear_object_velocity((context));
 }

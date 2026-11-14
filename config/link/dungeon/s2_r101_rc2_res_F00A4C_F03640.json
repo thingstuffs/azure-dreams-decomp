@@ -83,7 +83,7 @@
     {
       "row": "dungeon/func_80EE30E0",
       "home": "dungeon/func_80EE30E0",
-      "tu": "src/dungeon/monster/weadog/spawn_moving_actor.c",
+      "tu": "src/dungeon/monster/weadog/update_weadog_projectile_attack.c",
       "foff": "0x00F030E0",
       "vma": "0x801748E0",
       "size": 1376

@@ -49,7 +49,7 @@ void *get_sprite_resource_slot_buffer(s32 index);
 int get_image_palette_address(int value);
 s32 get_resource_block_index_from_address(void *address);
 void load_default_object_palette(short index);
-int load_equipment_palette_for_category_sixteen(short index);
+int load_wand_palette(short index);
 void load_equipment_change_palette(short index);
 int load_dungeon_sprite_bundle(void);
 int load_town_sprite_bundle(void);
@@ -72,10 +72,10 @@ s32 get_item_sell_money(void *item);
 s32 func_8004A638(void *item);
 s32 get_item_buy_money(void *item);
 void clear_floor_resource_state_table(void);
-int subtract_pointed_int_values(int *left, int *right);
+int compare_int_values(int *left, int *right);
 s32 count_pointer_list_entries(void **entries);
 int compare_mapped_leading_bytes(unsigned char **left, unsigned char **right);
-void forward_selection_sort_request(u8 *base, s32 count, s32 size, s32 (*compar)(u8 *, u8 *));
+void sort_with_comparator(u8 *base, s32 count, s32 size, s32 (*compar)(u8 *, u8 *));
 void create_single_callback_payload(void *object);
 struct ObjectNodeHeader *find_active_list_node(struct ObjectNodeHeader *target);
 void submit_global_cd_command_six(void);
@@ -86,7 +86,7 @@ void *advance_packed_record_by_type(void *object);
 void glyph_id_to_rect(u32 value, u8 *record);
 void set_descriptor_grid_byte_coordinates(signed char *record, int width, int height, int column, int row);
 void set_message_mode(int value);
-void clear_message_command_words(void);
+void reset_message_command_queue(void);
 void clear_win_sw0_resident_bit(void);
 void set_glyph_style_index(void *record, int index);
 unsigned char *read_decimal_digit_value(unsigned char *text, int *digit);
@@ -95,19 +95,19 @@ void noop_release_notification(s32 unused_value);
 void flag_optional_object_for_removal(void *object);
 void flag_optional_object_for_removal_b(void *object);
 void noop_display_setup_hook(void);
-void clear_vram_callback_state(void);
+void clear_card_server_initialized_flag(void);
 
 #include "slus/resource_transition_task.h"
 struct SevenEntryMenuBackdropBody;
 void build_menu_backdrop_display_buffers(struct SevenEntryMenuBackdropBody *object);
 void *link_menu_backdrop_display_nodes(void *entries);
-void set_menu_backdrop_initial_value(int *dst, int value);
+void set_menu_backdrop_owner(int *dst, int value);
 void noop_selection_menu_animation_idle(void);
 int read_selected_menu_entry_word(char *object);
 void resolve_selected_menu_entry(char *object);
-void forward_object_input_handler(struct MenuSelectionBody *object);
+void handle_selection_menu_object_input(struct MenuSelectionBody *object);
 void invoke_leading_object_callback(struct VtableObj *object, void *position, void *sprite);
-void *link_seventeen_indexed_entries(void *entries);
+void *link_selection_menu_entries(void *entries);
 void submit_enabled_saved_display_value(void);
 void run_town_movie_callbacks(void);
 void run_town_transition_callbacks(void);
@@ -139,13 +139,13 @@ void noop_sequence_status_hook(u8 status);
 void service_audio_timer_callback(void);
 void set_audio_timer_state(int value);
 void run_enabled_sound_sequence_update(void);
-void clear_cd_audio_mix_mode(void);
+void audio_disable_mono_mix(void);
 void noop_audio_init_hook(void *unused_data, s32 unused_arg1, s32 unused_arg2);
 void shut_down_spu_audio(void);
 void set_sound_flag_update_suppression(short value);
 void flush_pending_sound_voice_flags(void);
-void enable_available_spu_reverb(void);
-int submit_shifted_stereo_sound_parameters(short x, short y);
+void enable_spu_reverb(void);
+int set_reverb_depth(short x, short y);
 int read_sequence_tempo_step(void);
 void set_audio_channel_volume_control(int unused, short index, int value);
 void set_audio_channel_pan_control(int unused, short index, int value);
@@ -159,13 +159,13 @@ void reset_and_release_audio_sequence_banks(void);
 void submit_audio_driver_byte_command(s32 first, s32 second, s32 third);
 void submit_audio_driver_scaled_pair(unsigned char code, short first, short second);
 void dispatch_audio_driver_halfword_flags(s32 value);
-void reset_audio_sequence_state_default(void);
+void initialize_spu_default(void);
 void _spu_FsetDelayW(void);
 void _spu_FsetDelayR(void);
 void set_dma_channel_4_callback(int callback);
 s32 is_tone_parameter_flag_set(void);
-s32 update_spu_register_pair_cc_cd(s32 first, s32 second);
-s32 read_spu_register_pair_cc_cd(void);
+s32 set_reverb_voice_mask(s32 first, s32 second);
+s32 get_reverb_voice_mask(void);
 void apply_voice_attributes_and_key_on(void *object);
 
 /* code2.c */
@@ -181,7 +181,7 @@ void set_current_and_previous_menu_selection(void *object, s32 value);
 int cancel_pending_sound_selection(void);
 void invalidate_four_sprite_resource_slots(void);
 int monster_get_species_name_text(int index);
-void clear_runtime_slot_word_table(void);
+void clear_vram_row_upload_cache(void);
 void item_clear_recorded_category_pair(int first_value, int second_value);
 void scene_save_previous_mode_and_reset_callbacks(void);
 u8 select_display_spacing_table_entry(s32 index, s32 count);
@@ -199,7 +199,7 @@ s32 find_or_load_runtime_resource_key(void *key);
 void initialize_runtime_resource_directory(void);
 
 /* konami_runtime_w_80038AB8.c */
-s32 interpret_script_opcodes_until_action_changes(struct RuntimeContext *context, u8 *owner);
+s32 interpret_script_opcodes(struct RuntimeContext *context, u8 *owner);
 
 /* konami_runtime_w_80038C40.c */
 s32 is_message_byte_in_lookup_set(s8 value);
@@ -246,7 +246,7 @@ void remove_runtime_callback(s32 value);
 u8 select_mapped_object_status_code(void *object);
 
 /* w_8004DCA8.c */
-void runtime_register_object_or_fallback_slot(void *object);
+void register_message_command_object(void *object);
 
 /* w_8004DCEC.c */
 void runtime_call_selected_mode_handler(void);
@@ -258,10 +258,10 @@ void submit_script_with_registered_context(void *context);
 void build_object_registration_script(void *data);
 
 /* w_8004DE88.c */
-void runtime_dispatch_control_coded_message(char *message);
+void dispatch_control_coded_message(char *message);
 
 /* w_8004DF8C.c */
-void runtime_dispatch_and_reset_control_string(char *text);
+void dispatch_control_string_with_suffix(char *text);
 
 /* w_8004E130.c */
 void enqueue_script_message_command(void);

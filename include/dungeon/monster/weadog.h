@@ -10,7 +10,7 @@ typedef struct GridPoint {
     s16 y;
 } GridPoint;
 
-/* The 0x12 node installed by spawn_moving_actor and advanced by the flight callback. */
+/* The 0x12 node installed by update_weadog_projectile_attack and advanced by the flight callback. */
 typedef struct WeadogFlightBody {
     u8 pad_00[0x2C];
     s16 phase;
@@ -41,7 +41,7 @@ void update_weadog_timed_move(void *action, void *motion, SpriteFrameState *spri
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void advance_timed_sprite_flashing_sequence(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
-void *create_overlay_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c);
+void *spawn_weadog_actor(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c);
 void create_random_color_offset_effect(void *parent_arg, s16 initial_14, s32 unused, s16 initial_32, s16 offset_x, s16 offset_y, s16 offset_z);
 void update_actor_targeted_action(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 

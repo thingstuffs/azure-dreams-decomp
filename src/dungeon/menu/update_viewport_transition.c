@@ -112,7 +112,7 @@ void update_viewport_transition(InactiveTypeTwelveObjectBody *transition, Object
             transition->idle_frames = idle_frames;
             if ((s16) idle_frames == 0x1F) {
                 dungeon_floor_flags = (s32) (dungeon_floor_flags | 0x01000000);
-                create_fullscreen_quad_updater(0);
+                create_fullscreen_grayscale_ramp(0);
             } else if ((s16) idle_frames >= 0x20) {
                 transition->idle_frames = 0x20U;
             }
@@ -255,7 +255,7 @@ void update_viewport_transition(InactiveTypeTwelveObjectBody *transition, Object
         if ((has_pending_actor_or_turn_action(0) << 0x10) != 0) {
             break;
         }
-        clear_pending_item_action_state();
+        clear_pending_action_event();
         flags_mask = 0xFEFFFFFF;
         flags_page = (S_func_8009E038_6 *)0x800E0000;
         shared_flags = flags_page->unk_296C;

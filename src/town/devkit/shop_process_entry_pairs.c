@@ -7,14 +7,14 @@ typedef struct {
 } TownPair;
 
 extern TownPair D_80701DCC[];
-extern void clear_linked_flag(s32 bit_index);
+extern void clear_indexed_flag(s32 bit_index);
 
 /* Process both values in table pairs one through three. */
 void clear_three_flag_pairs(void) {
     s32 pair_index;
 
     for (pair_index = 1; pair_index < 4; pair_index++) {
-        clear_linked_flag(D_80701DCC[pair_index].field_0);
-        clear_linked_flag(D_80701DCC[pair_index].field_2);
+        clear_indexed_flag(D_80701DCC[pair_index].field_0);
+        clear_indexed_flag(D_80701DCC[pair_index].field_2);
     }
 }

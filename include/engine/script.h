@@ -32,7 +32,7 @@ typedef struct MessageVoiceState {
 } MessageVoiceState;
 
 /* Event-script opcodes: the slot of each handler in script_opcode_handlers,
- * the resident table that interpret_script_opcodes_until_action_changes
+ * the resident table that interpret_script_opcodes
  * dispatches (byte format described there). "vN" is variable N, a word at
  * VM block +0x48 + 4*N; operands are listed in script order. Four opcodes
  * duplicate others: 0x44 = 0x33, 0x45 = 0x34, 0x46 = 0x36, and 0x37 is 0x33

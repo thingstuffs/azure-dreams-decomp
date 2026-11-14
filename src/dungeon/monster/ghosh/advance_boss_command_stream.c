@@ -153,7 +153,7 @@ s32 advance_boss_command_stream(ActorRecord *object_arg, ObjectPosition *context
             select_sprite_entry(entity,
                 anim[((g_game_work.view.camera_rotation.parts.viewAngle + obj->facing + 0x100) >> 9) & 7],
                 0);
-            create_boss_offset_effect();
+            create_sprite_above_boss();
             audio_x = entity->tile_x;
             audio_y = entity->tile_y;
             audio_param = 0x3000;

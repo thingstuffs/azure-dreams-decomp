@@ -3,7 +3,7 @@
 #include "town/shop/state.h"
 #include "town/devkit.h"
 
-void clear_linked_flag(s32 bit_index);                         /* extern */
+void clear_indexed_flag(s32 bit_index);                         /* extern */
 extern u8 devkit_globals_page[];
 
 typedef struct S_8070207C_0 {
@@ -25,11 +25,11 @@ void propagate_indexed_flag_pair(s32 entry_index) {
 
     saved_index = entry_index;
     entry_offset = entry_index * 4;
-    if (test_linked_flag(((S_8070207C_0 *)(devkit_globals_page + entry_offset))->unk_1DCC) != 0) {
-        set_linked_flag(((S_8070207C_0 *)(devkit_globals_page + entry_offset))->unk_1DCE);
+    if (test_indexed_flag(((S_8070207C_0 *)(devkit_globals_page + entry_offset))->unk_1DCC) != 0) {
+        set_indexed_flag(((S_8070207C_0 *)(devkit_globals_page + entry_offset))->unk_1DCE);
     } else {
-        clear_linked_flag(((S_8070207C_0 *)(devkit_globals_page + saved_index * 4))->unk_1DCE);
+        clear_indexed_flag(((S_8070207C_0 *)(devkit_globals_page + saved_index * 4))->unk_1DCE);
     }
     final_offset = saved_index * 4;
-    set_linked_flag(((S_8070207C_1 *)(devkit_globals_page + final_offset))->unk_1DCC);
+    set_indexed_flag(((S_8070207C_1 *)(devkit_globals_page + final_offset))->unk_1DCC);
 }

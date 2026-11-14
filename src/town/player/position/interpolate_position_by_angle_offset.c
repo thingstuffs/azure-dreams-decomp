@@ -38,7 +38,7 @@ void interpolate_position_by_angle_offset(void *motion_arg, ObjectPosition *posi
              + (old_y = position->y.v)) / 2;
         return;
     }
-    clear_entity_record_fields(position);
+    clear_object_velocity(position);
     motion->unk_0A = 7;
     motion->unk_04 = move_position_toward_target_and_finish;
 }

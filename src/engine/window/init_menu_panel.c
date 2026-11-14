@@ -14,8 +14,8 @@ void init_menu_panel(AnimatedMenuPanelBody *state, s32 config_id, s32 resource_i
     u16 resolved_size;
     s32 requested_size;
 
-    sound_initialize_ordered_elements(state);
-    state->tag_values = lookup_first_mask_value(config_id);
+    init_animated_panel_elements(state);
+    state->tag_values = lookup_menu_value_for_flags(config_id);
     resource_handle = func_8004DC14(resource_id, 1);
     requested_size = size;
     resolved_size = requested_size;

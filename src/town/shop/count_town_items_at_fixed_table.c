@@ -1,0 +1,18 @@
+#include "common.h"
+#include "town/shop.h"
+
+/* Count nonzero words in the fixed table until its zero terminator. */
+s32 count_town_items_at_fixed_table(void) {
+    s32 *entry;
+    s32 count;
+
+    entry = (s32 *)0x8001029C;
+    count = 0;
+    if (entry[0] != 0) {
+        do {
+            entry = entry + 1;
+            count++;
+        } while (entry[0] != 0);
+    }
+    return count;
+}

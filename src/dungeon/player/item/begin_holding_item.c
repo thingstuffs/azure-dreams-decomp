@@ -169,7 +169,7 @@ print_message:
                 1);
             play_sound_if_enabled(0x511);
             ((ActorRecord *)actor_state)->flags1C |= 0x100000;
-            clear_slot_and_update_linked_state(item);
+            clear_item_slot(item);
         }
     }
     return result;

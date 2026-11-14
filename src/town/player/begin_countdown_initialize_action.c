@@ -11,7 +11,7 @@ extern s32 D_800D0178;
 
 /* Initializes the object with default data and resets its state. */
 void begin_countdown_initialize_action(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *initializationValue) {
-    clear_entity_record_fields((position));
+    clear_object_velocity((position));
     dispatch_selected_entry_if_nonzero(&D_800D0178, object, initializationValue);
     object->unk_04 = &tick_countdown_and_initialize_object;
     town_action_reset_byte = 0;

@@ -38,7 +38,7 @@ s32 use_item_to_revive_selected_actor(ActorRecord *entity, DungeonItemEntry *act
 
     target_updated = 0;
     if (action_type == 0xD) {
-        return process_record_and_update_linked_state(action, context);
+        return resolve_item_attack(action, context);
     }
     if (entity == dungeon_actor_ring_anchor) {
         ((PlayerRecord *)entity)->pending_item_action = action;
@@ -51,7 +51,7 @@ s32 use_item_to_revive_selected_actor(ActorRecord *entity, DungeonItemEntry *act
             place_actor_item(entity, action);
             return 1;
         }
-        clear_slot_and_update_linked_state(action);
+        clear_item_slot(action);
         {
 
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
@@ -79,7 +79,7 @@ s32 use_item_to_revive_selected_actor(ActorRecord *entity, DungeonItemEntry *act
     if (target_updated == 0) {
         display_formatted_context_message(&D_800E15A2);
     }
-    clear_slot_and_update_linked_state(action);
+    clear_item_slot(action);
     {
 
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);

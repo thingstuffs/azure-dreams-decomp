@@ -51,7 +51,7 @@ void initialize_scene_slot_47(TownObjectRecord *object, ObjectPosition *unused, 
 
 void initialize_scene_slot_52(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 
-void initialize_object_slot_0x17(TownObjectRecord *context, ObjectPosition *unused, struct SpriteFrameState *stateWords);
+void initialize_scene_slot_23(TownObjectRecord *context, ObjectPosition *unused, struct SpriteFrameState *stateWords);
 
 void configure_actor_slot_28_and_render_state(TownObjectRecord *context, ObjectPosition *unused, struct SpriteFrameState *stateWords);
 
@@ -61,11 +61,11 @@ void init_reaction_object_slot_clut(TownObjectRecord *object, ObjectPosition *un
 
 void init_person_slot_sixty_one(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *output);
 
-void initialize_reaction_object_type_4_f(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *stateValues);
+void initialize_scene_slot_79(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *stateValues);
 
 void configure_actor_slot_25_and_render_state(TownObjectRecord *context, ObjectPosition *unused, struct SpriteFrameState *stateWords);
 
-void reset_object_substate_and_flag(TownObjectRecord *context, ObjectPosition *unused, struct SpriteFrameState *stateWords);
+void initialize_scene_slot_39(TownObjectRecord *context, ObjectPosition *unused, struct SpriteFrameState *stateWords);
 
 void configure_actor_slot_70_and_render_state(TownObjectRecord *context, ObjectPosition *unused, struct SpriteFrameState *stateWords);
 
@@ -129,8 +129,8 @@ void configure_actor_slot_5(TownObjectRecord *actor, ObjectPosition *unused_posi
 
 void init_person_slot_eight(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *state);
 
-void initialize_object_slot_9_data(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *state);
+void initialize_scene_slot_9_data(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *state);
 
-void initialize_object_slot_9_and_display(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *state);
+void initialize_scene_slot_9_and_display(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *state);
 
 #endif

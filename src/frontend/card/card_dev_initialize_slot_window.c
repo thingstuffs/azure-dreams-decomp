@@ -10,5 +10,5 @@ void card_dev_initialize_slot_window(u8 *record, s32 setup_value, s32 processing
 {
     func_80404308(record, setup_value, processing_value);
     func_80403DA0(record + 0x1C8, record + 0x1A0, record + 0x1B0, processing_value);
-    complete_pending_object_state(record);
+    layout_slot_window_entries(record);
 }

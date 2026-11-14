@@ -24,7 +24,7 @@ AnimatedMenuPanelNode *window_create_animated_content_panel(s32 style_flags, s16
     entity = allocate_flagged_object_node(0);
     if (entity != 0) {
         state = &entity->body;
-        buffer_addr = create_callback_pair_default(0);
+        buffer_addr = allocate_node_body(0);
         state->template_buffer = buffer_addr;
         if (buffer_addr != 0) {
             state->flags = (u16)flags;

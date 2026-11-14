@@ -28,7 +28,7 @@ void mark_object_removal_for_inner_release(unsigned short *object)
  *
  * Ring-buffer size accumulator.
  */
-void adjust_resource_decode_buffer_capacity(int amount)
+void adjust_gpu_scratch_ring_size(int amount)
 {
     gpu_scratch_ring_size = gpu_scratch_ring_size + amount;
 }

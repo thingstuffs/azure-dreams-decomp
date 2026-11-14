@@ -35,5 +35,5 @@ extern void func_800A9A04(void *);
 
 
 void troll_jump_arc_to_tile_and_end_turn(ActorRecord *animation, ObjectPosition *motion, SpriteFrameState *tile, ActorRecord *actor);
-void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
+void update_troll_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 #endif

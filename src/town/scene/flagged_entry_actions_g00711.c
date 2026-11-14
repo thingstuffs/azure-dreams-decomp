@@ -16,7 +16,7 @@ void clear_state_history_and_head_indices(void) {
 }
 
 /* Process flagged type 0x18 entries, displaying messages and invoking their handlers. */
-void process_flagged_type_0x18_entries(void) {
+void process_flagged_goods_entries(void) {
     u8 *entry;
     u8 *type_ptr;
     u8 entry_code;

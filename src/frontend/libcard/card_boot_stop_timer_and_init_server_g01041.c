@@ -34,8 +34,8 @@ void *card_boot_open_save_slot_selection(ObjectNodeHeader *request) {
 }
 
 /* Run the extra setup callback and dispatch the request in mode 2. */
-void *dispatch_request_mode_two(void *request) {
-    save_and_clear_entity_flag_ten();
+void *card_boot_open_request_mode_two(void *request) {
+    save_and_clear_actor_blind_flag();
     card_boot_stop_timer_and_init_server();
     return init_card_boot_request_object(request, 2);
 }

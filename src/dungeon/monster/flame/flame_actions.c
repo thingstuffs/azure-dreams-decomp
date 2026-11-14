@@ -141,7 +141,7 @@ void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id
                         entry->animation_resource = field_value;
                         entry_mode = 0;
                         callback_obj = child_slot->unk_A4;
-                        callback_obj->unk_10 = process_effect_block_entries;
+                        callback_obj->unk_10 = advance_block_sprite_entries;
                         setup_value = entry->flags;
                         setup_value |= 0xC;
                         entry->flags = setup_value;
@@ -629,7 +629,7 @@ void initialize_destination_state(ActorRecord *actor, ObjectPosition *actor_cont
                     if ((try_flame_attack(actor, actor_context, sprite, creature) << 16) != 0) {
                         return;
                     }
-                    update_actor_action_and_direction(actor, actor_context, sprite, creature);
+                    begin_flame_attack(actor, actor_context, sprite, creature);
                     return;
 
                 case 4:
@@ -1027,7 +1027,7 @@ s32 try_flame_attack(ActorRecord *action_state, ObjectPosition *motion_param, Sp
 
 /* Claims an action slot, starts the directional attack animation, and prepares its target and damage
  * state. */
-void update_actor_action_and_direction(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor) {
+void begin_flame_attack(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor) {
     actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target(NODE_HEADER(actor), context, 8, 0x300);
@@ -1122,7 +1122,7 @@ void finish_flame_linked_motion(ActorRecord *state, ObjectPosition *entity, Spri
 }
 
 /* Times an attack animation and sound, applies damage, spends MP, and restores actor movement. */
-void advance_action_through_animation(R06_8017278C_S_8017278C_0 *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+void complete_flame_attack_animation(R06_8017278C_S_8017278C_0 *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 ticks_left;
     s32 initial_state;
     s32 state;
@@ -1180,7 +1180,7 @@ void advance_action_through_animation(R06_8017278C_S_8017278C_0 *action, ObjectP
 }
 
 /* Starts a targeted spell, waits for loading and animation, then restores actor movement and status. */
-void start_selected_move_and_reset_action(ActorRecord *action, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+void cast_flame_targeted_spell(ActorRecord *action, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 phase;
     s16 is_special;
     s32 move_kind;
@@ -1353,7 +1353,7 @@ void start_selected_move_and_reset_action(ActorRecord *action, ObjectPosition *p
    substitutions. */
 
 /* Applies a value change and knockback, decelerates the actor, then recenters it and restores movement. */
-void update_directional_motion_and_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *tile_state, ActorRecord *entity) {
+void damp_flame_motion_and_recenter(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *tile_state, ActorRecord *entity) {
     s16 timer;
     s32 direction;
     s32 tracked_entity;
@@ -1606,7 +1606,7 @@ void grow_hopping_flame(ActorRecord *state, ObjectPosition *motion, SpriteFrameS
 }
 
 /* Waits for a status effect to clear, updates actor status and activity counts, then restores movement. */
-void update_actor_state_by_flags(ActorRecord *in_actor, ObjectPosition *in_context, SpriteFrameState *in_sprite, ActorRecord *in_entity) {
+void wait_flame_status_and_animate(ActorRecord *in_actor, ObjectPosition *in_context, SpriteFrameState *in_sprite, ActorRecord *in_entity) {
     void *context = in_context;
     s32 entity_flags;
     u16 stat_value;
@@ -2356,7 +2356,7 @@ s32 project_textured_quad_chain(void *initial_state, ObjectPosition *context, Sp
  * Decrements the 16-bit lifetime and sets local and global removal flags when the signed result is
  * zero or negative.
  */
-void advance_record_countdown(void *record_data) {
+void tick_effect_lifetime(void *record_data) {
     u16 remaining_count;
 
     remaining_count = ((R06_801748F0_S_801748F0_0 *)((u8 *)record_data - 0x2))->unk_1C - 1;
@@ -2462,7 +2462,7 @@ void update_fading_four_strip_effect(u8 *effect, ObjectPosition *origin, SpriteF
             strip_data = NODE_BODY(strip_obj);
             ((R06_80174934_S_80174934_1 *)strip_data)->unk_1A = 1;
             ((R06_80174934_S_80174934_1 *)strip_data)->unk_1C = 1;
-            strip_obj->update_callback = ((u8 *)advance_record_countdown);
+            strip_obj->update_callback = ((u8 *)tick_effect_lifetime);
             register_node(init_obj, callback);
 
             render_ctl = (R06_80174934_S_80174934_3 *)*(u8 * *)&strip_obj->sprite;

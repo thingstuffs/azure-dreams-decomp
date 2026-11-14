@@ -136,19 +136,19 @@ void start_bicycle_at_view_reference(Obj *obj, State *state, VecState *motion, v
     motion->dx = 0;
     motion->dy = 0;
     motion->dz = 0;
-    obj->callback = update_actor_position_and_heading;
+    obj->callback = update_bicycle_position_and_heading;
     initialize_object_entries((TownObjectRecord *)obj, resource_arg, (s32 *)resource);
     update_target_from_previous_state();
     motion->x = view_reference_entity.x.v;
     motion->y = view_reference_entity.y.v;
     motion->z = view_reference_entity.z.v;
     apply_pending_indexed_value(0xE5, (s32)read_and_clear_stored_value);
-    set_flagged_entry_values((u32 *)D_800D0D54, (s32)store_value_and_get_masked_offset);
-    update_actor_position_and_heading(obj, (s32)state, motion, callback_arg);
+    set_flagged_entry_values((u32 *)D_800D0D54, (s32)store_pending_value_and_get_source);
+    update_bicycle_position_and_heading(obj, (s32)state, motion, callback_arg);
 }
 
 /* Updates the actor position and rounds its heading, or restores the fixed position and heading. */
-void update_actor_position_and_heading(void *actor, s32 update_context, void *position_arg, void *setup_context) {
+void update_bicycle_position_and_heading(void *actor, s32 update_context, void *position_arg, void *setup_context) {
     EntityRec *position = position_arg;
     u32 heading;
     ObjectNodeHeader *state;

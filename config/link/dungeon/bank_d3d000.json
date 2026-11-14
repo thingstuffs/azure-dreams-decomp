@@ -122,7 +122,7 @@
     {
       "row": "dungeon/func_80D1DF60",
       "home": "dungeon/func_80D11F60",
-      "tu": "src/dungeon/monster/noise/update_actor_behavior_and_direction.c",
+      "tu": "src/dungeon/monster/noise/update_noise_behavior.c",
       "foff": "0x00D3DF60",
       "vma": "0x80165760",
       "size": 1400,
@@ -262,7 +262,7 @@
     },
     {
       "row": "dungeon/func_80D1F1AC",
-      "tu": "src/dungeon/monster/hikewne/update_entity_state_from_query.c",
+      "tu": "src/dungeon/monster/hikewne/relink_hikewne_path.c",
       "home": "dungeon/func_80976E28",
       "foff": "0xD3F1AC",
       "vma": "0x801669AC",
@@ -276,7 +276,7 @@
     },
     {
       "row": "dungeon/func_80D1F2F0",
-      "tu": "src/dungeon/monster/saber/reset_eligible_entity_state.c",
+      "tu": "src/dungeon/monster/saber/finish_saber_tile_move.c",
       "home": "dungeon/func_80AC7330",
       "foff": "0xD3F2F0",
       "vma": "0x80166AF0",
@@ -305,7 +305,7 @@
     },
     {
       "row": "dungeon/func_80D1F798",
-      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F88C30",
       "foff": "0xD3F798",
       "vma": "0x80166F98",
@@ -370,7 +370,7 @@
     },
     {
       "row": "dungeon/func_80D20684",
-      "tu": "src/dungeon/effect/state/forward_actor_effect_state.c",
+      "tu": "src/dungeon/effect/state/update_hop_and_shrink_callback.c",
       "home": "dungeon/func_800AD90C",
       "foff": "0xD40684",
       "vma": "0x80167E84",
@@ -474,7 +474,7 @@
     },
     {
       "row": "dungeon/func_80D20D98",
-      "tu": "src/dungeon/monster/kewne/update_actor_state_after_map_check.c",
+      "tu": "src/dungeon/monster/kewne/update_kewne_parent_motion.c",
       "home": "dungeon/func_809A2D74",
       "foff": "0xD40D98",
       "vma": "0x80168598",
@@ -488,7 +488,7 @@
     },
     {
       "row": "dungeon/func_80D20E60",
-      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F8A600",
       "foff": "0xD40E60",
       "vma": "0x80168660",

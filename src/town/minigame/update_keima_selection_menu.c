@@ -76,7 +76,7 @@ extern s32 town_money;
 extern void func_800201C8(void *, void *);
 extern void func_8002025C(void *, void *);
 extern void return_zero_variadic(void *, s32);
-extern s32 create_dual_buffer_object(s32, s32, s32);
+extern s32 create_floating_number_widget(s32, s32, s32);
 extern void set_advance_inner_value_callback(s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Updates the selection menu, quantity, payment, and closing state. */
@@ -182,7 +182,7 @@ void update_keima_selection_menu(TownEntity *menu)
             *money -= 100;
             keima_selection_mask = option_ids.value[(*(s16 *)((u8 *)entity + 6))];
             set_resident_bit(0x592);
-            keima_panel_object[0] = create_dual_buffer_object(0, -0x48, -0x28);
+            keima_panel_object[0] = create_floating_number_widget(0, -0x48, -0x28);
             entity->timer = -1;
             entity->state = (u16)entity->state + 1;
             return;

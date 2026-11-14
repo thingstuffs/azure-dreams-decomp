@@ -117,5 +117,5 @@ void expire_effect_at_unit_scale(ParticleCleanupEffectBody *state_data, struct O
 void finish_timed_visual_effect(void *object);
 void advance_timed_visual_effect(ParticleCleanupEffectBody *state, void *position, void *visual);
 void update_tiled_fade_effect(ParticleCleanupEffectBody *effect, void *offset_state, void *render_state);
-extern u8 particle_update_flag[];
+#include "dungeon/effect/particle/particle_update_flag.h"
 #endif

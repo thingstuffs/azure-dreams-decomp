@@ -5,18 +5,18 @@
 #include "town/map.h"
 
 /* Reset state when the value source changes; otherwise copy its three values. */
-void reset_or_copy_state_values(TownCameraState *state) {
+void follow_camera_target(TownCameraState *state) {
     IntVector3 *values;
 
     values = state->target;
     if (values != state->previous_target) {
         state->steps = 9;
-        state->track_target = restart_or_advance_target_interpolation;
+        state->track_target = interpolate_camera_to_target;
         state->unk14 = 0;
         state->unk18 = 0;
         state->unk1C = 0;
         state->previous_target = values;
-        restart_or_advance_target_interpolation(state);
+        interpolate_camera_to_target(state);
         return;
     }
     state->x = values->x;
@@ -25,7 +25,7 @@ void reset_or_copy_state_values(TownCameraState *state) {
 }
 
 /* Restart interpolation when the target changes, otherwise advance toward its position. */
-void restart_or_advance_target_interpolation(TownCameraState *state) {
+void interpolate_camera_to_target(TownCameraState *state) {
     s32 steps_left;
     IntVector3 *target;
 
@@ -36,7 +36,7 @@ void restart_or_advance_target_interpolation(TownCameraState *state) {
         state->unk18 = 0;
         state->unk1C = 0;
         state->previous_target = target;
-        reset_or_copy_state_values(state);
+        follow_camera_target(state);
         return;
     }
     state->x += (target->x - state->x) / state->steps;
@@ -45,6 +45,6 @@ void restart_or_advance_target_interpolation(TownCameraState *state) {
     steps_left = state->steps - 1;
     state->steps = steps_left;
     if (steps_left <= 0) {
-        state->track_target = reset_or_copy_state_values;
+        state->track_target = follow_camera_target;
     }
 }

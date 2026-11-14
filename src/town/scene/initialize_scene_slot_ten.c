@@ -10,5 +10,5 @@ extern u8 D_800D6330[];
 extern u8 D_800D6338[];
 
 void initialize_scene_slot_ten(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite) {
-    initialize_object_and_register_slot(object, 10, D_800D6360, D_800D6364, D_800D6330, D_800D6338);
+    register_object_slot_with_tables(object, 10, D_800D6360, D_800D6364, D_800D6330, D_800D6338);
 }

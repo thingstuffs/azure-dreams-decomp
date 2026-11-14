@@ -4,7 +4,7 @@
 #include "common.h"
 
 /* Bouncing coin pickup body.  update_betting_effect fills one as a message and
- * initialize_source_and_initial_data copies it whole into the payload of a 0x136
+ * create_bouncing_pickup copies it whole into the payload of a 0x136
  * node (after its ObjectNodeHeader), installs update_bouncing_pickup and draws it
  * with project_sprite_chain; the callback then receives the same record as arg0.
  * The source x halfword at +0x54 is signed.  This record does not describe the
@@ -30,6 +30,6 @@ typedef struct minigame_pickup_initial {
     s32 f;
 } minigame_pickup_initial;
 
-void initialize_source_and_initial_data(minigame_pickup_source *, minigame_pickup_initial *);
+void create_bouncing_pickup(minigame_pickup_source *, minigame_pickup_initial *);
 
 #endif

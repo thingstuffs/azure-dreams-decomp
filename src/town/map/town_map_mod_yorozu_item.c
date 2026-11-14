@@ -82,7 +82,7 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
         position.w[1] = ((y_or_state.coord << 6) + (dir_step_x[direction][0] << 3)) << 16;
         position.w[2] = 0;
         variant_row = D_800D2134[entry_index];
-        x_or_object.object = create_positioned_visual_object(position.w, update_record_output_grid, direction << 10, *variant_row);
+        x_or_object.object = create_positioned_visual_object(position.w, cycle_prop_output_values, direction << 10, *variant_row);
         y_or_state.object = x_or_object.object + 0x20;
         *((s32 **) (y_or_state.object + 0xA0)) = variant_row;
         break;
@@ -161,7 +161,7 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
         position.w[0] = (x_or_object.coord << 22) + 0x200000;
         position.w[1] = (y_or_state.coord << 22) + 0x200000;
         position.h[5] = query_lowered_transform_position(position.w);
-        x_or_object.object = create_town_prop_graphic_object(position.w, initialize_record_visual_state, D_800D21B4[(s16) object_type]);
+        x_or_object.object = create_town_prop_graphic_object(position.w, cycle_prop_animation, D_800D21B4[(s16) object_type]);
         y_or_state.object = x_or_object.object + 0x20;
         *((s32 *) (y_or_state.object + 0xA0)) = D_800D216C[entry_index][0];
         *((s32 *) (y_or_state.object + 0xA4)) = D_800D216C[entry_index][1];
@@ -180,7 +180,7 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
         position.w[0] = (x_or_object.coord << 22) + 0x200000;
         position.w[1] = (y_or_state.coord << 22) + 0x200000;
         position.h[5] = query_lowered_transform_position(position.w);
-        x_or_object.object = create_town_prop_graphic_object(position.w, copy_record_state_to_destination, D_800D21B4[(s16) object_type]);
+        x_or_object.object = create_town_prop_graphic_object(position.w, cycle_prop_animation_until_done, D_800D21B4[(s16) object_type]);
         y_or_state.object = x_or_object.object + 0x20;
         *((s32 *) (y_or_state.object + 0xA0)) = town_item_layout_coordinates[entry_index][0];
         *((s32 *) (y_or_state.object + 0xA4)) = town_item_layout_coordinates[entry_index][1];

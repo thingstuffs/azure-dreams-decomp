@@ -55,8 +55,8 @@ void follow_brighten(MovingEffectState *self, MovingMotion *motion, MovingSprite
         ((SignedWordView *)radial_effect_colors)->unk_00 = 0;
         ((SignedHalfView *)D_80026474)->unk_00 = 0;
         ((UnsignedWordView *)D_80026476)->unk_00 = 0;
-        ((UnsignedHalfView *)row_quad_top_color)->unk_00 = 0;
-        ((UnsignedByteView *)row_quad_bottom_color)->unk_00 = 0;
+        ((UnsignedHalfView *)&row_quad_top_color)->unk_00 = 0;
+        ((UnsignedByteView *)&row_quad_bottom_color)->unk_00 = 0;
         {
             u16 owner_flags = owner->unk_2A;
             *(u16 *)D_80026484 = 0x1010;

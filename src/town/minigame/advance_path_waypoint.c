@@ -1,0 +1,54 @@
+#include "common.h"
+#include "m2c_compat.h"
+#include "town/minigame/entry_state.h"
+#include "town/minigame.h"
+#include "shared/entity.h"
+
+
+
+typedef struct {
+    u16 count;
+    s16 index;
+} State;
+
+typedef struct {
+    s16 f0;
+    s16 f1;
+    s16 f2;
+    s16 f3;
+} Entry;
+
+
+extern M2C_UNK D_800240F0;
+
+
+/* Advance the entry index when the point is inside its bounds, counting completed cycles. */
+void advance_path_waypoint(ObjectPosition *bounds_data, void *state_data_arg) {
+    State *state_data = state_data_arg;
+    s16 next_index;
+    s16 entry_y;
+    s16 entry_x;
+    s16 point_x;
+    s32 point_y;
+    void *entries;
+    Entry *entry;
+    State *state = state_data;
+
+    point_x = bounds_data->x.w.i;
+    point_y = bounds_data->y.w.i;
+    entries = &D_800240F0;
+    entry = ((state->index * 8) + entries);
+    entry_x = entry->f0;
+    if ((point_x >= entry_x) &&
+        ((entry_x + entry->f2) >= point_x)) {
+        entry_y = entry->f1;
+        if (point_y >= entry_y && (entry_y + entry->f3) >= point_y) {
+            next_index = (u16)state->index + 1;
+            state_data->index = next_index;
+            if (next_index >= 0xE) {
+                state->index = 0;
+                state->count = (u16)(state->count + 1);
+            }
+        }
+    }
+}

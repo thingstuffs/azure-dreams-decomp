@@ -24,7 +24,7 @@ void set_shop_change_indicator_color(ShopWindow *window, s32 target_value) {
 }
 
 /* Set two subrecord values and run their associated update routines. */
-void set_shop_subrecord_values(s32 record_address, s32 value_10, s32 value_08) {
+void set_shop_page_and_selection(s32 record_address, s32 value_10, s32 value_08) {
     ShopWindow *subrecord;
 
     subrecord = record_address + 0x20;

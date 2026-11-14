@@ -2,6 +2,7 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "dungeon/effect/particle.h"
+#include "dungeon/effect/particle/particle_update_flag.h"
 
 typedef struct S_818FEDEC_0_pre {
     u16 unk_00;
@@ -33,7 +34,6 @@ typedef struct {
     u8 field_29;
 } TargetState;
 
-extern s16 particle_update_flag[5];
 
 /* Advances an eight-frame animation and flags expiration when its countdown ends. */
 void update_eight_frame_animation_effect(void *anim_state_arg, ObjectPosition *unused_arg, void *render_state_arg) {
@@ -44,7 +44,7 @@ void update_eight_frame_animation_effect(void *anim_state_arg, ObjectPosition *u
     s32 *page_base;
 
     ticks_left = anim_state->unk_02;
-    *particle_update_flag = 1;
+    particle_update_flag = 1;
     anim_state->unk_02 = (u16) (ticks_left - 1);
     render_state->unk_1C = 0x2000;
     render_state->unk_1E = 0x2000;

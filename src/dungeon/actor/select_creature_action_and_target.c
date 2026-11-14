@@ -30,13 +30,13 @@
 extern u8 *find_eligible_actor_at_tile_and_height();
 extern s32 get_tile_chebyshev_distance();
 extern s32 get_actor_height_difference();
-extern void * find_monster_neighbor_candidate(void *entity, u16 x, u16 y);
+extern void * find_compatible_adjacent_actor(void *entity, u16 x, u16 y);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/item.h"
 #include "dungeon/actor/effect.h"
 #include "dungeon/player/object.h"
 extern s32 check_entity_interaction_compatibility();
-extern s32 get_definition_field_from_triple(ActorRecord *actor, s32 entry_index);
+extern s32 get_action_slot_range(ActorRecord *actor, s32 entry_index);
 extern s32 check_left_tile_and_center_height();
 extern u32 find_nearest_floor_item_in_room();
 
@@ -150,7 +150,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
                          * Unless this food is selected, the now-empty tile still blocks item placement;
                          * remove_floor_items_at_tile clears the flag too.
                          */
-                        clear_slot_and_update_linked_state(&dungeon_ground_items[entry_index]);
+                        clear_item_slot(&dungeon_ground_items[entry_index]);
                     }
                     return 0;
                 }
@@ -189,7 +189,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
                     if (creature->flags1C & ACTOR_PLAYER_AWARE) {
                         idle_player_pos = &reference_tile_object;
                         idle_player_dist = get_tile_chebyshev_distance(position, idle_player_pos);
-                        idle_player_range = get_definition_field_from_triple(creature, slot_or_distance);
+                        idle_player_range = get_action_slot_range(creature, slot_or_distance);
                         if ((idle_player_dist << 16) < (idle_player_range << 16)) {
                             if ((check_scaled_value_threshold(dungeon_actor_ring_anchor) << 16) != 0) {
                                 s32 result;
@@ -213,7 +213,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
                         if (ally != NULL) {
                             target_pos = *(void **)(ally - 0x14);
                             idle_ally_dist = get_tile_chebyshev_distance(position, target_pos);
-                            idle_ally_range = get_definition_field_from_triple(creature, slot_or_distance);
+                            idle_ally_range = get_action_slot_range(creature, slot_or_distance);
                             distance_scaled = idle_ally_dist << 16;
                             distance = (s32)distance_scaled < (idle_ally_range << 16);
                             if (distance) {
@@ -277,7 +277,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
                     if (creature->flags1C & ACTOR_PLAYER_AWARE) {
                         follow_player_pos = &reference_tile_object;
                         follow_player_dist = get_tile_chebyshev_distance(position, follow_player_pos);
-                        follow_player_range = get_definition_field_from_triple(creature, slot_or_distance);
+                        follow_player_range = get_action_slot_range(creature, slot_or_distance);
                         if ((follow_player_dist << 16) < (follow_player_range << 16)) {
                             if ((check_scaled_value_threshold(primary_actor_record) << 16) != 0) {
                                 ActorRecord *player_target;
@@ -301,7 +301,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
                         if (ally != NULL) {
                             target_pos = *(void **)(ally - 0x14);
                             follow_ally_dist = get_tile_chebyshev_distance(position, target_pos);
-                            follow_ally_range = get_definition_field_from_triple(creature, slot_or_distance);
+                            follow_ally_range = get_action_slot_range(creature, slot_or_distance);
                             if ((follow_ally_dist << 16) < (follow_ally_range << 16)) {
                                 if ((check_scaled_value_threshold(*(void **)((ally_offset + (s32)primary_actor_record) + 0xAC)) << 16) != 0) {
                                     {
@@ -360,7 +360,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
                     if (creature->flags1C & ACTOR_PLAYER_AWARE) {
                         assist_player_pos = &reference_tile_object;
                         assist_player_dist = get_tile_chebyshev_distance(position, assist_player_pos);
-                        assist_player_range = get_definition_field_from_triple(creature, slot_or_distance);
+                        assist_player_range = get_action_slot_range(creature, slot_or_distance);
                         if ((assist_player_dist << 16) < (assist_player_range << 16)) {
                             if ((check_scaled_value_threshold(primary_actor_record) << 16) != 0) {
                                 if ((has_pending_actor_or_turn_action(creature) << 16) != 0) {
@@ -389,7 +389,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
                         if (ally != NULL) {
                             target_pos = *(void **)(ally - 0x14);
                             assist_ally_dist = get_tile_chebyshev_distance(position, target_pos);
-                            assist_ally_range = get_definition_field_from_triple(creature, slot_or_distance);
+                            assist_ally_range = get_action_slot_range(creature, slot_or_distance);
                             if ((assist_ally_dist << 16) < (assist_ally_range << 16)) {
                                 if ((check_scaled_value_threshold(*(void **)((ally_offset + (s32)primary_actor_record) + 0xAC)) << 16) != 0) {
                                     if ((has_pending_actor_or_turn_action(creature) << 16) != 0) {
@@ -454,7 +454,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
             if ((has_pending_actor_or_turn_action(creature) << 16) != 0) {
                 return -1;
             }
-            move_target = find_monster_neighbor_candidate(creature, ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y);
+            move_target = find_compatible_adjacent_actor(creature, ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y);
             default_action = 0;
             creature->target = move_target;
             if (move_target != NULL) {

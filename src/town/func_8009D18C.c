@@ -30,7 +30,7 @@ void initialize_entity_handlers_and_position(s32 entity_id, s32 x, s32 y) {
     ObjectNodeHeader *node = NODE_HEADER(entity);
     struct SpriteFrameState *sprite = node->sprite;
 
-    clear_entity_record_fields(node->position);
+    clear_object_velocity(node->position);
     dispatch_selected_entry_if_nonzero(approach_action_handler_table, entity, sprite);
     scene_object_payload_alias.callback0 = invoke_object_state_callback;
     entity->callback4 = &D_8009A81C;

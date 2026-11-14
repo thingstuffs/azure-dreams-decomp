@@ -1,11 +1,10 @@
 #include "common.h"
+#include "slus/audio_update_guard_data.h"
 #include "slus/audio_voice_data.h"
 #include "engine/audio/sequence.h"
 #include "engine/audio/spu.h"
 extern s32 audio_sequence_active[4];
 extern u8 audio_voice_records[0x78 * 24];
-extern s32 audio_update_guard[4];
-extern SoundSequenceSlot audio_sequence_slots[8];
 
 /* Process eligible entries and set the selected slot state to 4. */
 void suspend_sequence_slot(s16 slot_index)
@@ -17,7 +16,7 @@ void suspend_sequence_slot(s16 slot_index)
     SoundSequenceSlot *slots;
 
     entry_index = 0;
-    audio_update_guard[0] = 1;
+    audio_update_guard.value = 1;
     if (audio_voice_count[0] > 0) {
         entry_id = audio_voice_masks;
         entry = audio_voice_records;
@@ -47,6 +46,6 @@ loop:
     }
     slots = audio_sequence_slots;
     slots[slot_index].state = 4;
-    audio_update_guard[0] = 0;
+    audio_update_guard.value = 0;
     audio_sequence_active[0] = 0;
 }

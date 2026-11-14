@@ -17,7 +17,7 @@ extern void store_recalled_familiar(void *, void *, void *, ActorRecord *); /* U
 extern void unlink_entity_node(void *);
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
-s32 find_entity_slot_by_field_ac(void *target_value);
+s32 find_linked_object_slot_index(void *target_value);
 
 extern void spend_actor_mp(void *, s32);
 #include "dungeon/monster/pulunpa.h"
@@ -77,7 +77,7 @@ void advance_actor_transition_state(void *owner_data, ObjectPosition *unused, Sp
 
             saved_index = dungeon_actor_ring_anchor->unk_8A;
             saved_actor = dungeon_actor_ring_anchor->target;
-            actor_index = find_entity_slot_by_field_ac(actor);
+            actor_index = find_linked_object_slot_index(actor);
             primary_table = &view_reference_entity;
             secondary_table = &reference_tile_object;
             actor_map = dungeon_actor_ring_anchor;

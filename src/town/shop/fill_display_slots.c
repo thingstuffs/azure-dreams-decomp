@@ -32,7 +32,7 @@ void fill_display_slots(EntityRec *source, s32 output) {
     source_cursor = (u8 *)source;
     do {
         if (((S_800B62A4_0 *)source_cursor)->unk_08 != 0) {
-            populate_display_row_with_icon((u8 *)source + scan_base, output, slot_count);
+            populate_action_display_row((u8 *)source + scan_base, output, slot_count);
             slot_count += 1;
         }
         scan_base += 3;

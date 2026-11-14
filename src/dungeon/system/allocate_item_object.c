@@ -13,7 +13,7 @@ extern void set_item_data_from_lookup();
 
 extern void release_entity_children();
 extern s32 inventory_allocate_and_initialize_child(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern s32 allocate_initialized_child_object(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern s32 create_selection_child_object(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 create_menu_child_object(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 typedef struct S_80025198_1 {
@@ -70,7 +70,7 @@ void *allocate_item_object(s32 value_00, s32 value_10, s32 value_18, void *descr
         set_item_data_from_lookup(state, descriptor_data, setup_arg);
         (object->update_callback) = 0;
         if (runtime_dispatch_state.mode != 1) {
-            clear_state_flag_bit();
+            clear_dungeon_menu_flag();
         }
         display_ids = &item_panel_display_ids;
         state->unk_2C = window_create_animated_content_panel(8, 0xEC, 0x64, 0xEC, 0x64, 0x50, 1, item_panel_display_ids);
@@ -81,7 +81,7 @@ void *allocate_item_object(s32 value_00, s32 value_10, s32 value_18, void *descr
         state->unk_20 = inventory_allocate_and_initialize_child(object, state->unk_14,
             state->unk_04);
         state->unk_24 = create_menu_child_object(object, state->unk_14);
-        state->unk_28 = allocate_initialized_child_object(object, state->unk_14,
+        state->unk_28 = create_selection_child_object(object, state->unk_14,
             state->unk_04);
         globals_base = (s32 *) 0x80080000;
         for (resource_index = 0, resource_cursor = state; resource_index < 3; resource_index++, resource_cursor += 4) {

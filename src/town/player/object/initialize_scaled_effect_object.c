@@ -14,7 +14,7 @@ extern M2C_UNK D_800D0DA8;
 void initialize_scaled_effect_object(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *transform) {
     NODE_HEADER(object)->update_callback = &retire_object_on_check_or_callback;
     object->unk_50.as_s32 = 0;
-    initialize_object_transform_and_state((s32)(object), transform, 0x48);
+    initialize_sprite_defaults((s32)(object), transform, 0x48);
     init_scene_node_mode_3(object, position, &D_800D0DA8);
     transform->offset_x = 0xC00;
     transform->scale_y = 0xC00;

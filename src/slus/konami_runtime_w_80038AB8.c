@@ -134,7 +134,7 @@ ScriptOpcodeHandler script_opcode_handlers[SCRIPT_OP_COUNT] = {
 };
 
 /* Dispatch script opcodes, advance active text, and report whether processing can continue. */
-s32 interpret_script_opcodes_until_action_changes(RuntimeContext *context, u8 *owner)
+s32 interpret_script_opcodes(RuntimeContext *context, u8 *owner)
 {
     s8 *cursor;
     u8 opcode;

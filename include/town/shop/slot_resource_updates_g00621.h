@@ -34,6 +34,6 @@ typedef struct S_800B3C74_2 {
 /* Functions defined in this translation unit. */
 void move_color_channels_toward_neutral(u8 *channels);
 s32 select_choice_from_input_flags(s32 *choice_values);
-void process_resources_for_expired_slot_countdowns(void *state);
+void fade_choice_slot_colors(void *state);
 
 #endif

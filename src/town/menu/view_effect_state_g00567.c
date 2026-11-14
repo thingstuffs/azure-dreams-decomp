@@ -12,7 +12,7 @@
  * Derives effect angle and intensity from the camera heading, copies camera X/Y, and spawns a
  * randomized effect whenever the countdown is reset to 15.
  */
-void update_view_driven_state(State *state) {
+void spawn_flickering_triangles_from_view(State *state) {
 
     state->field_8 = (rcos(g_game_work.view.camera_rotation.parts.viewAngle) + 0x1000) / 2;
     state->field_0 = -rcos(g_game_work.view.camera_rotation.parts.viewAngle) / 24;
@@ -22,12 +22,12 @@ void update_view_driven_state(State *state) {
 
     if (--state->field_C <= 0) {
         state->field_C = 15;
-        allocate_randomized_effect_object(state);
+        create_flickering_triangle(state);
     }
 }
 
 /* Allocates an object and initializes its randomized state. */
-void *allocate_randomized_effect_object(State *state_value)
+void *create_flickering_triangle(State *state_value)
 {
     s32 offset_sample;
     s16 initial_count;

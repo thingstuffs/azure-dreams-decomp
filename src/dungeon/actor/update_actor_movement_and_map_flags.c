@@ -33,7 +33,7 @@ void update_actor_movement_and_map_flags(ActorRecord *obj, ObjectPosition *move_
     register s32 facing_offset;
 
     globals = &g_game_work;
-    clear_pending_item_action_state();
+    clear_pending_action_event();
     move_result = classify_adjacent_tile_height(map->facing, move_mode, actor, map->ground_height, 0x20);
     movement_kind = (s16)move_result;
     if (movement_kind > 0) {

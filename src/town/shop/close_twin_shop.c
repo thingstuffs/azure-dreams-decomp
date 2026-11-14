@@ -10,6 +10,6 @@ typedef struct S_800AE30C_0 {
 /* close_twin_shop: Schedule the shop cleanup callback if the shop exists. */
 void close_twin_shop(S_800AE30C_0 *shop) {
     if (shop != NULL) {
-        shop->unk_10 = &process_record_and_apply_flags;
+        shop->unk_10 = &close_shop;
     }
 }

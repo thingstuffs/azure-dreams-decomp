@@ -111,7 +111,7 @@ void create_minigame_display_objects(void);
 /* Callback entry points. */
 struct PairedIndicators;
 s32 draw_depth_sorted_line_nodes(struct PairedIndicators *node);
-void advance_fading_particle_until_animation_boundary(u8 *effect, ObjectPosition *motion, SpriteFrameState *visual);
+void fade_falling_particle_until_done(u8 *effect, ObjectPosition *motion, SpriteFrameState *visual);
 void rotate_gym_mesh_y(s32 unused_0, ObjectPosition *unused_1, SpriteFrameState *object);
 void tick_scene_value_text(void *message);
 void tick_summed_scene_value_text(TerminalSceneTextObject *entry);
@@ -151,7 +151,7 @@ s32 draw_translucent_gradient_line_list(void *first_entry);
 
 struct ObjectStatePositionObject;
 struct S1;
-void update_object_state_position(struct ObjectStatePositionObject *self, s32 *position, struct S1 *target);
+void update_proximity_triggered_object(struct ObjectStatePositionObject *self, s32 *position, struct S1 *target);
 
 struct Copy20;
 void create_tako_projectile(struct Copy20 *init_data, s32 pos_y, s32 unused_effect_arg);
@@ -161,9 +161,9 @@ struct EffectPhaseTimer16;
 struct Motion;
 void create_eight_linked_scene_sprites(struct TownCollectionSequence *owner);
 void create_rotating_layered_line_cage(struct TownCollectionSequence *effect);
-void finalize_keima_resource_operation(void);
-void finalize_town_resource_operation(void);
-void initialize_resource_selector_six(void);
+void load_keima_resource(void);
+void load_town_resource(void);
+void load_minigame_module(void);
 void update_motion_spawn_particles(struct EffectPhaseTimer16 *state, struct Motion *motion, SpriteFrameState *sprite_data);
 
 /* The retail dispatch wrappers initialize all four incoming argument registers. */

@@ -15,7 +15,7 @@
 static void dispatch_item_menu_request_result(ItemMenuInput *request) {
     s32 result_code;
 
-    result_code = invoke_item_menu_offset_handler(request->object, request->callback_arg);
+    result_code = invoke_item_menu_object_callback(request->object, request->callback_arg);
     if (result_code == 1) {
         set_item_menu_secondary_handler(request->owner);
         return;

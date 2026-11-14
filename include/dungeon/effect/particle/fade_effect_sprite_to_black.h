@@ -190,7 +190,7 @@ extern u8 directional_effect_entries[];
 #include "dungeon/effect/sprite/directional_entries.h"
 extern s32 D_800DEB70;
 void apply_attack_power_and_element_effects();
-s32 get_definition_entry_byte_13();
+s32 get_spell_range();
 extern u8 D_800DEBD8;
 void update_directional_actor_effect(void *effect, void *motion, void *sprite);
 void update_sprite_fade_countdown_effect(SpriteFadeCountdownBody *effect, S_8182D544_2 *motion, SpriteFrameState *sprite);

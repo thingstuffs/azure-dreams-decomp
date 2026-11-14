@@ -41,7 +41,7 @@ Node *psn_lookable_get(s16 target_id)
                 data = node->data;
                 if ((kind == (s32)kind_a || kind == (s32)kind_b) &&
                     *(s32 *)(data + 0x60) == target_id &&
-                    runtime_is_record_field_set(data) != 0) {
+                    is_node_registered(data) != 0) {
                     return node;
                 }
             }

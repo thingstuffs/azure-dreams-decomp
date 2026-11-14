@@ -16,6 +16,6 @@ s32 create_item_menu_unless_minigame(s32 context) {
         return 0;
     }
     SD_Call(AUDIO_ACCEPT);
-    clear_global_80110_ec_0_global_80082_a_39();
+    clear_action_globals();
     return create_item_menu_object(context);
 }

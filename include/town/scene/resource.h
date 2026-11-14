@@ -4,8 +4,8 @@
 #include "common.h"
 
 
-/* initialize_resources_assigns_pointer_lookup.c */
-void initialize_resources_assigns_pointer_lookup(void);
+/* init_okami_give_cape_state.c */
+void init_okami_give_cape_state(void);
 
 void reset_resource_entry(s32 index);
 

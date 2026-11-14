@@ -22,16 +22,16 @@ void clear_resident_bitmap_bit(s32 flag_id);
 void dispatch_town_transition(void);
 
 /* entry_runtime_clear_value.c */
-void clear_twenty_runtime_records(void);
+void clear_object_pool_records(void);
 
 /* entry_runtime_is_record_handler_changed.c */
-s32 test_runtime_handler_or_fallback_status(void *context);
+s32 is_script_or_map_change_pending(void *context);
 
 /* entry_runtime_set_record_value_and_buffer.c */
-void prepare_script_controller_and_set_cursor(void *controller, s32 reset_value, s32 requested_selector);
+void reset_script_message_window(void *controller, s32 reset_value, s32 requested_selector);
 
 /* entry_runtime_store_value_in_shifted_slot_pool.c */
-s32 enqueue_runtime_pool_script(void *input_data);
+s32 queue_pool_service_script(void *input_data);
 
 /* entry_set_resident_bitmap_bit.c */
 void set_resident_bits_for_matching_key(s16 key);
@@ -46,44 +46,44 @@ void initialize_attached_message_window_node(void *node_storage, void *attached_
 s32 obj_disp23_cancel_sw_set(s32 cancel_switch);
 s32 draw_linked_sprite_nodes(u8 *first_node, u8 *first_transform, SpriteFrameState *first_context);
 
-/* runtime_clear_state_and_entry_range.c */
-void runtime_clear_state_and_entry_range(void);
+/* clear_script_pending_values.c */
+void clear_script_pending_values(void);
 
-/* runtime_clear_value.c */
-void runtime_clear_value(s32 *value);
+/* clear_word.c */
+void clear_word(s32 *value);
 
-/* runtime_find_unused_pool_slot.c */
-void *runtime_find_unused_pool_slot(void);
+/* find_free_pool_record.c */
+void *find_free_pool_record(void);
 
-/* runtime_initialize_state_value.c */
-void runtime_initialize_state_value(Rec_D_80081FDC *state, s32 initialValue);
+/* init_unit_scale_record.c */
+void init_unit_scale_record(Rec_D_80081FDC *state, s32 initialValue);
 
-/* runtime_is_record_field_set.c */
-s32 runtime_is_record_field_set(void *record_data);
+/* is_node_registered.c */
+s32 is_node_registered(void *record_data);
 
-/* runtime_is_record_handler_changed.c */
-s32 runtime_is_record_handler_changed(Rec_D_80082A38 *record);
+/* has_active_script_handler.c */
+s32 has_active_script_handler(Rec_D_80082A38 *record);
 
 /* entry_runtime_prepend_doubly_linked_node.c: links the self-reference at body +0x54. */
 void prepend_embedded_object_node(void *owner, void *object_data);
 
-/* runtime_prepend_doubly_linked_node.c */
-void runtime_prepend_doubly_linked_node(void *owner, void *node_data);
+/* prepend_owner_list_node.c */
+void prepend_owner_list_node(void *owner, void *node_data);
 
-/* runtime_render_linked_textured_sprites.c */
-s32 runtime_render_linked_textured_sprites(u8 *node_data, ObjectPosition *position, u8 *render_state);
+/* draw_sprites_with_dimmed_copies.c */
+s32 draw_sprites_with_dimmed_copies(u8 *node_data, ObjectPosition *position, u8 *render_state);
 
 /* runtime_set_record_byte_three.c */
 void runtime_set_record_byte_three(Rec_D_80082A38 *record, s32 value);
 
-/* runtime_set_record_value_and_buffer.c */
-void runtime_set_record_value_and_buffer(void *record, s32 value);
+/* set_script_text_pointer.c */
+void set_script_text_pointer(void *record, s32 value);
 
 /* push_script_slot_value.c */
 void push_script_slot_value(s32 value);
 
-/* runtime_unlink_doubly_linked_node.c */
-void runtime_unlink_doubly_linked_node(void *node_data);
+/* unlink_owner_list_node.c */
+void unlink_owner_list_node(void *node_data);
 
 /* set_resident_bitmap_bit.c */
 void set_resident_bitmap_bit(s32 bit_id);

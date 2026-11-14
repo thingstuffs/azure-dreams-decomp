@@ -9,6 +9,7 @@
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "dungeon/level/direction_offsets.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80083160.h"
@@ -594,8 +595,6 @@ typedef struct {
     u8 unk25;          /* 0x25 */
 } Pos;
 
-extern u16 direction_x_offsets[];
-extern u16 direction_y_offsets[];
 
 extern s32 generate_random_value(void);
 extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);

@@ -80,7 +80,7 @@ void update_path_following_actor(KeimaPathActor *actor, ObjectPosition *motion, 
     waypoint = paths[actor->path_index].points + actor->waypoint_index;
     advance_sprite_animation_and_textures(sprite);
     position_ref = &actor->cycles;
-    advance_bounded_entry_index(motion, position_ref);
+    advance_path_waypoint(motion, position_ref);
     fill_eligible_negative_slots(model_base, position_ref, actor->lane);
     add_motion_deltas_to_position(motion);
     reached_point = 0;

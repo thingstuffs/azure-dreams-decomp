@@ -7,10 +7,10 @@
 #include "engine/runtime.h"
 #include "dungeon/data.h"
 #include "dungeon/player/camera_depth_presets_data.h"
+#include "dungeon/player/camera_pitch_presets_data.h"
+#include "dungeon/player/camera_pitch_index_data.h"
 
 extern u16 dungeon_camera_targets[];
-extern u16 camera_pitch_index[5];
-extern s16 camera_pitch_presets[];
 extern u8 animation_tick_scale[16];
 
 
@@ -64,8 +64,8 @@ s32 update_sound_settings_from_pad(ActorRecord *actor, ObjectPosition *unused_mo
             if ((base->buttons) & 0x10) {
                 if ((base->pressed_buttons) & 1) {
                     changed = 1;
-                    value = (u16) ((camera_pitch_index[0] + 1) & 3);
-                    camera_pitch_index[0] = value;
+                    value = (u16) ((camera_pitch_index + 1) & 3);
+                    camera_pitch_index = value;
                     dungeon_camera_targets[0] = (u16) camera_pitch_presets[(u16) value];
                 }
             }

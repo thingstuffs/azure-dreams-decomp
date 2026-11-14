@@ -21,7 +21,7 @@ void confirm_selected_entry(s32 *state) {
             if (check_entry_limit_or_combined_value(state) != 0) {
                 SD_Call(AUDIO_MENU_CONFIRM);
                 toggle_selected_entry_flag(state);
-                process_shop_object_data(state[10]);
+                apply_shop_object_slot_colors(state[10]);
                 return;
             }
             SD_Call(0x506);
@@ -35,6 +35,6 @@ void confirm_selected_entry(s32 *state) {
         }
     } else {
         close_twin_shop((s8 *) state - 0x20);
-        store_record_check_result(state);
+        set_status_from_flagged_total(state);
     }
 }

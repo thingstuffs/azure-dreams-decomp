@@ -19,19 +19,19 @@ struct S_800CEDA4_0;
 struct SpriteFrameState;
 
 /* adjust_two_state_values.c */
-void adjust_two_state_values(TownObjectRecord *object, ObjectPosition *state);
+void drift_act_yoda_until_expiry(TownObjectRecord *object, ObjectPosition *state);
 
-/* advance_four_phase_flag_sequence.c */
-void advance_four_phase_flag_sequence(TownObjectRecord *sequence);
+/* step_heading_turn_sequence.c */
+void step_heading_turn_sequence(TownObjectRecord *sequence);
 
-/* advance_reaction_state_and_cleanup.c */
-void advance_reaction_state_and_cleanup(TownObjectRecord *object, struct S_800CA458_0 *state);
+/* drift_act_niko_until_expiry.c */
+void drift_act_niko_until_expiry(TownObjectRecord *object, struct S_800CA458_0 *state);
 
-/* call_state_handler_and_set_four.c */
-void call_state_handler_and_set_four(TownObjectRecord *object, s32 context, s32 update_data);
+/* run_handler_and_enter_state_four.c */
+void run_handler_and_enter_state_four(TownObjectRecord *object, s32 context, s32 update_data);
 
-/* clear_flag_object_direction.c */
-void clear_flag_object_direction(TownObjectRecord *state);
+/* set_flag_object_heading_zero.c */
+void set_flag_object_heading_zero(TownObjectRecord *state);
 
 /* clear_record_indexed_flag.c */
 void clear_record_indexed_flag(TownObjectRecord *state, s32 unused_context, void *unused_state_context);
@@ -104,10 +104,10 @@ void reset_menu_state(TownObjectRecord *menu, ObjectPosition *update_arg, Sprite
 void reset_mother_event_global_state(void *object);
 
 /* reset_object_flag_and_set_countdown.c */
-void reset_object_flag_and_set_countdown_400(struct S_800CEDA4_0 *object);
+void reset_person_slot_flag_and_angle(struct S_800CEDA4_0 *object);
 
-/* reset_object_substate_and_flag.c */
-void reset_object_substate_and_flag(TownObjectRecord *context, ObjectPosition *unused, struct SpriteFrameState *stateWords);
+/* initialize_scene_slot_39.c */
+void initialize_scene_slot_39(TownObjectRecord *context, ObjectPosition *unused, struct SpriteFrameState *stateWords);
 
 /* reset_reaction_global_flag_and_angle.c */
 void reset_reaction_global_flag_and_angle(struct S_800CA7D8_0 *object);

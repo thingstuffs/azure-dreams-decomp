@@ -177,7 +177,7 @@ void update_viper_item_grab(Entity *entity, Motion *motion, SpriteFrameState *ef
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         spend_actor_mp(object, 0x100);
-        entity->callback = update_dungeon_actor_actions;
+        entity->callback = update_golem_actor_behavior;
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         advance_status_timers(object);
         if (object->flag6D == 0) {

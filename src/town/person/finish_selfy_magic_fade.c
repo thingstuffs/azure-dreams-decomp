@@ -1,0 +1,32 @@
+#include "town/person_callbacks_api.h"
+#include "script_symbols.h"
+#include "common.h"
+#include "engine/object.h"
+
+extern u8 D_800CC524;
+
+typedef struct town_gray_fade_state {
+    u8 unk0[0x54];
+    void *unk54;
+    u8 unk58[0x6C - 0x58];
+    u16 unk6C;
+} Struct800CED50Arg0;
+
+typedef struct town_gray_fade_color {
+    u8 unk0[0xC];
+    u8 unkC;
+    u8 unkD;
+    u8 unkE;
+} Struct800CED50Arg2;
+
+// Decrements the countdown and resets the state and color when it expires.
+void finish_selfy_magic_fade(Struct800CED50Arg0 *state, s32 unusedArg, Struct800CED50Arg2 *color) {
+    if ((s16)(--state->unk6C) <= 0) {
+        set_resident_bitmap_bit(F_selfy_magic_trg);
+        state->unk54 = &D_800CC524;
+        state->unk6C = 0xA;
+        color->unkE = 0x80;
+        color->unkD = 0x80;
+        color->unkC = 0x80;
+    }
+}

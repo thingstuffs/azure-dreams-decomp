@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_809A5294",
-      "tu": "src/dungeon/monster/kewne/update_actor_callbacks_and_ground.c",
+      "tu": "src/dungeon/monster/kewne/update_kewne_actor.c",
       "home": "dungeon/func_8099F294",
       "foff": "0x9c5294",
       "vma": "0x8016aa94",

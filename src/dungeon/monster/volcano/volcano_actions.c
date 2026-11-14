@@ -351,7 +351,7 @@ void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectP
                     ((E_80170E5C_S_80170E5C_1 *)status)->unk_2A.u += (generate_random_value() & 7) << 9;
                 }
             }
-            if ((s16)check_actor_ahead_height(actor_in, context_in, sprite_in, status) != 0) {
+            if ((s16)try_begin_action_on_tile_ahead(actor_in, context_in, sprite_in, status) != 0) {
                 return;
             }
             start_actor_directional_animation(actor_in, context_in, sprite_in, status);
@@ -849,7 +849,7 @@ typedef struct {
 
 
 /* Checks action availability, occupancy, and terrain ahead, then starts the directional action if allowed. */
-s32 check_actor_ahead_height(ActorRecord *action_state, ObjectPosition *source_pos, SpriteFrameState *sprite, ActorRecord *actor) {
+s32 try_begin_action_on_tile_ahead(ActorRecord *action_state, ObjectPosition *source_pos, SpriteFrameState *sprite, ActorRecord *actor) {
     void *output;
     s16 next_x;   /* never assigned: read only in the decision-46 dead arm below */
     s16 next_y;
@@ -1204,7 +1204,7 @@ void update_actor_spell_action(E_80172A58_S_80172A58_0 *state, E_80172A58_S_8017
                     target_position = target_link[-1].unk_00;
                     actor->target_tile_x = target_position->unk_24;
                     actor->target_tile_y = target_position->unk_25;
-            } else if (((E_80172A58_S_80172A58_2 *)(((*action_entry * 0x14) + item_action_definitions)))->unk_12 == 2) {
+            } else if (item_action_definitions[*action_entry].kind == 2) {
                 target_link = actor->target;
                 if (target_link != NULL) {
                     target_position = target_link[-1].unk_00;
@@ -1546,7 +1546,7 @@ typedef struct {
 
 
 /* Waits for MP recovery while processing actor status, then restores the normal animation and movement. */
-void handle_actor_action_effects(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor) {
+void wait_for_volcano_mp(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor) {
     u8 state;
     u8 *effect;
     s32 direction;
@@ -1733,8 +1733,8 @@ void advance_actor_state_with_child(ActorRecord *actor, ObjectPosition *context,
             (sprite->flags & 0xE000)) {
             display_formatted_actor_message(creature);
             play_sound_if_enabled(0x80C);
-            create_four_directional_effects(actor, context, sprite);
-            actor->unk_A4.address = create_directional_effect_object(actor, context, sprite);
+            create_four_gray_sprite_effects(actor, context, sprite);
+            actor->unk_A4.address = create_gray_sprite_ahead(actor, context, sprite);
             actor->action_phase++;
         }
         return;
@@ -1836,7 +1836,7 @@ void advance_actor_state_when_allowed(ActorRecord *state_ctx, ObjectPosition *en
         }
         display_entity_action_message(entity);
         play_sound_if_enabled(0x80C);
-        create_four_directional_effects(state_ctx, entity_id, action);
+        create_four_gray_sprite_effects(state_ctx, entity_id, action);
         state_ctx->action_phase++;
         return;
 
@@ -1899,7 +1899,7 @@ s32 select_actor_relation_state(ActorRecord *body, ObjectPosition *position, Spr
 
 /* Grows and animates the sprite, damps horizontal motion, accelerates vertically, and removes finished
  * effects. */
-void dampen_actor_motion(void *state_data, s32 *motion, SpriteFrameState *object) {
+void update_gray_sprite_burst_effect(void *state_data, s32 *motion, SpriteFrameState *object) {
     advance_sprite_animation_and_textures(object);
     if (object->flags & 0x6000) {
         *(u16 *)((u8 *)state_data - 2) |= NODE_REMOVE;
@@ -1920,7 +1920,7 @@ void dampen_actor_motion(void *state_data, s32 *motion, SpriteFrameState *object
 #include "shared/sprite_frame_state.h"
 
 /* Creates four gray sprite effects with randomized rotation and motion along the actor's facing. */
-void create_four_directional_effects(ActorRecord *owner_arg, ObjectPosition *motion_arg, SpriteFrameState *origin_arg) {
+void create_four_gray_sprite_effects(ActorRecord *owner_arg, ObjectPosition *motion_arg, SpriteFrameState *origin_arg) {
     u16 offsets[3];
     s32 effect_index;
     ActorRecord *owner;
@@ -1939,7 +1939,7 @@ void create_four_directional_effects(ActorRecord *owner_arg, ObjectPosition *mot
     owner = owner_arg;
     resolve_record_orientation_or_fallback(origin->source, origin, (struct SVECTOR *)offsets, 0);
     effect_index = 0;
-    effect_data = (s32 *)(dampen_actor_motion);
+    effect_data = (s32 *)(update_gray_sprite_burst_effect);
     do {
         effect = allocate_flagged_object_node(0x212);
         if (effect != 0) {
@@ -1981,7 +1981,7 @@ void create_four_directional_effects(ActorRecord *owner_arg, ObjectPosition *mot
  * Increments the 16-bit counter and, while its signed value is below nine, adds 0x100 to Y scale
  * and copies it to X scale. Advances sprite animation each update.
  */
-void advance_effect_record_counters(u16 *counter, ObjectPosition *unused_position, SpriteFrameState *record) {
+void update_growing_gray_sprite_effect(u16 *counter, ObjectPosition *unused_position, SpriteFrameState *record) {
     u16 step;
     u16 field_value;
 
@@ -1998,7 +1998,7 @@ void advance_effect_record_counters(u16 *counter, ObjectPosition *unused_positio
 #include "shared/sprite_frame_state.h"
 
 /* Creates a growing gray sprite on the tile ahead and limits its height to the terrain surface. */
-void * create_directional_effect_object(ActorRecord *source, ObjectPosition *initial_position, SpriteFrameState *tile_origin) {
+void * create_gray_sprite_ahead(ActorRecord *source, ObjectPosition *initial_position, SpriteFrameState *tile_origin) {
     SpriteFrameState *sprite;
     ObjectPosition *position;
     E_801742AC_S_80DE6AAC_1 *effect_state;
@@ -2007,7 +2007,7 @@ void * create_directional_effect_object(ActorRecord *source, ObjectPosition *ini
     effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
         effect_state = NODE_BODY(effect);
-        effect->update_callback = advance_effect_record_counters;
+        effect->update_callback = update_growing_gray_sprite_effect;
         effect_state->counter = 0;
         effect_state->unk_02 = (s16)((source->facing >> 9) & 7);
         sprite = effect->sprite;

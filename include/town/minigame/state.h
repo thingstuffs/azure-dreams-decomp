@@ -87,14 +87,14 @@ void advance_interaction_state_animating_cursor(FixedInteractionEffectBody *self
 /* process_slot_machine_state.c */
 void process_slot_machine_state(State8081FF68 *state, void *position);
 
-/* propagate_linked_flag_if_clear.c */
-void propagate_linked_flag_if_clear(TerminalSceneTextObject *record);
+/* retire_text_when_linked_removed.c */
+void retire_text_when_linked_removed(TerminalSceneTextObject *record);
 
-/* propagate_linked_flag_to_record.c */
-void propagate_linked_flag_to_record(struct SceneTileObject *record);
+/* retire_tile_when_linked_removed.c */
+void retire_tile_when_linked_removed(struct SceneTileObject *record);
 
-/* retire_line_effect_at_phase_eight.c */
-void retire_line_effect_at_phase_eight(RetiringLineEffectObject *record);
+/* retire_line_effect_on_linked_phase.c */
+void retire_line_effect_on_linked_phase(RetiringLineEffectObject *record);
 
 /* retire_scene_label_after_completion_flag.c */
 void retire_scene_label_after_completion_flag(void *object);
@@ -102,14 +102,14 @@ void retire_scene_label_after_completion_flag(void *object);
 /* retire_scene_text_after_terminal_phase.c */
 void retire_scene_text_after_terminal_phase(TerminalSceneTextObject *context);
 
-/* submit_text_zero_state_entry.c */
-void submit_text_zero_state_entry(TextEntryObject *text_entry);
+/* update_value_text_entry.c */
+void update_value_text_entry(TextEntryObject *text_entry);
 
 /* toggle_gym_sprite_by_scene_phase.c */
 void toggle_gym_sprite_by_scene_phase(s16 **value_ptr, struct ObjectPosition *unused, SpriteFlagsView *object);
 
-/* update_derived_value_and_flag.c */
-void update_derived_value_and_flag(void *object);
+/* update_tile_row_position.c */
+void update_tile_row_position(void *object);
 
 /* update_object_state_and_size.c */
 void update_object_state_and_size(SceneTileObject *object);

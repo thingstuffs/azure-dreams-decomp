@@ -4,7 +4,7 @@
 
 
 /*
- * Dispatches effect type 3 to concentric layers, 4 to draw_cylindrical, and 5 to func_80024EF8;
+ * Dispatches effect type 3 to concentric layers, 4 to draw_static_cylinder_pair, and 5 to func_80024EF8;
  * other types draw nothing, and all paths return zero.
  */
 s32 dispatch_effect_rendering(B22_81893474_EffectState *effect, s32 position, s32 render_param)
@@ -17,7 +17,7 @@ s32 dispatch_effect_rendering(B22_81893474_EffectState *effect, s32 position, s3
         draw_concentric_effect_layers(effect, position, render_param);
         return 0;
     case 4:
-        draw_cylindrical(effect, position, render_param);
+        draw_static_cylinder_pair(effect, position, render_param);
         return 0;
     case 5:
         draw_counter_rotating_cylinders(effect, position, render_param);

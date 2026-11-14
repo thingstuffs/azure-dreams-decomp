@@ -28,7 +28,7 @@ extern u8 *write_text_byte_and_advance(s8 value, s8 *dest);
 extern s32 play_sound_if_enabled(s32 query_value);
 void clear_alternate_texture_regions(s16 use_alt_rect);
 void load_default_object_palette(short index);
-int load_equipment_palette_for_category_sixteen(short index);
+int load_wand_palette(short index);
 extern u8 item_suffix_strings_crystal_bell_loupe[];
 extern u8 D_800DD2B4[];
 extern u8 D_800DD2C4[];

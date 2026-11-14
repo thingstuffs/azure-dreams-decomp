@@ -17,7 +17,7 @@ void create_window_object(void *object_addr, S_func_80035484_4 *model, S_func_80
     register_node(object, &draw_linked_sprite_nodes);
     transform = object->position;
     appearance = object->sprite;
-    runtime_initialize_state_value(model, 0);
+    init_unit_scale_record(model, 0);
     state = NODE_BODY(object);
     state->model = model;
     model->unk_60 = 6;

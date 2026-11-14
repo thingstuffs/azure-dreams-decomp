@@ -8,7 +8,7 @@
 #include "shared/game_work.h"
 #include "dungeon/effect/sprite.h"
 #include "dungeon/actor/state.h"
-void (*const dungeon_ovl_188298c_entry)(ovl_188298c_818632E4_Controller *ctrl, ObjectPosition *motion, SpriteFrameState *render_data) = move_to_linked_object_and_apply_arrival_effects;
+void (*const dungeon_ovl_188298c_entry)(ovl_188298c_818632E4_Controller *ctrl, ObjectPosition *motion, SpriteFrameState *render_data) = move_to_linked_object;
 
 /* Attempts a status effect on compatible, eligible actors within two tiles of the supplied center. */
 void apply_status_to_nearby_actors(s32 x, s32 y, void *kind, s32 flags) {
@@ -60,7 +60,7 @@ void advance_fading_effect(ovl_188298c_8186298C_Arg0Ent *state, void *unused, ov
 }
 
 /* Creates a gray sprite at the source's horizontal coordinates with a randomized vertical offset. */
-void spawn_jittered_type_212_effect(s32 owner, void *source)
+void spawn_rising_sprite_at_source(s32 owner, void *source)
 {
     s32 roll;
     SpriteFrameState *render;
@@ -104,7 +104,7 @@ void advance_counter_and_propagate_target_flags(RadiusDirectionalEffectsBody *st
     update_count = state->update_count + 1;
     state->update_count = update_count;
     if ((s16) update_count == 0xA) {
-        spawn_jittered_type_212_effect(state->owner, context);
+        spawn_rising_sprite_at_source(state->owner, context);
     }
     if (target->flags & 0x6000) {
         ((ovl_188298c_81862B74_S_81862B74_0_pre *)state)[-1].unk_00 = (u16) (((ovl_188298c_81862B74_S_81862B74_0_pre *)state)[-1].unk_00 | 0x8000);
@@ -419,7 +419,7 @@ s32 project_and_queue_shaded_line(void *line, SpriteFrameState *unused_render_co
  * quantities for local-alloc), while delta and line_or_red stay function-wide; the masked step_x
  * read gives the mask the extra reference that orders it ahead of y0.
  */
-void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Controller *ctrl, ObjectPosition *motion, SpriteFrameState *render_data)
+void move_to_linked_object(ovl_188298c_818632E4_Controller *ctrl, ObjectPosition *motion, SpriteFrameState *render_data)
 {
     u8 *root;
     ovl_188298c_818632E4_RootPrefix *prefix;

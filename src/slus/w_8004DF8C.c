@@ -8,7 +8,7 @@ typedef void (*FuncPtr)(char *);
 extern char message_conversion_buffer[0x100];
 
 /* Builds and dispatches a control-coded string, then resets its referenced words. */
-void runtime_dispatch_and_reset_control_string(char *text)
+void dispatch_control_string_with_suffix(char *text)
 {
     char *buffer;
     char *cursor;

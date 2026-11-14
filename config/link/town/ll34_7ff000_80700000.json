@@ -14,7 +14,7 @@
     {
       "row": "town/func_8087FC54",
       "home": "town/func_808B7DD4",
-      "tu": "src/town/scene/flags/dispatch_entry_test_flag.c",
+      "tu": "src/town/scene/flags/update_entry_value_flag_from_test_flag.c",
       "foff": "0x7FFC54",
       "vma": "0x80700C54",
       "size": 148,
@@ -79,7 +79,7 @@
     {
       "row": "town/func_8087FF98",
       "home": "town/func_8087FF98",
-      "tu": "src/town/devkit/grid_run_indexed_operation_a.c",
+      "tu": "src/town/devkit/run_indexed_operation_and_get_value.c",
       "foff": "0x7FFF98",
       "vma": "0x80700F98",
       "size": 56,

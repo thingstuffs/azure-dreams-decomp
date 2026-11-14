@@ -34,7 +34,7 @@ call table (section 5). The list of modules, their file offsets and entry points
 
 **The byte-code interpreter.** Dialogue and the logic around it (which line to say, menus, flag
 checks, money checks, camera moves between lines) are byte-code scripts run by the interpreter in the
-resident executable, [`interpret_script_opcodes_until_action_changes`](../../src/slus/konami_runtime_w_80038AB8.c),
+resident executable, [`interpret_script_opcodes`](../../src/slus/konami_runtime_w_80038AB8.c),
 through an 89-slot handler table at `0x8006AA90`. The opcode numbers and handler names are the
 [`enum ScriptOpcode`](../../include/engine/script.h); the handlers are in
 [`src/engine/script/`](../../src/engine/script/) and [`src/engine/script/vm/`](../../src/engine/script/vm/).
@@ -124,7 +124,7 @@ to the system-variable table (`+0x44`) and sixteen 32-bit variables `v0`-`v15` (
 [`start_script`](../../src/engine/script/start_script.c) (mode 1),
 [`call_script`](../../src/engine/script/call_script.c) (mode 2) or
 [`set_script_address`](../../src/engine/script/set_script_address.c) (mode 0). All three go through
-`prepare_script_controller_and_set_cursor`, which sets up the message window for the requested mode
+`reset_script_message_window`, which sets up the message window for the requested mode
 and points the cursor at the script.
 
 **Dispatch.** Each frame, the interpreter loops: read the byte at the cursor, advance the cursor, call

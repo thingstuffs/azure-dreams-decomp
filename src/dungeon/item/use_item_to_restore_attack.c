@@ -42,7 +42,7 @@ s32 use_item_to_restore_attack(ActorRecord *target, DungeonItemEntry *item, s16 
     if (target->flags14 & ACTOR_PARTY_MEMBER) {
         adjust_source_value_and_finalize(target, D_800E0EE1);
     }
-    clear_slot_and_update_linked_state(item);
+    clear_item_slot(item);
     g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
     return 1;
 }

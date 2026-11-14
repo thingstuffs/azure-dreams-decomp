@@ -19,7 +19,7 @@ s32 *lookup_slot_record_with_substitute(s32 slot, s32 unused, s32 context) {
     record = apply_entry_position(&D_80018974, &D_80018AD0, slot, context);
     result = record;
     if (resolve_entry_flag(&D_80018974, slot, context) != 0) {
-        if (town_table_contains_first_byte_b(8) != 0) {
+        if (town_pair_table_has_first(8) != 0) {
             result = &D_8001A0A1;
         } else {
             set_script_flag_bit(F_gym_build);

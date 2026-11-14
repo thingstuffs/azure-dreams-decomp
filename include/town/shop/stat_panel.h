@@ -58,7 +58,7 @@ extern u8 D_8008933C[];
 extern char *func_8004E5A0(s32 value, u16 width, char *dst);
 extern s32 monster_get_species_name_text(s32);
 extern void set_storage_entry_text(s32, const void *, s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern void *format_object_value_marker(void *, void *);
+extern void *format_gauge_text(void *, void *);
 extern void *format_compared_stat_pairs(void *text, ActorRecord *stats);
 extern s32 D_80089308[2];
 extern u8 D_80089310[8];
@@ -74,7 +74,7 @@ extern void set_display_entry_text_and_position(struct S_800B5264_0 *entry, s32 
 /* Functions defined in this translation unit. */
 void complete_display_transfer(void *texture_state);
 void initialize_three_display_entries(s32 source_value, Func800B8500Entry **entries, void *entry_value);
-s32 get_mode_specific_value(void *entry);
+s32 get_monster_status_label(void *entry);
 void draw_formatted_monster_status_text(void *entry, void *display);
 s32 normalize_monster_status_species_code(s32 value);
 void draw_entity_stats_panel(void *entity, void *panel);

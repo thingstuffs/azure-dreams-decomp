@@ -6,7 +6,7 @@ extern u32 message_embedded_control_words[0x24];
 extern char message_conversion_buffer[0x100];
 
 /* Builds and dispatches a message with control codes and two embedded addresses. */
-void runtime_dispatch_control_coded_message(char *message)
+void dispatch_control_coded_message(char *message)
 {
     char *cursor;
     u32 address;

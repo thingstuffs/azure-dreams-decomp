@@ -11,7 +11,7 @@ extern s32 func_8001822C(SquareSceneEntry *, s32);
 extern void *forward_values_to_fixed_data_handler(SquareSceneEntry *, s32, s32);
 s32 flag_entry_if_record_eleven(SquareSceneEntry *entry, s32 entry_index) {
     s32 result;
-    if (town_table_contains_first_byte_b(11) == 0) {
+    if (town_pair_table_has_first(11) == 0) {
         result = 0;
     } else {
         set_indexed_entry_flag(entry, entry_index);

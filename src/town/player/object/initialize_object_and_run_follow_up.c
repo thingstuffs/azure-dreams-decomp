@@ -14,5 +14,5 @@ void initialize_object_and_run_follow_up(TownObjectRecord *object, ObjectPositio
     town_action_reset_byte = 0;
     object->unk_04 = &tick_countdown_and_initialize_record;
     object->unk_0A = 0x15;
-    clear_entity_record_fields((followUpArg));
+    clear_object_velocity((followUpArg));
 }

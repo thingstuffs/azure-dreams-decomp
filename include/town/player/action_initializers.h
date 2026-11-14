@@ -7,7 +7,7 @@ struct SpriteFrameState;
 #include "shared/town_object.h"
 
 void init_sound_threshold_action(s32 **record, struct ObjectPosition *unused, s32 setup_value);
-void set_item_selection_data_pointer(void *object, void *unused_position, void *unused_context);
+void set_deferred_dispatch_handler(void *object, void *unused_position, void *unused_context);
 void init_timed_dispatch_action(TownObjectRecord *record, void *unused, void *handler_context);
 void init_actor_action_state(TownObjectRecord *record, void *unused, void *handler_context);
 s32 init_record_target_approach(TownObjectRecord *record, struct ObjectPosition *setup_value, struct SpriteFrameState *init_context);
@@ -48,6 +48,6 @@ void clear_shared_flag_and_initialize_object(void *state, void *context, void *m
 void init_tick_countdown_record(TownObjectRecord *record, struct ObjectPosition *setup_value, void *handler_context);
 void initialize_record_and_clear_shared_flag(TownObjectRecord *record, struct ObjectPosition *setup_value, void *handler_context);
 
-void init_periodic_effect_action(TownObjectRecord *object, struct ObjectPosition *motion, struct SpriteFrameState *sprite);
+void init_input_angle_random_timer_action(TownObjectRecord *object, struct ObjectPosition *motion, struct SpriteFrameState *sprite);
 
 #endif

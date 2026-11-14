@@ -325,7 +325,7 @@ loop_3:
             s32 stage;
 
             if (keima_selection_mask != 0) {
-                D_80024338 = create_dual_buffer_object(0, -0x50, 0x40);
+                D_80024338 = create_floating_number_widget(0, -0x50, 0x40);
             }
             stage = game->stage;
                                      /* MATCH: the state load precedes timer materialization. */

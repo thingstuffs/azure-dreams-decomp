@@ -73,7 +73,7 @@ void initialize_effect_with_random_angle(MapParticleEffect *effect, ObjectPositi
     SpriteFrameState *texture_prim;
     IntVector3 *child_pos;
 
-    NODE_HEADER(effect)->update_callback = update_object_link_or_angle_state;
+    NODE_HEADER(effect)->update_callback = spin_object_until_outside_bounds;
     random_angle = rand();
     biased_angle = random_angle;
     if (random_angle < 0) {
@@ -86,7 +86,7 @@ void initialize_effect_with_random_angle(MapParticleEffect *effect, ObjectPositi
     do {
         child_obj = allocate_list_node(0x136, NODE_HEADER(effect));
         if (child_obj != NULL) {
-            child_obj->update_callback = process_zero_status_record;
+            child_obj->update_callback = retire_record_when_status_clear;
             register_node(child_obj, draw_linked_lit_meshes);
             child_value = effect->value;
             child_core = NODE_BODY(child_obj);
@@ -117,7 +117,7 @@ void initialize_effect_with_random_angle(MapParticleEffect *effect, ObjectPositi
     do {
         child_obj = allocate_list_node(0x36, NODE_HEADER(effect));
         if (child_obj != NULL) {
-            child_obj->update_callback = update_inactive_object_state;
+            child_obj->update_callback = spin_object_until_flag_clears;
             register_node(child_obj, draw_linked_sprites_clipped);
             child_value = effect->value;
             child_core = NODE_BODY(child_obj);
@@ -147,7 +147,7 @@ void initialize_effect_with_random_angle(MapParticleEffect *effect, ObjectPositi
     parent_obj = NODE_HEADER(effect);
     child_obj = allocate_list_node(0x36, parent_obj);
     if (child_obj != NULL) {
-        child_obj->update_callback = update_inactive_object_state;
+        child_obj->update_callback = spin_object_until_flag_clears;
         register_node(child_obj, draw_linked_sprites_clipped);
         child_value = effect->value;
         child_core = NODE_BODY(child_obj);

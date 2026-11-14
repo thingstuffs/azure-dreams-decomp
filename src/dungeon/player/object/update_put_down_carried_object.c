@@ -1,3 +1,4 @@
+#include "dungeon/player/saved_held_item_data.h"
 #include "engine/graphics.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "shared/entity.h"
@@ -10,7 +11,7 @@
 #include "dungeon/system.h"
 
 extern s32 held_item_record;
-extern s32 saved_held_item_word;
+
 
 
 typedef struct S_8008F878_1 {

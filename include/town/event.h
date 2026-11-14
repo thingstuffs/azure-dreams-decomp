@@ -53,10 +53,10 @@ s32 test_niko_kenkatyu(void);
 s32 test_far_kenkatyu(void);
 void *find_unflagged_node_by_key(s32 target_key);
 void delete_carry_item_and_retry_sound(void);
-void *select_response_for_source_and_target(void *source, void *target);
+void *select_response_text(void *source, void *target);
 
 /* mesh_quad_transform_g00591.c */
-void copy_even_halfwords_3(struct S_800AA044_0 *dst, struct S_800AA044_1 *src);
+void narrow_vector_to_svector(struct S_800AA044_0 *dst, struct S_800AA044_1 *src);
 void transform_vector(s32 transform, void *vector, void *transformed);
 void transform_and_queue_mesh_quads(struct S_func_800AC9AC_0 *mesh, void *transform);
 
@@ -70,7 +70,7 @@ void noop_hook(void);
 void resolve_owner_position_and_dispatch(Rec_D_80082D58 *object, struct S_8009B9BC_1 *owner, EntityRec *resolved_pos, s32 dispatch_param);
 
 /* target_record_angles_g00590.c */
-void apply_two_records_to_target(void *target, ObjectPosition *setup_data);
+void queue_two_mesh_quad_sets(void *target, ObjectPosition *setup_data);
 void update_positions_from_origin(ObjectPosition *origin);
 
 #endif

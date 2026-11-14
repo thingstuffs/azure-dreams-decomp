@@ -49,7 +49,7 @@ extern void D_800A70EC();
 extern PairedEffectOffsets D_800D0DD8;
 
 /* Functions defined in this translation unit. */
-void accumulate_effect_step(void *updateState, s32 unused1, s32 unused2, void *accumulatorState);
+void advance_effect_ramp_and_spawn_pair(void *updateState, s32 unused1, s32 unused2, void *accumulatorState);
 void create_paired_offset_effects(S_800A6F48_10 *owner, S_800A6F48_0 *spawn_state, IntVector3 *origin, S_800A6F48_11 *color);
 
 #endif

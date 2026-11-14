@@ -60,7 +60,7 @@ s32 project_colored_point(TerrainSeekingPointBody *, u8 *);
 void advance_point_effect_toward_terrain(void *, s16 *);
 void update_effect_quad_and_completion(RotatingEffectQuadBody *, ObjectPosition *, SpriteFrameState *);
 void spawn_randomized_spark_burst(u8 *, void *, u8 *);
-void apply_random_duration_actor_status(void *, s32, void *);
+void apply_water_protect_status(void *, s32, void *);
 /* Signed two-byte view of the first counter; indexed reads use its address. */
 extern s16 sphere_particle_effect_updated;
 extern const u8 no_effect_target_prefix[48];

@@ -28,11 +28,11 @@ s32 town_map_set(s32 value_7c, s32 value_78)
         if (new_object == 0) {
             break;
         }
-        new_resource = runtime_find_unused_pool_slot();
+        new_resource = find_free_pool_record();
         if (new_resource == 0) {
             break;
         }
-        runtime_initialize_state_value(new_resource, 0);
+        init_unit_scale_record(new_resource, 0);
         *object_slot++ = new_object;
         *resource_slot++ = new_resource;
         index++;
@@ -51,7 +51,7 @@ s32 town_map_set(s32 value_7c, s32 value_78)
             array_start = resources;
             do {
                 resource_slot--;
-                runtime_clear_value(*resource_slot);
+                clear_word(*resource_slot);
             } while (resource_slot != array_start);
         }
         return 0;
@@ -111,7 +111,7 @@ void initialize_town_map_object_state(s32 type_id, s32 *init_value_ptr, ObjectNo
     if (init_value_ptr != 0) {
         init_value = *init_value_ptr;
     }
-    runtime_initialize_state_value(context, init_value);
+    init_unit_scale_record(context, init_value);
     {
         s32 context_mode;
         context_mode = 2;

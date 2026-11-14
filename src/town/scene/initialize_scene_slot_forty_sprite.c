@@ -10,7 +10,7 @@ extern u8 D_800D6AE4[];
 extern u8 D_800D6AEC[];
 
 void initialize_scene_slot_forty_sprite(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite) {
-    initialize_object_and_register_slot(object, 40, D_800D6B14, D_800D6B18, D_800D6AE4, D_800D6AEC);
+    register_object_slot_with_tables(object, 40, D_800D6B14, D_800D6B18, D_800D6AE4, D_800D6AEC);
     sprite->clut = 2;
     sprite->flags &= ~0x100;
 }

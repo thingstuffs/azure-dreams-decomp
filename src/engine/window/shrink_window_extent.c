@@ -19,7 +19,7 @@ struct Func80035C80Object {
     u8 field78;
 };
 
-extern void shrink_window_extent_to_two(void);
+extern void shrink_window_extent_to_minimum(void);
 
 /* Flag the referenced record and switch callbacks when the state byte changes. */
 void fade_and_shrink_window_on_value_change(Func80035C80Object *object) {
@@ -28,6 +28,6 @@ void fade_and_shrink_window_on_value_change(Func80035C80Object *object) {
         s16 record_offset = object->field4A;
         (record_base + record_offset)[0x50] = 1;
         begin_fade_to_black();
-        object->field68 = shrink_window_extent_to_two;
+        object->field68 = shrink_window_extent_to_minimum;
     }
 }

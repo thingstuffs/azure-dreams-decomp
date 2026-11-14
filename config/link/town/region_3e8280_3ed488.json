@@ -61,14 +61,14 @@
     {
       "row": "town/func_8046A020",
       "home": "town/func_8046A020",
-      "tu": "src/town/scene/event/select_event_data_mode_setup.c",
+      "tu": "src/town/scene/event/select_event_data_unless_mode_four.c",
       "foff": "0x003EA020",
       "vma": "0x8001B020",
       "size": 84
     },
     {
       "row": "town/func_8046A1E4",
-      "tu": "src/town/scene/event/store_entry_value_in_state_6.c",
+      "tu": "src/town/scene/event/store_value_pair_if_mode_six.c",
       "home": "town/func_8046A1E4",
       "foff": "0x3EA1E4",
       "vma": "0x8001b1e4",
@@ -76,7 +76,7 @@
     },
     {
       "row": "town/func_8046A24C",
-      "tu": "src/town/scene/event/store_entry_value_in_state_6.c",
+      "tu": "src/town/scene/event/store_value_pair_if_mode_six.c",
       "home": "town/func_8046A1E4",
       "foff": "0x3EA24C",
       "vma": "0x8001b24c",
@@ -90,7 +90,7 @@
     {
       "row": "town/func_8046A2B4",
       "home": "town/func_8046A020",
-      "tu": "src/town/scene/event/select_event_data_mode_setup.c",
+      "tu": "src/town/scene/event/select_event_data_unless_mode_four.c",
       "foff": "0x003EA2B4",
       "vma": "0x8001B2B4",
       "size": 84,
@@ -105,7 +105,7 @@
     },
     {
       "row": "town/func_8046A45C",
-      "tu": "src/town/scene/event/store_entry_value_in_state_4.c",
+      "tu": "src/town/scene/event/store_value_pair_if_mode_four.c",
       "home": "town/func_8046A45C",
       "foff": "0x3EA45C",
       "vma": "0x8001b45c",
@@ -113,7 +113,7 @@
     },
     {
       "row": "town/func_8046A4C4",
-      "tu": "src/town/scene/event/store_entry_value_in_state_4.c",
+      "tu": "src/town/scene/event/store_value_pair_if_mode_four.c",
       "home": "town/func_8046A45C",
       "foff": "0x3EA4C4",
       "vma": "0x8001b4c4",
@@ -170,7 +170,7 @@
     },
     {
       "row": "town/func_8046B48C",
-      "tu": "src/town/scene/apply_stored_value_c.c",
+      "tu": "src/town/scene/is_scene_event_flag_set.c",
       "home": "town/func_8046B48C",
       "foff": "0x3EB48C",
       "vma": "0x8001c48c",
@@ -178,7 +178,7 @@
     },
     {
       "row": "town/func_8046B4B4",
-      "tu": "src/town/scene/apply_stored_value_c.c",
+      "tu": "src/town/scene/is_scene_event_flag_set.c",
       "home": "town/func_8046B48C",
       "foff": "0x3EB4B4",
       "vma": "0x8001c4b4",
@@ -192,7 +192,7 @@
     },
     {
       "row": "town/func_8046B4DC",
-      "tu": "src/town/scene/apply_stored_value_c.c",
+      "tu": "src/town/scene/is_scene_event_flag_set.c",
       "home": "town/func_8046B48C",
       "foff": "0x3EB4DC",
       "vma": "0x8001c4dc",
@@ -206,7 +206,7 @@
     },
     {
       "row": "town/func_8046B504",
-      "tu": "src/town/scene/apply_stored_value_c.c",
+      "tu": "src/town/scene/is_scene_event_flag_set.c",
       "home": "town/func_8046B48C",
       "foff": "0x3EB504",
       "vma": "0x8001c504",
@@ -220,7 +220,7 @@
     },
     {
       "row": "town/func_8046B52C",
-      "tu": "src/town/scene/apply_stored_value_c.c",
+      "tu": "src/town/scene/is_scene_event_flag_set.c",
       "home": "town/func_8046B48C",
       "foff": "0x3EB52C",
       "vma": "0x8001c52c",
@@ -234,7 +234,7 @@
     },
     {
       "row": "town/func_8046B554",
-      "tu": "src/town/scene/apply_stored_value_c.c",
+      "tu": "src/town/scene/is_scene_event_flag_set.c",
       "home": "town/func_8046B48C",
       "foff": "0x3EB554",
       "vma": "0x8001c554",
@@ -248,7 +248,7 @@
     },
     {
       "row": "town/func_8046B57C",
-      "tu": "src/town/scene/apply_stored_value_c.c",
+      "tu": "src/town/scene/is_scene_event_flag_set.c",
       "home": "town/func_8046B48C",
       "foff": "0x3EB57C",
       "vma": "0x8001c57c",
@@ -262,7 +262,7 @@
     },
     {
       "row": "town/func_8046B5A4",
-      "tu": "src/town/scene/apply_stored_value_c.c",
+      "tu": "src/town/scene/is_scene_event_flag_set.c",
       "home": "town/func_8046B48C",
       "foff": "0x3EB5A4",
       "vma": "0x8001c5a4",
@@ -337,7 +337,7 @@
     },
     {
       "row": "town/func_8046C8C4",
-      "tu": "src/town/scene/pass_indexed_entry.c",
+      "tu": "src/town/scene/set_flag_from_indexed_entry.c",
       "home": "town/func_8046C8C4",
       "foff": "0x3EC8C4",
       "vma": "0x8001d8c4",
@@ -346,7 +346,7 @@
     {
       "row": "town/func_8046C8F4",
       "home": "town/func_8032F188",
-      "tu": "src/town/scene/flags/update_entry_flags.c",
+      "tu": "src/town/scene/flags/replace_record_flag_with_entry_flag.c",
       "foff": "0x003EC8F4",
       "vma": "0x8001D8F4",
       "size": 84,
@@ -496,7 +496,7 @@
     },
     {
       "row": "town/func_8046CF00",
-      "tu": "src/town/scene/flags/get_first_entry_flag.c",
+      "tu": "src/town/scene/flags/find_first_eligible_entry.c",
       "home": "town/func_80481D78",
       "foff": "0x3ECF00",
       "vma": "0x8001DF00",

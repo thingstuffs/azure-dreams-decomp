@@ -20,8 +20,8 @@ typedef struct FadingEffectMotionObject {
     s32 velocity_z_acceleration;
 } FadingEffectMotionObject;
 
-/* initialize_object_motion_and_animation.c */
-void initialize_object_motion_and_animation(void *object_data, ObjectPosition *motion, struct SpriteFrameState *anim);
+/* init_random_wander_object.c */
+void init_random_wander_object(void *object_data, ObjectPosition *motion, struct SpriteFrameState *anim);
 
 /* update_effect_motion_and_fade.c */
 void update_effect_motion_and_fade(void *effect, ObjectPosition *motion_data, SpriteFrameState *display_data);

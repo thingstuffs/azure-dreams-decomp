@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_81254460",
-      "tu": "src/dungeon/monster/beldo/process_global_effect_slots_after_reset.c",
+      "tu": "src/dungeon/monster/beldo/reset_and_release_beldo_effect_slots.c",
       "home": "dungeon/func_81254460",
       "foff": "0x1274460",
       "vma": "0x81254460",

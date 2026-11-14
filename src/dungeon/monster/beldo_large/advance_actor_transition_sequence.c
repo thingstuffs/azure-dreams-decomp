@@ -144,7 +144,7 @@ void advance_actor_transition_sequence(ActorRecord *state_arg, ObjectPosition *w
                 ctx->action_flags &= 0x7FFF;
                 global_flags = ((SystemFlagWord *)&system_update_flags)->flags;
                 ((SystemFlagWord *)&system_update_flags)->flags = global_flags | 8;
-                enqueue_runtime_pool_script(setup_data);
+                queue_pool_service_script(setup_data);
                 ctx->pending_turn_updates = 0;
                 state->action_phase = 0;
 

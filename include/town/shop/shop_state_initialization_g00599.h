@@ -51,18 +51,18 @@ void refresh_paged_selection_state();
 /* extern */
 s32 allocate_paged_shop_item_list(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 /* extern */
-s32 create_dual_buffer_object();
+s32 create_floating_number_widget();
 /* extern */
 void advance_dispatch_when_countdown_expires(GridMenuObject *state_data);
-extern void set_shop_object_data_if_present(s32 object);
+extern void set_shop_fade_out_callback(s32 object);
 extern void set_advance_inner_value_callback(s32 object); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 D_80082AB4[];
 
 extern TownState runtime_script_state;
 
 /* Functions defined in this translation unit. */
-void copy_global_state_and_record_block(s32 *record);
-void initialize_state_from_source(Source *source);
+void save_shop_script_state(s32 *record);
+void restore_shop_script_state(Source *source);
 void *open_shop(s32 unused, s32 primary_param, s32 secondary_param, s32 shared_param);
 
 #endif

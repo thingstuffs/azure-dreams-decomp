@@ -33,7 +33,7 @@ void * create_item_menu_object(s32 selector) {
         result = create_item_menu_child_object(object);
         ((S_800AE324_1 *)object)->unk_20 = result;
         if (result != 0) {
-            result = create_dual_buffer_object(object, 0x48, -0x5C);
+            result = create_floating_number_widget(object, 0x48, -0x5C);
             state->unk_08 = result;
         }
     }
@@ -49,7 +49,7 @@ void release_item_menu_object(ItemMenuParameters *parameters) {
     s32 firstParameter = parameters->field0;
     ((u16 *)parameters)[-1] |= NODE_REMOVE;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
-    reset_item_menu_object_state(firstParameter);
+    release_item_menu_child_object(firstParameter);
     schedule_item_menu_child_release(parameters->field4);
     set_advance_inner_value_callback(parameters->field8);
     enqueue_script_message_command();

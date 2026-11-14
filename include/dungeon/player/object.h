@@ -8,7 +8,7 @@
 #include "shared/sprite_frame_state.h"
 void accumulate_experience_award(u8 *record, u16 amount);
 void begin_throw_carried_object(ActorRecord *object, ObjectPosition *unused_context, SpriteFrameState *unused_sprite, ActorRecord *actor);
-s32 find_first_unused_entity_entry(void);
+s32 find_free_familiar_record_slot(void);
 s32 is_dungeon_action_enabled(void);
 s32 lower_entity_level(ActorRecord *body, s32 show_message);
 void *register_item_object_in_free_slot(void *target, void *ptr1, void *ptr2, s16 flag);

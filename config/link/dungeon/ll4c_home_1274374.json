@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_81254374",
-      "tu": "src/dungeon/monster/beldo/clear_global_effect_flags.c",
+      "tu": "src/dungeon/monster/beldo/respawn_floor_monsters.c",
       "home": "dungeon/func_81254374",
       "foff": "0x1274374",
       "vma": "0x81254374",

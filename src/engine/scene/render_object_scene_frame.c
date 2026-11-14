@@ -48,7 +48,7 @@ void render_object_scene_frame(void)
     drain_audio_commands_and_service_channels();
     saved_value = gpu_scratch_buffer_base.field_0;
     *(s32 *)0x80081480 = saved_value;
-    run_runtime_callbacks();
+    run_frame_callbacks();
     update_controller_buttons_and_triggers();
     next_buffer = upper_draw_context;
     if (g_game_work[0] == ((S_80083160_ctx *) next_buffer)) {

@@ -34,7 +34,7 @@ void *scene_create_resource_transition(void *owner_arg, void *context_arg)
         node->owner_0x20 = owner;
         SD_Call(0xD1);
         ((ObjectNodeHeader *)(node_fields - 0x20))->update_callback = schedule_deferred_resource_transition;
-        scene_begin_transition_texture_read((u8 *)node + 0x28);
+        begin_transition_texture_read((u8 *)node + 0x28);
     }
     return node;
 }

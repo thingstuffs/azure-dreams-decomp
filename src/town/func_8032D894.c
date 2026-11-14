@@ -13,12 +13,12 @@ typedef struct S_80018094_1 {
     u16 unk_0C;
     u16 unk_0E;
 } S_80018094_1;   /* (((Rec_D_80016000 *)D_80016000)->unk_08.at00_s32.v << 5) +
-            *((Rec_D_80016000 *)D_80016000)->unk_30.as_ps32 in apply_target_grid_rectangle */
+            *((Rec_D_80016000 *)D_80016000)->unk_30.as_ps32 in is_position_near_grid_cell */
 
 
 
 /* Applies a target rectangle positioned at the given grid cell center. */
-u32 apply_target_grid_rectangle(s32 target_x, s32 target_y)
+u32 is_position_near_grid_cell(s32 target_x, s32 target_y)
 {
     SVECTOR current_rect;
     SVECTOR target_rect;

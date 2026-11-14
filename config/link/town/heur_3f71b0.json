@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "town/func_803F71B0",
-      "tu": "src/town/scene/test_unless_mode_2_b.c",
+      "tu": "src/town/scene/test_flag_unless_choice_3.c",
       "home": "town/func_8047B9B0",
       "foff": "0x3f71b0",
       "vma": "0x800181b0",

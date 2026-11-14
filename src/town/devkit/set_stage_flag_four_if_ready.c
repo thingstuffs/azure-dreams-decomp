@@ -1,0 +1,32 @@
+#include "common.h"
+#include "town/devkit.h"
+#include "town/devkit/flag_test_imports.h"
+
+
+typedef struct {
+    u8 pad[8];
+    s32 *value;
+} ValueHolder;
+
+typedef struct {
+    u8 pad[0x34];
+    u32 flags;
+} State;
+
+extern ValueHolder *devkit_stage_value_owner[3];
+extern State *devkit_state_slots[3];
+
+extern void shift_index_and_add_offset(s32 entry);
+extern void set_devkit_flag_by_index(s32 entry);
+
+/* When the gate and the counter both pass, set the stage flag and return the stage handler's result. */
+s32 set_stage_flag_four_if_ready(s32 entry) {
+
+    if ((func_80700C9C(1) != 0) && (*devkit_stage_value_owner[0]->value >= 3)) {
+        shift_index_and_add_offset(1);
+        devkit_state_slots[0]->flags |= 4;
+        return func_80701404();
+    }
+    set_devkit_flag_by_index(1);
+    return entry;
+}

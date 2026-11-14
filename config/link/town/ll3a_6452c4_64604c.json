@@ -86,7 +86,7 @@
     {
       "row": "town/func_806C5940",
       "home": "town/func_806C5940",
-      "tu": "src/town/scene/event/process_event_ids.c",
+      "tu": "src/town/scene/event/clear_cheriru_first_flags.c",
       "foff": "0x00645940",
       "vma": "0x80016940",
       "size": 40
@@ -101,7 +101,7 @@
     },
     {
       "row": "town/func_806C59A0",
-      "tu": "src/town/scene/event/process_event_ids.c",
+      "tu": "src/town/scene/event/clear_cheriru_first_flags.c",
       "home": "town/func_806C5940",
       "foff": "0x6459A0",
       "vma": "0x800169A0",
@@ -138,7 +138,7 @@
     },
     {
       "row": "town/func_806C5A00",
-      "tu": "src/town/scene/event/process_event_ids.c",
+      "tu": "src/town/scene/event/clear_cheriru_first_flags.c",
       "home": "town/func_806C5940",
       "foff": "0x645A00",
       "vma": "0x80016a00",
@@ -268,7 +268,7 @@
     {
       "row": "town/func_806C5F8C",
       "home": "town/func_806C5940",
-      "tu": "src/town/scene/event/process_event_ids.c",
+      "tu": "src/town/scene/event/clear_cheriru_first_flags.c",
       "foff": "0x00645F8C",
       "vma": "0x80016F8C",
       "size": 40,

@@ -10,7 +10,7 @@
     {
       "row": "dungeon/func_80D026AC",
       "home": "dungeon/func_80976E28",
-      "tu": "src/dungeon/monster/hikewne/update_entity_state_from_query.c",
+      "tu": "src/dungeon/monster/hikewne/relink_hikewne_path.c",
       "foff": "0xd226ac",
       "vma": "0x8015beac",
       "size": 324,

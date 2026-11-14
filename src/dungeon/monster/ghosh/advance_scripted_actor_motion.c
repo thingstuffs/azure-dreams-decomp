@@ -20,8 +20,8 @@ typedef struct {
 typedef struct {
     InitPair pair[8];
 } __attribute__((packed)) InitBlock;
-void create_boss_display_variant(); /* extern */
-void create_boss_randomized_effect(); /* extern */
+void create_offset_sprite_by_variant(); /* extern */
+void create_random_velocity_particle(); /* extern */
 extern InitBlock ghosh_effect_direction_vectors;
 
 /* Byte +0xB6 of the scripted actor's ActorRecord (inside its unk_B4 scratch word): a signed flag the descent clears. */
@@ -168,7 +168,7 @@ void advance_scripted_actor_motion(ActorRecord *actor, S_func_8132B8AC_1 *motion
         select_sprite_entry(sprite, ghosh_frame_set_6[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A + 0x100) >> 9) & 7], 0);
         actor->action_timer = 0U;
         actor->action_id = (u8) (actor->action_id + 1);
-        create_boss_child_effect(actor, motion, sprite);
+        create_directional_child_effect(actor, motion, sprite);
         break;
     case 7:
         motion->unk_0A = (u16) (motion->unk_0A - 8);
@@ -238,7 +238,7 @@ void advance_scripted_actor_motion(ActorRecord *actor, S_func_8132B8AC_1 *motion
             path_particle_count = 0;
             play_sound_if_enabled(0x706);
             do {
-                create_boss_directional_effect((u8 *)actor - 0x20, beldo->unk_2A, 0x8080FF, (rand() & 0xFF) | 0x80, 0);
+                create_ghosh_spread_particle((u8 *)actor - 0x20, beldo->unk_2A, 0x8080FF, (rand() & 0xFF) | 0x80, 0);
                 path_particle_count += 1;
             } while (path_particle_count < 0x14);
             actor->action_timer = actor->action_timer - 1;
@@ -255,7 +255,7 @@ void advance_scripted_actor_motion(ActorRecord *actor, S_func_8132B8AC_1 *motion
             end_particle_count = 0;
             play_sound_if_enabled(0x706);
             do {
-                create_boss_directional_effect((u8 *)actor - 0x20, beldo->unk_2A, 0x8080FF, (rand() & 0xFF) | 0x80, 0);
+                create_ghosh_spread_particle((u8 *)actor - 0x20, beldo->unk_2A, 0x8080FF, (rand() & 0xFF) | 0x80, 0);
                 end_particle_count += 1;
             } while (end_particle_count < 0x14);
         }
@@ -335,7 +335,7 @@ void advance_scripted_actor_motion(ActorRecord *actor, S_func_8132B8AC_1 *motion
             play_sound_if_enabled(0x706);
             wait_particle_mode = 1;
             do {
-                create_boss_directional_effect((u8 *)actor - 0x20, beldo->unk_2A, 0x8080FF, (rand() & 0xFF) | 0x80, wait_particle_mode);
+                create_ghosh_spread_particle((u8 *)actor - 0x20, beldo->unk_2A, 0x8080FF, (rand() & 0xFF) | 0x80, wait_particle_mode);
                 wait_particle_count += 1;
             } while (wait_particle_count < 0x14);
         }
@@ -357,16 +357,16 @@ void advance_scripted_actor_motion(ActorRecord *actor, S_func_8132B8AC_1 *motion
             actor->action_id = (u8) (actor->action_id + 1);
             motion->unk_0C.unk_0E.unk_0E = 4;
             motion->unk_10.unk_12.unk_12 = 0;
-            create_boss_display_variant(motion, -0x50, 0, -0x10, 0);
-            create_boss_display_variant(motion, -0x28, 0, -8, 0);
-            create_boss_display_variant(motion, -0x1C, 0, -0x1E, 0);
+            create_offset_sprite_by_variant(motion, -0x50, 0, -0x10, 0);
+            create_offset_sprite_by_variant(motion, -0x28, 0, -8, 0);
+            create_offset_sprite_by_variant(motion, -0x1C, 0, -0x1E, 0);
             initialize_timed_motion_step(6, 0xC);
             play_sound_if_enabled(0x601);
         }
         if (actor->action_timer == 8) {
-            create_boss_display_variant(motion, -0x30, 0, -0xA, 1);
-            create_boss_display_variant(motion, -0x18, 0, -0x18, 1);
-            create_boss_display_variant(motion, 0, 0, -0x10, 1);
+            create_offset_sprite_by_variant(motion, -0x30, 0, -0xA, 1);
+            create_offset_sprite_by_variant(motion, -0x18, 0, -0x18, 1);
+            create_offset_sprite_by_variant(motion, 0, 0, -0x10, 1);
             initialize_timed_motion_step(6, 0xC);
             play_sound_if_enabled(0x601);
         }
@@ -384,7 +384,7 @@ void advance_scripted_actor_motion(ActorRecord *actor, S_func_8132B8AC_1 *motion
             play_sound_if_enabled(0x706);
             move_particle_mode = 1;
             do {
-                create_boss_directional_effect((u8 *)actor - 0x20, beldo->unk_2A, 0x8080FF, (rand() & 0xFF) | 0x80, move_particle_mode);
+                create_ghosh_spread_particle((u8 *)actor - 0x20, beldo->unk_2A, 0x8080FF, (rand() & 0xFF) | 0x80, move_particle_mode);
                 move_particle_count += 1;
             } while (move_particle_count < 0x14);
         }
@@ -418,8 +418,8 @@ void advance_scripted_actor_motion(ActorRecord *actor, S_func_8132B8AC_1 *motion
             motion->unk_0C.unk_0E.unk_0E = 0;
         }
         if ((actor->action_timer & 3) == 1) {
-            create_boss_randomized_effect(motion, -0x10, 0, -4);
-            create_boss_randomized_effect(motion, 0xC, 0, -0xC);
+            create_random_velocity_particle(motion, -0x10, 0, -4);
+            create_random_velocity_particle(motion, 0xC, 0, -0xC);
         }
         break;
     case 18:
@@ -428,14 +428,14 @@ void advance_scripted_actor_motion(ActorRecord *actor, S_func_8132B8AC_1 *motion
         if ((s16) idle_timer >= 0x3C) {
             actor->action_timer = 4U;
             actor->action_id = (u8) (actor->action_id + 1);
-            create_boss_linked_effect(actor, motion, sprite);
+            create_tracked_fade_sprite(actor, motion, sprite);
             sprite->unk_2C = ghosh_frame_set_11;
             select_sprite_entry(sprite, ghosh_frame_set_11[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A + 0x100) >> 9) & 7], 0);
             play_sound_if_enabled(0x800);
         }
         if ((actor->action_timer & 3) == 1) {
-            create_boss_randomized_effect(motion, -0x10, 0, -4);
-            create_boss_randomized_effect(motion, 0xC, 0, -0xC);
+            create_random_velocity_particle(motion, -0x10, 0, -4);
+            create_random_velocity_particle(motion, 0xC, 0, -0xC);
         }
         break;
     case 19:
@@ -449,7 +449,7 @@ void advance_scripted_actor_motion(ActorRecord *actor, S_func_8132B8AC_1 *motion
         select_sprite_entry(sprite, ghosh_frame_set_1[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A + 0x100) >> 9) & 7], 0);
         break;
     case 20:
-        release_secondary_overlay_object();
+        release_scripted_ghosh_actor();
         break;
     default:
         break;

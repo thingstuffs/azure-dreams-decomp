@@ -29,5 +29,5 @@ void func_800A9A04(void *actor);
 extern u8 D_80174EA8[];
 extern u8 D_80174EB0[];
 void update_timed_actor_movement_and_scale(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor);
+void update_noise_behavior(ActorRecord *motion, ObjectPosition *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor);
 #endif

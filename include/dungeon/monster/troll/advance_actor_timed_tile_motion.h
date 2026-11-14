@@ -21,5 +21,5 @@ typedef struct T_80174C44_S_80174C44_0 {
 
 
 void advance_actor_timed_tile_motion(ActorRecord *controller, ObjectPosition *transform, SpriteFrameState *entity, ActorRecord *actor);
-void update_actor_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
+void update_troll_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 #endif

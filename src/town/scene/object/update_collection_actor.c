@@ -1,0 +1,450 @@
+#include "common.h"
+#include "shared/sprite_frame_state.h"
+#include "town/scene/collection.h"
+#include "shared/entity.h"
+#include "m2c_compat.h"
+#include "shared/object_links.h"
+#include "sdk/libc.h"
+#include "town/scene/object.h"
+#include "town/data.h"
+#include "town/scene/score_sprite_data.h"
+#include "town/devkit/old_minigame_imports.h"
+
+   /* the 0x2 bytes before in0 in update_collection_actor, addressed as in0[-1] */
+
+
+typedef struct S_8080C650_1 {
+    s32 unk_00;
+    u8 pad_04[0x8];
+    s32 unk_0C;
+    u8 pad_10[0xC];
+    s16 unk_1C;
+    s16 unk_1E;
+    u8 pad_20[0xA];
+    u16 unk_2A;
+    s16 unk_2C;
+    u16 unk_2E;
+    u8 pad_30[0x4];
+    s16 unk_34;
+    s16 unk_36;
+} S_8080C650_1;   /* sequence in update_collection_actor */
+
+
+
+typedef struct S_8080C650_4 {
+    u8 pad_00[0xC];
+    void * unk_0C;
+    s32 unk_10;
+    u8 pad_14[0xE];
+    s16 unk_22;
+    void * unk_24;
+} S_8080C650_4;   /* floor_height_or_spawned_object in update_collection_actor */
+
+
+s16 func_8025E01C(void *position);                          /* extern */
+extern s16 D_800133A0;
+extern s32 D_8012F130[5];
+extern s32 collection_round_work[3];
+extern s32 town_motion_state[3];
+extern s32 collection_target_y[3];
+extern s32 D_80132AF0[3];
+extern s16 D_80132AF2[5];
+extern u8 D_802430A8[12];
+extern u8 D_80243200[12];
+extern u8 D_802434B0[12];
+extern u8 D_802892EC[12];
+extern u8 D_80289334[12];
+extern u8 D_8028937C[12];
+extern u8 D_802893C4[12];
+extern u8 D_8028940C[12];
+extern u8 D_802894AC[12];
+extern u8 D_80289454[12];
+extern u8 D_8028950C[12];
+extern u8 D_8028954C[12];
+extern s32 D_8029070C[3];
+extern u8 D_80529080[12];
+extern s16 D_80530658[];
+/* Advances the object's motion sequence, switches animations, spawns effects, and handles its exit. */
+void update_collection_actor(TownCollectionActor *in0, ObjectPosition *motion, SpriteFrameState *in2) {
+    s16 *count_cursor;
+    s16 raw_s1;
+    s32 slot_count;
+    s16 phase;
+    s32 count_sum_or_color;
+    s32 x_before_acceleration;
+    s32 x_before_clamp;
+    s32 velocity_component;
+    s32 x_limit_flags_or_phase;
+    s32 current_y;
+    s32 current_x;
+    s32 delta;
+    s32 loop_index;
+    void *animation_descriptor;
+    s32 clamped_x;
+    s32 tmpx;
+    s32 state4_v0;
+    s32 state4_a1;
+    s32 high_v0;
+    register s32 abs_v1;
+    s32 state6_v0;
+    s32 state6_v1;
+    s32 orbit_ticks;
+    u16 approach_ticks;
+    u16 high_phase_ticks;
+    u16 return_ticks;
+    u16 phase_before_increment;
+    u16 sequence_flags;
+    u16 primitive_flags;
+    S_8080C650_4 *floor_height_or_spawned_object;
+    TownCollectionSequence *sequence;
+    S_8080C650_1 *spawned_primitive;
+    SpriteFrameState *primitive = in2;
+    s32 *global_s7;
+    s32 *global_s5;
+
+    animation_descriptor = 0;
+    sequence = NULL;
+    raw_s1 = func_8025E01C(motion);
+    global_s7 = D_8012F130;
+    global_s5 = collection_round_work;
+    floor_height_or_spawned_object = (void *)raw_s1;
+    if (in0->state.s < 0xFF) {
+        sequence = in0->sequence;
+        if (sequence->state.s == 0xFF) {
+            in0->state.s = 0xFF;
+        }
+        func_80245C10(motion);
+    } else {
+        func_80245C10(motion);
+    }
+    if (motion->z.w.i >= ((s32)floor_height_or_spawned_object)) {
+        motion->z.w.i = (s32)floor_height_or_spawned_object;
+        func_8003EA54(primitive);
+    } else {
+        func_8003EA54(primitive);
+    }
+    phase = in0->state.s;
+    switch (phase) {
+    case 0:
+        motion->x.v = 0x03A00000;
+        motion->y.v = 0x01E00000;
+        motion->z.w.i = func_8025E01C(motion);
+        in0->timer.u = 0x40U;
+        in0->unk_15 = 0;
+        in0->state.s = 1;
+    case 1:
+        if (primitive->flags & 0x6000) {
+            motion->velocity_y = 0x80000;
+            animation_descriptor = D_802892EC;
+        }
+        if (in0->flags & 1) {
+            orbit_ticks = in0->timer.u - 1;
+            in0->timer.u = orbit_ticks;
+            if ((s16) orbit_ticks >= 0) {
+                motion->x.v = (s32) ((func_8006A3A4((s16) orbit_ticks << 7) << 7) + 0x03A00000);
+            }
+        }
+        if (motion->y.v > 0x0477FFFF) {
+            primitive->flags = (u16) (primitive->flags | 1);
+            motion->velocity_x = 0x80000;
+            animation_descriptor = D_80289334;
+            in0->state.s = 2;
+        }
+        if (animation_descriptor != 0) {
+            func_80034A1C(primitive, animation_descriptor, 0);
+        }
+        return;
+    case 2:
+        if (primitive->flags & 0x6000) {
+            animation_descriptor = D_802893C4;
+        }
+        if (motion->y.v > 0x048FFFFF) {
+            tmpx = 3;
+            animation_descriptor = D_8028937C;
+            motion->velocity_y = 0;
+            in0->state.s = tmpx;
+        }
+        break;
+    case 3:
+        if (primitive->flags & 0x6000) {
+            animation_descriptor = D_802893C4;
+        }
+        if (motion->x.v > 0x03DFFFFF) {
+            motion->velocity_z = -0x100000;
+            animation_descriptor = D_80289454;
+            in0->state.s = 4;
+        }
+        break;
+    case 4:
+        x_before_acceleration = motion->x.v;
+        state4_a1 = 0x48000;
+        state4_v0 = motion->velocity_z + state4_a1;
+        motion->velocity_z = state4_v0;
+        if (x_before_acceleration > 0x041FFFFF) {
+            motion->velocity_z = 0;
+            motion->velocity_x = 0;
+            in0->unk_15 = 1;
+            in0->state.s = 5;
+        }
+        break;
+    case 5:
+        if (global_s5[0] == (s32)D_802430A8) {
+            in0->timer.u = 7U;
+            global_s5[0] = (s32)D_80243200;
+            in0->unk_15 = 0;
+            in0->state.s = 6;
+        }
+        break;
+    case 6:
+        motion->velocity_x = (s32) ((s32) (town_motion_state[0] - motion->x.v) >> 1);
+        motion->velocity_y = (s32) ((s32) (collection_target_y[0] - motion->y.v) >> 1);
+        state6_v0 = D_80132AF0[0] + D_8029070C[0];
+        state6_v1 = motion->z.v + 0x80000;
+        state6_v0 -= state6_v1;
+        motion->velocity_z = state6_v0 >> 1;
+        func_80245C10(motion);
+        global_s5[0] = (s32)D_80243200;
+        approach_ticks = in0->timer.u - 1;
+        in0->timer.u = approach_ticks;
+        if ((approach_ticks << 0x10) <= 0) {
+            global_s5[0] = (s32)D_80243200;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
+            in0->state.s = 7;
+        }
+        break;
+    case 7:
+    case 8:
+    case 9:
+        motion->x.v = (s32) town_motion_state[0];
+        motion->y.v = (s32) collection_target_y[0];
+        motion->z.v = (s32) (D_80132AF0[0] + D_8029070C[0] + 0xFFF80000);
+        global_s7 += 4;
+        if (*global_s7 & 0x20) {
+            if (D_80132AF2[0] == 0) {
+                if (in0->state.s == 9) {
+                    tmpx = 0x100000;
+                    animation_descriptor = D_8028950C;
+                    sequence->speed = tmpx;
+                } else {
+                    global_s5[0] = (s32)D_802434B0;
+                    motion->velocity_z = 0x100000;
+                }
+            } else {
+                global_s5[0] = (s32)D_80243200;
+            }
+            if (in0->state.s == 9) {
+                func_80058F88(0x700);
+            }
+            sequence->flags.u = (u16)(sequence->flags.u & ~4);
+            phase_before_increment = in0->state.u;
+            in0->state.s = (s16) (phase_before_increment + 1);
+        }
+        break;
+    case 10:
+        velocity_component = (s32) (((s32) sequence->speed
+            >> 0xC) * func_8006A3A4(sequence->angle.s));
+        motion->velocity_x = velocity_component;
+        velocity_component = ((s32) (0 - sequence->speed)
+            >> 0xC) * func_8006A470(sequence->angle.s);
+        motion->velocity_y = velocity_component;
+        if (velocity_component > -0x40000) {
+            motion->velocity_y = -0x40000;
+        }
+        sequence->angle.s = (s16) ((u16) sequence->angle.s
+            - ((s32) (sequence->angle_step.u << 0x10) >> 0x14));
+        if (motion->z.v > 0) {
+            sequence_flags = sequence->flags.u;
+            if (!(sequence_flags & 4)) {
+                sequence->flags.u = (u16) (sequence_flags | 4);
+                func_80058F88(0x701);
+            }
+            x_before_clamp = motion->x.v;
+            motion->z.v = 0x200000;
+            if (x_before_clamp <= 0x041FFFFF) {
+                if (x_before_clamp > 0x03BFFFFF) {
+                    clamped_x = 0x03B80000;
+                    motion->x.v = clamped_x;
+                } else if (x_before_clamp <= 0x03800000) {
+                    motion->x.v = 0x03880000;
+                }
+            } else if (x_before_clamp > 0x04BFFFFF) {
+                clamped_x = 0x04B80000;
+                motion->x.v = clamped_x;
+            } else if (x_before_clamp <= 0x04800000) {
+                clamped_x = 0x04880000;
+                motion->x.v = clamped_x;
+            }
+            sequence->angle.s = (s16) ((s32) (0 - sequence->angle.s) >> 1);
+        }
+        if (motion->y.v <= 0x01E00000) {
+            func_80058F88(0x1700);
+            func_80058F88(0x1701);
+            if (D_80530658[sequence->round_index.s] == 8) {
+                loop_index = 1;
+                global_s5 = (s32 *)0x1000;
+                in0->flags = (s32) (in0->flags | 1);
+                {
+                    do {
+                        floor_height_or_spawned_object = func_800374FC(0x136, &scene_object_factory_data);
+                        if (floor_height_or_spawned_object != NULL) {
+                            spawned_primitive = floor_height_or_spawned_object->unk_0C;
+                            func_8003BC18(floor_height_or_spawned_object, score_sprite_draw_callback_address);
+                            spawned_primitive->unk_0C = 0x808080;
+                            spawned_primitive->unk_1E = (s16)(s32)global_s5;
+                            spawned_primitive->unk_1C = (s16)(s32)global_s5;
+                            floor_height_or_spawned_object->unk_22 = 0x78;
+                            floor_height_or_spawned_object->unk_24 = motion;
+                            floor_height_or_spawned_object->unk_10 = (s32)D_80529080;
+                            func_80034A1C(spawned_primitive, D_8028954C, (s16)(loop_index * 4));
+                        }
+                    } while (--loop_index >= 0);
+                }
+            } else {
+                in0->flags = (s32) (in0->flags & ~1);
+            }
+            animation_descriptor = D_802894AC;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
+            in0->timer.u = 0x14U;
+            in0->state.s = 0xB;
+        }
+        break;
+    case 11:
+        primitive_flags = primitive->flags;
+        if ((primitive_flags & 0x6000) && ((s16) in0->timer.u > 0)) {
+            animation_descriptor = D_802892EC;
+            primitive->flags = (u16) (primitive_flags | 0x800);
+        }
+        current_x = motion->x.v;
+        x_limit_flags_or_phase = 0x03A00000;
+        if (current_x > x_limit_flags_or_phase) {
+            x_limit_flags_or_phase = primitive->flags & 0xFFFE;
+        } else {
+            x_limit_flags_or_phase = primitive->flags | 1;
+        }
+        primitive->flags = (u16)x_limit_flags_or_phase;
+        current_y = motion->y.v;
+        motion->y.v = (s32) (((s32) (0x01E00000 - current_y) >> 1) + current_y);
+        return_ticks = in0->timer.u - 1;
+        in0->timer.u = return_ticks;
+        if ((return_ticks << 0x10) == 0) {
+            primitive->flags = (u16) (primitive->flags & 0xF7FF);
+            current_x = motion->x.v;
+            if (current_x > 0x03A80000) {
+                motion->velocity_x = -0x80000;
+            } else if (current_x <= 0x0397FFFF) {
+                motion->velocity_x = 0x80000;
+            } else {
+                animation_descriptor = D_8028937C;
+                motion->velocity_x = 0;
+                motion->x.v = 0x03A00000;
+            }
+        }
+        if ((u32) (motion->x.v + 0xFC440000) <= 0xC80000U) {
+            motion->z.v = 0;
+        } else {
+            motion->z.v = 0x200000;
+        }
+        abs_v1 = 0xFC600000;
+        delta = motion->x.v + abs_v1;
+        if ((abs(delta)) <= 0x80000) {
+            if (((s32) (s16) in0->timer.u) < 0) {
+                sequence->flags.u = (u16) (sequence->flags.u | 2);
+                motion->velocity_z = 0;
+                motion->velocity_y = 0;
+                motion->velocity_x = 0;
+                in0->state.s = 0;
+                break;
+            }
+        }
+        break;
+    case 0xFF:
+        count_sum_or_color = 0;
+        loop_index = 7;
+        count_cursor = &D_80530658[7];
+        do {
+            slot_count = *count_cursor;
+            count_cursor -= 1;
+            loop_index -= 1;
+            count_sum_or_color += slot_count;
+        } while (loop_index >= 0);
+        if ((D_800133A0 < count_sum_or_color) || (count_sum_or_color == 0x40)) {
+            D_800133A0 = count_sum_or_color;
+            func_80050BFC(0x5DA);
+        } else {
+            func_80050BD8(0x5DA);
+        }
+        animation_descriptor = D_802892EC;
+        motion->velocity_y = 0x80000;
+        in0->timer.u = 0x1EU;
+        in0->state.s = (s16) ((u16) in0->state.s + 1);
+    case 0x100:
+    case 0x102:
+        high_phase_ticks = in0->timer.u - 1;
+        in0->timer.u = high_phase_ticks;
+        if ((high_phase_ticks << 0x10) <= 0) {
+            motion->velocity_y = 0;
+            motion->velocity_z = -0x100000;
+            phase_before_increment = in0->state.u;
+            in0->state.s = (s16) (phase_before_increment + 1);
+        }
+        break;
+    case 0x101:
+    case 0x103:
+        high_v0 = motion->velocity_z + 0x20000;
+        motion->velocity_z = high_v0;
+        if (motion->z.v > 0x1FFFFF) {
+            motion->z.v = 0x200000;
+            motion->velocity_z = 0;
+            phase_before_increment = in0->state.u;
+            in0->state.s = (s16) (phase_before_increment + 1);
+        }
+        break;
+    case 0x104:
+        animation_descriptor = D_80289334;
+        raw_s1 = phase + 1;
+        in0->state.s = raw_s1;
+        break;
+    case 0x105:
+        animation_descriptor = D_8028937C;
+        raw_s1 = phase + 1;
+        in0->state.s = raw_s1;
+        break;
+    case 0x106:
+        animation_descriptor = D_802893C4;
+        raw_s1 = phase + 1;
+        in0->state.s = raw_s1;
+        break;
+    case 0x107:
+        count_sum_or_color = 0xC0C0C0;
+        motion->velocity_y = -0x80000;
+        primitive_flags = primitive->flags;
+        primitive->tpage_abr = 0x60;
+        primitive->color.word = count_sum_or_color;
+        primitive_flags |= 0xC;
+        primitive->flags = primitive_flags;
+        x_limit_flags_or_phase = (u16) in0->state.u;
+        animation_descriptor = D_8028940C;
+        x_limit_flags_or_phase += 1;
+        in0->state.s = (s16) x_limit_flags_or_phase;
+        break;
+    case 0x108:
+        primitive->color.word = (s32) (primitive->color.word + 0xFFF7F7F8);
+        if (primitive->color.c.r < 0x11U) {
+            phase_before_increment = in0->state.u;
+            in0->state.s = (s16) (phase_before_increment + 1);
+        }
+        break;
+    case 0x109:
+        func_8023FB18(in0);
+        (*(u16 *)((u8 *)in0 + -2)) = (u16) (((ObjectStatusPrefix16 *)in0)[-1].flags | 0x8000);
+        scene_object_flags |= 0x8000;
+        return;
+    }
+    if (animation_descriptor != 0) {
+        func_80034A1C(primitive, animation_descriptor, 0);
+    }
+}

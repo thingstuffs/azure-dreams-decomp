@@ -22,7 +22,7 @@ s32 feed_egg_to_monster(void *target, DungeonItemEntry *item) {
             place_actor_item(target, item);
             return 1;
         }
-        clear_slot_and_update_linked_state(item);
+        clear_item_slot(item);
     } else {
         display_formatted_context_message(D_800E1035);
     }

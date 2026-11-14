@@ -83,7 +83,7 @@ s32 select_choice_from_input_flags(s32 *choice_values)
 }
 
 /* Decrement countdowns for slots 2 through 4, processing resources whose countdown is zero. */
-void process_resources_for_expired_slot_countdowns(void *state) {
+void fade_choice_slot_colors(void *state) {
     s32 countdown;
     s32 resource_addr;
     u32 slot_offset;

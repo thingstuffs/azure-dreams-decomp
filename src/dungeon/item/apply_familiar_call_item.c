@@ -15,7 +15,7 @@
 #include "engine/scene.h"
 #include "dungeon/item/message.h"
 
-extern s32 process_record_and_update_linked_state(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern s32 resolve_item_attack(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 #include "dungeon/player/state/clear_slot_and_update_linked_state_api.h"
 extern u8 *clear_byte_and_advance(u8 *byte_ptr);
 extern void teleport_familiar_near_player(s32, s16); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
@@ -29,7 +29,7 @@ s32 apply_familiar_call_item(ActorRecord *target, DungeonItemEntry *action, s16 
     u8 *global_page;
 
     if (action_type == 0xD) {
-        return process_record_and_update_linked_state(action, action_arg);
+        return resolve_item_attack(action, action_arg);
     }
 
     global_page = (u8 *)0x800E0000;
@@ -50,7 +50,7 @@ s32 apply_familiar_call_item(ActorRecord *target, DungeonItemEntry *action, s16 
         message_end = message_start;
         if ((*(s32 *)(*(u8 **)(global_page + 0x3D7C) + 0xAC) != 0) ||
             (*(s32 *)(*(u8 **)(global_page + 0x3D7C) + 0xB0) != 0)) {
-            if (has_enough_available_runtime_nodes(4) == 0) {
+            if (has_enough_available_nodes(4) == 0) {
                 return 0;
             }
             slot = 0;
@@ -71,6 +71,6 @@ s32 apply_familiar_call_item(ActorRecord *target, DungeonItemEntry *action, s16 
     }
 
     g_dungeon_status.activity_counts.parts.pending_action_count--;
-    clear_slot_and_update_linked_state(action);
+    clear_item_slot(action);
     return 1;
 }

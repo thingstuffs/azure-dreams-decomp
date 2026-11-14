@@ -1,0 +1,229 @@
+#include "common.h"
+#include "town/scene/collection.h"
+#include "town/scene/effect.h"
+#include "town/scene/object.h"
+#include "town/data.h"
+#include "town/scene/score_sprite_data.h"
+#define AZ_FOREIGN_LOCAL_FUNC_80034A1C
+#include "town/devkit/old_minigame_imports.h"
+#undef AZ_FOREIGN_LOCAL_FUNC_80034A1C
+
+typedef struct S_80813AB0_0 {
+    u8 pad_00[0x8];
+    union { u32 * p; void * p2; } unk_08;   /* accessed as both */
+    u8 * unk_0C;
+    void * unk_10;
+    u8 pad_14[0xC];
+    void * unk_20;
+    void * unk_24;
+    union { void * p; u32 i; } unk_28;   /* accessed as both */
+    union {
+        struct { void * v; } at00;
+        struct { s16 v; } at00u;
+        struct { u8 pad[0x2]; s16 v; } at02;
+    } unk_2C;   /* overlapping accesses */
+    union {
+        struct { u32 v; } at00;
+        struct { s16 v; } at00u;
+        struct { u8 pad[0x2]; s16 v; } at02;
+    } unk_30;   /* overlapping accesses */
+    s16 unk_34;
+    u16 unk_36;
+    s16 unk_38;
+    s16 unk_3A;
+    u8 pad_3C[0x30];
+    void * unk_6C;
+    u8 pad_70[0x6];
+    s16 unk_76;
+} S_80813AB0_0;   /* obj in func_80813AB0 */
+
+typedef struct S_80813AB0_1 {
+    u8 pad_00[0xC];
+    u32 unk_0C;
+    u8 pad_10[0xC];
+    s16 unk_1C;
+    s16 unk_1E;
+} S_80813AB0_1;   /* part in func_80813AB0 */
+
+typedef struct S_80813AB0_2 {
+    u8 pad_00[0xC];
+    void * unk_0C;
+} S_80813AB0_2;   /* (u8 *)y in func_80813AB0 */
+
+typedef struct RootPair {
+    void *first;
+    void *second;
+} RootPair;
+
+extern s32 func_80034A1C(); /* Unprototyped: this site's argument count or types differ from the foreign program's import prototype */
+
+extern u8 menu_entry_draw_callback_address[];
+extern u8 menu_cursor_object_template[];
+extern RootPair D_80526790;
+extern RootPair D_805267A0;
+extern u8 D_805267A8[];
+extern u8 D_805267AC[];
+extern u8 D_8052EA14[];
+extern u8 D_8052EDB8[];
+extern u8 D_8052FD0C[];
+extern u8 D_8052FD60[];
+
+extern u8 D_805301F0[];
+
+/* Build the shop display: the root object plus three item panels and their sprites. */
+s32 create_shop_display(void)
+{
+    RootPair roots[2];
+    u8 *base;
+    S_80813AB0_0 *obj;
+    void **slot;
+    u8 *copy_src;
+    s32 i;
+    s32 scale;
+    s32 y;
+    u8 value;
+
+    base = 0;
+    roots[0] = D_80526790;
+    roots[1] = D_805267A0;
+    func_8052FE94(0x5A);
+    func_800351A8(0x3B, 0);
+
+    obj = func_800373DC(2);
+    copy_src = D_805267A8;
+    i = 2;
+    if (obj != 0) {
+        base = (u8 *)obj + 0x20;
+        obj->unk_10 = D_8052EDB8;
+        obj->unk_38 = func_80071494() & 1;
+    }
+
+    scale = 0x1000;
+    slot = (void **)(base + 8);
+    do {
+        obj = func_800373DC(0x136);
+        *slot = obj;
+        if (obj != 0) {
+            S_80813AB0_1 *part;
+            u32 *packet;
+
+            obj->unk_10 = D_8052EA14;
+            func_8003BC18(obj, score_sprite_draw_callback_address);
+            part = (S_80813AB0_1 *)obj->unk_0C;
+            packet = obj->unk_08.p;
+            packet[0] = 0x05600000;
+            packet[1] = (i << 22) + 0x03E00000;
+            packet[2] = 0x00800000;
+            packet[5] = 0xFFFC0000;
+            obj->unk_20 = base;
+            obj->unk_76 = i;
+            part->unk_1E = scale;
+            part->unk_1C = scale;
+            func_80034A1C(part, shop_panel_sprite_entries, 0, packet);
+            part->unk_0C = 0x00808080;
+            obj->unk_6C = D_805267AC;
+            func_8023FA58(&obj->unk_24, obj->unk_08.p2, D_805301F0);
+        }
+        i--;
+        slot--;
+    } while (i >= 0);
+
+    i = 1;
+    y = 0x2C;
+    do {
+        obj = func_800374FC(1, &scene_object_factory_data);
+        if (obj != 0) {
+            obj->unk_10 = D_8052FD0C;
+            func_8003BC18(obj, menu_entry_draw_callback_address);
+            obj->unk_34 = 0x20;
+            obj->unk_38 = 3;
+            obj->unk_3A = 0x7C80;
+            obj->unk_36 = y;
+            obj->unk_30.at00.v = 0x00808080;
+            obj->unk_24 = ((void **)roots)[i];
+            obj->unk_2C.at00.v = base;
+        }
+        i--;
+        y -= 0xC;
+    } while (i >= 0);
+
+    i = 1;
+    {
+        u8 *copy_ptr;
+
+        copy_ptr = copy_src + 1;
+        do {
+            u8 *dst_first;
+            u8 *dst_second;
+
+            value = *copy_ptr;
+            copy_ptr--;
+            dst_first = ((void **)roots)[2];
+            dst_second = ((void **)roots)[3];
+            dst_first += i;
+            dst_second += i;
+            i--;
+            *dst_second = value;
+            *dst_first = value;
+        } while (i >= 0);
+    }
+
+    i = 1;
+    slot = (void **)0x2C;
+    do {
+        obj = func_800374FC(1, &scene_object_factory_data);
+        if (obj != 0) {
+            obj->unk_10 = D_8052FD60;
+            func_8003BC18(obj, menu_entry_draw_callback_address);
+            obj->unk_34 = 0x50;
+            obj->unk_38 = 3;
+            obj->unk_3A = 0x7C80;
+            obj->unk_36 = (s32)slot;
+            obj->unk_30.at00.v = 0x00808080;
+            obj->unk_24 = ((void **)roots)[i + 2];
+            y = (s32)((u8 *)obj + 0x20);
+            switch (i) {
+            case 0:
+                obj->unk_28.p = base + 0x12;
+                break;
+            case 1:
+                obj->unk_28.p = base + 0x14;
+                break;
+            }
+            ((S_80813AB0_2 *)((u8 *)y))->unk_0C = base;
+        }
+        i--;
+        slot = (void **)((u8 *)slot - 0xC);
+    } while (i >= 0);
+
+    obj = func_800374FC(1, &scene_object_factory_data);
+    if (obj != 0) {
+        s32 final_dim;
+        u32 final_color;
+
+        obj->unk_10 = fade_effect_color_until_done;
+        func_8003BC18(obj, menu_cursor_object_template);
+        final_color = 0x00404040;
+        final_dim = 0x1C;
+        obj->unk_2C.at00u.v = final_dim;
+        obj->unk_2C.at02.v = final_dim;
+        obj->unk_30.at00u.v = 0x48;
+        obj->unk_30.at02.v = final_dim;
+        obj->unk_34 = 2;
+        obj->unk_28.i = final_color;
+        obj->unk_24 = base;
+        obj->unk_36 |= 1;
+    }
+    return 0;
+}
+/* MECHANISM: The 0x40 frame comes from two sibling RootPair stack locals and the s0-s6 held roles.
+   Reusing slot as the second y carrier and y as part preserves retail's s3/s0 lifetime handoffs.
+   The i-selection is a switch on i with cases 0 then 1 and no default: gcc emits the two equality
+   tests and falls through to the end-of-switch jump, which the delay-slot filler thread-fills with
+   the shared `sw s4,12(s0)` (the j at 0x2b8 is that end-of-switch edge, not a call).  Case 0 must
+   come FIRST in the source: with case 1 first its body lands after the default jump and jump.c
+   inverts the second test (bne to the join) - three words off.
+   Explicit copy pointers and volatile final fields reproduce CFG scheduling.
+   The final object's halfwords are stored in field-offset order (0x2C, 0x2E, 0x30, 0x32): the 0x48
+   store between the dimension stores keeps the 0x1C value live across the 0x48 temporary, so local-alloc
+   gives the dimension v1 and the later unk_36 load reuses it. */

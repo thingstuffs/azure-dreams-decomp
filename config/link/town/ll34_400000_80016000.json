@@ -25,7 +25,7 @@
     },
     {
       "row": "town/func_80480494",
-      "tu": "src/town/scene/is_progress_at_threshold.c",
+      "tu": "src/town/scene/has_money_for_progress_step.c",
       "home": "town/func_8032E22C",
       "foff": "0x400494",
       "vma": "0x80016494",
@@ -38,7 +38,7 @@
     },
     {
       "row": "town/func_804804BC",
-      "tu": "src/town/scene/tick_scene_state_counter.c",
+      "tu": "src/town/scene/subtract_scene_cost_from_money.c",
       "home": "town/func_804804BC",
       "foff": "0x4004BC",
       "vma": "0x800164BC",
@@ -108,7 +108,7 @@
     },
     {
       "row": "town/func_804812C8",
-      "tu": "src/town/scene/find_entry_index_assert.c",
+      "tu": "src/town/scene/find_eight_byte_entry_or_assert.c",
       "home": "town/func_8032ECE4",
       "foff": "0x4012C8",
       "vma": "0x800172C8",
@@ -228,7 +228,7 @@
     },
     {
       "row": "town/func_8048176C",
-      "tu": "src/town/scene/flags/update_entry_flags.c",
+      "tu": "src/town/scene/flags/replace_record_flag_with_entry_flag.c",
       "home": "town/func_8032F188",
       "foff": "0x40176C",
       "vma": "0x8001776C",
@@ -415,7 +415,7 @@
     },
     {
       "row": "town/func_80481D78",
-      "tu": "src/town/scene/flags/get_first_entry_flag.c",
+      "tu": "src/town/scene/flags/find_first_eligible_entry.c",
       "home": "town/func_80481D78",
       "foff": "0x401D78",
       "vma": "0x80017D78",

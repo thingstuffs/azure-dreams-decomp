@@ -283,7 +283,7 @@ void update_accelerating_condition_projectile(TrackingEffect *self, ObjectPositi
     case 3:
         spawn_target = owner->target;
         spawn_height = spawn_target->ground_height;
-        self->child = create_initialized_effect_object((s32)self, motion, spawn_height, (s32)spawn_target);
+        self->child = create_brightening_follower((s32)self, motion, spawn_height, (s32)spawn_target);
         if (self->child == 0) {
             break;
         }
@@ -417,14 +417,14 @@ void tint_effect_and_advance_motion(void *effect_arg, void *motion_data) {
 
     motion->z.v += motion->velocity_z;
     motion->velocity_z += -0x80000;
-    create_radial_effect_node(motion);
+    create_spark_burst_effect(motion);
     effect->particle_count++;
 }
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
 /* Creates an object, copies three values into its data, and initializes it. */
-void *create_initialized_effect_object(s32 resource_id, MovingPosition *source_values, s16 setup_value, s32 object_value) {
+void *create_brightening_follower(s32 resource_id, MovingPosition *source_values, s16 setup_value, s32 object_value) {
     MovingPosition *target_values;
     ObjectNodeHeader *object;
     BrighteningFollowerEffectBody *body;
@@ -453,7 +453,7 @@ typedef struct {
 } Global16;
 
 /* Advances counters and conditionally processes the target, propagating its status flag. */
-void advance_sprite_on_alternate_ticks_until_complete(void *record, ObjectPosition *unused, void *target)
+void advance_sprite_every_other_tick(void *record, ObjectPosition *unused, void *target)
 {
     u16 flags = *(u16 *)((u8 *)record + 0x1C);
 
@@ -469,12 +469,12 @@ void advance_sprite_on_alternate_ticks_until_complete(void *record, ObjectPositi
 }
 #include "shared/sprite_frame_state.h"
 
-   /* coords in create_radial_effect_node */
+   /* coords in create_spark_burst_effect */
 
-   /* arg0 in create_radial_effect_node */
+   /* arg0 in create_spark_burst_effect */
 
 /* Creates a visual node at the supplied coordinates with 16 evenly spaced radial effects. */
-void *create_radial_effect_node(MovingPosition *source_coords)
+void *create_spark_burst_effect(MovingPosition *source_coords)
 {
     s16 angle;
     s32 effect_index;
@@ -484,7 +484,7 @@ void *create_radial_effect_node(MovingPosition *source_coords)
 
     node = allocate_flagged_object_node(0x202);
     if (node != 0) {
-        node->update_callback = advance_sprite_on_alternate_ticks_until_complete;
+        node->update_callback = advance_sprite_every_other_tick;
         register_node(node, project_sprite_chain);
         coords = node->position;
         coords->x.w.i = source_coords->x;
@@ -500,7 +500,7 @@ void *create_radial_effect_node(MovingPosition *source_coords)
         effect_index = 0;
         angle = (s16)rand();
         do {
-            allocate_jittered_effect_node(coords, angle, 0x10, 1);
+            create_spark_effect(coords, angle, 0x10, 1);
             effect_index++;
             angle += 0x100;
         } while (effect_index < 0x10);
@@ -550,9 +550,9 @@ void advance_rising_fading_emitter(RisingFadingEmitterBody *effect, ObjectPositi
         primitive->color.word = 0x404040;
     advance_sprite_animation_and_textures(primitive);
     if (!(effect->frame_count & 0x1F))
-        create_effect_render_object(motion, effect->height_limit, effect->effect_value);
+        create_tinted_travel_sprite(motion, effect->height_limit, effect->effect_value);
     if (!(effect->frame_count & 3))
-        allocate_jittered_effect_node(motion, (effect->effect_value << 24) >> 16, 0x10, 0);
+        create_spark_effect(motion, (effect->effect_value << 24) >> 16, 0x10, 0);
 }
 
 #ifndef NULL
@@ -660,7 +660,7 @@ void move_and_fade_effect(void *effect_data, void *position_data, void *visual_d
     visual->field1C = (u16)(visual->field1C + 8);
 }
 
-   /* arg0 in create_effect_render_object */
+   /* arg0 in create_tinted_travel_sprite */
 
 typedef struct S_80024FD8_4 {
     u8 pad_00[0x14];
@@ -672,7 +672,7 @@ typedef struct S_80024FD8_4 {
 } S_80024FD8_4;
 
 /* Creates a render object at the supplied position and initializes its effect state. */
-void *create_effect_render_object(MovingPosition *source_pos, s16 effect_param, s16 size)
+void *create_tinted_travel_sprite(MovingPosition *source_pos, s16 effect_param, s16 size)
 {
     s32 signed_size;
     s32 render_code;
@@ -926,12 +926,12 @@ s32 queue_projected_point_primitives(void *node_data, void *position_data, void 
     }
 }
 
-   /* payload in allocate_jittered_effect_node */
+   /* payload in create_spark_effect */
 
-   /* source in allocate_jittered_effect_node */
+   /* source in create_spark_effect */
 
 /* Allocates a node, copies or jitters its source values, and initializes its fields. */
-void allocate_jittered_effect_node(void *source_data, s16 initial_1a, s16 initial_1c, s16 spawn_mode) {
+void create_spark_effect(void *source_data, s16 initial_1a, s16 initial_1c, s16 spawn_mode) {
     register MovingPosition *source = source_data;
     register s16 field_1a = initial_1a;
     register s16 field_1c = initial_1c;
@@ -1033,7 +1033,7 @@ void *create_effect_from_endpoints(S_80025654_2 *endpoints, S_80025654_4 *settin
     object = allocate_flagged_object_node(0x202);
     if (object != 0) {
         object->update_callback = fade_effect_color_below_eight;
-        register_node(object, process_linked_mesh_states_mode_0);
+        register_node(object, draw_linked_segment_aligned_quads);
         transition = object->position;
         transition->x.w.i = (u16) endpoints->unk_02;
         transition->y.w.i = (u16) endpoints->unk_06;

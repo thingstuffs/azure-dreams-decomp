@@ -144,7 +144,7 @@ void *create_actor_child_display(s32 kind, s32 part_byte_24, s32 part_byte_25, s
                     item->animation_resource = part_value;
                     child_root = slot_base->unk_A4;
                     call_zero = 0;
-                    child_root->update_callback = process_effect_block_entries;
+                    child_root->update_callback = advance_block_sprite_entries;
                     (*(void **)((u8 *)item + 0x2C)) = direction_table;
                     direction_index = ((view_facing_angle_alias +
                         object->facing + 0x100) >> 9) & 7;

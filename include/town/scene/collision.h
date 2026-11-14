@@ -48,7 +48,7 @@ typedef struct CollisionOverlap {
 CollisionOverlap *get_box_overlap_axis(void *first_box, void *second_box);
 
 void apply_collision_entry_adjustment(ColliderView *collider, ObjectPosition *position, CollisionScratch *entry);
-void update_first_axis_slot_value(ColliderView *collider, ObjectPosition *position, CollisionScratch *entry);
-void update_second_axis_slot_value(ColliderView *collider, ObjectPosition *position, CollisionScratch *entry);
+void apply_collider_y_response(ColliderView *collider, ObjectPosition *position, CollisionScratch *entry);
+void apply_collider_z_response(ColliderView *collider, ObjectPosition *position, CollisionScratch *entry);
 
 #endif

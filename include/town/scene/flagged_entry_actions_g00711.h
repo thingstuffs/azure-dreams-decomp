@@ -15,6 +15,6 @@ void func_8001A418(s32 code);
 
 /* Functions defined in this translation unit. */
 void clear_state_history_and_head_indices(void);
-void process_flagged_type_0x18_entries(void);
+void process_flagged_goods_entries(void);
 
 #endif

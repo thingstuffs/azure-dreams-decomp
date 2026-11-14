@@ -17,7 +17,7 @@
     },
     {
       "row": "dungeon/func_80FDB6A8",
-      "tu": "src/dungeon/monster/killer/update_entity_action_facing.c",
+      "tu": "src/dungeon/monster/killer/update_killer_behavior.c",
       "home": "dungeon/func_80FDB6A8",
       "foff": "0xFFB6A8",
       "vma": "0x80170ea8",

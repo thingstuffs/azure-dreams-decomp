@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/audio_update_guard_data.h"
 #include "slus/audio_voice_data.h"
 #include "engine/audio/sequence.h"
 #include "engine/audio/spu.h"
@@ -16,7 +17,6 @@ typedef struct S_80085458 {
 extern S_80085458 audio_voice_records[24];
 
 /* D_80085F98: mode/busy flag, set while this function runs. */
-extern s32 audio_update_guard[4];
 
 #include "engine/audio/channel_voice.h"
 
@@ -26,7 +26,7 @@ s16 start_sequence_in_free_slot(s16 bank, s16 program, s16 tone, s16 note, s16 f
 {
     s32 slot;
 
-    audio_update_guard[0] = 1;
+    audio_update_guard.value = 1;
 
     slot = 0;
     while (SpuGetKeyStatus(audio_voice_masks[slot]) != 0) {
@@ -56,6 +56,6 @@ s16 start_sequence_in_free_slot(s16 bank, s16 program, s16 tone, s16 note, s16 f
             left_gain, right_gain);
     }
 
-    audio_update_guard[0] = 0;
+    audio_update_guard.value = 0;
     return slot;
 }

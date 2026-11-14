@@ -61,7 +61,7 @@ void *create_gauge_with_selection_menu(s32 context)
         state->field_0xA0 = owner;
         if (allocate_selection_menu_entry_buffers(state, 0x11) != 0) {
             object->field_0xC = &object->field_0x78;
-            state->field_0x64 = link_seventeen_indexed_entries(state->field_0x68);
+            state->field_0x64 = link_selection_menu_entries(state->field_0x68);
             init_gauge_object(state, (void *) context);
             object->field_0x10 = (void *) invoke_leading_object_callback;
             resource = create_animated_selection_menu((void *) 2);

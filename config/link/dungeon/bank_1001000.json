@@ -161,7 +161,7 @@
     },
     {
       "row": "dungeon/func_80FE2A30",
-      "tu": "src/dungeon/monster/hikewne/update_entity_state_from_query.c",
+      "tu": "src/dungeon/monster/hikewne/relink_hikewne_path.c",
       "home": "dungeon/func_80976E28",
       "foff": "0x1002A30",
       "vma": "0x8016C230",
@@ -223,7 +223,7 @@
     },
     {
       "row": "dungeon/func_80FE2FEC",
-      "tu": "src/dungeon/monster/killer/advance_timed_directional_animation.c",
+      "tu": "src/dungeon/monster/killer/advance_killer_attack_animation.c",
       "home": "dungeon/func_80FDCFEC",
       "foff": "0x1002FEC",
       "vma": "0x8016C7EC",
@@ -259,7 +259,7 @@
     },
     {
       "row": "dungeon/func_80FE3B34",
-      "tu": "src/dungeon/effect/state/forward_actor_effect_state.c",
+      "tu": "src/dungeon/effect/state/update_hop_and_shrink_callback.c",
       "home": "dungeon/func_800AD90C",
       "foff": "0x1003B34",
       "vma": "0x8016D334",
@@ -320,7 +320,7 @@
     },
     {
       "row": "dungeon/func_80FE4284",
-      "tu": "src/dungeon/monster/kewne/update_actor_state_after_map_check.c",
+      "tu": "src/dungeon/monster/kewne/update_kewne_parent_motion.c",
       "home": "dungeon/func_809A2D74",
       "foff": "0x1004284",
       "vma": "0x8016DA84",
@@ -331,7 +331,7 @@
     },
     {
       "row": "dungeon/func_80FE434C",
-      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F8A600",
       "foff": "0x100434C",
       "vma": "0x8016DB4C",
@@ -368,7 +368,7 @@
     },
     {
       "row": "dungeon/func_80FE4420",
-      "tu": "src/dungeon/monster/killer/advance_directional_lift_effect.c",
+      "tu": "src/dungeon/monster/killer/advance_killer_jump_attack.c",
       "home": "dungeon/func_80FDE420",
       "foff": "0x1004420",
       "vma": "0x8016DC20",
@@ -392,7 +392,7 @@
     },
     {
       "row": "dungeon/func_80FE47C0",
-      "tu": "src/dungeon/actor/set_actor_data_pointer.c",
+      "tu": "src/dungeon/actor/set_default_action_after_floor_trap.c",
       "home": "dungeon/func_800CF1BC",
       "foff": "0x10047C0",
       "vma": "0x8016DFC0",

@@ -4,7 +4,7 @@
 #include "dungeon/player.h"
 
 /* Returns the index of a matching table entry address, or -1. */
-s32 find_table_entry_address_index(s32 entry_address) {
+s32 find_item_slot_index(s32 entry_address) {
     s32 entry_index = 0x13;
     s8 *entry = (s8 *)0x80010294;
 
@@ -23,10 +23,10 @@ s32 find_table_entry_address_index(s32 entry_address) {
  * Returns the one-based table index when found, special indices 0x15/0x16 for the held/temporary
  * item records, or zero when unmatched.
  */
-s16 get_special_table_data_index(s32 dataAddress) {
+s16 get_item_slot_number(s32 dataAddress) {
     s32 lookupIndex;
 
-    lookupIndex = (s16)find_table_entry_address_index((s32)dataAddress);
+    lookupIndex = (s16)find_item_slot_index((s32)dataAddress);
     if (lookupIndex >= 0) {
         lookupIndex++;
         return (s16)lookupIndex;

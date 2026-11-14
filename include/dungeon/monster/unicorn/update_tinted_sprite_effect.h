@@ -73,8 +73,8 @@ extern void select_record_entry_and_value(void *state, void *entries, short inde
 #include "dungeon/effect/sprite/shared_entries.h"
 #include "dungeon/effect/sprite/directional_entries.h"
 void update_tinted_sprite_effect(void *record_data, DelayMotionZ *state, SpriteFrameState *update_arg);
-void create_tinted_sprite_effect_supplied_position(void *unused, ObjectPosition *position_data, SpriteFrameState *unused_primitive);
+void create_tinted_sprite_effect_at(void *unused, ObjectPosition *position_data, SpriteFrameState *unused_primitive);
 void update_orbit_height_and_fade_effect(AngularOffsetEffectBody *effect, ObjectPosition *position, SpriteFrameState *primitive);
-void create_angular_offset_effect(void *unused_context, ObjectPosition *origin, SpriteFrameState *unused_param_2, ActorRecord *unused_param_3,
+void create_orbiting_tinted_sprite(void *unused_context, ObjectPosition *origin, SpriteFrameState *unused_param_2, ActorRecord *unused_param_3,
     s16 angle, u16 height_offset);
 #endif

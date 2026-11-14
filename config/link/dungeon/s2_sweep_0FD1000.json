@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "dungeon/func_80FB176C",
-      "tu": "src/dungeon/monster/mandara/update_long_actor_action.c",
+      "tu": "src/dungeon/monster/mandara/update_mandara_behavior.c",
       "home": "dungeon/func_80FB176C",
       "foff": "0xFD176C",
       "vma": "0x80170f6c",
@@ -90,7 +90,7 @@
     },
     {
       "row": "dungeon/func_80FB4E68",
-      "tu": "src/dungeon/monster/mandara/spawn_rotate_and_restore_actor_state.c",
+      "tu": "src/dungeon/monster/mandara/cast_mandara_spin_spell.c",
       "home": "dungeon/func_80FB4E68",
       "foff": "0xfd4e68",
       "vma": "0x80174668",

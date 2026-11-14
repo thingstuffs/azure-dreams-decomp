@@ -147,7 +147,7 @@ void advance_actor_action_and_target(ActorRecord *action, ObjectPosition *motion
         primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(actor);
         actor->pending_turn_updates--;
-        action->unk_8C.handler = &update_object_animation;
+        action->unk_8C.handler = &update_beldo_turn_action;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= 0x7FFF;
@@ -254,7 +254,7 @@ void advance_actor_action_and_target(ActorRecord *action, ObjectPosition *motion
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;
-            action->unk_8C.handler = &update_object_animation;
+            action->unk_8C.handler = &update_beldo_turn_action;
             advance_status_timers(actor);
             actor->pending_turn_updates--;
             actor->target_tile_y = 0;

@@ -754,7 +754,7 @@ void *create_object_ring_effect(s32 value, void *source, s32 unused, s32 context
         *(s32 *)NODE_BODY(object) = saved_context;
 
         do {
-            create_object_offset(child, (s16)(step << 8), 0x40, -0x100, source);
+            create_offset_particle_emitter(child, (s16)(step << 8), 0x40, -0x100, source);
             step += 1;
         } while (step < 0x10);
     }
@@ -1014,7 +1014,7 @@ typedef struct S_80025160_0 {
     u16 unk_1C;
     u8 pad_1E[0x4];
     s16 unk_22;
-} S_80025160_0;   /* arg0 in emit_offset_particles_then_wait_for_release */
+} S_80025160_0;   /* arg0 in update_offset_particle_emitter */
 
 typedef struct S_80025160_1 {
     u8 pad_00[0x6];
@@ -1023,17 +1023,17 @@ typedef struct S_80025160_1 {
     u8 unk_0C;
     u8 unk_0D;
     u8 unk_0E;
-} S_80025160_1;   /* arg2 in emit_offset_particles_then_wait_for_release */
+} S_80025160_1;   /* arg2 in update_offset_particle_emitter */
 
 typedef struct S_80025160_2 {
     u8 pad_00[0x6328];
     s16 unk_6328;
-} S_80025160_2;   /* flag_page in emit_offset_particles_then_wait_for_release */
+} S_80025160_2;   /* flag_page in update_offset_particle_emitter */
 
 typedef struct S_80025160_3 {
     u8 pad_00[0x14A0];
     s32 unk_14A0;
-} S_80025160_3;   /* flags_page in emit_offset_particles_then_wait_for_release */
+} S_80025160_3;   /* flags_page in update_offset_particle_emitter */
 
 #define COUNTER D_80026326
 
@@ -1058,7 +1058,7 @@ typedef struct Global814A0 {
  * removal. May spawn a damped angular child during growth and signals D_80026328 for effect code
  * 0x6F.
  */
-void emit_offset_particles_then_wait_for_release(void *effect, s32 context, S_80025160_1 *visual) {
+void update_offset_particle_emitter(void *effect, s32 context, S_80025160_1 *visual) {
     s16 state;
     u16 value;
     u16 angle;
@@ -1088,7 +1088,7 @@ void emit_offset_particles_then_wait_for_release(void *effect, s32 context, S_80
                 owner = (u8 *)effect - 0x20;
                 ((S_80025160_0 *)effect)->unk_1C = angle;
                 angle_shifted = angle << 16;
-                create_object_offset(context, effect_param, ((S_80025160_0 *)effect)->unk_18.p,
+                create_offset_particle_emitter(context, effect_param, ((S_80025160_0 *)effect)->unk_18.p,
                               angle_shifted >> 16, owner);
             }
             ((S_80025160_0 *)effect)->unk_0A++;
@@ -1266,7 +1266,7 @@ s32 rcos(s32);                             /* extern */
 extern s16 D_8002632A;
 extern u8 D_80026878[];
 
-   /* arg0 in create_object_offset */
+   /* arg0 in create_offset_particle_emitter */
 
 typedef struct S_8002569C_3 {
     u8 pad_00[0x16];
@@ -1291,7 +1291,7 @@ typedef struct S_8002569C_5 {
 } S_8002569C_5;
 
 /* Create an object offset from an origin and record its starting position. */
-void *create_object_offset(MovingPosition *origin, s16 angle, s16 radius, s16 height_offset, s32 alloc_arg) {
+void *create_offset_particle_emitter(MovingPosition *origin, s16 angle, s16 radius, s16 height_offset, s32 alloc_arg) {
     s16 height;
     u16 slot_index;
     u16 origin_x;
@@ -1306,7 +1306,7 @@ void *create_object_offset(MovingPosition *origin, s16 angle, s16 radius, s16 he
 
     object = allocate_list_node(0x202, alloc_arg);
     if (object != NULL) {
-        object->update_callback = (s32 *)emit_offset_particles_then_wait_for_release;
+        object->update_callback = (s32 *)update_offset_particle_emitter;
         register_node(object, (s32 *)queue_shaded_line_chain);
         positions = object->position;
         positions->x.w.i = (s16) (origin->x + ((s32) (rcos(angle) * radius) >> 0xF));

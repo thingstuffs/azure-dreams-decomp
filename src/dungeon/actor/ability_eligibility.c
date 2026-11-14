@@ -40,7 +40,7 @@ s32 find_slot_by_definition_kind(u8 *slots, u8 kind) {
 }
 
 /* Returns the table field selected by the byte at offset 8 of a three-byte entry. */
-s32 get_definition_field_from_triple(ActorRecord *actor, s32 entry_index) {
+s32 get_action_slot_range(ActorRecord *actor, s32 entry_index) {
     DefEntry *lookup_table = item_action_definitions;
     u8 *entry_addr = (u8 *)actor;
 
@@ -49,7 +49,7 @@ s32 get_definition_field_from_triple(ActorRecord *actor, s32 entry_index) {
 }
 
 /* Computes a signed cyclic comparison score for two three-bit masks. */
-s32 compare_three_bit_masks_cyclically(s32 left_mask, s32 right_mask) {
+s32 get_element_advantage(s32 left_mask, s32 right_mask) {
     s16 score;
     s16 left_bits;
     s16 right_bits;
@@ -174,7 +174,7 @@ s32 check_tile_path_clear(ActorRecord *source, void *target) {
 }
 
 /* Returns the last byte of the selected 20-byte table entry. */
-s32 get_definition_entry_byte_13(s16 entry_index) {
+s32 get_spell_range(s16 entry_index) {
     DefEntry *entry = &item_action_definitions[entry_index];
     return entry->unk_13;
 }
@@ -266,7 +266,7 @@ s32 choose_usable_ability_or_attack(ActorRecord *actor, Actor *target, u16 *out_
             if (ability->unk_13 < distance) {
                 continue;
             }
-            score = compare_three_bit_masks_cyclically(ability->unk_10, *(u16 *)&actor->flags14);
+            score = get_element_advantage(ability->unk_10, *(u16 *)&actor->flags14);
             if ((s16)score <= best_score) {
                 continue;
             }
@@ -526,7 +526,7 @@ s16 select_highest_value_item(s32 records_addr, s32 item_kind)
             tripled_index += item;
             tripled_index *= 4;
             tripled_index += table_or_result;
-            score = compare_three_bit_masks_cyclically(*(u8 *)(tripled_index + 16), (u16)records_addr);
+            score = get_element_advantage(*(u8 *)(tripled_index + 16), (u16)records_addr);
             prior_value = best_value;
             candidate_value = value;
             if (prior_value < candidate_value) {
@@ -651,7 +651,7 @@ void select_position_data_and_update_owner(SpriteFrameState *entity, ActorRecord
 }
 
 /* Return the stored pointer when available, otherwise the fallback data buffer. */
-u8 *get_stored_or_fallback_data(void) {
+u8 *get_selected_item_data(void) {
     u8 *stored_data;
 
     if (temporary_item_record[1] < 0x14U) {
@@ -953,7 +953,7 @@ void advance_status_timers(ActorRecord *record) {
         status = record->status[slot_index].type;
         if (status != 0) {
             if (status == STATUS_POISON) {
-                apply_capped_damage_and_hit_effect(record, NODE_HEADER(record)->position);
+                apply_poison_damage(record, NODE_HEADER(record)->position);
             }
             duration = record->status[slot_index].value;
             if (duration != 0) {

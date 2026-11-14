@@ -87,13 +87,13 @@ extern void * find_eligible_actor_at_tile_and_height();
 extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s16);
 
 
-extern void check_action_six_eligibility(void *, void *);
+extern void try_apply_magic_bind_scaled(void *, void *);
 extern u8 D_80174EC8;
 extern s8 view_direction_depth_biases[];
 #include "dungeon/monster/noise_frames.h"
 extern u8 noise_frame_set_2[];
 void start_directional_action_and_record_tile(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
-void advance_timed_actor_visual_effect(ActorRecord *effect_state, ObjectPosition *position, SpriteFrameState *source_mesh, ActorRecord *actor);
-void update_actor_behavior_and_direction(ActorRecord *motion, ObjectPosition *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor);
+void advance_noise_sprite_copy_action(ActorRecord *effect_state, ObjectPosition *position, SpriteFrameState *source_mesh, ActorRecord *actor);
+void update_noise_behavior(ActorRecord *motion, ObjectPosition *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor);
 void update_effect_visuals_and_lifetime();
 #endif

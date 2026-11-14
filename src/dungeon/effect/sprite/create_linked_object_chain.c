@@ -33,7 +33,7 @@ void *create_linked_object_chain(s16 x, s16 y, s16 z, s16 angle)
     LinkedObjectChainBody *object_state;
     ObjectNodeHeader *obj;
 
-    if (has_enough_available_runtime_nodes(18) == 0) {
+    if (has_enough_available_nodes(18) == 0) {
         return NULL;
     }
     for (i = 0; i < 18; i++) {

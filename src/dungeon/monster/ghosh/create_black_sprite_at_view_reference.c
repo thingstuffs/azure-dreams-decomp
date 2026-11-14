@@ -1,0 +1,54 @@
+#include "shared/object_node.h"
+#include "dungeon/monster/ghosh.h"
+#include "shared/sprite_frame_state.h"
+#include "common.h"
+#include "shared/dungeon_sprite_data.h"
+#include "shared/entity_objects.h"
+#include "shared/slus_callbacks.h"
+#include "engine/node.h"
+#include "slus.h"
+
+typedef struct Node {
+    u8 pad0[8];
+    void *part8;
+    void *partC;
+    void *data10;
+} Node;
+
+/* Allocate and initialize an effect node with default parameters and data. */
+void create_black_sprite_at_view_reference(void)
+{
+    ObjectNodeHeader *node;
+    s16 *node_params;
+    SpriteFrameState *effect;
+    u32 *part_words;
+
+    node = allocate_flagged_object_node(0x212);
+    if (node != 0) {
+        node_params = NODE_BODY(node);
+        node_params[11] = 0x1E;
+        node_params[12] = 0x1E;
+        node->update_callback = select_boss_direction_frame;
+        register_node(node, project_sprite_chain);
+
+        effect = node->sprite;
+        effect->depth_bias = 0;
+        part_words = (u32 *)node->position;
+        part_words[0] = ((u32)view_reference_entity.x.v);
+        part_words[1] = ((u32)view_reference_entity.y.v);
+        part_words[2] = ((u32)view_reference_entity.z.v);
+
+        effect = node->sprite;
+        effect->scale_y = 0x1000;
+        effect->scale_x = 0x1000;
+        effect->color.c.b = 0;
+        effect->color.c.g = 0;
+        effect->color.c.r = 0;
+        ((s16 *)effect)[10] |= 0x80;
+        select_record_entry_and_value(effect, effect_sprite_sources, 0);
+    }
+}
+
+/* MECHANISM: Node * stays live in s0, inducing the retail 0x18 frame and sole
+   s0 save; separate node_params/effect locals encode retail's disjoint v1/a0 lives.
+   Exact sh/sb/lhu widths and the three-word global copy preserve body shape. */

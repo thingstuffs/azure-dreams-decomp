@@ -17,6 +17,6 @@ extern void *runtime_resource_load_target;
 
 /* Stores data in the selected entry, activates its pointers, and applies a mode-specific flag. */
 
-void bind_and_load_indexed_resource_record(void *data, s32 entry_index);
+void load_indexed_resource_record(void *data, s32 entry_index);
 
 #endif

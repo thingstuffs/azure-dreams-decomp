@@ -46,11 +46,11 @@ s32 count_nonzero_entries(s32 *entries) {
 }
 
 /* Acquires a resource and initializes its associated state on success. */
-UA32 **acquire_resource_and_initialize_state(ItemMenuInputObject *state) {
+UA32 **allocate_item_pointer_list(ItemMenuInputObject *state) {
     UA32 **resourceHandle;
     s32 resourceConfig;
 
-    resourceHandle = create_callback_pair_default(0x100);
+    resourceHandle = allocate_node_body(0x100);
     state->items = resourceHandle;
     if (resourceHandle != 0) {
         resourceConfig = get_mode_selected_value();
@@ -63,7 +63,7 @@ UA32 **acquire_resource_and_initialize_state(ItemMenuInputObject *state) {
 }
 
 /* Copy leading item values to the fixed output buffer and zero the remaining slots. */
-void fill_item_value_buffer(ItemMenuInputObject *table) {
+void write_back_item_table(ItemMenuInputObject *table) {
     UA32 values[64];
     UA32 *item;
     s32 i;
@@ -92,7 +92,7 @@ void fill_item_value_buffer(ItemMenuInputObject *table) {
 }
 
 /* Initialize the record table pointer, stored value, and group index. */
-void initialize_record_table_and_group(ItemMenuInputObject *record) {
+void init_item_list_group(ItemMenuInputObject *record) {
     record->table = (u32 *)0x8001029C;
     record->first_group.value = func_800B0718();
     get_zero_based_group_index(&record->first_group);
@@ -109,8 +109,8 @@ void * open_twin_souko(s32 option) {
     task = allocate_flagged_object_node(0);
     state = task + 0x20;
     if (task == 0 ||
-        (initialize_record_table_and_group(state),
-         acquire_resource_and_initialize_state(state) != 0 &&
+        (init_item_list_group(state),
+         allocate_item_pointer_list(state) != 0 &&
          (store_shop_display_preset(state, 0),
           resource_08 = create_storage_item_menu(task),
           state->destination_menu = resource_08,
@@ -129,19 +129,19 @@ void * open_twin_souko(s32 option) {
         }
         return task;
     }
-    apply_record_values_and_process_record(state);
+    close_item_move_menu(state);
     return 0;
 }
 
 /* Apply three record values, set status flags, and process the record. */
-void apply_record_values_and_process_record(ItemMenuInputObject *record)
+void close_item_move_menu(ItemMenuInputObject *record)
 {
     func_800B3A80((s32)record->item_menu_object);
-    process_object_resources_and_high_flag((u8 *)record->source_menu);
-    refresh_object_components_and_high_flag(record->destination_menu);
+    release_storage_owner_menu((u8 *)record->source_menu);
+    release_storage_item_menu(record->destination_menu);
     NODE_HEADER(record)->flags |= NODE_REMOVE;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     came_bright_set(3);
     obj_disp23_cancel_sw_set(0);
-    fill_item_value_buffer(record);
+    write_back_item_table(record);
 }

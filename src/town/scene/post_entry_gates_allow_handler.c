@@ -20,6 +20,6 @@ s32 post_entry_gates_allow_handler(s32 id) {
         func_80700C28(0x107);
         return func_80700A78();
     }
-    post_code_0x107_when_slot_ready(id, 0);
+    post_slot_ready_code(id, 0);
     return id;
 }

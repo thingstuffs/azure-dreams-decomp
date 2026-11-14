@@ -1,11 +1,10 @@
 #include "common.h"
+#include "slus/audio_update_guard_data.h"
 #include "slus/audio_voice_data.h"
 #include "engine/audio/sequence.h"
 #include "engine/audio/spu.h"
 extern s32 audio_sequence_active[4];
 extern u8 audio_voice_records[0x78 * 24];
-extern s32 audio_update_guard[4];
-extern SoundSequenceSlot audio_sequence_slots[8];
 
 /* Dispatches type-3 requests for active channels and marks the selected slot active. */
 void activate_sequence_slot(s16 slot_index)
@@ -17,7 +16,7 @@ void activate_sequence_slot(s16 slot_index)
     SoundSequenceSlot *slots;
 
     channel_index = 0;
-    audio_update_guard[0] = 1;
+    audio_update_guard.value = 1;
     if (audio_voice_count[0] > 0) {
         channel_flags = audio_voice_masks;
         channel = audio_voice_records;
@@ -48,5 +47,5 @@ loop:
     slots = audio_sequence_slots;
     slots[slot_index].state = 1;
     audio_sequence_active[0] = 1;
-    audio_update_guard[0] = 0;
+    audio_update_guard.value = 0;
 }

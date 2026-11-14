@@ -94,7 +94,7 @@ void resolve_owner_position_and_dispatch(Rec_D_80082D58 *object, S_8009B9BC_1 *o
     current_state = scene_object_payload_alias.current;
     dispatched = 1;
 
-    if (current_state == (s32)update_actor_interaction_actions || current_state == (s32)update_threshold_object) {
+    if (current_state == (s32)update_actor_interaction_actions || current_state == (s32)update_airborne_object_until_ground) {
         ((DispatchFn)((S_8009B9BC_4 *)(object->unk_58))->unk_08)(object, owner, resolved_pos,
             dispatch_param);
     } else if (current_state == (s32)&town_input_motion_address) {
@@ -108,7 +108,7 @@ void resolve_owner_position_and_dispatch(Rec_D_80082D58 *object, S_8009B9BC_1 *o
         unlink_and_remove_scene_object(object, owner, resolved_pos, dispatch_param);
     } else {
         if (!(current_state == (s32)update_actor_with_interaction_state || current_state == (s32)update_actor_movement_and_interaction ||
-              current_state == (s32)update_actor_position_and_interaction || current_state == (s32)update_threshold_countdown_with_busy_check ||
+              current_state == (s32)update_actor_position_and_interaction || current_state == (s32)update_ground_countdown_unless_busy ||
               current_state == (s32)update_town_object_from_input || current_state == (s32)&town_threshold_interaction_address ||
               current_state == (s32)update_actor_movement_with_radial_effects || current_state == (s32)dispatch_deferred_callback ||
               current_state == (s32)no_op_scene_callback_b || service_script_controller() != 0) ||

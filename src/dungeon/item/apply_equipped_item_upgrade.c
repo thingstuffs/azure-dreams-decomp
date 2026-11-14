@@ -34,7 +34,7 @@ s32 apply_equipped_item_upgrade(ActorRecord *target_addr, DungeonItemEntry *item
 
 
     if (effect_type == 0xD) {
-        return process_record_and_update_linked_state(item, effect_value);
+        return resolve_item_attack(item, effect_value);
     }
 
     actor = dungeon_actor_ring_anchor;
@@ -57,7 +57,7 @@ s32 apply_equipped_item_upgrade(ActorRecord *target_addr, DungeonItemEntry *item
             return 1;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        clear_slot_and_update_linked_state(item);
+        clear_item_slot(item);
         return 1;
     }
 
@@ -108,6 +108,6 @@ s32 apply_equipped_item_upgrade(ActorRecord *target_addr, DungeonItemEntry *item
         display_formatted_context_message(D_800E11D7);
     }
     g_dungeon_status.activity_counts.parts.pending_action_count--;
-    clear_slot_and_update_linked_state(item);
+    clear_item_slot(item);
     return 1;
 }

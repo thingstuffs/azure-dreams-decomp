@@ -42,7 +42,7 @@ void advance_actor_animation_pose(S_800BE214_0 *actor, ObjectPosition *pose, Spr
     state = actor->state;
     switch (state) {
     case 0:
-        if ((service_script_controller() != 0) && (check_transform_identifier_and_hook(actor) != 0)) {
+        if ((service_script_controller() != 0) && (check_town_target_and_callback(actor) != 0)) {
             animation_index = rand() & 7;
             actor->state = animation_index;
             actor->animation_index = (u32)animation_index;
@@ -99,7 +99,7 @@ void advance_actor_animation_pose(S_800BE214_0 *actor, ObjectPosition *pose, Spr
         }
         break;
     case 0x60:
-        if ((service_script_controller() == 0) || (check_transform_identifier_and_hook(actor) == 0)) {
+        if ((service_script_controller() == 0) || (check_town_target_and_callback(actor) == 0)) {
             actor->state = 0;
         }
         break;

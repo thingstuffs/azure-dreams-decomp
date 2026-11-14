@@ -123,7 +123,7 @@ typedef union {
     struct { u16 x; u16 y; } parts;
 } PackedScreenPoint;
 
-s32 render_linked_items_as_textured_strips(u8 *item_data)
+s32 render_linked_textured_strips(u8 *item_data)
 {
     u8 storage[0x80];
     s32 depth;

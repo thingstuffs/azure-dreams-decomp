@@ -10,7 +10,7 @@
     {
       "row": "dungeon/func_80D027F0",
       "home": "dungeon/func_80AC7330",
-      "tu": "src/dungeon/monster/saber/reset_eligible_entity_state.c",
+      "tu": "src/dungeon/monster/saber/finish_saber_tile_move.c",
       "foff": "0xd227f0",
       "vma": "0x8015bff0",
       "size": 124,

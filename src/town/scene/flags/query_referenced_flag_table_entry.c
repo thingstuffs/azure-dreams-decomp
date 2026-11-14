@@ -27,6 +27,6 @@ typedef struct ScriptContext {
 s32 query_referenced_flag_for_table_entry(ScriptEntry8 *entry_table, ScriptContext *context, s32 entry_key) {
     s32 entry_index;
 
-    entry_index = find_entry_8_index_or_assert(entry_table, entry_key);
+    entry_index = find_eight_byte_entry_or_assert(entry_table, entry_key);
     return get_script_flag_mask(*(s16 *)((u8 *)context->flag_records + entry_table[entry_index].flag_index * 8 + 0x4));
 }

@@ -68,6 +68,6 @@ extern GlobalState *dungeon_menu_object;
 void move_value_toward_target(u8 *object_data, s32 unused_coord, s32 unused_y);
 void slide_menu_cursor_to_index(S_800DC724_0 *state);
 void update_state_activity_flags(S_800DC82C_0 *record);
-void process_callback_slots_and_object(u8 *object);
+void update_dungeon_menu_object(u8 *object);
 
 #endif

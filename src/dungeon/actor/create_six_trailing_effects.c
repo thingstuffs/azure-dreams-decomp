@@ -1,0 +1,124 @@
+#include "engine/scene.h"
+#include "shared/sprite_frame_state.h"
+#include "shared/entity_height_offsets.h"
+#include "dungeon/actor/animation.h"
+#include "shared/entity.h"
+#include "common.h"
+#include "shared/object_node.h"
+#include "m2c_compat.h"
+#include "engine/node/allocation.h"
+#include "engine/node.h"
+#include "dungeon/actor.h"
+
+typedef struct {
+    s32 words[3];
+} TableEntry;
+
+
+extern TableEntry linked_effect_direction_entries[];
+extern s32 linked_mesh_processor_address[3];
+
+
+typedef struct S_80026C88_2 {
+    u8 pad_00[0x8];
+    void * unk_08;
+    u8 pad_0C[0xE];
+    s16 unk_1A;
+    u8 pad_1C[0x2];
+    s16 unk_1E;
+    u8 pad_20[0x2];
+    s16 unk_22;
+    u8 pad_24[0x42];
+    s16 unk_66;
+    u8 pad_68[0x6];
+    s16 unk_6E;
+} S_80026C88_2;
+
+typedef struct S_80026C88_4 {
+    u8 pad_00[0x8];
+    TableEntry * unk_08;
+    u8 pad_0C[0x8];
+    u16 unk_14;
+    u8 pad_16[0x6];
+    s16 unk_1C;
+    s16 unk_1E;
+} S_80026C88_4;
+
+typedef struct S_80026C88_5 {
+    u8 pad_00[0x24];
+    u16 unk_24;
+    u16 unk_26;
+    u16 unk_28;
+} S_80026C88_5;
+
+/* Create and link up to six objects with source-relative positions and initialized render data. */
+void *create_six_trailing_effects(u16 x, u16 y, s16 z, void *source)
+{
+    SVECTOR position_offset;
+    void (*callback)(ActorTrailWork *, TrailMotion *, SpriteFrameState *);
+    TableEntry *table_entry;
+    s32 object_index;
+
+    ObjectPosition *coords;
+    ObjectNodeHeader *object;
+    S_80026C88_5 *point_cursor;
+    SpriteFrameState *source_object;
+    union { SVECTOR *offset; S_80026C88_4 *render; } pointers;
+    void *list_head;
+
+    list_head = NULL;
+    source_object = source;
+    pointers.offset = &position_offset;
+    position_offset.vx = position_offset.vy = 0;
+    if (resolve_record_orientation_or_fallback(source_object->source, source_object, pointers.offset, 0) == 0) {
+        position_offset.vz = (0 - entity_height_offsets[0]) + 0x10;
+    }
+    object_index = 0;
+    callback = update_trailing_effect_animation;
+    table_entry = linked_effect_direction_entries;
+    do {
+        object = allocate_list_node(0x212, &scene_object_list_anchor.next);
+        if (object != NULL) {
+            s32 point_index;
+            S_80026C88_2 *state;
+            ActorTrailWork *trail;
+            void *self_link;
+
+            object->update_callback = callback;
+            register_node(object, linked_mesh_processor_address);
+            state = NODE_BODY(object);
+            state->unk_1A = (s16) (x + ((u16)position_offset.vx));
+            state->unk_1E = (s16) (y + ((u16)position_offset.vy));
+            state->unk_22 = (s16) (z + ((u16)position_offset.vz));
+            coords = object->position;
+            coords->x.w.i = x;
+            *((u16 *)&coords->velocity_x + 1) = x;
+            coords->y.w.i = y;
+            *((u16 *)&coords->velocity_y + 1) = y;
+            coords->z.w.i = z - 0x100;
+            *((u16 *)&coords->velocity_z + 1) = z - 0x100;
+            pointers.render = object->sprite;
+            pointers.render->unk_1E = 0x1000;
+            pointers.render->unk_1C = 0x1000;
+            self_link = ((void *)object) + 0x38;
+            pointers.render->unk_08 = table_entry;
+            pointers.render->unk_14 = (u16) (pointers.render->unk_14 | 0xC);
+            trail = NODE_BODY(object);
+            trail->target = self_link;
+            state->unk_66 = 0x20;
+            state->unk_6E = object_index;
+            for (point_index = 0; point_index < 8; point_index++) {
+                point_cursor = (S_80026C88_5 *)((u8 *)state + point_index * 8);
+                point_cursor->unk_24 = (u16) ((u16)(coords->x.w.i));
+                point_cursor->unk_26 = (u16) ((u16)(coords->y.w.i));
+                point_cursor->unk_28 = (u16) ((u16)(coords->z.w.i));
+            }
+            state->unk_08 = list_head;
+            list_head = object;
+        }
+        object_index += 1;
+        table_entry += 1;
+    } while (object_index < 6);
+    return object;
+}
+

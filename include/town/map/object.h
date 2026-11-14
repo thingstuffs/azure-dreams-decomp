@@ -16,8 +16,8 @@ struct TownCourseActor;
 struct TownPropPosition;
 struct ObjectNodeHeader;
 
-/* allocate_first_object_variant.c */
-void allocate_first_object_variant(void);
+/* create_map_cursor_input_object.c */
+void create_map_cursor_input_object(void);
 
 /* create_idle_map_object.c */
 void create_idle_map_object(void);
@@ -26,22 +26,22 @@ void create_idle_map_object(void);
 s32 check_building_entity_compatibility(s32 record_id, s32 entity_id);
 
 /* clear_object_link_and_mark_complete_g01169.c */
-void clear_object_link_and_mark_complete(struct S_func_800BB508_0 *object, void *context);
-void advance_object_state_angle(void *object, void *context, SpriteFrameState *state);
-void initialize_object_appearance_with_delay(TownObjectRecord *object, ObjectPosition *context, void *state);
-void clear_object_link_and_complete(void *object, void *value);
-void initialize_object_appearance_with_delay_b(void *object, void *context, void *state);
-void init_object_with_countdown(TownObjectRecord *object, ObjectPosition *context, void *state);
-void init_object_with_countdown_b(void *object, void *context, void *state);
+void retire_object_when_out_of_bounds(struct S_func_800BB508_0 *object, void *context);
+void update_spinning_object(void *object, void *context, SpriteFrameState *state);
+void init_spinning_object_long_delay(TownObjectRecord *object, ObjectPosition *context, void *state);
+void update_static_object(void *object, void *value);
+void init_static_object_long_delay(void *object, void *context, void *state);
+void init_spinning_object_short_delay(TownObjectRecord *object, ObjectPosition *context, void *state);
+void init_static_object_short_delay(void *object, void *context, void *state);
 
-/* copy_entity_record_fields.c */
-void copy_entity_record_fields(ObjectPosition *destination, ObjectPosition *source);
+/* copy_object_position_and_velocity.c */
+void copy_object_position_and_velocity(ObjectPosition *destination, ObjectPosition *source);
 
-/* create_object_from_polar_spawn_data.c */
-s32 create_object_from_polar_spawn_data(struct S_800BB798_0 *spawn_data, s16 state_48, s16 state_4a);
+/* create_short_lived_spawner.c */
+s32 create_short_lived_spawner(struct S_800BB798_0 *spawn_data, s16 state_48, s16 state_4a);
 
-/* create_object_from_three_values.c */
-s32 create_object_from_three_values(s32 *values);
+/* create_burst_particle_spawner.c */
+s32 create_burst_particle_spawner(s32 *values);
 
 /* create_positioned_graphic_object.c */
 void *create_town_prop_graphic_object(struct TownPropPosition *position, s32 object_param, s32 graphics_id);
@@ -49,25 +49,25 @@ void *create_town_prop_graphic_object(struct TownPropPosition *position, s32 obj
 /* create_positioned_visual_object.c */
 void *create_positioned_visual_object(struct TownPropPosition *source_pos, s32 object_data, s32 angle, s32 visual_data);
 
-/* deactivate_object_triggered.c */
-void deactivate_object_triggered(void *object, ObjectPosition *position, SpriteFrameState *rotation);
+/* update_player_spun_object.c */
+void update_player_spun_object(void *object, ObjectPosition *position, SpriteFrameState *rotation);
 
 /* decrease_town_map_object_field_and_transition.c */
 void lower_town_map_object_value_to_input(struct S_8008BA44_0 *obj);
 
-/* initialize_object_rendering_resources.c */
-void initialize_object_rendering_resources(struct TownCourseActor *object_data, void *unused, SpriteFrameState *render_data);
+/* init_minigame_player_actor.c */
+void init_minigame_player_actor(struct TownCourseActor *object_data, void *unused, SpriteFrameState *render_data);
 
-/* initialize_object_when_inactive.c */
-void initialize_object_when_inactive(struct S_800A54FC_0 *object, struct ObjectNodeHeader *value_1, s32 value_2, s32 value_3);
+/* select_title_handler_when_script_idle.c */
+void select_title_handler_when_script_idle(struct S_800A54FC_0 *object, struct ObjectNodeHeader *value_1, s32 value_2, s32 value_3);
 
-/* initialize_object_with_default_data.c */
-void initialize_object_with_default_data(void *object, ObjectPosition *init_arg, SpriteFrameState *state);
+/* init_default_sprite_object.c */
+void init_default_sprite_object(void *object, ObjectPosition *init_arg, SpriteFrameState *state);
 
-/* select_object_value_with_idle_fallback.c */
-void select_object_value_with_idle_fallback(struct TownCameraState *object);
+/* select_camera_target.c */
+void select_camera_target(struct TownCameraState *object);
 
-/* set_object_callback_when_active.c */
-void set_object_callback_when_active(struct TownCameraState *object);
+/* enable_camera_target_selection.c */
+void enable_camera_target_selection(struct TownCameraState *object);
 
 #endif

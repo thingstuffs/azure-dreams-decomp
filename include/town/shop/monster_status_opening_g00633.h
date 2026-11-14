@@ -32,11 +32,11 @@ s32 read_display_spacing_byte();
 void set_monster_status_panel_height();
 /* extern */
 extern u8 D_80089344[];
-extern void process_object_data_by_mode(void *object);
+extern void build_monster_status_display(void *object);
 
 
 /* Functions defined in this translation unit. */
-void update_mode_display_spacing(S_800B65D8_3 *base, s32 display_mode);
+void layout_monster_status_entries(S_800B65D8_3 *base, s32 display_mode);
 void advance_monster_status_opening(struct ShopFirstCallbackObject *object);
 
 #endif

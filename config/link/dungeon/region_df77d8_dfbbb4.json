@@ -10,7 +10,7 @@
     {
       "row": "dungeon/func_80DD77D8",
       "home": "dungeon/func_800CDF70",
-      "tu": "src/dungeon/actor/state/process_actor_state_chain.c",
+      "tu": "src/dungeon/actor/state/render_actor_part_chain.c",
       "foff": "0xdf77d8",
       "vma": "0x80152fd8",
       "size": 104,
@@ -86,7 +86,7 @@
     },
     {
       "row": "dungeon/func_80DD9FC8",
-      "tu": "src/dungeon/monster/blume/advance_item_visual_action.c",
+      "tu": "src/dungeon/monster/blume/cast_blume_targeted_spell.c",
       "home": "dungeon/func_80DBBFC8",
       "foff": "0xdf9fc8",
       "vma": "0x801557c8",

@@ -138,7 +138,7 @@ void update_timed_actor_movement_and_scale(ActorRecord *state, ObjectPosition *m
                 }
             }
             if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-                state->unk_8C.address = update_actor_behavior_and_direction;
+                state->unk_8C.address = update_noise_behavior;
                 on_actor_status_updated(actor);
             }
         }

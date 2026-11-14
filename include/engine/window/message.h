@@ -13,13 +13,13 @@ struct S_80036988_1;
 /* copy_window_offset_rectangle.c */
 void copy_window_offset_rectangle(struct S_80036988_0 *destination, struct S_80036988_1 *source);
 
-/* grow_window_extent_to_sixty_four.c */
-void grow_window_extent_to_sixty_four(struct Rec_func_80036210_arg0 *state, struct S_80035C44_0 *progress);
+/* grow_window_extent_to_limit.c */
+void grow_window_extent_to_limit(struct Rec_func_80036210_arg0 *state, struct S_80035C44_0 *progress);
 
 /* queue_window_texture_draw_mode.c */
 void queue_window_texture_draw_mode(s32 ot_index);
 
-/* shrink_window_extent_to_two.c */
-void shrink_window_extent_to_two(struct Rec_func_80036210_arg0 *state, struct S_80035ABC_0 *entry);
+/* shrink_window_extent_to_minimum.c */
+void shrink_window_extent_to_minimum(struct Rec_func_80036210_arg0 *state, struct S_80035ABC_0 *entry);
 
 #endif

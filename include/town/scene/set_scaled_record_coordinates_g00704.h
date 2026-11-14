@@ -71,7 +71,7 @@ typedef struct S_8001A7F4_1 {
 void set_scaled_record_coordinates(s32 unused, s32 x, s32 y);
 void set_scaled_pointer_value(s32 value);
 void set_position_from_tile_and_entry_offsets(s32 unused, u32 x, u32 y);
-void set_record_scaled_auxiliary_values(s32 unused, s32 value_04, s32 value_08);
+void set_position_from_half_tiles(s32 unused, s32 value_04, s32 value_08);
 void set_selected_entry_position(s32 unused, s32 x, s32 y);
 void set_tile_center_destination(s32 unused, s32 x_offset, s32 y_offset);
 void set_scaled_destination_coordinates(s32 unused, s32 x, s32 y);

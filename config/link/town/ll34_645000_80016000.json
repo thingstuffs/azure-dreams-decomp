@@ -30,7 +30,7 @@
     },
     {
       "row": "town/func_806C5168",
-      "tu": "src/town/scene/motion/advance_player_position_b.c",
+      "tu": "src/town/scene/motion/advance_player_position_by_step.c",
       "home": "town/func_80614930",
       "foff": "0x645168",
       "vma": "0x80016168",
@@ -240,7 +240,7 @@
     },
     {
       "row": "town/func_806C69CC",
-      "tu": "src/town/scene/find_entry_index_assert.c",
+      "tu": "src/town/scene/find_eight_byte_entry_or_assert.c",
       "home": "town/func_8032ECE4",
       "foff": "0x6469CC",
       "vma": "0x800179CC",
@@ -350,7 +350,7 @@
     },
     {
       "row": "town/func_806C6E70",
-      "tu": "src/town/scene/flags/update_entry_flags.c",
+      "tu": "src/town/scene/flags/replace_record_flag_with_entry_flag.c",
       "home": "town/func_8032F188",
       "foff": "0x646E70",
       "vma": "0x80017E70",
@@ -550,7 +550,7 @@
     },
     {
       "row": "town/func_806C747C",
-      "tu": "src/town/scene/flags/get_first_entry_flag.c",
+      "tu": "src/town/scene/flags/find_first_eligible_entry.c",
       "home": "town/func_80481D78",
       "foff": "0x64747C",
       "vma": "0x8001847C",

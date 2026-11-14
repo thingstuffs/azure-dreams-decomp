@@ -14,7 +14,7 @@
  * with an object-list head (docs/SYMBOLS.md; the earlier V_item_type_data reading was the symbol-dump misparse fixed
  * 2026-09-28).  Name stays D_ until V_pobj's meaning is proven.  Other fields stay unk_. */
 /* Object-list header preceding a callback-specific body.
- * runtime_reset_object_pool seeds free nodes; allocate_list_node clears and links each allocated node. */
+ * reset_node_pool seeds free nodes; allocate_list_node clears and links each allocated node. */
 struct ObjectPosition;
 
 struct SpriteFrameState;

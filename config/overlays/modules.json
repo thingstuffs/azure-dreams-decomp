@@ -11802,7 +11802,7 @@
       "key": "dungeon_ovl_fa7000",
       "container": "dungeon",
       "name": "ovl_7f1c9800.c",
-      "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "source": "src/dungeon/monster/zu/update_zu_movement.c",
       "region": "native_fa7000_80170800",
       "headers": [
         "include/modules/dungeon_ovl_fa7000.h"
@@ -11814,7 +11814,7 @@
       "members": [
         {
           "id": "dungeon/func_80F87000",
-          "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+          "source": "src/dungeon/monster/zu/update_zu_movement.c",
           "function": "func_80170880",
           "foff": 16412672,
           "vma": 2148993024,
@@ -11823,7 +11823,7 @@
         },
         {
           "id": "dungeon/func_80F87270",
-          "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+          "source": "src/dungeon/monster/zu/update_zu_movement.c",
           "function": "func_80170A70",
           "foff": 16413296,
           "vma": 2148993648,
@@ -11832,7 +11832,7 @@
         },
         {
           "id": "dungeon/func_80F87938",
-          "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+          "source": "src/dungeon/monster/zu/update_zu_movement.c",
           "function": "func_80171138",
           "foff": 16415032,
           "vma": 2148995384,
@@ -11841,7 +11841,7 @@
         },
         {
           "id": "dungeon/func_80F87E70",
-          "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+          "source": "src/dungeon/monster/zu/update_zu_movement.c",
           "function": "func_80171670",
           "foff": 16416368,
           "vma": 2148996720,
@@ -11850,7 +11850,7 @@
         },
         {
           "id": "dungeon/func_80F8802C",
-          "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+          "source": "src/dungeon/monster/zu/update_zu_movement.c",
           "function": "func_8017182C",
           "foff": 16416812,
           "vma": 2148997164,
@@ -11859,7 +11859,7 @@
         },
         {
           "id": "dungeon/func_80F88774",
-          "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+          "source": "src/dungeon/monster/zu/update_zu_movement.c",
           "function": "func_80171F74",
           "foff": 16418676,
           "vma": 2148999028,
@@ -11868,7 +11868,7 @@
         },
         {
           "id": "dungeon/func_80F88938",
-          "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+          "source": "src/dungeon/monster/zu/update_zu_movement.c",
           "function": "func_80172138",
           "foff": 16419128,
           "vma": 2148999480,
@@ -11877,7 +11877,7 @@
         },
         {
           "id": "dungeon/func_80F88A58",
-          "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+          "source": "src/dungeon/monster/zu/update_zu_movement.c",
           "function": "func_80172258",
           "foff": 16419416,
           "vma": 2148999768,
@@ -11886,7 +11886,7 @@
         },
         {
           "id": "dungeon/func_80F88B9C",
-          "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+          "source": "src/dungeon/monster/zu/update_zu_movement.c",
           "function": "func_8017239C",
           "foff": 16419740,
           "vma": 2149000092,
@@ -11895,7 +11895,7 @@
         },
         {
           "id": "dungeon/func_80F88C30",
-          "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+          "source": "src/dungeon/monster/zu/update_zu_movement.c",
           "function": "func_80172430",
           "foff": 16419888,
           "vma": 2149000240,
@@ -11904,7 +11904,7 @@
         },
         {
           "id": "dungeon/func_80F88C94",
-          "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+          "source": "src/dungeon/monster/zu/update_zu_movement.c",
           "function": "func_80172494",
           "foff": 16419988,
           "vma": 2149000340,
@@ -11913,7 +11913,7 @@
         },
         {
           "id": "dungeon/func_80F89240",
-          "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+          "source": "src/dungeon/monster/zu/update_zu_movement.c",
           "function": "func_80172A40",
           "foff": 16421440,
           "vma": 2149001792,
@@ -11922,7 +11922,7 @@
         },
         {
           "id": "dungeon/func_80F89700",
-          "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+          "source": "src/dungeon/monster/zu/update_zu_movement.c",
           "function": "func_80172F00",
           "foff": 16422656,
           "vma": 2149003008,
@@ -11931,7 +11931,7 @@
         },
         {
           "id": "dungeon/func_80F89A94",
-          "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+          "source": "src/dungeon/monster/zu/update_zu_movement.c",
           "function": "func_80173294",
           "foff": 16423572,
           "vma": 2149003924,
@@ -11940,7 +11940,7 @@
         },
         {
           "id": "dungeon/func_80F89D04",
-          "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+          "source": "src/dungeon/monster/zu/update_zu_movement.c",
           "function": "func_80173504",
           "foff": 16424196,
           "vma": 2149004548,
@@ -11949,7 +11949,7 @@
         },
         {
           "id": "dungeon/func_80F89D24",
-          "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+          "source": "src/dungeon/monster/zu/update_zu_movement.c",
           "function": "func_80173524",
           "foff": 16424228,
           "vma": 2149004580,
@@ -11958,7 +11958,7 @@
         },
         {
           "id": "dungeon/func_80F89D44",
-          "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+          "source": "src/dungeon/monster/zu/update_zu_movement.c",
           "function": "func_80173544",
           "foff": 16424260,
           "vma": 2149004612,
@@ -11967,7 +11967,7 @@
         },
         {
           "id": "dungeon/func_80F89D7C",
-          "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+          "source": "src/dungeon/monster/zu/update_zu_movement.c",
           "function": "func_8017357C",
           "foff": 16424316,
           "vma": 2149004668,
@@ -11976,7 +11976,7 @@
         },
         {
           "id": "dungeon/func_80F8A1F8",
-          "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+          "source": "src/dungeon/monster/zu/update_zu_movement.c",
           "function": "func_801739F8",
           "foff": 16425464,
           "vma": 2149005816,
@@ -11985,7 +11985,7 @@
         },
         {
           "id": "dungeon/func_80F8A538",
-          "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+          "source": "src/dungeon/monster/zu/update_zu_movement.c",
           "function": "func_80173D38",
           "foff": 16426296,
           "vma": 2149006648,
@@ -11994,7 +11994,7 @@
         },
         {
           "id": "dungeon/func_80F8A600",
-          "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+          "source": "src/dungeon/monster/zu/update_zu_movement.c",
           "function": "func_80173E00",
           "foff": 16426496,
           "vma": 2149006848,
@@ -12003,7 +12003,7 @@
         },
         {
           "id": "dungeon/func_80F8A664",
-          "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+          "source": "src/dungeon/monster/zu/update_zu_movement.c",
           "function": "func_80173E64",
           "foff": 16426596,
           "vma": 2149006948,
@@ -12012,7 +12012,7 @@
         },
         {
           "id": "dungeon/func_80F8A69C",
-          "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+          "source": "src/dungeon/monster/zu/update_zu_movement.c",
           "function": "func_80173E9C",
           "foff": 16426652,
           "vma": 2149007004,
@@ -12021,7 +12021,7 @@
         },
         {
           "id": "dungeon/func_80F8A6D4",
-          "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+          "source": "src/dungeon/monster/zu/update_zu_movement.c",
           "function": "func_80173ED4",
           "foff": 16426708,
           "vma": 2149007060,
@@ -12030,7 +12030,7 @@
         },
         {
           "id": "dungeon/func_80F8A70C",
-          "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+          "source": "src/dungeon/monster/zu/update_zu_movement.c",
           "function": "func_80173F0C",
           "foff": 16426764,
           "vma": 2149007116,
@@ -12039,7 +12039,7 @@
         },
         {
           "id": "dungeon/func_80F8A8F4",
-          "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+          "source": "src/dungeon/monster/zu/update_zu_movement.c",
           "function": "func_801740F4",
           "foff": 16427252,
           "vma": 2149007604,
@@ -12048,7 +12048,7 @@
         },
         {
           "id": "dungeon/func_80F8AA60",
-          "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+          "source": "src/dungeon/monster/zu/update_zu_movement.c",
           "function": "func_80174260",
           "foff": 16427616,
           "vma": 2149007968,
@@ -12057,7 +12057,7 @@
         },
         {
           "id": "dungeon/func_80F8ADE0",
-          "source": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+          "source": "src/dungeon/monster/zu/update_zu_movement.c",
           "function": "func_801745E0",
           "foff": 16428512,
           "vma": 2149008864,
@@ -14106,10 +14106,10 @@
       "key": "dungeon_ovl_1864800",
       "container": "dungeon",
       "name": "ovl_1864800.c",
-      "source": "src/dungeon/effect/particle/update_effect_base_state.c",
+      "source": "src/dungeon/effect/particle/update_staged_color_flash_effect.c",
       "region": "native_1864800_80024000",
       "headers": [
-        "include/dungeon/effect/particle/update_effect_base_state.h",
+        "include/dungeon/effect/particle/update_staged_color_flash_effect.h",
         "include/modules/dungeon_native_abi.h"
       ],
       "recipe": {
@@ -14125,7 +14125,7 @@
       "members": [
         {
           "id": "dungeon/func_81844800",
-          "source": "src/dungeon/effect/particle/update_effect_base_state.c",
+          "source": "src/dungeon/effect/particle/update_staged_color_flash_effect.c",
           "function": "func_80024020",
           "foff": 25577472,
           "vma": 2147631104,
@@ -14134,7 +14134,7 @@
         },
         {
           "id": "dungeon/func_81844F2C",
-          "source": "src/dungeon/effect/particle/update_effect_base_state.c",
+          "source": "src/dungeon/effect/particle/update_staged_color_flash_effect.c",
           "function": "func_8002472C",
           "foff": 25579308,
           "vma": 2147632940,
@@ -14143,7 +14143,7 @@
         },
         {
           "id": "dungeon/func_81845068",
-          "source": "src/dungeon/effect/particle/update_effect_base_state.c",
+          "source": "src/dungeon/effect/particle/update_staged_color_flash_effect.c",
           "function": "func_80024868",
           "foff": 25579624,
           "vma": 2147633256,
@@ -14152,7 +14152,7 @@
         },
         {
           "id": "dungeon/func_81845484",
-          "source": "src/dungeon/effect/particle/update_effect_base_state.c",
+          "source": "src/dungeon/effect/particle/update_staged_color_flash_effect.c",
           "function": "func_80024C84",
           "foff": 25580676,
           "vma": 2147634308,
@@ -30955,7 +30955,7 @@
       "key": "dungeon_ovl_9c32d4",
       "container": "dungeon",
       "name": "ovl_9c32d4.c",
-      "source": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",
+      "source": "src/dungeon/monster/kewne/update_ellipse_ring_effect.c",
       "region": "img_9c3110_80174910",
       "headers": [
         "include/modules/dungeon_ovl_9c32d4.h"
@@ -30967,7 +30967,7 @@
       "members": [
         {
           "id": "dungeon/func_809A32D4",
-          "source": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",
+          "source": "src/dungeon/monster/kewne/update_ellipse_ring_effect.c",
           "function": "func_80174AD4",
           "foff": 10236628,
           "vma": 2149010132,
@@ -30975,7 +30975,7 @@
         },
         {
           "id": "dungeon/func_809A35A0",
-          "source": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",
+          "source": "src/dungeon/monster/kewne/update_ellipse_ring_effect.c",
           "function": "func_80174DA0",
           "foff": 10237344,
           "vma": 2149010848,
@@ -30983,7 +30983,7 @@
         },
         {
           "id": "dungeon/func_809A3698",
-          "source": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",
+          "source": "src/dungeon/monster/kewne/update_ellipse_ring_effect.c",
           "function": "func_80174E98",
           "foff": 10237592,
           "vma": 2149011096,
@@ -30991,7 +30991,7 @@
         },
         {
           "id": "dungeon/func_809A37C0",
-          "source": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",
+          "source": "src/dungeon/monster/kewne/update_ellipse_ring_effect.c",
           "function": "func_80174FC0",
           "foff": 10237888,
           "vma": 2149011392,
@@ -30999,7 +30999,7 @@
         },
         {
           "id": "dungeon/func_809A38E4",
-          "source": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",
+          "source": "src/dungeon/monster/kewne/update_ellipse_ring_effect.c",
           "function": "func_801750E4",
           "foff": 10238180,
           "vma": 2149011684,
@@ -31160,10 +31160,10 @@
       "key": "dungeon_ovl_19a332c",
       "container": "dungeon",
       "name": "ovl_19a332c.c",
-      "source": "src/dungeon/effect/motion/initialize_entity_position_and_motion.c",
+      "source": "src/dungeon/effect/motion/update_nine_effect_launcher.c",
       "region": "native_19a2800_80024000",
       "headers": [
-        "include/dungeon/effect/motion/initialize_entity_position_and_motion.h"
+        "include/dungeon/effect/motion/update_nine_effect_launcher.h"
       ],
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -31172,7 +31172,7 @@
       "members": [
         {
           "id": "dungeon/func_81982864",
-          "source": "src/dungeon/effect/motion/initialize_entity_position_and_motion.c",
+          "source": "src/dungeon/effect/motion/update_nine_effect_launcher.c",
           "function": "func_80024064",
           "foff": 26880000,
           "vma": 2147631104,
@@ -31181,7 +31181,7 @@
         },
         {
           "id": "dungeon/func_81982B2C",
-          "source": "src/dungeon/effect/motion/initialize_entity_position_and_motion.c",
+          "source": "src/dungeon/effect/motion/update_nine_effect_launcher.c",
           "function": "func_8002432C",
           "foff": 26880812,
           "vma": 2147631916,
@@ -31190,7 +31190,7 @@
         },
         {
           "id": "dungeon/func_81982CEC",
-          "source": "src/dungeon/effect/motion/initialize_entity_position_and_motion.c",
+          "source": "src/dungeon/effect/motion/update_nine_effect_launcher.c",
           "function": "func_800244EC",
           "foff": 26881260,
           "vma": 2147632364,
@@ -31199,7 +31199,7 @@
         },
         {
           "id": "dungeon/func_81982DF8",
-          "source": "src/dungeon/effect/motion/initialize_entity_position_and_motion.c",
+          "source": "src/dungeon/effect/motion/update_nine_effect_launcher.c",
           "function": "func_800245F8",
           "foff": 26881528,
           "vma": 2147632632,
@@ -31208,7 +31208,7 @@
         },
         {
           "id": "dungeon/func_81982F0C",
-          "source": "src/dungeon/effect/motion/initialize_entity_position_and_motion.c",
+          "source": "src/dungeon/effect/motion/update_nine_effect_launcher.c",
           "function": "func_8002470C",
           "foff": 26881804,
           "vma": 2147632908,
@@ -31217,7 +31217,7 @@
         },
         {
           "id": "dungeon/func_81983088",
-          "source": "src/dungeon/effect/motion/initialize_entity_position_and_motion.c",
+          "source": "src/dungeon/effect/motion/update_nine_effect_launcher.c",
           "function": "func_80024888",
           "foff": 26882184,
           "vma": 2147633288,
@@ -31226,7 +31226,7 @@
         },
         {
           "id": "dungeon/func_81983138",
-          "source": "src/dungeon/effect/motion/initialize_entity_position_and_motion.c",
+          "source": "src/dungeon/effect/motion/update_nine_effect_launcher.c",
           "function": "func_80024938",
           "foff": 26882360,
           "vma": 2147633464,
@@ -31235,7 +31235,7 @@
         },
         {
           "id": "dungeon/func_819832B4",
-          "source": "src/dungeon/effect/motion/initialize_entity_position_and_motion.c",
+          "source": "src/dungeon/effect/motion/update_nine_effect_launcher.c",
           "function": "func_80024AB4",
           "foff": 26882740,
           "vma": 2147633844,
@@ -31244,7 +31244,7 @@
         },
         {
           "id": "dungeon/func_8198332C",
-          "source": "src/dungeon/effect/motion/initialize_entity_position_and_motion.c",
+          "source": "src/dungeon/effect/motion/update_nine_effect_launcher.c",
           "function": "func_80024B2C",
           "foff": 26882860,
           "vma": 2147633964,
@@ -31253,7 +31253,7 @@
         },
         {
           "id": "dungeon/func_819835AC",
-          "source": "src/dungeon/effect/motion/initialize_entity_position_and_motion.c",
+          "source": "src/dungeon/effect/motion/update_nine_effect_launcher.c",
           "function": "func_80024DAC",
           "foff": 26883500,
           "vma": 2147634604,
@@ -31262,7 +31262,7 @@
         },
         {
           "id": "dungeon/func_81984754",
-          "source": "src/dungeon/effect/motion/initialize_entity_position_and_motion.c",
+          "source": "src/dungeon/effect/motion/update_nine_effect_launcher.c",
           "function": "func_80025F54",
           "foff": 26888020,
           "vma": 2147639124,
@@ -31271,7 +31271,7 @@
         },
         {
           "id": "dungeon/func_81984A40",
-          "source": "src/dungeon/effect/motion/initialize_entity_position_and_motion.c",
+          "source": "src/dungeon/effect/motion/update_nine_effect_launcher.c",
           "function": "func_80026240",
           "foff": 26888768,
           "vma": 2147639872,
@@ -31280,7 +31280,7 @@
         },
         {
           "id": "dungeon/func_81984AB0",
-          "source": "src/dungeon/effect/motion/initialize_entity_position_and_motion.c",
+          "source": "src/dungeon/effect/motion/update_nine_effect_launcher.c",
           "function": "func_800262B0",
           "foff": 26888880,
           "vma": 2147639984,
@@ -31289,7 +31289,7 @@
         },
         {
           "id": "dungeon/func_81984AF4",
-          "source": "src/dungeon/effect/motion/initialize_entity_position_and_motion.c",
+          "source": "src/dungeon/effect/motion/update_nine_effect_launcher.c",
           "function": "func_800262F4",
           "foff": 26888948,
           "vma": 2147640052,
@@ -31298,7 +31298,7 @@
         },
         {
           "id": "dungeon/func_81984BC0",
-          "source": "src/dungeon/effect/motion/initialize_entity_position_and_motion.c",
+          "source": "src/dungeon/effect/motion/update_nine_effect_launcher.c",
           "function": "func_800263C0",
           "foff": 26889152,
           "vma": 2147640256,
@@ -31307,7 +31307,7 @@
         },
         {
           "id": "dungeon/func_81984BF0",
-          "source": "src/dungeon/effect/motion/initialize_entity_position_and_motion.c",
+          "source": "src/dungeon/effect/motion/update_nine_effect_launcher.c",
           "function": "func_800263F0",
           "foff": 26889200,
           "vma": 2147640304,
@@ -31316,7 +31316,7 @@
         },
         {
           "id": "dungeon/func_81984C44",
-          "source": "src/dungeon/effect/motion/initialize_entity_position_and_motion.c",
+          "source": "src/dungeon/effect/motion/update_nine_effect_launcher.c",
           "function": "func_80026444",
           "foff": 26889284,
           "vma": 2147640388,
@@ -31325,7 +31325,7 @@
         },
         {
           "id": "dungeon/func_81984D4C",
-          "source": "src/dungeon/effect/motion/initialize_entity_position_and_motion.c",
+          "source": "src/dungeon/effect/motion/update_nine_effect_launcher.c",
           "function": "func_8002654C",
           "foff": 26889548,
           "vma": 2147640652,
@@ -31334,7 +31334,7 @@
         },
         {
           "id": "dungeon/func_81984E94",
-          "source": "src/dungeon/effect/motion/initialize_entity_position_and_motion.c",
+          "source": "src/dungeon/effect/motion/update_nine_effect_launcher.c",
           "function": "func_80026694",
           "foff": 26889876,
           "vma": 2147640980,
@@ -55280,7 +55280,7 @@
       "key": "dungeon_resource08_slot0",
       "container": "dungeon",
       "name": "resource08_slot0.c",
-      "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+      "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
       "region": "native_resource_08_slot_0",
       "headers": [
         "include/modules/dungeon_resource08_slot0.h",
@@ -55293,7 +55293,7 @@
       "members": [
         {
           "id": "dungeon/func_80A9B07C",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_8017087C",
           "foff": 11251712,
           "vma": 2148993024,
@@ -55302,7 +55302,7 @@
         },
         {
           "id": "dungeon/func_80A9B250",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_80170A50",
           "foff": 11252304,
           "vma": 2148993616,
@@ -55311,7 +55311,7 @@
         },
         {
           "id": "dungeon/func_80A9B67C",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_80170E7C",
           "foff": 11253372,
           "vma": 2148994684,
@@ -55320,7 +55320,7 @@
         },
         {
           "id": "dungeon/func_80A9BDB4",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_801715B4",
           "foff": 11255220,
           "vma": 2148996532,
@@ -55329,7 +55329,7 @@
         },
         {
           "id": "dungeon/func_80A9BFF8",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_801717F8",
           "foff": 11255800,
           "vma": 2148997112,
@@ -55338,7 +55338,7 @@
         },
         {
           "id": "dungeon/func_80A9C740",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_80171F40",
           "foff": 11257664,
           "vma": 2148998976,
@@ -55347,7 +55347,7 @@
         },
         {
           "id": "dungeon/func_80A9C7A4",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_80171FA4",
           "foff": 11257764,
           "vma": 2148999076,
@@ -55356,7 +55356,7 @@
         },
         {
           "id": "dungeon/func_80A9C968",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_80172168",
           "foff": 11258216,
           "vma": 2148999528,
@@ -55365,7 +55365,7 @@
         },
         {
           "id": "dungeon/func_80A9CA80",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_80172280",
           "foff": 11258496,
           "vma": 2148999808,
@@ -55374,7 +55374,7 @@
         },
         {
           "id": "dungeon/func_80A9CBC4",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_801723C4",
           "foff": 11258820,
           "vma": 2149000132,
@@ -55383,7 +55383,7 @@
         },
         {
           "id": "dungeon/func_80A9CC5C",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_8017245C",
           "foff": 11258972,
           "vma": 2149000284,
@@ -55392,7 +55392,7 @@
         },
         {
           "id": "dungeon/func_80A9CFCC",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_801727CC",
           "foff": 11259852,
           "vma": 2149001164,
@@ -55401,7 +55401,7 @@
         },
         {
           "id": "dungeon/func_80A9D030",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_80172830",
           "foff": 11259952,
           "vma": 2149001264,
@@ -55410,7 +55410,7 @@
         },
         {
           "id": "dungeon/func_80A9D4E8",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_80172CE8",
           "foff": 11261160,
           "vma": 2149002472,
@@ -55419,7 +55419,7 @@
         },
         {
           "id": "dungeon/func_80A9DA34",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_80173234",
           "foff": 11262516,
           "vma": 2149003828,
@@ -55428,7 +55428,7 @@
         },
         {
           "id": "dungeon/func_80A9DE88",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_80173688",
           "foff": 11263624,
           "vma": 2149004936,
@@ -55437,7 +55437,7 @@
         },
         {
           "id": "dungeon/func_80A9DEA8",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_801736A8",
           "foff": 11263656,
           "vma": 2149004968,
@@ -55446,7 +55446,7 @@
         },
         {
           "id": "dungeon/func_80A9DEC8",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_801736C8",
           "foff": 11263688,
           "vma": 2149005000,
@@ -55455,7 +55455,7 @@
         },
         {
           "id": "dungeon/func_80A9DEE8",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_801736E8",
           "foff": 11263720,
           "vma": 2149005032,
@@ -55464,7 +55464,7 @@
         },
         {
           "id": "dungeon/func_80A9DF20",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_80173720",
           "foff": 11263776,
           "vma": 2149005088,
@@ -55473,7 +55473,7 @@
         },
         {
           "id": "dungeon/func_80A9E3E4",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_80173BE4",
           "foff": 11264996,
           "vma": 2149006308,
@@ -55482,7 +55482,7 @@
         },
         {
           "id": "dungeon/func_80A9E720",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_80173F20",
           "foff": 11265824,
           "vma": 2149007136,
@@ -55491,7 +55491,7 @@
         },
         {
           "id": "dungeon/func_80A9E7E8",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_80173FE8",
           "foff": 11266024,
           "vma": 2149007336,
@@ -55500,7 +55500,7 @@
         },
         {
           "id": "dungeon/func_80A9E84C",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_8017404C",
           "foff": 11266124,
           "vma": 2149007436,
@@ -55509,7 +55509,7 @@
         },
         {
           "id": "dungeon/func_80A9E884",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_80174084",
           "foff": 11266180,
           "vma": 2149007492,
@@ -55518,7 +55518,7 @@
         },
         {
           "id": "dungeon/func_80A9E8BC",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_801740BC",
           "foff": 11266236,
           "vma": 2149007548,
@@ -55527,7 +55527,7 @@
         },
         {
           "id": "dungeon/func_80A9E8F4",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_801740F4",
           "foff": 11266292,
           "vma": 2149007604,
@@ -55536,7 +55536,7 @@
         },
         {
           "id": "dungeon/func_80A9E980",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_80174180",
           "foff": 11266432,
           "vma": 2149007744,
@@ -55545,7 +55545,7 @@
         },
         {
           "id": "dungeon/func_80A9E9D0",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_801741D0",
           "foff": 11266512,
           "vma": 2149007824,
@@ -55554,7 +55554,7 @@
         },
         {
           "id": "dungeon/func_80A9EB18",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_80174318",
           "foff": 11266840,
           "vma": 2149008152,
@@ -55563,7 +55563,7 @@
         },
         {
           "id": "dungeon/func_80A9EBBC",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_801743BC",
           "foff": 11267004,
           "vma": 2149008316,
@@ -55572,7 +55572,7 @@
         },
         {
           "id": "dungeon/func_80A9EC70",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_80174470",
           "foff": 11267184,
           "vma": 2149008496,
@@ -55581,7 +55581,7 @@
         },
         {
           "id": "dungeon/func_80A9ED1C",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_8017451C",
           "foff": 11267356,
           "vma": 2149008668,
@@ -55590,7 +55590,7 @@
         },
         {
           "id": "dungeon/func_80A9EE48",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_80174648",
           "foff": 11267656,
           "vma": 2149008968,
@@ -55599,7 +55599,7 @@
         },
         {
           "id": "dungeon/func_80A9F3BC",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_80174BBC",
           "foff": 11269052,
           "vma": 2149010364,
@@ -55608,7 +55608,7 @@
         },
         {
           "id": "dungeon/func_80A9F3F4",
-          "source": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+          "source": "src/dungeon/monster/griffon/update_griffon_actor_behavior.c",
           "function": "func_80174BF4",
           "foff": 11269108,
           "vma": 2149010420,
@@ -59409,7 +59409,7 @@
       "key": "dungeon_resource16_slot0",
       "container": "dungeon",
       "name": "resource16_slot0.c",
-      "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+      "source": "src/dungeon/monster/clown/update_clown_actor.c",
       "region": "native_resource_16_slot_0",
       "headers": [
         "include/modules/dungeon_resource16_slot0.h",
@@ -59422,7 +59422,7 @@
       "members": [
         {
           "id": "dungeon/func_80BEB078",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_80170878",
           "foff": 12627968,
           "vma": 2148993024,
@@ -59431,7 +59431,7 @@
         },
         {
           "id": "dungeon/func_80BEB258",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_80170A58",
           "foff": 12628568,
           "vma": 2148993624,
@@ -59440,7 +59440,7 @@
         },
         {
           "id": "dungeon/func_80BEB814",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_80171014",
           "foff": 12630036,
           "vma": 2148995092,
@@ -59449,7 +59449,7 @@
         },
         {
           "id": "dungeon/func_80BEBD74",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_80171574",
           "foff": 12631412,
           "vma": 2148996468,
@@ -59458,7 +59458,7 @@
         },
         {
           "id": "dungeon/func_80BEBF84",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_80171784",
           "foff": 12631940,
           "vma": 2148996996,
@@ -59467,7 +59467,7 @@
         },
         {
           "id": "dungeon/func_80BEC6CC",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_80171ECC",
           "foff": 12633804,
           "vma": 2148998860,
@@ -59476,7 +59476,7 @@
         },
         {
           "id": "dungeon/func_80BEC890",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_80172090",
           "foff": 12634256,
           "vma": 2148999312,
@@ -59485,7 +59485,7 @@
         },
         {
           "id": "dungeon/func_80BEC9B4",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_801721B4",
           "foff": 12634548,
           "vma": 2148999604,
@@ -59494,7 +59494,7 @@
         },
         {
           "id": "dungeon/func_80BECAF8",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_801722F8",
           "foff": 12634872,
           "vma": 2148999928,
@@ -59503,7 +59503,7 @@
         },
         {
           "id": "dungeon/func_80BECB8C",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_8017238C",
           "foff": 12635020,
           "vma": 2149000076,
@@ -59512,7 +59512,7 @@
         },
         {
           "id": "dungeon/func_80BECBF0",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_801723F0",
           "foff": 12635120,
           "vma": 2149000176,
@@ -59521,7 +59521,7 @@
         },
         {
           "id": "dungeon/func_80BECDA4",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_801725A4",
           "foff": 12635556,
           "vma": 2149000612,
@@ -59530,7 +59530,7 @@
         },
         {
           "id": "dungeon/func_80BED1D8",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_801729D8",
           "foff": 12636632,
           "vma": 2149001688,
@@ -59539,7 +59539,7 @@
         },
         {
           "id": "dungeon/func_80BED4AC",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_80172CAC",
           "foff": 12637356,
           "vma": 2149002412,
@@ -59548,7 +59548,7 @@
         },
         {
           "id": "dungeon/func_80BED4CC",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_80172CCC",
           "foff": 12637388,
           "vma": 2149002444,
@@ -59557,7 +59557,7 @@
         },
         {
           "id": "dungeon/func_80BED4F8",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_80172CF8",
           "foff": 12637432,
           "vma": 2149002488,
@@ -59566,7 +59566,7 @@
         },
         {
           "id": "dungeon/func_80BED518",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_80172D18",
           "foff": 12637464,
           "vma": 2149002520,
@@ -59575,7 +59575,7 @@
         },
         {
           "id": "dungeon/func_80BED550",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_80172D50",
           "foff": 12637520,
           "vma": 2149002576,
@@ -59584,7 +59584,7 @@
         },
         {
           "id": "dungeon/func_80BED914",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_80173114",
           "foff": 12638484,
           "vma": 2149003540,
@@ -59593,7 +59593,7 @@
         },
         {
           "id": "dungeon/func_80BEDC68",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_80173468",
           "foff": 12639336,
           "vma": 2149004392,
@@ -59602,7 +59602,7 @@
         },
         {
           "id": "dungeon/func_80BEDD30",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_80173530",
           "foff": 12639536,
           "vma": 2149004592,
@@ -59611,7 +59611,7 @@
         },
         {
           "id": "dungeon/func_80BEDD94",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_80173594",
           "foff": 12639636,
           "vma": 2149004692,
@@ -59620,7 +59620,7 @@
         },
         {
           "id": "dungeon/func_80BEDDCC",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_801735CC",
           "foff": 12639692,
           "vma": 2149004748,
@@ -59629,7 +59629,7 @@
         },
         {
           "id": "dungeon/func_80BEDE04",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_80173604",
           "foff": 12639748,
           "vma": 2149004804,
@@ -59638,7 +59638,7 @@
         },
         {
           "id": "dungeon/func_80BEDE3C",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_8017363C",
           "foff": 12639804,
           "vma": 2149004860,
@@ -59647,7 +59647,7 @@
         },
         {
           "id": "dungeon/func_80BEDE74",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_80173674",
           "foff": 12639860,
           "vma": 2149004916,
@@ -59656,7 +59656,7 @@
         },
         {
           "id": "dungeon/func_80BEDEAC",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_801736AC",
           "foff": 12639916,
           "vma": 2149004972,
@@ -59665,7 +59665,7 @@
         },
         {
           "id": "dungeon/func_80BEDF38",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_80173738",
           "foff": 12640056,
           "vma": 2149005112,
@@ -59674,7 +59674,7 @@
         },
         {
           "id": "dungeon/func_80BEE104",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_80173904",
           "foff": 12640516,
           "vma": 2149005572,
@@ -59683,7 +59683,7 @@
         },
         {
           "id": "dungeon/func_80BEE2E8",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_80173AE8",
           "foff": 12641000,
           "vma": 2149006056,
@@ -59692,7 +59692,7 @@
         },
         {
           "id": "dungeon/func_80BEE394",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_80173B94",
           "foff": 12641172,
           "vma": 2149006228,
@@ -59701,7 +59701,7 @@
         },
         {
           "id": "dungeon/func_80BEE4EC",
-          "source": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+          "source": "src/dungeon/monster/clown/update_clown_actor.c",
           "function": "func_80173CEC",
           "foff": 12641516,
           "vma": 2149006572,
@@ -68517,7 +68517,7 @@
           "function": "func_80020570",
           "id": "town/func_8081DD70",
           "size": 352,
-          "source": "src/town/minigame/initialize_source_and_initial_data.c",
+          "source": "src/town/minigame/create_bouncing_pickup.c",
           "vma": 2147616112
         }
       ],
@@ -68544,7 +68544,7 @@
         "src/engine/graphics/sprite_projection.c",
         "src/town/minigame/update_bouncing_pickup.c"
       ],
-      "source": "src/town/minigame/initialize_source_and_initial_data.c"
+      "source": "src/town/minigame/create_bouncing_pickup.c"
     },
     {
       "container": "town",
@@ -68775,7 +68775,7 @@
           "kind": "function",
           "symbol": "func_8001B0C8",
           "vma": 2147578932,
-          "basis": "same-image copy of get_linked_record_field_2_d_60: home func_8001B0C8, original import func_80017434 at 0x80017434; whole-module recertification preserves this address"
+          "basis": "same-image copy of get_town_state_count: home func_8001B0C8, original import func_80017434 at 0x80017434; whole-module recertification preserves this address"
         },
         {
           "kind": "function",
@@ -69321,7 +69321,7 @@
         ]
       },
       "headers": [
-        "include/town/scene/submit_scene_command_pair.h"
+        "include/town/scene/get_scene_command_cost.h"
       ],
       "imports": [
         {
@@ -69341,7 +69341,7 @@
           "function": "func_80016134",
           "id": "town/func_806DB134",
           "size": 72,
-          "source": "src/town/scene/submit_scene_command_pair.c",
+          "source": "src/town/scene/get_scene_command_cost.c",
           "vma": 2147574068
         },
         {
@@ -69349,7 +69349,7 @@
           "function": "func_8001617C",
           "id": "town/func_806DB17C",
           "size": 64,
-          "source": "src/town/scene/submit_scene_command_pair.c",
+          "source": "src/town/scene/get_scene_command_cost.c",
           "vma": 2147574140
         }
       ],
@@ -69373,7 +69373,7 @@
         "docs/evidence/r121m_ovl_65b134.rowbase.json",
         "docs/evidence/town_ovl_65b134.recipe.json"
       ],
-      "source": "src/town/scene/submit_scene_command_pair.c"
+      "source": "src/town/scene/get_scene_command_cost.c"
     },
     {
       "container": "town",
@@ -69391,7 +69391,7 @@
           "kind": "function",
           "symbol": "func_8001B0C8",
           "vma": 2147579344,
-          "basis": "same-image copy of get_linked_record_field_2_d_60: home func_8001B0C8, original import func_800175D0 at 0x800175D0; whole-module recertification preserves this address"
+          "basis": "same-image copy of get_town_state_count: home func_8001B0C8, original import func_800175D0 at 0x800175D0; whole-module recertification preserves this address"
         },
         {
           "kind": "function",
@@ -69593,7 +69593,7 @@
         ]
       },
       "headers": [
-        "include/town/scene/attach_global_data_and_invoke_callback.h",
+        "include/town/scene/attach_scene_event_data_and_run_callback.h",
         "include/town/scene.h"
       ],
       "imports": [
@@ -69659,7 +69659,7 @@
           "function": "func_800161EC",
           "id": "town/func_8079A1EC",
           "size": 84,
-          "source": "src/town/scene/attach_global_data_and_invoke_callback.c",
+          "source": "src/town/scene/attach_scene_event_data_and_run_callback.c",
           "vma": 2147574252
         }
       ],
@@ -69682,7 +69682,7 @@
         "docs/evidence/town_ovl_71a1ec.imports.json",
         "docs/evidence/r121m_ovl_71a1ec.rowbase.json",
         "docs/evidence/town_ovl_71a1ec.recipe.json",
-        "src/town/scene/attach_global_data_and_invoke_callback.c",
+        "src/town/scene/attach_scene_event_data_and_run_callback.c",
         "docs/evidence/terminal_choice_71a000.json",
         "docs/evidence/r124w_carve1_run13.md",
         "src/town/scene/find_eligible_entry.c",
@@ -69690,12 +69690,12 @@
         "src/town/scene/apply_selected_entry_values.c",
         "docs/evidence/town_scene_loader_receipt.json"
       ],
-      "source": "src/town/scene/attach_global_data_and_invoke_callback.c",
+      "source": "src/town/scene/attach_scene_event_data_and_run_callback.c",
       "allocation_model": "separated-symbolic-allocations-v1",
       "data_members": [
         {
           "id": "town/D_8079A074",
-          "source": "src/town/scene/attach_global_data_and_invoke_callback.c",
+          "source": "src/town/scene/attach_scene_event_data_and_run_callback.c",
           "symbol": "D_80016074",
           "foff": 7446644,
           "vma": 2147573876,
@@ -69722,7 +69722,7 @@
               "symbol": "D_80016074",
               "offset": 0,
               "size": 16,
-              "source": "src/town/scene/attach_global_data_and_invoke_callback.c",
+              "source": "src/town/scene/attach_scene_event_data_and_run_callback.c",
               "type": "TownTerminalChoice",
               "declaration": "include/town/scene.h",
               "owner": "town/func_8079A1EC",
@@ -69807,7 +69807,7 @@
           "function": "func_80016114",
           "id": "town/func_80952114",
           "size": 16,
-          "source": "src/town/scene/get_base_address.c",
+          "source": "src/town/scene/get_scene_event_data.c",
           "vma": 2147574036
         }
       ],
@@ -69831,7 +69831,7 @@
         "docs/evidence/town_ovl_8d2114.recipe.json",
         "docs/evidence/r121m_ovl_8d2114.rowbase.json"
       ],
-      "source": "src/town/scene/get_base_address.c"
+      "source": "src/town/scene/get_scene_event_data.c"
     },
     {
       "key": "dungeon_ovl_51e800",
@@ -69961,10 +69961,10 @@
       "key": "town_ovl_2d3f0c",
       "container": "town",
       "name": "ovl_2d3f0c.c",
-      "source": "src/town/scene/set_fixed_record_parameters.c",
+      "source": "src/town/scene/blend_position_trace_positive.c",
       "region": "r121_town_2d3f0c",
       "headers": [
-        "include/town/scene/set_fixed_record_parameters.h"
+        "include/town/scene/blend_position_trace_positive.h"
       ],
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -69973,7 +69973,7 @@
       "members": [
         {
           "id": "town/func_80353F0C",
-          "source": "src/town/scene/set_fixed_record_parameters.c",
+          "source": "src/town/scene/blend_position_trace_positive.c",
           "function": "func_8001FBDC",
           "foff": 2965260,
           "vma": 2147613660,
@@ -69981,7 +69981,7 @@
         },
         {
           "id": "town/func_80353F38",
-          "source": "src/town/scene/set_fixed_record_parameters.c",
+          "source": "src/town/scene/blend_position_trace_positive.c",
           "function": "func_8001FC08",
           "foff": 2965304,
           "vma": 2147613704,
@@ -69989,7 +69989,7 @@
         },
         {
           "id": "town/func_80353F64",
-          "source": "src/town/scene/set_fixed_record_parameters.c",
+          "source": "src/town/scene/blend_position_trace_positive.c",
           "function": "func_8001FC34",
           "foff": 2965348,
           "vma": 2147613748,
@@ -88616,7 +88616,7 @@
           "symbol": "func_8001922C",
           "kind": "function",
           "vma": 2147586012,
-          "basis": "same-image copy of process_lshop_entries: home func_8001922C, original import func_80018FDC at 0x80018FDC; whole-module recertification preserves this address"
+          "basis": "same-image copy of apply_shop_transaction: home func_8001922C, original import func_80018FDC at 0x80018FDC; whole-module recertification preserves this address"
         }
       ],
       "review": {
@@ -91241,7 +91241,7 @@
           "symbol": "func_8001B0C8",
           "kind": "function",
           "vma": 2147608620,
-          "basis": "same-image copy of get_linked_record_field_2_d_60: home func_8001B0C8, original import func_8001E82C at 0x8001E82C; whole-module recertification preserves this address"
+          "basis": "same-image copy of get_town_state_count: home func_8001B0C8, original import func_8001E82C at 0x8001E82C; whole-module recertification preserves this address"
         }
       ],
       "review": {
@@ -98986,7 +98986,7 @@
           "symbol": "func_8001B0C8",
           "kind": "function",
           "vma": 2147592184,
-          "basis": "same-image copy of get_linked_record_field_2_d_60: home func_8001B0C8, original import func_8001A7F8 at 0x8001A7F8; whole-module recertification preserves this address"
+          "basis": "same-image copy of get_town_state_count: home func_8001B0C8, original import func_8001A7F8 at 0x8001A7F8; whole-module recertification preserves this address"
         }
       ],
       "review": {
@@ -99321,7 +99321,7 @@
       "key": "town_square_gate_choices",
       "container": "town",
       "name": "square_gate_choices",
-      "source": "src/town/scene/apply_gate_5217_entry.c",
+      "source": "src/town/scene/apply_entry_mia_bikou_start.c",
       "region": "sweep_2AB9C0",
       "headers": [
         "include/town/scene.h"
@@ -99332,7 +99332,7 @@
       },
       "owned_data": [],
       "review_inputs": [
-        "src/town/scene/apply_gate_5217_entry.c",
+        "src/town/scene/apply_entry_mia_bikou_start.c",
         "docs/evidence/square_gate_choices.json",
         "docs/evidence/r124w_carve1_run12.md",
         "src/town/scene/find_eligible_entry.c",
@@ -99344,7 +99344,7 @@
       "data_members": [
         {
           "id": "town/D_803309EC",
-          "source": "src/town/scene/apply_gate_5217_entry.c",
+          "source": "src/town/scene/apply_entry_mia_bikou_start.c",
           "symbol": "D_8001B1EC",
           "foff": 2820588,
           "vma": 2147594732,
@@ -99354,7 +99354,7 @@
       "members": [
         {
           "id": "town/func_8032B96C",
-          "source": "src/town/scene/apply_gate_5217_entry.c",
+          "source": "src/town/scene/apply_entry_mia_bikou_start.c",
           "function": "func_8001616C",
           "foff": 2799980,
           "vma": 2147574124,
@@ -99381,7 +99381,7 @@
               "symbol": "D_8001B1EC",
               "offset": 0,
               "size": 64,
-              "source": "src/town/scene/apply_gate_5217_entry.c",
+              "source": "src/town/scene/apply_entry_mia_bikou_start.c",
               "type": "TownSceneChoice",
               "declaration": "include/town/scene.h",
               "owner": "town/func_8032B96C",
@@ -99515,7 +99515,7 @@
       "key": "town_square_progress_choices",
       "container": "town",
       "name": "square_progress_choices",
-      "source": "src/town/scene/apply_gate_5000_entry.c",
+      "source": "src/town/scene/apply_entry_selfy_rescued.c",
       "region": "sweep_2AB9C0",
       "headers": [
         "include/town/scene.h"
@@ -99526,7 +99526,7 @@
       },
       "owned_data": [],
       "review_inputs": [
-        "src/town/scene/apply_gate_5000_entry.c",
+        "src/town/scene/apply_entry_selfy_rescued.c",
         "docs/evidence/square_progress_choices.json",
         "docs/evidence/r124w_carve1_run12.md",
         "src/town/scene/find_eligible_entry.c",
@@ -99538,7 +99538,7 @@
       "data_members": [
         {
           "id": "town/D_8033140C",
-          "source": "src/town/scene/apply_gate_5000_entry.c",
+          "source": "src/town/scene/apply_entry_selfy_rescued.c",
           "symbol": "D_8001BC0C",
           "foff": 2823180,
           "vma": 2147597324,
@@ -99548,7 +99548,7 @@
       "members": [
         {
           "id": "town/func_8032C9A0",
-          "source": "src/town/scene/apply_gate_5000_entry.c",
+          "source": "src/town/scene/apply_entry_selfy_rescued.c",
           "function": "func_800171A0",
           "foff": 2804128,
           "vma": 2147578272,
@@ -99575,7 +99575,7 @@
               "symbol": "D_8001BC0C",
               "offset": 0,
               "size": 96,
-              "source": "src/town/scene/apply_gate_5000_entry.c",
+              "source": "src/town/scene/apply_entry_selfy_rescued.c",
               "type": "TownSceneChoice",
               "declaration": "include/town/scene.h",
               "owner": "town/func_8032C9A0",
@@ -99764,7 +99764,7 @@
       "key": "town_square_flag_choices",
       "container": "town",
       "name": "square_flag_choices",
-      "source": "src/town/scene/apply_gate_5000_flag_entry.c",
+      "source": "src/town/scene/apply_checked_entry_selfy_rescued.c",
       "region": "sweep_2AB9C0",
       "headers": [
         "include/town/scene.h"
@@ -99775,7 +99775,7 @@
       },
       "owned_data": [],
       "review_inputs": [
-        "src/town/scene/apply_gate_5000_flag_entry.c",
+        "src/town/scene/apply_checked_entry_selfy_rescued.c",
         "docs/evidence/square_flag_choices.json",
         "docs/evidence/r124w_carve1_run12.md",
         "src/town/scene/find_eligible_entry.c",
@@ -99787,7 +99787,7 @@
       "data_members": [
         {
           "id": "town/D_8033149C",
-          "source": "src/town/scene/apply_gate_5000_flag_entry.c",
+          "source": "src/town/scene/apply_checked_entry_selfy_rescued.c",
           "symbol": "D_8001BC9C",
           "foff": 2823324,
           "vma": 2147597468,
@@ -99797,7 +99797,7 @@
       "members": [
         {
           "id": "town/func_8032CEF4",
-          "source": "src/town/scene/apply_gate_5000_flag_entry.c",
+          "source": "src/town/scene/apply_checked_entry_selfy_rescued.c",
           "function": "func_800176F4",
           "foff": 2805492,
           "vma": 2147579636,
@@ -99824,7 +99824,7 @@
               "symbol": "D_8001BC9C",
               "offset": 0,
               "size": 272,
-              "source": "src/town/scene/apply_gate_5000_flag_entry.c",
+              "source": "src/town/scene/apply_checked_entry_selfy_rescued.c",
               "type": "TownSceneChoice",
               "declaration": "include/town/scene.h",
               "owner": "town/func_8032CEF4",
@@ -100381,7 +100381,7 @@
           "symbol": "func_8001A7B0",
           "kind": "function",
           "vma": 2147594368,
-          "basis": "same-image copy of town_table_contains_first_byte_b: home func_8001A7B0, original import func_8001B080 at 0x8001B080; whole-module recertification preserves this address"
+          "basis": "same-image copy of town_pair_table_has_first: home func_8001A7B0, original import func_8001B080 at 0x8001B080; whole-module recertification preserves this address"
         }
       ]
     },
@@ -100389,7 +100389,7 @@
       "key": "town_terminal_choice_705000",
       "container": "town",
       "name": "terminal_choice_705000",
-      "source": "src/town/scene/attach_global_data_pointers.c",
+      "source": "src/town/scene/attach_scene_event_data.c",
       "region": "r121c2_7051EC",
       "headers": [
         "include/town/scene.h"
@@ -100400,7 +100400,7 @@
       },
       "owned_data": [],
       "review_inputs": [
-        "src/town/scene/attach_global_data_pointers.c",
+        "src/town/scene/attach_scene_event_data.c",
         "docs/evidence/terminal_choice_705000.json",
         "docs/evidence/r124w_carve1_run13.md",
         "src/town/scene/find_eligible_entry.c",
@@ -100412,7 +100412,7 @@
       "data_members": [
         {
           "id": "town/D_80785074",
-          "source": "src/town/scene/attach_global_data_pointers.c",
+          "source": "src/town/scene/attach_scene_event_data.c",
           "symbol": "D_80016074",
           "foff": 7360628,
           "vma": 2147573876,
@@ -100422,7 +100422,7 @@
       "members": [
         {
           "id": "town/func_807851EC",
-          "source": "src/town/scene/attach_global_data_pointers.c",
+          "source": "src/town/scene/attach_scene_event_data.c",
           "function": "func_800161EC",
           "foff": 7361004,
           "vma": 2147574252,
@@ -100449,7 +100449,7 @@
               "symbol": "D_80016074",
               "offset": 0,
               "size": 16,
-              "source": "src/town/scene/attach_global_data_pointers.c",
+              "source": "src/town/scene/attach_scene_event_data.c",
               "type": "TownTerminalChoice",
               "declaration": "include/town/scene.h",
               "owner": "town/func_807851EC",

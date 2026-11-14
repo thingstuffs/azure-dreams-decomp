@@ -10,7 +10,7 @@
     {
       "row": "town/func_8032B96C",
       "home": "town/func_8032B96C",
-      "tu": "src/town/scene/apply_gate_5217_entry.c",
+      "tu": "src/town/scene/apply_entry_mia_bikou_start.c",
       "foff": "0x2AB96C",
       "vma": "0x8001616C",
       "size": 84,
@@ -26,7 +26,7 @@
     },
     {
       "row": "town/func_8032C0AC",
-      "tu": "src/town/scene/event/process_request_after_threshold.c",
+      "tu": "src/town/scene/event/apply_entry_values_flag_at_fifteen.c",
       "home": "town/func_8032C0AC",
       "foff": "0x2AC0AC",
       "vma": "0x800168AC",
@@ -34,7 +34,7 @@
     },
     {
       "row": "town/func_8032C138",
-      "tu": "src/town/scene/event/process_request_after_threshold_b.c",
+      "tu": "src/town/scene/event/apply_entry_values_flag_at_twenty.c",
       "home": "town/func_8032C138",
       "foff": "0x2AC138",
       "vma": "0x80016938",
@@ -42,7 +42,7 @@
     },
     {
       "row": "town/func_8032C18C",
-      "tu": "src/town/scene/dispatch_state_selected_code.c",
+      "tu": "src/town/scene/select_response_by_start_state.c",
       "home": "town/func_8032C18C",
       "foff": "0x2AC18C",
       "vma": "0x8001698C",
@@ -58,7 +58,7 @@
     },
     {
       "row": "town/func_8032C364",
-      "tu": "src/town/scene/call_state_refresh_and_return_zero.c",
+      "tu": "src/town/scene/blit_table_rectangle_and_return_zero.c",
       "home": "town/func_8032C364",
       "foff": "0x2AC364",
       "vma": "0x80016B64",
@@ -78,7 +78,7 @@
     },
     {
       "row": "town/func_8028C448",
-      "tu": "src/town/scene/event/process_request_after_threshold.c",
+      "tu": "src/town/scene/event/apply_entry_values_flag_at_fifteen.c",
       "home": "town/func_8032C0AC",
       "foff": "0x2AC448",
       "vma": "0x80016C48",
@@ -90,7 +90,7 @@
     },
     {
       "row": "town/func_8028C4D4",
-      "tu": "src/town/scene/event/process_request_after_threshold_b.c",
+      "tu": "src/town/scene/event/apply_entry_values_flag_at_twenty.c",
       "home": "town/func_8032C138",
       "foff": "0x2AC4D4",
       "vma": "0x80016CD4",
@@ -102,7 +102,7 @@
     },
     {
       "row": "town/func_8028C528",
-      "tu": "src/town/scene/dispatch_state_selected_code.c",
+      "tu": "src/town/scene/select_response_by_start_state.c",
       "home": "town/func_8032C18C",
       "foff": "0x2AC528",
       "vma": "0x80016D28",
@@ -122,7 +122,7 @@
     },
     {
       "row": "town/func_8028C6C0",
-      "tu": "src/town/scene/call_state_refresh_and_return_zero.c",
+      "tu": "src/town/scene/blit_table_rectangle_and_return_zero.c",
       "home": "town/func_8032C364",
       "foff": "0x2AC6C0",
       "vma": "0x80016EC0",
@@ -139,7 +139,7 @@
     {
       "row": "town/func_8032C9A0",
       "home": "town/func_8032C9A0",
-      "tu": "src/town/scene/apply_gate_5000_entry.c",
+      "tu": "src/town/scene/apply_entry_selfy_rescued.c",
       "foff": "0x2AC9A0",
       "vma": "0x800171A0",
       "size": 84,
@@ -156,7 +156,7 @@
     {
       "row": "town/func_8032CEF4",
       "home": "town/func_8032CEF4",
-      "tu": "src/town/scene/apply_gate_5000_flag_entry.c",
+      "tu": "src/town/scene/apply_checked_entry_selfy_rescued.c",
       "foff": "0x2ACEF4",
       "vma": "0x800176F4",
       "size": 88,
@@ -165,7 +165,7 @@
     {
       "row": "town/func_8032CF4C",
       "home": "town/func_8032CF4C",
-      "tu": "src/town/scene/apply_gate_5211_flag_entry.c",
+      "tu": "src/town/scene/apply_entry_selfy_got_egg.c",
       "foff": "0x2ACF4C",
       "vma": "0x8001774C",
       "size": 88,
@@ -173,7 +173,7 @@
     },
     {
       "row": "town/func_8032CFFC",
-      "tu": "src/town/scene/dispatch_entry_or_return_override.c",
+      "tu": "src/town/scene/select_response_with_override.c",
       "home": "town/func_8032CFFC",
       "foff": "0x2ACFFC",
       "vma": "0x800177FC",
@@ -181,7 +181,7 @@
     },
     {
       "row": "town/func_8028D09C",
-      "tu": "src/town/scene/dispatch_entry_or_return_override.c",
+      "tu": "src/town/scene/select_response_with_override.c",
       "home": "town/func_8032CFFC",
       "foff": "0x2AD09C",
       "vma": "0x8001789C",
@@ -189,7 +189,7 @@
     },
     {
       "row": "town/func_8028D13C",
-      "tu": "src/town/scene/dispatch_entry_or_return_override.c",
+      "tu": "src/town/scene/select_response_with_override.c",
       "home": "town/func_8032CFFC",
       "foff": "0x2AD13C",
       "vma": "0x8001793C",
@@ -211,7 +211,7 @@
     {
       "row": "town/func_8032D304",
       "home": "town/func_8032D304",
-      "tu": "src/town/scene/apply_gate_5003_flag_entry.c",
+      "tu": "src/town/scene/apply_entry_selfy_all_talk.c",
       "foff": "0x2AD304",
       "vma": "0x80017B04",
       "size": 88,
@@ -353,7 +353,7 @@
     },
     {
       "row": "town/func_8032ECE4",
-      "tu": "src/town/scene/find_entry_index_assert.c",
+      "tu": "src/town/scene/find_eight_byte_entry_or_assert.c",
       "home": "town/func_8032ECE4",
       "foff": "0x2AECE4",
       "vma": "0x800194E4",

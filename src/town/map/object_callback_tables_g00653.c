@@ -7,7 +7,7 @@
 #include "town/map/trigger_callbacks.h"
 
 /* Initializes an object and replaces the callbacks in the active table entries. */
-void initialize_object_and_replace_callbacks(void) {
+void install_map_trigger_handlers(void) {
     Callback *callback_slot = (Callback *)town_map_callback_entries;
     ObjectNodeHeader *object = allocate_flagged_object_node(0x11);
 
@@ -23,7 +23,7 @@ void initialize_object_and_replace_callbacks(void) {
 }
 
 /* Invoke each callback with its entry address until the null terminator. */
-void invoke_callbacks_until_terminator(void) {
+void run_map_trigger_callbacks(void) {
     Callback *callback;
 
     callback = (Callback *)town_map_callback_entries;

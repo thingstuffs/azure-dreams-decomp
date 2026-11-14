@@ -28,6 +28,6 @@ void tick_menu_motion_fade(struct Obj800A5BC0 *obj, void *ctx);
 void advance_animation_phase_and_frame(MenuAnimationPhaseObject *anim, struct ObjectPosition *unused);
 
 void draw_textured_sprite_quad(void *sprite, s32 position);
-void decrease_value_and_advance_counter(Rec_D_80100B70 *record, s32 value, s32 unused_context);
+void step_door_transition_sprite(Rec_D_80100B70 *record, s32 value, s32 unused_context);
 
 #endif

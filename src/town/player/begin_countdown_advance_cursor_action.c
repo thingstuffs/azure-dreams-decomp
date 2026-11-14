@@ -12,7 +12,7 @@
 
 /* Initializes an object with default state and clears the shared flag. */
 void begin_countdown_advance_cursor_action(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite) {
-    clear_entity_record_fields((position));
+    clear_object_velocity((position));
     dispatch_selected_entry_if_nonzero(approach_action_handler_table, object, sprite);
     town_action_reset_byte = 0;
     object->unk_04 = &tick_countdown_or_advance_cursor;

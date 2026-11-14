@@ -41,7 +41,7 @@ void create_cursor_object(void *task_buffer, Rec_D_80081FDC *record, s32 *source
     state->script = source;
     state->enabled = 1;
     state->cursor_offset = state_value;
-    runtime_initialize_state_value(record, *source);
+    init_unit_scale_record(record, *source);
     state->model = record;
     record->unk_60 = 6;
     state->model->unk_10 = 0x10C;

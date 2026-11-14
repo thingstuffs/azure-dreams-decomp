@@ -41,7 +41,7 @@ void update_random_idle_wander(void *actor, ObjectPosition *motion, SpriteFrameS
 
     anim_script = 0;
     if (service_script_controller() != 0 &&
-        check_transform_identifier_and_hook(actor) != 0) {
+        check_town_target_and_callback(actor) != 0) {
         if (!(F_S32(actor, 0xAC) & 1)) {
             SD_Call(0x601);
             F_S32(actor, 0xAC) |= 1;

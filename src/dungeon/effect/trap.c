@@ -250,7 +250,7 @@ s32 create_active_entity_effect_or_message(ActorRecord *entity)
     register s32 effect_id_half;
 
     if (entity == dungeon_actor_ring_anchor) {
-        if (has_enough_available_runtime_nodes(1) == 0) {
+        if (has_enough_available_nodes(1) == 0) {
             return 0;
         }
         status = get_entity_effect_value(entity, 0x1C);
@@ -382,7 +382,7 @@ typedef struct {
 } Entry;
 
 /* Run the 0x10-slot request for the object with the budget the global mode picks; on refusal give the fallback cue, otherwise raise the tile effect and sound 0x611 unless the owning entry is flagged. */
-s32 attempt_trap_request_ten_slots(void *object) {
+s32 attempt_confusion_trap(void *object) {
     s32 amount = 0x40;
     Entry *entry;
 
@@ -547,7 +547,7 @@ void *create_tile_center_quad_effect(s16 tile_x, s16 tile_y, s16 z, s16 tail_val
     saved_render_mode = (s16) render_mode;
     if (obj != 0) {
         obj->field10 = &D_800CC4F0;
-        register_node(obj, process_linked_mesh_states_mode_0);
+        register_node(obj, draw_linked_segment_aligned_quads);
         packet_color = 0x00800000;
         world_x = ((tile_x << 0x10) >> 0xA) + 0x20;
         vertex = obj->field8;
@@ -1069,7 +1069,7 @@ s32 spawn_source_sprite_effect(void *source_arg, s32 rng_arg_1, s32 rng_arg_2, s
     return effect != NULL;
 }
 
-extern s32 roll_chance_and_run_action(void *record, s16 chance, s8 action);
+extern s32 roll_sleep_effect(void *record, s16 chance, s8 action);
 extern s32 D_800DCF0C;
 extern u8 D_800E1BF3[];
 
@@ -1095,7 +1095,7 @@ s32 resolve_trap_hit(EntityRec *actor) {
     if (trap_request_blocked != 0) {
         chance = 0x400;
     }
-    if (roll_chance_and_run_action(actor, chance, 0x10) == 0) {
+    if (roll_sleep_effect(actor, chance, 0x10) == 0) {
         if ((*((u8 *)&actor->unk_10 + 3)) == 0) {
             display_fixed_item_action_message();
             return 1;
@@ -1174,11 +1174,11 @@ extern u8 D_800E1C14[17];
 typedef struct S_800CD384_0_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800CD384_0_pre;   /* the 0x14 bytes before object in attempt_trap_request_eight_slots, addressed as object[-1] */
+} S_800CD384_0_pre;   /* the 0x14 bytes before object in attempt_poison_trap, addressed as object[-1] */
 
 
 /* Run the 8-slot request for the object with the budget the global mode picks; on refusal give the fallback cue, otherwise apply the effect and raise the tile marker unless the owning entry is flagged. */
-s32 attempt_trap_request_eight_slots(void *object) {
+s32 attempt_poison_trap(void *object) {
     s32 amount;
     SpriteFrameState *entry;
 
@@ -1303,7 +1303,7 @@ void apply_mode_selected_trap_mask(ActorRecord *target, s32 unused_mask)
     if (trap_request_blocked != 0) {
         mode_mask = 0x400;
     }
-    try_apply_effect_four_by_chance(target, mode_mask, 0x10);
+    try_apply_paralysis_effect(target, mode_mask, 0x10);
 }
 #include "shared/dir_step.h"
 
@@ -1408,7 +1408,7 @@ s32 create_four_owner_sprite_effects(S_800CD6E0_0 *source, s16 slot_index, s32 s
             apply_mode_selected_trap_mask((ActorRecord *)source, 0x10);
             return 1;
         }
-        if (has_enough_available_runtime_nodes(4) == 0) {
+        if (has_enough_available_nodes(4) == 0) {
             return 0;
         }
 
@@ -1487,7 +1487,7 @@ void tick_trap_effect_countdown(TrapOwnedTimedEffectBody *object)
 
     countdown = --object->ticks_remaining;
     if (countdown <= 0) {
-        run_action_ten_if_eligible(object->owner, 0x10);
+        apply_frog_status_if_eligible(object->owner, 0x10);
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         ((u16 *)object)[-1] |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -1498,7 +1498,7 @@ extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern u8 D_800E1C25[];
 
 /* Runs action 0xA when eligible, using the prior state for the flagged callback. */
-s32 run_action_ten_if_eligible(ActorRecord *entity, s8 action_arg) {
+s32 apply_frog_status_if_eligible(ActorRecord *entity, s8 action_arg) {
     u8 updated_state;
     u8 prior_state;
     u8 initial_state;
@@ -1559,11 +1559,11 @@ s32 trigger_step_trap_effect(ActorRecord *object) {
         if (index < 0x40) {
             entry = *(void **)((u8 *)object - 0x14);
             if (*(u16 *)((u8 *)entry + 0x14) & 0x8000) {
-                run_action_ten_if_eligible(object, 0x10);
+                apply_frog_status_if_eligible(object, 0x10);
                 return -1;
             }
             result = 0;
-            if (has_enough_available_runtime_nodes(2) != 0) {
+            if (has_enough_available_nodes(2) != 0) {
                 effect = allocate_flagged_object_node(2);
                 *(u8 **)((u8 *)effect + 0x10) = D_800CD910;
                 effect_body = (u8 *)effect + 0x20;
@@ -2332,7 +2332,7 @@ void advance_monster_den_sequence(ClampEntryAndCreateEffectNodeBody *den_event) 
             count = ((DungeonSlot *)floor_objects)[den_event->entry_index].count;
             if (count >= 0) {
                 do {
-                    if (has_enough_available_runtime_nodes(3) == 0) {
+                    if (has_enough_available_nodes(3) == 0) {
                         ((DungeonSlot *)floor_objects)[den_event->entry_index].count -= count;
                         return;
                     }
@@ -2471,7 +2471,7 @@ unsigned int clamp_entry_and_create_effect_node(ActorRecord *object, s16 entry_i
             *(entry + 2) = 0x20 - *(u8 *)((u16 *)&state->monster_count);
         }
 
-        result = has_enough_available_runtime_nodes(*(s8 *)(entry + 2) + 1);
+        result = has_enough_available_nodes(*(s8 *)(entry + 2) + 1);
         entry_ready = result != 0;
         if (entry_ready) {
             node = allocate_flagged_object_node(2);

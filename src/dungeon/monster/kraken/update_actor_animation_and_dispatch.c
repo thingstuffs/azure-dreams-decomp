@@ -56,7 +56,7 @@ typedef struct S_801711A4_2 {
 
 #include "dungeon/item/find_active_rect_containing_point_api.h"
 extern void func_80171884(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject *position_data, ActorRecord *actor_data);
-extern void update_actor_action_and_direction(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
+extern void begin_flame_attack(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80173D10(Actor *actor, s32 action, Entity *entity, MapObject *map_object);
 extern u8 D_801741AC[];
 
@@ -160,7 +160,7 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
                         return;
                     }
                 }
-                if ((update_entity_state_from_query(actor, context, sprite, 0) << 0x10) == 0) {
+                if ((relink_hikewne_path(actor, context, sprite, 0) << 0x10) == 0) {
                     return;
                 }
                 action_flags = status->action_flags | 0x4000;
@@ -171,10 +171,10 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
                 switch (action_id) {
                 case 8:
                 case 9:
-                    if ((check_actor_transition_and_start_effect(actor, context, sprite, status) << 0x10) != 0) {
+                    if ((try_dragon_attack(actor, context, sprite, status) << 0x10) != 0) {
                         return;
                     }
-                    update_actor_action_and_direction(actor, context, sprite, status);
+                    begin_flame_attack(actor, context, sprite, status);
                     return;
                 case 5:
                 case 6:

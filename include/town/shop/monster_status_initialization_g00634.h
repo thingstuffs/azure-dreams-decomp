@@ -10,11 +10,11 @@ struct ShopFirstCallbackObject;
 
 extern M2C_UNK D_800D17C8;
 /* extern */
-s32 invalidate_cached_state_and_queue_read(Rec_func_800B683C_arg0 *);
+s32 queue_monster_status_reload(Rec_func_800B683C_arg0 *);
 /* extern */
 
 extern void initialize_positioned_display_templates(void *owner, void *instance_data, void *instance1, s32 x, s32 y_arg, s32 z_arg);
-extern void clear_linked_entry_state(struct ShopFirstCallbackObject *object);
+extern void reset_monster_status_links(struct ShopFirstCallbackObject *object);
 
 /* Functions defined in this translation unit. */
 s32 get_monster_status_type_data(s32 index);

@@ -1,0 +1,10 @@
+#include "common.h"
+#include "town/scene.h"
+
+s32 blit_nonzero_rectangle_from_table_b(void);
+
+/* Calls blit_nonzero_rectangle_from_table_b and returns zero. */
+s32 blit_table_rectangle_and_return_zero(void) {
+    blit_nonzero_rectangle_from_table_b();
+    return 0;
+}

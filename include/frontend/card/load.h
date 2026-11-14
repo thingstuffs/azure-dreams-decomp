@@ -12,16 +12,16 @@ void card_devkit_highlight_selected_load_slot(void *ptr);
 /* handle_menu_selection_input.c */
 void handle_menu_selection_input(void *object);
 
-/* initialize_destination_template_state.c */
-void initialize_destination_template_state(short *dest, int index, int mode);
+/* init_save_header_buffer.c */
+void init_save_header_buffer(short *dest, int index, int mode);
 
-/* reset_menu_object_state.c */
-void reset_menu_object_state(void *ptr);
+/* select_load_slot_callback.c */
+void select_load_slot_callback(void *ptr);
 
-/* reset_object_operation_state.c */
-void reset_object_operation_state(void *ptr);
+/* resume_load_menu_input.c */
+void resume_load_menu_input(void *ptr);
 
-/* update_menu_object_state.c */
-void update_menu_object_state(struct S_func_80406AA8_0 *state);
+/* finish_load_slot_check.c */
+void finish_load_slot_check(struct S_func_80406AA8_0 *state);
 
 #endif

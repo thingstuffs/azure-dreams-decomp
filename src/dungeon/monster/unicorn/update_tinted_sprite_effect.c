@@ -22,7 +22,7 @@ void update_tinted_sprite_effect(void *record_data, DelayMotionZ *state, SpriteF
 }
 
 /* Create a tinted sprite effect at the supplied position with a random variant. */
-void create_tinted_sprite_effect_supplied_position(void *unused, ObjectPosition *position_data, SpriteFrameState *unused_primitive) {
+void create_tinted_sprite_effect_at(void *unused, ObjectPosition *position_data, SpriteFrameState *unused_primitive) {
     T_8017406C_S_8017406C_0 *effect_state;
     SpriteFrameState *sprite;
     ObjectNodeHeader *effect;
@@ -72,7 +72,7 @@ void update_orbit_height_and_fade_effect(AngularOffsetEffectBody *effect, Object
     position->z.v = (s32) (position->z.v + 0xFFF60000);
     advance_sprite_animation_and_textures(primitive);
     if ((effect->remaining_ticks < 0x11) && (effect->pulse_state == 0) && !(rand() & 0xF)) {
-        create_tinted_sprite_effect_supplied_position(effect, position, primitive);
+        create_tinted_sprite_effect_at(effect, position, primitive);
     }
     life = effect->remaining_ticks;
     if (life < 0xA) {
@@ -91,7 +91,7 @@ void update_orbit_height_and_fade_effect(AngularOffsetEffectBody *effect, Object
 /* Creates a yellow effect at an angular offset from the supplied position. */
 /* Creates a yellow Unicorn effect on a circular offset, with supplied height, random texture variant, and
  * orbit callback. */
-void create_angular_offset_effect(void *unused_context, ObjectPosition *origin, SpriteFrameState *unused_param_2, ActorRecord *unused_param_3,
+void create_orbiting_tinted_sprite(void *unused_context, ObjectPosition *origin, SpriteFrameState *unused_param_2, ActorRecord *unused_param_3,
     s16 angle, u16 height_offset) {
     ObjectNodeHeader *effect;
     AngularOffsetEffectBody *effect_state;

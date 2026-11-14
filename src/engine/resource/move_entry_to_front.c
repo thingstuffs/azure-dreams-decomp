@@ -14,20 +14,20 @@ typedef struct {
 extern u8 *runtime_resource_directory[];
 
 /* Processes the selected entry and uploads its two image regions to VRAM. */
-s32 activate_indexed_resource_and_upload_images(s32 entry_group, s32 entry_index) {
+s32 activate_resource_and_upload(s32 entry_group, s32 entry_index) {
     FadeManagerBody *state = &fade_manager_state;
     Entry *entries;
     void *entry_data;
     s32 result;
 
     if (entry_index >= 0) {
-        entries = (Entry *)lookup_sentinel_resource_value_or_zero(entry_group);
+        entries = (Entry *)lookup_resource_value(entry_group);
         if (entries != 0) {
             entry_data = entries[entry_index].data;
             if (entry_data != 0) {
                 state->source = entries[entry_index].source;
                 result = find_or_load_runtime_resource_key(entry_data);
-                runtime_move_entry_to_front(result);
+                move_directory_entry_to_front(result);
 
                 LoadImage(resource_directory_upload_rectangles, (void *)runtime_resource_directory[1]);
                 LoadImage(&resource_directory_upload_rectangles[2],

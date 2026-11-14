@@ -18,9 +18,9 @@ extern void release_lshop_entry(s32);
 extern void compact_lshop_entry_list(void);
 
 /* Functions defined in this translation unit. */
-void set_lshop_special_flag(S_800191EC_0 *record);
-void process_lshop_entries(void *entries, s32 entry_mode);
-void process_lshop_value(void *entries);
-void process_lshop_value_plus_four(u8 *entries);
+void set_water_medal_sold_flag(S_800191EC_0 *record);
+void apply_shop_transaction(void *entries, s32 entry_mode);
+void buy_flagged_entries(void *entries);
+void sell_flagged_entries(u8 *entries);
 
 #endif

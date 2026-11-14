@@ -15,6 +15,6 @@ void initialize_object_and_reset_value(TownObjectRecord *object, ObjectPosition 
     object->unk_04 = &tick_countdown_and_reset_value;
     town_action_reset_byte = 0;
     object->unk_0A = 0x15;
-    clear_entity_record_fields((setupArgument));
+    clear_object_velocity((setupArgument));
     object->unk_10 = 0;
 }

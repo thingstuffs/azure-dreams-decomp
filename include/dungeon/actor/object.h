@@ -14,7 +14,7 @@ void *select_object_by_flags_and_keys(struct Func8180F0F4_Obj *first, struct Fun
 
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
-void initialize_actor_object_action(void *object_state, void *unused_context, Rec_D_80082E80 *properties, EntityRec *status);
+void begin_actor_fade_draw(void *object_state, void *unused_context, Rec_D_80082E80 *properties, EntityRec *status);
 
 #include "shared/town_object.h"
 void advance_object_countdown_and_invoke_handlers(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *sprite);

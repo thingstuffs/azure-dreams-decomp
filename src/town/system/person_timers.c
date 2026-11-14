@@ -12,7 +12,7 @@
 #include "town/person/object.h"
 #include "town/system.h"
 /* Decrement the countdown and call apply_object_setup_and_update when it reaches zero or becomes negative. */
-void decrement_object_timer_and_update(TownObjectRecord *object, void *callback_arg_1, void *callback_arg_2) {
+void run_setup_on_timer_expiry(TownObjectRecord *object, void *callback_arg_1, void *callback_arg_2) {
     u16 countdown;
 
     countdown = object->timer - 1;
@@ -27,7 +27,7 @@ void decrement_object_timer_and_update(TownObjectRecord *object, void *callback_
 
 
 /* Decrements the timer and calls the handler when its signed value is nonpositive. */
-void decrement_object_timer_and_call_handler(TownObjectRecord *object) {
+void install_handler_on_timer_expiry(TownObjectRecord *object) {
     u16 remaining_ticks;
 
     remaining_ticks = object->timer - 1;

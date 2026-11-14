@@ -10,7 +10,7 @@
     {
       "row": "dungeon/func_80D037D8",
       "home": "dungeon/func_800AD90C",
-      "tu": "src/dungeon/effect/state/forward_actor_effect_state.c",
+      "tu": "src/dungeon/effect/state/update_hop_and_shrink_callback.c",
       "foff": "0xd237d8",
       "vma": "0x8015cfd8",
       "size": 32,

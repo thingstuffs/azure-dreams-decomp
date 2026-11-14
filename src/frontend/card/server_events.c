@@ -50,25 +50,25 @@ void card_boot_open_events(void) {
         printf(card_event_error_format, card_server_filename, 0xBF);
         exit(1);
     }
-    hw_done_event = OpenEvent(0xF0000011, 4, 0x1000, card_boot_latch_hardware_status_one);
+    hw_done_event = OpenEvent(0xF0000011, 4, 0x1000, card_boot_latch_hw_done);
     card_hw_done_event[0] = hw_done_event;
     if (hw_done_event == -1) {
         printf(card_event_error_format, card_server_filename, 0xC2);
         exit(1);
     }
-    hw_error_event = OpenEvent(0xF0000011, 0x8000, 0x1000, card_boot_latch_hardware_status_two);
+    hw_error_event = OpenEvent(0xF0000011, 0x8000, 0x1000, card_boot_latch_hw_error);
     card_hw_error_event[0] = hw_error_event;
     if (hw_error_event == -1) {
         printf(card_event_error_format, card_server_filename, 0xC4);
         exit(1);
     }
-    hw_timeout_event = OpenEvent(0xF0000011, 0x100, 0x1000, card_boot_latch_hardware_status_three);
+    hw_timeout_event = OpenEvent(0xF0000011, 0x100, 0x1000, card_boot_latch_hw_timeout);
     card_hw_timeout_event[0] = hw_timeout_event;
     if (hw_timeout_event == -1) {
         printf(card_event_error_format, card_server_filename, 0xC6);
         exit(1);
     }
-    hw_new_event = OpenEvent(0xF0000011, 0x2000, 0x1000, card_boot_latch_hardware_status_four);
+    hw_new_event = OpenEvent(0xF0000011, 0x2000, 0x1000, card_boot_latch_hw_new_card);
     card_hw_new_event[0] = hw_new_event;
     if (hw_new_event == -1) {
         printf(card_event_error_format, card_server_filename, 0xC8);

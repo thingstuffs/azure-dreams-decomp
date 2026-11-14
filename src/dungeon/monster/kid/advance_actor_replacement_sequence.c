@@ -178,7 +178,7 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
         if (effect == NULL) {
             return;
         }
-        effect->update_callback = &blend_effect_channels_to_gray;
+        effect->update_callback = &finish_kid_effect_and_tint;
         register_node(effect, &project_kid_sprite_chain);
         tint = 0x808080;
         state->unk_AC.address = effect;

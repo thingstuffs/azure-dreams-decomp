@@ -33,7 +33,7 @@ s32 initialize_nine_record_tables(S_800DCCF4_0 *object, void *mode) {
 }
 
 /* Allocate and initialize an object, marking allocation failure in the status flags. */
-void *allocate_object_with_failure_flag(void) {
+void *create_dungeon_menu_object(void) {
     void *allocation;
     register ObjectHeader *header;
     s32 *status_page;
@@ -44,7 +44,7 @@ void *allocate_object_with_failure_flag(void) {
     object = allocate_flagged_object_node(0);
     if (object != 0) {
         dungeon_menu_object[0] = object;
-        allocation = create_callback_pair_default(0x100);
+        allocation = allocate_node_body(0x100);
         header = NODE_BODY(object);
         if (allocation != 0) {
             data = ((u8 *)object) + 0x5C;
@@ -52,8 +52,8 @@ void *allocate_object_with_failure_flag(void) {
             source_table = (s32 *)0x800133A0;
             header->field_38 = source_table;
             object->sprite = run_object_setup_and_finalize(data, source_table[0]);
-            initialize_complemented_state(object);
-            object->update_callback = process_callback_slots_and_object;
+            invalidate_hud_cache(object);
+            object->update_callback = update_dungeon_menu_object;
             register_node(object, dungeon_menu_tag);
             return object;
         }

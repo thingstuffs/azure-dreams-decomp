@@ -13,7 +13,7 @@ typedef struct S_8001B828_0 {
 } S_8001B828_0;   /* obj in dispatch_event_request */
 
 #include "town/scene.h"
-#include "town/scene/attach_global_data_and_invoke_callback.h"
+#include "town/scene/attach_scene_event_data_and_run_callback.h"
 #include "town/player/state.h"
 #include "town/scene/event.h"
 
@@ -49,7 +49,7 @@ void *dispatch_event_request(s32 request, void *data, s32 mode) {
         return D_8001914C;
     }
     if (mode == 1) {
-        advance_dispatch_state_to_two();
+        advance_event_dispatch_state();
         return resolve_event_response_key(request, data, 1);
     }
     if (mode == 5) {

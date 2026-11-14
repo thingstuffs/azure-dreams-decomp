@@ -4,7 +4,7 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
-#include "dungeon/monster/glacier/advance_item_motion_collision.h"
+#include "dungeon/monster/glacier/advance_particle_with_collision.h"
 #include "records/Rec_func_801744DC_arg1.h"
 #include "records/Rec_func_801744DC_arg0.h"
 #include "shared/dungeon_moving_views.h"
@@ -37,7 +37,7 @@ void spawn_directional_particle(Rec_func_801744DC_arg0 *source, ObjectPosition *
     if (effect != 0) {
         motion = NODE_BODY(effect);
         motion->remaining_ticks.signed_value = 0xF;
-        effect->update_callback = advance_item_motion_collision;
+        effect->update_callback = advance_particle_with_collision;
         register_node(effect, project_sprite_chain);
 
         sprite = effect->sprite;

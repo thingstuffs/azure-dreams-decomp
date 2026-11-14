@@ -30,7 +30,7 @@ void dispatch_actor_state_handler(Rec_func_8008ACDC_arg0 *actor, ObjectPosition 
 
 void advance_effect_fade_and_flag(OppositeOffsetEffectBody *effect, ObjectPosition *motion, SpriteFrameState *primitive);
 
-s32 forward_actor_effect_state(ActorRecord *state, ObjectPosition *context, SpriteFrameState *data, ActorRecord *render);
+s32 update_hop_and_shrink_callback(ActorRecord *state, ObjectPosition *context, SpriteFrameState *data, ActorRecord *render);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 struct Context800B4194;

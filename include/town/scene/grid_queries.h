@@ -9,8 +9,8 @@ s32 has_grid_entry_c(s32 grid_y, s32 grid_x);
 s32 has_grid_entry_d(s32 grid_y, s32 grid_x);
 s32 has_grid_entry_e(s32 grid_y, s32 grid_x);
 
-u32 apply_rectangle_preset_10x7(void);
-u32 apply_target_grid_rectangle(s32 target_x, s32 target_y);
+u32 is_position_near_fixed_grid_cell(void);
+u32 is_position_near_grid_cell(s32 target_x, s32 target_y);
 s32 forward_context_request_to_handler_d(void *context, s32 request);
 
 #endif

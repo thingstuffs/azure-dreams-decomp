@@ -33,7 +33,7 @@ s32 dispatch_dungeon_category_action(void *actor, void *action, s16 dispatch_mod
 
     if (*((u8 *)action + 1) == ITEM_KIND_EGG) {
         if ((s16)dispatch_mode != 0x15) {
-            allocate_object_at_coordinates(actor, action, dispatch_mode);
+            create_egg_bomb_effect(actor, action, dispatch_mode);
             return;
         }
     }
@@ -58,7 +58,7 @@ s32 dispatch_dungeon_category_action(void *actor, void *action, s16 dispatch_mod
     }
     if ((s16)dispatch_mode != 0x15) {
         if (reference_tile_object.secondary_item == 0) {
-            result = get_special_table_data_index(action);
+            result = get_item_slot_number(action);
             if (result != 0x15) {
                 if (result == 0x16) {
                     *(*(s32 **)((u8 *)dungeon_actor_ring_anchor + 0xF0)) = 0;

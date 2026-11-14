@@ -92,16 +92,16 @@ typedef struct S_800B1BEC_0 {
     void * unk_44;
 } S_800B1BEC_0;
 
-/* part in create_dual_buffer_object */
+/* part in create_floating_number_widget */
 
 /* ((S_800B19F8_5 *)(((S_800B19F8_1 *)arg0)->unk_50))->unk_04 in initialize_panel_content_and_positions */
-extern void refresh_formatted_global_display(void *a0);
+extern void refresh_money_display(void *a0);
 extern void func_800B18F8(s32 a0);
 extern s32 D_80078D6C[4];
 extern u8 money_label_text[16];
-void initialize_templated_state_and_position(s32, s32, s32, s32, s32);
+void init_display_blocks_at_position(s32, s32, s32, s32, s32);
 extern s32 display_block_defaults[4];
-/* object in create_dual_buffer_object */
+/* object in create_floating_number_widget */
 extern void *process_context_with_selector_4(void *);
 extern void lower_value_toward_target(struct ObjectNodeHeader *object);
 extern int dungeon_menu_tag(void *forwarded_ptr, int unused_arg, void *second_ptr);
@@ -111,6 +111,6 @@ void initialize_panel_content_and_positions(S_800B19F8_0 *panel);
 void store_pair_values(S_800B1B04_0 *pair, s32 first, s32 second);
 void initialize_floating_number_widget_part(s32 object_addr, s32 setup_value, s32 update_value_1, s32 update_value_2);
 void initialize_four_anchored_nodes(void *state);
-void *create_dual_buffer_object(s32 setup_value, s32 x, s32 y);
+void *create_floating_number_widget(s32 setup_value, s32 x, s32 y);
 
 #endif

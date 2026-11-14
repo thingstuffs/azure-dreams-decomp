@@ -53,7 +53,7 @@ void advance_actor_action_animation_to_completion(ActorRecord *action, ObjectPos
         if (animation->flags & 0xE000) {
             set_record_integer_tile_center(actor_id, animation->tile_x, animation->tile_y);
             spend_actor_mp(actor, 0x100);
-            action->unk_8C.handler = update_long_actor_action;
+            action->unk_8C.handler = update_mandara_behavior;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             if (actor->pending_turn_updates == 0) {

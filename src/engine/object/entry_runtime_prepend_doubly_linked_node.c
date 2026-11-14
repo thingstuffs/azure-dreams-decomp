@@ -6,9 +6,9 @@ typedef struct {
     void *unk_54;
 } Struct800350B0;
 
-/* Store a self-reference and pass its address to runtime_prepend_doubly_linked_node. */
+/* Store a self-reference and pass its address to prepend_owner_list_node. */
 void prepend_embedded_object_node(void *context, void *object_data) {
     Struct800350B0 *object = object_data;
     object->unk_54 = object;
-    runtime_prepend_doubly_linked_node(context, &object->unk_54);
+    prepend_owner_list_node(context, &object->unk_54);
 }

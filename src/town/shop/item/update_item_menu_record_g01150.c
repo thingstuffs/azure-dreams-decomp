@@ -7,7 +7,7 @@
 #include "engine/graphics.h"
 
 /* Run the record update sequence and process its stored value. */
-void update_item_menu_record(ItemMenuObject *record) {
+void refresh_item_menu_page(ItemMenuObject *record) {
     populate_item_menu_lower_entries(record);
     update_item_menu_page_bounds(record);
     populate_current_item_menu_page(record);
@@ -16,7 +16,7 @@ void update_item_menu_record(ItemMenuObject *record) {
 }
 
 /* Disables the menu and opens the selected entry's display controller in a two-column, five-row layout. */
-void *place_selected_item_menu_entry(ItemMenuObject *entry) {
+void *open_selected_item_display(ItemMenuObject *entry) {
     s32 x_pos;
     s32 page_slot;
 
@@ -32,8 +32,8 @@ void *place_selected_item_menu_entry(ItemMenuObject *entry) {
 }
 
 /* Store the selected-entry display controller and restore the saved update callback once it exists. */
-void store_item_menu_check_result(ItemMenuObject *record_data) {
-    record_data->menu->display_controller = place_selected_item_menu_entry(record_data);
+void retry_open_item_display(ItemMenuObject *record_data) {
+    record_data->menu->display_controller = open_selected_item_display(record_data);
     if (record_data->menu->display_controller != 0) {
         ITEM_MENU_OBJECT_NODE(record_data)->header.update_callback = record_data->saved_update;
     }
@@ -74,7 +74,7 @@ void update_item_menu_selection(ItemMenuObject *obj)
     }
     if ((g_game_work.pressed_buttons) & 0x40) {
         SD_Call(AUDIO_ACCEPT);
-        obj->menu->display_controller = place_selected_item_menu_entry(obj);
+        obj->menu->display_controller = open_selected_item_display(obj);
         if (obj->menu->display_controller != 0) {
             return;
         }
@@ -84,7 +84,7 @@ void update_item_menu_selection(ItemMenuObject *obj)
     } else if ((g_game_work.pressed_buttons) & 0x10) {
         SD_Call(AUDIO_MENU_CONFIRM);
         sort_entries_by_category((void *)0x8001029C);
-        update_item_menu_record(obj);
+        refresh_item_menu_page(obj);
         action_inner = obj->menu;
         get_item_name(action_inner->entries[action_inner->position]);
         return;
@@ -145,11 +145,11 @@ void update_item_menu_selection(ItemMenuObject *obj)
         obj->parts[39]->position->color = D_800891F4;
     }
     obj->menu->page = next_band;
-    update_item_menu_record(obj);
+    refresh_item_menu_page(obj);
 }
 
 /* Advance the cursor stream, ease both side indicators toward grey, then handle input. */
-void reset_item_menu_entity_state(ItemMenuObject *entity) {
+void update_item_menu_frame(ItemMenuObject *entity) {
     advance_timed_tagged_stream(&entity->cursor);
     fade_color_to_gray(entity->parts[38], 0);
     fade_color_to_gray(entity->parts[39], 0);
@@ -157,7 +157,7 @@ void reset_item_menu_entity_state(ItemMenuObject *entity) {
 }
 
 /* Ramp the display block open over five steps, then install the steady-state update callback. */
-void advance_item_menu_step(ItemMenuObject *object) {
+void advance_item_menu_open_ramp(ItemMenuObject *object) {
     s32 step;
     s32 nextStep;
 

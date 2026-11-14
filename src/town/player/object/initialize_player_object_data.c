@@ -19,7 +19,7 @@ void initialize_player_object_data(void) {
     bufferHeader = NODE_HEADER(dataBuffer);
     headerValue08 = bufferHeader->position;
     headerValue0C = *(s32 *)&bufferHeader->sprite;
-    clear_entity_record_fields(headerValue08);
+    clear_object_velocity(headerValue08);
     dispatch_selected_entry_if_nonzero(town_scene_record_handlers, dataBuffer, headerValue0C);
     initialize_scene_action_record(dataBuffer, (s32)headerValue08, headerValue0C);
 }

@@ -84,7 +84,7 @@ void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot
         state->facing = direction;
         if (move_result == 3 && (actor->unk_B4.bytes[1] == 0) && !(g_dungeon_status.flags & 0x80) &&
             !(entity->flags & 0x8000)) {
-            copy_display_orientation_state(actor, actor_slot, entity, state);
+            begin_dragon_directional_animation(actor, actor_slot, entity, state);
             actor->unk_8C.word = 0;
             state->flags1C |= ACTOR_REFRESH_GROUND;
         } else {

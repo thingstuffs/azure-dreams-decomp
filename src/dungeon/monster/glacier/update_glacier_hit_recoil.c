@@ -1,0 +1,119 @@
+#include "common.h"
+#include "dungeon/monster/glacier.h"
+#include "shared/sprite_frame_state.h"
+#include "shared/dungeon_status.h"
+#include "shared/dir_step.h"
+#include "shared/entity.h"
+#include "records/Rec_D_80082E80.h"
+#include "dungeon/actor.h"
+#include "dungeon/player/object.h"
+
+extern u8 D_801760D4;
+
+
+/* Updates staged movement toward a target tile and finalizes the action. */
+void update_glacier_hit_recoil(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *target, ActorRecord *actor) {
+    u8 state;
+    s16 timer;
+
+    state = action->action_phase;
+    switch (state) {
+    case 0:
+        apply_clamped_actor_value_delta(actor);
+        action->action_timer = 4;
+        action->action_phase++;
+        if (actor->hp == 0) {
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
+            begin_actor_display_action(action, motion, target, &D_801760D4);
+            return;
+        }
+        if (!(target->flags & 0x8000)) {
+            return;
+        }
+        action->action_timer = 0;
+        action->action_phase = 3;
+        return;
+
+    case 1:
+        timer = action->action_timer - 1;
+        action->action_timer = timer;
+        if (timer > 0) {
+            motion->velocity_x =
+                dir_step_x[(actor->movement_facing >> 9) & 7] << 19;
+            motion->velocity_y =
+                dir_step_y[(actor->movement_facing >> 9) & 7] << 19;
+            return;
+        }
+        if (timer != 0) {
+            return;
+        }
+        motion->velocity_x =
+            dir_step_x[(actor->movement_facing >> 9) & 7] << 18;
+        motion->velocity_y =
+            dir_step_y[(actor->movement_facing >> 9) & 7] << 18;
+        action->action_timer = 12;
+        action->action_phase++;
+        return;
+
+    case 2:
+        if (actor->hp == 0) {
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
+            begin_actor_display_action(action, motion, target, &D_801760D4);
+            return;
+        }
+        {
+            s16 motion_timer = (action->action_timer);
+
+            if (motion_timer != 0) {
+                {
+                    s32 target_x = target->tile_x << 6;
+                    s32 current_x = motion->x.w.i - 0x20;
+
+                    motion->velocity_x =
+                        ((target_x - current_x) << 16) / motion_timer;
+                }
+                {
+                    s32 target_y = target->tile_y << 6;
+                    s32 current_y = motion->y.w.i - 0x20;
+
+                    motion->velocity_y = ((target_y - current_y) << 16)
+                    / action->action_timer;
+                }
+            }
+        }
+        {
+            u16 countdown = action->action_timer;
+
+            action->action_timer = countdown - 1;
+            if ((countdown << 16) > 0) {
+                return;
+            }
+        }
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
+        action->action_phase++;
+        return;
+
+    case 3:
+    {
+        s32 entity_addr;
+
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
+        set_record_integer_tile_center(motion, target->tile_x,
+            target->tile_y);
+        entity_addr = ((s32)g_dungeon_status.pending_display_owner);
+        if (entity_addr == (s32)((u8 *)actor - 0x20)) {
+            g_dungeon_status.pending_display_owner = entity_addr & 0x7FFFFFFF;
+        }
+        action->unk_8C.address = update_glacier_actor_behavior;
+    }
+        return;
+    }
+}

@@ -9,7 +9,7 @@ struct SpriteFrameState;
 
 s16 clamp_transform_coordinate_deltas(s32 x, s32 y, void *origin);
 s16 get_cached_or_coordinate_transform_value(TownObjectRecord *object, void *lookup_mode);
-void initialize_object_and_update(TownObjectRecord *object, void *update_context, void *setup_context);
+void reset_heading_and_update_object(TownObjectRecord *object, void *update_context, void *setup_context);
 void apply_object_setup_update(void *object, void *callback_arg_1, struct SpriteFrameState *callback_arg_2);
 struct EntityRec;
 void advance_object_position(TownObjectRecord *context, struct EntityRec *object, struct SpriteFrameState *finish_arg);
@@ -21,8 +21,8 @@ struct TownObjectRecord;
 void initialize_two_value_adjustment_action(struct TownObjectRecord *actor, s32 unused, void *init_param);
 void initialize_reaction_movement(struct TownObjectRecord *object, void *movement_state, void *initialization_value);
 
-void decrement_countdown_call(struct TownObjectRecord *object, s32 unused, void *callback_context);
-void decrement_reaction_timer_and_reinitialize(struct TownObjectRecord *object, void *context, void *setup);
+void start_adjustment_when_timer_ends(struct TownObjectRecord *object, s32 unused, void *callback_context);
+void restart_reaction_when_timer_ends(struct TownObjectRecord *object, void *context, void *setup);
 
 struct Rec_D_800CFCB4;
 

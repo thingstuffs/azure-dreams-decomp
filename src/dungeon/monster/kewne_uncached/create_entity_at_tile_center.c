@@ -196,7 +196,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                 if ((actor_kind != 0x19) && (actor_kind != 0x1B) && !(entity->flags1C & 0x80000)) {
                     if ((actor_in->unk_B9 == 0) && !(system_update_flags & 1)) {
                         actor_in->unk_B9 = 1U;
-                        enqueue_runtime_pool_script(&D_8006EE9C);
+                        queue_pool_service_script(&D_8006EE9C);
                         entity->pending_turn_updates = 0U;
                         actor_in->action_phase = 0;
                         actor_in->unk_B8 = 2U;
@@ -216,7 +216,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                 event_x_1 = event_1->tile_position.parts.tile_x;
                                 if (((event_x_1 <<= 6) + 0x20) == view_reference_entity.x.w.i) {
                                     if (((event_1->tile_position.parts.tile_y << 6) + 0x20) == view_reference_entity.y.w.i) {
-                                        enqueue_runtime_pool_script(&D_8006F9D0);
+                                        queue_pool_service_script(&D_8006F9D0);
                                         entity->pending_turn_updates = 0U;
                                         actor_in->action_phase = 0;
                                         actor_in->unk_B8 = 1U;
@@ -233,7 +233,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                     || (((S_812A524C_1 *)(&script_motion_phase))->unk_00.s == 0x1B)
                                     || (((S_812A524C_1 *)(&script_motion_phase))->unk_00.s == 0x1F)
                                     || (((S_812A524C_1 *)(&script_motion_phase))->unk_00.s == 0x20))) {
-                                enqueue_runtime_pool_script(&D_8006F9D0);
+                                queue_pool_service_script(&D_8006F9D0);
                                 entity->pending_turn_updates = 0U;
                                 actor_in->action_phase = 0;
                                 actor_in->unk_B8 = 1U;
@@ -249,7 +249,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                     if (((event_x_2 <<= 6) + 0x20) == view_reference_entity.x.w.i) {
                                         if (((event_2->tile_position.parts.tile_y << 6) + 0x20)
                                             == view_reference_entity.y.w.i) {
-                                            enqueue_runtime_pool_script(&D_800FB8DF);
+                                            queue_pool_service_script(&D_800FB8DF);
                                             entity->pending_turn_updates = 0U;
                                             actor_in->action_phase = 0;
                                             actor_in->unk_B8 = 1U;
@@ -259,7 +259,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                     }
                                 }
                                 if (dungeon_actor_ring_anchor->action_id == 0x1C) {
-                                    enqueue_runtime_pool_script(&D_800FB8DF);
+                                    queue_pool_service_script(&D_800FB8DF);
                                     entity->pending_turn_updates = 0U;
                                     actor_in->action_phase = 0;
                                     actor_in->unk_B8 = 1U;
@@ -276,7 +276,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                         (((event_x_3 <<= 6) + 0x20) == position_3->x.w.i))
                                     && (((event_3->tile_position.parts.tile_y << 6) + 0x20)
                                         == position_3->y.w.i)) {
-                                    enqueue_runtime_pool_script(&D_80070684);
+                                    queue_pool_service_script(&D_80070684);
                                     entity->pending_turn_updates = 0U;
                                     actor_in->action_phase = 0;
                                     actor_in->unk_B8 = 1U;
@@ -292,7 +292,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                             (((event_x_4 <<= 6) + 0x20) == position_4->x.w.i))
                                         && (((event_4->tile_position.parts.tile_y << 6) + 0x20)
                                             == position_4->y.w.i)) {
-                                        enqueue_runtime_pool_script(&D_800FBAD7);
+                                        queue_pool_service_script(&D_800FBAD7);
                                         entity->pending_turn_updates = 0U;
                                         actor_in->action_phase = 0;
                                         actor_in->unk_B8 = 1U;
@@ -307,7 +307,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                 if (((event_x_5 <<= 6) + 0x20) == view_reference_entity.x.w.i) {
                                                     if (((event_5->tile_position.parts.tile_y << 6) + 0x20)
                                                         == view_reference_entity.y.w.i) {
-                                                        enqueue_runtime_pool_script(&kewne_spawn_pool_script);
+                                                        queue_pool_service_script(&kewne_spawn_pool_script);
                                                         entity->pending_turn_updates = 0U;
                                                         actor_in->action_phase = 0;
                                                         actor_in->unk_B8 = 1U;
@@ -318,7 +318,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                             }
                                             if ((dungeon_actor_ring_anchor->action_id
                                                  != 0x19) && ((flag_base->pressed_buttons) & 0x20)) {
-                                                enqueue_runtime_pool_script(&kewne_spawn_pool_script);
+                                                queue_pool_service_script(&kewne_spawn_pool_script);
                                                 entity->pending_turn_updates = 0U;
                                                 actor_in->action_phase = 0;
                                                 actor_in->unk_B8 = 1U;
@@ -334,7 +334,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                     if (((event_x_6 <<= 6) + 0x20) == view_reference_entity.x.w.i) {
                                                         if (((event_6->tile_position.parts.tile_y << 6) + 0x20)
                                                             == view_reference_entity.y.w.i) {
-                                                            enqueue_runtime_pool_script(&D_8006F50D);
+                                                            queue_pool_service_script(&D_8006F50D);
                                                             entity->pending_turn_updates = 0U;
                                                             actor_in->action_phase = 0;
                                                             actor_in->unk_B8 = 1U;
@@ -345,7 +345,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                 }
                                                 if ((dungeon_actor_ring_anchor->action_id
                                                      != 0x19) && (flag_base->buttons & 0x10)) {
-                                                    enqueue_runtime_pool_script(&D_8006F50D);
+                                                    queue_pool_service_script(&D_8006F50D);
                                                     entity->pending_turn_updates = 0U;
                                                     actor_in->action_phase = 0;
                                                     actor_in->unk_B8 = 1U;
@@ -363,7 +363,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                     scan_10 = (u8 *)0x80010000;
                                                     do {
                                                         if ((scan_10[scan_index_10 * 4 + 0x249] == scan_kind) && (scan_10[scan_index_10 * 4 + 0x248] == scan_group)) {
-                                                            enqueue_runtime_pool_script(&D_8006F6B9);
+                                                            queue_pool_service_script(&D_8006F6B9);
                                                             entity->pending_turn_updates = 0U;
                                                             actor_in->action_phase = 0;
                                                             actor_in->unk_B8 = 1U;
@@ -383,7 +383,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                         scan_80 = (u8 *)0x80010000;
                                                         do {
                                                             if ((scan_80[scan_index_80 * 4 + 0x249] == scan_kind) && (scan_80[scan_index_80 * 4 + 0x248] == scan_group)) {
-                                                                enqueue_runtime_pool_script(&D_8006FFB7);
+                                                                queue_pool_service_script(&D_8006FFB7);
                                                                 entity->pending_turn_updates = 0U;
                                                                 actor_in->action_phase = 0;
                                                                 actor_in->unk_B8 = 1U;
@@ -403,7 +403,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                             scan_100 = (u8 *)0x80010000;
                                                             do {
                                                                 if ((scan_100[scan_index_100 * 4 + 0x249] == scan_kind) && ((scan_type = scan_100[scan_index_100 * 4 + 0x248]) == scan_group)) {
-                                                                    enqueue_runtime_pool_script(&D_800703D9);
+                                                                    queue_pool_service_script(&D_800703D9);
                                                                     entity->pending_turn_updates = 0U;
                                                                     actor_in->action_phase = 0;
                                                                     actor_in->unk_B8 = scan_type;
@@ -425,7 +425,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                                 == position_7->x.w.i))
                                                                 && (((event_7->tile_position.parts.tile_y << 6)
                                                                 + 0x20) == position_7->y.w.i)) {
-                                                                enqueue_runtime_pool_script(&D_8006FD01);
+                                                                queue_pool_service_script(&D_8006FD01);
                                                                 entity->pending_turn_updates = 0U;
                                                                 actor_in->action_phase = 0;
                                                                 actor_in->unk_B8 = 1U;
@@ -445,7 +445,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                                     && (((event_8->tile_position.parts.tile_y
                                                                     << 6) + 0x20)
                                                                         == position_8->y.w.i)) {
-                                                                    enqueue_runtime_pool_script(&D_80070AF8);
+                                                                    queue_pool_service_script(&D_80070AF8);
                                                                     entity->pending_turn_updates = 0U;
                                                                     actor_in->action_phase = 0;
                                                                     actor_in->unk_B8 = 1U;
@@ -467,7 +467,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                                         + 0x20) == position_9->x.w.i))
                                                                         && (((event_9->tile_position.parts.tile_y << 6)
                                                                         + 0x20) == position_9->y.w.i)) {
-                                                                        enqueue_runtime_pool_script(&D_80070C11);
+                                                                        queue_pool_service_script(&D_80070C11);
                                                                         entity->pending_turn_updates = 0U;
                                                                         actor_in->action_phase = 0;
                                                                         actor_in->unk_B8 = 1U;
@@ -492,7 +492,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                                                     && (((event_10->tile_position.parts.tile_y
                                                                                     << 6) + 0x20)
                                                                                         == view_reference_entity.y.w.i)) {
-                                                                                    enqueue_runtime_pool_script(&D_80070E63);
+                                                                                    queue_pool_service_script(&D_80070E63);
                                                                                     entity->pending_turn_updates =
                                                                                         0U;
                                                                                     actor_in->action_phase =
@@ -518,7 +518,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                                                 && (((event_11->tile_position.parts.tile_y
                                                                                 << 6) + 0x20)
                                                                                     == position_11->y.w.i)) {
-                                                                                enqueue_runtime_pool_script(&D_800FB3C8);
+                                                                                queue_pool_service_script(&D_800FB3C8);
                                                                                 entity->pending_turn_updates = 0U;
                                                                                 actor_in->action_phase = 0;
                                                                                 actor_in->unk_B8 = 1U;
@@ -558,7 +558,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                                                                      == view_reference_entity.x.w.i)
                                                                                                     && (((event_y << 6)
                                                                                                     + 0x20) == view_reference_entity.y.w.i)) {
-                                                                                                    enqueue_runtime_pool_script(&D_800FBD96);
+                                                                                                    queue_pool_service_script(&D_800FBD96);
                                                                                                     entity->pending_turn_updates =
                                                                                                         0U;
                                                                                                     actor_in->action_phase =

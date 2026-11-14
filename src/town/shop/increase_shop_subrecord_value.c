@@ -27,6 +27,6 @@ void increase_shop_subrecord_value(ShopEmbeddedDataObject *record_data) {
     updated_subrecord = record_data->subrecord_data;
     if ((s16) updated_subrecord->unk_06 >= 0x1000) {
         updated_subrecord->unk_06 = 0x1000U;
-        ((S_800B0824_0 *)((u8 *)record_data - 0x10))->unk_00 = &process_shop_embedded_data;
+        ((S_800B0824_0 *)((u8 *)record_data - 0x10))->unk_00 = &fade_shop_change_indicators;
     }
 }

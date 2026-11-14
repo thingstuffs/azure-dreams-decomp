@@ -262,7 +262,7 @@ void resolve_collider_overlaps(ColliderView *collider, ObjectPosition *position)
         }
         shift_z = scratch->z_near;
         if (shift_z > 0 && position->velocity_z >= shift_z && shift_x != 0 && shift_y != 0) {
-            update_second_axis_slot_value(collider, position, scratch);
+            apply_collider_z_response(collider, position, scratch);
             continue;
         }
         {
@@ -281,7 +281,7 @@ void resolve_collider_overlaps(ColliderView *collider, ObjectPosition *position)
                 if (!z_depth) {
                     z_depth = abs_x < abs_z;
                     if (!z_depth) {
-                        update_second_axis_slot_value(collider, position, scratch);
+                        apply_collider_z_response(collider, position, scratch);
                         continue;
                     }
                 }
@@ -291,10 +291,10 @@ void resolve_collider_overlaps(ColliderView *collider, ObjectPosition *position)
             z_depth = scratch->z_near;
             z_depth = abs(z_depth);
             if (y_depth >= z_depth) {
-                update_second_axis_slot_value(collider, position, scratch);
+                apply_collider_z_response(collider, position, scratch);
                 continue;
             }
-            update_first_axis_slot_value(collider, position, scratch);
+            apply_collider_y_response(collider, position, scratch);
         }
     }
 

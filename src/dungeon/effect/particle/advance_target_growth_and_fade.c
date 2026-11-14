@@ -119,7 +119,7 @@ typedef struct S_func_818DA800_11 {
     u16 unk_02;
 } S_func_818DA800_11;
 
-extern s32 get_definition_entry_byte_13(s16 entry_index);
+extern s32 get_spell_range(s16 entry_index);
 
 #define D_80024538 ((u8 *)advance_target_growth_and_fade)
 #define D_80024684 ((u8 *)ramp_progress_value_over_countdown)
@@ -163,7 +163,7 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
         S_func_818DA800_3 *target_actor;
         s16 height;
 
-        height = (s16)get_definition_entry_byte_13(0x22);
+        height = (s16)get_spell_range(0x22);
         target_actor = scan_actor_along_heading(actor,
             actor_data->tile_x,
             actor_data->tile_y,
@@ -322,7 +322,7 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
     if (actor->target != 0 &&
         try_trigger_target_record_effect(actor->target, 1, actor) == 0 &&
         (((S_func_818DA800_3 *)actor->target)->unk_14 & 4) != 0) {
-        try_apply_effect_four_by_chance(
+        try_apply_paralysis_effect(
             actor->target,
             ((S_func_818DA800_10 *)current_spell_effect_variant)->unk_00 == 0xFF ? 0xFF : 0x10,
             2);

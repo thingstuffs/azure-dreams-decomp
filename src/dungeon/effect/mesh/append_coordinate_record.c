@@ -24,7 +24,7 @@ void append_coordinate_record(s32 x, s32 y, s32 value, s32 store_value)
     record_x = x;
     record_y = y;
     if (has_room) {
-        if ((s16)has_runtime_key_pair((u16)record_x, (u16)record_y) == 0) {
+        if ((s16)has_tile_coordinate_pair((u16)record_x, (u16)record_y) == 0) {
             record = &tile_coordinate_records[0][tile_key_pair_count];
             record->x = record_x;
             record->y = record_y;

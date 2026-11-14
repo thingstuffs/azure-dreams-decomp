@@ -736,7 +736,7 @@
     },
     {
       "row": "main/func_80010A00",
-      "tu": "src/frontend/libcard/card_boot_destroy_three_row_panel.c",
+      "tu": "src/frontend/libcard/card_boot_destroy_command_panel.c",
       "home": "main/func_80010A00",
       "foff": "0x260A00",
       "vma": "0x80023A00",
@@ -850,7 +850,7 @@
     },
     {
       "row": "main/func_80241184",
-      "tu": "src/frontend/libcard/card_boot_destroy_three_row_panel.c",
+      "tu": "src/frontend/libcard/card_boot_destroy_command_panel.c",
       "home": "main/func_80010A00",
       "foff": "0x261184",
       "vma": "0x80024184",
@@ -986,7 +986,7 @@
     },
     {
       "row": "main/func_80241EEC",
-      "tu": "src/frontend/libcard/card_boot_destroy_three_row_panel.c",
+      "tu": "src/frontend/libcard/card_boot_destroy_command_panel.c",
       "home": "main/func_80010A00",
       "foff": "0x261EEC",
       "vma": "0x80024EEC",
@@ -1591,7 +1591,7 @@
     },
     {
       "row": "main/func_80244458",
-      "tu": "src/frontend/libcard/card_boot_destroy_three_row_panel.c",
+      "tu": "src/frontend/libcard/card_boot_destroy_command_panel.c",
       "home": "main/func_80010A00",
       "foff": "0x264458",
       "vma": "0x80027458",

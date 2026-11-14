@@ -17,7 +17,7 @@
 void submit_object_resource_data();
 void initialize_actor_movement_interaction_action(s32 **record, void *ptr, void *ptr2);
 struct ObjectPosition; void initialize_input_driven_scene_object(s32 * *, struct ObjectPosition *, s32);
-void initialize_action_callback_from_entry(s32 **record, void *ptr, void *ptr2);
+void init_radial_effects_action(s32 **record, void *ptr, void *ptr2);
 void initialize_busy_checked_countdown_action(TownObjectRecord *record,void *unused,void *setup_value);
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"
@@ -61,7 +61,7 @@ void update_actor_position_and_interaction(TownObjectRecord *actor, ObjectPositi
     position = query_capped_surface_height(body, position_data);
     if ((position - body->z.w.i) >= 4) {
         if (town_action_state_flag == 0) {
-            initialize_action_callback_from_entry(actor, body, context);
+            init_radial_effects_action(actor, body, context);
             return;
         }
     } else if (town_action_state_flag == 0) {
@@ -94,7 +94,7 @@ void update_actor_position_and_interaction(TownObjectRecord *actor, ObjectPositi
         }
 
         interaction_state = &town_actor_control;
-        action_result = select_response_for_source_and_target(interaction_state->unk_10, actor->unk_2C);
+        action_result = select_response_text(interaction_state->unk_10, actor->unk_2C);
         if (action_result != 0) {
             call_script(action_result);
         } else {

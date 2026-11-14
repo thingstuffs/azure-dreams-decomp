@@ -21,27 +21,27 @@ s32 check_all_flags_set(s16 *flag_ids);
 s32 process_flag_test_record(u32 records, s32 condition_arg, u32 context, s32 record_selector);
 
 /* person_idle_dispatch.c */
-void dispatch_object_when_idle(TownObjectRecord *object, void *callback_arg, s32 unused_a, s32 unused_b);
+void advance_object_animation_when_idle(TownObjectRecord *object, void *callback_arg, s32 unused_a, s32 unused_b);
 void clear_object_status_and_dispatch_target(void *object, void *target, int value, s16 flags);
 
 /* person_timers.c */
-void decrement_object_timer_and_update(TownObjectRecord *object, void *callback_arg_1, void *callback_arg_2);
+void run_setup_on_timer_expiry(TownObjectRecord *object, void *callback_arg_1, void *callback_arg_2);
 void func_800C3B7C(TownObjectRecord *object, void *callback_arg_1, void *callback_arg_2);
-void decrement_object_timer_and_call_handler(TownObjectRecord *object);
+void install_handler_on_timer_expiry(TownObjectRecord *object);
 void func_800C3BB8(TownObjectRecord *object);
 
-/* randomize_four_entries_and_reset_state.c */
-s32 randomize_four_entries_and_reset_state(void);
+/* randomize_keima_payout_factors.c */
+s32 randomize_keima_payout_factors(void);
 
-/* select_sound_command_from_mode.c */
-void select_sound_command_from_mode(void);
+/* play_overlay_height_sound.c */
+void play_overlay_height_sound(void);
 
 /* shop_entry_flags.c */
 void toggle_selected_entry_flag(Rec_func_800AD7F8_arg0 *state);
-s32 sum_flagged_entry_values(u8 *entry, s32 mode);
+s32 sum_flagged_entry_prices(u8 *entry, s32 mode);
 
 /* shop_value_dispatch.c */
-void process_lshop_value(void *value);
-void process_lshop_value_plus_four(u8 *base_value);
+void buy_flagged_entries(void *value);
+void sell_flagged_entries(u8 *base_value);
 
 #endif

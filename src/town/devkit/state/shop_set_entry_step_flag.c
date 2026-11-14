@@ -9,6 +9,6 @@ void set_entry_bit_flag(s32 row_index, s32 entry_index) {
 
     offset = (entry_index * 8) + (row_index << 5);
     if (*(s32 *) &D_80701E2C[offset] & 1) {
-        set_linked_flag(0x1F9);
+        set_indexed_flag(0x1F9);
     }
 }

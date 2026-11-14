@@ -28,7 +28,7 @@ typedef struct S_8017427C_4 {
 } S_8017427C_4;   /* D_800E3D7C + index * 4 in update_actor_fade_in_transition */
 
 extern void resolve_familiar_deployment_request(void *, void *, void *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern s32 find_entity_slot_by_field_ac(void *);
+extern s32 find_linked_object_slot_index(void *);
 
 extern u8 manoeva_action_resume_address[];
 
@@ -112,7 +112,7 @@ void update_actor_fade_in_transition(ActorRecord *actor_state, ObjectPosition *c
         }
         if ((actor_data->flags14 & ACTOR_PARTY_MEMBER) &&
             (actor_data->flags1C & 0x10000)) {
-            entry_index = (s16)find_entity_slot_by_field_ac(actor_data);
+            entry_index = (s16)find_linked_object_slot_index(actor_data);
             if (entry_index < 0) {
                 break;
             }

@@ -125,8 +125,8 @@
       "cast between incompatible function types from 'int (*)()' to 'void (*)(void *, void *, s32)' {aka 'void (*)(void *, void *, int)'}"
     ],
     [
-      "src/town/scene/find_entry_index_assert.c",
-      "find_entry_8_index_or_assert",
+      "src/town/scene/find_eight_byte_entry_or_assert.c",
+      "find_eight_byte_entry_or_assert",
       "-Wcast-function-type",
       "cast between incompatible function types from 'int (*)()' to 'void (*)(s32 *, s32 *, s32)' {aka 'void (*)(int *, int *, int)'}"
     ],
@@ -284,8 +284,8 @@
       1
     ],
     [
-      "src/town/scene/find_entry_index_assert.c",
-      "find_entry_8_index_or_assert",
+      "src/town/scene/find_eight_byte_entry_or_assert.c",
+      "find_eight_byte_entry_or_assert",
       "-Wcast-function-type",
       "cast between incompatible function types from 'int (*)()' to 'void (*)(s32 *, s32 *, s32)' {aka 'void (*)(int *, int *, int)'}",
       1

@@ -264,14 +264,14 @@ void *create_brightening_fading_effect(S_8195ED3C_2 *source, s32 offset)
     return handle;
 }
 
-   /* arg0 in settle_height_with_jitter_then_drift */
+   /* arg0 in update_shaking_tile_mesh */
 
-   /* arg1 in settle_height_with_jitter_then_drift */
+   /* arg1 in update_shaking_tile_mesh */
 
 extern s32 rand();
 
 /* Interpolates height with jitter until the phase ends, then advances position by velocity. */
-void settle_height_with_jitter_then_drift(S_8195EE48_0 *state, S_8195EE48_1 *motion)
+void update_shaking_tile_mesh(S_8195EE48_0 *state, S_8195EE48_1 *motion)
 {
     s32 phase_or_height;
     s16 ticks_left;
@@ -314,14 +314,14 @@ void settle_height_with_jitter_then_drift(S_8195EE48_0 *state, S_8195EE48_1 *mot
 #define NULL 0
 #endif
 
-   /* work in allocate_map_cell_object */
+   /* work in create_settling_tile_object */
 
-   /* render in allocate_map_cell_object */
+   /* render in create_settling_tile_object */
 
-   /* coord in allocate_map_cell_object */
+   /* coord in create_settling_tile_object */
 
 /* Allocate and initialize an object using the map cell at the supplied position. */
-void *allocate_map_cell_object(s16 world_x, s16 world_y, s16 world_z, s16 coord_60)
+void *create_settling_tile_object(s16 world_x, s16 world_y, s16 world_z, s16 coord_60)
 {
     ObjectNodeHeader *obj;
     SpriteFrameState *work;
@@ -348,7 +348,7 @@ void *allocate_map_cell_object(s16 world_x, s16 world_y, s16 world_z, s16 coord_
             return NULL;
         }
         coord = NODE_BODY(obj);
-        obj->update_callback = settle_height_with_jitter_then_drift;
+        obj->update_callback = update_shaking_tile_mesh;
         register_node(obj, draw_linked_lit_meshes);
         render = obj->position;
         render->x.w.i = world_x;
@@ -725,7 +725,7 @@ void project_height_grid_object_quad(void *unused, void *origin_arg, SpriteFrame
 }
 
 /* Sets tile bounds and dispatches tiles for a seven-by-seven grid. */
-s32 dispatch_seven_by_seven_tile_grid(void *tile_data, ObjectPosition *draw_arg_1, SpriteFrameState *draw_arg_2) {
+s32 draw_seven_by_seven_tile_grid(void *tile_data, ObjectPosition *draw_arg_1, SpriteFrameState *draw_arg_2) {
     s32 column;
     s32 row;
     s32 tile_y;
@@ -802,7 +802,7 @@ void create_animated_tile_grid(s16 x, s16 y, s16 z) {
         callback = animate_tile_heights_and_transition;
 
         object->update_callback = callback;
-        register_node(init_object, dispatch_seven_by_seven_tile_grid);
+        register_node(init_object, draw_seven_by_seven_tile_grid);
         position = object->position;
         position->x.w.i = x;
         position->y.w.i = y;
@@ -1220,7 +1220,7 @@ void *select_containing_cell_surface(s32 world_x, s32 world_y, s16 min_height) {
                     scratch->unk_160.at00u.v = scratch->unk_160.at00p.v - cell_x;
                     scratch->unk_160.at02.v = scratch->unk_160.at02u.v - cell_y;
 
-                    if (are_quad_corner_turns_within_half_revolution(scratch) != 0) {
+                    if (is_point_in_quad(scratch) != 0) {
                         plane = (S_81960530_6 *)((unsigned long)((S_81960530_4 *)polygon)->unk_10 * 8 + (unsigned long)planes);
                         plane_vertex = (S_81960530_7 *)((unsigned long)((S_81960530_4 *)polygon)->unk_00 * 8
                             + (unsigned long)vertices);

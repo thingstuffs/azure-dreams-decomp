@@ -4,7 +4,7 @@
 #include "town/person.h"
 
 /* Fill eight records with the selected values from the two global arrays. */
-void fill_person_records(void) {
+void fill_position_history(void) {
     s32 record_index;
     ObjectPosition *primary_values;
     u16 *secondary_values;
@@ -21,7 +21,7 @@ void fill_person_records(void) {
 }
 
 /* Shifts the eight-record history and stores the current values in the first record. */
-void shift_history_and_store_current_values(void)
+void push_position_history(void)
 {
     s32 destination_offset;
     s32 record_index;
@@ -68,7 +68,7 @@ void load_position_history_entry(void *destination, s32 entry_index) {
 }
 
 /* Copy the indexed table entry's 16-bit value into the record. */
-void copy_person_table_value(Rec_func_800AB014_arg0 *record, s32 entry_index) {
+void copy_history_entry_heading(Rec_func_800AB014_arg0 *record, s32 entry_index) {
     s8 *table_base;
     s8 *entry;
 

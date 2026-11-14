@@ -113,7 +113,7 @@
     },
     {
       "row": "town/func_803DE440",
-      "tu": "src/town/scene/find_entry_index_assert.c",
+      "tu": "src/town/scene/find_eight_byte_entry_or_assert.c",
       "home": "town/func_8032ECE4",
       "foff": "0x3FE440",
       "vma": "0x80016440",

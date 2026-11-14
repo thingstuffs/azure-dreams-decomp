@@ -13,7 +13,7 @@ extern s32 D_80019AF8;
 
 /* Initializes data pointers and computes the selected eight-byte entry address. */
 void init_entry_pointers(void) {
-    query_event_626();
+    clear_script_flag_sbs14_pad02();
     scene_current_cell_pointer = &D_80019814;
     D_80019AF8 = ((s32)town_scene_root->event_data)
     + (town_scene_root->entry_index * 8);

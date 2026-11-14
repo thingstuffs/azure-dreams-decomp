@@ -9,7 +9,7 @@
 #include "sdk/rand.h"
 #include "dungeon/effect/sprite/landing_entries.h"
 void *allocate_list_node(s32, void *);
-s32 get_definition_entry_byte_13(s16);
+s32 get_spell_range(s16);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 void register_node(void *, void *);
 void advance_sprite_animation_and_textures(void *);

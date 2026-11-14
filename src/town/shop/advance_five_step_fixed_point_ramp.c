@@ -12,6 +12,6 @@ void advance_five_step_fixed_point_ramp(void *sub_object) {
     next_step = object->ramp_step + 1;
     object->ramp_step = next_step;
     if (next_step >= 6) {
-        NODE_HEADER(sub_object)->update_callback = &reset_record_resources;
+        NODE_HEADER(sub_object)->update_callback = &fade_menu_side_indicators;
     }
 }

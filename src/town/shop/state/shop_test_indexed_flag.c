@@ -3,7 +3,7 @@
 #include "town/data.h"
 
 /* Tests an indexed flag, treating indices zero and one as constant results. */
-s32 test_linked_flag(s32 flag_index)
+s32 test_indexed_flag(s32 flag_index)
 {
     s32 unit_bit;
     s32 value;

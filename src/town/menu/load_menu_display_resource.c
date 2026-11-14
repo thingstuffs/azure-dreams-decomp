@@ -10,14 +10,14 @@ typedef struct MenuResourceOwner {
     s32 buffer;
 } MenuResourceOwner;
 
-extern s32 realloc_field_0_buffer(s32 *, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern s32 rebuild_pointer_pool(s32 *, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern DisplayPositionWords display_vector_defaults;
 
 /* Allocate the menu's twelve-entry buffer and link its display vector. */
 s32 load_menu_display_resource(MenuResourceOwner *owner, s32 resource)
 {
     s32 success = 0;
-    s32 handle = realloc_field_0_buffer(&owner->buffer, resource, 12);
+    s32 handle = rebuild_pointer_pool(&owner->buffer, resource, 12);
 
     owner->handle = handle;
     if (handle != 0) {

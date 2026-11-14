@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-/* create_type stores the settings owner in the node body; the installed
+/* create_settings_sprite_object stores the settings owner in the node body; the installed
  * remove_record_with_marked_owner callback follows that same link. */
 typedef struct SettingsOwnerLinkedBody {
     void *owner;

@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-/* Body allocated by allocate_initialized_effect_object and advanced by
+/* Body allocated by create_warp_phase_effect and advanced by
  * advance_effect_phases. The source node address is stored at body offset 8. */
 typedef struct WarpPhaseEffectBody {
     u8 pad_00[0x8];

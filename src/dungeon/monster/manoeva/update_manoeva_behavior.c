@@ -1,0 +1,235 @@
+#include "engine/graphics/select_sprite_entry_api.h"
+#include "shared/object_node.h"
+#include "common.h"
+#include "shared/sprite_frame_state.h"
+#include "shared/dungeon_floor.h"
+#include "shared/tile_object.h"
+#include "shared/entity.h"
+#include "shared/record_ptrs.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
+#include "dungeon/monster/manoeva.h"
+#include "dungeon/item.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/motion.h"
+#include "dungeon/actor/state.h"
+#include "dungeon.h"
+#include "dungeon/level.h"
+#include "dungeon/player/object.h"
+#include "dungeon/monster/manoeva_frames.h"
+
+#include "dungeon/monster/dragon/transition_effect.h"
+#include "dungeon/monster/grineut/path_motion.h"
+#include "dungeon/item/find_active_rect_containing_point_api.h"
+
+extern void func_801737B8(void *, void *, void *, void *);
+void initialize_object_and_clear_state(ActorRecord *action, ObjectPosition *unused, SpriteFrameState *animation, ActorRecord *entity);
+
+extern u8 manoeva_action_resume_address[];
+extern u8 manoeva_frame_set_1[];
+extern u8 D_801765E0[];
+extern u8 D_80176650[];
+extern u8 D_80176660[];
+
+/* Update dungeon actor behavior, facing, and directional animation. */
+void update_manoeva_behavior(ActorRecord *actor_state_in, ObjectPosition *update_context_in, SpriteFrameState *map_object, ActorRecord *actor_data) {
+    u32 dungeon_flags = g_dungeon_status.flags;
+    s16 distance;
+    s32 status_flags;
+    s8 tile_index;
+    s16 facing_angle;
+    u16 action_flags;
+    u8 *animation_table;
+    ActorRecord *target_actor;
+
+    if (dungeon_flags & 0x1000) {
+        actor_state_in->action_id = 14;
+        advance_grineut_stored_path(actor_state_in, update_context_in, map_object, actor_data);
+        return;
+    }
+
+    if (actor_data->mp_value.parts.whole == 0) {
+        advance_actor_pending_action(actor_state_in, update_context_in, map_object, actor_data);
+        if (*(u8 **)&map_object->frameTable == D_80176650) {
+            return;
+        }
+        (map_object->frameTable) = manoeva_frame_set_3;
+        select_sprite_entry(
+            map_object,
+            manoeva_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
+            0);
+        return;
+    }
+
+    if (((u32)actor_data->flags1C) & 0x200) {
+        if (*(u8 **)&map_object->frameTable == D_80176650) {
+            actor_state_in->action_id = 13;
+            actor_state_in->action_phase = 1;
+            actor_state_in->unk_8C.word = 0;
+            actor_data->flags1C &= ~0x40000;
+            return;
+        }
+        if (reset_actor_action_state(actor_state_in, update_context_in, map_object, manoeva_frame_set_3) != 0) {
+            return;
+        }
+    }
+
+    if ((g_dungeon_status.flags & 0x2000) == 0) {
+        if (((u32)actor_data->flags1C) & 0x100) {
+            begin_pushed_actor_move(actor_state_in, update_context_in, map_object, actor_data);
+            return;
+        }
+
+        {
+            u8 default_state = 14;
+            if (actor_state_in->action_id != default_state) {
+                if (*(u8 **)&map_object->frameTable != manoeva_frame_set_1) {
+                    (map_object->frameTable) = manoeva_frame_set_1;
+                    select_sprite_entry(
+                        map_object,
+                        manoeva_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
+                        0);
+                }
+                actor_state_in->action_id = default_state;
+            }
+        }
+
+        actor_state_in->action_state_flags &= 0xFFF3;
+
+        if (actor_data->hp_delta != 0) {
+            if (begin_ready_actor_directional_action(actor_state_in, update_context_in, map_object, D_801765E0) != 0) {
+                return;
+            }
+        }
+
+        if (((u32)actor_data->flags1C) & 0x80000) {
+            begin_actor_move_to_target_facing(actor_state_in, update_context_in, map_object, actor_data);
+            func_801737B8(actor_state_in, update_context_in, map_object, actor_data);
+            return;
+        }
+
+        if ((s16)can_entity_gain_level(actor_data) != 0) {
+            process_selected_actor_record(actor_state_in, update_context_in, map_object, actor_data);
+        }
+    }
+
+    tile_index = find_active_rect_containing_point(map_object->tile_x,
+        map_object->tile_y);
+    map_object->room_index = tile_index;
+
+    if (actor_data->pending_turn_updates > 0) {
+        if (((u32)actor_data->flags1C) & 0x20) {
+            update_actor_status_and_mp(actor_data);
+            return;
+        }
+        if (*(u16 *)&map_object->tile_x == reference_tile_object.tile_position.word) {
+            advance_actor_turn_path(actor_state_in, update_context_in, map_object, actor_data);
+            return;
+        }
+        action_flags = actor_data->action_flags;
+        if ((action_flags & 0x8000) == 0) {
+            if (g_dungeon_status.flags & 0x2000) {
+                {
+                    ObjectNodeHeader *previous_node;
+                    void *previous_body;
+                    ActorRecord *previous_actor;
+
+                    previous_node = primary_actor_record->previous_actor_header;
+                    previous_body = NODE_BODY(previous_node);
+                    previous_actor = previous_body;
+                    if ((s16)check_entity_relation(
+                            actor_data, previous_actor) != 0) {
+                        return;
+                    }
+                }
+            }
+            if ((s16)dispatch_actor_action_state(actor_state_in, update_context_in, map_object, 0) == 0) {
+                return;
+            }
+            action_flags = actor_data->action_flags | 0x4000;
+            actor_data->action_flags = action_flags;
+            if ((action_flags & 0x8000) == 0) {
+                advance_actor_turn_path(actor_state_in, update_context_in, map_object, actor_data);
+                return;
+            }
+        }
+
+        switch (actor_data->action_flags & 0x3FFF) {
+        case 8:
+            if ((s16)try_dragon_attack(actor_state_in, update_context_in, map_object, actor_data) != 0) {
+                return;
+            }
+            begin_dragon_attack(actor_state_in, update_context_in, map_object, actor_data);
+            return;
+
+        case 9:
+            if (!(((u32)actor_data->flags14) & 0x20000000)) {
+                initialize_object_and_clear_state(actor_state_in, update_context_in, map_object, actor_data);
+                return;
+            }
+            begin_dragon_attack(actor_state_in, update_context_in, map_object, actor_data);
+            return;
+
+        case 5:
+        case 6:
+        case 7:
+            facing_angle = get_rounded_facing_and_rounding_flag(
+                map_object->tile_x, map_object->tile_y,
+                reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
+            target_actor = primary_actor_record;
+            actor_data->facing = facing_angle;
+            if (target_actor->action_id == 0x11) {
+                begin_actor_spell_action(actor_state_in, update_context_in, map_object, D_80176660, manoeva_action_resume_address);
+                return;
+            }
+
+        case 12:
+            update_actor_status_and_mp(actor_data);
+            return;
+
+        case 1:
+        case 2:
+        case 3:
+            begin_actor_spell_action(actor_state_in, update_context_in, map_object, D_80176660, manoeva_action_resume_address);
+            return;
+
+        case 11:
+        default:
+            advance_actor_turn_path(actor_state_in, update_context_in, map_object, actor_data);
+            return;
+        }
+    }
+
+    status_flags = ((u32)actor_data->flags1C);
+    if (!(status_flags & 0x2000)) {
+        if ((tile_index < 0) ||
+            !(dungeon_rooms[tile_index].flags & 2)) {
+            if (!(status_flags & 0x430)) {
+                if ((s16)test_neighbor_position_relation(
+                        map_object->tile_x, map_object->tile_y,
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
+                    actor_data->facing = get_rounded_facing_and_rounding_flag(
+                        map_object->tile_x, map_object->tile_y,
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
+                }
+            }
+        }
+    }
+
+    if (g_dungeon_status.flags & 0x2000) {
+        return;
+    }
+    if (map_object->flags & 0x40) {
+        return;
+    }
+    animation_table = manoeva_frame_set_1;
+    if (*(u8 **)&map_object->frameTable == animation_table) {
+        return;
+    }
+    (map_object->frameTable) = animation_table;
+    select_sprite_entry(
+        map_object,
+        *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing + 0x100) >> 9) & 7)
+                + (u32)animation_table),
+        0);
+}

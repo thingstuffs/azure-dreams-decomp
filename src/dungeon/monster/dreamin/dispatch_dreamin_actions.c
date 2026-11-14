@@ -1,0 +1,232 @@
+#include "engine/graphics/select_sprite_entry_api.h"
+#include "shared/object_node.h"
+#include "shared/actor_status_flags.h"
+#include "shared/sprite_frame_state.h"
+#include "common.h"
+#include "dungeon/monster/hikewne.h"
+#include "shared/actor_action_flags.h"
+#include "shared/dungeon_floor.h"
+#include "shared/tile_object.h"
+#include "shared/record_ptrs.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
+#include "records/Rec_func_800A9E70_arg0.h"
+#include "shared/entity.h"
+#include "dungeon.h"
+#include "dungeon/player/object.h"
+
+#include "dungeon/item/find_active_rect_containing_point_api.h"
+#include "dungeon/actor/state.h"
+
+extern void advance_grineut_stored_path(void *, void *, void *, void *);
+extern void choose_block_move_slot_a(void *, void *, void *, void *);
+
+void begin_dreamin_attack(ActorRecord *action_state, ObjectPosition *update_arg, SpriteFrameState *sprite, ActorRecord *actor);
+extern void func_80173478(void *, void *, void *, void *);
+
+extern u8 dreamin_action_continuation_address[];
+#include "dungeon/monster/dreamin.h"
+#include "dungeon/item.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/motion.h"
+#include "dungeon/level.h"
+#include "dungeon/monster/dreamin_frames.h"
+
+extern u8 D_8017389C[];
+
+typedef struct S_80170E68_4 {
+    u8 pad_00[0xC];
+    u16 unk_0C;
+} S_80170E68_4;   /* entry in dispatch_dreamin_actions */
+
+/* Dispatch actor behavior and update its facing animation from dungeon state. */
+void dispatch_dreamin_actions(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state) {
+    u16 *dungeon_status;
+    s32 initial_flags;
+    s32 flags;
+    s32 result;
+    s32 action_kind;
+    s32 entry_index;
+    u8 *entry_base;
+    u8 *entry;
+    ActorRecord *player;
+    s16 distance;
+    u16 status_flags;
+
+    dungeon_status = (u16 *)&g_dungeon_status.turn_scale;
+    if (dungeon_status[1] & 0x1000) {
+        actor->action_id = 14;
+        advance_grineut_stored_path(actor, context, sprite, state);
+        return;
+    }
+
+    if (state->mp_value.parts.whole == 0) {
+        advance_actor_pending_action(actor, context, sprite, state);
+    } else {
+        initial_flags = ((u32)state->flags1C);
+        state->flags1C = initial_flags & -0x201;
+
+        status_flags = dungeon_status[1];
+
+        if ((status_flags & 0x2000) == 0) {
+            if (initial_flags & 0x100) {
+                begin_pushed_actor_move(actor, context, sprite, state);
+                return;
+            }
+
+            if (actor->action_id != 14) {
+                if (*(u8 **)&sprite->frameTable != dreamin_direction_frames) {
+                    sprite->frameTable = dreamin_direction_frames;
+                    select_sprite_entry(
+                        sprite,
+                        dreamin_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7],
+                        0);
+                }
+                actor->action_id = 14;
+            }
+
+            actor->action_state_flags &= 0xFFF3;
+
+            if (state->hp_delta != 0) {
+                if (begin_ready_actor_directional_action(actor, context, sprite, dreamin_frame_set_1) != 0) {
+                    return;
+                }
+            }
+
+            if (((u32)state->flags1C) & ACTOR_LIFTED) {
+                begin_actor_move_to_target_facing(actor, context, sprite, state);
+                func_80173478(actor, context, sprite, state);
+                return;
+            }
+
+            if ((s16)can_entity_gain_level(state) != 0) {
+                process_selected_actor_record(actor, context, sprite, state);
+            }
+        }
+
+        result = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
+        sprite->room_index = result;
+
+        if (state->pending_turn_updates > 0) {
+            if (((u32)state->flags1C) & ACTOR_PARALYZED) {
+                update_actor_status_and_mp(state);
+                return;
+            }
+
+            if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
+                choose_block_move_slot_a(actor, context, sprite, state);
+                return;
+            }
+
+            if ((state->action_flags & ACTOR_ACTION_PENDING) == 0) {
+                if (g_dungeon_status.flags & 0x2000) {
+                    {
+                        ObjectNodeHeader *previous_node;
+                        void *previous_body;
+                        ActorRecord *previous_actor;
+
+                        previous_node = primary_actor_record->previous_actor_header;
+                        previous_body = NODE_BODY(previous_node);
+                        previous_actor = previous_body;
+                        if ((s16)check_entity_relation(state, previous_actor) != 0) {
+                            return;
+                        }
+                    }
+                }
+
+                if ((s16)relink_hikewne_path(actor, context, sprite, 0) == 0) {
+                    return;
+                }
+                state->action_flags |= 0x4000;
+                if ((state->action_flags & ACTOR_ACTION_PENDING) == 0) {
+                    choose_block_move_slot_a(actor, context, sprite, state);
+                    return;
+                }
+            }
+
+            action_kind = state->action_flags & ACTOR_ACTION_CODE_MASK;
+            switch (action_kind) {
+            case 9:
+                actor->action_state_flags |= 0x8000;
+                                        /* fallthrough */
+            case 8:
+                if ((((u32)state->flags1C) & ACTOR_PLAYER_SIDE) &&
+                    ((state->action_flags & ACTOR_ACTION_CODE_MASK) == 8)) {
+                    actor->action_state_flags &= 0x7FFF;
+                }
+                if ((s16)try_dreamin_attack(actor, context, sprite, state) != 0) {
+                    return;
+                }
+                begin_dreamin_attack(actor, context, sprite, state);
+                return;
+
+            case 5:
+            case 6:
+            case 7:
+                result = get_rounded_facing_and_rounding_flag(
+                    sprite->tile_x, sprite->tile_y,
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
+                player = primary_actor_record;
+                state->facing = result;
+                if (player->action_id == 0x11) {
+                    begin_actor_spell_action(actor, context, sprite, D_8017389C, dreamin_action_continuation_address);
+                    return;
+                }
+                                        /* fallthrough */
+            case 12:
+                update_actor_status_and_mp(state);
+                return;
+
+            case 1:
+            case 2:
+            case 3:
+                begin_actor_spell_action(actor, context, sprite, D_8017389C, dreamin_action_continuation_address);
+                return;
+
+            case 4:
+            case 10:
+            case 11:
+            default:
+                choose_block_move_slot_a(actor, context, sprite, state);
+                return;
+            }
+        }
+
+        flags = ((u32)state->flags1C);
+        if ((flags & 0x2000) == 0) {
+            entry_index = (s8)result;
+            if (entry_index >= 0) {
+                entry_base = (u8 *)dungeon_rooms;
+                entry = entry_base + entry_index * 20;
+            }
+            if (entry_index < 0 ||
+                !(((S_80170E68_4 *)entry)->unk_0C & 2)) {
+                if ((flags & 0x430) == 0) {
+                    if ((s16)test_neighbor_position_relation(
+                            sprite->tile_x, sprite->tile_y,
+                            reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
+                        result = get_rounded_facing_and_rounding_flag(
+                            sprite->tile_x, sprite->tile_y,
+                            reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
+                        state->facing = result;
+                    }
+                }
+            }
+        }
+
+        if (g_dungeon_status.flags & 0x2000) {
+            return;
+        }
+        if (sprite->flags & 0x40) {
+            return;
+        }
+    }
+    if (*(u8 **)&sprite->frameTable != dreamin_direction_frames) {
+        sprite->frameTable = dreamin_direction_frames;
+        select_sprite_entry(
+            sprite,
+            dreamin_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7],
+            0);
+    }
+}
+

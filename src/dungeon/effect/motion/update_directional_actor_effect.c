@@ -106,7 +106,7 @@ void update_directional_actor_effect(TimedModelTintSpellBody *effect, void *colo
         }
         model_owner = ((S_8195281C_1 *)((int *)(&primary_actor_record)))->unk_00.p;
         effect->unk_18 = 0x20;
-        allocate_and_initialize_effect_object(NODE_HEADER(effect), effect->unk_14.s, effect->spell.variant,
+        create_spiral_spawner(NODE_HEADER(effect), effect->unk_14.s, effect->spell.variant,
             model_owner->target);
         effect->spell.phase++;
         break;
@@ -329,7 +329,7 @@ typedef struct OriginHeight {
  * The third ABI argument is unused in retail. The final argument mirrors
  * the direction and is retained in the spawned state.
  */
-void spawn_spiraling(void *anchor, s16 angle, s16 unused, void *target, s32 mirrored)
+void spawn_spiral_effect(void *anchor, s16 angle, s16 unused, void *target, s32 mirrored)
 {
     SpawnNode *node;
     SpiralState *state;
@@ -381,16 +381,16 @@ void spawn_spiraling(void *anchor, s16 angle, s16 unused, void *target, s32 mirr
 }
 
 /* Processes both modes and sets completion flags on countdown expiry or an override. */
-void process_effect_modes_and_completion(void *state)
+void update_spiral_spawner(void *state)
 {
     SpiralingEffectObjectBody *effect_state = state;
     u8 * object_addr;
     u16 countdown;
     u16 *counter_base = D_800249A6;
     object_addr = (u8 *)state - 0x20;
-    spawn_spiraling(object_addr, effect_state->unk_26, effect_state->unk_30,
+    spawn_spiral_effect(object_addr, effect_state->unk_26, effect_state->unk_30,
         primary_actor_record->target, (counter_base[0]++, 0));
-    spawn_spiraling(object_addr, effect_state->unk_26, effect_state->unk_30,
+    spawn_spiral_effect(object_addr, effect_state->unk_26, effect_state->unk_30,
         primary_actor_record->target, 1);
     countdown = effect_state->unk_2C - 1;
     effect_state->unk_2C = countdown;
@@ -403,13 +403,13 @@ void process_effect_modes_and_completion(void *state)
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Allocate an object and initialize its handler and state fields. */
-void allocate_and_initialize_effect_object(ObjectNodeHeader *alloc_arg, s16 value_26, s16 value_30, ActorRecord *value_0c) {
+void create_spiral_spawner(ObjectNodeHeader *alloc_arg, s16 value_26, s16 value_30, ActorRecord *value_0c) {
     ObjectNodeHeader *object;
     SpiralingEffectObjectBody *state;
 
     object = allocate_list_node(0x200, &alloc_arg->next);
     if (object != 0) {
-        object->update_callback = process_effect_modes_and_completion;
+        object->update_callback = update_spiral_spawner;
         state = NODE_BODY(object);
         state->unk_26 = value_26;
         state->unk_0C = value_0c;

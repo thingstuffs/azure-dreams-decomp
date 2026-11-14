@@ -12,7 +12,7 @@ void *alloc_pointer_pool(void **pool, s32 record_count)
     void *next_record;
     s32 record_index;
 
-    pool = (*pool = create_callback_pair_default(0x104));
+    pool = (*pool = allocate_node_body(0x104));
     if (pool != 0) {
         next_record = &pool[record_count];
         for (record_index = 0; record_index < record_count; record_index++) {
@@ -23,7 +23,7 @@ void *alloc_pointer_pool(void **pool, s32 record_count)
             *(void **)((char *)pool[record_index] + 4) = next_record;
             next_record = ((char *)next_record + 0x10);
         }
-        apply_block_16_template_to_nodes(pool, record_count);
+        apply_display_block_defaults(pool, record_count);
     }
     return pool;
 }

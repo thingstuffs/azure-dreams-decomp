@@ -14,7 +14,7 @@ void finish_successful_actor_action(ActorRecord *action_entity, ObjectPosition *
         spend_actor_mp(actor, 5);
         advance_status_timers(actor);
         if ((check_actor_floor_trap(source, actor) << 16) > 0) {
-            entity->unk_8C.address = update_dungeon_actor_actions;
+            entity->unk_8C.address = update_golem_actor_behavior;
             entity->unk_90.value = 0;
         }
     }

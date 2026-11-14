@@ -28,7 +28,7 @@ void decrement_entity_timer_updating_motion(TownObjectRecord *entity, ObjectPosi
     if ((s16) ticks_left < 0) {
         initialize_object_entries((entity), transition_context, D_800D6268);
         entity->timer = 3U;
-        entity->unk_50.as_pm = &finish_countdown_and_set_flags;
+        entity->unk_50.as_pm = &slide_until_countdown_expires;
         entity->heading = 0xC00;
         return;
     }

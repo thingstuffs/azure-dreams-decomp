@@ -74,16 +74,16 @@ extern ObjectNodeHeader *ghosh_boss_node;
 extern u8 ghosh_direction_frames[];
 extern u8 ghosh_ready_action_frames[];
 
-void create_boss_child_effect(void *parent_data, MovingPosition *source_pos, void *sprite_template);
-void create_boss_directional_effect(void *source, s16 angle, s32 initial_value, s32 unused, s16 spread_mode);
-void release_secondary_overlay_object(void);
+void create_directional_child_effect(void *parent_data, MovingPosition *source_pos, void *sprite_template);
+void create_ghosh_spread_particle(void *source, s16 angle, s32 initial_value, s32 unused, s16 spread_mode);
+void release_scripted_ghosh_actor(void);
 
 
 void update_boss_actor_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 
 
 
-void update_actor_animation_movement_and_terrain(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *sprite);
+void update_ghosh_actor(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *sprite);
 void update_boss_actor_movement(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *sprite);
 
 typedef union GhoshFadeColor {
@@ -103,9 +103,9 @@ typedef struct GhoshTrailFade {
 void advance_ghosh_trail_fade(GhoshTrailFade *fade, ObjectPosition *position);
 
 /* Callback entry points. */
-void advance_three_state_bytes(u16 *words);
-void animate_timed_fade_effect(void *effect);
-void apply_boss_direction_table_state(void *record_data);
+void brighten_scene_tint(u16 *words);
+void fade_scene_for_message(void *effect);
+void select_boss_direction_frame(void *record_data);
 struct S_8016E528_2;
 void update_object_motion_and_landing(ConditionalSourceEffectBody *motion, struct S_8016E528_2 *position, SpriteFrameState *object);
 
@@ -118,17 +118,17 @@ void install_boss_action_handler(ActorRecord *object, ObjectPosition *unused_1, 
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, SpriteFrameState *sprite, void *actor_in);
-void allocate_type_12_object(void);
+void create_scene_brighten_effect(void);
 void spawn_rising_trail_emitter(void);
 void update_rising_trail_emitter(void *record_data, ObjectPosition *state);
 
 void advance_actor_path(ActorRecord *motion, ObjectPosition *context, SpriteFrameState *position, ActorRecord *actor);
-void clear_actor_flag_and_advance_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *effect_context, ActorRecord *actor);
+void begin_ghosh_directional_attack(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *effect_context, ActorRecord *actor);
 void update_boss_timed_animation(struct ActorRecord *actor, ObjectPosition *transform, SpriteFrameState *animation, struct ActorRecord *motion);
 
-void allocate_and_initialize_object(void);
+void create_fade_message_effect(void);
 void *allocate_boss_actor(s16 mode, s16 config_24, s16 config_25, s16 config_0a);
-void create_boss_offset_effect(void);
+void create_sprite_above_boss(void);
 void create_linked_facing_sprite(u16 x, u16 y, s32 z);
 struct GhoshTrailEmitterBody;
 void update_cascading_trail_emitter(struct GhoshTrailEmitterBody *record_data);
@@ -141,11 +141,11 @@ s32 dispatch_actor_action_phase(ActorRecord *actor, ObjectPosition *position, Sp
 
 void update_main_actor_action_and_facing(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *map_actor, ActorRecord *entity);
 
-void advance_object_script_when_ready(void *object, ObjectPosition *unused_position, SpriteFrameState *unused_sprite, ActorRecord *actor);
+void resume_ghosh_action_when_idle(void *object, ObjectPosition *unused_position, SpriteFrameState *unused_sprite, ActorRecord *actor);
 
-void create_boss_linked_effect(void *owner, MovingPosition *source_pos, void *unused);
+void create_tracked_fade_sprite(void *owner, MovingPosition *source_pos, void *unused);
 
-void create_offset_animation_sprite(void *unused, ObjectPosition *origin, void *unused_sprite);
+void create_fixed_offset_effect_sprite(void *unused, ObjectPosition *origin, void *unused_sprite);
 
 void update_boss_actor_direction_state(ActorRecord *actor_data, void *output_data, SpriteFrameState *context_data);
 #endif

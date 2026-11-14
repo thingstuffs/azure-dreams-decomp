@@ -27,16 +27,16 @@ typedef struct DirectionalRenderObjectBody {
 
 void advance_cyclone_frame_effect(u16 *anim_state, u32 *motion, u16 *sprite);
 
-void advance_backward_forward_motion(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *animation, ActorRecord *actor);
+void advance_cyclone_lunge_attack(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *animation, ActorRecord *actor);
 
 void attempt_actor_directional_action(ActorRecord *action_state, ObjectPosition *action_ctx, SpriteFrameState *sprite, ActorRecord *actor);
 
 void fade_reshape_and_remove_entity(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity);
 
 void advance_target_interaction(ActorRecord *action, ObjectPosition *scene, SpriteFrameState *sprite, ActorRecord *actor);
-void update_actor_action_and_flags(ActorRecord *actor, ObjectPosition *action_ctx, SpriteFrameState *anim, ActorRecord *entity);
+void wait_cyclone_mp_and_animate(ActorRecord *actor, ObjectPosition *action_ctx, SpriteFrameState *anim, ActorRecord *entity);
 
-void update_actor_animation(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *sprite_arg, ActorRecord *stats_arg);
+void dispatch_cyclone_actions(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *sprite_arg, ActorRecord *stats_arg);
 
 /* Callback entry points. */
 void advance_eight_tick_animation(u16 *anim, u32 *motion, u16 *sprite);
@@ -55,7 +55,7 @@ s32 search_ahead_and_start_action(ActorRecord *action_state, ObjectPosition *act
 void update_action_state_direction_specific(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *sprite, ActorRecord *actor);
 
 struct Actor;
-void update_actor_direction_and_ground(struct Actor *input_actor, ObjectPosition *input_motion, SpriteFrameState *input_entity);
+void update_cyclone_actor(struct Actor *input_actor, ObjectPosition *input_motion, SpriteFrameState *input_entity);
 
 void show_entity_message_with_prefix(s32 dispatch_mode, ActorRecord *input);
 

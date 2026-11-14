@@ -35,7 +35,7 @@
         },
         {
           "alias": "person_countdown_update_address",
-          "target": "decrement_object_timer_and_update"
+          "target": "run_setup_on_timer_expiry"
         },
         {
           "alias": "person_table_handler_address",

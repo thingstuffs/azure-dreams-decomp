@@ -22,7 +22,7 @@
     },
     {
       "row": "town/func_808B7DD4",
-      "tu": "src/town/scene/flags/dispatch_entry_test_flag.c",
+      "tu": "src/town/scene/flags/update_entry_value_flag_from_test_flag.c",
       "home": "town/func_808B7DD4",
       "foff": "0x837DD4",
       "vma": "0x800035D4",
