@@ -25,7 +25,7 @@
     {
       "row": "town/func_806D7B34",
       "home": "town/func_806D7B34",
-      "tu": "src/town/scene/check_inputs_only_prerequisite_least_third.c",
+      "tu": "src/town/scene/select_response_with_three_overrides.c",
       "foff": "0x00657B34",
       "vma": "0x80016334",
       "size": 232
@@ -48,7 +48,7 @@
     {
       "row": "town/func_806D7C70",
       "home": "town/func_806D7B34",
-      "tu": "src/town/scene/check_inputs_only_prerequisite_least_third.c",
+      "tu": "src/town/scene/select_response_with_three_overrides.c",
       "foff": "0x00657C70",
       "vma": "0x80016470",
       "size": 232,
@@ -84,7 +84,7 @@
     {
       "row": "town/func_806D7EA0",
       "home": "town/func_8032C1F0",
-      "tu": "src/town/scene/event/process_request_checking_threshold.c",
+      "tu": "src/town/scene/event/apply_values_marking_at_count_threshold.c",
       "foff": "0x00657EA0",
       "vma": "0x800166A0",
       "size": 84,
@@ -99,7 +99,7 @@
     {
       "row": "town/func_806D7EF4",
       "home": "town/func_806D7B34",
-      "tu": "src/town/scene/check_inputs_only_prerequisite_least_third.c",
+      "tu": "src/town/scene/select_response_with_three_overrides.c",
       "foff": "0x00657EF4",
       "vma": "0x800166F4",
       "size": 232,

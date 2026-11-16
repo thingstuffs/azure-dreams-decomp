@@ -494,7 +494,7 @@ void * create_tile_centered_item_effect(s32 tile_x, s32 tile_y, s32 height, s32 
 extern u8 item_effect_descriptor[];
 
 /* Resolve the item's description: kind 0x12 uses the fixed table, everything else is looked up. */
-s32 get_item_category_value(void *item_data)
+s32 get_item_sprite_source(void *item_data)
 {
     u8 *item = item_data;
     s32 result;
@@ -555,7 +555,7 @@ s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *obj
                 record->b1 = (u8)tile_y;
                 record->w4 = (u16)tile_value;
                 record->w2 = (u16)tile_value;
-                record->value = get_item_category_value(object_data);
+                record->value = get_item_sprite_source(object_data);
                 cycle_map_cell_flags(tile_x, tile_y, TILE_HAS_ITEM);
                 select_position_data_and_update_owner(((u8 *)(&reference_tile_object)), (dungeon_actor_ring_anchor));
             }
@@ -566,7 +566,7 @@ s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *obj
     create_timed_effect_at_tile(x_short, y_short, z_short, object_data);
     output_cursor = get_unused_text_buffer();
     output_start = output_cursor;
-    output_cursor = append_typed_formatted_value(object_data, output_cursor);
+    output_cursor = append_item_name_with_value(object_data, output_cursor);
     output_cursor = expand_text_control_codes(&D_800E0B54, output_cursor);
     clear_byte_and_advance(output_cursor);
     display_text_with_fullwidth_adjustment(output_start);
@@ -887,7 +887,7 @@ void *create_item_render_object(void *parent, void *sprite_source, s16 x, s32 y,
         sprite->color.c.r = 0x80;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
-        sprite->source = get_item_category_value(sprite_source);
+        sprite->source = get_item_sprite_source(sprite_source);
         create_tracked_effect(object, 0, 0, 0);
     }
     return object;
@@ -1339,7 +1339,7 @@ extern u8 D_800A871C[];
 extern void create_tracked_effect(void *, s32, s32, s32);
 
 /* Creates a dungeon object at a tile or the supplied coordinates. */
-void *create_indexed_floor_object(s32 object_key, DungeonCoords *source_coords, s32 unused,
+void *create_dropped_item_object(s32 object_key, DungeonCoords *source_coords, s32 unused,
                     DungeonData *source_data, s32 *init_data, s16 tile_id) {
     ObjectNodeHeader *object;
     DroppedObjectMotionBody *data;
@@ -1376,14 +1376,14 @@ void *create_indexed_floor_object(s32 object_key, DungeonCoords *source_coords, 
         state->scale_y = 0x1000;
         state->scale_x = 0x1000;
         state->depth_bias = 2;
-        state->source = get_item_category_value(init_data);
+        state->source = get_item_sprite_source(init_data);
         data->unk_8C.word = *(s32 *)((u8 *)source_data - 0x18);
         data->unk_90.word = *(s32 *)((u8 *)source_data - 0x14);
         init_value = *init_data;
         data->unk_9C = &data->unk_98;
         data->unk_13 = 0xFF;
         data->unk_98 = init_value;
-        clear_entry_flag_and_link_owner(object);
+        insert_node_before_primary_actor(object);
         create_tracked_effect(object, 0, 0, 0);
     }
     return object;
@@ -1458,7 +1458,7 @@ typedef struct {
 } RamPage;
 
 /* Packs item flag 0x400 into a RAM bitset for each item category. */
-void pack_item_flag_400_bitmap(u16 unused_saved_setting)
+void snapshot_item_flag_bitmap(u16 unused_saved_setting)
 {
     DungeonGroup *item_category;
     DungeonGroup *cell_group;

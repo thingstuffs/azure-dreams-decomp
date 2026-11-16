@@ -97,7 +97,7 @@
     },
     {
       "row": "town/func_803DB0B4",
-      "tu": "src/town/scene/start_interaction_code_b.c",
+      "tu": "src/town/scene/pick_enabled_entry_choice.c",
       "home": "town/func_804768B4",
       "foff": "0x3FB0B4",
       "vma": "0x800178B4",
@@ -148,7 +148,7 @@
     },
     {
       "row": "town/func_803DB524",
-      "tu": "src/town/scene/select_scene_choice_mode_b.c",
+      "tu": "src/town/scene/select_choice_data_by_kind.c",
       "home": "town/func_80476D24",
       "foff": "0x3FB524",
       "vma": "0x80017D24",
@@ -199,7 +199,7 @@
     },
     {
       "row": "town/func_803DB6F0",
-      "tu": "src/town/scene/update_indexed_entry_unless_current.c",
+      "tu": "src/town/scene/store_choice_entry_unless_state_three.c",
       "home": "town/func_80476EF0",
       "foff": "0x3FB6F0",
       "vma": "0x80017EF0",

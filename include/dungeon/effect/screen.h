@@ -60,7 +60,7 @@ typedef struct ScreenTransitionEffectBody {
     u16 unk_102;
 } ScreenTransitionEffectBody;
 
-void add_random_quarter_value(ActorRecord *body, ActorRecord *target);
+void pass_quarter_damage_to_target(ActorRecord *body, ActorRecord *target);
 void create_wrapped_texture_scroll(s16 value);
 void draw_sprite_or_fill_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, void *content_id);
 s32 get_masked_record_flags(EntityRec *record, s32 mask, s32 mode);
@@ -78,7 +78,7 @@ void spawn_blinking_sprite_flash(s16 x, s16 y, s16 z);
 
 struct SpriteQuadScratch;
 struct S_Rect;
-void create_type_212_object(s32 flag, s8 value);
+void create_fullscreen_fade(s32 flag, s8 value);
 void queue_visible_rectangle_copy(struct S_Rect *copy_rect, struct SpriteQuadScratch *source);
 void retire_tracked_effect_by_id(s32 targetId);
 

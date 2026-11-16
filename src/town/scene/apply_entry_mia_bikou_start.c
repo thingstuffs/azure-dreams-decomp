@@ -6,7 +6,7 @@
 
 extern u8 D_8001C33C[];
 extern u8 D_8001E36C[];
-extern s32 advance_floor_event_counter(SquareSceneEntry *, s32);
+extern s32 advance_mia_bikou_counter(SquareSceneEntry *, s32);
 extern void *select_record_by_mode(SquareSceneEntry *, s32, s32);
 
 s32 apply_entry_mia_bikou_start(SquareSceneEntry *entry, s32 entry_index) {
@@ -19,7 +19,7 @@ s32 apply_entry_mia_bikou_start(SquareSceneEntry *entry, s32 entry_index) {
 /* Complete choice array, including its terminal fallback record. */
 TownSceneChoice square_gate_choices[4] = {
     { apply_entry_mia_bikou_start, get_shared_entry_buffer, D_8001C33C, 3463, 0 },
-    { advance_floor_event_counter, get_shared_entry_buffer, D_8001C33C, 3464, 0 },
+    { advance_mia_bikou_counter, get_shared_entry_buffer, D_8001C33C, 3464, 0 },
     { return_zero_fn, select_record_by_mode, D_8001E36C, 3465, 0 },
     { return_zero_fn, get_shared_entry_buffer, D_8001C33C, 0, 0 },
 };

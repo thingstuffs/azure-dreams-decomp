@@ -110,8 +110,8 @@ void noop_hook_j(void);
 void func_800161DC(void);
 void point_shared_buffer_at_data(void);
 
-/* set_state_table_pointer.c */
-void set_state_table_pointer(void);
+/* install_object_set_table.c */
+void install_object_set_table(void);
 
 /* process_goods_and_charge_price.c */
 void process_goods_and_charge_price(void);

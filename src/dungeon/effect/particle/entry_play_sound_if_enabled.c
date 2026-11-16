@@ -63,7 +63,7 @@ typedef struct {
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern LocalPoints attached_particle_points;
 #include "dungeon/effect/sprite/directional_entries.h"
-extern s16 D_80025338[5];
+extern s16 D_80025338;
 extern void func_800246DC(void *effect, void *position);
 
 /* Updates an effect through attachment, spawning, tracking, and cleanup. */
@@ -98,7 +98,7 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
         sprite->scale_x = 0x1000;
         select_record_entry_and_value(sprite, directional_sprite_entries, 0);
         angle = ((S_818154FC_3 *)parent)->unk_2A;
-        D_80025338[0] = 1;
+        D_80025338 = 1;
         effect->unk_7E = (angle >> 9) & 7;
         effect->spell.phase++;
 
@@ -303,7 +303,7 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
 
             effect->unk_84 = new_counter;
             if (effect->unk_86 < new_counter) {
-                s32 global_state = D_80025338[0];
+                s32 global_state = D_80025338;
 
                 effect->unk_84 = old_counter;
                 if (global_state == 0) {
@@ -311,7 +311,7 @@ void emit_attached_directional_particle_chain(AttachedParticleChainSpellBody *ef
                     NODE_HEADER(effect)->flags |= 0x8000;
                     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 } else {
-                    D_80025338[0] = 0;
+                    D_80025338 = 0;
                 }
             }
         }

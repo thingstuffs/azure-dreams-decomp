@@ -4,7 +4,7 @@
 #include "engine/town.h"
 
 /* Writes value as fullwidth decimal digits and returns a pointer to the null terminator. */
-u8 *format_unsigned_double_byte_decimal(u32 value, u8 *out)
+u8 *format_fullwidth_decimal(u32 value, u8 *out)
 {
     u8 digits[16];
     u8 *digit = digits;

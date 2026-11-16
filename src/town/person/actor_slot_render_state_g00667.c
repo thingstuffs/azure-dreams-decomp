@@ -16,7 +16,7 @@ void initialize_scene_slot_55(TownObjectRecord *object, ObjectPosition *unused, 
 }
 
 /* Registers the object in scene slot 49 using the four local setup tables. */
-void initialize_scene_slot_49(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
+void init_gambler_person(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
 {
     register_object_slot_with_tables(object, 49, D_800D5E04, D_800D5E08, D_800D5DD4, D_800D5DDC);
 }

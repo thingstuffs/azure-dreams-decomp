@@ -26,7 +26,7 @@ s32 check_selected_entry_8(S_80017EB8_0 *position) {
 }
 
 /* Builds a terminated record list with an optional entry and flags checked records. */
-u8 *record_check_returned(void *unused)
+u8 *build_town_event_records(void *unused)
 {
     s32 record_count;
     s32 record_id;
@@ -107,7 +107,7 @@ u8 *record_check_returned(void *unused)
 /* Prepares D_8001B218, passes it to the active object's callback, and saves the result. */
 S_80018174_0 *register_check_event_records(void) {
     clear_bytes((s8 *)town_event_records, 0x100);
-    record_check_returned(town_event_records);
+    build_town_event_records(town_event_records);
     return scene_registered_event_handle = (S_80018174_0 *)town_scene_root->services->callback_068(0, 0, 1, town_event_records);
 }
 

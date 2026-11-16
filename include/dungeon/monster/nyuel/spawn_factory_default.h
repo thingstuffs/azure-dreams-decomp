@@ -4,6 +4,6 @@
 /* Contracts owned by src/dungeon/monster/nyuel/spawn_nyuel.c. */
 #include "common.h"
 
-void *spawn_mode_configured_monster(s32 spawn_flags, s8 tile_x, s16 tile_y, s16 spawn_height);
+void *spawn_nyuel(s32 spawn_flags, s8 tile_x, s16 tile_y, s16 spawn_height);
 
 #endif

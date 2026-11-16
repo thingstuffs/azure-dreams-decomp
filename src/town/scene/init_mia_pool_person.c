@@ -1,0 +1,14 @@
+#include "common.h"
+#include "town/person.h"
+#include "town/scene.h"
+
+extern u8 D_800D78C8[];
+extern u8 D_800D78D0[];
+extern u8 D_800D78F8[];
+extern u8 D_800D78FC[];
+
+/* Registers the object in scene slot 10 using the four local setup tables. */
+void init_mia_pool_person(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
+{
+    register_object_slot_with_tables(object, 10, D_800D78F8, D_800D78FC, D_800D78C8, D_800D78D0);
+}

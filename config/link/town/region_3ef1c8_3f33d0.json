@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "town/func_8046F3D0",
-      "tu": "src/town/scene/select_table_result_with_override.c",
+      "tu": "src/town/scene/select_response_with_count_override.c",
       "home": "town/func_8046F3D0",
       "foff": "0x3EF3D0",
       "vma": "0x800163d0",
@@ -17,7 +17,7 @@
     },
     {
       "row": "town/func_8046F4A0",
-      "tu": "src/town/scene/select_table_result_with_override.c",
+      "tu": "src/town/scene/select_response_with_count_override.c",
       "home": "town/func_8046F3D0",
       "foff": "0x3EF4A0",
       "vma": "0x800164a0",
@@ -37,7 +37,7 @@
     },
     {
       "row": "town/func_8046F570",
-      "tu": "src/town/scene/select_table_result_with_override.c",
+      "tu": "src/town/scene/select_response_with_count_override.c",
       "home": "town/func_8046F3D0",
       "foff": "0x3EF570",
       "vma": "0x80016570",
@@ -57,7 +57,7 @@
     },
     {
       "row": "town/func_8046F820",
-      "tu": "src/town/scene/select_table_result_with_override.c",
+      "tu": "src/town/scene/select_response_with_count_override.c",
       "home": "town/func_8046F3D0",
       "foff": "0x3EF820",
       "vma": "0x80016820",
@@ -77,7 +77,7 @@
     },
     {
       "row": "town/func_8046F8D0",
-      "tu": "src/town/scene/select_table_result_with_override.c",
+      "tu": "src/town/scene/select_response_with_count_override.c",
       "home": "town/func_8046F3D0",
       "foff": "0x3EF8D0",
       "vma": "0x800168d0",
@@ -141,7 +141,7 @@
     },
     {
       "row": "town/func_80470358",
-      "tu": "src/town/scene/select_table_result_with_override.c",
+      "tu": "src/town/scene/select_response_with_count_override.c",
       "home": "town/func_8046F3D0",
       "foff": "0x3F0358",
       "vma": "0x80017358",
@@ -161,7 +161,7 @@
     },
     {
       "row": "town/func_804705B4",
-      "tu": "src/town/scene/select_table_result_with_override.c",
+      "tu": "src/town/scene/select_response_with_count_override.c",
       "home": "town/func_8046F3D0",
       "foff": "0x3F05B4",
       "vma": "0x800175b4",
@@ -196,7 +196,7 @@
     },
     {
       "row": "town/func_80470758",
-      "tu": "src/town/scene/select_table_result_with_override.c",
+      "tu": "src/town/scene/select_response_with_count_override.c",
       "home": "town/func_8046F3D0",
       "foff": "0x3F0758",
       "vma": "0x80017758",
@@ -237,7 +237,7 @@
     },
     {
       "row": "town/func_80470A70",
-      "tu": "src/town/scene/select_table_result_with_override.c",
+      "tu": "src/town/scene/select_response_with_count_override.c",
       "home": "town/func_8046F3D0",
       "foff": "0x3F0A70",
       "vma": "0x80017a70",
@@ -257,7 +257,7 @@
     },
     {
       "row": "town/func_80470B40",
-      "tu": "src/town/scene/select_table_result_with_override.c",
+      "tu": "src/town/scene/select_response_with_count_override.c",
       "home": "town/func_8046F3D0",
       "foff": "0x3F0B40",
       "vma": "0x80017b40",

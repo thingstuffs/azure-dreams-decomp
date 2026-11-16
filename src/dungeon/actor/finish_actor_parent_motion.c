@@ -1,0 +1,14 @@
+#include "common.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/motion.h"
+
+/*
+ * Resumes actor action handling after the parent transform update succeeds and the floor-trap
+ * check returns positive.
+ */
+void finish_actor_parent_motion(ActorRecord *owner, ObjectPosition *position, void *tile, ActorRecord *actor) {
+    void *state = owner;
+    if (update_actor_transform_from_parent(state, position, tile, actor) && (s16) check_actor_floor_trap(tile, actor) > 0) {
+        owner->unk_8C.address = update_actor_facing_animation;
+    }
+}

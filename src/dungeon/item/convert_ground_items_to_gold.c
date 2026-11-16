@@ -60,7 +60,7 @@ s32 convert_ground_items_to_gold(ActorRecord *target, s32 action, s16 action_typ
         first_arg = action;
         second_arg_2 = result;
         saved_context = second_arg_2;
-        result = append_typed_formatted_value(first_arg, second_arg_2);
+        result = append_item_name_with_value(first_arg, second_arg_2);
         result = expand_text_control_codes(D_800E187C, result);
         result = append_entity_display_text(target, result);
         result = expand_text_control_codes(D_800893DC, result);
@@ -79,7 +79,7 @@ s32 convert_ground_items_to_gold(ActorRecord *target, s32 action, s16 action_typ
         }
         table_base = (u8 *)0x80080000;
     } else {
-        create_type_212_object(1, 8);
+        create_fullscreen_fade(1, 8);
         play_sound_if_enabled(0x80F);
         slot_index = 0;
         slot_data = dungeon_ground_item_positions;

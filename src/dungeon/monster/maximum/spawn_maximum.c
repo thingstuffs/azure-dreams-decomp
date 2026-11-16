@@ -16,7 +16,7 @@
 /* dragon.h owns the two callback declarations but its untyped helper
  * prototypes would drop the pointer results; declare what this file uses. */
 extern void update_entity_facing_motion_and_ground(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *part);
-void dispatch_monster_move_attack_spell(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
+void dispatch_dragon_actions(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 
 /* Allocate Maximum, set its spawn state and frames, and try a valid tile. */
 void *spawn_maximum(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
@@ -76,7 +76,7 @@ void *spawn_maximum(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
         initialize_actor_sprite_and_animation(obj, position, sprite, spawn_flags);
         actor->action_id = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C.address = dispatch_monster_move_attack_spell;
+        actor->unk_8C.address = dispatch_dragon_actions;
         try_move_actor_to_valid_position(actor, position, sprite, work);
     }
     return work;

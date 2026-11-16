@@ -31122,7 +31122,7 @@
         "raw_sha256": "86fb9356166e9ee9856c7d77fd26103cfcf7e7d73623c886a0943b3f148ba8eb"
       },
       "source_kind": "new-complete-callback",
-      "name": "initialize_scene_slot_10",
+      "name": "init_mia_pool_person",
       "callee_contract": "town/func_800C58F0",
       "body_contract": {
         "arguments": [
@@ -31286,7 +31286,7 @@
         "raw_sha256": "88a3e41f1aca0210ed3d25c4db93c1a19560085f2beb5f1ca289ad364fd8d213"
       },
       "source_kind": "new-complete-callback",
-      "name": "initialize_scene_slot_12",
+      "name": "init_dodo_pool_person",
       "callee_contract": "town/func_800C58F0",
       "body_contract": {
         "arguments": [
@@ -31614,7 +31614,7 @@
         "raw_sha256": "329b297237f941009a2a283d14476673a97bacb3f89c73f5fc42c3a105baf507"
       },
       "source_kind": "new-complete-callback",
-      "name": "initialize_scene_slot_8",
+      "name": "init_paty_pool_person",
       "callee_contract": "town/func_800C58F0",
       "body_contract": {
         "arguments": [
@@ -31778,7 +31778,7 @@
         "raw_sha256": "3146efdf4babfe6ceff4d6d90eeed4cb8511087afd74eb4d7cfa6050df281fa4"
       },
       "source_kind": "new-complete-callback",
-      "name": "initialize_scene_slot_9",
+      "name": "init_far_pool_person",
       "callee_contract": "town/func_800C58F0",
       "body_contract": {
         "arguments": [
@@ -32106,7 +32106,7 @@
         "raw_sha256": "1ca7411a1e2f7ad219b5ecdb583787fd60958568cd48a0b7c294fc17365c3350"
       },
       "source_kind": "new-complete-callback",
-      "name": "initialize_scene_slot_7",
+      "name": "init_ghosh_sibling_pool_person",
       "callee_contract": "town/func_800C58F0",
       "body_contract": {
         "arguments": [
@@ -32270,7 +32270,7 @@
         "raw_sha256": "0be46fabf96bba30747e4f67095579f236123ae38e242ad260f96cbbd3e2b6c7"
       },
       "source_kind": "new-complete-callback",
-      "name": "initialize_scene_slot_6",
+      "name": "init_ghosh_pool_person",
       "callee_contract": "town/func_800C58F0",
       "body_contract": {
         "arguments": [
@@ -32500,7 +32500,7 @@
         "raw_sha256": "79d45fd2977a11ee33121333cf6f18aa986c590f5963f165bc6fd8a334d43ffa"
       },
       "source_kind": "new-complete-callback",
-      "name": "initialize_scene_slot_37",
+      "name": "init_cellist_person",
       "callee_contract": "town/func_800C58F0",
       "body_contract": {
         "arguments": [
@@ -33190,7 +33190,7 @@
         "raw_sha256": "e5fdc20b000f8863c450545198f0ac5a74e3d5496f2a382779c30d295673a449"
       },
       "source_kind": "new-complete-callback",
-      "name": "initialize_scene_slot_49",
+      "name": "init_gambler_person",
       "callee_contract": "town/func_800C58F0",
       "body_contract": {
         "arguments": [
@@ -35030,7 +35030,7 @@
         "raw_sha256": "9b69e24ffa720a11682b156af548312a9b958af6ac6ea28f8dea754da020e8ca"
       },
       "source_kind": "new-complete-callback",
-      "name": "initialize_scene_slot_4",
+      "name": "init_mother_person",
       "callee_contract": "town/func_800C58F0",
       "body_contract": {
         "arguments": [
@@ -38644,7 +38644,7 @@
         "raw_sha256": "5e58551a767249a469141e124619ca6ce894d0b58cbe060b6760ec6a1ad6c9e4"
       },
       "source_kind": "new-complete-callback",
-      "name": "initialize_scene_slot_15",
+      "name": "init_fon_person",
       "callee_contract": "town/func_800C58F0",
       "body_contract": {
         "arguments": [

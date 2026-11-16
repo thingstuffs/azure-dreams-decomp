@@ -10,7 +10,7 @@ void update_actor_status_and_mp(ActorRecord *entity);
 
 struct SpriteFrameState;
 struct ActorRecord;
-void create_default_state_object(s16 new_state);
+void create_circular_segment_object(s16 new_state);
 void set_actor_action_state_eight(void *record_data, void *unused_position, void *unused_context);
 
 struct ObjectPosition;

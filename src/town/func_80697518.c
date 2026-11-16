@@ -2,10 +2,10 @@
 #include "town/scene/data_access.h"
 #include "town.h"
 
-extern u8 D_80018A0C;
+extern u8 D_80018A0C[16];
 extern u8 *D_80018BF0;
 
 /* Initialize D_80018BF0 to point to D_80018A0C. */
 void initialize_scene_entry_data_c(void) {
-    D_80018BF0 = &D_80018A0C;
+    D_80018BF0 = D_80018A0C;
 }

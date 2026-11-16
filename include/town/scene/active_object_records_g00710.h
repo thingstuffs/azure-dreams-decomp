@@ -47,7 +47,7 @@ extern S_80018174_0 *scene_registered_event_handle;
 
 /* Functions defined in this translation unit. */
 s32 check_selected_entry_8(S_80017EB8_0 *position);
-u8 *record_check_returned(void *unused);
+u8 *build_town_event_records(void *unused);
 S_80018174_0 *register_check_event_records(void);
 S_80018174_0 *register_coordinate_event_records(void);
 s32 cache_event_handle_value_and_get_id(void);

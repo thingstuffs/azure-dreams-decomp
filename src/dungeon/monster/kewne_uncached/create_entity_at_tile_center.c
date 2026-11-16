@@ -206,7 +206,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                         if (facing_actor->action_id == 0xE) {
                             facing_actor->facing = (((u16 *)&facing_map)[start_direction & 7] << 9);
                         }
-                        ((S_812A524C_5 *)(&scripted_status_target))->unk_00 = find_linked_entity_of_type_21(entity);
+                        ((S_812A524C_5 *)(&scripted_status_target))->unk_00 = find_pulunpa_in_ring(entity);
                     }
                     if (actor_in->unk_B8 == 0) {
                         if (!(actor_in->unk_B0.value & 0x20)) {
@@ -532,7 +532,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                                                                                     if (((S_812A524C_5 *)(&scripted_status_target))->unk_00
                                                                                         == NULL) {
                                                                                         nearby_object =
-                                                                                            find_linked_entity_of_type_21(entity);
+                                                                                            find_pulunpa_in_ring(entity);
                                                                                         ((S_812A524C_5 *)(&scripted_status_target))->unk_00 =
                                                                                             nearby_object;
                                                                                     }

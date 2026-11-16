@@ -176,7 +176,7 @@
     },
     {
       "row": "dungeon/func_80CEA86C",
-      "tu": "src/dungeon/monster/troll/create_tinted_sprite_effect_supplied_position.c",
+      "tu": "src/dungeon/monster/troll/troll_jump_arc_to_tile_and_end_turn.c",
       "home": "dungeon/func_80CEA86C",
       "foff": "0xD0A86C",
       "vma": "0x8017406C",

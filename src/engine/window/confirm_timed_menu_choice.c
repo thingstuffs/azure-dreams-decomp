@@ -23,7 +23,7 @@ typedef struct S_8003661C_0 {
 void confirm_timed_menu_choice(S_8003661C_0 *object) {
     ((S_8003661C_2 *)(((Rec_func_80036210_arg0 *)object)->unk_74.as_pv))->unk_27 = (u8) object->unk_4D;
     object->unk_64 = 0x11;
-    object->unk_68 = &runtime_decrement_countdown_and_reset;
+    object->unk_68 = &wait_menu_confirm_countdown;
     object->unk_4D = (u8) (object->unk_4D | 0x80);
     SD_Call(AUDIO_MENU_CONFIRM);
 }

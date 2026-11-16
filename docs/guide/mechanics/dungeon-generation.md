@@ -4,7 +4,7 @@
 
 ## Seed, fixed layouts and generated layouts
 
-Verified by reading `setup_run_and_load_track`, `setup_dungeon_floor_encounters`
+Verified by reading `build_dungeon_floor`, `setup_dungeon_floor_encounters`
 and `load_dungeon_layout` in
 [`generate.c`](../../../src/dungeon/level/generate.c).
 Setup chooses a saved/revised seed or combines two `rand()` results with a

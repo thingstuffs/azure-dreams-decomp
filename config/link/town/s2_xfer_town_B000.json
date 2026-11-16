@@ -1940,7 +1940,7 @@
     },
     {
       "row": "town/func_800C97C0",
-      "tu": "src/town/scene/initialize_scene_slot_x.c",
+      "tu": "src/town/scene/init_ghosh_pool_person.c",
       "home": "town/func_800D1ED8",
       "foff": "0x497C0",
       "vma": "0x800c6f20",
@@ -2221,7 +2221,7 @@
     },
     {
       "row": "town/func_800CF304",
-      "tu": "src/town/scene/initialize_scene_slot_s.c",
+      "tu": "src/town/scene/init_dodo_pool_person.c",
       "home": "town/func_800D1D28",
       "foff": "0x4F304",
       "vma": "0x800cca64",

@@ -161,7 +161,7 @@
     },
     {
       "row": "dungeon/func_80B1AE20",
-      "tu": "src/dungeon/monster/ashra/advance_actor_attack_and_resolve_damage.c",
+      "tu": "src/dungeon/monster/ashra/advance_ashra_attack.c",
       "home": "dungeon/func_80B1AE20",
       "foff": "0xB3AE20",
       "vma": "0x80172620",

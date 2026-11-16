@@ -27,7 +27,7 @@ u32 try_toggle_brainwash_status(ActorRecord *attacker, ActorRecord *target) {
     s32 base_chance;
 
     status = -1;
-    if (is_linked_entity_flagged_100000(target) != 0) {
+    if (has_brainwash_protection(target) != 0) {
         if (target->flags14 & ACTOR_PARTY_MEMBER) {
             adjust_source_value_and_finalize(target, &D_800E196F);
         }

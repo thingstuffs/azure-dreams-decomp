@@ -93,7 +93,7 @@ void *create_actor_graphics_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16
         state->unk_88 = sample_terrain_surface_height(((u16)(position->x.w.i)), ((u16)(position->y.w.i)), position->z.w.i);
         graphics->color.word = 0x808080;
         graphics->flags = (u16) (graphics->flags | 0x8000);
-        clear_entry_flag_and_link_owner(object);
+        insert_node_before_primary_actor(object);
         call_x = graphics->tile_x;
         call_y = graphics->tile_y;
         tile_flags = 0x3000;

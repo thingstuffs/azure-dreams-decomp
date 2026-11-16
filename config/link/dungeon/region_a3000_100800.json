@@ -98,7 +98,7 @@
     },
     {
       "row": "dungeon/func_800CCD04",
-      "tu": "src/dungeon/actor/handle_actor_action_result.c",
+      "tu": "src/dungeon/actor/fade_counted_actor_to_removal.c",
       "home": "dungeon/func_800CCD04",
       "foff": "0xECD04",
       "vma": "0x800d2464",
@@ -132,7 +132,7 @@
     },
     {
       "row": "dungeon/func_800CD510",
-      "tu": "src/dungeon/actor/handle_actor_action_result.c",
+      "tu": "src/dungeon/actor/fade_counted_actor_to_removal.c",
       "home": "dungeon/func_800CCD04",
       "foff": "0xED510",
       "vma": "0x800d2c70",
@@ -256,7 +256,7 @@
     },
     {
       "row": "dungeon/func_800D4F64",
-      "tu": "src/dungeon/actor/install_actor_action_handler_after_floor_trap_check.c",
+      "tu": "src/dungeon/actor/finish_actor_parent_motion.c",
       "home": "dungeon/func_800D4F00",
       "foff": "0xF4F64",
       "vma": "0x800da6c4",

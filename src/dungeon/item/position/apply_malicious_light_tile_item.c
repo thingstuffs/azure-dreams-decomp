@@ -50,7 +50,7 @@ s32 apply_malicious_light_tile_item(void *actor, DungeonItemEntry *item, s16 act
         saved_handle = message_handle;
 
         if (action == 0xD) {
-            message_handle = append_typed_formatted_value(item, message_handle);
+            message_handle = append_item_name_with_value(item, message_handle);
             message_handle = expand_text_control_codes(D_800E1713, message_handle);
             message_handle = append_entity_display_text(actor, message_handle);
             message_handle = expand_text_control_codes(D_800893D8, message_handle);

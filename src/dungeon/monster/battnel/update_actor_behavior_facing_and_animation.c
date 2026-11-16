@@ -36,7 +36,7 @@ extern u8 D_80173D4C[];
 /* Update actor behavior, facing, and animation from dungeon state. */
 /* Selects Battnel's movement, attacks, spells, and turn processing, with a ten-tick transition back to its
  * idle frames. */
-void update_actor_behavior_facing_and_animation_2(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *status) {
+void update_battnel_turn_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *status) {
     u8 *anim_table;
     s32 room_id;
     u16 direction_aux;
@@ -173,7 +173,7 @@ void update_actor_behavior_facing_and_animation_2(ActorRecord *actor, ObjectPosi
                 global_actor = primary_actor_record;
                 status->facing = direction;
                 if (global_actor->action_id == 0x11) {
-                    begin_actor_spell_action(actor, context, sprite, D_80173D3C, update_actor_behavior_facing_and_animation_2);
+                    begin_actor_spell_action(actor, context, sprite, D_80173D3C, update_battnel_turn_action);
                     return;
                 }
             }
@@ -185,7 +185,7 @@ void update_actor_behavior_facing_and_animation_2(ActorRecord *actor, ObjectPosi
         case 0:
         case 1:
         case 2:
-            begin_actor_spell_action(actor, context, sprite, D_80173D3C, update_actor_behavior_facing_and_animation_2);
+            begin_actor_spell_action(actor, context, sprite, D_80173D3C, update_battnel_turn_action);
             return;
 
         case 3:

@@ -68,7 +68,7 @@
     },
     {
       "row": "dungeon/func_80E329C0",
-      "tu": "src/dungeon/monster/cyclone/finish_actor_tile_move_and_check_trap.c",
+      "tu": "src/dungeon/monster/cyclone/begin_cyclone_attack.c",
       "home": "dungeon/func_80E0E9C0",
       "foff": "0xE529C0",
       "vma": "0x8014E1C0",
@@ -202,7 +202,7 @@
     },
     {
       "row": "dungeon/func_80E345D4",
-      "tu": "src/dungeon/monster/cyclone/update_actor_behavior.c",
+      "tu": "src/dungeon/monster/cyclone/wait_cyclone_status_and_animate.c",
       "home": "dungeon/func_80E105D4",
       "foff": "0xE545D4",
       "vma": "0x8014FDD4",

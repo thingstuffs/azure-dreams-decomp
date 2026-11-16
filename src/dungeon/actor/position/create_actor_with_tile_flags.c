@@ -76,7 +76,7 @@ void *create_actor_with_tile_flags(s16 variant, u16 tile_x, u16 tile_y, s16 spaw
         entity->unk_90.parts.high = spawn_height - ground_height;
         sprite->color.word = 0x2C808080;
         sprite->flags |= 0x8000;
-        clear_entry_flag_and_link_owner(object);
+        insert_node_before_primary_actor(object);
         sprite_tile_x = sprite->tile_x;
         sprite_tile_y = sprite->tile_y;
         tile_flags = 0x3000;

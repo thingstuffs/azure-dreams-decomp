@@ -14,7 +14,7 @@
 #include "dungeon/item.h"
 
 /* Copy the indexed entry data into the entity and clear its final byte. */
-void copy_indexed_entry_data(void *entity) {
+void copy_species_name_to_actor(void *entity) {
     void *entry_data;
 
     entry_data = ((S_800A34BC_0 *)(((*((u8 *)entity + 0x13)) * 0x14) + (s8 *)monster_species_table[0]))->unk_04;
@@ -368,7 +368,7 @@ void *choose_best_eligible_entry(void *owner_arg, ActorRecord *start, s32 score_
                             best_score = score;
                         }
                     }
-                } else if ((s16)check_monster_neighbor_relations(((ActorRecord *)owner_arg)->mp_value.parts.fraction,
+                } else if ((s16)can_reach_adjacent_tile_at_height(((ActorRecord *)owner_arg)->mp_value.parts.fraction,
                                               ((ActorRecord *)owner_arg)->mp_value.parts.whole,
                                               base->unk_88,
                                               candidate_owner->tile_x,
@@ -577,7 +577,7 @@ s32 check_entity_eligibility(void *entity) {
 }
 
 /* Finds the familiar slot referenced by a type-19 inventory record, or returns -1. */
-s32 find_type_13_slot_index(DungeonSlot *targetSlot) {
+s32 find_familiar_slot_index(DungeonSlot *targetSlot) {
     s32 recordIndex;
     s32 requiredRecordType;
     DungeonSlot **slotTable;

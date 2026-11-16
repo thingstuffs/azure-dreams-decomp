@@ -17,7 +17,7 @@ s32 check_event_value_in_list(s32 target_value);
 void forward_context_request_to_handler(void *context, s32 request);
 void forward_context_request_to_handler_c_68(void *context, s32 request);
 void select_response_setting_niko_and_gosh(void *dispatch_value, s32 unused, s32 dispatch_context);
-void *select_special_event_response(void *object, s32 unused, s32 eventCode);
+void *select_sero_end_response(void *object, s32 unused, s32 eventCode);
 void set_ending_event_state(void);
 
 s32 *clear_event_resource_state_and_get_buffer(s32 unused_selected_entry);

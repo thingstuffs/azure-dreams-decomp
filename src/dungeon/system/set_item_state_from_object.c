@@ -9,7 +9,7 @@ typedef struct S_800255AC_0 {
     s32 unk_40;
 } S_800255AC_0;   /* arg0 in set_item_state_from_object */
 
-/* Passes the object's stored value to inventory_set_embedded_state_four. */
+/* Passes the object's stored value to select_item_window_final_action. */
 void set_item_state_from_object(S_800255AC_0 *object) {
-    inventory_set_embedded_state_four(object->unk_40);
+    select_item_window_final_action(object->unk_40);
 }

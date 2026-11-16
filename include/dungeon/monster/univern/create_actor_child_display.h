@@ -34,7 +34,7 @@ typedef struct S_8014C89C_8 {
 extern s32 generate_random_value(void);
 extern void select_sprite_entry(void *, s32, s32);
 extern void func_80047784(void *, s32, s32);
-extern void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(void *, void *, s32);
+extern void set_animation_child_source(void *, void *, s32);
 
 extern void func_8014CBB8(void *actor, void *motion, SpriteFrameState *object);
 extern u8 D_80150494[];

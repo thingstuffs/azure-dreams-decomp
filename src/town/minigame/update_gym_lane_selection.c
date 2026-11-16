@@ -9,7 +9,7 @@
 #include "town/minigame.h"
 #include "town/player.h"
 
-extern u8 D_800D00C0[];
+extern s32 D_800D00C0[];
 
 
 /* Updates the three-choice selection and the object's vertical motion. */

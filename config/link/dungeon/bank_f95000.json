@@ -155,7 +155,7 @@
     },
     {
       "row": "dungeon/func_80F76A88",
-      "tu": "src/dungeon/monster/naplass/update_actor_jump_and_landing.c",
+      "tu": "src/dungeon/monster/naplass/hop_naplass_to_tile.c",
       "home": "dungeon/func_80F5EA88",
       "foff": "0xF96A88",
       "vma": "0x8015A288",
@@ -180,7 +180,7 @@
     },
     {
       "row": "dungeon/func_80F76E50",
-      "tu": "src/dungeon/monster/ashra/advance_actor_attack_and_resolve_damage.c",
+      "tu": "src/dungeon/monster/ashra/advance_ashra_attack.c",
       "home": "dungeon/func_80B1AE20",
       "foff": "0xF96E50",
       "vma": "0x8015A650",
@@ -270,7 +270,7 @@
     },
     {
       "row": "dungeon/func_80F77AA4",
-      "tu": "src/dungeon/monster/naplass/advance_actor_effect_sequence.c",
+      "tu": "src/dungeon/monster/naplass/advance_naplass_sleep_and_wake_sequence.c",
       "home": "dungeon/func_80F5FAA4",
       "foff": "0xF97AA4",
       "vma": "0x8015B2A4",

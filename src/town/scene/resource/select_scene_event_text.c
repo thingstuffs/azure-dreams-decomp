@@ -33,7 +33,7 @@ char *select_scene_event_text(long long lookup, s32 text_selector)
     }
     case 6:
     {
-        char *text = get_local_global_table();
+        char *text = select_response_and_set_sbs32_flags();
         scene_event_results[0] = text;
         if (text != 0) {
             return text;

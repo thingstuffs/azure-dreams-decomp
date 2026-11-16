@@ -2226,7 +2226,7 @@ s32 update_trap_effect_grid(ActorRecord *record, s32 unused1, s32 unused2, s32 u
             initialValue = get_unused_text_buffer();
             currentValue = initialValue;
             if (triggerFlags & 1) {
-                firstLookupValue = apply_type_based_entry_adjustments(record->unk_4C, currentValue);
+                firstLookupValue = append_item_name_with_affixes(record->unk_4C, currentValue);
                 {
 
                     if (!(entryFlags & 1)) {
@@ -2240,7 +2240,7 @@ s32 update_trap_effect_grid(ActorRecord *record, s32 unused1, s32 unused2, s32 u
                 }
             }
             if (triggerFlags & 2) {
-                secondLookupValue = apply_type_based_entry_adjustments(record->unk_50.address, currentValue);
+                secondLookupValue = append_item_name_with_affixes(record->unk_50.address, currentValue);
                 {
 
                     if (!(entryFlags & 2)) {

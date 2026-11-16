@@ -15,7 +15,7 @@ s32 select_event_response_with_flag_overrides(s32 object, s32 request, s32 conte
     result = default_result;
     if (resolve_entry_flag(&D_8001A9AC, object, context) != 0) {
         if (get_script_flag_mask(((S_8001747C_0 *)object)->unk_18) != 0) {
-            result = select_state_result_with_lookup_overrides(object, request, context);
+            result = select_response_by_town_state_count(object, request, context);
         } else {
             result = (s32)((u8 *)&D_8001CFB4);
         }

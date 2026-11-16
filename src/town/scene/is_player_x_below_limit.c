@@ -1,0 +1,14 @@
+#include "common.h"
+#include "shared/record_ptrs.h"
+#include "m2c_compat.h"
+#include "shared/town_root.h"
+#include "shared/town_pointees.h"
+
+
+
+/* Invoke the context callback and check whether the stored value is below 0x3E0. */
+s32 is_player_x_below_limit(void) {
+    ((void (*) (s32))town_scene_root->services->callback_248)(0);
+    return town_scene_root->position->x
+    < 0x3E0;
+}

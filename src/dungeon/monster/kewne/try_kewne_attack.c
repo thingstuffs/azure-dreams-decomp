@@ -1,0 +1,117 @@
+#include "dungeon/player/object.h"
+#include "shared/sprite_frame_state.h"
+#include "common.h"
+#include "shared/actor_action_flags.h"
+#include "shared/dungeon_status.h"
+#include "shared/entity.h"
+#include "records/Rec_func_800A9E70_arg0.h"
+#include "engine/graphics.h"
+#include "dungeon/item.h"
+#include "dungeon/effect.h"
+
+
+extern struct Ent *prepare_directional_attack();
+extern s32 get_actor_height_difference();
+extern s32 check_entity_interaction_compatibility();
+extern u8 D_80175E50[];
+extern u8 kewne_frame_set_3[];
+extern u8 kewne_frame_set[];
+
+/* Select and start an actor action based on the target delta. */
+/* Chooses one of three Kewne attacks by target height; returns its mode, 0 for no valid target, or -1
+ * while busy. */
+s32 try_kewne_attack(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor) {
+    s32 target_delta;
+    s16 action_mode;
+    u16 pending_amount;
+    u8 status;
+    u16 stored_amount;
+
+    status = actor->movement_queue_state;
+    {
+        ActorRecord *target;
+
+        actor->movement_queue_state = status & 0x7F;
+        action_mode = 0;
+        if (g_dungeon_status.flags & 0x2000) {
+            return -1;
+        }
+
+        target = probe_directional_neighbor(actor, visual_data->tile_x, visual_data->tile_y,
+            actor->facing);
+        if ((check_entity_interaction_compatibility(actor, target) << 16) == 0) {
+            return 0;
+        }
+        if (g_dungeon_status.flags & 0x2000) {
+            return -1;
+        }
+        if (!(actor->action_flags & ACTOR_ACTION_PENDING) && (g_dungeon_status.flags & 8)) {
+            return -1;
+        }
+
+        target_delta = 0 - get_actor_height_difference(target, actor);
+        if ((u32)((target_delta - 0x20) & 0xFFFF) < 0x21U) {
+            action_mode = 1;
+        } else if ((u32)((target_delta + 0x10) & 0xFFFF) < 0x31U) {
+            action_mode = 2;
+        } else if ((u32)((target_delta + 0x40) & 0xFFFF) >= 0x31U) {
+            return action_mode;
+        } else {
+            action_mode = 3;
+        }
+
+        if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
+            return -1;
+        }
+        apply_camera_offset_and_select_target(NODE_HEADER(actor), action_param, 8, 0x300);
+        if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
+            return -1;
+        }
+
+        {
+            u8 new_action;
+            s32 selected_mode = action_mode;
+            action_state->action_phase = 0;
+            if (selected_mode == 1) {
+                action_state->unk_8C.run = 0;
+                visual_data->frameTable = D_80175E50;
+                new_action = 0x11;
+                action_state->action_state_flags |= 8;
+                action_state->action_id = new_action;
+                actor->unk_84 = 0x7C;
+                actor->unk_85 = 0;
+            } else if (selected_mode == 2) {
+                action_state->unk_8C.run = 0;
+                visual_data->frameTable = kewne_frame_set_3;
+                new_action = 0x17;
+                action_state->action_state_flags |= 8;
+                action_state->action_id = new_action;
+                actor->unk_84 = 0x7C;
+                actor->unk_85 = 0;
+            } else {
+                action_state->unk_8C.run = 0;
+                visual_data->frameTable = kewne_frame_set;
+                action_state->action_id = 0x18;
+                actor->unk_84 = 0x7C;
+                actor->unk_85 = 0;
+                actor->flags1C &= 0xFFFBFFFF;
+            }
+
+            {
+                u8 *phase_page;
+                phase_page = (u8 *)0x80080000;
+                select_sprite_entry(visual_data,
+                    (*(u8 **)&visual_data->frameTable)[((*(s16 *)(phase_page + 0x3228) + actor->facing + 0x100)
+                    >> 9) & 7], 0);
+            }
+            actor->pending_turn_updates--;
+            prepare_directional_attack(actor, visual_data, actor->facing, 1, 0);
+            stored_amount = action_state->unk_90.parts.high;
+            pending_amount = action_state->unk_A0.parts.high;
+            action_state->unk_A0.parts.high = 0;
+            action_state->unk_9E = 0;
+            action_state->unk_90.parts.high = stored_amount - pending_amount;
+            return action_mode;
+        }
+    }
+}

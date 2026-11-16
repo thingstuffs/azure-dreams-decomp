@@ -8,5 +8,5 @@ M2C_UNK func_80017398(); /* Unprototyped: one or two arguments; the second regis
 extern M2C_UNK D_80017500;
 extern s16 scene_threshold_counter;
 extern M2C_UNK *D_800175B8;
-void invoke_callback_and_set_shared_pointer(void);
+void init_sbs12_scene(void);
 #endif

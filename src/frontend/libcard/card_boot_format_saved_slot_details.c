@@ -59,7 +59,7 @@ void card_boot_format_saved_slot_details(CardSlotDetails *record) {
     s32 *global_table;
 
     assetSlot = record->text_nodes[0];
-    format_unsigned_double_byte_decimal(record->selected_slot + 1, (u8 *)(&textBuffer));
+    format_fullwidth_decimal(record->selected_slot + 1, (u8 *)(&textBuffer));
     strcat(&textBuffer, D_800282D8);
     assetDataBase = card_slot_payload;
     strcat(&textBuffer, (record->selected_slot << 7) + assetDataBase);
@@ -80,7 +80,7 @@ void card_boot_format_saved_slot_details(CardSlotDetails *record) {
         table_base = D_800283A8;
         assetSlot = record->text_nodes[2];
         strcpy(&textBuffer, table_base->unk_08);
-        format_unsigned_double_byte_decimal(recordBase[record->selected_slot].words[13], (u8 *)(&numberBuffer));
+        format_fullwidth_decimal(recordBase[record->selected_slot].words[13], (u8 *)(&numberBuffer));
         strcat(&textBuffer, &numberBuffer);
         strcat(&textBuffer, table_base->unk_0C);
         asset2 = record->text_buffers[2];

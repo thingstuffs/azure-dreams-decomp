@@ -72,9 +72,9 @@ void initialize_actor_sprite_and_animation(void *entity, void *position, SpriteF
                       ((g_game_work.view.camera_rotation.parts.viewAngle + entity_data->facing + 0x100) >> 9) & 7],
                   0);
 
-    clear_entry_flag_and_link_owner(entity);
+    insert_node_before_primary_actor(entity);
     if ((entity_data->flags14 & 0x4000) == 0) {
-        copy_indexed_entry_data(entity_data);
+        copy_species_name_to_actor(entity_data);
     }
 
     cycle_map_cell_flags(sprite->tile_x,

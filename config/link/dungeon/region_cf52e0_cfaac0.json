@@ -22,7 +22,7 @@
     },
     {
       "row": "dungeon/func_80CD7F20",
-      "tu": "src/dungeon/monster/pulunpa/update_object_or_select_directional_data.c",
+      "tu": "src/dungeon/monster/pulunpa/update_pulunpa_parent_motion.c",
       "home": "dungeon/func_80CBFF20",
       "foff": "0xCF7F20",
       "vma": "0x8015b720",

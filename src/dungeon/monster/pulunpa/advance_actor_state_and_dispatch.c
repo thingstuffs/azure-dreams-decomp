@@ -16,7 +16,7 @@
 #include "dungeon/actor/state.h"
 #include "dungeon/monster/pulunpa_frame_set_3.h"
 
-extern void update_object_or_select_directional_data(void *, ObjectPosition *, void *, ActorRecord *);
+extern void update_pulunpa_parent_motion(void *, ObjectPosition *, void *, ActorRecord *);
 
 extern u8 pulunpa_action_resume_address[];
 extern u8 pulunpa_variant_action_address[];
@@ -81,7 +81,7 @@ void advance_actor_state_and_dispatch(ActorRecord *body, ObjectPosition *positio
 
             if (((u32)actor->flags1C) & ACTOR_LIFTED) {
                 begin_actor_move_to_target_facing(body, position, sprite, actor);
-                update_object_or_select_directional_data(body, position, sprite, actor);
+                update_pulunpa_parent_motion(body, position, sprite, actor);
                 return;
             }
 

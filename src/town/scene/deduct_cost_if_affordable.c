@@ -1,11 +1,12 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "town/scene.h"
+#include "town/shop/object/lshop_g00008.h"
 #include "shared/town_root.h"
 
 typedef s32 (*func_80018760_fn)(void *);
 
-extern s32 D_8001BE60;
+extern Copy4 D_8001BE60;
 
 /* Deducts the computed cost from the available balance if sufficient funds remain. */
 s32 deduct_cost_if_affordable(void) {

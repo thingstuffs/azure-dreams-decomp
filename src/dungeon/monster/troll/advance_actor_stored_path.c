@@ -10,7 +10,7 @@
 #include "dungeon/player/object.h"
 
 /* Advances the actor along its stored path and updates its movement state. */
-void advance_actor_stored_path_2(ActorRecord *movement, ObjectPosition *actor_index, SpriteFrameState *actor, ActorRecord *path_state) {
+void advance_troll_stored_path(ActorRecord *movement, ObjectPosition *actor_index, SpriteFrameState *actor, ActorRecord *path_state) {
     ActorRecord *state = path_state;
     s32 cell_flags;
     s32 move_result;
@@ -106,7 +106,7 @@ void advance_actor_stored_path_2(ActorRecord *movement, ObjectPosition *actor_in
 
     state->facing = heading;
     if (move_result == 3 && !(g_dungeon_status.flags & 0x80) && !(actor->flags & 0x8000)) {
-        reset_actor_directional_animation(movement, actor_index, actor, state);
+        reset_troll_facing_animation(movement, actor_index, actor, state);
         movement->unk_8C.word = 0;
     } else {
         movement->action_id = 0xF;
@@ -375,7 +375,7 @@ void choose_troll_move(ActorRecord *move_input, ObjectPosition *action_context, 
 }
 
 /* Reset display state and apply the kind-specific directional entry when its table changes. */
-void reset_actor_directional_animation(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *display, ActorRecord *entity) {
+void reset_troll_facing_animation(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *display, ActorRecord *entity) {
     s32 kind;
     u8 *direction_table;
     u8 *previous_table;

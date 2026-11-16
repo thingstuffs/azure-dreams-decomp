@@ -13,7 +13,7 @@
 
 extern u8 resident_globals_page[];
 
-extern s32 spawn_object_at_target_position(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern s32 get_lift_target_at_tile(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern u8 D_800E0495[];
 
 typedef struct S_8008C5C4_2 {
@@ -48,7 +48,7 @@ s32 try_begin_lift_object(S_8008C5C4_2 *action, void *unused, SpriteAnimationTab
     register s32 target_kind;
 
     direction_offset = (actor->facing >> 8) & 0xE;
-    target_result = spawn_object_at_target_position(
+    target_result = get_lift_target_at_tile(
         actor,
         (s16)(position->tile_x + (u16)dir_step_x[direction_offset >> 1]),
         (s16)(position->tile_y + (u16)dir_step_y[direction_offset >> 1]));

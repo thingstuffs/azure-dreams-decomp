@@ -25,6 +25,6 @@ TownSceneChoice square_progress_choices[6] = {
     { apply_entry_selfy_rescued, get_shared_entry_buffer, D_8001C33C, 3432, 0 },
     { forward_context_request_to_handler, select_response_checking_free_slots, D_8001E27C, 3433, 0 },
     { dispatch_entry_for_active_flags, get_shared_entry_buffer, D_8001C33C, 3434, 0 },
-    { func_80017410, select_special_event_response, D_8001E2E0, 3435, 0 },
+    { func_80017410, select_sero_end_response, D_8001E2E0, 3435, 0 },
     { return_zero_fn, get_shared_entry_buffer, D_8001C33C, 0, 0 },
 };

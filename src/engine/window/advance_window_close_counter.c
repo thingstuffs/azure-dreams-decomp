@@ -1,0 +1,31 @@
+#include "engine/window/model_prefix.h"
+#include "common.h"
+#include "engine/window.h"
+
+#include "slus/data.h"
+
+   /* arg0 in advance_window_close_counter */
+
+
+typedef struct S_800357D0_0 {
+    WindowModelPrefix *unk_00;
+    u8 pad_04[0x48];
+    u8 unk_4C;
+    u8 unk_4D;
+    u8 pad_4E[0x1A];
+    s32 * unk_68;
+} S_800357D0_0;   /* arg0 in advance_window_close_counter */
+
+
+/* Increase the counter by 64 and advance the callback after it exceeds 1024. */
+void advance_window_close_counter(S_800357D0_0 *state) {
+    WindowModelPrefix *counter_state;
+
+    counter_state = state->unk_00;
+    counter_state->unk_08 = (u16) (counter_state->unk_08 + 0x40);
+    if ((s16) state->unk_00->unk_08 >= 0x401) {
+        state->unk_4C = 0xFF;
+        state->unk_4D = 0xFF;
+        state->unk_68 = &cleanup_window_object;
+    }
+}

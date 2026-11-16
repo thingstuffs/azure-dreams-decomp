@@ -12,7 +12,7 @@ extern void func_80404570(s32 value);
 /* Dual symbols at the same address force load-via-v1 / store-via-at RMW
  * (retail uses separate %hi materializations, not a reused base reg). */
 extern s32 card_ui_dirty_flags[4];
-extern s32 D_8008DAB4_2[4];
+extern s32 D_8008DAB4_2[];
 
 /* Processes object components and sets the object and global 0x8000 flags. */
 void release_card_screen_parts(void *object) {

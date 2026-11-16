@@ -10,13 +10,13 @@ void run_entry_callback_or_default(s32 value0, s32 value1)
 
     callback = ((Runtime *)town_scene_root)->callbacks[town_scene_root->entry_index].callback;
     if (callback == 0) {
-        initialize_context_entry_tables_variant_1(value0, value1);
+        install_entry_tables_and_next_step(value0, value1);
     } else {
         callback();
     }
 }
 
-void initialize_context_entry_tables_variant_1(s32 unused_a, s32 unused_b) {
+void install_entry_tables_and_next_step(s32 unused_a, s32 unused_b) {
     D_8001794C.record._0 = &D_80017720[0];
     {
         Rec_D_80016000 *context = town_scene_root;

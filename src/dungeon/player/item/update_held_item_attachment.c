@@ -56,7 +56,7 @@ typedef struct S_8008D470_6 {
 
 extern u8 held_item_record[];
 
-extern s32 create_indexed_floor_object();
+extern s32 create_dropped_item_object();
 
 /* Move the effect toward its target, pulse its brightness, and handle expiration. */
 void update_held_item_attachment(S_8008D470_0 *effect, ObjectPosition *position, SpriteFrameState *visual) {
@@ -145,7 +145,7 @@ void update_held_item_attachment(S_8008D470_0 *effect, ObjectPosition *position,
         expiry_mode = effect->unk_AC;
         effect->unk_A8 = 0;
         if (expiry_mode == 1) {
-            spawn_handle = create_indexed_floor_object(effect, position, visual, ((s32)primary_actor_record), effect->unk_9C,
+            spawn_handle = create_dropped_item_object(effect, position, visual, ((s32)primary_actor_record), effect->unk_9C,
                 -1);
             if (spawn_handle != 0) {
                 entity = (void *)(spawn_handle + 0x20);

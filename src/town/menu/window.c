@@ -1055,7 +1055,7 @@ extern void func_800C620C(TownObjectRecord *, ObjectPosition *, SpriteFrameState
 extern void func_800C629C(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void func_800C65C8(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void initialize_scene_slot_6_context(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
-extern void initialize_scene_slot_10_entry(TownObjectRecord *object, ObjectPosition *position_unused, struct SpriteFrameState *sprite_unused);
+extern void init_mia_person(TownObjectRecord *object, ObjectPosition *position_unused, struct SpriteFrameState *sprite_unused);
 extern void func_800C83F0(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void initialize_scene_slot_11(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void initialize_scene_slot_18_context(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
@@ -1066,26 +1066,26 @@ extern void initialize_scene_slot_12_context(TownObjectRecord *, ObjectPosition 
 
 TownObjectCallback town_object_callbacks[172] = {
     set_actor_flag_copy_global, /* 0 */
-    initialize_scene_slot_4, /* 1 */
+    init_mother_person, /* 1 */
     configure_actor_slot_5, /* 2 */
     initialize_scene_slot_6_context, /* 3 */
     func_800CC2E8, /* 4 */
     init_person_slot_eight, /* 5 */
-    initialize_scene_slot_9_data, /* 6 */
-    initialize_scene_slot_10_entry, /* 7 */
+    init_far_person, /* 6 */
+    init_mia_person, /* 7 */
     initialize_scene_slot_11, /* 8 */
     initialize_scene_slot_12_context, /* 9 */
     initialize_scene_slot_thirteen, /* 10 */
     func_800C629C, /* 11 */
     configure_actor_slot_14, /* 12 */
-    initialize_scene_slot_15, /* 13 */
+    init_fon_person, /* 13 */
     configure_actor_slot_16, /* 14 */
     initialize_scene_slot_18, /* 15 */
     init_person_slot_nineteen, /* 16 */
     configure_actor_slot_20, /* 17 */
     configure_actor_slot_21_and_render_state, /* 18 */
     configure_actor_slot_22, /* 19 */
-    initialize_scene_slot_23, /* 20 */
+    init_librarian_person, /* 20 */
     initialize_scene_slot_24, /* 21 */
     configure_actor_slot_25_and_render_state, /* 22 */
     configure_actor_slot_26_and_render_state, /* 23 */
@@ -1098,7 +1098,7 @@ TownObjectCallback town_object_callbacks[172] = {
     configure_actor_slot_34, /* 30 */
     init_person_slot_thirty_five, /* 31 */
     initialize_scene_slot_36, /* 32 */
-    initialize_scene_slot_37, /* 33 */
+    init_cellist_person, /* 33 */
     initialize_scene_slot_38, /* 34 */
     initialize_scene_slot_39, /* 35 */
     initialize_scene_slot_forty_sprite, /* 36 */
@@ -1110,7 +1110,7 @@ TownObjectCallback town_object_callbacks[172] = {
     initialize_scene_slot_46, /* 42 */
     initialize_scene_slot_47_context, /* 43 */
     init_actor_slot_30, /* 44 */
-    initialize_scene_slot_49, /* 45 */
+    init_gambler_person, /* 45 */
     init_person_slot_fifty, /* 46 */
     init_person_slot_fifty_one, /* 47 */
     initialize_scene_slot_52_context, /* 48 */
@@ -1164,7 +1164,7 @@ TownObjectCallback town_object_callbacks[172] = {
     init_player_spun_object, /* 96 */
     initialize_effect_with_child_sprites, /* 97 */
     initialize_effect_with_random_angle, /* 98 */
-    initialize_scene_slot_9_and_display, /* 99 */
+    init_far_with_follower_sprite, /* 99 */
     func_800C65C8, /* 100 */
     func_800C83F0, /* 101 */
     initialize_scene_slot_ten, /* 102 */
@@ -1179,20 +1179,20 @@ TownObjectCallback town_object_callbacks[172] = {
     initialize_scene_slot_16, /* 111 */
     initialize_scene_slot_59, /* 112 */
     initialize_scene_slot_13, /* 113 */
-    initialize_scene_slot_9, /* 114 */
+    init_far_pool_person, /* 114 */
     initialize_scene_slot_60, /* 115 */
     initialize_scene_slot_52, /* 116 */
     initialize_scene_slot_41, /* 117 */
     initialize_scene_slot_42, /* 118 */
-    initialize_scene_slot_10, /* 119 */
+    init_mia_pool_person, /* 119 */
     initialize_scene_slot_11_context, /* 120 */
     initialize_scene_slot_45, /* 121 */
     initialize_scene_slot_62, /* 122 */
     initialize_scene_slot_57, /* 123 */
-    initialize_scene_slot_8, /* 124 */
-    initialize_scene_slot_6, /* 125 */
-    initialize_scene_slot_7, /* 126 */
-    initialize_scene_slot_12, /* 127 */
+    init_paty_pool_person, /* 124 */
+    init_ghosh_pool_person, /* 125 */
+    init_ghosh_sibling_pool_person, /* 126 */
+    init_dodo_pool_person, /* 127 */
     initialize_scene_slot_83, /* 128 */
     initialize_scene_slot_84, /* 129 */
     initialize_scene_slot_58, /* 130 */

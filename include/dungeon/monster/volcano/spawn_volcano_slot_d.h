@@ -1,0 +1,39 @@
+#ifndef DUNGEON_OVL_E15054_H
+#define DUNGEON_OVL_E15054_H
+#include "common.h"
+#include "shared/entity.h"
+#include "shared/object_node.h"
+#include "shared/slus_callbacks.h"
+#include "shared/sprite_frame_state.h"
+#include "dungeon/actor.h"
+#include "dungeon/actor/animation.h"
+#include "dungeon/actor/status.h"
+#include "engine/node/allocation.h"
+#include "engine/node.h"
+struct ObjectNodeHeader;
+struct S_80170A98_2;
+
+typedef s32 M2C_UNK;
+
+   /* work in func_8015E854 */
+
+   /* part_b in func_8015E854 */
+
+typedef struct S_8015E854_4 {
+    u8 pad_00[0x8C];
+    ActorActionHandler unk_8C;
+    u8 pad_90[0xA];
+    u8 unk_9A;
+    u8 pad_9B[0x1];
+    s8 unk_9C;
+} S_8015E854_4;   /* actor in func_8015E854 */
+
+extern void func_8015EA58(void *entity, struct S_80170A98_2 *motion, SpriteFrameState *monster);
+extern void func_8015EE5C(ActorRecord *actor_in, ObjectPosition *context_in, SpriteFrameState *sprite_in, ActorRecord *status_in);
+extern u8 volcano_frame_set_4[];
+extern u8 D_80162538[];
+
+extern s32 generate_random_value(void);
+
+void * spawn_volcano_slot_d(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);
+#endif

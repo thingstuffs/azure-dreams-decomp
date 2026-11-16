@@ -32,7 +32,7 @@ typedef struct S_80810220_4 {
     s16 unk_22;
 } S_80810220_4;   /* ((S_80810220_0 *)control_data)->unk_04 in func_80810220 */
 
-extern u32 scene_value_total[4];
+#include "town/scene/value_total_data.h"
 extern u8 D_805300C4[0x100];
 extern u32 D_80530100[];
 
@@ -50,7 +50,7 @@ void update_item_panel_selection(S_80810220_0 *control_data, TownPanelSelectionV
         control_data->unk_00 = 0;
     }
 
-    if (scene_value_total[0] >= 1000U) {
+    if (scene_value_total >= 1000U) {
         if (func_80252550(D_805300C4, value_data) != 0) {
             called = 1;
         } else {

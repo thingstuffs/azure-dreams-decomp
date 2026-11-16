@@ -9,7 +9,7 @@ typedef struct S_80043A68_entry {
 
 
 /* Clears flag 0x8000 in four sub-tables at scaled indices 10 and 11. */
-void clear_scaled_cell_flags_8000(void)
+void clear_scripted_boundary_cells(void)
 {
     MapGrid *table = &g_game_work.map;
     u8 *base = table->cells;

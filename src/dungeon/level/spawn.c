@@ -178,7 +178,7 @@ main_loop:
                                                     (tile_y << 6) | 0x20);
                 item_record->field7 = 0;
                 cycle_map_cell_flags(tile_x, tile_y, TILE_HAS_ITEM);
-                item_record->field8 = get_item_category_value(item_state);
+                item_record->field8 = get_item_sprite_source(item_state);
             }
         }
     } else {
@@ -189,7 +189,7 @@ main_loop:
                                             (tile_y << 6) | 0x20);
         item_record->field7 = 0;
         cycle_map_cell_flags(tile_x, tile_y, TILE_HAS_ITEM);
-        item_record->field8 = get_item_category_value(item_state);
+        item_record->field8 = get_item_sprite_source(item_state);
     }
 
     item_state++;
@@ -590,7 +590,7 @@ void generate_random_dungeon_item_drops(void)
             cell->height = get_surface_height_at_coordinates((x << 6) | 32, (y << 6) | 32);
             cell->flag7 = 0;
             cycle_map_cell_flags(x, y, TILE_HAS_ITEM);
-            cell->object = get_item_category_value(entry);
+            cell->object = get_item_sprite_source(entry);
         }
 
         budget -= decrement;

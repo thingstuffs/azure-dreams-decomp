@@ -22,11 +22,11 @@ extern M2C_UNK D_8014CF74;
 extern M2C_UNK D_8014FD30;
 extern M2C_UNK D_8014FD78;
 
-void *spawn_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c);
+void *spawn_stealth_slot_a(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c);
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 /* Creates Stealth with frames at D_8014FD30; a random display variant changes sprite flags and unlinks the
  * node. */
-void *spawn_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
+void *spawn_stealth_slot_a(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
     s32 unksp20;
     s32 kind;
     s32 variant;

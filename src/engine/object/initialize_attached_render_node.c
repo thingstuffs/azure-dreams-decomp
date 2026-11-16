@@ -44,7 +44,7 @@ void initialize_attached_message_window_node(void *node_storage, void *attached_
 
         color = 0x800000;
         initial_state_14 = attached_node_initial_word_14;
-        (*(void * *)((u8 *)object + 0x68)) = set_window_handler;
+        (*(void * *)((u8 *)object + 0x68)) = install_speaker_name_plate_handler;
         (*(s32 *)((u8 *)object + 0x14)) = initial_state_14;
         initial_state_18 = attached_node_initial_word_18;
         color |= 0x8080;

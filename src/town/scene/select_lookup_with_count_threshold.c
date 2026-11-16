@@ -17,7 +17,7 @@ s32 select_lookup_with_count_threshold(s32 object, s32 check_value, s32 selectio
         response = (s32)&D_800211DC;
     }
     if (resolve_entry_flag(&D_8001A954, object, selection) != 0) {
-        response = select_state_result_with_lookup_overrides(object, check_value, selection);
+        response = select_response_by_town_state_count(object, check_value, selection);
     }
     return response;
 }

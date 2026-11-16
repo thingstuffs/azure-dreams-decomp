@@ -18,8 +18,8 @@
 
 u8 *clear_byte_and_advance(s8 *byte_ptr);
 
-u8 * append_typed_formatted_value(s32,u8 *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-u8 * process_eligible_object_value(s32, u8 *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+u8 * append_item_name_with_value(s32,u8 *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+u8 * append_item_reveal_text(s32, u8 *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 u8 *append_entity_display_text(void *record, u8 *out);
 s32 play_sound_if_enabled(s32 query_value);
 extern s32 held_item_record;
@@ -107,10 +107,10 @@ void update_player_eating_action(ActorRecord *controller, s32 action_id, SpriteF
             text_cursor = write_text_byte_and_advance(8, text_cursor);
             text_cursor = append_entity_display_text(transform, text_cursor);
             text_cursor = expand_text_control_codes(D_800E06E3, text_cursor);
-            text_cursor = append_typed_formatted_value(
+            text_cursor = append_item_name_with_value(
                 controller_view->unk_110, text_cursor);
             text_cursor = expand_text_control_codes(D_800E06EB, text_cursor);
-            text_cursor = process_eligible_object_value(
+            text_cursor = append_item_reveal_text(
                 controller_view->unk_110, text_cursor);
             clear_byte_and_advance(text_cursor);
             display_text_with_fullwidth_adjustment(text_start);

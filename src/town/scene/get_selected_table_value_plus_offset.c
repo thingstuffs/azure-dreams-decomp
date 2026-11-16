@@ -6,7 +6,7 @@
 extern s32 func_80000760(s32);
 extern s32 func_800007F0(s32);
 
-extern s32 D_00000D9C[3];
+extern s32 D_00000D9C;
 extern s32 D_00000DC8[3];
 extern s32 D_00000E50[3];
 
@@ -16,7 +16,7 @@ s32 get_selected_table_value_plus_offset(void) {
     s32 entryValue;
 
     func_800007F0(1);
-    selectedIndex = D_00000D9C[0];
+    selectedIndex = D_00000D9C;
     entryValue = D_00000DC8[selectedIndex * 4];
     post_code_107_if_entry_bit_0(selectedIndex, 1);
     func_80000760(1);

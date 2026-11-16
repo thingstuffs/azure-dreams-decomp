@@ -3,7 +3,7 @@
 
 extern u8 D_80016034[16];
 extern u8 D_80016070[];
-extern u8 D_80016128[];
+extern char D_80016128[];
 extern u8 D_80016A90[];
 extern u8 D_80016AF0[];
 extern u8 *D_80016D08[3];

@@ -5,7 +5,7 @@
 #include "town/scene.h"
 
 /* Runs the current town cell's callback, or installs shared buffer pointers when the callback is absent. */
-void dispatch_town_callback_or_fallback(s32 value0, s32 value1)
+void run_entry_callback_or_set_buffers(s32 value0, s32 value1)
 {
     void *ptr;
     s32 callbackIndex;

@@ -3,7 +3,7 @@
 #include "m2c_compat.h"
 #include "town/scene/flags.h"
 
-s32 select_data_array_based_flag(s32 flagIndex);                             /* extern */
+s32 test_object_bitmap_bit(s32 flagIndex);                             /* extern */
 extern s16 D_800160B2;
 
 typedef struct S_80016584_0 {
@@ -17,8 +17,8 @@ s32 check_flag_test_record(void *object) {
     s32 flag_set;
 
     flag_set = 0;
-    if (select_data_array_based_flag((*(__typeof__(D_800160B2) *)0x800160B2)) == 0) {
-        flag_set = select_data_array_based_flag(record->unk_18) != 0;
+    if (test_object_bitmap_bit((*(__typeof__(D_800160B2) *)0x800160B2)) == 0) {
+        flag_set = test_object_bitmap_bit(record->unk_18) != 0;
     }
     return flag_set;
 }

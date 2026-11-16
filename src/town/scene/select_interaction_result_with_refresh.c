@@ -13,7 +13,7 @@ s32 select_interaction_result_with_refresh(s32 input, s32 check_value, s32 conte
     result = apply_entry_position(&D_8001A96C, &scene_override_context, input, context);
     func_80019880();
     if (resolve_entry_flag(&D_8001A96C, input, context) != 0) {
-        result = select_state_result_with_lookup_overrides(input, check_value, context);
+        result = select_response_by_town_state_count(input, check_value, context);
     }
     return result;
 }

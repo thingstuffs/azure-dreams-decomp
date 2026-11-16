@@ -17,9 +17,9 @@ typedef struct S_800194E4_1 {
     s32 unk_04;
 } S_800194E4_1;
 
-extern s8 D_80010000[];
-extern M2C_UNK D_80016064;
-extern M2C_UNK D_8001608C;
+extern u8 D_80010000[];
+extern s32 D_80016064[];
+extern s32 D_8001608C[];
 
 /* Finds an entry by ID and invokes error callbacks if it is missing. */
 s32 find_eight_byte_entry_or_assert(void *entries, s32 entry_id) {
@@ -46,7 +46,7 @@ s32 find_eight_byte_entry_or_assert(void *entries, s32 entry_id) {
     root = (*(void **)((u8 *)D_80010000 + 0x6000));
     callbacks = root->services;
     report_error = ((Callback3)callbacks->callback_168);
-    report_error(&D_80016064, &D_8001608C, 0x28);
+    report_error(D_80016064, D_8001608C, 0x28);
     ((s32 (*)(s32))(((Rec_D_80016000 *)((*(void **)((u8 *)D_80010000 + 0x6000))))->services)->callback_174)(1);
     return entry_index;
 }

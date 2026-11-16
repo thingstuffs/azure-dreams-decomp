@@ -35,8 +35,8 @@ void apply_object_setup_and_update(void *object, void *update_context, void *set
 void init_person_target_move(struct TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output);
 void func_800C4804(struct TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output);
 
-/* set_object_data_tables.c */
-void set_object_data_tables(struct S_800C8928_0 *object);
+/* set_person_descriptor_tables.c */
+void set_person_descriptor_tables(struct S_800C8928_0 *object);
 
 /* assign_object_data_pointers.c */
 void set_object_data_tables_with_link(struct S_800C895C_0 *object);
@@ -84,11 +84,11 @@ void register_object_slot_with_tables(struct TownObjectRecord *object, s32 slot_
 /* reset_heading_and_update_object.c */
 void reset_heading_and_update_object(TownObjectRecord *object, void *update_context, void *setup_context);
 
-/* initialize_object_with_z_velocity.c */
-void initialize_object_with_z_velocity(TownObjectRecord *object, ObjectPosition *state, void *init_data);
+/* start_person_jump.c */
+void start_person_jump(TownObjectRecord *object, ObjectPosition *state, void *init_data);
 
-/* initialize_scene_slot_10_entry.c */
-void initialize_scene_slot_10_entry(TownObjectRecord *object, ObjectPosition *position_unused, struct SpriteFrameState *sprite_unused);
+/* init_mia_person.c */
+void init_mia_person(TownObjectRecord *object, ObjectPosition *position_unused, struct SpriteFrameState *sprite_unused);
 
 /* initialize_actor_response_object.c */
 void initialize_actor_response_object(TownObjectRecord *object, ObjectPosition *followupValue, void *setupValue);
@@ -114,10 +114,10 @@ void init_actor_handler_state(struct S_800C51DC_0 *actor, ObjectPosition *state)
 void *create_gray_sprite_user_object(s32 user_data);
 
 /* initialize_object_slot_and_display.c */
-void initialize_scene_slot_9_and_display(TownObjectRecord *object, ObjectPosition *unused_a, struct SpriteFrameState *unused_b);
+void init_far_with_follower_sprite(TownObjectRecord *object, ObjectPosition *unused_a, struct SpriteFrameState *unused_b);
 
 /* initialize_object_slot_data.c */
-void initialize_scene_slot_9_data(TownObjectRecord *object, ObjectPosition *unused_1, struct SpriteFrameState *unused_2);
+void init_far_person(TownObjectRecord *object, ObjectPosition *unused_1, struct SpriteFrameState *unused_2);
 
 /* initialize_object_sprite.c */
 void initialize_object_sprite(Rec_D_800CFCB4 *object, ObjectPosition *context, SpriteFrameState *sprite);
@@ -168,7 +168,7 @@ void reset_object_handler_after_update(void *object, s32 unused, void *updateVal
 void restart_person_countdown_update(TownObjectRecord *object, s32 unused, SpriteFrameState *updateValue);
 
 /* reset_object_handler_field_c_value_ee.c */
-void restart_person_countdown_expire(TownObjectRecord *object, s32 unused, SpriteFrameState *updateValue);
+void start_person_jump_countdown(TownObjectRecord *object, s32 unused, SpriteFrameState *updateValue);
 
 /* reset_object_handler_field_value.c */
 void reset_person_heading_half_turn(TownObjectRecord *object, s32 unused, SpriteFrameState *updateValue);

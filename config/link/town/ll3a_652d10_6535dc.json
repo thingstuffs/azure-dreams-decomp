@@ -121,7 +121,7 @@
     },
     {
       "row": "town/func_806D3578",
-      "tu": "src/town/scene/flags/select_data_array_based_flag.c",
+      "tu": "src/town/scene/flags/test_object_bitmap_bit.c",
       "home": "town/func_806D3578",
       "foff": "0x653578",
       "vma": "0x80016D78",

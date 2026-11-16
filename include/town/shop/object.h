@@ -66,7 +66,7 @@ void append_town_item(const struct Copy4 *input);
 /* apply_shop_object_slot_colors.c */
 void apply_shop_object_slot_colors(s32 object_addr);
 
-/* set_object_data_pointer.c */
+/* set_advance_inner_value_callback.c */
 void set_advance_inner_value_callback(ObjectNodeHeader *object);
 
 /* set_apply_record_values_callback.c */

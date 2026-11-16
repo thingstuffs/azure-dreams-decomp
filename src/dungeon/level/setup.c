@@ -90,7 +90,7 @@ void initialize_floor_generation_state(void) {
     init_block->unk1A = block_extent;
     state->unkA8 = color_command;
     state->unk1DC.unk00 = (u32)generation_cells;
-    setup_run_and_load_track();
+    build_dungeon_floor();
     flag_page = D_80080AA0 - 0xAA0;
     flag_page[0xAA0] = 0;
     {
@@ -214,7 +214,7 @@ void initialize_dungeon_floor_state(void) {
         request_scene_dispatch_state(0x11);
         D_800E3D1C = 0;
     }
-    set_monster_data_pointer();
+    reset_timed_sequence_data();
     invalidate_four_sprite_resource_slots();
     dungeon_button_latch = 0;
 }

@@ -149,7 +149,7 @@
     },
     {
       "row": "dungeon/func_80ECF9FC",
-      "tu": "src/dungeon/monster/kraken/advance_entity_motion_fade_and_removal.c",
+      "tu": "src/dungeon/monster/kraken/update_kraken_defeat.c",
       "home": "dungeon/func_80EB79FC",
       "foff": "0xEEF9FC",
       "vma": "0x8015B1FC",

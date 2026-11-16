@@ -35,13 +35,13 @@ void finish_multi_form_actor_sequence(void)
     g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
     object->unk_46 &= 0x7FFF;
     system_update_flags[0] &= 0xFFF6;
-    set_monster_data_pointer();
+    reset_timed_sequence_data();
     func_8016ECFC();
     i = 0;
     do {
         value = ((S_8016ED98_2 *)(((u8 *)dungeon_actor_ring_anchor) + i * 4))->unk_AC;
         if (value != 0) {
-            clear_entry_flag_and_link_owner((void *)(value - 0x20));
+            insert_node_before_primary_actor((void *)(value - 0x20));
         }
         i++;
     } while (i < 2);

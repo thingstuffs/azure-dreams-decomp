@@ -17,7 +17,7 @@ extern M2C_UNK D_8001700C;
 /* Initialize shared state and attach its data pointers. */
 void init_runtime_pointers_from_shared_buffer(void) {
     copy_flag_state_to_target(D_800160B0, D_800160B2);
-    set_state_table_pointer();
+    install_object_set_table();
     build_object_set_and_select_lists_rev_b(D_80016E40, &D_80016E48, &D_80016F88);
     town_scene_root->unk_34 = &D_80016FC8;
     town_scene_root->unk_28 = &D_80016E48;

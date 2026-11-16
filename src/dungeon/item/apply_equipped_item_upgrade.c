@@ -83,7 +83,7 @@ s32 apply_equipped_item_upgrade(ActorRecord *target_addr, DungeonItemEntry *item
                 void *next_cursor;
 
                 text_start = get_unused_text_buffer();
-                text_cursor = apply_type_based_entry_adjustments(linked_item, text_start);
+                text_cursor = append_item_name_with_affixes(linked_item, text_start);
                 if (linked_item->unk_02 < 0x63) {
                     linked_item->unk_02 = (u8)linked_item->unk_02 + 1;
                 }
@@ -91,7 +91,7 @@ s32 apply_equipped_item_upgrade(ActorRecord *target_addr, DungeonItemEntry *item
                 next_cursor = expand_text_control_codes(D_8008936C, text_cursor);
                 text_target = text_cursor - 2;
                 text_cursor = next_cursor;
-                next_cursor = append_typed_formatted_value(linked_item, text_cursor);
+                next_cursor = append_item_name_with_value(linked_item, text_cursor);
                 message_end = text_cursor;
                 text_cursor = next_cursor;
                 copy_fullwidth_vowel_bytes(text_target, message_end);
@@ -99,7 +99,7 @@ s32 apply_equipped_item_upgrade(ActorRecord *target_addr, DungeonItemEntry *item
             } else {
                 text_start = get_unused_text_buffer();
 
-                text_end = append_typed_formatted_value(linked_item, text_start);
+                text_end = append_item_name_with_value(linked_item, text_start);
                 clear_byte_and_advance(expand_text_control_codes(D_800E11AB, text_end));
             }
         }

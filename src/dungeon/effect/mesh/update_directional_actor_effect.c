@@ -199,7 +199,7 @@ typedef struct Vec3s {
     s16 z;
 } Vec3s;
 
-extern u8 D_80024AE0;
+extern s8 D_80024AE0[];
 extern u16 D_80024A70[];
 extern void *actor_direction_sprites;
 
@@ -299,7 +299,7 @@ finish:
 
     case 2:
         iteration = NULL;
-        table_end = &D_80024AE0;
+        table_end = D_80024AE0;
         table_start_2 = table_end - 0x54;
 loop_top:
         object_entry = self->field04;

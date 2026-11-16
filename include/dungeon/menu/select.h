@@ -621,12 +621,12 @@ typedef struct {
 
 /* Queues four shaded quadrants and a draw-mode packet for each linked rectangle. */
 
-void *allocate_sprite_data_object(s32 user_data);
+void *create_selection_blink_sprite(s32 user_data);
 void update_selection_menu_animation(void *menu_in, void *motion_in, SpriteFrameState *appearance_in);
 void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj_arg);
-void draw_and_restore_fading_object(void *object_arg, void *position_arg, SpriteFrameState *sprite_arg);
-void switch_active_object_index(void *object, s16 new_index);
-void initialize_children_or_shutdown(S_80026190_0 *owner);
+void update_preview_monster_fade(void *object_arg, void *position_arg, SpriteFrameState *sprite_arg);
+void switch_selected_preview(void *object, s16 new_index);
+void update_selection_menu_controller(S_80026190_0 *owner);
 /* Work shared by the fade controller and its four-quadrant draw callback. */
 typedef struct MenuFadeRect {
     union { s16 s; u16 u; } x;
@@ -638,10 +638,10 @@ typedef struct MenuFadeRect {
     union { s16 s; u16 u; } state;
 } MenuFadeRect;
 
-void initialize_fading_effect(MenuFadeRect *effect, ObjectPosition *control);
-void *initialize_available_object(s16 initialValue);
+void update_selection_menu_shade(MenuFadeRect *effect, ObjectPosition *control);
+void *create_selection_menu_controller(s16 initialValue);
 s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_position, RenderParams *render_params);
-void set_negated_coordinate_scratch(s32 call_value, s32 call_option, s16 call_mode, s32 call_extra);
+void render_camera_facing_sprite(s32 call_value, s32 call_option, s16 call_mode, s32 call_extra);
 s32 queue_four_shaded_quadrants(MenuFadeRect *rect_arg, ObjectPosition *owner_arg);
 
 extern void advance_sprite_animation_and_textures(void *, s16, void *, void *);
@@ -663,7 +663,7 @@ extern void copy_entity_record(void *, void *);
 extern void func_80042710(void *, void *);
 extern s32 get_entity_class(void *);
 extern s32 func_800429E4(void *);
-extern void set_code_for_entity_mode(void *);
+extern void set_troll_spawn_variant_code(void *);
 extern void func_8004397C(void *);
 extern void unlink_node(void *);
 extern void enqueue_script_message_command(void);
@@ -673,7 +673,7 @@ extern void unlink_entity_node(struct EntityLinkNode *node);
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
 extern void retire_tracked_effect_by_id(void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 void set_message_mode(int value);                     /* extern */
-void runtime_call_selected_mode_handler(void);                            /* extern */
+void call_message_mode_handler(void);                            /* extern */
 void submit_script_with_registered_context(void *context);                   /* extern */
 extern M2C_UNK D_80027160;
 extern Cell menu_mesh_cells[];

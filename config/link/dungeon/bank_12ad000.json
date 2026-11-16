@@ -680,7 +680,7 @@
     },
     {
       "row": "dungeon/func_81290248",
-      "tu": "src/dungeon/monster/beldo/update_beldo_active_entity.c",
+      "tu": "src/dungeon/monster/beldo/remove_beldo_active_entity.c",
       "home": "dungeon/func_81254248",
       "foff": "0x12b0248",
       "vma": "0x80160a48",

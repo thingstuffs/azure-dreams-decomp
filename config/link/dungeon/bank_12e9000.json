@@ -96,7 +96,7 @@
     },
     {
       "row": "dungeon/func_812CB610",
-      "tu": "src/dungeon/monster/kewne/select_and_start_target_action.c",
+      "tu": "src/dungeon/monster/kewne/try_kewne_attack.c",
       "home": "dungeon/func_809A079C",
       "foff": "0x12EB610",
       "vma": "0x8014EE10",
@@ -168,7 +168,7 @@
     },
     {
       "row": "dungeon/func_812CD518",
-      "tu": "src/dungeon/monster/kewne/advance_actor_action_and_update_status.c",
+      "tu": "src/dungeon/monster/kewne/wait_for_kewne_mp.c",
       "home": "dungeon/func_809A2A14",
       "foff": "0x12ED518",
       "vma": "0x80150D18",

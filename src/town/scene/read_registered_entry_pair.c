@@ -1,0 +1,17 @@
+#include "common.h"
+#include "m2c_compat.h"
+#include "town/data.h"
+
+extern s32 D_80019544;
+
+typedef struct S_80480444_0 {
+    u8 pad_00[0x20];
+    s32 unk_20;
+    s32 unk_24;
+} S_80480444_0;   /* D_80019540 in read_registered_entry_pair */
+
+/* Save the referenced object's unk_24 in D_80019544 and return its unk_20. */
+s32 read_registered_entry_pair(void) {
+    D_80019544 = ((S_80480444_0 *)scene_registered_entry_handle)->unk_24;
+    return ((S_80480444_0 *)scene_registered_entry_handle)->unk_20;
+}

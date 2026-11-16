@@ -40,7 +40,7 @@ typedef struct { s32 value; } ItemWord;
                            actor_bytes->facing);
     if (target != 0) {
         if (target == (void *)dungeon_actor_ring_anchor[0]) {
-            if (is_linked_entity_flagged_80000(target, target) != 0) {
+            if (has_item_theft_protection(target, target) != 0) {
                 return 0;
             }
             {

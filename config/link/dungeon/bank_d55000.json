@@ -195,7 +195,7 @@
     },
     {
       "row": "dungeon/func_80D36E64",
-      "tu": "src/dungeon/monster/noise/settle_actor_after_movement.c",
+      "tu": "src/dungeon/monster/noise/begin_noise_directional_animation.c",
       "home": "dungeon/func_80D12E64",
       "foff": "0xD56E64",
       "vma": "0x8014E664",

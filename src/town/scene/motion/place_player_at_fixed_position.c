@@ -2,7 +2,7 @@
 #include "town/scene/fixed_position.h"
 #include "town/scene/motion.h"
 
-void set_player_fixed_position(void) {
+void set_ghosh_shop_exit_target(void) {
     town_scene_root->position->x = 864;
     town_scene_root->position->y = 1056;
 }

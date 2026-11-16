@@ -30,7 +30,7 @@ typedef struct S_800478E8_2 {
  * Walks type-two table slots and their 12-byte nodes through flag 0x80, replacing the value only
  * for nodes with flag 0x20 and the requested ID.
  */
-void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(S_800478E8_0 *owner, void *value, s32 entry_id) {
+void set_animation_child_source(S_800478E8_0 *owner, void *value, s32 entry_id) {
     u32 slot_addr;
     S_Entry *entry;
     S_800478E8_1 *table;

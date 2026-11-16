@@ -9,7 +9,7 @@ s32 find_valid_nearby_position(u8 *entry, s16 target_x, s16 target_y, s16 *out_x
 s32 is_neighbor_tile_blocked(s16 origin_x, s16 origin_y, s32 direction);
 
 s32 select_floor_item_with_special_overrides(s8 *out_group, s8 *out_index, s32 unused, s32 skip_special);
-void setup_run_and_load_track(void);
+void build_dungeon_floor(void);
 s32 traverse_nodes_and_render_unflagged(void *start_node);
 
 
@@ -33,7 +33,7 @@ void func_800BCFBC(s32 selector);
 
 struct Source;
 s32 call_slot_handler_and_update_status(s32 handler_id, void *object_ptr, s32 slot_id, s8 update_state);
-void *spawn_object_at_target_position(ActorRecord *source, s16 target_x, s16 target_y);
+void *get_lift_target_at_tile(ActorRecord *source, s16 target_x, s16 target_y);
 s32 update_object_coordinates_if_valid(SpriteFrameState *object, EntityRec *context);
 
 s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
@@ -43,6 +43,6 @@ void clear_slot_and_detach_entity(s32 slot_index);
 s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, SpriteFrameState *render_params);
 
 #include "shared/object_node.h"
-void clear_entry_flag_and_link_owner(ObjectNodeHeader *entry);
+void insert_node_before_primary_actor(ObjectNodeHeader *entry);
 
 #endif

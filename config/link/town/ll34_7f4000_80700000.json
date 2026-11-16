@@ -122,7 +122,7 @@
     {
       "row": "town/func_808752CC",
       "home": "town/func_808752CC",
-      "tu": "src/town/devkit/pass_indexed_table.c",
+      "tu": "src/town/devkit/set_stage_flag_two_if_ready.c",
       "foff": "0x7F52CC",
       "vma": "0x807012CC",
       "size": 152,

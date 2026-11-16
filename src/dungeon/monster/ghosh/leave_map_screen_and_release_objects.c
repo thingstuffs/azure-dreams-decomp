@@ -22,14 +22,14 @@ void leave_map_screen_and_release_objects(void)
     *(u16 *)(ptr + 0x46) &= 0x7FFF;
     dungeon_floor_flags &= 0xF7FFFFFF;
     system_update_flags &= 0xFFF6;
-    set_monster_data_pointer();
+    reset_timed_sequence_data();
     func_8016E264();
 
     i = 0;
     do {
         object = *(void **)(((u8 *)dungeon_actor_ring_anchor) + 0xAC + i * 4);
         if (object != 0) {
-            clear_entry_flag_and_link_owner((u8 *)object - 0x20);
+            insert_node_before_primary_actor((u8 *)object - 0x20);
         }
         i++;
     } while (i < 2);

@@ -20,7 +20,7 @@ u32 invoke_state_callback(void) {
 }
 
 /* Pass the four-byte request 1, 1, 0, 0 to func_800168BC. */
-void append_default_town_item(void) {
+void give_herb_item(void) {
     Copy4 request;
 
     request.bytes[1] = 1;

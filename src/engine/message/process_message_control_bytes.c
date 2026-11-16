@@ -34,7 +34,7 @@ void process_message_control_bytes(RuntimeContext *ctx) {
             call_ptr = ctx->read_ptr;
             ctx->return_ptr++;
             ctx->read_ptr = call_ptr + 1;
-            format_unsigned_double_byte_decimal(*(s32 *)(base + (call_ptr[1] * 4) + 0x48),
+            format_fullwidth_decimal(*(s32 *)(base + (call_ptr[1] * 4) + 0x48),
                           ctx->base + 0x14);
             ctx->read_ptr = ctx->base + 0x14;
         } else if (signed_opcode == -2) {

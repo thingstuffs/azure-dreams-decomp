@@ -82,7 +82,7 @@ void advance_actor_action_controller(ActorRecord *controller, void *action_conte
 
         if (actor_flags & 0x80000) {
             begin_actor_move_to_target_facing(controller, action_context, sprite, actor);
-            install_actor_action_handler_after_floor_trap_check(controller, action_context, sprite, actor);
+            finish_actor_parent_motion(controller, action_context, sprite, actor);
             return;
         }
 

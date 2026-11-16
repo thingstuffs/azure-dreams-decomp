@@ -116,7 +116,7 @@ void draw_fullscreen_fade(void *effect, ObjectPosition *unused, S_8009BE2C_2 *fa
 
 
 /* Creates a type 0x212 object and initializes its flag and value. */
-void create_type_212_object(s32 flag, s8 value) {
+void create_fullscreen_fade(s32 flag, s8 value) {
     void *owner_body;
     ObjectNodeHeader *owner;
     SpriteFrameState *state;
@@ -143,7 +143,7 @@ extern u8 D_800E0D51[];
 extern u8 D_800E0D6D[];
 
 /* Randomly adds a quarter of the source value to the target and reports the change. */
-void add_random_quarter_value(ActorRecord *body, ActorRecord *target) {
+void pass_quarter_damage_to_target(ActorRecord *body, ActorRecord *target) {
     u16 direction_aux[2];
     s32 amount;
     s16 signed_amount;
@@ -173,7 +173,7 @@ void add_random_quarter_value(ActorRecord *body, ActorRecord *target) {
             message_end = get_unused_text_buffer();
             message_start = message_end;
             message_end = expand_text_control_codes(D_800E0D51, message_start);
-            message_end = format_unsigned_double_byte_decimal(-signed_amount, message_end);
+            message_end = format_fullwidth_decimal(-signed_amount, message_end);
             message_end = expand_text_control_codes(D_800E0D6D, message_end);
             message_end = append_entity_display_text(target, message_end);
             message_end = expand_text_control_codes(D_80088CAC, message_end);
@@ -309,7 +309,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
                 tile_text = tile_result << 2;
                 tile_text_base = (s32)&floor_objects;
                 tile_text += tile_text_base;
-                message_cursor = apply_type_based_entry_adjustments((struct DungeonItemEntry *)tile_text, message_cursor);
+                message_cursor = append_item_name_with_affixes((struct DungeonItemEntry *)tile_text, message_cursor);
                 message_cursor = expand_text_control_codes(D_800E0D7B, message_cursor);
                 clear_byte_and_advance(message_cursor);
                 display_text_with_fullwidth_adjustment(message_start);
@@ -371,7 +371,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
     if ((attack_script != NULL) && (*attack_script == 0xF0D)) {
         target->unk_22.n = target->unk_27;
     } else {
-        target->unk_22.v = (u16) (target->unk_27 + clamp_adjusted_value_0_to_99((ActorRecord *)target));
+        target->unk_22.v = (u16) (target->unk_27 + get_shield_defense_bonus((ActorRecord *)target));
     }
     if ((get_entity_effect_value((struct ActorRecord *)target, STATUS_FROG) << 0x10) != 0) {
         target->unk_22.n = (u16) ((s32) (target->unk_22.n << 0x10) >> 0x11);
@@ -488,11 +488,11 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
             s32 display_damage;
             if ((modifier << 0x10) != 0) {
                 display_damage = 0;
-                message_cursor = format_unsigned_double_byte_decimal(display_damage, message_cursor);
+                message_cursor = format_fullwidth_decimal(display_damage, message_cursor);
             } else {
                 display_damage = target->unk_64;
                 display_damage = 0 - display_damage;
-                message_cursor = format_unsigned_double_byte_decimal(display_damage, message_cursor);
+                message_cursor = format_fullwidth_decimal(display_damage, message_cursor);
             }
         }
         message_cursor = expand_text_control_codes(D_800E0DEA, message_cursor);
@@ -511,7 +511,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
     target_data = target_data->unk_3D7C;
     target->unk_1C = target_flags;
     if (target == target_data) {
-        add_random_quarter_value((ActorRecord *)target, attacker_in);
+        pass_quarter_damage_to_target((ActorRecord *)target, attacker_in);
     }
     signed_value = modifier << 0x10;
     damage = 0;
@@ -534,7 +534,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
         effect_flags &= 0x2000;
         effect_flags <<= 0x10;
         effect_flags >>= 0x10;
-        create_type_212_object(effect_flags, (s32)opposite_x_ptr);
+        create_fullscreen_fade(effect_flags, (s32)opposite_x_ptr);
     }
     play_sound_if_enabled(0x601);
     if (!(((SpriteFrameState *)(tile_in))->flags & 0x8000)) {
@@ -895,7 +895,7 @@ void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 po
             ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_3E = (u16) (hit_angle + 0x800);
         }
         ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_36.s = (u16) (((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_3B
-            + clamp_adjusted_value_0_to_99(target));
+            + get_shield_defense_bonus(target));
         if ((get_entity_effect_value(target, STATUS_FROG) << 0x10) != 0) {
             ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_36.s = (u16) ((s32) (((S_8009CE1C_1 *)((u8 *)target
                 - 0x14))->unk_36.s << 0x10) >> 0x11);
@@ -1370,5 +1370,5 @@ void pack_and_submit_cell_height_levels(void) {
         } while (value_2 < width_shift);
     }
     LoadImage(&upload_pair, buffer);
-    create_type_212_object(1, 0x20);
+    create_fullscreen_fade(1, 0x20);
 }

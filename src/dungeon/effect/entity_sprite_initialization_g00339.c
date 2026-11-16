@@ -24,7 +24,7 @@ void initialize_entity_sprite_effect(void *entity, EntityRec *position, SpriteFr
     sprite->scale_x = 0x1000;
     sprite->color.word = 0x2C808080;
     sprite->flags |= 0x8000;
-    clear_entry_flag_and_link_owner(entity);
+    insert_node_before_primary_actor(entity);
 
     cycle_map_cell_flags(sprite->tile_x, sprite->tile_y,
                   (state->unk_1C & 0x2000) ? 0x300 : 0x3000);

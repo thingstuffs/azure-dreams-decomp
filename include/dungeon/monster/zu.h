@@ -50,7 +50,7 @@ void update_sleeping_zu(ActorRecord *controller, ObjectPosition *motion, SpriteF
 void advance_zu_animation(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 void update_zu_sprite_state(ActorRecord *actor, ObjectPosition *action, struct SpriteFrameState *sprite, ActorRecord *target);
 void update_directional_sprite_state_and_signals(ActorRecord *state, ObjectPosition *action, struct SpriteFrameState *source, ActorRecord *target);
-void restore_after_terrain_interpolation(ActorRecord *state, ObjectPosition *action, struct SpriteFrameState *source, ActorRecord *target);
+void finish_zu_terrain_move(ActorRecord *state, ObjectPosition *action, struct SpriteFrameState *source, ActorRecord *target);
 void restore_after_spinning_fall(ActorRecord *state, ObjectPosition *action, struct SpriteFrameState *source, ActorRecord *target);
 void restore_after_fade_in(ActorRecord *state, ObjectPosition *action, struct SpriteFrameState *source, ActorRecord *target);
 void update_zu_effect_fade(void *effect, ObjectPosition *position, struct SpriteFrameState *visual);
@@ -70,7 +70,7 @@ typedef struct BankEffectFadeBody {
     union { s16 s; u16 u; } unk_4C;
 } BankEffectFadeBody;
 
-void start_bank_actor_hit_reaction(ActorRecord *work, ObjectPosition *part_a, SpriteFrameState *part_b, ActorRecord *actor);
+void begin_zu_action_with_message(ActorRecord *work, ObjectPosition *part_a, SpriteFrameState *part_b, ActorRecord *actor);
 void update_zu_timed_effect(ActorRecord *state_input, ObjectPosition *motion_input, SpriteFrameState *animation_input, ActorRecord *actor_input);
 void create_cylindrical_effect(struct CylindricalEffectWork *state);
 #endif

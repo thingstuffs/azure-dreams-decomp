@@ -392,7 +392,7 @@ loop_0:
             text_end = write_text_byte_and_advance(0xA, text_end);
             text_end = append_entity_display_text((entity_data), text_end);
             text_end = expand_text_control_codes(D_800E095F, text_end);
-            text_end = format_unsigned_double_byte_decimal(((u8 *)entity_data)[0x11], text_end);
+            text_end = format_fullwidth_decimal(((u8 *)entity_data)[0x11], text_end);
             text_end = expand_text_control_codes(fullwidth_period, text_end);
 
             if (((u8 *)entity_data)[0x13] != 0 && ((*(s32 *)(((u8 *)entity_data) + 0x14) & 0x4000) != 0)) {
@@ -712,7 +712,7 @@ s32 lower_entity_level(ActorRecord *body, s32 show_message) {
         message_end = write_text_byte_and_advance(0xA, message_end);
         message_end = append_entity_display_text(entity, message_end);
         message_end = expand_text_control_codes(D_800E099A, message_end);
-        message_end = format_unsigned_double_byte_decimal(entity[0x11], message_end);
+        message_end = format_fullwidth_decimal(entity[0x11], message_end);
         message_end = expand_text_control_codes(fullwidth_period, message_end);
 
         if (entity[0x13] != 0 && ((*(s32 *)(entity + 0x14) & 0x4000) != 0)) {
@@ -1078,7 +1078,7 @@ void distribute_experience_and_report_gains(EntityRec *entity) {
                     selectionInputThird = get_unused_text_buffer();
                     globalData = monster_species_table;
                     currentValue = selectionInputThird;
-                    clear_byte_and_advance(expand_text_control_codes(D_800E09E6, format_unsigned_double_byte_decimal(result, expand_text_control_codes(D_800E09D9,
+                    clear_byte_and_advance(expand_text_control_codes(D_800E09E6, format_fullwidth_decimal(result, expand_text_control_codes(D_800E09D9,
                         expand_text_control_codes(globalData->unk_04, currentValue)))));
                 } else {
                     return;
@@ -1089,7 +1089,7 @@ void distribute_experience_and_report_gains(EntityRec *entity) {
                 }
                 selectionInputSecond = get_unused_text_buffer();
                 currentValue = selectionInputSecond;
-                clear_byte_and_advance(expand_text_control_codes(D_800E09FB, format_unsigned_double_byte_decimal(result, expand_text_control_codes(D_800E09EE,
+                clear_byte_and_advance(expand_text_control_codes(D_800E09FB, format_fullwidth_decimal(result, expand_text_control_codes(D_800E09EE,
                     append_entity_display_text(entity->target, currentValue)))));
             }
             display_text_with_fullwidth_adjustment(currentValue);

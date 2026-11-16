@@ -738,7 +738,7 @@ void load_dungeon_layout(s16 layout_number)
         dungeon_ground_items[entry_index].kind = *data++;
         dungeon_ground_items[entry_index].unk_03 = *data++;
         dungeon_ground_items[entry_index].unk_02 = *data++;
-        ((floor_generate_isolated_80285464_RecB *)dungeon_ground_item_positions)[entry_index].f8 = get_item_category_value(&dungeon_ground_items[entry_index]);
+        ((floor_generate_isolated_80285464_RecB *)dungeon_ground_item_positions)[entry_index].f8 = get_item_sprite_source(&dungeon_ground_items[entry_index]);
         entry_index++;
     }
     while (entry_index < 64) {
@@ -797,7 +797,7 @@ void load_dungeon_layout(s16 layout_number)
 }
 
 /* Seeds floor generation, loads a fixed or random layout, and places elevators and border tiles. */
-void setup_run_and_load_track(void) {
+void build_dungeon_floor(void) {
     floor_generate_isolated_80285A70_State13710 *state;
     floor_generate_isolated_80285A70_Page8001 *page1;
     floor_generate_isolated_80285A70_TrackRecord *track;
@@ -883,7 +883,7 @@ void setup_run_and_load_track(void) {
         clear_thirty_six_table_fields();
         tracks = floor_track_configuration_records;
         track = &tracks[track_no];
-        create_default_state_object(track->track);
+        create_circular_segment_object(track->track);
         file_load_com(floor_track_resource_descriptors[track->table_index]);
         runtime_load_packed_resource_chunks(track->kind, D_800F0000);
         clear_generation_cell_grid();
@@ -899,14 +899,14 @@ void setup_run_and_load_track(void) {
         }
     } else {
         if (page1->mode != 2) {
-            create_default_state_object(floor_generation_track_variant % 24 + 3);
+            create_circular_segment_object(floor_generation_track_variant % 24 + 3);
             action = floor_variant_resource_descriptors[floor_generation_track_variant % 24];
         } else {
             s32 random_remainder;
 
             random_remainder = generate_random_value() & 0xFFFF;
             random_remainder %= 24;
-            create_default_state_object((s16)(random_remainder + 3));
+            create_circular_segment_object((s16)(random_remainder + 3));
             action = floor_variant_resource_descriptors[random_remainder];
         }
 

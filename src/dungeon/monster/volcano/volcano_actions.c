@@ -46,12 +46,12 @@ void *spawn_mode_dependent_112_object(s16 flags,s16 attr_x,s16 attr_y,s16 attr_h
   sprite->tile_y=tile_y;
   state=actor;
   if(kind==1) {
-   actor->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
+   actor->unk_8C.handler=update_volcano_turn_action;
    actor->flags14|=(ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
    actor->flags1C|=(ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
    sprite->frameTable=volcano_frame_set_6;
   } else if(kind>=2) {
-   actor->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
+   actor->unk_8C.handler=update_volcano_turn_action;
    actor->flags14|=ACTOR_CLASS_ENABLED;
    actor->flags1C|=ACTOR_PLAYER_SIDE;
    sprite->frameTable=volcano_frame_set_6;
@@ -60,9 +60,9 @@ void *spawn_mode_dependent_112_object(s16 flags,s16 attr_x,s16 attr_y,s16 attr_h
     set_or_clear_actor_status_slot(actor,STATUS_SLEEP,(generate_random_value()&0x3F)|0x20);
     sprite->frameTable=volcano_frame_set_2;
    }
-   state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
+   state->unk_8C.handler=update_volcano_turn_action;
    sprite->frameTable=volcano_frame_set_6;
-  } else { actor->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
+  } else { actor->unk_8C.handler=update_volcano_turn_action;
    sprite->frameTable=volcano_frame_set_6;
   }
   object->header.update_callback=update_volcano_motion_and_facing;
@@ -94,7 +94,7 @@ void update_volcano_motion_and_facing(ActorRecord *entity, ObjectPosition *motio
         ActorActionHandler early_callback;
 
         early_callback = entity->unk_8C.handler;
-        if (early_callback == update_actor_behavior_facing_and_animation_2) {
+        if (early_callback == update_volcano_turn_action) {
             early_callback(entity, motion, monster, entity);
         } else {
             entity->movement_queue_state &= 0x7F;
@@ -211,7 +211,7 @@ void update_volcano_motion_and_facing(ActorRecord *entity, ObjectPosition *motio
 #include "dungeon/monster/volcano.h"
 
 /* Selects movement, attacks, and spells from actor status, MP, and its position relative to the player. */
-void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectPosition *context_in, SpriteFrameState *sprite_in, ActorRecord *status_in) {
+void update_volcano_turn_action(ActorRecord *actor_in, ObjectPosition *context_in, SpriteFrameState *sprite_in, ActorRecord *status_in) {
     ActorRecord *status;
     u8 *anim_table;
     s32 tile_record;
@@ -371,7 +371,7 @@ void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectP
             active_actor = primary_actor_record;
             status->facing = direction;
             if (active_actor->action_id == 0x11) {
-                begin_actor_spell_action(actor_in, context_in, sprite_in, D_80174560, update_actor_behavior_facing_and_animation_2);
+                begin_actor_spell_action(actor_in, context_in, sprite_in, D_80174560, update_volcano_turn_action);
                 return;
             }
         }
@@ -383,7 +383,7 @@ void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectP
         case 1:
         case 2:
         case 3:
-            begin_actor_spell_action(actor_in, context_in, sprite_in, D_80174560, update_actor_behavior_facing_and_animation_2);
+            begin_actor_spell_action(actor_in, context_in, sprite_in, D_80174560, update_volcano_turn_action);
             return;
 
         case 11:
@@ -983,7 +983,7 @@ void move_volcano_to_tile_and_check_trap(ActorRecord *state, ObjectPosition *mot
   spend_actor_mp(actor,4);
   advance_status_timers(actor);
   if((check_actor_floor_trap(sprite,actor)<<16)>0) {
-   state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
+   state->unk_8C.handler=update_volcano_turn_action;
    state->unk_90.value=0;
   }
  }
@@ -1088,7 +1088,7 @@ void update_actor_hop_to_tile(ActorRecord *anim, ObjectPosition *motion, SpriteF
         }
 
         if ((check_actor_floor_trap(actor, actor_state) << 16) > 0) {
-            anim->unk_8C.address = update_actor_behavior_facing_and_animation_2;
+            anim->unk_8C.address = update_volcano_turn_action;
             on_actor_status_updated(actor_state);
         }
     }
@@ -1101,7 +1101,7 @@ void update_actor_hop_to_tile(ActorRecord *anim, ObjectPosition *motion, SpriteF
  */
 void update_linked_actor_motion_and_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
  if(update_linked_actor_motion(state,motion,sprite,actor)!=0 &&
-    (check_actor_floor_trap(sprite,actor)<<16)>0) state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
+    (check_actor_floor_trap(sprite,actor)<<16)>0) state->unk_8C.handler=update_volcano_turn_action;
 }
 #include "dungeon/monster/volcano.h"
 
@@ -1147,7 +1147,7 @@ void resolve_actor_attack_damage(ActorRecord *body, ObjectPosition *position, Sp
             return;
         }
         spend_actor_mp(actor, 0x100);
-        body->unk_8C.handler = update_actor_behavior_facing_and_animation_2;
+        body->unk_8C.handler = update_volcano_turn_action;
         g_dungeon_status.active_actor = 0;
         actor->action_flags =
             (u16)(actor->action_flags & 0x7FFF);
@@ -1231,7 +1231,7 @@ void update_actor_spell_action(E_80172A58_S_80172A58_0 *state, E_80172A58_S_8017
         primary_actor_record->unk_A4.halves.high.u = (u16) (primary_actor_record->unk_A4.halves.high.u - 1);
         advance_status_timers(actor);
         actor->pending_turn_updates = actor->pending_turn_updates - 1;
-        state->unk_8C = update_actor_behavior_facing_and_animation_2;
+        state->unk_8C = update_volcano_turn_action;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
@@ -1266,7 +1266,7 @@ void update_actor_spell_action(E_80172A58_S_80172A58_0 *state, E_80172A58_S_8017
             }
             if (g_dungeon_status.active_actor == 0) {
                 g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (g_dungeon_status.activity_counts.parts.pending_action_count - 1);
-                state->unk_8C = update_actor_behavior_facing_and_animation_2;
+                state->unk_8C = update_volcano_turn_action;
                 advance_status_timers(actor);
                 actor->target_tile_y = 0;
                 actor->target_tile_x = 0;
@@ -1381,7 +1381,7 @@ void dampen_actor_movement_to_tile(ActorRecord *action, ObjectPosition *motion, 
             if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
                 g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
             }
-            action->unk_8C.address = update_actor_behavior_facing_and_animation_2;
+            action->unk_8C.address = update_volcano_turn_action;
             return;
         }
 
@@ -1404,18 +1404,18 @@ void shrink_hopping_volcano(void *state,void *motion,void *sprite,void *actor) {
 #include "dungeon/monster/volcano.h"
 
 /* Runs the shared actor removal sequence with the supplied callback arguments. */
-void advance_entity_motion_fade_and_removal(void *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
+void advance_volcano_removal(void *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
     advance_actor_removal(state, action, source, target);
 }
 
 #include "dungeon/monster/volcano.h"
 
 /*
- * Runs update_actor_hop_and_grow and installs update_actor_behavior_facing_and_animation_2 when it
+ * Runs update_actor_hop_and_grow and installs update_volcano_turn_action when it
  * returns nonzero.
  */
 void finish_volcano_hop_and_grow(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
- if(update_actor_hop_and_grow(state,motion,sprite,actor) != 0) state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
+ if(update_actor_hop_and_grow(state,motion,sprite,actor) != 0) state->unk_8C.handler=update_volcano_turn_action;
 }
 #include "dungeon/monster/volcano.h"
 
@@ -1532,7 +1532,7 @@ void wait_volcano_pending_action(ActorRecord *action, ObjectPosition *context, S
                 direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             entity->flags1C &= ~ACTOR_ASLEEP;
-            action->unk_8C.address = update_actor_behavior_facing_and_animation_2;
+            action->unk_8C.address = update_volcano_turn_action;
         }
     }
 }
@@ -1635,7 +1635,7 @@ void wait_for_volcano_mp(ActorRecord *controller, ObjectPosition *context, Sprit
         (((SpriteFieldView_80DE5D7C *)sprite)->field_2C) = effect;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9;
         select_sprite_entry(sprite, effect[direction & 7], 0);
-        controller->unk_8C.address = update_actor_behavior_facing_and_animation_2;
+        controller->unk_8C.address = update_volcano_turn_action;
         actor->flags1C &= ~ACTOR_ASLEEP;
     }
 }
@@ -1648,7 +1648,7 @@ void wait_for_volcano_mp(ActorRecord *controller, ObjectPosition *context, Sprit
  */
 void update_actor_landing_and_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
  if(update_actor_transform_from_parent(state,motion,sprite,actor)!=0) {
-  if((check_actor_floor_trap(sprite,actor)<<16)>0) state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
+  if((check_actor_floor_trap(sprite,actor)<<16)>0) state->unk_8C.handler=update_volcano_turn_action;
  } else if(sprite->frameTable==volcano_frame_set_2 && !(actor->flags1C&0x208)) {
   sprite->frameTable=volcano_frame_set_3;
   select_sprite_entry(sprite,volcano_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle+actor->facing+0x100)>>9)&7],0);
@@ -1662,52 +1662,52 @@ void update_actor_landing_and_trap(ActorRecord *state, ObjectPosition *motion, S
  */
 void update_thrown_actor_and_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
  if(update_thrown_actor_travel(state,motion,sprite,actor)!=0 &&
-    (check_actor_floor_trap(sprite,actor)<<16)>0) state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
+    (check_actor_floor_trap(sprite,actor)<<16)>0) state->unk_8C.handler=update_volcano_turn_action;
 }
 #include "dungeon/monster/volcano.h"
 
 /*
- * Runs interpolate_actor_to_terrain_tile and installs update_actor_behavior_facing_and_animation_2
+ * Runs interpolate_actor_to_terrain_tile and installs update_volcano_turn_action
  * when it returns nonzero.
  */
 void finish_volcano_terrain_interpolation(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
- if(interpolate_actor_to_terrain_tile(state,motion,sprite,actor) != 0) state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
+ if(interpolate_actor_to_terrain_tile(state,motion,sprite,actor) != 0) state->unk_8C.handler=update_volcano_turn_action;
 }
 #include "dungeon/monster/volcano.h"
 
 /*
- * Runs update_spinning_actor_fall and installs update_actor_behavior_facing_and_animation_2 when
+ * Runs update_spinning_actor_fall and installs update_volcano_turn_action when
  * it returns nonzero.
  */
 void finish_volcano_spinning_fall(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
- if(update_spinning_actor_fall(state,motion,sprite,actor) != 0) state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
+ if(update_spinning_actor_fall(state,motion,sprite,actor) != 0) state->unk_8C.handler=update_volcano_turn_action;
 }
 #include "dungeon/monster/volcano.h"
 
 /*
- * Runs update_actor_fade_in and installs update_actor_behavior_facing_and_animation_2 when it
+ * Runs update_actor_fade_in and installs update_volcano_turn_action when it
  * returns nonzero.
  */
 void finish_volcano_fade_in(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
- if(update_actor_fade_in(state,motion,sprite) != 0) state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
+ if(update_actor_fade_in(state,motion,sprite) != 0) state->unk_8C.handler=update_volcano_turn_action;
 }
 #include "dungeon/monster/volcano.h"
 
 /*
- * Runs resolve_actor_floor_trap_once and installs update_actor_behavior_facing_and_animation_2
+ * Runs resolve_actor_floor_trap_once and installs update_volcano_turn_action
  * when it returns positive.
  */
 void finish_volcano_floor_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
- if(resolve_actor_floor_trap_once(state,motion,sprite,actor) > 0) state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
+ if(resolve_actor_floor_trap_once(state,motion,sprite,actor) > 0) state->unk_8C.handler=update_volcano_turn_action;
 }
 #include "dungeon/monster/volcano.h"
 
 /*
- * Runs propagate_actor_action_flag and installs update_actor_behavior_facing_and_animation_2 when
+ * Runs propagate_actor_action_flag and installs update_volcano_turn_action when
  * it returns nonzero.
  */
 void finish_volcano_flag_propagation(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
- if(propagate_actor_action_flag(state,motion,sprite,actor) != 0) state->unk_8C.handler=update_actor_behavior_facing_and_animation_2;
+ if(propagate_actor_action_flag(state,motion,sprite,actor) != 0) state->unk_8C.handler=update_volcano_turn_action;
 }
 #include "dungeon/monster/volcano.h"
 
@@ -1802,7 +1802,7 @@ void advance_actor_state_with_child(ActorRecord *actor, ObjectPosition *context,
         spend_actor_mp(creature, 0x400);
         set_record_integer_tile_center(context, sprite->tile_x,
                       sprite->tile_y);
-        actor->unk_8C.address = update_actor_behavior_facing_and_animation_2;
+        actor->unk_8C.address = update_volcano_turn_action;
         g_dungeon_status.active_actor = 0;
         creature->action_flags &= 0x7FFF;
         return;
@@ -1844,7 +1844,7 @@ void advance_actor_state_when_allowed(ActorRecord *state_ctx, ObjectPosition *en
         if (action->flags & 0xE000) {
             spend_actor_mp(entity, 0x400);
             set_record_integer_tile_center(entity_id, action->tile_x, action->tile_y);
-            state_ctx->unk_8C.handler = update_actor_behavior_facing_and_animation_2;
+            state_ctx->unk_8C.handler = update_volcano_turn_action;
             g_dungeon_status.active_actor = 0;
             entity->action_flags &= 0x7FFF;
         }

@@ -16,6 +16,6 @@ void leave_map_screen_and_clear_flags(void) {
     *(u16 *)(ptr + 0x46) &= 0x7FFF;
     dungeon_floor_flags &= 0xF7FFFFFF;
     h[0] &= 0xFFF6;
-    set_monster_data_pointer();
+    reset_timed_sequence_data();
     func_8016E264();
 }

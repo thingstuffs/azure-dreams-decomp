@@ -13,10 +13,10 @@
 #include "shared/sprite_frame_state.h"
 
 /* dragon.h owns these declarations but also declares a different
- * advance_actor_attack_and_resolve_damage than ashra.h, so the two headers
+ * advance_dragon_attack than ashra.h, so the two headers
  * cannot be combined in this file. */
 extern void update_entity_facing_motion_and_ground(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *part);
-extern void dispatch_monster_move_attack_spell(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *actor_state);
+extern void dispatch_dragon_actions(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *actor_state);
 
 /* Allocate Ashra, set its spawn state and frames, and try a valid tile. */
 void *spawn_ashra(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
@@ -76,7 +76,7 @@ void *spawn_ashra(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
         initialize_actor_sprite_and_animation(obj, position, sprite, spawn_flags);
         actor->action_id = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C.address = dispatch_monster_move_attack_spell;
+        actor->unk_8C.address = dispatch_dragon_actions;
         try_move_actor_to_valid_position(actor, position, sprite, work);
     }
     return work;

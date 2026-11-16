@@ -25,7 +25,7 @@ extern void func_8001886C(s32);
 extern TownEntry D_80019088[7];
 
 /* Functions defined in this translation unit. */
-s32 check_town_event_flags_clear(void);
+s32 are_pool_events_clear(void);
 void reset_town_event_state(void);
 
 #endif

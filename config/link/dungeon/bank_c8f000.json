@@ -205,7 +205,7 @@
     },
     {
       "row": "dungeon/func_80C71224",
-      "tu": "src/dungeon/monster/metal/finish_timed_actor_movement.c",
+      "tu": "src/dungeon/monster/metal/hop_metal_to_tile.c",
       "home": "dungeon/func_80C6B224",
       "foff": "0xc91224",
       "vma": "0x8016ca24",

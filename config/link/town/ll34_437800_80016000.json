@@ -53,7 +53,7 @@
     },
     {
       "row": "town/func_804B86F4",
-      "tu": "src/town/scene/object/set_scene_position_fixed.c",
+      "tu": "src/town/scene/object/set_mia_library_door_target.c",
       "home": "town/func_804B86F4",
       "foff": "0x4386F4",
       "vma": "0x80016ef4",
@@ -61,7 +61,7 @@
     },
     {
       "row": "town/func_804B87DC",
-      "tu": "src/town/scene/object/set_player_position_x1696_y1184.c",
+      "tu": "src/town/scene/object/set_library_corner_walk_target.c",
       "home": "town/func_804B87DC",
       "foff": "0x4387DC",
       "vma": "0x80016fdc",
@@ -69,7 +69,7 @@
     },
     {
       "row": "town/func_804B8854",
-      "tu": "src/town/scene/object/set_player_position_x1696_y1184.c",
+      "tu": "src/town/scene/object/set_library_corner_walk_target.c",
       "home": "town/func_804B87DC",
       "foff": "0x438854",
       "vma": "0x80017054",
@@ -81,7 +81,7 @@
     },
     {
       "row": "town/func_804B887C",
-      "tu": "src/town/scene/object/set_scene_position_fixed.c",
+      "tu": "src/town/scene/object/set_mia_library_door_target.c",
       "home": "town/func_804B86F4",
       "foff": "0x43887C",
       "vma": "0x8001707c",

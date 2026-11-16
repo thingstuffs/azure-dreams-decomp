@@ -38,14 +38,14 @@ typedef struct S_80173B98_2 {
     s8 unk_26;
     u8 pad_27[0x5];
     void * unk_2C;
-} S_80173B98_2;   /* arg2 in update_creature_actions_and_animation */
+} S_80173B98_2;   /* arg2 in update_pulunpa_behavior */
 
 #include "dungeon/item/find_active_rect_containing_point_api.h"
 s32 can_entity_gain_level(void *creature);
-extern void update_object_or_select_directional_data(void *object_arg, ObjectPosition *context, void *source_arg, ActorRecord *target_arg);
+extern void update_pulunpa_parent_motion(void *object_arg, ObjectPosition *context, void *source_arg, ActorRecord *target_arg);
 extern void choose_heading_and_advance_actor(ActorRecord *context, s32 action, S_8017405C_1 *actor, ActorRecord *movement);
 void func_80174924(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
-extern s32 check_object_action_and_clear_flags(ActorRecord *object, s32 query_x, void *query_y, s32 action_override);
+extern s32 select_pulunpa_action(ActorRecord *object, s32 query_x, void *query_y, s32 action_override);
 s32 select_nearby_target_and_start_action(ActorRecord *action_state, ObjectPosition *unused, SpriteFrameState *actor_pos_arg, ActorRecord *actor);
 
 extern u8 D_80176358[];
@@ -64,7 +64,7 @@ static __inline__ void set_map(SpriteFrameState *sprite, ActorRecord *creature, 
 /* Updates dungeon creature actions, facing direction, and animation. */
 /* Dispatches alternate Pulunpa's movement and target actions, handles turn processing, and restores its
  * idle frames. */
-void update_creature_actions_and_animation(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *creature) {
+void update_pulunpa_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *creature) {
     u16 direction_aux;
     s32 status_flags;
     s8 tile_index;
@@ -114,7 +114,7 @@ void update_creature_actions_and_animation(ActorRecord *actor, ObjectPosition *c
         }
         if (creature->flags1C & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(actor, context, sprite, creature);
-            update_object_or_select_directional_data(actor, context, sprite, creature);
+            update_pulunpa_parent_motion(actor, context, sprite, creature);
             return;
         }
         if ((can_entity_gain_level(creature) << 0x10) != 0) {
@@ -147,7 +147,7 @@ void update_creature_actions_and_animation(ActorRecord *actor, ObjectPosition *c
                     }
                 }
             }
-            if ((check_object_action_and_clear_flags(actor, context, sprite, 0) << 0x10) == 0) {
+            if ((select_pulunpa_action(actor, context, sprite, 0) << 0x10) == 0) {
                 return;
             }
             action_flags = creature->action_flags | 0x4000;

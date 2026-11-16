@@ -24,7 +24,7 @@ extern u8 D_80170A68[];
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 /* Creates Viper with default frames at D_80174A7C, applies spawn flags, and attempts valid tile placement. */
-void *spawn_mode_configured_monster(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
+void *spawn_viper(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
 {
     s32 kind;
     ObjectNodeHeader *obj;

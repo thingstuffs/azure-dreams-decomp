@@ -10,7 +10,7 @@
 
 /* Creates a Nyuel actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
-void *spawn_mode_configured_monster_slot_c(s16 flags, s16 tile_x, s32 variant, s32 spawn_height)
+void *spawn_nyuel_slot_c(s16 flags, s16 tile_x, s32 variant, s32 spawn_height)
 {
     void *result;
     ObjectNodeHeader *created;

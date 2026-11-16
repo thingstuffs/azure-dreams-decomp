@@ -20,12 +20,12 @@
 #include "dungeon/effect.h"
 #include "dungeon/effect/screen.h"
 
-void * (*const resource08_slot0_entry0)(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id) = spawn_animated_monster;
+void * (*const resource08_slot0_entry0)(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id) = spawn_griffon_slot_g;
 void (*const resource08_slot0_entry1)(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *sprite) = update_griffon_motion_and_facing;
 
 /* Creates a Griffon actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
-void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
+void *spawn_griffon_slot_g(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
 {
     s32 kind;
     ObjectNodeHeader *obj;
@@ -365,7 +365,7 @@ void update_griffon_actor_behavior(ActorRecord *actor, ObjectPosition *position,
 
             case 7:
             case 8:
-                if ((update_actor_animation_behavior_and_facing(actor, position, object, actor_data) << 16) != 0) {
+                if ((try_griffon_attack(actor, position, object, actor_data) << 16) != 0) {
                     return;
                 }
                 begin_griffon_attack(actor, position, object, actor_data);
@@ -591,7 +591,7 @@ void choose_griffon_move(ActorRecord *move_data, ObjectPosition *context, Sprite
 
     if ((dungeon_flags & 0x4000) || (s8)actor_data->movement_queue_state >= 0) {
         if (actor_data->unk_12 >= 2 ||
-            (s16)update_actor_animation_behavior_and_facing(move_data, context, position_data, actor_data) == 0) {
+            (s16)try_griffon_attack(move_data, context, position_data, actor_data) == 0) {
             update_actor_status_and_mp(actor_data);
             return;
         }
@@ -811,7 +811,7 @@ void begin_griffon_step_animation(ActorRecord *object, ObjectPosition *unused_po
 }
 
 /* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
-s32 update_actor_animation_behavior_and_facing(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor) {
+s32 try_griffon_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor) {
     ActorRecord *neighbor;
     u16 status_flags;
     u8 actor_flags;
@@ -1576,7 +1576,7 @@ void finish_griffon_hop_and_grow(ActorRecord *state, ObjectPosition *motion, Spr
 }
 
 /* Waits for a status effect to clear, updates actor status and activity counts, then restores movement. */
-void update_object_or_select_directional_data(ActorRecord *controller, ObjectPosition *actor_index, SpriteFrameState *sprite, ActorRecord *actor) {
+void update_sleeping_griffon(ActorRecord *controller, ObjectPosition *actor_index, SpriteFrameState *sprite, ActorRecord *actor) {
     DungeonGlobalStatus *dungeon_status;
     s32 actor_flags;
     s32 state;
@@ -1898,7 +1898,7 @@ void finish_griffon_fade_in(ActorRecord *state, ObjectPosition *motion, SpriteFr
 }
 
 /* Projects visible sprites in the linked effect chain using the shared depth adjustment. */
-s32 start_bank_actor_hit_reaction(void *initial_payload, s32 entry_data, SpriteFrameState *entry, s32 unused)
+s32 project_griffon_sprite_chain(void *initial_payload, s32 entry_data, SpriteFrameState *entry, s32 unused)
 {
     void *payload = initial_payload;
     R08_801740F4_Scratchpad *scratch = (R08_801740F4_Scratchpad *)0x1F800000;
@@ -1981,7 +1981,7 @@ void create_tinted_rotated_sprite(PositionedSpriteEffectBody *unused_0, ObjectPo
  * Creates a tinted sprite with scale 16 until the final 15 ticks, then increases its scale by six
  * per tick. Decrements the signed 16-bit lifetime and flags removal at zero or below.
  */
-void update_timed_effect_and_expire(PositionedSpriteEffectBody *effect, ObjectPosition *position, SpriteFrameState *sprite)
+void expand_tinted_sprite_and_expire(PositionedSpriteEffectBody *effect, ObjectPosition *position, SpriteFrameState *sprite)
 {
     s32 ticks_left = effect->ticks_remaining;
 
@@ -2018,7 +2018,7 @@ void create_black_sprite_effect(M2C_UNK unused, ObjectPosition *source_pos, void
         node_storage = effect_node;
         effect = node_storage + 0x20;
         effect->ticks_remaining = 0x2D;
-        effect_node->update_callback = ((void *)update_timed_effect_and_expire);
+        effect_node->update_callback = ((void *)expand_tinted_sprite_and_expire);
         register_node(effect_node, project_sprite_chain);
         position_storage = effect_node->position;
         effect_pos = position_storage;
@@ -2179,7 +2179,7 @@ void advance_griffon_replacement(ActorRecord *effect_state, ObjectPosition *posi
                 return;
             }
             effect_work->unk_10.p = ((u8 *)finish_griffon_effect_and_tint);
-            register_node(effect_node, ((u8 *)start_bank_actor_hit_reaction));
+            register_node(effect_node, ((u8 *)project_griffon_sprite_chain));
             color = 0x00808080;
             effect_state->unk_AC.address = effect_work;
             ((R08_80174648_S_80174648_9 *)(effect_work->unk_08))->unk_00 = position->x.v;

@@ -126,7 +126,7 @@ void *spawn_configured_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s
                     elem_offset += 48;
                     i++;
                     child->unk_06 = 0;
-                    texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(part_b, draw_sprite_effect_quads, 0);
+                    set_animation_child_source(part_b, draw_sprite_effect_quads, 0);
                     child->unk_98 = (u8 *)obj + 30;
                 }
             }

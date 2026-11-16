@@ -129,7 +129,7 @@ void update_boss_timed_animation(struct ActorRecord *actor, ObjectPosition *tran
 void create_fade_message_effect(void);
 void *allocate_boss_actor(s16 mode, s16 config_24, s16 config_25, s16 config_0a);
 void create_sprite_above_boss(void);
-void create_linked_facing_sprite(u16 x, u16 y, s32 z);
+void create_ghosh_pulunpa_actor(u16 x, u16 y, s32 z);
 struct GhoshTrailEmitterBody;
 void update_cascading_trail_emitter(struct GhoshTrailEmitterBody *record_data);
 

@@ -89,7 +89,7 @@ void stamp_sprite_part_chain_values(struct S_80048B8C *entries);
 void *init_slot_end_record(struct S_800485E0_Obj *obj, s16 slot_index, s16 base_index, s16 entry_index);
 
 /* texture_set_the_active_entries_matching_id_in_type_table_slots.c */
-void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(struct S_800478E8_0 *owner, void *value, s32 entry_id);
+void set_animation_child_source(struct S_800478E8_0 *owner, void *value, s32 entry_id);
 
 /* Data declarations. */
 extern void *runtime_texture_resource_handle;

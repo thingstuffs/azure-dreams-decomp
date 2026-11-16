@@ -82,7 +82,7 @@ void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, 
         initialize_actor_sprite_and_animation(obj, part_a, part_b, kind_flags);
         actor->action_id = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C.address = ((void *)dispatch_monster_move_attack_spell);
+        actor->unk_8C.address = ((void *)dispatch_grineut_actions);
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
@@ -112,7 +112,7 @@ void update_entity_facing_motion_and_ground(ActorRecord *entity, ObjectPosition 
 
     if (g_dungeon_status.flags & 0x2000) {
         callback = entity->unk_8C.handler;
-        if (callback == dispatch_monster_move_attack_spell) {
+        if (callback == dispatch_grineut_actions) {
             {
                 call_self = entity;
                 callback(call_self, motion, part, call_self);
@@ -240,7 +240,7 @@ void update_entity_facing_motion_and_ground(ActorRecord *entity, ObjectPosition 
 
 /* Selects movement, attacks, and spells from actor status and creates sprite effects during idle
  * animation. */
-void dispatch_monster_move_attack_spell(ActorRecord *record, ObjectPosition *entity, SpriteFrameState *object, ActorRecord *other_entity) {
+void dispatch_grineut_actions(ActorRecord *record, ObjectPosition *entity, SpriteFrameState *object, ActorRecord *other_entity) {
     u16 scratch;
     s16 offset[3];
     s8 result;
@@ -376,7 +376,7 @@ void dispatch_monster_move_attack_spell(ActorRecord *record, ObjectPosition *ent
             player = primary_actor_record;
             other_entity->facing = coordinate;
             if (player->action_id == 0x11) {
-                begin_actor_spell_action(record, entity, object, grineut_frame_set_3, ((void *)dispatch_monster_move_attack_spell));
+                begin_actor_spell_action(record, entity, object, grineut_frame_set_3, ((void *)dispatch_grineut_actions));
                 return;
             }
         }
@@ -388,7 +388,7 @@ void dispatch_monster_move_attack_spell(ActorRecord *record, ObjectPosition *ent
         case 1:
         case 2:
         case 3:
-            begin_actor_spell_action(record, entity, object, grineut_frame_set_3, ((void *)dispatch_monster_move_attack_spell));
+            begin_actor_spell_action(record, entity, object, grineut_frame_set_3, ((void *)dispatch_grineut_actions));
             return;
 
         case 11:
@@ -928,7 +928,7 @@ void move_grineut_to_tile(ActorRecord *state, ObjectPosition *context, SpriteFra
         if ((check_actor_floor_trap(source, target) << 0x10) <= 0) {
             return;
         }
-        state->unk_8C.handler = dispatch_monster_move_attack_spell;
+        state->unk_8C.handler = dispatch_grineut_actions;
         state->unk_90.value = 0;
     }
     if (g_dungeon_status.flags & 0x80) {
@@ -1054,19 +1054,19 @@ void hop_grineut_to_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrameS
     }
 
     if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-        body->unk_8C.address = ((void *)dispatch_monster_move_attack_spell);
+        body->unk_8C.address = ((void *)dispatch_grineut_actions);
         on_actor_status_updated(actor);
     }
 }
 
 /*
- * Runs update_linked_actor_motion and installs dispatch_monster_move_attack_spell only when it
+ * Runs update_linked_actor_motion and installs dispatch_grineut_actions only when it
  * succeeds and the signed floor-trap check returns positive.
  */
 void update_grineut_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_linked_actor_motion(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->unk_8C.handler = dispatch_monster_move_attack_spell;
+            state->unk_8C.handler = dispatch_grineut_actions;
         }
     }
 }
@@ -1184,7 +1184,7 @@ void advance_grineut_attack_step(ActorRecord *action, ObjectPosition *motion, Sp
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             spend_actor_mp(actor, 0x100);
-            action->unk_8C.handler = ((void *)dispatch_monster_move_attack_spell);
+            action->unk_8C.handler = ((void *)dispatch_grineut_actions);
             g_dungeon_status.active_actor = 0;
             action->action_state_flags &= 0xFFF7;
             advance_status_timers(actor);
@@ -1198,7 +1198,7 @@ void advance_grineut_attack_step(ActorRecord *action, ObjectPosition *motion, Sp
 }
 
 /* Starts a targeted spell with a two-row effect, waits for its animation, and restores actor movement. */
-void advance_actor_stored_path_2(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+void cast_grineut_targeted_spell(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 pos[3];
     s16 is_special;
     u8 *item;
@@ -1324,7 +1324,7 @@ copy_existing:
         }
         advance_status_timers(actor);
         actor->pending_turn_updates = actor->pending_turn_updates - 1;
-        body->unk_8C.address = ((void *)dispatch_monster_move_attack_spell);
+        body->unk_8C.address = ((void *)dispatch_grineut_actions);
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= 0x7FFF;
@@ -1402,7 +1402,7 @@ copy_existing:
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         sprite->flags &= 0xF7FF;
-        body->unk_8C.address = ((void *)dispatch_monster_move_attack_spell);
+        body->unk_8C.address = ((void *)dispatch_grineut_actions);
         advance_status_timers(actor);
         if (actor->pending_turn_updates > 0) {
             actor->pending_turn_updates = actor->pending_turn_updates - 1;
@@ -1535,7 +1535,7 @@ void settle_directional_motion_at_tile(ActorRecord *body, ObjectPosition *motion
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
             g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
-        body->unk_8C.byte_ptr = ((void *)dispatch_monster_move_attack_spell);
+        body->unk_8C.byte_ptr = ((void *)dispatch_grineut_actions);
 
         return;
 
@@ -1563,12 +1563,12 @@ void advance_grineut_removal(void *state, void *motion, void *position, void *ac
 }
 
 /*
- * Runs update_actor_hop_and_grow and installs dispatch_monster_move_attack_spell when it returns
+ * Runs update_actor_hop_and_grow and installs dispatch_grineut_actions when it returns
  * nonzero.
  */
 void grow_hopping_grineut(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_actor_hop_and_grow(state, motion, position, actor)) {
-        state->unk_8C.handler = dispatch_monster_move_attack_spell;
+        state->unk_8C.handler = dispatch_grineut_actions;
     }
 }
 
@@ -1625,7 +1625,7 @@ void update_sleeping_grineut(ActorRecord *controller, ObjectPosition *actor_inde
                 0);
             if (sprite->flags & 0x8000) {
                 actor->flags1C &= ~ACTOR_ASLEEP;
-                controller->unk_8C.address = ((void *)dispatch_monster_move_attack_spell);
+                controller->unk_8C.address = ((void *)dispatch_grineut_actions);
                 return;
             }
             {
@@ -1700,7 +1700,7 @@ void update_sleeping_grineut(ActorRecord *controller, ObjectPosition *actor_inde
                     0);
                 if (sprite->flags & 0x8000) {
                     actor->flags1C &= ~ACTOR_ASLEEP;
-                    controller->unk_8C.address = ((void *)dispatch_monster_move_attack_spell);
+                    controller->unk_8C.address = ((void *)dispatch_grineut_actions);
                     return;
                 }
                 {
@@ -1728,7 +1728,7 @@ void update_sleeping_grineut(ActorRecord *controller, ObjectPosition *actor_inde
             sprite,(u8)(grineut_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                         >> 9) & 7]),
             0);
-        controller->unk_8C.address = ((void *)dispatch_monster_move_attack_spell);
+        controller->unk_8C.address = ((void *)dispatch_grineut_actions);
         return;
 
         return;
@@ -1736,7 +1736,7 @@ void update_sleeping_grineut(ActorRecord *controller, ObjectPosition *actor_inde
 }
 
 /* Waits for MP recovery while processing actor status, then restores the normal animation and movement. */
-void dim_and_clear_flagged_effect(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
+void wait_for_grineut_mp(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
     s32 state;
 
     state = controller->action_phase;
@@ -1830,7 +1830,7 @@ void dim_and_clear_flagged_effect(ActorRecord *controller, ObjectPosition *conte
 
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             entity->flags1C &= ~(ACTOR_MP_EMPTY | ACTOR_ASLEEP);
-            controller->unk_8C.address = ((void *)dispatch_monster_move_attack_spell);
+            controller->unk_8C.address = ((void *)dispatch_grineut_actions);
         }
 
         return;
@@ -1845,7 +1845,7 @@ void dim_and_clear_flagged_effect(ActorRecord *controller, ObjectPosition *conte
 void update_grineut_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object) {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
         if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
-            actor->unk_8C.handler = dispatch_monster_move_attack_spell;
+            actor->unk_8C.handler = dispatch_grineut_actions;
             return;
         }
     } else if (entity->frameTable == grineut_alt_direction_frames &&
@@ -1856,60 +1856,60 @@ void update_grineut_parent_motion(ActorRecord *actor, ObjectPosition *action, Sp
 }
 
 /*
- * Runs update_thrown_actor_travel and installs dispatch_monster_move_attack_spell only when it
+ * Runs update_thrown_actor_travel and installs dispatch_grineut_actions only when it
  * succeeds and the signed floor-trap check returns positive.
  */
 void update_thrown_grineut(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_thrown_actor_travel(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->unk_8C.handler = dispatch_monster_move_attack_spell;
+            state->unk_8C.handler = dispatch_grineut_actions;
         }
     }
 }
 
 /*
- * Runs interpolate_actor_to_terrain_tile and installs dispatch_monster_move_attack_spell when it
+ * Runs interpolate_actor_to_terrain_tile and installs dispatch_grineut_actions when it
  * returns nonzero.
  */
 void settle_grineut_on_tile(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
-        state->unk_8C.handler = dispatch_monster_move_attack_spell;
+        state->unk_8C.handler = dispatch_grineut_actions;
     }
 }
 
 /*
- * Runs update_spinning_actor_fall and installs dispatch_monster_move_attack_spell when it returns
+ * Runs update_spinning_actor_fall and installs dispatch_grineut_actions when it returns
  * nonzero.
  */
 void update_spinning_grineut_fall(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
-        state->unk_8C.handler = dispatch_monster_move_attack_spell;
+        state->unk_8C.handler = dispatch_grineut_actions;
     }
 }
 
-/* Runs update_actor_fade_in and installs dispatch_monster_move_attack_spell when it returns nonzero. */
+/* Runs update_actor_fade_in and installs dispatch_grineut_actions when it returns nonzero. */
 void fade_in_grineut(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_actor_fade_in(state, motion, position)) {
-        state->unk_8C.handler = dispatch_monster_move_attack_spell;
+        state->unk_8C.handler = dispatch_grineut_actions;
     }
 }
 
 /*
- * Runs resolve_actor_floor_trap_once and installs dispatch_monster_move_attack_spell when it
+ * Runs resolve_actor_floor_trap_once and installs dispatch_grineut_actions when it
  * returns positive.
  */
 void resolve_grineut_floor_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (resolve_actor_floor_trap_once(state, motion, position, actor) > 0) {
-        state->unk_8C.handler = dispatch_monster_move_attack_spell;
+        state->unk_8C.handler = dispatch_grineut_actions;
     }
 }
 
 /*
- * Runs propagate_actor_action_flag and installs dispatch_monster_move_attack_spell when it returns
+ * Runs propagate_actor_action_flag and installs dispatch_grineut_actions when it returns
  * positive.
  */
 void propagate_grineut_action_flag(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (propagate_actor_action_flag(state, motion, position, actor) > 0) {
-        state->unk_8C.handler = dispatch_monster_move_attack_spell;
+        state->unk_8C.handler = dispatch_grineut_actions;
     }
 }

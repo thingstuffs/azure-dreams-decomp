@@ -5,6 +5,6 @@
 #include "modules/dungeon_ovl_bbd094.h"
 #include "common.h"
 
-u8 *spawn_mode_configured_monster_slot_f(s16 flags, s16 tile_x, u16 tile_y, s16 spawn_height);
+u8 *spawn_nyuel_slot_f(s16 flags, s16 tile_x, u16 tile_y, s16 spawn_height);
 
 #endif

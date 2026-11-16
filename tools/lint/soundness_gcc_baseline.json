@@ -83,8 +83,8 @@
       "cast between incompatible function types from 'u8 * (*)(struct Func8003AA84State *)' {aka 'unsigned char * (*)(struct Func8003AA84State *)'} to 'void (*)()'"
     ],
     [
-      "src/town/scene/check_inputs_only_prerequisite_least_second.c",
-      "check_inputs_only_prerequisite_least",
+      "src/town/scene/is_player_x_below_limit.c",
+      "is_player_x_below_limit",
       "-Wcast-function-type",
       "cast between incompatible function types from 'int (*)()' to 'void (*)(s32)' {aka 'void (*)(int)'}"
     ],
@@ -101,14 +101,14 @@
       "cast between incompatible function types from 'int (*)()' to 'void (*)(void *)'"
     ],
     [
-      "src/town/scene/event/advance_floor_event_counter.c",
-      "advance_floor_event_counter",
+      "src/town/scene/event/begin_town_rain_step.c",
+      "begin_town_rain_step",
       "-Wcast-function-type",
       "cast between incompatible function types from 'int (*)()' to 'void (*)(s32,  s32)' {aka 'void (*)(int,  int)'}"
     ],
     [
-      "src/town/scene/event/dispatch_state_entry_event_b.c",
-      "dispatch_state_entry_event_8",
+      "src/town/scene/event/check_hospital_sbs16_prerequisites.c",
+      "check_hospital_sbs16_prerequisites",
       "-Wcast-function-type",
       "cast between incompatible function types from 'int (*)()' to 'void (*)(s32,  s32)' {aka 'void (*)(int,  int)'}"
     ],
@@ -137,14 +137,14 @@
       "cast between incompatible function types from 'int (*)()' to 'void (*)(s32,  s32)' {aka 'void (*)(int,  int)'}"
     ],
     [
-      "src/town/scene/hooks/invoke_callback_set_shared_pointer.c",
-      "invoke_callback_and_set_shared_pointer",
+      "src/town/scene/hooks/init_scene_camera_preset.c",
+      "init_scene_camera_preset",
       "-Wcast-function-type",
       "cast between incompatible function types from 'int (*)()' to 'void (*)(u32)' {aka 'void (*)(unsigned int)'}"
     ],
     [
-      "src/town/scene/look_up_slot_record_falling_second.c",
-      "look_up_slot_record_falling",
+      "src/town/scene/check_hospital_scene06_prerequisites.c",
+      "check_hospital_scene06_prerequisites",
       "-Wcast-function-type",
       "cast between incompatible function types from 'int (*)()' to 'void (*)(s32,  s32)' {aka 'void (*)(int,  int)'}"
     ],
@@ -235,8 +235,8 @@
       1
     ],
     [
-      "src/town/scene/check_inputs_only_prerequisite_least_second.c",
-      "check_inputs_only_prerequisite_least",
+      "src/town/scene/is_player_x_below_limit.c",
+      "is_player_x_below_limit",
       "-Wcast-function-type",
       "cast between incompatible function types from 'int (*)()' to 'void (*)(s32)' {aka 'void (*)(int)'}",
       1
@@ -256,15 +256,15 @@
       1
     ],
     [
-      "src/town/scene/event/advance_floor_event_counter.c",
-      "advance_floor_event_counter",
+      "src/town/scene/event/begin_town_rain_step.c",
+      "begin_town_rain_step",
       "-Wcast-function-type",
       "cast between incompatible function types from 'int (*)()' to 'void (*)(s32,  s32)' {aka 'void (*)(int,  int)'}",
       1
     ],
     [
-      "src/town/scene/event/dispatch_state_entry_event_b.c",
-      "dispatch_state_entry_event_8",
+      "src/town/scene/event/check_hospital_sbs16_prerequisites.c",
+      "check_hospital_sbs16_prerequisites",
       "-Wcast-function-type",
       "cast between incompatible function types from 'int (*)()' to 'void (*)(s32,  s32)' {aka 'void (*)(int,  int)'}",
       1
@@ -298,15 +298,15 @@
       1
     ],
     [
-      "src/town/scene/hooks/invoke_callback_set_shared_pointer.c",
-      "invoke_callback_and_set_shared_pointer",
+      "src/town/scene/hooks/init_scene_camera_preset.c",
+      "init_scene_camera_preset",
       "-Wcast-function-type",
       "cast between incompatible function types from 'int (*)()' to 'void (*)(u32)' {aka 'void (*)(unsigned int)'}",
       2
     ],
     [
-      "src/town/scene/look_up_slot_record_falling_second.c",
-      "look_up_slot_record_falling",
+      "src/town/scene/check_hospital_scene06_prerequisites.c",
+      "check_hospital_scene06_prerequisites",
       "-Wcast-function-type",
       "cast between incompatible function types from 'int (*)()' to 'void (*)(s32,  s32)' {aka 'void (*)(int,  int)'}",
       1

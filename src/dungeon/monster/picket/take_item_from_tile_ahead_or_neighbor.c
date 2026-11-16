@@ -70,7 +70,7 @@ s32 take_item_from_tile_ahead_or_neighbor(void *origin, void *actor)
                            actor_bytes->field_2A);
     if (target != 0) {
         if (target == dungeon_actor_ring_anchor) {
-            if (is_linked_entity_flagged_80000(target, target) != 0) {
+            if (has_item_theft_protection(target, target) != 0) {
                 return 0;
             }
             {

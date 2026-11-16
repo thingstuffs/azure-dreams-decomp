@@ -36,14 +36,14 @@ s32 apply_flag_test_entry(S_800165E4_0 *tableOwner, s32 entryIndex) {
     return 0;
 }
 
-extern s32 select_data_array_based_flag(s16);
+extern s32 test_object_bitmap_bit(s16);
 
 /* Check whether every flag in the zero-terminated list is set. */
 s32 check_all_flags_set(s16 *flag_ids) {
     s16 *flag_id = flag_ids;
 
     while (*flag_id != 0) {
-        if (select_data_array_based_flag(*(u16 *)flag_id) == 0) {
+        if (test_object_bitmap_bit(*(u16 *)flag_id) == 0) {
             break;
         }
         flag_id++;

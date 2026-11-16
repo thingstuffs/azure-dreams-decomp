@@ -80,7 +80,7 @@ void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, 
         initialize_actor_sprite_and_animation(obj, part_a, part_b, kind_flags);
         actor->action_id = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C.address = ((void *)dispatch_monster_move_attack_spell);
+        actor->unk_8C.address = ((void *)dispatch_dragon_actions);
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
@@ -110,7 +110,7 @@ void update_entity_facing_motion_and_ground(ActorRecord *entity, ObjectPosition 
 
     if (g_dungeon_status.flags & 0x2000) {
         callback = entity->unk_8C.handler;
-        if (callback == dispatch_monster_move_attack_spell) {
+        if (callback == dispatch_dragon_actions) {
             {
                 call_self = entity;
                 callback(call_self, motion, part, call_self);
@@ -237,7 +237,7 @@ void update_entity_facing_motion_and_ground(ActorRecord *entity, ObjectPosition 
 }
 
 /* Selects movement, attacks, and spells from actor status, MP, and its position relative to the player. */
-void dispatch_monster_move_attack_spell(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *actor_state) {
+void dispatch_dragon_actions(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *actor_state) {
     u8 *anim_table;
     s32 room_id;
     u16 direction_flags;
@@ -323,7 +323,7 @@ void dispatch_monster_move_attack_spell(ActorRecord *controller, ObjectPosition 
             return;
         }
         if (*(u16 *)&entity->tile_x == reference_tile_object.tile_position.word) {
-            advance_actor_path_with_item_search(controller, context, entity, actor_state);
+            choose_dragon_move(controller, context, entity, actor_state);
             return;
         }
         if (!(actor_state->action_flags & ACTOR_ACTION_PENDING)) {
@@ -338,7 +338,7 @@ void dispatch_monster_move_attack_spell(ActorRecord *controller, ObjectPosition 
             }
             actor_state->action_flags |= 0x4000;
             if (!(actor_state->action_flags & ACTOR_ACTION_PENDING)) {
-                advance_actor_path_with_item_search(controller, context, entity, actor_state);
+                choose_dragon_move(controller, context, entity, actor_state);
                 return;
             }
         }
@@ -367,7 +367,7 @@ void dispatch_monster_move_attack_spell(ActorRecord *controller, ObjectPosition 
                     update_actor_status_and_mp(actor_state);
                     return;
                 }
-                begin_actor_spell_action(controller, context, entity, D_80173CCC, ((void *)dispatch_monster_move_attack_spell));
+                begin_actor_spell_action(controller, context, entity, D_80173CCC, ((void *)dispatch_dragon_actions));
                 return;
             }
         case 12:
@@ -376,13 +376,13 @@ void dispatch_monster_move_attack_spell(ActorRecord *controller, ObjectPosition 
         case 1:
         case 2:
         case 3:
-            begin_actor_spell_action(controller, context, entity, D_80173CCC, ((void *)dispatch_monster_move_attack_spell));
+            begin_actor_spell_action(controller, context, entity, D_80173CCC, ((void *)dispatch_dragon_actions));
             return;
         default:
             break;
         }
 
-        advance_actor_path_with_item_search(controller, context, entity, actor_state);
+        choose_dragon_move(controller, context, entity, actor_state);
         return;
     } else if (!(((u32)actor_state->flags1C) & ACTOR_PLAYER_SIDE)) {
         s32 room_index = (s8)room_id;
@@ -509,7 +509,7 @@ void advance_stored_entity_path(ActorRecord *body, ObjectPosition *position, Spr
 
 /* Chooses a clear step or attack, records the actor's path, and updates occupied tiles and movement
  * counts. */
-void advance_actor_path_with_item_search(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data) {
+void choose_dragon_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data) {
     u16 dungeon_flags = g_dungeon_status.flags;
     s32 limit_detour = 0;
     s16 detour_check;
@@ -823,7 +823,7 @@ s32 relink_dragon_path(ActorRecord *body, ObjectPosition *position, SpriteFrameS
     state_type = (s16)relink_entity_and_clear_high_flag(position, sprite, entity, 3, 6, &entity->unk_9C);
     if (state_type < 0) return 0;
     if ((force_state_arg << 0x10) != 0) {
-        advance_actor_path_with_item_search(entity, position, sprite, entity);
+        choose_dragon_move(entity, position, sprite, entity);
         result = 0;
         return result;
     }
@@ -834,7 +834,7 @@ s32 relink_dragon_path(ActorRecord *body, ObjectPosition *position, SpriteFrameS
         result = 0;
         return result;
     case 2:
-        advance_actor_path_with_item_search(entity, position, sprite, entity);
+        choose_dragon_move(entity, position, sprite, entity);
         result = 0;
         return result;
     case 1:
@@ -861,12 +861,12 @@ s32 relink_dragon_path(ActorRecord *body, ObjectPosition *position, SpriteFrameS
  * after a positive signed floor-trap result. Clears both action halfwords under flag 0x80 during
  * movement or after an accepted trap check. /
  */
-void finish_actor_tile_move_and_check_trap(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+void finish_dragon_tile_move(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     if (update_actor_movement_to_tile(body, motion, sprite, actor) != 0) {
         spend_actor_mp(actor, 4);
         advance_status_timers(actor);
         if ((check_actor_floor_trap(sprite, actor) << 0x10) > 0) {
-            body->unk_8C.handler = ((void *)dispatch_monster_move_attack_spell);
+            body->unk_8C.handler = ((void *)dispatch_dragon_actions);
             if (g_dungeon_status.flags & 0x80) {
                 body->unk_90.parts.high = 0;
                 body->unk_90.value = 0;
@@ -988,27 +988,27 @@ void complete_dragon_jump_to_destination(ActorRecord *jump, ObjectPosition *moti
 
 finish:
         if ((check_actor_floor_trap(map_entity, actor) << 16) > 0) {
-            jump->unk_8C.byte_ptr = ((void *)dispatch_monster_move_attack_spell);
+            jump->unk_8C.byte_ptr = ((void *)dispatch_dragon_actions);
             on_actor_status_updated(actor);
         }
     }
 }
 
 /*
- * Runs update_linked_actor_motion and installs dispatch_monster_move_attack_spell only when it
+ * Runs update_linked_actor_motion and installs dispatch_dragon_actions only when it
  * succeeds and the signed floor-trap check returns positive.
  */
-void update_dragon_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
+void finish_dragon_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_linked_actor_motion(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->unk_8C.handler = dispatch_monster_move_attack_spell;
+            state->unk_8C.handler = dispatch_dragon_actions;
         }
     }
 }
 
 /* Chooses an attack animation with an optional sprite effect, applies damage, spends MP, and restores
  * movement. */
-void advance_actor_attack_and_resolve_damage(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor)
+void advance_dragon_attack(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 state;
     void *allocated_effect;
@@ -1119,7 +1119,7 @@ void advance_actor_attack_and_resolve_damage(ActorRecord *body, ObjectPosition *
         }
         set_record_integer_tile_center(position,(u8)sprite->tile_x,(u8)sprite->tile_y);
         spend_actor_mp(actor, 0x180);
-        body->unk_8C.address = ((void *)dispatch_monster_move_attack_spell);
+        body->unk_8C.address = ((void *)dispatch_dragon_actions);
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         if (actor->pending_turn_updates == 0) {
@@ -1133,7 +1133,7 @@ void advance_actor_attack_and_resolve_damage(ActorRecord *body, ObjectPosition *
 }
 
 /* Starts a targeted spell with a two-row effect, then restores movement and status after the animation. */
-void finish_timed_actor_movement(ActorRecord *body, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor)
+void cast_dragon_targeted_spell(ActorRecord *body, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor)
 {
     u16 position[4];
     u8 *motion;
@@ -1232,7 +1232,7 @@ void finish_timed_actor_movement(ActorRecord *body, ObjectPosition *transform, S
         primary_actor_record->unk_A4.halves.high.u = primary_actor_record->unk_A4.halves.high.u - 1;
         advance_status_timers(actor);
         actor->pending_turn_updates = actor->pending_turn_updates - 1;
-        body->unk_8C.address = ((u8 *)dispatch_monster_move_attack_spell);
+        body->unk_8C.address = ((u8 *)dispatch_dragon_actions);
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -1283,7 +1283,7 @@ void finish_timed_actor_movement(ActorRecord *body, ObjectPosition *transform, S
         }
         ((R03_80172A24_S_80172A24_7 *)action_status)->unk_0A = ((R03_80172A24_S_80172A24_7 *)action_status)->unk_0A - 1;
         sprite->flags &= 0xF7FF;
-        body->unk_8C.address = ((u8 *)dispatch_monster_move_attack_spell);
+        body->unk_8C.address = ((u8 *)dispatch_dragon_actions);
         advance_status_timers(actor);
         if (actor->pending_turn_updates > 0) {
             actor->pending_turn_updates = actor->pending_turn_updates - 1;
@@ -1437,7 +1437,7 @@ void damp_dragon_motion_and_recenter(ActorRecord *body, ObjectPosition *motion, 
         if (tracked_object == (s32)((u8 *)source - 0x20)) {
             g_dungeon_status.pending_display_owner = tracked_object & 0x7FFFFFFF;
         }
-        body->unk_8C.address = ((void *)dispatch_monster_move_attack_spell);
+        body->unk_8C.address = ((void *)dispatch_dragon_actions);
         return;
 
     default:
@@ -1464,12 +1464,12 @@ void advance_dragon_removal(void *state, void *motion, void *position, void *act
 }
 
 /*
- * Runs update_actor_hop_and_grow and installs dispatch_monster_move_attack_spell when it returns
+ * Runs update_actor_hop_and_grow and installs dispatch_dragon_actions when it returns
  * nonzero.
  */
-void grow_hopping_dragon(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void finish_dragon_hop_and_grow(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_actor_hop_and_grow(state, motion, position, actor)) {
-        state->unk_8C.handler = dispatch_monster_move_attack_spell;
+        state->unk_8C.handler = dispatch_dragon_actions;
     }
 }
 
@@ -1604,7 +1604,7 @@ void wait_dragon_status_and_animate(ActorRecord *in_controller, ObjectPosition *
     }
     actor->flags1C &= ~ACTOR_ASLEEP;
     in_controller = (ActorRecord *)((u8 *)in_controller + 0x8C);
-    *(void **)in_controller = ((u8 *)dispatch_monster_move_attack_spell);
+    *(void **)in_controller = ((u8 *)dispatch_dragon_actions);
 }
 
 /* Waits for MP recovery while processing actor status, then restores the normal animation and movement. */
@@ -1702,7 +1702,7 @@ void wait_for_dragon_mp(ActorRecord *controller, ObjectPosition *context, Sprite
 
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             entity->flags1C &= ~0x208;
-            controller->unk_8C.address = ((void *)dispatch_monster_move_attack_spell);
+            controller->unk_8C.address = ((void *)dispatch_dragon_actions);
         }
 
         return;
@@ -1717,7 +1717,7 @@ void wait_for_dragon_mp(ActorRecord *controller, ObjectPosition *context, Sprite
 void update_dragon_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object) {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
         if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
-            actor->unk_8C.handler = dispatch_monster_move_attack_spell;
+            actor->unk_8C.handler = dispatch_dragon_actions;
             return;
         }
     } else if (entity->frameTable == dragon_alt_direction_frames &&
@@ -1728,60 +1728,60 @@ void update_dragon_parent_motion(ActorRecord *actor, ObjectPosition *action, Spr
 }
 
 /*
- * Runs update_thrown_actor_travel and installs dispatch_monster_move_attack_spell only when it
+ * Runs update_thrown_actor_travel and installs dispatch_dragon_actions only when it
  * succeeds and the signed floor-trap check returns positive.
  */
-void update_thrown_dragon(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
+void finish_dragon_thrown_travel(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_thrown_actor_travel(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->unk_8C.handler = dispatch_monster_move_attack_spell;
+            state->unk_8C.handler = dispatch_dragon_actions;
         }
     }
 }
 
 /*
- * Runs interpolate_actor_to_terrain_tile and installs dispatch_monster_move_attack_spell when it
+ * Runs interpolate_actor_to_terrain_tile and installs dispatch_dragon_actions when it
  * returns nonzero.
  */
-void settle_dragon_on_tile(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void finish_dragon_terrain_move(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
-        state->unk_8C.handler = dispatch_monster_move_attack_spell;
+        state->unk_8C.handler = dispatch_dragon_actions;
     }
 }
 
 /*
- * Runs update_spinning_actor_fall and installs dispatch_monster_move_attack_spell when it returns
+ * Runs update_spinning_actor_fall and installs dispatch_dragon_actions when it returns
  * nonzero.
  */
 void finish_dragon_spinning_fall(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
-        state->unk_8C.handler = dispatch_monster_move_attack_spell;
+        state->unk_8C.handler = dispatch_dragon_actions;
     }
 }
 
-/* Runs update_actor_fade_in and installs dispatch_monster_move_attack_spell when it returns nonzero. */
-void fade_in_dragon(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+/* Runs update_actor_fade_in and installs dispatch_dragon_actions when it returns nonzero. */
+void finish_dragon_fade_in(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_actor_fade_in(state, motion, position)) {
-        state->unk_8C.handler = dispatch_monster_move_attack_spell;
+        state->unk_8C.handler = dispatch_dragon_actions;
     }
 }
 
 /*
- * Runs resolve_actor_floor_trap_once and installs dispatch_monster_move_attack_spell when it
+ * Runs resolve_actor_floor_trap_once and installs dispatch_dragon_actions when it
  * returns positive.
  */
-void resolve_dragon_floor_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void finish_dragon_floor_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (resolve_actor_floor_trap_once(state, motion, position, actor) > 0) {
-        state->unk_8C.handler = dispatch_monster_move_attack_spell;
+        state->unk_8C.handler = dispatch_dragon_actions;
     }
 }
 
 /*
- * Runs propagate_actor_action_flag and installs dispatch_monster_move_attack_spell when it returns
+ * Runs propagate_actor_action_flag and installs dispatch_dragon_actions when it returns
  * positive.
  */
-void propagate_dragon_action_flag(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void finish_dragon_action_flag(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (propagate_actor_action_flag(state, motion, position, actor) > 0) {
-        state->unk_8C.handler = dispatch_monster_move_attack_spell;
+        state->unk_8C.handler = dispatch_dragon_actions;
     }
 }

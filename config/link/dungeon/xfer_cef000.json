@@ -320,7 +320,7 @@
     },
     {
       "row": "dungeon/func_80CD4494",
-      "tu": "src/dungeon/monster/pulunpa/check_object_action_and_clear_flags.c",
+      "tu": "src/dungeon/monster/pulunpa/select_pulunpa_action.c",
       "home": "dungeon/func_80CC2494",
       "foff": "0xCF4494",
       "vma": "0x80163C94",

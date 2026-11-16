@@ -244,7 +244,7 @@ void update_actor_facing_animation(ActorRecord *actor, ObjectPosition *motion, S
                  * (adrando.com/guide/bugs.html).
                  */
                 begin_actor_move_to_target_facing(actor, motion, sprite, status);
-                install_actor_action_handler_after_floor_trap_check(actor, motion, sprite, status);
+                finish_actor_parent_motion(actor, motion, sprite, status);
                 return;
             }
 

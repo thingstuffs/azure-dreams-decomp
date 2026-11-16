@@ -1,0 +1,18 @@
+#include "script_symbols.h"
+#include "common.h"
+#include "town/player/script_flags.h"
+#include "town/scene.h"
+
+/* Select the handler for 0xDB8 based on the query result and return its truth value. */
+s32 apply_entry_values_tracking_tt_pad136(void *object, s32 query_value) {
+    s32 result;
+
+    if (apply_selected_entry_values(object, query_value) == 0) {
+        set_script_flag_bit(Ftt_pad136);
+        result = 0;
+    } else {
+        clear_script_flag_bit(Ftt_pad136);
+        result = 1;
+    }
+    return result;
+}

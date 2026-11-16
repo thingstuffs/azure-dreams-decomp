@@ -19,7 +19,7 @@ void finish_maximum_tile_move(ActorRecord *body, ObjectPosition *position, Sprit
         if ((check_actor_floor_trap(sprite, actor) << 0x10) <= 0) {
             return;
         }
-        body->unk_8C.handler = &dispatch_monster_move_attack_spell;
+        body->unk_8C.handler = &dispatch_dragon_actions;
         body->unk_90.value = 0;
     }
     if (g_dungeon_status.flags & 0x80) {

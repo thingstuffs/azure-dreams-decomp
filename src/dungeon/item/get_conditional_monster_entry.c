@@ -4,7 +4,7 @@
 
 
 /* Return the indexed entry value when its condition is nonzero, or zero otherwise. */
-s32 get_active_region_data(s16 entry_index) {
+s32 get_active_room_entries(s16 entry_index) {
     s32 value;
     u8 * value_2;
     s32 value_3;

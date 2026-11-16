@@ -29,6 +29,6 @@ extern u8 scene_mode_code;
 
 /* Functions defined in this translation unit. */
 void request_scene_or_reload_level_module_a(void);
-void request_scene_or_reload_level_module_b(void);
+void request_ending_scene_or_load_floor_module_b(void);
 
 #endif

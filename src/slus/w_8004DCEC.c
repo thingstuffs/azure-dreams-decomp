@@ -4,7 +4,7 @@
 typedef void (*FuncPtr_8004DCEC)(char *);
 
 /* Calls the selected mode handler with the shared work buffer. */
-void runtime_call_selected_mode_handler(void)
+void call_message_mode_handler(void)
 {
     FuncPtr_8004DCEC handler;
     handler = message_mode_handlers[message_handler_mode];

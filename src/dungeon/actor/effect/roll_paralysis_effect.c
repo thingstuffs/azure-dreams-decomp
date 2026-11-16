@@ -16,7 +16,7 @@ s32 roll_paralysis_effect(State *state, s16 value, s16 flag) {
     s32 roll;
     u16 chance;
 
-    if (is_linked_entity_flagged_10000000(state) != 0) {
+    if (has_paralysis_protection(state) != 0) {
         return 0;
     }
     roll = generate_random_value() & 0xFFFF;

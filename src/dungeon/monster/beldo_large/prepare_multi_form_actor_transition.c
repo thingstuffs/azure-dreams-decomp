@@ -26,7 +26,7 @@ void prepare_multi_form_actor_transition(s32 unused0, s32 unused1, s32 unused2, 
     p = beldo_actor_nodes[0] + 0x20;
     *(u16 *)(p + 0x46) &= 0x7FFF;
     system_update_flags &= 0xFFF6;
-    set_monster_data_pointer();
+    reset_timed_sequence_data();
     p[0xAF] = 0;
     p[0xB0] = 1;
     set_or_clear_actor_status_slot(p, STATUS_SPEED, 1);
@@ -34,7 +34,7 @@ void prepare_multi_form_actor_transition(s32 unused0, s32 unused1, s32 unused2, 
     do {
         item = *(void **)(((u8 *)dungeon_actor_ring_anchor) + 0xAC + i * 4);
         if (item != 0) {
-            clear_entry_flag_and_link_owner((u8 *)item - 0x20);
+            insert_node_before_primary_actor((u8 *)item - 0x20);
         }
         i++;
     } while (i < 2);

@@ -7,7 +7,7 @@
 #include "town/player/state.h"
 
 
-extern u8 D_8001B9E0[];
+extern char D_8001B9E0[];
 extern u8 D_80020934[];
 
 extern void *select_address_based_input(s32, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
@@ -29,7 +29,7 @@ void *select_message_text_marking_pad25(s32 handler_arg_a, s32 handler_arg_b, s3
         }
         return D_8001B9E0;
     case 6:
-        result = get_local_global_table();
+        result = select_response_and_set_sbs32_flags();
         scene_event_results[0] = result;
         if (result != 0) {
             return result;

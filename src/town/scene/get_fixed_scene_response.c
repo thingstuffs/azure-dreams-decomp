@@ -1,0 +1,6 @@
+#include "common.h"
+#include "m2c_compat.h"
+
+extern u8 D_800188AC[];
+/* Returns the current value of D_800188AC. */
+void *get_fixed_scene_response(void) { return D_800188AC; }

@@ -14,7 +14,7 @@ s32 select_mode_nine_lookup(s32 input, s32 context, s32 mode) {
         set_far_love_flag();
         result = apply_entry_position(&D_8001A9BC, &scene_response_context, input, 9);
         if (resolve_entry_flag(&D_8001A9BC, input, 9) != 0) {
-            result = select_state_result_with_lookup_overrides(input, context, 9);
+            result = select_response_by_town_state_count(input, context, 9);
         }
     } else {
         result = (s32)&D_8001D270;

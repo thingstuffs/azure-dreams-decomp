@@ -39,15 +39,15 @@ typedef struct S_800CA444_4 {
     s32 unk_58;
 } S_800CA444_4;
 
-/* *D_800814A8 in update_actor_targeting_for_tile */
-/* (arg3 + (((S_800CA444_1 *)arg3)->unk_71 & 0x7F)) in update_actor_targeting_for_tile */
+/* *D_800814A8 in step_actor_along_route */
+/* (arg3 + (((S_800CA444_1 *)arg3)->unk_71 & 0x7F)) in step_actor_along_route */
 typedef struct {
     u8 pad_00[0xC];
     u16 flags;
     u8 pad_0E[6];
 } DungeonTableEntry;
 
-/* object in get_adjacent_tile_for_action */
+/* object in check_adjacent_step_clear */
 s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 #include "dungeon/item/find_active_rect_containing_point_api.h"
@@ -55,7 +55,7 @@ extern s16 actor_turn_angle_offsets[];
 s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 void update_actor_status_and_mp(ActorRecord *entity);
 s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
-/* object in select_target_tile_for_actor_action */
+/* object in try_attack_target_tile */
 extern s32 find_eligible_entry_at_coordinates(u8 *entry, s16 x, s16 y);
 extern struct Ent *prepare_directional_attack(void *, void *, s32, s32, void *);
 extern s32 get_actor_height_difference(s32, void *);
@@ -64,8 +64,8 @@ extern s16 try_claim_dungeon_action_slot(void *);
 extern s16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 
 /* Functions defined in this translation unit. */
-s32 get_adjacent_tile_for_action(u32 action_flags, EntityRec *position, S_800CA1E0_2 *object, u16 height_offset);
-void update_actor_targeting_for_tile(ActorRecord *body, s32 unused, S_800CA444_0 *tile, ActorRecord *actor);
-s32 select_target_tile_for_actor_action(ActorRecord *object_ptr, void *action_context, MovingTile *target_ptr, ActorRecord *actor_ptr);
+s32 check_adjacent_step_clear(u32 action_flags, EntityRec *position, S_800CA1E0_2 *object, u16 height_offset);
+void step_actor_along_route(ActorRecord *body, s32 unused, S_800CA444_0 *tile, ActorRecord *actor);
+s32 try_attack_target_tile(ActorRecord *object_ptr, void *action_context, MovingTile *target_ptr, ActorRecord *actor_ptr);
 
 #endif

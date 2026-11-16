@@ -51,7 +51,7 @@
     },
     {
       "row": "town/func_8067F4A0",
-      "tu": "src/town/scene/query_state_with_selector_second.c",
+      "tu": "src/town/scene/set_script_flag_sbs20_pad07.c",
       "home": "town/func_8067F4A0",
       "foff": "0x5FF4A0",
       "vma": "0x800164A0",
@@ -59,7 +59,7 @@
     },
     {
       "row": "town/func_8067F4C0",
-      "tu": "src/town/scene/query_state_with_selector_second.c",
+      "tu": "src/town/scene/set_script_flag_sbs20_pad07.c",
       "home": "town/func_8067F4A0",
       "foff": "0x5FF4C0",
       "vma": "0x800164C0",

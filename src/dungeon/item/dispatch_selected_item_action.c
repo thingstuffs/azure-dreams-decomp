@@ -75,23 +75,23 @@ s32 dispatch_selected_item_action(u32 target, DungeonItemEntry *action, s16 acti
             item_type = item->kind;
             if (item_type == ITEM_KIND_SWORD || (item_type == ITEM_KIND_WAND && item->unk_00 == ITEM_TRAINED_WAND)) {
                 if (!(item->unk_03 & 0x40)) {
-                    value = apply_type_based_entry_adjustments(item, action_value);
+                    value = append_item_name_with_affixes(item, action_value);
                     if ((s8)item->unk_02 < 0x63) {
                         item->unk_02 = (u8)(item->unk_02 + 1);
                     }
                     value = append_value_seven_suffix(expand_text_control_codes(D_800E110B, value));
                     text_patch = value - 2;
                     value = expand_text_control_codes(D_80089364, value);
-                    result_value = append_typed_formatted_value(item, value);
+                    result_value = append_item_name_with_value(item, value);
                     value_arg = value;
                     value = result_value;
                     copy_fullwidth_vowel_bytes(text_patch, value_arg);
                     value = expand_text_control_codes(D_80089368, value);
                 } else {
-                    value = expand_text_control_codes(D_800E112A, append_typed_formatted_value(item, action_value));
+                    value = expand_text_control_codes(D_800E112A, append_item_name_with_value(item, action_value));
                 }
             } else {
-                value = expand_text_control_codes(D_800E1156, append_typed_formatted_value(item, value));
+                value = expand_text_control_codes(D_800E1156, append_item_name_with_value(item, value));
             }
             clear_byte_and_advance(value);
             display_text_with_fullwidth_adjustment(action_value);

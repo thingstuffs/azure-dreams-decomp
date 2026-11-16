@@ -9,7 +9,7 @@ struct SpriteFrameState;
 void initialize_scene_slot_47_context(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 void initialize_scene_slot_53(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 void initialize_scene_slot_55(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
-void initialize_scene_slot_49(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
+void init_gambler_person(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 void initialize_scene_slot_36(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 void initialize_scene_slot_45_context(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 void initialize_scene_slot_18(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
@@ -51,7 +51,7 @@ void initialize_scene_slot_47(TownObjectRecord *object, ObjectPosition *unused, 
 
 void initialize_scene_slot_52(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 
-void initialize_scene_slot_23(TownObjectRecord *context, ObjectPosition *unused, struct SpriteFrameState *stateWords);
+void init_librarian_person(TownObjectRecord *context, ObjectPosition *unused, struct SpriteFrameState *stateWords);
 
 void configure_actor_slot_28_and_render_state(TownObjectRecord *context, ObjectPosition *unused, struct SpriteFrameState *stateWords);
 
@@ -129,8 +129,8 @@ void configure_actor_slot_5(TownObjectRecord *actor, ObjectPosition *unused_posi
 
 void init_person_slot_eight(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *state);
 
-void initialize_scene_slot_9_data(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *state);
+void init_far_person(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *state);
 
-void initialize_scene_slot_9_and_display(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *state);
+void init_far_with_follower_sprite(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *state);
 
 #endif

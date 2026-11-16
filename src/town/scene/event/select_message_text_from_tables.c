@@ -25,7 +25,7 @@ char *select_message_text_from_tables(long long forwarded_arg, s32 event_id)
         }
         return result_addr;
     case 6:
-        result_addr = get_local_global_table();
+        result_addr = select_response_and_set_sbs32_flags();
         scene_event_results[0] = result_addr;
         if (result_addr != 0) {
             return result_addr;

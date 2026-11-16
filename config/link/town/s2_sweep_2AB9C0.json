@@ -26,7 +26,7 @@
     {
       "row": "town/func_8032C2DC",
       "home": "town/func_8032C2DC",
-      "tu": "src/town/scene/select_response_with_special_branch.c",
+      "tu": "src/town/scene/select_response_by_scene_started.c",
       "foff": "0x002AC2DC",
       "vma": "0x80016ADC",
       "size": 136
@@ -34,7 +34,7 @@
     {
       "row": "town/func_8032C618",
       "home": "town/func_8032C2DC",
-      "tu": "src/town/scene/select_response_with_special_branch.c",
+      "tu": "src/town/scene/select_response_by_scene_started.c",
       "foff": "0x002AC618",
       "vma": "0x80016E18",
       "size": 136,

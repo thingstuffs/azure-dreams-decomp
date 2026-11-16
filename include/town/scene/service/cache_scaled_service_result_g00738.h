@@ -15,6 +15,6 @@ extern void func_800168BC(const Copy4 *input);
 
 /* Functions defined in this translation unit. */
 u32 invoke_state_callback(void);
-void append_default_town_item(void);
+void give_herb_item(void);
 
 #endif

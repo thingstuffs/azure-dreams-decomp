@@ -34,7 +34,7 @@ void *select_message_text_marking_pad02(s32 handler_arg_a, s32 handler_arg_b, s3
         }
         return D_8001B9E0;
     case 18:
-        response = get_local_global_table();
+        response = select_response_and_set_sbs32_flags();
         scene_event_results[0] = response;
         if (response != 0) {
             return response;

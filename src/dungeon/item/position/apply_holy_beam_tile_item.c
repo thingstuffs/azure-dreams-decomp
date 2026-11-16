@@ -75,7 +75,7 @@ s32 apply_holy_beam_tile_item(ActorRecord *body, DungeonItemEntry *object_data, 
     if (action_type == 13) {
         object = write_status_prefix_bytes(expand_text_control_codes(D_800893D4,
                     append_entity_display_text(body, expand_text_control_codes(D_800E1684,
-                        append_typed_formatted_value(object_data, object)))));
+                        append_item_name_with_value(object_data, object)))));
 
         if (!(body->flags1C & ACTOR_PLAYER_SIDE) &&
             body->species < 0x31) {

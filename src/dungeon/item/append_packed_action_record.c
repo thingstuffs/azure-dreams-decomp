@@ -90,7 +90,7 @@ void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload,
     case 136:
         old_entry = entry;
         entry_tag = saved_action | kind;
-        entry = find_monster_special_entry(entry_tag & 0xFF, (saved_payload & 1) << 5);
+        entry = find_matching_action_record(entry_tag & 0xFF, (saved_payload & 1) << 5);
         flag_bit = (saved_payload & 1) << 5;
         if (old_entry != entry) {
             state->position--;

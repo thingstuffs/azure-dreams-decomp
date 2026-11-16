@@ -108,6 +108,6 @@ void snapshot_inventory_and_familiars(void *input_state) {
         state_base[0x2D6C] = field_value;
         field_value = ((u8 *)state)[0xFB];
         state_base[0x2D6D] = field_value;
-        pack_item_flag_400_bitmap(saved_setting);
+        snapshot_item_flag_bitmap(saved_setting);
     }
 }

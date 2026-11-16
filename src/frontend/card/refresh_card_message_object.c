@@ -5,7 +5,7 @@
 
 extern void process_four_referenced_values(void *object);
 extern s32 card_ui_dirty_flags[3];
-extern s32 D_8008DAB4_2[3];
+extern s32 D_8008DAB4_2[];
 
 /* Processes the global state, optionally flags its linked object, and returns the state value. */
 s32 refresh_card_message_object(s32 flag_linked_object) {

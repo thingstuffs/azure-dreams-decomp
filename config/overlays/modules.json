@@ -49178,9 +49178,9 @@
       "key": "dungeon_ovl_bf3084",
       "container": "dungeon",
       "name": "ovl_bf3084.c",
-      "source": "src/dungeon/monster/death/queue_linked_render_packets.c",
+      "source": "src/dungeon/monster/death/queue_linked_pixel_packets.c",
       "headers": [
-        "include/dungeon/monster/death/queue_linked_render_packets.h"
+        "include/dungeon/monster/death/queue_linked_pixel_packets.h"
       ],
       "region": "img_bf3060_8015e860",
       "recipe": {
@@ -49190,7 +49190,7 @@
       "members": [
         {
           "id": "dungeon/func_80BD3084",
-          "source": "src/dungeon/monster/death/queue_linked_render_packets.c",
+          "source": "src/dungeon/monster/death/queue_linked_pixel_packets.c",
           "function": "func_8015E884",
           "foff": 12529796,
           "vma": 2148919428,
@@ -50851,9 +50851,9 @@
       "key": "dungeon_ovl_bc9094",
       "container": "dungeon",
       "name": "ovl_bc9094.c",
-      "source": "src/dungeon/monster/nyuel/allocate_actor_parts.c",
+      "source": "src/dungeon/monster/nyuel/spawn_nyuel_slot_d.c",
       "headers": [
-        "include/dungeon/monster/nyuel/allocate_actor_parts.h"
+        "include/dungeon/monster/nyuel/spawn_nyuel_slot_d.h"
       ],
       "region": "native_resource_14_slot_3",
       "recipe": {
@@ -50863,7 +50863,7 @@
       "members": [
         {
           "id": "dungeon/func_80BA9094",
-          "source": "src/dungeon/monster/nyuel/allocate_actor_parts.c",
+          "source": "src/dungeon/monster/nyuel/spawn_nyuel_slot_d.c",
           "function": "func_8015E894",
           "foff": 12357780,
           "vma": 2148919444,
@@ -51619,9 +51619,9 @@
       "key": "dungeon_ovl_bb1054",
       "container": "dungeon",
       "name": "ovl_bb1054.c",
-      "source": "src/dungeon/monster/battnel/spawn_effect_object.c",
+      "source": "src/dungeon/monster/battnel/spawn_battnel_slot_a.c",
       "headers": [
-        "include/dungeon/monster/battnel/spawn_effect_object.h"
+        "include/dungeon/monster/battnel/spawn_battnel_slot_a.h"
       ],
       "region": "native_resource_13_slot_6",
       "recipe": {
@@ -51631,7 +51631,7 @@
       "members": [
         {
           "id": "dungeon/func_80B91054",
-          "source": "src/dungeon/monster/battnel/spawn_effect_object.c",
+          "source": "src/dungeon/monster/battnel/spawn_battnel_slot_a.c",
           "function": "func_8014C854",
           "foff": 12259412,
           "vma": 2148845652,
@@ -51877,9 +51877,9 @@
       "key": "dungeon_ovl_9fb054",
       "container": "dungeon",
       "name": "ovl_9fb054.c",
-      "source": "src/dungeon/monster/dragon/create_tracked_effect_object.c",
+      "source": "src/dungeon/monster/dragon/spawn_dragon_slot_d.c",
       "headers": [
-        "include/dungeon/monster/dragon/create_tracked_effect_object.h"
+        "include/dungeon/monster/dragon/spawn_dragon_slot_d.h"
       ],
       "region": "native_resource_03_slot_3",
       "recipe": {
@@ -51889,7 +51889,7 @@
       "members": [
         {
           "id": "dungeon/func_809DB054",
-          "source": "src/dungeon/monster/dragon/create_tracked_effect_object.c",
+          "source": "src/dungeon/monster/dragon/spawn_dragon_slot_d.c",
           "function": "func_8015E854",
           "foff": 10465364,
           "vma": 2148919380,
@@ -52135,9 +52135,9 @@
       "key": "dungeon_ovl_a0d054",
       "container": "dungeon",
       "name": "ovl_a0d054.c",
-      "source": "src/dungeon/monster/dragon/spawn_effect_object.c",
+      "source": "src/dungeon/monster/dragon/spawn_dragon_slot_a.c",
       "headers": [
-        "include/dungeon/monster/dragon/spawn_effect_object.h"
+        "include/dungeon/monster/dragon/spawn_dragon_slot_a.h"
       ],
       "region": "native_resource_03_slot_6",
       "recipe": {
@@ -52147,7 +52147,7 @@
       "members": [
         {
           "id": "dungeon/func_809ED054",
-          "source": "src/dungeon/monster/dragon/spawn_effect_object.c",
+          "source": "src/dungeon/monster/dragon/spawn_dragon_slot_a.c",
           "function": "func_8014C854",
           "foff": 10539092,
           "vma": 2148845652,
@@ -63169,10 +63169,10 @@
       "key": "dungeon_ovl_7f223800",
       "container": "dungeon",
       "name": "ovl_7f223800.c",
-      "source": "src/dungeon/monster/stealth/create_tracked_effect_object.c",
+      "source": "src/dungeon/monster/stealth/spawn_stealth_slot_d.c",
       "region": "native_slot_f3b000_8015e800",
       "headers": [
-        "include/dungeon/monster/stealth/create_tracked_effect_object.h"
+        "include/dungeon/monster/stealth/spawn_stealth_slot_d.h"
       ],
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -63181,7 +63181,7 @@
       "members": [
         {
           "id": "dungeon/func_80F1B054",
-          "source": "src/dungeon/monster/stealth/create_tracked_effect_object.c",
+          "source": "src/dungeon/monster/stealth/spawn_stealth_slot_d.c",
           "function": "func_8015E854",
           "foff": 15970388,
           "vma": 2148919380,
@@ -63305,10 +63305,10 @@
       "key": "dungeon_ovl_7f23b800",
       "container": "dungeon",
       "name": "ovl_7f23b800.c",
-      "source": "src/dungeon/monster/stealth/create_mode_configured_actor_object.c",
+      "source": "src/dungeon/monster/stealth/spawn_stealth_slot_f.c",
       "region": "native_slot_f2f000_8016a800",
       "headers": [
-        "include/dungeon/monster/stealth/create_mode_configured_actor_object.h"
+        "include/dungeon/monster/stealth/spawn_stealth_slot_f.h"
       ],
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -63317,7 +63317,7 @@
       "members": [
         {
           "id": "dungeon/func_80F0F054",
-          "source": "src/dungeon/monster/stealth/create_mode_configured_actor_object.c",
+          "source": "src/dungeon/monster/stealth/spawn_stealth_slot_f.c",
           "function": "func_8016A854",
           "foff": 15921236,
           "vma": 2148968532,
@@ -64448,10 +64448,10 @@
       "key": "dungeon_ovl_7f469800_p04",
       "container": "dungeon",
       "name": "ovl_7f469800_p04.c",
-      "source": "src/dungeon/monster/troll/create_tinted_sprite_effect_supplied_position.c",
+      "source": "src/dungeon/monster/troll/troll_jump_arc_to_tile_and_end_turn.c",
       "region": "native_slot_d07000_80170800",
       "headers": [
-        "include/dungeon/monster/troll/create_tinted_sprite_effect_supplied_position.h"
+        "include/dungeon/monster/troll/troll_jump_arc_to_tile_and_end_turn.h"
       ],
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -64460,7 +64460,7 @@
       "members": [
         {
           "id": "dungeon/func_80CEA86C",
-          "source": "src/dungeon/monster/troll/create_tinted_sprite_effect_supplied_position.c",
+          "source": "src/dungeon/monster/troll/troll_jump_arc_to_tile_and_end_turn.c",
           "function": "func_8017406C",
           "foff": 13674604,
           "vma": 2149007468,
@@ -65003,10 +65003,10 @@
       "key": "dungeon_ovl_7f511800_p01",
       "container": "dungeon",
       "name": "ovl_7f511800_p01.c",
-      "source": "src/dungeon/monster/unicorn/settle_actor_after_movement.c",
+      "source": "src/dungeon/monster/unicorn/advance_unicorn_attack.c",
       "region": "native_slot_c5f000_80170800",
       "headers": [
-        "include/dungeon/monster/unicorn/settle_actor_after_movement.h"
+        "include/dungeon/monster/unicorn/advance_unicorn_attack.h"
       ],
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -65015,7 +65015,7 @@
       "members": [
         {
           "id": "dungeon/func_80C40E64",
-          "source": "src/dungeon/monster/unicorn/settle_actor_after_movement.c",
+          "source": "src/dungeon/monster/unicorn/advance_unicorn_attack.c",
           "function": "func_80172664",
           "foff": 12979812,
           "vma": 2149000804,
@@ -65634,10 +65634,10 @@
       "key": "dungeon_ovl_c9b084",
       "container": "dungeon",
       "name": "ovl_c9b084.c",
-      "source": "src/dungeon/monster/metal/queue_linked_render_packets.c",
+      "source": "src/dungeon/monster/metal/queue_linked_pixel_packets.c",
       "region": "img_c9b060_8015e860",
       "headers": [
-        "include/dungeon/monster/metal/queue_linked_render_packets.h"
+        "include/dungeon/monster/metal/queue_linked_pixel_packets.h"
       ],
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -65646,7 +65646,7 @@
       "members": [
         {
           "id": "dungeon/func_80C7B084",
-          "source": "src/dungeon/monster/metal/queue_linked_render_packets.c",
+          "source": "src/dungeon/monster/metal/queue_linked_pixel_packets.c",
           "function": "func_8015E884",
           "foff": 13217924,
           "vma": 2148919428,
@@ -66847,10 +66847,10 @@
       "key": "dungeon_ovl_e09000_code",
       "container": "dungeon",
       "name": "ovl_e09000.c",
-      "source": "src/dungeon/monster/volcano/create_mode_configured_actor_object.c",
+      "source": "src/dungeon/monster/volcano/spawn_volcano_slot_f.c",
       "region": "native_slot_e09000_8016a800",
       "headers": [
-        "include/dungeon/monster/volcano/create_mode_configured_actor_object.h"
+        "include/dungeon/monster/volcano/spawn_volcano_slot_f.h"
       ],
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -66859,7 +66859,7 @@
       "members": [
         {
           "id": "dungeon/func_80DE9000",
-          "source": "src/dungeon/monster/volcano/create_mode_configured_actor_object.c",
+          "source": "src/dungeon/monster/volcano/spawn_volcano_slot_f.c",
           "function": "func_8016A854",
           "foff": 14717012,
           "vma": 2148968532,
@@ -66973,10 +66973,10 @@
       "key": "dungeon_ovl_e15054",
       "container": "dungeon",
       "name": "ovl_e15054.c",
-      "source": "src/dungeon/monster/volcano/create_tracked_effect_object.c",
+      "source": "src/dungeon/monster/volcano/spawn_volcano_slot_d.c",
       "region": "native_slot_e15000_8015e800",
       "headers": [
-        "include/dungeon/monster/volcano/create_tracked_effect_object.h"
+        "include/dungeon/monster/volcano/spawn_volcano_slot_d.h"
       ],
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -66985,7 +66985,7 @@
       "members": [
         {
           "id": "dungeon/func_80DF5054",
-          "source": "src/dungeon/monster/volcano/create_tracked_effect_object.c",
+          "source": "src/dungeon/monster/volcano/spawn_volcano_slot_d.c",
           "function": "func_8015E854",
           "foff": 14766164,
           "vma": 2148919380,
@@ -67225,10 +67225,10 @@
       "key": "dungeon_ovl_e27054",
       "container": "dungeon",
       "name": "ovl_e27054.c",
-      "source": "src/dungeon/monster/volcano/spawn_effect_object.c",
+      "source": "src/dungeon/monster/volcano/spawn_volcano_slot_a.c",
       "region": "native_slot_e27000_8014c800",
       "headers": [
-        "include/dungeon/monster/volcano/spawn_effect_object.h"
+        "include/dungeon/monster/volcano/spawn_volcano_slot_a.h"
       ],
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -67237,7 +67237,7 @@
       "members": [
         {
           "id": "dungeon/func_80E07054",
-          "source": "src/dungeon/monster/volcano/spawn_effect_object.c",
+          "source": "src/dungeon/monster/volcano/spawn_volcano_slot_a.c",
           "function": "func_8014C854",
           "foff": 14839892,
           "vma": 2148845652,
@@ -68454,7 +68454,7 @@
         ]
       },
       "headers": [
-        "include/town/minigame/initialize_source_and_initial_data.h"
+        "include/town/minigame/create_bouncing_pickup.h"
       ],
       "imports": [
         {
@@ -68560,8 +68560,9 @@
       "imports": [
         {
           "kind": "function",
-          "symbol": "func_80016CB4",
-          "vma": 2147577012
+          "symbol": "func_80019DFC",
+          "vma": 2147577012,
+          "basis": "same-image copy of apply_entry_position: home func_80019DFC, original import func_80016CB4 at 0x80016CB4; whole-module recertification preserves this address"
         },
         {
           "evidence": "docs/evidence/town_ovl_6490c0.imports.json",
@@ -68660,7 +68661,7 @@
           "function": "func_800160C0",
           "id": "town/func_806CB0C0",
           "size": 56,
-          "source": "src/town/scene/event/forward_value_with_fixed_tables.c",
+          "source": "src/town/scene/event/apply_selected_scene_entry.c",
           "vma": 2147573952
         }
       ],
@@ -68685,7 +68686,7 @@
         "docs/evidence/town_ovl_64b0c0.recipe.json",
         "docs/evidence/town_scene_loader_receipt.json"
       ],
-      "source": "src/town/scene/event/forward_value_with_fixed_tables.c"
+      "source": "src/town/scene/event/apply_selected_scene_entry.c"
     },
     {
       "container": "town",
@@ -68809,7 +68810,7 @@
           "function": "func_80016118",
           "id": "town/func_806CF118",
           "size": 112,
-          "source": "src/town/scene/lookup_code_special_results.c",
+          "source": "src/town/scene/select_count_cycled_response.c",
           "vma": 2147574040
         }
       ],
@@ -68834,7 +68835,7 @@
         "docs/evidence/town_ovl_64f118.recipe.json",
         "docs/evidence/town_scene_loader_receipt.json"
       ],
-      "source": "src/town/scene/lookup_code_special_results.c"
+      "source": "src/town/scene/select_count_cycled_response.c"
     },
     {
       "container": "town",
@@ -68916,7 +68917,7 @@
         ]
       },
       "headers": [
-        "include/town/scene/hooks/invoke_callback_and_set_shared_pointer.h"
+        "include/town/scene/hooks/init_sbs09_scene.h"
       ],
       "imports": [
         {
@@ -68960,7 +68961,7 @@
           "function": "func_80016100",
           "id": "town/func_80500100",
           "size": 88,
-          "source": "src/town/scene/hooks/invoke_callback_and_set_shared_pointer.c",
+          "source": "src/town/scene/hooks/init_sbs09_scene.c",
           "vma": 2147574016
         },
         {
@@ -68968,7 +68969,7 @@
           "function": "func_80016158",
           "id": "town/func_80500158",
           "size": 32,
-          "source": "src/town/scene/hooks/invoke_callback_and_set_shared_pointer.c",
+          "source": "src/town/scene/hooks/init_sbs09_scene.c",
           "vma": 2147574104
         }
       ],
@@ -68993,7 +68994,7 @@
         "docs/evidence/town_ovl_480100.recipe.json",
         "docs/evidence/town_scene_loader_receipt.json"
       ],
-      "source": "src/town/scene/hooks/invoke_callback_and_set_shared_pointer.c"
+      "source": "src/town/scene/hooks/init_sbs09_scene.c"
     },
     {
       "container": "town",
@@ -69131,7 +69132,7 @@
           "function": "func_80016100",
           "id": "town/func_806A9100",
           "size": 104,
-          "source": "src/town/scene/hooks/invoke_callback_set_shared_pointer.c",
+          "source": "src/town/scene/hooks/init_scene_camera_preset.c",
           "vma": 2147574016
         }
       ],
@@ -69156,7 +69157,7 @@
         "docs/evidence/town_ovl_629100.recipe.json",
         "docs/evidence/town_scene_loader_receipt.json"
       ],
-      "source": "src/town/scene/hooks/invoke_callback_set_shared_pointer.c"
+      "source": "src/town/scene/hooks/init_scene_camera_preset.c"
     },
     {
       "container": "town",
@@ -69167,7 +69168,7 @@
         ]
       },
       "headers": [
-        "include/town/scene/invoke_state_callback.h"
+        "include/town/scene/start_gym_minigame.h"
       ],
       "imports": [
         {
@@ -69211,7 +69212,7 @@
           "function": "func_8001627C",
           "id": "town/func_804F027C",
           "size": 80,
-          "source": "src/town/scene/invoke_state_callback.c",
+          "source": "src/town/scene/start_gym_minigame.c",
           "vma": 2147574396
         }
       ],
@@ -69236,7 +69237,7 @@
         "docs/evidence/town_ovl_47027c.recipe.json",
         "docs/evidence/town_scene_loader_receipt.json"
       ],
-      "source": "src/town/scene/invoke_state_callback.c"
+      "source": "src/town/scene/start_gym_minigame.c"
     },
     {
       "container": "town",
@@ -69447,7 +69448,7 @@
         ]
       },
       "headers": [
-        "include/town/scene/invoke_state_callback_with_zero.h"
+        "include/town/scene/start_casino_scene.h"
       ],
       "imports": [
         {
@@ -69485,7 +69486,7 @@
           "function": "func_80016158",
           "id": "town/func_804D0958",
           "size": 68,
-          "source": "src/town/scene/invoke_state_callback_with_zero.c",
+          "source": "src/town/scene/start_casino_scene.c",
           "vma": 2147574104
         }
       ],
@@ -69509,7 +69510,7 @@
         "docs/evidence/r121m_ovl_450958.rowbase.json",
         "docs/evidence/town_ovl_450958.recipe.json"
       ],
-      "source": "src/town/scene/invoke_state_callback_with_zero.c"
+      "source": "src/town/scene/start_casino_scene.c"
     },
     {
       "container": "town",
@@ -69558,7 +69559,7 @@
           "function": "func_80016100",
           "id": "town/func_80559100",
           "size": 68,
-          "source": "src/town/scene/hooks/invoke_callback_set_shared_pointer_b_second.c",
+          "source": "src/town/scene/hooks/init_keima2_scene.c",
           "vma": 2147574016
         }
       ],
@@ -69582,7 +69583,7 @@
         "docs/evidence/r121m_ovl_4d9100.rowbase.json",
         "docs/evidence/town_ovl_4d9100.recipe.json"
       ],
-      "source": "src/town/scene/hooks/invoke_callback_set_shared_pointer_b_second.c"
+      "source": "src/town/scene/hooks/init_keima2_scene.c"
     },
     {
       "container": "town",
@@ -70079,10 +70080,10 @@
       "key": "dungeon_ovl_7f43f800_p04",
       "container": "dungeon",
       "name": "ovl_7f43f800_p04.c",
-      "source": "src/dungeon/monster/noise/settle_actor_after_movement.c",
+      "source": "src/dungeon/monster/noise/begin_noise_directional_animation.c",
       "region": "native_slot_d31000_80170800",
       "headers": [
-        "include/dungeon/monster/noise/settle_actor_after_movement.h"
+        "include/dungeon/monster/noise/begin_noise_directional_animation.h"
       ],
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -70091,7 +70092,7 @@
       "members": [
         {
           "id": "dungeon/func_80D12E64",
-          "source": "src/dungeon/monster/noise/settle_actor_after_movement.c",
+          "source": "src/dungeon/monster/noise/begin_noise_directional_animation.c",
           "function": "func_80172664",
           "foff": 13839972,
           "vma": 2149000804,

@@ -122,7 +122,7 @@ void update_main_actor_action_and_facing(ActorRecord *actor, ObjectPosition *con
         }
         if (entity->flags1C & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(actor, context, map_actor, entity);
-            install_actor_action_handler_after_floor_trap_check(actor, context, map_actor, entity);
+            finish_actor_parent_motion(actor, context, map_actor, entity);
             map_actor->frameTable = ghosh_frame_set_3;
             select_sprite_entry(map_actor, ghosh_frame_set_3[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
             actor->unk_90.value = 0;

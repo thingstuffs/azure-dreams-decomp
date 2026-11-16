@@ -17,13 +17,13 @@ void process_sprite_scroll_and_texture_uploads(u8 *records, s32 *image_ref, s32 
 /* allocate_entry_slots.c */
 s32 *allocate_entry_slots(s32 *entries, u32 size, s32 skip_limit);
 
-/* check_fixed_value_pairs.c */
+/* get_item_name_with_fallback_pair.c */
 int get_item_name_with_fallback_pair(void *object);
 
 /* count_nonzero_word_prefix.c */
 s32 append_allocated_node_body(s32 *values, s32 lookup_key);
 
-/* initialize_seventeen_object_pointers.c */
+/* allocate_selection_menu_entry_buffers.c */
 s32 allocate_selection_menu_entry_buffers(struct S_80050AF0 *state, s32 allocation_arg);
 
 /* assign_sprite_pack_position.c */

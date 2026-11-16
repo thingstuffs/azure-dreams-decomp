@@ -115,7 +115,7 @@ void *spawn_univern_actor(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
         outer_index = 0;
         stable_object->unk_9A = 0xFF;
         stable_object->unk_9C = -1;
-        stable_object->unk_8C = ((u8 *)update_entity_movement_and_ground_height);
+        stable_object->unk_8C = ((u8 *)dispatch_univern_actions);
         object->flags1C |= 0x40000;
         stable_object->unk_92 = -48;
         stable_object->unk_A8 = 0;
@@ -164,7 +164,7 @@ void *spawn_univern_actor(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
                     item_offset += 0x30;
                     item_index++;
                     ((R17_8017089C_S_8017089C_6 *)(void *)saved_kind)->unk_06 = 1;
-                    texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(part, child_texture_entries, 1);
+                    set_animation_child_source(part, child_texture_entries, 1);
                     more_items = item_index < ((R17_8017089C_S_8017089C_6 *)(void *)saved_kind)->unk_02;
                     ((R17_8017089C_S_8017089C_6 *)(void *)saved_kind)->unk_98 = (u8 *)root + 0x1E;
                 } while (more_items);
@@ -206,7 +206,7 @@ void update_univern_motion_and_facing(ActorRecord *actor, ObjectPosition *motion
 
     if (initial_flags & 0x2000) {
         ActorActionHandler early_callback = actor->unk_8C.handler;
-        if (early_callback == update_entity_movement_and_ground_height) {
+        if (early_callback == dispatch_univern_actions) {
             early_callback(actor, motion, object, actor);
             return;
         } else {
@@ -430,7 +430,7 @@ void update_univern_motion_and_facing(ActorRecord *actor, ObjectPosition *motion
 #include "dungeon/monster/univern.h"
 
 /* Selects movement, attacks, and spells from actor status, MP, and its position relative to the player. */
-void update_entity_movement_and_ground_height(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *status) {
+void dispatch_univern_actions(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *status) {
     u16 distance;
     u32 flags;
     s32 action_index;
@@ -440,7 +440,7 @@ void update_entity_movement_and_ground_height(ActorRecord *actor, ObjectPosition
 
     if (g_dungeon_status.flags & 0x1000) {
         actor->action_id = 14;
-        advance_entity_along_path_2(actor, context, sprite, status);
+        advance_univern_stored_path(actor, context, sprite, status);
         return;
     }
 
@@ -566,7 +566,7 @@ void update_entity_movement_and_ground_height(ActorRecord *actor, ObjectPosition
                 return;
             }
         }
-            resume_handler = (void *)update_entity_movement_and_ground_height;
+            resume_handler = (void *)dispatch_univern_actions;
             begin_actor_spell_action(actor, context, sprite, D_801744D4, resume_handler);
             return;
 
@@ -577,7 +577,7 @@ void update_entity_movement_and_ground_height(ActorRecord *actor, ObjectPosition
         case 0:
         case 1:
         case 2:
-            resume_handler = (void *)update_entity_movement_and_ground_height;
+            resume_handler = (void *)dispatch_univern_actions;
 
             begin_actor_spell_action(actor, context, sprite, D_801744D4, resume_handler);
             return;
@@ -612,7 +612,7 @@ void update_entity_movement_and_ground_height(ActorRecord *actor, ObjectPosition
 #include "dungeon/monster/univern.h"
 
 /* Advances one stored path step, updates occupied tiles and facing, and sets the movement delay. */
-void advance_entity_along_path_2(ActorRecord *motion, ObjectPosition *unused, SpriteFrameState *entity, ActorRecord *path_state) {
+void advance_univern_stored_path(ActorRecord *motion, ObjectPosition *unused, SpriteFrameState *entity, ActorRecord *path_state) {
     u8 *direction_table;
     s32 old_x;
     s32 old_y;
@@ -1023,12 +1023,12 @@ s32 relink_univern_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameSt
  * after a positive signed floor-trap check. Sets the secondary timer to -0x20 under dungeon flag
  * 0x80 during movement or after an accepted trap check. /
  */
-void finish_actor_tile_move_then_resume_ground_movement(ActorRecord *state, void *motion, void *source, void *target) {
+void finish_univern_tile_move(ActorRecord *state, void *motion, void *source, void *target) {
     if (update_actor_movement_to_tile(state, motion, source, target) != 0) {
         spend_actor_mp(target, 4);
         advance_status_timers(target);
         if ((check_actor_floor_trap(source, target) << 16) > 0) {
-            state->unk_8C.word_ptr = ((s32 *)update_entity_movement_and_ground_height);
+            state->unk_8C.word_ptr = ((s32 *)dispatch_univern_actions);
             if (g_dungeon_status.flags & 0x80) {
                 state->unk_90.parts.high = -0x20;
             }
@@ -1040,13 +1040,13 @@ void finish_actor_tile_move_then_resume_ground_movement(ActorRecord *state, void
 #include "dungeon/monster/univern.h"
 
 /*
- * Runs update_linked_actor_motion and installs update_entity_movement_and_ground_height only when
+ * Runs update_linked_actor_motion and installs dispatch_univern_actions only when
  * it succeeds and the signed floor-trap check returns positive.
  */
-void finish_linked_actor_motion_and_floor_trap_then_resume_ground_movement(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
+void finish_univern_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_linked_actor_motion(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->unk_8C.handler = update_entity_movement_and_ground_height;
+            state->unk_8C.handler = dispatch_univern_actions;
         }
     }
 }
@@ -1183,7 +1183,7 @@ void update_staged_movement_and_direction(void *action, void *motion, SpriteFram
         F32(actor, 0x1C) |= 0x40000;
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         spend_actor_mp(actor, 0x100);
-        FPTR(action, 0x8C) = ((u8 *)update_entity_movement_and_ground_height);
+        FPTR(action, 0x8C) = ((u8 *)dispatch_univern_actions);
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         sprite->frameTable = univern_alt_direction_frames;
@@ -1202,7 +1202,7 @@ void update_staged_movement_and_direction(void *action, void *motion, SpriteFram
 #include "dungeon/monster/univern.h"
 
 /* Targets and starts a spell effect, waits for loading and animation, then restores movement and status. */
-void update_entity_item_action_and_idle_return(R17_80172C18_State *state, ObjectPosition *pos, SpriteFrameState *actor, R17_80172C18_Entity *ent)
+void advance_univern_spell_action(R17_80172C18_State *state, ObjectPosition *pos, SpriteFrameState *actor, R17_80172C18_Entity *ent)
 {
     u8 *item_slot;
     s32 state_index;
@@ -1333,7 +1333,7 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, Object
         }
         advance_status_timers(ent);
         ent->f6D--;
-        state->f8C = (void (*)(void))((u8 *)update_entity_movement_and_ground_height);
+        state->f8C = (void (*)(void))((u8 *)dispatch_univern_actions);
         ent->f73 = 0;
         ent->f72 = 0;
         ent->f46 &= 0x7FFF;
@@ -1404,7 +1404,7 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, Object
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         actor->flags &= 0xF7FF;
-        state->f8C = (void (*)(void))((u8 *)update_entity_movement_and_ground_height);
+        state->f8C = (void (*)(void))((u8 *)dispatch_univern_actions);
         advance_status_timers(ent);
         if (ent->f6D > 0) {
             ent->f6D--;
@@ -1551,7 +1551,7 @@ void advance_univern_flight(ActorRecord *body, ObjectPosition *motion, SpriteFra
                 (*(u32 *)&global_state->pending_display_owner) &= 0x7FFFFFFF;
             }
         }
-        body->unk_8C.address = ((u8 *)update_entity_movement_and_ground_height);
+        body->unk_8C.address = ((u8 *)dispatch_univern_actions);
         return;
 
     default:
@@ -1678,12 +1678,12 @@ void advance_univern_removal(void *state, void *motion, void *position, void *ac
 #include "dungeon/monster/univern.h"
 
 /*
- * Runs update_actor_hop_and_grow and installs update_entity_movement_and_ground_height when it
+ * Runs update_actor_hop_and_grow and installs dispatch_univern_actions when it
  * returns nonzero.
  */
-void finish_actor_hop_and_grow_then_resume_ground_movement(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void finish_univern_hop_and_grow(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_actor_hop_and_grow(state, motion, position, actor)) {
-        state->unk_8C.handler = update_entity_movement_and_ground_height;
+        state->unk_8C.handler = dispatch_univern_actions;
     }
 }
 #include "dungeon/monster/univern.h"
@@ -1901,14 +1901,14 @@ advance_state:
             globals->counter--;
         }
         entity->flags1C &= ~ACTOR_ASLEEP;
-        actor->unk_8C.address = ((u8 *)update_entity_movement_and_ground_height);
+        actor->unk_8C.address = ((u8 *)dispatch_univern_actions);
         return;
     default:
         return;
     }
 
     entity->flags1C = clear_mask & entity_flags;
-    actor->unk_8C.address = ((u8 *)update_entity_movement_and_ground_height);
+    actor->unk_8C.address = ((u8 *)dispatch_univern_actions);
 
     return;
 }
@@ -2027,7 +2027,7 @@ void advance_univern_status_action(ActorRecord *action, ObjectPosition *context,
         counter_state = (R17_80173F10_S_80173ED8_2 *)&g_dungeon_status.turn_scale;
         counter_state->unk_0A--;
         entity->flags1C &= ~(ACTOR_MP_EMPTY | ACTOR_ASLEEP);
-        ((R17_80173F10_S_80173ED8_0 *)action)->unk_8C = ((u8 *)update_entity_movement_and_ground_height);
+        ((R17_80173F10_S_80173ED8_0 *)action)->unk_8C = ((u8 *)dispatch_univern_actions);
         return;
     }
 
@@ -2045,7 +2045,7 @@ void advance_univern_status_action(ActorRecord *action, ObjectPosition *context,
 void update_univern_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object) {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
         if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
-            actor->unk_8C.handler = update_entity_movement_and_ground_height;
+            actor->unk_8C.handler = dispatch_univern_actions;
             return;
         }
     } else if (*(u8 **)&entity->frameTable == univern_alt_spawn_direction_frames &&
@@ -2057,58 +2057,58 @@ void update_univern_parent_motion(ActorRecord *actor, ObjectPosition *action, Sp
 #include "dungeon/monster/univern.h"
 
 /*
- * Runs update_thrown_actor_travel and installs update_entity_movement_and_ground_height only when
+ * Runs update_thrown_actor_travel and installs dispatch_univern_actions only when
  * it succeeds and the signed floor-trap check returns positive.
  */
-void update_timed_effect_and_expire(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
+void finish_univern_thrown_travel(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_thrown_actor_travel(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->unk_8C.handler = update_entity_movement_and_ground_height;
+            state->unk_8C.handler = dispatch_univern_actions;
         }
     }
 }
 #include "dungeon/monster/univern.h"
 
 /*
- * Runs interpolate_actor_to_terrain_tile and installs update_entity_movement_and_ground_height
+ * Runs interpolate_actor_to_terrain_tile and installs dispatch_univern_actions
  * when it returns nonzero.
  */
-void finish_actor_terrain_interpolation_then_resume_ground_movement(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void finish_univern_terrain_settle(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
-        state->unk_8C.handler = update_entity_movement_and_ground_height;
+        state->unk_8C.handler = dispatch_univern_actions;
     }
 }
 #include "dungeon/monster/univern.h"
 
 /*
- * Runs update_spinning_actor_fall and installs update_entity_movement_and_ground_height when it
+ * Runs update_spinning_actor_fall and installs dispatch_univern_actions when it
  * returns nonzero.
  */
-void finish_spinning_actor_fall_then_resume_ground_movement(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void finish_univern_spinning_fall(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
-        state->unk_8C.handler = update_entity_movement_and_ground_height;
+        state->unk_8C.handler = dispatch_univern_actions;
     }
 }
 #include "dungeon/monster/univern.h"
 
 /*
- * Runs update_actor_fade_in and installs update_entity_movement_and_ground_height when it returns
+ * Runs update_actor_fade_in and installs dispatch_univern_actions when it returns
  * nonzero.
  */
-void install_ground_movement_after_fade_in(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void finish_univern_fade_in(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_actor_fade_in(state, motion, position)) {
-        state->unk_8C.handler = update_entity_movement_and_ground_height;
+        state->unk_8C.handler = dispatch_univern_actions;
     }
 }
 #include "dungeon/monster/univern.h"
 
 /*
- * Runs resolve_actor_floor_trap_once and installs update_entity_movement_and_ground_height when it
+ * Runs resolve_actor_floor_trap_once and installs dispatch_univern_actions when it
  * returns positive.
  */
-void install_ground_movement_after_floor_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void finish_univern_floor_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (resolve_actor_floor_trap_once(state, motion, position, actor) > 0) {
-        state->unk_8C.handler = update_entity_movement_and_ground_height;
+        state->unk_8C.handler = dispatch_univern_actions;
     }
 }
 #include "dungeon/monster/univern.h"
@@ -2117,11 +2117,11 @@ void install_ground_movement_after_floor_trap(ActorRecord *state, ObjectPosition
 #include "shared/tile_object.h"
 
 /*
- * Runs propagate_actor_action_flag and installs update_entity_movement_and_ground_height when it
+ * Runs propagate_actor_action_flag and installs dispatch_univern_actions when it
  * returns positive.
  */
-void finish_actor_action_flag_propagation_then_resume_ground_movement(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
+void finish_univern_action_flag(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (propagate_actor_action_flag(state, motion, position, actor) > 0) {
-        state->unk_8C.handler = update_entity_movement_and_ground_height;
+        state->unk_8C.handler = dispatch_univern_actions;
     }
 }

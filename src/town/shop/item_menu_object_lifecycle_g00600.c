@@ -29,7 +29,7 @@ void * create_item_menu_object(s32 selector) {
             state->unk_14 = (count - 1) / 10;
         }
         set_message_mode(1);
-        runtime_call_selected_mode_handler();
+        call_message_mode_handler();
         result = create_item_menu_child_object(object);
         ((S_800AE324_1 *)object)->unk_20 = result;
         if (result != 0) {

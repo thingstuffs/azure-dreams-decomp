@@ -114,7 +114,7 @@
     },
     {
       "row": "dungeon/func_80E5CABC",
-      "tu": "src/dungeon/monster/manoeva/complete_airborne_actor_recovery.c",
+      "tu": "src/dungeon/monster/manoeva/hop_manoeva_to_tile.c",
       "home": "dungeon/func_80E38ABC",
       "foff": "0xe7cabc",
       "vma": "0x8014e2bc",
@@ -572,7 +572,7 @@
     },
     {
       "row": "dungeon/func_80E5FD94",
-      "tu": "src/dungeon/monster/manoeva/relocate_entity_after_animation.c",
+      "tu": "src/dungeon/monster/manoeva/project_depth_sorted_sprite_quads.c",
       "home": "dungeon/func_80E3BD94",
       "foff": "0xe7fd94",
       "vma": "0x80151594",

@@ -12,7 +12,7 @@ typedef struct { u8 b0; u8 b1; u8 b2; u8 b3; } Elem;
 
 extern s16 actor_turn_angle_offsets[];
 
-extern Elem *get_active_region_data(s16); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern Elem *get_active_room_entries(s16); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 
 /*
@@ -58,7 +58,7 @@ s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out) {
             work_p[0x72] = 0;
             work_p[0x67] = 0;
             actor_held[0x27] = 0xFF;
-            s1 = get_active_region_data(*(s8 *)(actor_held + 0x26));
+            s1 = get_active_room_entries(*(s8 *)(actor_held + 0x26));
             if (s1 != 0) {
                 count = dungeon_rooms[(s8)actor_held[0x26]].entry_count;
                 for (i = 0; i < count; i++) {
@@ -95,7 +95,7 @@ s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out) {
         }
 
         if ((actor_held[0x24] == b72) && (actor_held[0x25] == b73)) {
-            s1 = get_active_region_data(*(s8 *)(actor_held + 0x26));
+            s1 = get_active_room_entries(*(s8 *)(actor_held + 0x26));
             if (s1 != 0) {
                 s0 = g_dungeon_status.turn_counter;
                 if (c3 = dungeon_rooms[*(s8 *)(actor_held + 0x26)].entry_count, type = actor_held[0x26], c3 > 0) {

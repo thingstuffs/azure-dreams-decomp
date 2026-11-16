@@ -68,7 +68,7 @@ typedef struct S_801728B4_9 {
 
 
 extern void effect_update_tag();
-void dispatch_monster_move_attack_spell(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
+void dispatch_dragon_actions(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 
 /* Updates an actor action, its visual effect, and completion cleanup. */
 /* Starts a targeted spell with a child sprite on frame 45, releases the child after animation, and
@@ -193,7 +193,7 @@ void cast_maximum_spell_with_child_sprite(ActorRecord *actor, ObjectPosition *mo
             (*(u16 *)((u8 *)&primary_actor_record->unk_A4.value + 2)) = (u16) (primary_actor_record->unk_A4.halves.high.u - 1);
             advance_status_timers(action);
             action->pending_turn_updates = action->pending_turn_updates - 1;
-            actor->unk_8C.address = &dispatch_monster_move_attack_spell;
+            actor->unk_8C.address = &dispatch_dragon_actions;
             action->target_tile_y = 0;
             action->target_tile_x = 0;
             action->action_flags = (u16) (action->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
@@ -244,7 +244,7 @@ void cast_maximum_spell_with_child_sprite(ActorRecord *actor, ObjectPosition *mo
         }
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         sprite->flags = (u16) (sprite->flags & 0xF7FF);
-        actor->unk_8C.address = &dispatch_monster_move_attack_spell;
+        actor->unk_8C.address = &dispatch_dragon_actions;
         advance_status_timers(action);
         if (action->pending_turn_updates > 0) {
             action->pending_turn_updates = action->pending_turn_updates - 1;

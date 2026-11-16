@@ -95,7 +95,7 @@ void *create_owner_linked_pulsing_effect(ObjectPosition *spawn_pos_arg, ActorRec
             object_flag_block.flags = global_flags;
             return NULL;
         }
-        clear_entry_flag_and_link_owner(object);
+        insert_node_before_primary_actor(object);
         object_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
         object_count = (u16) (object_count + 1);
         g_dungeon_status.activity_counts.parts.pending_action_count = object_count;

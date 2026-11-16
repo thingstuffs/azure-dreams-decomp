@@ -64,7 +64,7 @@ s32 use_item_to_clear_equipment_flags(ActorRecord *target, DungeonItemEntry *ite
             equipment->unk_03 &= 0xBF;
             message_buf = get_unused_text_buffer();
             clear_byte_and_advance(expand_text_control_codes(D_800E1756,
-                                        append_typed_formatted_value(equipment, message_buf)));
+                                        append_item_name_with_value(equipment, message_buf)));
             display_text_with_fullwidth_adjustment(message_buf);
             uncursed = 1;
         }
@@ -74,7 +74,7 @@ s32 use_item_to_clear_equipment_flags(ActorRecord *target, DungeonItemEntry *ite
             equipment->unk_03 &= 0xBF;
             message_buf = get_unused_text_buffer();
             clear_byte_and_advance(expand_text_control_codes(D_800E176F,
-                                        append_typed_formatted_value(equipment, message_buf)));
+                                        append_item_name_with_value(equipment, message_buf)));
             display_text_with_fullwidth_adjustment(message_buf);
             uncursed = 1;
         }

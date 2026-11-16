@@ -93,7 +93,7 @@ void tcame_return_plus(void);
 /* check_build_building_land.c */
 s32 CheckBuildBuildingLand(s32 record_key);
 
-/* check_fixed_value_pairs.c */
+/* get_item_name_with_fallback_pair.c */
 s32 check_required_building_slots(void);
 
 /* check_scratch_quad_half_turn_gaps.c */

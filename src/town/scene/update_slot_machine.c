@@ -12,7 +12,7 @@
 #define DIGIT1 (D_80530590[1])
 #define DIGIT2 (D_80530590[2])
 
-extern u32 scene_value_total;
+#include "town/scene/value_total_data.h"
 extern u8 D_8012F130[0x20];
 extern u16 D_801328F8[];
 extern u8 D_80526704[];

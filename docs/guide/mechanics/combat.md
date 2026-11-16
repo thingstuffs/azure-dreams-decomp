@@ -38,7 +38,7 @@ There is no universal accuracy percentage in this function.
 
 Verified by reading
 [`get_clamped_adjusted_value`](../../../src/dungeon/player/get_clamped_adjusted_value.c),
-[`clamp_adjusted_value_0_to_99`](../../../src/dungeon/actor/clamp_adjusted_value_to.c),
+[`get_shield_defense_bonus`](../../../src/dungeon/actor/get_shield_defense_bonus.c),
 `prepare_directional_attack` and `resolve_attack_damage_and_effects`.
 For a hit, before elements and height:
 

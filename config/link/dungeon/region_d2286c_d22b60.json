@@ -10,7 +10,7 @@
     {
       "row": "dungeon/func_80D0286C",
       "home": "dungeon/func_80CEA86C",
-      "tu": "src/dungeon/monster/troll/create_tinted_sprite_effect_supplied_position.c",
+      "tu": "src/dungeon/monster/troll/troll_jump_arc_to_tile_and_end_turn.c",
       "foff": "0xd2286c",
       "vma": "0x8015c06c",
       "size": 756,

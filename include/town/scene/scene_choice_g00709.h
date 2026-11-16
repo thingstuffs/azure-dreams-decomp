@@ -8,6 +8,6 @@
 
 /* Functions defined in this translation unit. */
 void invoke_handler_with_code_79_e(void);
-void select_scene_choice_by_mode(void);
+void prepare_progress_choice_table(void);
 
 #endif

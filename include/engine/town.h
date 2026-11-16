@@ -56,7 +56,7 @@ void queue_town_movie_third(void);
 void reset_town_items(void);
 
 /* reverse_town_movie_buffer_bytes.c */
-u8 *format_unsigned_double_byte_decimal(u32 value, u8 *out);
+u8 *format_fullwidth_decimal(u32 value, u8 *out);
 
 /* setup_town_scene.c */
 void setup_town_scene(void);

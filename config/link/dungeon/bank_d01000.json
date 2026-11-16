@@ -249,7 +249,7 @@
     },
     {
       "row": "dungeon/func_80CE3F20",
-      "tu": "src/dungeon/monster/pulunpa/update_object_or_select_directional_data.c",
+      "tu": "src/dungeon/monster/pulunpa/update_pulunpa_parent_motion.c",
       "home": "dungeon/func_80CBFF20",
       "foff": "0xD03F20",
       "vma": "0x8014f720",
@@ -422,7 +422,7 @@
     },
     {
       "row": "dungeon/func_80CE6494",
-      "tu": "src/dungeon/monster/pulunpa/check_object_action_and_clear_flags.c",
+      "tu": "src/dungeon/monster/pulunpa/select_pulunpa_action.c",
       "home": "dungeon/func_80CC2494",
       "foff": "0xD06494",
       "vma": "0x80151C94",

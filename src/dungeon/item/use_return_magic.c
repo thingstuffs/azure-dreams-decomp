@@ -63,7 +63,7 @@ s32 use_return_magic(Entity *entity, DungeonItemEntry *item, s16 action_type) {
             adjusted_value = append_entity_display_text(entity, current_value = get_unused_text_buffer());
             original_value = current_value;
             current_value = adjusted_value;
-            clear_byte_and_advance(expand_text_control_codes(D_80089384, append_typed_formatted_value(item, expand_text_control_codes(D_800E1677, current_value))));
+            clear_byte_and_advance(expand_text_control_codes(D_80089384, append_item_name_with_value(item, expand_text_control_codes(D_800E1677, current_value))));
             display_text_with_fullwidth_adjustment(original_value);
             place_actor_item(entity, item);
         }

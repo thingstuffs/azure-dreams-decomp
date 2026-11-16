@@ -84,7 +84,7 @@ void *create_actor_at_tile(s16 spawn_kind, u16 tile_x, u16 tile_y, s16 height) {
         state->unk_88 = sample_terrain_surface_height(((u16)(position->x.w.i)), ((u16)(position->y.w.i)), position->z.w.i);
         sprite->color.word = 0x2C808080;
         sprite->flags = (u16) (sprite->flags | 0x8000);
-        clear_entry_flag_and_link_owner(object);
+        insert_node_before_primary_actor(object);
         call_x = sprite->tile_x;
         call_y = sprite->tile_y;
         tile_flags = 0x3000;

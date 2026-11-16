@@ -4,7 +4,7 @@
 #include "common.h"
 
 void noop_scene_script_call(void);
-void set_state_table_pointer(void);
+void install_object_set_table(void);
 
 /* Return words consumed by script variable v15. */
 s32 is_scene_event_flag_set(void);

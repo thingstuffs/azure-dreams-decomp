@@ -1,0 +1,121 @@
+#include "dungeon/level/unlink_entity_node_api.h"
+#include "common.h"
+#include "shared/object_flags.h"
+#include "shared/object_node.h"
+#include "shared/dungeon_status.h"
+#include "shared/dir_step.h"
+#include "shared/object_links.h"
+#include "dungeon/actor.h"
+#include "dungeon/system.h"
+#include "dungeon/player/object.h"
+
+struct EntityLinkNode;
+
+
+
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
+s16 sample_terrain_surface_height();
+
+/* Advance an entity through motion, fading, and removal. */
+void update_kraken_defeat(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, void *entity) {
+    s32 sound_flags;
+    s32 velocity_x;
+    s32 velocity_y;
+    s32 direction_offset;
+    s32 status_flags;
+    u16 next_brightness;
+    u32 phase;
+    u32 sound_x;
+    u32 sound_y;
+    u8 brightness;
+
+    phase = state->action_phase;
+    direction_offset = (((ActorRecord *)entity)->movement_facing >> 8) & 0xE;
+    velocity_x = dir_step_x[direction_offset >> 1];
+    velocity_y = dir_step_y[direction_offset >> 1];
+    switch (phase) {
+    case 0:
+    {
+        ActorRecord *entity_view = entity;
+        u32 clear_bit_27 = 0xF7FFFFFF;
+        u32 clear_bit_18;
+        u32 entity_flags;
+        u16 state_flags;
+
+        state_flags = state->action_state_flags;
+        clear_bit_18 = 0xFFFBFFFF;
+        state_flags |= 8;
+        state->action_state_flags = state_flags;
+        entity_flags = ((u32)entity_view->flags1C);
+        entity_flags &= clear_bit_27;
+        entity_flags &= clear_bit_18;
+        entity_view->flags1C = entity_flags;
+        motion->velocity_x = velocity_x << 0x10;
+        motion->velocity_y = velocity_y << 0x10;
+        motion->velocity_z = 0xFFF40000;
+        state->action_phase = state->action_phase + 1;
+    }
+    case 1:
+        motion->velocity_z += 0x1C000;
+        if (sample_terrain_surface_height(motion->x.unsigned_parts.integer, motion->y.unsigned_parts.integer, motion->z.w.i) >= 0x200) {
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
+        }
+        if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
+            return;
+        }
+        state->action_phase = state->action_phase + 1;
+    case 2:
+        status_flags = ((ActorRecord *)entity)->flags14;
+        if (status_flags & 0x4000) {
+            if (!(status_flags & 0x20000000)) {
+                announce_familiar_defeat(entity);
+            }
+        }
+        play_sound_if_enabled(0x805);
+        sprite->tpage_abr = 0x20;
+        sprite->flags |= 0xC;
+        sprite->clut -= 0x80;
+        state->action_phase = state->action_phase + 1;
+    case 3:
+        motion->velocity_z += 0x1C000;
+        if (!(sprite->flags & 0x6000)) {
+            return;
+        }
+        state->action_timer = 0x80U;
+        state->action_phase = state->action_phase + 1;
+        return;
+    case 4:
+    {
+        ActorRecord *entity_view = entity;
+        entity_view->flags1C |= 0x10000000;
+        brightness = state->action_timer;
+        sprite->color.c.b = brightness;
+        sprite->color.c.g = brightness;
+        sprite->color.c.r = brightness;
+        next_brightness = state->action_timer - 0x18;
+        state->action_timer = next_brightness;
+        if ((s16)next_brightness >= 0x18) {
+            return;
+        }
+        if (g_dungeon_status.pending_display_owner == NODE_HEADER(entity)) {
+            *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
+        }
+        distribute_experience_and_report_gains(entity);
+        detach_record_and_update_slot_state(entity);
+        sound_x = sprite->tile_x;
+        sound_y = sprite->tile_y;
+        sound_flags = 0x3000;
+        if (entity_view->flags1C & 0x2000) {
+            sound_flags = 0x300;
+        }
+        update_map_cell_flags_with_item_limit(sound_x, sound_y, sound_flags);
+        unlink_entity_node(entity);
+        ((ObjectRetirementFlags *)entity)[-1].flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
+        return;
+    }
+    }
+}

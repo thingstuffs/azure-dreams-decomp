@@ -9,7 +9,7 @@
 #include "dungeon/effect.h"
 
 /* Checks whether a directional step is in bounds and clear of obstacles. */
-s32 get_adjacent_tile_for_action(u32 action_flags, EntityRec *position, S_800CA1E0_2 *object, u16 height_offset) {
+s32 check_adjacent_step_clear(u32 action_flags, EntityRec *position, S_800CA1E0_2 *object, u16 height_offset) {
     u16 tile_flags;
     s16 direction;
     u16 target_x;
@@ -57,7 +57,7 @@ s32 get_adjacent_tile_for_action(u32 action_flags, EntityRec *position, S_800CA1
 }
 
 /* Find a movement direction, record the tile, and update the actor's position and height. */
-void update_actor_targeting_for_tile(ActorRecord *body, s32 unused, S_800CA444_0 *tile, ActorRecord *actor) {
+void step_actor_along_route(ActorRecord *body, s32 unused, S_800CA444_0 *tile, ActorRecord *actor) {
     s16 next_heading;
     s16 height;
     s16 scan_result;
@@ -94,7 +94,7 @@ void update_actor_targeting_for_tile(ActorRecord *body, s32 unused, S_800CA444_0
             heading_offset = heading_offsets[scan_result];
             next_heading = heading + heading_offset;
         }
-        if ((get_adjacent_tile_for_action(next_heading, tile, (void *)actor, 0x20) << 0x10) > 0) {
+        if ((check_adjacent_step_clear(next_heading, tile, (void *)actor, 0x20) << 0x10) > 0) {
             actor->facing = next_heading;
             actor->path_x[actor->movement_queue_state & 0x7F] = tile->unk_24.at00.v;
             actor->path_y[actor->movement_queue_state & 0x7F] = tile->unk_24.at01.v;
@@ -134,7 +134,7 @@ void update_actor_targeting_for_tile(ActorRecord *body, s32 unused, S_800CA444_0
 }
 
 /* Attempt an action toward the target and decrement the actor counter on success. */
-s32 select_target_tile_for_actor_action(ActorRecord *object_ptr, void *action_context, MovingTile *target_ptr, ActorRecord *actor_ptr)
+s32 try_attack_target_tile(ActorRecord *object_ptr, void *action_context, MovingTile *target_ptr, ActorRecord *actor_ptr)
 {
     s32 target_direction;
     s32 clear_action_flag;
@@ -234,7 +234,7 @@ s32 choose_best_eligible_entry_for_actor(ActorRecord *actor_arg, s32 action_arg,
         actor->flags14 &= clear_flag_mask;
         actor->flags1C &= clear_flag_mask;
         if (found_entry == (s32)actor->target) {
-            select_target_tile_for_actor_action(actor, action_arg, origin, actor);
+            try_attack_target_tile(actor, action_arg, origin, actor);
             return 0;
         }
         actor->facing = get_rounded_facing_and_rounding_flag(
@@ -246,6 +246,6 @@ s32 choose_best_eligible_entry_for_actor(ActorRecord *actor_arg, s32 action_arg,
         actor->action_flags |= 0x8000;
     }
 
-    update_actor_targeting_for_tile(actor_arg, action_arg, origin, actor);
+    step_actor_along_route(actor_arg, action_arg, origin, actor);
     return 0;
 }

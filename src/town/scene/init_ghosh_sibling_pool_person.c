@@ -1,0 +1,14 @@
+#include "common.h"
+#include "town/person.h"
+#include "town/scene.h"
+
+extern u8 D_800D7B80[];
+extern u8 D_800D7B88[];
+extern u8 D_800D7BB0[];
+extern u8 D_800D7BB4[];
+
+/* Registers the object in scene slot 7 using the four local setup tables. */
+void init_ghosh_sibling_pool_person(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
+{
+    register_object_slot_with_tables(object, 7, D_800D7BB0, D_800D7BB4, D_800D7B80, D_800D7B88);
+}

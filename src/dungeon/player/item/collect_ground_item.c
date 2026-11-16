@@ -96,7 +96,7 @@ s32 collect_ground_item(Ctx *ctx, char *text, SpriteFrameState *sprite, Unit *un
     message_handle = get_unused_text_buffer();
     message = write_text_byte_and_advance(8, message_handle);
     if (held_item_kind_alias != 0) {
-        clear_byte_and_advance(expand_text_control_codes(D_80088A80, append_typed_formatted_value(&dungeon_ground_items[item_id], expand_text_control_codes(D_800E0A76,
+        clear_byte_and_advance(expand_text_control_codes(D_80088A80, append_item_name_with_value(&dungeon_ground_items[item_id], expand_text_control_codes(D_800E0A76,
             message))));
         display_text_with_fullwidth_adjustment(message_handle);
         return 1;
@@ -106,7 +106,7 @@ s32 collect_ground_item(Ctx *ctx, char *text, SpriteFrameState *sprite, Unit *un
     if ((system_update_flags & 1) == 0) {
         if ((sys->buttons & 0x20) != 0) {
             append_packed_action_record(unit, 64, 0, 0);
-            clear_byte_and_advance(expand_text_control_codes(D_80088A80, append_typed_formatted_value(&dungeon_ground_items[item_id], expand_text_control_codes(D_800E0A83,
+            clear_byte_and_advance(expand_text_control_codes(D_80088A80, append_item_name_with_value(&dungeon_ground_items[item_id], expand_text_control_codes(D_800E0A83,
                 message))));
             display_text_with_fullwidth_adjustment(message_handle);
             return 1;
@@ -125,7 +125,7 @@ s32 collect_ground_item(Ctx *ctx, char *text, SpriteFrameState *sprite, Unit *un
     if ((ground_item->kind == ITEM_KIND_COIN) || ((ground_item->kind == 12) && (ground_item->unk_00 == ITEM_BLUE_COLLAR))
         || ((ground_item->kind == ITEM_KIND_EGG) && (ground_item->unk_00 == MONSTER_HIKEWNE))) {
         named_item = &dungeon_ground_items[(s16) item_lookup];
-        message = append_typed_formatted_value(named_item, message);
+        message = append_item_name_with_value(named_item, message);
         if (named_item->kind == ITEM_KIND_COIN) {
             message = expand_text_control_codes(D_80088A84, message);
         } else {
@@ -164,12 +164,12 @@ s32 collect_ground_item(Ctx *ctx, char *text, SpriteFrameState *sprite, Unit *un
         slot_index = free_slot;
         entry_index = free_entry;
         if ((slot_index < 0) || (entry_index < 0)) {
-            message = expand_text_control_codes(D_80088A80, append_typed_formatted_value(&dungeon_ground_items[(s16) item_lookup], expand_text_control_codes(D_800E0AFA,
+            message = expand_text_control_codes(D_80088A80, append_item_name_with_value(&dungeon_ground_items[(s16) item_lookup], expand_text_control_codes(D_800E0AFA,
                 write_text_byte_and_advance(10, expand_text_control_codes(D_800E0AD8, message)))));
         } else {
             stored_id = item_lookup;
             stored_item = &dungeon_ground_items[stored_id];
-            message = expand_text_control_codes(D_800E0B07, append_typed_formatted_value(stored_item, message));
+            message = expand_text_control_codes(D_800E0B07, append_item_name_with_value(stored_item, message));
             inventory_slot = (void **) 0x80010248 + slot_index;
             *inventory_slot = *(void **) stored_item;
             inventory_page = (u8 *) 0x80010000;

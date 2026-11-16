@@ -4,6 +4,6 @@
 /* Contracts owned by src/dungeon/monster/viper/spawn_viper.c. */
 #include "common.h"
 
-void *spawn_mode_configured_monster(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height);
+void *spawn_viper(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height);
 
 #endif

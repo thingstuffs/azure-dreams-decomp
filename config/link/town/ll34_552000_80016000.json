@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "town/func_805D2BE4",
-      "tu": "src/town/scene/select_data_by_kind_and_index.c",
+      "tu": "src/town/scene/select_mode_response_by_kind.c",
       "home": "town/func_805D232C",
       "foff": "0x552BE4",
       "vma": "0x80016BE4",
@@ -27,7 +27,7 @@
     },
     {
       "row": "town/func_805D2C7C",
-      "tu": "src/town/scene/select_data_by_kind_and_index.c",
+      "tu": "src/town/scene/select_mode_response_by_kind.c",
       "home": "town/func_805D232C",
       "foff": "0x552C7C",
       "vma": "0x80016C7C",
@@ -60,7 +60,7 @@
     },
     {
       "row": "town/func_805D2E4C",
-      "tu": "src/town/scene/select_data_by_kind_and_index.c",
+      "tu": "src/town/scene/select_mode_response_by_kind.c",
       "home": "town/func_805D232C",
       "foff": "0x552E4C",
       "vma": "0x80016E4C",
@@ -78,7 +78,7 @@
     },
     {
       "row": "town/func_805D2EE4",
-      "tu": "src/town/scene/select_data_by_kind_and_index.c",
+      "tu": "src/town/scene/select_mode_response_by_kind.c",
       "home": "town/func_805D232C",
       "foff": "0x552EE4",
       "vma": "0x80016EE4",

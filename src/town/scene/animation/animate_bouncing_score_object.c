@@ -40,7 +40,7 @@ extern TownRewardValues D_80526448;
 extern s32 score_object_images[];
 extern u8 score_bounce_motion_data[];
 extern u8 town_motion_state[];
-extern s32 scene_value_total;
+#include "town/scene/value_total_data.h"
 
 
 /* Bounces a pickup, applies its reward on a successful position test, and handles blinking and removal. */

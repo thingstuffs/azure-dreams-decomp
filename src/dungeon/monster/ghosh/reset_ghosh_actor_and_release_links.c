@@ -25,7 +25,7 @@ void reset_ghosh_actor_and_release_links(s32 unused0, s32 unused1, s32 unused2, 
     linked = ghosh_actor_node->sprite;
     *(u16 *)(base + 0x46) &= 0x7FFF;
     system_update_flags &= 0xFFF6;
-    set_monster_data_pointer();
+    reset_timed_sequence_data();
     base[0xB3] = 1;
     base[0xB2] = 0;
     if (*(u8 **)&linked->frameTable != ghosh_frame_set_4) {
@@ -39,7 +39,7 @@ void reset_ghosh_actor_and_release_links(s32 unused0, s32 unused1, s32 unused2, 
     do {
         object = *(s32 *)(((u8 *)dungeon_actor_ring_anchor) + (i * 4) + 0xAC);
         if (object != 0) {
-            clear_entry_flag_and_link_owner(object - 0x20);
+            insert_node_before_primary_actor(object - 0x20);
         }
         i++;
     } while (i < 2);

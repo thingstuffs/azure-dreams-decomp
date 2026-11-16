@@ -1,15 +1,16 @@
 #include "common.h"
 #include "town/scene.h"
 #include "town/scene/hooks.h"
-extern u8 D_80017760[];
+#include "town/scene/dispatch.h"
 extern s32 func_800161E4(void);
 typedef struct { u8 pad[0x40]; void *value; } Child;
 typedef struct { u8 pad[0x1C]; Child *child; } State;
 extern State *town_scene_root;
 extern void *D_800174E0;
-extern u8 D_80016084[], scene_event_data[];
+extern s32 D_80016084;
+extern u8 scene_event_data[];
 void attach_scene_event_data(void) {
-    D_800174E0 = D_80016084;
+    D_800174E0 = &D_80016084;
     town_scene_root->child->value = scene_event_data;
 }
 /* One complete terminal choice; the next scene object begins at +0x84. */

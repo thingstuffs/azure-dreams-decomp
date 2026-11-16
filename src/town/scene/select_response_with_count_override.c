@@ -1,0 +1,20 @@
+#include "modules/town_ovl_3ef1c8.h"
+#include "town/scene/response_checks.h"
+#include "town/scene/flags.h"
+
+/*
+ * Returns scene_result_fallback on the negative-threshold check; otherwise queries D_8001A934 with
+ * scene_override_context and uses lookup overrides when the follow-up check succeeds.
+ */
+s32 select_response_with_count_override(s32 context, s32 check_value, s32 selector) {
+    s32 result;
+
+    if (check_table_result_below_minus_47() != 0) {
+        return (s32)&scene_result_fallback;
+    }
+    result = apply_entry_position(&D_8001A934, &scene_override_context, context, selector);
+    if (resolve_entry_flag(&D_8001A934, context, selector) != 0) {
+        result = select_response_by_town_state_count(context, check_value, selector);
+    }
+    return result;
+}

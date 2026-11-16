@@ -103,10 +103,10 @@ s32 use_random_healing_item(DungeonObject *obj, DungeonItemEntry *payload, s16 e
     if (obj->flags & 0x4000) {
         message_handle = get_unused_text_buffer();
         if (effect_state > 0) {
-            clear_byte_and_advance(expand_text_control_codes(&D_80089354[0], format_unsigned_double_byte_decimal(obj->amount, expand_text_control_codes(&D_800E0E14[0],
+            clear_byte_and_advance(expand_text_control_codes(&D_80089354[0], format_fullwidth_decimal(obj->amount, expand_text_control_codes(&D_800E0E14[0],
                 append_entity_display_text(obj, message_handle)))));
         } else if (effect_state == 0) {
-            clear_byte_and_advance(expand_text_control_codes(&D_80089354[0], format_unsigned_double_byte_decimal(obj->amount, expand_text_control_codes(&D_800E0E34[0],
+            clear_byte_and_advance(expand_text_control_codes(&D_80089354[0], format_fullwidth_decimal(obj->amount, expand_text_control_codes(&D_800E0E34[0],
                 append_entity_display_text(obj, message_handle)))));
         } else {
             clear_byte_and_advance(expand_text_control_codes(&D_800E0E50[0], message_handle));

@@ -8,7 +8,7 @@
 
 /* Creates a Nyuel actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
-Func80BBB094PartC *spawn_mode_configured_monster_slot_a(s32 spawn_flags, s16 tile_x, s32 tile_y, s32 spawn_height)
+Func80BBB094PartC *spawn_nyuel_slot_a(s32 spawn_flags, s16 tile_x, s32 tile_y, s32 spawn_height)
 {
     Func80BBB094PartC *result = 0;
     unsigned long slot1;

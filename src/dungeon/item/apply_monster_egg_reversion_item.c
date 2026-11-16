@@ -79,7 +79,7 @@ s32 apply_monster_egg_reversion_item(void *entity, DungeonItemEntry *source, s16
         } else {
             text_end = append_entity_display_text(entity, text_buffer);
             text_end = expand_text_control_codes(D_800E10B3, text_end);
-            text_end = append_typed_formatted_value(source, text_end);
+            text_end = append_item_name_with_value(source, text_end);
             text_end = expand_text_control_codes(D_80089360, text_end);
         }
         clear_byte_and_advance(text_end);

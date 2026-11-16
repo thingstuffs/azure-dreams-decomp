@@ -72,7 +72,7 @@ void transfer_linked_object_state(ActorRecord *owner, ObjectPosition *object_id,
         }
 
         dest_state->species = 0x1E;
-        clear_entry_flag_and_link_owner(NODE_HEADER(owner));
+        insert_node_before_primary_actor(NODE_HEADER(owner));
         *(u32 *)(((u8 *)dest_state + 0x60)) = *(u32 *)(linked_state + 0x60);
         reset_linked_entity_state(owner, object_id, dest_object, dest_state);
         owner->unk_A4.value = 0;

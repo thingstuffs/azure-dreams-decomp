@@ -29,8 +29,8 @@ void *select_response_if_entry_flag_set(void *context, s32 unused, s32 mode);
 /* prepare_shared_text_buffer.c */
 void *prepare_shared_text_buffer(s32 source);
 
-/* report_scene_busy_until_message_closes.c */
-s32 report_scene_busy_until_message_closes(void);
+/* reserve_town_seq_when_sbs32_pad08_clear.c */
+s32 reserve_town_seq_when_sbs32_pad08_clear(void);
 
 /* select_dialogue_with_override.c */
 s32 select_dialogue_with_flag_override(s32 speaker, s32 interaction, s32 dialogue_id);

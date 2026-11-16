@@ -249,7 +249,7 @@ u8 select_mapped_object_status_code(void *object);
 void register_message_command_object(void *object);
 
 /* w_8004DCEC.c */
-void runtime_call_selected_mode_handler(void);
+void call_message_mode_handler(void);
 
 /* w_8004DD2C.c */
 void submit_script_with_registered_context(void *context);

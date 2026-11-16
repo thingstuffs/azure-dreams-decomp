@@ -7,7 +7,7 @@
 #include "town/player/state.h"
 
 /* Return whether both checks for 0x1200 and 0x1201 return zero. */
-s32 check_town_event_flags_clear(void) {
+s32 are_pool_events_clear(void) {
     s32 result;
     s32 return_value;
 
@@ -54,7 +54,7 @@ void advance_town_events_and_dispatch_entry(void)
     event_state->eventIndex %= 7;
     reset_town_event_state();
 
-    if (check_town_event_flags_clear() != 0) {
+    if (are_pool_events_clear() != 0) {
         checked_count = 0;
         do {
             if ((get_script_flag_mask(D_80019088[event_state->eventIndex].check) == 0) !=

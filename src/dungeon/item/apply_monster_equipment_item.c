@@ -105,7 +105,7 @@ s32 apply_monster_equipment_item(u8 *entity, DungeonItemEntry *target, s16 actio
             result = expand_text_control_codes(D_80089378, external_entity_value);
             node_offset = external_entity_value - 2;
             external_entity_value = result;
-            result = append_typed_formatted_value(target, external_entity_value);
+            result = append_item_name_with_value(target, external_entity_value);
             {
 
                 entity_value = external_entity_value;
@@ -128,7 +128,7 @@ s32 apply_monster_equipment_item(u8 *entity, DungeonItemEntry *target, s16 actio
             result = expand_text_control_codes(D_80089378, external_entity_value);
             node_offset = external_entity_value - 2;
             external_entity_value = result;
-            result = append_typed_formatted_value(target, external_entity_value);
+            result = append_item_name_with_value(target, external_entity_value);
             {
 
                 entity_value = external_entity_value;

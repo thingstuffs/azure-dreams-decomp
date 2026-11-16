@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/sprite_source.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_moving_views.h"
@@ -20,7 +21,7 @@ typedef struct S_80024130_0 {
 
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern u8 D_80024048[9];
-extern u8 D_800DE8E8[9];
+extern SpriteSourceEntry D_800DE8E8[];
 
 /* Creates an object with the given context and position and randomized rotation. */
 void * create_random_rotation_effect_sprite(s32 context, MovingPosition *position)

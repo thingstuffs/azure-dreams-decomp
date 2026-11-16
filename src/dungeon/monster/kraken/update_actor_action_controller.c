@@ -151,7 +151,7 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
                     elem_offset += 48;
                     i++;
                     child->unk_06 = 0;
-                    texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(part_b, child_texture_entries, 0);
+                    set_animation_child_source(part_b, child_texture_entries, 0);
                     child->unk_98 = (u8 *)obj + 30;
                 }
             }

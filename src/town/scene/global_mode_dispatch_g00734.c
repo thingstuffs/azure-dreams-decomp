@@ -6,7 +6,7 @@
 #include "town/scene.h"
 
 /* Processes the selected entry for event eight, then runs the completion callback. */
-s32 run_operation(s32 unused_context, s32 unused_arg, s32 event_kind) {
+s32 select_mode_response_and_mark_entry(s32 unused_context, s32 unused_arg, s32 event_kind) {
     s32 result = 0;
 
     if (event_kind == 8) {
@@ -19,13 +19,13 @@ s32 run_operation(s32 unused_context, s32 unused_arg, s32 event_kind) {
 /* Dispatches to the handler selected by the global mode. */
 s32 dispatch_by_global_mode(s32 handler_input_a, s32 handler_input_b, s32 handler_input_c, s32 handler_input_d) {
     if (scene_cell_dispatch_code == 0) {
-        return dispatch_state_entry_event_8(handler_input_a, handler_input_b, handler_input_c, handler_input_d);
+        return select_mode_response_or_none(handler_input_a, handler_input_b, handler_input_c, handler_input_d);
     }
     if (scene_cell_dispatch_code == 1) {
         return process_event_ids_and_succeed();
     }
     if (scene_cell_dispatch_code == 3) {
-        return run_operation(handler_input_a, handler_input_b, handler_input_c);
+        return select_mode_response_and_mark_entry(handler_input_a, handler_input_b, handler_input_c);
     }
     return 0;
 }

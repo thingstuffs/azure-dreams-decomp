@@ -42,8 +42,10 @@ s32 process_entry_and_clear_cell_code(void *context, s32 entry_index);
 
 s32 apply_scene_override_flag(s32 unused_first, s32 unused_second);
 s32 check_any_entry_matches_predicate(void);
-s32 lookup_variant_with_special_overrides(s32 requiredFlag, s32 completionFlag);
-s32 *select_state_result_with_lookup_overrides(s32 first_value, s32 second_value, s32 unused_context);
+void *lookup_variant_with_special_overrides(s32 lookup_key, s32 unused, s32 entry_id);
+s32 consume_required_flag_once(s32 requiredFlag, s32 completionFlag);
+void *select_mode_response_marking_paty_new(s32 unused_0, s32 unused_1, s32 request_type);
+s32 *select_response_by_town_state_count(s32 first_value, s32 second_value, s32 unused_context);
 
 void reset_sbs11_flags_and_counter(void);
 s32 bump_event_counter_to_three(void);

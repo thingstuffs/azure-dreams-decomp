@@ -26,7 +26,7 @@
 
 #include "dungeon/item/find_active_rect_containing_point_api.h"
 
-s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
+s32 try_kewne_attack(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
 extern void start_kewne_attack_action(ActorRecord *controller, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 extern void update_kewne_parent_motion(void *, ObjectPosition *, void *, ActorRecord *);
 
@@ -190,7 +190,7 @@ void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *con
             switch (action_index) {
             case 7:
             case 8:
-                if ((select_and_start_target_action(actor, context, sprite, entity) << 16) != 0) {
+                if ((try_kewne_attack(actor, context, sprite, entity) << 16) != 0) {
                     return;
                 }
                 start_kewne_attack_action(actor, context, sprite, entity);

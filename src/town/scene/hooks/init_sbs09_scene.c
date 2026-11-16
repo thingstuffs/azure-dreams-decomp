@@ -1,0 +1,31 @@
+/* Installs shared scene state, updates scene flags, and reads the scene's clamped state value. */
+#include "script_symbols.h"
+#include "town/scene/hooks/init_sbs09_scene.h"
+#include "town/player/state.h"
+
+
+/* Installs shared buffers, clamps field +0x35BC to at least 20, and updates two scene flags. */
+void init_sbs09_scene(void) {
+    Rec_D_80016000 *town_state;
+    TownStateRecord *field_base;
+    s32 field_value;
+
+    town_state = town_scene_root;
+    field_base = town_state->town_state;
+    field_value = field_base->unk_35BC;
+    D_80017548[0] = D_80017478;
+    if (field_value < 20) {
+        field_base->unk_35BC = 20;
+    }
+    clear_script_flag_bit(F_sbs09_pad05);
+    clear_script_flag_bit(F_sbs09_pad06);
+}
+
+/* MECHANISM: The retail frame is 24 bytes with only ra saved.
+   Preserve the two-load D_80016000 -> +0x38 object chain so a1 holds the field base.
+   Hold the signed-halfword read in s32 before the independent global store: this selects
+   a direct lh, lets its low-half address fill the delay, and puts sw in the branch slot. */
+
+s16 get_clamped_town_state_field(void) {
+    return town_scene_root->town_state->unk_35BC;
+}

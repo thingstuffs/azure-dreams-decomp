@@ -48,7 +48,7 @@ extern s32 collection_round_work[3];
 extern s32 town_motion_state[3];
 extern s32 collection_target_y[3];
 extern s32 D_80132AF0[3];
-extern s16 D_80132AF2[5];
+extern s16 D_80132AF2;
 extern u8 D_802430A8[12];
 extern u8 D_80243200[12];
 extern u8 D_802434B0[12];
@@ -222,7 +222,7 @@ void update_collection_actor(TownCollectionActor *in0, ObjectPosition *motion, S
         motion->z.v = (s32) (D_80132AF0[0] + D_8029070C[0] + 0xFFF80000);
         global_s7 += 4;
         if (*global_s7 & 0x20) {
-            if (D_80132AF2[0] == 0) {
+            if (D_80132AF2 == 0) {
                 if (in0->state.s == 9) {
                     tmpx = 0x100000;
                     animation_descriptor = D_8028950C;

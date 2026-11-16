@@ -76,7 +76,7 @@ s32 use_item_to_heal_small_random_amount(ActorRecord *target, DungeonItemEntry *
         }
         clear_byte_and_advance(expand_text_control_codes(
             D_800893E0,
-            format_unsigned_double_byte_decimal(target->hp_delta,
+            format_fullwidth_decimal(target->hp_delta,
                           expand_text_control_codes(D_800E18A4, effect_text))));
         display_text_with_fullwidth_adjustment(message_context);
     }

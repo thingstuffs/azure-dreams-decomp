@@ -6,12 +6,12 @@
 
 extern void spawn_initial_floor_monsters(void);
 
-/* Clears global flag bits and calls spawn_initial_floor_monsters and set_monster_data_pointer. */
+/* Clears global flag bits and calls spawn_initial_floor_monsters and reset_timed_sequence_data. */
 void respawn_floor_monsters(void) {
     dungeon_floor_flags = (s32)(dungeon_floor_flags & 0xEFFFFFFF);
     spawn_initial_floor_monsters();
     system_update_flags = (s16)(system_update_flags & 0xFFF6);
-    set_monster_data_pointer();
+    reset_timed_sequence_data();
 }
 
 /* MECHANISM: Preserve the natural 0x18 frame and direct hi/lo global RMWs.

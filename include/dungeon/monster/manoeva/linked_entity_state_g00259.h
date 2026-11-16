@@ -17,7 +17,7 @@ struct ObjectNodeHeader;
 /* arg0 in reset_linked_entity_state */
 
 extern void copy_entity_record(void *, void *);
-extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *);
+extern void insert_node_before_primary_actor(struct ObjectNodeHeader *);
 extern u8 *find_monster_entry_by_type_and_id(s32, s32); /* Unprototyped: retail call narrows its arguments to this declaration; no shared prototype keeps it */
 extern s32 find_linked_object_slot_index(void *);
 

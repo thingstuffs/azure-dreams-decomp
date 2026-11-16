@@ -17,7 +17,7 @@
     },
     {
       "row": "town/func_806D49F0",
-      "tu": "src/town/scene/event/process_request_checking_threshold_b.c",
+      "tu": "src/town/scene/event/select_response_with_low_id_override.c",
       "home": "town/func_806D49F0",
       "foff": "0x6549F0",
       "vma": "0x800169F0",
@@ -39,7 +39,7 @@
     },
     {
       "row": "town/func_806D4AB0",
-      "tu": "src/town/scene/event/process_request_checking_threshold_b.c",
+      "tu": "src/town/scene/event/select_response_with_low_id_override.c",
       "home": "town/func_806D49F0",
       "foff": "0x654AB0",
       "vma": "0x80016AB0",

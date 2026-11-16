@@ -878,7 +878,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
                 ((S_800B1B10_0 *)obj)->unk_58 = color_v0;
             }
             value_4 = get_unused_text_buffer();
-            *append_typed_formatted_value(item, value_4) = 0;
+            *append_item_name_with_value(item, value_4) = 0;
             glyph_end.pointer = decode_fullwidth_text((void *) b_held, value_4, 0);
             {
                 s32 mask_v1;

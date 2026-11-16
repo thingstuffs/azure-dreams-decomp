@@ -387,7 +387,7 @@
     },
     {
       "row": "dungeon/func_80F183B8",
-      "tu": "src/dungeon/monster/stealth/dim_and_clear_flagged_effect.c",
+      "tu": "src/dungeon/monster/stealth/fade_out_stealth.c",
       "home": "dungeon/func_80F0C3B8",
       "foff": "0xF383B8",
       "vma": "0x80167BB8",

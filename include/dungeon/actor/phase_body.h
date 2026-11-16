@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-/* Payload allocated by create_default_state_object and updated by advance_object_phase_counters. */
+/* Payload allocated by create_circular_segment_object and updated by advance_object_phase_counters. */
 typedef struct ObjectPhaseBody {
     u16 ticks;
     s16 state;

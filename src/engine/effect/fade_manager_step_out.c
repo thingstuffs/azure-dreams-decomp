@@ -6,7 +6,7 @@
 #include "shared/sprite_frame_state.h"
 #include "engine/effect.h"
 
-extern u32 D_800814A0;
+extern s32 D_800814A0;
 
 /* Decreases intensity and marks the object finished when its countdown expires. */
 void fade_manager_step_out(FadeManagerBody *manager, ObjectPosition *unused, SpriteFrameState *data) {

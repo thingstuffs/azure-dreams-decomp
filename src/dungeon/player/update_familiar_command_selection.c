@@ -75,7 +75,7 @@ void update_familiar_command_selection(ActorRecord *state, s32 context_a, Sprite
             return;
         }
         set_message_mode(2);
-        runtime_call_selected_mode_handler();
+        call_message_mode_handler();
         if ((*(s16 *)((u8 *)state + 0x120)) == 0) {
             if (D_80012D6D == 0) {
                 submit_script_with_registered_context(&D_80088904);

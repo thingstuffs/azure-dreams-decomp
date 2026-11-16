@@ -117,7 +117,7 @@ void wait_ghosh_status_and_animate(S_8016D6F0_0 *actor, void *actor_id, SpriteFr
             }
             if (entity_flags & 0x80000) {
                 begin_actor_move_to_target_facing(action_actor, actor_id, sprite, entity);
-                install_actor_action_handler_after_floor_trap_check(actor, actor_id, sprite, entity);
+                finish_actor_parent_motion(actor, actor_id, sprite, entity);
                 return;
             }
             if (entity->pending_turn_updates == 0) {

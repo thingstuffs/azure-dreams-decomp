@@ -67,7 +67,7 @@ typedef struct S_8052F2C8_9 {
 
 
 extern void create_object_position_configures_color(s32 color, s32 x, s32 y, s32 z);
-extern s32 D_80095AAC;
+extern u32 D_80095AAC;
 extern s32 collection_target_y;
 extern u8 D_8028E17C[];
 extern u8 D_8028E188[];
@@ -102,7 +102,7 @@ void animate_rising_effect_object(RisingEffectObject *obj, ObjectPosition *state
     TownScoreCounterView *data1;
     TownScoreCounterView *spawn_data;
     S_8052F2C8_9 *entity_data;
-    s32 *money;
+    u32 *money;
 
     /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: town/func_808146C8). */
     do {

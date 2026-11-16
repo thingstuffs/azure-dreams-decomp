@@ -55,7 +55,7 @@ void advance_actor_action_count(ActorRecord *controller, ObjectPosition *context
         }
         if (actor_flags & 0x80000) {
             begin_actor_move_to_target_facing(controller, context, sprite, actor);
-            install_actor_action_handler_after_floor_trap_check(controller, context, sprite, actor);
+            finish_actor_parent_motion(controller, context, sprite, actor);
             return;
         }
         if (actor->pending_turn_updates == 0) {

@@ -563,7 +563,7 @@ extern void *create_actor_with_tile_flags(s32, s16, s16, s16); /* Unprototyped: 
 
 void *spawn_mode_dependent_112_object(s16 flags,s16 attr_x,s16 attr_y,s16 attr_height);
 void update_volcano_motion_and_facing(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *monster);
-void update_actor_behavior_facing_and_animation_2(ActorRecord *actor_in, ObjectPosition *context_in, SpriteFrameState *sprite_in, ActorRecord *status_in);
+void update_volcano_turn_action(ActorRecord *actor_in, ObjectPosition *context_in, SpriteFrameState *sprite_in, ActorRecord *status_in);
 void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *entry_context, SpriteFrameState *tile, ActorRecord *actor);
 void advance_actor_path_step(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
 void set_actor_directional_animation(ActorRecord *object, ObjectPosition *unused, SpriteFrameState *display, ActorRecord *orientation);
@@ -579,7 +579,7 @@ void update_actor_spell_action(struct E_80172A58_S_80172A58_0 *state, struct E_8
 void dampen_actor_movement_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *tile_state, ActorRecord *entity);
 void remove_defeated_volcano(void *state,void *position,void *render_state,void *entity);
 void shrink_hopping_volcano(void *state,void *motion,void *sprite,void *actor);
-void advance_entity_motion_fade_and_removal(void *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target);
+void advance_volcano_removal(void *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target);
 void finish_volcano_hop_and_grow(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void wait_volcano_pending_action(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 void wait_for_volcano_mp(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);

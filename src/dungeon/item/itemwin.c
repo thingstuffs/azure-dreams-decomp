@@ -350,7 +350,7 @@ s32 allocate_item_window_buffers(ovl_1830850_818110CC_Unk818110CC *state, s32 in
 }
 
 /* Creates an inventory editor child with buffers and drawing, retiring the object if buffer setup fails. */
-ovl_1830850_81811168_DungeonObj81811168 *inventory_allocate_and_initialize_child(s32 parent_obj, s32 initial_value, s32 text_addr)
+ovl_1830850_81811168_DungeonObj81811168 *create_item_window(s32 parent_obj, s32 initial_value, s32 text_addr)
 {
     ovl_1830850_81811168_DungeonObj81811168 *obj;
     ovl_1830850_81811168_DungeonSub81811168 *state;
@@ -384,7 +384,7 @@ void release_item_window_handle(ovl_1830850_81811250_S_80026250_0 *context) {
  * For a nonnull object, releases its referenced handle and display entries, then sets the object
  * and global removal flags.
  */
-void inventory_process_resources_and_set_flags(void *object)
+void close_item_window(void *object)
 {
     u16 object_flags;
     s32 global_flags;
@@ -400,7 +400,7 @@ void inventory_process_resources_and_set_flags(void *object)
 }
 
 /* Clears the data word at offset 0x10 and the referenced entry value in the object payload. */
-void inventory_clear_object_field_and_entry(s32 object_addr) {
+void disable_item_window(s32 object_addr) {
     ovl_1830850_818112EC_S_800262EC_0 *object_data;
 
     object_data = object_addr + 0x20;
@@ -418,7 +418,7 @@ void enable_item_window(s32 object_addr) {
 }
 
 /* Sets the payload type to 4 and positions both linked entries for index 4. */
-void inventory_set_embedded_state_four(s32 object_addr) {
+void select_item_window_final_action(s32 object_addr) {
     ovl_1830850_81811340_S_80026340_0 *state;
 
     state = object_addr + 0x20;

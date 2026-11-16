@@ -17,7 +17,7 @@ void *select_lookup_with_progress_threshold(s32 selector, s32 check_value, s32 l
         result = &D_80020E5C;
     }
     if (resolve_entry_flag(&D_8001A94C, selector, lookup_value) != 0) {
-        result = select_state_result_with_lookup_overrides(selector, check_value, lookup_value);
+        result = select_response_by_town_state_count(selector, check_value, lookup_value);
     }
     return result;
 }

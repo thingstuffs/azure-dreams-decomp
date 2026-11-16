@@ -69,7 +69,7 @@ void animate_and_schedule_dungeon_spawn(EntityRec *state) {
             } while ((select_dungeon_spawn_tile(&spawn_tile.x, &spawn_tile.y) << 0x10) < 0);
             height_result = sample_terrain_surface_height((spawn_tile.x << 6) | 0x20, (spawn_tile.y << 6) | 0x20, -0x400);
             spawn_height = height_result;
-            place_item_at_valid_floor_position(spawn_tile.x, spawn_tile.y, spawn_height, get_item_category_value(&spawn_data), &spawn_data);
+            place_item_at_valid_floor_position(spawn_tile.x, spawn_tile.y, spawn_height, get_item_sprite_source(&spawn_data), &spawn_data);
         }
     }
 }

@@ -17,7 +17,7 @@ typedef struct S_800257C0_0 {
 s32 clear_inventory_object_and_init_menu(void *record_arg) {
     S_800257C0_0 *record = record_arg;
 
-    inventory_clear_object_field_and_entry(record_arg - 0x20);
+    disable_item_window(record_arg - 0x20);
     initialize_menu_object_state(get_work_value(record->unk_14), record->unk_08);
     return 1;
 }

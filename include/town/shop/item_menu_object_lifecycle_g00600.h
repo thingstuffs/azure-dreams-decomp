@@ -29,7 +29,7 @@ typedef struct S_800AE324_1 {
 
 extern void *allocate_list_node(s32 flags, s32 list_head);
 extern void set_message_mode(s32 value);
-extern void runtime_call_selected_mode_handler(void);
+extern void call_message_mode_handler(void);
 extern s32 func_800B0718(void);
 extern void *create_floating_number_widget(void *setup_value, s32 x, s32 y);
 extern void release_item_menu_child_object(s32 object); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */

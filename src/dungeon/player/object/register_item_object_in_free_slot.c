@@ -43,7 +43,7 @@ void *register_item_object_in_free_slot(void *target, void *ptr1, void *ptr2, s1
     if (index < 0 || (s16)second < 0) {
         object = get_unused_text_buffer();
         clear_byte_and_advance(expand_text_control_codes(ptr2,
-            apply_type_based_entry_adjustments(target,
+            append_item_name_with_affixes(target,
                 expand_text_control_codes(ptr1, write_text_byte_and_advance(8, object)))));
         display_text_with_fullwidth_adjustment(object);
         return 0;
@@ -51,7 +51,7 @@ void *register_item_object_in_free_slot(void *target, void *ptr1, void *ptr2, s1
 
     object = get_unused_text_buffer();
     clear_byte_and_advance(expand_text_control_codes(D_800E07EF,
-        append_typed_formatted_value(target, object)));
+        append_item_name_with_value(target, object)));
     if (held_flag != 0) {
         display_text_with_fullwidth_adjustment(object);
     }

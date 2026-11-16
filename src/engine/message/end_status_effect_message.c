@@ -133,7 +133,7 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
                 }
                 update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_mask);
             }
-            set_code_for_entity_mode(ent);
+            set_troll_spawn_variant_code(ent);
 
             create_entity = load_monster_code_module(ent->x13, spawn_result, 1);
             drain_cd_command_queue();

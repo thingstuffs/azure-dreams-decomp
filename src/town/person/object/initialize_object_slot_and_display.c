@@ -10,7 +10,7 @@ extern u8 D_800D5988[];
 extern u8 D_800D598C[];
 
 /* Initialize object slot 9, set its data pointers, and create its display object. */
-void initialize_scene_slot_9_and_display(TownObjectRecord *object, ObjectPosition *unused_a, struct SpriteFrameState *unused_b) {
+void init_far_with_follower_sprite(TownObjectRecord *object, ObjectPosition *unused_a, struct SpriteFrameState *unused_b) {
     register_object_slot_with_tables(object, 9, D_800D5988, D_800D598C, D_800D5958,
                   D_800D5960);
     set_linked_data_pointers_variant_1(object, unused_a, unused_b);

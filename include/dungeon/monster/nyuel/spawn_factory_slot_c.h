@@ -5,6 +5,6 @@
 #include "shared/entity.h"
 #include "common.h"
 
-void *spawn_mode_configured_monster_slot_c(s16 flags, s16 tile_x, s32 variant, s32 spawn_height);
+void *spawn_nyuel_slot_c(s16 flags, s16 tile_x, s32 variant, s32 spawn_height);
 
 #endif

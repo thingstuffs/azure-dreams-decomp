@@ -98,7 +98,7 @@ s32 fix_monster_fusion_appearance(ActorRecord *entity, DungeonItemEntry *data, s
         context_arg = text_cursor;
         context = context_arg;
         text_cursor = append_entity_display_text(call_entity, context_arg);
-        clear_byte_and_advance(expand_text_control_codes(D_8008935C, append_typed_formatted_value(data, expand_text_control_codes(D_800E100F, text_cursor))));
+        clear_byte_and_advance(expand_text_control_codes(D_8008935C, append_item_name_with_value(data, expand_text_control_codes(D_800E100F, text_cursor))));
         display_text_with_fullwidth_adjustment(context);
         place_actor_item(entity, data);
         return 1;

@@ -12,7 +12,7 @@
 extern void set_item_data_from_lookup();
 
 extern void release_entity_children();
-extern s32 inventory_allocate_and_initialize_child(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern s32 create_item_window(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 create_selection_child_object(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 create_menu_child_object(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
@@ -73,12 +73,12 @@ void *allocate_item_object(s32 value_00, s32 value_10, s32 value_18, void *descr
             clear_dungeon_menu_flag();
         }
         display_ids = &item_panel_display_ids;
-        state->unk_2C = window_create_animated_content_panel(8, 0xEC, 0x64, 0xEC, 0x64, 0x50, 1, item_panel_display_ids);
-        state->unk_30 = window_create_animated_content_panel(4, 0xEC, 0x64, 0xEC, 0x74, 0x50, 1,
+        state->unk_2C = create_animated_menu_panel(8, 0xEC, 0x64, 0xEC, 0x64, 0x50, 1, item_panel_display_ids);
+        state->unk_30 = create_animated_menu_panel(4, 0xEC, 0x64, 0xEC, 0x74, 0x50, 1,
             ((S_80025198_3 *)display_ids)->unk_04);
-        state->unk_34 = window_create_animated_content_panel(0x10, 0xEC, 0x64, 0xEC, 0x84, 0x50, 1,
+        state->unk_34 = create_animated_menu_panel(0x10, 0xEC, 0x64, 0xEC, 0x84, 0x50, 1,
             ((S_80025198_3 *)display_ids)->unk_08);
-        state->unk_20 = inventory_allocate_and_initialize_child(object, state->unk_14,
+        state->unk_20 = create_item_window(object, state->unk_14,
             state->unk_04);
         state->unk_24 = create_menu_child_object(object, state->unk_14);
         state->unk_28 = create_selection_child_object(object, state->unk_14,

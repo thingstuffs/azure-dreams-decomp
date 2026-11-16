@@ -23,7 +23,7 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "dungeon/item/find_active_rect_containing_point_api.h"
-void advance_actor_stored_path_2(ActorRecord *movement, ObjectPosition *actor_index, SpriteFrameState *actor, ActorRecord *path_state);                            /* extern */
+void advance_troll_stored_path(ActorRecord *movement, ObjectPosition *actor_index, SpriteFrameState *actor, ActorRecord *path_state);                            /* extern */
 s32 func_80173EAC(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 void update_directional_action_display(); /* K&R: this caller passes ActorRecord views in arguments 1 and 4; the owner header also conflicts on func_80047784. */
 void update_troll_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
@@ -54,7 +54,7 @@ void update_troll_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFr
 
     if (g_dungeon_status.flags & 0x1000) {
         actor->action_id = 0xEU;
-        advance_actor_stored_path_2(actor, context, sprite, state);
+        advance_troll_stored_path(actor, context, sprite, state);
         return;
     }
     if (state->mp_value.parts.whole == 0) {

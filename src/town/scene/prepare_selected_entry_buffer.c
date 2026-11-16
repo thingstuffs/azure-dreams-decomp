@@ -10,7 +10,7 @@ typedef struct Entry {
 } Entry;
 
 extern Entry town_selection_records[8];
-extern s32 D_80017AAC[3];
+extern s32 D_80017AAC[];
 extern s32 D_80017BD8[13];
 
 // Prepares and returns the shared buffer using the selected entry's value.

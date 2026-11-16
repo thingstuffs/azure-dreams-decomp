@@ -6,7 +6,7 @@
 struct SpriteFrameState;
 
 void initialize_scene_slot_1_context(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
-void initialize_scene_slot_15(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
+void init_fon_person(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 void initialize_scene_slot_3(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 void initialize_scene_slot_52_context(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 void initialize_scene_slot_54(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
@@ -15,19 +15,19 @@ void initialize_scene_slot_60_context(TownObjectRecord *object, ObjectPosition *
 void initialize_scene_slot_41_context(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 void initialize_scene_slot_42_context(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 void initialize_scene_slot_27(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
-void initialize_scene_slot_4(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
+void init_mother_person(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 void initialize_scene_slot_59_context(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 void initialize_scene_slot_31(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 void initialize_scene_slot_68(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
-void initialize_scene_slot_10(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
-void initialize_scene_slot_12(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
+void init_mia_pool_person(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
+void init_dodo_pool_person(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 void initialize_scene_slot_11_context(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
-void initialize_scene_slot_8(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
-void initialize_scene_slot_9(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
+void init_paty_pool_person(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
+void init_far_pool_person(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 void initialize_scene_slot_13(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
-void initialize_scene_slot_7(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
-void initialize_scene_slot_6(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
-void initialize_scene_slot_37(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
+void init_ghosh_sibling_pool_person(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
+void init_ghosh_pool_person(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
+void init_cellist_person(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 
 void initialize_scene_slot_45(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 

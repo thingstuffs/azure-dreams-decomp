@@ -26,11 +26,11 @@
 #include "dungeon/effect.h"
 #include "dungeon/effect/screen.h"
 
-void * (*const resource06_slot0_entry0)(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id) = spawn_animated_monster;
+void * (*const resource06_slot0_entry0)(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id) = spawn_flame_slot_g;
 void (*const resource06_slot0_entry1)(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *entity) = update_flame_motion_and_facing;
 
 /* Creates a Flame actor with three child display objects and initializes its status and tile placement. */
-void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
+void *spawn_flame_slot_g(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
 {
     s32 kind;
     ObjectNodeHeader *obj;
@@ -104,7 +104,7 @@ void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id
         slot = (u8 *)slot_base;
         ((R06_8017087C_S_8017087C_4 *)slot)->unk_9A = 0xFF;
         slot_base->unk_9C = -1;
-        slot_base->unk_8C = initialize_destination_state;
+        slot_base->unk_8C = dispatch_flame_actions;
         work->flags1C |= 0x40000;
         slot_base->unk_92 = -24;
         slot_base->unk_9E = 3;
@@ -150,7 +150,7 @@ void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id
                         entry->tpage_abr = 96;
                         entry->clut = part_b->clut - 128;
                         child_work->unk_06 = child_index + 1;
-                        texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(part_b, child_texture_entries, child_work->unk_06);
+                        set_animation_child_source(part_b, child_texture_entries, child_work->unk_06);
                         child_work->unk_98 = (u8 *)obj + 30;
                     } while (++entry_index < child_work->unk_02);
                 }
@@ -196,7 +196,7 @@ void update_flame_motion_and_facing(ActorRecord *actor, ObjectPosition *motion, 
     sprite_data = ((R06_80170BB8_S_80170BB8_2 *)(part_base + 0x28));
     if (global_flags & 0x2000) {
         callback = actor->unk_8C.run;
-        if (callback == (R06_80170BB8_Callback)((u8 *)initialize_destination_state)) {
+        if (callback == (R06_80170BB8_Callback)((u8 *)dispatch_flame_actions)) {
             callback(actor, motion, entity, actor);
         } else {
             actor->movement_queue_state &= 0x7F;
@@ -499,7 +499,7 @@ void update_flame_motion_and_facing(ActorRecord *actor, ObjectPosition *motion, 
 }
 
 /* Selects movement, attacks, and spells from actor status, MP, and its position relative to the player. */
-void initialize_destination_state(ActorRecord *actor, ObjectPosition *actor_context, SpriteFrameState *sprite, ActorRecord *creature) {
+void dispatch_flame_actions(ActorRecord *actor, ObjectPosition *actor_context, SpriteFrameState *sprite, ActorRecord *creature) {
     u16 distance;
     s8 room_id;
     u16 behavior_flags;
@@ -644,7 +644,7 @@ void initialize_destination_state(ActorRecord *actor, ObjectPosition *actor_cont
                     player = primary_actor_record;
                     creature->facing = facing_angle;
                     if (player->action_id == 0x11) {
-                        begin_actor_spell_action(actor, actor_context, sprite, D_80175884, initialize_destination_state);
+                        begin_actor_spell_action(actor, actor_context, sprite, D_80175884, dispatch_flame_actions);
                         return;
                     }
                 }
@@ -656,7 +656,7 @@ void initialize_destination_state(ActorRecord *actor, ObjectPosition *actor_cont
                 case 0:
                 case 1:
                 case 2:
-                    begin_actor_spell_action(actor, actor_context, sprite, D_80175884, initialize_destination_state);
+                    begin_actor_spell_action(actor, actor_context, sprite, D_80175884, dispatch_flame_actions);
                     return;
 
                 default:
@@ -1099,7 +1099,7 @@ void finish_flame_tile_move(ActorRecord *state, ObjectPosition *motion, SpriteFr
         spend_actor_mp(target, 4);
         advance_status_timers(target);
         if ((check_actor_floor_trap(source, target) << 16) > 0) {
-            state->unk_8C.word_ptr = ((s32 *)initialize_destination_state);
+            state->unk_8C.word_ptr = ((s32 *)dispatch_flame_actions);
             if (g_dungeon_status.flags & 0x80) {
                 state->unk_90.parts.high = -0x20;
             }
@@ -1110,13 +1110,13 @@ void finish_flame_tile_move(ActorRecord *state, ObjectPosition *motion, SpriteFr
 }
 
 /*
- * Runs update_linked_actor_motion and installs initialize_destination_state only when it succeeds
+ * Runs update_linked_actor_motion and installs dispatch_flame_actions only when it succeeds
  * and the signed floor-trap check returns positive.
  */
 void finish_flame_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_linked_actor_motion(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->unk_8C.handler = initialize_destination_state;
+            state->unk_8C.handler = dispatch_flame_actions;
         }
     }
 }
@@ -1164,7 +1164,7 @@ void complete_flame_attack_animation(R06_8017278C_S_8017278C_0 *action, ObjectPo
         if (sprite->flags & 0xE000) {
             set_record_integer_tile_center(motion,(u8)sprite->tile_x,(u8)sprite->tile_y);
             spend_actor_mp(actor, 0x100);
-            action->unk_8C = ((u8 *)initialize_destination_state);
+            action->unk_8C = ((u8 *)dispatch_flame_actions);
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             if (actor->pending_turn_updates == 0) {
@@ -1286,7 +1286,7 @@ void cast_flame_targeted_spell(ActorRecord *action, ObjectPosition *position, Sp
         primary_actor_record->unk_A4.halves.high.u--;
         advance_status_timers(actor);
         (*(u8 *)&actor->pending_turn_updates)--;
-        action->unk_8C.address = ((u8 *)initialize_destination_state);
+        action->unk_8C.address = ((u8 *)dispatch_flame_actions);
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -1331,7 +1331,7 @@ void cast_flame_targeted_spell(ActorRecord *action, ObjectPosition *position, Sp
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         sprite->flags &= 0xF7FF;
-        action->unk_8C.address = ((u8 *)initialize_destination_state);
+        action->unk_8C.address = ((u8 *)dispatch_flame_actions);
         advance_status_timers(actor);
         if (actor->pending_turn_updates > 0) {
             (*(u8 *)&actor->pending_turn_updates)--;
@@ -1446,7 +1446,7 @@ void damp_flame_motion_and_recenter(ActorRecord *action, ObjectPosition *motion,
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
             g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
-        action->unk_8C.address = ((u8 *)initialize_destination_state);
+        action->unk_8C.address = ((u8 *)dispatch_flame_actions);
         return;
 
     default:
@@ -1598,10 +1598,10 @@ void advance_flame_removal(void *state, void *motion, void *position, void *acto
     advance_actor_removal(state, motion, position, actor);
 }
 
-/* Runs update_actor_hop_and_grow and installs initialize_destination_state when it returns nonzero. */
+/* Runs update_actor_hop_and_grow and installs dispatch_flame_actions when it returns nonzero. */
 void grow_hopping_flame(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_actor_hop_and_grow(state, motion, position, actor)) {
-        state->unk_8C.handler = initialize_destination_state;
+        state->unk_8C.handler = dispatch_flame_actions;
     }
 }
 
@@ -1649,7 +1649,7 @@ void wait_flame_status_and_animate(ActorRecord *in_actor, ObjectPosition *in_con
                 return;
             }
             ((R06_801734B0_S_801734B0_2 *)in_entity)->unk_1C.s &= ~0x200;
-            in_actor->unk_8C.address = ((u8 *)initialize_destination_state);
+            in_actor->unk_8C.address = ((u8 *)dispatch_flame_actions);
             return;
         }
         page_base = (u8 *)0x80080000;
@@ -1730,7 +1730,7 @@ void wait_flame_status_and_animate(ActorRecord *in_actor, ObjectPosition *in_con
         }
         if (in_sprite->flags & 0x8000) {
             in_entity->flags1C &= ~0x200;
-            in_actor->unk_8C.address = ((u8 *)initialize_destination_state);
+            in_actor->unk_8C.address = ((u8 *)dispatch_flame_actions);
             return;
         }
 
@@ -1755,7 +1755,7 @@ void wait_flame_status_and_animate(ActorRecord *in_actor, ObjectPosition *in_con
 
         in_entity->flags1C &= ~0x200;
 
-        in_actor->unk_8C.address = ((u8 *)initialize_destination_state);
+        in_actor->unk_8C.address = ((u8 *)dispatch_flame_actions);
 
         return;
     }
@@ -1873,7 +1873,7 @@ void wait_for_flame_mp(ActorRecord *entity, ObjectPosition *context, SpriteFrame
             scene_state = &g_dungeon_status.turn_scale;
             ((R06_801738E0_S_801738E0_2 *)scene_state)->unk_0A--;
             ((R06_801738E0_S_801738E0_3 *)actor)->unk_1C &= ~0x208;
-            entity->unk_8C.address = ((void *)initialize_destination_state);
+            entity->unk_8C.address = ((void *)dispatch_flame_actions);
         }
 
         return;
@@ -1890,7 +1890,7 @@ void wait_for_flame_mp(ActorRecord *entity, ObjectPosition *context, SpriteFrame
 void update_flame_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object) {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
         if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
-            actor->unk_8C.handler = initialize_destination_state;
+            actor->unk_8C.handler = dispatch_flame_actions;
             return;
         }
     } else if (*(u8 **)&entity->frameTable == flame_alt_direction_frames &&
@@ -1901,38 +1901,38 @@ void update_flame_parent_motion(ActorRecord *actor, ObjectPosition *action, Spri
 }
 
 /*
- * Runs update_thrown_actor_travel and installs initialize_destination_state only when it succeeds
+ * Runs update_thrown_actor_travel and installs dispatch_flame_actions only when it succeeds
  * and the signed floor-trap check returns positive.
  */
 void finish_flame_thrown_travel(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
     if (update_thrown_actor_travel(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->unk_8C.handler = initialize_destination_state;
+            state->unk_8C.handler = dispatch_flame_actions;
         }
     }
 }
 
 /*
- * Runs interpolate_actor_to_terrain_tile and installs initialize_destination_state when it returns
+ * Runs interpolate_actor_to_terrain_tile and installs dispatch_flame_actions when it returns
  * nonzero.
  */
 void finish_flame_terrain_move(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
-        state->unk_8C.handler = initialize_destination_state;
+        state->unk_8C.handler = dispatch_flame_actions;
     }
 }
 
-/* Runs update_spinning_actor_fall and installs initialize_destination_state when it returns nonzero. */
+/* Runs update_spinning_actor_fall and installs dispatch_flame_actions when it returns nonzero. */
 void finish_flame_spinning_fall(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
-        state->unk_8C.handler = initialize_destination_state;
+        state->unk_8C.handler = dispatch_flame_actions;
     }
 }
 
-/* Runs update_actor_fade_in and installs initialize_destination_state when it returns nonzero. */
+/* Runs update_actor_fade_in and installs dispatch_flame_actions when it returns nonzero. */
 void finish_flame_fade_in(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (update_actor_fade_in(state, motion, position)) {
-        state->unk_8C.handler = initialize_destination_state;
+        state->unk_8C.handler = dispatch_flame_actions;
     }
 }
 
@@ -2102,7 +2102,7 @@ void advance_randomized_motion_and_complete(PointRecord *object_data, ObjectPosi
 
 /* Creates a shaded point effect at a randomized offset from its owner with the supplied color and
  * brightness. */
-void advance_actor_action_and_update_status(
+void spawn_jittered_shaded_point(
     void *source,
     s16 value_34,
     s32 value_28,
@@ -2427,7 +2427,7 @@ void update_fading_four_strip_effect(u8 *effect, ObjectPosition *origin, SpriteF
             particle_strength = rand() & 0xFF;
             particle_strength = particle_strength | 0x80;
             random_offset = rand();
-            advance_actor_action_and_update_status(effect - 0x20, particle_variant, 0xF0, particle_strength,
+            spawn_jittered_shaded_point(effect - 0x20, particle_variant, 0xF0, particle_strength,
                 particle_view->unk_64, particle_view->unk_66,
                 (s16)(-0x70 - (random_offset & 0x1F)));
         } else {
@@ -2435,7 +2435,7 @@ void update_fading_four_strip_effect(u8 *effect, ObjectPosition *origin, SpriteF
             particle_strength = rand() & 0xFF;
             particle_strength = particle_strength | 0x80;
             random_offset = rand();
-            advance_actor_action_and_update_status(effect - 0x20, particle_variant, 0xF0, particle_strength,
+            spawn_jittered_shaded_point(effect - 0x20, particle_variant, 0xF0, particle_strength,
                 particle_view->unk_64, particle_view->unk_66,
                 (s16)(-0x40 - (random_offset & 0x1F)));
         }
@@ -2890,21 +2890,21 @@ void advance_flame_transition(ActorRecord *action, ObjectPosition *position, Spr
 }
 
 /*
- * Runs resolve_actor_floor_trap_once and installs initialize_destination_state when it returns
+ * Runs resolve_actor_floor_trap_once and installs dispatch_flame_actions when it returns
  * positive.
  */
 void finish_flame_floor_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (resolve_actor_floor_trap_once(state, motion, position, actor) > 0) {
-        state->unk_8C.handler = initialize_destination_state;
+        state->unk_8C.handler = dispatch_flame_actions;
     }
 }
 
 /*
- * Runs propagate_actor_action_flag and installs initialize_destination_state when it returns
+ * Runs propagate_actor_action_flag and installs dispatch_flame_actions when it returns
  * positive.
  */
 void finish_flame_action_flag(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor) {
     if (propagate_actor_action_flag(state, motion, position, actor) > 0) {
-        state->unk_8C.handler = initialize_destination_state;
+        state->unk_8C.handler = dispatch_flame_actions;
     }
 }

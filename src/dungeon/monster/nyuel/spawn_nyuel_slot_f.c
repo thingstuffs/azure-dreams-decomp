@@ -7,7 +7,7 @@
 
 /* Creates a Nyuel actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
-u8 *spawn_mode_configured_monster_slot_f(s16 flags, s16 tile_x, u16 tile_y, s16 spawn_height)
+u8 *spawn_nyuel_slot_f(s16 flags, s16 tile_x, u16 tile_y, s16 spawn_height)
 {
     u8 saved_tile_x = tile_x;
     s16 saved_height = spawn_height;

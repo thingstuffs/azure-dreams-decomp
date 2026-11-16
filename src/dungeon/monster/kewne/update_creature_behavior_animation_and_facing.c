@@ -24,7 +24,7 @@
 
 
 #include "dungeon/item/find_active_rect_containing_point_api.h"
-extern s32 select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
+extern s32 try_kewne_attack(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
 extern void func_8016E574(void *, void *, void *, void *);
 
 extern u8 D_8016FE40[];
@@ -187,7 +187,7 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
             switch (action_index) {
             case 7:
             case 8:
-                if ((select_and_start_target_action(actor, context, sprite, creature) << 16) != 0) {
+                if ((try_kewne_attack(actor, context, sprite, creature) << 16) != 0) {
                     return;
                 }
                 start_kewne_attack_action(actor, context, sprite, creature);

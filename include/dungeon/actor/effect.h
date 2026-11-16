@@ -15,7 +15,7 @@ void advance_damage_effect_and_particles(struct S_800CABA8_0 *effect, ObjectPosi
 
 
 
-/* Body created by create_indexed_floor_object (flags 0x110) and consumed by
+/* Body created by create_dropped_item_object (flags 0x110) and consumed by
  * update_dropped_object_motion. Borrowed position and sprite words retain
  * their integer views because the creator copies them from the source node. */
 typedef struct DroppedObjectMotionBody {
@@ -69,8 +69,8 @@ void mark_category_items(s32 group_bit);
 struct ObjectNodeHeader;
 struct State;
 void *create_source_linked_fading_effect(struct ObjectNodeHeader *source, s16 copy_position);
-s32 get_item_category_value(void *item_data);
-void pack_item_flag_400_bitmap(u16 unused_saved_setting);
+s32 get_item_sprite_source(void *item_data);
+void snapshot_item_flag_bitmap(u16 unused_saved_setting);
 s32 roll_paralysis_effect(struct State *state, s16 value, s16 flag);
 s32 roll_poison_effect(struct State *state_ptr, s16 limit_input, s16 byte_input);
 s32 roll_blind_effect(struct State *state_ptr, s16 limit_input, s16 byte_input);

@@ -18,6 +18,6 @@ void reset_state_on_button_press(S_8003626C_0 *state) {
     if ((g_game_work.pressed_buttons) & 0x60) {
         state->unk_4C = 0xFF;
         state->unk_50 = 0;
-        state->unk_68 = &request_message_advance_on_first_flag;
+        state->unk_68 = &advance_message_after_window_shrinks;
     }
 }

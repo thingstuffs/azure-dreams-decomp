@@ -32,7 +32,7 @@ s32 check_any_entry_matches_predicate(void) {
 }
 
 /* Runs three flag handlers once the required flag is set and the shared completion flag is clear. */
-s32 lookup_variant_with_special_overrides(s32 requiredFlag, s32 completionFlag) {
+s32 consume_required_flag_once(s32 requiredFlag, s32 completionFlag) {
     if (get_script_flag_mask(requiredFlag) == 0) {
         return 1;
     }
@@ -46,7 +46,7 @@ s32 lookup_variant_with_special_overrides(s32 requiredFlag, s32 completionFlag) 
 }
 
 /* Selects dialogue data from progress thresholds and lookup overrides, setting the associated flags. */
-s32 *select_state_result_with_lookup_overrides(s32 first_value, s32 second_value, s32 unused_context) {
+s32 *select_response_by_town_state_count(s32 first_value, s32 second_value, s32 unused_context) {
     s32 *result;
     s32 value;
 
@@ -54,17 +54,17 @@ s32 *select_state_result_with_lookup_overrides(s32 first_value, s32 second_value
         result = &D_8001EC04;
     } else {
         value = get_town_state_count();
-        if ((get_script_flag_mask(F_sbs22_pad30) == 0) && ((value < 5) || (lookup_variant_with_special_overrides(0x47E, 0x79A) != 0))) {
+        if ((get_script_flag_mask(F_sbs22_pad30) == 0) && ((value < 5) || (consume_required_flag_once(0x47E, 0x79A) != 0))) {
             result = &D_8001E2F8;
             set_script_flag_bit(F_sbs04_pad08);
-        } else if ((get_script_flag_mask(F_sbs22_pad31) == 0) && ((value < 0xA) || (lookup_variant_with_special_overrides(0x47E, 0x79B) != 0))) {
+        } else if ((get_script_flag_mask(F_sbs22_pad31) == 0) && ((value < 0xA) || (consume_required_flag_once(0x47E, 0x79B) != 0))) {
             result = &D_8001E634;
             set_script_flag_bit(F_sbs04_pad08);
-        } else if ((get_script_flag_mask(F_sbs22_pad32) == 0) && ((value < 0xF) || (lookup_variant_with_special_overrides(0x47E, 0x79C) != 0))) {
+        } else if ((get_script_flag_mask(F_sbs22_pad32) == 0) && ((value < 0xF) || (consume_required_flag_once(0x47E, 0x79C) != 0))) {
             result = &D_8001E79C;
             set_script_flag_bit(F_sbs04_pad08);
         } else if ((get_script_flag_mask(F_sbs22_pad33) == 0) && (((value < 0x19) && (check_any_entry_matches_predicate() != 0))
-            || (lookup_variant_with_special_overrides(0x47E, 0x79D) != 0))) {
+            || (consume_required_flag_once(0x47E, 0x79D) != 0))) {
             result = &D_8001E9C0;
             set_script_flag_bit(F_sbs04_pad08);
         } else {

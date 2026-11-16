@@ -193,6 +193,6 @@ extern s16 actor_turn_angle_offsets[];
 extern u8 D_80175E9C[];
 extern u8 D_80175EA4[];
 extern u8 D_80175EAC[];
-void advance_actor_stored_path_2(ActorRecord *movement, ObjectPosition *actor_index, SpriteFrameState *actor, ActorRecord *path_state);
-void reset_actor_directional_animation(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *display, ActorRecord *entity);
+void advance_troll_stored_path(ActorRecord *movement, ObjectPosition *actor_index, SpriteFrameState *actor, ActorRecord *path_state);
+void reset_troll_facing_animation(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *display, ActorRecord *entity);
 #endif

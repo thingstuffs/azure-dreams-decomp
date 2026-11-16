@@ -17,10 +17,10 @@
 void func_80058F88();        /* extern */ /* Unprototyped: JP identity SD_Call(int); the surplus source arguments preserve the retail instruction stream. */
 void func_802441A4();                       /* extern */ /* Unprototyped: this site's argument count or types differ from the foreign program's import prototype */
 short func_8025E01C(void *position);                     /* extern */
-extern u8 D_80095AA0[8];
+extern u8 D_80095AA0[];
 extern u8 collection_round_work[0x14];
 extern u8 town_motion_state[0x18];
-extern u16 D_80530658[];
+extern s16 D_80530658[];
 extern u16 D_805306C8[];
 void advance_accumulator_reset_lowering_stored(s32 unused, void *position);                      /* extern */
 void set_record_global_flags_object(void *record);                      /* extern */

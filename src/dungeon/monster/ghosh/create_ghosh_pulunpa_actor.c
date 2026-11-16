@@ -1,0 +1,62 @@
+#include "engine/node.h"
+#include "common.h"
+#include "dungeon/monster/ghosh.h"
+#include "engine/graphics.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
+#include "dungeon/actor/animation.h"
+#define F(p,t,o) (*(t)((u8 *)(p)+(o)))
+#include "slus/view_facing_angle.h"
+extern s32 D_801714B0, ghosh_frame_set;
+struct ObjectNodeHeader;
+#include "dungeon/level/unlink_entity_node_api.h"
+#include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
+
+/* Create and initialize an object at the supplied coordinates and store it globally. */
+void create_ghosh_pulunpa_actor(u16 x, u16 y, s32 z) {
+    u8 saved_x = x;
+    u8 saved_y = y;
+    ObjectNodeHeader *object;
+    ActorRecord *state;
+    ObjectPosition *position;
+    SpriteFrameState *sprite;
+    s32 tile_mask;
+    u8 tile_x, tile_y;
+    void *call_object;
+
+    object = allocate_list_node(0x112, &scene_object_list_anchor.next);
+    call_object = object;
+    if (object != 0) {
+        s32 z_offset;
+
+        state = NODE_BODY(object);
+        state->species = 0x15;
+        object->update_callback = &D_801714B0;
+        register_node(call_object, project_sprite_chain);
+        call_object = object;
+        z_offset = z - 0x18;
+        position = object->position;
+        position->z.w.i = z_offset;
+        sprite = object->sprite;
+        sprite->frameTable = &ghosh_frame_set;
+        sprite->tile_x = saved_x;
+        sprite->tile_y = saved_y;
+        sprite->depth_bias = -4;
+        initialize_actor_sprite_and_animation(call_object, position, sprite, 0);
+        F(state, s16*, 0x2A) = 0x200;
+        select_sprite_entry(sprite, ((u8 *)(*(s32 * *)&sprite->frameTable))[((view_facing_angle_alias + 0x300) >> 9) & 7], 0);
+        sprite->scale_y = 0x1800;
+        sprite->scale_x = 0x1800;
+        *(u16 *)&position->x.w.i -= 0x10;
+        *(u16 *)&position->y.w.i -= 0x10;
+        tile_x = sprite->tile_x;
+        tile_y = sprite->tile_y;
+        tile_mask = 0x3000;
+        if (state->flags1C & 0x2000)
+            tile_mask = 0x300;
+        update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_mask);
+        unlink_entity_node(state);
+        D_80174CDC = object;
+        object->update_callback = (s32 *)((s32)object->update_callback | 0x80000000);
+    }
+}

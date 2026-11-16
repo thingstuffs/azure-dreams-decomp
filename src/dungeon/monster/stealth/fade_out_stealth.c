@@ -1,0 +1,35 @@
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
+#include "common.h"
+#include "shared/dungeon_status.h"
+#include "engine/node.h"
+#include "dungeon/actor/spell_resource_ids_g01008.h"
+
+extern void retire_tracked_effect_by_id(void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+
+
+#include "dungeon/monster/stealth.h"
+
+/* Dims the effect and clears its object and owner state when flagged. */
+void fade_out_stealth(ActorRecord *effect, ObjectPosition *unused, SpriteFrameState *primitive, ActorRecord *owner) {
+    u8 intensity;
+    void *effect_object;
+
+    if (effect->action_phase == 0) {
+        intensity = primitive->color.c.r - 0x10;
+        primitive->color.c.b = intensity;
+        primitive->color.c.g = intensity;
+        primitive->color.c.r = intensity;
+        if (primitive->flags & 0xE000) {
+            effect_object = NODE_HEADER(effect);
+            unlink_node(effect_object);
+            retire_tracked_effect_by_id(effect_object);
+            spend_actor_mp(owner, 0x800);
+            g_dungeon_status.activity_counts.parts.pending_action_count--;
+            primitive->color.word = 0;
+            owner->pending_turn_updates = 0;
+            owner->action_flags &= 0x7FFF;
+            effect->unk_8C.address = stealth_behavior_entry;
+        }
+    }
+}

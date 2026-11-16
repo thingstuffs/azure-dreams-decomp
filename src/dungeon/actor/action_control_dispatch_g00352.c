@@ -27,7 +27,7 @@ void request_scene_or_reload_level_module_a(void) {
  * Requests scene state 0x21 on floor 0x28 in mode 0x11 when the save and resident-bit gates permit
  * it, marking the request pending. Otherwise submits and drains CD task 6.
  */
-void request_scene_or_reload_level_module_b(void) {
+void request_ending_scene_or_load_floor_module_b(void) {
     if (scene_mode_code == 0x11) {
         SaveImage *save = (SaveImage *)0x80010000;
         if (save->active == 0 && current_dungeon_floor == 0x28 &&

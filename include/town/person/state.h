@@ -18,7 +18,7 @@ struct S_800CCC34_0;
 struct S_800CEDA4_0;
 struct SpriteFrameState;
 
-/* adjust_two_state_values.c */
+/* initialize_two_value_adjustment_action.c */
 void drift_act_yoda_until_expiry(TownObjectRecord *object, ObjectPosition *state);
 
 /* step_heading_turn_sequence.c */

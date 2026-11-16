@@ -155,7 +155,7 @@
     },
     {
       "row": "dungeon/func_80DA2ABC",
-      "tu": "src/dungeon/monster/dreamin/complete_airborne_actor_recovery.c",
+      "tu": "src/dungeon/monster/dreamin/hop_dreamin_to_tile.c",
       "home": "dungeon/func_80D90ABC",
       "foff": "0xDC2ABC",
       "vma": "0x801602BC",

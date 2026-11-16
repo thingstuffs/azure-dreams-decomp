@@ -14,7 +14,7 @@ typedef struct AnimatedPanelElement {
     MenuDisplayBlock block;
     AnimatedPanelLink link;
 } AnimatedPanelElement;
-/* Body initialized by window_create_animated_content_panel and init_menu_panel.
+/* Body initialized by create_animated_menu_panel and init_menu_panel.
  * Integer resource-word views of the buffer remain separate at their boundary. */
 typedef struct AnimatedMenuPanelBody {
     u16 flags;

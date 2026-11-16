@@ -145,7 +145,7 @@ void initialize_menu_backdrop_layout(SevenEntryMenuBackdropBody *object, int ini
 /* layout_menu_backdrop_display_entries.c */
 void layout_menu_backdrop_display_entries(SevenEntryMenuBackdropBody *body);
 
-/* initialize_seventeen_object_pointers.c */
+/* allocate_selection_menu_entry_buffers.c */
 void assign_menu_object_data_pointers(s32 *objects, s32 *group_bases);
 
 /* interpolate_selection_menu_entry_coordinates.c */

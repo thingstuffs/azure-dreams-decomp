@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "town/func_800D1ED8",
-      "tu": "src/town/scene/initialize_scene_slot_x.c",
+      "tu": "src/town/scene/init_ghosh_pool_person.c",
       "home": "town/func_800D1ED8",
       "foff": "0x51ed8",
       "vma": "0x800cf638",

@@ -87,9 +87,9 @@ void *begin_holding_item(void *actor, void *action, void *target, void *item)
     if ((item != ((void *)(held_item_record))) && (((S_80098CF8_0 *)((void *)(held_item_record)))->unk_01 != ITEM_KIND_NONE)) {
         message_id = get_unused_text_buffer();
         text_cursor = write_text_byte_and_advance(8, message_id);
-        text_cursor = append_typed_formatted_value(item, text_cursor);
+        text_cursor = append_item_name_with_value(item, text_cursor);
         text_cursor = expand_text_control_codes(D_800E08CC, text_cursor);
-        text_cursor = append_typed_formatted_value(((void *)(held_item_record)), text_cursor);
+        text_cursor = append_item_name_with_value(((void *)(held_item_record)), text_cursor);
         message = D_800E08E5;
 print_message:
         text_cursor = expand_text_control_codes(message, text_cursor);
@@ -104,7 +104,7 @@ print_message:
         text_cursor = write_text_byte_and_advance(8, message_id);
         if (((S_80098CF8_1 *)item)->unk_00.at03.v & 0x40) {
             play_sound_if_enabled(0x70A);
-            text_cursor = append_typed_formatted_value(item, text_cursor);
+            text_cursor = append_item_name_with_value(item, text_cursor);
             message = D_800E08F1;
             text_cursor = expand_text_control_codes(message, text_cursor);
             clear_byte_and_advance(text_cursor);
@@ -113,7 +113,7 @@ print_message:
             return 0;
         }
 
-        text_cursor = append_typed_formatted_value(item, text_cursor);
+        text_cursor = append_item_name_with_value(item, text_cursor);
         text_cursor = expand_text_control_codes(D_800E0919, text_cursor);
         clear_byte_and_advance(text_cursor);
         display_text_with_fullwidth_adjustment(message_id);

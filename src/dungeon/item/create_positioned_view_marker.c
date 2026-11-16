@@ -19,7 +19,7 @@
 #include "slus/default_textured_quad_color_data.h"
 
 /* Advances sprite animation and textures for the third argument, leaving the first two unused. */
-void update_sprite_from_third_argument(ObjectNodeHeader *unused_first, ObjectPosition *unused_second, SpriteFrameState *value) {
+void animate_view_marker_sprite(ObjectNodeHeader *unused_first, ObjectPosition *unused_second, SpriteFrameState *value) {
     advance_sprite_animation_and_textures(value);
 }
 #include "shared/slus_callbacks.h"
@@ -35,7 +35,7 @@ void create_positioned_view_marker(s16 x, s16 y) {
 
     object = allocate_flagged_object_node(0x16);
     if (object != NULL) {
-        object->update_callback = (void *)update_sprite_from_third_argument;
+        object->update_callback = (void *)animate_view_marker_sprite;
         register_node(object, project_sprite_chain);
         render_state = object->sprite;
         render_config = (u32) g_game_work.view.tint.word;
@@ -61,18 +61,18 @@ typedef struct S_807AE960_3 {
     s32 unk_2090;
     u8 pad_2094[0x1686];
     u16 unk_371A;
-} S_807AE960_3;   /* global in advance_dungeon_tile_action_state */
+} S_807AE960_3;   /* global in update_view_marker_rotation */
 
 
 typedef struct S_807AE960_5 {
     u8 pad_00[0x14];
     s16 unk_14;
-} S_807AE960_5;   /* global_end in advance_dungeon_tile_action_state */
+} S_807AE960_5;   /* global_end in update_view_marker_rotation */
 
 typedef struct S_807AE960_6 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_807AE960_6;   /* entry in advance_dungeon_tile_action_state */
+} S_807AE960_6;   /* entry in update_view_marker_rotation */
 
 void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
 int read_stream_cue_start_offset(void);
@@ -80,7 +80,7 @@ s32 read_sound_mode_blocking_status(s32 mode);
 extern s32 cd_cue_base;
 
 /* Dispatch the CD-audio fade state machine, then step the actor's shake counter and raise the finished flag. */
-void advance_dungeon_tile_action_state(SlotViewMarkerBody *state, ObjectPosition *position, SpriteFrameState *target) {
+void update_view_marker_rotation(SlotViewMarkerBody *state, ObjectPosition *position, SpriteFrameState *target) {
     s16 steps;
     s32 dispatch_index;
     s16 remaining;
@@ -208,7 +208,7 @@ void create_slot_positioned_effect(s16 x, s16 y, s32 slot) {
 
     object = allocate_flagged_object_node(0x16);
     if (object != NULL) {
-        object->update_callback = (void *)advance_dungeon_tile_action_state;
+        object->update_callback = (void *)update_view_marker_rotation;
         register_node(object, draw_linked_lit_meshes);
         render_config = default_textured_quad_color[0];
         model = object->sprite;
@@ -245,7 +245,7 @@ void create_slot_positioned_effect(s16 x, s16 y, s32 slot) {
 extern s32 D_80013718;
 
 /* Update both state targets and set flags when the mode is 3. */
-void update_overlay_state_and_retire(void *data)
+void trigger_view_marker_rotation(void *data)
 {
     s16 **state_slot;
     s16 **state_table;
@@ -292,7 +292,7 @@ typedef struct S_800F65CC_0 {
 typedef struct S_800F65CC_1 {
     u8 pad_00[0x14];
     s16 unk_14;
-} S_800F65CC_1;   /* s1 in initialize_overlay_effect_state */
+} S_800F65CC_1;   /* s1 in start_view_marker_transition */
 
 typedef struct S_800F65CC_2 {
     u8 pad_00[0x4];
@@ -321,7 +321,7 @@ struct S_10 {
 };
 
 /* Initializes effect state and sets the high flag bit on three adjacent entries. */
-void initialize_overlay_effect_state(void) {
+void start_view_marker_transition(void) {
     s16 **state_slot;
     s16 *state_value;
     s32 entries_base;
@@ -358,7 +358,7 @@ void initialize_overlay_effect_state(void) {
     if (effect != 0) {
         s16 *status_base;
 
-        effect->unk_10 = (void *)update_overlay_state_and_retire;
+        effect->unk_10 = (void *)trigger_view_marker_rotation;
         effect->unk_24 = 0x38;
         status_base = (s16 *)0x80010000;
         if (!((u16)status_base[0x3714 / 2] & 1)) {
@@ -381,7 +381,7 @@ void initialize_overlay_effect_state(void) {
 
 
 /* Set flag 0x800000 on type 0x32 entities in the ring and set the global state to 0x1F. */
-void mark_special_actors_and_set_player_tile(void) {
+void mark_selfi_actors(void) {
     void *first_entity;
     ActorRecord *entity;
 
@@ -413,7 +413,7 @@ extern Packed8 D_800F8B24;
 (*(u16 *)((u8 *)(ptr) + 4) = *(u16 *)((u8 *)(ptr) + 4) & 0x7FFF)
 
 /* Reveal the fixed-map cheat: set the map mode from the item used, clear the hidden bit on every listed tile and finish the owner. */
-void update_dungeon_tile_boundary_state(void *owner) {
+void lift_scripted_map_boundary(void *owner) {
     DungeonState *state;
     s32 base;
     u8 *tile;
@@ -501,7 +501,7 @@ void update_dungeon_tile_boundary_state(void *owner) {
         i++;
     } while (i < 0x30);
 
-    clear_scaled_cell_flags_8000();
+    clear_scripted_boundary_cells();
     i = 0;
     NODE_HEADER(owner)->flags |= NODE_REMOVE;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -517,9 +517,9 @@ void update_dungeon_tile_boundary_state(void *owner) {
     scripted_boundary_active.first = 0;
 }
 
-/* Set the returned object's data pointer to update_dungeon_tile_boundary_state. */
-void create_tile_boundary_updater(void) {
-    ((ObjectNodeHeader *)(allocate_flagged_object_node(0)))->update_callback = (void *)update_dungeon_tile_boundary_state;
+/* Set the returned object's data pointer to lift_scripted_map_boundary. */
+void create_boundary_lift_updater(void) {
+    ((ObjectNodeHeader *)(allocate_flagged_object_node(0)))->update_callback = (void *)lift_scripted_map_boundary;
 }
 #include "shared/dungeon_floor.h"
 
@@ -568,7 +568,7 @@ void mark_scripted_map_boundary(void)
     ((DungeonCell *)(cells + (0x23 << dungeon->shiftX) * 6 + 0xBA))->flags |= 0x8000;
     ((DungeonCell *)(cells + (0x23 << dungeon->shiftX) * 6 + 0xC0))->flags |= 0x8000;
 
-    set_scaled_cell_flags_8000();
+    mark_scripted_boundary_cells();
 
     global_state = &runtime_dispatch_state;
     global_state->unk_10 = 0x1F;
@@ -609,7 +609,7 @@ s32 get_direction_toward_target_position(s16 *target_pos)
     return 6;
 }
 /* Return the base of the next type 0x15 entity in the ring, or null if absent. */
-void *find_linked_entity_of_type_21(void *entity)
+void *find_pulunpa_in_ring(void *entity)
 {
     void *entity_base;
     void *first_entity;
@@ -1180,7 +1180,7 @@ void begin_active_object_action(void) {
 }
 
 /* Calls play_sound_if_enabled with the fixed argument 0xB4. */
-void play_b4_sound(void) {
+void fade_cd_audio_fast(void) {
     play_sound_if_enabled(AUDIO_FADE_CD_FAST);
 }
 
@@ -1215,7 +1215,7 @@ typedef struct S_807B040C_1 {
     union { s16 s16; u8 u8; } unk_AE;   /* accessed as both */
     u8 pad_B0[0x8];
     u8 unk_B8;
-} S_807B040C_1;   /* entity in update_special_actor_transition */
+} S_807B040C_1;   /* entity in move_actor_beside_player */
 
 typedef struct S_807B040C_7 {
     u8 pad_00[0x2];
@@ -1224,14 +1224,14 @@ typedef struct S_807B040C_7 {
     u16 unk_06;
     u8 pad_08[0xE];
     u16 unk_16;
-} S_807B040C_7;   /* motion in update_special_actor_transition */
+} S_807B040C_7;   /* motion in move_actor_beside_player */
 
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 extern s32 check_left_tile_and_center_height(s32, s32, s16);
 
 /* Move the entity to a passable tile near the room and update tile occupancy. */
-s32 update_special_actor_transition(void) {
+s32 move_actor_beside_player(void) {
     DirectionOffsets offsets = dungeon_7ce800_directions;
     u16 collision_flags;
     ObjectNodeHeader *root = (u8 *)active_action_object;

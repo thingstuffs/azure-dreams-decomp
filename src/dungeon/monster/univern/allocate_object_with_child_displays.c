@@ -149,7 +149,7 @@ void *allocate_object_with_child_displays(s32 kind, s32 part_value_24, s32 part_
                     item_offset += 0x30;
                     item_index++;
                     ((S_8015889C_6 *)(void *)saved_kind)->unk_06 = 1;
-                    texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(part, child_texture_entries, 1);
+                    set_animation_child_source(part, child_texture_entries, 1);
                     more_items = item_index < ((S_8015889C_6 *)(void *)saved_kind)->unk_02;
                     ((S_8015889C_6 *)(void *)saved_kind)->unk_98 = (u8 *)root + 0x1E;
                 } while (more_items);

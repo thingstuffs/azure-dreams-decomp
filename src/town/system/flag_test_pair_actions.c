@@ -39,7 +39,7 @@ s32 process_flag_test_record(u32 records, s32 condition_arg, u32 context, s32 re
 }
 
 /* Pass each signed 16-bit value in the input pairs to clear_indexed_flag_unless_identifier in order. */
-void check_initial_query_zero_secondary(s16 *value_pairs, s32 pair_count)
+void clear_listed_flag_pairs(s16 *value_pairs, s32 pair_count)
 {
     s32 frame_pad[2];
     s32 pair_index;

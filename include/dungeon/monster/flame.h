@@ -681,9 +681,9 @@ extern u8 D_80175904[];
 extern u8 D_80175920[];
 extern u8 flame_effect_load_done[];
 extern u8 flame_transition_object[];
-void *spawn_animated_monster(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id);
+void *spawn_flame_slot_g(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id);
 void update_flame_motion_and_facing(struct ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *entity);
-void initialize_destination_state(ActorRecord *actor, ObjectPosition *actor_context, SpriteFrameState *sprite, ActorRecord *creature);
+void dispatch_flame_actions(ActorRecord *actor, ObjectPosition *actor_context, SpriteFrameState *sprite, ActorRecord *creature);
 void advance_flame_path_step(ActorRecord *motion, ObjectPosition *unused, struct SpriteFrameState *actor, ActorRecord *path_state);
 void choose_flame_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 s32 try_flame_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor);
@@ -708,7 +708,7 @@ void finish_flame_fade_in(ActorRecord *state, ObjectPosition *motion, SpriteFram
 s32 project_flame_sprite_chain(void *initial_payload, ObjectPosition *entry_data, SpriteFrameState *entry, s32 unused);
 s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg);
 void advance_randomized_motion_and_complete(PointRecord *object_data, ObjectPosition *position, SpriteFrameState *state);
-void advance_actor_action_and_update_status(
+void spawn_jittered_shaded_point(
     void *source,
     s16 value_34,
     s32 value_28,

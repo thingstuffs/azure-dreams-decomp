@@ -21,7 +21,7 @@ s32 check_entity_eligibility(void *entity);
 s32 check_row_column_or_diagonal_alignment(MovingTile *source, MovingTile *target);
 s32 check_tile_path_clear(ActorRecord *source, void *target);
 s32 choose_best_eligible_entry_for_actor(ActorRecord *actor_arg, s32 action_arg, MovingTile *origin);
-void copy_indexed_entry_data(void *entity);
+void copy_species_name_to_actor(void *entity);
 void *find_eligible_nearby_entry(s32 x, s32 y, void *end, void *owner);
 void rotate_actor_movement_queue(MovingTile *position, ActorRecord *state);
 void run_saved_actor_action(ActorRecord *object, void *unused, SpriteFrameState *animation, ActorRecord *actor);
@@ -83,11 +83,11 @@ void *choose_best_eligible_entry(void *owner_arg, ActorRecord *start, s32 score_
 void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *context);
 s32 find_matching_initial_stat_slot(u8 *record);
 s32 find_slot_by_definition_kind(u8 *slots, u8 kind);
-s32 find_type_13_slot_index(struct DungeonSlot *targetSlot);
-void install_actor_action_handler_after_floor_trap_check(ActorRecord *owner, ObjectPosition *position, void *tile, ActorRecord *actor);
-s32 is_linked_entity_flagged_10000000(EntityRec *entity);
-s32 is_linked_entity_flagged_2000000(ActorRecord *entity);
-s32 is_linked_entity_flagged_80000(ActorRecord *entity, ActorRecord *unused_context);
+s32 find_familiar_slot_index(struct DungeonSlot *targetSlot);
+void finish_actor_parent_motion(ActorRecord *owner, ObjectPosition *position, void *tile, ActorRecord *actor);
+s32 has_paralysis_protection(EntityRec *entity);
+s32 has_sleep_protection(ActorRecord *entity);
+s32 has_item_theft_protection(ActorRecord *entity, ActorRecord *unused_context);
 void on_actor_status_updated(void *actor);
 s32 resolve_actor_floor_trap_once(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 s16 resolve_alternate_spell_id(s32 tile_index);
@@ -102,7 +102,7 @@ struct Actor;
 struct Ctx;
 s32 choose_usable_ability_or_attack(ActorRecord *actor, struct Actor *target, u16 *out_angle, s32 prefer_ability);
 s32 feed_actor_restore_mp(ActorRecord *state, s32 mode, DungeonItemEntry *item);
-s32 is_linked_entity_flagged_100000(ActorRecord *entity);
+s32 has_brainwash_protection(ActorRecord *entity);
 s32 trigger_actor_floor_trap(SpriteFrameState *actor, ActorRecord *ctx);
 
 #include "shared/town_object.h"
@@ -122,12 +122,12 @@ s32 forward_actor_defeat_removal_second(ActorRecord *state, ObjectPosition *posi
 
 s32 fade_actor_to_removal(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *visual, ActorRecord *entity);
 void initialize_actor_action_data(void *first_ptr, void *second_ptr, SpriteFrameState *sprite, void *entity);
-void handle_actor_action_result(ActorRecord *actor, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *context);
+void fade_counted_actor_to_removal(ActorRecord *actor, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *context);
 
 void *create_four_groups_of_angular_effects(s16 pos_x, s16 pos_y, s16 pos_z, s32 unused);
 
 s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u8 *initial_params);
 
-s16 clamp_adjusted_value_0_to_99(ActorRecord *entity);
+s16 get_shield_defense_bonus(ActorRecord *entity);
 
 #endif

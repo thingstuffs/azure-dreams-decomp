@@ -964,7 +964,7 @@ loop_1:
             break;
 
         case 3:
-            if ((D_80082E94[0] & 0x8000) != 0 || --entity->timer < 0) {
+            if ((D_80082E94 & 0x8000) != 0 || --entity->timer < 0) {
                 entity->state = 4;
             }
             /* fallthrough */

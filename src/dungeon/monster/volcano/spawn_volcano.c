@@ -10,7 +10,7 @@
 
 /* Creates a Volcano actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
-void *spawn_variant_monster_slot_c(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
+void *spawn_volcano_slot_c(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
 {
     s32 kind;
     s32 left;

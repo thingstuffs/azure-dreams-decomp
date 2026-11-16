@@ -90,7 +90,7 @@ void follow_selection_and_blink_sprite(void *motion_state, ObjectPosition *posit
 
 /* Creates the menu selection sprite with its image, normal scale, owner data, and movement and
    blinking callback. */
-void *allocate_sprite_data_object(s32 user_data) {
+void *create_selection_blink_sprite(s32 user_data) {
     SpriteFrameState *sprite;
     S_80025170_0 *object;
 
@@ -580,7 +580,7 @@ void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj
 }
 
 /* Moves and fades a familiar preview, draws it with the menu rotation, and dims the unselected familiar. */
-void draw_and_restore_fading_object(void *object_arg, void *position_arg, SpriteFrameState *sprite_arg) {
+void update_preview_monster_fade(void *object_arg, void *position_arg, SpriteFrameState *sprite_arg) {
     s16 move_ticks;
     s32 start_y;
     s32 move_ticks_left;
@@ -735,7 +735,7 @@ void draw_and_restore_fading_object(void *object_arg, void *position_arg, Sprite
 
 /* Restores the previous menu entry's directional tile offsets and updates the selection index in both
    linked states. */
-void switch_active_object_index(void *object, s16 new_index) {
+void switch_selected_preview(void *object, s16 new_index) {
     s16 old_index;
     s32 entry_index;
     s32 direction;
@@ -769,7 +769,7 @@ void switch_active_object_index(void *object, s16 new_index) {
 
 /* Creates familiar direction-preview objects, or closes the menu and waits for its children to stop
    updating. */
-void initialize_children_or_shutdown(S_80026190_0 *owner)
+void update_selection_menu_controller(S_80026190_0 *owner)
 {
     u32 state;
     s32 stop_state;
@@ -866,7 +866,7 @@ void initialize_children_or_shutdown(S_80026190_0 *owner)
     object_or_kind = (s32)child_object;
     ((S_80026190_4 *)((void *)object_or_kind))->unk_10.s = (void *)update_directional_object_fade;
     ((S_80026190_4 *)((void *)object_or_kind))->unk_78 = owner->unk_00;
-    if ((child->unk_14 = allocate_sprite_data_object((s32)child)) == NULL) {
+    if ((child->unk_14 = create_selection_blink_sprite((s32)child)) == NULL) {
         setup_container = owner->unk_00;
         owner_bits = NODE_HEADER(setup_container)->flags;
         cleanup_page = (S_80026190_8 *)0x80080000;
@@ -892,9 +892,9 @@ void initialize_children_or_shutdown(S_80026190_0 *owner)
         }
         if (source->unk_13 == 0x2E) {
             object_or_kind = source->unk_A8;
-            set_code_for_entity_mode(source);
+            set_troll_spawn_variant_code(source);
         } else {
-            set_code_for_entity_mode(source);
+            set_troll_spawn_variant_code(source);
         }
 
         status_page = (u8 *)0x80010000;
@@ -984,13 +984,13 @@ void initialize_children_or_shutdown(S_80026190_0 *owner)
         retire_tracked_effect_by_id((void *)object_or_kind);
         update_map_cell_flags_with_item_limit(parent->tile_x, parent->tile_y, 0x300);
         entity->unk_87 = 0xFF;
-        ((S_80026190_4 *)((void *)object_or_kind))->unk_10.s = (void *)draw_and_restore_fading_object;
+        ((S_80026190_4 *)((void *)object_or_kind))->unk_10.s = (void *)update_preview_monster_fade;
     }
     }
 
     object_or_kind = (s32)allocate_flagged_object_node(0x212);
     if (object_or_kind != 0) {
-        ((S_80026190_4 *)((void *)object_or_kind))->unk_10.s = (void *)initialize_fading_effect;
+        ((S_80026190_4 *)((void *)object_or_kind))->unk_10.s = (void *)update_selection_menu_shade;
         owner->unk_04 = (u8 *)object_or_kind + 0x20;
     }
     owner->unk_1C.u++;
@@ -999,7 +999,7 @@ void initialize_children_or_shutdown(S_80026190_0 *owner)
 }
 /* Sets up a shaded rectangle, fades its center to gray over eight updates, and fades it out when state
    3 is set. */
-void initialize_fading_effect(MenuFadeRect *effect, ObjectPosition *control)
+void update_selection_menu_shade(MenuFadeRect *effect, ObjectPosition *control)
 {
     s16 state;
     s16 dark_frames;
@@ -1070,16 +1070,16 @@ void initialize_fading_effect(MenuFadeRect *effect, ObjectPosition *control)
 }
 
 /* Creates a selection menu controller, sets the initial value, and starts its message mode and script. */
-void *initialize_available_object(s16 initialValue) {
+void *create_selection_menu_controller(s16 initialValue) {
     S_800267F0_0 *object;
 
     selection_menu_closing = 0;
     object = allocate_flagged_object_node(0);
     if (object != NULL) {
-        object->unk_10 = (void *)initialize_children_or_shutdown;
+        object->unk_10 = (void *)update_selection_menu_controller;
         object->unk_46 = initialValue;
         set_message_mode(2);
-        runtime_call_selected_mode_handler();
+        call_message_mode_handler();
         submit_script_with_registered_context(&D_80027160);
     }
     return object;
@@ -1312,7 +1312,7 @@ s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_posi
             project_sprite_commands(main_object->transform, main_object->lo, main_object->hi, (s16) scratch->depth_base);
             main_entry = objects->main;
             D_8002713A[0] = -2;
-            set_negated_coordinate_scratch(main_entry->lo, main_entry->hi, -2, scratch->depth_base);
+            render_camera_facing_sprite(main_entry->lo, main_entry->hi, -2, scratch->depth_base);
         }
         object_index = 0;
         do {
@@ -1321,7 +1321,7 @@ s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_posi
                 extra_object = objects->extra[object_index];
                 project_sprite_commands(extra_object->transform, extra_object->lo, extra_object->hi, (s16) scratch->depth_base);
                 extra_entry = objects->extra[object_index];
-                set_negated_coordinate_scratch(extra_entry->lo, extra_entry->hi, 0, scratch->depth_base);
+                render_camera_facing_sprite(extra_entry->lo, extra_entry->hi, 0, scratch->depth_base);
             }
             object_index += 1;
         } while (object_index < 2);
@@ -1351,7 +1351,7 @@ s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_posi
  * Writes negated camera X/Y rotations and zero Z rotation to scratchpad, then renders the
  * projected sprite with the supplied depth bias arguments.
  */
-void set_negated_coordinate_scratch(s32 call_value, s32 call_option, s16 call_mode, s32 call_extra)
+void render_camera_facing_sprite(s32 call_value, s32 call_option, s16 call_mode, s32 call_extra)
 {
     s16 *scratch = (s16 *)0x1F800000;
     GameWork *g = &g_game_work;

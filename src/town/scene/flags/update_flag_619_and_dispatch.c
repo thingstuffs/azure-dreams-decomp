@@ -5,7 +5,7 @@
 #include "shared/town_root.h"
 #include "town/player/state.h"
 
-extern void *D_800190C0[];
+extern s32 D_800190C0[];
 
 /* Conditionally updates flag 0x619, then dispatches D_800190C0 to the callback. */
 void change_map_after_flag_test(void) {

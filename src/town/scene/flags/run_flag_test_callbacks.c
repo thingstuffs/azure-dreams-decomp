@@ -10,9 +10,9 @@ typedef struct {
     s32 unkC;
 } CallbackEntry;
 
-extern s32 check_initial_query_zero_secondary();
-extern s32 select_data_array_based_flag(s32 flagIndex);
-extern s16 D_800160B2[8];
+extern void clear_listed_flag_pairs();
+extern s32 test_object_bitmap_bit(s32 flagIndex);
+extern s16 D_800160B2;
 
 typedef struct S_80016818_0 {
     s32 unk_00;
@@ -28,8 +28,8 @@ s32 run_flag_test_callbacks(S_80016818_0 *context) {
     s32 callback_index;
 
     if ((((s32) context->unk_00 >> 0x17) & 1) ||
-        (select_data_array_based_flag((*(__typeof__(D_800160B2) *)0x800160B2)[0]) == 0)) {
-        check_initial_query_zero_secondary(context->unk_14,
+        (test_object_bitmap_bit(*(__typeof__(D_800160B2) *)0x800160B2) == 0)) {
+        clear_listed_flag_pairs(context->unk_14,
                       context->unk_1A);
     }
     callback_index = 0;

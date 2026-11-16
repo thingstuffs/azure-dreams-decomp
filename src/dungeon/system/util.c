@@ -682,9 +682,9 @@ void display_item_status_message(void *entity, struct DungeonItemEntry *item, s3
 
     message = get_unused_text_buffer(entity, item, message_kind);
     if ((s16)message_kind == 0x15) {
-        text_end = expand_text_control_codes(D_800E0A03, append_typed_formatted_value(item, message));
+        text_end = expand_text_control_codes(D_800E0A03, append_item_name_with_value(item, message));
     } else {
-        text_end = expand_text_control_codes(D_800E0A12, append_typed_formatted_value(item, message));
+        text_end = expand_text_control_codes(D_800E0A12, append_item_name_with_value(item, message));
     }
     clear_byte_and_advance(write_status_prefix_bytes(expand_text_control_codes(fullwidth_period, append_entity_display_text(entity, text_end))));
     display_text_with_fullwidth_adjustment(message);
@@ -699,7 +699,7 @@ void display_actor_item_status_message(void *actor, struct DungeonItemEntry *ite
     void *current_value;
     void *adjusted_value;
 
-    adjusted_value = append_typed_formatted_value(item, current_value = get_unused_text_buffer());
+    adjusted_value = append_item_name_with_value(item, current_value = get_unused_text_buffer());
     original_value = current_value;
     current_value = adjusted_value;
     clear_byte_and_advance(write_status_prefix_bytes(expand_text_control_codes(fullwidth_period,

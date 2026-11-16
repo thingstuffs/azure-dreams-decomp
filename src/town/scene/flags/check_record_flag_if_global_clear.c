@@ -9,7 +9,7 @@ typedef struct FlagTestRecord {
     s16 flag;
 } FlagTestRecord;
 
-extern s32 select_data_array_based_flag(s32 flag);
+extern s32 test_object_bitmap_bit(s32 flag);
 extern s16 D_80016036;
 
 /* Check the record flag only when the global flag is clear. */
@@ -18,8 +18,8 @@ s32 check_record_flag_if_global_clear(void *object) {
     s32 flag_set;
 
     flag_set = 0;
-    if (select_data_array_based_flag(D_80016036) == 0) {
-        flag_set = select_data_array_based_flag(record->flag) != 0;
+    if (test_object_bitmap_bit(D_80016036) == 0) {
+        flag_set = test_object_bitmap_bit(record->flag) != 0;
     }
     return flag_set;
 }

@@ -66,7 +66,7 @@ void update_player_trap_trigger(Actor *actor, s32 context_a, s32 context_b, s32 
             patch_pos = cursor - 2;
             cursor = expand_text_control_codes(D_80088B14, cursor);
             entry_pos = cursor;
-            cursor = append_typed_formatted_value(&floor_objects[actor->h100 * 4], entry_pos);
+            cursor = append_item_name_with_value(&floor_objects[actor->h100 * 4], entry_pos);
             copy_fullwidth_vowel_bytes(patch_pos, entry_pos);
             clear_byte_and_advance(write_status_prefix_bytes(expand_text_control_codes(D_800E0B4C, write_text_byte_and_advance(10, cursor))));
             display_text_with_fullwidth_adjustment(buffer_start);

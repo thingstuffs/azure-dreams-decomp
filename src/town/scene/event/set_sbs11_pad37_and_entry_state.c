@@ -12,7 +12,7 @@ typedef struct S_8051FC84_1 {
 } S_8051FC84_1;   /* ((D_80016000->unk_08 * 8) + ((s32)D_80016000->unk_40)) in set_sbs11_pad37_and_entry_state */
 
 
-extern void *D_800190E0;
+extern s32 D_800190E0;
 
 /* Calls func_80018A64, sets the indexed entry's state to 2, and invokes the context callback. */
 void set_sbs11_pad37_and_entry_state(void) {

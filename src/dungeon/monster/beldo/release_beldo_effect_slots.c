@@ -24,7 +24,7 @@ void release_beldo_effect_slots(void)
     do {
         object = *(void **)(((u8 *)dungeon_actor_ring_anchor) + 0xAC + slot * 4);
         if (object != 0) {
-            clear_entry_flag_and_link_owner(NODE_HEADER(object));
+            insert_node_before_primary_actor(NODE_HEADER(object));
         }
         slot++;
     } while (slot < 2);

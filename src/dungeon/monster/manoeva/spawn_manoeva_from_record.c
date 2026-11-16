@@ -28,7 +28,7 @@ typedef struct S_80E3C98C_4 {
 
 
 extern void copy_entity_record();
-extern void set_code_for_entity_mode();
+extern void set_troll_spawn_variant_code();
 extern MonsterFactory load_monster_code_module();
 
 /* Create an entity from spawn data and update its tracked reference. */
@@ -50,7 +50,7 @@ void *spawn_manoeva_from_record(ActorRecord *body, ObjectPosition *unused1, Spri
         entity = create_actor_node_at_tile(((u32)spawn_data->unk_1C.at00_u32.v >> 0xD) & 1,
                                position->tile_x, position->tile_y,
                                spawn_data->unk_88.as_s16,
-                               get_item_category_value(((s32)(((u16)spawn_data->unk_60.as_s32 - 1) << 0x10) >> 0xE)
+                               get_item_sprite_source(((s32)(((u16)spawn_data->unk_60.as_s32 - 1) << 0x10) >> 0xE)
                                    + ((u8 *)dungeon_ground_items)));
         if (entity != NULL) {
             entity->flags14 = 0;
@@ -72,7 +72,7 @@ void *spawn_manoeva_from_record(ActorRecord *body, ObjectPosition *unused1, Spri
                 return result;
             }
         }
-        set_code_for_entity_mode(source_entity);
+        set_troll_spawn_variant_code(source_entity);
         create_entity = load_monster_code_module(source_entity->species, type_data, 1);
         drain_cd_command_queue();
         spawn_mode = 4;

@@ -461,7 +461,7 @@
     },
     {
       "row": "dungeon/func_81265EB8",
-      "tu": "src/dungeon/actor/install_actor_action_handler_after_floor_trap_check.c",
+      "tu": "src/dungeon/actor/finish_actor_parent_motion.c",
       "home": "dungeon/func_800D4F00",
       "foff": "0x1285eb8",
       "vma": "0x801616b8",
@@ -654,7 +654,7 @@
     },
     {
       "row": "dungeon/func_81266248",
-      "tu": "src/dungeon/monster/beldo/update_beldo_active_entity.c",
+      "tu": "src/dungeon/monster/beldo/remove_beldo_active_entity.c",
       "home": "dungeon/func_81254248",
       "foff": "0x1286248",
       "vma": "0x80161a48",

@@ -21,12 +21,12 @@
 #include "dungeon/effect.h"
 #include "dungeon/effect/screen.h"
 
-void * (*const resource12_slot0_entry0)(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) = spawn_animated_monster;
+void * (*const resource12_slot0_entry0)(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) = spawn_arachne_slot_g;
 void (*const resource12_slot0_entry1)(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *part) = update_arachne_motion_and_facing;
 
 /* Creates an Arachne actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
-void *spawn_animated_monster(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
+void *spawn_arachne_slot_g(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
 {
     s32 kind;
     ActorRecord *work;
@@ -374,7 +374,7 @@ void update_arachne_turn_action(ActorRecord *entity, ObjectPosition *context, Sp
             if ((s16)try_arachne_attack(entity, context, sprite, actor) != 0) {
                 return;
             }
-            select_and_start_target_action(entity, context, sprite, actor);
+            begin_arachne_attack(entity, context, sprite, actor);
             return;
 
         case 4:
@@ -817,7 +817,7 @@ s32 try_arachne_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
 
 /* Claims an action slot, starts the directional attack animation, and prepares its target and damage
  * state. */
-void select_and_start_target_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
+void begin_arachne_attack(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
     actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target(NODE_HEADER(actor), action_context, 8, 0x300);

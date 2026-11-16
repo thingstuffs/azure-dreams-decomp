@@ -15,20 +15,20 @@
 #include "town/data.h"
 
 typedef struct {
-    s32 v;
-} __attribute__((packed)) UA32;
+    u32 value;
+} __attribute__((packed)) PackedWord;
 
 typedef struct S_func_8065C34C_1 {
     u8 pad_00[0x50];
-    s32 (*unk_50)(UA32 *);
+    s32 (*unk_50)(PackedWord *);
 } S_func_8065C34C_1;
 
-extern UA32 D_80016020;
+extern PackedWord D_80016020;
 
 /* Set the state to 9 and cache the callback result using a copy of the global arguments. */
 void request_handler_state_9(void) {
     extern s32 D_800183D0;
-    UA32 callback_args;
+    PackedWord callback_args;
     Rec_D_80016000 *context;
     S_func_8065C34C_1 *callback_table;
 

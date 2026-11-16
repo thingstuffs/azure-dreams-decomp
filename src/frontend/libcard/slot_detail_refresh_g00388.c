@@ -52,7 +52,7 @@ void card_boot_format_empty_slot_guidance(void *context)
                 selected_entry = mode_one << 2;
                 decode_fullwidth_text(first_buffer, *(void **)((u8 *)table + selected_entry), 1);
             }
-            format_unsigned_double_byte_decimal(state / 3, number_buf);
+            format_fullwidth_decimal(state / 3, number_buf);
             strcpy(text_buf, number_buf);
             strcat(text_buf, D_800283FC);
             text_buffer = context + 0x204;

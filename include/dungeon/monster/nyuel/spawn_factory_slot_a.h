@@ -5,6 +5,6 @@
 #include "modules/dungeon_ovl_bdb094.h"
 #include "common.h"
 
-Func80BBB094PartC *spawn_mode_configured_monster_slot_a(s32 spawn_flags, s16 tile_x, s32 tile_y, s32 spawn_height);
+Func80BBB094PartC *spawn_nyuel_slot_a(s32 spawn_flags, s16 tile_x, s32 tile_y, s32 spawn_height);
 
 #endif

@@ -469,7 +469,7 @@ void update_zu_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrame
             if (action_state & 0x8000) {
                 switch (stats->action_flags & 0x3FFF) {
                 case 9:
-                    start_bank_actor_hit_reaction(actor, context, sprite, stats);
+                    begin_zu_action_with_message(actor, context, sprite, stats);
                     return;
 
                 case 8:
@@ -2175,8 +2175,8 @@ void update_directional_sprite_state_and_signals(ActorRecord *state, ObjectPosit
 #include "shared/sprite_frame_state.h"
 
 extern s32 interpolate_actor_to_terrain_tile();
-/* Restore the bank actor callback after the resident state check succeeds. */
-void restore_after_terrain_interpolation(ActorRecord *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
+/* Interpolate the actor toward its terrain tile; once the move finishes, return control to update_zu_behavior. */
+void finish_zu_terrain_move(ActorRecord *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
     if (interpolate_actor_to_terrain_tile(state, action, source, target) != 0) {
         state->unk_8C.handler = update_zu_behavior;
     }
@@ -2188,7 +2188,7 @@ void restore_after_terrain_interpolation(ActorRecord *state, ObjectPosition *act
 #include "shared/sprite_frame_state.h"
 
 extern s32 update_spinning_actor_fall();
-/* Restore the bank actor callback after the resident state check succeeds. */
+/* Run the spinning fall; once it finishes, return control to update_zu_behavior. */
 void restore_after_spinning_fall(ActorRecord *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
     if (update_spinning_actor_fall(state, action, source, target) != 0) {
         state->unk_8C.handler = update_zu_behavior;
@@ -2318,7 +2318,7 @@ extern u8 D_80174B0C[];
 /* Start the actor's hit reaction, then build and post the damage message for it. */
 /* Starts Zu's targeted action when activity permits, randomizes flagged facing, and displays an
  * actor-specific message. */
-void start_bank_actor_hit_reaction(ActorRecord *work, ObjectPosition *part_a, SpriteFrameState *part_b, ActorRecord *actor) {
+void begin_zu_action_with_message(ActorRecord *work, ObjectPosition *part_a, SpriteFrameState *part_b, ActorRecord *actor) {
     s32 flags;
     void *call_arg;
     void *pass_result;

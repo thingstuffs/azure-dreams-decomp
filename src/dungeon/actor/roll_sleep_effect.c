@@ -17,7 +17,7 @@ s32 roll_sleep_effect(void *record_arg, s16 chance, s8 action)
     s16 divisor;
     s32 remainder;
 
-    if (is_linked_entity_flagged_2000000(record_arg) != 0) {
+    if (has_sleep_protection(record_arg) != 0) {
         return 0;
     }
 

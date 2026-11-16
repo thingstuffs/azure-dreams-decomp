@@ -5,5 +5,11 @@
 #include "shared/town_root.h"
 extern char D_800173FC[];
 extern char *D_80017494;
-void invoke_callback_and_set_shared_pointer(void *callback_arg);
+void init_sbs09_scene(void);
+void init_sbs12_scene(void);
+void init_scene_camera_preset(void);
+void init_scene_shared_buffer(void);
+void init_keima2_scene(void *callback_arg);
+void init_sbs48_scene_flags(void);
+s32 lacks_town_pair_entry(void);
 #endif

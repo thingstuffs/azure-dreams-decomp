@@ -63,7 +63,7 @@ void resolve_collider_overlaps(struct ColliderView *collider, ObjectPosition *po
 void play_timed_sound_sequence(void *record);
 
 /* place_player_at_fixed_position.c */
-void set_player_fixed_position(void);
+void set_ghosh_shop_exit_target(void);
 
 /* run_scene_callback_with_position_shift.c */
 void run_scene_callback_with_position_shift(void);

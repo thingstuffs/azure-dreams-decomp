@@ -42,7 +42,7 @@ char *format_reversed_unsigned_decimal(u32 value, s32 width, char *buf, s32 pad)
 /* get_glyph_vram_rectangle.c */
 void get_glyph_vram_rectangle(s32 rect_id, struct RECT *vram_rect);
 
-/* pad_both_key_states_clear.c */
+/* dispatch_after_controller_release.c */
 s32 is_sound_mode_unblocked(void);
 
 /* remap_flagged_string_bytes.c */

@@ -7,6 +7,6 @@
 
 
 /* Returns the byte at offset 0x114 in the referenced record. */
-u8 get_referenced_object_active_flag(void) {
+s32 get_referenced_object_active_flag(void) {
     return ((u8)town_scene_root->event_data->unk_114);
 }

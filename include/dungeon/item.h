@@ -31,20 +31,20 @@ typedef struct ViewColorFlashState {
     union { s16 s; u16 u; } frames_remaining;
 } ViewColorFlashState;
 
-void *append_signed_value_bytes(s32 value, u8 *buffer);
+void *append_value_sign(s32 value, u8 *buffer);
 struct DungeonItemEntry;
-u8 *apply_type_based_entry_adjustments(struct DungeonItemEntry *entry, u8 *value);
+u8 *append_item_name_with_affixes(struct DungeonItemEntry *entry, u8 *value);
 void create_view_color_flash(s32 payload, s16 trigger_event);
-void *find_linked_entity_of_type_21(void *entity);
+void *find_pulunpa_in_ring(void *entity);
 s32 find_padded_rectangle(s32 pos_x, s32 pos_y);
 s32 get_direction_toward_target_position(s16 *target_pos);
 void initialize_monster_script_counter(void);
 void *advance_monster_timed_sequence(void);
 s16 *read_monster_script_entry(void);
-void inventory_clear_object_field_and_entry(s32 object_addr);
-void inventory_process_resources_and_set_flags(void *object);
-void inventory_set_embedded_state_four(s32 object_addr);
-void set_monster_data_pointer(void);
+void disable_item_window(s32 object_addr);
+void close_item_window(void *object);
+void select_item_window_final_action(s32 object_addr);
+void reset_timed_sequence_data(void);
 void tick_monster_spawn_timer(void);
 
 
@@ -52,7 +52,7 @@ void tick_monster_spawn_timer(void);
 
 s32 use_item_to_apply_poison(ActorRecord *entity, struct DungeonItemEntry *item, s16 action_type);
 
-void play_b4_sound(void);
+void fade_cd_audio_fast(void);
 void create_terrain_particle_emitter(s16 tile_x, s16 tile_y, s16 initial_value);
 
 
@@ -75,14 +75,14 @@ void *scan_actor_along_heading(ActorRecord *source, s32 start_x, s32 start_y, s1
 
 void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s32 extra_byte);
 
-void *find_monster_special_entry(s32 wanted_kind, s32 wanted_flag);
+void *find_matching_action_record(s32 wanted_kind, s32 wanted_flag);
 u8 *find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type);
 
 s32 retain_spawn_resource(s16 entry_type, s16 entry_key);
 
 
 #include "shared/dungeon_item_entries.h"
-u8 *append_typed_formatted_value(DungeonItemEntry *data, u8 *buffer);
+u8 *append_item_name_with_value(DungeonItemEntry *data, u8 *buffer);
 
 u8 *append_entity_display_text(void *record, u8 *out);
 u8 *clear_byte_and_advance(u8 *byte_ptr);
@@ -93,13 +93,13 @@ void apply_monster_koyaw_data(s32 flags, s8 *dst);
 
 struct ovl_1830850_81811168_DungeonObj81811168;
 struct Object;
-s32 check_monster_neighbor_relations(s16 x0, s16 y0, s16 check_param, s16 x1, s16 y1, s16 unused);
+s32 can_reach_adjacent_tile_at_height(s16 x0, s16 y0, s16 check_param, s16 x1, s16 y1, s16 unused);
 void *find_adjacent_actor(ActorRecord *entity, u16 x, u16 y);
 u8 *find_monster_entry_by_type_and_id(s16 entry_id, s32 entry_type);
-s32 get_active_region_data(s16 entry_index);
-struct ovl_1830850_81811168_DungeonObj81811168 *inventory_allocate_and_initialize_child(s32 parent_obj, s32 initial_value, s32 text_addr);
+s32 get_active_room_entries(s16 entry_index);
+struct ovl_1830850_81811168_DungeonObj81811168 *create_item_window(s32 parent_obj, s32 initial_value, s32 text_addr);
 void *probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction);
-u8 *process_eligible_object_value(struct Object *object, u8 *input_value);
+u8 *append_item_reveal_text(struct Object *object, u8 *input_value);
 s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 void *teleport_familiar_near_player(void *object, s16 action_arg);
 s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);

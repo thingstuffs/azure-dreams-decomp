@@ -75,7 +75,7 @@ void *create_player_tile_actor_at_coordinates(u16 tile_x, u16 tile_z, u16 height
         direction_entry = ((camera->view.camera_rotation.parts.viewAngle + FLD(state, s16, 0x2A) + 0x100) >> 7) & 0x1C;
         direction_entry += (s32)FLD(state, void *, 0xA4);
         select_record_entry_and_value(sprite, FLD((void *)direction_entry, s32, 0), 0);
-        clear_entry_flag_and_link_owner(entity);
+        insert_node_before_primary_actor(entity);
         *(ResultCopy *)((u8 *)entity + 0x54) = *(ResultCopy *)&D_80089430;
         FLD(state, s32, 0x1C) |= ACTOR_REFRESH_GROUND;
         FLD(state, s8, 0x71) = 0;

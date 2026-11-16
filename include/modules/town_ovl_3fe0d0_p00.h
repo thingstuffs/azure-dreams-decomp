@@ -54,11 +54,15 @@ extern s32 D_80017870;
 /* Placed copy of clear_script_flag_bit. */
 void func_800175E0(s32 bit_index);
 s32 dispatch_town_callback_or_fallback(void);
+void run_entry_callback_or_set_buffers(s32 value0, s32 value1);
 void run_entry_callback_or_default(s32 value0, s32 value1);
-void initialize_context_entry_tables_variant_1(s32 unused_a, s32 unused_b);
+void install_entry_tables_and_next_step(s32 unused_a, s32 unused_b);
+s32 set_script_flag_sbs07_pad22(void);
+s32 initialize_context_entry_tables_variant_1(s32 object, s32 entry_index);
 void install_floor_event_counter_context(void);
 void fade_sequence_audio_fast(void);
-void advance_floor_event_counter(void);
+void begin_town_rain_step(void);
+void clear_sbs34_pad15_and_process_entry(s32 value, s32 context);
 void set_active_position_state_record(void);
 
 void func_80016278(void);
@@ -70,8 +74,10 @@ void func_80016328(void);
 void play_town_sound_1706(void);
 void func_80016360(void);
 void play_town_sound_1700(void);
-void select_table_result_with_override(void);
-void invoke_system_callback_29(void);
+s32 select_response_with_count_override(s32 context, s32 check_value, s32 selector);
+void start_town_movie3(void);
+s32 forward_selected_entry_values(s32 record, s32 entry_index);
+void load_scene_sound_sequence(void);
 void func_80016408(void);
 
 #endif

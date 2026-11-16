@@ -22,7 +22,7 @@ extern void *D_800174D8;
 extern u8 D_80017404[], D_8001770A[];
 
 /* Functions defined in this translation unit. */
-void dispatch_town_callback_or_fallback(s32 value0, s32 value1);
+void run_entry_callback_or_set_buffers(s32 value0, s32 value1);
 void set_shared_buffer_pointers(s32 unused0, s32 unused1);
 
 #endif

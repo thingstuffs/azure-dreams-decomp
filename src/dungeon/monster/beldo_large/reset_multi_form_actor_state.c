@@ -21,12 +21,12 @@ void reset_multi_form_actor_state(s32 reset_arg_a, s32 reset_arg_b, s32 reset_ar
     state = beldo_actor_nodes[0] + 0x20;
     *(u16 *)(state + 0x46) &= 0x7FFF;
     system_update_flags &= 0xFFF6;
-    set_monster_data_pointer();
+    reset_timed_sequence_data();
     state[0xAF] = 0;
     do {
         object = *(s32 *)((object_index * 4) + ((u8 *)dungeon_actor_ring_anchor) + 0xAC);
         if (object != 0) {
-            clear_entry_flag_and_link_owner(object - 0x20);
+            insert_node_before_primary_actor(object - 0x20);
         }
         object_index++;
     } while (object_index < 2);

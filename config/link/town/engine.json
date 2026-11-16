@@ -626,7 +626,7 @@
     },
     {
       "row": "town/func_800C8104",
-      "tu": "src/town/person/adjust_two_state_values.c",
+      "tu": "src/town/person/initialize_two_value_adjustment_action.c",
       "home": "town/func_800C8104",
       "foff": "0x48104",
       "vma": "0x800C5864",
@@ -965,7 +965,7 @@
     },
     {
       "row": "town/func_800CAC2C",
-      "tu": "src/town/person/object/initialize_scene_slot_10_entry.c",
+      "tu": "src/town/person/object/init_mia_person.c",
       "home": "town/func_800CAC2C",
       "foff": "0x4AC2C",
       "vma": "0x800C838C",
@@ -973,7 +973,7 @@
     },
     {
       "row": "town/func_8002AC90",
-      "tu": "src/town/person/object/initialize_scene_slot_10_entry.c",
+      "tu": "src/town/person/object/init_mia_person.c",
       "home": "town/func_800CAC2C",
       "foff": "0x4AC90",
       "vma": "0x800C83F0",
@@ -981,7 +981,7 @@
     },
     {
       "row": "town/func_8002ACF4",
-      "tu": "src/town/person/object/initialize_scene_slot_10_entry.c",
+      "tu": "src/town/person/object/init_mia_person.c",
       "home": "town/func_800CAC2C",
       "foff": "0x4ACF4",
       "vma": "0x800C8454",
@@ -1052,7 +1052,7 @@
     },
     {
       "row": "town/func_800CB0A8",
-      "tu": "src/town/person/object/initialize_object_with_z_velocity.c",
+      "tu": "src/town/person/object/start_person_jump.c",
       "home": "town/func_800CB0A8",
       "foff": "0x4B0A8",
       "vma": "0x800C8808",
@@ -1069,7 +1069,7 @@
     },
     {
       "row": "town/func_800CB1C8",
-      "tu": "src/town/person/object/set_object_data_tables.c",
+      "tu": "src/town/person/object/set_person_descriptor_tables.c",
       "home": "town/func_800CB1C8",
       "foff": "0x4B1C8",
       "vma": "0x800C8928",
@@ -1302,7 +1302,7 @@
     },
     {
       "row": "town/func_8002D12C",
-      "tu": "src/town/person/adjust_two_state_values.c",
+      "tu": "src/town/person/initialize_two_value_adjustment_action.c",
       "home": "town/func_800C8104",
       "foff": "0x4D12C",
       "vma": "0x800CA88C",
@@ -1384,7 +1384,7 @@
     },
     {
       "row": "town/func_8002DFA8",
-      "tu": "src/town/person/object/set_object_data_tables.c",
+      "tu": "src/town/person/object/set_person_descriptor_tables.c",
       "home": "town/func_800CB1C8",
       "foff": "0x4DFA8",
       "vma": "0x800CB708",
@@ -1392,7 +1392,7 @@
     },
     {
       "row": "town/func_8002DFDC",
-      "tu": "src/town/person/object/set_object_data_tables.c",
+      "tu": "src/town/person/object/set_person_descriptor_tables.c",
       "home": "town/func_800CB1C8",
       "foff": "0x4DFDC",
       "vma": "0x800CB73C",
@@ -1730,7 +1730,7 @@
     },
     {
       "row": "town/func_8003128C",
-      "tu": "src/town/person/object/initialize_object_with_z_velocity.c",
+      "tu": "src/town/person/object/start_person_jump.c",
       "home": "town/func_800CB0A8",
       "foff": "0x5128C",
       "vma": "0x800CE9EC",
@@ -1762,7 +1762,7 @@
     },
     {
       "row": "town/func_800313A0",
-      "tu": "src/town/person/object/initialize_object_with_z_velocity.c",
+      "tu": "src/town/person/object/start_person_jump.c",
       "home": "town/func_800CB0A8",
       "foff": "0x513A0",
       "vma": "0x800CEB00",

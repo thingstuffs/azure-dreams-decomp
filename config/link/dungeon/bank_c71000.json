@@ -162,7 +162,7 @@
     },
     {
       "row": "dungeon/func_80C52E64",
-      "tu": "src/dungeon/monster/unicorn/settle_actor_after_movement.c",
+      "tu": "src/dungeon/monster/unicorn/advance_unicorn_attack.c",
       "home": "dungeon/func_80C40E64",
       "foff": "0xC72E64",
       "vma": "0x80160664",

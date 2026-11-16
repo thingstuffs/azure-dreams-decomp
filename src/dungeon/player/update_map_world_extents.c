@@ -174,11 +174,11 @@ void animate_and_display_item_use(ActorRecord *body, s32 actor_id, SpriteFrameSt
             text_root = get_unused_text_buffer();
             text_cursor = append_entity_display_text(actor, write_text_byte_and_advance(8, text_root));
             text_cursor = expand_text_control_codes(D_800E06EE, text_cursor);
-            text_cursor = append_typed_formatted_value(((S_800927E4_0 *)body)->unk_110, text_cursor);
+            text_cursor = append_item_name_with_value(((S_800927E4_0 *)body)->unk_110, text_cursor);
             text = expand_text_control_codes(D_800E06F7, text_cursor);
             entity = ((S_800927E4_0 *)body)->unk_110;
             if (entity->unk_01 != ITEM_KIND_BALL) {
-                text = process_eligible_object_value(entity, text);
+                text = append_item_reveal_text(entity, text);
             }
             clear_byte_and_advance(text);
             display_text_with_fullwidth_adjustment(text_root);

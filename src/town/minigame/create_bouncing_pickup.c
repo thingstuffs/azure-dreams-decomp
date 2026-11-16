@@ -1,4 +1,4 @@
-#include "town/minigame/initialize_source_and_initial_data.h"
+#include "town/minigame/create_bouncing_pickup.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "town/minigame.h"

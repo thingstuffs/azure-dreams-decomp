@@ -2488,7 +2488,7 @@
     },
     {
       "module": "dungeon_ovl_bf3084",
-      "source": "src/dungeon/monster/death/queue_linked_render_packets.c",
+      "source": "src/dungeon/monster/death/queue_linked_pixel_packets.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -2620,7 +2620,7 @@
     },
     {
       "module": "dungeon_ovl_bc9094",
-      "source": "src/dungeon/monster/nyuel/allocate_actor_parts.c",
+      "source": "src/dungeon/monster/nyuel/spawn_nyuel_slot_d.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -2686,7 +2686,7 @@
     },
     {
       "module": "dungeon_ovl_bb1054",
-      "source": "src/dungeon/monster/battnel/spawn_effect_object.c",
+      "source": "src/dungeon/monster/battnel/spawn_battnel_slot_a.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -2708,7 +2708,7 @@
     },
     {
       "module": "dungeon_ovl_9fb054",
-      "source": "src/dungeon/monster/dragon/create_tracked_effect_object.c",
+      "source": "src/dungeon/monster/dragon/spawn_dragon_slot_d.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -2730,7 +2730,7 @@
     },
     {
       "module": "dungeon_ovl_a0d054",
-      "source": "src/dungeon/monster/dragon/spawn_effect_object.c",
+      "source": "src/dungeon/monster/dragon/spawn_dragon_slot_a.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -3188,7 +3188,7 @@
     },
     {
       "module": "dungeon_ovl_7f223800",
-      "source": "src/dungeon/monster/stealth/create_tracked_effect_object.c",
+      "source": "src/dungeon/monster/stealth/spawn_stealth_slot_d.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -3199,7 +3199,7 @@
     },
     {
       "module": "dungeon_ovl_7f23b800",
-      "source": "src/dungeon/monster/stealth/create_mode_configured_actor_object.c",
+      "source": "src/dungeon/monster/stealth/spawn_stealth_slot_f.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -3271,7 +3271,7 @@
     },
     {
       "module": "dungeon_ovl_7f469800_p04",
-      "source": "src/dungeon/monster/troll/create_tinted_sprite_effect_supplied_position.c",
+      "source": "src/dungeon/monster/troll/troll_jump_arc_to_tile_and_end_turn.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -3306,7 +3306,7 @@
     },
     {
       "module": "dungeon_ovl_7f511800_p01",
-      "source": "src/dungeon/monster/unicorn/settle_actor_after_movement.c",
+      "source": "src/dungeon/monster/unicorn/advance_unicorn_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -3362,7 +3362,7 @@
     },
     {
       "module": "dungeon_ovl_c9b084",
-      "source": "src/dungeon/monster/metal/queue_linked_render_packets.c",
+      "source": "src/dungeon/monster/metal/queue_linked_pixel_packets.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -3461,7 +3461,7 @@
     },
     {
       "module": "dungeon_ovl_e09000_code",
-      "source": "src/dungeon/monster/volcano/create_mode_configured_actor_object.c",
+      "source": "src/dungeon/monster/volcano/spawn_volcano_slot_f.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -3472,7 +3472,7 @@
     },
     {
       "module": "dungeon_ovl_e15054",
-      "source": "src/dungeon/monster/volcano/create_tracked_effect_object.c",
+      "source": "src/dungeon/monster/volcano/spawn_volcano_slot_d.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -3494,7 +3494,7 @@
     },
     {
       "module": "dungeon_ovl_e27054",
-      "source": "src/dungeon/monster/volcano/spawn_effect_object.c",
+      "source": "src/dungeon/monster/volcano/spawn_volcano_slot_a.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -3615,7 +3615,7 @@
     },
     {
       "module": "town_ovl_64b0c0",
-      "source": "src/town/scene/event/forward_value_with_fixed_tables.c",
+      "source": "src/town/scene/event/apply_selected_scene_entry.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -3637,7 +3637,7 @@
     },
     {
       "module": "town_ovl_64f118",
-      "source": "src/town/scene/lookup_code_special_results.c",
+      "source": "src/town/scene/select_count_cycled_response.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -3659,7 +3659,7 @@
     },
     {
       "module": "town_ovl_480100",
-      "source": "src/town/scene/hooks/invoke_callback_and_set_shared_pointer.c",
+      "source": "src/town/scene/hooks/init_sbs09_scene.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -3682,7 +3682,7 @@
     },
     {
       "module": "town_ovl_629100",
-      "source": "src/town/scene/hooks/invoke_callback_set_shared_pointer.c",
+      "source": "src/town/scene/hooks/init_scene_camera_preset.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -3693,7 +3693,7 @@
     },
     {
       "module": "town_ovl_47027c",
-      "source": "src/town/scene/invoke_state_callback.c",
+      "source": "src/town/scene/start_gym_minigame.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -3738,7 +3738,7 @@
     },
     {
       "module": "town_ovl_450958",
-      "source": "src/town/scene/invoke_state_callback_with_zero.c",
+      "source": "src/town/scene/start_casino_scene.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -3749,7 +3749,7 @@
     },
     {
       "module": "town_ovl_4d9100",
-      "source": "src/town/scene/hooks/invoke_callback_set_shared_pointer_b_second.c",
+      "source": "src/town/scene/hooks/init_keima2_scene.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -3818,7 +3818,7 @@
     },
     {
       "module": "dungeon_ovl_7f43f800_p04",
-      "source": "src/dungeon/monster/noise/settle_actor_after_movement.c",
+      "source": "src/dungeon/monster/noise/begin_noise_directional_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -7328,7 +7328,7 @@
       "module": "dungeon_ovl_7f511800_p01",
       "placement": "dungeon_ovl_7f511800_p01_bank_c65000",
       "image": "dungeon/bank_c65000",
-      "source": "src/dungeon/monster/unicorn/settle_actor_after_movement.c",
+      "source": "src/dungeon/monster/unicorn/advance_unicorn_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -7341,7 +7341,7 @@
       "module": "dungeon_ovl_7f511800_p01",
       "placement": "dungeon_ovl_7f511800_p01_bank_c6b000",
       "image": "dungeon/bank_c6b000",
-      "source": "src/dungeon/monster/unicorn/settle_actor_after_movement.c",
+      "source": "src/dungeon/monster/unicorn/advance_unicorn_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -7354,7 +7354,7 @@
       "module": "dungeon_ovl_7f511800_p01",
       "placement": "dungeon_ovl_7f511800_p01_bank_c71000",
       "image": "dungeon/bank_c71000",
-      "source": "src/dungeon/monster/unicorn/settle_actor_after_movement.c",
+      "source": "src/dungeon/monster/unicorn/advance_unicorn_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -7367,7 +7367,7 @@
       "module": "dungeon_ovl_7f511800_p01",
       "placement": "dungeon_ovl_7f511800_p01_bank_c77000",
       "image": "dungeon/bank_c77000",
-      "source": "src/dungeon/monster/unicorn/settle_actor_after_movement.c",
+      "source": "src/dungeon/monster/unicorn/advance_unicorn_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -7380,7 +7380,7 @@
       "module": "dungeon_ovl_7f511800_p01",
       "placement": "dungeon_ovl_7f511800_p01_bank_c7d000",
       "image": "dungeon/bank_c7d000",
-      "source": "src/dungeon/monster/unicorn/settle_actor_after_movement.c",
+      "source": "src/dungeon/monster/unicorn/advance_unicorn_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -7393,7 +7393,7 @@
       "module": "dungeon_ovl_7f511800_p01",
       "placement": "dungeon_ovl_7f511800_p01_bank_c83000",
       "image": "dungeon/bank_c83000",
-      "source": "src/dungeon/monster/unicorn/settle_actor_after_movement.c",
+      "source": "src/dungeon/monster/unicorn/advance_unicorn_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -7819,7 +7819,7 @@
       "module": "dungeon_ovl_7f43f800_p04",
       "placement": "dungeon_ovl_7f43f800_p04_bank_d37000",
       "image": "dungeon/bank_d37000",
-      "source": "src/dungeon/monster/noise/settle_actor_after_movement.c",
+      "source": "src/dungeon/monster/noise/begin_noise_directional_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -7832,7 +7832,7 @@
       "module": "dungeon_ovl_7f43f800_p04",
       "placement": "dungeon_ovl_7f43f800_p04_bank_d3d000",
       "image": "dungeon/bank_d3d000",
-      "source": "src/dungeon/monster/noise/settle_actor_after_movement.c",
+      "source": "src/dungeon/monster/noise/begin_noise_directional_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -7845,7 +7845,7 @@
       "module": "dungeon_ovl_7f43f800_p04",
       "placement": "dungeon_ovl_7f43f800_p04_bank_d43000",
       "image": "dungeon/bank_d43000",
-      "source": "src/dungeon/monster/noise/settle_actor_after_movement.c",
+      "source": "src/dungeon/monster/noise/begin_noise_directional_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -7858,7 +7858,7 @@
       "module": "dungeon_ovl_7f43f800_p04",
       "placement": "dungeon_ovl_7f43f800_p04_bank_d49000",
       "image": "dungeon/bank_d49000",
-      "source": "src/dungeon/monster/noise/settle_actor_after_movement.c",
+      "source": "src/dungeon/monster/noise/begin_noise_directional_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -7871,7 +7871,7 @@
       "module": "dungeon_ovl_7f43f800_p04",
       "placement": "dungeon_ovl_7f43f800_p04_bank_d4f000",
       "image": "dungeon/bank_d4f000",
-      "source": "src/dungeon/monster/noise/settle_actor_after_movement.c",
+      "source": "src/dungeon/monster/noise/begin_noise_directional_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -7884,7 +7884,7 @@
       "module": "dungeon_ovl_7f43f800_p04",
       "placement": "dungeon_ovl_7f43f800_p04_bank_d55000",
       "image": "dungeon/bank_d55000",
-      "source": "src/dungeon/monster/noise/settle_actor_after_movement.c",
+      "source": "src/dungeon/monster/noise/begin_noise_directional_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -7897,7 +7897,7 @@
       "module": "dungeon_ovl_7f43f800_p04",
       "placement": "dungeon_ovl_7f43f800_p04_bank_eff000",
       "image": "dungeon/bank_eff000",
-      "source": "src/dungeon/monster/noise/settle_actor_after_movement.c",
+      "source": "src/dungeon/monster/noise/begin_noise_directional_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -7910,7 +7910,7 @@
       "module": "dungeon_ovl_7f43f800_p04",
       "placement": "dungeon_ovl_7f43f800_p04_bank_f05000",
       "image": "dungeon/bank_f05000",
-      "source": "src/dungeon/monster/noise/settle_actor_after_movement.c",
+      "source": "src/dungeon/monster/noise/begin_noise_directional_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -7923,7 +7923,7 @@
       "module": "dungeon_ovl_7f43f800_p04",
       "placement": "dungeon_ovl_7f43f800_p04_bank_f0b000",
       "image": "dungeon/bank_f0b000",
-      "source": "src/dungeon/monster/noise/settle_actor_after_movement.c",
+      "source": "src/dungeon/monster/noise/begin_noise_directional_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -7936,7 +7936,7 @@
       "module": "dungeon_ovl_7f43f800_p04",
       "placement": "dungeon_ovl_7f43f800_p04_bank_f11000",
       "image": "dungeon/bank_f11000",
-      "source": "src/dungeon/monster/noise/settle_actor_after_movement.c",
+      "source": "src/dungeon/monster/noise/begin_noise_directional_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -7949,7 +7949,7 @@
       "module": "dungeon_ovl_7f43f800_p04",
       "placement": "dungeon_ovl_7f43f800_p04_bank_f17000",
       "image": "dungeon/bank_f17000",
-      "source": "src/dungeon/monster/noise/settle_actor_after_movement.c",
+      "source": "src/dungeon/monster/noise/begin_noise_directional_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -7962,7 +7962,7 @@
       "module": "dungeon_ovl_7f43f800_p04",
       "placement": "dungeon_ovl_7f43f800_p04_bank_f1d000",
       "image": "dungeon/bank_f1d000",
-      "source": "src/dungeon/monster/noise/settle_actor_after_movement.c",
+      "source": "src/dungeon/monster/noise/begin_noise_directional_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -7975,7 +7975,7 @@
       "module": "dungeon_ovl_7f43f800_p04",
       "placement": "dungeon_ovl_7f43f800_p04_bank_f23000",
       "image": "dungeon/bank_f23000",
-      "source": "src/dungeon/monster/noise/settle_actor_after_movement.c",
+      "source": "src/dungeon/monster/noise/begin_noise_directional_animation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -8228,7 +8228,7 @@
       "module": "dungeon_ovl_7f469800_p04",
       "placement": "dungeon_ovl_7f469800_p04_bank_d0d000",
       "image": "dungeon/bank_d0d000",
-      "source": "src/dungeon/monster/troll/create_tinted_sprite_effect_supplied_position.c",
+      "source": "src/dungeon/monster/troll/troll_jump_arc_to_tile_and_end_turn.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -8241,7 +8241,7 @@
       "module": "dungeon_ovl_7f469800_p04",
       "placement": "dungeon_ovl_7f469800_p04_bank_d13000",
       "image": "dungeon/bank_d13000",
-      "source": "src/dungeon/monster/troll/create_tinted_sprite_effect_supplied_position.c",
+      "source": "src/dungeon/monster/troll/troll_jump_arc_to_tile_and_end_turn.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -8254,7 +8254,7 @@
       "module": "dungeon_ovl_7f469800_p04",
       "placement": "dungeon_ovl_7f469800_p04_bank_d19000",
       "image": "dungeon/bank_d19000",
-      "source": "src/dungeon/monster/troll/create_tinted_sprite_effect_supplied_position.c",
+      "source": "src/dungeon/monster/troll/troll_jump_arc_to_tile_and_end_turn.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -8267,7 +8267,7 @@
       "module": "dungeon_ovl_7f469800_p04",
       "placement": "dungeon_ovl_7f469800_p04_bank_d25000",
       "image": "dungeon/bank_d25000",
-      "source": "src/dungeon/monster/troll/create_tinted_sprite_effect_supplied_position.c",
+      "source": "src/dungeon/monster/troll/troll_jump_arc_to_tile_and_end_turn.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -8280,7 +8280,7 @@
       "module": "dungeon_ovl_7f469800_p04",
       "placement": "dungeon_ovl_7f469800_p04_bank_d2b000",
       "image": "dungeon/bank_d2b000",
-      "source": "src/dungeon/monster/troll/create_tinted_sprite_effect_supplied_position.c",
+      "source": "src/dungeon/monster/troll/troll_jump_arc_to_tile_and_end_turn.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -8293,7 +8293,7 @@
       "module": "dungeon_ovl_7f469800_p04",
       "placement": "dungeon_ovl_7f469800_p04_region_d2286c_d22b60",
       "image": "dungeon/region_d2286c_d22b60",
-      "source": "src/dungeon/monster/troll/create_tinted_sprite_effect_supplied_position.c",
+      "source": "src/dungeon/monster/troll/troll_jump_arc_to_tile_and_end_turn.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -11075,7 +11075,7 @@
       ]
     },
     {
-      "source": "src/town/person/object/set_object_data_tables.c",
+      "source": "src/town/person/object/set_person_descriptor_tables.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -12205,7 +12205,7 @@
       ]
     },
     {
-      "source": "src/dungeon/actor/clamp_adjusted_value_to.c",
+      "source": "src/dungeon/actor/get_shield_defense_bonus.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -12345,7 +12345,7 @@
       ]
     },
     {
-      "source": "src/dungeon/item/append_signed_value_bytes.c",
+      "source": "src/dungeon/item/append_value_sign.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -12365,7 +12365,7 @@
       ]
     },
     {
-      "source": "src/dungeon/item/append_typed_formatted_value.c",
+      "source": "src/dungeon/item/append_item_name_with_value.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -12375,7 +12375,7 @@
       ]
     },
     {
-      "source": "src/dungeon/item/apply_type_based_entry_adjustments.c",
+      "source": "src/dungeon/item/append_item_name_with_affixes.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -12385,7 +12385,7 @@
       ]
     },
     {
-      "source": "src/dungeon/item/process_eligible_object_value.c",
+      "source": "src/dungeon/item/append_item_reveal_text.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -12695,7 +12695,7 @@
       ]
     },
     {
-      "source": "src/dungeon/item/find_monster_special_entry.c",
+      "source": "src/dungeon/item/find_matching_action_record.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -12715,7 +12715,7 @@
       ]
     },
     {
-      "source": "src/dungeon/item/set_monster_data_pointer.c",
+      "source": "src/dungeon/item/reset_timed_sequence_data.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -12775,7 +12775,7 @@
       ]
     },
     {
-      "source": "src/dungeon/item/check_monster_neighbor_relations.c",
+      "source": "src/dungeon/item/can_reach_adjacent_tile_at_height.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -13455,7 +13455,7 @@
       ]
     },
     {
-      "source": "src/dungeon/actor/state/create_default_state_object.c",
+      "source": "src/dungeon/actor/state/create_circular_segment_object.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -14725,7 +14725,7 @@
       ]
     },
     {
-      "source": "src/dungeon/actor/is_linked_entity_flagged_80000.c",
+      "source": "src/dungeon/actor/has_item_theft_protection.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -14745,7 +14745,7 @@
       ]
     },
     {
-      "source": "src/dungeon/actor/is_linked_entity_flagged_2000000.c",
+      "source": "src/dungeon/actor/has_sleep_protection.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -14755,7 +14755,7 @@
       ]
     },
     {
-      "source": "src/dungeon/actor/is_linked_entity_flagged_10000000.c",
+      "source": "src/dungeon/actor/has_paralysis_protection.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -14765,7 +14765,7 @@
       ]
     },
     {
-      "source": "src/dungeon/actor/is_linked_entity_flagged_100000.c",
+      "source": "src/dungeon/actor/has_brainwash_protection.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -15175,7 +15175,7 @@
       ]
     },
     {
-      "source": "src/dungeon/actor/handle_actor_action_result.c",
+      "source": "src/dungeon/actor/fade_counted_actor_to_removal.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -15225,7 +15225,7 @@
       ]
     },
     {
-      "source": "src/dungeon/actor/handle_actor_action_result.c",
+      "source": "src/dungeon/actor/fade_counted_actor_to_removal.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -15845,7 +15845,7 @@
       ]
     },
     {
-      "source": "src/dungeon/actor/install_actor_action_handler_after_floor_trap_check.c",
+      "source": "src/dungeon/actor/finish_actor_parent_motion.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -15855,7 +15855,7 @@
       ]
     },
     {
-      "source": "src/dungeon/actor/install_actor_action_handler_after_floor_trap_check.c",
+      "source": "src/dungeon/actor/finish_actor_parent_motion.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -19195,7 +19195,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne/select_and_start_target_action.c",
+      "source": "src/dungeon/monster/kewne/try_kewne_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -19365,7 +19365,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne/advance_actor_action_and_update_status.c",
+      "source": "src/dungeon/monster/kewne/wait_for_kewne_mp.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -19575,7 +19575,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne/select_and_start_target_action.c",
+      "source": "src/dungeon/monster/kewne/try_kewne_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -19735,7 +19735,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne/advance_actor_action_and_update_status.c",
+      "source": "src/dungeon/monster/kewne/wait_for_kewne_mp.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -19995,7 +19995,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne/select_and_start_target_action.c",
+      "source": "src/dungeon/monster/kewne/try_kewne_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -20155,7 +20155,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne/advance_actor_action_and_update_status.c",
+      "source": "src/dungeon/monster/kewne/wait_for_kewne_mp.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -20415,7 +20415,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne/select_and_start_target_action.c",
+      "source": "src/dungeon/monster/kewne/try_kewne_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -20575,7 +20575,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne/advance_actor_action_and_update_status.c",
+      "source": "src/dungeon/monster/kewne/wait_for_kewne_mp.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -20835,7 +20835,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne/select_and_start_target_action.c",
+      "source": "src/dungeon/monster/kewne/try_kewne_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -20995,7 +20995,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne/advance_actor_action_and_update_status.c",
+      "source": "src/dungeon/monster/kewne/wait_for_kewne_mp.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -21255,7 +21255,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne/select_and_start_target_action.c",
+      "source": "src/dungeon/monster/kewne/try_kewne_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -21415,7 +21415,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne/advance_actor_action_and_update_status.c",
+      "source": "src/dungeon/monster/kewne/wait_for_kewne_mp.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -21675,7 +21675,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne/select_and_start_target_action.c",
+      "source": "src/dungeon/monster/kewne/try_kewne_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -21835,7 +21835,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne/advance_actor_action_and_update_status.c",
+      "source": "src/dungeon/monster/kewne/wait_for_kewne_mp.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -26045,7 +26045,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/ifrit/update_actor_jump_and_landing.c",
+      "source": "src/dungeon/monster/ifrit/hop_ifrit_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -26355,7 +26355,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/ifrit/update_actor_jump_and_landing.c",
+      "source": "src/dungeon/monster/ifrit/hop_ifrit_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -26665,7 +26665,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/ifrit/update_actor_jump_and_landing.c",
+      "source": "src/dungeon/monster/ifrit/hop_ifrit_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -26975,7 +26975,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/ifrit/update_actor_jump_and_landing.c",
+      "source": "src/dungeon/monster/ifrit/hop_ifrit_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -27285,7 +27285,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/ifrit/update_actor_jump_and_landing.c",
+      "source": "src/dungeon/monster/ifrit/hop_ifrit_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -27595,7 +27595,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/ifrit/update_actor_jump_and_landing.c",
+      "source": "src/dungeon/monster/ifrit/hop_ifrit_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -27905,7 +27905,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/ifrit/update_actor_jump_and_landing.c",
+      "source": "src/dungeon/monster/ifrit/hop_ifrit_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -39355,7 +39355,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/ashra/advance_actor_attack_and_resolve_damage.c",
+      "source": "src/dungeon/monster/ashra/advance_ashra_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -39635,7 +39635,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/ashra/advance_actor_attack_and_resolve_damage.c",
+      "source": "src/dungeon/monster/ashra/advance_ashra_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -39915,7 +39915,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/ashra/advance_actor_attack_and_resolve_damage.c",
+      "source": "src/dungeon/monster/ashra/advance_ashra_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -40195,7 +40195,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/ashra/advance_actor_attack_and_resolve_damage.c",
+      "source": "src/dungeon/monster/ashra/advance_ashra_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -40475,7 +40475,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/ashra/advance_actor_attack_and_resolve_damage.c",
+      "source": "src/dungeon/monster/ashra/advance_ashra_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -40755,7 +40755,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/ashra/advance_actor_attack_and_resolve_damage.c",
+      "source": "src/dungeon/monster/ashra/advance_ashra_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -41035,7 +41035,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/ashra/advance_actor_attack_and_resolve_damage.c",
+      "source": "src/dungeon/monster/ashra/advance_ashra_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -47975,7 +47975,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/death/update_entity_movement_and_ground_height.c",
+      "source": "src/dungeon/monster/death/update_death_motion_and_facing.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -55525,7 +55525,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/metal/finish_timed_actor_movement.c",
+      "source": "src/dungeon/monster/metal/hop_metal_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -55845,7 +55845,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/metal/finish_timed_actor_movement.c",
+      "source": "src/dungeon/monster/metal/hop_metal_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -56175,7 +56175,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/metal/finish_timed_actor_movement.c",
+      "source": "src/dungeon/monster/metal/hop_metal_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -56495,7 +56495,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/metal/finish_timed_actor_movement.c",
+      "source": "src/dungeon/monster/metal/hop_metal_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -56815,7 +56815,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/metal/finish_timed_actor_movement.c",
+      "source": "src/dungeon/monster/metal/hop_metal_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -57145,7 +57145,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/metal/finish_timed_actor_movement.c",
+      "source": "src/dungeon/monster/metal/hop_metal_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -57465,7 +57465,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/metal/finish_timed_actor_movement.c",
+      "source": "src/dungeon/monster/metal/hop_metal_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -58605,7 +58605,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/update_object_or_select_directional_data.c",
+      "source": "src/dungeon/monster/pulunpa/update_pulunpa_parent_motion.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -58795,7 +58795,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/check_object_action_and_clear_flags.c",
+      "source": "src/dungeon/monster/pulunpa/select_pulunpa_action.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -59045,7 +59045,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/update_object_or_select_directional_data.c",
+      "source": "src/dungeon/monster/pulunpa/update_pulunpa_parent_motion.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -59235,7 +59235,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/check_object_action_and_clear_flags.c",
+      "source": "src/dungeon/monster/pulunpa/select_pulunpa_action.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -59485,7 +59485,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/update_object_or_select_directional_data.c",
+      "source": "src/dungeon/monster/pulunpa/update_pulunpa_parent_motion.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -59675,7 +59675,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/check_object_action_and_clear_flags.c",
+      "source": "src/dungeon/monster/pulunpa/select_pulunpa_action.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -59925,7 +59925,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/update_object_or_select_directional_data.c",
+      "source": "src/dungeon/monster/pulunpa/update_pulunpa_parent_motion.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -60115,7 +60115,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/check_object_action_and_clear_flags.c",
+      "source": "src/dungeon/monster/pulunpa/select_pulunpa_action.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -60375,7 +60375,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/update_object_or_select_directional_data.c",
+      "source": "src/dungeon/monster/pulunpa/update_pulunpa_parent_motion.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -60565,7 +60565,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/check_object_action_and_clear_flags.c",
+      "source": "src/dungeon/monster/pulunpa/select_pulunpa_action.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -60815,7 +60815,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/update_object_or_select_directional_data.c",
+      "source": "src/dungeon/monster/pulunpa/update_pulunpa_parent_motion.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -61005,7 +61005,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/check_object_action_and_clear_flags.c",
+      "source": "src/dungeon/monster/pulunpa/select_pulunpa_action.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -61255,7 +61255,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/update_object_or_select_directional_data.c",
+      "source": "src/dungeon/monster/pulunpa/update_pulunpa_parent_motion.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -61445,7 +61445,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/pulunpa/check_object_action_and_clear_flags.c",
+      "source": "src/dungeon/monster/pulunpa/select_pulunpa_action.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -71245,7 +71245,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/dreamin/complete_airborne_actor_recovery.c",
+      "source": "src/dungeon/monster/dreamin/hop_dreamin_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -71535,7 +71535,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/dreamin/complete_airborne_actor_recovery.c",
+      "source": "src/dungeon/monster/dreamin/hop_dreamin_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -71825,7 +71825,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/dreamin/complete_airborne_actor_recovery.c",
+      "source": "src/dungeon/monster/dreamin/hop_dreamin_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -72115,7 +72115,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/dreamin/complete_airborne_actor_recovery.c",
+      "source": "src/dungeon/monster/dreamin/hop_dreamin_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -72405,7 +72405,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/dreamin/complete_airborne_actor_recovery.c",
+      "source": "src/dungeon/monster/dreamin/hop_dreamin_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -72695,7 +72695,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/dreamin/complete_airborne_actor_recovery.c",
+      "source": "src/dungeon/monster/dreamin/hop_dreamin_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -72975,7 +72975,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/dreamin/complete_airborne_actor_recovery.c",
+      "source": "src/dungeon/monster/dreamin/hop_dreamin_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -77785,7 +77785,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/finish_actor_tile_move_and_check_trap.c",
+      "source": "src/dungeon/monster/cyclone/begin_cyclone_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -77895,7 +77895,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/update_actor_behavior.c",
+      "source": "src/dungeon/monster/cyclone/wait_cyclone_status_and_animate.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -78265,7 +78265,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/finish_actor_tile_move_and_check_trap.c",
+      "source": "src/dungeon/monster/cyclone/begin_cyclone_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -78425,7 +78425,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/update_actor_behavior.c",
+      "source": "src/dungeon/monster/cyclone/wait_cyclone_status_and_animate.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -78795,7 +78795,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/finish_actor_tile_move_and_check_trap.c",
+      "source": "src/dungeon/monster/cyclone/begin_cyclone_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -78955,7 +78955,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/update_actor_behavior.c",
+      "source": "src/dungeon/monster/cyclone/wait_cyclone_status_and_animate.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -79325,7 +79325,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/finish_actor_tile_move_and_check_trap.c",
+      "source": "src/dungeon/monster/cyclone/begin_cyclone_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -79485,7 +79485,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/update_actor_behavior.c",
+      "source": "src/dungeon/monster/cyclone/wait_cyclone_status_and_animate.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -79855,7 +79855,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/finish_actor_tile_move_and_check_trap.c",
+      "source": "src/dungeon/monster/cyclone/begin_cyclone_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -80015,7 +80015,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/update_actor_behavior.c",
+      "source": "src/dungeon/monster/cyclone/wait_cyclone_status_and_animate.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -80385,7 +80385,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/finish_actor_tile_move_and_check_trap.c",
+      "source": "src/dungeon/monster/cyclone/begin_cyclone_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -80545,7 +80545,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/update_actor_behavior.c",
+      "source": "src/dungeon/monster/cyclone/wait_cyclone_status_and_animate.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -80895,7 +80895,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/finish_actor_tile_move_and_check_trap.c",
+      "source": "src/dungeon/monster/cyclone/begin_cyclone_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -81055,7 +81055,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/update_actor_behavior.c",
+      "source": "src/dungeon/monster/cyclone/wait_cyclone_status_and_animate.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -81445,7 +81445,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/manoeva/complete_airborne_actor_recovery.c",
+      "source": "src/dungeon/monster/manoeva/hop_manoeva_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -81705,7 +81705,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/manoeva/relocate_entity_after_animation.c",
+      "source": "src/dungeon/monster/manoeva/project_depth_sorted_sprite_quads.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -81885,7 +81885,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/manoeva/complete_airborne_actor_recovery.c",
+      "source": "src/dungeon/monster/manoeva/hop_manoeva_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -82145,7 +82145,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/manoeva/relocate_entity_after_animation.c",
+      "source": "src/dungeon/monster/manoeva/project_depth_sorted_sprite_quads.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -82325,7 +82325,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/manoeva/complete_airborne_actor_recovery.c",
+      "source": "src/dungeon/monster/manoeva/hop_manoeva_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -82585,7 +82585,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/manoeva/relocate_entity_after_animation.c",
+      "source": "src/dungeon/monster/manoeva/project_depth_sorted_sprite_quads.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -82765,7 +82765,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/manoeva/complete_airborne_actor_recovery.c",
+      "source": "src/dungeon/monster/manoeva/hop_manoeva_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -83025,7 +83025,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/manoeva/relocate_entity_after_animation.c",
+      "source": "src/dungeon/monster/manoeva/project_depth_sorted_sprite_quads.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -83205,7 +83205,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/manoeva/complete_airborne_actor_recovery.c",
+      "source": "src/dungeon/monster/manoeva/hop_manoeva_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -83465,7 +83465,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/manoeva/relocate_entity_after_animation.c",
+      "source": "src/dungeon/monster/manoeva/project_depth_sorted_sprite_quads.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -83635,7 +83635,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/manoeva/complete_airborne_actor_recovery.c",
+      "source": "src/dungeon/monster/manoeva/hop_manoeva_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -83895,7 +83895,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/manoeva/relocate_entity_after_animation.c",
+      "source": "src/dungeon/monster/manoeva/project_depth_sorted_sprite_quads.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -84065,7 +84065,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/manoeva/complete_airborne_actor_recovery.c",
+      "source": "src/dungeon/monster/manoeva/hop_manoeva_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -84325,7 +84325,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/manoeva/relocate_entity_after_animation.c",
+      "source": "src/dungeon/monster/manoeva/project_depth_sorted_sprite_quads.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -89595,7 +89595,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kraken/advance_entity_motion_fade_and_removal.c",
+      "source": "src/dungeon/monster/kraken/update_kraken_defeat.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -89865,7 +89865,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kraken/advance_entity_motion_fade_and_removal.c",
+      "source": "src/dungeon/monster/kraken/update_kraken_defeat.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -90145,7 +90145,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kraken/advance_entity_motion_fade_and_removal.c",
+      "source": "src/dungeon/monster/kraken/update_kraken_defeat.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -90415,7 +90415,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kraken/advance_entity_motion_fade_and_removal.c",
+      "source": "src/dungeon/monster/kraken/update_kraken_defeat.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -90685,7 +90685,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kraken/advance_entity_motion_fade_and_removal.c",
+      "source": "src/dungeon/monster/kraken/update_kraken_defeat.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -90965,7 +90965,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kraken/advance_entity_motion_fade_and_removal.c",
+      "source": "src/dungeon/monster/kraken/update_kraken_defeat.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -91235,7 +91235,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kraken/advance_entity_motion_fade_and_removal.c",
+      "source": "src/dungeon/monster/kraken/update_kraken_defeat.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -93995,7 +93995,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/stealth/dim_and_clear_flagged_effect.c",
+      "source": "src/dungeon/monster/stealth/fade_out_stealth.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -94285,7 +94285,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/stealth/dim_and_clear_flagged_effect.c",
+      "source": "src/dungeon/monster/stealth/fade_out_stealth.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -94585,7 +94585,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/stealth/dim_and_clear_flagged_effect.c",
+      "source": "src/dungeon/monster/stealth/fade_out_stealth.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -94875,7 +94875,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/stealth/dim_and_clear_flagged_effect.c",
+      "source": "src/dungeon/monster/stealth/fade_out_stealth.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -95165,7 +95165,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/stealth/dim_and_clear_flagged_effect.c",
+      "source": "src/dungeon/monster/stealth/fade_out_stealth.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -95465,7 +95465,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/stealth/dim_and_clear_flagged_effect.c",
+      "source": "src/dungeon/monster/stealth/fade_out_stealth.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -95765,7 +95765,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/stealth/dim_and_clear_flagged_effect.c",
+      "source": "src/dungeon/monster/stealth/fade_out_stealth.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -98105,7 +98105,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/naplass/update_actor_jump_and_landing.c",
+      "source": "src/dungeon/monster/naplass/hop_naplass_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -98125,7 +98125,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/ashra/advance_actor_attack_and_resolve_damage.c",
+      "source": "src/dungeon/monster/ashra/advance_ashra_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -98195,7 +98195,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/naplass/advance_actor_effect_sequence.c",
+      "source": "src/dungeon/monster/naplass/advance_naplass_sleep_and_wake_sequence.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -98405,7 +98405,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/naplass/update_actor_jump_and_landing.c",
+      "source": "src/dungeon/monster/naplass/hop_naplass_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -98425,7 +98425,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/ashra/advance_actor_attack_and_resolve_damage.c",
+      "source": "src/dungeon/monster/ashra/advance_ashra_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -98495,7 +98495,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/naplass/advance_actor_effect_sequence.c",
+      "source": "src/dungeon/monster/naplass/advance_naplass_sleep_and_wake_sequence.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -98695,7 +98695,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/naplass/update_actor_jump_and_landing.c",
+      "source": "src/dungeon/monster/naplass/hop_naplass_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -98715,7 +98715,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/ashra/advance_actor_attack_and_resolve_damage.c",
+      "source": "src/dungeon/monster/ashra/advance_ashra_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -98785,7 +98785,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/naplass/advance_actor_effect_sequence.c",
+      "source": "src/dungeon/monster/naplass/advance_naplass_sleep_and_wake_sequence.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -98985,7 +98985,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/naplass/update_actor_jump_and_landing.c",
+      "source": "src/dungeon/monster/naplass/hop_naplass_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -99005,7 +99005,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/ashra/advance_actor_attack_and_resolve_damage.c",
+      "source": "src/dungeon/monster/ashra/advance_ashra_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -99075,7 +99075,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/naplass/advance_actor_effect_sequence.c",
+      "source": "src/dungeon/monster/naplass/advance_naplass_sleep_and_wake_sequence.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -99275,7 +99275,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/naplass/update_actor_jump_and_landing.c",
+      "source": "src/dungeon/monster/naplass/hop_naplass_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -99295,7 +99295,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/ashra/advance_actor_attack_and_resolve_damage.c",
+      "source": "src/dungeon/monster/ashra/advance_ashra_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -99365,7 +99365,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/naplass/advance_actor_effect_sequence.c",
+      "source": "src/dungeon/monster/naplass/advance_naplass_sleep_and_wake_sequence.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -99565,7 +99565,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/naplass/update_actor_jump_and_landing.c",
+      "source": "src/dungeon/monster/naplass/hop_naplass_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -99585,7 +99585,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/ashra/advance_actor_attack_and_resolve_damage.c",
+      "source": "src/dungeon/monster/ashra/advance_ashra_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -99655,7 +99655,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/naplass/advance_actor_effect_sequence.c",
+      "source": "src/dungeon/monster/naplass/advance_naplass_sleep_and_wake_sequence.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -99855,7 +99855,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/naplass/update_actor_jump_and_landing.c",
+      "source": "src/dungeon/monster/naplass/hop_naplass_to_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -99875,7 +99875,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/ashra/advance_actor_attack_and_resolve_damage.c",
+      "source": "src/dungeon/monster/ashra/advance_ashra_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -99945,7 +99945,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/naplass/advance_actor_effect_sequence.c",
+      "source": "src/dungeon/monster/naplass/advance_naplass_sleep_and_wake_sequence.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -115905,7 +115905,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/maximum/advance_actor_path_with_item_search.c",
+      "source": "src/dungeon/monster/maximum/choose_maximum_move.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -116185,7 +116185,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/maximum/advance_actor_path_with_item_search.c",
+      "source": "src/dungeon/monster/maximum/choose_maximum_move.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -116465,7 +116465,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/maximum/advance_actor_path_with_item_search.c",
+      "source": "src/dungeon/monster/maximum/choose_maximum_move.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -116745,7 +116745,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/maximum/advance_actor_path_with_item_search.c",
+      "source": "src/dungeon/monster/maximum/choose_maximum_move.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -117025,7 +117025,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/maximum/advance_actor_path_with_item_search.c",
+      "source": "src/dungeon/monster/maximum/choose_maximum_move.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -117305,7 +117305,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/maximum/advance_actor_path_with_item_search.c",
+      "source": "src/dungeon/monster/maximum/choose_maximum_move.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -117585,7 +117585,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/maximum/advance_actor_path_with_item_search.c",
+      "source": "src/dungeon/monster/maximum/choose_maximum_move.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -118035,7 +118035,7 @@
       ]
     },
     {
-      "source": "src/dungeon/actor/install_actor_action_handler_after_floor_trap_check.c",
+      "source": "src/dungeon/actor/finish_actor_parent_motion.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -118155,7 +118155,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/beldo/update_beldo_active_entity.c",
+      "source": "src/dungeon/monster/beldo/remove_beldo_active_entity.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -118455,7 +118455,7 @@
       ]
     },
     {
-      "source": "src/dungeon/actor/install_actor_action_handler_after_floor_trap_check.c",
+      "source": "src/dungeon/actor/finish_actor_parent_motion.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -118575,7 +118575,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/beldo/update_beldo_active_entity.c",
+      "source": "src/dungeon/monster/beldo/remove_beldo_active_entity.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -118875,7 +118875,7 @@
       ]
     },
     {
-      "source": "src/dungeon/actor/install_actor_action_handler_after_floor_trap_check.c",
+      "source": "src/dungeon/actor/finish_actor_parent_motion.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -118995,7 +118995,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/beldo/update_beldo_active_entity.c",
+      "source": "src/dungeon/monster/beldo/remove_beldo_active_entity.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -119295,7 +119295,7 @@
       ]
     },
     {
-      "source": "src/dungeon/actor/install_actor_action_handler_after_floor_trap_check.c",
+      "source": "src/dungeon/actor/finish_actor_parent_motion.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -119415,7 +119415,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/beldo/update_beldo_active_entity.c",
+      "source": "src/dungeon/monster/beldo/remove_beldo_active_entity.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -119715,7 +119715,7 @@
       ]
     },
     {
-      "source": "src/dungeon/actor/install_actor_action_handler_after_floor_trap_check.c",
+      "source": "src/dungeon/actor/finish_actor_parent_motion.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -119835,7 +119835,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/beldo/update_beldo_active_entity.c",
+      "source": "src/dungeon/monster/beldo/remove_beldo_active_entity.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -120135,7 +120135,7 @@
       ]
     },
     {
-      "source": "src/dungeon/actor/install_actor_action_handler_after_floor_trap_check.c",
+      "source": "src/dungeon/actor/finish_actor_parent_motion.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -120255,7 +120255,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/beldo/update_beldo_active_entity.c",
+      "source": "src/dungeon/monster/beldo/remove_beldo_active_entity.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -120555,7 +120555,7 @@
       ]
     },
     {
-      "source": "src/dungeon/actor/install_actor_action_handler_after_floor_trap_check.c",
+      "source": "src/dungeon/actor/finish_actor_parent_motion.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -120675,7 +120675,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/beldo/update_beldo_active_entity.c",
+      "source": "src/dungeon/monster/beldo/remove_beldo_active_entity.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -121095,7 +121095,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/beldo/update_beldo_active_entity.c",
+      "source": "src/dungeon/monster/beldo/remove_beldo_active_entity.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -121515,7 +121515,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/beldo/update_beldo_active_entity.c",
+      "source": "src/dungeon/monster/beldo/remove_beldo_active_entity.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -121935,7 +121935,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/beldo/update_beldo_active_entity.c",
+      "source": "src/dungeon/monster/beldo/remove_beldo_active_entity.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -122355,7 +122355,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/beldo/update_beldo_active_entity.c",
+      "source": "src/dungeon/monster/beldo/remove_beldo_active_entity.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -122775,7 +122775,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/beldo/update_beldo_active_entity.c",
+      "source": "src/dungeon/monster/beldo/remove_beldo_active_entity.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -123195,7 +123195,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/beldo/update_beldo_active_entity.c",
+      "source": "src/dungeon/monster/beldo/remove_beldo_active_entity.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -123615,7 +123615,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/beldo/update_beldo_active_entity.c",
+      "source": "src/dungeon/monster/beldo/remove_beldo_active_entity.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -123705,7 +123705,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne_uncached/update_actor_animation_behavior_and_facing.c",
+      "source": "src/dungeon/monster/kewne_uncached/dispatch_kewne_uncached_actions.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -123735,7 +123735,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne/select_and_start_target_action.c",
+      "source": "src/dungeon/monster/kewne/try_kewne_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -123805,7 +123805,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne_uncached/update_actor_behavior.c",
+      "source": "src/dungeon/monster/kewne_uncached/advance_kewne_uncached_leap_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -123875,7 +123875,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne/advance_actor_action_and_update_status.c",
+      "source": "src/dungeon/monster/kewne/wait_for_kewne_mp.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -124045,7 +124045,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne/select_and_start_target_action.c",
+      "source": "src/dungeon/monster/kewne/try_kewne_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -124175,7 +124175,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne/advance_actor_action_and_update_status.c",
+      "source": "src/dungeon/monster/kewne/wait_for_kewne_mp.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -124335,7 +124335,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne/select_and_start_target_action.c",
+      "source": "src/dungeon/monster/kewne/try_kewne_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -124465,7 +124465,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne/advance_actor_action_and_update_status.c",
+      "source": "src/dungeon/monster/kewne/wait_for_kewne_mp.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -124625,7 +124625,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne/select_and_start_target_action.c",
+      "source": "src/dungeon/monster/kewne/try_kewne_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -124755,7 +124755,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne/advance_actor_action_and_update_status.c",
+      "source": "src/dungeon/monster/kewne/wait_for_kewne_mp.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -124915,7 +124915,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne/select_and_start_target_action.c",
+      "source": "src/dungeon/monster/kewne/try_kewne_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -125045,7 +125045,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne/advance_actor_action_and_update_status.c",
+      "source": "src/dungeon/monster/kewne/wait_for_kewne_mp.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -125205,7 +125205,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne/select_and_start_target_action.c",
+      "source": "src/dungeon/monster/kewne/try_kewne_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -125335,7 +125335,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne/advance_actor_action_and_update_status.c",
+      "source": "src/dungeon/monster/kewne/wait_for_kewne_mp.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -125515,7 +125515,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne/select_and_start_target_action.c",
+      "source": "src/dungeon/monster/kewne/try_kewne_attack.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -125645,7 +125645,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/kewne/advance_actor_action_and_update_status.c",
+      "source": "src/dungeon/monster/kewne/wait_for_kewne_mp.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -126205,7 +126205,7 @@
       ]
     },
     {
-      "source": "src/dungeon/actor/install_actor_action_handler_after_floor_trap_check.c",
+      "source": "src/dungeon/actor/finish_actor_parent_motion.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -126405,7 +126405,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/beldo/update_beldo_active_entity.c",
+      "source": "src/dungeon/monster/beldo/remove_beldo_active_entity.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -126965,7 +126965,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/ghosh/initialize_destination_state.c",
+      "source": "src/dungeon/monster/ghosh/reapply_dungeon_camera_targets.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -127005,7 +127005,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/ghosh/create_linked_facing_sprite.c",
+      "source": "src/dungeon/monster/ghosh/create_ghosh_pulunpa_actor.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -127265,7 +127265,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/beldo/update_beldo_active_entity.c",
+      "source": "src/dungeon/monster/beldo/remove_beldo_active_entity.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -128115,7 +128115,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/beldo/update_beldo_active_entity.c",
+      "source": "src/dungeon/monster/beldo/remove_beldo_active_entity.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -128685,7 +128685,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/beldo_large/advance_actor_effect_sequence.c",
+      "source": "src/dungeon/monster/beldo_large/run_beldo_large_action_script.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -135585,7 +135585,7 @@
       ]
     },
     {
-      "source": "src/town/person/object/initialize_scene_slot_10_entry.c",
+      "source": "src/town/person/object/init_mia_person.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -135595,7 +135595,7 @@
       ]
     },
     {
-      "source": "src/town/person/object/initialize_scene_slot_10_entry.c",
+      "source": "src/town/person/object/init_mia_person.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -135835,7 +135835,7 @@
       ]
     },
     {
-      "source": "src/town/person/adjust_two_state_values.c",
+      "source": "src/town/person/initialize_two_value_adjustment_action.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -135975,7 +135975,7 @@
       ]
     },
     {
-      "source": "src/town/person/object/set_object_data_tables.c",
+      "source": "src/town/person/object/set_person_descriptor_tables.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -135985,7 +135985,7 @@
       ]
     },
     {
-      "source": "src/town/person/object/set_object_data_tables.c",
+      "source": "src/town/person/object/set_person_descriptor_tables.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -136245,7 +136245,7 @@
       ]
     },
     {
-      "source": "src/town/person/object/initialize_object_with_z_velocity.c",
+      "source": "src/town/person/object/start_person_jump.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -136255,7 +136255,7 @@
       ]
     },
     {
-      "source": "src/town/person/object/initialize_object_with_z_velocity.c",
+      "source": "src/town/person/object/start_person_jump.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -136555,7 +136555,7 @@
       ]
     },
     {
-      "source": "src/town/scene/initialize_scene_slot_w.c",
+      "source": "src/town/scene/init_ghosh_sibling_pool_person.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -142615,7 +142615,7 @@
       ]
     },
     {
-      "source": "src/town/shop/object/set_object_data_pointer.c",
+      "source": "src/town/shop/object/set_advance_inner_value_callback.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -145625,7 +145625,7 @@
       ]
     },
     {
-      "source": "src/town/person/adjust_two_state_values.c",
+      "source": "src/town/person/initialize_two_value_adjustment_action.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -145985,7 +145985,7 @@
       ]
     },
     {
-      "source": "src/town/scene/initialize_scene_slot.c",
+      "source": "src/town/scene/init_fon_person.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -145995,7 +145995,7 @@
       ]
     },
     {
-      "source": "src/town/scene/initialize_scene_slot_x.c",
+      "source": "src/town/scene/init_ghosh_pool_person.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -146055,7 +146055,7 @@
       ]
     },
     {
-      "source": "src/town/scene/initialize_scene_slot_i.c",
+      "source": "src/town/scene/init_mother_person.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -146245,7 +146245,7 @@
       ]
     },
     {
-      "source": "src/town/person/object/initialize_scene_slot_10_entry.c",
+      "source": "src/town/person/object/init_mia_person.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -146305,7 +146305,7 @@
       ]
     },
     {
-      "source": "src/town/person/object/initialize_object_with_z_velocity.c",
+      "source": "src/town/person/object/start_person_jump.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -146345,7 +146345,7 @@
       ]
     },
     {
-      "source": "src/town/person/object/set_object_data_tables.c",
+      "source": "src/town/person/object/set_person_descriptor_tables.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -147115,7 +147115,7 @@
       ]
     },
     {
-      "source": "src/town/scene/initialize_scene_slot_s.c",
+      "source": "src/town/scene/init_dodo_pool_person.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -147645,7 +147645,7 @@
       ]
     },
     {
-      "source": "src/town/scene/initialize_scene_slot_r.c",
+      "source": "src/town/scene/init_mia_pool_person.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -147655,7 +147655,7 @@
       ]
     },
     {
-      "source": "src/town/scene/initialize_scene_slot_s.c",
+      "source": "src/town/scene/init_dodo_pool_person.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -147675,7 +147675,7 @@
       ]
     },
     {
-      "source": "src/town/scene/initialize_scene_slot_t.c",
+      "source": "src/town/scene/init_paty_pool_person.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -147685,7 +147685,7 @@
       ]
     },
     {
-      "source": "src/town/scene/initialize_scene_slot_u.c",
+      "source": "src/town/scene/init_far_pool_person.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -147705,7 +147705,7 @@
       ]
     },
     {
-      "source": "src/town/scene/initialize_scene_slot_w.c",
+      "source": "src/town/scene/init_ghosh_sibling_pool_person.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -147715,7 +147715,7 @@
       ]
     },
     {
-      "source": "src/town/scene/initialize_scene_slot_x.c",
+      "source": "src/town/scene/init_ghosh_pool_person.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -147725,7 +147725,7 @@
       ]
     },
     {
-      "source": "src/town/scene/initialize_scene_slot_y.c",
+      "source": "src/town/scene/init_cellist_person.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -147785,7 +147785,7 @@
       ]
     },
     {
-      "source": "src/town/scene/event/process_request_checking_threshold.c",
+      "source": "src/town/scene/event/apply_values_marking_at_count_threshold.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -148095,7 +148095,7 @@
       ]
     },
     {
-      "source": "src/town/scene/event/advance_floor_event_counter_second.c",
+      "source": "src/town/scene/event/advance_mia_bikou_counter.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -148135,7 +148135,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_db_handler.c",
+      "source": "src/town/scene/apply_entry_values_tracking_tt_pad136.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -148195,7 +148195,7 @@
       ]
     },
     {
-      "source": "src/town/scene/query_state_with_selector.c",
+      "source": "src/town/scene/has_fixed_town_pair_entry.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -148315,7 +148315,7 @@
       ]
     },
     {
-      "source": "src/town/scene/has_enabled_weight_two_plus.c",
+      "source": "src/town/scene/has_building_weight_at_least_two.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -148395,7 +148395,7 @@
       ]
     },
     {
-      "source": "src/town/scene/event/process_request_checking_threshold.c",
+      "source": "src/town/scene/event/apply_values_marking_at_count_threshold.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -148435,7 +148435,7 @@
       ]
     },
     {
-      "source": "src/town/scene/flags/call_set_script_flag_bit.c",
+      "source": "src/town/scene/flags/set_script_flag_tt_pad82.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -148445,7 +148445,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_response_with_special_branch.c",
+      "source": "src/town/scene/select_response_by_scene_started.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -148495,7 +148495,7 @@
       ]
     },
     {
-      "source": "src/town/scene/scale_record_value_and_add_offset.c",
+      "source": "src/town/scene/select_response_by_tt_pad82.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -148505,7 +148505,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_response_with_special_branch.c",
+      "source": "src/town/scene/select_response_by_scene_started.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -148665,7 +148665,7 @@
       ]
     },
     {
-      "source": "src/town/scene/event/select_special_event_response.c",
+      "source": "src/town/scene/event/select_sero_end_response.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -148975,7 +148975,7 @@
       ]
     },
     {
-      "source": "src/town/scene/record_check_returned.c",
+      "source": "src/town/scene/record_checked_entry_result.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -150075,7 +150075,7 @@
       ]
     },
     {
-      "source": "src/town/scene/copy_selected_three_components.c",
+      "source": "src/town/scene/set_scene_position_from_table.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -150085,7 +150085,7 @@
       ]
     },
     {
-      "source": "src/town/scene/copy_selected_three_components.c",
+      "source": "src/town/scene/set_scene_position_from_table.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -150095,7 +150095,7 @@
       ]
     },
     {
-      "source": "src/town/scene/copy_selected_three_components.c",
+      "source": "src/town/scene/set_scene_position_from_table.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -150705,7 +150705,7 @@
       ]
     },
     {
-      "source": "src/town/scene/start_interaction_code_b.c",
+      "source": "src/town/scene/pick_enabled_entry_choice.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -150745,7 +150745,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_scene_choice_mode_b.c",
+      "source": "src/town/scene/select_choice_data_by_kind.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -150785,7 +150785,7 @@
       ]
     },
     {
-      "source": "src/town/scene/update_indexed_entry_unless_current.c",
+      "source": "src/town/scene/store_choice_entry_unless_state_three.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -151095,7 +151095,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scene_record_base_offsets.c",
+      "source": "src/town/scene/set_library_exit_target.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -151195,7 +151195,7 @@
       ]
     },
     {
-      "source": "src/town/scene/copy_selected_three_components.c",
+      "source": "src/town/scene/set_scene_position_from_table.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -152485,7 +152485,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_table_result_with_override.c",
+      "source": "src/town/scene/select_response_with_count_override.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -152505,7 +152505,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_table_result_with_override.c",
+      "source": "src/town/scene/select_response_with_count_override.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -152525,7 +152525,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_table_result_with_override.c",
+      "source": "src/town/scene/select_response_with_count_override.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -152585,7 +152585,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_table_result_with_override.c",
+      "source": "src/town/scene/select_response_with_count_override.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -152595,7 +152595,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_table_result_with_override.c",
+      "source": "src/town/scene/select_response_with_count_override.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -152725,7 +152725,7 @@
       ]
     },
     {
-      "source": "src/town/scene/dispatch_state_code.c",
+      "source": "src/town/scene/process_entry_unless_sbs22_pad28.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -152785,7 +152785,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_handler_by_state_code.c",
+      "source": "src/town/scene/mark_entry_and_process_if_sbs22_pad28.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -152825,7 +152825,7 @@
       ]
     },
     {
-      "source": "src/town/scene/flags/dispatch_entry_by_flag.c",
+      "source": "src/town/scene/flags/process_entry_if_sbs22_pad29.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -152835,7 +152835,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_table_result_with_override.c",
+      "source": "src/town/scene/select_response_with_count_override.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -152875,7 +152875,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_table_result_with_override.c",
+      "source": "src/town/scene/select_response_with_count_override.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -152905,7 +152905,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_table_result_with_override.c",
+      "source": "src/town/scene/select_response_with_count_override.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -152935,7 +152935,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_table_result_with_override.c",
+      "source": "src/town/scene/select_response_with_count_override.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -152955,7 +152955,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_table_result_with_override.c",
+      "source": "src/town/scene/select_response_with_count_override.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -153695,7 +153695,7 @@
       ]
     },
     {
-      "source": "src/town/scene/event/run_event_403_get_buffer.c",
+      "source": "src/town/scene/event/set_script_flag_sbs01_pad14.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -153865,7 +153865,7 @@
       ]
     },
     {
-      "source": "src/town/scene/start_interaction_code_b.c",
+      "source": "src/town/scene/pick_enabled_entry_choice.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -154005,7 +154005,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_scene_choice_mode_b.c",
+      "source": "src/town/scene/select_choice_data_by_kind.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -154055,7 +154055,7 @@
       ]
     },
     {
-      "source": "src/town/scene/update_indexed_entry_unless_current.c",
+      "source": "src/town/scene/store_choice_entry_unless_state_three.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -155335,7 +155335,7 @@
       ]
     },
     {
-      "source": "src/town/scene/event/advance_floor_event_counter.c",
+      "source": "src/town/scene/event/begin_town_rain_step.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -155415,7 +155415,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_table_result_with_override_second.c",
+      "source": "src/town/scene/start_town_movie3.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -155425,7 +155425,7 @@
       ]
     },
     {
-      "source": "src/town/scene/service/invoke_system_callback_29.c",
+      "source": "src/town/scene/service/load_scene_sound_sequence.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -155835,7 +155835,7 @@
       ]
     },
     {
-      "source": "src/town/scene/check_inputs_after_threshold_five.c",
+      "source": "src/town/scene/test_and_set_mama_ret_first.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -155845,7 +155845,7 @@
       ]
     },
     {
-      "source": "src/town/scene/initialize_three_context_fields.c",
+      "source": "src/town/scene/set_home_walk_in_target_one.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -155855,7 +155855,7 @@
       ]
     },
     {
-      "source": "src/town/scene/event/set_scene_position_x21_y8.c",
+      "source": "src/town/scene/event/set_home_walk_in_target_two.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -155865,7 +155865,7 @@
       ]
     },
     {
-      "source": "src/town/scene/event/set_scene_position_x42_y8.c",
+      "source": "src/town/scene/event/set_home_walk_in_target_three.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -155905,7 +155905,7 @@
       ]
     },
     {
-      "source": "src/town/scene/prepare_scene_request_state.c",
+      "source": "src/town/scene/read_registered_entry_pair.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -156635,7 +156635,7 @@
       ]
     },
     {
-      "source": "src/town/scene/initialize_context_entry_tables_variant_1.c",
+      "source": "src/town/scene/set_script_flag_sbs07_pad22.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -156685,7 +156685,7 @@
       ]
     },
     {
-      "source": "src/town/scene/check_inputs_after_threshold_five_third.c",
+      "source": "src/town/scene/clear_script_flag_sbs07_pad27.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -156705,7 +156705,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_entry_state.c",
+      "source": "src/town/scene/set_script_flag_sbs07_pad24.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -156775,7 +156775,7 @@
       ]
     },
     {
-      "source": "src/town/scene/prepare_scene_request_state_second.c",
+      "source": "src/town/scene/select_response_marking_sbs07_pad21.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -156805,7 +156805,7 @@
       ]
     },
     {
-      "source": "src/town/scene/prepare_scene_request_state_second.c",
+      "source": "src/town/scene/select_response_marking_sbs07_pad21.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -156835,7 +156835,7 @@
       ]
     },
     {
-      "source": "src/town/scene/event/initialize_request_b.c",
+      "source": "src/town/scene/event/apply_entry_values_if_sbs07_pad24.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -156855,7 +156855,7 @@
       ]
     },
     {
-      "source": "src/town/scene/flags/process_scene_action_flag.c",
+      "source": "src/town/scene/flags/apply_entry_values_if_sbs07_pad25.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -156865,7 +156865,7 @@
       ]
     },
     {
-      "source": "src/town/scene/look_up_slot_record_falling.c",
+      "source": "src/town/scene/select_response_unless_sbs07_pad25.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -156915,7 +156915,7 @@
       ]
     },
     {
-      "source": "src/town/scene/run_operation.c",
+      "source": "src/town/scene/apply_scene_entry_and_decrement_counter.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -156925,7 +156925,7 @@
       ]
     },
     {
-      "source": "src/town/scene/run_operation.c",
+      "source": "src/town/scene/apply_scene_entry_and_decrement_counter.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -156955,7 +156955,7 @@
       ]
     },
     {
-      "source": "src/town/scene/event/select_data_array_based_flag.c",
+      "source": "src/town/scene/event/select_response_marking_sbs07_pad16.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -156985,7 +156985,7 @@
       ]
     },
     {
-      "source": "src/town/scene/dispatch_by_state_code.c",
+      "source": "src/town/scene/set_entry_flag_and_get_response.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -157045,7 +157045,7 @@
       ]
     },
     {
-      "source": "src/town/scene/event/set_scene_position_x800_y1184.c",
+      "source": "src/town/scene/event/set_player_position_x800_y1184.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -157055,7 +157055,7 @@
       ]
     },
     {
-      "source": "src/town/scene/object/set_scene_position_fixed.c",
+      "source": "src/town/scene/object/set_mia_library_door_target.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -157065,7 +157065,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scene_record_base_offsets.c",
+      "source": "src/town/scene/set_library_exit_target.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -157095,7 +157095,7 @@
       ]
     },
     {
-      "source": "src/town/scene/object/set_player_position_x1696_y864.c",
+      "source": "src/town/scene/object/set_library_leave_walk_start.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -157105,7 +157105,7 @@
       ]
     },
     {
-      "source": "src/town/scene/object/set_player_position_x1696_y1184.c",
+      "source": "src/town/scene/object/set_library_corner_walk_target.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -157115,7 +157115,7 @@
       ]
     },
     {
-      "source": "src/town/scene/object/set_player_position_x1248_y1184.c",
+      "source": "src/town/scene/object/set_library_door_walk_target.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -157125,7 +157125,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scene_linked_record_offsets.c",
+      "source": "src/town/scene/set_library_leave_walk_north_start.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -157135,7 +157135,7 @@
       ]
     },
     {
-      "source": "src/town/scene/object/set_player_position_x1696_y1184.c",
+      "source": "src/town/scene/object/set_library_corner_walk_target.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -157145,7 +157145,7 @@
       ]
     },
     {
-      "source": "src/town/scene/object/set_scene_position_fixed.c",
+      "source": "src/town/scene/object/set_mia_library_door_target.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -157815,7 +157815,7 @@
       ]
     },
     {
-      "source": "src/town/scene/check_result_not_minus_one.c",
+      "source": "src/town/scene/has_grid_entry_at.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -158105,7 +158105,7 @@
       ]
     },
     {
-      "source": "src/town/scene/check_inputs_after_threshold_five_second.c",
+      "source": "src/town/scene/start_casino_slot_and_update_flags.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -160135,7 +160135,7 @@
       ]
     },
     {
-      "source": "src/town/scene/dispatch_first_second.c",
+      "source": "src/town/scene/store_pair_and_test_entry_flags.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -160195,7 +160195,7 @@
       ]
     },
     {
-      "source": "src/town/scene/flags/call_set_script_flag_bit_second.c",
+      "source": "src/town/scene/flags/apply_stored_pair_and_look_up_entry.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -160245,7 +160245,7 @@
       ]
     },
     {
-      "source": "src/town/scene/check_query_zero.c",
+      "source": "src/town/scene/is_script_flag_sbs11_pad29_clear.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -160295,7 +160295,7 @@
       ]
     },
     {
-      "source": "src/town/scene/scale_record_value_and_add_offset_second.c",
+      "source": "src/town/scene/scale_scene_position_x.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -160315,7 +160315,7 @@
       ]
     },
     {
-      "source": "src/town/scene/advance_scene_value_by.c",
+      "source": "src/town/scene/advance_scene_position_x.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -160375,7 +160375,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_handler_by_state_code_0x798.c",
+      "source": "src/town/scene/snap_player_beside_actor.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -161015,7 +161015,7 @@
       ]
     },
     {
-      "source": "src/town/scene/event/dispatch_state_entry_event.c",
+      "source": "src/town/scene/event/select_mode_response_or_none.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -163745,7 +163745,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_state_result_with_lookup_overrides_second.c",
+      "source": "src/town/scene/select_mode_response_marking_paty_new.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -163755,7 +163755,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_data_by_kind_and_index.c",
+      "source": "src/town/scene/select_mode_response_by_kind.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -163785,7 +163785,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_data_by_kind_and_index.c",
+      "source": "src/town/scene/select_mode_response_by_kind.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -163795,7 +163795,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_data_by_kind_and_index.c",
+      "source": "src/town/scene/select_mode_response_by_kind.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -163825,7 +163825,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_data_by_kind_and_index.c",
+      "source": "src/town/scene/select_mode_response_by_kind.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -163835,7 +163835,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_data_by_kind_and_index.c",
+      "source": "src/town/scene/select_mode_response_by_kind.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -163865,7 +163865,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_dispatch_mode_one_and_state_three.c",
+      "source": "src/town/scene/enter_dispatch_mode_one_with_pad_flags.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -163905,7 +163905,7 @@
       ]
     },
     {
-      "source": "src/town/scene/event/dispatch_state_entry_event.c",
+      "source": "src/town/scene/event/select_mode_response_or_none.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -163925,7 +163925,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_data_by_kind_and_index.c",
+      "source": "src/town/scene/select_mode_response_by_kind.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -163935,7 +163935,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_data_by_kind_and_index.c",
+      "source": "src/town/scene/select_mode_response_by_kind.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -163985,7 +163985,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_data_by_kind_and_index.c",
+      "source": "src/town/scene/select_mode_response_by_kind.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -163995,7 +163995,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_data_by_kind_and_index.c",
+      "source": "src/town/scene/select_mode_response_by_kind.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -165805,7 +165805,7 @@
       ]
     },
     {
-      "source": "src/town/scene/select_based_parameters_second.c",
+      "source": "src/town/scene/apply_naoruru_hospital_position.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -165815,7 +165815,7 @@
       ]
     },
     {
-      "source": "src/town/scene/look_up_slot_record_falling_second.c",
+      "source": "src/town/scene/check_hospital_scene06_prerequisites.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -165855,7 +165855,7 @@
       ]
     },
     {
-      "source": "src/town/scene/event/dispatch_state_entry_event_b.c",
+      "source": "src/town/scene/event/check_hospital_sbs16_prerequisites.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -165925,7 +165925,7 @@
       ]
     },
     {
-      "source": "src/town/scene/event/run_event_1478.c",
+      "source": "src/town/scene/event/set_script_flag_cheriru_love.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -166655,7 +166655,7 @@
       ]
     },
     {
-      "source": "src/town/scene/hooks/invoke_callback_set_shared_pointer_second.c",
+      "source": "src/town/scene/hooks/lacks_town_pair_entry.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -166675,7 +166675,7 @@
       ]
     },
     {
-      "source": "src/town/scene/check_inputs_after_threshold_five_b.c",
+      "source": "src/town/scene/set_shared_buffer_pointer.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -167125,7 +167125,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_state_4_run_transition.c",
+      "source": "src/town/scene/select_response_marking_casino_build.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -167765,7 +167765,7 @@
       ]
     },
     {
-      "source": "src/town/scene/check_inputs_only_prerequisite_least.c",
+      "source": "src/town/scene/apply_entry_values_at_weight_threshold.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -167845,7 +167845,7 @@
       ]
     },
     {
-      "source": "src/town/scene/check_inputs_only_prerequisite_least.c",
+      "source": "src/town/scene/apply_entry_values_at_weight_threshold.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -167885,7 +167885,7 @@
       ]
     },
     {
-      "source": "src/town/scene/check_result_not_minus_one_b.c",
+      "source": "src/town/scene/get_fixed_scene_response.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -168465,7 +168465,7 @@
       ]
     },
     {
-      "source": "src/town/scene/check_inputs_after_threshold_five_b_second.c",
+      "source": "src/town/scene/process_entry_at_count_threshold.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -168525,7 +168525,7 @@
       ]
     },
     {
-      "source": "src/town/scene/query_state_with_selector_second.c",
+      "source": "src/town/scene/set_script_flag_sbs20_pad07.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -168535,7 +168535,7 @@
       ]
     },
     {
-      "source": "src/town/scene/query_state_with_selector_second.c",
+      "source": "src/town/scene/set_script_flag_sbs20_pad07.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -170695,7 +170695,7 @@
       ]
     },
     {
-      "source": "src/town/scene/service/run_scene_services_214_20c_228.c",
+      "source": "src/town/scene/service/reset_town_camera_chase.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -170715,7 +170715,7 @@
       ]
     },
     {
-      "source": "src/town/scene/check_inputs_only_prerequisite_least_second.c",
+      "source": "src/town/scene/is_player_x_below_limit.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -170795,7 +170795,7 @@
       ]
     },
     {
-      "source": "src/town/scene/check_initial_query_zero_secondary.c",
+      "source": "src/town/scene/check_cheriru_scene01_ready.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -170885,7 +170885,7 @@
       ]
     },
     {
-      "source": "src/town/scene/event/append_town_item_eight.c",
+      "source": "src/town/scene/event/give_healing_herb.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -172005,7 +172005,7 @@
       ]
     },
     {
-      "source": "src/town/scene/event/get_scene_data_pointer_b.c",
+      "source": "src/town/scene/event/set_scene_flag_word.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -172535,7 +172535,7 @@
       ]
     },
     {
-      "source": "src/town/scene/advance_scene_value_by_32.c",
+      "source": "src/town/scene/request_eligible_entry_rescan.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -174095,7 +174095,7 @@
       ]
     },
     {
-      "source": "src/town/scene/hooks/set_state_table_pointer.c",
+      "source": "src/town/scene/hooks/install_object_set_table.c",
       "recipe": {
         "cfg": "2.7.2-G0",
         "row_asflags": ""
@@ -174285,7 +174285,7 @@
       ]
     },
     {
-      "source": "src/town/scene/flags/select_data_array_based_flag.c",
+      "source": "src/town/scene/flags/test_object_bitmap_bit.c",
       "recipe": {
         "cfg": "2.7.2-G0",
         "row_asflags": ""
@@ -174305,7 +174305,7 @@
       ]
     },
     {
-      "source": "src/town/scene/event/advance_floor_event_counter_b.c",
+      "source": "src/town/scene/event/clear_sbs34_pad15_and_process_entry.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -174445,7 +174445,7 @@
       ]
     },
     {
-      "source": "src/town/scene/event/init_request_if_flag_1455.c",
+      "source": "src/town/scene/event/process_niko_selro_asa_request.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -174475,7 +174475,7 @@
       ]
     },
     {
-      "source": "src/town/scene/event/process_request_checking_threshold_b.c",
+      "source": "src/town/scene/event/select_response_with_low_id_override.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -174495,7 +174495,7 @@
       ]
     },
     {
-      "source": "src/town/scene/event/process_request_checking_threshold_b.c",
+      "source": "src/town/scene/event/select_response_with_low_id_override.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -174545,7 +174545,7 @@
       ]
     },
     {
-      "source": "src/town/scene/get_local_global_table.c",
+      "source": "src/town/scene/get_cycled_four_entry_value.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -174555,7 +174555,7 @@
       ]
     },
     {
-      "source": "src/town/scene/event/select_data_array_based_flag_b.c",
+      "source": "src/town/scene/event/set_script_flag_sbs34_pad15.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -175195,7 +175195,7 @@
       ]
     },
     {
-      "source": "src/town/scene/lookup_code_special_results_b.c",
+      "source": "src/town/scene/select_response_with_two_overrides.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -175235,7 +175235,7 @@
       ]
     },
     {
-      "source": "src/town/scene/check_inputs_only_prerequisite_least_third.c",
+      "source": "src/town/scene/select_response_with_three_overrides.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -175255,7 +175255,7 @@
       ]
     },
     {
-      "source": "src/town/scene/check_inputs_only_prerequisite_least_third.c",
+      "source": "src/town/scene/select_response_with_three_overrides.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -175285,7 +175285,7 @@
       ]
     },
     {
-      "source": "src/town/scene/event/process_request_checking_threshold.c",
+      "source": "src/town/scene/event/apply_values_marking_at_count_threshold.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -175295,7 +175295,7 @@
       ]
     },
     {
-      "source": "src/town/scene/check_inputs_only_prerequisite_least_third.c",
+      "source": "src/town/scene/select_response_with_three_overrides.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -175935,7 +175935,7 @@
       ]
     },
     {
-      "source": "src/town/scene/hooks/invoke_callback_set_shared_pointer_b.c",
+      "source": "src/town/scene/hooks/init_scene_shared_buffer.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -176385,7 +176385,7 @@
       ]
     },
     {
-      "source": "src/town/scene/service/run_scene_services_214_20c_228.c",
+      "source": "src/town/scene/service/reset_town_camera_chase.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -176995,7 +176995,7 @@
       ]
     },
     {
-      "source": "src/town/scene/get_local_global_table_second.c",
+      "source": "src/town/scene/select_response_and_set_sbs32_flags.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -177135,7 +177135,7 @@
       ]
     },
     {
-      "source": "src/town/scene/dialogue/report_scene_busy_until_message_closes.c",
+      "source": "src/town/scene/dialogue/reserve_town_seq_when_sbs32_pad08_clear.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -177255,7 +177255,7 @@
       ]
     },
     {
-      "source": "src/town/scene/update_indexed_entry_unless_current_second.c",
+      "source": "src/town/scene/update_sbs32_flags_or_reserve_sequence.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -177285,7 +177285,7 @@
       ]
     },
     {
-      "source": "src/town/scene/get_selector_data_pointer.c",
+      "source": "src/town/scene/select_scene_text_or_flag_response.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -177335,7 +177335,7 @@
       ]
     },
     {
-      "source": "src/town/scene/dialogue/select_string_state_dependent_choice.c",
+      "source": "src/town/scene/dialogue/select_text_with_milestone_awards.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -177355,7 +177355,7 @@
       ]
     },
     {
-      "source": "src/town/scene/dialogue/select_string_state_dependent_choice.c",
+      "source": "src/town/scene/dialogue/select_text_with_milestone_awards.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -177595,7 +177595,7 @@
       ]
     },
     {
-      "source": "src/town/person/object/get_referenced_object_active_flag.c",
+      "source": "src/town/person/object/set_script_flag_bar_pad12.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -178325,7 +178325,7 @@
       ]
     },
     {
-      "source": "src/town/scene/hooks/invoke_callback_set_shared_pointer_c.c",
+      "source": "src/town/scene/hooks/init_sbs48_scene_flags.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -178355,7 +178355,7 @@
       ]
     },
     {
-      "source": "src/town/scene/service/run_service_callback_zero_x_b.c",
+      "source": "src/town/scene/service/clear_script_flag_sbs48_pad00.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -183955,7 +183955,7 @@
       ]
     },
     {
-      "source": "src/town/devkit/pass_indexed_table.c",
+      "source": "src/town/devkit/set_stage_flag_two_if_ready.c",
       "recipe": {
         "cfg": "2.6.3",
         "row_asflags": "--aspsx-version=2.40"
@@ -186015,7 +186015,7 @@
       ]
     },
     {
-      "source": "src/town/scene/flags/select_data_array_based_flag.c",
+      "source": "src/town/scene/flags/test_object_bitmap_bit.c",
       "recipe": {
         "cfg": "2.7.2-G0",
         "row_asflags": ""
@@ -186245,7 +186245,7 @@
       ]
     },
     {
-      "source": "src/town/scene/flags/select_data_array_based_flag.c",
+      "source": "src/town/scene/flags/test_object_bitmap_bit.c",
       "recipe": {
         "cfg": "2.7.2-G0",
         "row_asflags": ""
@@ -186475,7 +186475,7 @@
       ]
     },
     {
-      "source": "src/town/scene/flags/select_data_array_based_flag.c",
+      "source": "src/town/scene/flags/test_object_bitmap_bit.c",
       "recipe": {
         "cfg": "2.7.2-G0",
         "row_asflags": ""
@@ -186705,7 +186705,7 @@
       ]
     },
     {
-      "source": "src/town/scene/flags/select_data_array_based_flag.c",
+      "source": "src/town/scene/flags/test_object_bitmap_bit.c",
       "recipe": {
         "cfg": "2.7.2-G0",
         "row_asflags": ""
@@ -186935,7 +186935,7 @@
       ]
     },
     {
-      "source": "src/town/scene/flags/select_data_array_based_flag.c",
+      "source": "src/town/scene/flags/test_object_bitmap_bit.c",
       "recipe": {
         "cfg": "2.7.2-G0",
         "row_asflags": ""
@@ -187175,7 +187175,7 @@
       ]
     },
     {
-      "source": "src/town/scene/flags/select_data_array_based_flag.c",
+      "source": "src/town/scene/flags/test_object_bitmap_bit.c",
       "recipe": {
         "cfg": "2.7.2-G0",
         "row_asflags": ""

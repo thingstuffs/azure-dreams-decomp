@@ -32,12 +32,12 @@ void func_80041E70(void *entity);
 void build_cubic_cumulative_table(void);
 
 /* clear_scaled_cell_flags.c */
-void clear_scaled_cell_flags_8000(void);
+void clear_scripted_boundary_cells(void);
 
 /* entry_set_or_clear_actor_status_slot.c */
 void replay_actor_status_slots(struct ActorRecord *object);
 
-/* find_entity_slot_by_field_ac.c */
+/* apply_actor_template_and_direction.c */
 void apply_actor_template_and_direction(struct S_800423C0_Obj *obj, s16 unused, struct S_800423C0_Src *source);
 
 /* init_monster_from_stats.c */
@@ -72,7 +72,7 @@ void swap_saved_state_block(void);
 s32 test_item_action_pattern(s16 entry_id);
 
 /* set_scaled_cell_flags.c */
-void set_scaled_cell_flags_8000(void);
+void mark_scripted_boundary_cells(void);
 
 /* update_owner_class_bits.c */
 void func_80042984(void *entity);

@@ -127,7 +127,7 @@ void invoke_window_object_callback(struct S_800355EC_0 *object, void *context, v
 void mark_menu_slot_used(struct S_func_800368D0_0 *state);
 
 /* mark_state_when_flag_50_set.c */
-void request_message_advance_on_first_flag(struct S_800362A0_0 *state);
+void advance_message_after_window_shrinks(struct S_800362A0_0 *state);
 
 /* mark_state_when_flag_51_set.c */
 void request_message_advance_on_second_flag(struct S_800364BC_0 *state);
@@ -135,20 +135,20 @@ void request_message_advance_on_second_flag(struct S_800364BC_0 *state);
 /* queue_unwindowed_texture_draw_mode.c */
 void queue_unwindowed_texture_draw_mode(s32 ot_index);
 
-/* runtime_advance_counter_and_callback.c */
-void runtime_advance_counter_and_callback(struct S_800357D0_0 *state);
+/* advance_window_close_counter.c */
+void advance_window_close_counter(struct S_800357D0_0 *state);
 
 /* runtime_assign_code_callback.c */
-void runtime_assign_code_101_callback(struct S_800357B0_0 *object);
+void wait_both_window_flags(struct S_800357B0_0 *object);
 
 /* runtime_decrease_state_by_a.c */
-void step_window_value_down_to_zero(struct S_8003571C_0 *object);
+void scroll_window_x_down_to_zero(struct S_8003571C_0 *object);
 
-/* runtime_decrement_countdown_and_reset.c */
-void runtime_decrement_countdown_and_reset(struct S_80036484_0 *state);
+/* wait_menu_confirm_countdown.c */
+void wait_menu_confirm_countdown(struct S_80036484_0 *state);
 
-/* runtime_reset_state_and_advance_callback.c */
-void runtime_reset_state_and_advance_callback(struct S_80035760_0 *state);
+/* await_window_signal.c */
+void await_window_signal(struct S_80035760_0 *state);
 
 /* reset_state_on_button_press.c */
 void reset_state_on_button_press(struct S_8003626C_0 *state);
@@ -165,9 +165,9 @@ void scroll_window_y(struct S_80036110_0 *object);
 /* set_user_name_win.c */
 void set_user_name_win(s32 window_value);
 
-/* set_window_handler.c */
+/* install_speaker_name_plate_handler.c */
 void func_80035AAC(struct Rec_func_80036210_arg0 *object);
-void set_window_handler(Rec_func_80036210_arg0 *object);
+void install_speaker_name_plate_handler(Rec_func_80036210_arg0 *object);
 
 /* shrink_window_and_signal_linked_record.c */
 void dispatch_window_fade_and_update_extents(struct Func800359FCState *state, struct Func800359FCEvent *event, void *callback_data);
@@ -196,8 +196,8 @@ void update_window_extents(struct Func80037C7CState *state, s32 offset);
 /* update_window_state.c */
 void update_window_state(struct RuntimeObject *object, s32 handler_arg1, s32 handler_arg2, s32 state);
 
-/* window_create_animated_content_panel.c */
-struct AnimatedMenuPanelNode *window_create_animated_content_panel(s32 style_flags, s16 start_x, s16 start_y, s16 target_x, s16 target_y, s16 width, s32 flags, s32 content_id);
+/* create_animated_menu_panel.c */
+struct AnimatedMenuPanelNode *create_animated_menu_panel(s32 style_flags, s16 start_x, s16 start_y, s16 target_x, s16 target_y, s16 width, s32 flags, s32 content_id);
 
 /* window_wait_then_play_sound.c */
 void activate_delayed_window_resource(struct Func80035BE0State *state);

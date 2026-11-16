@@ -122,7 +122,7 @@ void init_fade_in_out_effect(CdCueEffectNode *object, struct Controller *owner);
 /* link_typed_list_node.c */
 void link_typed_list_node(struct ObjectNodeHeader *anchor, struct ObjectNodeHeader *node);
 
-/* pad_both_key_states_clear.c */
+/* dispatch_after_controller_release.c */
 void *dispatch_after_controller_release(void *data);
 
 /* play_timed_animation_sequence.c */

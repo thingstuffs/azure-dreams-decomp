@@ -96,7 +96,7 @@ void process_unflagged_linked_entries_alt(void *firstNodeBase) {
 }
 
 /* Clear the entry flag and link the entry into the current owner list. */
-void clear_entry_flag_and_link_owner(ObjectNodeHeader *entry)
+void insert_node_before_primary_actor(ObjectNodeHeader *entry)
 {
     ActorRecord *entry_links;
     ActorRecord *neighbor_links;
@@ -140,7 +140,7 @@ void unlink_entity_node(EntityLinkNode *node) {
 #include "shared/dungeon_floor.h"
 
 /* Mark and process entries without flag 0x4000, then set the global update flag. */
-void process_unflagged_entries_and_set_update(void)
+void remove_non_party_actors(void)
 {
     void *entry;
     ObjectNodeHeader *node;
@@ -173,19 +173,19 @@ extern struct {
 } active_node_list_head;
 
 
-extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);
+extern void insert_node_before_primary_actor(struct ObjectNodeHeader *entry);
 
 /*
  * Processes active nodes with flag 0x1000, then clears dungeon_floor_flags bit 28 unless the word
  * at 0x80012090 is one.
  */
-void process_flagged_nodes_and_clear_global_bit(void) {
+void link_pending_actor_nodes(void) {
     ActiveNode *node = active_node_list_head.head;
 
     if (node != 0) {
         do {
             if (node->field_1E & 0x1000) {
-                clear_entry_flag_and_link_owner(node);
+                insert_node_before_primary_actor(node);
             }
             node = node->next;
         } while (node != 0);
@@ -1087,7 +1087,7 @@ typedef struct Spawned Spawned;
 
 extern u8 held_item_record[];
 
-extern Spawned *create_indexed_floor_object(void *, s32, s32, void *, void *, s32);
+extern Spawned *create_dropped_item_object(void *, s32, s32, void *, void *, s32);
 
 struct Spawned {
     u8 unk00[0x13];
@@ -1117,7 +1117,7 @@ typedef struct Context {
 } Context;
 
 /* Spawns an object at the target position and updates the active source state. */
-void *spawn_object_at_target_position(ActorRecord *source, s16 target_x, s16 target_y) {
+void *get_lift_target_at_tile(ActorRecord *source, s16 target_x, s16 target_y) {
     Source **active_source;
     Spawned *spawned;
     u8 *entry;
@@ -1155,7 +1155,7 @@ void *spawn_object_at_target_position(ActorRecord *source, s16 target_x, s16 tar
             held_item_record[1] = ITEM_KIND_FAMILIAR;
             state_code = 0x14;
             if (spawned->flags & 0x4000) {
-                state_code = find_type_13_slot_index(spawned);
+                state_code = find_familiar_slot_index(spawned);
                 if ((s16)state_code < 0) {
                     state_code = 0x14;
                 }
@@ -1171,7 +1171,7 @@ void *spawn_object_at_target_position(ActorRecord *source, s16 target_x, s16 tar
     flags3c = (s16)find_floor_item_at_world_position(x, y, source->ground_height);
     if (flags3c >= 0) {
         entry = &((u8 *)dungeon_ground_items)[flags3c * 4];
-        spawned = create_indexed_floor_object(source,
+        spawned = create_dropped_item_object(source,
                                 ((Context *)NODE_HEADER(source))->x,
                                 ((Context *)NODE_HEADER(source))->y,
                                 source, entry, flags3c);

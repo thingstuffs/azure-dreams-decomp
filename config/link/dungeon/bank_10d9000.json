@@ -62,7 +62,7 @@
     },
     {
       "row": "dungeon/func_810B9DF4",
-      "tu": "src/dungeon/monster/maximum/advance_actor_path_with_item_search.c",
+      "tu": "src/dungeon/monster/maximum/choose_maximum_move.c",
       "home": "dungeon/func_810ADDF4",
       "foff": "0x10D9DF4",
       "vma": "0x801655F4",

@@ -174,7 +174,7 @@ void dispatch_cyclone_actions(ActorRecord *actor_arg, ObjectPosition *context_ar
             if ((s16)check_movement_and_initialize_action(actor_arg, context_arg, sprite_arg, stats) != 0) {
                 return;
             }
-            finish_actor_tile_move_and_check_trap(actor_arg, context_arg, sprite_arg, stats);
+            begin_cyclone_attack(actor_arg, context_arg, sprite_arg, stats);
             return;
         case 9:
             if (stats->flags1C & 0x400) {

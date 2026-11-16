@@ -25,7 +25,7 @@ s32 install_progress_interaction_once(S_80017824_0 *obj, s32 index) {
 }
 
 /* Installs the first interaction handler once, then selects the follow-up handler and dispatches it. */
-s32 start_interaction_on_code_0x479(S_800178B4_0 *menu, s32 index) {
+s32 install_progress_interaction_or_apply(S_800178B4_0 *menu, s32 index) {
     s32 offset;
     s32 offset2;
     S_800178B4_2 *slot;

@@ -19,7 +19,7 @@ s32 select_dialogue_with_flag_override(s32 speaker, s32 interaction, s32 dialogu
 
             dialogue = &D_8001CDF2;
         } else {
-            dialogue = select_state_result_with_lookup_overrides(speaker, interaction, dialogue_id);
+            dialogue = select_response_by_town_state_count(speaker, interaction, dialogue_id);
         }
     }
     return dialogue;

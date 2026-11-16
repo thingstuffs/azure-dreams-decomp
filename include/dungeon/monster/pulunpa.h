@@ -29,6 +29,6 @@ void display_actor_message(ActorRecord *source);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void advance_selected_item_action(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void update_creature_actions_and_animation(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *creature);
+void update_pulunpa_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *creature);
 
 #endif

@@ -9,7 +9,7 @@ void invoke_handler_with_code_79_e(void) {
     set_script_flag_bit(F_sbs22_pad34);
 }
 
-void select_scene_choice_by_mode(void)
+void prepare_progress_choice_table(void)
 {
     void *choices[2] = { &D_8001AB94, &D_8001ABE8 };
     void *town = *(void **)((s8 *)*(void **)((s8 *)(&town_scene_root)) + 0x40);

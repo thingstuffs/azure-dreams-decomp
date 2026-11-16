@@ -66,7 +66,7 @@ s32 flatten_floor_terrain(ActorRecord *target, DungeonItemEntry *effect_arg, s16
             return 1;
         }
     } else if (dungeon_floor_flags & 0x20000000) {
-        create_type_212_object(1, 8);
+        create_fullscreen_fade(1, 8);
         play_sound_if_enabled(0x80F);
         entity = dungeon_actor_ring_anchor;
         first_entity = entity;

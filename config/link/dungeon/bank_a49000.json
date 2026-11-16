@@ -156,7 +156,7 @@
     },
     {
       "row": "dungeon/func_80A2AA88",
-      "tu": "src/dungeon/monster/ifrit/update_actor_jump_and_landing.c",
+      "tu": "src/dungeon/monster/ifrit/hop_ifrit_to_tile.c",
       "home": "dungeon/func_80A1EA88",
       "foff": "0xA4AA88",
       "vma": "0x80166288",

@@ -123,7 +123,7 @@ s32 advance_boss_command_stream(ActorRecord *object_arg, ObjectPosition *context
             select_sprite_entry(entity,
                 anim[((g_game_work.view.camera_rotation.parts.viewAngle + obj->facing + 0x100) >> 9) & 7],
                 0);
-            create_linked_facing_sprite(entity->tile_x, entity->tile_y,
+            create_ghosh_pulunpa_actor(entity->tile_x, entity->tile_y,
                 context_arg->z.w.i);
             retain_spawn_resource(0x15, 1);
         }

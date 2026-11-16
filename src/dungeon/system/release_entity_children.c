@@ -30,7 +30,7 @@ extern void remove_selection_child_object();
 void release_entity_children(Entity *entity) {
     s32 state;
 
-    inventory_process_resources_and_set_flags(entity->field_20);
+    close_item_window(entity->field_20);
     retire_menu_object(entity->field_24);
     remove_selection_child_object(entity->field_28);
     flag_object_and_release_inner(entity->field_2C, 0);

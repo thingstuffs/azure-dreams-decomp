@@ -128,7 +128,7 @@ void noop_hook_k(void);
 /* clear_devkit_flag_for_index.c */
 void clear_devkit_flag_for_index(s32 index);
 
-/* pass_indexed_table.c */
+/* set_stage_flag_two_if_ready.c */
 s32 set_stage_flag_two_if_ready(s32 fallback_result);
 
 /* reinit_card_and_write_sector.c */
