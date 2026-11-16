@@ -3,14 +3,14 @@
 #include "town/scene/milestone_rewards.h"
 #include "town/scene.h"
 
-extern u8 D_800227FB[];
-extern u8 scene_choice_text[];
+extern char D_800227FB[];
+extern char scene_choice_text[];
 
 
 
 
 /* Returns the data pointer for the given selector and lookup ID. */
-u8 *select_scene_text_or_flag_response(long long lookup_id, s32 data_selector)
+char *select_scene_text_or_flag_response(long long lookup_id, s32 data_selector)
 {
     switch (data_selector - 12) {
     case 0:

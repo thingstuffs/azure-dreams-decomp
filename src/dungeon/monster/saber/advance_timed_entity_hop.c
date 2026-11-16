@@ -24,17 +24,17 @@ extern u8 D_80168E14[];
 /* Updates a timed hop to the entity tile and handles its completion. */
 void advance_timed_entity_hop(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor) {
     s32 state;
-    s32 hop_frames;
+    s32 move_ticks;
     s32 target_x;
     s32 pos_x;
-    s32 height_offset;
+    s32 height;
     s32 arc_offset;
     s32 pos_y;
-    s32 hop_timer;
-    s32 action_timer;
+    s32 next_move_ticks;
+    s32 action_ticks;
     s32 actor_flags;
     u16 direction_aux;
-    DungeonGlobalStatus *action_counts;
+    DungeonGlobalStatus *globals;
 
     state = action->action_phase;
     switch (state) {
@@ -52,18 +52,17 @@ void advance_timed_entity_hop(ActorRecord *action, ObjectPosition *motion, Sprit
         action->unk_9E = 5;
         action->unk_A4.value = 0;
         action->action_phase++;
-                        /* fall through */
 
     case 1:
-        hop_frames = action->unk_9E;
+        move_ticks = action->unk_9E;
         action->unk_90.value -= action->unk_A4.value;
-        if (hop_frames != 0) {
+        if (move_ticks != 0) {
             target_x = map_entity->tile_x;
             pos_x = motion->x.w.i;
             target_x <<= 6;
             pos_x -= 0x20;
 
-            motion->velocity_x = ((target_x - pos_x) << 16) / hop_frames;
+            motion->velocity_x = ((target_x - pos_x) << 16) / move_ticks;
 
             pos_y = motion->y.w.i;
             pos_y -= 0x20;
@@ -75,20 +74,19 @@ void advance_timed_entity_hop(ActorRecord *action, ObjectPosition *motion, Sprit
                 (-rsin(action->unk_9E * 0x199)) << 10;
         }
 
-        height_offset = action->unk_90.value;
+        height = action->unk_90.value;
         arc_offset = action->unk_A4.value;
-        hop_timer = (u16)action->unk_9E;
-        height_offset += arc_offset;
-        hop_timer -= 1;
-        action->unk_9E = hop_timer;
-        action->unk_90.value = height_offset;
-        if ((hop_timer << 16) < 0) {
+        next_move_ticks = (u16)action->unk_9E;
+        height += arc_offset;
+        next_move_ticks -= 1;
+        action->unk_9E = next_move_ticks;
+        action->unk_90.value = height;
+        if ((next_move_ticks << 16) < 0) {
             action->unk_90.value = 0;
             action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
             action->action_phase++;
         }
-                        /* fall through */
 
     case 2:
         if (actor->flags1C & ACTOR_GROUNDED) {
@@ -107,19 +105,19 @@ void advance_timed_entity_hop(ActorRecord *action, ObjectPosition *motion, Sprit
         break;
 
     case 3:
-        if (*(u8 * *)&map_entity->frameTable != saber_frame_set_7) {
-            map_entity->frameTable = saber_frame_set_7;
-            select_sprite_entry(
-                map_entity,
-                saber_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
-                0);
+        if (*(u8 * *)&map_entity->frameTable == saber_frame_set_7) {
+            break;
         }
+        map_entity->frameTable = saber_frame_set_7;
+        select_sprite_entry(
+            map_entity,
+            saber_frame_set_7[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            0);
         break;
     }
-
-    action_timer = (u16)action->action_timer - 1;
-    action->action_timer = action_timer;
-    if ((action_timer << 16) > 0) {
+    action_ticks = (u16)action->action_timer - 1;
+    action->action_timer = action_ticks;
+    if ((action_ticks << 16) > 0) {
         return;
     }
 
@@ -130,9 +128,9 @@ void advance_timed_entity_hop(ActorRecord *action, ObjectPosition *motion, Sprit
     spend_actor_mp(actor, 4);
     advance_status_timers(actor);
 
-    action_counts = &g_dungeon_status;
-    if (action_counts->activity_counts.parts.pending_movement_count != 0) {
-        (*(u16 *)&action_counts->activity_counts.parts.pending_movement_count)--;
+    globals = &g_dungeon_status;
+    if (globals->activity_counts.parts.pending_movement_count != 0) {
+        (*(u16 *)&globals->activity_counts.parts.pending_movement_count)--;
     }
 
     actor_flags = actor->flags1C;
@@ -150,7 +148,6 @@ void advance_timed_entity_hop(ActorRecord *action, ObjectPosition *motion, Sprit
                 &direction_aux);
         }
     }
-
     if ((check_actor_floor_trap(map_entity, actor) << 16) > 0) {
         action->unk_8C.address = &D_80165728;
         on_actor_status_updated(actor);

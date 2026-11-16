@@ -10,6 +10,7 @@
 #include "dungeon/monster/kraken/create_actor_child_display_c.h"
 #include "dungeon/effect/sprite.h"
 #include "dungeon/monster/kraken.h"
+#include "dungeon/monster/kraken/spawn_configured_overlay_effect.h"
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 /* Creates Kraken with frames at D_8016218C and a gray child display using frame 39 and an adjusted
@@ -28,7 +29,7 @@ void *create_actor_child_display_c(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 
     s32 right;
     s16 held_flags;
     void *current;
-    S_8015E86C_8 *base;
+    S_8014C86C_8 *base;
     void *child_obj;
     SpriteFrameState *elem;
     s32 count;
@@ -98,11 +99,11 @@ void *create_actor_child_display_c(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 
         count = 0;
         do {
             child_obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
-            ((S_8015E86C_5 *)current)->unk_A4 = child_obj;
+            ((ActorRecord *)current)->unk_A4.address = child_obj;
             if (child_obj != 0) {
-                S_8015E86C_6 *child;
+                S_8014C86C_6 *child;
 
-                child = (S_8015E86C_6 *)NODE_BODY(child_obj);
+                child = (S_8014C86C_6 *)NODE_BODY(child_obj);
 
                 child->unk_02 = 1;
                 i = 0;

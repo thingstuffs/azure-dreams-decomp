@@ -16,7 +16,7 @@
 #include "dungeon/monster/maximum_frames.h"
 
 extern void *actor_update_node_cursor;
-extern s32 maximum_action_continuation_address;
+extern u8 maximum_action_continuation_address[];
 
 /* Advances the actor action through animation setup, completion, and cleanup. */
 void advance_maximum_attack_animation(ActorRecord *action, ObjectPosition *actor_id, SpriteFrameState *animation, ActorRecord *actor) {
@@ -53,7 +53,7 @@ void advance_maximum_attack_animation(ActorRecord *action, ObjectPosition *actor
         if (animation->flags & 0xE000) {
             set_record_integer_tile_center(actor_id, animation->tile_x, animation->tile_y);
             spend_actor_mp(actor, 0x200);
-            action->unk_8C.address = &maximum_action_continuation_address;
+            action->unk_8C.address = maximum_action_continuation_address;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             if (actor->pending_turn_updates == 0) {

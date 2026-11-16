@@ -9,7 +9,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/monster/nyuel.h"
 
-extern s32 nyuel_action_resume_address;
+extern u8 nyuel_action_resume_address[];
 extern u8 nyuel_frame_set[];
 
 /* Updates decaying movement and tile alignment before advancing or finishing the action. */
@@ -112,7 +112,7 @@ void update_decaying_movement_and_alignment(ActorRecord *action, ObjectPosition 
             if (tracked_actor == (s32)((u8 *)actor_data - 0x20)) {
                 g_dungeon_status.pending_display_owner = tracked_actor & 0x7FFFFFFF;
             }
-            action->unk_8C.address = &nyuel_action_resume_address;
+            action->unk_8C.address = nyuel_action_resume_address;
             return;
         }
 

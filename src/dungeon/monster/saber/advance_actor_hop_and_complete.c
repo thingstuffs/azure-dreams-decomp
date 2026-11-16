@@ -22,29 +22,29 @@ extern u8 D_80150E0C[];
 extern u8 D_80150E14[];
 
 /* Updates the actor's hop toward its tile and completes the timed action. */
-void advance_actor_hop_and_complete(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+void advance_actor_hop_and_complete(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor) {
     s32 state;
-    s32 hop_ticks;
+    s32 move_ticks;
     s32 target_x;
     s32 pos_x;
     s32 height;
-    s32 hop_offset;
+    s32 arc_offset;
     s32 pos_y;
-    s32 next_hop_ticks;
+    s32 next_move_ticks;
     s32 action_ticks;
     s32 actor_flags;
-    u16 facing_aux;
-    DungeonGlobalStatus *global_base;
+    u16 direction_aux;
+    DungeonGlobalStatus *globals;
 
     state = action->action_phase;
     switch (state) {
     case 0:
-        if (!(sprite->flags & 0x6000)) {
+        if (!(map_entity->flags & 0x6000)) {
             break;
         }
-        sprite->frameTable = D_80150E0C;
+        map_entity->frameTable = D_80150E0C;
         select_sprite_entry(
-            sprite,
+            map_entity,
             D_80150E0C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->action_state_flags |= 8;
@@ -54,20 +54,20 @@ void advance_actor_hop_and_complete(ActorRecord *action, ObjectPosition *motion,
         action->action_phase++;
 
     case 1:
-        hop_ticks = action->unk_9E;
+        move_ticks = action->unk_9E;
         action->unk_90.value -= action->unk_A4.value;
-        if (hop_ticks != 0) {
-            target_x = sprite->tile_x;
+        if (move_ticks != 0) {
+            target_x = map_entity->tile_x;
             pos_x = motion->x.w.i;
             target_x <<= 6;
             pos_x -= 0x20;
 
-            motion->velocity_x = ((target_x - pos_x) << 16) / hop_ticks;
+            motion->velocity_x = ((target_x - pos_x) << 16) / move_ticks;
 
             pos_y = motion->y.w.i;
             pos_y -= 0x20;
             motion->velocity_y =
-                (((sprite->tile_y << 6) - pos_y) << 16) /
+                (((map_entity->tile_y << 6) - pos_y) << 16) /
                 action->unk_9E;
 
             action->unk_A4.value =
@@ -75,13 +75,13 @@ void advance_actor_hop_and_complete(ActorRecord *action, ObjectPosition *motion,
         }
 
         height = action->unk_90.value;
-        hop_offset = action->unk_A4.value;
-        next_hop_ticks = (u16)action->unk_9E;
-        height += hop_offset;
-        next_hop_ticks -= 1;
-        action->unk_9E = next_hop_ticks;
+        arc_offset = action->unk_A4.value;
+        next_move_ticks = (u16)action->unk_9E;
+        height += arc_offset;
+        next_move_ticks -= 1;
+        action->unk_9E = next_move_ticks;
         action->unk_90.value = height;
-        if ((next_hop_ticks << 16) < 0) {
+        if ((next_move_ticks << 16) < 0) {
             action->unk_90.value = 0;
             action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
@@ -94,10 +94,10 @@ void advance_actor_hop_and_complete(ActorRecord *action, ObjectPosition *motion,
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
-            sprite->frameTable = D_80150E14;
+            set_record_integer_tile_center(motion, map_entity->tile_x, map_entity->tile_y);
+            map_entity->frameTable = D_80150E14;
             select_sprite_entry(
-                sprite,
+                map_entity,
                 D_80150E14[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             action->action_phase++;
@@ -105,18 +105,16 @@ void advance_actor_hop_and_complete(ActorRecord *action, ObjectPosition *motion,
         break;
 
     case 3:
-        if (*(u8 * *)&sprite->frameTable == saber_frame_set_3) {
+        if (*(u8 * *)&map_entity->frameTable == saber_frame_set_3) {
             break;
         }
-        sprite->frameTable = saber_frame_set_3;
+        map_entity->frameTable = saber_frame_set_3;
         select_sprite_entry(
-            sprite,
+            map_entity,
             saber_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-    default:
         break;
     }
-
     action_ticks = (u16)action->action_timer - 1;
     action->action_timer = action_ticks;
     if ((action_ticks << 16) > 0) {
@@ -126,13 +124,13 @@ void advance_actor_hop_and_complete(ActorRecord *action, ObjectPosition *motion,
     motion->velocity_z = 0;
     motion->velocity_y = 0;
     motion->velocity_x = 0;
-    set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
+    set_record_integer_tile_center(motion, map_entity->tile_x, map_entity->tile_y);
     spend_actor_mp(actor, 4);
     advance_status_timers(actor);
 
-    global_base = &g_dungeon_status;
-    if (global_base->activity_counts.parts.pending_movement_count != 0) {
-        (*(u16 *)&global_base->activity_counts.parts.pending_movement_count)--;
+    globals = &g_dungeon_status;
+    if (globals->activity_counts.parts.pending_movement_count != 0) {
+        (*(u16 *)&globals->activity_counts.parts.pending_movement_count)--;
     }
 
     actor_flags = actor->flags1C;
@@ -143,15 +141,14 @@ void advance_actor_hop_and_complete(ActorRecord *action, ObjectPosition *motion,
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
             actor->facing = get_rounded_facing_and_rounding_flag(
-                sprite->tile_x,
-                sprite->tile_y,
+                map_entity->tile_x,
+                map_entity->tile_y,
                 reference_tile_object.tile_position.parts.tile_x,
                 reference_tile_object.tile_position.parts.tile_y,
-                &facing_aux);
+                &direction_aux);
         }
     }
-
-    if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
+    if ((check_actor_floor_trap(map_entity, actor) << 16) > 0) {
         action->unk_8C.address = &D_8014D728;
         on_actor_status_updated(actor);
     }

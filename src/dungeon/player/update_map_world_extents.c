@@ -18,7 +18,7 @@
 #include "dungeon/player.h"
 #include "dungeon/system.h"
 
-extern u8 player_item_render_update_address[12];
+extern u8 player_item_render_update_address[];
 extern u8 player_carry_frames[8];
 extern u8 D_800E06EE[9];
 extern u8 D_800E06F7[9];

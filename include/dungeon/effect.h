@@ -8,6 +8,13 @@
 #include "dungeon/effect/object.h"
 #include "dungeon/effect/motion/variant_effect_with_random_motion.h"
 
+/* Difference of two positions, one s32 per axis (the direction-angle helpers' stack delta). */
+typedef struct PositionDelta {
+    s32 x;
+    s32 y;
+    s32 z;
+} PositionDelta;
+
 /* Body created for the player tile actor's fading primitive callback. */
 typedef struct SourceLinkedFadeEffectBody {
     u8 pad_00[0x96];

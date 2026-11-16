@@ -88,6 +88,11 @@
     --fail-all unless the HEAD row's evidence records the owner's decision, spelled
     `owner decision <id>: developer symbol renamed` (or `owner ruling ...: developer symbol ...`).
 
+(k) clone sources (tools/lint/clone_sources.py): every copy that ledger/clone_sources.jsonl records as rewritten
+    from its family donor's text must still be the donor's definition token for token, comments aside, with
+    differing symbols only where the recorded map takes the donor's symbol to the copy's.  --fail-new and
+    --fail-all fail on any copy that drifted or cannot be found (a later edit to one copy belongs in all of them).
+
 --rederive proposes a current line for each stale or `wrong` entry: the nearest line holding
 the same cast spelling that passes the field rule, following the file's history from the
 newest committed version where the entry held (cast and field), unique per row; a line that
@@ -111,6 +116,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import ledger_public  # noqa: E402
 import placed_copies  # noqa: E402
+import clone_sources  # noqa: E402
 
 FLOORS = 'ledger/prototype_floors.jsonl'
 
@@ -1148,6 +1154,11 @@ def main(argv=None):
           + ''.join(f' ({note})' for note in copy_notes))
     for problem in copy_problems:
         print('  PLACED COPY ' + problem)
+    clone_families, clone_problems = clone_sources.check(root)
+    print(f'clone sources: {len(clone_families)} families, '
+          f'{sum(len(v) - 1 for v in clone_families.values())} copies, {len(clone_problems)} drifted or cannot be found')
+    for problem in clone_problems:
+        print('  CLONE DRIFT ' + problem)
     developer = check_developer_names(root, args.base)
     print(f'developer symbols: {len(developer)} renamed without an owner decision')
     for addr, name, now, why in developer:
@@ -1157,7 +1168,7 @@ def main(argv=None):
               or (args.fail_all and floor_bad) or (args.fail_new and floor_new)
               or (args.fail_new and floor_missing_new) or (args.fail_all and floor_missing)
               or ((args.fail_new or args.fail_all) and (lane_local > 0 or bool(developer)))
-              or ((args.fail_new or args.fail_all) and copy_problems))
+              or ((args.fail_new or args.fail_all) and (copy_problems or clone_problems)))
     print('ledger integrity ' + ('FAIL' if failed else 'PASS'))
     return 1 if failed else 0
 

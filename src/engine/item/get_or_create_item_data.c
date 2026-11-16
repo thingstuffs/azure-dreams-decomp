@@ -6,7 +6,6 @@
 
 
 extern void *alloc_item_data_slot(s32 category, s32 item);
-extern void *get_item_data_record(s32 category, s32 item);
 
 /* Return existing item data, or allocate, clear, and register it. */
 void *get_or_create_item_data(s32 category, s32 item)

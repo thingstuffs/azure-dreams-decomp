@@ -25,7 +25,7 @@ extern u8 D_8016FDEC[8];
  * sounds, damage, and the extra action-15 effects by tick or animation completion, then charges
  * MP, advances status timers, and releases the active actor.
  */
-void advance_troll_attack_animation(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *anim, ActorRecord *actor) {
+void advance_troll_attack_animation(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity) {
     s16 timer;
     u8 state;
 
@@ -38,35 +38,35 @@ void advance_troll_attack_animation(ActorRecord *action, ObjectPosition *motion,
         motion->velocity_x = 0;
         action->action_timer = 0;
         action->action_phase++;
-        if (!(anim->flags & 0x8000)) {
+        if (!(sprite->flags & 0x8000)) {
             return;
         }
 
     case 1:
         timer = action->action_timer + 1;
         action->action_timer = timer;
-        if ((timer != 4) && !(anim->flags & 0x8000)) {
+        if ((timer != 4) && !(sprite->flags & 0x8000)) {
             return;
         }
         action->action_timer = 0;
         action->action_phase++;
-        switch (actor->unk_48) {
+        switch (entity->unk_48) {
         case 13:
-            anim->frameTable = D_8016FDDC;
-            select_sprite_entry(anim,
-                D_8016FDDC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            sprite->frameTable = D_8016FDDC;
+            select_sprite_entry(sprite,
+                D_8016FDDC[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             return;
         case 14:
-            anim->frameTable = D_8016FDE4;
-            select_sprite_entry(anim,
-                D_8016FDE4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            sprite->frameTable = D_8016FDE4;
+            select_sprite_entry(sprite,
+                D_8016FDE4[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             return;
         case 15:
-            anim->frameTable = D_8016FDEC;
-            select_sprite_entry(anim,
-                D_8016FDEC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            sprite->frameTable = D_8016FDEC;
+            select_sprite_entry(sprite,
+                D_8016FDEC[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             action->action_phase = 5;
             play_sound_if_enabled(0x60C);
@@ -78,8 +78,8 @@ void advance_troll_attack_animation(ActorRecord *action, ObjectPosition *motion,
     case 2:
         timer = action->action_timer + 1;
         action->action_timer = timer;
-        if ((timer == 5) || (anim->flags & 0x8000)) {
-            resolve_attack_damage_and_effects(actor, anim, actor->facing, 1);
+        if ((timer == 5) || (sprite->flags & 0x8000)) {
+            resolve_attack_damage_and_effects(entity, sprite, entity->facing, 1);
             action->action_timer = 0;
             action->action_phase++;
         }
@@ -90,32 +90,32 @@ void advance_troll_attack_animation(ActorRecord *action, ObjectPosition *motion,
         return;
 
     case 3:
-        if (anim->flags & 0xE000) {
-            spend_actor_mp(actor, 0x100);
+        if (sprite->flags & 0xE000) {
+            spend_actor_mp(entity, 0x100);
             action->unk_8C.address = D_8016C4BC;
             g_dungeon_status.active_actor = 0;
-            advance_status_timers(actor);
-            actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
+            advance_status_timers(entity);
+            entity->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         }
         return;
 
     case 5:
         timer = action->action_timer + 1;
         action->action_timer = timer;
-        if ((timer == 10) || (anim->flags & 0x8000)) {
-            anim->flags |= 0x0800;
+        if ((timer == 10) || (sprite->flags & 0x8000)) {
+            sprite->flags |= 0x0800;
             play_sound_if_enabled(0x804);
-            create_targeted_motion_effect(action, motion, anim, actor);
-            create_actor_action_effect(action, motion, anim, actor);
+            create_targeted_motion_effect(action, motion, sprite, entity);
+            create_actor_action_effect(action, motion, sprite, entity);
         }
         if ((action->action_timer == 12) ||
-            (anim->flags & 0x8000)) {
-            resolve_attack_damage_and_effects(actor, anim, actor->facing,
+            (sprite->flags & 0x8000)) {
+            resolve_attack_damage_and_effects(entity, sprite, entity->facing,
                 action->unk_AA);
         }
         if ((action->action_timer == 20) ||
-            (anim->flags & 0x8000)) {
-            anim->flags &= 0xF7FF;
+            (sprite->flags & 0x8000)) {
+            sprite->flags &= 0xF7FF;
             action->action_timer = 0;
             action->action_phase = 3;
         }

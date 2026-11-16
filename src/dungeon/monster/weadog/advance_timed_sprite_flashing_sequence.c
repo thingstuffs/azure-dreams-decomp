@@ -15,7 +15,7 @@
 #include "dungeon/effect/screen.h"
 #include "dungeon/monster/weadog.h"
 
-extern s32 weadog_action_resume_address;
+extern u8 weadog_action_resume_address[];
 
    /* arg1 in advance_timed_sprite_flashing_sequence */
 
@@ -97,7 +97,7 @@ void advance_timed_sprite_flashing_sequence(ActorRecord *action, ObjectPosition 
     case 4:
         if (sprite->flags & 0xE000) {
             spend_actor_mp(actor, 0x100);
-            action->unk_8C.address = &weadog_action_resume_address;
+            action->unk_8C.address = weadog_action_resume_address;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;

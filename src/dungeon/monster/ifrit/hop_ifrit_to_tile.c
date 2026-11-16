@@ -25,7 +25,7 @@ typedef struct {
 } PathTable;
 
 extern u8 D_80170838[16];
-extern s32 ifrit_action_resume_address;
+extern u8 ifrit_action_resume_address[];
 #include "dungeon/monster/ifrit.h"
 
 /* Updates an actor's jump motion, landing animation, and completion state. */
@@ -133,7 +133,7 @@ void hop_ifrit_to_tile(ActorRecord *motion, ObjectPosition *position, SpriteFram
         if ((check_actor_floor_trap(sprite, actor) << 16) <= 0) {
             return;
         }
-        motion->unk_8C.address = &ifrit_action_resume_address;
+        motion->unk_8C.address = ifrit_action_resume_address;
         on_actor_status_updated(actor);
     }
     sprite->scale_x = frame_path.point[motion->action_timer].x;

@@ -17,7 +17,7 @@
 #include "dungeon/actor/spend_actor_mp_api.h"
 
 
-extern u8 ashra_action_continuation_address;
+extern u8 ashra_action_continuation_address[];
 
 /* Updates a jump toward the destination tile and completes movement when its timer expires. */
 void complete_actor_jump_to_destination(ActorRecord *jump, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
@@ -126,7 +126,7 @@ void complete_actor_jump_to_destination(ActorRecord *jump, ObjectPosition *motio
 
 finish:
         if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-            jump->unk_8C.byte_ptr = &ashra_action_continuation_address;
+            jump->unk_8C.byte_ptr = ashra_action_continuation_address;
             on_actor_status_updated(actor);
         }
     }

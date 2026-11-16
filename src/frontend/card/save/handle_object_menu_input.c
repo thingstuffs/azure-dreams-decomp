@@ -23,7 +23,6 @@ extern void submit_stored_and_queried_boot_values(void);
 extern void invoke_indexed_object_callback(void *menu);
 extern void func_80406358(void *menu);
 extern void propagate_object_high_bit_flags(void *object);
-extern void create_card_dev_slot_screen_effect(void *value0,void *value1);
 
 /* Handles menu navigation, button actions, and display refreshes. */
 void handle_object_menu_input(void *menu_arg)

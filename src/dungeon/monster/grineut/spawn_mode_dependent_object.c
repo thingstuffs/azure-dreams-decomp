@@ -875,15 +875,15 @@ void begin_grineut_attack(ActorRecord *action_state, ObjectPosition *action_cont
 }
 
 /* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
-s32 relink_grineut_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg) {
+s32 relink_grineut_path(ActorRecord *actor, ObjectPosition *primary_context, SpriteFrameState *secondary_context, s32 force_move) {
     s16 state_type;
     s32 result;
-    ActorRecord *entity = body;
+    ActorRecord *entity = actor;   /* the copy is load-bearing: it changes the callee-save order */
 
-    state_type = (s16)relink_entity_and_clear_high_flag(position, sprite, entity, 3, 6, &entity->unk_9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(primary_context, secondary_context, entity, 3, 6, &entity->unk_9C);
     if (state_type < 0) return 0;
-    if ((force_state_arg << 0x10) != 0) {
-        choose_grineut_move(entity, position, sprite, entity);
+    if ((force_move << 0x10) != 0) {
+        choose_grineut_move(entity, primary_context, secondary_context, entity);
         result = 0;
         return result;
     }
@@ -894,17 +894,17 @@ s32 relink_grineut_path(ActorRecord *body, ObjectPosition *position, SpriteFrame
         result = 0;
         return result;
     case 2:
-        choose_grineut_move(entity, position, sprite, entity);
+        choose_grineut_move(entity, primary_context, secondary_context, entity);
         result = 0;
         return result;
     case 1:
-        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
+        entity->movement_queue_state &= 0x7F;
         if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
             break;
         }
                                 /* fall through */
     default:
-        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
+        entity->movement_queue_state &= 0x7F;
         if ((g_dungeon_status.flags & 8) == 0) {
             result = 1;
             return result;
@@ -912,7 +912,7 @@ s32 relink_grineut_path(ActorRecord *body, ObjectPosition *position, SpriteFrame
         break;
     }
     result = 0;
-    entity->action_flags = (u16) (entity->action_flags & 0x7FFF);
+    entity->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
     return result;
 }
 
@@ -921,14 +921,14 @@ s32 relink_grineut_path(ActorRecord *body, ObjectPosition *position, SpriteFrame
  * its counter only after a positive signed floor-trap result. Clears the secondary action halfword
  * under dungeon status flag 0x80. /
  */
-void move_grineut_to_tile(ActorRecord *state, ObjectPosition *context, SpriteFrameState *source, ActorRecord *target) {
-    if (update_actor_movement_to_tile(state, context, source, target) != 0) {
+void move_grineut_to_tile(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *target) {
+    if (update_actor_movement_to_tile(state, motion, sprite, target) != 0) {
         spend_actor_mp(target, 4);
         advance_status_timers(target);
-        if ((check_actor_floor_trap(source, target) << 0x10) <= 0) {
+        if ((check_actor_floor_trap(sprite, target) << 0x10) <= 0) {
             return;
         }
-        state->unk_8C.handler = dispatch_grineut_actions;
+        state->unk_8C.handler = &dispatch_grineut_actions;
         state->unk_90.value = 0;
     }
     if (g_dungeon_status.flags & 0x80) {
@@ -1063,11 +1063,9 @@ void hop_grineut_to_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrameS
  * Runs update_linked_actor_motion and installs dispatch_grineut_actions only when it
  * succeeds and the signed floor-trap check returns positive.
  */
-void update_grineut_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
-    if (update_linked_actor_motion(state, entity, position, graphic)) {
-        if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->unk_8C.handler = dispatch_grineut_actions;
-        }
+void update_grineut_linked_motion(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+    if ((update_linked_actor_motion(body, position, sprite, actor) != 0) && ((check_actor_floor_trap(sprite, actor) << 0x10) > 0)) {
+        body->unk_8C.address = &dispatch_grineut_actions;
     }
 }
 
@@ -1842,28 +1840,22 @@ void wait_for_grineut_mp(ActorRecord *controller, ObjectPosition *context, Sprit
  * positive; during motion, restores movement frames when the alternate table is active and flags
  * 0x208 are clear.
  */
-void update_grineut_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object) {
-    if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
-        if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
-            actor->unk_8C.handler = dispatch_grineut_actions;
-            return;
-        }
-    } else if (entity->frameTable == grineut_alt_direction_frames &&
-               !(map_object->flags1C & 0x208)) {
-        entity->frameTable = grineut_move_direction_frames;
-        select_sprite_entry(entity,(s16)(grineut_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + map_object->facing + 0x100) >> 9) & 7]),(s16)(0));
-    }
+void update_grineut_parent_motion(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+ if(update_actor_transform_from_parent(state,motion,sprite,actor)!=0) {
+  if((check_actor_floor_trap(sprite,actor)<<16)>0) state->unk_8C.handler=dispatch_grineut_actions;
+ } else if(sprite->frameTable==grineut_alt_direction_frames && !(actor->flags1C&0x208)) {
+  sprite->frameTable=grineut_move_direction_frames;
+  select_sprite_entry(sprite,grineut_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle+actor->facing+0x100)>>9)&7],0);
+ }
 }
 
 /*
  * Runs update_thrown_actor_travel and installs dispatch_grineut_actions only when it
  * succeeds and the signed floor-trap check returns positive.
  */
-void update_thrown_grineut(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
-    if (update_thrown_actor_travel(state, entity, position, graphic)) {
-        if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->unk_8C.handler = dispatch_grineut_actions;
-        }
+void update_thrown_grineut(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+    if ((update_thrown_actor_travel(body, position, sprite, actor) != 0) && ((check_actor_floor_trap(sprite, actor) << 0x10) > 0)) {
+        body->unk_8C.address = &dispatch_grineut_actions;
     }
 }
 

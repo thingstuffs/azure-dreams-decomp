@@ -766,5 +766,171 @@ class CacheTests(unittest.TestCase):
         self.assertIn('changed between traces', result.stderr)
 
 
+DRIVER_TEXT = '''import json
+def compile_one(path):
+    return compile_uncached(path)
+def compile_uncached(path):
+    return helper(path)
+def helper(path):
+    return 1
+def slus_compile_one(path):
+    return slus_compile_uncached(path)
+def slus_compile_uncached(path):
+    return 3
+def emit_recipe(spec):
+    return 2
+def main():
+    return compile_one(None)
+'''
+REPO = Path(__file__).resolve().parents[3]
+
+
+class ObjectToolKeyTests(unittest.TestCase):
+    """Object keys bind the object tools; gate, placement and link tools only schedule the rule."""
+
+    def setUp(self):
+        CacheTests.setUp(self)
+        from tools.build import compile_tools as T
+        self.T = T
+        gate = 'tools/gate/overlay_module_gate.py'
+        tools = sorted(set(T.object_tools(self.root)) | {gate, T.DRIVER, 'tools/gate/source_layout.py'})
+        for name in tools:
+            path = self.root/name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text('def run():\n    return %r\n' % name)
+        (self.root/T.DRIVER).write_text(DRIVER_TEXT)
+        (self.root/'build/.state/compiletools.list').write_text(json.dumps(tools))
+        (self.root/C.COMPILE_STAMP).write_text('stamp of every compile tool\n')
+        self.spec.update(wrapper='build_ovl/tools/cc.sh',
+                         dependencies=self.spec['dependencies'] + [C.COMPILE_STAMP])
+        self.recipe.write_text(json.dumps(self.spec))
+        self.slus = dict(output='build_slus/build/src/b.o', command='tools/cc.sh src/b.c build/src/b.o 2.7.2 "" ""',
+                         dependencies=['src/a.c', 'include/a.h', C.COMPILE_STAMP])
+
+    def key(self, spec=None):
+        spec = spec or self.spec
+        return C.key_for(C.key_inputs(self.root, self.recipe, spec))
+
+    def edit(self, name, text):
+        (self.root/name).write_text(text)
+
+    def test_gate_tool_and_compile_stamp_edits_keep_object_keys(self):
+        first, slus = self.key(), self.key(self.slus)
+        self.edit('tools/gate/overlay_module_gate.py', 'def run():\n    return "gate rule changed"\n')
+        self.edit('tools/gate/source_layout.py', 'LAYOUT = 2\n')
+        self.edit(C.COMPILE_STAMP, 'every compile tool hashed again\n')
+        self.assertEqual(first, self.key())
+        self.assertEqual(slus, self.key(self.slus))
+        with patch.dict(os.environ, {C.TOOL_KEY_ENV: 'all'}):
+            whole = self.key()
+            self.edit('tools/gate/overlay_module_gate.py', 'def run():\n    return "again"\n')
+            self.assertNotEqual(whole, self.key())
+
+    def test_front_end_and_cache_rule_edits_change_every_key(self):
+        for name in ('tools/build/ccproc.py', 'build_ovl/tools/ccproc.py', 'tools/build/cc.sh',
+                     'toolchain/maspsx/maspsx/__init__.py', 'tools/build/name_inputs.py',
+                     'tools/build/declaration_projection.py', 'tools/build/object_cache.py'):
+            first, slus = self.key(), self.key(self.slus)
+            self.edit(name, 'changed = %r\n' % name)
+            self.assertNotEqual(first, self.key(), name)
+            self.assertNotEqual(slus, self.key(self.slus), name)
+
+    def test_driver_binds_compile_path_but_not_generator(self):
+        first, slus = self.key(), self.key(self.slus)
+        self.edit(self.T.DRIVER, DRIVER_TEXT.replace('return 2', 'return 20'))
+        self.assertEqual((first, slus), (self.key(), self.key(self.slus)))
+        self.edit(self.T.DRIVER, DRIVER_TEXT.replace('# nothing', '') + '# a comment\n')
+        self.assertEqual(first, self.key())
+        self.edit(self.T.DRIVER, DRIVER_TEXT.replace('    return 1', '    return 10'))
+        self.assertNotEqual(first, self.key())
+        self.assertEqual(slus, self.key(self.slus))
+        self.edit(self.T.DRIVER, DRIVER_TEXT.replace('return 3', 'return 30'))
+        self.assertEqual(first, self.key())
+        self.assertNotEqual(slus, self.key(self.slus))
+        self.edit(self.T.DRIVER, DRIVER_TEXT.replace('import json', 'import json, os'))
+        self.assertNotEqual(first, self.key())
+
+    def test_recipe_generator_output_changes_only_affected_keys(self):
+        other = dict(self.spec, source='src/b.c', output='build/b.o')
+        (self.root/'src/b.c').write_text('int b;\n')
+        first, second = self.key(), self.key(other)
+        self.spec['args'] = ['2.7.2', '-O2 -G0']
+        self.assertNotEqual(first, self.key())
+        self.assertEqual(second, self.key(other))
+
+    def test_module_live_and_switch_keep_the_whole_tool_list(self):
+        gate = 'tools/gate/overlay_module_gate.py'
+        text = (self.root/'src/a.c').read_text()
+        cases = {'module': dict(self.spec, module={'members': []}),
+                 'live': dict(self.spec, live={'base_names': []}, declaration_context_sha256='0'*64)}
+        for label, spec in cases.items():
+            with patch.object(C, 'dependency_inputs', return_value=dict(files=[], preprocessed={})):
+                first = C.key_inputs(self.root, self.recipe, spec)
+                self.assertNotIn('object_tools', first, label)
+                self.edit(gate, 'def run():\n    return %r\n' % label)
+                self.assertNotEqual(C.key_for(first), self.key(spec), label)
+        current = dict(self.spec, live={'base_names': []}, declaration_context_sha256=C.digest(text.encode()))
+        self.assertEqual(C.key_inputs(self.root, self.recipe, current)['object_tools']['kind'], 'overlay')
+        with patch.dict(os.environ, {C.TOOL_KEY_ENV: 'all'}):
+            whole = C.key_inputs(self.root, self.recipe, self.spec)
+        self.assertNotIn('object_tools', whole)
+        self.assertIn(gate, whole['inputs'])
+        self.assertIn(C.COMPILE_STAMP, whole['inputs'])
+        narrow = C.key_inputs(self.root, self.recipe, self.spec)
+        self.assertNotIn(gate, narrow['inputs'])
+        self.assertNotIn(C.COMPILE_STAMP, narrow['inputs'])
+        # A root without every object tool keeps the whole list (fail closed).
+        listed = [n for n in json.loads((self.root/'build/.state/compiletools.list').read_text())
+                  if n != 'tools/build/asproc.py']
+        (self.root/'build/.state/compiletools.list').write_text(json.dumps(listed))
+        (self.root/'tools/build/asproc.py').unlink()
+        self.assertNotIn('object_tools', C.key_inputs(self.root, self.recipe, self.spec))
+
+    def compile_with(self, call):
+        import importlib.util
+        def build():
+            module, function = call
+            spec = importlib.util.spec_from_file_location('fixture_' + module.replace('/', '_')[:-3],
+                                                          self.root/module)
+            loaded = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(loaded)
+            getattr(loaded, function)(None) if function != 'run' else loaded.run()
+            (self.root/'build/a.o').write_bytes(b'object')
+            (self.root/'build/a.proof.json').write_text('{}')
+        log = Path(self.temp.name)/'events.jsonl'
+        log.unlink(missing_ok=True)
+        with patch.dict(os.environ, AZURE_OBJECT_CACHE_LOG=str(log)):
+            C.compile_recipe(self.root, self.recipe, build)
+        return [json.loads(line) for line in log.read_text().splitlines()]
+
+    def test_guard_refuses_to_publish_when_unbound_code_runs(self):
+        events = self.compile_with(('tools/gate/overlay_module_gate.py', 'run'))
+        self.assertEqual([e['status'] for e in events], ['unbound'])
+        self.assertIn('tools/gate/overlay_module_gate.py:run', events[0]['unbound'])
+        self.assertEqual(self.compile_with(('tools/build/ccproc.py', 'run'))[0]['status'], 'miss')
+        self.assertEqual(self.compile_with(('tools/build/ccproc.py', 'run'))[0]['status'], 'hit')
+
+    def test_guard_allows_only_the_driver_compile_path(self):
+        events = self.compile_with((self.T.DRIVER, 'emit_recipe'))
+        self.assertEqual(events[0]['status'], 'unbound')
+        self.assertIn(self.T.DRIVER + ':emit_recipe', events[0]['unbound'])
+        self.assertEqual(self.compile_with((self.T.DRIVER, 'compile_uncached'))[0]['status'], 'miss')
+
+    def test_repository_front_ends_are_in_the_object_key(self):
+        """Every module the subprocess front ends import is listed; every key tool is a compile tool."""
+        if not (REPO/'toolchain/maspsx/maspsx.py').is_file():
+            self.skipTest('toolchain absent')
+        T = self.T
+        self.assertLessEqual(set(T.closure(REPO, T.FRONTEND_SCRIPTS)), set(T.OBJECT_FRONTENDS))
+        compile_inputs = set(T.inputs(REPO))
+        self.assertLessEqual(set(T.object_tools(REPO)) | {T.DRIVER}, compile_inputs)
+        tree = __import__('ast').parse((REPO/T.DRIVER).read_text())
+        for kind, entries in T.DRIVER_ENTRIES.items():
+            functions = T.driver_functions(tree, kind)
+            self.assertLessEqual(set(entries), functions, kind)
+            self.assertFalse(functions & {'generate', '_generate', 'image_one', 'check', 'emit_image'}, kind)
+        self.assertIn('build_native', T.driver_functions(tree, 'overlay'))
+
+
 if __name__ == '__main__':
     unittest.main()

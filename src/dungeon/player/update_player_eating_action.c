@@ -23,7 +23,7 @@ u8 * append_item_reveal_text(s32, u8 *); /* Unprototyped: uses the value as a po
 u8 *append_entity_display_text(void *record, u8 *out);
 s32 play_sound_if_enabled(s32 query_value);
 extern s32 held_item_record;
-extern s32 player_item_render_update_address;
+extern u8 player_item_render_update_address[];
 extern u8 D_800DD100[];
 extern u8 D_800E06E3[];
 extern u8 D_800E06EB[];
@@ -88,7 +88,7 @@ void update_player_eating_action(ActorRecord *controller, s32 action_id, SpriteF
         spawned = create_item_render_object(
             NODE_HEADER(controller), controller_view->unk_110, 0, 0, 0);
         if (spawned != NULL) {
-            spawned->update_callback = &player_item_render_update_address;
+            spawned->update_callback = player_item_render_update_address;
             position = spawned->position;
             position->x.w.i =
                 (actor->tile_x << 6) + 0x20;

@@ -4,8 +4,8 @@
 #include "town/scene/milestone_rewards.h"
 #include "town/scene.h"
 
-extern u8 scene_choice_text[];
-extern u8 D_800227FB[];
+extern char scene_choice_text[];
+extern char D_800227FB[];
 
 
 /* Selects a data pointer by ID, using default data for unhandled IDs. */

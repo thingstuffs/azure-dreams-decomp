@@ -10,50 +10,50 @@
 
 /* Creates a Clown actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
-void *create_flagged_actor_object(s16 init_flags, s16 tile_x, s16 tile_y, s16 object_id)
+void *create_flagged_actor_object(s16 init_flags, s16 grid_x, s16 grid_y, s16 type_id)
 {
     s32 mode;
-    s32 flags_14;
-    s32 flags_1c;
+    s32 state_flags;
+    s32 update_flags;
     SpriteFrameState *placement;
-    ObjectPosition *object_data;
+    ObjectPosition *config;
     ObjectNodeHeader *object;
-    S_8016A878_4 *runtime;
+    ActorRecord *extended_state;
     ActorRecord *state;
     void *body;
     s8 saved_x;
-    register s16 saved_id;
+    register s16 saved_type;
     s8 saved_y;
 
     state = 0;
-    saved_x = tile_x;
-    saved_id = object_id;
-    saved_y = tile_y;
+    saved_x = grid_x;
+    saved_type = type_id;
+    saved_y = grid_y;
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != 0) {
         body = object + 1;
         state = body;
-        object->update_callback = clown_object_callback_4;
+        object->update_callback = &clown_object_callback_4;
         state->species = MONSTER_CLOWN;
         register_node(object, project_sprite_chain);
-        object_data = object->position;
-        object_data->z.w.i = saved_id;
+        config = object->position;
+        config->z.w.i = saved_type;
         placement = object->sprite;
         mode = init_flags & 3;
         placement->tile_y = saved_y;
-        runtime = body;
+        extended_state = body;
         placement->frameTable = &D_8016E20C;
         placement->tile_x = saved_x;
         if (mode == 1) {
-            flags_14 = state->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            flags_1c = state->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            state->flags14 = flags_14;
-            state->flags1C = flags_1c;
+            state_flags = state->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            update_flags = state->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            state->flags14 = state_flags;
+            state->flags1C = update_flags;
         } else if (mode >= 2) {
-            flags_14 = state->flags14 | ACTOR_CLASS_ENABLED;
-            flags_1c = state->flags1C | ACTOR_PLAYER_SIDE;
-            state->flags14 = flags_14;
-            state->flags1C = flags_1c;
+            state_flags = state->flags14 | ACTOR_CLASS_ENABLED;
+            update_flags = state->flags1C | ACTOR_PLAYER_SIDE;
+            state->flags14 = state_flags;
+            state->flags1C = update_flags;
         } else if (((init_flags & ~3) << 0x10) == 0) {
             if (!(state->flags14 & ACTOR_RESIST_SLEEP)) {
                 if (generate_random_value() & 1) {
@@ -62,13 +62,13 @@ void *create_flagged_actor_object(s16 init_flags, s16 tile_x, s16 tile_y, s16 ob
                 }
             }
         }
-        initialize_actor_sprite_and_animation(object, object_data, placement, init_flags);
-        runtime->unk_9A = 0xFF;
-        runtime->unk_9C = -1;
-        runtime->unk_8C = &D_8016B014;
+        initialize_actor_sprite_and_animation(object, config, placement, init_flags);
+        extended_state->action_id = 0xFF;
+        extended_state->unk_9C = -1;
+        extended_state->unk_8C.word_ptr = &D_8016B014;
         state->flags1C = (s32)(state->flags1C | 0x40000);
-        runtime->unk_92 = -0x20;
-        try_move_actor_to_valid_position(runtime, object_data, placement, state);
+        extended_state->unk_90.parts.high = -0x20;
+        try_move_actor_to_valid_position(extended_state, config, placement, state);
     }
     return state;
 }

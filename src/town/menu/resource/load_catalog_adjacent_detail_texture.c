@@ -9,7 +9,7 @@
 
 #include "sdk/libgpu_types.h"
 
-extern s32 resource_completion_callback_address[];
+extern u8 resource_completion_callback_address[];
 
 /* Loads an image and palette into VRAM, then updates the loading state. */
 void load_catalog_adjacent_detail_texture(CatalogDisplay *context_arg) {

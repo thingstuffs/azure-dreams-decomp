@@ -17,12 +17,12 @@ extern void select_sprite_entry(void *, s32, s32);
 extern u8 D_80162C74[];
 
 /* Advances entity movement through its phases and settles it at the tile center. */
-void advance_entity_movement_and_settle_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity) {
+void advance_entity_movement_and_settle_tile(ActorRecord *controller, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity) {
     s32 state;
     s16 timer;
-    s32 entity_ref;
+    s32 tracked_entity;
 
-    state = action->action_phase;
+    state = controller->action_phase;
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity);
@@ -30,18 +30,18 @@ void advance_entity_movement_and_settle_tile(ActorRecord *action, ObjectPosition
             -((s16 *)((s8 *)dir_step_x))[(entity->movement_facing >> 9) & 7] << 15;
         motion->velocity_y =
             -((s16 *)((s8 *)dir_step_y))[(entity->movement_facing >> 9) & 7] << 15;
-        action->action_phase++;
+        controller->action_phase++;
 
         if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, sprite, D_80162C74);
+            begin_actor_display_action(controller, motion, sprite, D_80162C74);
             return;
         }
         if (sprite->flags & 0x8000) {
-            action->action_timer = 0;
-            action->action_phase = 3;
+            controller->action_timer = 0;
+            controller->action_phase = 3;
             return;
         }
 
@@ -50,11 +50,10 @@ void advance_entity_movement_and_settle_tile(ActorRecord *action, ObjectPosition
         } else {
             timer = -1;
         }
-        action->action_timer = timer;
+        controller->action_timer = timer;
 
         motion->velocity_x -= motion->velocity_x / 4;
         motion->velocity_y -= motion->velocity_y / 4;
-                        /* fall through */
 
     case 1:
         motion->velocity_x +=
@@ -62,20 +61,20 @@ void advance_entity_movement_and_settle_tile(ActorRecord *action, ObjectPosition
         motion->velocity_y +=
             ((s16 *)((s8 *)dir_step_y))[(entity->movement_facing >> 9) & 7] << 14;
 
-        if (action->action_timer > 0) {
-            action->action_timer = action->action_timer - 1;
+        if (controller->action_timer > 0) {
+            controller->action_timer = controller->action_timer - 1;
         } else if (sprite->flags & 0x6000) {
-            action->action_timer = 0;
+            controller->action_timer = 0;
         }
 
-        if (action->action_timer != 0) {
+        if (controller->action_timer != 0) {
             return;
         }
         if (entity->hp == 0) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, sprite, D_80162C74);
+            begin_actor_display_action(controller, motion, sprite, D_80162C74);
             return;
         }
         sprite->frameTable = griffon_frame_set_10;
@@ -83,9 +82,8 @@ void advance_entity_movement_and_settle_tile(ActorRecord *action, ObjectPosition
             sprite,
             griffon_frame_set_10[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        action->action_phase++;
+        controller->action_phase++;
         return;
-
     case 2:
         motion->velocity_x +=
             ((s16 *)((s8 *)dir_step_x))[(entity->movement_facing >> 9) & 7] << 14;
@@ -100,28 +98,27 @@ void advance_entity_movement_and_settle_tile(ActorRecord *action, ObjectPosition
             sprite,
             griffon_frame_set_10[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        action->action_timer = 8;
-        action->action_phase++;
+        controller->action_timer = 8;
+        controller->action_phase++;
         return;
-
     case 3:
-        timer = (action->action_timer);
+        timer = (controller->action_timer);
         if (timer != 0) {
             {
-                s32 target_x = sprite->tile_x << 6;
-                s32 current_x = motion->x.w.i - 0x20;
-                motion->velocity_x = ((target_x - current_x) << 15) / timer;
+                s32 tile_x = sprite->tile_x << 6;
+                s32 offset_x = motion->x.w.i - 0x20;
+                motion->velocity_x = ((tile_x - offset_x) << 15) / timer;
             }
             {
-                s32 target_y = sprite->tile_y << 6;
-                s32 current_y = motion->y.w.i - 0x20;
+                s32 tile_y = sprite->tile_y << 6;
+                s32 offset_y = motion->y.w.i - 0x20;
                 motion->velocity_y =
-                    ((target_y - current_y) << 15) / action->action_timer;
+                    ((tile_y - offset_y) << 15) / controller->action_timer;
             }
         }
 
-        timer = action->action_timer - 1;
-        action->action_timer = timer;
+        timer = controller->action_timer - 1;
+        controller->action_timer = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }
@@ -133,10 +130,14 @@ void advance_entity_movement_and_settle_tile(ActorRecord *action, ObjectPosition
         motion->y.v = ((sprite->tile_y << 6) + 0x20) << 16;
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
 
-        entity_ref = ((s32)g_dungeon_status.pending_display_owner);
-        if (entity_ref == (s32)NODE_HEADER(entity)) {
-            g_dungeon_status.pending_display_owner = entity_ref & 0x7FFFFFFF;
+        tracked_entity = ((s32)g_dungeon_status.pending_display_owner);
+        if (tracked_entity == (s32)NODE_HEADER(entity)) {
+            g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
-        action->unk_8C.handler = griffon_slot_d_action_callback;
+        controller->unk_8C.handler = griffon_slot_d_action_callback;
+
+        return;
+    default:
+        return;
     }
 }

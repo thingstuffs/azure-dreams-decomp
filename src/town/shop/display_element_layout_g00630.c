@@ -32,7 +32,7 @@ void *set_complementary_entry_bytes(void *entry, s16 amount) {
 void *layout_three_display_elements(S_800B5174_0 *values, S_800B5174_1 *elements, s32 content) {
     ((S_800B5174_5 *)(((S_800B5174_2 *)(elements->unk_00))->unk_04))->unk_08 = -0x38;
     ((S_800B5174_5 *)(((S_800B5174_2 *)(elements->unk_00))->unk_04))->unk_0A = 8;
-    ((S_800B5174_2 *)(elements->unk_00))->unk_00 = &D_80077FBC;
+    ((S_800B5174_2 *)(elements->unk_00))->unk_00 = D_80077FBC;
     ((S_800B5174_6 *)(((S_800B5174_3 *)(elements->unk_04))->unk_04))->unk_08 = -0x38;
     ((S_800B5174_6 *)(((S_800B5174_3 *)(elements->unk_04))->unk_04))->unk_0A = 8;
     ((S_800B5174_3 *)(elements->unk_04))->unk_00 = content;

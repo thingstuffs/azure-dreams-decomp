@@ -2,16 +2,15 @@
 
 
 /* Projects linked effect positions and queues their colored pixel and drawing-mode packets by depth. */
-s32 queue_projected_point_primitives_2(u8 *entry_data, u16 *coords)
+s32 queue_projected_point_primitives_2(u8 *item_data, u16 *coords)
 {
     PointTileScratch *scratch = (PointTileScratch *)0x1F800000;
     void **globals = ((void * *)(&g_game_work));
     GpuContext *render_state = globals[0];
     TILE_1 *first_packet = render_state->packetCursor;
     TILE_1 *packet;
-    DR_MODE *mode_packet;
-    s32 depth_index;
-    u32 addr_mask = 0x00FFFFFF;
+    s32 ot_index;
+    u32 address_mask = 0x00FFFFFF;
     u32 length_mask = 0xFF000000;
 
     scratch->ordering_table = (u32 *)&render_state->orderTag;
@@ -23,18 +22,19 @@ s32 queue_projected_point_primitives_2(u8 *entry_data, u16 *coords)
         scratch->position.vz = coords[5];
 
         scratch->packet_cursor = packet + 1;
-        depth_index = RotTransPers(&scratch->position, (s32 *)&packet->x0,
-                              &scratch->depth_cue, &scratch->gte_flag);
-        scratch->ot_index = depth_index;
+        ot_index = RotTransPers(&scratch->position, (s32 *)&packet->x0,
+                                 &scratch->depth_cue, &scratch->gte_flag);
+        scratch->ot_index = ot_index;
 
-        if ((u32)depth_index < 480U) {
+        if ((u32)ot_index < 480U) {
             u16 tpage;
+            DR_MODE *mode_packet;
             u8 r;
             u8 g;
             u8 b;
 
             /* BYTES: retail copies the tile colour word (r0, g0, b0 and code) with one lw/sw; member copies compile to four lbu/sb */
-            *(u32 *)&packet->r0 = *(u32 *)(entry_data + 8);
+            *(u32 *)&packet->r0 = *(u32 *)(item_data + 8);
             ((GpuLinkTag *)&packet->tag)->len = 2;
             r = packet->r0;
             g = packet->g0;
@@ -45,10 +45,10 @@ s32 queue_projected_point_primitives_2(u8 *entry_data, u16 *coords)
             packet->code = 106;
 
             packet->tag = (packet->tag & length_mask) |
-                          (scratch->ordering_table[scratch->ot_index] & addr_mask);
+                          (scratch->ordering_table[scratch->ot_index] & address_mask);
             scratch->ordering_table[scratch->ot_index] =
                                     (scratch->ordering_table[scratch->ot_index] & length_mask) |
-                                    ((u32)packet & addr_mask);
+                                    ((u32)packet & address_mask);
 
             mode_packet = scratch->packet_cursor;
             scratch->packet_cursor = mode_packet + 1;
@@ -56,20 +56,20 @@ s32 queue_projected_point_primitives_2(u8 *entry_data, u16 *coords)
             SetDrawMode(mode_packet, 0, 0, tpage, 0);
 
             mode_packet->tag = (mode_packet->tag & length_mask) |
-                          (scratch->ordering_table[scratch->ot_index] & addr_mask);
-            mode_packet = (DR_MODE *)((u32)mode_packet & addr_mask);
+                          (scratch->ordering_table[scratch->ot_index] & address_mask);
+            mode_packet = (DR_MODE *)((u32)mode_packet & address_mask);
             scratch->ordering_table[scratch->ot_index] =
                                     (scratch->ordering_table[scratch->ot_index] & length_mask) |
                                     (u32)mode_packet;
         }
 
         {
-            u8 *next_entry = *(u8 **)(entry_data - 8);
+            u8 *next_node = *(u8 **)(item_data - 8);
 
-            if (next_entry == 0)
+            if (next_node == 0)
                 break;
-            entry_data = next_entry + 0x20;
-            coords = (u16 *)*(u8 **)(next_entry + 8);
+            item_data = next_node + 0x20;
+            coords = (u16 *)*(u8 **)(next_node + 8);
         }
     }
 

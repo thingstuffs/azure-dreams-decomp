@@ -13,23 +13,23 @@ typedef struct S_80123928_0 {
 } S_80123928_0;
 
 /* Renders two-byte character codes, advancing the horizontal position by two per character. */
-void draw_vram_glyph_text(u8 *text, s16 x, s16 y) {
+void draw_vram_glyph_text(u8 *text, s16 start_x, s16 y) {
     RECT glyph;
-    s16 draw_x;
+    s16 x;
     u8 *cursor;
     u8 code_hi;
     u8 code_lo;
 
     cursor = text;
-    draw_x = x;
+    x = start_x;
     if (*cursor != 0) {
         do {
             code_hi = ((S_80123928_0 *)cursor)->unk_00;
             code_lo = ((S_80123928_0 *)cursor)->unk_01;
             cursor += 2;
             get_glyph_vram_rectangle(map_fullwidth_character_to_glyph_byte(code_lo | (code_hi << 8)) & 0xFF, &glyph);
-            MoveImage(&glyph, draw_x, y);
-            draw_x += 2;
+            MoveImage(&glyph, x, y);
+            x += 2;
         } while (*cursor != 0);
     }
 }

@@ -9,25 +9,26 @@
 #include "modules/dungeon_ovl_edb06c.h"
 #include "dungeon/effect/sprite.h"
 #include "dungeon/monster/kraken.h"
+#include "dungeon/monster/kraken/spawn_configured_overlay_effect.h"
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of spawn_flags select (or the random 0x20-mask variant), and run the two setup calls. */
 /* Creates Kraken with frames at D_8016E18C and a gray child display using frame 39 and an adjusted
  * palette. */
-void *spawn_kraken(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value)
+void *spawn_kraken(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     s32 kind;
     ActorRecord *work;
-    s8 saved_kind_id;
-    s8 saved_variant;
+    s8 held_a;
+    s8 held_b;
     ObjectNodeHeader *obj;
     ObjectPosition *part_a;
     SpriteFrameState *part_b;
     ActorRecord *actor;
     s32 left;
     s32 right;
-    s16 saved_spawn_flags;
+    s16 held_flags;
     void *current;
-    S_8016A86C_8 *base;
+    S_8014C86C_8 *base;
     void *child_obj;
     SpriteFrameState *elem;
     s32 count;
@@ -39,9 +40,9 @@ void *spawn_kraken(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value)
     u16 elem_flags;
 
     work = 0;
-    saved_variant = variant;
-    saved_spawn_flags = spawn_flags;
-    obj = allocate_list_node(0x112, (saved_kind_id = kind_id, &scene_object_list_anchor.next));
+    held_b = attr_b;
+    held_flags = spawn_flags;
+    obj = allocate_list_node(0x112, (held_a = attr_a, &scene_object_list_anchor.next));
     if (obj != 0) {
         work = NODE_BODY(obj);
         obj->update_callback = func_8016AB64;
@@ -50,12 +51,12 @@ void *spawn_kraken(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value)
         actor = work;
 
         part_a = obj->position;
-        part_a->z.w.i = spawn_value;
+        part_a->z.w.i = attr_c;
         part_b = obj->sprite;
         kind = spawn_flags & 3;
         part_b->frameTable = D_8016E18C;
-        part_b->tile_x = saved_kind_id;
-        part_b->tile_y = saved_variant;
+        part_b->tile_x = held_a;
+        part_b->tile_y = held_b;
 
         if (kind == 1) {
             left = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
@@ -81,7 +82,7 @@ void *spawn_kraken(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value)
             }
         }
 
-        initialize_actor_sprite_and_animation(obj, part_a, part_b, saved_spawn_flags);
+        initialize_actor_sprite_and_animation(obj, part_a, part_b, held_flags);
 
         actor->action_id = 0xFF;
         actor->unk_9C = -1;
@@ -97,11 +98,11 @@ void *spawn_kraken(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value)
         count = 0;
         do {
             child_obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
-            ((S_8016A86C_5 *)current)->unk_A4 = child_obj;
+            ((ActorRecord *)current)->unk_A4.address = child_obj;
             if (child_obj != 0) {
-                S_8016A86C_6 *child;
+                S_8014C86C_6 *child;
 
-                child = (S_8016A86C_6 *)NODE_BODY(child_obj);
+                child = (S_8014C86C_6 *)NODE_BODY(child_obj);
 
                 child->unk_02 = 1;
                 i = 0;

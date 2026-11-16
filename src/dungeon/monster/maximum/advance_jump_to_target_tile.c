@@ -15,7 +15,7 @@
 #include "dungeon/actor/spend_actor_mp_api.h"
 
 
-extern u8 maximum_action_continuation_address;
+extern u8 maximum_action_continuation_address[];
 
 /* Advances a jump toward the target tile and finishes movement when the timer expires. */
 void advance_jump_to_target_tile(ActorRecord *motion, ObjectPosition *position, SpriteFrameState *target_tile, ActorRecord *entity) {
@@ -104,7 +104,7 @@ void advance_jump_to_target_tile(ActorRecord *motion, ObjectPosition *position, 
         }
 
         if ((check_actor_floor_trap(target_tile, entity) << 16) > 0) {
-            motion->unk_8C.address = &maximum_action_continuation_address;
+            motion->unk_8C.address = maximum_action_continuation_address;
             on_actor_status_updated(entity);
         }
     }

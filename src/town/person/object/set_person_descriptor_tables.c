@@ -1,11 +1,10 @@
 #include "common.h"
-#include "m2c_compat.h"
 #include "town/person/object.h"
 
-extern M2C_UNK D_800D6330;
-extern M2C_UNK D_800D6338;
-extern M2C_UNK D_800D6360;
-extern M2C_UNK D_800D6364;
+extern s32 D_800D6330[];
+extern s32 D_800D6338[];
+extern s32 D_800D6360[];
+extern s32 D_800D6364[];
 
 typedef struct S_800C8928_0 {
     u8 pad_00[0x58];
@@ -21,8 +20,8 @@ typedef struct S_800C8928_0 {
  * D_800D6330/D_800D6338.
  */
 void set_person_descriptor_tables(S_800C8928_0 *object) {
-    object->unk_58 = &D_800D6360;
-    object->unk_5C = &D_800D6364;
-    object->unk_7C = &D_800D6330;
-    object->unk_80 = &D_800D6338;
+    object->unk_58 = D_800D6360;
+    object->unk_5C = D_800D6364;
+    object->unk_7C = D_800D6330;
+    object->unk_80 = D_800D6338;
 }

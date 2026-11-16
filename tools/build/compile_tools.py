@@ -31,6 +31,80 @@ FUNCTIONS = {
 SHELL_SCRIPTS = ('tools/build/cc.sh', 'tools/build/as.sh')
 
 
+# The object key (tools/build/object_cache.py) binds only the tools that turn a
+# source into object bytes; docs/OBJECT_CACHE.md "Tools in the object key" gives
+# the evidence. Placement, link, layout and gate tools stay in compiletools.list
+# (they still schedule every compile rule) and in linktools.list, which every
+# image rule depends on, so an edit to one of them reruns the gates and relinks
+# while identical objects are restored. Native module recipes and recipes on the
+# live noreturn path run gate code inside the compile and keep the whole list.
+#
+# Subprocess front ends of every object: cc.sh -> ccproc.py (+ name_inputs.py)
+# -> maspsx -> GNU as, as.sh -> asproc.py, and the SLUS post-compile scripts.
+# tools/build/tests/test_object_cache.py checks this list against the static import closure of
+# FRONTEND_SCRIPTS. The compile-time guard sees only code run in the compile process, so a module a
+# subprocess front end imports is caught by that unit test, not at compile time.
+OBJECT_FRONTENDS = (
+    'tools/build/cc.sh', 'tools/build/as.sh', 'tools/build/ccproc.py', 'tools/build/asproc.py',
+    'tools/build/name_inputs.py', 'tools/build/compile_slots.py',
+    'tools/build/slus_rodata_trim.py', 'tools/build/slus_data_pieces.py', 'tools/build/slus_modules.py',
+    'tools/build/retail_spans.py', 'toolchain/maspsx/maspsx.py', 'toolchain/maspsx/maspsx/__init__.py',
+)
+FRONTEND_SCRIPTS = ('tools/build/ccproc.py', 'tools/build/asproc.py', 'toolchain/maspsx/maspsx.py',
+                    'tools/build/slus_rodata_trim.py', 'tools/build/slus_data_pieces.py',
+                    'tools/build/compile_slots.py')
+# The cache's own key, witness and projection rules: a change re-keys every object.
+OBJECT_MACHINERY = ('tools/build/object_cache.py', 'tools/build/content_cache.py',
+                    'tools/build/declaration_projection.py', 'tools/build/compile_tools.py')
+# mkbuild.py runs in process. Its compile path is these functions and every
+# mkbuild function they name; main() is kept but not followed (it also names
+# the generator). The other top-level functions (recipe and image generation,
+# check) are left out of the object key: the recipe JSON and the generated
+# files they write are key inputs already.
+DRIVER = 'tools/build/mkbuild.py'
+DRIVER_ENTRIES = {'overlay': ('compile_one', 'compile_uncached'),
+                  'slus': ('slus_compile_one', 'slus_compile_uncached')}
+DRIVER_KEPT = ('main',)
+
+
+def driver_functions(tree, kind):
+    """Top-level mkbuild definitions an object compile of `kind` can run."""
+    definitions = {n.name: n for n in tree.body
+                   if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))}
+    reached, pending = set(), list(DRIVER_ENTRIES[kind])
+    while pending:
+        name = pending.pop()
+        if name in reached or name not in definitions:
+            continue
+        reached.add(name)
+        pending.extend(n.id for n in ast.walk(definitions[name])
+                       if isinstance(n, ast.Name) and n.id in definitions)
+    return reached | {n for n in DRIVER_KEPT if n in definitions}
+
+
+def driver_digest(root, kind):
+    """Python syntax of mkbuild's module statements and of its compile path for `kind`.
+
+    Returns (digest, functions). A file that does not parse returns its raw
+    digest and None: every function then counts as compile path."""
+    data = (Path(root)/DRIVER).read_bytes()
+    try:
+        tree = ast.parse(data.decode('utf-8'), filename=DRIVER)
+    except (SyntaxError, UnicodeDecodeError):
+        return hashlib.sha256(data).hexdigest(), None
+    functions = driver_functions(tree, kind)
+    kept = [n for n in tree.body if not isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))
+            or n.name in functions]
+    syntax = ast.dump(ast.Module(body=kept, type_ignores=[]), include_attributes=False).encode()
+    return hashlib.sha256(b'python-ast-compile-path-v1\0' + kind.encode() + b'\0' + syntax).hexdigest(), functions
+
+
+def object_tools(root):
+    """Tool files an object key binds by raw bytes: front ends, their build-view copies, cache rules."""
+    names = set(OBJECT_FRONTENDS) | set(OBJECT_MACHINERY)
+    return sorted(names | set(view_copies(root, names)))
+
+
 def semantic_digest(root, name):
     """Bind executed Python syntax for the monolithic compile driver.
 

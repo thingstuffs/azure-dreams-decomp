@@ -26,7 +26,7 @@ struct ObjectNodeHeader;
 
 extern s32 generate_random_value(void);
 extern u8 D_80170A3C[];
-extern s32 naplass_action_continuation_address;
+extern u8 naplass_action_continuation_address[];
 extern u8 naplass_frame_set_1[];
 void * allocate_actor_effect_object(s16 kind_flags, s16 x, s16 y, s16 part_value);
 #endif

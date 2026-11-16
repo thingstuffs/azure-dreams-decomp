@@ -9,7 +9,6 @@ extern s32 boot_pressed_buttons;
 
 extern void submit_stored_and_queried_boot_values(void);
 extern void func_804070C4(void *object);
-extern void create_card_dev_slot_screen_effect(void *field20,void *field24);
 
 
 typedef struct S_80406DA0_0 {

@@ -79,29 +79,20 @@ void reserve_twch_load(s32 character_id) {
 
 /* Process the 15 object slots and update the first slot from the status check. */
 void load_reserved_slot_resources(void) {
-
-
     s32 slot;
-    u8 *object_ids;
-    void **objects;
-    u8 *id_ptr;
+    u8 *entry_id;
 
-    slot = 0;
-    object_ids = town_resource_queue;
-    objects = town_resource_descriptors;
-    do {
-        id_ptr = (u8 *)((unsigned long)slot + (unsigned long)object_ids);
-
-        if (*id_ptr != 0) {
-            file_load_com(objects[*id_ptr]);
+    for (slot = 0; slot < 15; slot++) {
+        entry_id = &town_resource_queue[slot];
+        if (*entry_id != 0) {
+            file_load_com(town_resource_descriptors[*entry_id]);
         }
-        slot++;
-    } while (slot < 15);
-
+    }
     if (has_listed_resource_in_slots() != 0) {
         town_resource_queue[0] = 1;
         town_resource_queue[1] = 0;
         return;
     }
     town_resource_queue[0] = 0;
+    return;
 }

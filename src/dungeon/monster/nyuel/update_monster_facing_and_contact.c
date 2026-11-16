@@ -14,7 +14,7 @@ typedef void (*Callback)(void *, void *, void *, void *);
 extern s32 refresh_actor_facing_and_lifecycle();
 extern s16 sample_terrain_surface_height();
 
-extern u8 nyuel_action_resume_address;
+extern u8 nyuel_action_resume_address[];
 extern Callback nyuel_callbacks[];
 
    /* monster in update_monster_facing_and_contact */
@@ -39,7 +39,7 @@ void update_monster_facing_and_contact(ActorRecord *body, ObjectPosition *motion
         ActorActionHandler early_callback;
 
         early_callback = body->unk_8C.handler;
-        if (early_callback == (ActorActionHandler)&nyuel_action_resume_address) {
+        if (early_callback == (ActorActionHandler)nyuel_action_resume_address) {
             early_callback(body, motion, sprite, body);
         } else {
             body->movement_queue_state &= 0x7F;

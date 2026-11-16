@@ -24,32 +24,32 @@ extern u8 D_8015757C[];
 /* Updates actor movement and animation states and completes the timed action. */
 void update_barong_jump_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 state;
-    s32 move_frames;
+    s32 move_ticks;
     s32 target_x;
-    s32 world_x;
-    s32 height;
+    s32 pos_x;
     s32 height_offset;
-    s32 world_y;
-    s32 move_count;
-    s32 action_timer;
+    s32 arc_offset;
+    s32 pos_y;
+    s32 next_move_ticks;
+    s32 action_ticks;
     s32 actor_flags;
     u16 facing_aux;
-    DungeonGlobalStatus *dungeon_state;
+    DungeonGlobalStatus *action_globals;
     u8 *idle_anims;
 
     state = action->action_phase;
     switch (state) {
     case 0:
     {
-        u8 *state_anims;
+        u8 *phase_anims;
 
         if (!(sprite->flags & 0x6000)) {
             break;
         }
-        state_anims = D_80157574;
-        sprite->frameTable = state_anims;
+        phase_anims = D_80157574;
+        (sprite->frameTable) = phase_anims;
         select_sprite_entry(sprite,
-            state_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            phase_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         sprite->scale_y = 0x1000;
         action->action_state_flags |= 8;
@@ -58,44 +58,44 @@ void update_barong_jump_to_tile(ActorRecord *action, ObjectPosition *motion, Spr
         action->unk_A4.value = 0;
         action->action_phase++;
     }
-                        /* fall through */
+                        /* fallthrough */
     case 1:
-        move_frames = action->unk_9E;
+        move_ticks = action->unk_9E;
         action->unk_90.value -= action->unk_A4.value;
-        if (move_frames != 0) {
+        if (move_ticks != 0) {
             target_x = sprite->tile_x;
-            world_x = motion->x.w.i;
+            pos_x = motion->x.w.i;
             target_x <<= 6;
-            world_x -= 0x20;
-            motion->velocity_x = ((target_x - world_x) << 16) / move_frames;
+            pos_x -= 0x20;
+            motion->velocity_x = ((target_x - pos_x) << 16) / move_ticks;
 
-            world_y = motion->y.w.i;
-            world_y -= 0x20;
+            pos_y = motion->y.w.i;
+            pos_y -= 0x20;
             motion->velocity_y =
-                (((sprite->tile_y << 6) - world_y) << 16) /
+                (((sprite->tile_y << 6) - pos_y) << 16) /
                 action->unk_9E;
 
             action->unk_A4.value =
                 (-rsin(action->unk_9E * 0x199)) << 10;
         }
 
-        height = action->unk_90.value;
-        height_offset = action->unk_A4.value;
-        move_count = (u16)action->unk_9E;
-        height += height_offset;
-        move_count -= 1;
-        action->unk_9E = move_count;
-        action->unk_90.value = height;
-        if ((move_count << 16) < 0) {
+        height_offset = action->unk_90.value;
+        arc_offset = action->unk_A4.value;
+        next_move_ticks = (u16)action->unk_9E;
+        height_offset += arc_offset;
+        next_move_ticks -= 1;
+        action->unk_9E = next_move_ticks;
+        action->unk_90.value = height_offset;
+        if ((next_move_ticks << 16) < 0) {
             action->unk_90.value = 0;
             action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
             action->action_phase++;
         }
-                        /* fall through */
+                        /* fallthrough */
     case 2:
     {
-        u8 *state_anims;
+        u8 *phase_anims;
 
         if (actor->flags1C & ACTOR_GROUNDED) {
             action->action_state_flags &= 0xFFF7;
@@ -103,10 +103,10 @@ void update_barong_jump_to_tile(ActorRecord *action, ObjectPosition *motion, Spr
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
-            state_anims = D_8015757C;
-            sprite->frameTable = state_anims;
+            phase_anims = D_8015757C;
+            (sprite->frameTable) = phase_anims;
             select_sprite_entry(sprite,
-                state_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                phase_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             sprite->scale_y = 0xC00;
             action->action_phase++;
@@ -115,21 +115,19 @@ void update_barong_jump_to_tile(ActorRecord *action, ObjectPosition *motion, Spr
         break;
     case 3:
         idle_anims = D_80157554;
-        if (*(u8 * *)&sprite->frameTable != idle_anims) {
-            sprite->frameTable = idle_anims;
+        if (*(u8 **)&sprite->frameTable != idle_anims) {
+            (sprite->frameTable) = idle_anims;
             select_sprite_entry(sprite,
                 idle_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             sprite->scale_y = 0x1000;
         }
         break;
-    default:
-        break;
     }
 
-    action_timer = (u16)action->action_timer - 1;
-    action->action_timer = action_timer;
-    if ((action_timer << 16) > 0) {
+    action_ticks = (u16)action->action_timer - 1;
+    action->action_timer = action_ticks;
+    if ((action_ticks << 16) > 0) {
         return;
     }
 
@@ -141,9 +139,9 @@ void update_barong_jump_to_tile(ActorRecord *action, ObjectPosition *motion, Spr
     spend_actor_mp(actor, 3);
     advance_status_timers(actor);
 
-    dungeon_state = &g_dungeon_status;
-    if (dungeon_state->activity_counts.parts.pending_movement_count != 0) {
-        (*(u16 *)&dungeon_state->activity_counts.parts.pending_movement_count)--;
+    action_globals = &g_dungeon_status;
+    if (action_globals->activity_counts.parts.pending_movement_count != 0) {
+        (*(u16 *)&action_globals->activity_counts.parts.pending_movement_count)--;
     }
 
     actor_flags = actor->flags1C;
@@ -151,14 +149,16 @@ void update_barong_jump_to_tile(ActorRecord *action, ObjectPosition *motion, Spr
         if (actor->action_flags & ACTOR_ACTION_PENDING) {
             actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         }
-    } else if (!(actor_flags & 0x410)) {
-        if (actor_flags & 0x20000) {
-            actor->facing = get_rounded_facing_and_rounding_flag(
-                sprite->tile_x,
-                sprite->tile_y,
-                reference_tile_object.tile_position.parts.tile_x,
-                reference_tile_object.tile_position.parts.tile_y,
-                &facing_aux);
+    } else {
+        if (!(actor_flags & 0x410)) {
+            if (actor_flags & 0x20000) {
+                actor->facing = get_rounded_facing_and_rounding_flag(
+                    sprite->tile_x,
+                    sprite->tile_y,
+                    reference_tile_object.tile_position.parts.tile_x,
+                    reference_tile_object.tile_position.parts.tile_y,
+                    &facing_aux);
+            }
         }
     }
 

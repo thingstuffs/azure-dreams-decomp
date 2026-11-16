@@ -14,7 +14,7 @@
 
 /* D_80083160[0] holds the current CD/streaming state pointer; default value is
  * the sentinel D_801C9E40. size>8 to force %hi/%lo. */
-extern void *D_80083160[3];
+extern u8 *D_80083160[3];
 
 /* short globals D_80080A94/98/9C read via %hi/%lo; accessed via fixed
  * absolute-address casts (see D_80013180 group note below) so gcc reuses the
@@ -42,7 +42,7 @@ extern u8 scene_mode_code[];
  */
 void initialize_hardware_and_game_state(void)
 {
-    void **stream_slot = D_80083160;
+    u8 **stream_slot = D_80083160;
     s32 pad_byte;
     u8 *stream_state;
 

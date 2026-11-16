@@ -10,7 +10,7 @@
 
 /* Creates a Dragon actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
-void *spawn_dragon_slot_d(s16 flags, s16 x, s16 y, s16 part_id)
+void *spawn_dragon_slot_d(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id)
 {
     s32 kind;
     ObjectNodeHeader *obj;
@@ -18,18 +18,16 @@ void *spawn_dragon_slot_d(s16 flags, s16 x, s16 y, s16 part_id)
     SpriteFrameState *part_b;
     ActorRecord *work;
     ActorRecord *actor;
-    u32 flag_bits;
-    s32 secondary_flags;
+    s32 flags;
+    s32 extra_flags;
     s8 saved_x;
-    s16 saved_part_id;
+    s16 saved_id;
     s8 saved_y;
-    void *init_obj;
-    void *query_part;
 
     work = 0;
-    saved_x = x;
-    saved_part_id = part_id;
-    saved_y = y;
+    saved_x = tile_x;
+    saved_id = part_id;
+    saved_y = tile_y;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
         work = NODE_BODY(obj);
@@ -38,43 +36,35 @@ void *spawn_dragon_slot_d(s16 flags, s16 x, s16 y, s16 part_id)
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
-        part_a->z.w.i = saved_part_id;
+        part_a->z.w.i = saved_id;
         part_b = obj->sprite;
-        kind = flags & 3;
+        kind = spawn_flags & 3;
         part_b->tile_y = saved_y;
         actor = work;
         part_b->frameTable = D_80161C7C;
         part_b->tile_x = saved_x;
 
         if (kind == 1) {
-            flag_bits = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            secondary_flags = work->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            work->flags14 = flag_bits;
-            work->flags1C = secondary_flags;
+            flags = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            extra_flags = work->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            work->flags14 = flags;
+            work->flags1C = extra_flags;
         } else if (kind >= 2) {
-            flag_bits = work->flags14 | ACTOR_CLASS_ENABLED;
-            secondary_flags = work->flags1C | ACTOR_PLAYER_SIDE;
-            work->flags14 = flag_bits;
-            work->flags1C = secondary_flags;
-        } else {
-            init_obj = obj;
-            if (((flags & ~3) << 16) == 0) {
-                if (!(work->flags14 & ACTOR_RESIST_SLEEP)) {
-                    query_part = part_a;
-                    init_obj = (void *)generate_random_value();
-                    flag_bits = (s32)init_obj;
-                    init_obj = obj;
-                    if (flag_bits & 1) {
-                        work->flags1C |= ACTOR_ASLEEP;
-                        set_or_clear_actor_status_slot(work, STATUS_SLEEP,
-                                      (generate_random_value() & 0x3F) | 0x20);
-                        part_b->frameTable = D_80161CDC;
-                    }
+            flags = work->flags14 | ACTOR_CLASS_ENABLED;
+            extra_flags = work->flags1C | ACTOR_PLAYER_SIDE;
+            work->flags14 = flags;
+            work->flags1C = extra_flags;
+        } else if (((spawn_flags & ~3) << 16) == 0) {
+            if (!(work->flags14 & ACTOR_RESIST_SLEEP)) {
+                if (generate_random_value() & 1) {
+                    work->flags1C |= ACTOR_ASLEEP;
+                    set_or_clear_actor_status_slot(work, STATUS_SLEEP,
+                                  (generate_random_value() & 0x3F) | 0x20);
+                    part_b->frameTable = D_80161CDC;
                 }
             }
         }
-        init_obj = obj;
-        initialize_actor_sprite_and_animation(init_obj, part_a, part_b, flags);
+        initialize_actor_sprite_and_animation(obj, part_a, part_b, spawn_flags);
         actor->action_id = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.address = &dragon_slot_d_action_callback;

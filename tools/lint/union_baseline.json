@@ -1,5 +1,5 @@
 {
- "count": 1355,
+ "count": 1353,
  "ids": [
   "include/dungeon/actor/ability_eligibility.h::S_800A4300_2.unk_F0",
   "include/dungeon/actor/action_target_selection_g00359.h::S_800CA444_0.unk_24",
@@ -478,7 +478,6 @@
   "include/dungeon/monster/noise/start_directional_action_and_record_tile.h::T_801748D0_S_801748D0_4.unk_08",
   "include/dungeon/monster/saber.h::SaberTileOffset.y",
   "include/dungeon/monster/saber.h::SelectedItemActionEffectBody.facing",
-  "include/dungeon/monster/snowman.h::R10_8017092C_Packet.data",
   "include/dungeon/monster/snowman.h::R10_80171104_S_80171104_2.unk_00",
   "include/dungeon/monster/snowman.h::R10_80171104_S_80171104_2.unk_04",
   "include/dungeon/monster/snowman.h::R10_80172C54_S_80172C54_0.unk_9E",
@@ -930,7 +929,6 @@
   "src/dungeon/effect/mesh/entry_resolve_record_orientation_or_fallback.c::S_81976850_0.unk_0E",
   "src/dungeon/effect/mesh/follow_brighten.c::wide_product.wide_product",
   "src/dungeon/effect/mesh/queue_gouraud_textured_quad.c::Poly.Poly",
-  "src/dungeon/effect/mesh/queue_projected_mesh_points_and_texture_packets.c::Packet.data",
   "src/dungeon/effect/mesh/render_map_cell_mesh.c::RenderScratch.face_info",
   "src/dungeon/effect/mesh/render_map_cell_mesh.c::ScratchPair.ScratchPair",
   "src/dungeon/effect/mesh/transform_and_queue_mesh_primitives.c::S_8187B1F4_4.unk_00",

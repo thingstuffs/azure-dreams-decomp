@@ -16,7 +16,7 @@
 #include "dungeon/data.h"
 
 extern void *actor_update_node_cursor;
-extern s32 ashra_action_continuation_address;
+extern u8 ashra_action_continuation_address[];
 
 /* Advance the actor's animation state and clean up when it finishes. */
 void advance_ashra_attack(ActorRecord *action, ObjectPosition *actor_id, SpriteFrameState *sprite, ActorRecord *actor) {
@@ -53,7 +53,7 @@ void advance_ashra_attack(ActorRecord *action, ObjectPosition *actor_id, SpriteF
         if (sprite->flags & 0xE000) {
             set_record_integer_tile_center(actor_id, sprite->tile_x, sprite->tile_y);
             spend_actor_mp(actor, 0x100);
-            action->unk_8C.address = &ashra_action_continuation_address;
+            action->unk_8C.address = ashra_action_continuation_address;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             if (actor->pending_turn_updates == 0) {

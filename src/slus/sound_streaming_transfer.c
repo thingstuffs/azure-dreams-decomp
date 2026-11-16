@@ -8,7 +8,7 @@ s32 SpuClearReverbWorkArea(s32 voice)
 {
     s32 voice_or_chunk_size = voice;
     s32 remaining, spu_addr, more_chunks, saved_busy, restore_busy = 0;
-    volatile s32 pending_swap = 0;
+    void (* volatile pending_swap)(u32) = 0;
 
     if ((u32)voice_or_chunk_size >= 10)
         return -1;
@@ -26,14 +26,14 @@ s32 SpuClearReverbWorkArea(s32 voice)
 
     saved_busy = spu_transfer_uses_fifo;
     if (saved_busy == 1) {
-        spu_transfer_address_units[1] = 0;
+        spu_transfer_uses_fifo = 0;
         restore_busy = 1;
     }
 
     more_chunks = 1;
-    if (spu_transfer_callback[0] != 0) {
-        pending_swap = spu_address_alignment_mask[2];
-        spu_transfer_complete[1] = 0;
+    if (spu_transfer_callback != 0) {
+        pending_swap = spu_transfer_callback;
+        spu_transfer_callback = 0;
     }
 
     do {
@@ -53,10 +53,10 @@ s32 SpuClearReverbWorkArea(s32 voice)
     } while (more_chunks);
 
     if (restore_busy)
-        spu_transfer_address_units[1] = saved_busy;
+        spu_transfer_uses_fifo = saved_busy;
 
     if (pending_swap != 0)
-        spu_transfer_callback[0] = pending_swap;
+        spu_transfer_callback = pending_swap;
 
     return 0;
 }

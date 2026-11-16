@@ -19,16 +19,6 @@ extern s32 generate_random_value(void);
 
    /* var_s0 in func_8014C878 */
 
-typedef struct S_8014C878_4 {
-    u8 pad_00[0x8C];
-    s32 * unk_8C;
-    u8 pad_90[0x2];
-    s16 unk_92;
-    u8 pad_94[0x6];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-} S_8014C878_4;   /* temp_s5 in func_8014C878 */
 
 /* Allocates an object and initializes its state, placement, and callbacks. */
 

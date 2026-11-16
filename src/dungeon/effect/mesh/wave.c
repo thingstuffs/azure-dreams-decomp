@@ -608,15 +608,8 @@ void raise_entity_to_ground(PointRecord *state, ObjectPosition *position)
 
 /* Retail 818F9A28 (create_random_jitter_child): spawn an effect object under the parent node, placed at the parent's
  * position plus a random jitter (0..31 per axis) and the given offsets (minus half the jitter range). */
-void create_random_jitter_child(
-    ObjectNodeHeader *parent,
-    s16 field_34,
-    s32 field_28,
-    s16 field_52,
-    s16 offset_x,
-    s16 offset_y,
-    s16 offset_z)
-{
+void create_random_jitter_child(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x,
+                   s16 offset_y, s16 offset_z) {
     ObjectNodeHeader *source_obj = parent;
     u32 saved_field_28 = field_28;
     s16 saved_field_52 = field_52;
@@ -631,7 +624,6 @@ void create_random_jitter_child(
     s16 position_x;
     s16 position_y;
     s16 position_z;
-    void *init_data;
     ObjectPosition *dest_x;
     ObjectPosition *dest_y;
     ObjectPosition *dest_z;
@@ -657,7 +649,6 @@ void create_random_jitter_child(
         dest_y->y.w.i = position_y;
 
         jitter_z = rand();
-        init_data = draw_linked_brightness_points;
         jitter_z &= 0x1F;
         position_z = source_obj->position->z.w.i;
         fields = NODE_BODY(spawned);
@@ -668,7 +659,7 @@ void create_random_jitter_child(
         dest_z->z.w.i = position_z;
         fields->unk_14 = field_34;
         fields->brightness = saved_field_52;
-        register_node(spawned, init_data);
+        register_node(spawned, draw_linked_brightness_points);
         fields->color = saved_field_28;
     }
 }

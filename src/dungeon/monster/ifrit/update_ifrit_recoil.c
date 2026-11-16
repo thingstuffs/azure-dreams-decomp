@@ -9,7 +9,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/monster/ifrit.h"
 
-extern s32 ifrit_action_resume_address;
+extern u8 ifrit_action_resume_address[];
 extern u8 D_80174838[];
 
 /* Updates directional motion and settles the entity at its grid position. */
@@ -105,7 +105,7 @@ void update_ifrit_recoil(ActorRecord *body, ObjectPosition *motion, SpriteFrameS
         if (tracked_addr == (s32)((u8 *)source - 0x20)) {
             g_dungeon_status.pending_display_owner = tracked_addr & 0x7FFFFFFF;
         }
-        body->unk_8C.address = &ifrit_action_resume_address;
+        body->unk_8C.address = ifrit_action_resume_address;
         return;
 
     default:

@@ -24,7 +24,7 @@
 
 
 extern u8 D_801718E0[];
-extern s32 weadog_action_resume_address;
+extern u8 weadog_action_resume_address[];
 
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
@@ -87,7 +87,7 @@ void *spawn_weadog_actor(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
         initialize_actor_sprite_and_animation(object, part0, part1, spawn_flags);
         result_copy->action_id = 0xFF;
         result_copy->unk_9C = -1;
-        result_copy->unk_8C.address = &weadog_action_resume_address;
+        result_copy->unk_8C.address = weadog_action_resume_address;
         try_move_actor_to_valid_position(result_copy, part0, part1, result);
     }
 

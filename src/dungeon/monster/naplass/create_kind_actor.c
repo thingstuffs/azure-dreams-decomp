@@ -12,7 +12,7 @@
 /* Allocate an actor and initialize its parts and behavior from the kind flags. */
 /* Creates Naplass with default frames at D_8015C194, applies spawn flags, and attempts valid tile
  * placement. */
-void *create_kind_actor(s16 kind_flags, s16 part_value_24, s16 part_value_25, s16 part_value_0a)
+void *create_kind_actor(s16 spawn_flags, s16 part_b_value_24, s16 part_b_value_25, s16 part_a_value)
 {
     s32 kind;
     ObjectNodeHeader *obj;
@@ -22,16 +22,14 @@ void *create_kind_actor(s16 kind_flags, s16 part_value_24, s16 part_value_25, s1
     ActorRecord *actor;
     register s32 flags_14;
     register s32 flags_1c;
-    register s8 saved_value_24;
-    register s16 saved_value_0a;
-    register s8 saved_value_25;
-    register void *init_obj;
-    register void *query_part;
+    s8 saved_value_24;
+    register s16 saved_part_value;
+    s8 saved_value_25;
 
     work = 0;
-    saved_value_24 = part_value_24;
-    saved_value_0a = part_value_0a;
-    saved_value_25 = part_value_25;
+    saved_value_24 = part_b_value_24;
+    saved_part_value = part_a_value;
+    saved_value_25 = part_b_value_25;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
         work = NODE_BODY(obj);
@@ -40,9 +38,9 @@ void *create_kind_actor(s16 kind_flags, s16 part_value_24, s16 part_value_25, s1
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
-        part_a->z.w.i = saved_value_0a;
+        part_a->z.w.i = saved_part_value;
         part_b = obj->sprite;
-        kind = kind_flags & 3;
+        kind = spawn_flags & 3;
         part_b->tile_y = saved_value_25;
         actor = work;
         part_b->frameTable = D_8015C194;
@@ -59,17 +57,14 @@ void *create_kind_actor(s16 kind_flags, s16 part_value_24, s16 part_value_25, s1
             work->flags14 = flags_14;
             work->flags1C = flags_1c;
         } else {
-            init_obj = obj;
-            if (((kind_flags & ~3) << 16) == 0 && !(work->flags14 & ACTOR_RESIST_SLEEP)) {
-                query_part = part_a;
+            if (((spawn_flags & ~3) << 16) == 0 && !(work->flags14 & ACTOR_RESIST_SLEEP)) {
                 work->flags1C |= ACTOR_ASLEEP;
                 set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                               (generate_random_value() & 0x3F) | 0x20);
                 part_b->frameTable = D_8015C1DC;
             }
         }
-        init_obj = obj;
-        initialize_actor_sprite_and_animation(init_obj, part_a, part_b, kind_flags);
+        initialize_actor_sprite_and_animation(obj, part_a, part_b, spawn_flags);
         actor->action_id = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.address = &dispatch_ability_action;

@@ -66,7 +66,7 @@ void *allocate_actor_effect_object(s16 kind_flags, s16 x, s16 y, s16 part_value)
         initialize_actor_sprite_and_animation(obj, part_a, part_b, kind_flags);
         actor->action_id = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C.address = &naplass_action_continuation_address;
+        actor->unk_8C.address = naplass_action_continuation_address;
         part_b->flags |= 0xC;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }

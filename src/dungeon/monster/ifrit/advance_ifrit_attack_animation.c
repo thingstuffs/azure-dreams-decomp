@@ -15,7 +15,7 @@
 #include "dungeon/player/object.h"
 
 extern void *actor_update_node_cursor;
-extern s32 ifrit_action_resume_address;
+extern u8 ifrit_action_resume_address[];
 extern u8 D_80174840[];
 
 /* Advance the actor animation action and restore actor state when it finishes. */
@@ -53,7 +53,7 @@ void advance_ifrit_attack_animation(ActorRecord *action, ObjectPosition *actor_i
         if (sprite->flags & 0xE000) {
             set_record_integer_tile_center(actor_id, sprite->tile_x, sprite->tile_y);
             spend_actor_mp(actor, 0x100);
-            action->unk_8C.address = &ifrit_action_resume_address;
+            action->unk_8C.address = ifrit_action_resume_address;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             if (actor->pending_turn_updates == 0) {

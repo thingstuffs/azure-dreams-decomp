@@ -9,15 +9,15 @@ typedef struct S_801239B8_0 {
 } S_801239B8_0;
 
 /* Draws two-byte encoded text, advancing horizontally for each available glyph. */
-void draw_cached_catalog_text(u8 *text, s16 x, s16 y) {
-    s16 glyph_x;
+void draw_cached_catalog_text(u8 *text, s16 start_x, s16 y) {
+    s16 x;
     s32 glyph;
     u8 *cursor;
     u8 code_hi;
     u8 code_lo;
 
     cursor = text;
-    glyph_x = x;
+    x = start_x;
     if (*cursor != 0) {
         do {
             code_hi = ((S_801239B8_0 *)cursor)->unk_00;
@@ -25,8 +25,8 @@ void draw_cached_catalog_text(u8 *text, s16 x, s16 y) {
             cursor += 2;
             glyph = get_cached_catalog_glyph(code_lo | (code_hi << 8));
             if (glyph != 0) {
-                LoadTPage(glyph, 0, 0, glyph_x, (s32) y, 0xC, 0x10);
-                glyph_x += 3;
+                LoadTPage(glyph, 0, 0, x, (s32) y, 0xC, 0x10);
+                x += 3;
             }
         } while (*cursor != 0);
     }

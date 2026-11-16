@@ -30,7 +30,7 @@ extern s16 get_tile_chebyshev_distance(void *, void *);
 
 extern void advance_actor_state_with_child(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *creature);
 
-extern u8 maximum_action_continuation_address;
+extern u8 maximum_action_continuation_address[];
 
 /* Updates entity state, directional animation, and color fading. */
 void update_entity_animation_and_color_fade(ActorRecord *controller, ObjectPosition *update_mode, SpriteFrameState *sprite, ActorRecord *entity) {
@@ -77,7 +77,7 @@ void update_entity_animation_and_color_fade(ActorRecord *controller, ObjectPosit
                 entity->flags1C &= ~ACTOR_ASLEEP;
                 entity->flags1C &= 0xEFFFFFFF;
                 sprite->color.word = 0x808080;
-                controller->unk_8C.address = &maximum_action_continuation_address;
+                controller->unk_8C.address = maximum_action_continuation_address;
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count++;
@@ -158,7 +158,7 @@ void update_entity_animation_and_color_fade(ActorRecord *controller, ObjectPosit
             entity->flags1C &= ~ACTOR_ASLEEP;
             entity->flags1C &= 0xEFFFFFFF;
             sprite->color.word = 0x808080;
-            controller->unk_8C.address = &maximum_action_continuation_address;
+            controller->unk_8C.address = maximum_action_continuation_address;
             return;
         }
         {
@@ -184,7 +184,7 @@ void update_entity_animation_and_color_fade(ActorRecord *controller, ObjectPosit
         entity->flags1C &= 0xEFFFFFFF;
         sprite->color.word = 0x808080;
         entity->flags1C &= ~ACTOR_ASLEEP;
-        controller->unk_8C.address = &maximum_action_continuation_address;
+        controller->unk_8C.address = maximum_action_continuation_address;
 
         return;
     default:

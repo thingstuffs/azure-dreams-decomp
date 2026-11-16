@@ -17,7 +17,7 @@
 
 
 extern u8 D_80171248[];
-extern s32 metal_action_resume_address;
+extern u8 metal_action_resume_address[];
 extern u8 metal_frame_set_1[];
 extern u8 D_80174310[];
 
@@ -80,7 +80,7 @@ void *spawn_metal_actor(s16 flags, s16 kind_id, s16 variant, s32 spawn_value)
         initialize_actor_sprite_and_animation(object, part0, part1, flags);
         result_copy->action_id = 0xFF;
         result_copy->unk_9C = -1;
-        result_copy->unk_8C.address = &metal_action_resume_address;
+        result_copy->unk_8C.address = metal_action_resume_address;
         try_move_actor_to_valid_position(result_copy, part0, part1, result);
     }
 

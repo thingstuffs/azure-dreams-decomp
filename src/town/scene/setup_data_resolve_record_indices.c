@@ -4,7 +4,7 @@
 
 typedef struct TownRecord {
     u8 tag;
-    u8 pad_01[0x13];
+    u8 pad1[0x13];
 } TownRecord;
 
 typedef void (*TownFunc3)(const u8 *, const u8 *, s32);
@@ -28,8 +28,7 @@ extern u8 D_000006BC[];
 extern u8 D_00000FE4[];
 
 /* Sets up town data and resolves record indices through the lookup table. */
-void setup_data_and_resolve_record_indices(void) {
-    u8 *record_tag;
+void setup_data_and_resolve_record_indices(s32 unused_list_length, s32 unused_record_value) {
     u8 *data;
 
     if (D_00001020 != 0) {
@@ -40,16 +39,22 @@ void setup_data_and_resolve_record_indices(void) {
     func_80000DC8();
     D_00001034[0]->ptr_10 = D_00000FE4;
     data = D_00001034[0]->ptr_10;
-    if (data[1] != 0x80) {
-        s32 end_tag;
-        s32 index;
-        TownRecord *records;
-        end_tag = 0x80;
-        records = (TownRecord *)(data + 1);
-        index = 0;
-        do {
-            *(s32 *)((u8 *)&records[index] + 0xB) = D_0000103C[0][*(s32 *)((u8 *)&records[index] + 0xB)];
-            index++;
-        } while (records[index].tag != end_tag);
+    {
+        s32 limit;
+        s32 check;
+        s32 sentinel;
+        s32 i;
+        TownRecord *rec;
+        check = data[1];
+        limit = 0x80;
+        if (check != limit) {
+            sentinel = 0x80;
+            rec = (TownRecord *)(data + 1);
+            i = 0;
+            do {
+                *(s32 *)((u8 *)&rec[i] + 0xB) = D_0000103C[0][*(s32 *)((u8 *)&rec[i] + 0xB)];
+                i++;
+            } while (rec[i].tag != sentinel);
+        }
     }
 }

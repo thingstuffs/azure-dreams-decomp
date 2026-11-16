@@ -1,7 +1,6 @@
 #include "common.h"
 #include "town/devkit.h"
-typedef struct { u8 pad[0x10]; void *callback; } Effect;
-Effect * create_card_dev_slot_screen_effect(void *first, void *second);                /* extern */
+#include "frontend/card/server_imports.h"
 #include "frontend/card/effect_mode_data.h"
 #include "frontend/card.h"
 

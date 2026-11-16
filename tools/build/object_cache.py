@@ -232,8 +232,39 @@ def dependency_inputs(root, spec):
                 assembly_files=sorted(assembly_files), projected=projected)
 
 
+TOOL_KEY_ENV = 'AZURE_OBJECT_KEY_TOOLS'
+COMPILE_STAMP = 'build/.state/compiletools.ok'
+
+
+def object_kind(root, spec):
+    """'overlay' or 'slus' when only the object tools shape this compile's bytes, else None.
+
+    None keys the object on the whole compile tool list, as before: native
+    module recipes run the module gate inside the compile, a live noreturn
+    compile (source edited after configure) runs the gate's noreturn census,
+    and AZURE_OBJECT_KEY_TOOLS=all (or any value but 'object') forces it for
+    every recipe. A root without the object tools or a Python without
+    sys.monitoring (the compile-path guard) also keeps the whole list.
+    """
+    if os.environ.get(TOOL_KEY_ENV, 'object') != 'object' or not hasattr(sys, 'monitoring'):
+        return None
+    if 'command' in spec:
+        kind = 'slus'
+    elif 'module' not in spec and spec.get('wrapper', '').endswith(('/cc.sh', '/as.sh')):
+        kind = 'overlay'
+    else:
+        return None
+    if spec.get('live') is not None:
+        text = (root/spec['source']).read_text()
+        if digest(text.encode()) != spec.get('declaration_context_sha256'):
+            return None
+    if not all((root/n).is_file() for n in compile_tools.object_tools(root) + [compile_tools.DRIVER]):
+        return None
+    return kind
+
+
 def key_inputs(root, recipe_path, spec):
-    """Bind live includes, compiler bytes, recipe flags, and fastland3 tool closure.
+    """Bind live includes, compiler bytes, recipe flags, and the object tools.
 
     A fresh include walk catches newly introduced and shadowing headers even if
     configure's previous dependency list is stale. Unsupported volatile inputs
@@ -257,9 +288,14 @@ def key_inputs(root, recipe_path, spec):
     if discovered is None:
         return None
     names.update(discovered['files'])
-    closure_file = root/'build/.state/compiletools.list'
-    tools = json.loads(closure_file.read_text())
-    names.update(tools)
+    kind = object_kind(root, spec)
+    if kind is None:
+        names.update(json.loads((root/'build/.state/compiletools.list').read_text()))
+    else:
+        # The stamp hashes every compile tool; it schedules the rule, the object tools key it.
+        names.discard(COMPILE_STAMP)
+        names.discard(compile_tools.DRIVER)
+        names.update(compile_tools.object_tools(root))
     flags = ' '.join(spec.get('args', [])) + ' ' + spec.get('command', '')
     # Root-sensitive debug strings and volatile macros cannot use portable keys.
     if re.search(r'(?<!\S)-g|\b__(?:FILE|BASE_FILE|DATE|TIME|TIMESTAMP)__\b', flags):
@@ -283,6 +319,8 @@ def key_inputs(root, recipe_path, spec):
     inputs = content_cache.hashes(root, names - {'tools/build/mkbuild.py'} if semantic_driver else names)
     if semantic_driver:
         inputs['tools/build/mkbuild.py'] = compile_tools.semantic_digest(root, 'tools/build/mkbuild.py')
+    if kind is not None:
+        inputs[compile_tools.DRIVER] = compile_tools.driver_digest(root, kind)[0]
     if any(value is None and name not in optional for name, value in inputs.items()):
         raise ValueError('missing object cache input')
     if discovered.get('projected'):
@@ -319,9 +357,74 @@ def key_inputs(root, recipe_path, spec):
                                            'GCC_EXEC_PREFIX', 'COMPILER_PATH', 'LIBRARY_PATH',
                                            'DEPENDENCIES_OUTPUT', 'SUNPRO_DEPENDENCIES')):
         return None
-    return dict(schema=SCHEMA, recipe=spec, inputs=inputs, preprocessed=discovered['preprocessed'],
-                full_preprocessed=discovered.get('full_preprocessed', {}), executables=executables,
-                environment=env, python=sys.version)
+    result = dict(schema=SCHEMA, recipe=spec, inputs=inputs, preprocessed=discovered['preprocessed'],
+                  full_preprocessed=discovered.get('full_preprocessed', {}), executables=executables,
+                  environment=env, python=sys.version)
+    if kind is not None:
+        # Whole-list keys keep their previous form; this marker keeps the two key forms apart.
+        result['object_tools'] = dict(kind=kind, version=1)
+    return result
+
+
+@contextmanager
+def compile_path_guard(root, kind):
+    """Record repository Python code run in this process outside the object key of `kind`.
+
+    Yields the list of offending 'path:function' names, filled when the block
+    exits. An object key of kind 'overlay' or 'slus' binds the object tools and
+    mkbuild's compile path only; a compile that runs any other repository code
+    in process must not publish under that key. Subprocess front ends are bound
+    as files. Each code object is reported once (DISABLE), so the guard costs
+    one callback per function.
+    """
+    found = []
+    if kind is None:
+        yield found
+        return
+    root = Path(root)
+    prefixes = {os.path.abspath(root) + os.sep, os.path.realpath(root) + os.sep}
+    allowed = set(compile_tools.object_tools(root))
+    functions = compile_tools.driver_digest(root, kind)[1]
+    monitoring = sys.monitoring
+    seen = set()
+
+    def started(code, offset):
+        # Frozen and generated code ('<frozen os>', '<string>') has no path.
+        if not os.path.isabs(code.co_filename):
+            return monitoring.DISABLE
+        name = os.path.normpath(code.co_filename)
+        prefix = next((p for p in prefixes if name.startswith(p)), None)
+        if prefix is not None:
+            relative = name[len(prefix):]
+            top = code.co_qualname.split('.')[0]
+            if relative == compile_tools.DRIVER:
+                if functions is not None and top not in functions and top != '<module>':
+                    seen.add(relative + ':' + top)
+            elif relative not in allowed:
+                seen.add(relative + ':' + top)
+        return monitoring.DISABLE
+
+    # A code object disabled by an earlier guard in this process must report again.
+    monitoring.restart_events()
+    tool = next((t for t in (4, 3) if monitoring.get_tool(t) is None), None)
+    if tool is None:
+        try:
+            yield found
+        finally:
+            found.append('<no free sys.monitoring tool id>')
+        return
+    monitoring.use_tool_id(tool, 'object-cache-guard')
+    try:
+        monitoring.register_callback(tool, monitoring.events.PY_START, started)
+        monitoring.set_events(tool, monitoring.events.PY_START)
+        try:
+            yield found
+        finally:
+            monitoring.set_events(tool, 0)
+            monitoring.register_callback(tool, monitoring.events.PY_START, None)
+            found.extend(sorted(seen))
+    finally:
+        monitoring.free_tool_id(tool)
 
 
 @contextmanager
@@ -564,12 +667,12 @@ def refresh_proof(root, recipe_path, spec):
     target.touch()  # name witness may just have been restored
 
 
-def log_event(root, status, spec, key=None, seconds=0):
+def log_event(root, status, spec, key=None, seconds=0, **extra):
     log = Path(os.environ.get('AZURE_OBJECT_CACHE_LOG', str(root/'build/.state/object-cache.jsonl')))
     log.parent.mkdir(parents=True, exist_ok=True)
     fd = os.open(log, os.O_CREAT | os.O_APPEND | os.O_WRONLY, 0o600)
     try:
-        os.write(fd, encode(dict(status=status, output=spec['output'], key=key, seconds=seconds)) + b'\n')
+        os.write(fd, encode(dict(status=status, output=spec['output'], key=key, seconds=seconds, **extra)) + b'\n')
     finally:
         os.close(fd)
 
@@ -612,11 +715,20 @@ def compile_recipe(root, recipe_path, build):
     if not hit or verify:
         # A make recipe owns exactly one job already; never read or return
         # jobserver pipe tokens, and never run recursive make while holding a slot.
+        kind = (inputs or {}).get('object_tools', {}).get('kind')
         with compile_slots.acquire():
-            build()
+            with compile_path_guard(root, kind) as unbound:
+                build()
             if inputs is not None and (key_inputs(root, recipe_path, spec) != inputs
                                        or table_snapshot(root, spec) != tables):
                 raise ValueError('object cache inputs changed during compile')
+        if unbound:
+            # Code outside the object key ran: the key would not witness it. Keep the
+            # compiled object, publish nothing and report the code for compile_tools.
+            print('CACHE_UNBOUND', spec['output'], ' '.join(unbound), file=sys.stderr, flush=True)
+            log_event(root, 'unbound', spec, key, time.monotonic()-started, unbound=unbound)
+            if not hit:
+                return
         if verify and any(digest((root/name).read_bytes()) != value for name, value in expected.items()):
             with locked(directory):
                 if entry.exists():

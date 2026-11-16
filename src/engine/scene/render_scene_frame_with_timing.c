@@ -16,7 +16,7 @@
 
 extern void update_active_nodes_and_render_frame(void);
 
-extern s8 last_frame_ticks;
+
 extern u16 system_update_flags[];
 
 /* Present the frame, switch draw buffers, and synchronize frame timing. */
@@ -61,7 +61,7 @@ void render_scene_frame_with_timing(void)
     frame_ticks = GetRCnt(1) + 0xFF;
     sync_flags = system_update_flags[0];
     frame_ticks >>= 8;
-    last_frame_ticks = (s8)frame_ticks;
+    last_frame_ticks = (u8)frame_ticks;
     if (!(sync_flags & 2)) {
         if (scene_skip_vsync == 0) {
             VSync((animation_tick_scale != 1) * 2);

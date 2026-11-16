@@ -2,31 +2,31 @@
 
 
 /* Adds projected point primitives and draw-mode packets to the ordering table. */
-s32 queue_projected_point_primitives_2(u8 *object_data, u16 *point_data)
+s32 queue_projected_point_primitives_2(u8 *item_data, u16 *coords)
 {
     PointTileScratch *scratch = (PointTileScratch *)0x1F800000;
-    void **global_state = ((void * *)(&g_game_work));
-    GpuContext *render_state = global_state[0];
+    void **globals = ((void * *)(&g_game_work));
+    GpuContext *render_state = globals[0];
     TILE_1 *first_packet = render_state->packetCursor;
     TILE_1 *packet;
-    s32 depth_index;
+    s32 ot_index;
     u32 address_mask = 0x00FFFFFF;
     u32 length_mask = 0xFF000000;
 
     scratch->ordering_table = (u32 *)&render_state->orderTag;
     scratch->packet_cursor = first_packet;
     for (;;) {
-        scratch->position.vx = point_data[1];
+        scratch->position.vx = coords[1];
         packet = scratch->packet_cursor;
-        scratch->position.vy = point_data[3];
-        scratch->position.vz = point_data[5];
+        scratch->position.vy = coords[3];
+        scratch->position.vz = coords[5];
 
         scratch->packet_cursor = packet + 1;
-        depth_index = RotTransPers(&scratch->position, (s32 *)&packet->x0,
-                              &scratch->depth_cue, &scratch->gte_flag);
-        scratch->ot_index = depth_index;
+        ot_index = RotTransPers(&scratch->position, (s32 *)&packet->x0,
+                                 &scratch->depth_cue, &scratch->gte_flag);
+        scratch->ot_index = ot_index;
 
-        if ((u32)depth_index < 480U) {
+        if ((u32)ot_index < 480U) {
             u16 tpage;
             DR_MODE *mode_packet;
             u8 r;
@@ -34,7 +34,7 @@ s32 queue_projected_point_primitives_2(u8 *object_data, u16 *point_data)
             u8 b;
 
             /* BYTES: retail copies the tile colour word (r0, g0, b0 and code) with one lw/sw; member copies compile to four lbu/sb */
-            *(u32 *)&packet->r0 = *(u32 *)(object_data + 8);
+            *(u32 *)&packet->r0 = *(u32 *)(item_data + 8);
             ((GpuLinkTag *)&packet->tag)->len = 2;
             r = packet->r0;
             g = packet->g0;
@@ -64,15 +64,15 @@ s32 queue_projected_point_primitives_2(u8 *object_data, u16 *point_data)
         }
 
         {
-            u8 *next_object = *(u8 **)(object_data - 8);
+            u8 *next_node = *(u8 **)(item_data - 8);
 
-            if (next_object == 0)
+            if (next_node == 0)
                 break;
-            object_data = next_object + 0x20;
-            point_data = (u16 *)*(u8 **)(next_object + 8);
+            item_data = next_node + 0x20;
+            coords = (u16 *)*(u8 **)(next_node + 8);
         }
     }
 
-    ((GpuContext *)global_state[0])->packetCursor = scratch->packet_cursor;
+    ((GpuContext *)globals[0])->packetCursor = scratch->packet_cursor;
     return 0;
 }

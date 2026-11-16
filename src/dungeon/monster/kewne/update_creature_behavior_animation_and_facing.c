@@ -24,8 +24,8 @@
 
 
 #include "dungeon/item/find_active_rect_containing_point_api.h"
-extern s32 try_kewne_attack(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
-extern void func_8016E574(void *, void *, void *, void *);
+s32 try_kewne_attack(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
+extern void func_8016E574(void *, ObjectPosition *, void *, ActorRecord *);
 
 extern u8 D_8016FE40[];
 extern u8 D_8016FE48[];
@@ -35,38 +35,38 @@ extern u8 D_8016FEB0[];
 extern u8 D_8016FEB8[];
 
 /* Updates creature behavior, animation, and facing according to its current state. */
-void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *creature) {
+void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
     u16 distance;
     s8 room_id;
     u16 action_flags;
 
     if (g_dungeon_status.flags & 0x1000) {
         actor->action_id = 0xE;
-        advance_actor_path_and_facing(actor, context, sprite, creature);
+        advance_actor_path_and_facing(actor, context, sprite, entity);
         return;
     }
 
-    if (creature->mp_value.parts.whole == 0) {
+    if (entity->mp_value.parts.whole == 0) {
         u8 *anim_table;
 
-        advance_actor_pending_action(actor, context, sprite, creature);
+        advance_actor_pending_action(actor, context, sprite, entity);
         if (sprite->frameTable == D_8016FEA0) {
             return;
         }
         anim_table = D_8016FEB0;
         (sprite->frameTable) = anim_table;
         select_sprite_entry(sprite,
-            anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + creature->facing + 0x100) >> 9) & 7],
+            anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
 
-    if (((u32)creature->flags1C) & ACTOR_ASLEEP) {
+    if (((u32)entity->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == D_8016FEA0) {
             actor->action_id = 0xD;
             actor->action_phase = 1;
             actor->unk_8C.word = 0;
-            creature->flags1C &= ~0x40000;
+            entity->flags1C &= ~0x40000;
             return;
         }
         if (reset_actor_action_state(actor, context, sprite, D_8016FEB0) != 0) {
@@ -75,13 +75,13 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((u32)creature->flags1C) & ACTOR_PUSH_PENDING) {
-            begin_pushed_actor_move(actor, context, sprite, creature);
+        if (((u32)entity->flags1C) & ACTOR_PUSH_PENDING) {
+            begin_pushed_actor_move(actor, context, sprite, entity);
             return;
         }
 
         {
-            void *current_anims;
+            void *current_anim;
             u8 *anim_table;
 
             if (actor->action_id != 0xE) {
@@ -89,14 +89,14 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
                 actor->unk_B0.halves.high.s = 0;
             }
 
-            current_anims = sprite->frameTable;
-            if (current_anims == D_8016FEB8) {
+            current_anim = sprite->frameTable;
+            if (current_anim == D_8016FEB8) {
                 if (sprite->flags & 0xE000) {
-                    u8 *reset_anims = D_8016FE40;
+                    u8 *reset_anim = D_8016FE40;
 
-                    (sprite->frameTable) = reset_anims;
+                    (sprite->frameTable) = reset_anim;
                     select_sprite_entry(sprite,
-                        reset_anims[((g_game_work.view.camera_rotation.parts.viewAngle + creature->facing + 0x100) >> 9) & 7],
+                        reset_anim[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
                     sprite->frame_ticks = 1;
                     actor->unk_A0.parts.high = 0;
@@ -104,10 +104,10 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
                 }
             } else {
                 anim_table = D_8016FE40;
-                if (current_anims != anim_table) {
+                if (current_anim != anim_table) {
                     (sprite->frameTable) = anim_table;
                     select_sprite_entry(sprite,
-                        anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + creature->facing + 0x100) >> 9) & 7],
+                        anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
                     sprite->frame_ticks = 1;
                     actor->unk_A0.parts.high = 0;
@@ -116,45 +116,45 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
             }
         }
 
-        creature->flags1C |= 0x40000;
+        entity->flags1C |= 0x40000;
         actor->action_state_flags &= 0xFFF7;
 
-        if (creature->hp_delta != 0) {
+        if (entity->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, context, sprite, D_8016FE48) != 0) {
                 return;
             }
         }
 
-        if (((u32)creature->flags1C) & ACTOR_LIFTED) {
-            s16 base_offset;
+        if (((u32)entity->flags1C) & ACTOR_LIFTED) {
+            s16 adjusted_offset;
 
-            begin_actor_move_to_target_facing(actor, context, sprite, creature);
-            base_offset = actor->unk_90.parts.high - actor->unk_A0.parts.high;
+            begin_actor_move_to_target_facing(actor, context, sprite, entity);
+            adjusted_offset = actor->unk_90.parts.high - actor->unk_A0.parts.high;
             actor->unk_A0.parts.high = 0;
             actor->unk_9E = 0;
-            actor->unk_90.parts.high = base_offset;
-            func_8016E574(actor, context, sprite, creature);
+            actor->unk_90.parts.high = adjusted_offset;
+            func_8016E574(actor, context, sprite, entity);
             return;
         }
 
-        if ((can_entity_gain_level(creature) << 16) != 0) {
-            process_selected_actor_record(actor, context, sprite, creature);
+        if ((can_entity_gain_level(entity) << 16) != 0) {
+            process_selected_actor_record(actor, context, sprite, entity);
         }
     }
 
     room_id = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
     sprite->room_index = room_id;
 
-    if (creature->pending_turn_updates > 0) {
-        if (((u32)creature->flags1C) & ACTOR_PARALYZED) {
-            update_actor_status_and_mp(creature);
+    if (entity->pending_turn_updates > 0) {
+        if (((u32)entity->flags1C) & ACTOR_PARALYZED) {
+            update_actor_status_and_mp(entity);
             return;
         }
         if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
-            choose_hikewne_move(actor, context, sprite, creature);
+            choose_hikewne_move(actor, context, sprite, entity);
             return;
         }
-        if (!(creature->action_flags & ACTOR_ACTION_PENDING)) {
+        if (!(entity->action_flags & ACTOR_ACTION_PENDING)) {
             if (g_dungeon_status.flags & 0x2000) {
                 {
                     ObjectNodeHeader *previous_node;
@@ -164,7 +164,7 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
                     previous_node = primary_actor_record->previous_actor_header;
                     previous_body = NODE_BODY(previous_node);
                     previous_actor = previous_body;
-                    if ((check_entity_relation(creature,
+                    if ((check_entity_relation(entity,
                             previous_actor) << 16) != 0) {
                         return;
                     }
@@ -173,24 +173,24 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
             if ((relink_hikewne_path(actor, context, sprite, 0) << 16) == 0) {
                 return;
             }
-            action_flags = creature->action_flags | 0x4000;
-            creature->action_flags = action_flags;
+            action_flags = entity->action_flags | 0x4000;
+            entity->action_flags = action_flags;
             if (!(action_flags & 0x8000)) {
-                choose_hikewne_move(actor, context, sprite, creature);
-                return;
+                choose_hikewne_move(actor, context, sprite, entity);
+            return;
             }
         }
 
         {
-            u32 action_index = (u32)((creature->action_flags & ACTOR_ACTION_CODE_MASK) - 1);
+            u32 action_index = (u32)((entity->action_flags & ACTOR_ACTION_CODE_MASK) - 1);
 
             switch (action_index) {
             case 7:
             case 8:
-                if ((try_kewne_attack(actor, context, sprite, creature) << 16) != 0) {
+                if ((try_kewne_attack(actor, context, sprite, entity) << 16) != 0) {
                     return;
                 }
-                start_kewne_attack_action(actor, context, sprite, creature);
+                start_kewne_attack_action(actor, context, sprite, entity);
                 return;
 
             case 4:
@@ -205,7 +205,7 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                     &distance);
                 player = primary_actor_record;
-                creature->facing = facing_angle;
+                entity->facing = facing_angle;
                 if (player->action_id == 0x11) {
                     begin_actor_spell_action(actor, context, sprite, D_8016FE98, update_creature_behavior_animation_and_facing);
                     return;
@@ -214,7 +214,7 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
                                             /* fallthrough */
 
             case 11:
-                update_actor_status_and_mp(creature);
+                update_actor_status_and_mp(entity);
                 return;
 
             case 0:
@@ -227,23 +227,23 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
             case 9:
             case 10:
             default:
-                choose_hikewne_move(actor, context, sprite, creature);
+                choose_hikewne_move(actor, context, sprite, entity);
                 return;
             }
         }
     }
 
-    if (!(((u32)creature->flags1C) & ACTOR_PLAYER_SIDE)) {
+    if (!(((u32)entity->flags1C) & ACTOR_PLAYER_SIDE)) {
         s32 room_index = room_id;
 
         if ((room_index < 0) ||
             !(dungeon_rooms[room_index].flags & 2)) {
-            if (!(((u32)creature->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
+            if (!(((u32)entity->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((test_neighbor_position_relation(
                         sprite->tile_x, sprite->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
-                    creature->facing = get_rounded_facing_and_rounding_flag(
+                    entity->facing = get_rounded_facing_and_rounding_flag(
                         sprite->tile_x, sprite->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &distance);
@@ -251,9 +251,9 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
                 }
             }
         }
-    } else if ((get_entity_effect_value(creature, STATUS_PARALYSIS) << 16) == 0) {
+    } else if ((get_entity_effect_value(entity, STATUS_PARALYSIS) << 16) == 0) {
         if (primary_actor_record->action_id == 0x17) {
-            update_kewne_charge_counter(actor, context, sprite, creature);
+            update_kewne_charge_counter(actor, context, sprite, entity);
         }
     }
 }

@@ -36,20 +36,20 @@ extern u8 D_80163CA0[];
 extern u8 D_80163CA8[];
 
 /* Updates actor animation, dispatches its action state, and adjusts facing toward the player. */
-void update_kewne_actor_state(ActorRecord *actor, ObjectPosition *actor_aux, SpriteFrameState *sprite, ActorRecord *entity) {
-    u16 direction_aux;
+void update_kewne_actor_state(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
+    u16 distance;
     s8 room_id;
-    u16 action_state;
+    u16 behavior;
 
     if (g_dungeon_status.flags & 0x1000) {
         actor->action_id = 0xE;
-        advance_actor_path_and_facing(actor, actor_aux, sprite, entity);
+        advance_actor_path_and_facing(actor, context, sprite, entity);
         return;
     }
     if (entity->mp_value.parts.whole == 0) {
         void *anim_table;
 
-        advance_actor_pending_action(actor, actor_aux, sprite, entity);
+        advance_actor_pending_action(actor, context, sprite, entity);
         if (sprite->frameTable == D_80163C90) {
             return;
         }
@@ -69,14 +69,14 @@ void update_kewne_actor_state(ActorRecord *actor, ObjectPosition *actor_aux, Spr
             entity->flags1C &= 0xFFFBFFFF;
             return;
         }
-        if (reset_actor_action_state(actor, actor_aux, sprite, D_80163CA0) != 0) {
+        if (reset_actor_action_state(actor, context, sprite, D_80163CA0) != 0) {
             return;
         }
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
         if (((u32)entity->flags1C) & ACTOR_PUSH_PENDING) {
-            begin_pushed_actor_move(actor, actor_aux, sprite, entity);
+            begin_pushed_actor_move(actor, context, sprite, entity);
             return;
         }
 
@@ -90,52 +90,53 @@ void update_kewne_actor_state(ActorRecord *actor, ObjectPosition *actor_aux, Spr
                 actor->unk_B4.halves.high.s = 0;
             }
             current_anim = sprite->frameTable;
-            if (current_anim != D_80163CA8 || (sprite->flags & 0xE000)) {
-                if (current_anim == D_80163CA8) {
+            if (current_anim == D_80163CA8) {
+                if (sprite->flags & 0xE000) {
                     (sprite->frameTable) = kewne_uncached_frame_set_3;
                     select_sprite_entry(sprite,
                         kewne_uncached_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
-                } else {
-                    void *idle_anim = kewne_uncached_frame_set_3;
-                    if (current_anim == idle_anim) {
-                        goto table_done;
-                    }
+                    sprite->frame_ticks = 1;
+                    actor->unk_A0.parts.high = 0;
+                    actor->unk_9E = 0;
+                }
+            } else {
+                void *idle_anim = kewne_uncached_frame_set_3;
+                if (current_anim != idle_anim) {
                     (sprite->frameTable) = idle_anim;
                     select_sprite_entry(sprite,
-                        *(u8 *)((u32)(((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7) + (u32)idle_anim),
+                        *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7) + (u32)idle_anim),
                         0);
+                    sprite->frame_ticks = 1;
+                    actor->unk_A0.parts.high = 0;
+                    actor->unk_9E = 0;
                 }
-                sprite->frame_ticks = 1;
-                actor->unk_A0.parts.high = 0;
-                actor->unk_9E = 0;
             }
         }
-table_done:
 
-        (*(u32 *)&entity->flags1C) |= 0x40000;
+        entity->flags1C = (u32)((u32)(entity->flags1C) | (0x40000));
         actor->action_state_flags &= 0xFFF7;
 
         if (entity->hp_delta != 0) {
-            if (begin_ready_actor_directional_action(actor, actor_aux, sprite, D_80163C38) != 0) {
+            if (begin_ready_actor_directional_action(actor, context, sprite, D_80163C38) != 0) {
                 return;
             }
         }
 
         if (((u32)entity->flags1C) & ACTOR_LIFTED) {
-            s16 base_height;
+            s16 movement_delta;
 
-            begin_actor_move_to_target_facing(actor, actor_aux, sprite, entity);
-            base_height = actor->unk_90.parts.high - actor->unk_A0.parts.high;
+            begin_actor_move_to_target_facing(actor, context, sprite, entity);
+            movement_delta = actor->unk_90.parts.high - actor->unk_A0.parts.high;
             actor->unk_A0.parts.high = 0;
             actor->unk_9E = 0;
-            actor->unk_90.parts.high = base_height;
-            func_80163078(actor, actor_aux, sprite, entity);
+            actor->unk_90.parts.high = movement_delta;
+            func_80163078(actor, context, sprite, entity);
             return;
         }
 
         if ((can_entity_gain_level(entity) << 16) != 0) {
-            process_selected_actor_record(actor, actor_aux, sprite, entity);
+            process_selected_actor_record(actor, context, sprite, entity);
         }
     }
 
@@ -147,81 +148,79 @@ table_done:
             update_actor_status_and_mp(entity);
             return;
         }
-        if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
-            select_zu_movement(actor, actor_aux, sprite, entity);
-            return;
-        }
-        if (!(entity->action_flags & ACTOR_ACTION_PENDING)) {
-            if (g_dungeon_status.flags & 0x2000) {
-                {
-                    ObjectNodeHeader *previous_node;
-                    void *previous_body;
-                    ActorRecord *previous_actor;
+        if ( *(u16 *)&sprite->tile_x !=reference_tile_object.tile_position.word) {
+            if (!(entity->action_flags & ACTOR_ACTION_PENDING)) {
+                if (g_dungeon_status.flags & 0x2000) {
+                    {
+                        ObjectNodeHeader *previous_node;
+                        void *previous_body;
+                        ActorRecord *previous_actor;
 
-                    previous_node = primary_actor_record->previous_actor_header;
-                    previous_body = NODE_BODY(previous_node);
-                    previous_actor = previous_body;
-                    if ((check_entity_relation(entity,
-                            previous_actor) << 16) != 0) {
+                        previous_node = primary_actor_record->previous_actor_header;
+                        previous_body = NODE_BODY(previous_node);
+                        previous_actor = previous_body;
+                        if ((check_entity_relation(entity,
+                                previous_actor) << 16) != 0) {
+                            return;
+                        }
+                    }
+                }
+                if ((relink_hikewne_path(actor, context, sprite, 0) << 16) == 0) {
+                    return;
+                }
+                behavior = entity->action_flags | 0x4000;
+                entity->action_flags = behavior;
+            }
+
+            if (entity->action_flags & ACTOR_ACTION_PENDING) {
+                behavior = entity->action_flags & ACTOR_ACTION_CODE_MASK;
+                switch (behavior) {
+                case 8:
+                case 9:
+                    if ((try_kewne_attack(actor, context, sprite, entity) << 16) != 0) {
+                        return;
+                    }
+                    start_kewne_attack_action(actor, context, sprite, entity);
+                    return;
+
+                case 5:
+                case 6:
+                case 7:
+                {
+                    ActorRecord *player;
+                    s16 facing_angle;
+
+                    facing_angle = get_rounded_facing_and_rounding_flag(
+                        sprite->tile_x, sprite->tile_y,
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
+                        &distance);
+                    player = primary_actor_record;
+                    entity->facing = facing_angle;
+                    if (player->action_id == 0x11) {
+                        begin_actor_spell_action(actor, context, sprite, D_80163C88, D_8015FFA4);
                         return;
                     }
                 }
-            }
-            if ((relink_hikewne_path(actor, actor_aux, sprite, 0) << 16) == 0) {
-                return;
-            }
-            action_state = entity->action_flags | 0x4000;
-            entity->action_flags = action_state;
-            if (!(action_state & 0x8000)) {
-                select_zu_movement(actor, actor_aux, sprite, entity);
-                return;
-            }
-        }
 
-        action_state = entity->action_flags & ACTOR_ACTION_CODE_MASK;
-        switch (action_state) {
-        case 8:
-        case 9:
-            if ((try_kewne_attack(actor, actor_aux, sprite, entity) << 16) != 0) {
-                return;
-            }
-            start_kewne_attack_action(actor, actor_aux, sprite, entity);
-            return;
+                case 12:
+                    update_actor_status_and_mp(entity);
+                    return;
 
-        case 5:
-        case 6:
-        case 7:
-        {
-            ActorRecord *player;
-            s16 facing;
+                case 1:
+                case 2:
+                case 3:
+                    begin_actor_spell_action(actor, context, sprite, D_80163C88, D_8015FFA4);
+                    return;
 
-            facing = get_rounded_facing_and_rounding_flag(
-                sprite->tile_x, sprite->tile_y,
-                reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
-                &direction_aux);
-            player = primary_actor_record;
-            entity->facing = facing;
-            if (player->action_id == 0x11) {
-                begin_actor_spell_action(actor, actor_aux, sprite, D_80163C88, D_8015FFA4);
-                return;
+                case 11:
+                default:
+                    break;
+                }
             }
         }
 
-        case 12:
-            update_actor_status_and_mp(entity);
-            return;
-
-        case 1:
-        case 2:
-        case 3:
-            begin_actor_spell_action(actor, actor_aux, sprite, D_80163C88, D_8015FFA4);
-            return;
-
-        case 11:
-        default:
-            select_zu_movement(actor, actor_aux, sprite, entity);
-            return;
-        }
+        select_zu_movement(actor, context, sprite, entity);
+        return;
     }
 
     if (!(((u32)entity->flags1C) & ACTOR_PLAYER_SIDE)) {
@@ -237,7 +236,7 @@ table_done:
                     entity->facing = get_rounded_facing_and_rounding_flag(
                         sprite->tile_x, sprite->tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
-                        &direction_aux);
+                        &distance);
                 }
             }
         }

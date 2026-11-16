@@ -5,5 +5,6 @@
 
 /* Frame timing scale owned by the resident SLUS program. */
 extern u8 animation_tick_scale;
+extern u8 last_frame_ticks;
 
 #endif

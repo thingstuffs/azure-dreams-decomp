@@ -1,9 +1,8 @@
 #include "common.h"
 #include "frontend/card.h"
+#include "frontend/card/server_imports.h"
 
 #include "frontend/card/effect_mode_data.h"
-typedef struct { u8 pad[0x10]; void *callback; } Effect;
-extern Effect *create_card_dev_slot_screen_effect(void *, void *);
 /*
  * Sets card_dev_effect_mode to one, runs card_dev_init, and creates or reuses the effect with
  * selector 0.

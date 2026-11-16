@@ -17,6 +17,13 @@
  */
 #include "common.h"
 
+typedef struct {
+    u8 pad[0x10];
+    void *callback;
+} CardSlotScreenEffect;
+
+CardSlotScreenEffect *create_card_dev_slot_screen_effect(void *first, void *second);
+
 /* devkit executable: set every entry of a row, then one entry (mode 1 / mode 0) */
 void func_80051DE4(void *entries, s32 mode);
 void func_800514A8(void *entry, s32 mode);

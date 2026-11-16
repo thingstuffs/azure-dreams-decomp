@@ -14,8 +14,8 @@ typedef void (*Callback)(void *, void *, void *, void *);
 extern s32 refresh_actor_facing_and_lifecycle();
 extern s16 sample_terrain_surface_height();
 
-extern u8 pulunpa_action_resume_address;
-extern u8 pulunpa_variant_action_address;
+extern u8 pulunpa_action_resume_address[];
+extern u8 pulunpa_variant_action_address[];
 extern Callback D_80176380[];
 extern Callback D_801763E0[];
 
@@ -42,8 +42,8 @@ void update_monster_facing_and_ground(ActorRecord *body, ObjectPosition *motion,
         ActorActionHandler special_callback;
 
         special_callback = body->unk_8C.handler;
-        if (special_callback == (ActorActionHandler)&pulunpa_action_resume_address ||
-            special_callback == (ActorActionHandler)&pulunpa_variant_action_address) {
+        if (special_callback == (ActorActionHandler)pulunpa_action_resume_address ||
+            special_callback == (ActorActionHandler)pulunpa_variant_action_address) {
             special_callback(body, motion, sprite, body);
         } else {
             body->movement_queue_state &= 0x7F;

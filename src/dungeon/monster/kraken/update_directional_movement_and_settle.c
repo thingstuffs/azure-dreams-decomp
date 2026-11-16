@@ -18,7 +18,7 @@
 
 
 extern void *actor_update_node_cursor;
-extern s32 kraken_action_resume_address;
+extern u8 kraken_action_resume_address[];
 extern u8 D_8017419C[];
 
 /* Updates directional movement and animation, then settles the actor on its destination tile. */
@@ -86,7 +86,7 @@ void update_directional_movement_and_settle(ActorRecord *action, ObjectPosition 
             actor->flags1C = (u32)((u32)(actor->flags1C) | (0x40000));
             set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             spend_actor_mp(actor, 0x100);
-            action->unk_8C.address = &kraken_action_resume_address;
+            action->unk_8C.address = kraken_action_resume_address;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             if (actor->pending_turn_updates == 0) {

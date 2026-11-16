@@ -7,13 +7,14 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/item.h"
 #include "dungeon/effect/shade.h"
+#include "dungeon/effect.h"
 
 /* Computes two orientation angles from the difference between the supplied positions and sets the
    third angle to zero. */
 void update_directional_actor_effect(s16 start_x, s16 start_y, s16 start_z, s16 end_x, s16 end_y,
                    s16 end_z, s16 *angles)
 {
-    struct Row_8194C81C_Delta delta;
+    PositionDelta delta;
     s32 divisor;
 
     delta.x = end_x - start_x;

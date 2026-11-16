@@ -13,7 +13,6 @@
 #include "dungeon/actor/status.h"
 #include "engine/node.h"
 
-typedef s32 M2C_UNK;
 
 
 
@@ -22,7 +21,7 @@ extern s32 generate_random_value(void);
 extern u8 D_80170A58[];
 #include "dungeon/monster/ifrit.h"
 #include "dungeon/monster/ifrit_frames.h"
-extern M2C_UNK ifrit_action_resume_address;
+extern u8 ifrit_action_resume_address[];
 
 extern void *build_projected_tile_packets(s16, s16, s16, s16);
 /* Creates a Ifrit actor at the supplied tile and height, then initializes mode flags, status, and
@@ -85,7 +84,7 @@ void *build_projected_tile_packets(s16 mask, s16 value_24_input, s16 value_25_in
         initialize_actor_sprite_and_animation(((object)), part_a, part_b, mask);
         actor->action_id = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C.address = &ifrit_action_resume_address;
+        actor->unk_8C.address = ifrit_action_resume_address;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

@@ -998,11 +998,9 @@ finish:
  * Runs update_linked_actor_motion and installs dispatch_dragon_actions only when it
  * succeeds and the signed floor-trap check returns positive.
  */
-void finish_dragon_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
-    if (update_linked_actor_motion(state, entity, position, graphic)) {
-        if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->unk_8C.handler = dispatch_dragon_actions;
-        }
+void finish_dragon_linked_motion(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+    if ((update_linked_actor_motion(body, position, sprite, actor) != 0) && ((check_actor_floor_trap(sprite, actor) << 0x10) > 0)) {
+        body->unk_8C.address = &dispatch_dragon_actions;
     }
 }
 
@@ -1714,28 +1712,22 @@ void wait_for_dragon_mp(ActorRecord *controller, ObjectPosition *context, Sprite
  * positive; during motion, restores movement frames when the alternate table is active and flags
  * 0x208 are clear.
  */
-void update_dragon_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object) {
-    if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
-        if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
-            actor->unk_8C.handler = dispatch_dragon_actions;
-            return;
-        }
-    } else if (entity->frameTable == dragon_alt_direction_frames &&
-               !(map_object->flags1C & 0x208)) {
-        entity->frameTable = dragon_frame_set_5;
-        select_sprite_entry(entity,(s16)(dragon_frame_set_5[((g_game_work.view.camera_rotation.parts.viewAngle + map_object->facing + 0x100) >> 9) & 7]),(s16)(0));
-    }
+void update_dragon_parent_motion(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+ if(update_actor_transform_from_parent(state,motion,sprite,actor)!=0) {
+  if((check_actor_floor_trap(sprite,actor)<<16)>0) state->unk_8C.handler=dispatch_dragon_actions;
+ } else if(sprite->frameTable==dragon_alt_direction_frames && !(actor->flags1C&0x208)) {
+  sprite->frameTable=dragon_frame_set_5;
+  select_sprite_entry(sprite,dragon_frame_set_5[((g_game_work.view.camera_rotation.parts.viewAngle+actor->facing+0x100)>>9)&7],0);
+ }
 }
 
 /*
  * Runs update_thrown_actor_travel and installs dispatch_dragon_actions only when it
  * succeeds and the signed floor-trap check returns positive.
  */
-void finish_dragon_thrown_travel(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
-    if (update_thrown_actor_travel(state, entity, position, graphic)) {
-        if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->unk_8C.handler = dispatch_dragon_actions;
-        }
+void finish_dragon_thrown_travel(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+    if ((update_thrown_actor_travel(body, position, sprite, actor) != 0) && ((check_actor_floor_trap(sprite, actor) << 0x10) > 0)) {
+        body->unk_8C.address = &dispatch_dragon_actions;
     }
 }
 

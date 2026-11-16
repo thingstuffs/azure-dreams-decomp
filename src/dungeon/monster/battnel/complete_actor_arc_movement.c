@@ -12,7 +12,7 @@
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "dungeon/item.h"
 
-extern s32 battnel_action_resume_address;
+extern u8 battnel_action_resume_address[];
 
 /* Advance arcing movement toward the destination tile and finalize the landing. */
 void complete_actor_arc_movement(ActorRecord *action, ObjectPosition *motion, Rec_D_80082E80 *destination, ActorRecord *entity) {
@@ -99,7 +99,7 @@ void complete_actor_arc_movement(ActorRecord *action, ObjectPosition *motion, Re
         }
 
         if ((check_actor_floor_trap(destination, entity) << 16) > 0) {
-            action->unk_8C.address = &battnel_action_resume_address;
+            action->unk_8C.address = battnel_action_resume_address;
             on_actor_status_updated(entity);
         }
     }

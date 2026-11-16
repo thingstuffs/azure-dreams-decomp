@@ -6,7 +6,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/monster/kewne.h"
 
-extern s32 kewne_action_resume_address[];
+extern u8 kewne_action_resume_address[];
 extern u8 D_80175E90[];
 
 /* Decays motion, then aligns the actor with its grid position. */

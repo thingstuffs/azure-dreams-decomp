@@ -5,12 +5,7 @@
 #include "town/scene.h"
 #include "town.h"
 
-typedef struct GroupLimit_8001D048 {
-    s16 limit;
-    u8 pad_02[0x6];
-} GroupLimit_8001D048;
-
-extern GroupLimit_8001D048 D_8001902C[][3];
+extern Lookup D_8001902C[][3];
 
 /* Invoke the callback for nonzero row entries using the selected mode and bounds. */
 void process_history_entries_by_mode(void) {
@@ -29,7 +24,7 @@ void process_history_entries_by_mode(void) {
         mode = 2;
     }
     for (i = 0; i < 16; i++) {
-        for (j = 0; j < D_8001902C[i][mode].limit; j++) {
+        for (j = 0; j < D_8001902C[i][mode].flag; j++) {
             entry = state->history[i][j];
             if (entry == 0) {
                 break;

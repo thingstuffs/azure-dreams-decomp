@@ -32,7 +32,7 @@ extern void *queue_linked_point_packets(s16, s16, s16, s16);
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 /* Creates Ifrit with default frames at D_80150820, applies spawn flags, and attempts valid tile placement. */
-void *queue_linked_point_packets(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
+void *queue_linked_point_packets(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     s32 kind;
     ObjectNodeHeader *obj;
@@ -42,15 +42,14 @@ void *queue_linked_point_packets(s16 flags, s16 kind_id, s16 variant, s16 spawn_
     ActorRecord *actor;
     s32 left;
     s32 right;
-    s8 saved_kind_id;
-    s16 saved_spawn;
-    s8 saved_variant;
-    void *call_a1;
+    s8 held_a;
+    s16 held_c;
+    s8 held_b;
 
     work = 0;
-    saved_kind_id = kind_id;
-    saved_spawn = spawn_value;
-    saved_variant = variant;
+    held_a = attr_a;
+    held_c = attr_c;
+    held_b = attr_b;
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
         work = NODE_BODY(obj);
@@ -59,13 +58,13 @@ void *queue_linked_point_packets(s16 flags, s16 kind_id, s16 variant, s16 spawn_
         register_node(obj, project_sprite_chain);
 
         part_a = obj->position;
-        part_a->z.w.i = saved_spawn;
+        part_a->z.w.i = held_c;
         part_b = obj->sprite;
-        kind = flags & 3;
-        part_b->tile_y = saved_variant;
+        kind = spawn_flags & 3;
+        part_b->tile_y = held_b;
         actor = work;
         part_b->frameTable = D_80150820;
-        part_b->tile_x = saved_kind_id;
+        part_b->tile_x = held_a;
 
         if (kind == 1) {
             left = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
@@ -78,23 +77,19 @@ void *queue_linked_point_packets(s16 flags, s16 kind_id, s16 variant, s16 spawn_
             work->flags14 = left;
             work->flags1C = right;
         } else {
-            call_a1 = obj;
-            if (((flags & ~3) << 16) == 0) {
+            if (((spawn_flags & ~3) << 16) == 0) {
                 if (!(work->flags14 & ACTOR_RESIST_SLEEP)) {
-                    call_a1 = part_a;
                     left = generate_random_value();
-                    call_a1 = obj;
                     if (left & 1) {
                         work->flags1C |= ACTOR_ASLEEP;
-                    set_or_clear_actor_status_slot(work, STATUS_SLEEP,
-                                  (generate_random_value() & 0x3F) | 0x20);
-                    part_b->frameTable = D_80150860;
+                        set_or_clear_actor_status_slot(work, STATUS_SLEEP,
+                                      (generate_random_value() & 0x3F) | 0x20);
+                        part_b->frameTable = D_80150860;
+                    }
                 }
             }
         }
-        }
-        call_a1 = obj;
-        initialize_actor_sprite_and_animation(call_a1, part_a, part_b, flags);
+        initialize_actor_sprite_and_animation(obj, part_a, part_b, spawn_flags);
         actor->action_id = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C.address = &D_8014CE84;

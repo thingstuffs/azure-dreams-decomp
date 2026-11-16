@@ -195,6 +195,14 @@ A receipt is accepted after its recorded inputs and image outputs are checked
 against the current tree. See
 [CONTRIBUTING.md](../CONTRIBUTING.md) for candidate checks and evidence.
 
+With `AZURE_OBJECT_CACHE=1` objects are restored from a content-addressed
+cache. Its key binds the source, include closure, recipe, compiler and only the
+tools that shape object bytes (the compile front ends, maspsx, the cache rules
+and mkbuild's compile path); placement, link and gate tools rerun on every
+build that touches them but do not force recompiles. The list, the evidence and
+the recipes that keep the whole tool list are in
+[OBJECT_CACHE.md](OBJECT_CACHE.md#tools-in-the-object-key).
+
 ### Scoped proof of an edit (build graph)
 
 `tools/build/affected.py` proves a source/header edit on the generated build

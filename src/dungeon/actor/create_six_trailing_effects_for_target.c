@@ -10,6 +10,7 @@
 #include "engine/node/allocation.h"
 #include "engine/node.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/alternating_shade.h"
 
 #ifndef NULL
 #define NULL 0
@@ -19,7 +20,6 @@ typedef struct {
     s32 words[3];
 } TableEntry;
 
-extern s32 create_alternating_shade_sprite();
 extern void * create_offset_sprite_object_with_z();
 
 extern TableEntry linked_effect_direction_entries[];

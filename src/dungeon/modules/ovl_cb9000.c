@@ -1027,9 +1027,9 @@ void update_block_hop_slot_f(ActorRecord *action, ObjectPosition *motion, Sprite
  * Installs the local turn-action dispatcher after linked motion completes and the signed
  * floor-trap check returns positive.
  */
-void finish_block_linked_motion_slot_f(S_80172944_0 *state,void *position,void *render_state,void *entity) {
-    if ((update_linked_actor_motion(state,position,render_state,entity) != 0) && ((check_actor_floor_trap(render_state, entity) << 0x10) > 0)) {
-        state->CL_CB9000_80172944_handler = dispatch_block_turn_actions_slot_f;
+void finish_block_linked_motion_slot_f(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+    if ((update_linked_actor_motion(body, position, sprite, actor) != 0) && ((check_actor_floor_trap(sprite, actor) << 0x10) > 0)) {
+        body->unk_8C.address = &dispatch_block_turn_actions_slot_f;
     }
 }
 
@@ -1368,12 +1368,12 @@ void update_block_defeat_slot_f(ActorRecord *state,ObjectPosition *position,Spri
 }
 
 /* Runs the shared hop and shrink sequence for the actor with the supplied callback arguments. */
-void update_block_hop_shrink_slot_f(void *state,void *position,void *render_state,void *entity) {
+void update_block_hop_shrink_slot_f(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity) {
     update_actor_hop_and_shrink(state,position,render_state,entity);
 }
 
 /* Runs the shared actor removal sequence with the supplied callback arguments. */
-void update_block_removal_slot_f(void *state,void *position,void *render_state,void *entity) {
+void update_block_removal_slot_f(void *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity) {
     advance_actor_removal(state,position,render_state,entity);
 }
 
@@ -1381,28 +1381,27 @@ void update_block_removal_slot_f(void *state,void *position,void *render_state,v
  * Runs update_actor_hop_and_grow and installs dispatch_block_turn_actions_slot_f when it returns
  * nonzero.
  */
-void finish_block_hop_grow_slot_f(S_80173364_0 *state,void *position,void *render_state,void *entity) {
+void finish_block_hop_grow_slot_f(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity) {
     if (update_actor_hop_and_grow(state,position,render_state,entity) != 0) {
-        state->CL_CB9000_80173364_handler = dispatch_block_turn_actions_slot_f;
+        state->unk_8C.run = dispatch_block_turn_actions_slot_f;
     }
 }
 
 /* Maintains the status-slot-1 animation, services pending actions, and restores behavior when the
    status clears. */
-void update_block_status_animation_slot_f(void *action, ObjectPosition *context, SpriteFrameState *sprite_in, ActorRecord *actor_in)
-{
+void update_block_status_animation_slot_f(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite_in, ActorRecord *actor_in) {
     s32 state;
     void *actor_to_check;
     DungeonGlobalStatus *status;
     s32 actor_flags;
 
-    state = ((CL_CB9000_8017339C_S_80173D4C_0 *)action)->unk_9B;
+    state = action->action_phase;
     switch (state) {
     case 0:
         if (!(sprite_in->flags & 0xE000)) {
             return;
         }
-        sprite_in->frameTable = cb9000_frame_set_1;
+        (sprite_in->frameTable) = cb9000_frame_set_1;
         select_sprite_entry(sprite_in,
             cb9000_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor_in->facing + 0x100) >> 9) & 7],
             0);
@@ -1413,7 +1412,7 @@ void update_block_status_animation_slot_f(void *action, ObjectPosition *context,
             counter_base->activity_counts.parts.pending_action_count =
                 ((u16)counter_base->activity_counts.parts.pending_action_count) - 1;
         }
-        ((CL_CB9000_8017339C_S_80173D4C_0 *)action)->unk_9B++;
+        action->action_phase++;
         return;
 
     case 1:
@@ -1451,66 +1450,73 @@ void update_block_status_animation_slot_f(void *action, ObjectPosition *context,
                 return;
             }
             if ((has_pending_actor_or_turn_action(actor_in) << 16) != 0) {
-                if ((check_entity_relation(actor_in,
-                        NODE_BODY(primary_actor_record->previous_actor_header)) << 16) != 0) {
-                    return;
+                {
+                    ObjectNodeHeader *previous_node;
+                    void *previous_body;
+                    ActorRecord *previous_actor;
+
+                    previous_node = primary_actor_record->previous_actor_header;
+                    previous_body = NODE_BODY(previous_node);
+                    previous_actor = previous_body;
+                    if ((check_entity_relation(actor_in,
+                            previous_actor) << 16) != 0) {
+                        return;
+                    }
                 }
             }
             update_actor_status_and_mp(actor_in);
             on_actor_status_updated(actor_in);
-            do {
             if ((get_entity_effect_value(actor_in, STATUS_SLEEP) << 16) != 0) {
-                s8 coordinate = ((CL_CB9000_8017339C_S_80173D4C_1 *)sprite_in)->unk_26;
+                s8 coordinate = ((s8)(sprite_in->room_index));
                 TileObject *origin = &reference_tile_object;
                 s32 probe_result;
 
                 if ((coordinate != origin->room_index) || (coordinate < 0)) {
                     probe_result = get_tile_chebyshev_distance(origin, sprite_in);
                     actor_to_check = actor_in;
-                    if (probe_result >= 2) {
-                        break;
-                    }
-                    if (!(generate_random_value(actor_in) & 7)) {
-                        clear_slots_of_type(actor_in, STATUS_SLEEP);
+                    if (probe_result < 2) {
+                        if (!(generate_random_value() & 7)) {
+                            clear_slots_of_type(actor_in, STATUS_SLEEP);
+                        }
+                        actor_to_check = actor_in;
                     }
                 } else {
-                    if (!(generate_random_value(origin) & 7)) {
+                    if (!(generate_random_value() & 7)) {
                         clear_slots_of_type(actor_in, STATUS_SLEEP);
                     }
+                    actor_to_check = actor_in;
                 }
+            } else {
+                actor_to_check = actor_in;
             }
-
-            actor_to_check = actor_in;
-            } while (0);
-
             if ((get_entity_effect_value(actor_to_check, STATUS_SLEEP) << 16) != 0) {
                 return;
             }
 
-            sprite_in->frameTable = cb9000_status_frames;
+            (sprite_in->frameTable) = cb9000_status_frames;
             select_sprite_entry(sprite_in,
                 cb9000_status_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor_in->facing + 0x100) >> 9) & 7],
                 0);
             if (sprite_in->flags & 0x8000) {
-                ((CL_CB9000_8017339C_S_80173D4C_0 *)action)->unk_8C = dispatch_block_turn_actions_slot_f;
+                action->unk_8C.address = &dispatch_block_turn_actions_slot_f;
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count++;
 
-            ((CL_CB9000_8017339C_S_80173D4C_0 *)action)->unk_9B++;
+            action->action_phase++;
             return;
         }
-        sprite_in->frameTable = cb9000_status_frames;
+        (sprite_in->frameTable) = cb9000_status_frames;
         select_sprite_entry(sprite_in,
             cb9000_status_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor_in->facing + 0x100) >> 9) & 7],
             0);
         if (sprite_in->flags & 0x8000) {
-            ((CL_CB9000_8017339C_S_80173D4C_0 *)action)->unk_8C = dispatch_block_turn_actions_slot_f;
+            action->unk_8C.address = &dispatch_block_turn_actions_slot_f;
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count++;
 
-        ((CL_CB9000_8017339C_S_80173D4C_0 *)action)->unk_9B++;
+        action->action_phase++;
         return;
 
     case 2:
@@ -1519,7 +1525,7 @@ void update_block_status_animation_slot_f(void *action, ObjectPosition *context,
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
 
-        ((CL_CB9000_8017339C_S_80173D4C_0 *)action)->unk_8C = dispatch_block_turn_actions_slot_f;
+        action->unk_8C.address = &dispatch_block_turn_actions_slot_f;
 
         return;
     }
@@ -1527,14 +1533,13 @@ void update_block_status_animation_slot_f(void *action, ObjectPosition *context,
 
 /* Waits for actor MP to recover while servicing forced actions, then restores its regular animation
    and behavior. */
-void wait_block_mp_recovery_slot_f(void *actor_in, ObjectPosition *position, SpriteFrameState *target, ActorRecord *entity_in)
-{
+void wait_block_mp_recovery_slot_f(ActorRecord *actor_in, ObjectPosition *position, SpriteFrameState *target, ActorRecord *entity_in) {
     ActorRecord *entity = entity_in;
     s32 state;
     s32 entity_flags;
     s32 direction;
     DungeonGlobalStatus *shared_state;
-    state = ((CL_CB9000_8017372C_S_801740DC_0 *)actor_in)->unk_9B;
+    state = actor_in->action_phase;
     switch (state) {
     case 0:
     if (!(target->flags & 0xE000)) {
@@ -1549,7 +1554,7 @@ void wait_block_mp_recovery_slot_f(void *actor_in, ObjectPosition *position, Spr
     target->frameTable = cb9000_frame_set_1;
     direction = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
     select_sprite_entry(target, cb9000_frame_set_1[direction & 7], 0);
-    ((CL_CB9000_8017372C_S_801740DC_0 *)actor_in)->unk_9B++;
+    actor_in->action_phase++;
     return;
 
     case 1:
@@ -1561,7 +1566,7 @@ void wait_block_mp_recovery_slot_f(void *actor_in, ObjectPosition *position, Spr
         select_sprite_entry(target, cb9000_status_frames[direction & 7], 0);
         shared_counter = &g_dungeon_status;
         shared_counter->activity_counts.parts.pending_action_count++;
-        ((CL_CB9000_8017372C_S_801740DC_0 *)actor_in)->unk_9B++;
+        actor_in->action_phase++;
         return;
     } else {
         shared_state = &g_dungeon_status;
@@ -1590,9 +1595,18 @@ void wait_block_mp_recovery_slot_f(void *actor_in, ObjectPosition *position, Spr
             return;
         }
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
-            if ((check_entity_relation(entity,
-                    NODE_BODY(primary_actor_record->previous_actor_header)) << 16) != 0) {
-                return;
+            {
+                ObjectNodeHeader *previous_node;
+                void *previous_body;
+                ActorRecord *previous_actor;
+
+                previous_node = primary_actor_record->previous_actor_header;
+                previous_body = NODE_BODY(previous_node);
+                previous_actor = previous_body;
+                if ((check_entity_relation(entity,
+                        previous_actor) << 16) != 0) {
+                    return;
+                }
             }
             update_actor_status_and_mp(entity);
         } else {
@@ -1607,7 +1621,7 @@ void wait_block_mp_recovery_slot_f(void *actor_in, ObjectPosition *position, Spr
         select_sprite_entry(target, cb9000_status_frames[direction & 7], 0);
         shared_state->activity_counts.parts.pending_action_count++;
     }
-    ((CL_CB9000_8017372C_S_801740DC_0 *)actor_in)->unk_9B++;
+    actor_in->action_phase++;
     return;
 
     case 2:
@@ -1620,7 +1634,7 @@ void wait_block_mp_recovery_slot_f(void *actor_in, ObjectPosition *position, Spr
         shared_counter = &g_dungeon_status;
         shared_counter->activity_counts.parts.pending_action_count--;
     }
-    ((CL_CB9000_8017372C_S_801740DC_0 *)actor_in)->unk_8C = dispatch_block_turn_actions_slot_f;
+    actor_in->unk_8C.address = &dispatch_block_turn_actions_slot_f;
 
     return;
     default:
@@ -1633,24 +1647,22 @@ void wait_block_mp_recovery_slot_f(void *actor_in, ObjectPosition *position, Spr
  * during motion, restores the local direction frames when alternate frames are active and flags
  * 0x208 are clear.
  */
-void update_block_parent_motion_slot_f(S_80173A38_0 *state, void *position, SpriteFrameState *sprite, ActorRecord *actor) {
-    if (update_actor_transform_from_parent(state,position,sprite,actor) != 0) {
-        if ((check_actor_floor_trap(sprite, actor) << 0x10) > 0) {
-            state->CL_CB9000_80173A38_unk_8C = dispatch_block_turn_actions_slot_f;
-        }
-    } else if ((sprite->frameTable == cb9000_frame_set_1) && !(actor->flags1C & 0x208)) {
-        sprite->frameTable = block_slot_f_frame_set_2;
-        select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + block_slot_f_frame_set_2), 0);
-    }
+void update_block_parent_motion_slot_f(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+ if(update_actor_transform_from_parent(state,motion,sprite,actor)!=0) {
+  if((check_actor_floor_trap(sprite,actor)<<16)>0) state->unk_8C.handler=dispatch_block_turn_actions_slot_f;
+ } else if(sprite->frameTable==cb9000_frame_set_1 && !(actor->flags1C&0x208)) {
+  sprite->frameTable=block_slot_f_frame_set_2;
+  select_sprite_entry(sprite,block_slot_f_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle+actor->facing+0x100)>>9)&7],0);
+ }
 }
 
 /*
  * Installs the local turn-action dispatcher after thrown travel completes and the signed
  * floor-trap check returns positive.
  */
-void finish_block_thrown_travel_slot_f(ActorRecord *state,void *position,void *render_state,void *entity) {
-    if ((update_thrown_actor_travel(state,position,render_state,entity) != 0) && ((check_actor_floor_trap(render_state, entity) << 0x10) > 0)) {
-        state->unk_8C.handler = dispatch_block_turn_actions_slot_f;
+void finish_block_thrown_travel_slot_f(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+    if ((update_thrown_actor_travel(body, position, sprite, actor) != 0) && ((check_actor_floor_trap(sprite, actor) << 0x10) > 0)) {
+        body->unk_8C.address = &dispatch_block_turn_actions_slot_f;
     }
 }
 
@@ -1682,7 +1694,7 @@ void finish_block_fade_in_slot_f(ActorRecord *state,ObjectPosition *position,Spr
 }
 
 /* Spins a sprite and scales its RGB values by the remaining lifetime, removing it when the timer expires. */
-void spin_and_fade_gray_sprite_slot_f(GrayFadeSpriteBody *effect, ObjectPosition *unused, SpriteFrameState *sprite)
+void spin_and_fade_gray_sprite_slot_f(GrayFadeSpriteBody *effect, s32 unused, SpriteFrameState *sprite)
 {
     u16 ticks_left;
 
@@ -2226,15 +2238,15 @@ void begin_block_action_23_slot_f(S_80174B3C_1 *state, ObjectPosition *unused_po
 
 /* Waits for sprite animation to finish, then restores the scene tint over 16 updates and removes the
    effect. */
-void restore_scene_tint_slot_f(u8 *task, void *context, u8 *input)
+void restore_scene_tint_slot_f(u8 *task, ObjectPosition *context, SpriteFrameState *input)
 {
     s16 frames_left;
     GameWork *fade_state = &g_game_work;
 
     if (task[0x9A] == 0) {
-        D_8016F3AC = *(s32 *)(input + 8);
+        D_8016F3AC = *(s32 *)&input->source;
         advance_sprite_animation_and_textures(input);
-        if (*(u16 *)(input + 0x14) & 0xE000) {
+        if (input->flags & 0xE000) {
             unlink_node(task - 0x20);
             *(s16 *)(task + 0x96) = 0x10;
             task[0x9A]++;

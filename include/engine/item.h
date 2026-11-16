@@ -42,6 +42,11 @@ extern ItemCategory itemCategoryTable[];
  * pointer object's non-small-data addressing; it is not a species count. */
 extern ItemRecord *monster_species_table[4];
 
+/* Resident item-data slots have a 19-byte stride. */
+typedef struct ItemDataSlotRecord {
+    char bytes[0x13];
+} ItemDataSlotRecord;
+
 /* calc_item_value.c */
 s32 calc_item_value(u8 *item, s32 use_value1);
 
@@ -74,6 +79,9 @@ void shuffle_byte_array(u8 *bytes, s32 length);
 
 /* get_item_category_flags.c */
 s32 get_item_category_flags(struct DungeonItemEntry *item);
+
+/* get_item_data_record.c */
+ItemDataSlotRecord *get_item_data_record(int category, int item);
 
 /* get_or_create_item_data.c */
 void *get_or_create_item_data(s32 category, s32 item);

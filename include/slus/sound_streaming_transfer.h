@@ -5,11 +5,10 @@
 
 extern s32 spu_reverb_start_addresses[10];
 extern s32 spu_transfer_uses_fifo;
-extern s32 spu_transfer_address_units[4];
 extern s32 spu_address_unit_shift;
-extern s32 spu_transfer_callback[3];
-extern s32 spu_address_alignment_mask[3];
-extern volatile s32 spu_transfer_complete[3];
+extern void (* volatile spu_transfer_callback)(u32);
+extern s32 spu_address_alignment_mask;
+extern s32 spu_transfer_complete;
 extern u8 spu_reverb_clear_buffer[];
 extern s32 spu_transfer_event_handle;
 

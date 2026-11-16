@@ -13,7 +13,7 @@
 
 typedef s32 (*ActorCallback)(void *, void *, void *, void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
-extern u8 kewne_action_resume_address[12];
+extern u8 kewne_action_resume_address[];
 extern ActorCallback kewne_callbacks[16];
 /* Update actor callbacks, movement, facing, animation, and ground height. */
 void update_kewne_actor(ActorRecord *actor, ObjectPosition *position, SpriteFrameState *sprite)

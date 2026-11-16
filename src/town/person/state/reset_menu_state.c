@@ -6,10 +6,10 @@
 #include "town/person/state.h"
 #include "town/person/object.h"
 #include "town/data.h"
-extern u8 D_800D55A0[];
-extern u8 D_800D55A8[];
-extern u8 D_800D55D0[];
-extern u8 D_800D55D4[];
+extern s32 D_800D55A0[];
+extern s32 D_800D55A8[];
+extern s32 D_800D55D0[];
+extern s32 D_800D55D4[];
 
 /* Resets menu state and switches handlers when the input flags request it. */
 void reset_menu_state(TownObjectRecord *menu, ObjectPosition *update_arg, SpriteFrameState *input) {

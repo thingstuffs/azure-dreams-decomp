@@ -20,7 +20,7 @@
 
 extern void update_kewne_parent_motion(void *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
 
-extern s32 kewne_action_resume_address;
+extern u8 kewne_action_resume_address[];
 
 /* Advances the actor action state, updating directional animation and entity status. */
 void wait_for_kewne_mp(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity) {
@@ -137,7 +137,7 @@ void wait_for_kewne_mp(ActorRecord *actor, ObjectPosition *context, SpriteFrameS
 
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             entity->flags1C &= ~ACTOR_MP_EMPTY;
-            actor->unk_8C.address = &kewne_action_resume_address;
+            actor->unk_8C.address = kewne_action_resume_address;
         }
 
         return;

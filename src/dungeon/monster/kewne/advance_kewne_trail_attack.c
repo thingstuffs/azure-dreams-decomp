@@ -18,7 +18,7 @@
 
 extern void create_three_trail_objects(void *, void *);
 
-extern s32 kewne_action_resume_address;
+extern u8 kewne_action_resume_address[];
 extern u8 D_80175E58[];
 extern u8 D_80175E60[];
 extern u8 D_80175E68[];
@@ -173,7 +173,7 @@ void advance_kewne_trail_attack(ActorRecord *action, ObjectPosition *motion, Spr
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         spend_actor_mp(actor, 0x100);
-        action->unk_8C.word_ptr = &kewne_action_resume_address;
+        action->unk_8C.byte_ptr = kewne_action_resume_address;
         g_dungeon_status.active_actor = 0;
         actor->action_flags &= 0x7FFF;
         action->action_state_flags &= 0xFFF7;

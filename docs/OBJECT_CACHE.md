@@ -113,11 +113,86 @@ do not cover every config read. Overlay recipes that already depend on generated
 scoped evidence keep those dependencies. These conservative fallbacks can still
 miss after unrelated table edits; omitting unobserved inputs would be unsafe.
 The volatile macro, debug flag, environment and executable guards are
-unchanged. Tool closure bytes remain bound except for `mkbuild.py`: its parsed
-Python syntax is hashed for the compile stamp and object key, so comment and
-format-only edits do not invalidate objects. A syntax change or parse failure
-changes that hash. In particular, landing a change to `object_cache.py`
-changes every object's tool closure and requires one full recompile.
+unchanged.
+
+## Tools in the object key
+
+`build/.state/compiletools.list` (the import closure of the compile entry
+points, `tools/build/compile_tools.py`) still schedules every compile rule
+through `build/.state/compiletools.ok`, so an edit to any listed tool reruns
+every compile. The object key no longer binds that whole list or the stamp.
+For ordinary overlay recipes (C and assembler) and SLUS recipes it binds only
+the tools that turn a source into object bytes:
+
+| tools | why |
+|---|---|
+| `cc.sh`, `ccproc.py`, `name_inputs.py`, `toolchain/maspsx/maspsx.py`, `toolchain/maspsx/maspsx/__init__.py` | the C pipeline: gcc `-S`, then ccproc (per-function sections, canonical names from `config/names.tsv`), then maspsx and GNU as |
+| `as.sh`, `asproc.py` | the assembler pipeline |
+| `compile_slots.py` | `cc.sh` and `as.sh` exec it outside a make slot |
+| `slus_rodata_trim.py`, `slus_data_pieces.py`, `slus_modules.py`, `retail_spans.py` | SLUS commands run them on the object after the compile |
+| `build_ovl/tools/` copies of the front ends | overlay recipes run these copies |
+| `object_cache.py`, `content_cache.py`, `declaration_projection.py`, `compile_tools.py` | the key, witness and projection rules themselves |
+| `mkbuild.py`, compile path only | Python syntax of its module statements, `main()`, and `compile_one`/`compile_uncached` (overlay) or `slus_compile_one`/`slus_compile_uncached` (SLUS) plus every mkbuild function they name; generator, image and check functions are left out |
+
+Everything else on the list is a placement, link, layout or gate tool:
+`overlay_local_gate.py`, `overlay_module_gate.py`, the `overlay_*_allocations.py`
+tools, `overlay_native_rodata.py`, `overlay_module_placements.py`,
+`overlay_scoped_fingerprint.py`, `overlay_prefix_ownership.py`,
+`overlay_as_flags.py`, `overlay_evidence.py`, `gen_noreturn_syms.py`,
+`rowbase*.py`, `linklist.py`, `gate_read_cache.py`, `asm_paths.py`, both
+`source_layout.py`, `tools/link/*.py`, `recipe_cache.py`, `decoded_images.py`,
+`tools/decoded/lz.py`, `aspsx_diff.py` and `objread.py`. The evidence is the
+code path of each recipe kind, traced with `sys.monitoring` while it compiled:
+the only repository code that runs inside an ordinary or SLUS compile is the
+mkbuild compile path and `name_inputs.py`; the front ends above run as
+subprocesses. The gate tools are imported in the compile process only to
+compute the key (the gate loader and the module include closure enumerate its
+inputs) and, for projected units, before the key, where the projected source
+they write is itself a hashed key input. What they produce at configure time
+for a compile (noreturn and sibcall evidence files, name-input witnesses,
+projection records) is a recipe dependency and is hashed as data. A recipe
+generator edit therefore changes only the keys of the recipes whose JSON or
+generated inputs change.
+
+Recipes that run gate code inside the compile keep the whole list and the
+stamp (the previous key form):
+
+- native module recipes: the native builder (`overlay_module_gate.build`)
+  rewrites the object (`overlay_native_rodata` prepare), compares the module
+  with retail and with genuine ASPSX (`aspsx_diff`) inside the compile;
+- a recipe on the live noreturn path (its source changed after configure):
+  `overlay_evidence` and `gen_noreturn_syms` write the noreturn file maspsx
+  reads;
+- every recipe when `AZURE_OBJECT_KEY_TOOLS` is set to anything but `object`
+  (`AZURE_OBJECT_KEY_TOOLS=all` restores the previous key for every object),
+  when the root lacks one of the object tools, or when Python has no
+  `sys.monitoring`.
+
+A gate edit still reruns the gates and relinks: each compile rule reruns and
+restores its object, every image rule depends on `build/.state/linktools.ok`
+(all of `tools/gate`, `tools/link`, `tools/fidelity`, maspsx, `mkbuild.py` and
+`slus_rodata_trim.py`), and `make check` compares every image with retail.
+Only identical objects are no longer recompiled.
+
+The narrower key is checked at compile time only for repository Python code that
+runs in the compile process itself: while it builds, a `sys.monitoring` guard
+records that code. Code outside the recipe's object tools (or a mkbuild function
+outside its compile path) prints `CACHE_UNBOUND <output> <path:function>...`,
+logs status `unbound` and publishes nothing; the compiled object is kept. Add
+the tool to `OBJECT_FRONTENDS` in `tools/build/compile_tools.py` when it shapes
+bytes, or move the call out of the compile. The subprocess front ends (cc.sh's
+ccproc.py and maspsx, as.sh's asproc.py, the SLUS post-compile scripts) run
+outside the guarded process, so a module one of them imports is held to
+`OBJECT_FRONTENDS` only by the unit test
+(`tools/build/tests/test_object_cache.py`), which compares that list with the
+static import closure of the front-end scripts; a new front-end import must be
+followed by that test (the landing's unit modules run it), not by a compile.
+
+Comment and format-only edits to `mkbuild.py` do not change any key. Landing a
+change to `object_cache.py` or another object tool changes every object's key
+and requires one full recompile.
+
+## Tests
 
 Run focused tests with:
 

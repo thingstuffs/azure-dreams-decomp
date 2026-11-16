@@ -17,7 +17,7 @@
 extern GridPoint weadog_slot_g_direction_steps[8];
 extern u8 D_80077C50[];
 extern u8 weadog_object_callback[];
-extern s32 weadog_action_resume_address;
+extern u8 weadog_action_resume_address[];
 
 extern u8 D_80174F18[];
 
@@ -148,7 +148,7 @@ void update_weadog_projectile_attack(ActorRecord *action_work, ObjectPosition *p
     case 3:
         if (action_work->unk_A4.halves.low.s != 0x4D) {
             spend_actor_mp(actor, 0x2000);
-            action_work->unk_8C.address = &weadog_action_resume_address;
+            action_work->unk_8C.address = weadog_action_resume_address;
             g_dungeon_status.active_actor = 0;
             actor->action_flags &= 0x7FFF;
         }

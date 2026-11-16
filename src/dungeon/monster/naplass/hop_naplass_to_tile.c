@@ -21,7 +21,7 @@ struct SpriteFrameState;
 #include "dungeon/actor/spend_actor_mp_api.h"
 
 
-extern u8 naplass_action_continuation_address;
+extern u8 naplass_action_continuation_address[];
 
 /* Updates an actor's jump toward its target tile and completes the landing. */
 void hop_naplass_to_tile(ActorRecord *jump, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor) {
@@ -124,7 +124,7 @@ void hop_naplass_to_tile(ActorRecord *jump, ObjectPosition *motion, SpriteFrameS
         }
 
         if ((check_actor_floor_trap(map_entity, actor) << 16) > 0) {
-            jump->unk_8C.address = &naplass_action_continuation_address;
+            jump->unk_8C.address = naplass_action_continuation_address;
             on_actor_status_updated(actor);
         }
     }

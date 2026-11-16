@@ -30,66 +30,66 @@ extern M2C_UNK D_8016186C;
 /* Allocates an entity and initializes its type, placement, flags, and callbacks. */
 /* Creates Dreamin with default frames at D_8016186C, applies spawn flags, and attempts valid tile
  * placement. */
-void *move_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 type_id) {
+void *move_and_fade_effect_sprite(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16 initial_value) {
     s32 unused_slot;
     s32 spawn_mode;
-    s32 flags_14;
-    s32 flags_1c;
     SpriteFrameState *placement;
-    ObjectPosition *type_data;
+    ObjectPosition *base_data;
     ObjectNodeHeader *object;
-    ActorRecord *entity_data;
-    ActorRecord *entity = NULL;
+    ActorRecord *extended_state;
+    ActorRecord *state = NULL;
     void *body;
     s8 saved_x;
     s8 saved_y;
-    s16 saved_type;
+    s16 saved_value;
     void *object_arg;
-    void *type_arg;
+    void *base_arg;
+    s32 flags_14;
+    s32 flags_1c;
 
-    saved_x = grid_x;
-    saved_type = type_id;
-    saved_y = grid_y;
+    saved_x = spawn_x;
+    saved_value = initial_value;
+    saved_y = spawn_y;
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (object != NULL) {
         body = object + 1;
-        entity = body;
+        state = body;
         object->update_callback = &func_8015EA3C;
-        entity->species = MONSTER_DREAMIN;
+        state->species = MONSTER_DREAMIN;
         register_node(object, project_sprite_chain);
-        type_data = object->position;
-        type_data->z.w.i = saved_type;
+        base_data = object->position;
+        base_data->z.w.i = saved_value;
         placement = object->sprite;
         spawn_mode = spawn_flags & 3;
         placement->tile_y = saved_y;
-        entity_data = body;
+        extended_state = body;
         placement->frameTable = &D_8016186C;
         placement->tile_x = saved_x;
         if (spawn_mode == 1) {
-            flags_14 = entity->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            flags_1c = entity->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            entity->flags14 = flags_14;
-            entity->flags1C = flags_1c;
+            flags_14 = state->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            flags_1c = state->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            state->flags14 = flags_14;
+            state->flags1C = flags_1c;
         } else if (spawn_mode >= 2) {
-            flags_14 = entity->flags14 | ACTOR_CLASS_ENABLED;
-            flags_1c = entity->flags1C | ACTOR_PLAYER_SIDE;
-            entity->flags14 = (s32) flags_14;
-            entity->flags1C = (s32) flags_1c;
+            flags_14 = state->flags14 | ACTOR_CLASS_ENABLED;
+            flags_1c = state->flags1C | ACTOR_PLAYER_SIDE;
+            state->flags14 = flags_14;
+            state->flags1C = flags_1c;
         } else {
             if (((spawn_flags & ~3) << 0x10) == 0) {
-                if (!(entity->flags14 & ACTOR_RESIST_SLEEP)) {
+                if (!(state->flags14 & ACTOR_RESIST_SLEEP)) {
                     if (generate_random_value() & 1) {
-                        entity->flags1C = (s32) (entity->flags1C | ACTOR_ASLEEP);
-                        set_or_clear_actor_status_slot(entity, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
+                        state->flags1C = (s32) (state->flags1C | ACTOR_ASLEEP);
+                        set_or_clear_actor_status_slot(state, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                     }
                 }
             }
         }
-        initialize_actor_sprite_and_animation(object, type_data, placement, spawn_flags);
-        entity_data->action_id = 0xFF;
-        entity_data->unk_9C = -1;
-        entity_data->unk_8C.address = &func_8015EE68;
-        try_move_actor_to_valid_position(entity_data, type_data, placement, entity);
+        initialize_actor_sprite_and_animation(object, base_data, placement, spawn_flags);
+        extended_state->action_id = 0xFF;
+        extended_state->unk_9C = -1;
+        extended_state->unk_8C.address = &func_8015EE68;
+        try_move_actor_to_valid_position(extended_state, base_data, placement, state);
     }
-    return entity;
+    return state;
 }

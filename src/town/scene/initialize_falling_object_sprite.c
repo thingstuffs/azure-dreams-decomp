@@ -4,7 +4,8 @@
 #include "slus.h"
 #include "town/event/state.h"
 #include "town/scene.h"
-extern u8 D_800EE344[];
+#include "shared/sprite_source.h"
+extern SpriteSourceEntry D_800EE344[];
 extern s32 D_800D0678[];
 extern s32 D_800D0690[];
 void initialize_falling_object_sprite(FallingObjectState *object, ObjectPosition *context, SpriteFrameState *sprite) {

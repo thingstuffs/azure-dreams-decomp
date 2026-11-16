@@ -9,7 +9,7 @@
 
 #include "sdk/libgpu_types.h"
 
-extern s32 resource_completion_callback_address[];
+extern u8 resource_completion_callback_address[];
 
 /* Load a texture and its palette, then advance the loader after upload. */
 void load_catalog_detail_texture(CatalogDisplay *loader_arg)

@@ -17,7 +17,6 @@ typedef struct {
 } ItemResult;
 
 extern int resolve_item_record_slot_value(DungeonItemEntry *record);
-extern void *get_item_data_record(s32 category, s32 index);
 extern void *get_or_create_item_data(s32 category, s32 index);
 
 /* Sets item data from the supplied pointer or a lookup, copying fallback text when needed. */

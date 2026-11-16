@@ -13,14 +13,10 @@
 #include "dungeon/item.h"
 #include "dungeon/player.h"
 
-extern u8 dungeon_button_latch[9];
+extern u8 dungeon_button_latch;
 extern u8 D_800E0672[17];
 
    /* input in advance_actor_death_transition */
-
-typedef struct S_8008E0C4_2 {
-    u8 unk_00;
-} S_8008E0C4_2;   /* D_800E3CD0 in advance_actor_death_transition */
 
 /* Waits for the death animation and delay, then changes scenes or restores player input in state 0x10. */
 void advance_actor_death_transition(ActorRecord *context, ObjectPosition *unused, SpriteFrameState *input, ActorRecord *entity) {
@@ -46,8 +42,8 @@ void advance_actor_death_transition(ActorRecord *context, ObjectPosition *unused
             break;
         }
         if (*(u16 *)0x80013714 & 4) {
-            if (((S_8008E0C4_2 *)dungeon_button_latch)->unk_00 == 0) {
-                ((S_8008E0C4_2 *)dungeon_button_latch)->unk_00 = state;
+            if (dungeon_button_latch == 0) {
+                dungeon_button_latch = state;
                 request_scene_dispatch_state(3);
                 break;
             }

@@ -21,23 +21,23 @@ extern u8 D_8016EED8[];
 /* Updates an actor's hop to its tile and finishes the timed action. */
 void update_hop_to_tile_and_complete(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
-    u16 facing_aux;
+    u16 direction_aux;
     s32 state;
     s32 move_ticks;
     s32 actor_flags;
-    s32 tile_x;
-    s32 position_x;
-    s32 position_y;
-    s16 phase_timer;
-    u16 action_timer;
+    s32 target_x;
+    s32 pos_x;
+    s32 pos_y;
+    s16 phase_ticks;
+    u16 action_ticks;
     u8 *anim_table;
 
     state = action->action_phase;
     switch (state) {
     case 0:
-        phase_timer = action->unk_9E - 1;
-        action->unk_9E = phase_timer;
-        if ((phase_timer << 16) != 0) {
+        phase_ticks = action->unk_9E - 1;
+        action->unk_9E = phase_ticks;
+        if ((phase_ticks << 16) != 0) {
             break;
         }
 
@@ -56,25 +56,25 @@ void update_hop_to_tile_and_complete(ActorRecord *action, ObjectPosition *motion
         move_ticks = action->unk_9E;
         action->unk_90.value -= action->unk_A0.value;
         if (move_ticks != 0) {
-            tile_x = sprite->tile_x;
-            position_x = motion->x.w.i;
-            tile_x <<= 6;
-            position_x -= 0x20;
-            motion->velocity_x = ((tile_x - position_x) << 16) / move_ticks;
+            target_x = sprite->tile_x;
+            pos_x = motion->x.w.i;
+            target_x <<= 6;
+            pos_x -= 0x20;
+            motion->velocity_x = ((target_x - pos_x) << 16) / move_ticks;
 
-            position_y = motion->y.w.i;
-            position_y -= 0x20;
+            pos_y = motion->y.w.i;
+            pos_y -= 0x20;
             motion->velocity_y =
-                (((sprite->tile_y << 6) - position_y) << 16) /
+                (((sprite->tile_y << 6) - pos_y) << 16) /
                 action->unk_9E;
             action->unk_A0.value =
                 (-rsin(action->unk_9E * 0x199)) << 10;
         }
 
         action->unk_90.value += action->unk_A0.value;
-        phase_timer = action->unk_9E - 1;
-        action->unk_9E = phase_timer;
-        if (phase_timer < 0) {
+        phase_ticks = action->unk_9E - 1;
+        action->unk_9E = phase_ticks;
+        if (phase_ticks < 0) {
             action->unk_90.value = 0;
             action->action_state_flags &= 0xFFF7;
             actor->flags1C |= 0x08000000;
@@ -112,9 +112,9 @@ void update_hop_to_tile_and_complete(ActorRecord *action, ObjectPosition *motion
         break;
     }
 
-    action_timer = action->action_timer - 1;
-    action->action_timer = action_timer;
-    if ((s16)action_timer > 0) {
+    action_ticks = action->action_timer - 1;
+    action->action_timer = action_ticks;
+    if ((s16)action_ticks > 0) {
         return;
     }
 
@@ -138,7 +138,7 @@ void update_hop_to_tile_and_complete(ActorRecord *action, ObjectPosition *motion
         if (actor_flags & 0x20000) {
             actor->facing = get_rounded_facing_and_rounding_flag(
                 sprite->tile_x, sprite->tile_y,
-                reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &facing_aux);
+                reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
         }
     }
 

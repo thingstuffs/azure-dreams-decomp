@@ -595,7 +595,7 @@ typedef struct {
     u32 flags;
 } Object;
 
-extern u8 last_frame_ticks[];
+#include "slus/animation_tick_data.h"
 
 /* Advances the effect through color buildup, flicker, and fade, then restores the object color. */
 void create_radial_effect_from_source(EffectState *effect, Vec3s *pos)
@@ -668,7 +668,7 @@ void create_radial_effect_from_source(EffectState *effect, Vec3s *pos)
         D_80026474[0] = (rand() % 0x3F) - 0x80;
         random_rgb = D_80026474;
         random_rgb[1] = (rand() % 0x3F) - 0x80;
-        effect->timer -= last_frame_ticks[0];
+        effect->timer -= last_frame_ticks;
         if (effect->timer <= 0) {
             create_quad_fragment_effects();
             effect->timer = 0x10;

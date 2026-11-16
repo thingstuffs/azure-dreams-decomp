@@ -1,21 +1,16 @@
 #include "sdk/libgte.h"
-
-struct Delta {
-    s32 x;
-    s32 y;
-    s32 z;
-};
+#include "dungeon/effect.h"
 
 /* Compute direction angles between two points, with the third angle set to zero. */
-void compute_direction_angles_between_points(s16 from_x, s16 from_y, s16 from_z, s16 to_x, s16 to_y,
-                   s16 to_z, s16 *angles)
+void compute_direction_angles_between_points(s16 start_x, s16 start_y, s16 start_z, s16 end_x, s16 end_y,
+                   s16 end_z, s16 *angles)
 {
-    struct Delta delta;
+    PositionDelta delta;
     s32 divisor;
 
-    delta.x = to_x - from_x;
-    delta.y = to_y - from_y;
-    delta.z = to_z - from_z;
+    delta.x = end_x - start_x;
+    delta.y = end_y - start_y;
+    delta.z = end_z - start_z;
 
     divisor = delta.z;
     if (divisor == 0) {

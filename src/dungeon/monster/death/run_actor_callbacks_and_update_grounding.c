@@ -31,28 +31,28 @@ extern Callback D_8016E6A0[];
  * ground contact. */
 void run_actor_callbacks_and_update_grounding(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite)
 {
-    ActorRecord *actor_base = body;
+    ActorRecord *entity_base = body;
     s16 old_state;
     u8 old_state_byte;
     s32 height_offset;
-    s16 height_offset_2;
+    s32 height_offset_2;
     u16 height_bits;
     s16 direction;
-    s16 floor_height;
-    s32 actor_flags;
-    register s32 adjustment;
-    u16 initial_sprite_flags;
+    s16 ground_height;
+    s32 entity_flags;
+    s32 height_work;
+    u16 initial_flags;
     u16 sprite_flags;
-    s32 height_sum;
+    s32 height_accum;
     u16 motion_flags;
 
     if (g_dungeon_status.flags & 0x2000) {
-        void *callback_self = body;
-        ActorActionHandler special_callback;
+        void *entry_entity = body;
+        ActorActionHandler entry_callback;
 
-        special_callback = body->unk_8C.handler;
-        if (special_callback == (ActorActionHandler)&D_8016B9DC) {
-            special_callback(callback_self, motion, sprite, callback_self);
+        entry_callback = body->unk_8C.handler;
+        if (entry_callback == (ActorActionHandler)&D_8016B9DC) {
+            entry_callback(entry_entity, motion, sprite, entry_entity);
             return;
         }
         body->movement_queue_state &= 0x7F;
@@ -96,10 +96,10 @@ void run_actor_callbacks_and_update_grounding(ActorRecord *body, ObjectPosition 
         body->unk_9D = 0;
     }
     body->unk_90.value += motion->velocity_z;
-    initial_sprite_flags = sprite->flags;
+    initial_flags = sprite->flags;
 
-    if (!(initial_sprite_flags & 0x8000)) {
-        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor_base->facing + 0x100) >> 9) & 7;
+    if (!(initial_flags & 0x8000)) {
+        direction = ((g_game_work.view.camera_rotation.parts.viewAngle + entity_base->facing + 0x100) >> 9) & 7;
         if (body->unk_94 != direction) {
             select_indirect_table_entry(sprite,
                 *(*(u8 * *)&sprite->frameTable + direction),
@@ -107,33 +107,33 @@ void run_actor_callbacks_and_update_grounding(ActorRecord *body, ObjectPosition 
             body->unk_94 = direction;
         }
         {
-            u32 flip_flags;
+            u32 facing_flags;
 
             if (dir_sprite_flag[direction] != 0) {
-                flip_flags = sprite->flags | 1;
+                facing_flags = sprite->flags | 1;
             } else {
-                flip_flags = sprite->flags & 0xFFFE;
+                facing_flags = sprite->flags & 0xFFFE;
             }
-            sprite->flags = flip_flags;
+            sprite->flags = facing_flags;
         }
-        apply_monster_koyaw_data(actor_base->flags1C, (u8 *)sprite + 0xC);
-        if (!(actor_base->flags1C & 0x20)) {
+        apply_monster_koyaw_data(entity_base->flags1C, (u8 *)sprite + 0xC);
+        if (!(entity_base->flags1C & 0x20)) {
             if (!(sprite->flags & 0x40)) {
                 advance_sprite_animation_and_textures(sprite);
             }
         } else {
             sprite->flags |= 0x7000;
-            actor_base->flags1C &= 0xFFFBFFFF;
+            entity_base->flags1C &= 0xFFFBFFFF;
         }
 
-        actor_base->flags1C &= 0xF7FFFFFF;
-        actor_flags = actor_base->flags1C;
-        if (actor_flags & 0x40000) {
+        entity_base->flags1C &= 0xF7FFFFFF;
+        entity_flags = entity_base->flags1C;
+        if (entity_flags & 0x40000) {
             sprite_flags = sprite->flags;
             if (!(sprite_flags & 0x40)) {
-                u8 *anim_table = *(u8 * *)&sprite->frameTable;
+                u8 *frame_table = *(u8 * *)&sprite->frameTable;
 
-                if (anim_table == D_8016E634) {
+                if (frame_table == D_8016E634) {
                     if (sprite->unk_04 == 3 && (sprite_flags & 0x1000)) {
                         body->unk_AC.value = 0x60000;
                         body->unk_B0.value = (s32)0xFFFF3000;
@@ -143,134 +143,133 @@ void run_actor_callbacks_and_update_grounding(ActorRecord *body, ObjectPosition 
                     if (body->unk_A4.value <= 0) {
                         body->unk_A4.value = 0;
                     }
-                } else if (anim_table == D_8016E644 || anim_table == D_8016E66C) {
+                } else if (frame_table == D_8016E644 || frame_table == D_8016E66C) {
                     body->unk_A4.value -= 0x40000;
                     if (body->unk_A4.value <= 0) {
                         body->unk_A4.value = 0;
                     }
-                } else if (anim_table != D_8016E654 && anim_table != D_8016E65C &&
-                           anim_table != D_8016E664) {
+                } else if (frame_table != D_8016E654 && frame_table != D_8016E65C &&
+                           frame_table != D_8016E664) {
                     body->unk_A4.value = 0;
                 }
             }
 
-            adjustment = body->action_state_flags & 8;
-            if (adjustment == 0) {
+            height_work = body->action_state_flags & 8;
+            if (height_work == 0) {
                 height_offset = body->unk_90.parts.high;
                 height_bits = body->unk_90.parts.high;
-                if (adjustment < height_offset) {
-                    adjustment = height_bits - 8;
-                    body->unk_90.parts.high = adjustment;
+                if (height_work < height_offset) {
+                    height_work = height_bits - 8;
+                    body->unk_90.parts.high = height_work;
                 } else {
-                    adjustment = height_offset < -8;
-                    if (adjustment != 0) {
-                        adjustment = height_bits + 8;
-                        body->unk_90.parts.high = adjustment;
+                    height_work = height_offset < -8;
+                    if (height_work != 0) {
+                        height_work = height_bits + 8;
+                        body->unk_90.parts.high = height_work;
                     }
                 }
             }
         } else {
-
-            adjustment = body->unk_A4.value;
-            height_sum = body->unk_90.value;
+            height_work = body->unk_A4.value;
+            height_accum = body->unk_90.value;
             motion_flags = body->action_state_flags;
             (*(s16 *)((u8 *)body + 0xB8)) = 0;
             body->unk_A4.value = 0;
-            height_sum += adjustment;
-            body->unk_90.value = height_sum;
+            height_accum += height_work;
+            body->unk_90.value = height_accum;
             height_offset = motion_flags & 8;
             if (height_offset == 0) {
-                floor_height = sample_terrain_surface_height(((u16)motion->x.w.i),
-                                      ((u16)motion->y.w.i),
-                                      (s16)(actor_base->ground_height - 0x20)) -
-                        actor_base->ground_height;
-                if (floor_height < body->unk_90.parts.high) {
-                    body->unk_90.parts.high = floor_height;
+                ground_height = sample_terrain_surface_height(((u16)motion->x.w.i),
+                                              ((u16)motion->y.w.i),
+                                              (s16)(entity_base->ground_height - 0x20)) -
+                            entity_base->ground_height;
+                if (ground_height < body->unk_90.parts.high) {
+                    body->unk_90.parts.high = ground_height;
                     body->unk_9D = 0;
                     motion->velocity_z = 0;
-                    actor_base->flags1C |= 0x08000000;
+                    entity_base->flags1C |= 0x08000000;
                 }
             }
         }
     } else {
-        if (initial_sprite_flags & 0x800) {
-            sprite->flags = initial_sprite_flags & 0x8FFF;
+        if (initial_flags & 0x800) {
+            sprite->flags = initial_flags & 0x8FFF;
         } else {
-            sprite->flags = initial_sprite_flags | 0x7000;
+            sprite->flags = initial_flags | 0x7000;
         }
-        actor_base->flags1C &= 0xF7FFFFFF;
-        actor_flags = actor_base->flags1C;
+        entity_base->flags1C &= 0xF7FFFFFF;
+        entity_flags = entity_base->flags1C;
 
-        if (!(actor_flags & 0x40000)) {
-            adjustment = body->unk_A4.value;
-            height_sum = body->unk_90.value;
+        if (!(entity_flags & 0x40000)) {
+            height_work = body->unk_A4.value;
+            height_accum = body->unk_90.value;
             motion_flags = body->action_state_flags;
             (*(s16 *)((u8 *)body + 0xB8)) = 0;
             body->unk_A4.value = 0;
-            height_sum -= adjustment;
-            body->unk_90.value = height_sum;
+            height_accum -= height_work;
+            body->unk_90.value = height_accum;
             height_offset = motion_flags & 8;
             if (height_offset == 0) {
-                floor_height = sample_terrain_surface_height(((u16)motion->x.w.i),
-                                      ((u16)motion->y.w.i),
-                                      (s16)(actor_base->ground_height - 0x20)) -
-                        actor_base->ground_height;
-                if (floor_height < body->unk_90.parts.high) {
-                    body->unk_90.parts.high = floor_height;
+                ground_height = sample_terrain_surface_height(((u16)motion->x.w.i),
+                                              ((u16)motion->y.w.i),
+                                              (s16)(entity_base->ground_height - 0x20)) -
+                            entity_base->ground_height;
+                if (ground_height < body->unk_90.parts.high) {
+                    body->unk_90.parts.high = ground_height;
                     body->unk_9D = 0;
                     motion->velocity_z = 0;
-                    actor_base->flags1C |= 0x08000000;
+                    entity_base->flags1C |= 0x08000000;
                 }
             }
         } else {
             if (!(sprite->flags & 0x40)) {
-                u8 *anim_table = *(u8 * *)&sprite->frameTable;
+                u8 *frame_table = *(u8 * *)&sprite->frameTable;
 
-                if (anim_table == D_8016E634) {
+                if (frame_table == D_8016E634) {
                     body->unk_AC.value = 0;
                     body->unk_A4.value = 0;
-                } else if (anim_table == D_8016E644 || anim_table == D_8016E66C) {
+                } else if (frame_table == D_8016E644 || frame_table == D_8016E66C) {
                     body->unk_A4.value -= 0x40000;
                     if (body->unk_A4.value <= 0) {
                         body->unk_A4.value = 0;
                     }
-                } else if (anim_table != D_8016E654 && anim_table != D_8016E65C &&
-                           anim_table != D_8016E664) {
+                } else if (frame_table != D_8016E654 && frame_table != D_8016E65C &&
+                           frame_table != D_8016E664) {
                     body->unk_A4.value = 0;
                 }
             }
 
-            adjustment = body->action_state_flags & 8;
-            if (adjustment == 0) {
+            height_work = body->action_state_flags & 8;
+            if (height_work == 0) {
                 height_offset_2 = body->unk_90.parts.high;
                 height_bits = body->unk_90.parts.high;
-                if (adjustment < height_offset_2) {
-                    adjustment = height_bits - 8;
-                    body->unk_90.parts.high = adjustment;
+                if (height_work < height_offset_2) {
+                    height_work = height_bits - 8;
+                    body->unk_90.parts.high = height_work;
                 } else {
-                    adjustment = height_offset_2 < -8;
-                    if (adjustment != 0) {
-                        adjustment = height_bits + 8;
-                        body->unk_90.parts.high = adjustment;
+                    height_work = height_offset_2 < -8;
+                    if (height_work != 0) {
+                        height_work = height_bits + 8;
+                        body->unk_90.parts.high = height_work;
                     }
                 }
             }
         }
     }
-    actor_flags = actor_base->flags1C;
-    if (actor_flags & 0x40000000) {
-        actor_base->flags1C = actor_flags & 0xBFFFFFFF;
-        floor_height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
+    entity_flags = entity_base->flags1C;
+    if (entity_flags & 0x40000000) {
+        entity_base->flags1C = entity_flags & 0xBFFFFFFF;
+        ground_height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
                               (sprite->tile_y << 6) | 0x20,
-                              (s16)(actor_base->ground_height - 0x20));
-        if (floor_height < 0x200) {
+                              (s16)(entity_base->ground_height - 0x20));
+        if (ground_height < 0x200) {
             body->unk_90.parts.high =
                 body->unk_90.parts.high +
-                (actor_base->ground_height - floor_height);
-            actor_base->ground_height = floor_height;
+                (entity_base->ground_height - ground_height);
+            entity_base->ground_height = ground_height;
         }
     }
-    motion->z.w.i = actor_base->ground_height +
+    motion->z.w.i = entity_base->ground_height +
                              body->unk_90.parts.high -
                              body->unk_A4.halves.high.u;
     sprite->flags |= 0x40;

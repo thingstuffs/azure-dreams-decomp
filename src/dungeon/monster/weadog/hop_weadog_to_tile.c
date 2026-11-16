@@ -19,7 +19,7 @@
 #include "sdk/libgte.h"
 #include "dungeon/data.h"
 
-extern s32 weadog_action_resume_address;
+extern u8 weadog_action_resume_address[];
 extern u8 D_80174ED8[];
 
 /* Moves the actor to its tile with a hop and completes the timed action. */
@@ -146,7 +146,7 @@ void advance_weadog_hop(ActorRecord *action, ObjectPosition *motion, SpriteFrame
     }
 
     if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-        action->unk_8C.address = &weadog_action_resume_address;
+        action->unk_8C.address = weadog_action_resume_address;
         on_actor_status_updated(actor);
     }
 }

@@ -20,11 +20,6 @@ struct SpriteFrameState;
 #include "shared/entity_objects.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-struct Row_8194C81C_Delta {
-    s32 x;
-    s32 y;
-    s32 z;
-};
 
 /* State installed by allocate_effect_and_initialize_sprite and advanced by its callback. */
 

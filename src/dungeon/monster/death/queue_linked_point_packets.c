@@ -2,11 +2,11 @@
 
 
 /* Projects linked effect positions and queues their colored pixel and drawing-mode packets by depth. */
-s32 queue_linked_point_packets(u8 *entry, u16 *position)
+s32 queue_linked_point_packets(u8 *item_data, u16 *coords)
 {
     PointTileScratch *scratch = (PointTileScratch *)0x1F800000;
-    void **render_globals = ((void * *)(&g_game_work));
-    GpuContext *render_state = render_globals[0];
+    void **globals = ((void * *)(&g_game_work));
+    GpuContext *render_state = globals[0];
     TILE_1 *first_packet = render_state->packetCursor;
     TILE_1 *packet;
     s32 ot_index;
@@ -16,10 +16,10 @@ s32 queue_linked_point_packets(u8 *entry, u16 *position)
     scratch->ordering_table = (u32 *)&render_state->orderTag;
     scratch->packet_cursor = first_packet;
     for (;;) {
-        scratch->position.vx = position[1];
+        scratch->position.vx = coords[1];
         packet = scratch->packet_cursor;
-        scratch->position.vy = position[3];
-        scratch->position.vz = position[5];
+        scratch->position.vy = coords[3];
+        scratch->position.vz = coords[5];
 
         scratch->packet_cursor = packet + 1;
         ot_index = RotTransPers(&scratch->position, (s32 *)&packet->x0,
@@ -34,7 +34,7 @@ s32 queue_linked_point_packets(u8 *entry, u16 *position)
             u8 b;
 
             /* BYTES: retail copies the tile colour word (r0, g0, b0 and code) with one lw/sw; member copies compile to four lbu/sb */
-            *(u32 *)&packet->r0 = *(u32 *)(entry + 8);
+            *(u32 *)&packet->r0 = *(u32 *)(item_data + 8);
             ((GpuLinkTag *)&packet->tag)->len = 2;
             r = packet->r0;
             g = packet->g0;
@@ -64,15 +64,15 @@ s32 queue_linked_point_packets(u8 *entry, u16 *position)
         }
 
         {
-            u8 *next_entry = *(u8 **)(entry - 8);
+            u8 *next_node = *(u8 **)(item_data - 8);
 
-            if (next_entry == 0)
+            if (next_node == 0)
                 break;
-            entry = next_entry + 0x20;
-            position = (u16 *)*(u8 **)(next_entry + 8);
+            item_data = next_node + 0x20;
+            coords = (u16 *)*(u8 **)(next_node + 8);
         }
     }
 
-    ((GpuContext *)render_globals[0])->packetCursor = scratch->packet_cursor;
+    ((GpuContext *)globals[0])->packetCursor = scratch->packet_cursor;
     return 0;
 }

@@ -21,7 +21,7 @@ extern u8 D_80163DE4[8];
 extern u8 D_80163DEC[8];
 
 /* Advance the actor's timed action sequence and update its animation and effects. */
-void advance_timed_action_and_effects(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *animation, ActorRecord *actor) {
+void advance_timed_action_and_effects(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity) {
     s16 timer;
     u8 state;
 
@@ -34,35 +34,35 @@ void advance_timed_action_and_effects(ActorRecord *action, ObjectPosition *motio
         motion->velocity_x = 0;
         action->action_timer = 0;
         action->action_phase++;
-        if (!(animation->flags & 0x8000)) {
+        if (!(sprite->flags & 0x8000)) {
             return;
         }
 
     case 1:
         timer = action->action_timer + 1;
         action->action_timer = timer;
-        if ((timer != 4) && !(animation->flags & 0x8000)) {
+        if ((timer != 4) && !(sprite->flags & 0x8000)) {
             return;
         }
         action->action_timer = 0;
         action->action_phase++;
-        switch (actor->unk_48) {
+        switch (entity->unk_48) {
         case 13:
-            animation->frameTable = D_80163DDC;
-            select_sprite_entry(animation,
-                D_80163DDC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            sprite->frameTable = D_80163DDC;
+            select_sprite_entry(sprite,
+                D_80163DDC[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             return;
         case 14:
-            animation->frameTable = D_80163DE4;
-            select_sprite_entry(animation,
-                D_80163DE4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            sprite->frameTable = D_80163DE4;
+            select_sprite_entry(sprite,
+                D_80163DE4[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             return;
         case 15:
-            animation->frameTable = D_80163DEC;
-            select_sprite_entry(animation,
-                D_80163DEC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            sprite->frameTable = D_80163DEC;
+            select_sprite_entry(sprite,
+                D_80163DEC[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             action->action_phase = 5;
             play_sound_if_enabled(0x60C);
@@ -74,8 +74,8 @@ void advance_timed_action_and_effects(ActorRecord *action, ObjectPosition *motio
     case 2:
         timer = action->action_timer + 1;
         action->action_timer = timer;
-        if ((timer == 5) || (animation->flags & 0x8000)) {
-            resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
+        if ((timer == 5) || (sprite->flags & 0x8000)) {
+            resolve_attack_damage_and_effects(entity, sprite, entity->facing, 1);
             action->action_timer = 0;
             action->action_phase++;
         }
@@ -86,39 +86,37 @@ void advance_timed_action_and_effects(ActorRecord *action, ObjectPosition *motio
         return;
 
     case 3:
-        if (animation->flags & 0xE000) {
-            spend_actor_mp(actor, 0x100);
+        if (sprite->flags & 0xE000) {
+            spend_actor_mp(entity, 0x100);
             action->unk_8C.address = D_801604BC;
             g_dungeon_status.active_actor = 0;
-            advance_status_timers(actor);
-            actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
+            advance_status_timers(entity);
+            entity->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         }
         return;
 
     case 5:
         timer = action->action_timer + 1;
         action->action_timer = timer;
-        if ((timer == 10) || (animation->flags & 0x8000)) {
-            animation->flags |= 0x0800;
+        if ((timer == 10) || (sprite->flags & 0x8000)) {
+            sprite->flags |= 0x0800;
             play_sound_if_enabled(0x804);
-            create_targeted_motion_effect(action, motion, animation, actor);
-            create_actor_action_effect(action, motion, animation, actor);
+            create_targeted_motion_effect(action, motion, sprite, entity);
+            create_actor_action_effect(action, motion, sprite, entity);
         }
         if ((action->action_timer == 12) ||
-            (animation->flags & 0x8000)) {
-            resolve_attack_damage_and_effects(actor, animation, actor->facing,
+            (sprite->flags & 0x8000)) {
+            resolve_attack_damage_and_effects(entity, sprite, entity->facing,
                 action->unk_AA);
         }
-        if ((action->action_timer != 20) &&
-            !(animation->flags & 0x8000)) {
-            break;
+        if ((action->action_timer == 20) ||
+            (sprite->flags & 0x8000)) {
+            sprite->flags &= 0xF7FF;
+            action->action_timer = 0;
+            action->action_phase = 3;
         }
-        animation->flags &= 0xF7FF;
-        action->action_timer = 0;
-        action->action_phase = 3;
-
     case 4:
     default:
-        break;
+        return;
     }
 }

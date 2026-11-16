@@ -6,82 +6,79 @@
 #include "shared/actor_status_ids.h"
 #include "dungeon/monster/volcano/spawn_variant_slot_c.h"
 #include "shared/monster_ids.h"
+#include "dungeon/monster/volcano/spawn_volcano_slot_f.h"
 
 
 /* Creates a Volcano actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
-void *spawn_volcano_slot_c(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
+void *spawn_volcano_slot_c(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
+    ActorRecord *result = NULL;
+    ObjectNodeHeader *root;
+    ObjectPosition *position;
+    s16 held_flags;
     s32 kind;
-    s32 left;
-    s32 right;
-    ActorRecord *work;
-    s16 saved_height;
-    ObjectNodeHeader *obj;
-    register s8 saved_tile_y;
-    s8 saved_tile_x;
-    ObjectPosition *part_a;
-    s16 saved_spawn_flags;
-    SpriteFrameState *part_b;
-    S_80158854_4 *actor;
+    s8 saved_a;
+    s16 saved_c;
+    s8 saved_b;
 
-    work = 0;
-    saved_tile_x = tile_x;
-    saved_height = spawn_height;
-    saved_tile_y = tile_y;
-    obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
-    saved_spawn_flags = spawn_flags;
-    if (obj != 0) {
-        work = NODE_BODY(obj);
-        work->species = MONSTER_VOLCANO;
-        register_node(obj, project_sprite_chain);
+    {
+        SpriteFrameState *arg3_part;
+        ActorRecord *arg2_work;
 
-        part_a = obj->position;
-        ((SignedHeightView *)part_a)->z = saved_height;
-        part_b = obj->sprite;
-        part_b->tile_x = saved_tile_x;
-        part_b->tile_y = saved_tile_y;
-        actor = (S_80158854_4 *)work;
-        kind = spawn_flags & 3;
+        saved_a = attr_a;
+        saved_c = attr_c;
+        saved_b = attr_b;
+        root = allocate_list_node(0x112, &scene_object_list_anchor.next);
+        held_flags = spawn_flags;
+        if (root != NULL) {
+            result = NODE_BODY(root);
+            result->species = MONSTER_VOLCANO;
+            register_node(root, project_sprite_chain);
 
-        if (kind == 1) {
-            work->unk_8C.run = func_80158E5C;
-            left = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            right = work->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
-            work->flags14 = left;
-            work->flags1C = right;
-            part_b->frameTable = volcano_slot_c_frame_set;
-        } else {
-            if (kind >= 2) {
-                work->unk_8C.run = func_80158E5C;
-                left = work->flags14 | ACTOR_CLASS_ENABLED;
-                right = work->flags1C | ACTOR_PLAYER_SIDE;
-                work->flags14 = left;
-                work->flags1C = right;
-                part_b->frameTable = volcano_slot_c_frame_set;
+            position = root->position;
+            kind = spawn_flags & 3;
+            position->z.w.i = saved_c;
+            arg3_part = root->sprite;
+            arg3_part->tile_x = saved_a;
+            arg3_part->tile_y = saved_b;
+            arg2_work = result;
+
+            if (kind == 1) {
+                result->unk_8C.address = func_80158E5C;
+                result->flags14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+                result->flags1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+                arg3_part->frameTable = volcano_slot_c_frame_set;
             } else {
-                if (((spawn_flags & ~3) << 16) == 0) {
-                    if (!(work->flags14 & ACTOR_RESIST_SLEEP)) {
-                        if (generate_random_value() & 1) {
-                            set_or_clear_actor_status_slot(work, STATUS_SLEEP,
-                                          (generate_random_value() & 0x3F) | 0x20);
-                            part_b->frameTable = D_8015C538;
-                        }
-                    }
-                    ;
-                    actor->unk_8C = func_80158E5C;
-                part_b->frameTable = volcano_slot_c_frame_set;
+                if (kind >= 2) {
+                    result->unk_8C.address = func_80158E5C;
+                    result->flags14 |= ACTOR_CLASS_ENABLED;
+                    result->flags1C |= ACTOR_PLAYER_SIDE;
+                    arg3_part->frameTable = volcano_slot_c_frame_set;
                 } else {
-                    work->unk_8C.run = func_80158E5C;
-                part_b->frameTable = volcano_slot_c_frame_set;
+                    if ((s16)(spawn_flags & ~3) == 0) {
+                        if (!(result->flags14 & ACTOR_RESIST_SLEEP)) {
+                            spawn_flags = generate_random_value();
+                            if (spawn_flags & 1) {
+                                set_or_clear_actor_status_slot(result, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
+                                arg3_part->frameTable = D_8015C538;
+                            }
+                        }
+                        arg2_work->unk_8C.address = func_80158E5C;
+                        arg3_part->frameTable = volcano_slot_c_frame_set;
+                    } else {
+                        result->unk_8C.address = func_80158E5C;
+                        arg3_part->frameTable = volcano_slot_c_frame_set;
+                    }
+
                 }
             }
+            root->update_callback = func_80158A58;
+            initialize_actor_sprite_and_animation(root, position, arg3_part, (s16)held_flags);
+            arg2_work->action_id = 0xFF;
+            arg2_work->unk_9C = -1;
+            try_move_actor_to_valid_position(arg2_work, position, arg3_part, result);
         }
-        obj->update_callback = func_80158A58;
-        initialize_actor_sprite_and_animation(obj, part_a, part_b, (s16)saved_spawn_flags);
-        actor->unk_9A = 0xFF;
-        actor->unk_9C = -1;
-        try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
-    return work;
+    return result;
 }

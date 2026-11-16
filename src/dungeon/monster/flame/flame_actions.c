@@ -976,7 +976,8 @@ void choose_flame_move(ActorRecord *move_data, ObjectPosition *context, SpriteFr
 }
 
 /* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
-s32 try_flame_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor) {
+s32 try_flame_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor)
+{
     ActorRecord *neighbor;
     u16 status_flags;
     u8 actor_flags;
@@ -1016,7 +1017,7 @@ s32 try_flame_attack(ActorRecord *action_state, ObjectPosition *motion_param, Sp
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
         sprite->frameTable = flame_direction_frames;
-        select_sprite_entry(sprite, flame_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(sprite, (flame_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         actor->pending_turn_updates--;
         prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
         return 1;
@@ -1048,15 +1049,15 @@ void begin_flame_attack(ActorRecord *action_state, ObjectPosition *context, Spri
 }
 
 /* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
-s32 relink_flame_path(ActorRecord *entity_arg, ObjectPosition *primary_context_arg, SpriteFrameState *secondary_context_arg, s32 force_state_arg) {
+s32 relink_flame_path(ActorRecord *actor, ObjectPosition *primary_context, SpriteFrameState *secondary_context, s32 force_move) {
     s16 state_type;
     s32 result;
-    ActorRecord *entity = entity_arg;
+    ActorRecord *entity = actor;   /* the copy is load-bearing: it changes the callee-save order */
 
-    state_type = (s16)relink_entity_and_clear_high_flag(primary_context_arg, secondary_context_arg, entity, 3, 6, &entity->unk_9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(primary_context, secondary_context, entity, 3, 6, &entity->unk_9C);
     if (state_type < 0) return 0;
-    if ((force_state_arg << 0x10) != 0) {
-        choose_flame_move(entity, primary_context_arg, secondary_context_arg, entity);
+    if ((force_move << 0x10) != 0) {
+        choose_flame_move(entity, primary_context, secondary_context, entity);
         result = 0;
         return result;
     }
@@ -1067,17 +1068,17 @@ s32 relink_flame_path(ActorRecord *entity_arg, ObjectPosition *primary_context_a
         result = 0;
         return result;
     case 2:
-        choose_flame_move(entity, primary_context_arg, secondary_context_arg, entity);
+        choose_flame_move(entity, primary_context, secondary_context, entity);
         result = 0;
         return result;
     case 1:
-        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
+        entity->movement_queue_state &= 0x7F;
         if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
             break;
         }
                                 /* fall through */
     default:
-        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
+        entity->movement_queue_state &= 0x7F;
         if ((g_dungeon_status.flags & 8) == 0) {
             result = 1;
             return result;
@@ -1085,7 +1086,7 @@ s32 relink_flame_path(ActorRecord *entity_arg, ObjectPosition *primary_context_a
         break;
     }
     result = 0;
-    entity->action_flags = (u16) (entity->action_flags & 0x7FFF);
+    entity->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
     return result;
 }
 
@@ -1887,17 +1888,13 @@ void wait_for_flame_mp(ActorRecord *entity, ObjectPosition *context, SpriteFrame
  * positive; during motion, restores movement frames when the alternate table is active and flags
  * 0x208 are clear.
  */
-void update_flame_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object) {
-    if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
-        if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
-            actor->unk_8C.handler = dispatch_flame_actions;
-            return;
-        }
-    } else if (*(u8 **)&entity->frameTable == flame_alt_direction_frames &&
-               !(map_object->flags1C & 0x208)) {
-        entity->frameTable = flame_direction_frames;
-        select_sprite_entry(entity,(s16)(flame_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + map_object->facing + 0x100) >> 9) & 7]),(s16)(0));
-    }
+void update_flame_parent_motion(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+ if(update_actor_transform_from_parent(state,motion,sprite,actor)!=0) {
+  if((check_actor_floor_trap(sprite,actor)<<16)>0) state->unk_8C.handler=dispatch_flame_actions;
+ } else if(sprite->frameTable==flame_alt_direction_frames && !(actor->flags1C&0x208)) {
+  sprite->frameTable=flame_direction_frames;
+  select_sprite_entry(sprite,flame_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle+actor->facing+0x100)>>9)&7],0);
+ }
 }
 
 /*

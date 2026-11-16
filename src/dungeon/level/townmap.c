@@ -11,12 +11,12 @@ struct ObjectNodeHeader;
 void process_pending_resource_load(void)
 {
     s32 entry_result;
-    s32 *entry_table;
+    s32 *catalog_entries;
 
     if (town_resource_request != 0) {
         DrawSync(0);
-        entry_table = &town_resource_descriptors[15];
-        entry_result = load_cd_resource(entry_table[town_resource_request]);
+        catalog_entries = &town_resource_descriptors[15];
+        entry_result = load_cd_resource(catalog_entries[town_resource_request]);
         loaded_town_resource_attributes[0] = entry_result;
         if (town_resource_request == 1) {
             town_resource_request = 0;

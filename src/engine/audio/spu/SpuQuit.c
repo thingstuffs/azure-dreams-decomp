@@ -4,10 +4,9 @@
 #include "sdk/libapi.h"
 #include "slus.h"
 #include "slus/sound_streaming_transfer.h"
+#include "slus/sound_dma_lifecycle.h"
 
 extern s32 spu_register_buffer_flags[];
-extern s32 D_80079994[4];
-extern s32 spu_active_voice_mask[3];
 
 extern s32 DisableEvent(s32 event);
 
@@ -20,12 +19,12 @@ void SpuQuit(void)
         {
             s32 null_callback = 0;
 
-            spu_transfer_callback[0] = 0;
-            D_80079994[0] = 0;
+            spu_transfer_callback = 0;
+            D_80079994 = 0;
             set_dma_channel_4_callback(null_callback);
         }
         CloseEvent(spu_transfer_event_handle);
-        DisableEvent(spu_active_voice_mask[-1]);
+        DisableEvent(spu_transfer_event_handle);
         ExitCriticalSection();
     }
 }

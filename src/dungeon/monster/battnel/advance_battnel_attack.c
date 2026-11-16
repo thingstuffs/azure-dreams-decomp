@@ -21,7 +21,7 @@
 
 
 extern void *actor_update_node_cursor;
-extern s32 battnel_action_resume_address;
+extern u8 battnel_action_resume_address[];
 extern u8 D_80173D04[];
 extern u8 D_80173D34[];
 
@@ -136,7 +136,7 @@ void advance_battnel_attack(ActorRecord *action, ObjectPosition *motion, SpriteF
             0);
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         spend_actor_mp(actor, 0x100);
-        action->unk_8C.address = &battnel_action_resume_address;
+        action->unk_8C.address = battnel_action_resume_address;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         if (actor->pending_turn_updates == 0) {

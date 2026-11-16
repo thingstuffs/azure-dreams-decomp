@@ -23,7 +23,7 @@ extern u8 D_8015DDE4[8];
 extern u8 D_8015DDEC[8];
 
 /* Advances the actor's timed action sequence, updating animation and sound effects. */
-void advance_troll_attack_sequence(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+void advance_troll_attack_sequence(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity) {
     s16 timer;
     u8 state;
 
@@ -48,23 +48,23 @@ void advance_troll_attack_sequence(ActorRecord *action, ObjectPosition *motion, 
         }
         action->action_timer = 0;
         action->action_phase++;
-        switch (actor->unk_48) {
+        switch (entity->unk_48) {
         case 13:
             sprite->frameTable = D_8015DDDC;
             select_sprite_entry(sprite,
-                D_8015DDDC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_8015DDDC[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             return;
         case 14:
             sprite->frameTable = D_8015DDE4;
             select_sprite_entry(sprite,
-                D_8015DDE4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_8015DDE4[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             return;
         case 15:
             sprite->frameTable = D_8015DDEC;
             select_sprite_entry(sprite,
-                D_8015DDEC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_8015DDEC[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             action->action_phase = 5;
             play_sound_if_enabled(0x60C);
@@ -77,7 +77,7 @@ void advance_troll_attack_sequence(ActorRecord *action, ObjectPosition *motion, 
         timer = action->action_timer + 1;
         action->action_timer = timer;
         if ((timer == 5) || (sprite->flags & 0x8000)) {
-            resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
+            resolve_attack_damage_and_effects(entity, sprite, entity->facing, 1);
             action->action_timer = 0;
             action->action_phase++;
         }
@@ -89,11 +89,11 @@ void advance_troll_attack_sequence(ActorRecord *action, ObjectPosition *motion, 
 
     case 3:
         if (sprite->flags & 0xE000) {
-            spend_actor_mp(actor, 0x100);
+            spend_actor_mp(entity, 0x100);
             action->unk_8C.address = troll_slot_c_action_callback;
             g_dungeon_status.active_actor = 0;
-            advance_status_timers(actor);
-            actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
+            advance_status_timers(entity);
+            entity->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         }
         return;
 
@@ -103,24 +103,22 @@ void advance_troll_attack_sequence(ActorRecord *action, ObjectPosition *motion, 
         if ((timer == 10) || (sprite->flags & 0x8000)) {
             sprite->flags |= 0x0800;
             play_sound_if_enabled(0x804);
-            func_8015921C(action, motion, sprite, actor);
-            func_801594FC(action, motion, sprite, actor);
+            func_8015921C(action, motion, sprite, entity);
+            func_801594FC(action, motion, sprite, entity);
         }
         if ((action->action_timer == 12) ||
             (sprite->flags & 0x8000)) {
-            resolve_attack_damage_and_effects(actor, sprite, actor->facing,
+            resolve_attack_damage_and_effects(entity, sprite, entity->facing,
                 action->unk_AA);
         }
-        if ((action->action_timer != 20) &&
-            !(sprite->flags & 0x8000)) {
-            break;
+        if ((action->action_timer == 20) ||
+            (sprite->flags & 0x8000)) {
+            sprite->flags &= 0xF7FF;
+            action->action_timer = 0;
+            action->action_phase = 3;
         }
-        sprite->flags &= 0xF7FF;
-        action->action_timer = 0;
-        action->action_phase = 3;
-
     case 4:
     default:
-        break;
+        return;
     }
 }

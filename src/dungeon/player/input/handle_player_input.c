@@ -56,7 +56,7 @@ extern u8 player_wait_frames[8];
 extern M2C_UNK D_800DD148;
 extern void (*actor_command_handlers[])(void);
 extern u8 active_actor_command_code;
-extern s8 dungeon_button_latch[9];
+extern u8 dungeon_button_latch;
 extern s32 menu_action_argument;
 
 /* Handles actor commands, movement, and facing updates. */
@@ -339,8 +339,8 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
             } else {
                 active_actor_command_code = 0;
                 if (input_flags & 4) {
-                    if ((*(u8 *)dungeon_button_latch) == 0) {
-                        (*dungeon_button_latch) = 1;
+                    if (dungeon_button_latch == 0) {
+                        dungeon_button_latch = 1;
                         request_scene_dispatch_state(3);
                         return;
                     }

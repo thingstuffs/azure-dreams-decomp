@@ -1027,9 +1027,9 @@ void update_block_hop_slot_c(ActorRecord *action, ObjectPosition *motion, Sprite
  * Installs the local turn-action dispatcher after linked motion completes and the signed
  * floor-trap check returns positive.
  */
-void finish_block_linked_motion_slot_c(S_80172944_0 *state,void *position,void *render_state,void *entity) {
-    if ((update_linked_actor_motion(state,position,render_state,entity) != 0) && ((check_actor_floor_trap(render_state, entity) << 0x10) > 0)) {
-        state->CL_CCB000_80172944_handler = dispatch_block_turn_actions_slot_c;
+void finish_block_linked_motion_slot_c(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+    if ((update_linked_actor_motion(body, position, sprite, actor) != 0) && ((check_actor_floor_trap(sprite, actor) << 0x10) > 0)) {
+        body->unk_8C.address = &dispatch_block_turn_actions_slot_c;
     }
 }
 
@@ -1102,13 +1102,13 @@ void update_block_attack_slot_c(ActorRecord *action, ObjectPosition *motion, Spr
 }
 
 /* Selects a queued spell and target, creates its visual effect, and waits for animation and CD completion. */
-void update_block_spell_slot_c(CL_CCB000_80172BCC_S_func_80C953CC_1 *work, CL_CCB000_80172BCC_S_func_80C953CC_2 *position, SpriteFrameState *entity,
+void update_block_spell_slot_c(ActorRecord *work, ObjectPosition *position, SpriteFrameState *entity,
     CL_CCB000_80172BCC_S_func_80C953CC_4 *actor)
 {
     CL_CCB000_80172BCC_S_func_80C953CC_9 *part;
     s32 alternate = 0;
 
-    switch (work->unk_9B) {
+    switch (work->action_phase) {
     case 0:
         if (actor->unk_1C & ACTOR_PLAYER_SIDE) {
             switch (actor->unk_46 & 0x3FFF) {
@@ -1155,7 +1155,7 @@ void update_block_spell_slot_c(CL_CCB000_80172BCC_S_func_80C953CC_1 *work, CL_CC
             void *target_actor;
             SpriteFrameState *target_entity;
 
-            (work->unk_98) &= 0xFF7F;
+            (work->action_state_flags) &= 0xFF7F;
             if ((s8)alternate) {
                 actor->unk_60 = target_actor = primary_actor_record;
                 target_entity = NODE_HEADER(target_actor)->sprite;
@@ -1181,15 +1181,15 @@ void update_block_spell_slot_c(CL_CCB000_80172BCC_S_func_80C953CC_1 *work, CL_CC
                 actor->unk_73.u8 = target_y;
             }
 
-            if (create_actor_spell_effect(actor, part, alternate, &work->unk_98) != 0) {
-                work->unk_9B++;
+            if (create_actor_spell_effect(actor, part, alternate, &work->action_state_flags) != 0) {
+                work->action_phase++;
             }
         } else {
             CL_CCB000_80172BCC_S_func_80C953CC_5 *active_actor;
 
-            position->unk_14 = 0;
-            position->unk_10 = 0;
-            position->unk_0C = 0;
+            position->velocity_z = 0;
+            position->velocity_y = 0;
+            position->velocity_x = 0;
             set_record_integer_tile_center(position, entity->tile_x,
                           entity->tile_y);
             active_actor = primary_actor_record;
@@ -1197,7 +1197,7 @@ void update_block_spell_slot_c(CL_CCB000_80172BCC_S_func_80C953CC_1 *work, CL_CC
             (active_actor->unk_A6)--;
             advance_status_timers(actor);
             actor->unk_6D--;
-            work->unk_8C = dispatch_block_turn_actions_slot_c;
+            work->unk_8C.address = dispatch_block_turn_actions_slot_c;
             actor->unk_73.u8 = 0;
             actor->unk_72.u8 = 0;
             actor->unk_46 &= 0x7FFF;
@@ -1211,7 +1211,7 @@ void update_block_spell_slot_c(CL_CCB000_80172BCC_S_func_80C953CC_1 *work, CL_CC
         }
 
         entity->flags &= 0xF7FF;
-        work->unk_9B++;
+        work->action_phase++;
         actor = allocate_flagged_object_node(0x212);
         if (actor != 0) {
             CL_CCB000_80172BCC_S_func_80C953CC_6 *transform;
@@ -1243,24 +1243,24 @@ void update_block_spell_slot_c(CL_CCB000_80172BCC_S_func_80C953CC_1 *work, CL_CC
         if ((entity->unk_04 == 5 &&
              (entity->flags & 0x1000)) ||
             (entity->flags & 0xE000)) {
-            work->unk_96 = 0x20;
-            work->unk_98 |= 0x80;
-            work->unk_9B++;
+            work->action_timer = 0x20;
+            work->action_state_flags |= 0x80;
+            work->action_phase++;
         }
         break;
 
     case 3:
         part = (CL_CCB000_80172BCC_S_func_80C953CC_9 *)((u8 *)((s32 *)&g_dungeon_status.active_actor) - 0x0C);
         if (part->unk_0C == 0) {
-            work->unk_96 = 0;
+            work->action_timer = 0;
         }
         if (!(entity->flags & 0xE000)) {
             break;
         }
 
-        position->unk_14 = 0;
-        position->unk_10 = 0;
-        position->unk_0C = 0;
+        position->velocity_z = 0;
+        position->velocity_y = 0;
+        position->velocity_x = 0;
         set_record_integer_tile_center(position, entity->tile_x,
                       entity->tile_y);
         if (entity->frameTable != block_slot_c_direction_frames) {
@@ -1275,7 +1275,7 @@ void update_block_spell_slot_c(CL_CCB000_80172BCC_S_func_80C953CC_1 *work, CL_CC
         }
 
         part->unk_0A--;
-        work->unk_8C = dispatch_block_turn_actions_slot_c;
+        work->unk_8C.address = dispatch_block_turn_actions_slot_c;
         advance_status_timers(actor);
         actor->unk_73.u8 = 0;
         actor->unk_72.u8 = 0;
@@ -1373,7 +1373,7 @@ void update_block_hop_shrink_slot_c(ActorRecord *state,ObjectPosition *position,
 }
 
 /* Runs the shared actor removal sequence with the supplied callback arguments. */
-void update_block_removal_slot_c(void *state,void *position,void *render_state,void *entity) {
+void update_block_removal_slot_c(void *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity) {
     advance_actor_removal(state,position,render_state,entity);
 }
 
@@ -1648,9 +1648,9 @@ void update_block_parent_motion_slot_c(S_80173A38_0 *state, void *position, Spri
  * Installs the local turn-action dispatcher after thrown travel completes and the signed
  * floor-trap check returns positive.
  */
-void finish_block_thrown_travel_slot_c(ActorRecord *state,void *position,void *render_state,void *entity) {
-    if ((update_thrown_actor_travel(state,position,render_state,entity) != 0) && ((check_actor_floor_trap(render_state, entity) << 0x10) > 0)) {
-        state->unk_8C.handler = dispatch_block_turn_actions_slot_c;
+void finish_block_thrown_travel_slot_c(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+    if ((update_thrown_actor_travel(body, position, sprite, actor) != 0) && ((check_actor_floor_trap(sprite, actor) << 0x10) > 0)) {
+        body->unk_8C.address = &dispatch_block_turn_actions_slot_c;
     }
 }
 
@@ -1675,14 +1675,14 @@ void finish_block_spinning_fall_slot_c(S_80173B9C_0 *state,void *position,void *
 }
 
 /* Runs update_actor_fade_in and installs dispatch_block_turn_actions_slot_c when it returns nonzero. */
-void finish_block_fade_in_slot_c(S_80173BD4_0 *state,void *position,void *render_state,void *entity) {
+void finish_block_fade_in_slot_c(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity) {
     if (update_actor_fade_in(state,position,render_state) != 0) {
-        state->CL_CCB000_80173BD4_handler = dispatch_block_turn_actions_slot_c;
+        state->unk_8C.run = dispatch_block_turn_actions_slot_c;
     }
 }
 
 /* Spins a sprite and scales its RGB values by the remaining lifetime, removing it when the timer expires. */
-void spin_and_fade_gray_sprite_slot_c(GrayFadeSpriteBody *effect, ObjectPosition *unused, SpriteFrameState *sprite)
+void spin_and_fade_gray_sprite_slot_c(GrayFadeSpriteBody *effect, s32 unused, SpriteFrameState *sprite)
 {
     u16 ticks_left;
 
@@ -2209,12 +2209,12 @@ void create_segmented_effect_rings_slot_c(CL_CCB000_80174724_S_80C96F24_0 *owner
 }
 
 /* Starts action 23 once pending dungeon activity allows it, clearing the actor movement and turn state. */
-void begin_block_action_23_slot_c(S_80174B3C_1 *state, ObjectPosition *unused_position, void *unused_render_state, CL_CCB000_80174B3C_S_80174B3C_0 *entity) {
-    entity->unk_71 = (u8) (entity->unk_71 & 0x7F);
+void begin_block_action_23_slot_c(S_80174B3C_1 *state, ObjectPosition *unused_position, void *unused_render_state, ActorRecord *entity) {
+    entity->movement_queue_state = entity->movement_queue_state & 0x7F;
     state->CL_CCB000_80174B3C_handler = begin_block_action_23_slot_c;
     state->action = 0x17;
     state->action_tick = 0;
-    entity->unk_6D = 0;
+    entity->pending_turn_updates = 0;
     if (!(D_80083460.flags & 0x2000) && ((has_pending_dungeon_activity(entity) << 0x10) == 0)) {
         state->CL_CCB000_80174B3C_handler = NULL;
         state->action = 0x17;
@@ -2226,15 +2226,15 @@ void begin_block_action_23_slot_c(S_80174B3C_1 *state, ObjectPosition *unused_po
 
 /* Waits for sprite animation to finish, then restores the scene tint over 16 updates and removes the
    effect. */
-void restore_scene_tint_slot_c(u8 *task, void *context, u8 *input)
+void restore_scene_tint_slot_c(u8 *task, ObjectPosition *context, SpriteFrameState *input)
 {
     s16 frames_left;
     GameWork *fade_state = &g_game_work;
 
     if (task[0x9A] == 0) {
-        D_8015D3AC = *(s32 *)(input + 8);
+        D_8015D3AC = *(s32 *)&input->source;
         advance_sprite_animation_and_textures(input);
-        if (*(u16 *)(input + 0x14) & 0xE000) {
+        if (input->flags & 0xE000) {
             unlink_node(task - 0x20);
             *(s16 *)(task + 0x96) = 0x10;
             task[0x9A]++;
@@ -2422,7 +2422,7 @@ void finish_block_floor_trap_slot_c(CL_CCB000_8017523C_CallbackState *state,void
  * Runs propagate_actor_action_flag and installs dispatch_block_turn_actions_slot_c when it returns
  * nonzero.
  */
-void finish_block_action_flag_slot_c(CL_CCB000_80175274_CallbackState *state,void *position,void *sprite,void *entity) {
+void finish_block_action_flag_slot_c(CL_CCB000_80175274_CallbackState *state,ObjectPosition *position,SpriteFrameState *sprite,ActorRecord *entity) {
  if(propagate_actor_action_flag(state,position,sprite,entity) != 0)
   state->handler=dispatch_block_turn_actions_slot_c;
 }

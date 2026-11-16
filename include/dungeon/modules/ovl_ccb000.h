@@ -21,32 +21,31 @@ void begin_block_attack_slot_c(CL_CCB000_80172180_S_80172180_1 *state, s32 posit
 s32 check_block_action_ready_slot_c(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 void finish_block_tile_move_slot_c(struct ActorRecord *state_arg,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity);
 void update_block_hop_slot_c(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *map_entry, ActorRecord *actor);
-void finish_block_linked_motion_slot_c(S_80172944_0 *state,void *position,void *render_state,void *entity);
+void finish_block_linked_motion_slot_c(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void update_block_attack_slot_c(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void update_block_spell_slot_c(CL_CCB000_80172BCC_S_func_80C953CC_1 *work, CL_CCB000_80172BCC_S_func_80C953CC_2 *position, struct SpriteFrameState *entity,
-    CL_CCB000_80172BCC_S_func_80C953CC_4 *actor);
+void update_block_spell_slot_c(ActorRecord *work, ObjectPosition *position, SpriteFrameState *entity, CL_CCB000_80172BCC_S_func_80C953CC_4 *actor);
 void update_block_value_reaction_slot_c(CL_CCB000_801730E0_S_801730E0_0 *state, ObjectPosition *motion, SpriteFrameState *action, EntityRec *entity);
 void update_block_defeat_slot_c(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity);
 void update_block_hop_shrink_slot_c(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity);
-void update_block_removal_slot_c(void *state,void *position,void *render_state,void *entity);
+void update_block_removal_slot_c(void *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity);
 void finish_block_hop_grow_slot_c(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity);
 void update_block_status_animation_slot_c(void *action, ObjectPosition *context, SpriteFrameState *sprite_in, CL_CCB000_8017339C_S_80173D4C_2 *actor_in);
 void wait_block_mp_recovery_slot_c(void *actor_in, ObjectPosition *position, SpriteFrameState *target, ActorRecord *entity_in);
 void update_block_parent_motion_slot_c(S_80173A38_0 *state, void *position, SpriteFrameState *sprite, CL_CCB000_80173A38_S_80173A38_2 *actor);
-void finish_block_thrown_travel_slot_c(ActorRecord *state,void *position,void *render_state,void *entity);
+void finish_block_thrown_travel_slot_c(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void finish_block_terrain_move_slot_c(S_80173B64_0 *state,void *position,void *render_state,void *entity);
 void finish_block_spinning_fall_slot_c(S_80173B9C_0 *state,void *position,void *render_state,void *entity);
-void finish_block_fade_in_slot_c(S_80173BD4_0 *state,void *position,void *render_state,void *entity);
-void spin_and_fade_gray_sprite_slot_c(struct GrayFadeSpriteBody *effect, struct ObjectPosition *unused, SpriteFrameState *sprite);
+void finish_block_fade_in_slot_c(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity);
+void spin_and_fade_gray_sprite_slot_c(GrayFadeSpriteBody *effect, s32 unused, SpriteFrameState *sprite);
 void create_gray_fading_sprite_slot_c(void *unused_context, struct ObjectPosition *source_pos, struct SpriteFrameState *unused_value, s16 scale);
 void draw_shaded_effect_quad_slot_c(CL_CCB000_80173E40_S_80173E40_6 *quad, struct ObjectPosition *position, SpriteFrameState *render_info, s16 depth_bias);
 s32 draw_linked_effect_quads_slot_c(void *point, struct ObjectPosition *position, SpriteFrameState *color);
 void update_flashing_effect_segment_slot_c(u8 *effect, ObjectPosition *position, struct SpriteFrameState *effect_param);
 void create_segmented_effect_rings_slot_c(CL_CCB000_80174724_S_80C96F24_0 *owner, struct ObjectPosition *origin, SpriteFrameState *entity);
-void begin_block_action_23_slot_c(S_80174B3C_1 *state, ObjectPosition *unused_position, void *unused_render_state, CL_CCB000_80174B3C_S_80174B3C_0 *entity);
-void restore_scene_tint_slot_c(u8 *task, void *context, u8 *input);
+void begin_block_action_23_slot_c(S_80174B3C_1 *state, ObjectPosition *unused_position, void *unused_render_state, ActorRecord *entity);
+void restore_scene_tint_slot_c(u8 *task, ObjectPosition *context, SpriteFrameState *input);
 void update_block_replacement_slot_c(CL_CCB000_80174D14_S_80C97514_0 *state, struct ObjectPosition *position, SpriteFrameState *entity, ActorRecord *actor);
 void finish_block_floor_trap_slot_c(CL_CCB000_8017523C_CallbackState *state,void *position,void *sprite,void *entity);
-void finish_block_action_flag_slot_c(CL_CCB000_80175274_CallbackState *state,void *position,void *sprite,void *entity);
+void finish_block_action_flag_slot_c(CL_CCB000_80175274_CallbackState *state,ObjectPosition *position,SpriteFrameState *sprite,ActorRecord *entity);
 
 #endif

@@ -1051,9 +1051,9 @@ void select_zu_tile_movement_callback(ActorRecord *state, ObjectPosition *motion
 
 extern s32 update_linked_actor_motion(void *state, ObjectPosition *transform, SpriteFrameState *config, ActorRecord *object);
 /* Select the bank actor callback when the resident checks succeed. */
-void select_zu_linked_motion_callback(ActorRecord *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
-    if ((update_linked_actor_motion(state, action, source, target) != 0) && ((check_actor_floor_trap(source, target) << 0x10) > 0)) {
-        state->unk_8C.handler = update_zu_behavior;
+void select_zu_linked_motion_callback(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+    if ((update_linked_actor_motion(body, position, sprite, actor) != 0) && ((check_actor_floor_trap(sprite, actor) << 0x10) > 0)) {
+        body->unk_8C.address = &update_zu_behavior;
     }
 }
 
@@ -2163,9 +2163,9 @@ void update_zu_sprite_state(ActorRecord *actor, ObjectPosition *action, SpriteFr
 #include "shared/sprite_frame_state.h"
 
 /* Select the bank actor callback when the resident checks succeed. */
-void update_directional_sprite_state_and_signals(ActorRecord *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
-    if ((update_thrown_actor_travel(state, action, source, target) != 0) && ((check_actor_floor_trap(source, target) << 0x10) > 0)) {
-        state->unk_8C.handler = update_zu_behavior;
+void update_directional_sprite_state_and_signals(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+    if ((update_thrown_actor_travel(body, position, sprite, actor) != 0) && ((check_actor_floor_trap(sprite, actor) << 0x10) > 0)) {
+        body->unk_8C.address = &update_zu_behavior;
     }
 }
 

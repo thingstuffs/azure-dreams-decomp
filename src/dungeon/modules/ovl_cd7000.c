@@ -744,7 +744,7 @@ void choose_block_move_slot_a(Rec_func_800A9E70_arg0 *move_data, void *context, 
  * Sets action state 0x10, clears its tick, and selects the local eight-way sprite frame table
  * using actor facing relative to the camera.
  */
-void begin_block_hop_slot_a(ActorRecord *state, void *unused_position, CL_CD7000_80171F58_S_80171F58_1 *render_state, ActorRecord *entity) {
+void begin_block_hop_slot_a(ActorRecord *state, ObjectPosition *unused_position, CL_CD7000_80171F58_S_80171F58_1 *render_state, ActorRecord *entity) {
     state->action_id = 0x10;
     state->action_phase = 0;
     render_state->unk_2C = D_801512C4;
@@ -822,7 +822,7 @@ void begin_block_attack_slot_a(CL_CD7000_80172180_S_80172180_1 *state, s32 posit
 }
 
 /* Checks actor proximity and dungeon activity, dispatching movement or reporting readiness for an action. */
-s32 check_block_action_ready_slot_a(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
+s32 check_block_action_ready_slot_a(void *entity_arg, ObjectPosition *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
     ActorRecord *entity = entity_arg;
@@ -867,7 +867,7 @@ s32 check_block_action_ready_slot_a(void *entity_arg, void *primary_context_arg,
  * When tile movement finishes, spends MP and advances status timers; installs the turn-action
  * dispatcher and clears its counter only after a positive signed floor-trap check. /
  */
-void finish_block_tile_move_slot_a(void *state_arg,void *position,void *render_state,void *entity) {
+void finish_block_tile_move_slot_a(ActorRecord *state_arg,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity) {
     ActorRecord *state=state_arg;
     if (update_actor_movement_to_tile(state,position,render_state,entity) != 0) {
         spend_actor_mp(entity, 4);
@@ -1027,9 +1027,9 @@ void update_block_hop_slot_a(CL_CD7000_80172458_S_80172458_0 *action, ObjectPosi
  * Installs the local turn-action dispatcher after linked motion completes and the signed
  * floor-trap check returns positive.
  */
-void finish_block_linked_motion_slot_a(S_80172944_0 *state,void *position,void *render_state,void *entity) {
-    if ((update_linked_actor_motion(state,position,render_state,entity) != 0) && ((check_actor_floor_trap(render_state, entity) << 0x10) > 0)) {
-        state->CL_CD7000_80172944_handler = dispatch_block_turn_actions_slot_a;
+void finish_block_linked_motion_slot_a(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+    if ((update_linked_actor_motion(body, position, sprite, actor) != 0) && ((check_actor_floor_trap(sprite, actor) << 0x10) > 0)) {
+        body->unk_8C.address = &dispatch_block_turn_actions_slot_a;
     }
 }
 
@@ -1364,7 +1364,7 @@ void update_actor_impact_hop(CL_CD7000_801730E0_S_801730E0_0 *state, ObjectPosit
 }
 
 /* Runs the shared actor defeat and removal sequence with the supplied callback arguments. */
-void update_block_defeat_slot_a(void *state,void *position,void *render_state,void *entity) {
+void update_block_defeat_slot_a(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity) {
     update_actor_defeat_removal(state,position,render_state,entity);
 }
 
@@ -1649,9 +1649,9 @@ void update_block_parent_motion_slot_a(S_80173A38_0 *state, void *position, Spri
  * Installs the local turn-action dispatcher after thrown travel completes and the signed
  * floor-trap check returns positive.
  */
-void finish_block_thrown_travel_slot_a(ActorRecord *state,void *position,void *render_state,void *entity) {
-    if ((update_thrown_actor_travel(state,position,render_state,entity) != 0) && ((check_actor_floor_trap(render_state, entity) << 0x10) > 0)) {
-        state->unk_8C.handler = dispatch_block_turn_actions_slot_a;
+void finish_block_thrown_travel_slot_a(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+    if ((update_thrown_actor_travel(body, position, sprite, actor) != 0) && ((check_actor_floor_trap(sprite, actor) << 0x10) > 0)) {
+        body->unk_8C.address = &dispatch_block_turn_actions_slot_a;
     }
 }
 
@@ -1676,9 +1676,9 @@ void finish_block_spinning_fall_slot_a(S_80173B9C_0 *state,void *position,void *
 }
 
 /* Runs update_actor_fade_in and installs dispatch_block_turn_actions_slot_a when it returns nonzero. */
-void finish_block_fade_in_slot_a(S_80173BD4_0 *state,void *position,void *render_state,void *entity) {
+void finish_block_fade_in_slot_a(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity) {
     if (update_actor_fade_in(state,position,render_state) != 0) {
-        state->CL_CD7000_80173BD4_handler = dispatch_block_turn_actions_slot_a;
+        state->unk_8C.run = dispatch_block_turn_actions_slot_a;
     }
 }
 
@@ -2210,12 +2210,12 @@ void create_segmented_effect_rings_slot_a(CL_CD7000_80174724_S_80C96F24_0 *owner
 }
 
 /* Starts action 23 once pending dungeon activity allows it, clearing the actor movement and turn state. */
-void begin_block_action_23_slot_a(S_80174B3C_1 *state, void *unused_position, void *unused_render_state, CL_CD7000_80174B3C_S_80174B3C_0 *entity) {
-    entity->unk_71 = (u8) (entity->unk_71 & 0x7F);
+void begin_block_action_23_slot_a(S_80174B3C_1 *state, ObjectPosition *unused_position, void *unused_render_state, ActorRecord *entity) {
+    entity->movement_queue_state = entity->movement_queue_state & 0x7F;
     state->CL_CD7000_80174B3C_handler = begin_block_action_23_slot_a;
     state->action = 0x17;
     state->action_tick = 0;
-    entity->unk_6D = 0;
+    entity->pending_turn_updates = 0;
     if (!(D_80083460.flags & 0x2000) && ((has_pending_dungeon_activity(entity) << 0x10) == 0)) {
         state->CL_CD7000_80174B3C_handler = NULL;
         state->action = 0x17;
@@ -2227,15 +2227,15 @@ void begin_block_action_23_slot_a(S_80174B3C_1 *state, void *unused_position, vo
 
 /* Waits for sprite animation to finish, then restores the scene tint over 16 updates and removes the
    effect. */
-void restore_scene_tint_slot_a(u8 *task, void *context, u8 *input)
+void restore_scene_tint_slot_a(u8 *task, ObjectPosition *context, SpriteFrameState *input)
 {
     s16 frames_left;
     GameWork *fade_state = &g_game_work;
 
     if (task[0x9A] == 0) {
-        D_801513AC = *(s32 *)(input + 8);
+        D_801513AC = *(s32 *)&input->source;
         advance_sprite_animation_and_textures(input);
-        if (*(u16 *)(input + 0x14) & 0xE000) {
+        if (input->flags & 0xE000) {
             unlink_node(task - 0x20);
             *(s16 *)(task + 0x96) = 0x10;
             task[0x9A]++;
@@ -2423,7 +2423,7 @@ void finish_block_floor_trap_slot_a(CL_CD7000_8017523C_CallbackState *state,void
  * Runs propagate_actor_action_flag and installs dispatch_block_turn_actions_slot_a when it returns
  * nonzero.
  */
-void finish_block_action_flag_slot_a(CL_CD7000_80175274_CallbackState *state,void *position,void *sprite,void *entity) {
+void finish_block_action_flag_slot_a(CL_CD7000_80175274_CallbackState *state,ObjectPosition *position,SpriteFrameState *sprite,ActorRecord *entity) {
  if(propagate_actor_action_flag(state,position,sprite,entity) != 0)
   state->handler=dispatch_block_turn_actions_slot_a;
 }

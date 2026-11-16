@@ -4,8 +4,8 @@
 #include "dungeon/actor/motion.h"
 #include "dungeon/monster/pulunpa.h"
 
-extern u8 pulunpa_action_resume_address;
-extern u8 pulunpa_variant_action_address;
+extern u8 pulunpa_action_resume_address[];
+extern u8 pulunpa_variant_action_address[];
 
 typedef struct S_80172538_0 {
     u8 pad_00[0x8C];
@@ -21,9 +21,9 @@ void finish_pulunpa_linked_move(void *state, ObjectPosition *motion, SpriteFrame
     if ((update_linked_actor_motion(state, motion, entity, actor) != 0) &&
         ((check_actor_floor_trap(entity, actor) << 0x10) > 0)) {
         if (object->unk_A7 != 0) {
-            object->unk_8C = &pulunpa_variant_action_address;
+            object->unk_8C = pulunpa_variant_action_address;
         } else {
-            object->unk_8C = &pulunpa_action_resume_address;
+            object->unk_8C = pulunpa_action_resume_address;
         }
     }
 }

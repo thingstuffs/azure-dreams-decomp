@@ -904,7 +904,8 @@ void choose_univern_move(ActorRecord *move_data, ObjectPosition *context, Sprite
 #include "dungeon/monster/univern.h"
 
 /* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
-s32 try_univern_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite_arg, ActorRecord *actor) {
+s32 try_univern_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor)
+{
     ActorRecord *neighbor;
     u16 status_flags;
     u8 actor_flags;
@@ -917,8 +918,7 @@ s32 try_univern_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
         return -1;
     }
 
-    neighbor = probe_directional_neighbor(actor, sprite_arg->tile_x,
-                           sprite_arg->tile_y, actor->facing);
+    neighbor = probe_directional_neighbor(actor, sprite->tile_x, sprite->tile_y, actor->facing);
     if ((check_entity_interaction_compatibility(actor, neighbor) << 16) == 0) {
         return 0;
     }
@@ -941,13 +941,13 @@ s32 try_univern_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
     if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
         action_state->action_id = 0x11;
         action_state->action_phase = 0;
-        action_state->unk_8C.run = 0;
+        action_state->unk_8C.handler = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
-        sprite_arg->frameTable = univern_direction_frames;
-        select_sprite_entry(sprite_arg, univern_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        sprite->frameTable = univern_direction_frames;
+        select_sprite_entry(sprite, (univern_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         actor->pending_turn_updates--;
-        prepare_directional_attack(actor, sprite_arg, actor->facing, 1, 0);
+        prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
         return 1;
     }
     return -1;
@@ -956,19 +956,20 @@ s32 try_univern_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
 
 /* Claims an action slot, starts the directional attack animation, and prepares its target and damage
  * state. */
-void begin_univern_attack(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity) {
-    entity->movement_queue_state = entity->movement_queue_state & 0x7F;
+void begin_univern_attack(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *entity) {
+    entity->movement_queue_state &= 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(entity) << 0x10) == 0)) {
-        apply_camera_offset_and_select_target(NODE_HEADER(entity), context, 8, 0x300);
+        apply_camera_offset_and_select_target(NODE_HEADER(entity), motion_param, 8, 0x300);
         if ((try_claim_dungeon_action_slot(entity) << 0x10) == 0) {
             action_state->action_id = 0x11;
             action_state->unk_8C.handler = 0;
             action_state->action_phase = 0;
-            select_sprite_entry(animation, *(*(u8 **)&animation->frameTable + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing
-                + 0x100) >> 9) & 7)), 0);
-            entity->pending_turn_updates = entity->pending_turn_updates - 1;
-            prepare_directional_attack(entity, animation, entity->facing, 1, 0);
-            action_state->action_state_flags = (u16) (action_state->action_state_flags | 8);
+            select_sprite_entry(sprite,
+                          *((u8 *)sprite->frameTable + (((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)),
+                          0);
+            entity->pending_turn_updates--;
+            prepare_directional_attack(entity, sprite, entity->facing, 1, 0);
+            action_state->action_state_flags |= 8;
             entity->unk_84 = 0x7C;
             entity->unk_85 = 0;
         }
@@ -977,15 +978,15 @@ void begin_univern_attack(ActorRecord *action_state, ObjectPosition *context, Sp
 #include "dungeon/monster/univern.h"
 
 /* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
-s32 relink_univern_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, s32 force_state_arg) {
+s32 relink_univern_path(ActorRecord *actor, ObjectPosition *primary_context, SpriteFrameState *secondary_context, s32 force_move) {
     s16 state_type;
     s32 result;
-    ActorRecord *entity = body;
+    ActorRecord *entity = actor;   /* the copy is load-bearing: it changes the callee-save order */
 
-    state_type = (s16)relink_entity_and_clear_high_flag(motion, sprite, entity, 3, 6, &entity->unk_9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(primary_context, secondary_context, entity, 3, 6, &entity->unk_9C);
     if (state_type < 0) return 0;
-    if ((force_state_arg << 0x10) != 0) {
-        choose_univern_move(entity, motion, sprite, entity);
+    if ((force_move << 0x10) != 0) {
+        choose_univern_move(entity, primary_context, secondary_context, entity);
         result = 0;
         return result;
     }
@@ -996,17 +997,17 @@ s32 relink_univern_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameSt
         result = 0;
         return result;
     case 2:
-        choose_univern_move(entity, motion, sprite, entity);
+        choose_univern_move(entity, primary_context, secondary_context, entity);
         result = 0;
         return result;
     case 1:
-        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
+        entity->movement_queue_state &= 0x7F;
         if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
             break;
         }
                                 /* fall through */
     default:
-        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
+        entity->movement_queue_state &= 0x7F;
         if ((g_dungeon_status.flags & 8) == 0) {
             result = 1;
             return result;
@@ -1014,7 +1015,7 @@ s32 relink_univern_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameSt
         break;
     }
     result = 0;
-    entity->action_flags = (u16) (entity->action_flags & 0x7FFF);
+    entity->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
     return result;
 }
 #include "dungeon/monster/univern.h"
@@ -1044,11 +1045,9 @@ void finish_univern_tile_move(ActorRecord *state, void *motion, void *source, vo
  * Runs update_linked_actor_motion and installs dispatch_univern_actions only when
  * it succeeds and the signed floor-trap check returns positive.
  */
-void finish_univern_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
-    if (update_linked_actor_motion(state, entity, position, graphic)) {
-        if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->unk_8C.handler = dispatch_univern_actions;
-        }
+void finish_univern_linked_motion(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+    if ((update_linked_actor_motion(body, position, sprite, actor) != 0) && ((check_actor_floor_trap(sprite, actor) << 0x10) > 0)) {
+        body->unk_8C.address = &dispatch_univern_actions;
     }
 }
 #include "dungeon/monster/univern.h"
@@ -2043,17 +2042,13 @@ void advance_univern_status_action(ActorRecord *action, ObjectPosition *context,
  * positive; during motion, restores movement frames when the alternate table is active and flags
  * 0x208 are clear.
  */
-void update_univern_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object) {
-    if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
-        if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
-            actor->unk_8C.handler = dispatch_univern_actions;
-            return;
-        }
-    } else if (*(u8 **)&entity->frameTable == univern_alt_spawn_direction_frames &&
-               !(map_object->flags1C & 0x208)) {
-        entity->frameTable = univern_direction_frames;
-        select_sprite_entry(entity,(s16)(univern_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + map_object->facing + 0x100) >> 9) & 7]),(s16)(0));
-    }
+void update_univern_parent_motion(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+ if(update_actor_transform_from_parent(state,motion,sprite,actor)!=0) {
+  if((check_actor_floor_trap(sprite,actor)<<16)>0) state->unk_8C.handler=dispatch_univern_actions;
+ } else if(sprite->frameTable==univern_alt_spawn_direction_frames && !(actor->flags1C&0x208)) {
+  sprite->frameTable=univern_direction_frames;
+  select_sprite_entry(sprite,univern_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle+actor->facing+0x100)>>9)&7],0);
+ }
 }
 #include "dungeon/monster/univern.h"
 
@@ -2061,11 +2056,9 @@ void update_univern_parent_motion(ActorRecord *actor, ObjectPosition *action, Sp
  * Runs update_thrown_actor_travel and installs dispatch_univern_actions only when
  * it succeeds and the signed floor-trap check returns positive.
  */
-void finish_univern_thrown_travel(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
-    if (update_thrown_actor_travel(state, entity, position, graphic)) {
-        if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->unk_8C.handler = dispatch_univern_actions;
-        }
+void finish_univern_thrown_travel(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+    if ((update_thrown_actor_travel(body, position, sprite, actor) != 0) && ((check_actor_floor_trap(sprite, actor) << 0x10) > 0)) {
+        body->unk_8C.address = &dispatch_univern_actions;
     }
 }
 #include "dungeon/monster/univern.h"

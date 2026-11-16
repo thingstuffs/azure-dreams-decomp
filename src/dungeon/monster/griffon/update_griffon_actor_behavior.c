@@ -503,6 +503,7 @@ void update_griffon_actor_behavior(ActorRecord *actor, ObjectPosition *position,
 /* Advances one stored path step, updates occupied tiles and facing, and selects the movement animation and
  * delay. */
 void advance_griffon_stored_path(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state) {
+    ActorRecord *rounding_owner = action;
     ActorRecord *state = move_state;
     s32 tile_mask;
     s16 move_result;
@@ -523,7 +524,9 @@ void advance_griffon_stored_path(ActorRecord *action, ObjectPosition *action_id,
     if (*(u8 * *)&entity->frameTable != griffon_move_direction_frames) {
         entity->frameTable = griffon_move_direction_frames;
         select_sprite_entry(
-            entity,(s16)(griffon_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7]),(s16)(0));
+            entity,
+            griffon_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7],
+            0);
     }
 
     x = entity->tile_x;
@@ -534,9 +537,13 @@ void advance_griffon_stored_path(ActorRecord *action, ObjectPosition *action_id,
     }
     update_map_cell_flags_with_item_limit(x, y, tile_mask);
 
-    direction = ((s16)get_rounded_facing_and_rounding_flag((s16)(x),(s16)(y),(s16)(state->path_x[state->unk_8A]),(s16)(state->path_y[state->unk_8A]),
-        &action->action_state_flags));
-    move_result = ((s16)check_movement_clearance_and_height((s16)(direction), entity, state, 0x20));
+    direction = get_rounded_facing_and_rounding_flag(
+        x,
+        y,
+        state->path_x[state->unk_8A],
+        state->path_y[state->unk_8A],
+        &rounding_owner->action_state_flags);
+    move_result = check_movement_clearance_and_height(direction, entity, state, 0x20);
 
     entity->tile_x =
         state->path_x[state->unk_8A];
@@ -550,12 +557,12 @@ void advance_griffon_stored_path(ActorRecord *action, ObjectPosition *action_id,
     if (state->flags1C & 0x2000) {
         tile_mask = 0x300;
     }
-    cycle_map_cell_flags((s16)(new_x),(s16)(new_y),(u16)(tile_mask));
+    cycle_map_cell_flags(new_x, new_y, tile_mask);
     state->facing = direction;
 
     if (move_result == 3 && !(g_dungeon_status.flags & 0x80)
         && !(entity->flags & 0x8000)) {
-        begin_griffon_step_animation(action, action_id, entity, (ActorRecord *)state);
+        begin_griffon_step_animation(action, action_id, entity, state);
         action->unk_8C.word = 0;
     } else {
         action->action_id = 0x0F;
@@ -882,15 +889,15 @@ void begin_griffon_attack(ActorRecord *action_state, ObjectPosition *action_cont
 }
 
 /* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
-s32 relink_griffon_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg) {
+s32 relink_griffon_path(ActorRecord *actor, ObjectPosition *primary_context, SpriteFrameState *secondary_context, s32 force_move) {
     s16 state_type;
     s32 result;
-    ActorRecord *entity = body;
+    ActorRecord *entity = actor;   /* the copy is load-bearing: it changes the callee-save order */
 
-    state_type = (s16)relink_entity_and_clear_high_flag(position, sprite, entity, 3, 6, &entity->unk_9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(primary_context, secondary_context, entity, 3, 6, &entity->unk_9C);
     if (state_type < 0) return 0;
-    if ((force_state_arg << 0x10) != 0) {
-        choose_griffon_move(entity, position, sprite, entity);
+    if ((force_move << 0x10) != 0) {
+        choose_griffon_move(entity, primary_context, secondary_context, entity);
         result = 0;
         return result;
     }
@@ -901,17 +908,17 @@ s32 relink_griffon_path(ActorRecord *body, ObjectPosition *position, SpriteFrame
         result = 0;
         return result;
     case 2:
-        choose_griffon_move(entity, position, sprite, entity);
+        choose_griffon_move(entity, primary_context, secondary_context, entity);
         result = 0;
         return result;
     case 1:
-        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
+        entity->movement_queue_state &= 0x7F;
         if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
             break;
         }
                                 /* fall through */
     default:
-        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
+        entity->movement_queue_state &= 0x7F;
         if ((g_dungeon_status.flags & 8) == 0) {
             result = 1;
             return result;
@@ -919,7 +926,7 @@ s32 relink_griffon_path(ActorRecord *body, ObjectPosition *position, SpriteFrame
         break;
     }
     result = 0;
-    entity->action_flags = (u16) (entity->action_flags & 0x7FFF);
+    entity->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
     return result;
 }
 
@@ -928,14 +935,14 @@ s32 relink_griffon_path(ActorRecord *body, ObjectPosition *position, SpriteFrame
  * its counter only after a positive signed floor-trap result. Clears the secondary action halfword
  * under dungeon status flag 0x80. /
  */
-void finish_griffon_tile_move(ActorRecord *state, ObjectPosition *context, SpriteFrameState *source, ActorRecord *target) {
-    if (update_actor_movement_to_tile(state, context, source, target) != 0) {
+void finish_griffon_tile_move(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *target) {
+    if (update_actor_movement_to_tile(state, motion, sprite, target) != 0) {
         spend_actor_mp(target, 4);
         advance_status_timers(target);
-        if ((check_actor_floor_trap(source, target) << 0x10) <= 0) {
+        if ((check_actor_floor_trap(sprite, target) << 0x10) <= 0) {
             return;
         }
-        state->unk_8C.handler = update_griffon_actor_behavior;
+        state->unk_8C.handler = &update_griffon_actor_behavior;
         state->unk_90.value = 0;
     }
     if (g_dungeon_status.flags & 0x80) {
@@ -1070,11 +1077,9 @@ void hop_griffon_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
  * Runs update_linked_actor_motion and installs update_griffon_actor_behavior only when it
  * succeeds and the signed floor-trap check returns positive.
  */
-void finish_griffon_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
-    if (update_linked_actor_motion(state, entity, position, graphic)) {
-        if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->unk_8C.handler = update_griffon_actor_behavior;
-        }
+void finish_griffon_linked_motion(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+    if ((update_linked_actor_motion(body, position, sprite, actor) != 0) && ((check_actor_floor_trap(sprite, actor) << 0x10) > 0)) {
+        body->unk_8C.address = &update_griffon_actor_behavior;
     }
 }
 
@@ -1683,7 +1688,7 @@ void update_sleeping_griffon(ActorRecord *controller, ObjectPosition *actor_inde
                     TileObject *room_base;
                     s32 room_id;
                     room_base = &reference_tile_object;
-                    room_id = ((Rec_func_800AA258_arg2 *)sprite)->unk_26.as_s8;
+                    room_id = (s8)sprite->room_index;
                     if (((room_id == room_base->room_index)
                          && (room_id >= 0))
                         || (((s16)get_tile_chebyshev_distance(room_base, sprite)) < 2)) {
@@ -1845,28 +1850,22 @@ void wait_for_griffon_mp(ActorRecord *controller, ObjectPosition *context, Sprit
  * positive; during motion, restores movement frames when the alternate table is active and flags
  * 0x208 are clear.
  */
-void update_griffon_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object) {
-    if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
-        if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
-            actor->unk_8C.handler = update_griffon_actor_behavior;
-            return;
-        }
-    } else if (entity->frameTable == griffon_frame_set_3 &&
-               !(map_object->flags1C & 0x208)) {
-        entity->frameTable = griffon_move_direction_frames;
-        select_sprite_entry(entity,(s16)(griffon_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + map_object->facing + 0x100) >> 9) & 7]),(s16)(0));
-    }
+void update_griffon_parent_motion(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+ if(update_actor_transform_from_parent(state,motion,sprite,actor)!=0) {
+  if((check_actor_floor_trap(sprite,actor)<<16)>0) state->unk_8C.handler=update_griffon_actor_behavior;
+ } else if(sprite->frameTable==griffon_frame_set_3 && !(actor->flags1C&0x208)) {
+  sprite->frameTable=griffon_move_direction_frames;
+  select_sprite_entry(sprite,griffon_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle+actor->facing+0x100)>>9)&7],0);
+ }
 }
 
 /*
  * Runs update_thrown_actor_travel and installs update_griffon_actor_behavior only when it
  * succeeds and the signed floor-trap check returns positive.
  */
-void finish_griffon_thrown_travel(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
-    if (update_thrown_actor_travel(state, entity, position, graphic)) {
-        if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->unk_8C.handler = update_griffon_actor_behavior;
-        }
+void finish_griffon_thrown_travel(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+    if ((update_thrown_actor_travel(body, position, sprite, actor) != 0) && ((check_actor_floor_trap(sprite, actor) << 0x10) > 0)) {
+        body->unk_8C.address = &update_griffon_actor_behavior;
     }
 }
 

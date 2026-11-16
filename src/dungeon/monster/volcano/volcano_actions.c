@@ -805,11 +805,11 @@ s32 begin_actor_directional_attack(ActorRecord *action_state, ObjectPosition *ac
     if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
         action_state->action_id = 0x11;
         action_state->action_phase = 0;
-        action_state->unk_8C.run = 0;
+        action_state->unk_8C.word = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
         direction_table = &volcano_frame_set_10;
-        sprite->frameTable = direction_table;
+        (sprite->frameTable) = direction_table;
         select_sprite_entry(sprite, direction_table[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         actor->pending_turn_updates = actor->pending_turn_updates - 1;
         prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
@@ -829,7 +829,7 @@ void begin_actor_attack_after_status_check(ActorRecord *action_state, ObjectPosi
             action_state->action_id = 0x11;
             action_state->unk_8C.word = 0;
             action_state->action_phase = 0;
-            sprite->frameTable = &volcano_frame_set_10;
+            (sprite->frameTable) = &volcano_frame_set_10;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + &volcano_frame_set_10), 0);
             actor->unk_84 = 0x7C;
@@ -1099,9 +1099,10 @@ void update_actor_hop_to_tile(ActorRecord *anim, ObjectPosition *motion, SpriteF
  * Resumes actor behavior after linked motion completes and the signed floor-trap check returns
  * positive.
  */
-void update_linked_actor_motion_and_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
- if(update_linked_actor_motion(state,motion,sprite,actor)!=0 &&
-    (check_actor_floor_trap(sprite,actor)<<16)>0) state->unk_8C.handler=update_volcano_turn_action;
+void update_linked_actor_motion_and_trap(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+    if ((update_linked_actor_motion(body, position, sprite, actor) != 0) && ((check_actor_floor_trap(sprite, actor) << 0x10) > 0)) {
+        body->unk_8C.address = &update_volcano_turn_action;
+    }
 }
 #include "dungeon/monster/volcano.h"
 
@@ -1660,9 +1661,10 @@ void update_actor_landing_and_trap(ActorRecord *state, ObjectPosition *motion, S
  * Resumes actor behavior after thrown travel completes and the signed floor-trap check returns
  * positive.
  */
-void update_thrown_actor_and_trap(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
- if(update_thrown_actor_travel(state,motion,sprite,actor)!=0 &&
-    (check_actor_floor_trap(sprite,actor)<<16)>0) state->unk_8C.handler=update_volcano_turn_action;
+void update_thrown_actor_and_trap(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+    if ((update_thrown_actor_travel(body, position, sprite, actor) != 0) && ((check_actor_floor_trap(sprite, actor) << 0x10) > 0)) {
+        body->unk_8C.address = &update_volcano_turn_action;
+    }
 }
 #include "dungeon/monster/volcano.h"
 
@@ -1855,15 +1857,15 @@ void advance_actor_state_when_allowed(ActorRecord *state_ctx, ObjectPosition *en
 #include "dungeon/monster/volcano.h"
 
 /* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
-s32 select_actor_relation_state(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg) {
+s32 select_actor_relation_state(ActorRecord *actor, ObjectPosition *primary_context, SpriteFrameState *secondary_context, s32 force_move) {
     s16 state_type;
     s32 result;
-    ActorRecord *entity = body;
+    ActorRecord *entity = actor;   /* the copy is load-bearing: it changes the callee-save order */
 
-    state_type = (s16)relink_entity_and_clear_high_flag(position, sprite, entity, 3, 6, &entity->unk_9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(primary_context, secondary_context, entity, 3, 6, &entity->unk_9C);
     if (state_type < 0) return 0;
-    if ((force_state_arg << 0x10) != 0) {
-        update_actor_targeting_and_movement(entity, position, sprite, entity);
+    if ((force_move << 0x10) != 0) {
+        update_actor_targeting_and_movement(entity, primary_context, secondary_context, entity);
         result = 0;
         return result;
     }
@@ -1874,17 +1876,17 @@ s32 select_actor_relation_state(ActorRecord *body, ObjectPosition *position, Spr
         result = 0;
         return result;
     case 2:
-        update_actor_targeting_and_movement(entity, position, sprite, entity);
+        update_actor_targeting_and_movement(entity, primary_context, secondary_context, entity);
         result = 0;
         return result;
     case 1:
-        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
+        entity->movement_queue_state &= 0x7F;
         if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
             break;
         }
                                 /* fall through */
     default:
-        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
+        entity->movement_queue_state &= 0x7F;
         if ((g_dungeon_status.flags & 8) == 0) {
             result = 1;
             return result;
@@ -1892,7 +1894,7 @@ s32 select_actor_relation_state(ActorRecord *body, ObjectPosition *position, Spr
         break;
     }
     result = 0;
-    entity->action_flags = (u16) (entity->action_flags & 0x7FFF);
+    entity->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
     return result;
 }
 #include "dungeon/monster/volcano.h"

@@ -17,7 +17,7 @@
 
 
 extern u8 D_801712A8[];
-extern s32 barong_action_resume_address;
+extern u8 barong_action_resume_address[];
 #include "dungeon/monster/barong.h"
 #include "dungeon/monster/barong_frames.h"
 
@@ -82,7 +82,7 @@ void *spawn_barong_at_tile(s16 flags, s16 kind_id, s16 variant, s32 spawn_value)
         initialize_actor_sprite_and_animation(object, part0, part1, flags);
         result_copy->action_id = 0xFF;
         result_copy->unk_9C = -1;
-        result_copy->unk_8C.address = &barong_action_resume_address;
+        result_copy->unk_8C.address = barong_action_resume_address;
         try_move_actor_to_valid_position(result_copy, part0, part1, result);
 
     }

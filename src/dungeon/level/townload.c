@@ -57,29 +57,31 @@ s32 find_slot_for_resource_entry(void) {
 }
 
 /* Queues a resource in a reusable slot or the first empty slot, maintaining a zero terminator on append. */
-void reserve_twch_load(s32 entry_id) {
-    s32 entry_index;
+void reserve_twch_load(s32 character_id) {
+
+
+    s32 i;
     s32 found;
 
-    found = resource_value_table_contains(town_resource_descriptors[entry_id]);
-    entry_index = 0;
+    found = resource_value_table_contains(town_resource_descriptors[character_id]);
+    i = 0;
     if (found != 0) {
-        entry_index = find_slot_for_resource_entry();
-        if (entry_index >= 0) {
-            town_resource_queue[entry_index] = entry_id;
+        i = find_slot_for_resource_entry();
+        if (i >= 0) {
+            town_resource_queue[i] = character_id;
             return;
         }
-        entry_index = 0;
+        i = 0;
     }
 
     do {
-        if (town_resource_queue[entry_index] == 0) {
-            town_resource_queue[entry_index] = entry_id;
-            town_resource_queue[entry_index + 1] = 0;
+        if (town_resource_queue[i] == 0) {
+            town_resource_queue[i] = character_id;
+            town_resource_queue[i + 1] = 0;
             return;
         }
-        entry_index++;
-    } while (entry_index < 15);
+        i++;
+    } while (i < 15);
 }
 
 /* Loads the queued resources, then resets the queue to entry 1 or empty based on the resource value table. */

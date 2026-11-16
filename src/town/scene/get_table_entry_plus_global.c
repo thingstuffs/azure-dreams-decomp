@@ -5,7 +5,7 @@
 extern s32 func_800006C4(s32);
 extern s32 func_80000754(s32);
 
-extern s32 D_00000F08[3];
+extern s32 D_00000F08;
 extern s32 D_00000F4C[3];
 extern s32 D_00001028[3];
 
@@ -15,7 +15,7 @@ s32 get_table_entry_plus_global(void) {
     s32 entryValue;
 
     func_80000754(1);
-    selectedIndex = D_00000F08[0];
+    selectedIndex = D_00000F08;
     entryValue = D_00000F4C[selectedIndex * 4];
     func_80000858(selectedIndex, 1);
     func_800006C4(1);

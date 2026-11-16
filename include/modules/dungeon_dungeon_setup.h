@@ -306,7 +306,7 @@ extern s32 D_800E3D48[];
 extern void *actor_default_frames[];
 extern u8 player_wait_frames[];
 extern u8 dungeon_camera_targets[];
-extern s32 dungeon_menu_action_state[];
+extern void *dungeon_menu_action_state[];
 extern u8 monster_resource_cache_slots[];
 extern void restore_actor_stats_from_snapshot(void *object, void *table);
 extern s8 get_bounded_stride_index(void *object, void *table, s32 value2, s32 value3);

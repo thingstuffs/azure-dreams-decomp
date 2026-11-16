@@ -11,7 +11,7 @@
 
 
 void select_handler_by_state_code_0x798(s32 slotIndex);
-extern M2C_UNK D_8002116C;
+extern s32 D_8002116C;
 
 
 /* Initializes resources and assigns their data pointer when lookup succeeds. */

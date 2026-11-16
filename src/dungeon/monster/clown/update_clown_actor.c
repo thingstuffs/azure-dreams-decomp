@@ -473,7 +473,7 @@ void advance_clown_path_step(ActorRecord *motion_state, ObjectPosition *unused, 
     u16 energy;
     u16 step_index;
 
-    if (((R16_80171574_S_80171FC8_0 *)path_state)->unk_71.s <= 0) {
+    if (((s8)path_state->movement_queue_state) <= 0) {
         return;
     }
     if ((s32)path_state->movement_queue_state <= path_state->unk_8A) {
@@ -490,9 +490,9 @@ void advance_clown_path_step(ActorRecord *motion_state, ObjectPosition *unused, 
     if (entity->tile_x == path_state->path_x[path_state->unk_8A] &&
         entity->tile_y == path_state->path_y[path_state->unk_8A]) {
         hp = motion_state->unk_90.parts.high;
-        energy = ((R16_80171574_S_80171FC8_0 *)path_state)->unk_88;
+        energy = path_state->ground_height;
         motion_state->unk_90.parts.high = hp + 0x20;
-        step_index = ((R16_80171574_S_80171FC8_0 *)path_state)->unk_8A.u;
+        step_index = path_state->unk_8A;
         path_state->ground_height = energy - 0x20;
         path_state->unk_8A = step_index + 1;
     } else {
@@ -508,14 +508,14 @@ void advance_clown_path_step(ActorRecord *motion_state, ObjectPosition *unused, 
 
         entity->tile_x = path_state->path_x[path_state->unk_8A];
         entity->tile_y = path_state->path_y[path_state->unk_8A];
-        ((R16_80171574_S_80171FC8_0 *)path_state)->unk_8A.u += 1;
+        path_state->unk_8A += 1;
 
         cycle_map_cell_flags(entity->tile_x, entity->tile_y,
                       (path_state->flags1C & 0x2000) ? 0x300 : 0x3000);
 
         path_state->facing =
-            ((s16)get_rounded_facing_and_rounding_flag(old_x, old_y, entity->tile_x,
-                          entity->tile_y, &motion_state->action_state_flags));
+            get_rounded_facing_and_rounding_flag(old_x, old_y, entity->tile_x,
+                          entity->tile_y, &motion_state->action_state_flags);
     }
 
     motion_state->action_id = 0xF;
@@ -894,11 +894,9 @@ void finish_clown_tile_move(ActorRecord *state, void *motion, void *source, void
  * Runs update_linked_actor_motion and installs dispatch_clown_actions only
  * when it succeeds and the signed floor-trap check returns positive.
  */
-void finish_clown_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
-    if (update_linked_actor_motion(state, entity, position, graphic)) {
-        if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->unk_8C.handler = dispatch_clown_actions;
-        }
+void finish_clown_linked_motion(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+    if ((update_linked_actor_motion(body, position, sprite, actor) != 0) && ((check_actor_floor_trap(sprite, actor) << 0x10) > 0)) {
+        body->unk_8C.address = &dispatch_clown_actions;
     }
 }
 
@@ -1280,9 +1278,11 @@ void advance_clown_status_action(ActorRecord *actor, ObjectPosition *context, Sp
             return;
         }
         render_record->frameTable = clown_alt_direction_frames;
-        select_sprite_entry(render_record,(u8)(clown_alt_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7]),
+        select_sprite_entry(render_record,
+            clown_alt_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
             0);
         g_dungeon_status.activity_counts.parts.pending_action_count--;
+        /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (measured on the same retail body, update_sleeping_kewne: ledger/onetrip_loadbearing.jsonl dungeon/func_809A2650; this copy is row dungeon/func_80BED550, ledger/clone_sources.jsonl). */
         do {
             actor->action_phase++;
         } while (0);
@@ -1330,9 +1330,18 @@ void advance_clown_status_action(ActorRecord *actor, ObjectPosition *context, Sp
             if ((has_pending_actor_or_turn_action(actor_state) << 16) != 0) {
                 ActorRecord *owner = primary_actor_record;
 
-                if ((check_entity_relation(actor_state,
-                        NODE_BODY(owner->previous_actor_header)) << 16) != 0) {
-                    return;
+                {
+                    ObjectNodeHeader *previous_node;
+                    void *previous_body;
+                    ActorRecord *previous_actor;
+
+                    previous_node = owner->previous_actor_header;
+                    previous_body = NODE_BODY(previous_node);
+                    previous_actor = previous_body;
+                    if ((check_entity_relation(actor_state,
+                            previous_actor) << 16) != 0) {
+                        return;
+                    }
                 }
             }
             update_actor_status_and_mp(actor_state);
@@ -1353,11 +1362,12 @@ void advance_clown_status_action(ActorRecord *actor, ObjectPosition *context, Sp
             }
         }
         render_record->frameTable = clown_frame_set_1;
-        select_sprite_entry(render_record,(u8)(clown_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7]),
+        select_sprite_entry(render_record,
+            clown_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
             0);
         actor_state->flags1C = (u32)((u32)(actor_state->flags1C) | (0x40000));
         if (render_record->flags & 0x8000) {
-            actor->unk_8C.address = ((u8 *)dispatch_clown_actions);
+            actor->unk_8C.address = dispatch_clown_actions;
             return;
         }
         actor->action_phase++;
@@ -1370,7 +1380,7 @@ void advance_clown_status_action(ActorRecord *actor, ObjectPosition *context, Sp
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
 
-        actor->unk_8C.address = ((u8 *)dispatch_clown_actions);
+        actor->unk_8C.address = dispatch_clown_actions;
         return;
     }
 }
@@ -1478,7 +1488,7 @@ void advance_clown_mp_action(ActorRecord *actor, ObjectPosition *context, Sprite
 
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             entity->flags1C &= ~ACTOR_MP_EMPTY;
-            actor->unk_8C.address = ((void *)dispatch_clown_actions);
+            actor->unk_8C.address = dispatch_clown_actions;
         }
 
         return;
@@ -1490,28 +1500,22 @@ void advance_clown_mp_action(ActorRecord *actor, ObjectPosition *context, Sprite
  * positive; during motion, restores movement frames when the alternate table is active and flags
  * 0x208 are clear.
  */
-void update_clown_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object) {
-    if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
-        if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
-            actor->unk_8C.handler = dispatch_clown_actions;
-            return;
-        }
-    } else if (*(u8 **)&entity->frameTable == clown_alt_direction_frames &&
-               !(map_object->flags1C & 0x208)) {
-        entity->frameTable = clown_direction_frames;
-        select_sprite_entry(entity,(s16)(clown_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + map_object->facing + 0x100) >> 9) & 7]),(s16)(0));
-    }
+void update_clown_parent_motion(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+ if(update_actor_transform_from_parent(state,motion,sprite,actor)!=0) {
+  if((check_actor_floor_trap(sprite,actor)<<16)>0) state->unk_8C.handler=dispatch_clown_actions;
+ } else if(sprite->frameTable==clown_alt_direction_frames && !(actor->flags1C&0x208)) {
+  sprite->frameTable=clown_direction_frames;
+  select_sprite_entry(sprite,clown_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle+actor->facing+0x100)>>9)&7],0);
+ }
 }
 
 /*
  * Runs update_thrown_actor_travel and installs dispatch_clown_actions only
  * when it succeeds and the signed floor-trap check returns positive.
  */
-void finish_clown_thrown_travel(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
-    if (update_thrown_actor_travel(state, entity, position, graphic)) {
-        if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->unk_8C.handler = dispatch_clown_actions;
-        }
+void finish_clown_thrown_travel(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+    if ((update_thrown_actor_travel(body, position, sprite, actor) != 0) && ((check_actor_floor_trap(sprite, actor) << 0x10) > 0)) {
+        body->unk_8C.address = &dispatch_clown_actions;
     }
 }
 

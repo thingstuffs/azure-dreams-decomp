@@ -19,7 +19,7 @@ void *allocate_object_state_and_callbacks(s16 init_flags, s16 grid_x, s16 grid_y
     SpriteFrameState *placement;
     ObjectPosition *config;
     ObjectNodeHeader *object;
-    S_8014C878_4 *extended_state;
+    ActorRecord *extended_state;
     ActorRecord *state;
     void *body;
     s8 saved_x;
@@ -64,11 +64,11 @@ void *allocate_object_state_and_callbacks(s16 init_flags, s16 grid_x, s16 grid_y
             }
         }
         initialize_actor_sprite_and_animation(object, config, placement, init_flags);
-        extended_state->unk_9A = 0xFF;
+        extended_state->action_id = 0xFF;
         extended_state->unk_9C = -1;
-        extended_state->unk_8C = &D_8014D014;
+        extended_state->unk_8C.word_ptr = &D_8014D014;
         state->flags1C = (s32)(state->flags1C | 0x40000);
-        extended_state->unk_92 = -0x20;
+        extended_state->unk_90.parts.high = -0x20;
         try_move_actor_to_valid_position(extended_state, config, placement, state);
     }
     return state;

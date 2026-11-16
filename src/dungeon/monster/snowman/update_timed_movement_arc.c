@@ -21,115 +21,115 @@ extern u8 D_801579A8[];
 extern u8 D_801579B8[];
 
 /* Updates a timed movement arc, its animations, and the actor's completion state. */
-void update_timed_movement_arc(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
-{
+void update_timed_movement_arc(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor) {
     s32 state;
-    s32 move_frames;
+    s32 move_ticks;
     s32 target_x;
     s32 pos_x;
-    s32 height_offset;
+    s32 height;
     s32 arc_offset;
     s32 pos_y;
-    s32 next_frames;
-    s32 action_timer;
+    s32 next_move_ticks;
+    s32 action_ticks;
     s32 actor_flags;
     u16 direction_aux;
-    DungeonGlobalStatus *global_state;
+    DungeonGlobalStatus *globals;
 
-    state = body->action_phase;
+    state = action->action_phase;
     switch (state) {
     case 0:
-        if (!(sprite->flags & 0x6000)) {
+        if (!(map_entity->flags & 0x6000)) {
             break;
         }
-        sprite->frameTable = D_801579A8;
+        map_entity->frameTable = D_801579A8;
         select_sprite_entry(
-            sprite,
+            map_entity,
             D_801579A8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        body->action_state_flags |= 8;
+        action->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        body->unk_9E = 5;
-        body->unk_A4.value = 0;
-        body->action_phase++;
-                        /* fallthrough */
+        action->unk_9E = 5;
+        action->unk_A4.value = 0;
+        action->action_phase++;
+
     case 1:
-        move_frames = body->unk_9E;
-        body->unk_90.value -= body->unk_A4.value;
-        if (move_frames != 0) {
-            target_x = sprite->tile_x;
+        move_ticks = action->unk_9E;
+        action->unk_90.value -= action->unk_A4.value;
+        if (move_ticks != 0) {
+            target_x = map_entity->tile_x;
             pos_x = motion->x.w.i;
             target_x <<= 6;
             pos_x -= 0x20;
 
-            motion->velocity_x = ((target_x - pos_x) << 16) / move_frames;
+            motion->velocity_x = ((target_x - pos_x) << 16) / move_ticks;
 
             pos_y = motion->y.w.i;
             pos_y -= 0x20;
             motion->velocity_y =
-                (((sprite->tile_y << 6) - pos_y) << 16) /
-                body->unk_9E;
+                (((map_entity->tile_y << 6) - pos_y) << 16) /
+                action->unk_9E;
 
-            body->unk_A4.value =
-                (-rsin(body->unk_9E * 0x199)) << 10;
+            action->unk_A4.value =
+                (-rsin(action->unk_9E * 0x199)) << 10;
         }
 
-        height_offset = body->unk_90.value;
-        arc_offset = body->unk_A4.value;
-        next_frames = (u16)body->unk_9E;
-        height_offset += arc_offset;
-        next_frames -= 1;
-        body->unk_9E = next_frames;
-        body->unk_90.value = height_offset;
-        if ((next_frames << 16) < 0) {
-            body->unk_90.value = 0;
-            body->action_state_flags &= 0xFFF7;
+        height = action->unk_90.value;
+        arc_offset = action->unk_A4.value;
+        next_move_ticks = (u16)action->unk_9E;
+        height += arc_offset;
+        next_move_ticks -= 1;
+        action->unk_9E = next_move_ticks;
+        action->unk_90.value = height;
+        if ((next_move_ticks << 16) < 0) {
+            action->unk_90.value = 0;
+            action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
-            body->action_phase++;
+            action->action_phase++;
         }
-                        /* fallthrough */
+
     case 2:
         if (actor->flags1C & ACTOR_GROUNDED) {
-            body->action_state_flags &= 0xFFF7;
+            action->action_state_flags &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
-            sprite->frameTable = D_801579B8;
+            set_record_integer_tile_center(motion, map_entity->tile_x, map_entity->tile_y);
+            map_entity->frameTable = D_801579B8;
             select_sprite_entry(
-                sprite,
+                map_entity,
                 D_801579B8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            body->action_phase++;
+            action->action_phase++;
         }
         break;
+
     case 3:
-        if (*(u8 * *)&sprite->frameTable != snowman_frame_set_5) {
-            sprite->frameTable = snowman_frame_set_5;
-            select_sprite_entry(
-                sprite,
-                snowman_frame_set_5[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
-                0);
+        if (*(u8 * *)&map_entity->frameTable == snowman_frame_set_5) {
+            break;
         }
+        map_entity->frameTable = snowman_frame_set_5;
+        select_sprite_entry(
+            map_entity,
+            snowman_frame_set_5[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            0);
         break;
     }
-
-    action_timer = (u16)body->action_timer - 1;
-    body->action_timer = action_timer;
-    if ((action_timer << 16) > 0) {
+    action_ticks = (u16)action->action_timer - 1;
+    action->action_timer = action_ticks;
+    if ((action_ticks << 16) > 0) {
         return;
     }
 
     motion->velocity_z = 0;
     motion->velocity_y = 0;
     motion->velocity_x = 0;
-    set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
+    set_record_integer_tile_center(motion, map_entity->tile_x, map_entity->tile_y);
     spend_actor_mp(actor, 4);
     advance_status_timers(actor);
 
-    global_state = &g_dungeon_status;
-    if (global_state->activity_counts.parts.pending_movement_count != 0) {
-        (*(u16 *)&global_state->activity_counts.parts.pending_movement_count)--;
+    globals = &g_dungeon_status;
+    if (globals->activity_counts.parts.pending_movement_count != 0) {
+        (*(u16 *)&globals->activity_counts.parts.pending_movement_count)--;
     }
 
     actor_flags = actor->flags1C;
@@ -137,21 +137,18 @@ void update_timed_movement_arc(ActorRecord *body, ObjectPosition *motion, Sprite
         if (actor->action_flags & ACTOR_ACTION_PENDING) {
             actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         }
-    } else {
-        if (!(actor_flags & 0x410)) {
-            if (actor_flags & 0x20000) {
-                actor->facing = get_rounded_facing_and_rounding_flag(
-                    sprite->tile_x,
-                    sprite->tile_y,
-                    reference_tile_object.tile_position.parts.tile_x,
-                    reference_tile_object.tile_position.parts.tile_y,
-                    &direction_aux);
-            }
+    } else if (!(actor_flags & 0x410)) {
+        if (actor_flags & 0x20000) {
+            actor->facing = get_rounded_facing_and_rounding_flag(
+                map_entity->tile_x,
+                map_entity->tile_y,
+                reference_tile_object.tile_position.parts.tile_x,
+                reference_tile_object.tile_position.parts.tile_y,
+                &direction_aux);
         }
     }
-
-    if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-        body->unk_8C.address = &D_801537F4;
+    if ((check_actor_floor_trap(map_entity, actor) << 16) > 0) {
+        action->unk_8C.address = &D_801537F4;
         on_actor_status_updated(actor);
     }
 }

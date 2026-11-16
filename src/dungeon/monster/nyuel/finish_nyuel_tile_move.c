@@ -11,7 +11,7 @@ typedef struct TilePos TilePos;
 
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 
-extern s32 nyuel_action_resume_address;
+extern u8 nyuel_action_resume_address[];
 
 /* Updates an eligible actor and conditionally resets the entity state. */
 void finish_nyuel_tile_move(ActorRecord *body, ObjectPosition *position, SpriteFrameState *value_arg, ActorRecord *actor_arg) {
@@ -23,7 +23,7 @@ void finish_nyuel_tile_move(ActorRecord *body, ObjectPosition *position, SpriteF
         spend_actor_mp(actor, 3);
         advance_status_timers(actor);
         if ((check_actor_floor_trap(check_value, actor) << 16) > 0) {
-            entity->unk_8C.word_ptr = &nyuel_action_resume_address;
+            entity->unk_8C.address = nyuel_action_resume_address;
             entity->unk_90.value = 0;
         }
     }

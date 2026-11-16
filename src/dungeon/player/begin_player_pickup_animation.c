@@ -12,7 +12,7 @@
 #endif
 
 extern u8 player_carry_frames[8];
-extern s32 player_item_render_update_address;
+extern u8 player_item_render_update_address[];
 
 /* Create an effect at the target and initialize its state and sound. */
 void begin_player_pickup_animation(ActorRecord *actor, s32 effect_arg, u8 *target, ActorRecord *source) {
@@ -38,7 +38,7 @@ void begin_player_pickup_animation(ActorRecord *actor, s32 effect_arg, u8 *targe
     effect = create_item_render_object(NODE_HEADER(actor), *(void **)(((u8 *)actor) + 0xBC), 0, 0, 0);
     *(void **)(((u8 *)actor) + 0x124) = effect;
     if (effect != NULL) {
-        effect->update_callback = &player_item_render_update_address;
+        effect->update_callback = player_item_render_update_address;
         transform = effect->position;
         transform->x.w.i = (s16)((target[0x24] << 6) + 0x20);
         transform->y.w.i = (s16)((target[0x25] << 6) + 0x20);

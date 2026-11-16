@@ -34,7 +34,7 @@ void update_timed_hop_and_landing(ActorRecord *action, ObjectPosition *motion, S
     s32 action_ticks;
     s32 actor_flags;
     u16 facing_aux;
-    DungeonGlobalStatus *global_base;
+    DungeonGlobalStatus *action_globals;
     u8 *idle_anims;
 
     state = action->action_phase;
@@ -47,7 +47,7 @@ void update_timed_hop_and_landing(ActorRecord *action, ObjectPosition *motion, S
             break;
         }
         phase_anims = D_8016F574;
-        sprite->frameTable = phase_anims;
+        (sprite->frameTable) = phase_anims;
         select_sprite_entry(sprite,
             phase_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
@@ -58,6 +58,7 @@ void update_timed_hop_and_landing(ActorRecord *action, ObjectPosition *motion, S
         action->unk_A4.value = 0;
         action->action_phase++;
     }
+                        /* fallthrough */
     case 1:
         move_ticks = action->unk_9E;
         action->unk_90.value -= action->unk_A4.value;
@@ -91,6 +92,7 @@ void update_timed_hop_and_landing(ActorRecord *action, ObjectPosition *motion, S
             actor->flags1C |= ACTOR_GROUNDED;
             action->action_phase++;
         }
+                        /* fallthrough */
     case 2:
     {
         u8 *phase_anims;
@@ -102,7 +104,7 @@ void update_timed_hop_and_landing(ActorRecord *action, ObjectPosition *motion, S
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
             phase_anims = D_8016F57C;
-            sprite->frameTable = phase_anims;
+            (sprite->frameTable) = phase_anims;
             select_sprite_entry(sprite,
                 phase_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
@@ -113,8 +115,8 @@ void update_timed_hop_and_landing(ActorRecord *action, ObjectPosition *motion, S
         break;
     case 3:
         idle_anims = D_8016F554;
-        if (*(u8 * *)&sprite->frameTable != idle_anims) {
-            sprite->frameTable = idle_anims;
+        if (*(u8 **)&sprite->frameTable != idle_anims) {
+            (sprite->frameTable) = idle_anims;
             select_sprite_entry(sprite,
                 idle_anims[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
@@ -137,9 +139,9 @@ void update_timed_hop_and_landing(ActorRecord *action, ObjectPosition *motion, S
     spend_actor_mp(actor, 3);
     advance_status_timers(actor);
 
-    global_base = &g_dungeon_status;
-    if (global_base->activity_counts.parts.pending_movement_count != 0) {
-        (*(u16 *)&global_base->activity_counts.parts.pending_movement_count)--;
+    action_globals = &g_dungeon_status;
+    if (action_globals->activity_counts.parts.pending_movement_count != 0) {
+        (*(u16 *)&action_globals->activity_counts.parts.pending_movement_count)--;
     }
 
     actor_flags = actor->flags1C;
@@ -147,14 +149,16 @@ void update_timed_hop_and_landing(ActorRecord *action, ObjectPosition *motion, S
         if (actor->action_flags & ACTOR_ACTION_PENDING) {
             actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         }
-    } else if (!(actor_flags & 0x410)) {
-        if (actor_flags & 0x20000) {
-            actor->facing = get_rounded_facing_and_rounding_flag(
-                sprite->tile_x,
-                sprite->tile_y,
-                reference_tile_object.tile_position.parts.tile_x,
-                reference_tile_object.tile_position.parts.tile_y,
-                &facing_aux);
+    } else {
+        if (!(actor_flags & 0x410)) {
+            if (actor_flags & 0x20000) {
+                actor->facing = get_rounded_facing_and_rounding_flag(
+                    sprite->tile_x,
+                    sprite->tile_y,
+                    reference_tile_object.tile_position.parts.tile_x,
+                    reference_tile_object.tile_position.parts.tile_y,
+                    &facing_aux);
+            }
         }
     }
 

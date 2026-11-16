@@ -11,4 +11,6 @@ typedef struct AlternatingShadeBody {
     u16 intensity;
 } AlternatingShadeBody;
 
+void *create_alternating_shade_sprite(s16 x, s16 y, s16 z, s32 size);
+
 #endif

@@ -3,7 +3,7 @@
 #include "engine/menu.h"
 
 typedef struct S_80050640 {
-    void (*vtable)(void *a0, s32 a1, s32 a2, s32 a3);
+    void (*vtable)(void *state, s32 a1, s32 a2);
     s32 unk4;
     s32 counter; /* 0x8 */
     u8 pad0C[0x58 - 0xC];
@@ -11,7 +11,7 @@ typedef struct S_80050640 {
 } S_80050640;
 
 extern void set_gauge_color_ratio(void *a0, s32 a1, s32 a2);
-extern void advance_gauge_ramp_and_decay(void *a0, s32 a1, s32 a2, s32 a3);
+extern void advance_gauge_ramp_and_decay(void *state, s32 unused_1, s32 unused_2);
 
 /* Starts the ratio ramp using the current counter, advances it, and updates the object. */
 void start_gauge_ramp(S_80050640 *obj)

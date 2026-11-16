@@ -15,7 +15,7 @@
 #include "sdk/libgte.h"
 #include "dungeon/monster/pulunpa.h"
 
-extern s32 pulunpa_variant_action_address;
+extern u8 pulunpa_variant_action_address[];
 extern u8 D_80176338[];
 extern u8 D_80176340[];
 
@@ -143,7 +143,7 @@ void hop_pulunpa_to_tile_and_finish_move(ActorRecord *body, ObjectPosition *moti
         }
 
         if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-            body->unk_8C.address = &pulunpa_variant_action_address;
+            body->unk_8C.address = pulunpa_variant_action_address;
             on_actor_status_updated(actor);
         }
     }

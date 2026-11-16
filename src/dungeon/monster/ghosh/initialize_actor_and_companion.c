@@ -17,7 +17,7 @@
 
 typedef struct S_8016AEDC_4 {
     u8 pad_00[0x8C];
-    s32 * unk_8C;
+    u8 * unk_8C;
     u8 pad_90[0xA];
     u8 unk_9A;
     u8 pad_9B[0x1];
@@ -34,7 +34,7 @@ typedef struct S_8016AEDC_4 {
 
 struct ObjectNodeHeader;
 
-extern s32 ghosh_action_resume_address;
+extern u8 ghosh_action_resume_address[];
 
 /*
  * Creates Ghosh and its companion one tile to the right, stores both nodes, and retains the
@@ -90,7 +90,7 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
 
             work_copy->unk_9A = 0xFF;
             work_copy->unk_9C = -1;
-            work_copy->unk_8C = &ghosh_action_resume_address;
+            work_copy->unk_8C = ghosh_action_resume_address;
             work_copy->unk_AE = 0;
             work_copy->unk_B4 = 0;
             work_copy->unk_B0 = 0;

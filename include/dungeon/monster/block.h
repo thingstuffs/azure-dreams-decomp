@@ -710,7 +710,7 @@ s32 Control_CD(); /* extern */
 /* Resume the action dispatcher after the resident action completes. */
 
 /* Resume the action dispatcher after the resident action completes. */
-extern s32 resource_completion_callback_address[];
+extern u8 resource_completion_callback_address[];
 extern s16 actor_turn_angle_offsets[];
 extern s32 cd_cue_base;
 extern u16 reference_tile_position_alias;

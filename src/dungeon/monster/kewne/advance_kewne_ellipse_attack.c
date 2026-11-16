@@ -16,7 +16,7 @@
 #include "dungeon/effect/screen.h"
 #include "sdk/libgte.h"
 
-extern u8 kewne_action_resume_address[9];
+extern u8 kewne_action_resume_address[];
 extern u8 D_80175E78[8];
 extern u8 D_80175E80[8];
 

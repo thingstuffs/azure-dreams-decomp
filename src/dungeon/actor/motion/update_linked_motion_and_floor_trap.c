@@ -8,10 +8,8 @@
  * Updates linked actor motion and restores facing animation once motion succeeds and the
  * floor-trap check returns positive.
  */
-void update_linked_motion_and_floor_trap(void *actor, void *motion, void *render, void *context)
-{
-    if (update_linked_actor_motion(actor, motion, render, context) &&
-        ((s16)check_actor_floor_trap(render, context) > 0)) {
-        *(void (**)(void *, void *, void *, void *))((u8 *)actor + 0x8C) = update_actor_facing_animation;
+void update_linked_motion_and_floor_trap(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+    if ((update_linked_actor_motion(body, position, sprite, actor) != 0) && ((check_actor_floor_trap(sprite, actor) << 0x10) > 0)) {
+        body->unk_8C.address = &update_actor_facing_animation;
     }
 }

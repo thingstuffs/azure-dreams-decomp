@@ -65,7 +65,7 @@ extern s32 D_800D0420[];
 
 
 
-extern s32 town_input_motion_address;
+extern u8 town_input_motion_address[];
 
 /* Resolve the owner position and dispatch its handler for the current town state. */
 void resolve_owner_position_and_dispatch(Rec_D_80082D58 *object, S_8009B9BC_1 *owner, EntityRec *resolved_pos, s32 dispatch_param)
@@ -97,7 +97,7 @@ void resolve_owner_position_and_dispatch(Rec_D_80082D58 *object, S_8009B9BC_1 *o
     if (current_state == (s32)update_actor_interaction_actions || current_state == (s32)update_airborne_object_until_ground) {
         ((DispatchFn)((S_8009B9BC_4 *)(object->unk_58))->unk_08)(object, owner, resolved_pos,
             dispatch_param);
-    } else if (current_state == (s32)&town_input_motion_address) {
+    } else if (current_state == (s32)town_input_motion_address) {
         ((DispatchFn)((S_8009B9BC_4 *)(object->unk_58))->unk_14)(object, owner, resolved_pos,
             dispatch_param);
     } else if (current_state == (s32)update_entity_and_dispatch_timed_state) {

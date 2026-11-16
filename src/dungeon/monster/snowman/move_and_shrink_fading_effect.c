@@ -23,82 +23,87 @@
 #include "dungeon/effect.h"
 #include "dungeon/effect/screen.h"
 #include "dungeon/item/effect.h"
+#include "shared/gpu_packets.h"
+#include "sdk/libgpu_types.h"
+#include "sdk/libgpu_packets.h"
+#include "dungeon/effect/point_tile_scratch.h"
 
 void * (*const resource10_slot0_entry0)(s16 flags, s16 kind_id, s16 variant, s32 spawn_value) = spawn_snowman;
 void (*const resource10_slot0_entry1)(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite) = update_actor_callbacks_animation_and_ground;
 
 /* Projects linked effect positions and queues their colored pixel and drawing-mode packets by depth. */
-s32 draw_snowman_point_chain(u8 *node_data, u16 *position)
+s32 draw_snowman_point_chain(u8 *item_data, u16 *coords)
 {
-    R10_8017092C_Scratch *scratch = (R10_8017092C_Scratch *)0x1F800000;
-    void **global_state = ((void **)(&g_game_work));
-    GpuContext *render_state = global_state[0];
-    R10_8017092C_Packet *first_packet = render_state->packetCursor;
-    R10_8017092C_Packet *packet;
-    R10_8017092C_Packet *mode_packet;
-    s32 depth_index;
-    u32 addr_mask = 0x00FFFFFF;
+    PointTileScratch *scratch = (PointTileScratch *)0x1F800000;
+    void **globals = ((void * *)(&g_game_work));
+    GpuContext *render_state = globals[0];
+    TILE_1 *first_packet = render_state->packetCursor;
+    TILE_1 *packet;
+    s32 ot_index;
+    u32 address_mask = 0x00FFFFFF;
     u32 length_mask = 0xFF000000;
 
-    scratch->table = (u8 *)render_state + 0xB0;
-    scratch->current = (u8 *)first_packet;
+    scratch->ordering_table = (u32 *)&render_state->orderTag;
+    scratch->packet_cursor = first_packet;
     for (;;) {
-        scratch->in0 = position[1];
-        packet = (R10_8017092C_Packet *)scratch->current;
-        scratch->in1 = position[3];
-        scratch->in2 = position[5];
+        scratch->position.vx = coords[1];
+        packet = scratch->packet_cursor;
+        scratch->position.vy = coords[3];
+        scratch->position.vz = coords[5];
 
-        scratch->current = (u8 *)packet + 0xC;
-        depth_index = RotTransPers(&scratch->in0, &packet->screen,
-                              &scratch->out0, &scratch->out1);
-        scratch->index = depth_index;
+        scratch->packet_cursor = packet + 1;
+        ot_index = RotTransPers(&scratch->position, (s32 *)&packet->x0,
+                                 &scratch->depth_cue, &scratch->gte_flag);
+        scratch->ot_index = ot_index;
 
-        if ((u32)depth_index < 480U) {
+        if ((u32)ot_index < 480U) {
             u16 tpage;
+            DR_MODE *mode_packet;
             u8 r;
             u8 g;
             u8 b;
 
-            packet->data.link = *(u32 *)(node_data + 8);
-            packet->code = 2;
-            r = packet->data.color.r;
-            g = packet->data.color.g;
-            b = packet->data.color.b;
-            packet->data.color.r = r;
-            packet->data.color.g = g;
-            packet->data.color.b = b;
-            packet->data.color.command = 106;
+            /* BYTES: retail copies the tile colour word (r0, g0, b0 and code) with one lw/sw; member copies compile to four lbu/sb */
+            *(u32 *)&packet->r0 = *(u32 *)(item_data + 8);
+            ((GpuLinkTag *)&packet->tag)->len = 2;
+            r = packet->r0;
+            g = packet->g0;
+            b = packet->b0;
+            packet->r0 = r;
+            packet->g0 = g;
+            packet->b0 = b;
+            packet->code = 106;
 
-            *(u32 *)packet = (*(u32 *)packet & length_mask) |
-                          (((u32 *)scratch->table)[scratch->index] & addr_mask);
-            ((u32 *)scratch->table)[scratch->index] =
-                                    (((u32 *)scratch->table)[scratch->index] & length_mask) |
-                                    ((u32)packet & addr_mask);
+            packet->tag = (packet->tag & length_mask) |
+                          (scratch->ordering_table[scratch->ot_index] & address_mask);
+            scratch->ordering_table[scratch->ot_index] =
+                                    (scratch->ordering_table[scratch->ot_index] & length_mask) |
+                                    ((u32)packet & address_mask);
 
-            mode_packet = (R10_8017092C_Packet *)scratch->current;
-            scratch->current = (u8 *)mode_packet + 0xC;
+            mode_packet = scratch->packet_cursor;
+            scratch->packet_cursor = mode_packet + 1;
             tpage = (u16)GetTPage(0, 1, 0, 0);
-            SetDrawMode(mode_packet, 0, 0,(u16)(tpage), 0);
+            SetDrawMode(mode_packet, 0, 0, tpage, 0);
 
-            *(u32 *)mode_packet = (*(u32 *)mode_packet & length_mask) |
-                          (((u32 *)scratch->table)[scratch->index] & addr_mask);
-            mode_packet = (R10_8017092C_Packet *)((u32)mode_packet & addr_mask);
-            ((u32 *)scratch->table)[scratch->index] =
-                                    (((u32 *)scratch->table)[scratch->index] & length_mask) |
+            mode_packet->tag = (mode_packet->tag & length_mask) |
+                          (scratch->ordering_table[scratch->ot_index] & address_mask);
+            mode_packet = (DR_MODE *)((u32)mode_packet & address_mask);
+            scratch->ordering_table[scratch->ot_index] =
+                                    (scratch->ordering_table[scratch->ot_index] & length_mask) |
                                     (u32)mode_packet;
         }
 
         {
-            u8 *next_node = *(u8 **)(node_data - 8);
+            u8 *next_node = *(u8 **)(item_data - 8);
 
             if (next_node == 0)
                 break;
-            node_data = next_node + 0x20;
-            position = (u16 *)*(u8 **)(next_node + 8);
+            item_data = next_node + 0x20;
+            coords = (u16 *)*(u8 **)(next_node + 8);
         }
     }
 
-    ((GpuContext *)global_state[0])->packetCursor = scratch->current;
+    ((GpuContext *)globals[0])->packetCursor = scratch->packet_cursor;
     return 0;
 }
 
@@ -674,15 +679,16 @@ void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg
 
 /* Advances one stored path step, updates occupied tiles and facing, and selects the movement animation and
  * delay. */
-void advance_snowman_stored_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *state) {
+void advance_snowman_stored_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     ActorRecord *path_actor = body;
+    ActorRecord *state = actor;
     s32 move_flags;
     s16 heading;
     s16 move_result;
     s16 x;
     s32 y;
 
-    if ((s8)state->movement_queue_state <= 0) {
+    if (((s8)state->movement_queue_state) <= 0) {
         return;
     }
 
@@ -697,7 +703,7 @@ void advance_snowman_stored_path(ActorRecord *body, ObjectPosition *motion, Spri
     }
 
     if (*(u8 **)&sprite->frameTable != snowman_move_direction_frames) {
-        sprite->frameTable = snowman_move_direction_frames;
+        (sprite->frameTable) = snowman_move_direction_frames;
         select_sprite_entry(
             sprite,
             snowman_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7],
@@ -712,13 +718,13 @@ void advance_snowman_stored_path(ActorRecord *body, ObjectPosition *motion, Spri
     }
     update_map_cell_flags_with_item_limit(x, y, move_flags);
 
-    heading = ((s16)get_rounded_facing_and_rounding_flag(
+    heading = get_rounded_facing_and_rounding_flag(
         x,
         y,
         state->path_x[state->unk_8A],
         state->path_y[state->unk_8A],
-        &path_actor->action_state_flags));
-    move_result = ((s16)check_movement_clearance_and_height(heading, sprite, state, 0x20));
+        &path_actor->action_state_flags);
+    move_result = check_movement_clearance_and_height(heading, sprite, state, 0x20);
 
     sprite->tile_x =
         state->path_x[state->unk_8A];
@@ -1072,15 +1078,15 @@ void begin_snowman_attack(ActorRecord *action_state, ObjectPosition *action_cont
 }
 
 /* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
-s32 relink_snowman_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, s32 force_state_arg) {
+s32 relink_snowman_path(ActorRecord *actor, ObjectPosition *primary_context, SpriteFrameState *secondary_context, s32 force_move) {
     s16 state_type;
     s32 result;
-    ActorRecord *entity = body;
+    ActorRecord *entity = actor;   /* the copy is load-bearing: it changes the callee-save order */
 
-    state_type = (s16)relink_entity_and_clear_high_flag(motion, sprite, entity, 3, 6, &entity->unk_9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(primary_context, secondary_context, entity, 3, 6, &entity->unk_9C);
     if (state_type < 0) return 0;
-    if ((force_state_arg << 0x10) != 0) {
-        choose_snowman_move(entity, motion, sprite, entity);
+    if ((force_move << 0x10) != 0) {
+        choose_snowman_move(entity, primary_context, secondary_context, entity);
         result = 0;
         return result;
     }
@@ -1091,17 +1097,17 @@ s32 relink_snowman_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameSt
         result = 0;
         return result;
     case 2:
-        choose_snowman_move(entity, motion, sprite, entity);
+        choose_snowman_move(entity, primary_context, secondary_context, entity);
         result = 0;
         return result;
     case 1:
-        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
+        entity->movement_queue_state &= 0x7F;
         if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
             break;
         }
                                 /* fall through */
     default:
-        entity->movement_queue_state = entity->movement_queue_state & 0x7F;
+        entity->movement_queue_state &= 0x7F;
         if ((g_dungeon_status.flags & 8) == 0) {
             result = 1;
             return result;
@@ -1109,7 +1115,7 @@ s32 relink_snowman_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameSt
         break;
     }
     result = 0;
-    entity->action_flags = (u16) (entity->action_flags & 0x7FFF);
+    entity->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
     return result;
 }
 
@@ -1135,29 +1141,29 @@ void move_snowman_to_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrame
 }
 
 /* Hops to the destination tile, updates landing animation, spends MP, and checks for a floor trap. */
-void hop_snowman_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+void hop_snowman_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor) {
     s32 state;
     s32 move_ticks;
     s32 target_x;
     s32 pos_x;
-    s32 height_offset;
-    s32 height_step;
+    s32 height;
+    s32 arc_offset;
     s32 pos_y;
     s32 next_move_ticks;
     s32 action_ticks;
     s32 actor_flags;
-    u16 facing_aux;
-    DungeonGlobalStatus *global_base;
+    u16 direction_aux;
+    DungeonGlobalStatus *globals;
 
     state = action->action_phase;
     switch (state) {
     case 0:
-        if (!(sprite->flags & 0x6000)) {
+        if (!(map_entity->flags & 0x6000)) {
             break;
         }
-        sprite->frameTable = D_801759A8;
+        map_entity->frameTable = D_801759A8;
         select_sprite_entry(
-            sprite,
+            map_entity,
             D_801759A8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->action_state_flags |= 8;
@@ -1170,7 +1176,7 @@ void hop_snowman_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
         move_ticks = action->unk_9E;
         action->unk_90.value -= action->unk_A4.value;
         if (move_ticks != 0) {
-            target_x = sprite->tile_x;
+            target_x = map_entity->tile_x;
             pos_x = motion->x.w.i;
             target_x <<= 6;
             pos_x -= 0x20;
@@ -1180,36 +1186,37 @@ void hop_snowman_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
             pos_y = motion->y.w.i;
             pos_y -= 0x20;
             motion->velocity_y =
-                (((sprite->tile_y << 6) - pos_y) << 16) /
+                (((map_entity->tile_y << 6) - pos_y) << 16) /
                 action->unk_9E;
 
             action->unk_A4.value =
                 (-rsin(action->unk_9E * 0x199)) << 10;
         }
 
-        height_offset = action->unk_90.value;
-        height_step = action->unk_A4.value;
+        height = action->unk_90.value;
+        arc_offset = action->unk_A4.value;
         next_move_ticks = (u16)action->unk_9E;
-        height_offset += height_step;
+        height += arc_offset;
         next_move_ticks -= 1;
         action->unk_9E = next_move_ticks;
-        action->unk_90.value = height_offset;
+        action->unk_90.value = height;
         if ((next_move_ticks << 16) < 0) {
             action->unk_90.value = 0;
             action->action_state_flags &= 0xFFF7;
             actor->flags1C |= ACTOR_GROUNDED;
             action->action_phase++;
         }
+
     case 2:
         if (actor->flags1C & ACTOR_GROUNDED) {
             action->action_state_flags &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
-            sprite->frameTable = snowman_frame_set_3;
+            set_record_integer_tile_center(motion, map_entity->tile_x, map_entity->tile_y);
+            map_entity->frameTable = snowman_frame_set_3;
             select_sprite_entry(
-                sprite,
+                map_entity,
                 snowman_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             action->action_phase++;
@@ -1217,16 +1224,16 @@ void hop_snowman_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
         break;
 
     case 3:
-        if (*(u8 * *)&sprite->frameTable == snowman_direction_frames) {
+        if (*(u8 * *)&map_entity->frameTable == snowman_direction_frames) {
             break;
         }
-        sprite->frameTable = snowman_direction_frames;
+        map_entity->frameTable = snowman_direction_frames;
         select_sprite_entry(
-            sprite,
+            map_entity,
             snowman_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
+        break;
     }
-
     action_ticks = (u16)action->action_timer - 1;
     action->action_timer = action_ticks;
     if ((action_ticks << 16) > 0) {
@@ -1236,13 +1243,13 @@ void hop_snowman_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
     motion->velocity_z = 0;
     motion->velocity_y = 0;
     motion->velocity_x = 0;
-    set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
+    set_record_integer_tile_center(motion, map_entity->tile_x, map_entity->tile_y);
     spend_actor_mp(actor, 4);
     advance_status_timers(actor);
 
-    global_base = &g_dungeon_status;
-    if (global_base->activity_counts.parts.pending_movement_count != 0) {
-        (*(u16 *)&global_base->activity_counts.parts.pending_movement_count)--;
+    globals = &g_dungeon_status;
+    if (globals->activity_counts.parts.pending_movement_count != 0) {
+        (*(u16 *)&globals->activity_counts.parts.pending_movement_count)--;
     }
 
     actor_flags = actor->flags1C;
@@ -1252,13 +1259,16 @@ void hop_snowman_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
         }
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
-            actor->facing = ((s16)get_rounded_facing_and_rounding_flag((s16)sprite->tile_x,(s16)sprite->tile_y,(s16)(reference_tile_object.tile_position.parts.tile_x),(s16)(reference_tile_object.tile_position.parts.tile_y),
-                &facing_aux));
+            actor->facing = get_rounded_facing_and_rounding_flag(
+                map_entity->tile_x,
+                map_entity->tile_y,
+                reference_tile_object.tile_position.parts.tile_x,
+                reference_tile_object.tile_position.parts.tile_y,
+                &direction_aux);
         }
     }
-
-    if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-        action->unk_8C.address = ((void *)update_snowman_behavior);
+    if ((check_actor_floor_trap(map_entity, actor) << 16) > 0) {
+        action->unk_8C.address = &update_snowman_behavior;
         on_actor_status_updated(actor);
     }
 }
@@ -1267,11 +1277,9 @@ void hop_snowman_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
  * Runs update_linked_actor_motion and installs update_snowman_behavior only when it succeeds and
  * the signed floor-trap check returns positive.
  */
-void update_snowman_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic) {
-    if (update_linked_actor_motion(state, entity, position, graphic)) {
-        if ((s16)check_actor_floor_trap(position, graphic) > 0) {
-            state->unk_8C.handler = update_snowman_behavior;
-        }
+void update_snowman_linked_motion(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+    if ((update_linked_actor_motion(body, position, sprite, actor) != 0) && ((check_actor_floor_trap(sprite, actor) << 0x10) > 0)) {
+        body->unk_8C.address = &update_snowman_behavior;
     }
 }
 
@@ -1833,7 +1841,7 @@ void advance_snowman_status_action(ActorRecord *action, ObjectPosition *context,
 }
 
 /* Waits for MP recovery while processing actor status, then restores the normal animation and movement. */
-void advance_snowman_mp_action(ActorRecord *actor_in, ObjectPosition *actor_index, SpriteFrameState *target, ActorRecord *entity_in) {
+void advance_snowman_mp_action(ActorRecord *actor_in, ObjectPosition *position, SpriteFrameState *target, ActorRecord *entity_in) {
     ActorRecord *entity = entity_in;
     s32 state;
     s32 entity_flags;
@@ -1851,9 +1859,9 @@ void advance_snowman_mp_action(ActorRecord *actor_in, ObjectPosition *actor_inde
         shared_counter = &g_dungeon_status;
         shared_counter->activity_counts.parts.pending_action_count--;
     }
-    (target->frameTable) = snowman_alt_direction_frames;
+    target->frameTable = snowman_alt_direction_frames;
     direction = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
-    select_sprite_entry(target,(u8)(snowman_alt_direction_frames[direction & 7]), 0);
+    select_sprite_entry(target, snowman_alt_direction_frames[direction & 7], 0);
     actor_in->action_phase++;
     return;
 
@@ -1861,9 +1869,9 @@ void advance_snowman_mp_action(ActorRecord *actor_in, ObjectPosition *actor_inde
     if (entity->mp_value.parts.whole != 0) {
         DungeonGlobalStatus *shared_counter;
 
-        (target->frameTable) = snowman_frame_set_1;
+        target->frameTable = snowman_frame_set_1;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
-        select_sprite_entry(target,(u8)(snowman_frame_set_1[direction & 7]), 0);
+        select_sprite_entry(target, snowman_frame_set_1[direction & 7], 0);
         shared_counter = &g_dungeon_status;
         shared_counter->activity_counts.parts.pending_action_count++;
         actor_in->action_phase++;
@@ -1874,7 +1882,7 @@ void advance_snowman_mp_action(ActorRecord *actor_in, ObjectPosition *actor_inde
             return;
         }
         if (entity->hp_delta != 0) {
-            if (begin_ready_actor_directional_action(actor_in, actor_index, target, 0) != 0) {
+            if (begin_ready_actor_directional_action(actor_in, position, target, 0) != 0) {
                 return;
             }
         }
@@ -1883,21 +1891,30 @@ void advance_snowman_mp_action(ActorRecord *actor_in, ObjectPosition *actor_inde
         }
         entity_flags = entity->flags1C;
         if (entity_flags & 0x100) {
-            begin_pushed_actor_move(actor_in, actor_index, target, entity);
+            begin_pushed_actor_move(actor_in, position, target, entity);
             return;
         }
         if (entity_flags & 0x80000) {
-            begin_actor_move_to_target_facing(actor_in, actor_index, target, entity);
-            update_snowman_parent_motion(actor_in, actor_index, target, entity);
+            begin_actor_move_to_target_facing(actor_in, position, target, entity);
+            update_snowman_parent_motion(actor_in, position, target, entity);
             return;
         }
         if (entity->pending_turn_updates == 0) {
             return;
         }
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
-            if ((check_entity_relation(entity,
-                    NODE_BODY(primary_actor_record->previous_actor_header)) << 16) != 0) {
-                return;
+            {
+                ObjectNodeHeader *previous_node;
+                void *previous_body;
+                ActorRecord *previous_actor;
+
+                previous_node = primary_actor_record->previous_actor_header;
+                previous_body = NODE_BODY(previous_node);
+                previous_actor = previous_body;
+                if ((check_entity_relation(entity,
+                        previous_actor) << 16) != 0) {
+                    return;
+                }
             }
             update_actor_status_and_mp(entity);
         } else {
@@ -1907,9 +1924,9 @@ void advance_snowman_mp_action(ActorRecord *actor_in, ObjectPosition *actor_inde
         if (entity->mp_value.parts.whole == 0) {
             return;
         }
-        (target->frameTable) = snowman_frame_set_1;
+        target->frameTable = snowman_frame_set_1;
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
-        select_sprite_entry(target,(u8)(snowman_frame_set_1[direction & 7]), 0);
+        select_sprite_entry(target, snowman_frame_set_1[direction & 7], 0);
         shared_state->activity_counts.parts.pending_action_count++;
     }
     actor_in->action_phase++;
@@ -1925,7 +1942,7 @@ void advance_snowman_mp_action(ActorRecord *actor_in, ObjectPosition *actor_inde
         shared_counter = &g_dungeon_status;
         shared_counter->activity_counts.parts.pending_action_count--;
     }
-    actor_in->unk_8C.address = ((void *)update_snowman_behavior);
+    actor_in->unk_8C.address = &update_snowman_behavior;
 
     return;
     default:
@@ -1938,17 +1955,13 @@ void advance_snowman_mp_action(ActorRecord *actor_in, ObjectPosition *actor_inde
  * positive; during motion, restores movement frames when the alternate table is active and flags
  * 0x208 are clear.
  */
-void update_snowman_parent_motion(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *entity, ActorRecord *map_object) {
-    if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
-        if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
-            actor->unk_8C.handler = update_snowman_behavior;
-            return;
-        }
-    } else if (*(u8 **)&entity->frameTable == snowman_alt_direction_frames &&
-               !(map_object->flags1C & 0x208)) {
-        entity->frameTable = snowman_move_direction_frames;
-        select_sprite_entry(entity,(s16)(snowman_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + map_object->facing + 0x100) >> 9) & 7]),(s16)(0));
-    }
+void update_snowman_parent_motion(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+ if(update_actor_transform_from_parent(state,motion,sprite,actor)!=0) {
+  if((check_actor_floor_trap(sprite,actor)<<16)>0) state->unk_8C.handler=update_snowman_behavior;
+ } else if(sprite->frameTable==snowman_alt_direction_frames && !(actor->flags1C&0x208)) {
+  sprite->frameTable=snowman_move_direction_frames;
+  select_sprite_entry(sprite,snowman_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle+actor->facing+0x100)>>9)&7],0);
+ }
 }
 
 /*

@@ -45,8 +45,8 @@ void update_kid_recoil(ActorRecord *body, ObjectPosition *motion, SpriteFrameSta
             return;
         }
 
-        motion->velocity_x = ((s16 *)((s8 *)dir_step_x))[direction] << 18;
-        motion->velocity_y = ((s16 *)((s8 *)dir_step_y))[direction] << 18;
+        motion->velocity_x = dir_step_x[direction] << 18;
+        motion->velocity_y = dir_step_y[direction] << 18;
         motion->velocity_z = 0x40000;
         body->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
@@ -71,8 +71,8 @@ void update_kid_recoil(ActorRecord *body, ObjectPosition *motion, SpriteFrameSta
         return;
 
     case 1:
-        motion->velocity_x -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
-        motion->velocity_y -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
+        motion->velocity_x -= dir_step_x[direction] << 14;
+        motion->velocity_y -= dir_step_y[direction] << 14;
 
         if (body->action_timer > 0) {
             body->action_timer--;
@@ -128,25 +128,24 @@ void update_kid_recoil(ActorRecord *body, ObjectPosition *motion, SpriteFrameSta
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
+        set_record_integer_tile_center(motion,(u8)sprite->tile_x,(u8)sprite->tile_y);
 
         body->unk_90.value = 0;
         body->action_state_flags &= 0xFFF7;
         actor->flags1C |= ACTOR_GROUNDED;
         actor->flags1C |= 0x00040000;
         sprite->frameTable = kid_alt_direction_frames;
-        select_sprite_entry(sprite,
-            kid_alt_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+        select_sprite_entry(sprite,(u8)(kid_alt_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7]),
             0);
 
         {
             DungeonGlobalStatus *global_state = &g_dungeon_status;
 
-            if (((s32)global_state->pending_display_owner) == (u8 *)actor - 0x20) {
+            if ((global_state->pending_display_owner) == (u8 *)actor - 0x20) {
                 (*(u32 *)&global_state->pending_display_owner) &= 0x7FFFFFFF;
             }
         }
-        body->unk_8C.address = kid_action_resume_address;
+        body->unk_8C.address = ((u8 *)kid_action_resume_address);
         return;
 
     default:

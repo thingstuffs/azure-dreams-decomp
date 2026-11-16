@@ -58,7 +58,7 @@ typedef struct S_800B5174_0 {
 } S_800B5174_0;
 
 /* extern */
-extern M2C_UNK D_80077FBC;
+extern s32 D_80077FBC[];
 extern u8 D_800D1794;
 
 /* Functions defined in this translation unit. */

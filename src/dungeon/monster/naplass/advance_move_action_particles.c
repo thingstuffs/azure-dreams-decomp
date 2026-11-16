@@ -38,7 +38,7 @@ typedef struct S_80172840_8 {
 
 extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 
-extern u8 naplass_action_continuation_address[0x10];
+extern u8 naplass_action_continuation_address[];
 extern u8 D_80173EC0[0x10];
 extern u8 naplass_frame_set_1[0x10];
 

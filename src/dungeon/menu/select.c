@@ -27,11 +27,11 @@ enum SelectionShadeState {
 #include "dungeon/level.h"
 #include "dungeon/menu.h"
 #include "dungeon/menu/select.h"
+#include "slus/animation_tick_data.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/player/motion.h"
 #include "engine/graphics.h"
-
 /* Eases the selection sprite toward the selected entry, advances its animation, and toggles visibility
    while blinking. */
 void follow_selection_and_blink_sprite(void *motion_state, ObjectPosition *position, SpriteFrameState *draw_state) {
@@ -354,9 +354,9 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, SpriteFrame
                         }
                     }
                 }
-                if (last_frame_ticks[0] != 0) {
+                if (last_frame_ticks != 0) {
                     selection_blink_target[0] = (u16) menu->unk_26;
-                    selection_blink_timer[0] = (s16) (0x20 / (s32) last_frame_ticks[0]);
+                    selection_blink_timer[0] = (s16) (0x20 / (s32) last_frame_ticks);
                 }
                 ((S_8002520C_25 *)(((S_8002520C_24 *)(((menu->unk_26 * 4)
                     + (u8 *)menu)))->unk_0C))->unk_B6 = 1;

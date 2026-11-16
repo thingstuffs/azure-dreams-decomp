@@ -21,7 +21,7 @@ extern s32 update_actor_transform_from_parent(Actor *, void *, void *, void *);
 
 struct SpriteFrameState;
 
-extern u8 kewne_action_resume_address[9];
+extern u8 kewne_action_resume_address[];
 extern u8 kewne_frame_set_1[9];
 
 /* Update actor and entity state after checking the map object. */

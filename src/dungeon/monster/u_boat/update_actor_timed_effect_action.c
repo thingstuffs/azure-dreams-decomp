@@ -24,7 +24,7 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 u_boat_timed_effect_update_address[];
-extern s32 clipped_sprite_renderer_address[3];
+extern u8 clipped_sprite_renderer_address[];
 #include "dungeon/monster/u_boat.h"
 
 /* Update the actor action sequence, including its effect, animations, and position restoration. */

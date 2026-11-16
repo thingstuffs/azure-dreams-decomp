@@ -31,7 +31,7 @@ extern s16 D_800244E8[16];
 extern u8 D_80024470[];
 
 extern u8 D_8007947C[];
-extern s16 D_800834C8[8];
+extern s16 D_800834C8;
 
 extern void stop_scene_player_and_defer_action_setup(void);
 
@@ -142,7 +142,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
         }
         SD_Call(0x523);
         slot_bet_display_object[0] = (s32)create_floating_number_widget(0, -80, 64);
-        D_800834C8[0] = 0;
+        D_800834C8 = 0;
         stop_scene_player_and_defer_action_setup();
         money[0] -= 100;
     }

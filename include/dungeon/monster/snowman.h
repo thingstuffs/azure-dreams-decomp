@@ -42,35 +42,6 @@ struct SpriteFrameState;
 struct ObjectPosition;
 
 #define NULL 0
-typedef struct R10_8017092C_Scratch {
-    u8 pad0[4];
-    u16 in0;
-    u16 in1;
-    u16 in2;
-    u8 pad0A[0x12];
-    u8 *current;
-    u8 pad20[4];
-    u8 *table;
-    u8 pad28[0xA8];
-    s32 out0;
-    s32 out1;
-    u8 padD8[0x28];
-    s32 index;
-} R10_8017092C_Scratch;
-typedef struct R10_8017092C_Packet {
-    u8 pad0[3];
-    u8 code;
-    union {
-        u32 link;
-        struct {
-            u8 r;
-            u8 g;
-            u8 b;
-            u8 command;
-        } color;
-    } data;
-    s32 screen;
-} R10_8017092C_Packet;
 typedef struct {
     u8 color[3];
     u8 pad03[0x2F];

@@ -11,7 +11,7 @@
 
    /* arg0 in advance_actor_timed_transition */
 
-extern s32 weadog_action_resume_address;
+extern u8 weadog_action_resume_address[];
 
 /* Advance a timed entity state transition, clearing motion and updating its handler. */
 void advance_actor_timed_transition(ActorRecord *controller, ObjectPosition *motion, SpriteFrameState *actor, ActorRecord *entity_data) {
@@ -84,7 +84,7 @@ void advance_actor_timed_transition(ActorRecord *controller, ObjectPosition *mot
         if (g_dungeon_status.pending_display_owner == NODE_HEADER(entity_data)) {
             *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
-        controller->unk_8C.address = &weadog_action_resume_address;
+        controller->unk_8C.address = weadog_action_resume_address;
 
         return;
     default:
