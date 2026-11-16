@@ -7,6 +7,7 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/position_views.h"
+#include "town/player/record.h"
 
 struct EntityRec;
 struct TownObjectRecord;
@@ -29,7 +30,7 @@ void sync_collision_motion_y(ObjectPosition *source);
 void play_sound_by_height_range(void);
 
 /* ease_object_value_and_advance_state.c */
-void ease_object_value_and_advance_state(UnsignedCountdownView *state, ObjectPosition *object);
+void ease_object_value_and_advance_state(TownPlayerRecord *state, ObjectPosition *object);
 
 /* forward_state_value_to_handler_a.c */
 void forward_state_value_to_handler_a(void *state, ObjectPosition *value);
@@ -88,7 +89,7 @@ void stop_scene_player_and_defer_action_setup(void);
 void update_actor_action_state(TownObjectRecord *state, ObjectPosition *motion, s32 callback_arg);
 
 /* update_actor_and_dispatch_state.c */
-void update_actor_and_dispatch_state(void *actor, ObjectPosition *record, s32 context);
+void update_actor_and_dispatch_state(TownPlayerRecord *actor, ObjectPosition *record, s32 context);
 
 /* update_actor_with_interaction_state.c */
 void update_actor_with_interaction_state(TownObjectRecord *controller, ObjectPosition *entity, SpriteFrameState *context);

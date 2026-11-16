@@ -2,27 +2,17 @@
 #include "common.h"
 #include "town/devkit.h"
 #include "town/scene.h"
-typedef void (*Callback3)(void *, void *, s32);
-typedef void (*Callback1)(s32);
-
-typedef struct {
-    u8 pad68[0x64];
-    Callback3 callback68;
-    u8 pad6c[8];
-    Callback1 callback74;
-} CallbackTable;
-
+#include "town/devkit/page_trace_methods_data.h"
 typedef struct {
     u8 pad10[0x10];
     void *field10;
 } GlobalState;
 
 extern s32 D_A0700B30;
-extern u8 D_A0700184[];
-extern u8 D_A07001AC[];
+extern char D_A0700184[];
+extern char D_A07001AC[];
 extern s32 D_A0700B28[];
 extern s32 *D_A0700B4C[];
-extern CallbackTable *devkit_page_trace_methods[];
 extern GlobalState *D_A0700B44[];
 
 /* Selects a record list and resolves its indices through the global lookup table. */
@@ -30,8 +20,8 @@ void load_record_list_by_index(s32 list_index) {
     void *records;
 
     if (D_A0700B30 != 0) {
-        devkit_page_trace_methods[0]->callback68(D_A0700184, D_A07001AC, 0x59);
-        devkit_page_trace_methods[0]->callback74(1);
+        devkit_page_trace_methods->print(D_A0700184, D_A07001AC, 0x59);
+        devkit_page_trace_methods->callback70(1);
     }
     D_A0700B30 = 1;
     shift_index_and_add_offset_c();

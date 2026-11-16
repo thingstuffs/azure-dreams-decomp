@@ -1,18 +1,13 @@
 #include "common.h"
 #include "town/devkit.h"
+#include "town/devkit/list_methods_data.h"
 
 typedef void (*TownCallback)(void *, void *, s32);
-
-typedef struct {
-    u8 pad68[0x68];
-    TownCallback func68;
-} TownCallbackOwner;
 
 extern u8 D_807007B4[];
 extern u8 D_807007C0[];
 extern u8 D_807007C8[];
 extern u8 D_807007D0[];
-extern TownCallbackOwner *devkit_list_methods[];
 extern s32 D_80700710[];
 extern s32 devkit_scene_list_length[];
 

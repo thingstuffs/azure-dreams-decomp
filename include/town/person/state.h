@@ -37,10 +37,10 @@ void set_flag_object_heading_zero(TownObjectRecord *state);
 void clear_record_indexed_flag(TownObjectRecord *state, s32 unused_context, void *unused_state_context);
 
 /* dispatch_status_triggered_handler.c */
-void dispatch_status_triggered_handler(s32 object, s32 unused, SpriteFlagsView *status);
+void dispatch_status_triggered_handler(s32 object, s32 unused, SpriteFrameState *status);
 
 /* dispatch_status_triggered_update.c */
-void dispatch_status_triggered_update(TownObjectRecord *handler_arg, void *context, SpriteFlagsView *status);
+void dispatch_status_triggered_update(TownObjectRecord *handler_arg, void *context, SpriteFrameState *status);
 
 /* forward_flag_state_update.c */
 void forward_flag_state_update(TownObjectRecord *object, ObjectPosition *context, void *update_data);

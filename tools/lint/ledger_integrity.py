@@ -77,6 +77,15 @@
     words are equal except a jump within the function's own body.  --fail-new and --fail-all fail on any
     family that differs or cannot be found (a copy record is a claim about bytes, not a ratchet).
 
+(j) developer symbols, on config/names.tsv: a BASE function row whose name is a developer identifier keeps that
+    name on HEAD.  Developer identifiers: the name, `FNO_<name>` or `S_<name>` (or, for `..._script_flag_<x>`,
+    `F<x>` or `<x>`) is #defined in include/script_symbols.h (the TOWN.BIN symbol dump), the name is a Psy-Q
+    function include/sdk declares, or the row's evidence cites a symbol dump or a developer symbol, name or
+    identifier (docs/SYMBOLS.md: preserve an original developer identifier).  A BASE row whose address HEAD
+    names with a different name and no longer with the BASE name is a rename; it fails --fail-new and
+    --fail-all unless the HEAD row's evidence records the owner's decision, spelled
+    `owner decision <id>: developer symbol renamed` (or `owner ruling ...: developer symbol ...`).
+
 --rederive proposes a current line for each stale or `wrong` entry: the nearest line holding
 the same cast spelling that passes the field rule, following the file's history from the
 newest committed version where the entry held (cast and field), unique per row; a line that
@@ -947,6 +956,86 @@ def check_floor_paths(root, base):
     return bad, new
 
 
+NAMES_TSV = 'config/names.tsv'
+SCRIPT_SYMBOLS = 'include/script_symbols.h'
+DEVELOPER_EVIDENCE = re.compile(r'symbol dump|developer (?:symbol|name|identifier)', re.I)
+OWNER_DEVELOPER_DECISION = re.compile(r'owner (?:decision|ruling)\b[^()]*?\bdeveloper symbol', re.I)
+DEFINE = re.compile(r'(?m)^[ \t]*#[ \t]*define[ \t]+([A-Za-z_]\w*)')
+
+
+def names_rows(text):
+    """[(addr, name, evidence)] of the function rows of a config/names.tsv text."""
+    out = []
+    for line in (text or '').splitlines():
+        cols = line.split('\t')
+        if len(cols) >= 3 and cols[0].startswith('0x') and cols[1].startswith('func_'):
+            out.append((cols[0].lower(), cols[2], cols[3] if len(cols) > 3 else ''))
+    return out
+
+
+def sdk_names(texts):
+    """Function names include/sdk/*.h declares (Psy-Q library names), from a Texts view."""
+    import lint_closure as LC
+    names = set()
+    root = texts.root
+    listed = (subprocess.run(['git', 'ls-tree', '-r', '--name-only', texts.rev, '--', 'include/sdk'], cwd=root,
+                             capture_output=True, text=True).stdout.split() if texts.rev
+              else [str(p.relative_to(root)) for p in sorted((root / 'include/sdk').glob('*.h'))])
+    for path in listed:
+        lines = texts.lines(path)
+        if lines:
+            text = '\n'.join(l for l in LC.strip_comments('\n'.join(lines)).splitlines() if not l.lstrip().startswith('#'))
+            names.update(m.group(1) for m in LC.SDK_PROTOTYPE.finditer(text))
+    return names - LC.STOP
+
+
+def is_developer_name(name, evidence, symbols, sdk):
+    """Why a names.tsv function name is a developer identifier, or None."""
+    for spelling in (name, 'FNO_' + name, 'S_' + name):
+        if spelling in symbols:
+            return f'{spelling} in {SCRIPT_SYMBOLS}'
+    flag = re.search(r'_script_flag_(\w+)$', name)
+    if flag and ('F' + flag[1] in symbols or flag[1] in symbols):
+        return f'script flag {flag[1]} in {SCRIPT_SYMBOLS}'
+    if name in sdk:
+        return 'Psy-Q name declared in include/sdk'
+    found = DEVELOPER_EVIDENCE.search(evidence or '')
+    return f'evidence cites a {found.group(0).lower()}' if found else None
+
+
+def check_developer_names(root, base, head_text=None, base_text=None):
+    """[(addr, BASE name, HEAD names, why)] for developer identifiers renamed between BASE and HEAD without a
+    recorded owner decision."""
+    if head_text is None:
+        path = Path(root) / NAMES_TSV
+        head_text = path.read_text(errors='replace') if path.is_file() else ''
+    if base_text is None:
+        shown = subprocess.run(['git', 'show', f'{base}:{NAMES_TSV}'], cwd=root, capture_output=True, text=True)
+        base_text = shown.stdout if shown.returncode == 0 else ''
+    base_texts = Texts(root, base)
+    symbols = set(DEFINE.findall('\n'.join(base_texts.lines(SCRIPT_SYMBOLS) or [])))
+    symbols |= set(DEFINE.findall('\n'.join(Texts(root).lines(SCRIPT_SYMBOLS) or [])))
+    sdk = None
+    head = collections.defaultdict(dict)
+    for addr, name, evidence in names_rows(head_text):
+        head[addr][name] = evidence
+    out = []
+    for addr, name, evidence in names_rows(base_text):
+        now = head.get(addr)
+        if not now or name in now:
+            continue
+        if sdk is None:
+            sdk = sdk_names(base_texts)
+        why = is_developer_name(name, evidence, symbols, sdk)
+        if why is None:
+            continue
+        renamed = sorted(n for n in now)
+        if any(OWNER_DEVELOPER_DECISION.search(now[n]) for n in renamed):
+            continue
+        out.append((addr, name, renamed, why))
+    return out
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('base', help='base revision to compare loads and staleness against')
@@ -1055,11 +1144,15 @@ def main(argv=None):
           f'{sum(len(v) - 1 for v in copy_families.values())} copies, {len(copy_problems)} differ or cannot be found')
     for problem in copy_problems:
         print('  PLACED COPY ' + problem)
+    developer = check_developer_names(root, args.base)
+    print(f'developer symbols: {len(developer)} renamed without an owner decision')
+    for addr, name, now, why in developer:
+        print(f"  DEVELOPER {addr} {name} -> {', '.join(now)} ({why})")
     lane_local = ledger_public.check(root, args.base, public_ref=args.public_ref)
     failed = (bool(loads['problems']) or (args.fail_all and flagged) or (args.fail_new and new_bad)
               or (args.fail_all and floor_bad) or (args.fail_new and floor_new)
               or (args.fail_new and floor_missing_new) or (args.fail_all and floor_missing)
-              or ((args.fail_new or args.fail_all) and lane_local > 0)
+              or ((args.fail_new or args.fail_all) and (lane_local > 0 or bool(developer)))
               or ((args.fail_new or args.fail_all) and copy_problems))
     print('ledger integrity ' + ('FAIL' if failed else 'PASS'))
     return 1 if failed else 0

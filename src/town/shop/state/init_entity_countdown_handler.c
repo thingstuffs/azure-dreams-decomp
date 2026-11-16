@@ -12,7 +12,7 @@ void invoke_entity_callback_and_follow_up(func_800A06C8_EntityLike *entity, s32 
 typedef struct S_8009ECF0_0 S_8009ECF0_0;
 
 /* Clear the state fields and initialize the record handlers and mode. */
-void init_entity_countdown_handler(TownObjectRecord *record_data, TownObjectRecord *state, MotionDeltaView *values) {
+void init_entity_countdown_handler(TownObjectRecord *record_data, TownObjectRecord *state, ObjectPosition *values) {
     state->unk_15 = 0;
     values->velocity_x = 0;
     values->velocity_y = 0;

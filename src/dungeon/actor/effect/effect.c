@@ -396,7 +396,7 @@ typedef struct {
 } FuncVec;
 
 /* Ease the thrown object toward its landing tile; on arrival record it in the floor's item table and finish. */
-void update_floor_object_motion(FuncObj *obj, FuncVec *pos, FuncVec *target) {
+void update_floor_object_motion(FuncObj *obj, ObjectPosition *pos, FuncVec *target) {
     s16 steps;
     u16 remaining;
     s32 slot;
@@ -407,17 +407,17 @@ void update_floor_object_motion(FuncObj *obj, FuncVec *pos, FuncVec *target) {
     D_800E36C8_Entry *entry;
     D_800E36C8_Entry *tab;
 
-    x = pos->x;
-    pos->x = x +
+    x = pos->x.v;
+    pos->x.v = x +
         (((((obj->fieldAA << 6) + 0x20) << 0x10) - x) /
          obj->fieldA0);
-    y = pos->y;
-    pos->y = y +
+    y = pos->y.v;
+    pos->y.v = y +
         (((((obj->fieldAC << 6) + 0x20) << 0x10) - y) /
          obj->fieldA0);
-    z = pos->z;
+    z = pos->z.v;
     steps = obj->fieldA0;
-    pos->z = z +
+    pos->z.v = z +
         (((obj->fieldAE << 0x10) - z) / steps);
 
     remaining = (u16)obj->fieldA0 - 1;

@@ -2,6 +2,7 @@
 #define DUNGEON_OVL_16B08_LOCAL_H
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "shared/action_handler_tables_data.h"
 #include "m2c_compat.h"
 #include "shared/town_object.h"
 #include "shared/entity.h"
@@ -21,7 +22,6 @@ extern void update_airborne_object_with_land_timer(TownObjectRecord *state, Obje
 extern void update_countdown_and_fallback(void);
 extern s32 D_800D00C0[];
 extern void update_airborne_object_with_land_effects(void *context, ObjectPosition *object, void *update_arg);
-extern u8 action_object_handler_table[16];
 void store_input_angle(void *record_arg);
 extern void update_actor_movement_actions(void);
 extern s32 D_800D0108[];
@@ -32,7 +32,6 @@ extern u8 D_800D0118[];
 extern void dispatch_actor_interaction_with_fallback(void);
 extern void update_actor_with_interaction_state(TownObjectRecord *controller, ObjectPosition *entity, SpriteFrameState *context);
 extern s32 counted_action_handler_table[];
-extern u8 movement_action_handler_table[];
 extern void update_actor_movement_and_interaction(void *actor, ObjectPosition *position, s32 context);
 extern void update_actor_position_and_interaction(TownObjectRecord *actor, ObjectPosition *body, s32 context);
 extern s32 D_800D0130[];
@@ -41,7 +40,6 @@ extern s32 D_800D0140[];
 extern u8 D_800D0148[];
 extern void update_threshold_object_with_interaction(void);
 extern void update_actor_movement_with_radial_effects(s32 object_id, ObjectPosition *object, s32 update_context);
-extern u8 countdown_action_handler_table[];
 extern void update_ground_countdown_unless_busy(void *state, ObjectPosition *object, s32 context);
 extern void update_actor_interaction_actions(void *self_arg, ObjectPosition *target_arg, SpriteFrameState *sprite);
 void initialize_action_object_type_three(TownObjectRecord *object);

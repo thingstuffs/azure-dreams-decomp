@@ -7,8 +7,6 @@
 
 extern void copy_texture_descriptor_with_page_offsets(u32 *texture_pos, u32 *src, void *dst);
 
-extern void *texture_descriptor_variant_values[];
-
 /* Updates three data tables and selects an output value and flashing intensity. */
 void update_blinking_cursor_with_bright_idle(WindowCursorBody *input, ObjectPosition *unused, SpriteFrameState *output) {
     u8 flags;

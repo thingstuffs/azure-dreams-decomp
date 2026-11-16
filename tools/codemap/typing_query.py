@@ -46,11 +46,150 @@ def file_stamp(paths):
     return h.hexdigest()
 
 
-def load_runtime(db, rt_dir, source_rev=None, log=print):
-    """rtti_merge.py output DIR -> rt_* tables (replaced whole).  Returns row counts."""
+# Runtime identity: the campaign names functions by the (file, name) of the revision it was taken at.  rt_fn_map binds
+# each such pair to the function's retail ADDRESS and images and to its definition in the current tree.  Kept out of
+# typing_facts.SCHEMA (that file is part of every TU's typing stamp).
+RT_MAP_SCHEMA = '''
+CREATE TABLE IF NOT EXISTS rt_fn_map(file TEXT, function TEXT, address TEXT, images TEXT, cur_file TEXT,
+    cur_function TEXT, how TEXT, PRIMARY KEY(file, function));
+'''
+ADDR_NAME = re.compile(r'^(?:func|w)_([0-9A-Fa-f]{8})$')
+
+
+def old_name_addresses(names_text):
+    """config/names.tsv text of the runtime's revision -> {name: {0x-address}} (function rows only: old name func_)."""
+    out = collections.defaultdict(set)
+    for line in names_text.splitlines():
+        if not line.strip() or line.startswith('#'):
+            continue
+        cols = line.split('\t')
+        if len(cols) >= 3 and cols[1].startswith('func_'):
+            out[cols[2]].add(cols[0].lower())
+    return out
+
+
+def git_runtime_inputs(git_dir, rev, to_rev):
+    """(names.tsv text at rev, {old path: new path or None}) from `git -C git_dir` (read-only)."""
+    import subprocess
+    git = ['git', '-C', str(git_dir)]
+    names = subprocess.run(git + ['show', '%s:config/names.tsv' % rev], capture_output=True, text=True,
+                           check=True).stdout
+    diff = subprocess.run(git + ['diff', '-M', '-l100000', '--name-status', rev, to_rev, '--', 'src', 'include'],
+                          capture_output=True, text=True, check=True).stdout
+    renames = {}
+    for line in diff.splitlines():
+        p = line.split('\t')
+        if p[0].startswith('R') and len(p) == 3:
+            renames[p[1]] = p[2]
+        elif p[0] == 'D' and len(p) == 2:
+            renames[p[1]] = None
+    return names, renames
+
+
+def map_runtime_identity(db, pairs, old_names=None, renames=None):
+    """Bind runtime (file, function) pairs to address, images and current definition.
+
+    A pair's address comes from the runtime revision's names.tsv (new name -> address; func_/w_<ADDR> names carry
+    it), so later renames follow the address, never the spelling.  The current function is the retail function at
+    that address (codemap retail_fn + recipe): the one compiled from the pair's file (followed through git renames),
+    else the only name at that address.  A pair with no address (library or developer names) binds by name.
+    Candidates at the address with different names and no file match are `ambiguous` and bind nothing.
+
+    Returns {(file, function): dict(address, images, cur_file, cur_function, how)}."""
+    old_names = old_names if old_names is not None else {}
+    renames = renames or {}
+    by_addr = collections.defaultdict(set)      # address -> {(name, source)}
+    recipes = collections.defaultdict(set)      # (address, name, source) -> {recipe}
+    by_name = collections.defaultdict(set)
+    for sym, name, src, recipe in db.execute('SELECT f.symbol, f.name, r.source, f.recipe FROM retail_fn f '
+                                             'JOIN recipe r ON r.id = f.recipe'):
+        m = ADDR_NAME.match(sym or '')
+        if m:
+            addr = '0x' + m.group(1).lower()
+            by_addr[addr].add((name, src))
+            recipes[(addr, name, src)].add(recipe)
+        by_name[name].add((name, src))
+    defs = collections.defaultdict(set)
+    for name, file in db.execute('SELECT name, file FROM defn'):
+        defs[name].add(file)
+    images = collections.defaultdict(set)
+    for image, recipe in db.execute('SELECT image, recipe FROM image_unit'):
+        images[recipe].add(image)
+    out = {}
+    for file, fn in sorted(set(pairs)):
+        now = renames.get(file, file)
+        addrs = set(old_names.get(fn, ()))
+        m = ADDR_NAME.match(fn)
+        if m:
+            addrs.add('0x' + m.group(1).lower())
+        cands = set()
+        for a in addrs:
+            cands |= {(a,) + c for c in by_addr.get(a, ())}
+        if not addrs:
+            cands = {(None,) + c for c in by_name.get(fn, ())}
+        same = sorted(c for c in cands if c[2] == now)
+        pick, how = None, None
+        if same and len({c[1] for c in same}) == 1:
+            pick, how = same[0], ('address+file' if addrs else 'name+file')
+        elif cands and len({c[1] for c in cands}) == 1:
+            name = next(iter(cands))[1]
+            files = sorted({c[2] for c in cands} & defs.get(name, set())) or sorted({c[2] for c in cands})
+            pick = next(c for c in sorted(cands, key=lambda c: (c[0] or '', c[2])) if c[2] == files[0])
+            how = 'address' if addrs else 'name'
+        elif not cands and fn in defs and (now in defs[fn] or len(defs[fn]) == 1):
+            pick, how = (None, fn, now if now in defs[fn] else next(iter(defs[fn]))), 'definition_name'
+        else:
+            how = 'ambiguous' if cands else 'unmapped'
+        if pick is None:
+            out[(file, fn)] = dict(address=','.join(sorted(addrs)), images='', cur_file=None, cur_function=None,
+                                   how=how)
+            continue
+        addr, name, src = pick
+        imgs = set()
+        if addr:
+            for r in recipes.get((addr, name, src), ()):
+                imgs |= images.get(r, set())
+        out[(file, fn)] = dict(address=addr or '', images=','.join(sorted(imgs)), cur_file=src, cur_function=name,
+                               how=how)
+    return out
+
+
+def runtime_pairs(db):
+    """Every (file, function) the loaded runtime names: fn_args rows, kind creators and body receivers."""
+    pairs = set(db.execute('SELECT DISTINCT file, function FROM rt_fn_arg'))
+    for cf, cfn, recv in db.execute('SELECT creator_file, creator_function, body_receivers FROM rt_kind'):
+        if cf and cfn:
+            pairs.add((cf, cfn))
+        for f, fn in json.loads(recv or '[]'):
+            pairs.add((f, fn))
+    return pairs
+
+
+def load_runtime_map(db, old_names=None, renames=None, log=print):
+    """Fill rt_fn_map from the loaded rt_* tables.  Returns {how: count, 'renamed': n}."""
+    db.executescript(RT_MAP_SCHEMA)
+    db.execute('DELETE FROM rt_fn_map')
+    got = map_runtime_identity(db, runtime_pairs(db), old_names, renames)
+    db.executemany('INSERT INTO rt_fn_map VALUES (?,?,?,?,?,?,?)',
+                   [(f, fn, v['address'], v['images'], v['cur_file'], v['cur_function'], v['how'])
+                    for (f, fn), v in sorted(got.items())])
+    db.commit()
+    counts = dict(collections.Counter(v['how'] for v in got.values()))
+    counts['renamed'] = sum(1 for (f, fn), v in got.items() if v['cur_function'] and v['cur_function'] != fn)
+    log('runtime identity: %s' % json.dumps(counts, sort_keys=True))
+    return counts
+
+
+def load_runtime(db, rt_dir, source_rev=None, log=print, git_dir=None, to_rev='HEAD'):
+    """rtti_merge.py output DIR -> rt_* tables (replaced whole).  Returns row counts.
+
+    With source_rev and git_dir (a repository holding that revision; only read), rt_fn_map binds every runtime
+    (file, function) through that revision's names.tsv and the git file renames up to to_rev; without them pairs
+    bind by name (a runtime taken at the current tree)."""
     rt_dir = Path(rt_dir)
     ensure_schema(db)
-    for table in ('rt_fn_arg', 'rt_kind', 'rt_pointee', 'rt_callsite', 'rt_meta'):
+    db.executescript(RT_MAP_SCHEMA)
+    for table in ('rt_fn_arg', 'rt_kind', 'rt_pointee', 'rt_callsite', 'rt_meta', 'rt_fn_map'):
         db.execute('DELETE FROM ' + table)
     counts = {}
     fa = rt_dir / 'fn_args.tsv'
@@ -69,9 +208,13 @@ def load_runtime(db, rt_dir, source_rev=None, log=print):
         for k in json.loads(kj.read_text()).get('kinds', ()):
             c = k.get('creator') or {}
             doc = {x: k.get(x) for x in ('flags', 'allocator', 'through_wrappers', 'generations')}
+            text = json.dumps(doc)
+            while len(text) > 20000 and doc['generations']:
+                # keep the document valid JSON (flags and allocator are read back): drop generations from the end
+                doc['generations'] = doc['generations'][:len(doc['generations']) // 2]
+                text = json.dumps(doc)
             rows.append((k['id'], k.get('role'), c.get('file'), c.get('function'), k.get('size'), k.get('allocs'),
-                         json.dumps([(b['file'], b['function']) for b in k.get('body_receivers', ())]),
-                         json.dumps(doc)[:20000]))
+                         json.dumps([(b['file'], b['function']) for b in k.get('body_receivers', ())]), text))
         db.executemany('INSERT INTO rt_kind VALUES (?,?,?,?,?,?,?,?)', rows)
         counts['rt_kind'] = len(rows)
     pt = rt_dir / 'pointees.tsv.gz'
@@ -92,9 +235,14 @@ def load_runtime(db, rt_dir, source_rev=None, log=print):
                              int(r['line'] or 0), r['cells'], int(r['calls'])))
         db.executemany('INSERT INTO rt_callsite VALUES (?,?,?,?,?,?,?,?)', rows)
         counts['rt_callsite'] = len(rows)
+    old_names, renames = None, None
+    if source_rev and git_dir:
+        text, renames = git_runtime_inputs(git_dir, source_rev, to_rev)
+        old_names = old_name_addresses(text)
+    counts['rt_fn_map'] = load_runtime_map(db, old_names, renames, log)
     files = sorted(p for p in rt_dir.iterdir() if p.is_file())
     meta = dict(dir=str(rt_dir), stamp=file_stamp(files), source_rev=source_rev or '', counts=json.dumps(counts),
-                loaded_at=time.strftime('%Y-%m-%dT%H:%M:%S'))
+                loaded_at=time.strftime('%Y-%m-%dT%H:%M:%S'), git_to_rev=to_rev if git_dir else '')
     db.executemany('INSERT OR REPLACE INTO rt_meta VALUES (?,?)', list(meta.items()))
     db.commit()
     log('runtime: %s' % json.dumps(counts))

@@ -112,7 +112,8 @@ void draw_effect_and_restore_clip(s32 draw_data, struct Row_818ED25C_S_80024A5C_
 extern u8 D_80020000[];
 extern Row_818EDB60_Rect D_80024048;
 s32 random_sign(void);
-void lift_particle_above_terrain_and_age(ParticleWork *work, ParticlePosition *position);
+struct ObjectPosition;
+void lift_particle_above_terrain_and_age(ParticleWork *work, struct ObjectPosition *position);
 void spawn_linked_effect_particle(Row_818ED7A0_ParticleNode *owner, s32 age, s32 color, s32 lifetime, s16 dx, s16 dy, s16 dz);
 void update_grayscale_fade_effect(void *effect, s32 age, Row_818ED8C0_S_800250C0_1 *color, s32 fade_ticks);
 void update_timed_value_ramp_effect(void *object_ptr);

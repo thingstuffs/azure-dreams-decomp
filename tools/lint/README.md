@@ -207,12 +207,66 @@ passes only through a proven rename, `history+field`, `field`, `gone`) for revie
   local master are the lane's own commits, so pass the master commit as `--public-ref`.
   A BASE that `git diff` cannot read fails the check instead of comparing nothing.
 
+- **developer symbols** (docs/SYMBOLS.md: keep an original developer identifier): a BASE
+  `config/names.tsv` function row whose name is a developer identifier (the name, `FNO_<name>`
+  or `S_<name>` is #defined in `include/script_symbols.h`, a `..._script_flag_<x>` setter's
+  flag `F<x>` is, the name is a Psy-Q function `include/sdk` declares, or the evidence cites a
+  symbol dump or a developer symbol/name/identifier) must keep its name on HEAD.  A row whose
+  address HEAD names differently and no longer with the BASE name fails `--fail-new` and
+  `--fail-all`, unless the HEAD row's evidence records the owner's decision as
+  `owner decision <id>: developer symbol renamed ...`.  A per-image row added beside the
+  developer name is not a rename.
+
 ```sh
 python3 tools/lint/ledger_integrity.py BASE --fail-new
 python3 tools/lint/ledger_integrity.py BASE --rederive          # review, then --write
 python3 tools/lint/ledger_public.py census                       # lane-local strings per public file
-python3 -m unittest tools.lint.test_lint_closure tools.lint.test_ledger_integrity tools.lint.test_ledger_public
+python3 -m unittest tools.lint.test_lint_closure tools.lint.test_ledger_integrity tools.lint.test_ledger_public \
+    tools.lint.test_ledger_refresh
 ```
+
+### Ledger refresh after renames
+
+`ledger_refresh.py` re-derives every stored path, line number, caller, function name and
+spelling in the public ledgers from the tree, `config/names.tsv` (all of its revisions:
+`(renamed from X)` rows, per-image rows, and per revision the address whose row lost one
+name and gained another) and git's rename history: `config/names.tsv` evidence,
+`ledger/prototype_floors.jsonl` (name, definition, blocking spellings, arity call lines),
+`ledger/prototype_identities.jsonl`, `ledger/bridge_casts.jsonl` (file, function, site id),
+`ledger/unions.jsonl` (cited sites and prose; a union id renamed with its header moves in
+`union_baseline.json` and `debt_baseline.json` `bad_label_sites` too; stale `retired_to_cast`
+lines through `ledger_integrity`'s re-derivation), `accepted_warning_sites.tsv` rows (never
+the stamp line), the debt, prototype and soundness baseline keys, `ledger/layout_inline.jsonl`
+(through `tools/typing/refresh_layout_inline.py`) and the path table of
+`tools/typing/union_census.py`.  A missing path follows the row registry
+(`tools/source_layout.py`: the physical row files before the layout moves), the merged-TU
+records, git renames, and for a deleted file the one file its functions are defined in now; a
+cited line moves when it is unchanged or cited a function's definition, else it is dropped.
+With `--base BASE` (the batch start), a `config/names.tsv` line citation of a file that still
+exists but was edited since BASE, and that the row has cited unchanged since BASE (or holds
+what a refresh at BASE derives from its BASE citation of a path already gone then), follows the
+file's BASE-to-current line diff the same way; a citation the row rewrote since BASE is left
+alone, so a `--write` is a fixpoint.
+A floor's arity call line is re-derived from its caller's calls in order (equal counts only),
+and a blocking entry whose file no longer declares its spelling takes the one file that does
+(a declaration moved to its owner header).
+A stale name resolves through the recorded renames; several candidates (an old name that now
+names two functions) are narrowed to the ones a file the same record cites defines.  Text that
+records an old name on purpose (`(renamed from X)`, also `(renamed from X, earlier Y)`, and
+`previously X`) and identity fields
+(`func_<addr>` symbols, layout_inline `tu_old`/`member`, bridge `legacy_line`) are never
+rewritten.  A debt by_file row of a file that no longer exists moves to a git-renamed file
+without a row, else it is dropped and `by_class` lowered by its counts.  What cannot be
+re-derived uniquely is listed as UNRESOLVED and never guessed.
+
+```sh
+python3 tools/lint/ledger_refresh.py --check [--base BASE] [--list]   # exit 1 if anything would change
+python3 tools/lint/ledger_refresh.py --write [--base BASE]            # apply, review the diff, commit
+```
+
+Run it in the batch finalize after the layout-inline refresh and before the debt check, with
+the gate "refresh changes nothing"; about 30 s on the full history.  In a root seeded from one
+commit, history covers seed..HEAD, which is the staleness the batch itself introduced.
 
 ### Recommended landing order
 

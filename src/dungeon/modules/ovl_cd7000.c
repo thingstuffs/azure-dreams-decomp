@@ -1382,9 +1382,9 @@ void update_block_removal_slot_a(void *state,ObjectPosition *position,SpriteFram
  * Runs update_actor_hop_and_grow and installs dispatch_block_turn_actions_slot_a when it returns
  * nonzero.
  */
-void finish_block_hop_grow_slot_a(S_80173364_0 *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity) {
+void finish_block_hop_grow_slot_a(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity) {
     if (update_actor_hop_and_grow(state,position,render_state,entity) != 0) {
-        state->CL_CD7000_80173364_handler = dispatch_block_turn_actions_slot_a;
+        state->unk_8C.run = dispatch_block_turn_actions_slot_a;
     }
 }
 

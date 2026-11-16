@@ -29,7 +29,7 @@ void update_block_value_reaction_slot_c(CL_CCB000_801730E0_S_801730E0_0 *state, 
 void update_block_defeat_slot_c(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity);
 void update_block_hop_shrink_slot_c(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity);
 void update_block_removal_slot_c(void *state,void *position,void *render_state,void *entity);
-void finish_block_hop_grow_slot_c(S_80173364_0 *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity);
+void finish_block_hop_grow_slot_c(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity);
 void update_block_status_animation_slot_c(void *action, ObjectPosition *context, SpriteFrameState *sprite_in, CL_CCB000_8017339C_S_80173D4C_2 *actor_in);
 void wait_block_mp_recovery_slot_c(void *actor_in, ObjectPosition *position, SpriteFrameState *target, ActorRecord *entity_in);
 void update_block_parent_motion_slot_c(S_80173A38_0 *state, void *position, SpriteFrameState *sprite, CL_CCB000_80173A38_S_80173A38_2 *actor);

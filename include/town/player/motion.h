@@ -34,7 +34,7 @@ void initialize_object_from_motion_data(void *object, ObjectPosition *initializa
 /* initialize_player_motion_parameters.c */
 
 /* move_entity_in_current_direction.c */
-void move_entity_in_current_direction(Rec_func_80097D54_arg0 *move_state, ObjectPosition *entity, struct SpriteFrameState *finish_arg);
+void move_entity_in_current_direction(TownPlayerRecord *move_state, ObjectPosition *entity, struct SpriteFrameState *finish_arg);
 
 /* move_player_halfway_to_target.c */
 void move_player_halfway_to_target(TownObjectRecord *state, ObjectPosition *position, struct SpriteFrameState *context);
@@ -58,13 +58,13 @@ void step_actor_minus_x_for_timer(TownObjectRecord *state, ObjectPosition *objec
 
 void step_actor_plus_x_for_timer(TownObjectRecord *state, ObjectPosition *object, struct SpriteFrameState *sprite);
 
-void forward_player_motion_state(void *state, ObjectPosition *value, struct SpriteFrameState *sprite);
+void forward_player_motion_state(TownPlayerRecord *state, ObjectPosition *value, struct SpriteFrameState *sprite);
 
 void forward_player_motion_update(void *object, ObjectPosition *value_1, struct SpriteFrameState *sprite);
 
 void move_player_toward_target_with_timer(TownObjectRecord *motion, ObjectPosition *position, struct SpriteFrameState *sprite);
 
-void process_player_motion_state(TownObjectRecord *object, ObjectPosition *forwardedArg1, struct SpriteFrameState *sprite);
+void process_player_motion_state(TownPlayerRecord *object, ObjectPosition *forwardedArg1, struct SpriteFrameState *sprite);
 
 void initialize_player_motion_parameters(void *record, ObjectPosition *update_value, struct SpriteFrameState *sprite);
 

@@ -3,6 +3,7 @@
 struct SpriteFrameState;
 
 #include "common.h"
+#include "town/player/record.h"
 
 
 struct S_800935BC_0;
@@ -40,7 +41,7 @@ s32 read_and_clear_stored_value(void);
 s32 store_pending_value_and_get_source(s32 unused_0, s32 unused_1, struct SpriteFrameState *unused_2, s32 stored_value);
 void dispatch_deferred_callback(s32 callback_first_value, s32 callback_second_value, s32 callback_third_value, s32 unused_value);
 void dispatch_state_callback_by_mode(s32 value, void *ptr, void *ptr2, s32 unused);
-void forward_player_state_update(void *object, s32 value_1, struct SpriteFrameState *value_2);
+void forward_player_state_update(TownPlayerRecord *object, s32 value_1, struct SpriteFrameState *value_2);
 void forward_state_callback_dispatch(s32 value, void *context, void *data, s32 mode);
 void no_op_scene_callback_b(void);
 
@@ -111,10 +112,10 @@ u32 view_relative_angle_sector(s32 angle);
 void begin_countdown_advance_cursor_action(TownObjectRecord *object, ObjectPosition *setup_parameter, struct SpriteFrameState *sprite);
 
 s32 record_value_table_contains(s32 target_value);
-void complete_player_action(void *actor_arg, ObjectPosition *motionState, struct SpriteFrameState *sprite);
+void complete_player_action(TownPlayerRecord *actor_arg, ObjectPosition *motionState, struct SpriteFrameState *sprite);
 
 
-void step_x_toward_fixed_target(TownObjectRecord *context, ObjectPosition *record, struct SpriteFrameState *sprite);
+void step_x_toward_fixed_target(TownPlayerRecord *context, ObjectPosition *record, struct SpriteFrameState *sprite);
 
 void run_player_indexed_handler(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *sprite);
 
@@ -122,7 +123,7 @@ void set_player_travel_timing(void *actor, ObjectPosition *motion, struct Sprite
 
 void tick_countdown_and_reset_value(TownPlayerRecord *state, ObjectPosition *value, struct SpriteFrameState *sprite);
 
-void update_falling_actor_and_handle_ground(TownObjectRecord *context, ObjectPosition *actor, struct SpriteFrameState *sprite);
+void update_falling_actor_and_handle_ground(TownPlayerRecord *context, ObjectPosition *actor, struct SpriteFrameState *sprite);
 
 void initialize_record_with_update_parameters(TownObjectRecord *record, ObjectPosition *update_value, struct SpriteFrameState *sprite);
 

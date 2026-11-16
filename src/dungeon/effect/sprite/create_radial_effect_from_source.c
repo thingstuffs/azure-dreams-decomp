@@ -1058,7 +1058,7 @@ typedef struct Global814A0 {
  * removal. May spawn a damped angular child during growth and signals D_80026328 for effect code
  * 0x6F.
  */
-void update_offset_particle_emitter(void *effect, s32 context, S_80025160_1 *visual) {
+void update_offset_particle_emitter(void *effect, s32 context, SpriteFrameState *visual) {
     s16 state;
     u16 value;
     u16 angle;
@@ -1074,10 +1074,10 @@ void update_offset_particle_emitter(void *effect, s32 context, S_80025160_1 *vis
 
     switch (state) {
     case 0:
-        value = visual->unk_06 + 0x80;
-        visual->unk_06 = value;
+        value = visual->depth_bias + 0x80;
+        visual->depth_bias = value;
         if ((s16)value > 0x100) {
-            visual->unk_06 = 0x100;
+            visual->depth_bias = 0x100;
             if (((S_80025160_0 *)effect)->unk_22 < 0x61) {
                 damped_value = ((S_80025160_0 *)effect)->unk_18.s;
                 angle = ((S_80025160_0 *)effect)->unk_1C;
@@ -1102,7 +1102,7 @@ void update_offset_particle_emitter(void *effect, s32 context, S_80025160_1 *vis
         if (flag_page->unk_6328 != 0) {
             {
                 s16 signed_ramp = -0x100;
-                visual->unk_06 = signed_ramp;
+                visual->depth_bias = signed_ramp;
             }
             ((S_80025160_0 *)effect)->unk_1A = 0x10;
             ((S_80025160_0 *)effect)->unk_0A++;
@@ -1117,8 +1117,8 @@ void update_offset_particle_emitter(void *effect, s32 context, S_80025160_1 *vis
         ((S_80025160_0 *)effect)->unk_0A++;
                         /* fall through */
     case 3:
-        value = visual->unk_06 + 0x80;
-        visual->unk_06 = value;
+        value = visual->depth_bias + 0x80;
+        visual->depth_bias = value;
         if ((value << 16) >= 0) {
             flags_page = (S_80025160_3 *)0x80080000;
             NODE_HEADER(effect)->flags |= 0x8000;
@@ -1128,9 +1128,9 @@ void update_offset_particle_emitter(void *effect, s32 context, S_80025160_1 *vis
     default:
         break;
     }
-    visual->unk_0C = 0x20;
-    visual->unk_0D = 0x40;
-    visual->unk_0E = 0xE0;
+    visual->color.c.r = 0x20;
+    visual->color.c.g = 0x40;
+    visual->color.c.b = 0xE0;
 }
 #include "shared/game_work.h"
 typedef struct

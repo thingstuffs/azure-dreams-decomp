@@ -3,6 +3,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "engine/node.h"
+#include "dungeon/monster/beldo_large/encounter_position_data.h"
 
 typedef struct {
     u8 bytes[12];
@@ -39,7 +40,6 @@ typedef struct {
     Packed12 blob;
 } Subobject;
 
-extern u8 encounter_object_position_template[12];
 
 /* Creates an object at an offset position and initializes its selected variant. */
 void create_rotating_clipped_sprite(u32 *source_pos, s16 variant) {
@@ -74,7 +74,7 @@ void create_rotating_clipped_sprite(u32 *source_pos, s16 variant) {
         child->fieldD = 0x80;
         child->fieldC = 0x80;
         child->field14 |= 0x80;
-        state->blob = *(Packed12 *)encounter_object_position_template;
+        state->blob = *(Packed12 *)&encounter_object_position_template;
         child->field8 = &state->blob;
     }
 }

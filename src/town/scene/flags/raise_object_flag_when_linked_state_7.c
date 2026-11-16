@@ -17,8 +17,8 @@ typedef struct S_8080DD50_1 {
 } S_8080DD50_1;   /* ((S_8080DD50_0 *)arg0)->unk_04 in raise_object_flag_when_linked_state_7 */
 
 /* Set record and global flags when the linked object has state 7. */
-void raise_object_flag_when_linked_state_7(void *record) {
-    if (((S_8080DD50_1 *)(((S_8080DD50_0 *)record)->unk_04))->unk_36 == 7) {
+void raise_object_flag_when_linked_state_7(S_8080DD50_0 *record) {
+    if (((S_8080DD50_1 *)(record->unk_04))->unk_36 == 7) {
         (*(u16 *)((u8 *)record + -2)) = (u16) (((ObjectStatusPrefix16 *)record)[-1].flags | 0x8000);
         scene_object_flags |= 0x8000;
     }

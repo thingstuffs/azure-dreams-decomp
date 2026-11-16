@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
 /* Three Cyclone creators copy a path into this body and install the bobbing updater. */
 typedef struct CycloneBobbingMotionBody {
@@ -10,5 +11,7 @@ typedef struct CycloneBobbingMotionBody {
     u16 count;
     ObjectPosition path;
 } CycloneBobbingMotionBody;
+
+void advance_cyclone_bobbing_effect(CycloneBobbingMotionBody *motion, ObjectPosition *position, SpriteFrameState *output);
 
 #endif

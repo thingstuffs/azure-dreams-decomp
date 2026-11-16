@@ -14,7 +14,7 @@
    /* arg2 in advance_niko_reaction */
 
 /* Advance two accumulators and invoke handlers when flag 0x8000 is set. */
-void advance_niko_reaction(TownObjectRecord *context, ObjectPosition *accumulators, SpriteFlagsView *flagState) {
+void advance_niko_reaction(TownObjectRecord *context, ObjectPosition *accumulators, SpriteFrameState *flagState) {
     accumulators->x.v = (s32) (accumulators->x.v + 0x40000);
     accumulators->y.v = (s32) (accumulators->y.v + 0x15555);
     if (flagState->flags & 0x8000) {

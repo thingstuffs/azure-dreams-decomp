@@ -15,20 +15,11 @@ typedef struct S_818BDCE0_2 {
     u16 unk_1A;
 } S_818BDCE0_2;   /* arg2 in update_owner_tinted_spinning_effect */
 
-typedef struct S_818BDCE0_3 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_818BDCE0_3;   /* arg1 in update_owner_tinted_spinning_effect */
-
 
 
 
 /* Advance effect counters, motion, and rotation, and flag expiry when its timer exceeds the limit. */
-void update_owner_tinted_spinning_effect(OwnerTintedEffectBody *effect, S_818BDCE0_3 *motion, S_818BDCE0_2 *rotation)
+void update_owner_tinted_spinning_effect(OwnerTintedEffectBody *effect, ObjectPosition *motion, S_818BDCE0_2 *rotation)
 {
     S_818BDCE0_1 *counter_state;
 
@@ -37,9 +28,9 @@ void update_owner_tinted_spinning_effect(OwnerTintedEffectBody *effect, S_818BDC
     effect->elapsed_ticks = (s16)((u16)effect->elapsed_ticks + 1);
     rotation->unk_1A += 0x300;
 
-    motion->unk_00 += motion->unk_0C;
-    motion->unk_04 += motion->unk_10;
-    motion->unk_08 += motion->unk_14;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
+    motion->z.v += motion->velocity_z;
 
     if (effect->elapsed_ticks > effect->unk_14) {
         NODE_HEADER(effect)->flags |= 0x8000;

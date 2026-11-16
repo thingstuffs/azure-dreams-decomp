@@ -132,7 +132,7 @@ void create_settings_value_entry(s32 value, void *data);
 void initialize_settings_screen(void);
 
 /* update_color_channel_entry.c */
-void update_color_channel_entry(void *entry);
+void update_color_channel_entry(MainTitleValueEntry *entry);
 
 /* load_signed_state.c */
 void update_settings_color_cycle(struct ColorEffect *effect);
@@ -141,7 +141,7 @@ void update_settings_color_cycle(struct ColorEffect *effect);
 void update_volume_slider_entry(struct MainTitleValueEntry *entry);
 
 /* update_packed_color_entry.c */
-void update_packed_color_entry(void *dest);
+void update_packed_color_entry(MainTitleValueEntry *dest);
 
 /* remove_value_entry_with_marked_source.c */
 void remove_value_entry_with_marked_source(void *record);

@@ -2,9 +2,9 @@
 #include "frontend/card/load.h"
 #include "frontend/card/service.h"
 #include "frontend/card/server_imports.h"
+#include "shared/pad_state.h"
 
 
-extern s32 boot_pad_state;
 extern s32 boot_pressed_buttons;
 
 extern void submit_stored_and_queried_boot_values(void);
@@ -32,7 +32,7 @@ void handle_menu_selection_input(void *object_arg)
     s32 repeat_buttons;
     s32 *buttons;
 
-    buttons = &boot_pad_state;
+    buttons = &boot_pad_state.held;
         held_buttons = buttons[0];
     direction = 0;
     if (held_buttons != 0) {
@@ -62,7 +62,7 @@ void handle_menu_selection_input(void *object_arg)
                 repeat_ticks = object->unk_30;
                 if (repeat_ticks >= 13) {
                     (*(s32 *)((u8 *)object + (0x30))) = repeat_ticks - 4;
-                    buttons = &boot_pad_state;
+                    buttons = &boot_pad_state.held;
         repeat_buttons = buttons[0];
                     if (repeat_buttons & 0x1000) {
                         direction = -1;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/transfer_cursor_data.h"
 #include "engine/audio/slots.h"
 
 typedef struct S_8005A778_D80086A40 {
@@ -14,11 +15,6 @@ typedef struct S_8005A778_D80086A40 {
     u8 unk1B;
 } S_8005A778_D80086A40;
 
-typedef struct S_8007382C {
-    s32 unk00;
-    u8 pad04[8];
-} S_8007382C;
-
 typedef struct S_8005A778_Arg0 {
     u8 pad00[0xC];
     s32 unk0C;
@@ -30,7 +26,6 @@ typedef struct S_8005A778_Arg0 {
 } S_8005A778_Arg0;
 
 extern S_8005A778_D80086A40 audio_bank_slots[16];
-extern S_8007382C sound_slot_transfer_cursor;
 
 /* Initializes a free or requested slot from the header and returns its index. */
 s32 init_sound_slot_from_header(S_8005A778_Arg0 *header, s16 requested_slot, u32 spu_addr)
@@ -43,7 +38,7 @@ s32 init_sound_slot_from_header(S_8005A778_Arg0 *header, s16 requested_slot, u32
     S_8005A778_Arg0 *header_fields;
 
     slot = 0;
-    sound_slot_transfer_cursor.unk00 = 0;
+    sound_slot_transfer_cursor.value = 0;
     raw_slot = requested_slot;
     header_fields = header;
 

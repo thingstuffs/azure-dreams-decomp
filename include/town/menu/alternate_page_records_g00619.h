@@ -6,6 +6,8 @@
 /* Update alternate menu page bounds. */
 #include "common.h"
 #include "records/Rec_func_800B2DA0_arg1.h"
+#include "slus/card_selection_display_data.h"
+#include "slus/item_menu_primary_page_data.h"
 
 typedef struct {
     u8 pad00[0x1C];
@@ -30,8 +32,6 @@ typedef struct {
 /* extern */
 struct Rec_func_800B2DA0_arg1;
 
-extern u8 item_menu_primary_page_data[];
-extern u8 card_selection_display_data[];
 void forward_paged_record_data(s32, void * *);
 /* extern */
 void fill_paged_menu_slots(Rec_func_800B2DA0_arg1 *);

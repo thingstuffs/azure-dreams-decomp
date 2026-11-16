@@ -39,7 +39,7 @@ typedef struct {
 } OutputVector;
 
 /* Update the effect trajectory and sprite, then flag completion when its animation ends. */
-void update_effect_trajectory_and_sprite(void *effect_arg, MovingPosition *position, void *sprite_arg)
+void update_effect_trajectory_and_sprite(void *effect_arg, MovingPosition *position, SpriteFrameState *sprite_arg)
 {
     S_801743EC_0 *effect = effect_arg;
     CallRecord transform;

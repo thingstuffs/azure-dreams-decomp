@@ -64,8 +64,8 @@ void initialize_object_referenced_data_pointers(TownObjectRecord *object, Object
 s32 get_clamped_transform_coordinate(ObjectPosition *position);
 
 /* Handlers the person callbacks install in TownObjectRecord.handler. */
-void advance_wedy_reaction(TownObjectRecord *context, struct ReactionAccumulators *accumulators, struct ReactionFlagState *flagState);
-void tick_countdown_toward_target(TownObjectRecord *state, SignedPositionView *current, void *context);
+void advance_wedy_reaction(TownObjectRecord *context, ObjectPosition *accumulators, SpriteFrameState *flagState);
+void tick_countdown_toward_target(TownObjectRecord *state, ObjectPosition *current, void *context);
 void call_owner_callback(OwnerCallbackObject *owner, ObjectPosition *motion, SpriteFrameState *output);
 
 
@@ -159,7 +159,7 @@ void set_record_data_pointer(TownObjectRecord *record);
 void update_person_coordinates(void *state, ObjectPosition *coords);
 
 struct S_800C5D38_1;
-void install_actor_response_tables(struct S_800C5D38_1 *actor, ObjectPosition *context, SpriteFlagsView *input);
+void install_actor_response_tables(struct S_800C5D38_1 *actor, ObjectPosition *context, SpriteFrameState *input);
 void update_person_effect_fade(void *effect_record, ObjectPosition *motion, SpriteFrameState *primitive);
 
 void clear_mother_event_record_field(TownObjectRecord *record, void *unused_position, s32 unused_update_arg);

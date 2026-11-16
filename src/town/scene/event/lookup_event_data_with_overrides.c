@@ -3,6 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "town/scene/event.h"
+#include "town/scene/event_lookup_data.h"
 #include "town/player/state.h"
 #include "town/scene/flags.h"
 #include "town/scene/motion.h"
@@ -22,7 +23,6 @@ typedef struct S_80016714_2 {
 
 
 extern u8 D_800189DC[16];
-extern u8 scene_event_lookup_context[16];
 extern u8 D_8001A3AE[];
 extern u8 D_8001A495[];
 

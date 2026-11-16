@@ -1,5 +1,6 @@
 #ifndef TOWN_PLAYER_OBJECT_H
 #define TOWN_PLAYER_OBJECT_H
+#include "town/player/record.h"
 struct SpriteFrameState;
 /* Prototypes of the functions defined in src/town/player/object/ (one true prototype each; maintained by tools/headers). */
 
@@ -30,7 +31,7 @@ void retire_object_on_check_or_call_handler(struct S_func_800A6C4C_0 *object, s3
 void initialize_action_object_and_play_sound(s32 **record, ObjectPosition *unused, s32 setup_value);
 
 /* initialize_entry_object_and_play_sound.c */
-void initialize_entry_object_and_play_sound(struct TownObject *object, ObjectPosition *table_target, void *ptr2);
+void initialize_entry_object_and_play_sound(TownPlayerRecord *object, ObjectPosition *table_target, void *ptr2);
 
 /* initialize_global_player_object.c */
 void initialize_global_player_object(void);

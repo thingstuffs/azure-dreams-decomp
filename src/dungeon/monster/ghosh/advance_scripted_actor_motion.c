@@ -11,18 +11,11 @@
 #include "engine/graphics.h"
 #include "engine/texture.h"
 #include "dungeon/data.h"
+#include "dungeon/monster/ghosh_effect_direction_vectors_data.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-typedef struct {
-    s16 x;
-    u16 y;
-} InitPair;
-typedef struct {
-    InitPair pair[8];
-} __attribute__((packed)) InitBlock;
 void create_offset_sprite_by_variant(); /* extern */
 void create_random_velocity_particle(); /* extern */
-extern InitBlock ghosh_effect_direction_vectors;
 
 /* Byte +0xB6 of the scripted actor's ActorRecord (inside its unk_B4 scratch word): a signed flag the descent clears. */
 typedef struct GhoshScriptedFlagView {
@@ -66,7 +59,7 @@ typedef struct S_func_8132B8AC_3 {
  * object. */
 void advance_scripted_actor_motion(ActorRecord *actor, S_func_8132B8AC_1 *motion, S_func_8132B8AC_2 *sprite) {
 
-    InitBlock direction_vectors;
+    GhoshEffectDirectionTable direction_vectors;
     s32 path_angle;
     s32 final_direction;
     s16 sprite_direction;
@@ -74,8 +67,8 @@ void advance_scripted_actor_motion(ActorRecord *actor, S_func_8132B8AC_1 *motion
     s16 spin_timer;
     s16 sprite_angle_base;
     s16 sprite_angle_delta;
-    InitPair *start_vector;
-    InitPair *path_vector;
+    GhoshEffectDirectionPair *start_vector;
+    GhoshEffectDirectionPair *path_vector;
     s32 start_direction;
     s32 velocity_x;
     s32 velocity_y;

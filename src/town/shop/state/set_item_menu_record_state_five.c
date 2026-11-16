@@ -1,9 +1,9 @@
 #include "common.h"
 #include "shared/item_menu.h"
 #include "town/shop/state.h"
+#include "town/shop/item_menu_scene_state_data.h"
 
 
-extern ItemMenuSceneState item_menu_scene_state;
 
 /* Stores a value in the town record and sets its final field to 5. */
 s32 set_item_menu_record_state_five(s32 value) {

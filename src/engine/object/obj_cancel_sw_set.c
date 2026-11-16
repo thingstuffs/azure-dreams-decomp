@@ -37,9 +37,9 @@ s32 obj_disp23_cancel_sw_set(s32 cancel_switch)
  * texture-page, CLUT, and draw-flag overrides, invokes each node callback after saving the
  * primitive cursor, and restores the matrix stack.
  */
-s32 draw_linked_sprite_nodes(u8 *first_node, u8 *first_transform, SpriteFrameState *first_context) {
+s32 draw_linked_sprite_nodes(u8 *first_node, ObjectPosition *first_transform, SpriteFrameState *first_context) {
     SpriteLinkedScratch *scratch;
-    u8 *transform;
+    ObjectPosition *transform;
     SpriteFrameState *context;
     u8 *object;
     u8 *sprite_data;
@@ -47,7 +47,7 @@ s32 draw_linked_sprite_nodes(u8 *first_node, u8 *first_transform, SpriteFrameSta
     u8 *primitive;
     u8 *render_state;
     u8 **state_ptr;
-    u8 *next_node;
+    ObjectNodeHeader *next_node;
     void *matrix;
     void *translation;
     void *work_matrix;
@@ -112,9 +112,9 @@ s32 draw_linked_sprite_nodes(u8 *first_node, u8 *first_transform, SpriteFrameSta
         scratch->input.vz = S32_AT(object, 0x28);
 
         if (PTR_AT(object, 0x4) == 0) {
-            scratch->translation.vx = S16_AT(transform, 0x2);
-            scratch->translation.vy = S16_AT(transform, 0x6);
-            scratch->translation.vz = S16_AT(transform, 0xA);
+            scratch->translation.vx = transform->x.w.i;
+            scratch->translation.vy = transform->y.w.i;
+            scratch->translation.vz = transform->z.w.i;
             TransMatrix(matrix, translation);
             RotMatrix(object + 0x8, matrix);
             ScaleMatrix(matrix, &scratch->input);
@@ -353,13 +353,13 @@ sprite_loop:
         }
         scratch->primitive_cursor = S32_AT(state_ptr[0], 0x8D0);
 
-        next_node = PTR_AT(node, -8);
-        node = next_node + 0x20;
+        next_node = NODE_HEADER(node)->chain_next;
+        node = NODE_BODY(next_node);
         if (next_node == 0) {
             break;
         }
-        transform = PTR_AT(next_node, 0x8);
-        context = NODE_HEADER(next_node + 0x20)->sprite;
+        transform = next_node->position;
+        context = next_node->sprite;
     }
 
     PopMatrix();

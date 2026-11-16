@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/item.h"
 #include "shared/dungeon_item_entries.h"
 #include "sdk/libc.h"
 
@@ -10,24 +11,11 @@ typedef struct {
 } ItemId;
 
 typedef struct {
-    u8 pad0[12];
-    void *text;
-    u8 pad10[4];
-} ItemRecord;
-
-typedef struct {
-    u8 pad0[12];
-    ItemRecord *records;
-    u8 pad10[4];
-} ItemCategory;
-
-typedef struct {
     u8 pad0[4];
     void *data;
     void *text;
 } ItemResult;
 
-extern ItemCategory itemCategoryTable[];
 extern int resolve_item_record_slot_value(DungeonItemEntry *record);
 extern void *get_item_data_record(s32 category, s32 index);
 extern void *get_or_create_item_data(s32 category, s32 index);
@@ -50,7 +38,8 @@ void set_item_data_from_lookup(ItemResult *result, ItemId *item, void *data)
     } else {
         item_data = get_item_data_record(item->category, item->index);
         if (item_data == 0) {
-            result->text = itemCategoryTable[item->category].records[item->index].text;
+            ItemRecord *records = itemCategoryTable[item->category].records;
+            result->text = records[item->index].data;
             item_data = get_or_create_item_data(item->category, item->index);
             result->data = item_data;
             strncpy(item_data, result->text, 12);

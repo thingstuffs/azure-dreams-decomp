@@ -20,7 +20,7 @@ typedef struct Outer {
     u16 flags1E;
 } Outer;
 
-extern u16 sprite_effect_update_count[];
+#include "dungeon/effect/sprite_effect_count_data.h"
 
 /* Copies a linked object's coordinates and color, or removes the effect when the linked object is
    marked for deletion. */
@@ -32,7 +32,7 @@ void update_owner_positioned_sprite(OwnerPositionedSpriteBody *body, Inner *fiel
 
     outer = (Outer *)body->owner;
     flags1E = outer->flags1E & 0x8000;
-    sprite_effect_update_count[0]++;
+    sprite_effect_update_count++;
     if (flags1E != 0) {
         ((u16 *)body)[-1] |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

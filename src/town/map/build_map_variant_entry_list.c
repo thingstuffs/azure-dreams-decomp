@@ -2,11 +2,9 @@
 #include "town/map.h"
 #include "town/data.h"
 #include "town/map/map_cursor_input_g00641.h"
+#include "town/map/event_entry_data.h"
 
 extern u8 D_800D1A0C[];
-extern u8 town_map_primary_entry[];
-extern u8 town_map_secondary_entry[];
-extern u8 town_map_tertiary_entry[];
 extern u8 D_800D1D54[];
 extern u8 D_800D1D5C[];
 extern u8 D_800D1D64[];

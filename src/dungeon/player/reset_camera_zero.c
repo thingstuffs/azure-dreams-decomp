@@ -3,15 +3,13 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/player.h"
+#include "dungeon/player/action_handlers_data.h"
 #include "engine/graphics.h"
-
-typedef void (*StateFunc)(void *, void *, void *, void *);
 
 #include "dungeon/player/input.h"
 
 extern u8 player_camera_reset_frames[8];
 extern u8 D_800DD010[8];
-extern StateFunc player_action_handlers[];
 
 /* Advances the camera reset animation and resumes actor state handling. */
 void play_reset_pose_until_player_input(void *actor, void *context, void *animation, void *transform)

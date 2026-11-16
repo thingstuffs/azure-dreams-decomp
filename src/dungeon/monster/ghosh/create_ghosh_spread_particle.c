@@ -4,15 +4,10 @@
 #include "dungeon/monster/ghosh.h"
 #include "engine/node.h"
 #include "sdk/libc.h"
+#include "dungeon/monster/ghosh_effect_direction_vectors_data.h"
 
-typedef struct
-{
-    u8 b[32];
-}
-DungeonTable;
 extern u8 ghosh_object_callback_2[];
 struct ObjectNodeHeader;
-extern DungeonTable ghosh_effect_direction_vectors;
 extern void func_801718E4(u8 *effect, s32 *motion);
 
 /* Creates an effect with direction-based position offsets and randomized velocity. */
@@ -22,7 +17,7 @@ void create_ghosh_spread_particle(void *source, s16 angle, s32 initial_value, s3
 {
     u16 saved_angle = angle;
     void *effect_obj;
-    DungeonTable direction_table = ghosh_effect_direction_vectors;
+    GhoshEffectDirectionTable direction_table = ghosh_effect_direction_vectors;
     ObjectPosition *y_position;
     ObjectPosition *x_position;
     void *motion;

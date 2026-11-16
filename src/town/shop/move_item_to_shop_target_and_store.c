@@ -15,6 +15,7 @@
 #include "town/scene.h"
 #include "town/scene/motion.h"
 #include "engine/object.h"
+#include "town/shop/target_position_data.h"
 
 typedef struct { s32 words[21]; } TownRecord;
 
@@ -26,7 +27,6 @@ typedef struct {
     s32 words[0x15];
 } Record84;
 extern Record84 town_slot_snapshot;
-extern s32 shop_target_position[];
 extern s32 D_80100B68;
 
 /* Move toward the target and finalize the object when its countdown expires. */
@@ -36,7 +36,7 @@ void move_item_to_shop_target_and_store(void *object_arg, s32 context, ObjectPos
     s32 *global_flags;
     u16 ticks_or_flags;
 
-    target_pos = (IntVector3 *)shop_target_position;
+    target_pos = (IntVector3 *)&shop_target_position;
     motion->velocity_x = (s32) ((s32) (target_pos->x - motion->x.v) / 2);
     motion->velocity_y = (s32) ((s32) (target_pos->y - motion->y.v) / 2);
     motion->velocity_z = (s32) ((s32) (target_pos->z - motion->z.v) / 2);

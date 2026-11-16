@@ -2,6 +2,7 @@
 #include "common.h"
 #include "town/scene.h"
 #include "town/scene/event.h"
+#include "town/scene/event_lookup_data.h"
 #include "town/player/state.h"
 #include "town/scene/motion.h"
 
@@ -9,7 +10,6 @@ extern s32 resolve_entry_flag(void *, s32, s32);
 extern s32 query_referenced_flag_for_table_entry(void *, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 extern u8 D_80018A0C[16];
-extern u8 scene_event_lookup_context[16];
 extern u8 D_8001B333[];
 extern u8 D_8001B3D2[];
 

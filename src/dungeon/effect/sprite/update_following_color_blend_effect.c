@@ -49,7 +49,7 @@ extern void draw_ball_effect_points(void *, s16, Vec3i *); /* Unprototyped: reta
 extern void compute_direction_angles_between_points(s16 from_x, s16 from_y, s16 from_z, s16 to_x, s16 to_y, s16 to_z, s16 *angles);
 extern s32 create_random_spin_effect(s16, s16, s16, s16);
 
-extern u16 sprite_effect_update_count;
+#include "dungeon/effect/sprite_effect_count_data.h"
 extern s32 linked_mesh_processor_address;
 extern s32 *actor_direction_sprites;
 

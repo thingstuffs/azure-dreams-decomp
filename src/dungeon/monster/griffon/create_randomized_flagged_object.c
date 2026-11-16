@@ -12,15 +12,15 @@
 #include "engine/node/allocation.h"
 #include "dungeon/actor/status.h"
 #include "engine/node.h"
+#include "dungeon/monster/griffon.h"
+#include "dungeon/monster/griffon/action_callback_addresses.h"
 
-typedef s32 M2C_UNK;
 
 
 
 
 extern s32 generate_random_value(void);
 extern u8 D_8015EA50[];
-extern M2C_UNK griffon_slot_d_action_callback;
 extern u8 D_80162C3C[];
 extern u8 D_80162C8C[];
 
@@ -86,7 +86,7 @@ void *create_randomized_flagged_object(s16 flags, s16 value_24, s16 value_25, s1
         initialize_actor_sprite_and_animation(((obj)), part_a, part_b, flags);
         actor->action_id = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C.address = &griffon_slot_d_action_callback;
+        actor->unk_8C.handler = griffon_slot_d_action_callback;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

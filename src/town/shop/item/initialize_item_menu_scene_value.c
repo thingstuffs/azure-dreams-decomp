@@ -1,9 +1,9 @@
 #include "common.h"
 #include "shared/item_menu.h"
 #include "town/shop/item.h"
+#include "town/shop/item_menu_scene_state_data.h"
 
 
-extern ItemMenuSceneState item_menu_scene_state;
 
 /* Stores the supplied item-menu value, sets the field at offset 8 to 7, and returns one. */
 s32 initialize_item_menu_scene_value(s32 value) {

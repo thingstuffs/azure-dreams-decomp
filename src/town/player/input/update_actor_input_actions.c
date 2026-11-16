@@ -21,7 +21,7 @@ extern void initialize_actor_movement_interaction_action(void *, void *,void *);
 extern s32 town_actor_control;
 
 /* Update the entity and dispatch its handler according to state flags and checks. */
-void update_actor_input_actions(void *context, ObjectPosition *entity, s32 update_arg)
+void update_actor_input_actions(TownPlayerRecord *context, ObjectPosition *entity, s32 update_arg)
 {
     GameWork *state = &g_game_work;
     s16 reference_value;

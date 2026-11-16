@@ -7,6 +7,7 @@
 #include "dungeon/player/camera_depth_presets_data.h"
 #include "dungeon/player/camera_pitch_presets_data.h"
 #include "dungeon/player/actor_sprite_sources.h"
+#include "engine/texture/sprite_resource_base_data.h"
 
 struct ObjectPosition;
 #include "common.h"
@@ -245,7 +246,6 @@ s32 load_dungeon_sprite_bundle(void);
 void bzero(void *, s32);
 extern s32 D_80012D60;
 extern s32 loaded_sprite_bundle_attributes;
-extern u8 *sprite_resource_base;
 extern M2C_UNK D_80080AE0;
 extern M2C_UNK D_80080AE8;
 extern M2C_UNK D_80080E18;

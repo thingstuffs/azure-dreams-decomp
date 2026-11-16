@@ -3,22 +3,17 @@
 #include "engine/cd.h"
 #include "engine/effect.h"
 #include "engine/graphics.h"
+#include "engine/resource_type_list_layouts_data.h"
 #include "engine/scene.h"
 #include "sdk/libgpu.h"
 #include "slus.h"
 #include "slus/data.h"
-
-typedef struct Info80046E38 {
-    s32 *data;
-    u16 count;
-} Info80046E38;
 
 typedef struct Pair80046E38 {
     s32 first;
     s32 second;
 } Pair80046E38;
 
-extern Info80046E38 *resource_type_list_layouts[];
 extern u8 *gpu_scratch_write_pointer;
 extern u8 *gpu_scratch_buffer_base[3];
 
@@ -34,8 +29,8 @@ void runtime_load_packed_resource_chunks(s16 entry_id, u8 *stream)
     u8 *table_base;
     s32 table_offset;
     s32 shifted_id;
-    Info80046E38 **entry_slot;
-    Info80046E38 *entry;
+    ResourceTypeListLayout **entry_slot;
+    ResourceTypeListLayout *entry;
     s32 *entry_data;
 
     stream_start = stream;
@@ -46,11 +41,11 @@ void runtime_load_packed_resource_chunks(s16 entry_id, u8 *stream)
     shifted_id = entry_id << 16;
     table_base = (u8 *)resource_type_list_layouts;
     table_offset = shifted_id >> 14;
-    entry_slot = (Info80046E38 **)(table_offset + table_base);
+    entry_slot = (ResourceTypeListLayout **)(table_offset + table_base);
     entry_data = (*entry_slot)->data;
     pair = *(Pair80046E38 *)entry_data;
     entry = *entry_slot;
-    remaining = entry->count;
+    remaining = entry->packed_chunk_count;
     data_offset = entry->data[1];
 
     if (remaining > 0) {

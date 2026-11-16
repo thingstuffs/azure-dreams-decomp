@@ -13,7 +13,7 @@ extern s16 sample_terrain_surface_height(u16, u16, s16);
 
 
 /* Runs object callbacks, applies movement and gravity, and updates ground height. */
-void update_actor_gravity(ActorRecord *object, ObjectPosition *motion, void *entity) {
+void update_actor_gravity(ActorRecord *object, ObjectPosition *motion, SpriteFrameState *entity) {
     SpriteFrameState *ent = entity;
     ActorRecord *update_obj = object;
     DungeonCallback callback;

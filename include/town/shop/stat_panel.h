@@ -45,7 +45,7 @@ void DrawSync(s32);
 /* extern */
 void LoadImage(void *, s32);
 /* extern */
-extern s16 display_resource_cache_keys[];
+#include "slus/display_resource_cache_keys_data.h"
 extern s32 lookup_patterned_display_icon(s32 value);
 extern s32 get_enabled_record_flag_priority(s32 value);
 extern s32 D_80077FBC[];

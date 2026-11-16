@@ -15,15 +15,6 @@ typedef struct S_func_818BD74C_0 {
     void *unk_18;
 } S_func_818BD74C_0;
 
-typedef struct S_func_818BD74C_1 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_func_818BD74C_1;
-
 typedef struct S_func_818BD74C_2 {
     u8 pad_00[0x14];
     u16 unk_14;
@@ -49,7 +40,7 @@ extern s32 create_channel_tinted_effect(void *, void *, s16, s32);
 extern void *create_phase_colored_effect(void *, void *, s16, s16);
 
 /* Animate a moving effect through color cycling, shrinking, and radial emission. */
-void update_color_cycling_shrink_effect(void *effect_arg, S_func_818BD74C_1 *motion, void *sprite_arg) {
+void update_color_cycling_shrink_effect(void *effect_arg, ObjectPosition *motion, void *sprite_arg) {
     S_func_818BD74C_3 *sprite = sprite_arg;
     s16 color_step;
     s32 random_value;
@@ -103,15 +94,15 @@ void update_color_cycling_shrink_effect(void *effect_arg, S_func_818BD74C_1 *mot
     state = effect->unk_0E;
     switch (state) {
     case 0:
-        pos_x = motion->unk_00;
-        vel_x = motion->unk_0C;
-        vel_y = motion->unk_10;
-        vel_z = motion->unk_14;
-        motion->unk_00 = pos_x + vel_x;
-        pos_y = motion->unk_04;
-        pos_z = motion->unk_08;
-        motion->unk_04 = pos_y + vel_y;
-        motion->unk_08 = pos_z + vel_z;
+        pos_x = motion->x.v;
+        vel_x = motion->velocity_x;
+        vel_y = motion->velocity_y;
+        vel_z = motion->velocity_z;
+        motion->x.v = pos_x + vel_x;
+        pos_y = motion->y.v;
+        pos_z = motion->z.v;
+        motion->y.v = pos_y + vel_y;
+        motion->z.v = pos_z + vel_z;
         if (effect->unk_10 < effect->unk_14) {
             return;
         }

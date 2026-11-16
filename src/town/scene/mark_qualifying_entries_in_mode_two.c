@@ -3,13 +3,7 @@
 #include "town/scene/choice_data.h"
 #include "town/scene.h"
 #include "town/player/state.h"
-
-typedef struct S_80017DBC_0 {
-    u8 pad_00[0x4];
-    s16 unk_04;
-    u8 pad_06[0x2];
-    s32 unk_08;
-} S_80017DBC_0;
+#include "town/scene/indexed_values_data.h"
 
 typedef struct S_80017DBC_1 {
     u8 pad_00[0x2];
@@ -23,24 +17,23 @@ typedef struct S_80017DBC_2 {
     s16 unk_B6;
 } S_80017DBC_2;
 
-extern s32 town_indexed_values;
 extern s32 D_80016608;
 
 /* Marks qualifying entries and their associated state with 0x400 in mode 2. */
 s32 mark_qualifying_entries_in_mode_two(void)
 {
     s32 entry_index;
-    S_80017DBC_0 *source_entry;
+    TownIndexedValueRecord *source_entry;
     S_80017DBC_1 *dest_entry;
     S_80017DBC_2 *dest_state;
 
     if (scene_update_state == 2) {
         dest_state = (S_80017DBC_2 *)&D_80016608;
         for (entry_index = 1; entry_index < 8; entry_index++) {
-            source_entry = (S_80017DBC_0 *)((u8 *)&town_indexed_values + entry_index * 0xC);
+            source_entry = &town_indexed_values[entry_index];
             dest_entry = (S_80017DBC_1 *)((u8 *)dest_state + entry_index * 0x14);
-            if (get_script_flag_mask(source_entry->unk_04) != 0) {
-                if (source_entry->unk_08 != 0) {
+            if (get_script_flag_mask(source_entry->flag) != 0) {
+                if (source_entry->condition != 0) {
                     dest_entry->unk_02 = 0x400;
                     if (entry_index == 1) {
                         dest_state->unk_A2 = 0x400;

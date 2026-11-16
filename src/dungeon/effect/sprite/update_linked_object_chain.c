@@ -24,7 +24,7 @@ s32 func_800266D0(void *, void *);                  /* extern */
 s32 find_eligible_entry_at_coordinates();                /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
 s32 check_layer_offset_height();              /* extern */
-extern u16 sprite_effect_update_count;
+#include "dungeon/effect/sprite_effect_count_data.h"
 extern s32 D_800C9034();
 
 

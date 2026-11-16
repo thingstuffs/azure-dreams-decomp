@@ -73,16 +73,16 @@ extern HalfTable D_800200E4;
 extern HalfTable D_800200F0;
 
 /* Updates actor movement, animation, and collision through its timed states. */
-void update_actor_movement_animation_collision(Actor *actor, Motion *motion, SpriteFrameState *anim)
+void update_actor_movement_animation_collision(Actor *actor, ObjectPosition *motion, SpriteFrameState *anim)
 {
     Owner *owner = actor->ownerAC;
     HalfTable scale_x = D_800200E4;
     HalfTable scale_y = D_800200F0;
     s32 duration_roll;
 
-    motion->x += motion->vx;
-    motion->y += motion->vy;
-    motion->z += motion->vz;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
+    motion->z.v += motion->velocity_z;
     actor->timerA2--;
     owner->flagsC |= 1;
 
@@ -113,13 +113,13 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Spr
         duration = duration_roll + 14;
         actor->timerA2 = duration;
         actor->initialA6 = duration;
-        motion->vy = -0x400000 / actor->timerA2;
+        motion->velocity_y = -0x400000 / actor->timerA2;
         if (actor->typeA0 < 2) {
             anim->flags |= 1;
         }
         if (actor->typeA0 & 1) {
             anim->depth_bias = -0x100;
-            motion->vy = -motion->vy;
+            motion->velocity_y = -motion->velocity_y;
         } else {
             anim->depth_bias = -0x40;
             select_record_entry_and_value(anim, D_800F7DD4, 0);
@@ -132,12 +132,12 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Spr
     {
         s32 initial_duration;
         if (actor->timerA2 <= 0) {
-            motion->vy = 0;
+            motion->velocity_y = 0;
             initial_duration = actor->initialA6;
             actor->timerA2 = initial_duration * 2;
-            motion->vx = 0x800000 / (s16)(initial_duration * 2);
+            motion->velocity_x = 0x800000 / (s16)(initial_duration * 2);
             if (actor->typeA0 < 2) {
-                motion->vx = -motion->vx;
+                motion->velocity_x = -motion->velocity_x;
             }
             select_record_entry_and_value(anim, D_800F7D64, 0);
             actor->state68 = 2;
@@ -165,11 +165,11 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Spr
                     } else {
                         x_speed = -duration_roll;
                     }
-                    motion->vx = x_speed;
-                    motion->vy = 0;
+                    motion->velocity_x = x_speed;
+                    motion->velocity_y = 0;
                 } else {
-                    motion->vx = 0;
-                    motion->vy = duration_roll;
+                    motion->velocity_x = 0;
+                    motion->velocity_y = duration_roll;
                 }
             }
             actor->state68 = 3;
@@ -179,9 +179,9 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Spr
 
     case 3:
         if (actor->timerA2 <= 0) {
-            motion->vy = 0;
-            motion->vx = 0;
-            motion->y += -0x40000;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
+            motion->y.v += -0x40000;
             anim->unk_00 = minigame_sprite_entries;
             anim->source = ((AnimData *)minigame_sprite_entries)->data4;
             anim->unk_04 = 0;
@@ -189,22 +189,22 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Spr
             if (rand() & 7) {
                 actor->timerA2 = 16;
                 actor->timerA2 = actor->initialA6;
-                motion->vz = (-0x700000 - motion->z) / actor->timerA2;
+                motion->velocity_z = (-0x700000 - motion->z.v) / actor->timerA2;
                 actor->state68 = 4;
             } else {
                 s32 height_offset;
                 s32 height_delta;
                 actor->timerA2 = 12;
                 height_offset = (rand() & 0xFF) << 12;
-                height_delta = motion->z + 0x580000;
-                motion->vz = (height_offset - height_delta) / actor->timerA2;
+                height_delta = motion->z.v + 0x580000;
+                motion->velocity_z = (height_offset - height_delta) / actor->timerA2;
                 actor->state68 = 5;
             }
         }
         break;
 
     case 4:
-        if (motion->z <= -0x580000 && !(actor->flagsA4 & 2)) {
+        if (motion->z.v <= -0x580000 && !(actor->flagsA4 & 2)) {
             anim->depth_bias = 0;
             actor->callback48 = D_800200FC;
             actor->flagsA4 |= 2;
@@ -218,7 +218,7 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Spr
             anim->frame_ticks = 0;
         }
         if (actor->timerA2 <= 0) {
-            motion->vz = 0;
+            motion->velocity_z = 0;
             actor->state68 = 7;
             actor->timerA2 = actor->initialA6 * 2 + 20;
         }
@@ -227,7 +227,7 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Spr
     case 5:
         if (actor->timerA2 <= 0) {
             actor->timerA2 = 6;
-            motion->vz = (-0x280000 - motion->z) / actor->timerA2;
+            motion->velocity_z = (-0x280000 - motion->z.v) / actor->timerA2;
             actor->state68 = 6;
         }
         break;
@@ -235,7 +235,7 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Spr
     case 6:
         if (actor->timerA2 <= 0) {
             actor->timerA2 = 8;
-            motion->vz = (-0x700000 - motion->z) / actor->timerA2;
+            motion->velocity_z = (-0x700000 - motion->z.v) / actor->timerA2;
             actor->state68 = 4;
         }
         break;
@@ -261,11 +261,11 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Spr
                     } else {
                         x_speed = duration_roll;
                     }
-                    motion->vx = x_speed;
-                    motion->vy = 0;
+                    motion->velocity_x = x_speed;
+                    motion->velocity_y = 0;
                 } else {
-                    motion->vx = 0;
-                    motion->vy = duration_roll;
+                    motion->velocity_x = 0;
+                    motion->velocity_y = duration_roll;
                 }
             }
             actor->state68 = 8;
@@ -300,9 +300,9 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Spr
     }
     advance_sprite_animation_and_textures(anim);
     if ((actor->flagsA4 & 2) && test_three_axis_box_overlap(minigame_actor_bounds, motion)) {
-        motion->vz = 0;
-        motion->vy = 0;
-        motion->vx = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         actor->ownerAC->count6++;
         actor->flagsA4 &= ~2;
         anim->unk_00 = minigame_sprite_entries;

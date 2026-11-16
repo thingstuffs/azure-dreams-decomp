@@ -1207,13 +1207,6 @@ s32 attempt_poison_trap(void *object) {
 }
 
 
-typedef struct S_800CD474_1 {
-    u8 pad_00[0x8];
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_800CD474_1;   /* arg1 in advance_falling_trap_effect */
-
 typedef struct S_800CD474_2 {
     u8 pad_00[0xC];
     union {
@@ -1229,7 +1222,7 @@ typedef struct S_800CD474_2 {
 extern void initialize_timed_motion_step(u16 countdown, u32 amount);
 
 /* Advance a falling effect through impact, flashing, and fade-out. */
-void advance_falling_trap_effect(FourOwnerSpriteEffectsBody *effect, S_800CD474_1 *motion, S_800CD474_2 *primitive) {
+void advance_falling_trap_effect(FourOwnerSpriteEffectsBody *effect, ObjectPosition *motion, S_800CD474_2 *primitive) {
     s16 state;
     s32 color;
     u16 sound_timer;
@@ -1239,17 +1232,17 @@ void advance_falling_trap_effect(FourOwnerSpriteEffectsBody *effect, S_800CD474_
 
     state = effect->state;
     if (state == 0) {
-        motion->unk_14 += 0x20000;
+        motion->velocity_z += 0x20000;
         sound_timer = effect->timer - 1;
         effect->timer = sound_timer;
         if ((sound_timer << 16) == 0) {
             play_sound_if_enabled(0x701);
         }
-        if ((motion->unk_08.at02.v + 0x10) >= effect->threshold.s) {
+        if ((motion->z.w.i + 0x10) >= effect->threshold.s) {
             initialize_timed_motion_step(8, 8);
             target_y = effect->threshold.u;
-            motion->unk_14 = 0;
-            motion->unk_08.at02.v = target_y;
+            motion->velocity_z = 0;
+            motion->z.w.i = target_y;
             effect->timer = 8;
             effect->state = (u16)effect->state + 1;
             play_sound_if_enabled(0x612);
@@ -1290,7 +1283,7 @@ void advance_falling_trap_effect(FourOwnerSpriteEffectsBody *effect, S_800CD474_
             g_dungeon_status.activity_counts.parts.pending_action_count -= 1;
         }
     }
-    motion->unk_08.at00.v += motion->unk_14;
+    motion->z.v += motion->velocity_z;
     effect->frame_count += 1;
 }
 

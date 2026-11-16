@@ -6,16 +6,10 @@
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "engine/node.h"
+#include "dungeon/monster/beldo_large/encounter_position_data.h"
 
-
-typedef struct {
-    s32 x;
-    s32 y;
-    s32 z;
-} __attribute__((packed)) PackedVec;
 
 extern s32 D_801717A8;
-extern PackedVec encounter_object_position_template;
 
 
 
@@ -48,7 +42,7 @@ void create_encounter_camera_controller(void) {
         render_flags = render_state->flags;
         beldo_camera_object = object;
         render_state->flags = render_flags | 0x80;
-        (*(PackedVec *)((u8 *)object + 0x48)) = encounter_object_position_template;
+        (*(EncounterPositionVector *)((u8 *)object + 0x48)) = encounter_object_position_template;
         render_state->source = (u8 *)object + 0x48;
     }
 }

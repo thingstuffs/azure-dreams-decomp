@@ -510,18 +510,18 @@ void fade_and_spin_sprite_until_expired(void *effect, s32 unused, void *packet)
 #define U8_AT(p, off) (*(u8 *)((u8 *)(p) + (off)))
 
 /* Advances a timed visual update and sets completion flags when the countdown expires. */
-void pulse_timed_visual_brightness(void *effect, s32 unused, void *visual)
+void pulse_timed_visual_brightness(void *effect, s32 unused, SpriteFrameState *visual)
 {
     u8 *effect_bytes;
     u16 countdown;
     s32 step_index;
     u8 *status_page;
-    u8 *visual_bytes;
+
     u8 *flags_page;
     u16 field_value;
 
     effect_bytes = effect;
-    visual_bytes = visual;
+
     status_page = (u8 *)&fading_quad_effect_updated - 0x5FF4;
     countdown = U16_AT(effect_bytes, 0x38);
     *(s16 *)(status_page + 0x5FF4) = 1;
@@ -546,12 +546,12 @@ void pulse_timed_visual_brightness(void *effect, s32 unused, void *visual)
             field_value = 0x80;
             break;
         }
-        U8_AT(visual_bytes, 0x0E) = field_value;
-        U8_AT(visual_bytes, 0x0D) = field_value;
-        U8_AT(visual_bytes, 0x0C) = field_value;
+        visual->color.c.b = field_value;
+        visual->color.c.g = field_value;
+        visual->color.c.r = field_value;
     }
-    field_value = U16_AT(visual_bytes, 0x1A) + 400;
-    U16_AT(visual_bytes, 0x1A) = field_value;
+    field_value = visual->angle_z + 400;
+    visual->angle_z = field_value;
     if (S16_AT(effect_bytes, 0x38) > 0) {
         return;
     }

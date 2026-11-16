@@ -28,16 +28,16 @@ typedef struct SpriteDecayMotion {
 } SpriteDecayMotion;
 
 /* Moves a particle while halving its velocity and fading its saved color over the remaining lifetime. */
-void advance_damped_effect_motion_and_color(SpriteDecayState *state, SpriteDecayMotion *motion, void *unused_render)
+void advance_damped_effect_motion_and_color(SpriteDecayState *state, ObjectPosition *motion, void *unused_render)
 {
     u16 remaining;
 
-    motion->x += motion->dx;
-    motion->y += motion->dy;
-    motion->z += motion->dz;
-    motion->dx /= 2;
-    motion->dy /= 2;
-    motion->dz /= 2;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
+    motion->z.v += motion->velocity_z;
+    motion->velocity_x /= 2;
+    motion->velocity_y /= 2;
+    motion->velocity_z /= 2;
     state->color.channel[0] = state->source_red * state->life / state->initial_life;
     state->color.channel[1] = state->source_green * state->life / state->initial_life;
     state->color.channel[2] = state->source_blue * state->life / state->initial_life;

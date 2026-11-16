@@ -16,4 +16,7 @@ extern u8 blinking_cursor_texture_descriptor_0[16];
 extern u8 blinking_cursor_texture_descriptor_1[16];
 extern u8 blinking_cursor_texture_descriptor_2[16];
 
+/* Three pointer-sized variant entries before the template at 0x8006A988. */
+extern void *texture_descriptor_variant_values[3];
+
 #endif

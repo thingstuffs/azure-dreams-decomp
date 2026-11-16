@@ -100,7 +100,8 @@ class TypingFacts(unittest.TestCase):
             w.write('callee_file\tcallee\targ\tcaller_file\tcaller\tline\tcells\tcalls\n'
                     'src/a.c\tread_void\t0\tsrc/b.c\tcaller\t12\trk7+0x20=5\t5\n')
         counts = T.load_runtime(db, rt, 'abc123', log=lambda m: None)
-        self.assertEqual(counts, {'rt_fn_arg': 1, 'rt_kind': 1, 'rt_pointee': 1, 'rt_callsite': 1})
+        self.assertEqual({k: v for k, v in counts.items() if k != 'rt_fn_map'},
+                         {'rt_fn_arg': 1, 'rt_kind': 1, 'rt_pointee': 1, 'rt_callsite': 1})
         items = self.dir / 'item_status.tsv'
         items.write_text('transaction\tseeds\tseed_rows\tverdict\tpredicted_delta\tstatus\treason\n'
                          'C0001\t1\tread_void#0\thold\t0\thold\tno runtime or seed target\n')
@@ -134,6 +135,65 @@ class TypingFacts(unittest.TestCase):
         self.assertEqual([r['caller_file'] for r in p['callsites']], ['src/b.c'])
         self.assertEqual([r['reason'] for r in p['flow']], ['src/b.c'])
         self.assertEqual([r['value_target'] for r in p['pointee_stores']], ['src/b.c:same'])
+
+
+class RuntimeIdentity(unittest.TestCase):
+    """rt_fn_map: runtime (file, function) pairs of an older revision bound by address to the current tree."""
+
+    def setUp(self):
+        import sqlite3
+        self.db = db = sqlite3.connect(':memory:')
+        db.executescript('''
+            CREATE TABLE retail_fn(recipe TEXT, symbol TEXT, name TEXT);
+            CREATE TABLE recipe(id TEXT, source TEXT);
+            CREATE TABLE defn(name TEXT, file TEXT);
+            CREATE TABLE image_unit(image TEXT, recipe TEXT);
+            CREATE TABLE rt_fn_arg(file TEXT, function TEXT);
+            CREATE TABLE rt_kind(creator_file TEXT, creator_function TEXT, body_receivers TEXT);
+        ''')
+        for rid, sym, name, src, image in (
+                ('r1', 'func_80100000', 'move_actor', 'src/a/move_actor.c', 'dungeon/bank_1'),
+                ('r2', 'func_80100000', 'move_actor', 'src/a/move_actor.c', 'dungeon/bank_2'),
+                # the same address in two images holds two different functions now (per-image names)
+                ('r3', 'func_80200000', 'open_door', 'src/town/open_door.c', 'town/main'),
+                ('r4', 'func_80200000', 'close_lid', 'src/card/close_lid.c', 'card/main'),
+                ('r5', 'func_80300000', 'func_80300000', 'src/x/func_80300000.c', 'slus'),
+                ('r6', 'zero_words', 'zero_words', 'src/engine/zero_words.c', 'slus')):
+            db.execute('INSERT INTO retail_fn VALUES (?,?,?)', (rid, sym, name))
+            db.execute('INSERT INTO recipe VALUES (?,?)', (rid, src))
+            db.execute('INSERT INTO image_unit VALUES (?,?)', (image, rid))
+            db.execute('INSERT INTO defn VALUES (?,?)', (name, src))
+        db.executemany('INSERT INTO rt_fn_arg VALUES (?,?)', [
+            ('src/a/old_move.c', 'step_actor'),            # renamed function and file since the runtime
+            ('src/town/door.c', 'update_thing'),           # address shared by two names: the file decides
+            ('src/gone.c', 'update_thing'),                # ... and without a file match it is ambiguous
+            ('src/x/func_80300000.c', 'func_80300000'),     # an address name
+            ('src/engine/zero_words.c', 'zero_words'),     # a library name with no names.tsv row
+            ('src/none.c', 'never_defined')])
+        db.execute('INSERT INTO rt_kind VALUES (?,?,?)', ('src/a/old_move.c', 'step_actor', '[]'))
+        names = ('# header\n0x80100000\tfunc_80100000\tstep_actor\tevidence\n'
+                 '0x80200000\tfunc_80200000\tupdate_thing\tevidence\n')
+        self.old = T.old_name_addresses(names)
+        self.renames = {'src/a/old_move.c': 'src/a/move_actor.c', 'src/town/door.c': 'src/town/open_door.c'}
+
+    def test_address_join(self):
+        got = T.map_runtime_identity(self.db, T.runtime_pairs(self.db), self.old, self.renames)
+        r = got[('src/a/old_move.c', 'step_actor')]
+        self.assertEqual((r['cur_function'], r['cur_file'], r['address'], r['how']),
+                         ('move_actor', 'src/a/move_actor.c', '0x80100000', 'address+file'))
+        self.assertEqual(r['images'], 'dungeon/bank_1,dungeon/bank_2')
+        self.assertEqual(got[('src/town/door.c', 'update_thing')]['cur_function'], 'open_door')
+        self.assertEqual(got[('src/gone.c', 'update_thing')]['how'], 'ambiguous')
+        self.assertIsNone(got[('src/gone.c', 'update_thing')]['cur_function'])
+        self.assertEqual(got[('src/x/func_80300000.c', 'func_80300000')]['how'], 'address+file')
+        self.assertEqual(got[('src/engine/zero_words.c', 'zero_words')]['how'], 'name+file')
+        self.assertEqual(got[('src/none.c', 'never_defined')]['how'], 'unmapped')
+
+    def test_map_table(self):
+        counts = T.load_runtime_map(self.db, self.old, self.renames, log=lambda m: None)
+        self.assertEqual(counts['renamed'], 2)
+        row = self.db.execute("SELECT cur_function FROM rt_fn_map WHERE function='step_actor'").fetchone()
+        self.assertEqual(row, ('move_actor',))
 
 
 if __name__ == '__main__':

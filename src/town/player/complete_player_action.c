@@ -8,7 +8,7 @@
 
 
 /* Clean up the actor, clear its indexed flag, and complete its current action. */
-void complete_player_action(void *actor_arg, ObjectPosition *motionState, SpriteFrameState *sprite) {
+void complete_player_action(TownPlayerRecord *actor_arg, ObjectPosition *motionState, SpriteFrameState *sprite) {
     TownPlayerRecord *actor = actor_arg;
 
     unlink_node_if_registered(actor);

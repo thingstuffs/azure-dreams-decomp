@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/transfer_cursor_data.h"
 #include "engine/audio/slots.h"
 #include "engine/util.h"
 
@@ -27,7 +28,6 @@ typedef struct {
 } Sound;
 
 extern S_80086A40 audio_bank_slots[16];
-extern s32 sound_slot_transfer_cursor[3]; /* size > 8: forced hi/lo, no $gp */
 
 /* Initializes a requested or free sound slot and returns its index. */
 s32 init_sound_slot(Sound *sound, s16 requested_slot)
@@ -37,7 +37,7 @@ s32 init_sound_slot(Sound *sound, s16 requested_slot)
     s32 result_index;
     S_80086A40 *slot;
 
-    sound_slot_transfer_cursor[0] = 0;
+    sound_slot_transfer_cursor.value = 0;
     slot_index = 0;
     selected_slot = requested_slot;
     if (selected_slot == -1) {

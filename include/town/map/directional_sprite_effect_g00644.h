@@ -4,6 +4,7 @@
 #include "town/map/object_setup.h"
 #include "town/scene/list_setup.h"
 #include "engine/node.h"
+#include "town/map/motion_defaults_data.h"
 
 struct SpriteFrameState;
 /* Directional sprite effect. */
@@ -58,7 +59,6 @@ extern SpriteSourceEntry town_directional_sprite_entries[];
 void select_record_entry_and_value(void *state,void *entries, short index);
 /* extern */
 extern void D_800BC764();
-extern M2C_UNK town_map_motion_defaults;
 extern s32 D_800D20E4;
 
 extern void advance_sprite_animation_and_textures(void *);

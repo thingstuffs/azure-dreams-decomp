@@ -596,5 +596,80 @@ class FieldRuleRepoTests(unittest.TestCase):
         self.assertEqual(out['retired_to_cast'], ['src/a.c (u16) (cast gone)'])
 
 
+# The four developer identifiers rename waves renamed in AC154/AC155 review (base rows from master); the HEAD
+# names are the ones those waves chose (door_open_demo_set_sub's is a stand-in).
+DEVELOPER_ROWS = [
+    ('0x8009F938', 'set_item_equip_00', 184, 'FNO_', 'equip_item_by_kind_and_type'),
+    ('0x800909A0', 'to_camera_zero_00', 206, 'FNO_', 'step_camera_view_angle_to_zero'),
+    ('0x800C0F50', 'set_no_change_seq', 33, 'S_', 'hold_scene_music'),
+    ('0x800A09F4', 'door_open_demo_set_sub', 209, 'FNO_', 'start_door_open_demo'),
+]
+
+
+def developer_row(addr, name, number, prefix):
+    return (f'{addr}\tfunc_{addr[2:]}\t{name}\tscript call number {number}: the town call table 0x800D3CC8 entry '
+            f'{number} = this function; developer symbol {prefix}{name} (TOWN.BIN symbol dump; rule proven by the '
+            f'2026-09-08 research workflow; numbering corrected 2026-09-28 by the symbol-dump parse fix)\n')
+
+
+class DeveloperNameTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.root = Path(self.tmp.name)
+        git(self.root, 'init', '-q')
+        (self.root / 'include/sdk').mkdir(parents=True)
+        (self.root / 'include/sdk/libgpu.h').write_text('void SetPriority(void *p, s32 a, s32 b);\n')
+        (self.root / 'include/script_symbols.h').write_text(''.join(
+            f'#define {prefix}{name} {number}\n' for _, name, number, prefix, _ in DEVELOPER_ROWS)
+            + '#define Ftt_pad89 3015\n')
+        (self.root / 'config').mkdir()
+        (self.root / 'ledger').mkdir()
+        (self.root / 'ledger/unions.jsonl').write_text('')
+        self.base_rows = [developer_row(a, n, k, p) for a, n, k, p, _ in DEVELOPER_ROWS] + [
+            '0x80067EF4\tfunc_80067EF4\tSetPriority\tlibgpu, directly before SetDrawMode\n',
+            '0x800B0000\tfunc_800B0000\tset_script_flag_tt_pad89\tsets the flag word\n',
+            '0x800B1000\tfunc_800B1000\tdispatch_event_d_8_a\ta coined name\n']
+        self.names(self.base_rows)
+        git(self.root, 'add', '-A')
+        git(self.root, 'commit', '-qm', 'base')
+        self.base = git(self.root, 'rev-parse', 'HEAD')
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def names(self, rows):
+        (self.root / 'config/names.tsv').write_text('# header\n' + ''.join(rows))
+
+    def renamed(self, index, new, extra=''):
+        addr, name = self.base_rows[index].split('\t')[:3:2]
+        return f'{addr}\tfunc_{addr[2:]}\t{new}\t{new} does it{extra} (renamed from {name})\n'
+
+    def test_the_four_review_cases_fail(self):
+        rows = [self.renamed(i, new) for i, (_, _, _, _, new) in enumerate(DEVELOPER_ROWS)] + self.base_rows[4:]
+        self.names(rows)
+        found = I.check_developer_names(self.root, self.base)
+        self.assertEqual([(a, n, now) for a, n, now, _ in found],
+                         [(a.lower(), n, [new]) for a, n, _, _, new in DEVELOPER_ROWS])
+        self.assertIn('FNO_set_item_equip_00 in include/script_symbols.h', found[0][3])
+        with redirect_stdout(io.StringIO()) as out:
+            self.assertEqual(I.main([self.base, '--root', str(self.root), '--fail-new', '--no-layouts']), 1)
+        self.assertIn('DEVELOPER 0x8009f938 set_item_equip_00 -> equip_item_by_kind_and_type', out.getvalue())
+
+    def test_other_developer_families(self):
+        rows = self.base_rows[:4] + [self.renamed(4, 'set_draw_priority'), self.renamed(5, 'set_pad_flag'),
+                                     self.renamed(6, 'start_event_d')]
+        self.names(rows)
+        found = {n: why for _, n, _, why in I.check_developer_names(self.root, self.base)}
+        self.assertEqual(set(found), {'SetPriority', 'set_script_flag_tt_pad89'})
+        self.assertIn('include/sdk', found['SetPriority'])
+
+    def test_owner_decision_and_per_image_rows_pass(self):
+        decided = self.renamed(0, 'equip_item_by_kind_and_type',
+                               '; owner decision 80: developer symbol renamed for readability')
+        twin = '0x800909A0\tfunc_800909A0\tdungeon_camera_reset\tthe dungeon function at this address\n'
+        self.names([decided] + self.base_rows[1:] + [twin])
+        self.assertEqual(I.check_developer_names(self.root, self.base), [])
+
+
 if __name__ == '__main__':
     unittest.main()

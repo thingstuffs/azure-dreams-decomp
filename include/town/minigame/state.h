@@ -106,7 +106,7 @@ void retire_scene_text_after_terminal_phase(TerminalSceneTextObject *context);
 void update_value_text_entry(TextEntryObject *text_entry);
 
 /* toggle_gym_sprite_by_scene_phase.c */
-void toggle_gym_sprite_by_scene_phase(s16 **value_ptr, struct ObjectPosition *unused, SpriteFlagsView *object);
+void toggle_gym_sprite_by_scene_phase(s16 **value_ptr, struct ObjectPosition *unused, SpriteFrameState *object);
 
 /* update_tile_row_position.c */
 void update_tile_row_position(void *object);

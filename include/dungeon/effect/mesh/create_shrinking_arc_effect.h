@@ -269,7 +269,7 @@ void * create_shrinking_arc_effect(ApproachingImpactSpellBody *owner, ObjectPosi
 void queue_radial_line_burst(ovl_1930844_81911BF4_Obj81911BF4 *effect_data, void *origin, s16 step_index, s16 scale_factor);
 void build_and_enqueue_five_translucent_quads_between_interpolated_points(u8 *shape, void *position, s16 scale_num, s16 scale_den);
 void queue_perimeter_vertical_quads(ovl_1930844_81911BF4_Obj81911BF4 *effect_in, ovl_1930844_819112CC_S_819112CC_1 *origin, s16 step_in, s16 duration_in);
-void draw_screen_overlay_fade(void *effect, void *unused, void *fade_state);
+void draw_screen_overlay_fade(void *effect, void *unused, SpriteFrameState *fade_state);
 void create_screen_overlay_effect(s32 *initial_value);
 void update_five_point_orbit_effect(ovl_1930844_81911BF4_Obj81911BF4 *effect, s32 *position);
 void update_approaching_impact_effect(ApproachingImpactSpellBody *state, ObjectPosition *motion, SpriteFrameState *appearance);

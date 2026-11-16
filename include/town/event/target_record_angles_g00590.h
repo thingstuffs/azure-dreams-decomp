@@ -7,6 +7,7 @@ struct ObjectPosition;
 #include "common.h"
 #include "town/event/mesh_motion.h"
 #include "town/event/motion_step_data.h"
+#include "town/event/saved_motion_data.h"
 #include "shared/vector.h"
 #include "sdk/libgte.h"
 
@@ -24,7 +25,7 @@ extern TownRecord D_800D1178;
 extern TownRecord D_800D119C;
 
 
-extern IntVector3 town_motion_offset_position, D_80100D68;
+extern IntVector3 town_motion_offset_position;
 extern PositionRotationPair town_event_motion_pair;
 
 extern void draw_random_colored_line(s32, void *);

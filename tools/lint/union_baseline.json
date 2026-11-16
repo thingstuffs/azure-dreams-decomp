@@ -1,5 +1,5 @@
 {
- "count": 1360,
+ "count": 1359,
  "ids": [
   "include/dungeon/actor/ability_eligibility.h::S_800A4300_2.unk_F0",
   "include/dungeon/actor/action_target_selection_g00359.h::S_800CA444_0.unk_24",
@@ -1113,7 +1113,6 @@
   "src/dungeon/effect/sprite/update_orbiting_effect_particle.c::S_800D81D4_0.unk_1C",
   "src/dungeon/effect/sprite/update_orbiting_effect_particle.c::S_800D81D4_1.unk_14",
   "src/dungeon/effect/sprite/update_ring_effect.c::S_819598B4_1.unk_0C",
-  "src/dungeon/effect/trap.c::S_800CD474_1.unk_08",
   "src/dungeon/effect/trap.c::S_800CD474_2.unk_0C",
   "src/dungeon/effect/travel/cycle_seven_color_fade.c::fade_out_red.fade_out_red",
   "src/dungeon/effect/travel/cycle_seven_color_fade.c::wide_product.wide_product",

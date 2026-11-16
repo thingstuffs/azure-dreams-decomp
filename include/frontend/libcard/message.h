@@ -10,6 +10,7 @@
 struct Entity;
 struct CardMessageDialogBody;
 struct CardSaveMenuBody;
+struct CardSlotMenuState;
 struct CardSaveHeadingDisplayPrefix;
 struct CardSlotWindow;
 struct S_800491F4;
@@ -52,7 +53,7 @@ void card_boot_link_slot_window_entries(struct S_800491F4 **value);
 void card_boot_measure_dialog_choice_word(u8 *text, s32 word_index, s32 *offset_out, s32 *length_out, s32 *prior_chars_out);
 
 /* card_boot_prepare_copy_destination_message.c */
-void card_boot_prepare_copy_destination_message(void *context);
+void card_boot_prepare_copy_destination_message(struct CardSlotMenuState *context);
 
 /* card_boot_release_five_message_entries.c */
 void card_boot_release_five_message_entries(CardMessageDialogBody *record);

@@ -2,9 +2,9 @@
 #include "common.h"
 #include "town/player/script_flags.h"
 #include "town/scene.h"
+#include "town/scene/event_buffer_data.h"
 #include "town/scene/flags.h"
 
-extern u8 scene_event_buffer[];
 extern u8 D_8001DD86[];
 extern u8 D_8001DDA1[];
 

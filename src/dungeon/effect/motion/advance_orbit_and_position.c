@@ -12,15 +12,8 @@ struct Elem;
 #include "dungeon/effect/sprite/high_particle_entries.h"
 
 
-typedef struct S_800246AC_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_800246AC_2;   /* arg1 in advance_orbit_and_position */
-
 /* Advance the orbit angle and update the position when the object flags allow it. */
-void advance_orbit_and_position(IndexedColorSpriteBody *orbit, S_800246AC_2 *position, SpriteFrameState *object) {
+void advance_orbit_and_position(IndexedColorSpriteBody *orbit, ObjectPosition *position, SpriteFrameState *object) {
     s16 angle;
     s32 next_angle;
     s32 wrap_angle;
@@ -35,7 +28,7 @@ void advance_orbit_and_position(IndexedColorSpriteBody *orbit, S_800246AC_2 *pos
     advance_sprite_animation_and_textures(object);
     if (object->flags & 0x6000) {
         select_record_entry_and_value(object, &high_particle_sprite_entries, 0);
-        position->unk_02 = (s16) (orbit->unk_00 + ((s32) ((rsin(orbit->unk_08) >> 4) * 0x1C) >> 8));
-        position->unk_06 = (s16) (orbit->unk_02 + ((s32) ((rcos(orbit->unk_08) >> 4) * 0x1C) >> 8));
+        position->x.w.i = (s16) (orbit->unk_00 + ((s32) ((rsin(orbit->unk_08) >> 4) * 0x1C) >> 8));
+        position->y.w.i = (s16) (orbit->unk_02 + ((s32) ((rcos(orbit->unk_08) >> 4) * 0x1C) >> 8));
     }
 }

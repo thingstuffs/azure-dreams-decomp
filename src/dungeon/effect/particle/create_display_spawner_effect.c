@@ -37,8 +37,8 @@ typedef struct S_81994800_2 {
 } S_81994800_2;   /* ((((Rec_D_800E3D7C *)arg0)->unk_32 * 2) + ((Rec_D_800E3D7C *)arg0)->unk_60.as_s32) in func_8002405C */
 
 /* Advance the effect countdown, update its parameters, and flag completion. */
-void fade_linked_display_sprite(FreeSlotDisplayEffectBody *effect, void *unused_context, void *effect_params_arg) {
-    S_81994800_1 *effect_params = effect_params_arg;
+void fade_linked_display_sprite(FreeSlotDisplayEffectBody *effect, void *unused_context, SpriteFrameState *effect_params_arg) {
+    SpriteFrameState *effect_params = effect_params_arg;
     s32 scale;
     u16 ticks_left;
 
@@ -46,11 +46,11 @@ void fade_linked_display_sprite(FreeSlotDisplayEffectBody *effect, void *unused_
     scale = (s32)((s32)(ticks_left << 0x10) >> 9) / (s16)effect->fade_step;
     parent_effect_update_flag = 1;
     effect->remaining = ticks_left;
-    effect_params->unk_0D = (u8)(effect_params->unk_0D - 4);
-    effect_params->unk_0E = (s8)scale;
-    effect_params->unk_0C = (s8)scale;
-    if (effect_params->unk_06 >= -6) {
-        effect_params->unk_06 = (s16)((u16)effect_params->unk_06 - 2);
+    effect_params->color.c.g = (u8)(effect_params->color.c.g - 4);
+    effect_params->color.c.b = (s8)scale;
+    effect_params->color.c.r = (s8)scale;
+    if (effect_params->depth_bias >= -6) {
+        effect_params->depth_bias = (s16)((u16)effect_params->depth_bias - 2);
     }
     if ((s16)((u16)effect->remaining) <= 0) {
         ((S_81994800_2 *)(((effect->slot_index * 2) + ((u8 *)effect->owner))))->unk_46 = 0;

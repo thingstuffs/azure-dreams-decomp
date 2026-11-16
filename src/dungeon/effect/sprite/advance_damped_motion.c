@@ -11,7 +11,7 @@ typedef struct {
     s32 zVelocity;
 } Motion;
 
-extern u16 sprite_effect_update_count;
+#include "dungeon/effect/sprite_effect_count_data.h"
 
 /* Advance and damp motion, flagging completion when the timer expires or motion slows. */
 void advance_damped_motion(void *actor, Motion *motion) {

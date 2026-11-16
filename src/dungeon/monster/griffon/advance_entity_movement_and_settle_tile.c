@@ -9,11 +9,11 @@
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/player/object.h"
 #include "dungeon/monster/griffon_frames.h"
+#include "dungeon/monster/griffon/action_callback_addresses.h"
 
 
 extern void select_sprite_entry(void *, s32, s32);
 
-extern u8 griffon_slot_d_action_callback;
 extern u8 D_80162C74[];
 
 /* Advances entity movement through its phases and settles it at the tile center. */
@@ -137,6 +137,6 @@ void advance_entity_movement_and_settle_tile(ActorRecord *action, ObjectPosition
         if (entity_ref == (s32)NODE_HEADER(entity)) {
             g_dungeon_status.pending_display_owner = entity_ref & 0x7FFFFFFF;
         }
-        action->unk_8C.address = &griffon_slot_d_action_callback;
+        action->unk_8C.handler = griffon_slot_d_action_callback;
     }
 }

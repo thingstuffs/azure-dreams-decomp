@@ -10,7 +10,7 @@
 
 
 /* Move the record value toward 0x4C2 by four and invoke completion handlers on arrival. */
-void step_x_toward_fixed_target(TownObjectRecord *context, ObjectPosition *record, SpriteFrameState *sprite) {
+void step_x_toward_fixed_target(TownPlayerRecord *context, ObjectPosition *record, SpriteFrameState *sprite) {
     s16 raised_value;
     s16 lowered_value;
     u16 current_value;

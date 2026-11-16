@@ -30,7 +30,7 @@ typedef struct S_819598B4_2 {
 
    /* D_800E3D7C[0] in update_ring_effect */
 
-extern u16 sprite_effect_update_count[];
+#include "dungeon/effect/sprite_effect_count_data.h"
 
 /* Eases a sprite into position and brightness, optionally spawns a ring, then fades and removes the
    sprite. */
@@ -47,7 +47,7 @@ void update_ring_effect(FollowingColorBlendEffectBody *state, S_819598B4_2 *valu
     u8 tickCountNext;
     u8 byteNext;
 
-    sprite_effect_update_count[0]++;
+    sprite_effect_update_count++;
     stateId = state->unk_2C;
     switch (stateId) {
     case 0:

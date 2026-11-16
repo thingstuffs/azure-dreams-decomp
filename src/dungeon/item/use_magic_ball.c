@@ -10,6 +10,7 @@
 #include "shared/entity.h"
 #include "shared/dungeon_status.h"
 #include "engine/cd.h"
+#include "engine/item/category_tables_data.h"
 #include "dungeon/system.h"
 #include "dungeon/item/message.h"
 #include "dungeon/player/item.h"
@@ -33,7 +34,6 @@ typedef struct S_800C0E88_4 {
 #include "dungeon/data.h"
 struct DungeonItemEntry;
 
-extern u8 *item_category_tables[];
 extern u8 D_800E1440[];
 extern u8 D_800E144C[];
 extern u8 D_800E1456[];
@@ -149,7 +149,7 @@ scan_next:
 
         slot = (data->unk_00 - 1) * 3;
         object->unk_00[8] = slot + 1;
-        flags = *(u16 *)(item_category_tables[0] + (data->unk_00 * 20));
+        flags = item_category_tables[0][data->unk_00].flags;
         if (flags & 2) {
             object->unk_00[8] = slot + 2;
         } else if (flags & 4) {

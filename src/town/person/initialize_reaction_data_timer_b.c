@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/person.h"
+#include "shared/entity.h"
 typedef struct {
     s16 unk0;
     s16 x;
@@ -12,7 +13,7 @@ typedef struct {
     u8 pad[0x6C];
     s16 timer;
 } Object;
-void move_reaction_toward_target(Object *object, Position *position, void *context);
+void move_reaction_toward_target(Object *object, ObjectPosition *position, void *context);
 
 /* Set the object's data pointer and state to 13. */
 void start_reaction_move_toward_target(TownObjectRecord *object) {

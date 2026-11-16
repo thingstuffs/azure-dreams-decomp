@@ -7,6 +7,7 @@
 #include "dungeon/item/effect.h"
 #include "engine/node.h"
 #include "dungeon/item_callbacks_api.h"
+#include "dungeon/item/return_magic_sprite_data.h"
 
 #ifndef NULL
 #define NULL 0
@@ -52,7 +53,6 @@ typedef struct EntityFields {
 } EntityFields;
 
 
-extern u8 return_magic_sprite_data[];
 
 /* Creates and configures an entity, copies source fields, and links it to the source. */
 void *create_linked_actor_fade_effect(EntityFields *source) {

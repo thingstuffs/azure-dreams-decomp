@@ -44,7 +44,7 @@ void initialize_attached_message_window_node(void *node_storage, void *attached_
 
 /* obj_cancel_sw_set.c */
 s32 obj_disp23_cancel_sw_set(s32 cancel_switch);
-s32 draw_linked_sprite_nodes(u8 *first_node, u8 *first_transform, SpriteFrameState *first_context);
+s32 draw_linked_sprite_nodes(u8 *first_node, ObjectPosition *first_transform, SpriteFrameState *first_context);
 
 /* clear_script_pending_values.c */
 void clear_script_pending_values(void);

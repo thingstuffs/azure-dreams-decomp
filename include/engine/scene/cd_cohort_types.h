@@ -13,12 +13,13 @@ typedef struct {
 } SlusCdDriverPrefix;
 extern SlusCdDriverPrefix cd_driver_prefix[];
 
-typedef struct {
+typedef struct S_80083968 {
     u8 unk00;
     u32 unk04;
     u8 unk08[15];
     u8 unk17;
 } SlusCdQueueEntry;
+typedef SlusCdQueueEntry S_80083968;
 extern SlusCdQueueEntry cd_command_records[32];
 
 void update_cd_queue_head_entry(SlusCdQueueEntry *entry);

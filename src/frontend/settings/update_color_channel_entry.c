@@ -4,7 +4,7 @@
 #include "frontend/settings.h"
 
 /* Load an indexed value divided by four and propagate the source flag. */
-void update_color_channel_entry(void *entry_data) {
+void update_color_channel_entry(MainTitleValueEntry *entry_data) {
     MainTitleValueEntry *entry = entry_data;
     u8 *value_data = entry->value_data;
     s32 value_index = entry->value_index;

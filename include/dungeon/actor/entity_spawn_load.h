@@ -3,6 +3,8 @@
 /* Select dungeon spawn tiles and advance staged entity loading. */
 
 #include "common.h"
+#include "dungeon/actor/sprite_resource_completion_data.h"
+#include "engine/texture/sprite_resource_base_data.h"
 #include "dungeon/item/monster_resource_slots_g00325.h"
 #include "shared/dungeon_floor.h"
 #include "shared/slus_cd_callback.h"
@@ -162,9 +164,7 @@ struct EntityLinkNode;
 void unlink_entity_node(struct EntityLinkNode *node);
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern u8 D_80023000[];
-extern u8 *sprite_resource_base;
 extern s32 loaded_entity_sprite_resource;
-extern u8 sprite_resource_completion_flag[];
 extern u8 familiar_record_slots[];
 #include "dungeon/actor/entity_resource_read_complete.h"
 #include "shared/dungeon_image_buffer.h"

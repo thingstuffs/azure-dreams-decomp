@@ -1,9 +1,9 @@
 #include "common.h"
 #include "shared/item_menu.h"
 #include "town/shop/state.h"
+#include "town/shop/item_menu_scene_state_data.h"
 
 
-extern ItemMenuSceneState item_menu_scene_state;
 
 /* Stores the value, sets the state to 3, and returns 2. */
 s32 set_item_menu_state_three(s32 value) {

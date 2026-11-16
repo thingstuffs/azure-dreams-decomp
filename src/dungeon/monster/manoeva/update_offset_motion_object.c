@@ -7,7 +7,7 @@
 
 
 /* Advance motion and rotation, update facing, and flag the object when its timer expires. */
-void update_offset_motion_object(void *object_arg, ObjectPosition *motion_data, void *rotation_arg)
+void update_offset_motion_object(void *object_arg, ObjectPosition *motion_data, SpriteFrameState *rotation_arg)
 {
     OffsetMotionObjectBody *object = object_arg;
     ObjectPosition *motion = motion_data;

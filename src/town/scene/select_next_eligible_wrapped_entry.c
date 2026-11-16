@@ -1,22 +1,16 @@
 #include "common.h"
 #include "town/data.h"
 #include "town/player/state.h"
-
-typedef struct {
-    s32 unk0;
-    s16 value;
-    u8 pad[6];
-} Entry;
+#include "town/scene/indexed_values_data.h"
 
 extern u8 *D_80019BBC[];
-extern Entry town_indexed_values[];
 
 /* Selects and returns the next eligible entry in the wrapping order list. */
 s32 select_next_eligible_wrapped_entry(void)
 {
     s32 start_index;
     s32 order_index;
-    Entry *entries;
+    TownIndexedValueRecord *entries;
     u8 *order;
     u8 *order_cursor;
 
@@ -31,7 +25,7 @@ s32 select_next_eligible_wrapped_entry(void)
                 order_cursor = order;
                 order_index = 0;
             }
-            if (get_script_flag_mask(entries[*order_cursor].value) != 0) {
+            if (get_script_flag_mask(entries[*order_cursor].flag) != 0) {
                 break;
             }
             order_index++;

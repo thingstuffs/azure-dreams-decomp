@@ -53,7 +53,7 @@ void create_selected_town_object(void) {
 
     data = &scene_object_list_anchor;
     object = NODE_BODY(data);
-    context = (S_80093894_1 *)item_menu_scene_state;
+    context = (S_80093894_1 *)&item_menu_scene_state;
     position = data->position;
     callback_data = data->sprite;
 

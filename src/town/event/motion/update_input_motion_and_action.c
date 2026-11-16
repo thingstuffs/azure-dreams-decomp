@@ -2,6 +2,7 @@
 #include "town/event/mesh_motion.h"
 #include "common.h"
 #include "town/event/motion_step_data.h"
+#include "town/event/saved_motion_data.h"
 #include "shared/town_action_flag.h"
 #include "shared/game_work.h"
 #include "town/player/coordinates.h"
@@ -15,9 +16,6 @@ struct TownVec;
 
 extern void initialize_action_object(void *controller, void *object, s32 update_value);
 extern void initialize_record_with_pointer_and_code(void *controller, void *object, s32 update_value);
-
-extern s32 town_saved_motion_pointer;
-
 
 extern u8 town_event_motion_pair[];
 

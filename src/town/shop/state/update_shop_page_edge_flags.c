@@ -1,9 +1,9 @@
 #include "common.h"
 #include "town/shop/shop_window_layout_g00610.h"
 #include "town/shop/state.h"
+#include "slus/card_selection_display_data.h"
+#include "slus/item_menu_primary_page_data.h"
 
-extern s32 item_menu_primary_page_data[];
-extern s32 card_selection_display_data[];
 
 /* Update status flags and state pointers from the current value and its limit. */
 void update_shop_page_edge_flags(ShopWindow *window) {

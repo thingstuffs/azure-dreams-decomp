@@ -1,5 +1,6 @@
 #ifndef TOWN_PLAYER_POSITION_HANDLERS_H
 #define TOWN_PLAYER_POSITION_HANDLERS_H
+#include "town/player/record.h"
 struct SpriteFrameState;
 
 /* Position handlers and coordinate queries; private body access views stay opaque. */
@@ -30,7 +31,7 @@ void tick_countdown_or_advance_cursor(struct Func8009AA20Arg0 *countdown_state, 
 int query_lower_bound_with_x_offset(struct ObjectPosition *input_pos);
 int get_probe_min_result(struct ObjectPosition *input_pos);
 short get_probe_max_result(struct ObjectPosition *input);
-void initialize_indexed_object_state(struct Struct_func_8009BDDC_arg0 *object, struct ObjectPosition *context, void *ptr2);
+void initialize_indexed_object_state(TownPlayerRecord *object, struct ObjectPosition *context, void *ptr2);
 void interpolate_actor_height_until_timeout(struct TownObjectRecord *state, struct ObjectPosition *motion, void *context);
 void update_airborne_object_until_ground(void *context, struct ObjectPosition *object, void *update_data);
 

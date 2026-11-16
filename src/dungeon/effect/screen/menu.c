@@ -13,6 +13,7 @@ struct ObjectPosition;
 #include "dungeon/effect/screen/menu.h"
 #include "shared/gpu_packets.h"
 #include "common.h"
+#include "dungeon/item/familiar_restore_sprite_data.h"
 #include "shared/game_work.h"
 #include "dungeon/effect/screen.h"
 #include "dungeon/menu.h"
@@ -2971,7 +2972,6 @@ s32 draw_linked_menu_sprites(u8 *buffer, s32 value, SpriteFrameState *data) {
 
 extern void update_five_point_effect(FivePointEffectBody *effect, ObjectPosition *position, s32 restore_link);
 extern s32 draw_linked_menu_sprites(u8 *buffer, s32 value, SpriteFrameState *data);
-extern M2C_UNK familiar_restore_sprite_data;
 
 /* Creates an effect at the tile center and initializes its rendering and five angles. */
 void *create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transform_data, s16 scale, s32 setup_word_5c,

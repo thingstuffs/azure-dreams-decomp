@@ -14,17 +14,17 @@ typedef struct {
 #include "slus.h"
 
 /* Advance the position and timer, setting completion flags when the timer expires. */
-void tick_linear_effect_with_double_refresh(ShortLivedRedSparkBody *state, Position *pos, void *handle)
+void tick_linear_effect_with_double_refresh(ShortLivedRedSparkBody *state, ObjectPosition *pos, void *handle)
 {
     s32 dy;
     s32 dz;
     u16 timer;
 
-    dy = pos->dy;
-    dz = pos->dz;
-    pos->x += pos->dx;
-    pos->y += dy;
-    pos->z += dz;
+    dy = pos->velocity_y;
+    dz = pos->velocity_z;
+    pos->x.v += pos->velocity_x;
+    pos->y.v += dy;
+    pos->z.v += dz;
     advance_sprite_animation_and_textures(handle);
     advance_sprite_animation_and_textures(handle);
     timer = *(u16 *)((u8 *)state + 0x32) - 1;

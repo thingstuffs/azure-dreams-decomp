@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/transfer_cursor_data.h"
 
 #include "engine/audio/slots.h"
 #include "engine/audio/spu.h"
@@ -15,12 +16,6 @@ typedef struct {
 } S_80086A40;
 
 extern S_80086A40 audio_bank_slots[16];
-typedef struct {
-    s32 value;
-    s32 pad[2];
-} S_8007382C;
-
-extern S_8007382C sound_slot_transfer_cursor;
 
 /* Reads a bounded chunk from the selected entry and advances its cursor. */
 s32 read_sound_slot_chunk(s32 dest, u32 read_size, s16 entry_id)

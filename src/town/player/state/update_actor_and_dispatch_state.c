@@ -13,7 +13,7 @@ extern u8 town_blocked_directions;
 
 
 /* Update the actor record and dispatch follow-up processing when its state is nonnegative. */
-void update_actor_and_dispatch_state(void *actor, ObjectPosition *record, s32 context) {
+void update_actor_and_dispatch_state(TownPlayerRecord *actor, ObjectPosition *record, s32 context) {
     update_position_upper_bound(record);
     resolve_collision_axis_order(record);
     store_input_angle(actor);

@@ -26,9 +26,9 @@ struct SpriteFrameState;
 #include "dungeon/actor/state.h"
 #include "dungeon/player/motion.h"
 #include "dungeon/player/input.h"
+#include "dungeon/player/menu_action_data.h"
 
 
-extern u8 player_menu_action_data[];
 extern void *actor_default_frames[];
 extern void (*actor_command_handlers[])();
 extern u8 active_actor_command_code[];
@@ -214,7 +214,7 @@ void update_actor_commands_and_facing(ActorRecord *actor, ObjectPosition *motion
                 ((lookup_definition_pair_value(sprite->tile_x,
                     sprite->tile_y) << 16) != 0)) {
                 actor->unk_A0.parts.high &= 0xFDFF;
-                begin_player_menu_action(actor, motion, sprite, player_menu_action_data);
+                begin_player_menu_action(actor, motion, sprite, &player_menu_action_data);
                 return;
             }
 

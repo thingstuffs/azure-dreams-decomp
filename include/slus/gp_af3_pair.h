@@ -4,17 +4,16 @@
 /* Present C interface; historical filename and TU boundary remain inferred. */
 #include "common.h"
 #include "slus/gpu_scratch_data.h"
+#include "shared/sound_stream_resource.h"
 
 /* S_8006E704: array of pointers to a small struct whose only field this
  * function touches is a packed 32-bit "color/mode" word at offset 0 (top 9
  * bits = category, low 23 bits = an id taken from the ADDRESS of one of two
  * marker tables D_801C4640 / D_801BEE40, mirroring the func_8003F6D4 pack
  * idiom: (cat<<23) | (id & 0x7FFFFF)). */
-typedef struct S_8006E704 {
-    s32 field_0;
-} S_8006E704;
+typedef SoundStreamResourceEntry S_8006E704;
 
-extern S_8006E704 *sound_stream_resource_entries[];
+extern SoundStreamResourceEntry *sound_stream_resource_entries[];
 /* S_80080AF3 : a single scalar byte, gp-relative (<=8B). Kept a plain scalar
  * (not wrapped in a struct) because this function's only access is a bare
  * lb of the symbol itself, with no offset. */
@@ -23,7 +22,7 @@ extern s8 sound_stream_state_index;
  * the "current"/"toggled" slot selector D_80080AFC (0 or 1). Its TRUE finite
  * size (2, not an oversized/incomplete decl) is load-bearing for codegen --
  * see globals/learnings. */
-extern S_8006E704 *sound_stream_buffer_entries[2];
+extern SoundStreamResourceEntry *sound_stream_buffer_entries[2];
 /* Declared oversized (>8B) so their ADDRESS is taken via %hi/%lo, matching
  * the target's lui/addiu pair (their contents are never dereferenced --
  * only the low 23 bits of the address itself are used as a packed id). */

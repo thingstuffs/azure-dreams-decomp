@@ -48,7 +48,7 @@ typedef struct S_81257000_6 {
 extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s16);
 
 /* Copies part state, applies averaged position offsets, and updates phase-based shading. */
-void copy_part_state(AttachedSpriteWithOffsetBody *root, void *out_pos_arg, void *dst_part_arg)
+void copy_part_state(AttachedSpriteWithOffsetBody *root, void *out_pos_arg, SpriteFrameState *dst_part_arg)
 {
     s16 pos_offset[3];
     MovingPosition *out_pos = out_pos_arg;

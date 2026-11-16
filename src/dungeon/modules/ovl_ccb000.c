@@ -1381,9 +1381,9 @@ void update_block_removal_slot_c(void *state,void *position,void *render_state,v
  * Runs update_actor_hop_and_grow and installs dispatch_block_turn_actions_slot_c when it returns
  * nonzero.
  */
-void finish_block_hop_grow_slot_c(S_80173364_0 *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity) {
+void finish_block_hop_grow_slot_c(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity) {
     if (update_actor_hop_and_grow(state,position,render_state,entity) != 0) {
-        state->CL_CCB000_80173364_handler = dispatch_block_turn_actions_slot_c;
+        state->unk_8C.run = dispatch_block_turn_actions_slot_c;
     }
 }
 

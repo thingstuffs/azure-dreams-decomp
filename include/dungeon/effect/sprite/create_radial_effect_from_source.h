@@ -19,8 +19,8 @@ typedef struct EffectColor {
 } EffectColor;
 ObjectNodeHeader *create_mesh_fade_effect(struct FadeEndpoints *, struct FadeSettings *);
 void *create_offset_particle_emitter(MovingPosition *, s16, s16, s16, s32);
-void update_offset_particle_emitter(void *, s32, struct S_80025160_1 *);
 void update_falling_fading_sprite(struct Actor *, ObjectPosition *, SpriteFrameState *);
+void update_offset_particle_emitter(void *, s32, SpriteFrameState *);
 struct RadialQuadWork;
 void update_rotating_quad_effect(struct RadialQuadWork *, ObjectPosition *, SpriteFrameState *);
 s32 queue_linked_shaded_quads(void *);

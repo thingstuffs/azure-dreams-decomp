@@ -13,16 +13,16 @@ typedef struct {
 
 
 /* Advance and damp motion, fade the primitive, and flag the effect when its timer expires. */
-void advance_damped_fading_effect(DirectionalRandomVelocityEffectBody *effect, Motion *motion, SpriteFrameState *primitive) {
+void advance_damped_fading_effect(DirectionalRandomVelocityEffectBody *effect, ObjectPosition *motion, SpriteFrameState *primitive) {
     s32 intensity;
     s16 ticks_left;
 
-    motion->x += motion->dx;
-    motion->y += motion->dy;
-    motion->z += motion->dz;
-    motion->dx /= 2;
-    motion->dy /= 2;
-    motion->dz /= 2;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
+    motion->z.v += motion->velocity_z;
+    motion->velocity_x /= 2;
+    motion->velocity_y /= 2;
+    motion->velocity_z /= 2;
 
     intensity = (effect->unk_0C << 7) /
                effect->unk_0E;

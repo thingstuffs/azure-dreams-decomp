@@ -48,7 +48,7 @@ typedef struct Local {
 } Local;
 
 /* Updates entity animation, vertical motion, particles, and timed removal. */
-void update_tako_target(A *entity, C *motion, SpriteFrameState *sprite) {
+void update_tako_target(A *entity, ObjectPosition *motion, SpriteFrameState *sprite) {
     B *cell = entity->unk0;
     s32 cell_flags;
     s32 state;
@@ -82,19 +82,19 @@ void update_tako_target(A *entity, C *motion, SpriteFrameState *sprite) {
     switch (state) {
 
     case 0:
-        if (motion->w8 > 0) {
-            motion->w8 += motion->w20;
+        if (motion->z.v > 0) {
+            motion->z.v += motion->velocity_z;
             for (particles_left = 3; particles_left >= 0; particles_left--) {
                 random_value = rand();
-                particle_x = motion->w0;
+                particle_x = motion->x.v;
                 particle_x += ((random_value & 0xff) - 128) << 14;
                 random_value = rand();
-                create_tinted_animated_particle(0x808080, particle_x, motion->w4 + 0x80000, (random_value & 0xf) << 16);
+                create_tinted_animated_particle(0x808080, particle_x, motion->y.v + 0x80000, (random_value & 0xf) << 16);
             }
             break;
         }
-        motion->w8 = 0;
-        motion->w20 = 0;
+        motion->z.v = 0;
+        motion->velocity_z = 0;
         entity->state = 1;
         break;
 
@@ -108,7 +108,7 @@ void update_tako_target(A *entity, C *motion, SpriteFrameState *sprite) {
             effect.c = 0;
             effect.e = 0;
             effect.p = entity;
-            create_tako_projectile(&effect, motion->w4, 0);
+            create_tako_projectile(&effect, motion->y.v, 0);
         }
         break;
 
@@ -120,17 +120,17 @@ void update_tako_target(A *entity, C *motion, SpriteFrameState *sprite) {
             if (entity->field56 == 0) {
                 create_timed_sound(90);
             }
-            motion->w20 = 0x40000;
+            motion->velocity_z = 0x40000;
             entity->state = 3;
         }
     }
         break;
 
     case 3:
-        if (motion->w8 <= 0x7fffff) {
+        if (motion->z.v <= 0x7fffff) {
             {
-                s32 height = motion->w8 + motion->w20;
-                motion->w8 = height;
+                s32 height = motion->z.v + motion->velocity_z;
+                motion->z.v = height;
                 if (height <= 0x3fffff) {
                     for (particles_left = 3; particles_left >= 0; particles_left--) {
                         random_value = rand();
@@ -139,7 +139,7 @@ void update_tako_target(A *entity, C *motion, SpriteFrameState *sprite) {
                         particle_x <<= 14;
                         particle_x += 0x5600000;
                         random_value = rand();
-                        create_tinted_animated_particle(0x808080, particle_x, motion->w4 + 0x80000, (random_value & 0xf) << 16);
+                        create_tinted_animated_particle(0x808080, particle_x, motion->y.v + 0x80000, (random_value & 0xf) << 16);
                     }
                 }
             }

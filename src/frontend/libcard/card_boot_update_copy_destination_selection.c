@@ -13,9 +13,8 @@
 #include "slus.h"
 
 /* Handle menu input, selection repeat, and transition completion. */
-void card_boot_update_copy_destination_selection(u8 *menu_data)
+void card_boot_update_copy_destination_selection(CardSlotMenuState *menu)
 {
-    CardSlotMenuState *menu = (void *)menu_data;
     s32 selection_delta;
     s32 transition_status;
     s32 repeat_timer;

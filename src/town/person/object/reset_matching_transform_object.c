@@ -1,8 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/person/object.h"
+#include "town/person/current_transform_object_data.h"
 
-extern void *current_transform_object;
 
 typedef struct S_800C283C_0 {
     u8 pad_00[0x14];

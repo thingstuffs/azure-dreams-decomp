@@ -26,6 +26,14 @@ Evidence per (definition, parameter index):
             from the creator, which the graph does not tie to the slot's object).
   slot      the address stored in a typed function-pointer slot, table or parameter: the slot's own
             parameter types (and a slot_mismatch note when they differ from the definition)
+  runtime   a runtime campaign loaded into the codemap (`codemap.py load-runtime`, rt_fn_arg bound to current
+            definitions by address through rt_fn_map): a parameter whose every observed value points at one heap
+            kind at one offset gets that offset's record; the kind names its creator (the allocation site, R3
+            provenance).  A kind's body record is the one named record its typed body receivers all declare,
+            fitting the body the allocator made (header, sprite and position follow from the allocator); kinds
+            whose receivers disagree, or whose record is larger than the body, propose nothing and are listed.
+            A dispatched body's unknown item is replaced by the runtime record, so a callback is class A only when
+            the static evidence does not contradict it.  --no-runtime ignores it.
 Callers are bound to a definition by key (static functions are file-scoped), the caller's own TU, a
 unique name, the retail call binding (codemap call_bind: caller file -> callee files), then the longest
 shared directory; anything else is counted as ambiguous and not attributed.  A unique name whose file
@@ -45,7 +53,9 @@ Classes:
      field, beyond R's size); R is then not proposed.  The other shared records the shape fits are listed
      as `shape_only` and are never proposed.
 
-Outputs (DIR): caller_types.tsv (ranked worklist), summary.md, evidence.jsonl (every evidence item).
+Outputs (DIR): caller_types.tsv (ranked worklist), summary.md, evidence.jsonl (every evidence item); with runtime
+evidence also runtime_rows.tsv (static and runtime class and observation per parameter) and runtime_kinds.tsv (the
+record of each kind offset, its creator, receiver votes and verdict).
 """
 from __future__ import annotations
 
@@ -405,6 +415,22 @@ def flows_from_codemap(db_path, root, reextract=True, workers=4, log=print, scop
         info['extract_errors'] = ['not re-extracted: %s' % t for t in redo[:20]]
     bind = call_bind_files(db)
     return flows, bind, info
+
+
+def param_casts(db_path):
+    """{(file, function, param): distinct pointer casts whose base is that parameter} (codemap cast_site)."""
+    out = Counter()
+    try:
+        db = sqlite3.connect('file:%s?mode=ro' % db_path, uri=True)
+        for f, fn, decl, n in db.execute("SELECT file, func, base_decl, COUNT(DISTINCT start) FROM cast_site "
+                                         "WHERE base_decl LIKE 'param:%' GROUP BY file, func, base_decl"):
+            try:
+                out[(f, fn, int(decl.split(':')[1]))] += n
+            except (ValueError, IndexError):
+                pass
+    except sqlite3.Error:
+        pass
+    return out
 
 
 def call_bind_files(db):
@@ -855,6 +881,242 @@ class Model:
         return out
 
 
+# --------------------------------------------------------------------------- runtime evidence
+
+# A runtime campaign (codemap rt_* tables, `codemap.py load-runtime`) records for each parameter the objects it
+# was passed: `rk<K>+0x<O>=<n>` is n calls with a pointer O bytes into an object of heap kind K, which names the
+# allocation site that created it (its creator) and the allocator's flags.  The object layout follows from the
+# allocator: a 0x20-byte ObjectNodeHeader, the body at 0x20, then the optional sprite and position records the
+# allocator carves from the end (allocate_list_node / allocate_flagged_object_node: a fixed 0x124-byte node;
+# initialize_runtime_node_storage / initialize_scene_object_in_buffer: the storage's end, flags | 0x80).
+RT_TOKEN = re.compile(r'^rk(\d+)\+0x([0-9A-Fa-f]+)=(\d+)$')
+RT_NODE_ALLOCATORS = ('allocate_list_node', 'allocate_flagged_object_node')
+RT_TAIL_ALLOCATORS = ('initialize_runtime_node_storage', 'initialize_scene_object_in_buffer')
+RT_OUTCOMES = ('one_kind_one_offset', 'one_kind_plus_other_values', 'several_kinds', 'no_heap_kind', 'not_observed')
+
+
+def kind_layout(allocator, flags, size):
+    """{offset: (role, region bytes)} of one heap kind's object (0 header, 0x20 body, sprite, position), or None
+    when the allocator is not one whose layout is known."""
+    try:
+        f = int(str(flags or '0'), 16)
+    except ValueError:
+        return None
+    sprite = pos = None
+    if allocator in RT_NODE_ALLOCATORS:
+        if size != 0x124:
+            return None
+        end = 0x124
+        if f & 0x100:
+            end = sprite = 0xF4
+        elif f & 0x6:
+            end = sprite = 0x100
+        elif f & 0x41:
+            end = sprite = 0x10C
+        sprite_end = 0x124
+        if f & 0x157:
+            end = pos = end - 0x18
+    elif allocator in RT_TAIL_ALLOCATORS and size:
+        f |= 0x80
+        end = sprite_end = size
+        if f & 6:
+            end = sprite = end - 0x24
+        elif f & 0x41:
+            end = sprite = end - 0x18
+        if f & 0x57:
+            end = pos = end - 0x18
+    else:
+        return None
+    if end < NODE_HEADER_SIZE:
+        return None
+    out = {0: ('header', NODE_HEADER_SIZE), NODE_HEADER_SIZE: ('body', end - NODE_HEADER_SIZE)}
+    if sprite is not None:
+        out[sprite] = ('sprite', sprite_end - sprite)
+    if pos is not None:
+        out[pos] = ('position', 0x18)
+    return out
+
+
+def parse_cells(cells):
+    """'rk3+0x20=5, null=2, ram:x+0x0=1' -> ([(kind, offset, n)], other tokens, total n)."""
+    heap, other, total = [], [], 0
+    for tok in (cells or '').split(','):
+        tok = tok.strip()
+        if not tok:
+            continue
+        n = int(tok.rpartition('=')[2]) if tok.rpartition('=')[2].isdigit() else 0
+        total += n
+        m = RT_TOKEN.match(tok)
+        if m:
+            heap.append(('rk' + m.group(1), int(m.group(2), 16), n))
+        else:
+            other.append(tok)
+    return heap, other, total
+
+
+def runtime_from_codemap(db_path):
+    """(fn_args rows bound to the current tree, kinds) from codemap rt_* tables, or None when none are loaded."""
+    try:
+        db = sqlite3.connect('file:%s?mode=ro' % db_path, uri=True)
+        if not db.execute('SELECT COUNT(*) FROM rt_fn_arg').fetchone()[0]:
+            return None
+        has_map = db.execute("SELECT COUNT(*) FROM sqlite_master WHERE name='rt_fn_map'").fetchone()[0]
+        bind = {}
+        if has_map:
+            for f, fn, cf, cfn, how, addr, images in db.execute(
+                    'SELECT file, function, cur_file, cur_function, how, address, images FROM rt_fn_map'):
+                bind[(f, fn)] = (cf, cfn, how, addr, images)
+        args = []
+        for f, fn, arg, obs, cells in db.execute('SELECT file, function, arg, observations, cells FROM rt_fn_arg'):
+            cf, cfn, how, addr, images = bind.get((f, fn), (f, fn, 'unmapped' if has_map else 'same', '', ''))
+            args.append(dict(file=f, function=fn, arg=arg, observations=obs or 0, cells=cells, cur_file=cf,
+                             cur_function=cfn, how=how, address=addr, images=images))
+        kinds = {}
+        for kid, role, cf, cfn, size, doc in db.execute(
+                'SELECT id, role, creator_file, creator_function, size, doc FROM rt_kind'):
+            try:
+                d = json.loads(doc or '{}')
+            except ValueError:   # a document cut at a length limit by an older loader
+                d = dict(re.findall(r'"(flags|allocator)": "([^"]*)"', doc or ''))
+            ccf, ccfn = (bind.get((cf, cfn)) or (cf, cfn))[:2]
+            kinds[kid] = dict(id=kid, role=role, size=size, flags=d.get('flags'), allocator=d.get('allocator'),
+                              creator='%s:%s' % (ccf, ccfn) if ccfn else '%s:%s' % (cf, cfn),
+                              layout=kind_layout(d.get('allocator'), d.get('flags'), size))
+        return dict(args=args, kinds=kinds)
+    except sqlite3.Error:
+        return None
+
+
+def runtime_evidence(model, rt):
+    """Runtime items per (did, param), the kind record table and per-parameter observations.
+
+    The record of a kind's body is the one named record every typed receiver of that body declares (a parameter
+    whose observed values are all heap pointers at offset 0x20; generic overlays such as EntityRec do not vote); it
+    must fit the body the allocator made.  The header is ObjectNodeHeader, the carved tail records ObjectPosition
+    and SpriteFrameState (each only where its region holds the whole record), and an offset inside the body is the
+    named record nested at that offset of the body's record.  A parameter whose observed values are all one kind at
+    one offset gets that offset's record as a `runtime` item naming the kind's creator.
+    Returns (items {(did, i): [item]}, kind_records {(kind, off): dict}, observed {(did, i): dict})."""
+    obs = {}
+    for a in rt['args']:
+        if not a['cur_function']:
+            continue
+        did = '%s::%s' % (a['cur_file'], a['cur_function'])
+        d = model.defs.get(did)
+        if d is None or a['arg'] >= len(d['params']):
+            continue
+        o = obs.setdefault((did, a['arg']), dict(heap=Counter(), other=Counter(), total=0, how=set(), images=set()))
+        heap, other, total = parse_cells(a['cells'])
+        for k, off, n in heap:
+            o['heap'][(k, off)] += n
+        for t in other:
+            o['other'][t.rpartition('=')[0]] += 1
+        o['total'] += total
+        o['how'].add(a['how'])
+        o['images'] |= set(filter(None, (a['images'] or '').split(',')))
+    votes = defaultdict(Counter)
+    for (did, i), o in obs.items():
+        offs = {off for _, off in o['heap']}
+        if o['other'] or len(offs) != 1:
+            continue
+        d = model.defs[did]
+        cat, key, _ = model.type_class(model.tus[d['tu']], d['params'][i]['type'])
+        if cat != 'rec' or key in NOT_TARGETS:
+            continue
+        for k, off in o['heap']:
+            votes[(k, off)][key] += 1
+    size = lambda k: (model.records.get(k) or {}).get('size') or 0   # noqa: E731
+    table = {}
+
+    def record_at(kid, off):
+        if (kid, off) in table:
+            return table[(kid, off)]
+        kind = rt['kinds'].get(kid) or {}
+        lay = kind.get('layout')
+        v = votes.get((kid, off), Counter())
+        res = dict(kind=kid, offset=off, creator=kind.get('creator', ''), size=kind.get('size'), role='',
+                   region=None, record=None, verdict='', votes=dict(v))
+        table[(kid, off)] = res
+        if not lay:
+            res['verdict'] = 'layout_unknown'
+            return res
+        cfile, _, cfn = res['creator'].rpartition(':')
+        if not (cfile.startswith('src/') or not cfile.startswith('port') and cfn in model.by_name):
+            # created by the native port's own code (debug spawns, the interpreter bridge): no retail creator
+            res['verdict'] = 'creator_outside_tree'
+            return res
+        base = max((o for o in lay if o <= off), default=None)
+        if base is None:
+            res['verdict'] = 'outside_object'
+            return res
+        role, region = lay[base]
+        res.update(role=role, region=region)
+        if off - base >= region:
+            res['verdict'] = 'outside_object'
+            return res
+        if base != off:
+            parent = record_at(kid, base)['record']
+            nested = model.member_record_at(parent, off - base) if parent else None
+            res['record'] = nested
+            res['verdict'] = 'nested' if nested else 'interior_unknown'
+            return res
+        if role == 'header':
+            rec = NODE_HEADER
+        elif role == 'position':
+            rec = 'ObjectPosition'
+        elif role == 'sprite':
+            rec = 'SpriteFrameState'
+        else:
+            if not v:
+                res['verdict'] = 'no_typed_receiver'
+                return res
+            if len(v) > 1:
+                res['verdict'] = 'receivers_disagree'
+                return res
+            rec = next(iter(v))
+        if size(rec) > region:
+            res['verdict'] = 'record_larger_than_%s' % role
+            res['record_size'] = size(rec)
+            res['wanted'] = rec
+            return res
+        res['record'], res['verdict'] = rec, 'record'
+        return res
+
+    for kid, off in sorted(votes):
+        record_at(kid, off)
+    items = defaultdict(list)
+    for (did, i), o in obs.items():
+        heap = o['heap']
+        if len(heap) == 1 and not o['other']:
+            o['outcome'] = 'one_kind_one_offset'
+            (kid, off), n = next(iter(heap.items()))
+            res = record_at(kid, off)
+            o['kind'] = res
+            if res['record'] and res['record'] in model.records:
+                items[(did, i)].append(dict(
+                    cat='rec', key=res['record'], label=res['record'], how='runtime', kind='runtime',
+                    site='rt:%s+0x%X' % (kid, off), caller=res['creator'], bind='%s %s x%d' % (kid, res['role'], n)))
+        elif len({k for k, _ in heap}) == 1:
+            o['outcome'] = 'one_kind_plus_other_values'
+        elif heap:
+            o['outcome'] = 'several_kinds'
+        else:
+            o['outcome'] = 'no_heap_kind'
+    return items, table, obs
+
+
+def apply_runtime(ev, items):
+    """A copy of ev with runtime items added; a dispatched body's `unknown` item is what the runtime observed, so
+    it is replaced where the runtime names the body's record."""
+    out = defaultdict(list, {k: list(v) for k, v in ev.items()})
+    for key, its in items.items():
+        cur = out[key]
+        if any(it['how'] == 'dispatch_body' for it in cur):
+            cur[:] = [it for it in cur if it['how'] != 'dispatch_body']
+        cur.extend(dict(it) for it in its)
+    return out
+
+
 # --------------------------------------------------------------------------- classification
 
 def dedupe(accesses):
@@ -1127,8 +1389,81 @@ def tsv_rows(rows):
                ' '.join(sites[:4]), '; '.join(r['slot_notes'][:3]), ','.join(sorted(set(r['escapes']))[:5])]
 
 
-def write_outputs(rows, out, info, model):
+RUNTIME_COLUMNS = ['function', 'file', 'param', 'declared_type', 'static_class', 'class', 'proposed_type',
+                   'outcome', 'kind', 'offset', 'role', 'kind_record', 'kind_verdict', 'creator', 'param_casts',
+                   'observed', 'images', 'bind']
+KIND_COLUMNS = ['kind', 'offset', 'role', 'region', 'object_size', 'creator', 'verdict', 'record', 'record_size',
+                'votes']
+
+
+def runtime_rows(rows, model, casts=None):
+    """One row per definition parameter the worklist or the runtime knows: its static and runtime classes."""
+    rtm = model.runtime
+    casts = casts or {}
+    by_key = {(r['file'], r['function'], r['param']): r for r in rows}
+    out = []
+    for key, s in sorted(rtm['static'].items()):
+        r = by_key.get(key, s)
+        did = '%s::%s' % (key[0], key[1])
+        o = rtm['observed'].get((did, key[2]))
+        kres = (o or {}).get('kind') or {}
+        out.append(dict(
+            function=key[1], file=key[0], param=key[2], declared_type=s['declared'], static_class=s['cls'],
+            **{'class': r['cls']}, proposed_type=r['proposed'],
+            outcome=o['outcome'] if o else 'not_observed', kind=kres.get('kind', ''),
+            offset='0x%X' % kres['offset'] if kres else '', role=kres.get('role', ''),
+            kind_record=kres.get('record') or kres.get('wanted') or '', kind_verdict=kres.get('verdict', ''),
+            creator=kres.get('creator', ''), param_casts=casts.get(key, 0),
+            observed=', '.join('%s+0x%X=%d' % (k, off, n) for (k, off), n in (o or {}).get('heap', Counter()).most_common(4))
+            + (' +%d other' % sum(o['other'].values()) if o and o['other'] else ''),
+            images=','.join(sorted((o or {}).get('images', ())))[:200], bind=','.join(sorted((o or {}).get('how', ())))))
+    return out
+
+
+def runtime_summary(rrows, model):
+    rtm = model.runtime
+    lines = ['', '## Runtime evidence (codemap rt_* tables)', '',
+             'Static class C rows by what the runtime saw for the parameter (rows / casts on the parameter):', '',
+             '| observation | rows | casts | now A | now B |', '|---|---|---|---|---|']
+    for oc in RT_OUTCOMES:
+        sel = [r for r in rrows if r['static_class'] == 'C' and r['outcome'] == oc]
+        lines.append('| %s | %d | %d | %d | %d |' % (oc, len(sel), sum(r['param_casts'] for r in sel),
+                                                     sum(r['class'] == 'A' for r in sel),
+                                                     sum(r['class'] == 'B' for r in sel)))
+    one = [r for r in rrows if r['static_class'] == 'C' and r['outcome'] == 'one_kind_one_offset']
+    lines += ['', 'one kind at one offset, by the kind record verdict: ' + ', '.join(
+        '%s %d' % kv for kv in Counter(r['kind_verdict'] for r in one).most_common()), '',
+        'Promotions (static class -> class with runtime): ' + ', '.join(
+            '%s->%s %d' % (a, b, n) for (a, b), n in sorted(Counter((r['static_class'], r['class'])
+                                                                   for r in rrows).items()) if a != b), '']
+    kinds = rtm['kinds']
+    bad = [k for k in kinds.values() if k['verdict'] in ('receivers_disagree',) or k['verdict'].startswith('record_larger')]
+    lines += ['Kind offsets with typed receivers: %d; receivers disagree: %d; record larger than the region: %d.' % (
+        sum(1 for k in kinds.values() if k['votes']), sum(k['verdict'] == 'receivers_disagree' for k in kinds.values()),
+        sum(k['verdict'].startswith('record_larger') for k in kinds.values())), '']
+    for k in sorted(bad, key=lambda k: -sum(k['votes'].values()))[:30]:
+        lines.append('- %s+0x%X %s (%s bytes; creator %s): %s; receivers %s' % (
+            k['kind'], k['offset'], k['role'], k['region'], k['creator'], k['verdict'],
+            ', '.join('%s x%d' % kv for kv in Counter(k['votes']).most_common())))
+    return lines
+
+
+def write_outputs(rows, out, info, model, casts=None):
     out.mkdir(parents=True, exist_ok=True)
+    rrows = None
+    if getattr(model, 'runtime', None):
+        rrows = runtime_rows(rows, model, casts)
+        with (out / 'runtime_rows.tsv').open('w', newline='') as fh:
+            w = csv.DictWriter(fh, RUNTIME_COLUMNS, delimiter='\t', lineterminator='\n')
+            w.writeheader()
+            w.writerows(rrows)
+        with (out / 'runtime_kinds.tsv').open('w', newline='') as fh:
+            w = csv.writer(fh, delimiter='\t', lineterminator='\n')
+            w.writerow(KIND_COLUMNS)
+            for (kid, off), k in sorted(model.runtime['kinds'].items(), key=lambda kv: (int(kv[0][0][2:]), kv[0][1])):
+                w.writerow([kid, '0x%X' % off, k['role'], k['region'], k['size'], k['creator'], k['verdict'],
+                            k['record'] or k.get('wanted') or '', k.get('record_size', ''),
+                            '; '.join('%s x%d' % kv for kv in Counter(k['votes']).most_common())])
     with (out / 'caller_types.tsv').open('w', newline='') as fh:
         w = csv.writer(fh, delimiter='\t', lineterminator='\n')
         w.writerow(COLUMNS)
@@ -1138,7 +1473,10 @@ def write_outputs(rows, out, info, model):
             fh.write(json.dumps({'function': r['function'], 'file': r['file'], 'param': r['param'],
                                  'class': r['cls'], 'items': r['items'],
                                  'accesses': r['accesses'], 'slice': r['sm']}, default=list) + '\n')
-    (out / 'summary.md').write_text(summary(rows, info, model))
+    text = summary(rows, info, model)
+    if rrows is not None:
+        text += '\n'.join(runtime_summary(rrows, model)) + '\n'
+    (out / 'summary.md').write_text(text)
 
 
 def summary(rows, info, model):
@@ -1215,7 +1553,9 @@ def summary(rows, info, model):
 
 # --------------------------------------------------------------------------- entry points
 
-def analyze(flows, bind=None, log=None, root=None):
+def analyze(flows, bind=None, log=None, root=None, rt=None):
+    """(model, rows).  With runtime evidence (rt, runtime_from_codemap) the rows carry runtime items, and
+    model.runtime holds the static-only classes, the kind records and the observations for the report."""
     import time
     t0 = time.monotonic()
     model = Model(flows, bind, root)
@@ -1223,7 +1563,14 @@ def analyze(flows, bind=None, log=None, root=None):
     ev, notes = model.collect()
     resolve_params(model, ev)
     t2 = time.monotonic()
-    rows = classify(model, ev, notes)
+    model.runtime = None
+    if rt:
+        items, kinds, observed = runtime_evidence(model, rt)
+        static = {(r['file'], r['function'], r['param']): r for r in classify(model, ev, notes)}
+        rows = classify(model, apply_runtime(ev, items), notes)
+        model.runtime = dict(static=static, kinds=kinds, observed=observed, items=items)
+    else:
+        rows = classify(model, ev, notes)
     if log:
         log('model %.1fs, evidence %.1fs, classify %.1fs' % (t1 - t0, t2 - t1, time.monotonic() - t2))
     return model, rows
@@ -1239,6 +1586,7 @@ def main(argv=None):
     run.add_argument('--workers', type=int, default=4)
     run.add_argument('--no-reextract', action='store_true')
     run.add_argument('--scope', nargs='*', help='only TUs under these prefixes (callers outside are missed)')
+    run.add_argument('--no-runtime', action='store_true', help='ignore runtime evidence loaded in the codemap')
     fx = sub.add_parser('fixture')
     fx.add_argument('--root', type=Path, required=True)
     fx.add_argument('--out', type=Path, required=True)
@@ -1260,15 +1608,19 @@ def main(argv=None):
         tus = sorted(str(p.relative_to(root)) for p in (root / 'src').rglob('*.c'))
         flows, errors = extract_flows(root, tus)
         bind, info = {}, {'fixture_tus': len(tus), 'extract_errors': errors}
+        rt = None
     else:
         db = a.codemap or root / 'build/codemap.db'
         flows, bind, info = flows_from_codemap(db, root, not a.no_reextract, a.workers,
                                                log=lambda m: print(m, file=sys.stderr), scope=a.scope)
         if a.scope:
             info['scope'] = a.scope
-    model, rows = analyze(flows, bind, log=lambda m: print(m, file=sys.stderr), root=root)
+        rt = None if a.no_runtime else runtime_from_codemap(db)
+        info['runtime_rows'] = len(rt['args']) if rt else 0
+    model, rows = analyze(flows, bind, log=lambda m: print(m, file=sys.stderr), root=root,
+                          rt=rt)
     info['shared_targets'] = len(shared_targets(model))
-    write_outputs(rows, a.out, info, model)
+    write_outputs(rows, a.out, info, model, param_casts(db) if a.cmd == 'run' and rt else None)
     c = Counter(r['cls'] for r in rows)
     print('rows=%d A=%d B=%d C=%d -> %s' % (len(rows), c['A'], c['B'], c['C'], a.out))
     return 0

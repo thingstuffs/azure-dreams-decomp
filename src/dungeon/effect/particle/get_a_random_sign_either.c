@@ -18,10 +18,10 @@ s32 random_sign(void) {
     return sign;
 }
 
-void lift_particle_above_terrain_and_age(ParticleWork *work, ParticlePosition *position) {
+void lift_particle_above_terrain_and_age(ParticleWork *work, ObjectPosition *position) {
     rectangle_effect_updated = 1;
-    if (position->z.half.high < (s16)sample_terrain_surface_height(position->x, position->y, (s16)((u16)position->z.half.high + 2))) {
-        position->z.word += 0x20000 + (rand() & 0xFFF);
+    if (position->z.w.i < (s16)sample_terrain_surface_height((u16)position->x.w.i, (u16)position->y.w.i, (s16)((u16)position->z.w.i + 2))) {
+        position->z.v += 0x20000 + (rand() & 0xFFF);
     }
     work->lifetime = (u16)work->lifetime - 8;
     if (work->lifetime <= 0) {

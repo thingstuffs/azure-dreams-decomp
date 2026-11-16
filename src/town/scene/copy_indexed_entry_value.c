@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/town_event_state.h"
+#include "town/scene/indexed_values_data.h"
 
 
 
@@ -8,7 +8,6 @@ typedef struct {
     s32 value;
 } Destination;
 
-extern TownIndexedValueEntry town_indexed_values[];
 extern Destination D_800164D0;
 
 /* Copies the indexed entry's value to the shared destination and returns it. */

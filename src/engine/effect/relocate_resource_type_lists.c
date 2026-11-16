@@ -1,19 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "engine/effect.h"
-
-/* D_8006E7F0: array of pointers to per-type info records; each record has a
- * u16 count at +0x6 and four u16 word-offsets at +0x8/+0xA/+0xC/+0xE. */
-typedef struct S_80046D64_Info {
-    u8 pad0[6];
-    u16 count; /* 0x6 */
-    u16 off8;  /* 0x8 */
-    u16 offA;  /* 0xA */
-    u16 offC;  /* 0xC */
-    u16 offE;  /* 0xE */
-} S_80046D64_Info;
-
-extern S_80046D64_Info *resource_type_list_layouts[];
+#include "engine/resource_type_list_layouts_data.h"
 
 /* D_80083160: shared state table (own view here); this function only touches
  * a small sub-record living at +0x1DC (five s32 fields; f0 is untouched by
@@ -45,7 +33,7 @@ void relocate_resource_type_lists(s32 data_base, s16 type_index)
     lists->f4 = (s32) first_list;
 
     entry = first_list;
-    remaining = resource_type_list_layouts[type_index]->count;
+    remaining = resource_type_list_layouts[type_index]->relocation_count;
     if (remaining > 0) {
         do {
             remaining--;

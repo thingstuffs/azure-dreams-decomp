@@ -8,6 +8,8 @@
 #include "engine/util.h"
 #include "engine/audio/spu.h"
 #include "engine/resource.h"
+#include "engine/scene/cd_cohort_types.h"
+#include "slus/display_resource_cache_keys_data.h"
 
 /* g_game_work.view declared on its own: func_8004D0C8 / func_8004D110 form their base at 0x80083178 (as g_game_work the
  * offsets and the schedule change: cc1 listing differs). */
@@ -171,24 +173,12 @@ int cancel_pending_sound_selection(void) {
     return disabled;
 }
 
-typedef struct {
-    short a;
-    short pad0;
-    short b;
-    short pad1;
-    short c;
-    short pad2;
-    short d;
-} D_80083D78_t;
-
-extern D_80083D78_t display_resource_cache_keys;
-
 /* Sets all four display_resource_cache_keys halfwords to -1. */
 void invalidate_four_sprite_resource_slots(void) {
-    display_resource_cache_keys.a = -1;
-    display_resource_cache_keys.b = -1;
-    display_resource_cache_keys.c = -1;
-    display_resource_cache_keys.d = -1;
+    display_resource_cache_keys[0] = -1;
+    display_resource_cache_keys[2] = -1;
+    display_resource_cache_keys[4] = -1;
+    display_resource_cache_keys[6] = -1;
 }
 
 /* Species records share the twenty-byte item-category layout. ID zero is a
@@ -297,15 +287,7 @@ void load_secondary_optional_resource_descriptor(void)
     resource_load_current_optional_descriptor();
 }
 
-/* Ring buffer of 32 history entries, each 0x18 (24) bytes; only offset 0 is
- * accessed here so the rest of the layout is left as padding. */
-typedef struct {
-    u8 unk00;
-    u8 pad[0x17];
-} Struct80083968;
-
 extern u8 cd_command_read_index;
-extern Struct80083968 cd_command_records[32];
 
 /* Returns the previous history entry byte, wrapping the ring index modulo 32. */
 u8 get_previous_cd_command(void) {

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/shop.h"
+#include "town/shop/target_position_data.h"
 
 typedef struct TownEntry {
     u8 pad0[0x10];
@@ -24,14 +25,7 @@ typedef struct TownOutputHalf {
     u16 coordinate;
 } TownOutputHalf;
 
-typedef struct TownOutput {
-    u32 first;
-    u32 second;
-    u32 third;
-} TownOutput;
-
 extern TownRoot *town_script_state_slots[];
-extern TownOutput shop_target_position;
 extern s32 D_80100B68;
 
 /* Selects a town entry and writes its root-relative coordinates to the output. */

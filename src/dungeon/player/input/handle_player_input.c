@@ -43,6 +43,7 @@ void try_move_player(); /* extern */
 s32 try_begin_lift_object(struct S_8008C5C4_2 *action, void *unused, SpriteAnimationTableView *position, ActorRecord *actor);  /* extern */
 s32 request_familiar_deployment_change(); /* extern */
 #include "dungeon/player/input.h"
+#include "dungeon/player/menu_action_data.h"
 #include "slus.h"
 #include "dungeon/player/object.h"
 
@@ -51,7 +52,6 @@ void *select_item_record_pointer(); /* Unprototyped: one or two arguments; the s
 #include "engine/graphics.h"
 #include "engine/resource.h"
 struct S_8008C5C4_2;
-extern M2C_UNK player_menu_action_data;
 extern u8 player_wait_frames[8];
 extern M2C_UNK D_800DD148;
 extern void (*actor_command_handlers[])(void);

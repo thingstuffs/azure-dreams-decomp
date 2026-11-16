@@ -19,10 +19,10 @@ typedef struct ReactionFlagState {
 } ReactionFlagState;   /* arg2 in advance_wedy_reaction */
 
 /* Advance two accumulators and invoke handlers when flag 0x8000 is set. */
-void advance_wedy_reaction(TownObjectRecord *context, ReactionAccumulators *accumulators, ReactionFlagState *flagState) {
-    accumulators->unk_00 = (s32) (accumulators->unk_00 + 0x40000);
-    accumulators->unk_04 = (s32) (accumulators->unk_04 - 0x15555);
-    if (flagState->unk_14 & 0x8000) {
+void advance_wedy_reaction(TownObjectRecord *context, ObjectPosition *accumulators, SpriteFrameState *flagState) {
+    accumulators->x.v = (s32) (accumulators->x.v + 0x40000);
+    accumulators->y.v = (s32) (accumulators->y.v - 0x15555);
+    if (flagState->flags & 0x8000) {
         set_resident_bitmap_bit(F_act_wedy);
         unlink_scene_list_node(context);
         clear_object_slot_and_mark_removed(context);

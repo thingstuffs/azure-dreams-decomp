@@ -16,13 +16,11 @@ typedef struct {
 
 typedef struct {
     u8 unk00[8];
-    u32 table_value;
+    void *table_value;
     u32 color;
 } Func37090Output;
 
 extern void copy_texture_descriptor_with_page_offsets(u8 *, u8 *, u8 *);
-
-extern u32 texture_descriptor_variant_values[32];
 
 /* Updates lookup data and selects the current entry's table value and blinking color. */
 void update_blinking_cursor_with_dark_idle(Func37090Input *state, ObjectPosition *context, Func37090Output *output) {

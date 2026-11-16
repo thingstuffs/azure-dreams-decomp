@@ -20,7 +20,6 @@ typedef struct {
     u16 z;
 } Vec3u16;
 
-extern u8 cyclone_spawn_update_address;
 
 typedef struct S_80175D04_0 {
     u8 pad_00[0x2A];
@@ -66,7 +65,7 @@ void *create_source_adjusted_motion_object(S_80175D04_0 *actor, Copy24 *start_po
 
     object = allocate_flagged_object_node(0x312);
     if (object != 0) {
-        (object->update_callback) = &cyclone_spawn_update_address;
+        (object->update_callback) = advance_cyclone_bobbing_effect;
         register_node(object, project_sprite_chain);
 
         render = object->sprite;

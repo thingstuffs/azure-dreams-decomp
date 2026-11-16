@@ -6,7 +6,7 @@
 
 
 #include "shared/sprite_frame_state.h"/* Eases a sprite toward its moving target, advances its animation, and removes it after brightening. */
-void move_effect_toward_target(Rec_func_800249DC_arg0 *motion, Row_818E71DC_S_800249DC_2 *position, SpriteFrameState *visual) {
+void move_effect_toward_target(Rec_func_800249DC_arg0 *motion, ObjectPosition *position, SpriteFrameState *visual) {
     s32 current_x;
     s32 current_y;
     s32 current_z;
@@ -27,19 +27,19 @@ void move_effect_toward_target(Rec_func_800249DC_arg0 *motion, Row_818E71DC_S_80
     }
 
     delta = motion->unk_1C;
-    current_x = position->unk_00;
+    current_x = position->x.v;
     delta -= current_x;
-    position->unk_00 =
+    position->x.v =
         (s32)(current_x + (delta / 5));
     delta = motion->unk_20;
-    current_y = position->unk_04;
+    current_y = position->y.v;
     delta -= current_y;
-    position->unk_04 =
+    position->y.v =
         (s32)(current_y + (delta / 5));
     delta = motion->unk_24;
-    current_z = position->unk_08;
+    current_z = position->z.v;
     delta -= current_z;
-    position->unk_08 =
+    position->z.v =
         (s32)(current_z + (delta / 5));
 
     advance_sprite_animation_and_textures(visual);

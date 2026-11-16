@@ -266,7 +266,7 @@ void spawn_parent_attached_effect(ObjectNodeHeader *parent, s16 field_34, s32 fi
 typedef struct RotatingStatusPrefix { u16 flags; } RotatingStatusPrefix;
 
 /* Updates a rotating dungeon effect through delay, contraction, fade, and completion. */
-void advance_rotating_fading_effect(DungeonState *anim, S_8186EDA8_0 *position, DungeonEffect *input_effect) {
+void advance_rotating_fading_effect(DungeonState *anim, ObjectPosition *position, DungeonEffect *input_effect) {
     s16 phase;
     s16 fade_angle;
     s16 shrink_angle;
@@ -279,9 +279,9 @@ void advance_rotating_fading_effect(DungeonState *anim, S_8186EDA8_0 *position, 
     s32 first_angle = anim->angle;
 
 
-    position->unk_00 = (s32) (anim->base0 + (anim->count * rsin((D_80025308 = 1,
+    position->x.v = (s32) (anim->base0 + (anim->count * rsin((D_80025308 = 1,
         first_angle)) * 0x10));
-    position->unk_04 = (s32) (anim->base1 + (anim->count * rcos(anim->angle) * 0x10));
+    position->y.v = (s32) (anim->base1 + (anim->count * rcos(anim->angle) * 0x10));
     advance_sprite_animation_and_textures(effect);
     phase = anim->state;
     switch (phase) {

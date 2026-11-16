@@ -44,6 +44,6 @@ void advance_player_state_table(Struct8009D814 *state, ObjectPosition *update_ar
 }
 
 /* Forward the object and values to update_player_global_state. */
-void forward_player_state_update(void *object, s32 value_1, SpriteFrameState *value_2) {
+void forward_player_state_update(TownPlayerRecord *object, s32 value_1, SpriteFrameState *value_2) {
     update_player_global_state((Entity *)object, (void *)value_1, (void *)value_2);
 }

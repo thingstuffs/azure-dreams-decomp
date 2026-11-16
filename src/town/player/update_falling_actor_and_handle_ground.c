@@ -11,7 +11,7 @@
 
 
 /* Update the actor's fall and handle contact with the ground. */
-void update_falling_actor_and_handle_ground(TownObjectRecord *context, ObjectPosition *actor, SpriteFrameState *sprite) {
+void update_falling_actor_and_handle_ground(TownPlayerRecord *context, ObjectPosition *actor, SpriteFrameState *sprite) {
     s16 ground_height;
 
     ground_height = query_capped_surface_height(actor, &position_query_scratch);

@@ -5,6 +5,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor/callback.h"
 #include "common.h"
+#include "dungeon/actor/sprite_resource_completion_data.h"
 #include "dungeon/item/monster_resource_slots_g00325.h"
 #include "shared/slus_cd_callback.h"
 #include "shared/slus_callbacks.h"
@@ -34,7 +35,6 @@ void set_sprite_animation_frame(SpriteFrameState *obj, s16 frame_group, s16 fram
 struct Entity;
 struct EntityLinkNode;
 extern s32 loaded_entity_sprite_resource;
-extern s32 sprite_resource_completion_flag;
 extern void *selected_item_record_alias[];
 extern struct S_8009345C_4 familiar_deployment_slots;
 extern u8 D_800E05E1[15];

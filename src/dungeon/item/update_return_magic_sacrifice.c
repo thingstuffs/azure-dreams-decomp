@@ -12,6 +12,7 @@
 #include "shared/object_links.h"
 #include "engine/node.h"
 #include "dungeon/item.h"
+#include "dungeon/item/return_magic_sprite_data.h"
 #include "dungeon/system.h"
 #include "engine/entity.h"
 #include "dungeon/effect/oriented_mesh_quads_g00367.h"
@@ -85,7 +86,6 @@ void * create_five_point_effect(u8, u8, s16, void *, s32, s32, void *); /* Unpro
 void retire_tracked_effect_by_id(s32 targetId);
 extern s32 return_magic_begin_address(void);
 extern M2C_UNK D_800DF45C;
-extern M2C_UNK return_magic_sprite_data;
 extern void *return_magic_effect_object;
 extern void *return_magic_fade_object;
 extern u8 D_800E1640[55];
@@ -171,7 +171,7 @@ void update_return_magic_sacrifice(S_800C2824_0 *effect, S_800C2824_3 *vertices,
         vertices->unk_16 = vertex_z;
         register_node(NODE_HEADER(effect), draw_linked_oriented_mesh_quads);
         sprite->tpage_abr = 0x20;
-        sprite->source = &return_magic_sprite_data;
+        sprite->source = return_magic_sprite_data;
         sprite->color.word = 0x808080;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;

@@ -4,7 +4,7 @@
 
 
 /* Packs three capped source components, copies an attribute, and propagates the high-bit flag. */
-void update_packed_color_entry(void *destination) {
+void update_packed_color_entry(MainTitleValueEntry *destination) {
     MainTitleValueEntry *dest = destination;
     void *source;
     void *component_cursor;

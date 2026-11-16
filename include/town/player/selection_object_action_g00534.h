@@ -7,6 +7,7 @@
 #include "shared/town_object.h"
 #include "shared/object_node.h"
 #include "shared/vector.h"
+#include "town/shop/item_menu_scene_state_data.h"
 
 typedef struct {
     u8 pad[0x18];
@@ -67,7 +68,6 @@ extern s32 town_target_height_offset;
 extern s32 town_record_capacities[];
 extern s32 town_interaction_pending;
 extern void (*town_player_action_callback)(void *object, void *position, void *callback_data);
-extern u8 item_menu_scene_state[];
 
 
 /* Functions defined in this translation unit. */

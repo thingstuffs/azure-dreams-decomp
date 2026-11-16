@@ -624,8 +624,8 @@ void queue_perimeter_vertical_quads(ovl_1930844_81911BF4_Obj81911BF4 *effect_in,
 
 /* Queues a translucent full-screen overlay with countdown-dependent color and removes the effect when
    the count ends. */
-void draw_screen_overlay_fade(void *effect, void *unused, void *fade_state_arg) {
-    ovl_1930844_81911A8C_S_81911A8C_4 *fade_state = fade_state_arg;
+void draw_screen_overlay_fade(void *effect, void *unused, SpriteFrameState *fade_state) {
+
     s8 green_blue;
     s8 frames_left;
     ovl_1930844_81911A8C_S_81911A8C_3 *overlay;
@@ -641,14 +641,14 @@ void draw_screen_overlay_fade(void *effect, void *unused, void *fade_state_arg) 
     overlay->unk_08 = 0;
     overlay->unk_0A = 0;
     overlay->unk_04 = 0xC0;
-    green_blue = -0x40 - (fade_state->unk_05 * 0xC);
+    green_blue = -0x40 - ((s8)fade_state->frame_ticks * 0xC);
     overlay->unk_06 = green_blue;
     overlay->unk_05 = green_blue;
     SetTile(overlay);
     overlay->unk_07 = (u8) (overlay->unk_07 | 2);
     AddPrim(g_game_work.draw_buffer + 0xB0, overlay);
-    frames_left = (u8) fade_state->unk_05 - 1;
-    fade_state->unk_05 = frames_left;
+    frames_left = (u8) fade_state->frame_ticks - 1;
+    fade_state->frame_ticks = frames_left;
     if ((frames_left << 0x18) == 0) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((ovl_1930844_81911A8C_S_81911A8C_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

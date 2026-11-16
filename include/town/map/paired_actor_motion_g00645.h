@@ -2,6 +2,7 @@
 #define TOWN_MAP_PAIRED_ACTOR_MOTION_G00645_H
 #include "engine/node/registration.h"
 #include "engine/node/allocation.h"
+#include "town/map/motion_defaults_data.h"
 struct SpriteFrameState;
 #include "town/person/position.h"
 
@@ -102,7 +103,6 @@ extern u8 paired_actor_sprite_entries[];
 extern s32 D_800E9ECC[];
 extern void init_scene_node_mode_1(void *, void *, void *);
 extern u8 D_800BCE78[];
-extern u8 town_map_motion_defaults[];
 extern s32 D_800D2130;
 
 extern void advance_sprite_animation_and_textures(void *);

@@ -30,7 +30,7 @@ typedef struct {
 extern TownState scene_object_list_anchor;
 
 /* Move halfway toward the target each tick and finish the transition when the timer expires. */
-void move_reaction_toward_target(Object *object, Position *position, void *context)
+void move_reaction_toward_target(Object *object, ObjectPosition *position, void *context)
 {
     s16 ticks_left;
     GameWork *game = &g_game_work;
@@ -47,7 +47,7 @@ void move_reaction_toward_target(Object *object, Position *position, void *conte
         return;
     }
 
-    position->x += (-position->x + scene_object_list_anchor.target->x) / 2;
-    position->y += (-position->y + scene_object_list_anchor.target->y) / 2;
-    position->z += (-position->z + scene_object_list_anchor.target->z) / 2;
+    position->x.w.i += (-position->x.w.i + scene_object_list_anchor.target->x) / 2;
+    position->y.w.i += (-position->y.w.i + scene_object_list_anchor.target->y) / 2;
+    position->z.w.i += (-position->z.w.i + scene_object_list_anchor.target->z) / 2;
 }

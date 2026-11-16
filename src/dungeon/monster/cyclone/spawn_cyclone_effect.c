@@ -15,7 +15,6 @@ typedef struct {
     s32 word[6];
 } Copy24;
 
-extern s32 cyclone_spawn_update_address;
 
    /* coords in func_80E122F4 */
 
@@ -47,7 +46,7 @@ void *create_source_to_owner_sprite(ActorRecord *owner, ObjectPosition *position
     reference = ((S_80E122F4_6_pre *)(owner->target))[-1].unk_00;
     obj = allocate_flagged_object_node(0x312);
     if (obj != 0) {
-        (obj->update_callback) = &cyclone_spawn_update_address;
+        (obj->update_callback) = advance_cyclone_bobbing_effect;
         register_node(obj, project_sprite_chain);
 
         child = obj->sprite;

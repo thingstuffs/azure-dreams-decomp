@@ -1,12 +1,12 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "town/scene.h"
+#include "town/scene/event_lookup_data.h"
 #include "town/player/state.h"
 #include "town/scene/flags.h"
 #include "town/scene/motion.h"
 
 extern u8 D_800189CC[16];
-extern u8 scene_event_lookup_context[16];
 extern u8 D_8001A3AE[];
 extern u8 D_8001A495[];
 

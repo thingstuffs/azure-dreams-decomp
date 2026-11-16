@@ -9,6 +9,8 @@
 #include "shared/dungeon_item_entries.h"
 #include "shared/dir_step.h"
 #include "shared/runtime_dispatch.h"
+#include "shared/sound_stream_resource.h"
+#include "engine/audio/data.h"
 #include "shared/entity_objects.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
@@ -201,15 +203,8 @@ typedef struct floor_generate_isolated_80285E80_DungeonGlobals80285E80 {
 typedef struct {
     u8 bytes[0x20];
 } __attribute__((packed)) floor_generate_isolated_802864C4_Copy32;
-typedef struct floor_generate_isolated_80286684_Object {
-    s32 field_0;
-} floor_generate_isolated_80286684_Object;
-typedef struct floor_generate_isolated_80286894_S_80019894_0 {
-    u16 unk_00;
-    u8 pad_02[0x2];
-    s32 unk_04;
-    void * unk_08;
-} floor_generate_isolated_80286894_S_80019894_0;
+typedef SoundStreamResourceEntry floor_generate_isolated_80286684_Object;
+typedef SoundEffectBankDescriptor floor_generate_isolated_80286894_S_80019894_0;
 typedef struct {
     u16 active;
     s16 value;
@@ -403,15 +398,14 @@ extern s8 D_80012D52;
 void audio_load_sound_effect_bank(s16 record_id);
 extern s32 load_sound_set(s16 state_index);
 extern void func_8004450C(s16);
-extern floor_generate_isolated_80286684_Object *sound_stream_resource_entries[];
+extern SoundStreamResourceEntry *sound_stream_resource_entries[];
 extern s8 sound_stream_state_index;
-extern floor_generate_isolated_80286684_Object *sound_stream_buffer_entries[2];
+extern SoundStreamResourceEntry *sound_stream_buffer_entries[2];
 extern s16 sound_stream_buffer_index;
 extern s32 sound_stream_primary_marker_address[4];
 extern s32 sound_stream_secondary_marker_address[4];
 void set_sound_payload_slot(int value);
 s16 test_sound_channel_availability();
-extern floor_generate_isolated_80286894_S_80019894_0 sound_effect_bank_descriptors[];
 extern u8 sound_effect_loaded_record_ids[];
 extern s32 dungeon_mode_state[3];
 s16 count_matching_packed_entity_keys(s32 high_byte, s32 low_byte);

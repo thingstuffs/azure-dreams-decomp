@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/event/motion_step_data.h"
+#include "town/event/saved_motion_data.h"
 #include "town/event/mesh_motion.h"
 #include "shared/town_handler_entries.h"
 #include "shared/town_handler.h"
@@ -9,12 +10,8 @@
 
 
 
-extern void *town_saved_motion_pointer;
-
-
 extern IntVector3 D_80100D28;
 extern s16 town_event_motion_pair[];
-extern u8 D_80100D68[];
 
 /* Initializes object state and sets its starting position. */
 void initialize_object_state_and_position(void **object, IntVector3 *start_position, void *ptr2) {
@@ -33,6 +30,6 @@ void initialize_object_state_and_position(void **object, IntVector3 *start_posit
     D_80100D28.x = start_position->x;
     position = &D_80100D28.x;
     position[1] = start_position->y;
-    town_saved_motion_pointer = D_80100D68;
+    town_saved_motion_pointer = &D_80100D68;
     position[2] = start_position->z;
 }

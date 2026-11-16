@@ -9,11 +9,11 @@
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/player/object.h"
 #include "dungeon/monster/griffon_frames.h"
+#include "dungeon/monster/griffon/action_callback_addresses.h"
 
 
 extern void select_sprite_entry(void *, s32, s32);
 
-extern u8 griffon_slot_a_action_callback;
 extern u8 D_80150C74[];
 
 /* Updates directional motion and animation, then settles the entity at its tile center. */
@@ -134,7 +134,7 @@ void update_directional_motion_and_center_variant(ActorRecord *controller, Objec
         if (tracked_entity == (s32)NODE_HEADER(entity)) {
             g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
-        controller->unk_8C.address = &griffon_slot_a_action_callback;
+        controller->unk_8C.handler = griffon_slot_a_action_callback;
 
         return;
     default:

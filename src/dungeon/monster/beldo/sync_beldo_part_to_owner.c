@@ -44,7 +44,7 @@ typedef struct S_81263000_5 {
 
 
 /* Update part position, shading, and flags from its owner. */
-void sync_beldo_part_to_owner(AttachedSpriteWithOffsetBody *root, void *output_pos_arg, void *target_data)
+void sync_beldo_part_to_owner(AttachedSpriteWithOffsetBody *root, void *output_pos_arg, SpriteFrameState *target_data)
 {
     MovingPosition *output_pos = output_pos_arg;
     SVECTOR offset;

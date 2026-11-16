@@ -21,7 +21,6 @@ typedef struct
     u16 z;
 }
 Vec3u16;
-extern u8 cyclone_spawn_update_address;
 /* Create a render object and initialize its position and motion toward a directional target. */
 void *create_directional_target_object(ActorRecord *emitter, Copy24 *position, SpriteFrameState *sprite)
 {
@@ -49,7 +48,7 @@ void *create_directional_target_object(ActorRecord *emitter, Copy24 *position, S
         + direction_offset))) * emitter_copy->unk_B0.halves.high.s) * 0x40;
     object = allocate_flagged_object_node(0x312);
     if (object != 0) {
-        object->update_callback = &cyclone_spawn_update_address;
+        object->update_callback = advance_cyclone_bobbing_effect;
         register_node(object, project_sprite_chain);
         render = object->sprite;
         render->animation_resource = source_copy->animation_resource;

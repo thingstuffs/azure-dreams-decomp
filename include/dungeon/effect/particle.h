@@ -201,7 +201,7 @@ struct S_func_818DA800_1;
 struct S_func_818DA800_2;
 void advance_jittered_effect_modes(struct D_800DB420_Obj *state, struct D_800DB420_RngOut *position, SpriteFrameState *effect);
 s32 draw_flagged_particle_points(PointRecord *first_point, ObjectPosition *first_position);
-void fade_linked_display_sprite(struct FreeSlotDisplayEffectBody *effect, void *unused_context, void *effect_params);
+void fade_linked_display_sprite(struct FreeSlotDisplayEffectBody *effect, void *unused_context, SpriteFrameState *effect_params);
 void fade_packed_object_color_to_zero(void *object);
 void fade_tinted_display_sprite(struct FreeSlotDisplayEffectBody *effect, void *unused, SpriteFrameState *primitive);
 void run_fading_sprite_projectile(struct S_func_81856800_1 *action, struct S_func_81856800_2 *motion_arg);

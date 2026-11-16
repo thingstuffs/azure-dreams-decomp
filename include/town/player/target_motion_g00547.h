@@ -1,4 +1,5 @@
 #include "shared/town_object.h"
+#include "town/player/record.h"
 #ifndef TOWN_PLAYER_TARGET_MOTION_G00547_H
 #define TOWN_PLAYER_TARGET_MOTION_G00547_H
 struct ObjectPosition;
@@ -14,8 +15,8 @@ extern s32 D_8009AAB8;
 extern u32 D_8009AB74;
 
 /* Functions defined in this translation unit. */
-void move_player_toward_target(UnsignedCountdownView *state, struct ObjectPosition *object);
-void approach_player_target_position(UnsignedCountdownView *state, struct ObjectPosition *motion);
+void move_player_toward_target(TownPlayerRecord *state, struct ObjectPosition *object);
+void approach_player_target_position(TownPlayerRecord *state, struct ObjectPosition *motion);
 
 struct SpriteFrameState;
 

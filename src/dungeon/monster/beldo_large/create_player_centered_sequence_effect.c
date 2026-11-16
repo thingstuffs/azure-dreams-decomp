@@ -7,6 +7,7 @@
 #include "shared/slus_callbacks.h"
 #include "engine/node.h"
 #include "dungeon/monster/beldo_large.h"
+#include "dungeon/monster/beldo_large/encounter_position_data.h"
 
 #ifndef NULL
 #define NULL 0
@@ -52,7 +53,6 @@ typedef struct {
 } Object;
 
 
-extern u8 encounter_object_position_template[12];
 
 
 /* Create and initialize an object at the global position. */
@@ -88,7 +88,7 @@ void create_player_centered_sequence_effect(void *unused_sequence, void *unused_
         sub_object->color.c.r = 0x80;
         sub_object->flags |= 0x80;
 
-        (*(PackedVec3i *)((u8 *)object + 0x48)) = *(PackedVec3i *)encounter_object_position_template;
+        (*(PackedVec3i *)((u8 *)object + 0x48)) = *(PackedVec3i *)&encounter_object_position_template;
         sub_object->source = (u8 *)object + 0x48;
     }
 }

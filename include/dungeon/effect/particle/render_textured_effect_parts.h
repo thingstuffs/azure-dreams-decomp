@@ -182,7 +182,7 @@ s32 draw_shaded_point_chain(PointRecord *first_point, ObjectPosition *first_posi
 void move_and_animate_sprite_until_expired(MotionState *state, s32 *sum, SpriteFrameState *flags);
 void advance_scattered_directional_particle(void *object_data, s16 *position);
 void spawn_scattered_point_particle(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
-void cycle_moving_effect_phase(struct DecrementObjectCounterBody *object, S_8181B078_1 *position, S_8181B078_2 *source);
+void cycle_moving_effect_phase(struct DecrementObjectCounterBody *object, ObjectPosition *position, S_8181B078_2 *source);
 void create_cycling_offset_particle(void *source, s32 offset_x, s32 offset_y, s32 offset_z, s16 effect_value);
 /* Lifetime counter for the spawned projectile impact sprite. */
 typedef struct TimedSpriteImpactBody {

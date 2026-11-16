@@ -43,7 +43,7 @@ void initialize_action_object_type_six(TownObjectRecord *object) {
  * callback.
  */
 void initialize_action_object(s32 **object) {
-    dispatch_selected_entry_if_nonzero(&action_object_handler_table, object);
+    dispatch_selected_entry_if_nonzero(action_object_handler_table, object);
     *object = (void *)update_airborne_object_with_land_effects;
 }
 

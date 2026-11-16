@@ -6,8 +6,8 @@
 extern u8 D_80098544[8];
 
 /* Ease the object's value toward -0x800000 until the timer expires, then advance the state. */
-void ease_object_value_and_advance_state(UnsignedCountdownView *state_arg, ObjectPosition *object) {
-    TownPlayerRecord *state = (TownPlayerRecord *)state_arg;
+void ease_object_value_and_advance_state(TownPlayerRecord *state_arg, ObjectPosition *object) {
+    TownPlayerRecord *state = state_arg;
 
     u16 ticks_left;
     s32 current_value;

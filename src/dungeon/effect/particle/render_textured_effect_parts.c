@@ -312,7 +312,7 @@ void spawn_scattered_point_particle(ObjectNodeHeader *parent, s16 field_34, s32 
 }
 
 /* Advances the object cycle and position, flagging expiry or a flagged source. */
-void cycle_moving_effect_phase(DecrementObjectCounterBody *object_arg, S_8181B078_1 *position, S_8181B078_2 *source)
+void cycle_moving_effect_phase(DecrementObjectCounterBody *object_arg, ObjectPosition *position, S_8181B078_2 *source)
 {
     DecrementObjectCounterBody *object = object_arg;
     s32 one;
@@ -342,7 +342,7 @@ void cycle_moving_effect_phase(DecrementObjectCounterBody *object_arg, S_8181B07
         }
     }
 
-    position->unk_08 += object->unk_60;
+    position->z.v += object->unk_60;
 
     if ((s16)object->unk_02 <= 0) {
         ((S_8181B078_0_pre *)object)[-1].unk_00 |= 0x8000;

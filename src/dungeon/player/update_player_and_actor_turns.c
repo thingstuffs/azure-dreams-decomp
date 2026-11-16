@@ -26,6 +26,7 @@ struct ObjectPosition;
 #include "dungeon/system.h"
 #include "dungeon/item/state.h"
 #include "dungeon/player.h"
+#include "dungeon/player/action_handlers_data.h"
 #include "engine/camera.h"
 #include "engine/resource.h"
 
@@ -49,7 +50,6 @@ extern s8 scene_music_hold;
 extern s16 floor_generation_state[3];
 extern s16 dungeon_camera_targets[];
 extern s8 dungeon_event_pending_flag;
-extern Callback4 player_action_handlers[];
 extern u16 D_800DD258;
 extern u16 D_800DD25A;
 extern u8 dungeon_button_latch;

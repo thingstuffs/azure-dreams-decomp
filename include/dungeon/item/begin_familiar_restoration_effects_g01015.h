@@ -6,6 +6,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01015 - CL:dungeon/func_800BC2E4. */
 
 #include "common.h"
+#include "dungeon/item/familiar_restore_sprite_data.h"
 #include "shared/record_ptrs.h"
 #include "shared/entity_action_selectors.h"
 #include "shared/tile_object.h"
@@ -76,7 +77,6 @@ extern void apply_entity_effects(void *entity);
 /* extern */
 extern s32 clipped_sprite_renderer_address(u8 *first_data, s32 link_value, struct SpriteFrameState *value_record);
 extern s32 D_800C1718[4];
-extern s32 familiar_restore_sprite_data[4];
 
 /* Shared import declarations; data casts preserve each measured view. */
 

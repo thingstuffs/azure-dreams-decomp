@@ -46,7 +46,7 @@ typedef struct {
 extern void *update_actor_effect_sequence(void *, s32);
 
 extern u8 D_80028F68[];
-extern u16 sprite_effect_update_count[];
+#include "dungeon/effect/sprite_effect_count_data.h"
 
 /* Advances the screen transition, updates fade timers, and releases completed state. */
 void advance_screen_transition(State *ctx)
@@ -138,7 +138,7 @@ case 1:
         break;
 
     case 6:
-        if ((s16)sprite_effect_update_count[0] != 0) {
+        if (sprite_effect_update_count != 0) {
             break;
         } else {
             g_dungeon_status.active_actor = 0;
@@ -160,5 +160,5 @@ case 1:
             ctx->phase_20 = 0;
         }
     }
-    sprite_effect_update_count[0] = 0;
+    sprite_effect_update_count = 0;
 }

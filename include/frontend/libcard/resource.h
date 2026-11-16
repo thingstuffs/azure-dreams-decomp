@@ -12,7 +12,7 @@ struct ObjectNodeHeader;
 void card_boot_begin_selected_slot_load(void *state);
 
 /* card_boot_finish_slot_load_and_change_scene.c */
-void card_boot_finish_slot_load_and_change_scene(struct Object_800128C8 *object);
+void card_boot_finish_slot_load_and_change_scene(CardSlotMenuState *object);
 
 /* card_boot_highlight_selected_load_slot.c */
 void card_boot_highlight_selected_load_slot(CardSaveMenuBody *state);

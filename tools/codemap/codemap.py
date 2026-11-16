@@ -15,7 +15,8 @@
                      | casts [--folder F] [--cls C] [--sub S] [--func FN] [--by cls,sub]
                      | views [NAME] [--folder F] [--family S_|R12_|Row_|Rec_|View|local|shared]
                      | rt FUNCTION [--file F] | param FILE::FUNCTION::INDEX | holds | slots [FUNCTION]
-    codemap.py load-runtime DIR [--source-rev REV]                rtti_merge output -> rt_* tables
+    codemap.py load-runtime DIR [--source-rev REV [--git-dir G --git-to T]]   rtti_merge output -> rt_* tables
+                                                                  (+ rt_fn_map: runtime names -> address, current fn)
     codemap.py load-flow DIR|item_status.tsv                      type-flow lane holds -> flow_item
 
 Typing facts (tools/codemap/typing_facts.py; `refresh` phase `typing`, skipped with --no-typing or
@@ -969,6 +970,9 @@ def main(argv=None):
     ap.add_argument('--full', action='store_true', help='check: hash every source (default: stat first)')
     ap.add_argument('--no-typing', action='store_true', help='build/refresh: skip the typing phase')
     ap.add_argument('--source-rev', help='load-runtime: decomp revision the runtime evidence was taken at')
+    ap.add_argument('--git-dir', type=Path, help='load-runtime: repository holding --source-rev (read only): binds '
+                    'runtime names to addresses through that revision\'s names.tsv and git file renames')
+    ap.add_argument('--git-to', default='HEAD', help='load-runtime: revision of this tree in --git-dir (renames up to it)')
     ap.add_argument('--folder', help='casts/views: path prefix (src/town, include/engine ...)')
     ap.add_argument('--cls', help='casts: cast_census class (n a b c d e f)')
     ap.add_argument('--sub', help='casts: sub-class prefix')
@@ -996,7 +1000,8 @@ def main(argv=None):
         if not a.args:
             ap.error(a.mode + ' needs a directory')
         if a.mode == 'load-runtime':
-            res = typing_query.load_runtime(cm.db, a.args[0], a.source_rev, log=cm.log)
+            res = typing_query.load_runtime(cm.db, a.args[0], a.source_rev, log=cm.log, git_dir=a.git_dir,
+                                            to_rev=a.git_to)
         else:
             res = typing_query.load_flow(cm.db, a.args[0], log=cm.log)
         cm.db.execute('PRAGMA wal_checkpoint(TRUNCATE)')

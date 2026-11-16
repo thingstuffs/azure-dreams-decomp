@@ -6,8 +6,8 @@
 #include "town/player/record.h"
 
 /* Move the object toward its target and advance the state when the timer expires. */
-void move_player_toward_target(UnsignedCountdownView *state_arg_arg, ObjectPosition *object) {
-    TownPlayerRecord *state = (TownPlayerRecord *)state_arg_arg;
+void move_player_toward_target(TownPlayerRecord *state_arg_arg, ObjectPosition *object) {
+    TownPlayerRecord *state = state_arg_arg;
 
     u16 ticks_left;
 
@@ -23,9 +23,9 @@ void move_player_toward_target(UnsignedCountdownView *state_arg_arg, ObjectPosit
 }
 
 /* Approach the target position and finish the motion when the countdown expires. */
-void approach_player_target_position(UnsignedCountdownView *state_arg, ObjectPosition *motion)
+void approach_player_target_position(TownPlayerRecord *state_arg, ObjectPosition *motion)
 {
-    TownPlayerRecord *state = (TownPlayerRecord *)state_arg;
+    TownPlayerRecord *state = state_arg;
 
     u16 ticks_left;
 

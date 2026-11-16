@@ -328,7 +328,7 @@ s32 card_boot_sum_slot_lookup_values(void);
 void card_boot_update_card_chooser_input(CardChooserBody *body);
 
 /* card_boot_update_copy_destination_selection.c */
-void card_boot_update_copy_destination_selection(u8 *menu);
+void card_boot_update_copy_destination_selection(CardSlotMenuState *menu);
 
 /* card_boot_wait_before_copying_slot.c */
 void card_boot_wait_before_copying_slot(void *record_data);
@@ -426,7 +426,7 @@ void func_80024C48(struct S_800491F4 **target);
 void link_file_list_node_pointers(struct S_800491F4 **target);
 
 /* create_next_card_slot_window.c */
-void create_next_card_slot_window(void *state_arg);
+void create_next_card_slot_window(CardSlotMenuState *state_arg);
 
 /* enter_save_slot_menu_input.c */
 void enter_save_slot_menu_input(void *record_data);

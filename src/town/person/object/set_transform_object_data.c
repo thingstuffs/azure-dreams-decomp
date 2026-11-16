@@ -1,6 +1,6 @@
 #include "common.h"
 #include "town/person/object.h"
-extern s32 current_transform_object;
+#include "town/person/current_transform_object_data.h"
 
 typedef struct S_800C2864_0 {
     u8 pad_00[0x14];

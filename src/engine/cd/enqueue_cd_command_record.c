@@ -1,16 +1,8 @@
 #include "common.h"
 #include "engine/cd.h"
 #include "engine/cd_command_index.h"
+#include "engine/scene/cd_cohort_types.h"
 #include "slus.h"
-typedef struct S_80083968
-{
-    u8 unk00;
-    u8 pad1[3];
-    s32 unk04;
-    u8 unk08[16];
-}
-S_80083968;
-extern S_80083968 cd_command_records[32];
 typedef struct
 {
     u8 b[16];
@@ -38,7 +30,7 @@ S_80083968 *enqueue_cd_command_record(s16 entry_type, s32 entry_value, s32 paylo
     write_index = cd_command_write_index;
     entries[write_index].unk00 = (u8) entry_type;
     entries[write_index].unk04 = entry_value;
-    entries[write_index].unk08[15] = 0;
+    entries[write_index].unk17 = 0;
     if ((entry_type & 0xFF) == sentinel) {
         u8 *value_slot;
 
@@ -47,7 +39,7 @@ S_80083968 *enqueue_cd_command_record(s16 entry_type, s32 entry_value, s32 paylo
         *((s32 *) value_slot) = payload;
     }
     else if (payload == 1) {
-        entries[write_index].unk08[15] = sentinel;
+        entries[write_index].unk17 = sentinel;
     }
     else if (payload != 0) {
         u8 *block_slot;

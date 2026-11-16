@@ -40,7 +40,7 @@ void update_actor_landing(ActorRecord *motion_state, ObjectPosition *transform, 
 
 
 void dispatch_actor_actions_and_integrate_gravity(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite);
-void update_actor_gravity(ActorRecord *object, ObjectPosition *motion, void *entity);
+void update_actor_gravity(ActorRecord *object, ObjectPosition *motion, SpriteFrameState *entity);
 
 s32 resolve_monster_move_choice(ActorRecord *initial, ObjectPosition *position, SpriteFrameState *sprite, s32 force_move);
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/transfer_cursor_data.h"
 #include "engine/audio/slots.h"
 #include "engine/audio/spu.h"
 
@@ -17,7 +18,6 @@ typedef struct {
 } S_80086A40;
 
 extern S_80086A40 audio_bank_slots[16];
-extern s32 sound_slot_transfer_cursor[3]; /* size > 8: forced hi/lo, no $gp */
 
 /* Reserves a sound slot and transfers sample data to the requested sound RAM address. */
 s32 upload_sample_to_sound_slot(s32 src_addr, s32 sound_addr, s32 size, s16 requested_slot)
@@ -28,7 +28,7 @@ s32 upload_sample_to_sound_slot(s32 src_addr, s32 sound_addr, s32 size, s16 requ
     S_80086A40 *slot;
     s32 reserved_addr;
 
-    sound_slot_transfer_cursor[0] = 0;
+    sound_slot_transfer_cursor.value = 0;
     slot_id = 0;
     selected_slot = requested_slot;
     if (selected_slot == -1) {

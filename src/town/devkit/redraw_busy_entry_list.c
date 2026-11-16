@@ -1,13 +1,7 @@
 #include "common.h"
 #include "town/devkit.h"
 #include "town/devkit/flag_test_imports.h"
-
-typedef struct Func808816D8Callbacks {
-    u8 pad68[0x68];
-    void (*func68)(void *, void *, s32);
-    u8 pad6C[8];
-    void (*func74)(s32);
-} Func808816D8Callbacks;
+#include "town/devkit/runtime_callback_owner_data.h"
 
 typedef struct Func808816D8Owner {
     u8 pad10[0x10];
@@ -20,7 +14,6 @@ typedef struct Func808816D8Rec {
 } Func808816D8Rec;
 
 extern s32 D_80700740[3];
-extern Func808816D8Callbacks *devkit_runtime_callback_owner[3];
 extern Func808816D8Owner *D_80701000[3];
 extern s32 * D_80701008[];
 extern u8 D_807007A8[16];

@@ -11,17 +11,12 @@
 
 extern s32 create_linked_effect_segments(void *);
 
-typedef struct CounterView {
-    u16 value;
-    u16 pad[5];
-} CounterView;
-
 typedef struct FlagsView {
     s32 value;
     s32 pad[2];
 } FlagsView;
 
-extern CounterView sprite_effect_update_count;
+#include "dungeon/effect/sprite_effect_count_data.h"
 
 
 
@@ -42,14 +37,14 @@ typedef struct S_800243C4_5 {
 } S_800243C4_5;   /* ((S_800243C4_0 *)arg0)->unk_08 in func_800243C4 */
 
 /* Updates the effect's position, then brightens and fades its color. */
-void advance_linked_segment_flash(ScreenTransitionEffectBody *effect, Rec_func_800243C4_arg1 *position, S_800243C4_4 *color)
+void advance_linked_segment_flash(ScreenTransitionEffectBody *effect, ObjectPosition *position, S_800243C4_4 *color)
 {
     s16 phase;
     u16 phase_value;
     MovingPosition *base_position;
     SpriteFrameState *source;
 
-    sprite_effect_update_count.value = sprite_effect_update_count.value + 1;
+    sprite_effect_update_count = sprite_effect_update_count + 1;
     phase = effect->unk_2C.s;
     phase_value = effect->unk_2C.u;
 
@@ -69,11 +64,11 @@ void advance_linked_segment_flash(ScreenTransitionEffectBody *effect, Rec_func_8
         }
 
         base_position = ((S_800243C4_5 *)(effect->unk_08))->unk_08;
-        position->unk_02 =
+        position->x.w.i =
             base_position->x + effect->unk_24;
-        position->unk_06 =
+        position->y.w.i =
             base_position->y + effect->unk_26;
-        position->unk_0A.as_s16 =
+        position->z.w.i =
             base_position->z + effect->unk_28.u;
         if (create_linked_effect_segments(position) != 0) {
             register_node((u8 *)effect - 0x20, project_sprite_chain);
