@@ -44,7 +44,6 @@ extern void select_sprite_entry(void *, s32, s32);
 extern void func_80047784(void *, s32, s32);
 extern void set_animation_child_source(void *, void *, s32);
 
-#include "slus/view_facing_angle.h"
 extern u8 child_texture_entries[];
 extern u8 child_object_update_address[];
 extern u8 D_8015EBF8[];

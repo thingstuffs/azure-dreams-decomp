@@ -658,8 +658,10 @@ def names_table(root):
             if len(cols) >= 3:
                 old, new = cols[1].strip(), cols[2].strip()
                 if old and new and old != new and old.startswith('func_'):
-                    fwd[new] = old
                     rev[old].add(new)
+                    if len(cols) > 3 and cols[3].strip().startswith('copy_of='):
+                        continue  # placed copy: its canonical row binds the name
+                    fwd[new] = old
     return fwd, rev
 
 

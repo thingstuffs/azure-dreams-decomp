@@ -149,15 +149,6 @@ typedef struct S_8182D544_1 {
     s32 unk_0C;
 } S_8182D544_1;   /* object in func_80024D44 */
 
-typedef struct S_8182D544_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8182D544_2;   /* arg1 in func_80024D44 */
-
    /* arg2 in func_80024D44 */
 
 typedef struct {

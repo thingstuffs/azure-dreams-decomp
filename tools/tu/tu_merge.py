@@ -564,15 +564,18 @@ def draft(root, spec, work, evidence=None, force=False):
         if 'absorbed_module' in m:
             # Names in native manifests are canonical assembler symbols; C may
             # use the readable spelling registered for the same address.
+            # A placed-copy family name (copy_of=) spells several addresses: it matches the member whose address
+            # is one of them (the native module gate binds the name to the member's own address).
             aliases = {}
             for line in (root / 'config/names.tsv').read_text().splitlines():
                 f = line.split('\t')
                 if len(f) >= 3:
-                    aliases[f[2]] = f[1]
+                    aliases.setdefault(f[2], set()).add(f[1])
             expected = [a['function'] for a in absorbed[m['absorbed_module']]['members']]
-            if [aliases.get(f[0], f[0]) for f in public] != expected:
+            if len(public) != len(expected) or any(e != f[0] and e not in aliases.get(f[0], ())
+                                                   for f, e in zip(public, expected)):
                 raise Refused('absorbed complete definition inventory differs: ' + m['path'])
-            public = [f for f in public if aliases.get(f[0], f[0]) == m['function']]
+            public = [f for f in public if m['function'] == f[0] or m['function'] in aliases.get(f[0], ())]
             # Helpers preceding this public definition stay with it. Deduplication
             # and complete-object identity still reject changed emission/locality.
             pidx = all_found.index(public[0])
@@ -627,8 +630,8 @@ def draft(root, spec, work, evidence=None, force=False):
     for line in (root / 'config/names.tsv').read_text().splitlines():
         f = line.split('\t')
         if len(f) >= 3 and f[1].startswith('func_'):
-            aliases[f[2]] = f[1]
-    defined_canon = defined | {aliases[n] for n in defined if n in aliases}
+            aliases.setdefault(f[2], set()).add(f[1])
+    defined_canon = defined | {a for n in defined for a in aliases.get(n, ())}
     # declarations: key -> variants -> declaring members
     decl_variants, decl_text = {}, {}
     seen, out = {}, {'include': [], 'define': [], 'type': [], 'decl': []}
@@ -1238,6 +1241,8 @@ def _install(root, work, base, gate=True, reviewer=None, evidence_dir=None, gate
     names = {}
     for line in (root / 'config/names.tsv').read_text().splitlines():
         f = line.split('\t')
+        if len(f) > 3 and f[3].strip().startswith('copy_of='):
+            continue  # placed copy: its canonical row binds the name
         if len(f) >= 3 and f[0].startswith('0x'):
             names[f[2]] = int(f[0], 16)
     for line in (root / 'config/slus_006.14.symbols.txt').read_text().splitlines():

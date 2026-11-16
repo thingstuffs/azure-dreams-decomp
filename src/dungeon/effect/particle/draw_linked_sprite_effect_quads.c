@@ -615,12 +615,6 @@ typedef struct EffectRecord {
     EffectOwner *owner;
 } EffectRecord;
 
-/* The sprite entry func_800478B8 updates; +0x14 carries the status bits tested below. */
-typedef struct SpriteEntry {
-    u8 pad_00[0x14];
-    u16 status;
-} SpriteEntry;
-
 /* Retail 819B32CC: marks the owner, and once the sprite reaches status 0x6000 marks the
  * effect's own header and the global object flags too. */
 void mark_owner_while_sprite_animates(EffectRecord *effect, void *unused, SpriteFrameState *sprite) {

@@ -1,6 +1,6 @@
 #include "common.h"
 #include "frontend/card/service.h"
-#include "frontend/card/dev_card_directory_data.h"
+#include "main/data.h"
 
 /* Returns whether text matches a record prefix, comparing at most 21 bytes. */
 s32 card_devkit_has_directory_name_prefix(s32 count, u8 *text)

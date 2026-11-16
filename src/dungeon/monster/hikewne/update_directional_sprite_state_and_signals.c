@@ -44,7 +44,7 @@ void update_directional_sprite_state_and_signals(ActorRecord *controller, void *
 
     if (update_actor_transform_from_parent(controller, update_arg, sprite, actor) != 0) {
         if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
-            controller->unk_8C.byte_ptr = update_hikewne_actor_behavior;
+            controller->unk_8C.handler = update_hikewne_actor_behavior;
         }
     } else if ((*(u8 **)&sprite->frameTable == hikewne_frame_set_2) &&
                !(actor->flags1C & (ACTOR_MP_EMPTY | ACTOR_ASLEEP))) {

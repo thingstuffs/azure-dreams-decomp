@@ -1,8 +1,8 @@
 #include "common.h"
-#include "slus/audio_update_guard_data.h"
 #include "slus/audio_voice_data.h"
 #include "engine/audio/sequence.h"
 #include "engine/audio/spu.h"
+#include "slus/data.h"
 
 /* D_80073734: s32 count array (established elsewhere; index 0 = active-entry count). */
 /* D_80073740: s32 flag-value array, one entry per D_80085458 slot. */

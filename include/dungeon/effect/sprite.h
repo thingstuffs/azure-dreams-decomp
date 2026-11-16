@@ -196,7 +196,6 @@ void update_randomized_intermediate_points(struct IntermediatePointEffectBody *s
 
 s32 queue_shaded_line_chain(void *first_owner, void *first_vertices, void *first_line);
 
-struct Row_818A4E74_S_func_818A4E74_1;
 s32 draw_animated_shaded_lines(void *effect_data, void *unused_render_data);
 s32 draw_linked_shaded_tiles(RandomOffsetEffectObjectBody *first_point, void *first_position);
 void randomize_counted_sprite_angle(void **object_ref, s32 unused, SpriteFrameState *target);

@@ -40,7 +40,6 @@ extern void select_record_entry_and_value(void *state, void *entries, short inde
 #include "town/minigame.h"
 #include "town/minigame/pool_palette_data.h"
 #include "town/data.h"
-#include "town/map/map_animation_entries.h"
 #include "slus.h"
 extern void set_linked_object_and_global_flags(void);
 

@@ -72,7 +72,6 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *,struct ObjectPositi
 void rotate_point_cloud_until_expired(struct RandomRadialVectorEffectBody *object, struct ObjectPosition *unused, SpriteFrameState *target);
 struct StarEdgeEffectBody;
 void advance_fading_effect_animation(struct StarEdgeEffectBody *effect_data, struct ObjectPosition *unused_arg, SpriteFrameState *color_data);
-struct S_8187BE9C_1;
 struct ProjectileTrailFlashBody;
 void update_projectile_trail_flash(struct ProjectileTrailFlashBody *effect, s32 unused, SpriteFrameState *primitive);
 s32 draw_chained_mesh_records(void *record, void *context, void *data);

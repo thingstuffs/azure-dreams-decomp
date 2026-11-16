@@ -7,6 +7,7 @@
 #include "dungeon/monster/saber.h"
 #include "shared/object_node.h"
 #include "dungeon/effect/depth_projection_work.h"
+#include "slus/data.h"
 extern u8 resident_globals_page[];
 
    /* arg1 in update_saber_effect_depth_and_lifetime */

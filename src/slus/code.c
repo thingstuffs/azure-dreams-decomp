@@ -31,7 +31,6 @@
 #include "engine/effect.h"
 #include "sdk/libspu.h"
 #include "slus/data.h"
-#include "slus/audio_timer_update_enabled_data.h"
 
 extern int   card_server_initialized[3];
 extern short audio_voice_drain_suppressed[5];

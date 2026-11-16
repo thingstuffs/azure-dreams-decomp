@@ -103,6 +103,8 @@ def canonical_spelling(cfile):
             for raw in p.read_text(errors="replace").splitlines():
                 cols = raw.split("#", 1)[0].rstrip().split("\t")
                 if len(cols) >= 3 and cols[1].strip() and cols[2].strip() and cols[2].strip() != cols[1].strip():
+                    if len(cols) > 3 and cols[3].strip().startswith('copy_of='):
+                        continue  # placed copy: its canonical row binds the name
                     table[cols[2].strip()] = cols[1].strip()
         _CANON, _CANON_MTIME = table, stamp           # one atomic swap: verify runs in worker threads
     canon = _CANON
@@ -670,6 +672,8 @@ def _names_to_func():
         for raw in p.read_text(errors="replace").splitlines():
             cols = raw.split("#", 1)[0].rstrip().split("\t")
             if len(cols) >= 3 and cols[1].strip() and cols[2].strip() and cols[2].strip() != cols[1].strip():
+                if len(cols) > 3 and cols[3].strip().startswith('copy_of='):
+                    continue  # placed copy: its canonical row binds the name
                 table[cols[2].strip()] = cols[1].strip()
     return table
 

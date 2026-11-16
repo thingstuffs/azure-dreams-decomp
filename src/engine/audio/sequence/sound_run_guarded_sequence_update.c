@@ -1,8 +1,8 @@
 #include "common.h"
-#include "slus/audio_update_guard_data.h"
 #include "engine/audio/sequence.h"
 #include "slus.h"
 #include "slus/audio_sequence_state_data.h"
+#include "slus/data.h"
 
 extern s32 audio_sequence_active[];
 

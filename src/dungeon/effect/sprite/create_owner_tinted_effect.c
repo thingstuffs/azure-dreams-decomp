@@ -6,7 +6,7 @@
 #include "engine/node.h"
 #include "sdk/libc.h"
 #include "dungeon/effect/sprite.h"
-#include "slus/tinted_sprite_entries.h"
+#include "dungeon/data.h"
 
 #ifndef NULL
 #define NULL 0

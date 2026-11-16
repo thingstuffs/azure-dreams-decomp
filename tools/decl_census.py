@@ -34,6 +34,8 @@ def names_table():
     if p.exists():
         for raw in p.read_text().splitlines():
             cols = raw.split("#", 1)[0].rstrip("\n").split("\t")
+            # placed copy (copy_of=): its canonical row binds the name
+            if len(cols) > 3 and cols[3].strip().startswith("copy_of="): continue
             if len(cols) >= 3 and cols[1].strip() and cols[2].strip(): out[cols[2].strip()] = cols[1].strip()
     return out
 

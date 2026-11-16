@@ -2,6 +2,7 @@
 #include "slus/audio_voice_data.h"
 #include "engine/audio/sequence.h"
 #include "slus.h"
+#include "slus/data.h"
 
 /* D_80085458: 120-byte voice records. [64] below preserves the old addressing
  * view, not a proven allocation extent. Every active walk uses audio_voice_count;

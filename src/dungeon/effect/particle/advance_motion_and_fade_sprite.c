@@ -616,7 +616,7 @@ void advance_motion_and_fade_sprite(EffectRecord *effect, ObjectPosition *motion
             sprite->frame_ticks = 0;
         }
         if (sprite->color.c.r <= effect->fade_step) {
-            *(u32 *)&sprite->color.c.r = 0;
+            sprite->color.word = 0;
             NODE_HEADER(effect)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;

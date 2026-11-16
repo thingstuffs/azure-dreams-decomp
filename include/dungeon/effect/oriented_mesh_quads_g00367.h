@@ -20,23 +20,6 @@ typedef struct S_800CEFB8_0 {
     void * unk_8D0;
 } S_800CEFB8_0;
 
-/* global_base in draw_mesh_quads_with_orientation_mode */
-typedef struct S_800CEFB8_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    union { struct { s32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_0C;   /* overlapping accesses */
-    u16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-    u16 unk_1C;
-    u16 unk_1E;
-    u16 unk_20;
-    u16 unk_22;
-} S_800CEFB8_1;
-
 /* arg2_hold in draw_mesh_quads_with_orientation_mode */
 typedef struct S_800CEFB8_2 {
     u8 pad_00[0x2];

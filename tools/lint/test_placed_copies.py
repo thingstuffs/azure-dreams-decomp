@@ -47,45 +47,101 @@ class Compare(unittest.TestCase):
 
 
 class Check(unittest.TestCase):
+    NAMES = ('0x80040000\tfunc_80040000\tfirst\tcanonical\n'
+             '0x80016000\tfunc_80016000\tfirst\tcopy_of=0x80040000; same\n')
+
+    def fixture(self, root, containers=True, words=None):
+        import json
+        for d in ('config/overlays', 'ledger', 'src'):
+            (root / d).mkdir(parents=True, exist_ok=True)
+        if containers:
+            (root / P.CONTAINER_DIR).mkdir(parents=True, exist_ok=True)
+            for c in P.CONTAINERS.values():
+                (root / P.CONTAINER_DIR / c).write_bytes(words or bytes(64))
+        (root / 'config/names.tsv').write_text(self.NAMES)
+        rows = [dict(id='dungeon/func_A', true_name='func_80040000', container='dungeon', foff=0, size=8),
+                dict(id='dungeon/func_B', true_name='func_80016000', container='dungeon', foff=16, size=8)]
+        (root / 'ledger/rows.jsonl').write_text(''.join(json.dumps(r) + '\n' for r in rows))
+        (root / 'ledger/layout.jsonl').write_text(json.dumps(dict(id='dungeon/func_A', path='src/a.c')) + '\n'
+                                                  + json.dumps(dict(id='dungeon/func_B', path='src/b.c')) + '\n')
+        (root / 'src/a.c').write_text('void first(void) {\n}\n')
+        (root / 'src/b.c').write_text('void first(void) {\n}\n')
+        modules = dict(modules=[dict(members=[dict(id='dungeon/func_A', foff=0, size=8)])])
+        (root / 'config/overlays/modules.json').write_text(json.dumps(modules))
+        return modules
+
+    def add_member(self, root, modules):
+        import json
+        modules['modules'][0]['members'].append(dict(id='dungeon/func_B', foff=16, size=8))
+        (root / 'config/overlays/modules.json').write_text(json.dumps(modules))
+
     def test_a_copy_that_is_not_a_native_module_entry_is_refused(self):
-        import json, tempfile
+        import tempfile
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
-            for d in ('config/overlays', 'ledger', 'work/disc/containers', 'src'):
-                (root / d).mkdir(parents=True)
-            for c in P.CONTAINERS.values():
-                (root / 'work/disc/containers' / c).write_bytes(bytes(64))
-            (root / 'config/names.tsv').write_text('0x80040000\tfunc_80040000\tfirst\tcanonical\n'
-                                                   '0x80016000\tfunc_80016000\tfirst\tcopy_of=0x80040000; same\n')
-            rows = [dict(id='dungeon/func_A', true_name='func_80040000', container='dungeon', foff=0, size=8),
-                    dict(id='dungeon/func_B', true_name='func_80016000', container='dungeon', foff=16, size=8)]
-            (root / 'ledger/rows.jsonl').write_text(''.join(json.dumps(r) + '\n' for r in rows))
-            (root / 'ledger/layout.jsonl').write_text(json.dumps(dict(id='dungeon/func_A', path='src/a.c')) + '\n'
-                                                      + json.dumps(dict(id='dungeon/func_B', path='src/b.c')) + '\n')
-            (root / 'src/a.c').write_text('void first(void) {\n}\n')
-            (root / 'src/b.c').write_text('void first(void) {\n}\n')
-            modules = dict(modules=[dict(members=[dict(id='dungeon/func_A', foff=0, size=8)])])
-            (root / 'config/overlays/modules.json').write_text(json.dumps(modules))
-            report, problems = P.check(root)
+            modules = self.fixture(root)
+            notes = []
+            report, problems = P.check(root, notes)
             self.assertEqual(len(problems), 1)
             self.assertIn('not a native module entry', problems[0])
-            modules['modules'][0]['members'].append(dict(id='dungeon/func_B', foff=16, size=8))
-            (root / 'config/overlays/modules.json').write_text(json.dumps(modules))
+            self.assertEqual(notes, [])
+            self.add_member(root, modules)
             self.assertEqual(P.check(root)[1], [])
 
-    def test_a_family_without_retail_containers_is_a_problem_not_a_crash(self):
+    def test_with_the_containers_differing_words_refuse(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            modules = self.fixture(root, words=bytes(16) + bytes([1]) + bytes(47))
+            self.add_member(root, modules)
+            problems = P.check(root)[1]
+            self.assertEqual(len(problems), 1)
+            self.assertIn('differs from func_80040000: word 0', problems[0])
+
+    def test_without_the_containers_words_are_skipped_and_structure_still_checked(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            modules = self.fixture(root, containers=False)
+            notes = []
+            report, problems = P.check(root, notes)
+            # structural refusal still runs in a public checkout
+            self.assertEqual(len(problems), 1)
+            self.assertIn('not a native module entry', problems[0])
+            self.assertEqual(len(notes), 1)
+            self.assertIn(P.SKIPPED, notes[0])
+            self.add_member(root, modules)
+            notes = []
+            report, problems = P.check(root, notes)
+            self.assertEqual(problems, [])
+            self.assertIn(P.SKIPPED, notes[0])
+            self.assertEqual(report['first'], [('func_80040000', 'src/a.c', 8), ('func_80016000', 'src/b.c', 8)])
+            # a row at a family address that does not define the name is a problem without containers too
+            (root / 'src/b.c').write_text('void other(void) {\n}\n')
+            self.assertIn('0 rows at func_80016000 define it', P.check(root)[1][0])
+
+    def test_a_malformed_copy_record_is_refused(self):
         import tempfile
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             (root / 'config').mkdir()
-            (root / 'config/names.tsv').write_text('0x80040000\tfunc_80040000\tfirst\tcanonical\n'
-                                                   '0x80016000\tfunc_80016000\tfirst\tcopy_of=0x80040000; same\n')
-            report, problems = P.check(root)
-            self.assertEqual(report, {})
-            self.assertEqual(len(problems), 1)
-            self.assertIn('retail containers are missing', problems[0])
+            for bad in ('copy_of=0x80040abc; lowercase', 'copy_of=80040000; no 0x', 'copy_of=0x8004000; seven'):
+                (root / 'config/names.tsv').write_text('0x80040000\tfunc_80040000\tfirst\tcanonical\n'
+                                                       '0x80016000\tfunc_80016000\tfirst\t' + bad + '\n')
+                with self.subTest(bad=bad):
+                    problems = P.check(root)[1]
+                    self.assertEqual(len(problems), 1)
+                    self.assertIn('names.tsv:2: malformed copy_of record', problems[0])
+
+    def test_without_families_nothing_is_noted(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / 'config').mkdir()
             (root / 'config/names.tsv').write_text('0x80040000\tfunc_80040000\tfirst\tcanonical\n')
-            self.assertEqual(P.check(root), ({}, []))
+            notes = []
+            self.assertEqual(P.check(root, notes), ({}, []))
+            self.assertEqual(notes, [])
 
 
 if __name__ == '__main__':

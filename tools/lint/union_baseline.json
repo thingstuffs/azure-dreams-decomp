@@ -1,5 +1,5 @@
 {
- "count": 1359,
+ "count": 1355,
  "ids": [
   "include/dungeon/actor/ability_eligibility.h::S_800A4300_2.unk_F0",
   "include/dungeon/actor/action_target_selection_g00359.h::S_800CA444_0.unk_24",
@@ -110,7 +110,6 @@
   "include/dungeon/effect/motion/update_nine_effect_launcher.h::ovl_19a332c_81984D4C_S_81984D4C_1.unk_00",
   "include/dungeon/effect/motion/update_nine_effect_launcher.h::ovl_19a332c_81984D4C_S_81984D4C_3.unk_00",
   "include/dungeon/effect/object.h::PayloadObjectBody.unk_8E",
-  "include/dungeon/effect/oriented_mesh_quads_g00367.h::S_800CEFB8_1.unk_0C",
   "include/dungeon/effect/oriented_mesh_quads_g00367.h::S_800CEFB8_8.unk_08",
   "include/dungeon/effect/oriented_mesh_quads_g00367.h::S_800CEFB8_8.unk_14",
   "include/dungeon/effect/oriented_mesh_quads_g00367.h::S_800CEFB8_8.unk_1C",
@@ -567,7 +566,6 @@
   "include/modules/dungeon_ovl_197e800.h::S_8002401C_0.unk_1C",
   "include/modules/dungeon_ovl_197e800.h::S_8195EB88_4.unk_0C",
   "include/modules/dungeon_ovl_197e800.h::S_8195ED3C_1.unk_08",
-  "include/modules/dungeon_ovl_197e800.h::S_8195EE48_1.unk_08",
   "include/modules/dungeon_ovl_197e800.h::S_8195F43C_7.unk_00",
   "include/modules/dungeon_ovl_197e800.h::S_8195F43C_7.unk_04",
   "include/modules/dungeon_ovl_197e800.h::S_8195F43C_7.unk_08",
@@ -722,7 +720,6 @@
   "include/shared/actor_action.h::ActorActionView.timer",
   "include/shared/dungeon_delay_views.h::DelayParticle.fade_step",
   "include/shared/dungeon_delay_views.h::DelayParticle.phase",
-  "include/shared/dungeon_delay_views.h::DelaySpriteColor.color",
   "include/shared/dungeon_delay_views.h::DelayedTargetEffect.child_activity",
   "include/shared/dungeon_delay_views.h::DelayedTargetEffect.state",
   "include/shared/dungeon_delay_views.h::DelayedTargetEffect.timer",
@@ -1132,7 +1129,6 @@
   "src/dungeon/effect/travel/warp.c::S_819AD81C_3.unk_5C",
   "src/dungeon/effect/update_transform_spell.c::travel.travel",
   "src/dungeon/func_800A4710.c::S_800A9E70_2.unk_2C",
-  "src/dungeon/func_800C497C.c::S_800CA0DC_0.unk_8A",
   "src/dungeon/func_8100E664.c::ActorMotion.z",
   "src/dungeon/func_8100E664.c::PairAction.heightOffset",
   "src/dungeon/func_8100E664.c::PartnerAction.heightOffset",

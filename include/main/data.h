@@ -215,4 +215,16 @@ extern u8 runtime_state_restore_requested;
 extern u8 save_heading_chain_indices[];
 extern u8 settings_palette_rect;
 
+
+/* Imported data with no C definition (decision 74), formerly one-symbol headers. */
+/* Devkit card-server directory records at 0x80409290. The search routines
+ * advance by 0x28 bytes; the remaining-block reader uses the size at 0x18. */
+typedef struct DevCardDirectoryEntry {
+    u8 name[0x18];
+    s32 file_size;
+    u8 reserved[0xC];
+} DevCardDirectoryEntry;
+
+extern DevCardDirectoryEntry dev_card_directory[];
+
 #endif

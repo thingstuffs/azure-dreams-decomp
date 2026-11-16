@@ -60,15 +60,6 @@ typedef struct Row_818A4B40_S_818A4B40_1 {
     u16 unk_14;
 } Row_818A4B40_S_818A4B40_1;   /* temp_v1 in func_80024340 */
 
-typedef struct Row_818A4B40_S_818A4B40_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} Row_818A4B40_S_818A4B40_2;   /* arg1 in func_80024340 */
-
 /* Advance the height offset, randomize position on wrap, and update the object. */
 
 typedef struct Row_818A4CA0_S_818A4CA0_0 {
@@ -103,11 +94,6 @@ typedef struct Row_818A4E74_S_func_818A4E74_0 {
     u8 pad_00[0x14];
     u16 unk_14;
 } Row_818A4E74_S_func_818A4E74_0;
-
-typedef struct Row_818A4E74_S_func_818A4E74_1 {
-    u8 pad_00[0x1A];
-    s16 unk_1A;
-} Row_818A4E74_S_func_818A4E74_1;
 
 /* Increment the object counter and store a random remainder modulo 4096 in the target. */
 

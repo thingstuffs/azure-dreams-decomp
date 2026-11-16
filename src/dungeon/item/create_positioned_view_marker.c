@@ -16,7 +16,7 @@
 #include "dungeon/system.h"
 #include "dungeon/player/object.h"
 #include "engine/entity.h"
-#include "slus/default_textured_quad_color_data.h"
+#include "slus/data.h"
 
 /* Advances sprite animation and textures for the third argument, leaving the first two unused. */
 void animate_view_marker_sprite(ObjectNodeHeader *unused_first, ObjectPosition *unused_second, SpriteFrameState *value) {

@@ -964,7 +964,6 @@ void draw_depth_biased_textured_quad(s32 unused, ObjectPosition *position, S_819
 
 /* Object-list node header (0x20 bytes) that precedes each payload. */
 
-struct S_8195FD40_1;
 struct S_8195FD40_3;
 
 /* Draw each payload in the linked object chain: the payload follows its node

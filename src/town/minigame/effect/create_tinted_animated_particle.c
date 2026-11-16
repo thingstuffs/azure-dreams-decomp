@@ -5,7 +5,7 @@
 #include "shared/slus_callbacks.h"
 #include "engine/node.h"
 #include "town/minigame/effect.h"
-#include "town/map/map_animation_entries.h"
+#include "town/data.h"
 
 
 

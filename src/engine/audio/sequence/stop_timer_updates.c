@@ -1,8 +1,7 @@
 #include "common.h"
-#include "slus/audio_update_guard_data.h"
 #include "engine/audio/sequence.h"
 #include "sdk/libapi.h"
-#include "slus/audio_timer_setup_guard_data.h"
+#include "slus/data.h"
 
 /* S_800737C0: a plain s32 flag/mutex scalar. The shared record view has
  * padding (size > 8B) to force hi/lo access while keeping gcc from CSE-ing

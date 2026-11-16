@@ -17,6 +17,7 @@
 #include "dungeon/actor/state.h"
 #include "dungeon/effect.h"
 #include "dungeon/effect/screen.h"
+#include "slus/data.h"
 
 void * (*const resource17_slot0_entry0)(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value) = spawn_univern_actor;
 void (*const resource17_slot0_entry1)(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *object) = update_univern_motion_and_facing;

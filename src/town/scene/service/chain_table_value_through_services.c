@@ -1,7 +1,7 @@
 #include "common.h"
-#include "town/scene/service_arguments.h"
 #include "shared/record_ptrs.h"
 #include "town/scene/service.h"
+#include "town/data.h"
 typedef struct Data20 {
     u8 pad0[0x3C];
     void (*callback3C)(void *, s32);

@@ -208,4 +208,12 @@ extern u8 player_move_frames[ ];
 extern s32 *selected_menu_value_target;
 extern s16 terrain_height_limits[ ];
 
+/* Effect-bank data with no C definition (decision 74), formerly one-symbol headers. */
+/* Sprite source table in the effect bank's data at 0x80025AF0; its allocation
+ * extent is not established. */
+extern SpriteSourceEntry random_variant_sprite_entries[];
+/* Sprite source address in the effect bank's data at 0x80025DF8; element layout
+ * and allocation extent are unknown. */
+extern u8 tinted_sprite_entries[];
+
 #endif

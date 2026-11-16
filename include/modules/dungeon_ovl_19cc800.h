@@ -46,8 +46,6 @@ struct RenderData;
 
 /* Node +0x10 member: body, separate motion tail, separate render record. */
 typedef void (*follower_position_update_fn)(FollowerRecord *, ObjectPosition *, struct RenderData *);
-struct S_8002593C_1;
-struct S_8002593C_2;
 
 struct S_80025B78_4;
 struct S_819ACB28_4;

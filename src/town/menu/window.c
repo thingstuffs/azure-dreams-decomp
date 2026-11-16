@@ -29,10 +29,10 @@
 #include "town/shop/position.h"
 #include "town/map/state.h"
 #include "engine/menu.h"
-#include "engine/graphics/outline_points_data.h"
 #include "engine/window.h"
 #include "shared/town_object.h"
 #include "town/map.h"
+#include "slus/data.h"
 
 
 /* Initializes an object with default transform and global state values. */

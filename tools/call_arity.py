@@ -93,6 +93,8 @@ def _name_tables():
         if f.exists():
             for ln in f.read_text(errors="replace").splitlines():
                 p = ln.split("\t")
+                # placed copy (copy_of=): its canonical row binds the name
+                if len(p) > 3 and p[3].strip().startswith("copy_of="): continue
                 if len(p) >= 3 and p[0].startswith("0x"): hexnames[p[0][2:].upper()].add(p[2])
         name2hex = {n: hx for hx, ns in hexnames.items() for n in ns}
         _NAMES = (canon, rev, hexnames, name2hex)

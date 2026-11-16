@@ -70,10 +70,6 @@ typedef struct {
     u8 pad14[2];
     s16 z;
 } Target;
-typedef struct S_func_819615E4_0 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-} S_func_819615E4_0;
 typedef struct S_func_819615E4_2 {
     u8 pad_00[0x2A];
     union {
@@ -488,14 +484,6 @@ typedef struct S_8195FD40_0 {
     u16 unk_102;
     u16 unk_104;
 } S_8195FD40_0;
-typedef struct S_8195FD40_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_8195FD40_1;
 typedef struct S_8195FD40_3 {
     u8 pad_00[0x8];
     u8 * unk_08;
@@ -715,14 +703,6 @@ typedef struct S_8195EE48_0 {
     s16 unk_60;
     s16 unk_62;
 } S_8195EE48_0;
-typedef struct S_8195EE48_1 {
-    s32 unk_00;
-    s32 unk_04;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8195EE48_1;
 typedef struct S_8195ED3C_1 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -747,14 +727,6 @@ typedef struct S_8195EB88_1 {
     u8 pad_0C[0x8];
     u16 unk_14;
 } S_8195EB88_1;
-typedef struct S_8195EB88_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_8195EB88_2;
 typedef struct S_8195EB88_3 {
     u8 pad_00[0x2];
     u16 unk_02;

@@ -57,14 +57,6 @@ typedef struct ovl_18d0850_818B0AE0_S_800242E0_1 {
     u8 pad_00[0x14];
     u16 unk_14;
 } ovl_18d0850_818B0AE0_S_800242E0_1;
-typedef struct ovl_18d0850_818B0AE0_S_800242E0_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} ovl_18d0850_818B0AE0_S_800242E0_2;
 typedef struct ovl_18d0850_818B0C3C_S_8002443C_0 {
     u8 pad_00[0x8];
     void * unk_08;

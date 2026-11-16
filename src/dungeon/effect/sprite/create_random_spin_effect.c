@@ -6,7 +6,7 @@
 #include "sdk/libc.h"
 #include "dungeon/effect/sprite.h"
 #include "engine/node.h"
-#include "slus/tinted_sprite_entries.h"
+#include "dungeon/data.h"
 
 typedef struct S_818BDB44_0 {
     u8 pad_00[0x8];

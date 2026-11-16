@@ -75,7 +75,9 @@
 (i) placed copies (tools/lint/placed_copies.py): every config/names.tsv row recorded `copy_of=0x<addr>` must be
     the same function as its canonical row: one row at each family address defines the name, and the retail
     words are equal except a jump within the function's own body.  --fail-new and --fail-all fail on any
-    family that differs or cannot be found (a copy record is a claim about bytes, not a ratchet).
+    family that differs or cannot be found (a copy record is a claim about bytes, not a ratchet).  Without the
+    retail containers (a public checkout) the word comparison is reported as skipped and the structural checks
+    (one defining row per family address, native module membership, placement refusal) still fail.
 
 (j) developer symbols, on config/names.tsv: a BASE function row whose name is a developer identifier keeps that
     name on HEAD.  Developer identifiers: the name, `FNO_<name>` or `S_<name>` (or, for `..._script_flag_<x>`,
@@ -1139,9 +1141,11 @@ def main(argv=None):
     for name, missing in (floor_missing if (args.list or args.fail_all) else floor_missing_new):
         print(f"  {'NEW ' if any(n == name for n, _ in floor_missing_new) else ''}FLOOR PATH {name}: "
               + ', '.join(missing))
-    copy_families, copy_problems = placed_copies.check(root)
+    copy_notes = []
+    copy_families, copy_problems = placed_copies.check(root, copy_notes)
     print(f'placed copies: {len(copy_families)} families, '
-          f'{sum(len(v) - 1 for v in copy_families.values())} copies, {len(copy_problems)} differ or cannot be found')
+          f'{sum(len(v) - 1 for v in copy_families.values())} copies, {len(copy_problems)} differ or cannot be found'
+          + ''.join(f' ({note})' for note in copy_notes))
     for problem in copy_problems:
         print('  PLACED COPY ' + problem)
     developer = check_developer_names(root, args.base)

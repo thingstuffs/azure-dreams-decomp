@@ -17,6 +17,10 @@ also places in other images (an entry whose row is not its home) is compiled the
 which spells the name as the canonical address. So a copy is refused when such a placement places the copy itself
 or a function of its TU that references the name.
 
+The word comparison reads the retail containers (work/disc/containers, extracted locally and never published).
+Without them (a public checkout) the structural checks still run (the copy rows, one defining row per family
+address, native module membership and the placement refusal) and the comparison is reported as skipped.
+
     python3 tools/lint/placed_copies.py [--root .]      # prints the families; rc 1 on a problem
 """
 from __future__ import annotations
@@ -29,6 +33,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+CONTAINER_DIR = 'work/disc/containers'
+SKIPPED = 'skipped: retail containers absent'
 CONTAINERS = {'dungeon': 'DUNGEON_DUNGEON.BIN', 'town': 'TOWN_TOWN.BIN', 'main': 'MAIN_MAIN.BIN',
               'ovmovie': 'OVMOVIE.BIN'}
 
@@ -165,28 +171,57 @@ class Rows:
                     break
         return hits
 
+    def size(self, row):
+        member = self.members.get(row['id'])
+        return (member['size'] if member else row['size']) - (member.get('body_offset', 0) if member else 0)
+
     def words(self, row):
         member = self.members.get(row['id'])
         offset = member.get('body_offset', 0) if member else 0
         foff = (member['foff'] if member else row['foff']) + offset
         size = (member['size'] if member else row['size']) - offset
-        with (self.root / 'work/disc/containers' / CONTAINERS[row['container']]).open('rb') as f:
+        with (self.root / CONTAINER_DIR / CONTAINERS[row['container']]).open('rb') as f:
             f.seek(foff)
             data = f.read(size)
         return list(struct.unpack('<%dI' % (len(data) // 4), data))
 
 
-def check(root=ROOT):
+def malformed_rows(path):
+    """Rows whose evidence starts with `copy_of=` but is not a record name_inputs.COPY_OF accepts.
+
+    The gate and lane readers skip every row that starts with `copy_of=`, while the build's name table
+    (name_inputs.table) treats a row COPY_OF does not match as an ordinary row that rebinds its name, so such a
+    row would be read two ways."""
+    pattern = _name_inputs().COPY_OF
+    out = []
+    lines = Path(path).read_text().splitlines() if Path(path).is_file() else []
+    for number, raw in enumerate(lines, 1):
+        cols = raw.split('#', 1)[0].split('\t')
+        if len(cols) >= 4 and cols[3].strip().startswith('copy_of=') and not pattern.match(cols[3].strip()):
+            out.append(f'config/names.tsv:{number}: malformed copy_of record (want copy_of=0x<8 uppercase hex>): '
+                       + cols[3].strip()[:40])
+    return out
+
+
+def missing_containers(root):
+    return sorted(c for c in CONTAINERS.values() if not (Path(root) / CONTAINER_DIR / c).is_file())
+
+
+def check(root=ROOT, notes=None):
+    """(report, problems) for every recorded family; report maps name -> [(address, path, bytes)].
+
+    Without the retail containers the word comparison is skipped and, when notes is a list, the skip is appended
+    to it; it is not a problem.  The structural checks run either way."""
     root = Path(root)
+    malformed = malformed_rows(root / 'config/names.tsv')
     families = _name_inputs().copies(root / 'config/names.tsv')
     if not families:
-        return {}, []
-    missing = sorted({c for c in CONTAINERS.values() if not (root / 'work/disc/containers' / c).is_file()})
-    if missing:
-        # the retail containers are extracted locally (never published); without them nothing can be proven
-        return {}, [f'{len(families)} families recorded but the retail containers are missing: ' + ', '.join(missing)]
+        return {}, malformed
+    missing = missing_containers(root)
+    if missing and notes is not None:
+        notes.append(f'{SKIPPED} ({", ".join(missing)}); word comparison not run for {len(families)} families')
     rows = Rows(root)
-    problems, report = [], {}
+    problems, report = list(malformed), {}
     for name, family in sorted(families.items()):
         found = {}
         for address in [family['canonical'], *family['copies']]:
@@ -199,9 +234,10 @@ def check(root=ROOT):
         if family['canonical'] not in found:
             continue
         base_row, base_path = found[family['canonical']]
-        base = rows.words(base_row)
+        base = None if missing else rows.words(base_row)
+        size = 4 * len(base) if base is not None else rows.size(base_row)
         start = int(family['canonical'][5:], 16)
-        report[name] = [(family['canonical'], base_path, 4 * len(base))]
+        report[name] = [(family['canonical'], base_path, size)]
         for address in family['copies']:
             if address not in found:
                 continue
@@ -213,8 +249,10 @@ def check(root=ROOT):
             if users:
                 problems.append(f'{name}: {address} ({path}) is also placed through config/link, where the name binds '
                                 f'to {family["canonical"]}: ' + ', '.join(users[:3]))
+            report[name].append((address, path, size))
+            if base is None:
+                continue
             bad = compare(base, rows.words(row), start, int(address[5:], 16))
-            report[name].append((address, path, 4 * len(base)))
             problems += [f'{name}: {address} ({path}) differs from {family["canonical"]}: {p}' for p in bad[:3]]
     return report, problems
 
@@ -223,9 +261,12 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--root', type=Path, default=ROOT)
     args = parser.parse_args(argv)
-    report, problems = check(args.root.resolve())
+    notes = []
+    report, problems = check(args.root.resolve(), notes)
     for name, members in report.items():
         print(name + ': ' + ', '.join(f'{a} {p}' for a, p, _ in members) + f' ({members[0][2]} bytes)')
+    for note in notes:
+        print('placed copies ' + note)
     for p in problems:
         print('PLACED COPY ' + p)
     print(f'placed copies: {len(report)} families, {sum(len(v) - 1 for v in report.values())} copies, '

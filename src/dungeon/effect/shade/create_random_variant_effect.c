@@ -8,6 +8,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "sdk/libc.h"
 #include "engine/node.h"
+#include "dungeon/data.h"
 
 typedef struct {
     s32 words[6];
@@ -20,7 +21,6 @@ typedef struct {
 #define MULT_HI(a, b) (0)
 
 void func_80024C48(void *effect, void *motion, Rec_D_80082E80 *visual);
-#include "slus/random_variant_sprite_entries.h"
 #include "dungeon/effect/shade.h"
 
 typedef struct S_818C370C_0 {

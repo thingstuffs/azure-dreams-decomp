@@ -1,9 +1,9 @@
 #include "common.h"
-#include "slus/audio_update_guard_data.h"
 #include "slus/audio_voice_data.h"
 #include "engine/audio/sequence.h"
 #include "engine/audio/spu.h"
 #include "slus.h"
+#include "slus/data.h"
 typedef struct S_80086A40
 {
     s16 unk0;

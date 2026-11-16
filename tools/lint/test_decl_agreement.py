@@ -359,5 +359,20 @@ class TreeTests(unittest.TestCase):
         self.assertIn('declaration agreement FAIL: 2 new', out.getvalue())
 
 
+
+class NameAddressTests(unittest.TestCase):
+    def test_a_family_name_binds_its_canonical_address_not_a_placed_copy(self):
+        # config/names.tsv is address-ordered, so a copy below its canonical row comes first
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / 'config').mkdir()
+            (root / 'config/names.tsv').write_text(
+                '0x80016000\tfunc_80016000\tfirst\tcopy_of=0x80040000; same words\n'
+                '0x80040000\tfunc_80040000\tfirst\tcanonical\n')
+            out = D.name_addresses(root)
+            self.assertEqual(out['first'], '0x80040000')
+            self.assertEqual(out['func_80016000'], '0x80016000')
+
+
 if __name__ == '__main__':
     unittest.main()

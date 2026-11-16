@@ -1,8 +1,8 @@
 #include "common.h"
-#include "slus/audio_update_guard_data.h"
 #include "slus/audio_voice_data.h"
 #include "engine/audio/sequence.h"
 #include "engine/audio/spu.h"
+#include "slus/data.h"
 extern s32 audio_sequence_active[4];
 extern u8 audio_voice_records[0x78 * 24];
 

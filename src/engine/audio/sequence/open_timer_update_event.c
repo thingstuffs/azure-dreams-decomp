@@ -1,8 +1,6 @@
 #include "common.h"
-#include "slus/audio_update_guard_data.h"
 #include "engine/audio/sequence.h"
 #include "slus/data.h"
-#include "slus/audio_timer_setup_guard_data.h"
 #include "sdk/libapi.h"
 
 /* D_800737C0: "in-progress" guard flag for the RCnt/event init sequence.

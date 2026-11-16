@@ -29,17 +29,6 @@ typedef struct {
     ovl_188298c_8186298C_SubEnt *unk00;
     u8 unk04;
 } ovl_188298c_8186298C_Arg0Ent;
-typedef struct {
-    u8 pad00[0xC];
-    u8 unk0C;
-    u8 unk0D;
-    u8 unk0E;
-    u8 pad0F[0x14 - 0xF];
-    u16 unk14;
-    u8 pad16[0x1C - 0x16];
-    u16 unk1C;
-    u16 unk1E;
-} ovl_188298c_8186298C_Arg2Ent;
 typedef struct ovl_188298c_81862B74_S_81862B74_0_pre {
     u16 unk_00;
 } ovl_188298c_81862B74_S_81862B74_0_pre;

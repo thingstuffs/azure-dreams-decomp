@@ -8,10 +8,10 @@
 #include "sdk/libgte.h"
 
 #include "dungeon/effect/screen.h"
+#include "slus/data.h"
 
 extern u8 D_80028880[9];
 extern u8 D_8002888C[9];
-#include "slus/view_facing_angle.h"
 extern s32 linked_mesh_processor_address[3];
 /* Creates four groups of 32 effect objects with angularly distributed motion. */
 void *create_four_groups_of_angular_effects(s16 pos_x, s16 pos_y, s16 pos_z, s32 unused)

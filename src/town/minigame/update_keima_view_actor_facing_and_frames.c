@@ -9,6 +9,7 @@
 #include "slus.h"
 #include "town/minigame.h"
 #include "town/data.h"
+#include "slus/data.h"
 
 
    /* caller_obj in update_keima_view_actor_facing_and_frames */
@@ -17,7 +18,6 @@ typedef struct {
     s32 words[6];
 } Copy24;
 
-#include "slus/view_facing_angle.h"
 extern u8 D_80083220[];
 
 /* Updates entity state and selects direction-dependent table entries. */

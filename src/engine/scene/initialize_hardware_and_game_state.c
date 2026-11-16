@@ -9,7 +9,6 @@
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
 #include "slus/data.h"
-#include "slus/default_textured_quad_color_data.h"
 #include "slus.h"
 #include "sdk/libapi.h"
 

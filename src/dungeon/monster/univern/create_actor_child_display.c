@@ -11,6 +11,7 @@
 #include "dungeon/effect/sprite.h"
 #include "dungeon/monster/death.h"
 #include "dungeon/actor.h"
+#include "slus/data.h"
 
 /* Allocates and initializes an object and its child display items. */
 /* Creates Univern with frames at D_80150494 and a directional child display linked to the actor's sprite

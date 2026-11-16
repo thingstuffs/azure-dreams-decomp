@@ -60,6 +60,8 @@ def names_table(root):
     name2sym = {}
     for line in (root / 'config/names.tsv').read_text().splitlines():
         cols = line.split('#', 1)[0].split('\t')
+        if len(cols) > 3 and cols[3].strip().startswith('copy_of='):
+            continue  # placed copy: its canonical row binds the name
         if len(cols) >= 3 and cols[1].strip() and cols[2].strip():
             name2sym[cols[2].strip()] = cols[1].strip()
     return name2sym

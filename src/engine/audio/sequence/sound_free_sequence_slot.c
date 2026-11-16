@@ -1,7 +1,7 @@
 #include "common.h"
-#include "slus/audio_update_guard_data.h"
 #include "engine/audio/sequence.h"
 #include "engine/util.h"
+#include "slus/data.h"
 
 /* S_80086C00: 12-byte-stride sound-driver "sequence slot" table (8 entries),
  * indexed by the slot index arg0. Canonical layout established by sibling

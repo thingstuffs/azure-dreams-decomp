@@ -10,6 +10,7 @@
 #include "dungeon/monster/kid/allocate_object_with_child_entries.h"
 #include "dungeon/monster/kid.h"
 #include "dungeon/actor.h"
+#include "slus/data.h"
 
 /* Creates a Kid actor and its linked directional display, then initializes status and tile placement. */
 void *allocate_object_with_child_entries(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_value)

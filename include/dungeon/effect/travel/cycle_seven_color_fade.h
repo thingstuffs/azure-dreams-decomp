@@ -134,14 +134,6 @@ typedef struct B28_818B7E14_DungeonObject {
     u16 f34;
 } B28_818B7E14_DungeonObject;
 typedef struct {
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 dx;
-    s32 dy;
-    s32 dz;
-} B28_818B7D3C_VecState;
-typedef struct {
     u8 pad00[0x14];
     u16 counter;
 } B28_818B7D3C_ChildState;
@@ -202,14 +194,6 @@ typedef struct {
     s16 field14;
 } B28_818B78E8_S818B78E8_Obj;
 typedef struct {
-    s32 x0;
-    s32 x4;
-    s32 x8;
-    s32 xC;
-    s32 x10;
-    s32 x14;
-} B28_818B78E8_S818B78E8_Vec;
-typedef struct {
     u8 pad[0xC];
     s8 fieldC;
     s8 fieldD;
@@ -257,11 +241,6 @@ typedef struct B28_818B7264_S_80024A64_0 {
     s16 unk_0C;
     s16 unk_0E;
 } B28_818B7264_S_80024A64_0;
-typedef struct B28_818B7264_S_80024A64_1 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} B28_818B7264_S_80024A64_1;
 /* Scratchpad slots of draw_indexed_shaded_quad: draw_two_radial_effect_bands leaves the four 16.16
  * corner positions of a band segment in positions; their integer halves become the RotAverage4
  * vertices, whose screen XY words land in screen before they are copied into the POLY_GT4. */
@@ -330,10 +309,6 @@ typedef struct B28_818B68B8_S_818B68B8_1 {
     u8 pad_00[0x14];
     u16 unk_14;
 } B28_818B68B8_S_818B68B8_1;
-typedef struct B28_818B68B8_S_818B68B8_2 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} B28_818B68B8_S_818B68B8_2;
 void interpolate_view_parameters(EntityRec *target, s32 gain_param, void *record);
 void lower_animated_sprite(ColoredOffsetSpriteBody *counter_state, ObjectPosition *value_state, SpriteFrameState *status);
 void * create_colored_offset_sprite(s32 context_value, ObjectPosition *source_state, s32 render_param, struct B28_818B6AFC_FxEffect *ignored_context);

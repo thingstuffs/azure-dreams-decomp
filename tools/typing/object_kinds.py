@@ -413,7 +413,9 @@ class Symbols:
                     continue
                 cols = line.split('\t')
                 if len(cols) >= 3 and cols[0].startswith('0x'):
-                    self.addr.setdefault(cols[2], int(cols[0], 16))
+                    # placed copy (copy_of=): its canonical row binds the name
+                    if not (len(cols) > 3 and cols[3].strip().startswith('copy_of=')):
+                        self.addr.setdefault(cols[2], int(cols[0], 16))
                     self.addr.setdefault(cols[1], int(cols[0], 16))
         self.by_addr = collections.defaultdict(set)
         db = Path(root) / 'build/codemap.db'

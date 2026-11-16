@@ -249,17 +249,6 @@ typedef struct S_818D4D48_0 {
     u16 unk_04;
 } S_818D4D48_0;   /* held_arg0 in func_80024548; pointer addresses record offset 0x2 */
 
-typedef struct RenderFade33 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x4];
-    u16 unk_1A;
-} RenderFade33;   /* arg2 in func_80024548 */
-
 /* Fades and rotates an effect, decrements its timer, and flags completion. */
 void fade_and_rotate_timed_effect(void *record_data, ObjectPosition *unused, SpriteFrameState *effect)
 {

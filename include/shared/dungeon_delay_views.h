@@ -53,28 +53,6 @@ typedef struct DelayOwner {
     u16 child_activity; /* child-activity flags; each delayed child update sets bit 0x8000 */
 } DelayOwner;   /* temp_v1 in func_800247D8 */
 
-/* Color slice of an allocator-owned sprite part used by the rising/fading effect.
- * brighten_accelerate_and_fade_effect changes the three modulation channels together. */
-typedef struct DelaySpriteColor {
-    u8 pad_00[0xC];
-    union {
-        struct { u8 v; /* red modulation byte */ } at00;
-        struct { s32 v; /* whole color/command word, cleared at effect completion */ } at00u;
-        struct { u8 pad[0x1]; u8 v; /* green modulation byte */ } at01;
-        struct { u8 pad[0x2]; u8 v; /* blue modulation byte */ } at02;
-    } color; /* packed little-endian RGB modulation and primitive command byte */
-} DelaySpriteColor;   /* arg2 in func_800247D8 */
-
-/* Position/vertical-motion slice of the rising effect, reserved by allocate_list_node.
- * brighten_accelerate_and_fade_effect increases vertical velocity by 0x8000 per rising update. */
-typedef struct DelayMotion {
-    s32 x; /* world X in 16.16 units, copied into emitted children */
-    s32 y; /* world Y in 16.16 units, copied into emitted children */
-    s32 z; /* world height in 16.16 units */
-    u8 pad_0C[0x8];
-    s32 velocity_z; /* height increment per update, in 16.16 world units */
-} DelayMotion;   /* arg1 in func_800247D8 */
-
 /* Header/work slice of delayed child particles allocated by allocate_list_node.
  * brighten_accelerate_and_fade_effect installs their callback and links them to the owner. */
 struct SpriteFrameState;

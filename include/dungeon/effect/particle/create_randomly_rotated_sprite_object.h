@@ -227,18 +227,6 @@ typedef struct B22_81892800_Entity {
     s16 timer;
     s16 limit;
 } B22_81892800_Entity;
-typedef struct B22_81892800_Motion {
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 dx;
-    s32 dy;
-    s32 dz;
-} B22_81892800_Motion;
-typedef struct B22_81892800_Aux {
-    u8 pad_00[0x1A];
-    u16 angle;
-} B22_81892800_Aux;
 void advance_accelerating_spin_effect(B22_81892800_Entity *entity, ObjectPosition *motion, SpriteFrameState *aux);
 void *create_randomly_rotated_sprite_object(struct B22_81893474_EffectState *context, B22_818928F8_Copy24 *src_data, s16 state_value);
 void accelerate_and_expire_animated_sprite(VerticalAccelerationSpriteBody *step_state, ObjectPosition *accumulator, SpriteFrameState *target);

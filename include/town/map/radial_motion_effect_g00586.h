@@ -43,7 +43,6 @@ void select_record_entry_and_value(void *state,void *entries, short index);
 
 /* extern */
 
-#include "town/map/map_animation_entries.h"
 #include "town/map/motion.h"
 #include "sdk/libgte.h"
 #include "sdk/rand.h"

@@ -6,7 +6,7 @@
 #include "shared/object_flags.h"
 #include "engine/node.h"
 #include "town/map/state.h"
-#include "town/map/map_animation_entries.h"
+#include "town/data.h"
 
 
 /* Moves the object through its animation states, spawns an effect, and marks completion. */

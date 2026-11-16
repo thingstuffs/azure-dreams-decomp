@@ -2,8 +2,8 @@
 #include "shared/game_work.h"
 
 #include "engine/graphics.h"
-#include "engine/graphics/outline_points_data.h"
 #include "engine/resource.h"
+#include "slus/data.h"
 
 /* Copies three fields from each of six records and processes the destination buffer. */
 void copy_and_scale_screen_outline_points(void)

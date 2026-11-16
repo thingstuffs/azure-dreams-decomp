@@ -271,4 +271,37 @@ extern s16 window_overlay_model_values[ ];
 extern u8 window_overlay_parameter_template[ ];
 extern void *window_overlay_render_variants[ ];
 
+
+/* Imported data with no C definition (decision 74), formerly one-symbol headers. */
+/* The first word at 0x800737C0 is the setup guard. Padding retains the
+ * retail hi/lo addressing for this large-data compiler view. */
+typedef struct AudioTimerSetupGuard {
+    s32 value;
+    s32 pad[2];
+} AudioTimerSetupGuard;
+
+extern AudioTimerSetupGuard audio_timer_setup_guard;
+/* The timer-update enable flag at 0x80073824 is one word. Padding retains
+ * retail hi/lo addressing in the two functions that access it. */
+typedef struct AudioTimerUpdateEnabled {
+    s32 value;
+    s32 pad[2];
+} AudioTimerUpdateEnabled;
+
+extern AudioTimerUpdateEnabled audio_timer_update_enabled;
+/* The first word at 0x80085F98 is the audio update guard. The trailing
+ * compiler-view padding retains retail hi/lo addressing for its users. */
+typedef struct AudioUpdateGuard {
+    s32 value;
+    s32 pad[3];
+} AudioUpdateGuard;
+
+extern AudioUpdateGuard audio_update_guard;
+/* Neutral textured quad command and color word at 0x80083208. */
+extern s32 default_textured_quad_color[];
+/* Resident SLUS facing angle at 0x80083228, read as a signed halfword. */
+extern s16 view_facing_angle_alias;
+/* Halfword coordinates copied from game work and scaled for town windows. */
+extern u16 scaled_window_quad_points[];
+
 #endif

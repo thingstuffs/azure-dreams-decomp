@@ -20,11 +20,6 @@ import score
 
 ACCESS = re.compile(r'(?:\b[A-Za-z_]\w*\s*)?(?:\.|->)\s*([A-Za-z_]\w*)(?:\s*(?:\.|->)\s*[A-Za-z_]\w*)*')
 ID = re.compile(r'^[A-Za-z_]\w*$')
-R118_ZERO_FILES = {
-    'func_8180B064.c', 'func_80098378.c', 'func_808119EC.c',
-    'func_8028906C.c', 'func_809A38E4.c', 'func_80FB4C24.c',
-    'func_81844F2C.c', 'func_818B6AFC.c',
-}
 R118_ZERO_SITES = {
     'src/dungeon/menu/select.c': {
         'cell_y', 'mesh_index', 'packed0', 'x1', 'packed1', 'vert0_addr',
@@ -450,9 +445,7 @@ def census(root: Path):
                     chain = (name,)
                 uses[name] = {area: counts[area, chain] for area in ('src', 'include')}
                 sites[name] = examples['src', chain] + examples['include', chain]
-            context = dict(zero_file=len(members) == 1 and
-                           (Path(rel).name in R118_ZERO_FILES or
-                            field in R118_ZERO_SITES.get(rel, set())),
+            context = dict(zero_file=len(members) == 1 and field in R118_ZERO_SITES.get(rel, set()),
                            per_action=owner in {'ActorRecord', 'TownObjectRecord'} and
                            (field or '').startswith(('unk_8', 'unk_9', 'unk_A', 'unk_B')))
             kind = classify(members, context)

@@ -458,6 +458,8 @@ class Workspace:
         self.names={}
         for line in (self.repo/'config/names.tsv').read_text().splitlines():
             cols=line.split('#',1)[0].split('\t')
+            # placed copy (copy_of=): its canonical row binds the name
+            if len(cols)>3 and cols[3].strip().startswith('copy_of='):continue
             if len(cols)>=3:
                 self.names[cols[2].strip()]=cols[1].strip()
                 m=re.fullmatch(r'(?:func|D)_([0-9A-Fa-f]{8})',cols[1].strip())

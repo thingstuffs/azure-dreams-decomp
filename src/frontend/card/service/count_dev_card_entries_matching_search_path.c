@@ -3,7 +3,6 @@
 #include "frontend/card/server_aliases.h"
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
-#include "frontend/card/dev_card_directory_data.h"
 
 extern s32 dev_card_paths[2];
 

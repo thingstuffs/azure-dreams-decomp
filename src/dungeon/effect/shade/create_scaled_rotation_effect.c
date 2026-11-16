@@ -7,7 +7,7 @@
 #include "engine/node.h"
 #include "dungeon/effect/sprite.h"
 #include "dungeon/effect/shade.h"
-#include "slus/random_variant_sprite_entries.h"
+#include "dungeon/data.h"
 
 
 extern u8 D_80025098[9];

@@ -5,17 +5,6 @@
 #include "shared/actor_status.h"
 #include "dungeon/item.h"
 
-typedef struct S_800CA0DC_0 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x45];
-    u8 unk_71;
-    u8 pad_72[0x18];
-    union { s16 s; u16 u; } unk_8A;   /* accessed as both */
-} S_800CA0DC_0;   /* arg3 in advance_actor_along_path_points */
-
    /* Advances to the next path coordinate and updates movement state and timing. */
 void advance_actor_along_path_points(ActorRecord *motion, s32 unused, void *position, ActorRecord *path)
 {
@@ -36,14 +25,14 @@ void advance_actor_along_path_points(ActorRecord *motion, s32 unused, void *posi
         ((ActorStatusBytesView *)((u8 *)path + path->unk_8A))->path_x;
     ((MovingTile *)position)->tile_y =
         ((ActorStatusBytesView *)((u8 *)path + path->unk_8A))->path_y;
-    ((S_800CA0DC_0 *)path)->unk_8A.u++;
+    path->unk_8A = path->unk_8A + 1;
 
     path->facing =
         get_rounded_facing_and_rounding_flag(old_x, old_y, ((MovingTile *)position)->tile_x,
-                      ((MovingTile *)position)->tile_y, (u8 *)motion + 0x98);
+                      ((MovingTile *)position)->tile_y, &motion->action_state_flags);
     path->flags1C |= 0x40000000;
     motion->action_id = 0xF;
-    (*(s32 *)((u8 *)motion + (0x8C))) = 0;
+    motion->unk_8C.word = 0;
 
     if (g_dungeon_status.flags & 0x80) {
         motion->action_timer = 0;

@@ -10,7 +10,6 @@ s32 draw_fading_radial_effect_grid(void *);
 struct SpriteEffect;
 s32 draw_linked_sprite_effect_quads(struct SpriteEffect *);
 struct EffectRecord;
-struct SpriteEntry;
 void mark_owner_while_sprite_animates(struct EffectRecord *, void *, SpriteFrameState *);
 
 #endif

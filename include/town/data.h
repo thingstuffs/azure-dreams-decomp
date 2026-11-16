@@ -195,4 +195,11 @@ extern s16 D_A0700F24[];
 
 extern s32 scene_request_context;
 
+
+/* Imported data with no C definition (decision 74), formerly one-symbol headers. */
+/* Town map sprite source table; its allocation extent is not established. */
+extern SpriteSourceEntry map_animation_sprite_entries[];
+/* Shared town scene service arguments at 0x800183D8; extent is not established. */
+extern s32 scene_service_arguments[];
+
 #endif

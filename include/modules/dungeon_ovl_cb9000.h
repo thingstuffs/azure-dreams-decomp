@@ -220,21 +220,10 @@ typedef struct CL_CB9000_80171590_S_80171590_2 {
 
 /* extern */
 
-typedef struct CL_CB9000_80171F58_S_80171F58_0 {
-    u8 pad_00[0x9A];
-    s8 action;
-    s8 action_tick;
-} CL_CB9000_80171F58_S_80171F58_0;   /* state in func_8016BF58 */
-
 typedef struct CL_CB9000_80171F58_S_80171F58_1 {
     u8 pad_00[0x2C];
     u8 * unk_2C;
-} CL_CB9000_80171F58_S_80171F58_1;   /* render_state in func_8016BF58 */
-
-typedef struct CL_CB9000_80171F58_S_80171F58_2 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-} CL_CB9000_80171F58_S_80171F58_2;   /* entity in func_8016BF58 */
+} CL_CB9000_80171F58_S_80171F58_1;   /* render_state in begin_block_hop_slot_f */
 
 /* Select the overlay animation for the camera-relative facing and enter action 16. */
 
@@ -947,7 +936,6 @@ void *func_8016AA5C(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c);
 void func_8016B02C(CL_CB9000_8017102C_S_8017102C_0 *state, void *motion, CL_CB9000_8017102C_S_8017102C_2 *sprite, CL_CB9000_8017102C_S_8017102C_1 *actor);
 void func_8016B590(void *motion, s32 update_param, void *entity, void *state);
 void func_8016B810(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject *position_data, ActorRecord *actor_data);
-void func_8016BF58(CL_CB9000_80171F58_S_80171F58_0 *state, void *unused_position, CL_CB9000_80171F58_S_80171F58_1 *render_state, CL_CB9000_80171F58_S_80171F58_2 *entity);
 s32 func_8016BFBC(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *sprite_arg, ActorRecord *actor);
 void func_8016C180(CL_CB9000_80172180_S_80172180_1 *state, s32 position, CL_CB9000_80172180_S_80172180_2 *render_state, void *entity);
 s32 func_8016C298(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);

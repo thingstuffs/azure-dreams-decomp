@@ -1,8 +1,8 @@
 #include "common.h"
-#include "slus/audio_update_guard_data.h"
 #include "slus/audio_voice_data.h"
 #include "engine/audio/sequence.h"
 #include "slus.h"
+#include "slus/data.h"
 extern SoundVoiceRecord audio_voice_records[24];
 
 

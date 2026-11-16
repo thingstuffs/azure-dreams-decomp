@@ -30,6 +30,8 @@ def verify(root, work, scratch):
         if (root/'config/names.tsv').is_file():
             for line in (root/'config/names.tsv').read_text().splitlines():
                 cols = line.split('\t')
+                if len(cols)>3 and cols[3].strip().startswith('copy_of='):
+                    continue  # placed copy: its canonical row binds the name
                 if len(cols)>=3:
                     for name in cols[1:3]:
                         if name in addresses:

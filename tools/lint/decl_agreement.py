@@ -654,7 +654,9 @@ def name_addresses(root):
         for line in path.read_text(errors='replace').splitlines():
             parts = line.split('\t')
             if len(parts) >= 3 and parts[0].startswith('0x'):
-                out.setdefault(parts[2], parts[0])
+                # placed copy (copy_of=): its canonical row binds the name
+                if not (len(parts) > 3 and parts[3].strip().startswith('copy_of=')):
+                    out.setdefault(parts[2], parts[0])
                 out.setdefault(parts[1], parts[0])
     for name, (address, _) in symbol_sizes(root).items():
         out.setdefault(name, address)

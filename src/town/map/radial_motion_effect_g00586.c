@@ -7,6 +7,7 @@
 #include "town/map.h"
 #include "town/map/motion.h"
 #include "engine/window.h"
+#include "town/data.h"
 
 /* Creates an effect behind the source with randomized reverse motion and launch speed. */
 void *create_reverse_motion_effect(StackRecord *source_motion, u32 flags) {

@@ -1,6 +1,6 @@
 #include "common.h"
 #include "frontend/card.h"
-#include "frontend/card/dev_card_directory_data.h"
+#include "main/data.h"
 
 /* Return 15 minus the entry sum divided by 8192, rounding the quotient toward zero. */
 s32 card_dev_calc_remaining_8k_blocks(s32 entry_count) {
