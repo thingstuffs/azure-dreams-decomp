@@ -8,6 +8,8 @@
 
 /* Image IDs used by the building grid exceed four; the full table bound is unknown. */
 extern u16 *D_800D1868[];
+/* 128-by-128 tile IDs shared by the town map and building grid. */
+extern u16 town_tile_grid[];
 
 void initialize_building_region_resources(void);
 

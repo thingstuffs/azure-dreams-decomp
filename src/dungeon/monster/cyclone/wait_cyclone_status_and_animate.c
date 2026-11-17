@@ -89,7 +89,7 @@ void wait_cyclone_status_and_animate(ActorRecord *body, ObjectPosition *position
                     break;
                 }
             }
-            if (actor->mp_value.parts.whole == 0) {
+            if (actor->mp == 0) {
                 if (global_base->flags & 0x2008) {
                     break;
                 }

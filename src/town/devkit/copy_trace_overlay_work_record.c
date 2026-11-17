@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/devkit.h"
+#include "town/data.h"
 
 /* Devkit debug code (sn_main.c, per the "mark" trace below). */
 
@@ -10,13 +11,7 @@ typedef struct OvWork {
     u8 pad_0C[0x28];
 } OvWork;
 
-typedef struct DevCallbacks {
-    u8 pad_00[0x68];
-    void (*print)(char *format, char *name, s32 value);
-} DevCallbacks;
-
 extern OvWork D_8070139C;            /* ov_work */
-extern DevCallbacks *devkit_trace_methods;
 extern char D_80700B50[];            /* "%s = %d\n" */
 extern char D_80700B5C[];            /* "p->kind" */
 extern char D_80700B64[];            /* "ov_work.kind" */

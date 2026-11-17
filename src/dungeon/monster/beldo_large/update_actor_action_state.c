@@ -87,7 +87,7 @@ void update_beldo_large_action_state(ActorRecord *obj_arg, ObjectPosition *conte
                     return;
                 }
             }
-            if (actor_arg->mp_value.parts.whole == 0) {
+            if (actor_arg->mp == 0) {
                 if (held_base->flags & 0x2008) {
                     return;
                 }

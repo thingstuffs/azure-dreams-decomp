@@ -23,7 +23,7 @@ typedef struct S_800D5DCC_3 {
 
 extern u8 D_800D5AC0[];
 
-extern s16 actor_direction_step_pairs[];
+#include "dungeon/data.h"
 
 /* Spawn an effect offset from the source with randomized directional velocity. */
 void spawn_randomized_directional_effect(ObjectNodeHeader *source, short angle, int effect_value, int unused_particle_value)

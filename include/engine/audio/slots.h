@@ -9,7 +9,7 @@ struct S_8005A778_Arg0;
 /* Four scalar SPU RAM addresses, initialized by init_audio_staging_buffers. */
 extern u32 audio_staging_spu_offsets[4];
 
-/* bind_sound_slot_owner.c */
+/* transfer_sound_slot_body_to_spu.c */
 s16 transfer_sound_slot_body_to_spu(s32 owner, s16 entry_id);
 
 /* copy_sound_slot_info.c */

@@ -510,7 +510,7 @@ void dispatch_flame_actions(ActorRecord *actor, ObjectPosition *actor_context, S
         return;
     }
 
-    if (creature->mp_value.parts.whole == 0) {
+    if (creature->mp == 0) {
         u8 *animation_table;
 
         advance_actor_pending_action(actor, actor_context, sprite, creature);
@@ -1664,7 +1664,7 @@ void wait_flame_status_and_animate(ActorRecord *in_actor, ObjectPosition *in_con
                     return;
                 }
             }
-            if (in_entity->mp_value.parts.whole == 0) {
+            if (in_entity->mp == 0) {
                 if (g_dungeon_status.flags & 0x2008) {
                     return;
                 }
@@ -1792,7 +1792,7 @@ void wait_for_flame_mp(ActorRecord *entity, ObjectPosition *context, SpriteFrame
         R06_801738E0_S_801738E0_4 *scene_state;
         u32 actor_flags;
 
-        if (actor->mp_value.parts.whole != 0) {
+        if (actor->mp != 0) {
             s32 *status_page;
 
             (anim->frameTable) = flame_frame_set_1;
@@ -1854,7 +1854,7 @@ void wait_for_flame_mp(ActorRecord *entity, ObjectPosition *context, SpriteFrame
 
         update_actor_status_and_mp(actor);
         on_actor_status_updated(actor);
-        if (actor->mp_value.parts.whole == 0) {
+        if (actor->mp == 0) {
             return;
         }
 

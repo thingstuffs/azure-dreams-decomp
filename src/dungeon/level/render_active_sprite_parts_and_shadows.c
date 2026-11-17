@@ -8,6 +8,7 @@
 #include "common.h"
 #include "slus/data.h"
 #include "shared/game_work.h"
+#include "shared/dungeon_floor.h"
 
 #include "m2c_compat.h"
 #include "slus.h"
@@ -108,7 +109,6 @@ u32 RotAverage4(void *, void *, void *, void *, void *, void *, void *, void *, 
 s32 RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, GeomSideEffects);
 
 s32 RotMatrix(void *, void *, ...);        /* extern */
-extern s32 dungeon_floor_flags[3];
 extern u8 floor_objects[128];
 typedef struct DebugEntry {
     u8 b0;
@@ -218,7 +218,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, Sprit
     entry_table = (u8 *) (&floor_objects);
 
     entry_flags =  ((entry_index * 4) + entry_table);
-    if ((((!((*((u8 *) (((s8 *) entry_flags) + 3))) & 0x80)) || (dungeon_floor_flags[0] & FLOOR_TRAPS_VISIBLE))
+    if ((((!((*((u8 *) (((s8 *) entry_flags) + 3))) & 0x80)) || (dungeon_floor_flags & FLOOR_TRAPS_VISIBLE))
          && ((*((u8 *) (((s8 *) entry_flags) + 1))) != 0)) && ((*((u8 *) (((s8 *) entry_flags) + 0))) != 0)) {
         u8 *frame_table;
         frame_table = &dungeon_floor_object_positions;
@@ -472,7 +472,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, Sprit
 
                         *((s32 *) (((s8 *) quad) + 4)) = render_params->color.word;
                         *((u8 *) (((s8 *) quad) + 7)) = 0x2CU;
-                        if ((dungeon_floor_flags[0] & FLOOR_TRAPS_VISIBLE) && (((DebugEntry *)floor_objects)[entry_index].b3 & 0x80)) {
+                        if ((dungeon_floor_flags & FLOOR_TRAPS_VISIBLE) && (((DebugEntry *)floor_objects)[entry_index].b3 & 0x80)) {
                             *((u8 *) (((s8 *) quad) + 7)) = 0x2EU;
                         }
                         AddPrim((scr->unk_020)

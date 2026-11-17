@@ -119,7 +119,7 @@ void update_sleeping_hikewne(ActorRecord *action, ObjectPosition *context, Sprit
                 return;
             }
 
-            if (actor->mp_value.parts.whole == 0) {
+            if (actor->mp == 0) {
                 if ((dungeon_state->flags & 0x2008) != 0) {
                     return;
                 }

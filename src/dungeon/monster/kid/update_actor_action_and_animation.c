@@ -76,7 +76,7 @@ void update_actor_action_and_animation(ActorRecord *controller_in, ObjectPositio
                     return;
                 }
             }
-            if (actor->mp_value.parts.whole == 0) {
+            if (actor->mp == 0) {
                 if (g_dungeon_status.flags & 0x2008) {
                     return;
                 }

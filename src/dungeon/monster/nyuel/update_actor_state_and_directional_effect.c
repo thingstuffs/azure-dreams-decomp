@@ -49,7 +49,7 @@ void update_actor_state_and_directional_effect(ActorRecord *controller, ObjectPo
         return;
     }
     case 1:
-        if (actor->mp_value.parts.whole == 0) {
+        if (actor->mp == 0) {
             if (g_dungeon_status.flags & 0x1000) {
                 return;
             }
@@ -98,7 +98,7 @@ void update_actor_state_and_directional_effect(ActorRecord *controller, ObjectPo
 
             update_actor_status_and_mp(actor);
             on_actor_status_updated(actor);
-            if (actor->mp_value.parts.whole == 0) {
+            if (actor->mp == 0) {
                 return;
             }
         }

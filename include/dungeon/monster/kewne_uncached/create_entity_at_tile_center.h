@@ -16,6 +16,7 @@
 #include "engine/node.h"
 #include "shared/sys_flags.h"
 #include "shared/record_ptrs.h"
+#include "shared/dungeon_floor.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
@@ -101,8 +102,6 @@ extern u8 D_80070684[16];
 extern u8 D_80070AF8[16];
 extern u8 D_80070C11[16];
 extern u8 D_80070E63[16];
-extern u8 dungeon_floor_flags[16];
-
 extern u8 D_800FB3C8[16];
 extern u8 D_800FB8DF[16];
 extern u8 D_800FBAD7[16];

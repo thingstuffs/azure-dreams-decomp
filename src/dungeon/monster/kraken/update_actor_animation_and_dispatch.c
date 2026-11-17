@@ -79,7 +79,7 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
         advance_actor_path_and_facing(actor, context, sprite, status);
         return;
     }
-    if (status->mp_value.parts.whole == 0) {
+    if (status->mp == 0) {
         advance_actor_pending_action(actor, context, sprite, status);
         if (sprite->frameTable == &kraken_frame_set_2) {
             return;

@@ -317,7 +317,7 @@ void dispatch_block_turn_actions_slot_d(CL_CC5000_8017102C_S_8017102C_0 *state, 
   advance_block_path_slot_d(state,motion,sprite,actor);
   return;
  }
- if(actor->mp_value.parts.whole==0) {
+ if(actor->mp==0) {
   advance_actor_pending_action(state,motion,sprite,actor);
   if(sprite->unk_2C==cc5000_frame_set_1) return;
   sprite->unk_2C=block_slot_d_frame_set;
@@ -1426,7 +1426,7 @@ void update_block_status_animation_slot_d(ActorRecord *action, ObjectPosition *c
                     return;
                 }
             }
-            if (actor_in->mp_value.parts.whole == 0) {
+            if (actor_in->mp == 0) {
                 if (status->flags & 0x2008) {
                     return;
                 }
@@ -1558,7 +1558,7 @@ void wait_block_mp_recovery_slot_d(ActorRecord *actor_in, ObjectPosition *positi
     return;
 
     case 1:
-    if (entity->mp_value.parts.whole != 0) {
+    if (entity->mp != 0) {
         DungeonGlobalStatus *shared_counter;
 
         target->frameTable = cc5000_status_frames;
@@ -1613,7 +1613,7 @@ void wait_block_mp_recovery_slot_d(ActorRecord *actor_in, ObjectPosition *positi
             update_actor_status_and_mp(entity);
         }
         on_actor_status_updated(entity);
-        if (entity->mp_value.parts.whole == 0) {
+        if (entity->mp == 0) {
             return;
         }
         target->frameTable = cc5000_status_frames;

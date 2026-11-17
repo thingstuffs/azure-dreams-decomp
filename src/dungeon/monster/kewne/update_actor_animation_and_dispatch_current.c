@@ -49,7 +49,7 @@ void update_actor_animation_and_dispatch_current(ActorRecord *actor, ObjectPosit
         return;
     }
 
-    if (entity->mp_value.parts.whole == 0) {
+    if (entity->mp == 0) {
         u8 *anim_table;
 
         advance_actor_pending_action(actor, context, sprite, entity);

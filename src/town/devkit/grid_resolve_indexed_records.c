@@ -1,14 +1,6 @@
 #include "common.h"
 #include "town/devkit.h"
-typedef void (*Callback3)(void *, void *, s32);
-typedef void (*Callback1)(s32);
-
-typedef struct {
-    u8 pad68[0x68];
-    Callback3 callback68;
-    u8 pad6c[8];
-    Callback1 callback74;
-} CallbackTable;
+#include "town/data.h"
 
 typedef struct {
     u8 pad10[0x10];
@@ -20,7 +12,6 @@ extern u8 D_80700B94[];
 extern u8 D_80700BBC[];
 extern s32 D_80700B04[];
 extern s32 *D_807013B0[];
-extern CallbackTable *devkit_trace_methods[];
 extern GlobalState *D_807013A8[];
 extern void advance_table_index_by_eight_byte_stride(void);
 
@@ -29,8 +20,8 @@ void grid_resolve_indexed_records(s32 list_index) {
     void *records;
 
     if (D_80700B0C != 0) {
-        devkit_trace_methods[0]->callback68(D_80700B94, D_80700BBC, 0x59);
-        devkit_trace_methods[0]->callback74(1);
+        devkit_trace_methods->print(D_80700B94, D_80700BBC, 0x59);
+        devkit_trace_methods->set_mode(1);
     }
     D_80700B0C = 1;
     advance_table_index_by_eight_byte_stride();

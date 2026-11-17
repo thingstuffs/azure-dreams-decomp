@@ -48,7 +48,7 @@ void update_manoeva_behavior(ActorRecord *actor_state_in, ObjectPosition *update
         return;
     }
 
-    if (actor_data->mp_value.parts.whole == 0) {
+    if (actor_data->mp == 0) {
         advance_actor_pending_action(actor_state_in, update_context_in, map_object, actor_data);
         if (*(u8 **)&map_object->frameTable == D_80176650) {
             return;

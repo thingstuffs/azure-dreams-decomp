@@ -212,7 +212,7 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
             }
         }
 
-        if (actor->mp_value.parts.whole == 0) {
+        if (actor->mp == 0) {
             if (g_dungeon_status.flags & 0x2008) {
                 return;
             }

@@ -85,7 +85,7 @@ void draw_transformed_sprite_with_clip_rect();
 void * create_five_point_effect(u8, u8, s16, void *, s32, s32, void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 void retire_tracked_effect_by_id(s32 targetId);
 extern s32 return_magic_begin_address(void);
-extern M2C_UNK D_800DF45C;
+extern u8 D_800DF45C[];
 extern void *return_magic_effect_object;
 extern void *return_magic_fade_object;
 extern u8 D_800E1640[55];
@@ -226,7 +226,7 @@ void update_return_magic_sacrifice(S_800C2824_0 *effect, S_800C2824_3 *vertices,
         effect_object = dungeon_actor_ring_anchor;
         return_magic_effect_object = effect_object;
         if (create_five_point_effect(object_coords->tile_x, object_coords->tile_y,
-            effect_object->ground_height, &D_800DF45C, 0x2800, 0x208020, &return_magic_begin_address) == 0) {
+            effect_object->ground_height, D_800DF45C, 0x2800, 0x208020, &return_magic_begin_address) == 0) {
             return;
         }
         flags_page = (S_800C2824_10 *)0x80080000;
@@ -247,7 +247,7 @@ void update_return_magic_sacrifice(S_800C2824_0 *effect, S_800C2824_3 *vertices,
         effect_param = effect_object->ground_height;
         return_magic_effect_object = effect_object;
         if (create_five_point_effect(object_coords->tile_x, object_coords->tile_y,
-            effect_param, &D_800DF45C, 0x2800, 0x208020, &create_and_store_pending_actor_fade) == 0) {
+            effect_param, D_800DF45C, 0x2800, 0x208020, &create_and_store_pending_actor_fade) == 0) {
             return;
         }
         effect->unk_06 = 0x3C;

@@ -48,7 +48,7 @@ void wait_for_hikewne_mp_recovery(ActorRecord *actor, ObjectPosition *context, S
     {
         u32 entity_flags;
 
-        if (entity->mp_value.parts.whole != 0) {
+        if (entity->mp != 0) {
 
             (animation->frameTable) = hikewne_frame_set_3;
             select_sprite_entry(animation,
@@ -106,7 +106,7 @@ void wait_for_hikewne_mp_recovery(ActorRecord *actor, ObjectPosition *context, S
 
         update_actor_status_and_mp(entity);
         on_actor_status_updated(entity);
-        if (entity->mp_value.parts.whole == 0) {
+        if (entity->mp == 0) {
             return;
         }
 

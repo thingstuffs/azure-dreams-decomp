@@ -172,11 +172,8 @@ typedef struct ActorRecord {
     /* 0x01C */ int flags1C; /* current side, attachment, movement and active-status bits; see shared/actor_status_flags.h */
     /* 0x020 */ short unk_20; /* prepared attack power; attack preparation seeds it, damage resolution adjusts it before deriving the target HP delta */
     /* 0x022 */ unsigned short unk_22; /* halfword copied with the actor snapshot (copy_entity_record) */
-    /* 0x024 */ union {
-        unsigned short whole; /* current 8.8 MP */
-        short signed_whole; /* exact signed halfword view used by action/effect callbacks */
-        struct { unsigned char fraction; unsigned char whole; } parts;
-    } mp_value;
+    /* 0x024 */ unsigned char mp_fraction; /* low byte of the 8.8 current MP; spending, draining and feeding read and write mp_fraction..mp as one halfword, and a clamp to max_mp sets it to 0xFF */
+    /* 0x025 */ unsigned char mp; /* current MP in whole points: the byte displays, max_mp clamps and empty-MP tests read */
     /* 0x026 */ unsigned char current_attack; /* current attack stat; restored from base_attack after temporary changes */
     /* 0x027 */ unsigned char current_defense; /* current defense stat; restored from base_defense after temporary changes */
     /* 0x028 */ unsigned char hp; /* current HP; damage may first accumulate in the signed delta at +0x64 */

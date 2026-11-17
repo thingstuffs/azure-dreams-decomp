@@ -108,7 +108,7 @@ void advance_picket_status_action(ActorRecord *in_action, ObjectPosition *in_con
                 }
             }
 
-            if (actor->mp_value.parts.whole == 0) {
+            if (actor->mp == 0) {
                 if (input_state->flags & 0x2008) {
                     return;
                 }

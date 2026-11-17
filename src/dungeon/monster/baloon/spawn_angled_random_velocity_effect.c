@@ -27,7 +27,7 @@ typedef struct EffectBase {
 
 
 extern s32 D_800D707C[];
-extern s16 actor_direction_step_pairs[];
+#include "dungeon/data.h"
 
 typedef struct S_80D659DC_0 {
     u8 pad_00[0x8];

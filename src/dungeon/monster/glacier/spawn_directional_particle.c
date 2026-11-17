@@ -1,5 +1,6 @@
 #include "shared/entity.h"
 #include "dungeon/monster/glacier.h"
+#include "dungeon/data.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -13,16 +14,10 @@
 
    /* coords in spawn_directional_particle */
 
-typedef struct {
-    s16 x;
-    s16 y;
-} Pair16;
-
 extern void select_record_entry_and_value(void *, void *, s32);
 
 #include "dungeon/effect/sprite/shared_entries.h"
 
-extern Pair16 glacier_direction_offsets[];
 
 /* Spawn a particle with randomized position, rotation, and direction-based velocity. */
 void spawn_directional_particle(Rec_func_801744DC_arg0 *source, ObjectPosition *origin, void *unused_sprite)

@@ -44,7 +44,7 @@ void update_barong_turn_action(ActorRecord *body, ObjectPosition *position, Spri
         return;
     }
 
-    if (actor->mp_value.parts.whole == 0) {
+    if (actor->mp == 0) {
         advance_actor_pending_action(body, position, sprite, actor);
         {
         void *current_anim = sprite->frameTable;

@@ -14,7 +14,7 @@ struct S_8006CE80
 };
 extern struct S_8006CE80 dispatch_resource_records[];
 
-extern s8 scene_music_hold[12];
+extern s8 scene_music_hold;
 /* Updates the requested state and triggers transition handling when needed. */
 void request_scene_dispatch_state(s16 requested_state)
 {
@@ -36,7 +36,7 @@ void request_scene_dispatch_state(s16 requested_state)
         }
         *(s8 *)0x80080A88 = 0;
     }
-    if (scene_music_hold[0] == 0) {
+    if (scene_music_hold == 0) {
         SD_Call(0xCF);
         drain_audio_commands_and_service_channels();
     }

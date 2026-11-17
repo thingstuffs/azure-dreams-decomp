@@ -24,7 +24,7 @@ struct ObjectNodeHeader;
 
 extern u8 D_800D4158;
 extern u8 actor_default_action_address;
-extern u8 D_800DEEC0;
+extern s32 D_800DEEC0;
 
 /* Creates an object at the given tile and height, initializing its sprite and tile flags. */
 void *create_actor_with_tile_flags(s16 variant, u16 tile_x, u16 tile_y, s16 spawn_height)

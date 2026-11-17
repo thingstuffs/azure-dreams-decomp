@@ -2,13 +2,8 @@
 #include "m2c_compat.h"
 #include "town/shop/state.h"
 #include "town/devkit.h"
+#include "town/data.h"
 
-typedef struct ListLink {
-    u16 first;
-    u16 next;
-} ListLink;
-
-extern ListLink devkit_shop_flag_links[];
 extern s16 *D_80701DEC[];
 
 /* Skips entries accepted by shop_test_indexed_flag and checks whether the next entry is zero. */

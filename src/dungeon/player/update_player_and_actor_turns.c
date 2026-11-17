@@ -317,7 +317,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
                     companion_slot = (u8 *)linked_actor + 4;
                     do {
                         companion = ((ActorRecord *)companion_slot)->unk_AC.address;
-                        if ((companion != 0) && (companion->mp_value.parts.whole != 0)) {
+                        if ((companion != 0) && (companion->mp != 0)) {
                             companion_total = *companion_fraction + companion->max_hp;
                             *companion_fraction = companion_total;
                             companion_points = companion->hp;

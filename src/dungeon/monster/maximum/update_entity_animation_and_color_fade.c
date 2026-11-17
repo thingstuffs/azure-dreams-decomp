@@ -93,7 +93,7 @@ void update_entity_animation_and_color_fade(ActorRecord *controller, ObjectPosit
                 return;
             }
         }
-        if (entity->mp_value.parts.whole == 0) {
+        if (entity->mp == 0) {
             if (g_dungeon_status.flags & 0x2008) {
                 return;
             }

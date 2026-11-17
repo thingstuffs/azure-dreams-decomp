@@ -48,7 +48,7 @@ s32 apply_familiar_magic_drain_item(ActorRecord *entity, DungeonItemEntry *actio
             entity->flags1C = (u32) (((u32)entity->flags1C) | ACTOR_MP_EMPTY);
         }
         flags = ((u32)entity->flags1C);
-        entity->mp_value.whole = 0;
+        *(u16 *)&entity->mp_fraction = 0;
         if (!(flags & 8)) {
             flag_test = flags & 0x80000;
             counter_page = (void *)0x80080000;

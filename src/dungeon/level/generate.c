@@ -999,11 +999,11 @@ s32 setup_dungeon_floor_encounters(void)
             if (floor_group >= 0) {
                 encounter_status = load_object_into_alternate_buffer((s16)(floor_group + 1), 1, 1);
                 if (encounter_status == 0) {
-                    scene_music_hold[0] = 0;
+                    scene_music_hold = 0;
                 }
-                if (scene_music_hold[0] == 0) {
+                if (scene_music_hold == 0) {
                     wait_until_sound_idle();
-                    scene_music_hold[0] = 1;
+                    scene_music_hold = 1;
                     SD_Call(0x200);
                     drain_audio_commands_and_service_channels();
                 }

@@ -52,7 +52,7 @@ void dispatch_blume_actions(ActorRecord *actor_in, ObjectPosition *actor_data_in
         return;
     }
 
-    if (status_in->mp_value.parts.whole == 0) {
+    if (status_in->mp == 0) {
         advance_actor_pending_action(actor_in, actor_data_in, sprite_in, status_in);
         if (*(u8 **)&sprite_in->frameTable == blume_direction_frames_2) {
             return;

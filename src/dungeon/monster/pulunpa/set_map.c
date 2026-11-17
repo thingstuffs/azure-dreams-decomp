@@ -75,7 +75,7 @@ void update_pulunpa_behavior(ActorRecord *actor, ObjectPosition *context, Sprite
         func_80174924(actor, context, sprite, creature);
         return;
     }
-    if (creature->mp_value.parts.whole == 0) {
+    if (creature->mp == 0) {
         advance_actor_pending_action(actor, context, sprite, creature);
         if (sprite->frameTable == pulunpa_frame_set_3) {
             return;

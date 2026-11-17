@@ -98,7 +98,7 @@ void *create_actor_status_panel(ActorRecord *owner)
             set_record_flags_and_negate_x(prim, 8);
             prim += 0x24;
             *((s32 *) (((s8 *) panel) + 0x5C)) = color_or_addr;
-            format_int_space_padded(entity->mp_value.parts.whole, 3, digits);
+            format_int_space_padded(entity->mp, 3, digits);
             *((s32 *) (((s8 *) panel) + 0x78)) = build_positioned_text_glyphs(prim, text_buf, 0);
             offset_record_coordinates(prim, 8, (s32) ((s16) ((0 - ((s8) (*((u8 *) (((s8 *) prim) + 3))))) + 8)));
             set_record_flags_and_negate_x(prim, 8);

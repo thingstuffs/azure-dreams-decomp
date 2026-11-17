@@ -456,7 +456,6 @@ static __inline__ u16 set_flags(u16 value, u16 flags) {
 
 /* Advances the counter, increments both fields for the first eight steps, and updates the record. */
 
-typedef s32 E_801742AC_M2C_UNK;
 
 #define NULL 0
 
@@ -489,7 +488,7 @@ typedef struct E_801742AC_S_80DE6AAC_4 {
 /* Build an encoded message from the record and this bank's suffix. */
 extern s16 actor_turn_angle_offsets[8];
 
-extern E_801742AC_M2C_UNK D_800DEEC0;
+extern s32 D_800DEEC0;
 extern u8 volcano_frame_set_3[];
 extern u8 volcano_frame_set_1[];
 extern u8 D_80174528[8];

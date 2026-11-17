@@ -47,7 +47,7 @@ void update_actor_turn_and_action(ActorRecord *entity, ObjectPosition *context, 
         return;
     }
 
-    if (actor->mp_value.parts.whole == 0) {
+    if (actor->mp == 0) {
         if (entity->unk_B4.bytes[1] == 0) {
             void *anim_table;
 

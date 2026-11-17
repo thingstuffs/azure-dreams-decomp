@@ -73,7 +73,7 @@ void wait_blume_status_and_animate(ActorRecord *controller, ObjectPosition *cont
             }
         }
 
-        if (actor->mp_value.parts.whole == 0) {
+        if (actor->mp == 0) {
             if (global_state->flags & 0x2008) {
                 break;
             }

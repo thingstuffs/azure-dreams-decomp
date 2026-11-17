@@ -3,8 +3,6 @@
 #include "town/map/building_grid_g00638.h"
 #include "town/map.h"
 
-extern u8 town_tile_grid[];
-
 /* Initialize the shared buffer pointer and paired parameters, then process the buffer. */
 void init_town_tile_grid_map(void)
 {

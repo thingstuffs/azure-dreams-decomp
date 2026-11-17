@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/devkit.h"
+#include "town/data.h"
 
 /* Devkit debug code (sn_main.c line 47 trace) in the link-at-0 scene-test image A; the same routine as
  * copy_and_trace_overlay_work_record (src/town/func_80880194.c, line 48) in the 0x80700000-linked image. */
@@ -11,15 +12,7 @@ typedef struct OvWork {
     u8 pad_0C[0x28];
 } OvWork;
 
-typedef struct DevCallbacks {
-    u8 pad_00[0x64];
-    void (*print)(char *format, char *name, s32 value);
-    u8 pad_68[0x4];
-    void (*flush)(s32 mode);
-} DevCallbacks;
-
 extern OvWork D_000045F8;            /* ov_work */
-extern DevCallbacks *overlay_trace_methods;
 extern char D_000034D0[];            /* "%s = %d\n" */
 extern char D_000034DC[];            /* "p->kind" */
 extern char D_000034E4[];            /* "ov_work.kind" */

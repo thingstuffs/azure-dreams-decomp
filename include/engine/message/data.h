@@ -6,5 +6,6 @@
 extern u8 message_window_object_template[];
 extern u8 message_window_audio_sync_data[];
 extern u8 person_motion_tag[];
+extern u8 *message_control_string_table[];
 
 #endif

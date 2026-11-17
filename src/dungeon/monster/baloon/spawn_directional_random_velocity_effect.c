@@ -9,8 +9,6 @@
 #include "dungeon/monster/baloon.h"
 #include "sdk/libc.h"
 
-typedef s32 M2C_UNK;
-
    /* node in spawn_directional_random_velocity_effect */
 
 typedef struct S_80D65C5C_1 {
@@ -21,7 +19,7 @@ typedef struct S_80D65C5C_1 {
    /* ((S_80D65C5C_1 *)arg0)->unk_08 in spawn_directional_random_velocity_effect */
 
 
-extern s16 actor_direction_step_pairs[];
+#include "dungeon/data.h"
 extern u8 D_80171384[];
 
 /* Spawns a directional sprite effect near the source with randomized velocity. */

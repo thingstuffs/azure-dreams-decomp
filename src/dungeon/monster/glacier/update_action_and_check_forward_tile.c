@@ -15,11 +15,7 @@
 #include "engine/graphics.h"
 #include "dungeon/system.h"
 #include "sdk/libc.h"
-
-typedef struct {
-    s16 x;
-    s16 y;
-} Pair16;
+#include "dungeon/data.h"
 
 void select_record_entry_and_value(void *state_data, void *entry_data, short index);
 
@@ -33,7 +29,6 @@ extern u8 D_80170B48[];
 
 #include "dungeon/monster/glacier.h"
 #include "dungeon/monster/glacier_frames.h"
-extern Pair16 glacier_direction_offsets[];
 
 
 
@@ -59,7 +54,7 @@ void update_action_and_check_forward_tile(ActorRecord *actor, ObjectPosition *mo
     SpriteFrameState *sprite;
     ObjectPosition *particle_transform;
     SpriteFrameState *owner;
-    Pair16 *directions;
+    GlacierDirectionOffset *directions;
     s32 spin_angle;
 
 #define motion motion

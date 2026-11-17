@@ -59,7 +59,7 @@ void update_nyuel_behavior(ActorRecord *entity, ObjectPosition *context, SpriteF
         advance_grineut_stored_path(entity, context, sprite, state);
         return;
     }
-    if (state->mp_value.parts.whole == 0) {
+    if (state->mp == 0) {
         advance_actor_pending_action(entity, context, sprite, state);
         if (sprite->frameTable == &nyuel_frame_set_1) {
             return;

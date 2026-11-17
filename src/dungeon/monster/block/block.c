@@ -323,7 +323,7 @@ void dispatch_actor_turn_and_motion(ActorRecord *state, ObjectPosition *motion, 
   advance_actor_stored_path(state,motion,sprite,actor);
   return;
  }
- if(actor->mp_value.parts.whole==0) {
+ if(actor->mp==0) {
   advance_actor_pending_action(state,motion,sprite,actor);
   if(sprite->frameTable==block_frame_set_1) return;
   sprite->frameTable=block_frame_set;
@@ -1443,7 +1443,7 @@ void wait_actor_status_and_animate(ActorRecord *action, ObjectPosition *context,
                     return;
                 }
             }
-            if (actor_in->mp_value.parts.whole == 0) {
+            if (actor_in->mp == 0) {
                 if (status->flags & 0x2008) {
                     return;
                 }
@@ -1576,7 +1576,7 @@ void wait_actor_mp_and_animate(ActorRecord *actor_in, ObjectPosition *actor_inde
     return;
 
     case 1:
-    if (entity->mp_value.parts.whole != 0) {
+    if (entity->mp != 0) {
         DungeonGlobalStatus *shared_counter;
 
         target->frameTable = block_status_frames;
@@ -1631,7 +1631,7 @@ void wait_actor_mp_and_animate(ActorRecord *actor_in, ObjectPosition *actor_inde
             update_actor_status_and_mp(entity);
         }
         on_actor_status_updated(entity);
-        if (entity->mp_value.parts.whole == 0) {
+        if (entity->mp == 0) {
             return;
         }
         target->frameTable = block_status_frames;

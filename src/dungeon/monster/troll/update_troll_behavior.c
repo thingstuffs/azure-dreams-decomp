@@ -57,7 +57,7 @@ void update_troll_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFr
         advance_troll_stored_path(actor, context, sprite, state);
         return;
     }
-    if (state->mp_value.parts.whole == 0) {
+    if (state->mp == 0) {
         advance_actor_pending_action(actor, context, sprite, state);
         anim_mode = state->unk_48;
         switch (anim_mode) {

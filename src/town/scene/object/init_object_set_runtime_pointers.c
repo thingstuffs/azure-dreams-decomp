@@ -14,7 +14,7 @@ typedef struct TownRuntime {
     void *field_34;
 } TownRuntime;
 
-extern s32 D_8001C370;
+extern s32 *D_8001C370;
 extern u8 D_8001C480[0x10];
 extern u8 D_8001DA10;
 extern u8 scene_object_image_data;

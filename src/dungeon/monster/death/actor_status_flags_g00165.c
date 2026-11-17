@@ -57,7 +57,7 @@ void wait_death_status_and_animate(ActorRecord *body, ObjectPosition *position, 
                 }
             }
 
-            if (actor->mp_value.parts.whole == 0) {
+            if (actor->mp == 0) {
                 if (world_state->flags & 0x2008) {
                     return;
                 }
@@ -224,7 +224,7 @@ void wait_death_mp_and_animate(ActorRecord *actor, ObjectPosition *context, Spri
         S_8017409C_4 *dungeon_state;
         u32 entity_flags;
 
-        if (entity->mp_value.parts.whole != 0) {
+        if (entity->mp != 0) {
             s32 *status_page;
 
             (animation->frameTable) = death_frame_set_3;
@@ -301,7 +301,7 @@ void wait_death_mp_and_animate(ActorRecord *actor, ObjectPosition *context, Spri
 
         update_actor_status_and_mp(entity);
         on_actor_status_updated(entity);
-        if (entity->mp_value.parts.whole == 0) {
+        if (entity->mp == 0) {
             return;
         }
 

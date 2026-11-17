@@ -255,7 +255,7 @@ void update_griffon_actor_behavior(ActorRecord *actor, ObjectPosition *position,
         return;
     }
 
-    if (actor_data->mp_value.parts.whole == 0) {
+    if (actor_data->mp == 0) {
         advance_actor_pending_action(actor, position, object, actor_data);
         if (object->frameTable == griffon_frame_set_3) {
             return;
@@ -1648,7 +1648,7 @@ void update_sleeping_griffon(ActorRecord *controller, ObjectPosition *actor_inde
                 && ((actor->hp_delta == 0)
                     || (begin_ready_actor_directional_action(controller, actor_index, sprite, 0) == 0))) {
 
-                if (actor->mp_value.parts.whole == 0) {
+                if (actor->mp == 0) {
                     if (dungeon_status->flags & 0x2008) {
                         return;
                     }
@@ -1770,7 +1770,7 @@ void wait_for_griffon_mp(ActorRecord *controller, ObjectPosition *context, Sprit
     {
         u32 entity_flags;
 
-        if (entity->mp_value.parts.whole != 0) {
+        if (entity->mp != 0) {
 
             sprite->frameTable = griffon_frame_set_1;
             select_sprite_entry(sprite,
@@ -1820,7 +1820,7 @@ void wait_for_griffon_mp(ActorRecord *controller, ObjectPosition *context, Sprit
 
         update_actor_status_and_mp(entity);
         on_actor_status_updated(entity);
-        if (entity->mp_value.parts.whole == 0) {
+        if (entity->mp == 0) {
             return;
         }
 

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/devkit.h"
+#include "town/data.h"
 
 typedef struct {
     s32 words00[2];
@@ -7,23 +8,12 @@ typedef struct {
     s32 words0C[10];
 } SceneRecord;
 typedef struct {
-    u8 pad00[0x68];
-    void (*func68)(void *, void *, ...);
-} CallbackTable;
-
-typedef struct {
     s32 value;
     u8 pad04[8];
 } IntGlobal;
 
-typedef struct {
-    CallbackTable *value;
-    u8 pad04[8];
-} CallbackGlobal;
-
 extern u8 D_807030AC[];
 extern IntGlobal D_807030A8;
-extern CallbackGlobal devkit_runtime_methods;
 extern u8 D_807028B0[];
 extern u8 D_807028BC[];
 extern u8 D_807028C4[];
@@ -34,7 +24,7 @@ extern u8 D_807028E8[];
 void dev_copy_overlay_work_and_trace_47(s32 *p) {
     *(SceneRecord *)(D_807030AC - 0xC) = *(SceneRecord *)p;
 
-    devkit_runtime_methods.value->func68(D_807028B0, D_807028BC, ((SceneRecord *)p)->kind);
-    devkit_runtime_methods.value->func68(D_807028B0, D_807028C4, D_807030A8.value);
-    devkit_runtime_methods.value->func68(D_807028D4, D_807028E8, 0x2F);
+    devkit_runtime_methods->print(D_807028B0, D_807028BC, ((SceneRecord *)p)->kind);
+    devkit_runtime_methods->print(D_807028B0, D_807028C4, D_807030A8.value);
+    devkit_runtime_methods->print(D_807028D4, D_807028E8, 0x2F);
 }

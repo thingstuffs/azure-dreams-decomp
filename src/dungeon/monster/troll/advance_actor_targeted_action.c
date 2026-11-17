@@ -99,14 +99,14 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
                 target = (ObjectNodeHeader *)primary_actor_record;
                 actor->target = target;
                 state = (target - 1)->sprite;
-                actor->target_tile_x = ((ActorRecord *)state)->mp_value.parts.fraction;
-                actor->target_tile_y = ((ActorRecord *)state)->mp_value.parts.whole;
+                actor->target_tile_x = ((SpriteFrameState *)state)->tile_x;
+                actor->target_tile_y = ((SpriteFrameState *)state)->tile_y;
             } else if (item_action_definitions[*move].kind == 2) {
                 target = actor->target;
                 if (target != 0) {
                     state = (target - 1)->sprite;
-                    actor->target_tile_x = ((ActorRecord *)state)->mp_value.parts.fraction;
-                    actor->target_tile_y = ((ActorRecord *)state)->mp_value.parts.whole;
+                    actor->target_tile_x = ((SpriteFrameState *)state)->tile_x;
+                    actor->target_tile_y = ((SpriteFrameState *)state)->tile_y;
                 }
             } else {
                 target = scan_actor_along_heading(

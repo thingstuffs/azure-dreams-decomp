@@ -46,7 +46,7 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
         return;
     }
 
-    if (entity->mp_value.parts.whole == 0) {
+    if (entity->mp == 0) {
         u8 *anim_table;
 
         advance_actor_pending_action(actor, context, sprite, entity);

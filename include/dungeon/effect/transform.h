@@ -7,6 +7,7 @@ struct SpriteFrameState;
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/sprite_source.h"
 #include "sdk/rand.h"
 #ifndef NULL
 #define NULL 0
@@ -96,7 +97,7 @@ extern u8 D_80024020[];
 extern u8 D_80024C78[];
 extern s32 D_80024264;
 extern s32 transform_effect_tag;
-extern s32 D_800DEF08;
+extern SpriteSourceEntry D_800DEF08[];
 ObjectNodeHeader *allocate_display_object_and_copy_state(void *stored_value, ObjectPosition *input, s16 stored_tag);
 void create_randomized_grayscale_effect(Row_8189EA64_S_80024264_0 *sequence, s32 unused,struct SpriteFrameState *record);
 ObjectNodeHeader *create_randomized_transform_effect(void *owner_id, ObjectPosition *transform);

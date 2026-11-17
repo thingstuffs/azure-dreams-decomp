@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "engine/message.h"
+#include "engine/message/data.h"
 #include "engine/script/vm.h"
 #include "engine/town.h"
 
@@ -11,8 +12,6 @@ typedef struct RuntimeContext {
     u8 **return_ptr;
     u8 *base;
 } RuntimeContext;
-
-extern u8 *message_control_string_table[];
 
 /* Processes stream control bytes until the next data byte. */
 void process_message_control_bytes(RuntimeContext *ctx) {

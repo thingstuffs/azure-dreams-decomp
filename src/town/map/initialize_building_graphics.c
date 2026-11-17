@@ -3,6 +3,7 @@
 #include "engine/scene.h"
 #include "sdk/libgpu.h"
 #include "town/map.h"
+#include "town/map/building_grid_g00638.h"
 
 typedef struct S_800B6FB8_0 {
     u8 pad_00[0x14];
@@ -20,7 +21,7 @@ typedef struct S_800B6FB8_2 {
     void * unk_1DC;
 } S_800B6FB8_2;   /* base in initialize_building_graphics */
 
-extern u8 g_game_work[], building_texture_frame_zero[], building_texture_backup[], building_palette_backup[], D_8012F004[], town_tile_grid[];
+extern u8 g_game_work[], building_texture_frame_zero[], building_texture_backup[], building_palette_backup[], D_8012F004[];
 /* Initialize drawing state and upload image and palette data. */
 void initialize_building_graphics(void)
 {

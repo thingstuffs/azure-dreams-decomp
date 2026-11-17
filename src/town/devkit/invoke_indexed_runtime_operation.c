@@ -1,18 +1,13 @@
 #include "common.h"
 #include "town/devkit.h"
+#include "town/data.h"
 
-typedef struct SceneEntry {
+struct SceneEntry {
     u8 data[8];
-} SceneEntry;
-
-typedef struct RuntimeMethods {
-    u8 pad_00[0x64];
-    void (*invoke)(s32, SceneEntry *, s32);
-} RuntimeMethods;
+};
 
 extern SceneEntry D_80702BA8[];
 extern u8 D_80702C00[];
-extern RuntimeMethods *devkit_runtime_methods;
 
 /* Invoke runtime operation 6 for the scene entry mapped from the index. */
 void invoke_indexed_runtime_operation(s32 scene_index)

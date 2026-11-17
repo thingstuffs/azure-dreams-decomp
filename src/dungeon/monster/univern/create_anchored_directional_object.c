@@ -445,7 +445,7 @@ void dispatch_univern_actions(ActorRecord *actor, ObjectPosition *context, Sprit
         return;
     }
 
-    if (status->mp_value.parts.whole == 0) {
+    if (status->mp == 0) {
         advance_actor_pending_action(actor, context, sprite, status);
         if (*(u8 **)&sprite->frameTable == univern_alt_spawn_direction_frames) {
             return;

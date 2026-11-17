@@ -1,6 +1,7 @@
 #include "dungeon/effect/sprite/fading_entries.h"
 #include "shared/entity.h"
 #include "dungeon/monster/glacier.h"
+#include "dungeon/data.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -14,15 +15,7 @@
 
    /* coords in spawn_brief_directional_particle */
 
-typedef struct {
-    s16 x;
-    s16 y;
-} Pair16;
-
 extern void select_record_entry_and_value(void *, void *, s32);
-
-
-extern Pair16 glacier_direction_offsets[];
 
 /* Spawn an effect with randomized position and velocity based on the source direction. */
 void spawn_brief_directional_particle(Rec_func_801744DC_arg0 *source, ObjectPosition *origin, void *unused)

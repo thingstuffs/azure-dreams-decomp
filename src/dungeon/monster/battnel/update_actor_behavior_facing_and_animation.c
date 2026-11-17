@@ -49,7 +49,7 @@ void update_battnel_turn_action(ActorRecord *actor, ObjectPosition *context, Spr
         return;
     }
 
-    if (status->mp_value.parts.whole == 0) {
+    if (status->mp == 0) {
         advance_actor_pending_action(actor, context, sprite, status);
         if (sprite->frameTable == D_80173D4C) {
             return;

@@ -60,7 +60,7 @@ void wait_multi_form_actor_mp(ActorRecord *context, ObjectPosition *callback_arg
             }
         }
         object = object_arg;
-        if (actor_arg->mp_value.parts.whole != 0) {
+        if (actor_arg->mp != 0) {
             kind = context->unk_AC.byte;
             if (kind == 0xE || (kind < 0xF ? kind == 0xD : kind == 0xF)) {
                 (object->frameTable) = beldo_large_frame_set_7;
@@ -103,7 +103,7 @@ void wait_multi_form_actor_mp(ActorRecord *context, ObjectPosition *callback_arg
         }
         update_actor_status_and_mp(actor_arg);
         on_actor_status_updated(actor_arg);
-        if (actor_arg->mp_value.parts.whole == 0) {
+        if (actor_arg->mp == 0) {
             return;
         }
         kind = context->unk_AC.byte;

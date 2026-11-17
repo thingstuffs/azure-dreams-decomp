@@ -50,7 +50,7 @@ void update_hikewne_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
         return;
     }
 
-    if (stats->mp_value.parts.whole == 0) {
+    if (stats->mp == 0) {
         advance_actor_pending_action(actor_arg, context_arg, sprite, stats);
         if (*(u8 **)&sprite->frameTable == hikewne_frame_set_2) {
             return;

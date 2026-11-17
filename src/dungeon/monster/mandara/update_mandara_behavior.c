@@ -75,7 +75,7 @@ void update_mandara_behavior(ActorRecord *self_object, ObjectPosition *aux_entit
         return;
     }
 
-    if (entity->mp_value.parts.whole == 0) {
+    if (entity->mp == 0) {
         advance_actor_pending_action(self_object, aux_entity, sprite, entity);
         {
             void *current =

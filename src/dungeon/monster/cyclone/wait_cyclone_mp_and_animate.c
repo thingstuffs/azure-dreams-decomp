@@ -50,7 +50,7 @@ void wait_cyclone_mp_and_animate(ActorRecord *actor, ObjectPosition *action_ctx,
     {
         u32 entity_flags;
 
-        if (entity->mp_value.parts.whole != 0) {
+        if (entity->mp != 0) {
 
             (anim->frameTable) = cyclone_frame_set_1;
             select_sprite_entry(anim,
@@ -117,7 +117,7 @@ void wait_cyclone_mp_and_animate(ActorRecord *actor, ObjectPosition *action_ctx,
 
         update_actor_status_and_mp(entity);
         on_actor_status_updated(entity);
-        if (entity->mp_value.parts.whole == 0) {
+        if (entity->mp == 0) {
             return;
         }
 

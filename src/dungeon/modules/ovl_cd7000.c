@@ -1554,7 +1554,7 @@ void wait_block_mp_recovery_slot_a(void *actor_in, ObjectPosition *position, Spr
     return;
 
     case 1:
-    if (entity->mp_value.parts.whole != 0) {
+    if (entity->mp != 0) {
         DungeonGlobalStatus *shared_counter;
 
         target->frameTable = cd7000_status_frames;
@@ -1600,7 +1600,7 @@ void wait_block_mp_recovery_slot_a(void *actor_in, ObjectPosition *position, Spr
             update_actor_status_and_mp(entity);
         }
         on_actor_status_updated(entity);
-        if (entity->mp_value.parts.whole == 0) {
+        if (entity->mp == 0) {
             return;
         }
         target->frameTable = cd7000_status_frames;

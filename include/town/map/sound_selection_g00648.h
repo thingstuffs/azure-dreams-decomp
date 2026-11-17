@@ -22,7 +22,7 @@ extern s32 find_sound_entry_or_terminator_index(s32 target_value);
 extern GlobalState map_runtime_state;
 extern s16 town_pending_sound[];
 extern s16 town_sound_selection[];
-extern s8 scene_music_hold[];
+extern s8 scene_music_hold;
 extern s16 town_sound_command[];
 extern s16 town_stream_index[];
 extern s16 town_sequence_command[];

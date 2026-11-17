@@ -45,7 +45,7 @@ void dispatch_kewne_uncached_actions(ActorRecord *actor, ObjectPosition *actor_a
         advance_actor_path_and_facing(actor, actor_aux, sprite, entity);
         return;
     }
-    if (entity->mp_value.parts.whole == 0) {
+    if (entity->mp == 0) {
         void *anim_table;
 
         advance_actor_pending_action(actor, actor_aux, sprite, entity);

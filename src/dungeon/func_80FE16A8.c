@@ -55,7 +55,7 @@ void update_dungeon_entity_action_and_facing(ActorRecord *body, ObjectPosition *
         return;
     }
 
-    if (actor->mp_value.parts.whole == 0) {
+    if (actor->mp == 0) {
         advance_actor_pending_action(body, position, sprite, actor);
         if (sprite->frameTable != bank_actor_action_frames) {
             sprite->frameTable = bank_actor_default_frames;

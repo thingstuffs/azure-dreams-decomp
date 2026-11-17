@@ -1064,10 +1064,43 @@ def cast_lines(lines, first, last, token):
     return [n for n in range(first, min(last, len(lines)) + 1) if token in I.squash(lines[n - 1])]
 
 
+def match_carried(entries, pairs):
+    """Decide, per BASE entry, whether the row already holds it where it points now or still as BASE wrote it.
+
+    pairs: [(BASE entry, target, gone)]. Each entry of the row stands for at most one BASE entry, either as its
+    target (carried already) or as the BASE text (to carry). The largest such matching is taken, trying the target
+    first, so a row whose every BASE entry already sits at its target is left alone (a second --write is a
+    fixpoint), while an entry that equals another entry's target is still carried when the row's other entries show
+    the group was never carried (a lane's new citation in a shifted file does not stop the carry).
+    Returns {pair index: (row index, carried)}."""
+    slots = collections.defaultdict(list)
+    for index, entry in enumerate(entries):
+        if isinstance(entry, str):
+            slots[entry].append(index)
+    options = [[(i, True) for i in slots.get(target, [])] + [(i, False) for i in slots.get(entry, [])]
+               for entry, target, _ in pairs]
+    owner, chosen = {}, {}
+
+    def place(pair, seen):
+        for index, carried in options[pair]:
+            if index in seen:
+                continue
+            seen.add(index)
+            if index not in owner or place(owner[index], seen):
+                owner[index], chosen[pair] = pair, (index, carried)
+                return True
+        return False
+
+    for pair in range(len(pairs)):
+        place(pair, set())
+    return {pair: chosen[pair] for pair in chosen if owner.get(chosen[pair][0]) == pair}
+
+
 def carry_casts(r, files):
     """--base: retired_to_cast entries the row holds unchanged since BASE follow their cast inside the function
     that held the cited line at BASE (same cast text, paired in order); `(cast gone)` only when the function no
-    longer holds that cast text."""
+    longer holds that cast text. Where each BASE entry points now is computed from the BASE row alone, and an entry
+    already at its target is not moved again (match_carried)."""
     if not r.base:
         return
     text = files.read(UNIONS)
@@ -1091,11 +1124,12 @@ def carry_casts(r, files):
         if not isinstance(entries, list) or not base_row:
             out.append(line)
             continue
-        held = {e for e in base_row.get('retired_to_cast') or [] if isinstance(e, str)}
-        groups = collections.defaultdict(list)          # (path, function, token) -> [(index, parsed, ordinal)]
+        # where each BASE entry should point now: the BASE row's site entries, grouped by the function that held
+        # the cited line at BASE and the cast text, paired in order with the lines of that function now holding it
+        groups = collections.defaultdict(list)          # (path, function, token) -> [(entry, parsed, occurrences, first)]
         spans_at = {}
-        for index, entry in enumerate(entries):
-            if not isinstance(entry, str) or entry not in held:
+        for entry in base_row.get('retired_to_cast') or []:
+            if not isinstance(entry, str):
                 continue
             parsed = I.parse_entry(entry)
             if parsed['kind'] != 'site' or parsed['second']:
@@ -1113,8 +1147,8 @@ def carry_casts(r, files):
             occurrences = cast_lines(old_lines, home[1], home[2], token)
             if parsed['line'] not in occurrences:
                 continue                                # already stale at BASE: ledger_integrity's re-derivation
-            groups[(path, home[0], token)].append((index, parsed, occurrences, home[1]))
-        new_entries = list(entries)
+            groups[(path, home[0], token)].append((entry, parsed, occurrences, home[1]))
+        pairs = []                                      # (BASE entry, where it points now, gone)
         for (path, function, token), members in groups.items():
             new_text = r.tree.cached(path)
             span = function_lines(new_text, function)
@@ -1123,27 +1157,33 @@ def carry_casts(r, files):
                 span = function_lines(new_text, renamed) if renamed else None
             if span is None:
                 continue                                # the function left the file: path re-derivation's job
-            now = cast_lines(new_text.splitlines(), span[0], span[1], token)
-            taken = set()
-            for index, parsed, occurrences, old_first in members:
+            new_lines = new_text.splitlines()
+            now = cast_lines(new_lines, span[0], span[1], token)
+            room = {n: max(1, I.squash(new_lines[n - 1]).count(token)) for n in now}
+            taken = collections.Counter()
+            for entry, parsed, occurrences, old_first in members:
                 if not now:
-                    replacement = ' '.join(f"{path} {parsed['rest'].strip()} {I.GONE}".split())
+                    pairs.append((entry, ' '.join(f"{path} {parsed['rest'].strip()} {I.GONE}".split()), True))
+                    continue
+                if len(now) == len(occurrences):
+                    choice = now[occurrences.index(parsed['line'])]
                 else:
-                    if len(now) == len(occurrences):
-                        choice = now[occurrences.index(parsed['line'])]
-                    else:
-                        projected = r.paths.map_line(path, path, parsed['line'], r.base)
-                        if projected is None:
-                            projected = parsed['line'] - old_first + span[0]
-                        pool = [n for n in now if n not in taken] or now
-                        choice = min(pool, key=lambda n: (abs(n - projected), n))
-                    taken.add(choice)
-                    replacement = f'{path}:{choice}' + (f",{parsed['extra']}" if parsed['extra'] else '') \
-                        + parsed['rest']
-                if replacement != entries[index]:
-                    r.note('unions', row['id'], entries[index], replacement,
-                           'cast line (carried in its function)' if now else 'cast gone from its function')
-                    new_entries[index] = replacement
+                    projected = r.paths.map_line(path, path, parsed['line'], r.base)
+                    if projected is None:
+                        projected = parsed['line'] - old_first + span[0]
+                    pool = [n for n in now if taken[n] < room[n]] or now
+                    choice = min(pool, key=lambda n: (abs(n - projected), n))
+                taken[choice] += 1
+                pairs.append((entry, f'{path}:{choice}' + (f",{parsed['extra']}" if parsed['extra'] else '')
+                              + parsed['rest'], False))
+        new_entries = list(entries)
+        for pair, (index, carried) in sorted(match_carried(entries, pairs).items()):
+            entry, target, gone = pairs[pair]
+            if carried or entry == target:
+                continue
+            r.note('unions', row['id'], entry, target,
+                   'cast gone from its function' if gone else 'cast line (carried in its function)')
+            new_entries[index] = target
         if new_entries == entries:
             out.append(line)
             continue

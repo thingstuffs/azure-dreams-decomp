@@ -91,14 +91,14 @@ void advance_item_action_and_cleanup(ActorRecord *body, ObjectPosition *motion, 
         target = (ObjectNodeHeader *)primary_actor_record;
         actor->target = target;
         state = (s32)(target - 1)->sprite;
-        actor->target_tile_x = ((ActorRecord *)state)->mp_value.parts.fraction;
-        actor->target_tile_y = ((ActorRecord *)state)->mp_value.parts.whole;
+        actor->target_tile_x = ((SpriteFrameState *)state)->tile_x;
+        actor->target_tile_y = ((SpriteFrameState *)state)->tile_y;
     } else if (item_action_definitions[*item_addr].kind == 2) {
         target = actor->target;
         if (target != 0) {
             state = (s32)(target - 1)->sprite;
-            actor->target_tile_x = ((ActorRecord *)state)->mp_value.parts.fraction;
-            actor->target_tile_y = ((ActorRecord *)state)->mp_value.parts.whole;
+            actor->target_tile_x = ((SpriteFrameState *)state)->tile_x;
+            actor->target_tile_y = ((SpriteFrameState *)state)->tile_y;
         }
     } else {
         resource = scan_actor_along_heading(actor, sprite->tile_x,

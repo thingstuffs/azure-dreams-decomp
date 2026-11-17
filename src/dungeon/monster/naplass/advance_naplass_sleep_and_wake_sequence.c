@@ -114,7 +114,7 @@ void advance_naplass_sleep_and_wake_sequence(ActorRecord *body, void *transform,
         if (actor_state->hp_delta != 0) {
             if (begin_ready_actor_directional_action(body, transform, sprite, 0) != 0) {
                 body->action_state_flags = (u16)(body->action_state_flags | 0x8000);
-                if (actor_state->mp_value.parts.whole == 0) {
+                if (actor_state->mp == 0) {
                     if (g_dungeon_status.flags & 0x2008)
                         return;
                     advance_actor_pending_action(body, transform, sprite, actor_state);

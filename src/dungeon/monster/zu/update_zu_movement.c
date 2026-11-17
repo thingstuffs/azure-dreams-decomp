@@ -378,7 +378,7 @@ void update_zu_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrame
         return;
     }
 
-    if (stats->mp_value.parts.whole == 0) {
+    if (stats->mp == 0) {
         advance_actor_pending_action(actor, context, sprite, stats);
         if (sprite->frameTable == zu_frame_set_1) {
             return;
@@ -1906,7 +1906,7 @@ void update_sleeping_zu(ActorRecord *controller, ObjectPosition *motion, SpriteF
                 return;
             }
         }
-        if (actor->mp_value.parts.whole == 0) {
+        if (actor->mp == 0) {
             if (g_dungeon_status.flags & 0x2008) {
                 return;
             }

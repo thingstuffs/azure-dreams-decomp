@@ -60,7 +60,7 @@ void dispatch_dreamin_actions(ActorRecord *actor, ObjectPosition *context, Sprit
         return;
     }
 
-    if (state->mp_value.parts.whole == 0) {
+    if (state->mp == 0) {
         advance_actor_pending_action(actor, context, sprite, state);
     } else {
         initial_flags = ((u32)state->flags1C);

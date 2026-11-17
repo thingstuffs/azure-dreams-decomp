@@ -6,6 +6,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
 #include "dungeon/monster/glacier.h"
+#include "dungeon/data.h"
 
 typedef struct S_func_810332A4_1 {
     u8 pad_00[0x16];
@@ -53,11 +54,6 @@ typedef struct S_func_810332A4_8 {
     u8 unk_02;
 } S_func_810332A4_8;
 
-typedef struct {
-    s16 x;
-    s16 y;
-} Pair16;
-
 extern void cycle_map_cell_flags(s32, s32, s32);
 extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
@@ -67,7 +63,6 @@ s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern void * find_species_actor_on_tile(ActorRecord *node, u16 key_a, u16 key_b, s16 range_center);
 
-extern Pair16 glacier_direction_offsets[];
 
 /* Update a moving effect, its pushed objects, and its collision and end animations. */
 /* Moves an effect and pushed actors along tiles, checks terrain and occupants, and applies damage when

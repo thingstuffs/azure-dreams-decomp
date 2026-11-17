@@ -56,7 +56,7 @@ void update_golem_actor_behavior(GolemActionWork *actor, ObjectPosition *context
         return;
     }
 
-    if (stats->mp_value.parts.whole == 0) {
+    if (stats->mp == 0) {
         consume_pending_flag(actor, stats);
         advance_actor_pending_action(actor, context, sprite, stats);
         if (sprite->frameTable == golem_alt_direction_frames) {

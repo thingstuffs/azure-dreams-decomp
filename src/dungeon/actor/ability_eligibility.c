@@ -344,7 +344,7 @@ void *choose_best_eligible_entry(void *owner_arg, ActorRecord *start, s32 score_
         best_score = -score_limit;
     } else {
         best_score = 0x100;
-        if (((s8)((ActorRecord *)owner_arg)->current_attack) < 0) {
+        if (((s8)((SpriteFrameState *)owner_arg)->room_index) < 0) {
             best_score = score_limit;
         }
     }
@@ -357,7 +357,7 @@ void *choose_best_eligible_entry(void *owner_arg, ActorRecord *start, s32 score_
             void *entry_link;
             if ((s16)check_entity_interaction_compatibility(base, candidate) != 0 && (s16)check_entity_eligibility(candidate) != 0) {
                 candidate_owner = NODE_HEADER(candidate)->sprite;
-                if (((s8)((ActorRecord *)owner_arg)->current_attack) == ((s8)candidate_owner->room_index)) {
+                if (((s8)((SpriteFrameState *)owner_arg)->room_index) == ((s8)candidate_owner->room_index)) {
                     score = get_tile_chebyshev_distance(candidate_owner, owner_arg);
                     if ((s16)score < best_score) {
                         if (candidate == global_page->unk_3D7C) {
@@ -368,8 +368,8 @@ void *choose_best_eligible_entry(void *owner_arg, ActorRecord *start, s32 score_
                             best_score = score;
                         }
                     }
-                } else if ((s16)can_reach_adjacent_tile_at_height(((ActorRecord *)owner_arg)->mp_value.parts.fraction,
-                                              ((ActorRecord *)owner_arg)->mp_value.parts.whole,
+                } else if ((s16)can_reach_adjacent_tile_at_height(((SpriteFrameState *)owner_arg)->tile_x,
+                                              ((SpriteFrameState *)owner_arg)->tile_y,
                                               base->unk_88,
                                               candidate_owner->tile_x,
                                               candidate_owner->tile_y,

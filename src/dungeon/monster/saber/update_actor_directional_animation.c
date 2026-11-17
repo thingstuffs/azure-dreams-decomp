@@ -47,7 +47,7 @@ void update_actor_directional_animation(ActorRecord *actor_in, ObjectPosition *p
     return;
 
     case 1:
-    if (entity->mp_value.parts.whole != 0) {
+    if (entity->mp != 0) {
         DungeonGlobalStatus *shared_counter;
 
         target->frameTable = saber_action_direction_frames;
@@ -102,7 +102,7 @@ void update_actor_directional_animation(ActorRecord *actor_in, ObjectPosition *p
             update_actor_status_and_mp(entity);
         }
         on_actor_status_updated(entity);
-        if (entity->mp_value.parts.whole == 0) {
+        if (entity->mp == 0) {
             return;
         }
         target->frameTable = saber_action_direction_frames;

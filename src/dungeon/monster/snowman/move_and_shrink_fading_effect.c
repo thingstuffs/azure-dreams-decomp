@@ -507,7 +507,7 @@ void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg
         return;
     }
 
-    if (entity_arg->mp_value.parts.whole == 0) {
+    if (entity_arg->mp == 0) {
         u8 *animations;
 
         advance_actor_pending_action(actor_arg, context_arg, sprite_arg, entity_arg);
@@ -1744,7 +1744,7 @@ void advance_snowman_status_action(ActorRecord *action, ObjectPosition *context,
                     return;
                 }
             }
-            if (actor_in->mp_value.parts.whole == 0) {
+            if (actor_in->mp == 0) {
                 if (status->flags & 0x2008) {
                     return;
                 }
@@ -1866,7 +1866,7 @@ void advance_snowman_mp_action(ActorRecord *actor_in, ObjectPosition *position, 
     return;
 
     case 1:
-    if (entity->mp_value.parts.whole != 0) {
+    if (entity->mp != 0) {
         DungeonGlobalStatus *shared_counter;
 
         target->frameTable = snowman_frame_set_1;
@@ -1921,7 +1921,7 @@ void advance_snowman_mp_action(ActorRecord *actor_in, ObjectPosition *position, 
             update_actor_status_and_mp(entity);
         }
         on_actor_status_updated(entity);
-        if (entity->mp_value.parts.whole == 0) {
+        if (entity->mp == 0) {
             return;
         }
         target->frameTable = snowman_frame_set_1;

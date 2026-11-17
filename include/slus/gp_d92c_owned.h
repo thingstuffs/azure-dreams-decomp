@@ -11,7 +11,7 @@
 extern short camera_shoulder_hold_ticks;
 extern short camera_shoulder_repeat_latch;
 extern u8 runtime_state_restore_requested;
-extern u8 scene_music_hold;
+extern s8 scene_music_hold;
 extern u8 D_80080AA0;
 
 /* Handles a held button combination and restores saved settings when it triggers. */

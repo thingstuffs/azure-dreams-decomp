@@ -15,7 +15,6 @@
 extern u16 D_8006CCD8[8],D_8006CCE8[8];
 extern u32 D_800814A0;
 extern SpriteFrameState D_80082E80;
-extern s32 D_800DEF08;
 s16 get_surface_height_at_record(ObjectPosition *);
 s32 check_left_tile_and_center_height(u16,u16,s16);
 void *create_actor_graphics_at_tile(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */
@@ -180,7 +179,7 @@ void update_transform_spell(TransformSpellState *spell, ObjectPosition *motion, 
                 }
                 created_actor->hp = stored_hp;
                 created_actor->max_hp = stored_hp;
-                select_record_entry_and_value(NODE_HEADER(created_actor)->sprite, &D_800DEF08, spell->visual->sprite->unk_04);
+                select_record_entry_and_value(NODE_HEADER(created_actor)->sprite, D_800DEF08, spell->visual->sprite->unk_04);
             }
             visual = spell->visual;
             if (visual != 0) {

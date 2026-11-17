@@ -50,7 +50,7 @@ void update_picket_behavior(ActorRecord *actor, ObjectPosition *context, SpriteF
         return;
     }
 
-    if (entity->mp_value.parts.whole == 0) {
+    if (entity->mp == 0) {
         advance_actor_pending_action(actor, context, sprite, entity);
         if (sprite->frameTable != picket_frame_set_6) {
             u8 *next_anim_table = &picket_frame_set_3;

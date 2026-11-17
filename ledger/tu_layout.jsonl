@@ -215,7 +215,7 @@
 {"old":"src/slus/sound_reset_state.c","new":"src/engine/audio/spu/sound_reset_state.c"}
 {"old":"src/slus/sound_reverb_writer.c","new":"src/engine/audio/spu/sound_reverb_writer.c"}
 {"old":"src/slus/sound_transfer_frontends.c","new":"src/engine/audio/spu/submit_driver_transfer_with_fallback.c"}
-{"old":"src/slus/sound_transfer_helpers.c","new":"src/engine/audio/spu/clamp_and_submit_driver_parameter.c"}
+{"old":"src/slus/sound_transfer_helpers.c","new":"src/engine/audio/spu/spu_transfer.c"}
 {"old":"src/slus/w_80041344_jtbl_owned.c","new":"src/engine/graphics/run_image_load_commands.c"}
 {"old":"src/slus/w_80041588_jtbl_owned.c","new":"src/engine/graphics/run_cd_image_commands.c"}
 {"old":"src/slus/w_80042BDC_jtbl_owned.c","new":"src/engine/message/end_status_effect_message.c"}

@@ -38,7 +38,7 @@ void dispatch_death_actions(ActorRecord *motion_in, ObjectPosition *context_in, 
         advance_entity_path_state(motion_in, context_in, entity_in, actor_in);
         return;
     }
-    if (actor_in->mp_value.parts.whole == 0) {
+    if (actor_in->mp == 0) {
         void *anim_table;
 
         advance_actor_pending_action(motion_in, context_in, entity_in, actor_in);

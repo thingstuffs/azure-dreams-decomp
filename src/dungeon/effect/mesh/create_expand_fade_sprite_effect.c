@@ -9,13 +9,14 @@
 #include "engine/node/allocation.h"
 #include "dungeon/effect/mesh.h"
 
-typedef s32 M2C_UNK;
-
 struct TargetVec;
 extern struct TargetVec *effect_position_source[];
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern void expand_fade(void *effect, void *position, void *sprite);
-extern M2C_UNK D_80026180;
+typedef struct Row_819A1654_Blob12 {
+    u8 pad_00[12];
+} __attribute__((packed)) Row_819A1654_Blob12;
+extern Row_819A1654_Blob12 D_80026180[];
 typedef struct TargetSub {
     u8 pad0[4];
     s16 field4;

@@ -46,7 +46,7 @@ void update_kewne_actor_state(ActorRecord *actor, ObjectPosition *context, Sprit
         advance_actor_path_and_facing(actor, context, sprite, entity);
         return;
     }
-    if (entity->mp_value.parts.whole == 0) {
+    if (entity->mp == 0) {
         void *anim_table;
 
         advance_actor_pending_action(actor, context, sprite, entity);

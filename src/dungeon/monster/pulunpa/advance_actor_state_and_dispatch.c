@@ -54,7 +54,7 @@ void advance_actor_state_and_dispatch(ActorRecord *body, ObjectPosition *positio
     }
 
     case 1:
-        if (actor->mp_value.parts.whole != 0) {
+        if (actor->mp != 0) {
             if (body->unk_A4.bytes[3] != 0) {
                 sprite->frameTable = D_80176368;
             } else {
@@ -110,7 +110,7 @@ void advance_actor_state_and_dispatch(ActorRecord *body, ObjectPosition *positio
 
             update_actor_status_and_mp(actor);
             on_actor_status_updated(actor);
-            if (actor->mp_value.parts.whole == 0) {
+            if (actor->mp == 0) {
                 return;
             }
 

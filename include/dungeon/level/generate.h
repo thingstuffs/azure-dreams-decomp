@@ -368,7 +368,6 @@ extern s32 get_surface_height_at_coordinates(s32, s32);
 extern void *floor_layout_resource_descriptors[];
 extern s16 floor_layout_loaded;
 #include "dungeon/level/floor_object_sprite_sources.h"
-extern s32 dungeon_floor_flags;
 extern s32 floor_loaded_content_flags;
 extern void apply_state_index_tile_masks(void);
 extern void bind_view_triplet_source(void *state);
@@ -382,7 +381,7 @@ extern s32 floor_track_resource_descriptors[];
 extern u8 floor_generation_track_variant;
 extern s32 floor_variant_resource_descriptors[];
 extern u8 D_800F0000[];
-extern s8 scene_music_hold[12];
+extern s8 scene_music_hold;
 extern u8 scene_mode_code[9];
 extern s32 test_resident_bit(s16 value);
 extern s32 func_80033BC0(s32 value);

@@ -154,7 +154,7 @@ void apply_town_sound_selection(void)
                 drain_audio_commands_and_service_channels();
                 selection = (u16)active[3];
                 SD_Call(selection);
-            } else if (scene_music_hold[0] == 0) {
+            } else if (scene_music_hold == 0) {
                 SD_Call(0x71);
                 drain_audio_commands_and_service_channels();
                 selection = (u16)active[3];
@@ -185,7 +185,7 @@ void apply_town_sound_selection(void)
         pending_reset[3] = unset;
     }
     saved_slot_0 = town_sound_selection[0];
-    scene_music_hold[0] = 0;
+    scene_music_hold = 0;
     town_saved_sound[0] = saved_slot_0;
     {
         u16 saved_slot_1 = active[1];

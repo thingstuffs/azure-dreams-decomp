@@ -9,13 +9,7 @@
 #include "dungeon/effect/shade.h"
 #include "dungeon/monster/u_boat.h"
 #include "dungeon/system.h"
-
-typedef struct {
-    signed short x;
-    signed short y;
-} DirectionDelta;
-
-extern DirectionDelta actor_direction_step_pairs[];
+#include "dungeon/data.h"
 
 typedef struct S_80174C64_2 {
     u8 pad_00[0x62];

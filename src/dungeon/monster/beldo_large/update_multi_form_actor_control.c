@@ -85,7 +85,7 @@ void update_multi_form_actor_control(ActorRecord *actor, ObjectPosition *context
             actor->unk_AC.bytes[1] = 0U;
         }
     }
-    if (entity->mp_value.parts.whole == 0) {
+    if (entity->mp == 0) {
         advance_actor_pending_action(actor, context, sprite, entity);
         inactive_pose = actor->unk_AC.byte;
         switch (inactive_pose) {

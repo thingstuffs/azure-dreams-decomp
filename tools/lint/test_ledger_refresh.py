@@ -426,6 +426,127 @@ class UnionCastTests(Fixture):
             self.assertEqual(R.main(args + ['--check']), 0)
         self.assertEqual(self.jsonl(R.UNIONS)[0]['retired_to_cast'], ['src/town/walk.c:7 (u16)'])
 
+    # a line holding two identical casts, with a line deleted above them all
+    TWO = ('#include "common.h"\n\nvoid walk(Half *h, Spell *s)\n{\n    s->a = (u16)h[0] + 1;\n'
+           '    s->b = (u16)h[1];\n    s->c = (u16)h[2] + (u16)h[3];\n    s->d = (u16)h[4];\n}\n')
+    TWO_HEAD = TWO.replace('#include "common.h"\n\n', '#include "common.h"\n')
+    TWO_ENTRIES = ['src/town/walk.c:5 (u16)', 'src/town/walk.c:6 (u16)', 'src/town/walk.c:7 (u16)',
+                   'src/town/walk.c:8 (u16)']
+    TWO_CARRIED = ['src/town/walk.c:4 (u16)', 'src/town/walk.c:5 (u16)', 'src/town/walk.c:6 (u16)',
+                   'src/town/walk.c:7 (u16)']
+
+    def start_two(self, entries, head_entries=None):
+        self.write('include/town/half.h', 'typedef s16 Half;\n')
+        self.write('src/town/walk.c', self.TWO)
+        self.write(R.UNIONS, self.row(entries))
+        git(self.root, 'add', '-A')
+        git(self.root, 'commit', '-qm', 'batch start')
+        base = git(self.root, 'rev-parse', 'HEAD').strip()
+        self.write('src/town/walk.c', self.TWO_HEAD)
+        if head_entries is not None:
+            self.write(R.UNIONS, self.row(head_entries))
+        git(self.root, 'add', '-A')
+        git(self.root, 'commit', '-qm', 'batch')
+        return base
+
+    def test_line_with_two_identical_casts_cited_once_follows_its_line(self):
+        base = self.start_two(self.TWO_ENTRIES)
+        self.assertEqual(self.casts(base), self.TWO_CARRIED)
+
+    def test_write_then_check_is_clean_with_two_casts_on_a_line(self):
+        base = self.start_two(self.TWO_ENTRIES)
+        args = ['--root', str(self.root), '--only', 'unions', '--base', base]
+        with redirect_stdout(io.StringIO()):
+            self.assertEqual(R.main(args + ['--write']), 0)
+            git(self.root, 'add', '-A')
+            git(self.root, 'commit', '-qm', 'refresh')
+            self.assertEqual(R.main(args + ['--check']), 0)
+        self.assertEqual(self.jsonl(R.UNIONS)[0]['retired_to_cast'], self.TWO_CARRIED)
+
+    def test_already_correct_entries_are_not_moved(self):
+        # the row already holds the carried citations; :5 and :6 equal BASE citations but are correct as they stand
+        base = self.start_two(self.TWO_ENTRIES, self.TWO_CARRIED)
+        self.assertEqual(self.casts(base), self.TWO_CARRIED)
+
+    # a second function in the same file, holding the same cast
+    RUN = '\nvoid run(Half *h, Spell *s)\n{\n    s->e = (u16)h[5];\n    s->f = (u16)h[6];\n}\n'
+    SHIFTED = '#include "common.h"\n#include "town/half.h"\n'      # one line inserted above everything
+
+    def start_text(self, base_text, head_text, entries, head_entries=None):
+        self.write('include/town/half.h', 'typedef s16 Half;\n')
+        self.write('src/town/walk.c', base_text)
+        self.write(R.UNIONS, self.row(entries))
+        git(self.root, 'add', '-A')
+        git(self.root, 'commit', '-qm', 'batch start')
+        base = git(self.root, 'rev-parse', 'HEAD').strip()
+        self.write('src/town/walk.c', head_text)
+        if head_entries is not None:
+            self.write(R.UNIONS, self.row(head_entries))
+        git(self.root, 'add', '-A')
+        git(self.root, 'commit', '-qm', 'batch')
+        return base
+
+    def assert_write_then_check(self, base, expected):
+        args = ['--root', str(self.root), '--only', 'unions', '--base', base]
+        with redirect_stdout(io.StringIO()):
+            self.assertEqual(R.main(args + ['--write']), 0)
+            git(self.root, 'add', '-A')
+            git(self.root, 'commit', '-qm', 'refresh', '--allow-empty')
+            self.assertEqual(R.main(args + ['--check']), 0)
+            self.assertEqual(R.main(args + ['--write']), 0)
+        self.assertEqual(self.jsonl(R.UNIONS)[0]['retired_to_cast'], expected)
+        self.assertEqual(git(self.root, 'status', '--short'), '')
+
+    def site(self, line):
+        return f'src/town/walk.c:{line} (u16)'
+
+    def test_lane_entry_in_a_shifted_file_does_not_stop_the_carry(self):
+        # BASE :5 and :6; a line goes in at the top and a lane cites a new site at HEAD's :9. :6 equals the carried
+        # target of :5, but the row still holds :5, so the group was never carried
+        base = self.start_text(self.TWO, self.TWO.replace('#include "common.h"\n', self.SHIFTED),
+                               [self.site(5), self.site(6)], [self.site(5), self.site(6), self.site(9)])
+        self.assertEqual(self.casts(base), [self.site(6), self.site(7), self.site(9)])
+
+    def test_lane_entry_in_a_shifted_file_write_then_check_is_clean(self):
+        base = self.start_text(self.TWO, self.TWO.replace('#include "common.h"\n', self.SHIFTED),
+                               [self.site(5), self.site(6)], [self.site(5), self.site(6), self.site(9)])
+        self.assert_write_then_check(base, [self.site(6), self.site(7), self.site(9)])
+
+    def test_same_cast_in_a_second_function_is_carried_on_its_own(self):
+        # walk() :5 :6 and run() :13 at BASE; a lane adds run()'s other cast at HEAD's :15
+        text = self.TWO + self.RUN
+        base = self.start_text(text, text.replace('#include "common.h"\n', self.SHIFTED),
+                               [self.site(5), self.site(6), self.site(13)],
+                               [self.site(5), self.site(6), self.site(13), self.site(15)])
+        self.assertEqual(self.casts(base), [self.site(6), self.site(7), self.site(14), self.site(15)])
+
+    def test_lane_entry_in_a_second_function_does_not_stop_the_first(self):
+        text = self.TWO + self.RUN
+        base = self.start_text(text, text.replace('#include "common.h"\n', self.SHIFTED),
+                               [self.site(5), self.site(6)], [self.site(5), self.site(6), self.site(15)])
+        self.assert_write_then_check(base, [self.site(6), self.site(7), self.site(15)])
+
+    def test_two_identical_casts_on_one_line_cited_twice(self):
+        base = self.start_two([self.site(7), self.site(7), self.site(8)])
+        self.assert_write_then_check(base, [self.site(6), self.site(6), self.site(7)])
+
+    def test_two_casts_on_a_line_cited_twice_when_another_cast_goes(self):
+        # the function loses a (u16) line, so the lines are paired by position; both citations of the two-cast line
+        # stay on it
+        base = self.start_text(self.TWO, self.TWO_HEAD.replace('(u16)h[0]', 'h[0]'),
+                               [self.site(7), self.site(7), self.site(8)])
+        self.assert_write_then_check(base, [self.site(6), self.site(6), self.site(7)])
+
+    def test_partly_carried_row_carries_the_rest(self):
+        # :5 and :6 were carried by hand (to :4 and :5); :7 and :8 still need to move
+        base = self.start_two(self.TWO_ENTRIES, [self.site(4), self.site(5), self.site(7), self.site(8)])
+        self.assert_write_then_check(base, self.TWO_CARRIED)
+
+    def test_carried_row_is_left_alone_after_a_second_write(self):
+        # the TransformHalf shape: the row is already carried, and two carried entries equal BASE citations
+        base = self.start_two(self.TWO_ENTRIES, self.TWO_CARRIED)
+        self.assert_write_then_check(base, self.TWO_CARRIED)
+
 
 class NoHistoryTests(Fixture):
     def test_head_table_only(self):

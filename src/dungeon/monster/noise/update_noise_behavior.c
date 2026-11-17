@@ -46,7 +46,7 @@ void update_noise_behavior(ActorRecord *motion, ObjectPosition *render_ctx, Spri
         return;
     }
 
-    if (actor->mp_value.parts.whole == 0) {
+    if (actor->mp == 0) {
         advance_actor_pending_action(motion, render_ctx, map_entity, actor);
         if (map_entity->frameTable != noise_frame_set) {
             (map_entity->frameTable) = noise_frame_set_3;

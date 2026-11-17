@@ -6779,7 +6779,7 @@
 {"id":"slus/w_8005A608","path":"src/engine/audio/slots/init_sound_slot.c"}
 {"id":"slus/w_8005A778","path":"src/engine/audio/slots/init_sound_slot_from_header.c"}
 {"id":"slus/w_8005A90C","path":"src/engine/audio/slots/upload_sample_to_sound_slot.c"}
-{"id":"slus/w_8005AAA8","path":"src/engine/audio/slots/bind_sound_slot_owner.c"}
+{"id":"slus/w_8005AAA8","path":"src/engine/audio/slots/transfer_sound_slot_body_to_spu.c"}
 {"id":"slus/w_8005AB50","path":"src/engine/audio/slots/read_sound_slot_chunk.c"}
 {"id":"slus/w_8005AC30","path":"src/engine/audio/sound_check_or_wait_for_spu_transfer.c"}
 {"id":"slus/w_8005AC68","path":"src/engine/audio/slots/free_sound_slot.c"}
@@ -6832,9 +6832,9 @@
 {"id":"slus/w_8005E7E0","path":"src/slus/sound_streaming_transfer.c"}
 {"id":"slus/w_8005E97C","path":"src/slus/sound_key_buffer.c"}
 {"id":"slus/w_8005EB78","path":"src/engine/audio/spu/jtbl.c"}
-{"id":"slus/w_8005EC40","path":"src/engine/audio/spu/clamp_and_submit_driver_parameter.c"}
-{"id":"slus/w_8005ECA0","path":"src/engine/audio/spu/clamp_and_submit_driver_parameter.c"}
-{"id":"slus/w_8005ECF8","path":"src/engine/audio/spu/clamp_and_submit_driver_parameter.c"}
+{"id":"slus/w_8005EC40","path":"src/engine/audio/spu/spu_transfer.c"}
+{"id":"slus/w_8005ECA0","path":"src/engine/audio/spu/spu_transfer.c"}
+{"id":"slus/w_8005ECF8","path":"src/engine/audio/spu/spu_transfer.c"}
 {"id":"slus/w_8005EDA0","path":"src/engine/audio/spu/spu_attr.c"}
 {"id":"slus/w_8005F134","path":"src/engine/audio/spu/jtbl.c"}
 {"id":"slus/w_8005F740","path":"src/engine/audio/sound_scale_pitch_by_fractional_note.c"}

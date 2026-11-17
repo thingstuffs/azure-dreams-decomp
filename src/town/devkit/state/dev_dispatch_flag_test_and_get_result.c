@@ -6,15 +6,8 @@
 #define CARRY 0
 #define OVERFLOW(a) (0)
 
-typedef struct {
-    u8 pad00[0x68];
-    void (*func68)(void *, void *, s32);
-} CallbackTable;
-
-
 extern s32 D_807013A4[];
 extern s32 D_807009B4;
-extern CallbackTable *devkit_trace_methods;
 extern u8 D_80700B30[];
 extern u8 D_80700B44[];
 
@@ -27,10 +20,10 @@ s32 dev_dispatch_flag_test_and_get_result(void) {
     func_80700E98();
     {
         s32 test_result = func_80700E3C();
-        CallbackTable *callback_table = devkit_trace_methods;
+        DevkitTraceMethods *callback_table = devkit_trace_methods;
 
         devkit_flag_test_result = test_result;
-        callback_table->func68(D_80700B30, D_80700B44, 0xC9);
+        callback_table->print(D_80700B30, D_80700B44, 0xC9);
     }
     func_80700BC4(test_data[0]);
     func_80701298(devkit_flag_test_result, D_807009B4);

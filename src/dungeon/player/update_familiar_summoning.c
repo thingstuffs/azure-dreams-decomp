@@ -123,8 +123,8 @@ void update_familiar_summoning(ActorRecord *actor, ObjectPosition *position, Spr
             play_sound_if_enabled(0x704);
             clear_slots_of_type(object, STATUS_BLIND);
             clear_slots_of_type(object, STATUS_SLEEP);
-            if (object->mp_value.parts.whole == 0) {
-                object->mp_value.parts.whole = 1U;
+            if (object->mp == 0) {
+                object->mp = 1U;
             }
         }
         previous_state = actor->action_phase;

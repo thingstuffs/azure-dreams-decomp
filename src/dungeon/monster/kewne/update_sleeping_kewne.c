@@ -64,7 +64,7 @@ void update_sleeping_kewne(ActorRecord *actor, ObjectPosition *context, SpriteFr
                     return;
                 }
             }
-            if (actor_state->mp_value.parts.whole == 0) {
+            if (actor_state->mp == 0) {
                 if (global_base->flags & 0x2008) {
                     return;
                 }

@@ -87,7 +87,7 @@ void update_attached_effect_position(void *object_arg, ObjectPosition *position,
     }
 
     color = (S_800B0D34_2 *)((u8 *)color + 4);
-    if (info->mp_value.parts.whole < 10) {
+    if (info->mp < 10) {
         color->unk_00 = -0x80 - phase * 8;
         color->unk_02 = 0x10;
         color->unk_01 = 0x10;

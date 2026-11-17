@@ -69,7 +69,7 @@ void advance_actor_action_count(ActorRecord *controller, ObjectPosition *context
         }
         update_actor_status_and_mp(actor);
         on_actor_status_updated(actor);
-        if (actor->mp_value.parts.whole == 0) {
+        if (actor->mp == 0) {
             return;
         }
         sprite->frameTable = actor_action_frames;

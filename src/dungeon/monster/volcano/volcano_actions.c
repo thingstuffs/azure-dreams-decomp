@@ -227,7 +227,7 @@ void update_volcano_turn_action(ActorRecord *actor_in, ObjectPosition *context_i
     }
 
 
-    if (status->mp_value.parts.whole == 0) {
+    if (status->mp == 0) {
         advance_actor_pending_action(actor_in, context_in, sprite_in, status);
         if (sprite_in->frameTable == volcano_frame_set_2) {
             return;
@@ -1458,7 +1458,7 @@ void wait_volcano_pending_action(ActorRecord *action, ObjectPosition *context, S
                 return;
             }
 
-            if (entity->mp_value.parts.whole == 0) {
+            if (entity->mp == 0) {
                 if (g_dungeon_status.flags & 0x2008) {
                     return;
                 }
@@ -1571,7 +1571,7 @@ void wait_for_volcano_mp(ActorRecord *controller, ObjectPosition *context, Sprit
         return;
     }
     case 1:
-        if (actor->mp_value.parts.whole == 0) {
+        if (actor->mp == 0) {
             if (g_dungeon_status.flags & 0x1000) {
                 return;
             }
@@ -1627,7 +1627,7 @@ void wait_for_volcano_mp(ActorRecord *controller, ObjectPosition *context, Sprit
 
             update_actor_status_and_mp(actor);
             on_actor_status_updated(actor);
-            if (actor->mp_value.parts.whole == 0) {
+            if (actor->mp == 0) {
                 return;
             }
         }

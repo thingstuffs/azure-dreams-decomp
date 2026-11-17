@@ -71,11 +71,6 @@ typedef struct S_80090C10_13 {
 } S_80090C10_13;   /* ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv in process_dungeon_menu_selection */
 
 
-typedef struct DdcbcEntry {
-    u8 pad[7];
-    u8 flags;
-} DdcbcEntry;
-
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_8002534C(void *, s32, void *, ActorRecord *); /* extern */
 #include "dungeon/actor/state.h"
@@ -92,7 +87,6 @@ extern s8 spell_effect_selector_cache;
 extern u8 player_wait_frames[];
 extern u8 player_carry_frames[];
 extern u8 actor_default_frames[];
-extern DdcbcEntry species_growth_table[];
 extern M2C_UNK D_800E0462;
 extern M2C_UNK D_800E0472;
 extern u8 D_800E0542[];

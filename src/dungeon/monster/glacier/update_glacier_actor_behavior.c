@@ -74,7 +74,7 @@ void update_glacier_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
         return;
     }
 
-    if (stats->mp_value.parts.whole == 0) {
+    if (stats->mp == 0) {
         advance_actor_pending_action(actor, context, sprite, stats);
         if (sprite->frameTable != glacier_frame_set_2) {
             u8 *state_table = D_801760E4;

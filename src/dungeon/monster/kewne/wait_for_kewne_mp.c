@@ -52,7 +52,7 @@ void wait_for_kewne_mp(ActorRecord *actor, ObjectPosition *context, SpriteFrameS
     {
         u32 entity_flags;
 
-        if (entity->mp_value.parts.whole != 0) {
+        if (entity->mp != 0) {
 
             (animation->frameTable) = kewne_frame_set_2;
             select_sprite_entry(animation,
@@ -119,7 +119,7 @@ void wait_for_kewne_mp(ActorRecord *actor, ObjectPosition *context, SpriteFrameS
 
         update_actor_status_and_mp(entity);
         on_actor_status_updated(entity);
-        if (entity->mp_value.parts.whole == 0) {
+        if (entity->mp == 0) {
             return;
         }
 

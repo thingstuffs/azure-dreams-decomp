@@ -87,7 +87,7 @@ void update_actor_animation_timers_and_transitions(ActorRecord *entity, ObjectPo
                     return;
                 }
             }
-            if (actor->mp_value.parts.whole == 0) {
+            if (actor->mp == 0) {
                 if (global_base->flags & 0x2008) {
                     return;
                 }

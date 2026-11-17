@@ -8,8 +8,8 @@
 #include "town/map/resource.h"
 #include "town/scene/resource.h"
 
-extern u8 town_scene_resource_descriptor;
-extern u8 D_800D1D54;
+extern u32 town_scene_resource_descriptor[2];
+extern u8 D_800D1D54[];
 extern u8 D_80080F48;
 extern u8 D_80080F98;
 /* Initialize town resources and configure the scene. */
@@ -19,7 +19,7 @@ void initialize_resources(void)
     play_movie_with_fixed_display_flag(1, 0x73);
     SetDispMask(1);
     file_load_com(&town_scene_resource_descriptor);
-    resource_data = &D_800D1D54;
+    resource_data = D_800D1D54;
     file_load_com(resource_data);
     find_or_load_runtime_resource_key(&D_80080F48);
     find_or_load_runtime_resource_key(&D_80080F98);

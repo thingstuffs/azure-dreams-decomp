@@ -85,7 +85,7 @@ void update_entity_dimming_and_brightness(ActorRecord *controller, ObjectPositio
                     return;
                 }
             }
-            if (entity->mp_value.parts.whole == 0) {
+            if (entity->mp == 0) {
                 if (g_dungeon_status.flags & 0x2008) {
                     return;
                 }

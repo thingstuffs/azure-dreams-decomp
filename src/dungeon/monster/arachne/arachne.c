@@ -267,7 +267,7 @@ void update_arachne_turn_action(ActorRecord *entity, ObjectPosition *context, Sp
         return;
     }
 
-    if (actor->mp_value.parts.whole == 0) {
+    if (actor->mp == 0) {
         advance_actor_pending_action(entity, context, sprite, actor);
         if (sprite->frameTable == arachne_alt_direction_frames) {
             return;
@@ -1581,7 +1581,7 @@ void advance_arachne_status_action(ActorRecord *in_controller, ObjectPosition *i
                 return;
             }
 
-            if (actor->mp_value.parts.whole == 0) {
+            if (actor->mp == 0) {
                 if (system_base->flags & 0x2008) {
                     return;
                 }
@@ -1703,7 +1703,7 @@ void resume_arachne_after_status_animation(ActorRecord *controller, ObjectPositi
     {
         u32 entity_flags;
 
-        if (entity->mp_value.parts.whole != 0) {
+        if (entity->mp != 0) {
 
             sprite->frameTable = arachne_reset_frames;
             select_sprite_entry(sprite,
@@ -1753,7 +1753,7 @@ void resume_arachne_after_status_animation(ActorRecord *controller, ObjectPositi
 
         update_actor_status_and_mp(entity);
         on_actor_status_updated(entity);
-        if (entity->mp_value.parts.whole == 0) {
+        if (entity->mp == 0) {
             return;
         }
 

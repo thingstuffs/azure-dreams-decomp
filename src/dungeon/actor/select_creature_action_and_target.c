@@ -110,7 +110,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
         update_actor_status_and_mp(creature);
         return -1;
     }
-    if (creature->mp_value.parts.whole == 0) {
+    if (creature->mp == 0) {
         default_action = 0;
         goto return_default;
     }
@@ -129,19 +129,19 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
                          * still has 1 MP after eating. feed_actor_restore_mp adds 0xA00 for the same
                          * category-12, subtype-6 food before clamping.
                          */
-                        s32 hp = creature->mp_value.whole;
+                        s32 hp = *(u16 *)&creature->mp_fraction;
                         if (0x10000 < (s32)hp) {
                             hp = 0xFFFF;
                         }
-                        creature->mp_value.whole = hp;
-                        if (creature->mp_value.parts.whole != 0) {
+                        *(u16 *)&creature->mp_fraction = hp;
+                        if (creature->mp != 0) {
                             creature->flags1C &= ~ACTOR_MP_EMPTY;
                         }
                         {
                             u8 max_hp = creature->max_mp;
-                            if (max_hp < creature->mp_value.parts.whole) {
-                                creature->mp_value.parts.whole = max_hp;
-                                creature->mp_value.parts.fraction = 0xFF;
+                            if (max_hp < creature->mp) {
+                                creature->mp = max_hp;
+                                creature->mp_fraction = 0xFF;
                             }
                         }
                         /*

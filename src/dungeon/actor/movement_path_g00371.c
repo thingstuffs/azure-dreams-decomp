@@ -182,7 +182,7 @@ void update_actor_facing_animation(ActorRecord *actor, ObjectPosition *motion, S
         return;
     }
 
-    if (status->mp_value.parts.whole == 0) {
+    if (status->mp == 0) {
         void *current_anim;
 
         advance_actor_pending_action(actor, motion, sprite, status);

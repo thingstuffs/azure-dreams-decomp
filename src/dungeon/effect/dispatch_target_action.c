@@ -23,7 +23,7 @@ void dispatch_target_action(ActorRecord *actor, s32 action_context, SpriteFrameS
 
 
     if (!(flags->flags & 0x1000)) {
-        if (target->mp_value.parts.whole == 0) {
+        if (target->mp == 0) {
             actor->unk_AC.bytes[1] = 0;
             begin_actor_flagged_action(idle_actor, action_context, destination, target);
             return;

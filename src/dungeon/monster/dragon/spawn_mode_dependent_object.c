@@ -249,7 +249,7 @@ void dispatch_dragon_actions(ActorRecord *controller, ObjectPosition *context, S
         return;
     }
 
-    if (actor_state->mp_value.parts.whole == 0) {
+    if (actor_state->mp == 0) {
         advance_actor_pending_action(controller, context, entity, actor_state);
         if (entity->frameTable != dragon_alt_direction_frames) {
             u8 *early_table = dragon_reset_frames;
@@ -1632,7 +1632,7 @@ void wait_for_dragon_mp(ActorRecord *controller, ObjectPosition *context, Sprite
     {
         u32 entity_flags;
 
-        if (entity->mp_value.parts.whole != 0) {
+        if (entity->mp != 0) {
 
             sprite->frameTable = dragon_reset_frames;
             select_sprite_entry(sprite,
@@ -1682,7 +1682,7 @@ void wait_for_dragon_mp(ActorRecord *controller, ObjectPosition *context, Sprite
 
         update_actor_status_and_mp(entity);
         on_actor_status_updated(entity);
-        if (entity->mp_value.parts.whole == 0) {
+        if (entity->mp == 0) {
             return;
         }
 

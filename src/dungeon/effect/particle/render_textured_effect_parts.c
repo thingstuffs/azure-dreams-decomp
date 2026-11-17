@@ -502,22 +502,22 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
                     direction += (s32)direction_table;
                     target_graphics = ((S_80024BE8_3_pre *)source)[-1].unk_00;
                     direction = *(u8 *)direction;
-                    direction_table = (u8 *)(u32)target_graphics->mp_value.parts.fraction;
+                    direction_table = (u8 *)(u32)target_graphics->mp_fraction;
                     direction_table = (direction_table + direction);
                     effect->unk_A2 = (s32)direction_table;
                     direction = effect->unk_7E;
                     direction_table = D_8006CCE8;
                     direction <<= 1;
                     direction += (s32)direction_table;
-                    direction_table = (u8 *)(u32)target_graphics->mp_value.parts.whole;
+                    direction_table = (u8 *)(u32)target_graphics->mp;
                     direction = *(u8 *)direction;
                     direction_table = (direction_table + direction);
                     effect->unk_A3 = (s32)direction_table;
                     tile_distance = source->target_tile_x;
-                    source_coord = target_graphics->mp_value.parts.fraction;
+                    source_coord = target_graphics->mp_fraction;
                     if (tile_distance == source_coord) {
                         tile_distance = source->target_tile_y;
-                        source_coord = target_graphics->mp_value.parts.whole;
+                        source_coord = target_graphics->mp;
                     }
                     tile_distance -= source_coord;
                     if (tile_distance < 0) {

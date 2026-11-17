@@ -46,7 +46,7 @@ void update_killer_behavior(ActorRecord *actor, ObjectPosition *context, SpriteF
         return;
     }
 
-    if (entity->mp_value.parts.whole == 0) {
+    if (entity->mp == 0) {
         advance_actor_pending_action(actor, context, sprite, entity);
         if (sprite->frameTable != killer_frame_set_2) {
             (sprite->frameTable) = killer_frame_set;

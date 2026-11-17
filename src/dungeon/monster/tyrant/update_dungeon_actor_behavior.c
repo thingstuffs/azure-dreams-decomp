@@ -49,7 +49,7 @@ void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
         return;
     }
 
-    if (actor_state_arg->mp_value.parts.whole == 0) {
+    if (actor_state_arg->mp == 0) {
         u8 *inactive_anims;
 
         advance_actor_pending_action(actor_arg, context_arg, map_object_arg, actor_state_arg);

@@ -60,7 +60,7 @@ void advance_u_boat_action(ActorRecord *action, ObjectPosition *context, SpriteF
                 return;
             }
         }
-        if (entity->mp_value.parts.whole == 0) {
+        if (entity->mp == 0) {
             if (global_base->flags & 0x2008) {
                 return;
             }

@@ -53,7 +53,7 @@ void *select_item_record_pointer(); /* Unprototyped: one or two arguments; the s
 #include "engine/resource.h"
 struct S_8008C5C4_2;
 extern u8 player_wait_frames[8];
-extern M2C_UNK D_800DD148;
+extern u8 D_800DD148[];
 extern void (*actor_command_handlers[])(void);
 extern u8 active_actor_command_code;
 extern u8 dungeon_button_latch;
@@ -329,7 +329,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                     case 0xC8:
                         ((ActorRecord *)actor)->action_timer =
                             command->unk_00 & 0x7F;
-                        begin_parameterized_actor_action(actor, motion, sprite, &D_800DD148, 2);
+                        begin_parameterized_actor_action(actor, motion, sprite, D_800DD148, 2);
                         return;
                     case 0xD8:
                         actor_command_handlers[command->unk_00 & 0x7F]();

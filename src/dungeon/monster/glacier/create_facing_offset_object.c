@@ -10,6 +10,7 @@ struct ObjectPosition;
 #include "shared/slus_callbacks.h"
 #include "dungeon/effect.h"
 #include "dungeon/monster/glacier.h"
+#include "dungeon/data.h"
 
 typedef struct {
     s32 value0;
@@ -89,7 +90,6 @@ typedef struct {
 } SecondaryBlock;
 
 extern u8 glacier_object_callback_2[];
-extern u8 glacier_direction_offsets[];
 extern u8 D_8017612C[];
 
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
@@ -118,12 +118,12 @@ void create_facing_offset_object(ActorRecord *owner, ObjectPosition *position, S
         child = allocated->sprite;
         child->tpage_abr = 0x20;
         child->flags |= 0xc;
-        block->field4c = (s8)(sprite->tile_x + glacier_direction_offsets[(owner->facing >> 7) & 0x1c]);
+        block->field4c = (s8)(sprite->tile_x + glacier_direction_offsets[(owner->facing >> 9) & 7].x);
         {
             u8 origin_y = sprite->tile_y;
             u16 angle = owner->facing;
-            u8 *direction_offset = glacier_direction_offsets + ((angle >> 7) & 0x1c);
-            block->field4d = (s8)(origin_y + direction_offset[2]);
+            GlacierDirectionOffset *direction_offset = glacier_direction_offsets + ((angle >> 9) & 7);
+            block->field4d = (s8)(origin_y + direction_offset->y);
         }
         child->depth_bias = 6;
         payload = allocated->position;

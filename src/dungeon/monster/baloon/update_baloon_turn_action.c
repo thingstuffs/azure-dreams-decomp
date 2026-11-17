@@ -47,7 +47,7 @@ void update_baloon_turn_action(ActorRecord *body, ObjectPosition *position, Spri
         return;
     }
 
-    if (move_data->mp_value.parts.whole == 0) {
+    if (move_data->mp == 0) {
         void *anim_table;
 
         advance_actor_pending_action(body, position, sprite, move_data);

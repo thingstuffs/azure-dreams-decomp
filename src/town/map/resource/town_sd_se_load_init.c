@@ -19,5 +19,5 @@ void town_sd_se_load_init(void) {
     load_slots[2] = -1;
     load_slots[3] = -1;
 
-    scene_music_hold[0] = 0;
+    scene_music_hold = 0;
 }

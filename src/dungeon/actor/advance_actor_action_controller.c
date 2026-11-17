@@ -62,7 +62,7 @@ void advance_actor_action_controller(ActorRecord *controller, void *action_conte
             return;
         }
 
-        if (actor->mp_value.parts.whole == 0) {
+        if (actor->mp == 0) {
             if (system_base->flags & 0x2008) {
                 return;
             }

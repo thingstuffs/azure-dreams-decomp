@@ -26,6 +26,7 @@ void *get_unused_text_buffer(); /* Unprototyped: this retail caller sets three i
 #include "sdk/libgpu_types.h"
 #include "slus.h"
 #include "dungeon/actor.h"
+#include "dungeon/actor/effect.h"
 #include "dungeon/data.h"
 #include "dungeon/player/object.h"
 
@@ -436,7 +437,7 @@ void place_actor_item(void *object_context, struct DungeonItemEntry *target) {
     place_item_at_valid_floor_position(*(u16 *)((s8 *)object + 2) >> 6,
                   *(u16 *)((s8 *)object + 6) >> 6,
                   *(s16 *)((s8 *)object + 0xA),
-                  lookup_item_category_mapped_value(target->kind, target->unk_00), target);
+                  lookup_item_category_mapped_value(target->kind, target->unk_00), (s32 *)target);
     play_sound_if_enabled(0x50C);
     clear_item_slot(target);
     g_dungeon_status.activity_counts.parts.pending_action_count--;
@@ -978,8 +979,6 @@ void spawn_initial_floor_monsters(void) {
         } while (call_index < repeat_count);
     }
 }
-
-#include "dungeon/actor/effect.h"
 
 /* Sends the two-byte command 1, 0x12. */
 void clear_fixed_item_mark_flag(void) {

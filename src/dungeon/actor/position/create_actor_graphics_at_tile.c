@@ -79,7 +79,7 @@ void *create_actor_graphics_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16
         graphics = object->sprite;
         graphics->tile_x = saved_x;
         graphics->tile_y = saved_y;
-        select_record_entry_and_value(graphics, &D_800DEF08, 0);
+        select_record_entry_and_value(graphics, D_800DEF08, 0);
         graphics->clut = 0x7E02;
         graphics->scale_x = 0x1800;
         graphics->scale_y = 0x2000;

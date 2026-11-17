@@ -1,8 +1,7 @@
 /* Copies nonzero cells from a size-prefixed block into the shared map grid. */
 #include "common.h"
 #include "town/map.h"
-
-extern u16 town_tile_grid[];
+#include "town/map/building_grid_g00638.h"
 
 /* Returns the current value of town_tile_grid. */
 static __inline__ u16 *grid_base(void) { return town_tile_grid; }

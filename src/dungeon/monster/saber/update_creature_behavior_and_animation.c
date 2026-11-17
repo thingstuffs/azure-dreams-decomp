@@ -45,7 +45,7 @@ void update_saber_behavior(ActorRecord *actor_in, ObjectPosition *context_in, Sp
         return;
     }
 
-    if (creature_in->mp_value.parts.whole == 0) {
+    if (creature_in->mp == 0) {
         advance_actor_pending_action(actor_in, context_in, sprite, creature_in);
         if (sprite->frameTable == saber_direction_frames_2) {
             return;

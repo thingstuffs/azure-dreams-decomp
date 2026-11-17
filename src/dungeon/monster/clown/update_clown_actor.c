@@ -284,7 +284,7 @@ void dispatch_clown_actions(ActorRecord *actor, ObjectPosition *actor_context, S
         advance_clown_path_step(actor, actor_context, map_object, creature);
         return;
     }
-    if (creature->mp_value.parts.whole == 0) {
+    if (creature->mp == 0) {
         void *animation_table;
 
         advance_actor_pending_action(actor, actor_context, map_object, creature);
@@ -1299,7 +1299,7 @@ void advance_clown_status_action(ActorRecord *actor, ObjectPosition *context, Sp
                     return;
                 }
             }
-            if (actor_state->mp_value.parts.whole == 0) {
+            if (actor_state->mp == 0) {
                 if (global_base->flags & 0x2008) {
                     return;
                 }
@@ -1412,7 +1412,7 @@ void advance_clown_mp_action(ActorRecord *actor, ObjectPosition *context, Sprite
     {
         u32 entity_flags;
 
-        if (entity->mp_value.parts.whole != 0) {
+        if (entity->mp != 0) {
 
             (animation->frameTable) = clown_frame_set_1;
             select_sprite_entry(animation,
@@ -1470,7 +1470,7 @@ void advance_clown_mp_action(ActorRecord *actor, ObjectPosition *context, Sprite
 
         update_actor_status_and_mp(entity);
         on_actor_status_updated(entity);
-        if (entity->mp_value.parts.whole == 0) {
+        if (entity->mp == 0) {
             return;
         }
 

@@ -216,4 +216,29 @@ extern SpriteSourceEntry random_variant_sprite_entries[];
  * and allocation extent are unknown. */
 extern u8 tinted_sprite_entries[];
 
+/* Dungeon data with no C definition (decision 74), formerly one-symbol headers. */
+/* Direction-indexed signed x/y steps at 0x800E2468. */
+typedef struct {
+    s16 x;
+    s16 y;
+} ActorDirectionStep;
+
+extern ActorDirectionStep actor_direction_step_pairs[];
+
+/* Eight signed x/y steps at 0x8017610C, selected by the glacier actor's facing. */
+typedef struct {
+    s16 x;
+    s16 y;
+} GlacierDirectionOffset;
+
+extern GlacierDirectionOffset glacier_direction_offsets[];
+
+/* Eight-byte species record: growth rates followed by action flags. */
+typedef struct SpeciesGrowthEntry {
+    u8 growth[7];
+    u8 flags;
+} SpeciesGrowthEntry;
+
+extern SpeciesGrowthEntry species_growth_table[];
+
 #endif

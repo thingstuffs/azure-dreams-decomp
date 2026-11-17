@@ -1,13 +1,7 @@
 #include "common.h"
 #include "town/devkit.h"
 #include "town/devkit/flag_test_imports.h"
-
-typedef struct {
-    u8 pad00[0x68];
-    void (*func68)(void *, void *, s32);
-    u8 pad6C[8];
-    void (*func74)(s32);
-} CallbackTable;
+#include "town/data.h"
 
 typedef struct {
     u8 pad00[0x10];
@@ -15,7 +9,6 @@ typedef struct {
 } TownObject;
 
 extern s32 D_8070309C;
-extern CallbackTable *devkit_runtime_methods;
 extern u8 D_807028F4[];
 extern u8 D_8070291C[];
 extern TownObject *D_807030AC;
@@ -31,8 +24,8 @@ void load_scene_data_block(s32 scene, s32 mode)
     s32 first;
 
     if (D_8070309C != 0) {
-        devkit_runtime_methods->func68(D_807028F4, D_8070291C, 0xE2);
-        devkit_runtime_methods->func74(1);
+        devkit_runtime_methods->print(D_807028F4, D_8070291C, 0xE2);
+        devkit_runtime_methods->set_mode(1);
     }
 
     D_8070309C = 1;

@@ -2,16 +2,15 @@
 #include "common.h"
 
 #include "engine/object.h"
+#include "engine/message/data.h"
 #include "slus/data.h"
-
-extern s32 message_control_string_table[];
 
 /* Updates the selected entry and returns its value, applying special-case lookups. */
 s32 select_resident_resource_table_value(s32 entry_index) {
     set_resident_bits_for_matching_key((s16)entry_index);
 
     if (entry_index == 1) {
-        return message_control_string_table[0];
+        return (unsigned long)message_control_string_table[0];
     }
 
     if (entry_index == 2) {

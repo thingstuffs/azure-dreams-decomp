@@ -71,7 +71,7 @@ void wait_for_kid_mp_recovery(ActorRecord *action, ObjectPosition *context, Spri
     }
 
     case 1:
-        if (saved_entity->mp_value.parts.whole != 0) {
+        if (saved_entity->mp != 0) {
             register S_80173ED8_2 *counter_state;
 
             sprite->frameTable = kid_frame_set_3;
@@ -134,7 +134,7 @@ void wait_for_kid_mp_recovery(ActorRecord *action, ObjectPosition *context, Spri
 
         update_actor_status_and_mp(saved_entity);
         on_actor_status_updated(saved_entity);
-        if (saved_entity->mp_value.parts.whole == 0) {
+        if (saved_entity->mp == 0) {
             return;
         }
 

@@ -76,7 +76,6 @@ s32 can_entity_gain_level(void *entity) {
 
 extern void apply_entity_effects(void *entity); /* Slot contract: loading images do not establish one callee contract. */
 
-extern u8 species_growth_table[];
 extern u8 D_800E0953[];
 extern u8 D_800E095F[];
 extern u8 D_800E0970[];
@@ -102,7 +101,7 @@ s32 raise_entity_level(void *entity_data, s32 show_message) {
         level = ((u8 *)entity_data)[0x11];
         species_id = ((u8 *)entity_data)[0x13];
         ((u8 *)entity_data)[0x11] = level + 1;
-        stat_growth = species_growth_table + (species_id * 8);
+        stat_growth = species_growth_table[species_id].growth;
         prev_level = level - 1;
         initial_stats = species_base_stats + (species_id * 0x18);
 
@@ -427,7 +426,6 @@ loop_0:
 #include "m2c_compat.h"
 
 extern s32 entity_level_thresholds[];
-extern u8 species_growth_table[];
 extern u8 D_800E098B[15];
 extern u8 D_800E099A[24];
 extern u8 D_800E09B2[9];
@@ -465,7 +463,7 @@ s32 lower_entity_level(ActorRecord *body, s32 show_message) {
     monster_id = entity[0x13];
     xp_table = entity_level_thresholds;
     *(s32 *)(entity + 0x18) = xp_table[level] - 1;
-    stat_growth = species_growth_table + (monster_id * 8);
+    stat_growth = species_growth_table[monster_id].growth;
     level_offset = level - 1;
     initial_stats = species_base_stats + (monster_id * 0x18);
 
@@ -819,7 +817,7 @@ s32 has_active_actor_or_pending_action(ActorRecord *body) {
 
 /* Checks whether the record's byte at offset 0x25 is below 0x40. */
 s32 has_low_actor_mp(ActorRecord *record) {
-    return (u8) record->mp_value.parts.whole < 0x40U;
+    return record->mp < 0x40U;
 }
 
 /* cfail-repair: tf7-phase1-cache-v3 */

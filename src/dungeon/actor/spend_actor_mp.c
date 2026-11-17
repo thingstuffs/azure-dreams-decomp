@@ -25,8 +25,8 @@ void spend_actor_mp(ActorRecord *entity, s32 base_reduction) {
 
     reduction = base_reduction;
     if ((s8)entity->species > 0) {
-        remaining_amount = entity->mp_value.whole;
-        initial_level = entity->mp_value.parts.whole;
+        remaining_amount = *(u16 *)&entity->mp_fraction;
+        initial_level = entity->mp;
         if ((get_entity_effect_value(entity, STATUS_NO_MP_DRAIN) << 16) != 0) {
             reduction = 0;
         } else if (entity->status_flags & 0x100) {
@@ -42,12 +42,12 @@ void spend_actor_mp(ActorRecord *entity, s32 base_reduction) {
             remaining_amount = 0xFFFF;
         }
         level_limit = entity->max_mp;
-        entity->mp_value.whole = (u16)remaining_amount;
-        if (level_limit < entity->mp_value.parts.whole) {
-            entity->mp_value.parts.whole = level_limit;
-            entity->mp_value.parts.fraction = 0xFF;
+        *(u16 *)&entity->mp_fraction = (u16)remaining_amount;
+        if (level_limit < entity->mp) {
+            entity->mp = level_limit;
+            entity->mp_fraction = 0xFF;
         }
-        if (entity->mp_value.parts.whole == 0) {
+        if (entity->mp == 0) {
             s32 dungeon_mode;
 
             one = 1;
@@ -56,7 +56,7 @@ void spend_actor_mp(ActorRecord *entity, s32 base_reduction) {
             if ((dungeon_mode == one) &&
                 ((entity->species == MONSTER_KEWNE) ||
                  (entity->species == 0x39))) {
-                entity->mp_value.parts.whole = dungeon_mode;
+                entity->mp = dungeon_mode;
                 return;
             }
             if (entity->flags1C & ACTOR_LIFTED) {

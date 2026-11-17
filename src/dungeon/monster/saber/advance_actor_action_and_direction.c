@@ -64,7 +64,7 @@ void advance_actor_action_and_direction(ActorRecord *action, ObjectPosition *con
                     return;
                 }
             }
-            if (actor_in->mp_value.parts.whole == 0) {
+            if (actor_in->mp == 0) {
                 if (status->flags & 0x2008) {
                     return;
                 }

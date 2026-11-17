@@ -202,4 +202,44 @@ extern SpriteSourceEntry map_animation_sprite_entries[];
 /* Shared town scene service arguments at 0x800183D8; extent is not established. */
 extern s32 scene_service_arguments[];
 
+/* Devkit image data with no C definition (decision 74), formerly one-symbol headers. */
+typedef struct SceneEntry SceneEntry;
+
+/* Callback table in the link-at-0 town scene-test image. */
+typedef struct TownOverlayTraceMethods {
+    u8 pad_00[0x60];
+    void (*invoke)(s32 code);
+    void (*print)(char *format, char *name, s32 value);
+    u8 pad_68[4];
+    void (*flush)(s32 mode);
+} TownOverlayTraceMethods;
+
+extern TownOverlayTraceMethods *overlay_trace_methods;
+
+typedef struct DevkitRuntimeMethods {
+    u8 pad_00[0x64];
+    void (*invoke)(s32, SceneEntry *, s32);
+    void (*print)(void *, void *, s32);
+    u8 pad_6C[8];
+    void (*set_mode)(s32);
+} DevkitRuntimeMethods;
+
+extern DevkitRuntimeMethods *devkit_runtime_methods;
+
+typedef struct DevkitTraceMethods {
+    u8 pad_00[0x68];
+    void (*print)(void *, void *, s32);
+    u8 pad_6C[8];
+    void (*set_mode)(s32);
+} DevkitTraceMethods;
+
+extern DevkitTraceMethods *devkit_trace_methods;
+
+typedef struct DevkitShopFlagLink {
+    u16 first;
+    u16 next;
+} DevkitShopFlagLink;
+
+extern DevkitShopFlagLink devkit_shop_flag_links[];
+
 #endif

@@ -1,7 +1,6 @@
 #include "common.h"
 #include "town/map.h"
-
-extern u16 town_tile_grid[];
+#include "town/map/building_grid_g00638.h"
 
 /* Copies nonzero tiles into the town tilemap, selecting variants by map coordinate parity. */
 void copy_variant_building_tiles(s16 x, s16 y, u16 *src_tiles)

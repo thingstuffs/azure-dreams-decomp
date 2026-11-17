@@ -46,7 +46,7 @@ void update_dungeon_actor_animation(ActorRecord *actor, ObjectPosition *context,
         advance_actor_path_and_facing(actor, context, sprite, entity);
         return;
     }
-    if (entity->mp_value.parts.whole == 0) {
+    if (entity->mp == 0) {
         void *anim_table;
 
         advance_actor_pending_action(actor, context, sprite, entity);

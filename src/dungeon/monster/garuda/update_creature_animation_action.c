@@ -45,7 +45,7 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
         advance_stored_entity_path(actor, context, sprite_arg, creature);
         return;
     }
-    if (creature->mp_value.parts.whole == 0) {
+    if (creature->mp == 0) {
         void *anim_table;
         advance_actor_pending_action(actor, context, sprite_arg, creature);
         if (sprite_arg->frameTable == garuda_frame_set_2) {

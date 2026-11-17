@@ -67,7 +67,7 @@ void update_sleeping_ifrit(ActorRecord *in_action, ObjectPosition *in_context, S
                 return;
             }
 
-            if (actor->mp_value.parts.whole == 0) {
+            if (actor->mp == 0) {
                 if (system_base->flags & 0x2008) {
                     return;
                 }
