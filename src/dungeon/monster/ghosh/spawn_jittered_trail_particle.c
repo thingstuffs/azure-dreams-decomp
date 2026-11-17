@@ -8,32 +8,14 @@
 #include "engine/node/allocation.h"
 #include "sdk/libc.h"
 
-typedef struct S_80171F30_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-    u8 pad_14[0xC];
-    s32 unk_20;
-} S_80171F30_0;   /* object in spawn_jittered_trail_particle */
-
-typedef struct S_80171F30_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80171F30_1;   /* arg0 in spawn_jittered_trail_particle */
-
-
 typedef struct S_80171F30_4 {
-    u8 pad_00[0x8];
+    s32 unk_00;
+    u8 pad_04[0x4];
     s32 unk_08;
     u8 pad_0C[0x26];
     s16 unk_32;
     s16 unk_34;
 } S_80171F30_4;   /* tail in spawn_jittered_trail_particle */
-
-   /* ((S_80171F30_0 *)object)->unk_08 in spawn_jittered_trail_particle */
-
-   /* ((S_80171F30_1 *)arg0)->unk_08 in spawn_jittered_trail_particle */
 
 extern u8 ghosh_object_callback_2[];
 extern u8 D_80171CC0[];
@@ -42,7 +24,7 @@ extern u8 D_80171E60[];
 /* Creates an object at a randomized offset from its parent and initializes its mode and state. */
 /* Creates a parent-linked trail particle with mode-specific callbacks and jitter ranges, copying the
  * supplied state values. */
-void spawn_jittered_trail_particle(S_80171F30_1 *parent, s32 state_value, s16 tail_value_in, s16 mode_in)
+void spawn_jittered_trail_particle(ObjectNodeHeader *parent, s32 state_value, s16 tail_value_in, s16 mode_in)
 {
     ObjectNodeHeader *object;
     SpriteFrameState *header;
@@ -82,11 +64,11 @@ void spawn_jittered_trail_particle(S_80171F30_1 *parent, s32 state_value, s16 ta
     }
     object->update_callback = (void *)resource_addr;
     object->position->x.w.i =
-        ((MovingPosition *)(parent->unk_08))->x;
+        parent->position->x.w.i;
     object->position->y.w.i =
-        ((MovingPosition *)(parent->unk_08))->y;
+        parent->position->y.w.i;
     object->position->z.w.i =
-        ((MovingPosition *)(parent->unk_08))->z;
+        parent->position->z.w.i;
 
     if ((mode_value << 16) == 0) {
         jitter = rand();
@@ -128,6 +110,6 @@ void spawn_jittered_trail_particle(S_80171F30_1 *parent, s32 state_value, s16 ta
     tail->unk_32 = tail_value;
     tail->unk_34 = tail_value;
     register_node(call_object, init_data);
-    ((S_80171F30_0 *)object)->unk_20 = state_value;
+    tail->unk_00 = state_value;
     tail->unk_08 = state_value;
 }

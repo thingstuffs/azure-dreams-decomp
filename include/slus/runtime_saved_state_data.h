@@ -5,5 +5,6 @@
 
 /* Resident word saved to and restored from the runtime page at offset 0x3180. */
 extern u32 runtime_saved_state_word;
+extern u8 runtime_saved_state_byte_04_alias;
 
 #endif

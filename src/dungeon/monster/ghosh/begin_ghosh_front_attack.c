@@ -5,6 +5,7 @@
 #include "shared/actor_action_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/item.h"
 #include "dungeon/effect.h"
@@ -15,7 +16,6 @@ s32 begin_ghosh_front_attack(ActorRecord *body, ObjectPosition *position, Sprite
 {
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local, as in its Beldo twin */
     ActorRecord *target;
-    void *node_body;
 
     actor->movement_queue_state &= 0x7F;
 
@@ -45,8 +45,7 @@ s32 begin_ghosh_front_attack(ActorRecord *body, ObjectPosition *position, Sprite
         return -1;
     }
 
-    node_body = actor; /* object dispatch passes the body that follows the 0x20-byte node header */
-    apply_camera_offset_and_select_target(node_body - 0x20, position, 8, 0x300);
+    apply_camera_offset_and_select_target(NODE_HEADER(actor), position, 8, 0x300);
 
     if (try_claim_dungeon_action_slot(actor) == 0) {
         body->action_id = 0x11;

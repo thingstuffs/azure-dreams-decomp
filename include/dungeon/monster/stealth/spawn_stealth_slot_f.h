@@ -37,5 +37,5 @@ extern void func_8016AF74(ActorRecord *actor_in, ObjectPosition *actor_data_in, 
 
 extern s32 generate_random_value(void);
 
-void * spawn_stealth_slot_f(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c);
+void * spawn_stealth(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c);
 #endif

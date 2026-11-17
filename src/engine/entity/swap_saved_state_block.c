@@ -3,8 +3,6 @@
 #include "slus/data.h"
 #include "slus/runtime_saved_state_data.h"
 
-extern u8 runtime_saved_state_byte_04_alias;
-
 /* Restores saved state when requested; otherwise saves the current state. */
 void swap_saved_state_block(void)
 {

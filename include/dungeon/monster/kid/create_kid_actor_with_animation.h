@@ -42,5 +42,5 @@ extern u8 kid_action_resume_address[];
 
 /* Allocate and initialize an object and its child entries. */
 
-void *create_actor_with_child_sprites(s32 kind, s32 part_x, s32 part_y, s32 copy_value);
+void *spawn_kid(s32 kind, s32 part_x, s32 part_y, s32 copy_value);
 #endif

@@ -15,6 +15,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor/object.h"
 #include "engine/util.h"
+#include "slus/data.h"
 
 
 
@@ -23,7 +24,6 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
-extern s32 sprite_resource_pointer_slots[];
 extern u8 actor_default_frames[];
 
 /* Applies an action to the object's flags and tile state, then updates the object. */
@@ -33,7 +33,7 @@ void apply_entity_action_flags(ActorRecord *object, s32 action) {
     s32 set_mask;
     s32 disable_clear_mask;
     s32 action_index;
-    s32 *reset_slot;
+    SpriteFrameState **reset_slot;
     s32 updated_flags;
     s32 reset_index;
     TileObject *update_state;

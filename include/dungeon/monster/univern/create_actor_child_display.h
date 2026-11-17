@@ -39,5 +39,5 @@ extern void func_8014CBB8(void *actor, void *motion, SpriteFrameState *object);
 extern u8 D_80150494[];
 extern u8 D_801504FC[];
 
-void * create_actor_child_display(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_halfword);
+void * spawn_univern_actor(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_halfword);
 #endif

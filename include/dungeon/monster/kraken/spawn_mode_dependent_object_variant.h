@@ -52,5 +52,5 @@ extern void func_801591A4(ActorRecord *actor, ObjectPosition *context, SpriteFra
 extern u8 D_8015C18C[];
 extern u8 D_8015C1CC[];
 
-void * spawn_mode_dependent_112_object_variant(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value);
+void * spawn_kraken(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value);
 #endif

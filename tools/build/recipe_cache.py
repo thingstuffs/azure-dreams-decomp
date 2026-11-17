@@ -64,6 +64,8 @@ PER_RECORD |= {'ledger/layout.jsonl', 'ledger/splits/overlay_modules.build.json'
 # directly in src/<container>/ and with every row-TU rename): a record binds each one it resolved a read through, by
 # its target (hash_at), and binds a flat view directory's listing only if it listed that directory.
 VIEW_ROOTS = ('build_ovl', 'build_slus')
+# Subdirectories a recorded directory listing leaves out, as the input inventory does.
+UNLISTED_DIRECTORIES = frozenset({'__pycache__', '.git', 'cache'})
 
 
 def is_view_link(name):
@@ -276,7 +278,10 @@ class RecipeCache:
         except FileNotFoundError:
             return None
         except IsADirectoryError:
-            names = sorted(n for n in os.listdir(root/name) if n != '__pycache__')
+            # The input inventory never walks these directories (content_cache.inventory): a live checkout's
+            # untracked ledger/cache/ must not set its listing apart from a scratch root's.
+            names = sorted(n for n in os.listdir(root/name)
+                           if n not in UNLISTED_DIRECTORIES or not os.path.isdir(os.path.join(root, name, n)))
             return 'directory:' + hashlib.sha256(json.dumps(names).encode()).hexdigest()
 
     def current_digest(self, name):

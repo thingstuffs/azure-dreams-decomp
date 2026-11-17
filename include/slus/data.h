@@ -8,13 +8,39 @@
 #include "shared/game_work.h"
 #include "shared/resident_resources.h"
 #include "shared/movie_list.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/sound_state.h"
 #include "slus/window_choice_data.h"
 
 
 struct InputRecord;
 
+/* Runtime map-change record at 0x8006ADEC; the copier transfers all 0x30 bytes. */
+typedef struct RuntimeState {
+    u8 pad_00[4];
+    void *field_04;
+    u8 pad_08[4];
+    u16 field_0C;
+    u16 field_0E;
+    void *field_10;
+    u16 field_14;
+    u16 field_16;
+    s16 field_18;
+    s16 field_1A;
+    u8 pad_1C[8];
+    void *field_24;
+    u16 field_28;
+    u16 field_2A;
+    u32 unused_tail_2C;
+} RuntimeState;
+
 /* Data declarations. */
+extern RuntimeState map_change_state;
+/* Packed default color shared by the resident primitive builders. */
+extern SpriteColor shared_primitive_color;
+/* Resident slots registered by register_sprite_slot and drained by flush_sprite_resource_slots. */
+extern SpriteFrameState *sprite_resource_pointer_slots[4];
+extern MovieListNode town_transition_callback_list;
 extern char scene_string_fallback[];
 extern MATRIX sprite_projection_matrix;
 extern u8 D_80012D6E[ 9 ];

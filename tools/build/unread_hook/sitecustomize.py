@@ -1,7 +1,8 @@
 """Child-process half of mkbuild.unread_inputs_enforced (configure and bootstrap put this directory first on
-PYTHONPATH while they run): a python subprocess that opens one of the files named in MKBUILD_UNREAD_INPUTS
-(os.pathsep-separated real paths) fails, the same way an in-process open does.  Nothing binds those files' content,
-so a reader would go stale silently.  Any other sitecustomize on the path still runs afterwards."""
+PYTHONPATH while they run): a python subprocess that opens a ledger file of the root MKBUILD_UNREAD_ROOT names
+(its real path, ending in a separator) outside the entries MKBUILD_CONFIGURE_LEDGERS lists (os.pathsep-separated,
+relative to ledger/, directories ending in '/') fails, the same way an in-process open does.  Nothing binds those
+files' content, so a reader would go stale silently.  Any other sitecustomize on the path still runs afterwards."""
 import importlib.machinery
 import importlib.util
 import os
@@ -11,11 +12,13 @@ _HERE = os.path.dirname(os.path.realpath(__file__))
 
 
 def _install():
-    value = os.environ.get('MKBUILD_UNREAD_INPUTS')
-    if not value:
+    root = os.environ.get('MKBUILD_UNREAD_ROOT')
+    if not root:
         return
-    paths = frozenset(p for p in value.split(os.pathsep) if p)
-    bases = frozenset(os.path.basename(p) for p in paths)
+    entries = [e for e in os.environ.get('MKBUILD_CONFIGURE_LEDGERS', '').split(os.pathsep) if e]
+    files = frozenset(e for e in entries if not e.endswith('/'))
+    directories = tuple(e for e in entries if e.endswith('/'))
+    prefix = root + 'ledger/'
 
     def hook(event, args):
         if event != 'open' or not args or args[0] is None or isinstance(args[0], int):
@@ -24,10 +27,15 @@ def _install():
             path = os.fsdecode(args[0])
         except TypeError:
             return
-        if os.path.basename(path) in bases and os.path.realpath(path) in paths:
-            raise ValueError(f'a configure/bootstrap subprocess ({os.path.basename(sys.argv[0] or "python")}) read '
-                             f'{path}, which mkbuild.UNREAD_LEDGERS leaves out of the configure and bootstrap inputs; '
-                             'move it back into the inventory before reading it')
+        if 'ledger' not in path:
+            return
+        physical = os.path.realpath(path)
+        if physical.startswith(prefix):
+            relative = physical[len(prefix):]
+            if relative not in files and relative + '/' not in directories and not relative.startswith(directories):
+                raise ValueError(f'a configure/bootstrap subprocess ({os.path.basename(sys.argv[0] or "python")}) '
+                                 f'read {path}, which mkbuild.CONFIGURE_LEDGERS leaves out of the configure and '
+                                 'bootstrap inputs; add it there before reading it')
     sys.addaudithook(hook)
 
 

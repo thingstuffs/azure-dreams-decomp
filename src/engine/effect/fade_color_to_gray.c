@@ -1,8 +1,7 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
+#include "slus/data.h"
 
-/* Default packed GPU color shared by the primitive builders. */
-extern SpriteColor shared_primitive_color;
 
 typedef struct {
     s32 unk0;         /* flag/counter; function is a no-op when 0 */

@@ -599,19 +599,20 @@ void process_eligible_entries(func_800A02F0_S_8009DA50_2 *entries, void *bounds,
     while (((flags = entries->unk_01) & 0xC0) != 0x80) {
         if (entries->unk_00 == 0) {
             if (!(flags & 1) ? test_resident_bitmap_bit(entries->unk_02) != 0 : test_resident_bitmap_bit(entries->unk_02) != 1) {
+                func_800A02F0_S_8009DA50_1 *bounds_view = bounds;
                 test_x = base_x + entries->unk_10;
                 test_y = base_y + entries->unk_12;
                 entry_x = test_x;
                 entry_y = test_y;
                 if ((check_four_vector_half_turn_gaps(
-                         (s16)(((func_800A02F0_S_8009DA50_1 *)bounds)->unk_00 - test_x),
-                         (s16)(((func_800A02F0_S_8009DA50_1 *)bounds)->unk_02 - test_y),
-                         (s16)(((func_800A02F0_S_8009DA50_1 *)bounds)->unk_08 - test_x),
-                         (s16)(((func_800A02F0_S_8009DA50_1 *)bounds)->unk_0A - test_y),
-                         (s16)(((func_800A02F0_S_8009DA50_1 *)bounds)->unk_10 - test_x),
-                         (s16)(((func_800A02F0_S_8009DA50_1 *)bounds)->unk_12 - test_y),
-                         (s16)(((func_800A02F0_S_8009DA50_1 *)bounds)->unk_18 - test_x),
-                         (s16)(((func_800A02F0_S_8009DA50_1 *)bounds)->unk_1A - test_y)) != 0) ||
+                         (s16)(bounds_view->unk_00 - test_x),
+                         (s16)(bounds_view->unk_02 - test_y),
+                         (s16)(bounds_view->unk_08 - test_x),
+                         (s16)(bounds_view->unk_0A - test_y),
+                         (s16)(bounds_view->unk_10 - test_x),
+                         (s16)(bounds_view->unk_12 - test_y),
+                         (s16)(bounds_view->unk_18 - test_x),
+                         (s16)(bounds_view->unk_1A - test_y)) != 0) ||
                     (map_scene_selector_alias == 0xC) ||
                     (entries->unk_01 & 0x10)) {
                     if (spawn_town_entry_object(entries->unk_0C, entries->unk_04, entries->unk_05, entries->unk_06,

@@ -231,7 +231,7 @@ void advance_scripted_actor_motion(ActorRecord *actor, S_func_8132B8AC_1 *motion
             path_particle_count = 0;
             play_sound_if_enabled(0x706);
             do {
-                create_ghosh_spread_particle((u8 *)actor - 0x20, beldo->unk_2A, 0x8080FF, (rand() & 0xFF) | 0x80, 0);
+                create_ghosh_spread_particle(NODE_HEADER(actor), beldo->unk_2A, 0x8080FF, (rand() & 0xFF) | 0x80, 0);
                 path_particle_count += 1;
             } while (path_particle_count < 0x14);
             actor->action_timer = actor->action_timer - 1;
@@ -248,7 +248,7 @@ void advance_scripted_actor_motion(ActorRecord *actor, S_func_8132B8AC_1 *motion
             end_particle_count = 0;
             play_sound_if_enabled(0x706);
             do {
-                create_ghosh_spread_particle((u8 *)actor - 0x20, beldo->unk_2A, 0x8080FF, (rand() & 0xFF) | 0x80, 0);
+                create_ghosh_spread_particle(NODE_HEADER(actor), beldo->unk_2A, 0x8080FF, (rand() & 0xFF) | 0x80, 0);
                 end_particle_count += 1;
             } while (end_particle_count < 0x14);
         }
@@ -328,7 +328,7 @@ void advance_scripted_actor_motion(ActorRecord *actor, S_func_8132B8AC_1 *motion
             play_sound_if_enabled(0x706);
             wait_particle_mode = 1;
             do {
-                create_ghosh_spread_particle((u8 *)actor - 0x20, beldo->unk_2A, 0x8080FF, (rand() & 0xFF) | 0x80, wait_particle_mode);
+                create_ghosh_spread_particle(NODE_HEADER(actor), beldo->unk_2A, 0x8080FF, (rand() & 0xFF) | 0x80, wait_particle_mode);
                 wait_particle_count += 1;
             } while (wait_particle_count < 0x14);
         }
@@ -377,7 +377,7 @@ void advance_scripted_actor_motion(ActorRecord *actor, S_func_8132B8AC_1 *motion
             play_sound_if_enabled(0x706);
             move_particle_mode = 1;
             do {
-                create_ghosh_spread_particle((u8 *)actor - 0x20, beldo->unk_2A, 0x8080FF, (rand() & 0xFF) | 0x80, move_particle_mode);
+                create_ghosh_spread_particle(NODE_HEADER(actor), beldo->unk_2A, 0x8080FF, (rand() & 0xFF) | 0x80, move_particle_mode);
                 move_particle_count += 1;
             } while (move_particle_count < 0x14);
         }

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/shop.h"
+#include "slus/data.h"
 
 typedef struct TownFlagWord {
     u8 pad00[3];
@@ -28,7 +29,6 @@ typedef struct TownObject {
     TownColorBank *color_bank;
 } TownObject;
 
-extern s32 shared_primitive_color;
 extern s32 D_800D15EC[];
 
 /* Set a color slot's layer and end colors from the indexed flags and object palette. */
@@ -53,8 +53,8 @@ void set_shop_slot_colors(TownObject *object, s32 index)
         return;
     }
 
-    object->color_bank->layer0[slot]->color[0] = shared_primitive_color;
-    object->color_bank->layer1[slot]->color[0] = shared_primitive_color;
-    object->color_bank->layer2[slot]->color[0] = shared_primitive_color;
+    object->color_bank->layer0[slot]->color[0] = shared_primitive_color.word;
+    object->color_bank->layer1[slot]->color[0] = shared_primitive_color.word;
+    object->color_bank->layer2[slot]->color[0] = shared_primitive_color.word;
     object->color_bank->end[slot][0] = 0;
 }

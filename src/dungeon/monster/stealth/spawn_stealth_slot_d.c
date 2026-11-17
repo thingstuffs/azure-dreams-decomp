@@ -11,7 +11,7 @@
 
 /* Creates a Stealth actor, initializes its status and tile, and optionally unlinks its translucent render
  * node. */
-void *spawn_stealth_slot_d(s16 mode, s16 value24, s16 value25, s16 value0A)
+void *spawn_stealth(s16 mode, s16 value24, s16 value25, s16 value0A)
 {
     s32 modeBits;
     s32 optionValue;

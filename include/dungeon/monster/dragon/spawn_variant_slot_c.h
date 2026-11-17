@@ -5,6 +5,6 @@
 #include "modules/dungeon_ovl_a01054.h"
 #include "common.h"
 
-void *spawn_dragon_slot_c(s16 mode_flags, s16 attribute_24, s16 attribute_25, s16 attribute_0a);
+void *spawn_dragon(s16 mode_flags, s16 attribute_24, s16 attribute_25, s16 attribute_0a);
 
 #endif

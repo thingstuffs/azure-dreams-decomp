@@ -45,7 +45,7 @@ s32 get_item_chk(void);
 s32 get_item_menu_table_entry(s32 index);
 
 /* initialize_item_menu_linked_blocks.c */
-void initialize_item_menu_linked_blocks(struct S_800AFF00_4 *state, struct S_800AFF00_0 *primary, DisplayPositionWords *secondary);
+void initialize_item_menu_linked_blocks(ItemMenuDisplayLinks *state, struct S_800AFF00_0 *primary, DisplayPositionWords *secondary);
 
 /* init_item_menu_list_position.c */
 void init_item_menu_list_position(ItemMenuTransition *vectors, struct S_800AEBC4_4 *config, s32 *position_data, s32 *secondary_data, s32 x, s32 y);

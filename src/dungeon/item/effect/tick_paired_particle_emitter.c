@@ -9,15 +9,7 @@
 #include "engine/node.h"
 #include "sdk/libc.h"
 #include "dungeon/item_callbacks_api.h"
-
-typedef struct {
-    u8 pad0[2];
-    u16 count;
-    u8 pad4[0x18];
-    void *data;
-    u8 pad20[8];
-    void *meta;
-} FuncArg;
+#include "dungeon/item/effect.h"
 
 typedef struct {
     u8 pad0[2];
@@ -68,7 +60,7 @@ typedef struct {
 extern u8 D_800DF564[];
 
 /* Spawn two effects at the source position and decrement its remaining count. */
-void tick_paired_particle_emitter(FuncArg *source) {
+void tick_paired_particle_emitter(PairedParticleEmitterState *source) {
     s32 effect_index;
     FuncSub *effect_state;
     ObjectNodeHeader *effect_item;

@@ -7,6 +7,8 @@
 #include "shared/town_object.h"
 #include "shared/entity.h"
 #include "records/Rec_func_8009431C_arg0.h"
+struct TownPlayerRecord;
+struct S_80090F00_0;
 typedef struct { void *callback; u8 pad4[6]; s16 count; } ovl_16b08_local_7FFF6D14_InitState;
 typedef struct { void *callback; u8 pad4[6]; s16 count; } ovl_16b08_local_7FFF6DBC_InitState;
 typedef struct { void *callback; u8 pad4[6]; s16 count; } ovl_16b08_local_7FFF6EC0_InitState;
@@ -16,17 +18,17 @@ void dispatch_selected_entry_if_nonzero();
 extern void update_movement_and_expire_state(void);
 extern s32 type_three_action_handler_table[];
 void play_sound_by_height_range(void);
-extern void update_actor_and_dispatch_state(void);
+extern void update_actor_and_dispatch_state(struct TownPlayerRecord *, ObjectPosition *, s32);
 extern s32 D_800D00B0[];
 extern void update_airborne_object_with_land_timer(TownObjectRecord *state, ObjectPosition *entity, SpriteFrameState *context);
-extern void update_countdown_and_fallback(void);
+extern void update_countdown_and_fallback(struct S_80090F00_0 *, ObjectPosition *, SpriteFrameState *);
 extern s32 D_800D00C0[];
 extern void update_airborne_object_with_land_effects(void *context, ObjectPosition *object, void *update_arg);
 void store_input_angle(void *record_arg);
-extern void update_actor_movement_actions(void);
+extern void update_actor_movement_actions(TownObjectRecord *, ObjectPosition *, s32);
 extern s32 D_800D0108[];
 s16 SD_Call(int flags);
-extern void update_actor_input_actions(void);
+extern void update_actor_input_actions(struct TownPlayerRecord *, ObjectPosition *, s32);
 extern s32 D_800D0110[];
 extern u8 D_800D0118[];
 extern void dispatch_actor_interaction_with_fallback(void);

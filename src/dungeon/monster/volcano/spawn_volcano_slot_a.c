@@ -9,7 +9,7 @@
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 /* Creates Volcano with default frames at D_80150510, applies spawn flags, and attempts valid tile
  * placement. */
-void *spawn_volcano_slot_a(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
+void *spawn_volcano(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     u8 *work = 0;
     SpriteFrameState *part_b;

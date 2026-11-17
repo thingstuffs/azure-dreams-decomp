@@ -2,9 +2,8 @@
 #include "shared/sprite_frame_state.h"
 #include "engine/graphics.h"
 #include "engine/menu.h"
+#include "slus/data.h"
 
-/* Default packed GPU color shared by the primitive builders. */
-extern SpriteColor shared_primitive_color;
 
 /* Initializes a subrecord pair with shared data and the default color entry. */
 void init_packet_pair_and_gradient(void *record_pair, void *init_data)

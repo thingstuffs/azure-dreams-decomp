@@ -419,7 +419,7 @@ void set_record_pair_to_one(CardSlotMenuState *record);
 
 /* slot_detail_refresh_g00388.c */
 void card_boot_format_empty_slot_guidance(CardSlotDetails *context);
-void card_boot_format_default_empty_slot_guidance(void *context);
+void card_boot_format_default_empty_slot_guidance(CardSlotDetails *context);
 
 /* link_file_list_node_pointers.c */
 void func_80024C48(struct S_800491F4 **target);

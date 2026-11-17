@@ -13,7 +13,7 @@
 /* Creates an actor and initializes its parts and flags for the requested kind. */
 /* Creates Naplass with default frames at D_80150194, applies spawn flags, and attempts valid tile
  * placement. */
-void *create_actor_with_kind_parts(s16 spawn_flags, s16 part_b_value_24, s16 part_b_value_25, s16 part_a_value)
+void *spawn_naplass(s16 spawn_flags, s16 part_b_value_24, s16 part_b_value_25, s16 part_a_value)
 {
     s32 kind;
     ObjectNodeHeader *obj;

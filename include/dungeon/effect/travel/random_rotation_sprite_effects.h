@@ -166,7 +166,7 @@ extern s32 check_left_tile_and_center_height(s32, s32, s32);
 extern void *create_actor_sprite_at_tile(u8, s16, s16, s16); /* Unprototyped: retail call narrows its arguments to this declaration; no shared prototype keeps it */
 extern void func_80042640(void *, s32);
 extern s32 generate_random_value(void);
-void interpolate_view_parameters(RandomRotationSpriteEffectBody *state, void *motion, void *transform);
+void interpolate_view_parameters(RandomRotationSpriteEffectBody *state, ObjectPosition *motion, SpriteFrameState *transform);
 void *create_random_rotation_sprite_effect(void *context, ovl_18b8824_818988CC_Copy24 *copy_src, s16 initial_value);
 void update_randomized_grayscale_effect(RandomizedGrayscaleEffectBody *entry, void *unused, SpriteFrameState *target);
 void *create_randomized_grayscale_effect(s32 object_tag, Rec_func_80024264_arg1 *initial_state);

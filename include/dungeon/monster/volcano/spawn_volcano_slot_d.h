@@ -35,5 +35,5 @@ extern u8 D_80162538[];
 
 extern s32 generate_random_value(void);
 
-void * spawn_volcano_slot_d(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);
+void *spawn_volcano(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c);
 #endif

@@ -32,11 +32,11 @@ typedef struct S_800DC988_2 {
 
 extern void slide_menu_cursor_to_index();
 extern void update_state_activity_flags();
-extern s16 current_dungeon_floor[];
+extern s16 current_dungeon_floor;
 
 /* Initializes state with complemented global values and updates it until completion. */
 void invalidate_hud_cache(void *context) {
-    s16 global_value = current_dungeon_floor[0];
+    s16 global_value = current_dungeon_floor;
     S_800DC988_2 *source_data = primary_actor_record;
     S_800DC988_1 *state;
 

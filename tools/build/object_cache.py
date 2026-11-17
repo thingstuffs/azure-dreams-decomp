@@ -44,6 +44,11 @@ def cache_directory(root):
     return Path(os.environ.get('AZURE_OBJECT_CACHE_DIR', str(default))) / ('v'+str(SCHEMA))
 
 
+def import_memo(root):
+    """Content-keyed memo of the front ends' parsed import statements (compile_tools.module_imports)."""
+    return cache_directory(root)/'frontend-imports'
+
+
 def safe_path(root, name):
     if not name or Path(name).is_absolute() or '..' in Path(name).parts:
         raise ValueError('unsafe object cache path: ' + name)
@@ -233,6 +238,29 @@ def dependency_inputs(root, spec):
 
 
 TOOL_KEY_ENV = 'AZURE_OBJECT_KEY_TOOLS'
+# maspsx's evidence tables. Unset, maspsx falls back to <its package>/../../../config/<file>, a path
+# it resolves through the toolchain link (in a lane root: the live checkout's config/), which no
+# key bound. maspsx_tables() names the tables a recipe leaves to that fallback; the compile driver
+# passes them from the root being built and the key binds their bytes.
+MASPSX_TABLES = {'MASPSX_NORETURN_FILE': 'config/noreturn_syms.txt',
+                 'MASPSX_SIBCALL_FILE': 'config/sibcall_syms.txt'}
+
+
+def maspsx_tables(spec):
+    """{variable: root-relative default table} for each maspsx evidence table the recipe does not name.
+
+    Ordinary overlay recipes name their tables in `env`, SLUS recipes in `config_tables`. A genuine
+    ASPSX module recipe with a `name_input` is built by the module gate (build_native), which names
+    both tables itself; one without a `name_input` runs its wrapper like any other recipe, so
+    cc.sh -> maspsx reads the default tables. Assembler-only recipes (as.sh) run no maspsx."""
+    if spec.get('assembler') == 'genuine_aspsx_verified' and spec.get('name_input'):
+        return {}
+    if 'command' in spec:
+        argv = shlex.split(spec['command'])
+        runs, named = bool(argv) and argv[0].endswith('/cc.sh'), spec.get('config_tables', {})
+    else:
+        runs, named = spec.get('wrapper', '').endswith('/cc.sh'), spec.get('env', {})
+    return {k: v for k, v in MASPSX_TABLES.items() if runs and k not in named}
 COMPILE_STAMP = 'build/.state/compiletools.ok'
 
 
@@ -243,7 +271,8 @@ def object_kind(root, spec):
     module recipes run the module gate inside the compile, a live noreturn
     compile (source edited after configure) runs the gate's noreturn census,
     and AZURE_OBJECT_KEY_TOOLS=all (or any value but 'object') forces it for
-    every recipe. A root without the object tools or a Python without
+    every recipe. A root without the object tools, a front end whose import
+    closure cannot be computed (it does not parse) or a Python without
     sys.monitoring (the compile-path guard) also keeps the whole list.
     """
     if os.environ.get(TOOL_KEY_ENV, 'object') != 'object' or not hasattr(sys, 'monitoring'):
@@ -258,7 +287,13 @@ def object_kind(root, spec):
         text = (root/spec['source']).read_text()
         if digest(text.encode()) != spec.get('declaration_context_sha256'):
             return None
-    if not all((root/n).is_file() for n in compile_tools.object_tools(root) + [compile_tools.DRIVER]):
+    if not all((root/n).is_file() for n in compile_tools.listed_object_tools(root) + [compile_tools.DRIVER]):
+        return None
+    try:
+        compile_tools.object_tools(root, import_memo(root))
+    except compile_tools.ClosureError as error:
+        print('object key: whole compile tool list (front-end import closure unknown: %s)' % error,
+              file=sys.stderr, flush=True)
         return None
     return kind
 
@@ -277,6 +312,10 @@ def key_inputs(root, recipe_path, spec):
     optional = {'config/names.tsv'}
     names.add('config/names.tsv')
     names.update(spec.get('config_tables', {}).values())
+    # Tables maspsx would otherwise read through the toolchain link; an absent one is an empty set.
+    defaults = set(maspsx_tables(spec).values())
+    names.update(defaults)
+    optional.update(defaults)
     if spec.get('assembler') == 'genuine_aspsx_verified':
         family = spec['module']['container']
         optional.update('config/'+kind+'_syms'+suffix+'.txt'
@@ -295,7 +334,7 @@ def key_inputs(root, recipe_path, spec):
         # The stamp hashes every compile tool; it schedules the rule, the object tools key it.
         names.discard(COMPILE_STAMP)
         names.discard(compile_tools.DRIVER)
-        names.update(compile_tools.object_tools(root))
+        names.update(compile_tools.object_tools(root, import_memo(root)))
     flags = ' '.join(spec.get('args', [])) + ' ' + spec.get('command', '')
     # Root-sensitive debug strings and volatile macros cannot use portable keys.
     if re.search(r'(?<!\S)-g|\b__(?:FILE|BASE_FILE|DATE|TIME|TIMESTAMP)__\b', flags):
@@ -383,7 +422,7 @@ def compile_path_guard(root, kind):
         return
     root = Path(root)
     prefixes = {os.path.abspath(root) + os.sep, os.path.realpath(root) + os.sep}
-    allowed = set(compile_tools.object_tools(root))
+    allowed = set(compile_tools.object_tools(root, import_memo(root)))
     functions = compile_tools.driver_digest(root, kind)[1]
     monitoring = sys.monitoring
     seen = set()

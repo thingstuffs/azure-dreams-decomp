@@ -5,6 +5,6 @@
 #include "modules/dungeon_ovl_e1b054.h"
 #include "common.h"
 
-void *spawn_volcano_slot_c(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height);
+void *spawn_volcano(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c);
 
 #endif

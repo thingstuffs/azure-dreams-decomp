@@ -12,7 +12,7 @@
 typedef struct Node {
     s32 pad[2];
     s32 value1;
-    struct Node *value2;
+    SpriteFrameState *value2;
 } Node;
 
 typedef struct S_800CEFB8_0 {
@@ -163,7 +163,7 @@ s32 RotMatrix(void *, void *);
 u16 ratan2();
 
 /* Functions defined in this translation unit. */
-s32 draw_linked_oriented_mesh_quads(void *initial_state, s32 value, void *data);
+s32 draw_linked_oriented_mesh_quads(void *initial_state, s32 value, SpriteFrameState *data);
 void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints, SpriteFrameState *sprite, s16 depth_bias, s16 orient_mode);
 
 #endif

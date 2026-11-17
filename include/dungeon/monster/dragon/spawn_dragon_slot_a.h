@@ -35,5 +35,5 @@ extern u8 D_8014FCDC[];
 
 /* Create an actor and initialize its parts, placement, and kind flags. */
 
-void *spawn_dragon_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id);
+void *spawn_dragon(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id);
 #endif

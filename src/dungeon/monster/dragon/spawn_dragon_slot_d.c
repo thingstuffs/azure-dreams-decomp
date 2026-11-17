@@ -10,7 +10,7 @@
 
 /* Creates a Dragon actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
-void *spawn_dragon_slot_d(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id)
+void *spawn_dragon(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id)
 {
     s32 kind;
     ObjectNodeHeader *obj;

@@ -12,7 +12,7 @@ for a runtime-backed prototype settle inside a falling batch); otherwise every f
 record member (F:Rec.m) or a function-pointer member's parameter (F:Rec.m#i) is respelled in its record definition
 and every function using it is folded and compared; global and return nodes are refused (manual_node).  The byte proof (tools/lanes/prove_batch.sh) is still required before
 committing a batch.  Results: DIR/results.json (per transaction status, reason, measured delta, files).
-(Harvested from the r136w_flow2 lane's private helper.)
+(Harvested from a private helper.)
 """
 import argparse, collections, csv, json, re, sys
 from pathlib import Path

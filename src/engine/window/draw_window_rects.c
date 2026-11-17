@@ -5,41 +5,7 @@
 #include "sdk/libgte_matrix.h"
 #include "sdk/libgpu_packets.h"
 #include "shared/gpu_packets.h"
-
-typedef struct {
-    u16 x;
-    u16 y;
-    u16 width;
-    u16 height;
-    s16 page_x;
-    s16 page_y;
-    u8 tex_width;
-    u8 pad0D;
-    u8 tex_height;
-    u8 pad0F;
-    u8 color;
-    u8 pad11[3];
-    s16 clut_x;
-    s16 clut_y;
-    u8 tex_x;
-    u8 pad19;
-    u8 tex_y;
-    u8 pad1B;
-} TEX_RECT;
-
-typedef struct {
-    u16 x;
-    u16 y;
-    u16 width;
-    u16 height;
-} RECTANGLE;
-
-typedef struct {
-    void *owner;
-    u8 pad04[8];
-    TEX_RECT textured;
-    RECTANGLE solid;
-} DRAW_DESC;
+#include "engine/window.h"
 
 #include "sdk/libgpu_types.h"
 

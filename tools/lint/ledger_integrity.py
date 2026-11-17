@@ -74,7 +74,8 @@
 
 (i) placed copies (tools/lint/placed_copies.py): every config/names.tsv row recorded `copy_of=0x<addr>` must be
     the same function as its canonical row: one row at each family address defines the name, and the retail
-    words are equal except a jump within the function's own body.  --fail-new and --fail-all fail on any
+    words are equal except a jump within the function's own body, or differ only in relocated fields whose
+    targets are one symbol by name or move with the image's base delta onto the same bytes.  --fail-new and --fail-all fail on any
     family that differs or cannot be found (a copy record is a claim about bytes, not a ratchet).  Without the
     retail containers (a public checkout) the word comparison is reported as skipped and the structural checks
     (one defining row per family address, native module membership, placement refusal) still fail.

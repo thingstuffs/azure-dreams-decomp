@@ -35,5 +35,5 @@ extern u8 D_80161CDC[];
 
 /* Creates an actor, configures its parts and flags, and returns its work data. */
 
-void *spawn_dragon_slot_d(s16 flags, s16 x, s16 y, s16 part_id);
+void *spawn_dragon(s16 flags, s16 x, s16 y, s16 part_id);
 #endif

@@ -548,6 +548,115 @@ class UnionCastTests(Fixture):
         self.assert_write_then_check(base, self.TWO_CARRIED)
 
 
+class SharedAddressTests(unittest.TestCase):
+    """Images share addresses and config/names.tsv has no image column: a cited old name follows a rename
+    recorded for that name, never the other images' functions at the same address."""
+
+    ADDR = ('0x80158894', 'func_80158894')
+    OTHER = ('0x8014c894', 'func_8014C894')
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.root = Path(self.tmp.name)
+        git(self.root, 'init', '-q')
+        for rel, name in (('src/nyuel/spawn_nyuel.c', 'nyuel_slot_c'), ('src/viper/spawn_viper.c', 'viper_slot_c'),
+                          ('src/nyuel/spawn_nyuel_a.c', 'nyuel_slot_a'), ('src/other/note.c', 'note')):
+            self.write(rel, fn(name))
+        self.write('config/names.tsv', names_text([
+            (*self.ADDR, 'nyuel_slot_c', 'src/nyuel/spawn_nyuel.c: Nyuel (not viper_slot_c, another function at '
+             'this address)'),
+            (*self.ADDR, 'viper_slot_c', 'src/viper/spawn_viper.c: Viper (not nyuel_slot_c, another function at '
+             'this address)'),
+            (*self.OTHER, 'nyuel_slot_a', 'src/nyuel/spawn_nyuel_a.c: copy of Nyuel'),
+            ('0x80000000', 'func_80000000', 'note', 'src/other/note.c: calls nyuel_slot_c and viper_slot_c'),
+        ]))
+        git(self.root, 'add', '-A')
+        git(self.root, 'commit', '-qm', 'base')
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def write(self, rel, text):
+        path = self.root / rel
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(text)
+
+    def rename(self, clauses):
+        for rel, name in (('src/nyuel/spawn_nyuel.c', 'spawn_nyuel'), ('src/viper/spawn_viper.c', 'spawn_viper'),
+                          ('src/nyuel/spawn_nyuel_a.c', 'spawn_nyuel')):
+            self.write(rel, fn(name))
+        self.write('config/names.tsv', names_text([
+            (*self.ADDR, 'spawn_nyuel', 'src/nyuel/spawn_nyuel.c: Nyuel (not viper_slot_c, another function at '
+             'this address)' + (' (renamed from nyuel_slot_c)' if clauses else '')),
+            (*self.ADDR, 'spawn_viper', 'src/viper/spawn_viper.c: Viper (not nyuel_slot_c, another function at '
+             'this address)' + (' (renamed from viper_slot_c)' if clauses else '')),
+            (*self.OTHER, 'spawn_nyuel', 'src/nyuel/spawn_nyuel_a.c: copy of Nyuel'
+             + (' (renamed from nyuel_slot_a)' if clauses else '')),
+            ('0x80000000', 'func_80000000', 'note', 'src/other/note.c: calls nyuel_slot_c and viper_slot_c'),
+        ]))
+        git(self.root, 'add', '-A')
+        git(self.root, 'commit', '-qm', 'rename')
+
+    def rows_now(self):
+        out = {}
+        for line in (self.root / R.NAMES).read_text().splitlines():
+            cols = line.split('\t')
+            if len(cols) == 4:
+                out[(cols[0], cols[2])] = cols[3]
+        return out
+
+    def refresh(self, write=True):
+        with redirect_stdout(io.StringIO()):
+            return R.run(self.root, only=['names'], write=write)
+
+    def test_images_sharing_an_address_keep_each_others_citations_without_a_rename_record(self):
+        self.rename(clauses=False)
+        before = (self.root / R.NAMES).read_text()
+        r, _ = self.refresh()
+        self.assertEqual((self.root / R.NAMES).read_text(), before)       # nothing wrongly respelled
+        self.assertEqual(r.changes, [])
+        self.assertTrue(any(value == 'viper_slot_c' and 'image unknown' in reason
+                            for _, _, value, reason in r.unresolved), r.unresolved)
+        self.assertTrue(any(value == 'nyuel_slot_c' for _, _, value, _ in r.unresolved))
+        # the citing row's own file must not pick the row's own function for the other image's old name
+        self.assertIsNone(r.names.resolve('viper_slot_c', ['src/nyuel/spawn_nyuel.c'])[0])
+
+    def test_recorded_renames_follow_per_name_at_a_shared_address(self):
+        self.rename(clauses=True)
+        r, _ = self.refresh()
+        rows = self.rows_now()
+        self.assertIn('(not spawn_viper, another', rows[(self.ADDR[0], 'spawn_nyuel')])
+        self.assertIn('(not spawn_nyuel, another', rows[(self.ADDR[0], 'spawn_viper')])
+        self.assertIn('calls spawn_nyuel and spawn_viper', rows[('0x80000000', 'note')])
+        self.assertEqual(r.unresolved, [])
+
+    def test_copy_family_renamed_to_one_name_citations_follow_the_name(self):
+        self.rename(clauses=True)
+        text = (self.root / R.NAMES).read_text() + '\t'.join(
+            ('0x80000100', 'func_80000100', 'noter', 'src/other/note.c: see nyuel_slot_a, a copy')) + '\n'
+        (self.root / R.NAMES).write_text(text)
+        r, _ = self.refresh()
+        self.assertEqual(self.rows_now()[('0x80000100', 'noter')], 'src/other/note.c: see spawn_nyuel, a copy')
+        self.assertNotIn('spawn_viper', self.rows_now()[('0x80000100', 'noter')])
+
+    def test_one_old_name_split_across_images_still_narrows_by_cited_file(self):
+        # shared_name left the address once and arrived as one name per image: the old name meant both
+        self.write('config/names.tsv', names_text([
+            (*self.ADDR, 'shared_name', 'src/nyuel/spawn_nyuel.c: the only one')]))
+        git(self.root, 'add', '-A')
+        git(self.root, 'commit', '-qm', 'one name')
+        self.write('config/names.tsv', names_text([
+            (*self.ADDR, 'spawn_nyuel', 'src/nyuel/spawn_nyuel.c: Nyuel; previously shared_name'),
+            (*self.ADDR, 'spawn_viper', 'src/viper/spawn_viper.c: Viper')]))
+        git(self.root, 'add', '-A')
+        git(self.root, 'commit', '-qm', 'split')
+        self.write('src/nyuel/spawn_nyuel.c', fn('spawn_nyuel'))
+        self.write('src/viper/spawn_viper.c', fn('spawn_viper'))
+        r, _ = self.refresh(write=False)
+        self.assertIsNone(r.names.resolve('shared_name')[0])                       # two images: files decide
+        self.assertEqual(r.names.resolve('shared_name', ['src/viper/spawn_viper.c']), ('spawn_viper', None))
+
+
 class NoHistoryTests(Fixture):
     def test_head_table_only(self):
         r = R.Refresher(self.root, history=False)

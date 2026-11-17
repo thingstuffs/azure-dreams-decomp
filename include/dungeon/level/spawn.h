@@ -134,6 +134,6 @@ void draw_dungeon_value_and_label(void);
 extern u8 dungeon_ground_item_positions[];
 extern u8 floor_special_item_selected[];
 extern u8 item_category_groups[];
-extern u8 current_dungeon_floor[];
+extern s16 current_dungeon_floor;
 extern u8 floor_objects[];
 #endif

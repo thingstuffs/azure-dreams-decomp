@@ -6,8 +6,6 @@
 #include "slus.h"
 #include "slus/data.h"
 
-extern int sprite_resource_pointer_slots[4];
-
 /* Clears global state blocks and a flag, then reinitializes subsystem defaults. */
 void reset_transition_state(void)
 {
@@ -17,7 +15,7 @@ void reset_transition_state(void)
     zero_words(vram_row_upload_cache, 0x80);
 
     {
-        int *state_words = sprite_resource_pointer_slots;
+        SpriteFrameState **state_words = sprite_resource_pointer_slots;
         for (word_index = 3; word_index >= 0; word_index--) {
             *(state_words + word_index) = 0;
         }

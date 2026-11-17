@@ -2,9 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "engine/sprite.h"
 #include "engine/texture.h"
-
-/* Sprite parts registered by register_sprite_slot (one-based slot index). */
-extern SpriteFrameState *sprite_resource_pointer_slots[4];
+#include "slus/data.h"
 
 /* Dispatches each occupied slot in mode 1 and clears it. */
 void flush_sprite_resource_slots(void)

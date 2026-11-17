@@ -11,7 +11,7 @@
 
 /* Creates a Volcano actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
-void *spawn_volcano_slot_f(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
+void *spawn_volcano(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     ActorRecord *result = NULL;
     ObjectNodeHeader *root;

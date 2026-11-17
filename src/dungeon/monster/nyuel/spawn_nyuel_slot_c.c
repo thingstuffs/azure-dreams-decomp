@@ -10,7 +10,7 @@
 
 /* Creates a Nyuel actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
-void *spawn_nyuel_slot_c(s16 flags, s16 tile_x, s32 variant, s32 spawn_height)
+void *spawn_nyuel(s16 spawn_flags, s16 tile_x, s32 tile_y, s32 spawn_height)
 {
     void *result;
     ObjectNodeHeader *created;
@@ -22,9 +22,9 @@ void *spawn_nyuel_slot_c(s16 flags, s16 tile_x, s32 variant, s32 spawn_height)
     s32 saved_tile_y;
     s16 original_flags;
 
-    saved_flags = flags;
+    saved_flags = spawn_flags;
     saved_height = spawn_height;
-    saved_tile_y = variant;
+    saved_tile_y = tile_y;
     result = 0;
     created = allocate_list_node(0x112, &scene_object_list_anchor.next);
     original_flags = saved_flags;
@@ -34,19 +34,19 @@ void *spawn_nyuel_slot_c(s16 flags, s16 tile_x, s32 variant, s32 spawn_height)
         register_node(created, project_sprite_chain);
 
         position = created->position;
-        variant = saved_flags & 3;
+        tile_y = saved_flags & 3;
         position->z.w.i = saved_height;
         part_ptr = created->sprite;
         (part_ptr)->tile_x = tile_x;
         (part_ptr)->tile_y = saved_tile_y;
         actor_ptr = result;
 
-        if (variant == 1) {
+        if (tile_y == 1) {
             ((S_80158894_0 *)result)->unk_8C = nyuel_slot_c_action_callback;
             ((S_80158894_0 *)result)->unk_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
             ((S_80158894_0 *)result)->unk_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             (part_ptr)->frameTable = nyuel_frame_set_6;
-        } else if (variant >= 2) {
+        } else if (tile_y >= 2) {
             ((S_80158894_0 *)result)->unk_8C = nyuel_slot_c_action_callback;
             ((S_80158894_0 *)result)->unk_14 |= ACTOR_CLASS_ENABLED;
             ((S_80158894_0 *)result)->unk_1C |= ACTOR_PLAYER_SIDE;

@@ -543,7 +543,7 @@ void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_
 #include "shared/entity.h"
 
 extern u8 floor_generation_state[];
-extern u16 current_dungeon_floor;
+extern s16 current_dungeon_floor;
 extern u8 scene_mode_code;
 extern u8 dungeon_event_pending_flag;
 extern u8 D_800E0B65[];

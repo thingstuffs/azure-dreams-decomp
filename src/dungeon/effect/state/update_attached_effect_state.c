@@ -34,8 +34,8 @@ typedef struct Context800B4194
     u16 value64;
 }
 Context800B4194;
-extern s32 dungeon_mode_state[];
-extern s16 current_dungeon_floor[];
+extern s32 dungeon_mode_state;
+extern s16 current_dungeon_floor;
 extern u8 D_800892C4[];
 extern u8 D_800892C8[];
 extern u8 D_800E0BC7[];
@@ -157,14 +157,14 @@ s32 update_attached_effect_state(s16 tile_index, Entity800B4194 *entityp, Contex
             return 0;
         }
         saved[1] = 0xE;
-        if ((dungeon_mode_state[0] != 2) && (current_dungeon_floor[0] < 0xC)) {
+        if ((dungeon_mode_state != 2) && (current_dungeon_floor < 0xC)) {
             low = 0x10;
             high = 0x18;
             saved[0] = 1;
             saved[2] = random_dungeon_range_16(low, high);
             saved[3] = 0;
         }
-        else if ((dungeon_mode_state[0] != 2) && (current_dungeon_floor[0] < 0x16)) {
+        else if ((dungeon_mode_state != 2) && (current_dungeon_floor < 0x16)) {
             low = 0x50;
             high = 0x78;
             saved[0] = 2;

@@ -20,5 +20,5 @@ extern u8 volcano_frame_set[];
 extern u8 D_80150538[];
 extern void func_8014CA58(void);
 
-void * spawn_volcano_slot_a(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c);
+void *spawn_volcano(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c);
 #endif

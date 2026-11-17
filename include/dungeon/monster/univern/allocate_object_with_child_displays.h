@@ -42,5 +42,5 @@ extern u8 D_8015C4FC[];
 
 /* Allocates and initializes an object and its child display items. */
 
-void *allocate_object_with_child_displays(s32 kind, s32 part_value_24, s32 part_value_25, s32 copy_value);
+void *spawn_univern_actor(s32 kind, s32 part_value_24, s32 part_value_25, s32 copy_value);
 #endif

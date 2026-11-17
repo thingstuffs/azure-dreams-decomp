@@ -44,6 +44,15 @@ def _table(root):
     return name_inputs.table(Path(root) / 'config/names.tsv')
 
 
+def _copies(root):
+    sys.path.insert(0, str(Path(root) / 'tools/build'))
+    try:
+        import name_inputs
+    finally:
+        sys.path.pop(0)
+    return name_inputs.copies(Path(root) / 'config/names.tsv')
+
+
 def definition_tokens(text, name):
     """Code tokens of `name`'s definition (comments and directives dropped), or None."""
     import score
@@ -56,10 +65,11 @@ def definition_tokens(text, name):
     return None
 
 
-def locate(rows, root, address, row_id, table):
+def locate(rows, root, address, row_id, table, families=None):
     """(file, function name, text) of the definition of `address` in the source of row `row_id`, or (None, reason).
 
-    The row id (container and retail position) tells copies at one address in different images apart."""
+    The row id (container and retail position) tells copies at one address in different images apart.  A
+    placed copy (families: name_inputs.copies) defines its family's name, which the table binds to the canonical."""
     import score
     member = rows.members.get(row_id)
     path = member['source'] if member else rows.paths.get(row_id)
@@ -68,8 +78,10 @@ def locate(rows, root, address, row_id, table):
     text = (Path(root) / path).read_text(errors='replace')
     tokens = score.lex(text)
     pairs, _ = score.pairs_of(tokens)
+    families = families or {}
     hits = [tokens[at].value for start, at, body, end, style in score.definitions(tokens, pairs)
-            if table.get(tokens[at].value, tokens[at].value) == address]
+            if table.get(tokens[at].value, tokens[at].value) == address
+            or address in families.get(tokens[at].value, {}).get('copies', ())]
     if len(hits) != 1:
         return None, '%d definitions of %s in %s' % (len(hits), address, path)
     return (path, hits[0], text), None
@@ -115,9 +127,10 @@ def check(root=ROOT):
     import placed_copies as P
     rows = P.Rows(root)
     table = _table(root)
+    copies = _copies(root)
     report, problems = {}, []
     for fam in families:
-        hit, why = locate(rows, root, fam['donor'], fam['row'], table)
+        hit, why = locate(rows, root, fam['donor'], fam['row'], table, copies)
         if not hit:
             problems.append('%s: donor %s' % (fam['donor'], why))
             continue
@@ -125,7 +138,7 @@ def check(root=ROOT):
         dtokens = definition_tokens(dtext, dname)
         report[fam['donor']] = [(fam['donor'], dpath, dname)]
         for c in fam['copies']:
-            hit, why = locate(rows, root, c['address'], c['row'], table)
+            hit, why = locate(rows, root, c['address'], c['row'], table, copies)
             if not hit:
                 problems.append('%s: copy %s' % (fam['donor'], why))
                 continue

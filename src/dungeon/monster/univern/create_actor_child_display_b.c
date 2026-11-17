@@ -12,7 +12,7 @@
 #include "slus/data.h"
 
 /* Creates a Univern actor and its linked directional display, then initializes status and tile placement. */
-void *create_actor_child_display_b(s32 kind, s32 part_x, s32 part_y, s32 initial_value)
+void *spawn_univern_actor(s32 kind, s32 part_x, s32 part_y, s32 initial_value)
 {
     ObjectNodeHeader *root;
     ObjectPosition *copy;

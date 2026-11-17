@@ -87,7 +87,7 @@ void card_boot_format_empty_slot_guidance(CardSlotDetails *context)
 }
 
 /* Initialize two resource buffers and assign them to vertically spaced entries. */
-void card_boot_format_default_empty_slot_guidance(void *context) {
+void card_boot_format_default_empty_slot_guidance(CardSlotDetails *context) {
     s32 entry_index;
     s16 x;
     s16 y;
@@ -97,8 +97,8 @@ void card_boot_format_default_empty_slot_guidance(void *context) {
     MenuDisplayBlock *position;
     void *entry_cursor;
 
-    decode_fullwidth_text((u8 *)context + 0x84, card_empty_slot_guidance_lines[0], 1);
-    decode_fullwidth_text((u8 *)context + 0x204, card_empty_slot_guidance_lines[1], 1);
+    decode_fullwidth_text(context->text_buffers[0], card_empty_slot_guidance_lines[0], 1);
+    decode_fullwidth_text(context->text_buffers[1], card_empty_slot_guidance_lines[1], 1);
     entry_index = 0;
     x = 0xA9;
     y = 0x110;

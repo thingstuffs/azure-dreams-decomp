@@ -16,7 +16,7 @@ struct ObjectNodeHeader;
 void reset_ghosh_actor_and_release_links(s32 unused0, s32 unused1, s32 unused2, s32 unused3)
 {
     s32 i;
-    s32 object;
+    void *object;
     u8 *base;
     SpriteFrameState *linked;
 
@@ -37,9 +37,9 @@ void reset_ghosh_actor_and_release_links(s32 unused0, s32 unused1, s32 unused2, 
 
     i = 0;
     do {
-        object = *(s32 *)(((u8 *)dungeon_actor_ring_anchor) + (i * 4) + 0xAC);
+        object = *(void **)(((u8 *)dungeon_actor_ring_anchor) + (i * 4) + 0xAC);
         if (object != 0) {
-            insert_node_before_primary_actor(object - 0x20);
+            insert_node_before_primary_actor(NODE_HEADER(object));
         }
         i++;
     } while (i < 2);

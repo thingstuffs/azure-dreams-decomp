@@ -6,6 +6,7 @@ The masked compare, the symbol map and the text rewrite run on fixtures; the com
 existing tools' (layout_compile_identity.capture_one, tu_identity) and are not repeated here."""
 from pathlib import Path
 import sys
+import subprocess
 import unittest
 
 HERE = Path(__file__).resolve().parent
@@ -295,6 +296,9 @@ class Names(unittest.TestCase):
     def test_rename_word_keeps_members_and_longer_names(self):
         text = 'a = slot_c; b->slot_c = slot_c_x; slot_c(1);'
         self.assertEqual(N.rename_word(text, 'slot_c', 'canon'), 'a = canon; b->slot_c = slot_c_x; canon(1);')
+        text = '#include "dungeon/kid/slot_c.h"\n/* owned by src/kid/slot_c.c */\nvoid *slot_c(void);\n'
+        self.assertEqual(N.rename_word(text, 'slot_c', 'canon'),
+                         '#include "dungeon/kid/slot_c.h"\n/* owned by src/kid/slot_c.c */\nvoid *canon(void);\n')
 
     def test_names_row_records_the_copy(self):
         tsv = ('0x80172944\tfunc_80172944\tfinish_linked_motion_and_trap\tAdvances linked motion.\n'
@@ -310,6 +314,28 @@ class Names(unittest.TestCase):
             N.names_row(tsv, 'func_8015A944', 'other_name', 'x', 'func_80172944', 25, 'b.c')
 
 
+    def test_names_row_records_a_relocation_proof(self):
+        tsv = '0x8014C894\tfunc_8014C894\tspawn_nyuel_slot_a\tsrc/a.c: slot-a spawner\n'
+        out = N.names_row(tsv, 'func_8014C894', 'spawn_nyuel_slot_a', 'spawn_nyuel', 'func_80170894', 129, 'src/n.c',
+                          'the same 129 instructions as spawn_nyuel at 0x80170894 (src/n.c) apart from 23 relocated '
+                          'words, whose targets move with the image base (-0x24000)')
+        row = out.split('\t')
+        self.assertTrue(row[3].startswith('copy_of=0x80170894; src/a.c: slot-a spawner; the same 129 instructions'))
+        self.assertNotIn('the same 129 words', row[3])
+
+    def test_a_file_path_spelling_the_name_is_not_a_use(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            subprocess.run(['git', 'init', '-q'], cwd=root, check=True)
+            (root / 'config').mkdir()
+            (root / 'src').mkdir()
+            (root / 'config/m.json').write_text('{"source": "src/x/spawn_a_slot_c.c"}\n')
+            (root / 'src/b.c').write_text('void *t = spawn_a_slot_c;\n')
+            subprocess.run(['git', 'add', '.'], cwd=root, check=True)
+            self.assertEqual(N.users(root, 'spawn_a_slot_c'), ['src/b.c'])
+
+
 class Drift(unittest.TestCase):
     def test_copy_equal_under_map_and_drift_detected(self):
         new, _ = T.transplant(DONOR, 'run_callbacks', RECIPIENT, 'update_copy', SYMMAP, TABLE)
@@ -322,6 +348,19 @@ class Drift(unittest.TestCase):
         renamed = new.replace('D_801626A0[', 'D_80999999[')
         self.assertTrue(S.compare(d, S.definition_tokens(renamed, 'update_copy'), 'run_callbacks', 'update_copy',
                                   SYMMAP, TABLE))
+
+    def test_a_placed_copy_is_found_by_its_family_name(self):
+        import tempfile
+        import types
+        with tempfile.TemporaryDirectory() as td:
+            (Path(td) / 'a.c').write_text('void *spawn_x(void) {\n    return 0;\n}\n')
+            rows = types.SimpleNamespace(members={}, paths={'r/A': 'a.c'})
+            table = {'spawn_x': 'func_80170894'}
+            hit, why = S.locate(rows, td, 'func_8014C894', 'r/A', table)
+            self.assertIsNone(hit)
+            families = {'spawn_x': dict(canonical='func_80170894', copies=['func_8014C894'])}
+            hit, why = S.locate(rows, td, 'func_8014C894', 'r/A', table, families)
+            self.assertEqual(hit[:2], ('a.c', 'spawn_x'))
 
     def test_names_table_spellings_agree(self):
         # the copy may spell a symbol by its config/names.tsv name; the donor by its address

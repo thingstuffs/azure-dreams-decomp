@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "engine/resource.h"
+#include "slus/data.h"
 
 typedef struct {
     u32 word0;
@@ -10,12 +11,11 @@ typedef struct {
 } CopyBlock;
 
 extern CopyBlock map_runtime_state[3];
-extern CopyBlock map_change_state[3];
 
 /* Copies three blocks from map_change_state into map_runtime_state. */
 void commit_map_change_state(void) {
     CopyBlock *destination = map_runtime_state;
-    CopyBlock *source = map_change_state;
+    CopyBlock *source = (CopyBlock *)&map_change_state;
     CopyBlock *source_end = source + 3;
 
     do {

@@ -884,12 +884,10 @@ void run_town_movie_callbacks(void)
     run_deferred_callbacks(&town_movie_callback_list);
 }
 
-extern char town_transition_callback_list[12];
-
 /* Calls run_deferred_callbacks with town_transition_callback_list. */
 void run_town_transition_callbacks(void)
 {
-    run_deferred_callbacks(town_transition_callback_list);
+    run_deferred_callbacks(&town_transition_callback_list);
 }
 
 /* Calls file_load_com with & direct_load_resource_descriptor. */

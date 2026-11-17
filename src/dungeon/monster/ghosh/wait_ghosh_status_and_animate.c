@@ -10,6 +10,7 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "shared/object_node.h"
 #include "dungeon.h"
 #include "dungeon/actor/motion.h"
 #include "dungeon/level.h"
@@ -101,7 +102,7 @@ void wait_ghosh_status_and_animate(S_8016D6F0_0 *actor, void *actor_id, SpriteFr
             } else if (entity->hp_delta != 0) {
                 reference_base = &g_dungeon_status;
                 if ((reference_base->pending_display_owner) ==
-                    (u8 *)entity - 0x20) {
+                    NODE_HEADER(entity)) {
                     (*(s32 *)&reference_base->pending_display_owner) &= 0x7FFFFFFF;
                 }
             }

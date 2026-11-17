@@ -63,6 +63,10 @@ typedef struct {
     s16 unk68;
     u8 pad6A[0x72 - 0x6A];
     s16 unk72;
+    u8 pad74[0x95 - 0x74];
+    u8 unk95;
+    u8 pad96[2];
+    void *unk98;
 } S800A3088Arg0;
 
 typedef struct {
@@ -165,7 +169,7 @@ typedef struct S_800A0E3C_1 {
 } S_800A0E3C_1;
 
 
-s32 check_door_status_inverted(void *object);
+s32 check_door_status_inverted(S800A3088Arg0 *door);
 
 void update_door_object(S_func_800A0708_0 *object, void *callback_arg, s32 callback_data);
 void create_door_shared_object(TownObjectRecord *object, TownObjectRecord *unused_context, void *update_context, SpriteFrameState *unused_data);

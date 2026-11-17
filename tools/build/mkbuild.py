@@ -102,13 +102,32 @@ def run(argv, **kw):
 # checkpoints, so it is bound per checkpoint (like an undeclared probe) instead of content-guarding all of them: a
 # levels-only change regenerates just the checkpoints whose screens read it.
 RECORD_BOUND = {'ledger/levels.jsonl'}
-# Review ledgers that neither bootstrap (its producers and their subprocesses) nor configure (in process or in a
-# subprocess) reads; an strace and audit-hook trace of a forced bootstrap and of a cold `generate full` saw each opened
-# only to hash it for the guard. Batches rewrite them, so guarding them made every landing configure cold. They are
-# outside the input inventory, and generate fails if anything opens one (UnreadInputs), so a new reader must move it
-# back into the inventory instead of reading it unbound.
-UNREAD_LEDGERS = frozenset({'ledger/unions.jsonl', 'ledger/fields.jsonl', 'ledger/bridge_casts.jsonl',
-                            'ledger/prototype_floors.jsonl', 'ledger/records.json'})
+# The ledger files and directories configure and bootstrap may read (relative to ledger/; a directory ends in '/').
+# Every other ledger file is a review record nothing in configure or bootstrap reads, so it is outside the input
+# inventory and the checkpoint guard: an edit to it leaves configure warm. Evidence: no module in the conservative
+# import closure of tools/build, tools/gate, tools/link and tools/fidelity names any other ledger entry, and a
+# configure fails if anything opens one (unread_inputs_enforced, in process and in python subprocesses), so a new
+# reader must add its file here instead of reading it unbound. ledger/cache/ stays outside the inventory as before.
+# levels.jsonl is read but bound per record (RECORD_BOUND). The review ledgers an strace and audit-hook trace of a
+# forced bootstrap and of a cold `generate full` saw opened only to hash them (unions, fields, bridge_casts,
+# prototype_floors, records.json) are named by the build tools only to keep them out.
+CONFIGURE_LEDGERS = frozenset({
+    'rows.jsonl', 'layout.jsonl', 'layout_inline.jsonl', 'tu_layout.jsonl', 'modules.jsonl', 'containers.jsonl',
+    'instance_load_regions.jsonl', 'levels.jsonl', 'baseline.jsonl', 'gate.jsonl', 'gate_slus.jsonl', 'census.jsonl',
+    'module_recipe_census.jsonl', 'module_split_fingerprint.jsonl', 'recipe_trades.jsonl', 'pins.jsonl',
+    'pins_sample.jsonl', 'pins_site.jsonl', 'pins_strip.jsonl', 'pins_subsets.jsonl', '.ignore',
+    'splits/', 'modules/', 'sweeps/', 'evidence/', 'agents/'})
+_CONFIGURE_LEDGER_DIRS = tuple(n for n in CONFIGURE_LEDGERS if n.endswith('/'))
+
+
+def unread_ledger(name):
+    """True for a ledger file configure and bootstrap never read (outside CONFIGURE_LEDGERS and ledger/cache/)."""
+    if not name.startswith('ledger/'):
+        return False
+    relative = name[len('ledger/'):].rstrip('/')
+    # A configure directory itself (a recorded listing opens it) is read like its files.
+    return not (relative in CONFIGURE_LEDGERS or relative + '/' in CONFIGURE_LEDGERS or relative == 'cache'
+                or relative.startswith(_CONFIGURE_LEDGER_DIRS + ('cache/',)))
 
 
 _UNREAD_ACTIVE = []
@@ -121,11 +140,12 @@ def _unread_audit(event, args):
         path = os.fsdecode(args[0])
     except TypeError:
         return
-    if os.path.basename(path) in _UNREAD_ACTIVE[-1][0]:
+    if 'ledger' in path:
         physical = os.path.realpath(path)
-        if physical in _UNREAD_ACTIVE[-1][1]:
-            raise ValueError('configure read ' + rel(physical) + ', which UNREAD_LEDGERS leaves out of the configure '
-                             'and bootstrap inputs; move it back into the inventory before reading it')
+        root = _UNREAD_ACTIVE[-1]
+        if physical.startswith(root) and unread_ledger(physical[len(root):]):
+            raise ValueError('configure read ' + rel(physical) + ', which CONFIGURE_LEDGERS leaves out of the '
+                             'configure and bootstrap inputs; add it there before reading it')
 
 
 UNREAD_HOOK = Path(__file__).resolve().parent/'unread_hook'
@@ -133,16 +153,18 @@ UNREAD_HOOK = Path(__file__).resolve().parent/'unread_hook'
 
 @contextmanager
 def unread_inputs_enforced():
-    """While active, opening an UNREAD_LEDGERS file raises, in this process and in its python subprocesses (the
-    environment carries the paths and puts tools/build/unread_hook/sitecustomize.py on PYTHONPATH): nothing binds
-    their content. The variables are not AZURE_*, so they are not part of the configure environment."""
+    """While active, opening a ledger file outside CONFIGURE_LEDGERS raises, in this process and in its python
+    subprocesses (the environment carries the root and the allowed entries and puts
+    tools/build/unread_hook/sitecustomize.py on PYTHONPATH): nothing binds their content. The variables are not
+    AZURE_*, so they are not part of the configure environment."""
     if not _UNREAD_ACTIVE and not getattr(_unread_audit, 'installed', False):
         sys.addaudithook(_unread_audit)
         _unread_audit.installed = True
-    physical = frozenset(os.path.realpath(ROOT/n) for n in UNREAD_LEDGERS)
-    _UNREAD_ACTIVE.append((frozenset(os.path.basename(n) for n in UNREAD_LEDGERS), physical))
-    saved = {k: os.environ.get(k) for k in ('MKBUILD_UNREAD_INPUTS', 'PYTHONPATH')}
-    os.environ['MKBUILD_UNREAD_INPUTS'] = os.pathsep.join(sorted(physical))
+    root = os.path.realpath(ROOT) + os.sep
+    _UNREAD_ACTIVE.append(root)
+    saved = {k: os.environ.get(k) for k in ('MKBUILD_UNREAD_ROOT', 'MKBUILD_CONFIGURE_LEDGERS', 'PYTHONPATH')}
+    os.environ['MKBUILD_UNREAD_ROOT'] = root
+    os.environ['MKBUILD_CONFIGURE_LEDGERS'] = os.pathsep.join(sorted(CONFIGURE_LEDGERS | {'cache/'}))
     if UNREAD_HOOK.is_dir():
         os.environ['PYTHONPATH'] = os.pathsep.join([str(UNREAD_HOOK)] + ([saved['PYTHONPATH']] if saved['PYTHONPATH'] else []))
     try:
@@ -168,7 +190,7 @@ def configure_inputs(extra=(), inventory_receipt=None):
                   'tools/overlay_module_evidence.py'])
     manifest = content_cache.load(ROOT/'config/overlays/modules.json')
     names.update(n for m in manifest.get('modules', ()) for n in m.get('review_inputs', ()))
-    ledgers = content_cache.inventory(ROOT, ('ledger',), RECORD_BOUND | UNREAD_LEDGERS)
+    ledgers = {n for n in content_cache.inventory(ROOT, ('ledger',), RECORD_BOUND) if not unread_ledger(n)}
     names.update(ledgers)
     if inventory_receipt is not None:
         inventory_receipt.update(ledgers)
@@ -178,7 +200,7 @@ def configure_inputs(extra=(), inventory_receipt=None):
     names.update(['ledger/rows.jsonl', 'ledger/layout.jsonl', 'ledger/layout_inline.jsonl',
                   'ledger/tu_layout.jsonl', 'ledger/modules.jsonl', 'ledger/containers.jsonl',
                   'ledger/instance_load_regions.jsonl'])
-    names.update(n for n in extra if n not in irrelevant and n not in RECORD_BOUND and n not in UNREAD_LEDGERS
+    names.update(n for n in extra if n not in irrelevant and n not in RECORD_BOUND and not unread_ledger(n)
                  and not n.startswith(('build/.state/', 'build_slus/build/partition_sources/')))
     return names
 
@@ -488,6 +510,7 @@ def slus_compile_uncached(path):
     for key in ('AZURE_MASPSX', 'AZURE_MASPSX_COMPANION', 'MASPSX_NORETURN_FILE', 'MASPSX_SIBCALL_FILE'):
         env.pop(key, None)
     env.update({k: str(ROOT/v) for k, v in spec.get('config_tables', {}).items()})
+    env.update({k: str(ROOT/v) for k, v in object_cache.maspsx_tables(spec).items()})
     if spec.get('name_input'):
         with name_trace(ROOT/spec['name_input'], spec['config_tables'].values()) as trace:
             env.update({key: os.environ[key] for key in ('CCPROC_CONFIG_ROOT', 'CCPROC_CONFIG_TABLES', 'CCPROC_NAMES_MERGE')})
@@ -1238,6 +1261,7 @@ def _generate():
         unit = [] if spec.get('projection') else [spec['source']]
         unit_exclude = {spec['source']} if spec.get('projection') else set()
         deps = [rel(path), *unit, 'build/.state/compiletools.ok'] + list(spec['env'].values())
+        deps += [n for n in object_cache.maspsx_tables(spec).values() if (ROOT/n).is_file()]
         if 'module' in spec:
             deps += [a['source'] for a in spec['module']['members']] + spec['module']['headers'] + spec['module']['review_inputs']
             deps += [a['declaration'] for a in spec['module']['imports'] if 'declaration' in a]
@@ -1378,6 +1402,8 @@ def compile_uncached(path):
                 'CCPROC_CONFIG_ROOT', 'CCPROC_CONFIG_TABLES', 'CCPROC_NAMES_MERGE'):
         env.pop(key, None)
     env.update({k: str(ROOT/v) for k, v in spec['env'].items()})
+    # maspsx's own default resolves through the toolchain link: name this root's tables instead.
+    env.update({k: str(ROOT/v) for k, v in object_cache.maspsx_tables(spec).items()})
     temporary = target.with_suffix('.tmp.o')
     if spec.get('live') is not None:
         text = (ROOT/spec['source']).read_text()

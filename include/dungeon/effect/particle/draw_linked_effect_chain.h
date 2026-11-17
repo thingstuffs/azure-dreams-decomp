@@ -13,6 +13,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "shared/entity_objects.h"
 #include "sdk/libc.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
@@ -386,7 +387,6 @@ extern Row_819A1654_GlobalState D_800814A0[];
 extern Row_819A1654_LookupGlobal reference_tile_object[];
 extern s16 linked_effect_chain_count[6];
 extern u16 D_80082E94;
-extern Row_819A1654_Coord view_reference_entity[];
 
 extern const Row_819A1654_PointTable linked_effect_octant_offsets[1];
 extern Row_819A1654_Blob12 D_80026180[];

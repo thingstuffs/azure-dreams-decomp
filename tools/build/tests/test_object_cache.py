@@ -141,6 +141,46 @@ class CacheTests(unittest.TestCase):
         with patch.dict(os.environ, CPATH='untracked'):
             self.assertIsNone(C.key_inputs(self.root, self.recipe, self.spec))
 
+    def test_maspsx_default_tables_bind_only_recipes_that_leave_them_to_maspsx(self):
+        """A cc.sh recipe naming no evidence table reads config/noreturn_syms.txt and sibcall_syms.txt."""
+        for name in list(C.MASPSX_TABLES.values()) + ['config/other.txt']:
+            (self.root/name).write_text('func_80010000\n')
+        evidence = 'build/.state/evidence/frozen.txt'
+        (self.root/evidence).parent.mkdir(parents=True)
+        (self.root/evidence).write_text('func_80010000\n')
+        named = {k: evidence for k in C.MASPSX_TABLES}
+        specs = {'overlay': dict(self.spec, wrapper='build_ovl/tools/cc.sh', env={}),
+                 'named': dict(self.spec, wrapper='build_ovl/tools/cc.sh', env=named,
+                               dependencies=self.spec['dependencies'] + [evidence]),
+                 'assembler': dict(self.spec, wrapper='build_ovl/tools/as.sh', env={}),
+                 'slus': dict(self.spec, command='tools/cc.sh src/a.c build/a.o 2.7.2 "" ""',
+                              config_tables={'MASPSX_NORETURN_FILE': 'config/other.txt'})}
+        self.assertEqual(C.maspsx_tables(specs['overlay']), C.MASPSX_TABLES)
+        self.assertEqual(C.maspsx_tables(specs['named']), {})
+        self.assertEqual(C.maspsx_tables(specs['assembler']), {})
+        self.assertEqual(C.maspsx_tables(specs['slus']), {'MASPSX_SIBCALL_FILE': 'config/sibcall_syms.txt'})
+        # genuine ASPSX with a name_input is built by the module gate, which names both tables itself
+        genuine = dict(specs['overlay'], assembler='genuine_aspsx_verified', module={'container': 'main'})
+        self.assertEqual(C.maspsx_tables(dict(genuine, name_input='build/.state/names/x.json')), {})
+        # without a name_input (env={}) the wrapper runs cc.sh -> maspsx on the default tables
+        self.assertEqual(C.maspsx_tables(genuine), C.MASPSX_TABLES)
+        specs['genuine'] = genuine
+        key = lambda label: C.key_for(C.key_inputs(self.root, self.recipe, specs[label]))
+        for table, readers in (('config/noreturn_syms.txt', {'overlay', 'genuine'}),
+                               ('config/sibcall_syms.txt', {'overlay', 'slus', 'genuine'})):
+            first = {label: key(label) for label in specs}
+            (self.root/table).write_text('func_80010000\nfunc_80020000\n')
+            changed = {label for label in specs if key(label) != first[label]}
+            self.assertEqual(changed, readers, table)
+        # the named evidence copy is what the named recipe binds
+        first = key('named')
+        (self.root/evidence).write_text('func_80030000\n')
+        self.assertNotEqual(first, key('named'))
+        # an absent default table is an empty set to maspsx: bound as absent, not an error
+        (self.root/'config/noreturn_syms.txt').unlink()
+        absent = C.key_inputs(self.root, self.recipe, specs['overlay'])
+        self.assertIsNone(absent['inputs']['config/noreturn_syms.txt'])
+
     def test_maspsx_scalar_switches_bind_keys_and_manifest_hooks_bypass(self):
         first = self.key()
         with patch.dict(os.environ, MASPSX_GP_LIMIT_FROM_CC1='1'):
@@ -850,6 +890,60 @@ class ObjectToolKeyTests(unittest.TestCase):
         self.edit(self.T.DRIVER, DRIVER_TEXT.replace('import json', 'import json, os'))
         self.assertNotEqual(first, self.key())
 
+    def test_front_end_import_outside_the_list_is_bound_with_a_warning(self):
+        """A helper a subprocess front end imports, even lazily, joins the key without editing OBJECT_FRONTENDS."""
+        import contextlib, io
+        first, slus = self.key(), self.key(self.slus)
+        self.edit('tools/build/ccproc.py', 'def main():\n    import fresh_helper\n    return fresh_helper.run()\n')
+        self.edit('tools/build/fresh_helper.py', 'def run():\n    return 1\n')
+        self.T._WARNED.clear()
+        stderr = io.StringIO()
+        with contextlib.redirect_stderr(stderr):
+            second = self.key()
+            self.assertEqual(second, self.key())  # warned once per process
+        self.assertEqual(stderr.getvalue().count('tools/build/fresh_helper.py'), 1)
+        self.assertNotEqual(first, second)
+        inputs = C.key_inputs(self.root, self.recipe, self.spec)
+        self.assertEqual(inputs['object_tools']['kind'], 'overlay')
+        self.assertIn('tools/build/fresh_helper.py', inputs['inputs'])
+        self.assertNotIn('tools/gate/overlay_module_gate.py', inputs['inputs'])
+        with contextlib.redirect_stderr(io.StringIO()):
+            self.edit('tools/build/fresh_helper.py', 'def run():\n    return 2\n')
+            self.assertNotEqual(second, self.key())
+            self.assertNotEqual(slus, self.key(self.slus))
+            # a package member and a relative import are followed too
+            (self.root/'tools/build/pkg').mkdir()
+            self.edit('tools/build/pkg/__init__.py', '')
+            self.edit('tools/build/pkg/part.py', 'from . import leaf\n')
+            self.edit('tools/build/pkg/leaf.py', 'X = 1\n')
+            self.edit('tools/build/asproc.py', 'from pkg import part\n')
+            closure = self.T.frontend_closure(self.root)
+        self.assertLessEqual({'tools/build/pkg/__init__.py', 'tools/build/pkg/part.py', 'tools/build/pkg/leaf.py'},
+                             closure)
+        # a standard-library name is only looked up beside the script
+        self.edit('tools/gate/json.py', 'shadow = 1\n')
+        self.edit('tools/build/asproc.py', 'import json\n')
+        self.assertNotIn('tools/gate/json.py', self.T.frontend_closure(self.root))
+
+    def test_front_end_that_does_not_parse_keeps_the_whole_tool_list(self):
+        import contextlib, io
+        self.edit('tools/build/ccproc.py', 'def broken(:\n')
+        with contextlib.redirect_stderr(io.StringIO()) as stderr:
+            inputs = C.key_inputs(self.root, self.recipe, self.spec)
+        self.assertNotIn('object_tools', inputs)
+        self.assertIn('tools/gate/overlay_module_gate.py', inputs['inputs'])
+        self.assertIn('whole compile tool list', stderr.getvalue())
+
+    def test_parsed_imports_are_memoized_by_content(self):
+        memo = Path(self.temp.name)/'memo'
+        data = b'import fresh_helper\n'
+        self.T._IMPORTS.clear()
+        self.assertEqual(self.T.module_imports(data, memo), [[0, 'fresh_helper', []]])
+        self.assertEqual(len(list(memo.glob('*.json'))), 1)
+        self.T._IMPORTS.clear()
+        with patch.object(self.T.ast, 'parse', side_effect=AssertionError('parsed again')):
+            self.assertEqual(self.T.module_imports(data, memo), [[0, 'fresh_helper', []]])
+
     def test_recipe_generator_output_changes_only_affected_keys(self):
         other = dict(self.spec, source='src/b.c', output='build/b.o')
         (self.root/'src/b.c').write_text('int b;\n')
@@ -922,6 +1016,9 @@ class ObjectToolKeyTests(unittest.TestCase):
             self.skipTest('toolchain absent')
         T = self.T
         self.assertLessEqual(set(T.closure(REPO, T.FRONTEND_SCRIPTS)), set(T.OBJECT_FRONTENDS))
+        # the key-time walk finds nothing beyond the list either (no warning, no extra key input)
+        self.assertLessEqual(T.frontend_closure(REPO), set(T.OBJECT_FRONTENDS))
+        self.assertEqual(T.object_tools(REPO), T.listed_object_tools(REPO))
         compile_inputs = set(T.inputs(REPO))
         self.assertLessEqual(set(T.object_tools(REPO)) | {T.DRIVER}, compile_inputs)
         tree = __import__('ast').parse((REPO/T.DRIVER).read_text())

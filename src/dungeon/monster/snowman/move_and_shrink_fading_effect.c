@@ -2465,7 +2465,7 @@ void wait_for_snowman_action_slot(ActorRecord *entity_data, ObjectPosition *moti
         entity->unk_8C.address = 0;
         entity->action_id = kind;
         entity->action_phase = 0;
-        (*(s16 *)actor_action_reset_value) = 0;
+        actor_action_reset_value = 0;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
     }
 }
@@ -2637,7 +2637,7 @@ void advance_snowman_cd_image_sequence(ActorRecord *transition, ObjectPosition *
         if (transition->action_phase != 6) {
             return;
         }
-        if (create_status_linked_render_effect(position, (*(void **)D_80175A84), (*(s16 *)D_80175A18), staged_spawn_count) == 0) {
+        if (create_status_linked_render_effect(position, (*(void **)D_80175A84), (*(s16 *)D_80175A18), &staged_spawn_count) == 0) {
             return;
         }
         transition->action_timer = 0x10;

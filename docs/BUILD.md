@@ -304,9 +304,22 @@ A checkpoint that reads the link graph without binding it, or uses
 a TU's `layout_inline` extents without reading that TU, fails generation rather
 than storing a record the structural guard could leave stale; process memos of
 `config/names.tsv` record the table in every reader (`gate_read_cache.memo_read`);
-and a python subprocess of configure or bootstrap that opens one of
-`mkbuild.UNREAD_LEDGERS` fails like an in-process open
+and a python subprocess of configure or bootstrap that opens a ledger file
+outside `mkbuild.CONFIGURE_LEDGERS` fails like an in-process open
 (`tools/build/unread_hook/sitecustomize.py`).
+
+Only the ledger files and directories in `mkbuild.CONFIGURE_LEDGERS` (rows,
+layouts, modules, splits, levels, baselines, the gate and census tables the
+module and recipe producers read) are configure and bootstrap inputs. The review
+ledgers batches rewrite (unions, fields, prototype floors and identities, clone
+families and sources, names evidence and the rest) are outside the inventory and
+the checkpoint guard, so an edit to one of them leaves configure warm; opening
+one during configure or bootstrap fails, so a new reader has to add its file to
+`CONFIGURE_LEDGERS`. A recorded directory listing leaves out `__pycache__`,
+`.git` and `cache` subdirectories as the inventory does, so the live checkout's
+untracked `ledger/cache/` does not set the `ledger/` listing that about 3,400
+placement-row records bind (they read `ledger/layout.jsonl`) apart from a scratch
+root's.
 
 Bootstrap keeps the build views without rebuilding them when every changed
 input is a body edit of a source or header, a structure-preserving edit of the

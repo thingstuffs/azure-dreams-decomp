@@ -70,7 +70,7 @@ FILES = {
     'include/shared/entity.h': ENTITY,
     'include/shared/sprite_frame_state.h': SPRITE,
     'include/shared/wave_timer.h': DECOY,
-    # AC131 review B1 as it stood before the fix: the 4th parameter is a per-function view {+0x1C s32,
+    # ACCURACY 131 review B1 as it stood before the fix: the 4th parameter is a per-function view {+0x1C s32,
     # +0x2A s16} while the only caller passes the ActorRecord it also passes (through a void * local) first.
     'src/ghosh/update_boss_timed_animation.c': HEADS + '''
 typedef struct S_801740F8_2 { u8 pad_00[0x1C]; s32 unk_1C; u8 pad_20[0xA]; s16 unk_2A; } S_801740F8_2;
@@ -208,7 +208,7 @@ void start_countdown(SpriteFrameState *sprite)
     clear_tile_flags(sprite);
 }
 ''',
-    # A typed slot whose parameter types differ from the definition (AC130 review B1 class).
+    # A typed slot whose parameter types differ from the definition (ACCURACY 130 review B1 class).
     'src/fx/slot_entry.c': HEADS + '''
 typedef struct MotionView2 { s32 x; s32 y; } MotionView2;
 void follow_entry(u8 *body, MotionView2 *motion, SpriteFrameState *sprite)

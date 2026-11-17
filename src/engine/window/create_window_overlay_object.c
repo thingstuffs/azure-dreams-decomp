@@ -3,6 +3,7 @@
 #include "engine/node.h"
 #include "engine/window/message.h"
 #include "engine/window/params.h"
+#include "engine/window.h"
 #include "sdk/libgpu.h"
 #include "slus/data.h"
 #include "slus/window_node_list_data.h"
@@ -10,12 +11,12 @@
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 
-typedef void (*Callback)(void *);
+typedef void (*Callback)(struct S_80036110_0 *);
 
 typedef struct S_func_80035E58_1 {
     void *unk_00;
     void *unk_04;
-    Callback unk_08;
+    void (*unk_08)(DRAW_DESC *);
     u8 pad_0C[0x6];
     u16 unk_12;
     u8 pad_14[0x1A];
@@ -47,11 +48,6 @@ typedef struct S_func_80035E58_5 {
     u8 pad_00[0x34];
     s32 unk_34;
 } S_func_80035E58_5;
-
-extern void update_window_state(struct RuntimeObject *object, s32 handler_arg1, s32 handler_arg2, s32 state);
-extern void scroll_window_y(void *);
-extern void draw_window_rects(void *);
-
 
 /* Initializes an actor-linked display node, clears its image region, and sets callbacks and rendering data. */
 void create_window_overlay_object(void *node_addr, void *display, u8 *image, s32 *state_ref,

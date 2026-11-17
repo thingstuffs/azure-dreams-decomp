@@ -2,8 +2,8 @@
 
 #include "engine/graphics.h"
 #include "sdk/memory.h"
+#include "slus/data.h"
 
-extern u32 shared_primitive_color;
 
 /* Emit GPU packets, link them into the ordering table, and optionally clear the anchor. */
 void *emit_gpu_packets(u32 *ot, u8 *source, u8 **anchor, u8 *entry) {

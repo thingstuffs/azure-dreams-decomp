@@ -140,7 +140,6 @@ void decay_timed_display_object(struct TimedDisplayDecayBody *object);
 void create_two_text_display_entries(void *data_id, s32 position_offset);
 
 /* door.c */
-s32 check_door_status_inverted(void *object);
 void initialize_door_variant(TownObjectRecord *record_data, ObjectPosition *position, struct SpriteFrameState *unused_sprite);
 void update_door_object(struct S_func_800A0708_0 *object, void *callback_arg, s32 callback_data);
 void create_door_shared_object(TownObjectRecord *object, TownObjectRecord *unused_context, void *update_context, SpriteFrameState *unused_data);

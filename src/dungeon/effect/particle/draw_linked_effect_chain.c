@@ -454,7 +454,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, ObjectPosition 
     ObjectPosition *coord;
     ObjectPosition *start_origin;
     ObjectPosition *origin_loop;
-    EntityRec *origin_second;
+    ObjectPosition *origin_second;
     ObjectPosition *origin_path;
     u8 *copy_page;
     ActorRecord *world;
@@ -485,7 +485,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, ObjectPosition 
         start_world->action_timer = 20;
         linked_effect_chain_count[0] = 6;
         entity->state++;
-        start_origin = &view_reference_entity[0];
+        start_origin = &view_reference_entity;
         {
             Row_819A1654_Blob24 *flag_base = D_80026198;
             entity->base[0] = start_origin->x.w.i;
@@ -532,7 +532,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, ObjectPosition 
                 if (get_sprite_attachment_vector((&reference_tile_object[0])->found, &reference_tile_object[0], &entity->x, 0) != 0) {
                     spawn_index = 0;
                     particle_callback = fade_and_rotate_effect_sprite;
-                    origin_loop = view_reference_entity;
+                    origin_loop = &view_reference_entity;
                     do {
                         task = allocate_flagged_object_node(0x212);
                         effect = &task->effect;
@@ -625,7 +625,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, ObjectPosition 
                             path_entity = (Row_819A1654_Entity *)((u8 *)entity + (path_point + path_pair) * 4);
                             path_point++;
                             path_half = entity->x / 2;
-                            origin_path = view_reference_entity;
+                            origin_path = &view_reference_entity;
                             path_entity->path[0] = path_half + (origin_path->x.w.i - entity->base[0]) / 2;
                             path_entity->path[1] = entity->y / 2 + (origin_path->y.w.i - entity->base[1]) / 2;
                             path_entity->path[2] = entity->z / 2 + (origin_path->z.w.i - entity->base[2]) / 2;

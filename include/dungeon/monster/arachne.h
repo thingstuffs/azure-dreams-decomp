@@ -1,5 +1,6 @@
 #ifndef DUNGEON_RESOURCE12_SLOT0_H
 #define DUNGEON_RESOURCE12_SLOT0_H
+#include "shared/dungeon_effect_status.h"
 #include "engine/node/registration.h"
 struct SpriteFrameState;
 struct ObjectPosition;
@@ -621,12 +622,10 @@ extern u8 D_80175A74[];
 extern u8 actor_update_node_cursor[];
 extern u8 D_80175AA4[];
 extern u8 D_80175B20[];
-extern u8 actor_action_reset_value[];
 extern u8 D_80175B28[];
 extern u8 resource_completion_callback_address[];
 extern u8 cd_cue_base[];
 extern u8 actor_effect_color_targets[];
-extern u8 staged_spawn_count[];
 extern u8 dungeon_resource_buffer[];
 extern u8 arachne_image_commands[];
 extern u8 D_80175B14[];

@@ -2657,7 +2657,7 @@ void wait_for_flame_action_slot(ActorRecord *entity_data, ObjectPosition *unused
         entity->unk_8C.address = 0;
         entity->action_id = kind;
         entity->action_phase = 0;
-        (*(s16 *)actor_action_reset_value) = 0;
+        actor_action_reset_value = 0;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
     }
 }
@@ -2837,7 +2837,7 @@ void advance_flame_transition(ActorRecord *action, ObjectPosition *position, Spr
             if (action->action_phase != 6) {
                 return;
             }
-            if (create_status_linked_render_effect(position, ((s32 *)D_80175928)[0], (s16)((s16 *)D_8017591C)[0], staged_spawn_count) == 0) {
+            if (create_status_linked_render_effect(position, ((s32 *)D_80175928)[0], (s16)((s16 *)D_8017591C)[0], &staged_spawn_count) == 0) {
                 return;
             }
             action->action_timer = 0x10;

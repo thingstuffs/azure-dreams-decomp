@@ -50,6 +50,7 @@ void create_directional_child_effect(ActorRecord *parent_data, MovingPosition *s
     ObjectPosition *effect_pos;
     CopyBlock *copy_dst;
     CopyBlock *copy_src;
+    S_80172B00_7 *sprite_view;
     u16 template_1c;
     s32 direction_index;
     s32 parent_angle;
@@ -78,9 +79,10 @@ void create_directional_child_effect(ActorRecord *parent_data, MovingPosition *s
         effect_pos->x.w.i = (u16) source_pos->x;
         effect_pos->y.w.i = (u16) source_pos->y;
         effect_pos->z.w.i = (u16) source_pos->z;
-        template_1c = ((S_80172B00_7 *)sprite_template)->unk_1C;
+        sprite_view = sprite_template;
+        template_1c = sprite_view->unk_1C;
         sprite->scale_x = template_1c;
-        sprite->scale_y = (u16) ((S_80172B00_7 *)sprite_template)->unk_1E;
+        sprite->scale_y = (u16) sprite_view->unk_1E;
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;

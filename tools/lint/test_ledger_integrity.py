@@ -82,7 +82,7 @@ class SiteTests(unittest.TestCase):
 class LoadsTests(unittest.TestCase):
     def test_zeroed_rows_and_count_drop_fail(self):
         base = [row('a', member_loads=loads(s=dict(lh=3), u=dict(lhu=1))), row('b')]
-        head = [row('a'), row('b')]                      # the AC131 B2 shape: regenerated all-zero
+        head = [row('a'), row('b')]                      # the B2 shape: regenerated all-zero
         result = I.check_loads(base, head)
         self.assertEqual(result['zeroed'], ['a'])
         self.assertEqual(len(result['problems']), 2)
@@ -325,7 +325,7 @@ class FloorBlockingTests(unittest.TestCase):
         self.assertIn('floor blocking spellings: 2 entries, stale on HEAD 0 (new vs BASE 0)', out)
 
     def test_respelled_declaration_fails_new(self):
-        # the AC151 class: the header's declaration was respelled, the row still cites the old one
+        # the respelled-declaration class: the header's declaration was respelled, the row still cites the old one
         (self.root / 'include/w.h').write_text('typedef short s16;\nvoid pick(void *state, short index);\n')
         code, out = self.run_main('--fail-new')
         self.assertEqual(code, 1, out)
@@ -567,7 +567,7 @@ class FieldRuleRepoTests(unittest.TestCase):
         self.assertEqual(self.run_main('--fail-all')[0], 0)
 
     def test_rederive_never_lands_on_another_fields_cast(self):
-        # The AC133 shape: the row's own cast is retyped away and the cited line now
+        # The retyped-cast shape: the row's own cast is retyped away and the cited line now
         # holds the same cast spelling on a neighbouring field.
         self.source.write_text('/* header */\nvoid f(Body *effect, S *effect_data, P *position)\n{\n'
                                '    effect_data->unk_4E = (u16)effect->unk_7C;\n'
@@ -581,7 +581,7 @@ class FieldRuleRepoTests(unittest.TestCase):
         self.assertEqual(out['retired_to_cast'], ['src/a.c (u16) (cast gone)'])
 
     def test_rederive_does_not_harvest_the_next_lines_field(self):
-        # The AC133 mechanism: the row's cast goes (the entry is token-stale), the next line
+        # The retyped-cast mechanism: the row's cast goes (the entry is token-stale), the next line
         # keeps `(u16)effect->unk_7C`; history once harvested unk_7C from the anchor's next
         # line and moved the entry onto it.
         rows = I.read_ledger((self.root / I.LEDGER).read_text())[:1]
@@ -596,7 +596,7 @@ class FieldRuleRepoTests(unittest.TestCase):
         self.assertEqual(out['retired_to_cast'], ['src/a.c (u16) (cast gone)'])
 
 
-# The four developer identifiers rename waves renamed in AC154/AC155 review (base rows from master); the HEAD
+# The four developer identifiers rename waves renamed in ACCURACY 154/155 review (base rows from master); the HEAD
 # names are the ones those waves chose (door_open_demo_set_sub's is a stand-in).
 DEVELOPER_ROWS = [
     ('0x8009F938', 'set_item_equip_00', 184, 'FNO_', 'equip_item_by_kind_and_type'),

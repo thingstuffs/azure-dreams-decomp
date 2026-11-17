@@ -86,7 +86,7 @@ typedef struct KeimaExitState {
 void fade_completed_keima_color(KeimaFadeState *effect);
 void remove_completed_keima_object(KeimaExitState *effect);
 
-void update_directional_record(KeimaPathActor *orientation, void *state_ptr, SpriteFrameState *record);
+void update_directional_record(KeimaPathActor *orientation, KeimaPathActor *state_ptr, SpriteFrameState *record);
 
 extern u8 path_actor_direction_frames[];
 #endif

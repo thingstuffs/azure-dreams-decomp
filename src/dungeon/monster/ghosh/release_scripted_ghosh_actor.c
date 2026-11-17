@@ -9,9 +9,9 @@ void release_scripted_ghosh_actor(void) {
 
     entryData = ghosh_scripted_actor;
     if (entryData != 0) {
-        entryData = (u8 *)entryData + 0x20;
+        entryData = NODE_BODY(entryData);
         detach_record_and_update_slot_state(entryData);
-        *(u16 *)((u8 *)entryData - 2) |= 0x8000;
+        NODE_HEADER(entryData)->flags |= 0x8000;
         ghosh_scripted_actor = 0;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

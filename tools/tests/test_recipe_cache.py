@@ -138,6 +138,38 @@ class ScopedConfigureTests(unittest.TestCase):
         self.assertEqual(self.calls, ['a', 'b'])
         self.assert_full_equal()
 
+    def test_review_ledger_edit_keeps_configure_warm(self):
+        (self.root/'ledger').mkdir(exist_ok=True)
+        for name in ('ledger/clone_sources.jsonl', 'ledger/baseline.jsonl'):
+            self.write(name, '{"row": 1}\n')
+        self.generate(); self.calls.clear()
+        self.write('ledger/clone_sources.jsonl', '{"row": 2}\n')
+        self.generate()
+        self.assertEqual(self.calls, [])
+        self.write('ledger/baseline.jsonl', '{"row": 2}\n')  # a configure ledger stays in the guard
+        self.generate()
+        self.assertEqual(self.calls, ['a', 'b'])
+        self.assert_full_equal()
+
+    def test_cache_subdirectory_leaves_a_recorded_listing(self):
+        """Records bind the listing of a read file's directory; an untracked cache/ there (live ledger/cache) does
+        not count, any other new entry does."""
+        (self.root/'ledger').mkdir(exist_ok=True)
+        self.write('ledger/layout.jsonl', '{}\n')
+        context = dict(schema=1, root=str(self.root))
+        def run(saved=None):
+            cache = RecipeCache(self.root, {}, context, saved)
+            cache.memo('reader', lambda: (self.root/'ledger/layout.jsonl').read_text())
+            return cache, dict(guard=cache.guard, records=cache.records)
+        _, saved = run()
+        self.assertIn('ledger', saved['records']['reader']['inputs'])
+        (self.root/'ledger/cache').mkdir()
+        cache, _ = run(saved)
+        self.assertEqual((cache.hits, cache.misses), (1, 0))
+        self.write('ledger/new.jsonl', '{}\n')
+        cache, _ = run(saved)
+        self.assertEqual((cache.hits, cache.misses), (0, 1))
+
     def test_removed_and_renamed_header_rebind_the_closure(self):
         self.generate(); self.calls.clear()
         (self.root/'include/leaf.h').rename(self.root/'include/leaf2.h')
@@ -675,6 +707,37 @@ class StructuralGuardTests(unittest.TestCase):
                 (self.root/'ledger/rows.jsonl').read_text()
             (self.root/'ledger/unions.jsonl').read_text()
 
+    def test_only_configure_ledgers_are_inputs_and_others_may_not_be_opened(self):
+        """A review ledger outside CONFIGURE_LEDGERS (here a clone or identity ledger) is not an input."""
+        for name in ('ledger/clone_sources.jsonl', 'ledger/prototype_identities.jsonl', 'ledger/rows.jsonl',
+                     'ledger/splits/town.jsonl', 'ledger/modules/overlay_k.json', 'ledger/cache/gate_history.jsonl'):
+            (self.root/name).parent.mkdir(parents=True, exist_ok=True)
+            (self.root/name).write_text('{}\n')
+        with patch.object(B, 'ROOT', self.root):
+            names = B.configure_inputs(['ledger/clone_sources.jsonl', 'ledger/splits/town.jsonl'])
+            self.assertFalse({'ledger/clone_sources.jsonl', 'ledger/prototype_identities.jsonl',
+                              'ledger/cache/gate_history.jsonl'} & names)
+            self.assertLessEqual({'ledger/rows.jsonl', 'ledger/splits/town.jsonl', 'ledger/modules/overlay_k.json'},
+                                 names)
+            child = [sys.executable, '-c', 'import sys; open(sys.argv[1]).read()']
+            with B.unread_inputs_enforced():
+                for name in ('ledger/clone_sources.jsonl', 'ledger/prototype_identities.jsonl'):
+                    with self.assertRaises(ValueError):
+                        (self.root/name).read_text()
+                    failed = subprocess.run(child + [str(self.root/name)], capture_output=True, text=True)
+                    self.assertNotEqual(failed.returncode, 0, name)
+                # a recorded listing opens a configure directory itself
+                for name in ('ledger/splits', 'ledger/cache'):
+                    with self.assertRaises(IsADirectoryError):
+                        (self.root/name).read_bytes()
+                    self.assertFalse(B.unread_ledger(name))
+                self.assertTrue(B.unread_ledger('ledger/pin_runs'))
+                for name in ('ledger/rows.jsonl', 'ledger/splits/town.jsonl', 'ledger/modules/overlay_k.json',
+                             'ledger/cache/gate_history.jsonl'):
+                    (self.root/name).read_text()
+                    fine = subprocess.run(child + [str(self.root/name)], capture_output=True, text=True)
+                    self.assertEqual(fine.returncode, 0, fine.stderr)
+
     def test_unread_ledgers_may_not_be_opened_by_python_subprocesses(self):
         (self.root/'ledger/unions.jsonl').write_text('{}\n')
         (self.root/'ledger/rows.jsonl').write_text('')
@@ -683,10 +746,10 @@ class StructuralGuardTests(unittest.TestCase):
             with B.unread_inputs_enforced():
                 failed = subprocess.run(child + [str(self.root/'ledger/unions.jsonl')], capture_output=True, text=True)
                 self.assertNotEqual(failed.returncode, 0)
-                self.assertIn('UNREAD_LEDGERS', failed.stderr)
+                self.assertIn('CONFIGURE_LEDGERS', failed.stderr)
                 fine = subprocess.run(child + [str(self.root/'ledger/rows.jsonl')], capture_output=True, text=True)
                 self.assertEqual(fine.returncode, 0, fine.stderr)
-            self.assertNotIn('MKBUILD_UNREAD_INPUTS', os.environ)
+            self.assertNotIn('MKBUILD_UNREAD_ROOT', os.environ)
             after = subprocess.run(child + [str(self.root/'ledger/unions.jsonl')], capture_output=True, text=True)
             self.assertEqual(after.returncode, 0, after.stderr)
 

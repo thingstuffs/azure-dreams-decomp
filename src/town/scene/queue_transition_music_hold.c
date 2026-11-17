@@ -5,8 +5,8 @@
 #include "engine/audio.h"
 #include "slus.h"
 #include "town/scene.h"
+#include "slus/data.h"
 
-extern MovieListNode town_transition_callback_list;
 extern s8 scene_music_hold;
 extern MovieListNode D_800D42B4;
 

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "dungeon/actor/motion.h"
 #include "shared/entity.h"
+#include "shared/entity_objects.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
 #include "sdk/libgte.h"
@@ -17,8 +18,6 @@ typedef struct S_800AB538_1 {
 } S_800AB538_1;   /* p3 in update_actor_hop_and_shrink */
 
 
-
-extern u8 view_reference_entity[];
 
 /* Move toward the target while shrinking, then mark the animation complete. */
 s32 update_actor_hop_and_shrink(void *animation, ObjectPosition *motion, SpriteFrameState *scale, void *render_arg)
@@ -48,7 +47,7 @@ s32 update_actor_hop_and_shrink(void *animation, ObjectPosition *motion, SpriteF
     case 1:
         move_frames = (((ActorRecord *)animation)->action_timer) - 2;
         if (move_frames > 0) {
-            ObjectPosition *target = view_reference_entity;
+            ObjectPosition *target = &view_reference_entity;
 
             motion->velocity_x =
                 ((target->x.w.i - motion->x.w.i) << 16) / move_frames;
@@ -56,7 +55,7 @@ s32 update_actor_hop_and_shrink(void *animation, ObjectPosition *motion, SpriteF
                 ((target->y.w.i - motion->y.w.i) << 16) /
                 ((((ActorRecord *)animation)->action_timer) - 2);
         } else {
-            ObjectPosition *target = view_reference_entity;
+            ObjectPosition *target = &view_reference_entity;
 
             motion->velocity_y = 0;
             motion->velocity_x = 0;

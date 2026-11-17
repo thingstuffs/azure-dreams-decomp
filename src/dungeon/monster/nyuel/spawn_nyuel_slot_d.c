@@ -10,7 +10,7 @@
 
 /* Creates a Nyuel actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
-Body *spawn_nyuel_slot_d(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c) {
+void *spawn_nyuel(s16 spawn_flags, s16 tile_x, s32 tile_y, s32 spawn_height) {
     s16 held_flags;
     s16 held_a;
     s32 held_c;
@@ -23,9 +23,9 @@ Body *spawn_nyuel_slot_d(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c) {
     Body *body_alias;
 
     held_flags = spawn_flags;
-    held_a = attr_a;
-    held_c = attr_c;
-    held_b = attr_b;
+    held_a = tile_x;
+    held_c = spawn_height;
+    held_b = tile_y;
     body = 0;
     object = allocate_list_node(0x112, &scene_object_list_anchor.next);
     arg0_copy = held_flags;
@@ -35,19 +35,19 @@ Body *spawn_nyuel_slot_d(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c) {
         register_node(&object->header, project_sprite_chain);
 
         child_a = object->header.position;
-        attr_b = held_flags & 3;
+        tile_y = held_flags & 3;
         child_a->z.w.i = held_c;
         child_b = object->header.sprite;
         child_b->tile_x = held_a;
         child_b->tile_y = held_b;
         body_alias = body;
 
-        if (attr_b == 1) {
+        if (tile_y == 1) {
             body->callback_8C = nyuel_slot_d_action_callback;
             body->flags_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
             body->flags_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             child_b->frameTable = nyuel_frame_set_7;
-        } else if (attr_b >= 2) {
+        } else if (tile_y >= 2) {
             body->callback_8C = nyuel_slot_d_action_callback;
             body->flags_14 |= ACTOR_CLASS_ENABLED;
             body->flags_1C |= ACTOR_PLAYER_SIDE;

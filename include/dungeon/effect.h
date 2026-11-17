@@ -56,7 +56,7 @@ void update_oriented_offset_effect_position(PayloadObjectBody *state, MovingPosi
 struct Object;
 struct Other;
 s32 prepare_quarter_damage_return(struct Object *object, ActorRecord *source);
-s32 draw_linked_segment_aligned_quads(void *initial_state, s32 value, void *data);
+s32 draw_linked_segment_aligned_quads(void *initial_state, s32 value, SpriteFrameState *data);
 s32 select_nearby_target_and_initialize_slot(void *tracked_object, void *target_data, s32 target_id, s32 slot_value);
 void setup_object_within_planar_range(void *object, s32 x, s32 y, s32 height, s32 mode, s32 settings);
 

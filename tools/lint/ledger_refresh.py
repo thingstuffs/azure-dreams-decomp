@@ -16,7 +16,11 @@ What is re-derived (each value is rewritten only when exactly one current value 
                   revision, an address whose row lost the name and gained another; chains are followed
                   to names that are live.  Several live candidates (an old name that now means two
                   functions, one per image) are narrowed to the ones defined in a file the same record
-                  cites; otherwise the name is reported, never guessed.
+                  cites; otherwise the name is reported, never guessed.  config/names.tsv has no image column,
+                  so an address shared by several images (rows with one address) is never followed alone: a
+                  rename reaches a name through a `(renamed from X)` clause of the row that renamed it, or
+                  through an address where one old name became several; where several old names became
+                  several at one address, the citation is left as written and reported (image unknown).
   (file, function) pairs  a record that pairs a file with a function (`path`/`file` with `caller`/
                   `function`, a site id `file::function@hash`, a warning row) whose function is live but
                   not defined in that file takes the one name config/names.tsv records at the same address
@@ -240,8 +244,11 @@ class Names:
         self.tree = tree
         self.ever = collections.defaultdict(set)            # name -> {addr}
         self.pairs = collections.defaultdict(set)           # old name -> {new name}
+        self.at = collections.defaultdict(set)              # addr -> {every name the table gave it}
+        self.shared = collections.defaultdict(set)          # old name -> {addr whose rename the table cannot attribute}
         for addr, _, name, evidence in tree.rows:
             self.ever[name].add(addr)
+            self.at[addr].add(name)
             for clause in self.RENAMED.findall(evidence):      # `(renamed from a, earlier b)`: both old names
                 for old in filter(None, clause):
                     if old != name:
@@ -260,8 +267,15 @@ class Names:
         def flush():
             for addr, gone in removed.items():
                 new = added.get(addr, set()) - gone
-                for old in gone - added.get(addr, set()):
-                    self.pairs[old] |= new
+                lost = gone - added.get(addr, set())
+                if len(lost) > 1 and len(new) > 1:
+                    # several names left and several arrived at one address in one revision: the images that
+                    # place different functions there cannot be told apart by address, so no old -> new pairing
+                    for old in lost:
+                        self.shared[old].add(addr)
+                else:
+                    for old in lost:
+                        self.pairs[old] |= new
             removed.clear()
             added.clear()
         for line in log.splitlines():
@@ -273,6 +287,7 @@ class Names:
                 if len(cols) >= 3 and cols[1].startswith('func_'):
                     addr = cols[0].lower()
                     self.ever[cols[2]].add(addr)
+                    self.at[addr].add(cols[2])
                     (removed if line[0] == '-' else added)[addr].add(cols[2])
         flush()
 
@@ -295,7 +310,15 @@ class Names:
                 (found.add if self.tree.live(new) else frontier.append)(new)
         if not found:
             for addr in self.ever.get(name, ()):
-                found |= {n for n in self.tree.by_addr.get(addr, ()) if self.tree.live(n)}
+                live = {n for n in self.tree.by_addr.get(addr, ()) if self.tree.live(n)}
+                others = {n for n in self.at.get(addr, ()) if n != name and self.stale(n)}
+                if len(live) > 1 and others:
+                    # config/names.tsv has no image column: several rows at one address are different
+                    # functions of different images, and with several old names there as well the address
+                    # does not say whose name was cited (one old name for several images does: files narrow)
+                    self.shared[name].add(addr)
+                else:
+                    found |= live
         return found
 
     def resolve(self, name, files=()):
@@ -304,6 +327,10 @@ class Names:
         if len(found) == 1:
             return next(iter(found)), None
         if not found:
+            if self.shared.get(name):
+                return None, ('the address(es) %s hold several functions (one row per image) and no recorded '
+                              'rename names this one: image unknown, left as cited'
+                              % ', '.join(sorted(self.shared[name])))
             return None, 'no live name follows from it'
         narrowed = {n for n in found if any(f in self.tree.defined.get(n, ()) for f in files)}
         if len(narrowed) == 1:

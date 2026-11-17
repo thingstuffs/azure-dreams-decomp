@@ -5,7 +5,7 @@
 extern s32 D_800196F4[];
 
 /* Dispatch the current state entry when the event code is 8. */
-s32 select_mode_response_or_none(s32 unused_arg_0, s32 unused_arg_1, s32 event_code) {
+s32 select_mode_response_or_none(s32 unused_arg_0, s32 unused_arg_1, s32 event_code, s32 unused_arg_3) {
     s32 result = 0;
 
     if (event_code == 8) {

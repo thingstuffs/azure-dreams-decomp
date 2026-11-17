@@ -12,7 +12,7 @@
 /* Allocate an object, initialize its parts and kind flags, and return its work area. */
 /* Creates Naplass with default frames at D_80162194, applies spawn flags, and attempts valid tile
  * placement. */
-void *allocate_kind_object(s16 spawn_flags, s16 part_b_value_24, s16 part_b_value_25, s16 part_a_value)
+void *spawn_naplass(s16 spawn_flags, s16 part_b_value_24, s16 part_b_value_25, s16 part_a_value)
 {
     s32 kind;
     ObjectNodeHeader *obj;

@@ -8,7 +8,7 @@
 
 
 
-struct S_80171F30_1; void spawn_jittered_trail_particle(struct S_80171F30_1 *, s32, s16, s16); /* extern */
+void spawn_jittered_trail_particle(ObjectNodeHeader *, s32, s16, s16); /* extern */
 
 /* Advance the countdown, update every other tick, and flag completion when it expires. */
 void update_rising_trail_emitter(void *record_data, ObjectPosition *state) {
@@ -17,7 +17,7 @@ void update_rising_trail_emitter(void *record_data, ObjectPosition *state) {
 
     state->z.unsigned_parts.integer = (u16) (state->z.unsigned_parts.integer - 4);
     if (!(body->remaining_ticks & 1)) {
-        spawn_jittered_trail_particle(record_data - 0x20, 0x8080, 8, 0);
+        spawn_jittered_trail_particle(NODE_HEADER(record_data), 0x8080, 8, 0);
     }
     ticks_left = body->remaining_ticks - 1;
     body->remaining_ticks = ticks_left;

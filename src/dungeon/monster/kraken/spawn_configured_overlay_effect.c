@@ -14,7 +14,7 @@
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 /* Creates Kraken with frames at D_8015018C and a gray child display using frame 39 and an adjusted
  * palette. */
-void *spawn_configured_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
+void *spawn_kraken(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     s32 kind;
     ActorRecord *work;

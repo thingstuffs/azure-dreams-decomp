@@ -127,6 +127,7 @@ void update_entity_sprite_and_effects(void *entity, EntityRec *position, SpriteF
 /* Initialize object state and position, then invoke its new callback. */
 void start_bicycle_at_view_reference(Obj *obj, State *state, ObjectPosition *motion, void *callback_arg)
 {
+    TownObjectRecord *object = (TownObjectRecord *)obj;
     void *resource_arg;
     void *resource;
 
@@ -137,18 +138,18 @@ void start_bicycle_at_view_reference(Obj *obj, State *state, ObjectPosition *mot
     motion->velocity_y = 0;
     motion->velocity_z = 0;
     obj->callback = update_bicycle_position_and_heading;
-    initialize_object_entries((TownObjectRecord *)obj, resource_arg, (s32 *)resource);
+    initialize_object_entries(object, resource_arg, (s32 *)resource);
     update_target_from_previous_state();
     motion->x.v = view_reference_entity.x.v;
     motion->y.v = view_reference_entity.y.v;
     motion->z.v = view_reference_entity.z.v;
     apply_pending_indexed_value(0xE5, (s32)read_and_clear_stored_value);
     set_flagged_entry_values((u32 *)D_800D0D54, (s32)store_pending_value_and_get_source);
-    update_bicycle_position_and_heading(obj, (s32)state, motion, callback_arg);
+    update_bicycle_position_and_heading(object, (s32)state, motion, callback_arg);
 }
 
 /* Updates the actor position and rounds its heading, or restores the fixed position and heading. */
-void update_bicycle_position_and_heading(void *actor, s32 update_context, void *position_arg, void *setup_context) {
+void update_bicycle_position_and_heading(TownObjectRecord *object, s32 update_context, void *position_arg, void *setup_context) {
     EntityRec *position = position_arg;
     u32 heading;
     ObjectNodeHeader *state;
@@ -162,9 +163,9 @@ void update_bicycle_position_and_heading(void *actor, s32 update_context, void *
         saved_position = (s32 *)&bike_saved_position;
         ((EntityRec *)saved_position)->y.v = position->y.v;
         ((DelayMotionZ *)saved_position)->unk_08 = position->z.v;
-        initialize_object_entries((TownObjectRecord *)actor, setup_context, (s32 *)D_80100E24);
-        select_object_value_by_height_band(actor, update_context, position_arg, setup_context);
-        heading = ((u16)((TownObjectRecord *)actor)->heading);
+        initialize_object_entries(object, setup_context, (s32 *)D_80100E24);
+        select_object_value_by_height_band(object, update_context, position_arg, setup_context);
+        heading = ((u16)object->heading);
         heading += 0x200;
         heading &= 0xFC00;
     } else {
@@ -174,5 +175,5 @@ void update_bicycle_position_and_heading(void *actor, s32 update_context, void *
         position->z.v = fixed_position->z.v;
         heading = ((S_800A6994_0 *)state)->unk_38;
     }
-    ((TownObjectRecord *)actor)->heading = heading;
+    object->heading = heading;
 }

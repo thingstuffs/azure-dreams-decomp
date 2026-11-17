@@ -25,5 +25,5 @@ extern u8 volcano_frame_set_5[];
 extern u8 D_8016E538[];
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
-void *spawn_volcano_slot_f(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c);
+void *spawn_volcano(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c);
 #endif

@@ -30,7 +30,7 @@ void tick_scaled_rgb_fade(DungeonFade *fade, void *progress) {
     fade->step = steps_left;
     fade->value = *(s32 *)&fade->scaled_r;
     if ((steps_left << 16) <= 0) {
-        *(u16 *)((u8 *)fade - 2) |= NODE_REMOVE;
+        NODE_HEADER(fade)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

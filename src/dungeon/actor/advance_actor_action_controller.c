@@ -23,7 +23,7 @@ extern s16 get_tile_chebyshev_distance(void *, void *);
 
 #include "dungeon/actor/state.h"
 
-extern u8 actor_action_frames[];
+extern void *actor_action_frames[];
 
 /* Advances the actor action state and updates its directional animation. */
 void advance_actor_action_controller(ActorRecord *controller, void *action_context, SpriteFrameState *sprite, ActorRecord *actor)
@@ -34,7 +34,7 @@ void advance_actor_action_controller(ActorRecord *controller, void *action_conte
     switch (state) {
     case 0:
         if (sprite->flags & 0xE000) {
-            u8 *direction_table;
+            void *direction_table;
             DungeonGlobalStatus *system_base;
 
             direction_table = actor_action_frames;
@@ -115,7 +115,7 @@ void advance_actor_action_controller(ActorRecord *controller, void *action_conte
         }
 
         if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) == 0) {
-            u8 *direction_table;
+            void *direction_table;
 
             direction_table = actor_action_frames;
             sprite->frameTable = direction_table;

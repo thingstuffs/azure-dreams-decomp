@@ -53,5 +53,5 @@ extern u8 D_80163188[];
 
 /* Allocate and initialize an object and its child entries. */
 
-void *allocate_object_with_child_entries(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_value);
+void *spawn_kid(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_value);
 #endif

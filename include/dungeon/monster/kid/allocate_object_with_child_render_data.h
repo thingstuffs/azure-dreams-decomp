@@ -42,5 +42,5 @@ extern u8 D_8016F188[];
 
 /* Allocate and initialize an object and its child rendering data. */
 
-void *allocate_object_with_child_render_data(s32 kind, s32 part_x, s32 part_y, s32 copy_value);
+void *spawn_kid(s32 kind, s32 part_x, s32 part_y, s32 copy_value);
 #endif

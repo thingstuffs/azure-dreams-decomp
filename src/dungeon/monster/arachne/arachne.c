@@ -2585,7 +2585,7 @@ void wait_for_arachne_activity(ActorRecord *entity_data, ObjectPosition *unused_
         entity->unk_8C.address = 0;
         entity->action_id = kind;
         entity->action_phase = 0;
-        (*(s16 *)actor_action_reset_value) = 0;
+        actor_action_reset_value = 0;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
     }
 }
@@ -2757,7 +2757,7 @@ store_next_state:
         if (sequence->action_phase != 6) {
             return;
         }
-        if (!create_status_linked_render_effect(position, (*(void * *)D_80175B28), (*(s16 *)D_80175B20), ((s32 *)staged_spawn_count))) {
+        if (!create_status_linked_render_effect(position, (*(void * *)D_80175B28), (*(s16 *)D_80175B20), ((s32 *)&staged_spawn_count))) {
             return;
         }
         sequence->action_timer = 0x10;

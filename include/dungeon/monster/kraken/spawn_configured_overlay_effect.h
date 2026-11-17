@@ -39,5 +39,5 @@ extern void func_8014D1A4(ActorRecord *actor, ObjectPosition *context, SpriteFra
 extern u8 D_8015018C[];
 extern u8 D_801501CC[];
 
-void * spawn_configured_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c);
+void * spawn_kraken(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c);
 #endif

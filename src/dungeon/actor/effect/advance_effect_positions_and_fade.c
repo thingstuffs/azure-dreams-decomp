@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/object_node.h"
 #include "dungeon/actor/effect.h"
 
 
@@ -37,7 +38,7 @@ void advance_effect_positions_and_fade(void *effect_arg, ObjectPosition *positio
     ticks_left = (u16)effect->unk_66 - 1;
     effect->unk_66 = ticks_left;
     if ((ticks_left << 16) <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

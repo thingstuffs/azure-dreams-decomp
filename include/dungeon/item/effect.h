@@ -25,6 +25,20 @@ typedef struct OrbitingTeleportEffectBody {
     s16 exit_mode;
 } OrbitingTeleportEffectBody;
 
+/* The body initialized by create_timed_paired_particle_emitter and passed to
+ * its installed update callback. */
+typedef struct PairedParticleEmitterState {
+    u8 pad_00[2];
+    u16 count;
+    u8 pad_04[0x18];
+    void *data;
+    u16 source_x;
+    u16 source_y;
+    u16 source_z;
+    u8 pad_26[2];
+    void *meta;
+} PairedParticleEmitterState;
+
 /* create_linked_actor_fade_effect.c */
 void *create_linked_actor_fade_effect(struct EntityFields *source);
 
@@ -39,6 +53,9 @@ void create_timed_paired_particle_emitter(ObjectPosition *source, s32 effect_par
 
 /* spawn_radial_particle_burst.c */
 void spawn_radial_particle_burst(s16 x, s16 y, s16 z, s16 flags, s32 unused);
+
+/* tick_paired_particle_emitter.c */
+void tick_paired_particle_emitter(PairedParticleEmitterState *source);
 
 /* tick_height_restore_effect.c */
 void tick_height_restore_effect(u16 *entity);

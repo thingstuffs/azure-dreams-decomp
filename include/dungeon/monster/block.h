@@ -1,5 +1,6 @@
 #ifndef MODULE_DUNGEON_OVL_CB3000_H
 #define MODULE_DUNGEON_OVL_CB3000_H
+#include "shared/dungeon_effect_status.h"
 #include "engine/node/registration.h"
 struct ObjectPosition;
 struct ObjectPosition;
@@ -717,8 +718,6 @@ extern u16 reference_tile_position_alias;
 extern DungeonGlobalStatus D_80083460;
 extern u16 dungeon_status_flags_alias;
 extern void *actor_effect_color_targets[];
-extern s8 staged_spawn_count;
-extern s16 actor_action_reset_value;
 extern u8 dungeon_resource_buffer[];
 extern u8 block_frame_set_2[];
 extern u8 block_slot_g_direction_frames[];

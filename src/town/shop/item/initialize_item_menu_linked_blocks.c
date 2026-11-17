@@ -55,7 +55,7 @@ typedef struct S_800AFF00_7 {
 extern s32 display_vector_defaults[3];
 
 /* Initialize two linked data blocks from templates and set their default fields. */
-void initialize_item_menu_linked_blocks(S_800AFF00_4 *state, S_800AFF00_0 *primary, DisplayPositionWords *secondary) {
+void initialize_item_menu_linked_blocks(ItemMenuDisplayLinks *state, S_800AFF00_0 *primary, DisplayPositionWords *secondary) {
     S_800AFF00_1 *primary_defaults = (S_800AFF00_1 *)display_block_defaults;
     s32 *secondary_defaults = display_vector_defaults;
     s32 secondary_head;
@@ -69,13 +69,13 @@ void initialize_item_menu_linked_blocks(S_800AFF00_4 *state, S_800AFF00_0 *prima
     secondary->unk0 = secondary_head;
     secondary->unk4 = ((S_800AFF00_3 *)secondary_defaults)->unk_04;
     secondary->unk8 = ((S_800AFF00_3 *)secondary_defaults)->unk_08;
-    state->unk_04 = primary;
-    state->unk_08 = secondary;
+    state->display = (ItemMenuDisplayBlock *)primary;
+    state->position = secondary;
     state->unk_00 = 0;
-    ((S_800AFF00_5 *)(state->unk_04))->unk_08 = initial_offset;
-    ((S_800AFF00_6 *)(state->unk_04))->unk_0A = initial_offset;
-    ((S_800AFF00_6 *)(state->unk_04))->unk_0C = 0x200;
-    ((S_800AFF00_6 *)(state->unk_04))->unk_06 = 0;
-    ((S_800AFF00_7 *)(state->unk_08))->unk_08 = 0x30;
-    ((S_800AFF00_6 *)(state->unk_04))->unk_0F = 4;
+    state->display->x = initial_offset;
+    state->display->y = initial_offset;
+    state->display->depth = 0x200;
+    state->display->ramp = 0;
+    ((S_800AFF00_7 *)state->position)->unk_08 = 0x30;
+    state->display->mode = 4;
 }

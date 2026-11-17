@@ -205,7 +205,7 @@ extern void *actor_direction_sprites;
 
 /* Ordinary declaration: the private selector authenticates this one
  * returning tail by qid/geometry/context instead of using an asm symbol alias. */
-extern void *create_jittering_effect(void *, s32, s32, s32, void *, s32, s32, s32, s32);
+extern void *create_jittering_effect(void *, s32, s32, s32, ObjectPosition *, s32, s16, s32, s32);
 
 /* Updates source-relative position, delays movement, and advances an arc toward the target. */
 void update_delayed_arc_effect(LinkedEffectControllerBody *self, ObjectPosition *coords)

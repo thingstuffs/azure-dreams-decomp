@@ -13,11 +13,10 @@ typedef struct {
     u8 before_work[0xC];
     u8 work[0x3E];
 } Effect;
-typedef struct { u8 pad[2]; u16 x; u8 pad2[2]; u16 y; u8 pad3[2]; u16 z; } Position;
 extern u8 linked_mesh_processor_address [ ];
 
 /* Create a positioned effect and set its animation and lifetime parameters. */
-void *create_jittering_effect(void *source, s32 x, s32 y, s32 z, Position *position, s32 texture, s16 frame, s32 lifetime, s32 timer) {
+void *create_jittering_effect(void *source, s32 x, s32 y, s32 z, ObjectPosition *position, s32 texture, s16 frame, s32 lifetime, s32 timer) {
     Effect *effect;
     ObjectPosition *sprite;
     u8 *work;
@@ -27,9 +26,9 @@ void *create_jittering_effect(void *source, s32 x, s32 y, s32 z, Position *posit
         effect->callback = jitter_effect_position_and_fade;
         register_node(effect, linked_mesh_processor_address);
         sprite = effect->sprite;
-        sprite->x.w.i = position->x;
-        sprite->y.w.i = position->y;
-        sprite->z.w.i = position->z;
+        sprite->x.w.i = (u16)position->x.w.i;
+        sprite->y.w.i = (u16)position->y.w.i;
+        sprite->z.w.i = (u16)position->z.w.i;
         work = effect->work;
         *(s16 *)(((u8 *)sprite) + 0xE) = x;
         *(s16 *)(work + 0x18) = x;

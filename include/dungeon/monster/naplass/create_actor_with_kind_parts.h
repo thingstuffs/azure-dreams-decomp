@@ -42,5 +42,5 @@ extern void dispatch_dungeon_actor_behavior_and_facing(ActorRecord *actor_in, Ob
 extern u8 D_80150194[];
 extern u8 D_801501DC[];
 
-void * create_actor_with_kind_parts(s16 kind_flags, s16 grid_x, s16 grid_y, s16 part_value);
+void * spawn_naplass(s16 kind_flags, s16 grid_x, s16 grid_y, s16 part_value);
 #endif

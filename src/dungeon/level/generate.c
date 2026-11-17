@@ -244,7 +244,7 @@ void place_random_floor_elevators(void) {
     config = &g_game_work.map;
     map = *(floor_generate_isolated_8028484C_MapCell **)((u8 *)(&g_game_work.map));
 
-    if ((state == 2) || ((*(s16 *)current_dungeon_floor) != 0x28)) {
+    if ((state == 2) || (current_dungeon_floor != 0x28)) {
         spawn_count = 0;
         meta_base = ((u8 *)dungeon_ground_items);
 
@@ -947,7 +947,7 @@ s32 setup_dungeon_floor_encounters(void)
     skip_floor_setup = 0;
     state = floor_generate_isolated_80285E80_DUNGEON_GLOBALS->state_022c;
     if (state == 1) {
-        if (((s16 *)current_dungeon_floor)[0] < 2) {
+        if (current_dungeon_floor < 2) {
             floor_generate_isolated_80285E80_DUNGEON_GLOBALS->state_2090 = state;
             advance_current_entry_code();
         } else if (floor_generate_isolated_80285E80_DUNGEON_GLOBALS->state_2090 == state) {
@@ -966,13 +966,13 @@ s32 setup_dungeon_floor_encounters(void)
     default:
         state = floor_generate_isolated_80285E80_DUNGEON_GLOBALS->state_2090;
         if (state == 0) {
-            floor_group = (s16)(((s16 *)current_dungeon_floor)[0] / 5);
-            if (((s16 *)current_dungeon_floor)[0] >= 0x28) {
+            floor_group = (s16)(current_dungeon_floor / 5);
+            if (current_dungeon_floor >= 0x28) {
                 skip_floor_setup = 1;
                 dungeon_floor_flags |= 0x10000000;
             }
 
-            if (((s16 *)current_dungeon_floor)[0] == 0x28) {
+            if (current_dungeon_floor == 0x28) {
                 floor_event = 1;
                 if (test_resident_bit(0xA2) != 0) {
                     floor_group = 7;
@@ -981,12 +981,12 @@ s32 setup_dungeon_floor_encounters(void)
                     set_first_table_entry_active();
                 }
                 skip_floor_setup = 1;
-            } else if (((s16 *)current_dungeon_floor)[0] < 2) {
+            } else if (current_dungeon_floor < 2) {
                 floor_event = (generate_random_value() & 3) + 3;
-            } else if (((s16 *)current_dungeon_floor)[0] == 2 && floor_generate_isolated_80285E80_DUNGEON_GLOBALS->state_022c != 1) {
+            } else if (current_dungeon_floor == 2 && floor_generate_isolated_80285E80_DUNGEON_GLOBALS->state_022c != 1) {
                 floor_event = 2;
                 dungeon_floor_flags |= 0x10000000;
-            } else if (((s16 *)current_dungeon_floor)[0] == 0x1F && test_resident_bit(0x1389) == 0) {
+            } else if (current_dungeon_floor == 0x1F && test_resident_bit(0x1389) == 0) {
                 dungeon_floor_object_positions[6] = 1;
                 dungeon_floor_object_positions[7] = 1;
                 floor_objects[0] = MONSTER_BELDO;
@@ -1019,7 +1019,7 @@ s32 setup_dungeon_floor_encounters(void)
             }
 
             if (skip_floor_setup == 0) {
-                load_floor_spawn_tables(((s16 *)current_dungeon_floor)[0]);
+                load_floor_spawn_tables(current_dungeon_floor);
             }
         } else {
             skip_floor_setup = 1;
@@ -1078,7 +1078,7 @@ s32 setup_dungeon_floor_encounters(void)
                         DungeonGlobalStatus *ds;
 
                         monster_id = random_dungeon_range_16(MONSTER_DRAGON, MONSTER_MAXIMUM) & 0xFFFF;
-                        level = ((s16 *)current_dungeon_floor)[0] + (generate_random_value() & 1);
+                        level = current_dungeon_floor + (generate_random_value() & 1);
                         if (level >= 100) {
                             level = 99;
                         }
@@ -1119,7 +1119,7 @@ s32 setup_dungeon_floor_encounters(void)
                     final_floor = (s32)((u8 (*)[8])floor_species_pool)[2];
                     even_ids = (u8 *)final_floor;
                     odd_ids = even_ids + 1;
-                    final_floor = ((s16 *)current_dungeon_floor)[0];
+                    final_floor = current_dungeon_floor;
                     level = final_floor + level_bonus;
                     do {
                         (*(floor_generate_isolated_80285E80_DungeonRecord80285E80 **)&ds->monster_spawn_table)[i_m + 8].value = monster_id;
@@ -1146,7 +1146,7 @@ s32 setup_dungeon_floor_encounters(void)
                     final_floor = (s32)((u8 (*)[8])floor_species_pool)[3];
                     even_ids = (u8 *)final_floor;
                     odd_ids = even_ids + 1;
-                    final_floor = ((s16 *)current_dungeon_floor)[0];
+                    final_floor = current_dungeon_floor;
                     level = final_floor + level_bonus;
                     do {
                         (*(floor_generate_isolated_80285E80_DungeonRecord80285E80 **)&ds->monster_spawn_table)[i_m + 12].value = monster_id;
@@ -1162,7 +1162,7 @@ s32 setup_dungeon_floor_encounters(void)
         }
     }
 
-    final_floor = ((s16 *)current_dungeon_floor)[0];
+    final_floor = current_dungeon_floor;
     floor_generate_isolated_80285E80_DUNGEON_GLOBALS->floor_0234 = final_floor;
     return floor_event;
 }
@@ -1342,8 +1342,8 @@ s32 try_add_second_tower_entry(s16 entry_index) {
     u8 *entry;
     u8 *entries;
 
-    if (dungeon_mode_state[0] == 0) {
-        if (((s16 *)current_dungeon_floor)[0] == 2) {
+    if (dungeon_mode_state == 0) {
+        if (current_dungeon_floor == 2) {
             if (test_resident_bit(0xA2) != 0) {
                 if ((count_matching_packed_entity_keys(0xC, 8) << 0x10) != 0) {
                     entries = (u8 *)((s16 *)dungeon_floor_marker_entries);

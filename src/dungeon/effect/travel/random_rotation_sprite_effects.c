@@ -14,7 +14,7 @@
 void (*const dungeon_ovl_18b8824_entry)(ovl_18b8824_81898EBC_EffectState *state, ovl_18b8824_81898EBC_Motion *motion, ovl_18b8824_81898EBC_ColorPart *part) = advance_launched_effect;
 
 /* Advances and spins a particle, increments its owner's counter, and removes it after its lifetime. */
-void interpolate_view_parameters(RandomRotationSpriteEffectBody *state, void *motion, void *transform)
+void interpolate_view_parameters(RandomRotationSpriteEffectBody *state, ObjectPosition *motion, SpriteFrameState *transform)
 {
     u16 tick_count;
     B22_81893474_EffectState *linked_state;
@@ -22,14 +22,14 @@ void interpolate_view_parameters(RandomRotationSpriteEffectBody *state, void *mo
     linked_state = state->owner;
     linked_state->field_14.u =
         (u16)(linked_state->field_14.u + 1);
-    *(s32 *)((s8 *)motion + 0x00) =
-        *(s32 *)((s8 *)motion + 0x00) + *(s32 *)((s8 *)motion + 0x0C);
-    *(s32 *)((s8 *)motion + 0x04) =
-        *(s32 *)((s8 *)motion + 0x04) + *(s32 *)((s8 *)motion + 0x10);
-    *(s32 *)((s8 *)motion + 0x08) =
-        *(s32 *)((s8 *)motion + 0x08) + *(s32 *)((s8 *)motion + 0x14);
-    *(u16 *)((s8 *)transform + 0x1A) =
-        (u16)(*(u16 *)((s8 *)transform + 0x1A) + 0x300);
+    motion->x.v =
+        motion->x.v + motion->velocity_x;
+    motion->y.v =
+        motion->y.v + motion->velocity_y;
+    motion->z.v =
+        motion->z.v + motion->velocity_z;
+    transform->angle_z =
+        (u16)(transform->angle_z + 0x300);
     tick_count = state->ticks.u + 1;
     state->ticks.u = tick_count;
     if (state->lifetime.s < (s16)tick_count) {

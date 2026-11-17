@@ -11,7 +11,7 @@
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 /* Creates Viper with default frames at D_8015CA7C, applies spawn flags, and attempts valid tile placement. */
-void *spawn_viper_slot_c(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
+void *spawn_viper(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
 {
     s32 kind;
     ObjectNodeHeader *obj;

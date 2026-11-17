@@ -43,5 +43,5 @@ extern u8 D_8015D188[];
 
 /* Allocate and initialize an object and its child items for the given kind. */
 
-void *allocate_kind_object_with_children(s32 kind, s32 part_x, s32 part_y, s32 copy_value);
+void *spawn_kid(s32 kind, s32 part_x, s32 part_y, s32 copy_value);
 #endif

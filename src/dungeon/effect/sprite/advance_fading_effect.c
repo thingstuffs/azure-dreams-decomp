@@ -64,6 +64,7 @@ void spawn_rising_sprite_at_source(s32 owner, ObjectPosition *source)
 {
     s32 roll;
     SpriteFrameState *render;
+    ObjectPosition *position;
     int white;
     ObjectNodeHeader *obj;
     obj = allocate_flagged_object_node(0x212);
@@ -85,10 +86,11 @@ void spawn_rising_sprite_at_source(s32 owner, ObjectPosition *source)
         register_node(obj, project_sprite_chain);
         render = (SpriteFrameState *)obj->position;
         rand();
-        ((ObjectPosition *)render)->x.unsigned_parts.integer = source->x.unsigned_parts.integer;
-        ((ObjectPosition *)render)->y.unsigned_parts.integer = source->y.unsigned_parts.integer;
+        position = (ObjectPosition *)render;
+        position->x.unsigned_parts.integer = source->x.unsigned_parts.integer;
+        position->y.unsigned_parts.integer = source->y.unsigned_parts.integer;
         roll = rand();
-        ((ObjectPosition *)render)->z.w.i = (s16) ((source->z.unsigned_parts.integer - 0x40) - (roll % 16));
+        position->z.w.i = (s16) ((source->z.unsigned_parts.integer - 0x40) - (roll % 16));
     }
 }
 

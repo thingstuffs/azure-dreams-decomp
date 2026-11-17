@@ -12,7 +12,7 @@
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 /* Creates Volcano with default frames at D_80162510, applies spawn flags, and attempts valid tile
  * placement. */
-void *spawn_volcano_slot_d(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
+void *spawn_volcano(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     ActorRecord *result = NULL;
     ObjectNodeHeader *root;

@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/object_node.h"
 #include "shared/dir_step.h"
 #include "dungeon/actor.h"
 #include "dungeon/player/object.h"
@@ -162,7 +163,7 @@ void update_ghosh_recoil(ActorRecord *body, ObjectPosition *motion, SpriteFrameS
                 select_sprite_entry(sprite, *(u8 *)((u32)(((facing + 0x100) >> 9) & 7) + (unsigned long)anim_table), 0);
             }
         }
-        if ((g_dungeon_status.pending_display_owner) == (u8 *)actor - 0x20) {
+        if ((g_dungeon_status.pending_display_owner) == NODE_HEADER(actor)) {
             *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
         body->unk_8C.address = ghosh_action_resume_address;

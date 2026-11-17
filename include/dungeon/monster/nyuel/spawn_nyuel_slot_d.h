@@ -51,5 +51,5 @@ extern void set_or_clear_actor_status_slot(Body *, s32, s32);
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 
-Body *spawn_nyuel_slot_d(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c);
+void *spawn_nyuel(s16 spawn_flags, s16 tile_x, s32 tile_y, s32 spawn_height);
 #endif

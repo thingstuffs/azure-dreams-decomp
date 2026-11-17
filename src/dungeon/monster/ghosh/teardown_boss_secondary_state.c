@@ -34,7 +34,7 @@ void teardown_boss_secondary_state(void) {
     do {
         object = *(void **)(((u8 *)dungeon_actor_ring_anchor) + 0xAC + i * 4);
         if (object != 0) {
-            insert_node_before_primary_actor((u8 *)object - 0x20);
+            insert_node_before_primary_actor(NODE_HEADER(object));
         }
         i++;
     } while (i < 2);

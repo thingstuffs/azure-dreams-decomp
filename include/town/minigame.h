@@ -141,7 +141,7 @@ extern u32 D_800245C8[];            /* saved casino palette row */
 struct KeimaPathActor;
 
 struct KeimaPathActor;
-void update_directional_record(struct KeimaPathActor *orientation, void *state_ptr, SpriteFrameState *record);
+void update_directional_record(struct KeimaPathActor *orientation, struct KeimaPathActor *state_ptr, SpriteFrameState *record);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void create_timed_sound(s16 value);

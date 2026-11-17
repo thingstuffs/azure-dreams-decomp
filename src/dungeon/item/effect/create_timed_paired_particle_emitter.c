@@ -12,24 +12,11 @@
 #define NULL 0
 #endif
 
-typedef struct S_800C4AFC_0 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x18];
-    void * unk_1C;
-    u16 unk_20;
-    u16 unk_22;
-    u16 unk_24;
-    u8 pad_26[0x2];
-    void *unk_28;
-} S_800C4AFC_0;   /* state in create_timed_paired_particle_emitter */
-
    /* arg0 in create_timed_paired_particle_emitter */
 
    /* (void *)temp in create_timed_paired_particle_emitter */
 
 #include "dungeon/effect/screen.h"
-extern void tick_paired_particle_emitter(void);
 
 extern s32 D_800DCF78;
 
@@ -41,7 +28,7 @@ void create_timed_paired_particle_emitter(ObjectPosition *source, s32 effect_par
     s32 init_value;
     ObjectPosition *components;
     DungeonGlobalStatus *status;
-    S_800C4AFC_0 *state;
+    PairedParticleEmitterState *state;
     u8 *effect;
     u16 component_x;
     u16 component_y;
@@ -61,20 +48,20 @@ void create_timed_paired_particle_emitter(ObjectPosition *source, s32 effect_par
     draw_textured_ellipse(effect, &effect_init.rect, 1, 0);
 
     state = NODE_BODY(object);
-    state->unk_02 = 0x40;
+    state->count = 0x40;
     object->update_callback = (void *)tick_paired_particle_emitter;
     components = object->position;
     component_x = (u16)source->x.w.i;
     components->x.w.i = component_x;
-    state->unk_20 = component_x;
+    state->source_x = component_x;
     component_y = (u16)source->y.w.i;
     components->y.w.i = component_y;
-    state->unk_22 = component_y;
+    state->source_y = component_y;
     component_z = (u16)source->z.w.i;
     components->z.w.i = component_z;
-    state->unk_24 = component_z;
-    state->unk_1C = source;
-    state->unk_28 = state_param;
+    state->source_z = component_z;
+    state->data = source;
+    state->meta = state_param;
     play_sound_if_enabled(0x702);
     status = &g_dungeon_status;
     (*(u16 *)&status->activity_counts.parts.pending_action_count)++;

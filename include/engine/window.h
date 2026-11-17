@@ -9,6 +9,41 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
+typedef struct {
+    u16 x;
+    u16 y;
+    u16 width;
+    u16 height;
+    s16 page_x;
+    s16 page_y;
+    u8 tex_width;
+    u8 pad0D;
+    u8 tex_height;
+    u8 pad0F;
+    u8 color;
+    u8 pad11[3];
+    s16 clut_x;
+    s16 clut_y;
+    u8 tex_x;
+    u8 pad19;
+    u8 tex_y;
+    u8 pad1B;
+} TEX_RECT;
+
+typedef struct {
+    u16 x;
+    u16 y;
+    u16 width;
+    u16 height;
+} RECTANGLE;
+
+typedef struct {
+    void *owner;
+    u8 pad04[8];
+    TEX_RECT textured;
+    RECTANGLE solid;
+} DRAW_DESC;
+
 struct Container;
 struct CursorState;
 struct Func37534State;
@@ -85,6 +120,9 @@ void func_80035484(void *object_addr, struct S_func_80035484_4 *model, struct S_
 
 /* create_window_overlay_object.c */
 void create_window_overlay_object(void *node_addr, void *display, u8 *image, s32 *state_ref, s32 option, u8 *owner);
+
+/* draw_window_rects.c */
+void draw_window_rects(DRAW_DESC *desc);
 
 /* entry_copy_window_offset_rectangle.c */
 void select_menu_initializer_from_message_handler(Rec_func_80036210_arg0 *object);

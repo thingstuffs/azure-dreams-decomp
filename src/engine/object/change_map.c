@@ -17,23 +17,6 @@ typedef struct InputRecord {
     u16 field_12;
 } InputRecord;
 
-typedef struct RuntimeState {
-    u8 pad_00[4];
-    void *field_04;
-    u8 pad_08[4];
-    u16 field_0C;
-    u16 field_0E;
-    void *field_10;
-    u16 field_14;
-    u16 field_16;
-    s16 field_18;
-    s16 field_1A;
-    u8 pad_1C[8];
-    void *field_24;
-    u16 field_28;
-    u16 field_2A;
-} RuntimeState;
-
 typedef struct TableEntry {
     u16 field_00;
     u16 field_02;
@@ -54,7 +37,6 @@ extern void enqueue_unlinked_item_entries(void);
 extern PairRecord *build_town_sound_selection(s16, s16);
 
 extern RuntimeState map_runtime_state;
-extern RuntimeState map_change_state;
 extern RuntimeCallback map_change_callback[3];
 extern u8 runtime_script_state[9];
 extern TableEntry D_800D2650[];

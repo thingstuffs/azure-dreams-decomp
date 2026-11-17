@@ -13,7 +13,7 @@
 #include "slus/data.h"
 
 /* Creates a Kid actor and its linked directional display, then initializes status and tile placement. */
-void *allocate_object_with_child_render_entries(s32 kind, s32 part_x, s32 part_y, s32 init_value)
+void *spawn_kid(s32 kind, s32 part_x, s32 part_y, s32 init_value)
 {
     ObjectNodeHeader *root;
     ObjectPosition *copy;

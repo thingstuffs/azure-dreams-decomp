@@ -156,7 +156,7 @@ class TypeResolutionTests(Base):
 
 
 class CastChainTests(Base):
-    """Casts on accesses through an explicit pointer cast, wrapped or stacked casts (the AC139 review found
+    """Casts on accesses through an explicit pointer cast, wrapped or stacked casts (the ACCURACY 139 review found
     identity casts like `(s16) (s16)((ActorRecord *)x)->action_timer` the trial did not see)."""
 
     def setUp(self):

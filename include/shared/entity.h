@@ -140,7 +140,7 @@ typedef struct EntityRec {
  * actor+0xBC is already the position record).  r121 opus_entity2 (decision 73 draft) split it out of EntityRec:
  * +0x00..+0x14 are packed innate stats, ability slots and the actor flags word, NOT world coordinates (those live
  * in the separate ObjectPosition); +0x24/+0x25 are MP (decision 73), NOT tile coordinates (those are the sprite's).
- * Leaf types are EntityRec's except +0x10..+0x13 (four template bytes here, one word there); names from r121w_entity1 field_roles / naming_decisions (scope actor_data,
+ * Leaf types are EntityRec's except +0x10..+0x13 (four template bytes here, one word there); names from the entity field-role census (scope actor_data,
  * medium unless marked), the rest stay unk_.  Callback variants at +0x8A/+0xA4/+0xA8/+0xAC stay unk_ (O08). */
 struct ActorRecord;
 struct SpriteFrameState;

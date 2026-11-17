@@ -2,8 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "engine/graphics.h"
 #include "engine/sprite.h"
-
-extern SpriteFrameState *sprite_resource_pointer_slots[4];
+#include "slus/data.h"
 
 /* Registers the entry in a nonzero one-based slot and dispatches in mode 2, or mode 3 for slot zero. */
 void register_sprite_slot(SpriteFrameState *entry, s32 index) {

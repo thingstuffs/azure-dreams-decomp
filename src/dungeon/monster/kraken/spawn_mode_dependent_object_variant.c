@@ -15,7 +15,7 @@
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of spawn_flags select (or the random 0x20-mask variant), and run the two setup calls. */
 /* Creates Kraken with frames at D_8015C18C and a gray child display using frame 39 and an adjusted
  * palette. */
-void *spawn_mode_dependent_112_object_variant(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
+void *spawn_kraken(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     s32 kind;
     ActorRecord *work;

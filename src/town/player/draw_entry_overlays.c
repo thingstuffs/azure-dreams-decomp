@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/entity.h"
+#include "shared/entity_objects.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
@@ -87,7 +88,6 @@ typedef struct S_800970FC_14 {
 } S_800970FC_14;   /* temp_s0_8 in draw_entry_overlays */
 
 extern u8 scene_object_payload_alias[];
-extern u8 view_reference_entity[];
 extern PlayerOverlayTextureRect player_overlay_texture_rect;
 extern u8 D_800D04D8[];
 extern u8 D_800D04E0[];
@@ -142,8 +142,7 @@ s32 draw_entry_overlays(void) {
     rotation = entry->depth_bias;
     page_index = (u16) alternate_page;
     if (!(entry->sprite_flags & 0x80)) {
-        coord = view_reference_entity;
-#define view_reference_entity (*(u8 *)coord)
+        coord = &view_reference_entity;
         overlay_height_in_range = 0;
         coord_x = coord->x.w.i;
         coord_y = coord->y.w.i;

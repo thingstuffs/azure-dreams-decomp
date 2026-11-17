@@ -52,5 +52,5 @@ extern void func_8015F1A4(ActorRecord *actor, ObjectPosition *context, SpriteFra
 extern u8 D_8016218C[];
 extern u8 D_801621CC[];
 
-void * create_actor_child_display_c(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c);
+void * spawn_kraken(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c);
 #endif

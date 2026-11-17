@@ -1284,7 +1284,7 @@ s32 move_actor_beside_player(void) {
                     result = 1;
                     entity->action_phase = ((s16)(0x63));
                     next_state = 2;
-                    ((S_807B040C_1 *)entity)->unk_B8 = next_state;
+                    entity->unk_B8 = next_state;
                     return result;
                 }
             }
@@ -1304,10 +1304,10 @@ s32 move_actor_beside_player(void) {
                           (s16)direction, &collision_flags);
             if (!(collision_flags & 0xB400)) {
                 direction_offset = (s16 *)&offsets + direction * 2;
-                ((S_807B040C_1 *)entity)->unk_AA.s16 = room->tile_position.parts.tile_x + (u16)direction_offset[0];
+                entity->unk_AA = room->tile_position.parts.tile_x + (u16)direction_offset[0];
                 ((S_807B040C_1 *)entity)->unk_AE.s16 = room->tile_position.parts.tile_y + (u16)direction_offset[1];
                 if ((s16)check_left_tile_and_center_height(
-                        ((((S_807B040C_1 *)entity)->unk_AA.s16 << 6) + 0x20) & 0xFFE0,
+                        ((entity->unk_AA << 6) + 0x20) & 0xFFE0,
                         ((((S_807B040C_1 *)entity)->unk_AE.s16 << 6) + 0x20) & 0xFFE0,
                         collision->z.w.i) == 0) {
                     break;
@@ -1322,7 +1322,7 @@ s32 move_actor_beside_player(void) {
         {
             s32 y_is_farther;
 
-            distance_x = ((S_807B040C_1 *)entity)->unk_AA.s16;
+            distance_x = entity->unk_AA;
             delta_y = target->tile_x;
             target_y = target->tile_y;
             distance_x -= delta_y;
@@ -1339,7 +1339,7 @@ s32 move_actor_beside_player(void) {
             } else {
                 move_ticks = distance_x * 4;
             }
-            ((S_807B040C_1 *)entity)->unk_96 = move_ticks;
+            entity->action_timer = move_ticks;
 
             entity_flags = entity_aux->flags1C;
             tile_x = target->tile_x;
@@ -1356,7 +1356,7 @@ s32 move_actor_beside_player(void) {
         {
             s32 aligned_x;
 
-            world_x = ((S_807B040C_1 *)entity)->unk_AA.s16;
+            world_x = entity->unk_AA;
             world_x <<= 6;
             world_x += 0x20;
             move_ticks = ((S_807B040C_1 *)entity)->unk_AE.s16 << 6;
@@ -1364,16 +1364,16 @@ s32 move_actor_beside_player(void) {
             aligned_x = world_x & 0xFFE0;
             ground_height = (s16)sample_terrain_surface_height(aligned_x, distance_y & 0xFFE0, -0x400);
         }
-        world_x = ((S_807B040C_1 *)entity)->unk_AA.s16;
+        world_x = entity->unk_AA;
         world_x <<= 6;
         world_x += 0x20;
         motion[3] = ((world_x << 16) - motion[0]) /
-                    ((S_807B040C_1 *)entity)->unk_96;
+                    entity->action_timer;
         motion[4] = ((((((S_807B040C_1 *)entity)->unk_AE.s16 << 6) + 0x20) << 16) -
                      motion[1]) /
-                    ((S_807B040C_1 *)entity)->unk_96;
+                    entity->action_timer;
         motion[5] = (((s16)ground_height - entity_aux->ground_height) << 16) /
-                    ((S_807B040C_1 *)entity)->unk_96;
+                    entity->action_timer;
         entity_aux->ground_height =
             (u16)entity_aux->ground_height + ((S_807B040C_7 *)motion)->unk_16;
 
@@ -1404,7 +1404,7 @@ s32 move_actor_beside_player(void) {
         }
         entity_aux->facing = direction << 9;
         (*(u16 *)&((S_807B040C_1 *)entity)->unk_96)--;
-        if ((s16)((u16)((S_807B040C_1 *)entity)->unk_96) > 0) {
+        if ((s16)((u16)entity->action_timer) > 0) {
             return 0;
         }
         entity->action_phase++;
@@ -1418,12 +1418,12 @@ s32 move_actor_beside_player(void) {
         motion[5] = 0;
         motion[4] = 0;
         motion[3] = 0;
-        ((S_807B040C_1 *)entity)->unk_88 = (s16)sample_terrain_surface_height(*(u16 *)&((ObjectPosition *)motion)->x.w.i,
+        entity->ground_height = (s16)sample_terrain_surface_height(*(u16 *)&((ObjectPosition *)motion)->x.w.i,
                                                  *(u16 *)&((ObjectPosition *)motion)->y.w.i, -0x400);
         set_record_integer_tile_center(motion, target->tile_x, target->tile_y);
         {
 
-            entity_flags = ((S_807B040C_1 *)entity)->unk_1C;
+            entity_flags = entity->flags1C;
             tile_x = target->tile_x;
             tile_y = target->tile_y;
             tile_flags = 0x3000;
@@ -1432,7 +1432,7 @@ s32 move_actor_beside_player(void) {
             }
         }
         cycle_map_cell_flags(tile_x, tile_y, tile_flags);
-        ((S_807B040C_1 *)entity)->unk_B8 = state;
+        entity->unk_B8 = state;
         return 1;
     default:
         break;

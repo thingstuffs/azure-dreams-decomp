@@ -559,7 +559,7 @@ class RenameAndFullTests(unittest.TestCase):
 
 @unittest.skipUnless(gcc_multilib(), 'needs gcc with -m32 and -m64')
 class EndToEndTest(unittest.TestCase):
-    """An untouched caller of a retyped prototype: the AC131 B1 shape."""
+    """An untouched caller of a retyped prototype: the ACCURACY 131 B1 shape."""
 
     def test_untouched_caller_gets_new_incompatible_pointer(self):
         tmp = tempfile.TemporaryDirectory()

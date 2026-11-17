@@ -6,36 +6,38 @@
 #include "dungeon/effect.h"
 
 /* Process each linked state with draw_mesh_quads_with_orientation_mode in mode zero. */
-s32 draw_linked_segment_aligned_quads(void *initial_state, s32 value, void *data) {
+s32 draw_linked_segment_aligned_quads(void *initial_state, s32 value, SpriteFrameState *data) {
     u8 *state = initial_state;
+    Node *next_node;
 
     for (;;) {
-        draw_mesh_quads_with_orientation_mode(state, value, data, *(s16 *)((u8 *)data + 6), 0);
-        data = *(Node **)(state - 8);
-        if (data == 0) {
+        draw_mesh_quads_with_orientation_mode(state, value, data, data->depth_bias, 0);
+        next_node = *(Node **)(state - 8);
+        if (next_node == 0) {
             break;
         }
-        state = (u8 *)data + 32;
-        value = ((Node *)data)->value1;
-        data = ((Node *)data)->value2;
+        state = (u8 *)next_node + 32;
+        value = next_node->value1;
+        data = next_node->value2;
     }
     return 0;
 }
 
 /* Process each linked state with draw_mesh_quads_with_orientation_mode in mode one. */
-s32 draw_linked_oriented_mesh_quads(void *initial_state, s32 value, void *data) {
+s32 draw_linked_oriented_mesh_quads(void *initial_state, s32 value, SpriteFrameState *data) {
     u8 *state = initial_state;
+    Node *next_node;
     s32 mode = 1;
 
     for (;;) {
-        draw_mesh_quads_with_orientation_mode(state, value, data, *(s16 *)((u8 *)data + 6), mode);
-        data = *(Node **)(state - 8);
-        if (data == 0) {
+        draw_mesh_quads_with_orientation_mode(state, value, data, data->depth_bias, mode);
+        next_node = *(Node **)(state - 8);
+        if (next_node == 0) {
             break;
         }
-        state = (u8 *)data + 32;
-        value = ((Node *)data)->value1;
-        data = ((Node *)data)->value2;
+        state = (u8 *)next_node + 32;
+        value = next_node->value1;
+        data = next_node->value2;
     }
     return 0;
 }

@@ -7,7 +7,10 @@ file-loaded native helpers have explicit entry points; tests are never scanned.
 """
 import ast
 import hashlib
+import json
+import os
 from pathlib import Path
+import sys
 
 
 ENTRY_POINTS = (
@@ -41,9 +44,10 @@ SHELL_SCRIPTS = ('tools/build/cc.sh', 'tools/build/as.sh')
 #
 # Subprocess front ends of every object: cc.sh -> ccproc.py (+ name_inputs.py)
 # -> maspsx -> GNU as, as.sh -> asproc.py, and the SLUS post-compile scripts.
-# tools/build/tests/test_object_cache.py checks this list against the static import closure of
-# FRONTEND_SCRIPTS. The compile-time guard sees only code run in the compile process, so a module a
-# subprocess front end imports is caught by that unit test, not at compile time.
+# The compile-time guard sees only code run in the compile process. A module a
+# subprocess front end imports is bound by frontend_closure() instead: every key
+# computation walks the front ends' imports and binds any repository module the
+# walk reaches beyond this list (with a warning to add it here).
 OBJECT_FRONTENDS = (
     'tools/build/cc.sh', 'tools/build/as.sh', 'tools/build/ccproc.py', 'tools/build/asproc.py',
     'tools/build/name_inputs.py', 'tools/build/compile_slots.py',
@@ -99,9 +103,127 @@ def driver_digest(root, kind):
     return hashlib.sha256(b'python-ast-compile-path-v1\0' + kind.encode() + b'\0' + syntax).hexdigest(), functions
 
 
-def object_tools(root):
-    """Tool files an object key binds by raw bytes: front ends, their build-view copies, cache rules."""
+class ClosureError(ValueError):
+    """The front ends' import closure cannot be computed; the object key keeps the whole tool list."""
+
+
+# Where a front end's imports resolve: its own directory (a script's sys.path[0]), then the
+# repository directories the compile tools put on sys.path.
+IMPORT_SEARCHES = ('', 'tools', 'tools/build', 'tools/gate', 'tools/fidelity', 'tools/link', 'toolchain/maspsx')
+_IMPORTS = {}
+_WARNED = set()
+
+
+def module_imports(data, memo=None):
+    """Every import statement of one Python module, wherever it sits (module body, function bodies,
+    the __main__ block): [[level, module, [names]]]. Depends on the bytes only, so it is memoized by
+    their sha256 in this process and, given `memo` (a directory), on disk for later processes."""
+    key = hashlib.sha256(data).hexdigest()
+    if key in _IMPORTS:
+        return _IMPORTS[key]
+    path = Path(memo)/(key + '.json') if memo is not None else None
+    if path is not None:
+        try:
+            value = json.loads(path.read_text())
+            if isinstance(value, list):
+                _IMPORTS[key] = value
+                return value
+        except (OSError, ValueError):
+            pass
+    try:
+        tree = ast.parse(data.decode('utf-8'))
+    except (SyntaxError, UnicodeDecodeError, ValueError) as error:
+        raise ClosureError('front end does not parse: ' + str(error)) from error
+    value = []
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            value += [[0, item.name, []] for item in node.names]
+        elif isinstance(node, ast.ImportFrom):
+            value.append([node.level, node.module or '', [item.name for item in node.names]])
+    _IMPORTS[key] = value
+    if path is not None:
+        try:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            temporary = path.with_name('.%s.%d.tmp' % (key, os.getpid()))
+            temporary.write_text(json.dumps(value))
+            os.replace(temporary, path)
+        except OSError:
+            pass  # the memo only saves parsing
+    return value
+
+
+def frontend_closure(root, memo=None):
+    """Repository modules the Python front ends of OBJECT_FRONTENDS can import (static, conservative).
+
+    Unlike closure(), every import statement counts, including lazy imports in functions and the
+    __main__ block; each dotted prefix and each from-imported member that is a repository module or
+    package is followed. A module missing from the root is skipped (object_kind() keeps the whole
+    list when a listed tool is absent). Raises ClosureError when a front end does not parse or
+    imports a test. Modules loaded by file name (retail_spans' disc_slice: span bytes are checked
+    against their recorded sha256) are not imports and stay outside."""
+    root = Path(root)
+    found, pending = set(), [n for n in OBJECT_FRONTENDS if n.endswith('.py')]
+
+    searches = [os.path.join(os.fspath(root), s) if s else os.fspath(root) for s in IMPORT_SEARCHES]
+
+    def resolve(name, own):
+        suffix = name.replace('.', '/')
+        # A standard-library name can only be shadowed by the script's own directory (sys.path[0]).
+        top = name.split('.')[0]
+        for directory in [os.fspath(own)] + ([] if top in sys.stdlib_module_names else searches):
+            for candidate in (os.path.join(directory, suffix, '__init__.py'), os.path.join(directory, suffix + '.py')):
+                if os.path.isfile(candidate):
+                    return Path(candidate)
+        return None
+
+    while pending:
+        name = pending.pop()
+        path = root/name
+        if name in found or not path.is_file():
+            continue
+        if 'tests' in Path(name).parts or path.name.startswith('test_'):
+            raise ClosureError('front end imports a test: ' + name)
+        found.add(name)
+        targets = []
+        for level, module, members in module_imports(path.read_bytes(), memo):
+            if level:
+                base = path.parent
+                for _ in range(level - 1):
+                    base = base.parent
+                prefix = (base/module.replace('.', '/')) if module else base
+                targets += [c for c in (prefix/'__init__.py', prefix.with_suffix('.py')) if module and c.is_file()]
+                targets += [c for m in members for c in (prefix/m/'__init__.py', prefix/(m + '.py')) if c.is_file()]
+                continue
+            parts = module.split('.')
+            targets += [resolve('.'.join(parts[:i]), path.parent) for i in range(1, len(parts) + 1)]
+            targets += [resolve(module + '.' + m, path.parent) for m in members if m != '*']
+        for target in targets:
+            if target is not None:
+                try:
+                    pending.append(target.relative_to(root).as_posix())
+                except ValueError:  # resolved outside the root
+                    continue
+    return found
+
+
+def listed_object_tools(root):
+    """The listed object tools and their build-view copies (every one must exist for a narrow key)."""
     names = set(OBJECT_FRONTENDS) | set(OBJECT_MACHINERY)
+    return sorted(names | set(view_copies(root, names)))
+
+
+def object_tools(root, memo=None):
+    """Tool files an object key binds by raw bytes: front ends, their build-view copies, cache rules,
+    and any repository module the front ends' import closure reaches beyond OBJECT_FRONTENDS.
+
+    Raises ClosureError when that closure cannot be computed."""
+    names = set(OBJECT_FRONTENDS) | set(OBJECT_MACHINERY)
+    extra = frontend_closure(root, memo) - names
+    if extra and tuple(sorted(extra)) not in _WARNED:
+        _WARNED.add(tuple(sorted(extra)))
+        print('object key: front-end imports outside OBJECT_FRONTENDS bound by content (add them to '
+              'tools/build/compile_tools.py): ' + ' '.join(sorted(extra)), file=sys.stderr, flush=True)
+    names |= extra
     return sorted(names | set(view_copies(root, names)))
 
 

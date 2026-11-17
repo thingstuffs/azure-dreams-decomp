@@ -2051,7 +2051,7 @@ void wait_for_griffon_action_slot(ActorRecord *entity_data, ObjectPosition *unus
         entity->unk_8C.address = 0;
         entity->action_id = kind;
         entity->action_phase = 0;
-        (*(s16 *)actor_action_reset_value) = 0;
+        actor_action_reset_value = 0;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
     }
 }
@@ -2221,7 +2221,7 @@ void advance_griffon_replacement(ActorRecord *effect_state, ObjectPosition *posi
         }
 
         {
-            if (create_status_linked_render_effect(position, ((void * *)griffon_transition_sprite_source)[0], ((s16 *)D_80174D14)[0], ((s32 *)staged_spawn_count)) == 0) {
+            if (create_status_linked_render_effect(position, ((void * *)griffon_transition_sprite_source)[0], ((s16 *)D_80174D14)[0], ((s32 *)&staged_spawn_count)) == 0) {
                 return;
             }
             effect_state->action_timer = 0x10;

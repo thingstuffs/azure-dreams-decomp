@@ -4,7 +4,7 @@
 /* dungeonStatus: the global block at 0x80083460 (SLUS .bss; read and written by the DUNGEON overlay and by
  * the SLUS dungeon-entity helper slus/w_80042BDC).  One object: 527 of the 836 rows that touch
  * 0x80083460..0x8008347F form ONE lui/addiu base at 0x80083460 and reach every field below from it
- * (r78 types pilot census, work/native_lane/r78_types_pilot/census/).  Nothing between 0x80083480 and the
+ * (types pilot census).  Nothing between 0x80083480 and the
  * next object (0x80083498, passed around by address) is accessed, so the size stops at 0x20.
  * Retail's lui/addiu (not $gp) in slus/w_80042BDC, compiled -G16, shows the original declaration was
  * larger than 16 bytes.  Widths/signedness are the retail access widths (lh = signed, lhu = unsigned;

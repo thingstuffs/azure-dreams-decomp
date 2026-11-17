@@ -3,6 +3,7 @@
 #include "dungeon/actor.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
+#include "shared/object_node.h"
 #include "dungeon/player/object.h"
 
 typedef struct S_800ACBE4_0 {
@@ -62,7 +63,7 @@ void fade_out_and_remove_actor(void *actor_data_arg, s32 unused, SpriteFrameStat
         return;
     }
 
-    if ((g_dungeon_status.pending_display_owner) == (u8 *)actor - 0x20) {
+    if ((g_dungeon_status.pending_display_owner) == NODE_HEADER(actor)) {
         *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
     }
     detach_record_and_update_slot_state(actor);
@@ -80,7 +81,7 @@ void fade_out_and_remove_actor(void *actor_data_arg, s32 unused, SpriteFrameStat
         actor->unk_1C |= 0x400000;
     }
     unlink_entity_node(actor);
-    (*(u16 *)((u8 *)actor + -2)) |= NODE_REMOVE;
+    NODE_HEADER(actor)->flags |= NODE_REMOVE;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 
     return;

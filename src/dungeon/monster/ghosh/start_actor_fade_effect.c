@@ -11,7 +11,7 @@ s32 start_actor_fade_effect(void) {
     s32 flag;
     void *status;
 
-    status = (u8 *)source + 0x20;
+    status = NODE_BODY(source);
     result = create_linked_actor_fade_effect(source);
     *(void **)((s8 *)status + 0xA4) = result;
     if (result == 0) {

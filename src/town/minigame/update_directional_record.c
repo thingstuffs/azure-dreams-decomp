@@ -13,7 +13,7 @@
 
 
 /* Update the record for its current direction and set its direction flag. */
-void update_directional_record(KeimaPathActor *orientation, void *state_ptr, SpriteFrameState *record) {
+void update_directional_record(KeimaPathActor *orientation, KeimaPathActor *state_ptr, SpriteFrameState *record) {
     u8 *flags_page;
     void *flags_base;
     s32 direction;
@@ -21,7 +21,6 @@ void update_directional_record(KeimaPathActor *orientation, void *state_ptr, Spr
     s32 angle_sector;
     u16 angle;
     u16 flags;
-    KeimaPathActor *state = state_ptr;
 
     angle = (orientation->facing.u + 0x2000) & 0xFFF;
     orientation->facing.u = angle;
@@ -30,14 +29,14 @@ void update_directional_record(KeimaPathActor *orientation, void *state_ptr, Spr
     if (record->flags & 0x6000) {
         select_sprite_entry(record, *((u8 *)*(s32 *)&record->frameTable + direction), 0);
     }
-    if (state->sprite_direction == direction) {
+    if (state_ptr->sprite_direction == direction) {
         flags_page = (u8 *)0x80070000;
     } else {
         direction_data = record->frameTable;
         if (direction_data != 0) {
             select_indirect_table_entry(record, direction_data[direction], record->unk_04);
         }
-        state->sprite_direction = direction;
+        state_ptr->sprite_direction = direction;
         flags_page = (u8 *)0x80070000;
     }
     flags_base = flags_page - 0x3308;

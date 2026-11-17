@@ -1,5 +1,6 @@
 #ifndef DUNGEON_RESOURCE08_SLOT0_H
 #define DUNGEON_RESOURCE08_SLOT0_H
+#include "shared/dungeon_effect_status.h"
 #include "engine/node/registration.h"
 struct ObjectPosition;
 struct ObjectPosition;
@@ -360,12 +361,10 @@ extern u8 griffon_frame_set_14[];
 extern u8 griffon_frame_set_13[];
 extern u8 D_80174D14[];
 extern u8 D_80174D08[];
-extern u8 actor_action_reset_value[];
 extern u8 griffon_transition_sprite_source[];
 extern u8 resource_completion_callback_address[];
 extern u8 cd_cue_base[];
 extern u8 actor_effect_color_targets[];
-extern u8 staged_spawn_count[];
 extern u8 dungeon_resource_buffer[];
 extern u8 D_80174CF4[];
 extern u8 D_80174CFC[];

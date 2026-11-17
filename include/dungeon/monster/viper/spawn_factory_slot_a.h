@@ -5,6 +5,6 @@
 #include "shared/object_node.h"
 #include "common.h"
 
-void *spawn_viper_slot_a(s16 flags, s16 tile_x, s16 tile_y, s16 spawn_height);
+void *spawn_viper(s16 flags, s16 tile_x, s16 tile_y, s16 spawn_height);
 
 #endif

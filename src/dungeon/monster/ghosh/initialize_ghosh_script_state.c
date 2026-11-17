@@ -9,7 +9,7 @@ void initialize_ghosh_script_state(void) {
 
     state = ghosh_actor_node;
     if (state != 0) {
-        state = (s8 *)state + 0x20;
+        state = NODE_BODY(state);
         *((s8 *)state + 0xB2) = 1;
         *(s16 *)((s8 *)state + 0xAE) = 1;
         ghosh_script_cursor = D_80174928;

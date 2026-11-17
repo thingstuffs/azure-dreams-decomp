@@ -182,11 +182,37 @@ logs status `unbound` and publishes nothing; the compiled object is kept. Add
 the tool to `OBJECT_FRONTENDS` in `tools/build/compile_tools.py` when it shapes
 bytes, or move the call out of the compile. The subprocess front ends (cc.sh's
 ccproc.py and maspsx, as.sh's asproc.py, the SLUS post-compile scripts) run
-outside the guarded process, so a module one of them imports is held to
-`OBJECT_FRONTENDS` only by the unit test
-(`tools/build/tests/test_object_cache.py`), which compares that list with the
-static import closure of the front-end scripts; a new front-end import must be
-followed by that test (the landing's unit modules run it), not by a compile.
+outside the guarded process, so the key computation itself walks their imports
+(`compile_tools.frontend_closure`): every import statement of every Python
+front end, including lazy imports in functions and the `__main__` block, is
+followed to the repository module it can resolve to (the script's own directory
+first, then the repository directories on the tools' search path; a
+standard-library name only through the script's own directory). A module the
+walk reaches beyond `OBJECT_FRONTENDS` is bound by its bytes like the listed
+tools, and the compile prints one `object key: front-end imports outside
+OBJECT_FRONTENDS bound by content` line naming it; add it to the list. A front
+end that does not parse keeps the whole compile tool list for that key. The
+parsed import statements are memoized by file content under the cache
+directory (`frontend-imports/`), so the walk costs a few milliseconds per
+compile. Modules a front end loads by file name rather than by import
+(`retail_spans.py` loads `tools/gate/disc_slice.py` to read a retail span) are
+outside the walk; the span bytes are checked against their recorded sha256, so
+the loader cannot change an object.
+
+maspsx reads two evidence tables, `$MASPSX_NORETURN_FILE` and
+`$MASPSX_SIBCALL_FILE`. Unset, it falls back to `config/noreturn_syms.txt` and
+`config/sibcall_syms.txt` beside its own package, a path it resolves through
+the `toolchain` link, which in a lane root is the live checkout's `config/`.
+Main-family overlay recipes name no table (`overlay_evidence.evidence_env('main')`
+is empty), so they read that fallback. `object_cache.maspsx_tables(spec)` names
+the tables a `cc.sh` recipe leaves to it (not genuine-ASPSX module recipes with a
+`name_input`, whose module gate names both, nor `as.sh` recipes; a genuine recipe
+with `env={}` and no `name_input` runs plain `cc.sh` and is bound like any other):
+the compile driver passes this root's
+files for them, the recipe lists them as make prerequisites, and the key binds
+their bytes (an absent table as absent). Recipes that name their tables already
+bind them as recipe dependencies (the frozen evidence copies) or through the
+name witness (SLUS `config_tables`).
 
 Comment and format-only edits to `mkbuild.py` do not change any key. Landing a
 change to `object_cache.py` or another object tool changes every object's key

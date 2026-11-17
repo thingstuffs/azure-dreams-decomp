@@ -6,6 +6,7 @@
 #include "shared/object_flags.h"
 #include "engine/resource.h"
 #include "engine/texture.h"
+#include "slus/data.h"
 
 
 /* Clears the two words referenced by the menu state destination pointers. */
@@ -573,7 +574,7 @@ void draw_menu_progress_bar(void *context, s32 currentValue, s32 maxValue) {
 
     rect = D_80025034[0];
     rect.h = ((s32) (currentValue * 0x90) / maxValue) + 4;
-    build_tinted_gradient_rect(*(s32 *)((s8 *)context + 0x4C) + 0x18, &rect, shared_primitive_color);
+    build_tinted_gradient_rect(*(s32 *)((s8 *)context + 0x4C) + 0x18, &rect, &shared_primitive_color);
 }
 
 /*

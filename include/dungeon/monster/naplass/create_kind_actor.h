@@ -23,5 +23,5 @@ extern void dispatch_ability_action(ActorRecord *actor_in, ObjectPosition *actor
 extern u8 D_8015C194[];
 extern u8 D_8015C1DC[];
 
-void * create_kind_actor(s16 kind_flags, s16 part_value_24, s16 part_value_25, s16 part_value_0a);
+void * spawn_naplass(s16 kind_flags, s16 part_value_24, s16 part_value_25, s16 part_value_0a);
 #endif

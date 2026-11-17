@@ -24,17 +24,16 @@ extern void func_80174F00(void);
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 /* Creates Nyuel with spawn-mode flags and frames at func_80174ED8, then initializes its callbacks and tile
  * placement. */
-void *spawn_nyuel(s32 spawn_flags, s8 tile_x, s16 tile_y, s16 spawn_height)
+void *spawn_nyuel(s16 spawn_flags, s16 tile_x, s32 tile_y, s32 spawn_height)
 {
     s32 kind;
     void *work;
     s16 saved_height;
-    s32 held_flags;
+    s16 held_flags;
     ObjectNodeHeader *obj;
     s8 saved_tile_y;
     s8 saved_tile_x;
     ObjectPosition *part_a;
-    s16 flags_copy;
     s32 call_id;
     ObjectNodeHeader **list_head;
 
@@ -46,7 +45,6 @@ void *spawn_nyuel(s32 spawn_flags, s8 tile_x, s16 tile_y, s16 spawn_height)
     saved_height = spawn_height;
     saved_tile_y = tile_y;
     obj = allocate_list_node(call_id, list_head);
-    flags_copy = held_flags;
     if (obj != 0) {
         register SpriteFrameState *part_b;
         ActorRecord *actor;
@@ -112,7 +110,7 @@ void *spawn_nyuel(s32 spawn_flags, s8 tile_x, s16 tile_y, s16 spawn_height)
         }
 callback_done:
         obj->update_callback = update_monster_facing_and_contact;
-        initialize_actor_sprite_and_animation(obj, part_a, part_b, flags_copy);
+        initialize_actor_sprite_and_animation(obj, part_a, part_b, held_flags);
         actor->action_id = 0xFF;
         actor->unk_9C = -1;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
