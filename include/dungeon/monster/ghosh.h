@@ -74,7 +74,7 @@ extern ObjectNodeHeader *ghosh_boss_node;
 extern u8 ghosh_direction_frames[];
 extern u8 ghosh_ready_action_frames[];
 
-void create_directional_child_effect(void *parent_data, MovingPosition *source_pos, void *sprite_template);
+void create_directional_child_effect(ActorRecord *parent_data, MovingPosition *source_pos, void *sprite_template);
 void create_ghosh_spread_particle(void *source, s16 angle, s32 initial_value, s32 unused, s16 spread_mode);
 void release_scripted_ghosh_actor(void);
 

@@ -9,7 +9,7 @@
 #include "town/player.h"
 #include "town/player/position_handlers.h"
 struct EntityRec; void update_position_upper_bound(ObjectPosition *);                      /* extern */
-extern u8 town_blocked_directions;
+extern u8 town_blocked_directions[];
 
 
 /* Update the actor record and dispatch follow-up processing when its state is nonnegative. */
@@ -18,7 +18,7 @@ void update_actor_and_dispatch_state(TownPlayerRecord *actor, ObjectPosition *re
     resolve_collision_axis_order(record);
     store_input_angle(actor);
     accelerate_toward_input_keep_speed(record);
-    if (town_blocked_directions != 0) {
+    if (town_blocked_directions[0] != 0) {
         record->velocity_z = 0;
         copy_z_to_collision_motion((record));
     } else {

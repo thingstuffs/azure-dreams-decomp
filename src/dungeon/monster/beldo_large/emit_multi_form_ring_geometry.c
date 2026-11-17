@@ -53,13 +53,9 @@ typedef struct S_8016E4E8_6 {
     u16 unk_00;
 } S_8016E4E8_6;   /* src_word in emit_multi_form_ring_geometry */
 
-typedef struct {
-    u8 bytes[12];
-} Data12;
-
 extern u8 D_8016E450[];
 extern u8 D_8016E4A4[];
-extern Data12 D_80173B4C;
+extern u8 D_80173B4C[12];
 
 /* Advances the color fade and creates two rows of animated textured geometry. */
 /* Fades the effect color while creating two textured rows with copied vertices and cycling texture
@@ -184,7 +180,7 @@ void emit_multi_form_ring_geometry(MultiFormSegmentRingBody *animation, s32 *ori
             }
 
             effect->unk_06 = 0;
-            memcpy(part + 0x28, &D_80173B4C, 12);
+            memcpy(part + 0x28, D_80173B4C, 12);
 
             vertex_index = 0;
             src_vertices = (u8 *)animation;

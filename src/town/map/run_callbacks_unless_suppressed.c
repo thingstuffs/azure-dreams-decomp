@@ -5,14 +5,6 @@
 #include "town/map.h"
 #include "town/menu.h"
 
-typedef struct CallbackEntry CallbackEntry;
-typedef void (*Callback)(CallbackEntry *);
-
-struct CallbackEntry {
-    Callback callback;
-    u8 pad[20];
-};
-
 extern CallbackEntry map_active_callbacks[];
 
 /* Runs callbacks unless the object check triggers status clearing and flag updates. */

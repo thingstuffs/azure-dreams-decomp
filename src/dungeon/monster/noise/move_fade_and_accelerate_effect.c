@@ -96,7 +96,7 @@ void *spawn_noise(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     void *body;
     ObjectNodeHeader *obj;
     void *part_storage;
-    SignedHeightView *part_a;
+    ObjectPosition *part_a;
     SpriteFrameState *part_b;
     void *resource;
     T_80171190_Work *actor;
@@ -122,7 +122,7 @@ void *spawn_noise(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         resource = noise_direction_frames;
         part_storage = obj->position;
         part_a = part_storage;
-        part_a->z = saved_spawn;
+        part_a->z.w.i = saved_spawn;
         part_storage = obj->sprite;
         part_b = part_storage;
         kind = flags & 3;

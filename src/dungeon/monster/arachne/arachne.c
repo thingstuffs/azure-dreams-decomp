@@ -2118,9 +2118,8 @@ s32 project_arachne_sprite_chain(void *initial_payload, ObjectPosition *entry_da
  *
  * MECHANISM: Typed page and scratch fields preserve the signed lh/sw widths and offsets.
  */
-void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_80174618_S_80174618_1 *position, void *render_params_arg, s16 depth_bias)
+void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_80174618_S_80174618_1 *position, SpriteFrameState *render_params, s16 depth_bias)
 {
-    R12_80174618_S_80174618_2 *render_params = render_params_arg;
     u8 *line_packet;
     R12_80174618_S_80174618_0 *scratch = (R12_80174618_S_80174618_0 *)0x1F800000;
     u8 *draw_packet;
@@ -2144,16 +2143,16 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
     scratch->unk_88 = position->unk_02;
     scratch->unk_8C = position->unk_06;
     scratch->unk_90 = position->unk_0A;
-    render_params->unk_14 |= 0x8000;
+    render_params->flags |= 0x8000;
 
     PushMatrix();
 
     scratch->unk_3C = 0x2000;
     scratch->unk_38 = 0x2000;
     scratch->unk_34 = 0x2000;
-    scratch->unk_A4 = render_params->unk_16;
-    scratch->unk_A8 = render_params->unk_1A;
-    scratch->unk_A6 = render_params->unk_18;
+    scratch->unk_A4 = render_params->angle_x;
+    scratch->unk_A8 = render_params->angle_z;
+    scratch->unk_A6 = render_params->angle_y;
     RotMatrix(&scratch->unk_A4, (u8 *)scratch + 0x74);
     ReadRotMatrix(&matrix);
     CompMatrix(&matrix, (u8 *)scratch + 0x74, (u8 *)scratch + 0x54);
@@ -2165,7 +2164,7 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
     transform_flags = (u8 *)scratch + 0xD4;
     start_vertex = (u8 *)scratch + 0xB0;
 
-    field_value = render_params->unk_14;
+    field_value = render_params->flags;
     context = (GpuContext *)(*(u8 **)context);
     scratch->unk_28 = field_value;
     line_packet = context->packetCursor;
@@ -2205,14 +2204,14 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
     if (flags & 8) {
         u8 color_code;
         if (flags & 4) {
-            color_code = render_params->unk_0C.at03.v | 2;
+            color_code = render_params->color.c.code | 2;
         } else {
-            color_code = render_params->unk_0C.at03.v & 0xFD;
+            color_code = render_params->color.c.code & 0xFD;
         }
-        render_params->unk_0C.at03.v = color_code;
+        render_params->color.c.code = color_code;
     }
 
-    color_word = render_params->unk_0C.at00.v;
+    color_word = render_params->color.word;
     ((R12_80174618_S_80174618_5 *)line_packet)->unk_00.at03.v = 3;
     ((R12_80174618_S_80174618_5 *)line_packet)->unk_04.at00.v = color_word;
     ((R12_80174618_S_80174618_5 *)line_packet)->unk_04.at03.v = 0x40;

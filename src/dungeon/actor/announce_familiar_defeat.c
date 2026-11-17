@@ -6,12 +6,6 @@
 #include "dungeon/system.h"
 #include "dungeon/data.h"
 
-typedef struct DungeonState {
-    u8 pad0[0xA];
-    u16 counter;
-} DungeonState;
-
-extern DungeonState D_80083460;
 extern u8 dungeon_event_pending_flag[];
 extern u8 D_800E0C78[];
 
@@ -29,10 +23,10 @@ void announce_familiar_defeat(void *input_data) {
     if (!(flag_page[0x3714 / 2] & 1)) {
         context = dungeon_event_pending_flag;
         {
-            DungeonState *counter_state = &D_80083460;
-            counter = counter_state->counter;
+            DungeonGlobalStatus *counter_state = &g_dungeon_status;
+            counter = counter_state->activity_counts.parts.pending_action_count;
             ((u8 *)context)[0] = 1;
-            counter_state->counter = counter + 1;
+            counter_state->activity_counts.parts.pending_action_count = counter + 1;
         }
     }
     initial_result = get_unused_text_buffer();

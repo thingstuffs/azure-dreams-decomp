@@ -16,9 +16,15 @@ typedef struct PackedVec3 {
     s32 z;
 } __attribute__((packed)) PackedVec3;
 
+typedef struct {
+    u32 word0;
+    u32 word4;
+    u32 word8;
+} __attribute__((packed)) Copy12;
+
 extern u8 D_8016F99C[];
-extern u8 D_80173B1C[];
-extern u8 D_80173B28[];
+extern Copy12 D_80173B1C;
+extern Copy12 D_80173B28;
 extern u8 encounter_overlay_work[];
 
 
@@ -35,7 +41,7 @@ void create_encounter_overlay(s32 variant)
     u8 *part;
     ObjectNodeHeader *call_obj;
     SpriteFrameState *sprite;
-    u8 *copy_src;
+    Copy12 *copy_src;
     u8 *sprite_vector;
     ObjectPosition *coords;
 
@@ -65,13 +71,13 @@ void create_encounter_overlay(s32 variant)
 
         if (variant == 0) {
 
-            copy_src = D_80173B1C;
+            copy_src = &D_80173B1C;
             (*(PackedVec3 *)((u8 *)obj + 0x48)) =
                 (*(PackedVec3 *)(copy_src + 0));
             ((S_8016FAFC_3 *)encounter_overlay_work)->unk_5D58 = obj;
         } else {
 
-            copy_src = D_80173B28;
+            copy_src = &D_80173B28;
             (*(PackedVec3 *)((u8 *)obj + 0x48)) =
                 (*(PackedVec3 *)(copy_src + 0));
             ((S_8016FAFC_3 *)encounter_overlay_work)->unk_5D5C = obj;

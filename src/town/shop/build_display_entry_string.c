@@ -6,7 +6,7 @@
 #include "town/shop/position.h"
 #include "dungeon/system.h"
 
-extern M2C_UNK D_800892C0;
+extern s32 D_800892C0[3];
 extern char D_800892C8[];
 extern char D_800892CC[];
 extern char D_800892D8[];
@@ -28,7 +28,7 @@ void build_display_entry_string(s32 text_id, S_800B52F4_1 *context) {
     StackData *text;
 
     text = &text_buffer;
-    memcpy(text, &D_800892C0, 5);
+    memcpy(text, D_800892C0, 5);
     strcat(text, ((s32)primary_actor_record) + 0x34);
     strcat(text, D_800892C8);
     strcat(text, D_800892CC);

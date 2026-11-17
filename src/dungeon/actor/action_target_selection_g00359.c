@@ -9,7 +9,7 @@
 #include "dungeon/effect.h"
 
 /* Checks whether a directional step is in bounds and clear of obstacles. */
-s32 check_adjacent_step_clear(u32 action_flags, EntityRec *position, S_800CA1E0_2 *object, u16 height_offset) {
+s32 check_adjacent_step_clear(u32 action_flags, EntityRec *position, ActorRecord *object, u16 height_offset) {
     u16 tile_flags;
     s16 direction;
     u16 target_x;
@@ -33,7 +33,7 @@ s32 check_adjacent_step_clear(u32 action_flags, EntityRec *position, S_800CA1E0_
     world_x = position->tileX << 6;
     world_y = position->tileY << 6;
     target_x = world_x + 0x20;
-    height = object->unk_88;
+    height = object->ground_height;
     target_y = world_y + 0x20;
     if ((check_diagonal_side_height((u16)direction, target_x >> 6, target_y >> 6, (s16)(height - height_offset)) << 16) == 0) {
         return 0;
@@ -46,7 +46,7 @@ s32 check_adjacent_step_clear(u32 action_flags, EntityRec *position, S_800CA1E0_
     }
     if ((s8)position->unk_26 < 0) {
         room = find_active_rect_containing_point((position->tileX + (u16)dir_step_x[direction]) & 0xFFFF, (position->tileY + (u16)dir_step_y[direction]) & 0xFFFF);
-        if (room >= 0 && (dungeon_rooms[room].flags & ROOM_HOLY_BEAM) && !(object->unk_1C & 0x2000)) {
+        if (room >= 0 && (dungeon_rooms[room].flags & ROOM_HOLY_BEAM) && !(object->flags1C & 0x2000)) {
             return 0;
         }
     }
@@ -94,7 +94,7 @@ void step_actor_along_route(ActorRecord *body, s32 unused, S_800CA444_0 *tile, A
             heading_offset = heading_offsets[scan_result];
             next_heading = heading + heading_offset;
         }
-        if ((check_adjacent_step_clear(next_heading, tile, (void *)actor, 0x20) << 0x10) > 0) {
+        if ((check_adjacent_step_clear(next_heading, tile, actor, 0x20) << 0x10) > 0) {
             actor->facing = next_heading;
             actor->path_x[actor->movement_queue_state & 0x7F] = tile->unk_24.at00.v;
             actor->path_y[actor->movement_queue_state & 0x7F] = tile->unk_24.at01.v;

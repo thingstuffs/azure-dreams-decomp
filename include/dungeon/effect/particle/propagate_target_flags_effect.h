@@ -121,16 +121,6 @@ typedef struct S_8196BE48_1 {
     u16 unk_1C;
     u16 unk_1E;
 } S_8196BE48_1;
-typedef struct S_8196B074_1 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union {
-        struct { s32 v; } at00;
-        struct { s16 v; } at00u;
-        struct { u8 pad[0x2]; s16 v; } at02;
-        struct { u8 pad[0x2]; s16 v; } at02u;
-    } unk_08;   /* overlapping accesses */
-} S_8196B074_1;
 typedef struct S_8196BD3C_2_pre {
     void * unk_00;
     u8 pad_04[0x14];
@@ -308,7 +298,7 @@ void shrink_effect_and_step_texture(void *effect, s32 unused, S_8196BF24_1 *tran
 void advance_particle_emitting_projectile(StagedParticleEffectBody *object, struct ObjectPosition *position, void *render_state);
 void update_timed(void *effect_data, s32 unused, void *sprite);
 void advance_counter_and_propagate_target_flags(void *object);
-void advance_terrain_colliding_sprite(LingeringBallisticSpriteBody *motion, S_8196B074_1 *position, SpriteFrameState *update_id);
+void advance_terrain_colliding_sprite(LingeringBallisticSpriteBody *motion, ObjectPosition *position, SpriteFrameState *update_id);
 void create_staged_rectangle_sprite(void *source, s32 unused_position, s32 unused_render);
 void create_timed_rectangle_effect(StagedRectangleSpriteBody *owner);
 void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg);

@@ -1058,7 +1058,7 @@ typedef struct Global814A0 {
  * removal. May spawn a damped angular child during growth and signals D_80026328 for effect code
  * 0x6F.
  */
-void update_offset_particle_emitter(void *effect, s32 context, SpriteFrameState *visual) {
+void update_offset_particle_emitter(void *effect, ObjectPosition *context, SpriteFrameState *visual) {
     s16 state;
     u16 value;
     u16 angle;
@@ -1291,7 +1291,7 @@ typedef struct S_8002569C_5 {
 } S_8002569C_5;
 
 /* Create an object offset from an origin and record its starting position. */
-void *create_offset_particle_emitter(MovingPosition *origin, s16 angle, s16 radius, s16 height_offset, s32 alloc_arg) {
+void *create_offset_particle_emitter(ObjectPosition *origin, s16 angle, s16 radius, s16 height_offset, s32 alloc_arg) {
     s16 height;
     u16 slot_index;
     u16 origin_x;
@@ -1309,16 +1309,16 @@ void *create_offset_particle_emitter(MovingPosition *origin, s16 angle, s16 radi
         object->update_callback = (s32 *)update_offset_particle_emitter;
         register_node(object, (s32 *)queue_shaded_line_chain);
         positions = object->position;
-        positions->x.w.i = (s16) (origin->x + ((s32) (rcos(angle) * radius) >> 0xF));
-        positions->y.w.i = (s16) (origin->y + ((s32) (rsin(angle) * radius) >> 0xF));
-        height = origin->z + ((s32) (height_offset << 0x10) >> 0x13);
+        positions->x.w.i = (s16) (origin->x.w.i + ((s32) (rcos(angle) * radius) >> 0xF));
+        positions->y.w.i = (s16) (origin->y.w.i + ((s32) (rsin(angle) * radius) >> 0xF));
+        height = origin->z.w.i + ((s32) (height_offset << 0x10) >> 0x13);
         positions->z.w.i = height;
         if ((*(s16 *)D_80026878) < height) {
             positions->z.w.i = (*(s16 *)D_80026878);
         }
-        *((u16 *)&positions->velocity_x + 1) = (u16) origin->x;
-        *((u16 *)&positions->velocity_y + 1) = (u16) origin->y;
-        *((u16 *)&positions->velocity_z + 1) = (u16) origin->z;
+        *((u16 *)&positions->velocity_x + 1) = origin->x.w.i;
+        *((u16 *)&positions->velocity_y + 1) = origin->y.w.i;
+        *((u16 *)&positions->velocity_z + 1) = origin->z.w.i;
         object_data = (void *) 0xE04020;
         (*(s32 *)((u8 *)(object->sprite) + 0xC)) = (s32) object_data;
         slot_index = (u16)D_8002632A;
@@ -1600,7 +1600,7 @@ typedef struct GlobalState {
  * Projects each linked quad with a depth bias of -8 and queues its translucent shaded packet and
  * draw-mode packet for depths below 0x1E0, then saves the packet cursor.
  */
-s32 queue_linked_shaded_quads(void *quad) {
+s32 queue_linked_shaded_quads(S_80025E4C_1 *quad) {
     GlobalState **render_states = ((GlobalState **)(&g_game_work));
     u8 *scratch = (u8 *)0x1F800000;
     POLY_G4 *packet;
@@ -1618,15 +1618,15 @@ s32 queue_linked_shaded_quads(void *quad) {
     do {
         packet = ((S_80025E4C_0 *)scratch)->unk_18;
         ((S_80025E4C_0 *)scratch)->unk_18 = packet + 1;
-        ((S_80025E4C_0 *)scratch)->unk_70 = ((S_80025E4C_1 *)quad)->unk_30;
-        ((S_80025E4C_0 *)scratch)->unk_78 = ((S_80025E4C_1 *)quad)->unk_38;
-        ((S_80025E4C_0 *)scratch)->unk_80 = ((S_80025E4C_1 *)quad)->unk_40;
-        vertex3_xy = ((S_80025E4C_1 *)quad)->unk_48;
-        ((S_80025E4C_0 *)scratch)->unk_74 = ((S_80025E4C_1 *)quad)->unk_34;
-        ((S_80025E4C_0 *)scratch)->unk_7C = ((S_80025E4C_1 *)quad)->unk_3C;
-        ((S_80025E4C_0 *)scratch)->unk_84 = ((S_80025E4C_1 *)quad)->unk_44;
+        ((S_80025E4C_0 *)scratch)->unk_70 = quad->unk_30;
+        ((S_80025E4C_0 *)scratch)->unk_78 = quad->unk_38;
+        ((S_80025E4C_0 *)scratch)->unk_80 = quad->unk_40;
+        vertex3_xy = quad->unk_48;
+        ((S_80025E4C_0 *)scratch)->unk_74 = quad->unk_34;
+        ((S_80025E4C_0 *)scratch)->unk_7C = quad->unk_3C;
+        ((S_80025E4C_0 *)scratch)->unk_84 = quad->unk_44;
         ((S_80025E4C_0 *)scratch)->unk_88 = vertex3_xy;
-        ((S_80025E4C_0 *)scratch)->unk_8C = ((S_80025E4C_1 *)quad)->unk_4C;
+        ((S_80025E4C_0 *)scratch)->unk_8C = quad->unk_4C;
         depth_bucket = RotTransPers4(scratch + 0x70, scratch + 0x78,
                               scratch + 0x80, scratch + 0x88,
                               (s32 *)&packet->x0, (s32 *)&packet->x1,
@@ -1634,12 +1634,12 @@ s32 queue_linked_shaded_quads(void *quad) {
                               scratch + 0x90, scratch + 0x94) - 8;
         ((S_80025E4C_0 *)scratch)->unk_C0 = depth_bucket;
         if (depth_bucket < 0x1E0U) {
-            first_color = ((S_80025E4C_1 *)quad)->unk_50;
+            first_color = quad->unk_50;
             /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
             *(s32 *)&packet->red1 = first_color;
             /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
             *(s32 *)&packet->red0 = first_color;
-            second_color = ((S_80025E4C_1 *)quad)->unk_54;
+            second_color = quad->unk_54;
             /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
             *(s32 *)&packet->red3 = second_color;
             /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
@@ -1659,7 +1659,7 @@ s32 queue_linked_shaded_quads(void *quad) {
         if (next_node == 0) {
             break;
         }
-        quad = (void *)(next_node + 0x20);
+        quad = (S_80025E4C_1 *)(next_node + 0x20);
     } while (1);
     render_states[0]->next =
         ((S_80025E4C_0 *)scratch)->unk_18;

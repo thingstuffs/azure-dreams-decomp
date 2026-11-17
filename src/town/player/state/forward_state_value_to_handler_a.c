@@ -5,6 +5,6 @@
 void initialize_target_and_handler_table(void *, ObjectPosition *);                            /* extern */
 
 /* Forward the state and value to initialize_target_and_handler_table. */
-void forward_state_value_to_handler_a(void *state, ObjectPosition *position) {
+void forward_state_value_to_handler_a(TownPlayerRecord *state, ObjectPosition *position) {
     initialize_target_and_handler_table(state, position);
 }

@@ -268,7 +268,7 @@ typedef struct JitteredTerrainSeekingPointBody {
     s16 unk_14;
     u8 pad_16[0x1C];
     s16 unk_32;
-    u8 pad_34[0xAC];
+    u8 pad_34[0xA0];
 } JitteredTerrainSeekingPointBody;
 
 typedef struct B32_818CEB58_S_818CEB58_1 {

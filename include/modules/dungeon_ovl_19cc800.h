@@ -52,10 +52,10 @@ struct S_819ACB28_4;
 
 void run_warp_effect_sequence(struct EventState *event);
 struct WarpPhaseEffectBody;
-void advance_effect_phases(struct WarpPhaseEffectBody *object, Rec_func_800249DC_arg0 *record, struct S_819ACB28_4 *packed_value);
+void advance_effect_phases(struct WarpPhaseEffectBody *object, ObjectPosition *record, struct S_819ACB28_4 *packed_value);
 void *create_warp_phase_effect(EntityRec *source_pos, s32 offset_base);
 void run_warp_cutscene(struct Motion *motion, struct Position *position, u8 *color);
-void *spawn_nine_warp_trail_sprites(MovingPosition *src);
+void *spawn_nine_warp_trail_sprites(ObjectPosition *src);
 void advance_effect_motion_and_speed(MotionRecord *motion, ObjectPosition *position);
 void update_effect_position_and_color(ObjectNodeHeader *source, s16 effect_param, s32 render_param);
 void copy_follower_owner_position_and_color(FollowerRecord *record, ObjectPosition *position, SpriteFrameState *render);

@@ -321,7 +321,8 @@ s32 test_resident_bitmap_bit(s32 bit_id);
 s32 check_four_vector_half_turn_gaps();
 extern void *allocate_list_node(s32 size, void *template);
 extern void set_script_text_pointer(void *, s32);
-extern void ensure_packed_resource_list(u8 *entries_in);
+struct S_8008B23C_0;
+extern void ensure_packed_resource_list(struct S_8008B23C_0 *entries_in);
 void select_record_entry_and_value(void *state, void *entries, short index);
 void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);
@@ -357,7 +358,7 @@ typedef union TownObjectCallbackEntry {
 extern TownObjectCallback town_object_callbacks[172];
 extern u16 town_facing_angles[];
 extern func_8009FE60_GlobalADBC map_runtime_state;
-extern void *optional_resource_descriptor[];
+extern void *optional_resource_descriptor[4];
 extern s32 runtime_script_state[];
 extern u8 D_80082A80[];
 extern u8 window_node_list_storage[];

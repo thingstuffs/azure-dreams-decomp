@@ -14,7 +14,7 @@
 
 
 /* Renders linked textured sprites with dimmed offset copies near the screen center. */
-s32 draw_sprites_with_dimmed_copies(u8 *node_data, ObjectPosition *position, u8 *render_state)
+s32 draw_sprites_with_dimmed_copies(u8 *node_data, ObjectPosition *position, SpriteFrameState *render_state)
 {
     ScratchPad *scratch;
     MATRIX *fixed_matrix;
@@ -28,6 +28,7 @@ s32 draw_sprites_with_dimmed_copies(u8 *node_data, ObjectPosition *position, u8 
     s32 sin_y;
     s32 scaled_depth;
     s32 depth_value;
+    s16 *depth_bias;
     s32 product_x;
     s32 product_y;
     s16 *amplitude;
@@ -76,11 +77,14 @@ s32 draw_sprites_with_dimmed_copies(u8 *node_data, ObjectPosition *position, u8 
         scratch->h[0x06 / 2] = position->y.unsigned_parts.integer;
         scratch->h[0x08 / 2] = position->z.unsigned_parts.integer;
         scratch->sw[0xC4 / 4] = RotTransPers(scratch->b + 0x04, &scratch->sw[0xBC / 4], &scratch->sw[0x94 / 4], &scratch->sw[0x98 / 4]);
-        *((u16 *) (render_state + 0x14)) |= 0x8000;
+        render_state->flags |= 0x8000;
         sprite_scaled_depth_word[0] = (scaled_depth = (scratch->sw[0xC4 / 4]) << 2);
         copy_matrix_b->t[2] = scaled_depth;
         *((s32 *) (copy_matrix_a + 0x1C)) = scaled_depth;
-        depth_value = (scratch->sw[0xC4 / 4]) - (*((s16 *) (render_state + 0x06)));
+        /* read through a plain s16 pointer: retail schedules this load as a scalar access, after the matrix
+         * stores above, which the member spelling would let it move ahead of */
+        depth_bias = &render_state->depth_bias;
+        depth_value = (scratch->sw[0xC4 / 4]) - *depth_bias;
         scratch->sw[0xC4 / 4] = depth_value;
         if (((u32) depth_value) < 0x1E0) {
             copies = 1;
@@ -118,13 +122,13 @@ s32 draw_sprites_with_dimmed_copies(u8 *node_data, ObjectPosition *position, u8 
                     scratch->h[0xBE / 2] = base_y - (product_y / 4096);
                 }
 
-                scratch->h[0xF8 / 2] = *((u16 *) (render_state + 0x16));
-                scratch->h[0xFA / 2] = *((u16 *) (render_state + 0x18));
-                scratch->h[0xFC / 2] = *((u16 *) (render_state + 0x1A));
-                scale = *((u16 *) (render_state + 0x20));
+                scratch->h[0xF8 / 2] = render_state->angle_x;
+                scratch->h[0xFA / 2] = render_state->angle_y;
+                scratch->h[0xFC / 2] = render_state->angle_z;
+                scale = render_state->offset_x;
                 scratch->sw[0xDC / 4] = scale;
                 scratch->h[0x100 / 2] = scale;
-                scale = *((u16 *) (render_state + 0x22));
+                scale = render_state->offset_y;
                 scratch->sw[0xE0 / 4] = scale;
                 scratch->h[0x102 / 2] = scale;
                 RotMatrix(scratch->b + 0xF8, fixed_matrix);
@@ -141,8 +145,8 @@ s32 draw_sprites_with_dimmed_copies(u8 *node_data, ObjectPosition *position, u8 
                 }
                 SetTransMatrix(scratch->b + 0x54);
                 SetRotMatrix(scratch->b + 0x54);
-                record = *((u8 **) (render_state + 0x08));
-                scratch->h[0x28 / 2] = *((u16 *) (render_state + 0x14));
+                record = render_state->source;
+                scratch->h[0x28 / 2] = render_state->flags;
                 for (;;) {
                 if (!(record[0] & 0x20)) {
                     prim = (u8 *) (scratch->sw[0x1C / 4]);
@@ -229,7 +233,7 @@ s32 draw_sprites_with_dimmed_copies(u8 *node_data, ObjectPosition *position, u8 
                     }
                     if (visible_012 | visible_3) {
                         prim[3] = 9;
-                        *((u16 *) (render_state + 0x14)) &= 0x7FFF;
+                        render_state->flags &= 0x7FFF;
                         u_end = (scratch->sw[0x14 / 4]) + (scratch->sw[0x0C / 4]);
                         scratch->sw[0x14 / 4] = u_end;
                         if (u_end & 0x100) {
@@ -245,12 +249,12 @@ s32 draw_sprites_with_dimmed_copies(u8 *node_data, ObjectPosition *position, u8 
                         scratch->sw[0x18 / 4] = v_end_bits;
                         scratch->sw[0x10 / 4] = v_start_bits;
                         *((u32 *) (prim + 0x0C)) = (v_start_bits + (scratch->sw[0x0C / 4]))
-                        + (((*((u16 *) (render_state + 0x12))) + (*((u16 *) (record + 6)))) << 16);
+                        + (((render_state->clut) + (*((u16 *) (record + 6)))) << 16);
                         if (copy_index != 0) {
                             packed_uv = scratch->h[0x10 / 2];
                             packed_uv += scratch->h[0x14 / 2];
                             *((u16 *) (prim + 0x14)) = packed_uv;
-                            texture_bias = *((u16 *) (render_state + 0x10));
+                            texture_bias = render_state->tpage_abr;
                             if (texture_bias != 0) {
                                 texture_page = (texture_bias + ((*((u16 *) (record + 4))) & 0xFF9F)) | 0x20;
                             }
@@ -262,7 +266,7 @@ s32 draw_sprites_with_dimmed_copies(u8 *node_data, ObjectPosition *position, u8 
                             packed_uv = scratch->h[0x10 / 2];
                             packed_uv += scratch->h[0x14 / 2];
                             *((u16 *) (prim + 0x14)) = packed_uv;
-                            texture_bias = *((u16 *) (render_state + 0x10));
+                            texture_bias = render_state->tpage_abr;
                             if (texture_bias != 0) {
                                 texture_page = texture_bias + ((*((u16 *) (record + 4))) & 0xFF9F);
                             }
@@ -284,25 +288,25 @@ s32 draw_sprites_with_dimmed_copies(u8 *node_data, ObjectPosition *position, u8 
                             prim[0x25]--;
                         }
                         draw_code = record[1];
-                        render_state[0x0F] = draw_code;
+                        render_state->color.c.code = draw_code;
                         if (copy_index != 0) {
-                            render_state[0x0F] = draw_code | 2;
+                            render_state->color.c.code = draw_code | 2;
                         }
                         else if ((scratch->h[0x28 / 2]) & 8) {
                             if ((scratch->h[0x28 / 2]) & 4) {
-                                render_state[0x0F] = draw_code | 2;
+                                render_state->color.c.code = draw_code | 2;
                             }
                             else {
-                                render_state[0x0F] = draw_code & 0xFD;
+                                render_state->color.c.code = draw_code & 0xFD;
                             }
                         }
                         if ((scratch->h[0x28 / 2]) & 0x10) {
-                            render_state[0x0F] &= 0xFE;
+                            render_state->color.c.code &= 0xFE;
                         }
                         else {
-                            render_state[0x0F] |= 1;
+                            render_state->color.c.code |= 1;
                         }
-                        *((u32 *) (prim + 4)) = *((u32 *) (render_state + 0x0C));
+                        *((u32 *) (prim + 4)) = render_state->color.word;
                         if (copy_index != 0) {
                             prim[4] >>= 2;
                             prim[5] >>= 2;
@@ -326,7 +330,7 @@ s32 draw_sprites_with_dimmed_copies(u8 *node_data, ObjectPosition *position, u8 
         if (next_node != 0) {
             node_data = NODE_BODY(next_node);
             position = next_node->position;
-            render_state = (u8 *)next_node->sprite;
+            render_state = next_node->sprite;
         }
     }
     while (next_node != 0);

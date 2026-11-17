@@ -27,7 +27,6 @@ typedef struct S_8017472C_6 {
     s32 unk_0C;
 } S_8017472C_6;   /* control in advance_actor_targeted_action */
 
-extern s32 D_8008346C;
 extern u8 troll_action_dispatch_address[];
 
 /* Updates an actor's action state, target coordinates, animation, and completion. */
@@ -138,7 +137,7 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
         transform->velocity_y = 0;
         transform->velocity_x = 0;
         set_record_integer_tile_center(transform, sprite->tile_x, sprite->tile_y);
-        D_8008346C = 0;
+        dungeon_status_active_actor_alias = 0;
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
         (*(u8 *)&actor->pending_turn_updates)--;
@@ -181,7 +180,7 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
         return;
 
     case 3:
-        if (D_8008346C == 0) {
+        if (dungeon_status_active_actor_alias == 0) {
             action->action_timer = 0;
         }
         if (!(sprite->flags & 0xE000)) {

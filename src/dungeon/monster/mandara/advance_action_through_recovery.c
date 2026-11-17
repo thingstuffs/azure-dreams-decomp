@@ -17,7 +17,7 @@
 #include "dungeon/player/object.h"
 #include "sdk/libc.h"
 
-extern void create_two_effect_groups(void *, void *, void *, s32);
+extern void create_two_effect_groups(ObjectPosition *, SpriteFrameState *, ActorRecord *, s16);
 
 #include "dungeon/monster/mandara.h"
 #include "dungeon/item.h"

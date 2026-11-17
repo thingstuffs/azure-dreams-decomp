@@ -17,21 +17,13 @@ typedef struct S_80083160_ctx
 }
 S_80083160_ctx;
 extern S_80083160_ctx *g_game_work[3];
-typedef struct S_80081480
-{
-    s32 field_0;
-    s8 pad[8];
-}
-S_80081480;
 typedef struct S_8008148C
 {
     s32 field_0;
     s8 pad[8];
 }
 S_8008148C;
-extern S_80081480 gpu_scratch_write_pointer;
 extern S_8008148C gpu_scratch_buffer_base;
-extern u8 animation_tick_scale[16];
 extern u8 scene_skip_vsync[16];
 /* Draw the current frame, swap draw buffers, and wait for optional vertical synchronization. */
 void render_object_scene_frame(void)

@@ -121,16 +121,6 @@ typedef struct ovl_19a332c_81982CEC_S_800244EC_2 {
 #define NULL 0
 typedef struct
 {
-    s32 f0;
-    s32 f4;
-    s32 f8;
-    s32 fc;
-    s32 f10;
-    s32 f14;
-}
-ovl_19a332c_81982DF8_Arg1;
-typedef struct
-{
     u8 pad0[0xC];
     u8 c;
     u8 d;
@@ -559,7 +549,7 @@ extern u8 camera_transition_timer[16];
 void advance_image_tint_transition(void *transition);
 void update_nine_effect_launcher(ovl_19a332c_81982B2C_Entity *entity, ObjectPosition *position, ovl_19a332c_81982B2C_Motion *motion);
 void *create_double_ellipse_sprite_effect(ovl_19a332c_81982CEC_S_800244EC_2 *source_part, s32 offset);
-void move_fade_and_expand_effect(HomingEffectBody *effect_data, void *motion_data, SpriteFrameState *sprite_data);
+void move_fade_and_expand_effect(HomingEffectBody *effect_data, ObjectPosition *motion, SpriteFrameState *sprite_data);
 void *spawn_random_motion_particles(s16 x, s16 y, s16 z, s16 heading, s16 count);
 void advance_effect_motion_and_color_fade(HomingEffectBody *effect, ObjectPosition *motion, SpriteFrameState *color);
 void *spawn_thirty_two_angled_particles(s16 x, s16 y, s16 z, s16 angle, s32 unused_context);

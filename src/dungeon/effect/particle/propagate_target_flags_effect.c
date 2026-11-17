@@ -306,7 +306,7 @@ void advance_colliding_particle_sprite(void *effect, S_8196ACE4_0 *position, Spr
 }
 
    /* Advance motion, resolve collisions, and mark expired objects for removal. */
-void advance_terrain_colliding_sprite(LingeringBallisticSpriteBody *motion_arg, S_8196B074_1 *position, SpriteFrameState *update_id) {
+void advance_terrain_colliding_sprite(LingeringBallisticSpriteBody *motion_arg, ObjectPosition *position, SpriteFrameState *update_id) {
     LingeringBallisticSpriteBody *motion = motion_arg;
     s32 height;
     u16 remaining_ticks;
@@ -315,34 +315,34 @@ void advance_terrain_colliding_sprite(LingeringBallisticSpriteBody *motion_arg, 
     particle_activity = 1;
     motion->unk_2C = remaining_ticks - 1;
     advance_sprite_animation_and_textures(update_id);
-    position->unk_00.at00.v += motion->unk_8C;
+    position->x.v += motion->unk_8C;
     motion->unk_8C += motion->unk_98;
-    if ((check_left_tile_and_center_height(position->unk_00.at02.v, position->unk_04.at02.v,
-        position->unk_08.at02.v) << 16) != 0) {
-        position->unk_00.at00.v -= motion->unk_8C;
+    if ((check_left_tile_and_center_height(position->x.w.i & 0xFFFF, position->y.w.i & 0xFFFF,
+        position->z.w.i) << 16) != 0) {
+        position->x.v -= motion->unk_8C;
         motion->unk_8C = 0;
         motion->unk_98 = 0;
     }
-    position->unk_04.at00.v += motion->unk_90;
+    position->y.v += motion->unk_90;
     motion->unk_90 += motion->unk_9C;
-    if ((check_left_tile_and_center_height(position->unk_00.at02.v, position->unk_04.at02.v,
-        position->unk_08.at02.v) << 16) != 0) {
-        position->unk_04.at00.v -= motion->unk_90;
+    if ((check_left_tile_and_center_height(position->x.w.i & 0xFFFF, position->y.w.i & 0xFFFF,
+        position->z.w.i) << 16) != 0) {
+        position->y.v -= motion->unk_90;
         motion->unk_90 = 0;
         motion->unk_9C = 0;
     }
-    position->unk_08.at00.v += motion->unk_94;
+    position->z.v += motion->unk_94;
     motion->unk_94 += motion->unk_A0;
-    height = position->unk_08.at02.v;
-    if (((s16)sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v,
-                       (s16)((u16)position->unk_08.at02u.v - 4)) - 0x10) < height) {
+    height = position->z.w.i;
+    if (((s16)sample_terrain_surface_height(position->x.w.i & 0xFFFF, position->y.w.i & 0xFFFF,
+                       (s16)(position->z.w.i - 4)) - 0x10) < height) {
         motion->unk_94 = 0;
         motion->unk_90 = 0;
         motion->unk_8C = 0;
-        position->unk_08.at02.v = (s16)sample_terrain_surface_height(position->unk_00.at02.v,
-            position->unk_04.at02.v,
-                                               (s16)((u16)position->unk_08.at02.v - 4)) - 0x11;
-        position->unk_08.at00u.v = 0;
+        position->z.w.i = (s16)sample_terrain_surface_height(position->x.w.i & 0xFFFF,
+            position->y.w.i & 0xFFFF,
+                                               (s16)(position->z.w.i - 4)) - 0x11;
+        position->z.w.frac = 0;
         motion->unk_2C = 0;
     }
     if ((s16)motion->unk_2C <= 0) {

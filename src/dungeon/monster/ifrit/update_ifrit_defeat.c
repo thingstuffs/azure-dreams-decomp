@@ -66,7 +66,7 @@ extern void draw_transformed_sprite_with_clip_rect(void *, Rect *, Point *, s32,
 /* Updates an entity's particles, projectile, and fade-out sequence before removing it. */
 /* Animates Ifrit's defeat with particles and a projectile, fades the sprite, awards experience, and
  * removes the actor. */
-void update_ifrit_defeat(ActorRecord *body, MovingPosition *position, SpriteFrameState *sprite, SpriteFrameState *entity)
+void update_ifrit_defeat(ActorRecord *body, MovingPosition *position, SpriteFrameState *sprite, ActorRecord *entity)
 {
     Rect rect;
     Point center;
@@ -150,8 +150,8 @@ void update_ifrit_defeat(ActorRecord *body, MovingPosition *position, SpriteFram
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             break;
         }
-        if (*(u32 *)&entity->flags & 0x4000) {
-            if (!(*(u32 *)&entity->flags & 0x20000000)) {
+        if (entity->flags14 & 0x4000) {
+            if (!(entity->flags14 & 0x20000000)) {
                 announce_familiar_defeat(entity);
             }
         }
@@ -177,7 +177,7 @@ void update_ifrit_defeat(ActorRecord *body, MovingPosition *position, SpriteFram
             draw_transformed_sprite_with_clip_rect(center_object, rect_ptr, center_ptr, 1, 0);
         }
 
-        *(u32 *)&entity->scale_x |= 0x10000000;
+        entity->flags1C |= 0x10000000;
         sprite->tpage_abr = 0x60;
         sprite->color.word = 0x00C0C0C0;
         sprite->flags |= 0xC;
@@ -206,7 +206,7 @@ void update_ifrit_defeat(ActorRecord *body, MovingPosition *position, SpriteFram
         break;
 
     case 2:
-        *(u32 *)&entity->scale_x |= 0x10000000;
+        entity->flags1C |= 0x10000000;
         sprite->color.word += 0xFFEFEFF0;
         if (sprite->color.c.r < 0x11) {
             body->action_timer = 10;
@@ -227,7 +227,7 @@ void update_ifrit_defeat(ActorRecord *body, MovingPosition *position, SpriteFram
         distribute_experience_and_report_gains(entity);
         detach_record_and_update_slot_state(entity);
         update_map_cell_flags_with_item_limit(sprite->tile_x, sprite->tile_y,
-            (*(u32 *)&entity->scale_x & 0x2000) ? 0x300 : 0x3000);
+            (entity->flags1C & 0x2000) ? 0x300 : 0x3000);
         unlink_entity_node(entity);
         (*(u16 *)((u8 *)entity + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

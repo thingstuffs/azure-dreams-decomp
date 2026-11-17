@@ -71,7 +71,7 @@ void prepend_embedded_object_node(void *owner, void *object_data);
 void prepend_owner_list_node(void *owner, void *node_data);
 
 /* draw_sprites_with_dimmed_copies.c */
-s32 draw_sprites_with_dimmed_copies(u8 *node_data, ObjectPosition *position, u8 *render_state);
+s32 draw_sprites_with_dimmed_copies(u8 *node_data, ObjectPosition *position, SpriteFrameState *render_state);
 
 /* runtime_set_record_byte_three.c */
 void runtime_set_record_byte_three(Rec_D_80082A38 *record, s32 value);

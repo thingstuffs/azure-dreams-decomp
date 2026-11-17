@@ -19,7 +19,7 @@ extern u8 D_800283FC[];
 extern u8 *card_empty_slot_guidance_lines[];
 
 /* Functions defined in this translation unit. */
-void card_boot_format_empty_slot_guidance(void *context);
+void card_boot_format_empty_slot_guidance(CardSlotDetails *context);
 void card_boot_format_default_empty_slot_guidance(void *context);
 
 #endif

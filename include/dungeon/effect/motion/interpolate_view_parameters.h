@@ -346,7 +346,6 @@ typedef struct Row_81917C08_EffectVisual {
     u32 color;
 } Row_81917C08_EffectVisual;
 
-typedef struct Row_81917C08_ActionSlot { s32 value; } Row_81917C08_ActionSlot;
 
 /* Advance the seven-stage action and its attached movement/effects.
  * Every finished stage clears the tick counter and steps to the next phase in place
@@ -376,7 +375,6 @@ extern u8 D_800DE39C[];
 extern s32 D_800DEB70;
 extern M2C_UNK D_80025094;
 extern u8 entity_height_offsets[];
-extern Row_81917C08_ActionSlot D_8008346C;
 void interpolate_view_parameters(void *tracker);
 s32 begin_view_parameter_transition(s32 unused, s32 request_id, s32 request_value, s16 request_param);
 void update_decelerating_sprite_effect(void *motion, void *position, void *update_context);
@@ -391,7 +389,7 @@ void burst_orbit_projectile(void *object, Rec_func_80024600_arg1 *position, stru
 void update_orbit_projectile(Row_8191740C_S_80024C0C_0 *motion, void *position, struct SpriteFrameState *effect);
 void *create_orbit_projectile(AttachedRandomAngleEffectBody *owner, Rec_func_80024E80_arg1 *start_pos);
 void update_growing_orbit_sprite(AttachedRandomAngleEffectBody *effect, Rec_func_80024E80_arg1 *transform,struct SpriteFrameState *visual);
-void * create_growing_orbit_sprite(void *object, Row_81917A70_Copy24 *src_transform, s16 effect_index);
+void * create_growing_orbit_sprite(void *object, ObjectPosition *src_transform, s16 effect_index);
 void launch_effect_to_target_and_apply_damage(Row_81917C08_ActionState *action, ObjectPosition *motion, Row_81917C08_EffectVisual *visual);
 extern u8 camera_transition_timer[];
 extern void (*const D_80024000)(Row_81917C08_ActionState *action, ObjectPosition *motion, Row_81917C08_EffectVisual *visual);

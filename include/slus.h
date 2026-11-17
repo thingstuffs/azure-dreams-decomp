@@ -41,7 +41,7 @@ short get_bounded_stride_index(unsigned int value, unsigned int base, unsigned s
 void apply_actor_template_and_class(void *entity, int value, void *source);
 void set_cd_cue_and_submit_sound_command(int first, int second, int third, int fourth);
 int read_stream_cue_start_offset(void);
-int draw_linked_lit_meshes(void *object, void *value, void *record);
+int draw_linked_lit_meshes(void *object, void *value, struct SpriteFrameState *record);
 short draw_linked_sprites_and_narrow_result(void *payload, struct ObjectPosition *coords, struct SpriteFrameState *record);
 void advance_sprite_animation_and_textures(void *entity);
 void clear_sprite_work_table(void);

@@ -33,7 +33,7 @@ void move_and_fade_effect(void *,void *,void *);
 struct JitteredSparkEffectBody;
 void update_spark_effect(struct JitteredSparkEffectBody *,struct S_800250E8_0 *,void *);
 s32 queue_projected_point_primitives(void *,void *,void *);
-void create_spark_effect(void *,s16,s16,s16);
+void create_spark_effect(struct ObjectPosition *,s16,s16,s16);
 void fade_effect_color_below_eight(u16 *,struct ObjectPosition *,SpriteFrameState *);
 void apply_indexed_effect_condition(struct ActorRecord *,u8,struct ActorRecord *);
 s32 select_record_entry_and_value(void *,void *,s32);

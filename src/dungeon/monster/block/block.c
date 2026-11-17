@@ -2271,15 +2271,15 @@ void wait_actor_activity_then_complete(ActorRecord *state, ObjectPosition *unuse
 }
 
 /* Advances the transition sprite, then restores the view tint to neutral and removes the effect. */
-void finish_sprite_and_restore_tint(u8 *task, void *context, u8 *input)
+void finish_sprite_and_restore_tint(u8 *task, void *context, SpriteFrameState *input)
 {
     s16 frames_left;
     GameWork *fade_state = &g_game_work;
 
     if (task[0x9A] == 0) {
-        D_801753AC = *(s32 *)(input + 8);
+        D_801753AC = (s32)(unsigned long)input->source;
         advance_sprite_animation_and_textures(input);
-        if (*(u16 *)(input + 0x14) & 0xE000) {
+        if (input->flags & 0xE000) {
             unlink_node(task - 0x20);
             *(s16 *)(task + 0x96) = 0x10;
             task[0x9A]++;

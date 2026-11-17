@@ -75,7 +75,7 @@ void *get_indexed_vertex_and_trace(s32 group, s32 n, s32 lookup_variant) {
     head = town_scene_root->town_state->headIndices[group];
     ptr = D_8001902C[group][lookup_variant].entries;
     town_scene_root->services->callback_168(D_8001916C, D_80019178, n);
-    town_scene_root->services->callback_168(D_8001916C, D_8001917C, head);
+    town_scene_root->services->callback_168(D_8001916C, &D_8001917C, head);
     delta = n - head;
     if (lookup_flag != 0) {
         if (delta >= 0) {

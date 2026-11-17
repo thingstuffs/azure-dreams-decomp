@@ -18,7 +18,8 @@ void create_user_data_object(s32 user_data);
 s32 check_all_flags_set(s16 *flag_ids);
 
 /* flag_test_pair_actions.c */
-s32 process_flag_test_record(u32 records, s32 condition_arg, u32 context, s32 record_selector);
+struct S_8001670C_1;
+s32 process_flag_test_record(u32 records, s32 condition_arg, struct S_8001670C_1 *context, s32 record_selector);
 
 /* person_idle_dispatch.c */
 void advance_object_animation_when_idle(TownObjectRecord *object, void *callback_arg, s32 unused_a, s32 unused_b);

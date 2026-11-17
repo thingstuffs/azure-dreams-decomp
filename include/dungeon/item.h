@@ -35,7 +35,7 @@ void *append_value_sign(s32 value, u8 *buffer);
 struct DungeonItemEntry;
 u8 *append_item_name_with_affixes(struct DungeonItemEntry *entry, u8 *value);
 void create_view_color_flash(s32 payload, s16 trigger_event);
-void *find_pulunpa_in_ring(void *entity);
+void *find_pulunpa_in_ring(ActorRecord *entity);
 s32 find_padded_rectangle(s32 pos_x, s32 pos_y);
 s32 get_direction_toward_target_position(s16 *target_pos);
 void initialize_monster_script_counter(void);

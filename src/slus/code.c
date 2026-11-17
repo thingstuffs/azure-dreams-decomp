@@ -248,28 +248,20 @@ int read_stream_cue_start_offset(void)
 
 extern void draw_lit_mesh(void *a0, ObjectPosition *a1, void *a2, short a3);
 
-typedef struct Node46398 {
-    char pad0[6];
-    short field6;
-    int field8;
-    void *fieldC;
-} Node46398;
-
 /* Process linked objects using each node's value, record pointer, and halfword parameter. */
-int draw_linked_lit_meshes(void *object, void *value, void *record)
+int draw_linked_lit_meshes(void *object, void *value, SpriteFrameState *record)
 {
     void *current = object;
-    Node46398 *node;
+    ObjectNodeHeader *next_node;
 
     do {
-        node = (Node46398 *)record;
-        draw_lit_mesh(current, value, record, node->field6);
-        record = NODE_HEADER(current)->chain_next;
-        current = NODE_BODY(record);
-        if (record == 0)
+        draw_lit_mesh(current, value, record, record->depth_bias);
+        next_node = NODE_HEADER(current)->chain_next;
+        current = NODE_BODY(next_node);
+        if (next_node == 0)
             break;
-        value = ((ObjectNodeHeader *)record)->position;
-        record = ((ObjectNodeHeader *)record)->sprite;
+        value = next_node->position;
+        record = next_node->sprite;
     } while (1);
 
     return 0;

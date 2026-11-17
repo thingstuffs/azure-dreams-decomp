@@ -5,13 +5,13 @@
 #include "town/shop.h"
 #include "town/devkit/flag_test_imports.h"
 
-typedef struct {
-    u16 field_0;
-    u16 field_2;
-} TownPair;
+typedef struct ListLink {
+    u16 first;
+    u16 next;
+} ListLink;
 
 extern u16 D_00000F12[];
-extern TownPair D_00000F28[];
+extern ListLink D_00000F28[];
 
 
 /* Advance the shop entry at `index`: start its 0x278 step when eligible, otherwise just clear it. */
@@ -19,7 +19,7 @@ s32 advance_shop_entry_index_278(s32 index) {
     if (test_linked_flag_80000c6c(D_00000F12[0]) == 0 &&
         test_linked_flag_80000c6c(0x278) != 0) {
         if (is_next_entry_zero_after_skipping(index) != 0) {
-            func_80000BC8(D_00000F28[index].field_0);
+            func_80000BC8(D_00000F28[index].first);
             func_80000C18(0x278);
             return dispatch_first_rejected_entry_b();
         }

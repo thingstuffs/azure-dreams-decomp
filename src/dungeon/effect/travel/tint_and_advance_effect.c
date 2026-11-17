@@ -931,8 +931,8 @@ s32 queue_projected_point_primitives(void *node_data, void *position_data, void 
    /* source in create_spark_effect */
 
 /* Allocates a node, copies or jitters its source values, and initializes its fields. */
-void create_spark_effect(void *source_data, s16 initial_1a, s16 initial_1c, s16 spawn_mode) {
-    register MovingPosition *source = source_data;
+void create_spark_effect(ObjectPosition *source_data, s16 initial_1a, s16 initial_1c, s16 spawn_mode) {
+    register ObjectPosition *source = source_data;
     register s16 field_1a = initial_1a;
     register s16 field_1c = initial_1c;
     register s16 mode = spawn_mode;
@@ -952,14 +952,14 @@ void create_spark_effect(void *source_data, s16 initial_1a, s16 initial_1c, s16 
 
             if (mode_test == 0) {
                 payload->x.w.i =
-                    (u16)((source->x + (rand() & 0x1F)) - 0x10);
+                    (u16)(((u16)source->x.w.i + (rand() & 0x1F)) - 0x10);
                 payload->y.w.i =
-                    (u16)((source->y + (rand() & 0x1F)) - 0x10);
-                value_0a = source->z - 0x50;
+                    (u16)(((u16)source->y.w.i + (rand() & 0x1F)) - 0x10);
+                value_0a = (u16)source->z.w.i - 0x50;
             } else {
-                payload->x.w.i = source->x;
-                payload->y.w.i = source->y;
-                value_0a = source->z;
+                payload->x.w.i = (u16)source->x.w.i;
+                payload->y.w.i = (u16)source->y.w.i;
+                value_0a = (u16)source->z.w.i;
             }
             payload->z.w.i = value_0a;
         }

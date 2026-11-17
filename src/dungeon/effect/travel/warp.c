@@ -198,7 +198,7 @@ typedef struct FlagsView {
 
 /* Follows the source sprite's offset, waits for target movement to finish, then brightens and fades
    the effect. */
-void advance_effect_phases(WarpPhaseEffectBody *object, Rec_func_800249DC_arg0 *record, S_819ACB28_4 *packed_value)
+void advance_effect_phases(WarpPhaseEffectBody *object, ObjectPosition *record, S_819ACB28_4 *packed_value)
 {
     s16 mode;
     u16 mode_value;
@@ -222,11 +222,11 @@ void advance_effect_phases(WarpPhaseEffectBody *object, Rec_func_800249DC_arg0 *
         }
 
         offsets = ((S_819ACB28_5 *)object->source_node_address)->unk_08;
-        record->unk_00.at02_s16.v =
+        record->x.w.i =
             offsets->x + object->offset_x;
-        record->unk_06 =
+        record->y.w.i =
             offsets->y + object->offset_y;
-        record->unk_0A =
+        record->z.w.i =
             offsets->z + (u16)object->offset_z;
         if (spawn_nine_warp_trail_sprites(record) != 0) {
             register_node(NODE_HEADER(object), project_sprite_chain);
@@ -483,7 +483,7 @@ typedef struct S_819AD1DC_3 {
 } S_819AD1DC_3;   /* part in func_819AD1DC */
 
 /* Spawn the nine trail sprites at the source position, the last one larger and all fading with distance. */
-void *spawn_nine_warp_trail_sprites(MovingPosition *src)
+void *spawn_nine_warp_trail_sprites(ObjectPosition *src)
 {
     s32 i;
     s32 *handler;
@@ -509,16 +509,16 @@ void *spawn_nine_warp_trail_sprites(MovingPosition *src)
             obj->update_callback = handler;
             register_node(obj, draw_linked_segment_aligned_quads);
             coords = obj->position;
-            x = src->x;
+            x = (u16)src->x.w.i;
             part = NODE_BODY(obj);
             coords->x.w.i = x;
             *((u16 *)&coords->velocity_x + 1) = x;
             part->unk_1C = x;
-            y = src->y;
+            y = (u16)src->y.w.i;
             coords->y.w.i = y;
             *((u16 *)&coords->velocity_y + 1) = y;
             part->unk_1E = y;
-            z = src->z;
+            z = (u16)src->z.w.i;
             coords->z.w.i = z;
             *((u16 *)&coords->velocity_z + 1) = z;
             part->unk_20 = z;

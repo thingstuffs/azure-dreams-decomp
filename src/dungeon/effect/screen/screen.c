@@ -9,7 +9,7 @@
 #include "engine/scene.h"
 #include "shared/sprite_frame_state.h"
 
-extern s32 create_linked_effect_segments(void *);
+extern void *create_linked_effect_segments(ObjectPosition *);
 
 typedef struct FlagsView {
     s32 value;

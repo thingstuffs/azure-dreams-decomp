@@ -462,29 +462,30 @@ s16 find_smallest_surface_x_across_tiles(s32 query_x, s32 query_y, s32 query_z)
                 scratch->inner_index = scratch->inner_offset;
                 entry = grid->entries[occupancy[(s16)scratch->tile] & 0x3FFF];
                 for (;;) {
-                    if (((S_8008DA80_4 *)(((S_8008DA80_1 *)entry)->unk_10 * 8 + scratch->height_data))->unk_00 < 0 &&
-                        !(((S_8008DA80_1 *)entry)->unk_16.at01.v & 1)) {
-                        scratch->d0 = ((S_8008DA80_5 *)(((S_8008DA80_1 *)entry)->unk_00 * 8 + vertices))->unk_02
+                    S_8008DA80_1 *current = (S_8008DA80_1 *)entry;
+                    if (((S_8008DA80_4 *)(current->unk_10 * 8 + scratch->height_data))->unk_00 < 0 &&
+                        !(current->unk_16.at01.v & 1)) {
+                        scratch->d0 = ((S_8008DA80_5 *)(current->unk_00 * 8 + vertices))->unk_02
                             - scratch->origin_y;
-                        scratch->d1 = ((S_8008DA80_5 *)(((S_8008DA80_1 *)entry)->unk_00 * 8 + vertices))->unk_04
+                        scratch->d1 = ((S_8008DA80_5 *)(current->unk_00 * 8 + vertices))->unk_04
                             - scratch->origin_z;
-                        scratch->d2 = ((S_8008DA80_6 *)(((S_8008DA80_1 *)entry)->unk_02 * 8 + vertices))->unk_02
+                        scratch->d2 = ((S_8008DA80_6 *)(current->unk_02 * 8 + vertices))->unk_02
                             - scratch->origin_y;
-                        scratch->d3 = ((S_8008DA80_6 *)(((S_8008DA80_1 *)entry)->unk_02 * 8 + vertices))->unk_04
+                        scratch->d3 = ((S_8008DA80_6 *)(current->unk_02 * 8 + vertices))->unk_04
                             - scratch->origin_z;
-                        scratch->d4 = ((S_8008DA80_7 *)(((S_8008DA80_1 *)entry)->unk_06 * 8 + vertices))->unk_02
+                        scratch->d4 = ((S_8008DA80_7 *)(current->unk_06 * 8 + vertices))->unk_02
                             - scratch->origin_y;
-                        scratch->d5 = ((S_8008DA80_7 *)(((S_8008DA80_1 *)entry)->unk_06 * 8 + vertices))->unk_04
+                        scratch->d5 = ((S_8008DA80_7 *)(current->unk_06 * 8 + vertices))->unk_04
                             - scratch->origin_z;
-                        scratch->d6 = ((S_8008DA80_8 *)(((S_8008DA80_1 *)entry)->unk_04 * 8 + vertices))->unk_02
+                        scratch->d6 = ((S_8008DA80_8 *)(current->unk_04 * 8 + vertices))->unk_02
                             - scratch->origin_y;
-                        scratch->d7 = ((S_8008DA80_8 *)(((S_8008DA80_1 *)entry)->unk_04 * 8 + vertices))->unk_04
+                        scratch->d7 = ((S_8008DA80_8 *)(current->unk_04 * 8 + vertices))->unk_04
                             - scratch->origin_z;
 
                         if (check_scratch_quad_half_turn_gaps((struct ScratchQuad *)(scratch)) != 0) {
-                            plane = (S_8008DA80_2 *)(((S_8008DA80_1 *)entry)->unk_10 * 8 +
+                            plane = (S_8008DA80_2 *)(current->unk_10 * 8 +
                                            (u32)scratch->height_data);
-                            vertex = (S_8008DA80_3 *)(((S_8008DA80_1 *)entry)->unk_00 * 8 +
+                            vertex = (S_8008DA80_3 *)(current->unk_00 * 8 +
                                             (u32)vertices);
                             plane_x =
                                 (plane->unk_02 *
@@ -503,7 +504,7 @@ s16 find_smallest_surface_x_across_tiles(s32 query_x, s32 query_y, s32 query_z)
                                 scratch->best = candidate_x;
                         }
                     }
-                    if ((((S_8008DA80_1 *)entry)->unk_16.at00.v & 0x80FF) == 0x8001)
+                    if ((current->unk_16.at00.v & 0x80FF) == 0x8001)
                         break;
                     entry += 0x18;
                 }

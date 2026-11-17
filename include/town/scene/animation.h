@@ -5,6 +5,7 @@ struct TownCollectionSequence;
 #include "common.h"
 
 struct FallingTimedSceneObject;
+struct S_8052BCCC_3;
 
 struct ObjectPosition;
 struct SpriteFrameState;
@@ -52,7 +53,7 @@ typedef struct CollectionCenterControlBody {
 
 /* Callback entry points. */
 void animate_collection_center_sprite(CollectionCenterControlBody *ctrl, struct ObjectPosition *setup, struct SpriteFrameState *view);
-void animate_falling_timed_object(struct FallingTimedSceneObject *obj, struct ObjectPosition *motion, void *incoming_out);
+void animate_falling_timed_object(struct FallingTimedSceneObject *obj, struct ObjectPosition *motion, struct S_8052BCCC_3 *incoming_out);
 void animate_rising_effect_object(RisingEffectObject *obj, struct ObjectPosition *state_in, void *input);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */

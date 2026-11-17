@@ -10,6 +10,7 @@
 #include "dungeon/system.h"
 
 #include "shared/dungeon_effect_state.h"
+#include "shared/dungeon_status.h"
 /* Selector entry invokes this complete native state machine. */
 void (*const D_80024000)(Row_81917C08_ActionState *action, ObjectPosition *motion, Row_81917C08_EffectVisual *visual) = launch_effect_to_target_and_apply_damage;
 
@@ -628,7 +629,7 @@ void update_growing_orbit_sprite(AttachedRandomAngleEffectBody *effect, Rec_func
 
 /* Creates a randomly rotated attached sprite with copied motion and staggered phase and timing from
    its index. */
-void * create_growing_orbit_sprite(void *object, Row_81917A70_Copy24 *src_transform, s16 effect_index) {
+void * create_growing_orbit_sprite(void *object, ObjectPosition *src_transform, s16 effect_index) {
     ObjectNodeHeader *owner_node;
     s32 first_word;
     s32 second_word;
@@ -650,9 +651,9 @@ void * create_growing_orbit_sprite(void *object, Row_81917A70_Copy24 *src_transf
         state->unk_06 = 0;
         state->unk_0A = 0;
         state->unk_0C = (s16) (saved_index * 0x600);
-        state->unk_20 = src_transform->wordC;
-        state->unk_24 = src_transform->word10;
-        state->unk_28 = src_transform->word14;
+        state->unk_20 = src_transform->velocity_x;
+        state->unk_24 = src_transform->velocity_y;
+        state->unk_28 = src_transform->velocity_z;
         object = effect->sprite;
         ((Rec_D_80082E80 *)object)->unk_0C.at02_s8.v = 0x20;
         ((Rec_D_80082E80 *)object)->unk_0C.at01_s8.v = 0x20;
@@ -672,7 +673,7 @@ void * create_growing_orbit_sprite(void *object, Row_81917A70_Copy24 *src_transf
         ((Rec_D_80082E80 *)object)->unk_1C.at00_s16.v = 0x400;
         register_node(effect, project_sprite_chain);
         transform = effect->position;
-        *(Row_81917A70_Copy24 *)transform = *src_transform;
+        *transform = *src_transform;
         first_word = transform->x.v;
         second_word = transform->y.v;
         transform->velocity_x = first_word;
@@ -832,7 +833,7 @@ void launch_effect_to_target_and_apply_damage(Row_81917C08_ActionState *action, 
         break;
     case 6:
         if (!action->pending) {
-            D_8008346C.value = 0;
+            g_dungeon_status.active_actor = 0;
             NODE_HEADER(action)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }

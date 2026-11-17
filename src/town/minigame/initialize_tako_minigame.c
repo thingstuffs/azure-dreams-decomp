@@ -22,7 +22,11 @@
 
 
 extern u8 D_8002012C[];
-extern u8 D_80020134[];
+typedef struct {
+    s32 v[4];
+} Word4;
+
+extern Word4 D_80020134[];
 extern u8 D_8002013C[];
 extern u8 D_80020140[];
 extern u8 D_80020144[];

@@ -60,7 +60,7 @@ void *allocate_object_with_child_entries(s32 kind, s32 part_byte_24, s32 part_by
 
             part_callback = D_80163140;
             copy = root->position;
-            ((S_8015E8DC_2 *)copy)->unk_08.at02.v = saved_copy_value;
+            copy->z.w.i = saved_copy_value;
             stable_object = object;
             part = root->sprite;
             part->frameTable = part_callback;

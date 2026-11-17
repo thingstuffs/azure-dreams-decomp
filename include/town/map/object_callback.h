@@ -4,6 +4,14 @@
 #include "common.h"
 #include "town/map/body.h"
 
+typedef struct CallbackEntry CallbackEntry;
+typedef s32 (*Callback)(CallbackEntry *);
+
+struct CallbackEntry {
+    Callback callback;
+    u8 pad[20];
+};
+
 void run_map_object_callback(TownMapBody *object, void *position, void *sprite);
 
 

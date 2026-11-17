@@ -36,7 +36,7 @@ typedef struct S_801727C8_5 {
     u16 unk_04;
 } S_801727C8_5;
 
-void create_two_effect_groups();
+void create_two_effect_groups(ObjectPosition *, SpriteFrameState *, ActorRecord *, s16);
 extern u8 D_801741B4;
 
 /* Updates an actor's action state, target selection, and animation. */

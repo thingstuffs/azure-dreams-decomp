@@ -835,7 +835,7 @@ s32 project_linked_effect_quads(void *point, ObjectPosition *position, SpriteFra
 void update_radial_effect_band(u8 *effect, ObjectPosition *position, s32 effect_param);
 void create_radial_effect_bands(CB_80174D14_S_80C97514_0 *owner, struct ObjectPosition *origin, void *entity);
 void wait_actor_activity_then_complete(ActorRecord *state, ObjectPosition *unused_position, SpriteFrameState *unused_render_state, ActorRecord *entity);
-void finish_sprite_and_restore_tint(u8 *task, void *context, u8 *input);
+void finish_sprite_and_restore_tint(u8 *task, void *context, struct SpriteFrameState *input);
 void replace_actor_with_faded_effect(CB_80174D14_S_80C97514_0 *state, struct ObjectPosition *position, SpriteFrameState *entity, void *actor);
 void resume_actor_after_floor_trap(ActorRecord *state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity);
 void resume_actor_after_action_flag(ActorRecord *state, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity);

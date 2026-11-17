@@ -150,8 +150,7 @@ void draw_scrolling_column(s16 column, s16 tile_index, s16 scroll_y);
 s32 draw_translucent_gradient_line_list(void *first_entry);
 
 struct ObjectStatePositionObject;
-struct S1;
-void update_proximity_triggered_object(struct ObjectStatePositionObject *self, s32 *position, struct S1 *target);
+void update_proximity_triggered_object(struct ObjectStatePositionObject *self, s32 *position, SpriteFrameState *target);
 
 struct Copy20;
 void create_tako_projectile(struct Copy20 *init_data, s32 pos_y, s32 unused_effect_arg);

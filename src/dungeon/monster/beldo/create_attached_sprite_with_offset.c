@@ -28,7 +28,7 @@ extern void *allocate_list_node();
 extern s32 register_node();
 
 /* Creates an attached sprite object with copied appearance and an optional position offset. */
-void create_attached_sprite_with_offset(ActorRecord *owner_data, MovingPosition *base_position, SpriteFrameState *sprite_template, s16 offset_id) {
+void create_attached_sprite_with_offset(ActorRecord *owner_data, ObjectPosition *base_position, SpriteFrameState *sprite_template, s16 offset_id) {
     u32 sprite_flags;
     u16 sprite_height;
     s16 saved_offset_id;
@@ -66,9 +66,9 @@ void create_attached_sprite_with_offset(ActorRecord *owner_data, MovingPosition 
         sprite->tpage_abr = 0x20;
         sprite->flags |= 0x80;
         position = object->position;
-        position->x.w.i = (u16) base_position->x;
-        position->y.w.i = (u16) base_position->y;
-        position->z.w.i = (u16) base_position->z;
+        position->x.w.i = base_position->x.w.i;
+        position->y.w.i = base_position->y.w.i;
+        position->z.w.i = base_position->z.w.i;
         owner_model = NODE_HEADER(owner_data)->sprite;
         if (resolve_record_orientation_or_fallback((s32)owner_model->source, owner_model, &object_data->unk_B0, saved_offset_id) != 0) {
             position->x.w.i = (u16) ((u16)position->x.w.i + object_data->unk_B0.u);

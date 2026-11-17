@@ -38,9 +38,9 @@ typedef struct {
 /* cursor in prepend_entry_to_group_history */
 extern s32 query_priority_event_state(void);
 extern s8 D_8001916C[];
-extern s8 D_80019178[];
-extern s8 D_8001917C[];
-extern s8 D_80019184[];
+extern s32 D_80019178[];
+extern s32 *D_8001917C;
+extern s32 D_80019184[];
 extern s8 D_80019190[];
 
 /* Functions defined in this translation unit. */

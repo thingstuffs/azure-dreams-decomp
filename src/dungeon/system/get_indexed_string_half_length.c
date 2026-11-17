@@ -1,9 +1,9 @@
 #include "common.h"
+#include "sdk/libc.h"
 
-extern u32 strlen(s32 value);
-extern s32 D_8002946C[];
+extern char *D_8002946C[];
 
 /* Returns half the byte length of the indexed string. */
 u32 get_indexed_string_half_length(s32 string_index) {
-    return strlen(D_8002946C[string_index]) >> 1;
+    return (u32)strlen(D_8002946C[string_index]) >> 1;
 }

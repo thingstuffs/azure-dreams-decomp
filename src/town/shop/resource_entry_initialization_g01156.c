@@ -137,7 +137,7 @@ void * open_twin_souko(s32 option) {
 void close_item_move_menu(ItemMenuInputObject *record)
 {
     func_800B3A80((s32)record->item_menu_object);
-    release_storage_owner_menu((u8 *)record->source_menu);
+    release_storage_owner_menu(record->source_menu);
     release_storage_item_menu(record->destination_menu);
     NODE_HEADER(record)->flags |= NODE_REMOVE;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;

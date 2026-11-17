@@ -43,9 +43,8 @@ typedef struct {
 
 typedef struct { u8 pad00[0x15]; u8 flag15; } State;
 
-/* Bicycle position/motion part initialized by start_bicycle_at_view_reference.
- * The initializer copies view_reference_entity and clears the three motion increments. */
-typedef struct { s32 x /* world X in 16.16 units */, y /* world Y in 16.16 units */, z /* world height in 16.16 units */, dx /* X motion increment in 16.16 units per position update; initially zero */, dy /* Y motion increment in 16.16 units per position update; initially zero */, dz; /* height increment in 16.16 units per position update; initially zero */ } VecState;
+/* start_bicycle_at_view_reference initializes the node's ObjectPosition slot
+ * from view_reference_entity and clears its three motion increments. */
 
 typedef struct S_800A6994_0 {
     u8 pad_00[0x10];
@@ -85,7 +84,7 @@ extern void *D_80100E28[1];
 /* Functions defined in this translation unit. */
 void initialize_enabled_scene_object(void);
 void update_entity_sprite_and_effects(void *entity, EntityRec *position, SpriteFrameState *sprite);
-void start_bicycle_at_view_reference(Obj *obj, State *state, VecState *motion, void *callback_arg);
+void start_bicycle_at_view_reference(Obj *obj, State *state, ObjectPosition *motion, void *callback_arg);
 void update_bicycle_position_and_heading(void *actor, s32 update_context, void *position, void *setup_context);
 
 #endif

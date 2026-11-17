@@ -142,7 +142,7 @@ void render_map_cell_mesh(void);
 #include "shared/dungeon_effect_views.h"
 void raise_entity_to_ground(PointRecord *state, ObjectPosition *position);
 
-void try_apply_wind_protection(ActorRecord *target, s32 effect_arg, SpriteFrameState *unused);
+void try_apply_wind_protection(ActorRecord *target, s32 effect_arg, ActorRecord *caster);
 
 void create_interpolated_line_effect(s32 object_arg, s32 *start_pos, s32 *end_pos);
 

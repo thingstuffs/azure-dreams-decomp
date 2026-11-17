@@ -3,6 +3,7 @@
 #include "dungeon/player/saved_held_item_data.h"
 #include "sdk/libgte.h"
 #include "dungeon/level.h"
+#include "dungeon/level/scripted_boundary.h"
 #include "dungeon/level/sprite_bundle_data.h"
 #include "dungeon/player/camera_depth_presets_data.h"
 #include "dungeon/player/camera_pitch_presets_data.h"
@@ -256,7 +257,6 @@ extern s16 floor_generation_state[3];
 extern u8 scene_mode_code;
 extern s8 dungeon_event_pending_flag;
 extern s8 D_800DCF58;
-extern s8 scripted_boundary_active;
 extern DungeonItemPosition dungeon_ground_item_positions[64];
 extern s16 pickup_event_latch;
 extern s16 bounded_runtime_counter;

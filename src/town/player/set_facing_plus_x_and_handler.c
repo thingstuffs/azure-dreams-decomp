@@ -4,7 +4,7 @@
 
 typedef struct S_80098CD8_0 {
     u8 pad_00[0x4];
-    void (*unk_04)(void *, ObjectPosition *);
+    void (*unk_04)(TownPlayerRecord *, ObjectPosition *);
     u8 pad_08[0x8];
     s16 unk_10;
 } S_80098CD8_0;   /* arg0 in set_facing_plus_x_and_handler */

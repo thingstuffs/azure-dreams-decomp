@@ -54,7 +54,7 @@ typedef struct OffsetColorEffectBody {
     s16 unk_0A;
     u16 unk_0C;
     u8 unk_0E;
-    u8 pad_0F[0xF1];
+    u8 pad_0F[0xB9];
 } OffsetColorEffectBody;
 
 /* Shared countdown and render fields for jittered shaded point particles. */
@@ -67,7 +67,7 @@ typedef struct RandomOffsetEffectObjectBody {
     s16 unk_32;
     u8 pad_34[0x1C];
     s32 unk_50;
-    u8 pad_54[0x8C];
+    u8 pad_54[0x80];
 } RandomOffsetEffectObjectBody;
 
 /* Owner, phase counters, and lifetime for the tinted sprite updater. */
@@ -77,7 +77,7 @@ typedef struct OwnerTintedEffectBody {
     s16 elapsed_ticks;
     u8 pad_12[0x2];
     s16 unk_14;
-    u8 pad_16[0xEE];
+    u8 pad_16[0xB2];
 } OwnerTintedEffectBody;
 
 /* Eight-segment grid body shared by its update and surface-render callbacks. */
@@ -121,7 +121,7 @@ typedef struct ScaledRotationEffectBody {
     u16 unk_10;
     u8 pad_12[0x2];
     s16 unk_14;
-    u8 pad_16[0xEE];
+    u8 pad_16[0xB2];
 } ScaledRotationEffectBody;
 
 /* Body used by the ring-effect update callback. Runtime observations place
@@ -143,7 +143,7 @@ typedef struct FollowingColorBlendEffectBody {
     s16 unk_38;
     u8 pad_3A[0x2];
     s16 unk_3C;
-    u8 pad_3E[0xC6];
+    u8 pad_3E[0x8A];
 } FollowingColorBlendEffectBody;
 
 struct S_800244BC_2;

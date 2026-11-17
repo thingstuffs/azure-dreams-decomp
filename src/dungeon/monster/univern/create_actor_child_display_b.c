@@ -58,7 +58,7 @@ void *create_actor_child_display_b(s32 kind, s32 part_x, s32 part_y, s32 initial
 
             part_callback = D_80162494;
             copy = root->position;
-            ((S_8015E89C_2 *)copy)->unk_08.at02.v = saved_value;
+            copy->z.w.i = saved_value;
             stable_object = object;
             part = root->sprite;
             part->frameTable = part_callback;

@@ -55,7 +55,7 @@ typedef struct S_8009B2C4_1 {
 
 extern void initialize_target_motion(Rec_func_8009B828_arg0 *owner, Rec_D_800CFCB4 *target, EntityRec *parameters, void *unused); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern s32 scene_object_payload_alias;
-extern u8 D_80091F64[];
+extern s32 D_80091F64;
 extern u8 D_800920F4[];
 extern void D_800924EC(void *context, EntityRec *entity, s32 update_arg);
 extern u8 D_80092698[];

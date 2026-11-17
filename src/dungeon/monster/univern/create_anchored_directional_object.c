@@ -73,7 +73,7 @@ void *spawn_univern_actor(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
 
             part_callback = univern_direction_frames;
             copy = root->position;
-            ((R17_8017089C_S_8017089C_2 *)copy)->unk_08.at02.v = saved_copy_value;
+            copy->z.w.i = saved_copy_value;
             stable_object = (R17_8017089C_S_8017089C_4 *)object;
             part = root->sprite;
             part->frameTable = part_callback;

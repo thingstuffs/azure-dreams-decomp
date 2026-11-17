@@ -125,7 +125,7 @@ void update_entity_sprite_and_effects(void *entity, EntityRec *position, SpriteF
 }
 
 /* Initialize object state and position, then invoke its new callback. */
-void start_bicycle_at_view_reference(Obj *obj, State *state, VecState *motion, void *callback_arg)
+void start_bicycle_at_view_reference(Obj *obj, State *state, ObjectPosition *motion, void *callback_arg)
 {
     void *resource_arg;
     void *resource;
@@ -133,15 +133,15 @@ void start_bicycle_at_view_reference(Obj *obj, State *state, VecState *motion, v
     resource_arg = callback_arg;
     state->flag15 = 0;
     resource = D_80100E28[0];
-    motion->dx = 0;
-    motion->dy = 0;
-    motion->dz = 0;
+    motion->velocity_x = 0;
+    motion->velocity_y = 0;
+    motion->velocity_z = 0;
     obj->callback = update_bicycle_position_and_heading;
     initialize_object_entries((TownObjectRecord *)obj, resource_arg, (s32 *)resource);
     update_target_from_previous_state();
-    motion->x = view_reference_entity.x.v;
-    motion->y = view_reference_entity.y.v;
-    motion->z = view_reference_entity.z.v;
+    motion->x.v = view_reference_entity.x.v;
+    motion->y.v = view_reference_entity.y.v;
+    motion->z.v = view_reference_entity.z.v;
     apply_pending_indexed_value(0xE5, (s32)read_and_clear_stored_value);
     set_flagged_entry_values((u32 *)D_800D0D54, (s32)store_pending_value_and_get_source);
     update_bicycle_position_and_heading(obj, (s32)state, motion, callback_arg);

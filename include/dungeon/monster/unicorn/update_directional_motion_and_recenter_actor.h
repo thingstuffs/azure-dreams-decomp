@@ -45,5 +45,5 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 extern u8 unicorn_action_continuation_address;
 extern u8 D_80174D5C;
 void update_directional_motion_and_recenter_actor(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void fade_and_remove_entity_sprite(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite,struct SpriteFrameState *entity);
+void fade_and_remove_entity_sprite(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity);
 #endif

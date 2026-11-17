@@ -6,7 +6,7 @@
 #include "frontend/libcard.h"
 
 /* Builds status text and assigns it to two or three display nodes. */
-void card_boot_format_empty_slot_guidance(void *context)
+void card_boot_format_empty_slot_guidance(CardSlotDetails *context)
 {
     u8 text_buf[0x40];
     u8 number_buf[0x10];
@@ -19,29 +19,29 @@ void card_boot_format_empty_slot_guidance(void *context)
     void *text_buffer;
     s32 text;
 
-    selection = ((CardSlotDetails *)context)->mode;
+    selection = context->mode;
     mode_one = selection == 1;
     state = card_boot_get_remaining_block_summary();
     if (mode_one != 0 && card_boot_count_cached_slots() == 0) {
-        decode_fullwidth_text(context + 0x84, card_empty_slot_guidance_lines[0], 1);
-        text_buffer = context + 0x204;
+        decode_fullwidth_text(context->text_buffers[0], card_empty_slot_guidance_lines[0], 1);
+        text_buffer = context->text_buffers[1];
         text = (s32)card_empty_slot_guidance_lines[1];
         decode_fullwidth_text(text_buffer, (void *)text, 1);
         node_count = 2;
     } else {
         below_three = state < 3;
-        first_buffer = context + 0x84;
+        first_buffer = context->text_buffers[0];
         if (below_three != 0) {
             void **table;
             void *message_buffer;
             s32 selected_entry;
 
             decode_fullwidth_text(first_buffer, D_800283C4, 1);
-            message_buffer = context + 0x204;
+            message_buffer = context->text_buffers[1];
             table = D_800283B8;
             selected_entry = mode_one << 2;
             decode_fullwidth_text(message_buffer, *(void **)((u8 *)table + selected_entry), 1);
-            decode_fullwidth_text(context + 0x384, table[2], 1);
+            decode_fullwidth_text(context->text_buffers[2], table[2], 1);
             node_count = 3;
         } else {
             {
@@ -55,7 +55,7 @@ void card_boot_format_empty_slot_guidance(void *context)
             format_fullwidth_decimal(state / 3, number_buf);
             strcpy(text_buf, number_buf);
             strcat(text_buf, D_800283FC);
-            text_buffer = context + 0x204;
+            text_buffer = context->text_buffers[1];
             text = (s32)text_buf;
             decode_fullwidth_text(text_buffer, (void *)text, 1);
             node_count = 2;
@@ -64,7 +64,6 @@ void card_boot_format_empty_slot_guidance(void *context)
     {
         register s32 buffer_offset;
         register s16 node_value;
-        register u8 *cursor;
         s32 node_kind;
 
         text = 0;
@@ -72,16 +71,14 @@ void card_boot_format_empty_slot_guidance(void *context)
             node_kind = 0xA9;
             node_value = 0x110;
             buffer_offset = 0x84;
-            cursor = context;
             do {
                 CardDetailDisplayNode *node;
 
-                node = ((CardSlotDetails *)cursor)->text_nodes[0];
-                node->payload.data = context + buffer_offset;
+                node = context->text_nodes[text];
+                node->payload.data = (u8 *)context + buffer_offset;
                 node->block->fields.x = node_kind;
                 node->block->fields.y = node_value;
                 buffer_offset += 0x180;
-                cursor += 4;
                 text += 1;
                 node_value += 0x10;
             } while (text < node_count);

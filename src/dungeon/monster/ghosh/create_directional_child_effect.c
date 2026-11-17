@@ -23,13 +23,6 @@ typedef struct S_80172B00_0 {
     ObjectNodeHeader *unk_AC;
 } S_80172B00_0;
 
-typedef struct S_80172B00_2 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-    u8 pad_2C[0x84];
-    u8 unk_B0;
-} S_80172B00_2;   /* arg0 in create_directional_child_effect */
-
    /* arg1 in create_directional_child_effect */
 
 typedef struct S_80172B00_7 {
@@ -49,7 +42,7 @@ typedef struct {
 } Copy48;
 
 /* Creates a child effect with copied position and sprite data and direction-dependent appearance. */
-void create_directional_child_effect(void *parent_data, MovingPosition *source_pos, void *sprite_template) {
+void create_directional_child_effect(ActorRecord *parent_data, MovingPosition *source_pos, void *sprite_template) {
     ObjectNodeHeader *parent_object;
     SpriteFrameState *sprite;
     S_80172B00_0 *effect_data;
@@ -62,7 +55,7 @@ void create_directional_child_effect(void *parent_data, MovingPosition *source_p
     s32 parent_angle;
     s16 setup_mode;
 
-    parent_object = parent_data - 0x20;
+    parent_object = NODE_HEADER(parent_data);
     effect_object = allocate_list_node(0x112, &parent_object->next);
     effect_data = NODE_BODY(effect_object);
     if (effect_object != NULL) {
@@ -70,10 +63,9 @@ void create_directional_child_effect(void *parent_data, MovingPosition *source_p
         effect_object->update_callback = &update_boss_actor_direction_state;
         effect_data->unk_AC = parent_object;
         {
-            S_80172B00_2 *parent_view = parent_data;
-            effect_data->unk_94 = (u16) parent_view->unk_2A;
+            effect_data->unk_94 = parent_data->facing;
             copy_src = sprite_template;
-            effect_data->unk_2A = (u16) parent_view->unk_2A;
+            effect_data->unk_2A = parent_data->facing;
         }
         sprite = effect_object->sprite;
         copy_dst = (CopyBlock *) sprite;
@@ -81,7 +73,7 @@ void create_directional_child_effect(void *parent_data, MovingPosition *source_p
         register_node(effect_object, project_sprite_chain);
         sprite->frameTable = ghosh_frame_set_10;
         select_sprite_entry(sprite, ghosh_frame_set_10[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
-            + (s16) ((S_80172B00_2 *)parent_data)->unk_2A + 0x100) >> 9) & 7], 0);
+            + parent_data->facing + 0x100) >> 9) & 7], 0);
         effect_pos = effect_object->position;
         effect_pos->x.w.i = (u16) source_pos->x;
         effect_pos->y.w.i = (u16) source_pos->y;
@@ -93,17 +85,14 @@ void create_directional_child_effect(void *parent_data, MovingPosition *source_p
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
         direction_index = g_game_work.view.camera_rotation.parts.viewAngle;
-        parent_angle = ((s16)((S_80172B00_2 *)parent_data)->unk_2A);
+        parent_angle = parent_data->facing;
         setup_mode = 0;
         direction_index += parent_angle;
         direction_index += 0x100;
         direction_index >>= 9;
         direction_index &= 7;
         sprite->depth_bias = (s16) (view_direction_depth_biases[direction_index] * 4);
-        {
-            S_80172B00_2 *parent_view = parent_data;
-            parent_view->unk_B0 = (u8) (parent_view->unk_B0 + 1);
-        }
+        *parent_data->unk_B0.bytes = (u8)(*parent_data->unk_B0.bytes + 1);
         create_tracked_effect(effect_object, setup_mode, ((void *)sprite) + 0x2C, &effect_data->unk_2A);
     }
 }

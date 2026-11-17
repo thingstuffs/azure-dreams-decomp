@@ -23,7 +23,7 @@
 #include "dungeon/data.h"
 
 
-extern void create_two_effect_groups(void *, void *, void *, s32);
+extern void create_two_effect_groups(ObjectPosition *, SpriteFrameState *, ActorRecord *, s16);
 
 extern u8 picket_action_resume_address[];
 

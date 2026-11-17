@@ -1,7 +1,7 @@
 #include "common.h"
 #include "town/map.h"
 
-extern s16 town_tile_grid[];
+extern u16 town_tile_grid[];
 
 /* Clears all entries in the 128-by-128 table. */
 void clear_town_tile_grid(void) {

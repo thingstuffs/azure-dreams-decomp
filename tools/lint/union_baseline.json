@@ -1,5 +1,5 @@
 {
- "count": 1353,
+ "count": 1348,
  "ids": [
   "include/dungeon/actor/ability_eligibility.h::S_800A4300_2.unk_F0",
   "include/dungeon/actor/action_target_selection_g00359.h::S_800CA444_0.unk_24",
@@ -148,9 +148,6 @@
   "include/dungeon/effect/particle/propagate_target_flags_effect.h::S_8196ACE4_0.unk_00",
   "include/dungeon/effect/particle/propagate_target_flags_effect.h::S_8196ACE4_0.unk_04",
   "include/dungeon/effect/particle/propagate_target_flags_effect.h::S_8196ACE4_0.unk_08",
-  "include/dungeon/effect/particle/propagate_target_flags_effect.h::S_8196B074_1.unk_00",
-  "include/dungeon/effect/particle/propagate_target_flags_effect.h::S_8196B074_1.unk_04",
-  "include/dungeon/effect/particle/propagate_target_flags_effect.h::S_8196B074_1.unk_08",
   "include/dungeon/effect/particle/render_textured_effect_parts.h::S_80024BE8_13.unk_08",
   "include/dungeon/effect/particle/terrain_tile_quad.h::TerrainTileQuadBody.unk_48",
   "include/dungeon/effect/particle/update_random_particle_field.h::FallingParticleEffectBody.unk_1C",
@@ -181,7 +178,6 @@
   "include/dungeon/effect/screen.h::EffectObjectGroupsBody.unk_66",
   "include/dungeon/effect/screen.h::ScreenTransitionEffectBody.unk_28",
   "include/dungeon/effect/screen.h::ScreenTransitionEffectBody.unk_2C",
-  "include/dungeon/effect/screen.h::ScreenTransitionEffectBody.unk_EC",
   "include/dungeon/effect/screen/menu.h::MarkerHalf.MarkerHalf",
   "include/dungeon/effect/screen/menu.h::SpritePartQuad.tag",
   "include/dungeon/effect/screen/menu.h::vertex.uv",
@@ -588,7 +584,6 @@
   "include/modules/dungeon_ovl_197e800.h::S_func_819615E4_2.unk_88",
   "include/modules/dungeon_ovl_197e800.h::Word.Word",
   "include/modules/dungeon_ovl_19cc800.h::EffectSprite.shade",
-  "include/modules/dungeon_ovl_7ce800.h::DungeonFlagBuffer9.DungeonFlagBuffer9",
   "include/modules/dungeon_ovl_7f43f800_p01.h::T_80170AD0_S_80170AD0_0.unk_96",
   "include/modules/dungeon_ovl_9c32d4.h::ovl_9c32d4_809A3698_FixedCoord.ovl_9c32d4_809A3698_FixedCoord",
   "include/modules/dungeon_ovl_9c32d4.h::ovl_9c32d4_809A37C0_FixedCoord.ovl_9c32d4_809A37C0_FixedCoord",

@@ -115,7 +115,7 @@ void update_directional_motion_and_recenter_actor(ActorRecord *body, ObjectPosit
 }
 
 /* Fade the entity sprite, then remove the entity and update its tile flags. */
-void fade_and_remove_entity_sprite(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, SpriteFrameState *entity)
+void fade_and_remove_entity_sprite(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity)
 {
     s32 state;
     s32 entity_flags;
@@ -134,7 +134,7 @@ void fade_and_remove_entity_sprite(ActorRecord *body, ObjectPosition *position, 
         body->action_phase = 1;
                         /* fallthrough */
     case 1:
-        entity_flags = *(s32 *)&entity->flags;
+        entity_flags = entity->flags14;
         if (entity_flags & 0x4000) {
             if (!(entity_flags & 0x20000000)) {
                 announce_familiar_defeat(entity);
@@ -151,7 +151,7 @@ void fade_and_remove_entity_sprite(ActorRecord *body, ObjectPosition *position, 
         return;
     }
 
-    *(s32 *)&entity->scale_x |= 0x10000000;
+    entity->flags1C |= 0x10000000;
     fade_delay = body->action_timer - 1;
     body->action_timer = fade_delay;
     if ((s16)fade_delay <= 0) {
@@ -180,7 +180,7 @@ void fade_and_remove_entity_sprite(ActorRecord *body, ObjectPosition *position, 
     tile_x = sprite->tile_x;
     tile_y = sprite->tile_y;
     tile_mask = 0x3000;
-    if (*(s32 *)&entity->scale_x & 0x2000) {
+    if (entity->flags1C & 0x2000) {
         tile_mask = 0x300;
     }
     update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_mask);

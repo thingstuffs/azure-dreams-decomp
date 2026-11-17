@@ -17,13 +17,6 @@
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_links.h"
 
-typedef struct S_800CA1E0_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x68];
-    u16 unk_88;
-} S_800CA1E0_2;
-
 typedef struct S_800CA444_0 {
     u8 pad_00[0x24];
     union {
@@ -64,7 +57,7 @@ extern s16 try_claim_dungeon_action_slot(void *);
 extern s16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 
 /* Functions defined in this translation unit. */
-s32 check_adjacent_step_clear(u32 action_flags, EntityRec *position, S_800CA1E0_2 *object, u16 height_offset);
+s32 check_adjacent_step_clear(u32 action_flags, EntityRec *position, ActorRecord *object, u16 height_offset);
 void step_actor_along_route(ActorRecord *body, s32 unused, S_800CA444_0 *tile, ActorRecord *actor);
 s32 try_attack_target_tile(ActorRecord *object_ptr, void *action_context, MovingTile *target_ptr, ActorRecord *actor_ptr);
 

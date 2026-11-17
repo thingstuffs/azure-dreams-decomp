@@ -60,7 +60,7 @@ void advance_fading_effect(ovl_188298c_8186298C_Arg0Ent *state, void *unused, Sp
 }
 
 /* Creates a gray sprite at the source's horizontal coordinates with a randomized vertical offset. */
-void spawn_rising_sprite_at_source(s32 owner, void *source)
+void spawn_rising_sprite_at_source(s32 owner, ObjectPosition *source)
 {
     s32 roll;
     SpriteFrameState *render;
@@ -85,16 +85,16 @@ void spawn_rising_sprite_at_source(s32 owner, void *source)
         register_node(obj, project_sprite_chain);
         render = (SpriteFrameState *)obj->position;
         rand();
-        ((ObjectPosition *)render)->x.unsigned_parts.integer = ((ObjectPosition *)source)->x.unsigned_parts.integer;
-        ((ObjectPosition *)render)->y.unsigned_parts.integer = ((ObjectPosition *)source)->y.unsigned_parts.integer;
+        ((ObjectPosition *)render)->x.unsigned_parts.integer = source->x.unsigned_parts.integer;
+        ((ObjectPosition *)render)->y.unsigned_parts.integer = source->y.unsigned_parts.integer;
         roll = rand();
-        ((ObjectPosition *)render)->z.w.i = (s16) ((((ObjectPosition *)source)->z.unsigned_parts.integer - 0x40) - (roll % 16));
+        ((ObjectPosition *)render)->z.w.i = (s16) ((source->z.unsigned_parts.integer - 0x40) - (roll % 16));
     }
 }
 
 /* Advances sprite animation, spawns a child at update 10, and removes the effect when its animation
    finishes. */
-void advance_counter_and_propagate_target_flags(RadiusDirectionalEffectsBody *state, s32 context, SpriteFrameState *target) {
+void advance_counter_and_propagate_target_flags(RadiusDirectionalEffectsBody *state, ObjectPosition *context, SpriteFrameState *target) {
     u16 update_count;
     ovl_188298c_81862B74_S_81862B74_1 *linked_object;
 

@@ -38,26 +38,7 @@ typedef struct ScreenTransitionEffectBody {
     u8 pad_2A[0x2];
     union { s16 s; u16 u; } unk_2C;
     s16 unk_2E;
-    u8 pad_30[0x9A];
-    u16 unk_CA;
-    u8 pad_CC[0x2];
-    u16 unk_CE;
-    u8 pad_D0[0x2];
-    u16 unk_D2;
-    u8 pad_D4[0x12];
-    u16 unk_E6;
-    u32 unk_E8;
-    union { u32 word; u8 bytes[4]; } unk_EC;
-    u16 unk_F0;
-    u16 unk_F2;
-    u16 unk_F4;
-    u16 unk_F6;
-    u16 unk_F8;
-    u16 unk_FA;
-    u16 unk_FC;
-    u16 unk_FE;
-    u16 unk_100;
-    u16 unk_102;
+    u8 pad_30[0x98];
 } ScreenTransitionEffectBody;
 
 void pass_quarter_damage_to_target(ActorRecord *body, ActorRecord *target);

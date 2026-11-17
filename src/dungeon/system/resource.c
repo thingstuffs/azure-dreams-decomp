@@ -182,7 +182,7 @@ s32 install_resource_descriptor_at_front(s32 resource_kind, s32 resource_group, 
     resource_cache_records[0].field_1 = resource_group;
     resource_cache_records[0].field_2 = resource_id;
     resource_cache_records[0].field_4 = alloc_size;
-    start_cd_read(resource, town_resource_buffer[0]);
+    start_cd_read(resource, town_resource_buffer);
     return 0;
 }
 

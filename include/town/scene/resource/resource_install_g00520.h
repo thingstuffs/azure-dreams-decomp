@@ -58,6 +58,6 @@ u32 *find_packed_resource_descriptor(s32 flag_bit, s32 high_key, s32 low_key);
 s32 install_resource_descriptor_at_front(s32 kind, s32 state, s32 value, s32 start_index);
 void ensure_resource_at_front(s32 kind, s32 state, s32 value);
 void submit_object_resource_data(Object *object);
-void ensure_packed_resource_list(u8 *entries_in);
+void ensure_packed_resource_list(S_8008B23C_0 *entries_in);
 
 #endif

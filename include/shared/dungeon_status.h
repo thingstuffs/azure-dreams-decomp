@@ -38,6 +38,10 @@ typedef struct DungeonGlobalStatus {
 } DungeonGlobalStatus;
 
 extern DungeonGlobalStatus g_dungeon_status;
+/* g_dungeon_status.active_actor (0x8008346C) declared as its own word: the troll targeted-action update clears and
+ * tests it with its own lui, apart from the &g_dungeon_status base it also takes, which the member spelling
+ * would share. */
+extern void *dungeon_status_active_actor_alias;
 
 /* D_800814A8 remaining player-action count, also reached through the player owner.
  * This is a sparse counter view, with the original 0xA8 extent. */

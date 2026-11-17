@@ -44,7 +44,7 @@ struct Rec_D_800FE490; void update_record_overlap_node(struct Rec_D_800FE490 *);
 struct ObjectPosition; struct ObjectPosition;            /* extern */
 extern u8 D_8006CCF8[];
 extern M2C_UNK D_80089960;
-extern u8 town_blocked_directions;
+extern u8 town_blocked_directions[];
 #include "records/Rec_D_800FE490.h"
 #include "shared/minigame_body.h"
 extern Rec_D_800FE490 town_motion_list;
@@ -196,7 +196,7 @@ void update_player_minigame_motion(TownCourseActor *actor, ObjectPosition *motio
             }
         }
     }
-    if (town_blocked_directions != 0) {
+    if (town_blocked_directions[0] != 0) {
         motion->velocity_z = 0;
         copy_z_to_collision_motion((motion));
     }

@@ -44,7 +44,12 @@ What is re-derived (each value is rewritten only when exactly one current value 
   call lines      prototype-floor arity_evidence entries {path, caller, line}: a line that no longer calls
                   the row's function is re-derived from the caller's calls of it in order, when the caller
                   holds exactly as many calls as the ledger lists for it.
-  cast sites      ledger/unions.jsonl retired_to_cast entries whose line no longer holds the cast:
+  cast sites      with --base, a ledger/unions.jsonl retired_to_cast entry `path:N CAST ...` that the row has
+                  held unchanged since BASE, in a file edited since BASE, follows its cast within the function
+                  that held line N at BASE: the casts with the same text in that function are paired in order
+                  between BASE and now when their numbers agree, else the entry takes the free one nearest the
+                  line diff's projection; it becomes `path CAST ... (cast gone)` only when no cast with that
+                  text is left in the function.  Other entries whose line no longer holds the cast:
                   tools/lint/ledger_integrity.py's re-derivation (history anchor, git hunk offsets, the
                   field rule without record layouts).
   layout_inline   tools/typing/refresh_layout_inline.py against --base (default HEAD); `tu_new` must exist.
@@ -1038,8 +1043,115 @@ def union_rows(r, files):
             new['id'] = row['id']
         return new
     refresh_jsonl(r, files, UNIONS, 'unions', row_fn)
+    carry_casts(r, files)
     rederive_casts(r, files)
     return renamed_ids
+
+
+def function_spans(text):
+    """[(name, first, last)] 1-based line spans of the definitions in a C text."""
+    clean = C.strip_comments(text)
+    spans = []
+    for m in C.DEFINED.finditer(clean):
+        start = clean.index('{', m.start())
+        end = I.skip_balanced(clean, start, '{', '}')
+        spans.append((m.group(1), clean.count('\n', 0, m.start()) + 1, clean.count('\n', 0, end) + 1))
+    return spans
+
+
+def cast_lines(lines, first, last, token):
+    """Line numbers in [first, last] whose text holds the squashed cast token."""
+    return [n for n in range(first, min(last, len(lines)) + 1) if token in I.squash(lines[n - 1])]
+
+
+def carry_casts(r, files):
+    """--base: retired_to_cast entries the row holds unchanged since BASE follow their cast inside the function
+    that held the cited line at BASE (same cast text, paired in order); `(cast gone)` only when the function no
+    longer holds that cast text."""
+    if not r.base:
+        return
+    text = files.read(UNIONS)
+    base_text = r.paths.rev_text(r.base, UNIONS)
+    if text is None or base_text is None:
+        return
+    base_rows = {}
+    for line in base_text.splitlines():
+        if line.strip():
+            row = json.loads(line)
+            base_rows[row.get('id')] = row
+    lines = text.splitlines()
+    out, dirty = [], False
+    for line in lines:
+        if not line.strip():
+            out.append(line)
+            continue
+        row = json.loads(line)
+        entries = row.get('retired_to_cast')
+        base_row = base_rows.get(row.get('id'))
+        if not isinstance(entries, list) or not base_row:
+            out.append(line)
+            continue
+        held = {e for e in base_row.get('retired_to_cast') or [] if isinstance(e, str)}
+        groups = collections.defaultdict(list)          # (path, function, token) -> [(index, parsed, ordinal)]
+        spans_at = {}
+        for index, entry in enumerate(entries):
+            if not isinstance(entry, str) or entry not in held:
+                continue
+            parsed = I.parse_entry(entry)
+            if parsed['kind'] != 'site' or parsed['second']:
+                continue
+            path = parsed['path']
+            old_text, new_text = r.paths.rev_text(r.base, path), r.tree.cached(path)
+            if old_text is None or new_text is None or old_text == new_text:
+                continue
+            if path not in spans_at:
+                spans_at[path] = function_spans(old_text)
+            old_lines, token = old_text.splitlines(), I.squash(parsed['cast'])
+            home = next(((name, a, b) for name, a, b in spans_at[path] if a <= parsed['line'] <= b), None)
+            if home is None:
+                continue
+            occurrences = cast_lines(old_lines, home[1], home[2], token)
+            if parsed['line'] not in occurrences:
+                continue                                # already stale at BASE: ledger_integrity's re-derivation
+            groups[(path, home[0], token)].append((index, parsed, occurrences, home[1]))
+        new_entries = list(entries)
+        for (path, function, token), members in groups.items():
+            new_text = r.tree.cached(path)
+            span = function_lines(new_text, function)
+            if span is None and r.names.stale(function):
+                renamed, _ = r.names.resolve(function, [path])
+                span = function_lines(new_text, renamed) if renamed else None
+            if span is None:
+                continue                                # the function left the file: path re-derivation's job
+            now = cast_lines(new_text.splitlines(), span[0], span[1], token)
+            taken = set()
+            for index, parsed, occurrences, old_first in members:
+                if not now:
+                    replacement = ' '.join(f"{path} {parsed['rest'].strip()} {I.GONE}".split())
+                else:
+                    if len(now) == len(occurrences):
+                        choice = now[occurrences.index(parsed['line'])]
+                    else:
+                        projected = r.paths.map_line(path, path, parsed['line'], r.base)
+                        if projected is None:
+                            projected = parsed['line'] - old_first + span[0]
+                        pool = [n for n in now if n not in taken] or now
+                        choice = min(pool, key=lambda n: (abs(n - projected), n))
+                    taken.add(choice)
+                    replacement = f'{path}:{choice}' + (f",{parsed['extra']}" if parsed['extra'] else '') \
+                        + parsed['rest']
+                if replacement != entries[index]:
+                    r.note('unions', row['id'], entries[index], replacement,
+                           'cast line (carried in its function)' if now else 'cast gone from its function')
+                    new_entries[index] = replacement
+        if new_entries == entries:
+            out.append(line)
+            continue
+        kwargs = json_line_format(line, row) or dict(sort_keys=True)
+        out.append(json.dumps(dict(row, retired_to_cast=new_entries), **kwargs))
+        dirty = True
+    if dirty:
+        files.set(UNIONS, '\n'.join(out) + ('\n' if text.endswith('\n') else ''))
 
 
 def rederive_casts(r, files):

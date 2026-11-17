@@ -661,7 +661,7 @@ void finish_arachne_fade_in(ActorRecord *state, ObjectPosition *motion, SpriteFr
 void dim_effect_after_delay(ArachneActionEffectBody *effect);
 s32 build_linked_curved_wireframe_grid(u8 *node, ObjectPosition *position, SpriteFrameState *unused_sprite);
 s32 project_arachne_sprite_chain(void *initial_payload, ObjectPosition *entry_data, SpriteFrameState *entry, s32 unused);
-void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_80174618_S_80174618_1 *position, void *render_params, s16 depth_bias);
+void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_80174618_S_80174618_1 *position, SpriteFrameState *render_params, s16 depth_bias);
 s32 queue_line_packets_for_node_chain(void *initial_state, void *context, SpriteFrameState *data);
 void count_down_lifetime_and_flag_removal(void *record_data);
 void build_animated_spherical_wireframe(void *effect, ObjectPosition *origin, SpriteFrameState *tint);

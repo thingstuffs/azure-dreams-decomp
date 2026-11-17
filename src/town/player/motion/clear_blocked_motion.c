@@ -5,7 +5,7 @@
 #include "town/player/state.h"
 
 
-extern u8 town_blocked_directions[9];
+extern u8 town_blocked_directions[];
 
 /* Clear motion along blocked directions and update the affected axes. */
 void clear_blocked_motion(ObjectPosition *state)

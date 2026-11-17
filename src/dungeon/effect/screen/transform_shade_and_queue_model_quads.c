@@ -7,6 +7,7 @@
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/object_node.h"
 #include "sdk/libgte_matrix.h"
 #include "sdk/libgpu_packets.h"
 #include "engine/graphics/sprite_scratch.h"
@@ -274,25 +275,26 @@ struct S_Rect;
 /* Updates each linked state from its input values and delta using scratchpad memory. */
 s32 queue_linked_visible_rectangle_copies(void *initial_state, void *input_values, SpriteFrameState *initial_delta) {
     void *state = initial_state;
+    ObjectPosition *position = input_values;
     SpriteFrameState *delta = initial_delta;
     SpriteQuadScratch *scratch = (SpriteQuadScratch *)0x1F800000;
-    u8 *next_node;
+    ObjectNodeHeader *next_node;
 
     for (;;) {
-        scratch->position.vx = ((S_800C95C0_0 *)input_values)->unk_02;
-        scratch->position.vy = (*(u16 *)((u8 *)input_values + 6));
-        scratch->position.vz = (*(u16 *)((u8 *)input_values + 0xA));
+        scratch->position.vx = position->x.w.i;
+        scratch->position.vy = position->y.w.i;
+        scratch->position.vz = position->z.w.i;
         scratch->sort_depth =
             RotTransPers(&scratch->position, (s32 *)&scratch->screen_origin,
                           &scratch->depth_cue, &scratch->gte_flag) -
             delta->depth_bias;
         queue_visible_rectangle_copy(state, scratch);
-        next_node = ((S_800C95C0_1_pre *)state)[-1].unk_00;
+        next_node = NODE_HEADER(state)->chain_next;
         if (next_node == NULL)
             break;
-        state = next_node + 0x20;
-        input_values = *(u8 **)(next_node + 8);
-        delta = *(u8 **)(next_node + 0xC);
+        state = NODE_BODY(next_node);
+        position = next_node->position;
+        delta = next_node->sprite;
     }
     return 0;
 }

@@ -9,7 +9,6 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
-#include "records/Rec_D_80083460.h"
 #include "engine/graphics.h"
 #include "slus.h"
 #include "dungeon/player.h"
@@ -18,7 +17,6 @@
 #include "dungeon/item/message.h"
 
 
-extern Rec_D_80083460 D_80083460;
 extern u8 D_800DCFF8[];
 extern u8 D_800E0597;
 extern u8 D_800E05C3;
@@ -71,7 +69,7 @@ void update_wake_nearby_monsters(ActorRecord *controller, ObjectPosition *motion
         motion->velocity_x = 0;
         motion->velocity_y = 0;
     }
-    count_state = (S_80092E90_3 *)&D_80083460;
+    count_state = (S_80092E90_3 *)&g_dungeon_status;
     frames_left = count_state->unk_04.n;
     frame_count = count_state->unk_04.v;
     if (frames_left != 0) {

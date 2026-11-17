@@ -102,7 +102,7 @@ void *spawn_mandara_in_slot_d(s16 flags, s16 kind_id, s16 tile_y, s16 spawn_heig
         value = monster->clut;
         actor->action_id = 0xFF;
         actor->unk_9C = -1;
-        (*(Callback *)((u8 *)actor + 0x8C)) = D_8015EF6C;
+        actor->unk_8C.handler = D_8015EF6C;
         (*(s16 *)((u8 *)actor + 0xAE)) = value;
 
         entry = monster->source;

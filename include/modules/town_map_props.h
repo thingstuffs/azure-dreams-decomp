@@ -31,7 +31,7 @@ s32 register_node(void *entry, void *registration_id);
 void advance_sprite_animation_and_textures(void *animation);
 s32 check_town_target_and_callback(s32 requested_id);
 s32 func_800352FC(void);
-int draw_linked_lit_meshes(void *object, void *value, void *record);
+int draw_linked_lit_meshes(void *object, void *value, struct SpriteFrameState *record);
 void update_tori_pair_motion(void *pair);
 void update_tori_child_sprite(void *actor, void *motion, struct SpriteFrameState *actor_id);
 void *memcpy(void *dst, const void *src, u32 n);

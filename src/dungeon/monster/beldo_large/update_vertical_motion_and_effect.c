@@ -6,11 +6,6 @@
 
 
 
-typedef struct S_8017085C_2 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_8017085C_2;   /* arg2 in update_vertical_motion_and_effect */
-
 /* Updates vertical animation and triggers an effect upon reaching the resting height. */
 void update_vertical_motion_and_effect(LinkedObjectPositionBody *motion, ObjectPosition *position, SpriteFrameState *effect) {
     s8 effect_args[4];
@@ -84,7 +79,7 @@ void update_vertical_motion_and_effect(LinkedObjectPositionBody *motion, ObjectP
         tile_z = centered_z >> 6;
         motion->tile_y = tile_z;
         place_item_at_valid_floor_position(motion->tile_x, (s8)tile_z,
-            position->z.w.i, ((S_8017085C_2 *)effect)->unk_08, effect_args);
+            position->z.w.i, (s32)(unsigned long)effect->source, effect_args);
 
         (*(u16 *)((u8 *)motion + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

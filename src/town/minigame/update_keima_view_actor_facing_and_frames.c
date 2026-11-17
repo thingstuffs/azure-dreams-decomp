@@ -21,7 +21,7 @@ typedef struct {
 extern u8 D_80083220[];
 
 /* Updates entity state and selects direction-dependent table entries. */
-void update_keima_view_actor_facing_and_frames(KeimaPathActor *object, void *output, void *entity_data)
+void update_keima_view_actor_facing_and_frames(KeimaPathActor *object, void *output, SpriteFrameState *entity_data)
 {
     KeimaPathActor *caller_obj = object;
     Copy24 *output_bytes = output;
@@ -44,8 +44,8 @@ void update_keima_view_actor_facing_and_frames(KeimaPathActor *object, void *out
 
     case 1:
         initial_magnitude = loaded_town_resource_attributes[0];
-        ((SpriteFrameState *)entity_data)->frameTable = town_minigame_directional_frames;
-        ((SpriteFrameState *)entity_data)->animation_resource = initial_magnitude;
+        entity_data->frameTable = town_minigame_directional_frames;
+        entity_data->animation_resource = initial_magnitude;
         select_sprite_entry(entity_data,
             town_minigame_directional_frames[((view_facing_angle_alias +
                 caller_obj->facing.s + 0x100) >> 9) & 7],

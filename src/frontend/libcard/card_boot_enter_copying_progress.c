@@ -9,7 +9,7 @@ void card_boot_enter_copying_progress(void *object_data) {
     CardSaveMenuBody *state = object_data;
 
     state->countdown = 1;
-    card_boot_show_copying_progress(NODE_HEADER(object_data), object_data + 0x40);
+    card_boot_show_copying_progress(NODE_HEADER(object_data), &state->unk_40);
     state->unk_40 = 1;
-    ((ObjectNodeHeader *)object_data - 1)->update_callback = &card_boot_wait_before_copying_slot;
+    NODE_HEADER(object_data)->update_callback = &card_boot_wait_before_copying_slot;
 }

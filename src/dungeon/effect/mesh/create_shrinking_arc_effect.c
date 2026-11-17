@@ -226,7 +226,7 @@ void queue_radial_line_burst(ovl_1930844_81911BF4_Obj81911BF4 *effect_data, void
 #include "sdk/libgpu_packets.h"
 #include "dungeon/effect/projected_quad_scratch.h"
 
-void build_and_enqueue_five_translucent_quads_between_interpolated_points(u8 *shape, void *position, s16 scale_num, s16 scale_den)
+void build_and_enqueue_five_translucent_quads_between_interpolated_points(u8 *shape, ObjectPosition *position, s16 scale_num, s16 scale_den)
 {
     GameWork *gfx_slot= ovl_1930844_81910EC0_GFX_ROOT_SLOT;
     u8 *gfx = gfx_slot->draw_buffer;
@@ -300,11 +300,11 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(u8 *sh
         scratch->vertices[3].vy = vertex_y;
         scratch->vertices[1].vy = vertex_y;
 
-        coord = ovl_1930844_81910EC0_U16_AT(position, 0xA) - ovl_1930844_81910EC0_U16_AT(shape, 0x10);
+        coord = (u16)position->z.w.i - ovl_1930844_81910EC0_U16_AT(shape, 0x10);
         scratch->vertices[1].vz = coord;
         scratch->vertices[0].vz = coord;
 
-        coord = ovl_1930844_81910EC0_U16_AT(position, 0xA);
+        coord = (u16)position->z.w.i;
         scratch->vertices[2].vz = coord;
         scratch->vertices[3].vz = coord;
 
@@ -370,7 +370,7 @@ typedef struct { u8 prefix[0x18]; PointCoord x[5]; PointCoord y[5]; } EffectCoor
  * edges from adjacent saved X/Y points over the supplied duration. Projects and queues each quad
  * with its draw mode only for depths below 0x1E0.
  */
-void queue_perimeter_vertical_quads(ovl_1930844_81911BF4_Obj81911BF4 *effect_in, ovl_1930844_819112CC_S_819112CC_1 *origin, s16 step_in, s16 duration_in)
+void queue_perimeter_vertical_quads(ovl_1930844_81911BF4_Obj81911BF4 *effect_in, ObjectPosition *origin, s16 step_in, s16 duration_in)
 {
     ovl_1930844_81911BF4_Obj81911BF4 *effect = effect_in;
     s32 step = step_in;
@@ -435,10 +435,10 @@ void queue_perimeter_vertical_quads(ovl_1930844_81911BF4_Obj81911BF4 *effect_in,
         angle_x_or_mask_2 = (twice_index + 1) * 0x199;
         link = (u32 *)(angle_x_or_mask_2 + effect->angle);
         radial_x = rsin((s32)link);
-        target_x = radial_coordinate(origin->unk_00, radial_x, effect->scale);
+        target_x = radial_coordinate(origin->x.v, radial_x, effect->scale);
         row_off = rcos(angle_x_or_mask_2 + effect->angle);
         row_off >>= 4;
-        radial_y = origin->unk_04 +
+        radial_y = origin->y.v +
             ((row_off * effect->scale) << 8);
         target_y = radial_y;
         {
@@ -484,10 +484,10 @@ void queue_perimeter_vertical_quads(ovl_1930844_81911BF4_Obj81911BF4 *effect_in,
         end_y = ((EffectCoords *)effect)->y[point_index].half.high + ((u16 *)&scratch->step_y)[1];
         scratch->vertices[3].vy = end_y;
         scratch->vertices[1].vy = end_y;
-        bottom_z = origin->unk_0A - effect->field10;
+        bottom_z = (u16)origin->z.w.i - effect->field10;
         scratch->vertices[1].vz = bottom_z;
         scratch->vertices[0].vz = bottom_z;
-        top_z = origin->unk_0A;
+        top_z = (u16)origin->z.w.i;
         v1 = &scratch->vertices[1];
         v2 = &scratch->vertices[2];
         v3 = &scratch->vertices[3];
@@ -667,7 +667,7 @@ void create_screen_overlay_effect(s32 *initial_value) {
 }
 
 /* Animates five orbiting points through line, quad, spin, expansion, and fade phases before removal. */
-void update_five_point_orbit_effect(ovl_1930844_81911BF4_Obj81911BF4 *effect, s32 *position)
+void update_five_point_orbit_effect(ovl_1930844_81911BF4_Obj81911BF4 *effect, ObjectPosition *position)
 {
     s32 point_index;
     s32 brightness;
@@ -682,8 +682,8 @@ void update_five_point_orbit_effect(ovl_1930844_81911BF4_Obj81911BF4 *effect, s3
     effect->timer++;
 
     for (point_index = 0; point_index < 5; point_index++) {
-        effect->x[point_index] = position[0] + (((rsin(point_index * 0x333 + effect->angle) >> 4) * effect->scale) << 8);
-        effect->y[point_index] = position[1] + (((rcos(point_index * 0x333 + effect->angle) >> 4) * effect->scale) << 8);
+        effect->x[point_index] = position->x.v + (((rsin(point_index * 0x333 + effect->angle) >> 4) * effect->scale) << 8);
+        effect->y[point_index] = position->y.v + (((rcos(point_index * 0x333 + effect->angle) >> 4) * effect->scale) << 8);
     }
 
     state = effect->state;
@@ -697,7 +697,7 @@ void update_five_point_orbit_effect(ovl_1930844_81911BF4_Obj81911BF4 *effect, s3
         if (effect->timer < effect->duration) {
             return;
         }
-        position[2] = effect->field14 << 16;
+        position->z.v = effect->field14 << 16;
         effect->timer = 0;
         effect->state++;
         return;
@@ -791,8 +791,8 @@ void update_five_point_orbit_effect(ovl_1930844_81911BF4_Obj81911BF4 *effect, s3
         effect->scale = (u16)effect->scale * 2;
 
         for (point_index = 0; point_index < 5; point_index++) {
-            effect->x[point_index] = position[0] + (((rsin(point_index * 0x333 + effect->angle) >> 4) * effect->scale) << 9);
-            effect->y[point_index] = position[1] + (((rcos(point_index * 0x333 + effect->angle) >> 4) * effect->scale) << 9);
+            effect->x[point_index] = position->x.v + (((rsin(point_index * 0x333 + effect->angle) >> 4) * effect->scale) << 9);
+            effect->y[point_index] = position->y.v + (((rcos(point_index * 0x333 + effect->angle) >> 4) * effect->scale) << 9);
         }
 
         queue_perimeter_vertical_quads(effect, position, 0, 0);

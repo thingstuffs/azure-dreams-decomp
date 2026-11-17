@@ -1,5 +1,6 @@
 /* Moves the spell to its target, creates the replacement actor and retires its visual. */
 #include "dungeon/effect/transform.h"
+#include "shared/dungeon_status.h"
 #include "dungeon/system/random.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/record_ptrs.h"
@@ -14,7 +15,6 @@
 extern u16 D_8006CCD8[8],D_8006CCE8[8];
 extern u32 D_800814A0;
 extern SpriteFrameState D_80082E80;
-extern s32 D_8008346C;
 extern s32 D_800DEF08;
 s16 get_surface_height_at_record(ObjectPosition *);
 s32 check_left_tile_and_center_height(u16,u16,s16);
@@ -193,7 +193,7 @@ void update_transform_spell(TransformSpellState *spell, ObjectPosition *motion, 
         break;
     case 4:
         if (spell->active == 0) {
-            D_8008346C = 0;
+            g_dungeon_status.active_actor = 0;
             *((u16 *)spell - 1) |= 0x8000;
             D_800814A0 |= 0x8000;
         }

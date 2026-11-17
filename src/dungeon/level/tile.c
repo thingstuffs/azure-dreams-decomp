@@ -838,7 +838,7 @@ typedef struct {
 
 struct Node;
 s32 is_map_coordinate_out_of_bounds(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */                        /* extern */
-extern s8 D_800DD7DC;
+extern u8 D_800DD7DC;
 
 typedef struct S_8009AF18_0 {
     u8 pad_00[0x24];

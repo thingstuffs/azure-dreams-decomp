@@ -7,11 +7,11 @@
 #include "shared/vector.h"
 #include "town/event.h"
 #include "town/event/motion.h"
+#include "town/event/target_record_angles_g00590.h"
 
 
 
 extern IntVector3 D_80100D28;
-extern s16 town_event_motion_pair[];
 
 /* Initializes object state and sets its starting position. */
 void initialize_object_state_and_position(void **object, IntVector3 *start_position, void *ptr2) {
@@ -25,8 +25,8 @@ void initialize_object_state_and_position(void **object, IntVector3 *start_posit
     town_motion_x_phase = 0;
     town_motion_y_phase = 0;
     town_mesh_scale = 0;
-    town_event_motion_pair[1] = 0;
-    town_event_motion_pair[0] = 0;
+    town_event_motion_pair.angle = 0;
+    town_event_motion_pair.field_0 = 0;
     D_80100D28.x = start_position->x;
     position = &D_80100D28.x;
     position[1] = start_position->y;

@@ -239,7 +239,8 @@ class ModuleTags(unittest.TestCase):
 
 class LowerTextRefused(unittest.TestCase):
     """A donor whose text reads generated members, raw offsets or casts where the copy names the record's members
-    (the AC160 update_block_hop_slot_f, draw_shaded_point_chain and grineut facing copies) is refused."""
+    (the update_block_hop_slot_f, draw_shaded_point_chain and grineut facing copies, whose transplant replaced
+    named members) is refused."""
 
     def test_named_member_replaced_by_generated_member_or_offset_refuses(self):
         copy = ('void f(ActorRecord *a, SpriteFrameState *p) {\n    s16 old;\n    a->action_phase = 1;\n'

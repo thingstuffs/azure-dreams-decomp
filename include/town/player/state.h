@@ -33,10 +33,10 @@ void play_sound_by_height_range(void);
 void ease_object_value_and_advance_state(TownPlayerRecord *state, ObjectPosition *object);
 
 /* forward_state_value_to_handler_a.c */
-void forward_state_value_to_handler_a(void *state, ObjectPosition *value);
+void forward_state_value_to_handler_a(TownPlayerRecord *state, ObjectPosition *value);
 
 /* forward_state_value_to_handler_b.c */
-void forward_state_value_to_handler_b(void *state, ObjectPosition *value);
+void forward_state_value_to_handler_b(TownPlayerRecord *state, ObjectPosition *value);
 
 /* get_script_flag_mask.c */
 s32 get_script_flag_mask(s32 flagIndex);

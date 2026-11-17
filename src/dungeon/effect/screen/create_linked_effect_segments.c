@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/entity_objects.h"
+#include "shared/entity.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800243C4_arg1.h"
 #include "sdk/libgte.h"
@@ -43,7 +44,7 @@ typedef struct S_80024ED4_4 {
 } S_80024ED4_4;
 
 /* Creates up to sixteen linked effect segments at the given position. */
-void *create_linked_effect_segments(Rec_func_800243C4_arg1 *position) {
+void *create_linked_effect_segments(ObjectPosition *position) {
     GpuRectBuffer setup_params;
     s32 segment_index;
     s32 alloc_flags;
@@ -60,7 +61,7 @@ void *create_linked_effect_segments(Rec_func_800243C4_arg1 *position) {
 
     previous_segment = NULL;
     segment_index = 0;
-    angle = calculate_planar_heading(view_reference_entity.x.w.i, view_reference_entity.y.w.i, position->unk_02, position->unk_06);
+    angle = calculate_planar_heading(view_reference_entity.x.w.i, view_reference_entity.y.w.i, position->x.w.i, position->y.w.i);
     do {
         alloc_flags = 0x12;
         if (segment_index != 0) {
@@ -75,13 +76,13 @@ void *create_linked_effect_segments(Rec_func_800243C4_arg1 *position) {
         if (segment != NULL) {
             coords = segment->position;
             segment->update_callback = &D_80024728;
-            x = (u16) position->unk_02;
+            x = (u16) position->x.w.i;
             coords->unk_02 = x;
             coords->unk_0E = x;
-            y = (u16) position->unk_06;
+            y = (u16) position->y.w.i;
             coords->unk_06 = y;
             coords->unk_12 = y;
-            z = position->unk_0A.as_u16;
+            z = position->z.w.i;
             coords->unk_0A = z;
             coords->unk_16 = z;
             render_state = segment->sprite;

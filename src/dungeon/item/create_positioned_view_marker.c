@@ -195,7 +195,7 @@ void update_view_marker_rotation(SlotViewMarkerBody *state, ObjectPosition *posi
 
 const DirectionOffsets dungeon_7ce800_directions = {1,0,1,1,0,1,-1,1,-1,0,-1,-1,0,-1,1,-1};
 
-s32 draw_linked_lit_meshes(void *,void *,void *);
+s32 draw_linked_lit_meshes(void *,void *,SpriteFrameState *);
 
 /* Creates a dungeon object at the given position and records it in its slot. */
 void create_slot_positioned_effect(s16 x, s16 y, s32 slot) {
@@ -514,7 +514,7 @@ void lift_scripted_map_boundary(void *owner) {
         i++;
         objects += 4;
     } while (i < 2);
-    scripted_boundary_active.first = 0;
+    scripted_boundary_active = 0;
 }
 
 /* Set the returned object's data pointer to lift_scripted_map_boundary. */
@@ -573,7 +573,7 @@ void mark_scripted_map_boundary(void)
     global_state = &runtime_dispatch_state;
     global_state->unk_10 = 0x1F;
     global_state->unk_12 = 0x39;
-    scripted_boundary_active.bytes[0] = 1;
+    scripted_boundary_active = 1;
     global_state->flags16 |= 1;
     dungeon_floor_flags |= 0x10000000;
 }
@@ -609,22 +609,22 @@ s32 get_direction_toward_target_position(s16 *target_pos)
     return 6;
 }
 /* Return the base of the next type 0x15 entity in the ring, or null if absent. */
-void *find_pulunpa_in_ring(void *entity)
+void *find_pulunpa_in_ring(ActorRecord *entity)
 {
-    void *entity_base;
-    void *first_entity;
-    void *next_base;
-    next_base = *((void **) (((u8 *) entity) + 0x5C));
+    ObjectNodeHeader *entity_base;
+    ActorRecord *first_entity;
+    ObjectNodeHeader *next_base;
+    next_base = entity->next_actor_header;
     first_entity = entity;
     entity = NODE_BODY(next_base);
     if (entity != first_entity) {
         s32 target_type = 0x15;
         do {
             entity_base = NODE_HEADER(entity);
-            if ((*((((u8 *) entity) - -0x13))) == target_type) {
+            if (entity->species == target_type) {
                 return entity_base;
             }
-            entity = NODE_BODY(*((void **) (((u8 *) entity) + 0x5C)));
+            entity = NODE_BODY(entity->next_actor_header);
         } while (entity != first_entity);
     }
     return 0;

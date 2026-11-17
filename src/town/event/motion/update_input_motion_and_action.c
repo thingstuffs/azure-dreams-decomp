@@ -11,19 +11,19 @@
 #include "town/event/motion.h"
 #include "town/player.h"
 #include "town/player/position.h"
+#include "town/event/target_record_angles_g00590.h"
 struct TownObj;
 struct TownVec;
 
 extern void initialize_action_object(void *controller, void *object, s32 update_value);
 extern void initialize_record_with_pointer_and_code(void *controller, void *object, s32 update_value);
 
-extern u8 town_event_motion_pair[];
 
 /* Updates input-driven motion and handles object action transitions. */
 void update_input_motion_and_action(void *controller, ObjectPosition *object, s32 update_arg) {
     s32 saved_arg;
     GameWork *buttons;
-    u8 *position;
+    PositionRotationPair *position;
     s16 angle;
     s32 wave;
     s32 rise;
@@ -78,11 +78,11 @@ void update_input_motion_and_action(void *controller, ObjectPosition *object, s3
         }
     }
 
-    position = town_event_motion_pair;
-    wave = rcos(*(s16 *)(position + 2) - 0x400);
+    position = &town_event_motion_pair;
+    wave = rcos(position->angle - 0x400);
     *(s32 *)position += 0x500000 - (wave << 10);
     rise = town_orbit_radius;
-    *(u16 *)((u8 *)controller + 0x10) = *(u16 *)(position + 2);
+    *(u16 *)((u8 *)controller + 0x10) = position->angle;
 
     if (rise < 0x800) {
         town_orbit_radius = rise + 0x80;

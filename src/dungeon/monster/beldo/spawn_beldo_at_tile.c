@@ -36,6 +36,7 @@ void *spawn_beldo_at_tile(s16 entity_id, s32 tile_x, s16 tile_y, u16 initial_hei
     u16 saved_tile_1e;
     SpriteFrameState *tile_state;
     S_80170F84_2 *world_state;
+    ObjectPosition *position_state;
     ObjectNodeHeader *entity;
 
     saved_tile_x = tile_x;
@@ -49,6 +50,7 @@ void *spawn_beldo_at_tile(s16 entity_id, s32 tile_x, s16 tile_y, u16 initial_hei
         entity_state->species = MONSTER_BELDO;
         register_node(entity, project_sprite_chain);
         world_state = entity->position;
+        position_state = entity->position;
         world_state->unk_0A = saved_height;
         tile_state = entity->sprite;
         tile_state->tile_x = saved_tile_x;
@@ -71,8 +73,8 @@ void *spawn_beldo_at_tile(s16 entity_id, s32 tile_x, s16 tile_y, u16 initial_hei
         tile_state->scale_x = 0U;
         tile_state->scale_y = 0U;
         tile_state->flags = (u16) (tile_state->flags | 0x80);
-        create_attached_sprite_with_offset(entity_state, world_state, tile_state, 1);
-        create_attached_sprite_with_offset(entity_state, world_state, tile_state, 2);
+        create_attached_sprite_with_offset(entity_state, position_state, tile_state, 1);
+        create_attached_sprite_with_offset(entity_state, position_state, tile_state, 2);
         tile_state->scale_x = saved_tile_1c;
         tile_state->scale_y = saved_tile_1e;
         func_80173C30();

@@ -12,17 +12,12 @@ static __inline__ s16 distance_exceeds(s32 limit, s32 distance) {
     return limit < __builtin_abs(distance);
 }
 
-typedef struct S1 {
-    char pad0[0x1A];
-    u16 f1A;
-} S1;
-
-extern s32 service_script_controller(s32, s32 *, S1 *); /* Unprototyped: retail call passes more arguments than the callee reads */
+extern s32 service_script_controller(); /* Unprototyped: retail call passes more arguments than the callee reads */
 static s32 state;
 
 
 /* Updates the object state, position, and timed target adjustments. */
-void update_proximity_triggered_object(ObjectStatePositionObject *self, s32 *position, S1 *target) {
+void update_proximity_triggered_object(ObjectStatePositionObject *self, s32 *position, SpriteFrameState *target) {
     register s32 phase;
     ObjectStatePositionObject *object = self;
     s32 y_limit;
@@ -80,7 +75,7 @@ void update_proximity_triggered_object(ObjectStatePositionObject *self, s32 *pos
         if (below_limit != 0) {
             view_reference_entity.y.v += 0x40000;
         }
-        next_value = target->f1A - 32;
+        next_value = target->angle_z - 32;
         break;
     }
 
@@ -95,12 +90,12 @@ void update_proximity_triggered_object(ObjectStatePositionObject *self, s32 *pos
         return;
 
     case 4:
-        next_value = target->f1A + 32;
+        next_value = target->angle_z + 32;
         break;
     default:
         return;
     }
-    target->f1A = next_value;
+    target->angle_z = next_value;
     if (object->countdown > 0) {
         return;
     }

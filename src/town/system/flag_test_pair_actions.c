@@ -23,17 +23,17 @@ typedef struct S_8001670C_1 {
 extern s32 find_entry_index_or_assert(u32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Processes the selected record's pair and optional context action, then returns the record's value. */
-s32 process_flag_test_record(u32 records, s32 condition_arg, u32 context, s32 record_selector)
+s32 process_flag_test_record(u32 records, s32 condition_arg, S_8001670C_1 *context, s32 record_selector)
 {
     s32 record_index;
     u32 pair;
 
     record_index = find_entry_index_or_assert(records, record_selector);
     pair = (((S_8001670C_0 *)(record_index * 8 + records))->unk_02 * 4)
-    + ((S_8001670C_1 *)context)->unk_14;
+    + context->unk_14;
     copy_flag_state_to_target(((FlagTestTargetPair16 *)pair)->unk_00, ((FlagTestTargetPair16 *)pair)->unk_02);
     if (condition_arg != 0 && check_all_flags_set(condition_arg) != 0) {
-        set_object_bitmap_bit(((S_8001670C_1 *)context)->unk_18);
+        set_object_bitmap_bit(context->unk_18);
     }
     return ((S_8001670C_0 *)(record_index * 8 + records))->unk_04;
 }

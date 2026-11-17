@@ -30,9 +30,9 @@ typedef struct AttachedSpriteWithOffsetBody {
     u8 pad_104[0xE];
 } AttachedSpriteWithOffsetBody;
 
-void create_attached_sprite_with_offset(ActorRecord *owner_data, MovingPosition *base_position, SpriteFrameState *sprite_template, s16 offset_id);
 void copy_part_state(AttachedSpriteWithOffsetBody *root, void *out_pos_arg, SpriteFrameState *dst_part_arg);
 void sync_beldo_part_to_owner(AttachedSpriteWithOffsetBody *root, void *output_pos, SpriteFrameState *target_data);
+void create_attached_sprite_with_offset(ActorRecord *owner_data, ObjectPosition *base_position, SpriteFrameState *sprite_template, s16 offset_id);
 
 void finish_beldo_tile_move(void *entity_ptr, void *motion, void *check_arg, void *actor_arg);
 

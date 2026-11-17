@@ -23,11 +23,10 @@ typedef struct {
 #define NULL 0
 #endif
 
-typedef struct {
-    s32 words[8];
-} __attribute__((packed)) LocalTable;
+typedef struct { u32 v; } __attribute__((packed)) UA32;
+typedef struct { UA32 word[8]; } __attribute__((packed)) Table32;
 
-extern LocalTable D_8016482C;
+extern Table32 D_8016482C;
 extern s32 beldo_actor_nodes;
 
 
@@ -41,7 +40,7 @@ typedef struct S_801677FC_6 {
 /* Spawn sixteen effects offset in the current object's facing direction with increasing sizes. */
 void create_forward_layered_sprite_pulse(s32 unused_phase, void *unused_target_state)
 {
-    LocalTable direction_offsets;
+    Table32 direction_offsets;
     s32 size_step;
     s32 effect_index;
     u8 *direction_entry;

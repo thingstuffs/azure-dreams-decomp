@@ -47,7 +47,7 @@ typedef struct S_8052BCCC_3 {
 } S_8052BCCC_3;   /* out in animate_falling_timed_object */
 
 /* Per-frame step for the town cutscene actor: integrate its motion, then run its ten-state dispatch. */
-void animate_falling_timed_object(FallingTimedSceneObject *obj, ObjectPosition *motion, void *incoming_out) {
+void animate_falling_timed_object(FallingTimedSceneObject *obj, ObjectPosition *motion, S_8052BCCC_3 *incoming_out) {
     FallingSceneController *aux;
     S_8052BCCC_3 *out;
     u16 table[14];

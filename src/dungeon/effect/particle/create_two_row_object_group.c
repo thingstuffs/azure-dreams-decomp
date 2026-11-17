@@ -519,22 +519,6 @@ typedef struct S_800DB2DC_0 {
     u16 unk_4A;
 } S_800DB2DC_0;
 
-typedef struct S_800DB2DC_1 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-} S_800DB2DC_1;   /* held_arg2 in create_two_effect_groups */
-
-typedef struct S_800DB2DC_2 {
-    u8 pad_00[0x12];
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x12];
-    s32 unk_28;
-    s32 unk_2C;
-} S_800DB2DC_2;   /* held_arg1 in create_two_effect_groups */
-
-   /* held_arg0 in create_two_effect_groups */
-
 typedef struct S_800DB2DC_5 {
     u8 pad_00[0x4];
     s16 unk_04;
@@ -542,7 +526,7 @@ typedef struct S_800DB2DC_5 {
 } S_800DB2DC_5;
 
 /* Creates two groups of four effects using the source position and visual state. */
-void create_two_effect_groups(MovingPosition *position, S_800DB2DC_2 *source_visual, S_800DB2DC_1 *source_arg, s16 effect_param) {
+void create_two_effect_groups(ObjectPosition *position, SpriteFrameState *source_visual, ActorRecord *source_arg, s16 effect_param) {
     register M2C_UNK *callback;
     s32 scale;
     s16 saved_param;
@@ -567,30 +551,29 @@ void create_two_effect_groups(MovingPosition *position, S_800DB2DC_2 *source_vis
                 effect->update_callback = callback;
                 visual = effect->sprite;
                 ((S_800DB2DC_0 *)effect)->unk_4A =
-                    (u16)source_arg->unk_2A;
-                visual_word = source_visual->unk_28;
+                    source_arg->facing;
+                visual_word = source_visual->animation_resource;
                 visual->scale_y = scale;
                 visual->scale_x = scale;
                 visual->animation_resource = visual_word;
-                visual_flags = source_visual->unk_14;
+                visual_flags = source_visual->flags;
                 visual->flags = visual_flags;
-                source_offset = source_visual->unk_12;
+                source_offset = source_visual->clut;
                 visual->color.word = 0x808080;
                 visual->flags = (u16)(visual_flags | 0xC);
                 visual->clut =
                     (s16)(source_offset - 0x80);
                 ((S_800DB2DC_0 *)effect)->unk_20 = position;
                 effect->position->x.unsigned_parts.integer =
-                    (u16)position->x;
+                    position->x.w.i;
                 effect->position->y.unsigned_parts.integer =
-                    (u16)position->y;
+                    position->y.w.i;
                 effect->position->z.unsigned_parts.integer =
-                    (u16)position->z;
+                    position->z.w.i;
                 effect_state = NODE_BODY(effect);
                 effect_state->unk_06 = saved_param;
                 effect_state->unk_04 = (s16)(group_step != 0);
-                visual->frameTable =
-                    (s32)source_visual->unk_2C;
+                visual->frameTable = source_visual->frameTable;
             }
         } while (--effects_left >= 0);
         group_step -= 3;

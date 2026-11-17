@@ -63,7 +63,7 @@ typedef struct S_func_80EDF000_2 {
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 
-extern u8 weadog_slot_g_direction_steps[];
+extern GridPoint weadog_slot_g_direction_steps[8];
 extern FlagBlock D_800814A0;
 
 
@@ -177,7 +177,7 @@ interpolate:
             command[3] = 0;
             place_item_at_valid_floor_position(position->unk_0E, position->unk_12,
                           position->unk_16, render->unk_08, command);
-            ((ActorRecord *)motion->owner)->unk_A4.halves.low.s = 0;
+            motion->owner->unk_A4.halves.low.s = 0;
             ((ObjectRetirementFlags *)((u8 *)motion - 2))->flags |= 0x8000;
             D_800814A0.value |= OBJECT_REMOVE_PENDING;
             return;
@@ -202,7 +202,7 @@ fall:
                 (motion->spawner_tile_y << 6) & 0xFFC0,
                 (s16)((u16)position->unk_08.parts.unk_0A - 0x20));
             position->unk_08.parts.unk_08 = 0;
-            ((ActorRecord *)motion->owner)->unk_A4.halves.low.s = 0;
+            motion->owner->unk_A4.halves.low.s = 0;
             ((ObjectRetirementFlags *)((u8 *)motion - 2))->flags |= 0x8000;
             D_800814A0.value |= OBJECT_REMOVE_PENDING;
             return;

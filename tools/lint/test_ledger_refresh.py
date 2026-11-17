@@ -370,6 +370,63 @@ class UnionTests(Fixture):
         self.assertEqual(json.loads(self.read(R.UNION_BASELINE))['ids'], ['include/town/view.h::V.x'])
 
 
+class UnionCastTests(Fixture):
+    """--base: retired_to_cast entries follow their cast inside the function that held it at the batch start."""
+
+    BASE = ('#include "common.h"\n\nvoid walk(Half *h, Spell *s)\n{\n    s->a = (u16)h[0] + 1;\n'
+            '    s->b = (u16)h[1];\n    s->c = (u16)h[2];\n    s->d = (s16)h[3];\n}\n')
+
+    def row(self, entries):
+        return json.dumps(dict(id='include/town/half.h::Half.x', file='include/town/half.h', owner='Half', path='x',
+                               retired_to_cast=entries, evidence='e'), sort_keys=True) + '\n'
+
+    def start(self, entries, head):
+        self.write('include/town/half.h', 'typedef s16 Half;\n')
+        self.write('src/town/walk.c', self.BASE)
+        self.write(R.UNIONS, self.row(entries))
+        git(self.root, 'add', '-A')
+        git(self.root, 'commit', '-qm', 'batch start')
+        base = git(self.root, 'rev-parse', 'HEAD').strip()
+        self.write('src/town/walk.c', head)
+        git(self.root, 'add', '-A')
+        git(self.root, 'commit', '-qm', 'batch')
+        return base
+
+    def casts(self, base):
+        self.refresh('unions', write=True, base=base)
+        return self.jsonl(R.UNIONS)[0]['retired_to_cast']
+
+    def test_cast_moved_one_line_follows(self):
+        base = self.start(['src/town/walk.c:8 (s16)'],
+                          self.BASE.replace('#include "common.h"\n', '#include "common.h"\n#include "town/half.h"\n'))
+        self.assertEqual(self.casts(base), ['src/town/walk.c:9 (s16)'])
+
+    def test_several_identical_casts_pair_in_order(self):
+        # every (u16) line moves down one; the line an old number now names still holds a (u16), so a check of the
+        # cited line alone would keep the wrong one
+        base = self.start(['src/town/walk.c:5 (u16)', 'src/town/walk.c:6 (u16)', 'src/town/walk.c:7 (u16)'],
+                          self.BASE.replace('#include "common.h"\n', '#include "common.h"\n#include "town/half.h"\n'))
+        self.assertEqual(self.casts(base), ['src/town/walk.c:6 (u16)', 'src/town/walk.c:7 (u16)',
+                                            'src/town/walk.c:8 (u16)'])
+
+    def test_cast_really_gone_is_marked(self):
+        base = self.start(['src/town/walk.c:6 (u16)', 'src/town/walk.c:8 (s16)'],
+                          self.BASE.replace('(s16)h[3]', 'h[3]'))
+        self.assertEqual(self.casts(base), ['src/town/walk.c:6 (u16)', 'src/town/walk.c (s16) (cast gone)'])
+
+    def test_carry_is_a_fixpoint_after_the_commit(self):
+        base = self.start(['src/town/walk.c:6 (u16)'],
+                          self.BASE.replace('#include "common.h"\n', '#include "common.h"\n\n'))
+        args = ['--root', str(self.root), '--only', 'unions', '--base', base]
+        with redirect_stdout(io.StringIO()):
+            self.assertEqual(R.main(args + ['--check']), 1)
+            self.assertEqual(R.main(args + ['--write']), 0)
+            git(self.root, 'add', '-A')
+            git(self.root, 'commit', '-qm', 'refresh')
+            self.assertEqual(R.main(args + ['--check']), 0)
+        self.assertEqual(self.jsonl(R.UNIONS)[0]['retired_to_cast'], ['src/town/walk.c:7 (u16)'])
+
+
 class NoHistoryTests(Fixture):
     def test_head_table_only(self):
         r = R.Refresher(self.root, history=False)

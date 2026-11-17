@@ -811,7 +811,7 @@ extern s32 bright_effect_sprite_source;
 extern u16 bright_effect_height_samples[];
 extern u8 bright_effect_center_column[9];
 extern u8 bright_effect_center_row[9];
-s32 draw_linked_lit_meshes(void *, void *, void *);
+s32 draw_linked_lit_meshes(void *, void *, struct SpriteFrameState *);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 void draw_textured_ellipse(s32, void *, u16, u16);
 void CompMatrix(void *, void *, void *);

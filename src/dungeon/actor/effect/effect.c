@@ -914,7 +914,7 @@ void compact_item_entry_table(s32 entry_index) {
 s32 check_neighbor_tile_blocking();
 void *find_eligible_actor_at_tile_and_height(struct Node *node, s32 x, s32 y_in, s16 value);
 extern s32 held_item_record;
-extern u8 D_800DD7DC[];
+extern u8 D_800DD7DC;
 
 
 #define DUNGEON_FLAGS_PAGE ((s8 *)0x80080000)
@@ -1227,7 +1227,7 @@ check_completion:
         hit_object = find_eligible_actor_at_tile_and_height(object_data, tile->unk_24, tile->unk_25,
             (*(s16 *)((u8 *)object_data + (0x88))));
         if (hit_object != NULL) {
-            if ((hit_object->unk_13 == MONSTER_BARONG) && !(hit_object->unk_1C & 0x228) && (D_800DD7DC[0] != 0)) {
+            if ((hit_object->unk_13 == MONSTER_BARONG) && !(hit_object->unk_1C & 0x228) && (D_800DD7DC != 0)) {
                 hit_object->unk_14 = (s32) (hit_object->unk_14 | 0x800000);
                 hit_object->unk_48 = ((ObjectPosition *)(object->unk_9C))->x.v;
                 NODE_HEADER(object)->flags = (u16) (NODE_HEADER(object)->flags | 0x8000);

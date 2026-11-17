@@ -8,8 +8,11 @@ typedef struct S_8051E954_3 {
     s32 (*unk_208)(s32);
 } S_8051E954_3;
 
+typedef struct {
+    s32 values[3];
+} ValueTable;
 
-extern s32 D_80019158;
+extern ValueTable D_80019158;
 
 typedef struct S_8051E954_0 {
     u8 pad_00[0x4];
@@ -24,10 +27,10 @@ void submit_three_word_command(s32 command_value) {
 
     command_value &= 0xFFFF;
     command_value |= 0x06800000;
-    D_80019158 = command_value;
+    D_80019158.values[0] = command_value;
     command_value &= 0xFFFF;
     command_value |= 0x05000000;
-    command_words = &D_80019158;
+    command_words = D_80019158.values;
     ((S_8051E954_0 *)command_words)->unk_04 = command_value;
     command_value &= 0xFFFF;
     command_value |= 0xFF000000;

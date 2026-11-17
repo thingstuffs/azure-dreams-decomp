@@ -212,10 +212,9 @@ void *create_double_ellipse_sprite_effect(ovl_19a332c_81982CEC_S_800244EC_2 *sou
 
 /* Advances an accelerating particle, fades its color, and eases its scale toward 0x400 until its
    countdown ends. */
-void move_fade_and_expand_effect(HomingEffectBody *effect, void *motion_data, SpriteFrameState *sprite_data)
+void move_fade_and_expand_effect(HomingEffectBody *effect, ObjectPosition *motion, SpriteFrameState *sprite_data)
 {
     SpriteFrameState *sprite= (ovl_19a332c_81982DF8_Arg2 *) sprite_data;
-    ovl_19a332c_81982DF8_Arg1 *motion = motion_data;
     s16 frames_left;
     s32 next_x;
     u16 scale;
@@ -224,13 +223,13 @@ void move_fade_and_expand_effect(HomingEffectBody *effect, void *motion_data, Sp
     u8 brightness;
     u8 faded_brightness;
     count_or_scale = image_tint_update_count + 1;
-    next_x = motion->f0 + motion->fc;
+    next_x = motion->x.v + motion->velocity_x;
     image_tint_update_count = (u16) count_or_scale;
-    motion->f0 = next_x;
+    motion->x.v = next_x;
     zero = 0;
-    motion->f4 = motion->f4 + motion->f10;
-    motion->f8 = motion->f8 + motion->f14;
-    motion->f14 = motion->f14 + 0xC000;
+    motion->y.v = motion->y.v + motion->velocity_y;
+    motion->z.v = motion->z.v + motion->velocity_z;
+    motion->velocity_z = motion->velocity_z + 0xC000;
     advance_sprite_animation_and_textures(sprite);
     brightness = sprite->color.c.r;
     faded_brightness = brightness - (((s32) brightness) / effect->remaining_ticks);

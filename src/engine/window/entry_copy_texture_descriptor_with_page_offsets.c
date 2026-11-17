@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
 #include "engine/window.h"
 #include "slus/blinking_cursor_data.h"
@@ -14,16 +15,10 @@ typedef struct {
     s16 table_index;
 } Func37090Input;
 
-typedef struct {
-    u8 unk00[8];
-    void *table_value;
-    u32 color;
-} Func37090Output;
-
 extern void copy_texture_descriptor_with_page_offsets(u8 *, u8 *, u8 *);
 
 /* Updates lookup data and selects the current entry's table value and blinking color. */
-void update_blinking_cursor_with_dark_idle(Func37090Input *state, ObjectPosition *context, Func37090Output *output) {
+void update_blinking_cursor_with_dark_idle(Func37090Input *state, ObjectPosition *context, SpriteFrameState *output) {
     u8 entry;
 
     if (unlink_cursor_when_finished(state) != 0) {
@@ -46,13 +41,13 @@ void update_blinking_cursor_with_dark_idle(Func37090Input *state, ObjectPosition
         state->counter++;
         count = state->counter;
         if (count & 1) {
-            output->color = 0xC0C0C0;
+            output->color.word = 0xC0C0C0;
         } else {
-            output->color = 0;
+            output->color.word = 0;
         }
     } else {
-        output->color = 0;
+        output->color.word = 0;
     }
 
-    output->table_value = texture_descriptor_variant_values[((entry & 0x7F) + state->table_index)];
+    output->source = texture_descriptor_variant_values[((entry & 0x7F) + state->table_index)];
 }

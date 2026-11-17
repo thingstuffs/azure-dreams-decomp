@@ -3,19 +3,19 @@
 #include "town/map/object_callback.h"
 #include "town/map.h"
 
-extern void trigger_effect_when_in_range(void);
-extern void *map_active_callbacks[];
+extern s32 trigger_effect_when_in_range();
+extern CallbackEntry map_active_callbacks[];
 
 /* Set the preceding handler pointer and replace each active table callback. */
 void replace_active_table_callbacks(TownObjectRecord *entry_data, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite) {
-    void **p;
+    CallbackEntry *p;
 
     *(void **)((u8 *)entry_data - 0x10) = (void *)run_callbacks_unless_suppressed;
     p = map_active_callbacks;
-    if (*p != 0) {
+    if (p->callback != 0) {
         do {
-            *p = (void *)trigger_effect_when_in_range;
-            p += 6;
-        } while (*p != 0);
+            p->callback = trigger_effect_when_in_range;
+            p++;
+        } while (p->callback != 0);
     }
 }

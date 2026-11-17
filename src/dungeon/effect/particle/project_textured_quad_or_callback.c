@@ -691,7 +691,7 @@ typedef struct {
 extern UnkCopy12 D_80026658;
 
 /* Per-state particle step: the c4 state spawns 0x20 randomised sparks in one do-while. */
-void spawn_randomized_spark_burst(u8 *data, void *unused, u8 *context)
+void spawn_randomized_spark_burst(u8 *data, void *unused, SpriteFrameState *context)
 {
     u8 *p = data;
     s16 old;
@@ -793,7 +793,7 @@ void spawn_randomized_spark_burst(u8 *data, void *unused, u8 *context)
 
     case 4:
         *(UnkCopy12 *)(p + 0x2C) = D_80026658;
-        *(u8 **)(context + 8) = p + 0x2C;
+        context->source = p + 0x2C;
         temp = *(u16 *)p;
         *(u16 *)(p + 2) = 0;
         *(u16 *)p = temp + 1;
@@ -823,12 +823,12 @@ void spawn_randomized_spark_burst(u8 *data, void *unused, u8 *context)
         return;
 
     case 6:
-        if (context[0xC] >= 5) {
-            context[0xC] -= 5;
-            context[0xD] -= 5;
-            context[0xE] -= 5;
+        if (context->color.c.r >= 5) {
+            context->color.c.r -= 5;
+            context->color.c.g -= 5;
+            context->color.c.b -= 5;
         }
-        if (context[0xC] < 6) {
+        if (context->color.c.r < 6) {
             adv = *(u16 *)p;
             *(u16 *)(p + 2) = 0;
             *(u16 *)p = adv + 1;

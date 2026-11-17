@@ -62,7 +62,7 @@ s32 func_800B0718(void);
 void handle_item_move_menu_input(u8 *menu);
 extern void func_800B3A80(s32);
 extern void release_storage_item_menu(StorageMenuNode *object);
-extern void release_storage_owner_menu(u8 *object);
+extern void release_storage_owner_menu(StorageMenuNode *object);
 s32 obj_disp23_cancel_sw_set(s32 cancel_switch);
 void came_bright_set(u32 brightness);
 

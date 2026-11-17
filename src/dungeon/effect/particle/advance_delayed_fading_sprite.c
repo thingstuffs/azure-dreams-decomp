@@ -246,12 +246,12 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
 }
 
 /* Waits for the effect delay, then moves and fades the sprite until it expires. */
-void advance_delayed_fading_sprite(DelayParticle *effect, DelayPosition *motion, SpriteFrameState *sprite) {
+void advance_delayed_fading_sprite(DelayParticle *effect, ObjectPosition *motion, SpriteFrameState *sprite) {
     DelayOwner *owner;
     s16 phase;
     u16 delay;
     u8 shade;
-    DelayPosition *position = motion;
+    ObjectPosition *position = motion;
 
     owner = effect->owner;
     owner->child_activity |= 0x8000;
@@ -267,8 +267,8 @@ void advance_delayed_fading_sprite(DelayParticle *effect, DelayPosition *motion,
         break;
 
     case 1:
-        position->f0 += position->fC;
-        position->f4 += position->f10;
+        position->x.v += position->velocity_x;
+        position->y.v += position->velocity_y;
         advance_sprite_animation_and_textures(sprite);
 
         if (sprite->flags & 0x6000) {
