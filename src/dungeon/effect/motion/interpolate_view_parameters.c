@@ -301,7 +301,7 @@ void *create_radial_effect_from_source(void *source_arg, Row_81917004_Copy24 *or
     alloc_source = (u8 *)source - 0x20;
     effect = allocate_list_node(alloc_kind, alloc_source);
     if (effect != NULL) {
-        effect->update_callback = &D_80024710;
+        effect->update_callback = update_orbit_projectile_trail;
         ((Row_81917004_S_80024804_0 *)effect)->unk_20 = source->unk_00;
 
         step_word = (s32)saved_step << 16;

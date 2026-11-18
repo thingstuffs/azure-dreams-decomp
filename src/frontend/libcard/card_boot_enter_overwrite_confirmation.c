@@ -12,5 +12,5 @@ void card_boot_enter_overwrite_confirmation(void *record_part) {
 
     state->saved_callback = &card_boot_handle_overwrite_answer;
     card_boot_show_overwrite_confirmation(NODE_HEADER(record_part), record_part + 0x38);
-    ((ObjectNodeHeader *)record_part - 1)->update_callback = &D_800261F0;
+    NODE_HEADER(record_part)->update_callback = &D_800261F0;
 }

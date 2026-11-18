@@ -15,7 +15,7 @@ void card_boot_poll_card_chooser_status(Object_800128C8 *state) {
     if ((g_game_work.buttons != 0) && ((g_game_work.pressed_buttons) & 0x20)) {
         card_boot_toggle_channel();
         state->wait_notice_state = 0;
-        ((ObjectNodeHeader *)state - 1)->update_callback = card_boot_update_card_chooser_input;
+        (NODE_HEADER(state))->update_callback = card_boot_update_card_chooser_input;
         return;
     }
 
@@ -26,7 +26,7 @@ void card_boot_poll_card_chooser_status(Object_800128C8 *state) {
         state->unk_30 = callback_index;
         callback = D_8002809C[callback_index];
         state->unk_34 = callback_index;
-        ((ObjectNodeHeader *)state - 1)->update_callback = callback;
+        (NODE_HEADER(state))->update_callback = callback;
         return;
     }
 

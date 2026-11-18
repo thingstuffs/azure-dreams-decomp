@@ -17,7 +17,6 @@
 extern void func_8015921C(void *, void *, void *, void *);
 extern void func_801594FC(void *, void *, void *, void *);
 
-extern u8 troll_slot_c_action_callback[];
 extern u8 D_8015DDDC[8];
 extern u8 D_8015DDE4[8];
 extern u8 D_8015DDEC[8];

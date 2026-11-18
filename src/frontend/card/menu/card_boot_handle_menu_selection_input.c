@@ -40,7 +40,7 @@ void card_boot_handle_menu_selection_input(CardChooserBody *menu)
             ObjectNodeHeader *linked_object;
 
             func_80063FF8(0x515);
-            release_devkit_node_handles((u8 *)menu - 0x20);
+            release_devkit_node_handles(NODE_HEADER(menu));
             card_dev_effect_mode = 2;
             card_dev_close_events();
             func_8003FD58(0, 0xF, 0, 0);
@@ -50,7 +50,7 @@ void card_boot_handle_menu_selection_input(CardChooserBody *menu)
             func_80063FF8(0x514);
             func_804008A0(menu->selected_channel);
             menu->unk_34 = 0;
-            ((ObjectNodeHeader *)menu - 1)->update_callback = card_boot_update_object_state_and_callback;
+            NODE_HEADER(menu)->update_callback = card_boot_update_object_state_and_callback;
             return;
         } else if (buttons & 0xA000) {
             if (buttons & 0x8000) {

@@ -179,7 +179,7 @@ extern s32 check_movement_clearance_and_height();
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
-extern s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
+extern s32 update_actor_proximity_flag(void *source, ActorRecord *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern s32 generate_random_value(void);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s16 sample_terrain_surface_height();

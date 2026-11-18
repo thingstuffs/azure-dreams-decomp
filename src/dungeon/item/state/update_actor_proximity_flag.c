@@ -6,7 +6,7 @@
 extern s16 get_tile_chebyshev_distance(void *, void *);
 
 /* Updates and returns the state flag using a source index and two thresholds. */
-s32 update_actor_proximity_flag(void *source_arg, void *state, s32 lower_limit, s32 upper_limit, s8 *result) {
+s32 update_actor_proximity_flag(void *source_arg, ActorRecord *state, s32 lower_limit, s32 upper_limit, s8 *result) {
     TileObject *source = source_arg;
     u32 flags = (*(u32 *)&((EntityRec *)state)->flags1C);
     s8 source_index;

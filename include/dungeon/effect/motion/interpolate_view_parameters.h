@@ -367,7 +367,6 @@ extern Row_81916AEC_unk32 D_800241E4;
 extern M2C_UNK D_8002441C;
 extern M2C_UNK D_8002457C;
 #include "dungeon/effect/sprite/rotating_entries.h"
-extern s32 D_80024710;
 extern s32 D_80025B10;
 #include "dungeon/effect/sprite/rising_entries.h"
 extern u8 D_80024C0C[];
@@ -383,7 +382,6 @@ void create_counted_sprite_effect(void *context, s32 unused, Row_81916C1C_Arg819
 void create_translucent_screen_quad(s32 initial_value);
 void update_completion_counting_particle(TargetCompletionEffectBody *object_slot, void *unused, struct SpriteFrameState *target);
 void *create_rotating_particle_sprite(s32 *owner_data, Row_81916E00_Copy24 *initial_data);
-void update_orbit_projectile_trail(Row_81916F10_S_80024710_0 *object, Row_81916F10_S_80024710_2 *position);
 void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin, s16 size_step);
 void burst_orbit_projectile(void *object, Rec_func_80024600_arg1 *position, struct SpriteFrameState *visual);
 void update_orbit_projectile(Row_8191740C_S_80024C0C_0 *motion, void *position, struct SpriteFrameState *effect);

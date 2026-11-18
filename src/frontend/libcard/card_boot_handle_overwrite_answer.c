@@ -11,7 +11,7 @@ extern void func_800263C0(void *object_data);
 /* Selects card_boot_update_save_slot_menu_input when the state field is nonzero or enters copying progress. */
 void card_boot_handle_overwrite_answer(Object_800128C8 *object_data) {
     if (object_data->wait_notice_state != 0) {
-        ((ObjectNodeHeader *)object_data - 1)->update_callback = card_boot_update_save_slot_menu_input;
+        NODE_HEADER(object_data)->update_callback = card_boot_update_save_slot_menu_input;
         return;
     }
     func_800263C0(object_data);

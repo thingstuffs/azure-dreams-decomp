@@ -24,7 +24,7 @@ void card_boot_update_copy_destination_selection(CardSlotMenuState *menu)
     if (g_game_work.buttons != 0) {
         if ((g_game_work.pressed_buttons) & 0x20) {
             SD_Call(AUDIO_CANCEL);
-            ((ObjectNodeHeader *)menu - 1)->update_callback = card_boot_resume_menu_after_slot_refresh;
+            (NODE_HEADER(menu))->update_callback = card_boot_resume_menu_after_slot_refresh;
         }
         buttons = (g_game_work.pressed_buttons);
         if (buttons & 0x40) {

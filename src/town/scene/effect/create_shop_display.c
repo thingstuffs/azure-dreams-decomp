@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "town/scene/collection.h"
 #include "town/scene/effect.h"
 #include "town/scene/object.h"
@@ -93,7 +94,7 @@ s32 create_shop_display(void)
     copy_src = D_805267A8;
     i = 2;
     if (obj != 0) {
-        base = (u8 *)obj + 0x20;
+        base = NODE_BODY(obj);
         obj->unk_10 = D_8052EDB8;
         obj->unk_38 = func_80071494() & 1;
     }
@@ -181,7 +182,7 @@ s32 create_shop_display(void)
             obj->unk_36 = (s32)slot;
             obj->unk_30.at00.v = 0x00808080;
             obj->unk_24 = ((void **)roots)[i + 2];
-            y = (s32)((u8 *)obj + 0x20);
+            y = (s32)NODE_BODY(obj);
             switch (i) {
             case 0:
                 obj->unk_28.p = base + 0x12;

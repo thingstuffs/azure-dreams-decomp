@@ -48,11 +48,10 @@ struct RenderData;
 typedef void (*follower_position_update_fn)(FollowerRecord *, ObjectPosition *, struct RenderData *);
 
 struct S_80025B78_4;
-struct S_819ACB28_4;
 
 void run_warp_effect_sequence(struct EventState *event);
 struct WarpPhaseEffectBody;
-void advance_effect_phases(struct WarpPhaseEffectBody *object, ObjectPosition *record, struct S_819ACB28_4 *packed_value);
+void advance_effect_phases(struct WarpPhaseEffectBody *object, ObjectPosition *record, SpriteFrameState *sprite);
 void *create_warp_phase_effect(EntityRec *source_pos, s32 offset_base);
 void run_warp_cutscene(struct Motion *motion, struct Position *position, u8 *color);
 void *spawn_nine_warp_trail_sprites(ObjectPosition *src);

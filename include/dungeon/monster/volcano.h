@@ -530,7 +530,7 @@ extern s16 get_tile_chebyshev_distance(void *, void *);
  * The two signed comparisons explicitly narrow that slot; the other caller
  * performs modulo-16-bit arithmetic. One whole-bank declaration is used. */
 extern s32 get_actor_height_difference(void *,void *);
-extern s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
+extern s32 update_actor_proximity_flag(void *source, ActorRecord *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern s32 can_entity_gain_level(void *);
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern s16 try_claim_dungeon_action_slot();
@@ -554,7 +554,7 @@ extern s32 update_actor_hop_and_shrink(void *,struct ObjectPosition *,struct Spr
 extern s32 interpolate_actor_to_terrain_tile(void *,void *,void *,void *);
 extern s32 update_spinning_actor_fall(void *,void *,SpriteFrameState *,void *);
 extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
-extern s32 update_actor_fade_in(void *,void *,void *);
+extern s32 update_actor_fade_in(ActorRecord *object, ObjectPosition *unused, SpriteFrameState *effect);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 extern s16 sample_terrain_surface_height(s32,s32,s16);

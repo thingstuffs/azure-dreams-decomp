@@ -190,7 +190,7 @@ void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *positi
 void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
 s32 check_movement_clearance_and_height();
-s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
+s32 update_actor_proximity_flag(void *source, ActorRecord *state, s32 lower_limit, s32 upper_limit, s8 *result);
 s16 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record);
 s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 struct Ent *prepare_directional_attack();
@@ -214,7 +214,7 @@ s32 get_tile_chebyshev_distance();
 s32 update_actor_transform_from_parent();
 s32 interpolate_actor_to_terrain_tile();
 s32 update_spinning_actor_fall();
-s32 update_actor_fade_in();
+s32 update_actor_fade_in(ActorRecord *object, ObjectPosition *unused, SpriteFrameState *effect);
 extern u8 grineut_frame_set_1[];
 extern u8 grineut_alt_direction_frames[];
 extern u8 D_80174198[];

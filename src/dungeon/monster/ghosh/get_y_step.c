@@ -29,7 +29,7 @@ s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
 #include "dungeon/item/get_actor_height_difference_api.h"
 u16 get_rounded_facing_and_rounding_flag(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */          /* extern */
 s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);  /* extern */
-s32 update_actor_proximity_flag(void *, void *, s32, s32, s8 *); /* extern */
+s32 update_actor_proximity_flag(void *, ActorRecord *, s32, s32, s8 *); /* extern */
 #include "dungeon/actor/state.h"
 s16 sample_terrain_surface_height();                   /* extern */
 s32 begin_ghosh_front_attack(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);          /* extern */

@@ -66,7 +66,7 @@ s32 queue_settings_sprite_grid(u8 *entry_data, u8 *scroll_data)
             row++;
         } while (row < 2);
 
-        next_entry = ((ObjectNodeHeader *)entry_data - 1)->chain_next;
+        next_entry = NODE_HEADER(entry_data)->chain_next;
         if (next_entry == 0) {
             return 0;
         }

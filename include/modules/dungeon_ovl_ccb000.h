@@ -948,7 +948,7 @@ extern s32 interpolate_actor_to_terrain_tile(void *,void *,void *,void *);
 extern s32 update_spinning_actor_fall(void *,void *,SpriteFrameState *,void *);
 extern s32 propagate_actor_action_flag(void *,void *,void *,void *);
 extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
-extern s32 update_actor_fade_in(void *,void *,void *);
+extern s32 update_actor_fade_in(ActorRecord *object, ObjectPosition *unused, SpriteFrameState *effect);
 extern void spend_actor_mp(void *, s32);
 
 extern void * create_status_linked_render_effect(struct ObjectPosition *source_pos, s32 render_param, s16 initial_state, s8 *status);

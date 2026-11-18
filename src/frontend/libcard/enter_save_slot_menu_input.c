@@ -12,5 +12,5 @@
 void enter_save_slot_menu_input(void *record_data) {
     card_boot_highlight_selected_load_slot(record_data);
     card_boot_recheck_selected_channel();
-    ((ObjectNodeHeader *)record_data - 1)->update_callback = card_boot_update_save_slot_menu_input;
+    NODE_HEADER(record_data)->update_callback = card_boot_update_save_slot_menu_input;
 }

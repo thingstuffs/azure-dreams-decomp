@@ -41,14 +41,14 @@ void finish_load_slot_check(S_func_80406AA8_0 *state)
     if (check_result == 0) {
         state->unk_34 = handle_menu_selection_input;
         forward_value_initcardmessageobject(state_base);
-        ((S_func_80406AA8_1 *)((u8 *)state - 0x20))->unk_10 = func_804069FC;
+        state_base->unk_10 = func_804069FC;
     } else {
         card_info_set_value_and_refresh(state->unk_04, state->unk_2C);
         func_80404688(*(s32 *)((u8 *)state + (0xC + state->unk_2C * 4)));
         if (D_80010208 != 0) {
-            ((S_func_80406AA8_1 *)((u8 *)state - 0x20))->unk_10 = set_global;
+            state_base->unk_10 = set_global;
         } else {
-            ((S_func_80406AA8_1 *)((u8 *)state - 0x20))->unk_10 = handle_menu_selection_input;
+            state_base->unk_10 = handle_menu_selection_input;
         }
     }
     reset_card_selection_state();

@@ -22,17 +22,17 @@ void *card_boot_save_selected_slot(Object_800128C8 *context) {
     if (card_boot_write_save_via_temporary_path(context->unk_2C, 0x80010000) == 0) {
         *(u8 **)((s8 *)context + 0x34) = (u8 *)card_boot_update_save_slot_menu_input;
         card_boot_show_overwrite_failure_notice(NODE_HEADER(context));
-        ((ObjectNodeHeader *)context - 1)->update_callback = (u8 *)&D_800261C0;
+        NODE_HEADER(context)->update_callback = (u8 *)&D_800261C0;
     } else {
         card_boot_set_slot_details_selection(context->slot_details, context->unk_2C, 3);
         card_boot_refresh_five_slot_objects(context);
         card_boot_set_slot_selection_marker(*(ObjectNodeHeader **)((s8 *)context + context->unk_2C * 4 + 0xC), 1);
         if (D_80010208[0] != 0) {
             configure_shared_fade_primitive();
-            ((ObjectNodeHeader *)context - 1)->update_callback = (u8 *)&release_card_records_and_request_scene_state_three;
+            NODE_HEADER(context)->update_callback = (u8 *)&release_card_records_and_request_scene_state_three;
         } else {
             SD_Call(AUDIO_MENU_CONFIRM);
-            ((ObjectNodeHeader *)context - 1)->update_callback = (u8 *)card_boot_update_save_slot_menu_input;
+            NODE_HEADER(context)->update_callback = (u8 *)card_boot_update_save_slot_menu_input;
         }
     }
     result = card_boot_recheck_selected_channel();

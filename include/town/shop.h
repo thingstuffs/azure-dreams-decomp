@@ -91,7 +91,8 @@ s32 check_shop_entry_type_and_flags(void *entry);
 s32 count_nonzero_entries(s32 *entries);
 void release_item_menu_display(void *record);
 void reset_five_shop_slots(Rec_func_800B15B8_arg0 *owner);
-void update_current_shop_page(void *list);
+struct ShopWindow;
+void update_current_shop_page(struct ShopWindow *list);
 
 struct Obj_800B45A0;
 void ease_value_and_remove_node(struct Obj_800B45A0 *obj);

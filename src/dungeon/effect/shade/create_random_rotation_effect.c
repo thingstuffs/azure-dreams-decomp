@@ -6,6 +6,7 @@
 #include "sdk/libc.h"
 #include "sdk/libgte.h"
 #include "slus.h"
+#include "dungeon/effect/motion.h"
 
 typedef unsigned long uptr;
 typedef long long s64_local;
@@ -15,7 +16,6 @@ typedef struct { s32 word[6]; } Copy24;
 #define NULL 0
 #endif
 
-extern s32 D_80024710;
 #include "dungeon/effect/sprite/shared_entries.h"
 
 typedef struct S_818C2FAC_0 {
@@ -63,7 +63,7 @@ s32 create_random_rotation_effect(void *data_addr, Copy24 *position_addr, s32 di
     effect = (uptr)allocate_flagged_object_node(object_type);
     if (effect != NULL) {
 
-        ((S_818C2FAC_0 *)((void *)effect))->unk_10 = &D_80024710;
+        ((S_818C2FAC_0 *)((void *)effect))->unk_10 = update_orbit_projectile_trail;
         ((S_818C2FAC_0 *)((void *)effect))->unk_20 = (*(s32 *)((u8 *)data_addr + 0));
         effect_state = (u8 *)effect + 0x20;
         effect_state->unk_04 = 0;

@@ -19,7 +19,7 @@ void finish_save_slot_check(void *context_arg)
     s32 operation_result;
 
     operation_result = read_and_update_indexed_record(context->entry_index, 0x80010000);
-    object_base = (ObjectNodeHeader *)context - 1;
+    object_base = NODE_HEADER(context);
     if (operation_result == 0) {
         context->completion_callback = handle_object_menu_input;
         initialize_card_message_object_with_code_0xb(object_base);
@@ -28,7 +28,7 @@ void finish_save_slot_check(void *context_arg)
         card_dev_no_op_save(0x80010000);
         next_callback = set_object_state_and_select_action;
     }
-    ((ObjectNodeHeader *)context - 1)->update_callback = next_callback;
+    (NODE_HEADER(context))->update_callback = next_callback;
     reset_card_selection_state();
     context->state = 0;
 }

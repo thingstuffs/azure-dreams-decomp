@@ -615,26 +615,11 @@ typedef struct {
     s16 field24;
 } Func818816E0Arg0;
 
-typedef struct {
-    s32 field0;
-    s32 field4;
-} Func818816E0Arg1;
-
-typedef struct {
-    u8 pad0[0x0C];
-    u8 field0C;
-    u8 field0D;
-    u8 field0E;
-    u8 pad1[0x0D];
-    u16 field1C;
-    u16 field1E;
-} Func818816E0Arg2;
-
 /* Moves and fades an effect, marking it inactive when its brightness falls below the cutoff. */
-void move_and_fade_effect(void *effect_data, void *position_data, void *visual_data) {
+void move_and_fade_effect(void *effect_data, ObjectPosition *position_data, SpriteFrameState *visual_data) {
     Func818816E0Arg0 *effect;
-    Func818816E0Arg1 *position;
-    register Func818816E0Arg2 *visual;
+    ObjectPosition *position;
+    register SpriteFrameState *visual;
     u16 decay_value;
     u8 brightness;
     s32 angle;
@@ -644,20 +629,20 @@ void move_and_fade_effect(void *effect_data, void *position_data, void *visual_d
     position = position_data;
     angle = effect->field24 << 8;
     tint_effect_update_count[0] = tint_effect_update_count[0] + 1;
-    position->field0 = position->field0 + (rcos(angle) * 8);
-    position->field4 = position->field4 + (rsin(effect->field24 << 8) * 8);
-    brightness = visual->field0E - 2;
-    visual->field0E = brightness;
-    visual->field0D = brightness;
-    visual->field0C = brightness;
+    position->x.v = position->x.v + (rcos(angle) * 8);
+    position->y.v = position->y.v + (rsin(effect->field24 << 8) * 8);
+    brightness = visual->color.c.b - 2;
+    visual->color.c.b = brightness;
+    visual->color.c.g = brightness;
+    visual->color.c.r = brightness;
     if ((u32)(brightness & 0xFF) < 0x20U) {
         tint_effect_phase_counts[0] = (s16)((u16)tint_effect_phase_counts[0] - 1);
         ((u16 *)effect_data)[-1] = (u16)(((u16 *)effect_data)[-1] | NODE_REMOVE);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
-    decay_value = visual->field1E;
-    visual->field1E = (u16)(decay_value - (decay_value >> 7));
-    visual->field1C = (u16)(visual->field1C + 8);
+    decay_value = visual->scale_y;
+    visual->scale_y = (u16)(decay_value - (decay_value >> 7));
+    visual->scale_x = (u16)(visual->scale_x + 8);
 }
 
    /* arg0 in create_tinted_travel_sprite */
@@ -725,15 +710,9 @@ typedef struct S_800250E8_0 {
 } S_800250E8_0;   /* arg1 in update_spark_effect */
 
 
-typedef struct S_800250E8_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_800250E8_2;   /* tail_arg in update_spark_effect */
-
 /* Updates effect motion and marks it inactive when its lifetime or owner expires. */
-void update_spark_effect(JitteredSparkEffectBody *effect, S_800250E8_0 *motion, void *owner)
+void update_spark_effect(JitteredSparkEffectBody *effect, S_800250E8_0 *motion, SpriteFrameState *owner)
 {
-    S_800250E8_2 *owner_state;
     s32 life_left;
     s32 y_step;
     s32 z_velocity;
@@ -748,7 +727,6 @@ void update_spark_effect(JitteredSparkEffectBody *effect, S_800250E8_0 *motion, 
     u16 counter;
     u16 *counter_ptr;
 
-    owner_state = owner;
     counter_ptr = tint_effect_update_count;
     x = motion->unk_00.at02.v;
     counter = counter_ptr[0];
@@ -790,7 +768,7 @@ void update_spark_effect(JitteredSparkEffectBody *effect, S_800250E8_0 *motion, 
     life_left = (u16)effect->remaining_steps - 1;
     effect->remaining_steps = life_left;
     if ((life_left << 16) <= 0 ||
-        (owner_state->unk_14 & 0x8000)) {
+        (owner->flags & 0x8000)) {
         NODE_HEADER(effect)->flags = (u16)(NODE_HEADER(effect)->flags | 0x8000);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }

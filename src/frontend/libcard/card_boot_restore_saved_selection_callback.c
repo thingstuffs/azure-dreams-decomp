@@ -9,7 +9,7 @@ void card_boot_restore_saved_selection_callback(void *object_data) {
     u16 flags;
     ObjectNodeHeader *object_header;
 
-    object_header = (ObjectNodeHeader *)object_data - 1;
+    object_header = NODE_HEADER(object_data);
     flags = object_header->flags;
     if (flags & 0x2000) {
         CardMenuCallbackPrefix *state = object_data;

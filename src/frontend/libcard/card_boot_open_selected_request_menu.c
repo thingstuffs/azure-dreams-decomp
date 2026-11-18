@@ -8,7 +8,7 @@
 void card_boot_open_selected_request_menu(CardChooserBody *record) {
     s32 mode;
 
-    card_boot_destroy_card_chooser((u8 *)record - 0x20);
+    card_boot_destroy_card_chooser((CardChooser *)NODE_HEADER(record));
     mode = record->mode;
     if (mode == 0) {
         card_boot_create_slot_selection_menu(record->request, 0);

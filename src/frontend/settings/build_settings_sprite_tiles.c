@@ -76,11 +76,11 @@ s32 build_settings_sprite_tiles(void *node_data, ObjectPosition *scroll_state)
             layer_offset -= 1;
         } while (layer_offset >= 0);
 
-        next_node = ((ObjectNodeHeader *)node_data - 1)->chain_next;
+        next_node = NODE_HEADER(node_data)->chain_next;
         if (next_node == 0) {
             break;
         }
-        node_data = next_node + 1;
+        node_data = NODE_BODY(next_node);
         scroll_state = next_node->position;
     } while (1);
     return 0;

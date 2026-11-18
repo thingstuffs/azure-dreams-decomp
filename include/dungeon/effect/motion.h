@@ -11,6 +11,9 @@ void * create_orbit_sprite_at_index(MovingPosition *origin, u16 index);
 s32 draw_counter_rotating_cylinders(struct B22_81893474_EffectState *effect, MovingPosition *center, s32 unused_value);
 void spawn_jittered_child_effect( void *source, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
 void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u32 variant);
+struct Row_81916F10_S_80024710_0;
+struct Row_81916F10_S_80024710_2;
+void update_orbit_projectile_trail(struct Row_81916F10_S_80024710_0 *object, struct Row_81916F10_S_80024710_2 *position);
 
 /* Body allocated by create_item_drop_effect and advanced until the item is
  * placed at its saved grid position. */

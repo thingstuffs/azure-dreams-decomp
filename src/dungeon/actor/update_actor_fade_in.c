@@ -5,55 +5,39 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/actor.h"
 
-typedef struct StructArg0 {
-    u8 pad[0x9B];
-    u8 unk9B;
-} StructArg0;
-
-typedef struct StructArg2 {
-    u8 pad[0xC];
-    u8 unk0C;
-    u8 unk0D;
-    u8 unk0E;
-    u8 unk0F;
-    u8 pad10[2];
-    u16 unk12;
-    u16 unk14;
-} StructArg2;
-
 void unlink_node(void *);
 void register_node(void *, void *);
 
 /* Restores neutral color, then counts down and finalizes the effect. */
-s32 update_actor_fade_in(StructArg0 *object_arg, s32 unused, StructArg2 *effect_arg) {
-    StructArg0 *object = object_arg;
-    StructArg2 *effect = effect_arg;
-    u8 phase = object->unk9B;
+s32 update_actor_fade_in(ActorRecord *object_arg, ObjectPosition *unused, SpriteFrameState *effect_arg) {
+    ActorRecord *object = object_arg;
+    SpriteFrameState *effect = effect_arg;
+    u8 phase = object->action_phase;
     u16 effect_count;
     ObjectNodeHeader *owner;
 
     switch (phase) {
     case 0:
-        effect->unk0F++;
-        effect->unk0C += (0x80 - effect->unk0C) / effect->unk0F;
-        effect->unk0D += (0x80 - effect->unk0D) / effect->unk0F;
-        effect->unk0E += (0x80 - effect->unk0E) / effect->unk0F;
-        if (effect->unk0F >= 8) {
-            effect->unk0E = 0x80;
-            effect->unk0D = 0x80;
-            effect->unk0C = 0x80;
-            object->unk9B++;
+        effect->color.c.code++;
+        effect->color.c.r += (0x80 - effect->color.c.r) / effect->color.c.code;
+        effect->color.c.g += (0x80 - effect->color.c.g) / effect->color.c.code;
+        effect->color.c.b += (0x80 - effect->color.c.b) / effect->color.c.code;
+        if (effect->color.c.code >= 8) {
+            effect->color.c.b = 0x80;
+            effect->color.c.g = 0x80;
+            effect->color.c.r = 0x80;
+            object->action_phase++;
         }
         return 0;
     case 1:
-        effect->unk0F--;
-        if (effect->unk0F != 0) {
+        effect->color.c.code--;
+        if (effect->color.c.code != 0) {
             return 0;
         }
         owner = NODE_HEADER(object);
         unlink_node(owner);
-        effect->unk12 += 0x80;
-        effect->unk14 &= 0xFFF3;
+        effect->clut += 0x80;
+        effect->flags &= 0xFFF3;
         register_node(owner, project_sprite_chain);
         effect_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
         effect_count--;

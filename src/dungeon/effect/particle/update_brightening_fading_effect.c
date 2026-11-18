@@ -165,7 +165,7 @@ void update_directional_actor_effect(void *object)
 #include "dungeon/effect/particle/brightening_fade.h"
 
    /* Updates the effect position, brightens and fades its primitive, and marks completion. */
-void update_brightening_fading_effect(BrighteningFadeBody *effect, ObjectPosition *position, S_8195EB88_4 *primitive)
+void update_brightening_fading_effect(BrighteningFadeBody *effect, ObjectPosition *position, SpriteFrameState *sprite)
 {
     s16 phase;
     u16 phase_value;
@@ -203,14 +203,14 @@ void update_brightening_fading_effect(BrighteningFadeBody *effect, ObjectPositio
             effect->phase = (u16)((u16)effect->phase + 1);
         }
     } else if (phase == 1) {
-        if (primitive->unk_0C.u8 < 0xC0) {
-            primitive->unk_0C.u32 += 0x202020;
+        if (sprite->color.c.r < 0xC0) {
+            sprite->color.word += 0x202020;
         } else {
             effect->phase = phase_value + 1;
         }
     } else if (phase == 2) {
-        primitive->unk_0C.u32 += 0xFFEFEFF0;
-        if (primitive->unk_0C.u8 == 0) {
+        sprite->color.word += 0xFFEFEFF0;
+        if (sprite->color.c.r == 0) {
             NODE_HEADER(effect)->flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
@@ -700,7 +700,7 @@ void project_height_grid_object_quad(void *unused, void *origin_arg, SpriteFrame
                 ((S_8195F43C_7 *)packet)->unk_25--;
             }
 
-            ((S_8195F43C_7 *)packet)->unk_04.at00.v = object->color.unsigned_word;
+            ((S_8195F43C_7 *)packet)->unk_04.at00.v = object->color.word;
             ((S_8195F43C_7 *)packet)->unk_00.at03.v = 9;
             ((S_8195F43C_7 *)packet)->unk_04.at03.v = 0x2C;
             if (object->flags & 4) {

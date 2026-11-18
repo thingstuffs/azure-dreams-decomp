@@ -42,7 +42,7 @@ void card_boot_update_card_chooser_input(CardChooserBody *menu)
             ObjectNodeHeader *object;
 
             SD_Call(AUDIO_CANCEL);
-            card_boot_destroy_card_chooser(((void *)menu) - 0x20);
+            card_boot_destroy_card_chooser((CardChooser *)NODE_HEADER(menu));
             card_boot_close_events_and_resume_timer();
             if (scene_mode_code == 3) {
                 request_scene_dispatch_state(3);
@@ -58,7 +58,7 @@ void card_boot_update_card_chooser_input(CardChooserBody *menu)
             SD_Call(AUDIO_MENU_CONFIRM);
             card_boot_select_channel_mode(menu->selected_channel);
             menu->unk_34 = 0;
-            ((ObjectNodeHeader *)menu - 1)->update_callback = card_boot_poll_card_chooser_status;
+            NODE_HEADER(menu)->update_callback = card_boot_poll_card_chooser_status;
             return;
         } else if (buttons & 0xA000) {
             if (buttons & 0x8000) {

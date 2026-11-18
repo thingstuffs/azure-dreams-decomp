@@ -28,6 +28,7 @@ void advance_timed_directional_action(ActorRecord *action, ObjectPosition *motio
 void advance_actor_action_and_effects(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_actor_action_effects(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_troll_attack_sequence(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void troll_slot_c_action_callback(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 void advance_troll_attack_animation(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *anim, ActorRecord *actor);
 void advance_timed_action_and_effects(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *animation, ActorRecord *actor);
 void advance_timed_action_and_play_sounds(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
@@ -37,6 +38,6 @@ void spawn_growing_rotating_flash(ActorRecord *unused, ObjectPosition *position,
 void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *source_pos, SpriteFrameState *sprite_template, ActorRecord *actor);
 void create_targeted_motion_effect(ActorRecord *body, ObjectPosition *position, SpriteFrameState *unused, ActorRecord *target);
 
-void spawn_random_color_burst_particle(void *source, ObjectPosition *position, void *unused_sprite, void *unused_actor);
+void spawn_random_color_burst_particle(ActorRecord *source, ObjectPosition *position, void *unused_sprite, void *unused_actor);
 
 #endif

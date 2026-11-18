@@ -12,11 +12,11 @@ void func_800264D8(void *context);
 void route_save_slot_validation(CardSaveMenuBody *context) {
     CardSaveMenuBody *state = context;
     if (card_save_slot_metadata[state->selection].words[0] != 0) {
-        ((ObjectNodeHeader *)context - 1)->update_callback = D_8002644C;
+        (NODE_HEADER(context))->update_callback = D_8002644C;
         return;
     }
     if (card_boot_get_remaining_block_summary() >= 3) {
-        ((ObjectNodeHeader *)context - 1)->update_callback = D_800263C0;
+        (NODE_HEADER(context))->update_callback = D_800263C0;
         return;
     }
     if (card_boot_count_cached_slots() != 0) {

@@ -25,8 +25,10 @@ s32 set_monster_reachability_flag(void);
 /* tick_region_flag_expiry.c */
 void tick_region_flag_expiry(RegionFlagExpiryBody *state);
 
+struct ActorRecord;
+
 /* update_actor_proximity_flag.c */
-s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
+s32 update_actor_proximity_flag(void *source, struct ActorRecord *state, s32 lower_limit, s32 upper_limit, s8 *result);
 
 /* write_status_prefix_bytes.c */
 void *write_status_prefix_bytes(void *dst);

@@ -425,7 +425,7 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
     PathBlock velocity_table;
     ActorRecord *source;
     s32 state;
-    ActorRecord *target_graphics;
+    SpriteFrameState *target_graphics;
     ObjectNodeHeader *impact;
     s32 impact_position;
     s32 impact_sprite;
@@ -502,22 +502,22 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
                     direction += (s32)direction_table;
                     target_graphics = ((S_80024BE8_3_pre *)source)[-1].unk_00;
                     direction = *(u8 *)direction;
-                    direction_table = (u8 *)(u32)target_graphics->mp_fraction;
+                    direction_table = (u8 *)(u32)target_graphics->tile_x;
                     direction_table = (direction_table + direction);
                     effect->unk_A2 = (s32)direction_table;
                     direction = effect->unk_7E;
                     direction_table = D_8006CCE8;
                     direction <<= 1;
                     direction += (s32)direction_table;
-                    direction_table = (u8 *)(u32)target_graphics->mp;
+                    direction_table = (u8 *)(u32)target_graphics->tile_y;
                     direction = *(u8 *)direction;
                     direction_table = (direction_table + direction);
                     effect->unk_A3 = (s32)direction_table;
                     tile_distance = source->target_tile_x;
-                    source_coord = target_graphics->mp_fraction;
+                    source_coord = target_graphics->tile_x;
                     if (tile_distance == source_coord) {
                         tile_distance = source->target_tile_y;
-                        source_coord = target_graphics->mp;
+                        source_coord = target_graphics->tile_y;
                     }
                     tile_distance -= source_coord;
                     if (tile_distance < 0) {
@@ -591,9 +591,9 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
                 ((S_80024BE8_23 *)source_sprite)->unk_1C |= 0x10000000;
                 target_graphics = ((S_80024BE8_23_pre *)(source->target))[-1].unk_04;
                 random_intensity = 0x80;
-                target_graphics->unk_0C.bytes[0] = random_intensity;
-                target_graphics->unk_0C.bytes[1] = random_intensity;
-                target_graphics->unk_0C.bytes[2] = random_intensity;
+                target_graphics->color.c.r = random_intensity;
+                target_graphics->color.c.g = random_intensity;
+                target_graphics->color.c.b = random_intensity;
                 initialize_timed_motion_step(color_mode, 8);
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
 
@@ -709,9 +709,9 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
         color_step += 2;
         effect->unk_86 = color_step;
         target_graphics = ((S_80024BE8_23_pre *)(source->target))[-1].unk_04;
-        target_graphics->unk_0C.bytes[2] = (s16)color_step * 3 - 0x70;
-        target_graphics->unk_0C.bytes[1] = 0x70 - effect->unk_86 * 3;
-        target_graphics->unk_0C.bytes[0] = 0x70 - effect->unk_86 * 3;
+        target_graphics->color.c.b = (s16)color_step * 3 - 0x70;
+        target_graphics->color.c.g = 0x70 - effect->unk_86 * 3;
+        target_graphics->color.c.r = 0x70 - effect->unk_86 * 3;
         if (effect->unk_86 >= 0x24) {
             previous_phase = effect->spell.phase;
             effect->unk_86 = 0;
@@ -859,9 +859,9 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
             target_actor->flags1C ^= target_flag;
             current_target = source->target;
             target_graphics = current_target[-1].unk_00;
-            target_graphics->unk_0C.bytes[0] = 0x80;
-            target_graphics->unk_0C.bytes[1] = 0x80;
-            target_graphics->unk_0C.bytes[2] = 0x80;
+            target_graphics->color.c.r = 0x80;
+            target_graphics->color.c.g = 0x80;
+            target_graphics->color.c.b = 0x80;
             apply_attack_power_and_element_effects(source->target, 0x10, effect->spell.variant, 2,
                 (s16)(effect->unk_7E << 9), source, 2);
         }

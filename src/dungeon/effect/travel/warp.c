@@ -175,11 +175,6 @@ typedef struct S_819ACB28_1 {
 
    /* offsets in advance_effect_phases */
 
-typedef struct S_819ACB28_4 {
-    u8 pad_00[0xC];
-    u32 unk_0C;
-} S_819ACB28_4;   /* packed_value in advance_effect_phases */
-
 typedef struct S_819ACB28_5 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -198,7 +193,7 @@ typedef struct FlagsView {
 
 /* Follows the source sprite's offset, waits for target movement to finish, then brightens and fades
    the effect. */
-void advance_effect_phases(WarpPhaseEffectBody *object, ObjectPosition *record, S_819ACB28_4 *packed_value)
+void advance_effect_phases(WarpPhaseEffectBody *object, ObjectPosition *record, SpriteFrameState *sprite)
 {
     s16 mode;
     u16 mode_value;
@@ -234,15 +229,15 @@ void advance_effect_phases(WarpPhaseEffectBody *object, ObjectPosition *record, 
             return;
         }
     } else if (mode == 1) {
-        if ((u8)packed_value->unk_0C < 0xC0) {
-            packed_value->unk_0C += 0x202020;
+        if ((u8)sprite->color.word < 0xC0) {
+            sprite->color.word += 0x202020;
             return;
         }
         object->phase = mode_value + 1;
         return;
     } else if (mode == 2) {
-        packed_value->unk_0C += 0xFFEFEFF0;
-        if ((u8)packed_value->unk_0C == 0) {
+        sprite->color.word += 0xFFEFEFF0;
+        if ((u8)sprite->color.word == 0) {
             NODE_HEADER(object)->flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }

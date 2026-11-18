@@ -23,7 +23,7 @@ void set_value_output_position(MainValue **value_slot, ObjectPosition *output, M
     }
     output->y.unsigned_parts.integer = D_8008B36C[value->type];
     if ((value->flags & 0x8000) != 0) {
-        ((ObjectNodeHeader *)value_slot - 1)->flags |= NODE_REMOVE;
+        NODE_HEADER(value_slot)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

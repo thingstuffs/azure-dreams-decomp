@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "town/scene/animation.h"
 #include "shared/entity.h"
 #include "town/scene/object.h"
@@ -97,7 +98,7 @@ void create_collection_center_group(void)
     object = func_800373DC(2, D_80526440);
     shared_state = D_8052643C;
     if (object != 0) {
-        child_slots = (void **)((u8 *)object + 0x20);
+        child_slots = (void **)NODE_BODY(object);
         object->unk_10 = D_8052A0A4;
     }
 

@@ -21,15 +21,6 @@ typedef struct S_800D4954_1_pre {
     u8 pad_04[0x14];
 } S_800D4954_1_pre;
 
-typedef struct S_800D4954_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800D4954_2;   /* arg1 in update_attached_effect */
-
 
 
 typedef struct S_800D4954_5 {
@@ -38,7 +29,7 @@ typedef struct S_800D4954_5 {
 } S_800D4954_5;
 
 /* Updates an attached effect's position, color, growth, and removal flags. */
-void update_attached_effect(void *effect_arg, S_800D4954_2 *position, SpriteFrameState *appearance) {
+void update_attached_effect(void *effect_arg, ObjectPosition *position, SpriteFrameState *appearance) {
     S_800D4954_0 *effect = effect_arg;
     u16 next_scale;
     void *source;
@@ -48,9 +39,9 @@ void update_attached_effect(void *effect_arg, S_800D4954_2 *position, SpriteFram
     source = effect->unk_88;
     source_position = ((S_800D4954_1_pre *)source)[-1].unk_00;
     source_header = source - 0x20;
-    position->unk_02 = source_position->x;
-    position->unk_06 = source_position->y;
-    position->unk_0A = source_position->z - 0x32;
+    position->x.w.i = source_position->x;
+    position->y.w.i = source_position->y;
+    position->z.w.i = source_position->z - 0x32;
     appearance->color.c.b = 0x28;
     appearance->color.c.g = 0x28;
     appearance->color.c.r = 0x28;

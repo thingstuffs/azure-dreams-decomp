@@ -46,9 +46,7 @@ typedef struct DroppedObjectMotionBody {
 struct S_800A871C_4;
 void update_dropped_object_motion(DroppedObjectMotionBody *object, register ObjectPosition *motion, struct S_800A871C_4 *tile);
 
-struct StructArg0;
-struct StructArg2;
-s32 update_actor_fade_in(struct StructArg0 *object, s32 unused, struct StructArg2 *effect);
+s32 update_actor_fade_in(ActorRecord *object, ObjectPosition *unused, SpriteFrameState *effect);
 void run_actor_fade_in(void *owner, s32 context, void *effect);
 
 /* Callback entry points. */

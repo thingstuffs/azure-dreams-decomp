@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "frontend/card/load.h"
 #include "frontend/card/service.h"
 #include "frontend/card/server_imports.h"
@@ -39,7 +40,7 @@ void handle_menu_selection_input(void *object_arg)
         pressed_buttons = buttons[0];
         if (pressed_buttons & 0x40) {
             func_80063FF8(0x515);
-            func_804070C4((u8 *)object - 0x20);
+            func_804070C4(NODE_HEADER(object));
             create_card_dev_slot_screen_effect(object->unk_20, object->unk_24);
             return;
         }
@@ -89,6 +90,6 @@ void handle_menu_selection_input(void *object_arg)
     if (direction == 1) {
         return;
     }
-    func_804070C4((u8 *)object - 0x20);
+    func_804070C4(NODE_HEADER(object));
     create_card_dev_slot_screen_effect(object->unk_20, object->unk_24);
 }

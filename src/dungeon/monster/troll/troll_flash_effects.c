@@ -418,8 +418,7 @@ void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *sour
 }
 
 /* Creates an effect at an offset position with randomized attributes and motion. */
-void spawn_random_color_burst_particle(void *source, ObjectPosition *position, void *unused_sprite, void *unused_actor) {
-    T_80171790_S_80171790_5 *source_obj;
+void spawn_random_color_burst_particle(ActorRecord *source, ObjectPosition *position, void *unused_sprite, void *unused_actor) {
     ObjectPosition *source_pos;
     s32 obj_or_angle;
     s32 data_or_speed;
@@ -429,7 +428,6 @@ void spawn_random_color_burst_particle(void *source, ObjectPosition *position, v
     u8 random_byte_1;
     u8 random_byte_2;
 
-    source_obj = source;
     source_pos = position;
     obj_or_angle = (s32) allocate_flagged_object_node(0x212);
     if (obj_or_angle != 0) {
@@ -465,9 +463,9 @@ void spawn_random_color_burst_particle(void *source, ObjectPosition *position, v
         effect_state->unk_02 = random_byte_2;
         obj_or_angle = rand() & 0xFFF;
         data_or_speed =
-            (source_obj->unk_AE * rcos(obj_or_angle)) >> 0xC;
+            (source->unk_AC.halves.high.s * rcos(obj_or_angle)) >> 0xC;
         effect_state->unk_62 =
-            (source_obj->unk_AE * rsin(obj_or_angle)) >> 0xC;
+            (source->unk_AC.halves.high.s * rsin(obj_or_angle)) >> 0xC;
         obj_or_angle = rand() & 0xFFF;
         effect_state->unk_5A =
             (data_or_speed * rcos(obj_or_angle)) >> 0xC;

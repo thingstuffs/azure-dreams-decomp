@@ -23,7 +23,7 @@ void commit_save_and_refresh_slots(void *ptr_arg) {
     S_8001EDE0_0 *ptr = ptr_arg;
     s32 value;
     s32 index;
-    void *offset_ptr;
+    ObjectNodeHeader *node_header;
     ObjectNodeHeader *entry_ptr;
 
     if (read_and_update_indexed_record(ptr->unk_2C, 0x80010000) != 0) {
@@ -45,10 +45,10 @@ void commit_save_and_refresh_slots(void *ptr_arg) {
             return;
         }
     }
-    offset_ptr = (u8 *)ptr - 0x20;
+    node_header = NODE_HEADER(ptr);
     ptr->menu_update = handle_object_menu_input;
-    initialize_card_message_object_with_code_0x10(offset_ptr);
-    ((ObjectNodeHeader *)ptr)[-1].update_callback = (void *)install_pending_completion_callback;
+    initialize_card_message_object_with_code_0x10(node_header);
+    node_header->update_callback = (void *)install_pending_completion_callback;
     reset_card_selection_state();
     ptr->unk_40 = 0;
 }

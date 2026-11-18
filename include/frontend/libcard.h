@@ -145,7 +145,7 @@ void card_boot_destroy_slot_selection_menu(struct UnkStruct1E *object);
 void card_boot_dispatch_selected_menu_action(CardSlotMenuState *object);
 
 /* card_boot_enter_copying_progress.c */
-void card_boot_enter_copying_progress(void *object_data);
+void card_boot_enter_copying_progress(CardSlotMenuState *object_data);
 
 /* card_boot_enter_insufficient_space_advice.c */
 void card_boot_enter_insufficient_space_advice(CardSaveMenuBody *record_part);

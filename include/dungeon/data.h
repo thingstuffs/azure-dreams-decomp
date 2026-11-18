@@ -143,7 +143,6 @@ extern s32 town_busy_countdown_address;
 extern s32 town_input_object_address;
 extern s32 town_radial_motion_address;
 extern s32 town_threshold_update_address;
-extern u8 troll_slot_c_action_callback[ ];
 extern u8 unicorn_effect_load_done[ ];
 extern s32 unicorn_image_load_done[ ];
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "frontend/card/save.h"
 #include "frontend/card/service.h"
 #include "frontend/card/server_imports.h"
@@ -43,7 +44,7 @@ void handle_object_menu_input(void *menu_arg)
         pressed_buttons = boot_pressed_buttons;
         if (pressed_buttons & 0x40) {
             func_80063FF8(0x515);
-            propagate_object_high_bit_flags((u8 *) menu - 0x20);
+            propagate_object_high_bit_flags(NODE_HEADER(menu));
             create_card_dev_slot_screen_effect(menu->unk_20, 0);
             return;
         } else if (pressed_buttons & 0x20) {
@@ -99,7 +100,7 @@ void handle_object_menu_input(void *menu_arg)
     submit_stored_and_queried_boot_values();
     if (nav_result != 0) {
         if (nav_result != 1) {
-            propagate_object_high_bit_flags((u8 *) menu - 0x20);
+            propagate_object_high_bit_flags(NODE_HEADER(menu));
             create_card_dev_slot_screen_effect(menu->unk_20, 0);
         }
     }

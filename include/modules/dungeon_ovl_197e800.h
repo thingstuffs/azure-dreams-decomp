@@ -735,10 +735,6 @@ typedef struct S_8195EB88_3 {
     u8 pad_08[0x2];
     u16 unk_0A;
 } S_8195EB88_3;
-typedef struct S_8195EB88_4 {
-    u8 pad_00[0xC];
-    union { u8 u8; u32 u32; } unk_0C;   /* accessed as both */
-} S_8195EB88_4;
 typedef struct S_8195EB88_5 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -775,7 +771,7 @@ typedef struct S_8002401C_4 {
 } S_8002401C_4;
 void update_directional_actor_effect(void *object);
 struct BrighteningFadeBody;
-void update_brightening_fading_effect(struct BrighteningFadeBody *effect, ObjectPosition *position, S_8195EB88_4 *primitive);
+void update_brightening_fading_effect(struct BrighteningFadeBody *effect, ObjectPosition *position, SpriteFrameState *sprite);
 void *create_brightening_fading_effect(S_8195ED3C_2 *source, s32 offset);
 void update_shaking_tile_mesh(S_8195EE48_0 *state, ObjectPosition *motion);
 void *create_settling_tile_object(s16 world_x, s16 world_y, s16 world_z, s16 coord_60);

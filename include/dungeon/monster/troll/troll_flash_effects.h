@@ -213,11 +213,6 @@ typedef struct T_80171790_S_80171790_1 {
     u8 unk_20;
 } T_80171790_S_80171790_1;   /* (void *) saved_obj_angle in func_80171790 */
 
-typedef struct T_80171790_S_80171790_5 {
-    u8 pad_00[0xAE];
-    s16 unk_AE;
-} T_80171790_S_80171790_5;   /* saved_arg0 in func_80171790 */
-
 typedef struct {
     u8 data[12];
 } T_80171928_Blob12;

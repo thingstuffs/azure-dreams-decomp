@@ -20,7 +20,7 @@ void select_slot_menu_callback(void *object_state_arg)
 
     entry_index = object_state->entry_index;
     entry_active = card_slot_header_cache[entry_index].words[0];
-    object_base = (ObjectNodeHeader *)object_state - 1;
+    object_base = NODE_HEADER(object_state);
     if (entry_active != 0) {
         next_callback = process_menu_input_and_cursor_state;
         object_state->saved_entry_index = entry_index;
@@ -29,5 +29,5 @@ void select_slot_menu_callback(void *object_state_arg)
         initialize_card_message_object_with_code_7(object_base);
         next_callback = func_80405A64;
     }
-    ((ObjectNodeHeader *)object_state - 1)->update_callback = next_callback;
+    (NODE_HEADER(object_state))->update_callback = next_callback;
 }

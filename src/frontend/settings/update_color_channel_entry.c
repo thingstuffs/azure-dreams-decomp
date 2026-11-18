@@ -13,7 +13,7 @@ void update_color_channel_entry(MainTitleValueEntry *entry_data) {
     scaled_value = (s16)(*(u16 *)(value_data + (value_index * 2) + 0xE) << 0x10 >> 0x12);
     entry->value = scaled_value;
     if (*(s16 *)(value_data + 0x16) & 0x8000) {
-        ((ObjectNodeHeader *)entry - 1)->flags = ((ObjectNodeHeader *)entry - 1)->flags | NODE_REMOVE;
+        NODE_HEADER(entry)->flags = NODE_HEADER(entry)->flags | NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

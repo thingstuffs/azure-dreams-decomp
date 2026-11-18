@@ -640,7 +640,7 @@ void advance_zu_path(ActorRecord *body, ObjectPosition *position, SpriteFrameSta
 #include "records/Rec_func_800A9E70_arg0.h"
 
 extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
+extern s32 update_actor_proximity_flag(void *source, ActorRecord *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s16 check_directional_move_and_terrain(s16, void *, void *, s32);
 extern s16 actor_turn_angle_offsets[];
@@ -2200,7 +2200,7 @@ void restore_after_spinning_fall(ActorRecord *state, ObjectPosition *action, Spr
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
-extern s32 update_actor_fade_in();
+extern s32 update_actor_fade_in(ActorRecord *object, ObjectPosition *unused, SpriteFrameState *effect);
 /* Restore the bank actor callback after the resident state check succeeds. */
 void restore_after_fade_in(ActorRecord *state, ObjectPosition *action, SpriteFrameState *source, ActorRecord *target) {
     if (update_actor_fade_in(state, action, source) != 0) {

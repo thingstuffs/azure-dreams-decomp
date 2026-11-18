@@ -73,17 +73,6 @@
       "map": "native_bank_native_ovl_1936800_map",
       "evidence": "docs/evidence/dungeon_ovl_1936800.imports.json"
     },
-    "D_80024710": {
-      "symbol": "D_80024710",
-      "kind": "data",
-      "vma": 2147632912,
-      "foff": 26439440,
-      "view_bytes": 1,
-      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
-      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-      "map": "native_bank_native_ovl_1936800_map",
-      "evidence": "docs/evidence/dungeon_ovl_1936800.imports.json"
-    },
     "D_80024C0C": {
       "symbol": "D_80024C0C",
       "kind": "data",

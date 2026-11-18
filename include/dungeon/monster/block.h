@@ -767,7 +767,7 @@ extern struct Ent *prepare_directional_attack(void *, void *, s16, s32, void *);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 extern s16 get_actor_height_difference(void *,void *);
 extern void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
-s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
+s32 update_actor_proximity_flag(void *source, ActorRecord *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern s32 can_entity_gain_level(void *);
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
@@ -789,7 +789,7 @@ extern s32 update_actor_hop_and_shrink(void *,struct ObjectPosition *,struct Spr
 extern s32 interpolate_actor_to_terrain_tile(void *,void *,void *,void *);
 extern s32 update_spinning_actor_fall(void *,void *,SpriteFrameState *,void *);
 extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
-extern s32 update_actor_fade_in(void *,void *,void *);
+extern s32 update_actor_fade_in(ActorRecord *object, ObjectPosition *unused, SpriteFrameState *effect);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
 extern void * create_status_linked_render_effect(struct ObjectPosition *source_pos, s32 render_param, s16 initial_state, s8 *status);

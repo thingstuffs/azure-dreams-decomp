@@ -29,9 +29,9 @@ void advance_sprite_every_other_tick(void *,struct ObjectPosition *,SpriteFrameS
 void *create_spark_burst_effect(MovingPosition *);
 
 void *spawn_ring_effects(void *,s16);
-void move_and_fade_effect(void *,void *,void *);
+void move_and_fade_effect(void *,ObjectPosition *,SpriteFrameState *);
 struct JitteredSparkEffectBody;
-void update_spark_effect(struct JitteredSparkEffectBody *,struct S_800250E8_0 *,void *);
+void update_spark_effect(struct JitteredSparkEffectBody *,struct S_800250E8_0 *,SpriteFrameState *);
 s32 queue_projected_point_primitives(void *,void *,void *);
 void create_spark_effect(struct ObjectPosition *,s16,s16,s16);
 void fade_effect_color_below_eight(u16 *,struct ObjectPosition *,SpriteFrameState *);

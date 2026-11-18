@@ -1,5 +1,5 @@
 {
- "count": 1347,
+ "count": 1346,
  "ids": [
   "include/dungeon/actor/ability_eligibility.h::S_800A4300_2.unk_F0",
   "include/dungeon/actor/action_target_selection_g00359.h::S_800CA444_0.unk_24",
@@ -559,7 +559,6 @@
   "include/modules/dungeon_ovl_197e800.h::S_8002401C_0.unk_00",
   "include/modules/dungeon_ovl_197e800.h::S_8002401C_0.unk_0A",
   "include/modules/dungeon_ovl_197e800.h::S_8002401C_0.unk_1C",
-  "include/modules/dungeon_ovl_197e800.h::S_8195EB88_4.unk_0C",
   "include/modules/dungeon_ovl_197e800.h::S_8195ED3C_1.unk_08",
   "include/modules/dungeon_ovl_197e800.h::S_8195F43C_7.unk_00",
   "include/modules/dungeon_ovl_197e800.h::S_8195F43C_7.unk_04",
