@@ -1336,9 +1336,31 @@ extern void update_timed(s32 object, s32 raw_x, s32 raw_y, s32 raw_upper, s16 lo
 
 extern s16 D_8002992C;
 
+typedef struct {
+    s32 words[4];
+} __attribute__((packed)) Copy16;
+
+typedef struct S_80025FB0_0 {
+    Copy16 words;
+    s16 unk_10;
+    s8 unk_12;
+    s8 unk_13;
+    s8 unk_14;
+    s8 unk_15;
+} S_80025FB0_0;   /* arg1 in copy_effect_transform */
+
+typedef struct S_80025FB0_1 {
+    Copy16 words;
+    s16 unk_10;
+    u8 pad_12[0x2];
+    s32 unk_14;
+    s32 unk_18;
+    s32 unk_1C;
+} S_80025FB0_1;   /* arg0 in copy_effect_transform */
+
 /* The leading 0x20 bytes receive the expanded sprite-entry transform. */
 typedef struct OwnerFollowingWork {
-    u8 transform[0x20];
+    S_80025FB0_1 transform;
     ObjectNodeHeader *owner;
     u8 pad_24[8];
     u16 state;
@@ -1407,7 +1429,7 @@ void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition
                 effect_in->entry_step = 1;
                 step_entry_index_clamped(visual_in, &effect_in->entry_step,
                               effect_in->min_index, effect_in->max_index);
-                copy_effect_transform(effect_in, visual_in->unk_00);
+                copy_effect_transform(&effect_in->transform, visual_in->unk_00);
                 break;
             }
             effect_in->move_ticks = 0;
@@ -1423,7 +1445,7 @@ void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition
                 effect_in->entry_step = state;
                 step_entry_index_clamped(visual_in, &effect_in->entry_step,
                               effect_in->min_index, effect_in->max_index);
-                copy_effect_transform(effect_in, visual_in->unk_00);
+                copy_effect_transform(&effect_in->transform, visual_in->unk_00);
             }
             if (primary_actor_record->action_timer == 0) {
                 effect_in->move_ticks = 0;
@@ -1511,7 +1533,7 @@ void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition
         visual_in->flags = flags;
         visual_in->tpage_abr = half_tile;
         select_mesh_entry(visual_in, owner_visual->unk_04);
-        copy_effect_transform(effect_in, visual_in->unk_00);
+        copy_effect_transform(&effect_in->transform, visual_in->unk_00);
         visual_in->scale_x = owner_visual->scale_x;
         visual_in->scale_y = owner_visual->scale_y;
         visual_in->offset_x = owner_visual->offset_x;
@@ -1699,34 +1721,12 @@ u16 angle;
 }
 
 
-typedef struct {
-    s32 words[4];
-} __attribute__((packed)) Copy16;
-
-typedef struct S_80025FB0_0 {
-    u8 pad_00[0x10];
-    s16 unk_10;
-    s8 unk_12;
-    s8 unk_13;
-    s8 unk_14;
-    s8 unk_15;
-} S_80025FB0_0;   /* arg1 in copy_effect_transform */
-
-typedef struct S_80025FB0_1 {
-    u8 pad_00[0x10];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    s32 unk_14;
-    s32 unk_18;
-    s32 unk_1C;
-} S_80025FB0_1;   /* arg0 in copy_effect_transform */
-
 /* Copy a compact record, widen its signed fields, and apply zero values when its flag is clear. */
 void copy_effect_transform(S_80025FB0_1 *dst, S_80025FB0_0 *src) {
     s32 zero_args[4];
     s32 signed_field;
 
-    *(Copy16 *)dst = *(Copy16 *)src;
+    dst->words = src->words;
     signed_field = src->unk_10;
 
     dst->unk_10 = signed_field;
@@ -1743,74 +1743,50 @@ void copy_effect_transform(S_80025FB0_1 *dst, S_80025FB0_0 *src) {
 
 /* Selector 72, retail file [0x19E0860, 0x19E092C); complete callable clone. */
 
-/* The owner's table of 0x16-byte entries. */
-typedef struct Bank19de800_19e0860_EntryOwner {
+/* update_owner_following_effect selects a transform entry from this sprite source. */
+typedef struct ImpactMeshSource {
     u8 pad_00[0xC];
-    s32 entries;
-} Bank19de800_19e0860_EntryOwner;
-
-/* An object that tracks one entry of its owner's table. */
-typedef struct Bank19de800_19e0860_EntryCursor {
-    s32 entry;                      /* address of the current entry */
-    s8 index;
-    u8 pad_05[3];
-    Bank19de800_19e0860_EntryOwner *owner;
-    u8 pad_0C[8];
-    u16 flags;                       /* 0x4000 = index clamped */
-} Bank19de800_19e0860_EntryCursor;
+    S_80025FB0_0 *entries;
+} ImpactMeshSource;
 
 /* Resolve the current entry, apply an index step, and enforce the index bounds. */
-void step_entry_index_clamped(void *object, s16 *index_step, s32 min_index, s32 max_index) {
+void step_entry_index_clamped(SpriteFrameState *sprite, s16 *index_step, s32 min_index, s32 max_index) {
     s16 step;
     u32 clamp_flags;
-    u8 index;
-    Bank19de800_19e0860_EntryCursor *obj = object;
-    s32 initial_index = obj->index;
-    Bank19de800_19e0860_EntryOwner *owner = obj->owner;
+    s8 index;
+    s32 initial_index = sprite->unk_04;
+    ImpactMeshSource *source = sprite->source;
 
-    obj->entry =
-        owner->entries + (initial_index * 22);
+    sprite->unk_00 = &source->entries[initial_index];
     step = *index_step;
     if (step > 0) {
-        obj->index = obj->index + 1;
+        sprite->unk_04 = sprite->unk_04 + 1;
     } else if (step < 0) {
-        obj->index =
-            obj->index - 1;
+        sprite->unk_04 = sprite->unk_04 - 1;
     }
-    index = (u8)obj->index;
-    if ((s8)index < (s16)min_index) {
-        clamp_flags = obj->flags | 0x4000;
-        obj->index = min_index;
-        obj->flags = clamp_flags;
+    index = sprite->unk_04;
+    if (index < (s16)min_index) {
+        clamp_flags = sprite->flags | 0x4000;
+        sprite->unk_04 = min_index;
+        sprite->flags = clamp_flags;
         return;
     }
-    if ((s8)index > (s16)max_index) {
-        clamp_flags = obj->flags | 0x4000;
-        obj->index = max_index;
-        obj->flags = clamp_flags;
+    if (index > (s16)max_index) {
+        clamp_flags = sprite->flags | 0x4000;
+        sprite->unk_04 = max_index;
+        sprite->flags = clamp_flags;
         return;
     }
-    obj->flags &= 0xBFFF;
+    sprite->flags &= 0xBFFF;
 }
 
 /* Selector 72, retail file [0x19E092C, 0x19E095C); complete callable clone. */
 
-/* The owner's table of 0x16-byte entries. */
-typedef struct Bank19de800_19e092c_EntryOwner {
-    u8 pad_00[0xC];
-    s32 entries;
-} Bank19de800_19e092c_EntryOwner;
+/* Select the transform entry used by the owner's mesh. */
+void select_mesh_entry(SpriteFrameState *sprite, s16 entry_index) {
+    ImpactMeshSource *source = sprite->source;
 
-/* An object that tracks one entry of its owner's table. */
-typedef struct Bank19de800_19e092c_EntryCursor {
-    s32 entry;          /* address of the current entry */
-    u8 pad_04[4];
-    Bank19de800_19e092c_EntryOwner *owner;
-} Bank19de800_19e092c_EntryCursor;
-
-/* Sets the object entry address using a 22-byte stride. */
-void select_mesh_entry(Bank19de800_19e092c_EntryCursor *object, s16 entry_index) {
-    object->entry = object->owner->entries + entry_index * 0x16;
+    sprite->unk_00 = &source->entries[entry_index];
 }
 
 

@@ -11,10 +11,8 @@ typedef struct AllocatedObject {
     u8 pad_C[4];
     void (*callback_10)(void *, void *, void *);
     u8 pad_14[12];
-    void (*callback_20)(void);
+    void (*callback_20)(MenuRingAnimationState *);
 } AllocatedObject;
-
-extern void initialize_animated_menu_ring(void);
 
 /* Allocate an object, copy its initial data, and set its callbacks. */
 AllocatedObject *create_animated_menu_ring(EffectInitialState *source)

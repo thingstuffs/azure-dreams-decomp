@@ -6,7 +6,6 @@
  * Same struct family as src/code2.c / src/w_80041818.c's D_80082E60. */
 
 
-struct UnkStruct1E; void card_boot_destroy_slot_selection_menu(struct UnkStruct1E *);
 #include "frontend/libcard/interfaces.h"
 #include "engine/entity.h"
 #include "engine/resource.h"
@@ -31,7 +30,7 @@ void card_boot_finish_slot_load_and_change_scene(CardSlotMenuState *object) {
     state_flags = runtime_dispatch_state.flags16;
     *(s16 *)(global_page + 0x3714) = object_mode;
     runtime_dispatch_state.flags16 = state_flags | 2;
-    card_boot_destroy_slot_selection_menu(((void *)object) - 0x20);
+    card_boot_destroy_slot_selection_menu(NODE_HEADER(object));
     swap_saved_state_block();
     global_mode = 6;
     if (*(u16 *)(global_page + 0x208) != 0) {

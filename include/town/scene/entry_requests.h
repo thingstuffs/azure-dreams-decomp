@@ -71,4 +71,7 @@ void release_lshop_entry_and_compact(s32 slot_index);
 
 s32 all_entries_pass_check(s16 *values);
 
+/* Set the current town scene entry state byte to 3. */
+void set_selected_entry_state_3(void);
+
 #endif

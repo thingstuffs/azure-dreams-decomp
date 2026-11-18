@@ -15,6 +15,6 @@ void card_boot_restore_saved_selection_callback(void *object_data) {
         CardMenuCallbackPrefix *state = object_data;
 
         object_header->flags = (u16)(flags & 0xDFFF);
-        *(void **)((u8 *)object_data - 0x10) = state->saved_callback;
+        NODE_HEADER(object_data)->update_callback = state->saved_callback;
     }
 }

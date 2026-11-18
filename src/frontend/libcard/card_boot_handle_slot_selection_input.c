@@ -25,7 +25,7 @@ void card_boot_handle_slot_selection_input(CardSlotMenuState *object)
         pressed_buttons = (g_game_work.pressed_buttons);
         if (pressed_buttons & 0x20) {
             SD_Call(AUDIO_CANCEL);
-            card_boot_destroy_slot_selection_menu(((ObjectNodeHeader *)object - 1));
+            card_boot_destroy_slot_selection_menu(NODE_HEADER(object));
             init_card_boot_request_object(object->request, 0);
             return;
         }
@@ -86,7 +86,7 @@ void card_boot_handle_slot_selection_input(CardSlotMenuState *object)
     no_op_card_stub();
     if (update_status != 0) {
         if (update_status != 1) {
-            card_boot_destroy_slot_selection_menu(((ObjectNodeHeader *)object - 1));
+            card_boot_destroy_slot_selection_menu(NODE_HEADER(object));
             init_card_boot_request_object(object->request, 0);
         }
     }

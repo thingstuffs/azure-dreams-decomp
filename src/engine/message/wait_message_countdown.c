@@ -3,19 +3,6 @@
 
 #include "engine/message.h"
 
-struct Func80038A10State;
-
-typedef struct {
-    u8 pad0[0x10];
-    void (*func10)(struct Func80038A10State *);
-    u8 pad14[4];
-    u16 half18;
-    u8 pad1A[0x14];
-    u8 field2E;
-    u8 pad2F[0x58];
-    s8 field87;
-} Func80038128State;
-
 /* Advance to the next handler when the countdown expires or the global flag permits. */
 void wait_message_countdown(Func80038128State *state) {
     GameWork *global = &g_game_work;

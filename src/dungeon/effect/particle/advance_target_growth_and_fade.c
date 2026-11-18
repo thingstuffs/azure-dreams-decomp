@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "dungeon/actor/spell_resource_ids_data.h"
 #include "dungeon/effect/sprite/ribbon_entries.h"
 /* Targeted effect movement, particle spawning, sprite growth, and fading. */
 #include "shared/sprite_frame_state.h"
@@ -110,10 +111,6 @@ typedef struct S_func_818DA800_9 {
     void *unk_04;
 } S_func_818DA800_9;
 
-typedef struct S_func_818DA800_10 {
-    u8 unk_00;
-} S_func_818DA800_10;
-
 typedef struct S_func_818DA800_11 {
     u8 pad_00[2];
     u16 unk_02;
@@ -124,7 +121,6 @@ extern s32 get_spell_range(s16 entry_index);
 #define D_80024538 ((u8 *)advance_target_growth_and_fade)
 #define D_80024684 ((u8 *)ramp_progress_value_over_countdown)
 
-extern u8 current_spell_effect_variant[];
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The phase table of the switch below follows
@@ -324,7 +320,7 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
         (((S_func_818DA800_3 *)actor->target)->unk_14 & 4) != 0) {
         try_apply_paralysis_effect(
             actor->target,
-            ((S_func_818DA800_10 *)current_spell_effect_variant)->unk_00 == 0xFF ? 0xFF : 0x10,
+            current_spell_effect_variant == 0xFF ? 0xFF : 0x10,
             2);
     }
     effect_state->unk_50 = 10;

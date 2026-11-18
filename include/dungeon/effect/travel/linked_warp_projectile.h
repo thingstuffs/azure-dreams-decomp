@@ -2,11 +2,12 @@
 #define DUNGEON_EFFECT_TRAVEL_LINKED_WARP_PROJECTILE_H
 
 #include "common.h"
+#include "shared/animation_views.h"
 
 /* The body installed by create_linked_sprite_pieces and updated by
  * update_warp_camera_and_effects. The first 0x20 bytes are animation state. */
 typedef struct LinkedWarpProjectileBody {
-    u8 animation_state[0x20];
+    AnimFrame animation_state;
     void *linked_node;
     u8 pad_24[0x8];
     s16 phase;

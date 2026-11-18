@@ -11,8 +11,6 @@
 
 extern void func_80171BE0(); /* Slot contract: loading images do not establish one callee contract. */
 
-extern u8 *beldo_effect_stream;
-
 /* Advance the repeated command stream and apply its direction and action to the actor. */
 s32 replay_actor_direction_commands(ActorRecord *actor, ObjectPosition *action_context, SpriteFrameState *sprite) {
     ActorRecord *saved_actor;

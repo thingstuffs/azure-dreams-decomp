@@ -11,6 +11,7 @@
 #include "main/data.h"
 #include "sdk/libgpu.h"
 #include "slus.h"
+#include "slus/animation_tick_data.h"
 #include "slus/card_selection_display_data.h"
 #include "slus/saved_volume_scales_data.h"
 
@@ -24,7 +25,6 @@ static inline void sol9_copy8(void *dst, const void *src, s32 ignored_size) {
     (void)ignored_size;
 }
 
-extern s8 animation_tick_scale;
 extern s32 volume_slider_levels[3];
 
 /* Initializes the settings screen palette, labels, panels, and sliders. */

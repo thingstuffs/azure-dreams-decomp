@@ -3,6 +3,7 @@
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/effect.h"
 #include "dungeon/actor.h"
@@ -45,7 +46,6 @@ extern u8 D_800E0C09[];
 extern u8 D_800E0C1D[];
 extern volatile u8 *dungeon_actor_ring_anchor[];
 extern s16 get_entity_effect_value(Entity800B4194 *, s32); /* Unprototyped: return_width */
-extern s32 generate_random_value(void);
 /* Applies secondary spell and event-record effects, updating actor status, values, and displayed messages. */
 s32 update_attached_effect_state(s16 tile_index, Entity800B4194 *entityp, Context800B4194 *contextp)
 {

@@ -61,6 +61,22 @@ typedef struct WrappedTextureScrollBody {
     u16 scroll_step;
 } WrappedTextureScrollBody;
 
+/* Texture bounds, segment count and vertex colors for draw_textured_ellipse. */
+typedef struct DungeonParameters {
+    u8 pad0[4];
+    u16 flags;
+    u16 texture;
+    u8 x0;
+    u8 y0;
+    u8 x1;
+    u8 y1;
+    u8 x2;
+    u8 y2;
+    u16 count;
+    s32 center_color;
+    s32 outer_color;
+} DungeonParameters;
+
 void update_familiar_selection_marker(FamiliarMarkerWork *state, ObjectPosition *position_arg, SpriteFrameState *marker_arg);
 void update_wrapped_texture_scroll(WrappedTextureScrollBody *scroll_state);
 void create_timed_model_effect(ObjectNodeHeader *owner, u16 *context, void *child, void *tail);

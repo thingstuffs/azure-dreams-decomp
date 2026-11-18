@@ -3,6 +3,7 @@
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/actor/status.h"
 #include "engine/node/registration.h"
 #include "dungeon/system/random.h"
 #include "shared/monster_ids.h"
@@ -12,7 +13,6 @@
 #include "dungeon/actor/animation.h"
 #include "engine/node.h"
 
-s16 set_or_clear_actor_status_slot(ActorRecord *owner, s8 id, s8 value);
 
 
 extern u8 D_80171320[];

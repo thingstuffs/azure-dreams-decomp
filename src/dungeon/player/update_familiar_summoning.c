@@ -14,6 +14,7 @@
 #include "dungeon/player/state.h"
 #include "engine/graphics.h"
 #include "dungeon/player.h"
+#include "dungeon/player/input.h"
 #include "dungeon/level.h"
 #include "slus.h"
 #include "dungeon/item.h"
@@ -37,7 +38,6 @@ typedef struct S_80095A10_3 {
 void map_familiar_spawn_variant_code();
 s32 queue_cd_resource(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 loaded_entity_sprite_resource;
-extern u8 player_wait_frames[];
 extern void *familiar_record_slots[];
 
 /* Advances the resource loading, object creation, and animation sequence. */

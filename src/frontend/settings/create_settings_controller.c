@@ -8,12 +8,12 @@
 #include "engine/node.h"
 #include "frontend/settings.h"
 #include "main/data.h"
+#include "slus/animation_tick_data.h"
 #include "slus.h"
 #include "frontend/card.h"
 
 struct Dst;
 struct Elem;
-extern s8 animation_tick_scale;
 
 typedef struct { s32 a, b, c; } Desc3;
 

@@ -3,6 +3,7 @@
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/actor/status.h"
 #include "dungeon/system/random.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -14,7 +15,6 @@
 
 
 
-extern void set_or_clear_actor_status_slot(void *, s32, s32);
 
 
 #include "dungeon/monster/glacier.h"

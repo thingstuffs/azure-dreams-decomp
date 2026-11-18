@@ -73,7 +73,6 @@ typedef struct Object_800128C8 {
 struct CardMessageDialogBody;
 struct CardChoiceOwner;
 struct S_800491F4;
-struct UnkStruct1E;
 struct CardDisplayNode;
 struct CardFileListPanel;
 
@@ -139,7 +138,7 @@ void *card_boot_create_slot_selection_menu(ObjectNodeHeader *init_value, s32 unu
 void *card_boot_create_command_panel(void *init_value);
 
 /* card_boot_destroy_slot_selection_menu.c */
-void card_boot_destroy_slot_selection_menu(struct UnkStruct1E *object);
+void card_boot_destroy_slot_selection_menu(ObjectNodeHeader *object);
 
 /* card_boot_dispatch_selected_menu_action.c */
 void card_boot_dispatch_selected_menu_action(CardSlotMenuState *object);
@@ -232,7 +231,7 @@ void card_boot_resume_menu_after_slot_refresh(void *object_data);
 void card_boot_return_from_save_menu(void *record_part);
 
 /* card_boot_return_from_slot_menu.c */
-void card_boot_return_from_slot_menu(void *object_data);
+void card_boot_return_from_slot_menu(CardSlotMenuState *object_data);
 
 /* card_boot_save_selected_slot.c */
 void *card_boot_save_selected_slot(Object_800128C8 *context);

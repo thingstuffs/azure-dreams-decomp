@@ -32,10 +32,6 @@
 #include "sdk/libspu.h"
 #include "slus/data.h"
 
-extern int   card_server_initialized[3];
-extern short audio_voice_drain_suppressed[5];
-extern int   audio_slot_service_word[3];
-
 /* Initialize memory card services and disable automatic pad interrupt clearing. */
 void initialize_memory_card_services(s32 enable_pad) {
     InitCARD(enable_pad);
@@ -431,8 +427,6 @@ int record_has_type_twenty(Struct8004928C *record)
     return is_type_twenty(record->unk3 & 0x1F);
 }
 
-extern int item_name_text_table[4]; /* >8B forces hi/lo addressing (matches target's lui/addiu) */
-
 extern int get_item_name_text(void *a0, int *a1);
 
 /* Process an object using the fixed global table. */
@@ -769,7 +763,6 @@ void build_menu_backdrop_display_buffers(SevenEntryMenuBackdropBody *object)
     layout_menu_backdrop_display_entries(object);
 }
 
-extern unsigned char menu_backdrop_link_indices[16];
 
 /* Link entries using the fixed index table and limit seven; returns the chain. */
 void *link_menu_backdrop_display_nodes(void *entries)
@@ -859,7 +852,6 @@ void invoke_leading_object_callback(struct VtableObj *object, void *position, vo
     object->func(object, position, sprite);
 }
 
-extern unsigned char selection_menu_link_indices[16];
 
 /* Link entries using the fixed index table and limit 0x11. */
 void *link_selection_menu_entries(void *entries)
@@ -1138,7 +1130,6 @@ void run_enabled_sound_sequence_update(void)
     }
 }
 
-extern unsigned char audio_force_center_pan[16];
 
 /* Clear the global byte flag. */
 void audio_disable_mono_mix(void) {
@@ -1203,7 +1194,6 @@ int set_reverb_depth(short x, short y) {
     return SpuSetReverbModeParam(&msg);
 }
 
-extern int sequence_tempo_step[4];
 
 /* Return the first word of the global state. */
 int read_sequence_tempo_step(void) {

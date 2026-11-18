@@ -27,8 +27,6 @@ typedef struct S_8017472C_6 {
     s32 unk_0C;
 } S_8017472C_6;   /* control in advance_actor_targeted_action */
 
-extern u8 troll_action_dispatch_address[];
-
 /* Updates an actor's action state, target coordinates, animation, and completion. */
 /* Starts a targeted Troll spell, emits ten particles per casting tick and a flash, then restores the
  * current item's idle frames. */
@@ -141,7 +139,7 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
         (*(u8 *)&actor->pending_turn_updates)--;
-        action->unk_8C.address = troll_action_dispatch_address;
+        action->unk_8C.handler = update_troll_behavior;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -236,7 +234,7 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
             return;
         }
         control->unk_0A--;
-        action->unk_8C.address = troll_action_dispatch_address;
+        action->unk_8C.handler = update_troll_behavior;
         advance_status_timers(actor);
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;

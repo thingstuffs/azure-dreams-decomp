@@ -225,9 +225,6 @@ void update_cursor_callback(WindowCursorBody *state, ObjectPosition *position, S
 /* update_menu_choice_timed.c */
 void update_menu_choice_timed(struct Object *object);
 
-/* update_two_column_cursor.c */
-void handle_two_column_menu_input(struct Object *menu, void *unused_1, void *unused_2);
-
 /* update_window_extents.c */
 void update_window_extents(struct Func80037C7CState *state, s32 offset);
 

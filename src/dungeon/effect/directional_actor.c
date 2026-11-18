@@ -1,4 +1,5 @@
 #include "engine/node/registration.h"
+#include "dungeon/actor/spell_resource_ids_data.h"
 #include "shared/audio_commands.h"
 /* Directional actor effects and their spiraling particle animation. */
 #include "shared/entity.h"
@@ -192,7 +193,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, Row_818E0800_S_818E0
             !try_trigger_target_record_effect(actor->unk_60, 2, actor)) {
             if (((Row_818E0800_S_818E0800_15 *)(actor->unk_60))->unk_14 & 1) {
                 if (actor->unk_60 != 0) {
-                    hit_effect = (((Row_818E0800_S_818E0800_11 *)current_spell_effect_variant)->unk_00 == 0xFF) ? 0xFF : 0x10;
+                    hit_effect = (current_spell_effect_variant == 0xFF) ? 0xFF : 0x10;
                     try_apply_paralysis_effect(actor->unk_60, hit_effect, 2);
                 }
             }

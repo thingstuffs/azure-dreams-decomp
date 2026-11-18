@@ -6,7 +6,7 @@
 #include "dungeon/system.h"
 #include "dungeon/data.h"
 
-extern u8 dungeon_event_pending_flag[];
+extern s8 dungeon_event_pending_flag[];
 extern u8 D_800E0C78[];
 
 /* Conditionally advances the dungeon counter and processes the input through the result chain. */

@@ -4,13 +4,7 @@
 
 #include "common.h"
 
-/* Integer X/Y halves shared by the fixed-point town position readers. */
-typedef struct TownPositionXY {
-    u8 pad_00[2];
-    u16 x_integer;
-    u8 pad_04[2];
-    u16 y_integer;
-} TownPositionXY;
+struct ObjectPosition;
 struct Vec4;
 struct TownMapEntryProcessorBody;
 
@@ -40,6 +34,6 @@ void advance_index_and_mark_completion(struct TownMapEntryProcessorBody *process
 void create_town_map_entry_processor(void);
 
 /* write_map_mod_square.c */
-void write_map_mod_square(s16 top_left, s16 top_right, s16 bottom_left, s16 bottom_right, struct TownPositionXY *pos);
+void write_map_mod_square(s16 top_left, s16 top_right, s16 bottom_left, s16 bottom_right, struct ObjectPosition *pos);
 
 #endif

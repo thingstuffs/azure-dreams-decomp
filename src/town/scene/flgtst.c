@@ -3,7 +3,6 @@
 #include "town/scene.h"
 #include "town/map/variant_data.h"
 
-extern s32 runtime_script_state[];
 extern u8 D_800D3C00[];
 
 

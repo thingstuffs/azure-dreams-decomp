@@ -9,6 +9,7 @@
 #include "dungeon/system.h"
 #include "dungeon/data.h"
 #include "dungeon/monster/beldo_large_frames.h"
+#include "dungeon/monster/beldo_large_data.h"
 
 #define SEQUENCE_INDEX_ADVANCE(index, base) ((index) += (s32)(base))
 #define SEQUENCE_INDEX_BYTE(index, base) (*(u8 *)(index))
@@ -58,7 +59,6 @@ extern void func_80170838(void);
 extern u8 D_80173A60[];
 extern u8 D_80173A88[];
 extern u8 D_80173AF8;
-extern u8 *encounter_script_cursor;
 
 /* Advances the entity action script and updates its animation, facing, and timed events. */
 /* Interprets timed direction commands, relative script jumps, and form changes while updating actor status

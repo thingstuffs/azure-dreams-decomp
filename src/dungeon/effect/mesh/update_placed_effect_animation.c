@@ -1,5 +1,6 @@
 #include "shared/audio_commands.h"
 #include "common.h"
+#include "dungeon/actor/ability_eligibility.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
@@ -75,7 +76,6 @@ extern void func_800243C0(void *, void *);
 #include "dungeon/system.h"
 
 extern s16 get_surface_height_at_record(void *);
-extern s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern void func_80025508(void *, void *);
 extern void apply_attack_power_and_element_effects(void *, s32, u8, s32, s16, void *, s32);
 

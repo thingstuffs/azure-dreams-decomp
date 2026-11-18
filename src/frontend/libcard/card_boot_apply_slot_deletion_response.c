@@ -1,9 +1,5 @@
 #include "common.h"
-
-typedef struct S_80025788_0_pre {
-    void * unk_00;
-    u8 pad_04[0xC];
-} S_80025788_0_pre;   /* the 0x10 bytes before arg0 in card_boot_apply_slot_deletion_response, addressed as arg0[-1] */
+#include "shared/object_node.h"
 
 typedef struct S_80025788_0 {
     u8 pad_00[0x28];
@@ -31,12 +27,12 @@ void card_boot_apply_slot_deletion_response(void *object_arg) {
     s32 entry_index;
 
     if (object->unk_38 != 0) {
-        ((S_80025788_0_pre *)object)[-1].unk_00 = card_boot_handle_slot_selection_input;
+        NODE_HEADER(object)->update_callback = card_boot_handle_slot_selection_input;
         return;
     }
 
     if (card_boot_erase_slot_file(object->unk_28) != 0) {
-        ((S_80025788_0_pre *)object)[-1].unk_00 = card_boot_handle_slot_selection_input;
+        NODE_HEADER(object)->update_callback = card_boot_handle_slot_selection_input;
         entry_index = 0;
         entry_cursor = object_arg;
         do {
@@ -47,7 +43,7 @@ void card_boot_apply_slot_deletion_response(void *object_arg) {
     } else {
         object->unk_34 = card_boot_handle_slot_selection_input;
         card_boot_show_delete_failure_notice(NODE_HEADER(object));
-        ((S_80025788_0_pre *)object)[-1].unk_00 = card_boot_restore_saved_selection_callback;
+        NODE_HEADER(object)->update_callback = card_boot_restore_saved_selection_callback;
     }
 
     card_boot_recheck_selected_channel();

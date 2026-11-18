@@ -58,7 +58,7 @@ typedef void (*FinalFunc)(void *);
 
 extern Func D_800E2934[];
 extern void set_object_value_and_negation(void *, s32);
-extern s32 link_indexed_entry_chain(void *, s32);
+extern s32 link_indexed_entry_chain(s32, s32);
 extern short SD_Call(int flags);
 extern u8 D_800E2924[];
 

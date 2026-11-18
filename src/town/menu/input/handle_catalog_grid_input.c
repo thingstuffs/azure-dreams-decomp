@@ -8,6 +8,7 @@
 #include "engine/item.h"
 #include "town/scene.h"
 #include "slus.h"
+#include "slus/animation_tick_data.h"
 
 typedef struct {
     void *field_0;
@@ -30,7 +31,6 @@ typedef struct {
 } Object;
 
 extern u8 scene_mode_code;
-extern s8 animation_tick_scale;
 
 /* Handles input to update object selections, action states, and exit behavior. */
 void handle_catalog_grid_input(Object *object)

@@ -1,8 +1,8 @@
 #include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "frontend/libcard/interfaces.h"
+#include "slus/animation_tick_data.h"
 
-extern s8 animation_tick_scale[];
 extern s8 scene_music_hold;
 
 
@@ -13,7 +13,7 @@ extern s8 scene_music_hold;
 
 /* Set state 2, run setup, select sound behavior, and clear the high flag bit. */
 void card_boot_close_events_and_resume_timer(void) {
-    animation_tick_scale[0] = 2;
+    animation_tick_scale = 2;
     card_boot_close_events();
     open_timer_2_update_event();
     if (runtime_dispatch_state.mode == 1) {

@@ -1,12 +1,8 @@
 #include "common.h"
 #include "town/scene/indexed_values_data.h"
+#include "town/scene/choice_data.h"
 
 
-
-typedef struct {
-    s32 unk0[8];
-    s32 value;
-} Destination;
 
 extern Destination D_800164D0;
 

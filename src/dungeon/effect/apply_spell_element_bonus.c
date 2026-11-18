@@ -1,4 +1,5 @@
 #include "shared/item_ids.h"
+#include "dungeon/actor/spell_resource_ids_data.h"
 #include "shared/actor_property_flags.h"
 #include "common.h"
 #include "m2c_compat.h"
@@ -14,12 +15,6 @@ typedef struct S_800B3D10_6 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 s16 get_clamped_adjusted_value();                          /* extern */
 s32 resolve_alternate_spell_id(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */                             /* extern */
-extern u8 current_spell_effect_variant;
-
-
-typedef struct S_800B3D10_1 {
-    u8 unk_00;
-} S_800B3D10_1;   /* &D_800E3D68 in apply_spell_element_bonus */
 
 typedef struct S_800B3D10_2 {
     u8 unk_00;
@@ -44,12 +39,12 @@ record->flags14 = (s32) (record->flags14 | (flag)); \
 if (data->unk_01 == ITEM_KIND_WAND) { \
     if (data->unk_00 == (kind)) { \
         record->unk_20 = (s16) ((u16) record->unk_20 \
-            + ((s32) (record->unk_20 * ((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00 * 2) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00 \
+            + ((s32) (record->unk_20 * current_spell_effect_variant * 2) / (s32) (current_spell_effect_variant \
             + 1))); \
         return; \
     } \
-    record->unk_20 = (s16) ((u16) record->unk_20 + ((s32) (record->unk_20 * ((*(u8 *)&current_spell_effect_variant) \
-        + ((u8) (*(u8 *)&current_spell_effect_variant) >> 1))) / (s32) ((*(u8 *)&current_spell_effect_variant) + 1))); \
+    record->unk_20 = (s16) ((u16) record->unk_20 + ((s32) (record->unk_20 * (current_spell_effect_variant \
+        + (current_spell_effect_variant >> 1))) / (s32) (current_spell_effect_variant + 1))); \
     return; \
 } \
 bonus_base = record->unk_20 - ((s32) (get_clamped_adjusted_value(record) << 0x10) >> 0xF); \
@@ -57,12 +52,12 @@ if (bonus_base < 0) { \
     bonus_base = 0; \
 } \
 if (((S_800B3D10_6 *)(((ActorRecord *)record)->unk_4C))->unk_00 == (bonus_kind)) { \
-    record->unk_20 = (s16) ((u16) record->unk_20 + ((bonus_base * (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00 \
-        + (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00 >> 1))) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00 \
+    record->unk_20 = (s16) ((u16) record->unk_20 + ((bonus_base * (current_spell_effect_variant \
+        + (current_spell_effect_variant >> 1))) / (s32) (current_spell_effect_variant \
         + 1))); \
 } else { \
     record->unk_20 = (s16) ((u16) record->unk_20 \
-        + ((bonus_base * ((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00 \
+        + ((bonus_base * current_spell_effect_variant) / (s32) (current_spell_effect_variant \
         + 1))); \
 } \
 return;
@@ -84,7 +79,7 @@ void apply_spell_element_bonus(s16 effect_id, ActorRecord *unused_arg, ActorReco
     case 0:
     {
         s32 value_bonus =
-            (s32) (record->unk_20 * ((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
+            (s32) (record->unk_20 * current_spell_effect_variant) / (s32) (current_spell_effect_variant
             + 1);
         s32 flags = record->flags14 | ACTOR_ELEMENT_FIRE;
         record->flags14 = flags;
@@ -94,7 +89,7 @@ void apply_spell_element_bonus(s16 effect_id, ActorRecord *unused_arg, ActorReco
     case 1:
     {
         s32 value_bonus =
-            (s32) (record->unk_20 * ((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
+            (s32) (record->unk_20 * current_spell_effect_variant) / (s32) (current_spell_effect_variant
             + 1);
         s32 flags = record->flags14 | ACTOR_ELEMENT_WATER;
         record->flags14 = flags;
@@ -104,7 +99,7 @@ void apply_spell_element_bonus(s16 effect_id, ActorRecord *unused_arg, ActorReco
     case 2:
     {
         s32 value_bonus =
-            (s32) (record->unk_20 * ((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
+            (s32) (record->unk_20 * current_spell_effect_variant) / (s32) (current_spell_effect_variant
             + 1);
         s32 flags = record->flags14 | ACTOR_ELEMENT_WIND;
         record->flags14 = flags;

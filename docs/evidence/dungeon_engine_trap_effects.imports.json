@@ -75,12 +75,12 @@
       "map": "dungeon_resident",
       "evidence": "docs/evidence/dungeon_engine_trap_effects.imports.json"
     },
-    "D_800DCF78": {
-      "symbol": "D_800DCF78",
+    "D_800DCF68": {
+      "symbol": "D_800DCF68",
       "kind": "data",
-      "vma": 2148388728,
-      "foff": 1013784,
-      "view_bytes": 4,
+      "vma": 2148388712,
+      "foff": 1013768,
+      "view_bytes": 24,
       "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
       "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
       "map": "dungeon_resident",

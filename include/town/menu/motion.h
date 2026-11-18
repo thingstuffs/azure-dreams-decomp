@@ -30,4 +30,8 @@ void advance_animation_phase_and_frame(MenuAnimationPhaseObject *anim, struct Ob
 void draw_textured_sprite_quad(void *sprite, s32 position);
 void step_door_transition_sprite(Rec_D_80100B70 *record, s32 value, s32 unused_context);
 
+/* Animated menu ring callback installed by its object creator. */
+typedef struct S_800A32F0_0 MenuRingAnimationState;
+void initialize_animated_menu_ring(struct S_800A32F0_0 *state);
+
 #endif

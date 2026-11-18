@@ -62,6 +62,5 @@ void initialize_timed_motion_step(s32, s32);
 extern u8 directional_particle_node_callback[];
 extern u8 directional_particle_callback[];
 extern u8 D_800249DC[];
-extern u8 current_spell_effect_variant[];
 s32 project_linked_vertical_point_quads(void *sprite_data, void *position);
 #endif

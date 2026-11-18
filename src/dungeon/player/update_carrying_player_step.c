@@ -8,9 +8,9 @@
 #include "dungeon/level.h"
 #include "dungeon/player/item.h"
 #include "dungeon/player.h"
+#include "dungeon/player/input.h"
 #include "dungeon/data.h"
 
-extern s32 player_action_tag;
 extern u8 player_throw_frame_set[];
 
 /* Updates timed movement and directional animation, then selects the next handler. */
@@ -88,7 +88,7 @@ void update_carrying_player_step(u8 *entity_in, ObjectPosition *motion_in, Sprit
             if ((collect_ground_item(entity, motion, sprite, actor) << 0x10) <= 0) {
                 return;
             }
-            next_handler = (u8 *)&player_action_tag;
+            next_handler = (u8 *)handle_carrying_player_input;
             *(u8 **)(entity + 0x8C) = next_handler;
             return;
         }

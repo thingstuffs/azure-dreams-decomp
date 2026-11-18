@@ -9121,3 +9121,4 @@
 {"addr":"0x80039EF4","old":"func_80039EF4","new":"script_wait_loop_counter","at":"2026-10-24T17:12:51Z","files":1,"rows":[],"outcome":"applied","batch":true}
 {"addr":"0x80039A88","old":"func_80039A88","new":"script_wait_sound_idle","at":"2026-10-24T17:12:51Z","files":1,"rows":[],"outcome":"applied","batch":true}
 {"addr":"0x80039ACC","old":"func_80039ACC","new":"script_page_break","at":"2026-10-24T17:12:51Z","files":1,"rows":[],"outcome":"applied","batch":true}
+{"addr":"0x800DCF68","old":"D_800DCF68","new":"dungeon_ellipse_parameters","evidence":"take_map_item_slot and create_timed_paired_particle_emitter set the center color at +0x10 and pass the record to draw_textured_ellipse. draw_textured_ellipse_segments reads the outer color at +0x14 for the perimeter vertices.","outcome":"staged-unverified","data_batch":true,"at":"2026-11-18T00:59:08Z"}

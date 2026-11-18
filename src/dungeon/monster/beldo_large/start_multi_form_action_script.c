@@ -1,10 +1,10 @@
 #include "common.h"
 #include "dungeon/monster/beldo_large.h"
+#include "dungeon/monster/beldo_large_data.h"
 #include "dungeon/data.h"
 
-extern s32 D_80173D5C;
+extern u8 *D_80173D5C[];
 extern u8 *beldo_actor_nodes[3];
-extern s32 encounter_script_cursor;
 
 /* Select a table entry, reset its counter, and record the active index in object state. */
 void start_multi_form_action_script(s32 table_index) {
@@ -12,7 +12,7 @@ void start_multi_form_action_script(s32 table_index) {
 
     beldo_script_timer = 0;
     state = (s8 *)(beldo_actor_nodes[0] + 0x20);
-    encounter_script_cursor = (&D_80173D5C)[table_index];
+    encounter_script_cursor = D_80173D5C[table_index];
     state[0xAF] = 1;
     state[0xAB] = table_index;
 }

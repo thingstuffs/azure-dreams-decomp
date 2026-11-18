@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor/spell_resource_ids_data.h"
 #include "shared/vector.h"
 #include "shared/audio_commands.h"
 #include "shared/object_links.h"
@@ -297,7 +298,7 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
             select_target_sprite_scale(actor->target, effect->ticks_left.s);
             if (effect->ticks_left.s == 6 && try_trigger_target_record_effect(actor->target, 4, actor) == 0 &&
                 actor->target != 0) {
-                try_apply_paralysis_effect(actor->target, current_spell_effect_variant[0] == 255 ? 255 : 16, 4);
+                try_apply_paralysis_effect(actor->target, current_spell_effect_variant == 255 ? 255 : 16, 4);
             }
             if (effect->ticks_left.s > 0)
                 break;

@@ -5,7 +5,7 @@
 
 typedef s32 (*Callback)(s8 *);
 
-extern s32 D_80017FB8[];
+extern u32 D_80017FB8[];
 
 /* Invoke the current object callback with bytes 0x10, 0x17, 0, 0 and save its result. */
 void request_handler_kind_10_17(void)

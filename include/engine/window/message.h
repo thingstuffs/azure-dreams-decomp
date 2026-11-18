@@ -5,6 +5,7 @@
 #include "common.h"
 
 struct S_80035ABC_0;
+typedef struct S_80035ABC_0 WindowExtentEntry;
 struct S_80035C44_0;
 struct Rec_func_80036210_arg0;
 struct S_80036988_0;

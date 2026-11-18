@@ -62,7 +62,7 @@ void update_kind_directional_tables(ActorRecord *owner, ObjectPosition *context,
 
     if (update_actor_transform_from_parent(owner, context, display, state) != 0) {
         if ((check_actor_floor_trap(display, state) << 16) > 0) {
-            owner->unk_8C.address = func_801544BC;
+            owner->unk_8C.handler = func_801544BC;
         }
         return;
     }

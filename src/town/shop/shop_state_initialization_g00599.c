@@ -42,7 +42,7 @@ void *open_shop(s32 unused, s32 primary_param, s32 secondary_param, s32 shared_p
         shop->update_callback = &advance_dispatch_when_countdown_expires;
         shop_state->subrecord = allocate_paged_shop_item_list(shop, shop_state->selected_index, shop_state->entry_count, shop_state->selected_row,
             shop_state->field_10, shop_state->entry_base, primary_param);
-        second_resource = create_floating_number_widget(shop, 0x48, -0xC);
+        second_resource = (s32)(unsigned long)create_floating_number_widget(shop, 0x48, -0xC);
         shop_state->field_2C = second_resource;
         if ((shop_state->subrecord == 0) || (second_resource == 0)) {
             close_shop((struct FuncArg *)(shop_state));

@@ -52,7 +52,6 @@ void *select_item_record_pointer(); /* Unprototyped: one or two arguments; the s
 #include "engine/graphics.h"
 #include "engine/resource.h"
 struct S_8008C5C4_2;
-extern u8 player_wait_frames[8];
 extern u8 D_800DD148[];
 extern void (*actor_command_handlers[])(void);
 extern u8 active_actor_command_code;

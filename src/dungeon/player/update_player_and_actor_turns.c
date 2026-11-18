@@ -53,7 +53,7 @@ extern s8 dungeon_event_pending_flag;
 extern u16 D_800DD258;
 extern u16 D_800DD25A;
 extern u8 dungeon_button_latch;
-extern s8 camera_transition_timer;
+extern u8 camera_transition_timer;
 extern s32 familiar_turn_counters_alias;
 extern void *actor_update_node_cursor;
 

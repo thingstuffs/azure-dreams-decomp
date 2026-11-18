@@ -11,6 +11,7 @@ struct ObjectPosition;
 #include "m2c_compat.h"
 #include "records/Rec_D_80082EB0.h"
 #include "dungeon/player.h"
+#include "dungeon/player/input.h"
 #include "dungeon/item.h"
 #include "dungeon/player/motion.h"
 #include "dungeon/effect.h"
@@ -20,7 +21,6 @@ struct ObjectPosition;
 #include "dungeon/data.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void *player_action_tag[];
 extern s32 selected_item_record_alias[];
 extern s32 menu_action_argument[];
 s32 check_familiar_deployment_placement(); /* extern */
@@ -201,7 +201,7 @@ void update_familiar_command_selection(ActorRecord *state, s32 context_a, Sprite
                 {
                     void *callback;
                     if (actor->flags1C & 0x100000) {
-                        callback = player_action_tag;
+                        callback = handle_carrying_player_input;
                     } else {
                         callback =handle_player_input;
                     }
@@ -219,7 +219,7 @@ void update_familiar_command_selection(ActorRecord *state, s32 context_a, Sprite
         {
             void *callback;
             if (actor->flags1C & 0x100000) {
-                callback = player_action_tag;
+                callback = handle_carrying_player_input;
             } else {
                 callback =handle_player_input;
             }

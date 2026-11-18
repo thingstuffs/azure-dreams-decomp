@@ -373,7 +373,7 @@ void *create_settling_tile_object(s16 world_x, s16 world_y, s16 world_z, s16 coo
 extern u8 D_80027334[][8];
 
 /* Animate nearby tile heights and fade the color, then finalize the dungeon transition. */
-void animate_tile_heights_and_transition(DungeonState *state, DungeonOrigin *origin) {
+void animate_tile_heights_and_transition(DungeonState *state, ObjectPosition *origin) {
     FadeColor *fade_color;
     s32 grid_x;
     s32 grid_y;
@@ -400,17 +400,17 @@ void animate_tile_heights_and_transition(DungeonState *state, DungeonOrigin *ori
         grid_y = 1;
         do {
             grid_x = 1;
-            scratch = ((u16)origin->y >> 6) - 3;
+            scratch = ((u16)origin->y.w.i >> 6) - 3;
             tile_y = scratch + grid_y;
             do {
-                scratch = ((u16)origin->x >> 6) - 3;
+                scratch = ((u16)origin->x.w.i >> 6) - 3;
                 tile_x = scratch + grid_x;
                 random_value = func_80069EF8() & 7;
                 terrain_effect_height_grid[grid_y][grid_x] += (s8)D_80027334[grid_y][grid_x] - random_value;
                 tile = find_eligible_entry_at_coordinates(dungeon_actor_ring_anchor, tile_x & 0xFFFF, tile_y & 0xFFFF);
                 if (tile != 0 && tile != bright_effect_source_actor) {
                     *(u16 *)(*(u8 **)((u8 *)tile - 0x18) + 0xA) =
-                        terrain_effect_height_grid[grid_y][grid_x] + origin->height;
+                        terrain_effect_height_grid[grid_y][grid_x] + origin->z.w.i;
                 }
                 if (!(func_80069EF8() & 7)) {
                     spawn_ballistic_tile_fragment_particle((s16)(tile_x << 6), (s16)(tile_y << 6),
@@ -433,8 +433,8 @@ void animate_tile_heights_and_transition(DungeonState *state, DungeonOrigin *ori
                 do {
                     scratch = grid_x - 3;
                     tile = find_eligible_entry_at_coordinates(dungeon_actor_ring_anchor,
-                                         (((u16)origin->x >> 6) + scratch) & 0xFFFF,
-                                         (((u16)origin->y >> 6) + (offset_y = grid_y - 3)) & 0xFFFF);
+                                         (((u16)origin->x.w.i >> 6) + scratch) & 0xFFFF,
+                                         (((u16)origin->y.w.i >> 6) + (offset_y = grid_y - 3)) & 0xFFFF);
                     if (tile != 0 && tile != bright_effect_source_actor) {
                         apply_attack_power_and_element_effects(
                             tile, 16, bright_effect_config_byte, 9,
@@ -466,8 +466,6 @@ void animate_tile_heights_and_transition(DungeonState *state, DungeonOrigin *ori
 
    /* scratch in project_height_grid_object_quad */
 
-   /* arg1 in project_height_grid_object_quad */
-
    /* table in project_height_grid_object_quad */
 
    /* table2 in project_height_grid_object_quad */
@@ -493,9 +491,8 @@ static __inline__ void set_v_width(s32 *rect, s32 v, s32 width)
 }
 
 /* Project a textured object quad onto the height grid and add it to the ordering table. */
-void project_height_grid_object_quad(void *unused, void *origin_arg, SpriteFrameState *object, s16 tile_x, s16 tile_y)
+void project_height_grid_object_quad(void *unused, ObjectPosition *origin, SpriteFrameState *object, s16 tile_x, s16 tile_y)
 {
-    S_8195F43C_1 *origin = origin_arg;
     u8 **render_state = (u8 **)((u8 *)(&g_game_work));
     S_8195F43C_0 *scratch = (S_8195F43C_0 *)0x1F800000;
     u8 *height_grid = ((u8 *)terrain_effect_height_grid);
@@ -524,9 +521,9 @@ void project_height_grid_object_quad(void *unused, void *origin_arg, SpriteFrame
     (void)unused;
     render_ctx = *render_state;
     scratch->unk_20 = render_ctx + 0xB0;
-    scratch->object_matrix.t[0] = origin->unk_02 + ((tile_x - 3) << 6);
-    scratch->object_matrix.t[1] = origin->unk_06 + ((tile_y - 3) << 6);
-    scratch->object_matrix.t[2] = origin->unk_0A;
+    scratch->object_matrix.t[0] = origin->x.w.i + ((tile_x - 3) << 6);
+    scratch->object_matrix.t[1] = origin->y.w.i + ((tile_y - 3) << 6);
+    scratch->object_matrix.t[2] = origin->z.w.i;
 
     height_row = (S_8195F43C_2 *)((u32)(tile_y * 2) +
         (unsigned long)(height_grid + tile_x * 0x10));
@@ -849,7 +846,7 @@ void advance_ballistic_fading_effect(u16 *state, ObjectPosition *motion, SpriteF
 }
 
    /* Transform a textured quad and add it to the ordering table if visible. */
-void draw_depth_biased_textured_quad(s32 unused, ObjectPosition *position, S_8195FD40_3 *quad, s16 depth_bias)
+void draw_depth_biased_textured_quad(s32 unused, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias)
 {
     s32 view_matrix[8];
     S_8195FD40_0 *scratch = (S_8195FD40_0 *)0x1F800000;
@@ -876,15 +873,15 @@ void draw_depth_biased_textured_quad(s32 unused, ObjectPosition *position, S_819
     scratch->object_matrix.t[1] = position->y.w.i;
     scratch->object_matrix.t[2] = position->z.w.i;
     packet = ((GpuContext *)(*render_context))->packetCursor;
-    texture = (S_8195FD40_5 *)quad->unk_08;
+    texture = sprite->source;
     PushMatrix();
 
-    scratch->unk_30 = quad->unk_1C * 2;
-    scratch->unk_34 = quad->unk_1E * 2;
+    scratch->unk_30 = sprite->scale_x * 2;
+    scratch->unk_34 = sprite->scale_y * 2;
     scratch->unk_38 = 0x2000;
-    scratch->unk_100 = quad->unk_16;
-    scratch->unk_104 = quad->unk_1A;
-    scratch->unk_102 = quad->unk_18;
+    scratch->unk_100 = sprite->angle_x;
+    scratch->unk_104 = sprite->angle_z;
+    scratch->unk_102 = sprite->angle_y;
     RotMatrix(&scratch->unk_100, &scratch->object_matrix);
     ReadRotMatrix(&view_matrix);
     CompMatrix(&view_matrix, &scratch->object_matrix, &scratch->composed_matrix);
@@ -941,10 +938,10 @@ void draw_depth_biased_textured_quad(s32 unused, ObjectPosition *position, S_819
             ((S_8195FD40_4 *)packet)->unk_25 = v_bottom;
             ((S_8195FD40_4 *)packet)->unk_1D = v_bottom;
             ((S_8195FD40_4 *)packet)->unk_16 = texture->unk_04;
-            ((S_8195FD40_4 *)packet)->unk_04.at00.v = quad->unk_0C;
+            ((S_8195FD40_4 *)packet)->unk_04.at00.v = sprite->color.word;
             ((S_8195FD40_4 *)packet)->unk_00.at03.v = 9;
             ((S_8195FD40_4 *)packet)->unk_04.at03.v = 0x2C;
-            if (quad->unk_14 & 4) {
+            if (sprite->flags & 4) {
                 ((S_8195FD40_4 *)packet)->unk_04.at03.v = 0x2E;
             }
             packet_addr = (s32)packet & 0xFFFFFF;
@@ -962,23 +959,19 @@ void draw_depth_biased_textured_quad(s32 unused, ObjectPosition *position, S_819
 }
 #include "modules/dungeon_draw_chain.h"
 
-/* Object-list node header (0x20 bytes) that precedes each payload. */
-
-struct S_8195FD40_3;
-
 /* Draw each payload in the linked object chain: the payload follows its node
  * header, and the header's link leads to the next object's header.
  */
-s32 draw_linked_object_chain(void *payload, void *position, void *render)
+s32 draw_linked_object_chain(void *payload, ObjectPosition *position, SpriteFrameState *sprite)
 {
-    DrawChainNode *next;
+    ObjectNodeHeader *next;
     while (1) {
-        draw_depth_biased_textured_quad((s32)payload, position, render, ((DrawChainRender *)render)->depth);
-        next = ((DrawChainNode *)payload - 1)->next;
+        draw_depth_biased_textured_quad((s32)payload, position, sprite, sprite->depth_bias);
+        next = NODE_HEADER(payload)->chain_next;
         if (next == 0) return 0;
-        payload = next + 1;
+        payload = NODE_BODY(next);
         position = next->position;
-        render = next->render;
+        sprite = next->sprite;
     }
 }
 
@@ -1580,13 +1573,13 @@ void update_rotating_fading_tile_quad(void *quad, S_81960CD4_2 *motion, S_81960C
 #define SCRATCH ((Bank56_819611CC_Scratch *)0x1F800000)
 
 /* Project a textured quad and queue it with semitransparency when its depth is in range. */
-s32 project_and_queue_semitransparent_quad(Quad *quad, ObjectPosition *unused, Material *material)
+s32 project_and_queue_semitransparent_quad(Quad *quad, ObjectPosition *unused, SpriteFrameState *sprite)
 {
     Bank56_819611CC_Scratch *scratch;
     Bank56_819611CC_PolyFT4 *packet;
     Texture *texture;
     Bank56_819611CC_PolyFT4 *draw_packet;
-    QuadLink *link;
+    ObjectNodeHeader *link;
     u32 depth;
     RenderState **slot;
     u32 xy3;
@@ -1603,7 +1596,7 @@ s32 project_and_queue_semitransparent_quad(Quad *quad, ObjectPosition *unused, M
         scratch->v[1].xy = quad->v[1].xy;
         scratch->v[2].xy = quad->v[2].xy;
         z0 = quad->v[0].z;
-        texture = material->texture;
+        texture = sprite->source;
         xy3 = quad->v[3].xy;
         scratch->v[0].z = z0;
         z = quad->v[1].z;
@@ -1623,26 +1616,26 @@ s32 project_and_queue_semitransparent_quad(Quad *quad, ObjectPosition *unused, M
             packet->v0 = packet->v1 = texture->v;
             packet->v2 = packet->v3 = texture->v + texture->h;
             packet->tpage = texture->tpage;
-            *(u32 *)&packet->r0 = material->color;
+            *(u32 *)&packet->r0 = sprite->color.word;
             SetPolyFT4(packet);
             draw_packet = packet;
             packet->code |= 2;
             packet++;
             AddPrim(scratch->ot_base + (scratch->depth << 2), draw_packet);
         }
-        link = ((QuadLink **)quad)[-2];
+        link = NODE_HEADER(quad)->chain_next;
         if (link == 0) {
             break;
         }
-        quad = &link->quad;
-        material = link->material;
+        quad = NODE_BODY(link);
+        sprite = link->sprite;
     }
     (*slot)->packet = (u8 *)packet;
     return 0;
 }
 
    /* Creates a terrain tile quad using grid heights and the supplied origin. */
-void create_terrain_tile_quad(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
+void create_terrain_tile_quad(s16 tile_x, s32 tile_y, ObjectPosition *origin) {
     s16 left_x;
     s16 right_x;
     s16 top_y;
@@ -1693,8 +1686,8 @@ void create_terrain_tile_quad(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         bottom_heights_addr += (s32)height_row;
         y_offset = (row - 3) << 6;
         output = object->field8;
-        local_x_or_height = origin->unk_02;
-        local_y = origin->unk_06;
+        local_x_or_height = origin->x.w.i;
+        local_y = origin->y.w.i;
         local_height = top_heights[0];
         height_tr = (u16)top_heights[1];
         height_tr = (u32)height_tr << 16;
@@ -1705,7 +1698,7 @@ void create_terrain_tile_quad(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         height_br = (u16)((s16 *)bottom_heights_addr)[1];
         height_br = (u32)height_br << 16;
         height_br >>= 16;
-        origin_height = (u16)origin->unk_0A;
+        origin_height = origin->z.w.i;
         origin_height = (u32)origin_height << 16;
         origin_height >>= 16;
         local_x_or_height += x_offset;
@@ -1728,27 +1721,27 @@ void create_terrain_tile_quad(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         height_or_child->field1E = 0x800;
         height_or_child->field1C = 0x800;
         height_or_child->field14 = 0xC;
-        left_x = ((u16) origin->unk_02 + x_offset) - 0x20;
+        left_x = (origin->x.w.i + x_offset) - 0x20;
         quad->field20 = left_x;
         quad->field10 = left_x;
-        right_x = ((u16) origin->unk_02 + ((column - 2) << 6)) - 0x20;
+        right_x = (origin->x.w.i + ((column - 2) << 6)) - 0x20;
         quad->field28 = right_x;
         quad->field18 = right_x;
-        top_y = ((u16) origin->unk_06 + y_offset) - 0x20;
+        top_y = (origin->y.w.i + y_offset) - 0x20;
         quad->field1A = top_y;
         quad->field12 = top_y;
         row -= 2;
         row <<= 2;
         row <<= 2;
         row <<= 2;
-        bottom_y = ((u16) origin->unk_06 + row) - 0x20;
+        bottom_y = (origin->y.w.i + row) - 0x20;
         quad->field2A = bottom_y;
         quad->field22 = bottom_y;
-        quad->field14 = (s16) ((u16) origin->unk_0A + (u16) top_heights[0]);
-        quad->field1C = (s16) ((u16) origin->unk_0A + (u16) top_heights[1]);
+        quad->field14 = (s16) (origin->z.w.i + (u16) top_heights[0]);
+        quad->field1C = (s16) (origin->z.w.i + (u16) top_heights[1]);
         tile_y -= 0x80;
-        quad->field24 = (s16) ((u16) origin->unk_0A + (u16) ((s16 *)bottom_heights_addr)[0]);
-        height = (u16) origin->unk_0A;
+        quad->field24 = (s16) (origin->z.w.i + (u16) ((s16 *)bottom_heights_addr)[0]);
+        height = (u16)origin->z.w.i;
         x_or_height = (u16) ((s16 *)bottom_heights_addr)[1];
         height += x_or_height;
         quad->field2C = height;
@@ -1941,9 +1934,8 @@ void interpolate_target_and_finish_transition(State *state, Target *target, Spri
 extern u8 linked_mesh_processor_address[];
 
 /* Allocates and initializes objects at the supplied position across nine slots. */
-void *allocate_nine_position_objects(void *position)
+void *allocate_nine_position_objects(ObjectPosition *position)
 {
-    S_81961A04_1 *source_pos;
     s32 slot;
     s32 *object_handler;
     s32 *control_handler;
@@ -1959,7 +1951,6 @@ void *allocate_nine_position_objects(void *position)
     S_81961A04_3 *state;
     ObjectPosition *positions;
 
-    source_pos = position;
     slot = 0;
     object_handler = interpolate_target_and_finish_transition;
     control_handler = &bright_effect_sprite_source;
@@ -1970,16 +1961,16 @@ void *allocate_nine_position_objects(void *position)
             object->update_callback = object_handler;
             register_node(object, &linked_mesh_processor_address);
             positions = object->position;
-            pos_x = source_pos->unk_02;
+            pos_x = position->x.w.i;
             state = NODE_BODY(object);
             positions->x.w.i = pos_x;
             *((u16 *)&positions->velocity_x + 1) = pos_x;
             state->unk_38 = pos_x;
-            pos_y = source_pos->unk_06;
+            pos_y = position->y.w.i;
             positions->y.w.i = pos_y;
             *((u16 *)&positions->velocity_y + 1) = pos_y;
             state->unk_3A = pos_y;
-            pos_z = source_pos->unk_0A;
+            pos_z = position->z.w.i;
             positions->z.w.i = pos_z;
             *((u16 *)&positions->velocity_z + 1) = pos_z;
             state->unk_3C = pos_z;

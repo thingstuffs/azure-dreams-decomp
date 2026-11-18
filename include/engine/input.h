@@ -4,6 +4,18 @@
 
 #include "common.h"
 
+/* InitPAD writes 0x22 bytes per port. The button reader decodes this prefix. */
+enum ControllerReplyOffset {
+    PAD_REPLY_STATUS = 0,
+    PAD_REPLY_ID = 1,
+    PAD_REPLY_BUTTONS_HIGH = 2,
+    PAD_REPLY_BUTTONS_LOW = 3
+};
+
+enum { PAD_REPLY_LENGTH = 0x22 };
+extern u8 controller_port_one_reply[];
+extern u8 controller_port_two_reply[];
+
 /* get_pad_buttons.c */
 s32 get_held_pad_buttons(void);
 

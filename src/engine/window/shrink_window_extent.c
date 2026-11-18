@@ -2,6 +2,7 @@
 
 #include "engine/effect.h"
 #include "engine/window.h"
+#include "engine/window/message.h"
 
 typedef struct Func80035C80Object Func80035C80Object;
 
@@ -13,13 +14,11 @@ struct Func80035C80Object {
     u8 pad4C[4];
     u8 field50;
     u8 pad51[0x17];
-    void (*field68)(void);
+    void (*field68)(struct Rec_func_80036210_arg0 *, WindowExtentEntry *);
     u8 pad6C[8];
     u8 *field74;
     u8 field78;
 };
-
-extern void shrink_window_extent_to_minimum(void);
 
 /* Flag the referenced record and switch callbacks when the state byte changes. */
 void fade_and_shrink_window_on_value_change(Func80035C80Object *object) {

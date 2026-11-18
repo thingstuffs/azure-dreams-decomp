@@ -1,4 +1,3 @@
-#include "frontend/card/message_object.h"
 #include "frontend/card/message.h"
 #include "main/data.h"
 #include "frontend/card/server_imports.h"

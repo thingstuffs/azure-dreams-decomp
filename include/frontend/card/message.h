@@ -7,6 +7,9 @@
 struct S_80402A1C_0;
 struct ObjectNodeHeader;
 
+/* Four text pointers in each devkit card layout row. */
+extern s32 card_layout_text_items[][4];
+
 /* card_boot_build_four_layout_command_groups.c */
 void *card_boot_build_four_layout_command_groups(void *buffer, struct S_80402A1C_0 *layout);
 

@@ -1,7 +1,6 @@
 #include "common.h"
 #include "town/devkit.h"
 #include "frontend/card/server_imports.h"
-#include "frontend/card/effect_mode_data.h"
 #include "frontend/card.h"
 
 /* Set the global flag, prepare state, and process the target in mode 0. */

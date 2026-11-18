@@ -21,7 +21,6 @@ typedef struct {
 extern s32 measure_directional_stopping_distance(s16, ObjectPosition *, void *, s32);
 
 
-extern u8 player_wait_frames[8];
 extern u8 player_carry_frames[8];
 extern u8 player_throw_frame_set[8];
 

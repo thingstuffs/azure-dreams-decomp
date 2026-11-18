@@ -9,9 +9,9 @@
 #include "dungeon/player/camera_depth_presets_data.h"
 #include "dungeon/player/camera_pitch_presets_data.h"
 #include "dungeon/player/camera_pitch_index_data.h"
+#include "slus/animation_tick_data.h"
 
 extern u16 dungeon_camera_targets[];
-extern u8 animation_tick_scale[16];
 
 
 
@@ -90,11 +90,11 @@ s32 update_sound_settings_from_pad(ActorRecord *actor, ObjectPosition *unused_mo
         }
         if (test_resident_bit(0xA2) != 0) {
             if ((base->pressed_buttons) & 0xC0000) {
-                animation_tick_scale[0] = 1;
+                animation_tick_scale = 1;
             }
             else
                 if ((base->buttons) & 0x30000) {
-                    animation_tick_scale[0] = 2;
+                    animation_tick_scale = 2;
                 }
         }
     }

@@ -13,6 +13,22 @@ struct AnimObject;
 struct Func80037F70Outer;
 struct Func8003800CState;
 struct Func80038A10State;
+
+/* State passed to the countdown callback by text and script handlers. */
+typedef struct Func80038128State {
+    u8 pad0[0x10];
+    void (*func10)(struct Func80038A10State *);
+    u8 pad14[4];
+    u16 half18;
+    u8 pad1A[0x14];
+    u8 field2E;
+    u8 pad2F[0x58];
+    s8 field87;
+} Func80038128State;
+
+typedef struct MessageMotionAcceptState MessageMotionAcceptState;
+typedef struct Func80038690State Func80038690State;
+typedef struct Func8003875CState Func8003875CState;
 struct Object;
 struct RuntimeContext;
 struct S_800381A4_0;
@@ -85,6 +101,12 @@ void process_message_control_bytes(struct RuntimeContext *ctx);
 void func_80038CB8(struct S_func_80038CB8_0 *text);
 void render_message_glyphs(struct S_func_80038CB8_0 *text);
 
+/* run_message_opcode_handler.c */
+void run_message_opcode_handler(Func80038690State *state);
+
+/* run_message_table_handler.c */
+void run_message_table_handler(Func8003875CState *state);
+
 /* run_indexed_handler_and_set_next.c */
 void run_indexed_handler_and_set_next(struct S_80038708_0 *record);
 
@@ -108,8 +130,14 @@ void update_message_window(struct Func80038A10State *input_state);
 /* update_text_row_scale.c */
 void update_text_row_scale(u8 *entity, u8 unused_scale);
 
+/* wait_message_countdown.c */
+void wait_message_countdown(Func80038128State *state);
+
 /* wait_message_entry_ready.c */
 void wait_message_entry_ready(struct Object *object);
+
+/* wait_message_motion_accept.c */
+void wait_message_motion_accept(MessageMotionAcceptState *state);
 
 /* wait_message_resident_bit.c */
 void wait_message_resident_bit(struct S_80038394_0 *object);

@@ -14,7 +14,6 @@
 #include "dungeon/item.h"
 #include "dungeon/effect.h"
 
-extern s32 entity_level_thresholds[];
 extern u8 D_800E131C[];
 
 #include "dungeon/player/item.h"

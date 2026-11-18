@@ -87,7 +87,6 @@ void retire_tracked_effect_by_id(s32 targetId);
 extern s32 return_magic_begin_address(void);
 extern u8 D_800DF45C[];
 extern void *return_magic_effect_object;
-extern void *return_magic_fade_object;
 extern u8 D_800E1640[55];
 
 typedef struct {

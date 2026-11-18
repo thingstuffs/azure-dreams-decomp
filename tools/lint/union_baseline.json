@@ -1,5 +1,5 @@
 {
- "count": 1346,
+ "count": 1341,
  "ids": [
   "include/dungeon/actor/ability_eligibility.h::S_800A4300_2.unk_F0",
   "include/dungeon/actor/action_target_selection_g00359.h::S_800CA444_0.unk_24",
@@ -1112,11 +1112,6 @@
   "src/dungeon/effect/travel/tint_and_advance_effect.c::S_800252E0_4.unk_04",
   "src/dungeon/effect/travel/tint_and_advance_effect.c::ot_entry.ot_entry",
   "src/dungeon/effect/travel/warp.c::S_819AD81C_1.unk_0C",
-  "src/dungeon/effect/travel/warp.c::S_819AD81C_2.unk_00",
-  "src/dungeon/effect/travel/warp.c::S_819AD81C_2.unk_04",
-  "src/dungeon/effect/travel/warp.c::S_819AD81C_2.unk_08",
-  "src/dungeon/effect/travel/warp.c::S_819AD81C_2.unk_0C",
-  "src/dungeon/effect/travel/warp.c::S_819AD81C_2.unk_10",
   "src/dungeon/effect/travel/warp.c::S_819AD81C_3.unk_5C",
   "src/dungeon/effect/update_transform_spell.c::travel.travel",
   "src/dungeon/func_800A4710.c::S_800A9E70_2.unk_2C",

@@ -9,12 +9,12 @@
 #include "sdk/libgte.h"
 #include "town/menu.h"
 #include "slus.h"
+#include "slus/animation_tick_data.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-extern s8 animation_tick_scale;
 extern s32 D_80126704;
 
 /* Initializes the object's state and callbacks, or flags initialization failure. */

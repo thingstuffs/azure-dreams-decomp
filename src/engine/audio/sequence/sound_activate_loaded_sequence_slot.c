@@ -7,9 +7,6 @@
  * pointer value, field_8/field_A are u16 (not accessed here). */
  /* size 0xC (12) */
 
-extern s16 audio_current_bank_slot[8];  /* forced hi/lo access via size > 8 */
-extern s16 audio_active_sequence_sub_id[8];  /* forced hi/lo access via size > 8 */
-extern s32 audio_sequence_stream_limit[4];  /* forced hi/lo access via size > 8 */
 extern s32 audio_sequence_active[4];  /* forced hi/lo access via size > 8 */
 
 /* Activates an occupied slot with the requested sub-id and mode. */

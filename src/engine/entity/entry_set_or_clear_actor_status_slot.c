@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor/status.h"
 #include "shared/actor_status.h"
 #include "shared/entity.h"
 
@@ -7,7 +8,6 @@
 #include "engine/entity.h"
 #include "engine/util.h"
 
-extern void set_or_clear_actor_status_slot(ActorRecord *object, s32 type, s32 value);
 
 /* Remove type 0x1B and replay the remaining slots with global flag bit 1 set. */
 void replay_actor_status_slots(ActorRecord *object)

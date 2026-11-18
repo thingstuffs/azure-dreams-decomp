@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "frontend/card/load.h"
 
 extern s32 get_table_entry_by_flag(void);
@@ -15,11 +16,11 @@ void select_load_slot_callback(void *ptr) {
 
     idx = *(s32 *)((u8 *)ptr + 0x2C);
     if (*(s32 *)(card_slot_header_cache + (idx << 7)) != 0) {
-        *(void (**)(void))((u8 *)ptr - 0x10) = func_80406C2C;
+        NODE_HEADER(ptr)->update_callback = func_80406C2C;
         return;
     }
     if (get_table_entry_by_flag() >= 3) {
-        *(void (**)(void))((u8 *)ptr - 0x10) = func_80406B9C;
+        NODE_HEADER(ptr)->update_callback = func_80406B9C;
         return;
     }
     if (count_nonzero() != 0) {

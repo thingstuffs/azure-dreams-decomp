@@ -7,6 +7,7 @@
 #include "shared/dungeon_status.h"
 #include "dungeon/item.h"
 #include "dungeon/monster/beldo_large.h"
+#include "dungeon/monster/beldo_large_data.h"
 #include "dungeon/data.h"
 
 typedef struct {
@@ -28,7 +29,6 @@ extern void func_80164BA4(void *);
 extern u8 D_80173C8C[];
 extern u8 D_80173D74[];
 extern u8 *beldo_actor_nodes;
-extern s32 encounter_script_cursor;
 
 /* Set up the active object's handler and direction, then update its two linked entries. */
 void begin_multi_form_directional_script(void)
@@ -73,7 +73,7 @@ void begin_multi_form_directional_script(void)
 
         direction_table = D_80173D74;
         direction &= 0x1C;
-        encounter_script_cursor = *(s32 *)(direction_table + direction);
+        encounter_script_cursor = *(u8 **)(direction_table + direction);
     }
 
     do {

@@ -6,6 +6,7 @@
 #include "shared/actor_status_ids.h"
 #include "shared/entity.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -27,7 +28,6 @@ typedef struct {
 
 #include "sdk/libgpu_types.h"
 
-extern s32 generate_random_value(void); /* Retail RNG at 0x800A6D30 reads no incoming argument registers, including a3. */
 
 
 extern void func_80170B40(void);

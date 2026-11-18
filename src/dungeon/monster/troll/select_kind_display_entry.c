@@ -4,7 +4,6 @@
 #include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
-#include "dungeon/data.h"
 #include "dungeon/monster/troll.h"
 
 extern s32 D_8015DDC4;
@@ -81,7 +80,7 @@ void select_kind_display_entry(ActorRecord *owner, ObjectPosition *context, Spri
 
     if (update_actor_transform_from_parent(owner, context, display, state) != 0) {
         if ((check_actor_floor_trap(display, state) << 16) > 0) {
-            owner->unk_8C.address = troll_slot_c_action_callback;
+            owner->unk_8C.handler = troll_slot_c_action_callback;
         }
         return;
     }

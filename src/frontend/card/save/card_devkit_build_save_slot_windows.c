@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "frontend/card/save.h"
 #include "frontend/card.h"
 #include "frontend/card/server_aliases.h"
@@ -16,11 +17,11 @@ void card_devkit_build_save_slot_windows(void *ptr) {
             *(s32 *)((u8 *)base + 0x24) = *(s32 *)((u8 *)base + 0x24) + 1;
         } else {
             *(void (**)(void))((u8 *)base + 0x34) = card_dev_update_save_slot_selection;
-            initialize_card_message_object_with_code_0xb((u8 *)base - 0x20);
-            *(void (**)(void))((u8 *)base - 0x10) = install_pending_completion_callback;
+            initialize_card_message_object_with_code_0xb(NODE_HEADER(base));
+            NODE_HEADER(base)->update_callback = install_pending_completion_callback;
         }
     }
     if (idx == 5) {
-        *(void (**)(void))((u8 *)base - 0x10) = card_dev_update_save_slot_selection;
+        NODE_HEADER(base)->update_callback = card_dev_update_save_slot_selection;
     }
 }

@@ -14,6 +14,9 @@ extern CardSaveSlot card_save_slot_metadata[];
  * stride. The numeric detail is word 8; the full table bound is unknown. */
 extern CardSaveSlot card_slot_detail_records[];
 
+/* CARD_DEV effect mode shared by the card and town devkit entry points. */
+extern s8 card_dev_effect_mode;
+
 struct ObjectNodeHeader;
 struct MainPacket12;
 struct MainValue;

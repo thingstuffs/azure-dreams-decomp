@@ -11,13 +11,12 @@
 #include "dungeon/item.h"
 #include "dungeon/level.h"
 #include "dungeon/player/object.h"
+#include "dungeon/player/input.h"
 #include "dungeon/system.h"
 #include "dungeon/globals.h"
 
 #include "dungeon/system/random_range.h"
 
-extern u8 player_action_tag[];
-extern u8 player_wait_frames[8];
 extern u8 player_carry_frames[8];
 extern u8 D_800E0523[];
 extern u8 D_800E0683[];
@@ -92,7 +91,7 @@ void update_lift_object(PlayerRecord *effect_state, void *saved_effect_id, Sprit
                     }
                 }
             }
-            effect_state->actor.unk_8C.address = player_action_tag;
+            effect_state->actor.unk_8C.address = handle_carrying_player_input;
             effect_target->frameTable = player_carry_frames;
             set_sprite_animation_frame(effect_target,
                 player_carry_frames[((g_game_work.view.camera_rotation.parts.viewAngle + owner->actor.facing + 0x100) >> 9) & 7],

@@ -28,7 +28,6 @@ typedef struct S_800D13B8_1 {
 } S_800D13B8_1;
 
 extern s16 sound_idle_vsync_frame_alias[8];
-extern u8 shared_decode_staging_buffer[16400];
 extern u8 *tile_coordinate_records;
 
 /* Marks and processes up to ten eligible tiles in each perpendicular direction, returning the total. */

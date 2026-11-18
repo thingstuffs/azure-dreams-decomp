@@ -22,10 +22,12 @@
 #include "shared/sprite_source.h"
 
 struct CallbackEntry;
+struct DungeonParameters;
 struct S_800B50B0_Entity;
 
 
 /* Data declarations. */
+extern struct DungeonParameters dungeon_ellipse_parameters;
 extern u8 manoeva_frame_set[ ];
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */

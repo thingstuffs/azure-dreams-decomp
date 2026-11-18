@@ -90,10 +90,6 @@ typedef struct Row_818E0800_S_818E0800_10 {
     u16 unk_14;
 } Row_818E0800_S_818E0800_10;   /* arg2 in func_8002401C */
 
-typedef struct Row_818E0800_S_818E0800_11 {
-    u8 unk_00;
-} Row_818E0800_S_818E0800_11;   /* D_800E3D68 in func_8002401C */
-
 typedef struct Row_818E0800_S_818E0800_12 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
@@ -172,7 +168,6 @@ s32 get_spell_range(s16 entry_index);
 void advance_sprite_animation_and_textures(void *);
 void transform_rotated_vertices(void *);
 extern u8 directional_effect_entries[];
-extern u8 current_spell_effect_variant[];
 void update_directional_actor_effect(EntityRec *effect_arg, Row_818E0800_S_818E0800_2 *motion_arg, Row_818E0800_S_818E0800_10 *actor_state);
 void shrink_spiraling_sprite_effect(Row_818E0D94_S_818E0D94_0 *effect, ObjectPosition *position, Rec_D_80082E80 *sprite);
 #endif

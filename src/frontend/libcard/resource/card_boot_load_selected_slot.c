@@ -4,15 +4,16 @@
 #include "main.h"
 #include "main/data.h"
 #include "frontend/card.h"
+#include "shared/object_node.h"
 
 /* Select a state pointer from the operation result and clear the trailing word. */
 void card_boot_load_selected_slot(CardSlotMenuState *state) {
     s32 *next_state;
     s32 result;
-    s8 *owner;
+    ObjectNodeHeader *owner;
 
     result = card_boot_load_save_and_clear_marker(state->unk_28, 0x80010000, 1);
-    owner = ((s8 *)state) - 0x20;
+    owner = NODE_HEADER(state);
     if (result == 0) {
         next_state = card_boot_handle_slot_selection_input;
         state->saved_callback = next_state;
@@ -23,7 +24,7 @@ void card_boot_load_selected_slot(CardSlotMenuState *state) {
         no_op_card_hook(0x80010000);
         next_state = card_boot_finish_slot_load_and_change_scene;
     }
-    *(s32 **)(((s8 *)state) - 0x10) = next_state;
+    NODE_HEADER(state)->update_callback = next_state;
     card_boot_recheck_selected_channel();
     state->unk_40 = 0;
 }

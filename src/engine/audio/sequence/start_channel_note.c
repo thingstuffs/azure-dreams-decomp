@@ -113,29 +113,10 @@ typedef struct Song {
     /* 0x12 */ u16 f12;
 } Song;
 
-typedef struct Req {
-    /* 0x00 */ s32 f00;
-    /* 0x04 */ s32 f04;
-    /* 0x08 */ s16 f08;
-    /* 0x0A */ s16 f0A;
-    /* 0x0C */ s16 f0C;
-    /* 0x0E */ s16 f0E;
-    u8 pad10[6];
-    /* 0x16 */ s16 f16;
-    u8 pad18[4];
-    /* 0x1C */ s32 f1C;
-    u8 pad20[4];
-    /* 0x24 */ s32 f24;
-    u8 pad28[0x3A - 0x28];
-    /* 0x3A */ u16 f3A;
-    /* 0x3C */ u16 f3C;
-} Req;
-
 extern AudioChannelControl audio_channel_controls[16];
 extern Voice audio_voice_records[24];
 extern Slot audio_bank_slots[16];
 extern s32 D_80073734_late[4] __asm__("D_80073734");  /* second view: retail hoists the base per voice loop */
-extern Req audio_voice_request;
 
 extern void audio_compute_voice_stereo_volumes(Voice *a0, AudioChannelControl *a1);
 extern s32 audio_compute_pitch_bend_offset(Voice *a0, s32 a1);
@@ -353,7 +334,7 @@ void start_channel_note(u8 channel_id, s16 note, u8 velocity)
                 if (channel->f98 == 0) {
                     sound_reset_indexed_voice_envelope(voice_idx);
                     SpuSetKey(0, audio_voice_masks[voice_idx]);
-                    noop_voice_start_notification(voice_idx, note & 0xFF, channel_id, audio_voice_request.f08, audio_voice_request.f0A);
+                    noop_voice_start_notification(voice_idx, note & 0xFF, channel_id, audio_voice_request.volume.left, audio_voice_request.volume.right);
                 }
                 entry_idx = 0;
                 sample_offset = 0;
@@ -363,24 +344,24 @@ void start_channel_note(u8 channel_id, s16 note, u8 velocity)
                     sample_offset += *sample_sizes;
                     sample_sizes++;
                 }
-                audio_voice_request.f04 = 0x601EF;
-                audio_voice_request.f0C = 0;
-                audio_voice_request.f0E = 0;
-                audio_voice_request.f00 = audio_voice_masks[voice_idx];
+                audio_voice_request.mask = 0x601EF;
+                audio_voice_request.volmode.left = 0;
+                audio_voice_request.volmode.right = 0;
+                audio_voice_request.voice = audio_voice_masks[voice_idx];
                 sample_offset <<= 3;
-                audio_voice_request.f1C = audio_bank_slots[audio_current_bank_slot[0]].f10 + sample_offset;
+                audio_voice_request.addr = audio_bank_slots[audio_current_bank_slot[0]].f10 + sample_offset;
                 adsr1 = tone->f10;
-                audio_voice_request.f3A = adsr1;
+                audio_voice_request.adsr1 = adsr1;
                 voice->f60 = adsr1;
                 adsr2 = tone->f12;
-                audio_voice_request.f3C = adsr2;
+                audio_voice_request.adsr2 = adsr2;
                 voice->f64 = adsr2;
                 if (tone->f10 & 0x80) {
-                    audio_voice_request.f24 = 5;
+                    audio_voice_request.a_mode = 5;
                 } else {
-                    audio_voice_request.f24 = 1;
+                    audio_voice_request.a_mode = 1;
                 }
-                voice->f68 = audio_voice_request.f24;
+                voice->f68 = audio_voice_request.a_mode;
                 channel->f5C = note;
                 channel->f10 = velocity;
                 voice->f22 = tone->f04;
@@ -425,8 +406,8 @@ void start_channel_note(u8 channel_id, s16 note, u8 velocity)
                 voice->f48 = 0;
                 voice->f58 = 0;
                 audio_compute_voice_stereo_volumes(&audio_voice_records[voice_idx], &audio_channel_controls[channel_id]);
-                audio_voice_request.f08 = voice->f10;
-                audio_voice_request.f0A = voice->f12;
+                audio_voice_request.volume.left = voice->f10;
+                audio_voice_request.volume.right = voice->f12;
                 voice->f1D = channel->f18;
                 voice->f0A = note & 0x7F;
                 voice->f74 = channel->f1C;
@@ -437,10 +418,10 @@ void start_channel_note(u8 channel_id, s16 note, u8 velocity)
                     pitch = pitch + ((voice->f0C << 7) + audio_compute_pitch_bend_offset(voice, channel->f1C));
                     semitone = ((s32)(pitch << 16)) >> 23;
                     pitch = (pitch & 0x7F) + (semitone << 8);
-                    audio_voice_request.f16 = pitch;
+                    audio_voice_request.note = pitch;
                 } else {
                     channel->f1C = 0x40;
-                    audio_voice_request.f16 = start_note << 8;
+                    audio_voice_request.note = start_note << 8;
                 }
                 if (tone->f05 != 0) {
                     voice_packed_tone[0] = ((tone->f04 - 1) << 8) | (0x7F - tone->f05);

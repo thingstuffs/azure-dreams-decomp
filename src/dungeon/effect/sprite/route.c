@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "dungeon/actor/spell_resource_ids_data.h"
 /* Shaded particles, terrain collisions, chasing-star trails, and owner-following effects. */
 #include "dungeon/effect/sprite/route.h"
 #include "shared/entity.h"
@@ -408,7 +409,6 @@ void advance_damped_ground_sliding_sprite(B32_818CEDC8_S_818CEDC8_1 *state, B32_
 extern B32_818CF0E8_Vec12 D_8002590C;
 extern B32_818CF0E8_Vec12 D_80025918;
 #include "dungeon/effect/sprite/directional_entries.h"
-extern u8 current_spell_effect_variant[];
 
 /* Per-frame chasing-star step: drift toward the player, steer around the map and spawn the two trailing sprites. */
 void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPosition *pos, B32_818CF0E8_S_818CF0E8_3 *gfx)
@@ -733,7 +733,7 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
                 rr = (generate_random_value() & 3) + 2;
                 a2v = (entity->unk_15 >> 2) + rr;
                 a1v = 0x10;
-                if (current_spell_effect_variant[0] == 0xFF) {
+                if (current_spell_effect_variant == 0xFF) {
                     a1v = 0xFF;
                 }
                 try_apply_confusion_status(entity->unk_30, a1v, a2v);

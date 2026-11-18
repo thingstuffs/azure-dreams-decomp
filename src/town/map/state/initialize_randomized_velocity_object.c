@@ -3,13 +3,9 @@
 #include "m2c_compat.h"
 #include "engine/window.h"
 #include "engine/node.h"
+#include "town/map/position.h"
 #include "town/map/state.h"
 #include "town/map.h"
-
-struct TownPositionXY; void write_map_mod_square(s16, s16, s16, s16, struct TownPositionXY *);
-
-
-
 
 /* Initialize object tables, settings, and randomized state. */
 void initialize_randomized_velocity_object(TownObjectRecord *object, ObjectPosition *random_state, SpriteFrameState *settings) {
@@ -22,5 +18,5 @@ void initialize_randomized_velocity_object(TownObjectRecord *object, ObjectPosit
     ((Fixed1616 *)&random_state->velocity_y)->w.i = scale_random_by_limit(0xFFFF);
     ((Fixed1616 *)&random_state->velocity_z)->w.i = scale_random_by_limit(0xFFFF);
     register_node_if_unregistered(object, draw_linked_shaded_quad_rings);
-    write_map_mod_square(0x10, 0x11, 0x12, 0x13, (struct TownPositionXY *)random_state);
+    write_map_mod_square(0x10, 0x11, 0x12, 0x13, random_state);
 }

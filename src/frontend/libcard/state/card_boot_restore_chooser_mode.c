@@ -8,7 +8,7 @@ void card_boot_restore_chooser_mode(void *record_part) {
     u16 flags;
     ObjectNodeHeader *base_record;
 
-    base_record = record_part - 0x20;
+    base_record = NODE_HEADER(record_part);
     flags = base_record->flags;
     if (flags & 0x2000) {
         base_record->flags = (u16) (flags & 0xDFFF);

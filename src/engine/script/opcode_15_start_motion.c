@@ -2,6 +2,7 @@
 #include "shared/object_index_slots.h"
 
 #include "engine/script.h"
+#include "engine/message.h"
 #include "slus/data.h"
 
 typedef struct Entry {
@@ -29,7 +30,7 @@ typedef struct AuxState {
 
 typedef struct State {
     u8 pad_00[0x10];
-    void (*callback)(void);
+    void (*callback)();
     u8 pad_14[8];
     u8 *read_ptr;
     u8 pad_20[0x0F];
@@ -42,8 +43,6 @@ typedef struct State {
 
 extern u8 message_motion_type_a[];
 extern void *ms_mot_accpt_ow(u8 object_index);
-extern void wait_message_entry_ready(void);
-extern void wait_message_motion_accept(void);
 
 
 /* Opcode 0x0F: Set actor motion/expression (u8 actor, u8 motion; no motion byte for actor 0); waits while the actor is busy. */

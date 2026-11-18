@@ -8,4 +8,7 @@ extern u8 encounter_recovery_flag;
 /* The encounter callbacks read and write the first halfword at 0x801760D8. */
 extern s16 encounter_blink_update_flag;
 
+/* Bytecode cursor shared by the multi-form script writers and interpreter. */
+extern u8 *encounter_script_cursor;
+
 #endif

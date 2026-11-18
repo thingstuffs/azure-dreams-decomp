@@ -1,17 +1,16 @@
 #include "common.h"
 #include "engine/script.h"
+#include "engine/message.h"
 
 typedef struct Func80039C0CState {
     u8 unk00[0x10];
-    void (*handler)(void);
+    void (*handler)(Func8003875CState *);
     u8 unk14[0x08];
     u8 *cursor;
     u8 unk20[0x12];
     u8 first;
     u8 second;
 } Func80039C0CState;
-
-extern void run_message_table_handler(void);
 
 /* Opcode 0x27: Poll handler [group][entry] (two u8) until it returns nonzero. */
 void script_poll_group_handler(Func80039C0CState *state) {

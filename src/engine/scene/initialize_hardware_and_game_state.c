@@ -2,6 +2,7 @@
 #include "shared/object_flags.h"
 #include "engine/audio.h"
 #include "engine/entity.h"
+#include "engine/input.h"
 #include "engine/scene.h"
 #include "sdk/libc.h"
 #include "sdk/libcd.h"
@@ -20,10 +21,6 @@ extern u8 *D_80083160[3];
  * absolute-address casts (see D_80013180 group note below) so gcc reuses the
  * base==dest lbu/lhu macro form the retail binary shows for each (a solitary
  * hi/lo read immediately consumed as a call arg). */
-
-/* pad-buffer arrays passed to InitPAD */
-extern u8 controller_port_one_reply[0x22];
-extern u8 controller_port_two_reply[0x22];
 
 extern u8 floor_generation_state[8];
 extern u8 scene_mode_code[];
@@ -56,11 +53,11 @@ void initialize_hardware_and_game_state(void)
     sound_set_sequence_volume_scale(*(s16 *)0x80080A98);
     sound_set_voice_gain_scale(*(s16 *)0x80080A9C);
 
-    for (pad_byte = 0; pad_byte < 0x22; pad_byte++) {
+    for (pad_byte = 0; pad_byte < PAD_REPLY_LENGTH; pad_byte++) {
         controller_port_one_reply[pad_byte] = 0xFF;
         controller_port_two_reply[pad_byte] = 0xFF;
     }
-    InitPAD(controller_port_one_reply, 0x22, controller_port_two_reply, 0x22);
+    InitPAD(controller_port_one_reply, PAD_REPLY_LENGTH, controller_port_two_reply, PAD_REPLY_LENGTH);
 
     StartPAD();
     initialize_memory_card_services(1);

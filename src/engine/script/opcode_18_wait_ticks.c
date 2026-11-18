@@ -1,16 +1,15 @@
 #include "common.h"
 #include "engine/script.h"
+#include "engine/message.h"
 
 typedef struct Func80039578State {
     u8 pad_00[0x10];
-    void (*func_10)(void *);
+    void (*func_10)(Func80038128State *);
     u8 pad_14[0x04];
     u16 half_18;
     u8 pad_1A[0x02];
     u8 *read_ptr;
 } Func80039578State;
-
-extern void wait_message_countdown(void *state);
 
 /* Opcode 0x12: Wait the number of frames given by the 16-bit operand. */
 void script_wait_frames(Func80039578State *state) {

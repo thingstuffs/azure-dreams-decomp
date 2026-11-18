@@ -42,7 +42,7 @@ void finish_save_slot_operation(S_func_804061C4_0 *state)
         } while (entry_count < 5);
     } else {
         state->unk_34 = handle_object_menu_input;
-        initialize_card_message_object_with_code_0x13((u8 *)state - 0x20);
+        initialize_card_message_object_with_code_0x13(NODE_HEADER(state));
         NODE_HEADER(state)->update_callback = (void *)func_80405A64;
     }
 

@@ -3,7 +3,7 @@
 #include "engine/script.h"
 #include "town/person/object.h"
 #include "town/person/object_setup.h"
-extern u8 D_80082A39[16];
+extern u8 D_80082A39;
 
 /* Select the object setup path after a successful request. */
 s32 select_object_setup_path(void *object, void *request_data, void *request_param) {
@@ -12,7 +12,7 @@ s32 select_object_setup_path(void *object, void *request_data, void *request_par
     }
 
     if (check_active_transform_object(object) != 0 ||
-        D_80082A39[0] == *(s32 *)((u8 *)object + 0x60)) {
+        D_80082A39 == *(s32 *)((u8 *)object + 0x60)) {
         reset_heading_and_update_object(object, request_data, request_param);
         return 1;
     }

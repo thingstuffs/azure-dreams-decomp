@@ -7,7 +7,7 @@
 #define NULL 0
 #endif
 
-typedef struct {
+typedef struct CardSaveScreenState {
     s8 pad00[0x10];
     void (*unk10)(void);
     s8 pad14[0x0C];
@@ -20,14 +20,14 @@ typedef struct {
     s32 unk48;
     s8 pad4C[0x1C];
     s32 unk68;
-} StructA_8001F678;
+} CardSaveScreenState;
 
 extern void run_slot_operation_code_five(void);
 extern u8 D_8040C628[0x1C];
 
 /* Creates and initializes state and installs its update callback. */
-StructA_8001F678 *card_dev_create_save_screen(s32 init_value) {
-    StructA_8001F678 *state;
+CardSaveScreenState *card_dev_create_save_screen(s32 init_value) {
+    CardSaveScreenState *state;
 
     state = func_8003C714(0, D_8040C628, 0x1C);
     card_dev_run_init_hook((u8 *)state + 0x20, init_value);

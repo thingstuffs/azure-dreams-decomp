@@ -1,6 +1,6 @@
 #include "common.h"
 
-#include "frontend/card/message_object.h"   /* extern */
+#include "frontend/card/message.h"
 #include "frontend/card.h"
 
 /* Forwards a target and value to init_card_message_object with fixed parameters 4 and 2. */

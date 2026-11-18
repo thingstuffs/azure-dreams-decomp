@@ -1,15 +1,15 @@
 #include "shared/sound_state.h"
 #include "common.h"
 #include "engine/audio/staging_destinations_data.h"
+#include "engine/audio/data.h"
 #include "slus.h"
 
 /* Canonical status block shared across the D_800847D0 family (see w_8005405C.c etc). */
 
 extern u32 audio_staging_spu_offsets[];
-extern void *audio_bank_owner_payloads[];
 
 extern s32 init_sound_slot_from_header(void *header, s16 requested_slot, u32 spu_addr);
-extern s32 transfer_sound_slot_body_to_spu(void *a0, s32 a1); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+extern s16 transfer_sound_slot_body_to_spu(); /* K&R call preserves the full-width entry value. */
 extern void release_enabled_sound_channel(s32 a0);
 extern s16 sound_check_or_wait_for_spu_transfer(s16 wait_for_completion);
 

@@ -1,4 +1,5 @@
 #include "engine/scene.h"
+#include "dungeon/actor/spell_resource_ids_data.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/audio_commands.h"
 #include "shared/object_node.h"
@@ -51,7 +52,6 @@ extern Packed12 D_80025E34;
 extern Packed12 D_80025E40;
 extern Packed12 D_80025E58;
 extern Packed12 D_80025E70;
-extern u8 current_spell_effect_variant;
 
 
 typedef struct S_818FF710_2 {

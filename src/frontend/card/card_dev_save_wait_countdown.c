@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/widget_views.h"
+#include "shared/object_node.h"
 #include "m2c_compat.h"
 #include "frontend/card.h"
 #include "main/data.h"
@@ -11,6 +12,6 @@ void card_dev_save_wait_countdown(void *record_data) {
     counter = ((CardCallbackState *)((u8 *)record_data - 0x10))->countdown - 1;
     ((CardCallbackState *)((u8 *)record_data - 0x10))->countdown = counter;
     if (counter < 0) {
-        ((CardCallbackState *)((u8 *)record_data - 0x10))->callback = &D_80405CB8;
+        NODE_HEADER(record_data)->update_callback = &D_80405CB8;
     }
 }

@@ -1,13 +1,8 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/object_node.h"
 #include "dungeon/actor/effect.h"
 #include "dungeon/monster/barong.h"
-
-/* Sparse views for fields not covered by the existing record types. */
-typedef struct { u16 flags; } MotionFieldView_80E64FF0Prefix;
-
-
-   /* arg0 in update_tossed_item_motion */
 
 typedef struct S_801747F0_1 {
     union {
@@ -35,14 +30,6 @@ typedef struct S_801747F0_1 {
     s16 unk_16;
 } S_801747F0_1;   /* arg1 in update_tossed_item_motion */
 
-typedef struct S_801747F0_3 {
-    s16 unk_00;
-    s16 unk_02;
-} S_801747F0_3;   /* tile in update_tossed_item_motion */
-
-
-extern u8 barong_direction_vectors[16];
-
 s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 
@@ -66,8 +53,8 @@ void update_tossed_item_motion(TossedItemMotionBody *motion, S_801747F0_1 *posit
     u16 height;
     u16 height_2;
     u32 tile_distance;
-    S_801747F0_3 *direction;
-    u8 *directions;
+    BarongDirectionVector *direction;
+    BarongDirectionVector *directions;
     s32 target_cell_y;
     s32 next_cell_x;
     s32 next_cell_y;
@@ -137,7 +124,7 @@ settle:
             colors[3] = motion->arg.flags;
             place_item_at_valid_floor_position(position->unk_0E, position->unk_12,
                           position->unk_16, (s32)(unsigned long)object->source, colors);
-            (((MotionFieldView_80E64FF0Prefix *)motion)[-1].flags) |= 0x8000;
+            NODE_HEADER(motion)->flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
@@ -167,7 +154,7 @@ fall:
                     (motion->cell_y.s << 6) & 0xFFC0,
                     (s16)(position->unk_08.at02p.v - 0x20));
                 position->unk_08.at00u.v = 0;
-                (((MotionFieldView_80E64FF0Prefix *)motion)[-1].flags) |= 0x8000;
+                NODE_HEADER(motion)->flags |= 0x8000;
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 return;
             }
@@ -193,11 +180,11 @@ fall:
             directions = barong_direction_vectors;
             motion->velocity_y = velocity_y;
         }
-        direction = (motion->direction.s * 4) + directions;
-        next_cell_x = motion->cell_x.s + direction->unk_00;
+        direction = &directions[motion->direction.s];
+        next_cell_x = motion->cell_x.s + direction->x;
         x = position->unk_00.at02.v;
         if (next_cell_x == (x / 64)) {
-            next_cell_y = motion->cell_y.s + direction->unk_02;
+            next_cell_y = motion->cell_y.s + direction->y;
             y = position->unk_04.at02.v;
             if (next_cell_y == (y / 64)) {
                 if (((check_left_tile_and_center_height(position->unk_00.at02u.v,
@@ -213,9 +200,8 @@ fall:
                     motion->velocity_y = 0;
                     motion->acceleration_y = 0;
                 } else {
-                    motion->cell_x.u += *((motion->direction.s * 4) + directions);
-                    motion->cell_y.u += *((motion->direction.s * 4) + directions
-                        + 2);
+                    motion->cell_x.u += (u8)directions[motion->direction.s].x;
+                    motion->cell_y.u += (u8)directions[motion->direction.s].y;
                 }
                 object->depth_bias = 0;
             }

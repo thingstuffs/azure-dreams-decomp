@@ -17,8 +17,8 @@
    /* (void *)temp in create_timed_paired_particle_emitter */
 
 #include "dungeon/effect/screen.h"
-
-extern s32 D_800DCF78;
+#include "dungeon/effect/screen/menu.h"
+#include "dungeon/data.h"
 
 /* Create an effect object, copy its source components, and initialize its state. */
 void create_timed_paired_particle_emitter(ObjectPosition *source, s32 effect_param, void *state_param)
@@ -29,7 +29,7 @@ void create_timed_paired_particle_emitter(ObjectPosition *source, s32 effect_par
     ObjectPosition *components;
     DungeonGlobalStatus *status;
     PairedParticleEmitterState *state;
-    u8 *effect;
+    s32 *color;
     u16 component_x;
     u16 component_y;
     u16 component_z;
@@ -39,13 +39,12 @@ void create_timed_paired_particle_emitter(ObjectPosition *source, s32 effect_par
         return;
     }
 
-    D_800DCF78 = effect_param;
+    color = &dungeon_ellipse_parameters.center_color;
+    *color = effect_param;
     effect_init.words[0] = 0x01000340;
     init_value = 0x00200020;
     effect_init.words[1] = init_value;
-    effect = (u8 *)&D_800DCF78;
-    effect -= 0x10;
-    draw_textured_ellipse(effect, &effect_init.rect, 1, 0);
+    draw_textured_ellipse(&dungeon_ellipse_parameters, &effect_init.rect, 1, 0);
 
     state = NODE_BODY(object);
     state->count = 0x40;

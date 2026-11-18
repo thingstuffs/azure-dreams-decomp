@@ -2,7 +2,7 @@
 #include "dungeon/system/random.h"
 #include "shared/actor_property_flags.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
-#include "dungeon/monster/tyrant/spawn_api_slot_a.h"
+#include "dungeon/monster/tyrant/spawn.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"

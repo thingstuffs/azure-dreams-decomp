@@ -12,7 +12,7 @@ void move_value_toward_target(u8 *object_data, s32 unused_coord, s32 unused_y) {
     s32 target;
     s32 delta;
     u32 mode;
-    void *handle;
+    s32 handle;
     s32 result;
 
     state = object_data + 0x3C;
@@ -37,11 +37,11 @@ void move_value_toward_target(u8 *object_data, s32 unused_coord, s32 unused_y) {
 
     if (current != target) {
         *(s32 *)(object_data + 0x58) = 1;
-        handle = *(void **)(object_data + 0x3C);
+        handle = *(s32 *)(object_data + 0x3C);
         mode = 0;
     } else {
         mode = *(u32 *)(object_data + 0x50);
-        handle = *(void **)(object_data + 0x3C);
+        handle = *(s32 *)(object_data + 0x3C);
         mode = mode >> 1;
         mode = mode ^ 1;
         mode = mode % 2;

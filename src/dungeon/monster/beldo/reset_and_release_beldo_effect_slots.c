@@ -1,12 +1,10 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "dungeon/monster/beldo.h"
 #include "dungeon/monster/beldo/command_ticks_data.h"
 
 extern void unlink_entity_node(s32 node);
-extern s32 beldo_effect_stream;
-extern s32 beldo_active_entity;
 extern s32 D_80173F90;
-extern s32 beldo_effect_scripts;
 
 typedef struct FlagsPage {
     u8 pad_00[0x3714];
@@ -17,11 +15,10 @@ typedef struct FlagsPage {
     s32 unk_371C;
 } FlagsPage;
 
-typedef struct ActiveState {
-    u8 pad_00[0xB8];
-    s16 unk_B8;
-    s8 unk_BA;
-} ActiveState;
+typedef struct BeldoObjectTablePage {
+    u8 pad_00[0x3D7C];
+    s32 object_table_address;
+} BeldoObjectTablePage;
 
 /* Resets state and processes occupied entries in the two-slot object table. */
 void reset_and_release_beldo_effect_slots(void) {
@@ -30,20 +27,19 @@ void reset_and_release_beldo_effect_slots(void) {
     s32 object_addr;
     s32 slot_offset;
     s32 saved_state;
-    s32 saved_value;
-    ActiveState *active_state;
+    BeldoEffectScriptState *active_state;
     void *object_header;
-    u8 *table_page;
+    BeldoObjectTablePage *table_page;
     u32 high_bit;
     FlagsPage *flags_base;
     u16 state_flags;
 
     slot_index = 0;
-    table_page = (u8 *)0x800E0000;
+    table_page = (BeldoObjectTablePage *)0x800E0000;
     high_bit = 0x80000000;
     flags_base = (FlagsPage *)0x80010000;
-    active_state = (ActiveState *)(beldo_active_entity + 0x20);
-    active_state->unk_BA = 1;
+    active_state = NODE_BODY(beldo_active_entity);
+    active_state->script_active = 1;
     state_flags = flags_base->unk_3714;
     beldo_command_ticks = 0;
     *(s16 *)((u8 *)flags_base + 0x371A) = 0;
@@ -53,16 +49,15 @@ void reset_and_release_beldo_effect_slots(void) {
     flags_base->unk_3714 = state_flags;
     saved_state = D_80173F90;
     flags_base->unk_371C = saved_state;
-    saved_value = beldo_effect_scripts;
-    active_state->unk_B8 = 0;
-    beldo_effect_stream = saved_value;
+    beldo_effect_stream = beldo_effect_scripts[0];
+    active_state->script_index = 0;
 
     do {
         slot_offset = (slot_index << 16) >> 14;
-        object_addr = *(s32 *)(slot_offset + *(s32 *)(table_page + 0x3D7C) + 0xAC);
+        object_addr = *(s32 *)(slot_offset + table_page->object_table_address + 0xAC);
         if (object_addr != 0) {
             unlink_entity_node(object_addr);
-            object_header = (void *)(*(s32 *)(slot_offset + *(s32 *)(table_page + 0x3D7C) + 0xAC) - 0x20);
+            object_header = (void *)(*(s32 *)(slot_offset + table_page->object_table_address + 0xAC) - 0x20);
             *(u32 *)((u8 *)object_header + 0x10) |= high_bit;
         }
         next_slot = slot_index + 1;

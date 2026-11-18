@@ -2,7 +2,6 @@
 #include "common.h"
 #include "frontend/card/message.h"
 #include "frontend/card/server_imports.h"
-#include "frontend/card/card_layout_text_items_data.h"
 
 /* Position and update four display items using the selected table row. */
 void card_boot_position_four_display_items(u8 *state)

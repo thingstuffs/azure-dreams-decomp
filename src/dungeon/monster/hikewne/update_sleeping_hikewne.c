@@ -1,6 +1,7 @@
 #include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "dungeon/monster/hikewne.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
@@ -21,7 +22,6 @@ extern s32 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/actor/motion.h"
 #include "dungeon/monster/hikewne_frames.h"
 
-extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
 #include "dungeon/actor/state.h"
 
 extern void update_directional_sprite_state_and_signals(ActorRecord *, void *, SpriteFrameState *, void *);

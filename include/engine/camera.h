@@ -35,7 +35,7 @@ void run_view_slot_callback(void (**callback_slot)(void *), s32 *poll_enabled, s
 void set_camera_targets(void *target_position, void *target_rotation, u16 transition_param);
 
 /* set_camera_targets_packed.c */
-s32 set_camera_targets_packed(struct S_8004D45C_Src *source, void *forwarded_ptr, u32 value, s32 forwarded_value);
+void set_camera_targets_packed(struct S_8004D45C_Src *source, void *forwarded_ptr, u32 value, s32 forwarded_value);
 
 /* state_defaults.c */
 void reset_camera_transition_fields(void);

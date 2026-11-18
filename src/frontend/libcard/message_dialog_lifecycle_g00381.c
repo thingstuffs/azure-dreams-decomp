@@ -79,7 +79,7 @@ void card_boot_activate_message_dialog(CardMessageDialogBody *object_arg)
     } else {
         callback = card_boot_handle_message_dialog_input;
     }
-    ((S_80022CD8_0_pre *)object)[-1].unk_00 = callback;
+    NODE_HEADER(object)->update_callback = callback;
 }
 
 static __inline__ void set_handler(ObjectNodeHeader *base) {

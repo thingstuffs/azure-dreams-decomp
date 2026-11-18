@@ -8,6 +8,7 @@
 #include "town/menu.h"
 #include "town/menu/state.h"
 #include "slus.h"
+#include "slus/animation_tick_data.h"
 
 typedef struct S_80126890_0 {
     u8 pad_00[0xC];
@@ -19,7 +20,6 @@ typedef struct S_80126890_0 {
 } S_80126890_0;   /* node in create_catalog_display_node */
 
 
-extern s8 animation_tick_scale;
 extern s32 D_80126704;
 
 /* Allocates and initializes a node for the supplied data, returning null on failure. */

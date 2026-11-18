@@ -1,19 +1,19 @@
 #include "common.h"
+#include "engine/message.h"
 
 
 typedef s32 (*Func8003875CHandler)(u32);
 
-typedef struct {
+struct Func8003875CState {
     u8 pad_00[0x10];
-    void (*callback)(void);
+    void (*callback)(struct Func80038A10State *);
     u8 pad_14[0x1E];
     s8 table_group;
     s8 table_entry;
     u32 callback_arg;
-} Func8003875CState;
+};
 
 extern u8 D_80110E98[];
-extern void update_message_window(void);
 
 /* Calls the selected handler and schedules the follow-up callback on a nonzero result. */
 void run_message_table_handler(Func8003875CState *state) {

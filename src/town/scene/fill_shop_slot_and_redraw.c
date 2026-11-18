@@ -7,8 +7,6 @@
 #include "town/player/state.h"
 struct S_8046C8C4_0;
 
-extern s32 copy_indexed_entry_value();
-
 extern s32 D_800170B4;
 extern u8 *D_80019BBC;
 
@@ -25,7 +23,7 @@ s32 fill_shop_slot_and_redraw(void *owner, s32 slot_index)
     value = find_first_enabled_entry_id();
     if (value != 0) {
         *(s32 *)((u8 *)*(void **)((u8 *)owner + 0x10) + slot_index * 0x10 + 8) =
-            copy_indexed_entry_value(value);
+            (s32)(unsigned long)copy_indexed_entry_value(value);
     } else {
         *(s32 *)((u8 *)*(void **)((u8 *)owner + 0x10) + slot_index * 0x10 + 8) =
             (s32)&D_800170B4;

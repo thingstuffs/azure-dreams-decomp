@@ -272,11 +272,11 @@ void spawn_shrinking_particles_at_tile(void *list_head, s32 x, s32 y, s16 upper_
 void create_ribbon_head_sprite(Rec_func_80167A98_arg0 *source, Rec_func_80167A98_arg1 *origin, void *unused_color);
 
 void create_terrain_seeking_point_effect(void *source, s32 property_34, s32 property_28, s16 property_52, s16 x_offset, s16 y_offset, s16 z_offset);
-void draw_textured_sphere_mesh(void *mesh, void *position, void *material, u16 depth_bias);
+void draw_textured_sphere_mesh(void *mesh, void *position, SpriteFrameState *material, u16 depth_bias);
 void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position, SpriteFrameState *material, s16 depth_bias);
 struct TargetParticleStatusSpellBody;
 void update_animated_effect_sprite(struct TargetParticleStatusSpellBody *effect, ObjectPosition *entity, SpriteFrameState *sprite);
-void create_eight_part_textured_ribbon(ActorRecord *source, void *origin, SpriteFrameState *unused, ObjectPosition *effect_position);
+void create_eight_part_textured_ribbon(ActorRecord *source, ObjectPosition *origin, SpriteFrameState *unused, ObjectPosition *effect_position);
 void expire_node_when_counter_below_limit(void *record);
 
 void create_source_positioned_object(ObjectPosition *source_pos, s16 initial_value);

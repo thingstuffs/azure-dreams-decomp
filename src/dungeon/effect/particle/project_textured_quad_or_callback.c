@@ -268,7 +268,7 @@ s32 project_linked_quad_record(void *record, ObjectPosition *context, SpriteFram
     }
 }
 /* Draws a textured spherical mesh and adds its visible quads to the ordering table. */
-void draw_textured_sphere_mesh(void *mesh, void *position, void *material, u16 depth_bias) {
+void draw_textured_sphere_mesh(void *mesh, void *position, SpriteFrameState *material, u16 depth_bias) {
     MATRIX view_matrix;
     u16 saved_depth_bias;
     u8 *texture;
@@ -315,23 +315,23 @@ void draw_textured_sphere_mesh(void *mesh, void *position, void *material, u16 d
     scratch->local_matrix.t[0] = *(s16 *)((u8 *)position + 2);
     scratch->local_matrix.t[1] = *(s16 *)((u8 *)position + 6);
     scratch->local_matrix.t[2] = *(s16 *)((u8 *)position + 0xA);
-    *(u16 *)((u8 *)material + 0x14) = *(u16 *)((u8 *)material + 0x14) | 0x8000;
+    material->flags = material->flags | 0x8000;
     saved_depth_bias = depth_bias;
     PushMatrix();
     scratch->scale.vz = 0x2000;
     scratch->scale.vy = 0x2000;
     scratch->scale.vx = 0x2000;
-    scratch->angles.vx = *(u16 *)((u8 *)material + 0x16);
-    scratch->angles.vz = *(u16 *)((u8 *)material + 0x1A);
-    scratch->angles.vy = *(u16 *)((u8 *)material + 0x18);
+    scratch->angles.vx = material->angle_x;
+    scratch->angles.vz = material->angle_z;
+    scratch->angles.vy = material->angle_y;
     RotMatrix(&scratch->angles, &scratch->local_matrix);
     ReadRotMatrix(&view_matrix);
     CompMatrix(&view_matrix, &scratch->local_matrix, &scratch->composed_matrix);
     ScaleMatrix(&scratch->composed_matrix, &scratch->scale);
     SetTransMatrix(&scratch->composed_matrix);
     SetRotMatrix(&scratch->composed_matrix);
-    texture = *(u8 **)((u8 *)material + 8);
-    scratch->render_flags = *(u16 *)((u8 *)material + 0x14);
+    texture = material->source;
+    scratch->render_flags = material->flags;
     for (;;) {
         for (row = 0; row < *(s16 *)((u8 *)mesh + 0xC); row++) {
             for (column = 0; column < *(s16 *)((u8 *)mesh + 0xA); column++) {
@@ -413,7 +413,7 @@ void draw_textured_sphere_mesh(void *mesh, void *position, void *material, u16 d
                         corner_3_visible = (u32)screen_y < 0x121U;
                     }
                     if ((any_corner_visible | corner_3_visible) != 0) {
-                        *(u16 *)((u8 *)material + 0x14) = *(u16 *)((u8 *)material + 0x14) & 0x7FFF;
+                        material->flags = material->flags & 0x7FFF;
                         SetPolyFT4(quad);
                         uv_end = scratch->uv_u_extent + scratch->uv_u_start;
                         scratch->uv_u_extent = uv_end;
@@ -427,7 +427,7 @@ void draw_textured_sphere_mesh(void *mesh, void *position, void *material, u16 d
                         }
                         scratch->uv_v_start = scratch->uv_v_start << 8;
                         scratch->uv_v_extent = scratch->uv_v_extent << 8;
-                        clut_override = *(u16 *)((u8 *)material + 0x12);
+                        clut_override = material->clut;
                         if (clut_override != 0) {
                             if (scratch->render_flags & 0x100) {
                                 quad->clut = clut_override;
@@ -443,7 +443,7 @@ void draw_textured_sphere_mesh(void *mesh, void *position, void *material, u16 d
                         *(u16 *)&quad->u0 = scratch->uv_v_start + scratch->uv_u_start;
                         /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
                         *(u16 *)&quad->u1 = scratch->uv_v_start + scratch->uv_u_extent;
-                        tpage_override = *(u16 *)((u8 *)material + 0x10);
+                        tpage_override = material->tpage_abr;
                         if (tpage_override != 0) {
                             tpage = tpage_override + (*(u16 *)(texture + 4) & 0xFF9F);
                         } else {
@@ -463,15 +463,15 @@ void draw_textured_sphere_mesh(void *mesh, void *position, void *material, u16 d
                             quad->v3--;
                         }
                         texture_flags = *(texture + 1);
-                        *((u8 *)material + 0xF) = texture_flags;
+                        material->color.c.code = texture_flags;
                         material_flags = scratch->render_flags;
                         if (material_flags & 8) {
                             if (material_flags & 4) {
                                 draw_flags = texture_flags | 2;
-                                *((u8 *)material + 0xF) = draw_flags;
+                                material->color.c.code = draw_flags;
                             } else {
                                 draw_flags = texture_flags & 0xFD;
-                                *((u8 *)material + 0xF) = draw_flags;
+                                material->color.c.code = draw_flags;
                             }
                         }
                         {
@@ -479,7 +479,7 @@ void draw_textured_sphere_mesh(void *mesh, void *position, void *material, u16 d
                             u32 tag_mask = 0xFF000000;
                             u32 *ordering_slot;
                             /* BYTES: retail stores the colour word (r0, g0, b0 and code) with one sw; member stores compile to four sb */
-                            *(s32 *)&quad->r0 = *(s32 *)((u8 *)material + 0xC);
+                            *(s32 *)&quad->r0 = material->color.word;
                             ((GpuLinkTag *)&quad->tag)->addr = ((GpuLinkTag *)&scratch->ordering_table[scratch->ot_index])->addr;
                             ordering_slot = (u32 *)(scratch->ot_index * 4 + (unsigned long)scratch->ordering_table);
                             ((GpuLinkTag *)ordering_slot)->addr = (u32)quad;

@@ -89,7 +89,7 @@ void advance_troll_attack_sequence(ActorRecord *action, ObjectPosition *motion, 
     case 3:
         if (sprite->flags & 0xE000) {
             spend_actor_mp(entity, 0x100);
-            action->unk_8C.address = troll_slot_c_action_callback;
+            action->unk_8C.handler = troll_slot_c_action_callback;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(entity);
             entity->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;

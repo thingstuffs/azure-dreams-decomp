@@ -9,6 +9,7 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/player.h"
+#include "dungeon/player/input.h"
 #include "dungeon/system.h"
 #include "dungeon/level.h"
 #include "dungeon/data.h"
@@ -20,7 +21,6 @@
 
 
 extern s16 D_80083464[];
-extern u8 player_wait_frames[];
 extern u8 active_actor_command_code[];
 
 #include "engine/graphics.h"

@@ -7,14 +7,14 @@
 
 extern void card_dev_no_op_save(s32 value);
 extern void reset_card_selection_state(void);
-extern void install_pending_completion_callback(void);
+extern void install_pending_completion_callback(void *record_data);
 extern void set_object_state_and_select_action(void);
 
 // Selects the next callback based on the operation result and clears the context's state field.
 void finish_save_slot_check(void *context_arg)
 {
     CardSaveOperationBody *context = context_arg;
-    void (*next_callback)(void);
+    void (*next_callback)();
     ObjectNodeHeader *object_base;
     s32 operation_result;
 

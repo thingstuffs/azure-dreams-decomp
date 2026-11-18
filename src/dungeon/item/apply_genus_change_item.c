@@ -53,28 +53,28 @@ s32 apply_genus_change_item(ActorRecord *target, DungeonItemEntry *event, s32 va
         target->flags14 &= ~ACTOR_ELEMENT_MASK;
         target->flags1C &= ~ACTOR_ELEMENT_MASK;
         {
-            u8 *effect_target;
+            ObjectNodeHeader *effect_target;
             s32 color_mask;
             s32 effect_code;
             s32 event_type;
             event_type = event->unk_00;
             if (event_type == ITEM_LIGHT_SEED) {
                 message = D_800E13FB;
-                effect_target = ((u8 *)target) - 32;
+                effect_target = NODE_HEADER(target);
                 color_mask = 0xF0;
                 effect_code = 0x81C;
                 target->flags14 |= ACTOR_ELEMENT_FIRE;
                 target->flags1C |= ACTOR_ELEMENT_FIRE;
             } else if (event_type == ITEM_SEA_SEED) {
                 message = D_800E1402;
-                effect_target = ((u8 *)target) - 32;
+                effect_target = NODE_HEADER(target);
                 color_mask = 0xF00000;
                 effect_code = 0x81C;
                 target->flags14 |= ACTOR_ELEMENT_WATER;
                 target->flags1C |= ACTOR_ELEMENT_WATER;
             } else {
                 message = genus_change_text;
-                effect_target = ((u8 *)target) - 32;
+                effect_target = NODE_HEADER(target);
                 color_mask = 0xF000;
                 effect_code = 0x81C;
                 target->flags14 |= ACTOR_ELEMENT_WIND;

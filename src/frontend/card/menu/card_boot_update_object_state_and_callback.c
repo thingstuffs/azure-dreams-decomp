@@ -1,4 +1,5 @@
 #include "shared/pad_state.h"
+#include "shared/object_node.h"
 #include "common.h"
 #include "frontend/card/menu.h"
 #include "frontend/card/service.h"
@@ -38,7 +39,7 @@ void card_boot_update_object_state_and_callback(void *object_data)
         return;
     }
     if ((card_dev_get_op_state() == 3) && (object[14] == 0)) {
-        forward_target_value_initcardmessageobject((u8 *)object - 0x20, (u8 *)object + 0x38);
+        forward_target_value_initcardmessageobject(NODE_HEADER(object), (u8 *)object + 0x38);
         object[14] = 1;
     }
     (void)table_offset;

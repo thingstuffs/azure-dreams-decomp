@@ -7,10 +7,10 @@
 #include "records/Rec_D_80082E80.h"
 #include "dungeon/menu.h"
 #include "dungeon/player.h"
+#include "dungeon/player/input.h"
 #include "engine/graphics.h"
 
 extern u8 player_carry_frames[8];
-extern u8 player_wait_frames[8];
 
 
 /* Selects an eligible linked target and initializes the actor's action and directional display. */

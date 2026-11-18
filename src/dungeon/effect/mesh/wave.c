@@ -1,4 +1,5 @@
 #include "shared/object_node_flags.h"
+#include "dungeon/actor/spell_resource_ids_data.h"
 #include "shared/audio_commands.h"
 /* Wave-displaced sprite strips, shaded particles, timed fades, and projectile impact effects. */
 #include "shared/sprite_frame_state.h"
@@ -992,7 +993,6 @@ extern Copy12 D_80026674;
 extern Copy12 D_80026680;
 extern Copy12 D_80026698;
 extern Copy12 D_800266A4;
-extern u8 current_spell_effect_variant[256];
 
 #include "dungeon/effect/screen.h"
 extern void try_apply_action_by_chance(void *, s32, s32);
@@ -1506,7 +1506,7 @@ void update_wave_projectile_effect(ProjectileSelf *self, ObjectPosition *positio
                 power_bonus = self->unk_09 >> 2;
                 random_bonus = (random_bonus & 3) + 4;
                 amount = power_bonus + random_bonus;
-                if (current_spell_effect_variant[0] == 0xFF) {
+                if (current_spell_effect_variant == 0xFF) {
                     effect_kind = 0xFF;
                 } else {
                     effect_kind = 16;

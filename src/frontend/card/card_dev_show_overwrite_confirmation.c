@@ -1,6 +1,6 @@
 #include "common.h"
 
-#include "frontend/card/message_object.h"   /* extern */
+#include "frontend/card/message.h"
 #include "frontend/card.h"
 
 /* Dispatch operation 5 for the target with one value. */

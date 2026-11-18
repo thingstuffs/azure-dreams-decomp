@@ -51,7 +51,7 @@ void refresh_paged_selection_state();
 /* extern */
 s32 allocate_paged_shop_item_list(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 /* extern */
-s32 create_floating_number_widget();
+void *create_floating_number_widget();
 /* extern */
 void advance_dispatch_when_countdown_expires(GridMenuObject *state_data);
 extern void set_shop_fade_out_callback(s32 object);

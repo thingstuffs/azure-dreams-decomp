@@ -1,4 +1,5 @@
 #include "shared/sprite_frame_state.h"
+#include "dungeon/actor/spell_resource_ids_data.h"
 #include "shared/object_node_flags.h"
 #include "shared/audio_commands.h"
 /* Textured strip rendering, shaded particles, timed fades, and a traveling effect sequence. */
@@ -1513,7 +1514,7 @@ update_coords:
             return;
         }
         result = 0xFF;
-        if (((S_func_81905FD0_11 *)current_spell_effect_variant)->unk_00 != result) {
+        if (current_spell_effect_variant != result) {
             result = effect->unk_09;
         }
         try_halve_actor_counter(owner->target, result, owner);

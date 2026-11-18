@@ -69,7 +69,7 @@ typedef struct {
 extern M2C_UNK D_80021268;
 extern s16 current_dungeon_floor;
 extern u8 scene_mode_code;
-extern s32 D_800DCF64;
+extern void *D_800DCF64;
 extern void *dungeon_menu_action_state[];
 
 /* Advances the dungeon transition through its delay, setup, and completion phases. */
@@ -79,7 +79,7 @@ void update_floor_exit_transition(PlayerRecord *state, ObjectPosition *unused, M
     s32 *slot_cursor;
     s32 slot_index;
     s32 slot_object;
-    s32 load_status;
+    void *load_status;
     u16 wait_ticks;
     u8 phase;
     void *created_object;

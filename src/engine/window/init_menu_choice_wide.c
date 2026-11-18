@@ -8,7 +8,7 @@ typedef struct S_func_8003666C_0 {
     u8 pad_00[0x4D];
     u8 unk_4D;
     u8 pad_4E[0x1A];
-    void (*unk_68)(void);
+    void (*unk_68)(struct Object *, void *, void *);
     u8 pad_6C[0x8];
     void *unk_74;
 } S_func_8003666C_0;
@@ -23,7 +23,6 @@ typedef struct S_func_8003666C_1 {
     void *unk_80;
 } S_func_8003666C_1;
 
-extern void handle_two_column_menu_input(void);
 
 /* Copies the marker, applies the position offset, and installs the next callback. */
 void init_menu_choice_wide(S_func_8003666C_0 *state) {

@@ -1,5 +1,6 @@
 #include "frontend/card/save_slot.h"
 #include "common.h"
+#include "shared/object_node.h"
 #include "frontend/card.h"
 #include "frontend/card/save.h"
 
@@ -12,11 +13,11 @@ extern void func_80405A64(void);
 void select_card_slot_message(void *task)
 {
     s32 one;
-    void *owner;
+    ObjectNodeHeader *owner;
     s32 index;
     void (*callback)(void);
 
-    owner = (u8 *)task - 0x20;
+    owner = NODE_HEADER(task);
     index = *(s32 *)((u8 *)task + 0x28);
     if (card_slot_header_cache[index].words[0] != 0) {
         one = 1;
@@ -29,5 +30,5 @@ void select_card_slot_message(void *task)
         initialize_card_message_object_with_code_7(owner);
         callback = func_80405A64;
     }
-    *(void (**)(void))((u8 *)task - 0x10) = callback;
+    NODE_HEADER(task)->update_callback = callback;
 }

@@ -6,6 +6,8 @@
 #include "shared/actor_status_ids.h"
 /* One native TU; source order follows the complete ledger cohort. */
 #include "dungeon/effect/trap.h"
+#include "dungeon/effect/screen/menu.h"
+#include "dungeon/data.h"
 #include "modules/trap_effects_candidate.h"
 #include "shared/object_node.h"
 #include "common.h"
@@ -494,12 +496,12 @@ void update_directional_trap_effect(void *effect_data, S_800CC4F0_0 *position) {
 typedef struct DungeonObject
 {
     s8 pad0[8];
-    struct DungeonVertex *field8;
+    struct TileCenterQuadVertex *field8;
     struct DungeonPacket *fieldC;
     void *field10;
 }
 DungeonObject;
-typedef struct DungeonVertex
+typedef struct TileCenterQuadVertex
 {
     s8 pad0[2];
     s16 field2;
@@ -514,7 +516,7 @@ typedef struct DungeonVertex
     s8 pad14[2];
     s16 field16;
 }
-DungeonVertex;
+TileCenterQuadVertex;
 typedef struct DungeonPacket
 {
     s8 pad0[6];
@@ -536,8 +538,8 @@ extern s32 D_800CC4F0;
 void *create_tile_center_quad_effect(s16 tile_x, s16 tile_y, s16 z, s16 tail_value, s16 render_mode, u16 tail_config)
 {
     DungeonObject *obj;
-    DungeonVertex *vertex;
-    DungeonVertex *tail_vertex;
+    TileCenterQuadVertex *vertex;
+    TileCenterQuadVertex *tail_vertex;
     DungeonPacket *packet;
     s32 packet_color;
     s16 world_x;
@@ -577,7 +579,7 @@ void *create_tile_center_quad_effect(s16 tile_x, s16 tile_y, s16 z, s16 tail_val
             packet->field10 = 0x60;
         }
         packet->field6 = 0x20;
-        tail_vertex = (DungeonVertex *) (((s8 *) obj) + 0x20);
+        tail_vertex = (TileCenterQuadVertex *) (((s8 *) obj) + 0x20);
         *((s16 *) (((s8 *) tail_vertex) + 4)) = tail_value;
         tail_vertex->field2 = 8;
         tail_vertex->field6 = tail_config;
@@ -768,7 +770,6 @@ typedef struct {
 } Entry4;
 
 extern u8 trap_resource_slot;
-extern s32 D_800DCF78;
 
 s32 generate_random_value(void);
 void draw_textured_ellipse(void *parameters, GpuRect *rectangle, u16 fill_rect, u16 draw_mode);
@@ -792,6 +793,7 @@ s32 take_map_item_slot(ActorRecord *object, s16 slot)
     u8 *countp;
     s32 tail_index;
     u8 *tail_base;
+    s32 *color;
 
     if (object == 0) {
         map_base = (u8 *)floor_objects;
@@ -832,10 +834,11 @@ s32 take_map_item_slot(ActorRecord *object, s16 slot)
             return value;
         }
 
-        D_800DCF78 = 0x00202080;
+        color = &dungeon_ellipse_parameters.center_color;
+        *color = 0x00202080;
         stack_args.words[0] = 0x01000340;
         stack_args.words[1] = 0x00200020;
-        draw_textured_ellipse((u8 *)&D_800DCF78 - 0x10, &stack_args.rect, 1, 0);
+        draw_textured_ellipse(&dungeon_ellipse_parameters, &stack_args.rect, 1, 0);
         trap_resource_slot = 0;
     }
 

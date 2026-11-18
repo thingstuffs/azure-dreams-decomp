@@ -62,7 +62,7 @@ void update_troll_kind_frames(ActorRecord *owner, ObjectPosition *context, Sprit
 
     if (update_actor_transform_from_parent(owner, context, display, state) != 0) {
         if ((check_actor_floor_trap(display, state) << 16) > 0) {
-            owner->unk_8C.address = func_8016C4BC;
+            owner->unk_8C.handler = func_8016C4BC;
         }
         return;
     }

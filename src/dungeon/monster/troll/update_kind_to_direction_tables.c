@@ -65,7 +65,7 @@ void update_kind_13_to_15_direction_tables(ActorRecord *owner, ObjectPosition *c
 
     if (update_actor_transform_from_parent(owner, context, display, state) != 0) {
         if ((check_actor_floor_trap(display, state) << 16) > 0) {
-            owner->unk_8C.address = func_801604BC;
+            owner->unk_8C.handler = func_801604BC;
         }
         return;
     }

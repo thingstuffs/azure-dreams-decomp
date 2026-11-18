@@ -42,7 +42,7 @@ void cycle_prop_animation(struct S_800BDFA0_0 *record, s32 unused, SpriteFrameSt
 void initialize_midpoint_tracking(struct TownCameraState *state);
 
 /* run_prop_callback_or_retire.c */
-void run_prop_callback_or_retire(struct S_func_800A9624_1 *object, s32 state_arg, s32 callback_arg);
+void run_prop_callback_or_retire(struct S_func_800A9624_1 *object, ObjectPosition *position, s32 callback_arg);
 
 /* retire_record_when_status_clear.c */
 void retire_record_when_status_clear(void *record);

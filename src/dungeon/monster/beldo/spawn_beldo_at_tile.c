@@ -8,14 +8,13 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "dungeon/monster/beldo.h"
+#include "dungeon/monster/beldo/command_ticks_data.h"
 #include "dungeon/actor.h"
 #include "engine/node.h"
 #include "dungeon/data.h"
 
 void initialize_actor_sprite_and_animation();
 s32 func_80173C30(void);
-extern void *beldo_active_entity;
-
 
 typedef struct S_80170F84_2 {
     u8 pad_00[0xA];

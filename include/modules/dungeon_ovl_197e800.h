@@ -14,14 +14,6 @@ struct SpriteFrameState;
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/slus_callbacks.h"
-typedef struct S_81961A04_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_81961A04_1;
 typedef struct S_81961A04_3 {
     u8 pad_00[0x38];
     u16 unk_38;
@@ -143,14 +135,6 @@ typedef struct {
     u8 pad2E[0x1E];
     s16 field4C;
 } TempOutput;
-typedef struct S_819613A8_0 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_819613A8_0;
 typedef struct QuadVertex {
     u32 xy;
     u16 z;
@@ -160,12 +144,6 @@ typedef struct Quad {
     u8 pad_00[0x10];
     QuadVertex v[4];
 } Quad;
-typedef struct QuadLink {
-    u8 pad_00[0xC];
-    struct Material *material;
-    u8 pad_10[0x10];
-    Quad quad;
-} QuadLink;
 typedef struct Bank56_819611CC_Scratch {
     u8 pad_00[0x20];
     u32 ot_base;
@@ -198,11 +176,6 @@ typedef struct Texture {
     u8 pad_06[0x2];
     u8 u, v, w, h;
 } Texture;
-typedef struct Material {
-    u8 pad_00[0x8];
-    Texture *texture;
-    u32 color;
-} Material;
 typedef struct RenderState {
     u8 pad_00[0x8D0];
     u8 *packet;
@@ -440,18 +413,6 @@ typedef struct S_8196012C_3 {
     u8 pad_0C[0x40];
     s16 unk_4C;
 } S_8196012C_3;
-typedef struct DrawChainNode {
-    u8 pad_00[8];
-    void *position;
-    void *render;
-    u8 pad_10[8];
-    struct DrawChainNode *next; /* header of the next object in the chain */
-    u8 pad_1C[4];
-} DrawChainNode;
-typedef struct DrawChainRender {
-    u8 pad_00[6];
-    s16 depth;
-} DrawChainRender;
 typedef struct S_8195FD40_0 {
     u8 pad_00[0x20];
     u32 unk_20;
@@ -484,18 +445,6 @@ typedef struct S_8195FD40_0 {
     u16 unk_102;
     u16 unk_104;
 } S_8195FD40_0;
-typedef struct S_8195FD40_3 {
-    u8 pad_00[0x8];
-    u8 * unk_08;
-    s32 unk_0C;
-    u8 pad_10[0x4];
-    u16 unk_14;
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-    u16 unk_1C;
-    u16 unk_1E;
-} S_8195FD40_3;
 typedef struct S_8195FD40_4 {
     union { struct { s32 v; } at00; struct { u8 pad[0x3]; s8 v; } at03; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x3]; s8 v; } at03; } unk_04;   /* overlapping accesses */
@@ -602,14 +551,6 @@ typedef struct S_8195F43C_0 {
     u8 pad_108[0x14];
     MATRIX camera_matrix; /* current GTE rotation saved by ReadRotMatrix */
 } S_8195F43C_0;
-typedef struct S_8195F43C_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_8195F43C_1;
 typedef struct S_8195F43C_2 {
     u16 unk_00;
     u16 unk_02;
@@ -667,14 +608,6 @@ typedef struct {
     u8 pad4A[2];
     u16 timer;
 } DungeonState;
-typedef struct {
-    u8 pad0[2];
-    u16 x;
-    u8 pad4[2];
-    u16 y;
-    u8 pad8[2];
-    u16 height;
-} DungeonOrigin;
 typedef struct {
     u8 pad0[0x10];
     u8 red;
@@ -775,13 +708,12 @@ void update_brightening_fading_effect(struct BrighteningFadeBody *effect, Object
 void *create_brightening_fading_effect(S_8195ED3C_2 *source, s32 offset);
 void update_shaking_tile_mesh(S_8195EE48_0 *state, ObjectPosition *motion);
 void *create_settling_tile_object(s16 world_x, s16 world_y, s16 world_z, s16 coord_60);
-void animate_tile_heights_and_transition(DungeonState *state, DungeonOrigin *origin);
-void project_height_grid_object_quad(void *unused, void *origin, struct SpriteFrameState *object, s16 tile_x, s16 tile_y);
+void animate_tile_heights_and_transition(DungeonState *state, ObjectPosition *origin);
+void project_height_grid_object_quad(void *unused, ObjectPosition *origin, struct SpriteFrameState *object, s16 tile_x, s16 tile_y);
 s32 draw_seven_by_seven_tile_grid(void *tile_data, ObjectPosition *draw_arg_1, struct SpriteFrameState *draw_arg_2);
 void create_animated_tile_grid(s16 x, s16 y, s16 z);
 void advance_ballistic_fading_effect(u16 *state, ObjectPosition *motion, SpriteFrameState *effect);
-void draw_depth_biased_textured_quad(s32 unused, ObjectPosition *position, S_8195FD40_3 *quad, s16 depth_bias);
-s32 draw_linked_object_chain(void *payload, void *position, void *render);
+void draw_depth_biased_textured_quad(s32 unused, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias);
 void spawn_ballistic_tile_fragment_particle(s16 x, s16 y, s16 z, s16 tile_col, s16 tile_row);
 void flag_nearby_seven_by_seven_tiles(s32 input_x, s32 center_y);
 void restore_saved_map_tile_region(void);
@@ -789,10 +721,10 @@ void *select_containing_cell_surface(s32 world_x, s32 world_y, s16 min_height);
 void draw_buffered_textured_quad_pair(void *draw_data, s32 draw_mode);
 void build_shaded_textured_quad(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth);
 void update_rotating_fading_tile_quad(void *quad, S_81960CD4_2 *motion, S_81960CD4_3 *effect);
-s32 project_and_queue_semitransparent_quad(Quad *quad, ObjectPosition *unused, Material *material);
-void create_terrain_tile_quad(s16 tile_x, s32 tile_y, S_819613A8_0 *origin);
+s32 project_and_queue_semitransparent_quad(Quad *quad, ObjectPosition *unused, SpriteFrameState *sprite);
+void create_terrain_tile_quad(s16 tile_x, s32 tile_y, ObjectPosition *origin);
 void interpolate_target_and_finish_transition(State *state, Target *target, SpriteFrameState *color);
-void *allocate_nine_position_objects(void *position);
+void *allocate_nine_position_objects(ObjectPosition *position);
 typedef struct Bank56Counter { u16 value; u16 rest[4]; } Bank56Counter;
 extern s16 terrain_effect_update_count;
 extern void *bright_effect_source_actor;

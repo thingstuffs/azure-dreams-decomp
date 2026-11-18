@@ -1,7 +1,8 @@
 #include "common.h"
 #include "engine/script.h"
+#include "engine/message.h"
 
-typedef void (*Callback)(void);
+typedef void (*Callback)(struct Object *);
 
 typedef struct Func80039B94State {
     u8 pad_00[0x10];
@@ -12,7 +13,6 @@ typedef struct Func80039B94State {
     u8 value_2F;
 } Func80039B94State;
 
-extern void wait_message_entry_ready(void);
 
 /* Opcode 0x24: Wait until the u8 actor entry is ready. */
 void script_wait_actor_ready(Func80039B94State *state) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/camera.h"
 
 /* Source struct: only the high halfwords (offsets 2, 6, 0xA) of what appear to be
    three consecutive 32-bit fields are read -- likely a Vec3 of fixed-point/s32
@@ -18,10 +19,8 @@ typedef struct S_8004D45C_Buf {
     s16 f4;
 } S_8004D45C_Buf;
 
-extern s32 set_camera_targets(void *a0, void *a1, u16 a2);
-
 /* Packs the source's high halfwords, preserving NULL, and calls set_camera_targets with a 16-bit value. */
-s32 set_camera_targets_packed(S_8004D45C_Src *source, void *forwarded_ptr, u32 value, s32 forwarded_value) {
+void set_camera_targets_packed(S_8004D45C_Src *source, void *forwarded_ptr, u32 value, s32 forwarded_value) {
     S_8004D45C_Buf high_words;
     void *packed_source = 0;
 
@@ -31,5 +30,5 @@ s32 set_camera_targets_packed(S_8004D45C_Src *source, void *forwarded_ptr, u32 v
         high_words.f4 = source->fA;
         packed_source = &high_words;
     }
-    return set_camera_targets(packed_source, forwarded_ptr, value & 0xFFFF);
+    set_camera_targets(packed_source, forwarded_ptr, value & 0xFFFF);
 }

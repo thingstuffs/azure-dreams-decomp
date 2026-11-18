@@ -265,11 +265,11 @@ s32 draw_brightness_scaled_point_chain(PointRecord *first_point, ObjectPosition 
 }
 
 // Decrease position and timer, setting entity and global flags when the timer expires.
-void lower_timed_effect_position(Entity *entity, State *state)
+void lower_timed_effect_position(Entity *entity, ObjectPosition *position)
 {
     s16 remainingTimer;
 
-    state->position -= 0x18000;
+    position->z.v -= 0x18000;
     tint_particle_effect_updated = 1;
     remainingTimer = entity->timer - 8;
     entity->timer = remainingTimer;

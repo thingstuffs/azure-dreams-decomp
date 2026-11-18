@@ -1,6 +1,6 @@
 #include "common.h"
 
-#include "frontend/card/message_object.h"   /* extern */
+#include "frontend/card/message.h"
 #include "frontend/card.h"
 
 /* Forward the context and value with fixed arguments 0x12 and 1. */

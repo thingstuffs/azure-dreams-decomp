@@ -3,6 +3,7 @@
 /* Prototypes of the functions defined in src/engine/audio/sequence/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
+#include "engine/audio/channel_voice.h"
 
 /* Shared 0x9C-byte entry of audio_channel_controls. The modulation loop passes
  * each entry to sound_step_clamped_signed_ramp; start_channel_note uses the
@@ -77,7 +78,7 @@ typedef struct SoundVoiceRecord {
     u8 pad6C[0x78 - 0x6C];
 } SoundVoiceRecord;
 
-s32 sound_apply_indexed_voice_envelope(s32 table_index, SoundVoiceRecord *source);
+void sound_apply_indexed_voice_envelope(s32 table_index, SoundVoiceRecord *source);
 
 /* audio_sequence_slots: allocate_sequence_bank_slot registers a recognized
  * sequence header, and sound_activate_loaded_sequence_slot reads that same
@@ -231,9 +232,6 @@ void sound_reset_sequence_slot_to_idle(s16 slot_index);
 
 /* sound_run_guarded_sequence_update.c */
 void sound_run_guarded_sequence_update(void);
-
-/* sound_set_indexed_voice_volumes.c */
-s32 sound_set_indexed_voice_volumes(s32 table_index, s32 field_8_value, s32 field_a_value);
 
 /* set_channel_control_and_notify.c */
 void set_channel_control_and_notify(u8 index, s32 unused, s32 value);

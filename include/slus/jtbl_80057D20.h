@@ -4,6 +4,7 @@
 
 
 #include "common.h"
+#include "engine/audio/channel_voice.h"
 #include "slus/utility_hooks.h"
 #include "slus/audio_master_level.h"
 #include "slus/audio_voice_data.h"
@@ -93,7 +94,6 @@ extern void audio_update_voice_pitch(S_80085458 *e, s32 value);
 extern void apply_tone_parameter_command(S_80084960 *e);
 extern void func_80057A94(S_80084960 *e);
 extern void audio_compute_voice_stereo_volumes(S_80085458 *e, S_80084960 *rec);
-extern s32 sound_set_indexed_voice_volumes(s32 a0, s32 a1, s32 a2);
 extern void audio_reset_sequence_tracks_and_channels(void);
 /* Applies a channel control change and updates affected voices. */
 void audio_apply_channel_control(u8 channel, u8 control, u32 value);

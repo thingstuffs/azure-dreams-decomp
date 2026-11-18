@@ -6,6 +6,13 @@
 #include "shared/sprite_frame_state.h"
 
 typedef struct {
+    s16 x;
+    s16 y;
+} BarongDirectionVector;
+
+extern BarongDirectionVector barong_direction_vectors[8];
+
+typedef struct {
     u8 index;
     u8 group;
     u8 param;

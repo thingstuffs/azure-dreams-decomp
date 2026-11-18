@@ -13,13 +13,6 @@
 /* body in card_boot_create_or_reset_message_dialog */
 #define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
 
-typedef struct S_80022CD8_0_pre {
-    void ** unk_00;
-    u8 pad_04[0xC];
-} S_80022CD8_0_pre;
-
-/* the 0x10 bytes before arg0 in card_boot_activate_message_dialog, addressed as arg0[-1] */
-
 typedef struct S_set_handler_0 {
     u8 pad_00[0x10];
     void * unk_10;

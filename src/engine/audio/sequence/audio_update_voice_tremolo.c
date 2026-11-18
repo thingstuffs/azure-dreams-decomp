@@ -4,17 +4,6 @@
 #include "engine/audio/spu.h"
 #include "slus/data.h"
 
-
-typedef struct S_80084918
-{
-    s32 field0;
-    s32 field4;
-    s16 field8;
-    s16 fieldA;
-    s16 fieldC;
-    s16 fieldE;
-}
-S_80084918;
 typedef struct S_80055E84
 {
     u16 unk0;
@@ -39,7 +28,6 @@ typedef struct S_80055E84
     s16 unk6C;
 }
 S_80055E84;
-extern S_80084918 audio_voice_request;
 /* Advance volume modulation and apply the updated channel volumes. */
 void audio_update_voice_tremolo(S_80055E84 *voice)
 {
@@ -103,8 +91,8 @@ void audio_update_voice_tremolo(S_80055E84 *voice)
         }
         if (voice->unk6C != voice->unk58) {
             voice->unk6C = (u16) voice->unk58;
-            audio_voice_request.field4 = 0xF;
-            audio_voice_request.field0 = audio_voice_masks[voice->unk0];
+            audio_voice_request.mask = 0xF;
+            audio_voice_request.voice = audio_voice_masks[voice->unk0];
             volume = voice->unk10 + voice->unk58;
             if (volume < 0) {
                 volume = 0;
@@ -120,9 +108,9 @@ void audio_update_voice_tremolo(S_80055E84 *voice)
             else if (volume >= 0x4000) {
                 volume = 0x3FFF;
             }
-            audio_voice_request.fieldA = volume;
-            audio_voice_request.fieldC = 0;
-            audio_voice_request.fieldE = 0;
+            audio_voice_request.volume.right = volume;
+            audio_voice_request.volmode.left = 0;
+            audio_voice_request.volmode.right = 0;
             apply_spu_voice_attributes(&audio_voice_request);
         }
     }

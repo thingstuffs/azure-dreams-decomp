@@ -1,14 +1,14 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
+#include "engine/message.h"
 
 typedef struct Object {
     u8 pad_0[0x10];
-    void (*callback)(void);
+    void (*callback)(struct Func80038A10State *);
     u8 pad_14[0x1B];
     u8 entry_index;
 } Object;
 
-extern void update_message_window(void);
 
 /* Sets the object's callback to update_message_window when its entry's field_1 is zero. */
 void wait_message_entry_ready(Object *object)

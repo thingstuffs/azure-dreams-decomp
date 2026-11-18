@@ -62,7 +62,7 @@ void select_directional_object_effect_tables(ActorRecord *owner, ObjectPosition 
 
     if (update_actor_transform_from_parent(owner, context, display, state) != 0) {
         if ((check_actor_floor_trap(display, state) << 16) > 0) {
-            owner->unk_8C.address = func_8014E4BC;
+            owner->unk_8C.handler = func_8014E4BC;
         }
         return;
     }

@@ -1,4 +1,5 @@
 #include "shared/sprite_frame_state.h"
+#include "dungeon/actor/spell_resource_ids_data.h"
 #include "common.h"
 #include "dungeon/system/random.h"
 #include "shared/object_node.h"
@@ -15,7 +16,6 @@ typedef struct S_8185C860_0 {
 } S_8185C860_0;
 
 s32 check_entity_interaction_compatibility();
-extern u8 current_spell_effect_variant;
 
 /* Apply a randomized effect to eligible targets within two tiles of the center. */
 void apply_randomized_effect_near_center(s16 center_x, s16 center_y, ActorRecord *source, s32 power) {

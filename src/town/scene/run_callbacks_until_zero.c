@@ -1,17 +1,17 @@
 #include "common.h"
 #include "town/scene.h"
+#include "town/system.h"
 
 typedef s32 (*Func8094D708Callback)(void *, s32);
 
 typedef struct Func8094D708Object {
     u8 pad00[0x10];
     Func8094D708Callback *callbacks;
-    s32 field14;
+    s16 *field14;
     u8 pad18[2];
     s16 field1A;
 } Func8094D708Object;
 
-extern void clear_listed_flag_pairs(s32, s16); /* Unprototyped: retail call passes a different argument count */
 /* Notify the object, then run its callbacks in order until one returns zero; return that index. */
 s32 run_callbacks_until_zero(Func8094D708Object *object) {
     s32 i;

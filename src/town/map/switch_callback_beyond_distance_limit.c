@@ -2,6 +2,7 @@
 #include "shared/entity_objects.h"
 #include "sdk/libc.h"
 #include "town/map.h"
+#include "town/map/object.h"
 
 typedef struct Position {
     s16 pad0;
@@ -9,9 +10,6 @@ typedef struct Position {
     s16 pad4;
     s16 y;
 } Position;
-
-extern s32 trigger_effect_when_in_range(void);
-
 
 typedef struct S_800C21F8_0 {
     void (*unk_00)(void);

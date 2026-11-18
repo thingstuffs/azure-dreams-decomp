@@ -1,6 +1,6 @@
 #include "common.h"
 #include "main/data.h"
-#include "frontend/card/card_layout_text_items_data.h"
+#include "frontend/card/message.h"
 
 typedef struct {
     s32 unk0;

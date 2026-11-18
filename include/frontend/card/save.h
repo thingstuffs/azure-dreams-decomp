@@ -6,6 +6,10 @@
 
 struct S_func_804061C4_0;
 
+/* card_dev_create_save_screen.c */
+struct CardSaveScreenState;
+struct CardSaveScreenState *card_dev_create_save_screen(s32 init_value);
+
 /* select_save_slot_callback.c */
 void select_save_slot_callback(void *inputPtr);
 

@@ -20,6 +20,7 @@ s32 check_all_flags_set(s16 *flag_ids);
 /* flag_test_pair_actions.c */
 struct S_8001670C_1;
 s32 process_flag_test_record(u32 records, s32 condition_arg, struct S_8001670C_1 *context, s32 record_selector);
+void clear_listed_flag_pairs(s16 *value_pairs, s32 pair_count);
 
 /* person_idle_dispatch.c */
 void advance_object_animation_when_idle(TownObjectRecord *object, void *callback_arg, s32 unused_a, s32 unused_b);

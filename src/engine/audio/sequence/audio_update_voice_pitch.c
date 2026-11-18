@@ -39,7 +39,6 @@ typedef struct S_80056654_1 {
 
 
 s32 audio_compute_pitch_bend_offset(void *, s32);
-extern SpuVoiceAttr_ audio_voice_request;
 extern S_80056654_1 audio_channel_controls[];
 
 /* Updates voice pitch parameters and clears a completed pitch adjustment. */

@@ -1,10 +1,9 @@
 #include "common.h"
 
 #include "engine/audio.h"
+#include "engine/audio/data.h"
 #include "slus.h"
 #include "slus/data.h"
-
-extern s32 audio_bank_owner_payloads[];
 
 /* Store the fetched value in the global selected by the low 16 bits. */
 void sound_assign_sequence_payload_slot(s32 selector) {

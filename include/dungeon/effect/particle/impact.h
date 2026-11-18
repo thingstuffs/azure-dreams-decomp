@@ -22,7 +22,6 @@ struct S_80024BF4_2;
 struct S_80024BF4_4;
 struct S_80025FB0_0;
 struct S_80025FB0_1;
-struct Bank19de800_19e092c_EntryCursor;
 struct S_func_80026418_0;
 void *find_impact_surface_polygon(s32, s32, s16);
 s32 random_below_limit(s32);
@@ -32,8 +31,8 @@ void spawn_randomized_textured_particles(s32, s32, s16, s16);
 /* Retail callers pass promoted scalar words; the callee reads their low halves. */
 s32 func_80025CE8(s32, s32, s32, s32);
 void copy_effect_transform(struct S_80025FB0_1 *dst, struct S_80025FB0_0 *src);
-void step_entry_index_clamped(void *, s16 *, s32, s32);
-void select_mesh_entry(struct Bank19de800_19e092c_EntryCursor *object, s16 entry_index);
+void step_entry_index_clamped(SpriteFrameState *sprite, s16 *index_step, s32 min_index, s32 max_index);
+void select_mesh_entry(SpriteFrameState *sprite, s16 entry_index);
 void create_impact_particle_at_offset(s32,s32,s32,s32,s32,s32,s32,s32,s32,s32);
 void advance_particle_fade_and_cleanup(struct S_func_80026418_0 *effect);
 s32 register_node(void *, void *, ...);

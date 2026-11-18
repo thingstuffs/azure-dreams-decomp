@@ -14,7 +14,6 @@
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
 
-extern u8 troll_action_dispatch_address[];
 extern u8 D_80175DDC[8];
 extern u8 D_80175DE4[8];
 extern u8 D_80175DEC[8];
@@ -87,7 +86,7 @@ void advance_timed_directional_action(ActorRecord *action, ObjectPosition *motio
     case 3:
         if (sprite->flags & 0xE000) {
             spend_actor_mp(entity, 0x100);
-            action->unk_8C.address = troll_action_dispatch_address;
+            action->unk_8C.handler = update_troll_behavior;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(entity);
             entity->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;

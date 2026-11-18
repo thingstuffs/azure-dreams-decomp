@@ -28,7 +28,7 @@ void spawn_randomized_directional_effect(ObjectNodeHeader *source, short angle, 
 #include "records/Rec_func_800247B8_arg0.h"
 void create_attached_effect(Rec_func_800247B8_arg0 *owner, void *unused_motion, void *unused_sprite);
 
-void create_colored_effect_with_sound(void *source, s32 color, unsigned short sound_id);
+void create_colored_effect_with_sound(ObjectNodeHeader *source, s32 color, unsigned short sound_id);
 
 #include "records/Rec_func_800D4BD4_arg1.h"
 void init_fading_particle_from_emitter(ObjectNodeHeader *object, Rec_func_800D4BD4_arg1 *source, ObjectPosition *position, s32 unused_spawn_context);

@@ -1,3 +1,4 @@
+#include "dungeon/actor/status.h"
 #include "dungeon/actor.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "shared/entity.h"
@@ -13,7 +14,6 @@
 #include "dungeon/monster/mandara.h"
 #include "sdk/libgpu.h"
 
-extern void set_or_clear_actor_status_slot(void *, s32, s32);
 
 extern u8 D_8015EB40[];
 extern u8 D_8015EF6C[];

@@ -1,12 +1,12 @@
 #include "common.h"
 #include "engine/message/data.h"
+#include "engine/message.h"
 
 #include "engine/script/vm.h"
 
 extern u8 message_window_state_data[];
 
 extern void update_text_row_scale(u8 *state, u8 value);
-extern void update_message_window(void);
 
 typedef struct {
     u8 pad00[0x08];
@@ -14,7 +14,7 @@ typedef struct {
     s16 field0A;
     s16 field0C;
     u8 pad0E[0x02];
-    void (*field10)(void);
+    void (*field10)(struct Func80038A10State *);
     u8 pad14[0x08];
     void *field1C;
     s16 field20;

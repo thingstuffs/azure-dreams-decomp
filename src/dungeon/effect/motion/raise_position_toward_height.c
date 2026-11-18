@@ -1,4 +1,5 @@
 #include "shared/object_node_flags.h"
+#include "dungeon/actor/spell_resource_ids_data.h"
 #include "shared/audio_commands.h"
 /* Level reduction attempts, terrain-seeking particles, randomized drawing, and target effects. */
 #include "modules/dungeon_ovl_192a800.h"
@@ -42,7 +43,6 @@ extern u8 D_80025648[48];
 extern u8 D_80025678[44];
 extern Packed12 D_80025618;
 extern Packed12 D_80025624;
-extern u8 current_spell_effect_variant[];
 
 /* Attempts to lower the target's level after a random threshold check and displays the fallback result
    on failure. */
@@ -985,7 +985,7 @@ void update_rising_capture_effect(S_func_8190B2D0_0 *effect, void *motion_arg, v
             clear_effect_mask = 0xFFEFFFFF;
             effect_kind = 255;
             target = owner->unk_60;
-            target_mode = current_spell_effect_variant[0];
+            target_mode = current_spell_effect_variant;
             target->unk_14 &= clear_effect_mask;
             if (target_mode != effect_kind) {
                 effect_kind = effect->unk_9;

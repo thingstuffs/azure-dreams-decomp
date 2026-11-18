@@ -7,13 +7,13 @@
 #include "shared/entity.h"
 #include "records/Rec_func_8008D024_arg0.h"
 #include "dungeon/player.h"
+#include "dungeon/player/input.h"
 #include "dungeon/player/position.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/effect.h"
 #include "engine/graphics.h"
 #include "engine/scene.h"
 
-extern u8 player_wait_frames[8];
 extern s16 get_entity_effect_value(void *, s32); /* Unprototyped: return_width */
 
 /* Initializes action state and animation, then handles the current tile type. */

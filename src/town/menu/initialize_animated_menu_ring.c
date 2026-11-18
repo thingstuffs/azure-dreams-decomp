@@ -1,6 +1,6 @@
 #include "common.h"
-#include "town/menu/motion.h"
 #include "town/menu.h"
+#include "town/menu/motion.h"
 
 typedef struct S_800A32F0_0 {
     void (*unk_00)(struct Obj800A5BC0 *, void *);

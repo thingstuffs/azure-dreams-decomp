@@ -1,7 +1,7 @@
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "engine/item.h"
 
-extern s32 generate_random_value(void);
 
 /* Shuffle a byte array in place using generate_random_value() for random swap indices. */
 void shuffle_byte_array(u8 *bytes, s32 length) {

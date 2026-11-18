@@ -2,7 +2,6 @@
 #include "frontend/card.h"
 #include "frontend/card/server_imports.h"
 
-#include "frontend/card/effect_mode_data.h"
 /*
  * Sets card_dev_effect_mode to one, runs card_dev_init, and creates or reuses the effect with
  * selector 2.

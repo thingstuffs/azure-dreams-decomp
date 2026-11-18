@@ -48,16 +48,9 @@ typedef struct {
     u8 pad10[4];
 } DungeonGroup;
 
-typedef struct {
-    s16 x;
-    s16 y;
-} DirectionVector;
-
 extern s32 select_random_replacement_item(BarongItemDescriptor *selection, u8 *context);
 
 extern DungeonGroup item_category_groups[];
-
-extern DirectionVector barong_direction_vectors[];
 
 /* Creates a dungeon entity with the supplied position, direction, and object data. */
 void create_randomized_item_object(ActorRecord *owner, ObjectPosition *source_pos, SpriteFrameState *unused,

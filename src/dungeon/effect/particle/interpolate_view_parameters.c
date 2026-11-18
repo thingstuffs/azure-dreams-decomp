@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "dungeon/actor/spell_resource_ids_data.h"
 /* Expanding moving sprites and staged attachment, particle emission, and cleanup effects. */
 #include "dungeon/effect/particle/interpolate_view_parameters.h"
 #include "shared/entity.h"
@@ -22,7 +23,6 @@ const B31_818C8FD0_OffsetTable interpolation_direction_offsets = {{{32,0},{32,32
 
 /* Apply the effect offset, update its object, and flag expired or inactive effects. */
 #include "dungeon/effect/sprite/directional_entries.h"
-extern u8 current_spell_effect_variant;
 
 /* Moves and animates an expanding sprite, removing it when its lifetime ends or its hidden flag is set. */
 void interpolate_view_parameters(B31_818C8824_EffectState *state, ObjectPosition *position, SpriteFrameState *object)

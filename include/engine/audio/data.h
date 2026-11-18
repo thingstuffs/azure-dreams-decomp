@@ -14,4 +14,7 @@ extern SoundEffectBankDescriptor sound_effect_bank_descriptors[];
 extern u8 sound_effect_loaded_record_ids[];
 extern void *audio_selection_record_pointers[][16];
 
+/* Payload words selected by the pending bank slot. */
+extern s32 audio_bank_owner_payloads[];
+
 #endif

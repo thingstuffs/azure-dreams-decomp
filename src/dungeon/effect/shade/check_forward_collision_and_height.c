@@ -1,11 +1,11 @@
 #include "common.h"
+#include "dungeon/actor/ability_eligibility.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "dungeon/level.h"
 #include "dungeon/effect/shade.h"
 #include "dungeon/data.h"
 
-s32 check_left_tile_and_center_height(s32, s32, s16);
 
 
 typedef struct S_800D5F80_2 {

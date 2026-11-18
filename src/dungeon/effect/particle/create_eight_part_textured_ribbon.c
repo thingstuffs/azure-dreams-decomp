@@ -39,7 +39,7 @@ typedef struct S_801690D8_8 {
 } S_801690D8_8;
 
 /* Creates eight effect segments with positions, colors, and vertex data. */
-void create_eight_part_textured_ribbon(ActorRecord *source, void *origin, SpriteFrameState *unused, ObjectPosition *effect_position) {
+void create_eight_part_textured_ribbon(ActorRecord *source, ObjectPosition *origin, SpriteFrameState *unused, ObjectPosition *effect_position) {
     s32 direction_pairs[8];
     s32 segment;
     s32 trunc_bias;
@@ -61,9 +61,7 @@ void create_eight_part_textured_ribbon(ActorRecord *source, void *origin, Sprite
     s32 *directions;
     u16 *side_direction;
     u8 *vertex_table;
-    ObjectPosition *origin_pos;
 
-    origin_pos = origin;
     heading_source = source;
     *(Copy32 *)direction_pairs = D_801648DC;
     segment = 0;
@@ -94,9 +92,9 @@ void create_eight_part_textured_ribbon(ActorRecord *source, void *origin, Sprite
             render_flags->tpage_abr = 0x20;
             render_flags->flags = (u16) (render_flags->flags | 0x8C);
             position = object->position;
-            position->x.v = (s32) origin_pos->x.v;
-            position->y.v = (s32) origin_pos->y.v;
-            position->z.v = (s32) (origin_pos->z.v + 0xFFC80000);
+            position->x.v = (s32) origin->x.v;
+            position->y.v = (s32) origin->y.v;
+            position->z.v = (s32) (origin->z.v + 0xFFC80000);
             effect->unk_8A = 0U;
             effect->unk_84 = 0U;
             effect->unk_7E = 0U;

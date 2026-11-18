@@ -24,6 +24,7 @@ extern u8 pulunpa_action_resume_address[];
 extern u8 pulunpa_variant_action_address[];
 #include "dungeon/monster/pulunpa.h"
 
+
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 /* Creates Pulunpa, selecting its normal or alternate callback and sprite table from the global spawn
  * variant. */

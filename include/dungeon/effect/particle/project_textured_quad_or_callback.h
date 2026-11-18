@@ -53,7 +53,7 @@ typedef struct TargetParticleStatusSpellBody {
     u8 unk_AF;
 } TargetParticleStatusSpellBody;
 void project_textured_quad_or_callback(void *,struct ObjectPosition *, SpriteFrameState *, s16);
-void draw_textured_sphere_mesh(void *, void *, void *, u16);
+void draw_textured_sphere_mesh(void *, void *, SpriteFrameState *, u16);
 s32 project_linked_quad_record(void *, ObjectPosition *, SpriteFrameState *);
 s32 draw_chained_object_records(void *, void *, void *);
 s32 project_colored_point(TerrainSeekingPointBody *, u8 *);

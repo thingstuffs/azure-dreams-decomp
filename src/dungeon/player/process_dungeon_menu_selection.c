@@ -18,6 +18,7 @@
 #include "records/Rec_D_80082EB0.h"
 #include "dungeon/level.h"
 #include "dungeon/player.h"
+#include "dungeon/player/input.h"
 #include "dungeon/player/item.h"
 #include "dungeon/player/object.h"
 #include "dungeon/player/position.h"
@@ -84,7 +85,6 @@ s32 is_selectable_menu_target();                             /* extern */
 void update_selection_tile_markers(struct S_800B50B0_Entity *entity, s32 selection);            /* extern */
 extern Rec_D_80082EB0 selected_item_record_alias;
 extern s8 spell_effect_selector_cache;
-extern u8 player_wait_frames[];
 extern u8 player_carry_frames[];
 extern u8 actor_default_frames[];
 extern M2C_UNK D_800E0462;

@@ -4,6 +4,7 @@
 #include "shared/actor_status_ids.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
+#include "dungeon/actor/status.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
@@ -19,7 +20,6 @@ extern u8 D_800E15E5[];
 #include "dungeon/item/message.h"
 #include "dungeon/item.h"
 
-extern s32 set_or_clear_actor_status_slot(void *, s32, s32);
 
 /* Processes an object action, dispatching the player case and reporting failure. */
 s32 use_item_to_enrage_actor(ActorRecord *object, DungeonItemEntry *action, s16 action_type) {

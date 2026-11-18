@@ -62,7 +62,7 @@ void update_direction_table_for_entity_kinds(ActorRecord *owner, ObjectPosition 
 
     if (update_actor_transform_from_parent(owner, context, display, state) != 0) {
         if ((check_actor_floor_trap(display, state) << 16) > 0) {
-            owner->unk_8C.address = func_801664BC;
+            owner->unk_8C.handler = func_801664BC;
         }
         return;
     }

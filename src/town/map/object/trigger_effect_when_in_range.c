@@ -3,8 +3,9 @@
 #include "engine/object.h"
 #include "sdk/libc.h"
 #include "town/map.h"
+#include "town/map/object.h"
 
-typedef struct {
+struct TownRangeEffectObject {
     void *callback;
     s16 x;
     s16 z;
@@ -14,7 +15,7 @@ typedef struct {
     s16 effect_a;
     s16 effect_b;
     s16 check_id;
-} TownObject;
+};
 
 typedef struct {
     s16 pad_0;
@@ -28,7 +29,7 @@ typedef struct {
 
 
 /* Applies an eligible nearby object's effects and updates its callback. */
-s32 trigger_effect_when_in_range(TownObject *object) {
+s32 trigger_effect_when_in_range(TownRangeEffectObject *object) {
     TownPosition *position;
     s32 coord_value_3;
     s32 offset_x;

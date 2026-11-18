@@ -41,7 +41,6 @@ extern u8 upper_draw_context[16];
 extern void SetDrawArea(void *, void *);
 extern void AddPrim(void *, void *, ...);
 struct DungeonPosition;
-struct DungeonParameters;
 extern void draw_textured_ellipse_segments(struct DungeonPosition *position, struct DungeonParameters *parameters, s32 draw_order, s32 blend_mode);
 
 /* Draw at the rectangle center and optionally emit a filled rectangle. */
@@ -102,22 +101,6 @@ typedef struct DungeonPosition
     u16 y;
 }
 DungeonPosition;
-typedef struct DungeonParameters
-{
-    u8 pad0[4];
-    u16 flags;
-    u16 texture;
-    u8 x0;
-    u8 y0;
-    u8 x1;
-    u8 y1;
-    u8 x2;
-    u8 y2;
-    u16 count;
-    s32 value0;
-    s32 value1;
-}
-DungeonParameters;
 
 typedef struct
 {
@@ -246,12 +229,12 @@ loop_0:
             if (blend_setting != 0) {
                 *((u16 *) (packet_code + 19)) = (texture_page & 0xFF9F) | ((blend_setting - 1) << 5);
             }
-            *((s32 *) (((packet_code - 3)) + 0)) = parameters->value0;
-            *((s32 *) (packet_code + 9)) = parameters->value0;
-            outer_color2 = parameters->value1;
+            *((s32 *) (((packet_code - 3)) + 0)) = parameters->center_color;
+            *((s32 *) (packet_code + 9)) = parameters->center_color;
+            outer_color2 = parameters->outer_color;
             *((s32 *) (packet_code + 21)) = outer_color2;
             quad_packet = cursor;
-            outer_color3 = parameters->value1;
+            outer_color3 = parameters->outer_color;
             *((s32 *) (packet_code + 33)) = outer_color3;
             SetPolyGT4(quad_packet);
             if (blend_setting != 0) {
@@ -1848,14 +1831,12 @@ s32 is_selectable_menu_target(ActorRecord *object) {
     return 0;
 }
 
-struct S_800BA414_1;
-extern void draw_projected_quad_with_depth_bias(void *unused, struct S_800BA414_1 *position, void *owner_data, s16 depth_bias);
+extern void draw_projected_quad_with_depth_bias(void *unused, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias);
 
 /* Initialize scratchpad quad coordinates and process each linked node. */
-s32 draw_linked_quad_chain(void *node_payload, s32 node_value, u8 *node_data) {
+s32 draw_linked_quad_chain(void *node_payload, ObjectPosition *position, SpriteFrameState *sprite) {
     s16 *scratch = (s16 *)0x1F800000;
-    register u8 *next_ptr;
-    s32 next_value;
+    ObjectNodeHeader *next;
     s32 result;
 
     scratch[0x46] = 0;
@@ -1872,15 +1853,14 @@ s32 draw_linked_quad_chain(void *node_payload, s32 node_value, u8 *node_data) {
     scratch[0x41] = 31;
 
     for (;;) {
-        draw_projected_quad_with_depth_bias(node_payload, node_value, node_data, *(s16 *)(node_data + 6));
-        next_ptr = *(u8 **)((u8 *)node_payload - 8);
-        node_payload = next_ptr + 32;
-        if (next_ptr == 0) {
+        draw_projected_quad_with_depth_bias(node_payload, position, sprite, sprite->depth_bias);
+        next = NODE_HEADER(node_payload)->chain_next;
+        if (next == 0) {
             break;
         }
-        node_value = *(s32 *)(next_ptr + 8);
-        next_ptr = *(u8 **)(next_ptr + 12);
-        node_data = next_ptr;
+        node_payload = NODE_BODY(next);
+        position = next->position;
+        sprite = next->sprite;
     }
     result = 0;
     return result;
@@ -1900,15 +1880,6 @@ typedef struct S_800BA414_0 {
     u16 unk_104;
 } S_800BA414_0;   /* scratch in draw_projected_quad_with_depth_bias */
 
-typedef struct S_800BA414_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800BA414_1;   /* arg1 in draw_projected_quad_with_depth_bias */
-
    /* state in draw_projected_quad_with_depth_bias */
 
 typedef struct S_800BA414_3 {
@@ -1923,11 +1894,6 @@ typedef struct S_800BA414_3 {
     u16 unk_14;
     u16 unk_16;
 } S_800BA414_3;   /* prim in draw_projected_quad_with_depth_bias */
-
-typedef struct S_800BA414_4 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-} S_800BA414_4;   /* owner in draw_projected_quad_with_depth_bias */
 
    /* *global in draw_projected_quad_with_depth_bias */
 
@@ -1945,12 +1911,11 @@ extern void SetPolyF4(void *);
 extern void SetDrawMode(void *, s32, s32, s32, s32);
 
 /* Project a quad and enqueue it with its draw mode when depth and screen bounds allow. */
-void draw_projected_quad_with_depth_bias(void *unused, S_800BA414_1 *position, void *owner_data, s16 depth_bias)
+void draw_projected_quad_with_depth_bias(void *unused, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias)
 {
     S_800BA414_0 *scratch;
     u8 *prim;
     u8 **state_slot;
-    S_800BA414_4 *owner;
     s16 depth_offset;
     u8 *rotation;
     u8 *local_matrix;
@@ -1977,12 +1942,11 @@ void draw_projected_quad_with_depth_bias(void *unused, S_800BA414_1 *position, v
     (void)unused;
     state = *(u8 **)((s8 *)(&g_game_work));
     scratch = (S_800BA414_0 *)0x1F800000;
-    owner = owner_data;
     depth_offset = depth_bias;
     scratch->unk_20 = state + 0xB0;
-    scratch->unk_E4 = position->unk_02;
-    scratch->unk_E8 = position->unk_06;
-    scratch->unk_EC = position->unk_0A;
+    scratch->unk_E4 = position->x.w.i;
+    scratch->unk_E8 = position->y.w.i;
+    scratch->unk_EC = position->z.w.i;
     prim = ((GpuContext *)state)->packetCursor;
     state_slot = (u8 **)((s8 *)(&g_game_work));
 
@@ -2054,7 +2018,7 @@ void draw_projected_quad_with_depth_bias(void *unused, S_800BA414_1 *position, v
         clip_test = first_three_visible | corner_visible;
 
         if (clip_test != 0) {
-            ((S_800BA414_3 *)prim)->unk_04.at00.v = owner->unk_0C;
+            ((S_800BA414_3 *)prim)->unk_04.at00.v = sprite->color.word;
             SetPolyF4(prim);
             quad = prim;
             draw_mode = prim + 0x18;
@@ -2116,7 +2080,7 @@ void update_pulsing_sprite_color(void *channel_config_arg, void *unused, void *o
 }
 
 /* Externals (never defined here -- the overlay gate's linker resolves them). */
-extern s32 draw_linked_quad_chain(void *node_payload, s32 node_value, u8 *node_data);
+extern s32 draw_linked_quad_chain(void *node_payload, ObjectPosition *position, SpriteFrameState *sprite);
 extern void update_pulsing_sprite_color(void *channel_config, void *unused, void *output);
 
 typedef struct S_func_800BA764_0 {

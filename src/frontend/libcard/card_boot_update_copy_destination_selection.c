@@ -71,6 +71,6 @@ void card_boot_update_copy_destination_selection(CardSlotMenuState *menu)
     if (transition_status == 1) {
         return;
     }
-    card_boot_destroy_slot_selection_menu((ObjectNodeHeader *)menu - 1);
+    card_boot_destroy_slot_selection_menu(NODE_HEADER(menu));
     init_card_boot_request_object(menu->request, 0);
 }

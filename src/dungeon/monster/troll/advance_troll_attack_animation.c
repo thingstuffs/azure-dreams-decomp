@@ -15,7 +15,6 @@
 
 
 
-extern u8 D_8016C4BC[];
 extern u8 D_8016FDDC[8];
 extern u8 D_8016FDE4[8];
 extern u8 D_8016FDEC[8];
@@ -92,7 +91,7 @@ void advance_troll_attack_animation(ActorRecord *action, ObjectPosition *motion,
     case 3:
         if (sprite->flags & 0xE000) {
             spend_actor_mp(entity, 0x100);
-            action->unk_8C.address = D_8016C4BC;
+            action->unk_8C.handler = update_troll_behavior;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(entity);
             entity->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;

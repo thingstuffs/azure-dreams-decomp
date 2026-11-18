@@ -3,6 +3,7 @@
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/system/random.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -19,7 +20,6 @@ typedef s32 M2C_UNK;
 
 
 
-extern s32 generate_random_value(void);
 extern u8 D_8014CA70[];
 extern M2C_UNK D_8014D138;
 extern u8 zu_frame_set_3[];

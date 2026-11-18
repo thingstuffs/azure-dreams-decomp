@@ -24,9 +24,16 @@ extern s32 town_position_callback_address[3];
 extern void *D_800D04A4[];
 extern void *D_800D04B8[];
 extern IntVector3 town_fallback_origin;
-extern IntVector3 computed_position;
 
-extern IntVector3 *town_overlap_origin;
+/* The published box at 0x800D0AFC has three coordinates followed by
+ * three extents, initialized to 0x400000 on each axis. */
+typedef struct S_800A2A18_1 {
+    s32 x, y, z;
+    s32 extent_x, extent_y, extent_z;
+} TownOverlapBox;
+
+extern TownOverlapBox computed_position;
+extern TownOverlapBox *town_overlap_origin;
 
 /* Functions defined in this translation unit. */
 void dispatch_fallback_position(TownPlayerRecord *entry, ObjectPosition *forwarded_a, void *forwarded_b);

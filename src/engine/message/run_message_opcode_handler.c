@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/message.h"
 
 
 typedef s32 (*Func80038690Handler)(s32, s32, s32, s32);
@@ -15,18 +16,17 @@ typedef struct {
     s32 callback_result;
 } Func80038690Context;
 
-typedef struct {
+struct Func80038690State {
     u8 pad_00[0x10];
-    void (*callback)(void);
+    void (*callback)(struct Func80038A10State *);
     u8 pad_14[0x1E];
     s8 table_index; /* call number from opcode 0x25; signed, so 0x80-0xFF index before the table */
     u8 pad_33[1];
     s32 result;
     u8 pad_38[0x48];
     Func80038690Context *context;
-} Func80038690State;
+};
 
-extern void update_message_window(void);
 
 /* Run the selected handler and advance the state callback on a nonzero result. */
 void run_message_opcode_handler(Func80038690State *state) {

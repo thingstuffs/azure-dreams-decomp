@@ -2,6 +2,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:main/func_80012358. */
 #include "frontend/card/save_copy_completion_g00392.h"
 #include "frontend/libcard_callbacks_api.h"
+#include "shared/object_node.h"
 
 /*
  * Builds the card save description and initializes the text editor context with the same owner and
@@ -14,7 +15,6 @@ void write_save_and_refresh_slot_windows(void *context_arg) {
     S_80025398_0 *context = context_arg;
     s32 entry_value;
     s32 entry_count;
-    void *owner;
     void *entry_cursor;
 
     if (card_boot_load_save_and_clear_marker(context->unk_2C, 0x80010000, 0) != 0) {
@@ -36,10 +36,9 @@ void write_save_and_refresh_slot_windows(void *context_arg) {
             return;
         }
     }
-    owner = (u8 *)context - 0x20;
     *(void (**)(void))((u8 *)context + 0x34) = (void (*)(void))card_boot_resume_menu_after_slot_refresh;
-    card_boot_show_copy_failure_notice(owner);
-    *(void **)((u8 *)context - 0x10) = card_boot_restore_saved_selection_callback;
+    card_boot_show_copy_failure_notice(NODE_HEADER(context));
+    NODE_HEADER(context)->update_callback = card_boot_restore_saved_selection_callback;
     card_boot_recheck_selected_channel();
     context->unk_40 = 0;
 }

@@ -14,6 +14,7 @@ struct S_func_800BB508_0;
 struct TownCameraState;
 struct TownCourseActor;
 struct TownPropPosition;
+typedef struct TownRangeEffectObject TownRangeEffectObject;
 struct ObjectNodeHeader;
 
 /* create_map_cursor_input_object.c */
@@ -69,5 +70,8 @@ void select_camera_target(struct TownCameraState *object);
 
 /* enable_camera_target_selection.c */
 void enable_camera_target_selection(struct TownCameraState *object);
+
+/* trigger_effect_when_in_range.c */
+s32 trigger_effect_when_in_range(TownRangeEffectObject *object);
 
 #endif

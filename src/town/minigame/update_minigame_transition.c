@@ -9,7 +9,7 @@ typedef struct S_80021E88_4 {
     s16 unk_22;
 } S_80021E88_4;   /* ((MinigameTransitionObject *)arg0)->unk_04 in update_minigame_transition */
 
-extern u32 town_money;
+extern s32 town_money;
 extern u8 D_800243F0[];
 extern s32 D_80024438[];
 extern s32 D_80024444[];

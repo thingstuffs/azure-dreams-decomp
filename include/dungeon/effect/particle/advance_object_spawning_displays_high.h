@@ -103,10 +103,6 @@ typedef struct {
     s16 timer;
 } Entity;
 typedef struct {
-    unsigned char pad_00[8];
-    s32 position;
-} State;
-typedef struct {
     u8 pad[0x2A];
     s16 timer;
 } DungeonObject;
@@ -132,7 +128,7 @@ void fade_tinted_display_sprite(FreeSlotDisplayEffectBody *effect, void *unused,
 void spawn_free_slot_display_effect(DisplaySpawnerEffectBody *owner);
 void create_free_slot_display_spawner(void *source, void *unused_position, void *unused_sprite);
 s32 draw_brightness_scaled_point_chain(PointRecord *first_point, ObjectPosition *first_position);
-void lower_timed_effect_position(Entity *entity, State *state);
+void lower_timed_effect_position(Entity *entity, ObjectPosition *position);
 void spawn_lowering_effect_under_parent(struct ObjectNodeHeader *source, s32 state_14_value, s32 state_08_value, s32 state_32_value, s16 x_offset, s16 y_offset, s16 z_offset);
 void expand_rotating_countdown_sprite(RotatingCountdownSpriteBody *countdown_state, ObjectPosition *unused, SpriteFrameState *animation_state);
 void advance_timed_effect_animation(DungeonObject *object, s32 unused, void *handlerContext);

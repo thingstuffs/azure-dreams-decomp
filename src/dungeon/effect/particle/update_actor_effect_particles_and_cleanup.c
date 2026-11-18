@@ -1,5 +1,6 @@
 /* Shaded particle drawing, accelerating return particles, and staged actor effect cleanup. */
 #include "shared/sprite_frame_state.h"
+#include "dungeon/actor/spell_resource_ids_data.h"
 #include "modules/dungeon_ovl_18f4800.h"
 #include "shared/object_node.h"
 #include "common.h"
@@ -56,7 +57,6 @@ const PackedOffsets dungeon_18f4800_offsets = { {
 /* Queue a shaded tile and draw mode packet, then continue the object chain. */
 extern u8 D_80025100[16];
 extern Packed12 actor_particle_images;
-extern u8 current_spell_effect_variant[16];
 extern void unlink_node(void *);
 
 /* Projects linked points and queues visible square particles with color scaled by each point's intensity. */
@@ -648,7 +648,7 @@ state1_cleanup:
                 s32 effect_kind;
                 effect_kind = (generate_random_value() & 3) + 4;
                 effect_type = (actor->field09 >> 2) + effect_kind;
-                room_id = (current_spell_effect_variant[0] == 0xFF) ? 0xFF : 0x10;
+                room_id = (current_spell_effect_variant == 0xFF) ? 0xFF : 0x10;
                 try_apply_blind_effect(entity->target, room_id, effect_type);
                 return;
             }

@@ -457,10 +457,6 @@ typedef struct S_func_81905FD0_10 {
     s16 unk_00;
 } S_func_81905FD0_10;
 
-typedef struct S_func_81905FD0_11 {
-    u8 unk_00;
-} S_func_81905FD0_11;
-
 
 typedef struct S_func_81905FD0_13 {
     u8 pad_00[0x4];
@@ -500,7 +496,6 @@ extern u8 D_8002676C[12];
 extern u8 D_80026778[12];
 extern u8 D_80026784[24];
 extern u8 D_800267A8[12];
-extern u8 current_spell_effect_variant[1];
 extern struct SpriteAttachmentEntry *get_sprite_attachment_vector(void *, void *, Vec3 *, s32);
 extern s32 func_8003DF74(void *, void *, Vec3 *, s32);
 void try_halve_actor_counter(u8 *entity, s32 chance, void *unused_context);

@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "dungeon/actor/spell_resource_ids_data.h"
 /* Linked line travel, directional sprite rings, timed fades, and nearby status effects. */
 #include "shared/object_node.h"
 #include "dungeon/effect/sprite/advance_fading_effect.h"

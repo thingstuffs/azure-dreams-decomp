@@ -4,6 +4,7 @@
 #include "frontend/libcard/message.h"
 #include "frontend/libcard/resource.h"
 #include "frontend/libcard.h"
+#include "shared/object_node.h"
 
 /* Processes the current slot and selects callbacks when unavailable or all five are done. */
 void create_next_card_slot_window(CardSlotMenuState *state_arg) {
@@ -19,10 +20,10 @@ void create_next_card_slot_window(CardSlotMenuState *state_arg) {
         } else {
             *(void (**)(void))((u8 *)state + 0x34) = card_boot_return_from_slot_menu;
             card_boot_show_load_failure_notice(NODE_HEADER(state));
-            *(void (**)(void))((u8 *)state - 0x10) = card_boot_restore_saved_selection_callback;
+            NODE_HEADER(state_arg)->update_callback = card_boot_restore_saved_selection_callback;
         }
     }
     if (slot == 5) {
-        *(void (**)(void))((u8 *)state - 0x10) = card_boot_enter_slot_selection_input;
+        NODE_HEADER(state_arg)->update_callback = card_boot_enter_slot_selection_input;
     }
 }

@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "dungeon/actor/spell_resource_ids_data.h"
 /* Linked line travel, expanding spiral particles, sprite fades, and nearby status effects. */
 #include "shared/entity.h"
 #include "shared/object_node.h"

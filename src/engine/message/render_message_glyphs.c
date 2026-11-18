@@ -4,15 +4,11 @@
 #include "engine/message.h"
 #include "engine/script.h"
 
-extern void wait_message_countdown(void);
-
-typedef void (*Callback)(void);
-
 typedef struct S_func_80038CB8_0 {
     s16 unk_00;
     s16 unk_02;
     u8 pad_04[0xC];
-    Callback unk_10;
+    void (*unk_10)(Func80038128State *);
     u8 pad_14[0x4];
     s16 unk_18;
     u8 pad_1A[0x2];
