@@ -5,8 +5,10 @@
 #include "frontend/libcard.h"
 
 /* Prepares processing, processes the embedded data, and updates the record. */
-void card_boot_init_command_panel(void *record, void *init_value) {
-    card_dev_store_word(record, init_value);
-    func_80023730(record + 0x190, record + 0x168, record + 0x178);
-    card_boot_layout_command_panel(record);
+void card_boot_init_command_panel(void *record, ObjectNodeHeader *owner) {
+    CardCommandPanelBody *panel = record;
+
+    card_dev_store_word(&panel->owner, owner);
+    func_80023730(&panel->display, &panel->display_block, &panel->display_vector);
+    card_boot_layout_command_panel(panel);
 }

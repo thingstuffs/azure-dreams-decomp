@@ -6,40 +6,29 @@
 
 typedef void (*Callback3)(s32 *, s32 *, s32);
 
-typedef struct S_800194E4_0 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-} S_800194E4_0;
-
-typedef struct S_800194E4_1 {
-    s16 unk_00;
-    u8 pad_02[0x2];
-    s32 unk_04;
-} S_800194E4_1;
-
 extern u8 D_80010000[];
 extern s32 D_80016064[];
 extern s32 D_8001608C[];
 
 /* Finds an entry by ID and invokes error callbacks if it is missing. */
-s32 find_eight_byte_entry_or_assert(void *entries, s32 entry_id) {
+s32 find_eight_byte_entry_or_assert(ScenePositionEntry *entries, s32 entry_id) {
     s32 entry_index;
     Callback3 report_error;
     Rec_D_80016000 *root;
     TownServiceTable *callbacks;
 
     entry_index = 0;
-    if (((S_800194E4_0 *)entries)->unk_04 != 0) {
+    if (entries[0].result != 0) {
         while (1) {
-            if (((S_800194E4_1 *)((s8 *)entries + entry_index * 8))->unk_00 == entry_id) {
+            if (entries[entry_index].id == entry_id) {
                 break;
             }
             entry_index += 1;
-            if (((S_800194E4_1 *)((s8 *)entries + entry_index * 8))->unk_04 == 0) {
+            if (entries[entry_index].result == 0) {
                 break;
             }
         }
-        if (((S_800194E4_1 *)((s8 *)entries + entry_index * 8))->unk_04 != 0) {
+        if (entries[entry_index].result != 0) {
             return entry_index;
         }
     }

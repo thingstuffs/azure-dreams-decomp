@@ -1,20 +1,8 @@
-#include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/town_object.h"
 #include "town/menu/state.h"
 
-typedef struct S_800A24A8_1 {
-    u8 pad_00[0x10];
-    void * unk_10;
-} S_800A24A8_1;   /* arg0 in copy_negated_menu_phase */
-
-
-
-typedef struct S_800A24A8_0 {
-    u8 pad_00[0x1A];
-    s16 unk_1A;
-} S_800A24A8_0;   /* arg2 in copy_negated_menu_phase */
-
 /* Store the negated value from the source's linked data in the destination. */
-void copy_negated_menu_phase(S_800A24A8_1 *source, s32 unused, S_800A24A8_0 *dest) {
-    dest->unk_1A = (s16) (0 - ((TownObjectRecord *)(source->unk_10))->unk_6E);
+void copy_negated_menu_phase(DoorDisplayBody *source, ObjectPosition *unused, LitMeshSprite *mesh) {
+    mesh->rotation[2] = (s16) (0 - source->owner->unk_6E);
 }

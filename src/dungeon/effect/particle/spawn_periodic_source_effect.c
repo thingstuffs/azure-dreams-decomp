@@ -90,7 +90,7 @@ void spawn_periodic_source_effect(S_7FFEA1CC_0 *source, s32 spawn_arg1, s32 spaw
     remaining_ticks = source->unk_1E - 1;
     source->unk_1E = remaining_ticks;
     if ((remaining_ticks << 0x10) <= 0) {
-        u16 *active_count = &emitted_effect_counter;
+        u16 *active_count = emitted_effect_counter;
         u16 next_count;
 
         (*(u16 *)((u8 *)source + -2)) = (u16) (((S_7FFEA1CC_0_pre *)source)[-1].unk_00 | 0x8000);

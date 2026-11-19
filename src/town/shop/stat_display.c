@@ -124,7 +124,7 @@ void format_and_display_entity_stats(ActorRecord *stats, void *panels) {
 }
 
 /* Collect nonzero record values, including the extra value for the selected record. */
-void collect_selected_record_values(s32 *output, EntityRec *record) {
+void collect_selected_record_values(s32 *output, ActorRecord *record) {
     s32 *write_ptr;
     s32 extra_value;
     s32 first_value;
@@ -141,8 +141,8 @@ void collect_selected_record_values(s32 *output, EntityRec *record) {
         *write_ptr = second_value;
         write_ptr += 1;
     }
-    if (record == ((s32)primary_actor_record)) {
-        extra_value = record->unk_D8;
+    if (record == &primary_actor_record->actor) {
+        extra_value = primary_actor_record->unk_D8;
         if (extra_value != 0) {
             *write_ptr = extra_value;
         }
@@ -165,7 +165,7 @@ u8 *format_optional_signed_value(Input *input, u8 *text) {
 }
 
 /* Populate up to three display rows with entry text and positioned icons. */
-void populate_display_rows(s32 source_id, void *display) {
+void populate_display_rows(struct ActorRecord *actor, void *display) {
     s32 scratch[10];
     s16 icon_y;
     s32 text_y;
@@ -178,7 +178,7 @@ void populate_display_rows(s32 source_id, void *display) {
 
     row_display = display;
     bzero((void **) &scratch[0], 0xC);
-    collect_selected_record_values((void **) &scratch[0], source_id);
+    collect_selected_record_values(scratch, actor);
     row_index = 0;
     icon_y = 0x66;
     text_y = 0xD8;

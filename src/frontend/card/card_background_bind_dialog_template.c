@@ -6,6 +6,6 @@
 
 
 /* Forwards the context with D_80408CE8 and the fixed value 7. */
-s32 card_background_bind_dialog_template(s32 context) {
-    return func_80047358(context, &D_80408CE8, 7);
+s32 card_background_bind_dialog_template(struct CardDevMenuEntry **entries) {
+    return func_80047358(entries, &D_80408CE8, 7);
 }

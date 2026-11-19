@@ -10,7 +10,6 @@
 
 extern struct Ent *prepare_directional_attack();
 #include "dungeon/item/get_actor_height_difference_api.h"
-extern s32 check_entity_interaction_compatibility();
 #include "dungeon/monster/dreamin.h"
 #include "engine/graphics.h"
 #include "dungeon/item.h"

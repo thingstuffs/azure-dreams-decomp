@@ -7,10 +7,10 @@
  * ObjectNodeHeader preceding this body, not to any of these members. */
 typedef struct CardSaveMenuBody {
     void *backdrop;
-    void *surface;
-    void *heading;
-    void *slots[5];
-    void *request;
+    struct ObjectNodeHeader *surface;
+    struct ObjectNodeHeader *heading;
+    struct ObjectNodeHeader *slots[5];
+    struct ObjectNodeHeader *request;
     s32 mode;
     s32 state;
     s32 selection;

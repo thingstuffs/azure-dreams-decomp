@@ -4,13 +4,12 @@
 #include "frontend/card/server_imports.h"
 
 /* Position and update four display items using the selected table row. */
-void card_boot_position_four_display_items(u8 *state)
+void card_boot_position_four_display_items(CardDevDialogDisplay *state)
 {
     s32 item_index;
     s32 draw_offset;
     s32 vertical_offset;
-    u8 *item_cursor;
-    CardMenuDisplayNode *item;
+    MenuDisplayNode *item;
     u32 entry_addr;
     u32 row_addr;
     s32 (*item_table)[4];
@@ -19,23 +18,21 @@ void card_boot_position_four_display_items(u8 *state)
     item_table = card_layout_text_items;
     draw_offset = 0x234;
     vertical_offset = 0;
-    item_cursor = state;
     do {
         u8 *draw_buffer;
 
-        draw_buffer = state + draw_offset;
-        draw_offset += 0x108;
-        item = ((CardDevDialogDisplay *)item_cursor)->entries[0];
-        item_cursor += 4;
-        item->block->fields.x = 0x124 - (((CardDevDialogDisplay *)state)->width / 2);
+        draw_buffer = (u8 *)state + draw_offset;
+        draw_offset += sizeof(state->text_buffers[0]);
+        item = state->entries[item_index];
+        item->block->fields.x = 0x124 - (state->width / 2);
         entry_addr = (u32)(item_index * 4);
-        item->block->fields.y = vertical_offset - (((CardDevDialogDisplay *)state)->height / 2) + 0xFC;
+        item->block->fields.y = vertical_offset - (state->height / 2) + 0xFC;
         item_index++;
         vertical_offset += 0x11;
-        row_addr = (u32)(((CardDevDialogDisplay *)state)->layout_index * 0x10);
+        row_addr = (u32)(state->layout_index * 0x10);
         row_addr += (u32)(unsigned long)item_table;
         entry_addr += row_addr;
-        item->payload.word = func_80051B50(
+        item->unk_00 = func_80051B50(
             draw_buffer,
             *(s32 *)(unsigned long)entry_addr,
             1);

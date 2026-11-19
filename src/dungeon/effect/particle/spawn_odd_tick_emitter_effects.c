@@ -81,7 +81,7 @@ void spawn_odd_tick_emitter_effects(S_7FFE99BC_0 *emitter, s32 spawn_param_1, s3
     ticks_left = emitter->unk_1E - 1;
     emitter->unk_1E = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        u16 *active_count = &emitted_effect_counter;
+        u16 *active_count = emitted_effect_counter;
         u16 next_count;
 
         (*(u16 *)((u8 *)emitter + -2)) =

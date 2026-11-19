@@ -19,7 +19,7 @@ extern S_8004F418_Node menu_backdrop_node_storage;
 extern u8 menu_backdrop_tag[16];
 
 /* Initialize or reset the shared node, link its owner and state, and select its active sub-object. */
-void *create_menu_backdrop(s32 owner, s32 state)
+void *create_menu_backdrop(struct ObjectNodeHeader *owner, s32 state)
 {
     S_8004F418_Node *node = &menu_backdrop_node_storage;
     SevenEntryMenuBackdropBody *body = &node->body;
@@ -42,7 +42,7 @@ void *create_menu_backdrop(s32 owner, s32 state)
     upper_draw_context[0x108EF] = 0;
     initialize_menu_backdrop_display_nodes(body, 7);
 
-    template_node = (u8 *)body + 0x210;
+    template_node = body->template_anchor;
     node->unkC = template_node;
     body->display_node_chain = link_menu_backdrop_display_nodes(&body->view.initializer.node_pointers[0]);
     body->state.value = state;

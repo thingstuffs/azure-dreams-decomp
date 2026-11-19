@@ -10,18 +10,14 @@ void *get_transform_entry_by_index(s32 entry_index) {
 }
 
 /* Sets the motion page and updates the object state and orientation. */
-void update_transform_motion_page(TownObjectRecord *object_data, void *motion_data) {
-    register DelayMotionZ *motion = motion_data;
-
-    u32 page;
-
+void update_transform_motion_page(TownObjectRecord *object_data, ObjectPosition *motion) {
     if (map_scene_selector_alias == 0x17000C) {
-        motion->unk_08 = 0xFF600000;
+        motion->z.v = 0xFF600000;
     } else {
-        motion->unk_08 = 0xFFE00000;
+        motion->z.v = 0xFFE00000;
     }
-    init_scene_node_mode_1(((object_data)), motion, get_transform_entry_by_index(0));
-    ((S_800C2988_1 *)(object_data))->unk_50 = &D_800C2A10;
+    init_scene_node_mode_1(object_data, motion, get_transform_entry_by_index(0));
+    object_data->unk_50.as_pv = &D_800C2A10;
     object_data->unk_16 = (s16) ((((u16)object_data->heading) - 0x800) & 0xFFF);
 }
 

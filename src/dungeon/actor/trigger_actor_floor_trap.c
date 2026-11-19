@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/level.h"
 #include "dungeon/actor.h"
 
 typedef struct Ent {
@@ -14,9 +15,6 @@ typedef struct Ctx {
 } Ctx;
 
 extern Ent floor_objects[];
-
-extern s32 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z);
-extern s32 call_slot_handler_and_update_status(s32 handler_id, void *object_ptr, s32 slot_id, s8 update_state);
 
 /* Process the actor's matching entry if enabled, clearing its enable bit unless retained. */
 s32 trigger_actor_floor_trap(SpriteFrameState *actor, ActorRecord *ctx)

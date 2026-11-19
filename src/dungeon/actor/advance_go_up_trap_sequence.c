@@ -1,4 +1,5 @@
 #include "dungeon/level/unlink_entity_node_api.h"
+#include "shared/dungeon_floor.h"
 #include "common.h"
 #include "slus/imports.h"
 #include "shared/sprite_frame_state.h"
@@ -46,11 +47,6 @@ typedef struct S_800CB9DC_3 {
     s32 unk_08;
 } S_800CB9DC_3;
 
-typedef struct S_800CB9DC_5 {
-    u8 pad_00[0x4];
-    u16 unk_04;
-} S_800CB9DC_5;   /* counts in advance_go_up_trap_sequence */
-
 typedef struct S_800CB9DC_7 {
     u8 pad_00[0x14A0];
     s32 unk_14A0;
@@ -62,7 +58,6 @@ typedef struct S_800CB9DC_9 {
 } S_800CB9DC_9;   /* page14_again in advance_go_up_trap_sequence */
 
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
-extern s16 floor_generation_state[3];
 
 /* Updates go-up trap motion, then advances the player or removes the affected actor. */
 void advance_go_up_trap_sequence(TrapOwnedTimedEffectBody *trap_state, void *motion_state_in, void *animation_in) {
@@ -86,7 +81,7 @@ void advance_go_up_trap_sequence(TrapOwnedTimedEffectBody *trap_state, void *mot
     trap_state->ticks_remaining = elapsed_frames;
     if (((s16) elapsed_frames >= 0x41) || ((animation_in = (void *)(u32)(animation->flags & 0x8000), (u32)animation_in) != 0)) {
         if (actor == ((u8 *)dungeon_actor_ring_anchor)) {
-            s16 *trap_counts;
+            DungeonFloorGenerationState *trap_counts;
             u8 transition_id;
             u8 *transition_page;
             u32 floors_ascended;
@@ -101,13 +96,13 @@ void advance_go_up_trap_sequence(TrapOwnedTimedEffectBody *trap_state, void *mot
                 snapshot_inventory_familiar_records();
                 check_action_boundary_and_set_flag();
                 transition_page = resident_globals_page;
-                trap_counts = floor_generation_state;
+                trap_counts = &floor_generation_state;
                 transition_id = transition_page[0x2E6B];
                 floors_ascended = next_motion->unk_234 + 1;
-                go_up_trap_count = ((S_800CB9DC_5 *)trap_counts)->unk_04;
+                go_up_trap_count = trap_counts->floor_number;
                 go_up_trap_count++;
                 next_motion->unk_234 = floors_ascended;
-                ((S_800CB9DC_5 *)trap_counts)->unk_04 = go_up_trap_count;
+                trap_counts->floor_number = go_up_trap_count;
                 request_scene_dispatch_state(transition_id);
                 mark_sprite_resources_for_purge();
             }

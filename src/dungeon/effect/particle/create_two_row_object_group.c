@@ -316,63 +316,39 @@ void update_rotating_effect_vertices(TwoRowObjectGroupBody *effect_data) {
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
 
-typedef struct S_800DAE44_2 {
+typedef struct ScatteredObjectSpawnerBody {
     u8 pad_00[0x10];
-    s16 unk_10;
+    s16 ground_height;
     u8 pad_12[0x36];
-    s16 unk_48;
-} S_800DAE44_2;
+    s16 ticks_left;
+} ScatteredObjectSpawnerBody;
 
 /* Create an object at the source position and initialize its data. */
 void create_source_positioned_object(ObjectPosition *source_pos, s16 initial_value) {
-    S_800DAE44_2 *object_data;
+    ScatteredObjectSpawnerBody *object_data;
     ObjectNodeHeader *object;
 
     object = allocate_list_node(0x312, &scene_object_list_anchor.next);
     if (object != NULL) {
         object->update_callback = spawn_scattered_timed_objects;
-        object->position->x.unsigned_parts.integer = (u16) ((u16)source_pos->x.w.i);
-        object->position->y.unsigned_parts.integer = (u16) ((u16)source_pos->y.w.i);
+        object->position->x.unsigned_parts.integer = source_pos->x.w.i;
+        object->position->y.unsigned_parts.integer = source_pos->y.w.i;
         object_data = NODE_BODY(object);
-        object->position->z.unsigned_parts.integer = (u16) ((u16)source_pos->z.w.i);
-        object_data->unk_10 = sample_terrain_surface_height(((u16)source_pos->x.w.i), ((u16)source_pos->y.w.i),
-            (s16) (((u16)source_pos->z.w.i) - 0x80));
-        object_data->unk_48 = initial_value;
+        object->position->z.unsigned_parts.integer = source_pos->z.w.i;
+        object_data->ground_height = sample_terrain_surface_height((u16)source_pos->x.w.i, (u16)source_pos->y.w.i,
+            source_pos->z.w.i - 0x80);
+        object_data->ticks_left = initial_value;
     }
 }
 #include "shared/slus_callbacks.h"
 
-typedef struct S_800DAEF4_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_800DAEF4_2;   /* params in spawn_scattered_timed_objects */
-
-
-typedef struct S_800DAEF4_3 {
-    u8 pad_00[0x10];
-    union { u16 s; s16 u; } unk_10;   /* accessed as both */
-    u8 pad_12[0x36];
-    u16 unk_48;
-} S_800DAEF4_3;   /* owner in spawn_scattered_timed_objects */
-
-
-
-typedef struct S_800DAEF4_6 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-} S_800DAEF4_6;   /* link in spawn_scattered_timed_objects */
-
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 
 /* Spawns up to 13 scattered objects and marks the owner finished when its timer expires. */
-void spawn_scattered_timed_objects(void *source_owner, void *spawn_params_arg)
+void spawn_scattered_timed_objects(ScatteredObjectSpawnerBody *owner, ObjectPosition *position)
 {
-    S_800DAEF4_2 *spawn_params = spawn_params_arg;
     s32 remaining;
-    S_800DAEF4_6 *link;
+    SpriteSourceEntry *link;
     ObjectNodeHeader *object;
     SpriteFrameState *node;
     u8 *work;
@@ -387,7 +363,7 @@ void spawn_scattered_timed_objects(void *source_owner, void *spawn_params_arg)
     ObjectPosition *part;
 
     remaining = 12;
-    link = (S_800DAEF4_6 *)&secondary_sprite;
+    link = &secondary_sprite;
     do {
         object = allocate_list_node(0x312, &scene_object_list_anchor.next);
         if (object != 0) {
@@ -404,20 +380,20 @@ void spawn_scattered_timed_objects(void *source_owner, void *spawn_params_arg)
                 part = object->position;
                 offset_sum = offset_roll_a % 64 + offset_roll_b % 64 - 64;
                 part->x.w.i =
-                    spawn_params->unk_02 + offset_sum / 2;
+                    position->x.w.i + offset_sum / 2;
             }
 
             spread_roll_a = rand();
             spread_roll_b = rand();
             object->position->y.w.i =
-                spawn_params->unk_06 + (spread_roll_a % 64 + spread_roll_b % 64 - 64) / 2;
+                position->y.w.i + (spread_roll_a % 64 + spread_roll_b % 64 - 64) / 2;
 
-            object->position->z.w.i = ((S_800DAEF4_3 *)source_owner)->unk_10.s;
-            ((ScatteredTimedEffectBody *)work)->landing_height = (s16)spawn_params->unk_08.at02.v;
+            object->position->z.w.i = owner->ground_height;
+            ((ScatteredTimedEffectBody *)work)->landing_height = position->z.w.i;
 
             divisor = (rand() & 3) + 4;
-            height_delta = spawn_params->unk_08.at00.v;
-            height_delta -= ((S_800DAEF4_3 *)source_owner)->unk_10.u << 16;
+            height_delta = position->z.v;
+            height_delta -= owner->ground_height << 16;
             object->position->velocity_z = height_delta / divisor;
 
             node->flags |= 0xC;
@@ -429,21 +405,21 @@ void spawn_scattered_timed_objects(void *source_owner, void *spawn_params_arg)
             node->tpage_abr = 0x60;
             node->color.word = 0xC06060;
             node->unk_00 = link;
-            link_value = link->unk_04;
+            link_value = link->source;
             node->unk_04 = 0;
             node->frame_ticks = 0;
             node->source = link_value;
-            target_height = spawn_params->unk_08.at02.v;
+            target_height = position->z.w.i;
             ((ScatteredTimedEffectBody *)work)->ticks_left = 4;
-            ((ScatteredTimedEffectBody *)work)->landing_height = (s16)target_height;
+            ((ScatteredTimedEffectBody *)work)->landing_height = target_height;
         }
         remaining--;
     } while (remaining >= 0);
 
-    timer = ((S_800DAEF4_3 *)source_owner)->unk_48 - 1;
-    ((S_800DAEF4_3 *)source_owner)->unk_48 = timer;
+    timer = owner->ticks_left - 1;
+    owner->ticks_left = timer;
     if ((timer << 16) <= 0) {
-        NODE_HEADER(source_owner)->flags |= 0x8000;
+        NODE_HEADER(owner)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
@@ -505,29 +481,23 @@ void update_timed_effect_animation(ScatteredTimedEffectBody *effect, ObjectPosit
     }
 }
 
-struct D_800DB420_Obj;
-struct D_800DB420_RngOut;
-struct D_800DB420_Effect;
+/* The parent position, facing and lifetime are set by create_two_effect_groups. */
+typedef struct JitteredGroupEffectBody {
+    ObjectPosition *origin;
+    s16 mode;
+    s16 ticks_left;
+    u8 pad08[0x22];
+    s16 facing;
+} JitteredGroupEffectBody;
 
-typedef struct S_800DB2DC_0 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-    M2C_UNK * unk_10;
-    u8 pad_14[0xC];
-    void * unk_20;
-    u8 pad_24[0x26];
-    u16 unk_4A;
-} S_800DB2DC_0;
-
-typedef struct S_800DB2DC_5 {
-    u8 pad_00[0x4];
-    s16 unk_04;
-    s16 unk_06;
-} S_800DB2DC_5;
+typedef struct JitteredGroupNode {
+    ObjectNodeHeader header;
+    JitteredGroupEffectBody body;
+} JitteredGroupNode;
 
 /* Creates two groups of four effects using the source position and visual state. */
 void create_two_effect_groups(ObjectPosition *position, SpriteFrameState *source_visual, ActorRecord *source_arg, s16 effect_param) {
-    register M2C_UNK *callback;
+    void (*callback)(JitteredGroupEffectBody *, ObjectPosition *, SpriteFrameState *);
     s32 scale;
     s16 saved_param;
     s32 effects_left;
@@ -536,8 +506,8 @@ void create_two_effect_groups(ObjectPosition *position, SpriteFrameState *source
     u16 source_offset;
     s32 visual_word;
     SpriteFrameState *visual;
-    S_800DB2DC_5 *effect_state;
-    ObjectNodeHeader *effect;
+    JitteredGroupEffectBody *effect_state;
+    JitteredGroupNode *effect;
 
     saved_param = effect_param;
     group_step = 3;
@@ -546,12 +516,11 @@ void create_two_effect_groups(ObjectPosition *position, SpriteFrameState *source
     do {
         effects_left = 3;
         do {
-            effect = allocate_list_node(0x312, &scene_object_list_anchor.next);
+            effect = (JitteredGroupNode *)allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (effect != 0) {
-                effect->update_callback = callback;
-                visual = effect->sprite;
-                ((S_800DB2DC_0 *)effect)->unk_4A =
-                    source_arg->facing;
+                effect->header.update_callback = callback;
+                visual = effect->header.sprite;
+                effect->body.facing = source_arg->facing;
                 visual_word = source_visual->animation_resource;
                 visual->scale_y = scale;
                 visual->scale_x = scale;
@@ -563,16 +532,16 @@ void create_two_effect_groups(ObjectPosition *position, SpriteFrameState *source
                 visual->flags = (u16)(visual_flags | 0xC);
                 visual->clut =
                     (s16)(source_offset - 0x80);
-                ((S_800DB2DC_0 *)effect)->unk_20 = position;
-                effect->position->x.unsigned_parts.integer =
+                effect->body.origin = position;
+                effect->header.position->x.unsigned_parts.integer =
                     position->x.w.i;
-                effect->position->y.unsigned_parts.integer =
+                effect->header.position->y.unsigned_parts.integer =
                     position->y.w.i;
-                effect->position->z.unsigned_parts.integer =
+                effect->header.position->z.unsigned_parts.integer =
                     position->z.w.i;
-                effect_state = NODE_BODY(effect);
-                effect_state->unk_06 = saved_param;
-                effect_state->unk_04 = (s16)(group_step != 0);
+                effect_state = &effect->body;
+                effect_state->ticks_left = saved_param;
+                effect_state->mode = (s16)(group_step != 0);
                 visual->frameTable = source_visual->frameTable;
             }
         } while (--effects_left >= 0);
@@ -580,56 +549,33 @@ void create_two_effect_groups(ObjectPosition *position, SpriteFrameState *source
     } while (group_step >= 0);
 }
 
-/* cfail-repair: tf7-phase1-cache-v3 */
-typedef struct D_800DB420_Obj {
-    u16 *random_data;
-    s16 mode;
-    u16 count;
-    u8 unk8[0x22];
-    s16 value2a;
-} D_800DB420_Obj;
-
-typedef struct D_800DB420_RngOut {
-    u8 unk0[2];
-    s16 x;
-    u8 unk4[2];
-    s16 y;
-    u8 unk8[2];
-    s16 z;
-} D_800DB420_RngOut;
-
-typedef struct D_800DB420_Effect {
-    u8 unk0[0xC];
-    u32 wordC;
-    s16 half10;
-    u8 unk12[0x1A];
-    u8 *data2c;
-} D_800DB420_Effect;
-
 /* Jitter the position and advance the effect through its modes and countdown. */
-void advance_jittered_effect_modes(D_800DB420_Obj *state, D_800DB420_RngOut *position, SpriteFrameState *effect) {
-    position->x = state->random_data[1] + (rand() % 11) - 5;
-    position->y = state->random_data[3] + (rand() % 11) - 5;
-    position->z = state->random_data[5] + (rand() % 11) - 5;
+void advance_jittered_effect_modes(JitteredGroupEffectBody *state, ObjectPosition *position, SpriteFrameState *effect) {
+    u8 *frames;
+
+    position->x.w.i = state->origin->x.w.i + (rand() % 11) - 5;
+    position->y.w.i = state->origin->y.w.i + (rand() % 11) - 5;
+    position->z.w.i = state->origin->z.w.i + (rand() % 11) - 5;
 
     switch (state->mode) {
     case 0:
         effect->tpage_abr = 0x60;
         effect->color.word = 0x00303030;
-        *(u16 *)((u8 *)state + 4) += 1;
+        state->mode += 1;
         return;
     case 1:
-        register_node((u8 *)state - 0x20, project_sprite_chain);
-        select_sprite_entry(effect, (*(u8 **)&effect->frameTable)[((g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9) & 7], 0);
-        *(u16 *)((u8 *)state + 4) += 1;
+        register_node(NODE_HEADER(state), project_sprite_chain);
+        frames = effect->frameTable;
+        select_sprite_entry(effect, frames[((g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7], 0);
+        state->mode += 1;
         return;
     case 2:
         advance_sprite_animation_and_textures(effect);
         {
-            u16 remaining = state->count - 1;
-            state->count = remaining;
-            if ((remaining << 0x10) <= 0) {
-                *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
+            s16 remaining = state->ticks_left - 1;
+            state->ticks_left = remaining;
+            if (remaining <= 0) {
+                NODE_HEADER(state)->flags |= NODE_REMOVE;
                 object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
             }
         }

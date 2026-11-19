@@ -19,6 +19,10 @@ struct ActorRecord;              /* include/shared/entity.h (include it to deref
 struct Rec_D_80016000;
 extern struct ActorRecord *primary_actor_record;
 extern struct ActorRecord *dungeon_actor_ring_anchor;
+/* The turn loop saves the next actor's node header before running its callback.
+ * A dying or rescheduled actor can advance or replace that cursor. */
+struct ObjectNodeHeader;
+extern struct ObjectNodeHeader *actor_update_node_cursor;
 extern struct Rec_D_80016000 *town_scene_root;
 
 #endif

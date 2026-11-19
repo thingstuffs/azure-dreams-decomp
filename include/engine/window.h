@@ -47,8 +47,9 @@ typedef struct {
 struct Container;
 struct CursorState;
 struct Func37534State;
-struct Func800359FCEvent;
-struct Func800359FCState;
+struct AttachedMessageWindowBody;
+struct ObjectPosition;
+struct SpriteFrameState;
 struct Func80035AF8State;
 struct Func80035BE0State;
 struct Func80035C80Object;
@@ -208,7 +209,7 @@ void func_80035AAC(struct Rec_func_80036210_arg0 *object);
 void install_speaker_name_plate_handler(Rec_func_80036210_arg0 *object);
 
 /* shrink_window_and_signal_linked_record.c */
-void dispatch_window_fade_and_update_extents(struct Func800359FCState *state, struct Func800359FCEvent *event, void *callback_data);
+void dispatch_window_fade_and_update_extents(struct AttachedMessageWindowBody *state, struct ObjectPosition *position, struct SpriteFrameState *sprite);
 
 /* shrink_window_extent.c */
 void fade_and_shrink_window_on_value_change(struct Func80035C80Object *object);

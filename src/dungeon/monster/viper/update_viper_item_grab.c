@@ -1,4 +1,6 @@
 #include "dungeon/level/tile_flags.h"
+#include "shared/object_node.h"
+#include "shared/record_ptrs.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_item_entries.h"
@@ -51,11 +53,6 @@ typedef struct {
     u8 bytes[4];
 } PackedRecord __attribute__((packed));
 
-typedef struct {
-    u8 x;
-    u8 y;
-    u8 pad02[10];
-} TileRecord;
 
 typedef struct {
     u8 pad00[0x2A];
@@ -69,9 +66,7 @@ typedef struct {
     s16 height;
 } Object;
 
-extern TileRecord dungeon_ground_item_positions[];
 extern u8 D_80174A74[];
-extern void *actor_update_node_cursor[];
 
 extern s32 find_floor_item_at_world_position(s16, s16, s16); /* Unprototyped: retail call narrows its arguments to this declaration; no shared prototype keeps it */
 extern void *create_item_render_object(void *parent, void *sprite_source, s16 x, s32 y, s16 z);
@@ -87,8 +82,8 @@ void update_viper_item_grab(Entity *entity, Motion *motion, SpriteFrameState *ef
     s32 index;
     PackedRecord *record;
     PackedRecord *records;
-    TileRecord *tile;
-    TileRecord *tiles;
+    DungeonItemPosition *tile;
+    DungeonItemPosition *tiles;
     ViperTimedEffectNode *spawned;
     s32 distance;
 
@@ -183,7 +178,7 @@ void update_viper_item_grab(Entity *entity, Motion *motion, SpriteFrameState *ef
         if (object->flag6D == 0) {
             object->flags &= 0x7FFF;
         } else {
-            actor_update_node_cursor[0] = (u8 *)object - 0x20;
+            actor_update_node_cursor = NODE_HEADER(object);
         }
         break;
     }

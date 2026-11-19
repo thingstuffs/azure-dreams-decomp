@@ -10,6 +10,8 @@ typedef struct GridPoint {
     s16 y;
 } GridPoint;
 
+extern const GridPoint weadog_slot_g_direction_steps[8];
+
 /* The 0x12 node installed by update_weadog_projectile_attack and advanced by the flight callback. */
 typedef struct WeadogFlightBody {
     u8 pad_00[0x2C];

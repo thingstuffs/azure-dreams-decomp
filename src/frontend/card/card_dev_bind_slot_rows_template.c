@@ -6,6 +6,6 @@
 
 
 /* Forward the context to func_80047358 with D_80408D64 and a fixed argument of 4. */
-s32 card_dev_bind_slot_rows_template(s32 context) {
-    return func_80047358(context, &D_80408D64, 4);
+s32 card_dev_bind_slot_rows_template(struct CardDevSlotEntry **entries) {
+    return func_80047358(entries, &D_80408D64, 4);
 }

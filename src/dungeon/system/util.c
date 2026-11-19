@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/item/actor_target.h"
 #include "engine/audio/sequence.h"
 #include "dungeon/item.h"
 #include "dungeon/effect.h"
@@ -785,7 +786,6 @@ typedef struct S_800A6620_2 {
 #include "dungeon/level/unlink_entity_node_api.h"
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
-extern s16 find_linked_object_slot_index(void *object);
 
 extern void *familiar_record_slots[];
 
@@ -815,7 +815,7 @@ s32 release_entity_slot_and_update_flags(void *handle, s32 extra_cleanup)
     }
 
     if (((u8 *)handle)[3] & 0x20) {
-        index = find_linked_object_slot_index(object);
+        index = (s16)find_linked_object_slot_index(object);
         if (index >= 0) {
             state_entry = (void *)(index * 4 + ((long)dungeon_actor_ring_anchor));
             state_entry->unk_AC = 0;
@@ -865,15 +865,14 @@ s32 check_action_boundary_and_set_flag(void) {
 }
 #include "modules/dungeon_engine_dungeon_util_fragment_c1094.h"
 
-extern s8 dungeon_event_pending_flag[];
 
 extern s32 call_script(void *arg); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* When unblocked, clears a set flag and decrements its counter before running updates. */
 void clear_pending_action_event(void) {
     if (!(dungeon_floor_flags & 0x200000) && !(system_update_flags & 8)) {
-        if (dungeon_event_pending_flag[0] != 0) {
-            dungeon_event_pending_flag[0] = 0;
+        if (dungeon_event_pending_flag != 0) {
+            dungeon_event_pending_flag = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         call_script(&restore_actor_script[0]);
@@ -1254,12 +1253,11 @@ s32 random_dungeon_range_16(u32 bound_a, u32 bound_b) {
     return result;
 }
 
-extern s32 dungeon_ground_item_positions;
 
 /* Counts active entries whose first two key bytes match the given values. */
 s16 count_floor_items_at_tile(s16 first_key, s16 second_key) {
-    s32 *status_entry;
-    s32 *key_entry;
+    DungeonItemEntry *status_entry;
+    DungeonItemPosition *key_entry;
     s16 match_count;
     s32 entry_index;
     s32 match_first;
@@ -1271,14 +1269,14 @@ s16 count_floor_items_at_tile(s16 first_key, s16 second_key) {
     entry_index = zero;
     match_first = first_key;
     match_second = second_key;
-    key_entry = &dungeon_ground_item_positions;
-    status_entry = ((s32 *)dungeon_ground_items);
+    key_entry = dungeon_ground_item_positions;
+    status_entry = dungeon_ground_items;
     do {
-        if ((*((u8 *) status_entry + 1) != 0) && (*((u8 *) key_entry) == match_first)
-            && (*((u8 *) key_entry + 1) == match_second)) {
+        if ((status_entry->kind != 0) && (key_entry->x == match_first)
+            && (key_entry->y == match_second)) {
             match_count += 1;
         }
-        key_entry += 3;
+        key_entry++;
         entry_index += 1;
         status_entry += 1;
     } while (entry_index < 0x40);

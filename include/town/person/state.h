@@ -9,7 +9,6 @@ struct SpriteFrameState;
 #include "shared/sprite_frame_state.h"
 
 struct TownObjectRecord;
-struct ReactionState;
 struct S_800AAE00_0;
 struct S_800AAE00_1;
 struct S_800CA458_0;
@@ -56,7 +55,7 @@ void initialize_actor_clear_table_flag(TownObjectRecord *actor, s32 unused, void
 
 /* initialize_actor_reaction_and_fixed_state.c */
 void func_800CDF00(TownObjectRecord *actor, struct ReactionState *state, SpriteFrameState *output);
-void initialize_actor_reaction_and_fixed_state(TownObjectRecord *actor, struct ReactionState *state, SpriteFrameState *output);
+void initialize_actor_reaction_and_fixed_state(TownObjectRecord *actor, struct ObjectPosition *state, SpriteFrameState *output);
 
 /* initialize_actor_state_table.c */
 void initialize_actor_state_table(TownObjectRecord *actor, s32 context, void *state_context);

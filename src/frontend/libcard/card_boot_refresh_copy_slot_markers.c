@@ -6,9 +6,8 @@
 extern void advance_linked_object_counter(void *object, s32 value); /* Unprototyped: retail call passes a different argument count */
 
 /* Updates source and selected slot markers across five card entries, then refreshes the slot details. */
-void card_boot_refresh_copy_slot_markers(void *menu_data)
+void card_boot_refresh_copy_slot_markers(CardSlotMenuState *menu)
 {
-    CardSlotMenuState *menu = menu_data;
     s32 index;
 
     for (index = 0; index < 5; index++) {

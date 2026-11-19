@@ -1,4 +1,6 @@
+#include "dungeon/player/held_item_kind_data.h"
 #include "common.h"
+#include "shared/dungeon_height_query.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "dungeon/actor.h"
@@ -7,12 +9,6 @@
 #include "dungeon/actor/animation.h"
 
 
-typedef struct {
-    s8 a;
-    s8 b;
-    s8 c;
-    s8 d;
-} ByteBuf;
 
 typedef struct {
     u8 x;
@@ -20,15 +16,13 @@ typedef struct {
 } CoordBuf;
 
 void upload_vram_row_and_cache(void *, s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-s16 sample_terrain_surface_height(s32, s32, s16);
 s32 has_saved_entry_key(s32, s32);
 s32 has_active_dungeon_cell_key(s32, s32);
-extern u8 held_item_record[];
 extern u8 D_800F6D48[];
 
 /* Advance the animation and handle delayed object spawning. */
 void animate_and_schedule_dungeon_spawn(EntityRec *state) {
-    ByteBuf spawn_data;
+    DungeonItemEntry spawn_data;
     CoordBuf spawn_tile;
     s16 spawn_height;
     s16 spawn_delay;
@@ -48,9 +42,8 @@ void animate_and_schedule_dungeon_spawn(EntityRec *state) {
         upload_vram_row_and_cache(D_800F6D48 + ((s16) ((u16)state->y.w.i) * 4), 0x7380, 1, 2);
     }
     if ((test_resident_bit(0xA2) != 0) && ((has_saved_entry_key(6, 3) << 0x10) == 0) && ((has_active_dungeon_cell_key(6, 3) << 0x10) == 0)) {
-        u8 *mode;
-        mode = held_item_record;
-        if ((mode[0] != 3) || (mode[1] != 6)) {
+        DungeonItemEntry *item = &held_item_record;
+        if ((item->unk_00 != 3) || (item->kind != 6)) {
             if ((*(s16 *)&state->z) == 0) {
                 state->z.w.frac = 0x40;
             }
@@ -60,14 +53,14 @@ void animate_and_schedule_dungeon_spawn(EntityRec *state) {
         spawn_delay = (u16) (*(s16 *)&state->z) - 1;
         state->z.w.frac = spawn_delay;
         if ((spawn_delay << 0x10) == 0) {
-            spawn_data.a = 3;
-            spawn_data.b = 6;
-            spawn_data.c = 0;
-            spawn_data.d = 0;
+            spawn_data.unk_00 = 3;
+            spawn_data.kind = 6;
+            spawn_data.unk_02 = 0;
+            spawn_data.unk_03 = 0;
             do {
 
             } while ((select_dungeon_spawn_tile(&spawn_tile.x, &spawn_tile.y) << 0x10) < 0);
-            height_result = sample_terrain_surface_height((spawn_tile.x << 6) | 0x20, (spawn_tile.y << 6) | 0x20, -0x400);
+            height_result = (s16)sample_terrain_surface_height((spawn_tile.x << 6) | 0x20, (spawn_tile.y << 6) | 0x20, -0x400);
             spawn_height = height_result;
             place_item_at_valid_floor_position(spawn_tile.x, spawn_tile.y, spawn_height, get_item_sprite_source(&spawn_data), &spawn_data);
         }

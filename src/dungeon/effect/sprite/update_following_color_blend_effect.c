@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/effect.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
@@ -50,7 +51,6 @@ extern void compute_direction_angles_between_points(s16 from_x, s16 from_y, s16 
 extern s32 create_random_spin_effect(s16, s16, s16, s16);
 
 #include "dungeon/effect/sprite_effect_count_data.h"
-extern s32 linked_mesh_processor_address;
 extern s32 *actor_direction_sprites;
 
 /* Per-frame update for a following color effect: blend its position and shade toward a target node or a palette color, then fade it out over its lifetime. */
@@ -74,7 +74,7 @@ void update_following_color_blend_effect(FollowingColorEffect *state, ObjectPosi
 
     switch (phase) {
     case 0:
-        register_node((u8 *)state - 0x20, &linked_mesh_processor_address);
+        register_node((u8 *)state - 0x20, draw_linked_segment_aligned_quads);
         state->phase++;
     case 1:
         node = state->node;

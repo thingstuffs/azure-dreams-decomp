@@ -8,10 +8,10 @@ s32 get_clamped_transform_coordinate(void *object);                          /* 
 #include "town/person/object.h"
 
 /* Advance the object's fixed-point value and clamp it when it exceeds the limit. */
-void advance_and_clamp_entity_value(void *context, EntityRec *object, SpriteFrameState *update_data) {
+void advance_and_clamp_entity_value(TownObjectRecord *context, ObjectPosition *object, SpriteFrameState *update_data) {
     s16 limit;
 
-    object->z.v = (s32) (object->z.v + object->flags14);
+    object->z.v = (s32) (object->z.v + object->velocity_z);
     limit = get_clamped_transform_coordinate(object);
     if (limit < object->z.w.i) {
         limit = get_clamped_transform_coordinate(object);

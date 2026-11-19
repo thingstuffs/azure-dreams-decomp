@@ -2,9 +2,16 @@
 #define TOWN_SCENE_COLLECTION_H
 
 #include "common.h"
+#include "shared/entity.h"
 
 struct ObjectNodeHeader;
 extern struct ObjectNodeHeader *scene_object_factory_data;
+
+/* Collection-round setup initializes the three velocity words. The betting scene
+ * integrates them into the 16.16 positions before running its bounce callback. */
+extern ObjectPosition town_motion_state;
+/* Interior Y coordinate imported independently at 0x80132AEC. */
+extern volatile s32 collection_target_y;
 
 /* Collection controllers and their actor callbacks share this body. The snowball
  * initializer stores the actor node at controller +4 and stores the controller

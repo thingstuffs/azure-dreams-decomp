@@ -51,7 +51,6 @@ void card_boot_destroy_card_chooser(CardChooser *entry);
 void card_boot_refresh_slot_details(CardSlotDetails *object);
 
 struct Node8002BB08;
-struct Object13B18;
 struct Object_800128C8;
 typedef struct Object_800128C8 {
     /* 0x00 */ u8 pad00[0x4];
@@ -77,10 +76,10 @@ struct CardDisplayNode;
 struct CardFileListPanel;
 
 /* advance_card_boot_stream_pair.c */
-void advance_card_boot_stream_pair(u8 *record_addr);
+void advance_card_boot_stream_pair(struct CardChoiceOwner *state);
 
 /* set_file_list_selection.c */
-void set_file_list_selection(s32 *dest, s32 value);
+void set_file_list_selection(ObjectNodeHeader **dest, ObjectNodeHeader *parent);
 
 /* assign_object_descriptor_check.c */
 void start_settings_after_transition(void *object_data_addr);
@@ -95,10 +94,10 @@ void card_boot_handle_slot_selection_input(CardSlotMenuState *object);
 s32 card_boot_animate_command_panel_selection(CardCommandPanelBody *state);
 
 /* card_boot_apply_slot_deletion_response.c */
-void card_boot_apply_slot_deletion_response(void *object);
+void card_boot_apply_slot_deletion_response(CardSlotMenuState *object);
 
 /* card_boot_begin_selected_value_transition.c */
-void card_boot_begin_selected_value_transition(void *panel, s32 value);
+void card_boot_begin_selected_value_transition(ObjectNodeHeader *panel, s32 value);
 
 /* card_boot_bind_command_panel_resources.c */
 void card_boot_bind_command_panel_resources(CardCommandPanelBody *panel);
@@ -123,7 +122,7 @@ void card_boot_clear_ten_display_slots(struct CardSlotWindow *object);
 void card_boot_close_events_and_resume_timer(void);
 
 /* card_boot_confirm_selected_slot_deletion.c */
-void card_boot_confirm_selected_slot_deletion(void *state);
+void card_boot_confirm_selected_slot_deletion(struct CardSlotMenuState *menu);
 
 /* card_boot_create_menu_child_panels.c */
 void card_boot_create_menu_child_panels(CardChooserBody *chooser);
@@ -135,7 +134,7 @@ void *card_boot_create_save_slot_menu(ObjectNodeHeader *init_value, s32 state_va
 void *card_boot_create_slot_selection_menu(ObjectNodeHeader *init_value, s32 unused);
 
 /* card_boot_create_command_panel.c */
-void *card_boot_create_command_panel(void *init_value);
+ObjectNodeHeader *card_boot_create_command_panel(ObjectNodeHeader *owner);
 
 /* card_boot_destroy_slot_selection_menu.c */
 void card_boot_destroy_slot_selection_menu(ObjectNodeHeader *object);
@@ -159,7 +158,7 @@ void card_boot_enter_slot_selection_input(void *record_data);
 void card_boot_format_card_with_retry(void *state);
 
 /* card_boot_format_command_panel_labels.c */
-void card_boot_format_command_panel_labels(s32 baseAddress);
+void card_boot_format_command_panel_labels(CardCommandPanelBody *panel);
 
 /* card_boot_format_saved_slot_details.c */
 void card_boot_format_saved_slot_details(CardSlotDetails *record);
@@ -174,16 +173,16 @@ void card_boot_handle_message_dialog_input(struct CardMessageDialogBody *menu);
 void card_boot_handle_overwrite_answer(Object_800128C8 *object_data);
 
 /* card_boot_initialize_paired_choice_layout.c */
-void card_boot_initialize_paired_choice_layout(void *record_addr);
+void card_boot_initialize_paired_choice_layout(struct CardChoiceOwner *state);
 
 /* card_boot_initialize_paired_choice_panel.c */
-void card_boot_initialize_paired_choice_panel(struct CardChoiceOwner *record, s32 initial_value);
+void card_boot_initialize_paired_choice_panel(struct CardChoiceOwner *record, struct ObjectNodeHeader *owner);
 
 /* card_boot_initialize_save_heading_layout.c */
 void card_boot_initialize_save_heading_layout(struct CardHeadingDrawState *object);
 
 /* card_boot_init_command_panel.c */
-void card_boot_init_command_panel(void *record, void *init_value);
+void card_boot_init_command_panel(void *record, ObjectNodeHeader *owner);
 
 /* card_boot_layout_five_entry_list.c */
 void card_boot_layout_five_entry_list(struct CardMessageDialogBody *context);
@@ -213,7 +212,7 @@ void card_boot_open_selected_request_menu(CardChooserBody *record);
 void card_boot_refresh_five_slot_selection(CardSlotMenuState *state);
 
 /* card_boot_refresh_paired_choice_labels.c */
-void card_boot_refresh_paired_choice_labels(u8 *state);
+void card_boot_refresh_paired_choice_labels(struct CardChoiceOwner *state);
 
 /* card_boot_render_panel_hierarchy.c */
 s16 card_boot_render_panel_hierarchy(s32 first_value, s32 second_value, struct CardDisplayNode *third_value);
@@ -225,34 +224,34 @@ void card_boot_reset_command_panel_highlight(CardCommandPanelBody *panel);
 void card_boot_restore_saved_selection_callback(void *object_data);
 
 /* card_boot_resume_menu_after_slot_refresh.c */
-void card_boot_resume_menu_after_slot_refresh(void *object_data);
+void card_boot_resume_menu_after_slot_refresh(struct CardSlotMenuState *menu);
 
 /* card_boot_return_from_save_menu.c */
-void card_boot_return_from_save_menu(void *record_part);
+void card_boot_return_from_save_menu(CardSaveMenuBody *menu);
 
 /* card_boot_return_from_slot_menu.c */
 void card_boot_return_from_slot_menu(CardSlotMenuState *object_data);
 
 /* card_boot_save_selected_slot.c */
-void *card_boot_save_selected_slot(Object_800128C8 *context);
+void *card_boot_save_selected_slot(CardSaveMenuBody *menu);
 
 /* card_boot_select_copy_source_slot.c */
-void card_boot_select_copy_source_slot(void *state);
+void card_boot_select_copy_source_slot(struct CardSlotMenuState *menu);
 
 /* card_boot_set_centered_rectangle.c */
-s32 card_boot_set_centered_rectangle(s32 target, s32 width, s32 height);
+u8 *card_boot_set_centered_rectangle(u8 *target, s32 width, s32 height);
 
 /* card_boot_set_menu_choice.c */
 void card_boot_set_menu_choice(s32 object_addr, s32 state_value);
 
 /* card_boot_set_paired_choice_animations.c */
-void card_boot_set_paired_choice_animations(struct Object13B18 *object, s32 *enable_flags, s32 *active_flags);
+void card_boot_set_paired_choice_animations(struct CardChoiceOwner *object, s32 *enable_flags, s32 *active_flags);
 
 /* card_boot_set_slot_details_selection.c */
-void card_boot_set_slot_details_selection(void *object_addr, s32 value_7c, s32 value_80);
+void card_boot_set_slot_details_selection(ObjectNodeHeader *object, s32 value_7c, s32 value_80);
 
 /* card_boot_set_slot_index_and_owner.c */
-void card_boot_set_slot_index_and_owner(struct CardSlotWindow *window, s32 owner, s32 slot_index);
+void card_boot_set_slot_index_and_owner(struct CardSlotWindow *window, struct ObjectNodeHeader *owner, s32 slot_index);
 
 /* card_boot_set_slot_selection_marker.c */
 void card_boot_set_slot_selection_marker(ObjectNodeHeader *object_addr, s32 enable_table);
@@ -342,10 +341,10 @@ void card_boot_wait_before_loading_slot(Object_800128C8 *record_data);
 void card_boot_wait_before_saving_slot(void *record_data);
 
 /* create_save_heading.c */
-void *create_save_heading(s32 init_value);
+ObjectNodeHeader *create_save_heading(ObjectNodeHeader *owner);
 
 /* card_boot_create_choice_panel.c */
-void *card_boot_create_choice_panel(s32 init_value, s32 stored_value);
+ObjectNodeHeader *card_boot_create_choice_panel(ObjectNodeHeader *owner, s32 stored_value);
 
 /* dialog_packet_setup_g00380.c */
 void *card_boot_build_paired_dialog_packets(void *buffer, struct CardMessageDialogBody *unused);
@@ -363,7 +362,7 @@ void *card_boot_open_request_at_screen_center(void *request);
 void *card_boot_open_request_mode_two(void *request);
 
 /* card_boot_clear_slot_words.c */
-void card_boot_clear_slot_words(void *object);
+void card_boot_clear_slot_words(CardSlotDetails *object);
 
 /* entry_card_boot_has_selected_channel.c */
 void card_boot_init_channel_record(CardChooserBody *record, ObjectNodeHeader *request, s32 value_00);
@@ -405,7 +404,7 @@ void card_boot_populate_slot_window_display(struct CardSlotWindow *window);
 void card_boot_destroy_command_panel(struct ObjectNodeHeader *record);
 
 /* card_boot_create_or_reset_file_list_panel.c */
-void *card_boot_create_or_reset_file_list_panel(s32 parent, s32 context, s32 mode);
+ObjectNodeHeader *card_boot_create_or_reset_file_list_panel(ObjectNodeHeader *parent, s32 context, s32 mode);
 
 /* route_save_slot_validation.c */
 void route_save_slot_validation(CardSaveMenuBody *context);
@@ -431,12 +430,12 @@ void create_next_card_slot_window(CardSlotMenuState *state_arg);
 void enter_save_slot_menu_input(void *record_data);
 
 /* card_boot_refresh_copy_slot_markers.c */
-void card_boot_refresh_copy_slot_markers(void *menu);
+void card_boot_refresh_copy_slot_markers(struct CardSlotMenuState *menu);
 
 /* card_boot_release_slot_window_texts.c */
 void card_boot_release_slot_window_texts(struct CardSlotWindow *window);
 
-void init_card_file_list_panel(struct CardFileListPanel *panel, s32 selection);
+void init_card_file_list_panel(struct CardFileListPanel *panel, ObjectNodeHeader *parent);
 
 typedef struct CardHeadingTemplate {
     s32 word0, word1, word2, word3;
@@ -454,7 +453,10 @@ typedef struct CardHeadingDrawNode {
 } CardHeadingDrawNode;
 
 typedef struct CardHeadingDrawState {
-    u8 pad_00[0xD4];
+    ObjectNodeHeader *owner;
+    u8 pad_04[0xB4];
+    MenuDisplayBlock display_block;
+    DisplayPositionWords display_vector;
     CardHeadingCommon common;
     u8 pad_E0[0x0C];
     struct S_800491F4 *chain;
@@ -468,13 +470,7 @@ extern CardHeadingCommon D_8002E5E8;
 
 void initialize_save_heading_draw_state(CardHeadingDrawState *work, s32 count);
 
-typedef struct CardHandleOwner {
-    u8 pad_00[0x1E];
-    u16 flags;
-    void *handles[8];
-} CardHandleOwner;
-
-void prepare_save_heading_layout(CardHeadingDrawState *work, s32 value);
-void release_card_record_handles(CardHandleOwner *object);
+void prepare_save_heading_layout(CardHeadingDrawState *work, ObjectNodeHeader *owner);
+void release_card_record_handles(ObjectNodeHeader *object);
 
 #endif

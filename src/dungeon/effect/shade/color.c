@@ -39,7 +39,7 @@ typedef struct Owner {
     Position *position;
 } Owner;
 
-extern u16 emitted_effect_counter[5];
+#include "dungeon/effect/emission_data.h"
 
 /* Creates and initializes an object at its owner's position. */
 void create_owner_color_sprite(Owner *owner, u32 value)

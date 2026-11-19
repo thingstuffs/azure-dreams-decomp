@@ -18,7 +18,7 @@ typedef struct {
 
 
 /* Returns the smaller query result capped at 0x80 and writes its associated output. */
-s32 get_min_surface_probe_capped(EntityRec *source, s32 *out_detail) {
+s32 get_min_surface_probe_capped(ObjectPosition *source, s32 *out_detail) {
     Unk80091A10 query;
     s32 detail;
     s16 candidate;
@@ -26,12 +26,12 @@ s32 get_min_surface_probe_capped(EntityRec *source, s32 *out_detail) {
 
     query.unk0 = source->x.v;
     query.unk4 = source->y.v;
-    query.unk8 = source->z.v - source->flags14;
+    query.unk8 = source->z.v - source->velocity_z;
     minimum = find_min_qualifying_plane_height_at(&query, &detail);
     *out_detail = detail;
     query.unk0 = source->x.v;
     query.unk4 = source->y.v;
-    query.unk8 = source->z.v - source->flags14;
+    query.unk8 = source->z.v - source->velocity_z;
     candidate = select_lowest_corrected_probe(&query, &D_800CFD18, 4, &detail, (s32) minimum, *out_detail);
     if (candidate < minimum) {
         minimum = candidate;

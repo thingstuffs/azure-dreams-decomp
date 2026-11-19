@@ -23,17 +23,9 @@ typedef struct EffectScaleState {
 void apply_setup_on_timeout_variant_1(TownObjectRecord *object, ObjectPosition *position, void *callback_arg_2);
 
 /* choose_reaction_action_and_heading.c */
-void choose_reaction_action_and_heading(Rec_func_800C9B44_arg0 *actor, EntityRec *motion, SpriteFrameState *context);
+void choose_reaction_action_and_heading(Rec_func_800C9B44_arg0 *actor, ObjectPosition *motion, SpriteFrameState *context);
 
-/* Eight-byte access view of the two halfwords stepped by the mother event. */
-typedef struct MotherEventValues {
-    u8 pad_00[2];
-    u16 unk_02;
-    u8 pad_04[2];
-    s16 unk_06;
-} MotherEventValues;
-
-void advance_mother_event_values(TownObjectRecord *state, MotherEventValues *values, SpriteFrameState *setup_context);
+void advance_mother_event_values(TownObjectRecord *state, ObjectPosition *values, SpriteFrameState *setup_context);
 void spawn_effect_after_timeout(TownObjectRecord *object, ObjectPosition *update_context, SpriteFrameState *state_context);
 
 /* Effect body allocated by create_bouncing_effect_object: callback at +0x50
@@ -119,7 +111,7 @@ typedef struct PersonSetupState {
     s16 timer;
 } PersonSetupState;
 
-void begin_mother_event_pause(PersonSetupState *object, void *unused, void *context);
+void begin_mother_event_pause(TownObjectRecord *object, ObjectPosition *unused, SpriteFrameState *context);
 void start_reaction_countdown(PersonSetupState *object, void *unused, void *context);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
@@ -150,7 +142,7 @@ s32 check_town_target_and_callback(s32 requested_id);
 
 #include "records/Rec_D_80082D58.h"
 void *create_and_invoke_render_object(s32 initial_value, s32 resource_index);
-void initialize_mother_event_actor(void *actor, struct EntityRec *state, void *init_param);
+void initialize_mother_event_actor(TownObjectRecord *actor, struct ObjectPosition *state, SpriteFrameState *init_param);
 void set_bounce_velocity(OwnerCallbackObject *object, ObjectPosition *position, SpriteFrameState *unused_output);
 void move_object_velocity(OwnerCallbackObject *owner, ObjectPosition *position, SpriteFrameState *unused_output);
 void step_falling_object(OwnerCallbackObject *entity, ObjectPosition *motion, SpriteFrameState *output);
@@ -162,7 +154,7 @@ struct S_800C5D38_1;
 void install_actor_response_tables(struct S_800C5D38_1 *actor, ObjectPosition *context, SpriteFrameState *input);
 void update_person_effect_fade(void *effect_record, ObjectPosition *motion, SpriteFrameState *primitive);
 
-void clear_mother_event_record_field(TownObjectRecord *record, void *unused_position, s32 unused_update_arg);
+void clear_mother_event_record_field(TownObjectRecord *record, ObjectPosition *unused_position, SpriteFrameState *unused_update_arg);
 
 /* initialize_reaction_data_timer.c */
 void start_reaction_vertical_ease(TownObjectRecord *object);
@@ -172,6 +164,6 @@ void start_reaction_ease_to_target(TownObjectRecord *object, void *unused_positi
 
 void apply_setup_on_timeout_variant_2(TownObjectRecord *object, ObjectPosition *callback_arg_1, void *callback_arg_2);
 s32 check_actor_data_references_match(TownObjectRecord *actor);
-void choose_random_movement_direction(TownObjectRecord *entity, ObjectPosition *movement, void *context);
+void choose_random_movement_direction(TownObjectRecord *entity, ObjectPosition *movement, SpriteFrameState *context);
 
 #endif

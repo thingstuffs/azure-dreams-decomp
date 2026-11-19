@@ -10,17 +10,17 @@ u8 *build_selected_entry_output(s32 selected_index) {
     s32 entry_index;
     s32 first_marked;
     u8 *output_base;
-    Record12 *record;
+    TownIndexedValueRecord *record;
     S_8001A86C_0 *entry;
 
     first_marked = 0;
     output_base = &town_selected_entry_output;
     if (selected_index != 0) {
         for (entry_index = 1; entry_index < 8; entry_index++) {
-            record = &((Record12 *)town_selection_records)[entry_index];
+            record = &town_selection_records[entry_index];
             entry = (S_8001A86C_0 *)(output_base + entry_index * 0x14);
-            if (get_script_flag_mask(record->field4) != 0) {
-                if (record->field8 != 0) {
+            if (get_script_flag_mask(record->flag) != 0) {
+                if (record->condition != 0) {
                     entry->unk_02 = 0x400;
                     if (entry_index == 1) {
                         first_marked = 1;
@@ -75,7 +75,7 @@ void *build_entry_list(s32 entry_index) {
 void *build_selected_record_buffer(s32 entry_index) {
     u8 *buffer = D_80017E54;
 
-    *(s32 *)(buffer + 0xC) = *(s32 *)(town_selection_records + (entry_index * 0xC));
+    *(s32 *)(buffer + 0xC) = town_selection_records[entry_index].value;
     fill_records_from_selection_kinds(buffer, &D_80017AD0);
     copy_callback_value_to_destination(buffer + 0x14, &D_80017B0C);
     copy_callback_value_to_destination(buffer + 0x28, &D_80017B18);

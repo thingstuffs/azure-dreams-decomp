@@ -8,12 +8,12 @@
 
 
 /* Finalizes and flags the object when its check succeeds or its countdown expires. */
-void retire_object_on_check_or_timeout(BoundsExpiryObject *object, s32 check_value)
+void retire_object_on_check_or_timeout(BoundsExpiryObject *object, ObjectPosition *position)
 {
     u8 *linked_flag;
     u16 ticks_left;
 
-    if (classify_object_against_bounds(object, check_value) != 0) {
+    if (classify_object_against_bounds(object, position) != 0) {
         linked_flag = object->linked_flag;
         if (linked_flag != 0) {
             *linked_flag = 0;

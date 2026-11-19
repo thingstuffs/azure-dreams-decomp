@@ -1,12 +1,12 @@
 #ifndef DUNGEON_OVL_18B8824_H
 #define DUNGEON_OVL_18B8824_H
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
-#include "records/Rec_func_80024264_arg1.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
@@ -14,107 +14,8 @@
 #include "dungeon/system.h"
 #include "sdk/abs.h"
 #include "sdk/rand.h"
-typedef struct RandomRotationSpriteEffectBody {
-    u8 pad_00[0xC];
-    void * owner;
-    union { s16 s; u16 u; } ticks;
-    union { s16 s; u16 u; } lifetime;
-} RandomRotationSpriteEffectBody;
-/* Owner link and child counter for the randomized grayscale emitter. */
-typedef struct RandomizedGrayscaleEffectBody {
-    void *owner;
-    u16 ticks_remaining;
-} RandomizedGrayscaleEffectBody;
-/* Owner link and milestone counter for the counted sprite emitter. */
-typedef struct CountedSpriteEffectBody {
-    void *owner;
-    u16 ticks_remaining;
-} CountedSpriteEffectBody;
-/* Parent link stored by the sprite that copies its initial motion data. */
-typedef struct SpriteEffectWithDataBody {
-    void *owner;
-} SpriteEffectWithDataBody;
-typedef struct ovl_18b8824_818988CC_Copy24 {
-    s32 word[6];
-} ovl_18b8824_818988CC_Copy24;
-typedef struct ovl_18b8824_818988CC_Sprite {
-    u8 pad0[8];
-    void *callback;
-    u8 color[3];
-    u8 padF[11];
-    s16 rotation;
-    s16 scale_x;
-    s16 scale_y;
-} ovl_18b8824_818988CC_Sprite;
-typedef struct ovl_18b8824_818988CC_Object {
-    u8 pad0[8];
-    ovl_18b8824_818988CC_Copy24 *dst;
-    ovl_18b8824_818988CC_Sprite *sprite;
-    void *callback;
-} ovl_18b8824_818988CC_Object;
-typedef struct ovl_18b8824_81898A64_S_80024264_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-    u8 pad_14[0xC];
-    s32 unk_20;
-    s16 unk_24;
-} ovl_18b8824_81898A64_S_80024264_0;
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-typedef struct ovl_18b8824_81898B70_S_80024370_0_pre {
-    u16 unk_00;
-} ovl_18b8824_81898B70_S_80024370_0_pre;
-typedef struct ovl_18b8824_81898B70_S_80024370_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} ovl_18b8824_81898B70_S_80024370_1;
-typedef struct ovl_18b8824_81898B70_S_80024370_2 {
-    u8 pad_00[0x14A0];
-    s32 unk_14A0;
-} ovl_18b8824_81898B70_S_80024370_2;
-typedef struct ovl_18b8824_81898C1C_S_8002441C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-    u8 pad_14[0xC];
-    s32 unk_20;
-    s16 unk_24;
-} ovl_18b8824_81898C1C_S_8002441C_0;
-typedef struct ovl_18b8824_81898C1C_S_8002441C_3 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} ovl_18b8824_81898C1C_S_8002441C_3;
-typedef struct ovl_18b8824_81898DCC_Object {
-    u8 pad0[8];
-    void *data;
-    void *sprite;
-    void *callback;
-    u8 pad14[12];
-    s32 field20;
-} ovl_18b8824_81898DCC_Object;
-typedef struct ovl_18b8824_81898EBC_Motion {
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 dx;
-    s32 dy;
-    s32 dz;
-} ovl_18b8824_81898EBC_Motion;
-typedef struct ovl_18b8824_81898EBC_Position16 {
-    u16 pad0;
-    s16 x;
-    u16 pad4;
-    s16 y;
-    u16 pad8;
-    s16 z;
-} ovl_18b8824_81898EBC_Position16;
-typedef struct ovl_18b8824_81898EBC_EffectState {
+/* Owner of the launched sprite sequence and its child counter at +0x14. */
+typedef struct LaunchedEffectBody {
     void *owner;
     void *image;
     u8 unk8;
@@ -124,13 +25,34 @@ typedef struct ovl_18b8824_81898EBC_EffectState {
     s16 direction;
     s16 timer;
     s16 duration;
-    s16 field_14;
+    s16 child_updates;
     s16 x;
     s16 y;
     s16 z;
     u8 status;
     u8 pad1D[0x7B];
-} ovl_18b8824_81898EBC_EffectState;
+} LaunchedEffectBody;
+
+typedef struct RandomRotationSpriteEffectBody {
+    u8 pad_00[0xC];
+    LaunchedEffectBody *owner;
+    s16 ticks;
+    s16 lifetime;
+} RandomRotationSpriteEffectBody;
+/* Owner link and child counter for the randomized grayscale emitter. */
+typedef struct RandomizedGrayscaleEffectBody {
+    LaunchedEffectBody *owner;
+    u16 ticks;
+} RandomizedGrayscaleEffectBody;
+/* Owner link and milestone counter for the counted sprite emitter. */
+typedef struct CountedSpriteEffectBody {
+    LaunchedEffectBody *owner;
+    s16 ticks;
+} CountedSpriteEffectBody;
+/* Parent link stored by the sprite that copies its initial motion data. */
+typedef struct SpriteEffectWithDataBody {
+    LaunchedEffectBody *owner;
+} SpriteEffectWithDataBody;
 typedef struct ovl_18b8824_81898EBC_ColorPart {
     u8 pad[0xC];
     u32 color;
@@ -144,7 +66,6 @@ typedef struct ovl_18b8824_81898EBC_Scratch {
     u16 ovl_18b8824_81898EBC_map_flags;
 } ovl_18b8824_81898EBC_Scratch;
 #define ovl_18b8824_81898EBC_U8_AT(p, n) (*(u8 *)((u8 *)(p) + (n)))
-#define ovl_18b8824_81898EBC_S8_AT(p, n) (*(s8 *)((u8 *)(p) + (n)))
 #define ovl_18b8824_81898EBC_U16_AT(p, n) (*(u16 *)((u8 *)(p) + (n)))
 #define ovl_18b8824_81898EBC_S16_AT(p, n) (*(s16 *)((u8 *)(p) + (n)))
 #define ovl_18b8824_81898EBC_S32_AT(p, n) (*(s32 *)((u8 *)(p) + (n)))
@@ -167,12 +88,12 @@ extern void *create_actor_sprite_at_tile(u8, s16, s16, s16); /* Unprototyped: re
 extern void func_80042640(void *, s32);
 extern s32 generate_random_value(void);
 void interpolate_view_parameters(RandomRotationSpriteEffectBody *state, ObjectPosition *motion, SpriteFrameState *transform);
-void *create_random_rotation_sprite_effect(void *context, ovl_18b8824_818988CC_Copy24 *copy_src, s16 initial_value);
-void update_randomized_grayscale_effect(RandomizedGrayscaleEffectBody *entry, void *unused, SpriteFrameState *target);
-void *create_randomized_grayscale_effect(s32 object_tag, Rec_func_80024264_arg1 *initial_state);
-void update_counted_sprite_effect(CountedSpriteEffectBody *entry, s32 unused, void *target);
-void *create_counted_sprite_effect(s32 object_id, ovl_18b8824_81898C1C_S_8002441C_3 *initial_state);
-void animate_sprite_once_counting_owner_ticks(SpriteEffectWithDataBody *object_ref, s32 unused, SpriteFrameState *target);
-ovl_18b8824_81898DCC_Object *create_sprite_effect_with_data(s32 field_value, s32 *initial_data);
-void advance_launched_effect(ovl_18b8824_81898EBC_EffectState *state, ovl_18b8824_81898EBC_Motion *motion, ovl_18b8824_81898EBC_ColorPart *part);
+void *create_random_rotation_sprite_effect(LaunchedEffectBody *context, ObjectPosition *copy_src, s16 initial_value);
+void update_randomized_grayscale_effect(RandomizedGrayscaleEffectBody *entry, ObjectPosition *unused, SpriteFrameState *target);
+void *create_randomized_grayscale_effect(LaunchedEffectBody *owner, ObjectPosition *initial_state);
+void update_counted_sprite_effect(CountedSpriteEffectBody *entry, ObjectPosition *position, SpriteFrameState *target);
+void *create_counted_sprite_effect(LaunchedEffectBody *owner, ObjectPosition *initial_state);
+void animate_sprite_once_counting_owner_ticks(SpriteEffectWithDataBody *object_ref, ObjectPosition *unused, SpriteFrameState *target);
+ObjectNodeHeader *create_sprite_effect_with_data(LaunchedEffectBody *owner, ObjectPosition *initial_data);
+void advance_launched_effect(LaunchedEffectBody *state, ObjectPosition *motion, ovl_18b8824_81898EBC_ColorPart *part);
 #endif

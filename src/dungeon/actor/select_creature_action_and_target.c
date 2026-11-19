@@ -34,7 +34,6 @@ extern void * find_compatible_adjacent_actor(ActorRecord *entity, u16 x, u16 y);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/item.h"
 #include "dungeon/actor/effect.h"
-#include "dungeon/player/object.h"
 extern s32 check_entity_interaction_compatibility();
 extern s32 get_action_slot_range(ActorRecord *actor, s32 entry_index);
 extern s32 check_left_tile_and_center_height();

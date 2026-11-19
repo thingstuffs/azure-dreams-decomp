@@ -21,7 +21,7 @@ extern s32 D_80026F0C;
 /* The dispatcher passes four explicit zero arguments. */
 s32 initialize_gym_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_arg2, s32 unused_arg3)
 {
-    s32 position[6];
+    ObjectPosition position;
     s32 object_or_slot;
     void *parent_link;
     SpriteFrameState *render_record;
@@ -44,24 +44,24 @@ s32 initialize_gym_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_arg2, s
         ((ObjectNodeHeader *)object_or_slot)->update_callback = &D_80022F60;
     }
 
-    position[0] = 0x03800000;
-    position[1] = 0x02600000;
-    position[2] = (s32)0xFFA00000;
-    create_gym_mesh_object(position, 0x34, rotate_gym_mesh_y, parent_link);
+    position.x.v = 0x03800000;
+    position.y.v = 0x02600000;
+    position.z.v = (s32)0xFFA00000;
+    create_gym_mesh_object(&position, 0x34, rotate_gym_mesh_y, parent_link);
 
-    position[2] = (s32)0xFFE00000;
+    position.z.v = (s32)0xFFE00000;
     for (object_or_slot = 3; object_or_slot >= 0; object_or_slot--) {
         if ((object_or_slot >> 1) != 0) {
-            position[0] = 0x02700000;
+            position.x.v = 0x02700000;
         } else {
-            position[0] = 0x04900000;
+            position.x.v = 0x04900000;
         }
         if (object_or_slot & 1) {
-            position[1] = 0x02E00000;
+            position.y.v = 0x02E00000;
         } else {
-            position[1] = 0x03E00000;
+            position.y.v = 0x03E00000;
         }
-        create_gym_mesh_object(position, 0x35, (u8 *)rotate_gym_mesh_y + 0x14, parent_link);
+        create_gym_mesh_object(&position, 0x35, (u8 *)rotate_gym_mesh_y + 0x14, parent_link);
     }
 
     object_or_slot = (s32)allocate_flagged_object_node(0x136);

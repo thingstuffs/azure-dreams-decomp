@@ -8,7 +8,7 @@
 #include "town/map/object.h"
 
 /* Creates an object at the supplied position and initializes its visual properties. */
-void *create_positioned_visual_object(TownPropPosition *source_pos, s32 object_data, s32 angle, s32 visual_data) {
+void *create_positioned_visual_object(TownPropPosition *source_pos, void (*update)(), s32 angle, s32 mesh_index) {
     ObjectNodeHeader *object;
     SpriteFrameState *visual;
     ObjectPosition *position;
@@ -17,13 +17,13 @@ void *create_positioned_visual_object(TownPropPosition *source_pos, s32 object_d
     if (object != NULL) {
         register_node(object, draw_linked_lit_meshes);
         visual = object->sprite;
-        object->update_callback = object_data;
+        object->update_callback = update;
         visual->angle_z = (s16) angle;
         visual->scale_x = 0x1000;
         visual->scale_y = 0x1000;
         visual->offset_x = 0x1000;
         visual->color.word = 0x808080;
-        visual->source = visual_data;
+        visual->source = mesh_index;
         position = object->position;
         position->x.v = source_pos->unk_00;
         position->y.v = source_pos->unk_04;

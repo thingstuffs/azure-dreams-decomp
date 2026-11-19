@@ -21,14 +21,8 @@ struct Func800AB788Arg;
 struct Func800BFE50Object;
 struct GameWork;
 struct S_8008BA00_0;
-struct S_800A08F0_0;
-struct S_800A092C_0;
-struct S_800A0958_0;
 struct S_800A0C30_0;
-struct S_800A0C30_1;
 struct S_800A0CC0_0;
-struct S_800A0DAC_0;
-struct S_800A0E3C_1;
 struct S_800A3B80_3;
 struct S_800A51CC_0;
 struct S_800A526C_1;
@@ -141,13 +135,13 @@ void create_two_text_display_entries(void *data_id, s32 position_offset);
 
 /* door.c */
 void initialize_door_variant(TownObjectRecord *record_data, ObjectPosition *position, struct SpriteFrameState *unused_sprite);
-void update_door_object(struct S_func_800A0708_0 *object, void *callback_arg, s32 callback_data);
+void update_door_object(struct S_func_800A0708_0 *object, ObjectPosition *position, SpriteFrameState *sprite);
 void create_door_shared_object(TownObjectRecord *object, TownObjectRecord *unused_context, void *update_context, SpriteFrameState *unused_data);
-void open_door_to_target(TownObjectRecord *object, void *context);
+void open_door_to_target(TownObjectRecord *object, TownObjectRecord *context);
 void door_no_op(void);
-void advance_door_open_angle(struct S_800A08F0_0 *door);
-void tick_door_open_countdown(struct S_800A092C_0 *state);
-void advance_door_close_angle(struct S_800A0958_0 *door);
+void advance_door_open_angle(TownObjectRecord *door);
+void tick_door_open_countdown(TownObjectRecord *state);
+void advance_door_close_angle(TownObjectRecord *door);
 void *find_door_keyed_node(s32 requested_value);
 void door_open_demo_set_sub(s32 door_id, s16 demo_angle);
 void door_open_demo_set(s32 script_context);
@@ -155,14 +149,14 @@ void door_atari_on_off(s32 door_id, s16 collision_enabled);
 void into_dn_door_demo_set(void);
 void check_door_entry_and_change_map(void *actor, void *target, void *position);
 void change_door_map(void *map_source, s32 *map_table);
-void create_door_transition_objects(void *entity, TownObjectRecord *unused_context, void *update_context, SpriteFrameState *unused_data);
-void start_door_entry_or_wait(struct S_800A0C30_0 *script_state, void *unused_context, struct S_800A0C30_1 *event_params);
+void create_door_transition_objects(void *entity_arg, TownObjectRecord *unused_context, void *update_context, SpriteFrameState *unused_data);
+void start_door_entry_or_wait(struct S_800A0C30_0 *script_state, TownObjectRecord *collision_body, ObjectPosition *position);
 void resume_door_entry_when_script_idle(struct S_800A0CC0_0 *object, s32 value_1, s32 value_2, s32 value_3);
 void start_door_transition_effect(u8 *object, s32 unused, s32 state_id, s32 state_arg);
-void update_door_transition_spin(struct S_800A0DAC_0 *state, s32 unused, s32 context_a, s32 context_b);
-void tick_door_countdown(Rec_func_800A0668_arg0 *object, struct S_800A0E3C_1 *source, s32 update_arg_a, s32 update_arg_b);
+void update_door_transition_spin(TownObjectRecord *state, TownObjectRecord *unused_context, s32 context_a, s32 context_b);
+void tick_door_countdown(TownObjectRecord *object, TownObjectRecord *source, s32 update_arg_a, s32 update_arg_b);
 void into_dn_door_jobs(void);
-s32 check_door_input_and_angle(Rec_func_800A0668_arg0 *object, void *test_value);
+s32 check_door_input_and_angle(Rec_func_800A0668_arg0 *object, TownObjectRecord *collision_body);
 
 /* dot_sign_with_truncated_q_coefficients.c */
 s32 sign_of_q12_dot_product(s32 recordTableAddress, s32 recordIndexOrCoefficient, s32 componentsOrSum);
@@ -327,7 +321,7 @@ void restore_town_map_input_state(TownMapBody *object);
 void retry_sound_sequence_when_ready(void);
 
 /* run_callbacks_unless_suppressed.c */
-void run_callbacks_unless_suppressed(void *object, void *check_data);
+void run_callbacks_unless_suppressed(void *object, ObjectPosition *position);
 
 /* run_dual_context_callbacks.c */
 void run_dual_context_callbacks(void);
@@ -445,7 +439,8 @@ void update_current_and_saved_coordinates(struct S_800A51CC_0 *object);
 void update_random_idle_wander(void *actor, ObjectPosition *motion, SpriteFrameState *sprite, s32 update_context);
 
 /* cycle_prop_output_values.c */
-void cycle_prop_output_values(struct S_800BDE7C_0 *record, s32 unused_value, TownGridOutputView *output, s32 unused_value2);
+struct LitMeshSprite;
+void cycle_prop_output_values(struct S_800BDE7C_0 *record, s32 unused_value, struct LitMeshSprite *output, s32 unused_value2);
 
 /* update_view_gray_level.c */
 void update_view_gray_level(void);

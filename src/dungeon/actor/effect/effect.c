@@ -24,7 +24,7 @@ struct ObjectNodeHeader;
 #include "shared/item_ids.h"
 #include "shared/monster_ids.h"
 #include "modules/dungeon_engine_entity_effects_storage.h"
-#include "shared/dungeon_item_entries.h"
+#include "dungeon/player/held_item_kind_data.h"
 #include "slus/data.h"
 #include "dungeon/effect.h"
 #include "dungeon/player.h"
@@ -39,11 +39,6 @@ typedef struct {
     s8 kind;
 } Entity;
 
-typedef struct {
-    u8 x;
-    u8 y;
-    u8 pad02[10];
-} RegionPos;
 
 #include "dungeon/item/find_active_rect_containing_point_api.h"
 #include "engine/node.h"
@@ -72,8 +67,8 @@ u32 find_nearest_floor_item_in_room(Entity *entity, s32 filter, s16 *out_x, s16 
     type = (s16)filter >> 8;
     for (; i >= 0; i--) {
         if (dungeon_ground_items[i].kind == id && (type == 0 || dungeon_ground_items[i].unk_00 == type)) {
-            x = ((RegionPos *)dungeon_ground_item_positions)[i].x;
-            y = ((RegionPos *)dungeon_ground_item_positions)[i].y;
+            x = dungeon_ground_item_positions[i].x;
+            y = dungeon_ground_item_positions[i].y;
             if ((s16)find_active_rect_containing_point(x, y) == entity->kind) {
                 dx = abs(x - entity->x);
                 dy = abs(y - entity->y);
@@ -91,17 +86,12 @@ u32 find_nearest_floor_item_in_room(Entity *entity, s32 filter, s16 *out_x, s16 
     return (s16)best_index >= 0;
 }
 
-typedef struct {
-    u8 unk0;
-    u8 unk1;
-    u8 pad[10];
-} Entry;
 
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 /* Clear active entries at the target coordinates and update their map tile. */
 void remove_floor_items_at_tile(s16 target_x, s16 target_y) {
-    Entry *entry;
+    DungeonItemPosition *entry;
     s32 *entry_state;
     s32 entry_index;
     s32 x;
@@ -113,12 +103,12 @@ void remove_floor_items_at_tile(s16 target_x, s16 target_y) {
     x = target_x;
     y = target_y;
     entry_state = ((s32 *)dungeon_ground_items);
-    entry = ((Entry *)dungeon_ground_item_positions);
+    entry = dungeon_ground_item_positions;
     do {
         if (((u8 *) entry_state)[1] != 0) {
-            entry_x = entry->unk0;
+            entry_x = entry->x;
             if (entry_x == x) {
-                entry_y = entry->unk1;
+                entry_y = entry->y;
                 if (entry_y == y) {
                     *entry_state = 0;
                     update_map_cell_flags_with_item_limit(entry_x, entry_y, TILE_HAS_ITEM);
@@ -131,13 +121,6 @@ void remove_floor_items_at_tile(s16 target_x, s16 target_y) {
     } while (entry_index < 0x40);
 }
 
-typedef struct {
-    u8 x;
-    u8 y;
-    u8 pad2[2];
-    s16 value;
-    u8 pad6[6];
-} PositionEntry;
 
 /* Finds an active entry at the given tile within 64 height units if the left tile has flag 0x800. */
 s32 find_floor_item_at_world_position(s32 input_x, s32 input_y, s32 input_z) {
@@ -149,7 +132,7 @@ s32 find_floor_item_at_world_position(s32 input_x, s32 input_y, s32 input_z) {
     s32 y;
     u16 tile_flags;
     DungeonItemEntry *active_entry;
-    PositionEntry *position;
+    DungeonItemPosition *position;
     s32 height_delta;
     s32 x;
     s32 z;
@@ -166,9 +149,9 @@ s32 find_floor_item_at_world_position(s32 input_x, s32 input_y, s32 input_z) {
     z = (s16)held_z;
     for (; entry_index < 0x40; entry_index++) {
         active_entry = &dungeon_ground_items[entry_index];
-        position = &((PositionEntry *)dungeon_ground_item_positions)[entry_index];
+        position = &dungeon_ground_item_positions[entry_index];
         if ((active_entry->kind != ITEM_KIND_NONE) && (position->x == x) && (position->y == y)) {
-            height_delta = z - position->value;
+            height_delta = z - position->ground_height;
             if (height_delta < 0) {
                 height_delta = 0 - height_delta;
             }
@@ -369,14 +352,6 @@ DungeonDescriptor *create_timed_effect_at_tile(s32 tile_x, s32 tile_y, s32 z, s3
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 
-typedef struct {
-    u8 x;
-    u8 y;
-    u16 value2;
-    u16 value4;
-    u16 pad6;
-    s32 value8;
-} D_800E36C8_Entry;
 
 typedef struct {
     u8 pad0[0x98];
@@ -404,8 +379,8 @@ void update_floor_object_motion(FuncObj *obj, ObjectPosition *pos, FuncVec *targ
     s32 y;
     s32 z;
     u16 height;
-    D_800E36C8_Entry *entry;
-    D_800E36C8_Entry *tab;
+    DungeonItemPosition *entry;
+    DungeonItemPosition *tab;
 
     x = pos->x.v;
     pos->x.v = x +
@@ -426,14 +401,14 @@ void update_floor_object_motion(FuncObj *obj, ObjectPosition *pos, FuncVec *targ
         slot = free_entry_short();
         if (slot >= 0) {
             ((s32 *)dungeon_ground_items)[slot] = obj->field98;
-            tab = ((D_800E36C8_Entry *)dungeon_ground_item_positions);
+            tab = dungeon_ground_item_positions;
             entry = &tab[slot];
             entry->x = obj->fieldAA;
             entry->y = obj->fieldAC;
             height = obj->fieldAE;
-            entry->value2 = height;
-            entry->value4 = height;
-            entry->value8 = target->z;
+            entry->height = height;
+            entry->ground_height = height;
+            entry->sprite_source_word = target->z;
             cycle_map_cell_flags(obj->fieldAA, obj->fieldAC, TILE_HAS_ITEM);
             select_position_data_and_update_owner(&reference_tile_object.frame_entry, (dungeon_actor_ring_anchor));
         }
@@ -508,14 +483,6 @@ s32 get_item_sprite_source(void *item_data)
     return result;
 }
 
-typedef struct {
-    u8 b0;
-    u8 b1;
-    u16 w2;
-    u16 w4;
-    u16 pad6;
-    s32 value;
-} DungeonRecord;
 
 extern s32 D_800E0B54;
 
@@ -543,19 +510,19 @@ s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *obj
     if ((find_valid_floor_item_position(x_short, y_short, z_short,
                        &tile_x, &tile_y, &tile_value) << 16) != 0) {
         s16 record_index;
-        DungeonRecord *record;
+        DungeonItemPosition *record;
 
         record_index = find_first_empty_floor_item_slot();
         if (record_index >= 0) {
             if (create_tile_centered_item_effect(x_short, y_short, z_short, object_data,
                               tile_x, tile_y, tile_value) == 0) {
                 ((s32 *)dungeon_ground_items)[record_index] = *object_data;
-                record = &((DungeonRecord *)dungeon_ground_item_positions)[record_index];
-                record->b0 = (u8)tile_x;
-                record->b1 = (u8)tile_y;
-                record->w4 = (u16)tile_value;
-                record->w2 = (u16)tile_value;
-                record->value = get_item_sprite_source(object_data);
+                record = &dungeon_ground_item_positions[record_index];
+                record->x = (u8)tile_x;
+                record->y = (u8)tile_y;
+                record->ground_height = (u16)tile_value;
+                record->height = (u16)tile_value;
+                record->sprite_source_word = get_item_sprite_source(object_data);
                 cycle_map_cell_flags(tile_x, tile_y, TILE_HAS_ITEM);
                 select_position_data_and_update_owner(((u8 *)(&reference_tile_object)), (dungeon_actor_ring_anchor));
             }
@@ -911,34 +878,16 @@ void compact_item_entry_table(s32 entry_index) {
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
 
-s32 check_neighbor_tile_blocking();
+struct Node;
 void *find_eligible_actor_at_tile_and_height(struct Node *node, s32 x, s32 y_in, s16 value);
-extern s32 held_item_record;
 extern u8 D_800DD7DC;
 
 
 #define DUNGEON_FLAGS_PAGE ((s8 *)0x80080000)
 
-typedef struct S_800A871C_0 {
-    u8 pad_00[0x1];
-    u8 unk_01;
-} S_800A871C_0;
 
 
    /* &sp18[2] in update_dropped_object_motion */
-
-typedef struct S_800A871C_4 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x18];
-    u8 unk_24;
-    u8 unk_25;
-} S_800A871C_4;   /* r_arg2 in update_dropped_object_motion */
-
-typedef struct S_800A871C_5 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-} S_800A871C_5;
 
 typedef struct S_800A871C_6 {
     s16 unk_00;
@@ -951,22 +900,6 @@ typedef struct S_800A871C_7 {
 typedef struct S_800A871C_8 {
     u8 unk_00;
 } S_800A871C_8;
-
-typedef struct S_800A871C_11_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_800A871C_11_pre;   /* 0x14-byte header immediately before the payload. */
-
-typedef struct S_800A871C_11 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-} S_800A871C_11;
-
-typedef struct S_800A871C_12 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_800A871C_12;
 
 typedef struct S_800A871C_13 {
     u8 unk_00;
@@ -1000,22 +933,6 @@ typedef struct S_800A871C_18 {
     u8 unk_00;
 } S_800A871C_18;
 
-typedef struct S_800A871C_19 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-    u8 pad_2C[0x5C];
-    s16 unk_88;
-} S_800A871C_19;
-
-typedef struct S_800A871C_20 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x2];
-    s32 ** unk_28;
-    void * unk_2C;
-} S_800A871C_20;   /* ((S_800A871C_1 *)r_arg0)->unk_90 in update_dropped_object_motion */
-
    /* ((S_800A871C_1 *)r_arg0)->unk_8C in update_dropped_object_motion */
 
 typedef struct S_800A871C_22 {
@@ -1024,25 +941,23 @@ typedef struct S_800A871C_22 {
 } S_800A871C_22;
 
 
-typedef struct S_800A871C_24 {
-    u8 pad_00[0x2];
-    u8 unk_02;
-} S_800A871C_24;   /* ((S_800A871C_20 *)(((S_800A871C_1 *)r_arg0)->unk_90))->unk_2C in update_dropped_object_motion */
+typedef struct DropFrameSelection {
+    u8 pad_00[2];
+    u8 index;
+} DropFrameSelection;
 
-typedef struct S_800A871C_25 {
-    s32 unk_00;
-} S_800A871C_25;   /* **((S_800A871C_20 *)(((S_800A871C_1 *)r_arg0)->unk_90))->unk_28 +
-                                ((s32) ((S_800A871C_24 *)(((S_800A871C_20 *)(((S_800A871C_1 *)r_arg0)->unk_90))->unk_2C))->unk_02 * 4) in update_dropped_object_motion */
+typedef struct DropFrame {
+    u8 pad_00[4];
+    struct SpriteAttachment *attachments;
+} DropFrame;
 
-typedef struct S_800A871C_26 {
-    u8 pad_00[0x4];
-    struct SpriteAttachment *unk_04;
-} S_800A871C_26;   /* ((S_800A871C_25 *)(**((S_800A871C_20 *)(((S_800A871C_1 *)r_arg0)->unk_90))->unk_28 +
-                                ((s32) ((S_800A871C_24 *)(((S_800A871C_20 *)(((S_800A871C_1 *)r_arg0)->unk_90))->unk_2C))->unk_02 * 4)))->unk_00 in update_dropped_object_motion */
+typedef struct DropSpriteFrames {
+    DropFrame **frames;
+} DropSpriteFrames;
 
 /* Updates an object's launch, movement, collisions, and landing. */
-void update_dropped_object_motion(DroppedObjectMotionBody *object, register ObjectPosition *motion, S_800A871C_4 *tile) {
-    void *object_data;
+void update_dropped_object_motion(DroppedObjectMotionBody *object, register ObjectPosition *motion, SpriteFrameState *tile) {
+    DroppedObjectMotionBody *object_data;
     GteOffset offset;
     s16 move_ticks;
     s32 travel_steps;
@@ -1066,11 +981,13 @@ void update_dropped_object_motion(DroppedObjectMotionBody *object, register Obje
     u8 *launch_x_steps;
     u8 *drop_x_steps;
     u8 *next_x_steps;
-    S_800A871C_5 *launch_source;
+    ActorRecord *launch_source;
     SpriteFrameState *source_sprite;
-    S_800A871C_12 *drop_sprite;
+    DropSpriteFrames **resource;
+    DropFrameSelection *selection;
+    SpriteFrameState *drop_sprite;
     S_800A871C_17 *hit_object;
-    void *drop_source;
+    ActorRecord *drop_source;
     u8 *y_steps;
     S_800A871C_6 *y_step;
     s32 target_height;
@@ -1082,109 +999,108 @@ void update_dropped_object_motion(DroppedObjectMotionBody *object, register Obje
     s32 height;
 
     object_data = object;
-    payload = (((DroppedObjectMotionBody *)object_data)->unk_9C);
-    if ((payload == &held_item_record) && (((S_800A871C_0 *)payload)->unk_01 == 0)) {
-        (((DroppedObjectMotionBody *)object_data)->unk_9C) = &saved_held_item_word;
+    payload = object_data->unk_9C;
+    if ((payload == (s32 *)&held_item_record) && (held_item_record.kind == 0)) {
+        object_data->unk_9C = &saved_held_item_word;
     }
     state = object->unk_A0;
     switch (state) {
     case 0:
     {
-        if ((*(s32 *)((u8 *)object_data + (0x1C))) & 0x200000) {
-            (*(u16 *)((u8 *)object_data + (0x2A))) = (u16) ((S_800A871C_19 *)((*(void **)((u8 *)object_data
-                + (0x60)))))->unk_2A;
+        if (object_data->unk_1C & 0x200000) {
+            object_data->facing = object_data->source_actor->facing;
+            source_sprite = object->source_sprite;
+            resource = (DropSpriteFrames **)(unsigned long)(u32)source_sprite->animation_resource;
+            selection = source_sprite->frameTable;
             if (resolve_record_orientation_or_fallback(
-                    ((S_800A871C_26 *)(((S_800A871C_25 *)(**((S_800A871C_20 *)(object->unk_90.address))->unk_28
-                        +
-                                ((s32) ((S_800A871C_24 *)(((S_800A871C_20 *)(object->unk_90.address))->unk_2C))->unk_02 * 4)))->unk_00))->unk_04,
-                    object->unk_90.address, &offset.orientation, 0) == 0) {
+                    (*resource)->frames[selection->index]->attachments,
+                    source_sprite, &offset.orientation, 0) == 0) {
                 offset.orientation.vz = -0x30;
             }
             motion->z.w.i =
-                (s16) (((MovingPosition *)(object->unk_8C.address))->z + offset.distance[2]);
-            tile->unk_24 = (u8) ((S_800A871C_20 *)(object->unk_90.address))->unk_24;
-            tile->unk_25 = (u8) ((S_800A871C_20 *)(object->unk_90.address))->unk_25;
-            set_record_integer_tile_center(motion, tile->unk_24, tile->unk_25);
+                (s16) ((u16)object->source_position->z.w.i + offset.distance[2]);
+            tile->tile_x = (u8) object->source_sprite->tile_x;
+            tile->tile_y = (u8) object->source_sprite->tile_y;
+            set_record_integer_tile_center(motion, tile->tile_x, tile->tile_y);
             object->unk_A0 = (s16) ((u16) object->unk_A0 + 1);
-            launch_source = (*(void **)((u8 *)object_data + (0x60)));
-            travel_steps = (*(s16 *)((u8 *)object_data + (0x8A)));
-            launch_heading = launch_source->unk_2A;
-            (*(s16 *)((u8 *)object_data + (0x6A))) = (s16) launch_heading;
+            launch_source = object_data->source_actor;
+            travel_steps = object_data->travel_steps;
+            launch_heading = launch_source->facing;
+            object_data->unk_6A = (s16) launch_heading;
             direction = (launch_heading >> 9) & 7;
             if (travel_steps != 0) {
                 s16 *x_steps = (s16 *)((s8 *)dir_step_x);
                 dir_offset = direction * 2;
                 y_steps = (u8 *)((s8 *)dir_step_y);
                 y_step = (S_800A871C_6 *)((unsigned long)dir_offset + (unsigned long)y_steps);
-                target_height = effect_height_short((((tile->unk_24 + (*(s16 *)((u8 *)x_steps
+                target_height = effect_height_short((((tile->tile_x + (*(s16 *)((u8 *)x_steps
                     + dir_offset) * travel_steps)) << 6) + 0x20) & 0xFFE0,
-                    (((tile->unk_25 + (y_step->unk_00 * travel_steps)) << 6)
+                    (((tile->tile_y + (y_step->unk_00 * travel_steps)) << 6)
                     + 0x20) & 0xFFE0, motion->z.w.i);
                 if (target_height < 0x200) {
                     height_delta = target_height - motion->z.w.i;
                 } else {
                     target_height = motion->z.w.i;
-                    height_delta = ((S_800A871C_19 *)((*(void **)((u8 *)object_data + (0x60)))))->unk_88;
+                    height_delta = object_data->source_actor->ground_height;
                     height_delta -= target_height;
                 }
-                motion->velocity_z = (s32) (height_delta << 0xF) / (s16) (*(u16 *)((u8 *)object_data
-                    + (0x8A)));
+                motion->velocity_z = (s32) (height_delta << 0xF) / object_data->travel_steps;
             }
             launch_x_steps = (u8 *)((s8 *)dir_step_x);
             launch_dir_offset = direction * 2;
-            tile->unk_24 = (u8) (tile->unk_24
+            tile->tile_x = (u8) (tile->tile_x
                 + ((S_800A871C_7 *)((u8 *)((unsigned long)launch_dir_offset + (unsigned long)launch_x_steps)))->unk_00);
             launch_y_step = (u8 *)((s8 *)dir_step_y) + launch_dir_offset;
-            tile->unk_25 = (u8) (tile->unk_25
+            tile->tile_y = (u8) (tile->tile_y
                 + ((S_800A871C_8 *)launch_y_step)->unk_00);
             object->unk_A4 = 2;
             return;
         }
-        source_sprite = object->unk_90.address;
+        source_sprite = object->source_sprite;
         if ((resolve_record_orientation_or_fallback(source_sprite->source, source_sprite, &offset.orientation, 0) != 0)
-            && ((*(s32 *)((u8 *)object_data + (0x1C))) & 0x80000)) {
+            && (object_data->unk_1C & 0x80000)) {
             object->unk_A2 = 1;
             motion->x.w.i =
-                (s16) (((MovingPosition *)(object->unk_8C.address))->x + offset.distance[0]);
+                (s16) (object->source_position->x.w.i + offset.distance[0]);
             motion->y.w.i =
-                (s16) (((MovingPosition *)(object->unk_8C.address))->y + offset.distance[1]);
-            source_height = ((MovingPosition *)(object->unk_8C.address))->z + offset.distance[2];
+                (s16) (object->source_position->y.w.i + offset.distance[1]);
+            source_height = (u16)object->source_position->z.w.i + offset.distance[2];
             height_source = primary_actor_record;
             motion->z.w.i = (s16) (source_height + 8);
-            (*(u16 *)((u8 *)object_data + (0x88))) = height_source->ground_height;
+            object_data->ground_height = height_source->ground_height;
         } else if (object->unk_A2 != 0) {
-            if ((*(s32 *)((u8 *)object_data + (0x1C))) & 0x80000) {
+            if (object_data->unk_1C & 0x80000) {
                 world_page = (S_800A871C_15 *)0x800E0000;
                 goto check_completion;
             }
             {
-                drop_source = (*(void **)((u8 *)object_data + (0x60)));
+                drop_source = object_data->source_actor;
                 drop_x_steps = (u8 *)((s8 *)dir_step_x);
-                drop_heading = ((S_800A871C_11 *)drop_source)->unk_2A;
-                drop_sprite = ((S_800A871C_11_pre *)drop_source)[-1].unk_00;
-                (*(s16 *)((u8 *)object_data + (0x6A))) = (s16) drop_heading;
+                drop_heading = drop_source->facing;
+                drop_sprite = NODE_HEADER(drop_source)->sprite;
+                object_data->unk_6A = (s16) drop_heading;
                 drop_dir_offset = (drop_heading >> 8) & 0xE;
-                tile->unk_24 = (u8) (drop_sprite->unk_24
+                tile->tile_x = (u8) (drop_sprite->tile_x
                     + ((S_800A871C_13 *)((u8 *)((unsigned long)drop_dir_offset
                     + (unsigned long)drop_x_steps)))->unk_00);
-                tile->unk_25 = (u8) (drop_sprite->unk_25
+                tile->tile_y = (u8) (drop_sprite->tile_y
                     + ((S_800A871C_14 *)((u8 *)((s8 *)dir_step_y) + drop_dir_offset))->unk_00);
-                set_record_integer_tile_center(motion, tile->unk_24, tile->unk_25);
-                drop_height = effect_height_short((tile->unk_24 << 6) | 0x20,
-                    (tile->unk_25 << 6) | 0x20, motion->z.w.i);
+                set_record_integer_tile_center(motion, tile->tile_x, tile->tile_y);
+                drop_height = effect_height_short((tile->tile_x << 6) | 0x20,
+                    (tile->tile_y << 6) | 0x20, motion->z.w.i);
                 if (drop_height >= 0x201) {
                     drop_height = (s16) (u16) motion->z.w.i;
                 }
-                place_item_at_valid_floor_position(tile->unk_24, tile->unk_25, drop_height,
-                    tile->unk_08, object->unk_9C);
+                place_item_at_valid_floor_position(tile->tile_x, tile->tile_y, drop_height,
+                    (s32)(unsigned long)tile->source, object->unk_9C);
                 NODE_HEADER(object)->flags = (u16) (NODE_HEADER(object)->flags | 0x8000);
                 dungeon_flags = object_flag_block.flags;
                 height = motion->z.w.i;
                 object_flag_block.flags = (s32) (dungeon_flags | 0x8000);
-                motion->z.w.i = effect_height_short((tile->unk_24 << 6) | 0x20,
-                    (tile->unk_25 << 6) | 0x20, height);
+                motion->z.w.i = effect_height_short((tile->tile_x << 6) | 0x20,
+                    (tile->tile_y << 6) | 0x20, height);
                 emit_scattered_effects_unless_blocked(motion);
-                unlink_entity_node(object_data);
+                unlink_entity_node((struct EntityLinkNode *)object_data);
                 return;
             }
         } else {
@@ -1193,13 +1109,12 @@ void update_dropped_object_motion(DroppedObjectMotionBody *object, register Obje
         world_page = (S_800A871C_15 *)0x800E0000;
 check_completion:
         if (((S_800A871C_22 *)(world_page->unk_3D7C))->unk_124 == 0) {
-            void *finished_object = object_data;
             s8 *flags_page = DUNGEON_FLAGS_PAGE;
             s32 floor_flags;
             NODE_HEADER(object)->flags = (u16) (NODE_HEADER(object)->flags | 0x8000);
             floor_flags = ((S_800A871C_16 *)flags_page)->unk_14A0;
             floor_flags |= 0x8000;
-            unlink_entity_node((((S_800A871C_16 *)flags_page)->unk_14A0 = floor_flags, finished_object));
+            unlink_entity_node((((S_800A871C_16 *)flags_page)->unk_14A0 = floor_flags, (struct EntityLinkNode *)object_data));
             return;
         }
         break;
@@ -1207,12 +1122,12 @@ check_completion:
     case 1:
         move_ticks = object->unk_A4;
         if (move_ticks != 0) {
-            axis_target = tile->unk_24;
+            axis_target = tile->tile_x;
             axis_origin = motion->x.w.i;
             axis_target <<= 6;
             axis_origin -= 0x20;
             motion->velocity_x = (s32) (((axis_target - axis_origin) << 0x10) / move_ticks);
-            axis_target = tile->unk_25;
+            axis_target = tile->tile_y;
             axis_origin = motion->y.w.i;
             axis_origin -= 0x20;
             axis_target <<= 6;
@@ -1224,52 +1139,52 @@ check_completion:
         if ((ticks_left << 0x10) > 0) {
             break;
         }
-        hit_object = find_eligible_actor_at_tile_and_height(object_data, tile->unk_24, tile->unk_25,
-            (*(s16 *)((u8 *)object_data + (0x88))));
+        hit_object = find_eligible_actor_at_tile_and_height((struct Node *)object_data, tile->tile_x, tile->tile_y,
+            object_data->ground_height);
         if (hit_object != NULL) {
             if ((hit_object->unk_13 == MONSTER_BARONG) && !(hit_object->unk_1C & 0x228) && (D_800DD7DC != 0)) {
                 hit_object->unk_14 = (s32) (hit_object->unk_14 | 0x800000);
-                hit_object->unk_48 = ((ObjectPosition *)(object->unk_9C))->x.v;
+                hit_object->unk_48 = *object->unk_9C;
                 NODE_HEADER(object)->flags = (u16) (NODE_HEADER(object)->flags | 0x8000);
                 object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
-                unlink_entity_node(object_data);
+                unlink_entity_node((struct EntityLinkNode *)object_data);
                 g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
                 return;
             }
-            if (dispatch_dungeon_category_action(hit_object, object->unk_9C, 0xD, object_data) != 0) {
+            if (dispatch_dungeon_category_action(hit_object, object->unk_9C, 0xD, (s32)(unsigned long)object_data) != 0) {
                 NODE_HEADER(object)->flags = (u16) (NODE_HEADER(object)->flags | 0x8000);
                 object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
-                unlink_entity_node(object_data);
+                unlink_entity_node((struct EntityLinkNode *)object_data);
                 g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
                 return;
             }
         }
-        if ((check_neighbor_tile_blocking((*(s16 *)((u8 *)object_data + (0x6A))), motion, tile) << 0x10) != 0) {
-            steps_left = (*(u16 *)((u8 *)object_data + (0x8A))) - 1;
-            (*(u16 *)((u8 *)object_data + (0x8A))) = steps_left;
+        if ((check_neighbor_tile_blocking(object_data->unk_6A, motion, tile) << 0x10) != 0) {
+            steps_left = object_data->travel_steps - 1;
+            object_data->travel_steps = steps_left;
             if ((steps_left << 0x10) > 0) {
-                set_record_integer_tile_center(motion, tile->unk_24, tile->unk_25);
+                set_record_integer_tile_center(motion, tile->tile_x, tile->tile_y);
                 next_x_steps = (u8 *)((s8 *)dir_step_x);
-                next_dir_offset = ((u16) (*(s16 *)((u8 *)object_data + (0x6A))) >> 8) & 0xE;
-                tile->unk_24 = (u8) (tile->unk_24
+                next_dir_offset = ((u16) object_data->unk_6A >> 8) & 0xE;
+                tile->tile_x = (u8) (tile->tile_x
                     + ((S_800A871C_18 *)((u8 *)((unsigned long)next_dir_offset
                     + (unsigned long)(u8 *)((s8 *)dir_step_x))))->unk_00);
                 next_y_step = (u8 *)((s8 *)dir_step_y) + next_dir_offset;
-                tile->unk_25 = (u8) (tile->unk_25 + *next_y_step);
+                tile->tile_y = (u8) (tile->tile_y + *next_y_step);
                 object->unk_A4 = 2;
                 break;
             }
         }
-        land_height = effect_height_short((tile->unk_24 << 6) | 0x20, (tile->unk_25 << 6)
+        land_height = effect_height_short((tile->tile_x << 6) | 0x20, (tile->tile_y << 6)
             | 0x20, motion->z.w.i);
         if (land_height >= 0x201) {
             land_height = (s16) (u16) motion->z.w.i;
         }
-        place_item_at_valid_floor_position(tile->unk_24, tile->unk_25, land_height,
-            tile->unk_08, object->unk_9C);
+        place_item_at_valid_floor_position(tile->tile_x, tile->tile_y, land_height,
+            (s32)(unsigned long)tile->source, object->unk_9C);
         NODE_HEADER(object)->flags = (u16) (NODE_HEADER(object)->flags | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
-        unlink_entity_node(object_data);
+        unlink_entity_node((struct EntityLinkNode *)object_data);
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
     default:
         break;
@@ -1293,14 +1208,6 @@ typedef struct {
     void *field10;
 } DungeonObject;
 
-typedef struct {
-    u8 pad0[2];
-    u16 field2;
-    u8 pad4[2];
-    u16 field6;
-    u8 pad8[2];
-    u16 fieldA;
-} DungeonCoords;
 
 typedef struct {
     u8 pad0[6];
@@ -1314,62 +1221,44 @@ typedef struct {
     s16 field1E;
 } DungeonState;
 
-typedef struct {
-    u8 pad0[0x60];
-    void *field60;
-    u8 pad64[0x24];
-    u16 field88;
-    s32 field8C;
-    s32 field90;
-    u8 pad94[4];
-    s32 field98;
-    void *field9C;
-} DungeonData;
 
-typedef struct {
-    u8 field0;
-    u8 field1;
-    u16 field2;
-    u16 field4;
-    u8 pad6[6];
-} DungeonTile;
 
 extern u8 D_800A871C[];
 
 extern void create_tracked_effect(void *, s32, s32, s32);
 
 /* Creates a dungeon object at a tile or the supplied coordinates. */
-void *create_dropped_item_object(s32 object_key, DungeonCoords *source_coords, s32 unused,
-                    DungeonData *source_data, s32 *init_data, s16 tile_id) {
-    ObjectNodeHeader *object;
+DroppedItemNode *create_dropped_item_object(void *owner, ObjectPosition *source_coords, SpriteFrameState *unused,
+                    ActorRecord *source_data, DungeonItemEntry *init_data, s16 tile_id) {
+    DroppedItemNode *object;
     DroppedObjectMotionBody *data;
     ObjectPosition *coords;
     SpriteFrameState *state;
-    DungeonTile *tiles;
+    DungeonItemPosition *tiles;
     s32 init_value;
 
-    object = allocate_list_node(0x110, object_key - 0x20);
+    object = allocate_list_node(0x110, &NODE_HEADER(owner)->next);
     if (object != NULL) {
-        data = NODE_BODY(object);
-        object->update_callback = D_800A871C;
-        coords = object->position;
-        state = object->sprite;
-        data->unk_60 = source_data;
+        data = &object->body;
+        object->header.update_callback = D_800A871C;
+        coords = object->header.position;
+        state = object->header.sprite;
+        data->source_actor = source_data;
         if (tile_id >= 0) {
-            DungeonTile *tile;
-            tiles = ((DungeonTile *)dungeon_ground_item_positions);
+            DungeonItemPosition *tile;
+            tiles = dungeon_ground_item_positions;
             tile = &tiles[tile_id];
-            coords->x.w.i = (tile->field0 << 6) + 0x20;
-            coords->y.w.i = (tile->field1 << 6) + 0x20;
-            coords->z.w.i = tile->field2;
-            data->unk_88.u = tile->field4;
+            coords->x.w.i = (tile->x << 6) + 0x20;
+            coords->y.w.i = (tile->y << 6) + 0x20;
+            coords->z.w.i = tile->height;
+            data->ground_height = tile->ground_height;
         } else {
-            coords->x.w.i = source_coords->field2;
-            coords->y.w.i = source_coords->field6;
-            coords->z.w.i = source_coords->fieldA;
-            data->unk_88.u = source_data->field88;
+            coords->x.w.i = source_coords->x.w.i;
+            coords->y.w.i = source_coords->y.w.i;
+            coords->z.w.i = source_coords->z.w.i;
+            data->ground_height = source_data->ground_height;
         }
-        register_node(object, project_sprite_chain);
+        register_node(&object->header, project_sprite_chain);
         state->color.c.b = 0x80;
         state->color.c.g = 0x80;
         state->color.c.r = 0x80;
@@ -1377,13 +1266,13 @@ void *create_dropped_item_object(s32 object_key, DungeonCoords *source_coords, s
         state->scale_x = 0x1000;
         state->depth_bias = 2;
         state->source = get_item_sprite_source(init_data);
-        data->unk_8C.word = *(s32 *)((u8 *)source_data - 0x18);
-        data->unk_90.word = *(s32 *)((u8 *)source_data - 0x14);
-        init_value = *init_data;
+        data->source_position = NODE_HEADER(source_data)->position;
+        data->source_sprite = NODE_HEADER(source_data)->sprite;
+        init_value = *(s32 *)init_data;
         data->unk_9C = &data->unk_98;
         data->unk_13 = 0xFF;
         data->unk_98 = init_value;
-        insert_node_before_primary_actor(object);
+        insert_node_before_primary_actor(&object->header);
         create_tracked_effect(object, 0, 0, 0);
     }
     return object;
@@ -1511,7 +1400,7 @@ void snapshot_item_flag_bitmap(u16 unused_saved_setting)
 struct EntityLinkNode;
 struct Node;
 
-extern s32 generate_random_value(void);
+#include "dungeon/system/random.h"
 
 /* Dungeon item pickup: run the one-off 0x11F9 event, then occasionally take one entry from the floor's item table. */
 s32 select_random_eligible_item_entry(void *actor)

@@ -8,35 +8,26 @@ extern s32 D_8002D6A4[3];
 extern s32 D_8002D6A8[3];
 
 /* Initialize entry pointers, per-entry defaults, and shared data. */
-void card_background_init_entry_tables(void *object, s32 entry_count) {
+void card_background_init_entry_tables(CardBackgroundBody *object, s32 entry_count) {
     s32 entry_index;
-    s32 entry_offset;
-    s32 data_offset;
-    void *entry_data;
     s32 *defaults;
-    void *shared_data;
     s32 pad[2];
 
     entry_index = 0;
     if (entry_count > 0) {
         defaults = menu_primitive_defaults;
-        shared_data = (u8 *) object + 0x204;
-        data_offset = 0x294;
         do {
-            entry_offset = 0x224 + entry_index * 0x10;
-            *(*(s32 **) ((u8 *) object + 0x220) + entry_index) = (s32) ((u8 *) object + entry_offset);
-            *(s32 *) ((u8 *) object + entry_index * 0x10 + 0x294) = defaults[0];
-            entry_data = (u8 *) object + data_offset;
-            *(s32 *) ((u8 *) object + entry_index * 0x10 + 0x298) = defaults[1];
-            *(s32 *) ((u8 *) object + entry_index * 0x10 + 0x29C) = defaults[2];
-            data_offset += 0x10;
-            *(s32 *) ((u8 *) object + entry_index * 0x10 + 0x2A0) = defaults[3];
-            *(void **) ((u8 *) object + entry_index * 0x10 + 0x228) = entry_data;
-            *(s32 *) ((u8 *) object + entry_index * 0x10 + 0x22C) = (s32) shared_data;
-            entry_index += 1;
+            object->entry_table[entry_index] = &object->entries[entry_index];
+            object->primitives[entry_index].words[0] = defaults[0];
+            object->primitives[entry_index].words[1] = defaults[1];
+            object->primitives[entry_index].words[2] = defaults[2];
+            object->primitives[entry_index].words[3] = defaults[3];
+            object->entries[entry_index].display.block = &object->primitives[entry_index];
+            object->entries[entry_index].settings = object->settings;
+            entry_index++;
         } while (entry_index < entry_count);
     }
-    *(s32 *) ((u8 *) object + 0x204) = menu_settings_defaults[0];
-    *(s32 *) ((u8 *) object + 0x208) = D_8002D6A4[0];
-    *(s32 *) ((u8 *) object + 0x20C) = D_8002D6A8[0];
+    object->settings[0] = menu_settings_defaults[0];
+    object->settings[1] = D_8002D6A4[0];
+    object->settings[2] = D_8002D6A8[0];
 }

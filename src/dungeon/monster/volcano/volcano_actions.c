@@ -774,16 +774,17 @@ void set_actor_directional_animation(ActorRecord *object, ObjectPosition *unused
 s32 begin_actor_directional_attack(ActorRecord *action_state, ObjectPosition *action_ctx, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
     u8 *direction_table;
-    ActorRecord *move_heading;
+    ActorRecord *nearby_actor;
+    u16 relative_height;
     u16 flags;
 
     actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }
-    move_heading = probe_directional_neighbor(actor, sprite->tile_x, sprite->tile_y,
+    nearby_actor = probe_directional_neighbor(actor, sprite->tile_x, sprite->tile_y,
         actor->facing);
-    if ((check_entity_interaction_compatibility(actor, move_heading) << 0x10) == 0) {
+    if ((check_entity_interaction_compatibility(actor, nearby_actor) << 0x10) == 0) {
         return 0;
     }
     flags = g_dungeon_status.flags;
@@ -795,7 +796,8 @@ s32 begin_actor_directional_attack(ActorRecord *action_state, ObjectPosition *ac
             return -1;
         }
     }
-    if ((u32) (((0 - get_actor_height_difference(move_heading, actor)) + 0x3F) & 0xFFFF) >= 0x7FU) {
+    relative_height = -get_actor_height_difference(nearby_actor, actor);
+    if ((u16)(relative_height + 0x3F) >= 0x7FU) {
         return 0;
     }
     if ((try_claim_dungeon_action_slot(actor) << 0x10) != 0) {

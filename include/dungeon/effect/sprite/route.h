@@ -190,14 +190,6 @@ typedef struct B32_818CF0E8_S_818CF0E8_3 {
     u16 unk_1C;
     u16 unk_1E;
 } B32_818CF0E8_S_818CF0E8_3;
-typedef struct B32_818CF0E8_S_818CF0E8_4 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x50];
-    s32 unk_54;
-    u8 pad_58[0x8];
-    s32 unk_60;
-} B32_818CF0E8_S_818CF0E8_4;
 typedef struct B32_818CF0E8_S_818CF0E8_5 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -239,25 +231,20 @@ typedef struct B32_818CF0E8_S_818CF0E8_9 {
 typedef struct {
     u16 h[6];
 } B32_818CF0E8_Vec12;
-typedef struct B32_818CEDC8_S_818CEDC8_0 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { s16 v; } at00u; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_08;   /* overlapping accesses */
-} B32_818CEDC8_S_818CEDC8_0;
-typedef struct B32_818CEDC8_S_818CEDC8_1 {
+typedef struct SlidingGroundSpriteBody {
     u8 pad_00[0x2];
-    u16 unk_02;
-    u16 unk_04;
+    u16 ticks_left;
+    u16 frame_count;
     u8 pad_06[0x2];
-    s16 unk_08;
+    s16 hit_ground;
     u8 pad_0A[0x42];
-    s32 unk_4C;
-    s32 unk_50;
-    s32 unk_54;
-    s32 unk_58;
-    s32 unk_5C;
-    s32 unk_60;
-} B32_818CEDC8_S_818CEDC8_1;
+    s32 velocity_x;
+    s32 velocity_y;
+    s32 velocity_z;
+    s32 accel_x;
+    s32 accel_y;
+    s32 accel_z;
+} SlidingGroundSpriteBody;
 
 /* Body for the jittered point and its linked shaded-point renderer. */
 typedef struct JitteredTerrainSeekingPointBody {
@@ -335,7 +322,7 @@ void advance_jittered_effect_toward_terrain(JitteredTerrainSeekingPointBody *obj
 void create_jittered_terrain_seeking_point( void *source, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
 void move_and_grow_timed_sprite(GrowingTimedSpriteBody *state, ObjectPosition *position, SpriteFrameState *object);
 void update_actor_effect_sequence(ChasingStarEffectBody *record);
-void advance_damped_ground_sliding_sprite(B32_818CEDC8_S_818CEDC8_1 *state, B32_818CEDC8_S_818CEDC8_0 *position, SpriteFrameState *sprite);
+void advance_damped_ground_sliding_sprite(SlidingGroundSpriteBody *state, ObjectPosition *position, SpriteFrameState *sprite);
 void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPosition *pos, B32_818CF0E8_S_818CF0E8_3 *gfx);
 void follow_entity_effect_and_cleanup(B32_818CFB74_State *state, B32_818CFB74_Vec12 *position, B32_818CFB74_Graphic *graphic);
 void *allocate_list_node(s32, ObjectNodeHeader **);

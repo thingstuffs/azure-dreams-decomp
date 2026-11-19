@@ -13,6 +13,9 @@ struct SpriteFrameState;
 struct S_800935BC_0;
 struct TownObject;
 
+/* Current collision-probe position and its displacement from the preceding position. */
+extern ObjectPosition town_collision_motion;
+
 /* add_motion_deltas_to_position.c */
 void add_motion_deltas_to_position(ObjectPosition *motion);
 

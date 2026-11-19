@@ -9,30 +9,27 @@
 #include "dungeon/effect/travel.h"
 #include "dungeon/item.h"
 #include "dungeon/level.h"
-#include "shared/dungeon_effect_state.h"
 
-void (*const dungeon_ovl_18b8824_entry)(ovl_18b8824_81898EBC_EffectState *state, ovl_18b8824_81898EBC_Motion *motion, ovl_18b8824_81898EBC_ColorPart *part) = advance_launched_effect;
+void (*const dungeon_ovl_18b8824_entry)(LaunchedEffectBody *state, ObjectPosition *motion, ovl_18b8824_81898EBC_ColorPart *part) = advance_launched_effect;
 
 /* Advances and spins a particle, increments its owner's counter, and removes it after its lifetime. */
 void interpolate_view_parameters(RandomRotationSpriteEffectBody *state, ObjectPosition *motion, SpriteFrameState *transform)
 {
-    u16 tick_count;
-    B22_81893474_EffectState *linked_state;
+    s16 tick_count;
+    LaunchedEffectBody *linked_state;
 
     linked_state = state->owner;
-    linked_state->field_14.u =
-        (u16)(linked_state->field_14.u + 1);
+    linked_state->child_updates++;
     motion->x.v =
         motion->x.v + motion->velocity_x;
     motion->y.v =
         motion->y.v + motion->velocity_y;
     motion->z.v =
         motion->z.v + motion->velocity_z;
-    transform->angle_z =
-        (u16)(transform->angle_z + 0x300);
-    tick_count = state->ticks.u + 1;
-    state->ticks.u = tick_count;
-    if (state->lifetime.s < (s16)tick_count) {
+    transform->angle_z += 0x300;
+    tick_count = state->ticks + 1;
+    state->ticks = tick_count;
+    if (state->lifetime < tick_count) {
         NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -40,21 +37,21 @@ void interpolate_view_parameters(RandomRotationSpriteEffectBody *state, ObjectPo
 
 /* Creates a randomly rotated half-scale gray sprite with copied motion, an owner link, and a saved
    setting. */
-void *create_random_rotation_sprite_effect(void *context, ovl_18b8824_818988CC_Copy24 *copy_src, s16 initial_value)
+void *create_random_rotation_sprite_effect(LaunchedEffectBody *context, ObjectPosition *copy_src, s16 initial_value)
 {
     ObjectNodeHeader *obj;
     RandomRotationSpriteEffectBody *fields;
     SpriteFrameState *sprite;
-    ovl_18b8824_818988CC_Copy24 *dst;
+    ObjectPosition *dst;
     s32 random_value;
 
     obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
-        obj->update_callback = (void *)interpolate_view_parameters;
+        obj->update_callback = interpolate_view_parameters;
         fields = NODE_BODY(obj);
         fields->owner = context;
-        fields->ticks.u = 0;
-        fields->lifetime.s = initial_value;
+        fields->ticks = 0;
+        fields->lifetime = initial_value;
 
         sprite = obj->sprite;
         sprite->color.c.b = 0x80;
@@ -67,7 +64,7 @@ void *create_random_rotation_sprite_effect(void *context, ovl_18b8824_818988CC_C
         sprite->scale_x = 0x800;
 
         register_node(obj, project_sprite_chain);
-        dst = *(ovl_18b8824_818988CC_Copy24 * *)&obj->position;
+        dst = obj->position;
         *dst = *copy_src;
         return obj;
     }
@@ -78,33 +75,35 @@ void *create_random_rotation_sprite_effect(void *context, ovl_18b8824_818988CC_C
  * Increments the linked object and entry counters, advances sprite animation, and flags removal
  * when animation flags 0x6000 are set.
  */
-void update_randomized_grayscale_effect(RandomizedGrayscaleEffectBody *entry, void *unused, SpriteFrameState *target)
+void update_randomized_grayscale_effect(RandomizedGrayscaleEffectBody *entry, ObjectPosition *unused, SpriteFrameState *target)
 {
-    B22_81893474_EffectState *object;
+    LaunchedEffectBody *object;
 
     object = entry->owner;
-    object->field_14.u += 1;
-    entry->ticks_remaining += 1;
+    object->child_updates += 1;
+    entry->ticks += 1;
     advance_sprite_animation_and_textures(target);
-    if (target ->flags & 0x6000) {
+    if (target->flags & 0x6000) {
         NODE_HEADER(entry)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
 /* Creates a gray sprite with copied motion, a fixed rotation, and a starting height offset of 80 units. */
-void *create_randomized_grayscale_effect(s32 object_tag, Rec_func_80024264_arg1 *initial_state)
+void *create_randomized_grayscale_effect(LaunchedEffectBody *owner, ObjectPosition *initial_state)
 {
     ObjectPosition *state;
     SpriteFrameState *appearance;
-    ovl_18b8824_81898A64_S_80024264_0 *object;
+    ObjectNodeHeader *object;
+    RandomizedGrayscaleEffectBody *body;
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        object->unk_10 = (void *)update_randomized_grayscale_effect;
-        appearance = object->unk_0C;
-        object->unk_20 = object_tag;
-        object->unk_24 = 0;
+        object->update_callback = update_randomized_grayscale_effect;
+        appearance = object->sprite;
+        body = NODE_BODY(object);
+        body->owner = owner;
+        body->ticks = 0;
         appearance->color.c.b = 0x80;
         appearance->color.c.g = 0x80;
         appearance->color.c.r = 0x80;
@@ -113,13 +112,13 @@ void *create_randomized_grayscale_effect(s32 object_tag, Rec_func_80024264_arg1 
         appearance->scale_y = 0x1000;
         appearance->angle_z = 0xC00;
         register_node(object, project_sprite_chain);
-        state = object->unk_08;
-        state->x.v = initial_state->unk_00.at00_s32.v;
-        state->y.v = initial_state->unk_04.at00_s32.v;
-        state->z.v = initial_state->unk_08.at00_s32.v + 0x500000;
-        state->velocity_x = initial_state->unk_0C.at00_s32.v;
-        state->velocity_y = initial_state->unk_10.at00_s32.v;
-        state->velocity_z = initial_state->unk_14;
+        state = object->position;
+        state->x.v = initial_state->x.v;
+        state->y.v = initial_state->y.v;
+        state->z.v = initial_state->z.v + 0x500000;
+        state->velocity_x = initial_state->velocity_x;
+        state->velocity_y = initial_state->velocity_y;
+        state->velocity_z = initial_state->velocity_z;
         return object;
     } else {
         return NULL;
@@ -127,28 +126,28 @@ void *create_randomized_grayscale_effect(s32 object_tag, Rec_func_80024264_arg1 
 }
 
 /* Advances sprite animation, creates a gray child at count 8, and removes the effect at count 16. */
-void update_counted_sprite_effect(CountedSpriteEffectBody *entry, s32 unused, void *target)
+void update_counted_sprite_effect(CountedSpriteEffectBody *entry, ObjectPosition *position, SpriteFrameState *target)
 {
-    ovl_18b8824_81898B70_S_80024370_1 *object;
-    u16 count;
+    LaunchedEffectBody *object;
+    s16 count;
 
     object = entry->owner;
-    object->unk_14++;
+    object->child_updates++;
 
-    count = entry->ticks_remaining + 1;
-    entry->ticks_remaining = count;
+    count = entry->ticks + 1;
+    entry->ticks = count;
 
-    switch ((s16)count) {
+    switch (count) {
     case 8:
-        create_randomized_grayscale_effect((s32)entry->owner, (Rec_func_80024264_arg1 *)unused);
+        create_randomized_grayscale_effect(entry->owner, position);
         break;
     case 0x10:
     {
-        s32 *global_page;
+        u8 *global_page;
 
-        global_page = (s32 *)0x80080000;
+        global_page = (u8 *)0x80080000;
         NODE_HEADER(entry)->flags |= NODE_REMOVE;
-        ((ovl_18b8824_81898B70_S_80024370_2 *)global_page)->unk_14A0 |= 0x8000;
+        ((ObjectFlagBlock *)(global_page + 0x14A0))->flags |= OBJECT_REMOVE_PENDING;
         break;
     }
     }
@@ -157,18 +156,20 @@ void update_counted_sprite_effect(CountedSpriteEffectBody *entry, s32 unused, vo
 
 /* Creates a blue-tinted sprite with copied motion and installs the callback that advances its timed
    target effect. */
-void *create_counted_sprite_effect(s32 object_id, ovl_18b8824_81898C1C_S_8002441C_3 *initial_state) {
+void *create_counted_sprite_effect(LaunchedEffectBody *owner, ObjectPosition *initial_state) {
     SpriteFrameState *display;
-    ovl_18b8824_81898C1C_S_8002441C_0 *object;
+    ObjectNodeHeader *object;
+    CountedSpriteEffectBody *body;
     ObjectPosition *state;
     void *result;
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        object->unk_10 = (void *)update_counted_sprite_effect;
-        display = object->unk_0C;
-        object->unk_20 = object_id;
-        object->unk_24 = 0;
+        object->update_callback = update_counted_sprite_effect;
+        display = object->sprite;
+        body = NODE_BODY(object);
+        body->owner = owner;
+        body->ticks = 0;
         display->color.c.b = 0x80;
         display->color.c.g = 0x80;
         display->color.c.r = 0x80;
@@ -177,17 +178,17 @@ void *create_counted_sprite_effect(s32 object_id, ovl_18b8824_81898C1C_S_8002441
         display->scale_x = 0x2000;
         display->scale_y = 0x1000;
         display->clut = 0x7DCF;
-        display->flags = (u16)(display->flags | 0xC);
-        display->tpage_abr = (u16)(display->tpage_abr | 0x20);
-        display->flags = (u16)(display->flags | 0x100);
+        display->flags |= 0xC;
+        display->tpage_abr |= 0x20;
+        display->flags |= 0x100;
         register_node(object, project_sprite_chain);
-        state = object->unk_08;
-        state->x.v = initial_state->unk_00;
-        state->y.v = initial_state->unk_04;
-        state->z.v = initial_state->unk_08;
-        state->velocity_x = initial_state->unk_0C;
-        state->velocity_y = initial_state->unk_10;
-        state->velocity_z = initial_state->unk_14;
+        state = object->position;
+        state->x.v = initial_state->x.v;
+        state->y.v = initial_state->y.v;
+        state->z.v = initial_state->z.v;
+        state->velocity_x = initial_state->velocity_x;
+        state->velocity_y = initial_state->velocity_y;
+        state->velocity_z = initial_state->velocity_z;
         result = object;
         return result;
     } else {
@@ -200,13 +201,13 @@ void *create_counted_sprite_effect(s32 object_id, ovl_18b8824_81898C1C_S_8002441
  * Increments the linked object counter and advances sprite animation, setting local and global
  * removal flags when animation flags 0x6000 are set.
  */
-void animate_sprite_once_counting_owner_ticks(SpriteEffectWithDataBody *object_ref, s32 unused, SpriteFrameState *target) {
-    B22_81893474_EffectState *object;
+void animate_sprite_once_counting_owner_ticks(SpriteEffectWithDataBody *object_ref, ObjectPosition *unused, SpriteFrameState *target) {
+    LaunchedEffectBody *object;
 
     object = object_ref->owner;
-    object->field_14.u += 1;
+    object->child_updates += 1;
     advance_sprite_animation_and_textures(target);
-    if (target ->flags & 0x6000) {
+    if (target->flags & 0x6000) {
         NODE_HEADER(object_ref)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -214,31 +215,33 @@ void animate_sprite_once_counting_owner_ticks(SpriteEffectWithDataBody *object_r
 
 /* Creates a gray sprite with copied motion and a 160-unit height offset, signaling its owner when the
    target finishes. */
-ovl_18b8824_81898DCC_Object *create_sprite_effect_with_data(s32 field_value, s32 *initial_data) {
-    ovl_18b8824_81898DCC_Object *obj;
-    u8 *sprite;
-    s32 *data;
+ObjectNodeHeader *create_sprite_effect_with_data(LaunchedEffectBody *owner, ObjectPosition *initial_data) {
+    ObjectNodeHeader *obj;
+    SpriteEffectWithDataBody *body;
+    SpriteFrameState *sprite;
+    ObjectPosition *data;
 
     obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
-        obj->callback = (void *)animate_sprite_once_counting_owner_ticks;
+        obj->update_callback = animate_sprite_once_counting_owner_ticks;
         sprite = obj->sprite;
-        obj->field20 = field_value;
-        sprite[0xE] = 0x80;
-        sprite[0xD] = 0x80;
-        sprite[0xC] = 0x80;
-        ((SpriteFrameState *)sprite)->scale_y = 0x1400;
-        ((SpriteFrameState *)sprite)->scale_x = 0x1400;
+        body = NODE_BODY(obj);
+        body->owner = owner;
+        sprite->color.c.b = 0x80;
+        sprite->color.c.g = 0x80;
+        sprite->color.c.r = 0x80;
+        sprite->scale_y = 0x1400;
+        sprite->scale_x = 0x1400;
         select_record_entry_and_value(sprite, D_80024FC4, 0);
         register_node(obj, project_sprite_chain);
 
-        data = obj->data;
-        data[0] = initial_data[0];
-        data[1] = initial_data[1];
-        data[2] = initial_data[2] + 0xA00000;
-        data[3] = initial_data[3];
-        data[4] = initial_data[4];
-        data[5] = initial_data[5];
+        data = obj->position;
+        data->x.v = initial_data->x.v;
+        data->y.v = initial_data->y.v;
+        data->z.v = initial_data->z.v + 0xA00000;
+        data->velocity_x = initial_data->velocity_x;
+        data->velocity_y = initial_data->velocity_y;
+        data->velocity_z = initial_data->velocity_z;
         return obj;
     }
 
@@ -246,17 +249,17 @@ ovl_18b8824_81898DCC_Object *create_sprite_effect_with_data(s32 field_value, s32
 }
 
 /* Launches an effect toward a checked tile, emits timed visuals, and creates an actor there when allowed. */
-void advance_launched_effect(ovl_18b8824_81898EBC_EffectState *state, ovl_18b8824_81898EBC_Motion *motion, ovl_18b8824_81898EBC_ColorPart *part)
+void advance_launched_effect(LaunchedEffectBody *state, ObjectPosition *motion, ovl_18b8824_81898EBC_ColorPart *part)
 {
     void *owner;
-    void *owner_data;
-    void *owner_node;
-    void *source_pos;
-    register u8 *origin;
+    ObjectNodeHeader *owner_header;
+    SpriteFrameState *owner_sprite;
+    ObjectPosition *source_pos;
+    TileObject *origin;
     ovl_18b8824_81898EBC_Scratch scratch;
     u8 *global_page;
     s32 state_id;
-    u32 source_z;
+    u16 source_z;
     s32 axis;
     u8 *delta_ptr;
     s16 *target_pos;
@@ -269,12 +272,12 @@ void advance_launched_effect(ovl_18b8824_81898EBC_EffectState *state, ovl_18b882
     switch (state_id) {
     case 0:
 
-        origin = ((u8 *)&reference_tile_object);
+        origin = &reference_tile_object;
         {
-            void *node = ovl_18b8824_81898EBC_PTR_AT((u8 *)owner - 0x20, 0xC);
-            s32 dir = (ovl_18b8824_81898EBC_U16_AT(primary_actor_record, 0x2A) >> 9) & 7;
-            ovl_18b8824_81898EBC_U16_AT(owner, 0x2A) = get_rounded_facing_and_rounding_flag(ovl_18b8824_81898EBC_U8_AT(node, 0x24), ovl_18b8824_81898EBC_U8_AT(node, 0x25),
-                origin[0x24] + dir_step_x[dir], origin[0x25] + dir_step_y[dir], &ovl_18b8824_81898EBC_result);
+            SpriteFrameState *node = NODE_HEADER(owner)->sprite;
+            s32 dir = (primary_actor_record->facing >> 9) & 7;
+            ovl_18b8824_81898EBC_U16_AT(owner, 0x2A) = get_rounded_facing_and_rounding_flag(node->tile_x, node->tile_y,
+                origin->tile_position.parts.tile_x + dir_step_x[dir], origin->tile_position.parts.tile_y + dir_step_y[dir], &ovl_18b8824_81898EBC_result);
         }
         state->timer = 0;
         state->state++;
@@ -283,32 +286,32 @@ void advance_launched_effect(ovl_18b8824_81898EBC_EffectState *state, ovl_18b882
         part->color = 0x00808080;
 
     case 1:
-        owner_data = (u8 *)owner - 0x20;
-        owner_node = ovl_18b8824_81898EBC_PTR_AT(owner_data, 0xC);
-        if (resolve_record_orientation_or_fallback(ovl_18b8824_81898EBC_PTR_AT(owner_node, 8), owner_node, ovl_18b8824_81898EBC_probe, 0) == 0) {
-            if (!(ovl_18b8824_81898EBC_U16_AT(ovl_18b8824_81898EBC_PTR_AT(owner_data, 0xC), 0x14) & 0x8000)) {
+        owner_header = NODE_HEADER(owner);
+        owner_sprite = owner_header->sprite;
+        if (resolve_record_orientation_or_fallback(owner_sprite->source, owner_sprite, ovl_18b8824_81898EBC_probe, 0) == 0) {
+            if (!(owner_header->sprite->flags & 0x8000)) {
                 break;
             }
         }
 
-        source_pos = ovl_18b8824_81898EBC_PTR_AT(owner_data, 8);
-        ovl_18b8824_81898EBC_U16_AT(motion, 2) = ovl_18b8824_81898EBC_U16_AT(source_pos, 2);
-        ovl_18b8824_81898EBC_U16_AT(motion, 6) = ovl_18b8824_81898EBC_U16_AT(source_pos, 6);
-        source_z = ovl_18b8824_81898EBC_U16_AT(source_pos, 0xA);
-        ovl_18b8824_81898EBC_U16_AT(motion, 0xA) = source_z;
-        if (!(ovl_18b8824_81898EBC_U16_AT(ovl_18b8824_81898EBC_PTR_AT(owner_data, 0xC), 0x14) & 0x8000)) {
-            ovl_18b8824_81898EBC_U16_AT(motion, 2) += ovl_18b8824_81898EBC_probe[0];
-            ovl_18b8824_81898EBC_U16_AT(motion, 6) += ovl_18b8824_81898EBC_probe[1];
-            ovl_18b8824_81898EBC_U16_AT(motion, 0xA) += ovl_18b8824_81898EBC_probe[2];
+        source_pos = owner_header->position;
+        motion->x.w.i = source_pos->x.w.i;
+        motion->y.w.i = source_pos->y.w.i;
+        source_z = source_pos->z.w.i;
+        motion->z.w.i = source_z;
+        if (!(owner_header->sprite->flags & 0x8000)) {
+            motion->x.w.i += ovl_18b8824_81898EBC_probe[0];
+            motion->y.w.i += ovl_18b8824_81898EBC_probe[1];
+            motion->z.w.i += ovl_18b8824_81898EBC_probe[2];
         } else {
-            ovl_18b8824_81898EBC_U16_AT(motion, 0xA) = source_z - 0x40;
+            motion->z.w.i = source_z - 0x40;
         }
         if (!(ovl_18b8824_81898EBC_U16_AT(state->image, 0) & 0x80)) {
             break;
         }
 
         target_pos = scratch.work;
-        if ((ovl_18b8824_81898EBC_U16_AT(owner_data, 0x1E) | 0x2000) != 0) {
+        if ((owner_header->flags | 0x2000) != 0) {
             void *direction_node = primary_actor_record;
 
             state->x = reference_tile_object.tile_position.parts.tile_x + dir_step_x[(ovl_18b8824_81898EBC_U16_AT(direction_node, 0x2A) >> 9) & 7];
@@ -366,7 +369,7 @@ void advance_launched_effect(ovl_18b8824_81898EBC_EffectState *state, ovl_18b882
                     ovl_18b8824_81898EBC_S32_AT((u8 *)target_pos, 8) = fallback_value;
                     state->state = 6;
                 } else {
-                    if ((ovl_18b8824_81898EBC_U16_AT(owner_data, 0x1E) | 0x2000) != 0) {
+                    if ((owner_header->flags | 0x2000) != 0) {
                         state->status = 1;
                     } else {
                         state->status = 2;
@@ -383,13 +386,13 @@ void advance_launched_effect(ovl_18b8824_81898EBC_EffectState *state, ovl_18b882
 
                 axis = 1;
                 delta_ptr = (u8 *)&scratch + 2;
-                delta_x = ovl_18b8824_81898EBC_S16_AT(target_pos, 2) - ovl_18b8824_81898EBC_S16_AT(motion, 2);
+                delta_x = ovl_18b8824_81898EBC_S16_AT(target_pos, 2) - motion->x.w.i;
                 delta_x = abs(delta_x);
                 ovl_18b8824_81898EBC_probe[0] = delta_x;
-                delta_y = ovl_18b8824_81898EBC_S16_AT(target_pos, 6) - ovl_18b8824_81898EBC_S16_AT(motion, 6);
+                delta_y = ovl_18b8824_81898EBC_S16_AT(target_pos, 6) - motion->y.w.i;
                 delta_y = abs(delta_y);
                 ovl_18b8824_81898EBC_probe[1] = delta_y;
-                raised_z = ovl_18b8824_81898EBC_S16_AT(motion, 0xA) + 160;
+                raised_z = motion->z.w.i + 160;
                 delta_z = ovl_18b8824_81898EBC_S16_AT(target_pos, 0xA) - raised_z;
                 delta_z = abs(delta_z);
                 ovl_18b8824_81898EBC_probe[2] = delta_z;
@@ -410,26 +413,26 @@ void advance_launched_effect(ovl_18b8824_81898EBC_EffectState *state, ovl_18b882
             if (state->duration == 0) {
                 state->duration = 1;
             }
-            ovl_18b8824_81898EBC_S32_AT(motion, 0xC) =
-                (ovl_18b8824_81898EBC_S32_AT(target_pos, 0) - ovl_18b8824_81898EBC_S32_AT(motion, 0)) / state->duration;
+            motion->velocity_x =
+                (ovl_18b8824_81898EBC_S32_AT(target_pos, 0) - motion->x.v) / state->duration;
             {
                 s32 current_y;
                 s32 y_step;
                 s32 move_frames;
 
-                current_y = ovl_18b8824_81898EBC_S32_AT(motion, 4);
+                current_y = motion->y.v;
                 y_step = ovl_18b8824_81898EBC_S32_AT(target_pos, 4) - current_y;
                 move_frames = state->duration;
                 y_step /= move_frames;
-                ovl_18b8824_81898EBC_S32_AT(motion, 0x10) = y_step;
+                motion->velocity_y = y_step;
             }
             {
                 s32 raised_z;
                 s32 z_offset;
 
                 z_offset = 0x00A00000;
-                raised_z = ovl_18b8824_81898EBC_S32_AT(motion, 8) + z_offset;
-                ovl_18b8824_81898EBC_S32_AT(motion, 0x14) =
+                raised_z = motion->z.v + z_offset;
+                motion->velocity_z =
                     (ovl_18b8824_81898EBC_S32_AT(target_pos, 8) - raised_z) / state->duration;
             }
             create_random_rotation_sprite_effect(state, motion, state->duration);
@@ -440,9 +443,9 @@ void advance_launched_effect(ovl_18b8824_81898EBC_EffectState *state, ovl_18b882
         }
 
     case 2:
-        ovl_18b8824_81898EBC_S32_AT(motion, 0) += ovl_18b8824_81898EBC_S32_AT(motion, 0xC);
-        ovl_18b8824_81898EBC_S32_AT(motion, 4) += ovl_18b8824_81898EBC_S32_AT(motion, 0x10);
-        ovl_18b8824_81898EBC_S32_AT(motion, 8) += ovl_18b8824_81898EBC_S32_AT(motion, 0x14);
+        motion->x.v += motion->velocity_x;
+        motion->y.v += motion->velocity_y;
+        motion->z.v += motion->velocity_z;
         if (state->timer < state->duration) {
             break;
         }
@@ -492,7 +495,7 @@ void advance_launched_effect(ovl_18b8824_81898EBC_EffectState *state, ovl_18b882
         break;
 
     case 5:
-        if (state->field_14 != 0) {
+        if (state->child_updates != 0) {
             break;
         }
         g_dungeon_status.active_actor = 0;
@@ -501,8 +504,8 @@ void advance_launched_effect(ovl_18b8824_81898EBC_EffectState *state, ovl_18b882
         break;
 
     case 6:
-        ovl_18b8824_81898EBC_S32_AT(motion, 0) += ovl_18b8824_81898EBC_S32_AT(motion, 0xC);
-        ovl_18b8824_81898EBC_S32_AT(motion, 4) += ovl_18b8824_81898EBC_S32_AT(motion, 0x10);
+        motion->x.v += motion->velocity_x;
+        motion->y.v += motion->velocity_y;
         if (state->timer >= state->duration) {
             state->state = 5;
             state->timer = 0;
@@ -510,5 +513,5 @@ void advance_launched_effect(ovl_18b8824_81898EBC_EffectState *state, ovl_18b882
 
     }
 
-    state->field_14 = 0;
+    state->child_updates = 0;
 }

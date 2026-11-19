@@ -6,7 +6,6 @@
 #include "town/shop.h"
 
 extern ScenePositionEntry D_8001BB4C[];
-extern s32 scene_dispatch_context;
 extern s32 D_8001FAE8[];
 
 /* Processes a request by mode, returning a fallback pointer if the mode 7 check fails. */
@@ -18,7 +17,7 @@ s32 select_response_checking_free_slots(void *request, s32 unused, s32 mode) {
 
     saved_mode = mode;
     data_base = D_8001BB4C;
-    result = apply_entry_position(data_base, &scene_dispatch_context, saved_request, saved_mode);
+    result = apply_entry_position(data_base, scene_dispatch_context, saved_request, saved_mode);
     if (saved_mode == 7) {
         if (count_free_item_slots() != 0) {
             return result;

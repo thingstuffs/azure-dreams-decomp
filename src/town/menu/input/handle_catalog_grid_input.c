@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/runtime_dispatch.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "engine/scene.h"
@@ -30,7 +31,6 @@ typedef struct {
     u8 pad19[0x43];
 } Object;
 
-extern u8 scene_mode_code;
 
 /* Handles input to update object selections, action states, and exit behavior. */
 void handle_catalog_grid_input(Object *object)

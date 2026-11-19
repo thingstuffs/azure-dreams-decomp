@@ -12,7 +12,7 @@
 /* Initialize the record from global data, clear the global flag, and set its table and counter. */
 void initialize_record_with_default_handler(TownObjectRecord *record, void *ptr, void *ptr2) {
     dispatch_selected_entry_if_nonzero(type_three_action_handler_table, record, ptr2);
-    town_action_reset_byte = 0;
+    town_action_reset_byte[0] = 0;
     record->unk_04 = &target_action_update_address;
     record->unk_0A = 8;
 }

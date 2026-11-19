@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/menu_display.h"
 #include "shared/object_payload.h"
 
 typedef struct {
@@ -7,11 +8,6 @@ typedef struct {
     s32 unk8;
     s32 unkC;
 } Template0;
-
-
-
-extern Template0 display_block_defaults;
-extern CatalogRecordDefaults display_vector_defaults;
 
 typedef struct {
     s32 unk0;
@@ -39,15 +35,15 @@ typedef struct {
 
 /* Initialize the header and its two records from default templates. */
 void initialize_catalog_view_records(Header *header, Template0 *primary_record, Record1 *secondary_record) {
-    Template0 *primary_defaults = &display_block_defaults;
-    CatalogRecordDefaults *secondary_defaults = &display_vector_defaults;
+    MenuDisplayBlock *primary_defaults = &display_block_defaults;
+    DisplayPositionWords *secondary_defaults = &display_vector_defaults;
     s32 *default_word;
 
-    primary_record->unk0 = primary_defaults->unk0;
+    primary_record->unk0 = primary_defaults->words[0];
     default_word = &secondary_defaults->unk0;
-    primary_record->unk4 = primary_defaults->unk4;
-    primary_record->unk8 = primary_defaults->unk8;
-    primary_record->unkC = primary_defaults->unkC;
+    primary_record->unk4 = primary_defaults->words[1];
+    primary_record->unk8 = primary_defaults->words[2];
+    primary_record->unkC = primary_defaults->words[3];
 
     ((CatalogRecordDefaults *)secondary_record)->unk0 = *default_word;
     ((CatalogRecordDefaults *)secondary_record)->unk4 = secondary_defaults->unk4;

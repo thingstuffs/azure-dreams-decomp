@@ -1,6 +1,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
+#include "dungeon/item/actor_target.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -17,7 +18,6 @@ extern void store_recalled_familiar(void *, void *, void *, ActorRecord *); /* U
 extern void unlink_entity_node(void *);
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
-s32 find_linked_object_slot_index(void *target_value);
 
 extern void spend_actor_mp(void *, s32);
 #include "dungeon/monster/pulunpa.h"

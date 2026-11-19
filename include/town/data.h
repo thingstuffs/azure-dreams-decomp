@@ -90,6 +90,9 @@ extern s32 person_reaction_object_entries[ ];
 extern s8 person_slot_reset_byte;
 extern s32 pickup_reward_total[ ];
 extern s32 player_event_handler_entries;
+/* Up to eight four-word rectangles (min X, max X, min Y, max Y).
+ * A 0x80000000 minimum X marks the end, including at word 32 in mode 10. */
+extern s32 player_blocking_rects[33];
 extern s32 player_motion_bounds[ 4 ];
 extern u8 pool_palette_rect[ ];
 extern u8 pool_palette_rect_2[ ];
@@ -114,7 +117,7 @@ extern u8 tako_particle_sprite_data[ ];
 extern u8 tako_target_timing_table[ ];
 extern s16 terrain_height_limits[ ];
 extern s32 timed_scene_handler_entries;
-extern s32 town_actor_scratch;
+extern struct ActorRecord town_actor_scratch;
 extern u8 town_building_scene_index;
 extern u16 town_facing_angles[ ];
 extern s32 town_item_layout_coordinates[ ] [ 3 ];

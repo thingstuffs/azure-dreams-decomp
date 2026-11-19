@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:dungeon/engine:800DCF4E. */
 
 #include "common.h"
+#include "shared/runtime_dispatch.h"
 #include "slus.h"
 #include "dungeon/level/sprite_bundle_data.h"
 
@@ -24,8 +25,6 @@ extern u8 level_module_read_descriptor_a[];
 extern void drain_cd_command_queue(void);
 extern char level_module_read_descriptor_b[];
 extern void func_8003F320(void);
-
-extern u8 scene_mode_code;
 
 /* Functions defined in this translation unit. */
 void request_scene_or_reload_level_module_a(void);

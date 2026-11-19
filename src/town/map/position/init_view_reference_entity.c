@@ -42,7 +42,7 @@ void init_view_reference_entity(void) {
     object->sprite = &reference_tile_object.frame_entry;
     object->position = &view_reference_entity.x.v;
     initialize_circular_list_head();
-    init_scene_list_node(&town_actor_control, &view_reference_entity.x.v, &D_800D0420);
+    init_scene_list_node(&town_actor_control, &view_reference_entity, &D_800D0420);
     init_town_motion_list();
     init_secondary_list_record(&town_motion_list, (s32)(&view_reference_entity.x.v), (s32)(&D_800D0420));
     {

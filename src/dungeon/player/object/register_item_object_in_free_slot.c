@@ -1,5 +1,5 @@
 #include "dungeon/level/tile_flags.h"
-#include "shared/dungeon_item_entries.h"
+#include "dungeon/player/held_item_kind_data.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "dungeon/item.h"
@@ -10,10 +10,7 @@
 
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
-extern u8 temporary_item_record[];
-extern void *held_item_record;
 extern u8 D_800E07EF[];
-extern u8 dungeon_ground_item_positions[];
 
 /* Moves a held or selected ground item into free inventory slots, or displays a failure message when full. */
 void *register_item_object_in_free_slot(void *target, void *ptr1, void *ptr2, s16 flag)
@@ -27,14 +24,14 @@ void *register_item_object_in_free_slot(void *target, void *ptr1, void *ptr2, s1
     s32 narrowed;
     s32 address;
     u32 flags;
-    u8 *entry;
+    DungeonItemPosition *entry;
+    DungeonItemPosition *positions;
     u8 *entry_base;
-    s32 entry_base_s;
     ActorRecord *global_object;
-    void **slot;
+    u32 *slot;
 
-    if (target == (void *)&held_item_record ||
-        target == (void *)temporary_item_record ||
+    if (target == &held_item_record ||
+        target == &temporary_item_record ||
         target == *(void **)((u8 *)primary_actor_record + 0xF0)) {
     first = find_last_zero_entry_run_start();
     second = find_and_clear_empty_item_slot();
@@ -57,12 +54,12 @@ void *register_item_object_in_free_slot(void *target, void *ptr1, void *ptr2, s1
     }
     play_sound_if_enabled(0x508);
 
-    if (target == (void *)&held_item_record) {
-        slot = &((void **)0x80010248)[index];
-        *slot = held_item_record;
+    if (target == &held_item_record) {
+        slot = &((u32 *)0x80010248)[index];
+        *slot = *(u32 *)&held_item_record;
         global_object = primary_actor_record;
         flags = *(u32 *)((u8 *)global_object + 0x1C);
-        held_item_record = 0;
+        *(u32 *)&held_item_record = 0;
         *(s32 *)((u8 *)global_object + 0x124) = 0;
         global_object->flags1C = flags & 0xFFEFFFFF;
     } else {
@@ -70,13 +67,12 @@ void *register_item_object_in_free_slot(void *target, void *ptr1, void *ptr2, s1
         found = (s16)get_bounded_stride_index(*(void **)(((u8 *)dungeon_actor_ring_anchor) + 0xF0),
                                  ((u8 *)dungeon_ground_items), 4, 0x40);
         if (found >= 0) {
-            entry_base_s = (s32)dungeon_ground_item_positions;
-            entry = (u8 *)(found * 12);
-            entry += entry_base_s;
-            update_map_cell_flags_with_item_limit(entry[0], entry[1], TILE_HAS_ITEM);
-            ((void **)0x80010248)[index] = *(void **)temporary_item_record;
+            positions = dungeon_ground_item_positions;
+            entry = positions + found;
+            update_map_cell_flags_with_item_limit(entry->x, entry->y, TILE_HAS_ITEM);
+            ((u32 *)0x80010248)[index] = *(u32 *)&temporary_item_record;
         } else {
-            ((void **)0x80010248)[index] = *(void **)temporary_item_record;
+            ((u32 *)0x80010248)[index] = *(u32 *)&temporary_item_record;
         }
         *(s32 *)*(void **)((u8 *)primary_actor_record + 0xF0) = 0;
     }

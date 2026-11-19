@@ -8,7 +8,8 @@ struct ScatteredTimedEffectBody;
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 struct S_81832FE8_0;
-void fade_timed_quad_vertices(void *fade_data);
+struct FadingSequenceChildBody;
+void fade_timed_quad_vertices(struct FadingSequenceChildBody *fade);
 void try_apply_attached_actor_status(struct S_81832FE8_0 *owner);
 
 
@@ -193,20 +194,20 @@ typedef struct EightPartTexturedRibbonBody {
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "shared/dungeon_effect_views.h"
-struct D_800DB420_Obj;
-struct D_800DB420_RngOut;
+struct JitteredGroupEffectBody;
 struct S_func_81856800_1;
 struct S_func_81856800_2;
 struct S_func_818DA800_1;
 struct S_func_818DA800_2;
-void advance_jittered_effect_modes(struct D_800DB420_Obj *state, struct D_800DB420_RngOut *position, SpriteFrameState *effect);
+void advance_jittered_effect_modes(struct JitteredGroupEffectBody *state, ObjectPosition *position, SpriteFrameState *effect);
 s32 draw_flagged_particle_points(PointRecord *first_point, ObjectPosition *first_position);
 void fade_linked_display_sprite(struct FreeSlotDisplayEffectBody *effect, void *unused_context, SpriteFrameState *effect_params);
 void fade_packed_object_color_to_zero(void *object);
 void fade_tinted_display_sprite(struct FreeSlotDisplayEffectBody *effect, void *unused, SpriteFrameState *primitive);
 void run_fading_sprite_projectile(struct S_func_81856800_1 *action, struct S_func_81856800_2 *motion_arg);
 void run_growing_target_effect(struct S_func_818DA800_1 *effect_state, struct S_func_818DA800_2 *motion);
-void spawn_scattered_timed_objects(void *source_owner, void *spawn_params);
+struct ScatteredObjectSpawnerBody;
+void spawn_scattered_timed_objects(struct ScatteredObjectSpawnerBody *owner, ObjectPosition *position);
 void update_animated_textured_ribbon(EightPartTexturedRibbonBody *effect, void *origin, void *color_in);
 void update_flickering_layer_sprite(struct LayeredSpritePulseBody *effect_data, void *unused, SpriteFrameState *effect);
 void update_landing_particle_fade(struct ScatterLandingSparksOnGridBody *object, u8 *motion, u8 *sprite);
@@ -271,8 +272,9 @@ void spawn_shrinking_particles_at_tile(void *list_head, s32 x, s32 y, s16 upper_
 #include "records/Rec_func_80167A98_arg1.h"
 void create_ribbon_head_sprite(Rec_func_80167A98_arg0 *source, Rec_func_80167A98_arg1 *origin, void *unused_color);
 
-void create_terrain_seeking_point_effect(void *source, s32 property_34, s32 property_28, s16 property_52, s16 x_offset, s16 y_offset, s16 z_offset);
-void draw_textured_sphere_mesh(void *mesh, void *position, SpriteFrameState *material, u16 depth_bias);
+void create_terrain_seeking_point_effect(struct ObjectNodeHeader *source, s32 property_34, s32 property_28, s16 property_52, s16 x_offset, s16 y_offset, s16 z_offset);
+struct TexturedSparkSphereBody;
+void draw_textured_sphere_mesh(struct TexturedSparkSphereBody *mesh, ObjectPosition *position, SpriteFrameState *material, u16 depth_bias);
 void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position, SpriteFrameState *material, s16 depth_bias);
 struct TargetParticleStatusSpellBody;
 void update_animated_effect_sprite(struct TargetParticleStatusSpellBody *effect, ObjectPosition *entity, SpriteFrameState *sprite);

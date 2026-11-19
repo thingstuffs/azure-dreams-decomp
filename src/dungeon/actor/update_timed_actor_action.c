@@ -1,4 +1,5 @@
 #include "shared/actor_status_ids.h"
+#include "engine/entity/effect_slots.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
 #include "common.h"
@@ -7,7 +8,6 @@
 #include "dungeon/system.h"
 #include "dungeon/level.h"
 
-extern s32 get_entity_effect_value(void *, s32);
 
 /* Waits for status slot 1 to clear, processes linked actors, and updates pending-action and dungeon flags. */
 void update_timed_actor_action(ActorRecord *object, s32 unused1, s32 unused2, ActorRecord *resource) {

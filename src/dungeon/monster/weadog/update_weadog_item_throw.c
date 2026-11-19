@@ -1,4 +1,5 @@
 #include "shared/object_flags.h"
+#include "shared/dungeon_height_query.h"
 #include "common.h"
 #include "shared/object_links.h"
 #include "dungeon/actor/effect.h"
@@ -82,8 +83,6 @@ typedef struct S_func_80EF7000_4 {
 
 
 
-s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
-extern s16 sample_terrain_surface_height(s32, s32, s16);
 
 extern u8 weadog_slot_c_direction_steps[];
 extern FlagBlock D_800814A0;
@@ -213,11 +212,11 @@ fall:
             animation->unk_1E = scale;
             animation->unk_1C = scale;
             fall_height = position->unk_08.half.unk_0A;
-            if (sample_terrain_surface_height((motion->unk_5C << 6) & 0xFFC0,
+            if ((s16)sample_terrain_surface_height((motion->unk_5C << 6) & 0xFFC0,
                               (motion->unk_5D << 6) & 0xFFC0,
                               (s16)((u16)position->unk_08.half.unk_0A - 0x20)) - 7 <
                 fall_height) {
-                position->unk_08.half.unk_0A = sample_terrain_surface_height(
+                position->unk_08.half.unk_0A = (s16)sample_terrain_surface_height(
                     (motion->unk_5C << 6) & 0xFFC0,
                     (motion->unk_5D << 6) & 0xFFC0,
                     (s16)((u16)position->unk_08.half.unk_0A - 0x20));
@@ -269,7 +268,7 @@ move:
                 if (interp_goal == coord) {
                     if ((check_left_tile_and_center_height(((u16)position->unk_00.half.unk_02), ((u16)position->unk_04.half.unk_06),
                         position->unk_08.half.unk_0A) << 16) != 0 ||
-                        sample_terrain_surface_height(((u16)position->unk_00.half.unk_02), ((u16)position->unk_04.half.unk_06),
+                        (s16)sample_terrain_surface_height(((u16)position->unk_00.half.unk_02), ((u16)position->unk_04.half.unk_06),
                                           position->unk_08.half.unk_0A) >= 0x200) {
                         position->unk_00.unk_00 -= motion->unk_6C;
                         motion->unk_6C = 0;
@@ -290,9 +289,9 @@ move:
         position->unk_08.unk_08 += motion->unk_74;
         motion->unk_74 += motion->unk_80;
         height = position->unk_08.half.unk_0A;
-        if (sample_terrain_surface_height((motion->unk_5C << 6) & 0xFFC0, (motion->unk_5D << 6) & 0xFFC0,
+        if ((s16)sample_terrain_surface_height((motion->unk_5C << 6) & 0xFFC0, (motion->unk_5D << 6) & 0xFFC0,
             (s16)((u16)position->unk_08.half.unk_0A - 0x20)) - 0x10 < height) {
-            position->unk_08.half.unk_0A = sample_terrain_surface_height(
+            position->unk_08.half.unk_0A = (s16)sample_terrain_surface_height(
                 (motion->unk_5C << 6) & 0xFFC0,
                 (motion->unk_5D << 6) & 0xFFC0,
                 (s16)((u16)position->unk_08.half.unk_0A - 0x20));

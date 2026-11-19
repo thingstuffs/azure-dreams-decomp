@@ -14,7 +14,7 @@
  */
 void init_twenty_one_tick_target_action(TownObjectRecord *record, void *unused, void *handler_context) {
     dispatch_selected_entry_if_nonzero(D_800D0170, record, handler_context);
-    town_action_reset_byte = 0;
+    town_action_reset_byte[0] = 0;
     record->unk_04 = &target_action_update_address;
     record->unk_0A = 0x15;
 }

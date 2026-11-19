@@ -1,6 +1,7 @@
 
 struct ObjectNodeHeader;
 #include "common.h"
+#include "dungeon/monster/beldo_large_data.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/item.h"
@@ -22,7 +23,6 @@ typedef struct S_8016ED98_2 {
 extern void func_8016ECFC(void);
 
 extern u16 system_update_flags[];
-extern u8 *beldo_actor_nodes[3];
 
 /* End the floor: clear the visible flags, run the two teardown passes and release both resident objects. */
 void finish_multi_form_actor_sequence(void)
@@ -31,7 +31,7 @@ void finish_multi_form_actor_sequence(void)
     u8 *value;
     S_8016ED98_1 *object;
 
-    object = (void *)(beldo_actor_nodes[0] + 0x20);
+    object = NODE_BODY(beldo_actor_nodes);
     g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
     object->unk_46 &= 0x7FFF;
     system_update_flags[0] &= 0xFFF6;

@@ -12,11 +12,9 @@
 
 
 
-extern CardSaveSlot card_slot_header_cache[];
 
 /* Build the selected slot's text fields and position its status icons. */
-void card_build_selected_slot_details(void *panel_data) {
-    CardDevSlotDetails *panel = panel_data;
+void card_build_selected_slot_details(CardDevSlotDetails *panel) {
     s16 text_buf[32];
     s16 number_buf[8];
     s16 time_buf[4];
@@ -39,11 +37,11 @@ void card_build_selected_slot_details(void *panel_data) {
     void *count_text;
     void *footer_text;
     CardMenuDisplayNode *widget;
-    void *widget_cursor;
+
     void *footer_buf;
     s32 *icon_table;
 
-    widget = panel->text_nodes[0];
+    widget = &panel->entries[4]->display;
     func_8003830C(panel->selected_slot + 1, text_buf);
     func_8007BF50(text_buf, D_80400660);
     func_8007BF50(text_buf, card_slot_detail_records[panel->selected_slot].halfwords);
@@ -52,14 +50,14 @@ void card_build_selected_slot_details(void *panel_data) {
     widget->payload.data = slot_text;
     widget->block->fields.x = 0xA9;
     widget->block->fields.y = 0x110;
-    widget = panel->text_nodes[1];
+    widget = &panel->entries[5]->display;
     memcpy(text_buf, D_80400668, 0x2A);
     func_80051B50(panel->text_buffers[1], text_buf, 1);
     widget->payload.data = panel->text_buffers[1];
     widget->block->fields.x = 0xBC;
     widget->block->fields.y = 0x110;
     if (card_slot_header_cache[panel->selected_slot].fields.unk_08 != 0) {
-        widget = panel->text_nodes[2];
+        widget = &panel->entries[6]->display;
         func_8007BF80(text_buf, D_80408CF4[0]);
         func_8003830C(card_slot_header_cache[panel->selected_slot].fields.unk_34, number_buf);
         func_8007BF50(text_buf, number_buf);
@@ -70,7 +68,7 @@ void card_build_selected_slot_details(void *panel_data) {
         widget->block->fields.x = 0xBC;
         widget->block->fields.y = 0x140;
     }
-    widget = panel->text_nodes[3];
+    widget = &panel->entries[7]->display;
     func_80051804(card_slot_header_cache[panel->selected_slot].fields.unk_24, 0xA, text_buf);
     func_80051900(text_buf);
     value_text = panel->text_buffers[3];
@@ -78,7 +76,7 @@ void card_build_selected_slot_details(void *panel_data) {
     widget->payload.data = value_text;
     widget->block->fields.x = 0x140;
     widget->block->fields.y = 0x110;
-    widget = panel->text_nodes[4];
+    widget = &panel->entries[8]->display;
     func_80051898(card_slot_header_cache[panel->selected_slot].fields.play_frames, text_buf);
     hours = card_slot_header_cache[panel->selected_slot].fields.play_frames / 216000;
     func_80051804(hours, 3, text_buf);
@@ -98,7 +96,7 @@ void card_build_selected_slot_details(void *panel_data) {
     widget->payload.data = time_text;
     widget->block->fields.x = 0x147;
     widget->block->fields.y = 0x120;
-    widget = panel->text_nodes[5];
+    widget = &panel->entries[9]->display;
     func_80051804(card_slot_header_cache[panel->selected_slot].fields.unk_2C, 4, text_buf);
     func_80051900(text_buf);
     count_text = panel->text_buffers[5];
@@ -106,7 +104,7 @@ void card_build_selected_slot_details(void *panel_data) {
     widget->payload.data = count_text;
     widget->block->fields.x = 0xF2;
     widget->block->fields.y = 0x120;
-    widget = panel->text_nodes[6];
+    widget = &panel->entries[10]->display;
     memcpy(text_buf, D_804006C0, 3);
     footer_buf = text_buf;
     func_80051900(footer_buf);
@@ -119,20 +117,18 @@ void card_build_selected_slot_details(void *panel_data) {
     icon_y = 0xB0;
     icon_x = 0x38;
     icon_cursor = icon_table;
-    widget_cursor = panel;
     widget->payload.data = footer_text;
     widget->block->fields.x = 0x180;
     widget->block->fields.y = 0x130;
     do {
-        widget = ((CardDevSlotDetails *)widget_cursor)->icon_nodes[0];
+        widget = &panel->entries[11 + icon_index]->display;
         if ((bit_one << icon_index) & card_slot_header_cache[panel->selected_slot].fields.icon_flags) {
             icon_data = *icon_cursor;
         } else {
             icon_data = *inactive_icon;
         }
         icon_cursor += 1;
-        widget_cursor += 4;
-        widget->payload.word = icon_data;
+            widget->payload.word = icon_data;
         icon_index += 1;
         widget->block->fields.x = icon_x;
         widget->block->fields.y = icon_y;

@@ -8,6 +8,7 @@ struct ObjectNodeHeader;
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00259 - CL:dungeon/func_80E3A540@dungeon/bank_e56c58, CL:dungeon/func_80E3A540@dungeon/bank_e5d000, CL:dungeon/func_80E3A540@dungeon/bank_e63000, CL:dungeon/func_80E3A540@dungeon/bank_e69000, CL:dungeon/func_80E3A540@dungeon/bank_e6f000, CL:dungeon/func_80E3A540@dungeon/bank_e75000. */
 
 #include "common.h"
+#include "dungeon/item/actor_target.h"
 #include "dungeon/actor.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
@@ -19,7 +20,6 @@ struct ObjectNodeHeader;
 extern void copy_entity_record(void *, void *);
 extern void insert_node_before_primary_actor(struct ObjectNodeHeader *);
 extern u8 *find_monster_entry_by_type_and_id(s32, s32); /* Unprototyped: retail call narrows its arguments to this declaration; no shared prototype keeps it */
-extern s32 find_linked_object_slot_index(void *);
 
 extern void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 #include "dungeon/player/object/action_state.h"

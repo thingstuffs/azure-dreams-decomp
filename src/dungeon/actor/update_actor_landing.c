@@ -18,7 +18,7 @@
 /* Update airborne movement toward a map tile and finish the landing transition. */
 void update_actor_landing(ActorRecord *motion_state, ObjectPosition *transform, SpriteFrameState *map_entity, ActorRecord *actor) {
     u16 direction_aux[2];
-    void **animation_table;
+    SpriteSourceEntry **animation_table;
     s32 frames_left;
     s16 next_timer;
     s32 target_x;
@@ -71,8 +71,8 @@ void update_actor_landing(ActorRecord *motion_state, ObjectPosition *transform, 
             set_record_integer_tile_center(transform, map_entity->tile_x, map_entity->tile_y);
             animation_table = actor_action_frames;
             map_entity->frameTable = animation_table;
-            select_record_entry_and_value(map_entity, *(void **)((u8 *)animation_table + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle
-                + actor->facing + 0x100) >> 7) & 0x1C)), 0);
+            select_record_entry_and_value(map_entity, animation_table[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
+                + actor->facing + 0x100) >> 9) & 7], 0);
             motion_state->action_phase = (u8) (motion_state->action_phase + 1);
         }
     default:

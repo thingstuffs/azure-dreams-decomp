@@ -13,7 +13,7 @@ struct ObjectNodeHeader;
 
 
 /* Creates or resets the shared object and initializes its data and callbacks. */
-void *card_boot_create_choice_panel(s32 init_value, s32 stored_value)
+ObjectNodeHeader *card_boot_create_choice_panel(ObjectNodeHeader *owner, s32 stored_value)
 {
     ObjectNodeHeader *object;
     void *data;
@@ -32,7 +32,7 @@ void *card_boot_create_choice_panel(s32 init_value, s32 stored_value)
     object->sprite = (u8 *)data + 0x50;
     *(void **)((u8 *)data + 0x5C) = card_boot_link_choice_panel_nodes((u8 *)data + 0x60);
     *(s32 *)((u8 *)data + 0x24) = stored_value;
-    card_boot_initialize_paired_choice_panel(data, init_value);
+    card_boot_initialize_paired_choice_panel(data, owner);
     object->update_callback = advance_card_boot_stream_pair;
     return object;
 }

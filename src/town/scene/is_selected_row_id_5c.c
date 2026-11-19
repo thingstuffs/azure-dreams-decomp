@@ -1,9 +1,9 @@
 #include "common.h"
+#include "town/scene/state_data.h"
 #include "m2c_compat.h"
 #include "town/scene.h"
 
 extern u8 scene_rows[];
-extern s32 selected_scene_row_index;
 
 typedef struct S_805D3A34_0 {
     u8 pad_00[0x14];

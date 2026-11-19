@@ -1,4 +1,5 @@
 #include "engine/graphics/select_sprite_entry_api.h"
+#include "engine/entity/effect_slots.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
 #include "dungeon/system/random.h"
@@ -14,8 +15,6 @@
 #include "dungeon/level.h"
 
 
-extern s32 get_entity_effect_value(void *, s32);
-extern void clear_slots_of_type(void *, s32);
 extern s32 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor.h"

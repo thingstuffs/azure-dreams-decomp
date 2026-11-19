@@ -31,4 +31,5 @@ typedef struct AttachedMessageWindowBody {
     void *owner;
     u8 unk_78;
 } AttachedMessageWindowBody;
+void shrink_window_and_signal_linked_record(AttachedMessageWindowBody *state, ObjectPosition *position, void *unused_data);
 #endif

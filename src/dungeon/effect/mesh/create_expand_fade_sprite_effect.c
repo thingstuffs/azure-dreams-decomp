@@ -9,8 +9,6 @@
 #include "engine/node/allocation.h"
 #include "dungeon/effect/mesh.h"
 
-struct TargetVec;
-extern struct TargetVec *effect_position_source[];
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern void expand_fade(void *effect, void *position, void *sprite);
 typedef struct Row_819A1654_Blob12 {
@@ -24,12 +22,6 @@ typedef struct TargetSub {
     s16 field8;
     u16 fieldA;
 } TargetSub;
-typedef struct TargetVec {
-    s32 field0;
-    s32 field4;
-    u8 pad8[2];
-    u16 fieldA;
-} TargetVec;
 typedef struct TargetData {
     u8 pad0[0xC];
     u8 byteC;
@@ -45,7 +37,7 @@ typedef struct TargetData {
 } TargetData;
 typedef struct TargetObj {
     u8 pad0[8];
-    TargetVec *field8;
+    ObjectPosition *field8;
     TargetData *fieldC;
     void *field10;
     u8 pad14[0xC];
@@ -98,17 +90,17 @@ void create_expand_fade_sprite_effect(void)
         }
         {
             ObjectPosition *position;
-            TargetVec *origin;
+            MeshEffectOrigin *origin;
             s32 origin_y;
             position = obj->field8;
             axis_offset = (rsin(motion->field8) >> 4) * motion->field6;
-            position->x.v = effect_position_source[0]->field0 + (axis_offset << 8);
+            position->x.v = effect_position_source->x.v + (axis_offset << 8);
             axis_factor = rcos(motion->field8);
             axis_offset = (axis_factor >> 4) * motion->field6;
-            origin = effect_position_source[0];
-            origin_y = origin->field4;
+            origin = effect_position_source;
+            origin_y = origin->y.v;
             position->y.v = origin_y + (axis_offset << 8);
-            position->z.w.i = (s16) (origin->fieldA + motion->fieldA);
+            position->z.w.i = (s16) (origin->z.w.i + motion->fieldA);
             register_node(obj, project_sprite_chain);
         }
     }

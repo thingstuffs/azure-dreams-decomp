@@ -30,16 +30,6 @@ typedef struct {
 typedef void (*DispatchFn)(void *, void *, void *, s32);
 
 
-typedef struct S_8009B9BC_1 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-} S_8009B9BC_1;   /* arg1 in resolve_owner_position_and_dispatch */
-
-
-typedef struct S_8009B9BC_3 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_8009B9BC_3;   /* ((S_8009B9BC_1 *)arg1)->unk_0C in resolve_owner_position_and_dispatch */
 
 typedef struct S_8009B9BC_4 {
     u8 pad_00[0x8];
@@ -68,7 +58,7 @@ extern s32 D_800D0420[];
 extern u8 town_input_motion_address[];
 
 /* Resolve the owner position and dispatch its handler for the current town state. */
-void resolve_owner_position_and_dispatch(Rec_D_80082D58 *object, S_8009B9BC_1 *owner, EntityRec *resolved_pos, s32 dispatch_param)
+void resolve_owner_position_and_dispatch(Rec_D_80082D58 *object, ColliderView *owner, ObjectPosition *resolved_pos, s32 dispatch_param)
 {
     TownState *state = &scene_object_payload_alias;
     s32 *offset = D_800D0420;
@@ -88,7 +78,7 @@ void resolve_owner_position_and_dispatch(Rec_D_80082D58 *object, S_8009B9BC_1 *o
     target_z = view_reference_entity.z.v + offset[2];
     if (target_z - resolved_pos->z.v >= 0x10) {
         resolved_pos->z.v =
-            target_z + ((S_8009B9BC_3 *)(owner->unk_0C))->unk_14;
+            target_z + owner->bounds->size_z;
     }
 
     current_state = scene_object_payload_alias.current;

@@ -177,7 +177,6 @@ struct EntityLinkNode;
 extern s32 monster_species_table;
 
 
-extern s8 dungeon_event_pending_flag;
 extern u8 D_800DD108[];
 extern u8 D_800DD110[];
 extern s32 D_800814A0;

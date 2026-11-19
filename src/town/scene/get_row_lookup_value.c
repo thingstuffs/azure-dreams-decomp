@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/state_data.h"
 #include "town/scene.h"
 
 typedef struct {
@@ -7,7 +8,7 @@ typedef struct {
     u8 pad2;
 } Rec;
 extern Rec scene_rows[];
-extern s32 selected_scene_row_index;
+
 extern s32 D_80019A70[];
 
 /* Return the lookup value indexed by the selected entry's byte at 0x16. */

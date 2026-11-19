@@ -1,11 +1,11 @@
 #include "shared/audio_commands.h"
+#include "engine/script.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "engine/menu.h"
 #include "slus.h"
 #include "town/shop.h"
 
-extern s32 script_status;
 
 /* Handles grid menu navigation, confirmation, and cancellation. */
 void handle_grid_menu_input(GridMenuObject *menu) {
@@ -25,7 +25,7 @@ void handle_grid_menu_input(GridMenuObject *menu) {
     if (menu->entry_count == 0) {
         if ((pad_state->pressed_buttons) & 0x20) {
             SD_Call(AUDIO_CANCEL);
-            script_status = 0;
+            script_status[0] = 0;
             close_twin_shop((u8 *)menu - 0x20);
         }
         return;
@@ -33,13 +33,13 @@ void handle_grid_menu_input(GridMenuObject *menu) {
     pressed_buttons = (pad_state->pressed_buttons);
     if (pressed_buttons & 0x20) {
         SD_Call(AUDIO_CANCEL);
-        script_status = 0;
+        script_status[0] = 0;
         close_twin_shop((u8 *)menu - 0x20);
         return;
     }
     if (pressed_buttons & 0x40) {
         SD_Call(AUDIO_ACCEPT);
-        script_status = 1;
+        script_status[0] = 1;
         close_twin_shop((u8 *)menu - 0x20);
         selected_entry = (u8 *)(menu->selected_index * 4 + menu->entry_base);
         selected_entry[3] |= 0x20;

@@ -643,7 +643,6 @@ extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s32 update_actor_proximity_flag(void *source, ActorRecord *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s16 check_directional_move_and_terrain(s16, void *, void *, s32);
-extern s16 actor_turn_angle_offsets[];
 
 /* Selects a movement direction and updates the actor's position and movement state.
  * move_data: the movement record (turn flags at +0x98, turn side at +0x9C); position_data: the sprite tile
@@ -885,7 +884,6 @@ void select_zu_movement(ActorRecord *move_data, ObjectPosition *context, SpriteF
 
 extern struct Ent *prepare_directional_attack();
 extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
-extern s32 check_entity_interaction_compatibility();
 
 /* Checks whether the actor can transition and starts its directional effect. */
 s32 try_begin_zu_directional_action(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *actor)
@@ -1061,6 +1059,7 @@ void select_zu_linked_motion_callback(ActorRecord *body, ObjectPosition *positio
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/object_node.h"
+#include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -1100,13 +1099,8 @@ typedef struct S_80172494_7 {
     s32 unk_04;
 } S_80172494_7;
 
-typedef struct S_80172494_8 {
-    u8 pad_00[0x3DE8];
-    void * unk_3DE8;
-} S_80172494_8;
 
 extern u8 directional_effect_entries[];
-extern void *actor_update_node_cursor;
 
 /* Updates a staged movement action, spawns particles, and restores the actor when finished. */
 /* Animates Zu's backward windup and forward strike, emits particles while returning, then recenters and
@@ -1125,7 +1119,6 @@ void update_zu_windup_strike(ActorRecord *body, ObjectPosition *motion, SpriteFr
     s32 random_value;
     s32 texture_word;
     s32 direction_index_2;
-    u8 * actor_base;
     s32 velocity_x;
     s32 velocity_z;
     s32 operand;
@@ -1311,9 +1304,7 @@ void update_zu_windup_strike(ActorRecord *body, ObjectPosition *motion, SpriteFr
             actor->action_flags &= 0x7FFF;
             return;
         }
-        operand = (s32)((u8 *)&actor_update_node_cursor - 0x3DE8);
-        actor_base = ((u8 *)actor - 0x20);
-        ((S_80172494_8 *)((void *)operand))->unk_3DE8 = actor_base;
+        actor_update_node_cursor = NODE_HEADER(actor);
         return;
 
     default:
@@ -2138,7 +2129,6 @@ void advance_zu_animation(ActorRecord *controller, ObjectPosition *context, Spri
 
 extern s32 update_actor_transform_from_parent(ActorRecord *, void *, void *, void *);
 
-extern u8 zu_default_frames[9];
 
 /* Update actor and sprite state after checking the target entity. */
 void update_zu_sprite_state(ActorRecord *actor, ObjectPosition *action, SpriteFrameState *sprite, ActorRecord *target)

@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/action_handler_tables_data.h"
 #include "town/player.h"
 #include "town/player/handler_reset_data.h"
 #include "shared/sprite_frame_state.h"
 
 extern void dispatch_selected_entry_if_nonzero(void *entries, void *record, s32 handler_param);
-extern u8 town_scene_record_handlers[];
 
 #include "town/player/initialize_record_with_handler_table_api.h"
 #include "town/player/object.h"

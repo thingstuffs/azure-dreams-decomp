@@ -28,7 +28,7 @@ void card_boot_update_save_slot_menu_input(CardSaveMenuBody *menu)
         pressed_buttons = (g_game_work.pressed_buttons);
         if (pressed_buttons & 0x20) {
             SD_Call(AUDIO_CANCEL);
-            release_card_record_handles((CardHandleOwner *)NODE_HEADER(menu));
+            release_card_record_handles(NODE_HEADER(menu));
             init_card_boot_request_object(menu->request, menu->mode);
             return;
         }
@@ -78,6 +78,6 @@ void card_boot_update_save_slot_menu_input(CardSaveMenuBody *menu)
         return;
     }
 
-    release_card_record_handles((CardHandleOwner *)NODE_HEADER(menu));
+    release_card_record_handles(NODE_HEADER(menu));
     init_card_boot_request_object(menu->request, menu->mode);
 }

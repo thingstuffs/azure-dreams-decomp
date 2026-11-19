@@ -1,7 +1,6 @@
 #include "common.h"
+#include "dungeon/level.h"
 #include "dungeon/player/position.h"
-
-extern s16 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z);
 
 typedef struct {
     u8 pad[3];

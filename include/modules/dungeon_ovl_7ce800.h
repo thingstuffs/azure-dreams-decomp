@@ -2,6 +2,7 @@
 #define DUNGEON_OVL_7CE800_H
 struct ObjectNodeHeader;
 struct SlotViewMarkerBody;
+struct LitMeshSprite;
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
@@ -35,10 +36,10 @@ typedef struct DirectionOffsets {
     u16 y7;
 } __attribute__((packed)) DirectionOffsets;
 extern const DirectionOffsets dungeon_7ce800_directions;
-extern s16 *view_marker_slots[];
+extern struct SlotViewMarkerBody *view_marker_slots[];
 void animate_view_marker_sprite(struct ObjectNodeHeader *unused_first, ObjectPosition *unused_second, SpriteFrameState *value);
 void create_positioned_view_marker(s16 x, s16 y);
-void update_view_marker_rotation(struct SlotViewMarkerBody *state, ObjectPosition *position, SpriteFrameState *target);
+void update_view_marker_rotation(struct SlotViewMarkerBody *state, ObjectPosition *position, struct LitMeshSprite *target);
 void create_slot_positioned_effect(s16 x, s16 y, s32 slot);
 void trigger_view_marker_rotation(void *data);
 void start_view_marker_transition(void);

@@ -10,42 +10,41 @@
 #include "dungeon/system.h"
 
 /* Transfer pending texture and palette data, then clear the transfer state. */
-void complete_display_transfer(void *texture_state) {
+void complete_display_transfer(ShopFirstCallbackObject *state) {
     s32 table_index;
     struct { s16 x; s16 y; s16 w; s16 h; } rect;
-    DisplayTransferState *state = texture_state;
-    S_800B5B20_0 *texture;
+    SpritePartCommand *texture;
     s16 *slot_table;
 
-    if (state->transfer_pending != 0) {
+    if (state->completion_handle != 0) {
         DrawSync(0);
         slot_table = display_resource_cache_keys;
         table_index = state->slot_index;
         texture = state->texture;
-        state->transfer_phase = 0;
-        state->transfer_pending = 0;
-        slot_table[table_index * 2] = state->texture_slot;
-        slot_table[(state->slot_index * 2) + 1] = state->palette.palette_slot;
+        state->read_handle = 0;
+        state->completion_handle = 0;
+        slot_table[table_index * 2] = state->unk_0A;
+        slot_table[(state->slot_index * 2) + 1] = state->palette_index;
 
-        rect.x = ((u8) texture->unk_08 >> 2) + ((texture->unk_04 << 6) & 0x3C0);
-        rect.y = texture->unk_09 + ((texture->unk_04 * 0x10) & 0x100);
-        rect.w = (s16) ((u8) texture->unk_0A >> 2);
-        rect.h = (s16) texture->unk_0B;
-        LoadImage(&rect, state->data);
+        rect.x = (texture->data.texture.u0 >> 2) + ((texture->tpage << 6) & 0x3C0);
+        rect.y = texture->data.texture.v0 + ((texture->tpage * 0x10) & 0x100);
+        rect.w = (s16) (texture->data.texture.width >> 2);
+        rect.h = (s16) texture->data.texture.height;
+        LoadImage(&rect, state->transfer_data);
         if (state->slot_index != 0) {
             u16 palette_y;
             s32 palette_offset;
             s32 data_base;
 
-            rect.x = (texture->unk_06 & 0x3F) * 0x10;
-            palette_y = texture->unk_06;
+            rect.x = (texture->clut & 0x3F) * 0x10;
+            palette_y = texture->clut;
             rect.w = 0x10;
             rect.h = 1;
             palette_y >>= 6;
             rect.y = (s16) palette_y;
 
-            palette_offset = state->palette.palette_offset;
-            data_base = state->data;
+            palette_offset = state->palette_index;
+            data_base = state->transfer_data;
             palette_offset <<= 5;
             palette_offset += 0x200;
 
@@ -53,7 +52,7 @@ void complete_display_transfer(void *texture_state) {
         }
         DrawSync(0);
     }
-    state->data = 0;
+    state->transfer_data = 0;
 }
 
 /* Initializes three entries with offsets and fixed, supplied, and computed values. */

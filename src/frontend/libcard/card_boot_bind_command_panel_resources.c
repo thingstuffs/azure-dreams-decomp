@@ -17,22 +17,19 @@ void card_boot_bind_command_panel_resources(CardCommandPanelBody *object)
     void *secondary_table;
     void *kind_value;
     s32 slot_index;
-    s32 block_offset;
 
     kind_value = get_menu_count_template(3);
     slot_index = 0;
     primary_table = D_80077EF0;
     secondary_table = D_80077EFC;
-    shared_data = (u8 *)object + 4;
-    block_offset = 0x90;
+    shared_data = object->highlight_packets;
     object->heading->payload.data = kind_value;
     object->marker->payload.data = menu_leaf_template_6;
     do {
         object->left[slot_index]->payload.data = primary_table;
         object->right[slot_index]->payload.data = secondary_table;
         object->highlight[slot_index]->payload.data = shared_data;
-        object->labels[slot_index]->payload.data = (u8 *)object + block_offset;
-        block_offset += 0x48;
+        object->labels[slot_index]->payload.data = object->label_text[slot_index];
         slot_index++;
     } while (slot_index < 3);
 }

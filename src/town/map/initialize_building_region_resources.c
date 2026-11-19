@@ -1,24 +1,15 @@
 #include "common.h"
-#include "shared/resident_resources.h"
+#include "town/map/building_grid_g00638.h"
 #include "town/map.h"
 #include "town/menu.h"
 
 extern void **append_scaled_rect_to_script_list();
-extern u8 town_building_records[];
-extern u8 town_building_slot_rectangles[];
 extern u8 D_800D43F0[];
 
 typedef struct S_800B8248_0 {
     u8 pad_00[0x33A4];
     u8 unk_33A4;
 } S_800B8248_0;
-
-typedef struct S_800B8248_1 {
-    u8 unk_00;
-    u8 unk_01;
-    u8 unk_02;
-    u8 unk_03;
-} S_800B8248_1;
 
 /* Initializes the default region and processes each occupied resource slot. */
 void initialize_building_region_resources(void) {
@@ -29,10 +20,10 @@ void initialize_building_region_resources(void) {
     s32 slot_index;
     s32 slot_counter;
     u8 resource_index;
-    u8 *resources;
+    TownBuildingRecord *resources;
     void *state_base;
     S_800B8248_0 *slot;
-    S_800B8248_1 *region;
+    TownBuildingSlotRectangle *region;
 
     reset_script_rect_list();
     append_scaled_rect_to_script_list(0x3FU, 0U, 0x10U, 0x10U, D_800D43F0);
@@ -44,15 +35,15 @@ void initialize_building_region_resources(void) {
         slot = (void *)((slot_index * 2) + (long)state_base);
         resource_index = slot->unk_33A4;
         if (resource_index != 0) {
-            ((ResourceSlotStateView *)((void *)((resource_index << 5) + (long)resources)))->unk_0A = 1;
-            region = (slot_index * 8) + town_building_slot_rectangles;
-            region_x = region->unk_00;
-            region_y = region->unk_01;
-            region_width = region->unk_02;
-            region_height = region->unk_03;
+            resources[resource_index].marked = 1;
+            region = &town_building_slot_rectangles[slot_index];
+            region_x = region->x;
+            region_y = region->y;
+            region_width = region->width;
+            region_height = region->height;
             resource_index = slot->unk_33A4;
             append_scaled_rect_to_script_list(region_x, region_y, region_width, region_height,
-                          (resource_index << 5) + (town_building_records + 0xC));
+                          &town_building_records[resource_index].script_rect);
         }
         slot_counter += 1;
     } while ((u32)(u8)slot_counter < 0x21U);

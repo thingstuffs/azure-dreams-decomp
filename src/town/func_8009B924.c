@@ -17,7 +17,7 @@ extern s32 D_800D01F0;
  */
 void init_sixteen_tick_record_action(TownObjectRecord *object, ObjectPosition *motion_context, void *handler_context) {
     dispatch_selected_entry_if_nonzero(&D_800D01F0, object, handler_context);
-    town_action_reset_byte = 0;
+    town_action_reset_byte[0] = 0;
     object->unk_04 = &record_action_update_address;
     object->unk_0A = 0x10;
     clear_object_velocity((motion_context));

@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "dungeon/monster/beldo_large_data.h"
 #include "common.h"
 #include "dungeon/monster/beldo_large.h"
 #include "shared/object_node.h"
@@ -12,7 +13,6 @@
 
 extern M2C_UNK D_80077854;
 extern s16 beldo_large_direction_offsets[];
-extern void *beldo_script_node;
 
 
 typedef struct S_801715D0_6 {
@@ -41,9 +41,9 @@ void create_action_offset_object(void) {
     SpriteFrameState *render_flags;
     SpriteFrameState *sprite;
 
-    owner_pos = ((ObjectNodeHeader *)beldo_script_node)->position;
-    owner_state = beldo_script_node + 0x20;
-    object = allocate_list_node(0x12, beldo_script_node);
+    owner_pos = beldo_script_node->position;
+    owner_state = NODE_BODY(beldo_script_node);
+    object = allocate_list_node(0x12, &beldo_script_node->next);
     if (object != NULL) {
         object->update_callback = &initialize_action_offset_and_notify;
         object_state = NODE_BODY(object);

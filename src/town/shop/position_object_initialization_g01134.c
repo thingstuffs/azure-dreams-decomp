@@ -23,7 +23,7 @@ void *create_item_object_at(S_800A027C_5 *config, MovingPosition *position) {
     u8 type;
     S_800A027C_4 *state;
     S_800A027C_3 *render;
-    MovingPosition *coords;
+    ObjectPosition *coords;
     ProjectileObject *object;
 
     object = allocate_list_node(0x136, &scene_object_list_anchor.next);
@@ -32,10 +32,10 @@ void *create_item_object_at(S_800A027C_5 *config, MovingPosition *position) {
     }
     coords = object->position;
     render = object->sprite;
-    coords->x = (u16) position->x;
-    coords->y = (u16) position->y;
+    coords->x.w.i = (u16) position->x;
+    coords->y.w.i = (u16) position->y;
     state = NODE_BODY(object);
-    coords->z = (u16) position->z;
+    coords->z.w.i = (u16) position->z;
     render->unk_1E = 0x1000;
     render->unk_1C = 0x1000;
     render->unk_0C = 0x808080;

@@ -15,26 +15,25 @@ struct TownObjectRecord;
 
 struct S_800C3FC8_0;
 struct S_800C5B48_1;
-struct S_800C7674_0;
 struct S_800CC070_1;
 
 /* advance_bounded_motion.c */
 void advance_bounded_motion(TownObjectRecord *entity, void *motion, struct SpriteFrameState *context, s32 check_param);
 
 /* advance_mother_event_bounded_motion.c */
-void advance_mother_event_bounded_motion(struct S_800C7674_0 *entity, EntityRec *motion_state, void *context);
+void advance_mother_event_bounded_motion(struct TownObjectRecord *entity, ObjectPosition *motion_state, struct SpriteFrameState *context);
 
 /* advance_motion_and_clamp_limit.c */
-void advance_motion_and_clamp_limit(TownObjectRecord *entity, EntityRec *motion, void *context);
+void advance_motion_and_clamp_limit(TownObjectRecord *entity, ObjectPosition *motion, struct SpriteFrameState *context);
 
 /* advance_motion_and_switch_handler.c */
-void advance_motion_and_switch_handler(TownObjectRecord *object, EntityRec *motion, struct SpriteFrameState *context);
+void advance_motion_and_switch_handler(TownObjectRecord *object, ObjectPosition *motion, struct SpriteFrameState *context);
 
 /* advance_reaction_motion_to_limit.c */
-void advance_reaction_motion_to_limit(Rec_func_800C9B44_arg0 *state, EntityRec *motion, struct SpriteFrameState *context);
+void advance_reaction_motion_to_limit(Rec_func_800C9B44_arg0 *state, ObjectPosition *motion, struct SpriteFrameState *context);
 
 /* advance_vertical_motion_and_bounce.c */
-void advance_vertical_motion_and_bounce(TownObjectRecord *actor, EntityRec *motion, struct SpriteFrameState *context);
+void advance_vertical_motion_and_bounce(TownObjectRecord *actor, ObjectPosition *motion, struct SpriteFrameState *context);
 
 /* expire_motion_timer.c */
 void expire_motion_timer(struct S_800C3FC8_0 *object, ObjectPosition *motion);
@@ -64,7 +63,7 @@ void set_initial_jump_velocity(TownObjectRecord *jump_state, struct S_800CC070_1
 void update_jump_motion(TownObjectRecord *actor, struct S_800CC070_1 *motion, void *animation_id, s16 jump_velocity);
 
 /* update_spin_vertical_motion_and_bounces.c */
-void update_spin_vertical_motion_and_bounces(TownObjectRecord *entity, EntityRec *motion, void *context);
+void update_spin_vertical_motion_and_bounces(TownObjectRecord *entity, ObjectPosition *motion, struct SpriteFrameState *context);
 
 /* update_turning_motion_and_timer.c */
 void update_turning_motion_and_timer(struct TownObjectRecord *actor, ObjectPosition *position, void *update_param, s32 check_param);

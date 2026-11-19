@@ -5,25 +5,17 @@
 #include "town/shop/object.h"
 
 
-typedef struct S_800B683C_2 {
-    u8 pad_00[0x5C];
-    void ** unk_5C;
-} S_800B683C_2;   /* ((Rec_func_800B683C_arg0 *)arg0)->unk_98 in reset_monster_status_links */
-
-
-
-
 /* Clears two linked values and initializes the object's embedded data. */
 void reset_monster_status_links(ShopFirstCallbackObject *object) {
-    s32 *linkedValue;
+    ItemMenuPart *part;
     s32 slotIndex;
 
     slotIndex = 0x14;
     do {
-        linkedValue = *(s32 **)((slotIndex * 4) + object->resource_id.as_ptr);
+        part = object->parts[slotIndex];
         slotIndex += 1;
-        *linkedValue = 0;
+        part->handler = 0;
     } while (slotIndex < 0x16);
-    *((S_800B683C_2 *)(object->resource_id.as_ptr))->unk_5C = ((void *)object) + 0x18;
-    set_monster_status_panel_height(*((S_800B683C_2 *)(object->resource_id.as_ptr))->unk_5C, 0);
+    object->parts[23]->handler = object->pad_18;
+    set_monster_status_panel_height(object->parts[23]->handler, 0);
 }

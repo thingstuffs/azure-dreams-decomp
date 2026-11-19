@@ -1,4 +1,5 @@
 #include "engine/scene.h"
+#include "dungeon/effect.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity_height_offsets.h"
 #include "dungeon/actor/animation.h"
@@ -23,7 +24,6 @@ typedef struct {
 extern void * create_offset_sprite_object_with_z();
 
 extern TableEntry linked_effect_direction_entries[];
-extern s32 linked_mesh_processor_address[3];
 
 typedef struct S_80026A84_1 {
     u8 pad_00[0x8];
@@ -90,7 +90,7 @@ void *create_six_trailing_effects_for_target(MovingPosition *origin, S_80026A84_
         effect = allocate_list_node(0x12, &scene_object_list_anchor.next);
         if (effect != NULL) {
             effect->update_callback = callback;
-            register_node(effect, linked_mesh_processor_address);
+            register_node(effect, draw_linked_segment_aligned_quads);
             effect_pos = effect->position;
             coord_xz = origin->x + ((u16)offset.vx);
             effect_pos->x.w.i = coord_xz;

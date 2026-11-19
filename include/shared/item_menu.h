@@ -3,6 +3,7 @@
 #include "common.h"
 #include "shared/timed_stream.h"
 #include "shared/gpu_packets.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 
 
@@ -39,10 +40,13 @@ typedef struct ItemMenuFlagsView {
  * Word +0 is the part's packed colour word (update_item_menu_selection stores D_800891F4 there and
  * fade_color_to_gray eases it toward grey); x/y are the part's screen offsets. */
 typedef struct ItemMenuPartPosition {
-    int color; /* packed red/green/blue/code word */
+    SpriteColor color; /* packed red/green/blue/code word */
     unsigned char pad_04[0x4];
     short x; /* horizontal screen offset */
     short y; /* vertical screen offset */
+    short depth; /* third coordinate stored by initialize_positioned_display_templates */
+    unsigned char type; /* release_monster_status_entries dispatches removal on this byte */
+    unsigned char mode; /* the positioned template starts in mode 4 */
 } ItemMenuPartPosition;
 
 /* One item-menu display part (rebuild_pointer_pool bank A, 16-byte records). The item-menu object

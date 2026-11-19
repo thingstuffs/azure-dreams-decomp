@@ -481,42 +481,19 @@ void update_impact_particle_slow_shrink(ImpactParticleWork *effect, ObjectPositi
 #define NULL 0
 #endif
 
-typedef struct S_800247C0_0 {
+typedef struct ShrinkingEntryEffectBody {
     u8 pad_00[0x20];
-    void * unk_20;
-    u8 pad_24[0x4];
-    s16 unk_28;
-} S_800247C0_0;   /* effect in shrink_effect_and_spawn_particles */
+    ObjectNodeHeader *target;
+    u8 pad_24[4];
+    s16 ticks_left;
+    s16 initial_ticks;
+} ShrinkingEntryEffectBody;
 
-   /* object in shrink_effect_and_spawn_particles */
-
-typedef struct S_800247C0_2 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_800247C0_2;   /* origin in shrink_effect_and_spawn_particles */
-
-typedef struct S_800247C0_5 {
-    u8 pad_00[0x28];
-    s16 unk_28;
-    u8 pad_2A[0x5E];
-    s32 unk_88;
-    s32 unk_8C;
-    s32 unk_90;
-} S_800247C0_5;   /* particle_state in shrink_effect_and_spawn_particles */
-
-typedef struct S_800247C0_7 {
-    u8 pad_00[0x28];
-    s8 unk_28;
-    u8 pad_29[0x37];
-    s32 unk_60;
-    s16 unk_64;
-} S_800247C0_7;   /* effect_state in shrink_effect_and_spawn_particles */
 
 /* Shrink the effect, spawn inward-moving particles, and finish when its timer expires. */
-void shrink_effect_and_spawn_particles(S_800247C0_0 *effect, S_800247C0_2 *origin)
+void shrink_effect_and_spawn_particles(ShrinkingEntryEffectBody *effect, ObjectPosition *origin)
 {
-    S_800247C0_7 *effect_state;
+    ActorRecord *actor;
     u16 offset_x;
     s32 velocity_x;
     s16 next_timer;
@@ -525,31 +502,29 @@ void shrink_effect_and_spawn_particles(S_800247C0_0 *effect, S_800247C0_2 *origi
     s32 offset_y;
     s32 offset_z;
     s32 random_bits;
-    s32 completion_state;
     u16 next_scale_x;
     u16 next_scale_y;
     u32 scale_x;
     u16 scale_y;
-    u16 timer;
+    s16 timer;
     ObjectPosition *position;
-    S_800247C0_5 *particle_state;
+    ImpactParticleWork *particle_state;
     SpriteFrameState *sprite;
-    void *object;
+    ObjectNodeHeader *object;
 
     impact_effect_update_flag = 1;
     offset_x = (rand() & 0x3F) - 0x20;
     offset_y = (rand() & 0x3F) - 0x20;
     random_bits = rand();
-    object = effect->unk_20;
-    position = ((ObjectNodeHeader *)object)->position;
-    sprite = ((ObjectNodeHeader *)object)->sprite;
-    origin->unk_00.at00.v = position->x.v;
-    origin->unk_04.at00.v = position->y.v;
+    object = effect->target;
+    position = object->position;
+    sprite = object->sprite;
+    origin->x.v = position->x.v;
+    origin->y.v = position->y.v;
     offset_z = (random_bits & 0x3F) - 0x20;
-    origin->unk_08.at00.v = position->z.v;
+    origin->z.v = position->z.v;
     scale_x = sprite->scale_x;
-    object += 0x20;
-    effect_state = object;
+    actor = NODE_BODY(object);
     if (scale_x >= 0x801U) {
         next_scale_x = scale_x - 0x50;
         sprite->scale_x = next_scale_x;
@@ -565,7 +540,7 @@ void shrink_effect_and_spawn_particles(S_800247C0_0 *effect, S_800247C0_2 *origi
             sprite->scale_y = 0x800U;
         }
     }
-    if (effect->unk_28 >= 0xB) {
+    if (effect->ticks_left >= 0xB) {
         particle_index = 0;
         for (; particle_index < 4; particle_index++) {
             object = allocate_flagged_object_node(0x212);
@@ -573,26 +548,26 @@ void shrink_effect_and_spawn_particles(S_800247C0_0 *effect, S_800247C0_2 *origi
                 continue;
             }
             particle_state = NODE_BODY(object);
-            particle_state->unk_28 = 0x14;
-            ((ObjectNodeHeader *)object)->update_callback = (void *)update_impact_particle_slow_shrink;
+            particle_state->ticks_left = 0x14;
+            object->update_callback = update_impact_particle_slow_shrink;
             register_node(object, project_sprite_chain);
-            sprite = ((ObjectNodeHeader *)object)->sprite;
+            sprite = object->sprite;
             sprite->tpage_abr = 0x20;
             sprite->flags |= 0xC;
-            position = ((ObjectNodeHeader *)object)->position;
+            position = object->position;
             position->x.w.i =
-                origin->unk_00.at02.v + offset_x;
-            ((ObjectNodeHeader *)object)->position->y.w.i =
-                origin->unk_04.at02.v + offset_y;
-            ((ObjectNodeHeader *)object)->position->z.w.i =
-                origin->unk_08.at02.v + offset_z - 0x10;
+                origin->x.w.i + offset_x;
+            object->position->y.w.i =
+                origin->y.w.i + offset_y;
+            object->position->z.w.i =
+                origin->z.w.i + offset_z - 0x10;
             velocity_x = 0 - ((s32)(offset_x << 0x10) >> 7);
-            particle_state->unk_88 = velocity_x;
-            particle_state->unk_8C =
+            particle_state->accel_x = velocity_x;
+            particle_state->accel_y =
                 0 - ((s32)(offset_y << 0x10) >> 7);
-            particle_state->unk_90 =
+            particle_state->accel_z =
                 0 - ((s32)(offset_z << 0x10) >> 7);
-            sprite = ((ObjectNodeHeader *)object)->sprite;
+            sprite = object->sprite;
             sprite->scale_y = 0x1000;
             sprite->scale_x = 0x1000;
             color_channel = random_below_limit(3);
@@ -613,64 +588,47 @@ void shrink_effect_and_spawn_particles(S_800247C0_0 *effect, S_800247C0_2 *origi
             select_record_entry_and_value(sprite, effect_sprite_sources, 0);
         }
     }
-    timer = effect->unk_28;
+    timer = effect->ticks_left;
     next_timer = timer - 1;
-    effect->unk_28 = next_timer;
-    if ((next_timer << 0x10) <= 0) {
-        effect->unk_28 = timer;
+    effect->ticks_left = next_timer;
+    if (next_timer <= 0) {
+        effect->ticks_left = timer;
         if (g_dungeon_status.pending_display_owner == NULL) {
-            g_dungeon_status.pending_display_owner = effect->unk_20;
+            g_dungeon_status.pending_display_owner = effect->target;
         }
-        object = effect->unk_20;
-        set_or_clear_actor_status_slot(object + 0x20, 0x18, 0x14);
-        effect_state->unk_28 = 0;
-        completion_state = ((s32)dungeon_actor_ring_anchor);
-        effect_state->unk_64 = -1;
-        effect_state->unk_60 = completion_state;
-        (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+        object = effect->target;
+        set_or_clear_actor_status_slot(NODE_BODY(object), 0x18, 0x14);
+        actor->hp = 0;
+        actor->hp_delta = -1;
+        actor->target = dungeon_actor_ring_anchor;
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
 #include "m2c_compat.h"
 
-extern void shrink_effect_and_spawn_particles(S_800247C0_0 *effect, S_800247C0_2 *origin);
-
-typedef struct S_80024AE8_0 {
-    u8 pad_00[0x20];
-    s32 unk_20;
-    u8 pad_24[0x4];
-    s16 unk_28;
-    s16 unk_2A;
-} S_80024AE8_0;
-
-typedef struct S_80024AE8_3 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_80024AE8_3;   /* arg1 in func_80024AE8 */
-
 /* Create and initialize an effect at the supplied position. */
-void create_shrinking_entry_particle_effect(s32 effect_value, S_80024AE8_3 *position) {
+void create_shrinking_entry_particle_effect(ObjectNodeHeader *target, ObjectPosition *position) {
     ObjectNodeHeader *effect;
-    S_80024AE8_0 *effect_state;
+    ShrinkingEntryEffectBody *effect_state;
     ObjectPosition *effect_position;
     SpriteFrameState *render_state;
 
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         effect_state = NODE_BODY(effect);
-        effect_state->unk_28 = 0x1E;
-        effect_state->unk_2A = 0x1E;
-        effect_state->unk_20 = effect_value;
-        effect->update_callback = (void *)shrink_effect_and_spawn_particles;
+        effect_state->ticks_left = 0x1E;
+        effect_state->initial_ticks = 0x1E;
+        effect_state->target = target;
+        effect->update_callback = shrink_effect_and_spawn_particles;
         register_node(effect, project_sprite_chain);
         effect_position = effect->position;
-        effect_position->x.v = (s32) position->unk_00;
-        effect_position->y.v = (s32) position->unk_04;
-        effect_position->z.v = (s32) position->unk_08;
+        effect_position->x.v = position->x.v;
+        effect_position->y.v = position->y.v;
+        effect_position->z.v = position->z.v;
         render_state = effect->sprite;
-        render_state->flags = (u16) (render_state->flags | 0x80);
+        render_state->flags |= 0x80;
     }
 }
 
@@ -1048,7 +1006,7 @@ typedef struct {
 } QuadUV;
 
 /* Spawns four textured particles with randomized positions, motion, and rotation. */
-void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y, s16 center_z)
+void spawn_randomized_textured_particles(struct OwnerFollowingWork *unused_source, s32 center_x, s16 center_y, s16 center_z)
 {
     s32 saved_x;
     s16 iteration;
@@ -1205,12 +1163,12 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
 
 
 /* Applies a coordinate update and triggers effects when the queried value is within bounds. */
-void update_timed(s32 object, s32 raw_x, s32 raw_y, s32 raw_upper, s16 lower_bound) {
+void update_timed(ObjectNodeHeader *node, s32 raw_x, s32 raw_y, s32 raw_upper, s16 lower_bound) {
     s32 x = raw_x;
     s32 y = raw_y;
     u16 call_x = x;
     u16 call_y = y;
-    s32 object_data = object + 0x20;
+    struct OwnerFollowingWork *source = NODE_BODY(node);
     s32 upper = (s16)raw_upper;
     s32 shifted_lower;
     s32 lower;
@@ -1227,37 +1185,13 @@ void update_timed(s32 object, s32 raw_x, s32 raw_y, s32 raw_upper, s16 lower_bou
         if (query_value < upper && query_value >= lower) {
             raw_x = (s16)x;
             raw_y = (s16)y;
-            spawn_randomized_textured_particles(object_data, raw_x, raw_y, upper);
+            spawn_randomized_textured_particles(source, raw_x, raw_y, upper);
             initialize_timed_motion_step(6, 12);
             play_sound_if_enabled(0x50B);
         }
     }
 }
 
-
-typedef struct S_func_80025710_0 {
-    u8 pad_00[0x8];
-    void *unk_08;
-    void *unk_0C;
-    u8 pad_10[0xE];
-    u16 unk_1E;
-} S_func_80025710_0;
-
-typedef struct S_func_80025710_1 {
-    u8 pad_00[0x5C];
-    s32 unk_5C;
-} S_func_80025710_1;
-
-typedef struct S_func_80025710_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_func_80025710_2;
-
-typedef struct S_func_80025710_3 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_func_80025710_3;
 
 /* Mark and process entries at the given coordinates with thresholds in the specified range. */
 void spawn_shrinking_particles_at_tile(void *list_head, s32 x, s32 y, s16 upper_bound, s16 lower_bound) {
@@ -1267,42 +1201,39 @@ void spawn_shrinking_particles_at_tile(void *list_head, s32 x, s32 y, s16 upper_
     s32 lower_limit;
     s16 threshold;
     u16 flags;
-    S_func_80025710_2 *range_data;
-    S_func_80025710_3 *position_data;
-    S_func_80025710_0 *entry;
-    S_func_80025710_1 *list_link;
-    void *head;
+    ObjectPosition *range_data;
+    SpriteFrameState *position_data;
+    ObjectNodeHeader *entry;
+    ActorRecord *list_link;
+    ActorRecord *head;
 
     list_link = list_head;
     head = list_link;
-    list_head = list_link->unk_5C;
-    list_link = list_head + 0x20;
+    list_head = list_link->next_actor_header;
+    list_link = NODE_BODY(list_head);
     list_head = list_link;
     if (list_link != head) {
-        upper_limit = (s16)upper_bound;
+        upper_limit = upper_bound;
         lower_limit = lower_bound;
-        entry = list_head - 0x20;
+        entry = NODE_HEADER(list_head);
         do {
-            void *next_entry;
-            position_data = ((S_func_80025710_0 *)((u8 *)list_link - 0x20))->unk_0C;
-            range_data = entry->unk_08;
-            if ((position_data->unk_24 == (match_x & 0xFFFF)) &&
-                (position_data->unk_25 == (match_y & 0xFFFF))) {
-                threshold = range_data->unk_0A;
+            position_data = NODE_HEADER(list_link)->sprite;
+            range_data = entry->position;
+            if ((position_data->tile_x == (match_x & 0xFFFF)) &&
+                (position_data->tile_y == (match_y & 0xFFFF))) {
+                threshold = range_data->z.w.i;
                 if ((upper_limit >= threshold) && (lower_limit < threshold)) {
-                    flags = entry->unk_1E;
+                    flags = entry->flags;
                     if (!(flags & 0x2000)) {
-                        entry->unk_1E = flags | 0x2000;
+                        entry->flags = flags | 0x2000;
                         create_shrinking_entry_particle_effect(entry, range_data);
                     }
                 }
-                next_entry = list_link->unk_5C;
-                list_link = next_entry + 0x20;
+                list_link = NODE_BODY(list_link->next_actor_header);
             } else {
-                next_entry = list_link->unk_5C;
-                list_link = next_entry + 0x20;
+                list_link = NODE_BODY(list_link->next_actor_header);
             }
-            entry = (void *)list_link - 0x20;
+            entry = NODE_HEADER(list_link);
         } while (list_link != head);
     }
 }
@@ -1331,8 +1262,6 @@ typedef struct {
 
 #define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
-
-extern void update_timed(s32 object, s32 raw_x, s32 raw_y, s32 raw_upper, s16 lower_bound);
 
 extern s16 D_8002992C;
 
@@ -1385,7 +1314,7 @@ void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition
     ObjectNodeHeader *owner;
     ObjectPosition *owner_pos;
     SpriteFrameState *owner_visual;
-    u8 *world;
+    ActorRecord *world;
     s32 fade;
     s32 half_tile;
     u16 flags;
@@ -1406,7 +1335,7 @@ void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition
     visual_in->tpage_abr = half_tile;
     visual_in->flags |= 0xC;
     owner = effect_in->owner;
-    world = ((u8 *)primary_actor_record);
+    world = primary_actor_record;
 
     if (owner == 0) {
         state = (s16)effect_in->state;
@@ -1497,7 +1426,7 @@ void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition
                                   position_in->z.w.i,
                                   (s16)((u16)position_in->z.w.i - 0x40));
                     offset_x = (s16)point->x;
-                    update_timed((u8 *)effect_in - 0x20,
+                    update_timed(NODE_HEADER(effect_in),
                                   (s16)((u16)position_in->x.w.i + (offset_x << 6)),
                                   (s16)((u16)position_in->y.w.i + ((s32)(point->y << 16) >> 10)),
                                   position_in->z.w.i, (s16)(position_in->velocity_z >> 16));

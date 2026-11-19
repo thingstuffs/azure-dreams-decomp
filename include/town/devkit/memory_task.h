@@ -3,8 +3,8 @@
 
 #include "common.h"
 
-struct S_802EE4E8_0;
-void select_memory_task_exit(struct S_802EE4E8_0 *object);
-void build_memory_task_text(void *panel);
+struct CardDevSlotDetails;
+void select_memory_task_exit(struct CardDevSlotDetails *panel);
+void build_memory_task_text(struct CardDevSlotDetails *panel);
 
 #endif

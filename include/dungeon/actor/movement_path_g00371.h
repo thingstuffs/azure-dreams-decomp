@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800D38EC, CL:dungeon/func_800D3B60, CL:dungeon/func_800D40C0, PD:dungeon/engine:800E260C. */
 
 #include "common.h"
+#include "dungeon/player/actor_sprite_sources.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
 #include "shared/dir_step.h"
@@ -94,16 +95,13 @@ typedef struct {
 extern void advance_sprite_animation_and_textures(void *entity);
 extern s32 refresh_actor_facing_and_lifecycle();
 extern u8 actor_action_resume_address;
-extern u8 actor_movement_frames[];
 extern Callback actor_contact_callbacks[];
 #include "dungeon/item/find_active_rect_containing_point_api.h"
 
 
-extern void *actor_action_frames[];
 /* Load-bearing second view of D_80082E80: the asm label gives cc1 a distinct SYMBOL_REF ("*D_80082E80") so cse
  * does not share the base register with the plain D_80082E80 uses (retail rebuilds the address after the calls). */
 extern TileObject D_80082E80_initial __asm__("D_80082E80");
-extern s16 actor_turn_angle_offsets[];
 s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 s32 update_actor_proximity_flag(void *source, ActorRecord *state, s32 lower_limit, s32 upper_limit, s8 *result);
 s32 generate_random_value(void);

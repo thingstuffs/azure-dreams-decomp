@@ -29,7 +29,7 @@ void update_entity_and_dispatch_timed_state(void *state_arg, void *entity, void 
         clear_object_velocity(entity);
         sync_collision_motion_xyz(entity);
         if (town_interaction_pending != 0 && create_item_menu_unless_minigame((s32)(state_arg - 0x20)) != 0) {
-            dispatch_selected_entry_if_nonzero((s32 *)(&town_scene_record_handlers), state_arg, transition_arg);
+            dispatch_selected_entry_if_nonzero(town_scene_record_handlers, state_arg, transition_arg);
             initialize_shared_scene_data(state_arg, entity, transition_arg);
             return;
         }

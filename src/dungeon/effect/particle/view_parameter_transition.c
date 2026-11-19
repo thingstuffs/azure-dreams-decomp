@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "dungeon/actor/status.h"
 #include "dungeon/effect/sprite/ribbon_entries.h"
 #include "slus.h"
 #include "shared/slus_callbacks.h"
@@ -36,7 +37,6 @@ const s16 D_80024038[8][2] = {{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,-32},{
 #include "dungeon/effect/screen.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
-extern s32 set_or_clear_actor_status_slot(void *, s32, s8);
 
 extern s32 D_800E1C64;
 
@@ -45,7 +45,6 @@ extern s32 D_800E1C64;
 /* Applies effect 0x12 to an eligible entity and handles messages for flagged entities. */
 extern s16 D_80025308;
 extern s32 draw_linked_brightness_points(PointRecord *, ObjectPosition *);
-extern void lift_attached_particle_above_terrain_and_age();
 extern s16 D_80025308;
 extern struct SpriteAttachmentEntry *get_sprite_attachment_vector();
 extern const s16 D_80024038[8][2];
@@ -174,21 +173,25 @@ s32 draw_linked_brightness_points(PointRecord *start_node, ObjectPosition *start
 
 
 /* Raise the position toward the queried height and set flags when the countdown expires. */
-void lift_attached_particle_above_terrain_and_age(u8 *state, UnkArg1 *position)
+void lift_attached_particle_above_terrain_and_age(PointRecord *state, ObjectPosition *position)
 {
-    u16 countdown;
+    s16 countdown;
+    u16 x;
+    u16 y;
 
     D_80025308 = 1;
-    if ((s16)position->value.half.unkA <
-        (s16)sample_terrain_surface_height(position->unk2, position->unk6,
-                      (s16)(position->value.half.unkA + 2))) {
-        position->value.unk8 += 0x20000 + (rand() & 0xFFF);
+    x = position->x.w.i;
+    y = position->y.w.i;
+    if (position->z.w.i <
+        (s16)sample_terrain_surface_height(x, y,
+                      position->z.w.i + 2)) {
+        position->z.v += 0x20000 + (rand() & 0xFFF);
     }
 
-    countdown = *(u16 *)(state + 0x32) - 8;
-    *(u16 *)(state + 0x32) = countdown;
-    if ((s32)(countdown << 16) <= 0) {
-        *(u16 *)(state - 2) |= NODE_REMOVE;
+    countdown = state->brightness - 8;
+    state->brightness = countdown;
+    if (countdown <= 0) {
+        NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

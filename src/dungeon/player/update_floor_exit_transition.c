@@ -68,7 +68,6 @@ typedef struct {
 } __attribute__((packed)) UnalignedCopy3;
 extern M2C_UNK D_80021268;
 extern s16 current_dungeon_floor;
-extern u8 scene_mode_code;
 extern void *D_800DCF64;
 extern void *dungeon_menu_action_state[];
 

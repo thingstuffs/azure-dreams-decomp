@@ -2,10 +2,9 @@
 #include "common.h"
 #include "town/player/script_flags.h"
 #include "town/scene/flags.h"
-#include "town/scene/motion.h"
+#include "town/scene/position_entries.h"
 
 extern s32 D_8001BB6C;
-extern s32 scene_dispatch_context;
 extern u8 D_8001F8B5[];
 
 
@@ -16,7 +15,7 @@ u8 *select_kenka_override_data(s32 dispatch_arg, s32 unused, s32 dispatch_option
     s32 fourth_arg = dispatch_option;
 
 
-    result = apply_entry_position(&D_8001BB6C, &scene_dispatch_context, first_arg, fourth_arg);
+    result = apply_entry_position(&D_8001BB6C, scene_dispatch_context, first_arg, fourth_arg);
     if (get_script_flag_mask(F_selfy_dungeon_kenka_b) != 0) {
         return D_8001F8B5;
     }

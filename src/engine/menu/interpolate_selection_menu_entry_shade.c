@@ -1,48 +1,29 @@
 #include "common.h"
+#include "shared/menu_display.h"
 #include "engine/menu.h"
 #include "slus/data.h"
 
-typedef struct S_8004F780_Obj {
-    /* 0x00 */ u8 pad0[4];
-    /* 0x04 */ u8 *buf;
-} S_8004F780_Obj;
-
-typedef struct S_8004F780_Entry {
-    /* 0x00 */ u8 pad0[0xC];
-    /* 0x0C */ S_8004F780_Obj *obj;
-} S_8004F780_Entry;
-
-typedef struct S_8004F780 {
-    /* 0x00 */ u32 unk00;
-    /* 0x04 */ S_8004F780_Entry *entries[8];
-    /* 0x24 */ s32 count;
-    /* 0x28 */ s32 divisor;
-    /* 0x2C */ s32 multiplier;
-    /* 0x30 */ s32 idxB;
-    /* 0x34 */ s32 idxA;
-} S_8004F780;
-
 /* Interpolates table values and fills each entry's three-byte buffer with the result. */
-void interpolate_selection_menu_entry_shade(S_8004F780 *state)
+void interpolate_selection_menu_entry_shade(AnimatedSelectionMenuBody *state)
 {
     s32 entry_index;
     u8 *row;
     s32 start_value;
     s32 end_value;
     s32 value_delta;
-    S_8004F780_Entry *entry;
-    S_8004F780_Obj *obj;
+    AnimatedSelectionEntry *entry;
+    MenuDisplayNode *obj;
 
     for (entry_index = 0; entry_index < state->count; entry_index++) {
         entry = state->entries[entry_index];
         row = selection_menu_animation_keys + entry_index * 3;
-        start_value = selection_menu_shade_keys[row[state->idxA] * 4];
-        end_value = selection_menu_shade_keys[row[state->idxB] * 4];
-        value_delta = (end_value - start_value) * state->multiplier / state->divisor;
+        start_value = selection_menu_shade_keys[row[state->previous_index] * 4];
+        end_value = selection_menu_shade_keys[row[state->selected_index] * 4];
+        value_delta = (end_value - start_value) * state->transition_tick / state->transition_frames;
 
-        obj = entry->obj;
-        obj->buf[0] = start_value + value_delta;
-        obj->buf[1] = obj->buf[0];
-        obj->buf[2] = obj->buf[0];
+        obj = entry->display;
+        obj->block->color.r = start_value + value_delta;
+        obj->block->color.g = obj->block->color.r;
+        obj->block->color.b = obj->block->color.r;
     }
 }

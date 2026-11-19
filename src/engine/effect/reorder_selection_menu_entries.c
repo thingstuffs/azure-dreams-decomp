@@ -3,29 +3,20 @@
 #include "engine/menu.h"
 #include "slus.h"
 
-typedef struct S_8004F884_arg {
-    u8 pad00[4];
-    void *arr[8];  /* array of pointers starting at offset 0x04; only entries 0..count-1 used */
-    s32 count;     /* 0x24 */
-} S_8004F884_arg;
-
 extern int compare_selection_menu_entry_order(void *a0, void *a1);
 
 /* Sorts and relinks the list entries, then runs the list update hooks. */
-void reorder_selection_menu_entries(S_8004F884_arg *list) {
+void reorder_selection_menu_entries(AnimatedSelectionMenuBody *list) {
     void *sorted[4];
     s32 index;
     void **dest;
-    u8 *source;
     void **pair;
 
     index = 0;
     if (list->count > 0) {
         dest = sorted;
-        source = (u8 *)list;
         do {
-            void *entry = *(void **)(source + 4);
-            source += 4;
+            AnimatedSelectionEntry *entry = list->entries[index];
             index++;
             *dest = entry;
             dest++;

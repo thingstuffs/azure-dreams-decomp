@@ -51,7 +51,6 @@ s16 get_rounded_facing_and_rounding_flag(s32, s32, s32, s32, void *); /* Unproto
 s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 #include "dungeon/actor/state.h"
 
-extern s16 actor_turn_angle_offsets[];
 extern TileObject D_80082E80_b __asm__("D_80082E80");
 
 /* Adds the indexed byte from the direction table to the tile coordinate and returns the low byte. */

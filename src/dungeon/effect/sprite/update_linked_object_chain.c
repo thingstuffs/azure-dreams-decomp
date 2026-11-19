@@ -18,9 +18,8 @@
 #include "dungeon/data.h"
 
 s32 func_8002589C(ObjectNodeHeader *, s32, s32);        /* extern */
-s32 func_80026548(void *, s32);                 /* extern */
-void step_entry_index_within_bounds(Entry *entry, s16 *step, s32 lower, s32 upper);    /* extern */
-s32 func_800266D0(void *, void *);                  /* extern */
+void func_80026548(MATRIX *dest, LinkedSpriteFrame *source);                 /* extern */
+void func_800266D0(SpriteFrameState *sprite, s16 entry_index);                  /* extern */
 s32 find_eligible_entry_at_coordinates();                /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
 s32 check_layer_offset_height();              /* extern */
@@ -30,34 +29,9 @@ extern s32 D_800C9034();
 
 
 
-typedef struct S_80025C80_2 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_0C;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_10;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_14;   /* overlapping accesses */
-} S_80025C80_2;   /* arg1 in update_linked_object_chain */
-
-
-typedef struct S_80025C80_7 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0x7];
-    s32 unk_0C;
-    u8 pad_10[0x6];
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-    u16 unk_1C;
-    u16 unk_1E;
-    u16 unk_20;
-} S_80025C80_7;
-
-
 /* Updates effect movement and fading, or copies the chain head's position and appearance. */
-void update_linked_object_chain(LinkedObjectChainBody *effect_in, ObjectPosition *motion_in, void *sprite_in) {
-    TileObject *sprite;
+void update_linked_object_chain(LinkedObjectChainBody *effect_in, ObjectPosition *motion_in, SpriteFrameState *sprite_in) {
+    SpriteFrameState *sprite;
     s32 x_step;
     s32 end_frame;
     TileObject *resident_sprite;
@@ -90,7 +64,7 @@ void update_linked_object_chain(LinkedObjectChainBody *effect_in, ObjectPosition
     u8 next_brightness;
     u8 start_tile_y;
     ObjectNodeHeader *head;
-    S_80025C80_7 *linked_sprite;
+    SpriteFrameState *linked_sprite;
 
     head = effect_in->head;
     sprite = sprite_in;
@@ -98,22 +72,22 @@ void update_linked_object_chain(LinkedObjectChainBody *effect_in, ObjectPosition
     if (head == NULL) {
         step_entry_index_within_bounds(sprite, &effect_in->unk_32, effect_in->unk_38,
             effect_in->unk_36);
-        func_80026548(effect_in, sprite->frame_entry);
+        func_80026548(&effect_in->transform, sprite->unk_00);
         phase = effect_in->unk_2C;
         switch (phase) {
         case 0:
             motion_in->z.v =
                 (s32) (motion_in->z.v + 0xFFFF0000);
-            brightness = sprite->primitive_color.parts.color_r;
+            brightness = sprite->color.c.r;
             next_brightness = brightness + ((s32) (0x80 - brightness) / effect_in->unk_30);
-            sprite->primitive_color.parts.color_r = next_brightness;
-            sprite->primitive_color.parts.color_b = next_brightness;
-            sprite->primitive_color.parts.color_g = next_brightness;
+            sprite->color.c.r = next_brightness;
+            sprite->color.c.b = next_brightness;
+            sprite->color.c.g = next_brightness;
             frame_toggle = (effect_in->unk_30 ^ 1) & 1;
             effect_in->unk_32 = frame_toggle;
             rise_ticks = effect_in->unk_30 - 1;
             effect_in->unk_30 = rise_ticks;
-            if (((rise_ticks << 0x10) <= 0) && (sprite->sprite_flags & 0x4000)) {
+            if (((rise_ticks << 0x10) <= 0) && (sprite->flags & 0x4000)) {
                 end_frame = 8;
                 source_data_2 = dungeon_actor_ring_anchor;
                 effect_in->unk_38 = end_frame;
@@ -131,18 +105,16 @@ void update_linked_object_chain(LinkedObjectChainBody *effect_in, ObjectPosition
             }
             break;
         case 1:
-            sprite = (u8 *)&reference_tile_object.frame_entry;
+            sprite = (SpriteFrameState *)&reference_tile_object;
             {
-                void *sprite_data = sprite;
-                SpriteFrameState *orientation_sprite = sprite_data;
                 SVECTOR *offset = &effect_in->position_offset;
 
-                transform_result = resolve_record_orientation_or_fallback(orientation_sprite->source, orientation_sprite, offset, 0);
+                transform_result = resolve_record_orientation_or_fallback(sprite->source, sprite, offset, 0);
             }
             follow_ticks = effect_in->unk_30 - 1;
             effect_in->unk_30 = follow_ticks;
             if ((follow_ticks << 0x10) <= 0 || transform_result == 0
-                || (sprite->sprite_flags & 0x8000) != 0) {
+                || (sprite->flags & 0x8000) != 0) {
                 if (reference_tile_object.sprite_flags & 0x8000) {
                     motion_in->x.w.i = ((u16)view_reference_entity.x.w.i);
                     motion_in->y.w.i = ((u16)view_reference_entity.y.w.i);
@@ -168,12 +140,12 @@ void update_linked_object_chain(LinkedObjectChainBody *effect_in, ObjectPosition
                     || (steps_left = effect_in->unk_42 - 1,
                         effect_in->unk_42 = steps_left, (steps_left << 0x10) <= 0)) {
                     effect_in->unk_2C = 0x10;
-                    ((S_80025C80_2 *)(motion_in))->unk_0C.at02.v =
+                    ((Fixed1616 *)&motion_in->velocity_x)->w.i =
                         dir_step_x[effect_in->unk_40] * 8;
-                    ((S_80025C80_2 *)(motion_in))->unk_10.at02.v =
+                    ((Fixed1616 *)&motion_in->velocity_y)->w.i =
                         dir_step_y[effect_in->unk_40] * 8;
                     x_step = 8;
-                    ((S_80025C80_2 *)(motion_in))->unk_14.at02.v = x_step;
+                    ((Fixed1616 *)&motion_in->velocity_z)->w.i = x_step;
                     effect_in->unk_30 = x_step;
                 } else {
                     update_ptr = &dir_step_x[effect_in->unk_40];
@@ -232,12 +204,12 @@ void update_linked_object_chain(LinkedObjectChainBody *effect_in, ObjectPosition
                 motion_in->z.w.i =
                     (s16) (effect_in->unk_3A - 0x10);
             }
-            sprite->primitive_color.parts.color_r = sprite->primitive_color.parts.color_r
-            - ((s32) sprite->primitive_color.parts.color_r / effect_in->unk_30);
-            sprite->primitive_color.parts.color_g = sprite->primitive_color.parts.color_g
-            - ((s32) sprite->primitive_color.parts.color_g / effect_in->unk_30);
-            sprite->primitive_color.parts.color_b = sprite->primitive_color.parts.color_b
-            - ((s32) sprite->primitive_color.parts.color_b / effect_in->unk_30);
+            sprite->color.c.r = sprite->color.c.r
+            - ((s32) sprite->color.c.r / effect_in->unk_30);
+            sprite->color.c.g = sprite->color.c.g
+            - ((s32) sprite->color.c.g / effect_in->unk_30);
+            sprite->color.c.b = sprite->color.c.b
+            - ((s32) sprite->color.c.b / effect_in->unk_30);
             fade_ticks = effect_in->unk_30 - 1;
             effect_in->unk_30 = fade_ticks;
             if ((fade_ticks << 0x10) <= 0) {
@@ -249,7 +221,7 @@ void update_linked_object_chain(LinkedObjectChainBody *effect_in, ObjectPosition
                 linked_global->flags |= 0x8000;
                 return;
             }
-            frame = ((u8)(sprite->frame_index));
+            frame = ((u8)(sprite->unk_04));
             if ((s8) frame == effect_in->unk_36) {
                 effect_in->unk_32 = -1;
             } else if ((s8) frame == effect_in->unk_38) {
@@ -268,19 +240,19 @@ void update_linked_object_chain(LinkedObjectChainBody *effect_in, ObjectPosition
             return;
         }
         source_data = head->position;
-        motion_in->x.w.i = (s16) source_data->x.unsigned_parts.integer;
-        motion_in->y.w.i = (s16) source_data->y.unsigned_parts.integer;
-        motion_in->z.w.i = (s16) source_data->z.unsigned_parts.integer;
-        linked_sprite = (S_80025C80_7 *)effect_in->head->sprite;
+        motion_in->x.w.i = source_data->x.w.i;
+        motion_in->y.w.i = source_data->y.w.i;
+        motion_in->z.w.i = source_data->z.w.i;
+        linked_sprite = effect_in->head->sprite;
         func_800266D0(sprite, linked_sprite->unk_04);
-        func_80026548(effect_in, sprite->frame_entry);
-        sprite->scale_x = (u16) linked_sprite->unk_1C;
-        sprite->scale_y = (u16) linked_sprite->unk_1E;
-        sprite->offset_x = (u16) linked_sprite->unk_20;
-        sprite->primitive_color.word = linked_sprite->unk_0C;
-        sprite->angle_x = (u16) linked_sprite->unk_16;
-        sprite->angle_y = (u16) linked_sprite->unk_18;
-        sprite->angle_z = (u16) linked_sprite->unk_1A;
+        func_80026548(&effect_in->transform, sprite->unk_00);
+        sprite->scale_x = linked_sprite->scale_x;
+        sprite->scale_y = linked_sprite->scale_y;
+        sprite->offset_x = linked_sprite->offset_x;
+        sprite->color.word = linked_sprite->color.word;
+        sprite->angle_x = linked_sprite->angle_x;
+        sprite->angle_y = linked_sprite->angle_y;
+        sprite->angle_z = linked_sprite->angle_z;
     }
     if (effect_in->unk_2E == 0) {
         register_node(NODE_HEADER(effect_in), &D_800C9034);

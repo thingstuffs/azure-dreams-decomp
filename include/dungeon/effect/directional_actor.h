@@ -45,30 +45,6 @@ typedef struct Row_818E0800_S_818E0800_3 {
     void * unk_08;
 } Row_818E0800_S_818E0800_3;   /* base in func_8002401C */
 
-typedef struct Row_818E0800_S_818E0800_4 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-    u8 pad_14[0xC];
-    void * unk_20;
-} Row_818E0800_S_818E0800_4;   /* alternate in func_8002401C */
-
-typedef struct Row_818E0800_S_818E0800_5 {
-    u8 pad_00[0xC];
-    u16 unk_0C;
-    u16 unk_0E;
-    u16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u16 unk_16;
-    u16 unk_18;
-    u8 pad_1A[0x2E];
-    u16 unk_48;
-    u8 pad_4A[0x2];
-    u16 unk_4C;
-} Row_818E0800_S_818E0800_5;   /* work in func_8002401C */
-
 typedef struct Row_818E0800_S_818E0800_7 {
     u8 pad_00[0x4];
     void * unk_04;
@@ -113,41 +89,28 @@ typedef struct Row_818E0800_S_818E0800_15 {
 } Row_818E0800_S_818E0800_15;   /* ((Row_818E0800_S_818E0800_1 *)object)->unk_60 in func_8002401C */
 
 /* Updates target-directed movement, spawns particles, and advances the effect state. */
-typedef struct Row_818E0D94_S_818E0D94_0_pre {
-    u16 unk_00;
-} Row_818E0D94_S_818E0D94_0_pre;   /* the 0x2 bytes before arg0 in func_80024594, addressed as arg0[-1] */
 
-typedef struct Row_818E0D94_S_818E0D94_0 {
-    void * unk_00;
-    u8 pad_04[0x14];
-    u16 unk_18;
-    u8 pad_1A[0x2E];
-    union { u16 u16; s16 s16; u8 u8; } unk_48;   /* accessed as both */
-} Row_818E0D94_S_818E0D94_0;   /* arg0 in func_80024594 */
-
-typedef struct Row_818E0D94_S_818E0D94_1 {
-    u8 pad_00[0x52];
-    u16 unk_52;
-} Row_818E0D94_S_818E0D94_1;   /* inner in func_80024594 */
-
-typedef struct Row_818E0D94_S_818E0D94_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} Row_818E0D94_S_818E0D94_3;   /* arg1 in func_80024594 */
-
+/* The particle transform copies both four-halfword vectors into its call record. */
 typedef struct {
-    u8 bytes[8];
-} Row_818E0D94_Unaligned8;
+    s16 x, y, z, pad;
+} SpiralTransformVector;
+
+typedef struct SpiralingSpriteEffectBody {
+    EntityRec *parent;
+    u8 pad04[8];
+    SpiralTransformVector origin;
+    SpiralTransformVector angles;
+    u8 pad1C[0x2C];
+    s16 ticks;
+    u8 pad4A[2];
+    s16 unk_4C;
+} SpiralingSpriteEffectBody;
 
 typedef struct {
     void *field0;
     void *field4;
-    Row_818E0D94_Unaligned8 field8;
-    Row_818E0D94_Unaligned8 field10;
+    SpiralTransformVector field8;
+    SpiralTransformVector field10;
     s16 field18;
     s16 field1A;
     u32 unused1C;
@@ -169,5 +132,5 @@ void advance_sprite_animation_and_textures(void *);
 void transform_rotated_vertices(void *);
 extern u8 directional_effect_entries[];
 void update_directional_actor_effect(EntityRec *effect_arg, Row_818E0800_S_818E0800_2 *motion_arg, Row_818E0800_S_818E0800_10 *actor_state);
-void shrink_spiraling_sprite_effect(Row_818E0D94_S_818E0D94_0 *effect, ObjectPosition *position, Rec_D_80082E80 *sprite);
+void shrink_spiraling_sprite_effect(SpiralingSpriteEffectBody *effect, ObjectPosition *position, SpriteFrameState *sprite);
 #endif

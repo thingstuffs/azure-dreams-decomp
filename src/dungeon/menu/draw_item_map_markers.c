@@ -5,7 +5,6 @@
 #include "dungeon/menu.h"
 
 void *create_map_marker(s32 x, s32 y, s32 initial_value, s32 update_param, s32 mode); /* extern */
-extern DungeonItemPosition dungeon_ground_item_positions[64];
 
 /* Create blue markers at the positions of enabled entries. */
 void draw_item_map_markers(void) {

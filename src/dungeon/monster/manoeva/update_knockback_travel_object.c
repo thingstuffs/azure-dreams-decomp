@@ -60,7 +60,6 @@ typedef struct S_80174CCC_9 {
 
 extern u8 manoeva_frame_set_2[];
 
-extern void select_sprite_entry(void *, s32, s32);
 
 /* Advances the motion arc and creates a linked object when the arrival effect completes. */
 void update_knockback_travel_object(KnockbackTravelObjectBody *motion, void *position_arg, SpriteFrameState *record)

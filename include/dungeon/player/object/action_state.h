@@ -12,4 +12,7 @@ s32 has_pending_dungeon_activity(void *unused_actor);
 s32 has_pending_actor_or_turn_action(void *unused_actor);
 s32 has_active_actor_or_pending_action(ActorRecord *body);
 
+s16 try_claim_dungeon_action_slot(ActorRecord *actor);
+s32 has_low_actor_mp(ActorRecord *record);
+
 #endif

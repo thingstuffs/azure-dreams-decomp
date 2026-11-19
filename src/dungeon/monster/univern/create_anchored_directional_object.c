@@ -815,7 +815,7 @@ void choose_univern_move(ActorRecord *move_data, ObjectPosition *context, Sprite
     }
 
     turn_index = 0;
-    turn_table = ((s16 *)actor_turn_angle_offsets);
+    turn_table = actor_turn_angle_offsets;
 
     do {
         turn_flags = move_data->action_state_flags;
@@ -1192,7 +1192,7 @@ void update_staged_movement_and_direction(void *action, void *motion, SpriteFram
             F16(actor, 0x46) &= 0x7FFF;
             return;
         }
-        (*(void **)actor_update_node_cursor) = (u8 *)actor - 0x20;
+        actor_update_node_cursor = NODE_HEADER(actor);
 
         return;
     default:

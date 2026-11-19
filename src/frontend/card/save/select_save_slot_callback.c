@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card/save_slot.h"
 #include "frontend/card/save.h"
 #include "shared/object_node.h"
 
@@ -9,7 +10,6 @@ extern void func_80405ED4(void *base);
 extern void func_80405AB4(void);
 extern void func_80405A64(void);
 
-extern u8 card_slot_header_cache[];
 
 /* Chooses the next card operation and message callbacks from the selected slot header and table result. */
 void select_save_slot_callback(void *inputPtr)
@@ -21,7 +21,7 @@ void select_save_slot_callback(void *inputPtr)
     base = inputPtr;
     index = *(s32 *)(base + 0x28);
     inputPtr = base - 0x20;
-    if (*(s32 *)(card_slot_header_cache + (index << 7)) == 0) {
+    if (card_slot_header_cache[index].fields.marker == 0) {
         result = get_table_entry_by_flag(inputPtr);
         inputPtr = 0;
         inputPtr = base - 0x20;

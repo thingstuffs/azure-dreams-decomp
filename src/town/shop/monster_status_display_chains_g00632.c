@@ -9,12 +9,12 @@
  * Calls build_reverse_indexed_chain with (struct S_800491F4 * *)nodes,
  * monster_status_chain_indices, 24 and returns its result.
  */
-void *link_monster_status_main_entries(s32 nodes) {
+void *link_monster_status_main_entries(ItemMenuPart **nodes) {
     return build_reverse_indexed_chain((struct S_800491F4 **)nodes, monster_status_chain_indices, 24);
 }
 
 /* Stores the fetched chain and initializes its terminal link. */
-void join_monster_status_display_chains(ItemMenuPart *owner, s32 source) {
+void join_monster_status_display_chains(ItemMenuPart *owner, ItemMenuPart **source) {
     ItemMenuPart *tail;
 
     tail = link_monster_status_main_entries(source);
@@ -28,12 +28,12 @@ void join_monster_status_display_chains(ItemMenuPart *owner, s32 source) {
 }
 
 /* Processes the object's embedded data, then selects a handler by its mode flag. */
-void build_monster_status_display(Rec_func_800B683C_arg0 *object) {
-    join_monster_status_display_chains((void *)object + 0x88, (s32)object->unk_98);
-    if (object->unk_08 != 0) {
-        func_800B640C(object->unk_04, (s32)object->unk_98,
-            object->unk_14);
+void build_monster_status_display(ShopFirstCallbackObject *object) {
+    join_monster_status_display_chains(&object->display, object->parts);
+    if (object->slot_index != 0) {
+        func_800B640C(object->actor, object->parts,
+            object->texture);
         return;
     }
-    initialize_display_entry(object->unk_04, object->unk_98, object->unk_14);
+    initialize_display_entry(object->actor, object->parts, object->texture);
 }

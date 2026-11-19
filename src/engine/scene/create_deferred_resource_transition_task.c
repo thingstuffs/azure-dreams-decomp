@@ -3,6 +3,7 @@
 
 #include "engine/resource.h"
 #include "engine/scene.h"
+#include "slus/node_update_data.h"
 
 typedef struct TaskPayload {
     void *(*field_0)(void *);
@@ -19,8 +20,6 @@ typedef struct Task {
     TaskPayload payload;
 } Task;
 
-extern u8 animation_tick_scale[3];
-
 /* Creates a task with a mode-dependent lookup result and the supplied payload values. */
 Task *create_deferred_resource_transition_task(s16 mode, s16 lookup_id, void *(*handler)(void *), void *context)
 {
@@ -36,7 +35,7 @@ Task *create_deferred_resource_transition_task(s16 mode, s16 lookup_id, void *(*
         } else if (mode == 0) {
             payload->field_8 = reserve_transition_slot(5, lookup_id);
             unflag_all_active_nodes();
-            animation_tick_scale[2] = 0;
+            node_update_mode = 0;
         }
         payload->field_4 = context;
         payload->field_A = mode;

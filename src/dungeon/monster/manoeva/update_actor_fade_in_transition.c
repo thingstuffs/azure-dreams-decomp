@@ -4,6 +4,7 @@
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/item/actor_target.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
@@ -28,7 +29,6 @@ typedef struct S_8017427C_4 {
 } S_8017427C_4;   /* D_800E3D7C + index * 4 in update_actor_fade_in_transition */
 
 extern void resolve_familiar_deployment_request(void *, void *, void *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern s32 find_linked_object_slot_index(void *);
 
 extern u8 manoeva_action_resume_address[];
 

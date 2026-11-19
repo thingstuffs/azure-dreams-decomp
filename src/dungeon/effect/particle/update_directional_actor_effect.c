@@ -174,12 +174,10 @@ void update_directional_actor_effect(DirectionalEffectWork *effect, ObjectPositi
                     actor->target_tile_y = render_data->tile_y;
                 }
                 {
-                    u8 *effect_header = (u8 *)effect - 32;
-                    u8 *callback = project_linked_vertical_point_quads;
                     motion->x.v = actor_header->position->x.v + ((s32)offset.vx << 16);
                     motion->y.v = actor_header->position->y.v + ((s32)offset.vy << 16);
                     motion->z.v = actor_header->position->z.v + ((s32)offset.vz << 16);
-                    register_node(effect_header, callback);
+                    register_node(NODE_HEADER(effect), project_linked_vertical_point_quads);
                 }
                 delta_x = actor->target_tile_x;
                 delta_y = actor_data->tile_x;

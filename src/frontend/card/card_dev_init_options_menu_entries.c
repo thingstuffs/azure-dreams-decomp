@@ -25,7 +25,7 @@ void card_dev_init_options_menu_entries(CardDevMenu18 *state, s32 entry_count)
         state->primitives[i].words[1] = menu_primitive_defaults[1];
         state->primitives[i].words[2] = menu_primitive_defaults[2];
         state->primitives[i].words[3] = menu_primitive_defaults[3];
-        state->entry_blocks[i].primitive = state->primitives[i].words;
+        state->entry_blocks[i].display.block = &state->primitives[i];
         state->entry_blocks[i].settings = state->settings;
     }
     state->settings[0] = menu_settings_defaults[0];

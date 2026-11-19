@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/action_handler_tables_data.h"
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"
 #include "town/player.h"
 #include "m2c_compat.h"
@@ -8,7 +9,6 @@
 #include "town/player/record.h"
 
 
-extern s32 town_scene_record_handlers[];
 extern s32 D_800D0640[3];
 
 /* Updates motion toward the target and advances the state when the countdown expires. */

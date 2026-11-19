@@ -150,7 +150,8 @@ struct S_800244BC_2;
 s32 ground_items_lack_special_pair(void);
 void update_effect_countdown(AnchoredDirectionalObjectBody *object, MovingPosition *output, void *update_arg);
 void advance_target_chasing_emitter(void *object, ObjectPosition *position, SpriteFrameState *context);
-void *create_object_ring_effect(s32 value, void *source, s32 unused, s32 context);
+typedef struct S_func_81886800_1 RadialSequenceBody;
+void *create_object_ring_effect(RadialSequenceBody *controller, ObjectPosition *source, s32 unused, ActorRecord *target);
 struct POLY_FT4;
 void *draw_sprite_effect_quads(u8 *sprite_list, ObjectPosition *position, SpriteFrameState *render_state_addr, u8 *placement, struct POLY_FT4 *packet_buf);
 void advance_block_sprite_entries(void *block);
@@ -169,7 +170,7 @@ void update_spiral_effect(RadialEffectBody *effect, ObjectPosition *motion, Spri
 
 /* Callback entry points. */
 struct LinkedObjectChainBody;
-void update_linked_object_chain(struct LinkedObjectChainBody *effect_in, ObjectPosition *motion_in, void *sprite_in);
+void update_linked_object_chain(struct LinkedObjectChainBody *effect_in, ObjectPosition *motion_in, SpriteFrameState *sprite_in);
 
 struct S_func_800D7FB8_0;
 void update_effect_controller(struct S_func_800D7FB8_0 *controller);
@@ -178,23 +179,34 @@ void update_effect_controller(struct S_func_800D7FB8_0 *controller);
 s32 draw_shaded_textured_cylinder(struct B22_81893474_EffectState *unused_data, MovingPosition *center, s32 unused_value, s16 rotation, s32 height, s16 radius, u8 blend_mode, u8 brightness);
 
 struct EffectColor;
-struct S_func_81886800_1;
-struct S_func_81886800_11;
-struct S_func_81886800_3;
 void apply_timed_status_to_target(ActorRecord *target, s32 value, void *record);
 void create_falling_fading_sprite(s16 x, s16 y, s16 z);
 void create_quad_fragment_effects(void);
 void update_mesh_fade_color(void *effect, ObjectPosition *unused, SpriteFrameState *color);
 struct AttackSequenceController;
 void run_jittered_point_sequence(struct AttackSequenceController *sequence, void *out_position);
-void run_radial_sprite_sequence(struct S_func_81886800_1 *effect, struct S_func_81886800_11 *motion, struct S_func_81886800_3 *sprite);
+void run_radial_sprite_sequence(RadialSequenceBody *effect, ObjectPosition *motion, SpriteFrameState *sprite);
 struct JitteredBoltSegmentBody;
 void update_jittered_effect_points(struct JitteredBoltSegmentBody *effect);
 void update_pulsing_actor_color(FixedTileEffectIfAvailableBody *state_data, ObjectPosition *unused, SpriteFrameState *actor_data);
 struct IntermediatePointEffectBody;
 void update_randomized_intermediate_points(struct IntermediatePointEffectBody *self);
 
-s32 queue_shaded_line_chain(void *first_owner, void *first_vertices, void *first_line);
+/* The offset particle creator sets its angle, radius, height and paired-trail slot.
+ * The installed update ramps the line blend and advances the phase and delay. */
+typedef struct GradientLineParticleBody {
+    u8 pad_00[0xA];
+    u16 phase;
+    u8 pad_0c[0xA];
+    s16 angle;
+    s16 radius;
+    u16 delay;
+    u16 height_offset;
+    u8 pad_1e[4];
+    s16 slot;
+} GradientLineParticleBody;
+
+s32 queue_shaded_line_chain(GradientLineParticleBody *first_owner, ObjectPosition *first_vertices, SpriteFrameState *first_line);
 
 s32 draw_animated_shaded_lines(void *effect_data, void *unused_render_data);
 s32 draw_linked_shaded_tiles(RandomOffsetEffectObjectBody *first_point, void *first_position);

@@ -179,7 +179,7 @@ void expire_counted_child_effect(TimedTransformCopyEffectBody *counter_state) {
 #define addPrim(ot, p) setaddr(p, getaddr(ot)), setaddr(ot, p)
 
 /* Draw a red ring around the effect center using eight projected polylines. */
-s32 draw_red_triangle_fan(TimedTransformCopyEffectBody *effect, B22_81892C5C_S_81892C5C_2 *center)
+s32 draw_red_triangle_fan(TimedTransformCopyEffectBody *effect, ObjectPosition *center)
 {
     B22_81892C5C_S_81892C5C_0 *scratch = (B22_81892C5C_S_81892C5C_0 *)0x1F800000;
     void *initial_context;
@@ -195,7 +195,7 @@ s32 draw_red_triangle_fan(TimedTransformCopyEffectBody *effect, B22_81892C5C_S_8
     for (;;) {
         base_height = effect->frame.base_height;
         scratch->unk_68 = scratch->unk_70 =
-            scratch->unk_78 = center->unk_0A;
+            scratch->unk_78 = center->z.w.i;
         radius = (s16)((base_height + 1) << 5);
 
         angle_step = 0x100;
@@ -230,24 +230,24 @@ s32 draw_red_triangle_fan(TimedTransformCopyEffectBody *effect, B22_81892C5C_S_8
 
             angle_base = segment * 2;
             mid_angle = (angle_base + 1) * angle_step;
-            scratch->unk_64 = (s16)(center->unk_02 +
+            scratch->unk_64 = (s16)(center->x.w.i +
                 (((x_trig >> 4) * radius) >> 8));
             x_trig = rsin(mid_angle);
 
             end_angle = (angle_base + 2) * angle_step;
-            scratch->unk_6C = (s16)(center->unk_02 +
+            scratch->unk_6C = (s16)(center->x.w.i +
                 (((x_trig >> 4) * radius) >> 8));
-            scratch->unk_74 = (s16)(center->unk_02 +
+            scratch->unk_74 = (s16)(center->x.w.i +
                 (((rsin(end_angle) >> 4) * radius) >> 8));
-            scratch->unk_66 = (s16)(center->unk_06 +
+            scratch->unk_66 = (s16)(center->y.w.i +
                 (((rcos(start_angle) >> 4) * radius) >> 8));
-            scratch->unk_6E = (s16)(center->unk_06 +
+            scratch->unk_6E = (s16)(center->y.w.i +
                 (((rcos(mid_angle) >> 4) * radius) >> 8));
             {
 
                 end_y_scaled = (rcos(end_angle) >> 4) * radius;
                 base_height = end_y_scaled >> 8;
-                scratch->unk_76 = (s16)(center->unk_06 + base_height);
+                scratch->unk_76 = (s16)(center->y.w.i + base_height);
             }
 
             {
@@ -291,12 +291,12 @@ s32 draw_red_triangle_fan(TimedTransformCopyEffectBody *effect, B22_81892C5C_S_8
         }
 
         {
-            B22_81892C5C_S_81892C5C_7 *next_effect = ((B22_81892C5C_S_81892C5C_1_pre *)effect)[-1].unk_00;
+            ObjectNodeHeader *next_effect = NODE_HEADER(effect)->chain_next;
             if (next_effect == 0) {
                 break;
             }
-            effect = (u8 *)next_effect + 0x20;
-            center = next_effect->unk_08;
+            effect = NODE_BODY(next_effect);
+            center = next_effect->position;
         }
     }
     {
@@ -307,23 +307,21 @@ s32 draw_red_triangle_fan(TimedTransformCopyEffectBody *effect, B22_81892C5C_S_8
 
 /* Creates an object with copied data, an adjusted field, and initialized arguments. */
 void *create_timed_transform_copy_effect(s32 object_arg, ObjectPosition *source_data, s16 initial_value, s16 field_delta) {
-    ObjectPosition *src;
-    B22_81893024_M2C_OBJECT *object;
+    ObjectNodeHeader *object;
     TimedTransformCopyEffectBody *body;
     ObjectPosition *data;
 
     object = allocate_flagged_object_node(0x212);
 
     if (object != NULL) {
-        src = source_data;
-        object->callback = expire_counted_child_effect;
+        object->update_callback = expire_counted_child_effect;
         body = NODE_BODY(object);
         body->owner.owner_value = object_arg;
         body->frame.frame_count = 0;
         body->frame_limit = initial_value;
-        data = object->data;
-        *data = *src;
-        data->z.w.i = (s16) (((u16)(data->z.w.i)) + field_delta);
+        data = object->position;
+        *data = *source_data;
+        data->z.w.i += field_delta;
         register_node(object, draw_red_triangle_fan);
     } else {
         return NULL;

@@ -5,7 +5,7 @@
 
 typedef struct S_800B4978_1 {
     u8 pad_00[0x40];
-    s32 unk_40;
+    DungeonItemEntry **unk_40;
 } S_800B4978_1;
 
 /* Passes the source data and its parameter to the destination component. */

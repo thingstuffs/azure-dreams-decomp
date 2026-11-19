@@ -3,6 +3,7 @@
 
 struct ObjectNodeHeader;
 #include "common.h"
+#include "town/map/building_grid_g00638.h"
 #include "shared/object_node.h"
 #include "m2c_compat.h"
 #include "shared/entity_objects.h"
@@ -137,7 +138,6 @@ extern s32 town_map_state_values[];
 extern void advance_sprite_animation_and_textures(void *entity);
 extern u8 D_80072210[];
 extern u8 D_80072214[];
-extern u8 town_building_slot_rectangles[];
 void process_pending_resource_load(void);
 void write_resource_command(s32 value, s32 command);
 void write_town_map_resource_command(s32 entry_index);

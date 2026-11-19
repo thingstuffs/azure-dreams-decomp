@@ -1,6 +1,8 @@
 #ifndef MODULE_DUNGEON_OVL_CB3000_H
 #define MODULE_DUNGEON_OVL_CB3000_H
 #include "shared/dungeon_effect_status.h"
+#include "shared/sound_state.h"
+#include "dungeon/globals.h"
 #include "engine/node/registration.h"
 struct ObjectPosition;
 struct ObjectPosition;
@@ -712,12 +714,9 @@ s32 Control_CD(); /* extern */
 
 /* Resume the action dispatcher after the resident action completes. */
 extern u8 resource_completion_callback_address[];
-extern s16 actor_turn_angle_offsets[];
-extern s32 cd_cue_base;
 extern u16 reference_tile_position_alias;
 extern DungeonGlobalStatus D_80083460;
 extern u16 dungeon_status_flags_alias;
-extern void *actor_effect_color_targets[];
 extern u8 dungeon_resource_buffer[];
 extern u8 block_frame_set_2[];
 extern u8 block_slot_g_direction_frames[];

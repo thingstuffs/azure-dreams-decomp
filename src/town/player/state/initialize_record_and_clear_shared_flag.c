@@ -7,5 +7,5 @@
 /* Initializes the record handler and count, then clears town_action_reset_byte. */
 void initialize_record_and_clear_shared_flag(TownObjectRecord *primary_value, ObjectPosition *secondary_value, void *context_value) {
     init_tick_countdown_record(primary_value, secondary_value, context_value);
-    town_action_reset_byte = 0;
+    town_action_reset_byte[0] = 0;
 }

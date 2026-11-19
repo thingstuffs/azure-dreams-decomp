@@ -25,7 +25,7 @@ void start_ground_motion_adjust(struct BoundEntityHandlerState *state, ObjectPos
 void clear_object_velocity(ObjectPosition *record);
 
 /* retire_object_on_check_or_call_handler.c */
-void retire_object_on_check_or_call_handler(struct S_func_800A6C4C_0 *object, s32 input, s32 callback_data);
+void retire_object_on_check_or_call_handler(struct S_func_800A6C4C_0 *object, ObjectPosition *position, s32 callback_data);
 
 /* initialize_action_object_and_play_sound.c */
 void initialize_action_object_and_play_sound(s32 **record, ObjectPosition *unused, s32 setup_value);
@@ -75,7 +75,7 @@ void reset_indexed_object_and_process_context(TownObjectRecord *object, ObjectPo
 void reset_indexed_object_and_set_handler(TownObjectRecord *object, ObjectPosition *context, void *ptr2);
 
 /* retire_object_on_check_or_callback.c */
-void retire_object_on_check_or_callback(void *object, void *input, void *context);
+void retire_object_on_check_or_callback(void *object, ObjectPosition *position, struct SpriteFrameState *sprite);
 
 /* tick_countdown_and_initialize_object.c */
 void tick_countdown_and_initialize_object(UnsignedCountdownView *state, ObjectPosition *context, s32 mode);

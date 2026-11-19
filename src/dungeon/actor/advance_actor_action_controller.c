@@ -2,6 +2,8 @@
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/player/actor_sprite_sources.h"
+#include "engine/entity/effect_slots.h"
 #include "dungeon/system/random.h"
 #include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
@@ -16,14 +18,12 @@
 #include "dungeon/level.h"
 
 
-void clear_slots_of_type(ActorRecord *owner, s8 match_type);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor/motion.h"
 
 #include "dungeon/actor/state.h"
 
-extern void *actor_action_frames[];
 
 /* Advances the actor action state and updates its directional animation. */
 void advance_actor_action_controller(ActorRecord *controller, void *action_context, SpriteFrameState *sprite, ActorRecord *actor)
@@ -34,13 +34,13 @@ void advance_actor_action_controller(ActorRecord *controller, void *action_conte
     switch (state) {
     case 0:
         if (sprite->flags & 0xE000) {
-            void *direction_table;
+            SpriteSourceEntry **direction_table;
             DungeonGlobalStatus *system_base;
 
             direction_table = actor_action_frames;
             sprite->frameTable = direction_table;
             select_record_entry_and_value(sprite,
-                *(void **)(direction_table + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 7) & 28)),
+                direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             system_base = &g_dungeon_status;
             (*(u16 *)&system_base->activity_counts.parts.pending_action_count)--;
@@ -115,12 +115,12 @@ void advance_actor_action_controller(ActorRecord *controller, void *action_conte
         }
 
         if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) == 0) {
-            void *direction_table;
+            SpriteSourceEntry **direction_table;
 
             direction_table = actor_action_frames;
             sprite->frameTable = direction_table;
             select_record_entry_and_value(sprite,
-                *(void **)(direction_table + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 7) & 28)),
+                direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         } else {
             return;
@@ -149,5 +149,5 @@ void advance_actor_action_controller(ActorRecord *controller, void *action_conte
     }
 
     actor->flags1C &= ~ACTOR_ASLEEP;
-    controller->unk_8C.address = update_actor_facing_animation;
+    controller->unk_8C.handler = update_actor_facing_animation;
 }

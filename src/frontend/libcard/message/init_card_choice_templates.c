@@ -1,9 +1,5 @@
 #include "frontend/libcard/message.h"
 
-/* Sibling message files declare these templates through their own local views. */
-extern CardDisplayBlock display_block_defaults;
-extern DisplayPositionWords display_vector_defaults;
-
 /* Copy the two default templates, link them, and place the choice panel at (-160, -120). */
 void init_card_choice_templates(CardDisplayNode *entry, CardDisplayBlock *block, DisplayPositionWords *vector)
 {

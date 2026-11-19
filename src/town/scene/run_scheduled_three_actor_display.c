@@ -28,6 +28,7 @@
  *     keeps the CODE_LABEL that splits the basic block (retail's table entry 1 points there).
  */
 #include "common.h"
+#include "town/scene/collection.h"
 #include "town/scene.h"
 #include "town/data.h"
 #include "town/devkit/old_minigame_imports.h"
@@ -60,7 +61,6 @@ extern u8 D_80095AAD;
 extern u8 D_80095AAE;
 extern u32 D_8012F140;
 extern u16 D_801328F8;
-extern s32 town_motion_state[3];
 extern u8 town_display_timing_table[0x1000];
 extern s32 D_805305A0;
 extern s32 D_805305A4;
@@ -166,8 +166,8 @@ void run_scheduled_three_actor_display(TownState *town_state)
             *(u8 *)&D_80095AAC = color;
 
             for (i = 7; i >= 0; i--) {
-                x = (((func_80071494() & 0x3F) - 0x20) << 16) + town_motion_state[0];
-                y = (((func_80071494() & 0x3F) - 0x20) << 16) + town_motion_state[1];
+                x = (((func_80071494() & 0x3F) - 0x20) << 16) + town_motion_state.x.v;
+                y = (((func_80071494() & 0x3F) - 0x20) << 16) + town_motion_state.y.v;
                 create_object_position_configures_color(0x00F0F0F0, x, y, 0);
             }
         }

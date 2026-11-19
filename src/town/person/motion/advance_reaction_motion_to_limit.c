@@ -10,16 +10,16 @@ void start_reaction_countdown(PersonSetupState *, void *, void *);
 
 
 /* Advance motion and handle reaching the position limit. */
-void advance_reaction_motion_to_limit(Rec_func_800C9B44_arg0 *state, EntityRec *motion, SpriteFrameState *context) {
+void advance_reaction_motion_to_limit(Rec_func_800C9B44_arg0 *state, ObjectPosition *motion, SpriteFrameState *context) {
     u16 remaining_count;
 
-    motion->z.v = (s32) (motion->z.v + motion->flags14);
+    motion->z.v = (s32) (motion->z.v + motion->velocity_z);
     if (query_lowered_transform_position(motion) < motion->z.w.i) {
         motion->z.w.i = query_lowered_transform_position(motion);
         remaining_count = state->unk_90 - 1;
         state->unk_90 = remaining_count;
         if ((remaining_count << 0x10) <= 0) {
-            motion->flags14 = 0;
+            motion->velocity_z = 0;
             choose_reaction_action_and_heading(state, motion, context);
             return;
         }

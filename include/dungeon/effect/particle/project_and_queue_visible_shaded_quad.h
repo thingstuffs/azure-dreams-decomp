@@ -50,13 +50,15 @@ typedef struct FadingSpriteSequenceBody {
 /* Timer, origin, and local offset stored by follow_origin_and_fade_sprite. */
 typedef struct OriginFollowingFadeSpriteBody {
     u8 pad_00[0x38];
-    u16 ticks_remaining;
+    s16 ticks_remaining;
     s16 fade_divisor;
     u8 pad_3C[0x4];
-    void *base_position;
+    struct ObjectPosition *base_position;
     u16 offset_x;
     u16 offset_y;
     u16 offset_z;
+    u8 pad_4A[0x38];
+    u8 sprite_source[12];
 } OriginFollowingFadeSpriteBody;
 
 /* Bank flag: scalar declaration matches retail scheduling; following tail views remain external. */

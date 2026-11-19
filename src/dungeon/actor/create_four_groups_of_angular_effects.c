@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "dungeon/effect.h"
 #include "engine/node/registration.h"
 #include "dungeon/actor/effect.h"
 #include "shared/entity.h"
@@ -12,7 +13,6 @@
 
 extern u8 D_80028880[9];
 extern u8 D_8002888C[9];
-extern s32 linked_mesh_processor_address[3];
 /* Creates four groups of 32 effect objects with angularly distributed motion. */
 void *create_four_groups_of_angular_effects(s16 pos_x, s16 pos_y, s16 pos_z, s32 unused)
 {
@@ -49,7 +49,7 @@ spawn:
     effect = allocate_flagged_object_node(0x202);
     if (effect != 0) {
         effect->update_callback = callback;
-        data = linked_mesh_processor_address;
+        data = draw_linked_segment_aligned_quads;
         register_node(effect, data);
         positions = effect->position;
         positions->x.w.i = pos_x;

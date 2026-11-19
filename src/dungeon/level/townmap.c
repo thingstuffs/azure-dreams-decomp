@@ -336,7 +336,7 @@ void handle_town_map_input(town_map_7FFEE4F8_S_8008BC58_0 *object, town_map_7FFE
         s32 selection_index_5;
         s32 selection_index_6;
         u8 selection_id;
-        u8 *selection_positions;
+        TownBuildingSlotRectangle *selection_positions;
         s32 buttons;
 
         advance_sprite_animation_and_textures(update_context);
@@ -361,12 +361,12 @@ void handle_town_map_input(town_map_7FFEE4F8_S_8008BC58_0 *object, town_map_7FFE
         selection_index_4 = object->unk_74;
         selection_positions = town_building_slot_rectangles;
         selection_id = selection_ids[selection_index_4];
-        (*(town_map_7FFEE4F8_S_8008BC58_3 **)object)->unk_30 = selection_positions[selection_id * 8] - 0x18;
+        (*(town_map_7FFEE4F8_S_8008BC58_3 **)object)->unk_30 = selection_positions[selection_id].x - 0x18;
 
         selection_index_5 = object->unk_74;
         selection_id = selection_ids[selection_index_5];
         display_record = *(town_map_7FFEE4F8_S_8008BC58_3 **)object;
-        display_record->unk_34 = selection_positions[selection_id * 8 + 1] - 0x40;
+        display_record->unk_34 = selection_positions[selection_id].y - 0x40;
 
         selection_index_6 = object->unk_74;
         selection_id = selection_ids[selection_index_6];

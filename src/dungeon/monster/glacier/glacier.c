@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "shared/dungeon_height_query.h"
 #include "common.h"
 #include "slus/imports.h"
 #include "shared/sprite_frame_state.h"
@@ -11,8 +12,6 @@
 
    /* arg0 in func_8102F348 */
 
-s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
-extern s16 sample_terrain_surface_height(u16, u16, s16);
 /* Updates effect motion and collision, grows its sprite, and flags expired effects. */
 void grow_terrain_colliding_sprite(CollidingSpriteParticleBody *effect, ObjectPosition *position, SpriteFrameState *sprite) {
     s32 height;
@@ -38,10 +37,10 @@ void grow_terrain_colliding_sprite(CollidingSpriteParticleBody *effect, ObjectPo
     position->z.v += effect->velocity_z;
     effect->velocity_z += effect->acceleration_z;
     height = position->z.w.i;
-    if ((sample_terrain_surface_height(position->x.unsigned_parts.integer, position->y.unsigned_parts.integer,
+    if (((s16)sample_terrain_surface_height(position->x.unsigned_parts.integer, position->y.unsigned_parts.integer,
                        (s16)((u16)position->z.w.i - 4)) - 0x10) < height) {
         effect->velocity_z = 0;
-        position->z.w.i = sample_terrain_surface_height(
+        position->z.w.i = (s16)sample_terrain_surface_height(
             position->x.unsigned_parts.integer, position->y.unsigned_parts.integer,
             (s16)((u16)position->z.w.i - 4)) - 0x11;
         position->z.w.frac = 0;

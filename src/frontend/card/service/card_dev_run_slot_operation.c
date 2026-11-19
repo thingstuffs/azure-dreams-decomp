@@ -10,7 +10,6 @@
 extern s32 func_8040153C(void);
 extern void configure_target_for_active_state_and_entry(void *target, s32 entry_index);
 
-extern CardSaveSlot card_slot_header_cache[];
 
 /* Run the slot operation to completion and update its counters. */
 s32 card_dev_run_slot_operation(s32 slot_index)
@@ -43,7 +42,7 @@ s32 card_dev_run_slot_operation(s32 slot_index)
         counters = D_8009EB58;
         counter_dst = counters;
         counter_selector = card_selected_channel;
-        card_slot_header_cache[slot_index].words[0] = 0;
+        card_slot_header_cache[slot_index].fields.marker = 0;
         if (counter_selector != 0) {
             counter_dst++;
         }

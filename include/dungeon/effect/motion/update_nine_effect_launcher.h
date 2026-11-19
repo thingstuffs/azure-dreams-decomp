@@ -1,4 +1,5 @@
 #include "shared/gpu_packets.h"
+#include "dungeon/globals.h"
 #include "shared/sprite_frame_state.h"
 #ifndef DUNGEON_OVL_19A332C_H
 #define DUNGEON_OVL_19A332C_H
@@ -38,10 +39,6 @@ typedef struct ovl_19a332c_81982864_S_80024064_2 {
     u8 pad_A9[0x4B];
     s32 unk_F4;
 } ovl_19a332c_81982864_S_80024064_2;
-typedef struct ovl_19a332c_81982864_S_80024064_3_pre {
-    s32 unk_00;
-    u8 pad_04[0x14];
-} ovl_19a332c_81982864_S_80024064_3_pre;
 typedef struct ovl_19a332c_81982864_S_80024064_4 {
     u8 pad_00[0xA8];
     u8 unk_A8;
@@ -64,14 +61,9 @@ typedef struct ovl_19a332c_81982864_StackPair {
     s32 first;
     s32 second;
 } ovl_19a332c_81982864_StackPair;
-typedef struct ovl_19a332c_81982B2C_EntityInner {
+typedef struct EllipseEffectBody {
     u8 pad0[8];
-    void *coords;
-    void *sprite;
-} ovl_19a332c_81982B2C_EntityInner;
-typedef struct ovl_19a332c_81982B2C_Entity {
-    u8 pad0[8];
-    ovl_19a332c_81982B2C_EntityInner *inner;
+    ObjectNodeHeader *owner;
     u8 padC[0x18];
     u16 x;
     u16 y;
@@ -79,45 +71,7 @@ typedef struct ovl_19a332c_81982B2C_Entity {
     u16 pad2A;
     s16 state;
     s16 active;
-} ovl_19a332c_81982B2C_Entity;
-typedef struct ovl_19a332c_81982B2C_Position {
-    u8 pad0[2];
-    s16 x;
-    u8 pad4[2];
-    s16 y;
-    u8 pad8[2];
-    s16 z;
-} ovl_19a332c_81982B2C_Position;
-typedef struct ovl_19a332c_81982B2C_Motion {
-    u8 pad0[12];
-    u32 value;
-} ovl_19a332c_81982B2C_Motion;
-typedef struct ovl_19a332c_81982CEC_S_800244EC_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-    u8 pad_14[0x14];
-    s32 unk_28;
-} ovl_19a332c_81982CEC_S_800244EC_0;
-typedef struct ovl_19a332c_81982CEC_S_800244EC_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    union { struct { void * v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   
-    u8 pad_0C[0x10];
-    s16 unk_1C;
-    s16 unk_1E;
-} ovl_19a332c_81982CEC_S_800244EC_1;
-typedef struct ovl_19a332c_81982CEC_S_800244EC_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} ovl_19a332c_81982CEC_S_800244EC_2;
+} EllipseEffectBody;
 #define NULL 0
 typedef struct
 {
@@ -289,27 +243,6 @@ typedef struct ovl_19a332c_819835AC_S_819835AC_2 {
         } half;
     } velocity_z;
 } ovl_19a332c_819835AC_S_819835AC_2;
-typedef struct ovl_19a332c_819835AC_S_819835AC_3 {
-    s32 frame_entry;
-    u8 frame_index;
-    u8 pad_05[0x7];
-    union {
-        s32 word;
-        struct {
-            u8 unk_0C;
-            u8 unk_0D;
-            u8 unk_0E;
-        } half;
-    } color;
-    u8 pad_10[0x4];
-    u16 flags;
-    u16 angle_x;
-    u16 angle_y;
-    u16 angle_z;
-    u16 scale_x;
-    u16 scale_y;
-    u16 unk_20;
-} ovl_19a332c_819835AC_S_819835AC_3;
 typedef struct ovl_19a332c_819835AC_S_819835AC_4 {
     u8 pad_00[0x48];
     ovl_19a332c_819835AC_M2C_PACKED_PAIR unk_48;
@@ -375,26 +308,6 @@ typedef struct ovl_19a332c_819835AC_S_819835AC_11 {
     void * unk_00;
 } ovl_19a332c_819835AC_S_819835AC_11;
 #define M2C_SFIELD(expr, offset) (((ovl_19a332c_819835AC_M2C_S32F *)((s8 *)(expr) + (offset)))->sf)
-typedef struct ovl_19a332c_81984754_Pos {
-    u8 pad0[2];
-    s16 x;
-    u8 pad4[2];
-    s16 y;
-    u8 pad8[2];
-    s16 z;
-} ovl_19a332c_81984754_Pos;
-typedef struct ovl_19a332c_81984754_Part {
-    void *unk0;
-    u8 pad4[4];
-    void *table;
-    u8 padC[4];
-    u16 f10;
-    u8 pad12[2];
-    u16 flags;
-    s16 f16;
-    u8 pad18[2];
-    s16 f1A;
-} ovl_19a332c_81984754_Part;
 typedef struct ovl_19a332c_81984754_History {
     u16 x;
     u16 y;
@@ -420,51 +333,14 @@ typedef struct ovl_19a332c_81984754_Entity {
     s16 direction;
 } ovl_19a332c_81984754_Entity;
 typedef struct ovl_19a332c_81984754_Object {
-    u8 pad0[8];
-    ovl_19a332c_81984754_Pos *pos;
-    ovl_19a332c_81984754_Part *part;
-    void (*state)(void *);
-    u8 pad14[0x20 - 0x14];
+    ObjectNodeHeader header;
     ovl_19a332c_81984754_Entity entity;
 } ovl_19a332c_81984754_Object;
-typedef struct ovl_19a332c_81984AB0_S_81984AB0_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} ovl_19a332c_81984AB0_S_81984AB0_1;
-typedef struct ovl_19a332c_81984AB0_S_81984AB0_2 {
+/* The launcher assigns one 16-byte slot per child; its final word points to 22-byte animation entries. */
+typedef struct LauncherAnimationSlot {
     u8 pad_00[0xC];
-    s32 unk_0C;
-} ovl_19a332c_81984AB0_S_81984AB0_2;
-typedef struct ovl_19a332c_81984AB0_S_81984AB0_0 {
-    s32 unk_00;
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0xE];
-    u16 unk_14;
-} ovl_19a332c_81984AB0_S_81984AB0_0;
-typedef struct ovl_19a332c_81984AF4_S_81984AF4_0 {
-    s32 unk_00;
-    s8 unk_04;
-    u8 pad_05[0x3];
-    void * unk_08;
-    u8 pad_0C[0x8];
-    u16 unk_14;
-} ovl_19a332c_81984AF4_S_81984AF4_0;
-typedef struct ovl_19a332c_81984AF4_S_81984AF4_1 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-} ovl_19a332c_81984AF4_S_81984AF4_1;
-typedef struct ovl_19a332c_81984BC0_S_81984BC0_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} ovl_19a332c_81984BC0_S_81984BC0_1;
-typedef struct ovl_19a332c_81984BC0_S_81984BC0_2 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-} ovl_19a332c_81984BC0_S_81984BC0_2;
-typedef struct ovl_19a332c_81984BC0_S_81984BC0_0 {
-    s32 unk_00;
-} ovl_19a332c_81984BC0_S_81984BC0_0;
+    AnimEntry *entries;
+} LauncherAnimationSlot;
 typedef struct ovl_19a332c_81984BF0_S_81984BF0_0 {
     u8 pad_00[0x5C];
     s32 unk_5C;
@@ -481,9 +357,6 @@ typedef struct ovl_19a332c_81984C44_S_81984C44_4 {
     u8 pad_00[0x26];
     s8 unk_26;
 } ovl_19a332c_81984C44_S_81984C44_4;
-typedef struct ovl_19a332c_81984D4C_S_81984D4C_1 {
-    union { u8 u; s8 s; } unk_00;   
-} ovl_19a332c_81984D4C_S_81984D4C_1;
 typedef struct ovl_19a332c_81984D4C_S_81984D4C_2 {
     u8 pad_00[0x6];
     u16 unk_06;
@@ -536,7 +409,7 @@ void spawn_blinking_sprite_flash();
 extern u8 D_80026BC8[];
 extern u8 D_80026BD4[];
 extern s32 actor_direction_sprites;
-extern u8 D_80026B2C[];
+extern LauncherAnimationSlot D_80026B2C[];
 extern u8 D_80026BBC[];
 extern u8 D_80080010[];
 extern void draw_linked_model_chain(void);
@@ -545,22 +418,21 @@ extern void *allocate_list_node(s32, void *);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 extern s32 check_entity_interaction_compatibility(void *, void *);
 extern u8 D_80026BE4[16];
-extern u8 camera_transition_timer[16];
 void advance_image_tint_transition(void *transition);
-void update_nine_effect_launcher(ovl_19a332c_81982B2C_Entity *entity, ObjectPosition *position, ovl_19a332c_81982B2C_Motion *motion);
-void *create_double_ellipse_sprite_effect(ovl_19a332c_81982CEC_S_800244EC_2 *source_part, s32 offset);
+void update_nine_effect_launcher(EllipseEffectBody *entity, ObjectPosition *position, SpriteFrameState *sprite);
+void *create_double_ellipse_sprite_effect(ObjectPosition *source_position, void *owner_body);
 void move_fade_and_expand_effect(HomingEffectBody *effect_data, ObjectPosition *motion, SpriteFrameState *sprite_data);
 void *spawn_random_motion_particles(s16 x, s16 y, s16 z, s16 heading, s16 count);
 void advance_effect_motion_and_color_fade(HomingEffectBody *effect, ObjectPosition *motion, SpriteFrameState *color);
 void *spawn_thirty_two_angled_particles(s16 x, s16 y, s16 z, s16 angle, s32 unused_context);
 void fade_effect_color_by_quarter(u16 *effect_data, s32 unused, SpriteFrameState *color);
 void *spawn_effect_actor_or_curved_trail(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor);
-void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 *effect, ovl_19a332c_819835AC_S_819835AC_2 *motion, ovl_19a332c_819835AC_S_819835AC_3 *visual);
+void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 *effect, ovl_19a332c_819835AC_S_819835AC_2 *motion, SpriteFrameState *visual);
 void *create_nine_linked_effects(s32 x, s32 y, s32 z, s32 angle);
 void copy_anim_entry_and_widen_fields(AnimFrame *dst, AnimEntry *src);
-void select_sprite_entry_and_clear_flags(ovl_19a332c_81984AB0_S_81984AB0_0 *object, s16 entry_index);
-void step_and_clamp_entry_index(void *object, s16 *index_step, s32 min_index, s32 max_index);
-void inventory_set_object_entry_address(ovl_19a332c_81984BC0_S_81984BC0_0 *object, s16 entry_index);
+void select_sprite_entry_and_clear_flags(SpriteFrameState *sprite, s16 entry_index);
+void step_and_clamp_entry_index(SpriteFrameState *sprite, s16 *index_step, s32 min_index, s32 max_index);
+void inventory_set_object_entry_address(SpriteFrameState *sprite, s16 entry_index);
 void clear_nonplayer_actor_node_flag(void *unused_actor);
 void *find_eligible_nearby_entity(void *source_entity);
 void clear_object_buffer_and_state(void *tracker);

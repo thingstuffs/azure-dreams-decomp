@@ -1,22 +1,22 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town/scene/position_entries.h"
 #include "town/scene.h"
 #include "town/scene/event.h"
 #include "town/scene/event_lookup_data.h"
 #include "town/player/state.h"
 #include "town/scene/motion.h"
 
-extern s32 resolve_entry_flag(void *, s32, s32);
-extern s32 query_referenced_flag_for_table_entry(void *, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+#include "town/scene/flags.h"
 
 extern u8 D_80018A0C[16];
 extern u8 D_8001B333[];
 extern u8 D_8001B3D2[];
 
 /* Selects a response and advances the four-state counter for event 11. */
-s32 select_response_cycling_sbs34_state(s32 context, s32 unused, s32 event_id)
+s32 select_response_cycling_sbs34_state(struct ScriptContext *context, s32 unused, s32 event_id)
 {
-    u8 *event_table;
+    ScenePositionEntry *event_table;
     s32 result;
     s32 state_index;
 

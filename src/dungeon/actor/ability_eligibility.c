@@ -612,7 +612,7 @@ void select_position_data_and_update_owner(SpriteFrameState *entity, ActorRecord
 
     lookup_code = lookup_definition_pair_value(entity->tile_x, entity->tile_y);
     if ((lookup_code << 16) != 0) {
-        *(s16 *)temporary_item_record = (s16)(lookup_code | 0x1400);
+        *(s16 *)&temporary_item_record = (s16)(lookup_code | 0x1400);
         ((PlayerRecord *)primary_actor_record)->selected_floor_entry = 0;
         return;
     } else {
@@ -624,7 +624,7 @@ void select_position_data_and_update_owner(SpriteFrameState *entity, ActorRecord
             map_base = floor_objects;
             map_entry = map_base + map_index * 4;
             if (!(map_entry[3] & 0x40)) {
-                *(void **)temporary_item_record = *(void **)map_entry;
+                *(u32 *)&temporary_item_record = *(u32 *)map_entry;
                 ((PlayerRecord *)primary_actor_record)->selected_floor_entry = map_entry;
                 return;
             }
@@ -639,13 +639,13 @@ void select_position_data_and_update_owner(SpriteFrameState *entity, ActorRecord
         if (floor_index >= 0) {
             floor_base = ((u8 *)dungeon_ground_items);
             floor_entry = floor_base + floor_index * 4;
-            *(void **)temporary_item_record = *(void **)floor_entry;
+            *(u32 *)&temporary_item_record = *(u32 *)floor_entry;
             ((PlayerRecord *)primary_actor_record)->selected_floor_entry = floor_entry;
             return;
         }
 
         owner = primary_actor_record;
-        *(void **)temporary_item_record = 0;
+        *(u32 *)&temporary_item_record = 0;
     }
     ((S_800A4300_2 *)owner)->unk_F0.i = 0;
 }
@@ -654,14 +654,14 @@ void select_position_data_and_update_owner(SpriteFrameState *entity, ActorRecord
 u8 *get_selected_item_data(void) {
     u8 *stored_data;
 
-    if (temporary_item_record[1] < 0x14U) {
-        stored_data = *(u8 **)((u8 *)primary_actor_record + 0xF0);
+    if (temporary_item_record.kind < 0x14U) {
+        stored_data = ((PlayerRecord *)primary_actor_record)->selected_floor_entry;
         if (stored_data != NULL) {
             return stored_data;
         }
-        *(s32 *)temporary_item_record = 0;
+        *(u32 *)&temporary_item_record = 0;
     }
-    return temporary_item_record;
+    return (u8 *)&temporary_item_record;
 }
 
 /*

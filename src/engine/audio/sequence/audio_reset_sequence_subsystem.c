@@ -17,5 +17,5 @@ void audio_reset_sequence_subsystem(void)
     initialize_spu_default();
     audio_reset_all_voices();
     reset_sound_slots();
-    SpuInitMalloc(0x10, &spu_allocation_record_storage);
+    SpuInitMalloc(0x10, spu_allocation_record_storage);
 }

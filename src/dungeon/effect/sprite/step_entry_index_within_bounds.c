@@ -1,49 +1,33 @@
-#include "common.h"
-
-typedef struct {
-    u32 value;
-    s8 index;
-    u8 pad05[3];
-    void *owner;
-    u8 pad0C[8];
-    u16 flags;
-} Entry;
-
-typedef struct {
-    u8 pad00[0xC];
-    s32 base;
-} Owner;
+#include "shared/sprite_frame_state.h"
+#include "dungeon/effect/sprite/linked_object_chain.h"
 
 /* Refresh the entry value and handle index stepping and bounds. */
-void step_entry_index_within_bounds(Entry *entry, s16 *step, s32 lower, s32 upper)
+void step_entry_index_within_bounds(SpriteFrameState *entry, s16 *step, s32 lower, s32 upper)
 {
-    Entry *active_entry = entry;
     s32 pending_update;
-    s32 index_high_byte;
-    Owner *owner;
-    u8 index;
+    LinkedSpriteSource *source;
+    s8 index;
 
-    owner = active_entry->owner;
-    active_entry->value = owner->base + active_entry->index * 0x18;
+    source = entry->source;
+    entry->unk_00 = &source->frames[entry->unk_04];
     if (*step > 0) {
-        active_entry->index = (u8)active_entry->index + 1;
+        entry->unk_04++;
     } else if (*step < 0) {
-        active_entry->index = (u8)active_entry->index - 1;
+        entry->unk_04--;
     }
 
-    index = (u8)active_entry->index;
-    index_high_byte = index << 24;
-    if ((s8)index < (s16)lower) {
-        pending_update = active_entry->flags | 0x4000;
-        active_entry->index = lower;
-        active_entry->flags = pending_update;
+    index = entry->unk_04;
+    if (index < (s16)lower) {
+        pending_update = entry->flags | 0x4000;
+        entry->unk_04 = lower;
+        entry->flags = pending_update;
         return;
     }
-    if ((s8)index > (s16)upper) {
-        pending_update = active_entry->flags | 0x4000;
-        active_entry->index = upper;
-        active_entry->flags = pending_update;
+    if (index > (s16)upper) {
+        pending_update = entry->flags | 0x4000;
+        entry->unk_04 = upper;
+        entry->flags = pending_update;
         return;
     }
-    active_entry->flags &= 0xBFFF;
+    entry->flags &= 0xBFFF;
 }

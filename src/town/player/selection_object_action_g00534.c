@@ -40,11 +40,10 @@ void initialize_town_context_action(void) {
 void create_selected_town_object(void) {
     Unk96134Work work;
     ObjectNodeHeader *data;
-    S_80093894_1 *context;
     TownObjectRecord *object;
     ObjectPosition *position;
     SpriteFrameState *callback_data;
-    void *created_entry;
+    ObjectNodeHeader *created_entry;
     u32 state_code;
     s32 state_index;
     s32 state_is_12_or_13;
@@ -53,18 +52,17 @@ void create_selected_town_object(void) {
 
     data = &scene_object_list_anchor;
     object = NODE_BODY(data);
-    context = (S_80093894_1 *)&item_menu_scene_state;
     position = data->position;
     callback_data = data->sprite;
 
-    if (context->unk_08 == 3) {
-        Unk96134Bytes *source = context->unk_00;
+    if (item_menu_scene_state.unk8 == 3) {
+        DungeonItemEntry *source = (DungeonItemEntry *)(unsigned long)(u32)item_menu_scene_state.unk0;
 
-        work.bytes.unk0 = source->unk0;
-        state_code = source->unk1;
+        work.bytes.unk0 = source->unk_00;
+        state_code = source->kind;
         work.bytes.unk1 = state_code;
-        work.bytes.unk2 = source->unk2;
-        work.bytes.unk3 = source->unk3;
+        work.bytes.unk2 = source->unk_02;
+        work.bytes.unk3 = source->unk_03;
         state_index = state_code - 0x12;
         state_is_12_or_13 = (u32)state_index < 2;
         is_available = is_map_state_in_special_range() == 1;
@@ -108,14 +106,14 @@ void create_selected_town_object(void) {
         }
         }
 
-        work.pos.x = position->x.v;
-        work.pos.y = position->y.v;
-        work.pos.z = position->z.v + town_target_height_offset;
+        work.pos[0].v = position->x.v;
+        work.pos[1].v = position->y.v;
+        work.pos[2].v = position->z.v + town_target_height_offset;
         mode = 0;
         if (state_is_12_or_13) {
             mode = is_available != 0;
         }
-        created_entry = create_selection_entry_object(((S_80093894_3 *)(&item_menu_scene_state))->unk_00, &work.pos, mode);
+        created_entry = create_selection_entry_object((DungeonItemEntry *)(unsigned long)(u32)item_menu_scene_state.unk0, work.pos, mode);
         if (created_entry != 0) {
             Unk96134State *state = (Unk96134State *)town_actor_control;
             void *next_object;

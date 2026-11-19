@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/tyrant/advance_tyrant_attack_animation.h"
 #include "shared/sprite_frame_state.h"
@@ -57,7 +58,7 @@ void advance_tyrant_attack_animation(T_801727CC_Obj0 *action, ObjectPosition *co
             actor->field46 &= 0x7FFF;
             return;
         }
-        *actor_update_node_cursor = ((s8 *)actor - 0x20);
+        actor_update_node_cursor = NODE_HEADER(actor);
 
         return;
     default:

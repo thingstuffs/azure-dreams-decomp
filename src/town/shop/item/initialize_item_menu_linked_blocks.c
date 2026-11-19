@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/gpu_packets.h"
+#include "shared/menu_display.h"
 #include "town/shop/item.h"
 #include "town/shop/floating_number_widget_g00612.h"
 
@@ -10,20 +10,9 @@ typedef struct S_800AFF00_0 {
     s32 unk_0C;
 } S_800AFF00_0;   /* arg1 in initialize_item_menu_linked_blocks */
 
-typedef struct S_800AFF00_1 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-} S_800AFF00_1;   /* src1 in initialize_item_menu_linked_blocks */
 
    /* arg2 in initialize_item_menu_linked_blocks */
 
-typedef struct S_800AFF00_3 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    s32 unk_08;
-} S_800AFF00_3;   /* src2 in initialize_item_menu_linked_blocks */
 
 typedef struct S_800AFF00_4 {
     s32 unk_00;
@@ -51,24 +40,21 @@ typedef struct S_800AFF00_7 {
     s16 unk_08;
 } S_800AFF00_7;   /* ((S_800AFF00_4 *)arg0)->unk_08 in initialize_item_menu_linked_blocks */
 
-
-extern s32 display_vector_defaults[3];
-
 /* Initialize two linked data blocks from templates and set their default fields. */
 void initialize_item_menu_linked_blocks(ItemMenuDisplayLinks *state, S_800AFF00_0 *primary, DisplayPositionWords *secondary) {
-    S_800AFF00_1 *primary_defaults = (S_800AFF00_1 *)display_block_defaults;
-    s32 *secondary_defaults = display_vector_defaults;
+    MenuDisplayBlock *primary_defaults = &display_block_defaults;
+    DisplayPositionWords *secondary_defaults = &display_vector_defaults;
     s32 secondary_head;
     s32 initial_offset = -60;
 
-    primary->unk_00 = display_block_defaults[0];
-    primary->unk_04 = primary_defaults->unk_04;
-    primary->unk_08 = primary_defaults->unk_08;
-    secondary_head = display_vector_defaults[0];
-    primary->unk_0C = primary_defaults->unk_0C;
+    primary->unk_00 = display_block_defaults.words[0];
+    primary->unk_04 = primary_defaults->words[1];
+    primary->unk_08 = primary_defaults->words[2];
+    secondary_head = display_vector_defaults.unk0;
+    primary->unk_0C = primary_defaults->words[3];
     secondary->unk0 = secondary_head;
-    secondary->unk4 = ((S_800AFF00_3 *)secondary_defaults)->unk_04;
-    secondary->unk8 = ((S_800AFF00_3 *)secondary_defaults)->unk_08;
+    secondary->unk4 = secondary_defaults->unk4;
+    secondary->unk8 = secondary_defaults->unk8;
     state->display = (ItemMenuDisplayBlock *)primary;
     state->position = secondary;
     state->unk_00 = 0;

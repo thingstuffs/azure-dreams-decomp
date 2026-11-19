@@ -1,3 +1,5 @@
+#include "shared/object_node.h"
+#include "frontend/card/message_display.h"
 #include "common.h"
 #include "main/data.h"
 #include "frontend/card/message.h"
@@ -5,26 +7,19 @@
 extern void resolve_apply(void *object);
 extern void call_handler_with_zero_if_field_is_zero(void);
 
-typedef struct {
-    /* 0x00 */ s32 unk00;
-    /* 0x04 */ s32 unk04;
-    /* 0x08 */ s32 unk08;
-    /* 0x0C */ s32 unk0C;
-} Struct8001BF04;
-
 /* Initialize the object from its table entry and select its callback. */
-void init_menu_object(Struct8001BF04 *object) {
-    s32 callback;
+void init_menu_object(CardDevDialogDisplay *object) {
+    void *callback;
     s32 table_offset;
 
-    card_boot_build_four_layout_command_groups(((u8 *) object + 0x24), object);
+    card_boot_build_four_layout_command_groups(object->command_buffer, object);
     card_boot_position_four_display_items(object);
-    table_offset = object->unk08 * 4;
-    object->unk00 = D_80408ADF[table_offset];
+    table_offset = object->layout_index * 4;
+    object->selection = D_80408ADF[table_offset];
     resolve_apply(object);
-    callback = (s32) card_boot_handle_menu_actions_and_repeat;
-    if (object->unk0C == 2) {
-        callback = (s32) call_handler_with_zero_if_field_is_zero;
+    callback = card_boot_handle_menu_actions_and_repeat;
+    if (object->mode == 2) {
+        callback = call_handler_with_zero_if_field_is_zero;
     }
-    *(s32 *)((u8 *)object - 0x10) = callback;
+    NODE_HEADER(object)->update_callback = callback;
 }

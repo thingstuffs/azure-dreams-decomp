@@ -1,4 +1,5 @@
 #include "shared/sprite_source.h"
+#include "shared/record_ptrs.h"
 #include "shared/entity.h"
 #include "common.h"
 #include "m2c_compat.h"
@@ -70,7 +71,6 @@ typedef struct {
 #include "dungeon/effect/sprite/rotating_entries.h"
 extern void draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
 
-extern u32 actor_update_node_cursor[];
 extern u8 D_8017086C[];
 extern u8 D_80170874[];
 
@@ -238,7 +238,7 @@ void cast_mandara_spin_spell(ActorRecord *effect, ObjectPosition *motion, Sprite
         if (actor->pending_turn_updates == 0) {
             actor->action_flags &= 0x7FFF;
         } else {
-            actor_update_node_cursor[0] = (u32)NODE_HEADER(actor);
+            actor_update_node_cursor = NODE_HEADER(actor);
         }
 
         spawned_object = ((S_80174668_2 *)actor)->unk_60;

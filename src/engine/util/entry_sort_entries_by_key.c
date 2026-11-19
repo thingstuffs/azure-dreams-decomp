@@ -3,8 +3,6 @@
 #include "slus/data.h"
 #include "engine/audio/ram_block.h"
 
-extern u8 sound_ram_reserve_mode[9];
-
 /* Reserves space in the entry table and returns its offset, or -1 if it exceeds the limit. */
 s32 reserve_sound_ram_region(s32 size)
 {

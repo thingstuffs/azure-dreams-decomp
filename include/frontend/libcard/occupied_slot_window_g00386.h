@@ -14,7 +14,7 @@ extern void func_8004E5A0(void *a0, s32 a1, void *a2);
 extern u8 D_80078FD0[16];
 extern s16 D_80027F7C;
 extern s16 D_800282B0;
-extern void func_80023BE4(void *, s32, s32);
+extern u8 *func_80023BE4(u8 *packets, s32 width, s32 height);
 
 /* Functions defined in this translation unit. */
 void card_boot_format_occupied_slot_window(CardSlotWindow *slot_owner);

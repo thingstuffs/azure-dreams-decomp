@@ -21,24 +21,24 @@ typedef struct {
     s32 value;
 } Timer;
 
-extern void install_stored_value_handler(void *object, void *position, s32 update_arg);
-extern void func_800C7C3C(void *object, void *position, s32 update_arg);
+extern void install_stored_value_handler(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *update_arg);
+extern void func_800C7C3C(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *update_arg);
 extern ColliderView town_actor_control;
 #include "town/person/object_setup.h"
 extern u8 D_800C7604[];
 extern u8 D_800D5FC4[];
 
 extern s32 mother_event_object_entries;
-extern void D_800C78A8(void *object, void *position, s32 update_arg);
+extern void D_800C78A8(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *update_arg);
 
 extern Timer mother_event_ticks;
 
 /* Functions defined in this translation unit. */
-void apply_mother_event_motion_offset(void *object, void *position, s32 update_arg);
-void reset_mother_event_callback_on_expiry(void *object, void *motion, void *init_data, s32 check_arg);
-void choose_mother_event_direction(TownObjectRecord *entity, S_800C7AC4_1 *bounds_arg, void *context_arg);
-void start_mother_event_ticks(void *object, void *unused, void *init_data);
+void apply_mother_event_motion_offset(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *update_arg);
+void reset_mother_event_callback_on_expiry(TownObjectRecord *object, ObjectPosition *motion, SpriteFrameState *init_data, s32 check_arg);
+void choose_mother_event_direction(TownObjectRecord *entity, ObjectPosition *bounds_arg, SpriteFrameState *context);
+void start_mother_event_ticks(TownObjectRecord *object, ObjectPosition *unused, SpriteFrameState *init_data);
 
-void func_800C7A00(void *object, void *motion, void *init_data, s32 check_arg);
+void func_800C7A00(TownObjectRecord *object, ObjectPosition *motion, SpriteFrameState *init_data, s32 check_arg);
 
 #endif

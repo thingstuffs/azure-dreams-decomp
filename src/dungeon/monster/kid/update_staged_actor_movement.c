@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "shared/record_ptrs.h"
 #include "common.h"
 #include "dungeon/monster/kid.h"
 #include "shared/sprite_frame_state.h"
@@ -43,7 +44,6 @@ typedef struct S_80172790_3 {
 } S_80172790_3;   /* part in update_staged_actor_movement */
 
 extern u8 directional_effect_entries[];
-extern void *actor_update_node_cursor;
 extern u8 kid_action_resume_address[];
 extern u8 D_801743EC[];
 extern u8 D_80175160[];

@@ -28,7 +28,6 @@ extern void func_80164BA4(void *);
 
 extern u8 D_80173C8C[];
 extern u8 D_80173D74[];
-extern u8 *beldo_actor_nodes;
 
 /* Set up the active object's handler and direction, then update its two linked entries. */
 void begin_multi_form_directional_script(void)
@@ -40,7 +39,8 @@ void begin_multi_form_directional_script(void)
     SysWork *sys_work;
     ObjectNodeHeader *active_object;
     u8 *object_state;
-    u8 *position_data;
+    SpriteFrameState *position_data;
+    BeldoScriptControl *control;
     u8 *entry;
     u32 handler_index;
     u8 *handler_table;
@@ -50,7 +50,8 @@ void begin_multi_form_directional_script(void)
     work_page = (u8 *)0x800E0000;
     sys_work = (SysWork *)0x80010000;
     high_bit = 0x80000000;
-    beldo_actor_nodes[0xCF] = 1;
+    control = NODE_BODY(beldo_actor_nodes);
+    control->script_active = 1;
     sys_work->f371A = 0;
     sys_work->f3718 = 0;
     sys_work->f3716 = 0;
@@ -60,10 +61,10 @@ void begin_multi_form_directional_script(void)
     handler_index = actor_direction_dispatch_key >> 7;
     handler_table = D_80173C8C;
     sys_work->handler = *(void **)(handler_table + (handler_index & 0x1C));
-    position_data = *(u8 * *)&active_object->sprite;
+    position_data = active_object->sprite;
     dungeon_floor_flags |= 0x200000;
     object_state = NODE_BODY(active_object);
-    direction = get_rounded_facing_and_rounding_flag(position_data[0x24], position_data[0x25],
+    direction = get_rounded_facing_and_rounding_flag(position_data->tile_x, position_data->tile_y,
                               reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &unused_result);
     *(u16 *)(object_state + 0x2A) = direction;
     direction >>= 7;

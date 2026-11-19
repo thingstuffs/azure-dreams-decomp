@@ -2,6 +2,7 @@
 #define ENGINE_MENU_H
 #include "engine/menu/animated_selection_body.h"
 struct DungeonItemEntry;
+struct ObjectNodeHeader;
 /* Prototypes of the functions defined in src/engine/menu/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -10,11 +11,6 @@ struct DungeonItemEntry;
 
 struct ObjA464;
 struct AnimatedMenuPanelBody;
-struct S_8004F684;
-struct S_8004F780;
-struct S_8004F95C;
-struct S_8004F9AC_Obj;
-struct S_8004FA2C;
 struct S_800506BC_Ctx;
 struct S_800506BC_Obj;
 struct S_80053A88_Node;
@@ -53,9 +49,11 @@ typedef struct SevenEntryMenuBackdropState {
 
 /* Shared 0x31C-byte body installed on the seven-entry menu backdrop node. */
 typedef struct SevenEntryMenuBackdropBody {
-    /* 0x00 */ s32 owner;
+    /* 0x00 */ struct ObjectNodeHeader *owner;
     /* 0x04 */ union { s32 value; SevenEntryMenuBackdropState *state; } state;
-    /* 0x08 */ u8 pad_08[0x1FC];
+    /* 0x08 */ u8 pad_08[0x1E0];
+    /* 0x1E8 */ MenuDisplayBlock template_block;
+    /* 0x1F8 */ DisplayPositionWords template_vector;
     /* 0x204 */ DisplayPositionWords display_position;
     /* 0x210 */ u8 template_anchor[0x0C];
     /* 0x21C */ void *display_node_chain;
@@ -83,16 +81,16 @@ typedef struct SevenEntryMenuBackdropBody {
 s32 advance_index_with_directional_clamp(s32 index, s32 step, s32 count);
 
 /* animate_selection_menu_entry_spacing.c */
-void animate_selection_menu_entry_spacing(struct S_8004F9AC_Obj *obj);
+void animate_selection_menu_entry_spacing(AnimatedSelectionMenuBody *obj);
 
 /* animate_selection_menu_index_transition.c */
-void animate_selection_menu_index_transition(struct S_8004F95C *state);
+void animate_selection_menu_index_transition(AnimatedSelectionMenuBody *state);
 
 /* apply_item_value_modifier.c */
 s32 apply_item_value_modifier(s32 base_value, struct DungeonItemEntry *modifier);
 
 /* begin_selection_menu_index_change.c */
-void begin_selection_menu_index_change(struct S_8004FA2C *object, int target);
+void begin_selection_menu_index_change(AnimatedSelectionMenuBody *object, int target);
 
 /* build_menu_line_tile_packets.c */
 s32 build_menu_line_tile_packets(struct S_80053A88_Node *first_node);
@@ -109,13 +107,13 @@ void *create_animated_selection_menu_owner(void *unused, void *source);
 void *D_8004F5F4(void *unused, void *source);
 
 /* create_menu_backdrop.c */
-void *create_menu_backdrop(s32 owner, s32 state);
+void *create_menu_backdrop(struct ObjectNodeHeader *owner, s32 state);
 
 /* destroy_animated_selection_menu_owner.c */
 void destroy_animated_selection_menu_owner(AnimatedSelectionMenuOwnerBody *object);
 
 /* find_resolved_selection_menu_index.c */
-s32 find_resolved_selection_menu_index(void *id_list_data, void *object);
+s32 find_resolved_selection_menu_index(AnimatedSelectionMenuBody *menu, void *object);
 
 /* flag_object_and_release_inner.c */
 void flag_object_and_release_inner(struct ObjA464 *obj, s32 unused);
@@ -140,7 +138,7 @@ void init_packet_pair_and_gradient(void *record_pair, void *init_data);
 void initialize_menu_backdrop_display_nodes(SevenEntryMenuBackdropBody *body, s32 node_count);
 
 /* initialize_menu_backdrop_layout.c */
-void initialize_menu_backdrop_layout(SevenEntryMenuBackdropBody *object, int initial_value);
+void initialize_menu_backdrop_layout(SevenEntryMenuBackdropBody *object, struct ObjectNodeHeader *owner);
 
 /* layout_menu_backdrop_display_entries.c */
 void layout_menu_backdrop_display_entries(SevenEntryMenuBackdropBody *body);
@@ -149,10 +147,10 @@ void layout_menu_backdrop_display_entries(SevenEntryMenuBackdropBody *body);
 void assign_menu_object_data_pointers(s32 *objects, s32 *group_bases);
 
 /* interpolate_selection_menu_entry_coordinates.c */
-void interpolate_selection_menu_entry_coordinates(struct S_8004F684 *state);
+void interpolate_selection_menu_entry_coordinates(AnimatedSelectionMenuBody *state);
 
 /* interpolate_selection_menu_entry_shade.c */
-void interpolate_selection_menu_entry_shade(struct S_8004F780 *state);
+void interpolate_selection_menu_entry_shade(AnimatedSelectionMenuBody *state);
 
 /* lookup_menu_value_for_flags.c */
 s32 lookup_menu_value_for_flags(s32 flags);

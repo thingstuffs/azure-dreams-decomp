@@ -1,4 +1,5 @@
 #include "shared/object_node_flags.h"
+#include "shared/dungeon_height_query.h"
 #include "sdk/libc.h"
 #include "shared/audio_commands.h"
 /* Targeted moving effects, radial color animation, shaded lines, and fragment creation. */
@@ -18,8 +19,8 @@
 #include "engine/graphics.h"
 #include "slus.h"
 
-typedef struct S_func_81886800_1 {
-    void *unk_00;
+struct S_func_81886800_1 {
+    ActorRecord *owner;
     void *unk_04;
     u8 pad_08[0x1];
     u8 unk_09;
@@ -73,32 +74,9 @@ typedef struct S_func_81886800_1 {
     } unk_2C;
     u8 pad_30[0x28];
     s16 unk_58;
-} S_func_81886800_1;
+};
 
-typedef struct S_func_81886800_2 {
-    u8 pad_00[0x8];
-    void *unk_08;
-    void *unk_0C;
-} S_func_81886800_2;
 
-typedef struct S_func_81886800_3 {
-    u8 pad_00[0x8];
-    void *unk_08;
-    union {
-        u32 u32;
-        struct {
-            u8 unk_0C;
-            u8 unk_0D;
-            u8 unk_0E;
-        } parts;
-    } unk_0C;
-    u16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_func_81886800_3;
 
 typedef struct S_func_81886800_4 {
     u16 unk_00;
@@ -116,107 +94,12 @@ typedef struct S_func_81886800_7 {
     s32 unk_00;
 } S_func_81886800_7;
 
-typedef struct S_func_81886800_8 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    u8 pad_14[0x16];
-    u16 unk_2A;
-    u8 pad_2C[0x34];
-    void *unk_60;
-    u8 pad_64[0xC];
-    union {
-        u32 u32;
-        struct {
-            u8 pad_70[0x2];
-            union {
-                s8 s8;
-                u8 u8;
-            } unk_72;
-            union {
-                s8 s8;
-                u8 u8;
-            } unk_73;
-        } parts;
-    } unk_70;
-    u8 pad_74[0x14];
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_88;
-} S_func_81886800_8;
 
 typedef struct S_func_81886800_9 {
     s32 unk_00;
 } S_func_81886800_9;
 
-typedef struct S_func_81886800_10 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    union {
-        void * ptr;
-        struct {
-            u8 pad_08[0x2];
-            u16 unk_0A;
-        } parts;
-    } unk_08;
-    u8 pad_0C[0x8];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_func_81886800_10;
 
-typedef struct S_func_81886800_11 {
-    union {
-        s32 s32;
-        struct {
-            u8 pad_00[0x2];
-            union {
-                s16 s16;
-                u16 u16;
-            } unk_02;
-        } parts;
-    } unk_00;
-    union {
-        s32 s32;
-        struct {
-            u8 pad_04[0x2];
-            union {
-                s16 s16;
-                u16 u16;
-            } unk_06;
-        } parts;
-    } unk_04;
-    union {
-        s32 s32;
-        struct {
-            u8 pad_08[0x2];
-            u16 unk_0A;
-        } parts;
-    } unk_08;
-    union {
-        s32 s32;
-        struct {
-            u8 pad_0C[0x2];
-            union {
-                s16 s16;
-                u16 u16;
-            } unk_0E;
-        } parts;
-    } unk_0C;
-    union {
-        s32 s32;
-        struct {
-            u8 pad_10[0x2];
-            union {
-                s16 s16;
-                u16 u16;
-            } unk_12;
-        } parts;
-    } unk_10;
-} S_func_81886800_11;
 
 typedef struct S_func_81886800_12 {
     u16 unk_00;
@@ -240,7 +123,6 @@ typedef struct S_func_81886800_17 {
 #include "dungeon/data.h"
 
 extern s32 rsin(s32);
-extern s32 check_left_tile_and_center_height(s32, s32, s32);
 extern void ratan2(s32, s32);
 
 extern u8 D_8002632C[];
@@ -250,60 +132,61 @@ extern u8 D_80026878[];
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const dungeon_18a6800_entry)(S_func_81886800_1 *, S_func_81886800_11 *, S_func_81886800_3 *) = run_radial_sprite_sequence;
+void (*const dungeon_18a6800_entry)(RadialSequenceBody *, ObjectPosition *, SpriteFrameState *) = run_radial_sprite_sequence;
 
 /* Initialize and update a moving effect through targeting, collision, and fading states. */
-void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func_81886800_3 *sprite)
+void run_radial_sprite_sequence(RadialSequenceBody *effect, ObjectPosition *motion, SpriteFrameState *sprite)
 {
-    S_func_81886800_8 *owner;
-    S_func_81886800_2 *owner_base;
-    S_func_81886800_11 *owner_motion;
-    S_func_81886800_8 *target_object;
+    ActorRecord *owner;
+    ObjectNodeHeader *owner_base;
+    ObjectPosition *owner_motion;
+    ActorRecord *target_object;
+    ActorRecord *target_actor;
     s32 state;
     u16 owner_flags;
     s16 surface_pos[3];
     GpuRectBuffer texture_rect;
 
-    owner = effect->unk_00;
+    owner = effect->owner;
     state = (s16)effect->unk_0A;
-    owner_base = (S_func_81886800_2 *)((u8 *)owner - 0x20);
-    owner_motion = owner_base->unk_08;
+    owner_base = NODE_HEADER(owner);
+    owner_motion = owner_base->position;
     switch (state) {
     case 0:
     texture_rect.words[0] = 0x01000340;
     texture_rect.words[1] = 0x00200020;
     draw_textured_ellipse(D_8002632C, &texture_rect.rect, 1, 0);
 
-    sprite->unk_0C.u32 = 0x00808080;
-    sprite->unk_1E = 0x555;
-    sprite->unk_1C = 0x555;
-    sprite->unk_08 = D_80026344;
+    sprite->color.word = 0x00808080;
+    sprite->scale_y = 0x555;
+    sprite->scale_x = 0x555;
+    sprite->source = D_80026344;
     ((S_func_81886800_4 *)(D_80026324))->unk_00 = 0;
     ((S_func_81886800_5 *)(D_80026328))->unk_00 = 0;
     ((S_func_81886800_6 *)(&D_8002632A))->unk_00 = 0;
     ((S_func_81886800_7 *)(radial_effect_colors))->unk_00 = 0;
-    owner_flags = owner->unk_2A;
+    owner_flags = owner->facing;
     ((S_func_81886800_9 *)(D_80026474))->unk_00 = 0;
     effect->unk_16 = (owner_flags >> 9) & 7;
     effect->unk_0A++;
 
     case 1:
     if (get_sprite_attachment_vector(
-            ((S_func_81886800_10 *)(owner_base->unk_0C))->unk_08.ptr,
-            owner_base->unk_0C, surface_pos, 0) == 0) {
-        if ((((S_func_81886800_10 *)(owner_base->unk_0C))->unk_14 & 0x8000) == 0) {
+            owner_base->sprite->source,
+            owner_base->sprite, surface_pos, 0) == 0) {
+        if ((owner_base->sprite->flags & 0x8000) == 0) {
             break;
         }
     }
 
-    motion->unk_00.parts.unk_02.u16 = owner_motion->unk_00.parts.unk_02.u16;
-    motion->unk_04.parts.unk_06.u16 = owner_motion->unk_04.parts.unk_06.u16;
-    if (((S_func_81886800_10 *)(owner_base->unk_0C))->unk_14 & 0x8000) {
-        motion->unk_08.parts.unk_0A = owner_motion->unk_08.parts.unk_0A - 64;
-        effect->unk_2C.parts.unk_2E.u16 = motion->unk_08.parts.unk_0A;
+    motion->x.w.i = owner_motion->x.w.i;
+    motion->y.w.i = owner_motion->y.w.i;
+    if (owner_base->sprite->flags & 0x8000) {
+        motion->z.w.i = owner_motion->z.w.i - 64;
+        effect->unk_2C.parts.unk_2E.u16 = motion->z.w.i;
     } else {
-        motion->unk_08.parts.unk_0A = owner_motion->unk_08.parts.unk_0A + surface_pos[2];
-        effect->unk_2C.parts.unk_2E.u16 = motion->unk_08.parts.unk_0A;
+        motion->z.w.i = owner_motion->z.w.i + surface_pos[2];
+        effect->unk_2C.parts.unk_2E.u16 = motion->z.w.i;
     }
 
     {
@@ -313,38 +196,39 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
         }
         if ((effect->unk_12 & 4) == 0) {
             register_node((u8 *)effect - 0x20, project_sprite_chain);
-            sprite->unk_10 = 0x20;
-            sprite->unk_0C.parts.unk_0E = 0x80;
-            sprite->unk_0C.parts.unk_0D = 0x80;
-            sprite->unk_0C.parts.unk_0C = 0x80;
-            sprite->unk_14 |= 0xC;
+            sprite->tpage_abr = 0x20;
+            sprite->color.c.b = 0x80;
+            sprite->color.c.g = 0x80;
+            sprite->color.c.r = 0x80;
+            sprite->flags |= 0xC;
             effect->unk_12 |= 4;
         }
     }
 
-    if (owner->unk_60 != 0) {
+    if (owner->target != 0) {
         {
-            S_func_81886800_10 *target_data;
+            ObjectPosition *target_position;
+            SpriteFrameState *owner_sprite;
 
-            target_data =
-                ((SpriteFrameState *)((u8 *)(owner->unk_60) - 0x18))->unk_00;
-            effect->unk_0C = target_data->unk_02;
-            effect->unk_0E = target_data->unk_06;
+            target_position = NODE_HEADER(owner->target)->position;
+            effect->unk_0C = target_position->x.w.i;
+            effect->unk_0E = target_position->y.w.i;
             {
                 u8 target_kind;
                 u8 *height_offsets;
 
                 height_offsets = entity_height_offsets;
-                target_kind = ((S_func_81886800_8 *)(owner->unk_60))->unk_13;
+                target_actor = owner->target;
+                target_kind = target_actor->species;
                 effect->unk_10 =
-                    target_data->unk_08.parts.unk_0A - height_offsets[target_kind];
+                    target_position->z.w.i - height_offsets[target_kind];
             }
             {
                 s16 direction;
                 u8 tile_coord;
                 direction = effect->unk_16;
-                target_data = ((SpriteFrameState *)((u8 *)(owner) - 0x14))->unk_00;
-                tile_coord = target_data->unk_24 +
+                owner_sprite = NODE_HEADER(owner)->sprite;
+                tile_coord = owner_sprite->tile_x +
                         ((u8 *)dir_step_x)[(s32)direction * 2];
                 effect->unk_1C.parts.unk_1E.parts.unk_1E.u8 = tile_coord;
                 effect->unk_20.parts.unk_20 = tile_coord;
@@ -353,7 +237,7 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
                 s16 direction;
                 u8 tile_coord;
                 direction = effect->unk_16;
-                tile_coord = target_data->unk_25 +
+                tile_coord = owner_sprite->tile_y +
                         ((u8 *)dir_step_y)[(s32)direction * 2];
                 effect->unk_1C.parts.unk_1E.parts.unk_1F.u8 = tile_coord;
                 effect->unk_20.parts.unk_21 = tile_coord;
@@ -361,11 +245,11 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
             {
                 s32 owner_tile;
                 s32 tile_distance;
-                owner_tile = owner->unk_70.parts.unk_72.s8;
-                state = target_data->unk_24;
+                owner_tile = owner->target_tile_x;
+                state = owner_sprite->tile_x;
                 if (owner_tile == state) {
-                    owner_tile = owner->unk_70.parts.unk_73.s8;
-                    state = target_data->unk_25;
+                    owner_tile = owner->target_tile_y;
+                    state = owner_sprite->tile_y;
                     tile_distance = owner_tile - state;
                 } else {
                     tile_distance = owner_tile - state;
@@ -376,19 +260,19 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
         }
     } else {
         effect->unk_14 = 8;
-        effect->unk_0C = motion->unk_00.parts.unk_02.u16;
-        effect->unk_0E = motion->unk_04.parts.unk_06.u16;
-        effect->unk_10 = owner->unk_88.u16 - 80;
+        effect->unk_0C = motion->x.w.i;
+        effect->unk_0E = motion->y.w.i;
+        effect->unk_10 = owner->ground_height - 80;
     }
     {
         u8 *x_offsets = ((u8 *)dir_step_x);
         s16 direction = effect->unk_16;
-        motion->unk_0C.parts.unk_0E.u16 =
+        ((Fixed1616 *)&motion->velocity_x)->w.i =
             ((S_func_81886800_14 *)(x_offsets + (s32)direction * 2))->unk_00 * 8;
         {
             u8 *y_offsets = ((u8 *)dir_step_y);
             s16 y_direction = effect->unk_16;
-            motion->unk_10.parts.unk_12.u16 =
+            ((Fixed1616 *)&motion->velocity_y)->w.i =
                 ((S_func_81886800_14 *)(y_offsets + (s32)y_direction * 2))->unk_00 * 8;
         }
     }
@@ -398,56 +282,56 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
     case 2:
     {
         s32 x_velocity;
-        motion->unk_00.s32 += motion->unk_0C.s32;
-        x_velocity = motion->unk_0C.s32 + (motion->unk_0C.s32 >> 4);
-        motion->unk_0C.s32 = x_velocity;
+        motion->x.v += motion->velocity_x;
+        x_velocity = motion->velocity_x + (motion->velocity_x >> 4);
+        motion->velocity_x = x_velocity;
         if ((x_velocity < 0 ? -x_velocity : x_velocity) > 0x200000) {
             x_velocity = x_velocity > 0 ? 0x200000 : -0x200000;
-            motion->unk_0C.s32 = x_velocity;
+            motion->velocity_x = x_velocity;
         }
     }
     {
         s32 y_velocity;
-        motion->unk_04.s32 += motion->unk_10.s32;
-        y_velocity = motion->unk_10.s32 + (motion->unk_10.s32 >> 4);
-        motion->unk_10.s32 = y_velocity;
+        motion->y.v += motion->velocity_y;
+        y_velocity = motion->velocity_y + (motion->velocity_y >> 4);
+        motion->velocity_y = y_velocity;
         if ((y_velocity < 0 ? -y_velocity : y_velocity) > 0x200000) {
             y_velocity = y_velocity > 0 ? 0x200000 : -0x200000;
-            motion->unk_10.s32 = y_velocity;
+            motion->velocity_y = y_velocity;
         }
     }
     {
         s32 height = effect->unk_2C.s32;
         height += (((s32)effect->unk_10 << 16) - height) >> 4;
         effect->unk_2C.s32 = height;
-        height = motion->unk_08.s32;
+        height = motion->z.v;
         height += (((s32)effect->unk_10 << 16) - height) >> 4;
-        motion->unk_08.s32 = height;
+        motion->z.v = height;
     }
     {
         s32 bob_offset = rsin((s32)(s16)effect->unk_18 << 7);
-        motion->unk_08.s32 += bob_offset << 6;
+        motion->z.v += bob_offset << 6;
     }
     create_mesh_fade_effect(motion, sprite);
     {
-        s32 tile_coord = motion->unk_00.parts.unk_02.s16;
+        s32 tile_coord = motion->x.w.i;
         if (tile_coord < 0) {
             tile_coord += 63;
         }
         effect->unk_1C.parts.unk_1E.parts.unk_1E.u8 = tile_coord >> 6;
-        tile_coord = motion->unk_04.parts.unk_06.s16;
+        tile_coord = motion->y.w.i;
         effect->unk_1C.parts.unk_1E.parts.unk_1F.u8 = (tile_coord / 64);
     }
     if (effect->unk_20.s16 == effect->unk_1C.parts.unk_1E.s16) {
         break;
     }
-    if (owner->unk_60 != 0) {
+    if (owner->target != 0) {
         if (effect->unk_58 == 0) {
             s32 target_distance = get_byte_coordinate_chebyshev_distance(
                 (effect)->unk_1C.parts.unk_1E.parts.unk_1E.u8,
                 (effect)->unk_1C.parts.unk_1E.parts.unk_1F.u8,
-                (owner)->unk_70.parts.unk_72.u8,
-                (owner)->unk_70.parts.unk_73.u8);
+                (u8)owner->target_tile_x,
+                (u8)owner->target_tile_y);
             target_distance = (s16)target_distance;
             if (target_distance < 5) {
                 effect->unk_58 = 1;
@@ -455,26 +339,27 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
             }
         }
     }
-    if (owner->unk_60 != 0) {
-        if (((owner)->unk_70.u32 & 0xFFFF0000) ==
+    if (owner->target != 0) {
+        if ((*(u32 *)&owner->unk_70 & 0xFFFF0000) ==
             ((effect)->unk_1C.u32 & 0xFFFF0000)) {
-            S_func_81886800_11 *snapped_motion;
+            ObjectPosition *snapped_motion;
 
             snapped_motion = motion;
             {
-                s32 coordinate = owner->unk_70.parts.unk_72.s8;
-                motion->unk_00.parts.unk_02.s16 = (coordinate << 6) + 0x20;
+                s32 coordinate = owner->target_tile_x;
+                motion->x.w.i = (coordinate << 6) + 0x20;
             }
             {
-                s32 coordinate = owner->unk_70.parts.unk_73.s8;
-                motion->unk_04.parts.unk_06.s16 = (coordinate << 6) + 0x20;
+                s32 coordinate = owner->target_tile_y;
+                motion->y.w.i = (coordinate << 6) + 0x20;
             }
-            motion->unk_08.parts.unk_0A = effect->unk_10;
+            motion->z.w.i = effect->unk_10;
             create_mesh_fade_effect(snapped_motion, sprite);
             {
                 u16 next_state = effect->unk_0A;
-                u16 target_id =
-                    ((S_func_81886800_8 *)(owner->unk_60))->unk_88.u16;
+                u16 target_id;
+                target_actor = owner->target;
+                target_id = target_actor->ground_height;
                 next_state++;
                 effect->unk_0A = next_state;
                 ((S_func_81886800_15 *)(D_80026878))->unk_00 = target_id;
@@ -504,24 +389,24 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
     }
 
     case 3:
-    ratan2(motion->unk_0C.parts.unk_0E.s16, motion->unk_10.parts.unk_12.s16);
-    target_object = owner->unk_60;
+    ratan2(((Fixed1616 *)&motion->velocity_x)->w.i, ((Fixed1616 *)&motion->velocity_y)->w.i);
+    target_object = owner->target;
     effect->unk_28 = create_object_ring_effect(
-        effect, motion, target_object->unk_88.s16, target_object);
+        effect, motion, target_object->ground_height, target_object);
     if (effect->unk_28 == 0) {
         break;
     }
     effect->unk_0A++;
     case 4:
     {
-        sprite->unk_0C.parts.unk_0C -= sprite->unk_0C.parts.unk_0C >> 2;
-        sprite->unk_0C.parts.unk_0D -= sprite->unk_0C.parts.unk_0D >> 2;
-        sprite->unk_0C.parts.unk_0E -= sprite->unk_0C.parts.unk_0E >> 2;
+        sprite->color.c.r -= sprite->color.c.r >> 2;
+        sprite->color.c.g -= sprite->color.c.g >> 2;
+        sprite->color.c.b -= sprite->color.c.b >> 2;
         if ((((ObjectNodeHeader *)effect->unk_28)->flags & 0x8000) == 0) {
             break;
         }
-        if (owner->unk_60 != 0) {
-            apply_timed_status_to_target(owner->unk_60,
+        if (owner->target != 0) {
+            apply_timed_status_to_target(owner->target,
                           effect->unk_09, owner);
         }
         effect->unk_0A = 17;
@@ -530,19 +415,19 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
 
     case 16:
     {
-        motion->unk_00.s32 += motion->unk_0C.s32;
-        motion->unk_04.s32 += motion->unk_10.s32;
+        motion->x.v += motion->velocity_x;
+        motion->y.v += motion->velocity_y;
         {
             s32 target_height = (s32)effect->unk_10 << 16;
-            s32 height = motion->unk_08.s32;
+            s32 height = motion->z.v;
             height += (target_height - height) >> 4;
-            motion->unk_08.s32 = height;
+            motion->z.v = height;
         }
-        sprite->unk_0C.parts.unk_0C -= sprite->unk_0C.parts.unk_0C >> 1;
-        sprite->unk_0C.parts.unk_0D -= sprite->unk_0C.parts.unk_0D >> 1;
-        sprite->unk_0C.parts.unk_0E -= sprite->unk_0C.parts.unk_0E >> 1;
+        sprite->color.c.r -= sprite->color.c.r >> 1;
+        sprite->color.c.g -= sprite->color.c.g >> 1;
+        sprite->color.c.b -= sprite->color.c.b >> 1;
         create_mesh_fade_effect(motion, sprite);
-        if (sprite->unk_0C.parts.unk_0C < 2) {
+        if (sprite->color.c.r < 2) {
             effect->unk_0A++;
         }
         break;
@@ -553,7 +438,7 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
         break;
     }
     g_dungeon_status.active_actor = 0;
-    ((S_func_81886800_12 *)((u8 *)effect - 2))->unk_00 |= 0x8000;
+    NODE_HEADER(effect)->flags |= NODE_REMOVE;
     object_flag_block.flags |= 0x8000;
 
     }
@@ -565,43 +450,23 @@ void run_radial_sprite_sequence(S_func_81886800_1 *effect, S_func_81886800_11 *m
 }
 
 
-typedef struct {
-    u8 pad0[2];
-    s16 x;
-    u8 pad4[2];
-    s16 y;
-    u8 pad8[2];
-    s16 z;
-} Vec3s;
-
-typedef struct {
-    void *object;
+typedef struct RadialColorEffectBody {
+    ActorRecord *target;
     u8 pad4[6];
     s16 state;
     u8 padC[0xC];
     s16 timer;
     u16 ticks;
-} EffectState;
+} RadialColorEffectBody;
 
-typedef struct {
-    u8 pad0[0xC];
-    u8 r;
-    u8 g;
-    u8 b;
-} ColorObject;
-
-typedef struct {
-    u8 pad0[0x1C];
-    u32 flags;
-} Object;
 
 #include "slus/animation_tick_data.h"
 
 /* Advances the effect through color buildup, flicker, and fade, then restores the object color. */
-void create_radial_effect_from_source(EffectState *effect, Vec3s *pos)
+void create_radial_effect_from_source(RadialColorEffectBody *effect, ObjectPosition *pos)
 {
-    Object *object;
-    ColorObject *color;
+    ActorRecord *object;
+    SpriteFrameState *color;
     s32 burst_index;
     s32 state;
     s32 channel_value;
@@ -610,26 +475,26 @@ void create_radial_effect_from_source(EffectState *effect, Vec3s *pos)
     state = effect->state;
     switch (state) {
     case 0:
-        object = effect->object;
-        object->flags |= 0x10000000;
+        object = effect->target;
+        object->flags1C |= 0x10000000;
         effect->state++;
 
     case 1:
-        color = *(ColorObject **)((u8 *)effect->object - 0x14);
-        channel_value = color->r - 1;
-        color->r = channel_value;
+        color = NODE_HEADER(effect->target)->sprite;
+        channel_value = color->color.c.r - 1;
+        color->color.c.r = channel_value;
         if ((u8)channel_value < 0x40) {
-            color->r = 0x40;
+            color->color.c.r = 0x40;
         }
-        channel_value = color->g - 1;
-        color->g = channel_value;
+        channel_value = color->color.c.g - 1;
+        color->color.c.g = channel_value;
         if ((u8)channel_value < 0x40) {
-            color->g = 0x40;
+            color->color.c.g = 0x40;
         }
-        channel_value = color->b + 1;
-        color->b = channel_value;
+        channel_value = color->color.c.b + 1;
+        color->color.c.b = channel_value;
         if ((u8)channel_value >= 0xC1) {
-            color->b = 0xC0;
+            color->color.c.b = 0xC0;
         }
         if (D_80026328[0] != 0) {
             effect->state++;
@@ -652,7 +517,7 @@ void create_radial_effect_from_source(EffectState *effect, Vec3s *pos)
         secondary_rgb[2] = effect->timer * 14;
 
         for (burst_index = 0; burst_index < 4; burst_index++) {
-            create_falling_fading_sprite(pos->x, pos->y, pos->z);
+            create_falling_fading_sprite(pos->x.w.i, pos->y.w.i, pos->z.w.i);
         }
         if (effect->timer >= 0x10) {
             effect->timer = 0xA0;
@@ -697,27 +562,27 @@ void create_radial_effect_from_source(EffectState *effect, Vec3s *pos)
             s32 effect_count;
             u32 flags;
             u32 clear_effect_mask;
-            Object *fade_object;
+            ActorRecord *fade_object;
 
-            color = *(ColorObject **)((u8 *)effect->object - 0x14);
+            color = NODE_HEADER(effect->target)->sprite;
             neutral_level = 0x80;
-            color->r += (neutral_level - color->r) / effect->timer;
-            color->g += (neutral_level - color->g) / effect->timer;
-            color->b += (neutral_level - color->b) / effect->timer;
+            color->color.c.r += (neutral_level - color->color.c.r) / effect->timer;
+            color->color.c.g += (neutral_level - color->color.c.g) / effect->timer;
+            color->color.c.b += (neutral_level - color->color.c.b) / effect->timer;
             effect->timer--;
             if (effect->timer <= 0) {
                 clear_effect_mask = 0xEFFFFFFF;
-                color->r = neutral_level;
-                color->g = neutral_level;
-                color->b = neutral_level;
-                fade_object = effect->object;
+                color->color.c.r = neutral_level;
+                color->color.c.g = neutral_level;
+                color->color.c.b = neutral_level;
+                fade_object = effect->target;
                 effect_count = D_80026324[0];
-                flags = fade_object->flags;
+                flags = fade_object->flags1C;
                 effect_count--;
                 D_80026324[0] = effect_count;
                 flags &= clear_effect_mask;
-                fade_object->flags = flags;
-                ((u16 *)effect)[-1] |= NODE_REMOVE;
+                fade_object->flags1C = flags;
+                NODE_HEADER(effect)->flags |= NODE_REMOVE;
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             }
             break;
@@ -727,18 +592,18 @@ void create_radial_effect_from_source(EffectState *effect, Vec3s *pos)
 }
 
 /* Creates an object, copies three source fields to its child, and runs 16 child setup steps. */
-void *create_object_ring_effect(s32 value, void *source, s32 unused, s32 context)
+void *create_object_ring_effect(RadialSequenceBody *controller, ObjectPosition *source, s32 unused, ActorRecord *target)
 {
-    register u32 saved_context;
-    s32 adjusted_value;
+    RadialColorEffectBody *body;
+    register ActorRecord *saved_target;
+    ObjectNodeHeader *parent;
     s32 step;
     ObjectPosition *child;
     ObjectNodeHeader *object;
     u16 counter;
 
-    saved_context = context;
-    adjusted_value = value - 0x20;
-    object = allocate_list_node(2, adjusted_value);
+    saved_target = target;
+    object = allocate_list_node(2, &NODE_HEADER(controller)->next);
     if (object != 0) {
         counter = D_80026324[0];
         object->update_callback = create_radial_effect_from_source;
@@ -746,15 +611,17 @@ void *create_object_ring_effect(s32 value, void *source, s32 unused, s32 context
         register_node(object, queue_glow_grid_quads);
 
         child = object->position;
-        child->x.unsigned_parts.integer = *(u16 *)((u8 *)source + 2);
+        child->x.w.i = source->x.w.i;
         step = 0;
-        child->y.unsigned_parts.integer = *(u16 *)((u8 *)source + 6);
-        child->z.unsigned_parts.integer = *(u16 *)((u8 *)source + 0xA);
-        source = (void *)adjusted_value;
-        *(s32 *)NODE_BODY(object) = saved_context;
+        child->y.w.i = source->y.w.i;
+        child->z.w.i = source->z.w.i;
+
+        parent = NODE_HEADER(controller);
+        body = NODE_BODY(object);
+        body->target = saved_target;
 
         do {
-            create_offset_particle_emitter(child, (s16)(step << 8), 0x40, -0x100, source);
+            create_offset_particle_emitter(child, (s16)(step << 8), 0x40, -0x100, parent);
             step += 1;
         } while (step < 0x10);
     }
@@ -789,65 +656,30 @@ void update_mesh_fade_color(void *effect, ObjectPosition *unused, SpriteFrameSta
 
 extern u8 linked_mesh_processor_address[];
 
-/* One 4-byte slot of the fade record: only the second halfword is used. */
-typedef struct FadeChannel {
-    u16 unused;
-    u16 value;
-} FadeChannel;
-
-typedef struct FadeDelta {
-    u16 unused;
-    s16 value;
-} FadeDelta;
-
-/* The fade's working record (the object header's unk_08 payload). */
-typedef struct FadeTransition {
-    FadeChannel start[3];
-    FadeDelta delta[3];     /* start - end per channel */
-} FadeTransition;
-
-/* Start values followed by end values, one FadeChannel each. */
-typedef struct FadeEndpoints {
-    FadeChannel start[3];
-    FadeChannel end[3];
-} FadeEndpoints;
-
-/* Settings block: copied field by field into the object's own settings record (the header's unk_0C payload). */
-typedef struct FadeSettings {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    s32 unk_0C;
-    u8 pad_10[0x4];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} FadeSettings;
-
 /* Retail 818875E8 (create_mesh_fade_effect): creates a fade object (updated each frame by update_mesh_fade_color) with its start
  * values, per-channel start - end differences and a copy of the settings. */
-ObjectNodeHeader *create_mesh_fade_effect(FadeEndpoints *endpoints, FadeSettings *settings) {
-    FadeTransition *transition;
+ObjectNodeHeader *create_mesh_fade_effect(ObjectPosition *position, SpriteFrameState *settings) {
+    LineEndpoints *transition;
     ObjectNodeHeader *object;
     SpriteFrameState *object_settings;
 
     object = allocate_flagged_object_node(0x202);
     if (object != NULL) {
-        object->update_callback = (void *)update_mesh_fade_color;
+        object->update_callback = update_mesh_fade_color;
         register_node(object, &linked_mesh_processor_address);
-        transition = object->position;
-        transition->start[0].value = endpoints->start[0].value;
-        transition->start[1].value = endpoints->start[1].value;
-        transition->start[2].value = endpoints->start[2].value;
-        transition->delta[0].value = endpoints->start[0].value - endpoints->end[0].value;
-        transition->delta[1].value = endpoints->start[1].value - endpoints->end[1].value;
-        transition->delta[2].value = endpoints->start[2].value - endpoints->end[2].value;
+        transition = (LineEndpoints *)object->position;
+        transition->start[0].w.i = position->x.w.i;
+        transition->start[1].w.i = position->y.w.i;
+        transition->start[2].w.i = position->z.w.i;
+        transition->end[0].w.i = ((u32)position->x.v >> 16) - ((u32)position->velocity_x >> 16);
+        transition->end[1].w.i = ((u32)position->y.v >> 16) - ((u32)position->velocity_y >> 16);
+        transition->end[2].w.i = ((u32)position->z.v >> 16) - ((u32)position->velocity_z >> 16);
         object_settings = object->sprite;
-        object_settings->scale_x = settings->unk_1C;
-        object_settings->scale_y = settings->unk_1E;
-        object_settings->color.word = settings->unk_0C;
-        object_settings->source = settings->unk_08;
-        object_settings->flags = settings->unk_14;
+        object_settings->scale_x = settings->scale_x;
+        object_settings->scale_y = settings->scale_y;
+        object_settings->color.word = settings->color.word;
+        object_settings->source = settings->source;
+        object_settings->flags = settings->flags;
     }
     return object;
 }
@@ -857,30 +689,6 @@ ObjectNodeHeader *create_mesh_fade_effect(FadeEndpoints *endpoints, FadeSettings
 #include "sdk/libgpu_types.h"
 #include "sdk/libgpu_packets.h"
 #include "shared/gpu_packets.h"
-typedef struct Scratch {
-    u8 pad0[0x18];
-    void *current;
-    u8 pad1c[4];
-    u32 *table;
-    u8 pad24[0x4c];
-    u32 value70;
-    u16 half74;
-    u8 pad76[2];
-    u32 value78;
-    u16 half7c;
-    u8 pad7e[2];
-    u32 value80;
-    u16 half84;
-    u8 pad86[2];
-    u32 value88;
-    u16 half8c;
-    u8 pad8e[2];
-    u32 out90;
-    u32 out94;
-    u8 pad98[0x28];
-    u32 index;
-} Scratch;
-
 typedef struct EmptyCallArg {
 } EmptyCallArg;
 
@@ -1004,26 +812,6 @@ s32 queue_glow_grid_quads(void)
 
 
 
-typedef struct S_80025160_0 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    u8 pad_0C[0xA];
-    s16 unk_16;
-    union { u16 s; u16 u; s16 p; } unk_18;   /* accessed as both */
-    u16 unk_1A;
-    u16 unk_1C;
-    u8 pad_1E[0x4];
-    s16 unk_22;
-} S_80025160_0;   /* arg0 in update_offset_particle_emitter */
-
-typedef struct S_80025160_1 {
-    u8 pad_00[0x6];
-    u16 unk_06;
-    u8 pad_08[0x4];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-} S_80025160_1;   /* arg2 in update_offset_particle_emitter */
 
 typedef struct S_80025160_2 {
     u8 pad_00[0x6328];
@@ -1058,19 +846,19 @@ typedef struct Global814A0 {
  * removal. May spawn a damped angular child during growth and signals D_80026328 for effect code
  * 0x6F.
  */
-void update_offset_particle_emitter(void *effect, ObjectPosition *context, SpriteFrameState *visual) {
+void update_offset_particle_emitter(GradientLineParticleBody *effect, ObjectPosition *context, SpriteFrameState *visual) {
     s16 state;
     u16 value;
     u16 angle;
     u16 damped_value;
     s32 effect_param;
     s32 angle_shifted;
-    void *owner;
+    ObjectNodeHeader *owner;
     S_80025160_2 *flag_page;
     S_80025160_3 *flags_page;
 
     COUNTER = COUNTER + 1;
-    state = ((S_80025160_0 *)effect)->unk_0A;
+    state = effect->phase;
 
     switch (state) {
     case 0:
@@ -1078,21 +866,21 @@ void update_offset_particle_emitter(void *effect, ObjectPosition *context, Sprit
         visual->depth_bias = value;
         if ((s16)value > 0x100) {
             visual->depth_bias = 0x100;
-            if (((S_80025160_0 *)effect)->unk_22 < 0x61) {
-                damped_value = ((S_80025160_0 *)effect)->unk_18.s;
-                angle = ((S_80025160_0 *)effect)->unk_1C;
-                effect_param = ((S_80025160_0 *)effect)->unk_16;
+            if (effect->slot < 0x61) {
+                damped_value = effect->radius;
+                angle = effect->height_offset;
+                effect_param = effect->angle;
                 damped_value = damped_value - ((s32)(damped_value << 16) >> 19);
-                ((S_80025160_0 *)effect)->unk_18.u = damped_value;
+                effect->radius = damped_value;
                 angle = angle + 0x80;
-                owner = (u8 *)effect - 0x20;
-                ((S_80025160_0 *)effect)->unk_1C = angle;
+                owner = NODE_HEADER(effect);
+                effect->height_offset = angle;
                 angle_shifted = angle << 16;
-                create_offset_particle_emitter(context, effect_param, ((S_80025160_0 *)effect)->unk_18.p,
+                create_offset_particle_emitter(context, effect_param, effect->radius,
                               angle_shifted >> 16, owner);
             }
-            ((S_80025160_0 *)effect)->unk_0A++;
-            if (((S_80025160_0 *)effect)->unk_22 == 0x6F) {
+            effect->phase++;
+            if (effect->slot == 0x6F) {
                 D_80026328[0] = 1;
             }
         }
@@ -1104,17 +892,17 @@ void update_offset_particle_emitter(void *effect, ObjectPosition *context, Sprit
                 s16 signed_ramp = -0x100;
                 visual->depth_bias = signed_ramp;
             }
-            ((S_80025160_0 *)effect)->unk_1A = 0x10;
-            ((S_80025160_0 *)effect)->unk_0A++;
+            effect->delay = 0x10;
+            effect->phase++;
         }
         break;
     case 2:
-        value = ((S_80025160_0 *)effect)->unk_1A - 1;
-        ((S_80025160_0 *)effect)->unk_1A = value;
+        value = effect->delay - 1;
+        effect->delay = value;
         if ((value << 16) > 0) {
             break;
         }
-        ((S_80025160_0 *)effect)->unk_0A++;
+        effect->phase++;
                         /* fall through */
     case 3:
         value = visual->depth_bias + 0x80;
@@ -1133,129 +921,121 @@ void update_offset_particle_emitter(void *effect, ObjectPosition *context, Sprit
     visual->color.c.b = 0xE0;
 }
 #include "shared/game_work.h"
-typedef struct
-{
-    u8 *value;
-    u8 pad[8];
-}
-Global83160;
-typedef struct
-{
-    u16 x;
-    u16 y;
-    u16 z;
-    u16 pad;
-}
-TableEntry;
 extern s32 RotTransPers(void *, void *, void *, void *);
+typedef struct GradientLinePacket {
+    GpuLinkTag tag;
+    SpriteColor color0;
+    s32 xy0;
+    SpriteColor color1;
+    s32 xy1;
+} GradientLinePacket;
+
 /*
  * Walks the linked nodes and interpolates one line endpoint according to the signed blend, saving
  * extended positive-blend points into staged_glow_data. Projects the endpoints and queues a
  * half-brightness gradient line and draw mode at their average depth when it is below 0x1E0.
  */
-s32 queue_shaded_line_chain(void *first_owner, void *first_vertices, void *first_line)
+s32 queue_shaded_line_chain(GradientLineParticleBody *first_owner, ObjectPosition *first_vertices, SpriteFrameState *first_line)
 {
-    {
-        u8 *render_data = g_game_work.draw_buffer;
-        void *owner = first_owner;
-        void *vertex_data = first_vertices;
-        void *line_data = first_line;
-        u8 *scratch = (u8 *) 0x1F800000;
-        u8 *line_packet;
-        u8 *packet;
-        u16 red_blue;
-        u8 green;
-        void *next_node;
-        s32 avg_depth;
-        s16 blend;
-        s32 point_index;
-        s32 color_word;
-        register u8 **render_state = (u8 **) ((Global83160 *)&g_game_work);
-        *(u8 **)(scratch + 0x18) = *(u8 **)(render_data + 0x8D0);
-        *(u8 **)(scratch + 0x20) = render_data + 0xB0;
-        for (;;) {
-            line_packet = *(u8 **)(scratch + 0x18);
-            *(u8 **)(scratch + 0x18) = line_packet + 0x14;
-            blend = *(s16 *)((u8 *) line_data + 6);
-            if (blend >= 0) {
-                *(u16 *)(scratch + 0) = *(u16 *)((u8 *) vertex_data + 0xE);
-                *(u16 *)(scratch + 2) = *(u16 *)((u8 *) vertex_data + 0x12);
-                *(u16 *)(scratch + 4) = *(u16 *)((u8 *) vertex_data + 0x16);
-                *(s32 *)(scratch + 0xC0) = RotTransPers(scratch, line_packet + 8, scratch + 0x90, scratch + 0x94);
-                *(u16 *)(scratch + 0) =
-                    (*(u16 *)((u8 *) vertex_data + 0xE)) + ((((*(s16 *)((u8 *) vertex_data + 2))
-                        - (*(s16 *)((u8 *) vertex_data + 0xE))) * (*(s16 *)((u8 *) line_data + 6))) >> 8);
-                *(u16 *)(scratch + 2) =
-                    (*(u16 *)((u8 *) vertex_data + 0x12)) + ((((*(s16 *)((u8 *) vertex_data + 6))
-                        - (*(s16 *)((u8 *) vertex_data + 0x12))) * (*(s16 *)((u8 *) line_data + 6))) >> 8);
-                *(u16 *)(scratch + 4) =
-                    (*(u16 *)((u8 *) vertex_data + 0x16)) + ((((*(s16 *)((u8 *) vertex_data + 0xA))
-                        - (*(s16 *)((u8 *) vertex_data + 0x16))) * (*(s16 *)((u8 *) line_data + 6))) >> 8);
-                point_index = (*(s16 *)((u8 *) owner + 0x22)) + 0x10;
-                if (D_8002632A < point_index) {
-                    register TableEntry *point_table = (TableEntry *) staged_glow_data;
-                    s32 table_index;
-                    u16 coord;
-                    point_table[point_index].x = *(u16 *)(scratch + 0);
-                    table_index = *(s16 *)((u8 *) owner + 0x22);
-                    coord = *(u16 *)(scratch + 2);
-                    table_index += 0x10;
-                    point_table[table_index].y = coord;
-                    table_index = *(s16 *)((u8 *) owner + 0x22);
-                    coord = *(u16 *)(scratch + 4);
-                    table_index += 0x10;
-                    point_table[table_index].z = coord;
-                }
+    GpuContext *render_data = g_game_work.draw_buffer;
+    GradientLineParticleBody *owner = first_owner;
+    LineEndpoints *points = (LineEndpoints *)first_vertices;
+    SpriteFrameState *line = first_line;
+    Scratch *scratch = (Scratch *)0x1F800000;
+    GradientLinePacket *line_packet;
+    GradientLinePacket *packet;
+    u16 red_blue;
+    u8 green;
+    ObjectNodeHeader *next_node;
+    s32 avg_depth;
+    s16 blend;
+    struct DR_MODE *draw_mode;
+    s32 point_index;
+    s32 color_word;
+    register void **render_state = &g_game_work.draw_buffer;
+    scratch->current = render_data->packetCursor;
+    scratch->table = &render_data->orderTag;
+    for (;;) {
+        line_packet = scratch->current;
+        scratch->current = line_packet + 1;
+        blend = line->depth_bias;
+        if (blend >= 0) {
+            scratch->point.x = points->end[0].w.i;
+            scratch->point.y = points->end[1].w.i;
+            scratch->point.z = points->end[2].w.i;
+            scratch->index = RotTransPers(&scratch->point, &line_packet->xy0, &scratch->out90, &scratch->out94);
+            scratch->point.x =
+                points->end[0].w.i +
+                (((points->start[0].w.i - points->end[0].w.i) * line->depth_bias) >> 8);
+            scratch->point.y =
+                points->end[1].w.i +
+                (((points->start[1].w.i - points->end[1].w.i) * line->depth_bias) >> 8);
+            scratch->point.z =
+                points->end[2].w.i +
+                (((points->start[2].w.i - points->end[2].w.i) * line->depth_bias) >> 8);
+            point_index = owner->slot + 0x10;
+            if (D_8002632A < point_index) {
+                GlowPoint *point_table = (GlowPoint *)staged_glow_data;
+                s32 table_index;
+                u16 coord;
+                point_table[point_index].x = scratch->point.x;
+                table_index = owner->slot;
+                coord = scratch->point.y;
+                table_index += 0x10;
+                point_table[table_index].y = coord;
+                table_index = owner->slot;
+                coord = scratch->point.z;
+                table_index += 0x10;
+                point_table[table_index].z = coord;
             }
-            else {
-                *(u16 *)(scratch + 0) = (*(u16 *)((u8 *) vertex_data + 2)) - ((((*(s16 *)((u8 *) vertex_data + 0xE))
-                    - (*(s16 *)((u8 *) vertex_data + 2))) * blend) >> 8);
-                *(u16 *)(scratch + 2) =
-                    (*(u16 *)((u8 *) vertex_data + 6)) - ((((*(s16 *)((u8 *) vertex_data + 0x12))
-                        - (*(s16 *)((u8 *) vertex_data + 6))) * (*(s16 *)((u8 *) line_data + 6))) >> 8);
-                *(u16 *)(scratch + 4) =
-                    (*(u16 *)((u8 *) vertex_data + 0xA)) - ((((*(s16 *)((u8 *) vertex_data + 0x16))
-                        - (*(s16 *)((u8 *) vertex_data + 0xA))) * (*(s16 *)((u8 *) line_data + 6))) >> 8);
-                *(s32 *)(scratch + 0xC0) = RotTransPers(scratch, line_packet + 8, scratch + 0x90, scratch + 0x94);
-                *(u16 *)(scratch + 0) = *(u16 *)((u8 *) vertex_data + 2);
-                *(u16 *)(scratch + 2) = *(u16 *)((u8 *) vertex_data + 6);
-                *(u16 *)(scratch + 4) = *(u16 *)((u8 *) vertex_data + 0xA);
-            }
-            avg_depth = ((*(s32 *)(scratch + 0xC0)) + RotTransPers(scratch, line_packet + 0x10, scratch + 0x90,
-                scratch + 0x94)) >> 1;
-            *(s32 *)(scratch + 0xC0) = avg_depth;
-            if (((u32) avg_depth) < 0x1E0U) {
-                packet = line_packet;
-                *(packet + 3) = (color_word = *(s32 *)((u8 *) line_data + 0xC), 4);
-                *(s32 *)(packet + 4) = color_word;
-                red_blue = *(packet + 4);
-                *(packet + 7) = 0x52;
-                green = *(packet + 5);
-                red_blue >>= 1;
-                *(packet + 0xC) = red_blue;
-                red_blue = *(packet + 6);
-                green >>= 1;
-                *(packet + 0xD) = green;
-                red_blue >>= 1;
-                *(packet + 0xE) = red_blue;
-                AddPrim((*(u8 **)(scratch + 0x20)) + ((*(s32 *)(scratch + 0xC0)) * 4), packet);
-                vertex_data = *(u8 **)(scratch + 0x18);
-                *(u8 **)(scratch + 0x18) = ((u8 *) vertex_data) + 0xC;
-                SetDrawMode(vertex_data, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
-                AddPrim((*(u8 **)(scratch + 0x20)) + ((*(s32 *)(scratch + 0xC0)) * 4), vertex_data);
-            }
-            next_node = *(void **)((u8 *) owner + (-8));
-            if (next_node != 0) {
-                owner = ((u8 *) next_node) + 0x20;
-                vertex_data = *(void **)((u8 *) next_node + 8);
-                line_data = *(void **)((u8 *) next_node + 0xC);
-                continue;
-            }
-            break;
+        } else {
+            scratch->point.x = points->start[0].w.i -
+                (((points->end[0].w.i - points->start[0].w.i) * blend) >> 8);
+            scratch->point.y =
+                points->start[1].w.i -
+                (((points->end[1].w.i - points->start[1].w.i) * line->depth_bias) >> 8);
+            scratch->point.z =
+                points->start[2].w.i -
+                (((points->end[2].w.i - points->start[2].w.i) * line->depth_bias) >> 8);
+            scratch->index = RotTransPers(&scratch->point, &line_packet->xy0, &scratch->out90, &scratch->out94);
+            scratch->point.x = points->start[0].w.i;
+            scratch->point.y = points->start[1].w.i;
+            scratch->point.z = points->start[2].w.i;
         }
-        *(u8 **)(*render_state + 0x8D0) = *(u8 **)(scratch + 0x18);
-        return 0;
+        avg_depth = (scratch->index + RotTransPers(&scratch->point, &line_packet->xy1, &scratch->out90,
+            &scratch->out94)) >> 1;
+        scratch->index = avg_depth;
+        if (((u32) avg_depth) < 0x1E0U) {
+            packet = line_packet;
+            packet->tag.len = (color_word = line->color.word, 4);
+            packet->color0.word = color_word;
+            red_blue = packet->color0.c.r;
+            packet->color0.c.code = 0x52;
+            green = packet->color0.c.g;
+            red_blue >>= 1;
+            packet->color1.c.r = red_blue;
+            red_blue = packet->color0.c.b;
+            green >>= 1;
+            packet->color1.c.g = green;
+            red_blue >>= 1;
+            packet->color1.c.b = red_blue;
+            AddPrim(scratch->table + scratch->index, packet);
+            draw_mode = scratch->current;
+            scratch->current = draw_mode + 1;
+            SetDrawMode(draw_mode, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
+            AddPrim(scratch->table + scratch->index, draw_mode);
+        }
+        next_node = NODE_HEADER(owner)->chain_next;
+        if (next_node != 0) {
+            owner = NODE_BODY(next_node);
+            points = (LineEndpoints *)next_node->position;
+            line = next_node->sprite;
+            continue;
+        }
+        break;
     }
+    ((GpuContext *)*render_state)->packetCursor = scratch->current;
+    return 0;
 }
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
@@ -1266,81 +1046,57 @@ s32 rcos(s32);                             /* extern */
 extern s16 D_8002632A;
 extern u8 D_80026878[];
 
-   /* arg0 in create_offset_particle_emitter */
-
-typedef struct S_8002569C_3 {
-    u8 pad_00[0x16];
-    s16 unk_16;
-    s16 unk_18;
-    u8 pad_1A[0x2];
-    s16 unk_1C;
-    u8 pad_1E[0x4];
-    u16 unk_22;
-} S_8002569C_3;
-
-typedef struct S_8002569C_4 {
-    u16 unk_00;
-    u16 unk_02;
-    u16 unk_04;
-} S_8002569C_4;
-
-typedef struct S_8002569C_5 {
-    u16 unk_00;
-    u16 unk_02;
-    u16 unk_04;
-} S_8002569C_5;
-
 /* Create an object offset from an origin and record its starting position. */
-void *create_offset_particle_emitter(ObjectPosition *origin, s16 angle, s16 radius, s16 height_offset, s32 alloc_arg) {
+void *create_offset_particle_emitter(ObjectPosition *origin, s16 angle, s16 radius, s16 height_offset, ObjectNodeHeader *parent) {
     s16 height;
     u16 slot_index;
     u16 origin_x;
     u16 origin_z;
     u16 origin_y;
-    S_8002569C_4 *position_slot;
+    GlowPoint *position_slot;
     u8 *position_table;
-    ObjectPosition *positions;
+    LineEndpoints *positions;
     ObjectNodeHeader *object;
-    S_8002569C_5 *paired_slot;
-    S_8002569C_3 *object_data;
+    GlowPoint *paired_slot;
+    GradientLineParticleBody *object_data;
 
-    object = allocate_list_node(0x202, alloc_arg);
+    object = allocate_list_node(0x202, &parent->next);
     if (object != NULL) {
-        object->update_callback = (s32 *)update_offset_particle_emitter;
-        register_node(object, (s32 *)queue_shaded_line_chain);
-        positions = object->position;
-        positions->x.w.i = (s16) (origin->x.w.i + ((s32) (rcos(angle) * radius) >> 0xF));
-        positions->y.w.i = (s16) (origin->y.w.i + ((s32) (rsin(angle) * radius) >> 0xF));
+        object->update_callback = update_offset_particle_emitter;
+        register_node(object, queue_shaded_line_chain);
+        positions = (LineEndpoints *)object->position;
+        positions->start[0].w.i = (s16) (origin->x.w.i + ((s32) (rcos(angle) * radius) >> 0xF));
+        positions->start[1].w.i = (s16) (origin->y.w.i + ((s32) (rsin(angle) * radius) >> 0xF));
         height = origin->z.w.i + ((s32) (height_offset << 0x10) >> 0x13);
-        positions->z.w.i = height;
+        positions->start[2].w.i = height;
         if ((*(s16 *)D_80026878) < height) {
-            positions->z.w.i = (*(s16 *)D_80026878);
+            positions->start[2].w.i = (*(s16 *)D_80026878);
         }
-        *((u16 *)&positions->velocity_x + 1) = origin->x.w.i;
-        *((u16 *)&positions->velocity_y + 1) = origin->y.w.i;
-        *((u16 *)&positions->velocity_z + 1) = origin->z.w.i;
+        positions->end[0].w.i = origin->x.w.i;
+        positions->end[1].w.i = origin->y.w.i;
+        positions->end[2].w.i = origin->z.w.i;
         object_data = (void *) 0xE04020;
         (*(s32 *)((u8 *)(object->sprite) + 0xC)) = (s32) object_data;
         slot_index = (u16)D_8002632A;
         object_data = NODE_BODY(object);
-        object_data->unk_16 = angle;
-        object_data->unk_1C = height_offset;
-        object_data->unk_18 = radius;
-        object_data->unk_22 = slot_index;
+        object_data->angle = angle;
+        object_data->height_offset = height_offset;
+        object_data->radius = radius;
+        object_data->slot = slot_index;
         if ((s16) slot_index < 0x71) {
             position_table = staged_glow_data;
-            position_slot = &position_table[(s16) slot_index * 8];
-            origin_x = *((u16 *)&positions->velocity_x + 1);
-            paired_slot = &position_table[((s16) slot_index + 0x10) * 8];
-            position_slot->unk_00 = origin_x;
-            paired_slot->unk_00 = origin_x;
-            origin_y = *((u16 *)&positions->velocity_y + 1);
-            position_slot->unk_02 = origin_y;
-            paired_slot->unk_02 = origin_y;
-            origin_z = *((u16 *)&positions->velocity_z + 1);
+            position_slot = (GlowPoint *)&position_table[(s16) slot_index * 8];
+            origin_x = positions->end[0].w.i;
+            paired_slot = (GlowPoint *)&position_table[((s16) slot_index + 0x10) * 8];
+            position_slot->x = origin_x;
+            paired_slot->x = origin_x;
+            origin_y = positions->end[1].w.i;
+            position_slot->y = origin_y;
+            paired_slot->y = origin_y;
+            origin_z = positions->end[2].w.i;
             D_8002632A = slot_index + 1;
-            position_slot->unk_04 = origin_z;
-            paired_slot->unk_04 = origin_z;
+            position_slot->z = origin_z;
+            paired_slot->z = origin_z;
         }
     }
     return object;

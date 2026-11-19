@@ -66,7 +66,7 @@ struct S_52CE0;
 struct S_52CE0_Ent;
 struct S_52CE0_Pos;
 struct ObjectNodeHeader;
-struct S_8004F884_arg;
+struct AnimatedSelectionMenuBody;
 struct S_800504B4;
 struct S_80050640;
 struct S_80050EF8;
@@ -135,7 +135,7 @@ void ramp_fade_up_fast(FadeManagerBody *manager, struct ObjectPosition *unused, 
 void ramp_fade_up_slow(FadeManagerBody *manager, struct ObjectPosition *unused, SpriteFrameState *state);
 
 /* reorder_selection_menu_entries.c */
-void reorder_selection_menu_entries(struct S_8004F884_arg *list);
+void reorder_selection_menu_entries(struct AnimatedSelectionMenuBody *list);
 
 /* mark_group_for_removal.c */
 void func_800530C4(struct Main *main);

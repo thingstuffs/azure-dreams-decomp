@@ -763,15 +763,15 @@ void *initialize_menu_record_for_mode(ovl_1831cd8_81812FF4_S_80027FF4_0 *object,
 
 /* Copies default header records, links their buffers, and sets menu position and display fields. */
 void initialize_menu_header_records(void *unused, ovl_1831cd8_81813050_Header *header, ovl_1831cd8_81813050_Template0 *record_a, ovl_1831cd8_81813050_Record1 *record_b) {
-    ovl_1831cd8_81813050_Template0 *defaults_a = &display_block_defaults;
-    ovl_1831cd8_81813050_Template1 *defaults_b = &display_vector_defaults;
+    MenuDisplayBlock *defaults_a = &display_block_defaults;
+    DisplayPositionWords *defaults_b = &display_vector_defaults;
     s32 *first_word;
 
-    record_a->unk0 = defaults_a->unk0;
+    record_a->unk0 = defaults_a->words[0];
     first_word = &defaults_b->unk0;
-    record_a->unk4 = defaults_a->unk4;
-    record_a->unk8 = defaults_a->unk8;
-    record_a->unkC = defaults_a->unkC;
+    record_a->unk4 = defaults_a->words[1];
+    record_a->unk8 = defaults_a->words[2];
+    record_a->unkC = defaults_a->words[3];
 
     ((ovl_1831cd8_81813050_Template1 *)record_b)->unk0 = *first_word;
     ((ovl_1831cd8_81813050_Template1 *)record_b)->unk4 = defaults_b->unk4;

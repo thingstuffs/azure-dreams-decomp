@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "shared/sound_state.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "dungeon/actor.h"
 #include "common.h"
@@ -114,7 +115,6 @@ typedef struct S_800253C0_18 {
 } S_800253C0_18;   /* (void *)((i << 2) + (s32)arg0) in advance_paired_object_sequence */
 
 
-extern void *cd_cue_base[];
 extern u8 D_800DD148[];
 extern u8 D_800DD150[];
 extern u8 D_80025000[];
@@ -168,7 +168,7 @@ void advance_paired_object_sequence(ActorRecord *sequence, S_800253C0_10 *positi
             return;
         }
         {
-            void *sound_data = *&cd_cue_base[0];
+            s32 sound_data = cd_cue_base;
             sound_set_cd_cue_parameters(0, sound_data, 0, 0x1000530);
         }
         {

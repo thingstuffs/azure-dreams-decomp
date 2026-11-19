@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/level/tile_flags.h"
 #include "dungeon/system/random.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -19,7 +20,6 @@
 
 #include "dungeon/monster/dragon/transition_effect.h"
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
-extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 extern s32 check_diagonal_side_height(s32, u8, u8, s16);
@@ -30,7 +30,6 @@ extern u32 find_nearest_floor_item_in_room(void *, s32, s16 *, s16 *);
 
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 
-extern s8 actor_turn_angle_offsets;
 
 /*
  * Steers Maximum toward nearby floor items or its movement target, tries clear headings, and
@@ -245,7 +244,7 @@ call_obstacle:
 
 loop_setup:
     turn_index = 0;
-    turn_table = (s16 *)&actor_turn_angle_offsets;
+    turn_table = actor_turn_angle_offsets;
 
     for (; turn_index < 8; turn_index++) {
         {

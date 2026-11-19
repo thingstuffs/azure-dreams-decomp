@@ -49,7 +49,6 @@ typedef struct Object {
 extern s16 D_8001339C;
 extern u8 menu_entry_draw_callback_address[16];
 extern u8 menu_cursor_object_template[16];
-extern s32 collection_target_y;
 extern u8 D_8028E628[16];
 extern u8 D_80526694[16];
 extern u8 D_805266A0[16];
@@ -63,7 +62,7 @@ void run_menu_entry_animation(FallingSceneController *self) {
     s16 level_period;
     s16 spawn_period;
     s32 state;
-    s32 *capped_values;
+    s32 *target_y;
     s32 value_limit;
     Object *obj;
     Part *part;
@@ -75,9 +74,9 @@ void run_menu_entry_animation(FallingSceneController *self) {
         spawn_period = 16;
     }
     value_limit = 0x03200000;
-    capped_values = &collection_target_y;
-    if (capped_values[0] > value_limit) {
-        capped_values[0] = value_limit;
+    target_y = &town_motion_state.y.v;
+    if (*target_y > value_limit) {
+        *target_y = value_limit;
     }
     state = self->state;
     switch (state) {

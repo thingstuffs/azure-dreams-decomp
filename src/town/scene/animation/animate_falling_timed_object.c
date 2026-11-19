@@ -1,5 +1,7 @@
 #include "common.h"
 #include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
+#include "shared/object_node.h"
 #include "town/scene/animation.h"
 #include "town/data.h"
 #define AZ_FOREIGN_LOCAL_FUNC_80071494
@@ -9,7 +11,11 @@
 extern s32 func_80071494(); /* Unprototyped: JP identity rand(void); the surplus source arguments preserve the retail instruction stream. */
 
 extern u8 D_8028E568[];
-extern u8 D_8028E56C[12];
+/* The selected entry starts at D_8028E568. Its next word supplies the sprite source. */
+extern struct {
+    void *source;
+    u8 trailing_data[8];
+} D_8028E56C;
 extern u8 D_8028E590[];
 extern u8 D_8028E600[];
 extern u8 D_805266C0[];
@@ -33,23 +39,12 @@ typedef struct FallingTimedSceneObject {
     FallingSceneController *owner;
 } FallingTimedSceneObject;   /* obj in animate_falling_timed_object */
 
-typedef struct S_8052BCCC_3 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    s8 unk_05;
-    s16 unk_06;
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_8052BCCC_3;   /* out in animate_falling_timed_object */
 
 /* Per-frame step for the town cutscene actor: integrate its motion, then run its ten-state dispatch. */
-void animate_falling_timed_object(FallingTimedSceneObject *obj, ObjectPosition *motion, S_8052BCCC_3 *incoming_out) {
+void animate_falling_timed_object(FallingTimedSceneObject *obj, ObjectPosition *motion, SpriteFrameState *incoming_out) {
     FallingSceneController *aux;
-    S_8052BCCC_3 *out;
+    SpriteFrameState *out;
+    void **entry_slot;
     u16 table[14];
     s32 a0;
     s32 a1;
@@ -111,12 +106,12 @@ state0_finish:
         obj->unk_A6 = a0;
         motion->velocity_y = (s32)0xFFC00000 / ((s16)(obj->unk_A2));
         if (obj->unk_A0 < 2)
-            out->unk_14 |= 1;
+            out->flags |= 1;
         if (((u16)(obj->unk_A0)) & 1) {
-            out->unk_06 = -256;
+            out->depth_bias = -256;
             motion->velocity_y = 0 - motion->velocity_y;
         } else {
-            out->unk_06 = -64;
+            out->depth_bias = -64;
             func_80034A1C(out, D_8028E600, 0);
         }
         obj->unk_68 = 1;
@@ -171,10 +166,11 @@ state0_finish:
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             motion->y.v += (s32)0xFFFC0000;
-            (*(s32 *)((u8 *)(out) + (0))) = D_8028E568;
-            out->unk_08 = *(s32 *)D_8028E56C;
+            entry_slot = &out->unk_00;
+            *entry_slot = D_8028E568;
+            out->source = D_8028E56C.source;
             out->unk_04 = 0;
-            out->unk_05 = 0;
+            out->frame_ticks = 0;
             if (func_80071494() & 7) {
                 u16 phase3;
                 /* BYTES: Redundant store retail really emits; the A6 load between the two A2 stores keeps cse from deleting the first store. */
@@ -204,17 +200,18 @@ state0_finish:
     case 4:
         if (motion->z.v <= (s32)0xFFA80000 &&
             !(obj->unk_A4 & 2)) {
-            out->unk_06 = 0;
+            out->depth_bias = 0;
             obj->unk_48 = D_805266D8;
             obj->unk_A4 |= 2;
             func_8023FA58(obj, motion, D_8053013C);
             aux->level.u += 1;
         }
         if (((s16)(obj->unk_A2)) == 3) {
-            (*(s32 *)((u8 *)(out) + (0))) = D_8028E568;
-            out->unk_08 = *(s32 *)D_8028E56C;
+            entry_slot = &out->unk_00;
+            *entry_slot = D_8028E568;
+            out->source = D_8028E56C.source;
             out->unk_04 = 0;
-            out->unk_05 = 0;
+            out->frame_ticks = 0;
         }
         if (((s16)(obj->unk_A2)) <= 0) {
             motion->velocity_z = 0;
@@ -243,13 +240,13 @@ state0_finish:
 
     case 7:
     {
-        void *call_out;
+        SpriteFrameState *call_out;
         if (((s16)(obj->unk_A2)) <= 0) {
             call_out = out;
             if (obj->unk_A0 & 1) {
                 value = (s32)D_8028E590;
             } else {
-                out->unk_06 = 64;
+                out->depth_bias = 64;
                 value = (s32)D_8028E600;
             }
             func_80034A1C(call_out, (void *)value, 0);
@@ -280,7 +277,10 @@ state0_finish:
             if (ptr != 0)
                 *ptr = 0;
             func_80050D68(obj);
-            (*(u16 *)((u8 *)(obj) + (-2))) |= 0x8000;
+            {
+                u16 *flags = &NODE_HEADER(obj)->flags;
+                *flags |= 0x8000;
+            }
             scene_object_flags |= 0x8000;
         }
         break;
@@ -294,8 +294,8 @@ state0_finish:
             phase = ((s16)(obj->unk_A2));
         }
         if (phase < 6) {
-            out->unk_1C = table[phase];
-            out->unk_1E = table[((s16)(obj->unk_A2)) + 8];
+            out->scale_x = table[phase];
+            out->scale_y = table[((s16)(obj->unk_A2)) + 8];
         }
         if (((s16)(obj->unk_A2)) <= 0)
             obj->unk_68 = 8;
@@ -315,10 +315,11 @@ state0_finish:
             tail_aux->value.u += 1;
         }
         obj->unk_A4 &= 0xFFFD;
-        (*(s32 *)((u8 *)(out) + (0))) = D_8028E568;
-        out->unk_08 = *(s32 *)D_8028E56C;
+        entry_slot = &out->unk_00;
+        *entry_slot = D_8028E568;
+        out->source = D_8028E56C.source;
         out->unk_04 = 0;
-        out->unk_05 = 0;
+        out->frame_ticks = 0;
         obj->unk_A2 = 14;
         obj->unk_68 = 9;
     }

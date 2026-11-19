@@ -3,6 +3,7 @@
 struct ItemMenuPart;
 struct DisplayPositionWords;
 #include "common.h"
+#include "shared/menu_display.h"
 #include "shared/timed_stream.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80026CF0_arg0.h"
@@ -391,8 +392,7 @@ extern void flag_optional_object_for_removal(void *);
 extern s32 D_8002503C;
 extern u8 menu_context_chain_indices[16];
 extern u8 menu_entry_chain_indices[4];
-extern ovl_1831cd8_81813050_Template0 display_block_defaults;
-extern ovl_1831cd8_81813050_Template1 display_vector_defaults;
+
 extern void initialize_scaled_entry_cursor();
 extern M2C_UNK D_80078AB4;
 extern M2C_UNK D_80078AD8;

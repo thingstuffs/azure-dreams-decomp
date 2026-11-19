@@ -103,7 +103,7 @@ s32 initialize_mogura_minigame(void *unused_arg0, void *unused_arg1, void *unuse
             element->unk_1A = 0x7C80;
             element->unk_14 = x_first;
             element->unk_10.at00.v = 0x808080;
-            element->unk_04.i = ((s32 *)&primary_values)[column];
+            element->unk_04.i = primary_values.values[column];
             element->unk_0C.at00.v = parent_state;
         }
         column--;
@@ -124,7 +124,7 @@ s32 initialize_mogura_minigame(void *unused_arg0, void *unused_arg1, void *unuse
             element->unk_1A = 0x7C80;
             element->unk_14 = x_second;
             element->unk_10.at00.v = 0x808080;
-            element->unk_04.i = ((s32 *)&secondary_values)[column];
+            element->unk_04.i = secondary_values.values[column];
             switch (column) {
             case 0:
                 element->unk_08.p = (u8 *)parent_state + 6;

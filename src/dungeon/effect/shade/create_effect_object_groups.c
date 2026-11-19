@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "dungeon/effect.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -10,7 +11,6 @@
 
 
 extern s32 D_80026490;
-extern s32 linked_mesh_processor_address[3];
 
 /* Creates three groups of sixteen objects at the supplied coordinates. */
 void *create_effect_object_groups(s16 x, s16 y, s16 z)
@@ -45,7 +45,7 @@ void *create_effect_object_groups(s16 x, s16 y, s16 z)
             object = allocate_flagged_object_node(object_flags);
             if (object != 0) {
                 object->update_callback = callback;
-                register_node(object, &linked_mesh_processor_address);
+                register_node(object, draw_linked_segment_aligned_quads);
                 coords = object->position;
                 *((s16 *)&coords->velocity_x + 1) = x;
                 coords->x.w.i = x;

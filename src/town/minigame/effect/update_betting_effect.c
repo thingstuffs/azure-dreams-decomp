@@ -34,7 +34,6 @@ extern u8 D_80024450[];
 extern u8 scene_object_payload_alias[];
 extern s32 town_money[3];
 extern s32 camera_height_mode[3];
-extern u8 town_scene_record_handlers[];
 extern u8 D_800D0080[];
 extern u8 town_position_callback_address[];
 
@@ -350,7 +349,7 @@ void update_betting_effect(TownEffect *input)
             SD_Call(0x508);
             {
                 s32 y_speed = 0x18000;
-                u8 *animation = town_scene_record_handlers;
+                s32 *animation = town_scene_record_handlers;
                 ObjectPosition *child_motion;
                 child_motion = &view_reference_entity;
                 child_motion->velocity_z = (s32)0xFFF40000;
@@ -372,7 +371,7 @@ void update_betting_effect(TownEffect *input)
         case 36:
             SD_Call(0x508);
             {
-                u8 *animation = town_scene_record_handlers;
+                s32 *animation = town_scene_record_handlers;
                 ObjectPosition *child_motion;
                 child_motion = &view_reference_entity;
                 child_motion->velocity_z = (s32)0xFFF80000;
@@ -396,7 +395,7 @@ void update_betting_effect(TownEffect *input)
             break;
         }
         {
-            u8 *animation = town_scene_record_handlers;
+            s32 *animation = town_scene_record_handlers;
             ObjectPosition *child_motion;
             child_motion = &view_reference_entity;
             child_motion->velocity_z = (s32)0xFFFB0000;
@@ -457,7 +456,7 @@ void update_betting_effect(TownEffect *input)
             break;
         }
         {
-            u8 *animation = town_scene_record_handlers;
+            s32 *animation = town_scene_record_handlers;
             ObjectPosition *child_motion;
             child->phase = 4;
             child_motion = &view_reference_entity;

@@ -15,27 +15,27 @@ void configure_shared_fade_primitive(void);
 extern s16 D_80010208[];
 
 /* Processes the current selection and stores the next state. */
-void *card_boot_save_selected_slot(Object_800128C8 *context) {
+void *card_boot_save_selected_slot(CardSaveMenuBody *menu) {
     void *result;
 
-    card_boot_prepare_save_buffer(0x80010000, context->unk_2C, context->unk_24);
-    if (card_boot_write_save_via_temporary_path(context->unk_2C, 0x80010000) == 0) {
-        *(u8 **)((s8 *)context + 0x34) = (u8 *)card_boot_update_save_slot_menu_input;
-        card_boot_show_overwrite_failure_notice(NODE_HEADER(context));
-        NODE_HEADER(context)->update_callback = (u8 *)&D_800261C0;
+    card_boot_prepare_save_buffer(0x80010000, menu->selection, menu->mode);
+    if (card_boot_write_save_via_temporary_path(menu->selection, 0x80010000) == 0) {
+        menu->saved_callback = card_boot_update_save_slot_menu_input;
+        card_boot_show_overwrite_failure_notice(NODE_HEADER(menu));
+        NODE_HEADER(menu)->update_callback = D_800261C0;
     } else {
-        card_boot_set_slot_details_selection(context->slot_details, context->unk_2C, 3);
-        card_boot_refresh_five_slot_objects(context);
-        card_boot_set_slot_selection_marker(*(ObjectNodeHeader **)((s8 *)context + context->unk_2C * 4 + 0xC), 1);
+        card_boot_set_slot_details_selection(menu->surface, menu->selection, 3);
+        card_boot_refresh_five_slot_objects(menu);
+        card_boot_set_slot_selection_marker(menu->slots[menu->selection], 1);
         if (D_80010208[0] != 0) {
             configure_shared_fade_primitive();
-            NODE_HEADER(context)->update_callback = (u8 *)&release_card_records_and_request_scene_state_three;
+            NODE_HEADER(menu)->update_callback = release_card_records_and_request_scene_state_three;
         } else {
             SD_Call(AUDIO_MENU_CONFIRM);
-            NODE_HEADER(context)->update_callback = (u8 *)card_boot_update_save_slot_menu_input;
+            NODE_HEADER(menu)->update_callback = card_boot_update_save_slot_menu_input;
         }
     }
     result = card_boot_recheck_selected_channel();
-    context->unk_40 = 0;
+    menu->unk_40 = 0;
     return result;
 }

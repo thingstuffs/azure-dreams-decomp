@@ -4,61 +4,36 @@
 #include "engine/util.h"
 #include "town.h"
 
-typedef struct S_800B3178_3 {
-    u8 pad_00[0x4];
-    s8 * unk_04;
-} S_800B3178_3;
-
-typedef struct S_800B3178_4 {
-    u8 pad_00[0x1];
-    s8 unk_01;
-    s8 unk_02;
-} S_800B3178_4;
-
-typedef struct S_800B3178_0 {
-    s32 unk_00;
-    u8 pad_04[0x8];
-    s32 unk_0C;
-} S_800B3178_0;   /* arg1 in populate_paged_entries_with_brightness */
-
-typedef struct S_800B3178_1 {
-    s32 unk_00;
-    s8 * unk_04;
-} S_800B3178_1;
-
-typedef struct S_800B3178_2 {
-    u8 pad_00[0x1];
-    u8 unk_01;
-} S_800B3178_2;
+#include "town/shop/storage_menu.h"
 
 /* Populate up to ten page entries and set their type-dependent brightness. */
-void populate_paged_entries_with_brightness(void **entries, S_800B3178_0 *page_info, s32 source_table) {
+void populate_paged_entries_with_brightness(ItemMenuPart **entries, StoragePage *page_info, DungeonItemEntry **source_table) {
     s32 lookup_param;
     s32 page_index;
     s32 source_index;
     s32 entry_count;
     s32 normal_shade;
     s32 dim_shade;
-    void **entry;
-    void **source;
+    ItemMenuPart **entry;
+    DungeonItemEntry **source;
 
     entry_count = 0;
     dim_shade = 0x40;
     normal_shade = 0x80;
-    page_index = page_info->unk_00;
+    page_index = page_info->current;
     entry = entries;
     source_index = page_index * 0xA;
-    source = (page_index * 0x28) + source_table;
-    while (entry_count < 0xA && source_index < page_info->unk_0C) {
-        ((S_800B3178_1 *)(*entry))->unk_00 = func_8004DC14(select_item_data(*source, &lookup_param), lookup_param);
-        if (((S_800B3178_2 *)(*source))->unk_01 == 0x13) {
-            *((S_800B3178_1 *)(*entry))->unk_04 = dim_shade;
-            ((S_800B3178_4 *)(((S_800B3178_3 *)(*entry))->unk_04))->unk_01 = dim_shade;
-            ((S_800B3178_4 *)(((S_800B3178_3 *)(*entry))->unk_04))->unk_02 = dim_shade;
+    source = (DungeonItemEntry **)((source_index * sizeof(*source_table)) + (unsigned long)source_table);
+    while (entry_count < 0xA && source_index < page_info->count) {
+        (*entry)->handler = func_8004DC14(select_item_data(*source, &lookup_param), lookup_param);
+        if ((*source)->kind == 0x13) {
+            (*entry)->position->color.c.r = dim_shade;
+            (*entry)->position->color.c.g = dim_shade;
+            (*entry)->position->color.c.b = dim_shade;
         } else {
-            *((S_800B3178_1 *)(*entry))->unk_04 = normal_shade;
-            ((S_800B3178_4 *)(((S_800B3178_3 *)(*entry))->unk_04))->unk_01 = normal_shade;
-            ((S_800B3178_4 *)(((S_800B3178_3 *)(*entry))->unk_04))->unk_02 = normal_shade;
+            (*entry)->position->color.c.r = normal_shade;
+            (*entry)->position->color.c.g = normal_shade;
+            (*entry)->position->color.c.b = normal_shade;
         }
         entry += 1;
         entry_count += 1;

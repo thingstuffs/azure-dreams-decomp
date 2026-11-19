@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "shared/record_ptrs.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -20,7 +21,6 @@
 
 
 
-extern void *actor_update_node_cursor;
 extern u8 battnel_action_resume_address[];
 extern u8 D_80173D04[];
 extern u8 D_80173D34[];

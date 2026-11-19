@@ -1,5 +1,6 @@
 #include "dungeon/player/held_item_kind_data.h"
 #include "common.h"
+#include "dungeon/actor/ability_eligibility.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -7,14 +8,12 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
-#include "dungeon/player/object.h"
 #include "engine/graphics.h"
 #include "dungeon/actor/effect.h"
 #include "dungeon/item.h"
 #include "dungeon/globals.h"
 
 s32 check_movement_clearance_and_height();
-s32 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags);
 
 /* Updates actor state and animation when the position checks succeed. */
 void try_begin_put_down_carried_object(ActorRecord *state, EntityRec *target, SpriteFrameState *sprite, u32 actor_or_can) {

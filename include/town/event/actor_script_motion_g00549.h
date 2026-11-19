@@ -31,9 +31,9 @@ typedef struct {
 } TownControl;
 
 typedef struct {
-    void (*func0)(void *, void *, void *, void *);
+    void (*func0)(void *, ColliderView *, ObjectPosition *, struct SpriteFrameState *);
     void *pad_04[5];
-    void (*func18)(void *, void *, void *, void *);
+    void (*func18)(void *, ColliderView *, ObjectPosition *, struct SpriteFrameState *);
 } TownVtable;
 
 typedef struct {
@@ -41,19 +41,7 @@ typedef struct {
     TownVtable *vtable;
 } TownObject;
 
-typedef struct S_8009B2C4_0 {
-    u8 pad_00[0x3A];
-    u8 unk_3A;
-} S_8009B2C4_0;
-
-/* (u8 *)arg1 + D_800CFDD8[index] in dispatch_active_town_object_script */
-typedef struct S_8009B2C4_1 {
-    u8 pad_00[0x3A];
-    u8 unk_3A;
-    u8 pad_3B[5];
-} S_8009B2C4_1;
-
-extern void initialize_target_motion(Rec_func_8009B828_arg0 *owner, Rec_D_800CFCB4 *target, EntityRec *parameters, void *unused); /* Unprototyped: retail call passes more arguments than the callee reads */
+extern void initialize_target_motion(TownObjectRecord *owner, struct ColliderView *target, ObjectPosition *parameters, void *unused); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern s32 scene_object_payload_alias;
 extern s32 D_80091F64;
 extern u8 D_800920F4[];
@@ -62,7 +50,6 @@ extern u8 D_80092698[];
 extern u8 tracked_actor_callback_address[];
 extern s32 D_800CFCCC;
 extern s32 D_800CFDD8[];
-extern void apply_bound_adjustments(void *, void *);
 extern void actor_surface_callback_address(void *actor, void *subject, void *motion, void *context);
 extern void actor_output_update_address(void *state_owner, void *update_target, void *update_context, void *output);
 
@@ -71,8 +58,8 @@ extern void set_actor_motion_state(TownObjectRecord *object, Rec_D_800CFCB4 *sta
 extern TownControl town_actor_control;
 
 /* Functions defined in this translation unit. */
-s32 dispatch_active_town_object_script(TownObject *object, void *owner, void *context, void *extra_ptr);
-void update_actor_surface_motion(TownObjectRecord *actor, void *subject, void *motion, struct SpriteFrameState *context);
-void update_actor_slots_and_output(void *state_owner, void *update_target, void *update_context, struct SpriteFrameState *output);
+s32 dispatch_active_town_object_script(TownObjectRecord *object, ColliderView *owner, ObjectPosition *context, struct SpriteFrameState *extra_ptr);
+void update_actor_surface_motion(TownObjectRecord *actor, void *subject, ObjectPosition *motion, struct SpriteFrameState *context);
+void update_actor_slots_and_output(TownObjectRecord *state_owner, void *update_target, ObjectPosition *update_context, struct SpriteFrameState *output);
 
 #endif

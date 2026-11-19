@@ -97,11 +97,11 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, ObjectPosition
         s16 hop_timer;
         hop_timer = (s16)(--entity->unk_A0.u16);
         if (hop_timer == 2) {
-            s32 hop_direction_offset;
+            s32 hop_direction;
             entity->unk_98 |= 1;
             monster->frameTable = actor_movement_frames;
-            hop_direction_offset = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 7) & 0x1C;
-            select_record_entry_and_value(monster, *(void **)(actor_movement_frames + hop_direction_offset), 0);
+            hop_direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7;
+            select_record_entry_and_value(monster, actor_movement_frames[hop_direction], 0);
         }
 
         if (entity->unk_A0.s16 == 0) {
@@ -172,7 +172,7 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, ObjectPosition
 /* Updates actor state, facing, and directional animation. */
 void update_actor_facing_animation(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *status)
 {
-    void **anim_table;
+    SpriteSourceEntry **anim_table;
     s32 cell_record;
     u16 direction_aux;
 
@@ -219,8 +219,7 @@ void update_actor_facing_animation(ActorRecord *actor, ObjectPosition *motion, S
                 if (sprite->frameTable != anim_table) {
                     sprite->frameTable = anim_table;
                     select_record_entry_and_value(sprite,
-                        *(void **)((u8 *)anim_table +
-                            (((g_game_work.view.camera_rotation.parts.viewAngle + status->facing + 0x100) >> 7) & 0x1C)),
+                        anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + status->facing + 0x100) >> 9) & 7],
                         0);
                 }
                 actor->action_id = next_state;
@@ -301,8 +300,7 @@ void update_actor_facing_animation(ActorRecord *actor, ObjectPosition *motion, S
     }
     sprite->frameTable = anim_table;
     select_record_entry_and_value(sprite,
-        *(void **)((((g_game_work.view.camera_rotation.parts.viewAngle + status->facing + 0x100) >> 7) & 0x1C) +
-            (u32)anim_table),
+        anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + status->facing + 0x100) >> 9) & 7],
         0);
 }
 
@@ -322,17 +320,15 @@ void advance_actor_queued_path(ActorRecord *body, ObjectPosition *position, Spri
         ((s32)state->movement_queue_state > state->unk_8A)) {
         anim_table = sprite->frameTable;
         if (anim_table != actor_movement_frames) {
-            void *anim_slot;
+            SpriteSourceEntry *frame;
 
             sprite->frameTable = actor_movement_frames;
-            anim_slot = actor_movement_frames +
-                (((g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 7) & 0x1C);
-            select_record_entry_and_value(sprite, *(void **)anim_slot, 0);
+            frame = actor_movement_frames[((g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7];
+            select_record_entry_and_value(sprite, frame, 0);
         } else if (sprite->flags & 0x6000) {
             select_record_entry_and_value(
                 sprite,
-                *(void **)(actor_movement_frames +
-                    (((g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 7) & 0x1C)),
+                actor_movement_frames[((g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7],
                 0);
         }
 
@@ -405,7 +401,7 @@ void advance_actor_traversable_heading(ActorRecord *body, ObjectPosition *contex
     s32 limit_turn;
     s8 room_id;
     s16 turn_index;
-    u8 *turn_offsets;
+    s16 *turn_offsets;
 
     limit_turn = 0;
     if ((g_dungeon_status.flags & 0x4000) || ((s8)actor->movement_queue_state >= 0)) {
@@ -478,14 +474,14 @@ void advance_actor_traversable_heading(ActorRecord *body, ObjectPosition *contex
 init_loop:
             turn_index = 0;
 loop_entry:
-            turn_offsets = (u8 *)actor_turn_angle_offsets;
+            turn_offsets = actor_turn_angle_offsets;
 try_heading:
             flags_or_heading = actor->facing;
             if (body->action_state_flags & 2) {
-                heading_delta = ((s16 *)turn_offsets)[turn_index];
+                heading_delta = turn_offsets[turn_index];
                 candidate_heading = flags_or_heading - heading_delta;
             } else {
-                heading_delta = ((s16 *)turn_offsets)[turn_index];
+                heading_delta = turn_offsets[turn_index];
                 candidate_heading = flags_or_heading + heading_delta;
             }
             if ((check_movement_clearance_and_height((s16)candidate_heading, position, actor, 0x20) << 0x10) > 0) {
@@ -576,11 +572,11 @@ mask_and_return:
  * relative to the camera.
  */
 void initialize_actor_direction_table(void *object, void *unusedContext, SpriteFrameState *tableTarget, ActorRecord *headingSource) {
-    s32 tableByteOffset;
+    s32 direction;
 
     *((u8 *)object + 0x9A) = 0x10;
     *((u8 *)object + 0x9B) = 0;
     tableTarget->frameTable = actor_movement_frames;
-    tableByteOffset = ((g_game_work.view.camera_rotation.parts.viewAngle + headingSource->facing + 0x100) >> 7) & 0x1C;
-    select_record_entry_and_value(tableTarget, *(void **)(actor_movement_frames + tableByteOffset), 0);
+    direction = ((g_game_work.view.camera_rotation.parts.viewAngle + headingSource->facing + 0x100) >> 9) & 7;
+    select_record_entry_and_value(tableTarget, actor_movement_frames[direction], 0);
 }

@@ -6,9 +6,9 @@
 #include "town/shop_callbacks_api.h"
 
 /* Resets object state and passes the selected result to set_shop_target_to_entry. */
-void retarget_entity_to_nearest_entry(void *object, TownObjectRecord *status, ObjectPosition *position, s32 unused_finish_ctx) {
+void retarget_entity_to_nearest_entry(void *object, struct ColliderView *status, ObjectPosition *position, s32 unused_finish_ctx) {
     s32 result;
-    status->unk_15 = 0;
+    status->enabled = 0;
     position->velocity_x = 0;
     position->velocity_y = 0;
     position->velocity_z = 0;
@@ -26,14 +26,14 @@ void retarget_entity_to_nearest_entry(void *object, TownObjectRecord *status, Ob
  * Runs both context updates and resolves collider overlap, then decrements the 16-bit countdown
  * and resets object state when the signed result is zero or negative.
  */
-void update_entity_until_countdown_ends(S_8009ECF0_0 *state, s32 update_ctx, ObjectPosition *position, s32 finish_ctx) {
+void update_entity_until_countdown_ends(S_8009ECF0_0 *state, struct ColliderView *update_ctx, ObjectPosition *position, s32 finish_ctx) {
     u16 countdown;
 
-    apply_bound_adjustments(update_ctx, (s32)position);
-    resolve_collider_overlaps((void *)(update_ctx), position);
+    apply_bound_adjustments(update_ctx, position);
+    resolve_collider_overlaps(update_ctx, position);
     countdown = state->unk_6C - 1;
     state->unk_6C = countdown;
     if ((countdown << 0x10) <= 0) {
-        retarget_entity_to_nearest_entry(state, (void *)update_ctx, position, finish_ctx);
+        retarget_entity_to_nearest_entry(state, update_ctx, position, finish_ctx);
     }
 }

@@ -64,7 +64,7 @@ void handle_town_map_input(TownMapBody *object, ObjectPosition *transform, Sprit
         s32 buttons;
         s32 entry_index;
         u8 entry_id;
-        u8 *positions;
+        TownBuildingSlotRectangle *positions;
 
         advance_sprite_animation_and_textures(context);
         buttons = (input->pressed_buttons);
@@ -82,11 +82,11 @@ void handle_town_map_input(TownMapBody *object, ObjectPosition *transform, Sprit
         entry_index = object->selection;
         positions = town_building_slot_rectangles;
         entry_id = entries[entry_index];
-        object->context->unk_30 = positions[entry_id * 8] - 0x18;
+        object->context->unk_30 = positions[entry_id].x - 0x18;
 
         entry_index = object->selection;
         entry_id = entries[entry_index];
-        object->context->unk_34 = positions[entry_id * 8 + 1] - 0x40;
+        object->context->unk_34 = positions[entry_id].y - 0x40;
 
         entry_index = object->selection;
         town_map_selection = entries[entry_index];

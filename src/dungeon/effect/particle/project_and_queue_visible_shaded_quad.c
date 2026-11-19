@@ -23,50 +23,27 @@ void (* const dungeon_1990800_entry)(FadingSpriteSequenceBody *, void *, void *)
 #include "dungeon/effect/shaded_quad_scratch.h"
 #include "dungeon/effect/colored_point_scratch.h"
 
-typedef struct S_func_81970800_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_func_81970800_2;
+typedef struct {
+    u8 bytes[12];
+} Data12;
 
-typedef struct S_func_81970800_3 {
-    u8 pad_00[0x8];
-    u8 *unk_08;
-    u8 pad_0C[0x3];
-    u8 unk_0F;
-    u8 pad_10[0x4];
-    u16 unk_14;
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-} S_func_81970800_3;
-
-typedef struct S_func_81970800_4 {
-    u8 pad_00[0xC];
-    u32 unk_0C;
-    u32 unk_10;
-    u32 unk_14;
-    u32 unk_18;
-    u8 pad_1C[0x30];
-    u16 unk_4C;
-    u16 unk_4E;
-    u16 unk_50;
-    u16 unk_52;
-    u16 unk_54;
-    u16 unk_56;
-    u16 unk_58;
-    u16 unk_5A;
-    u16 unk_5C;
-    u16 unk_5E;
-    u16 unk_60;
-    u16 unk_62;
-} S_func_81970800_4;
+/* The pulse and shaded-quad children share the countdown and inline sprite source.
+ * The shaded-quad renderer also consumes all four vertex colors and coordinates. */
+typedef struct FadingSequenceChildBody {
+    u8 pad_00[0x0C];
+    SpriteColor colors[4];
+    SpriteColor initial_colors[4];
+    u8 pad_2C[0x0C];
+    s16 ticks_left;
+    s16 duration;
+    u8 pad_3C[0x10];
+    struct { s16 x; s16 y; s16 z; } vertices[4];
+    u8 pad_64[0x1E];
+    Data12 sprite_source;
+} FadingSequenceChildBody;
 
 /* Project and enqueue a shaded quad if its depth and screen bounds are visible. */
-void project_and_queue_visible_shaded_quad(S_func_81970800_4 *quad, S_func_81970800_2 *position, S_func_81970800_3 *object, s16 depth_bias)
+void project_and_queue_visible_shaded_quad(FadingSequenceChildBody *quad, ObjectPosition *position, SpriteFrameState *object, s16 depth_bias)
 {
     ShadedQuadScratch *scratch = (ShadedQuadScratch *)0x1F800000;
     DR_MODE *mode;
@@ -79,19 +56,19 @@ void project_and_queue_visible_shaded_quad(S_func_81970800_4 *quad, S_func_81970
     MATRIX matrix;
 
     scratch->ordering_table = (u32 *)&((GpuContext *)g_game_work.draw_buffer)->orderTag;
-    scratch->local_matrix.t[0] = position->unk_02;
-    scratch->local_matrix.t[1] = position->unk_06;
-    scratch->local_matrix.t[2] = position->unk_0A;
-    object->unk_14 |= 0x8000;
+    scratch->local_matrix.t[0] = position->x.w.i;
+    scratch->local_matrix.t[1] = position->y.w.i;
+    scratch->local_matrix.t[2] = position->z.w.i;
+    object->flags |= 0x8000;
 
     PushMatrix();
 
     scratch->scale.vz = 0x2000;
     scratch->scale.vy = 0x2000;
     scratch->scale.vx = 0x2000;
-    scratch->angles.vx = object->unk_16;
-    scratch->angles.vz = object->unk_1A;
-    scratch->angles.vy = object->unk_18;
+    scratch->angles.vx = object->angle_x;
+    scratch->angles.vz = object->angle_z;
+    scratch->angles.vy = object->angle_y;
     RotMatrix(&scratch->angles, &scratch->local_matrix);
     ReadRotMatrix(&matrix);
     CompMatrix(&matrix, &scratch->local_matrix, &scratch->composed_matrix);
@@ -99,8 +76,8 @@ void project_and_queue_visible_shaded_quad(S_func_81970800_4 *quad, S_func_81970
     SetTransMatrix(&scratch->composed_matrix);
     SetRotMatrix(&scratch->composed_matrix);
 
-    texture = object->unk_08;
-    scratch->render_flags = object->unk_14;
+    texture = object->source;
+    scratch->render_flags = object->flags;
 
     mode = ((GpuContext *)g_game_work.draw_buffer)->packetCursor;
     ((GpuContext *)g_game_work.draw_buffer)->packetCursor = mode + 1;
@@ -119,18 +96,18 @@ void project_and_queue_visible_shaded_quad(S_func_81970800_4 *quad, S_func_81970
         render_context->packetCursor = packet + 1;
     }
 
-    scratch->vertices[0].vx = quad->unk_4C;
-    scratch->vertices[1].vx = quad->unk_52;
-    scratch->vertices[2].vx = quad->unk_58;
-    scratch->vertices[3].vx = quad->unk_5E;
-    scratch->vertices[0].vy = quad->unk_4E;
-    scratch->vertices[1].vy = quad->unk_54;
-    scratch->vertices[2].vy = quad->unk_5A;
-    scratch->vertices[3].vy = quad->unk_60;
-    scratch->vertices[0].vz = quad->unk_50;
-    scratch->vertices[1].vz = quad->unk_56;
-    scratch->vertices[2].vz = quad->unk_5C;
-    scratch->vertices[3].vz = quad->unk_62;
+    scratch->vertices[0].vx = quad->vertices[0].x;
+    scratch->vertices[1].vx = quad->vertices[1].x;
+    scratch->vertices[2].vx = quad->vertices[2].x;
+    scratch->vertices[3].vx = quad->vertices[3].x;
+    scratch->vertices[0].vy = quad->vertices[0].y;
+    scratch->vertices[1].vy = quad->vertices[1].y;
+    scratch->vertices[2].vy = quad->vertices[2].y;
+    scratch->vertices[3].vy = quad->vertices[3].y;
+    scratch->vertices[0].vz = quad->vertices[0].z;
+    scratch->vertices[1].vz = quad->vertices[1].z;
+    scratch->vertices[2].vz = quad->vertices[2].z;
+    scratch->vertices[3].vz = quad->vertices[3].z;
 
     depth = RotAverage4(&scratch->vertices[0], &scratch->vertices[1],
                           &scratch->vertices[2], &scratch->vertices[3],
@@ -148,23 +125,23 @@ void project_and_queue_visible_shaded_quad(S_func_81970800_4 *quad, S_func_81970
              ((u16)(packet->y2 + 0x20) < 0x121)) |
             (((u16)(packet->x3 + 0x20) < 0x181) &&
              ((u16)(packet->y3 + 0x20) < 0x121))) {
-            object->unk_14 &= 0x7FFF;
+            object->flags &= 0x7FFF;
             tex_flags = texture[1];
-            object->unk_0F = tex_flags;
+            object->color.c.code = tex_flags;
             draw_flags = scratch->render_flags;
             if (draw_flags & 8) {
-                object->unk_0F = (draw_flags & 4) ?
+                object->color.c.code = (draw_flags & 4) ?
                     (tex_flags | 2) : (tex_flags & 0xFD);
             }
 
             /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
-            *(u32 *)&packet->red0 = quad->unk_0C;
+            *(u32 *)&packet->red0 = quad->colors[0].word;
             /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
-            *(u32 *)&packet->red1 = quad->unk_10;
+            *(u32 *)&packet->red1 = quad->colors[1].word;
             /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
-            *(u32 *)&packet->red2 = quad->unk_14;
+            *(u32 *)&packet->red2 = quad->colors[2].word;
             /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
-            *(u32 *)&packet->red3 = quad->unk_18;
+            *(u32 *)&packet->red3 = quad->colors[3].word;
             ((GpuLinkTag *)&packet->tag)->len = 8;
             packet->code = 0x3A;
 
@@ -193,7 +170,7 @@ void project_and_queue_visible_shaded_quad(S_func_81970800_4 *quad, S_func_81970
 
 /* Draw each linked record with zero depth bias; the next record is chained through the previous header's
  * unk_18 link, and its node supplies the transform and object pointers. */
-s32 draw_linked_records_zero_depth_bias(void *record, void *transform, void *object) {
+s32 draw_linked_records_zero_depth_bias(FadingSequenceChildBody *record, ObjectPosition *transform, SpriteFrameState *object) {
     ObjectNodeHeader *node;
 
     for (;;) {
@@ -202,7 +179,7 @@ s32 draw_linked_records_zero_depth_bias(void *record, void *transform, void *obj
         if (node == 0) {
             return 0;
         }
-        record = node + 1;
+        record = NODE_BODY(node);
         transform = node->position;
         object = node->sprite;
     }
@@ -356,29 +333,28 @@ void spawn_jittered_rising_quad(
 #include "shared/dungeon_moving_views.h"
 
 /* Decrement the timer, update scale and position, and flag completion at zero. */
-void follow_origin_and_fade_sprite(OriginFollowingFadeSpriteBody *state_arg, MovingPosition *position, SpriteFrameState *sprite) {
-    OriginFollowingFadeSpriteBody *state = state_arg;
+void follow_origin_and_fade_sprite(OriginFollowingFadeSpriteBody *state, ObjectPosition *position, SpriteFrameState *sprite) {
     s32 scale_factor;
-    u16 ticks_left;
-    MovingPosition *base_position;
+    s16 ticks_left;
+    ObjectPosition *base_position;
 
     ticks_left = state->ticks_remaining - 1;
-    scale_factor = (s32) ((s32) (ticks_left << 16) >> 9) / (s16) state->fade_divisor;
+    scale_factor = (ticks_left * 128) / state->fade_divisor;
     fading_quad_effect_updated = 1;
     state->ticks_remaining = ticks_left;
-    sprite->color.c.b = (u8) scale_factor;
-    sprite->color.c.g = (u8) scale_factor;
-    sprite->color.c.r = (u8) scale_factor;
+    sprite->color.c.b = scale_factor;
+    sprite->color.c.g = scale_factor;
+    sprite->color.c.r = scale_factor;
 
     base_position = state->base_position;
-    position->x = state->offset_x;
-    position->y = state->offset_y;
-    position->z = state->offset_z;
-    position->x = (u16) (position->x + base_position->x);
-    position->y = (u16) (position->y + base_position->y);
-    position->z = (u16) (position->z + base_position->z);
+    position->x.w.i = state->offset_x;
+    position->y.w.i = state->offset_y;
+    position->z.w.i = state->offset_z;
+    position->x.w.i += base_position->x.w.i;
+    position->y.w.i += base_position->y.w.i;
+    position->z.w.i += base_position->z.w.i;
 
-    if ((s16)state->ticks_remaining <= 0) {
+    if (state->ticks_remaining <= 0) {
         NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
@@ -392,15 +368,8 @@ typedef struct {
     u16 phase;
 } QuarterColorFadeBody;
 
-typedef struct {
-    u8 pad0[8];
-    s32 value;
-    u8 padC[8];
-    s32 delta;
-} Motion;
-
 /* Advance a timed effect, update its intensity and motion, and flag completion. */
-void update_fading_quad_effect(QuarterColorFadeBody *effect, Motion *motion, SpriteFrameState *render_data)
+void update_fading_quad_effect(QuarterColorFadeBody *effect, ObjectPosition *motion, SpriteFrameState *render_data)
 {
     s32 intensity;
     u16 phase;
@@ -417,7 +386,7 @@ void update_fading_quad_effect(QuarterColorFadeBody *effect, Motion *motion, Spr
     render_data->color.c.b = intensity;
     render_data->color.c.g = intensity;
     render_data->color.c.r = intensity;
-    motion->value += motion->delta;
+    motion->z.v += motion->velocity_z;
     if (effect->timer <= 0) {
         NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -425,58 +394,30 @@ void update_fading_quad_effect(QuarterColorFadeBody *effect, Motion *motion, Spr
 }
 
 
-typedef struct S_81971398_0 {
-    u8 pad_00[0x38];
-    union { u16 s; s16 u; } unk_38;   /* accessed as both */
-    s16 unk_3A;
-} S_81971398_0;   /* base in func_80024B98 */
-
-typedef struct S_81971398_1 {
-    u8 pad_00[0x5FF4];
-    s16 unk_5FF4;
-} S_81971398_1;   /* page in func_80024B98 */
-
-typedef struct S_81971398_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xD];
-    u8 unk_1C;
-    u8 unk_1D;
-    u8 unk_1E;
-} S_81971398_2;   /* p in func_80024B98 */
-
 /* Advance the fade, scale four vertex colors, and flag completion when the timer expires. */
-void fade_timed_quad_vertices(void *fade_data)
+void fade_timed_quad_vertices(FadingSequenceChildBody *fade)
 {
-    S_81971398_0 *fade;
     s32 vertex_index;
-    S_81971398_2 *vertex;
-    u8 *global_page;
-    u16 ticks_left;
+    s16 ticks_left;
 
-    fade = fade_data;
     vertex_index = 0;
-    global_page = (u8 *)&fading_quad_effect_updated - 0x5FF4;
-    ticks_left = fade->unk_38.s;
-    ((S_81971398_1 *)global_page)->unk_5FF4 = 1;
+    ticks_left = fade->ticks_left;
+    fading_quad_effect_updated = 1;
     ticks_left--;
-    fade->unk_38.s = ticks_left;
+    fade->ticks_left = ticks_left;
     for (; vertex_index < 4; vertex_index++) {
-        vertex = (S_81971398_2 *)((u32 *)fade + vertex_index);
-        vertex->unk_0C =
-            vertex->unk_1C * fade->unk_38.u /
-            fade->unk_3A;
-        vertex->unk_0D =
-            vertex->unk_1D * fade->unk_38.u /
-            fade->unk_3A;
-        vertex->unk_0E =
-            vertex->unk_1E * fade->unk_38.u /
-            fade->unk_3A;
+        fade->colors[vertex_index].c.r =
+            fade->initial_colors[vertex_index].c.r * fade->ticks_left /
+            fade->duration;
+        fade->colors[vertex_index].c.g =
+            fade->initial_colors[vertex_index].c.g * fade->ticks_left /
+            fade->duration;
+        fade->colors[vertex_index].c.b =
+            fade->initial_colors[vertex_index].c.b * fade->ticks_left /
+            fade->duration;
     }
-    if (fade->unk_38.u <= 0) {
-        (*(u16 *)((u8 *)fade + -2)) |= NODE_REMOVE;
+    if (fade->ticks_left <= 0) {
+        NODE_HEADER(fade)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -486,7 +427,7 @@ void fade_timed_quad_vertices(void *fade_data)
 void fade_and_spin_sprite_until_expired(void *effect, s32 unused, void *packet)
 {
     s32 intensity;
-    u16 ticks_left;
+    s16 ticks_left;
 
     ticks_left = *(u16 *)((u8 *)effect + 0x38) - 1;
     intensity = ((s32)(ticks_left << 16) >> 9) /
@@ -505,29 +446,20 @@ void fade_and_spin_sprite_until_expired(void *effect, s32 unused, void *packet)
 }
 
 
-#define U16_AT(p, off) (*(u16 *)((u8 *)(p) + (off)))
-#define S16_AT(p, off) (*(s16 *)((u8 *)(p) + (off)))
-#define U8_AT(p, off) (*(u8 *)((u8 *)(p) + (off)))
 
 /* Advances a timed visual update and sets completion flags when the countdown expires. */
-void pulse_timed_visual_brightness(void *effect, s32 unused, SpriteFrameState *visual)
+void pulse_timed_visual_brightness(FadingSequenceChildBody *effect, s32 unused, SpriteFrameState *visual)
 {
-    u8 *effect_bytes;
-    u16 countdown;
+    s16 countdown;
     s32 step_index;
-    u8 *status_page;
-
-    u8 *flags_page;
     u16 field_value;
+    u8 *flags_page;
 
-    effect_bytes = effect;
-
-    status_page = (u8 *)&fading_quad_effect_updated - 0x5FF4;
-    countdown = U16_AT(effect_bytes, 0x38);
-    *(s16 *)(status_page + 0x5FF4) = 1;
+    countdown = effect->ticks_left;
+    fading_quad_effect_updated = 1;
     countdown--;
-    U16_AT(effect_bytes, 0x38) = countdown;
-    step_index = (u32)(s16)countdown;
+    effect->ticks_left = countdown;
+    step_index = countdown;
     if ((u32)step_index < 20U) {
         switch (step_index) {
         case 0: case 9: case 10: case 19:
@@ -552,13 +484,14 @@ void pulse_timed_visual_brightness(void *effect, s32 unused, SpriteFrameState *v
     }
     field_value = visual->angle_z + 400;
     visual->angle_z = field_value;
-    if (S16_AT(effect_bytes, 0x38) > 0) {
+    if (effect->ticks_left > 0) {
         return;
     }
+    /* This overlay accesses object_flag_block through the fixed page base. */
     flags_page = (u8 *)0x80080000;
-    field_value = U16_AT((u8 *)effect_bytes - 2, 0) | 0x8000;
-    U16_AT((u8 *)effect_bytes - 2, 0) = field_value;
-    *(u32 *)(flags_page + 0x14A0) |= 0x8000;
+    field_value = NODE_HEADER(effect)->flags | NODE_REMOVE;
+    NODE_HEADER(effect)->flags = field_value;
+    ((ObjectFlagBlock *)(flags_page + 0x14A0))->flags |= OBJECT_REMOVE_PENDING;
 }
 
 #include "shared/slus_callbacks.h"
@@ -596,11 +529,11 @@ struct Bank1990800_19915d4_Object {
 s32 rand();
 
 /* Creates a sprite object with randomized offsets from the source position. */
-void create_fading_jittered_sprite(u16 *source, ObjectPosition *unused_1, SpriteFrameState *unused_2, s16 base_x, s16 base_y, s16 base_z) {
+void create_fading_jittered_sprite(FadingSpriteSequenceBody *source, ObjectPosition *unused_1, SpriteFrameState *unused_2, s16 base_x, s16 base_y, s16 base_z) {
     s32 random_value;
     SpriteFrameState *sprite;
     SpriteFrameState *render_sprite;
-    u16 *position;
+    ObjectPosition *position;
     ObjectNodeHeader *object;
     QuarterColorFadeBody *object_data;
 
@@ -609,40 +542,40 @@ void create_fading_jittered_sprite(u16 *source, ObjectPosition *unused_1, Sprite
         object_data = NODE_BODY(object);
         object_data->timer = 0x14;
         object_data->divisor = 0x14;
-        object->update_callback = (u8 *)update_fading_quad_effect;
+        object->update_callback = update_fading_quad_effect;
         register_node(object, project_sprite_chain);
         sprite = object->sprite;
         sprite->tpage_abr = 0x20;
         sprite->depth_bias = 0;
         sprite->flags |= 0xC;
-        position = *(u16 * *)&object->position;
-        position[1] = base_x;
-        position[3] = base_y;
-        position[5] = base_z;
-        position[1] += source[62];
-        position[3] += source[63];
-        position[5] += source[64];
+        position = object->position;
+        position->x.w.i = base_x;
+        position->y.w.i = base_y;
+        position->z.w.i = base_z;
+        position->x.w.i += source->unk_7C;
+        position->y.w.i += source->unk_7E;
+        position->z.w.i += source->unk_80;
         random_value = rand(sprite);
         {
-            s32 x = position[1];
+            u16 x = position->x.w.i;
             x -= 7;
             x += random_value & 0xF;
-            position[1] = (u16)x;
+            position->x.w.i = x;
         }
         random_value = rand();
         {
-            s32 y = position[3];
+            u16 y = position->y.w.i;
             y -= 7;
             y += random_value & 0xF;
-            position[3] = (u16)y;
+            position->y.w.i = y;
         }
         random_value = rand();
-        ((ObjectPosition *)position)->velocity_z = 0x20000;
+        position->velocity_z = 0x20000;
         {
-            s32 z = position[5];
+            u16 z = position->z.w.i;
             z -= 7;
             z += random_value & 0xF;
-            position[5] = (u16)z;
+            position->z.w.i = z;
         }
         render_sprite = object->sprite;
         render_sprite->scale_y = 0x1000;
@@ -667,33 +600,30 @@ typedef struct {
 } OffsetYZ;
 
 /* Creates an effect at a randomized offset from the origin and initializes its rendering data. */
-void create_origin_following_fade_sprite(void *unused_0, void *origin_data, SpriteFrameState *unused_2, s32 offset_x, OffsetYZ offset_yz) {
+void create_origin_following_fade_sprite(void *unused_0, ObjectPosition *origin, SpriteFrameState *unused_2, s32 offset_x, OffsetYZ offset_yz) {
     u16 jittered_x;
-    void *effect_arg;
     u16 coord;
     s32 random_value;
     SpriteFrameState *render_data;
     OriginFollowingFadeSpriteBody *effect_state;
     ObjectNodeHeader *effect;
-    MovingPosition *origin = origin_data;
     s32 initial_y = offset_yz.y;
     s32 initial_z = offset_yz.z;
     effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
-        effect_arg = effect;
         effect_state = NODE_BODY(effect);
         effect_state->ticks_remaining = 0x1E;
         effect_state->fade_divisor = 0x1E;
         effect_state->offset_x = offset_x;
-        effect_state->offset_y = (u16) initial_y;
-        effect_state->offset_z = (u16) initial_z;
+        effect_state->offset_y = initial_y;
+        effect_state->offset_z = initial_z;
         effect_state->base_position = origin;
         effect->update_callback = follow_origin_and_fade_sprite;
-        register_node(effect_arg, project_sprite_chain);
+        register_node(effect, project_sprite_chain);
         render_data = effect->sprite;
         render_data->tpage_abr = 0x20;
         render_data->depth_bias = 6;
-        render_data->flags = (u16) (render_data->flags | 0xC);
+        render_data->flags |= 0xC;
         offset_x = (s32)effect->position;
         random_value = rand();
         coord = effect_state->offset_x;
@@ -709,19 +639,19 @@ void create_origin_following_fade_sprite(void *unused_0, void *origin_data, Spri
         coord -= 0x10;
         effect_state->offset_z = coord + (random_value & 0x1F);
         ((MovingPosition *)offset_x)->x = jittered_x;
-        ((MovingPosition *)offset_x)->y = (u16) effect_state->offset_y;
-        ((MovingPosition *)offset_x)->z = (u16) effect_state->offset_z;
-        ((MovingPosition *)offset_x)->x = (u16) (((MovingPosition *)offset_x)->x + origin->x);
-        ((MovingPosition *)offset_x)->y = (u16) (((MovingPosition *)offset_x)->y + origin->y);
-        ((MovingPosition *)offset_x)->z = (u16) (((MovingPosition *)offset_x)->z + origin->z);
+        ((MovingPosition *)offset_x)->y = effect_state->offset_y;
+        ((MovingPosition *)offset_x)->z = effect_state->offset_z;
+        ((MovingPosition *)offset_x)->x += origin->x.w.i;
+        ((MovingPosition *)offset_x)->y += origin->y.w.i;
+        ((MovingPosition *)offset_x)->z += origin->z.w.i;
         render_data = effect->sprite;
         render_data->scale_y = 0x800;
         render_data->scale_x = 0x800;
         render_data->color.c.b = 0x80;
         render_data->color.c.g = 0x80;
         render_data->color.c.r = 0x80;
-        memcpy((u8 *) effect + 0xA2,  &D_80025FE8, 12);
-        render_data->source = (((void *)effect) + 0xA2);
+        memcpy(effect_state->sprite_source, &D_80025FE8, sizeof(effect_state->sprite_source));
+        render_data->source = effect_state->sprite_source;
     }
 }
 
@@ -740,35 +670,7 @@ typedef struct S_8197192C_4 {
     u16 unk_00;
 } S_8197192C_4;   /* D_80025FF4 in run_fading_sprite_sequence */
 
-typedef struct S_8197192C_7 {
-    u8 pad_00[0xC];
-    u32 unk_0C;
-    u32 unk_10;
-    u32 unk_14;
-    u32 unk_18;
-    u32 unk_1C;
-    u32 unk_20;
-    u32 unk_24;
-    u32 unk_28;
-    u8 pad_2C[0xC];
-    u16 unk_38;
-    u16 unk_3A;
-    u8 pad_3C[0x10];
-    u16 unk_4C;
-    u16 unk_4E;
-    u16 unk_50;
-    u16 unk_52;
-    u16 unk_54;
-    u16 unk_56;
-    u16 unk_58;
-    u16 unk_5A;
-    u16 unk_5C;
-    u16 unk_5E;
-    u16 unk_60;
-    u16 unk_62;
-} S_8197192C_7;   /* work in run_fading_sprite_sequence */
-
-   /* part in run_fading_sprite_sequence */
+/* part in run_fading_sprite_sequence */
 
 typedef struct S_8197192C_9 {
     u8 pad_00[0x2];
@@ -797,9 +699,6 @@ typedef struct S_8197192C_12 {
 
 
 
-typedef struct {
-    u8 bytes[12];
-} Data12;
 
 /* These data objects are present in the retail image but are not in the
  * current symbol catalog.  Keep the bindings narrow: they are not local
@@ -814,7 +713,7 @@ extern s32 rand(void);
 void run_fading_sprite_sequence(FadingSpriteSequenceBody *effect, void *owner, void *context_arg)
 {
     ObjectPosition *position;
-    S_8197192C_7 *effect_data_m;
+    FadingSequenceChildBody *effect_data_m;
     ObjectNodeHeader *effect_obj;
     u32 state;
     MovingPosition *state_2;
@@ -905,8 +804,8 @@ void run_fading_sprite_sequence(FadingSpriteSequenceBody *effect, void *owner, v
                     effect_obj = allocate_flagged_object_node(0x212);
                     if (effect_obj != 0) {
                         effect_data_m = NODE_BODY(effect_obj);
-                        effect_data_m->unk_38 = 20;
-                        effect_data_m->unk_3A = 20;
+                        effect_data_m->ticks_left = 20;
+                        effect_data_m->duration = 20;
                         effect_obj->update_callback = (void *)pulse_timed_visual_brightness;
                         register_node(effect_obj, project_sprite_chain);
                         sprite = effect_obj->sprite;
@@ -926,8 +825,8 @@ void run_fading_sprite_sequence(FadingSpriteSequenceBody *effect, void *owner, v
                         sprite->color.c.b = 0x20;
                         sprite->color.c.g = 0x20;
                         sprite->color.c.r = 0x20;
-                        *(Data12 *)((u8 *)effect_obj + 0xA2) = D_80025FD0;
-                        sprite->source = (u8 *)effect_obj + 0xA2;
+                        effect_data_m->sprite_source = D_80025FD0;
+                        sprite->source = effect_data_m->sprite_source.bytes;
                     }
                 }
             }
@@ -999,7 +898,7 @@ void run_fading_sprite_sequence(FadingSpriteSequenceBody *effect, void *owner, v
             }
 
             if ((s16)effect->unk_2C == 4) {
-                S_8197192C_7 *effect_data;
+                FadingSequenceChildBody *effect_data;
                 effect_obj = allocate_flagged_object_node(0x212);
                 effect_data = NODE_BODY(effect_obj);
                 if (effect_obj != 0) {
@@ -1009,33 +908,33 @@ void run_fading_sprite_sequence(FadingSpriteSequenceBody *effect, void *owner, v
                     light_color_2 = 0x00E0E0E0;
                     dark_color = 0x00804020;
                     init_data = (void *)draw_linked_records_zero_depth_bias;
-                    effect_data->unk_1C = light_color_2;
-                    effect_data->unk_24 = dark_color;
-                    effect_data->unk_28 = dark_color;
-                    effect_data->unk_20 = light_color_2;
-                    effect_data->unk_38 = 20;
-                    effect_data->unk_3A = 20;
-                    effect_data->unk_0C = effect_data->unk_1C;
-                    effect_data->unk_10 = effect_data->unk_20;
-                    effect_data->unk_14 = effect_data->unk_24;
-                    effect_data->unk_18 = effect_data->unk_28;
+                    effect_data->initial_colors[0].word = light_color_2;
+                    effect_data->initial_colors[2].word = dark_color;
+                    effect_data->initial_colors[3].word = dark_color;
+                    effect_data->initial_colors[1].word = light_color_2;
+                    effect_data->ticks_left = 20;
+                    effect_data->duration = 20;
+                    effect_data->colors[0].word = effect_data->initial_colors[0].word;
+                    effect_data->colors[1].word = effect_data->initial_colors[1].word;
+                    effect_data->colors[2].word = effect_data->initial_colors[2].word;
+                    effect_data->colors[3].word = effect_data->initial_colors[3].word;
                     effect_obj->update_callback = (void *)fade_timed_quad_vertices;
                     register_node(effect_obj, init_data);
                     sprite = effect_obj->sprite;
                     sprite->tpage_abr = 0x20;
                     sprite->flags = sprite->flags | 0x0C;
-                    effect_data->unk_4C = effect->unk_58;
-                    effect_data->unk_4E = effect->unk_5A;
-                    effect_data->unk_50 = effect->unk_5C;
-                    effect_data->unk_52 = effect->unk_4C;
-                    effect_data->unk_54 = effect->unk_4E;
-                    effect_data->unk_56 = effect->unk_50;
-                    effect_data->unk_58 = effect->unk_5E;
-                    effect_data->unk_5A = effect->unk_60;
-                    effect_data->unk_5C = effect->unk_62;
-                    effect_data->unk_5E = effect->unk_52;
-                    effect_data->unk_60 = effect->unk_54;
-                    effect_data->unk_62 = effect->unk_56;
+                    effect_data->vertices[0].x = effect->unk_58;
+                    effect_data->vertices[0].y = effect->unk_5A;
+                    effect_data->vertices[0].z = effect->unk_5C;
+                    effect_data->vertices[1].x = effect->unk_4C;
+                    effect_data->vertices[1].y = effect->unk_4E;
+                    effect_data->vertices[1].z = effect->unk_50;
+                    effect_data->vertices[2].x = effect->unk_5E;
+                    effect_data->vertices[2].y = effect->unk_60;
+                    effect_data->vertices[2].z = effect->unk_62;
+                    effect_data->vertices[3].x = effect->unk_52;
+                    effect_data->vertices[3].y = effect->unk_54;
+                    effect_data->vertices[3].z = effect->unk_56;
                     position = effect_obj->position;
                     position->x.w.i = effect->unk_7C;
                     position->y.w.i = effect->unk_7E;
@@ -1046,12 +945,12 @@ void run_fading_sprite_sequence(FadingSpriteSequenceBody *effect, void *owner, v
                     sprite->color.c.b = 0x80;
                     sprite->color.c.g = 0x80;
                     sprite->color.c.r = 0x80;
-                    *(Data12 *)((u8 *)effect_obj + 0xA2) = visible_quad_payload_template;
-                    sprite->source = (u8 *)effect_obj + 0xA2;
+                    effect_data->sprite_source = visible_quad_payload_template;
+                    sprite->source = effect_data->sprite_source.bytes;
                 }
             }
             if ((s16)effect->unk_2C == 2) {
-                S_8197192C_7 *effect_data;
+                FadingSequenceChildBody *effect_data;
                 effect_obj = allocate_flagged_object_node(0x212);
                 effect_data = NODE_BODY(effect_obj);
                 if (effect_obj != 0) {
@@ -1061,33 +960,33 @@ void run_fading_sprite_sequence(FadingSpriteSequenceBody *effect, void *owner, v
                     light_color = 0x00E0E0E0;
                     dark_color = 0x00804020;
                     init_data = (void *)draw_linked_records_zero_depth_bias;
-                    effect_data->unk_1C = light_color;
-                    effect_data->unk_24 = dark_color;
-                    effect_data->unk_28 = dark_color;
-                    effect_data->unk_20 = light_color;
-                    effect_data->unk_38 = 20;
-                    effect_data->unk_3A = 20;
-                    effect_data->unk_0C = effect_data->unk_1C;
-                    effect_data->unk_10 = effect_data->unk_20;
-                    effect_data->unk_14 = effect_data->unk_24;
-                    effect_data->unk_18 = effect_data->unk_28;
+                    effect_data->initial_colors[0].word = light_color;
+                    effect_data->initial_colors[2].word = dark_color;
+                    effect_data->initial_colors[3].word = dark_color;
+                    effect_data->initial_colors[1].word = light_color;
+                    effect_data->ticks_left = 20;
+                    effect_data->duration = 20;
+                    effect_data->colors[0].word = effect_data->initial_colors[0].word;
+                    effect_data->colors[1].word = effect_data->initial_colors[1].word;
+                    effect_data->colors[2].word = effect_data->initial_colors[2].word;
+                    effect_data->colors[3].word = effect_data->initial_colors[3].word;
                     effect_obj->update_callback = (void *)fade_timed_quad_vertices;
                     register_node(effect_obj, init_data);
                     sprite = effect_obj->sprite;
                     sprite->tpage_abr = 0x20;
                     sprite->flags = sprite->flags | 0x0C;
-                    effect_data->unk_4C = effect->unk_64;
-                    effect_data->unk_4E = effect->unk_66;
-                    effect_data->unk_50 = effect->unk_68;
-                    effect_data->unk_52 = effect->unk_58;
-                    effect_data->unk_54 = effect->unk_5A;
-                    effect_data->unk_56 = effect->unk_5C;
-                    effect_data->unk_58 = effect->unk_6A;
-                    effect_data->unk_5A = effect->unk_6C;
-                    effect_data->unk_5C = effect->unk_6E;
-                    effect_data->unk_5E = effect->unk_5E;
-                    effect_data->unk_60 = effect->unk_60;
-                    effect_data->unk_62 = effect->unk_62;
+                    effect_data->vertices[0].x = effect->unk_64;
+                    effect_data->vertices[0].y = effect->unk_66;
+                    effect_data->vertices[0].z = effect->unk_68;
+                    effect_data->vertices[1].x = effect->unk_58;
+                    effect_data->vertices[1].y = effect->unk_5A;
+                    effect_data->vertices[1].z = effect->unk_5C;
+                    effect_data->vertices[2].x = effect->unk_6A;
+                    effect_data->vertices[2].y = effect->unk_6C;
+                    effect_data->vertices[2].z = effect->unk_6E;
+                    effect_data->vertices[3].x = effect->unk_5E;
+                    effect_data->vertices[3].y = effect->unk_60;
+                    effect_data->vertices[3].z = effect->unk_62;
                     position = effect_obj->position;
                     position->x.w.i = effect->unk_7C;
                     position->y.w.i = effect->unk_7E;
@@ -1098,8 +997,8 @@ void run_fading_sprite_sequence(FadingSpriteSequenceBody *effect, void *owner, v
                     sprite->color.c.b = 0x80;
                     sprite->color.c.g = 0x80;
                     sprite->color.c.r = 0x80;
-                    *(Data12 *)((u8 *)effect_obj + 0xA2) = visible_quad_payload_template;
-                    sprite->source = (u8 *)effect_obj + 0xA2;
+                    effect_data->sprite_source = visible_quad_payload_template;
+                    sprite->source = effect_data->sprite_source.bytes;
                 }
             }
             if ((s16)effect->unk_2C == 1) {
@@ -1111,33 +1010,33 @@ void run_fading_sprite_sequence(FadingSpriteSequenceBody *effect, void *owner, v
                     light_color = 0x00E0E0E0;
                     dark_color = 0x00804020;
                     init_data = (void *)draw_linked_records_zero_depth_bias;
-                    effect_data_m->unk_1C = light_color;
-                    effect_data_m->unk_24 = dark_color;
-                    effect_data_m->unk_28 = dark_color;
-                    effect_data_m->unk_20 = light_color;
-                    effect_data_m->unk_38 = 20;
-                    effect_data_m->unk_3A = 20;
-                    effect_data_m->unk_0C = effect_data_m->unk_1C;
-                    effect_data_m->unk_10 = effect_data_m->unk_20;
-                    effect_data_m->unk_14 = effect_data_m->unk_24;
-                    effect_data_m->unk_18 = effect_data_m->unk_28;
+                    effect_data_m->initial_colors[0].word = light_color;
+                    effect_data_m->initial_colors[2].word = dark_color;
+                    effect_data_m->initial_colors[3].word = dark_color;
+                    effect_data_m->initial_colors[1].word = light_color;
+                    effect_data_m->ticks_left = 20;
+                    effect_data_m->duration = 20;
+                    effect_data_m->colors[0].word = effect_data_m->initial_colors[0].word;
+                    effect_data_m->colors[1].word = effect_data_m->initial_colors[1].word;
+                    effect_data_m->colors[2].word = effect_data_m->initial_colors[2].word;
+                    effect_data_m->colors[3].word = effect_data_m->initial_colors[3].word;
                     effect_obj->update_callback = (void *)fade_timed_quad_vertices;
                     register_node(effect_obj, init_data);
                     sprite = effect_obj->sprite;
                     sprite->tpage_abr = 0x20;
                     sprite->flags = sprite->flags | 0x0C;
-                    effect_data_m->unk_4C = effect->unk_70;
-                    effect_data_m->unk_4E = effect->unk_72;
-                    effect_data_m->unk_50 = effect->unk_74;
-                    effect_data_m->unk_52 = effect->unk_64;
-                    effect_data_m->unk_54 = effect->unk_66;
-                    effect_data_m->unk_56 = effect->unk_68;
-                    effect_data_m->unk_58 = effect->unk_76;
-                    effect_data_m->unk_5A = effect->unk_78;
-                    effect_data_m->unk_5C = effect->unk_7A;
-                    effect_data_m->unk_5E = effect->unk_6A;
-                    effect_data_m->unk_60 = effect->unk_6C;
-                    effect_data_m->unk_62 = effect->unk_6E;
+                    effect_data_m->vertices[0].x = effect->unk_70;
+                    effect_data_m->vertices[0].y = effect->unk_72;
+                    effect_data_m->vertices[0].z = effect->unk_74;
+                    effect_data_m->vertices[1].x = effect->unk_64;
+                    effect_data_m->vertices[1].y = effect->unk_66;
+                    effect_data_m->vertices[1].z = effect->unk_68;
+                    effect_data_m->vertices[2].x = effect->unk_76;
+                    effect_data_m->vertices[2].y = effect->unk_78;
+                    effect_data_m->vertices[2].z = effect->unk_7A;
+                    effect_data_m->vertices[3].x = effect->unk_6A;
+                    effect_data_m->vertices[3].y = effect->unk_6C;
+                    effect_data_m->vertices[3].z = effect->unk_6E;
                     position = effect_obj->position;
                     position->x.w.i = effect->unk_7C;
                     position->y.w.i = effect->unk_7E;
@@ -1148,8 +1047,8 @@ void run_fading_sprite_sequence(FadingSpriteSequenceBody *effect, void *owner, v
                     sprite->color.c.b = 0x80;
                     sprite->color.c.g = 0x80;
                     sprite->color.c.r = 0x80;
-                    *(Data12 *)((u8 *)effect_obj + 0xA2) = visible_quad_payload_template;
-                    sprite->source = (u8 *)effect_obj + 0xA2;
+                    effect_data_m->sprite_source = visible_quad_payload_template;
+                    sprite->source = effect_data_m->sprite_source.bytes;
                 }
             }
 

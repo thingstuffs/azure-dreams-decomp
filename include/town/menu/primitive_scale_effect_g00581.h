@@ -14,6 +14,6 @@
 extern u8 D_800A79F0[12];
 
 /* Functions defined in this translation unit. */
-void initialize_neutral_primitive(TownObjectRecord *object, void *unused, SpriteFrameState *primitive);
+void initialize_neutral_primitive(TownObjectRecord *object, ObjectPosition *unused_position, SpriteFrameState *primitive);
 
 #endif

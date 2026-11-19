@@ -11,15 +11,8 @@
 #define NULL 0
 #endif
 
-/* The position access view occupies the first 12 bytes of each
- * 16-byte data-bank slot; the final word is retained as live unknown bytes. */
-typedef struct CatalogPartPositionSlot {
-    ItemMenuPartPosition position;
-    u8 unk_0C[4];
-} CatalogPartPositionSlot;
-
 extern ItemMenuPart D_801298B8[98];
-extern CatalogPartPositionSlot D_80129ED8[98];
+extern ItemMenuPartPosition D_80129ED8[98];
 extern DisplayPositionWords D_8012A4F8[98];
 
 
@@ -28,7 +21,7 @@ extern DisplayPositionWords D_8012A4F8[98];
 s32 initialize_catalog_display_nodes(CatalogDisplay *context) {
     ItemMenuPart **node_slot;
     ItemMenuPart *node;
-    CatalogPartPositionSlot *node_data;
+    ItemMenuPartPosition *node_data;
     DisplayPositionWords *node_aux;
     ItemMenuPart *prev_node;
     s32 node_count;
@@ -42,7 +35,7 @@ s32 initialize_catalog_display_nodes(CatalogDisplay *context) {
     node = D_801298B8;
     do {
         *node_slot = node;
-        node->position = &node_data->position;
+        node->position = node_data;
         node_data += 1;
         node += 1;
         node_count += 1;

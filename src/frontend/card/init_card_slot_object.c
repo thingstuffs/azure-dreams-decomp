@@ -23,7 +23,7 @@ typedef struct S_800206C8_0 {
 typedef struct S_800206C8_1 {
     u8 pad_00[0x5C];
     s32 unk_5C;
-    s32 unk_60;
+    struct CardDevSlotEntry **entry_table;
 } S_800206C8_1;   /* slot_state in func_800206C8 */
 
 /* Initializes the memory card slot object and its working state. */
@@ -48,7 +48,7 @@ void *init_card_slot_object(s32 init_option)
     }
     func_804075D0(slot_state, 4);
     base->unk_0C = (s32)(unsigned long)((u8 *)slot_state + 0x50);
-    slot_state->unk_5C = card_dev_bind_slot_rows_template(slot_state->unk_60);
+    slot_state->unk_5C = card_dev_bind_slot_rows_template(slot_state->entry_table);
     func_80407688(slot_state, init_option);
     base->unk_10 = (s32)(unsigned long)D_80407298;
     return base;

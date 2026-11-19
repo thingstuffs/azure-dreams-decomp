@@ -1,15 +1,10 @@
 #include "common.h"
+#include "town/scene/indexed_values_data.h"
 #include "town/scene/entry_output.h"
 #include "town/scene.h"
 #include "town/scene/motion.h"
 #include "town/scene/component_values_data.h"
 
-typedef struct Entry {
-    u32 value;
-    s32 unused[2];
-} Entry;
-
-extern Entry town_selection_records[8];
 extern s32 D_80017AAC[];
 extern s32 D_80017BD8[13];
 

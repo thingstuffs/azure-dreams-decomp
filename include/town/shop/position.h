@@ -12,7 +12,6 @@
 
 struct S_8009EE9C_0;
 struct S_8009F1C0_0;
-struct S_8009F374_2;
 struct S_800B5264_0;
 struct S_800B6C94_0;
 struct ShopWindow;
@@ -39,12 +38,12 @@ void update_item_menu_page_bounds(ItemMenuObject *obj);
 
 /* update_position_displacement_dispatch_active_entity_handler_g01131.c */
 void bob_entity_and_dispatch_handler(Rec_func_8009EE9C_arg0 *entity, s32 entity_id, struct S_8009EE9C_0 *motion, struct SpriteFrameState *context);
-void move_entity_toward_view_reference(void *entity, s32 context, ObjectPosition *motion, s32 mode);
-void start_entity_bob(void *entity, void *state, void *transform, s32 unused);
+void move_entity_toward_view_reference(TownObjectRecord *entity, TownObjectRecord *state, ObjectPosition *motion, struct SpriteFrameState *sprite);
+void start_entity_bob(TownObjectRecord *entity, TownObjectRecord *state, ObjectPosition *position, struct SpriteFrameState *unused_sprite);
 void start_slot_entity_move_toward_view(Rec_func_8009EE9C_arg0 *entity, struct S_8009F1C0_0 *action, void *unused_motion, struct SpriteFrameState *unused_context);
 s32 get_target_itemp(void);
 void bob_entity_and_wait_for_event(void *state, s32 event_id, DelayMotionZ *target, struct SpriteFrameState *context);
-void jitter_and_pulse_entity_scale(Rec_D_800CFCB4 *state, s32 context, EntityRec *position, struct S_8009F374_2 *scale);
+void jitter_and_pulse_entity_scale(TownObjectRecord *entity, TownObjectRecord *state, ObjectPosition *position, struct SpriteFrameState *sprite);
 void unlink_entity_and_set_bob_handler(Rec_func_8009EE9C_arg0 *record, s32 value, void *unused_motion, struct SpriteFrameState *unused_context);
 void snapshot_entity_slot_and_start_jitter(TownObjectRecord *entity, s32 unused_arg1, s32 unused_arg2, void *context);
 

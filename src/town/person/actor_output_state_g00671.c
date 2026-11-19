@@ -6,7 +6,7 @@
 /* Set the object value to its base plus the source value minus 76. */
 void set_object_z_from_lookup(Rec_func_800AB030_arg0 *source, ObjectPosition *object) {
     s32 value_offset;
-    s32 base_value;
+    s16 base_value;
 
     base_value = query_lowered_transform_position(object);
     value_offset = advance_person_sine_offset(source);

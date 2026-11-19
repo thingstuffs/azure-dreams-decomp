@@ -18,12 +18,6 @@ typedef struct {
 } Page8001FieldView_81337E8C;
 
 
-typedef struct S_8016EE8C_0 {
-    u8 pad_00[0xAB];
-    s8 unk_AB;
-    u8 pad_AC[0x3];
-    s8 unk_AF;
-} S_8016EE8C_0;
 
 typedef struct S_8016EE8C_1 {
     u8 pad_00[0x296C];
@@ -48,14 +42,13 @@ typedef struct S_8016EE8C_4 {
 void unlink_entity_node();                         /* extern */
 extern s32 D_80173C94;
 extern u8 *D_80173D5C;
-extern u8 *beldo_actor_nodes[3];
 
 /* Reset shared state and update the two occupied object slots. */
 void begin_multi_form_ring_script(void) {
     s32 object_data;
     s32 slot_offset;
     s32 slot_index;
-    S_8016EE8C_0 *active_data;
+    BeldoScriptControl *active_data;
     void *page_8001;
     S_8016EE8C_1 *page_800e;
     S_8016EE8C_4 *object_header;
@@ -63,8 +56,8 @@ void begin_multi_form_ring_script(void) {
     slot_index = 0;
     page_8001 = (void *)0x80010000;
     page_800e = (void *)0x800E0000;
-    active_data = (S_8016EE8C_0 *)(beldo_actor_nodes[0] + 0x20);
-    active_data->unk_AF = 1;
+    active_data = NODE_BODY(beldo_actor_nodes);
+    active_data->script_active = 1;
     (((Page8001FieldView_81337E8C *)page_8001)->field_371A) = 0;
     (((Page8001FieldView_81337E8C *)page_8001)->field_3718) = 0;
     (((Page8001FieldView_81337E8C *)page_8001)->field_3716) = 0;
@@ -74,7 +67,7 @@ void begin_multi_form_ring_script(void) {
     ((S_8016EE8C_2 *)page_8001)->unk_3714 = (u16) ((((S_8016EE8C_2 *)page_8001)->unk_3714 | 9) & 0xFFEF);
     ((S_8016EE8C_2 *)page_8001)->unk_371C = (s32) D_80173C94;
     encounter_script_cursor = D_80173D5C;
-    active_data->unk_AB = 0;
+    active_data->script_index = 0;
     do {
         slot_offset = slot_index * 4;
         object_data = ((ActorRecord *)((slot_offset + ((EntityRec *)(((s32 *)&dungeon_actor_ring_anchor)))->x.v)))->unk_AC.value;

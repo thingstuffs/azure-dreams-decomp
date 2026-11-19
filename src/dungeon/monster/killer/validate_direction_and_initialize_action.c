@@ -1,4 +1,6 @@
 #include "dungeon/player/object.h"
+#include "dungeon/item/get_actor_height_difference_api.h"
+#include "dungeon/item/actor_target.h"
 #include "shared/entity.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
@@ -51,16 +53,14 @@ typedef struct {
 #include "dungeon/effect.h"
 
 extern struct Ent *prepare_directional_attack(void *, void *, s16, s32, void *);
-extern s32 get_actor_height_difference(s32, void *);
-extern s32 probe_directional_neighbor(void *, u8, u8, s16); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern s32 check_entity_interaction_compatibility(void *, s32);
 
 /* Validates the actor's direction and state, then initializes its action and animation. */
 s32 validate_direction_and_initialize_action(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *sprite, ActorRecord *actor) {
     DungeonGlobalStatus *flags_base;
     u8 *direction_frames;
     u16 flags;
-    s32 target_angle;
+    ActorRecord *neighbor;
+    u16 relative_height;
     s32 result;
 
     actor->movement_queue_state &= 0x7F;
@@ -70,8 +70,8 @@ s32 validate_direction_and_initialize_action(ActorRecord *action_state, ObjectPo
         return -1;
     }
 
-    target_angle = probe_directional_neighbor(actor, sprite->tile_x, sprite->tile_y, actor->facing);
-    if ((check_entity_interaction_compatibility(actor, target_angle) << 16) == 0) {
+    neighbor = probe_directional_neighbor(actor, sprite->tile_x, sprite->tile_y, actor->facing);
+    if ((check_entity_interaction_compatibility(actor, neighbor) << 16) == 0) {
         return result;
     }
 
@@ -83,7 +83,8 @@ s32 validate_direction_and_initialize_action(ActorRecord *action_state, ObjectPo
         return -1;
     }
 
-    if ((u32)((0 - get_actor_height_difference(target_angle, actor) + 0x40) & 0xFFFF) >= 0x81U) {
+    relative_height = -get_actor_height_difference(neighbor, actor);
+    if ((u16)(relative_height + 0x40) >= 0x81U) {
         return result;
     }
     result = 1;

@@ -1,7 +1,7 @@
 #include "common.h"
 #include "frontend/card.h"
 
-void func_80403F1C(void *, s32, s32);       /* extern */
+u8 *func_80403F1C(u8 *packets, s32 width, s32 height);       /* extern */
 void position_selected_entry_content(u8 *screen);                       /* extern */
 
 /* Absolute anchor for a table of 128-byte records; the two fields accessed here

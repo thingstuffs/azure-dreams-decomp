@@ -6,21 +6,21 @@
 #include "town/player.h"
 
 #include "town/person/object_setup.h"
-void func_800CDE9C(void *object, EntityRec *unusedArg, void *initValue);     /* extern */
-s32 func_800CDFF8();
+void func_800CDE9C(TownObjectRecord *object, ObjectPosition *unusedArg, SpriteFrameState *initValue);     /* extern */
+void func_800CDFF8(TownObjectRecord *actor, ObjectPosition *state, SpriteFrameState *output);
 
 /* Update spin and vertical motion, then handle ground contact and remaining bounces. */
-void update_spin_vertical_motion_and_bounces(TownObjectRecord *entity, EntityRec *motion, void *context) {
+void update_spin_vertical_motion_and_bounces(TownObjectRecord *entity, ObjectPosition *motion, SpriteFrameState *context) {
     s16 remaining_bounces;
 
     entity->heading = (u16) (((u16)entity->heading) + 0x400);
-    motion->z.v = (s32) (motion->z.v + motion->flags14);
+    motion->z.v = (s32) (motion->z.v + motion->velocity_z);
     if (query_lowered_transform_position(motion) < motion->z.w.i) {
         motion->z.w.i = query_lowered_transform_position(motion);
         remaining_bounces = entity->unk_90 - 1;
         entity->unk_90 = remaining_bounces;
         if (remaining_bounces <= 0) {
-            motion->flags14 = 0;
+            motion->velocity_z = 0;
             entity->heading = (u16) entity->unk_6E;
             func_800CDE9C(entity, motion, context);
             return;

@@ -1,4 +1,6 @@
 #include "shared/audio_commands.h"
+#include "shared/sound_state.h"
+#include "shared/dungeon_height_query.h"
 #include "dungeon/effect/sprite/ribbon_entries.h"
 #include "sdk/abs.h"
 #include "sdk/rand.h"
@@ -77,10 +79,9 @@ typedef struct S_807AE960_6 {
 void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
 int read_stream_cue_start_offset(void);
 s32 read_sound_mode_blocking_status(s32 mode);
-extern s32 cd_cue_base;
 
 /* Dispatch the CD-audio fade state machine, then step the actor's shake counter and raise the finished flag. */
-void update_view_marker_rotation(SlotViewMarkerBody *state, ObjectPosition *position, SpriteFrameState *target) {
+void update_view_marker_rotation(SlotViewMarkerBody *state, ObjectPosition *position, LitMeshSprite *target) {
     s16 steps;
     s32 dispatch_index;
     s16 remaining;
@@ -111,14 +112,14 @@ void update_view_marker_rotation(SlotViewMarkerBody *state, ObjectPosition *posi
         break;
     case 17:
         state->unk_0A = 0x400;
-        target->angle_z = (s16) (u16) state->unk_0A;
+        target->rotation[2] = (s16) (u16) state->unk_0A;
         state->unk_00 = 0;
         break;
     case 3:
         steps = state->unk_04;
         if (steps > 0) {
-            target->angle_z = (s16) ((u16) target->angle_z
-                + ((s32) (state->unk_0A - (s16)target->angle_z) / steps));
+            target->rotation[2] = (s16) ((u16) target->rotation[2]
+                + ((s32) (state->unk_0A - (s16)target->rotation[2]) / steps));
         }
         remaining = (u16) state->unk_04 - 1;
         state->unk_04 = remaining;
@@ -145,7 +146,7 @@ void update_view_marker_rotation(SlotViewMarkerBody *state, ObjectPosition *posi
                 g_dungeon_status.activity_counts.parts.pending_action_count = 0;
             }
         }
-        target->angle_z = (s16) (u16) state->unk_0A;
+        target->rotation[2] = (s16) (u16) state->unk_0A;
         state->unk_00 = 0;
         break;
     case 4:
@@ -195,7 +196,8 @@ void update_view_marker_rotation(SlotViewMarkerBody *state, ObjectPosition *posi
 
 const DirectionOffsets dungeon_7ce800_directions = {1,0,1,1,0,1,-1,1,-1,0,-1,-1,0,-1,1,-1};
 
-s32 draw_linked_lit_meshes(void *,void *,SpriteFrameState *);
+struct ObjectPosition;
+s32 draw_linked_lit_meshes(void *body, struct ObjectPosition *position, struct SpriteFrameState *sprite);
 
 /* Creates a dungeon object at the given position and records it in its slot. */
 void create_slot_positioned_effect(s16 x, s16 y, s32 slot) {
@@ -203,21 +205,21 @@ void create_slot_positioned_effect(s16 x, s16 y, s32 slot) {
     s32 render_config;
     SlotViewMarkerBody *object_data;
     ObjectPosition *position;
-    SpriteFrameState *model;
+    LitMeshSprite *model;
     ObjectNodeHeader *object;
 
     object = allocate_flagged_object_node(0x16);
     if (object != NULL) {
-        object->update_callback = (void *)update_view_marker_rotation;
+        object->update_callback = update_view_marker_rotation;
         register_node(object, draw_linked_lit_meshes);
         render_config = default_textured_quad_color[0];
-        model = object->sprite;
-        (*(s16 *)((u8 *)model + 0x20)) = 0x1000;
-        model->scale_y = 0x1000;
-        model->scale_x = 0x1000;
+        model = (LitMeshSprite *)object->sprite;
+        model->scale[2] = 0x1000;
+        model->scale[1] = 0x1000;
+        model->scale[0] = 0x1000;
         model->depth_bias = 4;
         model->color.word = render_config;
-        model->source = 0x70;
+        model->mesh_index = 0x70;
         position = object->position;
         position->x.w.i = x;
         position->y.w.i = y;
@@ -231,9 +233,9 @@ void create_slot_positioned_effect(s16 x, s16 y, s32 slot) {
         } while (0);
         if (slot != 0) {
             object_data->unk_02 = 0x800;
-            model->angle_z = 0x800;
+            model->rotation[2] = 0x800;
         }
-        view_marker_slots[slot] = (s16 *)object_data;
+        view_marker_slots[slot] = object_data;
         object_data->unk_10 = slot;
     }
 }
@@ -247,9 +249,9 @@ extern s32 D_80013718;
 /* Update both state targets and set flags when the mode is 3. */
 void trigger_view_marker_rotation(void *data)
 {
-    s16 **state_slot;
-    s16 **state_table;
-    s16 *state_ptr;
+    SlotViewMarkerBody **state_slot;
+    SlotViewMarkerBody **state_table;
+    SlotViewMarkerBody *state_ptr;
     s16 state;
     s32 slot_index;
     DungeonGlobalStatus *flags;
@@ -266,7 +268,7 @@ void trigger_view_marker_rotation(void *data)
                 if (flags->flags & 0x80) {
                     state = 0x14;
                 }
-                *state_ptr = state;
+                state_ptr->unk_00 = state;
             }
             slot_index -= 1;
             state_slot -= 1;
@@ -322,14 +324,14 @@ struct S_10 {
 
 /* Initializes effect state and sets the high flag bit on three adjacent entries. */
 void start_view_marker_transition(void) {
-    s16 **state_slot;
-    s16 *state_value;
+    SlotViewMarkerBody **state_slot;
+    SlotViewMarkerBody *state_value;
     s32 entries_base;
     s32 index;
     GameWork *world_state;
     s16 *entry_info;
     RuntimeDispatchState *effect_state;
-    s16 **state_table;
+    SlotViewMarkerBody **state_table;
     s32 state_code;
     u16 entry_flags;
     S_800F65CC_0 *effect;
@@ -349,7 +351,7 @@ void start_view_marker_transition(void) {
     do {
         state_value = *state_slot;
         if (state_value != 0) {
-            *state_value = state_code;
+            state_value->unk_00 = state_code;
         }
         index -= 1;
         state_slot -= 1;
@@ -1228,7 +1230,6 @@ typedef struct S_807B040C_7 {
 
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
-extern s32 check_left_tile_and_center_height(s32, s32, s16);
 
 /* Move the entity to a passable tile near the room and update tile occupancy. */
 s32 move_actor_beside_player(void) {

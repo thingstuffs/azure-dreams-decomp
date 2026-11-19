@@ -1,4 +1,6 @@
 #include "shared/actor_status_flags.h"
+#include "shared/object_node.h"
+#include "shared/record_ptrs.h"
 #include "common.h"
 #include "dungeon/monster/killer.h"
 #include "shared/sprite_frame_state.h"
@@ -29,7 +31,6 @@ typedef struct S_80173C20_1 {
 
 #include "dungeon/actor/spend_actor_mp_api.h"
 
-extern void *actor_update_node_cursor;
 extern u8 D_80170854[];
 extern u8 D_80170874[];
 extern u8 killer_action_resume_address;
@@ -123,7 +124,7 @@ void advance_killer_jump_attack(ActorRecord *action_record, ObjectPosition *moti
             if (entity_data->unk_6D == 0) {
                 entity_data->unk_46 &= 0x7FFF;
             } else {
-                actor_update_node_cursor = (u8 *)entity_data - 0x20;
+                actor_update_node_cursor = NODE_HEADER(entity_data);
             }
         }
         break;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/state_data.h"
 #include "town/scene.h"
 
 typedef struct {
@@ -11,7 +12,6 @@ typedef struct {
 } TownStruct_800198A4;
 
 extern TownStruct_800198A4 scene_rows[];
-extern s32 selected_scene_row_index;
 
 /* Returns unk8 from the currently selected town entry. */
 s32 get_selected_row_field_8(void) {

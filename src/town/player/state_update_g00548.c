@@ -37,7 +37,7 @@ void advance_player_state_table(Struct8009D814 *state, ObjectPosition *update_ar
     countdown = state->unkA - 1;
     state->unkA = countdown;
     if (countdown <= 0) {
-        dispatch_selected_entry_if_nonzero((s32 *)town_scene_record_handlers, (TownObjectRecord *)state, shared_arg);
+        dispatch_selected_entry_if_nonzero(town_scene_record_handlers, (TownObjectRecord *)state, shared_arg);
         state->unk4 = D_8009AFF4;
     }
     update_player_global_state((Entity *)state, update_arg, shared_arg);

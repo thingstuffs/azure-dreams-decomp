@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/item/actor_target.h"
 
 #include "engine/entity.h"
 
@@ -31,7 +32,6 @@ typedef struct S_800423C0_Obj
 S_800423C0_Obj;
 extern S_800E3E48 familiar_record_storage[];
 extern void copy_entity_record(void *dst, void *src);
-extern s16 find_linked_object_slot_index(void *obj);
 /* Copies source template data, updates object direction fields, and sets a flag. */
 void apply_actor_template_and_direction(S_800423C0_Obj *obj, s16 unused, S_800423C0_Src *source)
 {
@@ -50,7 +50,7 @@ void apply_actor_template_and_direction(S_800423C0_Obj *obj, s16 unused, S_80042
         obj->unk1C &= upper_bits_mask;
         obj->unk14 |= template_entry->unk14 & 7;
         obj->unk1C |= template_entry->unk1C & 7;
-        direction = find_linked_object_slot_index(pinned_obj);
+        direction = (s16)find_linked_object_slot_index(pinned_obj);
         if (direction >= 0) {
             u8 *direction_page;
             u16 *other_direction = (u16 *)0x80012094;

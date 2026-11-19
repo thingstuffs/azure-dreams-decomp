@@ -1,10 +1,12 @@
 #include "frontend/card/message.h"
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
+#include "shared/object_node.h"
+#include "frontend/card/message_display.h"
 
-void *forward_target(u8 *);
-void init_menu_entry_pointers(u8 *, s32);
-void func_80402EBC(u8 *, struct ObjectNodeHeader *, s32, s32, s32);
+s32 forward_target(MenuDisplayNode **entries);
+void init_menu_entry_pointers(CardDevDialogDisplay *, s32);
+void func_80402EBC(CardDevDialogDisplay *, struct ObjectNodeHeader *, s32, s32, s32);
 s32 process_global(s32, u8 *);
 
 typedef struct S_8001BF84_0 {
@@ -13,18 +15,13 @@ typedef struct S_8001BF84_0 {
     s32 unk_10;
 } S_8001BF84_0;   /* root in func_8001BF84 */
 
-typedef struct S_8001BF84_1 {
-    u8 pad_00[0x688];
-    s32 unk_688;
-} S_8001BF84_1;   /* store_base in func_8001BF84 */
-
 /* Initializes or retrieves the memory card message object. */
 u8 *init_card_message_object(struct ObjectNodeHeader *message_param_1, s32 message_param_2, s32 message_param_3, s32 message_param_4)
 {
     s32 result;
-    u8 *store_base;
+    CardDevDialogDisplay *store_base;
     u8 *root = card_message_object;
-    u8 *child = card_message_object + 0x20;
+    CardDevDialogDisplay *child = NODE_BODY(card_message_object);
 
     if (func_80047FD8(root) == 0) {
         root = func_8003C714(0, root, 0x1E1);
@@ -40,10 +37,10 @@ u8 *init_card_message_object(struct ObjectNodeHeader *message_param_1, s32 messa
     }
 
     init_menu_entry_pointers(child, 6);
-    ((S_8001BF84_0 *)root)->unk_0C = (s32)(child + 0x67C);
-    result = (s32)forward_target(child + 0x68C);
+    ((S_8001BF84_0 *)root)->unk_0C = (s32)&child->template_node;
+    result = forward_target(child->entries);
     store_base = child;
-    ((S_8001BF84_1 *)store_base)->unk_688 = result;
+    store_base->template_node.unk_0C = result;
     func_80402EBC(store_base, message_param_1, message_param_2, message_param_3, message_param_4);
     ((S_8001BF84_0 *)root)->unk_10 = (s32)D_80402F04;
     return root;

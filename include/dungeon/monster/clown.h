@@ -1,6 +1,8 @@
 #ifndef DUNGEON_RESOURCE16_SLOT0_H
 #define DUNGEON_RESOURCE16_SLOT0_H
 #include "shared/dungeon_effect_status.h"
+#include "shared/sound_state.h"
+#include "dungeon/globals.h"
 #include "engine/node/registration.h"
 struct ObjectPosition;
 #include "common.h"
@@ -307,7 +309,6 @@ extern u8 D_8017426C[];
 extern u8 D_8017421C[];
 extern u8 D_8017424C[];
 extern u8 D_80174254[];
-extern u8 actor_turn_angle_offsets[];
 extern u8 D_80174214[];
 extern u8 clown_frame_set[];
 extern u8 D_80174244[];
@@ -316,8 +317,6 @@ extern u8 clown_fade_count[];
 #include "dungeon/effect/sprite/shared_entries.h"
 extern u8 D_801742E8[];
 extern u8 resource_completion_callback_address[];
-extern u8 cd_cue_base[];
-extern u8 actor_effect_color_targets[];
 extern u8 dungeon_resource_buffer[];
 extern u8 D_801742CC[];
 extern u8 D_801742D4[];

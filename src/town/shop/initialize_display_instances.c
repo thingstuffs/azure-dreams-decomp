@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/gpu_packets.h"
+#include "shared/menu_display.h"
 
 typedef struct {
     s32 unk0;
@@ -33,20 +33,17 @@ typedef struct {
     Instance12 *unk8;
 } Owner;
 
-extern Template16 display_block_defaults;
-extern DisplayPositionWords display_vector_defaults;
-
 /* Initialize and attach two instances from templates, then apply their default values. */
 void initialize_display_instances(Owner *owner, Template16 *instance16, Instance12 *instance12) {
-    Template16 *template16 = &display_block_defaults;
+    MenuDisplayBlock *template16 = &display_block_defaults;
     DisplayPositionWords *template12 = &display_vector_defaults;
     s32 *header_word;
 
-    instance16->unk0 = template16->unk0;
+    instance16->unk0 = template16->words[0];
     header_word = &template12->unk0;
-    instance16->unk4 = template16->unk4;
-    instance16->unk8 = template16->unk8;
-    instance16->unkC = template16->unkC;
+    instance16->unk4 = template16->words[1];
+    instance16->unk8 = template16->words[2];
+    instance16->unkC = template16->words[3];
 
     instance12->unk0 = *header_word;
     instance12->unk4 = template12->unk4;

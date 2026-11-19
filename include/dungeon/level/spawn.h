@@ -14,20 +14,6 @@
 #include "engine/node.h"
 struct ObjectNodeHeader;
 typedef struct {
-    u8 x;
-    u8 y;
-    s8 pad[10];
-} floor_spawns_isolated_8028B110_DungeonPosition;
-typedef struct {
-    u8 x;
-    u8 y;
-    u8 pad2[2];
-    s16 field4;
-    u8 pad6;
-    u8 field7;
-    s32 field8;
-} floor_spawns_isolated_8028B18C_DungeonRecord;
-typedef struct {
     u16 flags;
     u8 pad2[18];
 } floor_spawns_isolated_8028B18C_DungeonItem;
@@ -73,10 +59,6 @@ typedef struct floor_spawns_isolated_8028BF0C_S_8001EF0C_0 {
     u8 pad_1C[0x27];
     union { u8 s; s8 u; } unk_43;   
 } floor_spawns_isolated_8028BF0C_S_8001EF0C_0;
-typedef struct floor_spawns_isolated_8028BF0C_S_8001EF0C_1 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-} floor_spawns_isolated_8028BF0C_S_8001EF0C_1;
 typedef struct {
     u8 type;
     u8 state;
@@ -101,7 +83,6 @@ extern s32 generate_random_value(void);
 extern s32 find_first_empty_floor_item_slot(void);
 extern s32 get_surface_height_at_coordinates(s32 xCoord, s32 yCoord);
 extern u8 floor_species_pool[];
-extern s16 floor_generation_state[3];
 extern s32 floor_loaded_content_flags[];
 extern s32 test_resident_bit(s16 value);
 extern s32 func_80033BC0(s32);
@@ -131,7 +112,6 @@ void restore_spawns_and_place_floor_traps(void);
 void clear_dungeon_object_entries(void);
 void create_floor_label_sprite(s16 x, s16 y, s16 tinted, s32 render_param);
 void draw_dungeon_value_and_label(void);
-extern u8 dungeon_ground_item_positions[];
 extern u8 floor_special_item_selected[];
 extern u8 item_category_groups[];
 extern s16 current_dungeon_floor;

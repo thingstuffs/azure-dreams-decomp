@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/dungeon_height_query.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_sprite_data.h"
@@ -19,7 +20,6 @@
 
 void select_record_entry_and_value(void *state_data, void *entry_data, short index);
 
-s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 
 
 extern void * find_species_actor_on_tile(ActorRecord *node, u16 key_a, u16 key_b, s16 range_center);

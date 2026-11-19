@@ -7,7 +7,7 @@
  * established. */
 typedef struct CardSlotWindow {
     /* 0x000 */ s32 slot_index;
-    /* 0x004 */ s32 owner;
+    /* 0x004 */ struct ObjectNodeHeader *owner;
     /* 0x008 */ u8 title_glyphs[0x9C];     /* saved name, or the empty-slot message */
     /* 0x0A4 */ u8 alternate_glyphs[0x60];
     /* 0x104 */ u8 value_glyphs[0x30];

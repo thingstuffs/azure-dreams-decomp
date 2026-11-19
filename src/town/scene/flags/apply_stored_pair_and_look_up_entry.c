@@ -1,12 +1,13 @@
 #include "town/scene/event.h"
 #include "common.h"
+#include "town/scene/position_entries.h"
 #include "m2c_compat.h"
 #include "town/scene.h"
 
-extern M2C_UNK D_80018E80;
+extern ScenePositionEntry D_80018E80;
 
 /* Apply the stored global pair, then process the requested entry with the supplied value. */
-void apply_stored_pair_and_look_up_entry(s32 entry_id, s32 unused, s32 value) {
+void apply_stored_pair_and_look_up_entry(struct SceneFlagContext *context, s32 unused, s32 lookup_key) {
     forward_stored_pair();
-    lookup_entry_value_and_set_flag(&D_80018E80, entry_id, value);
+    lookup_entry_value_and_set_flag(&D_80018E80, context, lookup_key);
 }

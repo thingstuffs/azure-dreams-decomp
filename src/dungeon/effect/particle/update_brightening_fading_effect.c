@@ -1,3 +1,4 @@
+#include "dungeon/level.h"
 #include "shared/audio_commands.h"
 /* Animated terrain grids, tile-region restoration, projected quads, and fading particle transitions. */
 #include "modules/dungeon_ovl_197e800.h"
@@ -264,14 +265,10 @@ void *create_brightening_fading_effect(S_8195ED3C_2 *source, s32 offset)
     return handle;
 }
 
-   /* arg0 in update_shaking_tile_mesh */
-
-   /* arg1 in update_shaking_tile_mesh */
-
 extern s32 rand();
 
 /* Interpolates height with jitter until the phase ends, then advances position by velocity. */
-void update_shaking_tile_mesh(S_8195EE48_0 *state, ObjectPosition *motion)
+void update_shaking_tile_mesh(SettlingTileMeshBody *state, ObjectPosition *motion)
 {
     s32 phase_or_height;
     s16 ticks_left;
@@ -279,24 +276,24 @@ void update_shaking_tile_mesh(S_8195EE48_0 *state, ObjectPosition *motion)
     u16 counter;
 
     counter = (*(u16 *)&terrain_effect_update_count);
-    phase_or_height = state->unk_48;
+    phase_or_height = state->phase;
     terrain_effect_update_count = counter + 1;
     if (phase_or_height == 0) {
-        ticks_left = state->unk_4C;
+        ticks_left = state->ticks_left;
         if (ticks_left > 0) {
             s32 fragment_height;
-            fragment_height = state->unk_3C;
-            state->unk_3C =
-                (u16)state->unk_3C +
-                ((state->unk_62 + state->unk_60 - fragment_height) / ticks_left);
+            fragment_height = state->height;
+            state->height =
+                (u16)state->height +
+                ((state->starting_height + state->height_offset - fragment_height) / ticks_left);
             motion->z.w.i =
-                ((u16)state->unk_3C + (rand() & 3)) - 2;
+                ((u16)state->height + (rand() & 3)) - 2;
         }
-        next_ticks = (u16)state->unk_4C - 1;
-        state->unk_4C = next_ticks;
+        next_ticks = (u16)state->ticks_left - 1;
+        state->ticks_left = next_ticks;
         if ((next_ticks << 16) <= 0) {
-            state->unk_4C = 0x20;
-            state->unk_48 = (u16)state->unk_48 + 1;
+            state->ticks_left = 0x20;
+            state->phase = (u16)state->phase + 1;
             return;
         }
     } else {
@@ -314,19 +311,14 @@ void update_shaking_tile_mesh(S_8195EE48_0 *state, ObjectPosition *motion)
 #define NULL 0
 #endif
 
-   /* work in create_settling_tile_object */
-
-   /* render in create_settling_tile_object */
-
-   /* coord in create_settling_tile_object */
-
 /* Allocate and initialize an object using the map cell at the supplied position. */
 void *create_settling_tile_object(s16 world_x, s16 world_y, s16 world_z, s16 coord_60)
 {
     ObjectNodeHeader *obj;
-    SpriteFrameState *work;
+    LitMeshSprite *mesh;
+    TerrainMapCell *cells;
     MapGrid *map;
-    S_8195EF44_5 *coord;
+    SettlingTileMeshBody *coord;
     ObjectPosition *render;
     s32 cell_x;
     s32 cell_y;
@@ -335,11 +327,12 @@ void *create_settling_tile_object(s16 world_x, s16 world_y, s16 world_z, s16 coo
     map = &g_game_work.map;
     obj = allocate_flagged_object_node(2);
     if (obj != NULL) {
-        work = obj->sprite;
+        mesh = (LitMeshSprite *)obj->sprite;
         cell_x = world_x / 64;
         cell_y = world_y / 64;
-        cell = ((u16 *)map->cells)[(cell_x + (cell_y << map->shiftX)) * 3];
-        work->source = cell;
+        cells = map->cells;
+        cell = cells[cell_x + (cell_y << map->shiftX)].face_index;
+        mesh->mesh_index = cell;
         if (cell == 0) {
             u16 obj_flags = obj->flags | 0x8000;
             s32 global_flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
@@ -352,20 +345,20 @@ void *create_settling_tile_object(s16 world_x, s16 world_y, s16 world_z, s16 coo
         register_node(obj, draw_linked_lit_meshes);
         render = obj->position;
         render->x.w.i = world_x;
-        coord->unk_38 = world_x;
+        coord->world_x = world_x;
         render->y.w.i = world_y;
-        coord->unk_3A = world_y;
+        coord->world_y = world_y;
         render->z.w.i = world_z;
-        coord->unk_3C = world_z;
-        work->offset_x = 0x1000;
-        work->scale_y = 0x1000;
-        work->scale_x = 0x1000;
-        work->tpage_abr = 0x20;
-        work->color.word = 0x808080;
-        work->flags = 0xC;
-        coord->unk_4C = 0xC;
-        coord->unk_60 = coord_60;
-        coord->unk_62 = world_z;
+        coord->height = world_z;
+        mesh->scale[2] = 0x1000;
+        mesh->scale[1] = 0x1000;
+        mesh->scale[0] = 0x1000;
+        mesh->tpage_abr = 0x20;
+        mesh->color.word = 0x808080;
+        mesh->flags = 0xC;
+        coord->ticks_left = 0xC;
+        coord->height_offset = coord_60;
+        coord->starting_height = world_z;
     }
     return obj;
 }

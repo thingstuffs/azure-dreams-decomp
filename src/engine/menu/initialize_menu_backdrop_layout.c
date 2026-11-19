@@ -4,9 +4,9 @@
 #include "engine/text.h"
 
 /* Stores the object's initial value and initializes its substructures. */
-void initialize_menu_backdrop_layout(SevenEntryMenuBackdropBody *object, int initial_value)
+void initialize_menu_backdrop_layout(SevenEntryMenuBackdropBody *object, struct ObjectNodeHeader *owner)
 {
-    set_menu_backdrop_owner(&object->owner, initial_value);
-    initialize_text_entity_templates((char *)object + 0x210, (char *)object + 0x1E8, (char *)object + 0x1F8);
+    set_menu_backdrop_owner(&object->owner, owner);
+    initialize_text_entity_templates((char *)object + 0x210, &object->template_block, &object->template_vector);
     build_menu_backdrop_display_buffers(object);
 }

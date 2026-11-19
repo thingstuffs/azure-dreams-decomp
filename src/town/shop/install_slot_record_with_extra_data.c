@@ -2,12 +2,8 @@
 #include "town/shop/item_lookup.h"
 #include "town/shop.h"
 
-typedef struct {
-    s32 words[0x15];
-} Record84;
 
 extern u8 *find_unused_default_pool_slot(void);
-extern Record84 town_slot_snapshot;
 
 /* Copies a record into the pointer table and initializes extra data for tag 0x13. */
 void install_slot_record_with_extra_data(s32 entry_index, void *source) {
@@ -24,7 +20,7 @@ void install_slot_record_with_extra_data(s32 entry_index, void *source) {
     record[3] = ((u8 *)source)[3];
     if (tag == 0x13) {
         data_slot = find_first_vacant_record((void *)0x800102F0, 0x14);
-        *(Record84 *)(0x800102F0 + data_slot * 0x54) = town_slot_snapshot;
+        *(TownSlotSnapshot *)(0x800102F0 + data_slot * 0x54) = town_slot_snapshot;
         record[3] = (record[3] & 0xC0) | data_slot;
     }
     table_base = (u8 *)0x80010000;

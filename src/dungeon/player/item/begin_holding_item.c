@@ -1,3 +1,4 @@
+#include "dungeon/player/held_item_kind_data.h"
 #include "shared/item_ids.h"
 #include "common.h"
 #include "shared/entity.h"
@@ -15,24 +16,6 @@
 
 struct S_80098614_0;
 
-typedef struct S_80098CF8_0 {
-    u8 pad_00[0x1];
-    u8 unk_01;
-    u8 pad_02[0x6];
-    void * unk_08;
-    u8 pad_0C[0x4];
-    void * unk_10;
-} S_80098CF8_0;   /* s0 in begin_holding_item */
-
-typedef struct S_80098CF8_1 {
-    union {
-        struct { s32 v; } at00;
-        struct { u8 pad[0x1]; u8 v; } at01;
-        struct { u8 pad[0x3]; u8 v; } at03;
-    } unk_00;   /* overlapping accesses */
-} S_80098CF8_1;   /* s2 in begin_holding_item */
-
-   /* s5 in begin_holding_item */
 
 
 typedef struct S_80098CF8_5 {
@@ -60,9 +43,6 @@ typedef struct S_80098CF8_6 {
     s32 unk_124;
 } S_80098CF8_6;   /* s3 in begin_holding_item */
 
-struct DungeonItemEntry;
-
-extern u8 held_item_record[];
 extern u8 player_item_render_update_address[];
 extern u8 player_carry_frames[8];
 extern u8 D_800E08CC[];
@@ -73,9 +53,10 @@ extern u8 D_800E0919[];
 /* Check the item, report restrictions, and create an action object for the actor and target. */
 void *begin_holding_item(void *actor, void *action, void *target, void *item)
 {
+    DungeonItemEntry *item_data;
     void *message;
 
-    void *target_arg;
+    s32 held_word;
     void *actor_state;
     register ObjectNodeHeader *result;
     void *message_id;
@@ -84,12 +65,12 @@ void *begin_holding_item(void *actor, void *action, void *target, void *item)
     void *text_cursor;
 
     actor_state = actor;
-    if ((item != ((void *)(held_item_record))) && (((S_80098CF8_0 *)((void *)(held_item_record)))->unk_01 != ITEM_KIND_NONE)) {
+    if (item != &held_item_record && held_item_record.kind != ITEM_KIND_NONE) {
         message_id = get_unused_text_buffer();
         text_cursor = write_text_byte_and_advance(8, message_id);
         text_cursor = append_item_name_with_value(item, text_cursor);
         text_cursor = expand_text_control_codes(D_800E08CC, text_cursor);
-        text_cursor = append_item_name_with_value(((void *)(held_item_record)), text_cursor);
+        text_cursor = append_item_name_with_value(&held_item_record, text_cursor);
         message = D_800E08E5;
 print_message:
         text_cursor = expand_text_control_codes(message, text_cursor);
@@ -99,12 +80,13 @@ print_message:
         return 0;
     }
 
-    if ((*((u8 *)item + 3)) & 0x20) {
+    item_data = item;
+    if (item_data->unk_03 & 0x20) {
         message_id = get_unused_text_buffer();
         text_cursor = write_text_byte_and_advance(8, message_id);
-        if (((S_80098CF8_1 *)item)->unk_00.at03.v & 0x40) {
+        if (item_data->unk_03 & 0x40) {
             play_sound_if_enabled(0x70A);
-            text_cursor = append_item_name_with_value(item, text_cursor);
+            text_cursor = append_item_name_with_value(item_data, text_cursor);
             message = D_800E08F1;
             text_cursor = expand_text_control_codes(message, text_cursor);
             clear_byte_and_advance(text_cursor);
@@ -113,14 +95,14 @@ print_message:
             return 0;
         }
 
-        text_cursor = append_item_name_with_value(item, text_cursor);
+        text_cursor = append_item_name_with_value(item_data, text_cursor);
         text_cursor = expand_text_control_codes(D_800E0919, text_cursor);
         clear_byte_and_advance(text_cursor);
         display_text_with_fullwidth_adjustment(message_id);
-        if (((S_80098CF8_1 *)item)->unk_00.at01.v == ITEM_KIND_SHIELD) {
-            change_equipped_item_and_notify(actor_state, item);
+        if (item_data->kind == ITEM_KIND_SHIELD) {
+            change_equipped_item_and_notify(actor_state, item_data);
         } else {
-            equip_item_and_update_status(actor_state, item);
+            equip_item_and_update_status(actor_state, item_data);
         }
     }
 
@@ -142,21 +124,21 @@ print_message:
 
         state = NODE_BODY(result);
         {
-            register s32 data_word;
+            s32 data_word;
             u8 *sound_table;
             S_80098CF8_6 *actor_view = actor;
-            data_word = ((S_80098CF8_1 *)item)->unk_00.at00.v;
+            data_word = *(s32 *)item;
             state->unk_AC = 1;
             state->unk_90 = message;
             state->unk_8C = action;
             state->unk_A8 = 6;
             state->unk_98 = data_word;
             actor_view->unk_BC = item;
-            target_arg = (void *)((S_80098CF8_1 *)item)->unk_00.at00.v;
-            state->unk_9C = held_item_record;
+            held_word = *(s32 *)item;
+            state->unk_9C = &held_item_record;
             actor_view->unk_8C = 0;
             actor_view->unk_124 = 0;
-            *(s32 *)held_item_record = (s32)target_arg;
+            *(s32 *)&held_item_record = held_word;
             actor_view->unk_9A = 0x1B;
             actor_view->unk_9B = 0;
             sound_table = player_carry_frames;

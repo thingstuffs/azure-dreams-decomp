@@ -8,7 +8,6 @@
 #include "frontend/card/server_imports.h"
 
 s32 func_80400A10(void);
-extern CardSaveSlot card_slot_header_cache[5];
 extern s32 D_8009E390;
 
 
@@ -23,7 +22,7 @@ void card_dev_init(void) {
         func_8007CB08(0);
         D_8009E390 = 0;
         D_8009E394 = 0;
-        func_8007BFE0(card_slot_header_cache, 0x280);
+        func_8007BFE0(card_slot_header_cache, sizeof(card_slot_header_cache));
     }
     func_80400A10();
     *(s32 *)0x804094F0 = 0;

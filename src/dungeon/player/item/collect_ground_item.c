@@ -14,11 +14,6 @@
 #include "dungeon/system.h"
 #include "dungeon/item/message.h"
 
-typedef struct Ent {
-    u8 a;
-    u8 b;
-    u8 pad[10];
-} Ent;
 
 typedef struct Ctx {
     u8 pad0[0xA2];
@@ -36,7 +31,6 @@ typedef struct Unit {
     s16 id;
 } Unit;
 
-extern Ent dungeon_ground_item_positions[];
 extern char D_80088A80[];
 extern char D_80088A84[];
 extern char D_800E0A76[];
@@ -158,7 +152,7 @@ s32 collect_ground_item(Ctx *ctx, char *text, SpriteFrameState *sprite, Unit *un
         *pickup_slot = *(u32 *) consumed_item;
         consumed_item->unk_00 = 0;
         consumed_item->kind = ITEM_KIND_NONE;
-        update_map_cell_flags_with_item_limit(dungeon_ground_item_positions[consumed_id].a, dungeon_ground_item_positions[consumed_id].b, TILE_HAS_ITEM);
+        update_map_cell_flags_with_item_limit(dungeon_ground_item_positions[consumed_id].x, dungeon_ground_item_positions[consumed_id].y, TILE_HAS_ITEM);
         ctx->link = pickup_slot;
     } else {
         slot_index = free_slot;
@@ -177,7 +171,7 @@ s32 collect_ground_item(Ctx *ctx, char *text, SpriteFrameState *sprite, Unit *un
             ctx->flags |= 0x80;
             stored_item->unk_00 = 0;
             stored_item->kind = ITEM_KIND_NONE;
-            update_map_cell_flags_with_item_limit(dungeon_ground_item_positions[stored_id].a, dungeon_ground_item_positions[stored_id].b, TILE_HAS_ITEM);
+            update_map_cell_flags_with_item_limit(dungeon_ground_item_positions[stored_id].x, dungeon_ground_item_positions[stored_id].y, TILE_HAS_ITEM);
             ctx->link = inventory_slot;
         }
     }

@@ -904,7 +904,7 @@ void choose_snowman_move(ActorRecord *move_data, ObjectPosition *context, Sprite
     }
 
     turn_index = 0;
-    turn_table = ((s16 *)actor_turn_angle_offsets);
+    turn_table = actor_turn_angle_offsets;
 
     do {
         turn_flags = move_data->action_state_flags;
@@ -2537,7 +2537,7 @@ void advance_snowman_cd_image_sequence(ActorRecord *transition, ObjectPosition *
             return;
         }
         run_cd_image_commands(snowman_image_commands, snowman_image_load_done, 1);
-        sound_set_cd_cue_parameters(0, ((s32 *)cd_cue_base)[0], 0x04000AD4, 0x05000CC4);
+        sound_set_cd_cue_parameters(0, cd_cue_base, 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, read_stream_cue_start_offset(), 0);
         (*snowman_effect_load_done) = 0;
         Control_CD(0xFF, ((s32 *)resource_completion_callback_address), snowman_effect_load_done);
@@ -2550,7 +2550,7 @@ void advance_snowman_cd_image_sequence(ActorRecord *transition, ObjectPosition *
     {
         u16 old_timer = transition->action_timer;
         u16 timer = old_timer - 1;
-        R10_80175398_S_80175398_3 *target_color;
+        ActorEffectColor *target_color;
 
         transition->action_timer = timer;
         if ((s32)(timer << 16) <= 0) {
@@ -2564,15 +2564,15 @@ void advance_snowman_cd_image_sequence(ActorRecord *transition, ObjectPosition *
             return;
         }
 
-        target_color = (R10_80175398_S_80175398_3 *)((u8 **)actor_effect_color_targets)[lookup_masked_byte_table(actor)];
+        target_color = actor_effect_color_targets[lookup_masked_byte_table(actor)];
         ((R10_80175398_S_80175398_2 *)object_data)->unk_A8 +=
-            (target_color->unk_00 - ((R10_80175398_S_80175398_2 *)object_data)->unk_A8) /
+            (target_color->r - ((R10_80175398_S_80175398_2 *)object_data)->unk_A8) /
             transition->action_timer;
         ((R10_80175398_S_80175398_2 *)object_data)->unk_A9 +=
-            (target_color->unk_01 - ((R10_80175398_S_80175398_2 *)object_data)->unk_A9) /
+            (target_color->g - ((R10_80175398_S_80175398_2 *)object_data)->unk_A9) /
             transition->action_timer;
         ((R10_80175398_S_80175398_2 *)object_data)->unk_AA +=
-            (target_color->unk_02 - ((R10_80175398_S_80175398_2 *)object_data)->unk_AA) /
+            (target_color->b - ((R10_80175398_S_80175398_2 *)object_data)->unk_AA) /
             transition->action_timer;
         return;
     }

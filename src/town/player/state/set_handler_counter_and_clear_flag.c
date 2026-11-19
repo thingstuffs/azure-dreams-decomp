@@ -17,7 +17,7 @@ typedef struct S_80098C04_0 {
 /* Assign the state table, clear the global flag, set the counter to 12, and initialize the target. */
 void set_handler_counter_and_clear_flag(S_80098C04_0 *state, ObjectPosition *target) {
     state->unk_04 = &D_80098104;
-    town_action_reset_byte = 0;
+    town_action_reset_byte[0] = 0;
     state->unk_0A = 0xC;
     clear_object_velocity((target));
 }

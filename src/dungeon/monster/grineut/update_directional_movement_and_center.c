@@ -11,7 +11,6 @@
 #include "dungeon/data.h"
 
 
-extern void select_sprite_entry(void *, s32, s32);
 
 extern u8 D_80162178[];
 

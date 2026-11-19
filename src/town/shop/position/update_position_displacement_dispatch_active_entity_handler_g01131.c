@@ -32,8 +32,7 @@ void bob_entity_and_dispatch_handler(Rec_func_8009EE9C_arg0 *entity, s32 entity_
  * countdown expiry. On success updates slot/type flags and clears the linked signal; otherwise
  * restores saved X/Y and initializes the type-dependent motion state.
  */
-void move_entity_toward_view_reference(void *entity_arg, s32 context, ObjectPosition *motion, s32 mode) {
-    Rec_D_800CFCB4 *entity = entity_arg;
+void move_entity_toward_view_reference(TownObjectRecord *entity, TownObjectRecord *state, ObjectPosition *motion, SpriteFrameState *sprite) {
     s32 result[5];
     s8 *linked_flag;
     s8 *clear_flag;
@@ -48,12 +47,12 @@ void move_entity_toward_view_reference(void *entity_arg, s32 context, ObjectPosi
     offset_z = motion->z.v + 0x200000;
     motion->velocity_z = (s32)((s32)(view_reference_entity.z.v - offset_z) / 2);
     add_motion_deltas_to_position(motion);
-    ticks_left = entity->unk_6C.as_u16 - 1;
-    entity->unk_6C.as_u16 = ticks_left;
+    ticks_left = entity->timer - 1;
+    entity->timer = ticks_left;
     if ((ticks_left << 16) <= 0) {
         slot = entity->unk_95;
-        if (remove_object_if_item_found(entity, context, motion, mode, result) != 0) {
-            if (entity->unk_4D.as_u8 == 0x13) {
+        if (remove_object_if_item_found(entity, state, motion, sprite, result) != 0) {
+            if (entity->unk_4D == 0x13) {
                 u8 *state_table = (u8 *)0x80010000;
                 s32 record_index = state_table[slot * 4 + 0x983] & 0x3F;
                 state_table[record_index * 0x54 + 0xAC4] = 1;
@@ -77,7 +76,7 @@ void move_entity_toward_view_reference(void *entity_arg, s32 context, ObjectPosi
         motion->y.v = 0;
         motion->x.w.i = entity->unk_84;
         motion->y.w.i = entity->unk_86;
-        start_entity_bob(entity, context, motion, mode);
+        start_entity_bob(entity, state, motion, sprite);
     }
 }
 
@@ -85,25 +84,24 @@ void move_entity_toward_view_reference(void *entity_arg, s32 context, ObjectPosi
  * Sets both state bytes, clears all motion deltas, sets Z to -0x200000, and installs D_8009EE9C
  * with a random 12-bit phase. Selects variant 0x58 for type 0x12 or 0x59 otherwise.
  */
-void start_entity_bob(void *entity, void *state, void *transform, s32 unused)
+void start_entity_bob(TownObjectRecord *entity, TownObjectRecord *state, ObjectPosition *position, SpriteFrameState *unused_sprite)
 {
     s32 variant_id;
-    TownObjectRecord *entity_bytes = entity;
-    *(((s8 *) state) + 0x14) = 1;
-    *(((s8 *) state) + 0x15) = 1;
-    *((s32 *) (((u8 *) transform) + 0xC)) = 0;
-    *((s32 *) (((u8 *) transform) + 0x10)) = 0;
-    *((s32 *) (((u8 *) transform) + 0x14)) = 0;
-    entity_bytes->unk_A0 = 0xFFE00000;
-    *((s32 *) (((u8 *) transform) + 8)) = 0xFFE00000;
-    entity_bytes->unk_50.as_pm = D_8009EE9C;
-    entity_bytes->timer = scale_random_by_limit(0x1000);
+    state->unk_14 = 1;
+    state->unk_15 = 1;
+    position->velocity_x = 0;
+    position->velocity_y = 0;
+    position->velocity_z = 0;
+    entity->unk_A0 = 0xFFE00000;
+    position->z.v = 0xFFE00000;
+    entity->unk_50.as_pm = D_8009EE9C;
+    entity->timer = scale_random_by_limit(0x1000);
     variant_id = 0x12;
-    if (entity_bytes->unk_4D != variant_id) {
-        *((s32 *) (entity + 0x60)) = 0x59;
+    if (entity->unk_4D != variant_id) {
+        entity->slot = 0x59;
     }
     else {
-        *((s32 *) (entity + 0x60)) = 0x58;
+        entity->slot = 0x58;
     }
 }
 
@@ -121,10 +119,10 @@ void start_slot_entity_move_toward_view(Rec_func_8009EE9C_arg0 *entity, S_8009F1
     entity->unk_6C = 8;
 
     if (state == 0x13) {
-        Record84 *records = (Record84 *)0x80010A80;
+        TownSlotSnapshot *records = (TownSlotSnapshot *)0x80010A80;
         u8 *record_map = (u8 *)0x80010000;
 
-        (*((Record84 *)town_slot_snapshot)) = records
+        town_slot_snapshot = records
         [record_map[entity->unk_95 * 4 + 0x983] & 0x3F];
     }
 }
@@ -170,22 +168,22 @@ void bob_entity_and_wait_for_event(void *state_arg, s32 event_id, DelayMotionZ *
  * countdown-driven sine wave. Restores both scales and initializes type-dependent motion when the
  * countdown expires.
  */
-void jitter_and_pulse_entity_scale(Rec_D_800CFCB4 *state, s32 context, EntityRec *position, S_8009F374_2 *scale) {
+void jitter_and_pulse_entity_scale(TownObjectRecord *entity, TownObjectRecord *state, ObjectPosition *position, SpriteFrameState *sprite) {
     s16 ticks_left;
     s32 scale_x_wave;
     s32 scale_y_wave;
 
-    position->z.v = (s32) (state->unk_A0 + (((scale_random_by_limit(0x10) & 0xFFFF) - 8) << 0x10));
-    scale_x_wave = rsin(state->unk_6C.as_s16 * 0x199);
-    scale->unk_1C = (s16) ((scale_x_wave / 4) + 0x1000);
-    scale_y_wave = rsin(state->unk_6C.as_s16 * 0x199);
-    scale->unk_1E = (s16) (0x1000 - (scale_y_wave / 4));
-    ticks_left = (u16) state->unk_6C.as_s16 - 1;
-    state->unk_6C.as_s16 = ticks_left;
+    position->z.v = (s32) (entity->unk_A0 + (((scale_random_by_limit(0x10) & 0xFFFF) - 8) << 0x10));
+    scale_x_wave = rsin((s16)entity->timer * 0x199);
+    sprite->scale_x = (s16) ((scale_x_wave / 4) + 0x1000);
+    scale_y_wave = rsin((s16)entity->timer * 0x199);
+    sprite->scale_y = (s16) (0x1000 - (scale_y_wave / 4));
+    ticks_left = entity->timer - 1;
+    entity->timer = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        scale->unk_1E = 0x1000;
-        scale->unk_1C = 0x1000;
-        start_entity_bob(state, context, position, scale);
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
+        start_entity_bob(entity, state, position, sprite);
     }
 }
 
@@ -220,8 +218,8 @@ void snapshot_entity_slot_and_start_jitter(TownObjectRecord *entity, s32 unused_
     func_80042640(&town_actor_scratch, entity->unk_4C);
     record_index = slot_index;
     apply_actor_template_and_direction(&town_actor_scratch, entity->unk_4C, 0);
-    build_entity_slot_snapshot(&(*((struct TownCopy84 *)town_slot_snapshot)), &town_actor_scratch);
-    *(struct TownCopy84 *)((u8 *)0x80010A80 + (record_index * 0x54)) = (*((struct TownCopy84 *)town_slot_snapshot));
+    build_entity_slot_snapshot(&town_slot_snapshot, &town_actor_scratch);
+    *(TownSlotSnapshot *)((u8 *)0x80010A80 + (record_index * 0x54)) = town_slot_snapshot;
     stored_entry = (void *) 0x80010AB4;
     record_offset = record_index * 0x54;
     stored_entry = (u8 *)stored_entry + record_offset;

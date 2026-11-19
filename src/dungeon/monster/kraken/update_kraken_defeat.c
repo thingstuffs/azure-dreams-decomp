@@ -1,4 +1,5 @@
 #include "dungeon/level/unlink_entity_node_api.h"
+#include "shared/dungeon_height_query.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
@@ -15,7 +16,6 @@ struct EntityLinkNode;
 
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
-s16 sample_terrain_surface_height();
 
 /* Advance an entity through motion, fading, and removal. */
 void update_kraken_defeat(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, void *entity) {
@@ -58,7 +58,7 @@ void update_kraken_defeat(ActorRecord *state, ObjectPosition *motion, SpriteFram
     }
     case 1:
         motion->velocity_z += 0x1C000;
-        if (sample_terrain_surface_height(motion->x.unsigned_parts.integer, motion->y.unsigned_parts.integer, motion->z.w.i) >= 0x200) {
+        if ((s16)sample_terrain_surface_height(motion->x.unsigned_parts.integer, motion->y.unsigned_parts.integer, motion->z.w.i) >= 0x200) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;

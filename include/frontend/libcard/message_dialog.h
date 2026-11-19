@@ -3,6 +3,14 @@
 #include "common.h"
 #include "shared/menu_display.h"
 #include "frontend/libcard/display_node.h"
+/* Each inline dialog node supplies its display prefix to the seven-entry table.
+ * build_reverse_indexed_chain writes the previous head at +0x0C. */
+typedef struct CardMessageDisplayNode {
+    CardMenuDisplayNode display;
+    DisplayPositionWords *vector;
+    struct CardMessageDisplayNode *next;
+} CardMessageDisplayNode;
+
 /* Shared storage initialized by card_boot_create_or_reset_message_dialog for
  * every message-dialog kind. The owner is a node header; the result is a
  * status word that the input handler writes through. */
@@ -25,7 +33,7 @@ typedef struct CardMessageDialogBody {
     u8 display_data[0xC];
     struct S_800491F4 *chain;
     CardMenuDisplayNode *entries[7];
-    MenuDisplayNode nodes[7];
+    CardMessageDisplayNode nodes[7];
     MenuDisplayBlock blocks[7];
 } CardMessageDialogBody;
 #endif

@@ -2,14 +2,12 @@
 #define DUNGEON_OVL_1918800_H
 #include "modules/dungeon_native_abi.h"
 #include "shared/entity.h"
+#include "shared/gpu_packets.h"
 #include "m2c_compat.h"
 #include "sdk/rand.h"
-typedef struct PackedVector {
-    u16 x;
-    u16 y;
-    u16 z;
-    u16 pad;
-} PackedVector __attribute__((packed));
+/* The two draw-area templates use unaligned word transfers. */
+typedef GpuRect PackedGpuRect __attribute__((aligned(1)));
+
 typedef struct Pair16 {
     s16 x;
     s16 y;
@@ -53,17 +51,16 @@ typedef struct WaveScreenOrigin {
 } WaveScreenOrigin; /* screen position draw_wave_sprite_in_draw_area draws the wave sprite at */
 
 extern s16 wave_effect_update_flag;
-extern const PackedVector wave_texture_rect;
-extern const PackedVector wave_source_rect;
+extern const PackedGpuRect wave_texture_rect;
+extern const PackedGpuRect wave_source_rect;
 extern const Copy24 wave_direction_steps;
 struct CountdownRecord;
 struct PointRecord;
-struct Position;
 struct ProjectileSelf;
 struct SpriteFrameState;
 
 void draw_wave_distorted_sprite(struct WaveScreenOrigin *screen_pos, struct ParticleState *wave, void *context, u32 *ordering_table, s32 draw_control);
-void draw_wave_sprite_in_draw_area(struct ParticleState *wave, void *context, struct Position *restore_area, struct Position *draw_pos, u32 clear_area, s32 draw_option);
+void draw_wave_sprite_in_draw_area(struct ParticleState *wave, void *context, GpuRect *restore_area, Pair16 *draw_pos, u32 clear_area, s32 draw_option);
 s32 draw_linked_brightness_points(struct PointRecord *start_node, ObjectPosition *start_coords);
 s32 choose_random_sign(void);
 void create_random_jitter_child( ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);

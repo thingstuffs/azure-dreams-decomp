@@ -1,10 +1,10 @@
 #include "shared/movie_list.h"
+#include "slus/data.h"
 #include "shared/game_work.h"
 
 #include "engine/movie.h"
 #include "town/scene.h"
 
-extern MovieListNode town_movie_callback_list;
 extern s8 scene_music_hold;
 extern MovieListNode D_800D429C;
 /* Pass the town data pair to append_town_movie_list_node and set the shared flag. */

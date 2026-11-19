@@ -7,10 +7,6 @@
 
 /* Template struct copied wholesale (word-by-word) into a2's target. */
 
-
-extern MenuDisplayBlock display_block_defaults;
-extern DisplayPositionWords display_vector_defaults;
-
 /* The live entity struct that a1 points at: same 16 bytes as S_8002E5D8's
    template, but the tail word(s) are reinterpreted/patched as smaller
    fields right after the template copy. */

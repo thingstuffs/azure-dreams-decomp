@@ -57,7 +57,7 @@ typedef struct S_7FFE93E8_4 {
 
 
 
-extern u16 emitted_effect_counter[5];
+#include "dungeon/effect/emission_data.h"
 
 /* Creates an effect at the source position with the supplied color. */
 void create_long_positioned_color_effect(S_7FFE93E8_3 *source, s32 color) {

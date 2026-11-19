@@ -13,7 +13,7 @@
 #include "town/shop/state.h"
 extern void func_800B5020(void *work);
 
-void refresh_storage_page(StoragePageOwner *object) {
+void refresh_storage_page(StorageOwner *object) {
     func_800B5020(object->parts);
-    populate_paged_entries_with_brightness(&object->parts[16], object->source->page, object->source->value);
+    populate_paged_entries_with_brightness(&object->parts[16], &object->owner->page, object->owner->entries);
 }

@@ -6,13 +6,11 @@
 
 extern void configure_target_for_active_state_and_entry(void *target, s32 entry_index);
 extern s32 read_file(void *file_path, void *buffer, s32 block_count, s32 block_offset);
-extern u8 card_slot_header_cache[];
 
 /* Looks up a slot's data and processes its record when the lookup succeeds. */
 s32 card_dev_load_slot_metadata(s32 slot_index) {
     u8 slot_data[32];
     s32 *lookup_key;
-    s32 slot_offset;
     s32 lookup_result;
     s32 result;
 
@@ -23,12 +21,11 @@ s32 card_dev_load_slot_metadata(s32 slot_index) {
     } else {
         lookup_key = dev_card_directory_counts;
     }
-    slot_offset = slot_index << 7;
     lookup_result = card_devkit_has_directory_name_prefix(*lookup_key, &slot_data[5]);
-    *(s32 *)(card_slot_header_cache + slot_offset) = lookup_result;
+    card_slot_header_cache[slot_index].fields.marker = lookup_result;
     if (lookup_result != 0) {
-        result = read_file(slot_data, card_slot_header_cache + slot_offset, 1, 4);
-        *(s32 *)(card_slot_header_cache + slot_offset) = 1;
+        result = read_file(slot_data, &card_slot_header_cache[slot_index], 1, 4);
+        card_slot_header_cache[slot_index].fields.marker = 1;
     }
     return result;
 }

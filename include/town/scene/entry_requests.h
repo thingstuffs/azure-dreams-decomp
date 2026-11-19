@@ -4,7 +4,9 @@
 #include "common.h"
 #include "town/scene/position_entries.h"
 
-void apply_entry_keyed_values(s16 *entry_table, void *resource, s32 entry_key);
+struct SceneFlagContext;
+
+void apply_entry_keyed_values(struct ScenePositionEntry *entry_table, void *resource, s32 entry_key);
 s32 process_current_cell_and_clear(void *object, s32 entry_index);
 s32 update_entry_state_and_clear(void *object, s32 entry_index);
 s32 load_entry_value_and_handle_followup(void *object, s32 entry_index);
@@ -49,7 +51,7 @@ u8 *get_shared_scene_result(void);
 void *lookup_scene_entry_with_kind_overrides(s32 key, s32 unused, s32 kind);
 void apply_scene_entry_values(void *data, s32 value);
 void apply_scene_record_value(void *context, s32 unused, s32 lookup_key);
-s32 lookup_entry_value_and_set_flag(void *table, void *context, s32 lookup_key);
+s32 lookup_entry_value_and_set_flag(struct ScenePositionEntry *entries, struct SceneFlagContext *context, s32 lookup_key);
 s32 lookup_entry_and_apply_record_code(void *table, void *context, s32 lookup_key);
 void dispatch_scene_entry_table(void);
 void dispatch_scene_request_with_local_words(s32 request, s32 unused, s32 value);

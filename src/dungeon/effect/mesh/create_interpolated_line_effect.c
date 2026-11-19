@@ -12,9 +12,7 @@ typedef struct ObjSub {
     s32 y1;
     s32 z1;
     u8 pad28[0xC];
-    s32 x2;
-    s32 y2;
-    s32 z2;
+    MeshEffectOrigin origin;
     s32 unk40;
     s32 unk44;
     s32 unk48;
@@ -32,7 +30,6 @@ typedef struct Obj {
 extern s16 get_surface_height_at_record(void *);
 extern void queue_shaded_line_chain(Obj *); /* Unprototyped: retail call passes a different argument count */
 extern u8 D_80025940[];
-extern void *effect_position_source;
 
 /* Creates an object with height-adjusted endpoints and movement increments for 12 steps. */
 void create_interpolated_line_effect(s32 object_arg, s32 *start_pos, s32 *end_pos)
@@ -54,9 +51,9 @@ void create_interpolated_line_effect(s32 object_arg, s32 *start_pos, s32 *end_po
         motion->unk4C = 0;
         motion->unk4E = 0;
         motion->x1 = start_pos[0];
-        motion->x2 = motion->x1;
+        motion->origin.x.v = motion->x1;
         motion->y1 = start_pos[1];
-        motion->y2 = motion->y1;
+        motion->origin.y.v = motion->y1;
         height = get_surface_height_at_record(start_pos);
         if (height >= 0x201) {
             z_value = start_pos[2];
@@ -64,7 +61,7 @@ void create_interpolated_line_effect(s32 object_arg, s32 *start_pos, s32 *end_po
             z_value = height << 16;
         }
         motion->z1 = z_value;
-        motion->z2 = z_value;
+        motion->origin.z.v = z_value;
         motion->x0 = end_pos[0];
         motion->y0 = end_pos[1];
         height = get_surface_height_at_record(end_pos);
@@ -76,7 +73,7 @@ void create_interpolated_line_effect(s32 object_arg, s32 *start_pos, s32 *end_po
         motion->unk40 = (end_pos[0] - start_pos[0]) / 12;
         end_z = motion->z0;
         start_z = motion->z1;
-        effect_position_source = &motion->x2;
+        effect_position_source = &motion->origin;
         step_z = (end_z - start_z) / 12;
         step_y = (end_pos[1] - start_pos[1]) / 12;
         motion->unk48 = step_z;

@@ -1,8 +1,8 @@
 #include "common.h"
 #include "town/shop.h"
 #include "town/shop/state.h"
-typedef struct MotionVector MotionVector;
-typedef struct TownActor TownActor;
+#include "shared/town_object.h"
+#include "shared/sprite_frame_state.h"
 
 typedef struct S_8009EB20_0 {
     u8 pad_00[0x15];
@@ -11,7 +11,7 @@ typedef struct S_8009EB20_0 {
 
 typedef struct S_8009EB20_1 {
     u8 pad_00[0x50];
-    void (*unk_50)(TownActor *, s32,  MotionVector *, s32);
+    void (*unk_50)(TownObjectRecord *, void *, ObjectPosition *, SpriteFrameState *);
     u8 pad_54[0x18];
     s16 unk_6C;
 } S_8009EB20_1;   /* arg0 in start_move_toward_view_reference */

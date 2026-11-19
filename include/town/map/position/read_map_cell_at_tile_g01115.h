@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_8008E9D4, CL:town/func_8008EA64, CL:town/func_8008EAB4, CL:town/func_8008EB2C, PD:town/engine:800CFCA8, PD:town/engine:800FC428. */
 
 #include "common.h"
+#include "slus/town_map_selection_data.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "town/map/range_group_checks_g00652.h"
@@ -25,7 +26,6 @@ typedef struct TownMapEntryProcessorBody {
 extern u8 D_800FC428;
 void upload_pixel_rectangle(s16, s16, s16, s16, const void *);
 /* extern */
-extern s32 map_scene_selector_alias;
 extern void *town_map_processor[];
 extern s32 D_8008C304[];
 

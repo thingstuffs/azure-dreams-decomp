@@ -12,10 +12,10 @@
 extern void func_80024184(void *object);
 extern void init_card_slot_list_nodes(CardSlotWindow *window, s32 count);
 extern s32 card_boot_link_slot_window_entries(void *value); /* Unprototyped: compile_error */
-extern void card_boot_initialize_slot_window(CardSlotWindow *window, s32 owner, s32 slot_index);
+extern void card_boot_initialize_slot_window(CardSlotWindow *window, struct ObjectNodeHeader *owner, s32 slot_index);
 
 /* Initialize the indexed object and its runtime state, then return the object. */
-void *card_boot_create_slot_window(s32 parent_object, s32 object_index)
+struct ObjectNodeHeader *card_boot_create_slot_window(struct ObjectNodeHeader *parent_object, s32 object_index)
 {
     ObjectNodeHeader *object;
     CardSlotWindow *runtime;

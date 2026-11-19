@@ -1,6 +1,7 @@
 #ifndef DUNGEON_MONSTER_MANOEVA_KNOCKBACK_TRAVEL_G00260_H
 #define DUNGEON_MONSTER_MANOEVA_KNOCKBACK_TRAVEL_G00260_H
 #include "dungeon/level.h"
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "shared/entity.h"
 #include "engine/node/allocation.h"
 #include "shared/object_node.h"
@@ -74,7 +75,6 @@ extern s32 *manoeva_knockback_callback_address;
 extern s8 D_801766F0[];
 
 extern void project_vector_by_view_angle(Vec3s *, Vec3s *);
-extern void select_sprite_entry(void *, s32, s32);
 
 
 /* Functions defined in this translation unit. */

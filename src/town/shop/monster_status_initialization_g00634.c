@@ -5,24 +5,24 @@
 #include "town/shop/monster_status_opening_g00633.h"
 
 /* Returns the indexed entry from D_800D17C8. */
-s32 get_monster_status_type_data(s32 index) {
-    return *(s32 *)((u8 *)&D_800D17C8 + ((index) * 4));
+SpritePartCommand *get_monster_status_type_data(s32 index) {
+    return D_800D17C8[index];
 }
 
 /* Initializes the record, resolves its type data, and runs its setup routine. */
-void initialize_monster_status_state(Rec_func_800B683C_arg0 *record, s32 context, s32 type_id) {
-    record->unk_08 = type_id;
-    record->unk_04 = context;
+void initialize_monster_status_state(ShopFirstCallbackObject *record, struct ActorRecord *actor, s32 type_id) {
+    record->slot_index = type_id;
+    record->actor = actor;
     record->unk_0C = 0;
-    record->unk_0E = 0;
-    record->unk_00 = advance_monster_status_opening;
-    record->unk_14 = get_monster_status_type_data(record->unk_08);
+    record->opening_step = 0;
+    record->first_callback = advance_monster_status_opening;
+    record->texture = get_monster_status_type_data(record->slot_index);
     queue_monster_status_reload(record);
 }
 
 /* Initialize an object's position, internal links, and resource state. */
-void initialize_monster_status_object(void *object, s32 entityId, s32 resourceIndex, s32 positionX, s32 positionY, s32 positionZ) {
-    initialize_positioned_display_templates((u8 *)object + 0x88, (u8 *)object + 0x60, (u8 *)object + 0x70, positionX, positionY, positionZ);
+void initialize_monster_status_object(ShopFirstCallbackObject *object, struct ActorRecord *actor, s32 resourceIndex, s32 positionX, s32 positionY, s32 positionZ) {
+    initialize_positioned_display_templates(&object->display, &object->display_template, &object->display_position, positionX, positionY, positionZ);
     reset_monster_status_links(object);
-    initialize_monster_status_state((Rec_func_800B683C_arg0 *)object, entityId, resourceIndex);
+    initialize_monster_status_state(object, actor, resourceIndex);
 }

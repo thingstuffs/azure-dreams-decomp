@@ -16,14 +16,14 @@ void init_animated_panel_elements(AnimatedMenuPanelBody *obj)
     u8 elem_index;
     s32 end_marker;
 
-    obj->vector.unk0 = display_vector_defaults.f0;
-    obj->vector.unk4 = display_vector_defaults.f4;
-    obj->vector.unk8 = display_vector_defaults.f8;
+    obj->vector.unk0 = display_vector_defaults.unk0;
+    obj->vector.unk4 = display_vector_defaults.unk4;
+    obj->vector.unk8 = display_vector_defaults.unk8;
     for (i = 0; i < 4; i++) {
-        obj->elements[i].block.words[0] = display_block_defaults.f0;
-        obj->elements[i].block.words[1] = display_block_defaults.f4;
-        obj->elements[i].block.words[2] = display_block_defaults.f8;
-        obj->elements[i].block.words[3] = display_block_defaults.fC;
+        obj->elements[i].block.words[0] = display_block_defaults.words[0];
+        obj->elements[i].block.words[1] = display_block_defaults.words[1];
+        obj->elements[i].block.words[2] = display_block_defaults.words[2];
+        obj->elements[i].block.words[3] = display_block_defaults.words[3];
         obj->elements[i].link.self = &obj->elements[i];
         obj->elements[i].link.parent = &obj->vector.unk0;
     }

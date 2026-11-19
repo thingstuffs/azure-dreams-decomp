@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C3884, CL:town/func_800C38D4, PD:town/engine:800D4244, PD:town/engine:800D4260. */
 
 #include "common.h"
+#include "slus/town_map_selection_data.h"
 #include "town/map/saved_sound_data.h"
 #include "town/map/sound_settings_data.h"
 
@@ -14,7 +15,6 @@ typedef struct {
 } GlobalState;
 
 extern u16 fallback_sound_pairs[];
-extern s16 map_scene_selector_alias;
 extern u8 D_800D0004[];
 extern u8 D_80110004[];
 extern s16 D_80113200[];

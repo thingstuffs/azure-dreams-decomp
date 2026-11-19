@@ -16,13 +16,12 @@
 
 
 
-void initialize_values(void *record_groups, s32 unused_row_y, s32 unused_lower_y, s32 unused_row);       /* extern */
-s32 func_80403868(s32, s32, s32);
+void initialize_values(CardDevCommandPanel *panel, s32 unused_row_y, s32 unused_lower_y, s32 unused_row);       /* extern */
+u8 *func_80403868(u8 *packets, s32 width, s32 height);
 
 
 /* Initialize the panel and position four rows of display elements. */
-void card_dev_init_row_panel(void *panel_arg) {
-    CardDevCommandPanel *panel = panel_arg;
+void card_dev_init_row_panel(CardDevCommandPanel *panel) {
     s32 lower_x;
     s32 left_x;
     s32 right_x;
@@ -35,7 +34,7 @@ void card_dev_init_row_panel(void *panel_arg) {
     panel->unk_80 = 1;
     panel->unk_84 = 1;
     card_dev_bind_row_labels(panel);
-    func_80403868(panel_arg + 4, 0x36, 0x10);
+    func_80403868(panel->highlight_packets, 0x36, 0x10);
     card_dev_init_row_tables(panel);
     row = 0;
     lower_x = 0x8E;

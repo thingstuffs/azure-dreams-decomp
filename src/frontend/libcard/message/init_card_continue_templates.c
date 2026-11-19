@@ -1,8 +1,6 @@
 #include "frontend/libcard/message.h"
 
 /* Sibling message files declare these templates through their own local views. */
-extern CardDisplayBlock display_block_defaults;
-extern DisplayPositionWords display_vector_defaults;
 
 /* Copy the display templates and place the Continue panel at (-152, -98). */
 void init_card_continue_templates(CardDisplayNode *entry, CardDisplayBlock *block, DisplayPositionWords *vector)

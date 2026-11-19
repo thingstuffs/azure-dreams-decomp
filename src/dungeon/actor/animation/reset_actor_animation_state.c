@@ -59,7 +59,7 @@ void *reset_actor_animation_state(ActorRecord *body)
         body->species = MONSTER_FROG;
         object->action_id = 0xFF;
         object->unk_9C = -1;
-        object->unk_8C.byte_ptr = update_actor_facing_animation;
+        object->unk_8C.handler = update_actor_facing_animation;
         child->frameTable = actor_action_frames;
 
         frame_index = (g_game_work.view.camera_rotation.parts.viewAngle + body->facing + 0x100) >> 7;

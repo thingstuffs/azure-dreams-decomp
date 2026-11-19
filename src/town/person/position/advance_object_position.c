@@ -8,11 +8,11 @@
 #include "town/person/object.h"
 
 /* Advance the object's position and stop its movement when it exceeds the limit. */
-void advance_object_position(TownObjectRecord *context, EntityRec *object, SpriteFrameState *finish_arg) {
-    object->z.v = (s32) (object->z.v + object->flags14);
+void advance_object_position(TownObjectRecord *context, ObjectPosition *object, SpriteFrameState *finish_arg) {
+    object->z.v = (s32) (object->z.v + object->velocity_z);
     if (query_lowered_transform_position(object) < object->z.w.i) {
         object->z.w.i = query_lowered_transform_position(object);
-        object->flags14 = 0;
+        object->velocity_z = 0;
         apply_object_setup_and_update(context, object, finish_arg);
         return;
     }

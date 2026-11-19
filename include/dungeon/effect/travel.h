@@ -37,13 +37,8 @@ typedef struct TrackingEffect {
 } TrackingEffect;
 
 /* Target and phase counter carried by the red tint effect emitted during travel. */
-typedef union BrighteningFollowerTarget {
-    void *pointer;
-    s32 address;
-} BrighteningFollowerTarget;
-
 typedef struct BrighteningFollowerEffectBody {
-    BrighteningFollowerTarget target;
+    ActorRecord *target;
     u8 pad_04[0x6];
     u16 state;
     u8 pad_0C[0x10];
@@ -69,6 +64,6 @@ void advance_rising_fading_emitter(RisingFadingEmitterBody *effect, ObjectPositi
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "shared/dungeon_moving_views.h"
-void *create_tinted_travel_sprite(MovingPosition *source_pos, s16 effect_param, s16 size);
+void *create_tinted_travel_sprite(ObjectPosition *source_pos, s16 effect_param, s16 size);
 
 #endif

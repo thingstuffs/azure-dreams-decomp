@@ -1,5 +1,7 @@
 /* Ghosh direction-step lookup and queued path movement. */
 #include "common.h"
+#include "dungeon/level/tile_flags.h"
+#include "shared/dungeon_height_query.h"
 #include "dungeon/system/random.h"
 #include "shared/dungeon_floor.h"
 #include "shared/entity.h"
@@ -21,9 +23,7 @@
 
 
 struct ActorRecord; s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);                     /* extern */
-void cycle_map_cell_flags(s16, s16, u16);             /* extern */
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"             /* extern */
-s32 check_diagonal_side_height(s32, s16, s16, s16);                /* extern */
 s32 check_movement_clearance_and_height();    /* extern */
 s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);                  /* extern */
 #include "dungeon/item/get_actor_height_difference_api.h"
@@ -31,10 +31,8 @@ u16 get_rounded_facing_and_rounding_flag(); /* Unprototyped: retail call extends
 s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);  /* extern */
 s32 update_actor_proximity_flag(void *, ActorRecord *, s32, s32, s8 *); /* extern */
 #include "dungeon/actor/state.h"
-s16 sample_terrain_surface_height();                   /* extern */
 s32 begin_ghosh_front_attack(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);          /* extern */
 
-extern s16 actor_turn_angle_offsets[];
 extern s16 D_8006CCD8[8];
 extern u16 reference_tile_position_alias;
 
@@ -291,7 +289,7 @@ void advance_actor_path(ActorRecord *motion, ObjectPosition *context, SpriteFram
                 actor->movement_queue_state &= 0x7F;
                 return;
             }
-            turn_index = sample_terrain_surface_height((position->tile_x << 6) | 0x20, (position->tile_y << 6) | 0x20,
+            turn_index = (s16)sample_terrain_surface_height((position->tile_x << 6) | 0x20, (position->tile_y << 6) | 0x20,
                 (s16)(actor->ground_height - 0x20));
             result = turn_index < 0x200;
             if (result != 0) {

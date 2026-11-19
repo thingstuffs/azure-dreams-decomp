@@ -28,15 +28,14 @@ extern s32 resolve_item_attack(struct DungeonItemEntry *, s32); /* Unprototyped:
 
 extern u8 D_800893DC[];
 extern u8 D_800E187C[];
-extern u8 dungeon_ground_item_positions[];
 
 /* Handles a target or active-slot update and decrements the shared count on completion. */
 s32 convert_ground_items_to_gold(ActorRecord *target, s32 action, s16 action_type, s32 action_param)
 {
     s32 result;
     s32 slot_index;
-    u8 *slot_data;
-    u8 *slot_state;
+    DungeonItemPosition *slot_data;
+    DungeonItemEntry *slot_state;
     u8 *table_base;
     u8 *table_base_2;
     s32 first_arg;
@@ -84,15 +83,15 @@ s32 convert_ground_items_to_gold(ActorRecord *target, s32 action, s16 action_typ
         slot_index = 0;
         slot_data = dungeon_ground_item_positions;
         for (; slot_index < 0x40; slot_index++) {
-            slot_state = (u8 *)dungeon_ground_items + slot_index * 4;
-            if (slot_state[1] != 0) {
-                slot_state[1] = ITEM_KIND_COIN;
-                slot_state[0] = ITEM_GOLD_COIN;
-                *(s32 *)(slot_data + 8) = lookup_item_category_mapped_value(ITEM_KIND_COIN, ITEM_GOLD_COIN);
-                slot_state[2] = random_dungeon_range_16(0x10, 0x18);
-                slot_state[3] = 1;
+            slot_state = &dungeon_ground_items[slot_index];
+            if (slot_state->kind != 0) {
+                slot_state->kind = ITEM_KIND_COIN;
+                slot_state->unk_00 = ITEM_GOLD_COIN;
+                slot_data->sprite_source_word = lookup_item_category_mapped_value(ITEM_KIND_COIN, ITEM_GOLD_COIN);
+                slot_state->unk_02 = random_dungeon_range_16(0x10, 0x18);
+                slot_state->unk_03 = 1;
             }
-            slot_data += 0xC;
+            slot_data++;
         }
         table_base = (u8 *)0x80080000;
     }

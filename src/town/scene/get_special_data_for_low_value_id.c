@@ -1,7 +1,7 @@
 #include "common.h"
+#include "town/scene/record_queries.h"
 #include "town/scene.h"
 
-s32 get_current_nested_record_value(void);
 extern s32 D_8001B3F2[3];
 extern s32 D_8001B71A[3];
 

@@ -1,6 +1,8 @@
 #ifndef DUNGEON_RESOURCE06_SLOT0_H
 #define DUNGEON_RESOURCE06_SLOT0_H
 #include "shared/dungeon_effect_status.h"
+#include "shared/sound_state.h"
+#include "dungeon/globals.h"
 #include "engine/node/registration.h"
 struct ObjectPosition;
 struct SpriteFrameState;
@@ -665,15 +667,11 @@ extern u8 D_8017589C[];
 extern u8 D_80175874[];
 extern u8 D_80175884[];
 extern u8 flame_frame_set_1[];
-extern u8 actor_turn_angle_offsets[];
 extern u8 flame_frame_set[];
-extern u8 actor_update_node_cursor[];
 extern u8 D_8017591C[];
 extern u8 D_80175910[];
 extern u8 D_80175928[];
 extern u8 resource_completion_callback_address[];
-extern u8 cd_cue_base[];
-extern u8 actor_effect_color_targets[];
 extern u8 dungeon_resource_buffer[];
 extern u8 D_801758FC[];
 extern u8 D_80175904[];

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/action_handler_tables_data.h"
 #include "shared/object_node.h"
 #include "town/player/object.h"
 #include "town/player/state.h"
@@ -10,7 +11,6 @@ extern void dispatch_selected_entry_if_nonzero(void *entries, void *record,void 
 extern u8 scene_object_payload_alias[];
 
 
-extern u8 town_scene_record_handlers[];
 extern void *town_player_action_callback;
 
 /*

@@ -1,12 +1,11 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "slus/imports.h"
 #include "shared/sprite_frame_state.h"
 
 typedef struct { u8 pad[0x52]; u16 flags; } SpriteOwner;
 typedef struct { u8 pad[8]; s32 position; u8 padC[8]; s32 velocity; } Motion;
 typedef struct { u8 pad[0x14]; u16 flags; } Render;
-typedef struct { s32 flags; } GlobalFlags;
-extern GlobalFlags object_flag_block;
 
 /* Advance effect motion and mark its owner when drawing has completed. */
 void update_drifting_effect(SpriteOwner **action, Motion *motion, SpriteFrameState *render) {
@@ -14,8 +13,8 @@ void update_drifting_effect(SpriteOwner **action, Motion *motion, SpriteFrameSta
     (*action)->flags |= 0x8000;
     advance_sprite_animation_and_textures(render);
     if (render->flags & 0x6000) {
-        GlobalFlags *status = &object_flag_block;
+        ObjectFlagBlock *status = &object_flag_block;
         ((u16 *)action)[-1] |= 0x8000;
-        status->flags |= 0x8000;
+        status->flags |= OBJECT_REMOVE_PENDING;
     }
 }

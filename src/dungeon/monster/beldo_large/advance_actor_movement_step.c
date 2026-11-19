@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_height_query.h"
 #include "dungeon/system/random.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -28,14 +29,12 @@ struct ActorRecord;
 #include "dungeon/item/state.h"
 #include "dungeon/level.h"
 
-s32 check_diagonal_side_height(s32, s16, s16, s16);
 extern s32 check_movement_clearance_and_height();
 #include "dungeon/item/get_actor_height_difference_api.h"
 #include "dungeon/actor/state.h"
 
 struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0;
 
-extern s16 actor_turn_angle_offsets[];
 
 /* Select a movement direction, record the previous tile, and update the actor position and height. */
 /* Chooses Beldo's next clear step from actor or player-relative targets, records the path, and updates

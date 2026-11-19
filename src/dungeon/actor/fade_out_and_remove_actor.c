@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/node.h"
 #include "dungeon/effect.h"
 #include "dungeon/actor.h"
 #include "shared/object_flags.h"
@@ -18,8 +19,6 @@ typedef struct S_800ACBE4_2 {
     s32 unk_1C;
 } S_800ACBE4_2;   /* actor in fade_out_and_remove_actor */
 
-extern void register_node(void *, void *);
-extern void unlink_node(void *);
 extern void unlink_entity_node(void *);
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
@@ -35,16 +34,17 @@ void fade_out_and_remove_actor(void *actor_data_arg, s32 unused, SpriteFrameStat
     u8 effect_x;
     u8 effect_y;
     S_800ACBE4_2 *actor;
+    ObjectNodeHeader *draw_node;
 
     state = actor_data->unk_9B;
     actor = current_actor;
     switch (state) {
     case 0:
-        actor = (S_800ACBE4_2 *)((u8 *)actor_data - 0x20);
-        unlink_node(actor);
+        draw_node = NODE_HEADER(actor_data);
+        unlink_node(draw_node);
         visual->clut -= 0x80;
         visual->flags |= 0xC;
-        register_node(actor, process_linked_states_mode_zero);
+        register_node(draw_node, process_linked_states_mode_zero);
         visual->color.c.code = 0;
         actor_data->unk_9B++;
         return;
@@ -63,8 +63,8 @@ void fade_out_and_remove_actor(void *actor_data_arg, s32 unused, SpriteFrameStat
         return;
     }
 
-    if ((g_dungeon_status.pending_display_owner) == NODE_HEADER(actor)) {
-        *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
+    if (g_dungeon_status.pending_display_owner == NODE_HEADER(actor)) {
+        g_dungeon_status.pending_display_owner = (void *)((unsigned long)g_dungeon_status.pending_display_owner & ~0x80000000UL);
     }
     detach_record_and_update_slot_state(actor);
     actor_status = actor->unk_1C;

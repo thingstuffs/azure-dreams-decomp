@@ -13,16 +13,10 @@
 #include "sdk/libgte.h"
 
 extern u8 floor_objects[];
-extern u8 dungeon_ground_item_positions[];
 extern u8 dungeon_floor_object_positions[];
 
 extern s16 get_tile_chebyshev_distance(Rec_D_80082E80 *start_record, Rec_D_80082E80 *end_record);
 
-typedef struct {
-    u8 x;
-    u8 y;
-    u8 pad[10];
-} MapEntry;
 
 
 typedef struct {
@@ -47,7 +41,7 @@ void draw_nearby_map_markers(void *ordering_table, InactiveTypeTwelveObjectBody 
     long playerAndIndex;
     u8 *player;
     GameWork *system;
-    MapEntry *mapEntry;
+    DungeonItemPosition *mapEntry;
     DungeonFloorMarker *objectEntry;
     EntryInfo *info;
     LargeMapEntry *largeMapEntry;
@@ -144,7 +138,7 @@ void draw_nearby_map_markers(void *ordering_table, InactiveTypeTwelveObjectBody 
         }
     }
     playerAndIndex = 0;
-    mapEntry = (MapEntry *)dungeon_ground_item_positions;
+    mapEntry = dungeon_ground_item_positions;
     info = (EntryInfo *)((u8 *)dungeon_ground_items);
     colour[2] = brightness;
     colour[0] = 0;

@@ -7,7 +7,7 @@
 extern s32 D_800C355C;
 
 /* Chooses a random movement direction and advances the entity state. */
-void choose_random_movement_direction(TownObjectRecord *entity, ObjectPosition *movement, void *context) {
+void choose_random_movement_direction(TownObjectRecord *entity, ObjectPosition *movement, SpriteFrameState *context) {
     s32 attempt;
     s32 direction;
     void *next_node;

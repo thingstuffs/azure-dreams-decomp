@@ -1,58 +1,34 @@
 #include "common.h"
 #include "engine/menu.h"
 #include "slus.h"
+#include "shared/menu_display.h"
 
-typedef struct S_8004F9AC_L3
-{
-    char pad0[8];
-    s16 val;
-}
-S_8004F9AC_L3;
-typedef struct S_8004F9AC_L2
-{
-    char pad0[4];
-    S_8004F9AC_L3 *l3;
-}
-S_8004F9AC_L2;
-typedef struct S_8004F9AC_L1
-{
-    char pad0[0xC];
-    S_8004F9AC_L2 *l2;
-}
-S_8004F9AC_L1;
-typedef struct S_8004F9AC_Obj
-{
-    void (*func)(void);
-    S_8004F9AC_L1 *list[1];
-    char pad1[0x18];
-    s32 field_0x20;
-    s32 count;
-}
-S_8004F9AC_Obj;
 /* Assign evenly spaced list values and increase spacing, switching callbacks at the limit. */
-void animate_selection_menu_entry_spacing(S_8004F9AC_Obj *obj)
+void animate_selection_menu_entry_spacing(AnimatedSelectionMenuBody *obj)
 {
-    s32 spacing = obj->field_0x20;
+    s32 spacing = obj->spacing;
     s32 value;
     s32 index;
-    S_8004F9AC_L1 **entry;
+    AnimatedSelectionEntry **entry;
+    MenuDisplayNode *display;
     if (spacing >= 0x21) {
         spacing = 0x20;
-        obj->func = noop_selection_menu_animation_idle;
+        obj->animate = noop_selection_menu_animation_idle;
         index = 0;
     } else {
         index = 0;
     }
     if (obj->count > 0) {
         value = 0x18;
-        entry = (S_8004F9AC_L1 **) obj;
+        entry = (AnimatedSelectionEntry **)obj;
         do {
-            (*(*(&entry[1]))).l2->l3->val = value;
+            display = entry[1]->display;
+            display->block->fields.x = value;
             entry++;
             index++;
             value += spacing;
         }
         while (index < obj->count);
     }
-    obj->field_0x20 = spacing + ((0x28 - spacing) >> 3);
+    obj->spacing = spacing + ((0x28 - spacing) >> 3);
 }

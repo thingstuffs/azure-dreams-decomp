@@ -223,12 +223,12 @@ s32 load_spell_effect_code(selection_id, alternate_table, unused)
             selection_table = D_800DDAB8;
             index_hi = resolve_alternate_spell_id(selection_id) << 16;
             doubled_index = index_hi >> 15;
-            state_value = cd_cue_base[0];
+            state_value = cd_cue_base;
         } else {
             selection_table = spell_audio_cues;
             index_hi = selection_id << 16;
             doubled_index = index_hi >> 15;
-            state_value = cd_cue_base[0];
+            state_value = cd_cue_base;
         }
         entry_offset = (s32)(doubled_index << 16) >> 14;
         selection_entry = (s32 *)(entry_offset + (unsigned long)selection_table);

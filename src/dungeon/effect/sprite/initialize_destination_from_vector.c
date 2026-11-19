@@ -1,17 +1,16 @@
-#include "common.h"
-#include "dungeon/effect/sprite.h"
+#include "dungeon/effect/sprite/linked_object_chain.h"
 #include "sdk/libgte.h"
 
-/* Initializes the destination from the source position and signed vector components. */
-void initialize_destination_from_vector(void *dest, void *source) {
-    s32 position[3];
+/* Build the chain node's matrix from its selected rotation, translation and scale. */
+void initialize_destination_from_vector(MATRIX *dest, LinkedSpriteFrame *source) {
+    VECTOR scale;
 
-    RotMatrix(source, dest);
-    position[0] = *(s16 *)((u8 *)source + 0x10);
-    position[1] = *(s16 *)((u8 *)source + 0x12);
-    position[2] = *(s16 *)((u8 *)source + 0x14);
-    ScaleMatrix(dest, position);
-    *(s32 *)((u8 *)dest + 0x14) = *(s16 *)((u8 *)source + 8);
-    *(s32 *)((u8 *)dest + 0x18) = *(s16 *)((u8 *)source + 0xA);
-    *(s32 *)((u8 *)dest + 0x1C) = *(s16 *)((u8 *)source + 0xC);
+    RotMatrix(&source->rotation, dest);
+    scale.vx = source->scale.vx;
+    scale.vy = source->scale.vy;
+    scale.vz = source->scale.vz;
+    ScaleMatrix(dest, &scale);
+    dest->t[0] = source->translation.vx;
+    dest->t[1] = source->translation.vy;
+    dest->t[2] = source->translation.vz;
 }

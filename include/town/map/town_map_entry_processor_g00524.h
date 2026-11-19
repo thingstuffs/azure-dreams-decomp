@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8008E9D4, CL:town/func_8008EA64, CL:town/func_8008EAB4, CL:town/func_8008EB2C, PD:town/engine:800CFCA8, PD:town/engine:800FC428. */
 
 #include "common.h"
+#include "slus/town_map_selection_data.h"
 #include "m2c_compat.h"
 #include "town/map/range_group_checks_g00652.h"
 #include "shared/object_flags.h"
@@ -21,7 +22,6 @@ extern s32 read_map_cell_at_tile(s32 tile_x, s32 tile_y);
 extern u8 D_800FC428;
 void upload_pixel_rectangle(s16, s16, s16, s16, const void *);
 /* extern */
-extern s32 map_scene_selector_alias;
 extern void *town_map_processor[];
 extern s32 D_8008C304[];
 

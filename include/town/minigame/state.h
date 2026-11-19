@@ -9,6 +9,7 @@ struct SceneTileObject;
 #include "town/minigame/position.h"
 
 struct ObjectPosition;
+struct LitMeshSprite;
 
 /* The fixed effect creator writes setup_value and installs the interaction callback. */
 typedef struct FixedInteractionEffectBody {
@@ -82,7 +83,7 @@ typedef struct TakoLabelBody {
 void advance_actor_state_nearby_activation(Rec_D_80082D58 *actor, s32 *position, s32 check_param, s32 check_mode);
 
 /* advance_interaction_state_animating_cursor.c */
-void advance_interaction_state_animating_cursor(FixedInteractionEffectBody *self, struct ObjectPosition *position, struct SpriteFrameState *cursor_data);
+void advance_interaction_state_animating_cursor(FixedInteractionEffectBody *self, struct ObjectPosition *position, struct LitMeshSprite *cursor_data);
 
 /* process_slot_machine_state.c */
 void process_slot_machine_state(State8081FF68 *state, void *position);

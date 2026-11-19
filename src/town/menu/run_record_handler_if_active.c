@@ -1,24 +1,18 @@
 #include "common.h"
 #include "slus/imports.h"
-#include "shared/object_links.h"
+#include "shared/object_node.h"
+#include "shared/object_flags.h"
 #include "town/menu.h"
 
-   /* the 0x2 bytes before arg0 in run_record_handler_if_active, addressed as arg0[-1] */
-
-typedef struct S_800A78AC_0 {
-    u8 pad_00[0x50];
-    s32 (*unk_50)(void *, s32, s32); /* e.g. update_scale_effect_and_advance(state, context, scale) */
-} S_800A78AC_0;   /* arg0 in run_record_handler_if_active */
-
 /* Call the record handler and update its data if the record remains active. */
-void run_record_handler_if_active(void *record, s32 context, s32 update_data) {
-    s32 (*handler)(void *, s32, s32);
+void run_record_handler_if_active(TownObjectRecord *record, ObjectPosition *position, SpriteFrameState *sprite) {
+    void (*handler)(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 
-    handler = ((S_800A78AC_0 *)record)->unk_50;
+    handler = record->unk_50.as_pm;
     if (handler != 0) {
-        handler(record, context, update_data);
-        if (!(((ObjectRetirementFlags *)record)[-1].flags & 0x8000)) {
-            advance_sprite_animation_and_textures(update_data);
+        handler(record, position, sprite);
+        if (!(NODE_HEADER(record)->flags & NODE_REMOVE)) {
+            advance_sprite_animation_and_textures(sprite);
         }
     }
 }

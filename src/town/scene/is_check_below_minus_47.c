@@ -1,7 +1,6 @@
 #include "common.h"
+#include "town/scene/record_queries.h"
 #include "town/scene.h"
-
-s32 get_current_nested_record_value(void);                                /* extern */
 
 /* Check whether the queried value is below -47. */
 s32 is_check_below_minus_47(s32 query_input) {

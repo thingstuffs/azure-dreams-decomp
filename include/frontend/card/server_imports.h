@@ -16,6 +16,9 @@
  * foreign-program: main 0x269000-0x275800; town 0x26E000-0x272000
  */
 #include "common.h"
+struct CardDevDialogDisplay;
+struct CardBackgroundBody;
+struct ObjectNodeHeader;
 
 typedef struct {
     u8 pad[0x10];
@@ -35,13 +38,13 @@ void func_804038C8(void *record);   /* card_dev_init_row_panel */
 void func_804039F8(void *templates, void *primary, void *secondary);
 void func_80403B7C(void *record, void *value);   /* card_dev_set_word */
 void func_80404708(void *templates, void *primary, void *secondary);
-void func_80404B10(void *record);   /* card_background_init_components */
-void func_80404C3C(void *record, void *value);   /* card_background_set_word */
+void func_80404B10(struct CardBackgroundBody *record);   /* card_background_init_components */
+void func_80404C3C(struct CardBackgroundBody *record, struct ObjectNodeHeader *owner);   /* card_background_set_word */
 void func_80402974(void *templates, void *primary, void *secondary);   /* card_dev_init_view_defaults */
-void func_80402D90(void *record);   /* init_dialog_object */
+void func_80402D90(struct CardDevDialogDisplay *record);   /* init_dialog_object */
 void func_80403DA0(void *entity, void *primary, void *secondary, s32 slot_index);   /* card_dev_init_row_view */
 void func_80404308(void *record, s32 setup_value, s32 processing_value);
-void func_80402EA4(void *record, s32 value_14, s32 entry_index, s32 value_0c, s32 value_20);   /* set_layout_params */
+void func_80402EA4(struct CardDevDialogDisplay *record, struct ObjectNodeHeader *owner, s32 entry_index, s32 value_0c, s32 value_20);   /* set_layout_params */
 
 /* Imported declarations, one per address. */
 void func_8003830C(s32, void *);
@@ -53,7 +56,7 @@ void func_8003FA78(void *, s32);
 #endif
 void func_8003FD58(s32, s32, s32, s32);
 void func_80040560(void *, void *);
-s32 func_80047358(s32, void *, s32);
+s32 func_80047358(void *entries, void *template_data, s32 entry_count);
 s32 func_80047938(void *, s32, s32);
 s32 func_80047FD8(void *);
 s32 func_800484A4(s32, s32 *);
@@ -97,7 +100,7 @@ void func_8007CAD8(void *, void *);
 void func_8007CAE8(void *);
 void func_8007CB08(s32);   /* devkit libapi stub, current ChangeClearPAD (0x8006A154, -0x129B4; 2 twin call pairs) */
 void func_80404618(void *, s32);
-void func_80404888(s32);
+void func_80404888(u8 *packets);
 /* the server's own libcard BIOS stubs (config/names.tsv: address-suffixed, the plain names are the SLUS stubs) */
 s32 _card_status_80408644(s32);
 void _card_wait_80408654(s32);

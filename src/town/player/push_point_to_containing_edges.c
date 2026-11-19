@@ -1,7 +1,6 @@
 #include "common.h"
+#include "town/data.h"
 #include "town/player.h"
-
-extern s32 player_blocking_rects[];
 
 /* Push the point to the nearest edge of each containing rectangle and return the hit side flags. */
 s32 push_point_to_containing_edges(s32 *x, s32 *y) {

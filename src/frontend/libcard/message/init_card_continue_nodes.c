@@ -11,8 +11,6 @@ typedef struct CardContinueNodes {
 } CardContinueNodes;
 
 /* Sibling message files declare these templates through their own local views. */
-extern CardDisplayBlock display_block_defaults;
-extern DisplayPositionWords display_vector_defaults;
 
 /* Build the requested node links and copy their common display defaults. */
 void init_card_continue_nodes(CardContinueNodes *owner, s32 count)

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_height_query.h"
 #include "dungeon/monster/blume.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
@@ -9,8 +10,6 @@
 typedef struct { u16 flags; } EffectFieldView_80DB9C2CPrefix;
 
 
-extern s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
-extern s16 sample_terrain_surface_height();
 
 /* Update effect motion, collisions, sprite growth, and timed fading. */
 void update_growing_colliding_effect(GrowingCollidingEffectBody *effect, ObjectPosition *position, SpriteFrameState *sprite) {
@@ -50,10 +49,10 @@ void update_growing_colliding_effect(GrowingCollidingEffectBody *effect, ObjectP
         position->z.v += effect->unk_68;
         effect->unk_68 += effect->unk_74;
         move_height = position->z.w.i;
-        if ((sample_terrain_surface_height(position->x.unsigned_parts.integer, position->y.unsigned_parts.integer,
+        if (((s16)sample_terrain_surface_height(position->x.unsigned_parts.integer, position->y.unsigned_parts.integer,
             (s16)((u16)position->z.w.i - 4)) - 0x10) < move_height) {
             effect->unk_68 = 0;
-            position->z.w.i = sample_terrain_surface_height(position->x.unsigned_parts.integer,
+            position->z.w.i = (s16)sample_terrain_surface_height(position->x.unsigned_parts.integer,
                 position->y.unsigned_parts.integer, (s16)((u16)position->z.w.i - 4))
             - 0x11;
             position->z.w.frac = 0;
@@ -110,10 +109,10 @@ void update_growing_colliding_effect(GrowingCollidingEffectBody *effect, ObjectP
         position->z.v += effect->unk_68;
         effect->unk_68 += effect->unk_74;
         fade_height = position->z.w.i;
-        if ((sample_terrain_surface_height(position->x.unsigned_parts.integer, position->y.unsigned_parts.integer,
+        if (((s16)sample_terrain_surface_height(position->x.unsigned_parts.integer, position->y.unsigned_parts.integer,
             (s16)((u16)position->z.w.i - 4)) - 0x10) < fade_height) {
             effect->unk_68 = 0;
-            position->z.w.i = sample_terrain_surface_height(position->x.unsigned_parts.integer,
+            position->z.w.i = (s16)sample_terrain_surface_height(position->x.unsigned_parts.integer,
                 position->y.unsigned_parts.integer, (s16)((u16)position->z.w.i - 4))
             - 0x11;
             position->z.w.frac = 0;

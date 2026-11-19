@@ -14,7 +14,7 @@
 void begin_countdown_advance_cursor_action(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite) {
     clear_object_velocity((position));
     dispatch_selected_entry_if_nonzero(approach_action_handler_table, object, sprite);
-    town_action_reset_byte = 0;
+    town_action_reset_byte[0] = 0;
     object->unk_04 = &tick_countdown_or_advance_cursor;
     object->unk_0A = 0x10;
     object->unk_10 = 0x400;

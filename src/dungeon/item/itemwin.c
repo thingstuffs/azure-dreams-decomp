@@ -236,15 +236,15 @@ S_800491F4 *create_item_window_chain(S_800491F4 **context) {
 /* Copies default display records into the inventory widget and sets its position, depth, and flags. */
 void init_item_window_display_defaults(void *unused, ovl_1830850_81810D9C_Owner *owner, ovl_1830850_81810D9C_S_8002E5D8 *patch,
                    ovl_1830850_81810D9C_S_8002E5E8 *state) {
-    ovl_1830850_81810D9C_S_8002E5D8 *patch_defaults = &display_block_defaults;
-    ovl_1830850_81810D9C_S_8002E5E8 *state_defaults = &display_vector_defaults;
+    MenuDisplayBlock *patch_defaults = &display_block_defaults;
+    DisplayPositionWords *state_defaults = &display_vector_defaults;
     s32 *state_first_word;
 
-    patch->unk0 = patch_defaults->unk0;
+    patch->unk0 = patch_defaults->words[0];
     state_first_word = &state_defaults->unk0;
-    patch->unk4 = patch_defaults->unk4;
-    patch->unk8 = patch_defaults->unk8;
-    patch->unkC = patch_defaults->unkC;
+    patch->unk4 = patch_defaults->words[1];
+    patch->unk8 = patch_defaults->words[2];
+    patch->unkC = patch_defaults->words[3];
 
     state->unk0 = *state_first_word;
     state->unk4 = state_defaults->unk4;

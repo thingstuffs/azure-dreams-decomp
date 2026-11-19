@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/level.h"
 #include "dungeon/actor.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
@@ -14,8 +15,6 @@ typedef struct {
 
 extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/actor/state.h"
-
-extern s16 find_entry_at_tile_coordinates(u8, u8, s16);
 
 extern DungeonEntry floor_objects[];
 

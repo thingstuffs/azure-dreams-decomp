@@ -31,7 +31,6 @@ typedef struct {
     void *unk5C;
 } Arg1Struct;
 
-s32 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z);
 /* extern */
 /* extern */
 void clear_slot_and_detach_entity(s32 slot_index);

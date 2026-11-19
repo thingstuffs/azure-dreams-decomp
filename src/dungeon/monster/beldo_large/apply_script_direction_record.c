@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/beldo_large_data.h"
 #include "shared/object_node.h"
 #include "shared/entity_objects.h"
 #include "dungeon/monster/beldo_large.h"
@@ -13,14 +14,9 @@ typedef struct {
 
 
 
-extern u8 *beldo_actor_nodes[3];
 extern s16 func_8016F428(void *arg);
 
 
-typedef struct S_8016F79C_0 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-} S_8016F79C_0;   /* s0 in apply_script_direction_record */
 
 
 /*
@@ -30,15 +26,15 @@ typedef struct S_8016F79C_0 {
 void apply_script_direction_record(void *unused_0, ObjectPosition *record, SpriteFrameState *unused_2) {
     u8 *source_base = (u8 *)(&scene_object_list_anchor.next);
     register ActorRecord *source_data = (ActorRecord *)(source_base + 0x20);
-    u8 *target_base = beldo_actor_nodes[1];
-    S_8016F79C_0 *target_data = (S_8016F79C_0 *)(target_base + 0x20);
+    ObjectNodeHeader *target_base = beldo_script_node;
+    ActorRecord *target_data = NODE_BODY(target_base);
     s16 raw_value = func_8016F428(record);
     s32 decoded_value = raw_value;
 
     if (decoded_value == 9) {
-        target_data->unk_2A = source_data->facing;
+        target_data->facing = source_data->facing;
     } else {
-        target_data->unk_2A = (u16)(decoded_value << 9);
+        target_data->facing = (u16)(decoded_value << 9);
     }
     {
         register u16 *default_words = (u16 *)((u8 *)(&view_reference_entity));

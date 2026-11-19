@@ -3,6 +3,7 @@
 struct ItemMenuPart;
 struct DisplayPositionWords;
 #include "common.h"
+#include "shared/menu_display.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80025850_arg0.h"
@@ -214,8 +215,7 @@ extern s32 advance_index_with_single_wrap(s32 selection_step, s32 unk8, s32 valu
 extern u8 D_800789B8[9];
 extern s32 inventory_shared_entry_value;
 extern u8 item_window_chain_indices[13];
-extern ovl_1830850_81810D9C_S_8002E5D8 display_block_defaults;
-extern ovl_1830850_81810D9C_S_8002E5E8 display_vector_defaults;
+
 extern u8 D_80078C10[9];
 extern u8 D_8007795C[9];
 extern u8 D_80029474[9];

@@ -7,15 +7,15 @@
 #include "town/shop/stat_panel_callbacks_api.h"
 
 /* Initialize an entry with a mode-dependent value offset and a fixed data offset. */
-void fill_cd_read_descriptor(s32 mode, s32 value_base, S_800B6CCC_0 *entry, s32 data_base) {
+void fill_cd_read_descriptor(s32 mode, s32 value_base, MonsterStatusCdDescriptor *entry, s32 data_base) {
     s32 entry_value;
 
     entry_value = value_base + 0x42E6;
     if (mode == 0) {
         entry_value = value_base + 0x42DB;
     }
-    entry->unk_04 = entry_value;
-    entry->unk_00 = (s32) (data_base + 0x80800000);
+    entry->sector = entry_value;
+    entry->data_word = (s32) (data_base + 0x80800000);
 }
 
 /* Returns a mapped code for the object, or its fallback value when the code is zero. */
@@ -34,14 +34,14 @@ s32 get_monster_status_species_code(void *object) {
 }
 
 /* Set the object data pointer and initialize its coordinate-based data. */
-void set_monster_status_cd_read_target(void *object) {
-    *(void **)((u8 *)object + 0xE0) = (void *)0x8002B800;
-    fill_cd_read_descriptor(*(s16 *)((u8 *)object + 8), *(s16 *)((u8 *)object + 0xA),
-                  (S_800B6CCC_0 *)((u8 *)object + 0xD8), (s32)0x8002B800);
+void set_monster_status_cd_read_target(ShopFirstCallbackObject *object) {
+    object->transfer_data = 0x8002B800;
+    fill_cd_read_descriptor(object->slot_index, object->unk_0A,
+                  &object->read_descriptor, (s32)0x8002B800);
 }
 
 /* Clear the texture's rectangle with zeroed image data. */
-void clear_monster_status_texture(void *texture) {
+void clear_monster_status_texture(SpritePartCommand *texture) {
     RECT rect;
     void *clear_data;
 
@@ -49,45 +49,43 @@ void clear_monster_status_texture(void *texture) {
     bzero(clear_data, 0x200);
     DrawSync(0);
 
-    rect.x = (*((u8 *)texture + 8) >> 2)
-    + ((*(u16 *)((u8 *)texture + 4) << 6) & 0x3C0);
-    rect.y = ((*(u16 *)((u8 *)texture + 4) << 4) & 0x100)
-    + *((u8 *)texture + 9);
-    rect.w = *((u8 *)texture + 10) >> 2;
-    rect.h = *((u8 *)texture + 11);
+    rect.x = (texture->data.texture.u0 >> 2)
+    + ((texture->tpage << 6) & 0x3C0);
+    rect.y = ((texture->tpage << 4) & 0x100)
+    + texture->data.texture.v0;
+    rect.w = texture->data.texture.width >> 2;
+    rect.h = texture->data.texture.height;
 
     LoadImage(&rect, clear_data);
     DrawSync(0);
 }
 
 /* Invalidates changed cached state and starts the corresponding CD operations. */
-s32 queue_monster_status_reload(Rec_func_800B683C_arg0 *state) {
+s32 queue_monster_status_reload(ShopFirstCallbackObject *state) {
     s32 state_code;
-    s32 cache_addr;
-    CachedObjectCodePair *cached_state;
+    s16 *cache_row;
+    s16 *cached_state;
 
-    state->unk_0A = (s16)get_monster_status_species_code((void *)state->unk_04);
-    state_code = get_enabled_record_flag_priority(state->unk_04);
-    state->unk_10 = state_code;
+    state->unk_0A = (s16)get_monster_status_species_code(state->actor);
+    state_code = get_enabled_record_flag_priority(state->actor);
+    state->palette_index = state_code;
     if (state_code == 3) {
-        state->unk_10 = 0;
+        state->palette_index = 0;
     }
     if (release_monster_status_request_handles(state) != 0) {
-        *((state->unk_08 * 2) + display_resource_cache_keys) = -1;
+        *((state->slot_index * 2) + display_resource_cache_keys) = -1;
     }
-    cached_state = (state->unk_08 * 2) + display_resource_cache_keys;
-    if ((cached_state->unk_00 != state->unk_0A)
-        || (cached_state->unk_02 != state->unk_10)) {
-        cached_state->unk_00 = -1;
-        cache_addr = state->unk_08;
-        cache_addr <<= 2;
-        cache_addr += (s32)display_resource_cache_keys;
-        ((S_800B6E3C_2 *)((void *)cache_addr))->unk_02 = -1;
-        clear_monster_status_texture((void *)(state->unk_14));
-        state->unk_DC = 0;
+    cached_state = (state->slot_index * 2) + display_resource_cache_keys;
+    if ((cached_state[0] != state->unk_0A)
+        || (cached_state[1] != state->palette_index)) {
+        cached_state[0] = -1;
+        cache_row = &display_resource_cache_keys[state->slot_index * 2];
+        cache_row[1] = -1;
+        clear_monster_status_texture(state->texture);
+        state->read_descriptor.sector = 0;
         set_monster_status_cd_read_target(state);
-        state->unk_D0 = Control_CD(6, &state->cd_read_target, NULL);
-        state->unk_D4 = Control_CD(0xFF, complete_display_transfer, state);
+        state->read_handle = Control_CD(6, &state->read_descriptor, NULL);
+        state->completion_handle = Control_CD(0xFF, complete_display_transfer, state);
         return 1;
     }
     return 0;

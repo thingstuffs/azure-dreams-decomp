@@ -3,7 +3,7 @@
 #include "dungeon/monster/tyrant/try_begin_tyrant_attack.h"
 #include "shared/actor_action_flags.h"
 #include "dungeon/effect.h"
-#include "dungeon/player/object.h"
+#include "dungeon/player/object/action_state.h"
 
 /* Checks action eligibility and updates the actor state and directional animation on success. */
 s32 try_begin_tyrant_attack(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *sprite, ActorRecord *actor) {

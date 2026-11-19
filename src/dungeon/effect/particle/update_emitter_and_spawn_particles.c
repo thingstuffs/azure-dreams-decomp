@@ -117,7 +117,7 @@ void update_emitter_and_spawn_particles(void *emitter_arg, MovingPosition *posit
     life_left = emitter->unk_1E - 1;
     emitter->unk_1E = life_left;
     if ((life_left << 0x10) <= 0) {
-        u16 *counter = &emitted_effect_counter;
+        u16 *counter = emitted_effect_counter;
         u16 next_counter;
 
         (*(u16 *)((u8 *)emitter + -2)) = (u16) (((S_7FFE79F4_0_pre *)emitter)[-1].unk_00 | 0x8000);

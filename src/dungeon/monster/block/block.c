@@ -2310,7 +2310,7 @@ void replace_actor_with_faded_effect(CB_80174D14_S_80C97514_0 *state, ObjectPosi
     u16 previous_ticks;
     u8 status;
     u8 next_state;
-    CB_80174D14_S_80C97514_4 *effect_data;
+    ActorEffectColor *target_color;    void *effect_data;
     GameWork *scene_color = &g_game_work;
     CB_80174D14_S_80C97514_7 *render_obj;
     ObjectNodeHeader *effect;
@@ -2369,12 +2369,12 @@ void replace_actor_with_faded_effect(CB_80174D14_S_80C97514_0 *state, ObjectPosi
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             return;
         }
-        effect_data = ((void **)&actor_effect_color_targets)[lookup_masked_byte_table(actor)];
-        scene_color->view.tint.parts.tint_r = (u8) (scene_color->view.tint.parts.tint_r + ((s32) (effect_data->unk_00
+        target_color = actor_effect_color_targets[lookup_masked_byte_table(actor)];
+        scene_color->view.tint.parts.tint_r = (u8) (scene_color->view.tint.parts.tint_r + ((s32) (target_color->r
             - scene_color->view.tint.parts.tint_r) / (s16) state->timer));
-        scene_color->view.tint.parts.tint_g = (u8) (scene_color->view.tint.parts.tint_g + ((s32) (effect_data->unk_01
+        scene_color->view.tint.parts.tint_g = (u8) (scene_color->view.tint.parts.tint_g + ((s32) (target_color->g
             - scene_color->view.tint.parts.tint_g) / (s16) state->timer));
-        scene_color->view.tint.parts.tint_b = (u8) (scene_color->view.tint.parts.tint_b + ((s32) (effect_data->unk_02
+        scene_color->view.tint.parts.tint_b = (u8) (scene_color->view.tint.parts.tint_b + ((s32) (target_color->b
             - scene_color->view.tint.parts.tint_b) / (s16) state->timer));
         return;
     case 4:

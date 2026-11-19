@@ -1,4 +1,6 @@
 #include "dungeon/system.h"
+#include "dungeon/actor/status.h"
+#include "engine/entity/effect_slots.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -9,9 +11,6 @@
 #include "dungeon/item.h"
 #include "dungeon/item/message.h"
 
-extern s32 set_or_clear_actor_status_slot(void *, s32, s32);
-extern s32 get_entity_effect_value(void *, s32);
-extern void clear_slots_of_type(void *, s32);
 extern s32 D_8008942C[];
 extern s32 D_800E196F[];
 extern s32 D_800E1987[];
@@ -21,7 +20,7 @@ extern s32 D_800E19AA[];
 /* Toggle the 0xB/0xC status pair between attacker and target: roll the attacker's 0x3 chance plus its 0x11 bonus against 0x30, apply or clear the status on the target, and report whether the attempt did not fail. */
 u32 try_toggle_brainwash_status(ActorRecord *attacker, ActorRecord *target) {
     s32 roll;
-    s32 status;
+    s16 status;
     s32 shifted;
     s32 chance;
     s32 base_chance;

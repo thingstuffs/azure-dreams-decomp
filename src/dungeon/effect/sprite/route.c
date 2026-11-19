@@ -318,7 +318,9 @@ void update_actor_effect_sequence(ChasingStarEffectBody *record)
 
 
 /* Updates effect motion, collisions, animation, scale, and expiration. */
-void advance_damped_ground_sliding_sprite(B32_818CEDC8_S_818CEDC8_1 *state, B32_818CEDC8_S_818CEDC8_0 *position, SpriteFrameState *sprite) {
+void advance_damped_ground_sliding_sprite(SlidingGroundSpriteBody *state, ObjectPosition *position, SpriteFrameState *sprite) {
+    u16 x;
+    u16 y;
     s32 current_z;
     u16 frame_count;
     u16 scale_x;
@@ -326,41 +328,49 @@ void advance_damped_ground_sliding_sprite(B32_818CEDC8_S_818CEDC8_1 *state, B32_
     u16 life_left;
     s32 collision_z;
 
-    position->unk_00.at00.v = (s32) (position->unk_00.at00.v + state->unk_4C);
-    state->unk_4C = (s32) (state->unk_4C + state->unk_58);
-    if ((check_left_tile_and_center_height(position->unk_00.at02.v, position->unk_04.at02.v,
-                       (collision_z = position->unk_08.at02.v, linked_point_effect_updated[0] = 1, collision_z)) << 0x10) != 0) {
-        position->unk_00.at00.v = (s32) (position->unk_00.at00.v - state->unk_4C);
-        state->unk_4C = 0;
-        state->unk_58 = 0;
+    position->x.v += state->velocity_x;
+    state->velocity_x += state->accel_x;
+    x = position->x.w.i;
+    y = position->y.w.i;
+    if ((check_left_tile_and_center_height(x, y,
+                       (collision_z = position->z.w.i, linked_point_effect_updated[0] = 1, collision_z)) << 0x10) != 0) {
+        position->x.v -= state->velocity_x;
+        state->velocity_x = 0;
+        state->accel_x = 0;
     }
-    position->unk_04.at00.v = (s32) (position->unk_04.at00.v + state->unk_50);
-    state->unk_50 = (s32) (state->unk_50 + state->unk_5C);
-    if ((check_left_tile_and_center_height(position->unk_00.at02.v, position->unk_04.at02.v, position->unk_08.at02.v) << 0x10) != 0) {
-        position->unk_04.at00.v = (s32) (position->unk_04.at00.v - state->unk_50);
-        state->unk_50 = 0;
-        state->unk_5C = 0;
+    position->y.v += state->velocity_y;
+    state->velocity_y += state->accel_y;
+    x = position->x.w.i;
+    y = position->y.w.i;
+    if ((check_left_tile_and_center_height(x, y, position->z.w.i) << 0x10) != 0) {
+        position->y.v -= state->velocity_y;
+        state->velocity_y = 0;
+        state->accel_y = 0;
     }
-    position->unk_08.at00.v = (s32) (position->unk_08.at00.v + state->unk_54);
+    position->z.v += state->velocity_z;
     {
-        s32 accel_z = state->unk_60;
-        state->unk_54 += accel_z;
+        s32 accel_z = state->accel_z;
+        state->velocity_z += accel_z;
     }
-    state->unk_4C = (s32) ((state->unk_4C * 0x60) / 100);
-    state->unk_50 = (s32) ((state->unk_50 * 0x60) / 100);
-    current_z = position->unk_08.at02.v;
-    if ((sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v, (s16) ((u16) position->unk_08.at02u.v - 4)) - 0x10) < current_z) {
-        state->unk_54 = 0;
-        position->unk_08.at02.v = (s16) (sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v, (s16) ((u16) position->unk_08.at02.v - 4)) - 0x11);
-        position->unk_08.at00u.v = 0;
-        if (state->unk_08 == 0) {
-            state->unk_08 = 1;
-            state->unk_4C = (s32) ((((rand() & 0x7F) << 0xB) + 0xFFFE0000) * 3);
-            state->unk_50 = (s32) ((((rand() & 0x7F) << 0xB) + 0xFFFE0000) * 3);
+    state->velocity_x = (s32) ((state->velocity_x * 0x60) / 100);
+    state->velocity_y = (s32) ((state->velocity_y * 0x60) / 100);
+    current_z = position->z.w.i;
+    x = position->x.w.i;
+    y = position->y.w.i;
+    if ((sample_terrain_surface_height(x, y, position->z.w.i - 4) - 0x10) < current_z) {
+        state->velocity_z = 0;
+        x = position->x.w.i;
+        y = position->y.w.i;
+        position->z.w.i = (sample_terrain_surface_height(x, y, position->z.w.i - 4) - 0x11);
+        position->z.w.frac = 0;
+        if (state->hit_ground == 0) {
+            state->hit_ground = 1;
+            state->velocity_x = (s32) ((((rand() & 0x7F) << 0xB) + 0xFFFE0000) * 3);
+            state->velocity_y = (s32) ((((rand() & 0x7F) << 0xB) + 0xFFFE0000) * 3);
         }
     }
-    frame_count = state->unk_04 + 1;
-    state->unk_04 = frame_count;
+    frame_count = state->frame_count + 1;
+    state->frame_count = frame_count;
     if (!(frame_count & 3)) {
         advance_sprite_animation_and_textures(sprite);
     }
@@ -374,8 +384,8 @@ void advance_damped_ground_sliding_sprite(B32_818CEDC8_S_818CEDC8_1 *state, B32_
     if ((u32) (scale_y & 0xFFFF) >= 0x1001U) {
         sprite->scale_y = 0x1000U;
     }
-    life_left = state->unk_02 - 1;
-    state->unk_02 = life_left;
+    life_left = state->ticks_left - 1;
+    state->ticks_left = life_left;
     if ((life_left << 0x10) <= 0) {
         NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -628,11 +638,9 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
         gfx->unk_1E -= 0x32;
         obj = allocate_flagged_object_node(0x212);
         {
-            u8 *s3;
-            s3 = (u8 *)obj;
-            s3 += 0x20;
+            SlidingGroundSpriteBody *child = NODE_BODY(obj);
             if (obj != 0) {
-            ((B32_818CF0E8_S_818CF0E8_4 *)s3)->unk_02 = 0x34;
+            child->ticks_left = 0x34;
             obj->update_callback = advance_damped_ground_sliding_sprite;
             register_node(obj, project_sprite_chain);
             p = (B32_818CF0E8_S_818CF0E8_6 *)obj->sprite;
@@ -657,8 +665,8 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
                 p->unk_06 = b2;
             }
             p->unk_08.at02.v = pos->z.unsigned_parts.integer;
-            ((B32_818CF0E8_S_818CF0E8_4 *)s3)->unk_54 = rand() + 0x30000;
-            ((B32_818CF0E8_S_818CF0E8_4 *)s3)->unk_60 = 0x6000;
+            child->velocity_z = rand() + 0x30000;
+            child->accel_z = 0x6000;
             p = (B32_818CF0E8_S_818CF0E8_6 *)obj->sprite;
             p->unk_1C = 0x800;
             p->unk_1E = 0x800;

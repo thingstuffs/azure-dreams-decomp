@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/runtime_directory.h"
 #include "shared/item_ids.h"
 #include "engine/item.h"
 #include "engine/text.h"
@@ -12,14 +13,6 @@ typedef struct
 }
 S_800492B0_Ret;
 
-typedef struct
-{
-    u8 unk0;
-    u8 pad[0xF];
-}
-S_80082E6A;
-
-extern S_80082E6A runtime_dispatch_mode_alias;
 extern s32 get_scaled_byte_value(void *);
 
 /* Formats and displays item modifiers and status markers. */
@@ -32,7 +25,7 @@ s32 format_item_name(u8 *text_target, DungeonItemEntry *item)
     memset(text, 0x20, 0x20);
     text[0x1F] = 0;
 
-    if ((runtime_dispatch_mode_alias.unk0 == 2) && (get_item_category_flags(item) != 0)) {
+    if ((runtime_dispatch_mode_alias[0] == 2) && (get_item_category_flags(item) != 0)) {
         return 0;
     }
 
@@ -44,7 +37,7 @@ s32 format_item_name(u8 *text_target, DungeonItemEntry *item)
 
     if (kind == 3) {
         s32 subtype = item->unk_03 & 0x1F;
-        if ((subtype < 0x14) && (runtime_dispatch_mode_alias.unk0 != 1)) {
+        if ((subtype < 0x14) && (runtime_dispatch_mode_alias[0] != 1)) {
             S_800492B0_Ret *entry = resolve_familiar_slot_value(subtype);
             if (entry->unk28 == 0) {
                 text[0] = 0x7A;
@@ -53,7 +46,7 @@ s32 format_item_name(u8 *text_target, DungeonItemEntry *item)
     }
     else {
         if (item->kind == ITEM_KIND_EGG) {
-            if (runtime_dispatch_mode_alias.unk0 != 1) {
+            if (runtime_dispatch_mode_alias[0] != 1) {
                 func_8004E5A0(0x64 - item->unk_02, 3, &text[9]);
                 remap_flagged_string_bytes(&text[9]);
                 text[0xC] = 0xA;

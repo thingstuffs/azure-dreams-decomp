@@ -1,4 +1,7 @@
 #include "common.h"
+#include "dungeon/player/camera_depth_presets_data.h"
+#include "engine/entity/effect_slots.h"
+#include "dungeon/globals.h"
 #include "dungeon/player/object/action_state.h"
 #include "shared/actor_status_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -35,7 +38,6 @@ struct Elem;
 
 typedef s32 (*Callback4)(void *, void *, void *, void *);
 extern u8 destination_motion_resume_address[];
-s16 get_entity_effect_value();                 /* extern */ /* Unprototyped: return_width */
 #include "engine/texture.h"
 #include "dungeon/player/input.h"
 void *find_eligible_actor_at_tile_and_height(struct Node *node, s16 x, s16 y_in, s16 value);           /* extern */
@@ -47,15 +49,10 @@ void *find_eligible_actor_at_tile_and_height(struct Node *node, s16 x, s16 y_in,
 
 struct Node;
 extern s8 scene_music_hold;
-extern s16 floor_generation_state[3];
-extern s16 dungeon_camera_targets[];
-extern s8 dungeon_event_pending_flag;
 extern u16 D_800DD258;
 extern u16 D_800DD25A;
 extern u8 dungeon_button_latch;
-extern u8 camera_transition_timer;
 extern s32 familiar_turn_counters_alias;
-extern void *actor_update_node_cursor;
 
 typedef struct S_80089AA0_1 {
     u8 pad_00[0x8];
@@ -211,7 +208,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
     DungeonGlobalStatus *callback_status;
     DungeonGlobalStatus *tail_status;
     void *input_snapshot;
-    void *next_record;
+    ObjectNodeHeader *next_record;
     u16 initial_flags;
 
     linked_actor = in_actor;
@@ -236,22 +233,22 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
         scene_music_hold = 1;
     }
     if ((*(u16 *)0x80013714) & 4) {
-        s16 *effect_data;
+        DungeonCameraTargets *effect_data;
         s32 effect_angle;
         s32 angle_step;
         s32 effect_flags;
-        effect_data = dungeon_camera_targets;
-        effect_flags = *(s32 *)((u8 *)&floor_generation_state);
-        effect_angle = effect_data[2];
+        effect_data = &dungeon_camera_targets;
+        effect_flags = floor_generation_state.seed;
+        effect_angle = effect_data->rotation.z;
         if (effect_flags & 1) {
             angle_step = effect_angle + 8;
         } else {
             angle_step = effect_angle - 8;
         }
-        effect_data[2] = (s16) angle_step;
+        effect_data->rotation.z = (s16) angle_step;
         g_game_work.view.slot[2].callback = 0;
         queue_view_slot(1);
-        set_camera_targets(0, ((u8 *)&dungeon_event_pending_flag - 0xEF), 2);
+        set_camera_targets(0, &dungeon_camera_targets.rotation, 2);
     }
     linked_actor->unk_9E = (s16) (((u16) world_object->unk_B0 >> 9) & 7);
     status_base = &g_dungeon_status.turn_scale;
@@ -282,7 +279,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
             if (turn_flags & 2) {
                 input_status->flags = (u16) ((turn_flags & 0xFFFD) | 0x20);
                 tick_monster_spawn_timer();
-                state_or_address = get_entity_effect_value(actor, STATUS_SPEED);
+                state_or_address = (s16)get_entity_effect_value(actor, STATUS_SPEED);
                 turn_sign = state_or_address;
                 state_or_address = 0x80;
                 if (turn_sign <= 0) {
@@ -404,10 +401,10 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
         if (!((*(u16 *)0x80013714) & 8) && (!(g_dungeon_status.flags & 4)
             || (((S_80089AA0_6 *)(&dungeon_floor_flags))->unk_00 & 0x40) || (linked_actor->action_id == 0x17))) {
             dungeon_floor_flags = (s32)(dungeon_floor_flags & ~0x40);
-            if ((select_nearby_target_and_initialize_slot(NODE_HEADER(actor), in_motion, 8, dungeon_camera_targets[3]) << 0x10) != 0) {
+            if ((select_nearby_target_and_initialize_slot(NODE_HEADER(actor), in_motion, 8, dungeon_camera_targets.depth) << 0x10) != 0) {
                 g_game_work.view.slot[2].callback = 0;
                 queue_view_slot(1);
-                set_camera_targets(0, dungeon_camera_targets, 2);
+                set_camera_targets(0, &dungeon_camera_targets.rotation, 2);
             } else {
                 camera_transition_timer = 0;
             }
@@ -599,13 +596,13 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
                 }
                 root = actor;
                 do {
-                    record_or_page = (*(void **)((u8 *)actor + 0x5C));
+                    record_or_page = actor->next_actor_header;
                     linked_actor = NODE_BODY(record_or_page);
                     companion_index = 0;
                     if (linked_actor != actor) {
                         do {
                             retry_callback = *(s32 *)&record_or_page->update_callback;
-                            actor_update_node_cursor = ((S_80089AA0_19 *)linked_actor)->unk_5C.p;
+                            actor_update_node_cursor = linked_actor->next_actor_header;
                             if (retry_callback > 0) {
                                 retry_callback |= 0x80000000;
                                 ((s32 (*)(void *, s32, s32)) retry_callback)((u8 *)record_or_page + 0x20,
@@ -639,7 +636,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
                     do {
                         record_or_page = NODE_HEADER(linked_actor);
                         height_or_callback = *(s32 *)&record_or_page->update_callback;
-                        ((S_80089AA0_27 *)root)->unk_3DE8 = ((S_80089AA0_19 *)linked_actor)->unk_5C.p;
+                        ((S_80089AA0_27 *)root)->unk_3DE8 = linked_actor->next_actor_header;
                         if (height_or_callback > 0) {
                             height_or_callback |= 0x80000000;
                             ((s32 (*)(void *, s32, s32)) height_or_callback)(linked_actor,
@@ -674,7 +671,7 @@ apply_pending_points:
             if ((can_entity_gain_level(actor) << 0x10) != 0) {
                 goto store_pending_actor;
             }
-            next_link = (*(void **)((u8 *)actor + 0x5C));
+            next_link = actor->next_actor_header;
             actor = NODE_BODY(next_link);
             if (actor != (void *)dungeon_actor_ring_anchor) {
                 goto apply_pending_points;
@@ -688,7 +685,7 @@ begin_linked_pass:
         motion_or_count = 0;
         if (actor != root) {
             do {
-                next_record = (*(void **)((u8 *)actor + 0x5C));
+                next_record = actor->next_actor_header;
                 actor_update_node_cursor = next_record;
                 if (((repeat_pass == 0) || (actor->pending_turn_updates != 0)
                     || (loop_status -> trap_counts . parts . pending_trap_count != 0)) && (*(s32 *)&record_or_page->update_callback > 0)) {

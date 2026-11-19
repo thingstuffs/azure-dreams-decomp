@@ -1,34 +1,12 @@
 #ifndef TOWN_SHOP_STAT_PANEL_H
 #define TOWN_SHOP_STAT_PANEL_H
+#include "town/shop/object.h"
+#include "shared/sprite_part_command.h"
 #include "shared/entity.h"
 /* Initialize display entries and draw entity statistics panels. */
 
 #include "common.h"
 #include "shared/runtime_dispatch.h"
-
-typedef struct S_800B5B20_0 {
-    u8 pad_00[0x4];
-    u16 unk_04;
-    u16 unk_06;
-    u8 unk_08;
-    u8 unk_09;
-    u8 unk_0A;
-    u8 unk_0B;
-} S_800B5B20_0;
-
-typedef struct DisplayTransferState {
-    u8 pad_00[8];
-    s16 slot_index;
-    u16 texture_slot;
-    u8 pad_0C[4];
-    union { s32 palette_offset; u16 palette_slot; } palette;
-    void *texture;
-    u8 pad_18[0xB8];
-    s32 transfer_phase;
-    s32 transfer_pending;
-    u8 pad_D8[8];
-    s32 data;
-} DisplayTransferState;
 
 typedef struct Func800B8500Inner {
     u8 pad[8];
@@ -72,7 +50,7 @@ extern char *strcat(char *dst, const char *src);
 extern void set_display_entry_text_and_position(struct S_800B5264_0 *entry, s32 text, s32 style, s16 x, s32 y);
 
 /* Functions defined in this translation unit. */
-void complete_display_transfer(void *texture_state);
+void complete_display_transfer(ShopFirstCallbackObject *state);
 void initialize_three_display_entries(s32 source_value, Func800B8500Entry **entries, void *entry_value);
 s32 get_monster_status_label(void *entry);
 void draw_formatted_monster_status_text(void *entry, void *display);

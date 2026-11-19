@@ -465,13 +465,6 @@ typedef struct S_8187B1F4_1 {
     u16 unk_A6;
 } S_8187B1F4_1;   /* scratch in project_shaded_points_to_ordering_table */
 
-typedef struct S_8187B1F4_2 {
-    u8 pad_00[0x16];
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-} S_8187B1F4_2;   /* arg2 in project_shaded_points_to_ordering_table */
-
 typedef struct S_8187B1F4_4 {
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; s8 v; } at03; } unk_00;   /* overlapping accesses */
     union {
@@ -508,7 +501,7 @@ typedef struct GlobalRef {
 typedef struct PrimitiveTag { unsigned addr : 24; unsigned len : 8; } PrimitiveTag;
 
 /* Projects points and adds brightness-scaled pixel primitives to the ordering table. */
-s32 project_shaded_points_to_ordering_table(RandomRadialVectorEffectBody *points, ObjectPosition *position, u8 *orientation) {
+s32 project_shaded_points_to_ordering_table(RandomRadialVectorEffectBody *points, ObjectPosition *position, SpriteFrameState *sprite) {
     s32 view_matrix[8];
     void *model_matrix;
     u8 *scratch;
@@ -545,9 +538,9 @@ s32 project_shaded_points_to_ordering_table(RandomRadialVectorEffectBody *points
         VFIELD(scratch, s32, 0x3C) = 0x1000;
         VFIELD(scratch, s32, 0x38) = 0x1000;
         VFIELD(scratch, s32, 0x34) = 0x1000;
-        VFIELD(scratch, u16, 0xA4) = ((S_8187B1F4_2 *)orientation)->unk_16;
-        VFIELD(scratch, u16, 0xA8) = ((S_8187B1F4_2 *)orientation)->unk_1A;
-        component = ((S_8187B1F4_2 *)orientation)->unk_18;
+        VFIELD(scratch, u16, 0xA4) = sprite->angle_x;
+        VFIELD(scratch, u16, 0xA8) = sprite->angle_z;
+        component = sprite->angle_y;
         ((S_8187B1F4_1 *)scratch)->unk_A6 = component;
         RotMatrix(scratch + 0xA4, (model_matrix));
         ReadRotMatrix(&view_matrix);
@@ -621,9 +614,8 @@ s32 project_shaded_points_to_ordering_table(RandomRadialVectorEffectBody *points
         if (tail_2 == 0) {
             break;
         }
-        point_packet = (u8 *)tail_2->sprite;
         position = tail_2->position;
-        orientation = point_packet;
+        sprite = tail_2->sprite;
     } while (1);
     return hard_zero;
 }
@@ -640,7 +632,7 @@ void rotate_point_cloud_until_expired(RandomRadialVectorEffectBody *object, Obje
     *(s16 *)(global_base + 0x694C) = 1;
     object_data->unk_10.u = remaining;
     if ((s16)remaining <= 0) {
-        (*(u16 *)((u8 *)object_data + -2)) |= NODE_REMOVE;
+        NODE_HEADER(object_data)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -650,26 +642,18 @@ void rotate_point_cloud_until_expired(RandomRadialVectorEffectBody *object, Obje
 #include "sdk/libgpu_packets.h"
 #include "dungeon/effect/colored_point_scratch.h"
 
-#define FIELD_U8(base, off)  (*(u8 *)((u8 *)(base) + (off)))
-#define FIELD_S16(base, off) (*(s16 *)((u8 *)(base) + (off)))
-#define FIELD_U16(base, off) (*(u16 *)((u8 *)(base) + (off)))
-#define FIELD_U32(base, off) (*(u32 *)((u8 *)(base) + (off)))
-#define FIELD_PTR(base, off) (*(u8 **)((u8 *)(base) + (off)))
-
 extern u8 resident_globals_page[];
 extern u32 RotTransPers();
 
 /* Projects a colored point and links its drawing packets into the ordering table. */
-s32 project_colored_point_to_ordering_table(TerrainSeekingColoredPointBody *render_data, u8 *source_vertex)
+s32 project_colored_point_to_ordering_table(TerrainSeekingColoredPointBody *render_data, ObjectPosition *position)
 {
     GpuContext **context_slot;
     ColoredPointScratch *scratch;
     GpuContext *context;
     TILE_1 *point_packet;
     DR_MODE *mode_packet;
-    u8 *next_node;
-    u8 *vertex = source_vertex;
-    u16 vertex_x;
+    ObjectNodeHeader *next_node;
     u8 blue;
     u32 depth_index;
     u32 length_mask;
@@ -685,10 +669,9 @@ s32 project_colored_point_to_ordering_table(TerrainSeekingColoredPointBody *rend
     scratch->ordering_table = (u32 *)&context->orderTag;
     do {
         point_packet = scratch->packet_cursor;
-        vertex_x = FIELD_U16(vertex, 2);
-        scratch->position.vx = vertex_x;
-        scratch->position.vy = FIELD_U16(vertex, 6);
-        scratch->position.vz = FIELD_U16(vertex, 0xA);
+        scratch->position.vx = position->x.w.i;
+        scratch->position.vy = position->y.w.i;
+        scratch->position.vz = position->z.w.i;
         scratch->packet_cursor = point_packet + 1;
 
         depth_index = RotTransPers(&scratch->position, (s32 *)&point_packet->x0, &scratch->depth_cue,
@@ -728,35 +711,35 @@ s32 project_colored_point_to_ordering_table(TerrainSeekingColoredPointBody *rend
             *mode_ot_entry = (*mode_ot_entry & length_mask) | ((u32)mode_packet & address_mask);
         }
 
-        next_node = FIELD_PTR(render_data, -8);
+        next_node = NODE_HEADER(render_data)->chain_next;
         render_data = NODE_BODY(next_node);
         if (next_node == 0) {
             break;
         }
-        vertex = FIELD_PTR(next_node, 8);
+        position = next_node->position;
     } while (1);
     (*context_slot)->packetCursor = scratch->packet_cursor;
     return 0;
 }
 
 /* Conditionally advances the position and decrements a counter, setting flags when it expires. */
-void advance_colored_point_toward_terrain(TerrainSeekingColoredPointBody *object, s16 *position)
+void advance_colored_point_toward_terrain(TerrainSeekingColoredPointBody *object, ObjectPosition *position)
 {
     s16 counter;
 
-    s16 minimum_height = position[5] + 2;
-    u16 query_x = (u16)position[1];
-    u16 query_y = (u16)position[3];
+    s16 minimum_height = position->z.w.i + 2;
+    u16 query_x = position->x.w.i;
+    u16 query_y = position->y.w.i;
 
     *point_cloud_update_flag = 1;
-    if (position[5] < (s16)sample_terrain_surface_height(query_x, query_y, minimum_height)) {
-        ((s32 *)position)[2] += object->z_velocity;
+    if (position->z.w.i < (s16)sample_terrain_surface_height(query_x, query_y, minimum_height)) {
+        position->z.v += object->z_velocity;
     }
 
-    counter = (u16)object->intensity - 4;
+    counter = object->intensity - 4;
     object->intensity = counter;
     if ((counter << 16) <= 0) {
-        *(u16 *)((u8 *)object - 2) |= NODE_REMOVE;
+        NODE_HEADER(object)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -765,15 +748,6 @@ void advance_colored_point_toward_terrain(TerrainSeekingColoredPointBody *object
 #ifndef NULL
 #define NULL 0
 #endif
-
-typedef struct S_func_800250B0_0 {
-    u8 pad_00[0x08];
-    void *unk_08;
-    u8 pad_0C[0x04];
-    void *unk_10;
-    u8 pad_14[0x0C];
-    s32 unk_20;
-} S_func_800250B0_0;
 
 /* Creates an object at a randomized offset from the source and initializes its actor data. */
 void create_terrain_seeking_colored_point(
@@ -790,7 +764,7 @@ void create_terrain_seeking_colored_point(
     u32 saved_field_00 = field_00_value;
     s16 saved_pair ;
     s32 saved_z_offset = z_offset;
-    S_func_800250B0_0 *spawned_obj;
+    ObjectNodeHeader *spawned_obj;
     TerrainSeekingColoredPointBody *actor_data;
     s32 y_jitter;
     s32 z_jitter;
@@ -800,8 +774,6 @@ void create_terrain_seeking_colored_point(
     s16 x_pos;
     s16 y_pos;
     s32 z_pos;
-    void *init_obj;
-    void *init_data;
     ObjectPosition *x_dest;
     ObjectPosition *y_dest;
     ObjectPosition *z_dest;
@@ -809,10 +781,10 @@ void create_terrain_seeking_colored_point(
     spawned_obj = allocate_list_node(0x211, &source_obj->next);
     if (spawned_obj != NULL) {
         saved_pair = paired_value;
-        spawned_obj->unk_10 = advance_colored_point_toward_terrain;
+        spawned_obj->update_callback = advance_colored_point_toward_terrain;
         z_offset = rand() & 0x1F;
         x_pos = source_obj->position->x.unsigned_parts.integer;
-        x_dest = spawned_obj->unk_08;
+        x_dest = spawned_obj->position;
         x_pos += z_offset;
         x_bias = x_offset - 0x10;
         x_pos += x_bias;
@@ -820,19 +792,17 @@ void create_terrain_seeking_colored_point(
 
         y_jitter = rand() & 0x1F;
         y_pos = source_obj->position->y.unsigned_parts.integer;
-        y_dest = spawned_obj->unk_08;
+        y_dest = spawned_obj->position;
         y_pos += y_jitter;
         y_bias = y_offset - 0x10;
         y_pos += y_bias;
         y_dest->y.w.i = (s16)y_pos;
 
         z_jitter = rand();
-        init_obj = spawned_obj;
-        init_data = project_colored_point_to_ordering_table;
         z_jitter &= 0x1F;
         z_pos = source_obj->position->z.unsigned_parts.integer;
-        actor_data = (TerrainSeekingColoredPointBody *)((u8 *)spawned_obj + 0x20);
-        z_dest = spawned_obj->unk_08;
+        actor_data = NODE_BODY(spawned_obj);
+        z_dest = spawned_obj->position;
         z_pos += z_jitter;
         z_bias = saved_z_offset - 0x10;
         z_pos += z_bias;
@@ -840,7 +810,7 @@ void create_terrain_seeking_colored_point(
         actor_data->unk_04 = saved_field_04;
         actor_data->intensity = saved_pair;
         actor_data->divisor = saved_pair;
-        register_node(init_obj, init_data);
+        register_node(spawned_obj, project_colored_point_to_ordering_table);
         actor_data->z_velocity = rand() + 0x10000;
         actor_data->color = saved_field_00;
     }
@@ -877,7 +847,7 @@ void create_random_radial_vector_effect(s32 radius, s32 initial_value, s16 exten
     effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
         point_count = 0;
-        state = (u8 *)effect + 0x20;
+        state = NODE_BODY(effect);
         do {
             angle_a = rand() & 0xFFF;
             angle_b = rand() & 0xFFF;
@@ -1078,25 +1048,6 @@ void update_projectile_trail_flash(ProjectileTrailFlashBody *effect, s32 unused,
 }
 
 
-typedef struct S_8187BFE0_1 {
-    u8 pad_00[0x8];
-    u8 * unk_08;
-    u8 * unk_0C;
-    void * unk_10;
-    u8 pad_14[0xA];
-    s16 unk_1E;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-} S_8187BFE0_1;   /* node in initialize_star_effect_sequence */
-
-
-
-   /* sprite in initialize_star_effect_sequence */
-
-   /* dst in initialize_star_effect_sequence */
-
-   /* source in initialize_star_effect_sequence */
-
 typedef struct {
     u8 bytes[12];
 } Data12;
@@ -1105,8 +1056,7 @@ extern s32 rsin(s32);
 extern s32 rcos(s32);
 
 /* Initializes a five-point star and spawns its edge effects over successive updates. */
-void initialize_star_effect_sequence(StarSequenceBody *state_data, void *source_data) {
-    MovingPosition *source_position;
+void initialize_star_effect_sequence(StarSequenceBody *state_data, ObjectPosition *source_position) {
     ObjectNodeHeader *node;
     StarEdgeEffectBody *edge_data;
     SpriteFrameState *sprite;
@@ -1117,7 +1067,6 @@ void initialize_star_effect_sequence(StarSequenceBody *state_data, void *source_
     s16 blended_coord;
     s32 mode;
 
-    source_position = source_data;
     mode = state_data->mode;
     *(s16 *)((u8 *)&point_cloud_update_flag) = 1;
 
@@ -1128,10 +1077,10 @@ void initialize_star_effect_sequence(StarSequenceBody *state_data, void *source_
         vertex_index = 0;
         do {
             angle_offset = (vertex_index << 12) / 5;
-            ((S_8187BFE0_1 *)((u8 *)state_data + vertex_index * 2))->unk_1E =
+            state_data->x[vertex_index] =
                 (state_data->radius *
                  rcos(state_data->base_angle + angle_offset)) >> 12;
-            ((S_8187BFE0_1 *)((u8 *)state_data + vertex_index * 2))->unk_2A =
+            state_data->y[vertex_index] =
                 (state_data->radius *
                  rsin(state_data->base_angle + angle_offset)) >> 12;
             vertex_index++;
@@ -1139,11 +1088,11 @@ void initialize_star_effect_sequence(StarSequenceBody *state_data, void *source_
 
         state_data->edge_index = 0;
         state_data->frame = 0;
-        state_data->mode = (u16) ((u16) state_data->mode + 1);
+        state_data->mode++;
                         /* fallthrough */
     case 1:
         if (state_data->frame == 0) {
-            state_data->frame = (u16) ((u16) state_data->frame + 1);
+            state_data->frame++;
             node = allocate_flagged_object_node(0x212);
             if (node == 0) {
                 break;
@@ -1158,9 +1107,9 @@ void initialize_star_effect_sequence(StarSequenceBody *state_data, void *source_
             sprite->flags &= 0xFFF3;
 
             dest_position = node->position;
-            dest_position->x.w.i = source_position->x;
-            dest_position->y.w.i = source_position->y;
-            dest_position->z.w.i = source_position->z;
+            dest_position->x.w.i = source_position->x.w.i;
+            dest_position->y.w.i = source_position->y.w.i;
+            dest_position->z.w.i = source_position->z.w.i;
 
             switch (state_data->edge_index) {
             case 0:
@@ -1271,10 +1220,10 @@ void initialize_star_effect_sequence(StarSequenceBody *state_data, void *source_
             sprite->source = (u8 *)edge_data + 0x44;
             return;
         } else {
-            state_data->frame = (u16) ((u16) state_data->frame + 1);
+            state_data->frame++;
             if (state_data->frame >= 4) {
                 state_data->frame = 0;
-                state_data->edge_index = (u16) ((u16) state_data->edge_index + 1);
+                state_data->edge_index++;
                 if (state_data->edge_index >= 5) {
                     NODE_HEADER(state_data)->flags |= NODE_REMOVE;
                     object_flag_block.flags |= OBJECT_REMOVE_PENDING;

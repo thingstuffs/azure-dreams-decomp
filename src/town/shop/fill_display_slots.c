@@ -14,7 +14,7 @@ typedef struct DisplaySlot {
 } DisplaySlot;
 
 /* Fill up to three output slots from source entries and clear unused slots. */
-void fill_display_slots(EntityRec *source, s32 output) {
+void fill_display_slots(ActorRecord *source, s32 output) {
     void *entries[3];
     s32 index;
     s32 slot_count;

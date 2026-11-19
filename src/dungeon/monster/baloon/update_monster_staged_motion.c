@@ -1,4 +1,5 @@
 #include "engine/graphics/select_sprite_entry_api.h"
+#include "shared/dungeon_height_query.h"
 #include "dungeon/level/unlink_entity_node_api.h"
 #include "common.h"
 #include "dungeon/monster/baloon.h"
@@ -27,9 +28,6 @@ typedef struct {
 
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
-extern s32 check_left_tile_and_center_height(u16, u16, s16);
-extern s16 sample_terrain_surface_height(u16, u16, s16);
-
 extern LocalTable baloon_motion_direction_vectors;
 
 
@@ -37,7 +35,7 @@ extern LocalTable baloon_motion_direction_vectors;
 /* Update the monster's staged motion, choose a nearby destination, and clean up its actor. */
 /* Animates Baloon's spinning defeat and fall, searches nearby tiles, awards experience, and removes the
  * actor. */
-void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor_ptr)
+void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     LocalVector direction;
     LocalTable direction_table;
@@ -52,12 +50,10 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
     s32 x;
     s32 y;
     s32 direction_index;
-    u32 actor;
     u8 tile_x;
     u8 tile_y;
 
     direction_table = baloon_motion_direction_vectors;
-    actor = (u32)actor_ptr;
 
     switch (body->action_phase) {
     case 0:
@@ -68,7 +64,7 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
         facing_angle = 0;
         do {
             if (((g_game_work.view.camera_rotation.parts.viewAngle + facing_angle + 0x100) >> 9 & 7) == 2) {
-                ((ActorRecord *)actor)->facing = facing_angle;
+                actor->facing = facing_angle;
             }
             facing_angle += 0x200;
         } while (facing_angle < 0x1000);
@@ -76,12 +72,12 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
         {
             u8 *animation_table = baloon_hop_frames;
             (sprite->frameTable) = animation_table;
-            direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9 & 7;
+            direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9 & 7;
             select_sprite_entry(sprite, animation_table[direction_index], 0);
             body->action_state_flags |= 8;
-            ((ActorRecord *)actor)->flags1C &= 0xFFFBFFFF;
-            body->unk_90.parts.high += ((ActorRecord *)actor)->ground_height;
-            ((ActorRecord *)actor)->ground_height = 0;
+            actor->flags1C &= 0xFFFBFFFF;
+            body->unk_90.parts.high += actor->ground_height;
+            actor->ground_height = 0;
         }
         {
             u16 next_state = body->action_phase;
@@ -171,9 +167,9 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
             scaled_speed = body->unk_AC.halves.high.s * trig_value;
             {
                 u8 *direction_entry = (u8 *)&direction_table;
-                direction.x = (*(u16 *)(direction_entry + (((((ActorRecord *)actor)->facing - 0x400) >> 7) & 0x1C)));
+                direction.x = (*(u16 *)(direction_entry + (((actor->facing - 0x400) >> 7) & 0x1C)));
                 direction_entry +=
-                    ((((ActorRecord *)actor)->facing - 0x400) >> 7) & 0x1C;
+                    ((actor->facing - 0x400) >> 7) & 0x1C;
                 direction.y = (*(u16 *)(direction_entry + (2)));
 
                 body->unk_90.value += scaled_speed << 4;
@@ -200,6 +196,9 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
         sprite->scale_x = 0x600;
 
         for (attempt = 0; attempt < 0xA; attempt++) {
+            u16 landing_x;
+            u16 landing_y;
+
             random_x = random_below_limit(7) - 3;
             random_y = random_below_limit(6) - 2;
             x_offset = random_x << 6;
@@ -220,12 +219,12 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
                 continue;
             }
 
-            actor = (u16)x;
-            y = (u16)y;
-            if ((check_left_tile_and_center_height(actor, y, -0x200) << 16) != 0) {
+            landing_x = x;
+            landing_y = y;
+            if ((check_left_tile_and_center_height(landing_x, landing_y, -0x200) << 16) != 0) {
                 continue;
             }
-            if (sample_terrain_surface_height(actor, y, -0x200) < 0x200) {
+            if ((s16)sample_terrain_surface_height(landing_x, landing_y, -0x200) < 0x200) {
                 continue;
             }
 
@@ -256,8 +255,8 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
         if ((body->action_timer++) < 0xA) {
             return;
         }
-        if (((ActorRecord *)actor)->flags14 & 0x4000) {
-            if (!(((ActorRecord *)actor)->flags14 & 0x20000000)) {
+        if (actor->flags14 & 0x4000) {
+            if (!(actor->flags14 & 0x20000000)) {
                 announce_familiar_defeat((void *)actor);
             }
         }
@@ -267,25 +266,25 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
     }
 
     {
-        u32 tracked_actor;
+        ObjectNodeHeader *tracked_actor;
         s32 tile_flags;
 
-        tracked_actor = ((u32)g_dungeon_status.pending_display_owner);
-        if (tracked_actor == actor - 0x20) {
-            g_dungeon_status.pending_display_owner = tracked_actor & 0x7FFFFFFF;
+        tracked_actor = g_dungeon_status.pending_display_owner;
+        if (tracked_actor == NODE_HEADER(actor)) {
+            g_dungeon_status.pending_display_owner = (void *)((unsigned long)tracked_actor & ~0x80000000UL);
         }
         distribute_experience_and_report_gains((void *)actor);
-        detach_record_and_update_slot_state((void *)actor);
+        detach_record_and_update_slot_state(actor);
         tile_x = sprite->tile_x;
         tile_y = sprite->tile_y;
-        if (((ActorRecord *)actor)->flags1C & 0x2000) {
+        if (actor->flags1C & 0x2000) {
             tile_flags = 0x300;
         } else {
             tile_flags = 0x3000;
         }
         update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_flags);
         unlink_entity_node((void *)actor);
-        (*(u16 *)((u8 *)actor + (-2))) |= NODE_REMOVE;
+        NODE_HEADER(actor)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

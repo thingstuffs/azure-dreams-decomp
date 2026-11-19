@@ -3,72 +3,36 @@
 #include "m2c_compat.h"
 #include "engine/item.h"
 #include "engine/util.h"
-typedef struct S_800B3178_3 {
-    u8 pad_00[0x4];
-    s8 * unk_04;
-} S_800B3178_3;
-typedef struct S_800B3178_4 {
-    u8 pad_00[0x1];
-    s8 unk_01;
-    s8 unk_02;
-} S_800B3178_4;
-/* extern */
-/* extern */
-
-typedef struct S_800B3178_0 {
-    s32 unk_00;
-    u8 pad_04[0x8];
-    s32 unk_0C;
-} S_800B3178_0;
-/* arg1 in populate_paged_entries_with_brightness */
-
-typedef struct S_800B3178_1 {
-    s32 unk_00;
-    s8 * unk_04;
-} S_800B3178_1;
-typedef struct S_800B3178_2 {
-    u8 pad_00[0x1];
-    u8 unk_01;
-} S_800B3178_2;
-#include "records/Rec_func_800B2DA0_arg1.h"
-/* extern */
-void func_800B39E4(void *);
-/* extern */
-
-
-typedef struct S_800B32D4_1 {
-    u8 pad_00[0x3C];
-    s32 unk_3C;
-} S_800B32D4_1;
+#include "town/shop/storage_menu.h"
 
 /* Loads up to ten item displays for the current page, dimming entries of type 0x13. */
-static void populate_paged_entries_with_brightness(void **entries, S_800B3178_0 *page_info, s32 source_table) {
+static void populate_paged_entries_with_brightness(ItemMenuPart **entries, StoragePage *page_info, DungeonItemEntry **source_table) {
     s32 lookup_param;
     s32 page_index;
     s32 source_index;
     s32 entry_count;
     s32 normal_shade;
     s32 dim_shade;
-    void **entry;
-    void **source;
+    ItemMenuPart **entry;
+    DungeonItemEntry **source;
 
     entry_count = 0;
     dim_shade = 0x40;
     normal_shade = 0x80;
-    page_index = page_info->unk_00;
+    page_index = page_info->current;
     entry = entries;
     source_index = page_index * 0xA;
-    source = (page_index * 0x28) + source_table;
-    while (entry_count < 0xA && source_index < page_info->unk_0C) {
-        ((S_800B3178_1 *)(*entry))->unk_00 = create_label_glyph_entries(select_item_data(*source, &lookup_param), lookup_param);
-        if (((S_800B3178_2 *)(*source))->unk_01 == 0x13) {
-            *((S_800B3178_1 *)(*entry))->unk_04 = dim_shade;
-            ((S_800B3178_4 *)(((S_800B3178_3 *)(*entry))->unk_04))->unk_01 = dim_shade;
-            ((S_800B3178_4 *)(((S_800B3178_3 *)(*entry))->unk_04))->unk_02 = dim_shade;
+    source = (DungeonItemEntry **)((source_index * sizeof(*source_table)) + (unsigned long)source_table);
+    while (entry_count < 0xA && source_index < page_info->count) {
+        (*entry)->handler = create_label_glyph_entries(select_item_data(*source, &lookup_param), lookup_param);
+        if ((*source)->kind == 0x13) {
+            (*entry)->position->color.c.r = dim_shade;
+            (*entry)->position->color.c.g = dim_shade;
+            (*entry)->position->color.c.b = dim_shade;
         } else {
-            *((S_800B3178_1 *)(*entry))->unk_04 = normal_shade;
-            ((S_800B3178_4 *)(((S_800B3178_3 *)(*entry))->unk_04))->unk_01 = normal_shade;
-            ((S_800B3178_4 *)(((S_800B3178_3 *)(*entry))->unk_04))->unk_02 = normal_shade;
+            (*entry)->position->color.c.r = normal_shade;
+            (*entry)->position->color.c.g = normal_shade;
+            (*entry)->position->color.c.b = normal_shade;
         }
         entry += 1;
         entry_count += 1;
@@ -77,14 +41,13 @@ static void populate_paged_entries_with_brightness(void **entries, S_800B3178_0 
     }
 }
 
-/*
- * Prepares the linked page object, then populates its entries with brightness using the source
- * block at offset 0x1C and count at 0x3C.
- */
-void populate_record_page_entries(Rec_func_800B2DA0_arg1 *record) {
-    void *source_record;
+extern void func_800B39E4(void *);
 
-    func_800B39E4(record->unk_A8);
-    source_record = record->unk_00;
-    populate_paged_entries_with_brightness(record->unk_A8 + 0x40, source_record + 0x1C, ((S_800B32D4_1 *)source_record)->unk_3C);
+/* Refresh the alternate storage menu's ten text parts. */
+void populate_record_page_entries(AlternateStorageOwner *record) {
+    AlternateStorageSource *source;
+
+    func_800B39E4(record->parts);
+    source = record->source;
+    populate_paged_entries_with_brightness(&record->parts[16], &source->page, source->entries);
 }

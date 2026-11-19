@@ -18,7 +18,7 @@ void begin_actor_fade_draw(void *object_state, void *unused_context, Rec_D_80082
 
 #include "shared/town_object.h"
 void advance_object_countdown_and_invoke_handlers(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *sprite);
-s32 has_blindness_protection(EntityRec *entity);
+s32 has_blindness_protection(ActorRecord *entity);
 
 
 void initialize_object_with_seven_tick_counter(TownObjectRecord *object, ObjectPosition *unused_position, void *context);

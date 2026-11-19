@@ -20,7 +20,7 @@ typedef struct {
 } D800D0E44;
 
 extern s32 project_sprite_chain(void *group_data, s32 context, struct SpriteFrameState *sprite, s32 unused);
-extern s32 classify_object_against_bounds(void *object, void *position_data);
+extern s32 classify_object_against_bounds(void *object, struct ObjectPosition *position);
 extern void unlink_node_if_registered(void *object);
 extern s32 D_800D0E40[3];
 
@@ -28,7 +28,7 @@ extern s32 dish_counter;
 extern TownRecord D_800F8A70[];
 
 /* Functions defined in this translation unit. */
-void select_washed_dish_record_or_retire(TownObjectRecord *object, void *check_context, SpriteFrameState *record_holder);
+void select_washed_dish_record_or_retire(TownObjectRecord *object, ObjectPosition *check_context, SpriteFrameState *record_holder);
 s32 washed_dish_suu_set(s32 new_count);
 s32 washed_dish_suu_inc(void);
 

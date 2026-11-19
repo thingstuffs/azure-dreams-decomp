@@ -1,20 +1,11 @@
+#include "frontend/card/message_display.h"
 #include "common.h"
 #include "frontend/card.h"
 
-typedef struct S_8001BEA4_0 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    s32 unk_0C;
-    u8 pad_10[0x4];
-    s32 unk_14;
-    u8 pad_18[0x8];
-    s32 unk_20;
-} S_8001BEA4_0;   /* arg0 in set_layout_params */
-
 /* Sets four record fields to the supplied values. */
-void set_layout_params(S_8001BEA4_0 *record, s32 value_14, s32 value_08, s32 value_0c, s32 value_20) {
-    record->unk_14 = value_14;
-    record->unk_08 = value_08;
-    record->unk_0C = value_0c;
-    record->unk_20 = value_20;
+void set_layout_params(CardDevDialogDisplay *record, struct ObjectNodeHeader *owner, s32 value_08, s32 value_0c, s32 value_20) {
+    record->owner = owner;
+    record->layout_index = value_08;
+    record->mode = value_0c;
+    record->result_word = value_20;
 }

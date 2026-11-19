@@ -1,4 +1,5 @@
 #include "shared/actor_property_flags.h"
+#include "shared/dungeon_floor.h"
 /* Select dungeon spawn tiles and advance staged entity loading.
  * Evidence: proven (string literals).
  * dungeon/engine#g0246 J1[80089000]
@@ -20,15 +21,15 @@ s32 select_dungeon_spawn_tile(u8 *x_out, u8 *y_out)
     s32 attempts;
     s32 result;
     DungeonArea *area;
-    s16 *limits;
+    DungeonFloorGenerationState *limits;
     DungeonArea *areas;
 
     attempts = 0x100;
-    limits = floor_generation_state;
+    limits = &floor_generation_state;
     areas = (DungeonArea *)dungeon_rooms;
 
     do {
-        areaIndex = (u16)generate_random_value() % limits[3];
+        areaIndex = (u16)generate_random_value() % limits->room_count;
         area = (DungeonArea *)((areaIndex * (s32)sizeof(*area)) + (unsigned long)areas);
         if (area->enabled != 0) {
             x = (u32)(generate_random_value() & 0xFFFF) % area->width;

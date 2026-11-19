@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "shared/dungeon_height_query.h"
 /* Moving target effects, tint changes, radial sprite emission, and shaded point rendering. */
 #include "modules/dungeon_ovl_18a0800.h"
 #include "dungeon/effect/travel.h"
@@ -29,7 +30,6 @@ extern u8 D_800257E8[];
 
 #include "dungeon/effect/screen.h"
 extern s16 get_byte_coordinate_chebyshev_distance(s32 start_x, s32 start_y, s32 end_x, s32 end_y);
-extern s32 check_left_tile_and_center_height(s32, s32, s16);
 
 /* Updates a moving effect through initialization, target tracking, fading, and cleanup. */
 void update_accelerating_condition_projectile(TrackingEffect *self, ObjectPosition *motion, SpriteFrameState *part)
@@ -283,7 +283,7 @@ void update_accelerating_condition_projectile(TrackingEffect *self, ObjectPositi
     case 3:
         spawn_target = owner->target;
         spawn_height = spawn_target->ground_height;
-        self->child = create_brightening_follower((s32)self, motion, spawn_height, (s32)spawn_target);
+        self->child = create_brightening_follower(self, motion, spawn_height, spawn_target);
         if (self->child == 0) {
             break;
         }
@@ -338,17 +338,10 @@ void update_accelerating_condition_projectile(TrackingEffect *self, ObjectPositi
 
 
 
-typedef struct S_81880F28_3_pre {
-    EffectColor * unk_00;
-    u8 pad_04[0x10];
-} S_81880F28_3_pre;   /* the 0x14 bytes before effect->target.pointer in tint_effect_and_advance_motion */
-
 /* Tint the object red, restore its color, and advance its motion. */
-void tint_effect_and_advance_motion(void *effect_arg, ObjectPosition *motion_data) {
-    BrighteningFollowerEffectBody *effect = effect_arg;
-    ObjectPosition *motion = motion_data;
+void tint_effect_and_advance_motion(BrighteningFollowerEffectBody *effect, ObjectPosition *motion) {
     ActorRecord *object;
-    EffectColor *color;
+    SpriteFrameState *sprite;
     s16 state;
     s32 channel_value;
 
@@ -357,29 +350,29 @@ void tint_effect_and_advance_motion(void *effect_arg, ObjectPosition *motion_dat
 
     switch (state) {
     case 0:
-        object = effect->target.pointer;
+        object = effect->target;
         object->flags1C |= 0x10000000;
         effect->state++;
 
     case 1:
-        color = ((S_81880F28_3_pre *)(effect->target.pointer))[-1].unk_00;
+        sprite = NODE_HEADER(effect->target)->sprite;
 
-        channel_value = color->red + 1;
-        color->red = channel_value;
+        channel_value = sprite->color.c.r + 1;
+        sprite->color.c.r = channel_value;
         if ((u32)(channel_value & 0xFF) >= 0xC1U) {
-            color->red = 0xC0;
+            sprite->color.c.r = 0xC0;
         }
 
-        channel_value = color->green - 1;
-        color->green = channel_value;
+        channel_value = sprite->color.c.g - 1;
+        sprite->color.c.g = channel_value;
         if ((u32)(channel_value & 0xFF) < 0x40U) {
-            color->green = 0x40;
+            sprite->color.c.g = 0x40;
         }
 
-        channel_value = color->blue - 1;
-        color->blue = channel_value;
+        channel_value = sprite->color.c.b - 1;
+        sprite->color.c.b = channel_value;
         if ((u32)(channel_value & 0xFF) < 0x40U) {
-            color->blue = 0x40;
+            sprite->color.c.b = 0x40;
         }
 
         if (tint_effect_phase_counts[0] < 14) {
@@ -387,29 +380,29 @@ void tint_effect_and_advance_motion(void *effect_arg, ObjectPosition *motion_dat
         }
         break;
     case 2:
-        color = ((S_81880F28_3_pre *)(effect->target.pointer))[-1].unk_00;
+        sprite = NODE_HEADER(effect->target)->sprite;
 
-        channel_value = color->red - 4;
-        color->red = channel_value;
+        channel_value = sprite->color.c.r - 4;
+        sprite->color.c.r = channel_value;
         if ((u32)(channel_value & 0xFF) < 0x80U) {
-            color->red = 0x80;
+            sprite->color.c.r = 0x80;
         }
 
-        channel_value = color->green + 4;
-        color->green = channel_value;
+        channel_value = sprite->color.c.g + 4;
+        sprite->color.c.g = channel_value;
         if ((u32)(channel_value & 0xFF) >= 0x81U) {
-            color->green = 0x80;
+            sprite->color.c.g = 0x80;
         }
 
-        channel_value = color->blue + 4;
-        color->blue = channel_value;
+        channel_value = sprite->color.c.b + 4;
+        sprite->color.c.b = channel_value;
         if ((u32)(channel_value & 0xFF) >= 0x81U) {
-            color->blue = 0x80;
+            sprite->color.c.b = 0x80;
         }
 
         if (tint_effect_phase_counts[0] == 0) {
-            ((ActorRecord *)effect->target.pointer)->flags1C &= ~0x10000000;
-            (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+            effect->target->flags1C &= ~0x10000000;
+            NODE_HEADER(effect)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
@@ -424,24 +417,20 @@ void tint_effect_and_advance_motion(void *effect_arg, ObjectPosition *motion_dat
 #include "shared/dungeon_moving_views.h"
 
 /* Creates an object, copies three values into its data, and initializes it. */
-void *create_brightening_follower(s32 resource_id, MovingPosition *source_values, s16 setup_value, s32 object_value) {
-    MovingPosition *target_values;
+void *create_brightening_follower(TrackingEffect *parent, ObjectPosition *source_values, s16 setup_value, ActorRecord *target) {
+    ObjectPosition *target_values;
     ObjectNodeHeader *object;
     BrighteningFollowerEffectBody *body;
-    void *object_storage;
-    void *target_position;
 
-    object = allocate_list_node(2, (ObjectNodeHeader **)(resource_id - 0x20));
+    object = allocate_list_node(2, &NODE_HEADER(parent)->next);
     if (object != NULL) {
-        target_position = object->position;
-        target_values = target_position;
+        target_values = object->position;
         object->update_callback = tint_effect_and_advance_motion;
-        target_values->x = (u16) source_values->x;
-        target_values->y = (u16) source_values->y;
-        target_values->z = (u16) source_values->z;
-        object_storage = object;
-        body = object_storage + 0x20;
-        body->target.address = object_value;
+        target_values->x.w.i = source_values->x.w.i;
+        target_values->y.w.i = source_values->y.w.i;
+        target_values->z.w.i = source_values->z.w.i;
+        body = NODE_BODY(object);
+        body->target = target;
         spawn_ring_effects(target_values, setup_value);
     }
     return object;
@@ -474,7 +463,7 @@ void advance_sprite_every_other_tick(void *record, ObjectPosition *unused, Sprit
    /* arg0 in create_spark_burst_effect */
 
 /* Creates a visual node at the supplied coordinates with 16 evenly spaced radial effects. */
-void *create_spark_burst_effect(MovingPosition *source_coords)
+void *create_spark_burst_effect(ObjectPosition *source_coords)
 {
     s16 angle;
     s32 effect_index;
@@ -487,9 +476,9 @@ void *create_spark_burst_effect(MovingPosition *source_coords)
         node->update_callback = advance_sprite_every_other_tick;
         register_node(node, project_sprite_chain);
         coords = node->position;
-        coords->x.w.i = source_coords->x;
-        coords->y.w.i = source_coords->y;
-        coords->z.w.i = source_coords->z;
+        coords->x.w.i = source_coords->x.w.i;
+        coords->y.w.i = source_coords->y.w.i;
+        coords->z.w.i = source_coords->z.w.i;
         part = node->sprite;
         part->scale_y = 0x1000;
         part->scale_x = 0x1000;
@@ -563,7 +552,7 @@ void advance_rising_fading_emitter(RisingFadingEmitterBody *effect, ObjectPositi
 
 /* Spawns sixteen effects in a ring around the source position. */
 void *spawn_ring_effects(void *source_pos, s16 effect_param) {
-    register MovingPosition *origin = source_pos;
+    register ObjectPosition *origin = source_pos;
     register s16 state_param = effect_param;
     register s32 effect_index = 0;
     register s32 *callback = advance_rising_fading_emitter;
@@ -582,12 +571,12 @@ void *spawn_ring_effects(void *source_pos, s16 effect_param) {
             register_node(effect, draw_linked_sprites_clipped);
             angle = effect_index << 8;
             position = effect->position;
-            value = origin->x + (rcos(angle) >> 7);
+            value = (u16)origin->x.w.i + (rcos(angle) >> 7);
             position->x.w.i = value;
-            value = origin->y + (rsin(angle) >> 7);
+            value = (u16)origin->y.w.i + (rsin(angle) >> 7);
             position->y.w.i = value;
             position->z.w.i =
-                (s16)(origin->z - 0x100);
+                origin->z.w.i - 0x100;
             component = effect->sprite;
             component->scale_x = 0x800;
             component->scale_y = 0x1CCC;
@@ -610,14 +599,17 @@ void *spawn_ring_effects(void *source_pos, s16 effect_param) {
 }
 
 
-typedef struct {
-    u8 pad[0x24];
-    s16 field24;
-} Func818816E0Arg0;
+typedef struct TravelSpriteEffectBody {
+    u8 pad_00[0x14];
+    s16 height_limit;
+    u8 pad_16[0x8];
+    s16 unk_1E;
+    u8 pad_20[0x4];
+    s16 direction_index;
+} TravelSpriteEffectBody;
 
 /* Moves and fades an effect, marking it inactive when its brightness falls below the cutoff. */
-void move_and_fade_effect(void *effect_data, ObjectPosition *position_data, SpriteFrameState *visual_data) {
-    Func818816E0Arg0 *effect;
+void move_and_fade_effect(TravelSpriteEffectBody *effect, ObjectPosition *position_data, SpriteFrameState *visual_data) {
     ObjectPosition *position;
     register SpriteFrameState *visual;
     u16 decay_value;
@@ -625,19 +617,18 @@ void move_and_fade_effect(void *effect_data, ObjectPosition *position_data, Spri
     s32 angle;
 
     visual = visual_data;
-    effect = effect_data;
     position = position_data;
-    angle = effect->field24 << 8;
+    angle = effect->direction_index << 8;
     tint_effect_update_count[0] = tint_effect_update_count[0] + 1;
     position->x.v = position->x.v + (rcos(angle) * 8);
-    position->y.v = position->y.v + (rsin(effect->field24 << 8) * 8);
+    position->y.v = position->y.v + (rsin(effect->direction_index << 8) * 8);
     brightness = visual->color.c.b - 2;
     visual->color.c.b = brightness;
     visual->color.c.g = brightness;
     visual->color.c.r = brightness;
     if ((u32)(brightness & 0xFF) < 0x20U) {
         tint_effect_phase_counts[0] = (s16)((u16)tint_effect_phase_counts[0] - 1);
-        ((u16 *)effect_data)[-1] = (u16)(((u16 *)effect_data)[-1] | NODE_REMOVE);
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
     decay_value = visual->scale_y;
@@ -647,17 +638,8 @@ void move_and_fade_effect(void *effect_data, ObjectPosition *position_data, Spri
 
    /* arg0 in create_tinted_travel_sprite */
 
-typedef struct S_80024FD8_4 {
-    u8 pad_00[0x14];
-    s16 unk_14;
-    u8 pad_16[0x8];
-    s16 unk_1E;
-    u8 pad_20[0x4];
-    s16 unk_24;
-} S_80024FD8_4;
-
 /* Creates a render object at the supplied position and initializes its effect state. */
-void *create_tinted_travel_sprite(MovingPosition *source_pos, s16 effect_param, s16 size)
+void *create_tinted_travel_sprite(ObjectPosition *source_pos, s16 effect_param, s16 size)
 {
     s32 signed_size;
     s32 render_code;
@@ -665,53 +647,40 @@ void *create_tinted_travel_sprite(MovingPosition *source_pos, s16 effect_param, 
     SpriteFrameState *render_state;
     ObjectNodeHeader *object;
     ObjectPosition *position;
-    S_80024FD8_4 *effect_state;
+    TravelSpriteEffectBody *effect_state;
 
     object = allocate_flagged_object_node(0x202);
     if (object != 0) {
         object->update_callback = move_and_fade_effect;
         register_node(object, draw_linked_sprites_clipped);
         position = object->position;
-        position->x.w.i = source_pos->x;
-        position->y.w.i = source_pos->y;
-        position->z.w.i = source_pos->z;
+        position->x.w.i = source_pos->x.w.i;
+        position->y.w.i = source_pos->y.w.i;
+        position->z.w.i = source_pos->z.w.i;
         render_state = object->sprite;
         render_state->color.word = 0x808080;
         render_state->scale_x = 0x400;
         render_state->scale_y = 0x1CCC;
         select_record_entry_and_value(render_state, tinted_travel_sprite_data, 0);
-        signed_size = (s16)size;
+        signed_size = size;
         render_state->angle_y = (signed_size << 8) - 0x400;
         render_code = 0x60;
         effect_state = NODE_BODY(object);
         render_state->tpage_abr = render_code;
         object_count = (*(u16 *)tint_effect_phase_counts);
         render_state->angle_x = 0x400;
-        effect_state->unk_24 = size;
-        effect_state->unk_14 = effect_param;
+        effect_state->direction_index = size;
+        effect_state->height_limit = effect_param;
         effect_state->unk_1E = signed_size * 2;
-        (*(u16 *)tint_effect_phase_counts) = object_count + 1;
+        tint_effect_phase_counts[0] = object_count + 1;
     }
     return object;
 }
 
 #include "dungeon/effect/travel/jittered_spark.h"
 
-typedef struct S_800250E8_0 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union {
-        struct { s32 v; } at00;
-        struct { u8 pad[0x2]; u16 v; } at02;
-        struct { u8 pad[0x2]; s16 v; } at02u;
-    } unk_08;   /* overlapping accesses */
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_800250E8_0;   /* arg1 in update_spark_effect */
-
-
 /* Updates effect motion and marks it inactive when its lifetime or owner expires. */
-void update_spark_effect(JitteredSparkEffectBody *effect, S_800250E8_0 *motion, SpriteFrameState *owner)
+void update_spark_effect(JitteredSparkEffectBody *effect, ObjectPosition *motion, SpriteFrameState *owner)
 {
     s32 life_left;
     s32 y_step;
@@ -721,47 +690,47 @@ void update_spark_effect(JitteredSparkEffectBody *effect, S_800250E8_0 *motion, 
     s32 y_motion;
     s32 x_direction;
     s32 y_direction;
-    s32 x;
-    s32 y;
+    u16 x;
+    u16 y;
     s16 probe_z;
     u16 counter;
     u16 *counter_ptr;
 
     counter_ptr = tint_effect_update_count;
-    x = motion->unk_00.at02.v;
+    x = motion->x.w.i;
     counter = counter_ptr[0];
-    probe_z = motion->unk_08.at02.v;
-    y = motion->unk_04.at02.v;
+    probe_z = motion->z.w.i;
+    y = motion->y.w.i;
     counter++;
     probe_z -= 2;
     counter_ptr[0] = counter;
-    if (motion->unk_08.at02u.v <
+    if (motion->z.w.i <
         (s16)sample_terrain_surface_height(x, y, probe_z)) {
         if (effect->spawn_mode == 0) {
             x_direction = rcos(effect->heading);
-            motion->unk_00.at00.v = (s32)(motion->unk_00.at00.v +
+            motion->x.v = (s32)(motion->x.v +
                 (((s32)(x_direction * effect->remaining_steps) >> 4) +
                  (rand() & 0xFFFF)));
 
             y_direction = rsin(effect->heading);
             y_step = ((y_direction * effect->remaining_steps) >> 4) +
                        (rand() & 0xFFFF);
-            motion->unk_04.at00.v = (s32)(motion->unk_04.at00.v + y_step);
+            motion->y.v = (s32)(motion->y.v + y_step);
 
             z_velocity_copy = rand();
-            motion->unk_08.at00.v = (s32)(motion->unk_08.at00.v +
+            motion->z.v = (s32)(motion->z.v +
                 (0xFFFE0000 - (z_velocity_copy & 0xFFF)));
         } else {
-            motion->unk_00.at00.v = (s32)(motion->unk_00.at00.v +
+            motion->x.v = (s32)(motion->x.v +
                 rcos(effect->heading) *
                 effect->remaining_steps * 8);
             y_motion = rsin(effect->heading) *
                       effect->remaining_steps;
-            z_velocity = motion->unk_14;
-            z_position = motion->unk_08.at00.v;
-            motion->unk_08.at00.v = z_position + z_velocity;
-            motion->unk_14 += 0x6000;
-            motion->unk_04.at00.v = (s32)(motion->unk_04.at00.v + y_motion * 8);
+            z_velocity = motion->velocity_z;
+            z_position = motion->z.v;
+            motion->z.v = z_position + z_velocity;
+            motion->velocity_z += 0x6000;
+            motion->y.v = (s32)(motion->y.v + y_motion * 8);
         }
     }
 
@@ -769,7 +738,7 @@ void update_spark_effect(JitteredSparkEffectBody *effect, S_800250E8_0 *motion, 
     effect->remaining_steps = life_left;
     if ((life_left << 16) <= 0 ||
         (owner->flags & 0x8000)) {
-        NODE_HEADER(effect)->flags = (u16)(NODE_HEADER(effect)->flags | 0x8000);
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
@@ -801,30 +770,14 @@ typedef struct S_800252E0_1 {
 
    /* input in queue_projected_point_primitives */
 
-typedef struct S_800252E0_3 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-} S_800252E0_3;   /* arg2use in queue_projected_point_primitives */
-
 typedef struct S_800252E0_4 {
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; s8 v; } at03; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x3]; s8 v; } at03; } unk_04;   /* overlapping accesses */
 } S_800252E0_4;   /* p in queue_projected_point_primitives */
 
-typedef struct S_800252E0_5_pre {
-    void * unk_00;
-    u8 pad_04[0x4];
-} S_800252E0_5_pre;   /* the 0x8 bytes before arg0 in queue_projected_point_primitives, addressed as arg0[-1] */
-
 typedef struct S_800252E0_6 {
     void * unk_00;
 } S_800252E0_6;   /* global_slot in queue_projected_point_primitives */
-
-typedef struct S_800252E0_7 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-} S_800252E0_7;   /* next in queue_projected_point_primitives */
 
 typedef struct S_800252E0_8 {
     u8 pad_00[0x8D0];
@@ -834,9 +787,7 @@ typedef struct S_800252E0_8 {
 extern u8 resident_globals_page[];
 
 /* Queue projected point primitives from a linked list into the ordering table. */
-s32 queue_projected_point_primitives(void *node_data, void *position_data, void *appearance_data) {
-    MovingPosition *position = position_data;
-    S_800252E0_3 *appearance = appearance_data;
+s32 queue_projected_point_primitives(JitteredSparkEffectBody *node_data, ObjectPosition *position, SpriteFrameState *appearance) {
     S_800252E0_1 *scratch = (S_800252E0_1 *)0x1F800000;
     u8 *render_slot = resident_globals_page + 0x3160;
     u32 addr_mask = 0x00FFFFFF;
@@ -851,17 +802,17 @@ s32 queue_projected_point_primitives(void *node_data, void *position_data, void 
         scratch->unk_18 = packet_cursor;
     }
     for (;;) {
-        u16 coord = position->x;
+        u16 coord = position->x.w.i;
         scratch->unk_00 = coord;
-        coord = position->y;
+        coord = position->y.w.i;
         scratch->unk_02 = coord;
-        scratch->unk_04 = position->z;
+        scratch->unk_04 = position->z.w.i;
         packet = scratch->unk_18;
         scratch->unk_18 = (u8 *)packet + 0xC;
         scratch->unk_C0 = RotTransPers(
             scratch, (u8 *)packet + 8, &scratch->depth_cue, &scratch->gte_flag);
         if (scratch->unk_C0 < 0x1E0) {
-            s32 color = appearance->unk_0C;
+            s32 color = appearance->color.word;
             packet->unk_00.at03.v = 2;
             packet->unk_04.at00.v = color;
             packet->unk_04.at03.v = 0x6A;
@@ -891,15 +842,15 @@ s32 queue_projected_point_primitives(void *node_data, void *position_data, void 
             }
         }
         {
-            S_800252E0_7 *next_node = ((S_800252E0_5_pre *)node_data)[-1].unk_00;
+            ObjectNodeHeader *next_node = NODE_HEADER(node_data)->chain_next;
             if (next_node == NULL) {
                 ((S_800252E0_8 *)(((S_800252E0_6 *)render_slot)->unk_00))->unk_8D0 =
                     scratch->unk_18;
                 return 0;
             }
-            node_data = (u8 *)next_node + 0x20;
-            position = next_node->unk_08;
-            appearance = next_node->unk_0C;
+            node_data = NODE_BODY(next_node);
+            position = next_node->position;
+            appearance = next_node->sprite;
         }
     }
 }

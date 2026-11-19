@@ -1,5 +1,4 @@
 #include "slus.h"
-struct EntityHdr;
 
 struct ObjectPosition;
 #include "shared/dungeon_actor_callbacks.h"
@@ -24,8 +23,8 @@ struct ObjectPosition;
 extern s32 selected_item_record_alias[];
 extern s32 menu_action_argument[];
 s32 check_familiar_deployment_placement(); /* extern */
-void * create_familiar_selection_marker(struct EntityHdr **entity_ref);                          /* extern */
-void update_selection_tile_markers();                 /* extern */
+void *create_familiar_selection_marker(ActorRecord **entity_ref);
+void update_selection_tile_markers(ActorRecord *entity, s32 selection);
 extern u8 D_80012D6D;
 extern M2C_UNK D_80023C58;
 extern M2C_UNK D_80088904;

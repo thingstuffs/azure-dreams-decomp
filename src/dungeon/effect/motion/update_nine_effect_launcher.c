@@ -56,7 +56,7 @@ void advance_image_tint_transition(void *transition_arg) {
             break;
         }
         transition_data = transition->unk_00;
-        result_or_state = create_double_ellipse_sprite_effect(((ovl_19a332c_81982864_S_80024064_3_pre *)transition_data)[-1].unk_00, transition_data);
+        result_or_state = create_double_ellipse_sprite_effect(NODE_HEADER(transition_data)->position, transition_data);
         transition->unk_0C = result_or_state;
         if (result_or_state == 0) {
             break;
@@ -119,22 +119,22 @@ update_dimming:
 }
 /* Warning: struct S_8003E2D8 is not defined (only forward-declared) */
 
-void update_nine_effect_launcher(ovl_19a332c_81982B2C_Entity *entity, ObjectPosition *position, ovl_19a332c_81982B2C_Motion *motion)
+void update_nine_effect_launcher(EllipseEffectBody *entity, ObjectPosition *position, SpriteFrameState *sprite)
 {
     s16 state;
-    void *actor;
-    u16 *base_coords;
+    SpriteFrameState *owner_sprite;
+    ObjectPosition *origin;
 
     image_tint_update_count++;
     state = entity->state;
 
     if (state == 0) {
-        actor = entity->inner->sprite;
+        owner_sprite = entity->owner->sprite;
         if (entity->active == 0) {
-            if (resolve_record_orientation_or_fallback(*(s32 *)((u8 *)actor + 8), actor,
+            if (resolve_record_orientation_or_fallback(*(s32 *)((u8 *)owner_sprite + 8), owner_sprite,
                               &entity->x, 0) != 0) {
                 entity->active = 1;
-            } else if (*(u16 *)((u8 *)actor + 0x14) & 0x8000) {
+            } else if (owner_sprite->flags & 0x8000) {
                 entity->active = 1;
                 entity->z = -0x40;
             }
@@ -143,18 +143,18 @@ void update_nine_effect_launcher(ovl_19a332c_81982B2C_Entity *entity, ObjectPosi
             }
         }
 
-        base_coords = entity->inner->coords;
-        position->x.w.i = base_coords[1] + entity->x;
-        position->y.w.i = base_coords[3] + entity->y;
-        position->z.w.i = base_coords[5] + entity->z;
-        register_node((u8 *)entity - 0x20, project_sprite_chain);
+        origin = entity->owner->position;
+        position->x.w.i = origin->x.w.i + entity->x;
+        position->y.w.i = origin->y.w.i + entity->y;
+        position->z.w.i = origin->z.w.i + entity->z;
+        register_node(NODE_HEADER(entity), project_sprite_chain);
         entity->state++;
         return;
     }
 
     if (state == 1) {
-        if ((u8)motion->value < 0xC0) {
-            motion->value += 0x00202020;
+        if (sprite->color.c.r < 0xC0) {
+            sprite->color.word += 0x00202020U;
             return;
         }
         if (create_nine_linked_effects(position->x.w.i, position->y.w.i, position->z.w.i,
@@ -165,9 +165,9 @@ void update_nine_effect_launcher(ovl_19a332c_81982B2C_Entity *entity, ObjectPosi
     }
 
     if (state == 2) {
-        motion->value += 0xFFFBFBFC;
-        if ((u8)motion->value == 0) {
-            *(u16 *)((u8 *)entity - 2) |= NODE_REMOVE;
+        sprite->color.word += 0xFFFBFBFCU;
+        if (sprite->color.c.r == 0) {
+            NODE_HEADER(entity)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
@@ -175,12 +175,14 @@ void update_nine_effect_launcher(ovl_19a332c_81982B2C_Entity *entity, ObjectPosi
 
 /* Loads two effect textures and creates an object with copied coordinates, fixed sprite scales, and an
    owner link. */
-void *create_double_ellipse_sprite_effect(ovl_19a332c_81982CEC_S_800244EC_2 *source_part, s32 offset)
+void *create_double_ellipse_sprite_effect(ObjectPosition *source_position, void *owner_body)
 {
     GpuRectBuffer rect;
     s32 rect_size;
     ObjectNodeHeader *obj;
-    ovl_19a332c_81982CEC_S_800244EC_1 *part;
+    ObjectPosition *position;
+    SpriteFrameState *sprite;
+    EllipseEffectBody *effect;
     void *result;
 
     obj = allocate_flagged_object_node(2);
@@ -192,16 +194,17 @@ void *create_double_ellipse_sprite_effect(ovl_19a332c_81982CEC_S_800244EC_2 *sou
         rect.words[0] = 0x01200340;
         rect.words[1] = rect_size;
         draw_textured_ellipse(&D_800269D4, &rect.rect, 1, 0);
-        part = obj->position;
-        obj->update_callback = (void *)update_nine_effect_launcher;
-        part->unk_02 = source_part->unk_02;
-        part->unk_06 = source_part->unk_06;
-        part->unk_08.at02.v = source_part->unk_0A;
-        part = obj->sprite;
-        part->unk_08.at00.v = &D_800269FC;
-        part->unk_1E = 0xC00;
-        part->unk_1C = 0xC00;
-        ((ovl_19a332c_81982CEC_S_800244EC_0 *)obj)->unk_28 = offset - 0x20;
+        position = obj->position;
+        obj->update_callback = update_nine_effect_launcher;
+        position->x.w.i = source_position->x.w.i;
+        position->y.w.i = source_position->y.w.i;
+        position->z.w.i = source_position->z.w.i;
+        sprite = obj->sprite;
+        sprite->source = &D_800269FC;
+        sprite->scale_y = 0xC00;
+        sprite->scale_x = 0xC00;
+        effect = NODE_BODY(obj);
+        effect->owner = NODE_HEADER(owner_body);
     }
     result = NULL;
     if (obj != NULL) {
@@ -459,7 +462,7 @@ void *spawn_effect_actor_or_curved_trail(s16 x, s16 y, s16 z, s16 angle, s16 spa
 
 /* Moves a homing attack through launch, target hits, and fade-out, or follows its owner as an attached
    copy. */
-void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 *effect, ovl_19a332c_819835AC_S_819835AC_2 *motion, ovl_19a332c_819835AC_S_819835AC_3 *visual) {
+void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 *effect, ovl_19a332c_819835AC_S_819835AC_2 *motion, SpriteFrameState *visual) {
     struct { s16 x, y, z; } emit_offset;
     s32 aim_angle;
     s32 angle_mask;
@@ -1051,12 +1054,12 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             motion->x.word = (s32) (motion->x.word + motion->velocity_x.word);
             motion->y.word = (s32) (motion->y.word + motion->velocity_y.word);
             motion->z.word = (s32) (motion->z.word + motion->velocity_z.word);
-            fade_red = visual->color.half.unk_0C;
-            visual->color.half.unk_0C = (u8) (fade_red - ((s32) fade_red / (s16) effect->phase_counter));
-            fade_green = visual->color.half.unk_0D;
-            visual->color.half.unk_0D = (u8) (fade_green - ((s32) fade_green / (s16) effect->phase_counter));
-            fade_blue = visual->color.half.unk_0E;
-            visual->color.half.unk_0E = (u8) (fade_blue - ((s32) fade_blue / (s16) effect->phase_counter));
+            fade_red = visual->color.c.r;
+            visual->color.c.r = fade_red - ((s32) fade_red / (s16) effect->phase_counter);
+            fade_green = visual->color.c.g;
+            visual->color.c.g = fade_green - ((s32) fade_green / (s16) effect->phase_counter);
+            fade_blue = visual->color.c.b;
+            visual->color.c.b = fade_blue - ((s32) fade_blue / (s16) effect->phase_counter);
             fade_ticks = effect->phase_counter - 1;
             effect->phase_counter = fade_ticks;
             if ((fade_ticks << 0x10) > 0) {
@@ -1070,34 +1073,34 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                 return;
             } while (0);
         }
-        visual->angle_z = (u16) ((s16)calculate_planar_heading(0, 0, motion->velocity_x.half.unk_0E, motion->velocity_y.half.unk_12) - 0x400);
+        visual->angle_z = ((s16)calculate_planar_heading(0, 0, motion->velocity_x.half.unk_0E, motion->velocity_y.half.unk_12) - 0x400);
         boost_speed_x = motion->velocity_z.half.unk_16;
-        step_y = (visual->scale_x);
-        coord_delta = visual->color.half.unk_0C;
+        step_y = visual->scale_x;
+        coord_delta = visual->color.c.r;
         aim_angle = boost_speed_x * 4;
         boost_speed_x = aim_angle + 0x400;
-        visual->angle_x = (u16) boost_speed_x;
+        visual->angle_x = boost_speed_x;
         boost_speed_x = 0x2000;
         boost_speed_x -= step_y;
         boost_speed_x >>= 2;
         step_y += boost_speed_x;
         coord_delta += 8;
-        visual->color.half.unk_0C = coord_delta;
-        visual->scale_x = (u16) step_y;
-        visual->unk_20 = (u16) step_y;
-        visual->scale_y = (u16) step_y;
+        visual->color.c.r = coord_delta;
+        visual->scale_x = step_y;
+        visual->offset_x = step_y;
+        visual->scale_y = step_y;
         coord_delta &= 0xFF;
         coord_delta = (u32)coord_delta < 0x81U;
         if (!coord_delta) {
             visual->color.word = 0x808080;
         } else {
-            visual->color.half.unk_0D = (u8) (visual->color.half.unk_0D + 8);
-            visual->color.half.unk_0E = (u8) (visual->color.half.unk_0E + 8);
+            visual->color.c.g = visual->color.c.g + 8;
+            visual->color.c.b = visual->color.c.b + 8;
         }
         set_camera_track_target((u8 *) effect - 0x20, motion, 8, 0x300);
-        step_and_clamp_entry_index(visual, (u8 *) effect + 0x36, effect->min_frame, effect->max_frame);
-        copy_anim_entry_and_widen_fields(effect, visual->frame_entry);
-        frame = visual->frame_index;
+        step_and_clamp_entry_index(visual, &effect->frame_step, effect->min_frame, effect->max_frame);
+        copy_anim_entry_and_widen_fields(effect, visual->unk_00);
+        frame = visual->unk_04;
         if ((s8) frame == effect->max_frame) {
             frame_step = -1;
             effect->frame_step = frame_step;
@@ -1106,7 +1109,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             effect->frame_step = frame_step;
         }
         spawn_random_motion_particles(motion->x.half.unk_02, motion->y.half.unk_06,
-            motion->z.half.unk_0A, (s16) effect->heading, D_80026BD4[(s8) visual->frame_index]);
+            motion->z.half.unk_0A, (s16) effect->heading, D_80026BD4[visual->unk_04]);
         effect->update_count = (u16) (effect->update_count + 1);
         return;
     }
@@ -1122,7 +1125,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
     related_motion = ((ovl_19a332c_819835AC_S_819835AC_8 *) owner_ptr)->unk_08;
     if (owner_ref & 0x80000000) {
         owner_state = owner_ptr + 0x20;
-        visual->angle_z = (u16) ((s16)calculate_planar_heading(motion->x.half.unk_02,
+        visual->angle_z = ((s16)calculate_planar_heading(motion->x.half.unk_02,
             motion->y.half.unk_06, related_motion->x.w.i,
             related_motion->y.w.i) - 0x400);
         alternate_delta = related_motion->z.w.i;
@@ -1132,8 +1135,8 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
         alternate_scale += alternate_delta;
         aim_angle = alternate_scale << 1;
         alternate_value = aim_angle + 0x400;
-        visual->angle_x = (u16) alternate_value;
-        visual->flags = (u16) actor_data->unk_14;
+        visual->angle_x = alternate_value;
+        visual->flags = actor_data->unk_14;
         motion->x.half.unk_02 = owner_state->unk_50;
         motion->y.half.unk_06 = owner_state->unk_52;
         motion->z.half.unk_0A = owner_state->unk_54;
@@ -1141,18 +1144,18 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
         motion->x.half.unk_02 = related_motion->x.w.i;
         motion->y.half.unk_06 = related_motion->y.w.i;
         motion->z.half.unk_0A = related_motion->z.w.i;
-        visual->angle_x = (u16) actor_data->unk_16;
-        visual->angle_y = (u16) actor_data->unk_18;
-        visual->angle_z = (u16) actor_data->unk_1A;
-        visual->flags = (u16) actor_data->unk_14;
+        visual->angle_x = actor_data->unk_16;
+        visual->angle_y = actor_data->unk_18;
+        visual->angle_z = actor_data->unk_1A;
+        visual->flags = actor_data->unk_14;
     }
     visual->scale_x = actor_data->unk_1C;
     visual->scale_y = actor_data->unk_1E;
-    visual->unk_20 = (u16) actor_data->unk_20;
+    visual->offset_x = actor_data->unk_20;
     visual->color.word = actor_data->unk_0C;
     if (D_80026BC8[effect->part_index] != 0) {
         inventory_set_object_entry_address(visual, actor_data->unk_04);
-        copy_anim_entry_and_widen_fields(effect, visual->frame_entry);
+        copy_anim_entry_and_widen_fields(effect, visual->unk_00);
     }
     effect->update_count = (u16) (effect->update_count + 1);
     return;
@@ -1205,18 +1208,18 @@ void *create_nine_linked_effects(s32 x, s32 y, s32 z, s32 angle)
             prev_object = (ovl_19a332c_81984754_Object *)((u8 *)(&scene_object_list_anchor));
         }
         *object_slot = allocate_list_node(2, prev_object);
-        (*object_slot)->state = (void (*)(void *))(void *)update_homing_effect_and_attached_copies;
+        (*object_slot)->header.update_callback = update_homing_effect_and_attached_copies;
         register_node(*object_slot, draw_linked_model_chain);
 
-        pos = (*object_slot)->pos;
+        pos = (*object_slot)->header.position;
         pos->x.w.i = spawn_x;
         pos->y.w.i = spawn_y;
         pos->z.w.i = spawn_z;
 
-        part = (*object_slot)->part;
+        part = (*object_slot)->header.sprite;
         part->angle_x = 0x400;
         part->angle_z = spawn_angle - 0x400;
-        part->source = D_80026B2C + (object_index * 0x10);
+        part->source = &D_80026B2C[object_index];
         part->tpage_abr = 0x60;
         part->flags |= 0xC;
 
@@ -1314,56 +1317,54 @@ void copy_anim_entry_and_widen_fields(AnimFrame *dst, AnimEntry *src)
 }
 
 /* Resets the entry substate, clears flags 0x6000, and selects the indexed 0x16-byte animation entry. */
-void select_sprite_entry_and_clear_flags(ovl_19a332c_81984AB0_S_81984AB0_0 *object, s16 entry_index) {
-    s32 entry_base;
+void select_sprite_entry_and_clear_flags(SpriteFrameState *sprite, s16 entry_index) {
+    LauncherAnimationSlot *slot;
+    AnimEntry *entries;
 
-    object->unk_04 = entry_index;
-    object->unk_05 = 0;
-    entry_base = ((ovl_19a332c_81984AB0_S_81984AB0_2 *)(((ovl_19a332c_81984AB0_S_81984AB0_1 *)object)->unk_08))->unk_0C;
-    object->unk_14 = (u16) (object->unk_14 & 0x9FFF);
-    object->unk_00 = (s32) (entry_base + (entry_index * 0x16));
+    sprite->unk_04 = entry_index;
+    sprite->frame_ticks = 0;
+    slot = sprite->source;
+    entries = slot->entries;
+    sprite->flags &= 0x9FFF;
+    sprite->unk_00 = &entries[entry_index];
 }
 
 /* Points to the current 22-byte entry, steps its index, and clamps the new index while recording
    whether it hit a limit. */
-void step_and_clamp_entry_index(void *object, s16 *index_step, s32 min_index, s32 max_index) {
+void step_and_clamp_entry_index(SpriteFrameState *sprite, s16 *index_step, s32 min_index, s32 max_index) {
     s16 step;
-    s32 shifted_index;
     u32 clamp_flags;
-    u8 index;
-    ovl_19a332c_81984AF4_S_81984AF4_0 *obj = object;
-    s32 initial_index = obj->unk_04;
-    ovl_19a332c_81984AF4_S_81984AF4_1 *owner = obj->unk_08;
+    s8 index;
+    s32 initial_index = sprite->unk_04;
+    LauncherAnimationSlot *slot = sprite->source;
 
-    obj->unk_00 =
-        owner->unk_0C + (initial_index * 22);
+    sprite->unk_00 = &slot->entries[initial_index];
     step = *index_step;
     if (step > 0) {
-        obj->unk_04 = obj->unk_04 + 1;
+        sprite->unk_04++;
     } else if (step < 0) {
-        obj->unk_04 =
-            obj->unk_04 - 1;
+        sprite->unk_04--;
     }
-    index = obj->unk_04;
-    shifted_index = index << 24;
-    if ((s8)index < (s16)min_index) {
-        clamp_flags = obj->unk_14 | 0x4000;
-        obj->unk_04 = min_index;
-        obj->unk_14 = clamp_flags;
+    index = sprite->unk_04;
+    if (index < (s16)min_index) {
+        clamp_flags = sprite->flags | 0x4000;
+        sprite->unk_04 = min_index;
+        sprite->flags = clamp_flags;
         return;
     }
-    if ((s8)index > (s16)max_index) {
-        clamp_flags = obj->unk_14 | 0x4000;
-        obj->unk_04 = max_index;
-        obj->unk_14 = clamp_flags;
+    if (index > (s16)max_index) {
+        clamp_flags = sprite->flags | 0x4000;
+        sprite->unk_04 = max_index;
+        sprite->flags = clamp_flags;
         return;
     }
-    obj->unk_14 &= 0xBFFF;
+    sprite->flags &= 0xBFFF;
 }
 
 /* Sets the current animation-entry address using the owner table base and a 0x16-byte stride. */
-void inventory_set_object_entry_address(ovl_19a332c_81984BC0_S_81984BC0_0 *object, s16 entry_index) {
-    object->unk_00 = (s32) (((ovl_19a332c_81984BC0_S_81984BC0_2 *)(((ovl_19a332c_81984BC0_S_81984BC0_1 *)object)->unk_08))->unk_0C + (entry_index * 0x16));
+void inventory_set_object_entry_address(SpriteFrameState *sprite, s16 entry_index) {
+    LauncherAnimationSlot *slot = sprite->source;
+    sprite->unk_00 = &slot->entries[entry_index];
 }
 
 /* Clears flag 0x2000 in every object header in the circular actor list except the primary actor's header. */
@@ -1445,7 +1446,6 @@ void clear_object_buffer_and_state(void *tracker) {
     s16 next_ticks;
     ovl_19a332c_81984D4C_S_81984D4C_2 *target;
     GameView *state;
-    ovl_19a332c_81984D4C_S_81984D4C_1 *timer;
     ovl_19a332c_81984D4C_S_81984D4C_3 *z_pending;
 
     blend_ticks = (*(s16 *)((u8 *)tracker + 0x24));
@@ -1459,9 +1459,8 @@ void clear_object_buffer_and_state(void *tracker) {
     if (next_ticks < -0x80) {
         (*(s16 *)((u8 *)tracker + 0x24)) = -0x80;
     }
-    timer = (ovl_19a332c_81984D4C_S_81984D4C_1 *)camera_transition_timer;
-    if (timer->unk_00.u != 0) {
-        timer->unk_00.s = (s8) (timer->unk_00.u - 1);
+    if (camera_transition_timer != 0) {
+        camera_transition_timer--;
     }
     (*(u16 *)((u8 *)tracker + 4)) = (u16) ((ovl_19a332c_81984D4C_S_81984D4C_4 *)((*(void **)((u8 *)tracker + 0xC))))->unk_02;
     target = (*(void **)((u8 *)tracker + 0xC));
@@ -1510,7 +1509,7 @@ s32 set_camera_track_target(s32 unused, s32 state_key, s32 value, s16 secondary_
     substate->unkDE = secondary_value;
     state->slot[0].callback = (void *)clear_object_buffer_and_state;
     if (change_flags & 1) {
-        camera_transition_timer[0] = saved_value;
+        camera_transition_timer = saved_value;
     }
     substate->unkDC = value;
     return change_flags;

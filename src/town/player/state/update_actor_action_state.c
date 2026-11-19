@@ -6,7 +6,7 @@
 #include "town/player/state.h"
 #include "town/data.h"
 
-extern void dispatch_selected_entry_if_nonzero(void *, void *,void *);
+#include "town/player/call_the_handler_selects_nonzero_entry_g01123.h"
 extern s32 D_800D00F0;
 extern s32 D_800D00F8;
 extern s16 D_800D0454[];

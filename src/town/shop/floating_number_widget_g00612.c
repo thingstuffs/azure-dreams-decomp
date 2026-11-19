@@ -65,7 +65,7 @@ void initialize_four_anchored_nodes(void *state)
     node_index = 0;
     anchor = (u8 *)state + 0x20;
     do {
-        default_data = display_block_defaults;
+        default_data = display_block_defaults.words;
         node_slot = (Node **)((u8 *)state + node_index * 4);
         node_offset = 0x58 + node_index * 0x10;
         data_offset = 0x98 + node_index * 0x10;
@@ -73,7 +73,7 @@ void initialize_four_anchored_nodes(void *state)
         node = (Node *)((u8 *)state + node_offset);
         node_slot[0x12] = node;
         node->data = (u8 *)state + data_offset;
-        node_slot[0x12]->anchor = (first_word = display_block_defaults[0], anchor);
+        node_slot[0x12]->anchor = (first_word = display_block_defaults.words[0], anchor);
         data_row[0x26] = first_word;
         data_row[0x27] = default_data[1];
         data_row[0x28] = default_data[2];

@@ -1,4 +1,5 @@
 #include "script_symbols.h"
+#include "town/map/building_grid_g00638.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "engine/cd.h"
@@ -9,21 +10,6 @@
 #include "town/menu/window.h"
 
 extern u32 D_800D1BF4[2];
-extern u8 town_building_records[];
-
-typedef struct S_800B98B4_0 {
-    u8 unk_00;
-    u8 unk_01;
-} S_800B98B4_0;
-
-typedef struct S_800B98B4_1 {
-    u8 unk_00;
-    u8 unk_01;
-} S_800B98B4_1;
-
-typedef struct S_800B98B4_2 {
-    u8 unk_00;
-} S_800B98B4_2;
 
 typedef struct S_800B98B4_3 {
     u8 pad_00[0x33A4];
@@ -33,12 +19,12 @@ typedef struct S_800B98B4_3 {
 /* Read the town building data, then apply each slot's building tile entry and track type-1 entries. */
 void load_and_apply_town_building_tiles(void) {
     S_800B98B4_3 *state_base;
-    u8 *slot_data;
-    u8 *entry_table;
+    TownBuildingSlotRectangle *slot_data;
+    TownBuildingRecord *entry_table;
     s32 slot_index;
     u8 entry_id;
-    S_800B98B4_0 *entry;
-    S_800B98B4_2 *reloaded_entry;
+    TownBuildingRecord *entry;
+    TownBuildingRecord *reloaded_entry;
 
     Control_CD(6, D_800D1BF4, 0);
     slot_index = 0;
@@ -51,16 +37,16 @@ void load_and_apply_town_building_tiles(void) {
         entry_id = ((S_800B98B4_3 *)((u8 *)state_base + (slot_index * 2)))->unk_33A4;
         if (entry_id != 0) {
             entry = (void *)((u32)(entry_id << 5) + (unsigned long)entry_table);
-            if (entry->unk_01 != 0) {
-                apply_building_tile_entry(((S_800B98B4_1 *)slot_data)->unk_00, ((S_800B98B4_1 *)slot_data)->unk_01, entry->unk_00);
+            if (entry->tile_entry_enabled != 0) {
+                apply_building_tile_entry(slot_data->x, slot_data->y, entry->tile_entry);
             }
             reloaded_entry = (void *)((u32)(((S_800B98B4_3 *)((u8 *)state_base + (slot_index * 2)))->unk_33A4 << 5)
-                + (u32)entry_table);
-            if (reloaded_entry->unk_00 == 1) {
+                + (unsigned long)entry_table);
+            if (reloaded_entry->tile_entry == 1) {
                 set_resident_bitmap_bit(F_funsui_sound);
             }
         }
-        slot_data += 8;
+        slot_data++;
         slot_index += 1;
     } while (slot_index < 0x21);
 }

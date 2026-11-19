@@ -57,7 +57,7 @@ typedef struct S_7FFEBCCC_4 {
 
 
 
-extern u16 emitted_effect_counter[5];
+#include "dungeon/effect/emission_data.h"
 extern M2C_UNK D_8010D648;
 
 /* Create an effect at the source position with the supplied color. */

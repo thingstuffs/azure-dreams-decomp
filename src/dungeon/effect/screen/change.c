@@ -1,4 +1,5 @@
 #include "engine/node/allocation.h"
+#include "shared/dungeon_height_query.h"
 #include "shared/actor_property_flags.h"
 #include "shared/object_node_flags.h"
 #include "shared/monster_ids.h"
@@ -597,7 +598,6 @@ typedef struct {
 
 
 extern s32 generate_random_value(void);
-extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern Ent *find_eligible_actor_at_tile_and_height(Ent *, s32, s32, s16);
 extern s16 get_clamped_adjusted_value(Ent *);
 

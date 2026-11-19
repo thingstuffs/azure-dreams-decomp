@@ -32,6 +32,8 @@ typedef struct SlotTransitionState {
     /* 0x19 */ unsigned char pad_19[3];
 } RuntimeDispatchState;
 extern RuntimeDispatchState runtime_dispatch_state;
+/* Byte at +0x0B, addressed independently by scene and overlay dispatchers. */
+extern unsigned char scene_mode_code;
 
 
 /* Exact access views shared across registered binary consumers. */

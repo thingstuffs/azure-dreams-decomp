@@ -22,6 +22,10 @@ typedef union CardDisplayBlock {
     struct { u8 pad_00[0xA]; u16 y; } unsigned_position;
 } MenuDisplayBlock;
 
+/* Resident initial values copied into the block and vector linked by each menu display node. */
+extern MenuDisplayBlock display_block_defaults;
+extern DisplayPositionWords display_vector_defaults;
+
 typedef struct CardDisplayNode {
     s32 unk_00;
     MenuDisplayBlock *block;

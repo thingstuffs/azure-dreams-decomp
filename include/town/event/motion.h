@@ -10,6 +10,7 @@
 #include "shared/position_views.h"
 #include "shared/town_state.h"
 
+struct ColliderView;
 struct Actor;
 struct Motion;
 struct Subject;
@@ -18,27 +19,28 @@ struct Subject;
 void initialize_heading_motion(void *owner, void *object, void *motion);
 
 /* initialize_target_motion.c */
-void initialize_target_motion(Rec_func_8009B828_arg0 *owner, Rec_D_800CFCB4 *target, EntityRec *parameters, void *unused);
+void initialize_target_motion(TownObjectRecord *owner, struct ColliderView *target, ObjectPosition *parameters, void *unused);
 
 /* initialize_target_motion_state.c */
-void initialize_target_motion_state(TownObjectRecord *state, Rec_D_800CFCB4 *status, MotionDeltaView *values, void *unused_extra_ptr);
+void initialize_target_motion_state(TownObjectRecord *state, struct ColliderView *status, ObjectPosition *values, void *unused_extra_ptr);
 
 /* set_actor_motion_state.c */
 void set_actor_motion_state(TownObjectRecord *object, Rec_D_800CFCB4 *state, void *unused_update_context, void *unused_output);
 
 /* update_actor_with_controlled_motion.c */
-void update_actor_with_controlled_motion(struct Actor *actor, struct Subject *subject, struct Motion *motion, TownMovementOutput *context);
+struct SpriteFrameState;
+void update_actor_with_controlled_motion(TownObjectRecord *actor, struct ColliderView *subject, ObjectPosition *motion, struct SpriteFrameState *context);
 
 /* update_input_motion_and_action.c */
 void update_input_motion_and_action(void *controller, ObjectPosition *object, s32 update_arg);
 
 /* update_motion_and_handle_terrain_contact.c */
-void update_motion_and_handle_terrain_contact(void *object, Rec_D_800CFCB4 *collision, ObjectPosition *motion, s32 callback_arg);
+void update_motion_and_handle_terrain_contact(void *object, struct ColliderView *collision, ObjectPosition *motion, s32 callback_arg);
 
 /* update_motion_toward_shared_target.c */
-void update_motion_toward_shared_target(Rec_func_8009B828_arg0 *state, s32 context, ObjectPosition *motion, s32 transition_arg);
+void update_motion_toward_shared_target(TownObjectRecord *state, struct ColliderView *context, ObjectPosition *motion, struct SpriteFrameState *sprite);
 
 /* update_motion_toward_town_target.c */
-void update_motion_toward_town_target(void *state, s32 context, void *motion, s32 next_arg);
+void update_motion_toward_town_target(TownObjectRecord *state, struct ColliderView *context, ObjectPosition *motion, struct SpriteFrameState *sprite);
 
 #endif

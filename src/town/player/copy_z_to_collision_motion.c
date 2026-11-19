@@ -1,11 +1,10 @@
 #include "common.h"
+#include "town/player/position.h"
 #include "shared/entity.h"
 #include "town/player.h"
 
-extern s32 town_collision_motion[];
-
-/* Clears town_collision_motion[5] and copies source[2] to town_collision_motion[2]. */
+/* Copy the height and clear the previous vertical step. */
 void copy_z_to_collision_motion(ObjectPosition *source) {
-    town_collision_motion[5] = 0;
-    town_collision_motion[2] = source->z.v;
+    town_collision_motion.velocity_z = 0;
+    town_collision_motion.z.v = source->z.v;
 }

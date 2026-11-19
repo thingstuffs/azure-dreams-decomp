@@ -1,13 +1,7 @@
 #include "common.h"
+#include "shared/menu_display.h"
 #include "shared/item_menu.h"
 #include "engine/graphics.h"
-
-/* S_8002E5E8: 3-field vector-like struct (x,y,z), source data copied into target entities' ->vec */
-
-
-extern DisplayPositionWords display_vector_defaults;
-
-
 
 /* Copies all three words of display_vector_defaults into each object vector. */
 void apply_display_vector_defaults(ItemMenuPart **objects, s32 object_count)

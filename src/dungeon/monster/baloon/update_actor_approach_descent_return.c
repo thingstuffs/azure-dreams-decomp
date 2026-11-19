@@ -1,4 +1,5 @@
 #include "engine/graphics/select_sprite_entry_api.h"
+#include "shared/dungeon_floor.h"
 #include "dungeon/monster/baloon_frames.h"
 #include "common.h"
 #include "dungeon/actor/action_control_dispatch_g00352.h"
@@ -40,7 +41,6 @@ typedef struct WorldStatePage {
 } WorldStatePage;
 
 extern s32 dungeon_mode_state;
-extern s16 floor_generation_state[3];
 
 extern u8 D_80170940[];
 extern u8 D_80170950[];
@@ -249,7 +249,7 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
             {
                 u8 *scene_page;
                 u8 *counter_page;
-                s16 *floor_stats;
+                DungeonFloorGenerationState *floor_stats;
                 u8 map_id;
                 s32 visit_count;
                 s32 floor_count;
@@ -258,15 +258,15 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
 
                 scene_page = &scene_mode_code;
                 counter_page = (u8 *)0x80010000;
-                floor_stats = floor_generation_state;
+                floor_stats = &floor_generation_state;
                 map_id = *scene_page;
 
                 visit_count = *(s32 *)(counter_page + 0x234);
-                floor_count = *(u16 *)((u8 *)floor_stats + 4);
+                floor_count = (u16)floor_stats->floor_number;
                 next_visit = visit_count + 1;
                 next_floor = floor_count + 1;
                 *(s32 *)(counter_page + 0x234) = next_visit;
-                *(u16 *)((u8 *)floor_stats + 4) = next_floor;
+                floor_stats->floor_number = next_floor;
                 request_scene_dispatch_state(map_id);
             }
             mark_sprite_resources_for_purge();

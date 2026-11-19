@@ -1,4 +1,5 @@
 #include "shared/sprite_frame_state.h"
+#include "dungeon/level/tile_flags.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/entity.h"
@@ -54,7 +55,6 @@ typedef struct S_func_810332A4_8 {
     u8 unk_02;
 } S_func_810332A4_8;
 
-extern void cycle_map_cell_flags(s32, s32, s32);
 extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 

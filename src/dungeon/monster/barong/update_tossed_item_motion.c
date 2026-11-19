@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_height_query.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
 #include "dungeon/actor/effect.h"
@@ -30,8 +31,6 @@ typedef struct S_801747F0_1 {
     s16 unk_16;
 } S_801747F0_1;   /* arg1 in update_tossed_item_motion */
 
-s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
-extern s16 sample_terrain_surface_height(s32, s32, s16);
 
 /* Update motion and terrain collisions, then settle at a target or finish falling. */
 /* Moves an item through terrain checks, settles it using four saved item bytes, or shrinks its falling
@@ -146,10 +145,10 @@ fall:
             fall_cell_y = motion->cell_y.s;
             height = position->unk_08.at02u.v;
             fall_height = position->unk_08.at02.v;
-            if ((sample_terrain_surface_height((fall_cell_x << 6) & 0xFFC0,
+            if (((s16)sample_terrain_surface_height((fall_cell_x << 6) & 0xFFC0,
                                (fall_cell_y << 6) & 0xFFC0,
                                (s16)(height - 0x20)) - 7) < fall_height) {
-                position->unk_08.at02.v = sample_terrain_surface_height(
+                position->unk_08.at02.v = (s16)sample_terrain_surface_height(
                     (motion->cell_x.s << 6) & 0xFFC0,
                     (motion->cell_y.s << 6) & 0xFFC0,
                     (s16)(position->unk_08.at02p.v - 0x20));
@@ -190,7 +189,7 @@ fall:
                 if (((check_left_tile_and_center_height(position->unk_00.at02u.v,
                     position->unk_04.at02u.v,
                                    position->unk_08.at02.v) << 16) != 0) ||
-                    sample_terrain_surface_height(position->unk_00.at02u.v,
+                    (s16)sample_terrain_surface_height(position->unk_00.at02u.v,
                         position->unk_04.at02u.v,
                                   position->unk_08.at02.v) >= 0x200) {
                     position->unk_00.at00.v -= motion->velocity_x;
@@ -210,10 +209,10 @@ fall:
         motion->velocity_z += motion->acceleration_z;
         height_2 = position->unk_08.at02u.v;
         flight_height = position->unk_08.at02.v;
-        if ((sample_terrain_surface_height((motion->cell_x.s << 6) & 0xFFC0,
+        if (((s16)sample_terrain_surface_height((motion->cell_x.s << 6) & 0xFFC0,
                            (motion->cell_y.s << 6) & 0xFFC0,
                            (s16)(height_2 - 0x20)) - 0x10) < flight_height) {
-            position->unk_08.at02.v = sample_terrain_surface_height(
+            position->unk_08.at02.v = (s16)sample_terrain_surface_height(
                 (motion->cell_x.s << 6) & 0xFFC0,
                 (motion->cell_y.s << 6) & 0xFFC0,
                 (s16)(position->unk_08.at02p.v - 0x20));

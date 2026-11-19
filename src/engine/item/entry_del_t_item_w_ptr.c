@@ -1,10 +1,10 @@
 #include "common.h"
+#include "town/shop/item_pointer_removal_g00615.h"
 #include "shared/item_ids.h"
 
 #include "engine/item.h"
 
 extern u8 *town_item_list[];
-extern void del_t_item_w_ptr(u8 *entry);
 
 /* Process type-0x13 entries whose indexed status is negative. */
 void delete_negative_status_familiar_items(void)

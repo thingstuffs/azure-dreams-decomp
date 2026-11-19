@@ -105,6 +105,9 @@ s32 draw_linked_sprites(void *first_payload, struct ObjectPosition *first_coords
 s32 draw_linked_sprites_clipped(u8 *first_data, s32 link_value, SpriteFrameState *value_record);
 s32 func_80045C34(u8 *first_data, s32 link_value, struct SpriteFrameState *value_record);
 
+/* draw_lit_mesh.c */
+void draw_lit_mesh(void *body, struct ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias);
+
 /* draw_shaded_horizontal_line.c */
 void draw_shaded_horizontal_line(s16 x, s16 y, s16 width, s16 shade_step);
 

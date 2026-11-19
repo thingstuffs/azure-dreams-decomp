@@ -4,6 +4,6 @@
 #include "common.h"
 
 /* Town player action reset byte at 0x80082668. */
-extern s8 town_action_reset_byte;
+extern s8 town_action_reset_byte[1];
 
 #endif

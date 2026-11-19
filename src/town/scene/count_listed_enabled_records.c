@@ -8,7 +8,7 @@
 s32 count_listed_enabled_records(void) {
     s32 match_count;
     u8 *record_ids;
-    u8 *records;
+    TownIndexedValueRecord *records;
 
     match_count = 0;
     if (town_counted_record_ids[0] == 0) {
@@ -20,7 +20,7 @@ s32 count_listed_enabled_records(void) {
     } while (0);
     record_ids = town_counted_record_ids;
     do {
-        if (get_script_flag_mask(*(s16 *)(records + (*record_ids * 0xC) + 4)) != 0) {
+        if (get_script_flag_mask(records[*record_ids].flag) != 0) {
             match_count += 1;
         }
         record_ids += 1;

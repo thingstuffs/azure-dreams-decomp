@@ -195,7 +195,7 @@ struct S_8001A188_1;
 void *build_entry_list(s32 entry_index);
 u8 *build_selected_entry_output(s32 selected_index);
 s32 build_three_value_block(void);
-void init_scene_node_mode_3(void *record, void *position, void *bounds);
+void init_scene_node_mode_3(void *record, struct ObjectPosition *position, void *bounds);
 void copy_town_record_pair_fields(struct S_8001A188_0 *dest, struct S_8001A188_1 *src);
 void copy_words(s32 *dst, s32 *src, s32 count);
 s32 *find_entry_by_paired_key(s32 *entries, s32 key);
@@ -213,7 +213,7 @@ s32 has_entry_at_grid_position(s32 grid_y, s32 grid_x);
 
 u8 *select_town_response_data(void);
 
-void init_scene_node_mode_1(void *record, void *position, void *bounds);
+void init_scene_node_mode_1(void *record, struct ObjectPosition *position, void *bounds);
 
 #include "shared/town_object.h"
 s32 advance_counter_modulo_eight(void);
@@ -221,11 +221,11 @@ void advance_town_events_and_dispatch_entry(void);
 void apply_record_value_when_enabled(Rec_func_800165F4_arg0 *record, s32 handler_context);
 s32 blit_default_rectangle(void);
 s32 is_bar_top_flag_set(void);
-void init_scene_node_mode_4(void *record, void *position, void *bounds);
+void init_scene_node_mode_4(void *record, struct ObjectPosition *position, void *bounds);
 void set_dispatch_mode_two(s32 state_input);
 s32 find_eligible_entry(void *context, s32 unused_group_bits);
 s32 get_linked_record_value(void);
-s32 get_min_surface_probe_capped(EntityRec *source, s32 *out_detail);
+s32 get_min_surface_probe_capped(ObjectPosition *source, s32 *out_detail);
 s32 is_angle_within_tolerance(s32 value_a, s32 value_b);
 void lookup_entry_after_grid_match(s32 dispatch_context, s32 unused, s32 dispatch_arg);
 s32 apply_entry_and_write_flag_range(void *context, s32 request);
@@ -234,14 +234,18 @@ void *select_data_for_pad82_flag(s32 unused_value, s32 unused_special_value, s32
 void *select_data_pointer_based_result(void);
 s32 *select_item_gift_response(s32 unused_first_value, s32 unused_second_value, s32 unused_code);
 void load_fixed_record_list(s32 unused_list_length, s32 unused_record_value);
-void write_value_through_pointer(s32 *destination, s32 value);
+struct CardDevSlotDetails;
+struct ObjectNodeHeader;
+void write_value_through_pointer(struct CardDevSlotDetails *panel, struct ObjectNodeHeader *owner);
 
 void fall_to_ground_height(s32 unused, ObjectPosition *position);
 
 struct Entry;
-void apply_entry_keyed_values(s16 *entryTable, void *resource, s32 entryKey);
+struct ScenePositionEntry;
+struct SceneFlagContext;
+void apply_entry_keyed_values(struct ScenePositionEntry *entryTable, void *resource, s32 entryKey);
 s32 find_entry_index_or_assert(struct Entry *entries, s32 key);
-s32 lookup_entry_value_and_set_flag(void *table, void *context, s32 lookup_key);
+s32 lookup_entry_value_and_set_flag(struct ScenePositionEntry *entries, struct SceneFlagContext *context, s32 lookup_key);
 void process_flagged_entries_mode_append(void *entries);
 s32 *select_fallback_when_below_threshold(void *input);
 /* Address-qualified entries of distinct diagnostic devkit builds. */
@@ -255,7 +259,7 @@ s32 match_input_low_bits_to_state(struct TownInput *input);
 s32 is_player_in_target_region(void);
 s32 find_first_enabled_paired_entry(void);
 s32 are_all_checks_set(void);
-s32 find_eight_byte_entry_or_assert(void *entries, s32 entry_id);
+s32 find_eight_byte_entry_or_assert(struct ScenePositionEntry *entries, s32 entry_id);
 void *init_sequential_command_records(void *records);
 
 s32 sum_flagged_terminated_entries(void *entry, s32 callback_mode);

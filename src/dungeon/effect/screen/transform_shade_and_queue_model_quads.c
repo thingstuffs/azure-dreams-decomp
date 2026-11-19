@@ -13,45 +13,33 @@
 #include "engine/graphics/sprite_scratch.h"
 #include "dungeon/effect/sprite/render_rotated_effect_quads.h"
 
-typedef struct S_800C9088_4 S_800C9088_4;
-
-typedef struct S_800C9088_0 {
-    u8 pad_00[0x8];
-    S_800C9088_4 *unk_08;
-    CVECTOR base_color; /* the colour NormalColorCol shades each vertex normal with */
-    u16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-    u16 unk_1C;
-    u16 unk_1E;
-    u16 unk_20;
-} S_800C9088_0;   /* object in transform_shade_and_queue_model_quads */
-
-
-
-struct S_800C9088_4 {
-    u8 * unk_00;
-    SVECTOR *unk_04;
-    SVECTOR *unk_08;
-};   /* descriptor in transform_shade_and_queue_model_quads */
+/* One 32-byte face contains four position and normal indices and the
+ * texture coordinates copied to the projected POLY_GT4. */
+typedef struct ShadedModelQuad {
+    u16 vertices[4];
+    u32 uv0_clut;
+    u32 uv1_tpage;
+    u16 normals[4];
+    u8 pad18[2];
+    u16 uv2;
+    u16 uv3;
+    u8 type;
+    s8 end;
+} ShadedModelQuad;
 
 /* Transform, shade, and enqueue visible textured quads for the model. */
-void transform_shade_and_queue_model_quads(void *parent_matrix, void *translation_arg, void *model_arg, s16 depth_bias)
+void transform_shade_and_queue_model_quads(void *parent_matrix, ObjectPosition *translation, SpriteFrameState *sprite, s16 depth_bias)
 {
-    S_800C9088_0 *model = model_arg;
-    ObjectPosition *translation = translation_arg;
     SpriteQuadScratch *scratch;
+    ShadedModelQuad *face;
     u8 *indices;
     SVECTOR *positions;
     SVECTOR *normals;
     POLY_GT4 *packet;
     CVECTOR *base_color;
     GpuContext *state;
-    GpuContext **state_table = (GpuContext **)&g_game_work;
-    S_800C9088_4 *descriptor;
+    GameWork *work = &g_game_work;
+    ShadedModel *descriptor;
     SVECTOR *vertex0;
     SVECTOR *vertex1;
     SVECTOR *vertex2;
@@ -77,11 +65,11 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
 
     PushMatrix();
 
-    scale_x = model->unk_1C;
+    scale_x = sprite->scale_x;
     scratch = (SpriteQuadScratch *)0x1F800000;
     scratch->input.vx = scale_x;
-    scratch->input.vy = model->unk_1E;
-    scratch->input.vz = model->unk_20;
+    scratch->input.vy = sprite->scale_y;
+    scratch->input.vz = sprite->offset_x;
     scratch->translation.vx = translation->x.w.i;
     scratch->translation.vy = translation->y.w.i;
     scratch->translation.vz = translation->z.w.i;
@@ -98,14 +86,14 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
     scratch->matrix.m[0][2] = 0;
     scratch->matrix.m[0][1] = 0;
 
-    RotMatrixX(model->unk_16, &scratch->matrix);
-    RotMatrixZ(model->unk_1A, &scratch->matrix);
-    RotMatrixY(model->unk_18, &scratch->matrix);
+    RotMatrixX(sprite->angle_x, &scratch->matrix);
+    RotMatrixZ(sprite->angle_z, &scratch->matrix);
+    RotMatrixY(sprite->angle_y, &scratch->matrix);
 
-    if (model->unk_14 & 1) {
+    if (sprite->flags & 1) {
         scratch->input.vx = -scratch->input.vx;
     }
-    if (model->unk_14 & 2) {
+    if (sprite->flags & 2) {
         scratch->input.vy = -scratch->input.vy;
     }
 
@@ -116,19 +104,20 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
     SetTransMatrix(&scratch->matrix);
     SetRotMatrix(&scratch->matrix);
 
-    state = state_table[0];
-    base_color = &model->base_color;
+    state = work->draw_buffer;
+    base_color = (CVECTOR *)&sprite->color;
     scratch->ordering_table = (u32 *)&state->orderTag;
     packet = state->packetCursor;
-    model->unk_14 |= 0x8000;
+    sprite->flags |= 0x8000;
 
-    descriptor = model->unk_08;
-    indices = descriptor->unk_00;
-    positions = descriptor->unk_04;
-    normals = descriptor->unk_08;
+    descriptor = sprite->source;
+    face = descriptor->quads;
+    positions = descriptor->positions;
+    normals = descriptor->normals;
 
     for (;;) {
     /* BYTES: retail copies the packed vertex XY word with one lw/sw */
+    indices = (u8 *)face->vertices;
     vertex_xy = *(s32 *)&positions[((u16 *)indices)[0]].vx;
     vertex_index = (*(u16 *)(indices + 2));
     *(s32 *)&scratch->vertices[0].vx = vertex_xy;
@@ -171,7 +160,7 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
                           &scratch->depth_cue, &scratch->gte_flag);
     scratch->sort_depth = depth;
 
-    flags = model->unk_14 & 3;
+    flags = sprite->flags & 3;
     switch (flags) {
     case 0:
         /* BYTES: retail copies the packed screen XY word with one lw/sw */
@@ -213,30 +202,30 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
     if (*winding_slot > 0) {
         scratch->sort_depth -= depth_bias;
         if (scratch->sort_depth < 0x1E0) {
-            NormalColorCol(&normals[*(u16 *)(indices + 0x10)],
+            NormalColorCol(&normals[face->normals[0]],
                           base_color, (CVECTOR *)&packet->r0);
-            NormalColorCol(&normals[*(u16 *)(indices + 0x12)],
+            NormalColorCol(&normals[face->normals[1]],
                           base_color, (CVECTOR *)&packet->r1);
-            NormalColorCol(&normals[*(u16 *)(indices + 0x14)],
+            NormalColorCol(&normals[face->normals[2]],
                           base_color, (CVECTOR *)&packet->r2);
-            NormalColorCol(&normals[*(u16 *)(indices + 0x16)],
+            NormalColorCol(&normals[face->normals[3]],
                           base_color, (CVECTOR *)&packet->r3);
 
             /* BYTES: retail stores the u/v pair with the CLUT or texture-page halfword as one sw; member stores compile to two sb and an sh */
-            *(s32 *)&packet->u0 = (*(s32 *)(indices + 8));
-            packet->clut += model->unk_12;
+            *(s32 *)&packet->u0 = face->uv0_clut;
+            packet->clut += sprite->clut;
             /* BYTES: retail stores the u/v pair with the CLUT or texture-page halfword as one sw; member stores compile to two sb and an sh */
-            *(s32 *)&packet->u1 = (*(s32 *)(indices + 0xC));
-            if (model->unk_10 != 0) {
-                packet->tpage = (packet->tpage & 0xFF9F) + model->unk_10;
+            *(s32 *)&packet->u1 = face->uv1_tpage;
+            if (sprite->tpage_abr != 0) {
+                packet->tpage = (packet->tpage & 0xFF9F) + sprite->tpage_abr;
             }
             /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
-            *(u16 *)&packet->u2 = (*(u16 *)(indices + 0x1A));
+            *(u16 *)&packet->u2 = face->uv2;
             /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
-            *(u16 *)&packet->u3 = (*(u16 *)(indices + 0x1C));
+            *(u16 *)&packet->u3 = face->uv3;
 
             SetPolyGT4(packet);
-            flags = model->unk_14;
+            flags = sprite->flags;
             if (flags & 8) {
                 if (flags & 4) {
                     packet->code |= 2;
@@ -245,36 +234,27 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, void *translatio
             AddPrim(scratch->ordering_table + scratch->sort_depth,
                           packet);
             packet++;
-            model->unk_14 &= 0x7FFF;
+            sprite->flags &= 0x7FFF;
         }
     }
 
-    if (indices[0x1E] == 1 && ((s8 *)indices)[0x1F] < 0) {
+    if (face->type == 1 && face->end < 0) {
         break;
     }
-    indices += 0x20;
+    face++;
     }
 
     PopMatrix();
-    state_table[0]->packetCursor = packet;
+    {
+        GpuContext *output = work->draw_buffer;
+        output->packetCursor = packet;
+    }
 }
 #include "m2c_compat.h"
 
-typedef struct S_800C95C0_0 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_800C95C0_0;   /* arg1 in queue_linked_visible_rectangle_copies */
-
-typedef struct S_800C95C0_1_pre {
-    u8 * unk_00;
-    u8 pad_04[0x4];
-} S_800C95C0_1_pre;   /* the 0x8 bytes before state in queue_linked_visible_rectangle_copies, addressed as state[-1] */
-
-struct S_Rect;
-
 /* Updates each linked state from its input values and delta using scratchpad memory. */
-s32 queue_linked_visible_rectangle_copies(void *initial_state, void *input_values, SpriteFrameState *initial_delta) {
-    void *state = initial_state;
+s32 queue_linked_visible_rectangle_copies(RectangleCopy *initial_state, ObjectPosition *input_values, SpriteFrameState *initial_delta) {
+    RectangleCopy *state = initial_state;
     ObjectPosition *position = input_values;
     SpriteFrameState *delta = initial_delta;
     SpriteQuadScratch *scratch = (SpriteQuadScratch *)0x1F800000;
@@ -299,27 +279,28 @@ s32 queue_linked_visible_rectangle_copies(void *initial_state, void *input_value
     return 0;
 }
 
-struct S_Rect;
+struct RectangleCopy;
 
 /* Processes linked entries with position values staged in scratchpad memory. */
-s32 queue_linked_rectangles_at_position(void *entry_data, void *position) {
-    register u8 *data = entry_data;
+s32 queue_linked_rectangles_at_position(void *entry_data, void *initial_position) {
+    ObjectPosition *position = initial_position;
+    register RectangleCopy *data = entry_data;
     register SpriteQuadScratch *scratch = (SpriteQuadScratch *)0x1F800000;
-    register u8 *next_node;
+    register ObjectNodeHeader *next_node;
     s32 offset;
 
     for (;;) {
-        offset = (s32)((u32)*(u16 *)data << 16) >> 17;
-        scratch->screen_origin.x = *(u16 *)((u8 *)position + 2) - offset;
-        scratch->screen_origin.y = *(u16 *)((u8 *)position + 6);
-        scratch->sort_depth = *(s16 *)((u8 *)position + 10);
+        offset = data->width >> 1;
+        scratch->screen_origin.x = position->x.w.i - offset;
+        scratch->screen_origin.y = position->y.w.i;
+        scratch->sort_depth = position->z.w.i;
         queue_visible_rectangle_copy(data, scratch);
-        next_node = *(u8 **)(data - 8);
+        next_node = NODE_HEADER(data)->chain_next;
         if (next_node == 0) {
             break;
         }
-        data = next_node + 0x20;
-        position = *(u8 **)(next_node + 8);
+        data = NODE_BODY(next_node);
+        position = next_node->position;
     }
     return 0;
 }
@@ -329,12 +310,6 @@ typedef struct {
     u8 *field_8D0;
 } Ctx;
 
-typedef struct S_Rect {
-    s16 x;
-    s16 y;
-    s16 w;
-    s16 h;
-} S_Rect;
 
 
 typedef struct {
@@ -348,7 +323,7 @@ extern u8 resident_globals_page[];
 extern void func_80066890(u8 *dst, S_Stack *rect, s32 x, s32 y);
 
 /* Queue a rectangle copy when both source and destination fit on screen. */
-void queue_visible_rectangle_copy(S_Rect *copy_rect, SpriteQuadScratch *source) {
+void queue_visible_rectangle_copy(RectangleCopy *copy_rect, SpriteQuadScratch *source) {
     S_Stack source_rect;
     s16 source_y, width, source_x, height;
     s32 dest_y, second_buffer, dest_x, buffer_y;
@@ -362,12 +337,12 @@ void queue_visible_rectangle_copy(S_Rect *copy_rect, SpriteQuadScratch *source) 
     if (source->sort_depth < 480) {
         source_x = source->screen_origin.x;
         source_y = source->screen_origin.y;
-        dest_x = source_x + copy_rect->w;
-        dest_y = source_y + copy_rect->h;
+        dest_x = source_x + copy_rect->delta_x;
+        dest_y = source_y + copy_rect->delta_y;
         if (dest_x >= 0) {
-            width = copy_rect->x;
+            width = copy_rect->width;
             if (((dest_x + width) < 320) && (dest_y >= 0)) {
-                height = copy_rect->y;
+                height = copy_rect->height;
                 if (((dest_y + height) < 224) && (source_x >= 0) && ((source_x + width) < 320) && (source_y >= 0)
                     && ((source_y + height) < 224)) {
                     source_rect.x = source->screen_origin.x;
@@ -376,9 +351,9 @@ void queue_visible_rectangle_copy(S_Rect *copy_rect, SpriteQuadScratch *source) 
                         buffer_y += 224;
                     }
                     source_rect.y = buffer_y;
-                    source_rect.w = copy_rect->x;
-                    source_rect.h = copy_rect->y;
-                    func_80066890(cursor, &source_rect, source_x + copy_rect->w, (s16)buffer_y + copy_rect->h);
+                    source_rect.w = copy_rect->width;
+                    source_rect.h = copy_rect->height;
+                    func_80066890(cursor, &source_rect, source_x + copy_rect->delta_x, (s16)buffer_y + copy_rect->delta_y);
                     packet = cursor;
                     cursor += 24;
                     AddPrim((u8 *)(*(Ctx **)((u8 *)&resident_globals_page + 0x3160)) + ((source->sort_depth * 4) + 0xB0), packet);

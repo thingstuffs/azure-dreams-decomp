@@ -125,15 +125,6 @@ typedef struct floor_generate_isolated_80285464_RoomCell {
     u8 b;
     u16 c;
 } floor_generate_isolated_80285464_RoomCell;
-typedef struct floor_generate_isolated_80285464_RecB {
-    u8 f0;
-    u8 f1;
-    u8 f2;
-    u8 f3;
-    s16 f4;
-    s16 f6;
-    s32 f8;
-} floor_generate_isolated_80285464_RecB;
 typedef struct floor_generate_isolated_80285464_RecD {
     u8 f0;
     u8 f1;
@@ -168,11 +159,6 @@ typedef struct {
     u8 pad0000[0x296C];
     u32 flags;
 } floor_generate_isolated_80285A70_Page800E;
-typedef struct {
-    s32 seed;
-    u16 level;
-    s16 ready;
-} floor_generate_isolated_80285A70_SaveHead;
 typedef struct {
     u8 pad0000[0x234];
     u16 level;
@@ -382,7 +368,6 @@ extern u8 floor_generation_track_variant;
 extern s32 floor_variant_resource_descriptors[];
 extern u8 D_800F0000[];
 extern s8 scene_music_hold;
-extern u8 scene_mode_code[9];
 extern s32 test_resident_bit(s16 value);
 extern s32 func_80033BC0(s32 value);
 extern void wait_until_sound_idle(void);
@@ -472,12 +457,10 @@ void update_active_area_tiles(void);
 extern floor_generate_isolated_80286AF8_MapCell generation_cells[];
 extern s16 current_dungeon_floor;
 extern u8 floor_objects[];
-extern u8 dungeon_ground_item_positions[];
 extern u8 dungeon_floor_object_positions[12];
 extern u8 scene_geometry[];
 extern u8 gpu_scratch_buffer_base[];
 extern u8 gpu_scratch_write_pointer[];
-extern u8 floor_generation_state[];
 extern u8 floor_species_pool[];
 extern u8 generation_room_link_count[];
 extern u8 generation_room_link_pairs[];

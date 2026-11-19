@@ -21,13 +21,6 @@
 extern u8 map_particle_child_update_address[];
 
 
-typedef struct S_800BA00C_0 {
-    u8 pad_00[0x66];
-    s16 unk_66;
-    u8 pad_68[0x2F];
-    s8 unk_97;
-    s32 unk_98;
-} S_800BA00C_0;   /* arg0 in initialize_effect_with_child_sprites */
 
 
 
@@ -45,7 +38,7 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
     s32 initial_angle;
     s32 angle_sector;
     s32 sector_multiple;
-    s32 parent_value;
+    s8 *active_flag;
     s32 scale;
     s32 angle_offset;
     s32 depth;
@@ -63,7 +56,7 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
     s32 part_index;
     void **part_params;
     SpriteFrameState *sprite;
-    void *parent_obj;
+    ObjectNodeHeader **child_list;
 
     NODE_HEADER(parent)->update_callback = spin_object_until_outside_bounds;
     angle_random = rand();
@@ -85,16 +78,16 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
     work = &g_game_work;
     part_params = map_particle_part_parameters;
     do {
-        node = allocate_list_node(0x136, NODE_HEADER(parent));
+        node = allocate_list_node(0x136, &NODE_HEADER(parent)->next);
         if (node != 0) {
             node->update_callback = part_callback;
             register_node(node, draw_linked_lit_meshes);
-            parent_value = ((S_800BA00C_0 *)parent)->unk_98;
+            active_flag = parent->unk_98;
             entity = NODE_BODY(node);
             (*(void * *)(entity + 0x9C)) = parent;
             (*(s16 *)(entity + 0x66)) = 0;
             (*(s8 *)(entity + 0x97)) = part_index;
-            (*(s32 *)(entity + 0x98)) = parent_value;
+            (*(s8 **)(entity + 0x98)) = active_flag;
             sprite = node->sprite;
             sprite->scale_x = 0x1000;
             sprite->scale_y = 0x1000;
@@ -126,15 +119,15 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
     sprite_texture = map_particle_first_sprite_entries;
     brightness = 0x80;
     do {
-        node = allocate_list_node(0x36, NODE_HEADER(parent));
+        node = allocate_list_node(0x36, &NODE_HEADER(parent)->next);
         if (node != 0) {
             node->update_callback = sprite_callback;
             register_node(node, draw_linked_sprites_clipped);
-            parent_value = ((S_800BA00C_0 *)parent)->unk_98;
+            active_flag = parent->unk_98;
             entity = NODE_BODY(node);
             (*(void * *)(entity + 0x9C)) = parent;
             (*(s8 *)(entity + 0x97)) = part_index;
-            (*(s32 *)(entity + 0x98)) = parent_value;
+            (*(s8 **)(entity + 0x98)) = active_flag;
             sprite = node->sprite;
             sprite->source = sprite_texture;
             sprite->color.c.b = brightness;
@@ -162,15 +155,15 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
         part_index++;
     } while (part_index < 4);
 
-    parent_obj = NODE_HEADER(parent);
-    node = allocate_list_node(0x36, parent_obj);
+    child_list = &NODE_HEADER(parent)->next;
+    node = allocate_list_node(0x36, child_list);
     if (node != 0) {
         node->update_callback = spin_object_until_flag_clears;
         register_node(node, draw_linked_sprites_clipped);
-        parent_value = ((S_800BA00C_0 *)parent)->unk_98;
+        active_flag = parent->unk_98;
         entity = NODE_BODY(node);
         (*(void * *)(entity + 0x9C)) = parent;
-        (*(s32 *)(entity + 0x98)) = parent_value;
+        (*(s8 **)(entity + 0x98)) = active_flag;
         sprite = node->sprite;
         sprite->source = map_particle_second_sprite_entries;
         sprite->color.c.b = 0x80;
@@ -194,14 +187,14 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
         obj->y.v = offset_y;
     }
 
-    node = allocate_list_node(0x136, parent_obj);
+    node = allocate_list_node(0x136, child_list);
     if (node != 0) {
         node->update_callback = map_particle_child_update_address;
         register_node(node, draw_linked_lit_meshes);
-        parent_value = ((S_800BA00C_0 *)parent)->unk_98;
+        active_flag = parent->unk_98;
         entity = NODE_BODY(node);
         (*(void * *)(entity + 0x9C)) = parent;
-        (*(s32 *)(entity + 0x98)) = parent_value;
+        (*(s8 **)(entity + 0x98)) = active_flag;
         sprite = node->sprite;
         sprite->scale_x = 0x1000;
         sprite->scale_y = 0x1000;

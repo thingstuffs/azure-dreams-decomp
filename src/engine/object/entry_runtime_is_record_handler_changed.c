@@ -1,9 +1,9 @@
 #include "common.h"
+#include "slus/runtime_directory.h"
 
 #include "engine/object.h"
 #include "slus/data.h"
 
-extern u8 runtime_dispatch_mode_alias[9];
 
 /* Returns the check result in mode 2, otherwise whether the check or fallback status is nonzero. */
 s32 is_script_or_map_change_pending(void *context) {

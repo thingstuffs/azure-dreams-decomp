@@ -1,5 +1,6 @@
 #include "shared/actor_property_flags.h"
 #include "common.h"
+#include "dungeon/item/actor_target.h"
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
 #include "dungeon/item.h"
@@ -13,7 +14,6 @@ typedef struct TablePage {
     s16 entries[1];
 } TablePage;
 
-extern s16 find_linked_object_slot_index(void *);
 
 extern u8 D_800E18F5[];
 extern u8 D_800E195C[];
@@ -29,10 +29,8 @@ u32 advance_eligible_actor_or_perform_action(ActorRecord *actor, s16 action_arg_
     u8 *message;
     ActorRecord *linked_object;
     s32 state_index;
-    s32 raw_state_index;
     s32 state_offset;
     s32 next_state;
-    s32 shifted_index;
     TablePage *table_page;
 
     slot = 1;
@@ -64,9 +62,7 @@ u32 advance_eligible_actor_or_perform_action(ActorRecord *actor, s16 action_arg_
         state_index = actor->unk_12;
         if ((state_index != 4) && (actor->species != 0)) {
             actor->unk_12 = state_index + 1;
-            raw_state_index = find_linked_object_slot_index(actor);
-            shifted_index = raw_state_index << 16;
-            state_index = shifted_index >> 16;
+            state_index = (s16)find_linked_object_slot_index(actor);
             if (state_index >= 0) {
                 table_page = (TablePage *)0x80010000;
                 state_offset = state_index * 2;

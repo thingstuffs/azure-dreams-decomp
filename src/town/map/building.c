@@ -1,19 +1,7 @@
 #include "common.h"
+#include "town/map/building_grid_g00638.h"
 #include "engine/object.h"
 #include "town/menu/window.h"
-
-typedef struct {
-    u8 pad0[3];
-    u8 kind;
-    u8 byte4;
-    u8 byte5;
-    u8 byte6;
-    u8 pad7;
-    s16 field8;
-    u8 padA[22];
-} Record;
-
-extern Record town_building_records[];
 
 /* CheckBuildBuildingLandNo collects eligible land slots for a building and returns their count. */
 s32 CheckBuildBuildingLandNo(record_key, slots_out)
@@ -21,7 +9,7 @@ u8 record_key;
 s8 *slots_out;
 {
     s8 *slots_start;
-    Record *record;
+    TownBuildingRecord *record;
     u8 slot_count;
     s32 slot;
     s32 record_id;
@@ -30,17 +18,17 @@ s8 *slots_out;
     u32 second_id;
     u8 single_id;
     u8 *slot_pair;
-    u8 *entry;
-    Record *match_record;
-    Record *match_records;
+    TownBuildingSlotRectangle *entry;
+    TownBuildingRecord *match_record;
+    TownBuildingRecord *match_records;
 
     slot_count = 0;
     {
-        Record *records = town_building_records;
+        TownBuildingRecord *records = town_building_records;
         record = records + (record_key & 0xFF);
     }
     slots_start = slots_out;
-    if (test_resident_bitmap_bit(record->field8) == 0) {
+    if (test_resident_bitmap_bit(record->availability_flag) == 0) {
         return 0;
     }
 
@@ -48,16 +36,16 @@ s8 *slots_out;
     case 4:
     case 8:
     {
-        u8 *selected_entry;
-        u8 *filter_entry;
+        TownBuildingRecord *selected_entry;
+        TownBuildingRecord *filter_entry;
         u8 *slot_table_base;
         u8 *slot_row;
         u32 selected_id;
 
-        Record *records = town_building_records;
+        TownBuildingRecord *records = town_building_records;
         selected_id = record_key & 0xFF;
-        selected_entry = (u8 *)&records[selected_id];
-        if (selected_entry[6] == 0) {
+        selected_entry = &records[selected_id];
+        if (selected_entry->required_partner == 0) {
             break;
         }
         slot_table_base = (u8 *)0x80010000;
@@ -65,7 +53,7 @@ s8 *slots_out;
         filter_entry = selected_entry;
         do {
             slot_row = (u8 *)((u8)slot * 2 + (unsigned long)slot_table_base);
-            if ((slot_row[0x33A4] == filter_entry[6]) && (slot_row[0x33A5] != selected_id)) {
+            if ((slot_row[0x33A4] == filter_entry->required_partner) && (slot_row[0x33A5] != selected_id)) {
                 *slots_out++ = slot;
                 slot_count++;
             }
@@ -78,9 +66,9 @@ s8 *slots_out;
     {
         u8 *pair_page;
         u8 *owner_page;
-        Record *records = town_building_records;
+        TownBuildingRecord *records = town_building_records;
         s32 entry_id = record_key & 0xFF;
-        single_id = records[entry_id].byte6;
+        single_id = records[entry_id].required_partner;
         if (single_id == 0)
             break;
         pair_page = (u8 *)0x80010000;
@@ -95,7 +83,7 @@ s8 *slots_out;
     }
     case 1:
     {
-        u8 *entries;
+        TownBuildingSlotRectangle *entries;
         u8 *slots_page;
         s32 excluded_id = 0;
         slot = 0;
@@ -113,9 +101,9 @@ s8 *slots_out;
                 slot_count = 0;
                 break;
             }
-            entry = (u8 *)(slot_index * 8 + (unsigned long)entries);
-            if (entry[2] == match_record->byte4 &&
-                entry[3] == match_record->byte5 &&
+            entry = (TownBuildingSlotRectangle *)(slot_index * 8 + (unsigned long)entries);
+            if (entry->width == match_record->slot_width &&
+                entry->height == match_record->slot_height &&
                 first_id >= 0x2D) {
                 excluded_id = 0x30;
                 if (first_id != excluded_id && second_id == 0) {

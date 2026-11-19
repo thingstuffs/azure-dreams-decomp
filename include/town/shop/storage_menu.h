@@ -2,6 +2,8 @@
 #define TOWN_SHOP_STORAGE_MENU_H
 
 #include "common.h"
+#include "town/shop/storage_page.h"
+#include "shared/dungeon_item_entries.h"
 #include "shared/item_menu.h"
 #include "shared/timed_stream.h"
 
@@ -27,7 +29,7 @@ typedef struct StorageWork {
     s32 buffer; /* +0x9C: first word of the buffer list rebuild_pointer_pool fills */
 } StorageWork;
 typedef struct StorageOwner {
-    void *owner;
+    StorageSource *owner;
     u8 pad_04[8];
     s32 edge_flags; /* +0x0C: low two bits mark the control range bounds */
     u8 pad_10[4];
@@ -36,16 +38,6 @@ typedef struct StorageOwner {
     ItemMenuPart *chain; /* +0x58: part chain installed by create_storage_owner_menu */
     ItemMenuPart **parts; /* +0x5C: the 41-part table initialize_storage_menu_resources builds (StorageMenuObject.parts) */
 } StorageOwner;
-typedef struct StorageSource {
-    u8 pad_00[0x2C];
-    u8 page[0x14];
-    s32 value;
-} StorageSource;
-typedef struct StoragePageOwner {
-    StorageSource *source;
-    u8 pad_04[0x58];
-    ItemMenuPart **parts; /* +0x5C: the storage owner's part table */
-} StoragePageOwner;
 typedef union StorageDisplayBlock {
     s32 words[4];
     ItemMenuDisplayBlock display;
@@ -76,7 +68,7 @@ typedef struct StorageMenuNode {
 } StorageMenuNode;
 
 void arrange_storage_item_columns(StorageEntry **objects);
-void refresh_storage_page(StoragePageOwner *object);
+void refresh_storage_page(StorageOwner *object);
 void *link_storage_item_menu_parts(void *target);
 void *link_storage_owner_menu_parts(void *parts);
 StorageMenuNode *create_storage_item_menu(ItemMenuStateNode *owner);

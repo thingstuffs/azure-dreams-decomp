@@ -1,10 +1,10 @@
 #include "common.h"
+#include "slus/runtime_directory.h"
 
 #include "engine/scene.h"
 #include "slus.h"
 #include "slus/data.h"
 
-extern u8 runtime_dispatch_mode_alias[9];
 
 /*
  * Queues the secondary resource table in dispatch mode 2 and the primary table in other modes as

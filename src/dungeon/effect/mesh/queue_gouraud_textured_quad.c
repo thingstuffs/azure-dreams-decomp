@@ -30,12 +30,7 @@ typedef struct {
     Poly *poly;
 } Context;
 
-typedef struct {
-    s32 *values;
-    u8 pad[8];
-} OffsetGlobal;
 
-extern OffsetGlobal effect_position_source;
 
 /*
  * Builds a four-color textured quad with CLUT 0x7DCF and texture page (0x300, 0x100), translating
@@ -46,9 +41,8 @@ s32 queue_gouraud_textured_quad(s32 color0, s32 color1, s32 color2, s32 color3) 
     Poly *quad;
     Context *u_right;
     s16 texture_page;
-    OffsetGlobal *offset_global;
     Scratch *scratch;
-    s32 *offsets;
+    MeshEffectOrigin *offsets;
     u16 *screen0;
     u16 *screen1;
     u16 *screen2;
@@ -94,29 +88,28 @@ s32 queue_gouraud_textured_quad(s32 color0, s32 color1, s32 color2, s32 color3) 
     quad->bytes[0x1D] = (u8)(color2 >> 8);
     quad->bytes[0x28] = (u8)(color3 >> 0x10);
     quad->bytes[0x29] = (u8)(color3 >> 8);
-    offset_global = &effect_position_source;
     quad->bytes[6] = (u8)color0;
     quad->bytes[0x12] = (u8)color1;
     quad->bytes[0x1E] = (u8)color2;
     quad->bytes[0x2A] = (u8)color3;
-    offsets = offset_global->values;
-    scratch->input[4] = (s16)((scratch->values[0] + offsets[0]) >> 0x10);
-    scratch->input[8] = (s16)((scratch->values[4] + offsets[0]) >> 0x10);
+    offsets = effect_position_source;
+    scratch->input[4] = (s16)((scratch->values[0] + offsets->x.v) >> 0x10);
+    scratch->input[8] = (s16)((scratch->values[4] + offsets->x.v) >> 0x10);
     depth_cue = (void *)0x1F800008;
-    scratch->input[12] = (s16)((scratch->values[8] + offsets[0]) >> 0x10);
-    scratch->input[16] = (s16)((scratch->values[12] + offsets[0]) >> 0x10);
+    scratch->input[12] = (s16)((scratch->values[8] + offsets->x.v) >> 0x10);
+    scratch->input[16] = (s16)((scratch->values[12] + offsets->x.v) >> 0x10);
     transform_flags = (void *)0x1F80000C;
-    scratch->input[5] = (s16)((scratch->values[1] + offsets[1]) >> 0x10);
-    scratch->input[9] = (s16)((scratch->values[5] + offsets[1]) >> 0x10);
+    scratch->input[5] = (s16)((scratch->values[1] + offsets->y.v) >> 0x10);
+    scratch->input[9] = (s16)((scratch->values[5] + offsets->y.v) >> 0x10);
     vertex0 = (void *)0x1F800010;
-    scratch->input[13] = (s16)((scratch->values[9] + offsets[1]) >> 0x10);
-    scratch->input[17] = (s16)((scratch->values[13] + offsets[1]) >> 0x10);
+    scratch->input[13] = (s16)((scratch->values[9] + offsets->y.v) >> 0x10);
+    scratch->input[17] = (s16)((scratch->values[13] + offsets->y.v) >> 0x10);
     vertex1 = (void *)0x1F800018;
-    scratch->input[6] = (s16)((scratch->values[2] + offsets[2]) >> 0x10);
-    scratch->input[10] = (s16)((scratch->values[6] + offsets[2]) >> 0x10);
+    scratch->input[6] = (s16)((scratch->values[2] + offsets->z.v) >> 0x10);
+    scratch->input[10] = (s16)((scratch->values[6] + offsets->z.v) >> 0x10);
     vertex2 = (void *)0x1F800020;
-    scratch->input[14] = (s16)((scratch->values[10] + offsets[2]) >> 0x10);
-    scratch->input[18] = (s16)((scratch->values[14] + offsets[2]) >> 0x10);
+    scratch->input[14] = (s16)((scratch->values[10] + offsets->z.v) >> 0x10);
+    scratch->input[18] = (s16)((scratch->values[14] + offsets->z.v) >> 0x10);
     vertex3 = (void *)0x1F800028;
     scratch->ordering_index = RotAverage4(vertex0, vertex1, vertex2, vertex3, screen0, screen1, screen2, screen3,
         depth_cue, transform_flags);

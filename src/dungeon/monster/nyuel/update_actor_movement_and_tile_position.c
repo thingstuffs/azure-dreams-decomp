@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "dungeon/level/tile_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "dungeon/system/random.h"
@@ -14,14 +15,12 @@
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
-extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s32 check_movement_clearance_and_height();
 #include "dungeon/item/get_actor_height_difference_api.h"
 #include "dungeon/actor/state.h"
 
 extern s16 sample_terrain_surface_height();
-extern s16 actor_turn_angle_offsets[8];
 /* Updates actor movement, recording the path and refreshing the tile position and height. */
 void update_actor_movement_and_tile_position(ActorRecord *object, ObjectPosition *entry_context, SpriteFrameState *tile, ActorRecord *actor) {
     DungeonGlobalStatus *state = &g_dungeon_status;

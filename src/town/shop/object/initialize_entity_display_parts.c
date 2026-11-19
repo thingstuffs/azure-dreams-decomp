@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/gpu_packets.h"
+#include "shared/menu_display.h"
 
 typedef struct {
     s32 unk0;
@@ -7,10 +7,6 @@ typedef struct {
     s32 unk8;
     s32 unkC;
 } Template16;
-
-
-extern Template16 display_block_defaults;
-extern DisplayPositionWords display_vector_defaults;
 
 typedef struct {
     u8 unk0;
@@ -41,15 +37,15 @@ typedef struct {
 
 /* Initialize an entity and its part and vector storage from default templates. */
 void initialize_entity_display_parts(Entity *entity, Template16 *part, EntityVector *vector) {
-    Template16 *part_template = &display_block_defaults;
+    MenuDisplayBlock *part_template = &display_block_defaults;
     DisplayPositionWords *vector_template = &display_vector_defaults;
     s32 *vector_word;
 
-    part->unk0 = part_template->unk0;
+    part->unk0 = part_template->words[0];
     vector_word = &vector_template->unk0;
-    part->unk4 = part_template->unk4;
-    part->unk8 = part_template->unk8;
-    part->unkC = part_template->unkC;
+    part->unk4 = part_template->words[1];
+    part->unk8 = part_template->words[2];
+    part->unkC = part_template->words[3];
 
     vector->unk0 = *vector_word;
     vector->unk4 = vector_template->unk4;

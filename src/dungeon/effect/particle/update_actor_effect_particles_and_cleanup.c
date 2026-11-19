@@ -59,11 +59,25 @@ extern u8 D_80025100[16];
 extern Packed12 actor_particle_images;
 extern void unlink_node(void *);
 
+/* The constructor initializes the source position and acceleration used by the update and draw callbacks. */
+typedef struct ReturningParticleBody {
+    u8 pad_00[8];
+    s32 color;
+    u8 pad_0C[8];
+    s16 direction;
+    u8 pad_16[0x1C];
+    s16 intensity;
+    s16 origin_x;
+    u16 origin_y;
+    u16 origin_z;
+    u8 pad_3A[2];
+    s32 velocity_x, velocity_y, velocity_z;
+    s32 acceleration_x, acceleration_y, acceleration_z;
+} ReturningParticleBody;
+
 /* Projects linked points and queues visible square particles with color scaled by each point's intensity. */
-s32 draw_actor_effect_points(void *object_data, void *position_data)
+s32 draw_actor_effect_points(ReturningParticleBody *object, ObjectPosition *position)
 {
-    u8 *object = object_data;
-    u8 *position = position_data;
     GameWork *state_slot = &g_game_work;
     DungeonState818D4800 *state =
         g_game_work.draw_buffer;
@@ -71,7 +85,7 @@ s32 draw_actor_effect_points(void *object_data, void *position_data)
     register u8 *prim;
     u8 *tile_prim;
     u32 draw_mode;
-    void *next_object;
+    ObjectNodeHeader *next_object;
     u8 *packet_start;
     u8 *next_prim;
 
@@ -80,21 +94,21 @@ s32 draw_actor_effect_points(void *object_data, void *position_data)
     scratch->next = packet_start;
 
     do {
-        scratch->x = *(u16 *)(position + 2);
+        scratch->x = position->x.w.i;
         tile_prim = scratch->next;
-        scratch->y = *(u16 *)(position + 6);
-        scratch->z = *(u16 *)(position + 0xA);
+        scratch->y = position->y.w.i;
+        scratch->z = position->z.w.i;
         scratch->next = tile_prim + 0xC;
 
         scratch->index = RotTransPers(scratch, tile_prim + 8,
             &scratch->unk90, &scratch->unk94);
 
         if (scratch->index < 0x1E0U) {
-            *(u32 *)(tile_prim + 4) = *(u32 *)(object + 8);
+            *(u32 *)(tile_prim + 4) = object->color;
 
-            tile_prim[4] = (tile_prim[4] * *(s16 *)(object + 0x32)) / 0x100;
-            tile_prim[5] = (tile_prim[5] * *(s16 *)(object + 0x32)) / 0x100;
-            tile_prim[6] = (tile_prim[6] * *(s16 *)(object + 0x32)) / 0x100;
+            tile_prim[4] = (tile_prim[4] * object->intensity) / 0x100;
+            tile_prim[5] = (tile_prim[5] * object->intensity) / 0x100;
+            tile_prim[6] = (tile_prim[6] * object->intensity) / 0x100;
 
             tile_prim[3] = 2;
             tile_prim[7] = 0x6A;
@@ -113,13 +127,13 @@ s32 draw_actor_effect_points(void *object_data, void *position_data)
             prim = (u8 *)((u32)prim & 0x00FFFFFF);
             scratch->ot[scratch->index] = (scratch->ot[scratch->index] & 0xFF000000) | (u32)prim;
         }
-        next_object = *(void **)(object - 8);
+        next_object = NODE_HEADER(object)->chain_next;
         if (next_object == 0) {
             break;
         }
 
-        object = (u8 *)next_object + 0x20;
-        position = *(u8 **)((u8 *)next_object + 8);
+        object = NODE_BODY(next_object);
+        position = next_object->position;
     } while (1);
 
     (((DungeonState818D4800 *)state_slot->draw_buffer))->next = scratch->next;
@@ -132,72 +146,33 @@ typedef struct S_818D4A94_0 {
     s32 unk_08;
 } S_818D4A94_0;   /* arg1 in func_80024294 */
 
-typedef struct S_818D4A94_1_pre {
-    u16 unk_00;
-} S_818D4A94_1_pre;   /* the 0x2 bytes before arg0 in func_80024294, addressed as arg0[-1] */
-
-typedef struct S_818D4A94_1 {
-    u8 pad_00[0x32];
-    u16 unk_32;
-    s16 unk_34;
-    u8 pad_36[0x6];
-    s32 unk_3C;
-    s32 unk_40;
-    s32 unk_44;
-    s32 unk_48;
-    s32 unk_4C;
-    s32 unk_50;
-} S_818D4A94_1;   /* arg0 in func_80024294 */
-
 /* Advance position and velocity, and flag completion near the target or when the countdown expires. */
-void accelerate_particle_toward_source(void *motion_arg, ObjectPosition *position_data)
+void accelerate_particle_toward_source(ReturningParticleBody *motion, ObjectPosition *position)
 {
-    S_818D4A94_1 *motion = motion_arg;
-    ObjectPosition *position = position_data;
     s32 updated_value;
-    s32 countdown;
 
-    position->x.v += motion->unk_3C;
-    position->y.v += motion->unk_40;
-    position->z.v += motion->unk_44;
-    motion->unk_3C += motion->unk_48;
-    motion->unk_40 += motion->unk_4C;
-    motion->unk_44 += motion->unk_50;
-    updated_value = abs(motion->unk_34 - position->x.w.i);
+    position->x.v += motion->velocity_x;
+    position->y.v += motion->velocity_y;
+    position->z.v += motion->velocity_z;
+    motion->velocity_x += motion->acceleration_x;
+    motion->velocity_y += motion->acceleration_y;
+    motion->velocity_z += motion->acceleration_z;
+    updated_value = abs(motion->origin_x - position->x.w.i);
     updated_value = updated_value < 0x10;
     D_80025118[0] = 1;
     if (updated_value) {
-        ((S_818D4A94_1_pre *)motion)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(motion)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
-    countdown = motion->unk_32;
-    countdown -= 8;
-    motion->unk_32 = countdown;
-    countdown <<= 16;
-    if (countdown <= 0) {
-        ((S_818D4A94_1_pre *)motion)[-1].unk_00 |= 0x8000;
+    motion->intensity -= 8;
+    if (motion->intensity <= 0) {
+        NODE_HEADER(motion)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
-   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_80024394 */
-
-typedef struct S_818D4B94_1 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    s16 unk_14;
-    u8 pad_16[0x1C];
-    s16 unk_32;
-    u16 unk_34;
-    u16 unk_36;
-    u16 unk_38;
-    u8 pad_3A[0xE];
-    s32 unk_48;
-    s32 unk_4C;
-    s32 unk_50;
-} S_818D4B94_1;
+   /* ((Rec_D_800E3D7C *)arg0)->color.at00_pv.v in func_80024394 */
 
 /* Creates an offset effect with velocity directed back toward the source position. */
 void create_accelerating_return_particle(ObjectNodeHeader *source, s32 setting_14, s32 setting_08, s32 duration, s32 offset_x, s32 offset_y, s32 offset_z) {
@@ -205,41 +180,41 @@ void create_accelerating_return_particle(ObjectNodeHeader *source, s32 setting_1
     s32 step_count;
     s32 delta_x;
     s32 velocity;
-    S_818D4B94_1 *state;
+    ReturningParticleBody *state;
     ObjectNodeHeader *effect;
 
     effect = allocate_list_node(0x211, &source->next);
     if (effect != NULL) {
-        effect->update_callback = (void *)accelerate_particle_toward_source;
-        (effect->position)->x.w.i = (s16) (source->position->x.unsigned_parts.integer + offset_x);
-        (effect->position)->y.w.i = (s16) (source->position->y.unsigned_parts.integer + offset_y);
-        (effect->position)->z.w.i = (s16) (source->position->z.unsigned_parts.integer + offset_z);
+        effect->update_callback = accelerate_particle_toward_source;
+        effect->position->x.w.i = source->position->x.w.i + offset_x;
+        effect->position->y.w.i = source->position->y.w.i + offset_y;
+        effect->position->z.w.i = source->position->z.w.i + offset_z;
         state = NODE_BODY(effect);
-        state->unk_34 = (u16) source->position->x.unsigned_parts.integer;
-        state->unk_36 = (u16) source->position->y.unsigned_parts.integer;
-        state->unk_38 = (u16) source->position->z.unsigned_parts.integer;
+        state->origin_x = source->position->x.w.i;
+        state->origin_y = source->position->y.w.i;
+        state->origin_z = source->position->z.w.i;
         signed_duration = (s16) duration;
         delta_x = -(offset_x << 16);
         step_count = signed_duration / 8;
         velocity = delta_x / step_count;
         if (velocity < 0) {
             velocity += 0xF;
-            state->unk_48 = velocity >> 4;
+            state->acceleration_x = velocity >> 4;
         } else {
-            state->unk_48 = velocity >> 4;
+            state->acceleration_x = velocity >> 4;
         }
         velocity = -(offset_y << 16) / step_count;
         if (velocity < 0) {
             velocity += 0xF;
-            state->unk_4C = velocity >> 4;
+            state->acceleration_y = velocity >> 4;
         } else {
-            state->unk_4C = velocity >> 4;
+            state->acceleration_y = velocity >> 4;
         }
-        state->unk_50 = -(offset_z << 16) / step_count / 16;
-        state->unk_14 = setting_14;
-        state->unk_32 = duration;
+        state->acceleration_z = -(offset_z << 16) / step_count / 16;
+        state->direction = setting_14;
+        state->intensity = duration;
         register_node(effect, draw_actor_effect_points, signed_duration);
-        state->unk_08 = setting_08;
+        state->color = setting_08;
     }
 }
 
@@ -612,7 +587,7 @@ state1_cleanup:
                 offset_x = (s16)((rand() & 0x7F) - 0x40);
                 offset_y = (s16)((rand() & 0x7F) - 0x40);
                 offset_z = (s16)((rand() & 0x7F) - 0x40);
-                create_accelerating_return_particle((u8 *)actor - 0x20, actor->direction, 0xC0C0C0,
+                create_accelerating_return_particle(NODE_HEADER(actor), actor->direction, 0xC0C0C0,
                               shade, offset_x, offset_y, offset_z);
                 more_particles = particle_count < 2;
                 if (!more_particles) {
@@ -632,7 +607,7 @@ state1_cleanup:
                 offset_x = (s16)((rand() & 0x7F) - 0x40);
                 offset_y = (s16)((rand() & 0x7F) - 0x40);
                 offset_z = (s16)((rand() & 0x7F) - 0x40);
-                create_accelerating_return_particle((u8 *)actor - 0x20, actor->direction, 0xC0C0C0,
+                create_accelerating_return_particle(NODE_HEADER(actor), actor->direction, 0xC0C0C0,
                               shade, offset_x, offset_y, offset_z);
             }
         }

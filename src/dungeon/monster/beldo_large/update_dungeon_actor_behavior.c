@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/beldo_large_data.h"
 #include "shared/object_node.h"
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
@@ -24,12 +25,12 @@ extern void create_damped_directional_projectile();
 
 
 extern Copy8 D_80164A4C;
-extern u8 *beldo_actor_nodes;
 
 /* Update a staged particle effect, ramping emission and brightness before fading out. */
 /* Brightens the player sprite while ramping particle emission, then emits projectile bursts, restores
  * gray, and ends the action. */
 void update_dungeon_actor_behavior(void *effect) {
+    ActorRecord *beldo;
     u16 blit_data[8];
     u8 *burst_context;
     u8 *render_state;
@@ -73,7 +74,8 @@ void update_dungeon_actor_behavior(void *effect) {
         U16_AT(effect, 0x18) = 0;
         U16_AT(effect, 0x12)++;
         (*(u8 *)&actor->unk_A8) = enabled;
-        beldo_actor_nodes[0x47] = 0;
+        beldo = NODE_BODY(beldo_actor_nodes);
+        beldo->current_defense = 0;
         return;
     case 1:
         U16_AT(effect, 0x18)++;

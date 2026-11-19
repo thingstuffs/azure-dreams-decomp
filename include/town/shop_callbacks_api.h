@@ -5,8 +5,9 @@
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "shared/entity.h"
 struct ShopEmbeddedDataObject;
+struct ColliderView;
 void increase_shop_subrecord_value(struct ShopEmbeddedDataObject *record_data);
-void move_item_to_shop_target_and_store(void *object_arg, s32 context, ObjectPosition *motion);
+void move_item_to_shop_target_and_store(void *object_arg, struct ColliderView *context, ObjectPosition *motion);
 void fade_entry_to_neutral(void *sub_object);
 
 #endif

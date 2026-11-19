@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_height_query.h"
 #include "slus/imports.h"
 #include "dungeon/monster/barong.h"
 #include "shared/sprite_frame_state.h"
@@ -31,8 +32,6 @@ typedef struct S_80170D58_1 {
     s32 unk_68;
 } S_80170D58_1;   /* arg0 in update_motion_and_grow_sprite */
 
-s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
-extern s16 sample_terrain_surface_height(u16 x, u16 y, s16 min_height);
 
 /* Update motion with collision checks, grow the sprite, and flag expired objects. */
 void update_motion_and_grow_sprite(void *motion_arg, void *position_arg, SpriteFrameState *sprite)
@@ -47,7 +46,7 @@ void update_motion_and_grow_sprite(void *motion_arg, void *position_arg, SpriteF
 
     position->unk_00.at00.v += motion->unk_54;
     motion->unk_54 += motion->unk_60;
-    if ((sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v,
+    if (((s16)sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v,
                        position->unk_08.at02.v) < 0x200) &&
         ((s16)check_left_tile_and_center_height(position->unk_00.at02.v, position->unk_04.at02.v,
                             position->unk_08.at02.v) != 0)) {
@@ -58,7 +57,7 @@ void update_motion_and_grow_sprite(void *motion_arg, void *position_arg, SpriteF
 
     position->unk_04.at00.v += motion->unk_58;
     motion->unk_58 += motion->unk_64;
-    if ((sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v,
+    if (((s16)sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v,
                        position->unk_08.at02.v) < 0x200) &&
         ((s16)check_left_tile_and_center_height(position->unk_00.at02.v, position->unk_04.at02.v,
                             position->unk_08.at02.v) != 0)) {
@@ -70,11 +69,11 @@ void update_motion_and_grow_sprite(void *motion_arg, void *position_arg, SpriteF
     position->unk_08.at00.v += motion->unk_5C;
     motion->unk_5C += motion->unk_68;
     height = position->unk_08.at02.v;
-    if (sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v,
+    if ((s16)sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v,
                       (s16)(position->unk_08.at02u.v - 4)) - 0x10 < height) {
         motion->unk_5C = 0;
         position->unk_08.at02.v =
-            sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v,
+            (s16)sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v,
                           (s16)(position->unk_08.at02u.v - 4)) - 0x11;
         position->unk_08.at00u.v = 0;
         if (motion->unk_1A == 0) {

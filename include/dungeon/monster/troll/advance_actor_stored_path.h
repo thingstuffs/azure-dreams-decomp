@@ -189,7 +189,6 @@ extern s32 check_entity_interaction_compatibility(void *, void *);
 extern s32 troll_stored_path_frames;
 extern s32 troll_frame_set;
 extern s32 troll_frame_set_4;
-extern s16 actor_turn_angle_offsets[];
 extern u8 D_80175E9C[];
 extern u8 D_80175EA4[];
 extern u8 D_80175EAC[];

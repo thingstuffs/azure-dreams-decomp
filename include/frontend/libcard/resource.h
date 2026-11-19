@@ -9,7 +9,7 @@ struct Object_800128C8;
 struct ObjectNodeHeader;
 
 /* card_boot_begin_selected_slot_load.c */
-void card_boot_begin_selected_slot_load(void *state);
+void card_boot_begin_selected_slot_load(struct CardSlotMenuState *menu);
 
 /* card_boot_finish_slot_load_and_change_scene.c */
 void card_boot_finish_slot_load_and_change_scene(CardSlotMenuState *object);

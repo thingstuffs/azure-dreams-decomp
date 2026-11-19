@@ -12,10 +12,10 @@ typedef struct CardChooserBody {
     u8 pad_04[8];
     s32 selected_channel;
     u8 pad_10[4];
-    void *request;
+    struct ObjectNodeHeader *request;
     CardChooserPresence card_presence;
     void *backdrop;
-    void *choices;
+    struct ObjectNodeHeader *choices;
     u8 pad_28[0xC];
     s32 unk_34;
     s32 wait_notice_state;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/runtime_directory.h"
 #include "shared/item_ids.h"
 #include "shared/dungeon_item_entries.h"
 
@@ -11,7 +12,6 @@ typedef struct S_80042A80_Rec20
     u8 pad[18];
 }
 S_80042A80_Rec20;
-extern u8 runtime_dispatch_mode_alias[9];
 /* Returns category-dependent item flags when the current mode is 2. */
 s32 get_item_category_flags(DungeonItemEntry *item)
 {

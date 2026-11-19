@@ -6,13 +6,13 @@
  * Ordinary code: no alias, no section attribute, no literal word arrays.
  */
 #include "common.h"
+#include "shared/dungeon_height_query.h"
 #include "dungeon/item/actor_target.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "dungeon/item.h"
 #include "shared/object_node.h"
 
-s32 check_diagonal_side_height(s32, u8, u8, s16);
 void *find_eligible_actor_at_tile_and_height(void *, u16, u16, s16);
 
 /* Check eight neighboring positions in cyclic order and return the first result that passes the direction check. */

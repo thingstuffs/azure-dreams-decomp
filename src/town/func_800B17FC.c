@@ -1,9 +1,8 @@
 #include "common.h"
+#include "shared/menu_display.h"
 #include "engine/texture.h"
 #include "engine/util.h"
 #include "town.h"
-
-extern s32 display_vector_defaults[];
 
 /* Initializes the object handle and applies the default configuration on success. */
 s32 load_item_menu_display_resource(void *object, s32 resource_id) {
@@ -12,9 +11,9 @@ s32 load_item_menu_display_resource(void *object, s32 resource_id) {
 
     *(s32 *)((s8 *)object + 0xD8) = handle;
     if (handle != 0) {
-        *(s32 *)((s8 *)object + 0xBC) = display_vector_defaults[0];
-        *(s32 *)((s8 *)object + 0xC0) = display_vector_defaults[1];
-        *(s32 *)((s8 *)object + 0xC4) = display_vector_defaults[2];
+        *(s32 *)((s8 *)object + 0xBC) = display_vector_defaults.unk0;
+        *(s32 *)((s8 *)object + 0xC0) = display_vector_defaults.unk4;
+        *(s32 *)((s8 *)object + 0xC4) = display_vector_defaults.unk8;
         set_menu_part_vectors(handle, (s8 *)object + 0xBC, 0x1A);
         success = 1;
     }

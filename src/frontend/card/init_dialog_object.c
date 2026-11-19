@@ -1,3 +1,4 @@
+#include "frontend/card/message_display.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "frontend/card.h"
@@ -6,7 +7,7 @@ void position_linked_dialog_and_bind_object_data(void *object);                 
 void * initialize_four_paired_drawing_records(void *buffer, void *unused_object);                    /* extern */
 
 /* Process the embedded data at offset 0x24, then the containing object. */
-void init_dialog_object(void *object_addr) {
-    initialize_four_paired_drawing_records(object_addr + 0x24, object_addr);
-    position_linked_dialog_and_bind_object_data(object_addr);
+void init_dialog_object(CardDevDialogDisplay *object) {
+    initialize_four_paired_drawing_records(object->command_buffer, object);
+    position_linked_dialog_and_bind_object_data(object);
 }

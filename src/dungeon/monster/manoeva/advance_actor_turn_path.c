@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/level/tile_flags.h"
 #include "dungeon/system/random.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -25,11 +26,9 @@ extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16
 extern s16 check_movement_clearance_and_height(s16, void *, void *, s32);
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
-extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 
-extern s16 actor_turn_angle_offsets[];
 
 /* Selects and applies an actor movement step, updating its path and remaining movement. */
 void advance_actor_turn_path(ActorRecord *move_data_in, ObjectPosition *context, SpriteFrameState *tile_in, ActorRecord *actor_in) {

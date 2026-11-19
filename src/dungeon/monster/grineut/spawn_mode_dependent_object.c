@@ -699,7 +699,7 @@ void choose_grineut_move(ActorRecord *move_data, ObjectPosition *context, Sprite
     }
 
     turn_index = 0;
-    turn_table = ((s16 *)actor_turn_angle_offsets);
+    turn_table = actor_turn_angle_offsets;
 
     do {
         turn_flags = move_data->action_state_flags;
@@ -1190,7 +1190,7 @@ void advance_grineut_attack_step(ActorRecord *action, ObjectPosition *motion, Sp
                 actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
                 return;
             }
-            ((void * *)actor_update_node_cursor)[0] = NODE_HEADER(actor);
+            actor_update_node_cursor = NODE_HEADER(actor);
         }
     }
 }

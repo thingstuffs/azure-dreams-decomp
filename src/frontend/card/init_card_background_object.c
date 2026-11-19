@@ -3,34 +3,35 @@
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
 
-extern void func_80404C44(void *object, s32 value);
+extern void func_80404C44(CardBackgroundBody *object, ObjectNodeHeader *owner);
 
 typedef struct {
     u8 pad_00[4];
     s32 field_04;
     u8 pad_08[0x214];
     s32 field_21C;
-    s32 field_220;
+    struct CardDevMenuEntry **entry_table;
 } Obj;
 
 typedef struct {
     u8 pad_00[0x0C];
-    u8 *field_0C;
+    MenuDisplayNode *field_0C;
     void *field_10;
     u8 pad_14[0x0A];
     u16 flags;
     Obj obj;
 } Root;
 
+/* This unit declares the static node through its entry-table slot. */
 extern Root card_background_object;
 
 /* Create or reset the card background object and initialize its callback. */
-void * init_card_background_object(s32 init_value, s32 config_value) {
+void * init_card_background_object(ObjectNodeHeader *owner, s32 *selection_flag) {
     Root *base;
-    Obj *obj;
+    CardBackgroundBody *obj;
 
     base = &card_background_object;
-    obj = &base->obj;
+    obj = NODE_BODY(base);
 
     if (func_80047FD8(base) == 0) {
         base = func_8003C714(0, base, 0xC9);
@@ -51,9 +52,9 @@ void * init_card_background_object(s32 init_value, s32 config_value) {
     D_804F281B[0] = 8;
     D_805030EF[0] = 8;
     card_background_init_entry_tables(obj, 7);
-    base->field_0C = (u8 *)obj + 0x210;
-    obj->field_21C = card_background_bind_dialog_template(obj->field_220);
-    func_80404C44(obj, (obj->field_04 = config_value, init_value));
+    base->field_0C = &obj->template_node;
+    obj->template_node.unk_0C = card_background_bind_dialog_template(obj->entry_table);
+    func_80404C44(obj, (obj->selection_flag = selection_flag, owner));
     card_dev_select_sub_block((base->field_10 = card_dev_select_sub_block, obj));
     return base;
 }

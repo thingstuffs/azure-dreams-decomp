@@ -1,4 +1,5 @@
 #include "shared/object_flags.h"
+#include "shared/dungeon_height_query.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
@@ -60,10 +61,7 @@ typedef struct S_func_80EDF000_2 {
 
 
 
-s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
-extern s16 sample_terrain_surface_height(s32, s32, s16);
 
-extern GridPoint weadog_slot_g_direction_steps[8];
 extern FlagBlock D_800814A0;
 
 
@@ -84,7 +82,7 @@ void advance_item_flight_to_floor(WeadogFlightBody *motion, S_func_80EDF000_1 *p
     s32 interp_goal;
 
 
-    __builtin_memcpy(tile_steps, weadog_slot_g_direction_steps, 32);
+    __builtin_memcpy(tile_steps, weadog_slot_g_direction_steps, sizeof(tile_steps));
 
 interpolate:
     if (motion->phase == 1) {
@@ -193,11 +191,11 @@ fall:
         render->unk_1E = scale;
         render->unk_1C = scale;
         fall_height = position->unk_08.parts.unk_0A;
-        if (sample_terrain_surface_height((motion->spawner_tile_x << 6) & 0xFFC0,
+        if ((s16)sample_terrain_surface_height((motion->spawner_tile_x << 6) & 0xFFC0,
                           (motion->spawner_tile_y << 6) & 0xFFC0,
                           (s16)((u16)position->unk_08.parts.unk_0A - 0x20)) - 7 <
             fall_height) {
-            position->unk_08.parts.unk_0A = sample_terrain_surface_height(
+            position->unk_08.parts.unk_0A = (s16)sample_terrain_surface_height(
                 (motion->spawner_tile_x << 6) & 0xFFC0,
                 (motion->spawner_tile_y << 6) & 0xFFC0,
                 (s16)((u16)position->unk_08.parts.unk_0A - 0x20));
@@ -249,7 +247,7 @@ fall:
                 if (interp_goal == coord) {
                     if ((check_left_tile_and_center_height((u16)position->unk_00.parts.unk_02, ((u16)position->unk_04.parts.unk_06),
                         position->unk_08.parts.unk_0A) << 16) != 0 ||
-                        sample_terrain_surface_height((u16)position->unk_00.parts.unk_02, ((u16)position->unk_04.parts.unk_06),
+                        (s16)sample_terrain_surface_height((u16)position->unk_00.parts.unk_02, ((u16)position->unk_04.parts.unk_06),
                                           position->unk_08.parts.unk_0A) >= 0x200) {
                         position->unk_00.s32 -= motion->velocity_x;
                         motion->velocity_x = 0;
@@ -270,9 +268,9 @@ fall:
         position->unk_08.s32 += motion->velocity_z;
         motion->velocity_z += motion->gravity;
         move_height = position->unk_08.parts.unk_0A;
-        if (sample_terrain_surface_height((motion->spawner_tile_x << 6) & 0xFFC0, (motion->spawner_tile_y << 6) & 0xFFC0,
+        if ((s16)sample_terrain_surface_height((motion->spawner_tile_x << 6) & 0xFFC0, (motion->spawner_tile_y << 6) & 0xFFC0,
             (s16)((u16)position->unk_08.parts.unk_0A - 0x20)) - 0x10 < move_height) {
-            position->unk_08.parts.unk_0A = sample_terrain_surface_height(
+            position->unk_08.parts.unk_0A = (s16)sample_terrain_surface_height(
                 (motion->spawner_tile_x << 6) & 0xFFC0,
                 (motion->spawner_tile_y << 6) & 0xFFC0,
                 (s16)((u16)position->unk_08.parts.unk_0A - 0x20));

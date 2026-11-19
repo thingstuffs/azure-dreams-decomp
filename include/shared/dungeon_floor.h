@@ -33,4 +33,14 @@ typedef struct MapTileHalfView {
     unsigned short unk_00;
 } MapTileHalfView;
 
+/* Resident generation state at 0x80081468. The recorded floor and room
+ * count also have their own link symbols at offsets four and six. */
+typedef struct DungeonFloorGenerationState {
+    int seed;
+    short floor_number;
+    short room_count;
+} DungeonFloorGenerationState;
+
+extern DungeonFloorGenerationState floor_generation_state;
+
 #endif

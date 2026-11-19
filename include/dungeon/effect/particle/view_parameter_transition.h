@@ -57,19 +57,6 @@ typedef struct {
     u16 y1E;
 } DungeonEffect;
 typedef struct { u32 addr:24; u32 length:8; } PacketTag;
-typedef struct {
-    u16 unk0;
-    u16 unk2;
-    u16 unk4;
-    u16 unk6;
-    union {
-        s32 unk8;
-        struct {
-            u16 unk8_lo;
-            u16 unkA;
-        } half;
-    } value;
-} UnkArg1;
 extern const u8 no_effect_target_prefix[48];
 extern const u8 no_effect_target_period[4];
 extern const s16 D_80024038[8][2];
@@ -106,7 +93,7 @@ typedef struct MovingColorWork {
 void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, ObjectPosition *effect_pos, SpriteFrameState *effect_display);
 s32 draw_linked_brightness_points(PointRecord *start_node, ObjectPosition *start_coords);
 void advance_rotating_fading_effect(DungeonState *anim, ObjectPosition *position, DungeonEffect *input_effect);
-void lift_attached_particle_above_terrain_and_age(u8 *state, UnkArg1 *position);
+void lift_attached_particle_above_terrain_and_age(PointRecord *state, ObjectPosition *position);
 void apply_random_actor_value_adjustment(ActorRecord *entity, s32 effect_param, void *context);
 void spawn_parent_attached_effect( ObjectNodeHeader *source, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
 #endif

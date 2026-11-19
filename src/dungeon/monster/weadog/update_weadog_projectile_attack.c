@@ -14,7 +14,6 @@
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 
-extern GridPoint weadog_slot_g_direction_steps[8];
 extern u8 D_80077C50[];
 extern u8 weadog_object_callback[];
 extern u8 weadog_action_resume_address[];

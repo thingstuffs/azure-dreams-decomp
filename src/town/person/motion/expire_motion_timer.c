@@ -5,7 +5,7 @@
 
 typedef struct S_800C3FC8_0 {
     u8 pad_00[0x54];
-    void (*unk_54)(TownObjectRecord *, EntityRec *, void *);
+    void (*unk_54)(TownObjectRecord *, ObjectPosition *, struct SpriteFrameState *);
     u8 pad_58[0x14];
     u16 unk_6C;
 } S_800C3FC8_0;   /* arg0 in expire_motion_timer */

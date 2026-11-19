@@ -8,8 +8,7 @@ struct ObjectPosition;
 #include "shared/vector.h"
 struct S_800C52D0_0;
 void place_at_owner_sprite_offset(struct S_800C52D0_0 *object, struct ObjectPosition *out_pos, SpriteFrameState *state);
-struct town_offset_actor;
-struct town_offset_actor_position;
-void move_toward_offset_town_position(struct town_offset_actor *actor, struct town_offset_actor_position *position, void *completion_arg);
+struct TownObjectRecord;
+void move_toward_offset_town_position(struct TownObjectRecord *actor, struct ObjectPosition *position, struct SpriteFrameState *completion_arg);
 
 #endif

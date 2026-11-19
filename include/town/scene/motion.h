@@ -13,8 +13,10 @@ struct S_80019DE0_0;
 struct ScenePositionEntry;
 struct SpriteFrameState;
 
+void apply_bound_adjustments(struct ColliderView *collider, ObjectPosition *position);
+
 /* clamp_position_y_to_bounds.c */
-void clamp_position_y_to_bounds(s32 context, s32 *value);
+void clamp_position_y_to_bounds(struct ColliderView *collider, ObjectPosition *position);
 
 /* advance_player_position_by_step.c */
 void advance_player_position_by_step(void);

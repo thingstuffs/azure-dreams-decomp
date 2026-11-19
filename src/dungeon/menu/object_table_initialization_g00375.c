@@ -11,14 +11,14 @@ void initialize_nine_records_and_vectors(u8 *object) {
     s32 i;
 
     for (i = 0; i < 9; i++) {
-        *(s32 *)(i * 0x10 + *(s32 *)(object + 4)) = display_block_defaults.unk0;
-        *(s32 *)(i * 0x10 + *(s32 *)(object + 4) + 4) = display_block_defaults.unk4;
-        *(s32 *)(i * 0x10 + *(s32 *)(object + 4) + 8) = display_block_defaults.unk8;
-        *(s32 *)(i * 0x10 + *(s32 *)(object + 4) + 0xC) = display_block_defaults.unkC;
+        *(s32 *)(i * 0x10 + *(s32 *)(object + 4)) = display_block_defaults.words[0];
+        *(s32 *)(i * 0x10 + *(s32 *)(object + 4) + 4) = display_block_defaults.words[1];
+        *(s32 *)(i * 0x10 + *(s32 *)(object + 4) + 8) = display_block_defaults.words[2];
+        *(s32 *)(i * 0x10 + *(s32 *)(object + 4) + 0xC) = display_block_defaults.words[3];
         *(u8 *)(i * 0x10 + *(s32 *)(object + 4) + 0xF) = 4;
-        *(s32 *)(i * 0xC + *(s32 *)(object + 8)) = display_vector_defaults.x;
-        *(s32 *)(i * 0xC + *(s32 *)(object + 8) + 4) = display_vector_defaults.y;
-        *(s32 *)(i * 0xC + *(s32 *)(object + 8) + 8) = display_vector_defaults.z;
+        *(s32 *)(i * 0xC + *(s32 *)(object + 8)) = display_vector_defaults.unk0;
+        *(s32 *)(i * 0xC + *(s32 *)(object + 8) + 4) = display_vector_defaults.unk4;
+        *(s32 *)(i * 0xC + *(s32 *)(object + 8) + 8) = display_vector_defaults.unk8;
     }
 }
 

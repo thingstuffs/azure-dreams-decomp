@@ -1,4 +1,7 @@
 #include "shared/actor_status_flags.h"
+#include "shared/dungeon_floor.h"
+#include "dungeon/level/tile_flags.h"
+#include "shared/dungeon_height_query.h"
 #include "common.h"
 #include "dungeon/monster/picket.h"
 #include "shared/sprite_frame_state.h"
@@ -18,18 +21,15 @@
 
 
 
-extern s16 floor_generation_state[3];
 extern u8 picket_action_resume_address[];
 extern u16 D_80174FC4[];
 extern u16 D_80174FD4[];
 
 
-extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 extern s16 select_dungeon_spawn_tile(u8 *, u8 *); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */
 
-extern s16 sample_terrain_surface_height(s32, s32, s16);
 
 /* Updates movement, destination selection, and recovery animation for the object. */
 /* Animates Picket's dash and retreat, selects a new valid tile when allowed, then restores sprite scale
@@ -44,7 +44,7 @@ void update_picket_dash_and_retreat(ActorRecord *state, ObjectPosition *motion, 
     s16 height;
     s32 attempts_left;
     TileObject *world;
-    s16 *level;
+    DungeonFloorGenerationState *level;
     u32 state_id;
     x_step_ptr = (s16 *)((u8 *)dir_step_x);
     raw_direction = ((u16)actor->facing);
@@ -133,7 +133,7 @@ void update_picket_dash_and_retreat(ActorRecord *state, ObjectPosition *motion, 
         select_sprite_entry(sprite, 0x38, 0);
         attempts_left = 0x40;
         world = &reference_tile_object;
-        level = floor_generation_state;
+        level = &floor_generation_state;
         state->action_timer = 0;
         x_step = sprite->tile_x;
         y_step = sprite->tile_y;
@@ -150,10 +150,10 @@ void update_picket_dash_and_retreat(ActorRecord *state, ObjectPosition *motion, 
                 continue;
             }
             if (direction_offset == (s8)((u8)world->room_index) &&
-                *(s16 *)((u8 *)level + 6) >= 2) {
+                level->room_count >= 2) {
                 continue;
             }
-            direction_offset = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
+            direction_offset = (s16)sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
                 (sprite->tile_y << 6) | 0x20,
                 (s16)(((u16) motion->z.w.i) - 0x80));
             raw_direction = direction_offset < 0x201;
@@ -178,7 +178,7 @@ void update_picket_dash_and_retreat(ActorRecord *state, ObjectPosition *motion, 
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             refresh_actor_proximity_state(actor);
-            height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
+            height = (s16)sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
                 (sprite->tile_y << 6) | 0x20,
                 (s16)(((u16) motion->z.w.i) - 0x80));
             actor->ground_height = height;

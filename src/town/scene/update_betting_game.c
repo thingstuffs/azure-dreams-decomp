@@ -105,12 +105,11 @@ typedef struct S_func_8080F4A4_8 {
  * Adoption requires the recovered overlay-base fix.
  */
 void func_802441A4();                   /* extern */ /* Unprototyped: this site's argument count or types differ from the foreign program's import prototype */
-extern u32 scene_value_total[3];
+#include "town/scene/value_total_data.h"
 extern u32 D_80012BC8[4];
 extern u8 D_80095AA0[16];
 extern u8 D_8012F130[0x14];
 extern u8 collection_round_work[0x20];
-extern s32 town_motion_state[6];
 extern s32 D_802BC5C8[3];
 extern u8 D_802483B8[];
 extern u8 D_80290270[];
@@ -242,9 +241,9 @@ void update_betting_game(S_func_8080F4A4_1 *game) {
             betting_round_handle[0] = round_handle;
             game->unk_10 = odds;
             if (func_80052374(odds) == 0) {
-                town_motion_state[5] = 0;
-                town_motion_state[4] = 0;
-                town_motion_state[3] = 0;
+                town_motion_state.velocity_z = 0;
+                town_motion_state.velocity_y = 0;
+                town_motion_state.velocity_x = 0;
                 animated_sprite->unk_10 = 0U;
                 func_802445FC((s32)betting_sprite_animation);
                 animated_sprite->unk_00 = (s32)D_802483B8;
@@ -268,13 +267,13 @@ void update_betting_game(S_func_8080F4A4_1 *game) {
             game->unk_1A = 5U;
         }
         if (((input->unk_10 & 0x1000) || ((input->unk_08 & 0x1000) && ((s16) game->unk_1A <= 0)))
-            && (game->unk_14 <= 0x1869F) && ((u32) scene_value_total[0] >= 0x3E8U)) {
-            D_80012BC8[1] = scene_value_total[0] - 0x3E8;
+            && (game->unk_14 <= 0x1869F) && ((u32) scene_value_total >= 0x3E8U)) {
+            D_80012BC8[1] = scene_value_total - 0x3E8;
             new_bet = game->unk_14 + 0x3E8;
             game->unk_14 = new_bet;
         } else if (((input->unk_10 & 0x4000) || ((input->unk_08 & 0x4000) && ((s16) game->unk_1A <= 0)))
             && (game->unk_14 >= 0x3E8)) {
-            D_80012BC8[1] = scene_value_total[0] + 0x3E8;
+            D_80012BC8[1] = scene_value_total + 0x3E8;
             new_bet = game->unk_14 - 0x3E8;
             game->unk_14 = new_bet;
         }
@@ -284,14 +283,14 @@ void update_betting_game(S_func_8080F4A4_1 *game) {
             if (game->unk_14 > 0) {
                 game->unk_18 = 3;
                 game->unk_1A = 9U;
-                town_motion_state[5] = -0x240000;
+                town_motion_state.velocity_z = -0x240000;
             }
         } else if (state_or_buttons & 0x40) {
             if (game_data->unk_70 != 0) {
                 game_data->unk_70 = 3;
             }
             game->unk_18 = 0xA;
-            func_80244660(animated_sprite, &town_motion_state[0], &D_80095AA0);
+            func_80244660(animated_sprite, &town_motion_state.x.v, &D_80095AA0);
         }
         break;
     case 3:
@@ -300,8 +299,8 @@ void update_betting_game(S_func_8080F4A4_1 *game) {
         game->unk_1A = spin_delay;
         if ((spin_delay << 0x10) <= 0) {
             game->unk_1A = 0xAU;
-            town_motion_state[3] = (s32) (0x03600000 - town_motion_state[0]) / (s16) game->unk_1A;
-            town_motion_state[4] = (s32) (0x02A00000 - town_motion_state[1]) / (s16) game->unk_1A;
+            town_motion_state.velocity_x = (s32) (0x03600000 - town_motion_state.x.v) / (s16) game->unk_1A;
+            town_motion_state.velocity_y = (s32) (0x02A00000 - town_motion_state.y.v) / (s16) game->unk_1A;
             game->unk_18 = 0xB;
         }
         break;
@@ -310,11 +309,11 @@ void update_betting_game(S_func_8080F4A4_1 *game) {
         move_delay = game->unk_1A - 1;
         game->unk_1A = move_delay;
         if ((move_delay << 0x10) <= 0) {
-            town_motion_state[0] = 0x03600000;
-            town_motion_state[1] = 0x02A00000;
-            town_motion_state[5] = 0x180000;
-            town_motion_state[4] = 0;
-            town_motion_state[3] = 0;
+            town_motion_state.x.v = 0x03600000;
+            town_motion_state.y.v = 0x02A00000;
+            town_motion_state.velocity_z = 0x180000;
+            town_motion_state.velocity_y = 0;
+            town_motion_state.velocity_x = 0;
             game->unk_18 = 0xC;
         }
         break;
@@ -322,7 +321,7 @@ void update_betting_game(S_func_8080F4A4_1 *game) {
     {
         s32 landing_z;
         s32 *position_z;
-        position_z = &town_motion_state[2];
+        position_z = &town_motion_state.z.v;
         landing_z = (s32)0xFF000000;
         rotation = (animated_sprite->unk_10 + 0x200) & 0xFFF;
         animated_sprite->unk_10 = rotation;
@@ -337,17 +336,17 @@ void update_betting_game(S_func_8080F4A4_1 *game) {
     case 4:
         if ((input->unk_10 & 0x20) && (game_data->unk_70 == 2)) {
             func_802445FC((s32)D_80290290);
-            town_motion_state[4] = 0x48000;
-            town_motion_state[5] = -0xC0000;
+            town_motion_state.velocity_y = 0x48000;
+            town_motion_state.velocity_z = -0xC0000;
             game->unk_1C = 0U;
             game->unk_18 = 5;
         }
         break;
     case 5:
-        town_motion_state[1] += town_motion_state[4];
-        town_motion_state[2] += town_motion_state[5];
-        if (town_motion_state[5] <= 0x9FFFF) {
-            town_motion_state[5] += 0x20000;
+        town_motion_state.y.v += town_motion_state.velocity_y;
+        town_motion_state.z.v += town_motion_state.velocity_z;
+        if (town_motion_state.velocity_z <= 0x9FFFF) {
+            town_motion_state.velocity_z += 0x20000;
         }
         bounce_frame = game->unk_1C;
         game->unk_1C = (u16) (bounce_frame + 1);
@@ -363,8 +362,8 @@ void update_betting_game(S_func_8080F4A4_1 *game) {
         case 0x14:
             bounce_y_speed = 0x18000;
             bounce_anim = (s32)betting_sprite_animation;
-            town_motion_state[5] = -0xC0000;
-            town_motion_state[4] = bounce_y_speed;
+            town_motion_state.velocity_z = -0xC0000;
+            town_motion_state.velocity_y = bounce_y_speed;
             func_802445FC(bounce_anim);
             break;
         case 0x19:
@@ -382,36 +381,36 @@ void update_betting_game(S_func_8080F4A4_1 *game) {
             break;
         case 0x24:
             bounce_anim = (s32)betting_sprite_animation;
-            town_motion_state[5] = -0x80000;
-            town_motion_state[4] = 0x20000;
+            town_motion_state.velocity_z = -0x80000;
+            town_motion_state.velocity_y = 0x20000;
             func_802445FC(bounce_anim);
             break;
         case 0x30:
             bounce_speed = -0x40000;
-            town_motion_state[5] = bounce_speed;
+            town_motion_state.velocity_z = bounce_speed;
             bounce_anim = (s32)betting_sprite_animation;
             func_802445FC(bounce_anim);
             break;
         case 0x3D:
             bounce_speed = -0x38000;
-            town_motion_state[5] = bounce_speed;
+            town_motion_state.velocity_z = bounce_speed;
             bounce_anim = (s32)betting_sprite_animation;
             func_802445FC(bounce_anim);
             break;
         }
 bounce_done:
         if (game_data->unk_70 == 3) {
-            town_motion_state[5] = -0x50000;
-            town_motion_state[4] = 0;
-            town_motion_state[2] = -0x400000;
+            town_motion_state.velocity_z = -0x50000;
+            town_motion_state.velocity_y = 0;
+            town_motion_state.z.v = -0x400000;
             func_802445FC((s32)betting_sprite_animation);
             game->unk_1C = 0U;
             game->unk_18 = 6;
         }
         break;
     case 6:
-        town_motion_state[2] += town_motion_state[5];
-        town_motion_state[5] += 0x10000;
+        town_motion_state.z.v += town_motion_state.velocity_z;
+        town_motion_state.velocity_z += 0x10000;
         settle_frame = game->unk_1C;
         game->unk_1C = (u16) (settle_frame + 1);
         switch ((s16) settle_frame) {
@@ -427,13 +426,13 @@ bounce_done:
             break;
         case 10:
             settle_speed = -0x40000;
-            town_motion_state[5] = settle_speed;
+            town_motion_state.velocity_z = settle_speed;
             settle_anim = (s32)betting_sprite_animation;
             func_802445FC(settle_anim);
             break;
         case 18:
             settle_speed = -0x30000;
-            town_motion_state[5] = settle_speed;
+            town_motion_state.velocity_z = settle_speed;
         case 26:
             settle_anim = (s32)betting_sprite_animation;
             func_802445FC(settle_anim);
@@ -442,16 +441,16 @@ bounce_done:
 settle_done:
         if ((s16) game->unk_1C == 0x1C) {
             game_data->unk_70 = 4;
-            town_motion_state[5] = 0;
-            town_motion_state[2] = -0x400000;
+            town_motion_state.velocity_z = 0;
+            town_motion_state.z.v = -0x400000;
             func_802445FC((s32)betting_sprite_animation);
             game->unk_1C = 3U;
             game->unk_18 = 7;
         }
         break;
     case 7:
-        town_motion_state[0] = (func_8006A3A4(0x1000 - (s16) game->unk_1A) * 0xA00) + 0x03600000;
-        town_motion_state[1] = (func_8006A470(0x1000 - (s16) game->unk_1A) * 0xA00) + 0x03600000;
+        town_motion_state.x.v = (func_8006A3A4(0x1000 - (s16) game->unk_1A) * 0xA00) + 0x03600000;
+        town_motion_state.y.v = (func_8006A470(0x1000 - (s16) game->unk_1A) * 0xA00) + 0x03600000;
         result_delay = game->unk_1C - 1;
         game->unk_1C = result_delay;
         if ((result_delay << 0x10) == 0) {
@@ -552,8 +551,9 @@ settle_done:
     case 10:
         if (game->unk_14 != 0) {
             u32 refunded_gold;
+            u32 *score = &scene_value_total;
             refund_units = (s16) game->unk_1E;
-            refunded_gold = scene_value_total[0] + ((refund_units >= 2) ? 0x7D0 : 0x3E8);
+            refunded_gold = *score + ((refund_units >= 2) ? 0x7D0 : 0x3E8);
             D_80012BC8[1] = refunded_gold;
         }
         refund_steps = game->unk_1E - 2;

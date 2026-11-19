@@ -38,7 +38,8 @@ typedef struct {
 
 struct ObjectNodeHeader;
 struct SpriteFrameState;
-extern void init_scene_node_mode_1(void *, void *, void *);
+struct ObjectPosition;
+extern void init_scene_node_mode_1(void *, struct ObjectPosition *, void *);
 extern u8 D_80020014[];
 extern s32 project_sprite_chain(void *, s32, struct SpriteFrameState *, s32);
 extern s32 func_80045340(void *, s32, struct SpriteFrameState *, s32);

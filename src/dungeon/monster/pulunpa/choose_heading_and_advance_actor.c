@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/level/tile_flags.h"
 #include "dungeon/system/random.h"
 #include "shared/dungeon_floor.h"
 #include "shared/entity.h"
@@ -71,14 +72,12 @@ extern s16 check_diagonal_side_height(s32, s32, s32, s32);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
-extern void cycle_map_cell_flags(s32, s32, s32);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 extern s16 func_80174BCC(void *, s32, void *, void *);
 
 extern u8 reference_tile_object[];
 extern u16 reference_tile_position_alias;
-extern s16 actor_turn_angle_offsets[];
 
 
 /*

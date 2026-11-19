@@ -1,10 +1,10 @@
 #include "dungeon/monster/beldo_large_data.h"
+#include "shared/dungeon_height_query.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "dungeon/effect/particle.h"
 
 
-extern s16 sample_terrain_surface_height(u16, u16, s16);
 
 
 
@@ -56,12 +56,12 @@ void update_landing_particle_fade(ScatterLandingSparksOnGridBody *object_arg, u8
 
         height = motion->z.at02.v;
         motion->velocity_z += object->gravity;
-        if ((sample_terrain_surface_height(motion->x.at02.v,
+        if (((s16)sample_terrain_surface_height(motion->x.at02.v,
                            motion->y.at02.v,
                            (s16)(motion->z.at02u.v - 4)) - 15) < height) {
             object->unk_54 = 0;
             motion->z.at02.v =
-                sample_terrain_surface_height(motion->x.at02.v,
+                (s16)sample_terrain_surface_height(motion->x.at02.v,
                               motion->y.at02.v,
                               (s16)(motion->z.at02u.v - 4)) - 2;
             motion->z.at00u.v = 0;

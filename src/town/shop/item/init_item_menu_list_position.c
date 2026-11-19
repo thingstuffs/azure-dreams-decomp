@@ -20,21 +20,21 @@ typedef struct S_800AEBC4_4 {
     S_800AEBC4_2 *unk_08;
 } S_800AEBC4_4;   /* config */
 
-
-extern s32 display_vector_defaults[3];
-
 /* Copies two templates into linked records and initializes position and offset vectors. */
 void init_item_menu_list_position(ItemMenuTransition *vectors, S_800AEBC4_4 *config, s32 *position_data,
                    s32 *secondary_data, s32 x, s32 y) {
-    const s32 *src0 = display_block_defaults;
-    const s32 *src1 = display_vector_defaults;
+    const s32 *src0 = display_block_defaults.words;
+    const DisplayPositionWords *src1 = &display_vector_defaults;
+    s32 first_vector_word;
+
     position_data[0] = src0[0];
     position_data[1] = src0[1];
     position_data[2] = src0[2];
+    first_vector_word = src1->unk0;
     position_data[3] = src0[3];
-    secondary_data[0] = src1[0];
-    secondary_data[1] = src1[1];
-    secondary_data[2] = src1[2];
+    secondary_data[0] = first_vector_word;
+    secondary_data[1] = src1->unk4;
+    secondary_data[2] = src1->unk8;
     config->unk_08 = (S_800AEBC4_2 *)secondary_data;
     config->unk_04 = (S_800AEBC4_2 *)position_data;
     config->unk_00 = 0;

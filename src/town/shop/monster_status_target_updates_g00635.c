@@ -7,51 +7,55 @@
 #include "town/shop/state.h"
 
 /* Processes 24 entries by type and clears the handle and type of handled entries. */
-void release_monster_status_entries(void **entries) {
+void release_monster_status_entries(ItemMenuPart **entries) {
     s32 entry_index;
     u8 entry_type;
-    S_800B6B10_0 *entry;
+    ItemMenuPart *entry;
+    ItemMenuPartPosition *position;
 
     for (entry_index = 0; entry_index < 0x18; entry_index++) {
         entry = entries[entry_index];
-        entry_type = ((S_800B6B10_4 *)(((S_800B6B10_2 *)entry)->unk_04))->unk_0E;
+        position = entry->position;
+        entry_type = position->type;
         if (entry_type == 2) {
-            flag_optional_object_for_removal(entry->unk_00);
-            ((S_800B6B10_1 *)entries[entry_index])->unk_00 = 0;
-            ((S_800B6B10_5 *)(((S_800B6B10_3 *)entries[entry_index])->unk_04))->unk_0E = 0;
+            flag_optional_object_for_removal(entry->handler);
+            entries[entry_index]->handler = 0;
+            position = entries[entry_index]->position;
+            position->type = 0;
         } else if (entry_type == 1) {
-            flag_object_for_removal(entry->unk_00);
-            ((S_800B6B10_1 *)entries[entry_index])->unk_00 = 0;
-            ((S_800B6B10_5 *)(((S_800B6B10_3 *)entries[entry_index])->unk_04))->unk_0E = 0;
+            flag_object_for_removal(entry->handler);
+            entries[entry_index]->handler = 0;
+            position = entries[entry_index]->position;
+            position->type = 0;
         }
     }
 
 }
 
 /* Process an object's pointer array and embedded state, then set its and the global 0x8000 flags. */
-void destroy_monster_status_object(S_800B9464_a0 *object)
+void destroy_monster_status_object(ObjectNodeHeader *object)
 {
-    S_800B9464_sub *objectState;
+    ShopFirstCallbackObject *objectState;
 
     if (object != 0) {
-        objectState = &object->sub;
-        release_null_terminated_entries(object->arr_bc);
-        release_monster_status_entries((void **)objectState->unk98);
+        objectState = NODE_BODY(object);
+        release_null_terminated_entries(objectState->allocations);
+        release_monster_status_entries(objectState->parts);
         release_monster_status_request_handles(objectState);
-        object->field_1E |= 0x8000;
+        object->flags |= 0x8000;
         D_800814A0 |= OBJECT_REMOVE_PENDING;
     }
 }
 
 /* Updates the embedded object state and runs its associated helpers. */
-void change_monster_status_display_target(s32 objectAddress, s32 field04Value, s16 field08Value) {
-    Rec_func_800B683C_arg0 *objectState;
+void change_monster_status_display_target(s32 objectAddress, struct ActorRecord *actor, s16 field08Value) {
+    ShopFirstCallbackObject *objectState;
 
     if (objectAddress != 0) {
-        objectState = objectAddress + 0x20;
-        release_monster_status_entries((void * *)(objectState->unk_98));
-        objectState->unk_08 = field08Value;
-        objectState->unk_04 = field04Value;
+        objectState = NODE_BODY((unsigned long)(u32)objectAddress);
+        release_monster_status_entries(objectState->parts);
+        objectState->slot_index = field08Value;
+        objectState->actor = actor;
         build_monster_status_display(objectState);
         queue_monster_status_reload(objectState);
     }

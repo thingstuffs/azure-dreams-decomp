@@ -1,11 +1,11 @@
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "town/event/object.h"
+#include "town/shop/item_lookup.h"
 #include "town/shop/state.h"
 
-extern s32 remove_object_if_item_found(s32 context, void *subject, s32 motion, s32 extra, void *scratch);
-
 // Clear the subject flag and run the fallback actor handler if the check fails.
-void clear_subject_flag_and_run_fallback(s32 actor, void *subject, s32 motion, s32 context) {
+void clear_subject_flag_and_run_fallback(TownObjectRecord *actor, void *subject, ObjectPosition *motion, SpriteFrameState *context) {
     s32 scratch[6];
 
     *((s8 *)subject + 0x15) = 0;

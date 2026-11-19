@@ -669,7 +669,7 @@ void choose_clown_move(ActorRecord *move_data, ObjectPosition *context, SpriteFr
     }
 
     turn_index = 0;
-    turn_table = ((s16 *)actor_turn_angle_offsets);
+    turn_table = actor_turn_angle_offsets;
 
     do {
         turn_flags = move_data->action_state_flags;
@@ -1769,7 +1769,7 @@ void advance_clown_cd_cue_effect(Rec_func_801732A4_arg0 *state, ObjectPosition *
     s32 event_done;
     u8 phase;
     void *effect_model;
-    R16_80173CEC_S_80173CEC_4 *target_color;
+    ActorEffectColor *target_color;
     ObjectPosition *effect_position;
     R16_80173CEC_S_80173CEC_9 *effect_sprite;
     GameWork *scene_color;
@@ -1804,7 +1804,7 @@ void advance_clown_cd_cue_effect(Rec_func_801732A4_arg0 *state, ObjectPosition *
             return;
         }
         run_cd_image_commands(((s32 *)D_801742CC), (clown_image_load_done), 1);
-        sound_set_cd_cue_parameters(0, (*(s32 *)cd_cue_base), 0x04000AD4, 0x05000CC4);
+        sound_set_cd_cue_parameters(0, (cd_cue_base), 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, read_stream_cue_start_offset(), NULL);
         (*(s8 *)((s32 *)clown_effect_load_done)) = 0;
         Control_CD(0xFF, ((s32 *)resource_completion_callback_address), ((s32 *)clown_effect_load_done));
@@ -1826,12 +1826,12 @@ void advance_clown_cd_cue_effect(Rec_func_801732A4_arg0 *state, ObjectPosition *
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             return;
         }
-        target_color = (*(void **)((u8 *)(((s32 *)actor_effect_color_targets)) + lookup_masked_byte_table(model) * 4));
-        scene_color->view.tint.parts.tint_r = (u8) (scene_color->view.tint.parts.tint_r + ((s32) (target_color->unk_00
+        target_color = actor_effect_color_targets[lookup_masked_byte_table(model)];
+        scene_color->view.tint.parts.tint_r = (u8) (scene_color->view.tint.parts.tint_r + ((s32) (target_color->r
             - scene_color->view.tint.parts.tint_r) / (s16) state->unk_96));
-        scene_color->view.tint.parts.tint_g = (u8) (scene_color->view.tint.parts.tint_g + ((s32) (target_color->unk_01
+        scene_color->view.tint.parts.tint_g = (u8) (scene_color->view.tint.parts.tint_g + ((s32) (target_color->g
             - scene_color->view.tint.parts.tint_g) / (s16) state->unk_96));
-        scene_color->view.tint.parts.tint_b = (u8) (scene_color->view.tint.parts.tint_b + ((s32) (target_color->unk_02
+        scene_color->view.tint.parts.tint_b = (u8) (scene_color->view.tint.parts.tint_b + ((s32) (target_color->b
             - scene_color->view.tint.parts.tint_b) / (s16) state->unk_96));
         return;
     case 4:

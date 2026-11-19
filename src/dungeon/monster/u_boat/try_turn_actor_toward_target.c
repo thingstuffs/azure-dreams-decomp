@@ -1,4 +1,6 @@
 #include "dungeon/player/object.h"
+#include "dungeon/item/get_actor_height_difference_api.h"
+#include "dungeon/item/actor_target.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/dungeon_status.h"
@@ -9,9 +11,6 @@
 #include "dungeon/effect.h"
 
 struct Ent *prepare_directional_attack(void *, void *, s16, s32, void *);
-s32 get_actor_height_difference(s32, void *);
-s32 probe_directional_neighbor(void *, u8, u8, s16); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-s32 check_entity_interaction_compatibility(void *, s32);
 extern u8 resident_globals_page[];
 
 
@@ -20,7 +19,8 @@ extern u8 resident_globals_page[];
  * exclusive action mode.
  */
 s32 try_turn_actor_toward_target(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *target, ActorRecord *actor) {
-    s32 target_angle;
+    ActorRecord *nearby_actor;
+    u16 relative_height;
     u16 result;
     u16 *global_flags;
 
@@ -35,9 +35,9 @@ s32 try_turn_actor_toward_target(ActorRecord *action_state, ObjectPosition *acti
         return -1;
     }
 
-    target_angle = probe_directional_neighbor(actor, target->tile_x,
+    nearby_actor = probe_directional_neighbor(actor, target->tile_x,
         target->tile_y, actor->facing);
-    if ((check_entity_interaction_compatibility(actor, target_angle) << 0x10) == 0) {
+    if ((check_entity_interaction_compatibility(actor, nearby_actor) << 0x10) == 0) {
         return result;
     }
 
@@ -47,8 +47,8 @@ s32 try_turn_actor_toward_target(ActorRecord *action_state, ObjectPosition *acti
     if (!(actor->action_flags & ACTOR_ACTION_PENDING) && (global_flags[1] & 8)) {
         return -1;
     }
-    if ((u32)(((0 - get_actor_height_difference(target_angle, actor)) + 0x40) & 0xFFFF) <
-        0x81U) {
+    relative_height = -get_actor_height_difference(nearby_actor, actor);
+    if ((u16)(relative_height + 0x40) < 0x81U) {
         result = 1;
         if ((try_claim_dungeon_action_slot(actor) << 0x10) != 0) {
             return -1;

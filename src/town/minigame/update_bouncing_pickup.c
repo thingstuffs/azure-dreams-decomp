@@ -114,7 +114,7 @@ void update_bouncing_pickup(minigame_pickup_source *pickup, ObjectPosition *moti
         }
         if (offset_boxes_overlap(minigame_source_bounds, motion, &D_800D0420, &view_reference_entity) != 0) {
             SD_Call(0x516);
-            reward = ((s32 *)&reward_units)[pickup->x] * 100;
+            reward = reward_units.values[pickup->x] * 100;
             town_money[0] += reward;
             pickup_reward_total[0] += reward;
             pickup->kind = 6;
@@ -137,7 +137,7 @@ void update_bouncing_pickup(minigame_pickup_source *pickup, ObjectPosition *moti
     case 4:
         if (offset_boxes_overlap(minigame_source_bounds, motion, &D_800D0420, &view_reference_entity) != 0) {
             SD_Call(0x516);
-            reward = ((s32 *)&reward_units)[pickup->x] * 100;
+            reward = reward_units.values[pickup->x] * 100;
             town_money[0] += reward;
             pickup_reward_total[0] += reward;
             pickup->kind = 6;
@@ -158,7 +158,7 @@ void update_bouncing_pickup(minigame_pickup_source *pickup, ObjectPosition *moti
         }
         if (offset_boxes_overlap(minigame_source_bounds, motion, &D_800D0420, &view_reference_entity) != 0) {
             SD_Call(0x516);
-            reward = ((s32 *)&reward_units)[pickup->x] * 100;
+            reward = reward_units.values[pickup->x] * 100;
             town_money[0] += reward;
             pickup_reward_total[0] += reward;
             pickup->kind = 6;

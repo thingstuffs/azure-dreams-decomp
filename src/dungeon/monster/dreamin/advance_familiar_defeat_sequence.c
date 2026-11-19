@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/object_node.h"
+#include "shared/record_ptrs.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -14,7 +16,6 @@
 #include "dungeon/actor/spend_actor_mp_api.h"
 extern void try_apply_action_by_chance(void *, s32, s32);
 
-extern void *actor_update_node_cursor;
 extern u8 D_80170854[];
 extern u8 dreamin_action_continuation_address;
 extern u8 D_801738A4[];
@@ -60,7 +61,7 @@ void advance_familiar_defeat_sequence(ActorRecord *work, ObjectPosition *part_a,
         if (actor->pending_turn_updates == 0) {
             actor->action_flags &= 0x7FFF;
         } else {
-            actor_update_node_cursor = (u8 *)actor - 0x20;
+            actor_update_node_cursor = NODE_HEADER(actor);
         }
         object = actor->target;
         if (object != 0) {

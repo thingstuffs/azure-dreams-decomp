@@ -6,7 +6,6 @@ struct ActorRecord;
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
-#include "shared/record_ptrs.h"
 #include "shared/widget_views.h"
 #include "engine/item.h"
 
@@ -55,6 +54,7 @@ typedef struct S_800B59A4_1 {
     u8 unk_01;
 } S_800B59A4_1;
 
+extern PlayerRecord *primary_actor_record;
 extern Text5 D_800892DC;
 extern u8 D_800892E8[];
 extern u8 D_800892EC[];
@@ -84,8 +84,8 @@ void *format_gauge_text(void *output, void *object);
 s32 compare_values_to_display_code(s32 left, s32 right);
 void *format_compared_stat_pairs(void *text, ActorRecord *stats);
 void format_and_display_entity_stats(struct ActorRecord *stats, void *panels);
-void collect_selected_record_values(s32 *output, EntityRec *record);
+void collect_selected_record_values(s32 *output, ActorRecord *record);
 u8 *format_optional_signed_value(Input *input, u8 *text);
-void populate_display_rows(s32 source_id, void *display);
+void populate_display_rows(struct ActorRecord *actor, void *display);
 
 #endif

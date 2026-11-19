@@ -6,13 +6,13 @@ extern void func_80027458(void *object);
 extern void func_80024184(void *object);
 extern s32 D_800814A0;
 
-void release_card_record_handles(CardHandleOwner *object) {
+void release_card_record_handles(ObjectNodeHeader *object) {
     void **cursor;
     s32 index;
-    cursor = object->handles;
+    cursor = NODE_BODY(object);
     if (object != 0) {
         index = 0;
-        set_object_cleanup_flag(object->handles[0]);
+        set_object_cleanup_flag(cursor[0]);
         func_80024EEC(cursor[1]);
         func_80027458(cursor[2]);
         do {

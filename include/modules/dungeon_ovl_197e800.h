@@ -614,28 +614,20 @@ typedef struct {
     u8 green;
     u8 blue;
 } FadeColor;
-typedef struct S_8195EF44_5 {
+/* The settling tile creator fills this node body and installs its shaking callback. */
+typedef struct SettlingTileMeshBody {
     u8 pad_00[0x38];
-    s16 unk_38;
-    s16 unk_3A;
-    s16 unk_3C;
-    u8 pad_3E[0xE];
-    s16 unk_4C;
-    u8 pad_4E[0x12];
-    s16 unk_60;
-    s16 unk_62;
-} S_8195EF44_5;
-typedef struct S_8195EE48_0 {
-    u8 pad_00[0x3C];
-    s16 unk_3C;
+    s16 world_x;
+    s16 world_y;
+    s16 height;
     u8 pad_3E[0xA];
-    s16 unk_48;
-    u8 pad_4A[0x2];
-    s16 unk_4C;
+    s16 phase;
+    u8 pad_4A[2];
+    s16 ticks_left;
     u8 pad_4E[0x12];
-    s16 unk_60;
-    s16 unk_62;
-} S_8195EE48_0;
+    s16 height_offset;
+    s16 starting_height;
+} SettlingTileMeshBody;
 typedef struct S_8195ED3C_1 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -706,7 +698,7 @@ void update_directional_actor_effect(void *object);
 struct BrighteningFadeBody;
 void update_brightening_fading_effect(struct BrighteningFadeBody *effect, ObjectPosition *position, SpriteFrameState *sprite);
 void *create_brightening_fading_effect(S_8195ED3C_2 *source, s32 offset);
-void update_shaking_tile_mesh(S_8195EE48_0 *state, ObjectPosition *motion);
+void update_shaking_tile_mesh(SettlingTileMeshBody *state, ObjectPosition *motion);
 void *create_settling_tile_object(s16 world_x, s16 world_y, s16 world_z, s16 coord_60);
 void animate_tile_heights_and_transition(DungeonState *state, ObjectPosition *origin);
 void project_height_grid_object_quad(void *unused, ObjectPosition *origin, struct SpriteFrameState *object, s16 tile_x, s16 tile_y);
@@ -739,7 +731,8 @@ extern s32 bright_effect_sprite_source;
 extern u16 bright_effect_height_samples[];
 extern u8 bright_effect_center_column[9];
 extern u8 bright_effect_center_row[9];
-s32 draw_linked_lit_meshes(void *, void *, struct SpriteFrameState *);
+struct ObjectPosition;
+s32 draw_linked_lit_meshes(void *body, struct ObjectPosition *position, struct SpriteFrameState *sprite);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 void draw_textured_ellipse(s32, void *, u16, u16);
 void CompMatrix(void *, void *, void *);

@@ -5,40 +5,17 @@
 
 /* Update alternate menu page bounds. */
 #include "common.h"
-#include "records/Rec_func_800B2DA0_arg1.h"
+#include "town/shop/storage_menu.h"
 #include "slus/card_selection_display_data.h"
 #include "slus/item_menu_primary_page_data.h"
 
-typedef struct {
-    u8 pad00[0x1C];
-    s32 current;
-    s32 limit;
-} State;
-
-typedef struct {
-    u8 pad00[0x98];
-    void **primary;
-    void **secondary;
-} Outputs;
-
-typedef struct {
-    State * state;
-    u8 pad04[0x10];
-    u32 flags;
-    u8 pad18[0x90];
-    Outputs *outputs;
-} Object;
-
+void forward_paged_record_data(ItemMenuPart **parts, AlternateStorageOwner *object);
 /* extern */
-struct Rec_func_800B2DA0_arg1;
-
-void forward_paged_record_data(s32, void * *);
-/* extern */
-void fill_paged_menu_slots(Rec_func_800B2DA0_arg1 *);
-void populate_record_page_entries(struct Rec_func_800B2DA0_arg1 *);
+void fill_paged_menu_slots(AlternateStorageOwner *);
+void populate_record_page_entries(AlternateStorageOwner *);
 
 /* Functions defined in this translation unit. */
-void update_alternate_menu_page_bounds(Object *obj);
-void update_paged_menu_record(Rec_func_800B2DA0_arg1 *record);
+void update_alternate_menu_page_bounds(AlternateStorageOwner *obj);
+void update_paged_menu_record(AlternateStorageOwner *record);
 
 #endif

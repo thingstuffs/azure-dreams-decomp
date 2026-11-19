@@ -3,10 +3,12 @@
 #include "shared/dungeon_item_entries.h"
 #include "town/shop/item_menu_cursor_transition_g00601.h"
 struct ActorRecord;
+struct ColliderView;
 
 #include "common.h"
 
 #include "town/shop/grid_menu.h"
+#include "town/shop/storage_menu.h"
 #include "shared/item_menu.h"
 
 /* get_player_homerank.c */
@@ -18,13 +20,12 @@ s32 invoke_item_menu_object_callback(u8 *object, s32 callback_arg);
 void initialize_item_menu_request_state(ItemMenuObject *object, ItemMenuStateNode *owner);
 
 s32 count_town_items(void);
-void fill_ten_paged_output_slots(s32 **outputs, s32 *page_info, s32 record_table);
+void fill_ten_paged_output_slots(void *part_table, StoragePage *page_info, DungeonItemEntry **record_table);
 
 struct ItemMenuPart;
 struct ItemMenuObject;
 void item_menu_no_op(struct ItemMenuPart **parts, struct ItemMenuObject *object);
 
-#include "town/shop/storage_menu.h"
 
 typedef struct ShopEmbeddedDataObject {
     u8 pad_00[0x1C];
@@ -58,16 +59,14 @@ s32 count_free_item_slots(void);
 
 #include "shared/entity.h"
 struct S_800AE30C_0;
-struct S_800B2D00_0;
 struct TownObject;
 void advance_five_step_fixed_point_ramp(void *sub_object);
 void *build_encoded_display_sequence(s32 source, u8 *outputBuffer);
 void close_twin_shop(struct S_800AE30C_0 *shop);
-void collect_selected_record_values(s32 *output, EntityRec *record);
+void collect_selected_record_values(s32 *output, ActorRecord *record);
 s32 count_town_items_at_fixed_table(void);
 void ease_rgb_to_neutral_gray(u8 *object);
-void fill_display_slots(EntityRec *source, s32 output);
-void fill_ten_paged_entry_slots(s32 **outputs, struct S_800B2D00_0 *page_info, s32 entries_base);
+void fill_display_slots(ActorRecord *source, s32 output);
 s32 find_target_index_in_list(void);
 u32 find_unused_pool_slot(s32 *used_addrs, s32 pool_index, s32 slot_count);
 s32 find_free_entry_index(void *entry, s32 entry_count);
@@ -102,8 +101,10 @@ struct MotionVector;
 struct ObjectPosition;
 struct S_8009ECF0_0;
 struct TownActor;
-void move_toward_view_reference(struct TownActor *actor, s32 context, struct MotionVector *motion, s32 extra);
-void update_entity_until_countdown_ends(struct S_8009ECF0_0 *state, s32 update_ctx, struct ObjectPosition *position, s32 finish_ctx);
+struct TownObjectRecord;
+struct SpriteFrameState;
+void move_toward_view_reference(struct TownObjectRecord *actor, void *context, struct ObjectPosition *motion, struct SpriteFrameState *extra);
+void update_entity_until_countdown_ends(struct S_8009ECF0_0 *state, struct ColliderView *update_ctx, struct ObjectPosition *position, s32 finish_ctx);
 
 void advance_item_menu_object_animation(struct ItemMenuTransition *object);
 s8 *clear_bytes(s8 *buffer, s32 length);
@@ -112,7 +113,7 @@ void format_and_display_entity_stats(struct ActorRecord *stats, void *panels);
 void initialize_storage_cursor(struct StorageOwner *object);
 void initialize_storage_display_links(struct StorageDisplayLinks *state, union StorageDisplayBlock *primary, union StorageVector *secondary);
 void *link_shop_nodes_in_configured_order(void *node_table);
-void populate_display_rows(s32 source_id, void *display);
+void populate_display_rows(struct ActorRecord *actor, void *display);
 s32 set_shop_target_to_entry(s32 entryIndex);
 void set_storage_entry_text(struct StorageEntry *entry, s32 text, s32 style, s16 x, s32 y);
 void store_shop_display_preset(void *object, s32 index);

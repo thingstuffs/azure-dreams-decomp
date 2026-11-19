@@ -714,7 +714,7 @@ void choose_griffon_move(ActorRecord *move_data, ObjectPosition *context, Sprite
     }
 
     turn_index = 0;
-    turn_table = ((s16 *)actor_turn_angle_offsets);
+    turn_table = actor_turn_angle_offsets;
 
     do {
         turn_flags = move_data->action_state_flags;
@@ -1230,7 +1230,7 @@ void advance_griffon_attack(ActorRecord *action, ObjectPosition *motion, SpriteF
             actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
             return;
         }
-        ((void * *)actor_update_node_cursor)[0] = NODE_HEADER(actor);
+        actor_update_node_cursor = NODE_HEADER(actor);
 
         return;
     }
@@ -2128,7 +2128,7 @@ void advance_griffon_replacement(ActorRecord *effect_state, ObjectPosition *posi
             return;
         }
         run_cd_image_commands((u8 *)((void * *)D_80174CFC) - 8, (u8 *)((void * *)griffon_transition_sprite_source) - 4, 1);
-        sound_set_cd_cue_parameters(0, ((s32 *)cd_cue_base)[0], 0x04000AD4, 0x05000CC4);
+        sound_set_cd_cue_parameters(0, cd_cue_base, 0x04000AD4, 0x05000CC4);
         effect_id = read_stream_cue_start_offset();
         Control_CD(0x15, effect_id, 0);
         griffon_effect_load_done[0] = 0;
@@ -2141,7 +2141,7 @@ void advance_griffon_replacement(ActorRecord *effect_state, ObjectPosition *posi
         {
             s32 frames_left;
             u8 effect_ready;
-            R08_80174648_S_80174648_3 *target_color;
+            ActorEffectColor *target_color;
 
             frames_left = (u16)effect_state->action_timer;
             effect_state->action_timer = frames_left - 1;
@@ -2155,12 +2155,12 @@ void advance_griffon_replacement(ActorRecord *effect_state, ObjectPosition *posi
                 }
                 return;
             }
-            target_color = ((void * *)actor_effect_color_targets)[lookup_masked_byte_table(actor)];
-            effect_work->unk_A8 += (target_color->unk_00
+            target_color = actor_effect_color_targets[lookup_masked_byte_table(actor)];
+            effect_work->unk_A8 += (target_color->r
                 - effect_work->unk_A8) / effect_state->action_timer;
-            effect_work->unk_A9 += (target_color->unk_01
+            effect_work->unk_A9 += (target_color->g
                 - effect_work->unk_A9) / effect_state->action_timer;
-            effect_work->unk_AA += (target_color->unk_02
+            effect_work->unk_AA += (target_color->b
                 - effect_work->unk_AA) / effect_state->action_timer;
             return;
         }

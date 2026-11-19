@@ -1,10 +1,11 @@
 #include "shared/entity.h"
 #ifndef TOWN_MENU_OBJECT_ALLOCATE_AND_INITIALIZE_DISPLAY_OBJECT_G01137_H
 #define TOWN_MENU_OBJECT_ALLOCATE_AND_INITIALIZE_DISPLAY_OBJECT_G01137_H
+#include "town/menu/object.h"
+struct LitMeshSprite;
+struct TownObjectRecord;
 #include "engine/node/registration.h"
 
-struct Func800A4B70Object;
-struct Func800A4B70Output;
 /* Allocate and initialize display object. Shared declarations. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_800A48A0. */
 
@@ -16,79 +17,11 @@ struct Func800A4B70Output;
 #include "shared/vector.h"
 struct ObjectNodeHeader;
 
-typedef struct S_800A2000_0 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-    s32 unk_10;
-    u8 pad_14[0xC];
-    s32 unk_20;
-} S_800A2000_0;
-
-/* obj in allocate_and_initialize_display_object */
-typedef struct S_800A2000_1 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-    s32 unk_14;
-    u8 pad_18[0x8];
-    s16 unk_20;
-    u8 pad_22[0x1E];
-    s32 unk_40;
-} S_800A2000_1;
-
-typedef struct Func800A4A20Object {
-    void (*callback)(struct Func800A4A20Object *, s32, void *);
-    u8 pad04[0x3c];
-    u8 *state;
-} Func800A4A20Object;
-
-typedef struct S_800A21EC_0 {
-    s32 unk_00;
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x2];
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-} S_800A21EC_0;
-
-/* arg1 in initialize_directional_object_state */
-typedef struct S_800A21EC_2 {
-    void (*unk_00)(struct Func800A4B70Object *, s32,  struct Func800A4B70Output *);
-    u8 pad_04[0x10];
-    void * unk_14;
-    u8 pad_18[0x8];
-    s16 unk_20;
-} S_800A21EC_2;
-
-struct Func800A4B70Output;
-
-struct Func800A4B70Object;
-
-typedef struct Func800A4B70Inner {
-    u8 pad_00[0x6e];
-    u16 value;
-} Func800A4B70Inner;
-
-typedef struct Func800A4B70Object {
-    u8 pad_00[0x10];
-    Func800A4B70Inner *inner;
-    u8 pad_14[0x0c];
-    s16 flag;
-} Func800A4B70Object;
-
-typedef struct Func800A4B70Output {
-    u8 pad_00[0x1a];
-    s16 value;
-} Func800A4B70Output;
-
 /* payload in allocate_and_initialize_display_object */
 extern void *allocate_list_node();
-extern void D_800A2180();
-extern s32 D_800A21EC();
+extern void D_800A2180(DoorDisplayBody *, ObjectPosition *, struct LitMeshSprite *);
+extern void D_800A21EC(DoorDisplayBody *, ObjectPosition *, struct LitMeshSprite *);
 /* arg0 in initialize_directional_object_state */
-/* ((S_800A21EC_2 *)arg0)->unk_14 in initialize_directional_object_state */
 extern u8 lit_mesh_renderer_address[];
 extern s32 D_800A2338;
 extern s32 D_800A23D0;
@@ -96,9 +29,10 @@ extern s32 D_800A23D0;
 /* Shared import declarations; data casts preserve each measured view. */
 
 /* Functions defined in this translation unit. */
-void *allocate_and_initialize_display_object(s32 object_key, s32 payload_value, s32 payload_param, s32 payload_halfword, void *object_param, s32 object_value);
-void run_callback_until_state_clears(Func800A4A20Object *object, s32 context, void *output);
-void initialize_directional_object_state(void *object, ObjectPosition *placement, S_800A21EC_0 *state);
-void copy_directional_value(Func800A4B70Object *object, s32 unused, Func800A4B70Output *out);
+struct ObjectNodeHeader *allocate_and_initialize_display_object(struct TownObjectRecord *owner, s8 *active_flag, ObjectPosition *origin, s32 part_index, DoorDisplayCallback update,
+    DoorDisplayCallback initialize);
+void run_callback_until_state_clears(DoorDisplayBody *object, ObjectPosition *position, struct LitMeshSprite *mesh);
+void initialize_directional_object_state(DoorDisplayBody *object, ObjectPosition *placement, struct LitMeshSprite *state);
+void copy_directional_value(DoorDisplayBody *object, ObjectPosition *unused, struct LitMeshSprite *mesh);
 
 #endif

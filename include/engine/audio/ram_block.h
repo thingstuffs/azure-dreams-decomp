@@ -12,4 +12,7 @@ typedef struct SoundRamBlock {
 
 extern SoundRamBlock audio_ram_blocks[16];
 
+/* Byte selecting the reserved-size entry. */
+extern u8 sound_ram_reserve_mode[];
+
 #endif

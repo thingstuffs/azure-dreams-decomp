@@ -11,12 +11,11 @@
 
 /* Initializes record values and installs its callback pointer. */
 void card_boot_create_menu_child_panels(CardChooserBody *chooser) {
-    void *record = chooser;
-    s32 record_base;
+    ObjectNodeHeader *owner;
 
-    record_base = record - 0x20;
-    chooser->backdrop = create_menu_backdrop(record_base, record + 0xC);
-    chooser->choices = card_boot_create_choice_panel(record_base, chooser->selected_channel);
+    owner = NODE_HEADER(chooser);
+    chooser->backdrop = create_menu_backdrop(owner, &chooser->selected_channel);
+    chooser->choices = card_boot_create_choice_panel(owner, chooser->selected_channel);
     card_boot_toggle_channel();
-    NODE_HEADER(record)->update_callback = &card_boot_update_card_chooser_input;
+    NODE_HEADER(chooser)->update_callback = &card_boot_update_card_chooser_input;
 }

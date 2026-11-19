@@ -1,3 +1,4 @@
+#include "dungeon/player/held_item_kind_data.h"
 #include "dungeon/system.h"
 #include "dungeon/item/message/text.h"
 #include "dungeon/item/message.h"
@@ -22,7 +23,6 @@ u8 * append_item_name_with_value(s32,u8 *); /* Unprototyped: uses the value as a
 u8 * append_item_reveal_text(s32, u8 *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 u8 *append_entity_display_text(void *record, u8 *out);
 s32 play_sound_if_enabled(s32 query_value);
-extern s32 held_item_record;
 extern u8 player_item_render_update_address[];
 extern u8 D_800DD100[];
 extern u8 D_800E06E3[];
@@ -62,10 +62,8 @@ void update_player_eating_action(ActorRecord *controller, s32 action_id, SpriteF
             animation_actor = actor;
             animation_table = D_800DD100;
             animation_actor->frameTable = animation_table;
-            animation_entry = (u8 *)((s32)(((g_game_work.view.camera_rotation.parts.viewAngle +
-                                    transform->facing + 0x100) >> 9) &
-                                  7) +
-                           (s32)animation_table);
+            animation_entry = (((g_game_work.view.camera_rotation.parts.viewAngle +
+                                 transform->facing + 0x100) >> 9) & 7) + animation_table;
             set_sprite_animation_frame(
                 animation_actor,
                 *animation_entry,
@@ -81,7 +79,7 @@ void update_player_eating_action(ActorRecord *controller, s32 action_id, SpriteF
         if (find_flagged_record_by_id(actor->source, 0) == 0) {
             return;
         }
-        if (controller_view->unk_110 == (s32)&held_item_record) {
+        if (((PlayerRecord *)controller)->pending_item_action == &held_item_record) {
             controller_view->unk_124 = 0;
             controller->flags1C &= 0xFFEFFFFF;
         }

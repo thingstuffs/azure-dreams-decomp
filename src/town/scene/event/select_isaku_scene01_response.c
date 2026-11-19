@@ -7,16 +7,10 @@
 #include "town/scene.h"
 #include "town/scene/event.h"
 #include "town/scene/flags.h"
-#include "town/scene/motion.h"
+#include "town/scene/position_entries.h"
 
-typedef struct ScenePositionEntry {
-    s16 key;
-    s16 selector;
-    s32 result;
-} ScenePositionEntry;
 extern ScenePositionEntry D_8001BE2C[];
 extern ScenePositionEntry D_8001BE44[];
-extern s16 scene_dispatch_context[];
 
 
 /* Handles the conditional callback and selects data according to flag 0x1460. */
@@ -34,5 +28,5 @@ void select_isaku_scene01_response(s32 context, s32 unused, s32 event_code) {
     } else {
         selected_data = &D_8001BE44;
     }
-    apply_entry_position(selected_data, &scene_dispatch_context, context, event_code);
+    apply_entry_position(selected_data, scene_dispatch_context, context, event_code);
 }

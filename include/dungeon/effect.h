@@ -47,7 +47,20 @@ struct ObjectPosition;
 
 /* Callback entry points. */
 s32 process_linked_states_mode_zero(ActorRecord *initial_state, ObjectPosition *context, SpriteFrameState *data);
-void jitter_effect_position_and_fade(void *effect, void *position, void *sprite);
+/* Each jitter child follows the preceding child's position. The controller cycles
+ * its seven sprite commands and passes the child's index as the jitter phase. */
+typedef struct JitterEffectBody {
+    u8 pad_00[0x14];
+    ObjectPosition *anchor;
+    u16 base_position[3];
+    u8 pad_1e[0x10];
+    s16 unk_2E;
+    u8 pad_30[2];
+    s16 phase;
+    u8 pad_34[8];
+    s16 fade;
+} JitterEffectBody;
+void jitter_effect_position_and_fade(JitterEffectBody *effect, ObjectPosition *position, SpriteFrameState *sprite);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "shared/dungeon_moving_views.h"
@@ -63,7 +76,7 @@ void setup_object_within_planar_range(void *object, s32 x, s32 y, s32 height, s3
 struct ObjectNodeHeader;
 void *create_item_drop_effect(u32 x, u32 y, s32 z, void *effect_data);
 void *create_moving_fading_particle(ObjectPosition *origin, s16 angle, s16 radius, s16 height_offset, struct ObjectNodeHeader **allocation_head);
-void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record, void *mesh_data, s32 depth_offset);
+void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record, SpriteFrameState *sprite, s32 depth_offset);
 
 s32 apply_camera_offset_and_select_target(void *object_addr, void *source_pos, s32 helper_arg, s32 slot_value);
 

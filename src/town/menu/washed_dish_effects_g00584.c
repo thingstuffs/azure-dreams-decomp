@@ -20,12 +20,12 @@ void initialize_washed_dish_effect(TownObjectRecord *object, ObjectPosition *unu
 }
 
 /* Clears and flags a handled object, or clamps the town index and selects a record. */
-void select_washed_dish_record_or_retire(TownObjectRecord *object, void *check_context, SpriteFrameState *record_holder)
+void select_washed_dish_record_or_retire(TownObjectRecord *object, ObjectPosition *check_context, SpriteFrameState *record_holder)
 {
-    u8 *state_byte;
+    s8 *state_byte;
 
     if (classify_object_against_bounds(object, check_context) != 0) {
-        state_byte = *(u8 **)((u8 *)object + 0x98);
+        state_byte = object->unk_98;
         if (state_byte != 0) {
             *state_byte = 0;
         }

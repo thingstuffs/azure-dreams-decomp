@@ -3,48 +3,9 @@
 /* Release handled entries and change the monster status target: shared declarations. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B93B0, CL:town/func_800B97F4. */
 
+#include "town/shop/object.h"
 #include "common.h"
 #include "m2c_compat.h"
-
-typedef struct S_800B6B10_2 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_800B6B10_2;
-
-typedef struct S_800B6B10_3 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_800B6B10_3;
-
-typedef struct S_800B6B10_4 {
-    u8 pad_00[0xE];
-    u8 unk_0E;
-} S_800B6B10_4;
-
-typedef struct S_800B6B10_5 {
-    u8 pad_00[0xE];
-    s8 unk_0E;
-} S_800B6B10_5;
-
-typedef struct S_800B6B10_0 {
-    s32 unk_00;
-} S_800B6B10_0;
-
-typedef struct S_800B6B10_1 {
-    s32 unk_00;
-} S_800B6B10_1;
-
-typedef struct S_800B9464_sub {
-    u8 pad00[0x98];
-    s32 unk98;
-} S_800B9464_sub;
-
-typedef struct S_800B9464_a0 {
-    u8 pad00[0x1E];
-    u16 field_1E;          /* 0x1E */
-    S_800B9464_sub sub;    /* 0x20 */
-    u16 *arr_bc[1];        /* 0xBC, NULL-terminated pointer array */
-} S_800B9464_a0;
 
 /* extern */
 #include "engine/resource.h"
@@ -55,14 +16,14 @@ typedef struct S_800B9464_a0 {
  * for the load and the store, matching this function's tail. */
 extern int D_800814A0;
 extern void release_null_terminated_entries(u16 **a0);
-void build_monster_status_display(void *);
+void build_monster_status_display(ShopFirstCallbackObject *);
 struct Rec_func_800B683C_arg0;
 /* extern */
-s32 queue_monster_status_reload(struct Rec_func_800B683C_arg0 *);
+s32 queue_monster_status_reload(struct ShopFirstCallbackObject *);
 
 /* Functions defined in this translation unit. */
-void release_monster_status_entries(void **entries);
-void destroy_monster_status_object(S_800B9464_a0 *object);
-void change_monster_status_display_target(s32 objectAddress, s32 field04Value, s16 field08Value);
+void release_monster_status_entries(ItemMenuPart **entries);
+void destroy_monster_status_object(ObjectNodeHeader *object);
+void change_monster_status_display_target(s32 objectAddress, struct ActorRecord *actor, s16 field08Value);
 
 #endif

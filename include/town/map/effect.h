@@ -32,10 +32,10 @@ void update_projected_effect_points(void *object, s32 phase, void *source_data, 
 
 typedef struct MapParticleEffect {
     u8 pad0[0x66];
-    u16 angle;
+    s16 angle;
     u8 pad68[0x2F];
     s8 index;
-    s32 value;
+    u8 *active_flag;
     struct MapParticleEffect *parent;
 } MapParticleEffect;
 

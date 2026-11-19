@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/script.h"
 
 #include "engine/object.h"
 
@@ -8,7 +9,6 @@ typedef struct {
 } RuntimeState;
 
 extern RuntimeState runtime_script_state;
-extern s32 script_status[];
 
 /* Stores a value in the first empty runtime slot, shifting slots when full. */
 void push_script_slot_value(s32 value) {

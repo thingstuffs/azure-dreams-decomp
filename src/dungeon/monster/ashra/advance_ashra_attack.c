@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -15,7 +16,6 @@
 #include "dungeon/player/object.h"
 #include "dungeon/data.h"
 
-extern void *actor_update_node_cursor;
 extern u8 ashra_action_continuation_address[];
 
 /* Advance the actor's animation state and clean up when it finishes. */

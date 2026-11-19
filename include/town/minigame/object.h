@@ -10,6 +10,12 @@
 struct SceneTileObject;
 struct GymScoreObject;
 struct GymState;
+
+/* A gym mesh node stores its owning minigame in the first body word. */
+typedef struct GymMeshWork {
+    struct GymState *parent;
+} GymMeshWork;
+
 struct IndicatorChild;
 struct State8081A3D8;
 
@@ -106,7 +112,7 @@ void update_spawn_controller(struct State8081A3D8 *controller);
 void apply_minigame_object_tint(struct IndicatorChild *state, MovingPosition *selected_values, SpriteFrameState *render_state);
 
 /* create_gym_mesh_object.c */
-void create_gym_mesh_object(void *source_words, s32 data_value_08, s32 object_value_10, struct GymState *object_value_20);
+void create_gym_mesh_object(ObjectPosition *position, s32 mesh_index, void *update, struct GymState *parent);
 
 /* create_scene_object_with_byte_payload.c */
 void create_text_sprite_object(s32 init_value, void *init_data);

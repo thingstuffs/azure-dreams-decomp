@@ -49,8 +49,10 @@ void pack_and_submit_cell_height_levels(void);
 void update_packed_map_levels(void);
 s32 try_trigger_target_record_effect(void *entity_in, s32 flags, void *record_in);
 
+struct RectangleCopy;
+
 /* Callback entry points. */
-s32 queue_linked_visible_rectangle_copies(void *initial_state, void *input_values, struct SpriteFrameState *initial_delta);
+s32 queue_linked_visible_rectangle_copies(struct RectangleCopy *initial_state, ObjectPosition *input_values, struct SpriteFrameState *initial_delta);
 
 void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 power_bonus, s16 elements, u16 hit_angle, void *source, u16 hit_kind);
 
@@ -58,9 +60,8 @@ void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 po
 void spawn_blinking_sprite_flash(s16 x, s16 y, s16 z);
 
 struct SpriteQuadScratch;
-struct S_Rect;
 void create_fullscreen_fade(s32 flag, s8 value);
-void queue_visible_rectangle_copy(struct S_Rect *copy_rect, struct SpriteQuadScratch *source);
+void queue_visible_rectangle_copy(struct RectangleCopy *copy_rect, struct SpriteQuadScratch *source);
 void retire_tracked_effect_by_id(s32 targetId);
 
 void *create_item_target_selector(u8 *selection_data);

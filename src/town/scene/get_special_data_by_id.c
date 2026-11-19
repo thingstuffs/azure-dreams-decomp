@@ -1,8 +1,8 @@
 #include "common.h"
+#include "town/scene/record_queries.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "town/scene.h"
-s32 get_current_nested_record_value(void);
 extern u8 D_8001B5E7[], D_8001B71A[];
 
 /* Returns fixed data for IDs 0xB and 0x1C when the lookup is below -47; otherwise returns NULL. */

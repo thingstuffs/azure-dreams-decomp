@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_height_query.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
 #include "records/Rec_func_800A9E70_arg0.h"
@@ -13,7 +14,6 @@ typedef struct LocalResult {
     s16 value;
 } LocalResult;
 
-extern s16 sample_terrain_surface_height(s32, s32, s16);
 
 
 typedef struct S_800AACA4_2_pre {
@@ -92,7 +92,7 @@ void begin_actor_throw_from_attachment(Rec_func_800A9E70_arg0 *state, ObjectPosi
         target_offset = (u16)entity->movement_facing;
         target_offset >>= 8;
         target_offset &= 0xE;
-        target_height = sample_terrain_surface_height(
+        target_height = (s16)sample_terrain_surface_height(
             ((tile->tile_x + dir_step_x[target_offset >> 1] * travel_steps) << 6) + 0x20 & 0xFFE0,
             ((tile->tile_y + dir_step_y[target_offset >> 1] * travel_steps) << 6) + 0x20 & 0xFFE0,
             motion->z.w.i);

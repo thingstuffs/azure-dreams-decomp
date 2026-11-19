@@ -1,6 +1,7 @@
 #ifndef TOWN_SHOP_STATE_H
 #define TOWN_SHOP_STATE_H
 
+#include "town/shop/object.h"
 #include "common.h"
 
 
@@ -24,7 +25,7 @@ void set_indexed_flag(s32 bit_index);
 #include "shared/item_menu.h"
 #include "records/Rec_func_800B683C_arg0.h"
 void *link_monster_status_display_entries(void *target);
-s32 release_monster_status_request_handles(Rec_func_800B683C_arg0 *owner);
+s32 release_monster_status_request_handles(ShopFirstCallbackObject *owner);
 void release_item_menu_child_object(ItemMenuObjectNode *object);
 
 /* Address-qualified entries of distinct diagnostic devkit builds. */

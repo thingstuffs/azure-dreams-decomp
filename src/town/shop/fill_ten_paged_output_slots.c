@@ -3,28 +3,27 @@
 #include "town/shop.h"
 
 /* Fills ten output slots from the current page of records, zeroing unused slots. */
-void fill_ten_paged_output_slots(s32 **outputs, s32 *page_info, s32 record_table) {
+void fill_ten_paged_output_slots(void *part_table, StoragePage *page_info, DungeonItemEntry **record_table) {
     s32 slot;
     s32 page;
     s32 record_index;
-    u8 **record_ptr;
-    s32 **output_ptr;
-    u8 *record;
+    ItemMenuPart **output_ptr;
+    ItemMenuPart **outputs;
+    DungeonItemEntry *record;
 
     slot = 0;
-    page = page_info[0];
-    output_ptr = outputs;
+    page = page_info->current;
+    output_ptr = part_table;
     record_index = page * 10;
-    record_ptr = (u8 **)((record_index * 4) + record_table);
 
-    for (; slot < 10 && record_index < page_info[3]; record_index++) {
+    for (; slot < 10 && record_index < page_info->count; record_index++) {
         slot++;
-        record = *record_ptr;
-        record_ptr++;
-        *(*output_ptr) = lookup_item_category_mapped_value(record[1], record[0]);
+        record = record_table[record_index];
+        (*output_ptr)->handler = (void *)(long)lookup_item_category_mapped_value(record->kind, record->unk_00);
         output_ptr++;
     }
+    outputs = part_table;
     for (; slot < 10; slot++) {
-        *outputs[slot] = 0;
+        outputs[slot]->handler = 0;
     }
 }

@@ -3,7 +3,7 @@
 #include "town/player/record.h"
 #include "town/player.h"
 
-extern s8 town_action_reset_byte[9];
+#include "town/player/action_reset_data.h"
 
 
 /* Initialize the record from source fields, preserve its current value, and clear the global flag. */

@@ -1,12 +1,11 @@
 #include "common.h"
+#include "shared/dungeon_height_query.h"
 #include "dungeon/monster/ghosh.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 #include "dungeon/actor/effect.h"
 #include "shared/object_node.h"
 
-s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
-s16 sample_terrain_surface_height();
 
 
    /* the 0x2 bytes before arg0 in update_object_motion_and_landing, addressed as arg0[-1] */
@@ -158,11 +157,11 @@ check_falling:
         object->scale_x = scale;
         probe_height = position->unk_08.at02u.v;
         fall_height = position->unk_08.at02.v;
-        if ((sample_terrain_surface_height((motion->unk_48 << 6) & 0xFFC0,
+        if (((s16)sample_terrain_surface_height((motion->unk_48 << 6) & 0xFFC0,
             (motion->unk_49 << 6) & 0xFFC0, (s16) (probe_height - 0x20)) - 7) >= fall_height) {
             continue;
         }
-        position->unk_08.at02.v = sample_terrain_surface_height((motion->unk_48 << 6) & 0xFFC0,
+        position->unk_08.at02.v = (s16)sample_terrain_surface_height((motion->unk_48 << 6) & 0xFFC0,
             (motion->unk_49 << 6) & 0xFFC0, (s16) ((u16) position->unk_08.at02.v
             - 0x20));
         position->unk_08.at00u.v = 0;
@@ -194,7 +193,7 @@ mark_removed:
                 if (next_tile == (world_y / 64)) {
                     if (((check_left_tile_and_center_height((u16) position->unk_00.at02.v,
                         (u16) position->unk_04.at02.v, position->unk_08.at02.v) << 0x10) != 0) ||
-                        sample_terrain_surface_height((u16) position->unk_00.at02.v,
+                        (s16)sample_terrain_surface_height((u16) position->unk_00.at02.v,
                         (u16) position->unk_04.at02.v, position->unk_08.at02.v) >= 0x200) {
                         position->unk_00.at00.v = (s32) (position->unk_00.at00.v
                             - motion->unk_4C);
@@ -217,9 +216,9 @@ mark_removed:
                 + motion->unk_54);
             motion->unk_54 = (s32) (motion->unk_54 + motion->unk_60);
             move_height = position->unk_08.at02.v;
-            if ((sample_terrain_surface_height(((motion->unk_48 << 6) + 0x20) & 0xFFE0,
+            if (((s16)sample_terrain_surface_height(((motion->unk_48 << 6) + 0x20) & 0xFFE0,
                 ((motion->unk_49 << 6) + 0x20) & 0xFFE0, move_height) - 0x10) < move_height) {
-                position->unk_08.at02.v = sample_terrain_surface_height(((motion->unk_48 << 6)
+                position->unk_08.at02.v = (s16)sample_terrain_surface_height(((motion->unk_48 << 6)
                     + 0x20) & 0xFFE0, ((motion->unk_49 << 6) + 0x20) & 0xFFE0,
                     position->unk_08.at02.v);
                 position->unk_08.at00u.v = 0;

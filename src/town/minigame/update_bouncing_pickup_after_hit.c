@@ -27,15 +27,14 @@ extern Box D_800D0420;
 /* Updates a bouncing pickup, awards its value on collision, and expires it. */
 void update_bouncing_pickup_after_hit(BouncingPickupAfterHitObject *object, ObjectPosition *motion, SpriteFrameState *sprite)
 {
-    union { TownRewardValues values; s32 table[3]; } reward_values;
+    TownRewardValues reward_values;
     s16 state;
     s32 sprite_data;
     s32 reward_amount;
     s32 reward_units;
-    s32 *reward_table = reward_values.table;
     u32 collision_addr;
 
-    reward_values.values = D_80020278;
+    reward_values = D_80020278;
 
     motion->x.v += motion->velocity_x;
     motion->y.v += motion->velocity_y;
@@ -107,7 +106,7 @@ void update_bouncing_pickup_after_hit(BouncingPickupAfterHitObject *object, Obje
         }
         SD_Call(0x516);
         {
-            reward_units = reward_values.table[object->denomination];
+            reward_units = reward_values.values[object->denomination];
 
             {
                 s32 reward_total, collected_total;
@@ -132,7 +131,7 @@ void update_bouncing_pickup_after_hit(BouncingPickupAfterHitObject *object, Obje
             return;
         }
         SD_Call(0x516);
-        reward_units = reward_table[object->denomination];
+        reward_units = reward_values.values[object->denomination];
         {
             s32 reward_total, collected_total;
             reward_amount = reward_units * 100;
@@ -147,7 +146,7 @@ void update_bouncing_pickup_after_hit(BouncingPickupAfterHitObject *object, Obje
     case 4:
         if (offset_boxes_overlap(minigame_pickup_bounds, motion, &D_800D0420, &view_reference_entity) != 0) {
             SD_Call(0x516);
-            reward_amount = reward_table[object->denomination] * 100;
+            reward_amount = reward_values.values[object->denomination] * 100;
             town_money[0] += reward_amount;
             pickup_reward_total[0] += reward_amount;
             object->state.s = 255;

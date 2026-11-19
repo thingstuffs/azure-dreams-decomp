@@ -1,27 +1,6 @@
 #include "common.h"
 #include "shared/entity.h"
 
-typedef struct S_800C7674_0 {
-    u8 pad_00[0x72];
-    s16 unk_72;
-    u8 pad_74[0x10];
-    u16 unk_84;
-    u16 unk_86;
-    u8 pad_88[0x4];
-    s16 unk_8C;
-    u16 unk_8E;
-} S_800C7674_0;   /* arg0 in advance_mother_event_bounded_motion */
-
-
-typedef struct Motion {
-    s32 pos_x;
-    s32 pos_y;
-    s16 field_08;
-    s16 height;
-    s32 step_x;
-    s32 step_y;
-} Motion;
-
 extern s16 query_lowered_transform_position();
 #include "town/person/object_setup.h"
 #include "sdk/libc.h"
@@ -30,7 +9,7 @@ extern s16 query_lowered_transform_position();
 #include "town/data.h"
 
 /* Advance motion, clamp it to the directional bound, and update velocity. */
-void advance_mother_event_bounded_motion(S_800C7674_0 *entity, EntityRec *motion_state, void *context)
+void advance_mother_event_bounded_motion(TownObjectRecord *entity, ObjectPosition *motion_state, SpriteFrameState *context)
 {
     s32 quadrant;
     s32 angle;
@@ -38,28 +17,26 @@ void advance_mother_event_bounded_motion(S_800C7674_0 *entity, EntityRec *motion
     s32 step_x;
     s32 pos_y;
 
-    pos_y = entity->unk_72;
+    pos_y = entity->heading;
     angle = 0x400 - pos_y;
     if (angle < 0) {
         angle += 0x3ff;
     }
 
     {
-        Motion *motion;
         s32 pos_x;
         s32 step_y;
 
-        motion = (Motion *)motion_state;
-        pos_x = motion->pos_x;
-        step_x = motion->step_x;
-        pos_y = motion->pos_y;
-        step_y = motion->step_y;
+        pos_x = motion_state->x.v;
+        step_x = motion_state->velocity_x;
+        pos_y = motion_state->y.v;
+        step_y = motion_state->velocity_y;
         pos_x += step_x;
         pos_y += step_y;
-        motion->pos_x = pos_x;
+        motion_state->x.v = pos_x;
         quadrant = (angle >> 10) & 3;
-        motion->pos_y = pos_y;
-        motion->height = query_lowered_transform_position(motion, step_x, step_y, angle);
+        motion_state->y.v = pos_y;
+        motion_state->z.w.i = query_lowered_transform_position(motion_state, step_x, step_y, angle);
     }
 
     if (select_object_setup_path(entity, motion_state, context) != 0) {
@@ -97,16 +74,16 @@ void advance_mother_event_bounded_motion(S_800C7674_0 *entity, EntityRec *motion
         break;
     }
     step_x = 0x20000;
-    speed = motion_state->unk_0C + town_x_acceleration[quadrant];
-    motion_state->unk_0C = speed;
+    speed = motion_state->velocity_x + town_x_acceleration[quadrant];
+    motion_state->velocity_x = speed;
     speed = abs(speed);
     speed = step_x < speed;
     if (speed != 0)
-        motion_state->unk_0C = town_x_speed_limits[quadrant];
-    speed = motion_state->unk_10 + town_y_acceleration[quadrant];
-    motion_state->unk_10 = speed;
+        motion_state->velocity_x = town_x_speed_limits[quadrant];
+    speed = motion_state->velocity_y + town_y_acceleration[quadrant];
+    motion_state->velocity_y = speed;
     speed = abs(speed);
     speed = step_x < speed;
     if (speed != 0)
-        motion_state->unk_10 = town_y_speed_limits[quadrant];
+        motion_state->velocity_y = town_y_speed_limits[quadrant];
 }

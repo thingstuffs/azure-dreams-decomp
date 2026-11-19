@@ -14,7 +14,7 @@ typedef struct {
 
 
 /* Installs object handlers, sets its status, and clears its object and slot state bytes. */
-void initialize_object_handlers(TownObjectRecord *object, void *unused_context, void *unused_setup) {
+void initialize_object_handlers(TownObjectRecord *object, ObjectPosition *unused_context, SpriteFrameState *unused_setup) {
     object->unk_50.as_pm = call_object_callback;
     object->unk_92 = 1;
     object->handler = dispatch_record_handler;

@@ -1,4 +1,5 @@
 #include "town/shop.h"
+#include "shared/menu_display.h"
 #include "shared/object_flags.h"
 #include "engine/item.h"
 #include "engine/node.h"
@@ -11,7 +12,6 @@
 #include "town/person.h"
 #include "town/shop/object.h"
 #include "town/shop/state.h"
-extern DisplayPositionWords display_vector_defaults;
 
 s32 load_storage_display_resource(StorageWork *work, s32 resource) {
     s32 success = 0;

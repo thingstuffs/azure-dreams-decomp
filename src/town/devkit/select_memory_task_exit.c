@@ -1,20 +1,17 @@
+#include "frontend/card/slot_details.h"
 #include "town/devkit/memory_task.h"
+#include "frontend/card/save_slot.h"
 #include "town/devkit.h"
 
 
 
 
-void card_build_selected_slot_details(void *panel_data); /* Unprototyped: retail call passes a different argument count */
-extern u8 card_slot_header_cache[];
+void card_build_selected_slot_details(CardDevSlotDetails *panel);
 
-typedef struct S_802EE4E8_0 {
-    u8 pad_00[0x7C];
-    s32 unk_7C;
-} S_802EE4E8_0;   /* arg0 in func_802EE4E8 */
 
 /* Select the exit or fallback path using the indexed table entry. */
-void select_memory_task_exit(S_802EE4E8_0 *object) {
-    if (*(s32 *)(card_slot_header_cache + (object->unk_7C << 7)) != 0) {
+void select_memory_task_exit(CardDevSlotDetails *object) {
+    if (card_slot_header_cache[object->selected_slot].fields.marker != 0) {
         card_build_selected_slot_details(object);
     } else {
         build_memory_task_text(object);

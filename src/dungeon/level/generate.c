@@ -1,4 +1,5 @@
 #include "shared/monster_ids.h"
+#include "shared/dungeon_floor.h"
 #include "dungeon/level/tile_flags.h"
 /* Floor layout loading, random room and corridor generation, and special room placement. */
 #include "shared/dungeon_status.h"
@@ -255,18 +256,18 @@ retry:
 
         {
             u8 *meta;
-            u8 *position;
+            DungeonItemPosition *position;
 
             slot_index = 0;
             position = dungeon_ground_item_positions;
             meta = meta_base;
 
             do {
-                if ((meta[1] != 0) && (position[0] == x) &&
-                    (position[1] == y)) {
+                if ((meta[1] != 0) && (position->x == x) &&
+                    (position->y == y)) {
                     goto retry;
                 }
-                position += 12;
+                position++;
                 slot_index++;
                 meta += 4;
             } while (slot_index < 0x40);
@@ -643,7 +644,7 @@ void load_dungeon_layout(s16 layout_number)
 {
     MapGrid *cfg;
     floor_generate_isolated_80285464_MapCell *map;
-    floor_generate_isolated_80285464_RecB *placed_record;
+    DungeonItemPosition *placed_record;
     u8 *data;
     u8 *data_2;
     u16 *room_header;
@@ -732,13 +733,13 @@ void load_dungeon_layout(s16 layout_number)
             break;
         }
         data++;
-        ((floor_generate_isolated_80285464_RecB *)dungeon_ground_item_positions)[entry_index].f0 = x_or_marker;
-        ((floor_generate_isolated_80285464_RecB *)dungeon_ground_item_positions)[entry_index].f1 = *data++;
+        dungeon_ground_item_positions[entry_index].x = x_or_marker;
+        dungeon_ground_item_positions[entry_index].y = *data++;
         dungeon_ground_items[entry_index].unk_00 = *data++;
         dungeon_ground_items[entry_index].kind = *data++;
         dungeon_ground_items[entry_index].unk_03 = *data++;
         dungeon_ground_items[entry_index].unk_02 = *data++;
-        ((floor_generate_isolated_80285464_RecB *)dungeon_ground_item_positions)[entry_index].f8 = get_item_sprite_source(&dungeon_ground_items[entry_index]);
+        dungeon_ground_item_positions[entry_index].sprite_source_word = get_item_sprite_source(&dungeon_ground_items[entry_index]);
         entry_index++;
     }
     while (entry_index < 64) {
@@ -789,10 +790,10 @@ void load_dungeon_layout(s16 layout_number)
 
     decompress_lz(data, ((u8 *)generation_cells));
     for (entry_index = 0; dungeon_ground_items[entry_index].kind != ITEM_KIND_NONE; entry_index++) {
-        placed_record = &((floor_generate_isolated_80285464_RecB *)dungeon_ground_item_positions)[entry_index];
-        map_value = get_surface_height_at_coordinates(placed_record->f0 << 6, placed_record->f1 << 6);
-        placed_record->f4 = map_value;
-        *(s16 *)&placed_record->f2 = map_value;
+        placed_record = &dungeon_ground_item_positions[entry_index];
+        map_value = get_surface_height_at_coordinates(placed_record->x << 6, placed_record->y << 6);
+        placed_record->ground_height = map_value;
+        placed_record->height = map_value;
     }
 }
 
@@ -824,9 +825,9 @@ void build_dungeon_floor(void) {
             state->fieldA = 0;
             state->field6 = 0;
             state->seed += r & 0xFFFF;
-            (*(floor_generate_isolated_80285A70_SaveHead *)floor_generation_state).seed = state->seed;
+            floor_generation_state.seed = state->seed;
             fl = state->flags;
-            (*(floor_generate_isolated_80285A70_SaveHead *)floor_generation_state).level = ((floor_generate_isolated_80285A70_LevelPage *)0x80010000)->level;
+            floor_generation_state.floor_number = ((floor_generate_isolated_80285A70_LevelPage *)0x80010000)->level;
             fl &= 0xFFFC;
             state->flags = fl;
             bind_view_triplet_source(((&view_reference_entity)));
@@ -834,8 +835,8 @@ void build_dungeon_floor(void) {
         } else if (entry_flags & 1) {
             state->field8 = 0;
             state->fieldA = 0;
-            (*(floor_generate_isolated_80285A70_SaveHead *)floor_generation_state).seed = state->seed;
-            (*(floor_generate_isolated_80285A70_SaveHead *)floor_generation_state).level = ((floor_generate_isolated_80285A70_LevelPage *)0x80010000)->level;
+            floor_generation_state.seed = state->seed;
+            floor_generation_state.floor_number = ((floor_generate_isolated_80285A70_LevelPage *)0x80010000)->level;
             bind_view_triplet_source(((&view_reference_entity)));
         } else {
             u32 hi;
@@ -847,14 +848,14 @@ void build_dungeon_floor(void) {
             state->field6 = 0;
             state->field11 = 0;
             state->field10 = 0;
-            state->seed = (*(floor_generate_isolated_80285A70_SaveHead *)floor_generation_state).seed = (value | (hi << 16)) ^ xor_base->unk_004;
+            state->seed = floor_generation_state.seed = (value | (hi << 16)) ^ xor_base->unk_004;
             bind_view_triplet_source(((&view_reference_entity)));
             bzero((void *)0x80013720, 0x2000);
         }
     }
 
-    srand((*(floor_generate_isolated_80285A70_SaveHead *)floor_generation_state).seed);
-    restore_dungeon_random_seed((*(floor_generate_isolated_80285A70_SaveHead *)floor_generation_state).seed);
+    srand(floor_generation_state.seed);
+    restore_dungeon_random_seed(floor_generation_state.seed);
     store_random_nibble();
     runtime_dispatch_state.flags16 = 0;
     floor_loaded_content_flags = 0;
@@ -918,7 +919,7 @@ void build_dungeon_floor(void) {
         do {
             clear_generation_cell_grid();
             clear_generation_region_entries();
-        } while ((generate_floor_layout() << 16) != 0 || (*(floor_generate_isolated_80285A70_SaveHead *)floor_generation_state).ready == 0);
+        } while ((generate_floor_layout() << 16) != 0 || floor_generation_state.room_count == 0);
 
     }
     apply_state_index_tile_masks();
@@ -937,7 +938,7 @@ s32 setup_dungeon_floor_encounters(void)
     s32 state;
     s32 floor_group;
     s32 encounter_status;
-    s16 *floor_data;
+    DungeonFloorGenerationState *floor_data;
     s32 final_floor;
     s32 monster_id;
     s32 level;
@@ -955,7 +956,7 @@ s32 setup_dungeon_floor_encounters(void)
         }
     }
 
-    state = scene_mode_code[0];
+    state = scene_mode_code;
     switch (state) {
     case 0x12:
     case 0x13:
@@ -1041,8 +1042,8 @@ s32 setup_dungeon_floor_encounters(void)
                     load_object_into_alternate_buffer(0, 1, 0);
                 }
 
-                floor_data = (s16 *)floor_generation_state;
-                if (floor_data[2] == 1) {
+                floor_data = &floor_generation_state;
+                if (floor_data->floor_number == 1) {
                     s32 i;
                     {
 
@@ -1051,7 +1052,7 @@ s32 setup_dungeon_floor_encounters(void)
                         DungeonGlobalStatus *ds;
 
                         monster_id = random_dungeon_range_16(MONSTER_DRAGON, MONSTER_MAXIMUM) & 0xFFFF;
-                        level = floor_data[2] + (generate_random_value() & 1);
+                        level = floor_data->floor_number + (generate_random_value() & 1);
                         if (level >= 100) {
                             level = 99;
                         }
@@ -1404,7 +1405,7 @@ s32 generate_floor_layout(void)
     s16 ox;
     s16 oy;
     s32 tries;
-    s16 *hdr;
+    DungeonFloorGenerationState *hdr;
     u8 *bp;
     int full_height;
     s32 j;
@@ -1532,10 +1533,10 @@ s32 generate_floor_layout(void)
 
     }
     clear_thirty_six_table_fields();
-    hdr = ((s16 *)floor_generation_state);
-    hdr[3] = j;
+    hdr = &floor_generation_state;
+    hdr->room_count = j;
     if (((s16) j) < 2) {
-        hdr[3] = 1;
+        hdr->room_count = 1;
         dungeon_rooms[0].x = 2;
         dungeon_rooms[0].y = 2;
         full_height = 1 << dc->shift_y;
@@ -2668,7 +2669,7 @@ void mark_random_eligible_region_tiles(DungeonRoom *region, s32 unused) {
     s32 y_offset;
     u8 *state;
     u8 *state_prefix;
-    floor_generate_isolated_8028A328_S_8001D328_1 *coords;
+    DungeonItemPosition *coords;
     s32 sum;
     u8 *state_base;
     u8 *prefix_base;
@@ -2688,13 +2689,13 @@ void mark_random_eligible_region_tiles(DungeonRoom *region, s32 unused) {
         state_prefix = state_offset + prefix_base;
         state = state_offset + state_base;
         do {
-            coords = (floor_generate_isolated_8028A328_S_8001D328_1 *)(dungeon_ground_item_positions + entry_index * 0xC);
+            coords = &dungeon_ground_item_positions[entry_index];
             x_offset = random_dungeon_range_16(0, (region->w - 1) & 0xFFFF) & 0xFFFF;
             y_offset = random_dungeon_range_16(0, (region->h - 1) & 0xFFFF) & 0xFFFF;
-            coords->unk_00 = region->x + x_offset;
-            coords->unk_01 = region->y + y_offset;
-            if (((get_offset_map_cell_value_and_flags(coords->unk_00 - 1, coords->unk_01, 0, &tile_flags) << 16) == 0) || !(tile_flags & 0xFF20)) {
-                cycle_map_cell_flags(coords->unk_00, coords->unk_01, TILE_HAS_ITEM);
+            coords->x = region->x + x_offset;
+            coords->y = region->y + y_offset;
+            if (((get_offset_map_cell_value_and_flags(coords->x - 1, coords->y, 0, &tile_flags) << 16) == 0) || !(tile_flags & 0xFF20)) {
+                cycle_map_cell_flags(coords->x, coords->y, TILE_HAS_ITEM);
                 /*
                  * BUG: item rooms fill the low item slots before ordinary population and skip special
                  * selection here. If every slot below the ordinary item limit is filled, population never calls the

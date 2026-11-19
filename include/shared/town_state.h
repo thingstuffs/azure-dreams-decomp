@@ -59,12 +59,9 @@ typedef struct TownSceneModeState {
     int value8;
 } TownSceneModeState;
 
-/* Three reward/choice values copied by value from town tables.
- * The inherited x/y/z field names do not imply spatial coordinates. */
+/* Town pickups, score sprites and minigame columns index a three-word table copy. */
 typedef struct TownRewardValues {
-    int x;
-    int y;
-    int z;
+    int values[3];
 } TownRewardValues;
 
 #endif

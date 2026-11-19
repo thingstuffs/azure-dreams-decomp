@@ -94,7 +94,7 @@ void spawn_scattered_emitter_particles(void *emitter_arg, ObjectPosition *positi
     life_left = emitter->unk_1E - 1;
     emitter->unk_1E = life_left;
     if ((life_left << 0x10) <= 0) {
-        u16 *global_count = &emitted_effect_counter;
+        u16 *global_count = emitted_effect_counter;
         u16 next_global_count;
 
         (*(u16 *)((u8 *)emitter + -2)) = (u16)(((S_7FFE9150_0_pre *)emitter)[-1].unk_00 | 0x8000);

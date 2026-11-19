@@ -52,6 +52,22 @@ typedef struct SpriteFrameState {
     /* 0x2C */ void *frameTable; /* borrowed action/direction table; handlers index it with ((viewAngle + facing + 0x100) >> 9) & 7 */
 } SpriteFrameState;
 
+/* The linked lit-mesh renderer indexes the map face table with mesh_index.
+ * Its creators set the tint, rotation and scale in this same node slot. */
+typedef struct LitMeshSprite {
+    void *frame_entry;
+    signed char frame_index;
+    unsigned char frame_ticks;
+    short depth_bias;
+    int mesh_index;
+    SpriteColor color;
+    unsigned short tpage_abr;
+    unsigned short clut;
+    unsigned short flags;
+    short rotation[3];
+    unsigned short scale[3];
+} LitMeshSprite;
+
 /* Exact partial view used by the actor callback/facing handlers. The table
  * pointer remains unsigned char *, independently of SpriteFrameState's void *.
  * Size 0x30 and alignment 4 describe this view, not an allocation extent. */

@@ -14,7 +14,7 @@
 extern M2C_UNK D_800F842C;
 
 /* Initialize the object and reset its state before completing setup. */
-void initialize_timed_scale_object(void *object, ObjectPosition *state, struct SpriteFrameState *context) {
+void initialize_timed_scale_object(TownObjectRecord *object, ObjectPosition *state, struct SpriteFrameState *context) {
     NODE_HEADER(object)->update_callback = &run_record_handler_if_active;
     clear_object_status_and_dispatch_target(object, context, (int)(&D_800F842C), 0);
     register_node_if_unregistered(object, project_sprite_chain);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor/ability_eligibility.h"
 #include "dungeon/item/actor_target.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
@@ -9,7 +10,6 @@
 
 
 extern void *find_eligible_entry_at_coordinates(void *, u16, u16);
-extern s16 check_layer_offset_height(u16, u16, s16, u32);
 
 /* Scans along a heading for an object within the height range and records the stopping coordinates. */
 void *scan_actor_along_heading(ActorRecord *source, s32 start_x, s32 start_y, s16 heading, s16 max_steps)

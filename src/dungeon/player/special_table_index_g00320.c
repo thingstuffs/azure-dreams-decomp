@@ -31,10 +31,10 @@ s16 get_item_slot_number(s32 dataAddress) {
         lookupIndex++;
         return (s16)lookupIndex;
     }
-    if (dataAddress == (s32)&held_item_record) {
+    if (dataAddress == (s32)(unsigned long)&held_item_record) {
         return 0x15;
     }
-    if (dataAddress == temporary_item_record) {
+    if (dataAddress == (s32)(unsigned long)&temporary_item_record) {
         return 0x16;
     }
     return 0;

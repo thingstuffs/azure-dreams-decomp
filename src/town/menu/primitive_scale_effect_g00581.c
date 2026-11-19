@@ -7,7 +7,7 @@
 #include "shared/sprite_frame_state.h"
 
 /* Update scale from elapsed ticks and advance when the countdown expires. */
-void update_scale_effect_and_advance(TownObjectRecord *state, void *context, SpriteFrameState *scale) {
+void update_scale_effect_and_advance(TownObjectRecord *state, ObjectPosition *position, SpriteFrameState *scale) {
     s16 ticks_left;
 
     scale->scale_x = (s16) (((state->unk_90 - ((s16)state->timer)) * 8) + 0x1000);
@@ -15,12 +15,12 @@ void update_scale_effect_and_advance(TownObjectRecord *state, void *context, Spr
     ticks_left = (u16) state->timer - 1;
     state->timer = ticks_left;
     if (ticks_left < 0) {
-        initialize_neutral_primitive(state, context, scale);
+        initialize_neutral_primitive(state, position, scale);
     }
 }
 
 /* Initialize object data and mode, and set the primitive color to neutral gray. */
-void initialize_neutral_primitive(TownObjectRecord *object, void *unused, SpriteFrameState *primitive) {
+void initialize_neutral_primitive(TownObjectRecord *object, ObjectPosition *unused_position, SpriteFrameState *primitive) {
     object->unk_50.as_pv = update_opposing_scale_effect;
     object->timer = 0x16;
     primitive->color.c.b = 0x80;

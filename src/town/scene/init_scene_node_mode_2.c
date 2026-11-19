@@ -10,7 +10,7 @@
  * Initializes the scene-list record with the supplied values and sets its mode byte at offset 0x14
  * to 2.
  */
-void init_scene_node_mode_2(void *record, void *position, void *bounds) {
+void init_scene_node_mode_2(void *record, struct ObjectPosition *position, void *bounds) {
     TownSceneListNode *node = record;
     init_scene_list_node(record, position, bounds);
     node->mode = 2;

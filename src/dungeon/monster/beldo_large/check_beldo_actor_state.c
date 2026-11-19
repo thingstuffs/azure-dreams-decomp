@@ -1,12 +1,13 @@
 #include "common.h"
+#include "dungeon/monster/beldo_large_data.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80175D50.h"
 #include "dungeon/monster/beldo_large.h"
 
 
-extern Rec_D_80175D50 *beldo_actor_nodes;
 
-/* Checks whether the record's unk_BA field equals the expected value. */
+/* Checks whether the actor's action ID equals the expected value. */
 s32 check_beldo_actor_state(s32 expected_value) {
-    return beldo_actor_nodes->unk_BA == expected_value;
+    ActorRecord *actor = NODE_BODY(beldo_actor_nodes);
+
+    return actor->action_id == expected_value;
 }

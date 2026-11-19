@@ -11,16 +11,16 @@
 
 
 /* Initializes the target parameters and updates the owner's state. */
-void initialize_target_motion(Rec_func_8009B828_arg0 *owner, Rec_D_800CFCB4 *target, EntityRec *parameters, void *unused) {
+void initialize_target_motion(TownObjectRecord *owner, struct ColliderView *target, ObjectPosition *parameters, void *unused) {
     s32 combinedValue;
 
-    target->unk_15 = 0;
+    target->enabled = 0;
     combinedValue = view_reference_entity.z.v + town_target_height_offset;
-    parameters->unk_0C = 0;
-    parameters->unk_10 = 0;
-    parameters->flags14 = 0;
+    parameters->velocity_x = 0;
+    parameters->velocity_y = 0;
+    parameters->velocity_z = 0;
     parameters->z.v = combinedValue;
     resolve_collider_overlaps(target, parameters);
-    owner->unk_50 = update_motion_toward_town_target;
-    owner->unk_6C.as_s16 = 4;
+    owner->unk_50.as_pm = update_motion_toward_town_target;
+    owner->timer = 4;
 }

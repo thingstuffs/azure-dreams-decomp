@@ -4,8 +4,6 @@
 #include "slus/data.h"
 #include "engine/audio/ram_block.h"
 
-extern s8 sound_ram_reserve_mode[9];
-
 /* Register or resize a memory block at the requested address. */
 s32 reserve_sound_ram_block(u32 addr, s32 size)
 {
@@ -15,6 +13,7 @@ s32 reserve_sound_ram_block(u32 addr, s32 size)
     s32 next_slot;
     u32 block_addr;
     u32 next_addr;
+    u8 reserve_index;
 
     if ((u32)(addr - 0x1010) > 0x7EFEF) {
         return -1;
@@ -24,7 +23,7 @@ s32 reserve_sound_ram_block(u32 addr, s32 size)
     }
     block = audio_ram_blocks;
     if (audio_ram_blocks[0].address.u == 0) {
-        if (addr + size < (u32)(0x80000 - sound_ram_reserved_sizes[*(u8 *)sound_ram_reserve_mode])) {
+        if (addr + size < (u32)(0x80000 - sound_ram_reserved_sizes[sound_ram_reserve_mode[0]])) {
             audio_ram_blocks[0].address.u = addr;
             block->size = size;
             sort_sound_ram_blocks();
@@ -32,6 +31,7 @@ s32 reserve_sound_ram_block(u32 addr, s32 size)
         }
         return -1;
     }
+    reserve_index = sound_ram_reserve_mode[0];
     for (slot = 0; slot < 16; slot++, block++) {
         if (slot == 0) {
             next_addr = audio_ram_blocks[0].address.u;
@@ -62,7 +62,7 @@ insert_first:
         next_slot = slot + 1;
         next_block = &audio_ram_blocks[next_slot];
         if (next_block->size == 0) {
-            if (size + addr < (u32)(0x80000 - sound_ram_reserved_sizes[*(u8 *)sound_ram_reserve_mode])) {
+            if (size + addr < (u32)(0x80000 - sound_ram_reserved_sizes[reserve_index])) {
                 next_block->address.u = addr;
                 next_block->size = size;
                 break;

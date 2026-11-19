@@ -3,6 +3,7 @@
 
 /* Function contracts owned by src/dungeon/player/object/ (decision 74; maintained by tools/headers). */
 #include "common.h"
+#include "dungeon/player/object/action_state.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -20,11 +21,10 @@ void try_begin_put_down_carried_object(ActorRecord *state, EntityRec *target, Sp
 void update_throw_carried_object(ActorRecord *actor, ObjectPosition *motion, u8 *animation, ActorRecord *entity);
 
 /* dungeon/player/object/can_entity_gain_level.c */
+u32 check_entity_interaction_compatibility(void *entity, ActorRecord *other_entity);
 void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);
-s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-s32 has_low_actor_mp(ActorRecord *record);
 s32 raise_entity_level(void *entity_data, s32 show_message);
 
 void distribute_experience_and_report_gains(EntityRec *entity);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/map/building_grid_g00638.h"
 #include "engine/object.h"
 #include "town/map.h"
 #include "town/menu/window.h"
@@ -16,23 +17,10 @@ typedef struct S_800B83DC_1 {
 } S_800B83DC_1;   /* pair_c in CheckBuildBuildingLand */
 
 
-typedef struct {
-    u8 pad0[3];
-    u8 kind;
-    u8 byte4;
-    u8 byte5;
-    u8 byte6;
-    u8 pad7;
-    s16 field8;
-    u8 padA[22];
-} Record;
-
-extern Record town_building_records[];
-
 /* Implements CheckBuildBuildingLand by checking pair assignments and matching land attributes. */
 s32 CheckBuildBuildingLand(s32 record_key) {
     s32 key;
-    Record *record;
+    TownBuildingRecord *record;
     s32 has_match;
     u32 first_id;
     u32 second_id;
@@ -42,27 +30,27 @@ s32 CheckBuildBuildingLand(s32 record_key) {
     s32 slot_index;
     S_800B83DC_0 *pair;
     S_800B83DC_1 *slot_pair;
-    u8 *entry;
-    Record *match_record;
-    Record *match_records;
+    TownBuildingSlotRectangle *entry;
+    TownBuildingRecord *match_record;
+    TownBuildingRecord *match_records;
     u8 *pairs_page;
     u8 single_id;
 
     key = record_key;
     {
-        Record *records = town_building_records;
+        TownBuildingRecord *records = town_building_records;
         record = records + (key & 0xFF);
     }
     has_match = 0;
-    if (test_resident_bitmap_bit(record->field8) == 0)
+    if (test_resident_bitmap_bit(record->availability_flag) == 0)
         return 0;
     switch (record->kind) {
     case 4:
     case 8:
     {
-        Record *records = town_building_records;
+        TownBuildingRecord *records = town_building_records;
         s32 entry_id = key & 0xFF;
-        pair_id = records[entry_id].byte6;
+        pair_id = records[entry_id].required_partner;
         if (pair_id == 0)
             return 0;
         slot = 0;
@@ -79,9 +67,9 @@ s32 CheckBuildBuildingLand(s32 record_key) {
     {
         u8 *pair_page;
         u8 *owner_page;
-        Record *records = town_building_records;
+        TownBuildingRecord *records = town_building_records;
         s32 entry_id = key & 0xFF;
-        single_id = records[entry_id].byte6;
+        single_id = records[entry_id].required_partner;
         if (single_id == 0)
             return 0;
         pair_page = (u8 *)0x80010000;
@@ -94,7 +82,7 @@ s32 CheckBuildBuildingLand(s32 record_key) {
     }
     case 1:
     {
-        u8 *entries;
+        TownBuildingSlotRectangle *entries;
         u8 *slots_page;
         s32 excluded_id = 0;
         slot = 0;
@@ -112,9 +100,9 @@ s32 CheckBuildBuildingLand(s32 record_key) {
             second_id = slot_pair->unk_33A5;
             if (second_id == record_id)
                 return 0;
-            entry = (u8 *)(slot_index * 8 + (unsigned long)entries);
-            if (entry[2] == match_record->byte4 &&
-                entry[3] == match_record->byte5 &&
+            entry = (TownBuildingSlotRectangle *)(slot_index * 8 + (unsigned long)entries);
+            if (entry->width == match_record->slot_width &&
+                entry->height == match_record->slot_height &&
                 first_id >= 0x2D) {
                 excluded_id = 0x30;
                 if (first_id != excluded_id && second_id == 0)

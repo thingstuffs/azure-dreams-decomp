@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/position_entries.h"
 #include "shared/record_ptrs.h"
 #include "town/player/script_flags.h"
 #include "shared/town_root.h"
@@ -23,7 +24,7 @@ typedef struct TownState {
 extern void decrement_entry_counter_if_flag(void);
 
 extern s16 scene_request_flag_id;
-extern s32 D_80018B40;
+extern ScenePositionEntry D_80018B40[];
 extern s32 D_80018E38;
 
 /* Refresh the active entry value and apply its corresponding table record. */
@@ -35,7 +36,7 @@ void refresh_scene_active_entry(void *update_arg, s32 unused, s32 entry_arg)
     u8 *entries;
     s32 entry_index;
     s8 value_index;
-    void *value_table = &D_80018B40;
+    ScenePositionEntry *value_table = D_80018B40;
 
     apply_entry_keyed_values(value_table, update_arg, entry_arg);
     if (get_script_flag_mask(scene_request_flag_id) == 0) {
@@ -54,8 +55,7 @@ void refresh_scene_active_entry(void *update_arg, s32 unused, s32 entry_arg)
     }
     final_state = (TownState *)town_scene_root;
     apply_entry_position(
-        (u8 *)&D_80018B40 +
-            (final_state->entries[(final_state->index * 8) + 1] * 8),
+        &D_80018B40[final_state->entries[(final_state->index * 8) + 1]],
         &D_80018E38,
         update_arg,
         entry_arg);

@@ -29,17 +29,17 @@ void *set_complementary_entry_bytes(void *entry, s16 amount) {
 }
 
 /* Positions three display elements, assigns their content, and updates the shared value buffer. */
-void *layout_three_display_elements(S_800B5174_0 *values, S_800B5174_1 *elements, s32 content) {
-    ((S_800B5174_5 *)(((S_800B5174_2 *)(elements->unk_00))->unk_04))->unk_08 = -0x38;
-    ((S_800B5174_5 *)(((S_800B5174_2 *)(elements->unk_00))->unk_04))->unk_0A = 8;
-    ((S_800B5174_2 *)(elements->unk_00))->unk_00 = D_80077FBC;
-    ((S_800B5174_6 *)(((S_800B5174_3 *)(elements->unk_04))->unk_04))->unk_08 = -0x38;
-    ((S_800B5174_6 *)(((S_800B5174_3 *)(elements->unk_04))->unk_04))->unk_0A = 8;
-    ((S_800B5174_3 *)(elements->unk_04))->unk_00 = content;
-    ((S_800B5174_7 *)(((S_800B5174_4 *)(elements->unk_08))->unk_04))->unk_08 = -0x18;
-    ((S_800B5174_7 *)(((S_800B5174_4 *)(elements->unk_08))->unk_04))->unk_0A = 0x30;
-    ((S_800B5174_4 *)(elements->unk_08))->unk_00 = &D_800D1794;
-    set_complementary_entry_bytes(&D_800D1794, values->unk_28);
-    set_complementary_entry_bytes(&D_800D1794 + 0xC, values->unk_29);
+void *layout_three_display_elements(ActorRecord *actor, ItemMenuPart **elements, SpritePartCommand *content) {
+    elements[0]->position->x = -0x38;
+    elements[0]->position->y = 8;
+    elements[0]->handler = D_80077FBC;
+    elements[1]->position->x = -0x38;
+    elements[1]->position->y = 8;
+    elements[1]->handler = content;
+    elements[2]->position->x = -0x18;
+    elements[2]->position->y = 0x30;
+    elements[2]->handler = &D_800D1794;
+    set_complementary_entry_bytes(&D_800D1794, actor->hp);
+    set_complementary_entry_bytes(&D_800D1794 + 0xC, actor->max_hp);
     return elements;
 }

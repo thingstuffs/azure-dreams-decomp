@@ -11,7 +11,6 @@
 #include "dungeon/monster/griffon_frames.h"
 
 
-extern void select_sprite_entry(void *, s32, s32);
 
 extern u8 D_80152E7C;
 extern u8 D_80156C74[];

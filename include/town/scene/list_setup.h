@@ -17,8 +17,8 @@ typedef struct TownSceneListNode {
 } TownSceneListNode;
 
 s32 prepend_scene_list_node(TownSceneListNode *node);
-void init_scene_list_node(void *record, void *position, void *bounds);
-void init_scene_node_mode_1(void *record, void *position, void *bounds);
-void init_scene_node_mode_2(void *record, void *position, void *bounds);
+void init_scene_list_node(void *record, struct ObjectPosition *position, void *bounds);
+void init_scene_node_mode_1(void *record, struct ObjectPosition *position, void *bounds);
+void init_scene_node_mode_2(void *record, struct ObjectPosition *position, void *bounds);
 
 #endif

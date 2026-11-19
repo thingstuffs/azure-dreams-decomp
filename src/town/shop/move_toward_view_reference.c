@@ -1,52 +1,37 @@
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "town/event/object.h"
 #include "town/menu/indexed_effect_vectors_g00583.h"
 #include "town/player/position.h"
 #include "town/shop.h"
-
-typedef struct MotionVector {
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 step_x;
-    s32 step_y;
-    s32 step_z;
-} MotionVector;
-
-typedef struct TownActor {
-    u8 pad_00[0x6C];
-    u16 countdown;
-} TownActor;
-
-extern s32 remove_object_if_item_found(TownActor *actor, s32 context,
-                         MotionVector *motion, s32 extra, s32 *work);
+#include "town/shop/item_lookup.h"
 
 /*
  * Moves halfway toward view_reference_entity with a Z offset of 0x200000 each update. After
  * countdown expiry, when item processing fails, restores the target height and selects the next
  * height-band state.
  */
-void move_toward_view_reference(TownActor *actor, s32 context,
-                   MotionVector *motion, s32 extra)
+void move_toward_view_reference(TownObjectRecord *actor, void *context,
+                   ObjectPosition *motion, SpriteFrameState *extra)
 {
     s32 work[5];
     u32 shifted_z;
     u32 delta_y;
     u16 countdown;
 
-    motion->step_x = (s32)((u32)view_reference_entity.x.v - (u32)motion->x) / 2;
-    delta_y = (u32)view_reference_entity.y.v - (u32)motion->y;
-    motion->step_y = (s32)delta_y / 2;
-    shifted_z = (u32)motion->z + 0x200000U;
-    motion->step_z = (s32)((u32)view_reference_entity.z.v - shifted_z) / 2;
+    motion->velocity_x = (s32)((u32)view_reference_entity.x.v - (u32)motion->x.v) / 2;
+    delta_y = (u32)view_reference_entity.y.v - (u32)motion->y.v;
+    motion->velocity_y = (s32)delta_y / 2;
+    shifted_z = (u32)motion->z.v + 0x200000U;
+    motion->velocity_z = (s32)((u32)view_reference_entity.z.v - shifted_z) / 2;
     add_motion_deltas_to_position(motion);
 
-    countdown = actor->countdown - 1;
-    actor->countdown = countdown;
+    countdown = actor->timer - 1;
+    actor->timer = countdown;
     if (((s32)((u32)countdown << 16) <= 0) &&
         (remove_object_if_item_found(actor, context, motion, extra, work) == 0)) {
-        motion->z = (s32)((u32)view_reference_entity.z.v + (u32)town_target_height_offset);
+        motion->z.v = (s32)((u32)view_reference_entity.z.v + (u32)town_target_height_offset);
         select_object_value_by_height_band(actor, context, motion, extra);
     }
 }

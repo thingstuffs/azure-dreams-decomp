@@ -483,7 +483,7 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
  *
  * Link packet: tag word (next address + length), then payload.
  */
-void draw_clipped_sprite_strips(s32 draw_data, ScreenRect *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param)
+void draw_clipped_sprite_strips(s32 draw_data, ScreenRect *clip_rect, Point *screen_pos, u16 clear_rect, s16 draw_param)
 {
     u16 draw_pos[2];
     u16 clear_enabled;
@@ -493,7 +493,6 @@ void draw_clipped_sprite_strips(s32 draw_data, ScreenRect *clip_rect, void *scre
     GameWork *page_ptr;
     s16 saved_param;
     u32 tag_mask;
-    ScreenPos *pos_or_ot;
     u8 *order_table;
     GpuContext *draw_page;
     GpuContext *packet_page;
@@ -504,7 +503,6 @@ void draw_clipped_sprite_strips(s32 draw_data, ScreenRect *clip_rect, void *scre
     s32 call_param;
 
     draw_page = g_game_work.draw_buffer;
-    pos_or_ot = screen_pos;
     clip_packet = draw_page->packetCursor;
     offset_y = (void *)draw_page != (void *)upper_draw_context;
     draw_page->packetCursor = clip_packet + 0xC;
@@ -519,8 +517,8 @@ void draw_clipped_sprite_strips(s32 draw_data, ScreenRect *clip_rect, void *scre
     draw_page->orderTag8B0 = (draw_page->orderTag8B0 & tag_mask) |
                              ((u32)clip_packet & 0x00FFFFFFU);
 
-    draw_pos[0] = pos_or_ot->x;
-    draw_y = pos_or_ot->y;
+    draw_pos[0] = screen_pos->x;
+    draw_y = screen_pos->y;
     order_table = (u8 *)draw_page + 0x8B0;
     if (offset_y != 0) {
         draw_y -= 0xE0;

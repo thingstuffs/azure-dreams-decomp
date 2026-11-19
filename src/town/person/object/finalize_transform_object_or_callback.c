@@ -1,28 +1,30 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/object_node.h"
 #include "engine/node.h"
 #include "town/menu.h"
 #include "town/person/object.h"
 #include "town/scene/object.h"
 
-typedef void (*Callback)(void *, s32, s32);
+typedef void (*Callback)(TownObjectRecord *, ObjectPosition *, struct SpriteFrameState *);
 
 /* Clears and flags the object when the check succeeds, or invokes its callback. */
-void finalize_transform_object_or_callback(void *object, s32 check_value, s32 callback_value) {
-    u16 *object_flags;
+void finalize_transform_object_or_callback(void *object, ObjectPosition *position, struct SpriteFrameState *sprite) {
+    TownObjectRecord *body = object;
+    Callback callback;
     s8 *status_byte;
 
-    if (classify_object_against_bounds(object, check_value) != 0) {
+    if (classify_object_against_bounds(object, position) != 0) {
         unlink_scene_list_node(object);
-        status_byte = *(s8 **)((u8 *)object + 0x98);
+        status_byte = body->unk_98;
         if (status_byte != 0) {
             *status_byte = 0;
         }
         unlink_node_if_registered(object);
-        object_flags = (u16 *)object - 1;
-        *object_flags |= 0x8000;
+        NODE_HEADER(object)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     } else {
-        (*(Callback *)((u8 *)object + 0x50))(object, check_value, callback_value);
+        callback = body->unk_50.as_pv;
+        callback(body, position, sprite);
     }
 }

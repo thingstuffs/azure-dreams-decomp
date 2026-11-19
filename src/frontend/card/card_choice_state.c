@@ -9,14 +9,11 @@
 
 /* Stores a value in the object's embedded state and processes that state. */
 void card_boot_set_paired_choice_selection(ObjectNodeHeader *object_addr, s32 value) {
-    void *body = object_addr + 1;
-    CardChoiceOwner *state = body;
+    CardChoiceOwner *state = NODE_BODY(object_addr);
     state->selection = value;
-    card_boot_refresh_paired_choice_labels(body);
+    card_boot_refresh_paired_choice_labels(state);
 }
 #include "frontend/card.h"
-
-typedef struct Object13B18 Object13B18;
 
 /* Pass the data at offset 0x20 to card_boot_set_paired_choice_animations. */
 void card_boot_update_paired_choice_animations(ObjectNodeHeader *base_addr, s32 *enable_flags, s32 *active_flags) {

@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800D7228, CL:dungeon/func_800D7484, CL:dungeon/func_800D74DC, CL:dungeon/func_800D7594. */
 
 #include "common.h"
+#include "shared/menu_display.h"
 #include "m2c_compat.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
@@ -35,8 +36,6 @@ typedef struct {
     u8 field_3C[1];
 } ObjectHeader;
 
-extern Template0 display_block_defaults;
-extern Vec3 display_vector_defaults;
 /* extern */
 extern M2C_UNK D_800E2804;
 extern Template0 D_800E2828[9];

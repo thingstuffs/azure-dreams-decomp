@@ -3,6 +3,7 @@
 struct ItemMenuPart;
 struct DisplayPositionWords;
 #include "common.h"
+#include "shared/menu_display.h"
 #include "m2c_compat.h"
 #include "shared/game_work.h"
 #include "shared/object_node.h"
@@ -143,11 +144,6 @@ typedef struct ovl_1831370_818119A0_S_800269A0_0 {
     u8 pad_20[0x50];
     s32 unk_70;
 } ovl_1831370_818119A0_S_800269A0_0;
-typedef struct {
-    s32 x;
-    s32 y;
-    s32 z;
-} ovl_1831370_818119E8_Vec3;
 typedef struct ovl_1831370_81811B44_S_80026B44_0 {
     u8 pad_00[0xC];
     void ** unk_0C;
@@ -182,8 +178,7 @@ extern char * func_8004EAC4(u8 *buffer, char *code, s32 slot_index);
 extern void strcpy(s32, s32);
 extern s32 text_editor_packet_payload;
 extern u8 menu_selection_chain_indices[5];
-extern ovl_1831370_818117D8_S_8002E5D8 display_block_defaults;
-extern ovl_1831370_818117D8_S_8002E5E8 display_vector_defaults;
+
 extern s32 D_80029508[2];
 extern s32 func_80048EE4(void *pool, s32 record_count);
 extern void set_menu_part_vectors(struct ItemMenuPart **entries, struct DisplayPositionWords *value, s32 count);

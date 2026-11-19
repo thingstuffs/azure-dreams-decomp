@@ -112,7 +112,10 @@ void create_minigame_display_objects(void);
 struct PairedIndicators;
 s32 draw_depth_sorted_line_nodes(struct PairedIndicators *node);
 void fade_falling_particle_until_done(u8 *effect, ObjectPosition *motion, SpriteFrameState *visual);
-void rotate_gym_mesh_y(s32 unused_0, ObjectPosition *unused_1, SpriteFrameState *object);
+struct GymMeshWork;
+struct LitMeshSprite;
+void rotate_gym_mesh_y(struct GymMeshWork *work, ObjectPosition *position, struct LitMeshSprite *sprite);
+void rotate_gym_mesh_x(struct GymMeshWork *work, ObjectPosition *position, struct LitMeshSprite *sprite);
 void tick_scene_value_text(void *message);
 void tick_summed_scene_value_text(TerminalSceneTextObject *entry);
 void tick_timed_sound(TimedSoundObject *object);
@@ -150,7 +153,7 @@ void draw_scrolling_column(s16 column, s16 tile_index, s16 scroll_y);
 s32 draw_translucent_gradient_line_list(void *first_entry);
 
 struct ObjectStatePositionObject;
-void update_proximity_triggered_object(struct ObjectStatePositionObject *self, s32 *position, SpriteFrameState *target);
+void update_proximity_triggered_object(struct ObjectStatePositionObject *self, ObjectPosition *position, struct LitMeshSprite *target);
 
 struct Copy20;
 void create_tako_projectile(struct Copy20 *init_data, s32 pos_y, s32 unused_effect_arg);

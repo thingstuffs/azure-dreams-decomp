@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/collection.h"
 #include "shared/entity.h"
 #include "shared/minigame_body.h"
 #include "shared/vector.h"
@@ -68,7 +69,6 @@ typedef struct S_8052F2C8_9 {
 
 extern void create_object_position_configures_color(s32 color, s32 x, s32 y, s32 z);
 extern u32 D_80095AAC;
-extern s32 collection_target_y;
 extern u8 D_8028E17C[];
 extern u8 D_8028E188[];
 extern void D_8052F8C4();
@@ -183,7 +183,7 @@ void animate_rising_effect_object(RisingEffectObject *obj, ObjectPosition *state
             s32 target_y;
             s32 *target_y_addr;
 
-            target_y_addr = &collection_target_y;
+            target_y_addr = &town_motion_state.y.v;
             target_y = *target_y_addr;
             current_y = state_held->y.v;
             delta = target_y - current_y;

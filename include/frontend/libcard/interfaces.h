@@ -2,6 +2,8 @@
 #define FRONTEND_LIBCARD_INTERFACES_H
 #include "shared/object_node.h"
 #include "frontend/libcard/save_menu.h"
+struct CardChoiceOwner;
+struct CardSlotMenuState;
 struct CardMessageDialogBody;
 struct CardSaveHeadingDisplayPrefix;
 
@@ -11,22 +13,22 @@ struct CardSaveHeadingDisplayPrefix;
 struct Object_800128C8;
 
 /* MAIN frontend contracts. Context pointers retain their existing opaque views. */
-void card_boot_begin_selected_value_transition(void *panel, s32 value);
+void card_boot_begin_selected_value_transition(ObjectNodeHeader *panel, s32 value);
 void card_boot_bind_command_panel_resources(CardCommandPanelBody *panel);
 void card_boot_bind_save_heading(struct CardSaveHeadingDisplayPrefix *record);
 s32 card_boot_build_resident_bit_mask(void);
 void card_boot_close_events_and_resume_timer(void);
 void *card_boot_create_save_slot_menu(ObjectNodeHeader *init_value, s32 state_value);
 void card_boot_handle_overwrite_answer(struct Object_800128C8 *object_data);
-void card_boot_initialize_paired_choice_layout(void *record_addr);
-void card_boot_init_command_panel(void *record, void *init_value);
+void card_boot_initialize_paired_choice_layout(struct CardChoiceOwner *state);
+void card_boot_init_command_panel(void *record, ObjectNodeHeader *owner);
 void func_80023730(void *sprite, void *data, void *context);
 void card_boot_layout_five_entry_list(struct CardMessageDialogBody *context);
 void card_boot_layout_command_panel(CardCommandPanelBody *panel);
 void card_boot_position_dialog_selection_marker(struct CardMessageDialogBody *context, s32 column, s32 mode, s32 row, s32 row_value);
-void card_boot_refresh_paired_choice_labels(u8 *state);
+void card_boot_refresh_paired_choice_labels(struct CardChoiceOwner *state);
 void card_boot_reset_command_panel_highlight(CardCommandPanelBody *panel);
-void card_boot_resume_menu_after_slot_refresh(void *object_data);
+void card_boot_resume_menu_after_slot_refresh(struct CardSlotMenuState *menu);
 void card_boot_show_copying_progress(ObjectNodeHeader *owner, void *data);
 void card_boot_show_no_space_overwrite_notice(ObjectNodeHeader *value);
 void card_boot_show_overwrite_confirmation(ObjectNodeHeader *owner, void *data);

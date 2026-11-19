@@ -1,4 +1,5 @@
 #include "shared/scratchpad.h"
+#include "dungeon/globals.h"
 #include "dungeon/system.h"
 #include "engine/resource.h"
 #include "dungeon/item/message.h"
@@ -13,6 +14,7 @@ struct ObjectPosition;
 #include "dungeon/effect/dispatch.h"
 #include "shared/gpu_packets.h"
 #include "common.h"
+#include "shared/runtime_dispatch.h"
 #include "slus/data.h"
 #include "dungeon/system/random.h"
 #include "shared/game_work.h"
@@ -108,7 +110,7 @@ static __inline__ s32 narrow_depth(s32 value)
 }
 
 /* Transform mesh triangles, shade visible vertices, and append draw packets to the ordering table. */
-void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_arg, void *mesh_data, s32 depth_offset)
+void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_arg, SpriteFrameState *sprite, s32 depth_offset)
 {
     ObjectPosition *record = record_arg;
     u8 saved_matrix[0x20];
@@ -138,7 +140,7 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
     global_base = &g_game_work;
     perspective_out = (void *)0x1F800090;
 
-    descriptor = ((S_800C55F4_0 *)(*(u8 ***)((u8 *)mesh_data + 8)));
+    descriptor = sprite->source;
     flags_out = (void *)0x1F800094;
 
     vertices = descriptor->unk_00;
@@ -150,15 +152,15 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
     screen_arg = (u8 *)0x1F800000;
     scratch = (S_800C55F4_1 *)0x1F800000;
 
-    scratch->unk_30 = (*(u16 *)((u8 *)mesh_data + 0x1C));
+    scratch->unk_30 = sprite->scale_x;
     {
         u32 translation_y;
 
-        translation_y = ((SpriteFrameState *)mesh_data)->scale_y;
+        translation_y = sprite->scale_y;
         screen_arg = (u8 *)((u32)screen_arg | 0xF0);
         scratch->unk_34 = translation_y;
     }
-    scratch->unk_38 = ((SpriteFrameState *)mesh_data)->offset_x;
+    scratch->unk_38 = sprite->offset_x;
 
     {
         s32 translation_coord;
@@ -179,7 +181,7 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
     depth_bias = narrow_depth(depth_bias);
     scratch->unk_CC = result - depth_bias;
     ReadRotMatrix(saved_matrix);
-    RotMatrix((u8 *)mesh_data + 0x16, &scratch->local_matrix);
+    RotMatrix((SVECTOR *)&sprite->angle_x, &scratch->local_matrix);
     ScaleMatrix(&scratch->local_matrix, &scratch->unk_30);
     CompMatrix(saved_matrix, &scratch->local_matrix, &scratch->composed_matrix);
     SetTransMatrix(&scratch->composed_matrix);
@@ -189,7 +191,7 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
     scratch->unk_20 = render_state + 0xB0;
     prim = ((GpuContext *)render_state)->packetCursor;
     packet_code = prim + 7;
-    ((SpriteFrameState *)mesh_data)->flags |= 0x8000;
+    sprite->flags |= 0x8000;
 
     for (;;) {
         vertex_index = face->v0;
@@ -317,7 +319,7 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
                               (scratch->unk_C0 << 2), packet);
 
                 packet_code += 0xC;
-                ((SpriteFrameState *)mesh_data)->flags &= 0x7FFF;
+                sprite->flags &= 0x7FFF;
                 SetDrawMode(prim, 0, 0, 0, 0);
                 packet = prim;
                 prim += 0xC;
@@ -542,10 +544,7 @@ void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
 
-extern u8 floor_generation_state[];
 extern s16 current_dungeon_floor;
-extern u8 scene_mode_code;
-extern u8 dungeon_event_pending_flag;
 extern u8 D_800E0B65[];
 extern u8 D_800E0B73[];
 extern u8 D_800E0BA1[];
@@ -584,8 +583,8 @@ void dispatch_action_callback_by_opcode(FloorCollapseWork *w) {
     s32 st;
     u8 *sys;
     u8 *room;
-    u8 *cnt;
-    u8 *cnt2;
+    DungeonFloorGenerationState *cnt;
+    DungeonFloorGenerationState *cnt2;
     DungeonRoom *rooms;
     u8 *rbase;
     DungeonRoom *rm;
@@ -723,8 +722,8 @@ L_third:
         *(u16 *)((u8 *) st + 10) = *(u16 *)((u8 *) st + 10) + 1;
         w->lower_passes = w->lower_passes + 1;
         rv = generate_random_value() & 0xFFFF;
-        cnt = floor_generation_state;
-        cc = *(s16 *)(cnt + 6);
+        cnt = &floor_generation_state;
+        cc = cnt->room_count;
         phase = rv % cc;
         st = cc;
         if (st > 0) {
@@ -736,7 +735,7 @@ L_third:
                     goto L_found;
                 }
                 st = st - 1;
-                phase = (phase + 1) % *(s16 *)(cnt2 + 6);
+                phase = (phase + 1) % cnt2->room_count;
             } while (st > 0);
         }
 L_zero:
@@ -1440,7 +1439,6 @@ CentralChildEffectObject *create_central_and_child_effects(s16 tile_x, s16 tile_
     return parent;
 }
 
-extern u8 camera_transition_timer[];
 
 /* Update target tracking and smoothly approach its position and transition value. */
 void update_target_tracking_and_transition(void *tracker) {
@@ -1465,7 +1463,7 @@ void update_target_tracking_and_transition(void *tracker) {
         state->view_offset.parts.view_offset_z = (u16)state->view_offset.parts.view_offset_z +
             (*(s16 *)((char *)tracker + 0x26) - state->view_offset.parts.view_offset_z) / frames_left;
     } else {
-        camera_transition_timer[0] = 0;
+        camera_transition_timer = 0;
     }
     next_frames = *(s16 *)((char *)tracker + 0x24) - 1;
     *(s16 *)((char *)tracker + 0x24) = next_frames;
@@ -1491,7 +1489,6 @@ void update_target_tracking_and_transition(void *tracker) {
 }
 #include "shared/entity_objects.h"
 
-extern u8 camera_transition_timer[];
 
 /* Selects a nearby target, initializes its state slot, and returns change flags. */
 s32 select_nearby_target_and_initialize_slot(void *tracked_object, void *target_data, s32 target_id, s32 slot_value) {
@@ -1537,7 +1534,7 @@ s32 select_nearby_target_and_initialize_slot(void *tracked_object, void *target_
     *(s16 *)(slot + 0x26) = slot_value;
     state->slot[0].callback = update_target_tracking_and_transition;
     if (change_flags & 1)
-        camera_transition_timer[0] = new_target_id;
+        camera_transition_timer = new_target_id;
     *(s16 *)(slot + 0x24) = target_id;
     return change_flags;
 }

@@ -9,7 +9,7 @@ void begin_selection_menu_teardown_and_fade(u8 *object)
 {
     u8 *object_data = object + 0x20;
     s32 saved_value;
-    struct S_8004FE78_a0 *attachment;
+    struct ObjectNodeHeader *attachment;
     ObjectNodeHeader *child;
     if (object != 0) {
         *((s32 *) (object_data + 0x08)) = 2;

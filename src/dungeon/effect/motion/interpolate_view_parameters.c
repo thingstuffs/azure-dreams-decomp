@@ -21,7 +21,6 @@ void interpolate_view_parameters(void *tracker) {
     s16 next_ticks;
     Row_81916800_S_81916800_2 *target_values;
     GameView *blend_state;
-    Row_81916800_S_81916800_1 *countdown;
     Row_81916800_S_81916800_3 *third_pending;
 
     blend_ticks = (*(s16 *)((u8 *)tracker + 0x24));
@@ -35,9 +34,8 @@ void interpolate_view_parameters(void *tracker) {
     if (next_ticks < -0x80) {
         (*(s16 *)((u8 *)tracker + 0x24)) = -0x80;
     }
-    countdown = ((Row_81916800_S_81916800_1 *)camera_transition_timer);
-    if (countdown->unk_00.u != 0) {
-        countdown->unk_00.s = (s8) (countdown->unk_00.u - 1);
+    if (camera_transition_timer != 0) {
+        camera_transition_timer--;
     }
     (*(u16 *)((u8 *)tracker + 4)) = (u16) ((Row_81916800_S_81916800_4 *)(*(void **)((u8 *)tracker + 0xC)))->unk_02;
     target_values = (*(void **)((u8 *)tracker + 0xC));
@@ -81,7 +79,7 @@ s32 begin_view_parameter_transition(s32 unused, s32 request_id, s32 request_valu
     dispatch->unkDE = request_param;
     state->slot[0].callback = view_interpolation_update_address;
     if (change_flags & 1) {
-        ((s8 *)camera_transition_timer)[0] = saved_value;
+        camera_transition_timer = saved_value;
     }
     dispatch->unkDC = request_value;
     return change_flags;

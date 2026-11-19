@@ -7,7 +7,7 @@
 extern void (*D_800D65D8[])(void *, void *, void *);
 
 /* Choose a random action and an in-bounds heading, then dispatch the action. */
-void choose_reaction_action_and_heading(Rec_func_800C9B44_arg0 *actor, EntityRec *motion, SpriteFrameState *context) {
+void choose_reaction_action_and_heading(Rec_func_800C9B44_arg0 *actor, ObjectPosition *motion, SpriteFrameState *context) {
     s32 x_radius;
     s32 y_radius;
     s32 current_x;
@@ -19,8 +19,8 @@ void choose_reaction_action_and_heading(Rec_func_800C9B44_arg0 *actor, EntityRec
     s32 attempts;
 
     attempts = 0x10;
-    motion->unk_10 = 0;
-    motion->unk_0C = 0;
+    motion->velocity_y = 0;
+    motion->velocity_x = 0;
     while (1) {
         attempts -= 1;
         action = 0;

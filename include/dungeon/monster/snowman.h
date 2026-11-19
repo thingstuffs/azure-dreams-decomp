@@ -1,6 +1,8 @@
 #ifndef DUNGEON_RESOURCE10_SLOT0_H
 #define DUNGEON_RESOURCE10_SLOT0_H
 #include "shared/dungeon_effect_status.h"
+#include "shared/sound_state.h"
+#include "dungeon/globals.h"
 #include "engine/node/registration.h"
 struct ObjectPosition;
 #include "shared/gpu_packets.h"
@@ -485,7 +487,6 @@ extern u8 D_80175998[];
 extern u8 D_801759D0[];
 extern u8 D_801759E0[];
 extern u8 snowman_move_direction_frames[];
-extern u8 actor_turn_angle_offsets[];
 extern u8 D_801759A8[];
 extern u8 snowman_attack_frames[];
 extern u8 D_801759C8[];
@@ -495,8 +496,6 @@ extern u8 D_80175A18[];
 extern u8 D_80175A0C[];
 extern u8 D_80175A84[];
 extern u8 resource_completion_callback_address[];
-extern u8 cd_cue_base[];
-extern u8 actor_effect_color_targets[];
 extern u8 dungeon_resource_buffer[];
 extern u8 snowman_image_commands[];
 extern u8 D_80175A00[];

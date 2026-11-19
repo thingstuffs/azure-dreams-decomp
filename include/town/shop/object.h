@@ -4,38 +4,56 @@
 
 #include "common.h"
 #include "shared/item_menu.h"
+#include "shared/menu_display.h"
+#include "shared/sprite_part_command.h"
 #include "shared/object_node.h"
 
+struct ActorRecord;
 struct Copy4;
 struct ItemMenuTransition;
-struct Obj;
+struct AlternateStorageOwner;
 struct S_800B1718_0;
 struct S_800B1730_0;
 struct S_800B2CE8_0;
 
-/* Body of the shop object that delegates its update to the first method. */
+/* Two words passed to the CD read command. */
+typedef struct MonsterStatusCdDescriptor {
+    s32 data_word;
+    s32 sector;
+} MonsterStatusCdDescriptor;
+
+/* Allocated shop status body advanced through its first callback. */
 typedef struct ShopFirstCallbackObject {
-    /* 0x00 */ s32 (*first_callback)(void *object);
-    /* 0x04 */ s32 unk_04; /* first argument forwarded by build_monster_status_display */
+    /* 0x00 */ void (*first_callback)(struct ShopFirstCallbackObject *object);
+    /* 0x04 */ struct ActorRecord *actor;
     /* 0x08 */ s16 slot_index; /* selects the display-entry setup path */
-    /* 0x0A */ u16 unk_0A;
+    /* 0x0A */ s16 unk_0A;
     /* 0x0C */ s16 unk_0C;
-    /* 0x0E */ union { s16 as_s16; u16 as_u16; } opening_step; /* monster-status opening sequence */
-    /* 0x10 */ union { s32 as_s32; u16 as_u16; } unk_10;
-    /* 0x14 */ union { s32 as_s32; void *as_ptr; } unk_14; /* third argument forwarded by the display-entry setup */
-    /* 0x18 */ u8 pad_18[0x7C];
-    /* 0x94 */ void *status_display_entries;
-    /* 0x98 */ union { s32 as_s32; void *as_ptr; } resource_id;
+    /* 0x0E */ s16 opening_step; /* monster-status opening sequence */
+    /* 0x10 */ s32 palette_index;
+    /* 0x14 */ SpritePartCommand *texture; /* third argument forwarded by the display-entry setup */
+    /* 0x18 */ u8 pad_18[0x48];
+    /* 0x60 */ MenuDisplayBlock display_template;
+    /* 0x70 */ DisplayPositionWords display_position;
+    /* 0x7C */ DisplayPositionWords resource_position;
+    /* 0x88 */ ItemMenuPart display;
+    /* 0x98 */ ItemMenuPart **parts;
+    /* 0x9C */ u16 *allocations[6]; /* part table, two banks of two buffers and the null terminator */
+    /* 0xB4 */ u8 pad_B4[0x1C];
+    /* 0xD0 */ s32 read_handle;
+    /* 0xD4 */ s32 completion_handle;
+    /* 0xD8 */ MonsterStatusCdDescriptor read_descriptor;
+    /* 0xE0 */ s32 transfer_data;
 } ShopFirstCallbackObject;
 
 /* create_monster_status_object.c */
-void *create_monster_status_object(s32 resource_id, s32 slot_index, s32 x, s32 y, s32 z);
+void *create_monster_status_object(struct ActorRecord *actor, s32 slot_index, s32 x, s32 y, s32 z);
 
 /* create_item_menu_handler_object.c */
 ItemMenuObjectNode *create_item_menu_handler_object(ItemMenuStateNode *owner);
 
 /* initialize_storage_menu_slots.c */
-void initialize_storage_menu_slots(struct Obj *object);
+void initialize_storage_menu_slots(struct AlternateStorageOwner *object);
 
 /* initialize_item_menu_object_slots.c */
 void initialize_item_menu_object_slots(ItemMenuObject *object);

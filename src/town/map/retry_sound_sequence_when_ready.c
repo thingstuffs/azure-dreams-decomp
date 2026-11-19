@@ -6,7 +6,6 @@
 
 #include "town/map/sound_sequence_replay_g00650.h"
 s32 trigger_effect_when_in_range();                       /* extern */
-extern CallbackEntry map_active_callbacks[];
 
 /* Call town_sd_sq_callagain when either global object check returns zero. */
 void retry_sound_sequence_when_ready(void) {

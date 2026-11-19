@@ -101,7 +101,8 @@ extern s32 D_800E9E34[];
 extern s32 D_800E9E54[];
 extern u8 paired_actor_sprite_entries[];
 extern s32 D_800E9ECC[];
-extern void init_scene_node_mode_1(void *, void *, void *);
+struct ObjectPosition;
+extern void init_scene_node_mode_1(void *, struct ObjectPosition *, void *);
 extern u8 D_800BCE78[];
 extern s32 D_800D2130;
 

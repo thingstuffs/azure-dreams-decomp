@@ -1,9 +1,6 @@
 #include "common.h"
-#include "shared/gpu_packets.h"
+#include "shared/menu_display.h"
 #include "engine/menu.h"
-
-extern SevenEntryMenuBackdropDisplayBlock display_block_defaults;
-extern DisplayPositionWords display_vector_defaults;
 
 /* Initializes menu backdrop nodes, their pointer table and shared position from the display defaults. */
 void initialize_menu_backdrop_display_nodes(SevenEntryMenuBackdropBody *body, s32 node_count)

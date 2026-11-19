@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_height_query.h"
 #include "shared/object_flags.h"
 #include "shared/dir_step.h"
 #include "dungeon/effect/particle.h"
@@ -17,7 +18,6 @@ typedef struct S_81814C48_2 {
 
 
 extern s32 rand();
-extern s16 sample_terrain_surface_height();
 extern s16 D_80025338;
 
 /* Updates a position with randomized motion, reduces speed, and flags completion. */
@@ -38,7 +38,7 @@ void update_randomized_motion_and_completion(PointRecord *state, void *position_
     y = position->unk_04.at02.v;
     D_80025338 = 1;
     if ((s16)position->unk_08.at02.v <
-        sample_terrain_surface_height(x, y, (s16)(z + 2))) {
+        (s16)sample_terrain_surface_height(x, y, (s16)(z + 2))) {
         x_step = ((dir_step_x[state->unk_14] *
                    state->brightness) << 9) +
                   (rand() & 0xFFFF);

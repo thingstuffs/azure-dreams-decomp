@@ -14,23 +14,23 @@ void clear_selected_entry_at_bottom_center(void)
     s32 entry_index = 0x20;
     u8 *selection_state = town_map_selection_state;
     u8 *shared_state = ((u8 *)&runtime_dispatch_state);
-    u8 *entries = town_building_slot_rectangles;
+    TownBuildingSlotRectangle *entries = town_building_slot_rectangles;
     u8 *page = (u8 *) 0x80010000;
-    u8 *entry;
-    u8 *fallback_entries;
+    TownBuildingSlotRectangle *entry;
+    TownBuildingSlotRectangle *fallback_entries;
 
     for (; entry_index > 0; entry_index--) {
-        entry = entries + entry_index * 8;
+        entry = entries + entry_index;
         if (page[0x33A4 + entry_index * 2] == selection_state[6]) {
-            request_scene_state_with_parameters(0xB, ((entry[0] + (entry[2] >> 1)) << 6) | 0x20, ((entry[1] + entry[3]) << 6) | 0x20, 0,
+            request_scene_state_with_parameters(0xB, ((entry->x + (entry->width >> 1)) << 6) | 0x20, ((entry->y + entry->height) << 6) | 0x20, 0,
                 (*((u16 *) (&shared_state[0x16]))) ^ 1);
             selection_state[6] = 0;
             return;
         }
     }
     fallback_entries = town_building_slot_rectangles;
-    entry = fallback_entries + entry_index * 8;
-    request_scene_state_with_parameters(0xB, ((entry[0] + (entry[2] >> 1)) << 6) | 0x20,
-        ((entry[1] + entry[3]) << 6) | 0x20, 0, runtime_dispatch_state.flags16 ^ 1);
+    entry = fallback_entries + entry_index;
+    request_scene_state_with_parameters(0xB, ((entry->x + (entry->width >> 1)) << 6) | 0x20,
+        ((entry->y + entry->height) << 6) | 0x20, 0, runtime_dispatch_state.flags16 ^ 1);
     town_map_variant = 0;
 }

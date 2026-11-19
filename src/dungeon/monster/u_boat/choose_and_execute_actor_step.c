@@ -1,4 +1,7 @@
 #include "shared/entity.h"
+#include "dungeon/level/tile_flags.h"
+#include "shared/dungeon_height_query.h"
+#include "shared/dir_step.h"
 #include "shared/object_node.h"
 #include "dungeon/monster/u_boat.h"
 #include "shared/sprite_frame_state.h"
@@ -24,17 +27,11 @@
 #define PTR_AT(p, o) (*(void **)((u8 *)(p) + (o)))
 
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
-extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
-extern s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s32 check_directional_move_and_terrain();
 #include "dungeon/item/get_actor_height_difference_api.h"
 #include "dungeon/actor/state.h"
 
-extern s16 sample_terrain_surface_height();
 
-extern u8 dir_step_x[16];
-extern u8 dir_step_y[16];
-extern s16 actor_turn_angle_offsets[];
 
 /* Choose a movement direction, move the actor, and update its path history and height. */
 /* Chooses U-Boat's next clear step, records its path, and updates tile occupancy unless status slot 27
@@ -125,9 +122,9 @@ void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *actio
             path_center = &reference_tile_object;
             direction = (actor->unk_44.bytes.high + (primary_actor_record->facing >> 9)) & 7;
             target_x = path_center->tile_position.parts.tile_x +
-                       *(u16 *)(dir_step_x + (direction * 2));
+                       (u16)dir_step_x[direction];
             target_y = path_center->tile_position.parts.tile_y +
-                       *(u16 *)(dir_step_y + (direction * 2));
+                       (u16)dir_step_y[direction];
 
             if ((position->tile_x == (u16)target_x) &&
                 (position->tile_y == (u16)target_y)) {
@@ -254,9 +251,9 @@ void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *actio
 
             {
                 s8 position_x;
-                u8 *table;
+                s16 *table;
 
-                direction_offset = (actor->facing >> 8) & 0xE;
+                direction_offset = (actor->facing >> 9) & 7;
                 position_x = position->tile_x;
                 table = dir_step_x;
                 table += direction_offset;
@@ -308,7 +305,7 @@ void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *actio
         actor->movement_queue_state &= 0x7F;
         return;
     }
-    attempt = sample_terrain_surface_height(
+    attempt = (s16)sample_terrain_surface_height(
         (position->tile_x << 6) | 0x20,
         (position->tile_y << 6) | 0x20,
         (s16)(actor->ground_height - 0x20));

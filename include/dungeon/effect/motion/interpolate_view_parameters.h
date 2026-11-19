@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_1936800_H
 #define DUNGEON_OVL_1936800_H
 #include "sdk/libc.h"
+#include "dungeon/globals.h"
 #include "sdk/libgte.h"
 #include "slus.h"
 
@@ -19,9 +20,6 @@ struct SpriteFrameState;
 #include "shared/dir_step.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 
-typedef struct Row_81916800_S_81916800_1 {
-    union { u8 u; s8 s; } unk_00;   /* accessed as both */
-} Row_81916800_S_81916800_1;   /* timer in func_80024024 */
 
 typedef struct Row_81916800_S_81916800_2 {
     u8 pad_00[0x6];
@@ -389,6 +387,5 @@ void *create_orbit_projectile(AttachedRandomAngleEffectBody *owner, Rec_func_800
 void update_growing_orbit_sprite(AttachedRandomAngleEffectBody *effect, Rec_func_80024E80_arg1 *transform,struct SpriteFrameState *visual);
 void * create_growing_orbit_sprite(void *object, ObjectPosition *src_transform, s16 effect_index);
 void launch_effect_to_target_and_apply_damage(Row_81917C08_ActionState *action, ObjectPosition *motion, Row_81917C08_EffectVisual *visual);
-extern u8 camera_transition_timer[];
 extern void (*const D_80024000)(Row_81917C08_ActionState *action, ObjectPosition *motion, Row_81917C08_EffectVisual *visual);
 #endif

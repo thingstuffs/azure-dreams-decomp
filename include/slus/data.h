@@ -10,6 +10,7 @@
 #include "shared/movie_list.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/sound_state.h"
+#include "engine/audio/spu/sound_range_records.h"
 #include "slus/window_choice_data.h"
 
 
@@ -40,6 +41,7 @@ extern RuntimeState map_change_state;
 extern SpriteColor shared_primitive_color;
 /* Resident slots registered by register_sprite_slot and drained by flush_sprite_resource_slots. */
 extern SpriteFrameState *sprite_resource_pointer_slots[4];
+extern MovieListNode town_movie_callback_list;
 extern MovieListNode town_transition_callback_list;
 extern char scene_string_fallback[];
 extern MATRIX sprite_projection_matrix;
@@ -259,18 +261,18 @@ extern s32 sprite_image_read_descriptor[2];
 extern s32 sprite_metadata_read_descriptor[2];
 extern s32 sprite_scaled_depth_word[ ];
 extern u8 sprite_transform_copy_flags[ ];
-extern SoundSequenceListState spu_allocation_record_storage;
+extern S_800799BC spu_allocation_record_storage[];
 extern u16 timed_entity_motion_delta_alias[ ];
 extern u16 town_facing_angles[ ];
 extern M2C_UNK town_initial_object_resource_0;
 extern M2C_UNK town_initial_object_resource_1;
 extern M2C_UNK town_initial_object_resource_2;
-extern MovieListNode town_movie_descriptor_0[];
-extern MovieListNode town_movie_descriptor_1[];
-extern MovieListNode town_movie_descriptor_2[];
-extern MovieListNode town_movie_descriptor_3[];
-extern MovieListNode town_movie_descriptor_4[];
-extern MovieListNode town_movie_descriptor_5[];
+extern MovieListNode town_movie_descriptor_0;
+extern MovieListNode town_movie_descriptor_1;
+extern MovieListNode town_movie_descriptor_2;
+extern MovieListNode town_movie_descriptor_3;
+extern MovieListNode town_movie_descriptor_4;
+extern MovieListNode town_movie_descriptor_5;
 extern u32 town_movie_primary_resource[2];
 extern MovieListNode town_movie_resource_descriptor;
 extern u32 town_movie_secondary_resource[2];

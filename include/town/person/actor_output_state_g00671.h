@@ -11,8 +11,7 @@
 
 /* arg0 in raise_object_while_counter_runs */
 
-/* extern */
-s32 query_lowered_transform_position();
+#include "town/person/position.h"
 
 /* Functions defined in this translation unit. */
 void raise_object_while_counter_runs(Rec_func_800AB030_arg0 *state, ObjectPosition *output);

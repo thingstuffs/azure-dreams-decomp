@@ -1,4 +1,5 @@
 #include "sdk/libc.h"
+#include "shared/dir_step.h"
 /* Room waypoint selection and terrain-checked actor movement directions. */
 #include "common.h"
 #include "dungeon/level/direction_offsets.h"
@@ -10,7 +11,6 @@
 
 typedef struct { u8 b0; u8 b1; u8 b2; u8 b3; } Elem;
 
-extern s16 actor_turn_angle_offsets[];
 
 extern Elem *get_active_room_entries(s16); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);

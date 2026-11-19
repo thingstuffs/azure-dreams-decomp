@@ -113,7 +113,7 @@ void initialize_scene_for_mode(void)
         }
 
         render->render_attributes = loaded_sprite_bundle_attributes;
-        if ((map_scene_selector_alias[0] != 0xC) && (find_item_by_kind_and_type(2, 0x13) != 0)) {
+        if (((s16)map_scene_selector_alias != 0xC) && (find_item_by_kind_and_type(2, 0x13) != 0)) {
             create_person_object();
         }
     }
@@ -208,7 +208,7 @@ void rebuild_menu_node_list(TownPlayerRecord *owner, ObjectPosition *node_in, Sp
         update_object_and_clear_status_fields(node_in);
     }
 
-    if (node_in->z.v > 0 && map_scene_selector_alias[0] != 12 &&node_in->y.v > 0x03FFFFFF) {
+    if (node_in->z.v > 0 && (s16)map_scene_selector_alias != 12 &&node_in->y.v > 0x03FFFFFF) {
         if (check_masked_value_in_current_range((u16)read_map_cell_at_world_position(node_in->x.w.i,
                                                   node_in->y.w.i)) == 0) {
             node_in->z.v = 0;
@@ -281,12 +281,12 @@ void process_scene_record_update(TownPlayerRecord *context, ObjectPosition *inpu
                 /* garbage-passthru: a1/a2/a3 are caller-saved residue after clear_blocked_motion. */
         if (callback == (void *)town_position_callback_address || callback == (void *)&noop_player_scene_action ||
             service_script_controller() != 0) {
-            if (map_scene_selector_alias[0] == 12) {
+            if ((s16)map_scene_selector_alias == 12) {
                 to_camera_zero_00();
             } else if (input->y.w.i < 0x400) {
                 clear_record_state_or_update(input);
             }
-        } else if (map_scene_selector_alias[0] == 12) {
+        } else if ((s16)map_scene_selector_alias == 12) {
             initial_flags = work->buttons;
             if (initial_flags & 8) {
                 work->view.camera_rotation.parts.viewAngle -= 0x20;

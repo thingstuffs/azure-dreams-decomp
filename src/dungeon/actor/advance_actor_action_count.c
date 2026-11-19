@@ -1,6 +1,7 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "dungeon/player/actor_sprite_sources.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -14,8 +15,6 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/state.h"
 
-extern u8 actor_action_resume_address[];
-extern void *actor_action_frames[];
 
 /* Advance the actor action state, updating its animation and the dungeon action count. */
 void advance_actor_action_count(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor) {
@@ -31,8 +30,7 @@ void advance_actor_action_count(ActorRecord *controller, ObjectPosition *context
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         sprite->frameTable = actor_action_frames;
         select_record_entry_and_value(sprite,
-            *(void **)((u8 *)actor_action_frames +
-                (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 7) & 0x1C)),
+            actor_action_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         controller->action_phase++;
         return;
@@ -74,8 +72,7 @@ void advance_actor_action_count(ActorRecord *controller, ObjectPosition *context
         }
         sprite->frameTable = actor_action_frames;
         select_record_entry_and_value(sprite,
-            *(void **)((u8 *)actor_action_frames +
-                (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 7) & 0x1C)),
+            actor_action_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         actor->flags1C |= 0x40000;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
@@ -87,7 +84,7 @@ void advance_actor_action_count(ActorRecord *controller, ObjectPosition *context
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         actor->flags1C &= ~0x208;
-        controller->unk_8C.address = actor_action_resume_address;
+        controller->unk_8C.handler = update_actor_facing_animation;
         return;
     default:
         return;

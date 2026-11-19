@@ -3,6 +3,8 @@
 
 /* Function contracts owned by src/dungeon/actor/effect/ (decision 74; maintained by tools/headers). */
 #include "common.h"
+#include "shared/dungeon_item_entries.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 void *create_owner_linked_pulsing_effect(ObjectPosition *spawn_pos, ActorRecord *source_state, void *owner);
@@ -16,24 +18,25 @@ void advance_damage_effect_and_particles(struct S_800CABA8_0 *effect, ObjectPosi
 
 
 /* Body created by create_dropped_item_object (flags 0x110) and consumed by
- * update_dropped_object_motion. Borrowed position and sprite words retain
- * their integer views because the creator copies them from the source node. */
+ * update_dropped_object_motion. The creator borrows its source actor's
+ * position and sprite from the actor's node header. */
 typedef struct DroppedObjectMotionBody {
     u8 pad_00[0x13];
     u8 unk_13;
-    u8 pad_14[8];
+    s32 unk_14;
+    u8 pad_18[4];
     s32 unk_1C;
     u8 pad_20[0xA];
-    union { s16 s; u16 u; } unk_2A;
+    s16 facing;
     u8 pad_2C[0x34];
-    void *unk_60;
+    ActorRecord *source_actor;
     u8 pad_64[6];
     s16 unk_6A;
     u8 pad_6C[0x1C];
-    union { s16 s; u16 u; } unk_88;
-    union { s16 s; u16 u; } unk_8A;
-    union { void *address; s32 word; } unk_8C;
-    union { void *address; s32 word; } unk_90;
+    s16 ground_height;
+    s16 travel_steps;
+    ObjectPosition *source_position;
+    SpriteFrameState *source_sprite;
     u8 pad_94[4];
     s32 unk_98;
     s32 *unk_9C;
@@ -43,8 +46,14 @@ typedef struct DroppedObjectMotionBody {
     u8 pad_A6[0x16];
 } DroppedObjectMotionBody;
 
-struct S_800A871C_4;
-void update_dropped_object_motion(DroppedObjectMotionBody *object, register ObjectPosition *motion, struct S_800A871C_4 *tile);
+typedef struct DroppedItemNode {
+    ObjectNodeHeader header;
+    DroppedObjectMotionBody body;
+} DroppedItemNode;
+
+DroppedItemNode *create_dropped_item_object(void *owner, ObjectPosition *source_coords, SpriteFrameState *unused,
+                                 ActorRecord *source_data, DungeonItemEntry *init_data, s16 tile_id);
+void update_dropped_object_motion(DroppedObjectMotionBody *object, register ObjectPosition *motion, SpriteFrameState *tile);
 
 s32 update_actor_fade_in(ActorRecord *object, ObjectPosition *unused, SpriteFrameState *effect);
 void run_actor_fade_in(void *owner, s32 context, void *effect);

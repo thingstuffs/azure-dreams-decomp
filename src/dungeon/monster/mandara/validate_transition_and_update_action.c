@@ -11,7 +11,6 @@
 
 extern struct Ent *prepare_directional_attack();
 #include "dungeon/item/get_actor_height_difference_api.h"
-extern s32 check_entity_interaction_compatibility();
 #include "dungeon/monster/mandara.h"
 #include "engine/graphics.h"
 #include "dungeon/item.h"
@@ -20,16 +19,16 @@ extern s32 check_entity_interaction_compatibility();
 /* Validate an actor transition and update its state and directional animation on success. */
 s32 validate_transition_and_update_action(ActorRecord *state, ObjectPosition *transition_id, SpriteFrameState *sprite, ActorRecord *actor) {
     s16 transitioned;
-    ActorRecord *target_heading;
+    ActorRecord *neighbor;
 
     actor->movement_queue_state &= 0x7F;
     transitioned = 0;
     if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }
-    target_heading = probe_directional_neighbor(actor, sprite->tile_x,
+    neighbor = probe_directional_neighbor(actor, sprite->tile_x,
                            sprite->tile_y, actor->facing);
-    if ((check_entity_interaction_compatibility(actor, target_heading) << 16) == 0) {
+    if ((check_entity_interaction_compatibility(actor, neighbor) << 16) == 0) {
         return 0;
     }
     if (g_dungeon_status.flags & 0x2000) {
@@ -38,7 +37,7 @@ s32 validate_transition_and_update_action(ActorRecord *state, ObjectPosition *tr
     if (!(actor->action_flags & ACTOR_ACTION_PENDING) && (g_dungeon_status.flags & 8)) {
         return -1;
     }
-    if ((u16)(-get_actor_height_difference(target_heading, actor) + 0x40) >= 0x81U) {
+    if ((u16)(-get_actor_height_difference(neighbor, actor) + 0x40) >= 0x81U) {
         return transitioned;
     }
 

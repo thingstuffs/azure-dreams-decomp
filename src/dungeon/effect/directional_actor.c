@@ -21,7 +21,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, Row_818E0800_S_818E0
     ObjectNodeHeader *entity;
     void *target;
     SpriteFrameState *render_state;
-    Row_818E0800_S_818E0800_5 *particle;
+    SpiralingSpriteEffectBody *particle;
     register void *sprite_set;
     s32 particles_left;
     register Row_818E0800_S_818E0800_8 *actor_data;
@@ -65,18 +65,18 @@ void update_directional_actor_effect(EntityRec *effect_arg, Row_818E0800_S_818E0
                 render_state = entity->sprite;
                 entity->update_callback = shrink_spiraling_sprite_effect;
                 particle = NODE_BODY(entity);
-                particle->unk_0C = motion_arg->unk_00.at02.v;
-                particle->unk_0E = motion_arg->unk_04.at02.v;
+                particle->origin.x = motion_arg->unk_00.at02.v;
+                particle->origin.y = motion_arg->unk_04.at02.v;
                 {
                     s32 particle_z;
                     particle_z = motion_arg->unk_08.at02.v;
-                    particle->unk_48 = 0;
-                    particle->unk_16 = 0;
-                    particle->unk_14 = 0;
+                    particle->ticks = 0;
+                    particle->angles.y = 0;
+                    particle->angles.x = 0;
                     particle_z += 0x10;
-                    particle->unk_10 = particle_z;
+                    particle->origin.z = particle_z;
                 }
-                particle->unk_18 = rand();
+                particle->angles.z = rand();
                 render_state->scale_y = 0x1000;
                 render_state->scale_x = 0x1000;
                 render_state->tpage_abr = 0x60;
@@ -85,7 +85,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, Row_818E0800_S_818E0
                 render_state->source = ((Row_818E0800_S_818E0800_7 *)sprite_set)->unk_04;
                 render_state->unk_04 = 0;
                 render_state->frame_ticks = 0;
-                ((Row_818E0800_S_818E0800_4 *)entity)->unk_20 = effect_arg;
+                particle->parent = effect_arg;
                 particle->unk_4C = 0;
             }
             particles_left -= 1;
@@ -220,21 +220,21 @@ void update_directional_actor_effect(EntityRec *effect_arg, Row_818E0800_S_818E0
 
 /* Shrinks and recolors a sprite along a rotated, jittered path, looping its animation until its
    lifetime ends. */
-void shrink_spiraling_sprite_effect(Row_818E0D94_S_818E0D94_0 *effect, ObjectPosition *position, Rec_D_80082E80 *sprite)
+void shrink_spiraling_sprite_effect(SpiralingSpriteEffectBody *effect, ObjectPosition *position, SpriteFrameState *sprite)
 {
     Row_818E0D94_CallRecord transform;
     Row_818E0D94_OutputVector offset;
-    Row_818E0D94_S_818E0D94_1 *effect_state;
+    EntityRec *effect_state;
     u16 size;
     s8 shade;
 
-    effect_state = effect->unk_00;
+    effect_state = effect->parent;
     effect_state->unk_52 |= 0x8000;
-    effect->unk_48.u16++;
+    effect->ticks++;
 
-    size = sprite->unk_1C.at02_u16.v - 0x50;
-    sprite->unk_1C.at02_u16.v = size;
-    sprite->unk_1C.at00_u16.v = size;
+    size = sprite->scale_y - 0x50;
+    sprite->scale_y = size;
+    sprite->scale_x = size;
 
     {
         s32 phase;
@@ -242,12 +242,12 @@ void shrink_spiraling_sprite_effect(Row_818E0D94_S_818E0D94_0 *effect, ObjectPos
         s16 height;
 
         height_jitter = rand() & 0x3F;
-        phase = effect->unk_48.s16 * 0x32;
-        height = effect->unk_18;
+        phase = effect->ticks * 0x32;
+        height = effect->angles.z;
         phase += 0xC8;
         height += 0x200;
         height += height_jitter;
-        effect->unk_18 = height;
+        effect->angles.z = height;
         offset.x = rsin(phase) / 80;
     }
     offset.y = 0;
@@ -256,19 +256,20 @@ void shrink_spiraling_sprite_effect(Row_818E0D94_S_818E0D94_0 *effect, ObjectPos
         s32 neg_tick;
 
         z_jitter = rand() & 3;
-        neg_tick = 0 - effect->unk_48.s16;
+        neg_tick = 0 - effect->ticks;
         offset.z = (neg_tick * 4) + z_jitter - 1;
     }
 
-    shade = ((u8)offset.x + 0x28) - effect->unk_48.u8;
-    sprite->unk_0C.at01_s8.v = shade;
-    sprite->unk_0C.at00_s8.v = shade;
-    sprite->unk_0C.at02_s8.v = ((u8)offset.x + 0x60) - effect->unk_48.u8;
+    shade = (offset.x + 0x28) - effect->ticks;
+    sprite->color.c.g = shade;
+    sprite->color.c.r = shade;
+    shade = (offset.x + 0x60) - effect->ticks;
+    sprite->color.c.b = shade;
 
     transform.field0 = &offset;
     transform.field4 = &offset;
-    transform.field8 = *(Row_818E0D94_Unaligned8 *)((u8 *)effect + 0x14);
-    transform.field10 = *(Row_818E0D94_Unaligned8 *)((u8 *)effect + 0x0C);
+    transform.field8 = effect->angles;
+    transform.field10 = effect->origin;
     transform.field18 = 1;
     transform.field1A = 0;
     transform_rotated_vertices(&transform);
@@ -278,16 +279,16 @@ void shrink_spiraling_sprite_effect(Row_818E0D94_S_818E0D94_0 *effect, ObjectPos
     position->z.w.i = offset.z;
     advance_sprite_animation_and_textures(sprite);
 
-    if (sprite->unk_14.at00_u16.v & 0x6000) {
-        sprite->unk_04.as_s8 = 0;
-        sprite->unk_05.as_s8 = 0;
+    if (sprite->flags & 0x6000) {
+        sprite->unk_04 = 0;
+        sprite->frame_ticks = 0;
     }
 
-    if (effect->unk_48.s16 >= 0x20) {
-        u32 *flags_base;
+    if (effect->ticks >= 0x20) {
+        u8 *flags_page;
 
-        ((Row_818E0D94_S_818E0D94_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        flags_base = (u32 *)0x80080000;
-        flags_base[0x528] |= 0x8000;
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
+        flags_page = (u8 *)0x80080000;
+        ((ObjectFlagBlock *)(flags_page + 0x14A0))->flags |= OBJECT_REMOVE_PENDING;
     }
 }

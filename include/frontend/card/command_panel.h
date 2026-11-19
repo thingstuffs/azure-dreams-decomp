@@ -4,12 +4,16 @@
 #include "frontend/libcard/display_node.h"
 /* CARD_DEV's four-row panel has a distinct pointer-table layout. */
 typedef struct CardDevCommandPanel {
-    u8 pad_00[0x80];
+    u8 pad_00[4];
+    u8 highlight_packets[0x78];
+    u8 pad_7C[4];
     s32 unk_80;
     s32 unk_84;
-    u8 pad_88[0x130];
+    u8 pad_88[8];
+    u8 labels[4][0x3C];
+    u8 pad_180[0x38];
     CardMenuDisplayNode *marker;
-    u8 pad_1BC[4];
+    CardMenuDisplayNode *resource_entry;
     CardMenuDisplayNode *left[4];
     CardMenuDisplayNode *right[4];
     CardMenuDisplayNode *middle[4];

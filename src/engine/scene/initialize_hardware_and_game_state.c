@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/dungeon_floor.h"
+#include "shared/runtime_dispatch.h"
 #include "shared/object_flags.h"
 #include "engine/audio.h"
 #include "engine/entity.h"
@@ -22,8 +24,6 @@ extern u8 *D_80083160[3];
  * base==dest lbu/lhu macro form the retail binary shows for each (a solitary
  * hi/lo read immediately consumed as a call arg). */
 
-extern u8 floor_generation_state[8];
-extern u8 scene_mode_code[];
 
 /*
  * Initialize video, CD, pads, graphics, configuration defaults, and stream state.
@@ -64,8 +64,8 @@ void initialize_hardware_and_game_state(void)
     SetGraphDebug(0);
     InitGeom();
 
-    scene_mode_code[0] = 0;
-    bzero(floor_generation_state, 8);
+    runtime_dispatch_state.field_B = 0;
+    bzero(&floor_generation_state, sizeof(floor_generation_state));
 
     reset_game_state_preserving_session_fields();
 

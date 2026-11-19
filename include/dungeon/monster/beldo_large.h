@@ -6,7 +6,6 @@
 #include "shared/object_node.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
-#include "records/Rec_func_800A9E70_arg0.h"
 
 extern s8 encounter_cd_ready;
 extern u16 encounter_image_load_commands[8];
@@ -118,7 +117,8 @@ void advance_timed_blink_effect(SecondaryEncounterObjectBody *state_data, void *
 void darken_encounter_view_color(u16 *entry);
 void update_dungeon_actor_behavior(void *effect);
 void create_timed_offset_motion_effect(u8 *unused, s16 duration, s32 offset_x, s32 offset_y, s32 offset_z);
-void start_actor_directional_action(Rec_func_800A9E70_arg0 *state, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *actor);
+s32 run_beldo_large_action_script(ActorRecord *entity, ObjectPosition *action_value, SpriteFrameState *aux);
+void start_actor_directional_action(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *actor);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void advance_actor_movement_step(ActorRecord *movement_in, ObjectPosition *action_ctx, SpriteFrameState *position, ActorRecord *actor);
@@ -127,7 +127,7 @@ void initialize_action_offset_and_notify(ActionOffsetObjectBody *action, void *p
 void update_multi_form_actor_control(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 void upload_encounter_texture(void);
 
-void complete_actor_facing_action(Rec_func_800A9E70_arg0 *entity, ObjectPosition *unused_1, s32 unused_2, ActorRecord *target);
+void complete_actor_facing_action(ActorRecord *entity, ObjectPosition *unused_1, SpriteFrameState *unused_sprite, ActorRecord *target);
 void create_player_centered_sequence_effect(void *unused_sequence, void *unused_transform, void *unused_sprite);
 s32 try_actor_attack(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *target, ActorRecord *actor);
 

@@ -1,5 +1,6 @@
 #ifndef TOWN_MENU_STATE_H
 #define TOWN_MENU_STATE_H
+#include "town/menu/object.h"
 /* Prototypes of the functions defined in src/town/menu/state/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -8,8 +9,8 @@
 
 struct SpriteFrameState;
 struct CatalogDisplay;
-struct S_800A24A8_0;
-struct S_800A24A8_1;
+struct LitMeshSprite;
+void copy_negated_menu_phase(DoorDisplayBody *source, ObjectPosition *unused, struct LitMeshSprite *mesh);
 struct TownObject;
 
 /* initialize_item_menu_state.c */

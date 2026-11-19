@@ -3,10 +3,27 @@
 
 #include "common.h"
 
-/* Control words in the body created by create_animated_selection_menu.
- * The callback and entry/actor-link prefix remains opaque. */
+struct ObjectNodeHeader;
+struct ObjectPosition;
+struct CardDisplayNode;
+
+/* The menu sorts and relinks these pool nodes. Their sprite slots refer to
+ * display records whose blocks supply X, Y, depth and shade. */
+typedef struct AnimatedSelectionEntry {
+    struct ObjectNodeHeader *next;
+    struct ObjectNodeHeader **pprev;
+    struct ObjectPosition *position;
+    struct CardDisplayNode *display;
+} AnimatedSelectionEntry;
+
+/* The destructor releases three entries. The constructor queries their IDs at
+ * +0x10 and fills the node slots according to the selected three-byte row. */
 typedef struct AnimatedSelectionMenuBody {
-    u8 pad_00[0x24];
+    void (*animate)(struct AnimatedSelectionMenuBody *);
+    AnimatedSelectionEntry *entries[3];
+    s32 entry_ids[3];
+    u8 pad_1C[4];
+    s32 spacing;
     s32 count;
     s32 transition_frames;
     s32 transition_tick;

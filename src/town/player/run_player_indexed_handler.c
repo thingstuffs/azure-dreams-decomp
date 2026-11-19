@@ -10,7 +10,7 @@
 
 
 
-extern s32 dispatch_selected_entry_if_nonzero();
+#include "town/player/call_the_handler_selects_nonzero_entry_g01123.h"
 
 /* Run the object's indexed handler, clear its table flag, and reset its state. */
 void run_player_indexed_handler(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite) {

@@ -5,7 +5,6 @@ struct TownCollectionSequence;
 #include "common.h"
 
 struct FallingTimedSceneObject;
-struct S_8052BCCC_3;
 
 struct ObjectPosition;
 struct SpriteFrameState;
@@ -53,12 +52,22 @@ typedef struct CollectionCenterControlBody {
 
 /* Callback entry points. */
 void animate_collection_center_sprite(CollectionCenterControlBody *ctrl, struct ObjectPosition *setup, struct SpriteFrameState *view);
-void animate_falling_timed_object(struct FallingTimedSceneObject *obj, struct ObjectPosition *motion, struct S_8052BCCC_3 *incoming_out);
+void animate_falling_timed_object(struct FallingTimedSceneObject *obj, struct ObjectPosition *motion, struct SpriteFrameState *incoming_out);
 void animate_rising_effect_object(RisingEffectObject *obj, struct ObjectPosition *state_in, void *input);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-struct Actor;
-struct State;
-void animate_bouncing_score_object(struct State *st, struct ObjectPosition *mot, struct Actor *actor);
+/* Copied into the new score node before its bouncing callback is installed. */
+typedef struct BouncingScoreBody {
+    s16 state;
+    s16 timer;
+    struct BouncingScoreEntity *entity;
+    u8 work[0x15];
+    u8 field1D;
+    u8 pad1E[0x32];
+    u8 *motion_data;
+    s16 kind;
+    s16 threshold;
+} BouncingScoreBody;
+void animate_bouncing_score_object(BouncingScoreBody *st, struct ObjectPosition *mot, struct SpriteFrameState *act);
 
 #endif

@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 /* Updates object motion states and timed target adjustments using distance checks. */
 #include "common.h"
 
@@ -17,7 +18,7 @@ static s32 state;
 
 
 /* Updates the object state, position, and timed target adjustments. */
-void update_proximity_triggered_object(ObjectStatePositionObject *self, s32 *position, SpriteFrameState *target) {
+void update_proximity_triggered_object(ObjectStatePositionObject *self, ObjectPosition *position, LitMeshSprite *target) {
     register s32 phase;
     ObjectStatePositionObject *object = self;
     s32 y_limit;
@@ -29,7 +30,7 @@ void update_proximity_triggered_object(ObjectStatePositionObject *self, s32 *pos
         s32 countdown;
 
         countdown = (u16)object->countdown;
-        base_y = position[1];
+        base_y = position->y.v;
         phase = object->phase;
         countdown--;
         object->countdown = countdown;
@@ -45,7 +46,7 @@ void update_proximity_triggered_object(ObjectStatePositionObject *self, s32 *pos
         s32 target_x;
 
         x_distance = view_reference_entity.x.v;
-        target_x = position[0];
+        target_x = position->x.v;
         x_distance -= target_x;
         threshold = 0x3FFFFF;
 
@@ -75,7 +76,7 @@ void update_proximity_triggered_object(ObjectStatePositionObject *self, s32 *pos
         if (below_limit != 0) {
             view_reference_entity.y.v += 0x40000;
         }
-        next_value = target->angle_z - 32;
+        next_value = (u16)target->rotation[2] - 32;
         break;
     }
 
@@ -90,12 +91,12 @@ void update_proximity_triggered_object(ObjectStatePositionObject *self, s32 *pos
         return;
 
     case 4:
-        next_value = target->angle_z + 32;
+        next_value = (u16)target->rotation[2] + 32;
         break;
     default:
         return;
     }
-    target->angle_z = next_value;
+    target->rotation[2] = next_value;
     if (object->countdown > 0) {
         return;
     }

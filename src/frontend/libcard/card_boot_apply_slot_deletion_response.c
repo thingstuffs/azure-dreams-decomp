@@ -1,32 +1,15 @@
 #include "common.h"
 #include "shared/object_node.h"
 
-typedef struct S_80025788_0 {
-    u8 pad_00[0x28];
-    s32 unk_28;
-    u8 pad_2C[0x8];
-    void * unk_34;
-    s32 unk_38;
-    u8 pad_3C[0x4];
-    s32 unk_40;
-} S_80025788_0;   /* arg0 in card_boot_apply_slot_deletion_response */
-
-typedef struct S_80025788_1 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-} S_80025788_1;   /* cursor in card_boot_apply_slot_deletion_response */
-
 #include "modules/main_server_ship_interfaces.h"
 #include "frontend/card.h"
 #include "frontend/libcard.h"
 
 /* Updates object pointers and processes five entries when its status check succeeds. */
-void card_boot_apply_slot_deletion_response(void *object_arg) {
-    S_80025788_0 *object = object_arg;
-    u8 *entry_cursor;
+void card_boot_apply_slot_deletion_response(CardSlotMenuState *object) {
     s32 entry_index;
 
-    if (object->unk_38 != 0) {
+    if (object->dialog_response != 0) {
         NODE_HEADER(object)->update_callback = card_boot_handle_slot_selection_input;
         return;
     }
@@ -34,14 +17,12 @@ void card_boot_apply_slot_deletion_response(void *object_arg) {
     if (card_boot_erase_slot_file(object->unk_28) != 0) {
         NODE_HEADER(object)->update_callback = card_boot_handle_slot_selection_input;
         entry_index = 0;
-        entry_cursor = object_arg;
         do {
-            card_boot_refresh_slot_window(((S_80025788_1 *)entry_cursor)->unk_04);
-            entry_cursor += 4;
+            card_boot_refresh_slot_window(object->slots[entry_index]);
             entry_index++;
         } while (entry_index < 5);
     } else {
-        object->unk_34 = card_boot_handle_slot_selection_input;
+        object->saved_callback = card_boot_handle_slot_selection_input;
         card_boot_show_delete_failure_notice(NODE_HEADER(object));
         NODE_HEADER(object)->update_callback = card_boot_restore_saved_selection_callback;
     }

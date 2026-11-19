@@ -1,5 +1,6 @@
 #include "shared/audio_commands.h"
 #include "common.h"
+#include "shared/runtime_dispatch.h"
 #include "shared/object_node.h"
 #include "frontend/libcard/card_chooser.h"
 #include "shared/game_work.h"
@@ -8,7 +9,6 @@
 
 
 
-extern u8 scene_mode_code;
 
 #include "modules/main_server_ship_interfaces.h"
 #include "frontend/libcard/interfaces.h"

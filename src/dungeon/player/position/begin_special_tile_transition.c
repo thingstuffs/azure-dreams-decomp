@@ -1,4 +1,5 @@
 #include "shared/actor_status_ids.h"
+#include "engine/entity/effect_slots.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/transition_slots.h"
@@ -14,7 +15,6 @@
 #include "engine/graphics.h"
 #include "engine/scene.h"
 
-extern s16 get_entity_effect_value(void *, s32); /* Unprototyped: return_width */
 
 /* Initializes action state and animation, then handles the current tile type. */
 void begin_special_tile_transition(ActorRecord *state, s32 unused, SpriteFrameState *entity, ActorRecord *actor) {
@@ -25,7 +25,7 @@ void begin_special_tile_transition(ActorRecord *state, s32 unused, SpriteFrameSt
     state->action_phase = 0;
     state->unk_8C.word = 0;
     clear_player_linked_action_flags();
-    if (get_entity_effect_value(actor, STATUS_FROG) == 0) {
+    if ((s16)get_entity_effect_value(actor, STATUS_FROG) == 0) {
         entity->frameTable = player_wait_frames;
         set_sprite_animation_frame(entity, player_wait_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0, 1);
     }

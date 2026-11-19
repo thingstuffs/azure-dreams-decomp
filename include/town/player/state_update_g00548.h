@@ -7,6 +7,7 @@ struct SpriteFrameState;
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8009D728, PD:town/engine:800D0620. */
 
 #include "common.h"
+#include "shared/action_handler_tables_data.h"
 #include "shared/game_work.h"
 #include "shared/town_handler.h"
 #include "m2c_compat.h"
@@ -32,7 +33,6 @@ extern u8 player_interaction_handler_entries[];
 extern s32 town_player_target_adjustment;
 extern u8 D_8009B0EC[];
 extern u8 D_8009B014[];
-extern u8 town_scene_record_handlers[];
 extern void *D_8009AFF4[];
 
 /* Functions defined in this translation unit. */

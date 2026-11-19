@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "frontend/card.h"
 #include "frontend/card/server_imports.h"
@@ -7,16 +8,9 @@
 #endif
 
 typedef struct {
-    s32 unk00;
-    s32 unk04;
-    s32 unk08;
-    s32 unk0C;
-    void (*unk10)(void);
-    s32 unk14;
-    s32 unk18;
-    s32 unk1C;
-    s32 unk20;
-    s32 unk24;
+    ObjectNodeHeader node;
+    void *background;
+    void *information;
     s32 unk28;
     s32 unk2C;
     s32 unk30;
@@ -39,14 +33,14 @@ StructA_8002001C *card_dev_create_load_screen(s32 init_value, s32 config_value) 
     object = func_8003C480(0);
     if (object != NULL) {
         object->unk44 = config_value;
-        card_dev_load_forward_object_value( ((u8 *) object + 0x20), init_value);
+        card_dev_load_forward_object_value( (NODE_BODY(&object->node)), init_value);
         run_slot_operation_code_five();
         card_dev_cache_slot_summary();
-        object->unk20 = init_card_background_object(object, 0);
-        object->unk24 = init_card_info_object(object, object->unk4C);
+        object->background = init_card_background_object(&object->node, 0);
+        object->information = init_card_info_object(&object->node, object->unk4C);
         object->unk28 = init_card_sme_object(object);
         object->unk48 = 0;
-        object->unk10 = func_80406F70;
+        object->node.update_callback = func_80406F70;
     }
     return object;
 }

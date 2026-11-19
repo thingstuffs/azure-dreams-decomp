@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "dungeon/monster/beldo_large_data.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -40,7 +41,6 @@ typedef struct S_8016FC4C_8 {
 void create_random_velocity_child_effect(); /* Unprototyped: canonical s16 parameters change this caller's argument setup; no shared prototype keeps it */
 void create_offset_half_scale_spark(ObjectPosition *source_position, s32 x_offset, s32 y_offset, s32 z_offset); /* matches the definition; kept local because dungeon/effect/particle.h also prototypes create_random_velocity_child_effect, which this caller keeps unprototyped */
 extern s16 beldo_large_direction_offsets[16];
-extern void *beldo_actor_nodes[3];
 
 /* Updates the effect phases, particle bursts, movement, and directional sprite. */
 /* Shrinks Beldo while emitting particles, sustains spark bursts, then turns, moves, and hides the
@@ -78,7 +78,7 @@ void advance_encounter_actor_effect_phase(ActorRecord *effect, ObjectPosition *p
     u8 turn_phase;
 
     count = 1;
-    heading = beldo_actor_nodes[0] + 0x20;
+    heading = NODE_BODY(beldo_actor_nodes);
     link_slot = ((u8 *)dungeon_actor_ring_anchor) + 4;
     do {
         linked_entity = ((ActorRecord *)link_slot)->unk_AC.address;

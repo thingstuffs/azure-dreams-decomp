@@ -7,7 +7,7 @@
 
 
 
-void dispatch_selected_entry_if_nonzero(s32 *entries, TownObjectRecord *record, void *ptr2);
+#include "town/player/call_the_handler_selects_nonzero_entry_g01123.h"
 
 
 

@@ -9,16 +9,17 @@
 #include "shared/town_object.h"
 #include "records/Rec_D_80082D58.h"
 
+struct Rec_D_800CFCB4;
 struct S_8009B0EC_0;
-struct S_8009B9BC_1;
+struct ColliderView;
 struct S_800AA044_0;
 struct S_800AA044_1;
 struct S_func_800AC9AC_0;
 struct SpriteFrameState;
 
 /* actor_script_motion_g00549.c */
-void update_actor_surface_motion(TownObjectRecord *actor, void *subject, void *motion, SpriteFrameState *context);
-void update_actor_slots_and_output(void *state_owner, void *update_target, void *update_context, SpriteFrameState *output);
+void update_actor_surface_motion(TownObjectRecord *actor, void *subject, ObjectPosition *motion, SpriteFrameState *context);
+void update_actor_slots_and_output(TownObjectRecord *state_owner, void *update_target, ObjectPosition *update_context, SpriteFrameState *output);
 
 /* advance_timed_action_handler.c */
 void advance_timed_action_handler(struct S_8009B0EC_0 *object);
@@ -67,7 +68,7 @@ void no_op_action_callback(TownObjectRecord *unused_object, ObjectPosition *unus
 void noop_hook(void);
 
 /* resolve_owner_position_and_dispatch.c */
-void resolve_owner_position_and_dispatch(Rec_D_80082D58 *object, struct S_8009B9BC_1 *owner, EntityRec *resolved_pos, s32 dispatch_param);
+void resolve_owner_position_and_dispatch(Rec_D_80082D58 *object, struct ColliderView *owner, ObjectPosition *resolved_pos, s32 dispatch_param);
 
 /* target_record_angles_g00590.c */
 void queue_two_mesh_quad_sets(void *target, ObjectPosition *setup_data);

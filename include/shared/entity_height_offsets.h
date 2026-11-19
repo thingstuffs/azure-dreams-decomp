@@ -7,11 +7,9 @@ typedef unsigned char EntityHeightOffset;
 extern EntityHeightOffset entity_height_offsets[];
 
 /* Exact access views shared across registered binary consumers. */
-/* Three signed alternatives selected from the actor height-band value record. */
+/* The Town actor selects one of three resident sprite sources by height band. */
 typedef struct HeightBandValues {
-    int unk_00;
-    int unk_04;
-    int unk_08;
+    void *sources[3];
 } HeightBandValues;
 
 #endif

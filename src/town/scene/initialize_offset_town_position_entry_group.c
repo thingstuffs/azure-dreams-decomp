@@ -12,10 +12,10 @@ extern s32 D_800D6E7C[];
  * Initializes entries from D_800D6E7C, clears the indexed object slot, and installs func_800CC8AC
  * with count 300.
  */
-void initialize_offset_town_position_entry_group(void *object, s32 unused, void *output)
+void initialize_offset_town_position_entry_group(TownObjectRecord *object, s32 unused, SpriteFrameState *output)
 {
     initialize_object_entries(object, output, D_800D6E7C);
-    object_index_slots[*(s32 *)((u8 *)object + 0x60)].unk_00 = 0;
-    *(void **)((u8 *)object + 0x54) = move_toward_offset_town_position;
-    *(s16 *)((u8 *)object + 0x6C) = 300;
+    object_index_slots[object->slot].unk_00 = 0;
+    object->handler = move_toward_offset_town_position;
+    object->timer = 300;
 }

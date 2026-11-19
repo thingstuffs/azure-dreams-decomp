@@ -20,7 +20,6 @@
 #include "dungeon/item.h"
 #include "dungeon/effect_callbacks_api.h"
 
-extern u8 dungeon_ground_item_positions[];
 extern u8 floor_objects[];
 extern u8 dungeon_floor_object_positions[];
 extern u8 D_800E1863;
@@ -75,11 +74,9 @@ s32 flatten_floor_terrain(ActorRecord *target, DungeonItemEntry *effect_arg, s16
             entity->flags1C = entity->flags1C | 0x40000000;
             entity = NODE_BODY(entity->next_actor_header);
         } while (entity != first_entity);
-        entry_data = dungeon_ground_item_positions;
-        entry_flags = ((u8 *)dungeon_ground_items);
         for (effect_counter = 0; effect_counter < 0x40; effect_counter++) {
-            if (U8(entry_flags, effect_counter * 4 + 1) != 0) {
-                S16(entry_data, effect_counter * 0xC + 4) = 0;
+            if (dungeon_ground_items[effect_counter].kind != 0) {
+                dungeon_ground_item_positions[effect_counter].ground_height = 0;
             }
         }
         entry_data = dungeon_floor_object_positions;

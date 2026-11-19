@@ -145,7 +145,6 @@ typedef struct S_800A504C_7_pre {
 } S_800A504C_7_pre;
 
 extern s32 generate_random_value(void);
-extern s16 floor_generation_state[3];
 /* the 0x30A2 bytes before D_800E0000 in advance_staged_entity_load, addressed as D_800E0000[-1] */
 extern s32 func_8003E188();
 extern s32 Control_CD();

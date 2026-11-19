@@ -99,13 +99,6 @@ typedef struct TownNestedRecordValueView {
     short unk_0A;
 } TownNestedRecordValueView;
 
-/* Grid-output callback word selected from the controller's two source values.
- * Its pointer is a callback output, not proven to be a delayed motion record. */
-typedef struct TownGridOutputView {
-    unsigned char pad_00[8];
-    int unk_08;
-} TownGridOutputView;
-
 /* Destination Y word rooted at the town context's +0x1C position state.
  * Keep this separate from the delayed effect's Z coordinate. */
 typedef struct TownDestinationYView {

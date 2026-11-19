@@ -194,15 +194,15 @@ S_800491F4 *build_menu_selection_chain(S_800491F4 **value) {
 /* Copies default display records into a selection widget and sets its position, depth, and flags. */
 void copy_display_defaults_to_menu_parts(void *unused, ovl_1831370_818117D8_Owner *owner, ovl_1831370_818117D8_S_8002E5D8 *patch_data,
                    ovl_1831370_818117D8_S_8002E5E8 *aux_data) {
-    ovl_1831370_818117D8_S_8002E5D8 *patch_defaults = &display_block_defaults;
-    ovl_1831370_818117D8_S_8002E5E8 *aux_defaults = &display_vector_defaults;
+    MenuDisplayBlock *patch_defaults = &display_block_defaults;
+    DisplayPositionWords *aux_defaults = &display_vector_defaults;
     s32 *aux_first_word;
 
-    patch_data->unk0 = patch_defaults->unk0;
+    patch_data->unk0 = patch_defaults->words[0];
     aux_first_word = &aux_defaults->unk0;
-    patch_data->unk4 = patch_defaults->unk4;
-    patch_data->unk8 = patch_defaults->unk8;
-    patch_data->unkC = patch_defaults->unkC;
+    patch_data->unk4 = patch_defaults->words[1];
+    patch_data->unk8 = patch_defaults->words[2];
+    patch_data->unkC = patch_defaults->words[3];
 
     aux_data->unk0 = *aux_first_word;
     aux_data->unk4 = aux_defaults->unk4;
@@ -262,14 +262,14 @@ void initialize_selection_child_state(void *state, ObjectNodeHeader *parent, s32
 /* Allocates four widget entries and links each to the object's copied default display vector. */
 s32 allocate_menu_part_handle(void *object)
 {
-    ovl_1831370_818119E8_Vec3 *initial_pos;
+    DisplayPositionWords *initial_pos;
     s32 success = 0;
 
     if ((*(s32 *)((s8 *)object + 0x70) = func_80048EE4((s8 *)object + 0x74, 4)) != 0) {
         initial_pos = &display_vector_defaults;
-        *(s32 *)((s8 *)object + 0x54) = initial_pos->x;
-        *(s32 *)((s8 *)object + 0x58) = initial_pos->y;
-        *(s32 *)((s8 *)object + 0x5C) = initial_pos->z;
+        *(s32 *)((s8 *)object + 0x54) = initial_pos->unk0;
+        *(s32 *)((s8 *)object + 0x58) = initial_pos->unk4;
+        *(s32 *)((s8 *)object + 0x5C) = initial_pos->unk8;
         set_menu_part_vectors(*(s32 *)((s8 *)object + 0x70), (s8 *)object + 0x54, 4);
         success = 1;
     }

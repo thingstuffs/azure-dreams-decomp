@@ -54,7 +54,7 @@ s32 select_flag_test_page_and_redraw_grid(void);
 void store_state_and_update_grid_center(s8 state);
 
 /* spin_object_until_outside_bounds.c */
-void spin_object_until_outside_bounds(void *object, void *context);
+void spin_object_until_outside_bounds(void *object, ObjectPosition *position);
 
 /* fade_sprite_until_animation_ends.c */
 void fade_sprite_until_animation_ends(void *flags_end, ObjectPosition *unused, SpriteFrameState *state);

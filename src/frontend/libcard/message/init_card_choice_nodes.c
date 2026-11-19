@@ -4,8 +4,6 @@
 /* card_boot_create_choice_panel clears a 0xF0-byte body and requests four nodes. */
 
 /* Sibling message files declare these templates through their own local views. */
-extern CardDisplayBlock display_block_defaults;
-extern DisplayPositionWords display_vector_defaults;
 
 /* Build the requested node links and copy their common display defaults. */
 void init_card_choice_nodes(CardChoiceOwner *owner, s32 count)

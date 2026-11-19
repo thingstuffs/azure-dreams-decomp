@@ -12,7 +12,6 @@
 
 typedef void (*Callback)(void *, void *, void *, s32);
 
-extern void apply_bound_adjustments(void *, void *);
 extern s32 read_map_cell_at_world_position(s16, s16);
 
 /* Updates motion, handles ground contact, and checks the tile height limit. */

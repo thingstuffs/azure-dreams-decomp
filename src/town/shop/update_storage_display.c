@@ -13,7 +13,7 @@
 #include "town/shop/state.h"
 extern void forward_source_data_to_component(StorageOwner *object);
 extern void update_storage_page_indicators(StorageOwner *object);
-extern void forward_record_fields_to_page_loader(void *loader, void *object);
+extern void forward_record_fields_to_page_loader(ItemMenuPart **loader, StorageOwner *object);
 
 void update_storage_display(StorageOwner *object) {
     forward_source_data_to_component(object);

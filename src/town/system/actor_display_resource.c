@@ -1,12 +1,13 @@
 /* Actor display resource and its file-private helper. */
 #include "common.h"
+#include "shared/menu_display.h"
 #include "town/shop/item_menu_actions.h"
 #include "shared/item_menu.h"
 #include "engine/item.h"
 #include "engine/texture.h"
 #include "town.h"
 #include "town/shop/object.h"
-extern s32 display_vector_defaults[];
+
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "engine/graphics.h"
@@ -29,9 +30,9 @@ static s32 load_actor_display_resource(ItemMenuObject *object, s32 entry_count) 
 
     object->parts = parts;
     if (parts != 0) {
-        object->part_vector.unk0 = display_vector_defaults[0];
-        object->part_vector.unk4 = display_vector_defaults[1];
-        object->part_vector.unk8 = display_vector_defaults[2];
+        object->part_vector.unk0 = display_vector_defaults.unk0;
+        object->part_vector.unk4 = display_vector_defaults.unk4;
+        object->part_vector.unk8 = display_vector_defaults.unk8;
         set_menu_part_vectors(parts, &object->part_vector, 40);
         success = 1;
     }

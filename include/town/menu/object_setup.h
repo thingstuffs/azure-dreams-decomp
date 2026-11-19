@@ -5,7 +5,7 @@
 /* Initialize scene objects with resource data and sprite callbacks. */
 struct SpriteFrameState;
 
-void initialize_effect_object(void *object, ObjectPosition *unused, struct SpriteFrameState *context);
+void initialize_effect_object(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 void initialize_resource_object(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 void initialize_washed_dish_effect(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 

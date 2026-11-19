@@ -1,12 +1,12 @@
 #include "common.h"
+#include "dungeon/player/object.h"
+#include "shared/dungeon_height_query.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "dungeon/item.h"
 
-s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 void *find_eligible_actor_at_tile_and_height(void *, u16, u16, s16);
-s32 check_entity_interaction_compatibility(void *, void *);
 
 /* Returns the first valid candidate found while checking eight neighboring positions. */
 void *find_compatible_adjacent_actor(ActorRecord *entity, u16 x, u16 y) {

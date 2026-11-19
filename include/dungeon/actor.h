@@ -85,7 +85,7 @@ s32 find_matching_initial_stat_slot(u8 *record);
 s32 find_slot_by_definition_kind(u8 *slots, u8 kind);
 s32 find_familiar_slot_index(struct DungeonSlot *targetSlot);
 void finish_actor_parent_motion(ActorRecord *owner, ObjectPosition *position, void *tile, ActorRecord *actor);
-s32 has_paralysis_protection(EntityRec *entity);
+s32 has_paralysis_protection(ActorRecord *entity);
 s32 has_sleep_protection(ActorRecord *entity);
 s32 has_item_theft_protection(ActorRecord *entity, ActorRecord *unused_context);
 void on_actor_status_updated(void *actor);

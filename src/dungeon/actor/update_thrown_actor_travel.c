@@ -7,12 +7,12 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 #include "dungeon/level.h"
+#include "dungeon/level/tile_flags.h"
 #include "dungeon/actor.h"
 #include "dungeon/item/state.h"
 #include "dungeon/player/object.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 check_neighbor_tile_blocking();             /* extern */
 struct Ent *prepare_directional_attack(); /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
 #include "dungeon/item/find_active_rect_containing_point_api.h"

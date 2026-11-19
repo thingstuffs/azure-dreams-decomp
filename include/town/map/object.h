@@ -1,5 +1,6 @@
 #ifndef TOWN_MAP_OBJECT_H
 #define TOWN_MAP_OBJECT_H
+struct LitMeshSprite;
 /* Prototypes of the functions defined in src/town/map/object/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -10,7 +11,6 @@
 struct S_8008BA44_0;
 struct S_800A54FC_0;
 struct S_800BB798_0;
-struct S_func_800BB508_0;
 struct TownCameraState;
 struct TownCourseActor;
 struct TownPropPosition;
@@ -27,13 +27,13 @@ void create_idle_map_object(void);
 s32 check_building_entity_compatibility(s32 record_id, s32 entity_id);
 
 /* clear_object_link_and_mark_complete_g01169.c */
-void retire_object_when_out_of_bounds(struct S_func_800BB508_0 *object, void *context);
-void update_spinning_object(void *object, void *context, SpriteFrameState *state);
+void retire_object_when_out_of_bounds(TownObjectRecord *object, ObjectPosition *context);
+void update_spinning_object(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *state);
 void init_spinning_object_long_delay(TownObjectRecord *object, ObjectPosition *context, SpriteFrameState *state);
-void update_static_object(void *object, void *value);
-void init_static_object_long_delay(void *object, void *context, void *state);
+void update_static_object(TownObjectRecord *object, ObjectPosition *position);
+void init_static_object_long_delay(void *object, ObjectPosition *context, struct LitMeshSprite *state);
 void init_spinning_object_short_delay(TownObjectRecord *object, ObjectPosition *context, SpriteFrameState *state);
-void init_static_object_short_delay(void *object, void *context, void *state);
+void init_static_object_short_delay(void *object, ObjectPosition *context, struct LitMeshSprite *state);
 
 /* copy_object_position_and_velocity.c */
 void copy_object_position_and_velocity(ObjectPosition *destination, ObjectPosition *source);
@@ -48,10 +48,10 @@ s32 create_burst_particle_spawner(s32 *values);
 void *create_town_prop_graphic_object(struct TownPropPosition *position, s32 object_param, s32 graphics_id);
 
 /* create_positioned_visual_object.c */
-void *create_positioned_visual_object(struct TownPropPosition *source_pos, s32 object_data, s32 angle, s32 visual_data);
+void *create_positioned_visual_object(struct TownPropPosition *source_pos, void (*update)(), s32 angle, s32 mesh_index);
 
 /* update_player_spun_object.c */
-void update_player_spun_object(void *object, ObjectPosition *position, SpriteFrameState *rotation);
+void update_player_spun_object(void *object, ObjectPosition *position, struct LitMeshSprite *rotation);
 
 /* decrease_town_map_object_field_and_transition.c */
 void lower_town_map_object_value_to_input(struct S_8008BA44_0 *obj);

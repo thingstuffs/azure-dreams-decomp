@@ -4,7 +4,7 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
-extern void choose_heading_and_advance_actor(ActorRecord *, s32, void *, ActorRecord *);
+#include "dungeon/monster/pulunpa.h"
 
 /* Checks an object action, dispatches its update, and clears flags as needed. */
 s32 select_pulunpa_action(ActorRecord *object, s32 query_x, void *query_y, s32 action_override) {

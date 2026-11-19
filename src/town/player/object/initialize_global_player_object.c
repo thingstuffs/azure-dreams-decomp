@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/action_handler_tables_data.h"
 #include "shared/object_node.h"
 #include "town/player/object.h"
 #include "town/data.h"
@@ -8,7 +9,6 @@ extern void dispatch_selected_entry_if_nonzero(void *entries, void *record,void 
 extern u8 scene_object_payload_alias[];
 extern u8 town_position_callback_address[];
 extern u8 D_8009ACFC[];
-extern u8 town_scene_record_handlers[];
 
 /* Initializes the global object and resets its state pointers and flag. */
 void initialize_global_player_object(void)

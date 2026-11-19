@@ -486,7 +486,6 @@ typedef struct E_801742AC_S_80DE6AAC_4 {
 /* Build an encoded message from the record and this bank's suffix. */
 
 /* Build an encoded message from the record and this bank's suffix. */
-extern s16 actor_turn_angle_offsets[8];
 
 extern s32 D_800DEEC0;
 extern u8 volcano_frame_set_3[];
@@ -534,7 +533,8 @@ extern s32 update_actor_proximity_flag(void *source, ActorRecord *state, s32 low
 extern s32 can_entity_gain_level(void *);
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern s16 try_claim_dungeon_action_slot();
-#include "dungeon/player/object/action_state.h"
+s32 has_pending_dungeon_activity(void *unused_actor);
+s32 has_pending_actor_or_turn_action(void *unused_actor);
 struct S_80047738;
 
 extern s32 check_entity_interaction_compatibility();

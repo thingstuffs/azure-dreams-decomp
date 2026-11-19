@@ -4,14 +4,19 @@
 /* Observed command-panel prefix. Each column has four pointer slots; these
  * callbacks access the first three. The constructor owns a larger buffer. */
 typedef struct CardCommandPanelBody {
-    u8 pad_00[0x7C];
+    struct ObjectNodeHeader *owner;
+    u8 highlight_packets[0x78];
     u8 row_offsets[3];
     u8 pad_7F;
     s32 animation_frames;
     s32 animation_tick;
     s32 selected_entry;
     s32 previous_selection;
-    u8 pad_90[0x110];
+    u8 label_text[3][0x48];
+    MenuDisplayBlock display_block;
+    DisplayPositionWords display_vector;
+    DisplayPositionWords node_vector;
+    MenuDisplayNode display;
     CardMenuDisplayNode *heading;
     CardMenuDisplayNode *marker;
     CardMenuDisplayNode *left[4];

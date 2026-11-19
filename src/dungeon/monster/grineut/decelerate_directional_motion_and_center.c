@@ -11,7 +11,6 @@
 #include "dungeon/monster/grineut_frames.h"
 
 
-extern void select_sprite_entry(void *, s32, s32);
 
 extern u8 D_80164E54;
 extern u8 D_80168178[];

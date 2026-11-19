@@ -662,7 +662,7 @@ void choose_arachne_move(ActorRecord *move_data, ObjectPosition *context, Sprite
     }
 
     turn_index = 0;
-    turn_table = ((s16 *)actor_turn_angle_offsets);
+    turn_table = actor_turn_angle_offsets;
 
     do {
         turn_flags = move_data->action_state_flags;
@@ -1153,7 +1153,7 @@ void advance_arachne_attack(ActorRecord *body, ObjectPosition *position, SpriteF
                 actor->action_flags &= 0x7FFF;
                 return;
             }
-            (*(void * *)actor_update_node_cursor) = NODE_HEADER(actor);
+            actor_update_node_cursor = NODE_HEADER(actor);
         }
         return;
     default:
@@ -2277,7 +2277,7 @@ void count_down_lifetime_and_flag_removal(void *record_data) {
 }
 
 /* Builds opening and closing spherical wireframe segments and expires the effect when its timer runs out. */
-void build_animated_spherical_wireframe(void *effect, ObjectPosition *origin, SpriteFrameState *tint) {
+void build_animated_spherical_wireframe(WireframeSphereBody *effect, ObjectPosition *origin, SpriteFrameState *tint) {
     s16 ring_angles[10];
     s32 coordinate;
     u32 scale;
@@ -2338,7 +2338,7 @@ void build_animated_spherical_wireframe(void *effect, ObjectPosition *origin, Sp
     register void *ring_data;
 
     object_origin = origin;
-    phase = ((R12_801749EC_S_801749EC_0 *)effect)->unk_06;
+    phase = effect->phase;
     if (phase != 1) {
         if (phase < 2) {
         if (phase == 0) {
@@ -2348,7 +2348,7 @@ void build_animated_spherical_wireframe(void *effect, ObjectPosition *origin, Sp
         ring_index = 1;
         angle_base = ring_angles;
         angle_limit = 0x400;
-        ring_angles[0] = (0 - ((R12_801749EC_S_801749EC_1 *)effect)->unk_0C) + 0x400;
+        ring_angles[0] = (0 - effect->angular_progress) + 0x400;
         do {
             opening_angle_slot = (void *)(((ring_index << 0x10) >> 0xF) + (s32)angle_base);
             opening_angle = ((R12_801749EC_S_801749EC_2_pre *)opening_angle_slot)[-1].unk_00 + 0xCC;
@@ -2374,15 +2374,15 @@ void build_animated_spherical_wireframe(void *effect, ObjectPosition *origin, Sp
                 vertices[ring_index][sector][1] = state_m >> 0xC;
             }
         }
-        opening_progress = ((R12_801749EC_S_801749EC_1 *)effect)->unk_0C + 0x64;
-        ((R12_801749EC_S_801749EC_1 *)effect)->unk_0C = opening_progress;
+        opening_progress = effect->angular_progress + 0x64;
+        effect->angular_progress = opening_progress;
         if ((s16) opening_progress >= 0x800) {
-            ((R12_801749EC_S_801749EC_1 *)effect)->unk_0C = 0x800U;
+            effect->angular_progress = 0x800U;
         }
-        if (((R12_801749EC_S_801749EC_1 *)effect)->unk_08 < 0x16) {
-            old_phase = ((R12_801749EC_S_801749EC_1 *)effect)->unk_06;
-            ((R12_801749EC_S_801749EC_1 *)effect)->unk_0C = 0U;
-            ((R12_801749EC_S_801749EC_1 *)effect)->unk_06 = old_phase + 1;
+        if (effect->ticks_remaining < 0x16) {
+            old_phase = effect->phase;
+            effect->angular_progress = 0U;
+            effect->phase = old_phase + 1;
         }
         }
         }
@@ -2394,7 +2394,7 @@ void build_animated_spherical_wireframe(void *effect, ObjectPosition *origin, Sp
         ring_index = 8;
         angle_base = ring_angles;
         angle_limit = -0x400;
-        ring_angles[9] = (0 - ((R12_801749EC_S_801749EC_1 *)effect)->unk_0C) + 0x400;
+        ring_angles[9] = (0 - effect->angular_progress) + 0x400;
         do {
             closing_angle_slot = (void *)(((ring_index << 0x10) >> 0xF) + (s32)angle_base);
             closing_angle_value = closing_angle_slot->unk_02 - 0xCC;
@@ -2420,10 +2420,10 @@ void build_animated_spherical_wireframe(void *effect, ObjectPosition *origin, Sp
                 vertices[ring_index][sector][1] = state_m >> 0xC;
             }
         }
-        closing_progress = ((R12_801749EC_S_801749EC_1 *)effect)->unk_0C + 0x64;
-        ((R12_801749EC_S_801749EC_1 *)effect)->unk_0C = closing_progress;
+        closing_progress = effect->angular_progress + 0x64;
+        effect->angular_progress = closing_progress;
         if ((s16) closing_progress >= 0x800) {
-            ((R12_801749EC_S_801749EC_1 *)effect)->unk_0C = 0x800U;
+            effect->angular_progress = 0x800U;
         }
         }
     }
@@ -2519,10 +2519,10 @@ void build_animated_spherical_wireframe(void *effect, ObjectPosition *origin, Sp
         }
     }
     {
-        remaining_ticks = (u16) ((R12_801749EC_S_801749EC_1 *)effect)->unk_08 - 1;
-        ((R12_801749EC_S_801749EC_1 *)effect)->unk_08 = remaining_ticks;
+        remaining_ticks = effect->ticks_remaining - 1;
+        effect->ticks_remaining = remaining_ticks;
         if ((remaining_ticks << 0x10) <= 0) {
-            (*(u16 *)((u8 *)effect + -2)) = (u16) (((R12_801749EC_S_801749EC_1_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+            NODE_HEADER(effect)->flags |= NODE_REMOVE;
             object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         }
         return;
@@ -2530,36 +2530,36 @@ void build_animated_spherical_wireframe(void *effect, ObjectPosition *origin, Sp
 }
 
 /* Creates a gray spherical wireframe effect offset vertically from the supplied position. */
-void create_wireframe_sphere_effect(void *source_arg, ObjectPosition *spawn_pos_arg, SpriteFrameState *unused_context)
+void create_wireframe_sphere_effect(void *source_arg, ObjectPosition *spawn_pos, SpriteFrameState *unused_context)
 {
-    ObjectPosition *spawn_pos = spawn_pos_arg;
+    ActorRecord *source = source_arg;
     u16 render_flags;
-    R12_80175180_S_80175180_2 *effect;
+    ObjectNodeHeader *effect;
     SpriteFrameState *render_part;
-    R12_80175180_S_80175180_4 *position;
-    R12_80175180_S_80175180_0 *state;
+    ObjectPosition *position;
+    WireframeSphereBody *state;
 
     effect = allocate_flagged_object_node(0x12);
-    state = (R12_80175180_S_80175180_0 *)((u8 *)effect + 0x20);
     if (effect != 0) {
-        state->unk_08 = 0x4A;
-        state->unk_0A = ((R12_80175180_S_80175180_1 *)source_arg)->unk_96;
-        state->unk_0C = 0;
-        effect->unk_10 = ((u8 *)build_animated_spherical_wireframe);
+        state = NODE_BODY(effect);
+        state->ticks_remaining = 0x4A;
+        state->source_timer = source->action_timer;
+        state->angular_progress = 0;
+        effect->update_callback = build_animated_spherical_wireframe;
         source_arg = project_sprite_chain;
-        register_node((struct ObjectNodeHeader *)effect, source_arg);
-        render_part = effect->unk_0C;
+        register_node(effect, source_arg);
+        render_part = effect->sprite;
         render_flags = render_part->flags;
         render_flags |= 0xC;
         render_part->flags = render_flags;
         render_part->tpage_abr = 0x20;
         render_flags |= 0x80;
         render_part->flags = render_flags;
-        position = effect->unk_08;
-        position->unk_00 = spawn_pos->x.v;
-        position->unk_04 = spawn_pos->y.v;
-        position->unk_08 = spawn_pos->z.v + 0xFFE80000;
-        render_part = effect->unk_0C;
+        position = effect->position;
+        position->x.v = spawn_pos->x.v;
+        position->y.v = spawn_pos->y.v;
+        position->z.v = spawn_pos->z.v + 0xFFE80000;
+        render_part = effect->sprite;
         render_part->scale_y = 0x1000;
         render_part->scale_x = 0x1000;
         render_part->color.c.b = 0x80;
@@ -2637,7 +2637,7 @@ void advance_effect_sequence_and_restore_actor(ActorRecord *sequence, ObjectPosi
     void *node_storage;
     SpriteFrameState *model;
     void *child;
-    u8 *target_color;
+    ActorEffectColor *target_color;
     s32 direction;
     s32 color_index;
     s32 effect_choice;
@@ -2675,7 +2675,7 @@ void advance_effect_sequence_and_restore_actor(ActorRecord *sequence, ObjectPosi
         }
 
         run_cd_image_commands(arachne_image_commands, arachne_image_load_done, 1);
-        sound_set_cd_cue_parameters(0, ((s32 *)cd_cue_base)[0], 0x04000AD4, 0x05000CC4);
+        sound_set_cd_cue_parameters(0, cd_cue_base, 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, read_stream_cue_start_offset(), 0);
         (*arachne_effect_load_done) = 0;
         Control_CD(0xFF, ((s32 *)resource_completion_callback_address), arachne_effect_load_done);
@@ -2699,12 +2699,12 @@ void advance_effect_sequence_and_restore_actor(ActorRecord *sequence, ObjectPosi
             return;
         }
         color_index = lookup_masked_byte_table(actor);
-        target_color = ((u8 * *)actor_effect_color_targets)[color_index];
-        scene_color->view.tint.parts.tint_r += ((s32)target_color[0]
+        target_color = actor_effect_color_targets[color_index];
+        scene_color->view.tint.parts.tint_r += ((s32)target_color->r
             - scene_color->view.tint.parts.tint_r) / sequence->action_timer;
-        scene_color->view.tint.parts.tint_g += ((s32)target_color[1]
+        scene_color->view.tint.parts.tint_g += ((s32)target_color->g
             - scene_color->view.tint.parts.tint_g) / sequence->action_timer;
-        scene_color->view.tint.parts.tint_b += ((s32)target_color[2]
+        scene_color->view.tint.parts.tint_b += ((s32)target_color->b
             - scene_color->view.tint.parts.tint_b) / sequence->action_timer;
         return;
 

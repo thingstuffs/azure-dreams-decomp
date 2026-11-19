@@ -11,7 +11,7 @@
 /* extern */
 
 /* Update opposing scale offsets until the countdown ends, then restore unit scale. */
-void update_opposing_scale_effect(TownObjectRecord *state, s32 unused_1, SpriteFrameState *scale, s32 unused_3) {
+void update_opposing_scale_effect(TownObjectRecord *state, ObjectPosition *position, SpriteFrameState *scale, s32 unused_3) {
     u16 ticks_left;
     s32 scale_wave;
     s32 scale_offset;
@@ -22,7 +22,7 @@ void update_opposing_scale_effect(TownObjectRecord *state, s32 unused_1, SpriteF
     if ((s16) ticks_left <= 0) {
         scale->scale_y = 0x1000;
         scale->scale_x = 0x1000;
-        initialize_randomized_scale_timer(state, unused_1, scale);
+        initialize_randomized_scale_timer(state, position, scale);
         return;
     }
     scale_wave = rsin((s16) ticks_left * 0xBA);

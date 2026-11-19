@@ -26,4 +26,7 @@ void *allocate_flagged_object_node(int flags);
 /* Shared packed-vertex projection record. */
 void transform_rotated_vertices(void *transform_data);
 
+struct SpriteFrameState;
+void create_two_effect_groups(ObjectPosition *position, struct SpriteFrameState *source_visual, ActorRecord *source_arg, s16 effect_param);
+
 #endif

@@ -1,25 +1,21 @@
 #include "common.h"
 #include "frontend/card.h"
 
-/* %hi/%lo access at 0x8009DDD8 (= 0x800A0000 - 0x2228). Incomplete array forces
- * hi/lo rather than $gp; .set binds the overlay-local absolute address. */
-extern u8 card_slot_header_cache[];
-
 /* Count nonzero heads in the five 0x80-byte slots. */
 s32 card_dev_count_cached_slots(void) {
     s32 count;
-    s32 offset;
+    s32 index;
     s32 slot_head;
 
     count = 0;
-    offset = 0;
+    index = 0;
     do {
-        slot_head = *(s32 *)(card_slot_header_cache + offset);
-        offset += 0x80;
+        slot_head = card_slot_header_cache[index].fields.marker;
+        index++;
         if (slot_head != 0) {
             count++;
         }
-    } while (offset < 0x280);
+    } while (index < 5);
 
     return count;
 }

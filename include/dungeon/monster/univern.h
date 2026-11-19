@@ -308,8 +308,6 @@ extern u8 D_80174504[];
 extern u8 D_801744A4[];
 extern u8 D_801744D4[];
 extern u8 univern_frame_set_1[];
-extern u8 actor_turn_angle_offsets[];
-extern u8 actor_update_node_cursor[];
 extern u8 D_801744B4[];
 extern u8 D_801744BC[];
 extern u8 D_801744C4[];

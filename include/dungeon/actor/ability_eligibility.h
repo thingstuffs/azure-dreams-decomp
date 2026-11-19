@@ -3,6 +3,7 @@
 /* Select eligible actor abilities and entries, check tile clearance, and advance status timers. */
 
 #include "common.h"
+#include "dungeon/level.h"
 #include "dungeon/level/floor_flags.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/actor.h"
@@ -17,7 +18,7 @@
 #include "shared/dungeon_item_entries.h"
 #include "shared/sprite_frame_state.h"
 #include "records/Rec_D_80082E80.h"
-#include "dungeon/level.h"
+#include "shared/dungeon_height_query.h"
 
 #ifndef NULL
 #define NULL 0
@@ -122,7 +123,6 @@ typedef struct S_800A4A9C_0 {
 
 #include "engine/item.h"
 #include "sdk/abs.h"
-extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern s32 generate_random_value(void);
 extern s32 check_entity_interaction_compatibility(void *, void *);
@@ -130,9 +130,7 @@ extern s32 check_entity_interaction_compatibility(void *, void *);
 #include "dungeon/item/find_active_rect_containing_point_api.h"
 extern DungeonSlot *familiar_record_slots[];
 /* This data symbol has no shared-catalog address. */
-extern u8 temporary_item_record[];
 extern u8 floor_objects[];
-s16 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z);
 extern void clear_slots_of_type(void *, s8);
 extern void apply_entity_action_flags(ActorRecord *, s32);
 
@@ -150,7 +148,6 @@ s32 get_spell_range(s16 entry_index);
 u8 *get_selected_item_data(void);
 s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey);
 s16 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags);
-s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 
 s32 has_empty_status_slot(s32 record_addr);
 

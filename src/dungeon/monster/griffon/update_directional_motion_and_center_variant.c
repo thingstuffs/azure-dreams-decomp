@@ -12,7 +12,6 @@
 #include "dungeon/monster/griffon/action_callback_addresses.h"
 
 
-extern void select_sprite_entry(void *, s32, s32);
 
 extern u8 D_80150C74[];
 

@@ -7,7 +7,6 @@
 extern void initialize_card_message_object_with_code_7(void *object);
 extern void func_80405A64(void);
 extern void process_menu_input_and_cursor_state(void);
-extern CardSaveSlot card_slot_header_cache[];
 
 /* Selects the object's next callback based on whether its indexed entry is active. */
 void select_slot_menu_callback(void *object_state_arg)

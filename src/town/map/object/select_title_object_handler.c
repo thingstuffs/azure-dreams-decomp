@@ -1,4 +1,5 @@
 #include "town/map/object_callbacks_api.h"
+#include "slus/town_map_selection_data.h"
 #include "common.h"
 #include "engine/resource.h"
 #include "engine/script.h"
@@ -27,7 +28,6 @@ typedef struct town_title_handler_object {
     void *field_1C;
 } TownObject;
 
-extern s32 map_scene_selector_alias;
 extern TownContext scene_object_list_anchor;
 
 extern s32 D_800A549C;

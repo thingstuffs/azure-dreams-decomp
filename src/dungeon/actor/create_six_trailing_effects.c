@@ -1,4 +1,5 @@
 #include "engine/scene.h"
+#include "dungeon/effect.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity_height_offsets.h"
 #include "dungeon/actor/animation.h"
@@ -16,7 +17,6 @@ typedef struct {
 
 
 extern TableEntry linked_effect_direction_entries[];
-extern s32 linked_mesh_processor_address[3];
 
 
 typedef struct S_80026C88_2 {
@@ -85,7 +85,7 @@ void *create_six_trailing_effects(u16 x, u16 y, s16 z, void *source)
             void *self_link;
 
             object->update_callback = callback;
-            register_node(object, linked_mesh_processor_address);
+            register_node(object, draw_linked_segment_aligned_quads);
             state = NODE_BODY(object);
             state->unk_1A = (s16) (x + ((u16)position_offset.vx));
             state->unk_1E = (s16) (y + ((u16)position_offset.vy));

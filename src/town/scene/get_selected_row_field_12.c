@@ -1,8 +1,8 @@
 #include "common.h"
+#include "town/scene/state_data.h"
 #include "town/scene.h"
 
 extern u8 scene_rows[];
-extern s32 selected_scene_row_index;
 
 /* Returns the word at offset 12 in the selected 24-byte table entry. */
 s32 get_selected_row_field_12(void) {

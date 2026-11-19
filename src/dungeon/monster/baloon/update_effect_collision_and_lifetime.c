@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_height_query.h"
 #include "slus/imports.h"
 #include "dungeon/monster/baloon.h"
 #include "shared/sprite_frame_state.h"
@@ -8,8 +9,6 @@
 
    /* the 0x2 bytes before arg0 in update_effect_collision_and_lifetime, addressed as arg0[-1] */
 
-s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
-extern s16 sample_terrain_surface_height(u16 x, u16 y, s16 min_height);
 
 /* Updates effect motion, terrain collisions, visual properties, and lifetime. */
 void update_effect_collision_and_lifetime(OriginMotionEffectBody *effect, ObjectPosition *position, SpriteFrameState *visual)
@@ -28,13 +27,13 @@ void update_effect_collision_and_lifetime(OriginMotionEffectBody *effect, Object
     x = position->x.unsigned_parts.integer;
     z = position->z.unsigned_parts.integer;
     current_z = position->z.w.i;
-    terrain_z = sample_terrain_surface_height(x,
+    terrain_z = (s16)sample_terrain_surface_height(x,
                               position->y.unsigned_parts.integer,
                               (s16)(z - 4));
     if (terrain_z - 0x10 < current_z) {
         effect->velocity_z = 0;
         position->z.w.i =
-            sample_terrain_surface_height(position->x.unsigned_parts.integer,
+            (s16)sample_terrain_surface_height(position->x.unsigned_parts.integer,
                           position->y.unsigned_parts.integer,
                           (s16)(position->z.unsigned_parts.integer - 4)) - 0x11;
         position->z.w.frac = 0;
@@ -46,7 +45,7 @@ void update_effect_collision_and_lifetime(OriginMotionEffectBody *effect, Object
     if (effect->state == 1) {
         position->x.v += effect->velocity_x;
         effect->velocity_x += effect->acceleration_x;
-        if (sample_terrain_surface_height(position->x.unsigned_parts.integer,
+        if ((s16)sample_terrain_surface_height(position->x.unsigned_parts.integer,
                           position->y.unsigned_parts.integer,
                           position->z.w.i) < 0x200 &&
             (s16)check_left_tile_and_center_height(position->x.unsigned_parts.integer,
@@ -59,7 +58,7 @@ void update_effect_collision_and_lifetime(OriginMotionEffectBody *effect, Object
 
         position->y.v += effect->velocity_y;
         effect->velocity_y += effect->acceleration_y;
-        if (sample_terrain_surface_height(position->x.unsigned_parts.integer,
+        if ((s16)sample_terrain_surface_height(position->x.unsigned_parts.integer,
                           position->y.unsigned_parts.integer,
                           position->z.w.i) < 0x200 &&
             (s16)check_left_tile_and_center_height(position->x.unsigned_parts.integer,

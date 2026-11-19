@@ -1,4 +1,5 @@
 #include "sdk/libetc.h"
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "sdk/libapi.h"
 /* Resident helpers for rendering, resource loading, text, menu state and sound command dispatch. */
 #include "script_symbols.h"
@@ -242,21 +243,21 @@ int read_stream_cue_start_offset(void)
     return ticks + status[1];
 }
 
-extern void draw_lit_mesh(void *a0, ObjectPosition *a1, void *a2, short a3);
+void draw_lit_mesh(void *body, struct ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias);
 
-/* Process linked objects using each node's value, record pointer, and halfword parameter. */
-int draw_linked_lit_meshes(void *object, void *value, SpriteFrameState *record)
+/* Draw each linked mesh from its node position and signed depth bias. */
+int draw_linked_lit_meshes(void *object, ObjectPosition *position, SpriteFrameState *record)
 {
     void *current = object;
     ObjectNodeHeader *next_node;
 
     do {
-        draw_lit_mesh(current, value, record, record->depth_bias);
+        draw_lit_mesh(current, position, record, record->depth_bias);
         next_node = NODE_HEADER(current)->chain_next;
         current = NODE_BODY(next_node);
         if (next_node == 0)
             break;
-        value = next_node->position;
+        position = next_node->position;
         record = next_node->sprite;
     } while (1);
 
@@ -308,15 +309,12 @@ int get_image_palette_address(int value)
     return value + 0x8000;
 }
 
-extern Struct_800FC000 D_800FC000[];
-
 /* Compute a block index from a raw address using signed division by 0xD000. */
 s32 get_resource_block_index_from_address(void *address)
 {
     return ((s32)address - (s32)D_800FC000) / 0xD000;
 }
 
-extern void select_sprite_entry(void *a0, short a1, short a2);
 
 /* Set entity flag 0x400 and reselect its entry. */
 void select_sprite_entry_with_flag(SpriteFrameState *entity, short index, short offset) {
@@ -771,13 +769,13 @@ void *link_menu_backdrop_display_nodes(void *entries)
 }
 
 /* Store a word through the supplied pointer. */
-void set_menu_backdrop_owner(int *dst, int value)
+void set_menu_backdrop_owner(struct ObjectNodeHeader **dest, struct ObjectNodeHeader *owner)
 {
-    *dst = value;
+    *dest = owner;
 }
 
 /* Return without performing any work. */
-void noop_selection_menu_animation_idle(void) {
+void noop_selection_menu_animation_idle(AnimatedSelectionMenuBody *unused) {
 }
 
 typedef struct {
@@ -804,17 +802,11 @@ int compare_selection_menu_entry_order(Level0 *left, Level0 *right) {
     return left->l1->l2->l3->val - right->l1->l2->l3->val;
 }
 
-typedef struct {
-    u8 pad[0x10];
-    u8 unk10[0x14]; /* sub-object passed by address to func_80021448 */
-    s32 unk24;
-} Struct_8004FC68;
-
 extern s32 func_80021448(void *embedded_record);
 
 /* Store the query result for the object's embedded record. */
-void initialize_menu_record_value(Struct_8004FC68 *object) {
-    object->unk24 = func_80021448(&object->unk10);
+void initialize_menu_record_value(AnimatedSelectionMenuBody *menu) {
+    menu->count = func_80021448(menu->entry_ids);
 }
 
 /* Return the selected word from the embedded record's value array. */
@@ -868,7 +860,6 @@ void submit_enabled_saved_display_value(void) {
     create_gauge_with_selection_menu(value);
 }
 
-extern unsigned char town_movie_callback_list[16];
 
 /* Calls run_deferred_callbacks with & town_movie_callback_list. */
 void run_town_movie_callbacks(void)

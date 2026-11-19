@@ -9,7 +9,7 @@
 
 
 /* Creates or resets the shared object and initializes its work state. */
-void *create_save_heading(s32 init_value)
+ObjectNodeHeader *create_save_heading(ObjectNodeHeader *owner)
 {
     ObjectNodeHeader *object;
     CardHeadingDrawState *work_state;
@@ -28,6 +28,6 @@ void *create_save_heading(s32 init_value)
     initialize_save_heading_draw_state(work_state, 4);
     object->sprite = work_state->pad_E0;
     work_state->chain = link_save_heading_draw_nodes(work_state->links);
-    prepare_save_heading_layout(work_state, init_value);
+    prepare_save_heading_layout(work_state, owner);
     return object;
 }

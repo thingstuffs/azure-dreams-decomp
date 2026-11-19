@@ -414,7 +414,6 @@ s32 attempt_confusion_trap(void *object) {
 extern s16 D_8006CCD8[], D_8006CCE8[];
 extern s32 find_object_near_tile_height();
 extern void apply_attack_power_and_element_effects();
-extern s32 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z);
 
 /* Advance the effect, process collisions, and mark it finished when its steps run out. */
 void advance_trap_effect_and_process_collisions(FivePartTargetEffectBody *effect)
@@ -1072,48 +1071,35 @@ s32 spawn_source_sprite_effect(void *source_arg, s32 rng_arg_1, s32 rng_arg_2, s
     return effect != NULL;
 }
 
-extern s32 roll_sleep_effect(void *record, s16 chance, s8 action);
+extern s32 roll_sleep_effect(ActorRecord *record, s16 chance, s8 action);
 extern s32 D_800DCF0C;
 extern u8 D_800E1BF3[];
 
-typedef struct S_800CD1A4_0_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_800CD1A4_0_pre;   /* the 0x14 bytes before actor in resolve_trap_hit, addressed as actor[-1] */
-
-typedef struct S_800CD1A4_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_800CD1A4_1;   /* owner in resolve_trap_hit */
-
 /* Roll the actor's trap check; on a hit mark it, play the burst at the owner's tile and raise event 0x520. */
-s32 resolve_trap_hit(EntityRec *actor) {
+s32 resolve_trap_hit(ActorRecord *actor) {
     s32 chance;
-    S_800CD1A4_1 *owner;
+    SpriteFrameState *sprite;
 
     chance = 0x40;
     if (trap_request_blocked != 0) {
         chance = 0x400;
     }
     if (roll_sleep_effect(actor, chance, 0x10) == 0) {
-        if ((*((u8 *)&actor->unk_10 + 3)) == 0) {
+        if (actor->species == 0) {
             display_fixed_item_action_message();
             return 1;
         }
         return 1;
     }
     adjust_source_value_and_finalize(actor, &D_800E1BF3);
-    if ((*((u8 *)&actor->unk_10 + 3)) == 0) {
+    if (actor->species == 0) {
         wrap_position_and_set_state_value(D_800DCF0C);
     }
-    owner = ((S_800CD1A4_0_pre *)actor)[-1].unk_00;
-    if (!(owner->unk_14 & 0x8000)) {
-        spawn_randomized_particle_burst((owner->unk_24 << 6) | 0x20,
-                      (owner->unk_25 << 6) | 0x20,
-                      actor->unk_88, 0x808080, 0x20, 0);
+    sprite = NODE_HEADER(actor)->sprite;
+    if (!(sprite->flags & 0x8000)) {
+        spawn_randomized_particle_burst((sprite->tile_x << 6) | 0x20,
+                      (sprite->tile_y << 6) | 0x20,
+                      actor->ground_height, 0x808080, 0x20, 0);
         play_sound_if_enabled(0x520);
     }
     return 1;
@@ -1691,7 +1677,7 @@ void add_ground_item_value_at_tile(s16 x, s16 y, s32 amount)
     s32 second_y;
     DungeonItemEntry *first_active;
     ActiveEntry *second_active;
-    FirstEntry *first_entry;
+    DungeonItemPosition *first_entry;
     SecondEntry *second_entry;
 
     entry_index = 0;
@@ -1703,7 +1689,7 @@ void add_ground_item_value_at_tile(s16 x, s16 y, s32 amount)
         if (first_active->kind != 0 &&
             first_entry->x == first_x &&
             first_entry->y == first_y) {
-            first_entry->value += amount;
+            first_entry->ground_height += amount;
         }
         entry_index++;
     } while (entry_index < 64);
@@ -1725,7 +1711,7 @@ void add_ground_item_value_at_tile(s16 x, s16 y, s32 amount)
 
 /* Sets the value of all active entries at the given coordinates in both tables. */
 void set_ground_item_value_at_tile(s16 x, s16 y, s16 value) {
-    FirstEntry *first_entry;
+    DungeonItemPosition *first_entry;
     DungeonItemEntry *first_status;
     SecondEntry *second_entry;
     ActiveEntry *second_status;
@@ -1742,7 +1728,7 @@ void set_ground_item_value_at_tile(s16 x, s16 y, s16 value) {
         first_entry = &dungeon_ground_item_positions[first_index];
         first_status = &dungeon_ground_items[first_index];
         if (first_status->kind != 0 && first_entry->x == first_x && first_entry->y == first_y) {
-            first_entry->value = value;
+            first_entry->ground_height = value;
         }
         first_index++;
     } while (first_index < 64);

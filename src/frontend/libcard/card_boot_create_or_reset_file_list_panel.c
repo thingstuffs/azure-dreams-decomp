@@ -10,12 +10,12 @@
 
 extern void func_80024EEC(void *object);
 extern s32 link_file_list_node_pointers(void *target); /* Unprototyped: compile_error */
-extern void init_card_file_list_panel(CardFileListPanel *panel, s32 selection);
+extern void init_card_file_list_panel(CardFileListPanel *panel, ObjectNodeHeader *parent);
 
 
 
 /* Create or reset the shared object and initialize its work area. */
-void *card_boot_create_or_reset_file_list_panel(s32 parent, s32 context, s32 mode)
+ObjectNodeHeader *card_boot_create_or_reset_file_list_panel(ObjectNodeHeader *parent, s32 context, s32 mode)
 {
     ObjectNodeHeader *base;
     CardFileListPanel *work;

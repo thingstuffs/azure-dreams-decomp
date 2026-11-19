@@ -8,14 +8,14 @@ typedef unsigned long uptr;
 void load_building_slot_states(void)
 {
     s32 entry_index;
-    u8 *source_record;
+    TownBuildingSlotRectangle *source_record;
     u8 *page;
 
     source_record = town_building_slot_rectangles;
     page = (u8 *)0x80010000;
     for (entry_index = 0; entry_index < 0x22; entry_index++) {
-        page[0x33A4 + entry_index * 2] = source_record[entry_index * 8 + 6];
-        page[0x33A5 + entry_index * 2] = source_record[entry_index * 8 + 7];
+        page[0x33A4 + entry_index * 2] = source_record[entry_index].first_building_id;
+        page[0x33A5 + entry_index * 2] = source_record[entry_index].second_building_id;
     }
 
     entry_index = 0;

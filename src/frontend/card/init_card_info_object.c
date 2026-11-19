@@ -1,3 +1,4 @@
+#include "frontend/card/slot_details.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "frontend/card.h"
@@ -6,20 +7,20 @@
 #include "frontend/card/server_imports.h"
 #include "frontend/card/server_aliases.h"
 
-extern void initialize_menu_primitive_entries(void *object, s32 value);
-extern s32 register_owner_handler_table(void *value);
-
 typedef struct {
-    u8 pad_00[0x1E];
+    u8 pad_00[0xC];
+    MenuDisplayNode *template_node;
+    void *update_callback;
+    u8 pad_14[0xA];
     u16 flags;
 } Root;
 
 extern Root D_8040B4F8;
 
 /* Initializes the memory card information object and its working state. */
-void *init_card_info_object(s32 init_option, s32 info_value) {
-    void *base;
-    void *card_state;
+void *init_card_info_object(ObjectNodeHeader *owner, s32 info_value) {
+    Root *base;
+    CardDevSlotDetails *card_state;
 
     base = &D_8040B4F8;
     card_state = NODE_BODY(base);
@@ -35,11 +36,11 @@ void *init_card_info_object(s32 init_option, s32 info_value) {
         D_8040B4F8.flags &= 0x7FFF;
         func_8007BFE0(card_state, 0xDFC);
     }
-    *(s32 *)((u8 *)card_state + 0x7C) = info_value;
+    card_state->selected_slot = info_value;
     initialize_menu_primitive_entries(card_state, 0x15);
-    *(void **)((u8 *)base + 0xC) = (u8 *)card_state + 0xAF8;
-    *(s32 *)((u8 *)card_state + 0xB04) = register_owner_handler_table((u8 *)card_state + 0xB08);
-    initialize_menu_overlay_objects(card_state, init_option);
-    *(s32 *)((u8 *)base + 0x10) = 0;
+    base->template_node = &card_state->template_node;
+    card_state->template_node.unk_0C = register_owner_handler_table(card_state->entries);
+    initialize_menu_overlay_objects(card_state, owner);
+    base->update_callback = 0;
     return base;
 }

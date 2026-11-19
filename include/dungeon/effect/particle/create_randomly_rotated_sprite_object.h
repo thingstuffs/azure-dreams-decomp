@@ -97,14 +97,6 @@ typedef struct B22_818930F8_S_818930F8_1 {
     u8 pad_00[0x14];
     u16 unk_14;
 } B22_818930F8_S_818930F8_1;
-typedef struct {
-    s8 unk0[8];
-    ObjectPosition *data;
-    s8 unkC[4];
-    void *callback;
-    s8 unk14[12];
-    s32 params;
-} B22_81893024_M2C_OBJECT;
 typedef struct B22_81892C5C_S_81892C5C_0 {
     u8 pad_00[0x18];
     union { void * s; u32 * u; } unk_18;   /* accessed as both */
@@ -130,23 +122,11 @@ typedef struct B22_81892C5C_S_81892C5C_0 {
     u16 unk_E0;
     u16 unk_E2;
 } B22_81892C5C_S_81892C5C_0;
-typedef struct B22_81892C5C_S_81892C5C_1_pre {
-    void * unk_00;
-    u8 pad_04[0x4];
-} B22_81892C5C_S_81892C5C_1_pre;
 typedef struct TimedTransformCopyEffectBody {
     union { void *linked_counter; s32 owner_value; } owner;
     union { u16 frame_count; s16 base_height; } frame;
     s16 frame_limit;
 } TimedTransformCopyEffectBody;
-typedef struct B22_81892C5C_S_81892C5C_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} B22_81892C5C_S_81892C5C_2;
 typedef struct B22_81892C5C_S_81892C5C_3 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
@@ -169,10 +149,6 @@ typedef struct B22_81892C5C_S_81892C5C_5 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
 } B22_81892C5C_S_81892C5C_5;
-typedef struct B22_81892C5C_S_81892C5C_7 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} B22_81892C5C_S_81892C5C_7;
 struct B22_81892C5C_OtCtxS { void *cur; };
 typedef struct {
     unsigned addr: 24;
@@ -232,7 +208,7 @@ void *create_randomly_rotated_sprite_object(struct B22_81893474_EffectState *con
 void accelerate_and_expire_animated_sprite(VerticalAccelerationSpriteBody *step_state, ObjectPosition *accumulator, SpriteFrameState *target);
 void *create_vertical_acceleration_sprite(s32 state_value, B22_81892AF0_Copy24 *source_transform, s16 variant);
 void expire_counted_child_effect(TimedTransformCopyEffectBody *counter_state);
-s32 draw_red_triangle_fan(TimedTransformCopyEffectBody *effect, B22_81892C5C_S_81892C5C_2 *center);
+s32 draw_red_triangle_fan(TimedTransformCopyEffectBody *effect, ObjectPosition *center);
 void *create_timed_transform_copy_effect(s32 object_arg, ObjectPosition *source_data, s16 initial_value, s16 field_delta);
 void emit_animated_transform_copies(void *state, ObjectPosition *draw_context, SpriteFrameState *update_context);
 void step_sprite_height_and_animation(AnimatedSpriteBurstBody *entry, B22_818931B8_S_818931B8_2 *source, SpriteFrameState *target);

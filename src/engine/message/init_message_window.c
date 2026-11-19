@@ -6,8 +6,6 @@
 
 extern u8 message_window_state_data[];
 
-extern void update_text_row_scale(u8 *state, u8 value);
-
 typedef struct {
     u8 pad00[0x08];
     s16 field08;

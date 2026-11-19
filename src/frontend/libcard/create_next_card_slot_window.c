@@ -7,23 +7,21 @@
 #include "shared/object_node.h"
 
 /* Processes the current slot and selects callbacks when unavailable or all five are done. */
-void create_next_card_slot_window(CardSlotMenuState *state_arg) {
-    void *state;
+void create_next_card_slot_window(CardSlotMenuState *state) {
     s32 slot;
 
-    state = state_arg;
-    slot = *(s32 *)((u8 *)state + 0x24);
+    slot = state->mode;
     if (slot < 5) {
         if (card_boot_load_slot_metadata(slot) != 0) {
-            *(s32 *)((u8 *)state + 4 + slot * 4) = card_boot_create_slot_window((u8 *)state - 0x20, slot);
-            *(s32 *)((u8 *)state + 0x24) = *(s32 *)((u8 *)state + 0x24) + 1;
+            state->slots[slot] = card_boot_create_slot_window(NODE_HEADER(state), slot);
+            state->mode = state->mode + 1;
         } else {
-            *(void (**)(void))((u8 *)state + 0x34) = card_boot_return_from_slot_menu;
+            state->saved_callback = card_boot_return_from_slot_menu;
             card_boot_show_load_failure_notice(NODE_HEADER(state));
-            NODE_HEADER(state_arg)->update_callback = card_boot_restore_saved_selection_callback;
+            NODE_HEADER(state)->update_callback = card_boot_restore_saved_selection_callback;
         }
     }
     if (slot == 5) {
-        NODE_HEADER(state_arg)->update_callback = card_boot_enter_slot_selection_input;
+        NODE_HEADER(state)->update_callback = card_boot_enter_slot_selection_input;
     }
 }

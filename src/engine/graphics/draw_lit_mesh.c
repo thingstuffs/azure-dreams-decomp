@@ -1,3 +1,4 @@
+#include "engine/graphics.h"
 #include "engine/graphics/lit_mesh.h"
 #include "shared/gpu_packets.h"
 #include "shared/entity.h"
@@ -9,26 +10,17 @@
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
 
-typedef struct {
-    u8 pad0[8];
-    s32 meshIndex;
-    u8 padC[4];
-    u16 colour;
-    u16 texture;
-    u16 flags;
-    s16 rotation[3];
-    u16 scale[3];
-} RenderObject;
-
 /* Transform, light, and queue visible textured mesh quads for rendering. */
-void draw_lit_mesh(void *unused, ObjectPosition *position_arg, RenderObject *object, s16 depth_bias)
+void draw_lit_mesh(void *unused, ObjectPosition *position_arg, SpriteFrameState *sprite, s16 depth_bias)
 {
+    LitMeshSprite *object = (LitMeshSprite *)sprite;
     ObjectPosition *position = position_arg;
     MATRIX view_matrix;
     GameWork *render_globals;
     Vertex *vertex_table;
     u8 *normal_table;
     GpuContext *render_state;
+    LitMeshFace **face_lists;
     LitMeshFace *face;
     LitMeshQuadPacket *prim;
     RenderScratch *scratch;
@@ -75,10 +67,10 @@ void draw_lit_mesh(void *unused, ObjectPosition *position_arg, RenderObject *obj
     vertex_1 = (void *)((unsigned long)vertex_1 | 0x50);
     RotMatrix(vertex_0, vertex_1);
 
-    if (object->flags & 1) {
+    if (sprite->flags & 1) {
         scratch->scale[0] = -scratch->scale[0];
     }
-    if (object->flags & 2) {
+    if (sprite->flags & 2) {
         scratch->scale[1] = -scratch->scale[1];
     }
 
@@ -91,9 +83,10 @@ void draw_lit_mesh(void *unused, ObjectPosition *position_arg, RenderObject *obj
     render_state = g_game_work.draw_buffer;
     scratch->ordering_table = &render_state->orderTag;
     prim = render_state->packetCursor;
-    object->flags |= 0x8000;
+    sprite->flags |= 0x8000;
 
-    face = *(LitMeshFace **)(*(u8 **)&render_globals->map.cell_faces + object->meshIndex * 4);
+    face_lists = render_globals->map.cell_faces;
+    face = face_lists[object->mesh_index];
 
     for (;;) {
         vertex_data = vertex_table[face->vertex_indices[0]].value;
@@ -126,7 +119,7 @@ void draw_lit_mesh(void *unused, ObjectPosition *position_arg, RenderObject *obj
             (u8 *)scratch + 0x90,
             (u8 *)scratch + 0x94);
 
-        flip_flags = object->flags & 3;
+        flip_flags = sprite->flags & 3;
         switch (flip_flags) {
         case 0:
             clip_xy_0 = prim->xy0;
@@ -160,14 +153,14 @@ void draw_lit_mesh(void *unused, ObjectPosition *position_arg, RenderObject *obj
             if (depth < 0x1E0U) {
                 NormalColorCol(
                     normal_table + face->normal_index * 8,
-                    (u8 *)object + 0xC,
+                    (CVECTOR *)&sprite->color,
                     prim->color);
 
                 prim->uv_clut.word = face->uv_clut;
-                prim->uv_clut.halves.clut += object->texture;
+                prim->uv_clut.halves.clut += sprite->clut;
                 prim->uv_page.word = face->uv_page;
 
-                colour = object->colour;
+                colour = sprite->tpage_abr;
                 if (colour != 0) {
                     prim->uv_page.halves.page = colour + (prim->uv_page.halves.page & 0xFF9F);
                 }
@@ -176,7 +169,7 @@ void draw_lit_mesh(void *unused, ObjectPosition *position_arg, RenderObject *obj
                 prim->uv3 = face->uv3;
                 SetPolyFT4(prim);
 
-                flags = object->flags;
+                flags = sprite->flags;
                 if (flags & 8) {
                     if (flags & 4) {
                         prim->command |= 2;
@@ -185,7 +178,7 @@ void draw_lit_mesh(void *unused, ObjectPosition *position_arg, RenderObject *obj
 
                 AddPrim((u8 *)scratch->ordering_table + scratch->depth * 4, prim);
                 prim++;
-                object->flags &= 0x7FFF;
+                sprite->flags &= 0x7FFF;
             }
         }
 

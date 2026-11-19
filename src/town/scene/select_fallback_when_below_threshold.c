@@ -1,8 +1,8 @@
 #include "common.h"
+#include "town/scene/record_queries.h"
 #include "m2c_compat.h"
 #include "town/scene.h"
 
-s32 get_current_nested_record_value(void);
 extern M2C_UNK D_8001AA2E;
 
 /* Return the fallback pointer when the input check is below -47. */

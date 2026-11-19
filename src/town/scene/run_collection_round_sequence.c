@@ -19,7 +19,6 @@ void func_802441A4();                       /* extern */ /* Unprototyped: this s
 short func_8025E01C(void *position);                     /* extern */
 extern u8 D_80095AA0[];
 extern u8 collection_round_work[0x14];
-extern u8 town_motion_state[0x18];
 extern s16 D_80530658[];
 extern u16 D_805306C8[];
 void advance_accumulator_reset_lowering_stored(s32 unused, void *position);                      /* extern */
@@ -118,8 +117,8 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
     u16 start_y;
     u16 finish_flags;
     S_80527D5C_8 *item;
-    SignedPositionView *position;
-    u16 *position_x;
+    ObjectPosition *position;
+    s16 *position_x;
     void *render_or_counts;
     S_80527D5C_4 *phase_data;
     s32 direction_flags;
@@ -139,15 +138,15 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
     phase_data = (S_80527D5C_4 *)((u8 *) owner + 0x20);
     switch (state) {
     case 0:
-        start_x = ((TrailMotion *)(&town_motion_state))->x.unk_02.unk_02;
+        start_x = town_motion_state.x.w.i;
         sequence->saved_x.u = start_x;
-        start_y = ((TrailMotion *)(&town_motion_state))->y.unk_06.unk_06;
+        start_y = town_motion_state.y.w.i;
         sequence->unk_28.u = 4U;
         sequence->state.s = 1;
         sequence->saved_y.u = start_y;
-        ((TrailMotion *)(&town_motion_state))->unk_14 = 0xFFE00000;
-        ((TrailMotion *)(&town_motion_state))->velocity_y = -0x200000;
-        ((TrailMotion *)(&town_motion_state))->velocity_x = -0x200000;
+        town_motion_state.velocity_z = 0xFFE00000;
+        town_motion_state.velocity_y = -0x200000;
+        town_motion_state.velocity_x = -0x200000;
         (*(s32 *)((u8 *)render_or_counts + (0))) = (s32) &func_802483B8;
         ((S_80527D5C_3 *)(&collection_round_work))->unk_04 = (s32) &advance_accumulator_reset_lowering_stored;
 
@@ -159,32 +158,32 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
         if ((start_ticks << 0x10) <= 0) {
             sequence->unk_28.u = 0x10U;
             sequence->state.s = 2;
-            ((TrailMotion *)(&town_motion_state))->velocity_x = (s32) ((0x420 - (s16) sequence->saved_x.u)
+            town_motion_state.velocity_x = (s32) ((0x420 - (s16) sequence->saved_x.u)
                 << 0x10) / (s16) sequence->unk_28.u;
-            ((TrailMotion *)(&town_motion_state))->velocity_y = (s32) ((0x460 - (s16) sequence->saved_y.u)
+            town_motion_state.velocity_y = (s32) ((0x460 - (s16) sequence->saved_y.u)
                 << 0x10) / (s16) sequence->unk_28.u;
-            ((TrailMotion *)(&town_motion_state))->unk_14 = 0xFFF40000;
+            town_motion_state.velocity_z = 0xFFF40000;
         }
         break;
 
     case 2:
-        position_x = (u16 *)((s8 *)&town_motion_state + 2);
+        position_x = &town_motion_state.x.w.i;
         ((S_80527D5C_3 *)(&collection_round_work))->unk_10 = ((u16) ((s16)((S_80527D5C_3 *)(&collection_round_work))->unk_10) + 0x200) & 0xFFF;
-        if ((s16) *position_x < 0x420) {
+        if (*position_x < 0x420) {
             *position_x = 0x420;
         }
         move_ticks = sequence->unk_28.u - 1;
         sequence->unk_28.u = move_ticks;
         if ((move_ticks << 0x10) <= 0) {
-            ((TrailMotion *)(&town_motion_state))->velocity_y = 0;
-            ((TrailMotion *)(&town_motion_state))->velocity_x = 0;
+            town_motion_state.velocity_y = 0;
+            town_motion_state.velocity_x = 0;
             sequence->state.s = 3;
         }
         break;
 
     case 3:
     {
-        s32 *position_y = (s32 *)((s8 *)&town_motion_state + 4);
+        s32 *position_y = &town_motion_state.y.v;
         s32 current_y = *position_y;
 
         if (current_y <= 0x44FFFFF) {
@@ -196,11 +195,11 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
             eased_y = ((0x4700000 - current_y) >> 1) + current_y;
             *position_y = eased_y;
         }
-        position = (SignedPositionView *)(position_y - 1);
+        position = &town_motion_state;
         (*(u16 *)((u8 *)render_or_counts + (0x10))) =
             (u16) (((*(u16 *)((u8 *)render_or_counts + (0x10))) + 0x200) & 0xFFF);
         height_or_index = (s16) func_8025E01C(position);
-        if (!(((TrailMotion *)(&town_motion_state))->z < height_or_index)) {
+        if (!(town_motion_state.z.w.i < height_or_index)) {
             if ((*(s16 *)((u8 *)render_or_counts + (0x10))) == 0x800) {
                 sequence->state.s = 4;
                 create_initialize_eight_objects_table(sequence);
@@ -229,8 +228,8 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
             (*(u16 *)((u8 *)render_or_counts + (0x10))) = 0x800U;
             func_80244588();
             func_802445FC((s32) &func_80290318);
-            sequence->saved_x.u = (u16) ((TrailMotion *)(&town_motion_state))->x.unk_02.unk_02;
-            center_y = (u16) ((TrailMotion *)(&town_motion_state))->y.unk_06.unk_06;
+            sequence->saved_x.u = (u16) town_motion_state.x.w.i;
+            center_y = (u16) town_motion_state.y.w.i;
             sequence->angle.u = 0U;
             sequence->flags.u = (u16) (sequence->flags.u & 0x7FFF);
             sequence->state.s = 6;
@@ -344,10 +343,10 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
                     s32 delta_x;
 
                     delta_x = ((SignedPositionView *)((void *) coord_or_sound))->x;
-                    coord_delta = position->x;
+                    coord_delta = position->x.w.i;
                     delta_x -= coord_delta;
                     coord_delta = ((SignedPositionView *)((void *) coord_or_sound))->y;
-                    coord_or_sound = position->y;
+                    coord_or_sound = position->y.w.i;
                     distance_x = __builtin_abs(delta_x);
                     coord_delta -= coord_or_sound;
                     if (coord_delta < 0) {
@@ -419,17 +418,17 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
     }
 
     if (sequence->state.s >= 4) {
-        if (((TrailMotion *)(&town_motion_state))->x.unk_00 <= 0x03CFFFFF) {
-            ((TrailMotion *)(&town_motion_state))->x.unk_00 = 0x03D00000;
+        if (town_motion_state.x.v <= 0x03CFFFFF) {
+            town_motion_state.x.v = 0x03D00000;
         }
-        if ((*(s32 *)((u8 *)(&town_motion_state) + (4))) <= 0x044FFFFF) {
-            ((TrailMotion *)(&town_motion_state))->y.unk_04 = 0x04500000;
+        if (town_motion_state.y.v <= 0x044FFFFF) {
+            town_motion_state.y.v = 0x04500000;
         }
-        if (((TrailMotion *)(&town_motion_state))->x.unk_00 > 0x04700000) {
-            ((TrailMotion *)(&town_motion_state))->x.unk_00 = 0x04700000;
+        if (town_motion_state.x.v > 0x04700000) {
+            town_motion_state.x.v = 0x04700000;
         }
-        if ((*(s32 *)((u8 *)(&town_motion_state) + (4))) > 0x04700000) {
-            ((TrailMotion *)(&town_motion_state))->y.unk_04 = 0x04700000;
+        if (town_motion_state.y.v > 0x04700000) {
+            town_motion_state.y.v = 0x04700000;
         }
     }
     return;

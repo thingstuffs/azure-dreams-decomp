@@ -12,7 +12,6 @@
 
 
 
-extern void select_sprite_entry(void *, s32, s32);
 
 extern u8 D_8015CC74[];
 

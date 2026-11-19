@@ -1,4 +1,5 @@
 #include "dungeon/level/tile_flags.h"
+#include "shared/dungeon_floor.h"
 /* Floor item selection and placement, saved monster restoration, traps, and floor label sprites. */
 #include "shared/object_node.h"
 #include "dungeon/level/spawn.h"
@@ -18,8 +19,8 @@ s32 is_floor_item_tile_occupied(s32 excluded_slot, s16 x, s16 y)
     for (slot = 0; slot < 64; slot++) {
         if ((excluded_slot != slot) &&
             (dungeon_ground_items[slot].kind != ITEM_KIND_NONE) &&
-            (((floor_spawns_isolated_8028B110_DungeonPosition *)dungeon_ground_item_positions)[slot].x == x) &&
-            (((floor_spawns_isolated_8028B110_DungeonPosition *)dungeon_ground_item_positions)[slot].y == y)) {
+            (dungeon_ground_item_positions[slot].x == x) &&
+            (dungeon_ground_item_positions[slot].y == y)) {
             return 1;
         }
     }
@@ -42,14 +43,14 @@ void populate_floor_item_records(void)
     s32 special_flag;
     s32 spawn_check;
     floor_spawns_isolated_8028B18C_DungeonGroup *item_category_table;
-    floor_spawns_isolated_8028B18C_DungeonRecord *item_record;
+    DungeonItemPosition *item_record;
     DungeonItemEntry *item_state;
-    floor_spawns_isolated_8028B18C_DungeonRecord *saved_record;
-    floor_spawns_isolated_8028B18C_DungeonRecord *spawn_records;
+    DungeonItemPosition *saved_record;
+    DungeonItemPosition *spawn_records;
     u8 *setup_globals;
     if (floor_loaded_content_flags[0] & 2) {
         count = 0;
-        saved_record = (floor_spawns_isolated_8028B18C_DungeonRecord *)dungeon_ground_item_positions;
+        saved_record = dungeon_ground_item_positions;
         item_state = (DungeonItemEntry *)((u8 *)dungeon_ground_items);
         do {
             if (item_state->unk_00 != 0) {
@@ -69,7 +70,7 @@ void populate_floor_item_records(void)
     *(u16 *)(setup_globals + 0x3626) += (generate_random_value() & 3) + 0x33;
     *(u16 *)(setup_globals + 0x209E) += (generate_random_value() & 3) + 0x33;
 
-    if (floor_generation_state[3] == 1) {
+    if (floor_generation_state.room_count == 1) {
         s32 limit_roll;
 
         crystal_pending = 0;
@@ -81,7 +82,7 @@ void populate_floor_item_records(void)
 
         crystal_pending = 0;
         limit_roll = generate_random_value() & 3;
-        base_limit = (s16)floor_generation_state[3] / 2;
+        base_limit = floor_generation_state.room_count / 2;
         slot_limit = base_limit + limit_roll;
     }
 
@@ -108,7 +109,7 @@ void populate_floor_item_records(void)
                         s32 *spawn_table = (s32 *)((u8 *)dungeon_ground_items);
                         spawn_table[spawn_index] = 0x603;
                     }
-                    spawn_records = (floor_spawns_isolated_8028B18C_DungeonRecord *)dungeon_ground_item_positions;
+                    spawn_records = dungeon_ground_item_positions;
                     spawn_records[spawn_index].x = tile_x;
                     spawn_records[spawn_index].y = tile_y;
                     cycle_map_cell_flags(spawn_records[spawn_index].x,
@@ -122,7 +123,7 @@ void populate_floor_item_records(void)
     spawn_check = (s32)((u8 *)0x80010000);
     item_category_table = ((floor_spawns_isolated_8028B18C_DungeonGroup *)item_category_groups);
     item_state = (DungeonItemEntry *)((u8 *)dungeon_ground_items);
-    item_record = (floor_spawns_isolated_8028B18C_DungeonRecord *)dungeon_ground_item_positions;
+    item_record = dungeon_ground_item_positions;
 main_loop:
     if (item_state->kind == ITEM_KIND_NONE) {
         if (count >= slot_limit) {
@@ -174,22 +175,22 @@ main_loop:
             } else {
                 item_record->x = tile_x;
                 item_record->y = tile_y;
-                item_record->field4 = get_surface_height_at_coordinates((tile_x << 6) | 0x20,
+                item_record->ground_height = get_surface_height_at_coordinates((tile_x << 6) | 0x20,
                                                     (tile_y << 6) | 0x20);
-                item_record->field7 = 0;
+                item_record->field_07 = 0;
                 cycle_map_cell_flags(tile_x, tile_y, TILE_HAS_ITEM);
-                item_record->field8 = get_item_sprite_source(item_state);
+                item_record->sprite_source_word = get_item_sprite_source(item_state);
             }
         }
     } else {
         tile_x = item_record->x;
         tile_y = item_record->y;
         init_random_floor_item_parameters(item_state);
-        item_record->field4 = get_surface_height_at_coordinates((tile_x << 6) | 0x20,
+        item_record->ground_height = get_surface_height_at_coordinates((tile_x << 6) | 0x20,
                                             (tile_y << 6) | 0x20);
-        item_record->field7 = 0;
+        item_record->field_07 = 0;
         cycle_map_cell_flags(tile_x, tile_y, TILE_HAS_ITEM);
-        item_record->field8 = get_item_sprite_source(item_state);
+        item_record->sprite_source_word = get_item_sprite_source(item_state);
     }
 
     item_state++;
@@ -511,7 +512,7 @@ void generate_random_dungeon_item_drops(void)
     DungeonItemEntry *entry;
     floor_spawns_isolated_8028BC54_DungeonCell *cell;
     DungeonItemEntry *entry_scan;
-    floor_spawns_isolated_8028BC54_DungeonCell *cell_scan;
+    DungeonItemPosition *cell_scan;
     DungeonItemEntry *entry_base;
     u8 *cell_page;
     floor_spawns_isolated_8028BC54_DungeonCell *cell_base = 0;
@@ -568,7 +569,7 @@ void generate_random_dungeon_item_drops(void)
 
         scan_x = x;
         scan_y = y;
-        for (index = 0, cell_scan = (floor_spawns_isolated_8028BC54_DungeonCell *)dungeon_ground_item_positions, entry_scan = entry_base;
+        for (index = 0, cell_scan = dungeon_ground_item_positions, entry_scan = entry_base;
              index < 64;
              cell_scan++, index++, entry_scan++) {
             if (!(entry_scan->kind == ITEM_KIND_NONE || cell_scan->x != scan_x || cell_scan->y != scan_y)) {
@@ -603,7 +604,7 @@ void generate_random_dungeon_item_drops(void)
 void restore_spawns_and_place_floor_traps(void) {
     u8 x;
     u8 y;
-    floor_spawns_isolated_8028BF0C_S_8001EF0C_1 *floor_config;
+    DungeonFloorGenerationState *floor_config;
     floor_spawns_isolated_8028BF0C_SpawnPosition *position;
     floor_spawns_isolated_8028BF0C_SpawnMeta *meta;
     s32 *limits;
@@ -663,11 +664,11 @@ void restore_spawns_and_place_floor_traps(void) {
         slot++;
     } while (slot < 0x20);
 
-    floor_config = (floor_spawns_isolated_8028BF0C_S_8001EF0C_1 *)floor_generation_state;
-    if (floor_config->unk_06 == 1) {
+    floor_config = &floor_generation_state;
+    if (floor_config->room_count == 1) {
         spawn_limit = (generate_random_value() & 3) + 4;
     } else {
-        spawn_limit = floor_config->unk_06 / 2 + (generate_random_value() & 3);
+        spawn_limit = floor_config->room_count / 2 + (generate_random_value() & 3);
     }
     if (spawn_limit >= 0x21) {
         spawn_limit = 0x20;

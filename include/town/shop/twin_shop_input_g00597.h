@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B016C, CL:town/func_800B02BC, CL:town/func_800B03A4, CL:town/func_800B03D0. */
 
 #include "common.h"
+#include "engine/script.h"
 #include "records/Rec_func_800AD7F8_arg0.h"
 #include "m2c_compat.h"
 #include "shared/game_work.h"
@@ -18,7 +19,6 @@ extern void confirm_selected_entry(s32 *menu);
 extern void close_twin_shop(void *shop_ptr);
 extern void set_shop_page_and_selection(s32 menu_value, s32 row, s32 selection);
 extern void set_shop_selected_entry(s32 menu_value, s32 selection);
-extern s32 script_status;
 
 /* Functions defined in this translation unit. */
 void refresh_selected_item_name(Rec_func_800AD7F8_arg0 *record);

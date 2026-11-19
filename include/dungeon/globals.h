@@ -15,4 +15,15 @@ extern s16 actor_hop_target_height;
 extern s16 lift_jitter_offsets[2];
 extern s32 visual_object_sprite_data;
 
+/* Number of frames left in the dungeon camera target transition. */
+extern u8 camera_transition_timer;
+
+/* The actor replacement fade interpolates the scene tint toward one of four
+ * four-byte colours. Only the first three bytes are read; the fourth is zero. */
+typedef struct ActorEffectColor {
+    u8 r, g, b;
+    u8 pad;
+} ActorEffectColor;
+extern ActorEffectColor *actor_effect_color_targets[4];
+
 #endif

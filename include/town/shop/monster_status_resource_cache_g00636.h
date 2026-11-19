@@ -3,6 +3,8 @@
 /* Initialize and refresh monster status resource cache: shared declarations. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B956C, CL:town/func_800B958C, CL:town/func_800B95F4, CL:town/func_800B9634, CL:town/func_800B97F4. */
 
+#include "town/shop/object.h"
+#include "shared/sprite_part_command.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800B683C_arg0.h"
@@ -10,10 +12,7 @@
 #include "engine/entity.h"
 #include "sdk/libgpu.h"
 
-typedef struct S_800B6CCC_0 {
-    s32 unk_00;
-    s32 unk_04;
-} S_800B6CCC_0;
+
 
 struct Rec_func_800B683C_arg0;
 
@@ -32,10 +31,10 @@ extern s32 get_enabled_record_flag_priority();
 
 
 /* Functions defined in this translation unit. */
-void fill_cd_read_descriptor(s32 mode, s32 value_base, S_800B6CCC_0 *entry, s32 data_base);
+void fill_cd_read_descriptor(s32 mode, s32 value_base, MonsterStatusCdDescriptor *entry, s32 data_base);
 s32 get_monster_status_species_code(void *object);
-void set_monster_status_cd_read_target(void *object);
-void clear_monster_status_texture(void *texture);
-s32 queue_monster_status_reload(Rec_func_800B683C_arg0 *state);
+void set_monster_status_cd_read_target(ShopFirstCallbackObject *object);
+void clear_monster_status_texture(SpritePartCommand *texture);
+s32 queue_monster_status_reload(ShopFirstCallbackObject *state);
 
 #endif

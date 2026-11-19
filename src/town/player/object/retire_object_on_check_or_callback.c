@@ -12,17 +12,18 @@
  * read and write halves of the |= (see w_800510DC.c), matching retail's
  * one lui reused for both the load and the store. */
 
-typedef void (*S_800A9590_Callback)(void *, void *, void *, void *);
+typedef void (*S_800A9590_Callback)(TownObjectRecord *, TownObjectRecord *, ObjectPosition *, struct SpriteFrameState *);
 
 /* Cleans up and flags the object when its check succeeds, otherwise invokes its callback. */
-void retire_object_on_check_or_callback(void *object, void *input, void *context)
+void retire_object_on_check_or_callback(void *object, ObjectPosition *position, struct SpriteFrameState *sprite)
 {
-    u8 *status_byte;
+    TownObjectRecord *body = object;
+    s8 *status_byte;
     S_800A9590_Callback callback;
 
-    if (classify_object_against_bounds(object, input) != 0) {
+    if (classify_object_against_bounds(object, position) != 0) {
         unlink_scene_list_node(object);
-        status_byte = *(u8 **)((u8 *)object + 0x98);
+        status_byte = body->unk_98;
         if (status_byte != 0) {
             *status_byte = 0;
         }
@@ -31,8 +32,8 @@ void retire_object_on_check_or_callback(void *object, void *input, void *context
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
-    callback = *(S_800A9590_Callback *)((u8 *)object + 0x50);
+    callback = body->unk_50.as_pv;
     if (callback != 0) {
-        callback(object, object, input, context);
+        callback(body, body, position, sprite);
     }
 }

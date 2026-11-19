@@ -102,7 +102,7 @@ void spawn_young_emitter_particles(S_7FFEA9D4_0 *emitter, s32 init_param_1, s32 
     emitter->unk_1E = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         header = (u16 *)emitter - 1;
-        z_offset = (s32)&emitted_effect_counter;
+        z_offset = (s32)emitted_effect_counter;
         *header |= 0x8000;
         active_count = *(u16 *)z_offset - 1;
         particle_object_flags |= 0x8000;

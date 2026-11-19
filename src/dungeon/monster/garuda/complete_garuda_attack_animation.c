@@ -1,4 +1,5 @@
 #include "engine/graphics/select_sprite_entry_api.h"
+#include "shared/record_ptrs.h"
 #include "common.h"
 #include "dungeon/monster/garuda.h"
 #include "shared/game_work.h"
@@ -9,7 +10,6 @@
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
 
-extern void *actor_update_node_cursor;
 
 extern u8 D_801748B8[];
 

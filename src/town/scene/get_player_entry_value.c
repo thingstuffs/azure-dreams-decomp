@@ -1,15 +1,10 @@
 #include "script_symbols.h"
 #include "shared/town_event_state.h"
 #include "common.h"
+#include "town/scene/indexed_values_data.h"
 #include "town/scene.h"
 #include "town/player/state.h"
 
-typedef struct {
-    u8 pad[8];
-    s32 value;
-} TownRecord;
-
-extern TownRecord town_selection_records[];
 extern s32 D_80018054[];
 
 /* Return the player's table value, calling func_8001E578 if its town record value is zero. */
@@ -18,7 +13,7 @@ s32 get_player_entry_value(void) {
     u8 *player = *player_ptr;
     u8 player_index = player[4];
 
-    if (town_selection_records[player_index].value == 0) {
+    if (town_selection_records[player_index].condition == 0) {
         set_script_flag_bit(F_sbs01_pad12);
     }
 

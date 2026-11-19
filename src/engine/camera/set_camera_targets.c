@@ -18,14 +18,14 @@ void set_camera_targets(void *target_position, void *target_rotation, u16 transi
     }
     if (target_rotation != 0) {
         s32 current_angle_wide_m;
-        angle_bits = ((CameraRotationTarget *)target_rotation)->x.u;
+        angle_bits = ((CameraRotationTarget *)target_rotation)->x;
         if (angle_bits & 0x800) {
             target_angle = angle_bits | 0xF800;
         }
         else {
             target_angle = angle_bits & 0x7FF;
         }
-        ((CameraRotationTarget *)target_rotation)->x.s = target_angle;
+        ((CameraRotationTarget *)target_rotation)->x = target_angle;
         angle_bits = (u16)state->camera_rotation.parts.camera_rotation_x;
         if (angle_bits & 0x800) {
             current_angle = angle_bits | 0xF800;
@@ -37,25 +37,25 @@ void set_camera_targets(void *target_position, void *target_rotation, u16 transi
         {
             current_angle_wide_m = (u32)current_angle << 16;
             current_angle_wide_m >>= 16;
-            angle_delta = (((CameraRotationTarget *)target_rotation)->x.s) - current_angle_wide_m;
+            angle_delta = (((CameraRotationTarget *)target_rotation)->x) - current_angle_wide_m;
         }
         if (angle_delta < 0) {
             within_half_turn = (-angle_delta < 0x801);
         } else {
             within_half_turn = (angle_delta < 0x801);
         }
-        angle_bits = ((CameraRotationTarget *)target_rotation)->x.u;
+        angle_bits = ((CameraRotationTarget *)target_rotation)->x;
         if (!within_half_turn) {
-            ((CameraRotationTarget *)target_rotation)->x.s = (current_angle & 0xF000) | (angle_bits & 0xFFF);
+            ((CameraRotationTarget *)target_rotation)->x = (current_angle & 0xF000) | (angle_bits & 0xFFF);
         }
-        angle_bits = ((CameraRotationTarget *)target_rotation)->y.u;
+        angle_bits = ((CameraRotationTarget *)target_rotation)->y;
         if (angle_bits & 0x800) {
             target_angle = angle_bits | 0xF800;
         }
         else {
             target_angle = angle_bits & 0x7FF;
         }
-        ((CameraRotationTarget *)target_rotation)->y.s = target_angle;
+        ((CameraRotationTarget *)target_rotation)->y = target_angle;
         angle_bits = (u16)state->camera_rotation.parts.camera_rotation_y;
         if (angle_bits & 0x800) {
             current_angle = angle_bits | 0xF800;
@@ -67,25 +67,25 @@ void set_camera_targets(void *target_position, void *target_rotation, u16 transi
         {
             current_angle_wide_m = (u32)current_angle << 16;
             current_angle_wide_m >>= 16;
-            angle_delta = (((CameraRotationTarget *)target_rotation)->y.s) - current_angle_wide_m;
+            angle_delta = (((CameraRotationTarget *)target_rotation)->y) - current_angle_wide_m;
         }
         if (angle_delta < 0) {
             within_half_turn = (-angle_delta < 0x801);
         } else {
             within_half_turn = (angle_delta < 0x801);
         }
-        angle_bits = ((CameraRotationTarget *)target_rotation)->y.u;
+        angle_bits = ((CameraRotationTarget *)target_rotation)->y;
         if (!within_half_turn) {
-            ((CameraRotationTarget *)target_rotation)->y.s = (current_angle & 0xF000) | (angle_bits & 0xFFF);
+            ((CameraRotationTarget *)target_rotation)->y = (current_angle & 0xF000) | (angle_bits & 0xFFF);
         }
-        angle_bits = ((CameraRotationTarget *)target_rotation)->z.u;
+        angle_bits = ((CameraRotationTarget *)target_rotation)->z;
         if (angle_bits & 0x800) {
             target_angle = angle_bits | 0xF800;
         }
         else {
             target_angle = angle_bits & 0x7FF;
         }
-        ((CameraRotationTarget *)target_rotation)->z.s = target_angle;
+        ((CameraRotationTarget *)target_rotation)->z = target_angle;
         angle_bits = (u16)state->camera_rotation.parts.viewAngle;
         if (angle_bits & 0x800) {
             current_angle = angle_bits | 0xF800;
@@ -97,16 +97,16 @@ void set_camera_targets(void *target_position, void *target_rotation, u16 transi
         {
             current_angle_wide_m = (u32)current_angle << 16;
             current_angle_wide_m >>= 16;
-            angle_delta = (((CameraRotationTarget *)target_rotation)->z.s) - current_angle_wide_m;
+            angle_delta = (((CameraRotationTarget *)target_rotation)->z) - current_angle_wide_m;
         }
         if (angle_delta < 0) {
             within_half_turn = (-angle_delta < 0x801);
         } else {
             within_half_turn = (angle_delta < 0x801);
         }
-        angle_bits = ((CameraRotationTarget *)target_rotation)->z.u;
+        angle_bits = ((CameraRotationTarget *)target_rotation)->z;
         if (!within_half_turn) {
-            ((CameraRotationTarget *)target_rotation)->z.s = (current_angle & 0xF000) | (angle_bits & 0xFFF);
+            ((CameraRotationTarget *)target_rotation)->z = (current_angle & 0xF000) | (angle_bits & 0xFFF);
         }
         initialize_three_component_interpolation(&state->slot[2].unk_04, target_rotation, transition_param, &state->camera_rotation.parts.camera_rotation_x);
     }

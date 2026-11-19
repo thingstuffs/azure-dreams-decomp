@@ -1,6 +1,5 @@
 #include "common.h"
-
-extern s16 scene_selection_index;
+#include "town/scene/state_data.h"
 
 /* Decrements the scene_selection_index halfword. */
 void decrement_scene_selection_index(void) {

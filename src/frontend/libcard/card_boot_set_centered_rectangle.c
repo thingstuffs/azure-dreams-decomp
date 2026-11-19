@@ -3,7 +3,7 @@
 #include "frontend/libcard.h"
 
 /* Apply a centered rectangle with the given width and height and return the target. */
-s32 card_boot_set_centered_rectangle(s32 target, s32 width, s32 height) {
+u8 *card_boot_set_centered_rectangle(u8 *target, s32 width, s32 height) {
     s16 rect[4];
 
     rect[0] = (s16) (-width / 2);

@@ -12,7 +12,6 @@
 
 
 
-extern void select_sprite_entry(void *, s32, s32);
 
 extern u8 griffon_slot_f_action_callback;
 extern u8 D_8016EC74[];

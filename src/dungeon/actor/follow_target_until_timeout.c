@@ -1,3 +1,5 @@
+#include "town/event/object.h"
+#include "town/scene/motion.h"
 #include "common.h"
 #include "shared/entity.h"
 #include "town/player/position.h"
@@ -6,18 +8,10 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 resident_globals_page[];
-s32 apply_bound_adjustments(s32, ObjectPosition *);             /* extern */
-s32 resolve_collider_overlaps(s32, ObjectPosition *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */             /* extern */
-s32 initialize_object_and_maybe_play_sound(void *, s32, ObjectPosition *, s32); /* extern */
 
-
-typedef struct S_7FFFE188_1 {
-    u8 pad_00[0x6C];
-    u16 unk_6C;
-} S_7FFFE188_1;   /* arg0 in follow_target_until_timeout */
 
 /* Updates motion toward the target and handles countdown expiration. */
-void follow_target_until_timeout(S_7FFFE188_1 *entity, s32 context, ObjectPosition *motion, s32 completion_data) {
+void follow_target_until_timeout(TownObjectRecord *entity, struct ColliderView *context, ObjectPosition *motion, struct SpriteFrameState *completion_data) {
     s32 *target_pos;
     u16 remaining_ticks;
 
@@ -27,8 +21,8 @@ void follow_target_until_timeout(S_7FFFE188_1 *entity, s32 context, ObjectPositi
     add_motion_deltas_to_position(motion);
     apply_bound_adjustments(context, motion);
     resolve_collider_overlaps(context, motion);
-    remaining_ticks = entity->unk_6C - 1;
-    entity->unk_6C = remaining_ticks;
+    remaining_ticks = entity->timer - 1;
+    entity->timer = remaining_ticks;
     if ((remaining_ticks << 0x10) <= 0) {
         initialize_object_and_maybe_play_sound(entity, context, motion, completion_data);
     }

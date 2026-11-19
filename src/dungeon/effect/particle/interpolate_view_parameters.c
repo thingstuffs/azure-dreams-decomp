@@ -94,25 +94,26 @@ void advance_accelerating_particle(B31_818C8924_EffectState *effect, ObjectPosit
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Updates a moving effect, spawns particles, and advances its timed phases. */
-void update_particle_spawning_effect(B31_818C8A70_S_818C8A70_0 *effect, B31_818C8A70_S_818C8A70_4 *position) {
+void update_particle_spawning_effect(ParticleSpawningEffectBody *effect, ObjectPosition *position) {
     s32 effect_mode;
     s16 coord;
     s16 coord_2;
     s16 phase;
     s32 effect_value;
     u8 random_value;
-    u16 remaining_ticks;
+    s16 remaining_ticks;
     u16 burst_ticks;
-    u16 fade_ticks;
-    B31_818C8A70_S_818C8A70_3 *sprite;
+    s16 fade_ticks;
+    SpriteFrameState *sprite;
+    ObjectPosition *target_position;
     ObjectPosition *particle_pos;
     B31_818C8A70_S_818C8A70_1 *particle_state;   /* retained from the base: holds the repeated particle-state role */
-    B31_818C8A70_S_818C8A70_6 *source;
+    B31_818C8FD0_S_func_818C8FD0_2 *source;
     ObjectNodeHeader *particle;
 
     moving_particle_effect_updated = 1;
-    source = effect->unk_2C;
-    if (effect->unk_00 == 0) {
+    source = effect->source;
+    if (effect->phase == 0) {
         particle = allocate_flagged_object_node(0x212);
         particle_state = NODE_BODY(particle);
         if (particle != NULL) {
@@ -120,61 +121,61 @@ void update_particle_spawning_effect(B31_818C8A70_S_818C8A70_0 *effect, B31_818C
             particle->update_callback = advance_accelerating_particle;
             register_node(particle, project_sprite_chain);
             sprite = particle->sprite;
-            sprite->unk_10 = 0x60;
-            sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+            sprite->tpage_abr = 0x60;
+            sprite->flags |= 0xC;
             particle_pos = particle->position;
             random_value = rand();
-            coord = position->unk_00.at02.v;
+            coord = position->x.w.i;
             coord -= 8;
             coord += random_value & 0xF;
             particle_pos->x.w.i = coord;
             random_value = rand();
-            coord = position->unk_04.at02.v;
+            coord = position->y.w.i;
             coord -= 8;
             coord += random_value & 0xF;
             particle_pos->y.w.i = coord;
             random_value = rand();
-            coord = position->unk_08.at02.v;
+            coord = position->z.w.i;
             coord -= 4;
             coord += random_value & 7;
             particle_pos->z.w.i = coord;
             particle_state->unk_60 = (s32) (rand() + 0xFFFE0000);
             sprite = particle->sprite;
-            sprite->unk_1C = 0x1000;
-            sprite->unk_1E = 0x1000;
-            sprite->unk_0E = 0x80;
-            sprite->unk_0D = 0x80;
-            sprite->unk_0C = 0x80;
-            sprite->unk_12 = 0x7DCF;
-            sprite->unk_14 = (u16) (sprite->unk_14 | 0x100);
+            sprite->scale_x = 0x1000;
+            sprite->scale_y = 0x1000;
+            sprite->color.c.b = 0x80;
+            sprite->color.c.g = 0x80;
+            sprite->color.c.r = 0x80;
+            sprite->clut = 0x7DCF;
+            sprite->flags |= 0x100;
             select_record_entry_and_value(sprite, effect_sprite_sources, 0);
         }
-        remaining_ticks = effect->unk_02 - 1;
-        effect->unk_02 = remaining_ticks;
-        if ((remaining_ticks << 0x10) <= 0) {
-            if (effect->unk_08 != 0) {
-                effect->unk_00 = 1;
-                effect->unk_02 = 0U;
+        remaining_ticks = effect->ticks - 1;
+        effect->ticks = remaining_ticks;
+        if (remaining_ticks <= 0) {
+            if (effect->has_target != 0) {
+                effect->phase = 1;
+                effect->ticks = 0;
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             } else {
                 NODE_HEADER(effect)->flags |= 0x8000;
                 object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
             }
         }
-        if ((check_adjacent_tile_height_clearance(position->unk_00.at02.v, position->unk_04.at02.v, (s16) position->unk_08.at02.v, effect->unk_30) << 0x10) == 0) {
-            position->unk_00.at00.v = (s32) (position->unk_00.at00.v + effect->unk_58);
-            position->unk_04.at00.v = (s32) (position->unk_04.at00.v + effect->unk_5C);
-            position->unk_08.at00.v = (s32) (position->unk_08.at00.v + effect->unk_60);
+        if ((check_adjacent_tile_height_clearance(position->x.w.i, position->y.w.i, position->z.w.i, effect->target) << 0x10) == 0) {
+            position->x.v += effect->step_x;
+            position->y.v += effect->step_y;
+            position->z.v += effect->step_z;
         } else {
             NODE_HEADER(effect)->flags |= 0x8000;
             object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
             return;
         }
     }
-    phase = effect->unk_00;
+    phase = effect->phase;
     if (phase == 1) {
-        burst_ticks = effect->unk_02 + 1;
-        effect->unk_02 = burst_ticks;
+        burst_ticks = effect->ticks + 1;
+        effect->ticks = burst_ticks;
         if ((burst_ticks & 3) == phase) {
             particle = allocate_flagged_object_node(0x212);
             particle_state = NODE_BODY(particle);
@@ -185,23 +186,23 @@ void update_particle_spawning_effect(B31_818C8A70_S_818C8A70_0 *effect, B31_818C
                 particle->update_callback = advance_accelerating_particle;
                 register_node(particle, project_sprite_chain);
                 sprite = particle->sprite;
-                sprite->unk_10 = 0x60;
-                sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+                sprite->tpage_abr = 0x60;
+                sprite->flags |= 0xC;
                 particle_pos = particle->position;
-                sprite = ((B31_818C8A70_S_818C8A70_7_pre *)(effect->unk_30))[-1].unk_00;
+                target_position = NODE_HEADER(effect->target)->position;
                 random_value = rand();
-                coord = sprite->unk_02;
+                coord = target_position->x.w.i;
                 coord -= 0x10;
                 coord += random_value & 0x1F;
                 particle_pos->x.w.i = coord;
                 random_value = rand();
-                coord = sprite->unk_06;
+                coord = target_position->y.w.i;
                 coord -= 0x10;
                 coord += random_value & 0x1F;
                 particle_pos->y.w.i = coord;
                 random_value = rand();
                 random_value &= 0x1F;
-                particle_z_base = sprite->unk_0A;
+                particle_z_base = target_position->z.w.i;
                 random_value += 0x10;
                 particle_z = (u32)particle_z_base - random_value;
                 particle_pos->z.w.i = particle_z;
@@ -209,17 +210,17 @@ void update_particle_spawning_effect(B31_818C8A70_S_818C8A70_0 *effect, B31_818C
                 particle_state->unk_5C = (s32) (rand() - 0x8000);
                 particle_state->unk_60 = (s32) ((rand() + 0xFFFC0000) * 2);
                 sprite = particle->sprite;
-                sprite->unk_1C = 0x1000;
-                sprite->unk_1E = 0x1000;
-                sprite->unk_0E = 0x80;
-                sprite->unk_0D = 0x80;
-                sprite->unk_0C = 0x80;
-                sprite->unk_12 = 0x7DCF;
-                sprite->unk_14 = (u16) (sprite->unk_14 | 0x100);
+                sprite->scale_x = 0x1000;
+                sprite->scale_y = 0x1000;
+                sprite->color.c.b = 0x80;
+                sprite->color.c.g = 0x80;
+                sprite->color.c.r = 0x80;
+                sprite->clut = 0x7DCF;
+                sprite->flags |= 0x100;
                 select_record_entry_and_value(sprite, effect_sprite_sources, 0);
             }
         }
-        if ((effect->unk_02 & 3) == 2) {
+        if ((effect->ticks & 3) == 2) {
             particle = allocate_flagged_object_node(0x212);
             particle_state = NODE_BODY(particle);
             if (particle != NULL) {
@@ -228,47 +229,47 @@ void update_particle_spawning_effect(B31_818C8A70_S_818C8A70_0 *effect, B31_818C
                 particle->update_callback = interpolate_view_parameters;
                 register_node(particle, project_sprite_chain);
                 sprite = particle->sprite;
-                sprite->unk_10 = 0;
-                sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+                sprite->tpage_abr = 0;
+                sprite->flags |= 0xC;
                 particle_pos = particle->position;
-                sprite = ((B31_818C8A70_S_818C8A70_7_pre *)(effect->unk_30))[-1].unk_00;
+                target_position = NODE_HEADER(effect->target)->position;
                 random_value = rand();
-                coord = sprite->unk_02;
+                coord = target_position->x.w.i;
                 coord -= 0x10;
                 coord += random_value & 0x1F;
                 particle_pos->x.w.i = coord;
                 random_value = rand();
-                coord = sprite->unk_06;
+                coord = target_position->y.w.i;
                 coord -= 0x10;
                 coord += random_value & 0x1F;
                 particle_pos->y.w.i = coord;
                 random_value = rand();
                 random_value &= 0x3F;
-                coord_2 = sprite->unk_0A;
+                coord_2 = target_position->z.w.i;
                 random_value += 0x20;
                 particle_z = coord_2 - random_value;
                 particle_pos->z.w.i = particle_z;
                 sprite = particle->sprite;
-                sprite->unk_1C = 0x800;
-                sprite->unk_1E = 0x800;
+                sprite->scale_x = 0x800;
+                sprite->scale_y = 0x800;
                 particle_state->unk_60 = (s32) (rand() + 0xFFFE0000);
-                sprite->unk_0E = 0x80;
-                sprite->unk_0D = 0x80;
-                sprite->unk_0C = 0x80;
-                sprite->unk_12 = 0x7DC0;
-                sprite->unk_14 = (u16) (sprite->unk_14 | 0x100);
+                sprite->color.c.b = 0x80;
+                sprite->color.c.g = 0x80;
+                sprite->color.c.r = 0x80;
+                sprite->clut = 0x7DC0;
+                sprite->flags |= 0x100;
                 select_record_entry_and_value(sprite, directional_sprite_entries, 0);
             }
         }
-        if ((s16) effect->unk_02 >= 0x29) {
-            effect->unk_00 = 2;
-            effect->unk_02 = 0U;
-            if (try_trigger_target_record_effect(source->unk_60, 1, source) == 0) {
+        if (effect->ticks >= 0x29) {
+            effect->phase = 2;
+            effect->ticks = 0;
+            if (try_trigger_target_record_effect(source->target, 1, source) == 0) {
                 s16 random_bonus;
                 u32 effect_scale;
                 random_bonus = generate_random_value();
                 random_bonus &= 3;
-                effect_scale = effect->unk_15;
+                effect_scale = effect->variant;
                 random_bonus += 2;
                 effect_scale >>= 2;
                 effect_value = effect_scale + random_bonus;
@@ -276,14 +277,14 @@ void update_particle_spawning_effect(B31_818C8A70_S_818C8A70_0 *effect, B31_818C
                 if (current_spell_effect_variant == 0xFF) {
                     effect_mode = 0xFF;
                 }
-                try_apply_confusion_status(effect->unk_30, effect_mode, effect_value);
+                try_apply_confusion_status(effect->target, effect_mode, effect_value);
             }
         }
     }
-    if (effect->unk_00 == 2) {
-        fade_ticks = effect->unk_02 + 1;
-        effect->unk_02 = fade_ticks;
-        if ((s16) fade_ticks >= 0x15) {
+    if (effect->phase == 2) {
+        fade_ticks = effect->ticks + 1;
+        effect->ticks = fade_ticks;
+        if (fade_ticks >= 0x15) {
             NODE_HEADER(effect)->flags |= 0x8000;
             object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         }
@@ -370,7 +371,7 @@ void update_attached_effect_motion(B31_818C8FD0_S_func_818C8FD0_1 *state, B31_81
             effect_node = allocate_flagged_object_node(0x12);
 
             if (effect_node != 0) {
-                B31_818C8FD0_S_func_818C8FD0_7 *effect;
+                ParticleSpawningEffectBody *effect;
                 s32 direction_index;
                 SpriteFrameState *tile;
 
@@ -381,20 +382,20 @@ void update_attached_effect_motion(B31_818C8FD0_S_func_818C8FD0_1 *state, B31_81
 
                     direction_index = state->unk_7E;
                     direction_offset = (s16 *)((u8 *)offset_table + direction_index * 4);
-                    effect->unk_58 = (s32)direction_offset[0] << 16;
+                    effect->step_x = (s32)direction_offset[0] << 16;
                 }
                 {
                     u16 *direction_offset;
 
                     direction_index = state->unk_7E;
                     direction_offset = (u16 *)((u8 *)offset_table + direction_index * 4);
-                    effect->unk_5C = (s32)direction_offset[1] << 16;
+                    effect->step_y = (s32)direction_offset[1] << 16;
                 }
-                effect->unk_2C = object;
-                effect->unk_30 = object->unk_60.s32;
+                effect->source = object;
+                effect->target = object->target;
                 effect->unk_0A = ((s16)state->unk_84 - 1) / 2;
-                effect->unk_15 = state->unk_09;
-                effect->unk_16 = state->unk_7E;
+                effect->variant = state->unk_09;
+                effect->direction = state->unk_7E;
 
                 {
                     u8 *table_base = (u8 *)((s8 *)dir_step_x);
@@ -412,14 +413,14 @@ void update_attached_effect_motion(B31_818C8FD0_S_func_818C8FD0_1 *state, B31_81
                         tile->tile_y + table_base[direction_index];
                 }
 
-                if (object->unk_60.ptr != 0) {
+                if (object->target != 0) {
                     s32 tile_distance;
                     s32 duration;
                     B31_818C8FD0_S_func_818C8FD0_4 *target_pos;
                     u16 end_time;
                     u32 tile_coord;
 
-                    effect->unk_08 = one;
+                    effect->has_target = one;
                     tile_distance = object->unk_72;
                     tile_coord = tile->tile_x;
                     if (tile_distance != tile_coord) {
@@ -431,25 +432,25 @@ void update_attached_effect_motion(B31_818C8FD0_S_func_818C8FD0_1 *state, B31_81
                     }
                     if (tile_distance < 0) {
                         tile_distance = -tile_distance;
-                        effect->unk_02 = tile_distance * 2;
+                        effect->ticks = tile_distance * 2;
                     } else {
-                        effect->unk_02 = tile_distance * 2;
+                        effect->ticks = tile_distance * 2;
                     }
 
-                    target_pos = ((B31_818C8FD0_S_func_818C8FD0_3 *)((u8 *)object->unk_60.ptr - 0x20))->unk_08;
-                    duration = effect->unk_02;
+                    target_pos = ((B31_818C8FD0_S_func_818C8FD0_3 *)((u8 *)object->target - 0x20))->unk_08;
+                    duration = effect->ticks;
                     if (duration != 0) {
-                        effect->unk_60 =
+                        effect->step_z =
                             (target_pos->unk_08.s32 - output_pos->unk_08.s32 - 0x200000) /
                             (duration - 1);
                     }
-                    end_time = effect->unk_02;
+                    end_time = effect->ticks;
                     end_time += 0x3C;
                     state->unk_86 = end_time;
                 } else {
-                    effect->unk_02 = 0x20;
-                    effect->unk_08 = 0;
-                    state->unk_86 = effect->unk_02 + 0x1E;
+                    effect->ticks = 0x20;
+                    effect->has_target = 0;
+                    state->unk_86 = effect->ticks + 0x1E;
                 }
 
                 effect_node->update_callback = update_particle_spawning_effect;

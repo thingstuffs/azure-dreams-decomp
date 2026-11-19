@@ -1,6 +1,8 @@
 #ifndef DUNGEON_RESOURCE12_SLOT0_H
 #define DUNGEON_RESOURCE12_SLOT0_H
 #include "shared/dungeon_effect_status.h"
+#include "shared/sound_state.h"
+#include "dungeon/globals.h"
 #include "engine/node/registration.h"
 struct SpriteFrameState;
 struct ObjectPosition;
@@ -393,20 +395,14 @@ typedef struct R12_801749A8_S_801748F0_0 {
     u8 pad_02[0x1A];
     u16 unk_1C;
 } R12_801749A8_S_801748F0_0;
-typedef struct R12_801749EC_S_801749EC_0 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-} R12_801749EC_S_801749EC_0;
-typedef struct R12_801749EC_S_801749EC_1_pre {
-    u16 unk_00;
-} R12_801749EC_S_801749EC_1_pre;
-typedef struct R12_801749EC_S_801749EC_1 {
-    u8 pad_00[0x6];
-    u16 unk_06;
-    s16 unk_08;
-    u8 pad_0A[0x2];
-    u16 unk_0C;
-} R12_801749EC_S_801749EC_1;
+/* The sphere creator initializes the countdown and opening angle before installing the wireframe update. */
+typedef struct WireframeSphereBody {
+    u8 pad_00[6];
+    s16 phase;
+    s16 ticks_remaining;
+    s16 source_timer;
+    u16 angular_progress;
+} WireframeSphereBody;
 typedef struct R12_801749EC_S_801749EC_2_pre {
     u16 unk_00;
 } R12_801749EC_S_801749EC_2_pre;
@@ -474,27 +470,6 @@ typedef struct R12_801749EC_S_801749EC_21 {
     u16 unk_02;
     u16 unk_04;
 } R12_801749EC_S_801749EC_21;
-typedef struct R12_80175180_S_80175180_0 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-    u16 unk_0A;
-    s16 unk_0C;
-} R12_80175180_S_80175180_0;
-typedef struct R12_80175180_S_80175180_1 {
-    u8 pad_00[0x96];
-    u16 unk_96;
-} R12_80175180_S_80175180_1;
-typedef struct R12_80175180_S_80175180_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} R12_80175180_S_80175180_2;
-typedef struct R12_80175180_S_80175180_4 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} R12_80175180_S_80175180_4;
 typedef struct R12_80175180_S_80175180_5 {
     s32 unk_00;
     s32 unk_04;
@@ -615,17 +590,13 @@ extern u8 D_80175A5C[];
 extern u8 arachne_frame_set[];
 extern u8 arachne_reset_frames[];
 extern u8 arachne_move_direction_frames[];
-extern u8 actor_turn_angle_offsets[];
 extern u8 D_80175A64[];
 extern u8 D_80175A6C[];
 extern u8 D_80175A74[];
-extern u8 actor_update_node_cursor[];
 extern u8 D_80175AA4[];
 extern u8 D_80175B20[];
 extern u8 D_80175B28[];
 extern u8 resource_completion_callback_address[];
-extern u8 cd_cue_base[];
-extern u8 actor_effect_color_targets[];
 extern u8 dungeon_resource_buffer[];
 extern u8 arachne_image_commands[];
 extern u8 D_80175B14[];
@@ -663,8 +634,8 @@ s32 project_arachne_sprite_chain(void *initial_payload, ObjectPosition *entry_da
 void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_80174618_S_80174618_1 *position, SpriteFrameState *render_params, s16 depth_bias);
 s32 queue_line_packets_for_node_chain(void *initial_state, void *context, SpriteFrameState *data);
 void count_down_lifetime_and_flag_removal(void *record_data);
-void build_animated_spherical_wireframe(void *effect, ObjectPosition *origin, SpriteFrameState *tint);
-void create_wireframe_sphere_effect(void *source_arg, ObjectPosition *spawn_pos_arg, struct SpriteFrameState *unused_context);
+void build_animated_spherical_wireframe(WireframeSphereBody *effect, ObjectPosition *origin, SpriteFrameState *tint);
+void create_wireframe_sphere_effect(void *source_arg, ObjectPosition *spawn_pos, struct SpriteFrameState *unused_context);
 void wait_for_arachne_activity(ActorRecord *entity_data, ObjectPosition *unused_1, SpriteFrameState *unused_2, void *other_data);
 void fade_effect_to_neutral(void *entity_data, ObjectPosition *unused, void *source_data);
 void advance_effect_sequence_and_restore_actor(ActorRecord *sequence, ObjectPosition *position, SpriteFrameState *record, ActorRecord *actor);

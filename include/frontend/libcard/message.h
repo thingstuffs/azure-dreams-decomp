@@ -7,7 +7,6 @@
 #include "shared/menu_display.h"
 #include "frontend/libcard/message_dialog.h"
 
-struct Entity;
 struct CardMessageDialogBody;
 struct CardSaveMenuBody;
 struct CardSlotMenuState;
@@ -32,13 +31,13 @@ void card_boot_close_dialog_when_response_clears(struct CardMessageDialogBody *r
 s32 card_boot_close_message_dialog(s32 flagLinkedRecord);
 
 /* card_boot_create_slot_window.c */
-void *card_boot_create_slot_window(s32 parent_object, s32 object_index);
+struct ObjectNodeHeader *card_boot_create_slot_window(struct ObjectNodeHeader *parent_object, s32 object_index);
 
 /* card_boot_initialize_dialog_draw_nodes.c */
-void card_boot_initialize_dialog_draw_nodes(struct Entity *entity, s32 node_count);
+void card_boot_initialize_dialog_draw_nodes(CardMessageDialogBody *entity, s32 node_count);
 
 /* card_boot_initialize_slot_window.c */
-void card_boot_initialize_slot_window(struct CardSlotWindow *window, s32 owner, s32 slot_index);
+void card_boot_initialize_slot_window(struct CardSlotWindow *window, struct ObjectNodeHeader *owner, s32 slot_index);
 
 /* card_boot_layout_empty_slot_window.c */
 void card_boot_layout_empty_slot_window(struct CardSlotWindow *object);
@@ -65,7 +64,7 @@ void card_boot_release_command_panel_text(void *record);
 void card_boot_stop_slot_window_updates(struct CardSlotWindow *window);
 
 /* format_save_heading_text.c */
-void format_save_heading_text(u8 *base_addr);
+void format_save_heading_text(struct CardSaveHeadingDisplayPrefix *heading);
 
 /* card_boot_store_save_icon_clut_and_frames.c */
 void card_boot_store_save_icon_clut_and_frames(void *dest, s32 record_index);
@@ -90,7 +89,7 @@ typedef MenuDisplayNode CardDisplayNode;
  * detail formatters read the same body as CardSlotDetails, whose text_nodes
  * and icon_nodes are pointers[4..10] and pointers[11..20]. */
 typedef struct CardFileListPanel {
-    /* 0x000 */ s32 selection;
+    /* 0x000 */ struct ObjectNodeHeader *parent;
     /* 0x004 */ u8 panel_packets[0x78]; /* four shaded packets and the final tag */
     /* 0x07C */ s32 selected_slot;
     /* 0x080 */ s32 mode;

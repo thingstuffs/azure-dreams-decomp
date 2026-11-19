@@ -3,12 +3,6 @@
 #include "shared/menu_display.h"
 #include "frontend/libcard/message.h"
 
-
-extern MenuDisplayBlock display_block_defaults;
-extern DisplayPositionWords display_vector_defaults;
-
-
-
 /* Copy and link entity templates, clear its state, and set primary field defaults. */
 void card_boot_initialize_message_render_templates(MenuDisplayNode *entity, MenuDisplayBlock *primary_data, DisplayPositionWords *secondary_data) {
     MenuDisplayBlock *primary_template = &display_block_defaults;

@@ -5,9 +5,8 @@
 #include "engine/town.h"
 #include "slus/data.h"
 
-extern MovieListNode town_movie_callback_list[];
 
 /* Appends town_movie_descriptor_1 to town_movie_callback_list. */
 void queue_town_movie_second(void) {
-    append_list_tail(town_movie_callback_list, town_movie_descriptor_1);
+    append_list_tail(&town_movie_callback_list, &town_movie_descriptor_1);
 }

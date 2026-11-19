@@ -1,15 +1,13 @@
-#include "common.h"
+#include "dungeon/monster/weadog.h"
 
-
-
-/* numeric; owner: dungeon/func_80EDF000. */
-const u32 weadog_slot_g_direction_steps[8] __attribute__((aligned(4))) = {
-    0x00000001,
-    0x00010001,
-    0x00010000,
-    0x0001FFFF,
-    0x0000FFFF,
-    0xFFFFFFFF,
-    0xFFFF0000,
-    0xFFFF0001
+/* Tile offsets indexed by the low three direction bits. */
+const GridPoint weadog_slot_g_direction_steps[8] __attribute__((aligned(4))) = {
+    { 1, 0 },
+    { 1, 1 },
+    { 0, 1 },
+    { -1, 1 },
+    { -1, 0 },
+    { -1, -1 },
+    { 0, -1 },
+    { 1, -1 }
 };

@@ -38,7 +38,7 @@ void run_dual_context_callbacks(void)
     }
 
     update_view_gray_level();
-    if (map_scene_selector_alias != 0xC) {
+    if ((s16)map_scene_selector_alias != 0xC) {
         if (((S_func_800A496C_2 *)D_80100D90)->unk_06 < 0x600) {
             map_wide_culling[0] = 1;
             return;

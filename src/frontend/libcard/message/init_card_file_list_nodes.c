@@ -1,8 +1,6 @@
 #include "frontend/libcard/message.h"
 
 /* Sibling message files declare these templates through their own local views. */
-extern CardDisplayBlock display_block_defaults;
-extern DisplayPositionWords display_vector_defaults;
 
 /* Build the requested node links and copy their common display defaults. */
 void init_card_file_list_nodes(CardFileListPanel *owner, s32 count)

@@ -140,9 +140,9 @@ void update_item_menu_selection(ItemMenuObject *obj)
         return;
     }
     if (next_band < obj->menu->page) {
-        obj->parts[38]->position->color = D_800891F4;
+        obj->parts[38]->position->color.word = D_800891F4;
     } else {
-        obj->parts[39]->position->color = D_800891F4;
+        obj->parts[39]->position->color.word = D_800891F4;
     }
     obj->menu->page = next_band;
     refresh_item_menu_page(obj);

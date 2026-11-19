@@ -1,10 +1,10 @@
 #include "common.h"
+#include "slus/runtime_directory.h"
 #include "engine/audio.h"
 #include "slus.h"
 
 
 
-extern unsigned char runtime_dispatch_mode_alias[9];
 
 /*
  * Sends the low 16 bits to SD_Call unless runtime_dispatch_mode_alias is 2; returns zero when

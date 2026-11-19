@@ -1,6 +1,7 @@
 #ifndef TOWN_PLAYER_H
 #define TOWN_PLAYER_H
 struct SpriteFrameState;
+struct ObjectPosition;
 
 #include "common.h"
 #include "town/player/record.h"
@@ -33,7 +34,7 @@ void clear_scene_script_flag_bit(s32 flag);
 
 void set_no_op_scene_handler(s32 **out_ptr, void *unused_position, s32 unused_context);
 
-void initialize_threshold_interaction_action(void *record, void *unused_entity, s32 unused_context);
+void initialize_threshold_interaction_action(TownPlayerRecord *record, struct ObjectPosition *unused_entity, s32 unused_context);
 
 /* Callback entry points. */
 s32 draw_entry_overlays(void);

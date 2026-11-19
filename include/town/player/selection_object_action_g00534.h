@@ -6,7 +6,7 @@
 #include "common.h"
 #include "shared/town_object.h"
 #include "shared/object_node.h"
-#include "shared/vector.h"
+#include "shared/dungeon_item_entries.h"
 #include "town/shop/item_menu_scene_state_data.h"
 
 typedef struct {
@@ -23,7 +23,7 @@ typedef struct {
 } Unk96134Bytes;
 
 typedef struct {
-    IntVector3 pos;
+    Fixed1616 pos[3];
     u8 padC[0xC];
     Unk96134Bytes bytes;
 } Unk96134Work;
@@ -34,20 +34,6 @@ typedef struct {
     u8 pad14[4];
     s32 unk18;
 } Unk96134State;
-
-typedef struct S_80093894_1 {
-    Unk96134Bytes * unk_00;
-    u8 pad_04[0x4];
-    s32 unk_08;
-} S_80093894_1;
-
-/* context in create_selected_town_object */
-/* arg1 in create_selected_town_object */
-typedef struct S_80093894_3 {
-    void * unk_00;
-} S_80093894_3;
-
-/* &D_80110EB8 in create_selected_town_object */
 
 extern TownState map_runtime_state;
 extern void write_resource_command(void *ptr, s32 value);

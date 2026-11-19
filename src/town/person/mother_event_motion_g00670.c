@@ -6,7 +6,7 @@
 #include "town/person/motion.h"
 
 /* Applies a motion offset or interpolates the position toward the object coordinates. */
-void apply_mother_event_motion_offset(void *object, void *position, s32 update_arg) {
+void apply_mother_event_motion_offset(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *update_arg) {
     CollisionOverlap *motion_entry;
     s32 state;
     s32 frames_left;
@@ -16,9 +16,9 @@ void apply_mother_event_motion_offset(void *object, void *position, s32 update_a
         state = motion_entry->axis;
         if (state != 2) {
             if (state == 0) {
-                ((s32 *)position)[0] -= motion_entry->amount;
+                position->x.v -= motion_entry->amount;
             } else if (state == 1) {
-                ((s32 *)position)[1] -= motion_entry->amount;
+                position->y.v -= motion_entry->amount;
             }
             begin_mother_event_pause(object, position, update_arg);
             return;
@@ -29,21 +29,21 @@ void apply_mother_event_motion_offset(void *object, void *position, s32 update_a
     if (frames_left <= 0) {
         install_stored_value_handler(object, position, update_arg);
         clear_mother_event_record_field(object, position, update_arg);
-        *(u16 *)((u8 *)position + 2) = *(u16 *)((u8 *)object + 0x84);
-        *(u16 *)((u8 *)position + 6) = *(u16 *)((u8 *)object + 0x86);
+        position->x.w.i = object->unk_84;
+        position->y.w.i = object->unk_86;
         return;
     }
 
-    *(u16 *)((u8 *)position + 2) +=
-        ((s16)*(u16 *)((u8 *)object + 0x84) -
-         *(s16 *)((u8 *)position + 2)) / frames_left;
-    *(u16 *)((u8 *)position + 6) +=
-        ((s16)*(u16 *)((u8 *)object + 0x86) -
-         *(s16 *)((u8 *)position + 6)) / frames_left;
+    position->x.w.i +=
+        (object->unk_84 -
+         position->x.w.i) / frames_left;
+    position->y.w.i +=
+        (object->unk_86 -
+         position->y.w.i) / frames_left;
 }
 
 /* Reset the object callback when the shared countdown expires after a zero check result. */
-void reset_mother_event_callback_on_expiry(void *object, void *motion, void *init_data, s32 check_arg) {
+void reset_mother_event_callback_on_expiry(TownObjectRecord *object, ObjectPosition *motion, SpriteFrameState *init_data, s32 check_arg) {
     if (select_object_setup_path(object, motion, init_data) == 0) {
         if (--mother_event_ticks.value <= 0) {
             start_mother_event_ticks(object, motion, init_data);
@@ -52,22 +52,20 @@ void reset_mother_event_callback_on_expiry(void *object, void *motion, void *ini
 }
 
 /* Clear two state values, initialize the actor, and set its handler and randomized counter. */
-void initialize_mother_event_actor(void *actor, EntityRec *state, void *init_param) {
-    state->unk_10 = 0;
-    state->unk_0C = 0;
+void initialize_mother_event_actor(TownObjectRecord *actor, ObjectPosition *state, SpriteFrameState *init_param) {
+    state->velocity_y = 0;
+    state->velocity_x = 0;
     initialize_object_entries(actor, init_param, (s32 *)D_800D5FC4);
-    *(void **)((u8 *)actor + 0x50) = D_800C7604;
-    *(s16 *)((u8 *)actor + 0x6C) = (s16) (scale_random_by_limit(0x3F) + 0x15);
+    actor->unk_50.as_pv = D_800C7604;
+    actor->timer = (s16) (scale_random_by_limit(0x3F) + 0x15);
 }
 
 /* Try random directions against the bounds, then initialize the entity state. */
-void choose_mother_event_direction(TownObjectRecord *entity, S_800C7AC4_1 *bounds_arg, void *context_arg)
+void choose_mother_event_direction(TownObjectRecord *entity, ObjectPosition *bounds_arg, SpriteFrameState *context)
 {
-    void *context;
     s32 attempts;
     s32 direction;
 
-    context = context_arg;
     attempts = 0;
     do {
         direction = scale_random_by_limit(4) & 0xFFFF;
@@ -78,7 +76,7 @@ void choose_mother_event_direction(TownObjectRecord *entity, S_800C7AC4_1 *bound
 
             upper_edge = entity->unk_84;
             extent = entity->unk_8C;
-            bound_test = bounds_arg->unk_02;
+            bound_test = bounds_arg->x.w.i;
             upper_edge += extent;
             bound_test = bound_test < upper_edge;
             if (bound_test != 0) {
@@ -92,7 +90,7 @@ void choose_mother_event_direction(TownObjectRecord *entity, S_800C7AC4_1 *bound
 
             upper_edge = (entity->unk_86);
             extent = entity->unk_8E;
-            bound_test = bounds_arg->unk_06;
+            bound_test = bounds_arg->y.w.i;
             upper_edge += extent;
             bound_test = bound_test < upper_edge;
             if (bound_test != 0) {
@@ -106,7 +104,7 @@ void choose_mother_event_direction(TownObjectRecord *entity, S_800C7AC4_1 *bound
 
             lower_edge = entity->unk_84;
             extent = entity->unk_8C;
-            bound_coord = bounds_arg->unk_02;
+            bound_coord = bounds_arg->x.w.i;
             lower_edge -= extent;
             lower_edge = lower_edge < bound_coord;
             if (lower_edge != 0) {
@@ -120,7 +118,7 @@ void choose_mother_event_direction(TownObjectRecord *entity, S_800C7AC4_1 *bound
 
             lower_edge = (entity->unk_86);
             extent = entity->unk_8E;
-            bound_coord = bounds_arg->unk_06;
+            bound_coord = bounds_arg->y.w.i;
             lower_edge -= extent;
             lower_edge = lower_edge < bound_coord;
             if (lower_edge != 0) {
@@ -137,11 +135,11 @@ void choose_mother_event_direction(TownObjectRecord *entity, S_800C7AC4_1 *bound
 }
 
 /* Initialize the object callback and set the shared timer to 16. */
-void start_mother_event_ticks(void *object, void *unused, void *init_data) {
+void start_mother_event_ticks(TownObjectRecord *object, ObjectPosition *unused, SpriteFrameState *init_data) {
     Timer *timer;
 
     initialize_object_entries(object, init_data, &mother_event_object_entries);
-    *(void (**)(void *, void *, s32))((u8 *)object + 0x50) = D_800C78A8;
+    object->unk_50.as_pm = D_800C78A8;
     timer = &mother_event_ticks;
     timer->value = 0x10;
 }

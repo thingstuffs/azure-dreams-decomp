@@ -1,7 +1,6 @@
 #include "common.h"
+#include "town/scene/state_data.h"
 #include "town/scene.h"
-
-extern s16 scene_selection_index;
 
 /* Clears scene_selection_index to zero. */
 void reset_selection_index(void) {

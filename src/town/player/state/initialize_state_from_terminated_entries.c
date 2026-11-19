@@ -4,16 +4,7 @@
 #include "town/player/state.h"
 #include "town/data.h"
 
-typedef struct {
-    s32 unk0;
-    s32 unk4;
-    s32 unk8;
-    s32 unkC;
-    s32 unk10;
-} State;
-
 extern s16 D_8006ADD6;
-extern State player_blocking_rects;
 
 /* Process the terminated entry list and initialize the state for the current mode. */
 void initialize_state_from_terminated_entries(s32 *entries) {
@@ -28,20 +19,20 @@ void initialize_state_from_terminated_entries(s32 *entries) {
     }
     mode = D_8006ADD6;
     if (mode == 8) {
-        player_blocking_rects.unk0 = 0x03000000;
-        (&player_blocking_rects)->unk4 = 0x04000000;
-        (&player_blocking_rects)->unkC = 0x02A00000;
-        (&player_blocking_rects)->unk8 = 0;
-        (&player_blocking_rects)->unk10 = 0x80000000;
+        player_blocking_rects[0] = 0x03000000;
+        player_blocking_rects[1] = 0x04000000;
+        player_blocking_rects[3] = 0x02A00000;
+        player_blocking_rects[2] = 0;
+        player_blocking_rects[4] = 0x80000000;
         return;
     }
     if (mode == 0xB) {
-        player_blocking_rects.unk0 = 0;
-        (&player_blocking_rects)->unk4 = 0x04A00000;
-        (&player_blocking_rects)->unkC = 0x03B00000;
-        (&player_blocking_rects)->unk8 = 0;
-        (&player_blocking_rects)->unk10 = 0x80000000;
+        player_blocking_rects[0] = 0;
+        player_blocking_rects[1] = 0x04A00000;
+        player_blocking_rects[3] = 0x03B00000;
+        player_blocking_rects[2] = 0;
+        player_blocking_rects[4] = 0x80000000;
         return;
     }
-    player_blocking_rects.unk0 = 0x80000000;
+    player_blocking_rects[0] = 0x80000000;
 }

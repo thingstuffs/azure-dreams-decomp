@@ -12,10 +12,13 @@ struct CallbackEntry {
     u8 pad[20];
 };
 
+struct ObjectPosition;
+extern CallbackEntry map_active_callbacks[];
+
 void run_map_object_callback(TownMapBody *object, void *position, void *sprite);
 
 
-void run_callbacks_unless_suppressed(void *object, void *check_data);
+void run_callbacks_unless_suppressed(void *object, struct ObjectPosition *position);
 /* Registered code-address alias for run_callbacks_unless_suppressed. */
 
 

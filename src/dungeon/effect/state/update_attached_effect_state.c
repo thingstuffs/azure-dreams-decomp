@@ -1,3 +1,4 @@
+#include "engine/entity/effect_slots.h"
 #include "dungeon/system.h"
 #include "dungeon/system/random_range.h"
 #include "shared/actor_status_flags.h"
@@ -12,29 +13,6 @@
 #include "dungeon/item/message.h"
 #include "dungeon/item.h"
 
-typedef struct Entity800B4194
-{
-    u8 pad00[0x1C];
-    u32 flags1C;
-    u8 pad20[8];
-    u8 value28;
-    u8 pad29[0x1F];
-    u8 state48;
-    u8 state49;
-    u8 state4A;
-    u8 state4B;
-    u8 pad4C[0x18];
-    s16 value64;
-}
-Entity800B4194;
-typedef struct Context800B4194
-{
-    u8 pad00[0x4C];
-    u8 *event4C;
-    u8 pad50[0x14];
-    u16 value64;
-}
-Context800B4194;
 extern s32 dungeon_mode_state;
 extern s16 current_dungeon_floor;
 extern u8 D_800892C4[];
@@ -45,9 +23,8 @@ extern u8 D_800E0BF3[];
 extern u8 D_800E0C09[];
 extern u8 D_800E0C1D[];
 extern volatile u8 *dungeon_actor_ring_anchor[];
-extern s16 get_entity_effect_value(Entity800B4194 *, s32); /* Unprototyped: return_width */
 /* Applies secondary spell and event-record effects, updating actor status, values, and displayed messages. */
-s32 update_attached_effect_state(s16 tile_index, Entity800B4194 *entityp, Context800B4194 *contextp)
+s32 update_attached_effect_state(s16 tile_index, ActorRecord *target, ActorRecord *caster)
 {
     s16 blocked;
     s32 total;
@@ -58,10 +35,10 @@ s32 update_attached_effect_state(s16 tile_index, Entity800B4194 *entityp, Contex
     s32 delta;
     s16 amount;
     s16 range;
-    u8 *event;
+    DungeonItemEntry *equipped_item;
     s16 value;
     code = resolve_alternate_spell_id(tile_index);
-    total = entityp->value28 + entityp->value64;
+    total = target->hp + target->hp_delta;
     flag = total < 1;
     blocked = flag;
     if (code != 0) {
@@ -72,10 +49,10 @@ s32 update_attached_effect_state(s16 tile_index, Entity800B4194 *entityp, Contex
             if (!blocked) {
                 value = generate_random_value();
                 range = (dungeon_actor_ring_anchor[0][0xA9] >> 2) + 0x10;
-                if (roll_blind_effect(entityp, dungeon_actor_ring_anchor[0][0xA9] + 0x80, range + (value & 3)) != 0) {
+                if (roll_blind_effect(target, dungeon_actor_ring_anchor[0][0xA9] + 0x80, range + (value & 3)) != 0) {
                     saved = get_unused_text_buffer();
                     text = expand_text_control_codes(D_800E0BC7, saved);
-                    text = append_entity_display_text(entityp, text);
+                    text = append_entity_display_text(target, text);
                     text = expand_text_control_codes(D_800892C4, text);
                     text = clear_byte_and_advance(text);
                     display_text_with_fullwidth_adjustment(saved);
@@ -86,13 +63,13 @@ s32 update_attached_effect_state(s16 tile_index, Entity800B4194 *entityp, Contex
         case 0x12:
         case 0x15:
         {
-            if (!(blocked || (entityp->flags1C & ACTOR_PARALYZED))) {
+            if (!(blocked || (target->flags1C & ACTOR_PARALYZED))) {
                 value = generate_random_value();
                 range = (dungeon_actor_ring_anchor[0][0xA9] >> 2) + 2;
-                if (roll_paralysis_effect(entityp, dungeon_actor_ring_anchor[0][0xA9] + 0x80, range + (value & 3)) != 0) {
+                if (roll_paralysis_effect(target, dungeon_actor_ring_anchor[0][0xA9] + 0x80, range + (value & 3)) != 0) {
                     saved = get_unused_text_buffer();
                     text = expand_text_control_codes(D_800E0BDC, saved);
-                    text = append_entity_display_text(entityp, text);
+                    text = append_entity_display_text(target, text);
                     text = expand_text_control_codes(D_800892C8, text);
                     text = clear_byte_and_advance(text);
                     display_text_with_fullwidth_adjustment(saved);
@@ -103,40 +80,40 @@ s32 update_attached_effect_state(s16 tile_index, Entity800B4194 *entityp, Contex
         }
     }
 
-    event = contextp->event4C;
+    equipped_item = caster->unk_4C;
 
-    if (event == 0) {
+    if (equipped_item == 0) {
         return 0;
     }
-    if (event[1] != 0x10) {
+    if (equipped_item->kind != 0x10) {
         return 0;
     }
-    value = event[0];
+    value = equipped_item->unk_00;
     switch (value) {
     case 3:
     {
-        delta = -(((s16) (*((u16 *) (((u8 *) entityp) + 0x64)))) >> 3);
+        delta = -(target->hp_delta >> 3);
 
         amount = delta;
         if (amount == 0) {
             return 0;
         }
-        contextp->value64 += delta;
-        create_actor_value_popup(0x10, contextp, amount, 1);
+        caster->hp_delta += delta;
+        create_actor_value_popup(0x10, caster, amount, 1);
         return 0;
     }
     case 4:
     {
-        if (blocked || (entityp->flags1C & ACTOR_PARALYZED)) {
+        if (blocked || (target->flags1C & ACTOR_PARALYZED)) {
             return 0;
         }
-        if (roll_paralysis_effect(entityp, 8, 8) == 0) {
+        if (roll_paralysis_effect(target, 8, 8) == 0) {
             return 0;
         }
         play_sound_if_enabled(0x700);
         saved = get_unused_text_buffer();
         text = expand_text_control_codes(D_800E0BF3, saved);
-        text = append_entity_display_text(entityp, text);
+        text = append_entity_display_text(target, text);
         text = expand_text_control_codes(D_800892C4, text);
         text = clear_byte_and_advance(text);
         display_text_with_fullwidth_adjustment(saved);
@@ -149,7 +126,7 @@ s32 update_attached_effect_state(s16 tile_index, Entity800B4194 *entityp, Contex
         if (!blocked) {
             return 0;
         }
-        saved = &entityp->state48;
+        saved = &target->unk_48;
         if (saved[1] != 0) {
             return 0;
         }
@@ -172,7 +149,7 @@ s32 update_attached_effect_state(s16 tile_index, Entity800B4194 *entityp, Contex
             saved[3] = 0;
         }
         else {
-            entityp->state48 = 3;
+            target->unk_48 = 3;
             saved[2] = random_dungeon_range_16(0x10, 0x18);
             saved[3] = 1;
         }
@@ -183,19 +160,19 @@ s32 update_attached_effect_state(s16 tile_index, Entity800B4194 *entityp, Contex
         if (blocked) {
             return 0;
         }
-        if (get_entity_effect_value(entityp, STATUS_MAGIC_BIND) != 0) {
+        if ((s16)get_entity_effect_value(target, STATUS_MAGIC_BIND) != 0) {
             return 0;
         }
         if ((generate_random_value() & 7) != 0) {
             return 0;
         }
-        if (set_or_clear_actor_status_slot(entityp, STATUS_MAGIC_BIND, 0x10) < 0) {
+        if (set_or_clear_actor_status_slot(target, STATUS_MAGIC_BIND, 0x10) < 0) {
             return 0;
         }
         play_sound_if_enabled(0x700);
         saved = get_unused_text_buffer();
         text = expand_text_control_codes(D_800E0C09, saved);
-        text = append_entity_display_text(entityp, text);
+        text = append_entity_display_text(target, text);
         text = expand_text_control_codes(D_800E0C1D, text);
         text = clear_byte_and_advance(text);
         display_text_with_fullwidth_adjustment(saved);

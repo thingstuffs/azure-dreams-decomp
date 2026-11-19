@@ -94,7 +94,7 @@ void update_effect_motion_size_and_brightness(void *effect_fields, struct Object
 
 void update_falling_object(TownMapFallingObject *object);
 void spawn_randomized_timed_objects(TownMapSpawnState *source);
-void update_four_phase_animation(TownMapPhaseObject *entity, void *context);
+void update_four_phase_animation(TownMapPhaseObject *entity, ObjectPosition *context);
 
 /* Callback entry points. */
 void advance_building_animation_frame(BuildingSelectionHandlerBody *state);

@@ -2,8 +2,6 @@
 #include "town/player/state.h"
 #include "town/data.h"
 
-extern s32 player_blocking_rects[33];
-
 /* Initializes the state tables with an extra entry for mode 10. */
 void initialize_mode_state_tables(void) {
     u8 *mode_page;

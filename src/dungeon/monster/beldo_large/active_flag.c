@@ -1,5 +1,6 @@
 /* Encounter activity checks and scripted object creation. */
 #include "common.h"
+#include "dungeon/monster/beldo_large_data.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -20,7 +21,6 @@ void unlink_entity_node();                      /* extern */
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 #include "dungeon/monster/beldo_large.h"
 #include "dungeon/monster/beldo_large_frames.h"
-extern void *beldo_script_node;
 
 /* Extracts flag 0x2000 from the supplied word. */
 static __inline__ u16 active_flag(u32 value)

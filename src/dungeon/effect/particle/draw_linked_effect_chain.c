@@ -14,10 +14,8 @@
 #include "dungeon/system.h"
 
 /* Transforms four colored vertices and queues a visible shaded quad with the requested depth bias. */
-void project_vertex_shaded_effect_quad(Row_819A088C_S_819A088C_6 *quad, void *position_arg, void *render_state_arg, s16 depth_bias)
+void project_vertex_shaded_effect_quad(EntityEffectSequencePrefix *quad, ObjectPosition *position, SpriteFrameState *render_state, s16 depth_bias)
 {
-    Row_819A088C_S_819A088C_2 *render_state = render_state_arg;
-    Row_819A088C_S_819A088C_1 *position = position_arg;
     ShadedQuadScratch *scratch = (ShadedQuadScratch *)0x1F800000;
     DR_MODE *mode;
     POLY_G4 *packet;
@@ -29,19 +27,19 @@ void project_vertex_shaded_effect_quad(Row_819A088C_S_819A088C_6 *quad, void *po
     MATRIX base_matrix;
 
     scratch->ordering_table = (u32 *)&((GpuContext *)g_game_work.draw_buffer)->orderTag;
-    scratch->local_matrix.t[0] = position->unk_02;
-    scratch->local_matrix.t[1] = position->unk_06;
-    scratch->local_matrix.t[2] = position->unk_0A;
-    render_state->unk_14 |= 0x8000;
+    scratch->local_matrix.t[0] = position->x.w.i;
+    scratch->local_matrix.t[1] = position->y.w.i;
+    scratch->local_matrix.t[2] = position->z.w.i;
+    render_state->flags |= 0x8000;
 
     PushMatrix();
 
     scratch->scale.vz = 0x2000;
     scratch->scale.vy = 0x2000;
     scratch->scale.vx = 0x2000;
-    scratch->angles.vx = render_state->unk_16;
-    scratch->angles.vz = render_state->unk_1A;
-    scratch->angles.vy = render_state->unk_18;
+    scratch->angles.vx = render_state->angle_x;
+    scratch->angles.vz = render_state->angle_z;
+    scratch->angles.vy = render_state->angle_y;
     RotMatrix(&scratch->angles, &scratch->local_matrix);
     ReadRotMatrix(&base_matrix);
     CompMatrix(&base_matrix, &scratch->local_matrix, &scratch->composed_matrix);
@@ -49,8 +47,8 @@ void project_vertex_shaded_effect_quad(Row_819A088C_S_819A088C_6 *quad, void *po
     SetTransMatrix(&scratch->composed_matrix);
     SetRotMatrix(&scratch->composed_matrix);
 
-    texture = (*(u8 **)((u8 *)render_state + 8));
-    scratch->render_flags = render_state->unk_14;
+    texture = render_state->source;
+    scratch->render_flags = render_state->flags;
 
     mode = ((GpuContext *)g_game_work.draw_buffer)->packetCursor;
     ((GpuContext *)g_game_work.draw_buffer)->packetCursor = mode + 1;
@@ -69,18 +67,18 @@ void project_vertex_shaded_effect_quad(Row_819A088C_S_819A088C_6 *quad, void *po
         render_context->packetCursor = packet + 1;
     }
 
-    scratch->vertices[0].vx = quad->unk_54;
-    scratch->vertices[1].vx = quad->unk_5A;
-    scratch->vertices[2].vx = quad->unk_60;
-    scratch->vertices[3].vx = quad->unk_66;
-    scratch->vertices[0].vy = quad->unk_56;
-    scratch->vertices[1].vy = quad->unk_5C;
-    scratch->vertices[2].vy = quad->unk_62;
-    scratch->vertices[3].vy = quad->unk_68;
-    scratch->vertices[0].vz = quad->unk_58;
-    scratch->vertices[1].vz = quad->unk_5E;
-    scratch->vertices[2].vz = quad->unk_64;
-    scratch->vertices[3].vz = quad->unk_6A;
+    scratch->vertices[0].vx = quad->path[0];
+    scratch->vertices[1].vx = quad->path[3];
+    scratch->vertices[2].vx = quad->path[6];
+    scratch->vertices[3].vx = quad->path[9];
+    scratch->vertices[0].vy = quad->path[1];
+    scratch->vertices[1].vy = quad->path[4];
+    scratch->vertices[2].vy = quad->path[7];
+    scratch->vertices[3].vy = quad->path[10];
+    scratch->vertices[0].vz = quad->path[2];
+    scratch->vertices[1].vz = quad->path[5];
+    scratch->vertices[2].vz = quad->path[8];
+    scratch->vertices[3].vz = quad->path[11];
 
     ot_index = RotAverage4(&scratch->vertices[0], &scratch->vertices[1],
                              &scratch->vertices[2], &scratch->vertices[3],
@@ -98,23 +96,23 @@ void project_vertex_shaded_effect_quad(Row_819A088C_S_819A088C_6 *quad, void *po
              ((u16)(packet->y2 + 0x20) < 0x121)) |
             (((u16)(packet->x3 + 0x20) < 0x181) &&
              ((u16)(packet->y3 + 0x20) < 0x121))) {
-            render_state->unk_14 &= 0x7FFF;
+            render_state->flags &= 0x7FFF;
             texture_flags = texture[1];
-            render_state->unk_0F = texture_flags;
+            render_state->color.c.code = texture_flags;
             render_flags = scratch->render_flags;
             if (render_flags & 8) {
-                render_state->unk_0F = (render_flags & 4) ?
+                render_state->color.c.code = (render_flags & 4) ?
                     (texture_flags | 2) : (texture_flags & 0xFD);
             }
 
             /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
-            *(u32 *)&packet->red0 = quad->unk_0C;
+            *(u32 *)&packet->red0 = quad->colors[0].word;
             /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
-            *(u32 *)&packet->red1 = quad->unk_10;
+            *(u32 *)&packet->red1 = quad->colors[1].word;
             /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
-            *(u32 *)&packet->red2 = quad->unk_14;
+            *(u32 *)&packet->red2 = quad->colors[2].word;
             /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
-            *(u32 *)&packet->red3 = quad->unk_18;
+            *(u32 *)&packet->red3 = quad->colors[3].word;
             ((GpuLinkTag *)&packet->tag)->len = 8;
             packet->code = 0x3A;
 
@@ -139,77 +137,76 @@ void project_vertex_shaded_effect_quad(Row_819A088C_S_819A088C_6 *quad, void *po
 }
 
 /* Draws a shaded quad for each node in the linked effect chain using that node's position and appearance. */
-s32 draw_linked_effect_chain(void *state, void *position, void *appearance) {
-    Row_819A0D64_GapNode *node;
+s32 draw_linked_effect_chain(EntityEffectSequencePrefix *state, ObjectPosition *position, SpriteFrameState *appearance) {
+    ObjectNodeHeader *node;
     for (;;) {
         project_vertex_shaded_effect_quad(state, position, appearance, 0);
-        node = *(Row_819A0D64_GapNode **)((u8 *)state - 8);
+        node = NODE_HEADER(state)->chain_next;
         state = NODE_BODY(node);
         if (node == 0) break;
         position = node->position;
-        appearance = node->appearance;
+        appearance = node->sprite;
     }
     return 0;
 }
 
 /* Changes paired byte fields at selected countdown stages and marks the effect for removal when the
    counter ends. */
-void update_effect_countdown_fields(void *object_data)
+void update_effect_countdown_fields(EntityEffectSequenceBody *object)
 {
     s32 phase_index;
     s32 pair_offset;
-    Row_819A0DB8_S_func_819A0DB8_0 *object = object_data;
 
-    phase_index = (s16)(object->unk_3A - 3);
+    phase_index = (s16)(object->prefix.timer3A - 3);
     linked_effect_update_flag[0] = 1;
     switch (phase_index) {
     case 3:
     case 7:
-        object->unk_92 -= 0x60;
-        object->unk_9E -= 0x60;
-        object->unk_93 += 0x20;
-        object->unk_9F += 0x20;
+        object->sprite_source[0].command.data.texture.u0 -= 0x60;
+        object->sprite_source[1].command.data.texture.u0 -= 0x60;
+        object->sprite_source[0].command.data.texture.v0 += 0x20;
+        object->sprite_source[1].command.data.texture.v0 += 0x20;
         break;
     case 4:
     case 6:
     case 8:
     case 9:
-        object->unk_92 += 0x20;
-        object->unk_9E += 0x20;
-        object->unk_8C -= 1;
-        object->unk_98 += 1;
+        object->sprite_source[0].command.data.texture.u0 += 0x20;
+        object->sprite_source[1].command.data.texture.u0 += 0x20;
+        object->sprite_source[0].command.offset_x -= 1;
+        object->sprite_source[1].command.offset_x += 1;
         break;
     case 2:
-        object->unk_95 = 24;
+        object->sprite_source[0].command.data.texture.height = 24;
         do {
-            object->unk_A1 = 24;
+            object->sprite_source[1].command.data.texture.height = 24;
         } while (0);
         pair_offset = -12;
-        object->unk_8D = pair_offset;
-        object->unk_99 = pair_offset;
-        object->unk_92 += 0x20;
-        object->unk_9E += 0x20;
+        object->sprite_source[0].command.offset_y = pair_offset;
+        object->sprite_source[1].command.offset_y = pair_offset;
+        object->sprite_source[0].command.data.texture.u0 += 0x20;
+        object->sprite_source[1].command.data.texture.u0 += 0x20;
         break;
     case 0:
-        object->unk_95 = 16;
+        object->sprite_source[0].command.data.texture.height = 16;
         do {
-            object->unk_A1 = 16;
+            object->sprite_source[1].command.data.texture.height = 16;
         } while (0);
         pair_offset = -8;
-        object->unk_8D = pair_offset;
-        object->unk_99 = pair_offset;
+        object->sprite_source[0].command.offset_y = pair_offset;
+        object->sprite_source[1].command.offset_y = pair_offset;
     case 1:
     case 5:
     case 10:
-        object->unk_92 += 0x20;
-        object->unk_9E += 0x20;
+        object->sprite_source[0].command.data.texture.u0 += 0x20;
+        object->sprite_source[1].command.data.texture.u0 += 0x20;
         break;
     }
     {
-        u16 remaining_steps = object->unk_3A - 1;
-        object->unk_3A = remaining_steps;
-        if ((s16)remaining_steps <= 0) {
-            *(u16 *)((u8 *)object - 2) |= NODE_REMOVE;
+        s16 remaining_steps = object->prefix.timer3A - 1;
+        object->prefix.timer3A = remaining_steps;
+        if (remaining_steps <= 0) {
+            NODE_HEADER(object)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
@@ -219,16 +216,16 @@ const Row_819A1450_LocalTable D_80024034 = {{{1, 0}, {1, 1}, {0, 1}, {-1, 1}, {-
 const Row_819A1654_PointTable linked_effect_octant_offsets[1] = {{{{5, 0}, {5, 5}, {0, 5}, {-5, 5}, {-5, 0}, {-5, 65531}, {0, 65531}, {5, 65531}}}};
 
 /* Moves and animates a sprite while fading its grayscale color in proportion to its remaining lifetime. */
-void fade_moving_effect(RotatingDirectionalSpriteBody *effect, Row_819A0EF0_S_800246F0_2 *motion, SpriteFrameState *primitive)
+void fade_moving_effect(RotatingDirectionalSpriteBody *effect, ObjectPosition *motion, SpriteFrameState *primitive)
 {
     s32 brightness;
     s32 x;
     s32 y;
     s32 dx;
     s32 dy;
-    s32 ticks_left;
+    u16 ticks_left;
 
-    ticks_left = (u16)effect->unk_3A;
+    ticks_left = effect->unk_3A;
     linked_effect_update_flag[0] = 1;
     effect->unk_3A = ticks_left - 1;
     advance_sprite_animation_and_textures(primitive);
@@ -237,14 +234,14 @@ void fade_moving_effect(RotatingDirectionalSpriteBody *effect, Row_819A0EF0_S_80
     primitive->color.c.b = brightness;
     primitive->color.c.g = brightness;
     primitive->color.c.r = brightness;
-    x = motion->unk_00;
-    dx = motion->unk_0C;
-    y = motion->unk_04;
-    dy = motion->unk_10;
-    motion->unk_00 = x + dx;
-    motion->unk_04 = y + dy;
+    x = motion->x.v;
+    dx = motion->velocity_x;
+    y = motion->y.v;
+    dy = motion->velocity_y;
+    motion->x.v = x + dx;
+    motion->y.v = y + dy;
     if (effect->unk_3A <= 0) {
-        ((Row_819A0EF0_S_800246F0_0_pre *)effect)[-1].unk_00 |= 0x8000;
+        NODE_HEADER(effect)->flags |= 0x8000;
         object_flag_block.flags |= 0x8000;
     }
 }
@@ -272,78 +269,73 @@ void fade_gray_sprite_by_remaining_life(Row_819A0FC0_S_func_819A0FC0_0 *fadeStat
 
 /* Scales four saved vertex colors by the remaining lifetime and removes the effect when the countdown
    ends. */
-void fade_quad_vertex_colors(void *fade_data)
+void fade_quad_vertex_colors(EntityEffectSequencePrefix *fade)
 {
-    Row_819A1034_S_819A1034_0 *fade;
     s32 color_index;
-    u16 ticks_left;
+    s16 ticks_left;
 
-    fade = fade_data;
-    ticks_left = fade->unk_3A;
+    ticks_left = fade->timer3A;
     linked_effect_update_flag[0] = 1;
     ticks_left--;
-    fade->unk_3A = ticks_left;
+    fade->timer3A = ticks_left;
     for (color_index = 0; color_index < 4; color_index++) {
-        ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_0C =
-            ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_1C * fade->unk_3A /
-            fade->unk_3C;
-        ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_0D =
-            ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_1D * fade->unk_3A /
-            fade->unk_3C;
-        ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_0E =
-            ((Row_819A1034_S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_1E * fade->unk_3A /
-            fade->unk_3C;
+        fade->colors[color_index].c.r =
+            fade->initial_colors[color_index].c.r * fade->timer3A /
+            fade->timer3C;
+        fade->colors[color_index].c.g =
+            fade->initial_colors[color_index].c.g * fade->timer3A /
+            fade->timer3C;
+        fade->colors[color_index].c.b =
+            fade->initial_colors[color_index].c.b * fade->timer3A /
+            fade->timer3C;
     }
-    if (fade->unk_3A <= 0) {
-        (*(u16 *)((u8 *)fade + -2)) |= NODE_REMOVE;
+    if (fade->timer3A <= 0) {
+        NODE_HEADER(fade)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
 /* Interpolates six saved geometry values and fades four vertex colors over the effect's countdown. */
-void interpolate_quad_geometry_and_fade_colors(void *effect_arg) {
-    Row_819A1118_S_819A1118_0 *effect = effect_arg;
+void interpolate_quad_geometry_and_fade_colors(EntityEffectSequencePrefix *effect) {
     s32 blend_ticks;
     s32 elapsed_ticks;
     s32 color_index;
-    u16 ticks_left;
-    Row_819A1118_S_819A1118_1 *color_ptr;
+    s16 ticks_left;
 
-    ticks_left = effect->unk_3A - 1;
+    ticks_left = effect->timer3A - 1;
     linked_effect_update_flag[0] = 1;
-    blend_ticks = effect->unk_3E;
-    effect->unk_3A = ticks_left;
-    elapsed_ticks = effect->unk_3C - (s16) ticks_left;
+    blend_ticks = effect->mode3E;
+    effect->timer3A = ticks_left;
+    elapsed_ticks = effect->timer3C - ticks_left;
     if (blend_ticks >= elapsed_ticks) {
-        effect->unk_54 = (s16) (effect->unk_60
-            + ((s32) (effect->unk_6C * elapsed_ticks) / blend_ticks));
-        effect->unk_56 = (s16) (effect->unk_62
-            + ((s32) (effect->unk_6E * (effect->unk_3C
-            - (s16) effect->unk_3A)) / (s16) effect->unk_3E));
-        effect->unk_58 = (s16) (effect->unk_64
-            + ((s32) (effect->unk_70 * (effect->unk_3C
-            - (s16) effect->unk_3A)) / (s16) effect->unk_3E));
-        effect->unk_5A = (s16) (effect->unk_66
-            + ((s32) (effect->unk_72 * (effect->unk_3C
-            - (s16) effect->unk_3A)) / (s16) effect->unk_3E));
-        effect->unk_5C = (s16) (effect->unk_68
-            + ((s32) (effect->unk_74 * (effect->unk_3C
-            - (s16) effect->unk_3A)) / (s16) effect->unk_3E));
-        effect->unk_5E = (s16) (effect->unk_6A
-            + ((s32) (effect->unk_76 * (effect->unk_3C
-            - (s16) effect->unk_3A)) / (s16) effect->unk_3E));
+        effect->path[0] = (s16) (effect->path[6]
+            + ((s32) (effect->path[12] * elapsed_ticks) / blend_ticks));
+        effect->path[1] = (s16) (effect->path[7]
+            + ((s32) (effect->path[13] * (effect->timer3C
+            - effect->timer3A)) / effect->mode3E));
+        effect->path[2] = (s16) (effect->path[8]
+            + ((s32) (effect->path[14] * (effect->timer3C
+            - effect->timer3A)) / effect->mode3E));
+        effect->path[3] = (s16) (effect->path[9]
+            + ((s32) (effect->path[15] * (effect->timer3C
+            - effect->timer3A)) / effect->mode3E));
+        effect->path[4] = (s16) (effect->path[10]
+            + ((s32) (effect->path[16] * (effect->timer3C
+            - effect->timer3A)) / effect->mode3E));
+        effect->path[5] = (s16) (effect->path[11]
+            + ((s32) (effect->path[17] * (effect->timer3C
+            - effect->timer3A)) / effect->mode3E));
     }
     for (color_index = 0; color_index < 4; color_index++) {
-        color_ptr = (Row_819A1118_S_819A1118_1 *)((u8 *)effect + color_index * 4);
-        color_ptr->unk_0C =
-            (s8) ((s32) (color_ptr->unk_1C * (s16) effect->unk_3A) / (s16) effect->unk_3C);
-        color_ptr->unk_0D =
-            (s8) ((s32) (color_ptr->unk_1D * (s16) effect->unk_3A) / (s16) effect->unk_3C);
-        color_ptr->unk_0E =
-            (s8) ((s32) (color_ptr->unk_1E * (s16) effect->unk_3A) / (s16) effect->unk_3C);
+        effect->colors[color_index].c.r =
+            ((s32) (effect->initial_colors[color_index].c.r * effect->timer3A) / effect->timer3C);
+        effect->colors[color_index].c.g =
+            ((s32) (effect->initial_colors[color_index].c.g * effect->timer3A) / effect->timer3C);
+        effect->colors[color_index].c.b =
+            ((s32) (effect->initial_colors[color_index].c.b * effect->timer3A) / effect->timer3C);
     }
-    if ((s16) effect->unk_3A <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) = (u16) (((Row_819A1118_S_819A1118_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+    if (effect->timer3A <= 0) {
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -363,33 +355,33 @@ void fade_and_rotate_effect_sprite(EntityEffectSequenceBody *effect, s32 unused,
     primitive->color.c.b = intensity;
     primitive->color.c.g = intensity;
     primitive->color.c.r = intensity;
-    state->unk_8C -= 1;
+    state->sprite_source[0].command.offset_x -= 1;
     primitive->angle_z += state->prefix.random40;
     if (state->prefix.timer3A <= 0) {
-        *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
 /* Rotates the sprite and fades its grayscale color in proportion to the countdown, then removes it. */
-void rotate_and_fade_timed_sprite(Row_819A13D0_Work *work, ObjectPosition *unused, SpriteFrameState *obj) {
+void rotate_and_fade_timed_sprite(EntityEffectSequencePrefix *work, ObjectPosition *unused, SpriteFrameState *obj) {
     s32 scaled_count;
     u16 count;
     u16 angle;
 
-    count = work->count - 1;
-    scaled_count = (s32)((s32)(count << 16) >> 9) / work->divisor;
-    work->count = count;
+    count = work->timer3A - 1;
+    scaled_count = (s32)((s32)(count << 16) >> 9) / work->timer3C;
+    work->timer3A = count;
     angle = obj->angle_z;
     linked_effect_update_flag[0] = 1;
     obj->angle_z = angle + 0x190;
     obj->color.c.b = scaled_count;
     obj->color.c.g = scaled_count;
     obj->color.c.r = scaled_count;
-    if ((s16)work->count > 0) {
+    if (work->timer3A > 0) {
         return;
     }
-    *(u16 *)((u8 *)work - 2) |= NODE_REMOVE;
+    NODE_HEADER(work)->flags |= NODE_REMOVE;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }
 
@@ -450,16 +442,16 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, ObjectPosition 
     Row_819A1654_PointTable points;
     Row_819A1654_Task *task;
     EntityEffectSequencePrefix *effect;
-    Row_819A1654_Sprite *sprite;
+    SpriteFrameState *sprite;
     ObjectPosition *coord;
     ObjectPosition *start_origin;
     ObjectPosition *origin_loop;
     ObjectPosition *origin_second;
     ObjectPosition *origin_path;
-    u8 *copy_page;
+    Row_819A1654_Blob24 *copy_page;
     ActorRecord *world;
     void *focus;
-    Row_819A1654_Coord *focus_coord;
+    ObjectPosition *focus_coord;
     s32 spawn_index;
     s32 path_pair;
     s32 first_path_timer;
@@ -468,7 +460,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, ObjectPosition 
     s16 rechecked_timer;
     ActorRecord *start_world;
     Row_819A1654_World *hit_world;
-    void (*particle_callback)(void);
+    void (*particle_callback)(EntityEffectSequenceBody *, s32, SpriteFrameState *);
 
     *&points = *(Row_819A1654_PointTable *)&linked_effect_octant_offsets;
 
@@ -491,7 +483,8 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, ObjectPosition 
             entity->base[0] = start_origin->x.w.i;
             entity->base[1] = start_origin->y.w.i;
             entity->base[2] = start_origin->z.w.i;
-            *(s16 *)(flag_base->bytes + 24) = 1;
+            /* The update flag follows the pair of 12-byte sprite sources. */
+            *(s16 *)(flag_base + 1) = 1;
         }
     case 1:
         if ((*entity->header & 0x80) != 0) {
@@ -535,33 +528,33 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, ObjectPosition 
                     origin_loop = &view_reference_entity;
                     do {
                         task = allocate_flagged_object_node(0x212);
-                        effect = &task->effect;
+                        effect = &task->effect.prefix;
                         if (task != 0) {
                             effect->timer3A = 20;
                             effect->timer3C = 20;
                             effect->random40 = (func_80069EF8() & 0xFF) + 200;
-                            task->callback = particle_callback;
+                            task->header.update_callback = particle_callback;
                             register_node(task, project_sprite_chain);
-                            sprite = task->sprite;
-                            sprite->field10 = 32;
+                            sprite = task->header.sprite;
+                            sprite->tpage_abr = 32;
                             sprite->flags |= 0xC;
-                            coord = task->coord;
+                            coord = task->header.position;
                             coord->x.w.i = entity->x + origin_loop->x.w.i;
                             coord->y.w.i = entity->y + origin_loop->y.w.i;
                             coord->z.w.i = entity->z + origin_loop->z.w.i;
-                            sprite = task->sprite;
+                            sprite = task->header.sprite;
                             interp_work = 0x1000;
-                            sprite->field1E = interp_work;
-                            sprite->field1C = interp_work;
+                            sprite->scale_y = interp_work;
+                            sprite->scale_x = interp_work;
                             interp_work = 0x80;
-                            sprite->b = interp_work;
-                            sprite->g = interp_work;
-                            sprite->r = interp_work;
-                            sprite->field16 = (func_80069EF8() & 0xF) << 8;
-                            sprite->field18 = (func_80069EF8() & 0xF) << 8;
-                            sprite->field1A = (func_80069EF8() & 0xF) << 8;
-                            *(Row_819A1654_Blob12 *)(task->data) = D_80026180[0];
-                            sprite->data = task->data;
+                            sprite->color.c.b = interp_work;
+                            sprite->color.c.g = interp_work;
+                            sprite->color.c.r = interp_work;
+                            sprite->angle_x = (func_80069EF8() & 0xF) << 8;
+                            sprite->angle_y = (func_80069EF8() & 0xF) << 8;
+                            sprite->angle_z = (func_80069EF8() & 0xF) << 8;
+                            task->effect.sprite_source[0] = D_80026180[0];
+                            sprite->source = task->effect.sprite_source;
                         }
                         spawn_index++;
                     } while (spawn_index < 10);
@@ -571,32 +564,32 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, ObjectPosition 
             if (entity->timer == 24) {
                 if (get_sprite_attachment_vector((&reference_tile_object[0])->found, &reference_tile_object[0], &entity->x, 0) != 0) {
                     task = allocate_flagged_object_node(0x212);
-                    effect = &task->effect;
+                    effect = &task->effect.prefix;
                     if (task != 0) {
                         s32 burst_size;
                         u16 burst_flags;
                         effect->timer3A = 20;
                         effect->timer3C = 20;
-                        task->callback = rotate_and_fade_timed_sprite;
+                        task->header.update_callback = rotate_and_fade_timed_sprite;
                         register_node(task, project_sprite_chain);
                         burst_size = 96;
-                        sprite = task->sprite;
+                        sprite = task->header.sprite;
                         burst_flags = sprite->flags;
                         origin_second = &view_reference_entity;
-                        sprite->field10 = burst_size;
+                        sprite->tpage_abr = burst_size;
                         sprite->flags = burst_flags | 0xC;
-                        coord = task->coord;
+                        coord = task->header.position;
                         coord->x.w.i = entity->x + origin_second->x.w.i;
                         coord->y.w.i = entity->y + origin_second->y.w.i;
                         coord->z.w.i = entity->z + origin_second->z.w.i;
-                        sprite = task->sprite;
-                        sprite->field1E = 0x1000;
-                        sprite->field1C = 0x1000;
-                        sprite->b = 0x80;
-                        sprite->g = 0x80;
-                        sprite->r = 0x80;
-                        *(Row_819A1654_Blob12 *)(task->data) = linked_effect_task_values[0];
-                        (sprite->data) = task->data;
+                        sprite = task->header.sprite;
+                        sprite->scale_y = 0x1000;
+                        sprite->scale_x = 0x1000;
+                        sprite->color.c.b = 0x80;
+                        sprite->color.c.g = 0x80;
+                        sprite->color.c.r = 0x80;
+                        task->effect.sprite_source[0] = linked_effect_task_values[0];
+                        (sprite->source) = task->effect.sprite_source;
                     }
                 }
             }
@@ -636,14 +629,14 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, ObjectPosition 
 
                             if (entity->timer == first_path_timer) {
                                 task = allocate_flagged_object_node(0x212);
-                                effect = &task->effect;
+                                effect = &task->effect.prefix;
                                 if (task != 0) {
                                     effect->timer3A = 20;
                                     effect->timer3C = 20;
-                                    task->callback = fade_quad_vertex_colors;
+                                    task->header.update_callback = fade_quad_vertex_colors;
                                     register_node(task, draw_linked_effect_chain);
-                                    sprite = task->sprite;
-                                    sprite->field10 = 32;
+                                    sprite = task->header.sprite;
+                                    sprite->tpage_abr = 32;
                                     sprite->flags |= 0xC;
                                     effect->path[0] = entity->path[6];
                                     effect->path[1] = entity->path[7];
@@ -657,42 +650,42 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, ObjectPosition 
                                     effect->path[9] = entity->path[3];
                                     effect->path[10] = entity->path[4];
                                     effect->path[11] = entity->path[5];
-                                    coord = task->coord;
+                                    coord = task->header.position;
                                     coord->x.w.i = entity->base[0];
                                     coord->y.w.i = entity->base[1];
                                     coord->z.w.i = entity->base[2];
-                                    sprite = task->sprite;
-                                    sprite->field1E = 0x1000;
-                                    sprite->field1C = 0x1000;
-                                    sprite->b = 0x80;
-                                    sprite->g = 0x80;
-                                    sprite->r = 0x80;
-                                    *(Row_819A1654_Blob12 *)(task->data) = linked_effect_task_values[0];
-                                    (sprite->data) = task->data;
+                                    sprite = task->header.sprite;
+                                    sprite->scale_y = 0x1000;
+                                    sprite->scale_x = 0x1000;
+                                    sprite->color.c.b = 0x80;
+                                    sprite->color.c.g = 0x80;
+                                    sprite->color.c.r = 0x80;
+                                    task->effect.sprite_source[0] = linked_effect_task_values[0];
+                                    (sprite->source) = task->effect.sprite_source;
                                 }
                             }
 
                             if (entity->timer == 2) {
                                 task = allocate_flagged_object_node(0x212);
-                                effect = &task->effect;
+                                effect = &task->effect.prefix;
                                 if (task != 0) {
                                     s32 bright_color;
                                     bright_color = 0x804020;
                                     dim_color = 0x201008;
-                                    effect->value1C = bright_color;
-                                    effect->value24 = dim_color;
-                                    effect->value28 = dim_color;
-                                    effect->value20 = bright_color;
-                                    effect->value0C = effect->value1C;
-                                    effect->value10 = effect->value20;
-                                    effect->value14 = effect->value24;
-                                    effect->value18 = effect->value28;
+                                    effect->initial_colors[0].word = bright_color;
+                                    effect->initial_colors[2].word = dim_color;
+                                    effect->initial_colors[3].word = dim_color;
+                                    effect->initial_colors[1].word = bright_color;
+                                    effect->colors[0].word = effect->initial_colors[0].word;
+                                    effect->colors[1].word = effect->initial_colors[1].word;
+                                    effect->colors[2].word = effect->initial_colors[2].word;
+                                    effect->colors[3].word = effect->initial_colors[3].word;
                                     effect->timer3A = 20;
                                     effect->timer3C = 20;
-                                    task->callback = fade_quad_vertex_colors;
+                                    task->header.update_callback = fade_quad_vertex_colors;
                                     register_node(task, draw_linked_effect_chain);
-                                    sprite = task->sprite;
-                                    sprite->field10 = 32;
+                                    sprite = task->header.sprite;
+                                    sprite->tpage_abr = 32;
                                     sprite->flags |= 0xC;
                                     effect->path[0] = entity->path[12];
                                     effect->path[1] = entity->path[13];
@@ -706,43 +699,43 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, ObjectPosition 
                                     effect->path[9] = entity->path[9];
                                     effect->path[10] = entity->path[10];
                                     effect->path[11] = entity->path[11];
-                                    coord = task->coord;
+                                    coord = task->header.position;
                                     coord->x.w.i = entity->base[0];
                                     coord->y.w.i = entity->base[1];
                                     coord->z.w.i = entity->base[2];
-                                    sprite = task->sprite;
-                                    sprite->field1E = 0x1000;
-                                    sprite->field1C = 0x1000;
-                                    sprite->b = 0x80;
-                                    sprite->g = 0x80;
-                                    sprite->r = 0x80;
-                                    *(Row_819A1654_Blob12 *)(task->data) = linked_effect_task_values[0];
-                                    (sprite->data) = task->data;
+                                    sprite = task->header.sprite;
+                                    sprite->scale_y = 0x1000;
+                                    sprite->scale_x = 0x1000;
+                                    sprite->color.c.b = 0x80;
+                                    sprite->color.c.g = 0x80;
+                                    sprite->color.c.r = 0x80;
+                                    task->effect.sprite_source[0] = linked_effect_task_values[0];
+                                    (sprite->source) = task->effect.sprite_source;
                                 }
                             }
 
                             saved_timer = entity->timer;
                             if (saved_timer == 1) {
                                 task = allocate_flagged_object_node(0x212);
-                                effect = &task->effect;
+                                effect = &task->effect.prefix;
                                 if (task != 0) {
                                     s32 bright_color;
                                     bright_color = 0x804020;
                                     dim_color = 0x201008;
-                                    effect->value1C = bright_color;
-                                    effect->value24 = dim_color;
-                                    effect->value28 = dim_color;
-                                    effect->value20 = bright_color;
-                                    effect->value0C = effect->value1C;
-                                    effect->value10 = effect->value20;
-                                    effect->value14 = effect->value24;
-                                    effect->value18 = effect->value28;
+                                    effect->initial_colors[0].word = bright_color;
+                                    effect->initial_colors[2].word = dim_color;
+                                    effect->initial_colors[3].word = dim_color;
+                                    effect->initial_colors[1].word = bright_color;
+                                    effect->colors[0].word = effect->initial_colors[0].word;
+                                    effect->colors[1].word = effect->initial_colors[1].word;
+                                    effect->colors[2].word = effect->initial_colors[2].word;
+                                    effect->colors[3].word = effect->initial_colors[3].word;
                                     effect->timer3A = 20;
                                     effect->timer3C = 20;
-                                    task->callback = fade_quad_vertex_colors;
+                                    task->header.update_callback = fade_quad_vertex_colors;
                                     register_node(task, draw_linked_effect_chain);
-                                    sprite = task->sprite;
-                                    sprite->field10 = 32;
+                                    sprite = task->header.sprite;
+                                    sprite->tpage_abr = 32;
                                     sprite->flags |= 0xC;
                                     effect->path[0] = entity->path[18];
                                     effect->path[1] = entity->path[19];
@@ -756,40 +749,40 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, ObjectPosition 
                                     effect->path[9] = entity->path[15];
                                     effect->path[10] = entity->path[16];
                                     effect->path[11] = entity->path[17];
-                                    coord = task->coord;
+                                    coord = task->header.position;
                                     coord->x.w.i = entity->base[0];
                                     coord->y.w.i = entity->base[1];
                                     coord->z.w.i = entity->base[2];
-                                    sprite = task->sprite;
-                                    sprite->field1E = 0x1000;
-                                    sprite->field1C = 0x1000;
-                                    sprite->b = 0x80;
-                                    sprite->g = 0x80;
-                                    sprite->r = 0x80;
-                                    *(Row_819A1654_Blob12 *)(task->data) = linked_effect_task_values[0];
-                                    (sprite->data) = task->data;
+                                    sprite = task->header.sprite;
+                                    sprite->scale_y = 0x1000;
+                                    sprite->scale_x = 0x1000;
+                                    sprite->color.c.b = 0x80;
+                                    sprite->color.c.g = 0x80;
+                                    sprite->color.c.r = 0x80;
+                                    task->effect.sprite_source[0] = linked_effect_task_values[0];
+                                    (sprite->source) = task->effect.sprite_source;
                                 }
 
                                 rechecked_timer = entity->timer;
                                 if (rechecked_timer == saved_timer) {
                                     task = allocate_flagged_object_node(0x212);
-                                    effect = &task->effect;
+                                    effect = &task->effect.prefix;
                                     if (task != 0) {
                                         effect->timer3A = 20;
                                         effect->timer3C = 20;
-                                        effect->value1C = 0x10000;
-                                        effect->value24 = 0x804020;
-                                        effect->value28 = 0x804020;
-                                        effect->value20 = 0x10000;
+                                        effect->initial_colors[0].word = 0x10000;
+                                        effect->initial_colors[2].word = 0x804020;
+                                        effect->initial_colors[3].word = 0x804020;
+                                        effect->initial_colors[1].word = 0x10000;
                                         effect->mode3E = 2;
-                                        effect->value0C = effect->value1C;
-                                        effect->value10 = effect->value20;
-                                        effect->value14 = effect->value24;
-                                        effect->value18 = effect->value28;
-                                        task->callback = interpolate_quad_geometry_and_fade_colors;
+                                        effect->colors[0].word = effect->initial_colors[0].word;
+                                        effect->colors[1].word = effect->initial_colors[1].word;
+                                        effect->colors[2].word = effect->initial_colors[2].word;
+                                        effect->colors[3].word = effect->initial_colors[3].word;
+                                        task->header.update_callback = interpolate_quad_geometry_and_fade_colors;
                                         register_node(task, draw_linked_effect_chain);
-                                        sprite = task->sprite;
-                                        sprite->field10 = 32;
+                                        sprite = task->header.sprite;
+                                        sprite->tpage_abr = 32;
                                         sprite->flags |= 0xC;
                                         effect->path[0] = entity->path[12];
                                         effect->path[1] = entity->path[13];
@@ -809,40 +802,40 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, ObjectPosition 
                                         effect->path[15] = points.point[entity->point_index].x * 8;
                                         effect->path[16] = points.point[entity->point_index].y * 8;
                                         effect->path[17] = 0;
-                                        coord = task->coord;
+                                        coord = task->header.position;
                                         coord->x.w.i = entity->base[0];
                                         coord->y.w.i = entity->base[1];
                                         coord->z.w.i = entity->base[2];
-                                        sprite = task->sprite;
-                                        sprite->field1E = 0x1000;
-                                        sprite->field1C = 0x1000;
-                                        sprite->b = 0x80;
-                                        sprite->g = 0x80;
-                                        sprite->r = 0x80;
-                                        *(Row_819A1654_Blob12 *)(task->data) = linked_effect_task_values[0];
-                                        (sprite->data) = task->data;
+                                        sprite = task->header.sprite;
+                                        sprite->scale_y = 0x1000;
+                                        sprite->scale_x = 0x1000;
+                                        sprite->color.c.b = 0x80;
+                                        sprite->color.c.g = 0x80;
+                                        sprite->color.c.r = 0x80;
+                                        task->effect.sprite_source[0] = linked_effect_task_values[0];
+                                        (sprite->source) = task->effect.sprite_source;
                                     }
 
                                     saved_timer = entity->timer;
                                     if (saved_timer == rechecked_timer) {
                                         task = allocate_flagged_object_node(0x212);
-                                        effect = &task->effect;
+                                        effect = &task->effect.prefix;
                                         if (task != 0) {
                                             effect->timer3A = 20;
                                             effect->timer3C = 20;
-                                            effect->value1C = 0x10000;
-                                            effect->value24 = 0x804020;
-                                            effect->value28 = 0x804020;
-                                            effect->value20 = 0x10000;
+                                            effect->initial_colors[0].word = 0x10000;
+                                            effect->initial_colors[2].word = 0x804020;
+                                            effect->initial_colors[3].word = 0x804020;
+                                            effect->initial_colors[1].word = 0x10000;
                                             effect->mode3E = 2;
-                                            effect->value0C = effect->value1C;
-                                            effect->value10 = effect->value20;
-                                            effect->value14 = effect->value24;
-                                            effect->value18 = effect->value28;
-                                            task->callback = interpolate_quad_geometry_and_fade_colors;
+                                            effect->colors[0].word = effect->initial_colors[0].word;
+                                            effect->colors[1].word = effect->initial_colors[1].word;
+                                            effect->colors[2].word = effect->initial_colors[2].word;
+                                            effect->colors[3].word = effect->initial_colors[3].word;
+                                            task->header.update_callback = interpolate_quad_geometry_and_fade_colors;
                                             register_node(task, draw_linked_effect_chain);
-                                            sprite = task->sprite;
-                                            sprite->field10 = 32;
+                                            sprite = task->header.sprite;
+                                            sprite->tpage_abr = 32;
                                             sprite->flags |= 0xC;
                                             effect->path[0] = entity->path[18];
                                             effect->path[1] = entity->path[19];
@@ -862,18 +855,18 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, ObjectPosition 
                                             effect->path[15] = points.point[entity->point_index].x * 8;
                                             effect->path[16] = points.point[entity->point_index].y * 8;
                                             effect->path[17] = 0;
-                                            coord = task->coord;
+                                            coord = task->header.position;
                                             coord->x.w.i = entity->base[0];
                                             coord->y.w.i = entity->base[1];
                                             coord->z.w.i = entity->base[2];
-                                            sprite = task->sprite;
-                                            sprite->field1E = 0x1000;
-                                            sprite->field1C = 0x1000;
-                                            sprite->b = 0x80;
-                                            sprite->g = 0x80;
-                                            sprite->r = 0x80;
-                                            *(Row_819A1654_Blob12 *)(task->data) = linked_effect_task_values[0];
-                                            (sprite->data) = task->data;
+                                            sprite = task->header.sprite;
+                                            sprite->scale_y = 0x1000;
+                                            sprite->scale_x = 0x1000;
+                                            sprite->color.c.b = 0x80;
+                                            sprite->color.c.g = 0x80;
+                                            sprite->color.c.r = 0x80;
+                                            task->effect.sprite_source[0] = linked_effect_task_values[0];
+                                            (sprite->source) = task->effect.sprite_source;
                                         }
 
                                         if (entity->timer == saved_timer) {
@@ -934,30 +927,30 @@ loop_1:
             focus = world->target;
             if (focus != 0 && entity->timer == 1) {
                 task = allocate_flagged_object_node(0x212);
-                effect = &task->effect;
+                effect = &task->effect.prefix;
                 if (task != 0) {
                     effect->timer3A = 13;
                     effect->timer3C = 13;
-                    task->callback = update_effect_countdown_fields;
+                    task->header.update_callback = update_effect_countdown_fields;
                     register_node(task, project_sprite_chain);
-                    sprite = task->sprite;
-                    sprite->field6 = 6;
+                    sprite = task->header.sprite;
+                    sprite->depth_bias = 6;
                     sprite->flags &= 0xFFF3;
-                    focus_coord = *(Row_819A1654_Coord * *)&NODE_HEADER(focus)->position;
-                    coord = task->coord;
-                    coord->x.w.i = focus_coord->x;
-                    coord->y.w.i = focus_coord->y;
-                    coord->z.w.i = focus_coord->z - (entity_height_offsets[*((u8 *)focus + 19)] >> 1);
-                    sprite = task->sprite;
-                    sprite->field1E = 0x1000;
-                    sprite->field1C = 0x1000;
-                    sprite->b = 0x80;
-                    sprite->g = 0x80;
-                    sprite->r = 0x80;
-                    *(Row_819A1654_Blob12 *)task->data = *(Row_819A1654_Blob12 *)D_80026198;
-                    copy_page = (u8 *)D_80026198;
-                    *(Row_819A1654_Blob12 *)(task->data + 12) = *(Row_819A1654_Blob12 *)(copy_page + 12);
-                    sprite->data = task->data;
+                    focus_coord = NODE_HEADER(focus)->position;
+                    coord = task->header.position;
+                    coord->x.w.i = focus_coord->x.w.i;
+                    coord->y.w.i = focus_coord->y.w.i;
+                    coord->z.w.i = focus_coord->z.w.i - (entity_height_offsets[*((u8 *)focus + 19)] >> 1);
+                    sprite = task->header.sprite;
+                    sprite->scale_y = 0x1000;
+                    sprite->scale_x = 0x1000;
+                    sprite->color.c.b = 0x80;
+                    sprite->color.c.g = 0x80;
+                    sprite->color.c.r = 0x80;
+                    task->effect.sprite_source[0] = D_80026198[0].entries[0];
+                    copy_page = D_80026198;
+                    task->effect.sprite_source[1] = copy_page->entries[1];
+                    sprite->source = task->effect.sprite_source;
                     break;
                 }
             }

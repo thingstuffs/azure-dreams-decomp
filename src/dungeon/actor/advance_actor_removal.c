@@ -1,6 +1,8 @@
 #include "dungeon/level/unlink_entity_node_api.h"
+#include "shared/object_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
+#include "dungeon/item/actor_target.h"
 #include "dungeon/actor/pending_marked_actor_count_data.h"
 #include "engine/entity/effect_slots.h"
 #include "dungeon/actor.h"
@@ -60,10 +62,6 @@ typedef struct S_800AB778_9 {
     void * unk_110;
 } S_800AB778_9;   /* page_obj4 in advance_actor_removal */
 
-typedef struct S_800AB778_10 {
-    s32 unk_00;
-} S_800AB778_10;   /* &D_800814A0 in advance_actor_removal */
-
 typedef struct S_800AB778_12 {
     u8 pad_00[0xAC];
     s32 unk_AC;
@@ -82,10 +80,6 @@ typedef struct S_800AB778_15 {
     void * unk_110;
 } S_800AB778_15;   /* page_obj16 in advance_actor_removal */
 
-typedef struct S_800AB778_16 {
-    s32 unk_00;
-} S_800AB778_16;   /* global16 in advance_actor_removal */
-
 typedef struct {
     u8 pad00[0x13];
     s8 field13;
@@ -97,7 +91,6 @@ struct DungeonItemEntry;
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
-s16 find_linked_object_slot_index();
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/item.h"
 #include "dungeon/item/effect.h"
@@ -107,7 +100,6 @@ s16 find_linked_object_slot_index();
 struct Entity;
 struct EntityLinkNode;
 
-extern s32 object_flag_block;
 extern u8 D_800E0C34[36];
 extern M2C_UNK D_800E0C58;
 extern M2C_UNK D_800E0C67;
@@ -246,7 +238,7 @@ s32 advance_actor_removal(ActorRecord *state, ObjectPosition *unused_context, Sp
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         mark_owned_linked_actor_actions(actor);
-        actor_slot4 = find_linked_object_slot_index(actor);
+        actor_slot4 = (s16)find_linked_object_slot_index(actor);
         if (actor_slot4 >= 0) {
             void *actor_base4;
 
@@ -287,7 +279,7 @@ s32 advance_actor_removal(ActorRecord *state, ObjectPosition *unused_context, Sp
         }
         unlink_entity_node(actor);
         NODE_HEADER(actor)->flags |= 0x8000;
-        ((S_800AB778_10 *)(&object_flag_block))->unk_00 |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         state4_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
         state4_owner = ((s32)g_dungeon_status.active_actor);
         state4_count--;
@@ -350,9 +342,9 @@ s32 advance_actor_removal(ActorRecord *state, ObjectPosition *unused_context, Sp
             update_map_cell_flags_with_item_limit(effect_x, effect_y, effect_flags);
         }
         unlink_entity_node(actor);
-        update_flags = &object_flag_block;
+        update_flags = &object_flag_block.flags;
         NODE_HEADER(actor)->flags |= 0x8000;
-        ((S_800AB778_16 *)update_flags)->unk_00 |= 0x8000;
+        *update_flags |= OBJECT_REMOVE_PENDING;
         state16_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
         state16_count--;
         g_dungeon_status.activity_counts.parts.pending_action_count = state16_count;

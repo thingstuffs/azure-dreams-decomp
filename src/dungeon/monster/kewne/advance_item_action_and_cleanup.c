@@ -1,4 +1,5 @@
 #include "dungeon/effect/screen.h"
+#include "shared/sound_state.h"
 #include "sdk/libc.h"
 #include "shared/audio_commands.h"
 #include "common.h"
@@ -20,7 +21,6 @@
 #include "dungeon/actor.h"
 #include "slus.h"
 #include "slus/animation_tick_data.h"
-extern s32 cd_cue_base[];
 extern u8 D_800DCF50;
 extern s32 D_800DDAB8[];
 extern u8 kewne_action_resume_address[];
@@ -162,7 +162,7 @@ void advance_item_action_and_cleanup(ActorRecord *body, ObjectPosition *motion, 
     audio_index = (s16)resolve_alternate_spell_id(item_id);
     sound_id = 0x1300;
     play_sound_if_enabled(sound_id);
-    sound_set_cd_cue_parameters(0, cd_cue_base[0],
+    sound_set_cd_cue_parameters(0, cd_cue_base,
                   ((s32 *)(((audio_index << 17) >> 14) + audio_base))[0],
                   ((s32 *)(((audio_index << 17) >> 14) + audio_base))[1]);
     cd_param = read_stream_cue_start_offset();

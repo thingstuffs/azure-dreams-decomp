@@ -4,15 +4,14 @@
 #include "dungeon/data.h"
 
 extern u8 *D_80173D5C[];
-extern u8 *beldo_actor_nodes[3];
 
 /* Select a table entry, reset its counter, and record the active index in object state. */
 void start_multi_form_action_script(s32 table_index) {
-    s8 *state;
+    BeldoScriptControl *state;
 
     beldo_script_timer = 0;
-    state = (s8 *)(beldo_actor_nodes[0] + 0x20);
+    state = NODE_BODY(beldo_actor_nodes);
     encounter_script_cursor = D_80173D5C[table_index];
-    state[0xAF] = 1;
-    state[0xAB] = table_index;
+    state->script_active = 1;
+    state->script_index = table_index;
 }

@@ -268,7 +268,7 @@ s32 project_linked_quad_record(void *record, ObjectPosition *context, SpriteFram
     }
 }
 /* Draws a textured spherical mesh and adds its visible quads to the ordering table. */
-void draw_textured_sphere_mesh(void *mesh, void *position, SpriteFrameState *material, u16 depth_bias) {
+void draw_textured_sphere_mesh(TexturedSparkSphereBody *mesh, ObjectPosition *position, SpriteFrameState *material, u16 depth_bias) {
     MATRIX view_matrix;
     u16 saved_depth_bias;
     u8 *texture;
@@ -312,9 +312,9 @@ void draw_textured_sphere_mesh(void *mesh, void *position, SpriteFrameState *mat
     page_ptr = &g_game_work.draw_buffer;
     initial_page = *page_ptr;
     scratch->ordering_table = (u32 *)(initial_page + 0xB0);
-    scratch->local_matrix.t[0] = *(s16 *)((u8 *)position + 2);
-    scratch->local_matrix.t[1] = *(s16 *)((u8 *)position + 6);
-    scratch->local_matrix.t[2] = *(s16 *)((u8 *)position + 0xA);
+    scratch->local_matrix.t[0] = position->x.w.i;
+    scratch->local_matrix.t[1] = position->y.w.i;
+    scratch->local_matrix.t[2] = position->z.w.i;
     material->flags = material->flags | 0x8000;
     saved_depth_bias = depth_bias;
     PushMatrix();
@@ -333,8 +333,8 @@ void draw_textured_sphere_mesh(void *mesh, void *position, SpriteFrameState *mat
     texture = material->source;
     scratch->render_flags = material->flags;
     for (;;) {
-        for (row = 0; row < *(s16 *)((u8 *)mesh + 0xC); row++) {
-            for (column = 0; column < *(s16 *)((u8 *)mesh + 0xA); column++) {
+        for (row = 0; row < mesh->rows; row++) {
+            for (column = 0; column < mesh->columns; column++) {
                 scratch->uv_u_start = *(texture + 8);
                 scratch->uv_v_start = *(texture + 9);
                 scratch->uv_u_extent = *(texture + 10);
@@ -342,13 +342,13 @@ void draw_textured_sphere_mesh(void *mesh, void *position, SpriteFrameState *mat
                 scratch->uv_v_extent = *(texture + 11);
                 quad = page->packetCursor;
                 page->packetCursor = quad + 1;
-                column_count = *(s16 *)((u8 *)mesh + 0xA);
+                column_count = mesh->columns;
                 longitude = (column << 0xC) / column_count;
-                latitude_span = -*(s16 *)((u8 *)mesh + 0xE);
-                row_count = *(s16 *)((u8 *)mesh + 0xC);
+                latitude_span = -mesh->latitude_span;
+                row_count = mesh->rows;
                 latitude_offset = (latitude_span * row) / row_count;
                 next_latitude_offset = (latitude_span * (row + 1)) / row_count;
-                longitude_offset = *(s16 *)((u8 *)mesh + 0x10);
+                longitude_offset = mesh->longitude_offset;
                 next_longitude = ((column + 1) << 0xC) / column_count;
                 longitude = longitude + longitude_offset;
                 latitude = latitude_offset + 0x400;
@@ -366,21 +366,21 @@ void draw_textured_sphere_mesh(void *mesh, void *position, SpriteFrameState *mat
                 if (next_longitude < 0) {
                     next_longitude += 0x1000;
                 }
-                ring_radius = ((*(s32 *)((u8 *)mesh + 0x68) >> 8) * rcos(latitude)) >> 0x14;
-                next_ring_radius = ((*(s32 *)((u8 *)mesh + 0x68) >> 8) * rcos(next_latitude)) >> 0x14;
+                ring_radius = ((mesh->radius.v >> 8) * rcos(latitude)) >> 0x14;
+                next_ring_radius = ((mesh->radius.v >> 8) * rcos(next_latitude)) >> 0x14;
                 scratch->vertices[0].vx = (ring_radius * rsin(longitude)) >> 0xC;
                 scratch->vertices[0].vy = (ring_radius * rcos(longitude)) >> 0xC;
-                scratch->vertices[0].vz = -(((*(s32 *)((u8 *)mesh + 0x68) >> 8) * rsin(latitude)) >> 0x14);
+                scratch->vertices[0].vz = -(((mesh->radius.v >> 8) * rsin(latitude)) >> 0x14);
                 scratch->vertices[1].vx = (ring_radius * rsin(next_longitude)) >> 0xC;
                 scratch->vertices[1].vy = (ring_radius * rcos(next_longitude)) >> 0xC;
-                scratch->vertices[1].vz = -(((*(s32 *)((u8 *)mesh + 0x68) >> 8) * rsin(latitude)) >> 0x14);
+                scratch->vertices[1].vz = -(((mesh->radius.v >> 8) * rsin(latitude)) >> 0x14);
                 scratch->vertices[2].vx = (next_ring_radius * rsin(longitude)) >> 0xC;
                 scratch->vertices[2].vy = (next_ring_radius * rcos(longitude)) >> 0xC;
-                scratch->vertices[2].vz = -(((*(s32 *)((u8 *)mesh + 0x68) >> 8) * rsin(next_latitude))
+                scratch->vertices[2].vz = -(((mesh->radius.v >> 8) * rsin(next_latitude))
                     >> 0x14);
                 scratch->vertices[3].vx = (next_ring_radius * rsin(next_longitude)) >> 0xC;
                 scratch->vertices[3].vy = (next_ring_radius * rcos(next_longitude)) >> 0xC;
-                last_vertex_z = -(((*(s32 *)((u8 *)mesh + 0x68) >> 8) * rsin(next_latitude)) >> 0x14);
+                last_vertex_z = -(((mesh->radius.v >> 8) * rsin(next_latitude)) >> 0x14);
                 depth_index = (RotAverage4(&scratch->vertices[0], &scratch->vertices[1], &scratch->vertices[2],
                     &scratch->vertices[3], (s32 *)&quad->x0, (s32 *)&quad->x1, (s32 *)&quad->x2, (s32 *)&quad->x3,
                     &scratch->depth_cue, (scratch->vertices[3].vz = last_vertex_z, &scratch->gte_flag)) - (s16)saved_depth_bias) - 6;
@@ -499,7 +499,7 @@ void draw_textured_sphere_mesh(void *mesh, void *position, SpriteFrameState *mat
 /* Retail 818757D4 (draw_chained_object_records).
  * Draw the record and then every record chained through the previous header's unk_18 link (node + 0x20 is the
  * next record); each node supplies the context and data pointers for its record. */
-s32 draw_chained_object_records(void *record, void *context, void *data) {
+s32 draw_chained_object_records(TexturedSparkSphereBody *record, ObjectPosition *context, SpriteFrameState *data) {
     ObjectNodeHeader *node;
 
     for (;;) {
@@ -508,7 +508,7 @@ s32 draw_chained_object_records(void *record, void *context, void *data) {
         if (node == 0) {
             return 0;
         }
-        record = node + 1;
+        record = NODE_BODY(node);
         context = node->position;
         data = node->sprite;
     }
@@ -517,23 +517,15 @@ s32 draw_chained_object_records(void *record, void *context, void *data) {
 #include "sdk/libgpu_types.h"
 #include "dungeon/effect/colored_point_scratch.h"
 
-#define FIELD_U8(base, off)  (*(u8 *)((u8 *)(base) + (off)))
-#define FIELD_S16(base, off) (*(s16 *)((u8 *)(base) + (off)))
-#define FIELD_U16(base, off) (*(u16 *)((u8 *)(base) + (off)))
-#define FIELD_U32(base, off) (*(u32 *)((u8 *)(base) + (off)))
-#define FIELD_PTR(base, off) (*(u8 **)((u8 *)(base) + (off)))
-
 /* Projects a colored point and links its drawing packets into the ordering table. */
-s32 project_colored_point(TerrainSeekingPointBody *render_data, u8 *source_vertex)
+s32 project_colored_point(TerrainSeekingPointBody *render_data, ObjectPosition *position)
 {
     GpuContext **context_slot;
     ColoredPointScratch *scratch;
     GpuContext *context;
     TILE_1 *point_packet;
     DR_MODE *mode_packet;
-    u8 *next_node;
-    u8 *vertex = source_vertex;
-    u16 vertex_x;
+    ObjectNodeHeader *next_node;
     u8 blue;
     u32 depth_index;
     u32 length_mask;
@@ -549,10 +541,9 @@ s32 project_colored_point(TerrainSeekingPointBody *render_data, u8 *source_verte
     scratch->ordering_table = (u32 *)&context->orderTag;
     do {
         point_packet = scratch->packet_cursor;
-        vertex_x = FIELD_U16(vertex, 2);
-        scratch->position.vx = vertex_x;
-        scratch->position.vy = FIELD_U16(vertex, 6);
-        scratch->position.vz = FIELD_U16(vertex, 0xA);
+        scratch->position.vx = position->x.w.i;
+        scratch->position.vy = position->y.w.i;
+        scratch->position.vz = position->z.w.i;
         scratch->packet_cursor = point_packet + 1;
 
         depth_index = RotTransPers(&scratch->position, (s32 *)&point_packet->x0, &scratch->depth_cue,
@@ -592,12 +583,12 @@ s32 project_colored_point(TerrainSeekingPointBody *render_data, u8 *source_verte
             *mode_ot_entry = (*mode_ot_entry & length_mask) | ((u32)mode_packet & address_mask);
         }
 
-        next_node = FIELD_PTR(render_data, -8);
+        next_node = NODE_HEADER(render_data)->chain_next;
         render_data = NODE_BODY(next_node);
         if (next_node == 0) {
             break;
         }
-        vertex = FIELD_PTR(next_node, 8);
+        position = next_node->position;
     } while (1);
     (*context_slot)->packetCursor = scratch->packet_cursor;
     return 0;
@@ -605,20 +596,20 @@ s32 project_colored_point(TerrainSeekingPointBody *render_data, u8 *source_verte
 #include "shared/object_flags.h"
 
 /* Adjust height conditionally and set flags when the countdown reaches zero or below. */
-void advance_point_effect_toward_terrain(void *state, s16 *position)
+void advance_point_effect_toward_terrain(TerrainSeekingPointBody *state, ObjectPosition *position)
 {
-    s16 *state_words = state;
     s16 countdown;
 
     sphere_particle_effect_updated = 1;
-    if (position[5] < (s16)sample_terrain_surface_height((u16)position[1], (u16)position[3], position[5] + 2)) {
-        ((s32 *)position)[2] += *(s32 *)((u8 *)state + 0x48);
+    if (position->z.w.i < (s16)sample_terrain_surface_height(
+            (u16)position->x.w.i, (u16)position->y.w.i, position->z.w.i + 2)) {
+        position->z.v += state->z_velocity;
     }
 
-    countdown = (u16)state_words[25] - 4;
-    state_words[25] = countdown;
+    countdown = state->intensity - 4;
+    state->intensity = countdown;
     if ((countdown << 16) <= 0) {
-        ((u16 *)state_words)[-1] |= NODE_REMOVE;
+        NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -628,21 +619,9 @@ void advance_point_effect_toward_terrain(void *state, s16 *position)
 #define NULL 0
 #endif
 
-typedef struct S_func_81875B38_2 {
-    u8 pad_00[0x8];
-    void *unk_08;
-    u8 pad_0C[0x4];
-    void *unk_10;
-} S_func_81875B38_2;
-
-/* Returns the typed effect payload at byte offset 0x20 from the supplied node address. */
-static __inline__ S_func_81875B38_2 *effect_offset_32(void *p) {
-    return (S_func_81875B38_2 *)((u8 *)p + 0x20);
-}
-
 /* Spawn and initialize an effect at a randomly offset position relative to the source. */
 void create_terrain_seeking_point_effect(
-    void *source,
+    ObjectNodeHeader *source_obj,
     s32 property_34,
     s32 property_28,
     s16 property_52,
@@ -650,60 +629,54 @@ void create_terrain_seeking_point_effect(
     s16 y_offset,
     s16 z_offset)
 {
-    ObjectNodeHeader *source_obj = source;
-    S_func_81875B38_2 *effect_ptr;
-    S_func_81875B38_2 *effect_obj;
+    TerrainSeekingPointBody *body;
+    ObjectNodeHeader *effect_obj;
     u16 jitter;
     u16 effect_pos;
 
-    effect_ptr = allocate_list_node(0x211, &source_obj->next);
-    if (effect_ptr != NULL) {
-        effect_ptr->unk_10 = advance_point_effect_toward_terrain;
+    effect_obj = allocate_list_node(0x211, &source_obj->next);
+    if (effect_obj != NULL) {
+        effect_obj->update_callback = advance_point_effect_toward_terrain;
         jitter = rand() & 0x1F;
         effect_pos = source_obj->position->x.unsigned_parts.integer + jitter;
         effect_pos += x_offset - 0x10;
-        ((ObjectPosition *)effect_ptr->unk_08)->x.w.i = effect_pos;
+        effect_obj->position->x.w.i = effect_pos;
 
         jitter = rand() & 0x1F;
         effect_pos = source_obj->position->y.unsigned_parts.integer + jitter;
         effect_pos += y_offset - 0x10;
-        ((ObjectPosition *)effect_ptr->unk_08)->y.w.i = effect_pos;
+        effect_obj->position->y.w.i = effect_pos;
 
         jitter = rand() & 0x1F;
-        effect_obj = effect_ptr;
-        effect_ptr = effect_offset_32(effect_obj);
+        body = NODE_BODY(effect_obj);
         effect_pos = source_obj->position->z.unsigned_parts.integer + jitter;
         effect_pos += z_offset - 0x10;
-        ((ObjectPosition *)effect_obj->unk_08)->z.w.i = effect_pos;
-        ((TerrainSeekingPointBody *)effect_ptr)->unk_14 = property_34;
-        ((TerrainSeekingPointBody *)effect_ptr)->intensity = property_52;
-        ((TerrainSeekingPointBody *)effect_ptr)->divisor = property_52;
+        effect_obj->position->z.w.i = effect_pos;
+        body->unk_14 = property_34;
+        body->intensity = property_52;
+        body->divisor = property_52;
         register_node(effect_obj, project_colored_point);
-        ((TerrainSeekingPointBody *)effect_ptr)->z_velocity = rand() + 0x10000;
-        ((TerrainSeekingPointBody *)effect_ptr)->color = property_28;
+        body->z_velocity = rand() + 0x10000;
+        body->color = property_28;
     }
 }
 
-typedef struct {
-    u8 bytes[12];
-} UnkCopy12;
 
-extern UnkCopy12 D_80026658;
+extern SphereSpriteSource D_80026658;
 
 /* Per-state particle step: the c4 state spawns 0x20 randomised sparks in one do-while. */
-void spawn_randomized_spark_burst(u8 *data, void *unused, SpriteFrameState *context)
+void spawn_randomized_spark_burst(TexturedSparkSphereBody *p, ObjectPosition *unused, SpriteFrameState *context)
 {
-    u8 *p = data;
     s16 old;
-    u16 temp;
-    u16 h0;
-    u16 timer0;
-    u16 state0;
-    u16 limit0;
-    u16 timer1;
-    s32 adv;
-    u16 state1;
-    u16 h1;
+    s16 temp;
+    s16 h0;
+    s16 timer0;
+    s16 state0;
+    s16 limit0;
+    s16 timer1;
+    s16 adv;
+    s16 state1;
+    s16 h1;
     s32 i;
     s32 color;
     s32 r0;
@@ -713,91 +686,91 @@ void spawn_randomized_spark_burst(u8 *data, void *unused, SpriteFrameState *cont
     s32 velocity;
     s32 state;
 
-    state = *(s16 *)p;
+    state = p->mode;
     sphere_particle_effect_updated = 1;
 
     switch (state) {
     case 0:
-        h0 = *(u16 *)(p + 0x1A);
-        old = p[0x34];
-        *(u16 *)(p + 0x68) = 0;
-        *(u16 *)(p + 0x6A) = h0;
-        p[0x34] = old + 2;
+        h0 = p->current_radius;
+        old = p->sprite_source.command.data.texture.u0;
+        p->radius.w.frac = 0;
+        p->radius.w.i = h0;
+        p->sprite_source.command.data.texture.u0 = old + 2;
         if ((u8)(old + 2) >= 0xE0) {
-            p[0x34] = old - 0x1E;
+            p->sprite_source.command.data.texture.u0 = old - 0x1E;
         }
-        timer0 = *(u16 *)(p + 0xE) + 0x28;
-        *(u16 *)(p + 0xE) = timer0;
-        if ((s16)timer0 < 0x800) {
+        timer0 = p->latitude_span + 0x28;
+        p->latitude_span = timer0;
+        if (timer0 < 0x800) {
             return;
         }
         limit0 = 0x800;
-        state0 = *(u16 *)p;
-        *(u16 *)(p + 0xE) = limit0;
-        *(u16 *)p = state0 + 1;
+        state0 = p->mode;
+        p->latitude_span = limit0;
+        p->mode = state0 + 1;
         return;
 
     case 1:
-        old = p[0x34];
-        p[0x34] = old + 2;
+        old = p->sprite_source.command.data.texture.u0;
+        p->sprite_source.command.data.texture.u0 = old + 2;
         if ((u8)(old + 2) >= 0xE0) {
-            p[0x34] = old - 0x1E;
+            p->sprite_source.command.data.texture.u0 = old - 0x1E;
         }
-        timer1 = *(u16 *)(p + 2) + 1;
-        *(u16 *)(p + 2) = timer1;
-        if ((s16)timer1 >= 11) {
-            state1 = *(u16 *)p;
-            *(u16 *)(p + 2) = 0;
-            *(u16 *)p = state1 + 1;
+        timer1 = p->timer + 1;
+        p->timer = timer1;
+        if (timer1 >= 11) {
+            state1 = p->mode;
+            p->timer = 0;
+            p->mode = state1 + 1;
         }
-        h1 = *(u16 *)(p + 0x1A);
-        *(u16 *)(p + 0x68) = 0;
-        *(s32 *)(p + 0x74) = 0;
-        *(s32 *)(p + 0x80) = -0x900;
-        *(u16 *)(p + 0x6A) = h1;
+        h1 = p->current_radius;
+        p->radius.w.frac = 0;
+        p->velocity = 0;
+        p->acceleration = -0x900;
+        p->radius.w.i = h1;
         return;
 
     case 2:
-        old = p[0x34];
-        p[0x34] = old + 2;
+        old = p->sprite_source.command.data.texture.u0;
+        p->sprite_source.command.data.texture.u0 = old + 2;
         if ((u8)(old + 2) >= 0xE0) {
-            p[0x34] = old - 0x1E;
+            p->sprite_source.command.data.texture.u0 = old - 0x1E;
         }
-        if (*(s16 *)(p + 0x6A) < 31) {
-            adv = *(u16 *)p;
-            *(u16 *)(p + 2) = 0;
-            *(u16 *)p = adv + 1;
+        if (p->radius.w.i < 31) {
+            adv = p->mode;
+            p->timer = 0;
+            p->mode = adv + 1;
             return;
         }
-        velocity = *(s32 *)(p + 0x74) + *(s32 *)(p + 0x80);
-        *(s32 *)(p + 0x68) += velocity;
-        *(s32 *)(p + 0x74) = velocity;
-        *(u16 *)(p + 0x1A) = *(u16 *)(p + 0x6A);
+        velocity = p->velocity + p->acceleration;
+        p->radius.v += velocity;
+        p->velocity = velocity;
+        p->current_radius = p->radius.w.i;
         return;
 
     case 3:
-        old = p[0x34];
-        p[0x34] = old + 2;
+        old = p->sprite_source.command.data.texture.u0;
+        p->sprite_source.command.data.texture.u0 = old + 2;
         if ((u8)(old + 2) >= 0xE0) {
-            p[0x34] = old - 0x1E;
+            p->sprite_source.command.data.texture.u0 = old - 0x1E;
         }
-        temp = *(u16 *)(p + 2) + 1;
-        *(u16 *)(p + 2) = temp;
-        if ((s16)temp >= 31) {
-            adv = *(u16 *)p;
-            *(u16 *)(p + 2) = 0;
-            *(u16 *)p = adv + 1;
+        temp = p->timer + 1;
+        p->timer = temp;
+        if (temp >= 31) {
+            adv = p->mode;
+            p->timer = 0;
+            p->mode = adv + 1;
             return;
         }
         return;
 
     case 4:
-        *(UnkCopy12 *)(p + 0x2C) = D_80026658;
-        context->source = p + 0x2C;
-        temp = *(u16 *)p;
-        *(u16 *)(p + 2) = 0;
-        *(u16 *)p = temp + 1;
-        *(s16 *)(*(u8 **)(p + 0x40) + 0x88) = 1;
+        p->sprite_source = D_80026658;
+        context->source = &p->sprite_source;
+        temp = p->mode;
+        p->timer = 0;
+        p->mode = temp + 1;
+        p->spell->unk_88 = 1;
 
         i = 0;
         do {
@@ -807,17 +780,17 @@ void spawn_randomized_spark_burst(u8 *data, void *unused, SpriteFrameState *cont
             r2 = (s16)((rand() & 0x7F) - 0x40);
             r3 = (s16)((rand() & 0x3F) - 0x60);
             color = 0xE04040;
-            create_terrain_seeking_point_effect(p - 0x20, 0, color, r0, r1, r2, r3);
+            create_terrain_seeking_point_effect(NODE_HEADER(p), 0, color, r0, r1, r2, r3);
         } while (i < 0x20);
         return;
 
     case 5:
-        temp = *(u16 *)(p + 2) + 1;
-        *(u16 *)(p + 2) = temp;
-        if ((s16)temp >= 16) {
-            adv = *(u16 *)p;
-            *(u16 *)(p + 2) = 0;
-            *(u16 *)p = adv + 1;
+        temp = p->timer + 1;
+        p->timer = temp;
+        if (temp >= 16) {
+            adv = p->mode;
+            p->timer = 0;
+            p->mode = adv + 1;
             return;
         }
         return;
@@ -829,20 +802,20 @@ void spawn_randomized_spark_burst(u8 *data, void *unused, SpriteFrameState *cont
             context->color.c.b -= 5;
         }
         if (context->color.c.r < 6) {
-            adv = *(u16 *)p;
-            *(u16 *)(p + 2) = 0;
-            *(u16 *)p = adv + 1;
+            adv = p->mode;
+            p->timer = 0;
+            p->mode = adv + 1;
             return;
         }
         return;
 
     case 7:
-        temp = *(u16 *)(p + 2) - 1;
-        *(u16 *)(p + 2) = temp;
-        if ((s32)(temp << 16) > 0) {
+        temp = p->timer - 1;
+        p->timer = temp;
+        if (temp > 0) {
             return;
         }
-        *(u16 *)(p - 2) |= NODE_REMOVE;
+        NODE_HEADER(p)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     default:
@@ -1047,9 +1020,6 @@ typedef union DirectionOffsetCopy {
     u8 bytes[32];
 } Copy32;
 
-typedef struct {
-    u8 bytes[12];
-} Copy12;
 
 typedef struct {
     s16 x;
@@ -1068,9 +1038,9 @@ typedef struct {
  * cold overlay row; the binds retain real link-resolved symbols. */
 
 const Copy32 textured_quad_octant_offsets = {{ {8, 0}, {8, 8}, {0, 8}, {-8, 8}, {-8, 0}, {-8, 65528}, {0, 65528}, {8, 65528} }};
-extern Copy12 D_80026634;
-extern Copy12 D_80026640;
-extern Copy12 D_8002664C;
+extern SphereSpriteSource D_80026634;
+extern SphereSpriteSource D_80026640;
+extern SphereSpriteSource D_8002664C;
 
 /* Moves an effect toward its target, emits particles, changes target colors, and applies a timed status. */
 void update_animated_effect_sprite(TargetParticleStatusSpellBody *effect, ObjectPosition *entity, SpriteFrameState *sprite)
@@ -1106,7 +1076,7 @@ void update_animated_effect_sprite(TargetParticleStatusSpellBody *effect, Object
         sprite->scale_y = setup;
         sprite->scale_x = setup;
     }
-        *(Copy12 *)((u8 *)effect + 0xA2) = D_80026634;
+        *(SphereSpriteSource *)((u8 *)effect + 0xA2) = D_80026634;
         {
             s32 init_value;
             u16 init_count;
@@ -1266,7 +1236,7 @@ L0_adjust_z:
                     work->color.c.g = alpha;
                     work->color.c.r = alpha;
                 }
-                *(Copy12 *)((u8 *)spawn + 0x4C) = D_80026640;
+                *(SphereSpriteSource *)((u8 *)spawn + 0x4C) = D_80026640;
                 work->source = (u8 *)spawn + 0x4C;
             }
             i++;
@@ -1343,6 +1313,8 @@ L1_calc:
         }
         {
             ObjectNodeHeader *spawn;
+            TexturedSparkSphereBody *sphere;
+            ActorRecord *target_actor;
             spawn = allocate_flagged_object_node(0x12);
             if (spawn != 0) {
                 entry = NODE_BODY(spawn);
@@ -1366,8 +1338,8 @@ L1_calc:
                 dst = spawn->position;
                 dst->x.v = entry->unk_00.at00.v;
                 dst->y.v = entry->unk_04.at00.v;
-                index = obj->target != 0;
-                index = ((S_800259D8_15 *)(obj->target))->unk_13;
+                target_actor = obj->target;
+                index = target_actor->species;
                 dst->z.v = entry->unk_08.at00.v -
                     (entity_height_offsets[index] << 15);
                 work = spawn->sprite;
@@ -1379,8 +1351,9 @@ L1_calc:
                 work->color.c.b = 0x80;
                 work->color.c.g = 0x80;
                 work->color.c.r = 0x80;
-                *(Copy12 *)((u8 *)spawn + 0x4C) = D_8002664C;
-                work->source = (u8 *)spawn + 0x4C;
+                sphere = NODE_BODY(spawn);
+                sphere->sprite_source = D_8002664C;
+                work->source = &sphere->sprite_source;
             }
         }
         effect->spell.phase = 4;
@@ -1404,7 +1377,7 @@ L1_calc:
             i = 0;
             while (1) {
                 value = rand();
-                create_terrain_seeking_point_effect((u8 *)effect - 0x20, effect->unk_80, 0x00E02020, (value & 0xFF) | 0x80, 0,
+                create_terrain_seeking_point_effect(NODE_HEADER(effect), effect->unk_80, 0x00E02020, (value & 0xFF) | 0x80, 0,
                     0, 0);
                 i++;
                 if (i >= 4) {

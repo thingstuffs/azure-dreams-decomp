@@ -20,7 +20,7 @@
 
 extern void func_80025B5C();
 
-extern u8 D_80028268[];
+extern LinkedSpriteSource D_80028268[];
 extern int D_800814A0;
 
 /* Create 18 linked objects at the given position and angle, marking them for cleanup on failure. */
@@ -50,7 +50,7 @@ void *create_linked_object_chain(s16 x, s16 y, s16 z, s16 angle)
             node->offset_x = 0x1000;
             node->scale_y = 0x1000;
             node->scale_x = 0x1000;
-            node->source = &D_80028268[i * 16];
+            node->source = &D_80028268[i];
             node->tpage_abr = 0x20;
             node->flags |= 0xC;
             object_state = NODE_BODY(objects[i]);

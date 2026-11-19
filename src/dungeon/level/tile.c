@@ -117,24 +117,30 @@ void insert_node_before_primary_actor(ObjectNodeHeader *entry)
 #define NULL 0
 #endif
 
-extern EntityLinkNode *actor_update_node_cursor;
 
 /* Unlink a node and advance the global cursor if it references that node. */
 void unlink_entity_node(EntityLinkNode *node) {
-    EntityLinkNode *prev;
-    EntityLinkNode *next;
+    ObjectNodeHeader *cursor = actor_update_node_cursor;
+    ActorRecord *links;
+    ObjectNodeHeader *prev;
+    ObjectNodeHeader *next;
+    ActorRecord *prev_links;
+    ActorRecord *next_links;
 
-    if (actor_update_node_cursor == (EntityLinkNode *)((s8 *)node - 0x20)) {
-        actor_update_node_cursor = node->next;
+    links = (ActorRecord *)node;
+    if (cursor == NODE_HEADER(links)) {
+        actor_update_node_cursor = links->next_actor_header;
     }
 
-    prev = node->prev;
-    next = node->next;
-    if ((prev != NULL) && (next != NULL)) {
-        prev->unk7C = next;
-        next->unk78 = prev;
-        node->next = NULL;
-        node->prev = NULL;
+    prev = links->previous_actor_header;
+    next = links->next_actor_header;
+    if (prev != NULL && next != NULL) {
+        prev_links = NODE_BODY(prev);
+        next_links = NODE_BODY(next);
+        prev_links->next_actor_header = next;
+        next_links->previous_actor_header = prev;
+        links->next_actor_header = NULL;
+        links->previous_actor_header = NULL;
     }
 }
 #include "shared/dungeon_floor.h"
@@ -930,32 +936,22 @@ s32 measure_directional_stopping_distance(u32 direction_flags, ObjectPosition *o
 }
 
 
-typedef struct {
-    u8 pad0[0x24];
-    u8 x;
-    u8 y;
-} Arg2;
-
 /* Checks the neighboring tile in the encoded direction for blocking flags and height. */
-s32 check_neighbor_tile_blocking(u32 direction_bits, ObjectPosition *state_in, Arg2 *position_in) {
+s32 check_neighbor_tile_blocking(u32 direction_bits, ObjectPosition *motion, SpriteFrameState *sprite) {
     u16 tile_flags;
-    ObjectPosition *state;
-    Arg2 *position;
     s32 direction;
     s32 next_x;
     s32 next_y;
 
-    state = state_in;
-    position = position_in;
     direction = (direction_bits >> 9) & 7;
-    if ((get_offset_map_cell_value_and_flags(position->x, position->y, direction, &tile_flags) << 0x10) != 0) {
+    if ((get_offset_map_cell_value_and_flags(sprite->tile_x, sprite->tile_y, direction, &tile_flags) << 0x10) != 0) {
         if (tile_flags & 0x8000) {
             return 0;
         }
-        next_x = position->x + ((u16 *)dir_step_x)[direction];
-        next_y = position->y + ((u16 *)dir_step_y)[direction];
+        next_x = sprite->tile_x + ((u16 *)dir_step_x)[direction];
+        next_y = sprite->tile_y + ((u16 *)dir_step_y)[direction];
         if (map_height_short((((s32) (next_x << 0x10) >> 0xA) | 0x20) & 0xFFE0,
-            (((s32) (next_y << 0x10) >> 0xA) | 0x20) & 0xFFE0, (s32) (state->z.v + (state->velocity_z * 2)) >> 0x10)
+            (((s32) (next_y << 0x10) >> 0xA) | 0x20) & 0xFFE0, (s32) (motion->z.v + (motion->velocity_z * 2)) >> 0x10)
             < 0x200) {
             return 1;
         }
@@ -966,15 +962,9 @@ s32 check_neighbor_tile_blocking(u32 direction_bits, ObjectPosition *state_in, A
 }
 
 typedef struct Node Node;
-typedef struct {
-    u8 pad0[0x24];
-    u8 x;
-    u8 y;
-} Owner;
-
 struct Node {
     u8 pad0[0x5C];
-    Node *next;
+    ObjectNodeHeader *next;
     u8 pad60[0x28];
     s16 value;
 };
@@ -984,7 +974,7 @@ void *find_eligible_actor_at_tile_and_height(Node *node, s32 x, s32 y_in, s16 va
     s16 y;
     u16 flags;
     Node *sentinel;
-    Owner *owner;
+    SpriteFrameState *sprite;
     s32 value_gap;
     u16 target_x;
     s16 target_value;
@@ -1001,8 +991,8 @@ void *find_eligible_actor_at_tile_and_height(Node *node, s32 x, s32 y_in, s16 va
     sentinel = node;
     node = NODE_BODY(node->next);
     while (node != sentinel) {
-        owner = *(Owner **)((u8 *)node - 0x14);
-        if (owner->x == target_x && owner->y == (u16)y) {
+        sprite = NODE_HEADER(node)->sprite;
+        if (sprite->tile_x == target_x && sprite->tile_y == (u16)y) {
             value_gap = node->value - target_value;
             if (value_gap < 0) {
                 value_gap = -value_gap;
@@ -1039,7 +1029,7 @@ void *find_object_near_tile_height(s16 tile_x, s16 tile_y, s16 target_height)
         tile = NODE_HEADER(object)->sprite;
         if (tile->tile_x == (u16)tile_x &&
             tile->tile_y == (u16)tile_y) {
-            height_delta = *(s16 *)((u8 *)object + 0x88) - target_height;
+            height_delta = object->ground_height - target_height;
             if (height_delta < 0) {
                 height_delta = -height_delta;
             }
@@ -1080,14 +1070,11 @@ void *find_eligible_entry_at_coordinates(ActorRecord *entry, s16 x, s16 y)
     }
     return 0;
 }
-#include "shared/dungeon_item_entries.h"
+#include "dungeon/player/held_item_kind_data.h"
 
-typedef struct Source Source;
 typedef struct Spawned Spawned;
 
-extern u8 held_item_record[];
 
-extern Spawned *create_dropped_item_object(void *, s32, s32, void *, void *, s32);
 
 struct Spawned {
     u8 unk00[0x13];
@@ -1103,24 +1090,11 @@ struct Spawned {
     void *fieldbc;
 };
 
-struct Source {
-    u8 unk00[0x2a];
-    u16 index_field;
-    u8 unk2c[0x5c];
-    s16 height;
-};
-
-typedef struct Context {
-    u8 unk00[8];
-    s32 x;
-    s32 y;
-} Context;
-
 /* Spawns an object at the target position and updates the active source state. */
 void *get_lift_target_at_tile(ActorRecord *source, s16 target_x, s16 target_y) {
-    Source **active_source;
+    ActorRecord **active_source;
     Spawned *spawned;
-    u8 *entry;
+    DungeonItemEntry *entry;
     s16 x;
     s32 y;
     s32 state_code;
@@ -1129,7 +1103,8 @@ void *get_lift_target_at_tile(ActorRecord *source, s16 target_x, s16 target_y) {
     s32 flags34;
     s32 flags3c;
     s32 entry_value;
-    u8 *result_bytes;
+    DroppedItemNode *created;
+    DroppedObjectMotionBody *result;
     u16 spawn_x;
     u16 spawn_y;
 
@@ -1151,8 +1126,8 @@ void *get_lift_target_at_tile(ActorRecord *source, s16 target_x, s16 target_y) {
                             source->ground_height);
     if (spawned != (void *)0) {
         if ((spawned->flags & 0x80000) && source == *active_source) {
-            held_item_record[0] = spawned->kind;
-            held_item_record[1] = ITEM_KIND_FAMILIAR;
+            held_item_record.unk_00 = spawned->kind;
+            held_item_record.kind = ITEM_KIND_FAMILIAR;
             state_code = 0x14;
             if (spawned->flags & 0x4000) {
                 state_code = find_familiar_slot_index(spawned);
@@ -1160,8 +1135,8 @@ void *get_lift_target_at_tile(ActorRecord *source, s16 target_x, s16 target_y) {
                     state_code = 0x14;
                 }
             }
-            held_item_record[3] = (u8)state_code;
-            held_item_record[2] = 0;
+            held_item_record.unk_03 = (u8)state_code;
+            held_item_record.unk_02 = 0;
         }
         return spawned;
     }
@@ -1170,31 +1145,31 @@ void *get_lift_target_at_tile(ActorRecord *source, s16 target_x, s16 target_y) {
     y = (s16)target_y;
     flags3c = (s16)find_floor_item_at_world_position(x, y, source->ground_height);
     if (flags3c >= 0) {
-        entry = &((u8 *)dungeon_ground_items)[flags3c * 4];
-        spawned = create_dropped_item_object(source,
-                                ((Context *)NODE_HEADER(source))->x,
-                                ((Context *)NODE_HEADER(source))->y,
+        entry = &dungeon_ground_items[flags3c];
+        created = create_dropped_item_object(source,
+                                NODE_HEADER(source)->position,
+                                NODE_HEADER(source)->sprite,
                                 source, entry, flags3c);
-        if (spawned == (void *)0) {
+        if (created == 0) {
             return (void *)1;
         }
-        spawned->parent = source;
+        created->body.source_actor = source;
         if (source == *active_source) {
             entry_value = *(s32 *)entry;
-            spawned->fieldbc = held_item_record;
-            *(s32 *)held_item_record = entry_value;
+            created->body.unk_9C = (s32 *)&held_item_record;
+            *(s32 *)&held_item_record = entry_value;
         }
-        entry[1] = 0;
-        entry[0] = 0;
+        entry->kind = 0;
+        entry->unk_00 = 0;
         update_map_cell_flags_with_item_limit(x, y, TILE_HAS_ITEM);
-        result_bytes = (u8 *)spawned + 0x20;
-        flags34 = spawned->value34;
-        flags3c = spawned->value3c;
+        result = &created->body;
+        flags34 = created->body.unk_14;
+        flags3c = created->body.unk_1C;
         flags34 |= 0x80000;
         flags3c |= 0x2000;
-        spawned->value34 = flags34;
-        spawned->value3c = flags3c;
-        return result_bytes;
+        created->body.unk_14 = flags34;
+        created->body.unk_1C = flags3c;
+        return result;
     }
     return 0;
 }

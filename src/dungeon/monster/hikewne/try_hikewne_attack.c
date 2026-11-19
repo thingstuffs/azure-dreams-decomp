@@ -1,4 +1,6 @@
 #include "dungeon/player/object.h"
+#include "dungeon/item/get_actor_height_difference_api.h"
+#include "dungeon/item/actor_target.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 #include "common.h"
@@ -23,10 +25,7 @@ typedef struct S_8017237C_3 {
 
 
 extern struct Ent *prepare_directional_attack(void *, void *, s32, s32, void *);
-extern s32 get_actor_height_difference(s32, void *);
-extern s32 probe_directional_neighbor(void *, u8, u8, s16); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 struct ActorRecord;
-extern s16 check_entity_interaction_compatibility(void *, s32);
 
 /* Validates an actor action, applies its effect, and updates the action state and remaining count. */
 /* Starts Hikewne's attack against a compatible neighbor within 64 height units; returns 1, 0 if
@@ -34,7 +33,7 @@ extern s16 check_entity_interaction_compatibility(void *, s32);
 s32 try_hikewne_attack(ActorRecord *action, ObjectPosition *effect, SpriteFrameState *target, ActorRecord *actor_data) {
     ActorRecord *actor = actor_data;
     s32 action_ready;
-    s32 target_code;
+    ActorRecord *nearby_actor;
     u8 actor_flags;
 
     actor_flags = actor->movement_queue_state;
@@ -48,13 +47,13 @@ s32 try_hikewne_attack(ActorRecord *action, ObjectPosition *effect, SpriteFrameS
             return -1;
         }
 
-        target_code = probe_directional_neighbor(
+        nearby_actor = probe_directional_neighbor(
             actor, target->tile_x, target->tile_y,
             actor->facing);
         {
             s32 result = 0;
 
-            if (check_entity_interaction_compatibility(actor, target_code) == 0) {
+            if ((s16)check_entity_interaction_compatibility(actor, nearby_actor) == 0) {
                 return action_ready;
             }
             if (g_dungeon_status.flags & 0x2000) {
@@ -66,7 +65,7 @@ s32 try_hikewne_attack(ActorRecord *action, ObjectPosition *effect, SpriteFrameS
                 }
             }
 
-            if ((u16)(0 - get_actor_height_difference(target_code, actor) + 0x40) >= 0x81U) {
+            if ((u16)(0 - get_actor_height_difference(nearby_actor, actor) + 0x40) >= 0x81U) {
                 return action_ready;
             }
 
@@ -110,7 +109,7 @@ s32 try_hikewne_attack(ActorRecord *action, ObjectPosition *effect, SpriteFrameS
     }
 }
 
-/* MECHANISM: target_code is set once (the first call's result), so sched1's
+/* MECHANISM: nearby_actor is set once (the first call's result), so sched1's
    birthing boost launches its copy into $s1 right before the a1 use and the
    a0 move comes first; `result` (zero at its declaration, later action_ready)
    is the separate multi-set variable that keeps the tail copy `move $17,$18`. */

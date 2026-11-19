@@ -1,15 +1,13 @@
 #include "common.h"
+#include "dungeon/monster/beldo_large_data.h"
 #include "m2c_compat.h"
 #include "dungeon/monster/beldo_large.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 *beldo_actor_nodes[3];
-typedef struct S_8016F2A4_0 {
-    u8 pad_00[0xCF];
-    u8 unk_CF;
-} S_8016F2A4_0;   /* *D_80175D50 in is_first_entry_field_zero */
 
-/* Return whether the first entry's unk_CF field is zero. */
+/* Return whether the actor script is inactive. */
 s32 is_first_entry_field_zero(void) {
-    return ((S_8016F2A4_0 *)(*beldo_actor_nodes))->unk_CF == 0;
+    BeldoScriptControl *control = NODE_BODY(beldo_actor_nodes);
+
+    return control->script_active == 0;
 }

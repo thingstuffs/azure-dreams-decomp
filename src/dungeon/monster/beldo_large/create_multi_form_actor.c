@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "dungeon/monster/beldo_large_data.h"
 #include "common.h"
 #include "dungeon/monster/beldo_large.h"
 #include "shared/sprite_frame_state.h"
@@ -10,7 +11,6 @@
 #include "engine/node/allocation.h"
 #include "dungeon/actor.h"
 
-extern u8 *beldo_actor_nodes[3];
 extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 extern s32 clear_center_tile_flags_when_enabled(void);
 
@@ -58,7 +58,7 @@ u8 *create_multi_form_actor(s16 init_flags, s32 value24, s32 value25, s32 value0
         obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
         if (obj != NULL) {
             result = NODE_BODY(obj);
-            *beldo_actor_nodes = obj;
+            beldo_actor_nodes = obj;
             obj->update_callback = &update_actor_callbacks_and_motion;
             child = NODE_BODY(obj);
             child->unk_13 = 0x38;

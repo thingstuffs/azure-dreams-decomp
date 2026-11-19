@@ -1,4 +1,5 @@
 #include "dungeon/player/object.h"
+#include "dungeon/item/get_actor_height_difference_api.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -11,8 +12,6 @@
 
 
 extern struct Ent *prepare_directional_attack();
-extern s32 get_actor_height_difference();
-extern s32 check_entity_interaction_compatibility();
 extern u8 D_80175E50[];
 extern u8 kewne_frame_set_3[];
 extern u8 kewne_frame_set[];
@@ -21,7 +20,7 @@ extern u8 kewne_frame_set[];
 /* Chooses one of three Kewne attacks by target height; returns its mode, 0 for no valid target, or -1
  * while busy. */
 s32 try_kewne_attack(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor) {
-    s32 target_delta;
+    u16 target_delta;
     s16 action_mode;
     u16 pending_amount;
     u8 status;
@@ -49,12 +48,12 @@ s32 try_kewne_attack(ActorRecord *action_state, ObjectPosition *action_param, Sp
             return -1;
         }
 
-        target_delta = 0 - get_actor_height_difference(target, actor);
-        if ((u32)((target_delta - 0x20) & 0xFFFF) < 0x21U) {
+        target_delta = -get_actor_height_difference(target, actor);
+        if ((u16)(target_delta - 0x20) < 0x21U) {
             action_mode = 1;
-        } else if ((u32)((target_delta + 0x10) & 0xFFFF) < 0x31U) {
+        } else if ((u16)(target_delta + 0x10) < 0x31U) {
             action_mode = 2;
-        } else if ((u32)((target_delta + 0x40) & 0xFFFF) >= 0x31U) {
+        } else if ((u16)(target_delta + 0x40) >= 0x31U) {
             return action_mode;
         } else {
             action_mode = 3;

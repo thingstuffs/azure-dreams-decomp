@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "shared/record_ptrs.h"
 #ifndef DUNGEON_OVL_7F0F7800_P05_H
 #define DUNGEON_OVL_7F0F7800_P05_H
 #include "common.h"
@@ -35,7 +36,6 @@ struct SpriteFrameState;
 extern void select_sprite_entry(void *, s16, s16);
 extern void func_80047784(void *, u8, s32);
 extern void spend_actor_mp(T_801727CC_Obj3 *, s32);
-extern void * actor_update_node_cursor[];
 extern u8 D_80173FE8[];
 extern u8 D_80174010[];
 void advance_tyrant_attack_animation(T_801727CC_Obj0 *action, ObjectPosition *context, SpriteFrameState *sprite, T_801727CC_Obj3 *actor);

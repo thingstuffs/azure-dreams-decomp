@@ -6,18 +6,12 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "town/scene/entry_output.h"
+#include "town/scene/indexed_values_data.h"
 
 typedef struct S_8001A86C_0 {
     u8 pad_00[0x2];
     s16 unk_02;
 } S_8001A86C_0;
-
-typedef struct {
-    u8 pad0[4];
-    s16 field4;
-    u8 pad6[2];
-    s32 field8;
-} Record12;
 
 extern void fill_records_from_selection_kinds(void *, void *);
 extern s32 func_8001E670(s32);
@@ -37,7 +31,6 @@ extern u8 D_80017F44;
 
 /* Shared import declarations; data casts preserve each measured view. */
 extern void copy_callback_value_to_destination(void *, void *);
-extern u8 town_selection_records[];
 
 /* Functions defined in this translation unit. */
 u8 *build_selected_entry_output(s32 selected_index);

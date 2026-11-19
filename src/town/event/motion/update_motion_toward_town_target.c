@@ -5,21 +5,20 @@
 #include "town/scene/motion.h"
 #include "town.h"
 #include "town/event/motion.h"
-
-extern void initialize_object_and_maybe_play_sound(void *context, s32 object, void *state, s32 extra);
+#include "town/event/object.h"
 
 /* Update target-relative motion and advance when the countdown expires. */
-void update_motion_toward_town_target(void *state, s32 context, void *motion, s32 next_arg) {
+void update_motion_toward_town_target(TownObjectRecord *state, struct ColliderView *context, ObjectPosition *motion, struct SpriteFrameState *sprite) {
     u16 ticks_left;
 
-    *(s32 *)((u8 *)motion + 0xC) = (view_reference_entity.x.v - *(s32 *)motion) / 2;
-    *(s32 *)((u8 *)motion + 0x10) = (view_reference_entity.y.v - *(s32 *)((u8 *)motion + 4)) / 2;
+    motion->velocity_x = (view_reference_entity.x.v - motion->x.v) / 2;
+    motion->velocity_y = (view_reference_entity.y.v - motion->y.v) / 2;
     add_motion_deltas_to_position(motion);
     apply_bound_adjustments(context, motion);
     resolve_collider_overlaps(context, motion);
-    ticks_left = *(u16 *)((u8 *)state + 0x6C) - 1;
-    *(u16 *)((u8 *)state + 0x6C) = ticks_left;
+    ticks_left = state->timer - 1;
+    state->timer = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        initialize_object_and_maybe_play_sound(state, context, motion, next_arg);
+        initialize_object_and_maybe_play_sound(state, context, motion, sprite);
     }
 }

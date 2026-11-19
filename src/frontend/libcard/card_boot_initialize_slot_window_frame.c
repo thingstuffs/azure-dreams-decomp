@@ -1,15 +1,6 @@
 #include "common.h"
 #include "frontend/libcard/message.h"
 
-
-
-extern CardDisplayBlock display_block_defaults;
-extern DisplayPositionWords display_vector_defaults;
-
-
-
-
-
 /* Initialize and link two template blocks, applying defaults and a slot-based offset. */
 void card_boot_initialize_slot_window_frame(CardDisplayNode *entity, CardDisplayBlock *primary, DisplayPositionWords *secondary, s32 slot_index) {
     CardDisplayBlock *primary_template = &display_block_defaults;

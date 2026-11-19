@@ -1,4 +1,6 @@
 #include "dungeon/player/object.h"
+#include "dungeon/item/get_actor_height_difference_api.h"
+#include "dungeon/item/actor_target.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -14,14 +16,12 @@
 
 
 extern struct Ent *prepare_directional_attack(void *, void *, s16, s32, void *);
-extern s32 get_actor_height_difference(s32, void *);
-extern s32 probe_directional_neighbor(void *, u8, u8, s16); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern s32 check_entity_interaction_compatibility(void *, s32);
 
 /* Attempt an action toward the target and update actor state on success. */
 s32 try_death_attack(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *target, ActorRecord *actor) {
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
-    s32 target_direction;
+    ActorRecord *neighbor;
+    u16 relative_height;
 
     actor->movement_queue_state &= 0x7F;
 
@@ -29,13 +29,13 @@ s32 try_death_attack(ActorRecord *action_state, ObjectPosition *effect_arg, Spri
         return -1;
     }
 
-    target_direction = probe_directional_neighbor(
+    neighbor = probe_directional_neighbor(
         actor,
         target->tile_x,
         target->tile_y,
         actor->facing);
 
-    if ((check_entity_interaction_compatibility(actor, target_direction) << 16) == 0) {
+    if ((check_entity_interaction_compatibility(actor, neighbor) << 16) == 0) {
         return 0;
     }
 
@@ -48,7 +48,8 @@ s32 try_death_attack(ActorRecord *action_state, ObjectPosition *effect_arg, Spri
         return -1;
     }
 
-    if ((u32)(((0 - get_actor_height_difference(target_direction, actor)) + 0x40) & 0xFFFF) >= 0x81U) {
+    relative_height = -get_actor_height_difference(neighbor, actor);
+    if ((u16)(relative_height + 0x40) >= 0x81U) {
         return 0;
     }
 

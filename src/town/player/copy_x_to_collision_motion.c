@@ -1,11 +1,10 @@
 #include "common.h"
+#include "town/player/position.h"
 #include "shared/entity.h"
 #include "town/player.h"
 
-extern s32 town_collision_motion[];
-
-/* Clears slot 3 and copies the supplied value into slot 0. */
+/* Copy the X position and clear the previous X step. */
 void copy_x_to_collision_motion(ObjectPosition *position) {
-    town_collision_motion[3] = 0;
-    town_collision_motion[0] = position->x.v;
+    town_collision_motion.velocity_x = 0;
+    town_collision_motion.x.v = position->x.v;
 }

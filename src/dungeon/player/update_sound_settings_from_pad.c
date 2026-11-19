@@ -11,7 +11,6 @@
 #include "dungeon/player/camera_pitch_index_data.h"
 #include "slus/animation_tick_data.h"
 
-extern u16 dungeon_camera_targets[];
 
 
 
@@ -53,12 +52,12 @@ s32 update_sound_settings_from_pad(ActorRecord *actor, ObjectPosition *unused_mo
             if (((base->buttons) & 0x10) == 0) {
                 if ((base->buttons) & 8) {
                     changed = 1;
-                    dungeon_camera_targets[2] = dungeon_camera_targets[2] - 0x200;
+                    dungeon_camera_targets.rotation.z = dungeon_camera_targets.rotation.z - 0x200;
                 }
                 else
                     if ((base->buttons) & 4) {
                         changed = 1;
-                        dungeon_camera_targets[2] = dungeon_camera_targets[2] + 0x200;
+                        dungeon_camera_targets.rotation.z = dungeon_camera_targets.rotation.z + 0x200;
                     }
             }
             if ((base->buttons) & 0x10) {
@@ -66,13 +65,13 @@ s32 update_sound_settings_from_pad(ActorRecord *actor, ObjectPosition *unused_mo
                     changed = 1;
                     value = (u16) ((camera_pitch_index + 1) & 3);
                     camera_pitch_index = value;
-                    dungeon_camera_targets[0] = (u16) camera_pitch_presets[(u16) value];
+                    dungeon_camera_targets.rotation.x = (u16) camera_pitch_presets[(u16) value];
                 }
             }
             if (changed != 0) {
                 g_game_work.view.slot[2].callback = 0;
                 queue_view_slot(1);
-                set_camera_targets(0, dungeon_camera_targets, 1);
+                set_camera_targets(0, &dungeon_camera_targets.rotation, 1);
             }
         }
         if ((base->buttons) & 0x10) {

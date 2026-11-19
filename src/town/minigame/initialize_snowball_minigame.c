@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "town/minigame.h"
 #include "shared/sprite_frame_state.h"
@@ -38,10 +39,6 @@ typedef struct TownDraw32 {
     u8 pad20[0x10];
 } TownDraw32;
 
-typedef struct TownTransform {
-    s32 value[3];
-} TownTransform;
-
 typedef struct TownData {
     u8 pad00[0x0C];
     u32 color;
@@ -62,7 +59,7 @@ struct TownPart {
 
 struct TownObject {
     u8 pad00[8];
-    TownTransform *transform;
+    ObjectPosition *transform;
     TownData *data;
     void (*callback)(void *);
     u8 pad14[0x0C];
@@ -123,9 +120,9 @@ s32 initialize_snowball_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_ar
 
         object_part = &object->part;
         object_data = object->data;
-        object->transform->value[0] = 0x03A00000;
-        object->transform->value[1] = 0x01E00000;
-        object->transform->value[2] = 0x00200000;
+        object->transform->x.v = 0x03A00000;
+        object->transform->y.v = 0x01E00000;
+        object->transform->z.v = 0x00200000;
         object_part->root = root_part;
         object_data->scale_y = 0x1000;
         object_data->scale_x = 0x1000;

@@ -13,7 +13,7 @@ typedef struct CardChoiceDisplayNode {
 
 /* card_boot_create_choice_panel clears 0xF0 bytes and initializes four display nodes. */
 typedef struct CardChoiceOwner {
-    s32 initial_value;
+    struct ObjectNodeHeader *owner;
     FrameState choice_cursors[2];
     u8 pad_1C[8];
     s32 selection;

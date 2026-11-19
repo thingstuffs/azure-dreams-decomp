@@ -11,7 +11,6 @@
 
 /* Initialize the panel and position its elements in three rows. */
 void card_boot_layout_command_panel(CardCommandPanelBody *panel) {
-    void *panel_arg = panel;
     s32 lower_x;
     s32 left_x;
     s32 right_x;
@@ -22,8 +21,8 @@ void card_boot_layout_command_panel(CardCommandPanelBody *panel) {
 
     panel->animation_frames = 1;
     panel->animation_tick = 1;
-    card_boot_format_command_panel_labels(panel_arg);
-    card_boot_set_centered_rectangle((s32)(panel_arg + 4), 0x36, 0x10);
+    card_boot_format_command_panel_labels(panel);
+    card_boot_set_centered_rectangle(panel->highlight_packets, 0x36, 0x10);
     card_boot_bind_command_panel_resources(panel);
     row_index = 0;
     lower_x = 0x8E;

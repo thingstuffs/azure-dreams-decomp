@@ -3,49 +3,36 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
-#include "dungeon/effect/mesh.h"
-
 
 #include "sdk/rand.h"
-extern void func_80025090(void);
-extern void get_indexed_string_half_length(void);
-extern void func_80025058(void);
-extern void func_80025068(void);
-extern void func_80025078(void);
-extern void func_8002510C(void);
-extern void func_80025674(void);
-extern void func_80025730(void);
-extern void func_80025770(void);
-extern void func_80025824(void);
-extern void func_80025878(void);
-extern void func_800258B0(void);
 
-typedef void (*Callback)(void);
-
-/* The PS1 image stores this callback table in the function's text slot. */
 #ifdef __mips__
-static Callback const func_8184A800_table[]
-__attribute__((section(".text.func_8184A800"))) = {
-    func_80025090,
-    0,
-    get_indexed_string_half_length,
-    get_indexed_string_half_length,
-    get_indexed_string_half_length,
-    func_80025058,
-    func_80025068,
-    func_80025078,
-    get_indexed_string_half_length,
-    0,
-    func_8002510C,
-    raise_entity_to_ground,
-    func_80025674,
-    func_80025730,
-    func_80025770,
-    func_80025824,
-    func_80025878,
-    func_800258B0,
-};
+/* Code bases of the two routines that dispatch through these tables. */
+extern const u8 D_80025020[];
+extern const u8 D_80025090[];
 
+/* The entry word and case addresses precede this bank's first update. */
+static const struct {
+    const u8 *entry;
+    u32 pad_04;
+    const u8 *first_cases[7];
+    u32 pad_24;
+    const u8 *update_cases[8];
+} func_8184A800_table __attribute__((section(".text.func_8184A800"))) = {
+    D_80025090,
+    0,
+    {
+        D_80025020 + 0x60, D_80025020 + 0x60, D_80025020 + 0x60,
+        D_80025020 + 0x38, D_80025020 + 0x48, D_80025020 + 0x58,
+        D_80025020 + 0x60
+    },
+    0,
+    {
+        D_80025090 + 0x7C, D_80025090 + 0xCC, D_80025090 + 0x5E4,
+        D_80025090 + 0x6A0, D_80025090 + 0x6E0, D_80025090 + 0x794,
+        D_80025090 + 0x7E8, D_80025090 + 0x820
+    }
+};
 #endif
 
 /* Apply a random number of updates to the target and propagate its status flags. */

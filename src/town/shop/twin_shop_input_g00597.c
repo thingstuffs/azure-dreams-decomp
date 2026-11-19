@@ -37,7 +37,7 @@ void handle_twin_shop_input(s32 *menu) {
     }
     if ((pad_state->pressed_buttons) & 0x20) {
         SD_Call(AUDIO_CANCEL);
-        script_status = 0;
+        script_status[0] = 0;
         close_twin_shop((s8 *)menu - 0x20);
         return;
     }

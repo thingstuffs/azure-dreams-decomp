@@ -12,18 +12,18 @@
 
 
 /* Update motion toward the shared target and advance state when the countdown expires. */
-void update_motion_toward_shared_target(Rec_func_8009B828_arg0 *state, s32 context, ObjectPosition *motion, s32 transition_arg) {
+void update_motion_toward_shared_target(TownObjectRecord *state, struct ColliderView *context, ObjectPosition *motion, struct SpriteFrameState *sprite) {
     s32 position;
     u16 ticks_left;
 
     position = motion->z.v;
     motion->velocity_z = (s32) ((s32) ((view_reference_entity.z.v + town_target_height_offset) - position) / 2);
     add_motion_deltas_to_position(motion);
-    apply_bound_adjustments(context, (s32)(motion));
-    resolve_collider_overlaps((void *)(context), motion);
-    ticks_left = state->unk_6C.as_u16 - 1;
-    state->unk_6C.as_u16 = ticks_left;
+    apply_bound_adjustments(context, motion);
+    resolve_collider_overlaps(context, motion);
+    ticks_left = state->timer - 1;
+    state->timer = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        initialize_target_motion(state, context, motion, transition_arg);
+        initialize_target_motion(state, context, motion, sprite);
     }
 }

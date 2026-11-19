@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/runtime_directory.h"
 #include "shared/item_ids.h"
 #include "shared/dungeon_item_entries.h"
 
@@ -21,13 +22,6 @@ typedef struct
     s32 f8;
 }
 S_8004AC3C_Rec12;
-typedef struct
-{
-    u8 f0;
-    u8 pad[0xF];
-}
-S_80082E6A;
-extern S_80082E6A runtime_dispatch_mode_alias;
 /* Select item data by category and state, and report its mode. */
 s32 select_item_data(DungeonItemEntry *item, s32 *out_mode)
 {
@@ -37,7 +31,7 @@ s32 select_item_data(DungeonItemEntry *item, s32 *out_mode)
     s32 data_addr;
     u8 kind;
     *out_mode = 0;
-    if (runtime_dispatch_mode_alias.f0 != 1) {
+    if (runtime_dispatch_mode_alias[0] != 1) {
         if (item->kind == ITEM_KIND_FAMILIAR) {
             data_addr = resolve_item_record_slot_value(item) + 0x34;
         }

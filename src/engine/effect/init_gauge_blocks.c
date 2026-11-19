@@ -5,14 +5,6 @@
 #include "shared/menu_display.h"
 #include "engine/effect.h"
 
-
-
-
-
-
-extern MenuDisplayBlock display_block_defaults;
-extern DisplayPositionWords display_vector_defaults;
-
 /* Initialize the object and its two data blocks from defaults, then apply starting settings. */
 void init_gauge_blocks(void *unused, MenuDisplayNode *object,
                    MenuDisplayBlock *primary_data, DisplayPositionWords *secondary_data) {

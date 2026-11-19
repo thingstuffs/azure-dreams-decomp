@@ -1,4 +1,5 @@
 #include "dungeon/item/message.h"
+#include "shared/sound_state.h"
 #ifndef DUNGEON_ACTOR_SPELL_RESOURCE_IDS_G01008_H
 #define DUNGEON_ACTOR_SPELL_RESOURCE_IDS_G01008_H
 #include "engine/node/allocation.h"
@@ -89,7 +90,6 @@ extern s32 Control_CD(s32, void *, void *);
 extern void sound_set_cd_cue_parameters(s32, s32, s32, s32);
 extern void pack_tagged_resource_descriptor(s32, void *, void *, s32);
 extern s32 read_stream_cue_start_offset(void);
-extern s32 cd_cue_base[];
 extern s8 spell_effect_selector_cache;
 extern u8 spell_resource_load_state;
 extern s32 spell_audio_cues[];

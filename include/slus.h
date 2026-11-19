@@ -3,6 +3,7 @@
 #include "sdk/libspu.h"
 
 struct MenuSelectionBody;
+struct AnimatedSelectionMenuBody;
 struct ObjectNodeHeader;
 /* Prototypes of the functions defined in src/slus/ (one true prototype each; maintained by tools/headers). */
 
@@ -41,7 +42,7 @@ short get_bounded_stride_index(unsigned int value, unsigned int base, unsigned s
 void apply_actor_template_and_class(void *entity, int value, void *source);
 void set_cd_cue_and_submit_sound_command(int first, int second, int third, int fourth);
 int read_stream_cue_start_offset(void);
-int draw_linked_lit_meshes(void *object, void *value, struct SpriteFrameState *record);
+int draw_linked_lit_meshes(void *body, struct ObjectPosition *position, struct SpriteFrameState *sprite);
 short draw_linked_sprites_and_narrow_result(void *payload, struct ObjectPosition *coords, struct SpriteFrameState *record);
 void advance_sprite_animation_and_textures(void *entity);
 void clear_sprite_work_table(void);
@@ -101,8 +102,9 @@ void clear_card_server_initialized_flag(void);
 struct SevenEntryMenuBackdropBody;
 void build_menu_backdrop_display_buffers(struct SevenEntryMenuBackdropBody *object);
 void *link_menu_backdrop_display_nodes(void *entries);
-void set_menu_backdrop_owner(int *dst, int value);
-void noop_selection_menu_animation_idle(void);
+void set_menu_backdrop_owner(struct ObjectNodeHeader **dest, struct ObjectNodeHeader *owner);
+void noop_selection_menu_animation_idle(struct AnimatedSelectionMenuBody *unused);
+void initialize_menu_record_value(struct AnimatedSelectionMenuBody *menu);
 int read_selected_menu_entry_word(char *object);
 void resolve_selected_menu_entry(char *object);
 void handle_selection_menu_object_input(struct MenuSelectionBody *object);

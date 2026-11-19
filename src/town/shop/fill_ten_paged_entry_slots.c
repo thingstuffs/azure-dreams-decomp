@@ -3,33 +3,25 @@
 #include "engine/item.h"
 #include "town/shop.h"
 
-typedef struct S_800B2D00_0 {
-    s32 unk_00;
-    u8 pad_04[0x8];
-    s32 unk_0C;
-} S_800B2D00_0;
 
 /* Convert up to ten entries from the selected page into the output slots. */
-void fill_ten_paged_entry_slots(s32 **outputs, S_800B2D00_0 *page_info, s32 entries_base) {
-    s32 **output_slot;
-    s32 *entry_ptr;
-    s32 entry;
+void fill_ten_paged_entry_slots(ItemMenuPart **outputs, StoragePage *page_info, DungeonItemEntry **entries_base) {
+    ItemMenuPart **output_slot;
+    DungeonItemEntry *entry;
     s32 page;
     s32 entry_index;
     s32 count;
 
     count = 0;
-    page = page_info->unk_00;
+    page = page_info->current;
     output_slot = outputs;
     entry_index = page * 0xA;
-    entry_ptr = (page * 0x28) + entries_base;
     for (;;) {
         count += 1;
-        if (entry_index < page_info->unk_0C) {
-            entry = *entry_ptr;
-            entry_ptr += 1;
+        if (entry_index < page_info->count) {
+            entry = entries_base[entry_index];
             entry_index += 1;
-            **output_slot = create_item_label(entry);
+            (*output_slot)->handler = create_item_label(entry);
             output_slot += 1;
             if (count < 0xA) {
                 continue;

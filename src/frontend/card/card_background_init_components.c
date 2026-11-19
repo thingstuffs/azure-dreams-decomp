@@ -7,10 +7,10 @@ typedef struct MainPacket12 MainPacket12;
 MainPacket12 *initialize_drawing();                         /* extern */
 
 /* Process four embedded components, then the containing object. */
-void card_background_init_components(s32 object_addr) {
-    initialize_consecutive(object_addr + 8);
-    card_background_init_overlay_prims(object_addr + 0x80);
-    func_80404888(object_addr + 0xF8);
-    initialize_drawing(object_addr + 0x170);
-    card_background_layout_entries(object_addr);
+void card_background_init_components(CardBackgroundBody *object) {
+    initialize_consecutive(object->first_packets);
+    card_background_init_overlay_prims(object->alternate_packets);
+    func_80404888(object->selected_packets);
+    initialize_drawing(object->shared_packets);
+    card_background_layout_entries(object);
 }

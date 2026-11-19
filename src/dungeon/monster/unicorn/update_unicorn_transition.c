@@ -1,4 +1,6 @@
 #include "shared/audio_commands.h"
+#include "shared/sound_state.h"
+#include "dungeon/globals.h"
 #include "sdk/libc.h"
 #include "dungeon/system.h"
 #include "engine/texture.h"
@@ -29,8 +31,6 @@ struct ObjectPosition;
 #define NULL 0
 #endif
 
-extern s32 cd_cue_base[];
-extern u8 *actor_effect_color_targets[];
 extern u8 D_80173F68[];
 extern u8 D_801745D8[];
 extern u8 D_80174E24[];
@@ -94,11 +94,6 @@ typedef struct S_80174704_3 {
     u8 unk_AA;
 } S_80174704_3;
 
-typedef struct S_80174704_4 {
-    u8 unk_00;
-    u8 unk_01;
-    u8 unk_02;
-} S_80174704_4;   /* target in update_unicorn_transition */
 
 
 typedef struct S_80174704_8_pre {
@@ -160,7 +155,7 @@ void update_unicorn_transition(ActorRecord *action, ObjectPosition *position, Sp
             return;
         }
         run_cd_image_commands(D_80174E24, unicorn_image_load_done, 1);
-        sound_set_cd_cue_parameters(0, cd_cue_base[0], 0x04000AD4, 0x05000CC4);
+        sound_set_cd_cue_parameters(0, cd_cue_base, 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, read_stream_cue_start_offset(), 0);
         unicorn_effect_load_done[0] = 0;
         Control_CD(0xFF, set_byte_one, unicorn_effect_load_done);
@@ -173,7 +168,7 @@ void update_unicorn_transition(ActorRecord *action, ObjectPosition *position, Sp
     {
         u16 old_timer = action->action_timer;
         u16 timer = old_timer - 1;
-        S_80174704_4 *target_color;
+        ActorEffectColor *target_color;
 
         action->action_timer = timer;
         if ((s32)(timer << 16) <= 0) {
@@ -187,15 +182,15 @@ void update_unicorn_transition(ActorRecord *action, ObjectPosition *position, Sp
             return;
         }
 
-        target_color = (S_80174704_4 *)actor_effect_color_targets[lookup_masked_byte_table(actor)];
+        target_color = actor_effect_color_targets[lookup_masked_byte_table(actor)];
         ((S_80174704_3 *)object)->unk_A8 +=
-            (target_color->unk_00 - ((S_80174704_3 *)object)->unk_A8) /
+            (target_color->r - ((S_80174704_3 *)object)->unk_A8) /
             action->action_timer;
         ((S_80174704_3 *)object)->unk_A9 +=
-            (target_color->unk_01 - ((S_80174704_3 *)object)->unk_A9) /
+            (target_color->g - ((S_80174704_3 *)object)->unk_A9) /
             action->action_timer;
         ((S_80174704_3 *)object)->unk_AA +=
-            (target_color->unk_02 - ((S_80174704_3 *)object)->unk_AA) /
+            (target_color->b - ((S_80174704_3 *)object)->unk_AA) /
             action->action_timer;
         return;
     }

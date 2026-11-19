@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "dungeon/monster/killer.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -14,7 +15,6 @@
 #include "dungeon/effect/screen.h"
 #include "dungeon/player/object.h"
 
-extern void *actor_update_node_cursor;
 extern u8 killer_action_resume_address;
 extern u8 D_80174060[];
 

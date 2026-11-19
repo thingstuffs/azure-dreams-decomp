@@ -1,10 +1,10 @@
 #include "common.h"
+#include "town/shop/item_pointer_removal_g00615.h"
 
 #include "engine/town.h"
 
 extern u8 *town_item_list[];
 extern void itm_mon_koyaw_set(s32, u8 *, u8 *, s32);
-extern void del_t_item_w_ptr(u8 *entry);
 
 /* Processes type-0x13 entries whose associated record code is nonnegative. */
 void clear_town_item_entries(void)

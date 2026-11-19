@@ -1,6 +1,7 @@
 #ifndef TOWN_SCENE_FLAGS_H
 #define TOWN_SCENE_FLAGS_H
 
+#include "town/scene/collision.h"
 #include "common.h"
 
 
@@ -57,12 +58,14 @@ s32 mirror_sbs11_pad32_flag(void);
 #include "records/Rec_func_8008F2D4_arg0.h"
 #include "records/Rec_func_8008F2D4_arg1.h"
 struct ScriptContext;
-struct ScriptEntry8;
+struct ScenePositionEntry;
 s32 get_selected_flag_stage(s32 unused_captured_value);
-s32 query_referenced_flag_for_table_entry(struct ScriptEntry8 *entry_table, struct ScriptContext *context, s32 entry_key);
-void stop_at_max_x(Rec_func_8008F2D4_arg0 *control, Rec_func_8008F2D4_arg1 *record, s32 initial_value);
-void stop_at_min_x(Rec_func_8008F2D4_arg0 *record, Rec_func_8008F2D4_arg1 *state, s32 value);
-void stop_at_max_z(Rec_D_800CFCB4 *state, EntityRec *object, s32 initial_value);
+s32 query_referenced_flag_for_table_entry(struct ScenePositionEntry *entry_table, struct ScriptContext *context, s32 entry_key);
+void stop_at_max_x(ColliderView *collider, ObjectPosition *position, s32 value);
+void stop_at_min_x(ColliderView *collider, ObjectPosition *position, s32 value);
+void stop_at_min_y(ColliderView *collider, ObjectPosition *position, s32 value);
+void stop_at_max_y(ColliderView *collider, ObjectPosition *position, s32 value);
+void stop_at_max_z(ColliderView *collider, ObjectPosition *position, s32 value);
 s32 update_scene_action_flags(s32 object, s32 context);
 
 struct SpawnDisplayObject;

@@ -42,7 +42,8 @@ typedef struct S_8015E89C_8 {
 extern s32 generate_random_value(void);
 extern void select_sprite_entry(void *, s32, s32);
 extern void func_80047784(void *, s32, s32);
-extern void set_animation_child_source(void *, void *, s32);
+struct SpriteFrameState;
+extern void set_animation_child_source(struct SpriteFrameState *, void *, s32);
 
 extern u8 child_texture_entries[];
 extern u8 child_object_update_address[];

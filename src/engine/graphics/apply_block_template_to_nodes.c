@@ -2,11 +2,6 @@
 #include "engine/graphics.h"
 #include "shared/menu_display.h"
 
-/* Struct for the global D_8002E5D8: a 16-byte record copied field-by-field
-   into each entry's target sub-struct. */
-
-extern MenuDisplayBlock display_block_defaults;
-
 /* Entry type: nodes points to an array of pointers to these nodes.
    unk4 is a pointer to a 16-byte record that gets overwritten with
    the contents of D_8002E5D8. */

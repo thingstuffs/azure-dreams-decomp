@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "dungeon/monster/maximum.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -15,7 +16,6 @@
 #include "dungeon/player/object.h"
 #include "dungeon/monster/maximum_frames.h"
 
-extern void *actor_update_node_cursor;
 extern u8 maximum_action_continuation_address[];
 
 /* Advances the actor action through animation setup, completion, and cleanup. */

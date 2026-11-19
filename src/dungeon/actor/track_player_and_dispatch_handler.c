@@ -1,3 +1,4 @@
+#include "town/scene/collision.h"
 #include "shared/position_query.h"
 #include "common.h"
 #include "shared/entity_objects.h"
@@ -20,16 +21,6 @@ typedef struct {
 typedef void (*DispatchFn)(void *, void *, void *, s32);
 
 
-typedef struct S_7FFFE25C_1 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-} S_7FFFE25C_1;   /* arg1 in track_player_and_dispatch_handler */
-
-
-typedef struct S_7FFFE25C_3 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_7FFFE25C_3;   /* ((S_7FFFE25C_1 *)arg1)->unk_0C in track_player_and_dispatch_handler */
 
 typedef struct S_7FFFE25C_4 {
     u8 pad_00[0x8];
@@ -52,12 +43,11 @@ extern s32 town_timed_state_address;
 extern s32 scene_fallback_request_address;
 extern u8 town_input_motion_address[];
 
-extern void apply_bound_adjustments(void *, void *);
 extern s32 check_object_type_and_data_tag(void *);
 extern void retry_sound_sequence_when_ready(void);
 
 /* Adjusts the position and dispatches the current state handler for the owner. */
-void track_player_and_dispatch_handler(Rec_D_80082D58 *context, S_7FFFE25C_1 *owner, EntityRec *adjusted_pos, s32 dispatch_param)
+void track_player_and_dispatch_handler(Rec_D_80082D58 *context, ColliderView *owner, ObjectPosition *adjusted_pos, s32 dispatch_param)
 {
     TownState *state = &scene_object_payload_alias;
     s32 *offset = D_800D0420;
@@ -77,7 +67,7 @@ void track_player_and_dispatch_handler(Rec_D_80082D58 *context, S_7FFFE25C_1 *ow
     target_z = view_reference_entity.z.v + offset[2];
     if (target_z - adjusted_pos->z.v >= 0x10) {
         adjusted_pos->z.v =
-            target_z + ((S_7FFFE25C_3 *)(owner->unk_0C))->unk_14;
+            target_z + owner->bounds->size_z;
     }
 
     current = scene_object_payload_alias.current;

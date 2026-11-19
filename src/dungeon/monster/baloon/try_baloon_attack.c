@@ -18,7 +18,6 @@ typedef struct Ent Ent;
 
 Ent *prepare_directional_attack();
 #include "dungeon/item/get_actor_height_difference_api.h"
-s32 check_entity_interaction_compatibility();
 
 /* Checks action readiness and initializes the actor state and directional animation. */
 s32 try_baloon_attack(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *sprite, ActorRecord *actor) {

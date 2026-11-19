@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/dungeon_height_query.h"
 #include "shared/gpu_packets.h"
 #include "shared/dungeon_effect_status.h"
 #include "shared/object_node_flags.h"
@@ -574,7 +575,7 @@ void advance_effect_motion_and_speed(MotionRecord *motion, ObjectPosition *posit
 
 
 extern u8 D_80027484[12];
-extern s32 queue_linked_visible_rectangle_copies(void *, void *, SpriteFrameState *);
+extern s32 queue_linked_visible_rectangle_copies(RectangleCopy *, ObjectPosition *, SpriteFrameState *);
 
 /* Position block (three 4-byte slots, only the second halfword of each is used). */
 
@@ -621,10 +622,10 @@ void update_effect_position_and_color(ObjectNodeHeader *source, s16 effect_param
             effect->position->x.w.i = (source->position->x.w.i + (rand() & 0x3F)) - 0x20;
             effect->position->y.w.i = (source->position->y.w.i + (rand() & 0x3F)) - 0x20;
             effect->position->z.w.i = (source->position->z.w.i + (rand() & 0x3F)) - 0x20;
-            record->unk_00 = 0x20;
-            record->unk_02 = 0x20;
-            record->unk_04 = 1;
-            record->unk_06 = 0;
+            record->copy.width = 0x20;
+            record->copy.height = 0x20;
+            record->copy.delta_x = 1;
+            record->copy.delta_y = 0;
             record->direction = effect_param;
             record->speed = (rand() & 0xFF) | 0x80;
         }
@@ -719,26 +720,6 @@ void create_warp_follower_sprite(ObjectNodeHeader *owner, s16 angle) {
 #include "m2c_compat.h"
 
 
-typedef struct S_819AD81C_1 {
-    s32 unk_00;
-    s8 unk_04;
-    u8 pad_05[0x7];
-    union {
-        struct { u8 v; } at00;
-        struct { s32 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-        struct { u8 pad[0x2]; u8 v; } at02;
-    } unk_0C;   /* overlapping accesses */
-    u8 pad_10[0x4];
-    u16 unk_14;
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-    u16 unk_1C;
-    u16 unk_1E;
-    u16 unk_20;
-} S_819AD81C_1;   /* gfx in func_819AD81C */
-
 typedef struct S_819AD81C_3 {
     u8 pad_00[0x34];
     s16 unk_34;
@@ -758,12 +739,11 @@ void PushMatrix();
 void PopMatrix(void);
 void RotTrans(void *, void *, s32 *);
 void apply_attack_power_and_element_effects();
-s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
 void spawn_opposite_offset_effect(void *source_data, u32 direction_bits);
 extern s8 D_8002758C[];
 
 /* Per-frame homing-projectile step: fade in/out, fly toward the target tile, wake anything it passes and expire. */
-void update_warp_camera_and_effects(LinkedWarpProjectileBody *entity, ObjectPosition *motion, void *gfx) {
+void update_warp_camera_and_effects(LinkedWarpProjectileBody *entity, ObjectPosition *motion, SpriteFrameState *sprite) {
     typedef struct Local20 {
         s16 unk0;
         u16 unk2;
@@ -809,27 +789,27 @@ void update_warp_camera_and_effects(LinkedWarpProjectileBody *entity, ObjectPosi
     if (link == 0) {
         phase = entity->phase;
         if (phase == 0) {
-            tint = ((S_819AD81C_1 *)gfx)->unk_0C.at00.v;
+            tint = sprite->color.c.r;
             next_tint = tint + ((s32) (0x80 - tint) / entity->fade_ticks);
-            ((S_819AD81C_1 *)gfx)->unk_0C.at00.v = next_tint;
-            ((S_819AD81C_1 *)gfx)->unk_0C.at01.v = next_tint;
-            ((S_819AD81C_1 *)gfx)->unk_0C.at02.v = next_tint;
+            sprite->color.c.r = next_tint;
+            sprite->color.c.g = next_tint;
+            sprite->color.c.b = next_tint;
             fade_left = (u16) entity->fade_ticks - 1;
             entity->fade_ticks = fade_left;
             if ((fade_left << 0x10) <= 0) {
-                ((S_819AD81C_1 *)gfx)->unk_0C.at00u.v = 0x808080;
+                sprite->color.word = 0x808080;
                 entity->phase = (u16) ((u16) entity->phase + 1);
             }
         } else if (phase >= 2) {
-            tint_out = ((S_819AD81C_1 *)gfx)->unk_0C.at00.v;
+            tint_out = sprite->color.c.r;
             next_tint_out = tint_out - ((s32) tint_out / (s16) entity->fade_ticks);
-            ((S_819AD81C_1 *)gfx)->unk_0C.at00.v = next_tint_out;
-            ((S_819AD81C_1 *)gfx)->unk_0C.at01.v = next_tint_out;
-            ((S_819AD81C_1 *)gfx)->unk_0C.at02.v = next_tint_out;
+            sprite->color.c.r = next_tint_out;
+            sprite->color.c.g = next_tint_out;
+            sprite->color.c.b = next_tint_out;
             fade_left_out = (u16) entity->fade_ticks - 1;
             entity->fade_ticks = fade_left_out;
             if ((fade_left_out << 0x10) <= 0) {
-                ((S_819AD81C_1 *)gfx)->unk_0C.at00u.v = 0;
+                sprite->color.word = 0;
                 NODE_HEADER(entity)->flags = (u16) (NODE_HEADER(entity)->flags | NODE_REMOVE);
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 return;
@@ -840,24 +820,24 @@ void update_warp_camera_and_effects(LinkedWarpProjectileBody *entity, ObjectPosi
         }
         motion->velocity_x = rcos(entity->heading) << 8;
         motion->velocity_y = rsin(entity->heading) << 8;
-        level = ((S_819AD81C_1 *)gfx)->unk_04;
+        level = sprite->unk_04;
         if (level < 3) {
             component = motion->velocity_x;
             component -= component >> (level + 1);
             motion->velocity_x = component;
-            motion->velocity_y -= motion->velocity_y >> (((S_819AD81C_1 *)gfx)->unk_04 + 1);
+            motion->velocity_y -= motion->velocity_y >> (sprite->unk_04 + 1);
         }
         motion->z.v = motion->z.v - motion->velocity_z;
         motion->x.v = motion->x.v + motion->velocity_x;
         motion->y.v = motion->y.v + motion->velocity_y;
         motion->z.v = motion->z.v + motion->velocity_z;
-        ((S_819AD81C_1 *)gfx)->unk_16 = 0x400U;
-        ((S_819AD81C_1 *)gfx)->unk_1A = (u16) (calculate_planar_heading(0, 0, motion->velocity_x >> 16,
+        sprite->angle_x = 0x400U;
+        sprite->angle_z = (u16) (calculate_planar_heading(0, 0, motion->velocity_x >> 16,
             motion->velocity_y >> 16) - 0x400);
-        advance_animation_index_within_bounds(gfx, &entity->animation_index, entity->animation_start, entity->animation_end);
-        copy_anim_entry_and_widen_fields(&entity->animation_state, ((S_819AD81C_1 *)gfx)->unk_00);
-        if (((S_819AD81C_1 *)gfx)->unk_14 & 0x4000) {
-            ((S_819AD81C_1 *)gfx)->unk_04 = 0;
+        advance_animation_index_within_bounds(sprite, &entity->animation_index, entity->animation_start, entity->animation_end);
+        copy_anim_entry_and_widen_fields(&entity->animation_state, sprite->unk_00);
+        if (sprite->flags & 0x4000) {
+            sprite->unk_04 = 0;
         }
         if (entity->hits_left > 0) {
             entity->current_tile.tile.x = (s16) ((s16) motion->x.w.i / 64);
@@ -915,7 +895,7 @@ void update_warp_camera_and_effects(LinkedWarpProjectileBody *entity, ObjectPosi
         }
         create_positioned_linked_mesh_effect(motion->x.w.i, motion->y.w.i,
             motion->z.w.i, entity->heading);
-        create_fading_copy_effect(&entity->animation_state, motion, gfx);
+        create_fading_copy_effect(&entity->animation_state, motion, sprite);
         return;
     } else {
         attached = (void *) ((s32) link | 0x80000000);
@@ -929,18 +909,18 @@ void update_warp_camera_and_effects(LinkedWarpProjectileBody *entity, ObjectPosi
         motion->x.w.i = (s16) ((MovingPosition *)link)->x;
         motion->y.w.i = (s16) ((MovingPosition *)link)->y;
         motion->z.w.i = (s16) ((MovingPosition *)link)->z;
-        ((S_819AD81C_1 *)gfx)->unk_16 = (u16) info->angle_x;
-        ((S_819AD81C_1 *)gfx)->unk_18 = (u16) info->angle_y;
-        ((S_819AD81C_1 *)gfx)->unk_1A = (u16) info->angle_z;
-        ((S_819AD81C_1 *)gfx)->unk_1C = (u16) info->scale_x;
-        ((S_819AD81C_1 *)gfx)->unk_1E = (u16) info->scale_y;
-        ((S_819AD81C_1 *)gfx)->unk_20 = (u16) info->offset_x;
-        ((S_819AD81C_1 *)gfx)->unk_0C.at00u.v = info->color.word;
+        sprite->angle_x = info->angle_x;
+        sprite->angle_y = info->angle_y;
+        sprite->angle_z = info->angle_z;
+        sprite->scale_x = info->scale_x;
+        sprite->scale_y = info->scale_y;
+        sprite->offset_x = info->offset_x;
+        sprite->color.word = info->color.word;
         want_kind = D_8002758C[entity->piece_index];
         node = NODE_BODY(attached);
         if ((want_kind >= 0) && (info->unk_04 == want_kind)) {
             PushMatrix(attached);
-            set_effect_gte_matrix(&entity->animation_state, motion, gfx);
+            set_effect_gte_matrix(&entity->animation_state, motion, sprite);
             zero_vec.unk0 = 0;
             zero_vec.unk2 = 0;
             zero_vec.unk4 = 0;
@@ -954,8 +934,8 @@ void update_warp_camera_and_effects(LinkedWarpProjectileBody *entity, ObjectPosi
             warp_params.unk14 = 0;
             spawn_opposite_offset_effect(&warp_params, ((S_819AD81C_3 *)node)->unk_34);
         }
-        set_animation_entry_address(gfx, info->unk_04);
-        copy_anim_entry_and_widen_fields(&entity->animation_state, ((S_819AD81C_1 *)gfx)->unk_00);
+        set_animation_entry_address(sprite, info->unk_04);
+        copy_anim_entry_and_widen_fields(&entity->animation_state, sprite->unk_00);
     }
 }
 
@@ -1021,7 +1001,7 @@ void *create_linked_sprite_pieces(s16 x, s16 y, s16 z, s16 heading) {
         sprite->offset_x = 0x1000;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
-        sprite->source = warp_piece_slots + (piece_index << 4);
+        sprite->source = &warp_piece_slots[piece_index];
         sprite_flags = sprite->flags;
         sprite->tpage_abr = 0x20;
         sprite->angle_x = 0x400;
@@ -1077,19 +1057,13 @@ void copy_anim_entry_and_widen_fields(AnimFrame *dst, AnimEntry *src)
 }
 
 
-/* The warp-piece source supplies the table of 22-byte animation entries. */
-typedef struct WarpPieceSource {
-    u8 pad_00[0xC];
-    AnimEntry *entries;
-} WarpPieceSource;
-
 /* Select the current frame, then step its index and set the clamp flag at either limit. */
 void advance_animation_index_within_bounds(SpriteFrameState *sprite, s16 *index_step, s32 min_index, s32 max_index) {
     s16 step;
     u32 clamp_flags;
     s8 index;
     s32 initial_index = sprite->unk_04;
-    WarpPieceSource *source = sprite->source;
+    WarpPieceSlot *source = sprite->source;
 
     sprite->unk_00 = &source->entries[initial_index];
     step = *index_step;
@@ -1123,8 +1097,10 @@ void advance_animation_index_within_bounds(SpriteFrameState *sprite, s16 *index_
  *
  * Owner of the animation table.
  */
-void set_animation_entry_address(AnimPlayer *player, s16 entry_index) {
-    player->entry = ((AnimOwner *)player->owner)->table + (entry_index * 0x16);
+void set_animation_entry_address(SpriteFrameState *sprite, s16 entry_index) {
+    WarpPieceSlot *slot = sprite->source;
+
+    sprite->unk_00 = &slot->entries[entry_index];
 }
 
 
@@ -1203,51 +1179,42 @@ void fade_warp_color_by_half(void *owner, ObjectPosition *unused, SpriteFrameSta
 }
 
 
-typedef struct Entry {
-    s32 field_0;
-    s8 field_4;
-    u8 pad_5;
-    s16 field_6;
-    void *field_8;
-} Entry;
+#include "dungeon/effect/screen/transform_shade_and_queue_model_quads.h"
 
-extern void transform_shade_and_queue_model_quads(void *parent_matrix, void *translation, void *model, s16 depth_bias);
-
-/* Processes twelve buffer slots for each entry in a linked state chain. */
-s32 draw_warp_pieces(void *initial_state, s32 initial_value, Entry *initial_entry)
+/* Draw each registered sprite with all twelve model slots. */
+s32 draw_warp_pieces(AnimFrame *frame, ObjectPosition *position, SpriteFrameState *sprite)
 {
-    void *state = initial_state;
-    s32 value = initial_value;
-    Entry *entry = initial_entry;
-    u8 *slot_base;
+    ObjectNodeHeader *next;
+    /* The setter receives the sprite for each piece. At the end of the group
+     * the same cursor receives the next draw node. */
+    void *entry_or_link;
+    WarpPieceSlot *slot_base = warp_piece_slots;
+    WarpPieceSlot *slot;
     s32 slot_index;
-    u8 *slot;
-    Entry *entry_or_link;
 
-    slot_base = warp_piece_slots;
     for (;;) {
         slot_index = 0;
         slot = slot_base;
-        entry_or_link = entry;
+        entry_or_link = sprite;
         do {
-            entry->field_8 = slot;
-            slot += 0x10;
-            set_animation_entry_address(entry_or_link, entry->field_4);
+            sprite->source = slot++;
+            set_animation_entry_address(entry_or_link, sprite->unk_04);
             slot_index++;
-            copy_anim_entry_and_widen_fields(state, entry->field_0);
-            transform_shade_and_queue_model_quads(state, value, entry, entry->field_6);
-            entry_or_link = entry;
+            copy_anim_entry_and_widen_fields(frame, sprite->unk_00);
+            transform_shade_and_queue_model_quads(frame, position, sprite, sprite->depth_bias);
+            entry_or_link = sprite;
         } while (slot_index < 12);
 
-    entry_or_link = *(void **)((u8 *)state - 8);
-    if (entry_or_link == 0) {
-        break;
+        entry_or_link = NODE_HEADER(frame)->chain_next;
+        if (entry_or_link == 0) {
+            break;
+        }
+        next = (ObjectNodeHeader *)entry_or_link;
+        frame = NODE_BODY(next);
+        position = next->position;
+        sprite = next->sprite;
     }
-    state = (u8 *)entry_or_link + 0x20;
-    value = *(s32 *)((u8 *)entry_or_link + 8);
-    entry = *(Entry **)((u8 *)entry_or_link + 0xC);
-}
-return 0;
+    return 0;
 }
 
 

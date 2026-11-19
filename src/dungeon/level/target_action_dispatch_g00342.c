@@ -9,24 +9,21 @@
 
 /* Selects and initializes an entry at the given position, returning its slot. */
 s32 place_floor_trap_at_tile(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value) {
-    s32 slot;
-    s32 slot_sign;
+    s16 slot;
+    s32 free_slot;
     s32 entry_type;
     D_800E3648_entry *entries;
     D_800E3648_entry *entry;
 
     entry_type = type_id;
     slot = find_entry_at_tile_coordinates(x, y, z);
-    slot_sign = slot << 0x10;
-    if (slot_sign < 0) {
-        slot = find_first_free_map_entry();
-        slot_sign = slot << 0x10;
-        if (slot_sign < 0) {
-            slot = 0x1F;
+    if (slot < 0) {
+        free_slot = find_first_free_map_entry();
+        if ((s16)free_slot < 0) {
+            free_slot = 0x1F;
         }
+        slot = free_slot;
     }
-    slot = slot << 0x10;
-    slot = slot >> 0x10;
     clear_slot_and_detach_entity(slot);
     entries = (D_800E3648_entry *)floor_objects;
     entry = &entries[slot];

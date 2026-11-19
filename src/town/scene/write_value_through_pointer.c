@@ -1,5 +1,6 @@
+#include "frontend/card/slot_details.h"
 #include "common.h"
 #include "town/scene.h"
 
-/* Stores the supplied 32-bit value through the destination pointer. */
-void write_value_through_pointer(s32 *destination, s32 value) { *destination = value; }
+/* Stores the node that owns this card information panel. */
+void write_value_through_pointer(CardDevSlotDetails *panel, ObjectNodeHeader *owner) { panel->owner = owner; }

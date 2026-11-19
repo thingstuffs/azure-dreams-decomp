@@ -1,9 +1,9 @@
 #include "common.h"
+#include "town/map/building_grid_g00638.h"
 
 #include "engine/object/test_resident_bitmap_bit_api.h"
 #include "town/map/object.h"
 #include "town/menu/window.h"
-extern u8 town_building_records[];
 
 /* Checks whether a record can use an entity based on its kind and existing links. */
 s32 check_building_entity_compatibility(s32 record_id, s32 entity_id)
@@ -13,25 +13,25 @@ s32 check_building_entity_compatibility(s32 record_id, s32 entity_id)
     s32 record_index;
     s32 match_index;
     u8 record_kind;
-    u8 *entity_base;
-    u8 *entity;
-    u8 *record_base;
-    u8 *record;
+    TownBuildingRecord *entity_base;
+    TownBuildingRecord *entity;
+    TownBuildingSlotRectangle *record_base;
+    TownBuildingSlotRectangle *record;
     u8 *record_link_page;
     u8 *scan_link_page;
     u8 *slot;
 
     entity_base = town_building_records;
     entity_index = entity_id & 0xFF;
-    entity = entity_base + (entity_index << 5);
-    if (test_resident_bitmap_bit(*(s16 *)(entity + 8)) == 0) {
+    entity = &entity_base[entity_index];
+    if (test_resident_bitmap_bit(entity->availability_flag) == 0) {
         return 0;
     }
 
     record_base = town_building_slot_rectangles;
     record_index = record_id & 0xFF;
-    record = record_base + (record_index << 3);
-    if (record[2] != entity[4] || record[3] != entity[5]) {
+    record = record_base + record_index;
+    if (record->width != entity->slot_width || record->height != entity->slot_height) {
         return 0;
     }
 
@@ -40,13 +40,13 @@ s32 check_building_entity_compatibility(s32 record_id, s32 entity_id)
         return 0;
     }
 
-    record_kind = record[4];
+    record_kind = record->kind;
     switch (record_kind) {
     case 0:
         return 0;
 
     case 1:
-        if ((entity[3] & 1) == 0) {
+        if ((entity->kind & 1) == 0) {
             return 0;
         }
 
@@ -67,16 +67,16 @@ s32 check_building_entity_compatibility(s32 record_id, s32 entity_id)
     {
         s32 no_match;
         s32 other_entity_index;
-        u8 *other_entity_base;
-        u8 *other_entity;
+        TownBuildingRecord *other_entity_base;
+        TownBuildingRecord *other_entity;
         u8 *other_link_page;
 
         no_match = 0;
         other_entity_base = town_building_records;
         other_link_page = (u8 *)0x80010000;
         other_entity_index = other_link_page[((record_id & 0xFF) << 1) + 0x33A4];
-        other_entity = other_entity_base + (other_entity_index << 5);
-        if (other_entity[7] != (entity_id & 0xFF)) {
+        other_entity = &other_entity_base[other_entity_index];
+        if (other_entity->linked_record_index != (entity_id & 0xFF)) {
             return no_match;
         }
         break;

@@ -1,9 +1,9 @@
 #include "common.h"
 
 #include "engine/audio/slots.h"
+#include "engine/audio/ram_block.h"
 
 extern s32 SpuSetReverbModeParam(s32 *request);
-extern s8 sound_ram_reserve_mode[9];
 
 /* Submit a value and record it when the request succeeds. */
 s16 set_audio_bank(s16 value)

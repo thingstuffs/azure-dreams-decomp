@@ -1,3 +1,4 @@
+#include "dungeon/effect/screen/transform_shade_and_queue_model_quads.h"
 #include "shared/object_node.h"
 #include "dungeon/effect/screen.h"
 #include "shared/entity.h"
@@ -10,10 +11,7 @@
 extern M2C_UNK D_80025528;
 
 typedef struct S_81959E04_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    s16 unk_04;
-    s16 unk_06;
+    RectangleCopy copy;
     u8 pad_08[0x28];
     s16 unk_30;
 } S_81959E04_2;   /* info in spawn_ring_sparks */
@@ -45,10 +43,10 @@ void *spawn_ring_sparks(s16 x, s16 y, s16 z) {
                 | sign_bits) : (rsin(i * 0x80) & 0x7FF)) << 0xB;
             part->velocity_z = 0xFFFE0000;
             info = NODE_BODY(obj);
-            (*(s16 *)NODE_BODY(obj)) = scale;
-            info->unk_02 = scale;
-            info->unk_04 = 1;
-            info->unk_06 = 0;
+            info->copy.width = scale;
+            info->copy.height = scale;
+            info->copy.delta_x = 1;
+            info->copy.delta_y = 0;
             info->unk_30 = scale;
         }
         i += 1;

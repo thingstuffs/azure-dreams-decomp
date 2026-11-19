@@ -12,7 +12,6 @@
 
 
 
-extern s32 *effect_position_source;
 
 /* Expand and fade a spiraling effect while updating its position. */
 void update_expanding_fade_effect(ExpandingFadeEffectBody *effect, ObjectPosition *position, SpriteFrameState *sprite) {
@@ -44,11 +43,11 @@ void update_expanding_fade_effect(ExpandingFadeEffectBody *effect, ObjectPositio
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
-    position->x.v = (s32) (*effect_position_source + (((rsin((s16) effect->unk_08.u)
+    position->x.v = (s32) (effect_position_source->x.v + (((rsin((s16) effect->unk_08.u)
         >> 4) * effect->unk_06) << 8));
-    position->y.v = (s32) (effect_position_source[1]
+    position->y.v = (s32) (effect_position_source->y.v
         + (((rcos((s16) effect->unk_08.u) >> 4) * effect->unk_06)
            << 8));
-    position->z.w.i = (s16) (((ExpandingFadeEffectBody *)effect_position_source)->unk_0A
+    position->z.w.i = (s16) (effect_position_source->z.w.i
         + effect->unk_0A);
 }

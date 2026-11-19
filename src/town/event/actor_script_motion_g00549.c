@@ -2,6 +2,7 @@
 /* inferred-strong actor_script_motion_g00549; joins CL:town/func_8009DB64; no crossing cuts. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8009DB64. */
 #include "town/event/actor_script_motion_g00549.h"
+#include "shared/entity_height_offsets.h"
 #include "town/scene/flags.h"
 #include "town/scene.h"
 #include "town/scene/motion.h"
@@ -12,8 +13,8 @@
 #include "town/player/state.h"
 
 /* Dispatches town object actions for the active script and owner state. */
-s32 dispatch_active_town_object_script(TownObject *object, void *owner_arg, void *context, void *extra_ptr) {
-    Rec_D_800CFCB4 *owner = owner_arg;
+s32 dispatch_active_town_object_script(TownObjectRecord *object, ColliderView *owner, ObjectPosition *context, struct SpriteFrameState *extra_ptr) {
+    TownVtable *vtable;
     TownControl *control;
     TownControl *control_page;
     TownControl *owner_control;
@@ -24,11 +25,12 @@ s32 dispatch_active_town_object_script(TownObject *object, void *owner_arg, void
 
     if (control->field_10 == owner) {
         s32 index = control->index;
-        if (((S_8009B2C4_0 *)((u8 *)owner + D_800CFDD8[index]))->unk_3A != 0) {
+        if (((u8 *)owner + D_800CFDD8[index])[0x3A] != 0) {
             entry = (index + (u8 *)control);
-            if (((S_8009B2C4_1 *)entry)->unk_3A == 1) {
+            if (entry[0x3A] == 1) {
                 if (scene_object_payload_alias == (s32)&D_800924EC) {
-                    object->vtable->func0(object, owner, context, extra_ptr);
+                    vtable = (TownVtable *)(unsigned long)(u32)object->unk_58;
+                    vtable->func0(object, owner, context, extra_ptr);
                     return 1;
                 }
             }
@@ -49,52 +51,54 @@ s32 dispatch_active_town_object_script(TownObject *object, void *owner_arg, void
     }
     owner_control = (TownControl *)((u8 *)control_page - 0x34C);
     if (((owner_control->state != 0) && (owner_control->owner == owner)) ||
-        ((owner->unk_3B != 0) &&
-         (owner->unk_20 == owner_control))) {
+        ((owner->pending_flags[1] != 0) &&
+         (owner->slots[1] == owner_control))) {
         active_script = scene_object_payload_alias;
         if ((active_script == (s32)&D_80091F64) ||
             (active_script == (s32)&D_800920F4) ||
             (active_script == (s32)&D_8009204C)) {
-            object->vtable->func18(object, owner, context, extra_ptr);
+            vtable = (TownVtable *)(unsigned long)(u32)object->unk_58;
+            vtable->func18(object, owner, context, extra_ptr);
         }
     }
     return 0;
 }
 
 /* Update movement and height, transition the actor state, and copy its value to the context. */
-void update_actor_surface_motion(TownObjectRecord *actor, void *subject, void *motion, SpriteFrameState *context) {
+void update_actor_surface_motion(TownObjectRecord *actor, void *subject, ObjectPosition *motion, SpriteFrameState *context) {
     s16 surface_height;
     void *actor_callback;
-    s32 *actor_value;
+    HeightBandValues *values;
 
     surface_height = get_min_surface_probe_capped(motion, ((u8 *)&position_query_scratch));
     apply_bound_adjustments(subject, motion);
     resolve_collider_overlaps(subject, motion);
     if (*((u8 *)subject + 0x3B) == 0) {
-        if (surface_height - *(s16 *)((u8 *)motion + 0xA) >= 4) {
+        if (surface_height - motion->z.w.i >= 4) {
             set_actor_drop_state(actor, subject, motion, context);
         } else {
             stop_at_max_z(subject, motion, surface_height);
-            *(s32 *)((u8 *)motion + 0xC) = 0;
-            *(s32 *)((u8 *)motion + 0x10) = 0;
-            *(s32 *)((u8 *)motion + 0x14) = 0;
+            motion->velocity_x = 0;
+            motion->velocity_y = 0;
+            motion->velocity_z = 0;
             actor->unk_50.as_pv = actor_output_update_address;
         }
     }
-    dispatch_active_town_object_script((TownObject *)actor, subject, motion, context);
+    dispatch_active_town_object_script(actor, subject, motion, context);
     actor_callback = actor->unk_50.as_pv;
     if (actor_callback != actor_surface_callback_address && actor_callback != actor_output_update_address && actor_callback != update_actor_with_controlled_motion) {
-        actor_value = actor->unk_7C.as_pv;
-        if (actor_value != 0)
-            *(s32 *)((u8 *)context + 8) = *actor_value;
+        values = actor->unk_7C.as_pv;
+        if (values != 0)
+            context->source = values->sources[0];
     }
 }
 
 /* Runs handlers when any slot flag is set and copies the stored value for eligible states. */
-void update_actor_slots_and_output(void *state_owner, void *update_target, void *update_context, SpriteFrameState *output) {
+void update_actor_slots_and_output(TownObjectRecord *state_owner, void *update_target, ObjectPosition *update_context, SpriteFrameState *output) {
+    Rec_D_800CFCB4 *target;
     s32 slot;
     void *current_state;
-    s32 *stored_value;
+    HeightBandValues *values;
 
     for (slot = 0; slot < 6; slot++) {
         u8 *slot_flags = (u8 *)&town_actor_control + slot;
@@ -104,17 +108,18 @@ void update_actor_slots_and_output(void *state_owner, void *update_target, void 
         }
     }
     if (slot < 6) {
-        if (*((u8 *)update_target + 0x3B) == 0) {
+        target = update_target;
+        if (target->unk_3B == 0) {
             set_actor_motion_state(state_owner, update_target, update_context, output);
         }
         resolve_collider_overlaps(update_target, update_context);
         dispatch_active_town_object_script(state_owner, update_target, update_context, output);
     }
-    current_state = *(void **)((u8 *)state_owner + 0x50);
+    current_state = state_owner->unk_50.as_pm;
     if (current_state != actor_surface_callback_address && current_state != actor_output_update_address && current_state != update_actor_with_controlled_motion) {
-        stored_value = *(s32 **)((u8 *)state_owner + 0x7C);
-        if (stored_value != 0) {
-            *(s32 *)((u8 *)output + 8) = *stored_value;
+        values = state_owner->unk_7C.as_pv;
+        if (values != 0) {
+            output->source = values->sources[0];
         }
     }
 }

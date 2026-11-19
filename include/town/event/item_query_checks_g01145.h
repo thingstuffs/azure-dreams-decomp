@@ -8,6 +8,7 @@
 /* inferred-strong item_query_checks_g00588; shared declarations. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AC118, CL:town/func_800AC164, CL:town/func_800AC198, CL:town/func_800AC210, PD:town/engine:800D1054. */
 #include "common.h"
+#include "slus/town_map_selection_data.h"
 #include "town/player/carry_item.h"
 #include "m2c_compat.h"
 #include "engine/object/test_resident_bitmap_bit_api.h"                         /* extern */
@@ -53,7 +54,6 @@ extern s8 town_query_item_types[];
 extern s32 town_query_sell_price_limits[];
 extern u8 D_8006BC7A;
 extern s32 *D_800D1038[];
-extern s32 map_scene_selector_alias;
 extern struct {
     S_80081498 *head;
     int pad[2];

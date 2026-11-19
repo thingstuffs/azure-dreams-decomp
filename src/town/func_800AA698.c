@@ -10,12 +10,12 @@
 
 
 /* Unlinks and marks an object on a nonzero bounds classification; otherwise advances its sprite animation. */
-void retire_object_or_animate_sprite(TownObjectRecord *object, void *check_data, void *fallback_data)
+void retire_object_or_animate_sprite(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *sprite)
 {
-    u8 *status_byte;
+    s8 *status_byte;
 
-    if (classify_object_against_bounds(object, check_data) != 0) {
-        status_byte = *(u8 **)((u8 *)object + 0x98);
+    if (classify_object_against_bounds(object, position) != 0) {
+        status_byte = object->unk_98;
         if (status_byte != 0) {
             *status_byte = 0;
         }
@@ -24,6 +24,6 @@ void retire_object_or_animate_sprite(TownObjectRecord *object, void *check_data,
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     } else {
-        advance_sprite_animation_and_textures(fallback_data);
+        advance_sprite_animation_and_textures(sprite);
     }
 }

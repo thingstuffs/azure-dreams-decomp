@@ -32,7 +32,7 @@ s16 *build_town_sound_selection(s32 unused, s32 index) {
     output[2] = -1;
     output[3] = -1;
 
-    if (map_scene_selector_alias != 12) {
+    if ((s16)map_scene_selector_alias != 12) {
         entry_index = index;
     } else {
         TownEntry *entries;

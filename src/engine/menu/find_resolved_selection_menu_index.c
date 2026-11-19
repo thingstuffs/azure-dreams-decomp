@@ -1,24 +1,17 @@
 #include "common.h"
 #include "engine/menu.h"
 
-typedef struct S_8004FD78 {
-    u8 pad00[0x10];   /* 0x00 */
-    s32 unk10[5];     /* 0x10 - fixed-size id array (5 slots, per sibling struct) */
-    s32 unk24;         /* 0x24 - live count */
-} S_8004FD78;
-
 extern s32 card_boot_timeout_operation(void *a0);
 
 /* Finds the resolved target ID's index, returning the count if absent or zero if empty. */
-s32 find_resolved_selection_menu_index(void *id_list_data, void *object)
+s32 find_resolved_selection_menu_index(AnimatedSelectionMenuBody *menu, void *object)
 {
-    S_8004FD78 *id_list = id_list_data;
     s32 target_id = card_boot_timeout_operation(object);
-    s32 id_count = id_list->unk24;
+    s32 id_count = menu->count;
     s32 id_index;
 
     for (id_index = 0; id_index < id_count; id_index++) {
-        if (id_list->unk10[id_index] == target_id) {
+        if (menu->entry_ids[id_index] == target_id) {
             return id_index;
         }
     }

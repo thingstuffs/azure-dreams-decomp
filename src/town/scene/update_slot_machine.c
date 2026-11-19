@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 #include "town/scene.h"
 #include "town/data.h"
 #include "town/scene/score_sprite_data.h"
@@ -51,27 +52,13 @@ typedef struct S_func_80811C54_3 {
 
 typedef struct S_func_80811C54_4 {
     u8 pad_00[8];
-    void *unk_08;
-    void *unk_0C;
+    ObjectPosition *unk_08;
+    SpriteFrameState *unk_0C;
     void *unk_10;
     u8 pad_14[0x60];
     s16 unk_74;
 } S_func_80811C54_4;
 
-
-typedef struct S_func_80811C54_6 {
-    void *unk_00;
-    u8 unk_04;
-    u8 unk_05;
-    u8 pad_06[2];
-    s32 unk_08;
-    s32 unk_0C;
-    u8 pad_10[2];
-    u16 unk_12;
-    u8 pad_14[8];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_func_80811C54_6;
 
 typedef struct S_func_80811C54_7 {
     union { s32 s; void *p; } unk_00;
@@ -497,7 +484,7 @@ matrix_outer:
 
         {
             ObjectPosition *motion;
-            S_func_80811C54_6 *sprite;
+            SpriteFrameState *sprite;
             s32 tint;
             s32 sprite_offset;
 
@@ -507,20 +494,20 @@ matrix_outer:
                 return;
             }
             effect_obj->unk_10 = D_8052D770;
-            ((ObjectPosition *)effect_obj->unk_08)->x.v =
+            effect_obj->unk_08->x.v =
                 position_or_effect->unk_00.s + (s32)0xFEC00000;
-            ((ObjectPosition *)effect_obj->unk_08)->y.v =
+            effect_obj->unk_08->y.v =
                 position_or_effect->unk_04 + (s32)0xFFC00000;
-            ((ObjectPosition *)effect_obj->unk_08)->z.v =
+            effect_obj->unk_08->z.v =
                 position_or_effect->unk_08 + (s32)0xFFC00000;
             motion = effect_obj->unk_08;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            ((ObjectPosition *)effect_obj->unk_08)->velocity_z = 0x40000;
+            effect_obj->unk_08->velocity_z = 0x40000;
             func_8003BC18(effect_obj, score_sprite_draw_callback_address);
             sprite = effect_obj->unk_0C;
-            sprite->unk_1E = 0x1000;
-            sprite->unk_1C = 0x1000;
+            sprite->scale_y = 0x1000;
+            sprite->scale_x = 0x1000;
             position_or_effect = (S_func_80811C54_7 *)((u8 *)effect_obj + 0x20);
 
             if (DIGIT2 != 0) {
@@ -529,21 +516,21 @@ matrix_outer:
             } else if (DIGIT1 != 0) {
                 DIGIT1--;
                 effect_obj->unk_74 = 1;
-                sprite_offset = sprite->unk_12 - 5;
-                sprite->unk_12 = sprite_offset;
+                sprite_offset = sprite->clut - 5;
+                sprite->clut = sprite_offset;
             } else if (DIGIT0 != 0) {
                 DIGIT0--;
                 effect_obj->unk_74 = 0;
-                sprite_offset = sprite->unk_12 + 5;
-                sprite->unk_12 = sprite_offset;
+                sprite_offset = sprite->clut + 5;
+                sprite->clut = sprite_offset;
             }
 
             tint = 0x00808080;
-            sprite->unk_00 = (void *)score_sprite_handler_address;
-            sprite->unk_08 = score_sprite_initial_value[0];
+            sprite->unk_00 = score_sprite_handler_address;
+            sprite->source = score_sprite_initial_value[0];
             sprite->unk_04 = 0;
-            sprite->unk_05 = 0;
-            sprite->unk_0C = tint;
+            sprite->frame_ticks = 0;
+            sprite->color.word = tint;
             position_or_effect->unk_00.p = self;
             position_or_effect->unk_50 = effect_config;
             func_8023FA58(&position_or_effect->unk_08, effect_obj->unk_08, falling_object_update_address);

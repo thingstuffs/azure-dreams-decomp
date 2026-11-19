@@ -3,7 +3,6 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
-#include "records/Rec_func_800A9E70_arg0.h"
 
 #include "engine/graphics.h"
 #include "dungeon/actor/status.h"
@@ -27,16 +26,16 @@ static __inline__ void dispatch_table(SpriteFrameState *sprite, ActorRecord *act
  * Starts the directional action for Beldo's current form, selects its sprite table, and advances
  * status and turn counts.
  */
-void start_actor_directional_action(Rec_func_800A9E70_arg0 *state, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *actor) {
+void start_actor_directional_action(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 table_kind;
     u32 direction_entry;
     u8 *direction_table;
 
     actor->movement_queue_state = actor->movement_queue_state & 0x7F;
-    table_kind = state->unk_AC;
-    state->unk_9A.as_s8 = 0x18;
-    state->unk_8C = 0;
-    state->unk_9B.as_s8 = 0;
+    table_kind = state->unk_AC.byte;
+    state->action_id = 0x18;
+    state->unk_8C.handler = 0;
+    state->action_phase = 0;
     switch (table_kind) {
     case 0:
         dispatch_table(sprite, actor, beldo_large_frame_set_6 + 0);

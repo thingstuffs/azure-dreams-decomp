@@ -3,6 +3,7 @@
 struct SpriteFrameState;
 
 #include "town/player/record.h"
+#include "slus/town_map_selection_data.h"
 #include "town/shop/item_lookup.h"
 #include "town/scene/list_setup.h"
 #include "town/person/position.h"
@@ -11,6 +12,7 @@ struct SpriteFrameState;
 
 struct ObjectPosition;
 #include "common.h"
+#include "shared/action_handler_tables_data.h"
 #include "town/scene/collision.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
@@ -160,7 +162,6 @@ extern u32 view_relative_angle_sector(s32 angle);
 #include "town/player/fallback_handler_position_g00541.h"
 
 extern func_80092868_TownState map_runtime_state;
-extern s16 map_scene_selector_alias[];
 extern s32 loaded_sprite_bundle_attributes;
 
 
@@ -172,7 +173,6 @@ extern s32 camera_turn_lock[];
 extern s32 camera_height_mode[];
 extern s32 scene_object_payload_alias;
 
-extern u8 town_scene_record_handlers[];
 extern s32 town_scene_init_callback;
 extern s32 D_800D0178;
 extern u8 window_node_list_storage[];

@@ -7,7 +7,7 @@
    /* the 0x2 bytes before arg0 in update_four_phase_animation, addressed as arg0[-1] */
 
 /* Updates a four-phase animation and clears its activity flag on completion. */
-void update_four_phase_animation(TownMapPhaseObject *entity, void *context) {
+void update_four_phase_animation(TownMapPhaseObject *entity, ObjectPosition *context) {
     s8 *activity_flag;
     s32 phase;
     s32 phase_ticks;

@@ -4,6 +4,7 @@
 #include "common.h"
 #include "sdk/libgte.h"
 #include "dungeon/effect.h"
+#include "dungeon/effect/shade/row_quad_colors.h"
 #include "dungeon/effect/sprite.h"
 #include "dungeon/data.h"
 
@@ -14,8 +15,6 @@ typedef struct ParticleRenderOwner {
 
 extern s16 D_80026476;
 extern void emit_particle_then_wait_for_path_release(void *effect, ObjectPosition *transform, SpriteFrameState *visual);
-
-extern u8 particle_quad_vertices[];
 
 typedef struct ParticleNode {
     u8 pad_00[0x8];
@@ -36,18 +35,6 @@ typedef struct ParticleState {
     u16 unk_22;
 } ParticleState;   
 
-typedef struct TrailPosition {
-    u16 unk_00;
-    u16 unk_02;
-    u16 unk_04;
-} TrailPosition;   
-
-typedef struct PairedTrailPosition {
-    u16 unk_00;
-    u16 unk_02;
-    u16 unk_04;
-} PairedTrailPosition;   
-
 /* Create the moving particle with display color 0x40E020 and paired trail positions. */
 void *create_moving_fading_particle(ObjectPosition *origin, s16 angle, s16 radius, s16 height_offset, ObjectNodeHeader **allocation_head) {
     s16 height;
@@ -55,11 +42,11 @@ void *create_moving_fading_particle(ObjectPosition *origin, s16 angle, s16 radiu
     u16 origin_x;
     u16 origin_z;
     u16 origin_y;
-    TrailPosition *position_slot;
-    u8 *position_table;
+    SVECTOR *position_slot;
+    SVECTOR *position_table;
     ObjectPosition *positions;
     ObjectNodeHeader *object;
-    PairedTrailPosition *paired_slot;
+    SVECTOR *paired_slot;
     ParticleState *object_data;
 
     object = allocate_list_node(0x202, allocation_head);
@@ -87,18 +74,18 @@ void *create_moving_fading_particle(ObjectPosition *origin, s16 angle, s16 radiu
         object_data->unk_22 = slot_index;
         if ((s16) slot_index < 0x71) {
             position_table = particle_quad_vertices;
-            position_slot = &position_table[(s16) slot_index * 8];
+            position_slot = &position_table[(s16) slot_index];
             origin_x = *((u16 *)&positions->velocity_x + 1);
-            paired_slot = &position_table[((s16) slot_index + 0x10) * 8];
-            position_slot->unk_00 = origin_x;
-            paired_slot->unk_00 = origin_x;
+            paired_slot = &position_table[(u32)((s16)slot_index + 16)];
+            position_slot->vx = origin_x;
+            paired_slot->vx = origin_x;
             origin_y = *((u16 *)&positions->velocity_y + 1);
-            position_slot->unk_02 = origin_y;
-            paired_slot->unk_02 = origin_y;
+            position_slot->vy = origin_y;
+            paired_slot->vy = origin_y;
             origin_z = *((u16 *)&positions->velocity_z + 1);
             D_80026476 = slot_index + 1;
-            position_slot->unk_04 = origin_z;
-            paired_slot->unk_04 = origin_z;
+            position_slot->vz = origin_z;
+            paired_slot->vz = origin_z;
         }
     }
     return object;

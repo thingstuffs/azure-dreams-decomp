@@ -4,6 +4,7 @@
 #include "shared/actor_status_flags.h"
 #include "shared/object_node.h"
 #include "common.h"
+#include "dungeon/effect/particle/create_two_row_object_group.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
@@ -17,7 +18,6 @@
 #include "dungeon/player/object.h"
 #include "sdk/libc.h"
 
-extern void create_two_effect_groups(ObjectPosition *, SpriteFrameState *, ActorRecord *, s16);
 
 #include "dungeon/monster/mandara.h"
 #include "dungeon/item.h"

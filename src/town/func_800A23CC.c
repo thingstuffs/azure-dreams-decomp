@@ -13,10 +13,6 @@ typedef struct S_800423C0_Src S_800423C0_Src;
 
 void *get_mode_table_entry(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */        /* extern */
 void *find_unused_default_pool_slot();                              /* extern */
-typedef struct {
-    s32 words[0x15];
-} Record84;
-extern Record84 town_slot_snapshot;
 
 typedef struct Copy10 {
     s8 bytes[10];
@@ -45,7 +41,7 @@ typedef struct S_8009FB2C_2 {
 /* Copies an entry into a slot, creating an associated record for type 0x13. */
 void *copy_item_entry_to_slot(s32 slot_index, S_8009FB2C_1 *source_entry) {
     u8 *copy_dst;
-    u8 *copy_src;
+    TownSlotSnapshot *copy_src;
     s32 record_index;
     void *detail_dst;
     S_8009FB2C_0 *entry;
@@ -63,14 +59,14 @@ void *copy_item_entry_to_slot(s32 slot_index, S_8009FB2C_1 *source_entry) {
         func_80042640(&town_actor_scratch, entry->unk_00);
         apply_actor_template_and_direction(&town_actor_scratch, entry->unk_00, 0);
         {
-            u8 *record_buffer;
-            record_buffer = (u8 *)&town_slot_snapshot;
+            TownSlotSnapshot *record_buffer;
+            record_buffer = &town_slot_snapshot;
             copy_src = record_buffer;
             build_entity_slot_snapshot(record_buffer, &town_actor_scratch);
         }
         record_index = find_first_vacant_record((void *)0x800102F0, 0x14);
         copy_dst = (record_index * 0x54) + (u8 *)0x800102F0;
-        *(Record84 *)copy_dst = *(Record84 *)copy_src;
+        *(TownSlotSnapshot *)copy_dst = *copy_src;
         detail_dst = (record_index * 0x54) + (u8 *)0x80010324;
         detail_src = get_mode_table_entry(entry->unk_00);
         *(Copy10 *)detail_dst = *(Copy10 *)detail_src;

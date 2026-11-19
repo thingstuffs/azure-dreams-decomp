@@ -1,4 +1,6 @@
+#include "engine/entity/effect_slots.h"
 #include "dungeon/item/message.h"
+#include "dungeon/globals.h"
 #include "shared/actor_property_flags.h"
 #include "sdk/libgte.h"
 #include "dungeon/player.h"
@@ -7,7 +9,6 @@
 #include "shared/actor_status_ids.h"
 #include "shared/sprite_frame_state.h"
 /* Complete native TU in retail file order. Review pending. */
-#include "dungeon/player/object/can_entity_gain_level.h"
 #include "dungeon/player/object/action_state.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
@@ -19,7 +20,6 @@
 #include "dungeon/data.h"
 #include "dungeon/actor/pending_marked_actor_count_data.h"
 #define F(p,t,o) (*(t *)((u8 *)(p) + (o)))
-extern s32 get_entity_effect_value(void *entry, s32 effect_id);
 extern s32 entity_level_thresholds[];
 extern u8 D_800E0000[];
 /* Checks whether an entity can level up with its current experience. */
@@ -377,7 +377,7 @@ loop_0:
 
         if ((show_message << 0x10) != 0) {
             if (!(system_update_flags & 1)) {
-                dungeon_event_pending_flag[0] = 1;
+                dungeon_event_pending_flag = 1;
                 g_dungeon_status.activity_counts.parts.pending_action_count++;
             }
             stat_gain_m = 0x8003;
@@ -699,7 +699,7 @@ s32 lower_entity_level(ActorRecord *body, s32 show_message) {
     }
     {
         if (!(*(u16 *)0x80013714 & 1)) {
-            dungeon_event_pending_flag[0] = 1;
+            dungeon_event_pending_flag = 1;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
         }
         create_actor_value_popup(0x8003, entity, -3, 1);
@@ -740,7 +740,7 @@ s32 lower_entity_level(ActorRecord *body, s32 show_message) {
 /* Clears dungeon_event_pending_flag and decrements the pending action count. */
 void clear_counted_action(void) {
 
-    dungeon_event_pending_flag[0] = 0;
+    dungeon_event_pending_flag = 0;
     g_dungeon_status.activity_counts.parts.pending_action_count--;
 }
 #include "shared/entity.h"
@@ -751,7 +751,6 @@ void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile
     record->y.w.i = (s16) (((s32) (tile_y << 0x10) >> 0xA) + 0x20);
 }
 
-extern u8 camera_transition_timer;
 
 /* Returns one while camera_transition_timer is active and system_update_flags bit 1 is clear. */
 s32 is_dungeon_action_blocked(void) {
@@ -821,7 +820,6 @@ s32 has_low_actor_mp(ActorRecord *record) {
 }
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s32 get_entity_effect_value(void *entry, s32 effect_id);
 
 
 /* Checks entity status and shared flags against another entity. */
@@ -1195,7 +1193,6 @@ struct S_16 {
 typedef struct S_800E3E48 S_800E3E48;
 extern S_800E3E48 familiar_record_storage[];
 extern s32 familiar_record_slots[];
-extern void clear_slots_of_type(void *, s32);
 
 /* Detach a record from its slot, preserve its data, and update its count and state. */
 void * detach_record_and_update_slot_state(void *record) {

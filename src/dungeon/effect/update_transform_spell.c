@@ -1,5 +1,6 @@
 /* Moves the spell to its target, creates the replacement actor and retires its visual. */
 #include "dungeon/effect/transform.h"
+#include "shared/dungeon_height_query.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/system/random.h"
 #include "shared/sprite_frame_state.h"
@@ -16,7 +17,6 @@ extern u16 D_8006CCD8[8],D_8006CCE8[8];
 extern u32 D_800814A0;
 extern SpriteFrameState D_80082E80;
 s16 get_surface_height_at_record(ObjectPosition *);
-s32 check_left_tile_and_center_height(u16,u16,s16);
 void *create_actor_graphics_at_tile(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */
 
 void update_transform_spell(TransformSpellState *spell, ObjectPosition *motion, SpriteFrameState *sprite) {

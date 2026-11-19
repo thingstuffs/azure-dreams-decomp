@@ -1,5 +1,5 @@
 #include "town/menu.h"
-#include "shared/gpu_packets.h"
+#include "shared/menu_display.h"
 #include "engine/texture.h"
 
 typedef struct MenuResourceOwner {
@@ -11,7 +11,6 @@ typedef struct MenuResourceOwner {
 } MenuResourceOwner;
 
 extern s32 rebuild_pointer_pool(s32 *, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern DisplayPositionWords display_vector_defaults;
 
 /* Allocate the menu's twelve-entry buffer and link its display vector. */
 s32 load_menu_display_resource(MenuResourceOwner *owner, s32 resource)

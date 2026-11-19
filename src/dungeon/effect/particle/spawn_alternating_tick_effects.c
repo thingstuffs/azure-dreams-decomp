@@ -83,7 +83,7 @@ void spawn_alternating_tick_effects(S_7FFEB1CC_0 *effect, s32 init_param_1, s32 
     remaining_life = effect->unk_1E - 1;
     effect->unk_1E = remaining_life;
     if ((remaining_life << 0x10) <= 0) {
-        u16 *active_count = &emitted_effect_counter;
+        u16 *active_count = emitted_effect_counter;
         u16 remaining_count;
 
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;

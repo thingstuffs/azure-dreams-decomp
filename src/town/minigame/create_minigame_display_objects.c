@@ -73,7 +73,7 @@ void create_minigame_display_objects(void)
     obj = allocate_flagged_object_node(0x32);
     if (obj != NULL) {
         parent_state = obj + 0x20;
-        prim = *(u8 * *)&((ObjectNodeHeader *)obj)->position;
+        prim = ((ObjectNodeHeader *)obj)->position;
         ((ObjectNodeHeader *)obj)->update_callback = D_80022768;
         prim->x.v = 0x04600000;
         prim->y.v = 0x03600000;
@@ -103,7 +103,7 @@ void create_minigame_display_objects(void)
         register_node(obj, draw_linked_lit_meshes);
         neutral_color = 0x00808080;
         ((ObjectNodeHeader *)obj)->update_callback = D_80023DE0;
-        prim = *(u8 * *)&((ObjectNodeHeader *)obj)->position;
+        prim = ((ObjectNodeHeader *)obj)->position;
         draw_state = ((ObjectNodeHeader *)obj)->sprite;
         ((S_800224E0_0 *)obj)->unk_20.at00.v = parent_state;
         draw_state->scale_x = 0x1000;
@@ -125,7 +125,7 @@ void create_minigame_display_objects(void)
         prim->y.v = 0x02C00000;
         prim->z.v = 0;
         *(void **)(object_state + 0x50) = callback;
-        init_scene_node_mode_3(render_state, *(u8 * *)&((ObjectNodeHeader *)obj)->position, D_800244A0);
+        init_scene_node_mode_3(render_state, ((ObjectNodeHeader *)obj)->position, D_800244A0);
     }
 
     child_index = 4;

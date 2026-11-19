@@ -32,7 +32,6 @@ extern void load_resource_data(void);
 extern void load_and_apply_town_building_tiles(void);
 extern void town_sd_se_load_init(void);
 
-extern u8 town_movie_callback_list[0x18];
 extern s32 map_runtime_state[3];
 
 /* Handles change_map / chg_map_second_house_sel setup and clears the handled runtime flags. */
@@ -41,7 +40,7 @@ void dispatch_town_transition(void)
     u16 runtime_flags;
     MainMemoryPage *page;
 
-    reset_callback_list(town_movie_callback_list);
+    reset_callback_list(&town_movie_callback_list);
     reset_callback_list(&town_transition_callback_list);
     initialize_circular_list_head();
     init_town_motion_list();

@@ -1287,61 +1287,24 @@ void update_familiar_selection_marker(FamiliarMarkerWork *state, ObjectPosition 
 }
 #include "shared/entity_objects.h"
 
-typedef struct SubA_800B4204 {
-    u8 pad0[2];
-    s16 f2;
-    u8 pad4[2];
-    s16 f6;
-    u8 pad8[2];
-    s16 fA;
-} SubA_800B4204;
-
-typedef struct SubB_800B4204 {
-    u8 pad0[6];
-    u16 f6;
-    u8 pad8[4];
-    u32 fC;
-    u16 f10;
-    u8 pad12[2];
-    u16 f14;
-    u8 pad16[6];
-    u16 f1C;
-    u16 f1E;
-} SubB_800B4204;
-
-typedef struct Obj_800B4204 {
-    u8 pad0[8];
-    SubA_800B4204 *sub1;
-    SpriteFrameState *sub2;
-    void (*stateFn)(FamiliarMarkerWork *, ObjectPosition *, SpriteFrameState *);
-    u8 pad14[0x20 - 0x14];
-    void *owner;
-} Obj_800B4204;
-
-typedef struct EntityHdr {
-    u8 pad[0x88];
-    u16 f88;
-} EntityHdr;
-
-
 /* Creates and initializes a display object attached to the entity. */
-void *create_familiar_selection_marker(EntityHdr **entity_ref) {
-    Obj_800B4204 *object;
-    SubA_800B4204 *transform;
+void *create_familiar_selection_marker(ActorRecord **entity_ref) {
+    ObjectNodeHeader *object;
+    ObjectPosition *transform;
     SpriteFrameState *sprite;
     FamiliarMarkerWork *owner_data;
 
     object = allocate_list_node(18, &scene_object_list_anchor.next);
     if (object != 0) {
-        owner_data = (FamiliarMarkerWork *)((u8 *)object + 0x20);
-        register_node(object, (void *)draw_linked_sprites_clipped);
-        object->stateFn = update_familiar_selection_marker;
+        owner_data = NODE_BODY(object);
+        register_node(object, draw_linked_sprites_clipped);
+        object->update_callback = update_familiar_selection_marker;
 
-        transform = object->sub1;
-        sprite = object->sub2;
-        transform->f2 = ((u16)view_reference_entity.x.w.i);
-        transform->f6 = ((u16)view_reference_entity.y.w.i);
-        transform->fA = (*entity_ref)->f88;
+        transform = object->position;
+        sprite = object->sprite;
+        transform->x.w.i = view_reference_entity.x.w.i;
+        transform->y.w.i = view_reference_entity.y.w.i;
+        transform->z.w.i = (*entity_ref)->ground_height;
         select_record_entry_and_value(sprite, menu_effect_sprite_entries, 0);
 
         {
@@ -2125,13 +2088,6 @@ void *create_pulsing_tile_sprite(u16 tile_x, u16 tile_y, s16 coord_z, s32 user_d
 #include "shared/def_table.h"
 #include "shared/dir_step.h"
 
-typedef struct S_800BA810_0 {
-    void * unk_00;
-} S_800BA810_0;   /* arg0 in update_selection_tile_markers; pointer addresses record offset 0x18 */
-
-
-
-
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void update_pulsing_sprite_color(void *channel_config, void *unused, void *output);
 void flag_nodes_with_callback_for_removal(s32 *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */                  /* extern */
@@ -2141,25 +2097,13 @@ typedef struct S_8006DE24_Entry {
     u8 pad13;
 } S_8006DE24_Entry;
 extern void * create_pulsing_tile_sprite(u16 tile_x, u16 tile_y, s16 coord_z, s32 user_data);
-typedef struct S_800B50B0_Entity {
-    u8 pad00[0x13];
-    u8 kind13;
-    u8 pad14[0x16];
-    u16 angle2a;
-    u8 pad2c[0x1c];
-    u8 kind48;
-    u8 pad49[0x17];
-    void *child60;
-    u8 pad64[0x24];
-    s16 height88;
-} S_800B50B0_Entity;
-extern S_800B50B0_Entity *menu_effect_cached_actor;
+extern ActorRecord *menu_effect_cached_actor;
 extern u16 D_800DF378;
 extern u16 D_800DF37A;
 extern u8 D_800DF380[];
 
 /* Updates marked dungeon tiles for the selected entity, mode, and facing. */
-void update_selection_tile_markers(S_800B50B0_Entity *entity, s32 selection) {
+void update_selection_tile_markers(ActorRecord *entity, s32 selection) {
     s16 surface_height;
     s32 height;
     s16 forward_height;
@@ -2177,7 +2121,7 @@ void update_selection_tile_markers(S_800B50B0_Entity *entity, s32 selection) {
     u8 entry_id;
     u8 entry_type;
     u16 angle;
-    S_800B50B0_Entity *child;
+    ActorRecord *child;
     ObjectPosition *child_position;
     ObjectPosition *position;
 
@@ -2187,29 +2131,29 @@ void update_selection_tile_markers(S_800B50B0_Entity *entity, s32 selection) {
         return;
     }
     tile_list = update_pulsing_sprite_color;
-    if (menu_effect_cached_actor != entity || D_800DF37A != (s16) entity->angle2a || D_800DF378 != (selection & 0xFFFF)) {
-        angle = entity->angle2a;
+    if (menu_effect_cached_actor != entity || D_800DF37A != entity->facing || D_800DF378 != (selection & 0xFFFF)) {
+        angle = entity->facing;
         menu_effect_cached_actor = entity;
         D_800DF378 = selection;
         D_800DF37A = angle;
         flag_nodes_with_callback_for_removal(update_pulsing_sprite_color);
-        direction = (entity->angle2a >> 9) & 7;
+        direction = (entity->facing >> 9) & 7;
         mode = selection & 0x3FFF;
-        position = ((S_800BA810_0 *)((u8 *)entity - 0x18))->unk_00;
-        height = entity->height88;
-        tile_x = (u16) position->x.unsigned_parts.integer >> 6;
-        tile_z = (u16) position->y.unsigned_parts.integer >> 6;
+        position = NODE_HEADER(entity)->position;
+        height = entity->ground_height;
+        tile_x = position->x.unsigned_parts.integer >> 6;
+        tile_z = position->y.unsigned_parts.integer >> 6;
         mode_index = mode;
         if (mode_index == 8) {
             forward_steps = 1;
-            if ((entity->kind13 == 0x16) && (entity->kind48 == 0xF)) {
+            if ((entity->species == 0x16) && (entity->unk_48 == 0xF)) {
                 forward_steps = 0xA;
             }
             if (forward_steps > 0) {
                 do {
                     forward_height = height - 0x20;
-                    tile_x += (s16) dir_step_x[direction];
-                    tile_z += (s16) dir_step_y[direction];
+                    tile_x += dir_step_x[direction];
+                    tile_z += dir_step_y[direction];
                     surface_height = sample_terrain_surface_height(((tile_x << 6) + 0x20) & 0xFFE0, ((tile_z << 6) + 0x20) & 0xFFE0,
                         forward_height);
                     height = surface_height;
@@ -2228,8 +2172,8 @@ void update_selection_tile_markers(S_800B50B0_Entity *entity, s32 selection) {
             adjacent_steps = 1;
             do {
                 adjacent_height = height - 0x20;
-                tile_x += (s16) dir_step_x[direction];
-                tile_z += (s16) dir_step_y[direction];
+                tile_x += dir_step_x[direction];
+                tile_z += dir_step_y[direction];
                 surface_height = sample_terrain_surface_height(((tile_x << 6) + 0x20) & 0xFFE0, ((tile_z << 6) + 0x20) & 0xFFE0,
                     adjacent_height);
                 height = surface_height;
@@ -2256,8 +2200,8 @@ void update_selection_tile_markers(S_800B50B0_Entity *entity, s32 selection) {
             if (forward_steps > 0) {
                 do {
                     range_height = height - 0x20;
-                    tile_x += (s16) dir_step_x[direction];
-                    tile_z += (s16) dir_step_y[direction];
+                    tile_x += dir_step_x[direction];
+                    tile_z += dir_step_y[direction];
                     surface_height = sample_terrain_surface_height(((tile_x << 6) + 0x20) & 0xFFE0, ((tile_z << 6) + 0x20) & 0xFFE0,
                         range_height);
                     height = surface_height;
@@ -2269,11 +2213,11 @@ void update_selection_tile_markers(S_800B50B0_Entity *entity, s32 selection) {
                 } while (forward_steps > 0);
             }
         } else if (entry_type == 2) {
-            child = entity->child60;
+            child = entity->target;
             if (child != NULL) {
                 child_position = NODE_HEADER(child)->position;
-                create_pulsing_tile_sprite((u16) child_position->x.unsigned_parts.integer >> 6, (u16) child_position->y.unsigned_parts.integer >> 6,
-                    child->height88, 0xFF);
+                create_pulsing_tile_sprite(child_position->x.unsigned_parts.integer >> 6, child_position->y.unsigned_parts.integer >> 6,
+                    child->ground_height, 0xFF);
             }
         }
     }

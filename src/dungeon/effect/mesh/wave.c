@@ -22,8 +22,8 @@
 #include "dungeon/system.h"
 
 void (*const dungeon_1918800_entry)(struct ProjectileSelf *self, struct ObjectPosition *position, struct SpriteFrameState *render_data) = update_wave_projectile_effect;
-const PackedVector wave_texture_rect = {832,340,96,84};
-const PackedVector wave_source_rect = {832,256,96,84};
+const PackedGpuRect wave_texture_rect = {832, 340, {.half = {96, 84}}};
+const PackedGpuRect wave_source_rect = {832, 256, {.half = {96, 84}}};
 const Copy24 wave_direction_steps = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "shared/game_work.h"
@@ -362,11 +362,6 @@ void draw_wave_distorted_sprite(WaveScreenOrigin *screen_pos, ParticleState *wav
 }
 
 
-typedef struct Position {
-    u16 x;
-    s16 y;
-    s32 value;
-} Position;
 
 typedef struct DungeonState {
     u8 pad0[0x8B0];
@@ -386,7 +381,7 @@ typedef struct Packet16 {
 extern u8 upper_draw_context[16];
 
 /* Queue drawing with an optional cleared rectangle, then restore the drawing area. */
-void draw_wave_sprite_in_draw_area(ParticleState *wave, void *context, Position *restore_area, Position *draw_pos,
+void draw_wave_sprite_in_draw_area(ParticleState *wave, void *context, GpuRect *restore_area, Pair16 *draw_pos,
                    u32 clear_area, s32 draw_option)
 {
     WaveScreenOrigin pos;
@@ -440,7 +435,7 @@ void draw_wave_sprite_in_draw_area(ParticleState *wave, void *context, Position 
             y -= 0xE0;
         }
         clear_packet->y = y;
-        clear_packet->value = restore_area->value;
+        clear_packet->value = restore_area->data.word4;
         clear_packet->tag = (clear_packet->tag & 0xFF000000) |
                      (state->ordering_table & 0x00FFFFFF);
         state->ordering_table = (state->ordering_table & 0xFF000000) |
@@ -696,10 +691,7 @@ typedef struct CursorView {
 /* Update the effect's fade and rotation, draw it, and flag completion at its final frame. */
 void update_expanding_wave_impact_effect(ParticleState *effect, void *unused, SpriteFrameState *output)
 {
-    PackedVector source;
-    PackedVector *source_ptr;
-    PackedVector *render_source;
-    Pair16 *derived_ptr;
+    GpuRect source;
     Pair16 derived;
     s32 frame;
     s32 peak_frame;
@@ -718,8 +710,7 @@ void update_expanding_wave_impact_effect(ParticleState *effect, void *unused, Sp
     s32 fill_shade;
     void *shade_cursor;
 
-    source_ptr = (PackedVector *)(&wave_texture_rect);
-    source = *source_ptr;
+    source = wave_texture_rect;
     frame = effect->frame;
     peak_frame = effect->peak_frame;
     wave_effect_update_flag = 1;
@@ -779,12 +770,10 @@ void update_expanding_wave_impact_effect(ParticleState *effect, void *unused, Sp
         return;
     }
 
-    render_source = &source;
-    derived_ptr = &derived;
-    derived.x = source.x + ((s16)source.z >> 1);
+    derived.x = source.x + ((s16)source.data.half.z >> 1);
     one = 1;
     derived.y = source.y + 0x3C;
-    draw_wave_sprite_in_draw_area(effect, effect->flash_state, render_source, derived_ptr, one, one);
+    draw_wave_sprite_in_draw_area(effect, effect->flash_state, &source, &derived, one, one);
 
     next_frame = (u16)effect->frame + 1;
     effect->frame = next_frame;
@@ -865,7 +854,7 @@ typedef struct ProjectileSelf {
 /* Update a timed visual effect using its owner's appearance and position. */
 void update_timed(ParticleState *state, ObjectPosition *position_out, SpriteFrameState *effect_arg_arg) {
     SpriteFrameState *effect_arg = effect_arg_arg;
-    PackedVector origin;
+    GpuRect origin;
     Pair16 anchor;
     s32 level_index;
     u8 intensity;
@@ -938,7 +927,7 @@ void update_timed(ParticleState *state, ObjectPosition *position_out, SpriteFram
         return;
     }
     one = 1;
-    anchor.x = origin.x + ((s16)origin.z >> 1);
+    anchor.x = origin.x + ((s16)origin.data.half.z >> 1);
     anchor.y = origin.y + 0x48;
     saved_scale_x = motion->scale_x;
     saved_scale_y = motion->scale_y;

@@ -1,4 +1,5 @@
 #include "shared/sprite_frame_state.h"
+#include "shared/dungeon_height_query.h"
 #include "shared/entity.h"
 #include "common.h"
 #include "shared/object_flags.h"
@@ -6,8 +7,6 @@
 #include "slus.h"
 #include "dungeon/monster/glacier.h"
 
-extern s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
-extern s16 sample_terrain_surface_height();
 
 /* Advance motion, resolve collisions, and flag expired movement. */
 void advance_particle_with_collision(DirectionalEffectBody *motion, ObjectPosition *position_arg, SpriteFrameState *update_arg) {
@@ -35,12 +34,12 @@ void advance_particle_with_collision(DirectionalEffectBody *motion, ObjectPositi
     position->z.v += motion->velocity_z;
     motion->velocity_z += motion->acceleration_z;
     height = position->z.w.i;
-    if ((sample_terrain_surface_height(position->x.unsigned_parts.integer, position->y.unsigned_parts.integer,
+    if (((s16)sample_terrain_surface_height(position->x.unsigned_parts.integer, position->y.unsigned_parts.integer,
                        (s16)((u16)position->z.w.i - 4)) - 0x10) < height) {
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        position->z.w.i = sample_terrain_surface_height(position->x.unsigned_parts.integer,
+        position->z.w.i = (s16)sample_terrain_surface_height(position->x.unsigned_parts.integer,
             position->y.unsigned_parts.integer,
                                                (s16)((u16)position->z.w.i - 4)) - 0x11;
         position->z.w.frac = 0;

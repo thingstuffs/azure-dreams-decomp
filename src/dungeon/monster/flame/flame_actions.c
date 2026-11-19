@@ -888,7 +888,7 @@ void choose_flame_move(ActorRecord *move_data, ObjectPosition *context, SpriteFr
     }
 
     turn_index = 0;
-    turn_table = ((s16 *)actor_turn_angle_offsets);
+    turn_table = actor_turn_angle_offsets;
 
     do {
         turn_flags = move_data->action_state_flags;
@@ -1171,7 +1171,7 @@ void complete_flame_attack_animation(R06_8017278C_S_8017278C_0 *action, ObjectPo
             if (actor->pending_turn_updates == 0) {
                 actor->action_flags = (u16) (actor->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
             } else {
-                *((void **)actor_update_node_cursor) = NODE_HEADER(actor);
+                actor_update_node_cursor = NODE_HEADER(actor);
             }
         }
         return;
@@ -2741,7 +2741,7 @@ void advance_flame_transition(ActorRecord *action, ObjectPosition *position, Spr
             return;
         }
         run_cd_image_commands((u8 *)((s32 *)D_80175904) - 8, (u8 *)((void **)flame_transition_object) - 4, 1);
-        sound_set_cd_cue_parameters(0, ((s32 *)cd_cue_base)[0], 0x04000AD4, 0x05000CC4);
+        sound_set_cd_cue_parameters(0, cd_cue_base, 0x04000AD4, 0x05000CC4);
         effect_id = read_stream_cue_start_offset();
         Control_CD(0x15, effect_id, 0);
         flame_effect_load_done[0] = 0;
@@ -2754,7 +2754,7 @@ void advance_flame_transition(ActorRecord *action, ObjectPosition *position, Spr
     case 3:
         {
             s32 frames_left;
-            R06_80175270_S_80175270_3 *target_color;
+            ActorEffectColor *target_color;
             u8 effect_done;
 
             frames_left = (u16)action->action_timer;
@@ -2769,10 +2769,10 @@ void advance_flame_transition(ActorRecord *action, ObjectPosition *position, Spr
                 }
                 return;
             }
-            target_color = (R06_80175270_S_80175270_3 *)((u8 **)actor_effect_color_targets)[lookup_masked_byte_table(actor)];
-            work->unk_A8 += (target_color->unk_00 - work->unk_A8) / action->action_timer;
-            work->unk_A9 += (target_color->unk_01 - work->unk_A9) / action->action_timer;
-            work->unk_AA += (target_color->unk_02 - work->unk_AA) / action->action_timer;
+            target_color = actor_effect_color_targets[lookup_masked_byte_table(actor)];
+            work->unk_A8 += (target_color->r - work->unk_A8) / action->action_timer;
+            work->unk_A9 += (target_color->g - work->unk_A9) / action->action_timer;
+            work->unk_AA += (target_color->b - work->unk_AA) / action->action_timer;
             return;
         }
 

@@ -2,6 +2,9 @@
 #include "town/menu/motion.h"
 #include "town/menu/textured_sprite_quad_packets.h"
 #include "common.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
+#include "sdk/libgpu_types.h"
 #include "shared/game_work.h"
 
    /* root in draw_textured_sprite_quad */
@@ -38,33 +41,22 @@ typedef struct TownQuadWork {
     struct { u16 x, y; } screen[4];
 } TownQuadWork;
 
-typedef struct {} EmptyArg;
-
-extern s32 RotTransPers4();
-extern s32 GetTPage();
-extern s32 GetClut();
-extern void AddPrim();
-extern void SetSemiTrans();
-extern void SetPolyF4();
-extern void SetPolyFT4();
-extern void SetDrawMode();
 struct MovingPosition; struct S_800A130C_0; void copy_moving_position_to_menu_point(struct S_800A130C_0 *, struct MovingPosition *);
 struct S_800A1330_0; struct S_800A1330_1; void copy_menu_point(struct S_800A1330_0 *, struct S_800A1330_1 *);
-extern s16 D_800D0A40;
+extern RECT D_800D0A40;
 
 /* Project and enqueue a textured sprite quad with a translucent overlay. */
 void draw_textured_sprite_quad(void *sprite_arg, s32 position) {
     S_800A17CC_2 *sprite = sprite_arg;
-    s16 texture_window[4];
-    s32 texture_page;
+    RECT texture_window;
+    u16 texture_page;
     s32 texture_y;
     s32 height;
     register s32 top_z;
     GpuContext *render_state;
     POLY_FT4 *textured_quad;
     FlatOverlayQuadPacket *overlay_quad;
-    u8 *draw_mode;
-    EmptyArg unused_arg;
+    DR_MODE *draw_mode;
     void *screen_xy0;
     void *screen_xy1;
     void *screen_xy2;
@@ -80,10 +72,10 @@ void draw_textured_sprite_quad(void *sprite_arg, s32 position) {
 
     color = 0x800000;
     window_size = 0x80;
-    texture_window[1] = 0;
-    texture_window[0] = 0;
-    texture_window[2] = window_size;
-    texture_window[3] = window_size;
+    texture_window.y = 0;
+    texture_window.x = 0;
+    texture_window.w = window_size;
+    texture_window.h = window_size;
 
     {
         GpuContext *state = g_game_work.draw_buffer;
@@ -181,14 +173,13 @@ void draw_textured_sprite_quad(void *sprite_arg, s32 position) {
         scratch->corners[3].x = right_x;
     }
     height = sprite->unk_7A;
+    top_z = scratch->corners[0].z - height * 2;
+    scratch->corners[0].z = top_z;
+    scratch->corners[1].z = top_z;
     scratch->ordering_depth = RotTransPers4(
         (void *)&scratch->corners[0], (void *)&scratch->corners[1],
         vertex2, vertex3,
-        screen_xy0, screen_xy1, screen_xy2, screen_xy3, depth_cue, transform_flags,
-        (top_z = scratch->corners[0].z - height * 2,
-         scratch->corners[0].z = top_z,
-         scratch->corners[1].z = top_z,
-         unused_arg)) - 8;
+        screen_xy0, screen_xy1, screen_xy2, screen_xy3, depth_cue, transform_flags) - 8;
 
     textured_quad->x0 = scratch->screen[0].x;
     textured_quad->y0 = scratch->screen[0].y;
@@ -219,22 +210,22 @@ void draw_textured_sprite_quad(void *sprite_arg, s32 position) {
     render_state = g_game_work.draw_buffer;
     scratch->ordering_table = (s32)((u8 *)render_state + 0xB0);
     draw_mode = render_state->packetCursor;
-    render_state->packetCursor = draw_mode + 0xC;
-    SetDrawMode(draw_mode, 1, 0, texture_page & 0xFFFF, &D_800D0A40);
+    render_state->packetCursor = draw_mode + 1;
+    SetDrawMode(draw_mode, 1, 0, texture_page, &D_800D0A40);
     AddPrim((u8 *)scratch->ordering_table + (scratch->ordering_depth * 4), draw_mode);
     AddPrim((u8 *)scratch->ordering_table + (scratch->ordering_depth * 4), overlay_quad);
 
     render_state = g_game_work.draw_buffer;
     draw_mode = render_state->packetCursor;
-    render_state->packetCursor = draw_mode + 0xC;
+    render_state->packetCursor = draw_mode + 1;
     SetDrawMode(draw_mode, 1, 0,
-        GetTPage(0, 1, 0x140, 0) & 0xFFFF, 0);
+        GetTPage(0, 1, 0x140, 0), 0);
     AddPrim((u8 *)scratch->ordering_table + (scratch->ordering_depth * 4), draw_mode);
     AddPrim((u8 *)scratch->ordering_table + (scratch->ordering_depth * 4), textured_quad);
 
     render_state = g_game_work.draw_buffer;
     draw_mode = render_state->packetCursor;
-    render_state->packetCursor = draw_mode + 0xC;
-    SetDrawMode(draw_mode, 1, 0, texture_page & 0xFFFF, texture_window);
+    render_state->packetCursor = draw_mode + 1;
+    SetDrawMode(draw_mode, 1, 0, texture_page, &texture_window);
     AddPrim((u8 *)scratch->ordering_table + (scratch->ordering_depth * 4), draw_mode);
 }

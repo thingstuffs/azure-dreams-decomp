@@ -1,8 +1,18 @@
 #ifndef DUNGEON_EFFECT_MESH_H
 #define DUNGEON_EFFECT_MESH_H
 #include "common.h"
+#include "shared/sprite_part_command.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
+
+typedef struct MeshEffectOrigin {
+    Fixed1616 x;
+    Fixed1616 y;
+    Fixed1616 z;
+} MeshEffectOrigin;
+
+/* The interpolated line publishes its three 16.16 coordinates to its mesh and sprite effects. */
+extern MeshEffectOrigin *effect_position_source;
 
 /* One four-byte coordinate record in the mesh renderer's variable-length tile list. */
 typedef struct MeshEffectObjectBody {
@@ -23,8 +33,8 @@ typedef struct TerrainSeekingColoredPointBody {
     u8 pad_14[0xA0];
     s32 z_velocity;
 } TerrainSeekingColoredPointBody;
-void advance_colored_point_toward_terrain(TerrainSeekingColoredPointBody *object, s16 *position);
-s32 project_colored_point_to_ordering_table(TerrainSeekingColoredPointBody *render_data, u8 *source_vertex);
+void advance_colored_point_toward_terrain(TerrainSeekingColoredPointBody *object, ObjectPosition *position);
+s32 project_colored_point_to_ordering_table(TerrainSeekingColoredPointBody *render_data, ObjectPosition *position);
 /* Projectile callback work at node +0x20. The +0x98 sprite template is
  * installed in sprite->source and its +8 byte is alternated during impact. */
 typedef struct ProjectileEffect {
@@ -87,8 +97,8 @@ typedef struct LinkedEffectControllerBody {
     void *field04;
     void *field08;
     void *field0C;
-    union { s32 s; u8 *u; } field10;
-    s32 field14;
+    SpritePartCommand *command;
+    ObjectPosition *last_position;
     u8 pad_18[0x10];
     union { s16 s; volatile u16 u; u16 p; } field28;
     u8 pad_2A[0x4];

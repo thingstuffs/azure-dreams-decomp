@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -11,7 +12,6 @@
 #include "dungeon/effect/screen.h"
 #include "dungeon/monster/dreamin.h"
 
-extern void *actor_update_node_cursor;
 extern u8 dreamin_action_continuation_address;
 extern u8 D_80173894[];
 

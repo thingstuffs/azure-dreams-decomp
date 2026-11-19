@@ -1,6 +1,6 @@
 #include "common.h"
+#include "dungeon/monster/beldo_large_data.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80175D54.h"
 #include "dungeon/monster/beldo_large.h"
 #include "sdk/libgte.h"
 #include "dungeon/data.h"
@@ -12,12 +12,12 @@ typedef struct S_8016F5D8_0 {
     s32 unk_2C;
 } S_8016F5D8_0;   /* arg2 in update_phase_driven_motion_offset */
 
-extern u8 *beldo_script_node;
 
 /* Advances the phase-driven offset and writes the adjusted output value. */
 /* Updates Beldo's vertical bob from the current sprite table, with different phase speeds and amplitudes
  * by frame. */
 void update_phase_driven_motion_offset(ActorRecord *state, ObjectPosition *output, S_8016F5D8_0 *command) {
+    ActorRecord *owner;
     s32 command_table;
     s32 phase;
     s32 fast_count;
@@ -62,5 +62,6 @@ void update_phase_driven_motion_offset(ActorRecord *state, ObjectPosition *outpu
             state->unk_A0.value += rsin(phase) << 6;
         }
     }
-    output->z.w.i = (s16) ((((Rec_D_80175D54 *)beldo_script_node)->unk_A8 + state->unk_90.parts.high) - state->unk_A0.parts.high);
+    owner = NODE_BODY(beldo_script_node);
+    output->z.w.i = (s16) (((u16)owner->ground_height + state->unk_90.parts.high) - state->unk_A0.parts.high);
 }

@@ -1,7 +1,10 @@
 #ifndef DUNGEON_RESOURCE08_SLOT0_H
 #define DUNGEON_RESOURCE08_SLOT0_H
 #include "shared/dungeon_effect_status.h"
+#include "shared/sound_state.h"
+#include "dungeon/globals.h"
 #include "engine/node/registration.h"
+#include "engine/graphics/select_sprite_entry_api.h"
 struct ObjectPosition;
 struct ObjectPosition;
 #include "common.h"
@@ -294,7 +297,6 @@ void advance_sprite_animation_and_textures(void *entity);
 s32 refresh_actor_facing_and_lifecycle();
 s16 sample_terrain_surface_height();
 s32 resolve_record_orientation_or_fallback();
-void select_sprite_entry();
 void func_80047784(void *object_data, s16 table_index, s16 entry_index);
 s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 #include "dungeon/item/find_active_rect_containing_point_api.h"
@@ -350,11 +352,9 @@ extern u8 griffon_frame_set_4[];
 extern u8 griffon_frame_set_6[];
 extern u8 griffon_frame_set_1[];
 extern u8 griffon_move_direction_frames[];
-extern u8 actor_turn_angle_offsets[];
 extern u8 D_80174C4C[];
 extern u8 D_80174C54[];
 extern u8 griffon_frame_set[];
-extern u8 actor_update_node_cursor[];
 extern u8 griffon_frame_set_5[];
 extern u8 griffon_frame_set_2[];
 extern u8 griffon_frame_set_14[];
@@ -363,8 +363,6 @@ extern u8 D_80174D14[];
 extern u8 D_80174D08[];
 extern u8 griffon_transition_sprite_source[];
 extern u8 resource_completion_callback_address[];
-extern u8 cd_cue_base[];
-extern u8 actor_effect_color_targets[];
 extern u8 dungeon_resource_buffer[];
 extern u8 D_80174CF4[];
 extern u8 D_80174CFC[];

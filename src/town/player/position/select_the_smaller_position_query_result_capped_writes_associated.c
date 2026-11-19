@@ -12,30 +12,29 @@ typedef struct {
 } LocalRecord;
 typedef struct { s32 x; s32 y; s32 z; } Vec3i;
 s16 select_lowest_corrected_probe(Vec3i *origin, Vec4i *items, s32 count, s32 *best_item, s32 best_value, s32 initial_item);
-extern s32 town_collision_motion[];
 
 /* Selects the smaller position query result, capped at 64, and writes its associated value. */
 s16 query_capped_surface_height(void *position_data, s32 *out_value) {
     s32 *position;
     LocalRecord local_pos;
     s32 query_value;
-    s32 *height_base;
+    ObjectPosition *motion;
     s32 *query_value_ptr;
     s32 result;
     s16 min_result;
     s16 candidate_result;
 
     position = position_data;
-    height_base = town_collision_motion;
+    motion = &town_collision_motion;
     query_value_ptr = &query_value;
     local_pos.x = position[0];
     local_pos.y = position[1];
-    local_pos.z = position[2] - height_base[5];
+    local_pos.z = position[2] - motion->velocity_z;
     min_result = find_min_qualifying_plane_height_at(&local_pos, query_value_ptr);
     *out_value = query_value;
     local_pos.x = position[0];
     local_pos.y = position[1];
-    local_pos.z = position[2] - height_base[5];
+    local_pos.z = position[2] - motion->velocity_z;
     candidate_result = select_lowest_corrected_probe(&local_pos, town_corrected_probe_samples, 4, query_value_ptr, min_result, *out_value);
     if (candidate_result < min_result) {
         min_result = candidate_result;

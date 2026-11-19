@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "dungeon/monster/beldo_large_data.h"
 #include "dungeon/effect/sprite/create_coordinate_sprite_effect.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -27,7 +28,6 @@ typedef struct { u32 v; } __attribute__((packed)) UA32;
 typedef struct { UA32 word[8]; } __attribute__((packed)) Table32;
 
 extern Table32 D_8016482C;
-extern s32 beldo_actor_nodes;
 
 
 
@@ -54,8 +54,8 @@ void create_forward_layered_sprite_pulse(s32 unused_phase, void *unused_target_s
 
     direction_offsets = D_8016482C;
     effect_index = 0;
-    source_state = (void *)beldo_actor_nodes + 0x20;
-    source_pos = ((SpriteFrameState *)((void *)beldo_actor_nodes))->source;
+    source_state = NODE_BODY(beldo_actor_nodes);
+    source_pos = beldo_actor_nodes->position;
     do {
         effect = allocate_flagged_object_node(0x212);
         if (effect != NULL) {

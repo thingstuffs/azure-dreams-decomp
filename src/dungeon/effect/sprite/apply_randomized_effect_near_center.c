@@ -1,4 +1,5 @@
 #include "shared/sprite_frame_state.h"
+#include "dungeon/player/object.h"
 #include "dungeon/actor/spell_resource_ids_data.h"
 #include "common.h"
 #include "dungeon/system/random.h"
@@ -9,13 +10,6 @@
 #include "dungeon/actor/state.h"
 #include "dungeon/effect/sprite.h"
 
-typedef struct S_8185C860_0 {
-    void * unk_00;
-    u8 pad_04[0x6C];
-    s32 unk_70;
-} S_8185C860_0;
-
-s32 check_entity_interaction_compatibility();
 
 /* Apply a randomized effect to eligible targets within two tiles of the center. */
 void apply_randomized_effect_near_center(s16 center_x, s16 center_y, ActorRecord *source, s32 power) {
@@ -24,10 +18,10 @@ void apply_randomized_effect_near_center(s16 center_x, s16 center_y, ActorRecord
     s32 effect_value;
     s32 distance_x;
     s32 distance_y;
-    u8 *target;
+    ActorRecord *target;
     SpriteFrameState *position;
 
-    target = ((u8 *)dungeon_actor_ring_anchor);
+    target = dungeon_actor_ring_anchor;
     base_value = (s16)(((u32)(power & 0xFF) >> 2) + 0x10);
     do {
         if ((check_entity_interaction_compatibility(source, target) << 0x10) != 0) {
@@ -53,7 +47,7 @@ void apply_randomized_effect_near_center(s16 center_x, s16 center_y, ActorRecord
                 }
             }
         }
-        target = ((S_8185C860_0 *)(target - 0x14))->unk_70 + 0x20;
-    } while (target != ((u8 *)dungeon_actor_ring_anchor));
+        target = NODE_BODY(target->next_actor_header);
+    } while (target != dungeon_actor_ring_anchor);
 }
 

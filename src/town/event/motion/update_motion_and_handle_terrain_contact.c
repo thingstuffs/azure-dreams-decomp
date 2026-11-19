@@ -31,7 +31,7 @@ typedef struct S_8009B6B4_2 {
 
 
 /* Update object motion, handle contact, and play the tile height sound. */
-void update_motion_and_handle_terrain_contact(void *object, Rec_D_800CFCB4 *collision, ObjectPosition *motion, s32 callback_arg) {
+void update_motion_and_handle_terrain_contact(void *object, struct ColliderView *collision, ObjectPosition *motion, s32 callback_arg) {
     s16 contact_height;
     s32 contact_height_ext;
 
@@ -47,7 +47,7 @@ void update_motion_and_handle_terrain_contact(void *object, Rec_D_800CFCB4 *coll
     if (motion->z.w.i >= contact_height_ext) {
         stop_at_max_z(collision, motion, contact_height_ext);
         ((Callback *)(*(void **)((u8 *)object + 0x58)))[1](object, collision, motion, callback_arg);
-    } else if (collision->unk_3B != 0) {
+    } else if (collision->pending_flags[1] != 0) {
         motion->velocity_z = 0;
         ((Callback *)(*(void **)((u8 *)object + 0x58)))[1](object, collision, motion, callback_arg);
     }

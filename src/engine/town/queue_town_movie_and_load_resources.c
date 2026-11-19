@@ -8,7 +8,6 @@
 #include "slus.h"
 #include "slus/data.h"
 
-extern MovieListNode town_movie_callback_list;
 
 /* Append the runtime entry, copy two VRAM strips, and run the associated updates. */
 void queue_town_movie_and_load_resources(void) {

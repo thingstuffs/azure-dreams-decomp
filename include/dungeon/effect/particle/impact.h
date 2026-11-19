@@ -16,7 +16,6 @@ typedef struct {
     OffsetPair entries[8];
 } OffsetTable;
 extern const OffsetTable D_80024028;
-struct S_80024AE8_3;
 struct S_80024BF4_1;
 struct S_80024BF4_2;
 struct S_80024BF4_4;
@@ -25,9 +24,10 @@ struct S_80025FB0_1;
 struct S_func_80026418_0;
 void *find_impact_surface_polygon(s32, s32, s16);
 s32 random_below_limit(s32);
-void create_shrinking_entry_particle_effect(s32 effect_value, struct S_80024AE8_3 *position);
+void create_shrinking_entry_particle_effect(struct ObjectNodeHeader *target, ObjectPosition *position);
 void project_visible_textured_quad(struct S_80024BF4_4 *quad, struct ObjectPosition *position, struct SpriteFrameState *render_state, s16 depth_bias);
-void spawn_randomized_textured_particles(s32, s32, s16, s16);
+struct OwnerFollowingWork;
+void spawn_randomized_textured_particles(struct OwnerFollowingWork *source, s32 center_x, s16 center_y, s16 center_z);
 /* Retail callers pass promoted scalar words; the callee reads their low halves. */
 s32 func_80025CE8(s32, s32, s32, s32);
 void copy_effect_transform(struct S_80025FB0_1 *dst, struct S_80025FB0_0 *src);
@@ -58,12 +58,10 @@ typedef struct ImpactParticleWork {
 
 void scale_effect_by_phase(void *);
 void update_impact_particle_slow_shrink(ImpactParticleWork *, struct ObjectPosition *, struct SpriteFrameState *);
-struct S_800247C0_0;
-struct S_800247C0_2;
-void shrink_effect_and_spawn_particles(struct S_800247C0_0 *, struct S_800247C0_2 *);
+struct ShrinkingEntryEffectBody;
+void shrink_effect_and_spawn_particles(struct ShrinkingEntryEffectBody *, ObjectPosition *);
 s32 draw_linked_meshes(void *, void *, void *);
 void advance_rotating_ballistic_particle_and_expire(ImpactParticleWork *, struct ObjectPosition *, struct SpriteFrameState *);
-struct OwnerFollowingWork;
 void update_owner_following_effect(struct OwnerFollowingWork *, struct ObjectPosition *, struct SpriteFrameState *);
 void update_impact_particle_fast_shrink(ImpactParticleWork *, struct ObjectPosition *, struct SpriteFrameState *);
 #endif

@@ -4,6 +4,7 @@
 /* Present C interface; historical filename and TU boundary remain inferred. */
 #include "common.h"
 #include "engine/audio/sequence.h"
+#include "engine/audio/ram_block.h"
 
 
 typedef struct {
@@ -35,8 +36,6 @@ typedef struct {
 } S_80057A94_msg;
 
 extern s32 SpuSetReverbModeParam(void *settings);
-
-extern u8 sound_ram_reserve_mode[0x10];
 
 /* Apply a command value to a cell field or dispatch a control message. */
 

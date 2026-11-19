@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "dungeon/monster/beldo_large_data.h"
 #include "dungeon/monster/beldo_large.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -19,7 +20,6 @@ typedef struct {
 } Copy48;
 
 extern u8 encounter_overlay_work[0x3A81];
-extern void *beldo_actor_nodes;
 
 /* Creates an object from the current object's data and initializes its position and appearance. */
 void create_secondary_encounter_object(void) {
@@ -31,7 +31,7 @@ void create_secondary_encounter_object(void) {
     SecondaryEncounterObjectBody *body;
     void *body_storage;
 
-    source_data = ((ObjectNodeHeader *)beldo_actor_nodes)->sprite;
+    source_data = beldo_actor_nodes->sprite;
     object = allocate_flagged_object_node(0x112);
     if (object != NULL) {
         render_data = object->sprite;

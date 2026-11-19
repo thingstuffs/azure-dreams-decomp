@@ -1,4 +1,5 @@
 #include "dungeon/actor.h"
+#include "shared/record_ptrs.h"
 #include "engine/graphics.h"
 #include "common.h"
 #include "engine/node/registration.h"
@@ -35,7 +36,6 @@ typedef struct {
 extern Vec3sTable D_80170838;
 extern Vec3sTable D_8017084C;
 extern u8 viper_action_continuation_address[];
-extern void *actor_update_node_cursor[];
 extern s32 draw_fading_linked_quads();
 extern u8 D_80174A8C;
 extern u8 D_80174A94;
@@ -259,7 +259,7 @@ void update_staged_movement_and_restore_actor(ActorRecord *body, ObjectPosition 
         if (actor->pending_turn_updates == 0) {
             actor->action_flags = (u16) (actor->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
         } else {
-            *actor_update_node_cursor = NODE_HEADER(actor);
+            actor_update_node_cursor = NODE_HEADER(actor);
         }
         actor_handle = actor->target;
         if (actor_handle == 0) {

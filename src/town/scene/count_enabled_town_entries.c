@@ -1,26 +1,25 @@
 #include "common.h"
+#include "town/scene/indexed_values_data.h"
 #include "town/scene.h"
 #include "town/player/state.h"
-
-extern u8 town_selection_records[96];
 
 /* Counts entries 1 through 7 whose associated town selection flag is set. */
 s32 count_enabled_town_entries(void) {
     s32 matchingEntryCount;
     s32 entryIndex;
-    u8 *entry;
-    u8 *entryTable;
+    TownIndexedValueRecord *entry;
+    TownIndexedValueRecord *entryTable;
 
     matchingEntryCount = 0;
     entryIndex = 1;
     entryTable = town_selection_records;
-    entry = entryTable + 0xC;
+    entry = entryTable + 1;
     do {
-        if (get_script_flag_mask(*(s16 *)(entry + 4)) != 0) {
+        if (get_script_flag_mask(entry->flag) != 0) {
             matchingEntryCount += 1;
         }
         entryIndex += 1;
-        entry += 0xC;
+        entry++;
     } while (entryIndex < 8);
     return matchingEntryCount;
 }

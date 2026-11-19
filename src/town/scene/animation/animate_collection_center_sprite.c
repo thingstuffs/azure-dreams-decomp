@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/collection.h"
 #include "sdk/libc.h"
 #include "town/scene/animation.h"
 #include "shared/sprite_frame_state.h"
@@ -29,8 +30,6 @@ typedef struct {
     u8 pad[16];
 } LocalRecord;
 
-extern s32 town_motion_state;
-extern volatile s32 collection_target_y;
 extern s16 D_80132AF2;
 extern PackedRect D_80526470;
 extern u8 D_8053067C[];
@@ -77,7 +76,7 @@ void animate_collection_center_sprite(CollectionCenterControlBody *ctrl, ObjectP
     s32 case5_old;
     s32 case5_next;
 
-    dx = (town_motion_state - 0x03600000) >> 16;
+    dx = (town_motion_state.x.v - 0x03600000) >> 16;
     dy = (collection_target_y - 0x03600000) >> 16;
     work = (S_8080EEC4_3 *)ctrl->work;
     old_angle = view->angle_z;
@@ -90,10 +89,10 @@ void animate_collection_center_sprite(CollectionCenterControlBody *ctrl, ObjectP
 
     if (distance < (collection_target_y > 0x035FFFFF ? 0xB9 : 0xC1)) {
         if (D_80132AF2 >= setup->z.w.i) {
-            town_motion_state = ctrl->unk_04;
+            town_motion_state.x.v = ctrl->unk_04;
             collection_target_y = (*(s32 *)((u8 *)ctrl + (8)));
         }
-        (*(s32 *)((u8 *)ctrl + (0x58))) = town_motion_state;
+        (*(s32 *)((u8 *)ctrl + (0x58))) = town_motion_state.x.v;
         ctrl->unk_5C = collection_target_y;
         if (distance < 0x80) {
             ctrl->unk_62 -= (0x80 - distance) >> 1;
@@ -103,7 +102,7 @@ void animate_collection_center_sprite(CollectionCenterControlBody *ctrl, ObjectP
         early_far = distance < 0xD1;
         if (early_far) {
             if (D_80132AF2 >= setup->z.w.i) {
-                town_motion_state = ctrl->unk_04;
+                town_motion_state.x.v = ctrl->unk_04;
                 collection_target_y = (*(s32 *)((u8 *)ctrl + (8)));
             }
     
@@ -116,12 +115,12 @@ void animate_collection_center_sprite(CollectionCenterControlBody *ctrl, ObjectP
                 if (dx_abs > dy_abs || collection_target_y <= 0x033FFFFF) {
                     ctrl->unk_5C = collection_target_y;
                     if (dx > 0) {
-                        ctrl->unk_58 = town_motion_state - 0x00280000;
+                        ctrl->unk_58 = town_motion_state.x.v - 0x00280000;
                     } else {
-                        ctrl->unk_58 = town_motion_state + 0x00280000;
+                        ctrl->unk_58 = town_motion_state.x.v + 0x00280000;
                     }
                 } else {
-                    ctrl->unk_58 = town_motion_state;
+                    ctrl->unk_58 = town_motion_state.x.v;
                     if (dy > 0) {
                         ctrl->unk_5C = collection_target_y - 0x00280000;
                     } else {
@@ -136,7 +135,7 @@ void animate_collection_center_sprite(CollectionCenterControlBody *ctrl, ObjectP
     
     }
 
-    (*(s32 *)((u8 *)ctrl + (4))) = town_motion_state;
+    (*(s32 *)((u8 *)ctrl + (4))) = town_motion_state.x.v;
     ctrl->unk_08 = collection_target_y;
 
     value = work->unk_14 /

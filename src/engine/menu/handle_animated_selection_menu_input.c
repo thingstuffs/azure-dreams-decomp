@@ -6,8 +6,6 @@
 #include "engine/menu.h"
 #include "slus.h"
 
-typedef struct S_8004FA2C S_8004FA2C;
-
 /* Update menu selection from directional and side-switch input, with key repeat and sound. */
 void handle_animated_selection_menu_input(AnimatedSelectionMenuBody *menu) {
     GameWork *input;

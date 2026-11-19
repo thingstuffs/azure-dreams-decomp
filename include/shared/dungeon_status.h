@@ -38,6 +38,8 @@ typedef struct DungeonGlobalStatus {
 } DungeonGlobalStatus;
 
 extern DungeonGlobalStatus g_dungeon_status;
+/* Set when a dungeon action event starts and cleared when its pending count is released. */
+extern signed char dungeon_event_pending_flag;
 /* g_dungeon_status.active_actor (0x8008346C) declared as its own word: the troll targeted-action update clears and
  * tests it with its own lui, apart from the &g_dungeon_status base it also takes, which the member spelling
  * would share. */

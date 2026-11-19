@@ -205,7 +205,7 @@ extern void *actor_direction_sprites;
 
 /* Ordinary declaration: the private selector authenticates this one
  * returning tail by qid/geometry/context instead of using an asm symbol alias. */
-extern void *create_jittering_effect(void *, s32, s32, s32, ObjectPosition *, s32, s16, s32, s32);
+extern ObjectNodeHeader *create_jittering_effect(void *, s32, s32, s32, ObjectPosition *, SpritePartCommand *, s16, ObjectPosition *, s32);
 
 /* Updates source-relative position, delays movement, and advances an arc toward the target. */
 void update_delayed_arc_effect(LinkedEffectControllerBody *self, ObjectPosition *coords)
@@ -217,16 +217,15 @@ void update_delayed_arc_effect(LinkedEffectControllerBody *self, ObjectPosition 
     s32 start_z;
     s16 state;
     void *source_or_step;
-    void *iteration;
+    s32 iteration;
     S_8199AAD4_6 *target_node;
     S_8199AAD4_8 *call_node;
     MovingPosition *position;
     void *entry_base;
     S_8199AAD4_5 *object_entry;
-    DelayMotionZ *created;
-    u8 *table_end;
-    u8 *table_start;
-    u8 *table_start_2;
+    ObjectNodeHeader *created;
+    SpritePartCommand *table_end;
+    SpritePartCommand *table_start_2;
     s32 entry_offset;
     s32 arc_height;
     s32 flags_value;
@@ -298,9 +297,9 @@ finish:
         return;
 
     case 2:
-        iteration = NULL;
-        table_end = D_80024AE0;
-        table_start_2 = table_end - 0x54;
+        iteration = 0;
+        table_end = (SpritePartCommand *)D_80024AE0;
+        table_start_2 = table_end - 7;
 loop_top:
         object_entry = self->field04;
         start_x = coords->x.w.i;
@@ -333,11 +332,11 @@ loop_top:
             (arc_height << 7);
 
         created = create_jittering_effect(self->field08, start_x, start_y, start_z,
-                                coords, self->field10.s, 4,
-                                self->field14, iteration);
+                                coords, self->command, 4,
+                                self->last_position, iteration);
         if (created != NULL) {
             self->field08 = created;
-            self->field14 = created->unk_08;
+            self->last_position = created->position;
         }
 
         count = self->field2E.p - 1;
@@ -346,11 +345,11 @@ loop_top:
             goto finish;
         }
 
-        self->field10.u += 0xC;
-        if (self->field10.u >= table_end) {
-            self->field10.u = table_start_2;
+        self->command++;
+        if (self->command >= table_end) {
+            self->command = table_start_2;
         }
-        iteration = (u8 *)iteration + 1;
+        iteration++;
         goto loop_top;
     }
 }
@@ -363,33 +362,26 @@ loop_top:
 #define NULL 0
 #endif
 
-typedef struct Node {
-    char pad00[0x10];
-    void *field10;
-    char pad14[0xC];
-    void *field20;
-} Node;
 
-#define D_800242D4 ((char *)update_delayed_arc_effect)
-extern char D_80024A8C[];
+extern SpritePartCommand D_80024A8C[7];
 
 /* Allocate a node and initialize its child with supplied values and shared source data. */
 void create_linked_effect_controller(ObjectNodeHeader *node_value, void *child_value)
 {
-    Node *node;
+    ObjectNodeHeader *node;
     LinkedEffectControllerBody *child;
     ActorRecord *source;
-    void *callback;
+    SpritePartCommand *command;
     u16 source_value;
 
     node = allocate_list_node(0x10, &scene_object_list_anchor.next);
     if (node != NULL) {
-        child = (LinkedEffectControllerBody *)((char *)node + 0x20);
-        node->field10 = D_800242D4;
-        callback = D_80024A8C;
+        child = NODE_BODY(node);
+        node->update_callback = update_delayed_arc_effect;
+        command = D_80024A8C;
         source = primary_actor_record;
-        child->field10.u = callback;
-        node->field20 = node_value;
+        child->command = command;
+        child->field00 = node_value;
         child->field04 = &scene_object_list_anchor.next;
         source_value = source->ground_height;
         child->field0C = child_value;

@@ -9,13 +9,13 @@ struct SpriteFrameState;
 
 s16 clamp_transform_coordinate_deltas(s32 x, s32 y, void *origin);
 s16 get_cached_or_coordinate_transform_value(TownObjectRecord *object, void *lookup_mode);
-void reset_heading_and_update_object(TownObjectRecord *object, void *update_context, void *setup_context);
-void apply_object_setup_update(void *object, void *callback_arg_1, struct SpriteFrameState *callback_arg_2);
+void reset_heading_and_update_object(TownObjectRecord *object, ObjectPosition *update_context, struct SpriteFrameState *setup_context);
+void apply_object_setup_update(TownObjectRecord *object, ObjectPosition *callback_arg_1, struct SpriteFrameState *callback_arg_2);
 struct EntityRec;
-void advance_object_position(TownObjectRecord *context, struct EntityRec *object, struct SpriteFrameState *finish_arg);
+void advance_object_position(TownObjectRecord *context, struct ObjectPosition *object, struct SpriteFrameState *finish_arg);
 void move_position_toward_target(void *work_data, struct ObjectPosition *position_data, void *completion_arg);
-void initialize_object_handlers(TownObjectRecord *object, void *unused_context, void *unused_setup);
-s32 select_object_setup_path(void *object, void *request_data, void *request_param);
+void initialize_object_handlers(TownObjectRecord *object, ObjectPosition *unused_context, struct SpriteFrameState *unused_setup);
+s32 select_object_setup_path(void *object, ObjectPosition *request_data, struct SpriteFrameState *request_param);
 
 struct TownObjectRecord;
 void initialize_two_value_adjustment_action(struct TownObjectRecord *actor, s32 unused, void *init_param);

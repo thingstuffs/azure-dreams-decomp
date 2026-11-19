@@ -66,5 +66,5 @@ extern u8 directional_particle_node_callback[];
 extern u8 directional_particle_callback[];
 extern u8 D_800249DC[];
 void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg);
-s32 project_linked_vertical_point_quads(void *sprite_data, void *position);
+s32 project_linked_vertical_point_quads(void *sprite_data, struct ObjectPosition *position);
 #endif

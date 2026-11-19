@@ -1,17 +1,11 @@
 #include "common.h"
+#include "town/shop/item_lookup.h"
 #include "engine/scene.h"
 #include "slus.h"
 #include "engine/entity.h"
 #include "engine/util.h"
 
-/* "self" object updated by this function (destination of the field copy). */
-typedef struct S_800422DC_Self {
-    u8  pad0[0x4C];
-    u8  f4C;
-    u8  f4D;
-    u8  pad4E[2];
-    s32 f50;
-} S_800422DC_Self;
+typedef struct S_800422DC_Self S_800422DC_Self;
 
 /* "other" object read/prepped by this function (source of the field copy). */
 typedef struct S_800422DC_Other {

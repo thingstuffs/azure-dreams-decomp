@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/record_queries.h"
 #include "town/scene.h"
 
 
@@ -6,7 +7,6 @@
 #define NULL 0
 #endif
 
-extern s32 get_current_nested_record_value(); /* Unprototyped: zero or one argument; retail reads no incoming argument. */
 extern s32 D_8001A20C;
 extern s32 D_8001A2E7;
 extern s32 D_8001A348;

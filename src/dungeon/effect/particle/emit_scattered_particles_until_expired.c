@@ -89,7 +89,7 @@ void emit_scattered_particles_until_expired(Entity *self, Position *origin, s32 
     tick_count = self->timer - 1;
     self->timer = tick_count;
     if ((tick_count << 16) <= 0) {
-        u16 *global_count = &emitted_effect_counter;
+        u16 *global_count = emitted_effect_counter;
         u16 remaining_count;
 
         *((u16 *)self - 1) |= 0x8000;

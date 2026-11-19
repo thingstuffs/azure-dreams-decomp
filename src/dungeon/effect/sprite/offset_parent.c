@@ -1,10 +1,11 @@
 #include "sdk/libgte_matrix.h"
+#include "shared/entity.h"
 #include "dungeon/effect/sprite/offset_parent.h"
 #include "dungeon/effect/sprite.h"
 
 
 /* Projects two vertical points per linked node and queues a textured quad using the node's tile index. */
-s32 project_linked_vertical_point_quads(void *sprite_data, void *position)
+s32 project_linked_vertical_point_quads(void *sprite_data, ObjectPosition *position)
 {
     SVECTOR world_pos;
     s16 screen_points[4];
@@ -23,7 +24,7 @@ s32 project_linked_vertical_point_quads(void *sprite_data, void *position)
     s32 uv;
     s32 uv_low;
     s32 uv_high;
-    s32 node;
+    ObjectNodeHeader *node;
     u16 half_width;
     u16 center_x;
     u32 table_offset;
@@ -33,9 +34,9 @@ s32 project_linked_vertical_point_quads(void *sprite_data, void *position)
     scratch_base = &scratch;
 loop:
     uv_source = sprite_data;
-    world_pos.vx = *(u16 *)((u8 *)position + 2);
-    world_pos.vy = *(u16 *)((u8 *)position + 6);
-    world_pos.vz = *(u16 *)((u8 *)position + 0xA) - 0x20;
+    world_pos.vx = position->x.w.i;
+    world_pos.vy = position->y.w.i;
+    world_pos.vz = position->z.w.i - 0x20;
     point_index = 0;
     screen_cursor = screen_base;
     do {
@@ -90,11 +91,11 @@ loop:
             ((u32)primitive & 0x00FFFFFF);
     }
 
-    node = *(s32 *)((u8 *)sprite_data - 8);
-    uv_source = (u8 *)node + 0x20;
+    node = NODE_HEADER(sprite_data)->chain_next;
+    uv_source = NODE_BODY(node);
     sprite_data = uv_source;
     if (node != 0) {
-        position = *(void **)(node + 8);
+        position = node->position;
         goto loop;
     }
     {

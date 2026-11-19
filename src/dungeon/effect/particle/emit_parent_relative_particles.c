@@ -103,7 +103,7 @@ void emit_parent_relative_particles(void *emitter_arg, ObjectPosition *position,
     lifetime = emitter->unk_1E - 1;
     emitter->unk_1E = lifetime;
     if ((lifetime << 0x10) <= 0) {
-        u16 *active_count = &emitted_effect_counter;
+        u16 *active_count = emitted_effect_counter;
         u16 next_active_count;
 
         (*(u16 *)((u8 *)emitter + -2)) = (u16) (((S_7FFE89B0_0_pre *)emitter)[-1].unk_00 | 0x8000);

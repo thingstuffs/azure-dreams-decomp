@@ -5,25 +5,20 @@
 #include "shared/sprite_frame_state.h"
 #include "engine/node.h"
 #include "town/map/state.h"
-
-struct town_inactive_object {
-    s8 pad00[0x98];
-    u8 *field_98;
-    u8 *field_9C;
-};
+#include "town/map/effect.h"
 
 /* Mark inactive objects or advance their wrapped 12-bit state value. */
-void spin_object_until_flag_clears(struct town_inactive_object *obj, void *unused, SpriteFrameState *sprite)
+void spin_object_until_flag_clears(MapParticleEffect *effect, ObjectPosition *unused_position, SpriteFrameState *sprite)
 {
     s32 t;
-    if (*obj->field_98 == 0) {
-        unlink_node_if_registered(obj);
-        NODE_HEADER(obj)->flags |= NODE_REMOVE;
+    if (*effect->active_flag == 0) {
+        unlink_node_if_registered(effect);
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 
-    sprite->angle_z += *(s8 *)(obj->field_9C + 0x97);
+    sprite->angle_z += effect->parent->index;
     t = sprite->angle_z;
     sprite->angle_z = t & 0xFFF;
 }

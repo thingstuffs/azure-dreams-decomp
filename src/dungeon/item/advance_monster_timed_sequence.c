@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/player/camera_depth_presets_data.h"
 #include "dungeon/item.h"
 #include "shared/sys_flags.h"
 #include "shared/entity_objects.h"
@@ -15,7 +16,6 @@ typedef struct S_8009F868_0 {
     u8 * unk_0C;
 } S_8009F868_0;   /* state in advance_monster_timed_sequence */
 
-extern u8 dungeon_camera_targets[16];
 
 /* Advances a timed sequence, following relative jumps and handling its end. */
 void *advance_monster_timed_sequence(void)
@@ -39,7 +39,7 @@ void *advance_monster_timed_sequence(void)
         bind_view_triplet_source(((&view_reference_entity)));
         g_game_work.view.slot[2].callback = 0;
         queue_view_slot(1);
-        set_camera_targets(0, dungeon_camera_targets, 8);
+        set_camera_targets(0, &dungeon_camera_targets.rotation, 8);
         return 0;
     }
 

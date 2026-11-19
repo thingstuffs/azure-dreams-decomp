@@ -5,7 +5,7 @@
 
 #include "common.h"
 
-struct S_8004FE78_a0;
+struct ObjectNodeHeader;
 
 /* refresh_items_and_add_counter.c */
 void refresh_items_and_add_counter(void);
@@ -21,7 +21,7 @@ void clear_resident_bit(s16 value);
 s32 create_animated_selection_menu_entries(AnimatedSelectionMenuBody *state);
 
 /* destroy_animated_selection_menu.c */
-void destroy_animated_selection_menu(struct S_8004FE78_a0 *entity);
+void destroy_animated_selection_menu(struct ObjectNodeHeader *entity);
 
 /* poll_window_switch_flags.c */
 int poll_window_switch_flags(void);

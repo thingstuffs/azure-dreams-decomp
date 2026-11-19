@@ -1,3 +1,6 @@
+#include "dungeon/player/held_item_kind_data.h"
+#include "dungeon/player/camera_depth_presets_data.h"
+#include "shared/dungeon_floor.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_ids.h"
 /* Dungeon entry state, floor setup, player initialization, and opening camera movement. */
@@ -93,22 +96,18 @@ void initialize_floor_generation_state(void) {
     build_dungeon_floor();
     flag_page = D_80080AA0 - 0xAA0;
     flag_page[0xAA0] = 0;
-    {
-        flag_page = camera_transition_timer - 0x3D20;
-
-        flag_page[0x3D20] = 0;
-        set_continuation_value(generation_cells - 0x9C14);
-    }
+    camera_transition_timer = 0;
+    set_continuation_value(generation_cells - 0x9C14);
 }
 
 /* Clears floor items and dungeon activity state, records floor progress, and loads shared sprite assets. */
 void reset_dungeon_runtime_state(void) {
     u8 *init_flag_page;
-    s16 *progress_stats;
+    DungeonFloorGenerationState *progress_stats;
     s32 *reset_values;
 
     bzero((dungeon_ground_items), 0x100);
-    bzero(&dungeon_ground_item_positions, 0x300);
+    bzero(dungeon_ground_item_positions, sizeof(dungeon_ground_item_positions));
     g_dungeon_status.activity_counts.parts.pending_movement_count = 0;
     g_dungeon_status.activity_counts.parts.pending_action_count = 0;
     g_dungeon_status.trap_counts.parts.pending_trap_count = 0;
@@ -132,12 +131,12 @@ void reset_dungeon_runtime_state(void) {
     D_800DCF58 = 1;
     scripted_boundary_active = 0;
     if (scene_mode_code != 5) {
-        progress_stats = floor_generation_state;
-        if (progress_stats[2] >= 0x64) {
-            progress_stats[2] = 0x63;
+        progress_stats = &floor_generation_state;
+        if (progress_stats->floor_number >= 0x64) {
+            progress_stats->floor_number = 0x63;
         }
-        if ((u32) D_80012D60 < (u32) progress_stats[2]) {
-            D_80012D60 = (s32) progress_stats[2];
+        if ((u32) D_80012D60 < (u32) progress_stats->floor_number) {
+            D_80012D60 = (s32) progress_stats->floor_number;
         }
     }
     init_flag_page = (u8 *)0x800E0000;
@@ -249,7 +248,7 @@ void initialize_dungeon_actor(void) {
     u8 actor_y;
     u16 display_setting;
     s32 lift_height;
-    dungeon_setup_802835B8_S_800165B8_8 *display_state;
+    DungeonCameraTargets *display_state;
     s32 bind_count;
     DungeonGlobalStatus *bind_state;
     u8 *bind_angle;
@@ -366,12 +365,13 @@ retry_position:
     entity_mask = 0xFFEFFFFF;
     ((dungeon_setup_802835B8_S_800165B8_5 *)entity)->unk_14 &= entity_mask;
     do {
+        dungeon_setup_802835B8_S_800165B8_3 *sprite = (dungeon_setup_802835B8_S_800165B8_3 *)state;
         texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(state, (&player_attack_frame_groups)[entry_index], 0, 0);
-        equipped_actor_sprite_sources[entry_index] = ((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_08;
+        equipped_actor_sprite_sources[entry_index] = sprite->unk_08;
         texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(state, (&player_attack_frame_groups_alt)[entry_index], 0, 0);
-        unequipped_actor_sprite_sources[entry_index] = ((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_08;
+        unequipped_actor_sprite_sources[entry_index] = sprite->unk_08;
         texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(state, (&player_attack_followup_frames)[entry_index], 0, 0);
-        D_800E3D48[entry_index] = ((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_08;
+        D_800E3D48[entry_index] = sprite->unk_08;
         entry_index--;
     } while (entry_index >= 0);
     actor_direction_sprites = unequipped_actor_sprite_sources;
@@ -437,19 +437,19 @@ retry_position:
         bind_state = &g_dungeon_status;
         table_base->view.camera_rotation.parts.camera_rotation_x = display_setting;
         height_index = *(u16 *)((u8 *)entry_index + 0x20A0);
-        *(u16 *)dungeon_camera_targets = display_setting;
+        dungeon_camera_targets.rotation.x = display_setting;
         lift_height = *(u16 *)((u8 *)camera_depth_presets + (s16)height_index * 2);
         display_value = ((u16)table_base->view.camera_rotation.parts.camera_rotation_y);
-        display_state = (dungeon_setup_802835B8_S_800165B8_8 *)dungeon_camera_targets;
-        display_state->unk_04 = 0;
-        (*(u16 *)((u8 *)display_state + 2)) = display_value;
+        display_state = &dungeon_camera_targets;
+        display_state->rotation.z = 0;
+        display_state->rotation.y = display_value;
         dungeon_menu_action_state[0] = 0;
         final_flags = bind_state->flags;
         *(void **)&dungeon_menu_action_state[1] = allocation;
         dungeon_menu_action_state[2] = 0;
         final_flags |= 2;
         bind_state->flags = final_flags;
-        display_state->dungeon_setup_802835B8_unk_06.s = lift_height;
+        display_state->depth = lift_height;
         ((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_26 =
             find_active_rect_containing_point((s32)call_target, tile_y, bind_state, lift_height);
     }
@@ -459,10 +459,10 @@ retry_position:
         s32 actor_lift;
 
         call_target = actor;
-        actor_lift = display_state->dungeon_setup_802835B8_unk_06.u;
+        actor_lift = display_state->depth;
         saved_held_item_word = 0;
-        held_item_record = 0;
-        temporary_item_record = 0;
+        *(s32 *)&held_item_record = 0;
+        *(u32 *)&temporary_item_record = 0;
         initialize_random_effect_position(call_target, actor_lift);
     }
     init_flags = ((dungeon_setup_802835B8_S_800165B8_10 *)(u8 *)entry_index)->unk_3714;

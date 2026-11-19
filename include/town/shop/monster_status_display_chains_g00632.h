@@ -3,6 +3,7 @@
 /* Build and join monster status display chains: shared declarations. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B8D04, CL:town/func_800B8D2C. */
 
+#include "town/shop/object.h"
 #include "common.h"
 #include "records/Rec_func_800B683C_arg0.h"
 #include "shared/item_menu.h"
@@ -17,13 +18,13 @@
 struct S_800491F4;
 extern u8 monster_status_chain_indices[];
 /* extern */
-void initialize_display_entry(s32, void *, s32);
+void initialize_display_entry(struct ActorRecord *, ItemMenuPart **, SpritePartCommand *);
 /* extern */
-void func_800B640C(s32, s32, s32);
+void func_800B640C(struct ActorRecord *, ItemMenuPart **, SpritePartCommand *);
 
 /* Functions defined in this translation unit. */
-void *link_monster_status_main_entries(s32 nodes);
-void join_monster_status_display_chains(ItemMenuPart *owner, s32 source);
-void build_monster_status_display(Rec_func_800B683C_arg0 *object);
+void *link_monster_status_main_entries(ItemMenuPart **nodes);
+void join_monster_status_display_chains(ItemMenuPart *owner, ItemMenuPart **source);
+void build_monster_status_display(ShopFirstCallbackObject *object);
 
 #endif

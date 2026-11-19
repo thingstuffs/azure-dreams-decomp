@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/action_handler_tables_data.h"
 #include "shared/object_node.h"
 #include "town/player/object.h"
 
@@ -6,7 +7,6 @@ extern void initialize_scene_action_record(void *buffer, s32 header_value08, s32
 extern void dispatch_selected_entry_if_nonzero(void *entries, void *record,void *handler_param);
 
 extern u8 scene_object_payload_alias[];
-extern u8 town_scene_record_handlers[];
 
 /* Clears the player's entity fields, selects its scene handlers, and initializes its action record. */
 void initialize_player_object_data(void) {

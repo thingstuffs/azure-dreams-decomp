@@ -1,4 +1,6 @@
 #include "shared/audio_commands.h"
+#include "shared/sound_state.h"
+#include "dungeon/globals.h"
 #include "shared/dungeon_image_buffer.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
@@ -37,11 +39,6 @@ typedef struct S_80174B20_2 {
     u8 unk_00;
 } S_80174B20_2;   /* &D_8017521D in advance_actor_replacement_sequence */
 
-typedef struct S_80174B20_4 {
-    u8 unk_00;
-    u8 unk_01;
-    u8 unk_02;
-} S_80174B20_4;
 
 typedef struct S_80174B20_7 {
     u8 pad_00[0x14A0];
@@ -85,8 +82,6 @@ s32 lookup_masked_byte_table();  /* extern */
 void *create_status_linked_render_effect();     /* extern */
 #include "dungeon/select_nearby_target_and_initialize_slot_api.h" /* extern */
 
-extern s32 cd_cue_base;
-extern void *actor_effect_color_targets[];
 s32 project_kid_sprite_chain(void *initial_payload, s32 entry_data, Entry *entry, s32 unused);
 extern s32 D_80175200[];
 extern s16 D_80175218;
@@ -113,7 +108,7 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
     u16 finish_ticks;
     u16 previous_ticks;
     u8 phase;
-    S_80174B20_4 *target_color;
+    ActorEffectColor *target_color;
     ObjectPosition *effect_position;
     GameWork *scene_color;
     S_80174B20_9 *sprite;
@@ -166,11 +161,11 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
         }
         color_index = lookup_masked_byte_table(actor);
         target_color = actor_effect_color_targets[color_index];
-        scene_color->view.tint.parts.tint_r = (u8) (scene_color->view.tint.parts.tint_r + ((s32) (target_color->unk_00
+        scene_color->view.tint.parts.tint_r = (u8) (scene_color->view.tint.parts.tint_r + ((s32) (target_color->r
             - scene_color->view.tint.parts.tint_r) / state->action_timer));
-        scene_color->view.tint.parts.tint_g = (u8) (scene_color->view.tint.parts.tint_g + ((s32) (target_color->unk_01
+        scene_color->view.tint.parts.tint_g = (u8) (scene_color->view.tint.parts.tint_g + ((s32) (target_color->g
             - scene_color->view.tint.parts.tint_g) / state->action_timer));
-        scene_color->view.tint.parts.tint_b = (u8) (scene_color->view.tint.parts.tint_b + ((s32) (target_color->unk_02
+        scene_color->view.tint.parts.tint_b = (u8) (scene_color->view.tint.parts.tint_b + ((s32) (target_color->b
             - scene_color->view.tint.parts.tint_b) / state->action_timer));
         return;
     case 4:

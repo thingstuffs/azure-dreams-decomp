@@ -5,6 +5,8 @@
  * Interior symbol aliases D_80084864 / D_80084904 are not allocation evidence. */
 extern SoundPlaybackState sound_playback_state;
 extern SoundTask sound_stream_task;
+/* Sector base stored by sound_set_cd_cue_parameters and added to the stream endpoints. */
+extern int cd_cue_base;
 extern SoundTask sound_sequence_task;
 /* The standalone +0x0C alias keeps its own relocation identity. Only word 0
  * is observed. An unsized word declaration preserves absolute addressing;

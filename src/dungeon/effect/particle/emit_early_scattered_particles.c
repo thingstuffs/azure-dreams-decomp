@@ -88,7 +88,7 @@ void emit_early_scattered_particles(Entity *self, Position *origin, s32 spawn_pa
     tick_count = self->timer - 1;
     self->timer = tick_count;
     if ((tick_count << 16) <= 0) {
-        u16 *active_count = &emitted_effect_counter;
+        u16 *active_count = emitted_effect_counter;
         u16 remaining_count;
 
         *((u16 *)self - 1) |= 0x8000;

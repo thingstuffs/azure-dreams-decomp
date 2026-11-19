@@ -26,14 +26,8 @@ typedef struct StagedRectangleSpriteBody {
     u8 pad_2E[0x0A];
     u32 unk_38[3];
     u8 pad_44[0x20];
-    u16 unk_64;
-    u16 unk_66;
-    u16 unk_68;
-    u16 unk_6A;
-    u16 unk_6C;
-    u16 unk_6E;
-    u16 unk_70;
-    u8 pad_72[0x0A];
+    s16 occupied_slots[8];
+    u8 pad_74[8];
     void *unk_7C;
 } StagedRectangleSpriteBody;
 
@@ -143,7 +137,7 @@ typedef struct {
     s16 scaleY;
     s16 scaleX;
 } Display;
-typedef struct S_8196BA5C_0 {
+typedef struct TimedRectangleChildBody {
     u8 pad_00[0x2C];
     s16 unk_2C;
     s16 unk_2E;
@@ -153,8 +147,8 @@ typedef struct S_8196BA5C_0 {
     u8 pad_42[0xE];
     s16 unk_50;
     u8 pad_52[0x2A];
-    void * unk_7C;
-} S_8196BA5C_0;
+    StagedRectangleSpriteBody *owner;
+} TimedRectangleChildBody;
 typedef struct {
     u16 x;
     u16 y;
@@ -306,7 +300,7 @@ void advance_colliding_particle_sprite(void *effect, S_8196ACE4_0 *position, Spr
 void create_brief_ballistic_sprite(Work *source, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z);
 void shrink_particle_emitting_projectile(StagedParticleEffectBody *effect, struct ObjectPosition *position, SpriteFrameState *sprite);
 void draw_effect_and_restore_clip(StagedRectangleSpriteBody *effect, s32 unused, u8 *primitive);
-void apply_random_actor_value_adjustment(void *state, void *unused, void *visual);
+void apply_random_actor_value_adjustment(TimedRectangleChildBody *state, ObjectPosition *unused, SpriteFrameState *sprite);
 void spawn_jittered_point_child(ObjectNodeHeader *source, s32 state_14_value, s32 state_08_value, s32 state_32_value, s16 x_offset, s16 y_offset, s16 z_offset);
 s32 draw_flagged_particle_points(PointRecord *first_point, ObjectPosition *first_position);
 void create_randomized_paletted_sprite(void *unused_0, void *unused_1, void *unused_2, s16 x, s16 y, s16 z);

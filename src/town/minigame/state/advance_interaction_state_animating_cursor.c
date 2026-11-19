@@ -27,7 +27,7 @@ extern u8 D_80011F81[];
 extern Counter town_money;
 
 /* Advances the interaction state, animating the cursor and vertical position. */
-void advance_interaction_state_animating_cursor(FixedInteractionEffectBody *self, ObjectPosition *position, SpriteFrameState *cursor_data) {
+void advance_interaction_state_animating_cursor(FixedInteractionEffectBody *self, ObjectPosition *position, LitMeshSprite *cursor_data) {
     EntryPair entries;
     s32 state;
     register s32 x_range_check;
@@ -84,9 +84,9 @@ void advance_interaction_state_animating_cursor(FixedInteractionEffectBody *self
             view_reference_entity.y.v += 0x40000;
         }
         {
-            register s32 cursor = cursor_data->angle_z;
+            register s32 cursor = (u16)cursor_data->rotation[2];
             cursor -= 0x20;
-            cursor_data->angle_z = cursor;
+            cursor_data->rotation[2] = cursor;
         }
         if ((s16)self->counter > 0) {
             return;
@@ -108,7 +108,7 @@ void advance_interaction_state_animating_cursor(FixedInteractionEffectBody *self
         }
 
     case 4:
-        cursor_data->angle_z += 0x20;
+        cursor_data->rotation[2] += 0x20;
         if ((s16)self->counter > 0) {
             return;
         }

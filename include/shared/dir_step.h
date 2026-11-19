@@ -22,4 +22,7 @@ extern short dir_step_y[8];
  * otherwise) and the extent past the eight direction bytes is unknown (0x8006CD00 holds s16 angle steps). */
 extern unsigned char dir_sprite_flag[];
 
+/* Eight alternate facing offsets tried by the actor movement routines, in 0x1000 units per turn. */
+extern short actor_turn_angle_offsets[8];
+
 #endif

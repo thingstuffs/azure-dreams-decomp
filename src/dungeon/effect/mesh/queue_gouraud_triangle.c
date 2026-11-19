@@ -76,7 +76,6 @@ typedef struct Scratch81976F70 {
     u16 out5;
 } Scratch81976F70;
 
-extern s32 *effect_position_source;
 extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *, void *);
 
 /*
@@ -89,7 +88,7 @@ s32 queue_gouraud_triangle(s32 vertex_color0, s32 vertex_color1, s32 vertex_colo
     State81976F70 *state;
     Packet81976F70 *packet;
     Scratch81976F70 *scratch = (Scratch81976F70 *)0x1F800000;
-    s32 *vertex_offset;
+    MeshEffectOrigin *vertex_offset;
     s32 texture_u;
     s32 texture_page;
     void *screen_xy1;
@@ -129,15 +128,15 @@ s32 queue_gouraud_triangle(s32 vertex_color0, s32 vertex_color1, s32 vertex_colo
     packet->x2_lo = vertex_color2;
 
     vertex_offset = effect_position_source;
-    scratch->x0 = (scratch->vx0 + vertex_offset[0]) >> 16;
-    scratch->x1 = (scratch->vx1 + vertex_offset[0]) >> 16;
-    scratch->x2 = (scratch->vx2 + vertex_offset[0]) >> 16;
-    scratch->y0 = (scratch->vy0 + vertex_offset[1]) >> 16;
-    scratch->y1 = (scratch->vy1 + vertex_offset[1]) >> 16;
-    scratch->y2 = (scratch->vy2 + vertex_offset[1]) >> 16;
-    scratch->z0 = (scratch->vz0 + vertex_offset[2]) >> 16;
-    scratch->z1 = (scratch->vz1 + vertex_offset[2]) >> 16;
-    scratch->z2 = (scratch->vz2 + vertex_offset[2]) >> 16;
+    scratch->x0 = (scratch->vx0 + vertex_offset->x.v) >> 16;
+    scratch->x1 = (scratch->vx1 + vertex_offset->x.v) >> 16;
+    scratch->x2 = (scratch->vx2 + vertex_offset->x.v) >> 16;
+    scratch->y0 = (scratch->vy0 + vertex_offset->y.v) >> 16;
+    scratch->y1 = (scratch->vy1 + vertex_offset->y.v) >> 16;
+    scratch->y2 = (scratch->vy2 + vertex_offset->y.v) >> 16;
+    scratch->z0 = (scratch->vz0 + vertex_offset->z.v) >> 16;
+    scratch->z1 = (scratch->vz1 + vertex_offset->z.v) >> 16;
+    scratch->z2 = (scratch->vz2 + vertex_offset->z.v) >> 16;
 
     scratch->ordering_index = func_80065530(
         (void *)0x1F800010, (void *)0x1F800018,

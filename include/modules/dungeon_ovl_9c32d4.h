@@ -2,6 +2,7 @@
 #define DUNGEON_OVL_9C32D4_H
 
 #include "shared/sprite_frame_state.h"
+#include "shared/dir_step.h"
 #include "shared/slus_callbacks.h"
 #include "common.h"
 #include "shared/game_work.h"
@@ -169,8 +170,6 @@ extern u8 upper_draw_context[16];
 extern void *allocate_list_node();
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern u8 D_80175F90[12];
-extern s16 dir_step_x[];
-extern s16 dir_step_y[];
 extern s32 D_800814A0;
 extern u8 D_80175F9C[12];
 void update_ellipse_ring_effect(u8 *actor_data, ObjectPosition *output_data, SpriteFrameState *sprite);

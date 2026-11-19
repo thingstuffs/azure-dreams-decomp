@@ -18,14 +18,6 @@ typedef struct {
     s16 pad;
 } Vertex;
 
-/* Six-byte terrain cell addressed through MapGrid.cells.
- * Map loading supplies the grid; sample_terrain_surface_height uses the face index and height offset. */
-typedef struct {
-    u16 first; /* face-list table index; zero means no face list */
-    s16 value; /* cell height value; terrain queries add its negation to the face height */
-    u16 pad;
-} Cell;
-
 /* Map face record used by the terrain-height query, separate from a GPU command packet.
  * The loaded cell face list owns the record. */
 typedef struct {

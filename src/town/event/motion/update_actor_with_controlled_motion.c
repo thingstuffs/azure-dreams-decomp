@@ -1,6 +1,8 @@
 #include "shared/position_query.h"
 #include "town/scene/collision.h"
 #include "common.h"
+#include "shared/sprite_frame_state.h"
+#include "shared/entity_height_offsets.h"
 #include "shared/town_state.h"
 #include "records/Rec_D_800CFCB4.h"
 #include "town/scene/flags.h"
@@ -12,12 +14,10 @@
 #include "town/event/motion.h"
 #include "town/player/input.h"
 
-typedef struct Actor Actor;
-typedef struct Subject Subject;
 typedef struct Motion Motion;
 
 
-typedef void (*TownCallback)(Actor *, Subject *, Motion *, TownMovementOutput *);
+typedef void (*TownCallback)(TownObjectRecord *, struct ColliderView *, ObjectPosition *, SpriteFrameState *);
 
 struct Motion {
     u16 field_00;
@@ -28,22 +28,10 @@ struct Motion {
     s16 height;
 };
 
-struct Subject {
-    u8 pad_00[0x3B];
-    u8 state;
-};
-
-struct Actor {
-    u8 pad_00[0x50];
-    TownCallback state;
-    u8 pad_54[0x28];
-    s32 *value;
-};
-
 
 typedef struct TownControl {
     u8 pad_00[0x10];
-    Subject *subject;
+    struct ColliderView *subject;
     u8 pad_14[4];
     s32 index;
     u8 pad_1C[0x80];
@@ -61,16 +49,14 @@ typedef struct MotionDelta {
     u16 y;
 } MotionDelta;
 
-extern void apply_bound_adjustments(Subject *, Motion *);
-
 extern TownState scene_object_list_anchor;
 extern TownControl town_actor_control;
 extern MotionDelta D_800CFDF0[];
 extern MotionDelta D_800CFE08[];
 
 /* Update town movement and height, then copy the actor value into the context. */
-void update_actor_with_controlled_motion(Actor *actor, Subject *subject, Motion *motion,
-                   TownMovementOutput *context)
+void update_actor_with_controlled_motion(TownObjectRecord *actor, struct ColliderView *subject, ObjectPosition *motion,
+                   SpriteFrameState *context)
 {
     TownControl *control = &town_actor_control;
     TownState *town_state;
@@ -80,7 +66,7 @@ void update_actor_with_controlled_motion(Actor *actor, Subject *subject, Motion 
     TownCallback actor_callback;
     s16 surface_height;
     s32 control_index;
-    s32 *actor_value;
+    HeightBandValues *actor_value;
 
     if ((control->subject != subject) || ((control_index = control->index), ((u8 *)control)[control_index + 0x3A] != 1)
         || ((town_callback = &scene_object_list_anchor.current), (*town_callback != update_actor_input_actions))) {
@@ -88,30 +74,30 @@ void update_actor_with_controlled_motion(Actor *actor, Subject *subject, Motion 
     } else {
         town_state = &scene_object_list_anchor;
         x_deltas = D_800CFDF0;
-        motion->x += x_deltas[control_index].x;
+        motion->x.w.i += x_deltas[control_index].x;
         y_deltas = D_800CFE08;
-        motion->y += y_deltas[control->index].x;
+        motion->y.w.i += y_deltas[control->index].x;
         town_state->target->x += x_deltas[control->index].x;
         town_state->target->y += y_deltas[control->index].x;
     }
     surface_height = get_min_surface_probe_capped(motion, ((u8 *)&position_query_scratch));
     apply_bound_adjustments(subject, motion);
     resolve_collider_overlaps(subject, motion);
-    if (subject->state == 0) {
-        if (surface_height - motion->height >= 4) {
+    if (subject->pending_flags[1] == 0) {
+        if (surface_height - motion->z.w.i >= 4) {
             set_actor_drop_state(actor, subject, motion, context);
         } else {
             stop_at_max_z(subject, motion, surface_height);
         }
     }
 
-    actor_callback = actor->state;
+    actor_callback = actor->unk_50.as_pm;
     if ((actor_callback != update_actor_surface_motion) &&
         (actor_callback != update_actor_slots_and_output) &&
         (actor_callback != update_actor_with_controlled_motion)) {
-        actor_value = actor->value;
+        actor_value = actor->unk_7C.as_pv;
         if (actor_value != 0) {
-            context->value = *actor_value;
+            context->source = actor_value->sources[0];
         }
     }
 }

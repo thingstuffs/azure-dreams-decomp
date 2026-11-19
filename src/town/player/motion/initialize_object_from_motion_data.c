@@ -17,7 +17,7 @@ void initialize_object_from_motion_data(void *object, ObjectPosition *initializa
     unsigned short secondaryValue;
 
     dispatch_selected_entry_if_nonzero(D_800D01B8, object, ptr2);
-    town_action_reset_byte = 0;
+    town_action_reset_byte[0] = 0;
     *(unsigned short *)((unsigned char *)object + 0x30) =
         *(unsigned short *)((unsigned char *)initializationData + 2);
     secondaryValue = initializationData->y.unsigned_parts.integer;

@@ -1,4 +1,5 @@
 #include "shared/sprite_frame_state.h"
+#include "dungeon/level/tile_flags.h"
 #include "common.h"
 #include "dungeon/system/random.h"
 #include "shared/dungeon_floor.h"
@@ -26,11 +27,9 @@ extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16
 extern s16 check_directional_move_and_terrain(s16, void *, void *, s32);
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
-extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 
-extern s16 actor_turn_angle_offsets[];
 
 /* Selects a movement direction and updates the actor's position and movement state. */
 void choose_hikewne_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data) {

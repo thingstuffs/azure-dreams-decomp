@@ -1,16 +1,9 @@
+#include "frontend/card/message_display.h"
 #include "sdk/libc.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "frontend/card/message.h"
 #include "main/data.h"
-
-typedef struct S_80402A1C_0 {
-    u8 pad_00[0x8];
-    s32 layout_index; /* 0x08 */
-    u8 pad_0C[0xC];
-    u32 width; /* 0x18 */
-    u32 height; /* 0x1C */
-} S_80402A1C_0;   /* arg1 in card_boot_build_four_layout_command_groups */
 
 typedef struct LayoutCommand {
     u8 id;
@@ -32,7 +25,7 @@ typedef struct LayoutQuadColors {
 } LayoutQuadColors;
 
 /* Builds four groups of drawing commands sized from the selected layout. */
-void *card_boot_build_four_layout_command_groups(void *buffer, S_80402A1C_0 *layout) {
+u8 *card_boot_build_four_layout_command_groups(u8 *buffer, CardDevDialogDisplay *layout) {
     u32 command_ids;
     u32 ids_limit;
     s32 width_extent;

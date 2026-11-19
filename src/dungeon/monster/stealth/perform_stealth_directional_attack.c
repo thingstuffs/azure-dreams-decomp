@@ -1,10 +1,10 @@
 #include "engine/graphics/select_sprite_entry_api.h"
+#include "shared/record_ptrs.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/actor/status.h"
 
-extern void *actor_update_node_cursor;
 #include "dungeon/monster/stealth.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"

@@ -1,86 +1,62 @@
 #include "common.h"
-#include "m2c_compat.h"
 #include "sdk/libc.h"
-/* The 0x54-byte ring ends at the adjacent weights-table address.
- * Name the bounded ring without guessing the following table's extent. */
-typedef struct { u8 packets[0x54]; } PacketRing;
-extern s8 D_80024AE0[];
-
-extern u16 D_80024A70;
 #include "shared/object_flags.h"
+#include "shared/object_node.h"
+#include "shared/sprite_part_command.h"
 #include "dungeon/effect.h"
 
-typedef union { u16 bits; s16 value; } JitterHalf;
-typedef struct { u16 fraction; JitterHalf whole; } JitterAxis;
-typedef struct { JitterAxis axes[6]; } JitterMotion;
-typedef struct {
-    u8 reserved_00[0x14];
-    void *anchor;
-    u16 base_position[3];
-    u8 reserved_1e[0x14];
-    s16 phase;
-    u8 reserved_34[8];
-    JitterHalf fade;
-} JitterEffect;
-typedef struct {
-    u8 reserved_00[8];
-    u32 packet;
-    u8 red, green, blue;
-    u8 reserved_0f[0xD];
-    u16 scale_x, scale_y;
-} JitterSprite;
-typedef struct { u16 flags; } JitterHeader;
+extern s8 D_80024AE0[];
+extern u16 D_80024A70;
 
-/* Jitters the sprite around its base coordinates, cycles its packets, and shrinks and fades it until
-   removal. */
-void jitter_effect_position_and_fade(void *effect, void *position_arg, void *sprite) {
-    JitterMotion *position = position_arg;
+/* Jitters the sprite around its base coordinates, cycles its commands, and fades it. */
+void jitter_effect_position_and_fade(JitterEffectBody *effect, ObjectPosition *position, SpriteFrameState *sprite) {
     s32 axes_left;
     u16 *base_coord;
     s32 jitter;
     s32 fade;
     u16 base_value;
     u16 next_scale;
-    u32 next_packet;
+    SpritePartCommand *next_command;
     u8 brightness;
-    JitterMotion *anchor;
-    JitterAxis *motion_axis;
+    ObjectPosition *anchor;
+    Fixed1616 *motion_axis;
 
-    anchor = (((JitterEffect *)effect)->anchor);
-    D_80024A70 += 1;
-    if (anchor != NULL) {
-        (position->axes[3].whole.bits) = (u16) (anchor->axes[0].whole.bits);
-        (position->axes[4].whole.bits) = (u16) (((JitterMotion *)((((JitterEffect *)effect)->anchor)))->axes[1].whole.bits);
-        (position->axes[5].whole.bits) = (u16) (((JitterMotion *)((((JitterEffect *)effect)->anchor)))->axes[2].whole.bits);
+    anchor = effect->anchor;
+    D_80024A70++;
+    if (anchor != 0) {
+        ((Fixed1616 *)&position->velocity_x)->w.i = anchor->x.unsigned_parts.integer;
+        ((Fixed1616 *)&position->velocity_y)->w.i = effect->anchor->y.unsigned_parts.integer;
+        ((Fixed1616 *)&position->velocity_z)->w.i = effect->anchor->z.unsigned_parts.integer;
     }
-    motion_axis = position_arg;
-    base_coord = ((JitterEffect *)effect)->base_position;
+    motion_axis = &position->x;
+    base_coord = effect->base_position;
     axes_left = 3;
     do {
-        axes_left -= 1;
+        axes_left--;
         jitter = (rand() & 0xF) - 8;
         base_value = *base_coord;
-        base_coord += 1;
-        motion_axis->whole.value = (s16) (base_value + (jitter * D_80024AE0[(((JitterEffect *)effect)->phase)]));
+        base_coord++;
+        motion_axis->w.i = base_value + jitter * D_80024AE0[effect->phase];
         motion_axis++;
     } while (axes_left > 0);
-    next_packet = (((JitterSprite *)sprite)->packet) + 0xC;
-    (((JitterSprite *)sprite)->packet) = next_packet;
-    if (next_packet >= (u32)D_80024AE0) {
-        (((JitterSprite *)sprite)->packet) = (u32)((PacketRing *)((u8 *)D_80024AE0 - sizeof(PacketRing)))->packets;
+    next_command = sprite->source;
+    next_command++;
+    sprite->source = next_command;
+    if ((void *)next_command >= (void *)D_80024AE0) {
+        sprite->source = D_80024AE0 - 7 * sizeof(SpritePartCommand);
     }
-    next_scale = (((JitterSprite *)sprite)->scale_y) - ((((JitterSprite *)sprite)->scale_y) / 24);
-    (((JitterSprite *)sprite)->scale_y) = next_scale;
-    (((JitterSprite *)sprite)->scale_x) = next_scale;
-    fade = (((JitterEffect *)effect)->fade.bits);
+    next_scale = sprite->scale_y - sprite->scale_y / 24;
+    sprite->scale_y = next_scale;
+    sprite->scale_x = next_scale;
+    fade = (u16)effect->fade;
     fade -= 8;
-    (((JitterEffect *)effect)->fade.bits) = fade + ((s16) (u16) (((JitterEffect *)effect)->phase) / 2);
-    brightness = (u8) (((JitterEffect *)effect)->fade.bits);
-    (((JitterSprite *)sprite)->blue) = brightness;
-    (((JitterSprite *)sprite)->green) = brightness;
-    (((JitterSprite *)sprite)->red) = brightness;
-    if ((s16) (((JitterEffect *)effect)->fade.bits) <= 0) {
-        (((JitterHeader *)effect)[-1].flags) = (u16) ((((JitterHeader *)effect)[-1].flags) | 0x8000);
+    effect->fade = fade + effect->phase / 2;
+    brightness = effect->fade;
+    sprite->color.c.b = brightness;
+    sprite->color.c.g = brightness;
+    sprite->color.c.r = brightness;
+    if (effect->fade <= 0) {
+        NODE_HEADER(effect)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

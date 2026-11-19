@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/dungeon_height_query.h"
 #include "slus/imports.h"
 #include "dungeon/monster/blume.h"
 #include "shared/sprite_frame_state.h"
@@ -7,8 +8,6 @@
 
    /* arg1 in update_damped_height_effect */
 
-s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
-extern s16 sample_terrain_surface_height(u16 x, u16 y, s16 min_height);
 
 /* Applies damped motion and height limits, updates the object, and checks its lifetime. */
 void update_damped_height_effect(DirectionalParticlesAndResetActorBody *state, ObjectPosition *position_arg, SpriteFrameState *object)
@@ -39,11 +38,11 @@ void update_damped_height_effect(DirectionalParticlesAndResetActorBody *state, O
     state->velocity_z += state->acceleration_z;
 
     height = position->z.w.i;
-    if (sample_terrain_surface_height(position->x.unsigned_parts.integer,
+    if ((s16)sample_terrain_surface_height(position->x.unsigned_parts.integer,
                       position->y.unsigned_parts.integer,
                       (s16)(position->z.unsigned_parts.integer - 4)) - 0x10 < height) {
         state->velocity_z = 0;
-        position->z.w.i = sample_terrain_surface_height(
+        position->z.w.i = (s16)sample_terrain_surface_height(
             position->x.unsigned_parts.integer, position->y.unsigned_parts.integer,
             (s16)(position->z.unsigned_parts.integer - 4)) - 0x11;
         position->z.w.frac = 0;

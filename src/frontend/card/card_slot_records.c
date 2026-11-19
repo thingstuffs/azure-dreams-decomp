@@ -11,30 +11,21 @@
  * requests scene dispatch state 3.
  */
 
-void release_card_records_and_request_scene_state_three(s32 object_data) {
-    release_card_record_handles(object_data - 0x20);
+void release_card_records_and_request_scene_state_three(CardSaveMenuBody *menu) {
+    release_card_record_handles(NODE_HEADER(menu));
     card_boot_close_events_and_resume_timer();
     request_scene_dispatch_state(3);
 }
 
 
-typedef struct S_80026270_0 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-} S_80026270_0;
-
 /* Runs card_boot_refresh_slot_window on each of five stored object addresses. */
-void card_boot_refresh_five_slot_objects(void *object_list) {
-    s32 object_addr;
+void card_boot_refresh_five_slot_objects(CardSaveMenuBody *menu) {
     s32 object_index;
-    void *entry_cursor;
 
     object_index = 0;
-    entry_cursor = object_list;
     do {
-        object_addr = ((S_80026270_0 *)entry_cursor)->unk_0C;
-        entry_cursor += 4;
-        object_index += 1;
-        card_boot_refresh_slot_window(object_addr);
+        ObjectNodeHeader *window = menu->slots[object_index];
+        object_index++;
+        card_boot_refresh_slot_window(window);
     } while (object_index < 5);
 }

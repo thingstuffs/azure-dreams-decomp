@@ -1,4 +1,5 @@
 #include "dungeon/monster/beldo_large.h"
+#include "dungeon/monster/beldo_large_data.h"
 #include "shared/runtime_dispatch.h"
 #include "shared/sprite_frame_state.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -35,11 +36,6 @@ typedef struct S_80171D74_6 {
     s16 unk_00;
 } S_80171D74_6;   /* D_80083228 in advance_linked_actor_motion_script */
 
-typedef struct S_80171D74_7 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    s32 unk_08;
-} S_80171D74_7;
 
 typedef struct S_80171D74_8 {
     u8 pad_00[0x27];
@@ -126,8 +122,6 @@ void create_action_offset_object(void);                            /* extern */
 extern Table32 D_8016482C;
 extern Table32 D_80164AC0;
 extern u8 D_80173DAC[16];
-extern void *beldo_actor_nodes[3];
-extern void *beldo_script_node[3];
 
 /* Advances a scripted movement sequence and updates the sprite facing. */
 /* Runs Beldo's timed leaps, turns, and sprite effects, changes map flags, and saves party state for a
@@ -176,7 +170,7 @@ void advance_linked_actor_motion_script(ActorRecord *state_in, ObjectPosition *m
     s32 launch_vel_z;
     s32 hop_vel_z;
     S_80171D74_4 *owner_state;
-    S_80171D74_7 *target_pos;
+    ObjectPosition *target_pos;
     S_80171D74_13 *tile_nw;
     S_80171D74_14 *tile_n;
     S_80171D74_15 *tile_ne;
@@ -192,11 +186,11 @@ void advance_linked_actor_motion_script(ActorRecord *state_in, ObjectPosition *m
     direction_table = *((&D_80164AC0));
     map_info = &g_game_work.map;
     map_tiles = ((S_80171D74_0 *)((s32 *)(&g_game_work.map)))->unk_00;
-    owner_state = beldo_script_node[0] + 0x20;
+    owner_state = NODE_BODY(beldo_script_node);
     advance_sprite_animation_and_textures(sprite_in);
     phase = state_in->action_id;
-    target_pos = ((SpriteFrameState *)(beldo_actor_nodes[0]))->source;
-    target_state = beldo_actor_nodes[0] + 0x20;
+    target_pos = beldo_actor_nodes->position;
+    target_state = NODE_BODY(beldo_actor_nodes);
     switch (phase) {
     case 0:
         wait_frame = state_in->action_timer;
@@ -310,9 +304,9 @@ void advance_linked_actor_motion_script(ActorRecord *state_in, ObjectPosition *m
             state_in->action_timer = 0U;
             state_in->action_id = (u8) (state_in->action_id + 1);
             sprite_in->flags = (u16) (sprite_in->flags & 0xFF7F);
-            motion_in->x.w.i = (u16) (target_pos->unk_00.at02.v + (SP1_X_AT(offset_base,
+            motion_in->x.w.i = (u16) ((u16)target_pos->x.w.i + (SP1_X_AT(offset_base,
                 target_state->unk_2A) * 0x28));
-            motion_in->y.w.i = (s16) (target_pos->unk_04.at02.v + ((s16) SP1_Y_AT(offset_base,
+            motion_in->y.w.i = (s16) ((u16)target_pos->y.w.i + ((s16) SP1_Y_AT(offset_base,
                 target_state->unk_2A) * 0x28));
             state_in->unk_90.parts.high = -0x18;
             state_in->unk_9E = 0;
@@ -463,9 +457,9 @@ void advance_linked_actor_motion_script(ActorRecord *state_in, ObjectPosition *m
         tile_s->unk_04 = (u16) (tile_s->unk_04 & 0x7FFF);
         tile_se = ((0x21 << map_info->shiftX) * 6) + map_tiles + 0xC6;
         tile_se->unk_04 = (u16) (tile_se->unk_04 & 0x7FFF);
-        motion_in->velocity_x = (s32) target_pos->unk_00.at00.v;
-        motion_in->velocity_y = (void *) target_pos->unk_04.at00.v;
-        motion_in->velocity_z = (void *) target_pos->unk_08;
+        motion_in->velocity_x = target_pos->x.v;
+        motion_in->velocity_y = target_pos->y.v;
+        motion_in->velocity_z = target_pos->z.v;
                     /* fallthrough */
     case 20:
         motion_in->x.v += (motion_in->velocity_x
@@ -763,7 +757,7 @@ shared_tail:
     default:
             break;
     }
-    if (beldo_script_node[0] != 0) {
+    if (beldo_script_node != 0) {
         sprite_dir = ((s32) (((S_80171D74_6 *)((&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
             + (s16) owner_state->unk_2A + 0x100) >> 9) & 7;
         if (state_in->unk_94 != sprite_dir) {

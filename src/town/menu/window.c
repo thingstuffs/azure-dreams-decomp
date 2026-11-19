@@ -1,3 +1,4 @@
+#include "shared/dungeon_item_entries.h"
 /* Builds town display entries, checks their bounds, dispatches object updates, and opens menu windows. */
 #include "shared/entity.h"
 #include "town/person/object_setup.h"
@@ -36,12 +37,13 @@
 
 
 /* Initializes an object with default transform and global state values. */
-void initialize_sprite_defaults(s32 slot_id, SpriteFrameState *object, s32 object_id)
+void initialize_sprite_defaults(void *body, SpriteFrameState *sprite, s32 mesh_index)
 {
+    LitMeshSprite *object = (LitMeshSprite *)sprite;
 
-    object->offset_x = 0x1000;
-    object->scale_y = 0x1000;
-    object->scale_x = 0x1000;
+    object->scale[2] = 0x1000;
+    object->scale[1] = 0x1000;
+    object->scale[0] = 0x1000;
     object->clut = 0;
     object->flags = 0;
     object->tpage_abr = 0;
@@ -49,14 +51,14 @@ void initialize_sprite_defaults(s32 slot_id, SpriteFrameState *object, s32 objec
     object->color.c.g = g_game_work.view.tint.parts.tint_g;
     object->color.c.b = g_game_work.view.tint.parts.tint_b;
     object->flags = 0;
-    object->angle_z = 0;
-    object->angle_y = 0;
-    object->angle_x = 0;
-    *(s32 *)((u8 *)object + 0) = 0;
-    object->unk_04 = 0;
+    object->rotation[2] = 0;
+    object->rotation[1] = 0;
+    object->rotation[0] = 0;
+    object->frame_entry = 0;
+    object->frame_index = 0;
     object->frame_ticks = 0;
-    register_node(slot_id - 0x20, lit_mesh_renderer_address);
-    *(s32 *)((u8 *)object + 8) = object_id;
+    register_node(NODE_HEADER(body), lit_mesh_renderer_address);
+    object->mesh_index = mesh_index;
 }
 
 /* Initializes the shared data pointer, clears its first word and returns it. */
@@ -140,56 +142,56 @@ void build_entry_list_and_process_items(void) {
 }
 
 /* Classify an object using its state and two positions relative to the geometry bounds. */
-s32 classify_object_against_bounds(func_8009F880_S_8009CFE0_0 *object, void *position_data)
+s32 classify_object_against_bounds(func_8009F880_S_8009CFE0_0 *object, ObjectPosition *position_data)
 {
-    func_8009F880_S_8009CFE0_2 *position = position_data;
+    ObjectPosition *position = position_data;
     s32 result;
     s32 one;
     s32 geometry_result;
     s32 state_result;
-    func_8009F880_S_8009CFE0_1 *state;
+    TownSceneSpawnEntry *state;
 
-    state = object->unk_98;
+    state = object->spawn_entry;
     if (state != NULL) {
-        if (!(state->unk_01 & 1)) {
-            if (test_resident_bitmap_bit(state->unk_02) == 0) {
+        if (!(state->flags & 1)) {
+            if (test_resident_bitmap_bit(state->required_bit) == 0) {
                 return 1;
             }
         } else {
-            state_result = test_resident_bitmap_bit(state->unk_02);
+            state_result = test_resident_bitmap_bit(state->required_bit);
             one = 1;
             if (state_result == one) {
                 result = 1;
                 return result;
             }
         }
-        if (state->unk_01 & 0x10) {
+        if (state->flags & 0x10) {
             result = 0;
             return result;
         }
-        if (map_scene_selector_alias == 0xC) {
+        if ((s16)map_scene_selector_alias == 0xC) {
             result = 0;
             return result;
         }
     }
     if (check_four_vector_half_turn_gaps(
-            (s16)(scaled_window_quad_points[0] - position->unk_02),
-            (s16)(scaled_window_quad_points[1] - position->unk_06),
-            (s16)(scaled_window_quad_points[4] - position->unk_02),
-            (s16)(scaled_window_quad_points[5] - position->unk_06),
-            (s32)(s16)(scaled_window_quad_points[8] - position->unk_02),
-            (s32)(s16)(scaled_window_quad_points[9] - position->unk_06),
-            (s32)(s16)(scaled_window_quad_points[0xC] - position->unk_02),
-            (s32)(s16)(scaled_window_quad_points[0xD] - position->unk_06)) == 0) {
+            (s16)(scaled_window_quad_points[0] - position->x.w.i),
+            (s16)(scaled_window_quad_points[1] - position->y.w.i),
+            (s16)(scaled_window_quad_points[4] - position->x.w.i),
+            (s16)(scaled_window_quad_points[5] - position->y.w.i),
+            (s32)(s16)(scaled_window_quad_points[8] - position->x.w.i),
+            (s32)(s16)(scaled_window_quad_points[9] - position->y.w.i),
+            (s32)(s16)(scaled_window_quad_points[0xC] - position->x.w.i),
+            (s32)(s16)(scaled_window_quad_points[0xD] - position->y.w.i)) == 0) {
         geometry_result = check_four_vector_half_turn_gaps(
-            (s16)(scaled_window_quad_points[0] - object->unk_84),
-            (s16)(scaled_window_quad_points[1] - object->unk_86),
-            (s16)(scaled_window_quad_points[4] - object->unk_84),
-            (s16)(scaled_window_quad_points[5] - object->unk_86),
-            (s32)(s16)(scaled_window_quad_points[8] - object->unk_84),
-            (s32)(s16)(scaled_window_quad_points[9] - object->unk_86),
-            (s32)(s16)(scaled_window_quad_points[0xC] - object->unk_84),
-            (s32)(s16)(scaled_window_quad_points[0xD] - object->unk_86));
+            (s16)(scaled_window_quad_points[0] - object->start_x),
+            (s16)(scaled_window_quad_points[1] - object->start_y),
+            (s16)(scaled_window_quad_points[4] - object->start_x),
+            (s16)(scaled_window_quad_points[5] - object->start_y),
+            (s32)(s16)(scaled_window_quad_points[8] - object->start_x),
+            (s32)(s16)(scaled_window_quad_points[9] - object->start_y),
+            (s32)(s16)(scaled_window_quad_points[0xC] - object->start_x),
+            (s32)(s16)(scaled_window_quad_points[0xD] - object->start_y));
         result = 2;
         if (geometry_result == 0) {
             return result;
@@ -200,39 +202,38 @@ s32 classify_object_against_bounds(func_8009F880_S_8009CFE0_0 *object, void *pos
 }
 
 /* Classifies a record using its attached state and two position tests. */
-s32 classify_record_by_state_and_position(Rec_D_80082D58 *record, void *position_data)
+s32 classify_record_by_state_and_position(Rec_D_80082D58 *record, ObjectPosition *position)
 {
-    func_8009FAAC_S_8009D20C_2 *position = position_data;
     s32 result;
     s32 one;
     s32 geom_result;
     s32 state_result;
-    func_8009FAAC_S_8009D20C_1 *state;
+    TownSceneSpawnEntry *state;
 
     state = record->unk_98.as_pv;
     if (state != NULL) {
-        if (!(state->unk_01 & 1)) {
-            if (test_resident_bitmap_bit(state->unk_02) == 0) {
+        if (!(state->flags & 1)) {
+            if (test_resident_bitmap_bit(state->required_bit) == 0) {
                 return 1;
             }
         } else {
-            state_result = test_resident_bitmap_bit(state->unk_02);
+            state_result = test_resident_bitmap_bit(state->required_bit);
             one = 1;
             if (state_result == one) {
                 result = 1;
                 return result;
             }
         }
-        if (state->unk_01 & 0x10) {
+        if (state->flags & 0x10) {
             result = 0;
             return result;
         }
     }
     if (check_four_vector_half_turn_gaps(
-        (s16)(scaled_window_quad_points[0] - position->unk_02), (s16)(scaled_window_quad_points[1] - position->unk_06),
-        (s16)(scaled_window_quad_points[4] - position->unk_02), (s16)(scaled_window_quad_points[5] - position->unk_06),
-        (s32)(s16)(scaled_window_quad_points[8] - position->unk_02), (s32)(s16)(scaled_window_quad_points[9] - position->unk_06),
-        (s32)(s16)(scaled_window_quad_points[0xC] - position->unk_02), (s32)(s16)(scaled_window_quad_points[0xD] - position->unk_06)) == 0) {
+        (s16)(scaled_window_quad_points[0] - position->x.w.i), (s16)(scaled_window_quad_points[1] - position->y.w.i),
+        (s16)(scaled_window_quad_points[4] - position->x.w.i), (s16)(scaled_window_quad_points[5] - position->y.w.i),
+        (s32)(s16)(scaled_window_quad_points[8] - position->x.w.i), (s32)(s16)(scaled_window_quad_points[9] - position->y.w.i),
+        (s32)(s16)(scaled_window_quad_points[0xC] - position->x.w.i), (s32)(s16)(scaled_window_quad_points[0xD] - position->y.w.i)) == 0) {
         geom_result = check_four_vector_half_turn_gaps(
             (s16)(scaled_window_quad_points[0] - record->unk_84), (s16)(scaled_window_quad_points[1] - record->unk_86),
             (s16)(scaled_window_quad_points[4] - record->unk_84), (s16)(scaled_window_quad_points[5] - record->unk_86),
@@ -584,7 +585,7 @@ void rectangle_to_four_corners(func_800A0284_S_8009D9E4_0 *rectangle, func_800A0
 }
 
 /* Process eligible entries and mark those handled successfully as active. */
-void process_eligible_entries(func_800A02F0_S_8009DA50_2 *entries, void *bounds, s32 origin_x, s32 origin_y)
+void process_eligible_entries(TownSceneSpawnEntry *entries, void *bounds, s32 origin_x, s32 origin_y)
 {
     s32 test_x;
     s32 test_y;
@@ -596,12 +597,12 @@ void process_eligible_entries(func_800A02F0_S_8009DA50_2 *entries, void *bounds,
 
     base_x = origin_x;
     base_y = origin_y;
-    while (((flags = entries->unk_01) & 0xC0) != 0x80) {
-        if (entries->unk_00 == 0) {
-            if (!(flags & 1) ? test_resident_bitmap_bit(entries->unk_02) != 0 : test_resident_bitmap_bit(entries->unk_02) != 1) {
+    while (((flags = entries->flags) & 0xC0) != 0x80) {
+        if (entries->active == 0) {
+            if (!(flags & 1) ? test_resident_bitmap_bit(entries->required_bit) != 0 : test_resident_bitmap_bit(entries->required_bit) != 1) {
                 func_800A02F0_S_8009DA50_1 *bounds_view = bounds;
-                test_x = base_x + entries->unk_10;
-                test_y = base_y + entries->unk_12;
+                test_x = base_x + entries->x;
+                test_y = base_y + entries->y;
                 entry_x = test_x;
                 entry_y = test_y;
                 if ((check_four_vector_half_turn_gaps(
@@ -613,14 +614,14 @@ void process_eligible_entries(func_800A02F0_S_8009DA50_2 *entries, void *bounds,
                          (s16)(bounds_view->unk_12 - test_y),
                          (s16)(bounds_view->unk_18 - test_x),
                          (s16)(bounds_view->unk_1A - test_y)) != 0) ||
-                    (map_scene_selector_alias == 0xC) ||
-                    (entries->unk_01 & 0x10)) {
-                    if (spawn_town_entry_object(entries->unk_0C, entries->unk_04, entries->unk_05, entries->unk_06,
-                            entries->unk_07, entries->unk_01 & 0x20, entries->unk_08,
+                    ((s16)map_scene_selector_alias == 0xC) ||
+                    (entries->flags & 0x10)) {
+                    if (spawn_town_entry_object(entries->callback_id, entries->angle_index, entries->state_94, entries->state_95,
+                            entries->variant, entries->flags & 0x20, entries->state_48,
                             (s16)entry_x, (s16)entry_y, entries) != 0) {
-                        entries->unk_00 = 1;
+                        entries->active = 1;
                     }
-                    while (!(entries->unk_01 & 0xC0)) {
+                    while (!(entries->flags & 0xC0)) {
                         entries++;
                     }
                 }
@@ -721,7 +722,7 @@ void install_state_dispatch_callback(func_800A075C_S_func_8009DEBC_0 *object, vo
 }
 
 /* Creates an object with the supplied data, position, and callback mode. */
-void *create_selection_entry_object(void *object_data, void *source_position, s32 alternate_callback)
+ObjectNodeHeader *create_selection_entry_object(DungeonItemEntry *entry, Fixed1616 source_position[3], s32 alternate_callback)
 {
     ObjectNodeHeader *created;
     SpriteFrameState *render_state;
@@ -736,9 +737,9 @@ void *create_selection_entry_object(void *object_data, void *source_position, s3
 
     position = created->position;
     render_state = created->sprite;
-    position->x.w.i = HALF_AT(source_position, 2);
-    position->y.w.i = HALF_AT(source_position, 6);
-    position->z.w.i = HALF_AT(source_position, 0xA);
+    position->x.w.i = source_position[0].w.i;
+    position->y.w.i = source_position[1].w.i;
+    position->z.w.i = source_position[2].w.i;
 
     object = NODE_BODY(created);
     render_state->scale_y = 0x1000;
@@ -748,17 +749,17 @@ void *create_selection_entry_object(void *object_data, void *source_position, s3
     WORD_AT(object, 0x98) = 0;
     BYTE_AT(object, 0x93) = 0;
 
-    BYTE_AT(object, 0x4C) = BYTE_AT(object_data, 0);
-    BYTE_AT(object, 0x4D) = BYTE_AT(object_data, 1);
-    BYTE_AT(object, 0x4E) = BYTE_AT(object_data, 2);
-    BYTE_AT(object, 0x4F) = BYTE_AT(object_data, 3);
+    BYTE_AT(object, 0x4C) = entry->unk_00;
+    BYTE_AT(object, 0x4D) = entry->kind;
+    BYTE_AT(object, 0x4E) = entry->unk_02;
+    BYTE_AT(object, 0x4F) = entry->unk_03;
     type = BYTE_AT(object, 0x4D);
 
     if (type == 0x13) {
-        func_800A0878_Copy84 *copy_table = COPY_TABLE_ADDRESS;
-        func_800A0878_Copy84 *copy_src;
+        TownSlotSnapshot *copy_table = COPY_TABLE_ADDRESS;
+        TownSlotSnapshot *copy_src;
 
-        copy_src = (func_800A0878_Copy84 *)((u32)(BYTE_AT(object, 0x4F) & 0x1F) * 84U
+        copy_src = (TownSlotSnapshot *)((u32)(BYTE_AT(object, 0x4F) & 0x1F) * 84U
                               + (u8 *)copy_table);
         town_slot_snapshot = *copy_src;
     }
@@ -786,7 +787,7 @@ void *create_selection_entry_object(void *object_data, void *source_position, s3
 
     created->update_callback = dispatch_object_or_switch_alternate_state;
     initialize_object_and_maybe_play_sound(object, object, position, render_state);
-    del_t_item_w_ptr(object_data);
+    del_t_item_w_ptr(entry);
     return created;
 }
 
@@ -811,7 +812,7 @@ s32 store_target_record_script_state(void) {
 s32 open_monster_status_window(void) {
     u8 *record_table = (u8 *)0x80010A80;
     u32 record_index = town_target_record->unk_4F & 0x3F;
-    s32 *state = &town_actor_scratch;
+    struct ActorRecord *state = &town_actor_scratch;
 
     restore_actor_stats_from_snapshot(state, record_table + (record_index * 0x54));
     monster_status_window = load_and_open_monster_status_display(state, 1, 0x5C, -0x68, 0x200);

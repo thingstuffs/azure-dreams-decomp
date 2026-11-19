@@ -41,30 +41,23 @@ extern Template12 D_800269A8;
 
 /* Shifts the sprite color toward blue, adjusts its offset, and clears its owner's indexed slot when
    the timer ends. */
-void apply_random_actor_value_adjustment(void *state, void *unused, void *visual) {
+void apply_random_actor_value_adjustment(TimedRectangleChildBody *state, ObjectPosition *unused, SpriteFrameState *sprite) {
     s32 remaining_ratio;
     u16 ticks_left;
 
-    ticks_left = *(u16 *)((u8 *)state + 0x2C) - 1;
+    ticks_left = state->unk_2C - 1;
     remaining_ratio = (s32)((s32)(ticks_left << 16) >> 9) /
-               (s16)*(u16 *)((u8 *)state + 0x2E);
+               state->unk_2E;
     particle_activity = 1;
-    *(u16 *)((u8 *)state + 0x2C) = ticks_left;
-    *((u8 *)visual + 0x0E) += 4;
-    *(s8 *)((u8 *)visual + 0x0D) = (s8)remaining_ratio;
-    *(s8 *)((u8 *)visual + 0x0C) = (s8)remaining_ratio;
-    if (*(s16 *)((u8 *)visual + 6) >= -6) {
-        *(s16 *)((u8 *)visual + 6) -= 2;
+    state->unk_2C = ticks_left;
+    sprite->color.c.b += 4;
+    sprite->color.c.g = remaining_ratio;
+    sprite->color.c.r = remaining_ratio;
+    if (sprite->depth_bias >= -6) {
+        sprite->depth_bias -= 2;
     }
-    if (*(s16 *)((u8 *)state + 0x2C) <= 0) {
-        s16 *owner_slot;
-        s32 slot_offset;
-        s32 owner_addr;
-
-        slot_offset = *(s16 *)((u8 *)state + 0x50) * 2;
-        owner_addr = *(s32 *)((u8 *)state + 0x7C);
-        owner_slot = (s16 *)(unsigned long)(slot_offset + owner_addr + 0x64);
-        *owner_slot = 0;
+    if (state->unk_2C <= 0) {
+        state->owner->occupied_slots[state->unk_50] = 0;
         NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
@@ -620,7 +613,7 @@ void create_timed_rectangle_effect(StagedRectangleSpriteBody *owner) {
     s32 rect_offset;
     Rect16 *rect;
     ObjectNodeHeader *child;
-    S_8196BA5C_0 *child_work;
+    TimedRectangleChildBody *child_work;
     SpriteFrameState *display;
     ObjectPosition *source_vector;
     ObjectPosition *child_vector;
@@ -647,12 +640,12 @@ void create_timed_rectangle_effect(StagedRectangleSpriteBody *owner) {
     particle_activity = 1;
 
     slot = 0;
-    while (slot < 8 && (*(s16 *)((u8 *)owner + 0x64 + (((s32)slot << 16) >> 15))) != 0) {
+    while (slot < 8 && owner->occupied_slots[slot] != 0) {
         slot++;
     }
 
     if (slot != 8) {
-        (*(s16 *)((u8 *)owner + 0x64 + slot * 2)) = 1;
+        owner->occupied_slots[slot] = 1;
         rect_offset = (s32)slot << 3;
         rect = (Rect16 *)((u8 *)&slot_rects + rect_offset);
         center[0] = rect->x + ((s16)rect->w >> 1);
@@ -665,7 +658,7 @@ void create_timed_rectangle_effect(StagedRectangleSpriteBody *owner) {
             child_work->unk_2C = 7;
             child_work->unk_2E = 7;
             child_work->unk_50 = slot;
-            child_work->unk_7C = owner;
+            child_work->owner = owner;
             child->update_callback = apply_random_actor_value_adjustment;
             register_node(child, project_sprite_chain);
 

@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/dungeon_height_query.h"
 #include "shared/object_flags.h"
 #include "shared/dir_step.h"
 #include "dungeon/effect/sprite.h"
 
-extern s16 sample_terrain_surface_height(u16, u16, s16);
 #include "dungeon/effect/sprite_effect_count_data.h"
 
 /* Update position, reduce movement speed, and flag completion when speed runs out. */
@@ -17,7 +17,7 @@ void update_speed_damped_effect(void *motion_data, s16 *position)
     u16 y = position[3];
 
     sprite_effect_update_count = update_count + 1;
-    if (position[5] < sample_terrain_surface_height(x, y, z + 2)) {
+    if (position[5] < (s16)sample_terrain_surface_height(x, y, z + 2)) {
         ((s32 *)position)[0] -= (dir_step_x[motion[27]] * motion[24]) << 11;
         ((s32 *)position)[1] -= (dir_step_y[motion[27]] * motion[24]) << 11;
         ((s32 *)position)[2] += (0xC0 - motion[24]) << 10;

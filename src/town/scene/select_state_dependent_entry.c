@@ -3,10 +3,9 @@
 #include "town/player/script_flags.h"
 #include "town/scene.h"
 #include "town/scene/event_buffer_data.h"
-#include "town/scene/motion.h"
+#include "town/scene/position_entries.h"
 
 extern u8 D_8001BE24[];
-extern u8 scene_dispatch_context[];
 extern u8 D_8001E16A[];
 extern u8 D_8001E42A[];
 

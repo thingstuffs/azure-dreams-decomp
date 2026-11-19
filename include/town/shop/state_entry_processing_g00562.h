@@ -20,7 +20,7 @@ void build_entity_slot_snapshot(S_800422DC_Self *snapshot, S_800422DC_Other *sou
 /* extern */
 void reset_person_object_entries(void *);
 /* extern */
-extern s32 town_actor_scratch;
+extern struct ActorRecord town_actor_scratch;
 extern s32 town_record_capacities[];
 extern s16 paired_scene_flag_ids[];
 extern void *town_item_list;

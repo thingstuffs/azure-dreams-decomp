@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/collection.h"
 #define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #include "shared/entity.h"
@@ -28,7 +29,6 @@ typedef struct {
 
 
 #include "town/scene/value_total_data.h"
-extern u8 town_motion_state[16];
 extern u8 score_bounce_motion_data[16];
 extern Copy12 D_80526760;
 extern u8 falling_object_update_address[16];
@@ -109,7 +109,7 @@ void step_falling_town_object(FallingTownWork *obj, ObjectPosition *motion, Spri
                 motion->velocity_z = -motion->velocity_z >> 1;
             }
         }
-        call_result = func_80240810(falling_object_update_address, motion, score_bounce_motion_data, town_motion_state);
+        call_result = func_80240810(falling_object_update_address, motion, score_bounce_motion_data, &town_motion_state);
         if (call_result != 0) {
             scene_value_total = values.v[obj->kind] * 1000 + scene_value_total;
             U16_AT(obj, 4) = 255;
@@ -124,7 +124,7 @@ void step_falling_town_object(FallingTownWork *obj, ObjectPosition *motion, Spri
             obj->timer = 31;
             obj->state++;
         }
-        call_result = func_80240810(falling_object_update_address, motion, score_bounce_motion_data, town_motion_state);
+        call_result = func_80240810(falling_object_update_address, motion, score_bounce_motion_data, &town_motion_state);
         if (call_result != 0) {
             scene_value_total = valuep[obj->kind] * 1000 + scene_value_total;
             U16_AT(obj, 4) = 255;
@@ -132,7 +132,7 @@ void step_falling_town_object(FallingTownWork *obj, ObjectPosition *motion, Spri
         }
         return;
     case 4:
-        if (func_80240810(falling_object_update_address, motion, score_bounce_motion_data, town_motion_state) != 0) {
+        if (func_80240810(falling_object_update_address, motion, score_bounce_motion_data, &town_motion_state) != 0) {
             scene_value_total = valuep[obj->kind] * 1000 + scene_value_total;
             S16_AT(obj, 4) = 255;
         }

@@ -6,7 +6,7 @@
 
 struct CopyBlock;
 struct OvWork;
-struct S_802EE4E8_0;
+struct CardDevSlotDetails;
 
 /* set_stage_flag_four_if_ready.c */
 s32 set_stage_flag_four_if_ready(s32 entry);
@@ -192,7 +192,7 @@ void scale_stored_value_and_base(void);
 void scale_stored_value_and_base_alt(void);
 
 /* select_memory_task_exit.c */
-void select_memory_task_exit(struct S_802EE4E8_0 *object);
+void select_memory_task_exit(struct CardDevSlotDetails *panel);
 
 /* set_devkit_value_to_nine.c */
 void set_devkit_value_to_nine(void);

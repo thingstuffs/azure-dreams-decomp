@@ -6,6 +6,6 @@
 
 
 /* Calls func_80047358 with the supplied context, D_80408CB8, and 10. */
-s32 card_background_bind_template(s32 context) {
-    return func_80047358(context, &D_80408CB8, 0xa);
+s32 card_background_bind_template(void *entries) {
+    return func_80047358(entries, &D_80408CB8, 0xa);
 }

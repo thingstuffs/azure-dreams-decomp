@@ -111,7 +111,6 @@ void update_object_motion_and_landing(ConditionalSourceEffectBody *motion, struc
 
 /* begin_ghosh_front_attack.c and its imports. */
 s32 begin_ghosh_front_attack(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-u32 check_entity_interaction_compatibility(void *entity, void *other_entity);
 s32 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_record); /* callers here use the full return register */
 struct Ent *prepare_directional_attack(ActorRecord *actor, SpriteFrameState *sprite, s16 facing, s32 mode, void *extra);
 void install_boss_action_handler(ActorRecord *object, ObjectPosition *unused_1, SpriteFrameState *unused_2, ActorRecord *flag_owner);

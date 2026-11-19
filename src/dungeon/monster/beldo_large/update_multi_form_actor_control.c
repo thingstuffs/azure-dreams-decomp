@@ -32,7 +32,6 @@ struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0;
 
 struct Rec_func_800A9E70_arg0;
 struct Rec_func_800A9E70_arg0;
-s32 run_beldo_large_action_script();
 extern u8 D_801739F8[];
 extern u8 D_80173A08[];
 extern u8 D_80173A10[];
@@ -292,7 +291,7 @@ block_37:
             start_actor_attack(actor, context, sprite, entity);
             return;
         case 9:
-            complete_actor_facing_action(actor, context, (s32)(sprite), entity);
+            complete_actor_facing_action(actor, context, sprite, entity);
             return;
         case 10:
             start_actor_directional_action(actor, context, sprite, entity);

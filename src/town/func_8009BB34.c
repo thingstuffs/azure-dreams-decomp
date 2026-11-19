@@ -13,7 +13,7 @@
 
 void init_four_tick_target_action(TownObjectRecord *object, ObjectPosition *motion_context, void *handler_context) {
     dispatch_selected_entry_if_nonzero(&player_event_handler_entries, object, handler_context);
-    town_action_reset_byte = 0;
+    town_action_reset_byte[0] = 0;
     object->unk_04 = &target_action_update_address;
     object->unk_0A = 4;
     clear_object_velocity((motion_context));

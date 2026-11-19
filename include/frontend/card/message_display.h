@@ -1,17 +1,27 @@
 #ifndef FRONTEND_CARD_MESSAGE_DISPLAY_H
 #define FRONTEND_CARD_MESSAGE_DISPLAY_H
 #include "frontend/libcard/display_node.h"
-/* Only the observed CARD_DEV dialog prefix is described here. Its four
- * 0x108-byte text buffers and node table differ from the libcard dialog. */
+/* The message object links six display nodes and initializes four text rows.
+ * The six blocks end at +0x764, the size cleared when the dialog is reused. */
 typedef struct CardDevDialogDisplay {
-    u8 pad_00[8];
+    s32 selection;
+    u8 pad_04[4];
     s32 layout_index;
-    u8 pad_0C[0xC];
+    s32 mode;
+    s32 repeat_ticks;
+    struct ObjectNodeHeader *owner;
     s32 width;
     s32 height;
-    u8 pad_20[0x214];
+    s32 result_word;
+    u8 command_buffer[0x120];
+    u8 pad_144[0xF0];
     u8 text_buffers[4][0x108];
-    u8 pad_654[0x38];
-    CardMenuDisplayNode *entries[4];
+    MenuDisplayBlock primary;
+    DisplayPositionWords secondary;
+    DisplayPositionWords settings;
+    MenuDisplayNode template_node;
+    MenuDisplayNode *entries[6];
+    MenuDisplayNode display_nodes[6];
+    MenuDisplayBlock blocks[6];
 } CardDevDialogDisplay;
 #endif

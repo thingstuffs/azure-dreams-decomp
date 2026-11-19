@@ -1,4 +1,6 @@
 #include "shared/audio_commands.h"
+#include "shared/sound_state.h"
+#include "dungeon/globals.h"
 #include "shared/dungeon_image_buffer.h"
 #include "sdk/libc.h"
 #include "dungeon/system.h"
@@ -48,11 +50,6 @@ typedef struct S_801749A8_2 {
     u8 unk_AA;
 } S_801749A8_2;
 
-typedef struct S_801749A8_3 {
-    u8 unk_00;
-    u8 unk_01;
-    u8 unk_02;
-} S_801749A8_3;
 
 typedef struct S_801749A8_6_pre {
     void * unk_00;
@@ -64,7 +61,6 @@ typedef struct S_801749A8_6 {
     u16 unk_2A;
 } S_801749A8_6;
 
-extern s32 cd_cue_base[];
 struct S_8003E2D8;
 typedef struct S_8003E2D8 S_8003E2D8;
 extern s16 D_80174F48[];
@@ -75,7 +71,6 @@ void *advance_staged_entity_load(); /* Unprototyped: uses the value as a pointer
 void *create_status_linked_render_effect();
 void create_cylindrical_effect(); /* Unprototyped: retail passes an unused sprite; dropping it changes bytes. */
 s32 lookup_masked_byte_table(void *, ...);
-extern u8 *actor_effect_color_targets[];
 extern void func_8017487C(u8 *task, void *context, SpriteFrameState *input);
 extern s32 D_80174FB4;
 extern s32 D_80174FD0[];
@@ -86,7 +81,7 @@ extern s32 D_80174FD0[];
 void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition *position, SpriteFrameState *actor, ActorRecord *target) {
     ObjectNodeHeader *effect_node;
     SpriteFrameState *effect_sprite;
-    S_801749A8_3 *target_color;
+    ActorEffectColor *target_color;
     s16 direction;
     s32 effect_choice;
     void *movement_done;
@@ -125,7 +120,7 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
             return;
         }
         run_cd_image_commands(&nyuel_image_commands, &nyuel_image_load_done, 1);
-        sound_set_cd_cue_parameters(0, *cd_cue_base, 0x04000AD4, 0x05000CC4);
+        sound_set_cd_cue_parameters(0, cd_cue_base, 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, read_stream_cue_start_offset(), NULL);
         nyuel_effect_load_done[0] = 0;
         Control_CD(0xFF, (s32) set_byte_one, &nyuel_effect_load_done);
@@ -146,12 +141,12 @@ void update_turning_fade_effect_and_model(ActorRecord *sequence, ObjectPosition 
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             return;
         }
-        target_color = (S_801749A8_3 *)actor_effect_color_targets[lookup_masked_byte_table(target)];
-        object->unk_A8 = (u8) (object->unk_A8 + ((s32) (target_color->unk_00
+        target_color = actor_effect_color_targets[lookup_masked_byte_table(target)];
+        object->unk_A8 = (u8) (object->unk_A8 + ((s32) (target_color->r
             - object->unk_A8) / sequence->action_timer));
-        object->unk_A9 = (u8) (object->unk_A9 + ((s32) (target_color->unk_01
+        object->unk_A9 = (u8) (object->unk_A9 + ((s32) (target_color->g
             - object->unk_A9) / sequence->action_timer));
-        object->unk_AA = (u8) (object->unk_AA + ((s32) (target_color->unk_02
+        object->unk_AA = (u8) (object->unk_AA + ((s32) (target_color->b
             - object->unk_AA) / sequence->action_timer));
         return;
     case 4:

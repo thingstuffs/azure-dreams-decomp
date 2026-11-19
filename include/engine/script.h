@@ -136,6 +136,8 @@ typedef void (*ScriptOpcodeHandler)();
 
 /* Defined with its interpreter in src/slus/konami_runtime_w_80038AB8.c. */
 extern ScriptOpcodeHandler script_opcode_handlers[SCRIPT_OP_COUNT];
+/* The result occupies the final word of the resident script value queue. */
+extern int script_status[];
 
 struct Func80039578State;
 struct Func800395B0State;

@@ -6,9 +6,9 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 
-void install_stored_value_handler(void *object, void *unused, void *update_arg);
+void install_stored_value_handler(TownObjectRecord *object, ObjectPosition *unused, SpriteFrameState *update_arg);
 void initialize_object_assigns_state_data(TownObjectRecord *object, void *unusedArg, void *initializationArg);
-void wait_then_choose_direction(TownObjectRecord *entity, void *motion, SpriteFrameState *context, s32 update_arg);
+void wait_then_choose_direction(TownObjectRecord *entity, ObjectPosition *motion, SpriteFrameState *context, s32 update_arg);
 void update_person_view_and_record(void *ptr, void *value, SpriteFrameState *record);
 
 

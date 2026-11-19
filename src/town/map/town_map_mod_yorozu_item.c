@@ -1,4 +1,5 @@
 #include "modules/town_map_props.h"
+#include "shared/dir_step.h"
 #include "town/scene/list_setup.h"
 #include "shared/game_work.h"
 #include "town/person/position.h"
@@ -17,8 +18,6 @@ typedef union
     s16 h[10];
 }
 SpBuf;
-extern s16 dir_step_x[][2];
-extern s16 dir_step_y[][2];
 extern u8 *D_80073600[];
 extern s32 D_800D2134[][2];
 extern s32 D_800D214C[][2];
@@ -78,8 +77,8 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
         if (direction == 1) {
             y_or_state.coord++;
         }
-        position.w[0] = ((x_or_object.coord << 6) - (dir_step_y[direction][0] << 3)) << 16;
-        position.w[1] = ((y_or_state.coord << 6) + (dir_step_x[direction][0] << 3)) << 16;
+        position.w[0] = ((x_or_object.coord << 6) - (dir_step_y[direction * 2] << 3)) << 16;
+        position.w[1] = ((y_or_state.coord << 6) + (dir_step_x[direction * 2] << 3)) << 16;
         position.w[2] = 0;
         variant_row = D_800D2134[entry_index];
         x_or_object.object = create_positioned_visual_object(position.w, cycle_prop_output_values, direction << 10, *variant_row);

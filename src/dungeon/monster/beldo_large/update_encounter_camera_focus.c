@@ -1,4 +1,6 @@
 #include "common.h"
+#include "dungeon/player/camera_depth_presets_data.h"
+#include "dungeon/monster/beldo_large_data.h"
 #include "shared/object_node.h"
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
@@ -14,22 +16,12 @@ typedef struct {
     s16 phase;
 } Entity;
 
-typedef struct {
-    u8 pad_00[2];
-    s16 x;
-    u8 pad_04[2];
-    s16 y;
-    u8 pad_08[2];
-    u16 z;
-} Actor;
 
 typedef struct {
     s16 values[8];
 } __attribute__((packed)) PhaseHeights;
 
 extern PhaseHeights D_80164A54;
-extern u8 *beldo_actor_nodes;
-extern u16 dungeon_camera_targets[4];
 
 extern s32 get_player_relative_point_octant(void *);
 
@@ -39,7 +31,7 @@ extern s32 get_player_relative_point_octant(void *);
  */
 void update_encounter_camera_focus(Entity *entity) {
     PhaseHeights heights = D_80164A54;
-    Actor *actor = *(Actor * *)&((ObjectNodeHeader *)beldo_actor_nodes)->position;
+    ObjectPosition *actor = beldo_actor_nodes->position;
     s16 phase_slot;
     s16 height_slot;
     s32 state = entity->state;
@@ -56,12 +48,12 @@ void update_encounter_camera_focus(Entity *entity) {
         entity->timer = 0;
         entity->phase = 2;
         entity->state++;
-        beldo_camera_rotation[0] = dungeon_camera_targets[0];
-        beldo_camera_rotation[1] = dungeon_camera_targets[1];
-        beldo_camera_rotation[2] = dungeon_camera_targets[2] - 0x600;
-        beldo_camera_position[0] = actor->x;
-        beldo_camera_position[1] = actor->y - 0x100;
-        beldo_camera_position[2] = actor->z;
+        beldo_camera_rotation[0] = dungeon_camera_targets.rotation.x;
+        beldo_camera_rotation[1] = dungeon_camera_targets.rotation.y;
+        beldo_camera_rotation[2] = dungeon_camera_targets.rotation.z - 0x600;
+        beldo_camera_position[0] = actor->x.w.i;
+        beldo_camera_position[1] = actor->y.w.i - 0x100;
+        beldo_camera_position[2] = (u16)actor->z.w.i;
         globals = &g_game_work;
         globals->view.slot[2].callback = 0;
         globals->view.slot[0].callback = 0;
@@ -92,7 +84,7 @@ void update_encounter_camera_focus(Entity *entity) {
             return;
         }
         focus_arg = 0;
-        offset_arg = dungeon_camera_targets;
+        offset_arg = &dungeon_camera_targets.rotation;
         previous_state = entity->state;
         transition_ticks = 0xA;
 
@@ -110,16 +102,16 @@ void update_encounter_camera_focus(Entity *entity) {
         entity->state++;
         phase_slot = get_player_relative_point_octant(actor);
         height_slot = phase_slot + 3;
-        beldo_camera_rotation[0] = dungeon_camera_targets[0];
-        beldo_camera_rotation[1] = dungeon_camera_targets[1];
+        beldo_camera_rotation[0] = dungeon_camera_targets.rotation.x;
+        beldo_camera_rotation[1] = dungeon_camera_targets.rotation.y;
         if (height_slot >= 8) {
             height_slot = phase_slot - 5;
         }
         beldo_camera_rotation[2] = heights.values[height_slot] * 0x200;
-        beldo_camera_position[0] = ((s32)(actor->x + view_reference_entity.x.w.i)) / 2;
-        y_sum = actor->y + view_reference_entity.y.w.i;
+        beldo_camera_position[0] = ((s32)(actor->x.w.i + view_reference_entity.x.w.i)) / 2;
+        y_sum = actor->y.w.i + view_reference_entity.y.w.i;
         beldo_camera_position[1] = y_sum / 2;
-        beldo_camera_position[2] = actor->z;
+        beldo_camera_position[2] = (u16)actor->z.w.i;
         globals = &g_game_work;
         globals->view.slot[2].callback = 0;
         globals->view.slot[0].callback = 0;
@@ -138,16 +130,16 @@ void update_encounter_camera_focus(Entity *entity) {
         entity->state++;
         phase_slot = get_player_relative_point_octant(actor);
         height_slot = phase_slot + 2;
-        beldo_camera_rotation[0] = dungeon_camera_targets[0];
-        beldo_camera_rotation[1] = dungeon_camera_targets[1];
+        beldo_camera_rotation[0] = dungeon_camera_targets.rotation.x;
+        beldo_camera_rotation[1] = dungeon_camera_targets.rotation.y;
         if (height_slot >= 8) {
             height_slot = phase_slot - 6;
         }
         beldo_camera_rotation[2] = heights.values[height_slot] * 0x200;
-        beldo_camera_position[0] = ((s32)(actor->x + view_reference_entity.x.w.i)) / 2;
-        y_sum = actor->y + view_reference_entity.y.w.i;
+        beldo_camera_position[0] = ((s32)(actor->x.w.i + view_reference_entity.x.w.i)) / 2;
+        y_sum = actor->y.w.i + view_reference_entity.y.w.i;
         beldo_camera_position[1] = y_sum / 2;
-        beldo_camera_position[2] = actor->z;
+        beldo_camera_position[2] = (u16)actor->z.w.i;
         globals = &g_game_work;
         globals->view.slot[2].callback = 0;
         globals->view.slot[0].callback = 0;
@@ -164,18 +156,18 @@ void update_encounter_camera_focus(Entity *entity) {
 
         if ((entity->timer & 0xF) == 0) {
             height_slot = get_player_relative_point_octant(actor);
-            beldo_camera_rotation[0] = dungeon_camera_targets[0];
-            beldo_camera_rotation[1] = dungeon_camera_targets[1];
+            beldo_camera_rotation[0] = dungeon_camera_targets.rotation.x;
+            beldo_camera_rotation[1] = dungeon_camera_targets.rotation.y;
             entity->phase++;
             height_slot += entity->phase;
             if (height_slot >= 8) {
                 height_slot -= 8;
             }
             beldo_camera_rotation[2] = heights.values[height_slot] * 0x200;
-            beldo_camera_position[0] = ((s32)(actor->x + view_reference_entity.x.w.i)) / 2;
-            y_sum = actor->y + view_reference_entity.y.w.i;
+            beldo_camera_position[0] = ((s32)(actor->x.w.i + view_reference_entity.x.w.i)) / 2;
+            y_sum = actor->y.w.i + view_reference_entity.y.w.i;
             beldo_camera_position[1] = y_sum / 2;
-            beldo_camera_position[2] = actor->z;
+            beldo_camera_position[2] = (u16)actor->z.w.i;
             globals = &g_game_work;
             globals->view.slot[2].callback = 0;
             globals->view.slot[0].callback = 0;

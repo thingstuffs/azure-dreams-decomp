@@ -20,14 +20,14 @@ typedef struct CardCommandPanelState {
 
 
 /* Creates or resets the object, initializes its state, and runs its update callback. */
-void *card_boot_create_command_panel(void *init_value)
+ObjectNodeHeader *card_boot_create_command_panel(ObjectNodeHeader *owner)
 {
     ObjectNodeHeader *object;
     CardCommandPanelState *state;
     void *body;
 
     object = card_command_panel_object;
-    state = (CardCommandPanelState *)(card_command_panel_object + 0x20);
+    state = NODE_BODY(object);
     if (find_active_list_node(object) == 0) {
         object = initialize_scene_object_in_buffer(0, object, 0x112);
         register_node(object, card_boot_render_panel_hierarchy);
@@ -40,7 +40,7 @@ void *card_boot_create_command_panel(void *init_value)
     init_card_continue_nodes(state, 0x12);
     object->sprite = state->sprite;
     state->chain = card_boot_link_command_panel_nodes(state->nodes);
-    card_boot_init_command_panel(state, init_value);
+    card_boot_init_command_panel(state, owner);
     object->update_callback = card_boot_animate_command_panel_selection;
     body = state;
     card_boot_animate_command_panel_selection(body);

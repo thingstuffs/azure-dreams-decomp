@@ -17850,7 +17850,7 @@
       "region": "xfer_dungeon_A3000",
       "source": "src/dungeon/player/object/can_entity_gain_level.c",
       "headers": [
-        "include/dungeon/player/object/can_entity_gain_level.h",
+        "include/dungeon/player/object.h",
         "include/modules/dungeon_engine_experience_fragment_bc5ec.h",
         "include/common.h",
         "include/m2c_compat.h",

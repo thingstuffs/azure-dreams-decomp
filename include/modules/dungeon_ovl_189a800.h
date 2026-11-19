@@ -77,7 +77,7 @@ void update_projectile_trail_flash(struct ProjectileTrailFlashBody *effect, s32 
 s32 draw_chained_mesh_records(void *record, void *context, void *data);
 struct RandomRadialVectorEffectBody;
 struct SignedPositionView;
-s32 project_shaded_points_to_ordering_table(struct RandomRadialVectorEffectBody *points, ObjectPosition *position, u8 *orientation);
+s32 project_shaded_points_to_ordering_table(struct RandomRadialVectorEffectBody *points, ObjectPosition *position, struct SpriteFrameState *sprite);
 struct StarSequenceBody;
-void initialize_star_effect_sequence(struct StarSequenceBody *state_data, void *source_data);
+void initialize_star_effect_sequence(struct StarSequenceBody *state_data, ObjectPosition *source_position);
 #endif

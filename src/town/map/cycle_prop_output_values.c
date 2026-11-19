@@ -1,7 +1,7 @@
 #include "modules/town_map_props.h"
 #include "common.h"
 #include "shared/dungeon_delay_views.h"
-#include "shared/town_pointees.h"
+#include "shared/sprite_frame_state.h"
 #include "town/map.h"
 #include "engine/script.h"
 
@@ -12,19 +12,15 @@ typedef struct S_800BDE7C_0 {
     s32 * unk_A0;
 } S_800BDE7C_0;   /* arg0 in cycle_prop_output_values */
 
-   /* arg2 in cycle_prop_output_values */
-
-
-
-/* Alternates output +0x08 between two stored values as the script and object checks turn on and off. */
-void cycle_prop_output_values(S_800BDE7C_0 *record, s32 unused_value, TownGridOutputView *output, s32 unused_value2)
+/* Alternates the rendered mesh between the two indices supplied by the Yorozu prop table. */
+void cycle_prop_output_values(S_800BDE7C_0 *record, s32 unused_value, LitMeshSprite *output, s32 unused_value2)
 {
     s16 state;
         /* MATCH: Preserve retail's source register after making call arguments explicit. */
     s32 *source;
         /* MATCH: Keep incoming call arguments in their ABI registers across dispatch. */
     S_800BDE7C_0 *saved_record = record;
-    TownGridOutputView *saved_output = output;
+    LitMeshSprite *saved_output = output;
 
     state = (s16)record->unk_68;
     source = record->unk_A0;
@@ -37,7 +33,7 @@ void cycle_prop_output_values(S_800BDE7C_0 *record, s32 unused_value, TownGridOu
         if (check_town_target_and_callback(record) == 0) {
             return;
         }
-        output->unk_08 = source[1];
+        output->mesh_index = source[1];
         record->unk_68 = record->unk_68 + 1;
         return;
     case 1:
@@ -53,7 +49,7 @@ void cycle_prop_output_values(S_800BDE7C_0 *record, s32 unused_value, TownGridOu
         if (check_town_target_and_callback(record) == 0) {
             return;
         }
-        output->unk_08 = source[0];
+        output->mesh_index = source[0];
         record->unk_68 = record->unk_68 + 1;
         return;
     }

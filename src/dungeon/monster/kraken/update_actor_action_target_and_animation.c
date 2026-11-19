@@ -2,6 +2,7 @@
 #include "shared/actor_status_flags.h"
 #include "shared/object_node.h"
 #include "common.h"
+#include "dungeon/effect/particle/create_two_row_object_group.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
@@ -36,7 +37,6 @@ typedef struct S_801727C8_5 {
     u16 unk_04;
 } S_801727C8_5;
 
-void create_two_effect_groups(ObjectPosition *, SpriteFrameState *, ActorRecord *, s16);
 extern u8 D_801741B4;
 
 /* Updates an actor's action state, target selection, and animation. */

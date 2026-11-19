@@ -1,6 +1,7 @@
 #ifndef DUNGEON_RESOURCE07_SLOT0_H
 #define DUNGEON_RESOURCE07_SLOT0_H
 #include "engine/node/registration.h"
+#include "engine/graphics/select_sprite_entry_api.h"
 #include "dungeon/monster/grineut/path_motion.h"
 struct ObjectPosition;
 #include "common.h"
@@ -180,7 +181,6 @@ void advance_sprite_animation_and_textures(void *entity);
 s32 refresh_actor_facing_and_lifecycle();
 s16 sample_terrain_surface_height();
 s32 resolve_record_orientation_or_fallback();
-void select_sprite_entry();
 void func_80047784(void *object_data, s16 table_index, s16 entry_index);
 s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 #include "dungeon/item/find_active_rect_containing_point_api.h"
@@ -223,11 +223,9 @@ extern u8 grineut_frame_set_3[];
 extern u8 grineut_frame_set_4[];
 extern u8 grineut_frame_set_2[];
 extern u8 grineut_move_direction_frames[];
-extern u8 actor_turn_angle_offsets[];
 extern u8 grineut_frame_set_5[];
 extern u8 grineut_frame_set_6[];
 extern u8 grineut_frame_set[];
-extern u8 actor_update_node_cursor[];
 extern u8 D_80174170[];
 extern u8 D_80174180[];
 extern u8 D_80174178[];

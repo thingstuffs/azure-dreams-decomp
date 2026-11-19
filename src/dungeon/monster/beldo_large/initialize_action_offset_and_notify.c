@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/monster/beldo_large_data.h"
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
@@ -6,7 +7,6 @@
 #include "dungeon/player.h"
 
 extern s16 beldo_large_direction_offsets[];
-extern u8 *beldo_script_node;
 extern u8 D_80175DBC[];
 
 /* Initializes an offset position and sends a message at action phase three. */

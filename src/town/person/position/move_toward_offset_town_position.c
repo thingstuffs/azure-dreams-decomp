@@ -2,21 +2,11 @@
 #include "town/person/offset_target_data.h"
 #include "common.h"
 
-typedef struct town_offset_actor_position {
-    u32 x;
-    u32 y;
-} TownVec2;
-
-typedef struct town_offset_actor {
-    u8 pad0[0x6C];
-    u16 countdown;
-} TownActor;
-
 #include "town/person/object_setup.h"
 #include "town/person/object.h"
 
 /* Moves the position toward the town coordinates plus a vertical offset until the countdown expires. */
-void move_toward_offset_town_position(TownActor *actor, TownVec2 *position, void *completion_arg)
+void move_toward_offset_town_position(TownObjectRecord *actor, ObjectPosition *position, SpriteFrameState *completion_arg)
 {
     TownOffsetTargetCoords *coords;
     s32 coord_x;
@@ -30,8 +20,8 @@ void move_toward_offset_town_position(TownActor *actor, TownVec2 *position, void
     coords = person_offset_target_owner->coords;
     coord_x = coords->x;
     base_y = coords->y;
-    countdown = actor->countdown - 1;
-    actor->countdown = countdown;
+    countdown = actor->timer - 1;
+    actor->timer = countdown;
     ticks_left = (s16)countdown;
     coord_y = base_y + 0x60;
     target_x = (u32)coord_x << 16;
@@ -40,14 +30,14 @@ void move_toward_offset_town_position(TownActor *actor, TownVec2 *position, void
     coord_y = target_y;
 
     if (ticks_left <= 0) {
-        position->x = target_x;
-        position->y = target_y;
+        position->x.v = target_x;
+        position->y.v = target_y;
         apply_object_setup_and_update(actor, position, completion_arg);
         return;
     }
 
-    position->x +=
-        (u32)((s32)(coord_x - position->x) / ticks_left);
-    position->y +=
-        (u32)((s32)(coord_y - position->y) / (s16)actor->countdown);
+    position->x.v +=
+        (u32)((s32)(coord_x - position->x.v) / ticks_left);
+    position->y.v +=
+        (u32)((s32)(coord_y - position->y.v) / (s16)actor->timer);
 }

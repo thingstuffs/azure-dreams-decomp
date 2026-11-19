@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/action_handler_tables_data.h"
 #include "shared/object_node.h"
 #include "engine/script.h"
 #include "town/player/object.h"
@@ -8,7 +9,6 @@ extern void init_motion_action_callback(void *block, s32 header_param_08, s32 he
 
 extern u8 D_8006CADE[];
 extern u8 scene_object_payload_alias[];
-extern u8 town_scene_record_handlers[];
 
 /* Set the block's 12-bit value and apply its header parameters. */
 void set_player_block_value(s32 value)

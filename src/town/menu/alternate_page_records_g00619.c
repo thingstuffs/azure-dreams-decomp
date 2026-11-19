@@ -5,38 +5,38 @@
 #include "town/menu.h"
 
 /* Shows or hides the two page indicators according to the current page and its limit. */
-void update_alternate_menu_page_bounds(Object *obj)
+void update_alternate_menu_page_bounds(AlternateStorageOwner *obj)
 {
-    State *state;
+    AlternateStorageSource *state;
     s32 flag_bits;
 
-    if (obj->state->current > 0) {
+    if (obj->source->page.current > 0) {
         u32 flags;
 
-        *obj->outputs->primary = item_menu_primary_page_data;
+        obj->parts[38]->handler = item_menu_primary_page_data;
         flags = obj->flags;
         flags &= ~2;
         obj->flags = flags;
     } else {
-        *obj->outputs->primary = 0;
+        obj->parts[38]->handler = 0;
         obj->flags |= 2;
     }
-    state = obj->state;
-    if (state->current < state->limit) {
+    state = obj->source;
+    if (state->page.current < state->page.last) {
         flag_bits = -2;
         obj->flags &= flag_bits;
-        *obj->outputs->secondary = card_selection_display_data;
+        obj->parts[39]->handler = card_selection_display_data;
         return;
     }
 
-    *obj->outputs->secondary = 0;
+    obj->parts[39]->handler = 0;
     obj->flags |= 1;
 }
 
 /* Update the linked record components and finalize the data at offset 0x68. */
-void update_paged_menu_record(Rec_func_800B2DA0_arg1 *record) {
+void update_paged_menu_record(AlternateStorageOwner *record) {
     fill_paged_menu_slots(record);
-    update_alternate_menu_page_bounds((Object *)record);
+    update_alternate_menu_page_bounds(record);
     populate_record_page_entries(record);
-    forward_paged_record_data(record->unk_A8 + 0x68, (void * *)(record));
+    forward_paged_record_data(&record->parts[26], record);
 }

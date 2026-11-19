@@ -1,6 +1,7 @@
 #ifndef DUNGEON_DUNGEON_SETUP_H
 #define DUNGEON_DUNGEON_SETUP_H
 #include "dungeon/player/saved_held_item_data.h"
+#include "dungeon/globals.h"
 #include "sdk/libgte.h"
 #include "dungeon/level.h"
 #include "dungeon/level/scripted_boundary.h"
@@ -15,7 +16,7 @@ struct ObjectPosition;
 #include "dungeon/actor/pending_marked_actor_count_data.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-#include "shared/dungeon_item_entries.h"
+#include "dungeon/player/held_item_kind_data.h"
 #include "shared/dungeon_floor.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80083460.h"
@@ -131,11 +132,6 @@ typedef struct dungeon_setup_802835B8_S_800165B8_6 {
     u8 pad_00[0xFA];
     u8 unk_FA;
 } dungeon_setup_802835B8_S_800165B8_6;
-typedef struct dungeon_setup_802835B8_S_800165B8_8 {
-    u8 pad_00[0x4];
-    s16 unk_04;
-    union { u16 s; s16 u; } dungeon_setup_802835B8_unk_06;   
-} dungeon_setup_802835B8_S_800165B8_8;
 typedef struct dungeon_setup_802835B8_S_800165B8_10 {
     u8 pad_00[0x3714];
     u16 unk_3714;
@@ -240,7 +236,6 @@ extern dungeon_setup_80283000_ColorState upper_draw_context;
 extern dungeon_setup_80283000_ColorState lower_draw_context;
 extern u8 D_80080AA0[16];
 extern u8 generation_cells[16];
-extern u8 camera_transition_timer[];
 extern void set_continuation_value(void *);
 void file_load_com(void *);
 s32 load_dungeon_sprite_bundle(void);
@@ -253,11 +248,7 @@ extern M2C_UNK D_80080E18;
 extern M2C_UNK D_80080E20;
 extern M2C_UNK D_80080E30;
 extern M2C_UNK D_80080EE8;
-extern s16 floor_generation_state[3];
-extern u8 scene_mode_code;
-extern s8 dungeon_event_pending_flag;
 extern s8 D_800DCF58;
-extern DungeonItemPosition dungeon_ground_item_positions[64];
 extern s16 pickup_event_latch;
 extern s16 bounded_runtime_counter;
 extern s32 player_turn_fraction;
@@ -295,8 +286,6 @@ extern void *create_pulsing_effect_object(void);
 extern s32 dungeon_mode_state;
 extern s8 random_pickup_enabled;
 extern s8 D_80082A3B;
-extern s32 held_item_record;
-extern s32 temporary_item_record;
 extern void *actor_direction_sprites;
 extern u8 D_80089AA0[];
 extern u8 player_attack_frame_groups;
@@ -305,7 +294,6 @@ extern u8 player_attack_frame_groups_alt;
 extern s32 D_800E3D48[];
 extern void *actor_default_frames[];
 extern u8 player_wait_frames[];
-extern u8 dungeon_camera_targets[];
 extern void *dungeon_menu_action_state[];
 extern u8 monster_resource_cache_slots[];
 extern void restore_actor_stats_from_snapshot(void *object, void *table);

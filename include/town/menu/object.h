@@ -3,7 +3,6 @@
 /* Prototypes of the functions defined in src/town/menu/object/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
-#include "records/Rec_D_80082D58.h"
 #include "shared/dungeon_effect_views.h"
 #include "shared/dungeon_moving_views.h"
 #include "shared/entity.h"
@@ -11,10 +10,7 @@
 #include "shared/sprite_source.h"
 #include "shared/vector.h"
 
-struct Func800A4A20Object;
-struct Func800A4B70Object;
-struct Func800A4B70Output;
-struct S_800A21EC_0;
+struct Rec_D_80082D58;
 struct S_800A1D1C_0;
 struct EmoteCallbackObject;
 struct S_800A7360_1;
@@ -22,6 +18,25 @@ struct S_800A7B98_2;
 struct S_func_800A9F90;
 struct SpriteFrameState;
 struct TownObject;
+struct DoorDisplayBody;
+struct ObjectPosition;
+struct LitMeshSprite;
+struct TownObjectRecord;
+
+typedef void (*DoorDisplayCallback)(struct DoorDisplayBody *, struct ObjectPosition *, struct LitMeshSprite *);
+
+/* The door creates this child and stores its own body, position and active flag.
+ * The initializer replaces callback with the rotation update for this part. */
+typedef struct DoorDisplayBody {
+    DoorDisplayCallback callback;
+    u8 pad_04[0xC];
+    struct TownObjectRecord *owner;
+    struct ObjectPosition *origin;
+    u8 pad_18[8];
+    s16 part_index;
+    u8 pad_22[0x1E];
+    u8 *active_flag;
+} DoorDisplayBody;
 
 /* Body finalized when its bounds check or countdown expires. */
 typedef struct BoundsExpiryObject {
@@ -32,19 +47,20 @@ typedef struct BoundsExpiryObject {
 } BoundsExpiryObject;
 
 /* allocate_and_initialize_display_object_g01137.c */
-void *allocate_and_initialize_display_object(s32 object_key, s32 payload_value, s32 payload_param, s32 payload_halfword, void *object_param, s32 object_value);
-s32 create_display_object_series(s32 object_key, s32 payload_value, s32 payload_param, s32 count);
-void run_callback_until_state_clears(struct Func800A4A20Object *object, s32 context, void *output);
-void initialize_directional_object_state(void *object, ObjectPosition *placement, struct S_800A21EC_0 *state);
-void copy_directional_value(struct Func800A4B70Object *object, s32 unused, struct Func800A4B70Output *out);
-void *create_default_display_object(s32 input_first, s32 input_second, s32 input_third, s32 input_fourth);
+struct ObjectNodeHeader *allocate_and_initialize_display_object(struct TownObjectRecord *owner, s8 *active_flag, ObjectPosition *origin, s32 part_index, DoorDisplayCallback update,
+    DoorDisplayCallback initialize);
+s32 create_display_object_series(struct TownObjectRecord *owner, s8 *active_flag, ObjectPosition *origin, s32 count);
+void run_callback_until_state_clears(DoorDisplayBody *object, ObjectPosition *position, struct LitMeshSprite *mesh);
+void initialize_directional_object_state(DoorDisplayBody *object, ObjectPosition *placement, struct LitMeshSprite *state);
+void copy_directional_value(DoorDisplayBody *object, ObjectPosition *unused, struct LitMeshSprite *mesh);
+struct ObjectNodeHeader *create_default_display_object(struct TownObjectRecord *owner, s8 *active_flag, ObjectPosition *origin, s32 part_index);
 
 /* create_shaded_primitive_object.c */
 void *create_shaded_primitive_object(s32 payload_word, s32 payload_halfword, void *unused_item_data);
 
 /* create_positioned_sprite_object_g01142.c */
 ObjectNodeHeader *create_emote_sprite_object(IntVector3 *position, s32 state_value, SpriteSourceEntry *graphic_id);
-void load_emote_launch_velocity(Rec_D_80082D58 *object, ObjectPosition *output, s32 unused);
+void load_emote_launch_velocity(struct Rec_D_80082D58 *object, ObjectPosition *output, s32 unused);
 void invoke_emote_object_callback(struct EmoteCallbackObject *object, ObjectPosition *motion, s32 context);
 void advance_emote_motion(struct S_800A7360_1 *object, ObjectPosition *motion);
 void advance_position_and_handle_ground_contact(void *entity, ObjectPosition *motion, s32 context);
@@ -59,16 +75,16 @@ void create_timed_effect_object(s32 ownerDataAddress, ObjectPosition *position, 
 void decrement_callback_object_timer(struct S_func_800A9F90 *self, ObjectPosition *expiry_arg);
 
 /* retire_object_on_check_or_timeout.c */
-void retire_object_on_check_or_timeout(BoundsExpiryObject *object, s32 check_value);
+void retire_object_on_check_or_timeout(BoundsExpiryObject *object, ObjectPosition *position);
 
 /* initialize_effect_object.c */
-void initialize_effect_object(void *object, ObjectPosition *unused, struct SpriteFrameState *context);
+void initialize_effect_object(struct TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 
 /* initialize_object_items_in_reverse.c */
 s32 initialize_object_items_in_reverse(struct TownObject *object, void *item_data, s32 item_count);
 
 /* initialize_timed_scale_object.c */
-void initialize_timed_scale_object(void *object, ObjectPosition *state, struct SpriteFrameState *context);
+void initialize_timed_scale_object(struct TownObjectRecord *object, ObjectPosition *state, struct SpriteFrameState *context);
 
 /* render_shaded_object_primitive.c */
 void render_shaded_object_primitive(struct S_800A1D1C_0 *object, ObjectPosition *coords, struct SpriteFrameState *primitive);
