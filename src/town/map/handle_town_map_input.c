@@ -45,12 +45,12 @@ void handle_town_map_input(TownMapBody *object, ObjectPosition *transform, Sprit
             buttons = (input->pressed_buttons);
             if (buttons & 0x40) {
                 town_map_status = 1;
-                call_script((s32)(D_80072214));
+                call_script(D_80072214);
                 return;
             }
             if (buttons & 0x20) {
                 town_map_status = 1;
-                call_script((s32)(D_80072210));
+                call_script(D_80072210);
                 return;
             }
         }

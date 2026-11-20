@@ -15,28 +15,9 @@
 
 
 struct InputRecord;
-
-/* Runtime map-change record at 0x8006ADEC; the copier transfers all 0x30 bytes. */
-typedef struct RuntimeState {
-    u8 pad_00[4];
-    void *field_04;
-    u8 pad_08[4];
-    u16 field_0C;
-    u16 field_0E;
-    void *field_10;
-    u16 field_14;
-    u16 field_16;
-    s16 field_18;
-    s16 field_1A;
-    u8 pad_1C[8];
-    void *field_24;
-    u16 field_28;
-    u16 field_2A;
-    u32 unused_tail_2C;
-} RuntimeState;
+struct RECT;
 
 /* Data declarations. */
-extern RuntimeState map_change_state;
 /* Packed default color shared by the resident primitive builders. */
 extern SpriteColor shared_primitive_color;
 /* Resident slots registered by register_sprite_slot and drained by flush_sprite_resource_slots. */
@@ -146,8 +127,8 @@ extern s32 gpu_scratch_ring_size;
 extern u8 gradient_palette_weights[ ];
 extern u8 gradient_rectangle_center_color[ 16 ];
 extern u8 gradient_rectangle_edge_color[ 16 ];
-extern u8 graphics_clear_rectangle_0[ ];
-extern u8 graphics_clear_rectangle_1[ ];
+extern struct RECT graphics_clear_rectangle_0;
+extern struct RECT graphics_clear_rectangle_1;
 extern struct InputRecord *home_rank_primary_map_table[];
 extern struct InputRecord *home_rank_secondary_map_table[];
 extern struct InputRecord *home_rank_tertiary_map_table[];
@@ -177,9 +158,7 @@ extern u8 message_mode_row_scale[ ];
 extern char message_mode_work_buffer[ 2 ];
 extern s32 message_primary_output_control_word;
 extern s32 message_row_heights[ ];
-extern s8 message_skip_disabled[ ];
 extern u8 message_window_audio_sync_data[ ];
-extern u8 message_window_object_template[ ];
 extern s32 movie_frame_control;
 extern s32 movie_start_sector;
 extern void *node_registration_ids[ ];
@@ -212,7 +191,6 @@ extern u32 runtime_mode_two_values[ 3 ];
 extern u8 runtime_object_pool[ ];
 extern u8 runtime_pool_service_script[ ];
 extern u8 runtime_saved_state_byte_06;
-extern void *runtime_script_handler_alias[ ];
 extern u8 runtime_state_restore_requested;
 extern u16 runtime_transition_flags_alias[ 5 ];
 extern u8 scene_common_texture_resource_0[ 8 ];
@@ -286,7 +264,6 @@ extern u8 transition_data_resource;
 extern unsigned char transition_texture_resource[ 12 ];
 extern u8 triggered_cursor_node_storage[ ];
 extern u8 triggered_cursor_record_storage[ ];
-struct Func80038A10State; extern void update_message_window(struct Func80038A10State *);
 extern s32 user_name_window_value[ ];
 extern s16 voice_packed_tone[ ];
 extern s16 voice_tremolo_left_volume_alias[ 8 ];
@@ -330,6 +307,6 @@ extern s32 default_textured_quad_color[];
 /* Resident SLUS facing angle at 0x80083228, read as a signed halfword. */
 extern s16 view_facing_angle_alias;
 /* Halfword coordinates copied from game work and scaled for town windows. */
-extern u16 scaled_window_quad_points[];
+extern u16 scaled_window_quad_points[24];
 
 #endif

@@ -1,9 +1,12 @@
+#include "slus/map_state.h"
 #include "shared/sprite_frame_state.h"
 /* Shaded tile rendering. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AF9D8, PD:town/engine:800D1548. */
 #include "town/map/shaded_tile_rendering_g00594.h"
 #include "town/map/wide_culling_data.h"
 #include "shared/game_work.h"
+#include "shared/gpu_packets.h"
+#include "engine/graphics/lit_mesh.h"
 #include "town/map.h"
 #include "engine/graphics.h"
 
@@ -61,14 +64,17 @@ void render_shaded_map_tiles(void) {
     s8 *tile_map;
     s32 row_rounding;
     u16 normal_index;
-    S_func_800AED64_14 *packet;
-    void *view_bounds;
-    S_func_800AED64_2 *map_data;
+    LitMeshQuadPacket *packet;
+    SVECTOR *view_bounds;
+    MapGrid *map_data;
     S_func_800AED64_10 *tile_uvs;
     S_func_800AED64_13 *polygon;
+    S_func_800AED64_13 **faces;
     s32 x_step;
     u32 error_step;
     s32 row_limit;
+    s32 fourth_depth;
+    u32 packed_xy;
     S_func_800AED64_11 *work_ptr;
     void *coord_offset;
     void *edge_count;
@@ -81,18 +87,18 @@ void render_shaded_map_tiles(void) {
     GameWork *render_state;
 
     render_state = &g_game_work;
-    map_data = (u8 *)render_state + 0x1DC;
+    map_data = &render_state->map;
     tile_map = render_state->map.cells;
-    vertices = map_data->unk_08;
-    normals = map_data->unk_0C;
-    SetColorMatrix((u8 *)render_state + 0x70);
+    vertices = map_data->vertices;
+    normals = map_data->surface_planes;
+    SetColorMatrix(&render_state->view.color_matrix);
     {
-        S_func_800AED64_3 *view_params;
-        view_params = (u8 *)render_state + 0x18;
-        SetFogFar(view_params->unk_84, view_params->unk_88);
+        GameView *view_params;
+        view_params = &render_state->view;
+        SetFogFar(view_params->fog_far, view_params->projection_distance);
     }
     scratch = (ScratchAddress){ (S_func_800AED64_4 *)0x1F800000 };
-    SetLightMatrix((u8 *)render_state + 0x50);
+    SetLightMatrix(&render_state->view.light_matrix);
     if (map_wide_culling[0] != 0) {
         render_state->view.clip_y = -0xB8;
         render_state->view.clip_height = 0x1DA;
@@ -101,18 +107,17 @@ void render_shaded_map_tiles(void) {
         render_state->view.clip_y = -0x88;
         render_state->view.clip_height = 0x1AA;
     }
-    view_bounds = (u8 *)render_state + 0x20;
-    build_screen_outline((u8 *)render_state + 0x18, view_bounds, 0);
-    work_ptr = view_bounds;
+    view_bounds = render_state->view.outline;
+    build_screen_outline(&render_state->view, view_bounds, 0);
     coord_offset = (void *) (scratch.address | 0x1C);
     base_color = ((s32)(render_state->view.tint.word));
     edge_count = (void *) (scratch.address | 0x174);
     scratch.ptr->unk_00 = base_color;
     ordering_table = render_state->draw_buffer;
-    width_shift = map_data->unk_14;
-    height_shift = map_data->unk_16;
-    max_column = map_data->unk_18;
-    max_row = map_data->unk_1A;
+    width_shift = map_data->shiftX;
+    height_shift = map_data->shiftY;
+    max_column = map_data->maskX;
+    max_row = map_data->maskY;
     {
         S_func_800AED64_5 *draw_settings;
         draw_settings = (u8 *)0x80010000;
@@ -136,7 +141,7 @@ void render_shaded_map_tiles(void) {
     scratch.ptr->unk_14C = 0xFFFF;
     scratch.ptr->unk_174 = 4;
     scratch.ptr->unk_164 = (u8 *) packet + 0xCCCC;
-    scratch.ptr->unk_0C = (s16) init_polygon_edges(work_ptr,  coord_offset,  edge_count);
+    scratch.ptr->unk_0C = (s16) init_polygon_edges(view_bounds, coord_offset, edge_count);
     if (scratch.ptr->unk_174 != 0) {
         one = 1;
         vertex_input = &scratch.ptr->unk_E0;
@@ -261,24 +266,24 @@ void render_shaded_map_tiles(void) {
                             scratch.ptr->unk_F8 = ((u16) (scratch.ptr->unk_14.s32 + 0x40))
                                 | ((scratch.ptr->unk_0C + 0x40) << 0x10);
                             gte_ldv3(vertex_input, (u8 *)scratch.ptr + 0xE8, (u8 *)scratch.ptr + 0xF0);
-                            packet->unk_04.s32 = 0x2C404040;
+                            packet->color.word = 0x2C404040;
                             gte_rtpt_nn();
                             gte_avsz3();
                             gte_stotz((u8 *)scratch.ptr + 0xC8);
                             gte_stsxy3_g3(packet);
                             gte_ldv0((u8 *)scratch.ptr + 0xF8);
-                            packet->unk_0C = (s32) ((s32 *)map_tile_uvs)[0];
+                            packet->uv_clut.word = (s32) ((s32 *)map_tile_uvs)[0];
                             gte_rtps_nn();
-                            gte_stsxy(&packet->unk_20);
-                            packet->unk_14 = (s32) tile_uvs->unk_04;
-                            packet->unk_1C = (u16) tile_uvs->unk_08;
-                            packet->unk_24 = (u16) tile_uvs->unk_0A;
+                            gte_stsxy(&packet->xy3);
+                            packet->uv_page.word = (s32) tile_uvs->unk_04;
+                            packet->uv2 = (u16) tile_uvs->unk_08;
+                            packet->uv3 = (u16) tile_uvs->unk_0A;
                             gte_stszotz((u8 *)scratch.ptr + 0xD4);
-                            work_ptr = (void *)scratch.ptr->unk_D4;
+                            fourth_depth = scratch.ptr->unk_D4;
                             work_value = scratch.ptr->unk_C8;
                             work_bits = work_value << 1;
                             work_value += work_bits;
-                            work_value += (s32)work_ptr;
+                            work_value += fourth_depth;
                             work_value += 3;
                             work_value >>= 2;
                             work_value += 4;
@@ -286,8 +291,8 @@ void render_shaded_map_tiles(void) {
                             if ((u32)work_value >= 0x200U) {
                                 scratch.ptr->unk_C8 = 0x1FF;
                             }
-                            packet->unk_03 = 9;
-                            *(s32 *)packet = (s32) ((*(s32 *)packet & tag_high_mask)
+                            ((GpuLinkTag *)&packet->tag)->len = 9;
+                            packet->tag = (s32) ((packet->tag & tag_high_mask)
                                 | (((S_func_800AED64_11 *)((s8 *)scratch.ptr->unk_BC
                                 + (scratch.ptr->unk_C8 * 4)))->unk_00 & tag_low_mask));
                             depth_bucket = (scratch.ptr->unk_C8 * 4) + scratch.ptr->unk_BC;
@@ -297,11 +302,12 @@ void render_shaded_map_tiles(void) {
                         tile_index = scratch.ptr->unk_C0;
 
                         scratch.ptr->unk_12C.s32 = 0;
-                        polygon = ((S_func_800AED64_12 *)((s8 *)map_data->unk_04 + (tile_index * 4)))->unk_00;
+                        faces = map_data->cell_faces;
+                        polygon = faces[tile_index];
                         for (;;) {
                             if (polygon->unk_0C != 0) {
                                 work_value = polygon->unk_10;
-                                work_ptr = (void *) (u32) scratch.ptr->unk_14.u16;
+                                packed_xy = scratch.ptr->unk_14.u16;
                                 scratch.ptr->unk_170.s32 = work_value;
                                 work_value = polygon->unk_00;
                                 work_bits = polygon->unk_14.s32;
@@ -315,9 +321,9 @@ void render_shaded_map_tiles(void) {
                                 coord_offset = (void *) (u32) scratch.ptr->unk_168.u16;
                                 work_value <<= 3;
                                 work_value += (s32) vertices;
-                                work_ptr = (void *) ((u32) work_ptr + (u32) coord_offset);
+                                packed_xy += (u32)coord_offset;
                                 work_value = ((S_func_800AED64_15 *)((void *) work_value))->unk_04;
-                                work_ptr = (void *) ((u32) work_ptr & 0xFFFF);
+                                packed_xy &= 0xFFFF;
                                 work_value -= work_bits;
                                 scratch.ptr->unk_E4.s16 = work_value;
                                 work_value = scratch.ptr->unk_168.at_16A.unk_16A;
@@ -327,9 +333,9 @@ void render_shaded_map_tiles(void) {
                                 y_shift >>= 0x10;
                                 work_bits += y_shift;
                                 work_bits <<= 0x10;
-                                work_ptr = (void *) ((u32) work_ptr | (u32) work_bits);
-                                scratch.ptr->unk_E0 = (s32) work_ptr;
-                                work_ptr = (void *) (u32) scratch.ptr->unk_14.u16;
+                                packed_xy |= work_bits;
+                                scratch.ptr->unk_E0 = packed_xy;
+                                packed_xy = scratch.ptr->unk_14.u16;
                                 work_bits = scratch.ptr->unk_12C.u16;
                                 work_value <<= 3;
                                 work_value += (s32) vertices;
@@ -339,9 +345,9 @@ void render_shaded_map_tiles(void) {
                                 coord_offset = (void *) (u32) scratch.ptr->unk_168.u16;
                                 work_value <<= 3;
                                 work_value += (s32) vertices;
-                                work_ptr = (void *) ((u32) work_ptr + (u32) coord_offset);
+                                packed_xy += (u32)coord_offset;
                                 work_value = ((S_func_800AED64_15 *)((void *) work_value))->unk_04;
-                                work_ptr = (void *) ((u32) work_ptr & 0xFFFF);
+                                packed_xy &= 0xFFFF;
                                 work_value -= work_bits;
                                 scratch.ptr->unk_EC = work_value;
                                 work_value = scratch.ptr->unk_168.at_16A.unk_16A;
@@ -351,9 +357,9 @@ void render_shaded_map_tiles(void) {
                                 y_shift >>= 0x10;
                                 work_bits += y_shift;
                                 work_bits <<= 0x10;
-                                work_ptr = (void *) ((u32) work_ptr | (u32) work_bits);
-                                scratch.ptr->unk_E8 = (s32) work_ptr;
-                                work_ptr = (void *) (u32) scratch.ptr->unk_14.u16;
+                                packed_xy |= work_bits;
+                                scratch.ptr->unk_E8 = packed_xy;
+                                packed_xy = scratch.ptr->unk_14.u16;
                                 work_value <<= 3;
                                 work_value += (s32) vertices;
                                 work_value = ((S_func_800AED64_15 *)((void *) work_value))->unk_00;
@@ -361,15 +367,15 @@ void render_shaded_map_tiles(void) {
                                 work_value = scratch.ptr->unk_168.u16;
                                 half_y = ((volatile S_func_800AED64_4 *)(scratch.ptr))->unk_168.at_16A.unk_16A;
                                 work_bits = half_y;
-                                work_ptr = (void *) ((unsigned long)work_ptr + (u32) work_value);
-                                work_ptr = (void *) ((u32) work_ptr & 0xFFFF);
+                                packed_xy += work_value;
+                                packed_xy &= 0xFFFF;
                                 work_bits <<= 0x10;
                                 work_value = scratch.ptr->unk_0C;
                                 work_bits >>= 0x10;
                                 work_value += work_bits;
                                 work_value <<= 0x10;
-                                work_ptr = (void *) ((u32) work_ptr | (u32) work_value);
-                                scratch.ptr->unk_F0 = (s32) work_ptr;
+                                packed_xy |= work_value;
+                                scratch.ptr->unk_F0 = packed_xy;
                                 work_value = polygon->unk_04;
                                 work_value <<= 3;
                                 work_value += (s32) vertices;
@@ -401,7 +407,7 @@ void render_shaded_map_tiles(void) {
                                         gte_strgb((u8 *)scratch.ptr + 4);
                                     }
                                     work_value = polygon->unk_06;
-                                    work_ptr = (void *) (u32) scratch.ptr->unk_14.u16;
+                                    packed_xy = scratch.ptr->unk_14.u16;
                                     work_value <<= 3;
                                     work_value += (s32) vertices;
                                     work_value = ((S_func_800AED64_15 *)((void *) work_value))->unk_00;
@@ -409,29 +415,29 @@ void render_shaded_map_tiles(void) {
                                     work_value = scratch.ptr->unk_168.u16;
                                     half_y = ((volatile S_func_800AED64_4 *)(scratch.ptr))->unk_168.at_16A.unk_16A;
                                     work_bits = half_y;
-                                    work_ptr = (void *) ((unsigned long)work_ptr + (u32) work_value);
-                                    work_ptr = (void *) ((u32) work_ptr & 0xFFFF);
+                                    packed_xy += work_value;
+                                    packed_xy &= 0xFFFF;
                                     work_bits <<= 0x10;
                                     work_value = scratch.ptr->unk_0C;
                                     work_bits >>= 0x10;
                                     work_value += work_bits;
                                     work_value <<= 0x10;
-                                    work_ptr = (void *) ((u32) work_ptr | (u32) work_value);
-                                    scratch.ptr->unk_F8 = (s32) work_ptr;
+                                    packed_xy |= work_value;
+                                    scratch.ptr->unk_F8 = packed_xy;
                                     gte_ldv0((u8 *)scratch.ptr + 0xF8);
-                                    packet->unk_0C = (s32) polygon->unk_08;
+                                    packet->uv_clut.word = (s32) polygon->unk_08;
                                     gte_rtps_nn();
-                                    packet->unk_14 = (s32) polygon->unk_0C;
-                                    packet->unk_1C = scratch.ptr->unk_170.at_172.unk_172;
-                                    packet->unk_24 =
+                                    packet->uv_page.word = (s32) polygon->unk_0C;
+                                    packet->uv2 = scratch.ptr->unk_170.at_172.unk_172;
+                                    packet->uv3 =
                                         (u16) scratch.ptr->unk_16C.s32;
-                                    gte_stsxy(&packet->unk_20);
+                                    gte_stsxy(&packet->xy3);
                                     gte_stszotz((u8 *)scratch.ptr + 0xD4);
-                                    work_ptr = (void *)scratch.ptr->unk_D4;
+                                    fourth_depth = scratch.ptr->unk_D4;
                                     work_value = scratch.ptr->unk_C8;
                                     work_bits = work_value << 1;
                                     work_value += work_bits;
-                                    work_value += (s32)work_ptr;
+                                    work_value += fourth_depth;
                                     work_value += 3;
                                     work_value >>= 2;
                                     scratch.ptr->unk_C8 = work_value;
@@ -440,42 +446,42 @@ void render_shaded_map_tiles(void) {
                                     }
                                     if ((((s32) scratch.ptr->unk_C8 < 0x1C1) || ((s32) (scratch.ptr->unk_E4.u16 << 0x10) >= 0)
                                         || ((work_value = scratch.ptr->unk_14C, work_value <<= 3,
-                                        work_ptr = (void *)(work_value + (long)normals), lookup_value = work_ptr,
+                                        /* Preserve the index-first address add emitted for the normal lookup. */
+                                        lookup_value = (void *)(work_value + (long)normals),
                                         (lookup_value->unk_04 < 0))
                                         && !(lookup_value->unk_00 & 0x0FFF0FFF)))
                                         && ((u32) scratch.ptr->unk_C8 < 0x200U)) {
-                                        packet->unk_03 = 9;
-                                        packet->unk_04.s32 =
+                                        ((GpuLinkTag *)&packet->tag)->len = 9;
+                                        packet->color.word =
                                             (s32) scratch.ptr->unk_04;
                                         if (scratch.ptr->unk_16C.at_16F.unk_16F & 1) {
-                                            packet->unk_04.at_07.unk_07 |= 2;
+                                            packet->color.c.code |= 2;
                                         } else {
                                             work_value = 0xC000;
                                             work_bits = scratch.ptr->unk_17C;
                                             work_bits &= 0xC000;
                                             if (work_bits == work_value) {
-                                                work_value = packet->unk_10;
-                                                work_bits = packet->unk_18;
-                                                work_ptr = packet->unk_20;
-                                                packet->unk_0C = work_value;
-                                                packet->unk_10 = work_bits;
-                                                packet->unk_14 =
-                                                    (s32) work_ptr;
+                                                work_value = packet->xy1;
+                                                work_bits = packet->xy2;
+                                                packed_xy = packet->xy3;
+                                                packet->uv_clut.word = work_value;
+                                                packet->xy1 = work_bits;
+                                                packet->uv_page.word = packed_xy;
                                                 work_bits = scratch.ptr->unk_110;
                                                 work_value = 5;
-                                                packet->unk_03 = work_value;
-                                                packet->unk_04.s32 =
+                                                ((GpuLinkTag *)&packet->tag)->len = work_value;
+                                                packet->color.word =
                                                     work_bits;
                                                 work_value = scratch.ptr->unk_C8;
                                                 work_bits = scratch.ptr->unk_BC;
                                                 work_value <<= 2;
                                                 work_value += work_bits;
-                                                work_bits = *(s32 *)packet;
+                                                work_bits = packet->tag;
                                                 work_value = ((S_func_800AED64_11 *)((void *)work_value))->unk_00;
                                                 work_bits &= tag_high_mask;
                                                 work_value &= tag_low_mask;
                                                 work_bits |= work_value;
-                                                *(s32 *)packet = work_bits;
+                                                packet->tag = work_bits;
                                                 work_ptr = (void *)scratch.ptr->unk_C8;
                                                 work_ptr = (void *)((s32)work_ptr * 4);
                                                 work_value = scratch.ptr->unk_BC;
@@ -486,12 +492,12 @@ void render_shaded_map_tiles(void) {
                                                 work_bits &= tag_high_mask;
                                                 work_bits |= work_value;
                                                 work_ptr->unk_00 = work_bits;
-                                                packet->unk_03 = one;
+                                                ((GpuLinkTag *)&packet->tag)->len = one;
                                                 work_bits = scratch.ptr->unk_176;
                                                 work_value = 0xE1000000;
                                                 work_bits &= 0x9FF;
                                                 work_bits |= work_value;
-                                                packet->unk_04.s32 =
+                                                packet->color.word =
                                                     work_bits;
                                             }
                                         }
@@ -500,12 +506,12 @@ void render_shaded_map_tiles(void) {
                                         work_bits = scratch.ptr->unk_BC;
                                         work_value <<= 2;
                                         work_value += work_bits;
-                                        work_bits = *(s32 *)packet;
+                                        work_bits = packet->tag;
                                         work_value = ((S_func_800AED64_11 *)((void *)work_value))->unk_00;
                                         work_bits &= tag_high_mask;
                                         work_value &= tag_low_mask;
                                         work_bits |= work_value;
-                                        *(s32 *)packet = work_bits;
+                                        packet->tag = work_bits;
                                         work_ptr = (void *)scratch.ptr->unk_C8;
                                         work_ptr = (void *)((s32)work_ptr * 4);
                                         work_value = scratch.ptr->unk_BC;
@@ -562,10 +568,10 @@ void render_shaded_map_tiles(void) {
                         if ((u32) scratch.ptr->unk_164 < packet) {
                             ((S_func_800AED64_6 *)(render_state->draw_buffer))->unk_8D0 = packet;
                             {
-                                S_func_800AED64_17 *scene_state;
-                                scene_state = map_runtime_state;
-                                if ((scene_state->unk_18 == 0xC) && ((u32) (scene_state->unk_1A - 0x25) >= 5U)
-                                    && ((s16) scene_state->unk_1A != 0x34)) {
+                                MapRuntimeState *scene_state;
+                                scene_state = &map_runtime_state;
+                                if ((scene_state->scene_selector == 0xC) && ((u32) ((u16)scene_state->map_index - 0x25) >= 5U)
+                                    && (scene_state->map_index != 0x34)) {
                                     draw_empty_map_cell_quads(scratch.ptr->unk_164);
                                 }
                             }
@@ -597,10 +603,10 @@ void render_shaded_map_tiles(void) {
     }
     ((S_func_800AED64_6 *)(render_state->draw_buffer))->unk_8D0 = packet;
     {
-        S_func_800AED64_17 *scene_state;
-        scene_state = map_runtime_state;
-        if ((scene_state->unk_18 == 0xC) && ((u32) (scene_state->unk_1A - 0x25) >= 5U)
-            && ((s16) scene_state->unk_1A != 0x34)) {
+        MapRuntimeState *scene_state;
+        scene_state = &map_runtime_state;
+        if ((scene_state->scene_selector == 0xC) && ((u32) ((u16)scene_state->map_index - 0x25) >= 5U)
+            && (scene_state->map_index != 0x34)) {
             draw_empty_map_cell_quads(scratch.ptr->unk_164);
         }
     }
@@ -657,7 +663,7 @@ void draw_empty_map_cell_quads(u32 packet_limit)
     s32 v_scroll;
     s32 next_x;
     u32 red;
-    s16 *clip_vertices;
+    SVECTOR *clip_vertices;
     s32 vertex_z;
     s32 top_y;
     s32 coord_copy;
@@ -706,7 +712,7 @@ void draw_empty_map_cell_quads(u32 packet_limit)
     AddPrim((void *)scratch->chain_address, packet);
     packet += 3;
     scratch->edge_count = 4;
-    clip_vertices = (s16 *)((u8 *)state + 0x20);
+    clip_vertices = g_game_work.view.outline;
     edge_buffer = scratch;
     edge_buffer = (u8 *)((u32)edge_buffer | 0x1C);
     edge_count_addr = (s32)scratch;

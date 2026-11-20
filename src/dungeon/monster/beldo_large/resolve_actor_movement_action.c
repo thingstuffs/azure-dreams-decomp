@@ -6,8 +6,7 @@
 
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/monster/beldo_large.h"
-extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entity, s16 near_range, s16 far_range, s32 state_out_addr); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+#include "dungeon/actor/state.h"
 
 /* Update the actor's action delay, dispatch movement, and clear completed action flags. */
 s32 resolve_actor_movement_action(ActorRecord *entity, ObjectPosition *action_ctx, SpriteFrameState *position, s32 force_move)
@@ -21,7 +20,7 @@ s32 resolve_actor_movement_action(ActorRecord *entity, ObjectPosition *action_ct
     action_result = 0;
     if (delay == 0) {
         action_result = relink_entity_and_clear_high_flag(action_ctx, position, actor, 3, 6,
-                                      (s32)&actor->unk_9C);
+                                      &actor->unk_9C);
         if ((s16)action_result < 0) {
             return 0;
         }

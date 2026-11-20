@@ -1,21 +1,18 @@
-#include "common.h"
 #include "engine/script/vm.h"
+#include "engine/message.h"
 
 /* Opcode 0x32: Fill v0..v15 with the u8 operand. */
-void script_fill_variables(void *vm) {
-    u32 script_ptr = *(u32 *)((u8 *)vm + 0x1C);
-    u32 entry_ptr = *(u32 *)((u8 *)vm + 0x80);
-    u32 fill_value = *(u8 *)script_ptr;
+void script_fill_variables(MessageWindow *window) {
+    u8 *cursor = window->cursor;
+    ScriptController *controller = window->controller;
     s32 entry_index;
+    s32 fill_value = *cursor;
 
-    script_ptr++;
-    entry_ptr += 0x3C;
-    *(u32 *)((u8 *)vm + 0x1C) = script_ptr;
-
+    cursor++;
+    window->cursor = cursor;
     entry_index = 15;
     do {
-        *(u32 *)(entry_ptr + 0x48) = fill_value;
+        controller->variables[entry_index] = fill_value;
         entry_index--;
-        entry_ptr -= 4;
     } while (entry_index >= 0);
 }

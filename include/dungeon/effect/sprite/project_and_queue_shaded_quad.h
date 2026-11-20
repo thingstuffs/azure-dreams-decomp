@@ -280,7 +280,6 @@ typedef struct Row_8192365C_S_80024E5C_5 {
 
 /* Update the effect's color cycle, movement, bursts, and destruction. */
 s32 rand_below_clamped_limit(s32);
-s32 advance_sprite_animation_and_textures(void *effect_data);
 void select_record_entry_and_value(void *state, void *entries, short index);
 void select_sprite_entry(void *object, s16 table_index, s16 entry_index);
 void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_index);

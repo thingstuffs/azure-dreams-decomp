@@ -818,12 +818,12 @@ int read_selected_menu_entry_word(char *object)
     return *(int *)(object + index * 4 + 0x10);
 }
 
-extern void func_80021300(int a0);
+extern s32 func_80021300(int a0);
 
-/* Pass the object's selected value to func_80021300. */
-void resolve_selected_menu_entry(char *object)
+/* Resolve and return the object's selected entry value. */
+s32 resolve_selected_menu_entry(char *object)
 {
-    func_80021300(read_selected_menu_entry_word(object));
+    return func_80021300(read_selected_menu_entry_word(object));
 }
 
 /* Calls handle_selection_menu_input with object. */
@@ -879,8 +879,6 @@ void load_direct_resource_descriptor(void)
     file_load_com(&direct_load_resource_descriptor);
 }
 
-extern void update_staged_motion_effect(struct CdCueEffectBody *obj, ObjectPosition *position, SpriteFrameState *flags);
-
 typedef struct {
     unsigned char pad0[0x10];
     void (*func)(void);
@@ -926,8 +924,6 @@ typedef struct {
     short flag_2C;
 } Obj80051F38;
 
-extern void update_color_fade_effect(struct CdCueEffectBody *effect, ObjectPosition *unused_1, SpriteFrameState *color, void *unused_3);
-
 /* Mark the object when its callback is update_color_fade_effect. */
 void mark_color_fade_effect_complete(Obj80051F38 *object)
 {
@@ -944,8 +940,6 @@ typedef struct {
     u8 pad_14[0x2A - 0x14];
     u16 unk2A;
 } Entity1;
-
-extern void play_timed_animation_sequence(struct CdCueSequenceBody *sequence);
 
 /* Mark the entity when its callback is play_timed_animation_sequence. */
 void mark_timed_animation_sequence_complete(Entity1 *entity) {

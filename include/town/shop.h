@@ -58,12 +58,11 @@ s32 advance_shop_entry_index_107(s32 index);
 s32 count_free_item_slots(void);
 
 #include "shared/entity.h"
-struct S_800AE30C_0;
 struct TownObject;
 void advance_five_step_fixed_point_ramp(void *sub_object);
 void *build_encoded_display_sequence(s32 source, u8 *outputBuffer);
-void close_twin_shop(struct S_800AE30C_0 *shop);
 void collect_selected_record_values(s32 *output, ActorRecord *record);
+void close_twin_shop(ObjectNodeHeader *shop);
 s32 count_town_items_at_fixed_table(void);
 void ease_rgb_to_neutral_gray(u8 *object);
 void fill_display_slots(ActorRecord *source, s32 output);
@@ -119,12 +118,12 @@ void set_storage_entry_text(struct StorageEntry *entry, s32 text, s32 style, s16
 void store_shop_display_preset(void *object, s32 index);
 void update_storage_display(struct StorageOwner *object);
 
-struct FuncArg;
+struct ShopMenu;
 struct ItemMenuInputObject;
 void close_item_move_menu(struct ItemMenuInputObject *record);
 void setup_shop_window(void *object, s32 setup_value_1, s32 setup_value_2, s32 setup_value_3, s32 setup_value_4, s32 setup_value_5, s32 setup_value_6, s32 setup_value_7);
 s32 get_mode_value_or_default(s32 mode);
-void close_shop(struct FuncArg *record);
+void close_shop(struct ShopMenu *shop);
 void fade_menu_side_indicators(struct ShopRecordResetObject *object);
 
 void decrement_entry_and_notify_handlers(void *state_arg);

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/map/building_grid_g00638.h"
 #include "engine/object.h"
+#include "town/map/variant_data.h"
 #include "town/menu/window.h"
 
 /* CheckBuildBuildingLandNo collects eligible land slots for a building and returns their count. */
@@ -28,7 +29,7 @@ s8 *slots_out;
         record = records + (record_key & 0xFF);
     }
     slots_start = slots_out;
-    if (test_resident_bitmap_bit(record->availability_flag) == 0) {
+    if (test_resident_bitmap_bit(record->availability_bit) == 0) {
         return 0;
     }
 
@@ -36,24 +37,21 @@ s8 *slots_out;
     case 4:
     case 8:
     {
-        TownBuildingRecord *selected_entry;
-        TownBuildingRecord *filter_entry;
         u8 *slot_table_base;
         u8 *slot_row;
         u32 selected_id;
 
         TownBuildingRecord *records = town_building_records;
         selected_id = record_key & 0xFF;
-        selected_entry = &records[selected_id];
-        if (selected_entry->required_partner == 0) {
+        if (records[selected_id].partner_building_id == 0) {
             break;
         }
         slot_table_base = (u8 *)0x80010000;
         slot = 0;
-        filter_entry = selected_entry;
         do {
             slot_row = (u8 *)((u8)slot * 2 + (unsigned long)slot_table_base);
-            if ((slot_row[0x33A4] == filter_entry->required_partner) && (slot_row[0x33A5] != selected_id)) {
+            if ((slot_row[0x33A4] == records[selected_id].partner_building_id) &&
+                (slot_row[0x33A5] != selected_id)) {
                 *slots_out++ = slot;
                 slot_count++;
             }
@@ -68,7 +66,7 @@ s8 *slots_out;
         u8 *owner_page;
         TownBuildingRecord *records = town_building_records;
         s32 entry_id = record_key & 0xFF;
-        single_id = records[entry_id].required_partner;
+        single_id = records[entry_id].partner_building_id;
         if (single_id == 0)
             break;
         pair_page = (u8 *)0x80010000;

@@ -7,8 +7,7 @@
 
 
 #include "dungeon/player/object/action_state.h"
-extern void update_actor_status_and_mp(ActorRecord *entity);
-extern s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entity, s16 near_range, s16 far_range, s32 state_out_addr); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+#include "dungeon/actor/state.h"
 
 /* Dispatches the actor's action state and updates its activity flags. */
 s32 dispatch_actor_action_phase(ActorRecord *actor, ObjectPosition *position, SpriteFrameState *sprite, s32 force_action)
@@ -19,7 +18,7 @@ s32 dispatch_actor_action_phase(ActorRecord *actor, ObjectPosition *position, Sp
 
     if (base->unk_AC.halves.high.u != 0) {
         action_state = relink_entity_and_clear_high_flag(position, sprite, base, 3, 6,
-                              (s32)&base->unk_9C);
+                              &base->unk_9C);
         if ((s16)action_state < 0) {
             return 0;
         }

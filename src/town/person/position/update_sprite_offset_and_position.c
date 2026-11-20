@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
 #include "town/person/position.h"
+#include "town/map/variant_data.h"
 
 typedef struct S_800C4AEC_0 {
     u8 pad_00[0x60];
@@ -28,9 +29,6 @@ typedef struct S_800C4AEC_2 {
 
 #define NULL 0
 
-extern u16 D_800D2650[];
-extern u16 D_800D2FC0[];
-
 extern void install_object_handler_and_clear_slot_flag(void *, s32, s32);
 
 
@@ -42,7 +40,6 @@ void update_sprite_offset_and_position(void *object_arg, s32 update_arg, s32 set
     u32 flags;
     s32 x_offset;
     s32 y_offset;
-    u32 row_offset;
 
     *(((u8 *)object_index_slots) + object->unk_60 * 8) = 0;
     sprite = object->unk_98;
@@ -50,23 +47,15 @@ void update_sprite_offset_and_position(void *object_arg, s32 update_arg, s32 set
         u32 table_select = (flags >> 23) & 1;
         u32 frame_index = (flags >> 24) & 0x3F;
 
+        TownRectangle *rectangle;
+
         if (table_select == 0) {
-            u16 *offsets;
-
-            row_offset = frame_index * 32;
-            offsets = (u16 *)((u8 *)D_800D2650 + row_offset);
-
-            x_offset = offsets[0] + offsets[2];
-            y_offset = offsets[1] + offsets[3];
+            rectangle = &town_building_records[frame_index].position_entry;
         } else {
-            u16 *offsets;
-
-            row_offset = frame_index * 32;
-            offsets = (u16 *)((u8 *)D_800D2FC0 + row_offset);
-
-            x_offset = offsets[0] + offsets[2];
-            y_offset = offsets[1] + offsets[3];
+            rectangle = &town_map_variants[frame_index].position_entry;
         }
+        x_offset = rectangle->origin_x + (u16)rectangle->x_offset;
+        y_offset = rectangle->origin_y + (u16)rectangle->y_offset;
     } else {
         y_offset = x_offset = 0;
     }

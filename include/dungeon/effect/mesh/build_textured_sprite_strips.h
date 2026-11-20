@@ -462,8 +462,6 @@ extern const u16 strip_texture_rect[4];
 extern const u16 strip_small_texture_rect[4];
 extern const s16 strip_direction_steps[8][2];
 void *get_unused_text_buffer(void);
-extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
-extern u8 *write_text_byte_and_advance(s8 value, s8 *dest);
 extern void adjust_source_value_and_finalize(void *context, const void *source);
 #include "dungeon/effect/screen.h"
 #include "shared/entity.h"

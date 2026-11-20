@@ -13,6 +13,8 @@
 #include "town/scene/object.h"
 #include "town/data.h"
 
+extern Box D_800D0420;
+
 
 typedef struct S_800236BC_3 {
     u8 pad_00[0x62];
@@ -22,7 +24,6 @@ typedef struct S_800236BC_3 {
 extern s32 town_money[];
 extern TownRewardValues D_80020278;
 extern s32 D_800244DC[];
-extern Box D_800D0420;
 
 /* Updates a bouncing pickup, awards its value on collision, and expires it. */
 void update_bouncing_pickup_after_hit(BouncingPickupAfterHitObject *object, ObjectPosition *motion, SpriteFrameState *sprite)

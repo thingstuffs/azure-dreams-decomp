@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/audio_commands.h"
 #include "common.h"
 
@@ -34,7 +35,7 @@ void confirm_selected_entry(s32 *state) {
             return;
         }
     } else {
-        close_twin_shop((s8 *) state - 0x20);
+        close_twin_shop(NODE_HEADER(state));
         set_status_from_flagged_total(state);
     }
 }

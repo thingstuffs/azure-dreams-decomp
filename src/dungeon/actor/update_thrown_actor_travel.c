@@ -1,3 +1,4 @@
+#include "dungeon/actor/movement_overlap_wait_g00334.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
@@ -16,7 +17,6 @@
 struct Ent *prepare_directional_attack(); /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
 #include "dungeon/item/find_active_rect_containing_point_api.h"
-void begin_actor_random_warp(ActorRecord *entity, ObjectPosition *unused, SpriteFrameState *position, ActorRecord *entity_state); /* extern */
 
 /* Advance tile movement, handle object contact, and finalize the stopping position. */
 s32 update_thrown_actor_travel(ActorRecord *move_state, ObjectPosition *motion, SpriteFrameState *tile_pos, ActorRecord *actor) {

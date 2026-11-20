@@ -1,11 +1,7 @@
-#include "common.h"
-#include "m2c_compat.h"
-
-#include "records/Rec_D_80082A38.h"
 #include "engine/object.h"
+#include "engine/message.h"
 
-
-/* Sets the record's byte at offset 0x03. */
-void runtime_set_record_byte_three(Rec_D_80082A38 *record, s32 value) {
-    record->unk_03 = value;
+/* init_message_window copies this default into the new window's text speed. */
+void runtime_set_record_byte_three(ScriptController *controller, s32 value) {
+    controller->text_speed = value;
 }

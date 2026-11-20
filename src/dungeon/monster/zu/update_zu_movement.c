@@ -1,3 +1,4 @@
+#include "shared/dungeon_height_query.h"
 #include "dungeon/item.h"
 #include "dungeon/item/message.h"
 #include "dungeon/player/object.h"
@@ -21,6 +22,7 @@
 #include "dungeon/actor/status.h"
 #include "engine/texture.h"
 #include "dungeon/actor/state.h"
+#include "dungeon/actor/callback.h"
 #include "dungeon/effect.h"
 #include "dungeon/effect/screen.h"
 #include "dungeon/effect/motion.h"
@@ -641,7 +643,6 @@ void advance_zu_path(ActorRecord *body, ObjectPosition *position, SpriteFrameSta
 
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern s32 update_actor_proximity_flag(void *source, ActorRecord *state, s32 lower_limit, s32 upper_limit, s8 *result);
-extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s16 check_directional_move_and_terrain(s16, void *, void *, s32);
 
 /* Selects a movement direction and updates the actor's position and movement state.

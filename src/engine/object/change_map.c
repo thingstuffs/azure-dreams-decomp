@@ -1,118 +1,96 @@
 #include "common.h"
 
+#include "engine/message/data.h"
 #include "engine/object.h"
 #include "slus/data.h"
+#include "slus/map_state.h"
 #include "slus/gp_d92c_owned.h"
 #include "slus.h"
 #include "town/map/variant_data.h"
+#include "town/map.h"
 
 typedef struct InputRecord {
     s16 field_00;
     s16 field_02;
     u16 field_04;
     u16 field_06;
-    void *field_08;
-    void *field_0C;
+    void *descriptor;
+    MapChangeCallback callback;
     u16 field_10;
     u16 field_12;
 } InputRecord;
 
-typedef struct TableEntry {
-    u16 field_00;
-    u16 field_02;
-    u16 field_04;
-    u16 field_06;
-    u8 pad_08[0x18];
-} TableEntry;
-
-typedef struct PairRecord {
-    u8 pad_00[4];
-    s16 field_04;
-    s16 field_06;
-} PairRecord;
-
-typedef void (*RuntimeCallback)(RuntimeState *, void *);
-
 extern void enqueue_unlinked_item_entries(void);
-extern PairRecord *build_town_sound_selection(s16, s16);
-
-extern RuntimeState map_runtime_state;
-extern RuntimeCallback map_change_callback[3];
-extern u8 runtime_script_state[9];
-extern TableEntry D_800D2650[];
-extern TableEntry D_800D2FC0[];
 extern u16 system_update_flags[5];
 
 
 /* Updates the runtime state from an input record and invokes its callback. */
 void change_map(InputRecord *input)
 {
-    TableEntry *entry;
-    PairRecord *pair;
-    RuntimeState *state;
-    void *callback_data;
-    void *state_data;
+    TownRectangle *entry;
+    s16 *sound_selection;
+    MapRuntimeState *state;
+    void *descriptor;
+    MapChangeCallback callback;
     u16 entry_index;
 
     enqueue_unlinked_item_entries();
-    map_runtime_state.field_28 = map_runtime_state.field_18;
-    map_change_state.field_28 = map_runtime_state.field_18;
-    map_runtime_state.field_2A = map_runtime_state.field_1A;
-    map_change_state.field_2A = map_runtime_state.field_1A;
-    map_change_state.field_18 = input->field_00;
+    map_runtime_state.previous_scene_selector = map_runtime_state.scene_selector;
+    map_change_state.previous_scene_selector = map_runtime_state.scene_selector;
+    map_runtime_state.previous_map_index = map_runtime_state.map_index;
+    map_change_state.previous_map_index = map_runtime_state.map_index;
+    map_change_state.scene_selector = input->field_00;
     entry_index = input->field_02;
-    map_change_state.field_1A = entry_index;
+    map_change_state.map_index = entry_index;
     town_map_variant = entry_index;
     /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: slus/konami_runtime_w_8003BAF8). */
     do {
     } while (0);
 
     if (input->field_00 == 11) {
-        entry = (TableEntry *)((u8 *)D_800D2650 +
-                               (input->field_02 << 5));
+        entry = &town_building_records[input->field_02].position_entry;
     } else {
-        entry = (TableEntry *)((u8 *)D_800D2FC0 +
-                               (input->field_02 << 5));
+        entry = &town_map_variants[input->field_02].position_entry;
     }
 
-    pair = build_town_sound_selection(map_change_state.field_18,
-                         map_change_state.field_1A);
-    if (pair->field_04 == town_saved_stream_index &&
-        pair->field_06 == town_saved_sequence_command) {
+    sound_selection = build_town_sound_selection(map_change_state.scene_selector,
+                                                 map_change_state.map_index);
+    if (sound_selection[2] == town_saved_stream_index &&
+        sound_selection[3] == town_saved_sequence_command) {
         scene_music_hold = 1;
     }
 
     state = &map_change_state;
-    state_data = input->field_0C;
-    state->field_10 = entry;
-    state->field_24 = state_data;
-    state->field_14 = input->field_04;
-    state->field_16 = input->field_06;
-    state->field_0C = town_facing_angles[input->field_10 & 3];
-    state->field_0E = input->field_12;
-    callback_data = input->field_08;
-    if (callback_data != 0) {
-        if (state->field_18 != 12) {
-            state->field_04 = &D_800812F8;
+    callback = input->callback;
+    state->position = entry;
+    state->callback = callback;
+    state->x_offset = input->field_04;
+    state->y_offset = input->field_06;
+    state->facing_angle = town_facing_angles[input->field_10 & 3];
+    state->alternate = input->field_12;
+    descriptor = input->descriptor;
+    if (descriptor != 0) {
+        if (state->scene_selector != 12) {
+            state->next_descriptor = &D_800812F8;
         } else {
-            state->field_04 = callback_data;
+            state->next_descriptor = descriptor;
         }
     }
 
-    if (map_change_callback[0] != 0) {
-        map_change_callback[0](state, callback_data);
+    if (map_change_state.callback != 0) {
+        map_change_state.callback(state, descriptor);
     }
 
     request_scene_state_with_parameters(input->field_00,
-                  (s16)(entry->field_04 +
-                        (input->field_04 + entry->field_00)),
-                  (s16)(entry->field_06 +
-                        (input->field_06 + entry->field_02)),
+                  (s16)(entry->x_offset +
+                        (input->field_04 + entry->origin_x)),
+                  (s16)(entry->y_offset +
+                        (input->field_06 + entry->origin_y)),
                   0, runtime_transition_flags_alias[0] ^ 1);
 
     system_update_flags[0] &= 0xFFFD;
     {
-        s32 check_result = has_active_script_handler(runtime_script_state);
+        s32 check_result = has_active_script_handler(&runtime_script_state);
         if (check_result != 0) {
             map_change_pending[0] = 1;
         } else {

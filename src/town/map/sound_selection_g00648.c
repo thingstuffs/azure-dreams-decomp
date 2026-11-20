@@ -1,5 +1,6 @@
 /* Sound selection. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C3884, CL:town/func_800C38D4, PD:town/engine:800D4244, PD:town/engine:800D4260. */
+#include "slus/map_state.h"
 #include "town/map/sound_selection_g00648.h"
 #include "town/map.h"
 #include "town/shop.h"
@@ -32,7 +33,7 @@ s16 *build_town_sound_selection(s32 unused, s32 index) {
     output[2] = -1;
     output[3] = -1;
 
-    if ((s16)map_scene_selector_alias != 12) {
+    if (map_runtime_state.scene_selector != 12) {
         entry_index = index;
     } else {
         TownEntry *entries;
@@ -85,7 +86,7 @@ void load_town_sound_selection(void) {
     audio_load_sound_effect_bank(2);
     load_sound_set(0);
 
-    record_values = (u16 *)build_town_sound_selection((s16)map_runtime_state.field18, (s16)map_runtime_state.field1A);
+    record_values = (u16 *)build_town_sound_selection(map_runtime_state.scene_selector, map_runtime_state.map_index);
     town_sound_selection[0] = record_values[0];
     current_values = town_sound_selection;
     current_values[1] = record_values[1];

@@ -8,8 +8,6 @@
 #include "slus/gp_af3_pair.h"
 #include "town/map/variant_data.h"
 
-extern u8 town_map_variants[][32];
-
 /* Loads shared and variant-specific resources, then processes the selected table entry. */
 void load_variant_texture_set(void)
 {
@@ -97,5 +95,5 @@ void load_variant_texture_set(void)
     drain_cd_command_queue();
     run_image_load_commands((void *)0x80020000, gpu_scratch_write_pointer);
     DrawSync(0);
-    runtime_load_packed_resource_chunks(town_map_variants[town_map_variant][0], D_8012F004);
+    runtime_load_packed_resource_chunks(town_map_variants[town_map_variant].entry_kind, D_8012F004);
 }

@@ -13,12 +13,6 @@ typedef struct SpriteLinkPrefixView {
 
 
 /* Exact access views shared across registered binary consumers. */
-/* Neighbor backlink at +8 used by the resident doubly linked list unlinker. */
-typedef struct ListBacklinkView {
-    unsigned char pad_00[0x8];
-    void * unk_08;
-} ListBacklinkView;
-
 /* Two bytes immediately before an object; bit 0x8000 marks retirement, preserving [-1] stride. */
 /* Two-byte view of the flags before an object payload, initialized by allocate_list_node.
  * Effect completion callbacks set bit 0x8000; [-1] addresses these preceding bytes. */

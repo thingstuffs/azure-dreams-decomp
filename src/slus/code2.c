@@ -1,6 +1,9 @@
 /* Resident helpers for scene callbacks, shared resource pointers, item state and sound controls. */
 #include "shared/runtime_dispatch.h"
 #include "slus/list_cursor_e0.h"
+#include "slus.h"
+#include "slus/map_state.h"
+#include "slus/data.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "engine/item.h"
@@ -274,16 +277,10 @@ u8 select_display_spacing_table_entry(s32 index, s32 count)
     return table[index];
 }
 
-extern char optional_resource_descriptor[16]; /* >8B forces hi/lo addressing (pointer stored at offset 0) */
-extern char secondary_optional_resource_descriptor[16]; /* >8B forces hi/lo addressing (address-of target) */
-
-extern void resource_load_current_optional_descriptor(void);
-
 /* Selects secondary_optional_resource_descriptor and starts loading the optional resource. */
 void load_secondary_optional_resource_descriptor(void)
 {
-    char **pointer_slot = (char **)optional_resource_descriptor;
-    *pointer_slot = secondary_optional_resource_descriptor;
+    map_runtime_state.next_descriptor = secondary_optional_resource_descriptor;
     resource_load_current_optional_descriptor();
 }
 
@@ -325,26 +322,12 @@ void audio_set_channel_pitch_bend_value(s32 unused, s16 index, s32 value) {
     audio_channel_controls[index].unk1C = value & 0x7F;
 }
 
-/* D_8006ADBC is a 3-word global; splat separately names word[1] as
-   D_8006ADC0 elsewhere, but this function addresses it via D_8006ADBC+4
-   directly (single base materialised, +4 literal offset), so treat it here
-   as one >8B struct so gcc emits %hi/%lo (not $gp-rel). */
-typedef struct {
-    s32 field0;
-    s32 field4;
-    s32 field8;
-} StructADBC;
-
-extern StructADBC map_runtime_state;
-
-extern void submit_cd_command_six_and_drain(s32 a0); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-
-/* Copies map_runtime_state.field4 into field0 and submits CD task 6 when that value is nonzero. */
+/* Publishes the selected descriptor and submits it as the payload of CD task six. */
 void resource_load_current_optional_descriptor(void) {
-    s32 value = map_runtime_state.field4;
+    void *descriptor = map_runtime_state.next_descriptor;
 
-    map_runtime_state.field0 = value;
-    if (value != 0) {
-        submit_cd_command_six_and_drain(value);
+    map_runtime_state.loaded_descriptor = descriptor;
+    if (descriptor != 0) {
+        submit_cd_command_six_and_drain(descriptor);
     }
 }

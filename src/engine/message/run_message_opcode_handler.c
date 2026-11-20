@@ -1,43 +1,15 @@
-#include "common.h"
 #include "engine/message.h"
 
-
-typedef s32 (*Func80038690Handler)(s32, s32, s32, s32);
-
-typedef struct {
-    u8 pad_00[0x40];
-    Func80038690Handler *handlers;
-    u8 pad_44[4];
-    s32 handler_arg0;
-    s32 handler_arg1;
-    s32 handler_arg2;
-    s32 handler_arg3;
-    u8 pad_58[0x2C];
-    s32 callback_result;
-} Func80038690Context;
-
-struct Func80038690State {
-    u8 pad_00[0x10];
-    void (*callback)(struct Func80038A10State *);
-    u8 pad_14[0x1E];
-    s8 table_index; /* call number from opcode 0x25; signed, so 0x80-0xFF index before the table */
-    u8 pad_33[1];
-    s32 result;
-    u8 pad_38[0x48];
-    Func80038690Context *context;
-};
-
-
 /* Run the selected handler and advance the state callback on a nonzero result. */
-void run_message_opcode_handler(Func80038690State *state) {
-    Func80038690Context *context = state->context;
+void run_message_opcode_handler(MessageWindow *window) {
+    ScriptController *controller = window->controller;
     s32 result;
 
-    result = context->handlers[state->table_index](context->handler_arg0, context->handler_arg1,
-                                                   context->handler_arg2, context->handler_arg3);
-    context->callback_result = result;
+    result = controller->service_handlers[window->service_index](
+        controller->variables[0], controller->variables[1], controller->variables[2], controller->variables[3]);
+    controller->variables[15] = result;
     if (result != 0) {
-        state->result = result;
-        state->callback = update_message_window;
+        window->service_value = result;
+        window->message_handler = update_message_window;
     }
 }

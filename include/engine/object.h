@@ -6,10 +6,10 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "records/Rec_D_80081FDC.h"
-#include "records/Rec_D_80082A38.h"
 
+struct ScriptController;
 struct InputRecord;
-struct S_80035068_0;
+struct RuntimeLinkedNode;
 struct S_80035090_0;
 
 /* change_map.c */
@@ -25,10 +25,10 @@ void dispatch_town_transition(void);
 void clear_object_pool_records(void);
 
 /* entry_runtime_is_record_handler_changed.c */
-s32 is_script_or_map_change_pending(void *context);
+s32 is_script_or_map_change_pending(struct ScriptController *controller);
 
 /* entry_runtime_set_record_value_and_buffer.c */
-void reset_script_message_window(void *controller, s32 reset_value, s32 requested_selector);
+void reset_script_message_window(struct ScriptController *controller, u8 *script, s32 requested_selector);
 
 /* entry_runtime_store_value_in_shifted_slot_pool.c */
 s32 queue_pool_service_script(void *input_data);
@@ -62,22 +62,22 @@ void init_unit_scale_record(Rec_D_80081FDC *state, s32 initialValue);
 s32 is_node_registered(void *record_data);
 
 /* has_active_script_handler.c */
-s32 has_active_script_handler(Rec_D_80082A38 *record);
+s32 has_active_script_handler(struct ScriptController *controller);
 
 /* entry_runtime_prepend_doubly_linked_node.c: links the self-reference at body +0x54. */
 void prepend_embedded_object_node(void *owner, void *object_data);
 
 /* prepend_owner_list_node.c */
-void prepend_owner_list_node(void *owner, void *node_data);
+void prepend_owner_list_node(struct ScriptController *controller, struct RuntimeLinkedNode *node);
 
 /* draw_sprites_with_dimmed_copies.c */
 s32 draw_sprites_with_dimmed_copies(u8 *node_data, ObjectPosition *position, SpriteFrameState *render_state);
 
 /* runtime_set_record_byte_three.c */
-void runtime_set_record_byte_three(Rec_D_80082A38 *record, s32 value);
+void runtime_set_record_byte_three(struct ScriptController *controller, s32 value);
 
 /* set_script_text_pointer.c */
-void set_script_text_pointer(void *record, s32 value);
+void set_script_text_pointer(struct ScriptController *controller, u8 *script);
 
 /* push_script_slot_value.c */
 void push_script_slot_value(s32 value);

@@ -1,3 +1,4 @@
+#include "shared/dungeon_height_query.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/level/tile_flags.h"
 #include "common.h"
@@ -23,7 +24,6 @@
 #include "dungeon/actor/state.h"
 
 #include "dungeon/item/get_actor_height_difference_api.h"
-extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s16 check_directional_move_and_terrain(s16, void *, void *, s32);
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 

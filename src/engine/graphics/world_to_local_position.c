@@ -1,17 +1,10 @@
 #include "common.h"
-#include "shared/vector.h"
+#include "engine/graphics.h"
 
 #include "sdk/libgte.h"
 
-typedef struct {
-    u16 vx;
-    u16 vy;
-    u16 vz;
-    u16 pad;
-} USVECTOR;
-
 /* Transform a position into local coordinates using the current matrix. */
-void world_to_local_position(USVECTOR *position, SVECTOR *local_position) {
+void world_to_local_position(SVECTOR *position, SVECTOR *local_position) {
     MATRIX current;
     MATRIX transposed;
     SVECTOR delta;

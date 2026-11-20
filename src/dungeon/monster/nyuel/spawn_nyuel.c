@@ -3,6 +3,7 @@
 #include "dungeon/system/random.h"
 #include "shared/actor_status_ids.h"
 #include "shared/entity.h"
+#include "dungeon/monster/nyuel.h"
 #include "dungeon/monster/nyuel/spawn_factory_default.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -16,8 +17,6 @@
 
 
 
-void update_monster_facing_and_contact(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite);
-void update_nyuel_behavior(ActorRecord *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 extern void func_80174ED8(void);
 extern void func_80174F00(void);
 

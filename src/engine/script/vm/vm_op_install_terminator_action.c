@@ -1,16 +1,8 @@
-#include "common.h"
-
+#include "engine/message.h"
 #include "engine/script/vm.h"
 
-typedef struct S_80039ACC_0 {
-    u8 pad_00[0x10];
-    void (*unk_10)(void);
-    u8 pad_14[0x8];
-    s32 unk_1C;
-} S_80039ACC_0;   /* arg0 in script_page_break */
-
 /* Opcode 0x57: Page break: wait for a button; the next byte is then read as the wait mode. */
-void script_page_break(S_80039ACC_0 *script) {
-    script->unk_10 = &noop_script_terminator_action;
-    script->unk_1C = (s32) (script->unk_1C - 1);
+void script_page_break(MessageWindow *window) {
+    window->message_handler = noop_script_terminator_action;
+    window->cursor--;
 }

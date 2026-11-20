@@ -9,8 +9,6 @@
  * accessed by this function: a signed 16-bit value at 0x6 and a 16-bit flags
  * word at 0x14 (bit 0x80 tested). */
 
-extern void draw_sprite_clipped(void *a0, s32 a1, SpriteFrameState *a2, s16 a3);
-
 /* D_80083160[0] points at a large shared-state struct; only the pointer field
  * at offset 0x8D0 is read here. */
 

@@ -1,8 +1,8 @@
 #include "common.h"
+#include "town/person/current_transform_object_data.h"
 #include "town/person.h"
 #include "town/scene.h"
 
-extern void *person_transform_defaults[];
 extern s32 D_800C283C[];
 
 /* Initialize the object with its indexed resource and set its flag and data pointer. */

@@ -1,35 +1,23 @@
-#include "common.h"
-#include "m2c_compat.h"
-
 #include "engine/node.h"
 #include "engine/object.h"
 #include "engine/script.h"
+#include "engine/message.h"
 
-/* --- port/hal accessor shims (mechanical, no HAL dependency) --- */
-#define U32AT(b, o) (*(u32 *)((u8 *)(b) + (o)))
-#define PPTR(v)     ((void *)(u32)(v))
-#define PVAL(p)     ((u32)(p))
+/* Unlink each window body from the controller, draw and active lists. */
+void remove_all_controller_nodes(ScriptController *controller) {
+    RuntimeLinkedNode *head = &controller->object_list;
+    RuntimeLinkedNode *node = head->next;
 
-/*
- * Removes every node from the controller's list and cleans up its owning object.
- *
- * port body: port/hal/resident_gap2.c:353
- */
-void remove_all_controller_nodes(void *controller)
-{
-    u8 *list_head = (u8 *)controller + 8;
-    u8 *node = (u8 *)PPTR(U32AT(list_head, 0x08));
+    while (node != head) {
+        WindowListObject *owner = node->object;
+        ObjectNodeHeader *object;
 
-    while (node != list_head) {
-        u8 *owner = (u8 *)PPTR(U32AT(node, 0x00));
-        u8 *object;
-
-        if (U32AT(owner, 0x00) != 0)
-            clear_word(PPTR(U32AT(owner, 0x00)));
+        if (owner->clear_target != 0)
+            clear_word(owner->clear_target);
         unlink_owner_list_node(node);
-        object = owner - 32;
+        object = NODE_HEADER(owner);
         unlink_node(object);
         unlink_active_node(object);
-        node = (u8 *)PPTR(U32AT(list_head, 0x08));
+        node = head->next;
     }
 }

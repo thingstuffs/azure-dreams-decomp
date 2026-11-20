@@ -8,45 +8,6 @@
 #include "shared/object_flags.h"
 #include "town/shop.h"
 
-typedef struct {
-    s32 words[17];
-} Record68;
-
-typedef struct {
-    s32 words[17];
-} CopyBlock;
-
-typedef struct {
-    u8 pad0[0x30];
-    s32 value;
-    CopyBlock block;
-} Source;
-
-typedef struct {
-    u8 pad0[0x38];
-    s32 value38;
-    u8 pad3C[0x60];
-    s32 value9C;
-    u8 padA0[8];
-    s32 valueA8;
-    u8 padAC[0xE];
-    u8 valueBA;
-    u8 padBB[0xD];
-    CopyBlock block;
-} TownState;
-
-/* extern */
-struct FuncArg;
-
-
-typedef struct FuncArg {
-    u8 pad0[4];
-    s32 field4;
-    u8 pad8[0x20];
-    s32 field28;
-    s32 field2C;
-} FuncArg;
-
 void refresh_paged_selection_state();
 /* extern */
 s32 allocate_paged_shop_item_list(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
@@ -56,13 +17,10 @@ void *create_floating_number_widget();
 void advance_dispatch_when_countdown_expires(GridMenuObject *state_data);
 extern void set_shop_fade_out_callback(s32 object);
 extern void set_advance_inner_value_callback(s32 object); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern s32 D_80082AB4[];
-
-extern TownState runtime_script_state;
 
 /* Functions defined in this translation unit. */
-void save_shop_script_state(s32 *record);
-void restore_shop_script_state(Source *source);
+void save_shop_script_state(struct ShopMenu *shop);
+void restore_shop_script_state(struct ShopMenu *shop);
 void *open_shop(s32 unused, s32 primary_param, s32 secondary_param, s32 shared_param);
 
 #endif

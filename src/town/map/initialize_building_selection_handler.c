@@ -12,15 +12,12 @@ typedef struct Obj {
     s16 field22;
 } Obj;
 
-extern u8 town_map_variants[];
-
-
 /* Initialize the object's selection and assign a handler based on the selected entry's kind. */
 void initialize_building_selection_handler(void) {
     Obj *obj;
-    u8 *entry_table;
+    TownMapVariantRecord *entry_table;
     u8 *entry_indices;
-    u8 *entry;
+    TownMapVariantRecord *entry;
     u8 entry_index;
     s32 entry_kind;
 
@@ -30,8 +27,8 @@ void initialize_building_selection_handler(void) {
         entry_indices = &town_map_variant;
         obj->field20 = 0;
         entry_index = entry_indices[obj->field20];
-        entry = entry_table + (entry_index << 5);
-        entry_kind = (obj->field22 = entry[0]);
+        entry = &entry_table[entry_index];
+        entry_kind = (obj->field22 = entry->entry_kind);
 
         if (entry_kind != 0x21) {
             if (entry_kind >= 0x21) {

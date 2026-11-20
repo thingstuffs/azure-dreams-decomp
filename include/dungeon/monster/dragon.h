@@ -218,7 +218,6 @@ extern u8 D_80173CE4[];
 void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a);
 void update_entity_facing_motion_and_ground(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *part);
 void dispatch_dragon_actions(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *actor_state);
-void advance_stored_entity_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void choose_dragon_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 #include "dungeon/monster/dragon/transition_effect.h"
 s32 relink_dragon_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, s32 force_state_arg);

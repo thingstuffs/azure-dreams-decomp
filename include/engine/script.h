@@ -3,7 +3,6 @@
 /* Prototypes of the functions defined in src/engine/script/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
-#include "records/Rec_func_800381D0_arg0.h"
 
 /* Event-script reader projection used by operand decoders and message-byte
  * dispatch. The cursor advances at +0x1C; +0x80 is the linked byte buffer or
@@ -139,57 +138,50 @@ extern ScriptOpcodeHandler script_opcode_handlers[SCRIPT_OP_COUNT];
 /* The result occupies the final word of the resident script value queue. */
 extern int script_status[];
 
-struct Func80039578State;
 struct Func800395B0State;
 struct Func80039730State;
-struct Func80039B94State;
-struct Func80039BBCState;
+struct MessageWindow;
 struct Func80039BE4State;
-struct Func80039C0CState;
 struct Func80039C44State;
 struct Func80039D10State;
-struct Func80039F80State;
-struct Func80039FC0State;
 struct Func8003A060State;
-struct Func8003A7BCState;
-struct Func8003A7FCState;
 struct Func8003A858State;
-struct S_800390D0_0;
 struct S_80039568_0;
 struct S_80039B84_0;
-struct State;
 
 /* call_script.c */
-void call_script(s32 value);
-void func_80035208(s32 value);
+void call_script(u8 *script);
+void func_80035208(u8 *script);
 
 /* flag_script_list_nonempty.c */
 void flag_script_list_nonempty(void);
 
+struct ScriptController;
+
 /* is_list_nonempty.c */
-s32 func_80034FD0(void *record);
-s32 is_list_nonempty(void *record);
+s32 func_80034FD0(struct ScriptController *controller);
+s32 is_list_nonempty(struct ScriptController *controller);
 
 /* is_script_list_nonempty.c */
 void is_script_list_nonempty(void);
 
 /* opcode_01_play_sound_when_idle.c */
-void script_end_message(struct S_800390D0_0 *state);
+void script_end_message(struct MessageWindow *window);
 
 /* opcode_06_wait_status.c */
 void script_wait_voice_then_advance(MessageVoiceState *state);
 
 /* opcode_10_next_text_row.c */
-void script_new_line(Rec_func_800381D0_arg0 *record);
+void script_new_line(struct MessageWindow *window);
 
 /* opcode_15_start_motion.c */
-void script_set_actor_motion(struct State *state);
+void script_set_actor_motion(struct MessageWindow *window);
 
 /* opcode_17_install_action.c */
 void script_wait_button(struct S_80039568_0 *script_ctx);
 
 /* opcode_18_wait_ticks.c */
-void script_wait_frames(struct Func80039578State *state);
+void script_wait_frames(struct MessageWindow *window);
 
 /* opcode_19_wait_resident_bit.c */
 void script_wait_flag_set(struct Func800395B0State *state);
@@ -204,16 +196,16 @@ void script_play_voice_cue(MessageVoiceState *owner);
 void script_park(struct S_80039B84_0 *script);
 
 /* opcode_36_read_entry_byte.c */
-void script_wait_actor_ready(struct Func80039B94State *state);
+void script_wait_actor_ready(struct MessageWindow *window);
 
 /* opcode_37_read_handler_arg.c */
-void script_poll_service(struct Func80039BBCState *state);
+void script_poll_service(struct MessageWindow *window);
 
 /* opcode_38_select_indexed_handler.c */
 void script_call_indexed_handler(struct Func80039BE4State *state);
 
 /* opcode_39_read_handler_pair.c */
-void script_poll_group_handler(struct Func80039C0CState *state);
+void script_poll_group_handler(struct MessageWindow *window);
 
 /* opcode_42_set_state_bytes_clear_b.c */
 void script_timed_choice_menu(struct Func80039C44State *state);
@@ -222,19 +214,19 @@ void script_timed_choice_menu(struct Func80039C44State *state);
 void script_wide_choice_menu(struct Func80039D10State *state);
 
 /* opcode_51_copy_value.c */
-void script_copy_variable_a(struct Func80039F80State *reader);
+void script_copy_variable_a(struct MessageWindow *window);
 
 /* opcode_52_set_immediate.c */
-void script_set_variable_a(struct Func80039FC0State *state);
+void script_set_variable_a(struct MessageWindow *window);
 
 /* opcode_54_load_indexed_word.c */
 void script_load_table_word_a(struct Func8003A060State *state);
 
 /* opcode_68_copy_value.c */
-void script_copy_variable_b(struct Func8003A7BCState *state);
+void script_copy_variable_b(struct MessageWindow *window);
 
 /* opcode_69_set_immediate.c */
-void script_set_variable_b(struct Func8003A7FCState *state);
+void script_set_variable_b(struct MessageWindow *window);
 
 /* opcode_70_load_indexed_word.c */
 void script_load_table_word_b(struct Func8003A858State *state);
@@ -246,26 +238,26 @@ void script_store_indirect(ScriptReader *state);
 void script_store_indirect_by_variable(ScriptReader *state);
 
 /* remove_all_controller_nodes.c */
-void remove_all_controller_nodes(void *controller);
+void remove_all_controller_nodes(struct ScriptController *controller);
 
 /* service_script_controller.c */
 s32 func_800352FC(void);
 s32 service_script_controller(void);
 
 /* set_flag_if_list_nonempty.c */
-void set_flag_if_list_nonempty(s8 *result_flag);
+void set_flag_if_list_nonempty(struct ScriptController *controller);
 
 /* set_script_address.c */
-void set_script_address(s32 script_addr);
+void set_script_address(u8 *script);
 
 /* set_script_record_buffer.c */
-void func_8003528C(s32 value);
-void set_script_record_buffer(s32 value);
+void func_8003528C(void *buffer);
+void set_script_record_buffer(void *buffer);
 
 /* set_script_record_byte.c */
 void set_script_record_byte(s32 value);
 
 /* start_script.c */
-void start_script(s32 script_addr);
+void start_script(u8 *script);
 
 #endif

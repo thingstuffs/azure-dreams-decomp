@@ -25,7 +25,7 @@
 typedef void (*DungeonCallback)(void *, void *, void *, void *);
 #include "dungeon/item/find_active_rect_containing_point_api.h"
 extern s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
-extern void advance_stored_entity_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
+#include "dungeon/actor/callback.h"
 extern void begin_flame_attack(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80173834(void *, void *, void *, void *);
 extern u8 garuda_walk_direction_frames[];

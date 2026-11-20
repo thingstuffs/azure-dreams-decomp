@@ -23,7 +23,7 @@
 
 #include "dungeon/monster/dragon/transition_effect.h"
 #include "dungeon/item/find_active_rect_containing_point_api.h"
-extern void select_zu_movement(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
+#include "dungeon/actor/callback.h"
 extern void func_80174218(void *, void *, void *, void *);
 
 extern u8 D_80175150[];

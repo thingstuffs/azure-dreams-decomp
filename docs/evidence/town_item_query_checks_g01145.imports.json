@@ -1,14 +1,14 @@
 {
   "module": "town_item_query_checks_g01145",
   "runtime_views": {
-    "D_8006ADD4": {
-      "symbol": "D_8006ADD4",
+    "D_8006ADBC": {
+      "symbol": "D_8006ADBC",
       "kind": "runtime_data",
-      "vma": 2147921364,
-      "view_bytes": 4,
+      "vma": 2147921340,
+      "view_bytes": 48,
       "owner": "resident_runtime:slus",
       "evidence": "docs/evidence/town_item_query_checks_g01145.imports.json",
-      "declaration": "include/town/event/item_query_checks_g01145.h"
+      "declaration": "include/slus/map_state.h"
     },
     "D_8006BC7A": {
       "symbol": "D_8006BC7A",
@@ -81,7 +81,7 @@
     "Views of other proven resident load regions (engine) of this container; no ownership claim."
   ],
   "view_bytes_method": {
-    "D_8006ADD4": "word_default",
+    "D_8006ADBC": "sizeof",
     "D_8006BC7A": "address_only_runtime_anchor",
     "D_8006C894": "word_default",
     "D_8006C8F7": "word_default",

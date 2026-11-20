@@ -1,3 +1,4 @@
+#include "slus/imports.h"
 #include "shared/audio_commands.h"
 /* Shaded effect quad rendering and randomized radial effect creation. */
 #include "shared/entity.h"

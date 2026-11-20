@@ -1,5 +1,6 @@
 /* Transform state. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C520C. */
+#include "slus/map_state.h"
 #include "town/person/transform_state_g00657.h"
 #include "town/person.h"
 #include "town/scene.h"
@@ -11,7 +12,7 @@ void *get_transform_entry_by_index(s32 entry_index) {
 
 /* Sets the motion page and updates the object state and orientation. */
 void update_transform_motion_page(TownObjectRecord *object_data, ObjectPosition *motion) {
-    if (map_scene_selector_alias == 0x17000C) {
+    if (map_runtime_state.scene_selector == 12 && map_runtime_state.map_index == 23) {
         motion->z.v = 0xFF600000;
     } else {
         motion->z.v = 0xFFE00000;

@@ -20,7 +20,7 @@ extern u8 D_800D01C8[];
 void initialize_indexed_object_state(TownPlayerRecord *object, ObjectPosition *context, void *ptr2) {
     dispatch_selected_entry_if_nonzero((s32 *) D_800D01C8, (TownObjectRecord *) object, ptr2);
     object_index_slots[1].unk_00 = 0;
-    object_index_slots[1].unk_01 = 0;
+    object_index_slots[1].active = 0;
     object->unk_04 = target_action_update_address;
     object->timer = 4;
     clear_object_velocity(context);

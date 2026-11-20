@@ -1,11 +1,7 @@
-#include "common.h"
-
-#include "records/Rec_D_80082A38.h"
+#include "engine/message/data.h"
 #include "engine/object.h"
 #include "engine/script.h"
-extern Rec_D_80082A38 runtime_script_state;
 
-/* Set the global runtime's script address using mode zero. */
-void set_script_address(s32 script_addr) {
-    reset_script_message_window(&runtime_script_state, script_addr, 0);
+void set_script_address(u8 *script) {
+    reset_script_message_window(&runtime_script_state, script, 0);
 }

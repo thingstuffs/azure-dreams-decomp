@@ -1,13 +1,8 @@
-#include "common.h"
-#include "m2c_compat.h"
-
-#include "records/Rec_D_80082A38.h"
 #include "engine/graphics.h"
+#include "engine/message.h"
 
-
-/* Clears the record fields at offsets 0x00, 0x01, and 0x34. */
-void clear_graphics_record(Rec_D_80082A38 *record) {
-    record->unk_00 = 0;
-    record->unk_01 = 0;
-    record->unk_34 = 0;
+void clear_graphics_record(ScriptController *controller) {
+    controller->reset_requested = 0;
+    controller->camera_target_slot = 0;
+    controller->pending_script = 0;
 }

@@ -1,5 +1,6 @@
 #include "dungeon/player/held_item_kind_data.h"
 #include "common.h"
+#include "dungeon/level.h"
 #include "shared/dungeon_height_query.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"

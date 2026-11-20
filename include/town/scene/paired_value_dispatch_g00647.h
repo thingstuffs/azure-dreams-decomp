@@ -20,7 +20,7 @@ extern s16 scene_resident_flag_ids[66];
 void clear_resident_bitmap_bit(s32 flag_id);
 
 /* Functions defined in this translation unit. */
-s32 clear_paired_flags_and_install_handler(s32 context, s32 value, s32 options);
+s32 clear_paired_flags_and_install_handler(void);
 void clear_paired_resident_flags(void);
 
 #endif

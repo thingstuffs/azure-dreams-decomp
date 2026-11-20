@@ -1398,7 +1398,6 @@ typedef struct GlobalObj {
 
 extern s32 rsin(s32, ...);
 extern s32 rcos(s32, ...);
-extern s32 is_selectable_menu_target(ActorRecord *object);
 
 /* Updates entity selection, interpolates its position, and animates the rendered output. */
 void update_item_target_marker(Work *work, Out *out, Render *render_arg)
@@ -1661,8 +1660,6 @@ typedef struct D_80083780_t {
 } D_80083780_t;
 
 extern s32 has_enough_available_nodes(s32 limit);
-
-extern s32 is_selectable_menu_target(ActorRecord *object);
 
 struct Work;
 struct Out;

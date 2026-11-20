@@ -5,10 +5,10 @@
       "symbol": "D_8006ADBC",
       "kind": "runtime_data",
       "vma": 2147921340,
-      "view_bytes": 28,
+      "view_bytes": 48,
       "owner": "resident_runtime:slus",
       "evidence": "docs/evidence/town_player_selection_object_action_g00534.imports.json",
-      "declaration": "include/town/player/selection_object_action_g00534.h"
+      "declaration": "include/slus/map_state.h"
     },
     "D_80083498": {
       "symbol": "D_80083498",

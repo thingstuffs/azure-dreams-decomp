@@ -1,25 +1,23 @@
-#include "common.h"
+#include "engine/message.h"
 #include "shared/game_work.h"
 
-#include "engine/message.h"
-
 /* Advance to the next handler when the countdown expires or the global flag permits. */
-void wait_message_countdown(Func80038128State *state) {
+void wait_message_countdown(MessageWindow *window) {
     GameWork *global = &g_game_work;
 
-    if (state->field87 == 0) {
+    if (window->skip_disabled == 0) {
         if ((((u32)global->buttons) & 0x20) != 0) {
-            if (state->field2E == 0) {
-                state->field2E = 1;
+            if (window->text_advance_mode == 0) {
+                window->text_advance_mode = 1;
             }
-            state->half18 = 0;
-            state->func10 = update_message_window;
+            window->countdown = 0;
+            window->message_handler = update_message_window;
             return;
         }
     }
 
-    state->half18 -= 1;
-    if ((s16)state->half18 <= 0) {
-        state->func10 = update_message_window;
+    window->countdown -= 1;
+    if (window->countdown <= 0) {
+        window->message_handler = update_message_window;
     }
 }

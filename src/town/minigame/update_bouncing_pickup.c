@@ -13,12 +13,13 @@
 #include "town/minigame/source_bounds_data.h"
 #include "town/data.h"
 
+extern Box D_800D0420;
+
 
 
 extern s32 town_money[];
 extern TownRewardValues D_80020020;
 extern s32 D_8007947C[];
-extern Box D_800D0420;
 
 /* Updates a bouncing pickup, awards its value on collection, and expires it. */
 void update_bouncing_pickup(minigame_pickup_source *pickup, ObjectPosition *motion, SpriteFrameState *sprite)

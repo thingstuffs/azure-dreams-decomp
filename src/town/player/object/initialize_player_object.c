@@ -10,11 +10,11 @@ extern s32 *D_800D05E0[];
 void initialize_player_object(void *object_arg) {
     TownPlayerRecord *object = object_arg;
 
-    u8 *global_state;
+    ObjectIndexSlot *slots;
 
     object->handler_entries = D_800D05E0;
     object->slot = 1;
-    global_state = object_index_slots;
-    *(void **)(global_state + 0xC) = NODE_HEADER(object);
-    global_state[8] = 0;
+    slots = object_index_slots;
+    slots[1].object = NODE_HEADER(object);
+    slots[1].unk_00 = 0;
 }

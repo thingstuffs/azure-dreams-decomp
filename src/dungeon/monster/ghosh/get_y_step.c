@@ -1,6 +1,7 @@
 /* Ghosh direction-step lookup and queued path movement. */
 #include "common.h"
 #include "dungeon/level/tile_flags.h"
+#include "dungeon/level.h"
 #include "shared/dungeon_height_query.h"
 #include "dungeon/system/random.h"
 #include "shared/dungeon_floor.h"
@@ -27,7 +28,7 @@ struct ActorRecord; s16 check_entity_relation(ActorRecord *entry, ActorRecord *a
 s32 check_movement_clearance_and_height();    /* extern */
 s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);                  /* extern */
 #include "dungeon/item/get_actor_height_difference_api.h"
-u16 get_rounded_facing_and_rounding_flag(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */          /* extern */
+#include "dungeon/item/position.h"
 s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);  /* extern */
 s32 update_actor_proximity_flag(void *, ActorRecord *, s32, s32, s8 *); /* extern */
 #include "dungeon/actor/state.h"
@@ -83,7 +84,7 @@ void advance_actor_path(ActorRecord *motion, ObjectPosition *context, SpriteFram
     s32 new_tile_flags;
     s32 step_y;
     s32 next_x;
-    s16 current_x;
+    s32 current_x;
     s16 next_path_index;
     s32 current_y;
     u8 *world_position;

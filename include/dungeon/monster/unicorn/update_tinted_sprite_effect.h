@@ -68,7 +68,6 @@ struct ObjectNodeHeader;
 typedef void (*unicorn_orbit_update_fn)(void *effect, ObjectPosition *position, SpriteFrameState *primitive);
 
 
-extern s32 advance_sprite_animation_and_textures();
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 #include "dungeon/effect/sprite/shared_entries.h"
 #include "dungeon/effect/sprite/directional_entries.h"

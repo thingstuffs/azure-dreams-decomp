@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "engine/node.h"
+#include "engine/script/vm.h"
 #include "engine/window/message.h"
 #include "engine/window/params.h"
 #include "engine/window.h"
@@ -15,7 +16,7 @@ typedef void (*Callback)(struct S_80036110_0 *);
 
 typedef struct S_func_80035E58_1 {
     void *unk_00;
-    void *unk_04;
+    MessageWindowImage *image;
     void (*unk_08)(DRAW_DESC *);
     u8 pad_0C[0x6];
     u16 unk_12;
@@ -50,7 +51,7 @@ typedef struct S_func_80035E58_5 {
 } S_func_80035E58_5;
 
 /* Initializes an actor-linked display node, clears its image region, and sets callbacks and rendering data. */
-void create_window_overlay_object(void *node_addr, void *display, u8 *image, s32 *state_ref,
+void create_window_overlay_object(void *node_addr, void *display, MessageWindowImage *image, s32 *state_ref,
                    s32 option, u8 *owner) {
     ObjectNodeHeader *node;
     S_func_80035E58_1 *node_data;
@@ -66,11 +67,11 @@ void create_window_overlay_object(void *node_addr, void *display, u8 *image, s32
     node_data->unk_44 = state_ref;
     node_data->unk_48 = 1;
     node_data->unk_4A = (s16)option;
-    ClearImage(image + 4, 0, 0, 0);
+    ClearImage(&image->rect, 0, 0, 0);
 
     init_unit_scale_record(display, *state_ref);
     node_data->unk_00 = display;
-    node_data->unk_04 = image;
+    node_data->image = image;
     node_data->unk_08 = draw_window_rects;
     copy_window_params(node_data, window_overlay_parameter_template);
     prepend_embedded_object_node(owner, node_data);

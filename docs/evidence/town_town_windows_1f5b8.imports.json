@@ -249,27 +249,9 @@
       "symbol": "D_8006ADBC",
       "kind": "runtime_data",
       "vma": 2147921340,
-      "view_bytes": 28,
+      "view_bytes": 48,
       "owner": "resident_runtime:slus",
-      "declaration": "include/town/menu/window.h",
-      "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
-    },
-    "D_8006ADC0": {
-      "symbol": "D_8006ADC0",
-      "kind": "runtime_data",
-      "vma": 2147921344,
-      "view_bytes": 4,
-      "owner": "resident_runtime:slus",
-      "declaration": "include/town/menu/window.h",
-      "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
-    },
-    "D_8006ADD4": {
-      "symbol": "D_8006ADD4",
-      "kind": "runtime_data",
-      "vma": 2147921364,
-      "view_bytes": 2,
-      "owner": "resident_runtime:slus",
-      "declaration": "include/town/menu/window.h",
+      "declaration": "include/slus/map_state.h",
       "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
     },
     "D_8006E240": {
@@ -303,18 +285,9 @@
       "symbol": "D_80082A38",
       "kind": "runtime_data",
       "vma": 2148018744,
-      "view_bytes": 84,
+      "view_bytes": 280,
       "owner": "resident_runtime:slus",
-      "declaration": "include/town/menu/window.h",
-      "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
-    },
-    "D_80082A80": {
-      "symbol": "D_80082A80",
-      "kind": "runtime_data",
-      "vma": 2148018816,
-      "view_bytes": 4,
-      "owner": "resident_runtime:slus",
-      "declaration": "include/town/menu/window.h",
+      "declaration": "include/engine/message/data.h",
       "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
     },
     "D_80082BC0": {
@@ -330,9 +303,9 @@
       "symbol": "D_80082D08",
       "kind": "runtime_data",
       "vma": 2148019464,
-      "view_bytes": 4,
+      "view_bytes": 48,
       "owner": "resident_runtime:slus",
-      "declaration": "include/town/menu/window.h",
+      "declaration": "include/slus/data.h",
       "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
     },
     "D_80083160": {
@@ -560,10 +533,11 @@
     }
   ],
   "declared_view_sizes": {
-    "D_8006ADBC": 28,
-    "D_8006ADD4": 2,
+    "D_8006ADBC": 48,
     "D_8006E240": 4,
     "D_800814A0": 16,
+    "D_80082A38": 280,
+    "D_80082D08": 48,
     "D_80083160": 512,
     "D_800CFCC4": 4,
     "D_800D07AC": 2,

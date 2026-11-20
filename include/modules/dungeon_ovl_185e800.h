@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_185E800_H
 #define DUNGEON_OVL_185E800_H
 #include "dungeon/effect/sprite/fading_entries.h"
+#include "dungeon/level.h"
 #include "shared/dungeon_height_query.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"

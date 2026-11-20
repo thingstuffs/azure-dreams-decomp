@@ -1,32 +1,17 @@
+#include "town/menu.h"
 #include "common.h"
+#include "town/map/variant_data.h"
 #include "shared/entity.h"
 #include "engine/resource.h"
 #include "town/shop.h"
 #include "town/shop/state_countdown_updates_g00558.h"
 #include "town/data.h"
 
-typedef struct {
-    u8 pad0[6];
-    u8 result;
-    u8 pad7[9];
-    s16 x;
-    s16 y;
-} TownRecord;
-
-typedef struct {
-    u16 x;
-    u16 y;
-    u8 pad4[8];
-    void *recordsOwner;
-} TownState;
-
-extern TownState *town_script_state_slots;
-
 /* Return the nearest unflagged record's result, or -1 if none is available. */
 s32 find_nearest_unflagged_record_result(s32 record_set, ObjectPosition *target)
 {
-    TownRecord *records;
-    TownRecord *record;
+    TownSpawnEntry *records;
+    TownSpawnEntry *record;
     u8 *flag_base;
     s32 count;
     s32 best_distance;
@@ -35,15 +20,20 @@ s32 find_nearest_unflagged_record_result(s32 record_set, ObjectPosition *target)
     s32 base_y;
     s32 distance;
     s32 result;
+    /* BYTES: load the origins before the count test and sign-extend them inside it. */
     u16 raw_x;
     u16 raw_y;
 
     best_distance = 0x7FFFFFFF;
     record_index = 0;
     count = town_record_capacities[record_set];
-    records = *(TownRecord **)((u8 *)town_script_state_slots->recordsOwner + 4);
-    raw_x = town_script_state_slots->x;
-    raw_y = town_script_state_slots->y;
+    {
+        TownRectangle *rectangle = town_script_state_slots[0];
+
+        records = rectangle->entry_list[1];
+        raw_x = rectangle->origin_x;
+        raw_y = rectangle->origin_y;
+    }
     record_set = record_index;
     if (count > 0) {
         base_x = (s16)raw_x;
@@ -53,8 +43,8 @@ s32 find_nearest_unflagged_record_result(s32 record_set, ObjectPosition *target)
         do {
             if (flag_base[0x981] == 0) {
                 distance = estimate_vector_length(
-                    ((record->x + base_x) - target->x.w.i) << 16,
-                    ((record->y + base_y) - target->y.w.i) << 16);
+                    (((s16)record->x_offset + base_x) - target->x.w.i) << 16,
+                    (((s16)record->y_offset + base_y) - target->y.w.i) << 16);
                 if (distance < best_distance) {
                     best_distance = distance;
                     record_set = record_index;
@@ -68,7 +58,7 @@ s32 find_nearest_unflagged_record_result(s32 record_set, ObjectPosition *target)
         } while (record_index < count);
     }
     if (best_distance != 0x7FFFFFFF) {
-        result = records[record_set].result;
+        result = records[record_set].state_95;
     } else {
         result = -1;
     }

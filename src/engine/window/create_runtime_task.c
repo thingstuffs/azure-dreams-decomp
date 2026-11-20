@@ -2,90 +2,57 @@
 #include "shared/object_index_slots.h"
 
 #include "engine/message.h"
+#include "engine/message/data.h"
 #include "engine/scene.h"
 #include "engine/window.h"
 #include "sdk/libc.h"
 #include "slus/window_node_list_data.h"
 
-struct Func80037F70Outer;
-
-typedef struct RuntimeTail {
-    u8 pad00[0x85];
-    u8 field85;
-    u8 field86;
-    u8 field87;
-} RuntimeTail;
-
-typedef struct RuntimeState {
-    u8 pad00[3];
-    u8 field03;
-    u8 pad04[0x34];
-    s32 field38;
-    u8 pad3C[0x0C];
-    s32 field48[16];
-    void *field88;
-    RuntimeTail field8C;
-} RuntimeState;
-
-typedef struct RuntimeBlock {
-    s32 field00;
-    s32 field04;
-} RuntimeBlock;
-
-typedef struct RuntimeLinks {
-    RuntimeTail *field00;
-    RuntimeState *field04;
-} RuntimeLinks;
-
 typedef struct RuntimeTask {
     u8 pad00[0x10];
-    void (*field10)(struct Func80037F70Outer *);
+    void (*sync)(MessageWindowLinks *);
     u8 pad14[0x0C];
-    RuntimeLinks field20;
+    MessageWindowLinks links;
 } RuntimeTask;
 
-extern RuntimeState runtime_script_state;
-extern u8 message_window_state_data[9];
 extern u8 D_80012D6E[9];
-
-extern void init_message_window(RuntimeState *input, u8 mode);
 
 /* Create the runtime task and initialize its shared state and blocks. */
 void initialize_message_window_runtime_task(void)
 {
     RuntimeTask *task;
-    RuntimeLinks *links;
-    RuntimeState *state;
-    RuntimeState *linked_state;
-    void *state_data;
+    MessageWindowLinks *links;
+    ScriptController *controller;
+    ScriptController *linked_controller;
+    u8 *state_data;
     s32 index;
 
     task = initialize_scene_object_in_buffer(0, &window_node_list_storage, 0x49);
-    links = &task->field20;
-    task->field10 = sync_message_window_state;
-    links->field04 = &runtime_script_state;
-    links->field00 = &runtime_script_state.field8C;
+    links = &task->links;
+    task->sync = sync_message_window_state;
+    links->controller = &runtime_script_state;
+    links->window = &runtime_script_state.window;
 
     for (index = 0; index < 107; index++) {
-        memset(&object_index_slots[index], 0, sizeof(RuntimeBlock));
+        memset(&object_index_slots[index], 0, sizeof(object_index_slots[index]));
     }
 
     for (index = 15; index >= 0; index--) {
-        runtime_script_state.field48[index] = 0;
+        runtime_script_state.variables[index] = 0;
     }
 
     do {
-        state = &runtime_script_state;
+        controller = &runtime_script_state;
     } while (0);
     state_data = message_window_state_data;
-    state->field88 = state_data;
-    state->field38 = 0;
+    controller->default_script = state_data;
+    controller->script_start = 0;
     do {
-        linked_state = links->field04;
+        linked_controller = links->controller;
     } while (0);
-    linked_state->field03 = D_80012D6E[0];
-    init_message_window(links->field04, 3);
-    links->field00->field87 = 0;
-    links->field00->field85 = 0;
-    links->field00->field86 = links->field00->field85;
+    linked_controller->text_speed = D_80012D6E[0];
+    init_message_window(links->controller, 3);
+    links->window->skip_disabled = 0;
+    links->window->active = 0;
+    links->window->field86 = links->window->active;
 }

@@ -10,6 +10,7 @@
 #include "shared/dungeon_floor.h"
 #include "shared/object_node.h"
 #include "dungeon/level.h"
+#include "shared/dungeon_height_query.h"
 #include "dungeon/system/random_range.h"
 #include "engine/node.h"
 struct ObjectNodeHeader;
@@ -81,7 +82,6 @@ typedef MonsterFactory SpawnFunc;
 extern s16 count_matching_packed_entity_keys(s32, s32);
 extern s32 generate_random_value(void);
 extern s32 find_first_empty_floor_item_slot(void);
-extern s32 get_surface_height_at_coordinates(s32 xCoord, s32 yCoord);
 extern u8 floor_species_pool[];
 extern s32 floor_loaded_content_flags[];
 extern s32 test_resident_bit(s16 value);

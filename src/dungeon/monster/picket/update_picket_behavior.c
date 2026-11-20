@@ -27,7 +27,7 @@
 #include "dungeon/monster/picket.h"
 
 #include "dungeon/item/find_active_rect_containing_point_api.h"
-extern void advance_stored_entity_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
+#include "dungeon/actor/callback.h"
 extern void func_80174060(void *, void *, void *, void *);
 extern void start_picket_steal_attempt(ActorRecord *, ObjectPosition *, void *, void *);
 

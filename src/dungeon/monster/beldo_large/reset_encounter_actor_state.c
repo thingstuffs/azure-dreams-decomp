@@ -1,10 +1,10 @@
 #include "common.h"
 #include "dungeon/monster/beldo_large_data.h"
 #include "dungeon/monster/beldo_large.h"
+#include "dungeon/actor/state.h"
 
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
-extern void update_actor_status_and_mp(void *);
 extern void unlink_entity_node(void *);
 
 

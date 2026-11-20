@@ -12,6 +12,7 @@ ObjectNodeHeader *func_8003FD64(s32 flags, ObjectNodeHeader **head);
 /* Retail TUs declared 800BCB04 differently: the native banks below used s32,
  * while FA7000 declared s16. Preserve both declarations in their separate TUs;
  * the FA7000 row and native byte proofs cover its signed-halfword spelling. */
+#include "dungeon/level.h"
 #include "shared/dungeon_height_query.h"
 /* Some retail callers supply an additional ignored context word in a2. */
 s32 register_node(void *entry, void *registration_key, ...);

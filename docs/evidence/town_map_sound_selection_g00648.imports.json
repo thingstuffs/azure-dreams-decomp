@@ -5,19 +5,10 @@
       "symbol": "D_8006ADBC",
       "kind": "runtime_data",
       "vma": 2147921340,
-      "view_bytes": 28,
+      "view_bytes": 48,
       "owner": "resident_runtime:slus",
       "evidence": "docs/evidence/town_map_sound_selection_g00648.imports.json",
-      "declaration": "include/town/map/sound_selection_g00648.h"
-    },
-    "D_8006ADD4": {
-      "symbol": "D_8006ADD4",
-      "kind": "runtime_data",
-      "vma": 2147921364,
-      "view_bytes": 2,
-      "owner": "resident_runtime:slus",
-      "evidence": "docs/evidence/town_map_sound_selection_g00648.imports.json",
-      "declaration": "include/town/map/sound_selection_g00648.h"
+      "declaration": "include/slus/map_state.h"
     },
     "D_80080A88": {
       "symbol": "D_80080A88",
@@ -37,7 +28,6 @@
   ],
   "view_bytes_method": {
     "D_8006ADBC": "sizeof",
-    "D_8006ADD4": "sizeof",
     "D_80080A88": "word_default",
     "D_800D0004": "retail_string",
     "D_800D4094": "sizeof",

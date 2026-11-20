@@ -18,6 +18,7 @@ void *get_unused_text_buffer(); /* Unprototyped: this retail caller sets three i
 #include "engine/node/allocation.h"
 #include "dungeon/player/state.h"
 #include "engine/object.h"
+#include "engine/script.h"
 #include "engine/menu.h"
 #include "dungeon/item/state.h"
 #include "engine/entity.h"
@@ -866,8 +867,6 @@ s32 check_action_boundary_and_set_flag(void) {
 #include "modules/dungeon_engine_dungeon_util_fragment_c1094.h"
 
 
-extern s32 call_script(void *arg); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-
 /* When unblocked, clears a set flag and decrements its counter before running updates. */
 void clear_pending_action_event(void) {
     if (!(dungeon_floor_flags & 0x200000) && !(system_update_flags & 8)) {
@@ -875,7 +874,7 @@ void clear_pending_action_event(void) {
             dungeon_event_pending_flag = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
-        call_script(&restore_actor_script[0]);
+        call_script(restore_actor_script);
         clear_script_pending_values();
     }
 }

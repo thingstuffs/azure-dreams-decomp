@@ -1,12 +1,9 @@
-#include "common.h"
-
 #include "engine/message.h"
 #include "slus.h"
-typedef struct S_8003832C_0 S_8003832C_0;
 
 /* Call the handler when check 4 returns zero. */
-void finish_message_when_idle(struct S_8003832C_0 *handler_arg) {
+void finish_message_when_idle(MessageWindow *window) {
     if (read_sound_mode_blocking_status(4) == 0) {
-        start_message_countdown(handler_arg);
+        start_message_countdown(window);
     }
 }

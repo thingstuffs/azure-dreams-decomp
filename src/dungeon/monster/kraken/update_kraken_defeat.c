@@ -1,4 +1,5 @@
 #include "dungeon/level/unlink_entity_node_api.h"
+#include "dungeon/level.h"
 #include "shared/dungeon_height_query.h"
 #include "common.h"
 #include "shared/object_flags.h"

@@ -1,4 +1,5 @@
 #include "engine/graphics/select_sprite_entry_api.h"
+#include "dungeon/level.h"
 #include "shared/dungeon_height_query.h"
 #include "dungeon/level/unlink_entity_node_api.h"
 #include "common.h"

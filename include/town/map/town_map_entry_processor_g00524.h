@@ -21,7 +21,6 @@ extern s32 read_map_cell_at_tile(s32 tile_x, s32 tile_y);
 /* extern */
 extern u8 D_800FC428;
 void upload_pixel_rectangle(s16, s16, s16, s16, const void *);
-/* extern */
 extern void *town_map_processor[];
 extern s32 D_8008C304[];
 

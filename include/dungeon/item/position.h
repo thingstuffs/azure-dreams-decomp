@@ -24,6 +24,9 @@ s32 find_neighbor_inside_room(u8 *object, s16 *direction_out);
 /* forward_monster_coordinate_delta.c */
 s32 calculate_planar_heading(s16 start_x, s16 start_y, s16 end_x, s16 end_y);
 
+/* get_rounded_facing_and_rounding_flag.c */
+s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+
 /* is_map_coordinate_out_of_bounds.c */
 s32 is_map_coordinate_out_of_bounds(s16 x, s16 y);
 

@@ -1,11 +1,8 @@
-#include "common.h"
-#include "engine/script.h"
-
-#include "slus/data.h"
 #include "engine/message.h"
+#include "slus/data.h"
 
-/* Reads a stream byte into the buffer and stores its table lookup result. */
-void read_message_byte(ScriptReader *state) {
-    state->data[1] = *state->cursor++;
-    state->data[0x3C] = message_mode_default_bytes[state->data[1]];
+/* Select the camera target slot and load its default byte. */
+void read_message_byte(MessageWindow *window) {
+    window->controller->camera_target_slot = *window->cursor++;
+    window->controller->field3C = message_mode_default_bytes[window->controller->camera_target_slot];
 }

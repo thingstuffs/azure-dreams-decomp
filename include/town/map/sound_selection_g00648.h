@@ -8,18 +8,11 @@
 #include "town/map/saved_sound_data.h"
 #include "town/map/sound_settings_data.h"
 
-typedef struct {
-    u8 pad[0x18];
-    s16 field18;
-    s16 field1A;
-} GlobalState;
-
 extern u16 fallback_sound_pairs[];
 extern u8 D_800D0004[];
 extern u8 D_80110004[];
 extern s16 D_80113200[];
 extern s32 find_sound_entry_or_terminator_index(s32 target_value);
-extern GlobalState map_runtime_state;
 extern s16 town_pending_sound[];
 extern s16 town_sound_selection[];
 extern s8 scene_music_hold;

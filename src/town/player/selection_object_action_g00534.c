@@ -1,3 +1,4 @@
+#include "slus/map_state.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 /* selection object action. */
@@ -13,9 +14,9 @@ s32 is_town_state_pair_accepted(void) {
     s16 secondaryState;
 
     isAcceptedStatePair = 0;
-    primaryState = map_runtime_state.field_18;
+    primaryState = map_runtime_state.scene_selector;
     if (primaryState == 12) {
-        secondaryState = map_runtime_state.field_1A;
+        secondaryState = map_runtime_state.map_index;
         if (secondaryState == 6 ||
             secondaryState == 8 ||
             secondaryState == 9 ||

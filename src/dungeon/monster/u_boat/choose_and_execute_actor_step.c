@@ -1,5 +1,6 @@
 #include "shared/entity.h"
 #include "dungeon/level/tile_flags.h"
+#include "dungeon/level.h"
 #include "shared/dungeon_height_query.h"
 #include "shared/dir_step.h"
 #include "shared/object_node.h"

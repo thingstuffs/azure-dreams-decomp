@@ -13,7 +13,6 @@ typedef struct S_8001EDE0_0 {
     s32 unk_40;
 } S_8001EDE0_0;   /* ptr in func_8001EDE0 */
 
-extern s32 process_entry_with_table_value(s32, s32);
 extern void initialize_card_message_object_with_code_0x10(void *);
 extern void func_80404688(s32);
 extern void func_80405AB4(void *);

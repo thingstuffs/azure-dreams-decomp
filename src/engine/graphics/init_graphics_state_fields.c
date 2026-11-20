@@ -1,22 +1,20 @@
-#include "common.h"
 #include "engine/message.h"
 
 #include "engine/graphics.h"
 #include "slus/data.h"
 
-
 /* Initializes state fields and copies the global default byte. */
-void init_graphics_state_fields(u8 *state, s32 init_value)
+void init_graphics_state_fields(ScriptController *controller, s32 mode)
 {
     u8 default_byte;
 
     *(u32 *)0x8008099C = 0;
-    update_text_row_scale(state, (u8)init_value);
-    state[2] = init_value;
-    state[0] = 0;
-    state[1] = 0;
+    update_text_row_scale(controller, (u8)mode);
+    controller->mode = mode;
+    controller->reset_requested = 0;
+    controller->camera_target_slot = 0;
     default_byte = message_mode_default_bytes[0];
-    state[0x3D] = 0;
-    *(u32 *)(state + 0x34) = 0;
-    state[0x3C] = default_byte;
+    controller->field3D = 0;
+    controller->pending_script = 0;
+    controller->field3C = default_byte;
 }

@@ -7,7 +7,7 @@
 #include "engine/object.h"
 
 /* Run setup, assign the retrieved object handler when present, and return -1. */
-s32 clear_paired_flags_and_install_handler(s32 context, s32 value, s32 options) {
+s32 clear_paired_flags_and_install_handler(void) {
     S_800C0C48_0 *object;
 
     clear_paired_resident_flags();

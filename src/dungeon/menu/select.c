@@ -27,6 +27,7 @@ enum SelectionShadeState {
 #include "dungeon/level.h"
 #include "dungeon/menu.h"
 #include "dungeon/menu/select.h"
+#include "dungeon/item.h"
 #include "slus/animation_tick_data.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -309,7 +310,7 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, SpriteFrame
                     side_offset += (s32)side_ptr;
                     cell = (world_node->unk_0C);
                     actor = ((S_8002520C_11 *)((void *) side_offset))->unk_AC;
-                    direction = (get_rounded_facing_and_rounding_flag(1, 1, cell->unk_24, cell->unk_25,
+                    direction = ((u32)get_rounded_facing_and_rounding_flag(1, 1, cell->unk_24, cell->unk_25,
                         &target_y) >> 9) & 7;
                 }
                 {
@@ -1105,7 +1106,7 @@ s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_posi
     DrawBuffer *active_buffer;
     POLY_FT4 *prim;
     Face *face;
-    SpriteData *sprite_data;
+    SpriteFrameState *sprite_data;
     Object *main_object;
     Object *main_entry;
     Object *extra_entry;

@@ -33,7 +33,6 @@ void *spawn_zu_actor(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);
 void update_zu_movement(ActorRecord *entity, ObjectPosition *motion_arg, SpriteFrameState *sprite_arg);
 void update_zu_behavior(ActorRecord *actor, ObjectPosition *context, struct SpriteFrameState *sprite, ActorRecord *stats_in);
 void advance_zu_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-void select_zu_movement(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 s32 try_begin_zu_directional_action(ActorRecord *action_state, ObjectPosition *motion_param, struct SpriteFrameState *sprite, ActorRecord *actor);
 void begin_zu_action(ActorRecord *action_state, ObjectPosition *motion_param, SpriteFrameState *sprite, ActorRecord *entity);
 s32 check_zu_action_ready(struct ActorRecord *actor, ObjectPosition *primary_context, SpriteFrameState *secondary_context, s32 force_move);

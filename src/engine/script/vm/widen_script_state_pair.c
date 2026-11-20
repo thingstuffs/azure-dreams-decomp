@@ -1,27 +1,13 @@
-#include "common.h"
-
+#include "engine/message.h"
+#include "engine/message/data.h"
 #include "engine/script/vm.h"
 
-typedef struct D80082A38 {
-    u8 pad0[0x48];
-    s32 field48;
-    s32 field4C;
-    u8 pad50[0x5C];
-    s16 fieldAC;
-    s16 fieldAE;
-} D80082A38;
-
-extern D80082A38 runtime_script_state;
-
-/* Copies the signed 16-bit fields at AC and AE into the 32-bit fields at 48 and 4C. */
+/* Store the signed text column and row in the first two script variables. */
 void widen_script_state_pair(void) {
-    D80082A38 *state;
-    s32 value_ac;
-    s32 value_ae;
+    ScriptController *controller = &runtime_script_state;
+    s32 column = controller->window.column;
+    s32 row = controller->window.row;
 
-    state = &runtime_script_state;
-    value_ac = state->fieldAC;
-    value_ae = state->fieldAE;
-    state->field48 = value_ac;
-    state->field4C = value_ae;
+    controller->variables[0] = column;
+    controller->variables[1] = row;
 }

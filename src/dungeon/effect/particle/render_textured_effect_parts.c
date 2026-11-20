@@ -1,3 +1,4 @@
+#include "slus/imports.h"
 #include "slus.h"
 #include "sdk/libc.h"
 #include "shared/object_node_flags.h"
@@ -411,7 +412,6 @@ void grow_timed_sprite_effect(TimedSpriteImpactBody *state, ObjectPosition *unus
 }
 
 extern struct SpriteAttachmentEntry *get_sprite_attachment_vector(void *, void *, s16 *, s32);
-extern void unlink_node(void *);
 extern void apply_attack_power_and_element_effects(void *, s32, u8, s32, s32, void *, s32);
 
 extern u8 D_800258FC[];
@@ -578,7 +578,7 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
 
         effect->unk_7B--;
         if (effect->unk_7B <= 0) {
-            unlink_node((u8 *)effect - 0x20);
+            unlink_node(NODE_HEADER(effect));
             color_mode = 4;
             if (source->target != 0) {
                 effect->unk_86 = 0;

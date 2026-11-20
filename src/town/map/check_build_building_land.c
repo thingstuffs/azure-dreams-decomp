@@ -2,6 +2,7 @@
 #include "town/map/building_grid_g00638.h"
 #include "engine/object.h"
 #include "town/map.h"
+#include "town/map/variant_data.h"
 #include "town/menu/window.h"
 
 typedef struct S_800B83DC_0 {
@@ -42,7 +43,7 @@ s32 CheckBuildBuildingLand(s32 record_key) {
         record = records + (key & 0xFF);
     }
     has_match = 0;
-    if (test_resident_bitmap_bit(record->availability_flag) == 0)
+    if (test_resident_bitmap_bit(record->availability_bit) == 0)
         return 0;
     switch (record->kind) {
     case 4:
@@ -50,7 +51,7 @@ s32 CheckBuildBuildingLand(s32 record_key) {
     {
         TownBuildingRecord *records = town_building_records;
         s32 entry_id = key & 0xFF;
-        pair_id = records[entry_id].required_partner;
+        pair_id = records[entry_id].partner_building_id;
         if (pair_id == 0)
             return 0;
         slot = 0;
@@ -69,7 +70,7 @@ s32 CheckBuildBuildingLand(s32 record_key) {
         u8 *owner_page;
         TownBuildingRecord *records = town_building_records;
         s32 entry_id = key & 0xFF;
-        single_id = records[entry_id].required_partner;
+        single_id = records[entry_id].partner_building_id;
         if (single_id == 0)
             return 0;
         pair_page = (u8 *)0x80010000;

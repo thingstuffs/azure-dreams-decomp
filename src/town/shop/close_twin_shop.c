@@ -1,15 +1,9 @@
-#include "common.h"
-#include "m2c_compat.h"
+#include "shared/object_node.h"
 #include "town/shop.h"
 
-typedef struct S_800AE30C_0 {
-    u8 pad_00[0x10];
-    void (*unk_10)();
-} S_800AE30C_0;   /* arg0 in close_twin_shop */
-
 /* close_twin_shop: Schedule the shop cleanup callback if the shop exists. */
-void close_twin_shop(S_800AE30C_0 *shop) {
-    if (shop != NULL) {
-        shop->unk_10 = &close_shop;
+void close_twin_shop(ObjectNodeHeader *shop) {
+    if (shop) {
+        shop->update_callback = close_shop;
     }
 }

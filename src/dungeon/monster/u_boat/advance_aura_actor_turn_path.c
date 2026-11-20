@@ -15,14 +15,14 @@
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 extern s32 check_movement_clearance_and_height();
-extern s16 get_rounded_facing_and_rounding_flag(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */
+#include "dungeon/item/position.h"
 
 /* Advance the entity along its path and update its movement state. */
 void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot, SpriteFrameState *entity_arg, ActorRecord *state_arg) {
     register ActorRecord *state = state_arg;
     register SpriteFrameState *entity= entity_arg;
     s32 tile_flags;
-    s16 direction;
+    s32 direction;
     s16 move_result;
     s32 effect_status;
     s16 old_x_early;
@@ -64,8 +64,8 @@ void advance_aura_actor_turn_path(ActorRecord *actor, ObjectPosition *actor_slot
         direction = get_rounded_facing_and_rounding_flag(old_x, old_y,
             state->path_x[state->unk_8A],
             state->path_y[state->unk_8A],
-            (u8 *)actor + 0x98);
-        move_result = check_movement_clearance_and_height(direction, entity, state, 0x20);
+            &actor->action_state_flags);
+        move_result = check_movement_clearance_and_height((s16)direction, entity, state, 0x20);
         entity->tile_x = state->path_x[state->unk_8A];
         entity->tile_y = state->path_y[state->unk_8A];
         state->unk_8A = state->unk_8A + 1;

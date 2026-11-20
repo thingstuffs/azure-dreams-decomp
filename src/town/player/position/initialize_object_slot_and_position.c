@@ -19,6 +19,6 @@ void initialize_object_slot_and_position(TownObject *object, void *ptr, void *pt
     dispatch_selected_entry_if_nonzero((s32 *) D_800D01C0, (TownObjectRecord *) object, ptr2);
     object_index_slots[1].unk_00 = 0;
     object->unk4 = forward_state_callback_dispatch;
-    object_index_slots[1].unk_01 = 0;
+    object_index_slots[1].active = 0;
     create_item_category_effect(object->unk36, object->unk38);
 }

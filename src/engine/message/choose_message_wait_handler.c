@@ -1,25 +1,16 @@
-#include "common.h"
-
 #include "engine/message.h"
 #include "slus.h"
 
-typedef struct S_80038288_0 {
-    u8 pad_00[0x10];
-    s32 * unk_10;
-    u8 pad_14[0x8];
-    u8 * unk_1C;
-} S_80038288_0;   /* arg0 in choose_message_wait_handler */
-
 /* Selects the context's next handler based on its current byte when updates are allowed. */
-void choose_message_wait_handler(S_80038288_0 *context) {
-    s32 *next_handler;
+void choose_message_wait_handler(MessageWindow *window) {
+    MessageWindowHandler next_handler;
 
     if (read_sound_mode_blocking_status(4) != 0x100) {
-        if (play_message_confirmation_sound(*context->unk_1C) != 0) {
-            next_handler = &finish_message_when_idle;
+        if (play_message_confirmation_sound(*window->cursor) != 0) {
+            next_handler = finish_message_when_idle;
         } else {
-            next_handler = &start_message_countdown;
+            next_handler = start_message_countdown;
         }
-        context->unk_10 = next_handler;
+        window->message_handler = next_handler;
     }
 }

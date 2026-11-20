@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/level.h"
 #include "shared/dungeon_height_query.h"
 #include "dungeon/monster/ghosh.h"
 #include "shared/object_flags.h"

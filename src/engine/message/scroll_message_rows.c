@@ -1,61 +1,33 @@
-#include "common.h"
-
-#include "engine/graphics.h"
 #include "engine/message.h"
+#include "engine/graphics.h"
 #include "slus/data.h"
 
-typedef struct AnimObject AnimObject;
-typedef struct SignedAnimPrefix SignedAnimPrefix;
-
-struct SignedAnimPrefix {
-    s16 x0;
-    s16 y2;
-    u8 pad4[4];
-    s16 x8;
-    s16 frame_a;
-};
-
-struct AnimObject {
-    u16 x0;
-    u16 y2;
-    u8 pad4[4];
-    u16 x8;
-    u16 frame_a;
-    s16 size_c;
-    u8 pad_e[2];
-    void (*callback)(AnimObject *);
-    u8 pad_14[0x11];
-    u8 count_25;
-    u8 pad_26[4];
-    u8 frame_2a;
-};
-
 /* Scrolls the rows up and clears the last row when a row-height step completes. */
-void scroll_message_rows(AnimObject *anim)
+void scroll_message_rows(MessageWindow *window)
 {
     s32 row;
 
-    anim->frame_a += 4;
+    window->scroll_offset += 4;
     row = 0;
-    if ((s16)anim->frame_a < message_row_heights[anim->frame_2a]) {
+    if (window->scroll_offset < message_row_heights[window->spacing]) {
         return;
     }
 
-    anim->frame_a = 0;
-    if (anim->count_25 - 1 > 0) {
+    window->scroll_offset = 0;
+    if (window->row_count - 1 > 0) {
         s32 *row_heights = message_row_heights;
 
 scroll_row:
         move_vram_rect(
-            (s16)(anim->x0 + anim->x8),
-            (s16)(anim->y2 + anim->frame_a + row_heights[anim->frame_2a] * (row + 1) + 2),
-            anim->size_c / 4,
-            *(s16 *)&row_heights[anim->frame_2a],
-            (s16)anim->x0 + (s16)anim->x8,
-            ((SignedAnimPrefix *)anim)->y2 + ((SignedAnimPrefix *)anim)->frame_a + row_heights[anim->frame_2a] * row
+            (s16)(window->texture_rect.x + window->x_offset),
+            (s16)(window->texture_rect.y + window->scroll_offset + row_heights[window->spacing] * (row + 1) + 2),
+            window->width / 4,
+            *(s16 *)&row_heights[window->spacing],
+            window->texture_rect.x + window->x_offset,
+            window->texture_rect.y + window->scroll_offset + row_heights[window->spacing] * row
                 + 2);
         row += 1;
-        if (row < anim->count_25 - 1) {
+        if (row < window->row_count - 1) {
             goto scroll_row;
         }
     }
@@ -65,14 +37,14 @@ scroll_row:
         s32 *row_height;
 
         height_table = message_row_heights;
-        row_height = height_table + anim->frame_2a;
+        row_height = height_table + window->spacing;
 
         fill_vram_rect(
-            (s16)(anim->x0 + anim->x8),
-            (s16)(((s16)(anim->y2)) + ((s16)(anim->frame_a)) + *row_height * (anim->count_25 - 1) + 2),
-            anim->size_c / 4,
+            (s16)(window->texture_rect.x + window->x_offset),
+            (s16)(window->texture_rect.y + window->scroll_offset + *row_height * (window->row_count - 1) + 2),
+            window->width / 4,
             *(s16 *)row_height,
             0, 0, 0);
     }
-    anim->callback = update_message_window;
+    window->message_handler = update_message_window;
 }

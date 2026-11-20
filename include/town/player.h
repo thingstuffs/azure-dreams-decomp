@@ -7,6 +7,7 @@ struct ObjectPosition;
 #include "town/player/record.h"
 
 
+struct TownRectangle;
 struct S_800935BC_0;
 struct TownObjectRecord;
 void approach_target_tile_until_timeout(struct TownObjectRecord *target, struct S_800935BC_0 *position, void *transition_arg);
@@ -106,7 +107,7 @@ void apply_pending_table_entry(s32 index, s32 entryValue);
 #include "town/player/record.h"
 void apply_actor_control_offsets(ObjectPosition *out);
 void copy_scene_payload_position(void *output);
-void dispatch_parameterized_or_default(s32 handler_param);
+void dispatch_parameterized_or_default(struct TownRectangle **entries);
 u32 view_relative_angle_sector(s32 angle);
 
 

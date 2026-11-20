@@ -3,6 +3,7 @@
 #include "shared/entity.h"
 #include "shared/audio_commands.h"
 #include "dungeon/actor/motion.h"
+#include "dungeon/actor/callback.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"

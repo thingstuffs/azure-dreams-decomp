@@ -8,11 +8,11 @@
  * are fields of slots 1..11 spelled as their own addresses.  Length unproven (element 11 is the highest constant).
  *   object (+0x04): every row that stores it registers an object as `(u8 *)object - 0x20` (its 0x20-byte node
  *   header); ms_mot_accpt_ow returns object + 0x20 after checking the header's type word at +0x10.
- *   unk_00 (+0x00): store-only (sb 36: cleared to 0 when an object is dropped).  unk_01 (+0x01): lb/sb.
+ *   unk_00 (+0x00): store-only (sb 36: cleared to 0 when an object is dropped).  active (+0x01): set when a motion request is accepted and cleared when its object is ready.
  *   unk_02 (+0x02): lbu 3, lb 2, sb 2 (unsigned by majority; the lb sites keep a cast). */
 typedef struct ObjectIndexSlot {
     /* 0x00 */ signed char unk_00;
-    /* 0x01 */ signed char unk_01;
+    /* 0x01 */ signed char active;
     /* 0x02 */ unsigned char unk_02;
     /* 0x03 */ unsigned char pad_03;
     /* 0x04 */ void *object;

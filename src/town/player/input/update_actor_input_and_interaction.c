@@ -10,6 +10,7 @@
 #include "engine/window.h"
 #include "engine/object.h"
 #include "engine/resource.h"
+#include "town.h"
 #include "town/player/input.h"
 #include "town/player/position.h"
 #include "town/player/motion.h"
@@ -18,10 +19,7 @@
 extern void submit_object_resource_data(s32 value);
 extern void initialize_scene_action_record(void *action_state, void *actor, s32 context); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void init_unchanged_action_fallback(void *action_state, void *actor, s32 context);
-extern void init_threshold_countdown_action(void *action_state, void *actor,void *context);
 extern void initialize_actor_action_state(void *action_state, void *actor, s32 context);
-extern void initialize_action_object(void *action_state, void *actor, s32 context);
-extern void initialize_action_object_with_counter(void *action_state, ObjectPosition *actor, s32 context);
 extern void initialize_actor_movement_interaction_action(void *action_state, void *actor,void *context);
 extern void play_periodic_sound(s32 count, s32 interval);
 extern void store_input_angle(void *record_arg);
@@ -48,7 +46,7 @@ void update_actor_input_and_interaction(void *action_state, ObjectPosition *acto
     sampled_height = query_capped_surface_height(actor, map_work);
     if ((sampled_height - actor->z.w.i) >= 4) {
         if (town_action_state_flag == 0) {
-            initialize_action_object(action_state, actor, (s32)sprite);
+            initialize_action_object(action_state, actor, sprite);
             return;
         }
     }

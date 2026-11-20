@@ -12,6 +12,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/actor/effect.h"
 #include "dungeon/effect/particle.h"
+#include "dungeon/actor/ability_eligibility.h"
 #include "dungeon/effect/screen.h"
 #include "dungeon/item.h"
 #include "dungeon/system.h"
@@ -116,7 +117,6 @@ typedef struct S_func_818DA800_11 {
     u16 unk_02;
 } S_func_818DA800_11;
 
-extern s32 get_spell_range(s16 entry_index);
 
 #define D_80024538 ((u8 *)advance_target_growth_and_fade)
 #define D_80024684 ((u8 *)ramp_progress_value_over_countdown)

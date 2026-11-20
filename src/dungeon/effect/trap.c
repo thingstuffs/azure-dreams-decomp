@@ -1,3 +1,4 @@
+#include "shared/dungeon_height_query.h"
 #include "dungeon/effect_callbacks_api.h"
 #include "shared/gpu_packets.h"
 #include "dungeon/actor.h"
@@ -1976,7 +1977,6 @@ typedef struct {
 
 extern void initialize_timed_motion_step(u16 countdown, u32 amount);
 extern s32 random_dungeon_range_16(u32 bound_a, u32 bound_b);
-extern s32 get_surface_height_at_coordinates(s32, s32);
 
 extern u8 floor_trap_update_address[];
 

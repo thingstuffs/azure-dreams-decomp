@@ -10,6 +10,7 @@ struct SpriteFrameState;
 #include "shared/position_views.h"
 #include "shared/vector.h"
 
+struct TownRectangle;
 struct S_800935BC_0;
 struct TownObject;
 
@@ -33,7 +34,7 @@ void approach_target_tile_until_timeout(TownObjectRecord *target, struct S_80093
 s32 clamp_coordinates_to_bounds(s32 *x_ptr, s32 *y_ptr);
 
 /* expand_bounds_to_inset_rectangle.c */
-void expand_bounds_to_inset_rectangle(s32 *bounds, s16 *rect);
+void expand_bounds_to_inset_rectangle(s32 *bounds, struct TownRectangle *rect);
 
 /* follow_linked_position_until_timeout.c */
 void follow_linked_position_until_timeout(UnsignedCountdownView *state, IntVector3 *out, struct SpriteFrameState *handler_arg);

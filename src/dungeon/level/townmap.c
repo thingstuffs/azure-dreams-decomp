@@ -31,12 +31,12 @@ void process_pending_resource_load(void)
  * script.
  */
 void write_resource_command(s32 value, s32 command) {
-    town_resource_command[3] = (s8)(value >> 8);
+    town_resource_command[3] = value >> 8;
     town_resource_command[2] = value;
-    town_resource_command[4] = (s8)(value >> 0x10);
-    town_resource_command[5] = (s8)(value >> 0x18);
+    town_resource_command[4] = value >> 0x10;
+    town_resource_command[5] = value >> 0x18;
     town_resource_command[6] = command;
-    call_script(&town_resource_command);
+    call_script(town_resource_command);
 }
 
 /* Calls write_resource_command with D_800CFBA0[entry_index], 0x23. */

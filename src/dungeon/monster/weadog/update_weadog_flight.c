@@ -1,4 +1,5 @@
 #include "shared/object_flags.h"
+#include "dungeon/level.h"
 #include "shared/dungeon_height_query.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_property_flags.h"

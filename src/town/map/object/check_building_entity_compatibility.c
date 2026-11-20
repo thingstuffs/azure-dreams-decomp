@@ -4,6 +4,7 @@
 #include "engine/object/test_resident_bitmap_bit_api.h"
 #include "town/map/object.h"
 #include "town/menu/window.h"
+#include "town/map/variant_data.h"
 
 /* Checks whether a record can use an entity based on its kind and existing links. */
 s32 check_building_entity_compatibility(s32 record_id, s32 entity_id)
@@ -24,7 +25,7 @@ s32 check_building_entity_compatibility(s32 record_id, s32 entity_id)
     entity_base = town_building_records;
     entity_index = entity_id & 0xFF;
     entity = &entity_base[entity_index];
-    if (test_resident_bitmap_bit(entity->availability_flag) == 0) {
+    if (test_resident_bitmap_bit(entity->availability_bit) == 0) {
         return 0;
     }
 
@@ -76,7 +77,7 @@ s32 check_building_entity_compatibility(s32 record_id, s32 entity_id)
         other_link_page = (u8 *)0x80010000;
         other_entity_index = other_link_page[((record_id & 0xFF) << 1) + 0x33A4];
         other_entity = &other_entity_base[other_entity_index];
-        if (other_entity->linked_record_index != (entity_id & 0xFF)) {
+        if (other_entity->linked_building_id != (entity_id & 0xFF)) {
             return no_match;
         }
         break;

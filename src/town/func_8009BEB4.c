@@ -25,7 +25,7 @@ extern u8 D_800D01D8[];
 void init_stopped_target_action(SceneActionReset *object, void *position, void *handler_context) {
     dispatch_selected_entry_if_nonzero((s32 *) D_800D01D8, (TownObjectRecord *) object, handler_context);
     object_index_slots[1].unk_00 = 0;
-    object_index_slots[1].unk_01 = 0;
+    object_index_slots[1].active = 0;
     object->unk4 = target_action_update_address;
     object->unkA = 0x15;
     clear_object_velocity(position);

@@ -1,5 +1,6 @@
 #ifndef DUNGEON_OVL_1840800_H
 #define DUNGEON_OVL_1840800_H
+#include "dungeon/level.h"
 #include "shared/dungeon_height_query.h"
 #include "shared/dungeon_trail_views.h"
 #include "sdk/abs.h"

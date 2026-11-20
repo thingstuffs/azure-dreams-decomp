@@ -7,6 +7,7 @@
 #include "slus.h"
 #include "town/map.h"
 #include "town/map/position.h"
+#include "town/map/variant_data.h"
 #include "town/menu/window.h"
 
 extern u32 D_800D1BF4[2];
@@ -36,12 +37,12 @@ void load_and_apply_town_building_tiles(void) {
     do {
         entry_id = ((S_800B98B4_3 *)((u8 *)state_base + (slot_index * 2)))->unk_33A4;
         if (entry_id != 0) {
-            entry = (void *)((u32)(entry_id << 5) + (unsigned long)entry_table);
+            entry = (TownBuildingRecord *)(entry_id * sizeof(*entry) + (unsigned long)entry_table); /* BYTES: retail adds the table base to the scaled row offset. */
             if (entry->tile_entry_enabled != 0) {
                 apply_building_tile_entry(slot_data->x, slot_data->y, entry->tile_entry);
             }
-            reloaded_entry = (void *)((u32)(((S_800B98B4_3 *)((u8 *)state_base + (slot_index * 2)))->unk_33A4 << 5)
-                + (unsigned long)entry_table);
+            entry_id = ((S_800B98B4_3 *)((u8 *)state_base + (slot_index * 2)))->unk_33A4;
+            reloaded_entry = (TownBuildingRecord *)(entry_id * sizeof(*reloaded_entry) + (unsigned long)entry_table); /* BYTES: retail adds the table base to the reloaded row offset. */
             if (reloaded_entry->tile_entry == 1) {
                 set_resident_bitmap_bit(F_funsui_sound);
             }

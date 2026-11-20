@@ -1,4 +1,5 @@
 #include "slus/command_slots_81554.h"
+#include "engine/script.h"
 #include "slus.h"
 
 /* Build and submit a command buffer using the supplied data. */
@@ -10,5 +11,5 @@ void build_object_registration_script(void *data)
     register_message_command_object(data);
     script_message_command_words[message_command_write_index++] = 0x20C11;
     script_message_command_words[message_command_write_index++] = 1;
-    set_script_record_buffer((s32)&script_message_command_words[message_command_start_index]);
+    set_script_record_buffer(&script_message_command_words[message_command_start_index]);
 }

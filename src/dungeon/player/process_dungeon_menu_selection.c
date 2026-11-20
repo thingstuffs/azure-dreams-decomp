@@ -1,4 +1,5 @@
 #include "dungeon/item/message.h"
+#include "dungeon/effect/screen/menu.h"
 #include "slus.h"
 #include "shared/item_ids.h"
 #include "shared/actor_status_flags.h"
@@ -80,7 +81,6 @@ s32 func_8002534C(void *, s32, void *, ActorRecord *); /* extern */
 #include "dungeon/data.h"
 struct S_80094270_2;
 s32 request_familiar_deployment_change(void *actor, s32 param_a, void *param_b, struct S_80094270_2 *item, s32 slot); /* extern */
-s32 is_selectable_menu_target();                             /* extern */
 void update_selection_tile_markers(ActorRecord *entity, s32 selection);
 extern Rec_D_80082EB0 selected_item_record_alias;
 extern s8 spell_effect_selector_cache;
@@ -194,19 +194,23 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
         equip_item_and_update_status(actor, NULL);
         selected_item_action_alias = 0;
         break;
-    case 21:
+    case 21: {
+        ActorRecord *action_owner = state;
+
         if (((S_80090C10_13 *)selected_item_record_alias.unk_00.as_pv)->unk_03 & 0x20) {
             display_formatted_context_message(&D_800E0542);
             selected_item_action_alias = 0;
             break;
         }
-        if (is_selectable_menu_target(((Rec_func_8008D024_arg0 *)state)->unk_AC) != 0 || is_selectable_menu_target(((Rec_func_8008D024_arg0 *)state)->unk_B0) != 0) {
+        if (is_selectable_menu_target(action_owner->unk_AC.address) != 0 ||
+            is_selectable_menu_target(action_owner->unk_B0.address) != 0) {
             initialize_action_state_29(state, context, sprite, actor);
             return;
         }
         display_formatted_context_message(&D_800E0571);
         selected_item_action_alias = 0;
         break;
+    }
     case 3:
     case 4:
     case 20:

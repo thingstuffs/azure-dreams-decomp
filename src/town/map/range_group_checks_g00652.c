@@ -1,6 +1,7 @@
 /* Finds the range group containing a value and checks values against the current town range table. */
 /* inferred-strong range_group_checks_g00652; joins CL:town/func_800C4508; no crossing cuts. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C4508. */
+#include "slus/map_state.h"
 #include "town/map/range_group_checks_g00652.h"
 #include "town/map.h"
 
@@ -28,19 +29,17 @@ s32 find_shared_range_group(s32 value) {
 
 /* Checks a masked value against the table selected by the current state. */
 s32 check_masked_value_in_current_range(s32 value) {
-    s8 *state;
     s32 result;
 
-    state = (s8 *)&map_runtime_state;
     value &= 0x3FFF;
-    if (*(s16 *)(state + 0x18) != 0xC) {
+    if (map_runtime_state.scene_selector != 0xC) {
         return find_containing_range_group(value, (s16 * *)(&D_800D4640));
     }
-    if (*(s16 *)(state + 0x1A) == 0xD) {
+    if (map_runtime_state.map_index == 0xD) {
         if (find_containing_range_group(value, (s16 * *)(&D_800D4658)) != 0) {
             return 6;
         }
-    } else if (*(s16 *)(state + 0x1A) == 0x2A) {
+    } else if (map_runtime_state.map_index == 0x2A) {
         if (find_containing_range_group(value, (s16 * *)(&D_800D4660)) != 0) {
             return 7;
         }

@@ -1,28 +1,24 @@
 #include "dungeon/item/message.h"
 #include "dungeon/data.h"
+#include "engine/message/data.h"
+#include "engine/message.h"
 
-extern s32 runtime_script_state[];
 extern s32 D_800DD718[];
 
-/* Selects the next buffer not referenced by the five checked table entries. */
+/* Cycle through the six buffers, skipping addresses queued in variables 10 through 14. */
 void *get_unused_text_buffer(void) {
     s32 buffer_index;
     s32 entry_index;
     void *buffer;
-    s32 *entry;
-    s32 *table;
 
-    entry_index = 0xA;
-    table = runtime_script_state;
-    entry = table + 10;
     buffer_index = D_800DD718[0] = (D_800DD718[0] + 1) % 6;
     buffer = (buffer_index * 0x138) + battle_message_buffers;
+    entry_index = 10;
     do {
-        entry_index += 1;
-        if (entry[18] == (s32)buffer) {
+        if (runtime_script_state.variables[entry_index] == (s32)buffer) {
             return get_unused_text_buffer();
         }
-        entry += 1;
-    } while (entry_index < 0xF);
+        entry_index++;
+    } while (entry_index < 15);
     return buffer;
 }

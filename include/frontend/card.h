@@ -415,6 +415,8 @@ s32 card_dev_write_file_units_128(s32 filename, void *buffer, s32 block_count, s
 
 /* card_dev_write_save_via_temporary_path.c */
 s32 card_dev_write_save_via_temporary_path(s32 entry_id, s32 request_id);
+/* Devkit server calls to the same row at 0x80402084. */
+s32 process_entry_with_table_value(s32 entry_id, s32 request_id);
 
 /* card_devkit_set_window_selection_marker.c */
 void card_devkit_set_window_selection_marker(void *basePtr, s32 flag);

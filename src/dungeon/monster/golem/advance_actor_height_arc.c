@@ -10,8 +10,9 @@
 #include "records/Rec_func_80172D08_arg1.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/level.h"
-#include "dungeon/player/object.h"
-#include "dungeon/actor/spell_resource_ids_g01008.h"
+#include "dungeon/player/object/set_record_integer_tile_center_api.h"
+#include "dungeon/actor/ability_eligibility.h"
+#include "dungeon/actor/spend_actor_mp_api.h"
 #include "dungeon/system.h"
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
@@ -22,8 +23,6 @@ typedef struct S_80172D08_4_pre {
     void * unk_00;
     u8 pad_04[0x14];
 } S_80172D08_4_pre;   /* the 0x18 bytes before owner in advance_actor_height_arc, addressed as owner[-1] */
-
-s16 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags);
 
 extern u8 golem_action_continuation_address;
 

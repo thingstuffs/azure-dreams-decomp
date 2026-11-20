@@ -10,11 +10,10 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
-#include "shared/dungeon_trail_views.h"
 #include "dungeon.h"
 #include "dungeon/level.h"
 #include "sdk/libc.h"
-#include "dungeon/data.h"
+#include "dungeon/monster/kraken_frames.h"
 #include "engine/entity.h"
 
 
@@ -34,9 +33,8 @@ extern s32 get_tile_chebyshev_distance(void *, void *);
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/state.h"
+#include "dungeon/actor/motion.h"
 
-extern void begin_pushed_actor_move(void *state_in, ObjectPosition *unused, void *position_in, void *actor_in);
-extern void begin_actor_move_to_target_facing(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80173D10(void *, void *, void *, void *);
 
 extern u8 kraken_action_resume_address[];
@@ -50,7 +48,6 @@ void update_actor_animation_timers_and_transitions(ActorRecord *entity, ObjectPo
     u8 *body;
     DungeonGlobalStatus *state_zero_counter_base;
     DungeonGlobalStatus *animate_counter_base;
-    TrailHeightView *state_two_counter_base;
     s32 actor_flags;
     s32 state;
     u16 timer;
@@ -201,10 +198,9 @@ void update_actor_animation_timers_and_transitions(ActorRecord *entity, ObjectPo
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        state_two_counter_base = (TrailHeightView *)&g_dungeon_status.turn_scale;
         motion->velocity_z = 0;
         entity->unk_A8 = 0;
-        state_two_counter_base->unk_0A--;
+        g_dungeon_status.activity_counts.parts.pending_action_count--;
 
         break;
     default:

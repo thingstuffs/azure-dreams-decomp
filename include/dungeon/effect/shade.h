@@ -12,6 +12,7 @@ void create_owner_color_sprite(struct Owner *owner, unsigned int color);
 
 
 void advance_damped_effect_motion(void *effect, ObjectPosition *motion, SpriteFrameState *color);
+void *create_motion_copy_sprite(void *node_value, ObjectPosition *initial_data);
 
 void *create_radial_effect_from_source(void *owner_body, void *source, int unused, int object_value);
 
@@ -32,6 +33,7 @@ void create_colored_effect_with_sound(ObjectNodeHeader *source, s32 color, unsig
 
 #include "records/Rec_func_800D4BD4_arg1.h"
 void init_fading_particle_from_emitter(ObjectNodeHeader *object, Rec_func_800D4BD4_arg1 *source, ObjectPosition *position, s32 unused_spawn_context);
+void emit_randomized_relative_particles(Rec_func_800D4BD4_arg1 *emitter, ObjectPosition *position, s32 spawn_context);
 void create_colored_effect_with_event(ObjectNodeHeader *source, s32 color, unsigned short event_id);
 
 s32 draw_linked_depth_sliced_quads(void *payload, struct ObjectPosition *position, struct SpriteFrameState *render_state);

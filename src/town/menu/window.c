@@ -1,5 +1,10 @@
 #include "shared/dungeon_item_entries.h"
 /* Builds town display entries, checks their bounds, dispatches object updates, and opens menu windows. */
+#include "slus/map_state.h"
+#include "engine/message/data.h"
+#include "engine/object.h"
+#include "engine/message.h"
+#include "shared/game_work.h"
 #include "shared/entity.h"
 #include "town/person/object_setup.h"
 #include "shared/object_node.h"
@@ -61,25 +66,25 @@ void initialize_sprite_defaults(void *body, SpriteFrameState *sprite, s32 mesh_i
     object->mesh_index = mesh_index;
 }
 
-/* Initializes the shared data pointer, clears its first word and returns it. */
-s32 *reset_script_rect_list(void) {
+/* Reset the cursor and terminate the empty rectangle list. */
+TownRectangle **reset_script_rect_list(void) {
     town_script_slot_cursor = town_script_state_slots;
     town_script_state_slots[0] = 0;
     return town_script_state_slots;
 }
 
-/* Scale a coordinate pair by 64 and append it to the null-terminated pointer list. */
-void **append_scaled_rect_to_script_list(s32 firstX, s32 firstY, s32 secondX, s32 secondY,
-                     func_8009F66C_CoordPair *coords)
+/* Scale the origin and dimensions by 64, then append the rectangle. */
+TownRectangle **append_scaled_rect_to_script_list(s32 x, s32 y, s32 width, s32 height,
+                                                TownRectangle *rectangle)
 {
-    if (coords != NULL) {
-        void **cursor = town_script_slot_cursor;
+    if (rectangle != NULL) {
+        TownRectangle **cursor = town_script_slot_cursor;
 
-        coords->x0 = (s16)((s32)(firstX << 16) >> 10);
-        coords->y0 = (s16)((s32)(firstY << 16) >> 10);
-        coords->x1 = (s16)((s32)(secondX << 16) >> 10);
-        coords->y1 = (s16)((s32)(secondY << 16) >> 10);
-        *cursor = coords;
+        rectangle->origin_x = (s32)((u32)x << 16) >> 10;
+        rectangle->origin_y = (s32)((u32)y << 16) >> 10;
+        rectangle->width = (s32)((u32)width << 16) >> 10;
+        rectangle->height = (s32)((u32)height << 16) >> 10;
+        *cursor = rectangle;
         cursor++;
         town_script_slot_cursor = cursor;
         *cursor = NULL;
@@ -90,7 +95,7 @@ void **append_scaled_rect_to_script_list(s32 firstX, s32 firstY, s32 secondX, s3
 /* Create a record, assign its handler, and run the remaining initialization routines. */
 void create_entry_builder_controller(void) {
     ((func_8009F6D4_S_8009CE34_0 *)(initialize_scene_object_in_buffer(0x11, &D_801006D0, 0x49)))->unk_10 = &update_entry_builder;
-    dispatch_parameterized_or_default(&town_script_state_slots);
+    dispatch_parameterized_or_default(town_script_state_slots);
     update_map_world_extents();
 }
 
@@ -102,7 +107,7 @@ void update_entry_builder(void) {
 
 /* Run both update routines on the shared state and clear the global flag. */
 void update_script_entry_lists(void) {
-    void *state = town_script_state_slots;
+    TownRectangle **state = town_script_state_slots;
 
     initialize_town_resource_context(state);
     clear_script_entry_statuses(state);
@@ -111,32 +116,33 @@ void update_script_entry_lists(void) {
 
 /* Builds the entry list and processes each entry's items at its coordinates. */
 void build_entry_list_and_process_items(void) {
-    s32 setup_a[2];
-    s32 setup_b[2];
-    s32 *item_cursor;
+    SignedPair16 maximum;
+    SignedPair16 minimum;
+    TownSpawnEntry **item_cursor;
     s32 coord_x;
     s32 coord_y;
-    void **entry_cursor;
-    func_8009F788_S_8009CEE8_0 *entry;
+    TownRectangle **entry_cursor;
+    TownRectangle *entry;
     u16 *base;
 
     base = scaled_window_quad_points;
-    compute_four_point_coordinate_bounds(base, setup_a, setup_b);
-    collect_overlapping_rectangles(setup_a, setup_b, town_script_state_slots, town_overlap_slots);
-    entry_cursor = (void **)town_overlap_slots;
+    compute_four_point_coordinate_bounds(base, &maximum, &minimum);
+    collect_overlapping_rectangles(&maximum, &minimum,
+        town_script_state_slots, town_overlap_slots);
+    entry_cursor = town_overlap_slots;
     if (town_overlap_slots[0] != 0) {
         do {
             entry = *entry_cursor;
-            item_cursor = entry->unk_0C;
+            item_cursor = entry->entry_list;
             if (item_cursor != NULL) {
-                coord_x = entry->unk_00;
-                coord_y = entry->unk_02;
+                coord_x = entry->origin_x;
+                coord_y = entry->origin_y;
                 while (*item_cursor != 0) {
                     process_eligible_entries(*item_cursor, base, (s16)coord_x, (s16)coord_y);
                     item_cursor++;
                 }
             }
-            entry_cursor = (void **)((s8 *)((void **)((s8 *)entry_cursor + 4)));
+            entry_cursor++;
         } while (*entry_cursor != NULL);
     }
 }
@@ -149,16 +155,16 @@ s32 classify_object_against_bounds(func_8009F880_S_8009CFE0_0 *object, ObjectPos
     s32 one;
     s32 geometry_result;
     s32 state_result;
-    TownSceneSpawnEntry *state;
+    TownSpawnEntry *state;
 
     state = object->spawn_entry;
     if (state != NULL) {
         if (!(state->flags & 1)) {
-            if (test_resident_bitmap_bit(state->required_bit) == 0) {
+            if (test_resident_bitmap_bit(state->bitmap_bit) == 0) {
                 return 1;
             }
         } else {
-            state_result = test_resident_bitmap_bit(state->required_bit);
+            state_result = test_resident_bitmap_bit(state->bitmap_bit);
             one = 1;
             if (state_result == one) {
                 result = 1;
@@ -169,7 +175,7 @@ s32 classify_object_against_bounds(func_8009F880_S_8009CFE0_0 *object, ObjectPos
             result = 0;
             return result;
         }
-        if ((s16)map_scene_selector_alias == 0xC) {
+        if (map_runtime_state.scene_selector == 12) {
             result = 0;
             return result;
         }
@@ -208,16 +214,16 @@ s32 classify_record_by_state_and_position(Rec_D_80082D58 *record, ObjectPosition
     s32 one;
     s32 geom_result;
     s32 state_result;
-    TownSceneSpawnEntry *state;
+    TownSpawnEntry *state;
 
     state = record->unk_98.as_pv;
     if (state != NULL) {
         if (!(state->flags & 1)) {
-            if (test_resident_bitmap_bit(state->required_bit) == 0) {
+            if (test_resident_bitmap_bit(state->bitmap_bit) == 0) {
                 return 1;
             }
         } else {
-            state_result = test_resident_bitmap_bit(state->required_bit);
+            state_result = test_resident_bitmap_bit(state->bitmap_bit);
             one = 1;
             if (state_result == one) {
                 result = 1;
@@ -249,7 +255,7 @@ s32 classify_record_by_state_and_position(Rec_D_80082D58 *record, ObjectPosition
 }
 
 /* Create an object, initialize its position and render state, and invoke its callback. */
-s32 spawn_town_entry_object(s32 callback_id, s32 angle_index, s32 state_94, u8 state_95, u8 state_96, u8 height_mode, s32 state_48, s16 coord_x, s16 coord_z, void *spawn_entry)
+s32 spawn_town_entry_object(s32 callback_id, s32 angle_index, s32 state_94, u8 state_95, u8 state_96, u8 height_mode, s32 state_48, s16 coord_x, s16 coord_z, s8 *active_flag)
 {
     TownObjectCallbackEntry initializer;
     s32 saved_angle_index;
@@ -262,7 +268,7 @@ s32 spawn_town_entry_object(s32 callback_id, s32 angle_index, s32 state_94, u8 s
     u32 color;
     void *callback_render;
     s32 saved_state_48;
-    void *saved_spawn_entry;
+    s8 *saved_active_flag;
     s32 saved_state_94;
 
     saved_angle_index = angle_index;
@@ -349,20 +355,20 @@ s32 spawn_town_entry_object(s32 callback_id, s32 angle_index, s32 state_94, u8 s
     state->unk_48 = saved_state_48;
     if (position != 0) {
         if (render_data != 0) {
-            saved_spawn_entry = spawn_entry;
+            saved_active_flag = active_flag;
         }
         else {
-            saved_spawn_entry = spawn_entry;
+            saved_active_flag = active_flag;
         }
     } else {
-        saved_spawn_entry = spawn_entry;
+        saved_active_flag = active_flag;
     }
     state->unk_93 = 0;
     state->unk_70 = 0;
     state->unk_71 = 0;
     state->heading = angle;
     state->unk_6E = angle;
-    state->unk_98 = saved_spawn_entry;
+    state->unk_98 = saved_active_flag;
     if (position != 0) {
         if (render_data != 0) {
             callback_render = render_data;
@@ -378,32 +384,32 @@ s32 spawn_town_entry_object(s32 callback_id, s32 angle_index, s32 state_94, u8 s
 }
 
 /* Sets up town state and runs initialization and list callbacks. */
-void initialize_town_resource_context(void **entries) {
+void initialize_town_resource_context(TownRectangle **entries) {
     s16 mode;
-    void **entry_cursor;
-    u8 *state_buffer;
-    u8 *system_work;
+    TownRectangle **entry_cursor;
+    s32 *variables;
+    ScriptController *controller;
     u8 *init_object;
     func_8009FE60_TownState *town_state;
     func_8009FE60_TownState *state;
     func_8009FE60_InitCallback init_callback;
-    func_8009FE60_ListCallback entry_callback;
-    void *entry;
+    TownRectangleCallback entry_callback;
+    TownRectangle *entry;
 
     entry_cursor = entries;
     town_state = &town_resource_context;
-    mode = map_runtime_state.field18;
+    mode = map_runtime_state.scene_selector;
     town_state->field4 = (mode == 12);
     if (mode == 12) {
-        town_state->field8 = map_runtime_state.field1A;
+        town_state->field8 = map_runtime_state.map_index;
     } else {
         town_state->field8 = 0;
     }
-    if (optional_resource_descriptor[0] != 0) {
-        state_buffer = D_80082A80;
-        system_work = state_buffer - 0x48;
+    if (map_runtime_state.next_descriptor != 0) {
+        variables = runtime_script_state.variables;
+        controller = &runtime_script_state;
         state = &town_resource_context;
-        state->field1C = state_buffer;
+        state->script_variables = variables;
         state->field20 = D_800D3CC8;
         state->field24 = D_800D401C;
         state->field30 = D_800D381C;
@@ -412,8 +418,8 @@ void initialize_town_resource_context(void **entries) {
         state->field40 = (void *)0x80013188;
         state->field3C = town_building_slot_rectangles;
         TOWN_SYSTEM_SCRATCH->state = (void *)state;
-        set_script_text_pointer(system_work, (void *)TOWN_SYSTEM_SCRATCH->payload);
-        *(s32 *)(system_work + 0x84) = 0;
+        set_script_text_pointer(controller, TOWN_SYSTEM_SCRATCH->payload);
+        controller->variables[15] = 0;
         init_object = window_node_list_storage;
         init_callback = *(func_8009FE60_InitCallback *)(init_object + 0x10);
         init_callback(init_object + 0x20, 0, 0);
@@ -421,24 +427,24 @@ void initialize_town_resource_context(void **entries) {
         ensure_packed_resource_list(state->field34);
     }
     while ((entry = *entry_cursor) != 0) {
-        entry_callback = *(func_8009FE60_ListCallback *)((u8 *)entry + 0x10);
+        entry_callback = entry->callback;
         if (entry_callback != 0)
             entry_callback();
         entry_cursor++;
     }
-    set_script_text_pointer(runtime_script_state, *(void **)((u8 *)runtime_script_state + 0x88));
+    set_script_text_pointer(&runtime_script_state, runtime_script_state.default_script);
 }
 
-/* Process each zero-terminated value list in the null-terminated entry array. */
-void clear_script_entry_statuses(void **entries) {
-    s32 *value_ptr;
-    s32 value;
-    void **entry_ptr;
+/* Clear the spawn groups referenced by each rectangle. */
+void clear_script_entry_statuses(TownRectangle **entries) {
+    TownSpawnEntry **value_ptr;
+    TownSpawnEntry *value;
+    TownRectangle **entry_ptr;
 
     entry_ptr = entries;
     if (*entry_ptr != NULL) {
         do {
-            value_ptr = ((func_8009FFDC_S_8009D73C_0 *)(*entry_ptr))->unk_0C;
+            value_ptr = (*entry_ptr)->entry_list;
             if ((value_ptr != NULL) && (*value_ptr != 0)) {
                 do {
                     value = *value_ptr;
@@ -446,118 +452,106 @@ void clear_script_entry_statuses(void **entries) {
                     clear_record_status_bytes(value);
                 } while (*value_ptr != 0);
             }
-            entry_ptr = (void **)((s8 *)((void **)((s8 *)entry_ptr + 4)));
+            entry_ptr++;
         } while (*entry_ptr != NULL);
     }
 }
 
-/* Clear each record's first byte until the end marker is reached. */
-void clear_record_status_bytes(s8 *records) {
-    s8 *record;
-
-    record = records;
-    if ((((func_800A0070_S_8009D7D0_0 *)record)->unk_01 & 0xC0) != 0x80) {
+/* Clear the active byte of every spawn entry before the terminator. */
+void clear_record_status_bytes(TownSpawnEntry *records) {
+    if ((records->flags & 0xC0) != 0x80) {
         do {
-            *record = 0;
-            record += 0x14;
-        } while ((((func_800A0070_S_8009D7D0_0 *)record)->unk_01 & 0xC0) != 0x80);
+            records->active = 0;
+            records++;
+        } while ((records->flags & 0xC0) != 0x80);
     }
 }
 
 /* Compute coordinate bounds for four points using the configured limits. */
-void compute_four_point_coordinate_bounds(void *points_arg, func_800A00A8_S_8009D808_2 *max_point, func_800A00A8_S_8009D808_1 *min_point) {
-    func_800A00A8_S_8009D808_0 *points = points_arg;
-    s16 x_for_max;
-    s16 x_for_min;
-    s16 y_for_max;
-    s16 y_for_min;
+void compute_four_point_coordinate_bounds(u16 *points, SignedPair16 *max_point, SignedPair16 *min_point) {
+    s16 x;
+    s16 y;
     s32 x_limit;
     s32 y_limit;
-    u16 first_x;
-    u16 first_y;
-    s32 base_extent;
-    u8 *config_base;
-    u8 *size_config;
-    void *point;
+    s32 base_extent; /* BYTES: load the cell width before entering the loop. */
+    GameWork *work; /* BYTES: form the work base before selecting its map. */
+    MapGrid *map;
+    u16 *point;
 
-    first_x = points->unk_00;
-    min_point->unk_00 = first_x;
-    max_point->unk_00 = first_x;
-    first_y = points->unk_02;
-    min_point->unk_02 = first_y;
-    max_point->unk_02 = first_y;
-    config_base = ((u8 *)(&g_game_work));
-    size_config = config_base + 0x1DC;
-    if ((s16) max_point->unk_00 < 0) {
-        min_point->unk_00 = 0U;
-        max_point->unk_00 = 0U;
+    max_point->unk_00 = min_point->unk_00 = points[0];
+    max_point->unk_02 = min_point->unk_02 = points[1];
+    work = &g_game_work;
+    map = &work->map;
+    if (max_point->unk_00 < 0) {
+        min_point->unk_00 = 0;
+        max_point->unk_00 = 0;
     }
-    if ((s16) max_point->unk_02 < 0) {
-        min_point->unk_02 = 0U;
-        max_point->unk_02 = 0U;
+    if (max_point->unk_02 < 0) {
+        min_point->unk_02 = 0;
+        max_point->unk_02 = 0;
     }
     base_extent = 0x40;
     point = points;
     do {
-        x_for_max = ((func_800A00A8_S_8009D808_3 *)point)->unk_00;
-        if ((s16) max_point->unk_00 < x_for_max) {
-            max_point->unk_00 = (u16) ((func_800A00A8_S_8009D808_3 *)point)->unk_00;
-            x_limit = (base_extent << ((s16 *)size_config)[0xA]) - 1;
-            if (x_limit < x_for_max) {
-                max_point->unk_00 = (u16) x_limit;
+        x = (s16)point[0];
+        if (max_point->unk_00 < x) {
+            max_point->unk_00 = x;
+            x_limit = (base_extent << map->shiftX) - 1;
+            if (x_limit < x) {
+                max_point->unk_00 = x_limit;
             }
         }
-        x_for_min = ((func_800A00A8_S_8009D808_3 *)point)->unk_00;
-        if ((s16) min_point->unk_00 > x_for_min) {
-            min_point->unk_00 = (u16) ((func_800A00A8_S_8009D808_3 *)point)->unk_00;
-            if (x_for_min < 0) {
-                min_point->unk_00 = 0U;
+        x = (s16)point[0];
+        if (min_point->unk_00 > x) {
+            min_point->unk_00 = x;
+            if (x < 0) {
+                min_point->unk_00 = 0;
             }
         }
-        y_for_max = ((func_800A00A8_S_8009D808_3 *)point)->unk_02;
-        if ((s16) max_point->unk_02 < y_for_max) {
-            max_point->unk_02 = (u16) ((func_800A00A8_S_8009D808_3 *)point)->unk_02;
-            y_limit = (base_extent << ((s16 *)size_config)[0xB]) - 1;
-            if (y_limit < y_for_max) {
-                max_point->unk_02 = (u16) y_limit;
+        y = (s16)point[1];
+        if (max_point->unk_02 < y) {
+            max_point->unk_02 = y;
+            y_limit = (base_extent << map->shiftY) - 1;
+            if (y_limit < y) {
+                max_point->unk_02 = y_limit;
             }
         }
-        y_for_min = ((func_800A00A8_S_8009D808_3 *)point)->unk_02;
-        if ((s16) min_point->unk_02 > y_for_min) {
-            min_point->unk_02 = (u16) ((func_800A00A8_S_8009D808_3 *)point)->unk_02;
-            if (y_for_min < 0) {
-                min_point->unk_02 = 0U;
+        y = (s16)point[1];
+        if (min_point->unk_02 > y) {
+            min_point->unk_02 = y;
+            if (y < 0) {
+                min_point->unk_02 = 0;
             }
-            point += 8;
+            point += 4; /* BYTES: merging the increments creates a separate y cursor. */
         } else {
-            point += 8;
+            point += 4;
         }
-    } while ((s32) point < (s32) (points_arg + 0x20));
+    } while ((long)point < (long)(points + 16)); /* BYTES: the loop compares signed addresses with slt. */
 }
 
 /* Collect rectangles overlapping the query bounds into a null-terminated list. */
-void collect_overlapping_rectangles(func_800A01E0_S_8009D940_1 *query_max, func_800A01E0_S_8009D940_2 *query_min, void **entries, void **matches) {
+void collect_overlapping_rectangles(SignedPair16 *query_max, SignedPair16 *query_min, TownRectangle **entries, TownRectangle **matches) {
     s32 top;
     s32 left;
-    void **entry_ptr;
-    void **match_ptr;
-    func_800A01E0_S_8009D940_0 *rect;
+    TownRectangle **entry_ptr;
+    TownRectangle **match_ptr;
+    TownRectangle *rect;
 
     entry_ptr = entries;
     match_ptr = matches;
     if (*entry_ptr != NULL) {
         do {
             rect = *entry_ptr;
-            left = rect->unk_00 + rect->unk_04;
+            left = (s16)rect->origin_x + rect->x_offset;
             if (query_max->unk_00 >= left) {
-                top = rect->unk_02 + rect->unk_06;
-                if ((query_max->unk_02 >= top) && ((left + rect->unk_08) >= query_min->unk_00)
-                    && ((top + rect->unk_0A) >= query_min->unk_02)) {
+                top = (s16)rect->origin_y + rect->y_offset;
+                if ((query_max->unk_02 >= top) && ((left + rect->width) >= query_min->unk_00)
+                    && ((top + rect->height) >= query_min->unk_02)) {
                     *match_ptr = rect;
-                    match_ptr = (void **)((s8 *)((void **)((s8 *)match_ptr + 4)));
+                    match_ptr++;
                 }
             }
-            entry_ptr = (void **)((s8 *)((void **)((s8 *)entry_ptr + 4)));
+            entry_ptr++;
         } while (*entry_ptr != NULL);
     }
     *match_ptr = NULL;
@@ -585,7 +579,7 @@ void rectangle_to_four_corners(func_800A0284_S_8009D9E4_0 *rectangle, func_800A0
 }
 
 /* Process eligible entries and mark those handled successfully as active. */
-void process_eligible_entries(TownSceneSpawnEntry *entries, void *bounds, s32 origin_x, s32 origin_y)
+void process_eligible_entries(TownSpawnEntry *entries, void *bounds, s32 origin_x, s32 origin_y)
 {
     s32 test_x;
     s32 test_y;
@@ -598,11 +592,11 @@ void process_eligible_entries(TownSceneSpawnEntry *entries, void *bounds, s32 or
     base_x = origin_x;
     base_y = origin_y;
     while (((flags = entries->flags) & 0xC0) != 0x80) {
-        if (entries->active == 0) {
-            if (!(flags & 1) ? test_resident_bitmap_bit(entries->required_bit) != 0 : test_resident_bitmap_bit(entries->required_bit) != 1) {
+        if ((u8)entries->active == 0) {
+            if (!(flags & 1) ? test_resident_bitmap_bit(entries->bitmap_bit) != 0 : test_resident_bitmap_bit(entries->bitmap_bit) != 1) {
                 func_800A02F0_S_8009DA50_1 *bounds_view = bounds;
-                test_x = base_x + entries->x;
-                test_y = base_y + entries->y;
+                test_x = base_x + entries->x_offset;
+                test_y = base_y + entries->y_offset;
                 entry_x = test_x;
                 entry_y = test_y;
                 if ((check_four_vector_half_turn_gaps(
@@ -614,11 +608,11 @@ void process_eligible_entries(TownSceneSpawnEntry *entries, void *bounds, s32 or
                          (s16)(bounds_view->unk_12 - test_y),
                          (s16)(bounds_view->unk_18 - test_x),
                          (s16)(bounds_view->unk_1A - test_y)) != 0) ||
-                    ((s16)map_scene_selector_alias == 0xC) ||
+                    (map_runtime_state.scene_selector == 12) ||
                     (entries->flags & 0x10)) {
-                    if (spawn_town_entry_object(entries->callback_id, entries->angle_index, entries->state_94, entries->state_95,
-                            entries->variant, entries->flags & 0x20, entries->state_48,
-                            (s16)entry_x, (s16)entry_y, entries) != 0) {
+                    if (spawn_town_entry_object(entries->callback_id, entries->facing_index, entries->state_94, entries->state_95,
+                            entries->variant, entries->flags & 0x20, entries->creation_argument,
+                            (s16)entry_x, (s16)entry_y, &entries->active) != 0) {
                         entries->active = 1;
                     }
                     while (!(entries->flags & 0xC0)) {
@@ -793,16 +787,16 @@ ObjectNodeHeader *create_selection_entry_object(DungeonItemEntry *entry, Fixed16
 
 /* Store the current record's signed value and table lookup in the script globals. */
 s32 store_target_record_value_and_kind(void *unused_arg0, void *unused_arg1, void *unused_arg2, void *unused_arg3) {
-    runtime_script_state[0x12] = (s8)town_target_record->value;
-    runtime_script_state[0x13] = item_kind_script_words[town_target_record->kind];
+    runtime_script_state.variables[0] = (s8)town_target_record->value;
+    runtime_script_state.variables[1] = item_kind_script_words[town_target_record->kind];
     return 0;
 }
 
 // Populate three global slots with a signed byte, lookup value, and record pointer from the first entry.
 s32 store_target_record_script_state(void) {
-    runtime_script_state[0x12] = (s8)town_target_record->value;
-    runtime_script_state[0x13] = item_kind_script_words[town_target_record->kind];
-    runtime_script_state[0x14] =
+    runtime_script_state.variables[0] = (s8)town_target_record->value;
+    runtime_script_state.variables[1] = item_kind_script_words[town_target_record->kind];
+    runtime_script_state.variables[2] =
         (u32)((u8 *)0x80010AB4 +
               ((town_target_record->unk_4F & 0x3F) * 0x54));
     return 0;

@@ -1,70 +1,34 @@
-#include "common.h"
+#include "engine/message.h"
 #include "shared/object_index_slots.h"
+#include "town/player/record.h"
+#include "shared/town_object.h"
+#include "shared/object_node.h"
 
 #include "engine/script.h"
-#include "engine/message.h"
 #include "slus/data.h"
 
-typedef struct Entry {
-    s8 value;
-    s8 active;
-    u8 aux_value;
-    u8 pad_03;
-    void *object;
-} Entry;
-
-typedef struct ObjectBlock {
-    u8 pad_00[0x10];
-    void *type;
-    u8 pad_14[0x0C];
-} ObjectBlock;
-
-typedef struct AuxState {
-    u8 pad_00[0x48];
-    u8 value_48;
-    u8 pad_49[3];
-    u16 value_4c;
-    u8 pad_4e[2];
-    u16 value_50;
-} AuxState;
-
-typedef struct State {
-    u8 pad_00[0x10];
-    void (*callback)();
-    u8 pad_14[8];
-    u8 *read_ptr;
-    u8 pad_20[0x0F];
-    u8 entry_index;
-    u8 pad_30[0x50];
-    AuxState *aux;
-    u8 pad_84[5];
-    u8 timer;
-} State;
-
 extern u8 message_motion_type_a[];
-extern void *ms_mot_accpt_ow(u8 object_index);
-
 
 /* Opcode 0x0F: Set actor motion/expression (u8 actor, u8 motion; no motion byte for actor 0); waits while the actor is busy. */
-void script_set_actor_motion(State *state)
+void script_set_actor_motion(MessageWindow *window)
 {
-    u8 *cursor = state->read_ptr;
+    u8 *cursor = window->cursor;
     u8 *value_ptr;
     u8 index_byte = *cursor;
     s32 entry_index;
-    Entry *entries;
-    Entry *entry;
-    AuxState *aux;
-    ObjectBlock *object;
-    ObjectBlock *object_header;
+    ObjectIndexSlot *entries;
+    ObjectIndexSlot *entry;
+    ScriptController *controller;
+    void *object;
+    ObjectNodeHeader *object_header;
     void *object_type;
 
     cursor++;
-    state->read_ptr = cursor;
+    window->cursor = cursor;
     entry_index = index_byte & 0xFF;
     entries = object_index_slots;
     entry = entries + entry_index;
-    aux = state->aux;
+    controller = window->controller;
     if (entry->active == 0) {
         if (entry_index == 0) {
             return;
@@ -74,35 +38,39 @@ void script_set_actor_motion(State *state)
             object = ms_mot_accpt_ow(entry_index);
         } while (0);
         if (object != 0) {
-            object_header = object - 1;
-            value_ptr = state->read_ptr;
-            entry->value = *value_ptr;
+            object_header = NODE_HEADER(object);
+            value_ptr = window->cursor;
+            entry->unk_00 = *value_ptr;
             value_ptr++;
-            state->read_ptr = value_ptr;
+            window->cursor = value_ptr;
             entry->active = 1;
-            entry->aux_value = aux->value_48;
+            entry->unk_02 = controller->variables[0];
 
             if (entry_index == 1 &&
-                (object_type = object_header->type) != (void *)message_motion_type_a &&
-                object_type != (void *)message_motion_type_b) {
-                *(s16 *)((u8 *)object + 0x36) = aux->value_4c;
-                *(s16 *)((u8 *)object + 0x38) = aux->value_50;
+                (object_type = object_header->update_callback) != message_motion_type_a &&
+                object_type != message_motion_type_b) {
+                TownPlayerRecord *player = object;
+                player->target_x = controller->variables[1];
+                player->target_y = controller->variables[2];
                 return;
             }
 
-            *(s16 *)((u8 *)object + 0x88) = aux->value_4c;
-            *(s16 *)((u8 *)object + 0x8A) = aux->value_50;
+            {
+                TownObjectRecord *person = object;
+                person->target_x = controller->variables[1];
+                person->target_y = controller->variables[2];
+            }
         } else {
-            state->callback = wait_message_motion_accept;
-            state->entry_index = index_byte;
-            state->timer = 0x10;
-            state->read_ptr -= 2;
+            window->message_handler = wait_message_motion_accept;
+            window->entry_index = index_byte;
+            window->motion_timer = 0x10;
+            window->cursor -= 2;
         }
     } else {
         do {
-            state->read_ptr = cursor - 2;
-            state->entry_index = index_byte;
-            state->callback = wait_message_entry_ready;
+            window->cursor = cursor - 2;
+            window->entry_index = index_byte;
+            window->message_handler = wait_message_entry_ready;
         } while (0);
     }
 }

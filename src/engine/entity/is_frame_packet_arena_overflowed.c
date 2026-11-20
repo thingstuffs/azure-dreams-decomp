@@ -5,6 +5,7 @@
 #include "engine/entity.h"
 #include "shared/entity.h"
 #include "slus/data.h"
+#include "slus/map_state.h"
 #include "slus.h"
 
 /* --- gcc 2.7.2-cdk (cygnus SN32.3.7.0004) translation unit: zero-frame shared-tail
@@ -60,13 +61,10 @@ s32 lookup_unpatterned_display_icon(s32 index) {
     return item_display_icon_words[secondary_packet_limit_indices[index]];
 }
 
-/* extern decls */
-extern void *optional_resource_descriptor[4];
-
 /* Selects primary_optional_resource_descriptor and starts loading that optional resource descriptor. */
 void load_primary_optional_resource_descriptor(void)
 {
-    optional_resource_descriptor[0] = primary_optional_resource_descriptor;
+    map_runtime_state.next_descriptor = primary_optional_resource_descriptor;
     resource_load_current_optional_descriptor();
 }
 

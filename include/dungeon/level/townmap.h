@@ -110,8 +110,7 @@ extern u32 loaded_town_resource_attributes[];
 extern s32 town_resource_descriptors[218];
 extern s32 load_cd_resource(s32 entry_value); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 func_80047E78(s32 entry_value);
-extern void func_80035208(s32 value);
-extern s8 town_resource_command[12];
+extern u8 town_resource_command[12];
 extern s32 town_map_resource_ids[];
 extern void *find_free_pool_record(void);
 extern void init_unit_scale_record(void *, s32);

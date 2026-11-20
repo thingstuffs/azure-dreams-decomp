@@ -1,26 +1,19 @@
+#include "slus/map_state.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "sdk/libgte.h"
 #include "town/person.h"
 
-extern struct S_800AB7FC_1 map_runtime_state;
 /* Retail writes +0x19..+0x1B; the asset allocation extent is not established here. */
 extern u8 upper_draw_context[];
 extern u8 lower_draw_context[];
-
-typedef struct S_800AB7FC_1 {
-    u8 pad_00[0x18];
-    s16 unk_18;
-    s16 unk_1A;
-} S_800AB7FC_1;   /* temp_global_a0 in initialize_person_projection */
 
 /* Initialize town projection, lighting, view bounds, and color state. */
 void initialize_person_projection(void) {
     GameView *view_state;
     GameWork *render_data;
     s32 screen_distance;
-    S_800AB7FC_1 *scene_state;
     s32 light_negative;
     s32 light_positive;
     s32 ambient_red;
@@ -36,43 +29,41 @@ void initialize_person_projection(void) {
     view_state->unk_07C = 0;
     view_state->unk_080 = 0;
     SetFarColor(0, 0, 0);
-    view_state->color_matrix_01 = -0x100;
-    view_state->color_matrix_11 = -0x100;
-    view_state->color_matrix_21 = -0x100;
-    view_state->color_matrix_02 = 0;
-    view_state->color_matrix_12 = 0;
-    view_state->color_matrix_22 = 0;
-    SetColorMatrix(&render_data->view.color_matrix_00);
-    scene_state = (u8 *)render_data + 0x50;
+    view_state->color_matrix.m[0][1] = -0x100;
+    view_state->color_matrix.m[1][1] = -0x100;
+    view_state->color_matrix.m[2][1] = -0x100;
+    view_state->color_matrix.m[0][2] = 0;
+    view_state->color_matrix.m[1][2] = 0;
+    view_state->color_matrix.m[2][2] = 0;
+    SetColorMatrix(&render_data->view.color_matrix);
     light_negative = -0x800;
-    view_state->light_matrix_00 = light_negative;
-    view_state->light_matrix_01 = 0x800;
-    view_state->light_matrix_02 = light_negative;
+    view_state->light_matrix.m[0][0] = light_negative;
+    view_state->light_matrix.m[0][1] = 0x800;
+    view_state->light_matrix.m[0][2] = light_negative;
     light_positive = 0x800;
-    view_state->light_matrix_10 = light_positive;
-    view_state->light_matrix_11 = -0x800;
-    view_state->light_matrix_12 = light_positive;
-    view_state->light_matrix_20 = 0;
-    view_state->light_matrix_21 = 0;
-    view_state->light_matrix_22 = 0;
-    SetLightMatrix(scene_state);
+    view_state->light_matrix.m[1][0] = light_positive;
+    view_state->light_matrix.m[1][1] = -0x800;
+    view_state->light_matrix.m[1][2] = light_positive;
+    view_state->light_matrix.m[2][0] = 0;
+    view_state->light_matrix.m[2][1] = 0;
+    view_state->light_matrix.m[2][2] = 0;
+    SetLightMatrix(&view_state->light_matrix);
     view_state->fog_far = 0x1000;
     SetFogFar(0x1000, view_state->projection_distance);
-    scene_state = &map_runtime_state;
-    if ((scene_state->unk_18 == 0xC) && (scene_state->unk_1A != 0x34)) {
+    if ((map_runtime_state.scene_selector == 0xC) && (map_runtime_state.map_index != 0x34)) {
         ambient_red = 0xA0;
         ambient_green = ambient_red;
         ambient_blue = ambient_red;
-        view_state->color_matrix_00 = screen_distance;
-        view_state->color_matrix_10 = screen_distance;
-        view_state->color_matrix_20 = screen_distance;
+        view_state->color_matrix.m[0][0] = screen_distance;
+        view_state->color_matrix.m[1][0] = screen_distance;
+        view_state->color_matrix.m[2][0] = screen_distance;
     } else {
         ambient_red = 0xB0;
         ambient_green = ambient_red;
         ambient_blue = ambient_red;
-        view_state->color_matrix_00 = 0x3C0;
-        view_state->color_matrix_10 = 0x3C0;
-        view_state->color_matrix_20 = 0x3C0;
+        view_state->color_matrix.m[0][0] = 0x3C0;
+        view_state->color_matrix.m[1][0] = 0x3C0;
+        view_state->color_matrix.m[2][0] = 0x3C0;
     }
     SetBackColor(ambient_red, ambient_green, ambient_blue);
     SetGeomOffset(0xA0, 0x78);

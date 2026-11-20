@@ -14,7 +14,8 @@ struct ObjectPosition;
 struct SpriteFrameState;
 struct Dst;
 struct Elem;
-struct RuntimeContext;
+struct MessageWindow;
+struct ScriptController;
 struct FrameNode;
 struct FrameState;
 struct S_80050E20;
@@ -106,7 +107,7 @@ void set_menu_backdrop_owner(struct ObjectNodeHeader **dest, struct ObjectNodeHe
 void noop_selection_menu_animation_idle(struct AnimatedSelectionMenuBody *unused);
 void initialize_menu_record_value(struct AnimatedSelectionMenuBody *menu);
 int read_selected_menu_entry_word(char *object);
-void resolve_selected_menu_entry(char *object);
+s32 resolve_selected_menu_entry(char *object);
 void handle_selection_menu_object_input(struct MenuSelectionBody *object);
 void invoke_leading_object_callback(struct VtableObj *object, void *position, void *sprite);
 void *link_selection_menu_entries(void *entries);
@@ -200,8 +201,11 @@ s32 find_runtime_table_key_index(void *key);
 s32 find_or_load_runtime_resource_key(void *key);
 void initialize_runtime_resource_directory(void);
 
+/* konami_runtime_w_80034EC4.c */
+void initialize_script_controller(struct ScriptController *controller);
+
 /* konami_runtime_w_80038AB8.c */
-s32 interpret_script_opcodes(struct RuntimeContext *context, u8 *owner);
+s32 interpret_script_opcodes(struct MessageWindow *window, struct ScriptController *controller);
 
 /* konami_runtime_w_80038C40.c */
 s32 is_message_byte_in_lookup_set(s8 value);

@@ -100,17 +100,18 @@ void submit_object_resource_data(Object *object) {
     Item *item;
     u32 type_mask;
     u32 extra_flags;
-    s32 call_value;
+    s32 option_bit;
+    u8 *script;
     u32 high_code;
     u32 low_code;
-    register u32 data_base;
+    u8 *data_base;
     register u32 data_offset;
 
     item = object->item98;
     if (item != 0 && (type_mask = item->flags0 & 0xC0000000) == 0xC0000000) {
         town_resource_context.value0 = object->value60;
-        call_value = (item->flags0 >> 23) & 1;
-        town_resource_context.value4 = call_value;
+        option_bit = (item->flags0 >> 23) & 1;
+        town_resource_context.value4 = option_bit;
         high_code = (item->flags0 & 0x3F000000) >> 24;
         town_resource_context.value8 = high_code;
         low_code = (item->flags0 & 0x007F0000) >> 16;
@@ -120,14 +121,14 @@ void submit_object_resource_data(Object *object) {
             town_resource_context.value10 = (extra_flags & 0x3F000000) >> 24;
             town_resource_context.value14 = (item->flags1 & 0x007F0000) >> 16;
         }
-        ensure_resource_at_front(call_value, high_code, low_code);
-        data_base = 0x80016000;
-        data_offset = *(u16 *)&item->flags0;
-        call_value = data_base + data_offset;
+        ensure_resource_at_front(option_bit, high_code, low_code);
+        data_base = (u8 *)0x80016000;
+        data_offset = (u16)item->flags0;
+        script = data_base + data_offset;
     } else {
-        call_value = object->value48;
+        script = object->script;
     }
-    call_script(call_value);
+    call_script(script);
 }
 
 /* Unpack and dispatch each entry until its second word is zero. */

@@ -1,6 +1,8 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "frontend/card.h"
+#include "frontend/card/load.h"
+#include "frontend/card/server_aliases.h"
 #include "frontend/card/server_imports.h"
 
 #ifndef NULL
@@ -23,8 +25,6 @@ typedef struct {
     s32 unk4C;
 } StructA_8002001C;
 
-extern void run_slot_operation_code_five(void);
-extern void func_80406F70(void);
 
 /* Allocates and initializes an object and installs its callback. */
 StructA_8002001C *card_dev_create_load_screen(s32 init_value, s32 config_value) {
@@ -40,7 +40,7 @@ StructA_8002001C *card_dev_create_load_screen(s32 init_value, s32 config_value) 
         object->information = init_card_info_object(&object->node, object->unk4C);
         object->unk28 = init_card_sme_object(object);
         object->unk48 = 0;
-        object->node.update_callback = func_80406F70;
+        object->node.update_callback = card_dev_build_load_slot_windows;
     }
     return object;
 }

@@ -2,6 +2,7 @@
 #include "common.h"
 
 #include "engine/window.h"
+#include "engine/message/data.h"
 #include "slus/data.h"
 
 

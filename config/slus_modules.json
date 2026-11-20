@@ -243,7 +243,7 @@
         "include/game.h",
         "include/globals.h",
         "include/include_asm.h",
-        "include/slus/owned_80038A10.h"
+        "include/engine/message.h"
       ],
       "recipe": {
         "ccver": "2.7.2-cdk",

@@ -9,6 +9,7 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "dungeon/effect.h"
+#include "dungeon/effect/state.h"
 #include "dungeon/item/position.h"
 #include "dungeon/system.h"
 
@@ -739,7 +740,6 @@ void PushMatrix();
 void PopMatrix(void);
 void RotTrans(void *, void *, s32 *);
 void apply_attack_power_and_element_effects();
-void spawn_opposite_offset_effect(void *source_data, u32 direction_bits);
 extern s8 D_8002758C[];
 
 /* Per-frame homing-projectile step: fade in/out, fly toward the target tile, wake anything it passes and expire. */

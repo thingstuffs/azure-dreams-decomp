@@ -1,6 +1,7 @@
 #include "common.h"
 #include "sdk/libc.h"
 #include "shared/entity.h"
+#include "town/minigame/keima.h"
 typedef struct {
     s16 x;
     s16 y;

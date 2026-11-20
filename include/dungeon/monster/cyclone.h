@@ -33,6 +33,7 @@ void attempt_actor_directional_action(ActorRecord *action_state, ObjectPosition 
 
 void fade_reshape_and_remove_entity(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *entity);
 
+void *create_source_to_owner_sprite(ActorRecord *owner, ObjectPosition *position, SpriteFrameState *sprite);
 void advance_target_interaction(ActorRecord *action, ObjectPosition *scene, SpriteFrameState *sprite, ActorRecord *actor);
 void wait_cyclone_mp_and_animate(ActorRecord *actor, ObjectPosition *action_ctx, SpriteFrameState *anim, ActorRecord *entity);
 

@@ -1,16 +1,13 @@
-#include "common.h"
-
-#include "records/Rec_func_800381D0_arg0.h"
 #include "engine/message.h"
 #include "slus.h"
 
 /* Selects the next handler based on runtime status and the context byte. */
-s32 *select_message_wait_handler(Rec_func_800381D0_arg0 *context) {
+MessageWindowHandler select_message_wait_handler(MessageWindow *window) {
     if (read_sound_mode_blocking_status(4) != 0x100) {
-        if (play_message_confirmation_sound(*context->unk_1C) != 0) {
-            return &finish_message_when_idle;
+        if (play_message_confirmation_sound(*window->cursor) != 0) {
+            return finish_message_when_idle;
         }
-        return &start_message_countdown;
+        return start_message_countdown;
     }
-    return &choose_message_wait_handler;
+    return choose_message_wait_handler;
 }

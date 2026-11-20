@@ -23,7 +23,7 @@
 
 
 #include "dungeon/item/find_active_rect_containing_point_api.h"
-extern void select_zu_movement(ActorRecord *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
+#include "dungeon/actor/callback.h"
 extern s32 try_kewne_attack(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
 extern void func_80151078(void *, void *, void *, void *);
 

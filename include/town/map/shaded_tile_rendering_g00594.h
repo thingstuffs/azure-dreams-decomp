@@ -10,24 +10,6 @@
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
 
-typedef struct S_func_800AED64_2 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    void * unk_08;
-    void * unk_0C;
-    u8 pad_10[0x4];
-    s16 unk_14;
-    s16 unk_16;
-    s16 unk_18;
-    s16 unk_1A;
-} S_func_800AED64_2;
-
-typedef struct S_func_800AED64_3 {
-    u8 pad_00[0x84];
-    s32 unk_84;
-    s32 unk_88;
-} S_func_800AED64_3;
-
 typedef struct S_func_800AED64_7 {
     s32 unk_00;
     s32 unk_04;
@@ -152,10 +134,6 @@ typedef struct S_func_800AED64_11 {
     s32 unk_00;
 } S_func_800AED64_11;
 
-typedef struct S_func_800AED64_12 {
-    void * unk_00;
-} S_func_800AED64_12;
-
 typedef struct S_func_800AED64_13 {
     u16 unk_00;
     u16 unk_02;
@@ -177,27 +155,6 @@ typedef struct S_func_800AED64_13 {
     } unk_14;
 } S_func_800AED64_13;
 
-typedef struct S_func_800AED64_14 {
-    u8 pad_00[0x3];
-    s8 unk_03;
-    union {
-        s32 s32;
-        struct {
-            u8 pad_04[0x3];
-            u8 unk_07;
-        } at_07;
-    } unk_04;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-    s32 unk_18;
-    u16 unk_1C;
-    u8 pad_1E[0x2];
-    void * unk_20;
-    u16 unk_24;
-} S_func_800AED64_14;
-
 typedef struct S_func_800AED64_15 {
     s32 unk_00;
     u16 unk_04;
@@ -207,12 +164,6 @@ typedef struct S_func_800AED64_16 {
     s32 unk_00;
     s16 unk_04;
 } S_func_800AED64_16;
-
-typedef struct S_func_800AED64_17 {
-    u8 pad_00[0x18];
-    s16 unk_18;
-    u16 unk_1A;
-} S_func_800AED64_17;
 
 typedef union { S_func_800AED64_4 *ptr; u32 address; } ScratchAddress;
 
@@ -344,8 +295,6 @@ typedef struct MapQuadScratch {
     union { u16 value; u8 low_byte; } uv_scroll;
 } MapQuadScratch;
 
-/* extern */
-extern u8 map_runtime_state[];
 
 extern s8 map_tile_uvs[12];
 #include "engine/effect.h"

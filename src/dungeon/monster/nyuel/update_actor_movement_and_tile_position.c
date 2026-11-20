@@ -1,3 +1,4 @@
+#include "shared/dungeon_height_query.h"
 #include "shared/entity.h"
 #include "dungeon/level/tile_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -15,7 +16,6 @@
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
-extern s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s32 check_movement_clearance_and_height();
 #include "dungeon/item/get_actor_height_difference_api.h"
 #include "dungeon/actor/state.h"

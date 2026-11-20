@@ -4,7 +4,10 @@
 
 #include "common.h"
 
+struct CardDevLoadSlotScreen;
 struct S_func_80406AA8_0;
+
+void card_dev_build_load_slot_windows(struct CardDevLoadSlotScreen *screen);
 
 /* card_devkit_highlight_selected_load_slot.c */
 void card_devkit_highlight_selected_load_slot(void *ptr);

@@ -19,6 +19,9 @@
 #include "town/player/state.h"
 #include "town/event/state.h"
 #include "town/player/input.h"
+#include "town/scene/active_object_overlap_g00529.h"
+
+extern Box D_800D0420;
 
 
 typedef struct {
@@ -41,7 +44,6 @@ typedef struct S_8009B9BC_4 {
 
 
 extern TownState scene_object_payload_alias;
-extern s32 D_800D0420[];
 
 
 
@@ -61,7 +63,6 @@ extern u8 town_input_motion_address[];
 void resolve_owner_position_and_dispatch(Rec_D_80082D58 *object, ColliderView *owner, ObjectPosition *resolved_pos, s32 dispatch_param)
 {
     TownState *state = &scene_object_payload_alias;
-    s32 *offset = D_800D0420;
     s32 previous_owner = state->previous_owner;
     s32 current_state;
     s32 target_z;
@@ -69,13 +70,13 @@ void resolve_owner_position_and_dispatch(Rec_D_80082D58 *object, ColliderView *o
 
     resolved_pos->x.v = view_reference_entity.x.v;
     resolved_pos->y.v = view_reference_entity.y.v;
-    resolved_pos->z.v = view_reference_entity.z.v + offset[2];
+    resolved_pos->z.v = view_reference_entity.z.v + D_800D0420.z;
 
     get_min_surface_probe_capped(resolved_pos, ((u8 *)&position_query_scratch));
     apply_bound_adjustments(owner, resolved_pos);
     resolve_collider_overlaps(owner, resolved_pos);
 
-    target_z = view_reference_entity.z.v + offset[2];
+    target_z = view_reference_entity.z.v + D_800D0420.z;
     if (target_z - resolved_pos->z.v >= 0x10) {
         resolved_pos->z.v =
             target_z + owner->bounds->size_z;

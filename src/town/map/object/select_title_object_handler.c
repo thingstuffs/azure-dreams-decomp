@@ -1,3 +1,4 @@
+#include "slus/map_state.h"
 #include "town/map/object_callbacks_api.h"
 #include "slus/town_map_selection_data.h"
 #include "common.h"
@@ -51,14 +52,14 @@ void select_title_object_handler(TownObject *obj)
 
     if ((estimate_vector_length(town_position_reference_state.field_C,
                        town_position_reference_state.field_10) > 0xDFFFF) &&
-        ((s16)map_scene_selector_alias != 0xC)) {
+        (map_runtime_state.scene_selector != 0xC)) {
         obj->field_4 = 0x448;
         obj->field_1C = &D_800A549C;
         return;
     }
 
     if (service_script_controller() != 0) {
-        if (map_scene_selector_alias == 0x38000C) {
+        if (map_runtime_state.scene_selector == 12 && map_runtime_state.map_index == 56) {
             obj->field_4 = 0x448;
         } else {
             obj->field_4 = 0x380;

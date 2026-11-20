@@ -1,3 +1,4 @@
+#include "town/map/variant_data.h"
 #include "town/player/initialize_record_and_select_active_data.h"
 #include "town/player/initialize_scene_for_mode_api.h"
 #include "town/player/initialize_record_with_handler_table_api.h"
@@ -9,11 +10,13 @@
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "town/player/initialize_scene_for_mode.h"
+#include "slus/map_state.h"
 #include "shared/tile_object.h"
 #include "town/shop/item_lookup.h"
 #include "town/person/position.h"
 #include "town/map/object.h"
 #include "town/scene/motion.h"
+#include "town/scene/active_object_overlap_g00529.h"
 #include "town/player/motion.h"
 #include "engine/graphics.h"
 #include "engine/scene.h"
@@ -30,10 +33,10 @@ void initialize_scene_for_mode(void)
 {
     ObjectPosition *scene;
     TileObject *render;
-    func_80092868_TownState *state;
+    MapRuntimeState *state;
     ObjectNodeHeader *object;
     func_80092868_TownWork *work;
-    void *shared_data;
+    Box *bounds;
     s32 neutral_color;
     u16 x_offset;
     u16 x_coord;
@@ -50,13 +53,13 @@ void initialize_scene_for_mode(void)
     render->render_attributes = loaded_sprite_bundle_attributes;
     initialize_circular_list_head();
 
-    shared_data = D_800D0420;
-    init_scene_list_node(town_actor_control, scene, shared_data);
+    bounds = &D_800D0420;
+    init_scene_list_node(town_actor_control, scene, bounds);
     init_town_motion_list();
-    init_secondary_list_record(town_motion_list, scene, shared_data);
+    init_secondary_list_record(town_motion_list, scene, bounds);
 
     state = &map_runtime_state;
-    if (state->mode == 0x37000C) {
+    if (state->scene_selector == 12 && state->map_index == 55) {
         init_view_reference_entity();
         return;
     }
@@ -66,19 +69,19 @@ void initialize_scene_for_mode(void)
     object->sprite = render;
 
     if (state->alternate != 0) {
-        u16 *coords;
+        TownRectangle *position_entry;
 
         object->update_callback = noop_at_8008_ffc_0;
-        coords = state->coords;
-        scene->x.w.i = state->x_offset + coords[0];
-        scene->y.w.i = state->y_offset + coords[1];
+        position_entry = state->position;
+        scene->x.w.i = state->x_offset + position_entry->origin_x;
+        scene->y.w.i = state->y_offset + position_entry->origin_y;
         scene->z.w.i = 0;
         copy_object_position_and_velocity(town_position_reference_state, scene);
         return;
     }
 
     {
-        u16 *coords;
+        TownRectangle *position_entry;
 
         object->update_callback = rebuild_menu_node_list;
         register_node(object, draw_entry_overlays);
@@ -86,13 +89,13 @@ void initialize_scene_for_mode(void)
         render->scale_y = 0x1000;
         render->scale_x = 0x1000;
 
-        coords = state->coords;
+        position_entry = state->position;
         x_offset = state->x_offset;
-        x_coord = coords[0];
+        x_coord = position_entry->origin_x;
         render->primitive_color.word = neutral_color;
         scene->x.w.i = x_offset + x_coord;
         y_offset = state->y_offset;
-        y_coord = coords[1];
+        y_coord = position_entry->origin_y;
         scene->z.w.i = -0x80;
         scene->y.w.i = y_offset + y_coord;
         scene->z.w.i = query_lowered_transform_position(scene);
@@ -101,7 +104,7 @@ void initialize_scene_for_mode(void)
 
         work = NODE_BODY(object);
         work->field12 = -1;
-        frame = state->frame;
+        frame = state->facing_angle;
         work->frame0 = frame;
         work->frame1 = frame;
         clear_resident_bitmap_bit(F_t_attack_enable);
@@ -113,7 +116,7 @@ void initialize_scene_for_mode(void)
         }
 
         render->render_attributes = loaded_sprite_bundle_attributes;
-        if (((s16)map_scene_selector_alias != 0xC) && (find_item_by_kind_and_type(2, 0x13) != 0)) {
+        if ((map_runtime_state.scene_selector != 0xC) && (find_item_by_kind_and_type(2, 0x13) != 0)) {
             create_person_object();
         }
     }
@@ -208,7 +211,7 @@ void rebuild_menu_node_list(TownPlayerRecord *owner, ObjectPosition *node_in, Sp
         update_object_and_clear_status_fields(node_in);
     }
 
-    if (node_in->z.v > 0 && (s16)map_scene_selector_alias != 12 &&node_in->y.v > 0x03FFFFFF) {
+    if (node_in->z.v > 0 && map_runtime_state.scene_selector != 12 && node_in->y.v > 0x03FFFFFF) {
         if (check_masked_value_in_current_range((u16)read_map_cell_at_world_position(node_in->x.w.i,
                                                   node_in->y.w.i)) == 0) {
             node_in->z.v = 0;
@@ -281,12 +284,12 @@ void process_scene_record_update(TownPlayerRecord *context, ObjectPosition *inpu
                 /* garbage-passthru: a1/a2/a3 are caller-saved residue after clear_blocked_motion. */
         if (callback == (void *)town_position_callback_address || callback == (void *)&noop_player_scene_action ||
             service_script_controller() != 0) {
-            if ((s16)map_scene_selector_alias == 12) {
+            if (map_runtime_state.scene_selector == 12) {
                 to_camera_zero_00();
             } else if (input->y.w.i < 0x400) {
                 clear_record_state_or_update(input);
             }
-        } else if ((s16)map_scene_selector_alias == 12) {
+        } else if (map_runtime_state.scene_selector == 12) {
             initial_flags = work->buttons;
             if (initial_flags & 8) {
                 work->view.camera_rotation.parts.viewAngle -= 0x20;

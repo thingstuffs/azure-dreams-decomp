@@ -1,6 +1,7 @@
 #ifndef ENGINE_GRAPHICS_LIT_MESH_H
 #define ENGINE_GRAPHICS_LIT_MESH_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 /* The face stream advances by 0x18, and each emitted quad by 0x28.
  * The scratch record names only the offsets observed by draw_lit_mesh.
  * UV words overlap the actual palette/page halfwords modified by the draw. */
@@ -15,13 +16,15 @@ typedef struct LitMeshFace {
     s8 unk_17;
 } LitMeshFace;
 
+/* FT4-sized cursor slot. The map renderer also reuses slots for flat quads and draw mode. */
 typedef struct LitMeshQuadPacket {
     s32 tag;
-    u8 color[3];
-    u8 command;
+    SpriteColor color;
     s32 xy0;
+    /* UNION: draw_lit_mesh copies the face UV/CLUT word then adds the texture to its upper half. */
     union { s32 word; struct { u16 uv; u16 clut; } halves; } uv_clut;
     s32 xy1;
+    /* UNION: draw_lit_mesh copies the face UV/page word then replaces its page blend bits. */
     union { s32 word; struct { u16 uv; u16 page; } halves; } uv_page;
     s32 xy2;
     u16 uv2;

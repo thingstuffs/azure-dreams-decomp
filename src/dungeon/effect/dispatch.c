@@ -2,6 +2,7 @@
 #include "dungeon/globals.h"
 #include "dungeon/system.h"
 #include "engine/resource.h"
+#include "engine/node/allocation.h"
 #include "dungeon/item/message.h"
 #include "dungeon/level.h"
 #include "engine/graphics.h"
@@ -938,17 +939,13 @@ L_zero:
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }
 
-typedef struct {
-    s32 unk0[4];
-    void *field10;
-} Func8003FF2CResult;
-
-extern Func8003FF2CResult *initialize_runtime_node_storage(s32, s32 *, s16, ObjectNodeHeader **);
 extern s32 D_800E58B8[];
 
-/* Create a record and assign dispatch_action_callback_by_opcode to its field10 pointer. */
+/* Install the effect opcode dispatcher on a node in caller-owned storage. */
 void create_record_with_effect_callback(void) {
-    initialize_runtime_node_storage(0, D_800E58B8, 0x10, &scene_object_list_anchor.next)->field10 = dispatch_action_callback_by_opcode;
+    ObjectNodeHeader *node = initialize_runtime_node_storage(0, D_800E58B8, 0x10, &scene_object_list_anchor.next);
+
+    node->update_callback = dispatch_action_callback_by_opcode;
 }
 
 typedef struct Func800C138CData {
@@ -1338,7 +1335,8 @@ typedef struct {
 } DungeonRender;
 
 struct CentralChildEffectObject {
-    u8 pad0[8];
+    ObjectNodeHeader *next;
+    ObjectNodeHeader **pprev;
     ObjectPosition *coord;
     DungeonRender *render;
     void *callback;
@@ -1346,7 +1344,6 @@ struct CentralChildEffectObject {
     CentralChildEffectState state;
 };
 
-extern void *allocate_list_node(s32, void *);
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern u8 D_800777E8[];
 extern void update_timed_tile_effect();
@@ -1402,7 +1399,7 @@ CentralChildEffectObject *create_central_and_child_effects(s16 tile_x, s16 tile_
         state->speed = speed;
         callback_fn = update_pulsing_color_fade;
         do {
-            child = allocate_list_node(0x12, parent);
+            child = allocate_list_node(0x12, &parent->next);
             if (child != NULL) {
                 CentralChildEffectObject *init_child;
                 void *child_resource;

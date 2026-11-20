@@ -1,6 +1,6 @@
+#include "slus/map_state.h"
 #include "town/map/camera.h"
 #include "town/map/wide_culling_data.h"
-#include "town/map/sound_selection_g00648.h"
 #include "town/map.h"
 #include "town/data.h"
 
@@ -38,7 +38,7 @@ void run_dual_context_callbacks(void)
     }
 
     update_view_gray_level();
-    if ((s16)map_scene_selector_alias != 0xC) {
+    if (map_runtime_state.scene_selector != 0xC) {
         if (((S_func_800A496C_2 *)D_80100D90)->unk_06 < 0x600) {
             map_wide_culling[0] = 1;
             return;

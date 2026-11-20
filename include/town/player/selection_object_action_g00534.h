@@ -10,12 +10,6 @@
 #include "town/shop/item_menu_scene_state_data.h"
 
 typedef struct {
-    u8 pad[0x18];
-    s16 field_18;
-    s16 field_1A;
-} TownState;
-
-typedef struct {
     u8 unk0;
     u8 unk1;
     u8 unk2;
@@ -35,7 +29,6 @@ typedef struct {
     s32 unk18;
 } Unk96134State;
 
-extern TownState map_runtime_state;
 extern void write_resource_command(void *ptr, s32 value);
 extern void initialize_actor_movement_interaction_action(void *object, void *position, void *callback_data);
 #include "town/player/action_initializers.h"

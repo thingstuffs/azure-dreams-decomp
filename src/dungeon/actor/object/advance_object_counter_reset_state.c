@@ -5,8 +5,8 @@
 #include "shared/town_object.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/object.h"
+#include "town/person/object/initialize_object_entries_api.h"
 
-extern s32 initialize_object_entries(void *,s8 *, s32 *);
 extern s32 D_800D6938[];
 
 

@@ -515,7 +515,6 @@ void select_sprite_entry(void *object_data, s16 table_index, s16 entry_index);
 
 extern void advance_sprite_animation_and_textures(void *arg);
 void *get_unused_text_buffer(void);
-extern u8 *expand_text_control_codes(u8 *,u8 *);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);

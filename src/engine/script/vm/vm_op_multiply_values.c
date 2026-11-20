@@ -1,26 +1,16 @@
-#include "common.h"
 #include "engine/script/vm.h"
-
-typedef struct Decoder {
-    u8 pad_001C[0x1C];
-    u8 *read_ptr;
-    u8 pad_0080[0x60];
-    s32 *table;
-} Decoder;
+#include "engine/message.h"
 
 /* Opcode 0x49: v[dst] *= v[src]. */
-void script_multiply(Decoder *script) {
-    u8 *read_ptr = script->read_ptr;
-    u8 left_index = *read_ptr;
-    u8 right_index;
-    s32 *variables;
+void script_multiply(MessageWindow *window) {
+    u8 *cursor = window->cursor;
+    u8 dst = *cursor++;
+    u8 src;
+    ScriptController *controller;
 
-    read_ptr++;
-    script->read_ptr = read_ptr;
-    right_index = *read_ptr;
-    read_ptr++;
-    script->read_ptr = read_ptr;
-
-    variables = script->table;
-    variables[left_index + 18] *= variables[right_index + 18];
+    window->cursor = cursor;
+    src = *cursor++;
+    window->cursor = cursor;
+    controller = window->controller;
+    controller->variables[dst] *= controller->variables[src];
 }

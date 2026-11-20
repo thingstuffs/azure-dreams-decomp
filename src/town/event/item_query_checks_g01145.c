@@ -1,6 +1,7 @@
 /* Item query checks g01145.
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_800AC118, CL:town/func_800AC164, CL:town/func_800AC198, CL:town/func_800AC210, CL:town/func_800AC278, CL:town/func_800AC2D8, CL:town/func_800AC37C, CL:town/func_800AC3CC (+1 more).
  */
+#include "slus/map_state.h"
 #include "town/event/item_query_checks_g01145.h"
 #include "shared/object_node.h"
 #include "town/event.h"
@@ -169,9 +170,9 @@ void increment_query_group_count_capped_at_three(s32 entry_index) {
     }
 }
 
-/* Returns whether map_scene_selector_alias equals 0xD000C. */
+/* Returns whether the current location is scene 12, map 13. */
 s32 is_expected_movie_state(void) {
-    return map_scene_selector_alias == 0xD000C;
+    return map_runtime_state.scene_selector == 12 && map_runtime_state.map_index == 13;
 }
 
 /* Passes 0x11FA to test_resident_bitmap_bit. */

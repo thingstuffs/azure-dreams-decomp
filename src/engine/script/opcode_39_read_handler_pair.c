@@ -1,26 +1,15 @@
-#include "common.h"
-#include "engine/script.h"
 #include "engine/message.h"
-
-typedef struct Func80039C0CState {
-    u8 unk00[0x10];
-    void (*handler)(Func8003875CState *);
-    u8 unk14[0x08];
-    u8 *cursor;
-    u8 unk20[0x12];
-    u8 first;
-    u8 second;
-} Func80039C0CState;
+#include "engine/script.h"
 
 /* Opcode 0x27: Poll handler [group][entry] (two u8) until it returns nonzero. */
-void script_poll_group_handler(Func80039C0CState *state) {
-    u8 *cursor = state->cursor;
+void script_poll_group_handler(MessageWindow *window) {
+    u8 *cursor = window->cursor;
     u8 value = *cursor++;
 
-    state->cursor = cursor;
-    state->first = value;
+    window->cursor = cursor;
+    window->service_index = value;
     value = *cursor++;
-    state->cursor = cursor;
-    state->handler = run_message_table_handler;
-    state->second = value;
+    window->cursor = cursor;
+    window->message_handler = run_message_table_handler;
+    window->service_entry = value;
 }

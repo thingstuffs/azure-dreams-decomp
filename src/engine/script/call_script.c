@@ -1,11 +1,7 @@
-#include "common.h"
-
-#include "records/Rec_D_80082A38.h"
+#include "engine/message/data.h"
 #include "engine/object.h"
 #include "engine/script.h"
-extern Rec_D_80082A38 runtime_script_state;
 
-/* Prepares runtime_script_state with the supplied cursor value in mode 2. */
-void call_script(s32 value) {
-    reset_script_message_window(&runtime_script_state, value, 2);
+void call_script(u8 *script) {
+    reset_script_message_window(&runtime_script_state, script, 2);
 }

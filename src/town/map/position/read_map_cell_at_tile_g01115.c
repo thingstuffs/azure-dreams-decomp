@@ -1,6 +1,7 @@
 /* Read map cell at tile g01115.
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_8008E9D4, CL:town/func_8008EA64, CL:town/func_8008EAB4, CL:town/func_8008EB2C, PD:town/engine:800CFCA8, PD:town/engine:800FC428.
  */
+#include "slus/map_state.h"
 #include "town/map/position/read_map_cell_at_tile_g01115.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
@@ -58,11 +59,10 @@ void pack_map_row_into_table(s32 entry_index) {
 }
 
 /*
- * Uploads the 32-by-128 pixel block at D_800FC428 to VRAM (0x360, 0x100) only for scene selector
- * 0x13000C.
+ * Uploads the 32-by-128 pixel block at D_800FC428 to VRAM (0x360, 0x100) only for scene 12, map 19.
  */
 void upload_town_movie_pixels(void) {
-    if (map_scene_selector_alias == 0x13000C) {
+    if (map_runtime_state.scene_selector == 12 && map_runtime_state.map_index == 19) {
         upload_pixel_rectangle(0x360, 0x100, 0x20, 0x80, &D_800FC428);
     }
 }

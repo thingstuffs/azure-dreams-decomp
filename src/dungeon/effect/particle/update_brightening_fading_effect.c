@@ -1,4 +1,5 @@
 #include "dungeon/level.h"
+#include "shared/dungeon_height_query.h"
 #include "shared/audio_commands.h"
 /* Animated terrain grids, tile-region restoration, projected quads, and fading particle transitions. */
 #include "modules/dungeon_ovl_197e800.h"
@@ -1064,7 +1065,7 @@ void flag_nearby_seven_by_seven_tiles(s32 input_x, s32 center_y) {
         sample_y = world_y + 0x20;
         sample_ptr = (u16 *)sample_row;
         do {
-            tile_sample = get_surface_height_at_coordinates((tile_x << 6) & 0xFFC0, world_y);
+            tile_sample = get_surface_height_at_coordinates((tile_x << 6) & 0xFFC0, (u16)world_y);
             map = (dungeon_actor_ring_anchor);
             *sample_ptr = 0 - tile_sample;
             tile = find_eligible_entry_at_coordinates(map, (u16)tile_x, (u16)tile_y);

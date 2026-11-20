@@ -1,3 +1,5 @@
+#include "dungeon/level.h"
+#include "shared/dungeon_height_query.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/level/tile_flags.h"
 #include "common.h"
@@ -59,8 +61,6 @@ extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 extern void apply_attack_power_and_element_effects();
-s32 check_left_tile_and_center_height(s32 x, s32 y, s32 z);
-extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern void * find_species_actor_on_tile(ActorRecord *node, u16 key_a, u16 key_b, s16 range_center);
 
 
@@ -173,7 +173,7 @@ void update_pushing_effect(S_func_810332A4_1 *effect, ObjectPosition *motion, Sp
                         }
                     }
                     if (effect->unk_26 == 0) {
-                        floor_height = sample_terrain_surface_height(check_x, (u16)check_y,
+                        floor_height = (s16)sample_terrain_surface_height(check_x, (u16)check_y,
                                               (s16)((u16)motion->z.w.i - 0x20));
                         if (floor_height >= 0x200) {
                             effect->unk_26 = 1;
@@ -256,7 +256,7 @@ void update_pushing_effect(S_func_810332A4_1 *effect, ObjectPosition *motion, Sp
                         }
                     }
                     if (!blocked) {
-                        floor_height = sample_terrain_surface_height((u16)coord_base, (u16)object_y,
+                        floor_height = (s16)sample_terrain_surface_height((u16)coord_base, (u16)object_y,
                                               (s16)((u16)object_data->unk_88 - 0x20));
                         if (floor_height >= 0x200) {
                             blocked = 1;
@@ -311,7 +311,7 @@ void update_pushing_effect(S_func_810332A4_1 *effect, ObjectPosition *motion, Sp
                 transform->x.w.i ||
                 (display->unk_25 - glacier_direction_offsets[effect->unk_1C].y) * 64 + 0x20 !=
                 transform->y.w.i) {
-                floor_height = sample_terrain_surface_height((object_tile_x << 6) | 0x20,
+                floor_height = (s16)sample_terrain_surface_height((object_tile_x << 6) | 0x20,
                                       (display->unk_25 << 6) | 0x20,
                                       object_data->unk_88);
                 if (transform->z.w.i < floor_height) {
@@ -338,7 +338,7 @@ secondary_object:
                 display->unk_25 +=
                     (u8)glacier_direction_offsets[effect->unk_1C].y;
             } else {
-                floor_height = sample_terrain_surface_height((display->unk_24 << 6) | 0x20,
+                floor_height = (s16)sample_terrain_surface_height((display->unk_24 << 6) | 0x20,
                                       (display->unk_25 << 6) | 0x20,
                                       object_data->unk_88);
                 if (transform->z.w.i < floor_height) {
@@ -369,7 +369,7 @@ secondary_object:
             world_coord = effect->unk_4D << 6;
             world_coord += 0x20;
             floor_y = world_coord & 0xFFE0;
-            floor_height = sample_terrain_surface_height(floor_x, floor_y, motion->z.w.i);
+            floor_height = (s16)sample_terrain_surface_height(floor_x, floor_y, motion->z.w.i);
             if (motion->z.w.i < floor_height) {
                 motion->z.unsigned_parts.integer += 0x10;
             }

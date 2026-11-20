@@ -1,5 +1,6 @@
 #ifndef DUNGEON_OVL_1858800_H
 #define DUNGEON_OVL_1858800_H
+#include "dungeon/level.h"
 #include "shared/dungeon_height_query.h"
 #include "shared/dungeon_projectile_views.h"
 #include "shared/dungeon_sprite_data.h"

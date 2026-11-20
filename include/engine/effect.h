@@ -147,6 +147,9 @@ void *ensure_selection_menu_and_register_draw(struct S_80050EF8 *object);
 /* init_polygon_edges.c */
 s32 init_polygon_edges(void *vertex_data, s32 *edges, u16 *edge_count);
 
+/* shallow.c */
+s16 intersect_view_ray_with_depth_plane(SVECTOR *start, SVECTOR *end, SVECTOR *result, s16 target_z);
+
 /* relocate_resource_type_lists.c */
 void relocate_resource_type_lists(s32 data_base, s16 type_index);
 

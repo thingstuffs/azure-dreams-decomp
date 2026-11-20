@@ -28,6 +28,7 @@ void dispatch_actor_state_handler(Rec_func_8008ACDC_arg0 *actor, ObjectPosition 
 
 
 
+void spawn_opposite_offset_effect(void *source_data, u32 direction_bits);
 void advance_effect_fade_and_flag(OppositeOffsetEffectBody *effect, ObjectPosition *motion, SpriteFrameState *primitive);
 
 s32 update_hop_and_shrink_callback(ActorRecord *state, ObjectPosition *context, SpriteFrameState *data, ActorRecord *render);

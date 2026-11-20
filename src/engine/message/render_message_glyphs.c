@@ -1,38 +1,9 @@
-#include "common.h"
-#include "engine/graphics.h"
-
 #include "engine/message.h"
+#include "engine/graphics.h"
 #include "engine/script.h"
 
-typedef struct S_func_80038CB8_0 {
-    s16 unk_00;
-    s16 unk_02;
-    u8 pad_04[0xC];
-    void (*unk_10)(Func80038128State *);
-    u8 pad_14[0x4];
-    s16 unk_18;
-    u8 pad_1A[0x2];
-    u8 *unk_1C;
-    s16 unk_20;
-    s16 unk_22;
-    u8 unk_24;
-    u8 pad_25[0x3];
-    s8 unk_28;
-    u8 pad_29[0x1];
-    u8 unk_2A;
-    u8 pad_2B[0x3];
-    u8 unk_2E;
-    u8 pad_2F[0x51];
-    u8 *unk_80;
-} S_func_80038CB8_0;
-
-typedef struct S_func_80038CB8_1 {
-    u8 pad_00[0x3];
-    u8 unk_03;
-} S_func_80038CB8_1;
-
 /* Render text glyphs and advance the cursor according to the display rate. */
-void render_message_glyphs(S_func_80038CB8_0 *text)
+void render_message_glyphs(MessageWindow *window)
 {
     s32 neg_glyph_count;
     s32 glyph_delay;
@@ -43,94 +14,93 @@ void render_message_glyphs(S_func_80038CB8_0 *text)
     u8 *fast_cursor;
     u8 *batch_cursor;
 
-    if (text->unk_2E != 0) {
-        fast_cursor = text->unk_1C;
-        if (*(s8 *)fast_cursor <= 0) {
+    if (window->text_advance_mode != 0) {
+        fast_cursor = window->cursor;
+        if ((s8)*fast_cursor <= 0) {
             do {
                 if ((*fast_cursor == 0) ||
-                    (text->unk_20 < (s32)text->unk_24)) {
-                    process_message_control_bytes(text);
-                    if (*(s8 *)text->unk_1C <= 0) {
+                    (window->column < (s32)window->column_count)) {
+                    process_message_control_bytes(window);
+                    if ((s8)*window->cursor <= 0) {
                         move_glyph_to_grid_position(
-                            text->unk_1C,
-                            text->unk_20,
-                            text->unk_22,
-                            text->unk_2A,
-                            (s32)text->unk_00,
-                            (s32)(s16)(text->unk_02 + 2),
+                            window->cursor,
+                            window->column,
+                            window->row,
+                            window->spacing,
+                            (s32)window->texture_rect.x,
+                            (s32)(s16)(window->texture_rect.y + 2),
                             1);
-                        glyph = text->unk_1C;
-                        text->unk_20 =
-                            (s16)((u16)text->unk_20 + 1);
+                        glyph = window->cursor;
+                        window->column =
+                            (s16)((u16)window->column + 1);
                         next_glyph = glyph + 2;
-                        text->unk_1C = next_glyph;
+                        window->cursor = next_glyph;
                         fast_cursor = next_glyph;
-                        if (*(s8 *)(glyph + 2) <= 0) {
+                        if ((s8)glyph[2] <= 0) {
                             continue;
                         }
                     }
                 } else {
-                    script_new_line(text);
+                    script_new_line(window);
                     return;
                 }
                 break;
             } while (1);
         }
-    } else if (text->unk_28 < 0) {
-        batch_cursor = text->unk_1C;
-        if (*(s8 *)batch_cursor <= 0) {
+    } else if (window->text_speed < 0) {
+        batch_cursor = window->cursor;
+        if ((s8)*batch_cursor <= 0) {
             neg_glyph_count = 0;
             do {
                 if ((*batch_cursor != 0) &&
-                    (text->unk_20 >= (s32)text->unk_24)) {
-                    script_new_line(text);
+                    (window->column >= (s32)window->column_count)) {
+                    script_new_line(window);
                     return;
                 }
-                process_message_control_bytes(text);
-                if (*(s8 *)text->unk_1C > 0) {
+                process_message_control_bytes(window);
+                if ((s8)*window->cursor > 0) {
                     return;
                 }
                 neg_glyph_count -= 1;
                 move_glyph_to_grid_position(
-                    text->unk_1C,
-                    text->unk_20,
-                    text->unk_22,
-                    text->unk_2A,
-                    (s32)text->unk_00,
-                    (s32)(s16)(text->unk_02 + 2),
+                    window->cursor,
+                    window->column,
+                    window->row,
+                    window->spacing,
+                    (s32)window->texture_rect.x,
+                    (s32)(s16)(window->texture_rect.y + 2),
                     1);
-                column_or_rate = ((u16)text->unk_20);
-                batch_glyph = text->unk_1C;
+                column_or_rate = ((u16)window->column);
+                batch_glyph = window->cursor;
                 column_or_rate += 1;
-                text->unk_20 = (s16)column_or_rate;
-                column_or_rate = text->unk_28;
+                window->column = (s16)column_or_rate;
+                column_or_rate = window->text_speed;
                 batch_cursor = batch_glyph + 2;
-                text->unk_1C = batch_cursor;
+                window->cursor = batch_cursor;
                 if (neg_glyph_count < column_or_rate) {
                     break;
                 }
-            } while (*(s8 *)(batch_glyph + 2) <= 0);
+            } while ((s8)batch_glyph[2] <= 0);
         }
-        text->unk_28 =
-            ((S_func_80038CB8_1 *)text->unk_80)->unk_03;
+        window->text_speed = window->controller->text_speed;
     } else {
-        process_message_control_bytes(text);
-        if (*(s8 *)text->unk_1C <= 0) {
+        process_message_control_bytes(window);
+        if ((s8)*window->cursor <= 0) {
             move_glyph_to_grid_position(
-                text->unk_1C,
-                text->unk_20,
-                text->unk_22,
-                text->unk_2A,
-                (s32)text->unk_00,
-                (s32)(s16)(text->unk_02 + 2),
+                window->cursor,
+                window->column,
+                window->row,
+                window->spacing,
+                (s32)window->texture_rect.x,
+                (s32)(s16)(window->texture_rect.y + 2),
                 1);
-            text->unk_20 =
-                (s16)((u16)text->unk_20 + 1);
-            glyph_delay = text->unk_28;
-            text->unk_1C = text->unk_1C + 2;
+            window->column =
+                (s16)((u16)window->column + 1);
+            glyph_delay = window->text_speed;
+            window->cursor = window->cursor + 2;
             if (glyph_delay != 0) {
-                text->unk_18 = (s16)glyph_delay;
-                text->unk_10 = wait_message_countdown;
+                window->countdown = glyph_delay;
+                window->message_handler = wait_message_countdown;
             }
         }
     }

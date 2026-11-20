@@ -1,26 +1,9 @@
-#include "common.h"
-#include "m2c_compat.h"
-
+#include "engine/message.h"
 #include "engine/script/vm.h"
 
-typedef struct S_8003965C_0 {
-    u8 pad_00[0x1C];
-    void * unk_1C;
-} S_8003965C_0;   /* arg0 in script_jump */
+/* Opcode 0x17 jumps to the absolute script address. */
+void script_jump(MessageWindow *window) {
+    u8 *operand = window->cursor;
 
-typedef struct S_8003965C_1 {
-    u8 unk_00;
-    u8 unk_01;
-    u8 unk_02;
-    u8 unk_03;
-} S_8003965C_1;   /* temp_a2 in script_jump */
-
-
-/* Opcode 0x17: Jump to the 32-bit script address. */
-void script_jump(S_8003965C_0 *vm) {
-    S_8003965C_1 *jump_address;
-
-    jump_address = vm->unk_1C;
-    vm->unk_1C = (void *) (jump_address->unk_00 + (jump_address->unk_01 << 8) + (jump_address->unk_02 << 0x10)
-        + (jump_address->unk_03 << 0x18));
+    window->cursor = read_script_address(operand);
 }

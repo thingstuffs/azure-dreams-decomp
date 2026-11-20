@@ -10,6 +10,7 @@
 #include "sdk/libgte.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/level.h"
+#include "modules/dungeon_engine_tile_map_fragment_b5d50.h"
 
 struct ObjectPosition;
 #include "shared/dungeon_actor_callbacks.h"
@@ -40,7 +41,6 @@ typedef s32 (*Callback4)(void *, void *, void *, void *);
 extern u8 destination_motion_resume_address[];
 #include "engine/texture.h"
 #include "dungeon/player/input.h"
-void *find_eligible_actor_at_tile_and_height(struct Node *node, s16 x, s16 y_in, s16 value);           /* extern */
 #include "dungeon/item/find_active_rect_containing_point_api.h"
 #include "dungeon/item.h"
 #include "slus.h"

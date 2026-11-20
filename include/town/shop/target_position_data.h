@@ -1,16 +1,16 @@
 #ifndef TOWN_SHOP_TARGET_POSITION_DATA_H
 #define TOWN_SHOP_TARGET_POSITION_DATA_H
 
-#include "common.h"
+#include "shared/entity.h"
 
-/* Three fixed-point position words at 0x80100B50. The writer fills the
- * coordinate halves of the first two words and the full Z word. */
-typedef struct TownOutput {
-    u32 first;
-    u32 second;
-    u32 third;
-} TownOutput;
+/* Target of the shop item motion, in signed 16.16 world coordinates. */
+typedef struct ShopTargetPosition {
+    Fixed1616 x;
+    Fixed1616 y;
+    Fixed1616 z;
+} ShopTargetPosition;
 
-extern TownOutput shop_target_position;
+extern ShopTargetPosition shop_target_position;
+extern s32 D_80100B68;
 
 #endif

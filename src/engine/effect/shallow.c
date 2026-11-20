@@ -1,18 +1,11 @@
 #include "common.h"
-
-
-typedef struct {
-    s16 vx;
-    s16 vy;
-    s16 vz;
-    s16 pad;
-} SVec4_80046AFC;
+#include "engine/effect.h"
 
 /*
  * Intersects the view ray with target_z and clamps X/Y to +/-0x7FF0. Returns one for a Z delta
  * below 0x40 or a result farther than 0x1000 from the start on either axis.
  */
-s16 intersect_view_ray_with_depth_plane(SVec4_80046AFC *start, SVec4_80046AFC *end, SVec4_80046AFC *result, s16 target_z) {
+s16 intersect_view_ray_with_depth_plane(SVECTOR *start, SVECTOR *end, SVECTOR *result, s16 target_z) {
     s32 delta_z;
     s32 x;
     s32 y;

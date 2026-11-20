@@ -18,7 +18,7 @@ void draw_lit_mesh(void *unused, ObjectPosition *position_arg, SpriteFrameState 
     MATRIX view_matrix;
     GameWork *render_globals;
     Vertex *vertex_table;
-    u8 *normal_table;
+    SVECTOR *normal_table;
     GpuContext *render_state;
     LitMeshFace **face_lists;
     LitMeshFace *face;
@@ -152,9 +152,9 @@ void draw_lit_mesh(void *unused, ObjectPosition *position_arg, SpriteFrameState 
             scratch->depth = depth;
             if (depth < 0x1E0U) {
                 NormalColorCol(
-                    normal_table + face->normal_index * 8,
+                    &normal_table[face->normal_index],
                     (CVECTOR *)&sprite->color,
-                    prim->color);
+                    (CVECTOR *)&prim->color);
 
                 prim->uv_clut.word = face->uv_clut;
                 prim->uv_clut.halves.clut += sprite->clut;
@@ -172,7 +172,7 @@ void draw_lit_mesh(void *unused, ObjectPosition *position_arg, SpriteFrameState 
                 flags = sprite->flags;
                 if (flags & 8) {
                     if (flags & 4) {
-                        prim->command |= 2;
+                        prim->color.c.code |= 2;
                     }
                 }
 
@@ -189,5 +189,8 @@ void draw_lit_mesh(void *unused, ObjectPosition *position_arg, SpriteFrameState 
     }
 
     PopMatrix();
-    ((GpuContext *)render_globals->draw_buffer)->packetCursor = prim;
+    {
+        GpuContext *current_context = render_globals->draw_buffer;
+        current_context->packetCursor = prim;
+    }
 }

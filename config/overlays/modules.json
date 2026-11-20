@@ -24528,18 +24528,9 @@
           "symbol": "D_8006ADBC",
           "kind": "runtime_data",
           "vma": 2147921340,
-          "view_bytes": 28,
+          "view_bytes": 48,
           "owner": "resident_runtime:slus",
-          "declaration": "include/town/player/initialize_scene_for_mode.h",
-          "evidence": "docs/evidence/town_player_init_12868.imports.json"
-        },
-        {
-          "symbol": "D_8006ADD4",
-          "kind": "runtime_data",
-          "vma": 2147921364,
-          "view_bytes": 2,
-          "owner": "resident_runtime:slus",
-          "declaration": "include/town/player/initialize_scene_for_mode.h",
+          "declaration": "include/slus/map_state.h",
           "evidence": "docs/evidence/town_player_init_12868.imports.json"
         },
         {
@@ -24658,7 +24649,7 @@
           "kind": "data",
           "vma": 2148336672,
           "foff": 339136,
-          "view_bytes": 4,
+          "view_bytes": 24,
           "owner": "retail_asset:town:xfer_town_B000",
           "evidence": "docs/evidence/town_player_init_12868.imports.json"
         },
@@ -25295,27 +25286,9 @@
           "symbol": "D_8006ADBC",
           "kind": "runtime_data",
           "vma": 2147921340,
-          "view_bytes": 28,
+          "view_bytes": 48,
           "owner": "resident_runtime:slus",
-          "declaration": "include/town/menu/window.h",
-          "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
-        },
-        {
-          "symbol": "D_8006ADC0",
-          "kind": "runtime_data",
-          "vma": 2147921344,
-          "view_bytes": 4,
-          "owner": "resident_runtime:slus",
-          "declaration": "include/town/menu/window.h",
-          "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
-        },
-        {
-          "symbol": "D_8006ADD4",
-          "kind": "runtime_data",
-          "vma": 2147921364,
-          "view_bytes": 2,
-          "owner": "resident_runtime:slus",
-          "declaration": "include/town/menu/window.h",
+          "declaration": "include/slus/map_state.h",
           "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
         },
         {
@@ -25349,18 +25322,9 @@
           "symbol": "D_80082A38",
           "kind": "runtime_data",
           "vma": 2148018744,
-          "view_bytes": 84,
+          "view_bytes": 280,
           "owner": "resident_runtime:slus",
-          "declaration": "include/town/menu/window.h",
-          "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
-        },
-        {
-          "symbol": "D_80082A80",
-          "kind": "runtime_data",
-          "vma": 2148018816,
-          "view_bytes": 4,
-          "owner": "resident_runtime:slus",
-          "declaration": "include/town/menu/window.h",
+          "declaration": "include/engine/message/data.h",
           "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
         },
         {
@@ -25376,9 +25340,9 @@
           "symbol": "D_80082D08",
           "kind": "runtime_data",
           "vma": 2148019464,
-          "view_bytes": 4,
+          "view_bytes": 48,
           "owner": "resident_runtime:slus",
-          "declaration": "include/town/menu/window.h",
+          "declaration": "include/slus/data.h",
           "evidence": "docs/evidence/town_town_windows_1f5b8.imports.json"
         },
         {
@@ -75457,13 +75421,13 @@
       "owned_data": [],
       "imports": [
         {
-          "symbol": "D_80082AB8",
+          "symbol": "D_80082A38",
           "kind": "runtime_data",
-          "vma": 2148018872,
-          "view_bytes": 4,
+          "vma": 2148018744,
+          "view_bytes": 280,
           "owner": "resident_runtime:slus",
           "evidence": "docs/evidence/town_shop_twin_shop_input_g00597.imports.json",
-          "declaration": "include/town/shop/twin_shop_input_g00597.h"
+          "declaration": "include/engine/message/data.h"
         },
         {
           "symbol": "D_80083160",
@@ -75656,19 +75620,10 @@
           "symbol": "D_80082A38",
           "kind": "runtime_data",
           "vma": 2148018744,
-          "view_bytes": 268,
+          "view_bytes": 280,
           "owner": "resident_runtime:slus",
           "evidence": "docs/evidence/town_shop_shop_state_initialization_g00599.imports.json",
-          "declaration": "include/town/shop/shop_state_initialization_g00599.h"
-        },
-        {
-          "symbol": "D_80082AB4",
-          "kind": "runtime_data",
-          "vma": 2148018868,
-          "view_bytes": 4,
-          "owner": "resident_runtime:slus",
-          "evidence": "docs/evidence/town_shop_shop_state_initialization_g00599.imports.json",
-          "declaration": "include/town/shop/shop_state_initialization_g00599.h"
+          "declaration": "include/engine/message/data.h"
         },
         {
           "symbol": "func_8003FC64",
@@ -77577,10 +77532,10 @@
           "symbol": "D_8006ADBC",
           "kind": "runtime_data",
           "vma": 2147921340,
-          "view_bytes": 4,
+          "view_bytes": 48,
           "owner": "resident_runtime:slus",
           "evidence": "docs/evidence/town_map_shaded_tile_rendering_g00594.imports.json",
-          "declaration": "include/town/map/shaded_tile_rendering_g00594.h"
+          "declaration": "include/slus/map_state.h"
         },
         {
           "symbol": "D_80083160",
@@ -78447,19 +78402,10 @@
           "symbol": "D_8006ADBC",
           "kind": "runtime_data",
           "vma": 2147921340,
-          "view_bytes": 28,
+          "view_bytes": 48,
           "owner": "resident_runtime:slus",
           "evidence": "docs/evidence/town_map_sound_selection_g00648.imports.json",
-          "declaration": "include/town/map/sound_selection_g00648.h"
-        },
-        {
-          "symbol": "D_8006ADD4",
-          "kind": "runtime_data",
-          "vma": 2147921364,
-          "view_bytes": 2,
-          "owner": "resident_runtime:slus",
-          "evidence": "docs/evidence/town_map_sound_selection_g00648.imports.json",
-          "declaration": "include/town/map/sound_selection_g00648.h"
+          "declaration": "include/slus/map_state.h"
         },
         {
           "symbol": "D_80080A88",
@@ -78716,10 +78662,10 @@
           "symbol": "D_8006ADBC",
           "kind": "runtime_data",
           "vma": 2147921340,
-          "view_bytes": 28,
+          "view_bytes": 48,
           "owner": "resident_runtime:slus",
           "evidence": "docs/evidence/town_map_sound_sequence_replay_g00650.imports.json",
-          "declaration": "include/town/map/sound_sequence_replay_g00650.h"
+          "declaration": "include/slus/map_state.h"
         },
         {
           "symbol": "D_800D4094",
@@ -78935,13 +78881,13 @@
       "owned_data": [],
       "imports": [
         {
-          "symbol": "D_8006ADD4",
+          "symbol": "D_8006ADBC",
           "kind": "runtime_data",
-          "vma": 2147921364,
-          "view_bytes": 4,
+          "vma": 2147921340,
+          "view_bytes": 48,
           "owner": "resident_runtime:slus",
           "evidence": "docs/evidence/town_person_transform_state_g00657.imports.json",
-          "declaration": "include/town/person/transform_state_g00657.h"
+          "declaration": "include/slus/map_state.h"
         },
         {
           "symbol": "D_800C2A10",
@@ -83152,10 +83098,10 @@
           "symbol": "D_8006ADBC",
           "kind": "runtime_data",
           "vma": 2147921340,
-          "view_bytes": 28,
+          "view_bytes": 48,
           "owner": "resident_runtime:slus",
           "evidence": "docs/evidence/town_player_selection_object_action_g00534.imports.json",
-          "declaration": "include/town/player/selection_object_action_g00534.h"
+          "declaration": "include/slus/map_state.h"
         },
         {
           "symbol": "D_80083498",
@@ -86016,10 +85962,10 @@
           "symbol": "D_8006ADBC",
           "kind": "runtime_data",
           "vma": 2147921340,
-          "view_bytes": 4,
+          "view_bytes": 48,
           "owner": "resident_runtime:slus",
           "evidence": "docs/evidence/town_range_group_checks_g00652.imports.json",
-          "declaration": "include/town/map/range_group_checks_g00652.h"
+          "declaration": "include/slus/map_state.h"
         },
         {
           "symbol": "D_800D456C",
@@ -96360,13 +96306,13 @@
       "owned_data": [],
       "imports": [
         {
-          "symbol": "D_8006ADD4",
+          "symbol": "D_8006ADBC",
           "kind": "runtime_data",
-          "vma": 2147921364,
-          "view_bytes": 4,
+          "vma": 2147921340,
+          "view_bytes": 48,
           "owner": "resident_runtime:slus",
           "evidence": "docs/evidence/town_read_map_cell_at_tile_g01115.imports.json",
-          "declaration": "include/town/map/town_map_entry_processor_g00524.h"
+          "declaration": "include/slus/map_state.h"
         },
         {
           "symbol": "D_800814A0",
@@ -96900,13 +96846,13 @@
       "owned_data": [],
       "imports": [
         {
-          "symbol": "D_8006ADD4",
+          "symbol": "D_8006ADBC",
           "kind": "runtime_data",
-          "vma": 2147921364,
-          "view_bytes": 4,
+          "vma": 2147921340,
+          "view_bytes": 48,
           "owner": "resident_runtime:slus",
           "evidence": "docs/evidence/town_item_query_checks_g01145.imports.json",
-          "declaration": "include/town/event/item_query_checks_g01145.h"
+          "declaration": "include/slus/map_state.h"
         },
         {
           "symbol": "D_8006BC7A",

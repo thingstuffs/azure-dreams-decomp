@@ -1,25 +1,24 @@
-#include "shared/game_work.h"
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef short s16;
-typedef unsigned int u32;
-typedef int s32;
-extern u32 map_runtime_state;
-extern s32 D_800D3824[];
-extern void create_two_text_display_entries(void *data_id, s32 position_offset);
-/* Calls create_two_text_display_entries with the first table entry matching the state's ID. */
+#include "slus/map_state.h"
+#include "town/map.h"
+
+typedef struct MapDisplayEntry {
+    s32 map_index;
+    u8 *text;
+    s16 position_offset;
+} MapDisplayEntry;
+
+extern MapDisplayEntry D_800D3824[];
+
+/* Creates the display entries for the first row matching the active map. */
 void build_display_entries_for_map_state(void)
 {
-    s32 *table_entry;
-    s8 *state;
+    MapDisplayEntry *entry;
     s32 i;
 
-    for (i = 0; D_800D3824[i * 3] != -1; i++) {
-        state = (s8 *) (&map_runtime_state);
-        table_entry = &D_800D3824[i * 3];
-        if (*((s16 *) (state + 0x1A)) == (*table_entry)) {
-            create_two_text_display_entries(*((void **) (((s8 *) table_entry) + 4)), *((s16 *) (((s8 *) table_entry) + 8)));
+    for (i = 0; D_800D3824[i].map_index != -1; i++) {
+        entry = &D_800D3824[i];
+        if (map_runtime_state.map_index == entry->map_index) {
+            create_two_text_display_entries(entry->text, entry->position_offset);
             return;
         }
     }

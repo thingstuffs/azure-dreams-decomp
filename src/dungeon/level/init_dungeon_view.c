@@ -27,9 +27,9 @@ void init_dungeon_view(void)
     render_state->unk_5C = 0;
     render_state->unk_62 = 0;
     render_state->unk_68 = 0;
-    SetColorMatrix(&render_data->view.color_matrix_00);
+    SetColorMatrix(&render_data->view.color_matrix);
 
-    light_matrix = &render_data->view.light_matrix_00;
+    light_matrix = &render_data->view.light_matrix;
     set_light_vectors(render_state, -0x800, 0x800);
     SetLightMatrix(light_matrix);
 

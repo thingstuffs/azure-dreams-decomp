@@ -3,13 +3,22 @@
 
 #include "common.h"
 
-/* prepend_owner_list_node links this record into an owner head.
- * The backlink is either a preceding node or the owner head biased by eight bytes;
- * unlink_owner_list_node writes its +8 link to bypass this node. */
+struct WindowListObject;
+
+/* Object nodes store their enclosing window body. The controller embeds a
+ * sentinel with the same two links; its object word is unused by the list. */
 typedef struct RuntimeLinkedNode {
-    u8 pad_00[4];
-    void *backlink;
+    struct WindowListObject *object;
+    struct RuntimeLinkedNode *backlink;
     struct RuntimeLinkedNode *next;
 } RuntimeLinkedNode;
+
+/* prepend_embedded_object_node links this body at +0x54. The drain clears
+ * the first word of its attached object before removing the body's node. */
+typedef struct WindowListObject {
+    s32 *clear_target;
+    u8 pad04[0x50];
+    RuntimeLinkedNode link;
+} WindowListObject;
 
 #endif

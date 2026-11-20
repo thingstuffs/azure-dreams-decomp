@@ -41,7 +41,7 @@
       "kind": "data",
       "vma": 2148336672,
       "foff": 339136,
-      "view_bytes": 4,
+      "view_bytes": 24,
       "owner": "retail_asset:town:xfer_town_B000",
       "evidence": "docs/evidence/town_player_init_12868.imports.json"
     },
@@ -105,18 +105,9 @@
       "symbol": "D_8006ADBC",
       "kind": "runtime_data",
       "vma": 2147921340,
-      "view_bytes": 28,
+      "view_bytes": 48,
       "owner": "resident_runtime:slus",
-      "declaration": "include/town/player/initialize_scene_for_mode.h",
-      "evidence": "docs/evidence/town_player_init_12868.imports.json"
-    },
-    "D_8006ADD4": {
-      "symbol": "D_8006ADD4",
-      "kind": "runtime_data",
-      "vma": 2147921364,
-      "view_bytes": 2,
-      "owner": "resident_runtime:slus",
-      "declaration": "include/town/player/initialize_scene_for_mode.h",
+      "declaration": "include/slus/map_state.h",
       "evidence": "docs/evidence/town_player_init_12868.imports.json"
     },
     "D_80080A80": {
@@ -451,11 +442,12 @@
     }
   ],
   "declared_view_sizes": {
-    "D_8006ADBC": 28,
+    "D_8006ADBC": 48,
     "D_80080A80": 4,
     "D_80083160": 512,
     "D_800834B8": 4,
     "D_800D0178": 4,
+    "D_800D0420": 24,
     "D_800D0438": 4
   },
   "size_basis": "Compiler sizeof queries of the complete shared ABI declarations. Array/address-only views retain their explicit minimum; casts requiring larger observed layouts retain that larger bounded view. Function symbols are not storage views."

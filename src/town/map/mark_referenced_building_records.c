@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/map/building_grid_g00638.h"
 #include "town/map.h"
+#include "town/map/variant_data.h"
 
 typedef struct BuildingIndexPage {
     u8 pad_00[0x33A4];
@@ -10,19 +11,15 @@ typedef struct BuildingIndexPage {
 /* Clears record flags, then marks records referenced by nonzero indices in the strided list. */
 void mark_referenced_building_records(void) {
     s32 entryIndex;
-    TownBuildingRecord *recordCursor;
     u8 *indexPageCursor;
     TownBuildingRecord *recordBase;
     u8 recordIndex;
     s16 markedFlag;
 
     entryIndex = 0x42;
-    recordCursor = town_building_records;
-    recordCursor += 0x42;
     do {
-        recordCursor->marked = 0;
+        town_building_records[entryIndex].marked = 0;
         entryIndex--;
-        recordCursor--;
     } while (entryIndex >= 0);
 
     entryIndex = 0;
@@ -35,8 +32,7 @@ void mark_referenced_building_records(void) {
     do {
         recordIndex = ((BuildingIndexPage *)indexPageCursor)->record_index;
         if (recordIndex != 0) {
-            TownBuildingRecord *record = (TownBuildingRecord *)((recordIndex << 5) + (unsigned long)recordBase);
-            record->marked = markedFlag;
+            recordBase[recordIndex].marked = markedFlag;
         }
         entryIndex++;
         indexPageCursor += 2;

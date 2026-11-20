@@ -2,8 +2,9 @@
 #define FRONTEND_CARD_SERVER_IMPORTS_H
 /*
  * The devkit memory-card server (MAIN +0x269000-+0x275800, linked at 0x80400000; its assertion strings name the
- * file c_server.c) and its TOWN copy (+0x26E000-+0x272000, byte-identical at the same base): calls to functions
- * that have no readable name at that address, and the server's own library stubs.
+ * file c_server.c) and the overlapping TOWN window (+0x26E000-+0x272000, linked at 0x80405000). The windows
+ * share code at some addresses. The save callbacks at 0x80405A3C and 0x80405CB8 are present in MAIN.
+ * This header declares calls to functions with no readable name at their address and the server's library stubs.
  *
  * The 0x804xxxxx entries are server functions.  Their rows are linked at the true address (rowbase records,
  * tools/headers/rebase_placeholder_rows.py), so the address spelling names the same symbol as the readable name

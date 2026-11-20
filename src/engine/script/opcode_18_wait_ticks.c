@@ -1,24 +1,14 @@
-#include "common.h"
-#include "engine/script.h"
 #include "engine/message.h"
-
-typedef struct Func80039578State {
-    u8 pad_00[0x10];
-    void (*func_10)(Func80038128State *);
-    u8 pad_14[0x04];
-    u16 half_18;
-    u8 pad_1A[0x02];
-    u8 *read_ptr;
-} Func80039578State;
+#include "engine/script.h"
 
 /* Opcode 0x12: Wait the number of frames given by the 16-bit operand. */
-void script_wait_frames(Func80039578State *state) {
-    u32 addr_or_high = (u32)state->read_ptr;
+void script_wait_frames(MessageWindow *window) {
+    u32 addr_or_high = (u32)window->cursor;
     u32 read_addr = addr_or_high;
     u32 low_byte = *(u8 *)addr_or_high;
 
     addr_or_high = *(u8 *)(addr_or_high + 1);
-    state->read_ptr = (u8 *)(read_addr + 2);
-    state->func_10 = wait_message_countdown;
-    state->half_18 = (u16)(low_byte + (addr_or_high << 8));
+    window->cursor = (u8 *)(read_addr + 2);
+    window->message_handler = wait_message_countdown;
+    window->countdown = low_byte + (addr_or_high << 8);
 }

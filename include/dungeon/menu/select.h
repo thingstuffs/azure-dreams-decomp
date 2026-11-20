@@ -561,14 +561,9 @@ typedef struct {
 } Object;
 
 typedef struct {
-    u8 pad0[0x14];
-    u16 flags;
-} SpriteData;
-
-typedef struct {
     u8 pad0[8];
     s32 lo;
-    SpriteData *data;
+    SpriteFrameState *data;
     u8 pad1[0x10];
     u8 transform[1];
 } Sprite;
@@ -649,7 +644,6 @@ void select_record_entry_and_value(void *state, void *entries, short index);  /*
 #include "slus/menu_effect_sprite_entries.h"
 #include "sdk/libgpu.h"
 void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s32 extra_byte);      /* extern */
-u32 get_rounded_facing_and_rounding_flag(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */ /* extern */
 #include "engine/texture.h"
 struct Entry;
 struct ObjectNodeHeader;
@@ -681,7 +675,6 @@ extern s8 scene_geometry[];
 #include "sdk/libgte.h"
 extern s32 func_800656C0();
 extern void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth_bias);
-extern void draw_sprite_clipped();
 extern void func_80045CC4();
 extern s16 selection_blink_timer[5];
 extern u16 selection_blink_target[5];

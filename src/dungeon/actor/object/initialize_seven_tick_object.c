@@ -3,9 +3,9 @@
 #include "m2c_compat.h"
 #include "shared/town_object.h"
 #include "dungeon/actor/object.h"
+#include "town/person/object/initialize_object_entries_api.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s32 initialize_object_entries(void *,s8 *, s32 *);          /* extern */
 extern M2C_UNK D_800CB21C;
 extern s32 D_800D6910[];
 

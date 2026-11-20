@@ -17,7 +17,6 @@
 
 extern s32 resolve_item_attack(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 #include "dungeon/player/state/clear_slot_and_update_linked_state_api.h"
-extern u8 *clear_byte_and_advance(u8 *byte_ptr);
 extern void teleport_familiar_near_player(s32, s16); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Applies a target action or processes occupied player slots and updates the action count. */

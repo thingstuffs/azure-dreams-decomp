@@ -54,7 +54,7 @@ void begin_tyrant_defeat(ActorRecord *work_in, ObjectPosition *part_a, SpriteFra
         msg_handle = msg;
         msg = append_entity_display_text(msg_actor, msg_handle);
         handle = msg_handle;
-        clear_byte_and_advance(expand_text_control_codes(&D_80170854, msg));
+        clear_byte_and_advance(expand_text_control_codes(D_80170854, msg));
         display_text_with_fullwidth_adjustment(handle);
     }
 }

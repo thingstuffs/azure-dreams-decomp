@@ -1,33 +1,15 @@
-#include "common.h"
-
 #include "engine/script/vm.h"
-
-typedef struct Func8003A684Entry {
-    u8 pad_00[0x48];
-    s32 value;
-} Func8003A684Entry;
-
-typedef struct Func8003A684State {
-    u8 pad_00[0x1C];
-    u8 *read_ptr;
-    u8 pad_20[0x60];
-    struct Func8003A684State *table;
-} Func8003A684State;
+#include "engine/message.h"
 
 /* Opcode 0x41: If v[var] < 0, jump to the 32-bit address. */
-void script_jump_if_negative(Func8003A684State *state) {
-    u8 *stream_ptr = state->read_ptr;
-    u8 table_index = *stream_ptr;
+void script_jump_if_negative(MessageWindow *window) {
+    u8 *cursor = window->cursor;
+    u8 index = *cursor++;
 
-    stream_ptr++;
-    state->read_ptr = stream_ptr;
-    if (((Func8003A684Entry *)((u8 *)state->table + table_index * 4))->value < 0) {
-        u32 jump_address = (u32)stream_ptr[0]
-        + ((u32)stream_ptr[1] << 8)
-        + ((u32)stream_ptr[2] << 16)
-        + ((u32)stream_ptr[3] << 24);
-        state->read_ptr = (u8 *)jump_address;
+    window->cursor = cursor;
+    if (window->controller->variables[index] < 0) {
+        window->cursor = read_script_address(cursor);
     } else {
-        state->read_ptr = stream_ptr + 4;
+        window->cursor = cursor + 4;
     }
 }

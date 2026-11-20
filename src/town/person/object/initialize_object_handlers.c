@@ -19,5 +19,5 @@ void initialize_object_handlers(TownObjectRecord *object, ObjectPosition *unused
     object->unk_92 = 1;
     object->handler = dispatch_record_handler;
     object->unk_15 = 0;
-    object_index_slots[object->slot].unk_01 = 0;
+    object_index_slots[object->slot].active = 0;
 }

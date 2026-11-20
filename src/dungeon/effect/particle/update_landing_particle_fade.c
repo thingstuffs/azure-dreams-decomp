@@ -1,4 +1,5 @@
 #include "dungeon/monster/beldo_large_data.h"
+#include "dungeon/level.h"
 #include "shared/dungeon_height_query.h"
 #include "common.h"
 #include "shared/object_flags.h"

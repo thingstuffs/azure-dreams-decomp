@@ -1,5 +1,6 @@
 #include "common.h"
 #include "engine/entity.h"
+#include "engine/audio/sequence.h"
 #include "slus.h"
 #include "slus/audio_sequence_state_data.h"
 
@@ -32,10 +33,6 @@ typedef struct
 S_80084960;
 extern S_80085FA8 audio_sequence_tracks[];
 extern S_80084960 audio_channel_controls[];
-extern void start_channel_note(s32 a0, s32 a1, s32 a2);
-extern void audio_sequence_note_off(s32 a0, s32 a1, s32 a2);
-extern void audio_apply_channel_control(s32 a0, s32 a1, s32 a2);
-extern void set_channel_control_and_notify(u8 index, s32 unused, s32 value);
 /* Dispatch a MIDI channel event and handle track state save, restore, and repeat controls. */
 void audio_dispatch_midi_event(S_80085FA8 *track_arg, s32 status, s32 first_data, s32 second_data)
 {
@@ -50,14 +47,15 @@ void audio_dispatch_midi_event(S_80085FA8 *track_arg, s32 status, s32 first_data
         audio_sequence_note_off(channel, event_data & 0xFF, second_data & 0xFF);
         return;
 
-    case 0x90:
-        if ((second_data & 0xFF) != 0) {
-            start_channel_note(channel, event_data & 0xFF, second_data & 0xFF);
-        }
-        else {
+    case 0x90: {
+        u8 velocity = second_data;
+        if (velocity != 0) {
+            start_channel_note(channel, event_data & 0xFF, velocity);
+        } else {
             audio_sequence_note_off(channel, event_data & 0xFF, 0);
         }
         return;
+    }
 
     case 0xA0:
         noop_midi_aftertouch(channel, event_data & 0xFF, second_data & 0xFF);

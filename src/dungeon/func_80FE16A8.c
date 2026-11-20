@@ -14,15 +14,13 @@
 #include "dungeon/actor/state.h"
 #include "dungeon/player/object.h"
 #include "dungeon/level.h"
+#include "dungeon/actor/motion.h"
+#include "dungeon/monster/grineut/path_motion.h"
 
 #include "dungeon/monster/killer_frames.h"
 #include "dungeon/monster/killer.h"
 
 #include "dungeon/item/find_active_rect_containing_point_api.h"
-extern void begin_pushed_actor_move(void *state_in, ObjectPosition *unused, void *position_in, void *actor_in);
-extern s32 begin_ready_actor_directional_action(void *, void *, void *, u8 *);
-extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
-extern void advance_grineut_stored_path(void *, void *, void *, void *);
 extern void choose_block_move_slot_a(void *, void *, void *, void *);
 extern void func_8016DA84(void *, void *, void *, void *);
 

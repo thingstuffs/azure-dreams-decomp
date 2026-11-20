@@ -1,5 +1,5 @@
 {
- "count": 1276,
+ "count": 1275,
  "ids": [
   "include/dungeon/actor/ability_eligibility.h::S_800A4300_2.unk_F0",
   "include/dungeon/actor/action_target_selection_g00359.h::S_800CA444_0.unk_24",
@@ -799,7 +799,6 @@
   "include/town/map/shaded_tile_rendering_g00594.h::MapQuadCoordinate.MapQuadCoordinate",
   "include/town/map/shaded_tile_rendering_g00594.h::MapQuadScratch.uv_scroll",
   "include/town/map/shaded_tile_rendering_g00594.h::S_func_800AED64_13.unk_14",
-  "include/town/map/shaded_tile_rendering_g00594.h::S_func_800AED64_14.unk_04",
   "include/town/map/shaded_tile_rendering_g00594.h::S_func_800AED64_4.unk_12C",
   "include/town/map/shaded_tile_rendering_g00594.h::S_func_800AED64_4.unk_14",
   "include/town/map/shaded_tile_rendering_g00594.h::S_func_800AED64_4.unk_168",

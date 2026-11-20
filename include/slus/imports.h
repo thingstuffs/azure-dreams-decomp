@@ -6,4 +6,7 @@
 /* Functions exported by the resident SLUS program to overlays. */
 extern void advance_sprite_animation_and_textures(void *);
 
+struct ObjectNodeHeader;
+void unlink_node(struct ObjectNodeHeader *node);
+
 #endif

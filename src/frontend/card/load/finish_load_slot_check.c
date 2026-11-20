@@ -21,7 +21,6 @@ typedef struct S_func_80406AA8_1 {
     void (*unk_10)(void);
 } S_func_80406AA8_1;
 
-extern s32 process_entry_with_table_value(s32 entry_id, s32 request_id);
 extern void forward_value_initcardmessageobject(void *value);
 extern void func_80404688(s32 object);
 extern void func_804069FC(void);

@@ -1,3 +1,4 @@
+#include "slus/imports.h"
 /* Shaded particle drawing, accelerating return particles, and staged actor effect cleanup. */
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor/spell_resource_ids_data.h"
@@ -57,7 +58,6 @@ const PackedOffsets dungeon_18f4800_offsets = { {
 /* Queue a shaded tile and draw mode packet, then continue the object chain. */
 extern u8 D_80025100[16];
 extern Packed12 actor_particle_images;
-extern void unlink_node(void *);
 
 /* The constructor initializes the source position and acceleration used by the update and draw callbacks. */
 typedef struct ReturningParticleBody {
@@ -518,7 +518,7 @@ void update_actor_effect_particles_and_cleanup(Actor33 *actor, Motion33 *motion,
                     return;
                 }
 state1_cleanup:
-                unlink_node((u8 *)actor - 0x20);
+                unlink_node(NODE_HEADER(actor));
                 actor->state = 6;
                 actor->timer84 = 0;
                 actor->timer82 = 0;

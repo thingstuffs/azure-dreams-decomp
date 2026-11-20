@@ -7,6 +7,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_sprite_data.h"
 #include "dungeon/effect/particle.h"
+#include "dungeon/actor/ability_eligibility.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
@@ -28,7 +29,6 @@
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */                /* extern */
 s32 rand();                /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
-s32 get_spell_range(s16);                         /* extern */
 
 typedef struct S_func_81832800_1 {
     void *unk_00;

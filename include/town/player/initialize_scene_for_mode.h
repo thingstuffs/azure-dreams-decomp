@@ -41,16 +41,6 @@ typedef struct func_80092868_RenderState {
     s32 source;
 } func_80092868_RenderState;
 
-typedef struct func_80092868_TownState {
-    u8 pad0[0xC];
-    u16 frame;
-    s16 alternate;
-    u16 *coords;
-    u16 x_offset;
-    u16 y_offset;
-    s32 mode;
-} func_80092868_TownState;
-
 typedef struct func_80092868_TownObject {
     void *next;
     void *prev;
@@ -161,12 +151,10 @@ extern s32 step_angle_toward(s32 angle_delta, s32 target_angle, s32 step);
 extern u32 view_relative_angle_sector(s32 angle);
 #include "town/player/fallback_handler_position_g00541.h"
 
-extern func_80092868_TownState map_runtime_state;
 extern s32 loaded_sprite_bundle_attributes;
 
 
 extern u8 town_actor_control[];
-extern u8 D_800D0420[];
 extern u8 town_motion_list[];
 extern u8 town_position_reference_state[];
 extern s32 camera_turn_lock[];
@@ -184,5 +172,8 @@ extern s16 town_scene_effect_flips[];
 
 void rebuild_menu_node_list(TownPlayerRecord *owner, ObjectPosition *node_in, struct SpriteFrameState *sprite);
 
+
+#include "town/scene/active_object_overlap_g00529.h"
+extern Box D_800D0420;
 
 #endif

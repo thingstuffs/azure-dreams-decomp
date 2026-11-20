@@ -1,15 +1,14 @@
+#include "engine/window.h"
 #include "common.h"
 #include "slus/window_choice_data.h"
 #include "engine/window/cursor_init.h"
 
 
-typedef void (*Callback)(void);
-
 typedef struct S_func_800362D0_0 {
     u8 pad_00[0x4D];
     u8 unk_4D;
     u8 pad_4E[0x1A];
-    Callback unk_68;
+    void (*unk_68)(struct CursorState *cursor, s32 unused_1, s32 unused_2);
     u8 pad_6C[0x08];
     void *unk_74;
 } S_func_800362D0_0;
@@ -24,7 +23,6 @@ typedef struct S_func_800362D0_1 {
     void *unk_80;
 } S_func_800362D0_1;
 
-extern void handle_wrapping_menu_cursor_input(void);
 
 /* Initializes the object from its child data and sets the next callback. */
 void init_menu_choice_object(S_func_800362D0_0 *object) {

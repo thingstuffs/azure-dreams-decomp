@@ -1,4 +1,5 @@
 #include "slus/command_slots_81554.h"
+#include "engine/script.h"
 #include "slus.h"
 
 /* Build a command sequence with a header and terminator, then submit it. */
@@ -28,5 +29,5 @@ void submit_script_with_registered_context(void *context)
     buffer_value = write_index + 1;
     message_command_write_index = buffer_value;
     submit_index = message_command_start_index;
-    set_script_record_buffer((s32)&script_message_command_words[submit_index]);
+    set_script_record_buffer(&script_message_command_words[submit_index]);
 }

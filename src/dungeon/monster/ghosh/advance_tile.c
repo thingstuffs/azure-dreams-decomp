@@ -47,7 +47,7 @@ s32 check_movement_clearance_and_height(s32, void *, void *, s32);
 s16 test_neighbor_position_relation(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y);
 void *find_adjacent_actor(ActorRecord *entity, u16 x, u16 y);
 s32 probe_directional_neighbor(void *, s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-s16 get_rounded_facing_and_rounding_flag(s32, s32, s32, s32, void *); /* Unprototyped: retail call narrows its arguments to this declaration; no shared prototype keeps it */
+#include "dungeon/item/position.h"
 s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 #include "dungeon/actor/state.h"
 
@@ -73,7 +73,7 @@ void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, Sp
     s16 target_heading;
     s16 step_coord;
     s32 tile_y;
-    void * heading_state;
+    u16 *heading_state;
     s32 move_result;
     s32 move_flags;
     s32 heading;
@@ -132,8 +132,8 @@ void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, Sp
                         << 0x10) >> 0x19)) & 7) * 2;
                     target_x = position_base->tile_position.parts.tile_x + *(u16 *)(x_table_base + dir_index);
                     target_y = reference_tile_object.tile_position.parts.tile_y + (u16)dir_step_y[dir_index >> 1];
-                    if ((sprite->tile_x != (u16)target_x)
-                        || (sprite->tile_y != (u16)target_y)) {
+                    if ((sprite->tile_x != ((u32)target_x & 0xFFFFU))
+                        || (sprite->tile_y != ((u32)target_y & 0xFFFFU))) {
                         heading_state = &move_state->action_state_flags;
                         target_heading = get_rounded_facing_and_rounding_flag(sprite->tile_x,
                             sprite->tile_y, (s16) target_x, (s16) target_y,

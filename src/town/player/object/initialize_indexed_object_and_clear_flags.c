@@ -17,5 +17,5 @@ void initialize_indexed_object_and_clear_flags(TownObjectRecord *object, ObjectP
     dispatch_selected_entry_if_nonzero(&D_800D0178, object, initializationValue);
     object->unk_04 = dispatch_state_callback_by_mode;
     object_index_slots[1].unk_00 = 0;
-    object_index_slots[1].unk_01 = 0;
+    object_index_slots[1].active = 0;
 }

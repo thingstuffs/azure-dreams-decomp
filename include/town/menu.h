@@ -40,7 +40,11 @@ struct S_800A2A18_1;
 s32 test_three_axis_box_overlap(struct S_800A2A18_1 *box, struct ObjectPosition *offset);
 
 void create_entry_builder_controller(void);
-s32 *reset_script_rect_list(void);
+struct TownRectangle;
+extern struct TownRectangle *town_script_state_slots[];
+struct TownRectangle **reset_script_rect_list(void);
+struct TownRectangle **append_scaled_rect_to_script_list(s32 x, s32 y, s32 width, s32 height,
+                                                        struct TownRectangle *rectangle);
 
 #include "records/Rec_D_80082D58.h"
 s32 classify_record_by_state_and_position(Rec_D_80082D58 *record, struct ObjectPosition *position);

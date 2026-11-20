@@ -1,29 +1,17 @@
-#include "common.h"
 #include "engine/script/vm.h"
+#include "engine/message.h"
 
-typedef struct Func8003A29CTable {
-    u8 pad_00[0x44];
-    u32 **targets;
-    u32 values[1];
-} Func8003A29CTable;
-
-typedef struct Func8003A29CState {
-    u8 pad_00[0x1C];
-    u8 *cursor;
-    u8 pad_20[0x60];
-    Func8003A29CTable *table;
-} Func8003A29CState;
-
-/* Opcode 0x39: Store system variable: *S_ARG[u8] = v[var]. */
-void script_store_system_variable(Func8003A29CState *state) {
-    u8 *cursor = state->cursor;
+void script_store_system_variable(MessageWindow *window) {
+    u8 *cursor = window->cursor;
+    ScriptController *controller = window->controller;
     u8 value_index;
-    u8 target_index;
-    Func8003A29CTable *table = state->table;
+    u8 address_index;
+    s32 *word;
 
     value_index = *cursor++;
-    state->cursor = cursor;
-    target_index = *cursor++;
-    state->cursor = cursor;
-    table->targets[target_index][0] = table->values[value_index];
+    window->cursor = cursor;
+    address_index = *cursor++;
+    window->cursor = cursor;
+    word = controller->variable_addresses[address_index];
+    *word = controller->variables[value_index];
 }

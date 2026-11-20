@@ -11,7 +11,6 @@
 #include "shared/town_object.h"
 
 extern u8 D_800D4FB8;
-/* extern */
 extern void D_800C2A10(void *object);
 extern s16 D_800FE4A6;
 

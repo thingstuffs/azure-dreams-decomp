@@ -26,12 +26,6 @@ typedef struct CachedObjectCodePair {
     short unk_02;
 } CachedObjectCodePair;
 
-/* Signed halfword at +A used to initialize a resource-slot state. */
-typedef struct ResourceSlotStateView {
-    unsigned char pad_00[0xA];
-    short unk_0A;
-} ResourceSlotStateView;
-
 /* Twelve-byte resource-read state with one active word and two opaque signed words. */
 typedef struct ResourceReadState {
     int field0;

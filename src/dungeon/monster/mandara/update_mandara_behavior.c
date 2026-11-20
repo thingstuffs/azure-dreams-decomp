@@ -38,7 +38,7 @@ typedef struct {
 
 #include "dungeon/item/find_active_rect_containing_point_api.h"
 
-extern void advance_stored_entity_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
+#include "dungeon/actor/callback.h"
 extern void choose_block_move_slot_a(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
 s32 validate_transition_and_update_action(ActorRecord *state, ObjectPosition *transition_id, SpriteFrameState *sprite, ActorRecord *actor);
 void reset_action_and_select_facing_animation(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);

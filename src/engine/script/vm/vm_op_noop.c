@@ -18,8 +18,9 @@ void noop_after_menu_slot_release(void) {
 void noop_after_cursor_extent_completion(void) {
 }
 
-/* Returns without performing any work. */
-void noop_runtime_record_idle(void) {
+/* The window stays parked until a new script is installed. */
+void noop_runtime_record_idle(struct MessageWindow *window) {
+    (void)window;
 }
 
 /* Returns without performing any work. */
@@ -58,8 +59,9 @@ void script_nop_14(void) {
 void script_nop_1b(void) {
 }
 
-/* Returns without performing any work. */
-void noop_script_terminator_action(void) {
+/* No-op sentinel installed by the page-break opcode. */
+void noop_script_terminator_action(struct MessageWindow *window) {
+    (void)window;
 }
 
 /* Opcode 0x1F: No-op. */

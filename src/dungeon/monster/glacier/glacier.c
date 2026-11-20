@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "dungeon/level.h"
 #include "shared/dungeon_height_query.h"
 #include "common.h"
 #include "slus/imports.h"

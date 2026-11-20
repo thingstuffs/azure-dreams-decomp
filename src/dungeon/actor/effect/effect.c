@@ -13,6 +13,7 @@
 #include "dungeon/level.h"
 #include "slus.h"
 #include "dungeon/actor/action_control_dispatch_g00352.h"
+#include "modules/dungeon_engine_tile_map_fragment_b5d50.h"
 
 #include "sdk/abs.h"
 struct ObjectNodeHeader;
@@ -486,7 +487,6 @@ s32 get_item_sprite_source(void *item_data)
 
 extern s32 D_800E0B54;
 
-extern u8 *expand_text_control_codes(u8 *src, u8 *dst);
 
 extern s32 find_first_empty_floor_item_slot(void);
 struct DungeonDescriptor;
@@ -878,8 +878,6 @@ void compact_item_entry_table(s32 entry_index) {
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
 
-struct Node;
-void *find_eligible_actor_at_tile_and_height(struct Node *node, s32 x, s32 y_in, s16 value);
 extern u8 D_800DD7DC;
 
 

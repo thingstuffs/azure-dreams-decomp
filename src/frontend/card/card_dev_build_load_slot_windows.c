@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "frontend/card.h"
+#include "frontend/card/load.h"
 #include "frontend/card/server_aliases.h"
 
 /* Body of the devkit load screen's slot-window builder object (offsets of the server build). */

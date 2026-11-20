@@ -2,6 +2,7 @@
 #include "common.h"
 #include "frontend/card.h"
 #include "frontend/card/save.h"
+#include "frontend/card/server_aliases.h"
 #include "frontend/card/server_imports.h"
 
 #ifndef NULL
@@ -23,7 +24,6 @@ typedef struct CardSaveScreenState {
     s32 unk68;
 } CardSaveScreenState;
 
-extern void run_slot_operation_code_five(void);
 extern u8 D_8040C628[0x1C];
 
 /* Creates and initializes state and installs its update callback. */

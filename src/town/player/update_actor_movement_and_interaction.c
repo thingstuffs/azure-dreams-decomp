@@ -50,7 +50,7 @@ void update_actor_movement_and_interaction(void *actor, ObjectPosition *position
     GameWork *input = &g_game_work;
     S_800927EC_4 *interaction;
     s16 ground_height;
-    s32 interaction_result;
+    u8 *response_script;
     s32 target_handler;
 
     resolve_collision_axis_order(position);
@@ -101,10 +101,10 @@ void update_actor_movement_and_interaction(void *actor, ObjectPosition *position
                 }
             }
             interaction = (S_800927EC_4 *)&town_actor_control;
-            interaction_result = select_response_text(interaction->unk_10,
+            response_script = select_response_text(interaction->unk_10,
                 ((TownObjectRecord *)actor)->unk_2C);
-            if (interaction_result != 0) {
-                call_script(interaction_result);
+            if (response_script != 0) {
+                call_script(response_script);
             } else {
                 submit_object_resource_data(interaction->unk_10);
             }

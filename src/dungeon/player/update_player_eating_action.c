@@ -17,11 +17,7 @@
 
 
 
-u8 *clear_byte_and_advance(s8 *byte_ptr);
-
-u8 * append_item_name_with_value(s32,u8 *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 u8 * append_item_reveal_text(s32, u8 *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-u8 *append_entity_display_text(void *record, u8 *out);
 s32 play_sound_if_enabled(s32 query_value);
 extern u8 player_item_render_update_address[];
 extern u8 D_800DD100[];
@@ -52,6 +48,7 @@ void update_player_eating_action(ActorRecord *controller, s32 action_id, SpriteF
     SpriteFrameState *animation_actor;
     u8 *animation_entry;
     u8 *animation_table;
+    PlayerRecord *player = (PlayerRecord *)controller;
     Rec_func_8008ACDC_arg0 *controller_view = (Rec_func_8008ACDC_arg0 *)controller;
 
     state = controller->action_phase;
@@ -79,7 +76,7 @@ void update_player_eating_action(ActorRecord *controller, s32 action_id, SpriteF
         if (find_flagged_record_by_id(actor->source, 0) == 0) {
             return;
         }
-        if (((PlayerRecord *)controller)->pending_item_action == &held_item_record) {
+        if (player->pending_item_action == &held_item_record) {
             controller_view->unk_124 = 0;
             controller->flags1C &= 0xFFEFFFFF;
         }
@@ -106,7 +103,7 @@ void update_player_eating_action(ActorRecord *controller, s32 action_id, SpriteF
             text_cursor = append_entity_display_text(transform, text_cursor);
             text_cursor = expand_text_control_codes(D_800E06E3, text_cursor);
             text_cursor = append_item_name_with_value(
-                controller_view->unk_110, text_cursor);
+                player->pending_item_action, text_cursor);
             text_cursor = expand_text_control_codes(D_800E06EB, text_cursor);
             text_cursor = append_item_reveal_text(
                 controller_view->unk_110, text_cursor);

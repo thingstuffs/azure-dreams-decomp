@@ -35,13 +35,16 @@ void emit_scattered_effects_unless_blocked(ObjectPosition *source)
     effect.field_16 = -4;
     effect.field_A = source_field_a;
     for (emitted = 0; emitted < effect_count; emitted++) {
+        s16 effect_angle;
+
         effect.x = (u16)source->x.w.i +
                    (rand() & 0x1F) - 0x10;
         effect.y = (u16)source->y.w.i +
                    (rand() & 0x1F) - 0x10;
         effect.field_C = rcos(angle) << 5;
         effect.field_10 = rsin(angle) << 5;
-        spawn_opposite_offset_effect(&effect, angle);
+        effect_angle = angle;
+        spawn_opposite_offset_effect(&effect, effect_angle);
         angle += angle_step;
     }
 }

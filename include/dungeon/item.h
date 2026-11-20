@@ -57,7 +57,7 @@ void create_terrain_particle_emitter(s16 tile_x, s16 tile_y, s16 initial_value);
 
 
 void *write_status_prefix_bytes(void *dst);
-s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+#include "dungeon/item/position.h"
 
 void adjust_source_value_and_finalize(void *context, const void *source);
 
@@ -82,10 +82,8 @@ s32 retain_spawn_resource(s16 entry_type, s16 entry_key);
 
 
 #include "shared/dungeon_item_entries.h"
-u8 *append_item_name_with_value(DungeonItemEntry *data, u8 *buffer);
 
-u8 *append_entity_display_text(void *record, u8 *out);
-u8 *clear_byte_and_advance(u8 *byte_ptr);
+#include "dungeon/item/message/text.h"
 
 s32 use_item_to_restore_eyesight(ActorRecord *entity, DungeonItemEntry *item, s16 effect);
 

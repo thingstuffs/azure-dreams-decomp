@@ -21,4 +21,8 @@ typedef struct CardSlotWindow {
     /* 0x284 */ MenuDisplayNode nodes[10];
     /* 0x324 */ MenuDisplayBlock blocks[10];
 } CardSlotWindow;
+
+void card_boot_initialize_slot_window(CardSlotWindow *window, struct ObjectNodeHeader *owner, s32 slot_index);
+void init_card_slot_list_nodes(CardSlotWindow *window, s32 count);
+
 #endif

@@ -1,6 +1,7 @@
 #include "shared/actor_status_flags.h"
 #include "shared/dungeon_floor.h"
 #include "dungeon/level/tile_flags.h"
+#include "dungeon/level.h"
 #include "shared/dungeon_height_query.h"
 #include "common.h"
 #include "dungeon/monster/picket.h"

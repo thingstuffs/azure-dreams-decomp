@@ -2,14 +2,11 @@
 #include "common.h"
 #include "engine/audio/staging_destinations_data.h"
 #include "engine/audio/data.h"
+#include "engine/audio/slots.h"
 #include "slus.h"
 
 /* Canonical status block shared across the D_800847D0 family (see w_8005405C.c etc). */
 
-extern u32 audio_staging_spu_offsets[];
-
-extern s32 init_sound_slot_from_header(void *header, s16 requested_slot, u32 spu_addr);
-extern s16 transfer_sound_slot_body_to_spu(); /* K&R call preserves the full-width entry value. */
 extern void release_enabled_sound_channel(s32 a0);
 extern s16 sound_check_or_wait_for_spu_transfer(s16 wait_for_completion);
 
@@ -21,7 +18,7 @@ void sound_load_pending_bank_slot(s16 entry_id) {
     if ((s16)init_sound_slot_from_header(audio_staging_destinations[index_or_error], index_or_error, audio_staging_spu_offsets[index_or_error]) == -1) {
         index_or_error = 0x01010000;
         identity_int(((entry_index << 8) & 0xFF00) | index_or_error);
-    } else if ((s16)transfer_sound_slot_body_to_spu(audio_bank_owner_payloads[index_or_error], entry_index) == -1) {
+    } else if (transfer_sound_slot_body_to_spu(audio_bank_owner_payloads[index_or_error], entry_id) == -1) {
         release_enabled_sound_channel(index_or_error);
         index_or_error = 0x01020000;
         identity_int(((entry_index << 8) & 0xFF00) | index_or_error);

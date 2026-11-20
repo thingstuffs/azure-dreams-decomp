@@ -29,6 +29,8 @@ D_800814A0_tail = 0x800814A0;
 D_800C3174 = 0x800C3174;
 /* slus/konami_runtime_w_800392A4, slus/konami_runtime_w_8003931C (r95 equate migration) */
 D_800C321C = 0x800C321C;
+/* change_map indexes town_building_records to reach its rectangle at +0x0c. */
+D_800D2644 = 0x800D2644;
 /* slus/konami_runtime_w_8003BAF8 (r95 equate migration) */
 D_800D381A = 0x800D381A;
 /* slus/konami_runtime_w_8003BAF8 (r95 equate migration) */

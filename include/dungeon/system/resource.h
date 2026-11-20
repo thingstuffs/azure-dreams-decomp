@@ -41,7 +41,7 @@ typedef struct {
 } ovl_d54c_7FFED9F8_Item;
 typedef struct {
     u8 pad0[0x48];
-    s32 value48;
+    u8 *script;
     u8 pad4C[0x14];
     s32 value60;
     u8 pad64[0x34];
@@ -72,8 +72,6 @@ extern void start_cd_read(u32 *, s32);
 extern void func_80053CFC(u32 *, s32);
 extern s32 func_8008AC84(s32);
 extern s32 town_resource_buffer;
-extern void call_script(void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern void func_80035208(void *);
 void copy_words_backward_from_offset(s32 dest_addr, s32 src_addr, s32 byte_count);
 s32 sum_resource_bytes(s32 entry_count);
 s32 find_resource_index_by_key(s32 first_byte, s32 second_byte, s32 halfword_value);

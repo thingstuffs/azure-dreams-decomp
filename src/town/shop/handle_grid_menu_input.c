@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "shared/audio_commands.h"
 #include "engine/script.h"
 #include "common.h"
@@ -5,7 +6,8 @@
 #include "engine/menu.h"
 #include "slus.h"
 #include "town/shop.h"
-
+#include "engine/message/data.h"
+#include "engine/message.h"
 
 /* Handles grid menu navigation, confirmation, and cancellation. */
 void handle_grid_menu_input(GridMenuObject *menu) {
@@ -25,22 +27,22 @@ void handle_grid_menu_input(GridMenuObject *menu) {
     if (menu->entry_count == 0) {
         if ((pad_state->pressed_buttons) & 0x20) {
             SD_Call(AUDIO_CANCEL);
-            script_status[0] = 0;
-            close_twin_shop((u8 *)menu - 0x20);
+            runtime_script_state.variables[14] = 0;
+            close_twin_shop(NODE_HEADER(menu));
         }
         return;
     }
     pressed_buttons = (pad_state->pressed_buttons);
     if (pressed_buttons & 0x20) {
         SD_Call(AUDIO_CANCEL);
-        script_status[0] = 0;
-        close_twin_shop((u8 *)menu - 0x20);
+        runtime_script_state.variables[14] = 0;
+        close_twin_shop(NODE_HEADER(menu));
         return;
     }
     if (pressed_buttons & 0x40) {
         SD_Call(AUDIO_ACCEPT);
-        script_status[0] = 1;
-        close_twin_shop((u8 *)menu - 0x20);
+        runtime_script_state.variables[14] = 1;
+        close_twin_shop(NODE_HEADER(menu));
         selected_entry = (u8 *)(menu->selected_index * 4 + menu->entry_base);
         selected_entry[3] |= 0x20;
         return;

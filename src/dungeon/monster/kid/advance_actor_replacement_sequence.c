@@ -26,6 +26,7 @@
 #include "engine/graphics.h"
 #include "engine/texture.h"
 #include "dungeon/effect.h"
+#include "dungeon/actor/effect.h"
 #include "dungeon/data.h"
 
    /* arg3 in advance_actor_replacement_sequence */
@@ -79,7 +80,6 @@ s32 lookup_masked_byte_table();  /* extern */
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"             /* extern */
 #include "dungeon/item/decrement_monster_entry_count_api.h"                 /* extern */
 #include "dungeon/actor/advance_staged_entity_load_api.h"                /* extern */
-void *create_status_linked_render_effect();     /* extern */
 #include "dungeon/select_nearby_target_and_initialize_slot_api.h" /* extern */
 
 s32 project_kid_sprite_chain(void *initial_payload, s32 entry_data, Entry *entry, s32 unused);

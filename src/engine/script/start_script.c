@@ -1,12 +1,7 @@
-#include "common.h"
-#include "m2c_compat.h"
-
+#include "engine/message/data.h"
 #include "engine/object.h"
 #include "engine/script.h"
 
-extern Rec_D_80082A38 runtime_script_state;
-
-/* Start a script in the global runtime with mode 1. */
-void start_script(s32 script_addr) {
-    reset_script_message_window(&runtime_script_state, script_addr, 1);
+void start_script(u8 *script) {
+    reset_script_message_window(&runtime_script_state, script, 1);
 }

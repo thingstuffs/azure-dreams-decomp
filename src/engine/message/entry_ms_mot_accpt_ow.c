@@ -1,51 +1,42 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
+#include "town/player/record.h"
+#include "shared/town_object.h"
 
 #include "engine/message.h"
-
-typedef struct Func80039470Entry {
-    s8 field_0;
-    s8 field_1;
-    u8 field_2;
-    u8 pad_3;
-    void *field_4;
-} Func80039470Entry;
-
-typedef struct Func80039470Block {
-    u8 pad_00[0x10];
-    void *type;
-    u8 pad_14[0xC];
-} Func80039470Block;
+#include "shared/object_node.h"
 
 extern u8 message_motion_type_a[];
 extern u8 message_motion_type_b[];
 
 /* Activates an unused entry and stores its pair of values according to the block type. */
 s32 accept_message_motion_request(s32 entry_value, s32 first_value, s32 second_value, s32 packed_index) {
-    Func80039470Entry *entries = object_index_slots;
+    ObjectIndexSlot *entries = object_index_slots;
     u8 entry_index = packed_index;
-    Func80039470Entry *entry = entries + entry_index;
-    Func80039470Block *block;
-    Func80039470Block *header;
+    ObjectIndexSlot *entry = entries + entry_index;
+    void *block;
+    ObjectNodeHeader *header;
     void *type;
 
-    if (entry->field_1 == 0) {
+    if (entry->active == 0) {
         if (entry_index != 0) {
             block = ms_mot_accpt_ow(entry_index);
             if (block != 0) {
-                header = block - 1;
-                entry->field_0 = packed_index >> 8;
-                entry->field_1 = 1;
-                entry->field_2 = entry_value;
+                header = NODE_HEADER(block);
+                entry->unk_00 = packed_index >> 8;
+                entry->active = 1;
+                entry->unk_02 = entry_value;
 
                 if (entry_index == 1 &&
-                    (type = header->type) != (void *)message_motion_type_a &&
-                    type != (void *)message_motion_type_b) {
-                    *(s16 *)((u8 *)block + 0x36) = first_value;
-                    *(s16 *)((u8 *)block + 0x38) = second_value;
+                    (type = header->update_callback) != message_motion_type_a &&
+                    type != message_motion_type_b) {
+                    TownPlayerRecord *player = block;
+                    player->target_x = first_value;
+                    player->target_y = second_value;
                 } else {
-                    *(s16 *)((u8 *)block + 0x88) = first_value;
-                    *(s16 *)((u8 *)block + 0x8A) = second_value;
+                    TownObjectRecord *person = block;
+                    person->target_x = first_value;
+                    person->target_y = second_value;
                 }
             }
         }

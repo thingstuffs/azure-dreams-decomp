@@ -9,6 +9,7 @@
 #include "shared/position_views.h"
 #include "town/player/record.h"
 
+struct TownRectangle;
 struct EntityRec;
 struct TownObjectRecord;
 struct S_800946FC_0;
@@ -57,7 +58,7 @@ void initialize_player_slot_state(TownObjectRecord *record, void *ptr, void *ptr
 void initialize_record_and_clear_shared_flag(TownObjectRecord *primary_value, ObjectPosition *secondary_value, void *context_value);
 
 /* initialize_state_from_terminated_entries.c */
-void initialize_state_from_terminated_entries(s32 *entries);
+void initialize_state_from_terminated_entries(struct TownRectangle **entries);
 
 /* read_script_flag_range.c */
 s32 read_script_flag_range(s32 start_index, s32 count);

@@ -1,31 +1,24 @@
-#include "shared/game_work.h"
+#include "engine/message/data.h"
+#include "engine/message.h"
+#include "shared/object_index_slots.h"
+#include "shared/object_node.h"
+#include "town/person.h"
+#include "town/player/record.h"
 
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef short s16;
-typedef unsigned int u32;
-typedef int s32;
-extern s32 map_angle_to_cardinal_direction(s16 angle);
-extern u8 object_index_slots;
-extern s32 runtime_script_state[];
-/* player_now_ang_get: Store the current player angle when the player slot is available. */
+/* Store the player's facing direction in script variable zero. */
 void player_now_ang_get(void)
 {
-    u8 *player_slot;
-    void *player;
-    s32 *script_values;
+    ScriptController *controller = &runtime_script_state;
+    int player_slot = 1; /* BYTES: the slot index keeps the separate table-base addition. */
+    ObjectNodeHeader *node;
     s32 player_angle;
-    int slot_index;
-    slot_index = 8;
-    script_values = runtime_script_state;
-    player_slot = (&object_index_slots) + slot_index;
-    if ((*((s8 *) (player_slot + 1))) == 0) {
-        player = *((void **) (player_slot + 4));
-        if (player != 0) {
-            slot_index = 0x12;
-            player_angle = map_angle_to_cardinal_direction(*((s16 *) (((u8 *) player) + 0x30)));
-            script_values[slot_index] = player_angle;
+
+    if (object_index_slots[player_slot].active == 0) {
+        node = object_index_slots[player_slot].object;
+        if (node != 0) {
+            TownPlayerRecord *player = NODE_BODY(node);
+            player_angle = map_angle_to_cardinal_direction(player->unk_10);
+            controller->variables[0] = player_angle;
         }
     }
 }

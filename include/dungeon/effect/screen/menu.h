@@ -79,6 +79,7 @@ typedef struct DungeonParameters {
 
 void update_familiar_selection_marker(FamiliarMarkerWork *state, ObjectPosition *position_arg, SpriteFrameState *marker_arg);
 void update_wrapped_texture_scroll(WrappedTextureScrollBody *scroll_state);
+s32 is_selectable_menu_target(ActorRecord *object);
 void create_timed_model_effect(ObjectNodeHeader *owner, u16 *context, void *child, void *tail);
 
 void *allocate_flagged_object_node(int flags);

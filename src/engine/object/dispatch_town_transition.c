@@ -9,6 +9,7 @@
 #include "engine/scene.h"
 #include "engine/town.h"
 #include "slus/data.h"
+#include "slus/map_state.h"
 
 typedef struct MainMemoryPage {
     u8 pad_0000[0x20A];
@@ -32,7 +33,6 @@ extern void load_resource_data(void);
 extern void load_and_apply_town_building_tiles(void);
 extern void town_sd_se_load_init(void);
 
-extern s32 map_runtime_state[3];
 
 /* Handles change_map / chg_map_second_house_sel setup and clears the handled runtime flags. */
 void dispatch_town_transition(void)
@@ -45,7 +45,7 @@ void dispatch_town_transition(void)
     initialize_circular_list_head();
     init_town_motion_list();
     clear_shop_record_queue();
-    map_runtime_state[0] = 0;
+    map_runtime_state.loaded_descriptor = 0;
     obj_disp23_cancel_sw_set(0);
 
     runtime_flags = runtime_dispatch_state.flags16;

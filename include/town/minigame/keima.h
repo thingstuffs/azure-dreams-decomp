@@ -67,6 +67,7 @@ typedef struct KeimaPathActor {
 extern KeimaPath town_minigame_path_records[];
 s32 initialize_keima_interface(void);
 void update_keima_minigame(KeimaState *game);
+s32 resolve_actor_zone_collisions(ObjectPosition *actor, s16 *zone_id, s32 *offset_x, s32 *offset_y);
 void update_path_following_actor(KeimaPathActor *actor, ObjectPosition *motion, SpriteFrameState *sprite);
 
 /* Fade records watch their owning minigame controller's completion bit. */

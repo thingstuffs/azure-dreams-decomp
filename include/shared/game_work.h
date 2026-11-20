@@ -1,6 +1,8 @@
 #ifndef SHARED_GAME_WORK_H
 #define SHARED_GAME_WORK_H
 
+#include "sdk/libgte_matrix.h"
+
 /* ViewSlot: one of four 0x44-byte records at GameView+0xB4 (gameWork+0xCC/0x110/0x154/0x198).  One record type:
  * slus/w_8004D7A8 / w_8004D7E8 move whole records between slot 0 <-> 1 and 2 <-> 3 through func_8004D75C(dst, src);
  * slus/w_80040BB4 clears all four `callback` words.  `callback` (+0x00): code2 func_8004D0C8 / func_8004D110 store a
@@ -47,46 +49,9 @@ typedef struct GameView {
     /* 0x002 */ short clip_y; /* vertical origin of the render clipping rectangle, in screen coordinates */
     /* 0x004 */ short clip_width; /* horizontal extent of the render clipping rectangle */
     /* 0x006 */ short clip_height; /* vertical extent of the render clipping rectangle */
-    /* 0x008 */ short outline_0_x; /* view outline corner 0, X world component */
-    /* 0x00A */ short outline_0_y; /* view outline corner 0, Y world component */
-    /* 0x00C */ short outline_0_z; /* view outline corner 0, Z world component */
-    /* 0x00E */ unsigned char pad_00E[0x2];
-    /* 0x010 */ short outline_1_x; /* view outline corner 1, X world component */
-    /* 0x012 */ short outline_1_y; /* view outline corner 1, Y world component */
-    /* 0x014 */ short outline_1_z; /* view outline corner 1, Z world component */
-    /* 0x016 */ unsigned char pad_016[0x2];
-    /* 0x018 */ short outline_2_x; /* view outline corner 2, X world component */
-    /* 0x01A */ short outline_2_y; /* view outline corner 2, Y world component */
-    /* 0x01C */ short outline_2_z; /* view outline corner 2, Z world component */
-    /* 0x01E */ unsigned char pad_01E[0x2];
-    /* 0x020 */ short outline_3_x; /* view outline corner 3, X world component */
-    /* 0x022 */ short outline_3_y; /* view outline corner 3, Y world component */
-    /* 0x024 */ short outline_3_z; /* view outline corner 3, Z world component */
-    /* 0x026 */ unsigned char pad_026[0x2];
-    /* 0x028 */ short outline_4_x; /* closing outline point, copied from corner 0 (X component) */
-    /* 0x02A */ short outline_4_y; /* closing outline point, copied from corner 0 (Y component) */
-    /* 0x02C */ short outline_4_z; /* closing outline point, copied from corner 0 (Z component) */
-    /* 0x02E */ unsigned char pad_02E[0xA];
-    /* 0x038 */ short light_matrix_00; /* light direction matrix coefficient [0][0], passed to the GTE matrix setter */
-    /* 0x03A */ short light_matrix_01; /* light direction matrix coefficient [0][1], passed to the GTE matrix setter */
-    /* 0x03C */ short light_matrix_02; /* light direction matrix coefficient [0][2], passed to the GTE matrix setter */
-    /* 0x03E */ short light_matrix_10; /* light direction matrix coefficient [1][0], passed to the GTE matrix setter */
-    /* 0x040 */ short light_matrix_11; /* light direction matrix coefficient [1][1], passed to the GTE matrix setter */
-    /* 0x042 */ short light_matrix_12; /* light direction matrix coefficient [1][2], passed to the GTE matrix setter */
-    /* 0x044 */ short light_matrix_20; /* light direction matrix coefficient [2][0], passed to the GTE matrix setter */
-    /* 0x046 */ short light_matrix_21; /* light direction matrix coefficient [2][1], passed to the GTE matrix setter */
-    /* 0x048 */ short light_matrix_22; /* light direction matrix coefficient [2][2], passed to the GTE matrix setter */
-    /* 0x04A */ unsigned char pad_04A[0xE];
-    /* 0x058 */ short color_matrix_00; /* light color matrix coefficient [0][0], passed to the GTE matrix setter */
-    /* 0x05A */ short color_matrix_01; /* light color matrix coefficient [0][1], passed to the GTE matrix setter */
-    /* 0x05C */ short color_matrix_02; /* light color matrix coefficient [0][2], passed to the GTE matrix setter */
-    /* 0x05E */ short color_matrix_10; /* light color matrix coefficient [1][0], passed to the GTE matrix setter */
-    /* 0x060 */ short color_matrix_11; /* light color matrix coefficient [1][1], passed to the GTE matrix setter */
-    /* 0x062 */ short color_matrix_12; /* light color matrix coefficient [1][2], passed to the GTE matrix setter */
-    /* 0x064 */ short color_matrix_20; /* light color matrix coefficient [2][0], passed to the GTE matrix setter */
-    /* 0x066 */ short color_matrix_21; /* light color matrix coefficient [2][1], passed to the GTE matrix setter */
-    /* 0x068 */ short color_matrix_22; /* light color matrix coefficient [2][2], passed to the GTE matrix setter */
-    /* 0x06A */ unsigned char pad_06A[0xE];
+    /* 0x008 */ SVECTOR outline[6]; /* Four corners, a copy of corner 0, and the transformed camera origin. */
+    /* 0x038 */ MATRIX light_matrix; /* Psy-Q 3x3 light matrix plus translation words, passed to SetLightMatrix */
+    /* 0x058 */ MATRIX color_matrix; /* Psy-Q 3x3 color matrix plus translation words, passed to SetColorMatrix */
     /* 0x078 */ int unk_078;             /* sw 3 (3 rows) */
     /* 0x07C */ int unk_07C;             /* sw 3 (3 rows) */
     /* 0x080 */ int unk_080;             /* sw 3 (3 rows) */

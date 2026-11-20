@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/level.h"
 #include "shared/dungeon_height_query.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"

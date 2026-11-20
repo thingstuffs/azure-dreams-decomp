@@ -1,3 +1,4 @@
+#include "slus/map_state.h"
 #include "common.h"
 #include "slus/town_map_selection_data.h"
 #include "town/data.h"
@@ -13,7 +14,7 @@ void update_state_limits(Input *source) {
     Input *input;
     s32 input_value;
 
-    if ((s16)map_scene_selector_alias == 12) {
+    if (map_runtime_state.scene_selector == 12) {
         return;
     }
 

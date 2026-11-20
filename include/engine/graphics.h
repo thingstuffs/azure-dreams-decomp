@@ -4,7 +4,10 @@
 
 #include "common.h"
 #include "shared/sprite_frame_state.h"
-#include "records/Rec_D_80082A38.h"
+#include "sdk/libgte_matrix.h"
+
+struct ScriptController;
+struct GameView;
 
 struct ItemMenuPart;
 void apply_display_vector_defaults(struct ItemMenuPart **objects, s32 object_count);
@@ -14,9 +17,7 @@ struct SpriteFrameState;
 struct WindowCursorBody;
 struct Entry;
 struct FrameState;
-struct Geometry_80046884;
 struct Prim12;
-struct RectU16_80046884;
 struct SpriteAttachmentEntry;
 struct S_8003DF74_Vec;
 struct S_8003F9E0;
@@ -55,7 +56,10 @@ void *begin_sprite_resource_load(s32 packed_code, s32 *callback_state);
 void *build_gouraud_quad_packet(void *tint_a, void *tint_b, void *packet, void *record, void *command);
 
 /* build_screen_outline.c */
-void build_screen_outline(struct RectU16_80046884 *rect, struct Geometry_80046884 *geometry, s32 depth);
+void build_screen_outline(struct GameView *view, SVECTOR *points, s32 depth);
+
+/* world_to_local_position.c */
+void world_to_local_position(SVECTOR *position, SVECTOR *local_position);
 
 /* build_sprite_image_read_descriptor.c */
 s32 *build_sprite_image_read_descriptor(s16 entry_id, s32 request_arg);
@@ -74,7 +78,7 @@ void clear_alternate_texture_regions(s16 use_alt_rect);
 void load_town_sprite_bundle_and_clear_alternates(void);
 
 /* clear_graphics_record.c */
-void clear_graphics_record(Rec_D_80082A38 *record);
+void clear_graphics_record(struct ScriptController *controller);
 
 /* convert_hsv_to_rgb.c */
 u8 *convert_hsv_to_rgb(u32 hue, s32 saturation, s32 value, u8 *out);
@@ -100,6 +104,9 @@ void draw_glyph_row(s32 x, s32 y, s32 spacing_index, u8 *glyph_codes);
 
 /* draw_linked_sprites.c */
 s32 draw_linked_sprites(void *first_payload, struct ObjectPosition *first_coords, struct SpriteFrameState *first_record);
+
+/* draw_sprite_clipped.c */
+void draw_sprite_clipped(void *context, s32 position, SpriteFrameState *sprite, s16 depth_bias);
 
 /* draw_linked_sprites_clipped.c */
 s32 draw_linked_sprites_clipped(u8 *first_data, s32 link_value, SpriteFrameState *value_record);
@@ -152,8 +159,8 @@ void init_frame_buffers(void);
 void init_frame_buffers_for_scene(void);
 
 /* init_graphics_state_fields.c */
-void func_80034EF8(u8 *state, s32 init_value);
-void init_graphics_state_fields(u8 *state, s32 init_value);
+void func_80034EF8(struct ScriptController *controller, s32 mode);
+void init_graphics_state_fields(struct ScriptController *controller, s32 mode);
 
 /* init_panel_prims.c */
 void init_panel_prims(char *object);

@@ -4,76 +4,49 @@
 #include "engine/message.h"
 #include "slus.h"
 
-typedef struct Func8003800CData Func8003800CData;
-typedef struct Func8003800CState Func8003800CState;
-
-struct Func8003800CData {
-    u8 pad0[3];
-    s8 field3;
-    s8 field4;
-    u8 pad5[0x2F];
-    s32 field34;
-};
-
-struct Func8003800CState {
-    u8 pad0[0x10];
-    void (*callback)(Func8003800CState *);
-    u8 pad14[8];
-    s32 field1C;
-    u8 pad20[8];
-    u8 field28;
-    u8 pad29[5];
-    u8 field2E;
-    u8 pad2F[0xD];
-    u8 field3C;
-    u8 pad3D[0x3F];
-    void *field7C;
-    Func8003800CData *field80;
-};
-
 extern u8 D_800809C4[];
 
 extern s32 return_zero_variadic(void *, ...);
 
 /* Synchronize changed data, consume the pending value, and run the state callback. */
-void sync_message_window_data(Func8003800CState *state)
+void sync_message_window_data(MessageWindow *window)
 {
     return_zero_variadic(D_800809C4);
     return_zero_variadic(message_window_audio_sync_data, read_sound_mode_blocking_status(4));
     return_zero_variadic(D_800809C4);
 
     {
-        Func8003800CData *data = state->field80;
-        s8 current_value = data->field3;
-        s8 previous_value = data->field4;
-        u8 value_byte = data->field3;
+        ScriptController *controller = window->controller;
+        s8 current_value = controller->text_speed;
+        s8 previous_value = controller->previous_text_speed;
+        u8 value_byte = controller->text_speed;
 
         if (current_value != previous_value) {
-            data->field4 = value_byte;
-            state->field28 = value_byte;
+            controller->previous_text_speed = value_byte;
+            window->text_speed = value_byte;
         }
     }
 
-    if (state->field80->field34 != 0) {
-        if (state->callback == scroll_message_rows) {
+    if (window->controller->pending_script != 0) {
+        if (window->message_handler == scroll_message_rows) {
             do {
-                scroll_message_rows(state);
-            } while (state->callback != update_message_window);
+                scroll_message_rows(window);
+            } while (window->message_handler != update_message_window);
         }
 
         {
-            s32 pending_value;
-            pending_value = state->field80->field34;
-            state->field2E = 0;
-            state->callback = update_message_window;
-            state->field7C = &state->field3C;
-            state->field1C = pending_value;
-            state->field80->field34 = 0;
+            u8 *pending_script;
+            pending_script = window->controller->pending_script;
+            window->text_advance_mode = 0;
+            window->message_handler = update_message_window;
+            window->returns.next = window->returns.addresses;
+            window->cursor = pending_script;
+            window->controller->pending_script = 0;
         }
     }
 
-    if (state->callback == 0) {
-        state->callback = update_message_window;
+    if (window->message_handler == 0) {
+        window->message_handler = update_message_window;
     }
-    state->callback(state);
+    window->message_handler(window);
 }

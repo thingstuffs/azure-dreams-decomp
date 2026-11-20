@@ -5,7 +5,7 @@
 
 typedef struct S_80038394_0 {
     u8 pad_00[0x10];
-    void (*unk_10)(struct Func80038A10State *);
+    void (*unk_10)(MessageWindow *);
     u8 pad_14[0x1C];
     s16 unk_30;
 } S_80038394_0;   /* arg0 in wait_message_resident_bit */

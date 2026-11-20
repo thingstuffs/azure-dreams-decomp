@@ -23,6 +23,7 @@ struct ObjectPosition;
 #include "slus.h"
 #include "engine/graphics.h"
 #include "dungeon/effect.h"
+#include "dungeon/actor/effect.h"
 #include "dungeon/item.h"
 #include "dungeon/data.h"
 
@@ -68,7 +69,6 @@ void unlink_entity_node();
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
 void *advance_staged_entity_load(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-void *create_status_linked_render_effect();
 void create_cylindrical_effect(); /* Unprototyped: retail passes an unused sprite; dropping it changes bytes. */
 s32 lookup_masked_byte_table(void *, ...);
 extern void func_8017487C(u8 *task, void *context, SpriteFrameState *input);

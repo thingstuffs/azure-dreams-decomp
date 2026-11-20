@@ -1,26 +1,22 @@
-#include "common.h"
+#include "engine/message/data.h"
+#include "engine/message.h"
+#include "shared/object_node.h"
+#include "shared/town_object.h"
 #include "shared/object_index_slots.h"
 #include "town/person.h"
 
-typedef struct {
-    s32 unk0;       /* 0x00 */
-    s16 *unk4;      /* 0x04 */
-} Entry;            /* size 8 */
-
-extern s32 runtime_script_state[64];
-
 /* anyone_org_pos_get: copy the actor's original position to script variables. */
 void anyone_org_pos_get(s32 actor_id) {
-    s32 *script_vars = runtime_script_state;
-    s16 *actor;
-    s16 *position_data;
+    ScriptController *controller = &runtime_script_state;
+    ObjectNodeHeader *node;
+    TownObjectRecord *body;
 
     if (actor_id != 0) {
-        actor = object_index_slots[actor_id].object;
-        if (actor != 0) {
-            position_data = (s16 *)((u8 *)actor + 0x20);
-            script_vars[0x13] = *(s16 *)((u8 *)position_data + 0x84);
-            script_vars[0x14] = *(s16 *)((u8 *)position_data + 0x86);
+        node = object_index_slots[actor_id].object;
+        if (node != 0) {
+            body = NODE_BODY(node);
+            controller->variables[1] = body->unk_84;
+            controller->variables[2] = body->unk_86;
         }
     }
 }

@@ -1,3 +1,4 @@
+#include "shared/dungeon_height_query.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "dungeon/level.h"

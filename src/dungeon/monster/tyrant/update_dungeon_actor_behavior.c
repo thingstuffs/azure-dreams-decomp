@@ -22,7 +22,7 @@
 
 #include "dungeon/monster/dragon/transition_effect.h"
 #include "dungeon/item/find_active_rect_containing_point_api.h"
-extern void advance_stored_entity_path(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
+#include "dungeon/actor/callback.h"
 void choose_tyrant_move_direction(ActorRecord *move_work, ObjectPosition *entry_context, SpriteFrameState *position, ActorRecord *actor);
 s32 try_begin_tyrant_attack(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80173900(void *, void *, void *, void *);

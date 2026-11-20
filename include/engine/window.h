@@ -44,6 +44,7 @@ typedef struct {
     RECTANGLE solid;
 } DRAW_DESC;
 
+struct MessageWindowImage;
 struct Container;
 struct CursorState;
 struct Func37534State;
@@ -120,7 +121,7 @@ void create_window_object(void *object_addr, struct S_func_80035484_4 *model, st
 void func_80035484(void *object_addr, struct S_func_80035484_4 *model, struct S_func_80035484_5 *config);
 
 /* create_window_overlay_object.c */
-void create_window_overlay_object(void *node_addr, void *display, u8 *image, s32 *state_ref, s32 option, u8 *owner);
+void create_window_overlay_object(void *node_addr, void *display, struct MessageWindowImage *image, s32 *state_ref, s32 option, u8 *owner);
 
 /* draw_window_rects.c */
 void draw_window_rects(DRAW_DESC *desc);

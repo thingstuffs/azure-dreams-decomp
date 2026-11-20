@@ -5,6 +5,7 @@
 #include "dungeon/level/direction_offsets.h"
 #include "dungeon/system/random.h"
 #include "dungeon/item/actor_target.h"
+#include "dungeon/item/position.h"
 #include "shared/dungeon_floor.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/level.h"
@@ -13,7 +14,6 @@ typedef struct { u8 b0; u8 b1; u8 b2; u8 b3; } Elem;
 
 
 extern Elem *get_active_room_entries(s16); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 
 /*
  * Tests the entry halfword against the direction selector: below two for 0, equal to two for 1, or

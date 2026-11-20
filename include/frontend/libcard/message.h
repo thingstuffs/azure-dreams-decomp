@@ -36,9 +36,6 @@ struct ObjectNodeHeader *card_boot_create_slot_window(struct ObjectNodeHeader *p
 /* card_boot_initialize_dialog_draw_nodes.c */
 void card_boot_initialize_dialog_draw_nodes(CardMessageDialogBody *entity, s32 node_count);
 
-/* card_boot_initialize_slot_window.c */
-void card_boot_initialize_slot_window(struct CardSlotWindow *window, struct ObjectNodeHeader *owner, s32 slot_index);
-
 /* card_boot_layout_empty_slot_window.c */
 void card_boot_layout_empty_slot_window(struct CardSlotWindow *object);
 
@@ -110,7 +107,6 @@ void card_boot_initialize_slot_window_frame(CardDisplayNode *entity, CardDisplay
 void init_card_choice_templates(CardDisplayNode *entry, CardDisplayBlock *block, DisplayPositionWords *vector);
 void init_card_choice_nodes(struct CardChoiceOwner *owner, s32 count);
 void init_card_continue_nodes(struct CardContinueNodes *owner, s32 count);
-void init_card_slot_list_nodes(struct CardSlotWindow *owner, s32 count);
 void init_card_file_list_nodes(CardFileListPanel *owner, s32 count);
 void init_card_continue_templates(CardDisplayNode *entry, CardDisplayBlock *block, DisplayPositionWords *vector);
 

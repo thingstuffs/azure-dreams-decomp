@@ -1,32 +1,13 @@
-#include "common.h"
+#include "slus.h"
+#include "slus/map_state.h"
+#include "engine/message.h"
 
+void initialize_script_controller(ScriptController *controller) {
+    MapRuntimeState *defaults = &map_runtime_state;
 
-typedef struct {
-    u8 pad0[2];
-    u8 unk2;
-    u8 pad3[9];
-    void *unkC;
-    void *unk10;
-    u8 pad14[0x2c];
-    u32 unk40;
-    u32 unk44;
-} FuncState;
-
-typedef struct {
-    u8 pad0[0x1c];
-    u32 unk1c;
-    u32 unk20;
-} GlobalADBC;
-
-extern GlobalADBC map_runtime_state;
-
-/* Initializes state pointers and copies the global default values. */
-void initialize_script_cursor_and_defaults(FuncState *state) {
-    GlobalADBC *defaults = &map_runtime_state;
-
-    state->unk2 = 2;
-    state->unk10 = (u8 *)state + 8;
-    state->unkC = (u8 *)state + 8;
-    state->unk44 = defaults->unk20;
-    state->unk40 = defaults->unk1c;
+    controller->mode = 2;
+    controller->object_list.next = &controller->object_list;
+    controller->object_list.backlink = &controller->object_list;
+    controller->variable_addresses = defaults->variable_addresses;
+    controller->service_handlers = defaults->service_handlers;
 }

@@ -18,6 +18,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
 #include "dungeon/actor/state.h"
+#include "dungeon/player/object.h"
 #include "dungeon.h"
 #include "dungeon/level.h"
 #include "dungeon/monster/pulunpa_frames.h"
@@ -41,7 +42,6 @@ typedef struct S_80173B98_2 {
 } S_80173B98_2;   /* arg2 in update_pulunpa_behavior */
 
 #include "dungeon/item/find_active_rect_containing_point_api.h"
-s32 can_entity_gain_level(void *creature);
 extern void update_pulunpa_parent_motion(void *object_arg, ObjectPosition *context, void *source_arg, ActorRecord *target_arg);
 void func_80174924(ActorRecord *action, ObjectPosition *action_id, SpriteFrameState *entity, ActorRecord *move_state);
 extern s32 select_pulunpa_action(ActorRecord *object, s32 query_x, void *query_y, s32 action_override);

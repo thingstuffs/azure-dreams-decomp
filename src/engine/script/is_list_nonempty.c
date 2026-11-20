@@ -1,11 +1,6 @@
-#include "common.h"
-#include "m2c_compat.h"
-
-#include "records/Rec_D_80082A38.h"
 #include "engine/script.h"
+#include "engine/message.h"
 
-
-/* Tests whether the stored address differs from the record's offset-8 address. */
-s32 is_list_nonempty(void *record) {
-    return ((Rec_D_80082A38 *)record)->unk_10 != (s32) (record + 8);
+s32 is_list_nonempty(ScriptController *controller) {
+    return controller->object_list.next != &controller->object_list;
 }

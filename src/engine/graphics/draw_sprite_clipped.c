@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/graphics.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"

@@ -40,10 +40,10 @@ and sprite records; do not interpret all three as an actor body.
 [`ObjectPosition`, `ActorRecord`, `PlayerRecord`](../../include/shared/entity.h)
 and [`SpriteFrameState`](../../include/shared/sprite_frame_state.h) describe
 those records. [`GameWork`](../../include/shared/game_work.h) carries view,
-map and input state. For script state, start at the
-[`Rec_D_80082A38` view](../../include/records/Rec_D_80082A38.h) used by
-[`call_script`](../../src/engine/script/call_script.c); follow each opcode's
-actual operands rather than assuming a common argument layout.
+map and input state. The [script controller and message window](../../include/engine/message.h)
+hold the script variables, bytecode cursor and return stack.
+[`call_script`](../../src/engine/script/call_script.c) passes the script and controller to the window reset. Each opcode reads its
+operands from the window's cursor.
 
 ## Resource and overlay loading
 

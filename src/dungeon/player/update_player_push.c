@@ -1,6 +1,7 @@
 #include "shared/dungeon_actor_callbacks.h"
 #include "shared/entity.h"
 #include "dungeon/player.h"
+#include "dungeon/effect/state.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/game_work.h"
@@ -34,7 +35,6 @@ typedef struct S_80092018_5 {
 struct D83460_VIEW { s16 pad[3]; s16 divisor[1]; };
 
 s32 has_action_input_without_modifier(); /* Unprototyped: zero or one argument; retail replaces all incoming argument registers. */
-void spawn_opposite_offset_effect(void *source_data, u32 direction_bits);
 extern u8 D_800DD020[];
 
 /* Updates actor movement and animation through the action states. */

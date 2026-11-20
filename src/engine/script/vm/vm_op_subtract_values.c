@@ -1,33 +1,16 @@
-#include "common.h"
 #include "engine/script/vm.h"
-
-typedef struct Func8003A4B4Entry {
-    u8 pad_00[0x48];
-    s32 value[256];
-} Func8003A4B4Entry;
-
-typedef struct Func8003A4B4State {
-    u8 pad_00[0x1c];
-    u8 *read_ptr;
-    u8 pad_20[0x60];
-    Func8003A4B4Entry *table;
-} Func8003A4B4State;
+#include "engine/message.h"
 
 /* Opcode 0x3C: v[dst] -= v[src]. */
-void script_subtract(Func8003A4B4State *state) {
-    u8 *script_cursor;
-    s32 dest_index;
-    s32 source_index;
-    Func8003A4B4Entry *table;
+void script_subtract(MessageWindow *window) {
+    u8 *cursor = window->cursor;
+    u8 dst = *cursor++;
+    u8 src;
+    ScriptController *controller;
 
-    script_cursor = state->read_ptr;
-    dest_index = *script_cursor;
-    script_cursor++;
-    state->read_ptr = script_cursor;
-    source_index = *script_cursor;
-    script_cursor++;
-    state->read_ptr = script_cursor;
-
-    table = state->table;
-    table->value[dest_index] = table->value[dest_index] - table->value[source_index];
+    window->cursor = cursor;
+    src = *cursor++;
+    window->cursor = cursor;
+    controller = window->controller;
+    controller->variables[dst] -= controller->variables[src];
 }

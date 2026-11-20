@@ -750,7 +750,6 @@ void SetPolyFT4(void *);
 s32 rsin(s32);
 s32 rcos(s32);
 void *find_eligible_entry_at_coordinates(void *, s32, s32);
-s32 get_surface_height_at_coordinates(s32, u16);
 s32 is_point_in_quad(void *);
 void initialize_timed_motion_step(s32, s32);
 s32 func_80069EF8(void);

@@ -9,22 +9,6 @@
 #include "engine/window.h"
 #include "slus.h"
 
-/* The window action slot holds handlers of several signatures (the dispatcher
- * itself, the script terminator, the wait handlers from func_800381D0). */
-typedef void (*ActionFunc)();
-
-typedef struct RuntimeContext {
-    u8 pad0[0x10];
-    ActionFunc action;
-    u8 pad14[8];
-    s8 *cursor;
-    u8 pad20[0xE];
-    u8 state;
-    u8 pad2F[0x56];
-    s8 active;
-} RuntimeContext;
-
-struct S_func_80038CB8_0;
 /* Event-script byte format. The cursor at +0x1C walks a byte stream:
  * - 0x01-0x58: opcode; script_opcode_handlers[op] (enum ScriptOpcode) reads its
  *   operands inline. 16-bit and 32-bit operands are little-endian and unaligned;
@@ -117,7 +101,7 @@ ScriptOpcodeHandler script_opcode_handlers[SCRIPT_OP_COUNT] = {
     [SCRIPT_OP_JUMP_TO_VARIABLE]            = script_jump_to_variable,
     [SCRIPT_OP_MULTIPLY]                    = script_multiply,
     [SCRIPT_OP_DIVIDE]                      = (ScriptOpcodeHandler)script_divide,
-    [SCRIPT_OP_CALL_VARIABLE]               = (ScriptOpcodeHandler)script_call_variable,
+    [SCRIPT_OP_CALL_VARIABLE]               = script_call_variable,
     [SCRIPT_OP_CALL_NATIVE]                 = script_call_native,
     [SCRIPT_OP_LOAD_INDIRECT]               = script_load_indirect,
     [SCRIPT_OP_STORE_INDIRECT]              = script_store_indirect,
@@ -134,53 +118,53 @@ ScriptOpcodeHandler script_opcode_handlers[SCRIPT_OP_COUNT] = {
 };
 
 /* Dispatch script opcodes, advance active text, and report whether processing can continue. */
-s32 interpret_script_opcodes(RuntimeContext *context, u8 *owner)
+s32 interpret_script_opcodes(MessageWindow *window, ScriptController *controller)
 {
-    s8 *cursor;
+    u8 *cursor;
     u8 opcode;
     ScriptOpcodeHandler *opcode_handlers;
-    ActionFunc dispatch_action;
+    MessageWindowHandler dispatch_action;
 
-    if (*context->cursor <= 0) {
-        if (context->active != 0) {
-            func_80038CB8((struct S_func_80038CB8_0 *)context);
-            if ((context->state == 2) &&
-                (is_message_byte_in_lookup_set(*context->cursor) != 0)) {
+    if ((s8)*window->cursor <= 0) {
+        if (window->active != 0) {
+            render_message_glyphs(window);
+            if ((window->text_advance_mode == 2) &&
+                (is_message_byte_in_lookup_set(*window->cursor) != 0)) {
                 return 1;
             }
-            context->state = 0;
+            window->text_advance_mode = 0;
             goto return_zero;
         }
         goto fallback;
     }
 
     opcode_handlers = script_opcode_handlers;
-    dispatch_action = func_80038A10;
+    dispatch_action = update_message_window;
 
     do {
-        cursor = context->cursor;
-        opcode = (u8)*cursor;
-        context->cursor = cursor + 1;
-        opcode_handlers[opcode](context);
-    } while (*context->cursor > 0 && context->action == dispatch_action);
+        cursor = window->cursor;
+        opcode = *cursor;
+        window->cursor = cursor + 1;
+        opcode_handlers[opcode](window);
+    } while ((s8)*window->cursor > 0 && window->message_handler == dispatch_action);
 
-    if (context->action == noop_script_terminator_action) {
-        context->action = 0;
-        if (context->active == 0) {
+    if (window->message_handler == noop_script_terminator_action) {
+        window->message_handler = 0;
+        if (window->active == 0) {
 fallback:
-            if (func_80034FD0(owner) == 0) {
+            if (is_list_nonempty(controller) == 0) {
                 dispatch_sound_word_unless_disabled(0xB4);
-                func_80034EF8(owner, owner[2]);
-                func_80034F58(owner);
+                init_graphics_state_fields(controller, controller->mode);
+                create_default_window_object(controller);
                 return 0;
             }
             return 0;
         }
-        context->cursor = context->cursor + 1;
-        context->action = func_800381D0(context);
+        window->cursor = window->cursor + 1;
+        window->message_handler = select_message_wait_handler(window);
     }
 
-    if (context->state == 2) {
+    if (window->text_advance_mode == 2) {
         return 1;
     }
 return_zero:

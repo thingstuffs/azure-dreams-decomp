@@ -1,10 +1,11 @@
 #include "common.h"
 #include "town/map.h"
 #include "town/data.h"
+#include "town/map/variant_data.h"
 #include "town/map/map_cursor_input_g00641.h"
 #include "town/map/event_entry_data.h"
 
-extern u8 D_800D1A0C[];
+extern void *D_800D1A0C[][2];
 extern u8 D_800D1D54[];
 extern u8 D_800D1D5C[];
 extern u8 D_800D1D64[];
@@ -17,16 +18,14 @@ extern u8 D_800D1DD4[];
 extern u8 D_800D1DDC[];
 extern u8 D_800D1DE4[];
 extern u8 D_800D1DEC[];
-extern u8 town_map_variants[];
-
 /* Builds a null-terminated entry list for the current map kind and variant. */
 void build_map_variant_entry_list(void) {
     s32 count;
     s32 i;
+    /* BYTES: reload the variant table address on the default switch path. */
     unsigned long records;
     u8 *state;
-    unsigned long table;
-    u8 *map_records;
+    TownMapVariantRecord *map_records;
 
     count = 1;
     town_map_entry_list[0] = town_map_primary_entry;
@@ -36,7 +35,7 @@ void build_map_variant_entry_list(void) {
         town_map_entry_list[2] = town_map_tertiary_entry;
     }
     map_records = town_map_variants;
-    switch (map_records[town_map_selection_state[6] << 5]) {
+    switch (map_records[town_map_selection_state[6]].entry_kind) {
     case 5:
         switch ((*(u8 *)0x800136B8)) {
         default: town_map_entry_list[count++] = D_800D1D54; break;
@@ -68,9 +67,10 @@ void build_map_variant_entry_list(void) {
         i = 0;
         records = (unsigned long)town_map_variants;
         state = town_map_selection_state;
-        table = (unsigned long)D_800D1A0C;
         do {
-            town_map_entry_list[count++] = ((void **)((*(u8 *)((state[6] << 5) + records) << 3) + table))[i];
+            TownMapVariantRecord *record = (TownMapVariantRecord *)(state[6] * sizeof(*record) + records);
+
+            town_map_entry_list[count++] = D_800D1A0C[record->entry_kind][i];
             i++;
         } while (i < 2);
         break;

@@ -1,17 +1,18 @@
 #include "common.h"
+#include "town/map/variant_data.h"
 #include "town/player/position.h"
 
 /* Expands fixed-point bounds to include the inset rectangle. */
-void expand_bounds_to_inset_rectangle(s32 *bounds, s16 *rect) {
+void expand_bounds_to_inset_rectangle(s32 *bounds, TownRectangle *rect) {
     s32 left;
     s32 top;
     s32 right;
     s32 bottom;
 
-    left = rect[0] + rect[2];
-    top = rect[1] + rect[3];
-    right = left + rect[4];
-    bottom = top + rect[5];
+    left = (s16)rect->origin_x + rect->x_offset;
+    top = (s16)rect->origin_y + rect->y_offset;
+    right = left + rect->width;
+    bottom = top + rect->height;
     top <<= 16;
     right <<= 16;
     bottom <<= 16;

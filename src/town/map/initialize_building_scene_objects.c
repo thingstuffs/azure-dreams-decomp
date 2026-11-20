@@ -2,6 +2,7 @@
 #include "town/map/map_cursor_input_g00641.h"
 #include "common.h"
 #include "town/map.h"
+#include "town/map/variant_data.h"
 #include "town/menu.h"
 #include "town/data.h"
 
@@ -13,7 +14,6 @@ typedef struct {
 } Event6;
 
 extern Event6 D_800D1910[];
-extern u8 town_map_variants[];
 extern u16 D_80126494[];
 extern u16 D_8012669C[];
 extern u16 D_80126884[];
@@ -22,8 +22,6 @@ extern u16 D_80126C54[];
 extern u16 D_80126E3C[];
 extern u16 D_80127024[];
 extern u16 D_80127FA8[];
-
-void ** append_scaled_rect_to_script_list(s32, s32, s32, s32, void *);
 
 /* Draws the active town entry and its state-dependent overlays. */
 void initialize_building_scene_objects(void *draw_param) {
@@ -40,7 +38,7 @@ void initialize_building_scene_objects(void *draw_param) {
     draw_state = town_map_selection_state;
     if (draw_state[6] != 0) {
         draw_x = draw_state[0];
-        entry_kind = town_map_variants[draw_state[6] * 32];
+        entry_kind = town_map_variants[draw_state[6]].entry_kind;
         draw_kind = entry_kind;
         blit_indexed_tile_block_with_origin(draw_x, draw_state[1], draw_kind, draw_param);
         if (draw_kind == 0x26) {
@@ -94,19 +92,19 @@ void initialize_building_scene_objects(void *draw_param) {
         }
 
         {
-            u8 *draw_entry;
+            TownMapVariantRecord *draw_entry;
+            u32 row_index;
             s32 final_x;
             s32 final_y;
-            s32 entry_offset;
 
             event = (Event6 *)town_map_selection_state;
             final_x = town_map_selection_state[0];
             final_y = ((u8 *)event)[1];
-            entry_offset = ((u8 *)event)[6] << 5;
-            draw_entry = town_map_variants + entry_offset;
+            row_index = ((u8 *)event)[6];
+            draw_entry = &town_map_variants[row_index];
             append_scaled_rect_to_script_list(final_x, final_y,
-                          draw_entry[4], draw_entry[5],
-                          town_map_variants + entry_offset + 12);
+                          draw_entry->rect_width, draw_entry->rect_height,
+                          &town_map_variants[row_index].position_entry);
         }
     }
     create_entry_builder_controller();

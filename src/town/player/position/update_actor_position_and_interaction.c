@@ -48,7 +48,7 @@ void update_actor_position_and_interaction(TownObjectRecord *actor, ObjectPositi
     s32 *interaction_ctrl;
     s16 position;
     s32 input_flags;
-    s32 action_result;
+    u8 *response_script;
     S_80092A84_3 *entity;
     void *handler;
     S_80092A84_4 *interaction_state;
@@ -94,9 +94,9 @@ void update_actor_position_and_interaction(TownObjectRecord *actor, ObjectPositi
         }
 
         interaction_state = &town_actor_control;
-        action_result = select_response_text(interaction_state->unk_10, actor->unk_2C);
-        if (action_result != 0) {
-            call_script(action_result);
+        response_script = select_response_text(interaction_state->unk_10, actor->unk_2C);
+        if (response_script != 0) {
+            call_script(response_script);
         } else {
             submit_object_resource_data(interaction_state->unk_10);
         }

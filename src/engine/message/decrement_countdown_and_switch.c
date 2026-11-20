@@ -1,21 +1,8 @@
-#include "common.h"
-
 #include "engine/message.h"
 
-typedef struct S_800381A4_0 {
-    u8 pad_00[0x10];
-    void (*unk_10)(struct Func80038A10State *);
-    u8 pad_14[0x4];
-    u16 unk_18;
-} S_800381A4_0;   /* arg0 in decrement_countdown_and_switch */
-
 /* Decrements the countdown and switches the handler when the signed count reaches zero or below. */
-void decrement_countdown_and_switch(S_800381A4_0 *state) {
-    u16 remaining_ticks;
-
-    remaining_ticks = state->unk_18 - 1;
-    state->unk_18 = remaining_ticks;
-    if ((remaining_ticks << 0x10) <= 0) {
-        state->unk_10 = &update_message_window;
+void decrement_countdown_and_switch(MessageWindow *window) {
+    if (--window->countdown <= 0) {
+        window->message_handler = update_message_window;
     }
 }

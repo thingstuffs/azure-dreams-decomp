@@ -1,28 +1,14 @@
-#include "common.h"
-
 #include "engine/script.h"
-
-typedef struct Func80039FC0Table {
-    u8 pad_00[0x48];
-    u32 values[256];
-} Func80039FC0Table;
-
-typedef struct Func80039FC0State {
-    u8 pad_00[0x1C];
-    u8 *read_ptr;
-    u8 pad_20[0x60];
-    Func80039FC0Table *table;
-} Func80039FC0State;
+#include "engine/message.h"
 
 /* Opcode 0x34: Set variable: v[var] = imm32. */
-void script_set_variable_a(Func80039FC0State *state) {
-    u8 *cursor = state->read_ptr;
-    Func80039FC0Table *table = state->table;
+void script_set_variable_a(MessageWindow *window) {
+    u8 *cursor = window->cursor;
+    ScriptController *controller = window->controller;
     u8 index = *cursor++;
 
-    state->read_ptr = cursor;
-    table->values[index] = cursor[0] + (cursor[1] << 8) +
-                           (cursor[2] << 16) + (cursor[3] << 24);
-
-    state->read_ptr += 4;
+    window->cursor = cursor;
+    controller->variables[index] = cursor[0] + (cursor[1] << 8) +
+                                (cursor[2] << 16) + ((u32)cursor[3] << 24);
+    window->cursor += 4;
 }

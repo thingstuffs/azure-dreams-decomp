@@ -18,6 +18,11 @@ s32 process_slot_record_on_lookup_success(s32 slot_index);
 /* row main/func_8001C25C at 0x8040325C */
 void initialize_card_message_object_with_code_0xb(void *object);
 
+/* card_dev_run_temp_slot_operation (row main/func_8001B3C4) at 0x804023C4 */
+void run_slot_operation_code_five(void);
+/* refresh_object_value (row main/func_8001B4A4) at 0x804024A4 */
+void update_linked_object_value_and_flags(void *object);
+
 /* server functions at their true addresses with no readable name there */
 void func_80406F34(void *record_data);   /* card_dev_update_load_slot_highlight (row main/func_8001FF34) */
 void func_804069FC(void *record_data);   /* row main/func_8001F9FC */

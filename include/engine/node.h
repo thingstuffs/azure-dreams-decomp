@@ -9,6 +9,7 @@ struct SpriteFrameState;
 #include "shared/object_node.h"
 #include "engine/node/allocation.h"
 #include "engine/node/registration.h"
+#include "slus/imports.h"
 
 struct S_8003FF2C;
 struct S_8003FFF0;
@@ -44,7 +45,6 @@ void unlink_active_node(ObjectNodeHeader *node);
 
 /* unlink_node.c */
 void func_80044A50(struct ObjectNodeHeader *node);
-void unlink_node(struct ObjectNodeHeader *node);
 
 /* unlink_node_if_registered.c */
 void func_80033D08(void *block_data);

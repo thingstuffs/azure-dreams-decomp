@@ -1,8 +1,6 @@
-#include "common.h"
-
+#include "engine/message/data.h"
 #include "engine/object.h"
 #include "engine/script.h"
-extern u8 runtime_script_state[];
 
 /* Tests the runtime script handler and its fallback status using runtime_script_state. */
 s32 service_script_controller(void) {

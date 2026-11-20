@@ -1,23 +1,20 @@
-#include "common.h"
+#include "engine/message/data.h"
+#include "engine/message.h"
+#include "shared/object_node.h"
+#include "shared/town_object.h"
 #include "shared/object_index_slots.h"
 #include "town/person.h"
 
-typedef struct {
-    s32 unk0;
-    void *unk4;
-} Entry;
-
-extern s32 runtime_script_state[];
-
 /* anyone_org_ang_get: store the actor's converted original angle in the script variables. */
 void anyone_org_ang_get(s32 actor_id, void *script_context) {
-    s32 *script_vars = runtime_script_state;
-    void *actor;
+    ScriptController *controller = &runtime_script_state;
+    ObjectNodeHeader *node;
 
     if (actor_id != 0) {
-        actor = object_index_slots[actor_id].object;
-        if (actor != 0) {
-            script_vars[0x12] = map_angle_to_cardinal_direction(*(s16 *)((u8 *)actor + 0x8E));
+        node = object_index_slots[actor_id].object;
+        if (node != 0) {
+            TownObjectRecord *body = NODE_BODY(node);
+            controller->variables[0] = map_angle_to_cardinal_direction(body->unk_6E);
         }
     }
 }

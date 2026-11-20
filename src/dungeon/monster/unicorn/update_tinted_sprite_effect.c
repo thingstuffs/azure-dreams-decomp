@@ -3,6 +3,7 @@
 #include "shared/object_node.h"
 #include "dungeon/monster/unicorn/update_tinted_sprite_effect.h"
 #include "shared/object_flags.h"
+#include "slus/imports.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/unicorn.h"
 

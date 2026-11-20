@@ -28,4 +28,6 @@ void town_seq_reserve(s16 sequence_effect, s16 sequence_id);
 /* write_resource_command.c */
 void write_resource_command(s32 value, s8 code);
 
+extern u8 town_resource_command[];
+
 #endif

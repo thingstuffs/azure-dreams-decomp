@@ -1,8 +1,12 @@
+#include "shared/object_node.h"
 #include "shared/audio_commands.h"
 #include "engine/sprite.h"
 /* Twin shop input. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B016C, CL:town/func_800B02BC, CL:town/func_800B03A4, CL:town/func_800B03D0. */
 #include "town/shop/twin_shop_input_g00597.h"
+#include "engine/message/data.h"
+#include "engine/message.h"
+#include "shared/game_work.h"
 
 /* Calls get_item_name with record->unk_20 +(record->unk_04 * 4). */
 void refresh_selected_item_name(Rec_func_800AD7F8_arg0 *record) {
@@ -32,13 +36,13 @@ void handle_twin_shop_input(s32 *menu) {
     if ((pad_state->pressed_buttons) & 0x10) {
         SD_Call(AUDIO_ACCEPT);
         set_status_from_flagged_total(menu);
-        close_twin_shop((s8 *)menu - 0x20);
+        close_twin_shop(NODE_HEADER(menu));
         return;
     }
     if ((pad_state->pressed_buttons) & 0x20) {
         SD_Call(AUDIO_CANCEL);
-        script_status[0] = 0;
-        close_twin_shop((s8 *)menu - 0x20);
+        runtime_script_state.variables[14] = 0;
+        close_twin_shop(NODE_HEADER(menu));
         return;
     }
     if ((pad_state->pressed_buttons) & 0x40) {

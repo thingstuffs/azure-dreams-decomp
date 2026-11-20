@@ -13,13 +13,13 @@
 
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 s32 check_movement_clearance_and_height(); /* extern */
-s16 get_rounded_facing_and_rounding_flag(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */             /* extern */
+#include "dungeon/item/position.h"
 
 /* Advance the entity along its stored path and update its heading and movement timing. */
 void advance_path_motion(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 old_cell_mask;
     s32 new_cell_mask;
-    s16 heading;
+    s32 heading;
     s32 step_count;
     s32 old_x;
     s32 old_y;
@@ -43,8 +43,8 @@ void advance_path_motion(ActorRecord *body, ObjectPosition *position, SpriteFram
         }
         update_map_cell_flags_with_item_limit(old_x, old_y, old_cell_mask);
         heading = get_rounded_facing_and_rounding_flag(old_x, old_y, state->path_x[state->unk_8A], state->path_y[state->unk_8A],
-            ((void *)body) + 0x98);
-        check_movement_clearance_and_height(heading, sprite, state, 0x20);
+            &body->action_state_flags);
+        check_movement_clearance_and_height((s16)heading, sprite, state, 0x20);
         sprite->tile_x = (u8) state->path_x[state->unk_8A];
         sprite->tile_y = (u8) state->path_y[state->unk_8A];
         state->unk_8A = state->unk_8A + 1;

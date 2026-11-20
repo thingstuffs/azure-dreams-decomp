@@ -20,7 +20,7 @@ void update_active_nodes(void)
     GameWork *state = (&g_game_work);
     s32 mode;
     if ((node_update_mode == 0) && (state->map.cells != 0)) {
-        build_screen_outline(&state->view, &state->view.outline_0_x, 0);
+        build_screen_outline(&state->view, state->view.outline, 0);
         copy_and_scale_screen_outline_points();
     }
     run_active_node_callbacks();

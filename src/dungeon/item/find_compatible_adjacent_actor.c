@@ -1,12 +1,12 @@
 #include "common.h"
 #include "dungeon/player/object.h"
+#include "modules/dungeon_engine_tile_map_fragment_b5d50.h"
 #include "shared/dungeon_height_query.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "dungeon/item.h"
 
-void *find_eligible_actor_at_tile_and_height(void *, u16, u16, s16);
 
 /* Returns the first valid candidate found while checking eight neighboring positions. */
 void *find_compatible_adjacent_actor(ActorRecord *entity, u16 x, u16 y) {
@@ -28,8 +28,8 @@ void *find_compatible_adjacent_actor(ActorRecord *entity, u16 x, u16 y) {
     entity_data = *(void **)((s8 *)entity_ptr - 0x14);
     direction = g_dungeon_status.turn_counter & 7;
     for (attempt = 0; attempt < 8; attempt++, direction = (direction + 1) & 7) {
-        candidate = find_eligible_actor_at_tile_and_height(entity_ptr, (origin_x + x_offsets[direction]) & 0xFFFF, (origin_y
-            + y_offsets[direction]) & 0xFFFF, *(s16 *)((s8 *)entity_ptr + 0x88));
+        candidate = find_eligible_actor_at_tile_and_height(entity_ptr, (u16)(origin_x + x_offsets[direction]),
+            (u16)(origin_y + y_offsets[direction]), *(s16 *)((s8 *)entity_ptr + 0x88));
         if (candidate != 0 && ((check_entity_interaction_compatibility(entity_ptr, candidate) << 16) != 0)) {
             if (((check_diagonal_side_height(direction, *(u8 *)((s8 *)entity_data + 0x24), *(u8 *)((s8 *)entity_data + 0x25),
                 (s16)((u16)*(s16 *)((s8 *)entity_ptr + 0x88) - 0x20)) << 16) == 0)) {

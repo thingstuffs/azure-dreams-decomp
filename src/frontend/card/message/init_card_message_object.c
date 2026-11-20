@@ -1,3 +1,4 @@
+#include "frontend/card.h"
 #include "frontend/card/message.h"
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
@@ -5,7 +6,6 @@
 #include "frontend/card/message_display.h"
 
 s32 forward_target(MenuDisplayNode **entries);
-void init_menu_entry_pointers(CardDevDialogDisplay *, s32);
 void func_80402EBC(CardDevDialogDisplay *, struct ObjectNodeHeader *, s32, s32, s32);
 s32 process_global(s32, u8 *);
 

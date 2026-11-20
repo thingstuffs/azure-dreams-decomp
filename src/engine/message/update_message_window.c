@@ -1,21 +1,19 @@
-#include "slus/owned_80038A10.h"
-
 #include "slus.h"
 #include "engine/message.h"
+#include "shared/game_work.h"
 
 /* Latches the message button and runs script actions until the window handler changes or execution stops. */
-void update_message_window(Func80038A10State *input_state) {
-    Func80038A10State *state = input_state;
+void update_message_window(MessageWindow *window) {
     GameWork *global = &g_game_work;
-    void *context = input_state->field80;
-    void (*handler)(Func80038A10State *);
+    ScriptController *controller = window->controller;
+    MessageWindowHandler handler;
 
-    current_message_window_state = state;
+    current_message_window_state = window;
 
-    if (state->field87 == 0) {
+    if (window->skip_disabled == 0) {
         if ((((u32)global->buttons) & 0x20) != 0) {
-            if (state->field2E == 0) {
-                state->field2E = 1;
+            if (window->text_advance_mode == 0) {
+                window->text_advance_mode = 1;
             }
         }
     }
@@ -23,9 +21,9 @@ void update_message_window(Func80038A10State *input_state) {
     handler = update_message_window;
 
     do {
-        if (interpret_script_opcodes((struct RuntimeContext *)state, context) == 0) {
+        if (interpret_script_opcodes(window, controller) == 0) {
             break;
         }
-    } while (state->func10 == handler);
+    } while (window->message_handler == handler);
 }
-Func80038A10State * current_message_window_state = 0;
+MessageWindow *current_message_window_state = 0;

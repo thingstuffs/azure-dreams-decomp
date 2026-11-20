@@ -14,6 +14,6 @@ void enqueue_script_message_command(void)
     message_command_start_index = slot_index;
     *slot = 1;
     message_command_write_index = slot_index + 1;
-    set_script_record_buffer((s32)slot);
+    set_script_record_buffer(slot);
     flag_script_list_nonempty();
 }

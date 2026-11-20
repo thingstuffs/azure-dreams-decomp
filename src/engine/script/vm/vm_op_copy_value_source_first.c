@@ -1,18 +1,16 @@
-#include "common.h"
-
 #include "engine/script/vm.h"
-
-typedef struct Func8003A248State {
-    u8 pad_00[0x1C];
-    u8 *read_ptr;
-    u8 pad_20[0x60];
-    u32 *slots;
-} Func8003A248State;
+#include "engine/message.h"
 
 /* Opcode 0x37: Copy variable with operands swapped: v[dst] = v[src], src first. */
-void script_copy_variable_reversed(Func8003A248State *state) {
-    u32 source = *state->read_ptr++;
-    u32 destination = *state->read_ptr++;
+void script_copy_variable_reversed(MessageWindow *window) {
+    u8 *cursor = window->cursor;
+    u8 source;
+    u8 destination;
 
-    state->slots[destination + 0x12] = state->slots[source + 0x12];
+    source = *cursor++;
+    window->cursor = cursor;
+    destination = *cursor++;
+    window->cursor = cursor;
+
+    window->controller->variables[destination] = window->controller->variables[source];
 }

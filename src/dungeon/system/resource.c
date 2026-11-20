@@ -1,6 +1,7 @@
 /* Packed resource lookup, cache reordering and loading, and object script submission. */
 #include "dungeon/system/resource.h"
 #include "dungeon/system.h"
+#include "engine/script.h"
 
 
 /* Copies byte_count / 4 words backward, starting at source + byte_count and destination + byte_count. */
@@ -234,7 +235,7 @@ void submit_object_resource_data(ovl_d54c_7FFED9F8_Object *object) {
         data_offset = *(u16 *)&item->flags0;
         data = (u8 *)(data_base + data_offset);
     } else {
-        data = (u8 *)object->value48;
+        data = object->script;
     }
     call_script(data);
 }

@@ -1,10 +1,10 @@
 #include "common.h"
 #include "town/map/building_grid_g00638.h"
 #include "town/map.h"
+#include "town/map/variant_data.h"
 #include "town/menu.h"
 
-extern void **append_scaled_rect_to_script_list();
-extern u8 D_800D43F0[];
+extern TownRectangle D_800D43F0;
 
 typedef struct S_800B8248_0 {
     u8 pad_00[0x33A4];
@@ -26,7 +26,7 @@ void initialize_building_region_resources(void) {
     TownBuildingSlotRectangle *region;
 
     reset_script_rect_list();
-    append_scaled_rect_to_script_list(0x3FU, 0U, 0x10U, 0x10U, D_800D43F0);
+    append_scaled_rect_to_script_list(0x3FU, 0U, 0x10U, 0x10U, &D_800D43F0);
     slot_counter = 0;
     state_base = (void *)0x80010000;
     resources = town_building_records;
@@ -43,7 +43,7 @@ void initialize_building_region_resources(void) {
             region_height = region->height;
             resource_index = slot->unk_33A4;
             append_scaled_rect_to_script_list(region_x, region_y, region_width, region_height,
-                          &town_building_records[resource_index].script_rect);
+                          &town_building_records[resource_index].position_entry);
         }
         slot_counter += 1;
     } while ((u32)(u8)slot_counter < 0x21U);

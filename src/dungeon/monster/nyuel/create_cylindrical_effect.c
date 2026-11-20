@@ -4,6 +4,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "engine/node.h"
+#include "dungeon/monster/nyuel.h"
 #include "sdk/libgte.h"
 
 
@@ -37,13 +38,11 @@ typedef struct {
     Sub sub;
 } Entity;
 
-extern void fade_effect_and_spawn_textured_objects(void);
-
 /* Creates a 16-segment cylindrical effect at the supplied position. */
 void create_cylindrical_effect(ActorRecord *source, ObjectPosition *origin)
 {
     s16 segment;
-    void (*callback)(void);
+    void (*callback)(struct EffectState *, s32 *, SpriteFrameState *);
     s32 base_color;
 
     segment = 0;

@@ -62,8 +62,8 @@ struct Rec_func_800165F4_arg0;
 s32 process_entry_with_script_flag(struct Rec_func_800165F4_arg0 *object, s32 entry_index);
 
 /* Map-exit callback invoked by change_map. */
-struct RuntimeState;
-void reserve_town_monster_load_two(struct RuntimeState *unused_transition, void *unused_map_data);
+struct MapRuntimeState;
+void reserve_town_monster_load_two(struct MapRuntimeState *unused_transition, void *unused_map_data);
 
 /* Complete TOWN callbacks at the validated phase load addresses. */
 s32 process_entry_marking_flag_if_nonzero(void *object, s32 entry_index);
