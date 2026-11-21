@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/gp_d92c_owned.h"
 #include "dungeon/player/camera_depth_presets_data.h"
 #include "engine/entity/effect_slots.h"
 #include "dungeon/globals.h"
@@ -48,7 +49,6 @@ extern u8 destination_motion_resume_address[];
 #include "dungeon/data.h"
 
 struct Node;
-extern s8 scene_music_hold;
 extern u16 D_800DD258;
 extern u16 D_800DD25A;
 extern u8 dungeon_button_latch;

@@ -5,10 +5,10 @@
 #include "frontend/card/service.h"
 #include "main/data.h"
 #include "frontend/card.h"
+#include "frontend/card/server_aliases.h"
+#include "frontend/card/server_imports.h"
 
-extern void submit_stored_and_queried_boot_values(void);
 extern void forward_target_value_initcardmessageobject(void *left, void *right);
-extern void func_8003FA78(void *descriptor, s32 value, s32 item); /* Unprototyped: this site's argument count or types differ from the foreign program's import prototype */
 
 /* Updates the object's state and callback and performs a one-time transition. */
 void card_boot_update_object_state_and_callback(void *object_data)
@@ -28,8 +28,8 @@ void card_boot_update_object_state_and_callback(void *object_data)
 
     state_index = card_devkit_poll_stable_slot_state();
     table_offset = state_index * 4;
-    func_8003FA78(D_80400848, object[3], D_804090C8[state_index]);
-    submit_stored_and_queried_boot_values();
+    card_diagnostic_printf_8003FA78(dev_card_index_and_status_format, object[3], dev_card_slot_status_names[state_index]);
+    card_dev_print_status();
     if (state_index != 0) {
         object[14] = 0;
         object[12] = state_index;

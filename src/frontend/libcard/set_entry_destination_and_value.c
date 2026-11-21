@@ -7,7 +7,6 @@
 
 
 
-extern FrameNode card_choice_cursor_data;
 
 
 /* Place the left and right choice items and start each one's cursor stream on its payload word. */

@@ -217,7 +217,7 @@ void *create_double_ellipse_sprite_effect(ObjectPosition *source_position, void 
    countdown ends. */
 void move_fade_and_expand_effect(HomingEffectBody *effect, ObjectPosition *motion, SpriteFrameState *sprite_data)
 {
-    SpriteFrameState *sprite= (ovl_19a332c_81982DF8_Arg2 *) sprite_data;
+    SpriteFrameState *sprite=  sprite_data;
     s16 frames_left;
     s32 next_x;
     u16 scale;
@@ -1478,15 +1478,7 @@ void clear_object_buffer_and_state(void *tracker) {
     state->view_offset.parts.view_offset_y = (u16) ((s32) (((u16)state->view_offset.parts.view_offset_y) << 0x10) >> 0x12);
 }
 
-/*
- * Sets camera tracking mode 13, its target and timing, installs the tracking callback, and returns
- * change flags.
- *
- * MECHANISM: Frameless leaf; tracker stays in a1 and the 0x80083178 view base in a2 across the
- * CFG. The tracker+0xC pointer is read a second time, after the first-use load and the store to
- * tracker+4: the u16 store invalidates the earlier read (cse invalidate_memory), giving retail's
- * paired lw v0/v1 and keeping v1 live for offsets 6/0xA.
- */
+/* Sets camera tracking mode 13, its target and timing, installs the tracking callback, and returns change flags. */
 s32 set_camera_track_target(s32 unused, s32 state_key, s32 value, s16 secondary_value) {
     GameView *state = &g_game_work.view;
     ovl_19a332c_81984E94_S_8191696C_state *substate = (ovl_19a332c_81984E94_S_8191696C_state *)&state->slot[0].unk_04;

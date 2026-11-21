@@ -1,7 +1,8 @@
 #include "common.h"
 #include "frontend/card.h"
+#include "frontend/card/service/operation_state_data.h"
 
-/* Returns the signed 32-bit value stored at 0x804094E8. */
+/* Returns the current card UI operation state. */
 s32 card_dev_get_op_state(void) {
-    return *(s32 *)0x804094E8;
+    return card_ui_operation_state;
 }

@@ -1,17 +1,12 @@
-#include "script_symbols.h"
-#include "common.h"
-#include "m2c_compat.h"
 #include "records/Rec_func_800165F4_arg0.h"
-#include "town/scene.h"
-#include "town/player.h"
+#include "script_symbols.h"
 #include "town/player/script_flags.h"
-#include "town/scene/flags.h"
+#include "town/scene.h"
 
-/* Process flag 0xD52, conditionally select the object value, and forward the request. */
-void process_flag_and_forward_request(Rec_func_800165F4_arg0 *object, s32 request_data) {
+s32 process_flag_and_forward_request(Rec_func_800165F4_arg0 *entry, s32 entry_index) {
     clear_script_flag_bit(Ftt_pad33);
     if (check_progress_against_callback() != 0) {
-        set_script_flag_bit(object->unk_18);
+        set_script_flag_bit(entry->unk_18);
     }
-    process_checked_entry(object, request_data);
+    return process_checked_entry(entry, entry_index);
 }

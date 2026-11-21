@@ -6,8 +6,7 @@
 
 /* Body of the devkit load screen's slot-window builder object (offsets of the server build). */
 typedef struct CardDevLoadSlotScreen {
-    u8 pad_00[0x0C];
-    u8 *windows[5];
+    CardDevLoadSlotWindows slot_windows;
     u8 pad_20[0x08];
     s32 window_count;
     u8 pad_2C[0x08];
@@ -24,18 +23,18 @@ void card_dev_build_load_slot_windows(CardDevLoadSlotScreen *screen)
 
     index = screen->window_count;
     if (index < 5) {
-        if (process_slot_record_on_lookup_success(index) != 0) {
+        if (card_dev_load_slot_metadata(index) != 0) {
             void *object = NODE_HEADER(screen);
 
-            screen->windows[index] = init_card_window_slot_object(object, index);
+            screen->slot_windows.windows[index] = init_card_window_slot_object(object, index);
             screen->window_count++;
         } else {
-            screen->state_callback = func_80406F34;
-            initialize_card_message_object_with_code_0xb(NODE_HEADER(screen));
-            NODE_HEADER(screen)->update_callback = func_804069FC;
+            screen->state_callback = card_dev_update_load_slot_highlight;
+            card_dev_show_load_failure_notice(NODE_HEADER(screen));
+            NODE_HEADER(screen)->update_callback = install_pending_load_completion_callback;
         }
     }
     if (index == 5) {
-        NODE_HEADER(screen)->update_callback = func_80406F34;
+        NODE_HEADER(screen)->update_callback = card_dev_update_load_slot_highlight;
     }
 }

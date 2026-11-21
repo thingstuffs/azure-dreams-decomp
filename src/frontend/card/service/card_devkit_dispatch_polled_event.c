@@ -2,6 +2,7 @@
 #include "frontend/card/event_callbacks.h"
 #include "frontend/card/service.h"
 #include "frontend/card/service/event_mode_data.h"
+#include "frontend/card/server_aliases.h"
 
 typedef card_dev_event_callback_fn Callback;
 typedef card_dev_event_table CallbackTable;
@@ -11,8 +12,6 @@ typedef struct CallbackTables {
     Callback pad;
     CallbackTable second;
 } CallbackTables;
-
-extern s32 func_8040153C(void);
 
 /* Dispatches a nonzero selection through the callback table for the current state. */
 s32 card_devkit_dispatch_polled_event(void)
@@ -35,7 +34,7 @@ s32 card_devkit_dispatch_polled_event(void)
             result = callback();
         }
     } else if (state == 1) {
-        result = func_8040153C();
+        result = card_devkit_poll_hardware_status_8040153C();
         if (result != 0) {
             callback = *(Callback *)((u8 *)table_base + 0x18 + result * 4);
             result = callback();

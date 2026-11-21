@@ -5,11 +5,11 @@
 #include "town/scene/hooks.h"
 #include "town/scene.h"
 
-/* Stores the inputs and switches three scene flags according to the object's status test. */
-s32 process_scene_status_actions(void *object, s32 value)
+/* Save the selected choice and switch the scene flags according to the row flag. */
+s32 process_scene_status_actions(Rec_func_800165F4_arg0 *row, s32 entry_index)
 {
-    set_global_entry_pair(object, value);
-    if (get_script_flag_mask(*(s16 *)((u8 *)object + 0x18)) != 0) {
+    set_global_entry_pair(row, entry_index);
+    if (get_script_flag_mask(row->unk_18) != 0) {
         clear_script_flag_bit(F_sbs07_pad28);
         set_script_flag_bit(F_sbs07_pad27);
         set_script_flag_bit(F_sbs07_pad23);

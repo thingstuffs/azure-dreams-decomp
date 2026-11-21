@@ -2,7 +2,6 @@
 #define DUNGEON_EFFECT_SHADE_CALLBACKS_API_H
 #include "shared/sprite_frame_state.h"
 
-/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 struct EffectObjectGroupsBody;
 struct ObjectPosition;
 struct RotatingFadeWork;

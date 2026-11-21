@@ -62,6 +62,3 @@ void create_color_cycling_pulse(ObjectPosition *origin)
         control->source = (u8 *)object + 0x48;
     }
 }
-
-/* MECHANISM: Four packed 12-byte assignments emit retail's twelve unaligned copy quartets without gcc's
-   large-copy loop. */

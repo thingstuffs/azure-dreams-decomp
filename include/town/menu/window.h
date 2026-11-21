@@ -253,7 +253,6 @@ extern u8 D_800D381C[];
 extern u8 D_800D3CC8[];
 extern u8 D_800D401C[];
 extern func_8009FE60_TownState town_resource_context;
-extern s32 loaded_town_resource_attributes[];
 extern void *window_sprites[];
 extern s16 D_800D07AC;
 extern s32 item_effect_descriptor;

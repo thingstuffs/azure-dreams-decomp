@@ -3,10 +3,10 @@
 #include "shared/object_node.h"
 #include "frontend/card.h"
 #include "frontend/card/save.h"
+#include "frontend/card/server_aliases.h"
+#include "frontend/card/message.h"
 
 extern void dispatch_operation_mode_context(void *, void *);
-extern void initialize_card_message_object_with_code_7(void *);
-extern void func_80405A64(void);
 
 /* Arm the task's next callback: ready slot -> attach the sub-object, otherwise detach it. */
 void select_card_slot_message(void *task)
@@ -14,7 +14,7 @@ void select_card_slot_message(void *task)
     s32 one;
     ObjectNodeHeader *owner;
     s32 index;
-    void (*callback)(void);
+    void (*callback)(void *);
 
     owner = NODE_HEADER(task);
     index = *(s32 *)((u8 *)task + 0x28);
@@ -27,7 +27,7 @@ void select_card_slot_message(void *task)
     } else {
         *(void (**)(void))((u8 *)task + 0x34) = handle_object_menu_input;
         initialize_card_message_object_with_code_7(owner);
-        callback = func_80405A64;
+        callback = card_dev_poll_save_result_and_resume_menu_input;
     }
     NODE_HEADER(task)->update_callback = callback;
 }

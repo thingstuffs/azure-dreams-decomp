@@ -506,9 +506,6 @@ void create_lingering_ballistic_sprite(Work *source, s32 unused_1, s32 unused_2,
     }
 }
 
-/* MECHANISM: The 0x20 byte-aligned copy object preserves the 0x58 frame and lwl/lwr stack copy;
-   a held D_80083780 base plus RMW updates restores the load-delay moves and $a0 base.
-   Epilogue-held arg pins and split point base/index/add produce the retail saved roles and $s6+$v0 order. */
 
    /* sub in func_8196B780 */
 
@@ -592,9 +589,6 @@ void create_brief_ballistic_sprite(Work *source, s32 unused_1, s32 unused_2, s16
     }
 }
 
-/* MECHANISM: The 0x20 byte-aligned copy object preserves the 0x58 frame and lwl/lwr stack copy;
-   a held D_80083780 base plus RMW updates restores the load-delay moves and $a0 base.
-   Epilogue-held arg pins and split point base/index/add produce the retail saved roles and $s6+$v0 order. */
 
    /* work in func_8196BA5C */
 
@@ -694,9 +688,6 @@ void create_timed_rectangle_effect(StagedRectangleSpriteBody *owner) {
     }
 }
 
-/* MECHANISM: The 0x80-byte frame, sibling table/center locals, packed copies,
-   held object roles, and noreturn tail shape preserve the seed's 184-word body.
-   A block-local $v1 page pin lets LEAD27 sink lui 0x8002 into the tail-j slot. */
 
    /* work in func_8196BD3C */
 

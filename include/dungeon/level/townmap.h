@@ -106,10 +106,7 @@ typedef struct town_map_7FFEE778_S_8008BED8_0 {
     u8 pad_00[0x68];
     M2C_UNK * unk_68;
 } town_map_7FFEE778_S_8008BED8_0;
-extern u32 loaded_town_resource_attributes[];
 extern s32 town_resource_descriptors[218];
-extern s32 load_cd_resource(s32 entry_value); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern s32 func_80047E78(s32 entry_value);
 extern u8 town_resource_command[12];
 extern s32 town_map_resource_ids[];
 extern void *find_free_pool_record(void);

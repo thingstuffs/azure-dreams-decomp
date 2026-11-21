@@ -14,6 +14,9 @@ struct S_8009C46C_0;
 struct S_8009C4E8_2;
 struct SpriteFrameState;
 
+/* Callback entry in the preserved town transfer image. */
+extern u8 tracked_actor_callback_address[];
+
 /* initialize_object_state_from_selector.c */
 void initialize_object_state_from_selector(TownObjectRecord *context, ObjectPosition *selector, SpriteFrameState *state);
 

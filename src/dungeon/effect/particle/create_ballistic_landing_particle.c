@@ -69,5 +69,3 @@ void create_ballistic_landing_particle(ObjectNodeHeader *source, s16 duration, s
         sprite->source = (((void *)effect) + 0x56);
     }
 }
-
-/* MECHANISM: A packed Copy12 assignment emits the retail lwl/lwr and swl/swr copy sequence. */

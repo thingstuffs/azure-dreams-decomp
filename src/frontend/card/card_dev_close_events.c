@@ -6,38 +6,38 @@
 
 /* Checks eight c_server entries and asserts on failed checks. */
 void card_dev_close_events(void) {
-    func_8007CA38();
-    if (func_8007C9A8(*(s32 *)0x80409270) == 0) {
-        func_8007C040(card_server_assert_format, dev_server_filename, 0xFD);
-        func_8007BEF0(1);
+    EnterCriticalSection_8007CA38();
+    if (CloseEvent_8007C9A8(dev_card_sw_done_event) == 0) {
+        printf_8007C040(card_server_assert_format, dev_server_filename, 0xFD);
+        exit_8007BEF0(1);
     }
-    if (func_8007C9A8(*(s32 *)0x80409274) == 0) {
-        func_8007C040(card_server_assert_format, dev_server_filename, 0xFF);
-        func_8007BEF0(1);
+    if (CloseEvent_8007C9A8(dev_card_sw_error_event) == 0) {
+        printf_8007C040(card_server_assert_format, dev_server_filename, 0xFF);
+        exit_8007BEF0(1);
     }
-    if (func_8007C9A8(*(s32 *)0x80409278) == 0) {
-        func_8007C040(card_server_assert_format, dev_server_filename, 0x101);
-        func_8007BEF0(1);
+    if (CloseEvent_8007C9A8(dev_card_sw_timeout_event) == 0) {
+        printf_8007C040(card_server_assert_format, dev_server_filename, 0x101);
+        exit_8007BEF0(1);
     }
-    if (func_8007C9A8(*(s32 *)0x8040927C) == 0) {
-        func_8007C040(card_server_assert_format, dev_server_filename, 0x103);
-        func_8007BEF0(1);
+    if (CloseEvent_8007C9A8(dev_card_sw_new_event) == 0) {
+        printf_8007C040(card_server_assert_format, dev_server_filename, 0x103);
+        exit_8007BEF0(1);
     }
-    if (func_8007C9A8(*(s32 *)0x80409280) == 0) {
-        func_8007C040(card_server_assert_format, dev_server_filename, 0x105);
-        func_8007BEF0(1);
+    if (CloseEvent_8007C9A8(dev_card_hw_done_event) == 0) {
+        printf_8007C040(card_server_assert_format, dev_server_filename, 0x105);
+        exit_8007BEF0(1);
     }
-    if (func_8007C9A8(*(s32 *)0x80409284) == 0) {
-        func_8007C040(card_server_assert_format, dev_server_filename, 0x107);
-        func_8007BEF0(1);
+    if (CloseEvent_8007C9A8(dev_card_hw_error_event) == 0) {
+        printf_8007C040(card_server_assert_format, dev_server_filename, 0x107);
+        exit_8007BEF0(1);
     }
-    if (func_8007C9A8(*(s32 *)0x80409288) == 0) {
-        func_8007C040(card_server_assert_format, dev_server_filename, 0x109);
-        func_8007BEF0(1);
+    if (CloseEvent_8007C9A8(dev_card_hw_timeout_event) == 0) {
+        printf_8007C040(card_server_assert_format, dev_server_filename, 0x109);
+        exit_8007BEF0(1);
     }
-    if (func_8007C9A8(*(s32 *)0x8040928C) == 0) {
-        func_8007C040(card_server_assert_format, dev_server_filename, 0x10B);
-        func_8007BEF0(1);
+    if (CloseEvent_8007C9A8(dev_card_hw_new_event) == 0) {
+        printf_8007C040(card_server_assert_format, dev_server_filename, 0x10B);
+        exit_8007BEF0(1);
     }
-    func_8007CA48();
+    ExitCriticalSection_8007CA48();
 }

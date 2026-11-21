@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/event/state.h"
 #include "town/scene/collection.h"
 #include "town/minigame.h"
 #include "shared/sprite_frame_state.h"
@@ -27,7 +28,6 @@ extern s16 D_800272A0[];
 extern void *scene_object_payload_alias;
 extern s32 town_target_height_offset;
 extern u8 D_80092698[];
-extern u8 tracked_actor_callback_address[];
 extern u8 town_actor_interaction_address[];
 extern u8 D_800F2DC0[];
 extern u8 D_800F2E08[];

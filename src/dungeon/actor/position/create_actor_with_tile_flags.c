@@ -90,8 +90,3 @@ void *create_actor_with_tile_flags(s16 variant, u16 tile_x, u16 tile_y, s16 spaw
     }
     return entity;
 }
-
-/* MECHANISM: The true-space function uses a 0x30 frame and fixed s1-s5 object/part/argument roles;
-   variant and spawn_height remain naturally allocated so their temporary computations stay in v0.
-   Naming sprite_tile_x/sprite_tile_y before the tile_flags test hoists both lbu operations and removes the one-word load-delay nop;
-   the retail store-slot lineage requires 2.7.2-cdk-G0. */

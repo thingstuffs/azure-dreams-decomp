@@ -4,5 +4,6 @@
 #include "common.h"
 
 extern s32 card_ui_operation_state;
+extern s32 dev_card_channel_completion_flags[2];
 
 #endif

@@ -155,11 +155,6 @@ typedef struct S_func_800AED64_13 {
     } unk_14;
 } S_func_800AED64_13;
 
-typedef struct S_func_800AED64_15 {
-    s32 unk_00;
-    u16 unk_04;
-} S_func_800AED64_15;
-
 typedef struct S_func_800AED64_16 {
     s32 unk_00;
     s16 unk_04;

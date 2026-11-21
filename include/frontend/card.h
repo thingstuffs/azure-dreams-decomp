@@ -19,7 +19,7 @@ struct CardSlotMenuState;
 struct MainPacket12;
 struct MainValue;
 struct Menu;
-struct Object_8001F2F4;
+struct CardDevSaveMenuBody;
 struct S_8001B93C_0;
 struct S_8001B974_0;
 struct S_8001B974_1;
@@ -168,7 +168,7 @@ s32 card_dev_count_cached_slots(void);
 void card_dev_create_slot_screen_objects(struct CardDevSlotScreenBody *work);
 
 /* card_dev_dispatch_callback_by_index.c */
-void card_dev_dispatch_callback_by_index(struct Object_8001F2F4 *object);
+void card_dev_dispatch_callback_by_index(struct CardDevSaveMenuBody *object);
 
 /* card_dev_drain_hw_events.c */
 void card_dev_drain_hw_events(void);
@@ -237,7 +237,7 @@ void card_dev_init_row_view(struct S_8001CDA0_2 *entry, struct S_8001CDA0_0 *pla
 void card_dev_init_slot_rows(s32 slot_addr);
 
 /* card_dev_init_two_rows.c */
-void card_dev_init_two_rows(s32 record_addr);
+void card_dev_advance_slot_stream_pair(s32 record_addr);
 
 /* card_dev_init_view_defaults.c */
 void card_dev_init_view_defaults(struct S_8001B974_2 *state, struct S_8001B974_0 *main_config, struct S_8001B974_1 *aux_config);
@@ -276,7 +276,7 @@ void card_dev_menu_wait_countdown(void *record_data);
 void card_dev_no_op_save(s32 unused_event);
 
 /* card_dev_open_events.c */
-void card_dev_open_events(s32 unused0, s32 unused1, s32 unused2, s32 unused3);
+void card_dev_open_events(void);
 
 /* card_dev_print_status.c */
 void card_dev_print_status(void);
@@ -325,6 +325,8 @@ void card_dev_set_word(s32 *dest, s32 value);
 
 /* card_dev_show_copy_failure_notice.c */
 void card_dev_show_copy_failure_notice(struct ObjectNodeHeader *value);
+/* True-address alias for the MAIN card server placement at 0x8040334C. */
+void initialize_card_message_object_with_code_0x10(struct ObjectNodeHeader *value);
 
 /* card_dev_show_copying_progress.c */
 void card_dev_show_copying_progress(struct ObjectNodeHeader *target, s32 value);
@@ -346,12 +348,16 @@ void card_dev_show_format_failure_notice(struct ObjectNodeHeader *input);
 
 /* card_dev_show_format_success_notice.c */
 void card_dev_show_format_success_notice(struct ObjectNodeHeader *target);
+/* True-address alias for the MAIN card server placement at 0x804032AC. */
+void initialize_card_message_object_with_code_0xd(struct ObjectNodeHeader *target);
 
 /* card_dev_show_formatting_progress.c */
 void card_dev_show_formatting_progress(struct ObjectNodeHeader *target, s32 value);
 
 /* card_dev_show_insufficient_space_card_advice.c */
 void card_dev_show_insufficient_space_card_advice(struct ObjectNodeHeader *value);
+/* True-address alias for the MAIN card server placement at 0x80403234. */
+void forward_value_initcardmessageobject_arguments(struct ObjectNodeHeader *value);
 
 /* card_dev_show_insufficient_space_overwrite_advice.c */
 void card_dev_show_insufficient_space_overwrite_advice(struct ObjectNodeHeader *target);
@@ -373,6 +379,8 @@ void card_dev_show_overwrite_failure_notice(struct ObjectNodeHeader *value);
 
 /* card_dev_show_overwrite_protected_notice.c */
 void card_dev_show_overwrite_protected_notice(struct ObjectNodeHeader *target);
+/* True-address alias for the MAIN card server placement at 0x80403374. */
+void forward_target_initcardmessageobject(struct ObjectNodeHeader *target);
 
 /* card_dev_show_please_wait_notice.c */
 void card_dev_show_please_wait_notice(struct ObjectNodeHeader *target, s32 value);
@@ -452,6 +460,9 @@ void card_boot_refresh_five_slot_objects(CardSaveMenuBody *menu);
 void card_boot_clear_slot_selection_marker(struct ObjectNodeHeader *object);
 void card_boot_refresh_slot_window(struct ObjectNodeHeader *object);
 
+/* MAIN card server placement of card_boot_refresh_slot_window at 0x80404688. */
+void card_dev_refresh_slot_window_display(struct ObjectNodeHeader *window);
+
 /* card_sme_commit_pending_value.c */
 void card_sme_commit_pending_value(void *record_data);
 
@@ -498,10 +509,10 @@ void * init_card_options_object(s32 option_param);
 void *init_card_slot_object(s32 init_option);
 
 /* init_card_sme_object.c */
-void * init_card_sme_object(s32 init_option);
+void * init_card_sme_object(struct ObjectNodeHeader *owner);
 
 /* init_card_window_slot_object.c */
-u8 *init_card_window_slot_object(u8 *init_value, s32 slot_index);
+struct ObjectNodeHeader *init_card_window_slot_object(u8 *init_value, s32 slot_index);
 
 /* init_dialog_object.c */
 void init_dialog_object(struct CardDevDialogDisplay *object);
@@ -539,6 +550,9 @@ void write_save_and_refresh_slot_windows(struct CardSlotMenuState *context);
 s32 card_boot_verify_save_xor_checksum(void *save_data);
 s32 card_boot_write_save_via_temporary_path(s32 slot, void *data);
 s32 card_boot_load_save_and_clear_marker(s32 entry_index, void *data, s32 update_entry);
+
+/* set_card_selection_state.c */
+void set_card_selection_state(s32 select_second);
 
 /* set_layout_params.c */
 void set_layout_params(struct CardDevDialogDisplay *record, struct ObjectNodeHeader *owner, s32 value_08, s32 value_0c, s32 value_20);

@@ -111,9 +111,6 @@ void update_decelerating_sprite_effect(void *motion, void *position, void *updat
         *((s32 *) (((s8 *) page) + 0x14A0)) = (s32) ((*((s32 *) (((s8 *) page) + 0x14A0))) | 0x8000);
     }
 }
-/* MECHANISM: The seed preserves the 0x20 frame and the long-lived s1/s0 argument bases.
-   A literal 0x80080000 page local held by ASM_KEEP emits the branch-delay lui in v1.
-   Both flag RMW accesses use +0x14A0 from that base, closing all three addressing words. */
 
 /* Creates a blue-tinted sprite with copied motion, two eight-step counters, and facing copied from the
    source. */

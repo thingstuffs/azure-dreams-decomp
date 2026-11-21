@@ -2,9 +2,10 @@
 #include "m2c_compat.h"
 #include "frontend/card.h"
 #include "frontend/card/server_aliases.h"
+#include "frontend/card/service/operation_state_data.h"
 
-/* Clears the value at 0x804094E8 and calls invoke_callback_for_four_global_values. */
+/* Clears the card UI operation state and drains pending events. */
 void clear_card_selection_flag(void) {
-    *(s32 *)0x804094E8 = 0;
-    invoke_callback_for_four_global_values();
+    card_ui_operation_state = 0;
+    card_dev_drain_hw_events();
 }

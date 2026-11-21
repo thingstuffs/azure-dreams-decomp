@@ -1,5 +1,5 @@
 {
- "count": 1275,
+ "count": 1274,
  "ids": [
   "include/dungeon/actor/ability_eligibility.h::S_800A4300_2.unk_F0",
   "include/dungeon/actor/action_target_selection_g00359.h::S_800CA444_0.unk_24",
@@ -1272,7 +1272,6 @@
   "src/town/scene/object/create_title_menu_cursor.c::S_808106E0_0.unk_30",
   "src/town/scene/object/create_town_hud.c::rgb.rgb",
   "src/town/scene/object/create_town_hud.c::state.state",
-  "src/town/scene/populate_and_dispatch_entry_records.c::PackedWord.PackedWord",
   "src/town/scene/update_slot_machine.c::S_func_80811C54_7.unk_00",
   "src/town/shop/event_fountain_chk.c::StackArg.StackArg",
   "src/town/shop/position/init_display_blocks_at_position.c::S_800B4200_arg4.S_800B4200_arg4"

@@ -415,8 +415,6 @@ void advance_target_growth_and_fade(Unk818DAD38Owner *owner, ObjectPosition *unu
     }
 }
 
-/* MECHANISM: Updating unk1C before unk1E selects retail's v1/v0 load-add order while held s1/s0
-   preserve the 0x20 frame. The state ladder is a switch; the fade arm needs no barrier here. */
 
 typedef struct S_818DAE84_0 {
     void * unk_00;

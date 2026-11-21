@@ -9,7 +9,7 @@
 s32 select_data_by_cell_code(s32 input_a, s32 input_b, s32 input_c, s32 input_d);
 
 /* process_town_records.c */
-void process_town_records(s32 records_addr, s32 record_count);
+void process_town_records(u32 records_address, s32 record_count);
 
 
 /* select_data_for_requested_kind.c */
@@ -127,6 +127,16 @@ typedef struct {
     s16 script_flag;
     s16 reserved;
 } TownSceneChoice;
+
+/* The object set every choice predicate receives: the scene's choice rows follow at +0x10. */
+typedef struct TownObjectSet {
+    u8 selected_choice;
+    u8 pad_01[0x0F];
+    TownSceneChoice *choices;
+    u32 flag_records_address;
+    s16 entry_flag;
+    s16 flag_record_count;
+} TownObjectSet;
 s32 apply_entry_mia_bikou_start(SquareSceneEntry *entry, s32 entry_index);
 s32 apply_entry_selfy_rescued(SquareSceneEntry *entry, s32 entry_index);
 s32 apply_checked_entry_selfy_rescued(SquareSceneEntry *entry, s32 entry_index);
@@ -218,7 +228,7 @@ void init_scene_node_mode_1(void *record, struct ObjectPosition *position, void 
 #include "shared/town_object.h"
 s32 advance_counter_modulo_eight(void);
 void advance_town_events_and_dispatch_entry(void);
-void apply_record_value_when_enabled(Rec_func_800165F4_arg0 *record, s32 handler_context);
+s32 apply_record_value_when_enabled(Rec_func_800165F4_arg0 *entry, s32 entry_index);
 s32 blit_default_rectangle(void);
 s32 is_bar_top_flag_set(void);
 void init_scene_node_mode_4(void *record, struct ObjectPosition *position, void *bounds);
@@ -228,7 +238,7 @@ s32 get_linked_record_value(void);
 s32 get_min_surface_probe_capped(ObjectPosition *source, s32 *out_detail);
 s32 is_angle_within_tolerance(s32 value_a, s32 value_b);
 void lookup_entry_after_grid_match(s32 dispatch_context, s32 unused, s32 dispatch_arg);
-s32 apply_entry_and_write_flag_range(void *context, s32 request);
+s32 apply_entry_and_write_flag_range(Rec_func_800165F4_arg0 *entry, s32 entry_index);
 char *select_address_based_input(void);
 void *select_data_for_pad82_flag(s32 unused_value, s32 unused_special_value, s32 unused_code);
 void *select_data_pointer_based_result(void);

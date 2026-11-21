@@ -45,11 +45,10 @@ s32 *run_scene_helper_and_get_result(void);
 s32 dispatch_scene_entry_value(s32 entry_id, s32 unused, s32 value);
 s32 dispatch_scene_alt_tables(void *request, s32 unused, s32 mode);
 s32 dispatch_scene_request_with_fixed_data(s32 request, s32 unused, s32 value);
-s32 dispatch_scene_request_with_tables(s32 request, s32 unused, s32 value);
-s32 lookup_scene_entry_with_checked_fallback(s32 context, s32 check_value, s32 selector);
 u8 *get_shared_scene_result(void);
 void *lookup_scene_entry_with_kind_overrides(s32 key, s32 unused, s32 kind);
-void apply_scene_entry_values(void *data, s32 value);
+struct Rec_func_800165F4_arg0;
+s32 apply_scene_entry_values(struct Rec_func_800165F4_arg0 *entry, s32 entry_index);
 void apply_scene_record_value(void *context, s32 unused, s32 lookup_key);
 s32 lookup_entry_value_and_set_flag(struct ScenePositionEntry *entries, struct SceneFlagContext *context, s32 lookup_key);
 s32 lookup_entry_and_apply_record_code(void *table, void *context, s32 lookup_key);
@@ -58,10 +57,10 @@ void dispatch_scene_request_with_local_words(s32 request, s32 unused, s32 value)
 void forward_scene_entry_index_a(void *object, s32 entry_index);
 void forward_scene_entry_index_b(void *object, s32 entry_index);
 void forward_scene_entry_index_c(void *object, s32 entry_index);
-void forward_scene_request_arguments(s32 input_a, s32 input_b, s32 input_c, s32 input_d);
+s32 forward_scene_request_arguments(struct Rec_func_800165F4_arg0 *entry, s32 entry_index);
 void process_entry_when_table_has_seven(s32 target, s32 value);
 void store_scene_value_pair(s32 first_value, s32 second_value);
-void store_pair_and_process_entry(s32 value, s32 data);
+s32 store_pair_and_process_entry(struct Rec_func_800165F4_arg0 *row, s32 entry_index);
 
 struct SceneActionEntry;
 s32 dispatch_first(s32 dispatch_value, s32 unused, s32 dispatch_option);

@@ -1,14 +1,10 @@
 #include "script_symbols.h"
-#include "common.h"
-#include "m2c_compat.h"
 #include "town/player/state.h"
 #include "town/scene.h"
 
-/* Process the request and invoke write_script_flag_range when the result is nonzero. */
-s32 apply_entry_and_write_flag_range(void *context, s32 request) {
-    s32 result;
+s32 apply_entry_and_write_flag_range(Rec_func_800165F4_arg0 *entry, s32 entry_index) {
+    s32 result = apply_selected_entry_values(entry, entry_index);
 
-    result = apply_selected_entry_values(context, request);
     if (result != 0) {
         write_script_flag_range(Ftt_pad61, 3, 2);
     }

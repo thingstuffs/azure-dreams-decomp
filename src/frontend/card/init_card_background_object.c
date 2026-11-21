@@ -2,6 +2,7 @@
 #include "frontend/card.h"
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
+#include "frontend/libcard.h"
 
 extern void func_80404C44(CardBackgroundBody *object, ObjectNodeHeader *owner);
 
@@ -13,7 +14,7 @@ typedef struct {
     struct CardDevMenuEntry **entry_table;
 } Obj;
 
-typedef struct {
+typedef struct CardDevBackgroundObject {
     u8 pad_00[0x0C];
     MenuDisplayNode *field_0C;
     void *field_10;
@@ -23,8 +24,6 @@ typedef struct {
 } Root;
 
 /* This unit declares the static node through its entry-table slot. */
-extern Root card_background_object;
-
 /* Create or reset the card background object and initialize its callback. */
 void * init_card_background_object(ObjectNodeHeader *owner, s32 *selection_flag) {
     Root *base;
@@ -36,10 +35,10 @@ void * init_card_background_object(ObjectNodeHeader *owner, s32 *selection_flag)
     if (func_80047FD8(base) == 0) {
         base = func_8003C714(0, base, 0xC9);
         if (base == 0) {
-            func_8007C040(D_8040062C, D_80400654, 0x17A);
-            func_8007BEF0(1);
+            printf_8007C040(card_background_assert_format, card_background_assert_filename, 0x17A);
+            exit_8007BEF0(1);
         }
-        func_80040560(base, card_status_query_address);
+        func_80040560(base, card_dev_render_panel_hierarchy);
     } else {
         card_dev_flag_object_dirty(base);
         {
@@ -47,7 +46,7 @@ void * init_card_background_object(ObjectNodeHeader *owner, s32 *selection_flag)
             flags &= 0x7FFF;
             card_background_object.flags = flags;
         }
-        func_8007BFE0(obj, 0x304);
+        bzero_8007BFE0(obj, 0x304);
     }
     D_804F281B[0] = 8;
     D_805030EF[0] = 8;

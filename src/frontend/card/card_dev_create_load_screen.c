@@ -30,15 +30,15 @@ typedef struct {
 StructA_8002001C *card_dev_create_load_screen(s32 init_value, s32 config_value) {
     StructA_8002001C *object;
 
-    object = func_8003C480(0);
+    object = allocate_card_object_8003C480(0);
     if (object != NULL) {
         object->unk44 = config_value;
         card_dev_load_forward_object_value( (NODE_BODY(&object->node)), init_value);
-        run_slot_operation_code_five();
+        card_dev_run_temp_slot_operation();
         card_dev_cache_slot_summary();
         object->background = init_card_background_object(&object->node, 0);
         object->information = init_card_info_object(&object->node, object->unk4C);
-        object->unk28 = init_card_sme_object(object);
+        object->unk28 = init_card_sme_object(&object->node);
         object->unk48 = 0;
         object->node.update_callback = card_dev_build_load_slot_windows;
     }

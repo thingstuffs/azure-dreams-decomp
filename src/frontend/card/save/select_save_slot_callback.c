@@ -1,40 +1,42 @@
 #include "common.h"
+#include "frontend/card.h"
+#include "frontend/card/server_aliases.h"
+#include "frontend/libcard/save_menu.h"
 #include "frontend/card/save_slot.h"
 #include "frontend/card/save.h"
 #include "shared/object_node.h"
 
-extern s32 get_table_entry_by_flag(void *callPtr);
-extern void forward_value_initcardmessageobject_arguments(void *callPtr);
-extern void forward_target_initcardmessageobject(void *callPtr);
-extern void func_80405ED4(void *base);
-extern void func_80405AB4(void);
-extern void func_80405A64(void);
+/* The save branch prepares a0 at 0x80405F54. The call arity is unresolved. */
+extern s32 get_table_entry_by_flag();
 
 
 /* Chooses the next card operation and message callbacks from the selected slot header and table result. */
 void select_save_slot_callback(void *inputPtr)
 {
+    CardMenuCallbackPrefix *menu = inputPtr;
     u8 *base;
+    ObjectNodeHeader *header;
     s32 index;
     s32 result;
 
     base = inputPtr;
     index = *(s32 *)(base + 0x28);
-    inputPtr = base - 0x20;
+    header = NODE_HEADER(base);
     if (card_slot_header_cache[index].fields.marker == 0) {
-        result = get_table_entry_by_flag(inputPtr);
-        inputPtr = 0;
-        inputPtr = base - 0x20;
+        result = get_table_entry_by_flag(header);
+        /* Keep the header calculation separate from the summary call. */
+        header = 0;
+        header = NODE_HEADER(base);
         if (result < 3) {
-            *(void (**)(void))(base + 0x34) = handle_object_menu_input;
-            forward_value_initcardmessageobject_arguments(inputPtr);
+            menu->saved_callback = handle_object_menu_input;
+            forward_value_initcardmessageobject_arguments(header);
         } else {
-            func_80405ED4(base);
+            card_dev_enter_copying_progress(base);
             return;
         }
     } else {
-        *(void (**)(void))(base + 0x34) = func_80405AB4;
-        forward_target_initcardmessageobject(inputPtr);
+        menu->saved_callback = refresh_save_slot_selection_and_resume_menu_input;
+        forward_target_initcardmessageobject(header);
     }
     NODE_HEADER(base)->update_callback = func_80405A64;
 }

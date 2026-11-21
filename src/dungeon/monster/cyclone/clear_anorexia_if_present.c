@@ -4,7 +4,7 @@
 #include "dungeon/monster/cyclone.h"
 
 
-/* Checks object code 0x19, exits on failure, and applies it on success. */
+/* Clears anorexia effect slots when the status is present and returns one on success. */
 s32 clear_anorexia_if_present(void *object) {
     if ((get_entity_effect_value(object, STATUS_ANOREXIA) << 0x10) != 0) {
         clear_slots_of_type(object, STATUS_ANOREXIA);

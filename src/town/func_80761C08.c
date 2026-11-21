@@ -1,5 +1,5 @@
-#include "common.h"
+#include "town/scene/record_actions.h"
 
-extern s32 apply_selected_entry_values(s32, s32);
-/* Calls func_80016C6C with record, entry_index and returns its result. */
-s32 forward_selected_entry_values(s32 record, s32 entry_index) { return apply_selected_entry_values(record, entry_index); }
+s32 forward_selected_entry_values(Rec_func_800165F4_arg0 *row, s32 entry_index) {
+    return apply_selected_entry_values(row, entry_index);
+}

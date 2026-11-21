@@ -3,10 +3,8 @@
 #include "frontend/card.h"
 
 typedef struct S_func_80406AA8_0 {
-    u8 pad_00[4];
-    void *unk_04;
-    u8 pad_08[4];
-    s32 unk_0C[6];
+    CardDevLoadSlotWindows slot_windows;
+    u8 pad_20[4];
     s32 unk_24;
     u8 pad_28[4];
     s32 unk_2C;
@@ -22,9 +20,7 @@ typedef struct S_func_80406AA8_1 {
 } S_func_80406AA8_1;
 
 extern void forward_value_initcardmessageobject(void *value);
-extern void func_80404688(s32 object);
 extern void func_804069FC(void);
-extern void set_global(void);
 extern s32 D_80010208;
 
 /* Updates the state and selects its next callback based on the current entry check. */
@@ -42,8 +38,8 @@ void finish_load_slot_check(S_func_80406AA8_0 *state)
         forward_value_initcardmessageobject(state_base);
         state_base->unk_10 = func_804069FC;
     } else {
-        card_info_set_value_and_refresh(state->unk_04, state->unk_2C);
-        func_80404688(*(s32 *)((u8 *)state + (0xC + state->unk_2C * 4)));
+        card_info_set_value_and_refresh(state->slot_windows.info_window, state->unk_2C);
+        card_dev_refresh_slot_window_display(state->slot_windows.windows[state->unk_2C]);
         if (D_80010208 != 0) {
             state_base->unk_10 = set_global;
         } else {

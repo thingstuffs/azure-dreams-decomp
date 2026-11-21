@@ -17,4 +17,7 @@ extern void *audio_selection_record_pointers[][16];
 /* Payload words selected by the pending bank slot. */
 extern s32 audio_bank_owner_payloads[];
 
+/* Resident flag that keeps the current music during scene transitions. */
+extern s8 scene_music_hold;
+
 #endif

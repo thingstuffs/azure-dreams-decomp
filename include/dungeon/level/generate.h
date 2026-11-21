@@ -1,6 +1,7 @@
 #ifndef DUNGEON_FLOOR_GENERATE_H
 #define DUNGEON_FLOOR_GENERATE_H
 #include "common.h"
+#include "engine/audio/data.h"
 #include "dungeon/level/floor_flags.h"
 #include "modules/dungeon_floor_switch_owners.h"
 #include "m2c_compat.h"
@@ -10,7 +11,6 @@
 #include "shared/dir_step.h"
 #include "shared/runtime_dispatch.h"
 #include "shared/sound_stream_resource.h"
-#include "engine/audio/data.h"
 #include "shared/entity_objects.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
@@ -367,7 +367,6 @@ extern s32 floor_track_resource_descriptors[];
 extern u8 floor_generation_track_variant;
 extern s32 floor_variant_resource_descriptors[];
 extern u8 D_800F0000[];
-extern s8 scene_music_hold;
 extern s32 test_resident_bit(s16 value);
 extern s32 func_80033BC0(s32 value);
 extern void wait_until_sound_idle(void);

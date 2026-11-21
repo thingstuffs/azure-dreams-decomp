@@ -354,8 +354,6 @@ loop_top:
     }
 }
 
-/* MECHANISM: The census baseline holds the 0x68 sibling-local frame and retail saved-register set.
-   Register pins encode the surviving bases and late call operands; residual work starts at word 120. */
 #include "shared/object_node.h"
 
 #ifndef NULL

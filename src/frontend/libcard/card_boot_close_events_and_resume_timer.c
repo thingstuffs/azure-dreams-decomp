@@ -1,10 +1,8 @@
 #include "shared/runtime_dispatch.h"
+#include "slus/gp_d92c_owned.h"
 #include "common.h"
 #include "frontend/libcard/interfaces.h"
 #include "slus/animation_tick_data.h"
-
-extern s8 scene_music_hold;
-
 
 #include "modules/main_server_ship_interfaces.h"
 #include "engine/audio/sequence.h"

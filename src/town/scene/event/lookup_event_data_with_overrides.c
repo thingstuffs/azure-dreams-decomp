@@ -1,48 +1,49 @@
 #include "script_symbols.h"
-#include "common.h"
+#include "town/scene.h"
+#include "town/scene/choice_data.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/scene/state_data.h"
 #include "town/scene/event.h"
 #include "town/scene/event_lookup_data.h"
 #include "town/player/state.h"
 #include "town/scene/flags.h"
-#include "town/scene/motion.h"
+#include "town/scene/position_entries.h"
 
-
-typedef struct S_80016714_1 {
-    u8 pad_00[0x4];
-    u8 unk_04;
-} S_80016714_1;   /* ((Rec_D_80016000 *)D_80016000)->unk_08.at00_s32.v * 8 +
-              ((Rec_D_80016000 *)D_80016000)->unk_40.as_pu8 in lookup_event_data_with_overrides */
-
-typedef struct S_80016714_2 {
-    u8 pad_00[0x4];
-    u8 unk_04;
-} S_80016714_2;   /* ((Rec_D_80016000 *)D_80016000)->unk_08.at00_s32.v * 8 +
-                  ((Rec_D_80016000 *)D_80016000)->unk_40.as_pu8 in lookup_event_data_with_overrides */
-
-
-extern u8 D_800189DC[16];
+/*
+ * The two position entries carry packed addresses for their default data.
+ *
+ * Event 0x1c uses selector 1 and returns 0x8001a6bc.
+ * Event 0x0b uses selector 0 and returns 0x8001a238.
+ */
+extern ScenePositionEntry D_800189DC[2];
 extern u8 D_8001A3AE[];
 extern u8 D_8001A495[];
 
-/* Looks up event data and applies special-event state updates and overrides. */
-void *lookup_event_data_with_overrides(s32 entry_id, s32 unused, s32 event_id)
+/*
+ * The action dispatcher passes its selected 28-byte row as context to
+ * both helpers. The Sero event advances the current status counter when
+ * its flag lookup misses. Event 0x1c overrides the first visit.
+ */
+void *lookup_event_data_with_overrides(TownObjectSet *entry, s32 unused,
+                                      s32 event_id)
 {
     void *event_data;
-    u8 *event_table;
+    ScenePositionEntry *event_table;
 
     event_table = D_800189DC;
-    event_data = apply_entry_position(event_table, scene_event_lookup_context, entry_id, event_id);
+    event_data = apply_entry_position(
+        event_table,
+        scene_event_lookup_context,
+        entry,
+        event_id);
     if (event_id == 0xB) {
         set_script_flag_bit(F_s34_sero_start);
-        if (resolve_entry_flag(event_table, entry_id, 0xB) != 0) {
+        if (resolve_entry_flag(event_table, entry, 0xB) != 0) {
             return &D_8001A3AE[0];
         }
-        ((S_80016714_1 *)(town_scene_root->entry_index * 8 +
-              ((u8 *)town_scene_root->event_data)))->unk_04++;
-        if (((S_80016714_2 *)(town_scene_root->entry_index * 8 +
-                  ((u8 *)town_scene_root->event_data)))->unk_04 >= 5U) {
+        ((TownEntryStatus *)town_scene_root->event_data)[town_scene_root->entry_index].state++;
+        if (((TownEntryStatus *)town_scene_root->event_data)[town_scene_root->entry_index].state >= 5U) {
             set_script_flag_bit(F_s34_sero_quickstart);
         }
         return event_data;

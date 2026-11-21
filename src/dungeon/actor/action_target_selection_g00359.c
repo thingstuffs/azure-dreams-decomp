@@ -1,7 +1,6 @@
 #include "dungeon/level/room_flags.h"
 #include "shared/sprite_frame_state.h"
-/* Action target selection (G00359). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800C4A80, CL:dungeon/func_800C4CE4, CL:dungeon/func_800C5028, CL:dungeon/func_800C51DC, CL:dungeon/func_800C5334. */
+/* Checks adjacent tiles, advances routes, and selects eligible targets. */
 #include "dungeon/actor/action_target_selection_g00359.h"
 #include "dungeon/actor.h"
 #include "shared/tile_object.h"

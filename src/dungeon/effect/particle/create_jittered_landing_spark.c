@@ -69,7 +69,3 @@ void create_jittered_landing_spark(S_80165F00_0 *source)
         sprite->source = (((void *)effect) + 0x56);
     }
 }
-
-/* MECHANISM: Dropping the cross-call destination cache gives the retail 0x20 frame and s0/s1 hold set.
-   Split signed coordinate live ranges plus zero-arg RNG calls reproduce both addiu/store-delay
-   sequences. U8 0xFF and packed Copy12 close G0. */

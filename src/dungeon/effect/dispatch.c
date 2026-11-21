@@ -466,9 +466,6 @@ void advance_effect_motion_and_fade(VerticalParticleBurstBody *effect_data, Obje
     }
 }
 
-/* MECHANISM: Separate compound RMWs preserve retail's shared +0x14 load and v1 copy.
-   A named D_80083460 base keeps +0xA as a displacement; the corrected u8 quotient
-   expression restores the divide sequence, with cdk-G0 providing the retail schedule. */
 
 typedef struct CounterBlock {
     u8 pad[0xA];

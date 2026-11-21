@@ -1,36 +1,23 @@
 #include "common.h"
 #include "town/scene.h"
+#include "town/map/variant_data.h"
 
 typedef void (*EntryCallback)(void *);
 
-typedef union PackedWord {
-    u32 word;
-    struct {
-        u16 lo;
-        u16 hi;
-    } half;
-} PackedWord;
-
-typedef struct DataRecord {
-    u32 unk0;
-    u32 unk4;
-    u32 unk8;
-    PackedWord unkC;
-    u32 unk10;
-} DataRecord;
-
-/* Populate records from entries, pack their flags and tag, and invoke entry callbacks. */
+/* Copy each packed spawn entry, or let its source callback amend the current destination. */
 void *populate_and_dispatch_entry_records(void *records, void *entries, s32 flags, s32 tag)
 {
-    DataRecord *record;
-    u8 *entry;
+    TownSpawnEntry *record;
+    TownSpawnEntry *entry;
     s32 record_flags;
     u32 tag_bits;
     u32 flag_bits;
     s32 header_word;
     u32 packed_word;
     s32 half_bits;
-    u32 header_or_addr;
+
+    /* BYTES: the original reuses the header constant register for the copy destination. */
+    unsigned long header_or_addr;
 
     record = records;
     entry = entries;
@@ -43,27 +30,27 @@ void *populate_and_dispatch_entry_records(void *records, void *entries, s32 flag
     flag_bits = half_bits << 24;
     tag &= 0xFF;
     tag_bits = tag << 16;
-    header_or_addr = (u32)record;
+    header_or_addr = (unsigned long)record;
 loop_0:
     {
-        copy_words((void *)header_or_addr, entry, 5);
+        copy_words((s32 *)header_or_addr, (s32 *)entry, 5);
         if (record_flags != 0) {
-            record->unk8 = header_word;
+            record->creation_argument = header_word;
         }
         packed_word = tag_bits | 0xC0000000;
         packed_word |= flag_bits & ~packed_word;
-        half_bits = record->unkC.half.lo;
-        record->unkC.word = packed_word | half_bits;
-        if (*entry != 0) {
-            (*(EntryCallback *)(entry + 8))(record);
-            entry += 0x14;
+        half_bits = (u16)record->callback_id;
+        record->callback_id = packed_word | half_bits;
+        if ((u8)entry->active != 0) {
+            ((EntryCallback)(unsigned long)(u32)entry->creation_argument)(record);
+            entry++;
         } else {
             record++;
-            entry += 0x14;
+            entry++;
         }
-        header_or_addr = (u32)record;
+        header_or_addr = (unsigned long)record;
     }
-    if (*(entry - 0x13) != 0x80)
+    if (entry[-1].flags != 0x80)
         goto loop_0;
     return record;
 }

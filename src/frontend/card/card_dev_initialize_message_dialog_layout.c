@@ -1,5 +1,6 @@
 #include "frontend/card/message_display.h"
 #include "common.h"
+#include "frontend/card.h"
 #include "frontend/card/server_imports.h"
 
 /*
@@ -10,5 +11,5 @@ void card_dev_initialize_message_dialog_layout(CardDevDialogDisplay *record, str
 {
     func_80402EA4(record, owner, entry_index, value_0c, value_20);
     func_80402974(&record->template_node, &record->primary, &record->secondary);
-    func_80402D90(record);
+    init_dialog_object(record);
 }

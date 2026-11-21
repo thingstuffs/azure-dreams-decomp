@@ -151,7 +151,7 @@ s32 init_polygon_edges(void *vertex_data, s32 *edges, u16 *edge_count);
 s16 intersect_view_ray_with_depth_plane(SVECTOR *start, SVECTOR *end, SVECTOR *result, s16 target_z);
 
 /* relocate_resource_type_lists.c */
-void relocate_resource_type_lists(s32 data_base, s16 type_index);
+void relocate_resource_type_lists(u8 *data_base, s16 type_index);
 
 /* sync_saved_view_vectors.c */
 s32 sync_saved_view_vectors(void);

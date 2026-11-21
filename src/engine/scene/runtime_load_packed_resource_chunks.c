@@ -26,9 +26,8 @@ void runtime_load_packed_resource_chunks(s16 entry_id, u8 *stream)
     long buffer_start;
     s32 data_offset;
     s32 remaining;
-    u8 *table_base;
-    s32 table_offset;
-    s32 shifted_id;
+    ResourceTypeListLayout **table;
+    s32 index; /* BYTES: widening before the table lookup preserves the signed-index schedule. */
     ResourceTypeListLayout **entry_slot;
     ResourceTypeListLayout *entry;
     s32 *entry_data;
@@ -38,10 +37,9 @@ void runtime_load_packed_resource_chunks(s16 entry_id, u8 *stream)
     buffer_start = (long)gpu_scratch_buffer_base[0];
     DrawSync(0);
 
-    shifted_id = entry_id << 16;
-    table_base = (u8 *)resource_type_list_layouts;
-    table_offset = shifted_id >> 14;
-    entry_slot = (ResourceTypeListLayout **)(table_offset + table_base);
+    index = entry_id;
+    table = resource_type_list_layouts;
+    entry_slot = &table[index];
     entry_data = (*entry_slot)->data;
     pair = *(Pair80046E38 *)entry_data;
     entry = *entry_slot;

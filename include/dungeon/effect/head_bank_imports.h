@@ -12,7 +12,6 @@
  */
 #include "common.h"
 
-/* --- imports (tools/headers/foreign_imports.py): one declaration per address --- */
 void func_7003A7C4(void *, void *, s32);
 void *func_7003CF18(s32);
 void func_70040A18(void *, void *);

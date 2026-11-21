@@ -255,8 +255,6 @@ void create_jittered_terrain_seeking_point(
     }
 }
 
-/* MECHANISM: 2.7.2-cdk-G0 splits func_8002428C / func_8002403C itself (the lui in the beqz delay slot).
-   The s16 stack offsets stay in s2-s4 from the prologue, and fields is the 0x20-advanced record. */
 
 /* Advance position and object state, then flag completion on timeout or object status. */
 void move_and_grow_timed_sprite(GrowingTimedSpriteBody *state, ObjectPosition *position, SpriteFrameState *object)
@@ -304,9 +302,6 @@ void update_actor_effect_sequence(ChasingStarEffectBody *record)
     }
 }
 
-/* MECHANISM: A long-lived u8 base preserves the retail may-alias load-delay nops.
-   Loading the counter before the global store lets that store cover load latency
-   and naturally yields the a1 pointer, a0 constant, and v1 counter roles. */
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 

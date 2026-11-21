@@ -6,6 +6,15 @@
 
 struct CardDevLoadSlotScreen;
 struct S_func_80406AA8_0;
+struct ObjectNodeHeader;
+
+/* The load-screen information window and the five slot headers built at body offset 0x0C. */
+typedef struct CardDevLoadSlotWindows {
+    u8 pad_00[4];
+    void *info_window;
+    u8 pad_08[4];
+    struct ObjectNodeHeader *windows[5];
+} CardDevLoadSlotWindows;
 
 void card_dev_build_load_slot_windows(struct CardDevLoadSlotScreen *screen);
 
@@ -26,5 +35,8 @@ void resume_load_menu_input(void *ptr);
 
 /* finish_load_slot_check.c */
 void finish_load_slot_check(struct S_func_80406AA8_0 *state);
+
+/* MAIN card server callback at 0x80406A74. Sets mode 2 and starts the default screen. */
+void set_global(void);
 
 #endif

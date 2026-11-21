@@ -67,5 +67,3 @@ void update_orbital_motion_effect(S_818BD3B0_0 *motion, S_818BD3B0_2 *position, 
         select_record_entry_and_value(object, &shared_sprite_entries, 0);
     }
 }
-
-/* MECHANISM: Preserve the seed's exact 0x20 frame and s0/s2/s1 lifetime shape. */

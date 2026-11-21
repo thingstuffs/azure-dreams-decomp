@@ -9,8 +9,8 @@
  * The 0x804xxxxx entries are server functions.  Their rows are linked at the true address (rowbase records,
  * tools/headers/rebase_placeholder_rows.py), so the address spelling names the same symbol as the readable name
  * in the comment; the callers keep the address spelling because include/frontend/card.h types those prototypes
- * with generated layouts the devkit callers do not use.  func_80404708 / func_80404308 are placed copies of other
- * homes (the readable name would lower to the home's address).  The 0x8003xxxx-0x8007xxxx entries are not
+ * with generated layouts the devkit callers do not use. The named frame and slot helpers use their own
+ * placed addresses. The 0x8003xxxx-0x8007xxxx entries are not
  * functions of the retail SLUS (mid-function or data): the server was linked against a devkit build of the
  * executable, so each is declared once here with its address spelling.
  *
@@ -28,15 +28,22 @@ typedef struct {
 
 CardSlotScreenEffect *create_card_dev_slot_screen_effect(void *first, void *second);
 
-/* devkit executable: set every entry of a row, then one entry (mode 1 / mode 0) */
-void func_80051DE4(void *entries, s32 mode);
-void func_800514A8(void *entry, s32 mode);
+/* Card grid mode is set for the whole row before the selected entries. */
+struct CardDevRowEntry;
+void set_card_grid_row_mode_80051DE4(struct CardDevRowEntry *entries, s32 mode);
+void set_card_grid_entry_mode_800514A8(struct CardDevRowEntry *entry, s32 mode);
 /* devkit executable: release one text word (the card UI's own build calls noop_release_notification here) */
 void func_80051FBC(s32 value);
 
 /* server functions at their true addresses */
-void func_804038C8(void *record);   /* card_dev_init_row_panel */
-void func_804039F8(void *templates, void *primary, void *secondary);
+s32 card_dev_event_ioe_handler_804009C0(void);
+s32 card_dev_event_error_handler_804009D4(void);
+s32 card_dev_event_timeout_handler_804009E8(void);
+s32 card_dev_event_new_handler_804009FC(void);
+void process_four_referenced_values(void *object);   /* placed fade_four_entries at 0x804033EC */
+struct CardDevFadeRefs;
+void card_dev_fade_four_values(struct CardDevFadeRefs *object);
+void card_dev_init_command_panel_frame(void *templates, void *primary, void *secondary);
 void func_80403B7C(void *record, void *value);   /* card_dev_set_word */
 void func_80404708(void *templates, void *primary, void *secondary);
 void func_80404B10(struct CardBackgroundBody *record);   /* card_background_init_components */
@@ -44,62 +51,66 @@ void func_80404C3C(struct CardBackgroundBody *record, struct ObjectNodeHeader *o
 void func_80402974(void *templates, void *primary, void *secondary);   /* card_dev_init_view_defaults */
 void func_80402D90(struct CardDevDialogDisplay *record);   /* init_dialog_object */
 void func_80403DA0(void *entity, void *primary, void *secondary, s32 slot_index);   /* card_dev_init_row_view */
-void func_80404308(void *record, s32 setup_value, s32 processing_value);
 void func_80402EA4(struct CardDevDialogDisplay *record, struct ObjectNodeHeader *owner, s32 entry_index, s32 value_0c, s32 value_20);   /* set_layout_params */
+void card_dev_set_slot_index_and_owner(u8 *record, struct ObjectNodeHeader *owner, s32 slot_index);   /* the server copy of card_boot_set_slot_index_and_owner */
 
 /* Imported declarations, one per address. */
 void func_8003830C(s32, void *);
-void *func_8003C480(s32);
+void *allocate_card_object_8003C480(s32 mode);
 void *func_8003C714(s32, void *, s32);
-void func_8003D548(s32);
-#ifndef AZ_FOREIGN_LOCAL_FUNC_8003FA78
-void func_8003FA78(void *, s32);
-#endif
-void func_8003FD58(s32, s32, s32, s32);
+void request_scene_dispatch_state_8003D548(s32 state);
+void card_diagnostic_printf_8003FA78(const char *format, ...);
+void begin_card_chooser_exit_transition_8003FD58(s32, s32, s32, s32);
 void func_80040560(void *, void *);
 s32 func_80047358(void *entries, void *template_data, s32 entry_count);
 s32 func_80047938(void *, s32, s32);
 s32 func_80047FD8(void *);
 s32 func_800484A4(s32, s32 *);
-s16 func_8004DBDC(void);
-s32 func_8004DCCC(s32);
-void func_8004DDBC(void *, void *, void *);
-s32 func_80051520(void *, s32 *, s32);
+s16 draw_tinted_node_sprites_scratch_8004DBDC(void);
+s32 advance_timed_tagged_stream_8004DCCC(s32 stream_address);
+struct FrameNode;
+void initialize_scaled_entry_cursor_8004DDBC(void *state, struct FrameNode *entry, s32 *output);
+s32 build_positioned_text_glyphs_80051520(void *, s32 *, s32);
 void func_80051804(s32, s32, s32 *);
-void func_8005184C(s32, s32, void *);
+void format_int_zero_padded_8005184C(s32, s32, void *);
 void func_80051898(u32, void *);
-void func_80051900(s32 *);
+void remap_flagged_string_bytes_80051900(s32 *);
 s32 func_80051B50(void *, s32, s32);
-s32 func_80056450(s32, s32, u8);
+s32 step_card_menu_selection_80056450(s32 index, s32 step, u8 limit);
 s32 func_80056F14(s32);
-s32 func_80058FF0(s32, s32, s32);
-void func_800702F0(s32);
-s16 func_80078570(s32, s32, s32, s32);
-s16 func_80078640(s32, s32);
-void func_8007BEF0(s32) __attribute__((noreturn));
-void func_8007BF18(void *);
-void func_8007BF50(void *, void *);
-void func_8007BF80(void *, s32);
-void func_8007BFE0(void *, s32);
-void func_8007C040(void *, void *, s32);
-s32 func_8007C958(void);
-s32 func_8007C998(s32, s32, s32, void *);
-s32 func_8007C9A8(s32);
-s32 func_8007C9C8(s32);
-s32 func_8007C9D8(s32);
-void func_8007CA38(void);   /* devkit libapi stub, current EnterCriticalSection (0x8006A084, -0x129B4; 2 twin call pairs) */
-void func_8007CA48(void);   /* devkit libapi stub, current ExitCriticalSection (0x8006A094, -0x129B4; 2 twin call pairs) */
-s32 func_8007CA58(s32, s32);
-s32 func_8007CA68(s32, s32, s32);
-s32 func_8007CA78(s32, void *, s32);
-s32 func_8007CA88(s32, void *, s32);
-void func_8007CA98(s32);
-void func_8007CAA8(s32);
-s32 func_8007CAB8(void *, void *);
-s32 func_8007CAC8(void *);
-void func_8007CAD8(void *, void *);
-void func_8007CAE8(void *);
-void func_8007CB08(s32);   /* devkit libapi stub, current ChangeClearPAD (0x8006A154, -0x129B4; 2 twin call pairs) */
+s32 advance_card_menu_index_80058FF0(s32 index, s32 delta, s32 limit);
+void SD_Call_80063FF8(s32 command);
+s32 VSync_800702F0(s32 mode);
+u16 GetTPage_80078570(s32 depth, s32 blend, s32 x, s32 y);
+u16 GetClut_80078640(s32 x, s32 y);
+/* Devkit libc stubs. The string builders still share byte and word buffer views. */
+void exit_8007BEF0(s32 status) __attribute__((noreturn));
+void puts_8007BF18(const char *message);
+void func_8007BF50(void *, const void *);
+void func_8007BF80(void *, const char *);
+void bzero_8007BFE0(void *buffer, s32 size);
+s32 printf_8007C040(const char *format, ...);
+/* Devkit BIOS backup initialization and event stubs. */
+void _bu_init_8007C958(void);
+s32 OpenEvent_8007C998(u32 event_class, s32 spec, s32 mode, s32 (*callback)(void));
+s32 CloseEvent_8007C9A8(s32 event);
+s32 TestEvent_8007C9C8(s32 event);
+s32 EnableEvent_8007C9D8(s32 event);
+void EnterCriticalSection_8007CA38(void);
+void ExitCriticalSection_8007CA48(void);
+/* Devkit file stubs, at a common +0x129B4 offset from the resident SDK stubs. */
+s32 open_8007CA58(s32 path_address, s32 flags);
+s32 lseek_8007CA68(s32 file, s32 offset, s32 origin);
+s32 read_8007CA78(s32 file, void *buffer, s32 size);
+s32 write_8007CA88(s32 file, void *buffer, s32 size);
+void close_8007CA98(s32 file);
+void format_8007CAA8(const char *device);
+struct DevCardDirectoryEntry;
+s32 firstfile2_8007CAB8(const char *pattern, struct DevCardDirectoryEntry *entry);
+struct DevCardDirectoryEntry *nextfile_8007CAC8(struct DevCardDirectoryEntry *entry);
+void rename_8007CAD8(const char *old_path, const char *new_path);
+void erase_8007CAE8(const char *path);
+void ChangeClearPAD_8007CB08(s32 mode);
 void func_80404618(void *, s32);
 void func_80404888(u8 *packets);
 /* the server's own libcard BIOS stubs (config/names.tsv: address-suffixed, the plain names are the SLUS stubs) */
@@ -109,14 +120,13 @@ s32 _card_info_80408664(s32);
 s32 _card_load_80408674(s32);
 s32 _card_write_804086BC(s32, s32, s32);
 void _new_card_804086CC(s32);
-void func_804087C8(void);
-void func_804088A0(void);
-void func_80408958(void);
+void _ExitCard_804087C8(void);
+void install_card_bios_patch_804088A0(void);
+void swap_card_bios_patch_80408958(void);
 /* the server's libcard entries (assembler rows linked at their placeholder; callers jal the true address) */
 void InitCARD2_80408798(s32);
 void StartCARD2_804087A8(void);
 void StopCARD2_804087B8(void);
-void func_80063FF8(s32);
 /* --- end of imports --- */
 
 #endif

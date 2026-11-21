@@ -1,9 +1,6 @@
-#include "common.h"
 #include "town/scene/hooks.h"
+#include "town/scene/record_actions.h"
 
-s32 apply_selected_entry_values(s32, s32);
-
-/* Forward the inputs to func_800176B8. */
-void forward_scene_inputs(s32 input_a, s32 input_b, s32 input_c, s32 input_d) {
-    apply_selected_entry_values(input_a, input_b);
+s32 forward_scene_inputs(Rec_func_800165F4_arg0 *entry, s32 entry_index) {
+    return apply_selected_entry_values(entry, entry_index);
 }

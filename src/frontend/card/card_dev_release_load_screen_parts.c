@@ -23,10 +23,10 @@ void card_dev_release_load_screen_parts(CardDevLoadScreenParts *screen)
     parts = screen->parts;
     if (screen != 0) {
         card_dev_flag_object_dirty(screen->parts[0]);
-        func_804059A8(screen->parts[1]);
-        func_80407D38(screen->parts[2]);
+        card_dev_refresh_info_object(screen->parts[1]);
+        card_dev_refresh_sme_object(screen->parts[2]);
         for (i = 0; i < 5; i++) {
-            func_80404570(parts[i + 3]);
+            card_dev_refresh_slot_window(parts[i + 3]);
         }
         flags = screen->flags;
         dirty = card_ui_dirty_flags;

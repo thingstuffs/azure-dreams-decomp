@@ -6,8 +6,6 @@
 #include "frontend/card/save.h"
 #include "frontend/card/server_aliases.h"
 
-extern void set_object_state_and_select_action(void);
-
 // Selects the next callback based on the operation result and clears the context's state field.
 void finish_save_slot_check(void *context_arg)
 {
@@ -20,7 +18,7 @@ void finish_save_slot_check(void *context_arg)
     object_base = NODE_HEADER(context);
     if (operation_result == 0) {
         context->completion_callback = handle_object_menu_input;
-        initialize_card_message_object_with_code_0xb(object_base);
+        card_dev_show_load_failure_notice(object_base);
         next_callback = install_pending_completion_callback;
     } else {
         card_dev_no_op_save(0x80010000);

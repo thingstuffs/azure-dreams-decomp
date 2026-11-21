@@ -3,24 +3,20 @@
 #include "frontend/card.h"
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
+#include "frontend/libcard.h"
+#include "frontend/card/server_aliases.h"
+#include "frontend/card/server_menu.h"
 
 
 typedef void (*Callback)(void *);
 
-extern void process_embedded_data_and_propagate_flags(void *object);
-extern void func_80403AC8(void *object, s32 value);
 extern void func_80403B84(void *object, s32 option_param);
-
-typedef struct S_8001CBC4_0 {
-    u8 pad_00[0x1B4];
-    s32 unk_1B4;
-} S_8001CBC4_0;   /* subobject in func_8001CBC4 */
 
 /* Initializes or retrieves the memory card options object. */
 void * init_card_options_object(s32 option_param) {
     s32 object_status;
     u8 *object = D_80409C90;
-    u8 *subobject;
+    CardDevMenu18 *subobject;
     u8 *object_arg;
 
     object_arg = object;
@@ -29,18 +25,18 @@ void * init_card_options_object(s32 option_param) {
     if (object_status == 0) {
         object = func_8003C714(0, object, 0x118);
         if (object == 0) {
-            func_8007C040(D_804005A0, D_804005C8, 0x151);
-            func_8007BEF0(1);
+            printf_8007C040(card_options_assert_format, card_options_assert_filename, 0x151);
+            exit_8007BEF0(1);
         }
-        func_80040560((s32)object, card_status_query_address);
+        func_80040560(object, card_dev_render_panel_hierarchy);
     } else {
-        process_embedded_data_and_propagate_flags(object);
+        card_dev_refresh_options_object(object);
         D_80409CAE &= 0x7FFF;
-        func_8007BFE0(subobject, 0x440);
+        bzero_8007BFE0(subobject, 0x440);
     }
-    func_80403AC8(subobject, 0x12);
-    (*(void * *)(object + (0xC))) = subobject + 0x1A8;
-    ((S_8001CBC4_0 *)subobject)->unk_1B4 = card_dev_bind_panel_template(subobject + 0x1B8);
+    card_dev_init_options_menu_entries(subobject, 0x12);
+    (*(void * *)(object + (0xC))) = &subobject->heading;
+    subobject->heading.unk_0C = card_dev_bind_panel_template(subobject->entries);
     func_80403B84(subobject, option_param);
     (*(Callback *)(object + (0x10))) = card_animate_selection_marker_rows;
     card_animate_selection_marker_rows(subobject);

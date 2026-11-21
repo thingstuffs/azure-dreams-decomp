@@ -4,10 +4,10 @@
 #include "m2c_compat.h"
 #include "engine/audio.h"
 #include "slus.h"
+#include "slus/gp_d92c_owned.h"
 #include "town/scene.h"
 #include "slus/data.h"
 
-extern s8 scene_music_hold;
 extern MovieListNode D_800D42B4;
 
 /* Pass the town data pair to append_town_movie_list_node, set the shared flag, and invoke the follow-up routines. */

@@ -1,7 +1,6 @@
 #ifndef DUNGEON_ACTOR_TEXTURED_QUAD_BATCHES_G00338_H
 #define DUNGEON_ACTOR_TEXTURED_QUAD_BATCHES_G00338_H
 /* Textured quad batches shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800AB480. */
 
 #include "common.h"
 #include "shared/game_work.h"

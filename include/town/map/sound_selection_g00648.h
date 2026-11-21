@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C3884, CL:town/func_800C38D4, PD:town/engine:800D4244, PD:town/engine:800D4260. */
 
 #include "common.h"
+#include "engine/audio/data.h"
 #include "slus/town_map_selection_data.h"
 #include "town/map/saved_sound_data.h"
 #include "town/map/sound_settings_data.h"
@@ -15,7 +16,6 @@ extern s16 D_80113200[];
 extern s32 find_sound_entry_or_terminator_index(s32 target_value);
 extern s16 town_pending_sound[];
 extern s16 town_sound_selection[];
-extern s8 scene_music_hold;
 extern s16 town_sound_command[];
 extern s16 town_stream_index[];
 extern s16 town_sequence_command[];

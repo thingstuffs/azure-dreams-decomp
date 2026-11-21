@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/resource_request_data.h"
 #include "town/person/actor_slot_global_state_g00680.h"
 #include "town/minigame/keima.h"
 #include "shared/entity.h"

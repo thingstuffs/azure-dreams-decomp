@@ -8,7 +8,8 @@ typedef struct CardSaveOperationBody {
     s32 saved_entry_index;
     u8 pad_30[4];
     void *completion_callback;
-    u8 pad_38[8];
+    u8 pad_38[4];
+    s32 countdown;
     s32 state;
 } CardSaveOperationBody;
 #endif

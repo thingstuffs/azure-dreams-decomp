@@ -37,8 +37,8 @@ void card_dev_layout_selected_slot_entries(u8 *screen) {
 
     element = *(SubStruct **)(screen + 0x1E8);
     func_80051804(card_slot_detail_records[*(s32 *)screen].words[8], 4, &formatted_value);
-    func_80051900(&formatted_value);
-    element->unk0 = (void *) func_80051520(screen + 0x80, &formatted_value, 1);
+    remap_flagged_string_bytes_80051900(&formatted_value);
+    element->unk0 = (void *) build_positioned_text_glyphs_80051520(screen + 0x80, &formatted_value, 1);
     element->unk4->unk8 = 0x13F;
     element->unk4->unkA = 0x91;
 

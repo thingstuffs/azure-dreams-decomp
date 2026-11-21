@@ -398,7 +398,7 @@ void update_attached_effect_motion(B31_818C8FD0_S_func_818C8FD0_1 *state, B31_81
                 effect->direction = state->unk_7E;
 
                 {
-                    u8 *table_base = (u8 *)((s8 *)dir_step_x);
+                    u8 *table_base = (u8 *)dir_step_x;
 
                     direction_index = state->unk_7E * 2;
                     tile = ((B31_818C8FD0_S_func_818C8FD0_3 *)((u8 *)object - 0x20))->unk_0C;
@@ -406,7 +406,7 @@ void update_attached_effect_motion(B31_818C8FD0_S_func_818C8FD0_1 *state, B31_81
                         tile->tile_x + table_base[direction_index];
                 }
                 {
-                    u8 *table_base = (u8 *)((s8 *)dir_step_y);
+                    u8 *table_base = (u8 *)dir_step_y;
 
                     direction_index = state->unk_7E * 2;
                     state->unk_A1 =

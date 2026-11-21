@@ -20,7 +20,3 @@ s32 has_active_dungeon_cell_key(s32 key_high, s32 key_low) {
     }
     return 0;
 }
-
-/* MECHANISM: Frameless leaf; an s32 key stays in $a0 across the pointer-induction loop.
-   Separate combine, counter-zero, and mask statements consume $a1 before reusing it as the counter.
-   That boundary orders move/andi before cdk's two-register D_800E3548 base materialization. */

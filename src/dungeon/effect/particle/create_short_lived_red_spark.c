@@ -60,7 +60,3 @@ void create_short_lived_red_spark(ObjectNodeHeader *source, s16 effect_value, s3
         select_record_entry_and_value(sprite, effect_sprite_sources, 0);
     }
 }
-
-/* MECHANISM: Seven ABI arguments preserve the unused a2 slot; offset_x/y/z are s16
-   parameters, so assign_parms converts them instead of marking the stack slots REG_EQUIV,
-   and they stay in s0/s3/s4 across the first call. */

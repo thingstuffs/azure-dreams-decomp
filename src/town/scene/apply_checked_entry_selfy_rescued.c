@@ -2,6 +2,7 @@
 #include "town/player/script_flags.h"
 #include "town.h"
 #include "town/scene/event.h"
+#include "town/scene/entry_requests.h"
 #include "town/scene/flags.h"
 
 extern u8 D_8001C33C[];
@@ -17,7 +18,6 @@ extern void *func_80017B5C(SquareSceneEntry *, s32, s32);
 extern void *func_80017C34(SquareSceneEntry *, s32, s32);
 extern s32 func_80017D74(SquareSceneEntry *, s32);
 extern void *invoke_handler_with_code_798(SquareSceneEntry *, s32, s32);
-extern s32 func_80017E34(SquareSceneEntry *, s32);
 extern void *dispatch_through_table_bbc_4(SquareSceneEntry *, s32, s32);
 extern s32 *get_shared_entry_buffer(void);
 extern s32 return_zero_fn(void);
@@ -46,6 +46,6 @@ TownSceneChoice square_flag_choices[17] = {
     { forward_context_request_to_handler_g, func_80017C34, D_8001E6B4, 3424, 0 },
     { forward_context_request_to_handler_c_68, select_square_entry_or_alternate, D_8001E6B4, 3425, 0 },
     { func_80017D74, get_shared_entry_buffer, D_8001C33C, 3505, 0 },
-    { func_80017E34, invoke_handler_with_code_798, D_8001E6B4, 3426, 0 },
+    { apply_scene_entry_values, invoke_handler_with_code_798, D_8001E6B4, 3426, 0 },
     { return_zero_fn, dispatch_through_table_bbc_4, D_8001E6B4, 0, 0 },
 };

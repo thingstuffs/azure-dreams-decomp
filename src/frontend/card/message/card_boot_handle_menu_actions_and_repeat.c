@@ -1,6 +1,7 @@
 #include "shared/pad_state.h"
 #include "common.h"
 #include "frontend/card/message.h"
+#include "frontend/card/server_aliases.h"
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
 
@@ -15,7 +16,6 @@ typedef struct S_804027F8_0 {
 } S_804027F8_0;   /* arg0 in card_boot_handle_menu_actions_and_repeat */
 
 extern void resolve_apply(void *menu);
-extern s32 process_global(s32 value);
 
 /* Handles menu actions and directional selection with key repeat. */
 void card_boot_handle_menu_actions_and_repeat(void *menu_arg)
@@ -35,7 +35,7 @@ void card_boot_handle_menu_actions_and_repeat(void *menu_arg)
                 s32 action_result;
                 s32 *result_out;
 
-                func_80063FF8(0x514);
+                SD_Call_80063FF8(0x514);
                 if (menu->unk_20 != 0) {
                     action_result = process_global(1);
                     result_out = menu->unk_20;
@@ -71,9 +71,9 @@ void card_boot_handle_menu_actions_and_repeat(void *menu_arg)
             s32 selection;
             s32 menu_type;
 
-            func_80063FF8(0x502);
+            SD_Call_80063FF8(0x502);
             menu_type = menu->unk_08;
-            selection = func_80056450(
+            selection = step_card_menu_selection_80056450(
                 menu->unk_00, step, D_80408ADE[menu_type * 4]);
             menu->unk_00 = selection;
             resolve_apply(menu);

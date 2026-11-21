@@ -45,7 +45,6 @@ typedef struct { u8 pad00[0x14]; s16 w0, h0; u8 pad18[4]; s16 w1, h1; u8 pad20[1
 typedef struct { MovieRect viewport, screen; u8 interlaced, rgb24, pad[6]; } MovieDisplayEnv;
 typedef struct { u8 bytes[96]; } MovieDrawEnv;
 
-extern s8 scene_music_hold;
 extern s32 D_80086D8C;
 extern s32 movie_frame_number, movie_stop_frame, movie_strip_x_offset, movie_strip_y_offset, movie_rgb24_mode, D_801781E4;
 extern u8 movie_cd_status[8];

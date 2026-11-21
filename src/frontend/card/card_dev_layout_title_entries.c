@@ -2,8 +2,7 @@
 #include "frontend/card.h"
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
-
-extern s32 get_table_entry_by_flag(void);
+#include "frontend/card/service.h"
 
 typedef struct {
     u8 pad8[8];

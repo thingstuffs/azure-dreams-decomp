@@ -3,9 +3,11 @@
 #include "shared/object_node.h"
 #include "frontend/card/service.h"
 #include "frontend/card/save.h"
+#include "frontend/card/server_aliases.h"
 
 typedef struct S_8001EDE0_0 {
-    u8 pad_00[0x2C];
+    CardDevSaveSlotWindows slot_windows;
+    u8 pad_18[0x14];
     s32 unk_2C;
     u8 pad_30[4];
     void (*menu_update)(void);
@@ -13,14 +15,9 @@ typedef struct S_8001EDE0_0 {
     s32 unk_40;
 } S_8001EDE0_0;   /* ptr in func_8001EDE0 */
 
-extern void initialize_card_message_object_with_code_0x10(void *);
-extern void func_80404688(s32);
-extern void func_80405AB4(void *);
-
 /* Runs two card checks and processes five object entries; installs menu and message callbacks on failure. */
 void commit_save_and_refresh_slots(void *ptr_arg) {
     S_8001EDE0_0 *ptr = ptr_arg;
-    s32 value;
     s32 index;
     ObjectNodeHeader *node_header;
     ObjectNodeHeader *entry_ptr;
@@ -31,14 +28,12 @@ void commit_save_and_refresh_slots(void *ptr_arg) {
             card_dev_no_op_save(0x80010000);
             index = 0;
             card_dev_cache_slot_summary();
-            entry_ptr = ptr_arg;
             do {
-                value = *(s32 *)&entry_ptr->pprev;
-                entry_ptr = (u8 *)entry_ptr + 4;
+                entry_ptr = ptr->slot_windows.windows[index];
                 index += 1;
-                func_80404688(value);
+                card_dev_refresh_slot_window_display(entry_ptr);
             } while (index < 5);
-            func_80405AB4(ptr);
+            refresh_save_slot_selection_and_resume_menu_input(ptr);
             reset_card_selection_state();
             ptr->unk_40 = 0;
             return;

@@ -14,8 +14,8 @@ void card_dev_set_slot_value_checked(s32 slot_addr, s32 slot_value) {
 
     slot_state_addr = slot_addr + 0x20;
     if (slot_addr == 0) {
-        func_8007C040(card_slot_assert_format, card_slot_filename, 0x153);
-        func_8007BEF0(1);
+        printf_8007C040(card_slot_assert_format, card_slot_filename, 0x153);
+        exit_8007BEF0(1);
     }
     *(s32 *)(slot_addr + 0x44) = slot_value;
     update_two_slots_using_selection_mapping(slot_state_addr);

@@ -248,6 +248,14 @@
    "func_80024EDC": "func_800241B0",
    "func_8002515C": "func_80024400"
   },
+  "town/D_8094D004": {
+   "func_80016BD4": "func_80016A94",
+   "func_80016C34": "func_80016AF4"
+  },
+  "town/D_80951004": {
+   "func_80016BD4": "func_80016A90",
+   "func_80016C34": "func_80016AF0"
+  },
   "town/func_8009EAAC": {
    "func_7FFFE4E4": "func_8009BC44"
   },

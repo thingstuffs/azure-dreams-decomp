@@ -1,6 +1,7 @@
 #include "frontend/card/slot_details.h"
 #include "common.h"
 #include "frontend/card.h"
+#include "frontend/card/service.h"
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
 #include "sdk/memory.h"
@@ -8,7 +9,6 @@
 typedef struct Local64 { s32 word; s8 byte; u8 pad[59]; } Local64;
 typedef struct Local16 { u8 data[16]; } Local16;
 
-s32 get_table_entry_by_flag(void);
 typedef struct { s32 word; s8 byte; } TextConstant;
 extern TextConstant D_80400714;
 

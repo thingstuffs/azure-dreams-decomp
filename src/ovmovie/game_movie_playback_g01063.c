@@ -1,5 +1,6 @@
 #include "engine/audio.h"
 #include "engine/cd.h"
+#include "engine/audio/data.h"
 /* Game movie playback and display lifecycle.
  * Evidence: inferred-weak.
  */

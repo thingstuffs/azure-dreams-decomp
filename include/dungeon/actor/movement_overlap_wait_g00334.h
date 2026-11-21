@@ -5,7 +5,6 @@ struct ActorRecord;
 
 struct SpriteFrameState;
 /* Movement overlap wait shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800A4DA8. */
 
 #include "common.h"
 #include "shared/record_ptrs.h"

@@ -4,41 +4,39 @@
 #include "town/data.h"
 
 typedef struct {
-    s16 unk0;
-    s16 unk2;
-    s16 unk4;
-    s16 unk6;
-} TownRecord;
+    s16 source_flag;
+    s16 clear_flag;
+    s16 target_flag;
+    u8 pad_06[2];
+} TownFlagDependency;
 
-/* Processes town records according to global and per-record conditions. */
-void process_town_records(s32 records_addr, s32 record_count)
+static inline const TownFlagDependency *flag_dependency_at(u32 address, s32 index)
 {
-    s32 record_index;
-    TownRecord *record;
-    s16 *condition_ids;
-
-    if ((records_addr != 0) && (record_index = 0, (record_count > 0))) {
-        condition_ids = scene_dependency_ids;
-        do {
-            record = (TownRecord *)((record_index * 8) + records_addr);
-            clear_script_flag_bit(record->unk2);
-            if (get_script_flag_mask(condition_ids[1]) == 0) {
-                clear_script_flag_bit(record->unk4);
-            } else {
-                record = (TownRecord *)((record_index * 8) + records_addr);
-                if (get_script_flag_mask(record->unk0) != 0) {
-                    set_script_flag_bit(record->unk4);
-                }
-            }
-            clear_script_flag_bit(((TownRecord *)((record_index * 8) + records_addr))->unk0);
-            record_index++;
-            if (record_index >= record_count) {
-                break;
-            }
-        } while (1);
-    }
+    /* BYTES: Scaling the index before adding the image address preserves addu operand order. */
+    return (const TownFlagDependency *)(index * sizeof(TownFlagDependency) + (unsigned long)address);
 }
 
-/* MECHANISM: A held pointer to D_8001B8A8 supplies retail's long-lived s4 base, while index-derived
-   eight-byte record pointers force retail's repeated sll/addu. Pinning only the runtime index to s1
-   leaves the record pointer to fall naturally into s0. */
+/* Apply each flag dependency, then clear its source flag. */
+void process_town_records(u32 records_address, s32 record_count)
+{
+    s32 index;
+
+    if (records_address == 0) {
+        return;
+    }
+    for (index = 0; index < record_count; index++) {
+        const TownFlagDependency *record = flag_dependency_at(records_address, index);
+
+        clear_script_flag_bit(record->clear_flag);
+        if (get_script_flag_mask(scene_dependency_ids[1]) == 0) {
+            clear_script_flag_bit(record->target_flag);
+        } else {
+            /* BYTES: The gated query and final clear recompute the indexed address. */
+            record = flag_dependency_at(records_address, index);
+            if (get_script_flag_mask(record->source_flag) != 0) {
+                set_script_flag_bit(record->target_flag);
+            }
+        }
+        clear_script_flag_bit(flag_dependency_at(records_address, index)->source_flag);
+    }
+}

@@ -487,14 +487,14 @@ void apply_tile_flags_to_rectangle(s16 start_x, s16 start_y, s16 width, s16 heig
     u8 *flags;
     u8 *extra_flags;
     dungeon_setup_80283BF0_S_80016BF0_2 *tile;
-    dungeon_setup_80283BF0_S_80016BF0_0 *map;
+    MapGrid *map;
     GameWork *state;
     dungeon_setup_80283BF0_S_80016BF0_3 *tile_above;
     dungeon_setup_80283BF0_S_80016BF0_4 *tile_below;
 
     state = &g_game_work;
-    map = (u8 *)state + 0x1DC;
-    flag_table = map->unk_10;
+    map = &state->map;
+    flag_table = map->tile_kind_flags;
     if (flag_table != 0) {
         row = 0;
         tiles_base = state->map.cells;
@@ -506,7 +506,7 @@ void apply_tile_flags_to_rectangle(s16 start_x, s16 start_y, s16 width, s16 heig
                     tile_y = start_y + row;
                     row_width = width;
                     do {
-                        tile = (dungeon_setup_80283BF0_S_80016BF0_2 *)(tiles_base + (((tile_y << map->unk_14) + start_x + col) * 6));
+                        tile = (dungeon_setup_80283BF0_S_80016BF0_2 *)(tiles_base + (((tile_y << map->shiftX) + start_x + col) * 6));
                         tile_id = tile->unk_00;
                         flags = tile_flags + tile_id;
                         if (*flags & 1) {
@@ -527,15 +527,15 @@ void apply_tile_flags_to_rectangle(s16 start_x, s16 start_y, s16 width, s16 heig
                                 ((dungeon_setup_80283BF0_S_80016BF0_2_pre *)tile)[-1].unk_00 =
                                     (u16)(((dungeon_setup_80283BF0_S_80016BF0_2_pre *)tile)[-1].unk_00 | 1);
                             }
-                            if (tile_x < ((1 << map->unk_14) - 1)) {
+                            if (tile_x < ((1 << map->shiftX) - 1)) {
                                 tile->unk_0A = (u16)(tile->unk_0A | 1);
                             }
                             if (tile_y > 0) {
-                                tile_above = (void *)((((0 - (1 << map->unk_14)) * 6)) + (u32)tile);
+                                tile_above = (void *)((0 - (1 << map->shiftX)) * 6 + (unsigned long)tile);
                                 tile_above->unk_04 = (u16)(tile_above->unk_04 | 1);
                             }
-                            if (tile_y < ((1 << map->unk_16) - 1)) {
-                                tile_below = (u8 *)tile + (6 << map->unk_14);
+                            if (tile_y < ((1 << map->shiftY) - 1)) {
+                                tile_below = (u8 *)tile + (6 << map->shiftX);
                                 tile_below->unk_04 = (u16)(tile_below->unk_04 | 1);
                             }
                         }
@@ -561,12 +561,11 @@ void apply_tile_flags_to_rectangle(s16 start_x, s16 start_y, s16 width, s16 heig
  */
 void apply_state_index_tile_masks(void)
 {
-    void *state = ((&g_game_work));
+    GameWork *state = &g_game_work;
+    MapGrid *map = &state->map;
 
-    state = (u8 *)state + 0x1DC;
-
-    apply_tile_flags_to_rectangle(0, 0, (s16)(1 << *(s16 *)((u8 *)state + 0x14)),
-                  (s16)(1 << *(s16 *)((u8 *)state + 0x16)));
+    apply_tile_flags_to_rectangle(0, 0, (s16)(1 << map->shiftX),
+                                  (s16)(1 << map->shiftY));
 }
 
 /*

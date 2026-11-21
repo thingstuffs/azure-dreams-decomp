@@ -1,6 +1,5 @@
 #include "shared/object_node_flags.h"
-/* Movement overlap wait (G00334). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800A4DA8. */
+/* Tries to move the actor to a valid position and starts a wait on overlap. */
 #include "dungeon/actor/movement_overlap_wait_g00334.h"
 #include "dungeon/actor.h"
 

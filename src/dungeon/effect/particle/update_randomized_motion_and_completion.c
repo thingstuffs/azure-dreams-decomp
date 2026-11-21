@@ -63,5 +63,3 @@ void update_randomized_motion_and_completion(PointRecord *state, void *position_
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-
-/* MECHANISM: Byte table bases with s16 loads plus explicit accumulator RMWs place each lw before mflo. */

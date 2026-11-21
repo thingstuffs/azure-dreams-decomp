@@ -2,10 +2,10 @@
 #include "town/devkit.h"
 #include "frontend/card/server_imports.h"
 
-/* Run the setup sequence with a zero argument for func_8007CB08. */
+/* Start card services inside a critical section. */
 void start_card_services(void) {
-    func_8007CA38();
+    EnterCriticalSection_8007CA38();
     StartCARD2_804087A8();
-    func_8007CB08(0);
-    func_8007CA48();
+    ChangeClearPAD_8007CB08(0);
+    ExitCriticalSection_8007CA48();
 }

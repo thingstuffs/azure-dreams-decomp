@@ -5,6 +5,7 @@
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
 #include "shared/object_node.h"
+#include "frontend/card/server_aliases.h"
 
 typedef struct S_8001EFC4_0 {
     u8 pad_00[0x20];
@@ -16,8 +17,6 @@ typedef struct S_8001EFC4_0 {
 } S_8001EFC4_0;   /* root in card_dev_update_menu_input */
 
 
-extern void submit_stored_and_queried_boot_values(void);
-extern void propagate_object_high_bit_flags(void *obj);
 extern volatile s32 boot_pad_state;
 extern volatile s32 boot_pressed_buttons;
 
@@ -39,12 +38,12 @@ void card_dev_update_menu_input(u8 *root)
 
         flags20 = boot_pressed_buttons;
         if (flags20 & 0x40) {
-            func_80063FF8(0x515);
-            NODE_HEADER(root)->update_callback = D_80405AB4;
+            SD_Call_80063FF8(0x515);
+            NODE_HEADER(root)->update_callback = refresh_save_slot_selection_and_resume_menu_input;
         }
         flags10 = boot_pressed_buttons;
         if (flags10 & 0x20) {
-            func_80063FF8(0x514);
+            SD_Call_80063FF8(0x514);
             select_save_slot_callback(root);
         } else {
             flags5000 = boot_pad_state;
@@ -80,22 +79,22 @@ void card_dev_update_menu_input(u8 *root)
 
         if (action != 0) {
             S_8001EFC4_0 *body = (S_8001EFC4_0 *)root;
-            func_80063FF8(0x502);
-            value = func_80058FF0(body->unk_28, action, 5);
+            SD_Call_80063FF8(0x502);
+            value = advance_card_menu_index_80058FF0(body->unk_28, action, 5);
             body->unk_28 = value;
             card_devkit_refresh_save_slot_pair_highlights(root);
         }
     }
 
     result = card_devkit_poll_stable_slot_state();
-    submit_stored_and_queried_boot_values();
+    card_dev_print_status();
     if (result == 0) {
         return;
     }
     if (result == 1) {
         return;
     }
-    propagate_object_high_bit_flags(NODE_HEADER(root));
+    release_card_screen_parts(NODE_HEADER(root));
     create_card_dev_slot_screen_effect(((S_8001EFC4_0 *)root)->unk_20, 0);
 
     return;

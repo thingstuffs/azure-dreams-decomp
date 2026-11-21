@@ -184,14 +184,14 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
     u8 origin_x;
     s32 pix_y;
     caster_data = owner->unk_00;
-    step_x_table = (u8 *)((s8 *)dir_step_x);
+    step_x_table = (u8 *)dir_step_x;
     magnitude = (u16)caster_data->unk_2A;
     facing_shift = magnitude >> 8;
     caster_sprite = (MovingTile *)NODE_HEADER(caster_data)->sprite;
     base_y = facing_shift & 0xE;
     step_x_table = (base_y + step_x_table);
     step_x = *(s16 *)step_x_table;
-    step_y_table = (u8 *)((s8 *)dir_step_y);
+    step_y_table = (u8 *)dir_step_y;
     base_y = (s32)step_y_table + base_y;
     timer = owner->unk_50 - 1;
     base_y = *(s16 *)base_y;

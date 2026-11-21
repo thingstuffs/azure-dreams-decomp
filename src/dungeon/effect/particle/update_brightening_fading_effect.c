@@ -1172,13 +1172,13 @@ void *select_containing_cell_surface(s32 world_x, s32 world_y, s16 min_height) {
     map_data = &g_game_work.map;
     cell_index += ((u16)world_y >> 6) << map_data->shiftX;
     (*(s16 *)((u8 *)scratch + 0x150)) = cell_index;
-    map_entry = (S_81960530_2 *)((long)cell_index * 6 + (unsigned long)*(u8 **)((u8 *)(&g_game_work.map)));
+    map_entry = (S_81960530_2 *)((long)cell_index * 6 + (unsigned long)map_data->cells);
     vertices = map_data->vertices;
     planes = map_data->surface_planes;
     best_polygon = 0;
     if (map_entry->unk_00 != 0) {
         scratch->unk_152.s = -map_entry->unk_02;
-        best_polygon = (*(u8 * *)((u8 *)(((u8 **)map_data->cell_faces)) + map_entry->unk_00 * 4));
+        best_polygon = map_data->cell_faces[map_entry->unk_00];
         polygon = best_polygon;
         if (((S_81960530_8 *)(planes + ((S_81960530_3 *)best_polygon)->unk_10 * 8))->unk_04 < -0x7FF) {
             do {

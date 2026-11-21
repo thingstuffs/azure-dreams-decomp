@@ -1,9 +1,9 @@
 #include "common.h"
+#include "slus/gp_d92c_owned.h"
 #include "m2c_compat.h"
 #include "engine/movie.h"
 #include "engine/scene.h"
 #include "town/scene.h"
-extern s8 scene_music_hold;
 extern u32 town_scene_resource_descriptor[2];
 
 /* town_movie3_call: Clear the shared flag and invoke the movie setup routines. */

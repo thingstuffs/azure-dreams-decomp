@@ -23,6 +23,13 @@ extern s32 scene_update_state;
 /* Four-byte context passed to town scene entry dispatchers. */
 extern s32 scene_state_dispatch_context;
 
+/* Indexed progress entries reached through the town scene root's event_data. */
+typedef struct TownEntryStatus {
+    u8 pad_00[4];
+    u8 state;
+    u8 pad_05[3];
+} TownEntryStatus;
+
 typedef struct TownSceneCopiedState {
     u8 pad0[0x20];
     s32 unk20;
@@ -31,5 +38,12 @@ typedef struct TownSceneCopiedState {
 } TownSceneCopiedState;
 
 TownSceneCopiedState *copy_indexed_entry_to_state(s32 entry_index);
+
+struct Rec_func_800165F4_arg0;
+extern struct Rec_func_800165F4_arg0 *scene_saved_choice_row;
+extern s32 scene_saved_choice_index;
+
+/* The library scene names the middle halfword of its three dependency flag IDs here. */
+extern s16 scene_request_flag_id;
 
 #endif

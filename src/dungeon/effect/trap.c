@@ -850,9 +850,6 @@ s32 take_map_item_slot(ActorRecord *object, s16 slot)
     return 1;
 }
 
-/* MECHANISM: Recover true-space joins locally and model the call workspace as an
-   escaping 8-byte stack record.  Hold object/slot in s0/s1 and use guarded a0/v1
-   RNG/remainder roles so the explicit result merge survives before the threshold. */
 
 
 
@@ -1747,9 +1744,6 @@ void set_ground_item_value_at_tile(s16 x, s16 y, s16 value) {
     } while (first_index < 32);
 }
 
-/* MECHANISM: Frameless leaf with exact 12-byte/24-byte record strides and narrow stores.
-   Removing inherited keeps restored raw arg holds in t1/t2 and the exact 58-word shape.
-   A guarded t0 pin for the second counter closed the final a1/a3/t0 role rotation. */
 #include "shared/dungeon_floor.h"
 
 typedef struct dungeon_long_lived_trap_effect {
@@ -2015,7 +2009,7 @@ void * create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value
             row_base = row_data;
             offset_cell = (u16 *)(row_data + 0x36);
             do {
-                base_row = (S_800CE4E8_0 *)grid_data;
+                base_row = grid_data;
                 origin_x = base_row->unk_00;
                 origin_y = base_row->unk_02;
                 tile_value = get_surface_height_at_coordinates(

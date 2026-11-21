@@ -35,7 +35,6 @@ extern TownState scene_object_payload_alias;
 extern s32 D_800D0420[];
 
 extern s32 D_80092698;
-extern u8 tracked_actor_callback_address[];
 extern u8 town_actor_interaction_address[];
 extern s32 town_threshold_interaction_address;
 extern u8 town_interaction_action_address[];

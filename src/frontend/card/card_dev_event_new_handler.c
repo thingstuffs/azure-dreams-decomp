@@ -1,8 +1,9 @@
 #include "common.h"
 #include "frontend/card.h"
+#include "main/data.h"
 
-/* Set the word at 0x80409504 to 4 and return zero. */
+/* Latches the hardware new-card event. */
 s32 card_dev_event_new_handler(void) {
-    *(s32 *)0x80409504 = 4;
+    card_dev_hardware_status = 4;
     return 0;
 }

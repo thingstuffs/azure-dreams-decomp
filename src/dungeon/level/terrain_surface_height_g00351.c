@@ -48,8 +48,7 @@ s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height) {
 
         if (cell->face_index != 0) {
             work->offset = -cell->height_offset;
-            primitive = ((Primitive **)tables->cell_faces)[
-                cells[(s16)*&work->index].face_index];
+            primitive = tables->cell_faces[cells[(s16)*&work->index].face_index];
             while (normals[primitive->next].z < -2047) {
                 if (!(primitive->flags & 1)) {
                     u16 local_x;

@@ -58,8 +58,3 @@ void *create_motion_copy_sprite(void *node_value, ObjectPosition *initial_data)
     }
     return 0;
 }
-
-/* MECHANISM: The 0x20 frame follows from node/node_value/initial_data held in s0/s1/s2 and
-   the 24-byte struct assignment emits retail's grouped six-word copy.
-   The early `return 0;` on the null edge is retail's `j <epilogue>` with `move v0,zero`
-   in its delay slot (true base 0x80024640, target row+0xB4 = the `lw ra` epilogue). */

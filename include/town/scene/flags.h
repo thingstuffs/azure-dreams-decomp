@@ -43,8 +43,8 @@ s32 run_flag_test_callbacks(struct S_80016818_0 *context);
 void dispatch_flag_test_state(void);
 
 #include "records/Rec_func_800165F4_arg0.h"
-void apply_record_value_for_either_flag(Rec_func_800165F4_arg0 *object, s32 context);
-void dispatch_entry_for_active_flags(void *context, s32 entry_index);
+s32 apply_record_value_for_either_flag(Rec_func_800165F4_arg0 *entry, s32 entry_index);
+s32 dispatch_entry_for_active_flags(Rec_func_800165F4_arg0 *entry, s32 entry_index);
 u8 *select_kenka_override_data(s32 dispatch_arg, s32 unused, s32 dispatch_option);
 void post_code_107_if_entry_bit_0(s32 row, s32 column);
 s32 resolve_entry_flag(void *entry_table, void *context, s32 entry_key);
@@ -66,7 +66,7 @@ void stop_at_min_x(ColliderView *collider, ObjectPosition *position, s32 value);
 void stop_at_min_y(ColliderView *collider, ObjectPosition *position, s32 value);
 void stop_at_max_y(ColliderView *collider, ObjectPosition *position, s32 value);
 void stop_at_max_z(ColliderView *collider, ObjectPosition *position, s32 value);
-s32 update_scene_action_flags(s32 object, s32 context);
+s32 update_scene_action_flags(Rec_func_800165F4_arg0 *row, s32 entry_index);
 
 struct SpawnDisplayObject;
 void decrement_timer_and_set_completion_flag(struct SpawnDisplayObject *work);

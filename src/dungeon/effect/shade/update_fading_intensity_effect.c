@@ -54,6 +54,3 @@ void update_fading_intensity_effect(Obj *obj)
         break;
     }
 }
-
-/* MECHANISM: Frameless noreturn tails use tied $v0 carriers for dead delay-slot values. Shared-store
-   gotos plus $v0 value reuse (3 -> 0x7E02) free cycle_phase into $v1. */

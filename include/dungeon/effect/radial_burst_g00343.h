@@ -1,7 +1,6 @@
 #ifndef DUNGEON_EFFECT_RADIAL_BURST_G00343_H
 #define DUNGEON_EFFECT_RADIAL_BURST_G00343_H
 /* Radial burst shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800B10B4. */
 
 #include "common.h"
 #include "shared/object_node.h"

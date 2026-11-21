@@ -2,7 +2,6 @@
 #define DUNGEON_ACTOR_DEPTH_STRIP_PROJECTION_G00337_H
 struct ObjectPosition;
 /* Depth strip projection shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800AA854. */
 
 #include "common.h"
 #include "shared/game_work.h"

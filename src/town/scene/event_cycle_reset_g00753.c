@@ -11,13 +11,13 @@ void reset_buffer_and_event_flags(void) {
     D_80019118 = D_80018AF8;
     town_event_cycle_index = 0;
 
-    if (town_scene_root->services->callback_054(4) != 0) {
+    if (town_scene_root->services->rand_sn(4) != 0) {
         clear_script_flag_bit(F_sbs35_pad01);
     } else {
         set_script_flag_bit(F_sbs35_pad01);
     }
 
-    if (town_scene_root->services->callback_054(4) != 0) {
+    if (town_scene_root->services->rand_sn(4) != 0) {
         clear_script_flag_bit(F_sbs35_pad02);
     } else {
         set_script_flag_bit(F_sbs35_pad02);

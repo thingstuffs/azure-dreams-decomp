@@ -3,17 +3,17 @@
 #include "town/player/script_flags.h"
 #include "town/scene/flags.h"
 #include "shared/town_root.h"
+#include "town/scene.h"
+
 extern u8 D_80020000[];
 
-
-/* Play the sound id held at +0x18 of the current table entry. */
+/* Pass the current object set's flag to the module's flag writer. */
 void set_current_entry_script_flag(void)
 {
-    u8 *page = D_80020000;
-    s32 offset;
-    s32 index;
+    /* BYTES: Each placed copy relocates the page symbol used to reach its table slot. */
+    const u32 *table_address = (const u32 *)((unsigned long)D_80020000 - 0x3C90);
+    s32 index = town_scene_root->unk_14;
+    TownObjectSet *set = index + (TownObjectSet *)(unsigned long)*table_address;
 
-    index = town_scene_root->unk_14;
-    offset = index * 0x1C;
-    set_script_flag_bit(*(s16 *)(offset + *(s32 *)(page - 0x3C90) + 0x18));
+    set_script_flag_bit(set->entry_flag);
 }

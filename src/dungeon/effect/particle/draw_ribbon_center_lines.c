@@ -154,10 +154,10 @@ void draw_ribbon_center_lines(RibbonLineGeometry *geometry, ObjectPosition *posi
         packet->unk_04.at03.v = 0x42;
 
         packet->unk_00.at00.v = (packet->unk_00.at00.v & length_mask) |
-            ((*(u32 *)((u8 *)(scratch->unk_24)
+            ((*(u32 *)((scratch->unk_24)
                 + scratch->unk_100 * 4)) & address_mask);
-        (*(u32 *)((u8 *)(scratch->unk_24) + scratch->unk_100 * 4)) =
-            ((*(u32 *)((u8 *)(scratch->unk_24)
+        (*(u32 *)((scratch->unk_24) + scratch->unk_100 * 4)) =
+            ((*(u32 *)((scratch->unk_24)
                 + scratch->unk_100 * 4)) & length_mask) |
             ((u32)packet & address_mask);
 
@@ -166,11 +166,11 @@ void draw_ribbon_center_lines(RibbonLineGeometry *geometry, ObjectPosition *posi
         SetDrawMode(packet, zero, zero, GetTPage(zero, 1, zero, zero) & 0xFFFF, zero);
 
         packet->unk_00.at00.v = (packet->unk_00.at00.v & length_mask) |
-            ((*(u32 *)((u8 *)(scratch->unk_24)
+            ((*(u32 *)((scratch->unk_24)
                 + scratch->unk_100 * 4)) & address_mask);
         packet = (S_80166968_5 *)((u32)packet & address_mask);
-        (*(u32 *)((u8 *)(scratch->unk_24) + scratch->unk_100 * 4)) =
-            ((*(u32 *)((u8 *)(scratch->unk_24)
+        (*(u32 *)((scratch->unk_24) + scratch->unk_100 * 4)) =
+            ((*(u32 *)((scratch->unk_24)
                 + scratch->unk_100 * 4)) & length_mask) |
             (u32)packet;
 

@@ -105,7 +105,3 @@ void create_expand_fade_sprite_effect(void)
         }
     }
 }
-
-/* MECHANISM: Pure scheduler rotation. Retail materialises the `&D_80026180` lui/addiu pair BEFORE the
-   `sh v0,0xA(s2)` remainder store; gcc-2.8.1 sinks the address pair past both the store and the `li
-   v0,0x80`. */

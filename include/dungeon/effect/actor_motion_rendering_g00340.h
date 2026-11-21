@@ -1,7 +1,6 @@
 #ifndef DUNGEON_EFFECT_ACTOR_MOTION_RENDERING_G00340_H
 #define DUNGEON_EFFECT_ACTOR_MOTION_RENDERING_G00340_H
 /* Actor motion rendering shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800ACDDC. */
 
 #include "common.h"
 #include "dungeon/actor/pending_marked_actor_count_data.h"

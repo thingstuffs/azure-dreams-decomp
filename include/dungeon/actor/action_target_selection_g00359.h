@@ -1,7 +1,6 @@
 #ifndef DUNGEON_ACTOR_ACTION_TARGET_SELECTION_G00359_H
 #define DUNGEON_ACTOR_ACTION_TARGET_SELECTION_G00359_H
 /* Action target selection shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800C4A80, CL:dungeon/func_800C4CE4, CL:dungeon/func_800C5028, CL:dungeon/func_800C51DC, CL:dungeon/func_800C5334. */
 
 #include "common.h"
 #include "dungeon/level/direction_offsets.h"

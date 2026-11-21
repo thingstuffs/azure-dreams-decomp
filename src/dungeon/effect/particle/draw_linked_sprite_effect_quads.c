@@ -592,16 +592,6 @@ void update_animated_target_effect(void *effect_arg)
     }
 }
 
-/* MECHANISM: (1) held-base locals approach_target/follow_target for D_80082E80 keep retail's
-   lui/addiu/lw 8(a1) triple instead of gcc folding D+8 into one %lo; (2) the
-   /10 divide is written inline off the s16 field so gcc emits lh + sll 11, not
-   lhu + sll 16 / sra 5 (an s16 temp costs an extra word); (3) the sprite-tail
-   order puts the two sb 0 stores after the display link load; (4) particle+0x20:
-   particle_state is taken right after the sprite load, ahead of the sprite
-   stores, so its addiu survives unfolded and lands after the unk_20 store.
-   RESIDUE: 276/280 words byte-identical; the only 4 diffs are this function's
-   OWN local j words, all solving true link base 0x8002466C vs the synthetic
-   0x819B2E6C - a rowbase base shift, not a C or compiler gap. */
 
 
 /* The object an effect belongs to: bit 0x8000 of its +0x52 flag word marks it. */

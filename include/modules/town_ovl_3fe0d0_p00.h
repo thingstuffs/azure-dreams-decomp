@@ -2,6 +2,7 @@
 #define MODULES_TOWN_OVL_3FE0D0_P00_H
 #include "common.h"
 #include "town/scene/service.h"
+#include "records/Rec_func_800165F4_arg0.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_event_state.h"
 #include "shared/town_pointees.h"
@@ -76,7 +77,7 @@ void func_80016360(void);
 void play_town_sound_1700(void);
 s32 select_response_with_count_override(s32 context, s32 check_value, s32 selector);
 void start_town_movie3(void);
-s32 forward_selected_entry_values(s32 record, s32 entry_index);
+s32 forward_selected_entry_values(Rec_func_800165F4_arg0 *row, s32 entry_index);
 void load_scene_sound_sequence(void);
 void func_80016408(void);
 

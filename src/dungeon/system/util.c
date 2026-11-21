@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/gp_d92c_owned.h"
 #include "dungeon/item/actor_target.h"
 #include "engine/audio/sequence.h"
 #include "dungeon/item.h"
@@ -845,8 +846,6 @@ s32 release_entity_slot_and_update_flags(void *handle, s32 extra_cleanup)
     clear_item_slot(handle);
     return index;
 }
-
-extern s8 scene_music_hold;   /* keep-floor-music flag; declared scalar as in func_80087A70, func_802833F4, func_80084340 and the town readers */
 
 /* Preserve the sound sequence for tutorial mode or within a normal floor group. */
 s32 check_action_boundary_and_set_flag(void) {

@@ -13,8 +13,8 @@ void card_dev_flag_slot_dirty(s32 card_slot) {
     u16 slot_flags;
     s32 global_flags;
     if (card_slot == 0) {
-        func_8007C040(card_slot_assert_format, card_slot_filename, 0x14B);
-        func_8007BEF0(1);
+        printf_8007C040(card_slot_assert_format, card_slot_filename, 0x14B);
+        exit_8007BEF0(1);
     }
     slot_flags = *(u16 *)(card_slot + 0x1E);
     global_flags = card_ui_dirty_flags;

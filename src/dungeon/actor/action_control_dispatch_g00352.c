@@ -1,5 +1,4 @@
-/* Action control dispatch (G00352). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:dungeon/engine:800DCF4E. */
+/* Requests scene state 0x21 when the floor and save-state checks pass, or queues a floor module read. */
 #include "dungeon/actor/action_control_dispatch_g00352.h"
 #include "engine/runtime.h"
 #include "dungeon/actor.h"

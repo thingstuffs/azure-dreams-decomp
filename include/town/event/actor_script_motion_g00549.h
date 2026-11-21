@@ -47,7 +47,6 @@ extern s32 D_80091F64;
 extern u8 D_800920F4[];
 extern void D_800924EC(void *context, EntityRec *entity, s32 update_arg);
 extern u8 D_80092698[];
-extern u8 tracked_actor_callback_address[];
 extern s32 D_800CFCCC;
 extern s32 D_800CFDD8[];
 extern void actor_surface_callback_address(void *actor, void *subject, void *motion, void *context);

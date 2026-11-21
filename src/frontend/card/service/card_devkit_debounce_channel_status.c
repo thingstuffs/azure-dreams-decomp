@@ -13,12 +13,12 @@ s32 *card_devkit_debounce_channel_status(void)
     current_state = card_devkit_poll_first_software_event();
     if (current_state != 0) {
         slot_index = card_dev_has_selected_channel();
-        if (D_80409268[slot_index] == current_state) {
+        if (card_last_polled_channel_event[slot_index] == current_state) {
             card_channel_state_repeat_count[slot_index]++;
         } else {
             card_channel_state_repeat_count[slot_index] = 0;
         }
-        D_80409268[slot_index] = current_state;
+        card_last_polled_channel_event[slot_index] = current_state;
         one = 1;
         if ((current_state == one) || (current_state == 4)) {
             if (card_channel_state_repeat_count[slot_index] >= 4) {

@@ -80,9 +80,3 @@ void create_short_lived_colored_particle(ObjectNodeHeader *source, s16 duration,
         sprite->source = (((void *)effect) + 0x56);
     }
 }
-
-/* MECHANISM: The stack-passed offsets and duration are declared s16, so assign_parms
-   holds each entry value through a narrowing conversion instead of sinking a single-use
-   stack load to its use; offset_y/offset_z stay in $s3/$s4 across func_8003FC64,
-   giving the 0x30 frame and save order. One packed 12-byte assignment emits the
-   retail lwl/lwr plus swl/swr copy sequence. */

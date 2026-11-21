@@ -92,7 +92,3 @@ void update_facing_and_spawn_expired_effect(ActorItemActionEffectBody *state, Mo
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-
-/* MECHANISM: A six-byte Vec3u16 output object forces the retail 0x30 frame and s0-s4 save set.
-   Reusing effect_render across disjoint render-pointer live ranges colors both reloads as $a0.
-   A scalar global RMW removes the displacement cascade; u8 stores materialize positive 0x80. */

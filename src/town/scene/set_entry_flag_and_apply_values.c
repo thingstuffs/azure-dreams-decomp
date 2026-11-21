@@ -1,18 +1,10 @@
-#include "town/player/state.h"
 #include "script_symbols.h"
-#include "common.h"
 #include "town/player/script_flags.h"
 
-s32 apply_selected_entry_values(s32, s32);
+#include "town/scene/record_actions.h"
 
-typedef struct S_800164E8_0 {
-    u8 pad_00[0x18];
-    s16 unk_18;
-} S_800164E8_0;   /* arg0 in set_entry_flag_and_apply_values */
-
-/* Process the object identifier and 0x50C before forwarding the object and value. */
-void set_entry_flag_and_apply_values(S_800164E8_0 *object, s32 value) {
-    set_script_flag_bit(object->unk_18);
+s32 set_entry_flag_and_apply_values(Rec_func_800165F4_arg0 *row, s32 entry_index) {
+    set_script_flag_bit(row->unk_18);
     clear_script_flag_bit(F_sbs07_pad21);
-    apply_selected_entry_values(object, value);
+    return apply_selected_entry_values(row, entry_index);
 }

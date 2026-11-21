@@ -2,5 +2,5 @@
 #include "frontend/libcard.h"
 #include "frontend/card/server_imports.h"
 
-/* Returns the result of func_8004DBDC with no arguments. */
-s16 libcard_query_status(void) { return func_8004DBDC(); }
+/* Devkit panel renderer registered by the card constructors. */
+s16 card_dev_render_panel_hierarchy(void) { return draw_tinted_node_sprites_scratch_8004DBDC(); }

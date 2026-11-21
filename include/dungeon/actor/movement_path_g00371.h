@@ -1,7 +1,6 @@
 #ifndef DUNGEON_ACTOR_MOVEMENT_PATH_G00371_H
 #define DUNGEON_ACTOR_MOVEMENT_PATH_G00371_H
 /* Movement path shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800D38EC, CL:dungeon/func_800D3B60, CL:dungeon/func_800D40C0, PD:dungeon/engine:800E260C. */
 
 #include "common.h"
 #include "dungeon/player/actor_sprite_sources.h"

@@ -118,10 +118,10 @@ typedef struct GameView {
  * Width/height shifts give cell bounds; cells span 64 world units and use a six-byte stride. */
 typedef struct MapGrid {
     /* 0x00 */ void * cells; /* borrowed six-byte map cells; index = x + (y << shiftX), flag halfword at byte +4 (see dungeon/level/tile_flags.h) */
-    /* 0x04 */ void * cell_faces; /* table of face-list pointers indexed by a map cell */
+    /* 0x04 */ void **cell_faces; /* relocated face-list pointers in packed geometry, indexed by cell ID; each user reads its own face record type */
     /* 0x08 */ void * vertices; /* map vertex table used for surface-height queries */
     /* 0x0C */ void * surface_planes; /* surface-normal vectors indexed by map faces */
-    /* 0x10 */ int unk_10;           /* lw 1, sw 1 */
+    /* 0x10 */ unsigned char *tile_kind_flags; /* map resource bytes indexed by tile kind in apply_tile_flags_to_rectangle */
     /* 0x14 */ short shiftX; /* log2 of the map width in cells; also the row-stride shift */
     /* 0x16 */ short shiftY; /* log2 of the map height in cells */
     /* 0x18 */ short maskX; /* map column mask, (1 << shiftX) - 1 */

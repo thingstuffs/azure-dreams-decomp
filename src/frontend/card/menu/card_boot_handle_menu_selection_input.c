@@ -7,13 +7,12 @@
 #include "frontend/card/menu.h"
 #include "frontend/card/server_imports.h"
 #include "frontend/card.h"
+#include "frontend/card/server_aliases.h"
 
 
 
 
 
-extern void func_804008A0(s32 slot_index);
-extern void submit_stored_and_queried_boot_values(void);
 extern void assert_slot_store_value_and_process_state(s32 slot_addr, s32 slot_value);
 extern void update_embedded_selected_slot_outputs(s32 slot_addr, CardChooserPresence *display_state, s32 *state_changed);
 extern void release_devkit_node_handles(void *object);
@@ -38,16 +37,16 @@ void card_boot_handle_menu_selection_input(CardChooserBody *menu)
         if (button_flags & 0x40) {
             ObjectNodeHeader *linked_object;
 
-            func_80063FF8(0x515);
+            SD_Call_80063FF8(0x515);
             release_devkit_node_handles(NODE_HEADER(menu));
             card_dev_effect_mode = 2;
             card_dev_close_events();
-            func_8003FD58(0, 0xF, 0, 0);
+            begin_card_chooser_exit_transition_8003FD58(0, 0xF, 0, 0);
             linked_object = menu->request;
             linked_object->flags |= 0x2000;
         } else if (button_flags & 0x20) {
-            func_80063FF8(0x514);
-            func_804008A0(menu->selected_channel);
+            SD_Call_80063FF8(0x514);
+            set_card_selection_state(menu->selected_channel);
             menu->unk_34 = 0;
             NODE_HEADER(menu)->update_callback = card_boot_update_object_state_and_callback;
             return;
@@ -68,7 +67,7 @@ void card_boot_handle_menu_selection_input(CardChooserBody *menu)
         }
 
         if (selection_changed != 0) {
-            func_80063FF8(0x502);
+            SD_Call_80063FF8(0x502);
             assert_slot_store_value_and_process_state((*(s32 *)((u8 *)menu + 0x24)), menu->selected_channel);
         }
     }
@@ -79,9 +78,9 @@ void card_boot_handle_menu_selection_input(CardChooserBody *menu)
     display_state = state;
     menu->card_presence = *state;
     update_embedded_selected_slot_outputs((*(s32 *)((u8 *)menu + 0x24)), display_state, state_changed);
-    func_8003FA78(&D_80400854, D_804090F8[state->first]);
-    func_8003FA78(&D_80400860, D_804090F8[state->second]);
-    submit_stored_and_queried_boot_values();
+    card_diagnostic_printf_8003FA78(dev_card_first_status_format, dev_card_channel_status_names[state->first]);
+    card_diagnostic_printf_8003FA78(dev_card_second_status_format, dev_card_channel_status_names[state->second]);
+    card_dev_print_status();
 
     return;
 }

@@ -75,6 +75,3 @@ void create_jittered_child_effect(EntityRec *parent, s32 effect_value, s16 effec
         effect_data->unk_08 = effect_value;
     }
 }
-
-/* MECHANISM: S3/s4 stack-argument holds reproduce the 0x30 frame and seven-register save set. One
-   cached obj+8 pointer collapses the three zero stores to retail's single-load form. */

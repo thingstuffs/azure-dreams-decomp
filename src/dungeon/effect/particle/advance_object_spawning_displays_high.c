@@ -360,9 +360,6 @@ void tick_packed_sprite_countdown(PackedSpriteEffectBody *object)
     }
 }
 
-/* MECHANISM: A long-lived u8 base preserves the retail may-alias load-delay nops.
-   Loading the counter before the global store lets that store cover load latency
-   and naturally yields the a1 pointer, a0 constant, and v1 counter roles. */
 
 /* Create an object with copied position and packed data, and initialize its rendering state. */
 void *create_packed_sprite_effect(void *source, ObjectPosition *unused_1, SpriteFrameState *unused_2, void *packed_data, s32 render_param, s32 render_x,

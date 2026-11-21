@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/game_work.h"
+#include "shared/gpu_packets.h"
 #include "engine/audio.h"
 #include "engine/effect.h"
 #include "engine/node.h"
@@ -8,59 +10,38 @@
 #include "sdk/libetc.h"
 #include "sdk/libgpu.h"
 #include "slus.h"
+#include "slus/animation_tick_data.h"
+#include "slus/gpu_scratch_data.h"
+#include "slus/scene_frame_data.h"
 
-typedef struct S_80083160_ctx
-{
-    u8 pad[0x8AC];
-    s32 ot[9];
-    void *cur;
-}
-S_80083160_ctx;
-extern S_80083160_ctx *g_game_work[3];
-typedef struct S_8008148C
-{
-    s32 field_0;
-    s8 pad[8];
-}
-S_8008148C;
-extern S_8008148C gpu_scratch_buffer_base;
-extern u8 scene_skip_vsync[16];
 /* Draw the current frame, swap draw buffers, and wait for optional vertical synchronization. */
 void render_object_scene_frame(void)
 {
-    void *next_buffer;
-    s32 saved_value;
-    u32 skip_vsync;
-    u32 vsync_mode;
+    u8 *next_buffer;
 
-    PutDispEnv(((u8 *) g_game_work[0]) + 0x5C);
-    PutDrawEnv(g_game_work[0]);
-    DrawOTag(&g_game_work[0]->ot[8]);
+    PutDispEnv((u8 *)g_game_work.draw_buffer + 0x5C);
+    PutDrawEnv(g_game_work.draw_buffer);
+    DrawOTag((u8 *)g_game_work.draw_buffer + 0x8CC);
     service_cd_command_queue();
     drain_audio_commands_and_service_channels();
-    saved_value = gpu_scratch_buffer_base.field_0;
-    *(s32 *)0x80081480 = saved_value;
+    gpu_scratch_write_pointer = gpu_scratch_buffer_base;
     run_frame_callbacks();
     update_controller_buttons_and_triggers();
     next_buffer = upper_draw_context;
-    if (g_game_work[0] == ((S_80083160_ctx *) next_buffer)) {
-        next_buffer = next_buffer + 0x108D4;
+    if (g_game_work.draw_buffer == next_buffer) {
+        next_buffer += 0x108D4;
     }
-    else {
-        next_buffer = upper_draw_context;
+    g_game_work.draw_buffer = next_buffer;
+    ClearOTagR((u32 *)(next_buffer + 0x70), 0x218);
+    {
+        GpuContext *frame = g_game_work.draw_buffer;
+        frame->packetCursor = (u8 *)frame + 0x8D4;
     }
-    g_game_work[0] = next_buffer;
-    ClearOTagR((s32 *) (((u8 *) next_buffer) + 0x70), 0x218);
-    g_game_work[0]->cur = ((u8 *) g_game_work[0]) + 0x8D4;
     tick_screen_fade_slots();
     update_active_nodes();
     flush_sprite_resource_slots();
     DrawSync(0);
-    skip_vsync = scene_skip_vsync[0];
-    if (skip_vsync == 0) {
-        skip_vsync = 0x80080000;
-        vsync_mode = skip_vsync;
-        vsync_mode = *(u8 *)(vsync_mode + 0xA84);
-        VSync((vsync_mode != 1) ? (2) : (0));
+    if (!scene_skip_vsync) {
+        VSync(animation_tick_scale == 1 ? 0 : 2);
     }
 }

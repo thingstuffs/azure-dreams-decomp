@@ -4,7 +4,14 @@
 
 #include "common.h"
 
+struct ObjectNodeHeader;
 struct S_func_804061C4_0;
+
+/* The five window headers stored by the save-slot builder at body offset 0x04. */
+typedef struct CardDevSaveSlotWindows {
+    u8 pad_00[4];
+    struct ObjectNodeHeader *windows[5];
+} CardDevSaveSlotWindows;
 
 /* card_dev_create_save_screen.c */
 struct CardSaveScreenState;
@@ -24,6 +31,26 @@ void card_devkit_refresh_save_slot_selection(void *menu);
 
 /* finish_save_slot_check.c */
 void finish_save_slot_check(void *context);
+
+struct S_8001EC4C_0;
+/* MAIN card server callback at 0x80405C4C. Selects the next action from the save body. */
+void set_object_state_and_select_action(struct S_8001EC4C_0 *object);
+
+/* Save-menu body shared by the input handler and its action dispatcher. */
+typedef struct CardDevSaveMenuBody {
+    u8 pad_00[0x20];
+    void *unk_20;
+    u8 pad_24[4];
+    s32 unk_28;
+    u8 pad_2C[4];
+    s32 repeat_ticks;
+    u8 pad_34[0x10];
+    s32 callback_index;
+    s32 unk_48;
+} CardDevSaveMenuBody;
+
+/* card_dev_dispatch_callback_by_index at its MAIN card server address 0x804062F4. */
+void invoke_indexed_object_callback(CardDevSaveMenuBody *object);
 
 /* handle_object_menu_input.c */
 void handle_object_menu_input(void *menu);

@@ -167,7 +167,6 @@ extern s32 scene_response_enabled;
 extern s32 scene_saved_player_value;
 extern s32 scene_second_component_values[ ];
 extern u8 scene_shared_text_buffer[ ];
-extern s32 scene_stored_first_value;
 extern s16 scene_threshold_counter;
 extern u8 score_bounce_update_address[ ];
 extern u8 score_sprite_handler_address[ ];

@@ -4,6 +4,7 @@
 #include "frontend/card.h"
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
+#include "frontend/libcard.h"
 
 
 
@@ -35,21 +36,21 @@ void *init_card_slot_object(s32 init_option)
     base = (S_800206C8_0 *)D_8040C318;
     slot_state = NODE_BODY(D_8040C318);
     if (func_80047FD8(base) == 0) {
-        base = (void *)(unsigned long)func_8003C714(0, base, 0x42);
+        base = func_8003C714(0, base, 0x42);
         if (base == 0) {
-            func_8007C040(card_slot_assert_format, card_slot_filename, 0x136);
-            func_8007BEF0(1);
+            printf_8007C040(card_slot_assert_format, card_slot_filename, 0x136);
+            exit_8007BEF0(1);
         }
-        func_80040560((s32)(unsigned long)base, card_status_query_address);
+        func_80040560(base, card_dev_render_panel_hierarchy);
     } else {
         assert_card_slot_and_set_high_bit(base);
         D_8040C336 &= 0x7FFF;
-        func_8007BFE0(slot_state, 0xE4);
+        bzero_8007BFE0(slot_state, 0xE4);
     }
     func_804075D0(slot_state, 4);
     base->unk_0C = (s32)(unsigned long)((u8 *)slot_state + 0x50);
     slot_state->unk_5C = card_dev_bind_slot_rows_template(slot_state->entry_table);
     func_80407688(slot_state, init_option);
-    base->unk_10 = (s32)(unsigned long)D_80407298;
+    base->unk_10 = (s32)(unsigned long)card_dev_advance_slot_stream_pair;
     return base;
 }

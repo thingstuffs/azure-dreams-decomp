@@ -1,11 +1,7 @@
-#include "common.h"
 #include "town/scene/hooks.h"
-#include "town/data.h"
+#include "town/scene/state_data.h"
 
-extern s32 D_80018E48;
-
-/* Store the supplied values in D_80018E44 and D_80018E48. */
-void set_global_entry_pair(s32 value_18e44, s32 value_18e48) {
-    scene_stored_first_value = value_18e44;
-    D_80018E48 = value_18e48;
+void set_global_entry_pair(struct Rec_func_800165F4_arg0 *row, s32 entry_index) {
+    scene_saved_choice_row = row;
+    scene_saved_choice_index = entry_index;
 }

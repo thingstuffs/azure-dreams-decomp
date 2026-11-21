@@ -8,6 +8,14 @@
 #include "shared/sprite_frame_state.h"
 
 
+/* A zero header address terminates the scene's CD header lookup table. */
+typedef struct TownCdHeaderEntry {
+    s32 key;
+    u32 header_address;
+} TownCdHeaderEntry;
+
+extern TownCdHeaderEntry scene_object_image_data[];
+
 /* tick_timed_object_and_mark_complete.c */
 void tick_timed_object_and_mark_complete(void *ptr);
 

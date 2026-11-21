@@ -43,6 +43,3 @@ void *create_radial_effect_from_source(void *owner_body, void *source, s32 unuse
     }
     return object;
 }
-
-/* MECHANISM: The 0x38 frame holds s3=source, s5=object_value, s4=type_code-0x20, s2=result, s1=child,
-   and s0=loop index; the fifth call arg uses sp+0x10. */

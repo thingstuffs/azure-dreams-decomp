@@ -719,7 +719,7 @@ s16 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags)
     }
 
     probe_height = (s16)(saved_height - 0x20);
-    x_offsets = (u16 *)((s8 *)dir_step_x);
+    x_offsets = (u16 *)dir_step_x;
     layer_offset = layer * 2;
     layer_x_offset = (u16 *)((s8 *)x_offsets + layer_offset);
     layer_y_offset = (u16 *)(((s8 *)dir_step_y) + layer_offset);

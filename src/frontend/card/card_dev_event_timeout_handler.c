@@ -1,8 +1,9 @@
 #include "common.h"
 #include "frontend/card.h"
+#include "main/data.h"
 
-/* Set the value at 0x80409504 to 3 and return zero. */
+/* Latches the hardware timeout event. */
 s32 card_dev_event_timeout_handler(void) {
-    *(s32 *)0x80409504 = 3;
+    card_dev_hardware_status = 3;
     return 0;
 }

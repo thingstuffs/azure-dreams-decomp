@@ -98,7 +98,3 @@ void *create_actor_sprite_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16 h
     }
     return state;
 }
-/* MECHANISM: The exact 0x30 frame comes from one named live range for each
-   retail s0/s2/s6/s4/s5/s3/s1 role, with s0 reused for the later object base.
-   Preloading call bytes removes the displacement cascade; u8 color fields and
-   the 2.7.2-cdk-G0 scheduler produce the final literal and load-slot ordering. */

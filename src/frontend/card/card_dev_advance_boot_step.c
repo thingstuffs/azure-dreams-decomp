@@ -14,7 +14,7 @@ s32 card_dev_advance_boot_step(void) {
     result = 0;
 
     if (card_ui_operation_state == 2) {
-        invoke_callback_for_four_global_values();
+        card_dev_drain_hw_events();
         if (_card_load_80408674(card_selected_channel) == 0) {
             D_804094E8_2[0] = 0;
             result = 5;

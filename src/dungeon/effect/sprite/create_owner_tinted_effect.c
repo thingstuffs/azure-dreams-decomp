@@ -86,6 +86,3 @@ void *create_owner_tinted_effect(S_818BDD8C_2 *owner, ObjectPosition *initial_da
     }
     return 0;
 }
-
-/* MECHANISM: The natural 0x20 frame holds owner/object/initial_data in s0/s1/s2. A v1 flags accumulator
-   plus a separate v0 flags word prevents OR fusion. */

@@ -64,8 +64,3 @@ s32 interpolate_actor_to_terrain_tile(S_800AC480_0 *move_state, ObjectPosition *
     }
     return 0;
 }
-
-/* MECHANISM: Explicit s32 delta/coord/x_step lifetimes preserve each coord-0x20
-   subtraction and hoist the second lh into the first division's load-delay gap.
-   Direct 0/1 returns plus a kept absolute D_80083460 base produce the retail
-   v0 delay-slot value and a0-based lhu/sh tail without changing the 0x20 frame. */

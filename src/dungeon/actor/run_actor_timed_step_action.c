@@ -61,7 +61,3 @@ void run_actor_timed_step_action(ActorRecord *actor, S_80096AE0_1 *record, S_800
         return;
     }
 }
-
-/* MECHANISM: Local joins keep actor/part live in s0/s1 across the real call,
-   producing the 0x20 frame and exact s0/s1/ra save contract. Separate
-   countdown/flag live ranges plus short-circuit RMW select retail v0/v1. */

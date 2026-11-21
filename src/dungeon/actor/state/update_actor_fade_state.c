@@ -102,7 +102,3 @@ void update_actor_fade_state(ActorRecord *state, void *unused, S_800D34CC_2 *dat
         }
     }
 }
-
-/* MECHANISM: The four-argument ABI yields s0=state, s1=data, and s2=entity in the retail 0x20 frame.
-   Split byte/halfword RMWs and one held &D_80083460 base reproduce the widths, live ranges, and CFG.
-   Naming the final two byte arguments fills the lw delay slot and removes the +1 displacement cascade. */

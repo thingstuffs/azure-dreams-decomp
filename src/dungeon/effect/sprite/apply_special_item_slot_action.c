@@ -24,7 +24,3 @@ void apply_special_item_slot_action(void) {
         entry += 1;
     } while (entry_index < 0x14);
 }
-
-/* MECHANISM: A fixed-address pointer literal forces retail's lui/ori base construction.
-   Advancing one s32 element gives the four-byte loop stride while preserving
-   the seed's 0x28 frame, saved-register hold set, and delay-slot CFG. */

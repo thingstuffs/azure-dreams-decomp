@@ -2,7 +2,6 @@
 #include "frontend/card.h"
 
 u8 *func_80403F1C(u8 *packets, s32 width, s32 height);       /* extern */
-void position_selected_entry_content(u8 *screen);                       /* extern */
 
 /* Absolute anchor for a table of 128-byte records; the two fields accessed here
  * are 8 bytes apart and sit just BEFORE this anchor address (negative offsets). */
@@ -17,7 +16,7 @@ void layout_slot_window_entries(u8 *ptr) {
 
     offset = *(s32 *)ptr << 7;
     if (*(s32 *)(D_800A0000 + offset - 0x2228) != 0) {
-        position_selected_entry_content(ptr);
+        card_dev_layout_selected_slot_entries(ptr);
 
         offset = *(s32 *)ptr << 7;
         if (*(s32 *)(D_800A0000 + offset - 0x2220) != 0) {

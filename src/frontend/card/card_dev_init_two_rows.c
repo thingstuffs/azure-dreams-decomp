@@ -3,8 +3,8 @@
 #include "frontend/card/server_imports.h"
 
 
-/* Process the two embedded records at offsets 4 and 0x10. */
-void card_dev_init_two_rows(s32 record_addr) {
-    func_8004DCCC(record_addr + 4);
-    func_8004DCCC(record_addr + 0x10);
+/* Advance the two timed streams embedded in the card slot body. */
+void card_dev_advance_slot_stream_pair(s32 record_addr) {
+    advance_timed_tagged_stream_8004DCCC(record_addr + 4);
+    advance_timed_tagged_stream_8004DCCC(record_addr + 0x10);
 }

@@ -31,6 +31,9 @@ extern u8 card_slot_payload[];
 extern u8 card_choice_chain_indices[];
 extern u8 card_panel_chain_indices[];
 
+struct FrameNode;
+extern struct FrameNode card_choice_cursor_data;
+
 typedef struct Node8002BB08 {
     ObjectNodeHeader header;
     s32 unk20;
@@ -374,7 +377,7 @@ struct Node8002BB08 *init_card_boot_request_object(ObjectNodeHeader *request, s3
 void libcard_init(s32 slot);
 
 /* libcard_query_status.c */
-s16 libcard_query_status(void);
+s16 card_dev_render_panel_hierarchy(void);
 
 /* libcard_select_slot.c */
 s32 libcard_select_slot(s32 slot);

@@ -3,6 +3,6 @@
 #include "common.h"
 
 /* Devkit card diagnostic format shared by the initialization and service paths. */
-extern u8 card_decimal_format[];
+extern const char card_decimal_format[];
 
 #endif

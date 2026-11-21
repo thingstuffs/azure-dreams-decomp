@@ -7,6 +7,9 @@
 /* poll_selected_card_slot.c */
 s32 poll_selected_card_slot(void);
 
+/* card_dev_get_remaining_block_summary at its MAIN card server address 0x80402268. */
+s32 get_table_entry_by_flag(void);
+
 /* count_dev_card_entries_matching_search_path.c */
 s32 count_dev_card_entries_matching_search_path(void);
 

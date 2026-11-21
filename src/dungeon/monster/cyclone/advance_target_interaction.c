@@ -17,7 +17,6 @@
 
 
 
-extern s32 clear_anorexia_if_present(void *);
 extern void show_entity_message(s32, void *);
 extern void func_801763CC(s32, void *);
 

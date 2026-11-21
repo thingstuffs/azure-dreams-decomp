@@ -1,8 +1,9 @@
 #include "common.h"
 #include "frontend/card.h"
+#include "main/data.h"
 
-/* Sets the value at 0x80409504 to 2 and returns zero. */
+/* Latches the hardware I/O error event. */
 s32 card_dev_event_error_handler(void) {
-    *(s32 *)0x80409504 = 2;
+    card_dev_hardware_status = 2;
     return 0;
 }

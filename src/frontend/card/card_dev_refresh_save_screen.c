@@ -1,39 +1,42 @@
 #include "common.h"
 #include "frontend/card.h"
+#include "frontend/card/server_aliases.h"
+#include "shared/object_node.h"
 
-#ifndef NULL
-#define NULL 0
-#endif
-
-extern void process_embedded_data_and_propagate_flags(s32 value);
-extern void func_804059A8(s32 value);
-extern void func_80404570(s32 value);
 
 /* Dual symbols at the same address force load-via-v1 / store-via-at RMW
  * (retail uses separate %hi materializations, not a reused base reg). */
-extern s32 card_ui_dirty_flags[4];
 extern s32 D_8008DAB4_2[];
 
-/* Processes object components and sets the object and global 0x8000 flags. */
+/* Node header and the components populated by the save-screen factory and slot builder. */
+typedef struct CardDevSaveScreenParts {
+    ObjectNodeHeader header;
+    ObjectNodeHeader *background_and_slot_windows[6];
+    ObjectNodeHeader *options;
+    ObjectNodeHeader *info;
+} CardDevSaveScreenParts;
+
+/* Releases the save-screen components and marks the screen and card UI dirty. */
 void release_card_screen_parts(void *object) {
-    s32 *component_cursor;
+    CardDevSaveScreenParts *screen = object;
+    ObjectNodeHeader **component_cursor;
     s32 component_count;
     u16 object_flags;
     s32 global_flags;
 
-    component_cursor = (s32 *)((u8 *)object + 0x20);
-    if (object != NULL) {
-        card_dev_flag_object_dirty(*(s32 *)((u8 *)object + 0x20));
-        process_embedded_data_and_propagate_flags(*(s32 *)((u8 *)object + 0x38));
-        func_804059A8(*(s32 *)((u8 *)object + 0x3C));
+    component_cursor = NODE_BODY(object);
+    if (screen != 0) {
+        card_dev_flag_object_dirty(screen->background_and_slot_windows[0]);
+        card_dev_refresh_options_object(screen->options);
+        card_dev_refresh_info_object(screen->info);
         for (component_count = 0; component_count < 5; component_count++) {
-            func_80404570(component_cursor[component_count + 1]);
+            card_dev_refresh_slot_window(component_cursor[component_count + 1]);
         }
-        object_flags = *(u16 *)((u8 *)object + 0x1E);
-        global_flags = card_ui_dirty_flags[0];
+        object_flags = screen->header.flags;
+        global_flags = card_ui_dirty_flags;
         object_flags |= 0x8000;
         global_flags |= 0x8000;
-        *(u16 *)((u8 *)object + 0x1E) = object_flags;
+        screen->header.flags = object_flags;
         D_8008DAB4_2[0] = global_flags;
     }
 }

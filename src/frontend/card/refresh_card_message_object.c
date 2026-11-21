@@ -4,7 +4,6 @@
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
 
-extern void process_four_referenced_values(void *object);
 extern s32 card_ui_dirty_flags[3];
 extern s32 D_8008DAB4_2[];
 

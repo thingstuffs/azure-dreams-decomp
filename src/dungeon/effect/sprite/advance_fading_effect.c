@@ -413,15 +413,7 @@ s32 project_and_queue_shaded_line(void *line, SpriteFrameState *unused_render_co
     return 0;
 }
 
-/*
- * Moves a line effect to a linked actor or forward tile, emits radial sprites, and applies a
- * nearby status effect.
- *
- * MECHANISM: The 0x28 frame holds s3=scratchpad, s2=packet, and s1/s0 call bases. Each
- * interpolation arm keeps its coordinates, steps and mask in arm-local variables (single-lifetime
- * quantities for local-alloc), while delta and line_or_red stay function-wide; the masked step_x
- * read gives the mask the extra reference that orders it ahead of y0.
- */
+/* Moves a line effect to a linked actor or forward tile, emits radial sprites, and applies a nearby status effect. */
 void move_to_linked_object(ovl_188298c_818632E4_Controller *ctrl, ObjectPosition *motion, SpriteFrameState *render_data)
 {
     u8 *root;

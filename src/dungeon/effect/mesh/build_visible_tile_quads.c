@@ -7,29 +7,15 @@
 #include "sdk/libgte_matrix.h"
 #include "sdk/libgpu_packets.h"
 #include "engine/graphics/sprite_scratch.h"
+#include "engine/graphics/lit_mesh.h"
 
-typedef struct S_800D1824_4 {
-    u8 pad_00[0x8];
-    u32 unk_08;
-    u32 unk_0C;
-    u8 pad_10[0x2];
-    u16 unk_12;
-    u16 unk_14;
-} S_800D1824_4;   /* style in build_visible_tile_quads */
-
-typedef struct S_800D1824_5 {
-    u8 pad_00[0x10];
-    u8 * unk_10;
-} S_800D1824_5;   /* ((S_800D1824_1 *)globals)->unk_1E0 in build_visible_tile_quads */
-
-   /* ((S_800D1824_1 *)globals)->unk_00 in build_visible_tile_quads */
-
+/* The first face in map slot four supplies the tile effect texture coordinates. */
 /* Transform grid tiles into quads and add visible ones to the ordering table. */
 void build_visible_tile_quads(MeshEffectObjectBody *tiles)
 {
     SpriteQuadScratch *scratch = (SpriteQuadScratch *)0x1F800000;
     GameWork *globals = &g_game_work;
-    S_800D1824_4 *style;
+    LitMeshFace *style;
     POLY_FT4 *prim;
     GpuContext *render_state;
     s32 x;
@@ -41,7 +27,7 @@ void build_visible_tile_quads(MeshEffectObjectBody *tiles)
     /* BYTES: retail clears the normal's vx and vy with one sw of zero; member stores compile to two sh */
     *(s32 *)&scratch->rotation.vx = 0;
     render_state = globals->draw_buffer;
-    style = (S_800D1824_4 *)((S_800D1824_5 *)globals->map.cell_faces)->unk_10;
+    style = globals->map.cell_faces[4];
     prim = render_state->packetCursor;
     scratch->rotation.vz = -0x1000;
     scratch->ordering_table = (u32 *)&render_state->orderTag;
@@ -92,13 +78,13 @@ void build_visible_tile_quads(MeshEffectObjectBody *tiles)
                     gte_stsxy(&prim->x3);
                     NormalColorCol(&scratch->rotation, (CVECTOR *)&globals->view.tint, (CVECTOR *)&prim->r0);
                     /* BYTES: retail stores u0, v0 and the CLUT with one sw of the style word; member stores compile to sb, sb, sh */
-                    *(u32 *)&prim->u0 = style->unk_08;
+                    *(u32 *)&prim->u0 = style->uv_clut;
                     /* BYTES: retail stores u1, v1 and the texture page with one sw of the style word; member stores compile to sb, sb, sh */
-                    *(u32 *)&prim->u1 = style->unk_0C;
+                    *(u32 *)&prim->u1 = style->uv_page;
                     /* BYTES: retail writes the packet u/v byte pair with one sh of the style halfword; storing u and v separately compiles to two sb */
-                    *(u16 *)&prim->u2 = style->unk_12;
+                    *(u16 *)&prim->u2 = style->uv2;
                     /* BYTES: retail writes the packet u/v byte pair with one sh of the style halfword; storing u and v separately compiles to two sb */
-                    *(u16 *)&prim->u3 = style->unk_14;
+                    *(u16 *)&prim->u3 = style->uv3;
                     ((GpuLinkTag *)&prim->tag)->len = 9;
                     AddPrim(scratch->ordering_table + scratch->sort_depth, prim);
                     prim++;

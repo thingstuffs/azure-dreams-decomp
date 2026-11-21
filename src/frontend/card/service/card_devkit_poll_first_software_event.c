@@ -9,16 +9,16 @@ s32 card_devkit_poll_first_software_event(void) {
     s32 result;
 
     result = 0;
-    if (func_8007C9C8(D_80409270[0]) != 0) {
+    if (TestEvent_8007C9C8(dev_card_sw_done_event) != 0) {
         result = 1;
     } else {
-        if (func_8007C9C8(D_80409274[0]) != 0) {
+        if (TestEvent_8007C9C8(dev_card_sw_error_event) != 0) {
             result = 2;
         } else {
-            if (func_8007C9C8(D_80409278[0]) != 0) {
+            if (TestEvent_8007C9C8(dev_card_sw_timeout_event) != 0) {
                 result = 3;
             } else {
-                if (func_8007C9C8(D_8040927C[0]) != 0) {
+                if (TestEvent_8007C9C8(dev_card_sw_new_event) != 0) {
                     result = 4;
                 }
             }

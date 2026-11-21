@@ -4,6 +4,7 @@
 
 struct ObjectPosition;
 #include "common.h"
+#include "engine/audio/data.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/dungeon_status.h"
@@ -17,7 +18,6 @@ struct ObjectPosition;
 #include "dungeon/system.h"
 
 extern s32 monster_species_table;
-extern s8 scene_music_hold;
 extern s8 D_80080AA0;
 
 typedef struct S_800AAB10_2_pre {

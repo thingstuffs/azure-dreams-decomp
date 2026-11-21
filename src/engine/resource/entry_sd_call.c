@@ -4,6 +4,7 @@
 #include "engine/entity.h"
 #include "engine/resource.h"
 #include "slus.h"
+#include "slus/gp_d92c_owned.h"
 
 struct S_8006CE80
 {
@@ -14,7 +15,6 @@ struct S_8006CE80
 };
 extern struct S_8006CE80 dispatch_resource_records[];
 
-extern s8 scene_music_hold;
 /* Updates the requested state and triggers transition handling when needed. */
 void request_scene_dispatch_state(s16 requested_state)
 {

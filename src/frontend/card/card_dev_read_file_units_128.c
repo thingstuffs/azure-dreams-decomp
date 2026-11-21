@@ -11,16 +11,16 @@ s32 card_dev_read_file_units_128(s32 file_path, void *buffer, s32 block_count, s
     s32 error;
 
     success = 0;
-    fd = func_8007CA58(file_path, 1);
+    fd = open_8007CA58(file_path, 1);
     error = -1;
     if (fd != error) {
         byte_count = block_count << 7;
-        if (block_offset == 0 || func_8007CA68(fd, block_offset << 7, 0) != error) {
-            if (func_8007CA78(fd, buffer, byte_count) == byte_count) {
+        if (block_offset == 0 || lseek_8007CA68(fd, block_offset << 7, 0) != error) {
+            if (read_8007CA78(fd, buffer, byte_count) == byte_count) {
                 success = 1;
             }
         }
-        func_8007CA98(fd);
+        close_8007CA98(fd);
     }
     return success;
 }

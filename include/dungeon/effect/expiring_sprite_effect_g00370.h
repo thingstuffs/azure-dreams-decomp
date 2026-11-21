@@ -2,7 +2,6 @@
 #ifndef DUNGEON_EFFECT_EXPIRING_SPRITE_EFFECT_G00370_H
 #define DUNGEON_EFFECT_EXPIRING_SPRITE_EFFECT_G00370_H
 /* Expiring sprite effect shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800D1374. */
 
 #include "common.h"
 #include "dungeon/effect/radial_effect_segment.h"

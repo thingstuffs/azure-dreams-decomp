@@ -1,6 +1,5 @@
 #include "shared/sprite_frame_state.h"
-/* Oriented mesh quads (G00367). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800C9858. */
+/* Draws linked mesh quads using the selected orientation mode. */
 #include "dungeon/effect/oriented_mesh_quads_g00367.h"
 #include "shared/game_work.h"
 #include "dungeon/effect.h"

@@ -1,16 +1,8 @@
-/* Directional tile flag processing
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00301 - CL:dungeon/func_800CB680, CL:dungeon/func_800CB9CC, CL:dungeon/func_800CBBD8, CL:dungeon/func_800CBF3C, CL:dungeon/func_800CBFFC.
- * CL:dungeon/func_800CB680
- * CL:dungeon/func_800CB9CC
- * CL:dungeon/func_800CBBD8
- * CL:dungeon/func_800CBF3C
- * CL:dungeon/func_800CBFFC
- */
+/* Marks tiles beside or along a direction and clears flags on listed tiles. */
 #include "dungeon/effect/mesh.h"
 
 /* Private declarations retained from the member sources. */
 /* Directional tile flag processing */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00301 - CL:dungeon/func_800CB680, CL:dungeon/func_800CB9CC, CL:dungeon/func_800CBBD8, CL:dungeon/func_800CBF3C, CL:dungeon/func_800CBFFC. */
 
 #include "common.h"
 #include "dungeon/effect/mesh/generation_tile_flags.h"

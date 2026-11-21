@@ -98,8 +98,3 @@ void *create_actor_at_tile(s16 spawn_kind, u16 tile_x, u16 tile_y, s16 height) {
     }
     return state;
 }
-
-/* MECHANISM: The 0x30 frame is the exact s0/s2/s6/s4/s5/s3/s1 hold set:
-   s2 owns the returned +0x20 base, while s0 is reused after arg0 dies.
-   Narrow call-byte locals and the full-width color store preserve the retail
-   call ABI, one-word base materialization, and 113-word function length. */

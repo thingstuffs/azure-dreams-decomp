@@ -5,13 +5,13 @@
 
 /* Compute, store, and print the XOR checksum of the game-save work data. */
 void card_dev_store_save_xor_checksum(void *gsw) {
-    s32 *save_word;
-    s32 word;
-    s32 check_sum;
+    u32 *save_word;
+    u32 word;
+    u32 check_sum;
     s32 words_left;
 
     check_sum = 0;
-    save_word = (s32 *)((u8 *)gsw + 0x208);
+    save_word = (u32 *)((u8 *)gsw + 0x208);
     words_left = 0x1781;
     do {
         word = *save_word;
@@ -19,6 +19,6 @@ void card_dev_store_save_xor_checksum(void *gsw) {
         words_left -= 1;
         check_sum ^= word;
     } while (words_left >= 0);
-    *(s32 *)((u8 *)gsw + 0x204) = check_sum;
-    func_8007C040(checksum_trace_format, saved_checksum_label, check_sum);
+    *(u32 *)((u8 *)gsw + 0x204) = check_sum;
+    printf_8007C040(checksum_trace_format, saved_checksum_label, check_sum);
 }

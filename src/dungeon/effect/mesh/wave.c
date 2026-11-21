@@ -951,7 +951,6 @@ void update_timed(ParticleState *state, ObjectPosition *position_out, SpriteFram
     }
 }
 
-/* MECHANISM: Separate packed source/derived locals preserve the 0x40 frame and retail slots. */
 
 #include "shared/entity_height_offsets.h"
 #include "shared/slus_callbacks.h"

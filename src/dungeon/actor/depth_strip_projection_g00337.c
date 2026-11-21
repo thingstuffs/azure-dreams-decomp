@@ -1,5 +1,4 @@
-/* Depth strip projection (G00337). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800AA854. */
+/* Processes circular segments and projects depth strips and quads. */
 #include "dungeon/actor/depth_strip_projection_g00337.h"
 #include "dungeon/actor.h"
 

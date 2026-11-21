@@ -25,5 +25,5 @@ void card_dev_start_next_screen(S_8001EC4C_0 *object) {
     if (D_80010208 != 0) {
         actionId = 5;
     }
-    func_8003D548(actionId);
+    request_scene_dispatch_state_8003D548(actionId);
 }

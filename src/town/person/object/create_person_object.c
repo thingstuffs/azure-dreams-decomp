@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/resource_request_data.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
@@ -15,8 +16,6 @@ extern void fill_position_history(void);
 #include "engine/node.h"
 #include "town/person/object.h"
 #include "town/person/state_updates.h"
-
-extern s32 loaded_town_resource_attributes[];
 
 extern u8 person_approach_state_address[];
 extern s32 D_800D1200[];

@@ -1,18 +1,15 @@
 #include "script_symbols.h"
-#include "common.h"
 #include "town/player/script_flags.h"
 #include "town/scene/hooks.h"
+#include "town/scene/record_actions.h"
+#include "town/scene/state_data.h"
 
-extern s32 apply_selected_entry_values(s32, s32);
-extern s16 scene_request_flag_id[];
-
-/* Process the object action when flag 0x510 is set, otherwise update flag 0x511. */
-s32 apply_entry_values_if_sbs07_pad25(s32 object, s32 context) {
-    set_global_entry_pair(object, context);
+s32 apply_entry_values_if_sbs07_pad25(Rec_func_800165F4_arg0 *row, s32 entry_index) {
+    set_global_entry_pair(row, entry_index);
     if (get_script_flag_mask(F_sbs07_pad25) != 0) {
-        return apply_selected_entry_values(object, context);
+        return apply_selected_entry_values(row, entry_index);
     }
-    if (get_script_flag_mask(scene_request_flag_id[0]) == 0) {
+    if (get_script_flag_mask(scene_request_flag_id) == 0) {
         set_script_flag_bit(F_sbs07_pad26);
     }
     return 0;

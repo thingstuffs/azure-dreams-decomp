@@ -1,6 +1,7 @@
 
 struct ObjectPosition;
 #include "common.h"
+#include "engine/audio/data.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
@@ -13,7 +14,6 @@ struct ObjectPosition;
 #include "dungeon/data.h"
 
 extern s8  D_80080AA0;
-extern s8  scene_music_hold;
 
 /* Starts the selected target's action when ready and reports whether a target is active. */
 s32 begin_selected_target_level_up(ActorRecord *actor_state, void *action_arg, void *sprite, ActorRecord *target) {

@@ -1,7 +1,6 @@
 #include "dungeon/level/room_flags.h"
 #include "shared/actor_status_flags.h"
-/* Movement path (G00371). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800D38EC, CL:dungeon/func_800D3B60, CL:dungeon/func_800D40C0, PD:dungeon/engine:800E260C. */
+/* Updates movement, facing, and contact while advancing the actor along its path. */
 #include "dungeon/actor.h"
 #include "dungeon/actor/movement_path_g00371.h"
 #include "dungeon/actor/state_ids.h"

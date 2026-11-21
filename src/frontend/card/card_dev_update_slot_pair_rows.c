@@ -1,5 +1,6 @@
 #include "common.h"
 #include "frontend/card.h"
+#include "frontend/card/choice_panel.h"
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
 
@@ -18,13 +19,13 @@ void card_dev_update_slot_pair_rows(u8 *object) {
 
     slot = 0;
     slot_map = D_80408D40;
-    values = D_80408D44;
+    values = card_dev_paired_choice_data.values;
     do {
         mapped_slot = slot_map[*(s32 *)(object + 0x24)][slot];
         slot_data = *(s32 **)(*(u8 **)(object + 0x60) + mapped_slot * 4 + 8);
         if (*slot_data != 0) {
-            func_8004DDBC(object + (mapped_slot * 0xC + 4),
-                          *(s32 *)((u8 *)D_80408D44 + 8 + (slot * 4)), slot_data);
+            initialize_scaled_entry_cursor_8004DDBC(object + (mapped_slot * 0xC + 4),
+                             card_dev_paired_choice_data.entries[slot], slot_data);
         }
         mapped_slot = slot_map[*(s32 *)(object + 0x24)][slot];
         *(*(s32 **)((u8 *)*(s32 **)((slot * 4) + *(s32 *)(object + 0x60)) + 4)) =

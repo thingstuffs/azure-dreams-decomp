@@ -25,7 +25,8 @@ void card_boot_update_slot_outputs(void *state, s32 *enabled, s32 *selected) {
             output = output_table[slot + 2];
             updated = 1;
             if (enabled[slot] != 0) {
-                func_8004DDBC((u8 *)state + data_offset, D_80408A30, output);
+                initialize_scaled_entry_cursor_8004DDBC((u8 *)state + data_offset, &card_dev_choice_cursor_data,
+                                                       &output->payload.word);
             } else {
                 output->payload.word = 0;
                 *(s32 *)(record + 8) = 0;

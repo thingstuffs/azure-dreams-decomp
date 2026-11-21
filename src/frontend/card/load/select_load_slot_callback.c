@@ -1,31 +1,27 @@
 #include "common.h"
 #include "shared/object_node.h"
+#include "frontend/card.h"
 #include "frontend/card/load.h"
-
-extern s32 get_table_entry_by_flag(void);
-extern s32 count_nonzero(void);
-extern void func_80406C74(void *ptr);
-extern void func_80406CB8(void *ptr);
-extern void func_80406C2C(void);
-extern void func_80406B9C(void);
-extern u8 card_slot_header_cache[];
+#include "frontend/card/save_slot.h"
+#include "frontend/card/server_aliases.h"
+#include "frontend/card/service.h"
 
 /* Chooses a card-load callback from the selected slot header, table state and nonzero-entry count. */
 void select_load_slot_callback(void *ptr) {
     s32 idx;
 
     idx = *(s32 *)((u8 *)ptr + 0x2C);
-    if (*(s32 *)(card_slot_header_cache + (idx << 7)) != 0) {
-        NODE_HEADER(ptr)->update_callback = func_80406C2C;
+    if (card_slot_header_cache[idx].fields.marker != 0) {
+        NODE_HEADER(ptr)->update_callback = card_dev_enter_load_overwrite_confirmation;
         return;
     }
     if (get_table_entry_by_flag() >= 3) {
-        NODE_HEADER(ptr)->update_callback = func_80406B9C;
+        NODE_HEADER(ptr)->update_callback = card_dev_enter_saving_progress;
         return;
     }
-    if (count_nonzero() != 0) {
-        func_80406C74(ptr);
+    if (card_dev_count_cached_slots() != 0) {
+        card_dev_enter_overwrite_space_advice(ptr);
         return;
     }
-    func_80406CB8(ptr);
+    card_dev_enter_card_space_advice(ptr);
 }

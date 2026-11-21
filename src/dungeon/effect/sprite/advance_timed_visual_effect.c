@@ -24,9 +24,7 @@ void expire_effect_at_unit_scale(ParticleCleanupEffectBody *state, ObjectPositio
     }
 }
 
-/* MECHANISM: Frameless leaf; pin the persistent arg0 pointer in $a1.
-   Hold the signed halfword reload in a pinned s32 $a0 local: this selects
-   retail's direct lh/bgtz and avoids the s16 pin's extra lhu/sll pair. */
+/* Marks the effect for removal and signals that particle state needs updating. */
 
 void finish_timed_visual_effect(void *object) {
     u16 *flags = (u16 *)object - 1;

@@ -1,9 +1,7 @@
-#include "common.h"
-#include "town/scene.h"
+#include "town/scene/record_actions.h"
+#include "town/scene/entry_requests.h"
 #include "town/scene/event.h"
 
-
-/* Forward the context and request to process_checked_entry. */
-void forward_context_request_to_handler_c_68(void *context, s32 request) {
-    process_checked_entry(context, request);
+s32 forward_context_request_to_handler_c_68(Rec_func_800165F4_arg0 *entry, s32 entry_index) {
+    return process_checked_entry(entry, entry_index);
 }

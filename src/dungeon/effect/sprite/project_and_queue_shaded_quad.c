@@ -412,9 +412,6 @@ void create_random_offset_effect(void *unused, Rec_func_800247B8_arg1 *origin, v
     }
 }
 
-/* MECHANISM: Preserve the seed's exact 0x20 frame, s2/s1/s0 holds, and CFG.
-   Unsigned byte fields keep the shared 0x80 store value as +128, matching
-   retail's addiu before the three sb operations. */
 
 /* Cycles sprite colors, moves toward a target or along a path, then spawns impact and radial bursts. */
 void update_effect_cycle_and_bursts(Row_8192365C_S_80024E5C_0 *effect, Row_8192365C_S_80024E5C_2 *motion, SpriteFrameState *sprite) {

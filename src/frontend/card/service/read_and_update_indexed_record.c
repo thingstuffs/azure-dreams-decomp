@@ -22,7 +22,7 @@ s32 read_and_update_indexed_record(s32 index, void *data_ptr) {
             result = write_byte(buffer, &card_slot_header_cache[index], 1, 4,
                                    card_slot_header_cache[index].fields.marker);
         } else {
-            func_8007BF18(D_80400138);
+            puts_8007BF18(dev_card_invalid_data_message);
         }
     }
     return result;

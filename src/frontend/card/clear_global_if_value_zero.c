@@ -1,8 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "frontend/card.h"
-
-s32 process_global(s32 flag_linked_object);                     /* extern */
+#include "frontend/card/server_aliases.h"
 
 typedef struct S_8001B93C_0 {
     u8 pad_00[0x20];

@@ -72,7 +72,3 @@ void scatter_landing_sparks_on_grid(ObjectNodeHeader *source) {
         grid_x += 1;
     } while (grid_x < 3);
 }
-
-/* MECHANISM: True-space nested loops plus a held D_80165AB8 base produce the exact 0x30 frame and s5/s4/s3/s2 roles at cdk-G0.
-   A byte-aligned 12-byte aggregate produces the retail lwl/lwr/swl/swr copy; distinct RNG/coordinate locals preserve v1/a0 allocation.
-   The final 0xFF field is u8 so GCC materializes 0xff rather than canonicalizing it to -1. */

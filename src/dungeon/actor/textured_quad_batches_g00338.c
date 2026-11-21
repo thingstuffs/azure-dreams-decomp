@@ -1,6 +1,5 @@
 #include "shared/entity.h"
-/* Textured quad batches (G00338). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800AB480. */
+/* Transforms linked batches of textured quads and submits their primitives. */
 #include "dungeon/actor/textured_quad_batches_g00338.h"
 #include "engine/graphics.h"
 #include "dungeon/actor.h"
@@ -222,7 +221,7 @@ void *submit_textured_quad(s32 draw_context, SpriteFrameState *draw_settings, vo
         texture_page = ((S_800B0BE0_2 *)(*texture_cursor))->unk_04;
     }
     {
-        S_800B0BE0_0 *packet = (S_800B0BE0_0 *)primitive;
+        S_800B0BE0_0 *packet = primitive;
         packet->unk_16 = (u16) texture_page;
         u_start = ((S_800B0BE0_2 *)(*texture_cursor))->unk_08;
         packet->unk_1C = u_start;

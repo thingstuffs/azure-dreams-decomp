@@ -2,6 +2,7 @@
 #include "town/scene/position_entries.h"
 #include "shared/record_ptrs.h"
 #include "town/player/script_flags.h"
+#include "town/scene/state_data.h"
 #include "shared/town_root.h"
 #include "town/scene.h"
 #include "town/scene/motion.h"
@@ -23,7 +24,6 @@ typedef struct TownState {
 
 extern void decrement_entry_counter_if_flag(void);
 
-extern s16 scene_request_flag_id;
 extern ScenePositionEntry D_80018B40[];
 extern s32 D_80018E38;
 

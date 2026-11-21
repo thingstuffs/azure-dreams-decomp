@@ -51,14 +51,6 @@ typedef struct S_8001A044_8 {
     s32 * unk_18;
 } S_8001A044_8;
 
-typedef struct S_8001A044_9 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-} S_8001A044_9;
-
-
-
-
 struct MaskedSceneRecord;
 extern struct MaskedSceneRecord *find_masked_record_and_initialize(void *, void *);
 
@@ -66,12 +58,11 @@ extern u8 D_80016094[];
 extern u8 D_800160A0[];
 extern u8 D_800160CC[];
 extern u8 D_800160FC[];
-extern u8 scene_object_image_data[];
 
 /* Builds the object-set table and grouped object-select lists, then reports their counts and the CD-header count. */
 void build_object_set_and_select_lists(s32 *records, void *ost_w, void *osel_w)
 {
-    register u8 *cd_header_entry;
+    register TownCdHeaderEntry *cd_header_entry;
     s32 *pp;
     s32 bank_bits;
     s32 group_bits;
@@ -191,11 +182,11 @@ void build_object_set_and_select_lists(s32 *records, void *ost_w, void *osel_w)
 
     cd_header_entry = scene_object_image_data;
     cdhd_cnt = 1;
-    if (((S_8001A044_9 *)cd_header_entry)->unk_04 != 0) {
+    if (cd_header_entry->header_address != 0) {
         do {
-            cd_header_entry += 8;
+            cd_header_entry++;
             cdhd_cnt += 1;
-        } while (((S_8001A044_9 *)cd_header_entry)->unk_04 != 0);
+        } while (cd_header_entry->header_address != 0);
     }
     report_count =
         ((TownCallback)town_scene_root->services->callback_168);

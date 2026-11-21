@@ -3,56 +3,49 @@
 #include "frontend/card.h"
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
+#include "frontend/libcard.h"
+#include "frontend/card/server_aliases.h"
+#include "frontend/card/server_menu.h"
 
-extern void process_embedded_data_and_propagate_flags(void *object);
 extern s32 dispatch_context_through_four_entry_table(void *context);
-extern void func_80407B14(void *object, s32 value);
-extern void func_80407BD0(void *object, s32 option);
 
 typedef struct {
     u8 unk_00[0x0C];
-    u32 field_0C;
+    CardDevMenuEntry *heading;
 } Obj;
 
-typedef struct {
-    u8 unk_00[0xEC];
-    u32 field_EC;
-} Sub;
-
-typedef struct {
+typedef struct CardDevSmeObject {
     u8 unk_00[0x1E];
     u16 flags;
     u8 unk_20[0x100];
 } Root;
 
-extern Root card_sme_object;
-
 /* Initializes the memory card state object and its working data. */
-void * init_card_sme_object(s32 init_option) {
+void * init_card_sme_object(struct ObjectNodeHeader *owner) {
     Obj *obj = (Obj *)&card_sme_object;
-    Sub *card_state = NODE_BODY(obj);
+    CardDevMenu4 *card_state = NODE_BODY(obj);
     s32 state_value;
 
     if (func_80047FD8(obj) == 0) {
         obj = func_8003C714(0, obj, 0x68);
         if (obj == 0) {
-            func_8007C040(D_804007D8, D_80400800, 0xEE);
-            func_8007BEF0(1);
+            printf_8007C040(card_sme_assert_format, card_sme_assert_filename, 0xEE);
+            exit_8007BEF0(1);
         }
-        func_80040560(obj, card_status_query_address);
+        func_80040560(obj, card_dev_render_panel_hierarchy);
     } else {
-        process_embedded_data_and_propagate_flags(obj);
+        card_dev_refresh_options_object(obj);
         {
             u16 flags = card_sme_object.flags;
             flags &= 0x7FFF;
             card_sme_object.flags = flags;
         }
-        func_8007BFE0(card_state, 0x180);
+        bzero_8007BFE0(card_state, 0x180);
     }
-    func_80407B14(card_state, 4);
-    obj->field_0C = (s32)((u8 *)card_state + 0xE0);
-    state_value = dispatch_context_through_four_entry_table((u8 *)card_state + 0xF0);
-    card_state->field_EC = state_value;
-    func_80407BD0(card_state, init_option);
+    card_dev_init_sme_menu_entries(card_state, 4);
+    obj->heading = &card_state->heading;
+    state_value = dispatch_context_through_four_entry_table(card_state->entries);
+    card_state->heading.unk_0C = state_value;
+    card_dev_prepare_save_heading_layout(card_state, owner);
     return obj;
 }

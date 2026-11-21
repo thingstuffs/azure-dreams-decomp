@@ -12,21 +12,21 @@ s32 card_dev_write_file_units_128(s32 filename, void *buffer, s32 block_count, s
     success = 0;
     switch (skip_create) {
     case 0:
-        fd = func_8007CA58(filename, 0x30200);
+        fd = open_8007CA58(filename, 0x30200);
         if (fd == -1) {
             break;
         }
-        func_8007CA98(fd);
+        close_8007CA98(fd);
     default:
-        fd = func_8007CA58(filename, 2);
+        fd = open_8007CA58(filename, 2);
         if (fd != -1) {
-            if ((block_offset == 0) || (func_8007CA68(fd, block_offset << 7, 0) != -1)) {
+            if ((block_offset == 0) || (lseek_8007CA68(fd, block_offset << 7, 0) != -1)) {
                 byte_count = block_count << 7;
-                if (func_8007CA88(fd, buffer, byte_count) == byte_count) {
+                if (write_8007CA88(fd, buffer, byte_count) == byte_count) {
                     success = 1;
                 }
             }
-            func_8007CA98(fd);
+            close_8007CA98(fd);
         }
     }
     return success;

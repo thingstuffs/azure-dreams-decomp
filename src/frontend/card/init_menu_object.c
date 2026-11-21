@@ -3,9 +3,9 @@
 #include "common.h"
 #include "main/data.h"
 #include "frontend/card/message.h"
+#include "frontend/card/server_aliases.h"
 
 extern void resolve_apply(void *object);
-extern void call_handler_with_zero_if_field_is_zero(void);
 
 /* Initialize the object from its table entry and select its callback. */
 void init_menu_object(CardDevDialogDisplay *object) {

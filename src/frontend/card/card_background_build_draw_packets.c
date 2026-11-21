@@ -32,8 +32,8 @@ MainPacket12 *card_background_build_draw_packets(MainPacket12 *packet) {
     packet++;
 
     packet->code = 0x2C;
-    packet->x = func_80078570(1, 0, 0x380, 0x100);
-    packet->y = func_80078640(0, 0x1F5);
+    packet->x = GetTPage_80078570(1, 0, 0x380, 0x100);
+    packet->y = GetClut_80078640(0, 0x1F5);
     packet->r = 0;
     packet->g = 0;
     packet->b = 0xA0;

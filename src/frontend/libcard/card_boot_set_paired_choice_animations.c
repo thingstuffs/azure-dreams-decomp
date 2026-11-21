@@ -5,7 +5,6 @@
 #include "frontend/libcard/interfaces.h"
 #include "frontend/libcard.h"
 #include "slus.h"
-extern FrameNode card_choice_cursor_data;
 
 /* Updates or clears active records, then refreshes the object if any were active. */
 void card_boot_set_paired_choice_animations(CardChoiceOwner *object, s32 *enable_flags, s32 *active_flags)

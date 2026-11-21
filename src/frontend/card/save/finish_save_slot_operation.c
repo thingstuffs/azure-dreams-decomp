@@ -2,11 +2,12 @@
 #include "shared/object_node.h"
 #include "frontend/card/service.h"
 #include "frontend/card/save.h"
+#include "frontend/card/server_aliases.h"
+#include "frontend/card.h"
 
 typedef struct S_func_804061C4_0 {
-    u8 pad_00[4];
-    s32 unk_04;
-    u8 pad_08[0x20];
+    CardDevSaveSlotWindows slot_windows;
+    u8 pad_18[0x10];
     s32 unk_28;
     u8 pad_2C[8];
     void (*unk_34)(void);
@@ -14,8 +15,6 @@ typedef struct S_func_804061C4_0 {
 } S_func_804061C4_0;
 
 extern void initialize_card_message_object_with_code_0x13(void *object);
-extern void func_80404688(s32 entry_object);
-extern void func_80405A64(void);
 
 /*
  * Returns to menu input when the card operation is already complete or succeeds, processing five
@@ -23,7 +22,7 @@ extern void func_80405A64(void);
  */
 void finish_save_slot_operation(S_func_804061C4_0 *state)
 {
-    s32 entry;
+    struct ObjectNodeHeader *entry;
     s32 entry_count;
 
     if (state->unk_38 != 0) {
@@ -35,10 +34,9 @@ void finish_save_slot_operation(S_func_804061C4_0 *state)
         entry_count = 0;
         NODE_HEADER(state)->update_callback = (void *)handle_object_menu_input;
         do {
-            entry = state->unk_04;
-            state = (S_func_804061C4_0 *)((u8 *)state + 4);
+            entry = state->slot_windows.windows[entry_count];
             entry_count++;
-            func_80404688(entry);
+            card_dev_refresh_slot_window_display(entry);
         } while (entry_count < 5);
     } else {
         state->unk_34 = handle_object_menu_input;

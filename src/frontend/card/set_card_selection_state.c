@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 #include "frontend/card/server_imports.h"
 #include "frontend/card/server_aliases.h"
 
@@ -9,7 +10,7 @@
  */
 void set_card_selection_state(s32 select_second)
 {
-    invoke_callback_for_four_global_values();
+    card_dev_drain_hw_events();
     _card_wait_80408654(0);
     _card_wait_80408654(1);
     if (select_second) {
@@ -17,5 +18,5 @@ void set_card_selection_state(s32 select_second)
     } else {
         card_selected_channel = 0;
     }
-    wait_selected(card_selected_channel);
+    card_dev_wait_poll_ready(card_selected_channel);
 }

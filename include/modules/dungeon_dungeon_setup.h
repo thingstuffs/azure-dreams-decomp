@@ -1,6 +1,7 @@
 #ifndef DUNGEON_DUNGEON_SETUP_H
 #define DUNGEON_DUNGEON_SETUP_H
 #include "dungeon/player/saved_held_item_data.h"
+#include "engine/audio/data.h"
 #include "dungeon/globals.h"
 #include "sdk/libgte.h"
 #include "dungeon/level.h"
@@ -142,12 +143,6 @@ typedef struct {
 typedef struct {
     u8 bytes[12];
 } __attribute__((packed)) dungeon_setup_802835B8_Copy12;
-typedef struct dungeon_setup_80283BF0_S_80016BF0_0 {
-    u8 pad_00[0x10];
-    u8 * unk_10;
-    s16 unk_14;
-    s16 unk_16;
-} dungeon_setup_80283BF0_S_80016BF0_0;
 typedef struct dungeon_setup_80283BF0_S_80016BF0_2_pre {
     u16 unk_00;
 } dungeon_setup_80283BF0_S_80016BF0_2_pre;
@@ -263,7 +258,6 @@ extern void Control_CD(s32, void *, s32);
 extern void drain_cd_command_queue(void);
 extern void invalidate_four_sprite_resource_slots(void);
 extern s32 D_8001022C;
-extern s8 scene_music_hold;
 extern s16 current_dungeon_floor;
 extern u8 dungeon_button_latch;
 extern s32 D_800E3D1C;

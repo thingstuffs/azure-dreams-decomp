@@ -4,10 +4,12 @@
 #include "frontend/card/server_imports.h"
 #include "shared/object_node.h"
 #include "frontend/card/message_display.h"
+#include "frontend/libcard.h"
 
 s32 forward_target(MenuDisplayNode **entries);
 void func_80402EBC(CardDevDialogDisplay *, struct ObjectNodeHeader *, s32, s32, s32);
-s32 process_global(s32, u8 *);
+/* The initializer branch loads the dialog root into a1 before this call. */
+s32 process_global();
 
 typedef struct S_8001BF84_0 {
     u8 pad_00[0xC];
@@ -26,14 +28,14 @@ u8 *init_card_message_object(struct ObjectNodeHeader *message_param_1, s32 messa
     if (func_80047FD8(root) == 0) {
         root = func_8003C714(0, root, 0x1E1);
         if (root == 0) {
-            func_8007C040(D_80400548, D_80400570, 0x299);
-            func_8007BEF0(1);
+            printf_8007C040(card_message_assert_format, card_message_assert_filename, 0x299);
+            exit_8007BEF0(1);
         }
-        func_80040560((s32)root, card_status_query_address);
+        func_80040560(root, card_dev_render_panel_hierarchy);
     } else {
         process_global(*(s32 *)0x80409534 != 2, root);
         D_80409526 &= 0x7FFF;
-        func_8007BFE0(child, 0x764);
+        bzero_8007BFE0(child, 0x764);
     }
 
     init_menu_entry_pointers(child, 6);

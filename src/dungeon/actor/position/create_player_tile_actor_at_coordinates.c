@@ -97,7 +97,7 @@ void *create_player_tile_actor_at_coordinates(u16 tile_x, u16 tile_z, u16 height
         FLD(state, s32, 0x1C) |= 0x40000;
         FLD(state_tail, s16, 0x92) = -0x20;
         FLD(state_tail, s32, 0xAC) = tint;
-        create_source_linked_fading_effect((void *)result_word4, tint_arg);
+        create_source_linked_fading_effect(result_word4, tint_arg);
         register_node(entity, project_sprite_chain);
         set_or_clear_actor_status_slot(state, STATUS_NO_TILE_OCCUPANCY, 0);
     }

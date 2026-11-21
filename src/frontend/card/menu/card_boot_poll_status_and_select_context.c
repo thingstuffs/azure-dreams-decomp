@@ -14,8 +14,6 @@ typedef struct S_80407E64_0 {
     s32 unk_38;
 } S_80407E64_0;   /* arg0 in card_boot_poll_status_and_select_context */
 
-extern void initialize_card_message_object_with_code_0xd(void *context);
-
 /* Polls the status and selects the corresponding context update and data. */
 void card_boot_poll_status_and_select_context(void *state_arg) {
     S_80407E64_0 *state = state_arg;

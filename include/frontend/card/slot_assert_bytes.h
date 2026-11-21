@@ -2,7 +2,7 @@
 #define FRONTEND_CARD_SLOT_ASSERT_BYTES_H
 #include "common.h"
 
-extern u8 card_slot_assert_format[];
-extern u8 card_slot_filename[];
+extern const char card_slot_assert_format[];
+extern const char card_slot_filename[];
 
 #endif

@@ -514,7 +514,7 @@ next_edge_step:
                         packet_code = packet + 7;
                         if (cell->index != 0) {
                             scratch->cell_height.word = cell->offset;
-                            face = ((CellFace **)map->cell_faces)[cells[scratch->cell_index].index];
+                            face = map->cell_faces[cells[scratch->cell_index].index];
 next_face:
                             {
                                 s32 vertex_value;

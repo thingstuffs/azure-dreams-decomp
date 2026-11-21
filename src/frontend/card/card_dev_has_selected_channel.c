@@ -1,7 +1,8 @@
 #include "common.h"
 #include "frontend/card.h"
+#include "frontend/card/service/selected_channel_data.h"
 
-/* Returns whether the value at 0x804094EC is nonzero. */
+/* Returns whether the selected channel is nonzero. */
 s32 card_dev_has_selected_channel(void) {
-    return *(s32 *)0x804094EC != 0;
+    return card_selected_channel != 0;
 }

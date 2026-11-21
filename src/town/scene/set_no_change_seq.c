@@ -1,7 +1,6 @@
 #include "common.h"
+#include "slus/gp_d92c_owned.h"
 #include "town/scene.h"
-
-extern s8 scene_music_hold;
 
 /* set_no_change_seq: sets the flag that prevents sequence changes. */
 void set_no_change_seq(void) {

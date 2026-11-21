@@ -58,6 +58,7 @@ void update_action_state_direction_specific(ActorRecord *action_state, ObjectPos
 struct Actor;
 void update_cyclone_actor(struct Actor *input_actor, ObjectPosition *input_motion, SpriteFrameState *input_entity);
 
+s32 clear_anorexia_if_present(void *object);
 void show_entity_message_with_prefix(s32 dispatch_mode, ActorRecord *input);
 
 #endif

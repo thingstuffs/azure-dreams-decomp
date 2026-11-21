@@ -6,6 +6,7 @@
 #include "engine/message.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
+#include "town/scene/resource_request_data.h"
 #include "town/person/object_setup.h"
 #include "shared/object_node.h"
 #include "town/menu/window.h"

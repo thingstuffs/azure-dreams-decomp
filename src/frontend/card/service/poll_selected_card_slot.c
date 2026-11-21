@@ -1,16 +1,12 @@
 #include "common.h"
+#include "frontend/card.h"
 #include "frontend/card/event_callbacks.h"
+#include "frontend/card/server_aliases.h"
 #include "frontend/card/service.h"
 #include "frontend/card/server_imports.h"
 #include "frontend/card/service/event_mode_data.h"
 #include "frontend/card/service/operation_state_data.h"
 #include "frontend/card/service/selected_channel_data.h"
-
-extern u8 D_800A0000[];
-
-extern s32 D_8009E390[];
-
-extern void invoke_callback_for_four_global_values(void);
 
 /*
  * Polls the selected card slot, starts and waits for a detected card event, and sets the channel
@@ -19,7 +15,7 @@ extern void invoke_callback_for_four_global_values(void);
  */
 s32 poll_selected_card_slot(void) {
     s32 status;
-    u32 *slot_flag;
+    s32 *slot_flag;
     s32 *completion_flag;
     s32 selected_slot;
     u32 state;
@@ -29,16 +25,16 @@ s32 poll_selected_card_slot(void) {
     if (state != 0) {
         switch (state) {
         case 1:
-            slot_flag = &D_8009E390[0];
+            slot_flag = &dev_card_channel_completion_flags[0];
             if (card_selected_channel != 0) {
-                slot_flag = &D_8009E390[1];
+                slot_flag = &dev_card_channel_completion_flags[1];
             }
             if (*slot_flag != 0) {
                 card_ui_operation_state = 0;
                 status = 1;
             } else if (((_card_status_80408644(0) & 1) != 0) ||
                        ((_card_status_80408644(1) & 1) != 0)) {
-                invoke_callback_for_four_global_values();
+                card_dev_drain_hw_events();
                 while (_card_load_80408674(card_selected_channel) == 0) {
                 }
                 card_ui_event_mode = 0;
@@ -49,8 +45,7 @@ s32 poll_selected_card_slot(void) {
             break;
         case 3:
             selected_slot = card_selected_channel;
-            completion_flag = (s32 *)D_800A0000;
-            completion_flag = (s32 *)((u8 *)completion_flag - 0x1C70);
+            completion_flag = dev_card_channel_completion_flags;
             if (selected_slot != 0) {
                 completion_flag++;
                 status = 2;

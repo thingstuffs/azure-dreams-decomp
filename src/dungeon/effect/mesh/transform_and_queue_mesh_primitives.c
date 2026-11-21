@@ -674,7 +674,7 @@ s32 project_colored_point_to_ordering_table(TerrainSeekingColoredPointBody *rend
         scratch->position.vz = position->z.w.i;
         scratch->packet_cursor = point_packet + 1;
 
-        depth_index = RotTransPers(&scratch->position, (s32 *)&point_packet->x0, &scratch->depth_cue,
+        depth_index = RotTransPers(&scratch->position, &point_packet->x0, &scratch->depth_cue,
                                    &scratch->gte_flag);
         scratch->ot_index = depth_index;
         if (depth_index < 0x1E0U) {
@@ -1235,9 +1235,6 @@ void initialize_star_effect_sequence(StarSequenceBody *state_data, ObjectPositio
 }
 
 
-/* MECHANISM: A held 0x80020000 page and s32 mode local fix the prologue/store slot.
-   Scoped $v1 edge/$v0 span tails plus scheduling fences preserve coordinate load delays.
-   Default-first noreturn layout encodes true-space joins; division by 5 restores the magic divide. */
 #include "shared/entity_height_offsets.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"

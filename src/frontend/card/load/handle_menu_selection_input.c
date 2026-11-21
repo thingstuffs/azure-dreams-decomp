@@ -1,14 +1,15 @@
 #include "common.h"
 #include "shared/object_node.h"
+#include "frontend/card.h"
 #include "frontend/card/load.h"
 #include "frontend/card/service.h"
 #include "frontend/card/server_imports.h"
 #include "shared/pad_state.h"
+#include "frontend/card/server_aliases.h"
 
 
 extern s32 boot_pressed_buttons;
 
-extern void submit_stored_and_queried_boot_values(void);
 extern void func_804070C4(void *object);
 
 
@@ -39,13 +40,13 @@ void handle_menu_selection_input(void *object_arg)
         buttons = &boot_pressed_buttons;
         pressed_buttons = buttons[0];
         if (pressed_buttons & 0x40) {
-            func_80063FF8(0x515);
+            SD_Call_80063FF8(0x515);
             func_804070C4(NODE_HEADER(object));
             create_card_dev_slot_screen_effect(object->unk_20, object->unk_24);
             return;
         }
         if (pressed_buttons & 0x20) {
-            func_80063FF8(0x514);
+            SD_Call_80063FF8(0x514);
             select_load_slot_callback(object);
         } else if (held_buttons & 0x5000) {
             if (pressed_buttons & 0x5000) {
@@ -75,15 +76,15 @@ void handle_menu_selection_input(void *object_arg)
             }
         }
         if (direction != 0) {
-            func_80063FF8(0x502);
+            SD_Call_80063FF8(0x502);
             object->unk_2C =
-                func_80058FF0(object->unk_2C, direction, 5);
+                advance_card_menu_index_80058FF0(object->unk_2C, direction, 5);
             card_devkit_highlight_selected_load_slot(object);
         }
     }
 
     direction = card_devkit_poll_stable_slot_state();
-    submit_stored_and_queried_boot_values();
+    card_dev_print_status();
     if (direction == 0) {
         return;
     }

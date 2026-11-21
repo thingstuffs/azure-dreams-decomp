@@ -1,5 +1,4 @@
-/* Expiring sprite effect (G00370). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800D1374. */
+/* Creates an offset sprite effect and advances it until it expires. */
 #include "dungeon/effect/expiring_sprite_effect_g00370.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"

@@ -6,5 +6,5 @@
 void card_dev_start_default_screen(void) {
     card_dev_effect_mode = 2;
     card_dev_close_events();
-    func_8003D548(3);
+    request_scene_dispatch_state_8003D548(3);
 }

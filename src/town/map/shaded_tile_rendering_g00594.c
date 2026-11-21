@@ -69,7 +69,6 @@ void render_shaded_map_tiles(void) {
     MapGrid *map_data;
     S_func_800AED64_10 *tile_uvs;
     S_func_800AED64_13 *polygon;
-    S_func_800AED64_13 **faces;
     s32 x_step;
     u32 error_step;
     s32 row_limit;
@@ -302,8 +301,7 @@ void render_shaded_map_tiles(void) {
                         tile_index = scratch.ptr->unk_C0;
 
                         scratch.ptr->unk_12C.s32 = 0;
-                        faces = map_data->cell_faces;
-                        polygon = faces[tile_index];
+                        polygon = map_data->cell_faces[tile_index];
                         for (;;) {
                             if (polygon->unk_0C != 0) {
                                 work_value = polygon->unk_10;
@@ -312,17 +310,17 @@ void render_shaded_map_tiles(void) {
                                 work_value = polygon->unk_00;
                                 work_bits = polygon->unk_14.s32;
                                 work_value <<= 3;
-                                work_value += (s32) vertices;
+                                work_value += (s32)vertices;
                                 scratch.ptr->unk_16C.s32 = work_bits;
-                                work_value = ((S_func_800AED64_15 *)((void *) work_value))->unk_00;
+                                work_value = ((Vertex *)work_value)->value;
                                 work_bits = scratch.ptr->unk_12C.u16;
                                 scratch.ptr->unk_168.s32 = work_value;
                                 work_value = polygon->unk_00;
                                 coord_offset = (void *) (u32) scratch.ptr->unk_168.u16;
                                 work_value <<= 3;
-                                work_value += (s32) vertices;
+                                work_value += (s32)vertices;
                                 packed_xy += (u32)coord_offset;
-                                work_value = ((S_func_800AED64_15 *)((void *) work_value))->unk_04;
+                                work_value = ((Vertex *)work_value)->depth;
                                 packed_xy &= 0xFFFF;
                                 work_value -= work_bits;
                                 scratch.ptr->unk_E4.s16 = work_value;
@@ -338,15 +336,15 @@ void render_shaded_map_tiles(void) {
                                 packed_xy = scratch.ptr->unk_14.u16;
                                 work_bits = scratch.ptr->unk_12C.u16;
                                 work_value <<= 3;
-                                work_value += (s32) vertices;
-                                work_value = ((S_func_800AED64_15 *)((void *) work_value))->unk_00;
+                                work_value += (s32)vertices;
+                                work_value = ((Vertex *)work_value)->value;
                                 scratch.ptr->unk_168.s32 = work_value;
                                 work_value = polygon->unk_02;
                                 coord_offset = (void *) (u32) scratch.ptr->unk_168.u16;
                                 work_value <<= 3;
-                                work_value += (s32) vertices;
+                                work_value += (s32)vertices;
                                 packed_xy += (u32)coord_offset;
-                                work_value = ((S_func_800AED64_15 *)((void *) work_value))->unk_04;
+                                work_value = ((Vertex *)work_value)->depth;
                                 packed_xy &= 0xFFFF;
                                 work_value -= work_bits;
                                 scratch.ptr->unk_EC = work_value;
@@ -361,8 +359,8 @@ void render_shaded_map_tiles(void) {
                                 scratch.ptr->unk_E8 = packed_xy;
                                 packed_xy = scratch.ptr->unk_14.u16;
                                 work_value <<= 3;
-                                work_value += (s32) vertices;
-                                work_value = ((S_func_800AED64_15 *)((void *) work_value))->unk_00;
+                                work_value += (s32)vertices;
+                                work_value = ((Vertex *)work_value)->value;
                                 scratch.ptr->unk_168.s32 = work_value;
                                 work_value = scratch.ptr->unk_168.u16;
                                 half_y = ((volatile S_func_800AED64_4 *)(scratch.ptr))->unk_168.at_16A.unk_16A;
@@ -378,8 +376,8 @@ void render_shaded_map_tiles(void) {
                                 scratch.ptr->unk_F0 = packed_xy;
                                 work_value = polygon->unk_04;
                                 work_value <<= 3;
-                                work_value += (s32) vertices;
-                                work_bits = ((S_func_800AED64_15 *)((void *) work_value))->unk_04;
+                                work_value += (s32)vertices;
+                                work_bits = ((Vertex *)work_value)->depth;
                                 work_value = scratch.ptr->unk_12C.u16;
                                 work_bits -= work_value;
                                 scratch.ptr->unk_F4 = work_bits;
@@ -390,8 +388,8 @@ void render_shaded_map_tiles(void) {
                                 if (scratch.ptr->unk_DC >= 0) {
                                     work_value = polygon->unk_06;
                                     work_value <<= 3;
-                                    work_value += (s32) vertices;
-                                    work_bits = ((S_func_800AED64_15 *)((void *) work_value))->unk_04;
+                                    work_value += (s32)vertices;
+                                    work_bits = ((Vertex *)work_value)->depth;
                                     work_value = scratch.ptr->unk_12C.u16;
                                     work_bits -= work_value;
                                     scratch.ptr->unk_FC = work_bits;
@@ -409,8 +407,8 @@ void render_shaded_map_tiles(void) {
                                     work_value = polygon->unk_06;
                                     packed_xy = scratch.ptr->unk_14.u16;
                                     work_value <<= 3;
-                                    work_value += (s32) vertices;
-                                    work_value = ((S_func_800AED64_15 *)((void *) work_value))->unk_00;
+                                    work_value += (s32)vertices;
+                                    work_value = ((Vertex *)work_value)->value;
                                     scratch.ptr->unk_168.s32 = work_value;
                                     work_value = scratch.ptr->unk_168.u16;
                                     half_y = ((volatile S_func_800AED64_4 *)(scratch.ptr))->unk_168.at_16A.unk_16A;

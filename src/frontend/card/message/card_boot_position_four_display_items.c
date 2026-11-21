@@ -12,7 +12,7 @@ void card_boot_position_four_display_items(CardDevDialogDisplay *state)
     MenuDisplayNode *item;
     u32 entry_addr;
     u32 row_addr;
-    s32 (*item_table)[4];
+    u8 *(*item_table)[4];
 
     item_index = 0;
     item_table = card_layout_text_items;
@@ -34,7 +34,7 @@ void card_boot_position_four_display_items(CardDevDialogDisplay *state)
         entry_addr += row_addr;
         item->unk_00 = func_80051B50(
             draw_buffer,
-            *(s32 *)(unsigned long)entry_addr,
+            (s32)(unsigned long)*(u8 **)(unsigned long)entry_addr,
             1);
     } while (item_index < 4);
 }

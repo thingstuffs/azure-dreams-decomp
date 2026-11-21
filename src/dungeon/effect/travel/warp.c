@@ -1209,7 +1209,7 @@ s32 draw_warp_pieces(AnimFrame *frame, ObjectPosition *position, SpriteFrameStat
         if (entry_or_link == 0) {
             break;
         }
-        next = (ObjectNodeHeader *)entry_or_link;
+        next = entry_or_link;
         frame = NODE_BODY(next);
         position = next->position;
         sprite = next->sprite;
@@ -1334,9 +1334,6 @@ void animate_waving_point_pair_and_fade(Rec_func_80025D28_arg0 *state, ObjectPos
     state->unk_34 = state->unk_34 + 1;
 }
 
-/* MECHANISM: Natural long-lived arguments and results produce the retail 0x30 frame and s5/s4/s3/s2/s1/s0 roles.
-   A short raw signed-load local selects lh before the shift/truncation while preserving phase_angle in s1.
-   Zero-operand scheduling barriers after both chained products reproduce retail multiply/mflo emission order. */
 
 
 typedef struct S_80025FCC_3 {

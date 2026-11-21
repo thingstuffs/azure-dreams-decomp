@@ -5,9 +5,9 @@
 #include "engine/scene.h"
 #include "sdk/libgpu.h"
 #include "slus.h"
+#include "slus/gp_d92c_owned.h"
 #include "town/scene/flags.h"
 
-extern s8 scene_music_hold;
 extern u32 town_scene_resource_descriptor[2];
 extern u8 D_800D1D54[];
 

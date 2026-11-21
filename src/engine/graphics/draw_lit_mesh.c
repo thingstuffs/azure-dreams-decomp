@@ -20,7 +20,6 @@ void draw_lit_mesh(void *unused, ObjectPosition *position_arg, SpriteFrameState 
     Vertex *vertex_table;
     SVECTOR *normal_table;
     GpuContext *render_state;
-    LitMeshFace **face_lists;
     LitMeshFace *face;
     LitMeshQuadPacket *prim;
     RenderScratch *scratch;
@@ -85,8 +84,7 @@ void draw_lit_mesh(void *unused, ObjectPosition *position_arg, SpriteFrameState 
     prim = render_state->packetCursor;
     sprite->flags |= 0x8000;
 
-    face_lists = render_globals->map.cell_faces;
-    face = face_lists[object->mesh_index];
+    face = render_globals->map.cell_faces[object->mesh_index];
 
     for (;;) {
         vertex_data = vertex_table[face->vertex_indices[0]].value;

@@ -2,17 +2,6 @@
 #include "frontend/card/menu_defaults.h"
 #include "frontend/card/server_menu.h"
 
-/* The 4-entry menu table of the devkit server's init_card_sme_object object: shared settings at +0xD4, then entry pointers,
- * entry blocks and primitive words. */
-typedef struct CardDevMenu4 {
-    u8 unk_000[0xD4];
-    s32 settings[3];
-    u8 unk_settings_end[0x10];
-    CardDevMenuEntry *entries[4];
-    CardDevMenuEntry entry_blocks[4];
-    CardDevMenuPrimitive primitives[4];
-} CardDevMenu4;
-
 /* Devkit-server build of init_menu_entry_pointers: link each entry to its block and primitive words, copy the
  * primitive and settings defaults. */
 void card_dev_init_sme_menu_entries(CardDevMenu4 *state, s32 entry_count)

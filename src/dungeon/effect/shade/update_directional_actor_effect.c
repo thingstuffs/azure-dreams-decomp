@@ -184,7 +184,7 @@ void allocate_effect_and_initialize_sprite(ObjectNodeHeader *effect_data, u16 *e
         state->unk_0C = 0;
         *((s16 *) (((s8 *) state) + 0xE)) = 0;
         state->unk_00 = effect_data;
-        state->unk_04 = (void *)&scene_object_list_anchor.next;
+        state->unk_04 = &scene_object_list_anchor.next;
         state->unk_08 = effect_param;
         sprite = effect->sprite;
         sprite->color.c.b = color;
@@ -242,9 +242,6 @@ void update_circling_offset_effect(TexturedOffsetObjectBody *effect, void *posit
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-/* MECHANISM: Two six-byte vector aggregates force stack slots sp+0x10..0x14 and sp+0x18..0x1C,
-   restoring the 0x30 frame and the s0/s1/s2-only save set.
-   cdk -G0 plus a direct scalar D_800814A0 RMW removes the extra address addiu and closes the residue. */
 
 /* Creates a gray sprite at a rotated radial offset using the source's saved position and transform. */
 void create_textured_offset_object(EffectWithEndpointsBody *source_object)
@@ -414,15 +411,7 @@ void allocate_effect_with_endpoints(s32 object_value, ObjectPosition *start_pos,
     }
 }
 
-/*
- * Sends three effects toward a monster or forward tile, tints and attacks the target, then waits
- * for cleanup.
- *
- * MECHANISM: Two 16-byte plus one packed 8-byte by-value args preserve the 0x28/s0-s3 hold set.
- * Scalarized copy bursts color through v0,v1,a0,a1 while the allocation result is held in a2. A
- * derived sp base with ASM_KEEP prevents packed tail loads folding from lwl/lwr pairs into lw; the
- * paired tail source reads then also eliminate both downstream branch-displacement drifts.
- */
+/* Sends three effects toward a monster or forward tile, tints and attacks the target, then waits for cleanup. */
 void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectPosition *position) {
     s32 fallback_pos[6];
     Row_8194D1E4_Packed8 direction;

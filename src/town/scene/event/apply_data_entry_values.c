@@ -1,10 +1,6 @@
-#include "common.h"
-#include "town/scene/entry_requests.h"
 #include "town/scene/record_actions.h"
-#include "town/scene/event.h"
+#include "town/scene/entry_requests.h"
 
-
-/* Pass data and its accompanying value to apply_selected_entry_values. */
-void apply_scene_entry_values(void *data, s32 value) {
-    apply_selected_entry_values(data, value);
+s32 apply_scene_entry_values(Rec_func_800165F4_arg0 *entry, s32 entry_index) {
+    return apply_selected_entry_values(entry, entry_index);
 }

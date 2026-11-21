@@ -11,7 +11,9 @@ typedef struct CardDevCommandPanel {
     s32 unk_84;
     u8 pad_88[8];
     u8 labels[4][0x3C];
-    u8 pad_180[0x38];
+    u8 primary_block[0x10];
+    u8 secondary_block[0x18];
+    u8 frame_templates[0x10];
     CardMenuDisplayNode *marker;
     CardMenuDisplayNode *resource_entry;
     CardMenuDisplayNode *left[4];

@@ -1,18 +1,17 @@
 #include "script_symbols.h"
 #include "common.h"
-#include "m2c_compat.h"
 #include "town/player/script_flags.h"
 #include "town/scene.h"
 #include "town/scene/event.h"
 
-extern M2C_UNK D_8001B314;
-extern s32 *D_8001C370;
+extern TownObjectSet D_8001B314[];
+extern TownObjectSet *D_8001C370;
 extern s8 D_8001ED72;
 extern s8 D_8001F092;
 
 /* Initializes the active data pointer and refreshes two status flags. */
 void initialize_active_event_data(void) {
-    D_8001C370 = &D_8001B314;
+    D_8001C370 = D_8001B314;
     clear_script_flag_bit(Ftt_pad33);
     clear_script_flag_bit(Ftt_pad69);
     clear_script_flag_bit(Ftt_pad70);

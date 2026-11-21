@@ -1,7 +1,6 @@
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_flags.h"
-/* Actor motion rendering (G00340). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800ACDDC. */
+/* Updates pending actor actions, motion, and rendering. */
 #include "dungeon/effect/actor_motion_rendering_g00340.h"
 #include "dungeon/effect.h"
 

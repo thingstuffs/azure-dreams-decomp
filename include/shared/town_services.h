@@ -18,7 +18,7 @@ typedef struct TownServiceTable {
     /* 0x048 */ unsigned char pad_048[0x4];
     /* 0x04C */ int (*BuildLandBuilding)();
     /* 0x050 */ int (*callback_050)();
-    /* 0x054 */ int (*callback_054)();
+    /* 0x054 */ int (*rand_sn)(int limit);
     /* 0x058 */ unsigned char pad_058[0x10];
     /* 0x068 */ int (*callback_068)();
     /* 0x06C */ unsigned char pad_06C[4];

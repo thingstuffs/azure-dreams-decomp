@@ -1,17 +1,10 @@
-#include "common.h"
 #include "town/player.h"
-#include "town/scene/event.h"
+#include "town/scene.h"
 #include "town/scene/flags.h"
 
-extern s32 apply_selected_entry_values(); /* Slot contract: loading images do not establish one callee contract. */
-
-/*
- * Sets the current entry script flag when the linked record field reaches 20, then applies the
- * selected entry values regardless of the threshold.
- */
-void apply_entry_values_flag_at_twenty(s32 request, s32 context) {
-    if (get_town_state_count() >= 0x14) {
+s32 apply_entry_values_flag_at_twenty(SquareSceneEntry *entry, s32 entry_index) {
+    if (get_town_state_count() >= 20) {
         set_current_entry_script_flag();
     }
-    apply_selected_entry_values(request, context);
+    return apply_selected_entry_values(entry, entry_index);
 }

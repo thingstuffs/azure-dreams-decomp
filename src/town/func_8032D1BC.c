@@ -1,9 +1,6 @@
-#include "town/scene.h"
-#include "common.h"
+#include "town/scene/record_actions.h"
 #include "town.h"
 
-
-/* Forward the context and request to apply_selected_entry_values. */
-void forward_context_request_to_handler_e(void *context, s32 request) {
-    apply_selected_entry_values(context, request);
+s32 forward_context_request_to_handler_e(Rec_func_800165F4_arg0 *entry, s32 entry_index) {
+    return apply_selected_entry_values(entry, entry_index);
 }

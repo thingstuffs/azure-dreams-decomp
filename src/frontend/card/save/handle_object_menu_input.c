@@ -1,34 +1,18 @@
 #include "common.h"
 #include "shared/object_node.h"
+#include "frontend/card.h"
 #include "frontend/card/save.h"
 #include "frontend/card/service.h"
 #include "frontend/card/server_imports.h"
-
-typedef struct S_80406368_0 {
-    u8 pad_00[0x20];
-    void *unk_20;
-    u8 pad_24[0x4];
-    s32 unk_28;
-    u8 pad_2C[0x4];
-    s32 unk_30;
-    u8 pad_34[0x10];
-    s32 unk_44;
-    s32 unk_48;
-} S_80406368_0;   /* menu in handle_object_menu_input */
-
+#include "frontend/card/server_aliases.h"
 
 extern s32 boot_pad_state;
 extern s32 boot_pressed_buttons;
 
-extern void submit_stored_and_queried_boot_values(void);
-extern void invoke_indexed_object_callback(void *menu);
-extern void func_80406358(void *menu);
-extern void propagate_object_high_bit_flags(void *object);
-
 /* Handles menu navigation, button actions, and display refreshes. */
 void handle_object_menu_input(void *menu_arg)
 {
-    S_80406368_0 *menu = menu_arg;
+    CardDevSaveMenuBody *menu = menu_arg;
     s32 held_buttons;
     s32 pressed_buttons;
     s32 nav_result;
@@ -43,37 +27,37 @@ void handle_object_menu_input(void *menu_arg)
     if (held_buttons != 0) {
         pressed_buttons = boot_pressed_buttons;
         if (pressed_buttons & 0x40) {
-            func_80063FF8(0x515);
+            SD_Call_80063FF8(0x515);
             propagate_object_high_bit_flags(NODE_HEADER(menu));
             create_card_dev_slot_screen_effect(menu->unk_20, 0);
             return;
         } else if (pressed_buttons & 0x20) {
-            func_80063FF8(0x514);
+            SD_Call_80063FF8(0x514);
             if (menu->unk_48 == 0) {
-                func_80406358(menu);
+                card_dev_set_save_menu_slot_mode(menu);
                 needs_refresh = 1;
             } else {
                 invoke_indexed_object_callback(menu);
             }
         } else if (held_buttons & 0x5000) {
             if (pressed_buttons & 0x5000) {
-                menu->unk_30 = 0;
+                menu->repeat_ticks = 0;
                 if (*press_p & 0x1000) {
                     nav_result = -1;
                 } else if (*press_p & 0x4000) {
                     nav_result = 1;
                 }
             } else {
-                repeat_ticks = menu->unk_30;
+                repeat_ticks = menu->repeat_ticks;
                 if (repeat_ticks >= 13) {
-                    menu->unk_30 = repeat_ticks - 4;
+                    menu->repeat_ticks = repeat_ticks - 4;
                     if (*held_p & 0x1000) {
                         nav_result = -1;
                     } else if (*held_p & 0x4000) {
                         nav_result = 1;
                     }
                 } else {
-                    menu->unk_30 = repeat_ticks + 1;
+                    menu->repeat_ticks = repeat_ticks + 1;
                 }
             }
         } else if (held_buttons & 0xA000) {
@@ -86,18 +70,18 @@ void handle_object_menu_input(void *menu_arg)
         }
 
         if (nav_result != 0) {
-            func_80063FF8(0x502);
+            SD_Call_80063FF8(0x502);
             if (menu->unk_48 == 1) {
-                menu->unk_28 = func_80058FF0(menu->unk_28, nav_result, 5);
+                menu->unk_28 = advance_card_menu_index_80058FF0(menu->unk_28, nav_result, 5);
             } else {
-                menu->unk_44 = func_80058FF0(menu->unk_44, nav_result, 4);
+                menu->callback_index = advance_card_menu_index_80058FF0(menu->callback_index, nav_result, 4);
             }
             card_devkit_refresh_save_slot_selection(menu);
         }
     }
 
     nav_result = card_devkit_poll_stable_slot_state();
-    submit_stored_and_queried_boot_values();
+    card_dev_print_status();
     if (nav_result != 0) {
         if (nav_result != 1) {
             propagate_object_high_bit_flags(NODE_HEADER(menu));

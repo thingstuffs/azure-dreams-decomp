@@ -5,8 +5,8 @@
 
 /* Run setup for both indices and apply the stored value. */
 void reset_card_selection_state(void) {
-    invoke_callback_for_four_global_values();
+    card_dev_drain_hw_events();
     _card_wait_80408654(0);
     _card_wait_80408654(1);
-    wait_selected(*(s32 *)0x804094EC);
+    card_dev_wait_poll_ready(*(s32 *)0x804094EC);
 }

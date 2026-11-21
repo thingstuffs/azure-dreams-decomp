@@ -5,6 +5,7 @@
 #include "main/data.h"
 #include "town/menu.h"
 #include "frontend/card/server_imports.h"
+#include "frontend/libcard.h"
 #include "frontend/card/server_aliases.h"
 
 typedef struct {
@@ -27,14 +28,14 @@ void *init_card_info_object(ObjectNodeHeader *owner, s32 info_value) {
     if (func_80047FD8(base) == 0) {
         base = func_8003C714(0, base, 0x387);
         if (base == 0) {
-            func_8007C040(D_80400738, D_80400760, 0x1A0);
-            func_8007BEF0(1);
+            printf_8007C040(card_info_assert_format, card_info_assert_filename, 0x1A0);
+            exit_8007BEF0(1);
         }
-        func_80040560(base, card_status_query_address);
+        func_80040560(base, card_dev_render_panel_hierarchy);
     } else {
-        func_804059A8(base);
+        card_dev_refresh_info_object(base);
         D_8040B4F8.flags &= 0x7FFF;
-        func_8007BFE0(card_state, 0xDFC);
+        bzero_8007BFE0(card_state, 0xDFC);
     }
     card_state->selected_slot = info_value;
     initialize_menu_primitive_entries(card_state, 0x15);
