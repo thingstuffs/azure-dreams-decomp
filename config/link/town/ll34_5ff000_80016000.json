@@ -8,6 +8,15 @@
   "evidence": "ledger/instance_load_regions.jsonl; validated packed-CD loader record",
   "entries": [
     {
+      "row": "town/func_8067F0F8",
+      "home": "town/func_8067F0F8",
+      "tu": "src/town/scene/resolve_entry_with_count_zero_overrides.c",
+      "foff": "0x5ff0f8",
+      "vma": "0x800160f8",
+      "size": 216,
+      "evidence": "TOWN +0x5ff0f8, 216 bytes at 0x800160f8; scene record at TOWN +0x6017d4 points to 0x800160f8; docs/evidence/town_scene_loader_receipt.json"
+    },
+    {
       "row": "town/func_8067F770",
       "tu": "src/town/scene/store_scene_price_total.c",
       "home": "town/func_804712B4",
@@ -61,7 +70,7 @@
         "0x80019438": "0x800188C8",
         "0x800164BC": "0x800167F0"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_8067F818",
@@ -86,7 +95,7 @@
         "0x80016000": "0x80016000",
         "0x8001932C": "0x8001712C"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_80680170",
@@ -100,7 +109,7 @@
         "0x80017244": "0x80017170",
         "0x8001932C": "0x8001712C"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_80680194",
@@ -114,7 +123,7 @@
         "0x8001A5E4": "0x8001822C",
         "0x80019394": "0x80017194"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_806801F4",
@@ -129,7 +138,7 @@
         "0x8001608C": "0x80016078",
         "0x800194E4": "0x800171F4"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_806802C8",
@@ -143,7 +152,7 @@
         "0x8001608C": "0x80016078",
         "0x800195B8": "0x800172C8"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_806803B8",
@@ -155,7 +164,7 @@
       "bindings": {
         "0x800196A8": "0x800173B8"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_806803F4",
@@ -169,7 +178,7 @@
         "0x8001DCCC": "0x80018D14",
         "0x800196E4": "0x800173F4"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_8068047C",
@@ -182,7 +191,7 @@
         "0x8001941C": "0x8001689C",
         "0x8001976C": "0x8001747C"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_80680570",
@@ -197,7 +206,7 @@
         "0x8001AD60": "0x80018514",
         "0x80019860": "0x80017570"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_80680604",
@@ -211,7 +220,7 @@
         "0x80019860": "0x80017570",
         "0x800198F4": "0x80017604"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_80680668",
@@ -224,7 +233,7 @@
         "0x8001ACE8": "0x8001849C",
         "0x80019958": "0x80017668"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_80680698",
@@ -238,7 +247,7 @@
         "0x8001ACE8": "0x8001849C",
         "0x80019988": "0x80017698"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_806806EC",
@@ -252,7 +261,7 @@
         "0x8001ADE0": "0x80018594",
         "0x800199DC": "0x800176EC"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_80680744",
@@ -265,7 +274,7 @@
         "0x80016000": "0x80016000",
         "0x80019A34": "0x80017744"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_806807C8",
@@ -278,7 +287,7 @@
         "0x800178C0": "0x800177EC",
         "0x8001789C": "0x800177C8"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_806807EC",
@@ -291,7 +300,7 @@
         "0x80016000": "0x80016000",
         "0x80019ADC": "0x800177EC"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_80680864",
@@ -306,7 +315,7 @@
         "0x8001AD60": "0x80018514",
         "0x80019B54": "0x80017864"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_806808D0",
@@ -321,7 +330,7 @@
         "0x8001ACE8": "0x8001849C",
         "0x80019BC0": "0x800178D0"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_80680924",
@@ -336,7 +345,7 @@
         "0x8001ACE8": "0x80018514",
         "0x80019BC0": "0x80017924"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_80680978",
@@ -351,7 +360,7 @@
         "0x8001AD60": "0x80018514",
         "0x80019C68": "0x80017978"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_806809E8",
@@ -364,7 +373,7 @@
         "0x8001ADE0": "0x80018594",
         "0x80019CD8": "0x800179E8"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_80680A54",
@@ -378,7 +387,7 @@
         "0x8001ADE0": "0x80018594",
         "0x80019D44": "0x80017A54"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_80680AB0",
@@ -392,7 +401,7 @@
         "0x80018668": "0x80018594",
         "0x80017B84": "0x80017AB0"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_80680B0C",
@@ -408,7 +417,7 @@
         "0x8001ACE8": "0x8001849C",
         "0x80019DFC": "0x80017B0C"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_80680BB8",
@@ -424,7 +433,7 @@
         "0x8001ACE8": "0x8001849C",
         "0x80019EA8": "0x80017BB8"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_80680CA4",
@@ -439,7 +448,7 @@
         "0x80018668": "0x80018594",
         "0x80017D78": "0x80017CA4"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_80680D54",
@@ -460,7 +469,7 @@
         "0x800160FC": "0x800160E8",
         "0x8001A044": "0x80017D54"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_806810B4",
@@ -472,7 +481,7 @@
       "bindings": {
         "0x8001A3A4": "0x800180B4"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_8068110C",
@@ -487,7 +496,7 @@
         "0x8001C374": "0x800189DC",
         "0x8001A3FC": "0x8001810C"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_80681188",
@@ -500,7 +509,7 @@
         "0x8001954C": "0x800189DC",
         "0x8001825C": "0x80018188"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_80681194",
@@ -522,7 +531,7 @@
         "0x8001DCD0": "0x80018D18",
         "0x8001A484": "0x80018194"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_80681218",
@@ -535,7 +544,7 @@
         "0x80018F50": "0x8001889C",
         "0x800182EC": "0x80018218"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_80681224",
@@ -547,7 +556,7 @@
       "bindings": {
         "0x800AE510": "0x80018224"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_8068122C",
@@ -563,7 +572,7 @@
         "0x8001C380": "0x800189E8",
         "0x8001A5E4": "0x8001822C"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_80681270",
@@ -576,7 +585,7 @@
         "0x80016000": "0x80016000",
         "0x8001A628": "0x80018270"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_806812A0",
@@ -589,7 +598,7 @@
         "0x80016000": "0x80016000",
         "0x8001A658": "0x800182A0"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_806812C0",
@@ -602,7 +611,7 @@
         "0x80016000": "0x80016000",
         "0x8001A678": "0x800182C0"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_80681324",
@@ -615,7 +624,7 @@
         "0x80016000": "0x80016000",
         "0x8001A6DC": "0x80018324"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_8068134C",
@@ -628,7 +637,7 @@
         "0x80016000": "0x80016000",
         "0x8001A704": "0x8001834C"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_806813A8",
@@ -641,7 +650,7 @@
         "0x80016000": "0x80016000",
         "0x8001A760": "0x800183A8"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_8068143C",
@@ -654,7 +663,7 @@
         "0x80016000": "0x80016000",
         "0x8001A7F4": "0x8001843C"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_8068149C",
@@ -667,7 +676,7 @@
         "0x80016000": "0x80016000",
         "0x8001ACE8": "0x8001849C"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_80681514",
@@ -680,7 +689,7 @@
         "0x80016000": "0x80016000",
         "0x8001AD60": "0x80018514"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_80681594",
@@ -693,7 +702,7 @@
         "0x80016000": "0x80016000",
         "0x8001ADE0": "0x80018594"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_80681604",
@@ -706,7 +715,7 @@
         "0x80016000": "0x80016000",
         "0x8001B0C8": "0x80018604"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_80681624",
@@ -719,7 +728,7 @@
         "0x8001ADE0": "0x80018594",
         "0x8001B0E8": "0x80018624"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_806816A4",
@@ -733,7 +742,7 @@
         "0x8001AD60": "0x80018514",
         "0x8001B168": "0x800186A4"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     }
   ],
   "load_evidence": {

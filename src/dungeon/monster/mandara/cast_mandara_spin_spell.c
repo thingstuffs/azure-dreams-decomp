@@ -204,11 +204,11 @@ void cast_mandara_spin_spell(ActorRecord *effect, ObjectPosition *motion, Sprite
                 tile->unk_00 = rotating_particle_sprite_entries;
                 tile->flags |= 0x0C;
                 {
-                    u32 texture_word = (u32)rotating_particle_sprite_entries[0].source;
+                    void *texture_word = rotating_particle_sprite_entries[0].source;
                     tile->unk_04 = 0;
                     tile->frame_ticks = 0;
                     tile->color.word = 0x00208020;
-                    ((S_80174668_4 *)tile)->unk_08 = texture_word;
+                    tile->source = texture_word;
                 }
                 effect_data->state_9A = 0;
             }

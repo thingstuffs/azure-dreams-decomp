@@ -10924,3 +10924,15 @@
 {"path":"raw/main/func_800200C4.c","sha256":"8b8dc599659384ad7ba33a6bf9d3975f1eeb009a58645d308a2af06152d2ae1d","size":1290,"provenance":"New reconstruction, not a retired first-pass archive member; docs/evidence/opus_nobody2.md"}
 {"path":"raw/main/func_800205D0.c","sha256":"f41c40437ce7d268242003484865d4f85969e655c50efdabac44f1463f95d052","size":1483,"provenance":"New reconstruction, not a retired first-pass archive member; docs/evidence/opus_nobody2.md"}
 {"path":"raw/town/func_808B2988.c","sha256":"4346b040b2f1a9baf5fa2e7a3a8bd891e7c9c5798d999ab60bcced8fdf15853d","size":512,"provenance":"New reconstruction, not a retired first-pass archive member; docs/evidence/r141w_town_dev.md"}
+{"path":"raw/town/func_8046B740.c","sha256":"312d3d7543b25f4780b87c6d528a469e1aafa0b501dd236f580b9f530dea576d","size":173}
+{"path":"raw/town/func_8051FDC8.c","sha256":"0fbf750c0970bdd395354cdf3699b09afb43e47d10aa3ff894058e8913788561","size":189}
+{"path":"raw/town/func_8046B6D0.c","sha256":"4aeb453a761ed2c5355ca67b93809715fec8651a20695c94e09991290149804f","size":170}
+{"path":"raw/town/func_80353E5C.c","sha256":"48a22541514e9a17462635d2af2227aa01db44565881a590a54dd39178de5e2e","size":170}
+{"path":"raw/town/func_8046B3C0.c","sha256":"9a2d006ff6429e5c88a6c999ad2b3558fa69d920de27df79b8f22514b371c634","size":326}
+{"path":"raw/town/func_8046B404.c","sha256":"2e8aa5c8e75ec2ace661582c56126f9aa1aa46aeafc4539574d6b8893264a579","size":326}
+{"path":"raw/town/func_8046B448.c","sha256":"d278da4955b6dda0301189de1cfd73cc545674b5d624c5a6b36884275a9202e8","size":326}
+{"path":"raw/town/func_804D08C0.c","sha256":"2cc714ef08456d01f5427e48c2ebbd62f7712d10758b2c7455e9443a16039c0e","size":527}
+{"path":"raw/town/func_806010F8.c","sha256":"035e001cf535b21d2a58f73be7b9dd12da331e8ce27cc4dc277780d1bc500699","size":949}
+{"path":"raw/town/func_8067F0F8.c","sha256":"b3616b37991674a8a2ba40a0f0b0b4432f5d284dabf095a6137f9d8cf14f59a0","size":1117}
+{"defs":["func_8003C9F8"],"path":"raw/slus/main.c","sha256":"74b1d05ddc9a7deee81133eb31d444ace57ce536ccb2f304abb684f8cfb66962","size":582}
+{"path":"raw/dungeon/func_81946B74.c","sha256":"940621dcc618ff292eb6f545d68394f04c22cd181459c50e9a7e0b108bfb00f8","size":11433}

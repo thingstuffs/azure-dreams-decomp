@@ -105,4 +105,5 @@ s32 random_below_limit(s32 limit);
 #include "shared/dungeon_effect_views.h"
 s32 draw_ball_effect_points(PointRecord *first_point, ObjectPosition *first_position);
 
+void advance_and_retire_finished_effect(void *body, ObjectPosition *position, SpriteFrameState *sprite);
 #endif

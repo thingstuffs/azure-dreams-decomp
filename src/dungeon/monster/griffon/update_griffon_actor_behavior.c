@@ -463,8 +463,8 @@ void update_griffon_actor_behavior(ActorRecord *actor, ObjectPosition *position,
 
     {
         void *effect;
-        R08_80170E7C_S_80170E7C_7 *sprite;
-        void *tint;
+        SpriteFrameState *sprite;
+        s32 tint;
         SpriteSourceEntry *sprite_data;
 
         effect = allocate_list_node(0x112, &scene_object_list_anchor.next);
@@ -474,7 +474,7 @@ void update_griffon_actor_behavior(ActorRecord *actor, ObjectPosition *position,
             return;
         }
         register_node(effect, project_sprite_chain);
-        tint = (void *)0x00808080;
+        tint = 0x00808080;
         ((ObjectNodeHeader *)object)->update_callback = griffon_object_callback;
         ((ObjectNodeHeader *)object)->position->x.w.i =
             ((u16)position->x.w.i) + effect_offset[0];
@@ -482,19 +482,19 @@ void update_griffon_actor_behavior(ActorRecord *actor, ObjectPosition *position,
             ((u16)position->y.w.i) + effect_offset[1];
         ((ObjectNodeHeader *)object)->position->z.w.i =
             ((u16)position->z.w.i) + effect_offset[2];
-        sprite = (R08_80170E7C_S_80170E7C_7 *)((ObjectNodeHeader *)object)->sprite;
+        sprite = ((ObjectNodeHeader *)object)->sprite;
         sprite_data = &secondary_sprite;
         ((EntityRec *)((ObjectNodeHeader *)object + 1))->unk_9B = 0;
-        sprite->unk_1E = 0xC00;
-        sprite->unk_1C = 0xC00;
-        sprite->unk_0C = tint;
+        sprite->scale_y = 0xC00;
+        sprite->scale_x = 0xC00;
+        sprite->color.word = tint;
         sprite->unk_00 = sprite_data;
-        sprite->unk_14 |= 0xC;
+        sprite->flags |= 0xC;
         {
-            s32 anim_data = sprite_data->source;
+            void *anim_data = sprite_data->source;
             sprite->unk_04 = 0;
-            sprite->unk_05 = 0;
-            sprite->unk_08 = anim_data;
+            sprite->frame_ticks = 0;
+            sprite->source = anim_data;
         }
     }
 }

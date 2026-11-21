@@ -55,7 +55,7 @@ void update_effect_controller(S_func_800D7FB8_0 *controller) {
     s32 spawn_index;
     u16 finish_timer;
     u16 effect_timer;
-    s32 resource_word;
+    void *resource_word;
     SpriteFrameState *sub_data;
     ObjectNodeHeader *entry;
 

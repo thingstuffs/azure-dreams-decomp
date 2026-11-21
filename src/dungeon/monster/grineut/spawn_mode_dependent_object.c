@@ -456,10 +456,10 @@ void dispatch_grineut_actions(ActorRecord *record, ObjectPosition *entity, Sprit
 
     {
         void *created;
-        R07_80170E54_S_80170E54_7 *sub;
-        void *color;
+        SpriteFrameState *sub;
+        s32 color;
         SpriteSourceEntry *base;
-        s32 base_word;
+        void *base_word;
 
         created = allocate_list_node(0x112, &scene_object_list_anchor.next);
         ((Rec_func_800A9E70_arg0 *)record)->unk_A0.at00_pv.v = created;
@@ -468,7 +468,7 @@ void dispatch_grineut_actions(ActorRecord *record, ObjectPosition *entity, Sprit
             return;
         }
         register_node(created, project_sprite_chain);
-        color = (void *)0x00808080;
+        color = 0x00808080;
         ((R07_80170E54_S_80170E54_2 *)object)->unk_10 = D_800D79B0;
         ((R07_80170E54_S_80170E54_9 *)object->source)->unk_02 =
             ((u16)entity->x.w.i) + offset[0];
@@ -476,18 +476,18 @@ void dispatch_grineut_actions(ActorRecord *record, ObjectPosition *entity, Sprit
             ((u16)entity->y.w.i) + offset[1];
         ((R07_80170E54_S_80170E54_9 *)object->source)->unk_0A =
             ((u16)entity->z.w.i) + offset[2];
-        sub = ((R07_80170E54_S_80170E54_2 *)object)->unk_0C;
+        sub = ((ObjectNodeHeader *)created)->sprite;
         base = &secondary_sprite;
         ((R07_80170E54_S_80170E54_2 *)object)->unk_BB = 0;
-        sub->unk_1E = 0xC00;
-        sub->unk_1C = 0xC00;
-        sub->unk_0C = color;
+        sub->scale_y = 0xC00;
+        sub->scale_x = 0xC00;
+        sub->color.word = color;
         sub->unk_00 = base;
-        sub->unk_14 |= 0xC;
+        sub->flags |= 0xC;
         base_word = base->source;
         sub->unk_04 = 0;
-        sub->unk_05 = 0;
-        sub->unk_08 = base_word;
+        sub->frame_ticks = 0;
+        sub->source = base_word;
     }
 }
 

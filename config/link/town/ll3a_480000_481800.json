@@ -14,7 +14,7 @@
       "foff": "0x4800C0",
       "vma": "0x800160C0",
       "size": 56,
-      "evidence": "docs/evidence/r124w_carve1_run5.md",
+      "evidence": "static shared-body proof (Git blob 0e89c36a3b791e6b726b03083e13b12345f7e940)",
       "bindings": {
         "0x80018E34": "0x80017458",
         "0x800190B4": "0x80017544",
@@ -304,7 +304,7 @@
         "0x800172C8": "0x800161B0",
         "0x80018668": "0x800173D0"
       },
-      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+      "evidence": "current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_80500AC8",
@@ -351,7 +351,7 @@
         "0x80018668": "0x800173D0",
         "0x80017D78": "0x80016C60"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; overlay relocation results (Git blob f9a7a4da21c87cd0fdef56ceb2007282736861bb)"
     },
     {
       "row": "town/func_80500D10",

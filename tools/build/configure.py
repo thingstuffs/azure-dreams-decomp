@@ -118,6 +118,10 @@ def _orderld(bd):
     ex = f"EXCLUDE_FILE({excl}) " if excl else ""
     parts = []
     for n in EXTRA_C:
+        if n == "main":
+            # GCC emits .text.main and inserts the CRT initialization call for the C entry.
+            parts.append(f"s|build/src/main.o(\\.text)|{bd}/src/main.o(.text.main)|")
+            continue
         parts.append(f"s|build/src/{n}.o(\\.text)|{bd}/src/{n}*.o(SORT_BY_NAME(.text.func_*)) "
                      f"{bd}/src/{n}*.o(.text)|")
     parts.append(f"s|build/src/code.o(\\.text)|{bd}/src/*.o(SORT_BY_NAME({ex}.text.func_*)) "
@@ -1053,6 +1057,7 @@ CC_VER = {
     "src/w_800595C0_jtbl_owned.c": ("2.7.2-cdk", ""),  # SLUS switch-table owner
     "src/code.c": ("2.7.2-cdk", ""),  # SLUS physical TU recipe alignment
 }
+CC_VER["src/main.c"] = ("2.7.2-cdk", "")
 DEFAULT_CC = ("2.7.2", "")
 AS_FLAGS = {
     # func_8005D598 needs maspsx's checked div/mod expansion. Keep this scoped:
@@ -1180,6 +1185,9 @@ for cfile in cfiles:
     objs.append(o)
 # split asm (psyq libs, data) — everything except the .included nonmatchings
 for s in sorted(glob.glob("asm/**/*.s", recursive=True)):
+    if s == "asm/main.s" and "main" in EXTRA_C:
+        # A previously split tree may retain the retired startup assembly listing.
+        continue
     if s.startswith("asm/nonmatchings/"):
         continue
     # MAIN-only LIBCARD/PATCH.OBJ twin written into this tree by tools/build/main_sdk_asm.py (f2ddcafd7); not a SLUS

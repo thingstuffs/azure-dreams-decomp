@@ -9,6 +9,16 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F4BD800: w4d1_cb3000_bank",
   "entries": [
     {
+      "row": "dungeon/func_80C93000",
+      "tu": "src/dungeon/monster/block/block.c",
+      "home": "dungeon/func_80C93000",
+      "foff": "0xcb3000",
+      "vma": "0x80170800",
+      "size": 288,
+      "evidence": "Existing compiler home for dungeon/func_80C93000; the registered split and its source retain their established coordinates.",
+      "body_offset": 124
+    },
+    {
       "row": "dungeon/func_80C93120",
       "tu": "src/dungeon/monster/block/block.c",
       "home": "dungeon/func_80C93120",

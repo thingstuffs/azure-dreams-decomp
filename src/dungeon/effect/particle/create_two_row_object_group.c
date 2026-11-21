@@ -357,7 +357,7 @@ void spawn_scattered_timed_objects(ScatteredObjectSpawnerBody *owner, ObjectPosi
     s32 spread_roll_a;
     s32 divisor;
     s32 height_delta;
-    s32 link_value;
+    void *link_value;
     u16 timer;
     u16 target_height;
     ObjectPosition *part;

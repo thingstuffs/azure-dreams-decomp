@@ -18,6 +18,6 @@ void *allocate_list_node(s32, void *);
 void select_sprite_entry(void *object_data, s16 table_index, s16 entry_index);
 void func_80047784(void *, u8, s32);
 s32 read_sound_mode_blocking_status(s32);
-extern s32 D_80024374;
+#include "dungeon/effect/attached_sprite_burst.h"
 void decrement_flagged_item_parameters(void *action, void *saved_position);
 #endif

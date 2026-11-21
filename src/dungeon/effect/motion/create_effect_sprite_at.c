@@ -13,7 +13,6 @@ typedef s32 M2C_UNK;
 
    /* arg0 in create_effect_sprite_at */
 
-extern s32 D_80024374;
 
 /* Creates a type 0x212 object, initializes its appearance, and copies the supplied components. */
 void *create_effect_sprite_at(MovingPosition *source) {
@@ -24,7 +23,7 @@ void *create_effect_sprite_at(MovingPosition *source) {
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        object->update_callback = &D_80024374;
+        object->update_callback = advance_and_retire_finished_effect;
         appearance = object->sprite;
         appearance->color.c.b = 0x80;
         appearance->color.c.g = 0x80;

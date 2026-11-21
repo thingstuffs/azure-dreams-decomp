@@ -30,7 +30,8 @@ class NinjaProjectionTests(unittest.TestCase):
             ['ninja', '-f', str(source), '-t', 'compdb'], cwd=root))
         expected = [e['command'] for e in edges if e['rule'] != 'phony']
         self.assertEqual(expected, [a['command'] for a in actual])
-        self.assertEqual(sum(e['rule']=='cc' for e in edges), 842)
+        # SLUS now compiles src/main.c in place of asm/main.s.
+        self.assertEqual(sum(e['rule'] == 'cc' for e in edges), 843)
 
     def test_implicit_dependencies_are_not_command_inputs(self):
         edges = B.ninja_edges('''suffix = .o

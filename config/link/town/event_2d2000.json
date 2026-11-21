@@ -1,0 +1,24 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/event_2d2000",
+  "container": "town",
+  "foff": "0x2d2000",
+  "size": "0x2000",
+  "vma": "0x8001dcd0",
+  "evidence": "docs/evidence/town_ovl_2d3f0c.rowbase.json",
+  "entries": [
+    {
+      "row": "town/func_80353E5C",
+      "home": "town/func_80353E5C",
+      "tu": "src/town/scene/service/set_event11_camera_brightness_2.c",
+      "foff": "0x2d3e5c",
+      "vma": "0x8001fb2c",
+      "size": 56,
+      "evidence": "TOWN +0x2d3e5c, 56 bytes at 0x8001fb2c; m00-event11 +0x2d2fe0; docs/evidence/town_ovl_2d3f0c.rowbase.json"
+    }
+  ],
+  "load_evidence": {
+    "path": "ledger/instance_load_regions.jsonl",
+    "record_sha256": "76c04796263ec8b699cc6c205bbf94953ff7b2ffda22e9191125ca3468531c82"
+  }
+}

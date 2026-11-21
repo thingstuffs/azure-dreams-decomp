@@ -47,7 +47,7 @@ segments:
       # (438/438 exact agreement). Function symbols are declared in
       # config/slus_006.14.symbols.txt under "carved 0x72a8".
       - [0x72a8, c, konami_runtime]
-      - [0x101f8, asm, main]
+      - [0x101f8, c, main]
       - [0x102c4, c, code]
       # - [0x2d854, shiftjis, str/name/kimbr]
       # - [0x2d860, shiftjis, str/name/girl2]

@@ -14,9 +14,12 @@
  * own relocation/link proof; no adjacent symbol is absorbed by this header. */
 /* Resident scene/resource dispatch state shared by the engine and overlays.
  * select_next_scene_mode resets transient state and load_scene_resource_group selects its resource category. */
+/* The resource table at 0x8006ce44 selects one of three resident void callbacks. */
+typedef void (*SceneUpdateCallback)(void);
+
 typedef struct SlotTransitionState {
     /* 0x00 */ int field_0; /* scene status flags; bit 0 is cleared during the fade transition and set when it finishes */
-    /* 0x04 */ int field_4; /* active resource-group dispatch word copied from scene_resource_group_records */
+    /* 0x04 */ SceneUpdateCallback update; /* installed by load_scene_resource_group and called by main */
     /* 0x08 */ unsigned short unk_08;
     /* 0x0A */ unsigned char mode; /* loaded scene resource category; repeated category loads are skipped */
     /* 0x0B */ unsigned char field_B; /* current dispatch entry index used by image, file and callback loaders */

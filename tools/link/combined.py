@@ -192,7 +192,8 @@ def selected_images(documents):
     """Complete town load views and dungeon banks; exclude diagnostic row views."""
     return sorted(image for image, doc in documents.items()
                   if image in ('town/engine', 'dungeon/engine') or image.startswith('dungeon/bank_') or
-                  (image.startswith('town/') and number(doc.get('vma') or 0) == 0x80016000))
+                  (image.startswith('town/') and number(doc.get('vma') or 0) == 0x80016000) or
+                  (image.startswith(('town/event_', 'dungeon/selector_')) and doc.get('load_evidence')))
 
 
 def select_windows(root, documents, images, initial, limit):

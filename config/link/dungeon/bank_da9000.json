@@ -9,13 +9,22 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F3A3800: img_da9e5c_8014d65c, r121nd_DA9534, r121nd_DA9810, r121nd_DA99DC, r121nd_DA9B84, r121nd_DA9C5C; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80D89244",
+      "home": "dungeon/func_80D65244",
+      "tu": "src/dungeon/monster/baloon/create_baloon_translucent_copy.c",
+      "foff": "0xDA9244",
+      "vma": "0x8014CA44",
+      "size": 372,
+      "evidence": "Baloon resource 25 slot 6, docs/evidence/dungeon_normal_resource_loader.json; dungeon/func_80D69D94 calls the shared constructor at DUNGEON +0xDAE140 in dungeon/bank_da9000. Complete 372-byte home object links identically at 0x8014CA44."
+    },
+    {
       "row": "dungeon/func_80D893B8",
       "home": "dungeon/func_80D653B8",
       "tu": "src/dungeon/monster/baloon/create_anchored_directional_object.c",
       "foff": "0xDA93B8",
       "vma": "0x8014CBB8",
       "size": 380,
-      "evidence": "docs/evidence/r124w_carve1_run6.md"
+      "evidence": "static shared-body proof (Git blob 188815590e77ce453a6aac8faabafaa104d59584)"
     },
     {
       "row": "dungeon/func_80D89534",

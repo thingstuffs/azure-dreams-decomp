@@ -9,6 +9,19 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F4A5800: img_cbf120_80164920; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80C9F07C",
+      "tu": "src/dungeon/monster/block/block.c",
+      "home": "dungeon/func_80C93000",
+      "foff": "0xcbf07c",
+      "vma": "0x8016487c",
+      "size": 164,
+      "evidence": "The registered Block caller reaches the initializer through JAL at +0xCC16D0. The placed caller and constructor pointer resolve within the same resource-20 bank. Resource 20 slot 2, docs/evidence/dungeon_normal_resource_loader.json. Full 164-byte home object matches the retail entry at 0x8016487c.",
+      "bindings": {
+        "0x8004491C": "0x8004491C",
+        "0x80045340": "0x80045340"
+      }
+    },
+    {
       "row": "dungeon/func_80C9F120",
       "tu": "src/dungeon/monster/block/block.c",
       "home": "dungeon/func_80C93120",

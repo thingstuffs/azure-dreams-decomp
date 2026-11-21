@@ -309,6 +309,7 @@
 {"src":"src/konami_runtime_w_8003C890.c","out":"build/src/konami_runtime_w_8003C890.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/konami_runtime_w_8003C8E4.c","out":"build/src/konami_runtime_w_8003C8E4.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/konami_runtime_w_8003C920.c","out":"build/src/konami_runtime_w_8003C920.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
+{"src":"src/main.c","out":"build/src/main.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8003CAC4.c","out":"build/src/w_8003CAC4.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8003CB08.c","out":"build/src/w_8003CB08.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8003CCB0.c","out":"build/src/w_8003CCB0.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}

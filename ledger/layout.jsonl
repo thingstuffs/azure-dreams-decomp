@@ -7810,3 +7810,15 @@
 {"id":"main/func_800200C4","path":"src/frontend/card/card_dev_release_load_screen_parts.c"}
 {"id":"main/func_800205D0","path":"src/frontend/card/card_dev_init_slot_entry_tables.c"}
 {"id":"town/func_808B2988","path":"src/town/devkit/propagate_devkit_flag_pair.c"}
+{"id":"town/func_8046B740","path":"src/town/scene/service/play_event08_and_09_sound_d1.c"}
+{"id":"town/func_8051FDC8","path":"src/town/scene/service/load_event08_sound_sequence_28.c"}
+{"id":"town/func_8046B6D0","path":"src/town/scene/service/set_event09_camera_brightness_5.c"}
+{"id":"town/func_80353E5C","path":"src/town/scene/service/set_event11_camera_brightness_2.c"}
+{"id":"town/func_8046B3C0","path":"src/town/scene/event/test_event_flag_unless_entry_two.c"}
+{"id":"town/func_8046B404","path":"src/town/scene/event/test_event_flag_unless_entry_three.c"}
+{"id":"town/func_8046B448","path":"src/town/scene/event/test_event_flag_unless_entry_six.c"}
+{"id":"town/func_804D08C0","path":"src/town/scene/resolve_entry_with_override_49.c"}
+{"id":"town/func_806010F8","path":"src/town/scene/resolve_hospital_entry_by_flags.c"}
+{"id":"town/func_8067F0F8","path":"src/town/scene/resolve_entry_with_count_zero_overrides.c"}
+{"id":"slus/main","path":"src/slus/main.c"}
+{"id":"dungeon/func_81946B74","path":"src/dungeon/effect/particle/update_attached_sprite_burst.c"}

@@ -21,7 +21,7 @@ struct S_8006CE80
 extern struct S_8006CE80 dispatch_resource_records[];
 struct S_8006CE44
 {
-    s32 field0;
+    SceneUpdateCallback update;
     s32 *field4;
 };
 extern struct S_8006CE44 scene_resource_group_records[];
@@ -101,5 +101,5 @@ void load_scene_resource_group(s16 entry_index)
         }
         gpu_scratch_ring_size = buffer_size;
     }
-    runtime_dispatch_state.field_4 = scene_resource_group_records[resource_type].field0;
+    runtime_dispatch_state.update = scene_resource_group_records[resource_type].update;
 }

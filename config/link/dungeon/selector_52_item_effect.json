@@ -1,0 +1,24 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/selector_52_item_effect",
+  "container": "dungeon",
+  "foff": "0x1966800",
+  "size": "0x6000",
+  "vma": "0x80024000",
+  "evidence": "docs/evidence/dungeon_gap_183a800.json",
+  "entries": [
+    {
+      "row": "dungeon/func_81946B74",
+      "home": "dungeon/func_81946B74",
+      "tu": "src/dungeon/effect/particle/update_attached_sprite_burst.c",
+      "foff": "0x1966b74",
+      "vma": "0x80024374",
+      "size": 1812,
+      "evidence": "DUNGEON +0x1966b74, 1812 bytes at 0x80024374; address store at field 0x10 dungeon+0x1966968 (LUI at 0x1966960, low at 0x1966964) | asset import dungeon_ovl_1966800 D_80024374 (config/overlays/modules.json) | callback/cast src/dungeon/effect/decrement_flagged_item_parameters.c:63 D_80024374 (module import); docs/evidence/dungeon_gap_183a800.json"
+    }
+  ],
+  "load_evidence": {
+    "path": "ledger/instance_load_regions.jsonl",
+    "record_sha256": "86f3abde0559ee0ae85fc4dc144228185627ff5e05995b60df700cdb41f6f1f5"
+  }
+}

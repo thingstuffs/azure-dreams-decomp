@@ -21,7 +21,7 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
     SpriteFrameState *source_part;
     ObjectPosition *position;
     ActorRecord *shared_data;
-    u8 *effect_work;
+    AttachedSpriteBurst *effect_work;
     DungeonGlobalStatus *shared_state;
     s16 offsets[3];
     s32 state;
@@ -60,10 +60,11 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
                 offsets[1] = 0;
                 offsets[0] = 0;
             }
-            effect->update_callback = &D_80024374;
-            *((void **)NODE_BODY(effect)) = action;
+            effect->update_callback = update_attached_sprite_burst;
+            effect_work = NODE_BODY(effect);
+            effect_work->parent = action;
             register_node(effect, project_sprite_chain);
-            source_part = owner_work[-1].sprite;
+            source_part = NODE_HEADER(owner_work)->sprite;
             effect_part = effect->sprite;
             effect_part->animation_resource = source_part->animation_resource;
             effect_part->flags = source_part->flags & 0x97FF;
@@ -80,11 +81,11 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
             effect_part->clut -= 0x80;
             effect_part->flags |= 0xC;
             position = owner->position;
-            *((s32 *) (effect_work + 0x1C)) = (position->x.v) + (offsets[0] << 16);
+            effect_work->x.v = (position->x.v) + (offsets[0] << 16);
             position = owner->position;
-            *((s32 *) (effect_work + 0x20)) = (position->y.v) + (offsets[1] << 16);
+            effect_work->y.v = (position->y.v) + (offsets[1] << 16);
             position = owner->position;
-            *((s32 *) (effect_work + 0x24)) = (position->z.v) + (offsets[2] << 16);
+            effect_work->z.v = (position->z.v) + (offsets[2] << 16);
             {
                 ObjectPosition *owner_position;
                 ObjectPosition *effect_position;
@@ -92,17 +93,17 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
                 owner_position = owner->position;
                 effect_position = effect->position;
                 coord_integer = ((u16)(owner_position->x.w.i));
-                *((u16 *) (effect_work + 0xC)) = coord_integer;
+                effect_work->origin_x = coord_integer;
                 effect_position->x.w.i = coord_integer;
                 owner_position = owner->position;
                 effect_position = effect->position;
                 coord_integer = ((u16)(owner_position->y.w.i));
-                *((u16 *) (effect_work + 0xE)) = coord_integer;
+                effect_work->origin_y = coord_integer;
                 effect_position->y.w.i = coord_integer;
                 owner_position = owner->position;
                 effect_position = effect->position;
                 coord_integer = ((u16)(owner_position->z.w.i));
-                *((u16 *) (effect_work + 0x10)) = coord_integer;
+                effect_work->origin_z = coord_integer;
                 effect_position->z.w.i = coord_integer;
             }
             if (read_sound_mode_blocking_status(4) != 2) {

@@ -591,7 +591,7 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
                     s32 x_offset;
                     s32 z_jitter;
                     s32 packed_color;
-                    s32 data_word;
+                    void *data_word;
                     SpriteFrameState *state;
                     AnimationTrailParticleBody *child;
                     s32 target_y;
@@ -633,9 +633,9 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
                     state->frame_ticks = 0;
                     state->color.word = (0xC00000 | 0x6060);
                     state->source = data_word;
-                    data_word = (s32)actor->field0;
+                    data_word = actor->field0;
                     child->unk_4C = 0;
-                    child->owner = (void *)data_word;
+                    child->owner = data_word;
                 }
                 remaining = remaining - 1;
             } while (remaining >= 0);
@@ -697,7 +697,7 @@ void update_rising_landing_effect(RisingLandingEffectBody *effect, ObjectPositio
     s16 state;
     s16 ground_height;
     s32 particle_index;
-    s32 particle_frames;
+    void *particle_frames;
     s32 rise_random;
     s32 rise_velocity;
     s32 fall_random;

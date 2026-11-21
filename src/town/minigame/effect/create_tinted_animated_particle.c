@@ -13,7 +13,7 @@
 /* Creates a sprite at the given position and applies color-specific settings. */
 void create_tinted_animated_particle(s32 color, s32 x, s32 y, s32 z)
 {
-    s32 resource_word;
+    void *resource_word;
     SpriteFrameState *sprite;
     SpriteFrameState *sprite_alias;
     ObjectNodeHeader *object;
@@ -33,7 +33,7 @@ void create_tinted_animated_particle(s32 color, s32 x, s32 y, s32 z)
         sprite->frame_ticks = 0;
         sprite->color.word = color;
         sprite_alias = sprite;
-        sprite_alias->source = (s32) resource_word;
+        sprite_alias->source = resource_word;
         if (color == 0x808080) {
             sprite->flags = (u16) ((sprite->flags) | 0xC);
         } else if (color == 0xF0F0F0) {

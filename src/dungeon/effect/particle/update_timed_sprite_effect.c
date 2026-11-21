@@ -100,7 +100,7 @@ void run_timed_sprite_projectile(ProjectileState *effect, ObjectPosition *motion
                 }
                 *(s16 *)((u8 *)sprite_or_x + 0x10) = 96;
                 ((ProjectileSprite *)sprite_or_x)->unk_00 = &secondary_sprite;
-                ((ProjectileSprite *)sprite_or_x)->unk_08 = secondary_sprite.source;
+                ((SpriteFrameState *)sprite_or_x)->source = secondary_sprite.source;
                 ((ProjectileSprite *)sprite_or_x)->unk_04 = 0;
                 ((ProjectileSprite *)sprite_or_x)->unk_05 = 0;
                 ((ProjectileSprite *)sprite_or_x)->unk_0C.at00u.v = 0x3030C0;
@@ -384,7 +384,7 @@ void update_timed_sprite_effect(ProjectileParticle *effect, ObjectPosition *moti
     s32 vel_z;
     s32 pos_x;
     s32 vel_x;
-    s32 sprite_word;
+    void *sprite_word;
     s32 timer_shift;
     u8 red_level;
     s32 timer;
@@ -444,7 +444,7 @@ void update_timed_sprite_effect(ProjectileParticle *effect, ObjectPosition *moti
             }
             sprite->unk_04 = 0;
             sprite->frame_ticks = 0;
-            sprite->source = (void *)(unsigned long)(u32)sprite_word;
+            sprite->source = sprite_word;
             effect->unk_4C.u = effect->unk_4C.u + 1;
         } else {
             sprite_scale = sprite->scale_y - 0x200;

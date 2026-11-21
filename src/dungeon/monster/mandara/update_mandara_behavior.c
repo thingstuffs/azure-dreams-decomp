@@ -183,7 +183,7 @@ void update_mandara_behavior(ActorRecord *self_object, ObjectPosition *aux_entit
                 ObjectPosition *payload;
                 u32 color;
                 u32 payload_word;
-                u32 texture_word;
+                void *texture_word;
 
                 aux_entity->velocity_x =
                     dir_step_x[((s32)((u16)entity->movement_facing << 16)) >> 25] << 16;
@@ -214,7 +214,7 @@ void update_mandara_behavior(ActorRecord *self_object, ObjectPosition *aux_entit
                     part->tpage_abr = 0;
                     part->unk_00 = &secondary_sprite;
                     part->flags |= 0xC;
-                    texture_word = ((u32)secondary_sprite.source);
+                    texture_word = secondary_sprite.source;
                     color |= 0x8080;
                     part->unk_04 = 0;
                     part->frame_ticks = 0;

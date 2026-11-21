@@ -1483,7 +1483,7 @@ extern SpriteSourceEntry D_800DEED0;
 void emit_scattered_animated_particles(TerrainParticleEmitterBody *emitter) {
     s32 spawn_x;
     s32 spawn_y;
-    s32 sprite_config;
+    void *sprite_config;
     u16 tick_count;
     SpriteFrameState *sprite;
     ObjectNodeHeader *particle;

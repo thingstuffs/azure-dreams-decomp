@@ -3079,7 +3079,9 @@
       "container": "dungeon",
       "name": "ovl_189a800.c",
       "source": "src/dungeon/effect/mesh/transform_and_queue_mesh_primitives.c",
-      "source_names": {"dungeon/func_8187BE9C": "update_projectile_trail_flash"},
+      "source_names": {
+        "dungeon/func_8187BE9C": "update_projectile_trail_flash"
+      },
       "region": "native_189a800_80024000",
       "headers": [
         "include/modules/dungeon_native_abi.h",
@@ -14349,7 +14351,9 @@
       "name": "ovl_7e6a5800.c",
       "region": "module_197e800_80024000",
       "source": "src/dungeon/effect/particle/update_brightening_fading_effect.c",
-      "source_names": {"dungeon/func_81960CD4": "update_rotating_fading_tile_quad"},
+      "source_names": {
+        "dungeon/func_81960CD4": "update_rotating_fading_tile_quad"
+      },
       "headers": [
         "include/modules/dungeon_ovl_197e800.h",
         "include/modules/dungeon_native_abi.h"
@@ -44721,7 +44725,8 @@
       "region": "row_1966800_80024000",
       "source": "src/dungeon/effect/decrement_flagged_item_parameters.c",
       "headers": [
-        "include/dungeon/effect/decrement_flagged_item_parameters.h"
+        "include/dungeon/effect/decrement_flagged_item_parameters.h",
+        "include/dungeon/effect/attached_sprite_burst.h"
       ],
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -44751,15 +44756,9 @@
       ],
       "imports": [
         {
-          "symbol": "D_80024374",
-          "kind": "data",
-          "vma": 2147631988,
-          "foff": 26635124,
-          "view_bytes": 1,
-          "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
-          "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
-          "map": "native_bank_native_selector_52_external_1966b74",
-          "evidence": "docs/evidence/dungeon_ovl_1966800.imports.json"
+          "symbol": "func_80024374",
+          "kind": "function",
+          "vma": 2147631988
         },
         {
           "symbol": "D_800814A0",
@@ -53215,7 +53214,9 @@
       "container": "dungeon",
       "name": "resource17_slot0.c",
       "source": "src/dungeon/monster/univern/create_anchored_directional_object.c",
-      "source_names": {"dungeon/func_80C17E14": "advance_univern_defeat_removal"},
+      "source_names": {
+        "dungeon/func_80C17E14": "advance_univern_defeat_removal"
+      },
       "region": "native_resource_17_slot_0",
       "headers": [
         "include/modules/dungeon_resource17_slot0.h"
@@ -58000,7 +58001,9 @@
       "container": "dungeon",
       "name": "resource12_slot0.c",
       "source": "src/dungeon/monster/arachne/arachne.c",
-      "source_names": {"dungeon/func_80B45E14": "advance_arachne_hop_and_shrink"},
+      "source_names": {
+        "dungeon/func_80B45E14": "advance_arachne_hop_and_shrink"
+      },
       "region": "native_resource_12_slot_0",
       "headers": [
         "include/modules/dungeon_resource12_slot0.h",

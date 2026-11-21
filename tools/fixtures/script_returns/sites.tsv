@@ -564,7 +564,7 @@ town	m00-event11	2961310	call_native	80018074	overwrite-call		subfile-scene-imag
 town	m00-event11	2961321	call_native	8001A658	overwrite-call		subfile-scene-image	set_scaled_pointer_value:void:town/func_8032FE58	void	set_scaled_pointer_value:void:town/func_8032FE58
 town	m00-event11	2961338	call_native	8001A704	overwrite-call		subfile-scene-image	set_selected_entry_position:void:town/func_8032FF04	void	set_selected_entry_position:void:town/func_8032FF04
 town	m00-event11	2961358	call_native	8001A704	overwrite-call		subfile-scene-image	set_selected_entry_position:void:town/func_8032FF04	void	set_selected_entry_position:void:town/func_8032FF04
-town	m00-event11	2961376	call_native	8001FB2C	overwrite-call		no-native-body			
+town	m00-event11	2961376	call_native	8001FB2C	overwrite-call		self	set_event11_camera_brightness_2:void:town/func_80353E5C	void	set_event11_camera_brightness_2:void:town/func_80353E5C
 town	m00-event11	2961389	call_native	8001FB64	overwrite-call		self	run_service_callback_0x2d8_with_code_3:void:town/func_80353E94	void	run_service_callback_0x2d8_with_code_3:void:town/func_80353E94
 town	m00-event11	2962225	call_native	8001A658	overwrite-call		subfile-scene-image	set_scaled_pointer_value:void:town/func_8032FE58	void	set_scaled_pointer_value:void:town/func_8032FE58
 town	m00-event11	2962242	call_native	8001A678	overwrite-call		subfile-scene-image	set_position_from_tile_and_entry_offsets:void:town/func_8032FE78	void	set_position_from_tile_and_entry_offsets:void:town/func_8032FE78
@@ -710,7 +710,7 @@ town	m01-event08	4269089	call_native	8001A150	exit-return		subfile-scene-image	c
 town	m01-event08	4269102	call_native	8001C57C	read	jump_if_nonzero@1075	subfile-scene-image	apply_stored_value_1792_c:void:town/func_8046B57C	void	apply_stored_value_1792_c:void:town/func_8046B57C
 town	m01-event08	4269113	call_native	8001C5A4	read	jump_if_nonzero@1086	subfile-scene-image	apply_stored_value_1792_c:void:town/func_8046B5A4	void	apply_stored_value_1792_c:void:town/func_8046B5A4
 town	m01-event08	4269133	call_native	80019280	read	copy_variable_a@1106	subfile-scene-image	get_table_value_by_callback_index:s32:town/func_80468280	s32	get_table_value_by_callback_index:s32:town/func_80468280
-town	m01-event08	4270822	call_native	8001C740	overwrite-call		no-native-body			
+town	m01-event08	4270822	call_native	8001C740	overwrite-call		subfile-scene-image	play_event08_and_09_sound_d1:void:town/func_8046B740	void	play_event08_and_09_sound_d1:void:town/func_8046B740
 town	m01-event08	4270870	call_native	8001CD98	overwrite-call		subfile-scene-image	apply_selected_values_for_matching_flags:void:town/func_8046BD98	void	apply_selected_values_for_matching_flags:void:town/func_8046BD98
 town	m01-event08	4270933	call_native	80019378	overwrite-call		subfile-scene-image	run_scene_service_310_twice:void:town/func_80468378	void	run_scene_service_310_twice:void:town/func_80468378
 town	m01-event08	4270970	call_native	80019320	overwrite-call		subfile-scene-image	invoke_scene_service:void:town/func_803E8320	void	invoke_scene_service:void:town/func_803E8320
@@ -728,9 +728,9 @@ town	m01-event08	4281139	call_service	svc150	overwrite-call		-
 town	m01-event08	4281301	call_service	svc211	overwrite-call		-			
 town	m01-event08	4281324	call_service	svc134	exit-park		-			
 town	m01-event09	4282903	call_service	svc120	read	jump_if_negative@537	-			
-town	m01-event09	4283048	call_native	8001C6D0	overwrite-call		no-native-body			
+town	m01-event09	4283048	call_native	8001C6D0	overwrite-call		subfile-scene-image	set_event09_camera_brightness_5:void:town/func_8046B6D0	void	set_event09_camera_brightness_5:void:town/func_8046B6D0
 town	m01-event09	4283353	call_native	8001C708	exit-return		no-native-body			
-town	m01-event09	4284262	call_native	8001C740	exit-script-call,overwrite-call		no-native-body			
+town	m01-event09	4284262	call_native	8001C740	exit-script-call,overwrite-call		subfile-scene-image	play_event08_and_09_sound_d1:void:town/func_8046B740	void	play_event08_and_09_sound_d1:void:town/func_8046B740
 town	m01-event09	4284272	call_service	svc144	exit-end_message		-			
 town	m01-event09	4285063	call_native	80019F10	exit-script-call,overwrite-call		subfile-scene-image	apply_global_pointer_deltas_a:void:town/func_80468F10	void	apply_global_pointer_deltas_a:void:town/func_80468F10
 town	m01-event09	4285148	call_native	8001A150	overwrite-call		subfile-scene-image	call_scene_service_one:void:town/func_80469150	void	call_scene_service_one:void:town/func_80469150
@@ -743,7 +743,7 @@ town	m01-event09	4285463	call_native	80019F58	exit-script-call,overwrite-call		s
 town	m01-event09	4285482	call_native	8001A150	exit-return		subfile-scene-image	call_scene_service_one:void:town/func_80469150	void	call_scene_service_one:void:town/func_80469150
 town	m01-event09	4286116	call_native	8001C2DC	overwrite-call		subfile-scene-image	trigger_event_resource_400:void:town/func_8046B2DC	void	trigger_event_resource_400:void:town/func_8046B2DC
 town	m01-event09	4286121	call_native	8001C698	exit-park		single-candidate	card_dev_init_row_tables:void:main/func_8001C698	void	card_dev_init_row_tables:void:main/func_8001C698
-town	m01-event09	4286204	call_native	8001C740	exit-script-call,overwrite-call		no-native-body			
+town	m01-event09	4286204	call_native	8001C740	exit-script-call,overwrite-call		subfile-scene-image	play_event08_and_09_sound_d1:void:town/func_8046B740	void	play_event08_and_09_sound_d1:void:town/func_8046B740
 town	m01-event09	4286219	call_service	svc144	exit-end_message		-			
 town	m01-event09	4286904	call_native	80019FA0	exit-script-call,overwrite-call		subfile-scene-image	apply_global_delta_record_b:void:town/func_80468FA0	void	apply_global_delta_record_b:void:town/func_80468FA0
 town	m01-event09	4286989	call_native	8001A150	overwrite-call		subfile-scene-image	call_scene_service_one:void:town/func_80469150	void	call_scene_service_one:void:town/func_80469150
@@ -754,7 +754,7 @@ town	m01-event09	4287169	call_native	80019FE8	exit-script-call,overwrite-call		s
 town	m01-event09	4287188	call_native	8001A150	exit-return		subfile-scene-image	call_scene_service_one:void:town/func_80469150	void	call_scene_service_one:void:town/func_80469150
 town	m01-event09	4287388	call_native	80019FE8	exit-script-call,overwrite-call		subfile-scene-image	apply_global_delta_record_d:void:town/func_80468FE8	void	apply_global_delta_record_d:void:town/func_80468FE8
 town	m01-event09	4287407	call_native	8001A150	exit-return		subfile-scene-image	call_scene_service_one:void:town/func_80469150	void	call_scene_service_one:void:town/func_80469150
-town	m01-event09	4288213	call_native	8001C740	exit-script-call,overwrite-call		no-native-body			
+town	m01-event09	4288213	call_native	8001C740	exit-script-call,overwrite-call		subfile-scene-image	play_event08_and_09_sound_d1:void:town/func_8046B740	void	play_event08_and_09_sound_d1:void:town/func_8046B740
 town	m01-event09	4288223	call_service	svc144	exit-end_message		-			
 town	m01-event09	4288487	call_native	80019F10	exit-script-call,overwrite-call		subfile-scene-image	apply_global_pointer_deltas_a:void:town/func_80468F10	void	apply_global_pointer_deltas_a:void:town/func_80468F10
 town	m01-event09	4288562	call_native	8001A150	overwrite-call		subfile-scene-image	call_scene_service_one:void:town/func_80469150	void	call_scene_service_one:void:town/func_80469150
@@ -765,7 +765,7 @@ town	m01-event09	4288705	call_native	8001A078	exit-script-call,overwrite-call		s
 town	m01-event09	4288724	call_native	8001A150	exit-return		subfile-scene-image	call_scene_service_one:void:town/func_80469150	void	call_scene_service_one:void:town/func_80469150
 town	m01-event09	4288839	call_native	8001A078	exit-script-call,overwrite-call		subfile-scene-image	apply_global_delta_record_h:void:town/func_80469078	void	apply_global_delta_record_h:void:town/func_80469078
 town	m01-event09	4288858	call_native	8001A150	exit-return		subfile-scene-image	call_scene_service_one:void:town/func_80469150	void	call_scene_service_one:void:town/func_80469150
-town	m01-event09	4289615	call_native	8001C740	exit-script-call,overwrite-call		no-native-body			
+town	m01-event09	4289615	call_native	8001C740	exit-script-call,overwrite-call		subfile-scene-image	play_event08_and_09_sound_d1:void:town/func_8046B740	void	play_event08_and_09_sound_d1:void:town/func_8046B740
 town	m01-event09	4289625	call_service	svc144	exit-end_message		-			
 town	m01-event09	4289680	call_service	svc150	exit-end_message		-			
 town	m01-event09	4289879	call_native	8001A0C0	exit-script-call,overwrite-call		subfile-scene-image	apply_global_delta_record_j:void:town/func_804690C0	void	apply_global_delta_record_j:void:town/func_804690C0
@@ -777,17 +777,17 @@ town	m01-event09	4290234	call_native	8001A108	exit-script-call,overwrite-call		s
 town	m01-event09	4290253	call_native	8001A150	exit-return		subfile-scene-image	call_scene_service_one:void:town/func_80469150	void	call_scene_service_one:void:town/func_80469150
 town	m01-event09	4290425	call_native	8001A108	exit-script-call,overwrite-call		subfile-scene-image	apply_global_delta_record_l:void:town/func_80469108	void	apply_global_delta_record_l:void:town/func_80469108
 town	m01-event09	4290444	call_native	8001A150	exit-return		subfile-scene-image	call_scene_service_one:void:town/func_80469150	void	call_scene_service_one:void:town/func_80469150
-town	m01-event09	4290847	call_native	8001C740	overwrite-call		no-native-body			
+town	m01-event09	4290847	call_native	8001C740	overwrite-call		subfile-scene-image	play_event08_and_09_sound_d1:void:town/func_8046B740	void	play_event08_and_09_sound_d1:void:town/func_8046B740
 town	m01-event09	4290854	call_native	80019BFC	overwrite-call		subfile-scene-image	pass_callback_selected_entry:void:town/func_803C8BFC	void	pass_callback_selected_entry:void:town/func_803C8BFC
 town	m01-event09	4290877	call_native	8001C2DC	overwrite-call		subfile-scene-image	trigger_event_resource_400:void:town/func_8046B2DC	void	trigger_event_resource_400:void:town/func_8046B2DC
 town	m01-event09	4290882	call_service	svc144	exit-end_message		-			
 town	m01-event09	4291454	call_native	80019C94	exit-end_message		subfile-scene-image	pass_callback_selected_entry:void:town/func_803C8C94	void	pass_callback_selected_entry:void:town/func_803C8C94
-town	m01-event09	4291704	call_native	8001C740	overwrite-call		no-native-body			
+town	m01-event09	4291704	call_native	8001C740	overwrite-call		subfile-scene-image	play_event08_and_09_sound_d1:void:town/func_8046B740	void	play_event08_and_09_sound_d1:void:town/func_8046B740
 town	m01-event09	4291712	call_native	80019BFC	overwrite-call		subfile-scene-image	pass_callback_selected_entry:void:town/func_803C8BFC	void	pass_callback_selected_entry:void:town/func_803C8BFC
 town	m01-event09	4291735	call_native	8001C2DC	overwrite-call		subfile-scene-image	trigger_event_resource_400:void:town/func_8046B2DC	void	trigger_event_resource_400:void:town/func_8046B2DC
 town	m01-event09	4291740	call_service	svc144	exit-end_message		-			
 town	m01-event09	4292216	call_native	80019C94	exit-end_message		subfile-scene-image	pass_callback_selected_entry:void:town/func_803C8C94	void	pass_callback_selected_entry:void:town/func_803C8C94
-town	m01-event09	4292620	call_native	8001C740	overwrite-call		no-native-body			
+town	m01-event09	4292620	call_native	8001C740	overwrite-call		subfile-scene-image	play_event08_and_09_sound_d1:void:town/func_8046B740	void	play_event08_and_09_sound_d1:void:town/func_8046B740
 town	m01-event09	4292627	call_native	80019BFC	overwrite-call		subfile-scene-image	pass_callback_selected_entry:void:town/func_803C8BFC	void	pass_callback_selected_entry:void:town/func_803C8BFC
 town	m01-event09	4292650	call_native	8001C2DC	overwrite-call		subfile-scene-image	trigger_event_resource_400:void:town/func_8046B2DC	void	trigger_event_resource_400:void:town/func_8046B2DC
 town	m01-event09	4292655	call_service	svc144	exit-end_message		-			
@@ -815,18 +815,18 @@ town	m01-event09	4294320	call_native	8001C35C	read	jump_if_zero@11957	subfile-sc
 town	m01-event09	4294336	call_native	8001C5CC	read	jump_if_nonzero@11973	subfile-scene-image	check_object_callback_returns_two:s32:town/func_8046B5CC	s32	check_object_callback_returns_two:s32:town/func_8046B5CC
 town	m01-event09	4294347	call_native	8001C2CC	read	jump_if_zero@11984	subfile-scene-image	get_event_resource_value:s32:town/func_8046B2CC	s32	get_event_resource_value:s32:town/func_8046B2CC
 town	m01-event09	4294368	call_native	8001C37C	read	jump_if_zero@12005	subfile-scene-image	check_event_identifier_when_enabled:s32:town/func_8046B37C	s32	check_event_identifier_when_enabled:s32:town/func_8046B37C
-town	m01-event09	4294389	call_native	8001C3C0	read	jump_if_zero@12026	no-native-body			
-town	m01-event09	4294410	call_native	8001C404	read	jump_if_zero@12047	no-native-body			
-town	m01-event09	4294431	call_native	8001C448	read	jump_if_zero@12068	no-native-body			
+town	m01-event09	4294389	call_native	8001C3C0	read	jump_if_zero@12026	subfile-scene-image	test_event_flag_unless_entry_two:s32:town/func_8046B3C0	s32	test_event_flag_unless_entry_two:s32:town/func_8046B3C0
+town	m01-event09	4294410	call_native	8001C404	read	jump_if_zero@12047	subfile-scene-image	test_event_flag_unless_entry_three:s32:town/func_8046B404	s32	test_event_flag_unless_entry_three:s32:town/func_8046B404
+town	m01-event09	4294431	call_native	8001C448	read	jump_if_zero@12068	subfile-scene-image	test_event_flag_unless_entry_six:s32:town/func_8046B448	s32	test_event_flag_unless_entry_six:s32:town/func_8046B448
 town	m01-event09	4294452	call_native	8001C2FC	read	jump_if_zero@12089	subfile-scene-image	check_record_field_0x04_is_one:s32:town/func_8046B2FC	s32	check_record_field_0x04_is_one:s32:town/func_8046B2FC|check_record_field_0x04_is_one:void:main/func_8001C2FC
 town	m01-event09	4294468	call_native	8001C31C	read	jump_if_zero@12105	subfile-scene-image	is_event_state_two:s32:town/func_8046B31C	s32	is_event_state_two:s32:town/func_8046B31C
 town	m01-event09	4294484	call_native	8001C33C	read	jump_if_zero@12121	subfile-scene-image	is_event_state_three:s32:town/func_8046B33C	s32	is_event_state_three:s32:town/func_8046B33C
 town	m01-event09	4294500	call_native	8001C35C	read	jump_if_zero@12137	subfile-scene-image	is_event_state_six:s32:town/func_8046B35C	s32	is_event_state_six:s32:town/func_8046B35C
 town	m01-event09	4294516	call_native	8001C2CC	read	jump_if_zero@12153	subfile-scene-image	get_event_resource_value:s32:town/func_8046B2CC	s32	get_event_resource_value:s32:town/func_8046B2CC
 town	m01-event09	4294638	call_native	8001C37C	read	jump_if_zero@12275	subfile-scene-image	check_event_identifier_when_enabled:s32:town/func_8046B37C	s32	check_event_identifier_when_enabled:s32:town/func_8046B37C
-town	m01-event09	4294654	call_native	8001C3C0	read	jump_if_zero@12291	no-native-body			
-town	m01-event09	4294670	call_native	8001C404	read	jump_if_zero@12307	no-native-body			
-town	m01-event09	4294686	call_native	8001C448	read	jump_if_zero@12323	no-native-body			
+town	m01-event09	4294654	call_native	8001C3C0	read	jump_if_zero@12291	subfile-scene-image	test_event_flag_unless_entry_two:s32:town/func_8046B3C0	s32	test_event_flag_unless_entry_two:s32:town/func_8046B3C0
+town	m01-event09	4294670	call_native	8001C404	read	jump_if_zero@12307	subfile-scene-image	test_event_flag_unless_entry_three:s32:town/func_8046B404	s32	test_event_flag_unless_entry_three:s32:town/func_8046B404
+town	m01-event09	4294686	call_native	8001C448	read	jump_if_zero@12323	subfile-scene-image	test_event_flag_unless_entry_six:s32:town/func_8046B448	s32	test_event_flag_unless_entry_six:s32:town/func_8046B448
 town	m01-event09	4294712	call_native	8001C62C	exit-park		subfile-scene-image	forward_selected_entry_to_callback:void:town/func_8046B62C	void	forward_selected_entry_to_callback:void:town/func_8046B62C
 town	m01-event09	4294720	call_native	80019BFC	overwrite-call		subfile-scene-image	pass_callback_selected_entry:void:town/func_803C8BFC	void	pass_callback_selected_entry:void:town/func_803C8BFC
 town	m01-event09	4294737	call_native	8001C2DC	exit-return		subfile-scene-image	trigger_event_resource_400:void:town/func_8046B2DC	void	trigger_event_resource_400:void:town/func_8046B2DC
@@ -1133,7 +1133,7 @@ town	m13-event08	4952421	call_native	80017558	overwrite-call		no-native-body
 town	m13-event08	4952488	call_native	80017558	exit-choice-table		no-native-body			
 town	m13-event08	4952566	call_native	80017558	overwrite-call		no-native-body			
 town	m13-event08	4952581	call_native	80018BCC	overwrite-call		subfile-scene-image	invoke_callback_280_c_1:void:town/func_805213CC	void	invoke_callback_280_c_1:void:town/func_805213CC
-town	m13-event08	4952589	call_native	800175C8	overwrite-call		no-native-body			
+town	m13-event08	4952589	call_native	800175C8	overwrite-call		subfile-scene-image	load_event08_sound_sequence_28:void:town/func_8051FDC8	void	load_event08_sound_sequence_28:void:town/func_8051FDC8
 town	m13-event08	4952618	call_native	80016D98	overwrite-call		subfile-scene-image	scale_scene_position:void:town/func_8047F598	void	get_special_data_for_low_value_id:s32 *:town/func_806D4D98|scale_scene_position:void:town/func_8047F598
 town	m13-event08	4952717	call_native	80017558	overwrite-call		no-native-body			
 town	m13-event08	4952722	call_native	80017300	exit-park		subfile-scene-image	enter_scene:void:town/func_8051FB00	void	enter_scene:void:town/func_8051FB00|mark_indexed_records_8000:void:town/func_803DF300

@@ -316,6 +316,15 @@
   "town/func_8046B37C": {
    "func_8001ADE0": "func_8001E670"
   },
+  "town/func_8046B3C0": {
+   "func_8001ADE0": "func_8001E670"
+  },
+  "town/func_8046B404": {
+   "func_8001ADE0": "func_8001E670"
+  },
+  "town/func_8046B448": {
+   "func_8001ADE0": "func_8001E670"
+  },
   "town/func_8046B48C": {
    "func_8001ADE0": "func_8001E670"
   },
@@ -812,6 +821,10 @@
   "town/func_804B8B08": {
    "func_8001ACE8": "func_80018854"
   },
+  "town/func_804D08C0": {
+   "func_80019D44": "func_80016A34",
+   "func_80019DFC": "func_80016AEC"
+  },
   "town/func_804D0FA8": {
    "func_80019ADC": "func_800167CC"
   },
@@ -1105,6 +1118,10 @@
   "town/func_805D376C": {
    "func_8001ADE0": "func_800194D8"
   },
+  "town/func_806010F8": {
+   "func_80019DFC": "func_800175F8",
+   "func_8001ADE0": "func_80017E54"
+  },
   "town/func_806011BC": {
    "func_8001AD60": "func_80017DD4"
   },
@@ -1227,6 +1244,11 @@
   },
   "town/func_8065CB30": {
    "func_80019ADC": "func_80017354"
+  },
+  "town/func_8067F0F8": {
+   "func_80019D44": "func_80017A54",
+   "func_80019DFC": "func_80017B0C",
+   "func_8001B0C8": "func_80018604"
   },
   "town/func_8067F1D0": {
    "func_80019C68": "func_80017978",

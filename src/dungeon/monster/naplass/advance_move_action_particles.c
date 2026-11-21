@@ -68,7 +68,7 @@ void advance_move_action_particles(ActorRecord *action, ObjectPosition *position
     u16 source_z;
     u16 offset_z;
     s32 color;
-    s32 effect_value;
+    void *effect_value;
     S_80172840_8 *particle_fields;
     u32 heading;
     u8 *direction_x_ptr;
