@@ -97,10 +97,10 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
             part_b->flags |= 0x80;
             try_move_actor_to_valid_position(work_copy, part_a, part_b, work);
         }
-        work->unk_49 = 0xE;
-        work->unk_48 = 3;
-        work->unk_4A = random_dungeon_range_16(0x10, 0x18);
-        work->unk_4B = 1;
+        work->carried_item.kind = 0xE;
+        work->carried_item.unk_00 = 3;
+        work->carried_item.unk_02 = random_dungeon_range_16(0x10, 0x18);
+        work->carried_item.unk_03 = 1;
     }
 
     {
@@ -117,7 +117,7 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
     }
     retain_spawn_resource(spawned->species, 1);
     func_80042640(spawned, spawned->species);
-    spawned->unk_43 = 0xFF;
+    spawned->town_monster_slot = 0xFF;
     spawned->unk_12 = 0;
     return work;
 }

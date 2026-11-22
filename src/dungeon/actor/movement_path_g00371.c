@@ -432,7 +432,7 @@ void advance_actor_traversable_heading(ActorRecord *body, ObjectPosition *contex
                 if (actor_flags & 0x20000) {
                     {
 
-                        target_direction = (actor->unk_44.bytes.high
+                        target_direction = (actor->approach_direction
                             + ((s32) (((S_800D92C0_1 *)(((int)primary_actor_record)))->unk_2A << 0x10) >> 0x19)) & 7;
                         target_x = D_80082E80_initial.tile_position.parts.tile_x + ((u16 *)dir_step_x)[target_direction];
                         target_y = D_80082E80_initial.tile_position.parts.tile_y + ((u16 *)dir_step_y)[target_direction];
@@ -469,7 +469,7 @@ void advance_actor_traversable_heading(ActorRecord *body, ObjectPosition *contex
                     }
                 }
             }
-            select_actor_route_target(position, body->unk_9C, (void *)actor, ((void *)body) + 0x98);
+            select_actor_route_target(position, body->route_room, (void *)actor, ((void *)body) + 0x98);
 init_loop:
             turn_index = 0;
 loop_entry:
@@ -546,7 +546,7 @@ post_loop:
                     return;
                 }
             }
-            body->unk_9C = (s8) (u8) position->room_index;
+            body->route_room = (s8) (u8) position->room_index;
             actor->pending_turn_updates = actor->pending_turn_updates - 1;
             {
                 g_dungeon_status.activity_counts.parts.pending_movement_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_movement_count) + 1);

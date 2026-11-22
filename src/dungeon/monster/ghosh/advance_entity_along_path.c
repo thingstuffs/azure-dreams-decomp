@@ -38,7 +38,7 @@ void advance_entity_along_path(ActorRecord *actor, ObjectPosition *position, Spr
     if (actor->action_id != move_state) {
         actor->unk_90.value = 0;
         position->velocity_z = 0;
-        actor->unk_9D = 0;
+        actor->fall_ticks = 0;
     }
 
     if (path->movement_queue_state <= path->unk_8A) {

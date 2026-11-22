@@ -8,6 +8,15 @@
   "evidence": "ledger/instance_load_regions.jsonl; validated packed-CD loader record",
   "entries": [
     {
+      "row": "town/func_804682E8",
+      "home": "town/func_804682E8",
+      "tu": "src/town/scene/service/play_event08_sound_1703.c",
+      "foff": "0x3e82e8",
+      "vma": "0x800192e8",
+      "size": 56,
+      "evidence": "TOWN +0x412ba7 is a decoded m01-event08 native call. The packed CD transfer at +0x56c00 places its scene from +0x3e5000 at 0x80016000. It passes sound 0x1703 to service slot +0x280."
+    },
+    {
       "row": "town/func_80469150",
       "home": "town/func_80469150",
       "tu": "src/town/scene/call_scene_service_one.c",
@@ -27,6 +36,15 @@
         "0x80017BD8": "0x80017C14"
       },
       "evidence": "TU view gather: moved from town/image_3e8000 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_80469D04",
+      "home": "town/func_80469D04",
+      "tu": "src/town/scene/store_choice_value_pair_in_mode_ten.c",
+      "foff": "0x3e9d04",
+      "vma": "0x8001ad04",
+      "size": 104,
+      "evidence": "TOWN +0x3e7124 holds the choice 5 predicate for the dispatcher at +0x3ecf68. The predicate checks selection mode 10 and calls the local value-pair builder at +0x3e97e8 through the JAL at +0x3e9d38, then writes the returned pointer to choice field +8."
     },
     {
       "row": "town/func_80469F2C",

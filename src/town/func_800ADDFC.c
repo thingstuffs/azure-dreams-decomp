@@ -1,5 +1,5 @@
 #include "town.h"
-/* Recovered retail twin; complete-function proof is in the lane receipt. */
+/* Recovered retail twin. */
 #include "common.h"
 #include "town/person.h"
 #include "town/person/motion.h"

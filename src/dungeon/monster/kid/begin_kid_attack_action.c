@@ -29,8 +29,8 @@ void begin_kid_attack_action(ActorRecord *action_state, ObjectPosition *motion_p
             entity->pending_turn_updates--;
             prepare_directional_attack(entity, sprite, entity->facing, 1, 0);
             action_state->action_state_flags |= 8;
-            entity->unk_84 = 0x7C;
-            entity->unk_85 = 0;
+            entity->accuracy = 0x7C;
+            entity->attack_bonus = 0;
         }
     }
 }

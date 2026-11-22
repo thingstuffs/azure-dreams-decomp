@@ -76,7 +76,7 @@ void *spawn_death_actor(s16 flags, s16 value_24, s16 value_25, s16 value_0A)
         }
         initialize_actor_sprite_and_animation(((obj)), part_a, part_b, flags);
         actor->action_id = 0xFF;
-        actor->unk_9C = -1;
+        actor->route_room = -1;
         actor->unk_8C.handler = &dispatch_death_actions;
         work->flags1C |= 0x40000;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);

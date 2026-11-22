@@ -55,7 +55,7 @@ s32 use_item_to_level_up_eligible_actors(ActorRecord *target, DungeonItemEntry *
 
     if ((u32)target <= 0x9FFFFFFF) {
         display_actor_item_status_message(target, action_id);
-        if (feed_actor_restore_mp(target, entity_action_selectors[(*(&target->unk_10 + 3))] & 3, action_id) == 0) {
+        if (feed_actor_restore_mp(target, entity_action_selectors[target->species] & 3, action_id) == 0) {
             place_actor_item(target, action_id);
             return 1;
         }
@@ -75,7 +75,7 @@ s32 use_item_to_level_up_eligible_actors(ActorRecord *target, DungeonItemEntry *
                  */
                 if (((((S_800BF9EC_2 *)node)->unk_1C & (ACTOR_CONFUSED | ACTOR_PLAYER_SIDE)) != 0x2000 ||
                      (get_entity_effect_value(node, STATUS_BRAINWASH) << 16) != 0) &&
-                    (*(&target->unk_10 + 1)) < 99) {
+                    target->level < 99) {
                     ((S_800BF9EC_2 *)node)->unk_18 = entity_level_thresholds[((S_800BF9EC_2 *)node)->unk_11];
                     raise_entity_level(node, 0);
                     if ((((NODE_HEADER(node)->sprite))->flags & 0x8000) == 0) {

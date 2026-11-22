@@ -60,7 +60,7 @@ void advance_actor_turn_path(ActorRecord *move_data_in, ObjectPosition *context,
         return;
     }
 
-    update_actor_proximity_flag(tile_in, actor_in, 2, 4, &move_data_in->unk_9C);
+    update_actor_proximity_flag(tile_in, actor_in, 2, 4, &move_data_in->route_room);
     actor_flags = actor_in->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
@@ -100,7 +100,7 @@ void advance_actor_turn_path(ActorRecord *move_data_in, ObjectPosition *context,
                     TileObject *origin = &reference_tile_object;
                     s32 direction = ((u16)primary_actor_record->facing);
                     s32 table_index =
-                        ((((u8 *)&actor_in->unk_44.whole)[1] + ((s16)direction >> 9)) & 7) << 1;
+                        ((actor_in->approach_direction + ((s16)direction >> 9)) & 7) << 1;
                     target_x = origin->tile_position.parts.tile_x +
                         (u16)dir_step_x[table_index >> 1];
                     target_y = origin->tile_position.parts.tile_y +
@@ -129,14 +129,14 @@ void advance_actor_turn_path(ActorRecord *move_data_in, ObjectPosition *context,
                     stop_on_wide_turn = 1;
                 }
             } else {
-                select_actor_route_target((u8 *)tile_in, move_data_in->unk_9C, (u8 *)actor_in,
+                select_actor_route_target((u8 *)tile_in, move_data_in->route_room, (u8 *)actor_in,
                               &move_data_in->action_state_flags);
             }
         }
     } else {
         if ((s8)tile_in->room_index >= 0 &&
             (dungeon_rooms[(s8)tile_in->room_index].flags & ROOM_HOLY_BEAM)) {
-            select_actor_route_target((u8 *)tile_in, move_data_in->unk_9C, (u8 *)actor_in,
+            select_actor_route_target((u8 *)tile_in, move_data_in->route_room, (u8 *)actor_in,
                           &move_data_in->action_state_flags);
         } else if (!(actor_in->action_flags & ACTOR_ACTION_PENDING)) {
             current_angle = (s32)probe_directional_neighbor(actor_in, tile_in->tile_x,
@@ -172,7 +172,7 @@ void advance_actor_turn_path(ActorRecord *move_data_in, ObjectPosition *context,
                     }
                 }
             } else {
-                select_actor_route_target((u8 *)tile_in, move_data_in->unk_9C, (u8 *)actor_in,
+                select_actor_route_target((u8 *)tile_in, move_data_in->route_room, (u8 *)actor_in,
                               &move_data_in->action_state_flags);
             }
         }
@@ -253,7 +253,7 @@ void advance_actor_turn_path(ActorRecord *move_data_in, ObjectPosition *context,
 
     {
         actor_in->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-        move_data_in->unk_9C = tile_in->room_index;
+        move_data_in->route_room = tile_in->room_index;
         actor_in->pending_turn_updates--;
         g_dungeon_status.activity_counts.parts.pending_movement_count++;
     }

@@ -77,22 +77,22 @@ s32 try_kewne_attack(ActorRecord *action_state, ObjectPosition *action_param, Sp
                 new_action = 0x11;
                 action_state->action_state_flags |= 8;
                 action_state->action_id = new_action;
-                actor->unk_84 = 0x7C;
-                actor->unk_85 = 0;
+                actor->accuracy = 0x7C;
+                actor->attack_bonus = 0;
             } else if (selected_mode == 2) {
                 action_state->unk_8C.run = 0;
                 visual_data->frameTable = kewne_frame_set_3;
                 new_action = 0x17;
                 action_state->action_state_flags |= 8;
                 action_state->action_id = new_action;
-                actor->unk_84 = 0x7C;
-                actor->unk_85 = 0;
+                actor->accuracy = 0x7C;
+                actor->attack_bonus = 0;
             } else {
                 action_state->unk_8C.run = 0;
                 visual_data->frameTable = kewne_frame_set;
                 action_state->action_id = 0x18;
-                actor->unk_84 = 0x7C;
-                actor->unk_85 = 0;
+                actor->accuracy = 0x7C;
+                actor->attack_bonus = 0;
                 actor->flags1C &= 0xFFFBFFFF;
             }
 

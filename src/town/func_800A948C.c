@@ -1,4 +1,4 @@
-/* Recovered retail twin; complete-function proof is in the lane receipt. */
+/* Recovered retail twin. */
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"

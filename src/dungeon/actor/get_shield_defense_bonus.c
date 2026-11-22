@@ -13,9 +13,9 @@ typedef struct {
 s16 get_shield_defense_bonus(ActorRecord *entity) {
     s16 adjusted_value;
 
-    adjusted_value = entity->unk_86;
-    if (entity->unk_50.address != 0) {
-        adjusted_value += *(s8 *)((u8 *)entity->unk_50.address + 2);
+    adjusted_value = entity->defense_bonus;
+    if (entity->shield.address != 0) {
+        adjusted_value += *(s8 *)((u8 *)entity->shield.address + 2);
     }
     if (adjusted_value < 0) {
         adjusted_value = 0;

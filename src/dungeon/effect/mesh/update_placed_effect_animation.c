@@ -304,7 +304,7 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
                     tint_data = *(u8 **)(reset_object - 0x14);
 
                     ((S_81978428_9 *)reset_object)->unk_1C &= clear_tint_mask;
-                    ((ActorRecord *)tint_data)->unk_0C.value = neutral_color;
+                    ((SpriteFrameState *)tint_data)->color.word = neutral_color;
                 }
             }
         }

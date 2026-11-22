@@ -14,6 +14,15 @@
       "foff": "0x190D454",
       "vma": "0x80024C54",
       "size": 592
+    },
+    {
+      "row": "dungeon/func_818EDDB4",
+      "home": "dungeon/func_818EDDB4",
+      "tu": "src/dungeon/effect/update_pulsing_orb_spell.c",
+      "foff": "0x190ddb4",
+      "vma": "0x800255b4",
+      "size": 3628,
+      "evidence": "Selector 37 loads the twelve sectors from DUNGEON +0x190c800 at 0x80024000. Its first word is the update entry. The effect launches a pulsing sprite, spawns linked particles and runs the timed child effects on impact."
     }
   ]
 }

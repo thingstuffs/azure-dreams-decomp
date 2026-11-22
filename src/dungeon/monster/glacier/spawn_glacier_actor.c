@@ -82,7 +82,7 @@ void *spawn_glacier_actor(s16 flags, s16 kind_id, s16 variant, s32 spawn_value)
 
         initialize_actor_sprite_and_animation(object, part0, part1, flags);
         result_copy->action_id = 0xFF;
-        result_copy->unk_9C = -1;
+        result_copy->route_room = -1;
         result_copy->unk_8C.address = update_glacier_actor_behavior;
         try_move_actor_to_valid_position(result_copy, part0, part1, result);
     }

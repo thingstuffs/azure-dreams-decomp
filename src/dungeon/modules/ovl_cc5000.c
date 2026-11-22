@@ -157,7 +157,7 @@ void *spawn_block_slot_d(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 spawn_heig
 
         initialize_actor_sprite_and_animation(object, part0, part1, spawn_flags);
         result_copy->action_id = 0xFF;
-        result_copy->unk_9C = -1;
+        result_copy->route_room = -1;
         result_copy->unk_8C.address = dispatch_block_turn_actions_slot_d;
         try_move_actor_to_valid_position(result_copy, part0, part1, result);
     }
@@ -216,12 +216,12 @@ void update_block_motion_and_facing_slot_d(ActorRecord *entity, ObjectPosition *
         direction_index = direction;
         direction_copy = direction;
 
-        if (entity->unk_94 != direction_index) {
+        if (entity->sprite_direction != direction_index) {
             u8 *tile_map = ((CL_CC5000_80170C24_S_80170C24_0 *)sprite)->unk_2C;
             if (tile_map != 0) {
                 select_indirect_table_entry(sprite, tile_map[direction_index], sprite->unk_04);
             }
-            entity->unk_94 = direction;
+            entity->sprite_direction = direction;
         }
 
         if (dir_sprite_flag[direction_copy] != 0) {
@@ -251,10 +251,10 @@ void update_block_motion_and_facing_slot_d(ActorRecord *entity, ObjectPosition *
     motion->y.v += motion->velocity_y;
 
     if (entity->action_state_flags & 8) {
-        entity->unk_9D = 0;
+        entity->fall_ticks = 0;
     } else {
-        motion->velocity_z += (entity->unk_9D) * 0x14000;
-        entity->unk_9D++;
+        motion->velocity_z += (entity->fall_ticks) * 0x14000;
+        entity->fall_ticks++;
     }
 
     entity->unk_90.value += motion->velocity_z;
@@ -276,7 +276,7 @@ void update_block_motion_and_facing_slot_d(ActorRecord *entity, ObjectPosition *
 
                 motion->velocity_z = 0;
                 actor->flags1C |= 0x08000000;
-                entity->unk_9D = 0;
+                entity->fall_ticks = 0;
             }
             if (actor->flags1C & 0x40000000) {
                 actor->flags1C &= 0xBFFFFFFF;
@@ -574,7 +574,7 @@ void choose_block_move_slot_d(Rec_func_800A9E70_arg0 *move_data, ObjectPosition 
                     TileObject *target_position = &reference_tile_object;
                     s32 target_facing = ((u16)primary_actor_record->facing);
                     s32 offset_index =
-                        ((((u8 *)&actor_data->unk_44.whole)[1] + ((s16)target_facing >> 9)) & 7) << 1;
+                        ((actor_data->approach_direction + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
                         *(u16 *)((u8 *)dir_step_x + offset_index);
                     target_y = target_position->tile_position.parts.tile_y +
@@ -786,8 +786,8 @@ s32 try_begin_block_attack_slot_d(Rec_func_800A9E70_arg0 *action_state, ObjectPo
         action_state->unk_9A.as_u8 = 0x11;
         action_state->unk_9B.as_u8 = 0;
         action_state->unk_8C = 0;
-        actor->unk_84 = 0x7C;
-        actor->unk_85 = 0;
+        actor->accuracy = 0x7C;
+        actor->attack_bonus = 0;
         ((CL_CC5000_80171FBC_S_80171DA0_1 *)sprite_arg)->unk_2C = block_slot_d_direction_frames;
         select_sprite_entry(sprite_arg, block_slot_d_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         actor->pending_turn_updates--;
@@ -810,8 +810,8 @@ void begin_block_attack_slot_d(CL_CC5000_80172180_S_80172180_1 *state, s32 posit
             select_sprite_entry(render_state, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7) + block_slot_d_direction_frames), 0);
             entity->pending_turn_updates = entity->pending_turn_updates - 1;
             prepare_directional_attack(entity, render_state, entity->facing, 1, 0);
-            entity->unk_84 = 0x7C;
-            entity->unk_85 = 0;
+            entity->accuracy = 0x7C;
+            entity->attack_bonus = 0;
         }
     }
 }

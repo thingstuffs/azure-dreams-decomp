@@ -54,7 +54,7 @@ struct RectangleCopy;
 /* Callback entry points. */
 s32 queue_linked_visible_rectangle_copies(struct RectangleCopy *initial_state, ObjectPosition *input_values, struct SpriteFrameState *initial_delta);
 
-void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 power_bonus, s16 elements, u16 hit_angle, void *source, u16 hit_kind);
+void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 power_bonus, s16 elements, s16 hit_angle, void *source, u16 hit_kind);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void spawn_blinking_sprite_flash(s16 x, s16 y, s16 z);

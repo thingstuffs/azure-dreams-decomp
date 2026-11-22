@@ -100493,6 +100493,171 @@
           "vma": 2147574244
         }
       ]
+    },
+    {
+      "container": "town",
+      "headers": [
+        "include/town/scene.h",
+        "include/shared/town_event_state.h"
+      ],
+      "imports": [
+        {
+          "symbol": "func_8001A79C",
+          "kind": "function",
+          "vma": 2147592168
+        },
+        {
+          "symbol": "D_8001E950",
+          "kind": "data",
+          "vma": 2147608912,
+          "foff": 4118864,
+          "view_bytes": 4,
+          "owner": "retail_asset:town:link_ll34_3e5000_80016000"
+        }
+      ],
+      "key": "town_store_choice_value_pair_in_mode_ten",
+      "name": "store_choice_value_pair_in_mode_ten.c",
+      "members": [
+        {
+          "id": "town/func_80469D04",
+          "source": "src/town/scene/store_choice_value_pair_in_mode_ten.c",
+          "function": "func_8001AD04",
+          "foff": 4103428,
+          "vma": 2147593476,
+          "size": 104
+        }
+      ],
+      "owned_data": [],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "region": "link_ll34_3e5000_80016000",
+      "review": {
+        "membership": "pending",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex"
+      },
+      "review_inputs": [
+        "config/link/town/image_3e8000.json",
+        "config/link/town/ll34_3e5000_80016000.json",
+        "config/overlays/town.rowbase.jsonl",
+        "src/town/scene/prepare_stored_value_pair.c"
+      ],
+      "source": "src/town/scene/store_choice_value_pair_in_mode_ten.c"
+    },
+    {
+      "container": "main",
+      "headers": [
+        "include/frontend/libcard/state.h"
+      ],
+      "imports": [
+        {
+          "symbol": "func_8002789C",
+          "kind": "function",
+          "vma": 2147645596
+        },
+        {
+          "symbol": "func_8002307C",
+          "kind": "function",
+          "vma": 2147627132
+        },
+        {
+          "symbol": "func_80024FAC",
+          "kind": "function",
+          "vma": 2147644632
+        }
+      ],
+      "key": "main_card_boot_enter_damaged_card_notice",
+      "name": "card_boot_enter_damaged_card_notice.c",
+      "members": [
+        {
+          "id": "main/func_80244778",
+          "source": "src/frontend/libcard/state/card_boot_enter_damaged_card_notice.c",
+          "function": "func_80027778",
+          "foff": 2508664,
+          "vma": 2147645304,
+          "size": 68
+        }
+      ],
+      "owned_data": [],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "region": "xfer_main_25CA6C",
+      "review": {
+        "membership": "pending",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex"
+      },
+      "review_inputs": [
+        "config/link/main/image_25c800.json",
+        "config/overlays/main.rowbase.jsonl",
+        "src/frontend/libcard/card_boot_show_damaged_memory_card_notice.c",
+        "src/frontend/libcard/card_boot_update_card_chooser_input.c",
+        "src/frontend/libcard/state/card_boot_poll_status_and_dismiss_dialog.c"
+      ],
+      "source": "src/frontend/libcard/state/card_boot_enter_damaged_card_notice.c"
+    },
+    {
+      "container": "town",
+      "headers": [
+        "include/town/player/script_flags.h",
+        "include/town/scene.h",
+        "include/town/scene/flags.h"
+      ],
+      "imports": [
+        {
+          "symbol": "func_8001ADE0",
+          "kind": "function",
+          "vma": 2147579096
+        },
+        {
+          "symbol": "func_80019BC0",
+          "kind": "function",
+          "vma": 2147576212
+        },
+        {
+          "symbol": "func_80019C68",
+          "kind": "function",
+          "vma": 2147576380
+        }
+      ],
+      "key": "town_process_entry_with_sbs17_pad03",
+      "name": "process_entry_with_sbs17_pad03.c",
+      "members": [
+        {
+          "id": "town/func_8063217C",
+          "source": "src/town/scene/process_entry_with_sbs17_pad03.c",
+          "function": "func_8001617C",
+          "foff": 5972348,
+          "vma": 2147574140,
+          "size": 84
+        }
+      ],
+      "owned_data": [],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "region": "load_ll34_5b2000_80016000_5B2120",
+      "review": {
+        "membership": "pending",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex"
+      },
+      "review_inputs": [
+        "config/link/town/ll34_5b2000_80016000.json",
+        "config/overlays/town.rowbase.jsonl",
+        "src/town/player/state/get_script_flag_mask.c",
+        "src/town/scene/flags/set_current_entry_script_flag.c",
+        "src/town/scene/process_checked_entry.c"
+      ],
+      "source": "src/town/scene/process_entry_with_sbs17_pad03.c"
     }
   ]
 }

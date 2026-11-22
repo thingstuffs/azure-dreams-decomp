@@ -7,6 +7,7 @@
 
 struct SpriteFrameState;
 #include "common.h"
+#include "shared/sprite_source.h"
 #include "m2c_compat.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
@@ -274,7 +275,7 @@ s16 get_surface_height_at_record();
 
 extern M2C_UNK D_800240F0;
 extern M2C_UNK D_8002455C[];
-extern u8 spark_sprite_entries[];
+extern SpriteSourceEntry spark_sprite_entries[];
 extern M2C_UNK D_80024918;
 extern M2C_UNK D_800DE5DC;
 

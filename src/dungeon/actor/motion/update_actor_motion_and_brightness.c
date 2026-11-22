@@ -38,10 +38,10 @@ void update_actor_motion_and_brightness(ActorRecord *body, ObjectPosition *motio
     motion->y.v += motion->velocity_y;
     motion_flags = body->action_state_flags;
     if (motion_flags & 8) {
-        body->unk_9D = 0;
+        body->fall_ticks = 0;
     } else {
-        motion->velocity_z += (body->unk_9D) * 0x14000;
-        body->unk_9D = body->unk_9D + 1;
+        motion->velocity_z += (body->fall_ticks) * 0x14000;
+        body->fall_ticks = body->fall_ticks + 1;
     }
     body->unk_90.value += motion->velocity_z;
     if (!(body->action_state_flags & 4) &&
@@ -57,7 +57,7 @@ void update_actor_motion_and_brightness(ActorRecord *body, ObjectPosition *motio
             }
             motion->velocity_z = 0;
             entity_ref->flags1C |= 0x08000000;
-            body->unk_9D = 0;
+            body->fall_ticks = 0;
         }
         entity_flags = (*(u32 *)((u8 *)entity_ref + 0x1c));
         if (entity_flags & 0x40000000) {

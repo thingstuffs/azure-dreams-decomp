@@ -61,9 +61,9 @@ s32 update_thrown_actor_travel(ActorRecord *move_state, ObjectPosition *motion, 
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             actor->flags1C = (s32) (actor->flags1C | ACTOR_REFRESH_GROUND);
-            move_state->unk_9C = tile_pos->room_index;
+            move_state->route_room = tile_pos->room_index;
             tile_pos->room_index = find_active_rect_containing_point(tile_pos->tile_x, tile_pos->tile_y);
-            update_actor_proximity_flag(tile_pos, actor, 3, 6, &move_state->unk_9C);
+            update_actor_proximity_flag(tile_pos, actor, 3, 6, &move_state->route_room);
             if ((find_valid_nearby_position(actor, tile_pos->tile_x, tile_pos->tile_y, &resolved_x, &resolved_y) << 0x10) == 0) {
                 set_record_integer_tile_center(motion, tile_pos->tile_x, tile_pos->tile_y);
                 begin_actor_random_warp(move_state, motion, tile_pos, actor);
@@ -97,9 +97,9 @@ s32 update_thrown_actor_travel(ActorRecord *move_state, ObjectPosition *motion, 
             motion->velocity_x = 0;
             move_state->action_state_flags =
                 (u16) (move_state->action_state_flags & 0xFFF7);
-            move_state->unk_9C = tile_pos->room_index;
+            move_state->route_room = tile_pos->room_index;
             tile_pos->room_index = find_active_rect_containing_point(tile_pos->tile_x, tile_pos->tile_y);
-            update_actor_proximity_flag(tile_pos, actor, 3, 6, &move_state->unk_9C);
+            update_actor_proximity_flag(tile_pos, actor, 3, 6, &move_state->route_room);
             ground_height = sample_terrain_surface_height((tile_pos->tile_x << 6) | 0x20, (tile_pos->tile_y << 6) | 0x20,
                 (s16) (((u16)motion->z.w.i) - 0x20));
             if (ground_height < 0x200) {

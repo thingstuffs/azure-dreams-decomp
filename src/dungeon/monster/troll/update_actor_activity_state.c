@@ -27,7 +27,7 @@ void update_actor_activity_state(ActorRecord *task, ObjectPosition *task_id, Spr
         if (!(sprite_in->flags & 0xE000)) {
             return;
         }
-        kind = actor->unk_48;
+        kind = actor->carried_item.unk_00;
         switch (kind) {
         case 13:
             sprite_in->frameTable = troll_kind13_direction_frames;
@@ -52,7 +52,7 @@ void update_actor_activity_state(ActorRecord *task, ObjectPosition *task_id, Spr
         return;
 
     case 1:
-        kind = actor->unk_48;
+        kind = actor->carried_item.unk_00;
         switch (kind) {
         case 13:
             old_anim_table = sprite_in->frameTable;
@@ -84,7 +84,7 @@ void update_actor_activity_state(ActorRecord *task, ObjectPosition *task_id, Spr
         }
 
         if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) == 0) {
-            kind = actor->unk_48;
+            kind = actor->carried_item.unk_00;
             switch (kind) {
             case 13:
                 sprite_in->frameTable = troll_kind13_recovery_frames;
@@ -153,7 +153,7 @@ void update_actor_activity_state(ActorRecord *task, ObjectPosition *task_id, Spr
             if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 return;
             }
-            kind = actor->unk_48;
+            kind = actor->carried_item.unk_00;
             switch (kind) {
             case 13:
                 sprite_in->frameTable = troll_kind13_recovery_frames;

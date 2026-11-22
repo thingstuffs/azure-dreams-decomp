@@ -12,7 +12,7 @@ needs fewer value casts.  The trial answers that for one field:
      is compiled as it stands (a lexical type resolver reads local, parameter, global, member-chain and cast
      base types; another record with a member of that name is left alone, and a base whose type cannot be
      resolved is reported as `unresolved` and never stripped);
-  2. the declared type is flipped (u16 <-> s16, u8 <-> s8), every value cast to the new type that is applied
+  2. the declared type is flipped (u32 <-> s32, u16 <-> s16, u8 <-> s8), every value cast to the new type that is applied
      to that field is stripped from the TUs and headers that use it, and the TUs are compiled again;
   3. per function the two code streams are compared: identical (the flip needs no cast there) or differs
      (a cast, or another change, is still needed), together with the casts now and the functions that differ.
@@ -50,12 +50,16 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
 
 FLIP = {'u16': 's16', 's16': 'u16', 'unsigned short': 'short', 'short': 'unsigned short',
-        'u8': 's8', 's8': 'u8', 'unsigned char': 'signed char', 'signed char': 'unsigned char'}
+        'u8': 's8', 's8': 'u8', 'unsigned char': 'signed char', 'signed char': 'unsigned char',
+        'int': 'unsigned int', 'unsigned int': 'int', 's32': 'u32', 'u32': 's32'}
 SPELLINGS = {  # every spelling of a type's value cast
+    's32': ('s32', 'int', 'signed int', 'int32_t'), 'u32': ('u32', 'unsigned int', 'unsigned', 'uint32_t'),
     's16': ('s16', 'short', 'signed short', 'int16_t'), 'u16': ('u16', 'unsigned short', 'uint16_t'),
     's8': ('s8', 'signed char', 'int8_t'), 'u8': ('u8', 'unsigned char', 'uint8_t'),
 }
-CANON = {'short': 's16', 'signed short': 's16', 'int16_t': 's16', 'unsigned short': 'u16', 'uint16_t': 'u16',
+CANON = {'int': 's32', 'signed int': 's32', 'int32_t': 's32', 's32': 's32',
+         'unsigned int': 'u32', 'unsigned': 'u32', 'uint32_t': 'u32', 'u32': 'u32',
+         'short': 's16', 'signed short': 's16', 'int16_t': 's16', 'unsigned short': 'u16', 'uint16_t': 'u16',
          'signed char': 's8', 'int8_t': 's8', 'unsigned char': 'u8', 'uint8_t': 'u8',
          's16': 's16', 'u16': 'u16', 's8': 's8', 'u8': 'u8'}
 LOCAL_LABEL = re.compile(r'\$L[0-9]+\b')
@@ -151,8 +155,11 @@ def field_declaration(text, owner, field):
     match = pattern.search(top_level(text, span), span[0], span[1])
     if not match and not path:                  # a member of an unnamed nested struct/union
         match = pattern.search(text, span[0], span[1])
+    if match and match[1] == 'int' and re.search(r'\b(?:signed|unsigned|short|long)\s+$', text[:match.start(1)]):
+        match = None  # Do not treat the end of a different multiword type as a plain int.
     if not match:
-        raise ValueError(f'{owner}.{field} is not a plain u8/s8/u16/s16 member (arrays, unions and other types are out of scope)')
+        raise ValueError(f'{owner}.{field} is not a plain 8-, 16- or 32-bit integer member '
+                         '(arrays, unions and other types are out of scope)')
     return match.start(1), match[1]
 
 

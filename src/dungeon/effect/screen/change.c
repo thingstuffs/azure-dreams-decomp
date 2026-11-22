@@ -849,7 +849,7 @@ typedef struct S_8009CE1C_1 {
 
 /* Compute elemental damage for a target and trigger its hit response. */
 void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 power_bonus, s16 elements,
-                   u16 hit_angle, void *source, u16 hit_kind) {
+                   s16 hit_angle, void *source, u16 hit_kind) {
     s32 event_id;
     s16 affinity_product;
     s32 shown_damage;
@@ -987,7 +987,7 @@ void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 po
             (u16) ((position->tile_x << 6) + ((dir_step_x[(u32) direction_offset >> 1] * 0x20) + 0x20)),
             (u16) ((position->tile_y << 6) + ((dir_step_y[(u32) direction_offset >> 1] * 0x20) + 0x20)),
             (s16) (((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_9C - 0x30),
-            element_mask, (s32) (s16) hit_angle);
+            element_mask, hit_angle);
     }
 }
 
@@ -1022,7 +1022,7 @@ s32 try_trigger_target_record_effect(void *entity_in, s32 flags, void *record_in
         }
         {
             if (record != NULL) {
-                value_ptr = entity->unk_50.address;
+                value_ptr = entity->shield.address;
                 if (value_ptr != NULL) {
                     if ((*value_ptr == 3) && (record->unk_13 >= 0) && (generate_random_value() & 3)) {
                                                 /* Duplicate return node #22. Try simplifying control flow for better match */

@@ -1,20 +1,22 @@
 #ifndef SHARED_ENTITY_H
 #define SHARED_ENTITY_H
 
+#include "game.h" /* ActorAbility */
 #include "shared/actor_status.h"
+#include "shared/dungeon_item_entries.h" /* DungeonItemEntry (ActorRecord.carried_item) */
 
 struct DungeonItemEntry;
 
 /* Object-system records of the DUNGEON (and TOWN) object pools.  An object is a 0x20-byte ObjectNodeHeader
  * (shared/object_node.h) followed by a callback-specific body; the node's +0x08 / +0x0C slots point at separate
- * position (ObjectPosition) and sprite (SpriteFrameState) records.  r121 opus_entity2 (decision 73 draft) split
+ * position (ObjectPosition) and sprite (SpriteFrameState) records.  Decision 73 (draft) split
  * the r78 catch-all EntityRec into the records the game allocates: ObjectPosition (0x18), ActorRecord (0xBC, the
  * pooled actor body) and PlayerRecord (0x12C, the static player body = ActorRecord + player tail).
  *
  * EntityRec (below) is now only the LEGACY overlaid view: the r78 union of every record that census reached
  * (motion x/y/z at 0x00..0x17 overlapping actor stats, sprite tile bytes at 0x24 overlapping the actor's MP).
  * Its remaining users are held sites whose record kind is not yet proven (no traced allocation / callback /
- * caller), effect payloads, and the relinked copies that follow their homes; lane holds list each with its reason.
+ * caller), effect payloads, and the relinked copies that follow their homes; the held-site lists give each its reason.
  * New code must use the split records; do not add members to EntityRec. */
 
 /* One position component stored as a 16.16 word; position initializers and motion updates write it. */
@@ -26,7 +28,7 @@ typedef union Fixed1616 {
 } Fixed1616;
 
 /* ObjectPosition: the 0x18-byte position/motion record an object node points at through ObjectNodeHeader.unk_08
- * (decision 69(C); r121 opus_entity2 split of EntityRec).  The pool allocator places it at node+0xDC / +0xE8 /
+ * (decision 69(C); split of EntityRec).  The pool allocator places it at node+0xDC / +0xE8 /
  * +0xF4 / +0x10C by flags (payload - 0x18); the static player and town scene nodes point it at D_80083780, which
  * initialize_dungeon_actor clears with six words.  add_motion_deltas_to_position adds each velocity word to the
  * matching coordinate (medium; views call them velocityX/Y/Z).  Leaf types are exactly EntityRec's at 0x00-0x17. */
@@ -52,7 +54,7 @@ typedef struct EntityRec {
     /* 0x010 */ int unk_10; /* overlays ObjectPosition.velocity_y and ActorRecord template bytes; some users read individual bytes */
     /* 0x014 */ int flags14; /* overlays ObjectPosition.velocity_z and ActorRecord property flags; not a universal flag word */
     /* 0x018 */ int unk_18;                       
-    /* 0x01C */ int flags1C;                      /* as_s32 125 / u32 74: bit sets/clears (|= 0x80000, &= ~0x10000, >> 19 & 1 in slus/w_80042BDC) */
+    /* 0x01C */ int flags1C;                      /* the actor status bit word (ActorRecord.flags1C, shared/actor_status_flags.h) under the legacy view */
     /* 0x020 */ short unk_20;                     
     /* 0x022 */ unsigned char pad_22[2];          
     /* 0x024 */ unsigned char tileX; /* tile-column spelling in legacy consumers; the actor layout has fractional MP at this offset */
@@ -94,7 +96,7 @@ typedef struct EntityRec {
     /* 0x072 */ signed char unk_72;               
     /* 0x073 */ signed char unk_73;               
     /* 0x074 */ unsigned char pad_74[16];         
-    /* 0x084 */ unsigned char unk_84; /* the ActorRecord.unk_84 byte (unsigned by its sign trial); no EntityRec user reads it */
+    /* 0x084 */ unsigned char unk_84; /* the ActorRecord.accuracy byte (unsigned by its sign trial); no EntityRec user reads it */
     /* 0x085 */ signed char unk_85;               
     /* 0x086 */ unsigned char pad_86[2];          
     /* 0x088 */ short unk_88;                     
@@ -137,11 +139,11 @@ typedef struct EntityRec {
 /* ActorRecord: the body of a live actor (monster, familiar or the player), the 0xBC bytes after a 0x20-byte
  * ObjectNodeHeader in a pooled 0x124-byte node allocated with flags 0x112 (reset_node_pool strides
  * 0x124; allocate_list_node then puts the ObjectPosition at node+0xDC and the SpriteFrameState at node+0xF4, so
- * actor+0xBC is already the position record).  r121 opus_entity2 (decision 73 draft) split it out of EntityRec:
- * +0x00..+0x14 are packed innate stats, ability slots and the actor flags word, NOT world coordinates (those live
- * in the separate ObjectPosition); +0x24/+0x25 are MP (decision 73), NOT tile coordinates (those are the sprite's).
- * Leaf types are EntityRec's except +0x10..+0x13 (four template bytes here, one word there); names from the entity field-role census (scope actor_data,
- * medium unless marked), the rest stay unk_.  Callback variants at +0x8A/+0xA4/+0xA8/+0xAC stay unk_ (O08). */
+ * actor+0xBC is already the position record).  Decision 73 (draft) split it out of EntityRec:
+ * +0x00..+0x14 are the level stats, the three ability slots and the template flag word that init_monster_from_stats
+ * seeds from the species' MonsterInitialStats (same layout to +0x13), NOT world coordinates (those live in the
+ * separate ObjectPosition); +0x24/+0x25 are MP (decision 73), NOT tile coordinates (those are the sprite's).
+ * Members without behaviour evidence stay unk_.  Callback variants at +0x8A/+0xA4/+0xA8/+0xAC stay unk_ (O08). */
 struct ActorRecord;
 struct SpriteFrameState;
 
@@ -161,41 +163,39 @@ typedef struct ActorScratchHalves {
 /* Live monster, familiar or player statistics and action state.
  * allocate_list_node owns pooled bodies; init_monster_from_stats seeds monster template bytes. */
 typedef struct ActorRecord {
-    /* 0x000 */ unsigned char unk_00[0xC]; /* template bytes: +0/+1 attack/defense, +4/+5 MP/HP; ability groups begin at +8 */
-    /* 0x00C */ union { int value; unsigned char bytes[4]; void *address; } unk_0C; /* packed ability bytes within the groups beginning at +0x08 */
-    /* 0x010 */ unsigned char unk_10; /* stored level of the third ability group (MonsterInitialStats abilities[2] ends here); no fixed-offset reader */
+    /* 0x000 */ unsigned char attack; /* attack stat: level-up grows it from the species growth row, the attack item adds one; apply_entity_effects derives base_attack from it */
+    /* 0x001 */ unsigned char defense; /* defense stat: level-up grows it, the defense item adds one; apply_entity_effects derives base_defense from it */
+    /* 0x002 */ unsigned char agility; /* agility stat: level-up grows it; the speed item adds one up to 0xFF and reports "agility increased"; no other consumer of this byte found */
+    /* 0x003 */ unsigned char luck; /* luck stat: chance rolls take a random value modulo it and skip the roll at zero; level-up grows it, the luck item adds one; the player's swings with a sine each turn (lower while cursed); prepare_directional_attack adds (random % attacker luck) * 4 to the hit baseline, takes luck >> 6 (>> 1 when angry) as the critical chance and rolls the target's luck for the dodge */
+    /* 0x004 */ unsigned char level_max_mp; /* maximum MP from level growth; apply_entity_effects copies it to max_mp, doubled (capped at 255) under status_flags bit 0x4 */
+    /* 0x005 */ unsigned char level_max_hp; /* maximum HP from level growth; apply_entity_effects copies it to max_hp, doubled (capped at 255) under status_flags bit 0x2 */
+    /* 0x006 */ unsigned short exp_reward; /* experience awarded for defeating this actor: init_monster_from_stats copies the species base, raise_entity_level and lower_entity_level recompute it (clamped to 0xFFFF), distribute_experience_awards shares it out */
+    /* 0x008 */ ActorAbility abilities[3]; /* ability slots for action codes 1..3 (action_flags & ACTOR_ACTION_CODE_MASK) */
     /* 0x011 */ unsigned char level; /* experience level; indexes the level experience table */
     /* 0x012 */ unsigned char unk_12; /* template byte; movement handlers skip adjacent attacks when it is 2 or more */
     /* 0x013 */ unsigned char species; /* monster species id (shared/monster_ids.h); init_monster_from_stats and the spawn factories store it */
     /* 0x014 */ int flags14; /* template/property mask; resistance and class bits are documented in shared/actor_property_flags.h */
     /* 0x018 */ int experience; /* accumulated experience, compared with the next-level requirement */
     /* 0x01C */ int flags1C; /* current side, attachment, movement and active-status bits; see shared/actor_status_flags.h */
-    /* 0x020 */ short unk_20; /* prepared attack power; attack preparation seeds it, damage resolution adjusts it before deriving the target HP delta */
-    /* 0x022 */ unsigned short unk_22; /* halfword copied with the actor snapshot (copy_entity_record) */
+    /* 0x020 */ short attack_power; /* the attacker's power for one attack, not a base stat: prepare_directional_attack stores (current_attack + the weapon bonus) * 2 plus a random 0..2, damage resolution scales it for element and height before deriving the target HP delta, apply_spell_element_bonus takes the weapon part out again */
+    /* 0x022 */ unsigned short defense_power; /* the target's defence for one hit, derived per hit: its current_defense plus the shield bonus, halved under the frog status and raised to 1 when zero; both damage functions read it signed (copy_entity_record also copies the halfword with the actor snapshot) */
     /* 0x024 */ unsigned char mp_fraction; /* low byte of the 8.8 current MP; spending, draining and feeding read and write mp_fraction..mp as one halfword, and a clamp to max_mp sets it to 0xFF */
     /* 0x025 */ unsigned char mp; /* current MP in whole points: the byte displays, max_mp clamps and empty-MP tests read */
     /* 0x026 */ unsigned char current_attack; /* current attack stat; restored from base_attack after temporary changes */
     /* 0x027 */ unsigned char current_defense; /* current defense stat; restored from base_defense after temporary changes */
     /* 0x028 */ unsigned char hp; /* current HP; damage may first accumulate in the signed delta at +0x64 */
-    /* 0x029 */ unsigned char max_hp; /* effective maximum HP; doubled template HP is capped at 255 */
+    /* 0x029 */ unsigned char max_hp; /* effective maximum HP: level_max_hp, doubled under a status bit and capped at 255 */
     /* 0x02A */ short facing; /* actor angle; 0x1000 units per turn, direction = (facing >> 9) & 7 */
     /* 0x02C */ ActorStatusSlot status[4]; /* status id (ActorStatusId, 0 = empty) and signed duration/value per slot; zero value does not expire; advance_status_timers moves a nonzero value toward zero and clears the id on expiry */
-    /* 0x034 */ unsigned char pad_34[2];
-    /* 0x036 */ union { unsigned short u; short s; } unk_36;
-    /* 0x038 */ unsigned char pad_38[9];
+    /* 0x034 */ unsigned char name[13]; /* the creature's name text, 13 bytes: copy_entity_record copies all 13 into the town snapshot, party-member message text and the town status text print it from +0x34 */
     /* 0x041 */ signed char pending_experience_high; /* high byte of a pending experience award */
     /* 0x042 */ signed char pending_experience_low; /* low byte of a pending experience award */
-    /* 0x043 */ unsigned char unk_43; /* snapshot index when below 0x40; removal uses 0x54-byte snapshots, while 0xFD..0xFF select special removal paths */
-    /* 0x044 */ union {
-        unsigned short whole;
-        struct { unsigned char low; unsigned char high; } bytes;
-    } unk_44; /* packed bytes: fusion/removal write the low byte; init_monster_from_stats sets the high byte at +0x45 to 6 */
+    /* 0x043 */ unsigned char town_monster_slot; /* index into the stored town monster table (town_monsters[64], 0x54 bytes each) when below 0x40; 0xFD..0xFF mark dungeon-made familiars (0xFF: released, 0xFE: vanished) */
+    /* 0x044 */ unsigned char unk_44; /* copied with the actor snapshot or cleared before it is taken; no other reader */
+    /* 0x045 */ unsigned char approach_direction; /* direction, relative to the player's facing, of the player-adjacent tile this actor keeps station on or approaches (target tile = player tile + dir_step[(approach_direction + player facing >> 9) & 7]); familiars load it from the saved familiar direction, init_monster_from_stats starts monsters at 6 */
     /* 0x046 */ unsigned short action_flags; /* action selection flags; bit 0x8000 is cleared after pending actor updates */
-    /* 0x048 */ unsigned char unk_48; /* item subtype byte of the four-byte drop descriptor at +0x48; defeat passes the complete descriptor to item spawning */
-    /* 0x049 */ unsigned char unk_49; /* drop item category; zero means no item, and defeat spawns it only when the +0x4B suppression bit is clear */
-    /* 0x04A */ unsigned char unk_4A; /* third byte of the four-byte drop descriptor; payload meaning follows the item category */
-    /* 0x04B */ unsigned char unk_4B; /* drop descriptor flags; bit 0x20 prevents the defeat drop, and fusion preserves descriptors carrying that bit */
-    /* 0x04C */ void * unk_4C; /* player: equipped sword/wand record pointer; actor snapshots serialize it as an index in the 20-slot item table */
+    /* 0x048 */ DungeonItemEntry carried_item; /* the item this actor carries and drops: defeat passes the whole entry to item spawning, the town shop row and the fusion copy use the same four bytes; kind zero means no item, and bit 0x20 of the last byte prevents the defeat drop (fusion preserves entries carrying it); whole-entry copies stay word views */
+    /* 0x04C */ void * weapon; /* player: equipped sword/wand record pointer; actor snapshots serialize it as an index in the 20-slot item table */
     /* 0x050 */ union {
         struct {
             unsigned short low; /* actor snapshots serialize it as one item-table index */
@@ -203,32 +203,32 @@ typedef struct ActorRecord {
         } halves;
         void *address; /* player: shield record address spanning +0x50..+0x53 */
         struct DungeonItemEntry *item; /* the same record, typed */
-    } unk_50; /* Step 0b: one word, read as two halfwords or as the player's shield record pointer */
+    } shield; /* the equipped shield: one word, read as two halfwords or as the player's shield record pointer */
     /* 0x054 */ int status_flags; /* derived-effect mask; bits 1..4 double HP/MP/attack/defense baselines, capped at 255 by apply_entity_effects */
     /* 0x058 */ struct ObjectNodeHeader *previous_actor_header; /* previous live actor list entry: its ObjectNodeHeader (check_entity_relation and insert_node_before_primary_actor store node headers; readers take NODE_BODY) */
     /* 0x05C */ struct ObjectNodeHeader *next_actor_header; /* next live actor list entry: its ObjectNodeHeader (check_entity_relation and insert_node_before_primary_actor store node headers; readers take NODE_BODY) */
     /* 0x060 */ void * target; /* borrowed actor-body target; while lifted, this is the carrier backlink rather than an attack target */
-    /* 0x064 */ short hp_delta; /* signed pending HP delta; effective HP is hp + unk_64 before applying queued damage */
-    /* 0x066 */ unsigned char max_mp; /* effective maximum MP; doubled template MP is capped at 255 */
+    /* 0x064 */ short hp_delta; /* signed pending HP delta; effective HP is hp + hp_delta before applying queued damage */
+    /* 0x066 */ unsigned char max_mp; /* effective maximum MP: level_max_mp, doubled under a status bit and capped at 255 */
     /* 0x067 */ unsigned char unk_67;
-    /* 0x068 */ unsigned char base_attack; /* effective baseline attack; doubled template attack is capped at 255 */
-    /* 0x069 */ unsigned char base_defense; /* effective baseline defense; doubled template defense is capped at 255 */
+    /* 0x068 */ unsigned char base_attack; /* effective baseline attack: attack, doubled under a status bit and capped at 255 */
+    /* 0x069 */ unsigned char base_defense; /* effective baseline defense: defense, doubled under a status bit and capped at 255 */
     /* 0x06A */ short movement_facing; /* queued movement angle copied to facing; 0x1000 units per turn */
-    /* 0x06C */ unsigned char unk_6C;
+    /* 0x06C */ unsigned char turn_fraction; /* fractional turn progress: turn_speed is added into turn_fraction..pending_turn_updates as one 8.8 halfword each turn (the same shape as mp_fraction..mp), 0x100 is one action; the idle reset clears it */
     /* 0x06D */ signed char pending_turn_updates; /* queued turn updates; update_actor_status_and_mp spends MP and advances status timers once per decrement */
-    /* 0x06E */ short unk_6E; /* scaled by apply_entity_effects and apply_scaled_entity_velocity (observed 0x100..0x200) */
+    /* 0x06E */ short turn_speed; /* 8.8 turns per game turn: apply_entity_effects sets 0x100, doubles it under the speed status and halves it when slowed; apply_scaled_entity_velocity and the tile classifier multiply by it, nothing accumulates it */
     /* 0x070 */ unsigned char unk_70;
     /* 0x071 */ unsigned char movement_queue_state; /* queued-path state/count; update_actor_status_and_mp clears its high control bit before processing */
     /* 0x072 */ signed char target_tile_x; /* target map column, in tiles */
     /* 0x073 */ signed char target_tile_y; /* target map row, in tiles */
     /* 0x074 */ unsigned char path_x[8]; /* queued path map columns; indexed by the path cursor the movement handlers keep at +0x8A */
     /* 0x07C */ unsigned char path_y[8]; /* queued path map rows, parallel to path_x */
-    /* 0x084 */ unsigned char unk_84; /* hit-roll baseline: attack preparation stores 0x80, adds random multiples of 4 and compares with 0x80; unsigned by opposite-sign compile trial (no function changes, and the 0x80 stores compile plain) */
-    /* 0x085 */ signed char unk_85;
-    /* 0x086 */ unsigned char unk_86;
+    /* 0x084 */ unsigned char accuracy; /* the attacker's hit baseline: attack preparation adds (random % luck) * 4 and hits at 0x80 or more; try_attack_target_tile stores 0x80, the weapon tables 0x60..0x80, a thrown actor 0x78; unsigned by opposite-sign compile trial (no function changes, and the 0x80 stores compile plain) */
+    /* 0x085 */ signed char attack_bonus; /* weapon attack bonus added to current_attack in damage preparation (get_clamped_adjusted_value pairs it with the weapon value); sign not yet trialled; declared signed, the only reader loads it unsigned through a view */
+    /* 0x086 */ unsigned char defense_bonus; /* shield defense bonus read on the target (get_shield_defense_bonus pairs it with the shield value); equip loads it from the shield table */
     /* 0x087 */ unsigned char unk_87;
     /* 0x088 */ short ground_height; /* terrain height sampled beneath the actor, in world units */
-    /* 0x08A */ short unk_8A;                     /* queued terrain height / throw travel steps (callback variants) */
+    /* 0x08A */ short unk_8A;                     /* mostly the path cursor into path_x/path_y; callback variants also keep five other values here (queued terrain height, throw travel steps, ...) */
     /* 0x08C */ union {
         void *address; /* callback address; return contracts differ between actor handlers */
         void (*run)(void *, void *, void *, void *); /* Kewne calls this view and discards any result */
@@ -241,13 +241,13 @@ typedef struct ActorRecord {
         int value;
         struct { unsigned short low; short high; } parts;
     } unk_90; /* callback scratch word; its high half is signed (unsigned reads take value casts) */
-    /* 0x094 */ short unk_94;
+    /* 0x094 */ short sprite_direction; /* the sprite direction frame shown, ((view angle + facing + 0x100) >> 9) & 7; the frame is reselected when it changes */
     /* 0x096 */ short action_timer;
     /* 0x098 */ unsigned short action_state_flags;
     /* 0x09A */ unsigned char action_id; /* action-table selector */
     /* 0x09B */ unsigned char action_phase; /* phase within the selected action */
-    /* 0x09C */ signed char unk_9C;
-    /* 0x09D */ signed char unk_9D;
+    /* 0x09C */ signed char route_room; /* room index of the exit the actor routes toward; select_actor_route_target keeps the target while the sprite's room matches it */
+    /* 0x09D */ signed char fall_ticks; /* ticks spent airborne: the gravity update adds it times 0x14000 to the fall speed, increments it while airborne and clears it on contact */
     /* 0x09E */ short unk_9E;
     /* UNION: src/dungeon/monster/kewne/advance_kewne_ellipse_attack.c:65,67,69,80 (high half) and :111,142 (whole word) -
      * the same ActorRecord body reads and writes the high half and updates the whole scratch word. */
@@ -285,7 +285,8 @@ typedef struct ActorRecord {
  * The tail after ActorRecord is player-only and must not be read from pooled monster/familiar bodies. */
 typedef struct PlayerRecord {
     /* 0x000 */ ActorRecord actor; /* shared player statistics and action state; occupies the first 0xBC bytes */
-    /* 0x0BC */ unsigned char pad_BC[12];
+    /* 0x0BC */ struct DungeonItemEntry *held_item; /* item the player holds for the current action: begin_holding_item and the egg and menu target paths store it; the pickup animation renders it and tests its kind, the targeted action reads its slot number */
+    /* 0x0C0 */ unsigned char pad_C0[8];
     /* 0x0C8 */ void * unk_C8; /* borrowed menu/selection/transition node; waiters test its header flag 0x8000, then clear this pointer */
     /* 0x0CC */ unsigned char pad_CC[6];
     /* 0x0D2 */ unsigned char unk_D2;
@@ -296,7 +297,8 @@ typedef struct PlayerRecord {
     /* 0x0EC */ unsigned char pad_EC[4];
     /* 0x0F0 */ void *selected_floor_entry; /* selected four-byte floor/map item entry, or null */
     /* 0x0F4 */ int unk_F4;                       /* player transition data */
-    /* 0x0F8 */ unsigned char pad_F8[10];
+    /* 0x0F8 */ unsigned char pad_F8[8];
+    /* 0x100 */ short unk_100; /* signed: the destination-move handlers start the trap trigger when it is zero or more */
     /* 0x102 */ unsigned char unk_102;            /* player transition flag */
     /* 0x103 */ unsigned char pad_103[1];
     /* 0x104 */ int unk_104; /* selected familiar actor address during command selection; cleared when player input starts a new selection */
@@ -305,29 +307,12 @@ typedef struct PlayerRecord {
     /* 0x10E */ unsigned char pad_10E[2];
     /* 0x110 */ struct DungeonItemEntry *pending_item_action; /* item whose use is deferred until the player's action runs; stored only when the owner is the player */
     /* 0x114 */ int unk_114;                      /* word stores 0x202080 / 0x802020 before item-effect dispatch */
-    /* 0x118 */ unsigned char pad_118[12];
+    /* 0x118 */ unsigned char pad_118[2];
+    /* 0x11A */ short unk_11A; /* the facing saved before the player turns toward a target; no reader found */
+    /* 0x11C */ unsigned char pad_11C[8];
     /* 0x124 */ void *unk_124; /* borrowed carried/linked actor body, or null; lift sets its carrier backlink and release clears ACTOR_LIFTED */
     /* 0x128 */ int unk_128;
 } PlayerRecord;                                   /* 0x12C */
-
-
-/* Exact access views shared across registered binary consumers. */
-/* Bank actor status with unsigned flags and signed facing/status fields.
- * This exact 0x70-byte view does not widen to EntityRec. */
-typedef struct ActorUnsignedFlagsView {
-    unsigned char pad_00[0x1C];
-    unsigned int unk_1C;
-    unsigned char pad_20[5];
-    unsigned char unk_25;
-    unsigned char pad_26[4];
-    short unk_2A;
-    unsigned char pad_2C[0x1A];
-    unsigned short unk_46;
-    unsigned char pad_48[0x1C];
-    short unk_64;
-    unsigned char pad_66[7];
-    signed char unk_6D;
-} ActorUnsignedFlagsView;
 
 #endif
 

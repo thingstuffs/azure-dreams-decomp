@@ -111,7 +111,7 @@ callback_done:
         obj->update_callback = update_monster_facing_and_contact;
         initialize_actor_sprite_and_animation(obj, part_a, part_b, held_flags);
         actor->action_id = 0xFF;
-        actor->unk_9C = -1;
+        actor->route_room = -1;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

@@ -1,8 +1,5 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
-typedef signed char s8;
-typedef short s16;
-typedef int s32;
 
 typedef void (*Callback)();
 

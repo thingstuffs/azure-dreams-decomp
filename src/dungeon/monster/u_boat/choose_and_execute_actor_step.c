@@ -121,7 +121,7 @@ void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *actio
             u8 *path_work;
 
             path_center = &reference_tile_object;
-            direction = (actor->unk_44.bytes.high + (primary_actor_record->facing >> 9)) & 7;
+            direction = (actor->approach_direction + (primary_actor_record->facing >> 9)) & 7;
             target_x = path_center->tile_position.parts.tile_x +
                        (u16)dir_step_x[direction];
             target_y = path_center->tile_position.parts.tile_y +
@@ -155,7 +155,7 @@ void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *actio
                 limit_turn = 1;
             }
             } else {
-                select_actor_route_target(position, work_data->unk_9C, actor, (u8 *)work_data + 0x98);
+                select_actor_route_target(position, work_data->route_room, actor, (u8 *)work_data + 0x98);
             }
         }
     } else {
@@ -165,7 +165,7 @@ void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *actio
         tile_type = (s8)position->room_index;
         if (tile_type >= 0 && (tile_records = dungeon_rooms, tile_record = tile_records + tile_type * 0x14,
             U16_AT(tile_record, 0xC) & 2)) {
-            select_actor_route_target(position, work_data->unk_9C, actor, (u8 *)work_data + 0x98);
+            select_actor_route_target(position, work_data->route_room, actor, (u8 *)work_data + 0x98);
         } else if (!(actor->action_flags & 0x8000)) {
             node = probe_directional_neighbor(actor, position->tile_x, position->tile_y,
                                  actor->facing);
@@ -202,7 +202,7 @@ void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *actio
                     }
                 }
             } else {
-                select_actor_route_target(position, work_data->unk_9C, actor, (u8 *)work_data + 0x98);
+                select_actor_route_target(position, work_data->route_room, actor, (u8 *)work_data + 0x98);
             }
         }
     }
@@ -295,7 +295,7 @@ void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *actio
     }
 
     actor->action_flags &= 0x7FFF;
-    work_data->unk_9C = position->room_index;
+    work_data->route_room = position->room_index;
     actor->pending_turn_updates--;
     {
         DungeonGlobalStatus *turn_state_tail = &g_dungeon_status;

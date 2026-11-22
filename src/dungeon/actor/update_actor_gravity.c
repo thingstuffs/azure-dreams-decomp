@@ -48,10 +48,10 @@ void update_actor_gravity(ActorRecord *object, ObjectPosition *motion, SpriteFra
     motion->y.v = y + dy;
 
     if (update_obj->action_state_flags & 8) {
-        update_obj->unk_9D = 0;
+        update_obj->fall_ticks = 0;
     } else {
-        motion->velocity_z += (update_obj->unk_9D) * 0x14000;
-        update_obj->unk_9D++;
+        motion->velocity_z += (update_obj->fall_ticks) * 0x14000;
+        update_obj->fall_ticks++;
     }
     fall_offset = object->unk_90.value;
     fall_speed = motion->velocity_z;
@@ -75,7 +75,7 @@ void update_actor_gravity(ActorRecord *object, ObjectPosition *motion, SpriteFra
                 }
                 motion->velocity_z = 0;
                 (*(u32 *)((u8 *)update_obj + (0x1C))) |= 0x08000000;
-                object->unk_9D = 0;
+                object->fall_ticks = 0;
             }
 
             if ((*(u32 *)((u8 *)update_obj + (0x1C))) & 0x40000000) {

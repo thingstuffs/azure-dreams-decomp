@@ -251,7 +251,7 @@ s32 advance_actor_removal(ActorRecord *state, ObjectPosition *unused_context, Sp
         if (((S_800AB778_22 *)globals_page4->unk_3D7C)->unk_110 != NULL) {
             decrement_monster_entry_count(((Rec_D_80082E80 *)actor)->unk_12.at01_u8.v, 3);
             object_id4 =
-                ((ActorRecord *)(((S_800AB778_22 *)globals_page4->unk_3D7C)->unk_110))->unk_00[3] & 0x1F;
+                ((DungeonItemEntry *)(((S_800AB778_22 *)globals_page4->unk_3D7C)->unk_110))->unk_03 & 0x1F;
             object_slot4 = &familiar_record_slots[object_id4];
             ((ActorRecord *)(*object_slot4))->species = 0;
             familiar_record_storage[object_id4].field13 = 0;

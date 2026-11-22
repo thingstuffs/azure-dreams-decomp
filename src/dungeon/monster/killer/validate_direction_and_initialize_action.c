@@ -106,14 +106,14 @@ s32 validate_direction_and_initialize_action(ActorRecord *action_state, ObjectPo
         } else {
             action_state->action_state_flags &= 0xBFFF;
         }
-        action_state->unk_AC.byte = actor->unk_00[3];
-        actor->unk_00[3] = 0xFF;
-        actor->unk_84 = 0x7E;
-        actor->unk_85 = 8;
+        action_state->unk_AC.byte = actor->luck;
+        actor->luck = 0xFF;
+        actor->accuracy = 0x7E;
+        actor->attack_bonus = 8;
     } else {
         action_state->action_id = 0x11;
-        actor->unk_84 = 0x7C;
-        actor->unk_85 = 8;
+        actor->accuracy = 0x7C;
+        actor->attack_bonus = 8;
     }
 
     direction_frames = killer_direction_frames;

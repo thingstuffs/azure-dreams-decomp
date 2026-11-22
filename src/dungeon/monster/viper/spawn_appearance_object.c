@@ -54,7 +54,7 @@ void spawn_appearance_object(ActorRecord *actor, ObjectPosition *transform, stru
         }
         actor->action_phase = 1;
     case 1:
-        if (actor_data->unk_49 != 0) {
+        if (actor_data->carried_item.kind != 0) {
             spawned_obj = allocate_flagged_object_node(0x12);
             if (spawned_obj != 0) {
                 init_obj = spawned_obj;
@@ -75,12 +75,12 @@ void spawn_appearance_object(ActorRecord *actor, ObjectPosition *transform, stru
                 spawned_data = NODE_BODY(spawned_obj);
                 spawned_render->scale_x = angle;
                 work_data = spawned_data;
-                if (actor_data->unk_49 == 0x12) {
+                if (actor_data->carried_item.kind == 0x12) {
                     render_asset = &item_effect_descriptor;
                     spawned_render->source = render_asset;
                 } else {
                     render_asset = (void *)lookup_item_category_mapped_value(
-                        actor_data->unk_49, actor_data->unk_48);
+                        actor_data->carried_item.kind, actor_data->carried_item.unk_00);
                     spawned_render->source = render_asset;
                 }
                 work_data->unk_A8 = render->tile_x;
@@ -90,8 +90,8 @@ void spawn_appearance_object(ActorRecord *actor, ObjectPosition *transform, stru
                 create_tracked_effect(spawned_obj, 0, 0, 0);
                 spawned_obj->update_callback = &func_80173770;
             }
-            actor_data->unk_48 = 0;
-            actor_data->unk_49 = 0;
+            actor_data->carried_item.unk_00 = 0;
+            actor_data->carried_item.kind = 0;
         }
 
         render->tpage_abr = 0x20;

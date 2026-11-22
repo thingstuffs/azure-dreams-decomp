@@ -69,8 +69,8 @@ void fade_reshape_and_remove_entity(ActorRecord *body, ObjectPosition *position,
     if ((((u32)entity->flags14) & ACTOR_PARTY_MEMBER) == 0) {
         distribute_experience_and_report_gains((EntityRec *)entity);
         detach_record_and_update_slot_state(entity);
-        if (entity->unk_49 != 0 &&
-            (entity->unk_4B & 0x20) == 0) {
+        if (entity->carried_item.kind != 0 &&
+            (entity->carried_item.unk_03 & 0x20) == 0) {
             create_item_drop_effect(position->x.w.i, position->y.w.i,
                           entity->ground_height, (u8 *)entity + 0x48);
         }

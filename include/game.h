@@ -23,6 +23,15 @@ struct S_80083178State {
     struct S_80083178Vector v[4]; /* copies of view offset, rotation offset, camera position and camera rotation, in that order */
 };
 
+/* One ability (spell) slot: three bytes, no padding, so three slots fill +0x08..+0x10 of the
+ * species template and of the actor that init_monster_from_stats seeds from it.  Action codes
+ * 1..3 pick slot 0..2; create_actor_spell_effect reads the id and the effective level. */
+typedef struct ActorAbility {
+    unsigned char id; /* ability id; action handlers skip a slot whose id is zero */
+    unsigned char effective_level; /* derived from stored_level by apply_entity_effects (doubled under actor status_flags bit 0x80, capped at 99); create_actor_spell_effect passes it on as the effect variant; use_magic_ball writes both levels */
+    unsigned char stored_level; /* base ability level: raise_entity_level increments it (cap 99, then moves it toward 99 by (99 - level) / levels_left); apply_entity_effects derives effective_level from it for every slot whose id is nonzero */
+} ActorAbility;
+
 /* Twenty-four-byte species template at D_8006D168. init_monster_from_stats
  * copies +0..+0x13 to the actor and ORs the flag word at +0x14. The level-up
  * readers use the first six bytes and the signed EXP-reward halfword; ability
@@ -36,11 +45,7 @@ typedef struct MonsterInitialStats {
     /* 0x04 */ unsigned char mp;
     /* 0x05 */ unsigned char hp;
     /* 0x06 */ short exp_reward;
-    /* 0x08 */ struct {
-        unsigned char id;
-        unsigned char effective_level;
-        unsigned char stored_level;
-    } abilities[3];
+    /* 0x08 */ ActorAbility abilities[3];
     /* 0x11 */ unsigned char level;
     /* 0x12 */ unsigned char unk_12;
     /* 0x13 */ unsigned char unk_13; /* replaced with species ID by initialization */

@@ -70,10 +70,10 @@ void update_baloon_motion_and_facing(ActorRecord *object_arg, ObjectPosition *mo
 
     if (!(object_arg->flags1C & 0x40000) &&
         !(object_arg->action_state_flags & 8)) {
-        motion_arg->velocity_z += object_arg->unk_9D * 0x14000;
-        object_arg->unk_9D++;
+        motion_arg->velocity_z += object_arg->fall_ticks * 0x14000;
+        object_arg->fall_ticks++;
     } else {
-        object_arg->unk_9D = 0;
+        object_arg->fall_ticks = 0;
     }
 
     object_arg->unk_90.value += motion_arg->velocity_z;
@@ -88,11 +88,11 @@ void update_baloon_motion_and_facing(ActorRecord *object_arg, ObjectPosition *mo
         view_direction = (g_game_work.view.camera_rotation.parts.viewAngle + base->facing + 0x100) >> 9;
         direction_index = view_direction & 7;
         page_index = direction_index;
-        if (object_arg->unk_94 != (s16)page_index) {
+        if (object_arg->sprite_direction != (s16)page_index) {
             select_indirect_table_entry(part_arg,
                 (*((*(u8 **)&part_arg->frameTable) + (page_index))),
                 part_arg->unk_04);
-            object_arg->unk_94 = direction_index;
+            object_arg->sprite_direction = direction_index;
         }
         page_table = dir_sprite_flag;
         if (page_table[page_index] != 0) {
@@ -129,7 +129,7 @@ void update_baloon_motion_and_facing(ActorRecord *object_arg, ObjectPosition *mo
                         base->ground_height;
                 if (landing_delta < object_arg->unk_90.parts.high) {
                     object_arg->unk_90.parts.high = landing_delta;
-                    object_arg->unk_9D = 0;
+                    object_arg->fall_ticks = 0;
                     motion_arg->velocity_z = 0;
                     base->flags1C |= 0x08000000;
                 }
@@ -186,7 +186,7 @@ void update_baloon_motion_and_facing(ActorRecord *object_arg, ObjectPosition *mo
                         base->ground_height;
                 if (ground_height < object_arg->unk_90.parts.high) {
                     object_arg->unk_90.parts.high = ground_height;
-                    object_arg->unk_9D = 0;
+                    object_arg->fall_ticks = 0;
                     motion_arg->velocity_z = 0;
                     base->flags1C |= 0x08000000;
                 }

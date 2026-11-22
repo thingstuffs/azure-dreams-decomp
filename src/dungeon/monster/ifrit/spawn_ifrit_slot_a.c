@@ -91,7 +91,7 @@ void *queue_linked_point_packets(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 at
         }
         initialize_actor_sprite_and_animation(obj, part_a, part_b, spawn_flags);
         actor->action_id = 0xFF;
-        actor->unk_9C = -1;
+        actor->route_room = -1;
         actor->unk_8C.address = &D_8014CE84;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }

@@ -74,12 +74,12 @@ void step_actor_along_route(ActorRecord *body, s32 unused, S_800CA444_0 *tile, A
     if (!(g_dungeon_status.flags & 0x2000)) {
         return;
     }
-    update_actor_proximity_flag(tile, actor, 3, 6, &body->unk_9C);
+    update_actor_proximity_flag(tile, actor, 3, 6, &body->route_room);
     tile_type = tile->unk_26;
     if (tile_type >= 0 && (dungeon_rooms[tile_type].flags & ROOM_HOLY_BEAM)) {
-        select_actor_route_target(tile, body->unk_9C, (void *)actor, &body->action_state_flags);
+        select_actor_route_target(tile, body->route_room, (void *)actor, &body->action_state_flags);
     } else if (!(actor->action_flags & 0x8000)) {
-        select_actor_route_target(tile, body->unk_9C, (void *)actor, &body->action_state_flags);
+        select_actor_route_target(tile, body->route_room, (void *)actor, &body->action_state_flags);
     }
     scan_result = 0;
     heading_offsets = actor_turn_angle_offsets;
@@ -117,7 +117,7 @@ void step_actor_along_route(ActorRecord *body, s32 unused, S_800CA444_0 *tile, A
         return;
     }
     actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
-    body->unk_9C = (s8) (u8) tile->unk_26;
+    body->route_room = (s8) (u8) tile->unk_26;
     actor->pending_turn_updates = actor->pending_turn_updates - 1;
     g_dungeon_status.activity_counts.parts.pending_movement_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_movement_count) + 1);
     if (actor->pending_turn_updates == 0) {
@@ -192,9 +192,9 @@ check_flag_8:
         object->unk_8C.word = 0;
         object->action_id = 0x11;
         actor_param = actor->facing;
-        actor->unk_84 = 0x80;
+        actor->accuracy = 0x80;
         action_mode = 0;
-        actor->unk_85 = 0;
+        actor->attack_bonus = 0;
         actor->flags14 |= 0x2000;
         actor->flags1C |= 0x2000;
         prepare_directional_attack(action_actor, action_target, actor_param, action_mode, 0);

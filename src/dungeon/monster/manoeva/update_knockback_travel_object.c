@@ -174,7 +174,7 @@ void update_knockback_travel_object(KnockbackTravelObjectBody *motion, void *pos
                 created->unk_1C = created_flags_1c;
 
                 created->unk_05 =
-                    ((motion->unk_10)->unk_00[5] + 1) >> 1;
+                    ((motion->unk_10)->level_max_hp + 1) >> 1;
                 created->unk_29 =
                     ((motion->unk_10)->max_hp + 1) >> 1;
                 source_value_28 = (motion->unk_10)->hp;

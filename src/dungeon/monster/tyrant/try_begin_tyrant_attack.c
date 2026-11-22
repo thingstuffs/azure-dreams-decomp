@@ -50,10 +50,10 @@ s32 try_begin_tyrant_attack(ActorRecord *action_state, ObjectPosition *action_id
     action_state->action_id = 0x11;
     action_state->action_phase = 0;
     action_state->unk_8C.word = 0;
-    actor->unk_84 = 0x7C;
-    actor->unk_85 = 0;
+    actor->accuracy = 0x7C;
+    actor->attack_bonus = 0;
     state_flag = action_state->action_state_flags & 0x8000;
-    /* BYTES: retail evidence: the test's operands survive (the arm compiled away); reconstructed as a conditional update of a local nothing reads in the retail build - any dead local set reproduces the bytes (lane r118_fable_f4; decision 45, docs/evidence/r97_decisions.md) */
+    /* BYTES: retail evidence: the test's operands survive (the arm compiled away); reconstructed as a conditional update of a local nothing reads in the retail build - any dead local set reproduces the bytes (decision 45, docs/evidence/r97_decisions.md) */
     if (state_flag) {
         target_direction = 0;
     }

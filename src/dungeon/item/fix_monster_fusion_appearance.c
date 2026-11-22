@@ -65,7 +65,7 @@ s32 fix_monster_fusion_appearance(ActorRecord *entity, DungeonItemEntry *data, s
          */
         if (entity->species >= MONSTER_KEWNE) {
             if (!(entity->status_flags & 0x800000)) {
-                if (entity->unk_49 == 0) {
+                if (entity->carried_item.kind == 0) {
                     if (feed_actor_restore_mp(entity,
                             (entity_action_selectors[entity->species] >> 6) & 3,
                             0) == 0) {
@@ -73,10 +73,10 @@ s32 fix_monster_fusion_appearance(ActorRecord *entity, DungeonItemEntry *data, s
                         return 1;
                     }
                     ((S_800BE120_0 *)entity)->unk_48 = *(s32 *)data;
-                    entity->unk_48 = data->unk_00;
-                    entity->unk_49 = data->kind;
-                    entity->unk_4A = data->unk_02;
-                    entity->unk_4B = data->unk_03;
+                    entity->carried_item.unk_00 = data->unk_00;
+                    entity->carried_item.kind = data->kind;
+                    entity->carried_item.unk_02 = data->unk_02;
+                    entity->carried_item.unk_03 = data->unk_03;
                     entity->status_flags |= 0x800000;
                     create_colored_effect_with_event(NODE_HEADER(entity), 0x20A0A0, 0x702);
                     stored = 1;
@@ -92,7 +92,7 @@ s32 fix_monster_fusion_appearance(ActorRecord *entity, DungeonItemEntry *data, s
     if (new_context == 0 &&
         ((entity->species < MONSTER_KEWNE) ||
          (entity->status_flags & 0x800000) ||
-         (entity->unk_49 != 0))) {
+         (entity->carried_item.kind != 0))) {
         text_cursor = get_unused_text_buffer();
         call_entity = entity;
         context_arg = text_cursor;

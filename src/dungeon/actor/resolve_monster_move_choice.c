@@ -14,7 +14,7 @@ s32 resolve_monster_move_choice(ActorRecord *initial, ObjectPosition *position, 
     s32 result;
 
     actor = initial;
-    action = relink_entity_and_clear_high_flag(position, sprite, actor, 3, 6, &actor->unk_9C);
+    action = relink_entity_and_clear_high_flag(position, sprite, actor, 3, 6, &actor->route_room);
     if (action < 0) {
         return 0;
     }

@@ -37,7 +37,7 @@ void equip_item_and_update_status(ActorRecord *context, DungeonItemEntry *item) 
         }
     }
 
-    current_item = context->unk_4C;
+    current_item = context->weapon;
     if (current_item != NULL) {
         value = current_item->unk_03;
         if (value & 0x40) {
@@ -77,32 +77,32 @@ void equip_item_and_update_status(ActorRecord *context, DungeonItemEntry *item) 
         if (state != 0) {
             result_value = get_unused_text_buffer();
             text_end = write_text_byte_and_advance(8, result_value);
-            text_end = append_item_name_with_value(context->unk_4C, text_end);
+            text_end = append_item_name_with_value(context->weapon, text_end);
             text_end = expand_text_control_codes(D_800E0862, text_end);
             clear_byte_and_advance(text_end);
             display_text_with_fullwidth_adjustment(result_value);
         }
         head_c = D_800DD2C4;
-        context->unk_84 = head_c[0];
+        context->accuracy = head_c[0];
         head_b = D_800DD2B4;
         head_b_value = head_b[0];
         item_index = 0;
-        context->unk_85 = head_b_value;
+        context->attack_bonus = head_b_value;
     }
-    context->unk_4C = selected_item;
+    context->weapon = selected_item;
     play_sound_if_enabled(0x508);
     tail_index = item_index;
     if (selected_item->kind == 0x10) {
-        context->unk_84 = D_800DD2E0[tail_index];
-        context->unk_85 = D_800DD2D4[tail_index];
+        context->accuracy = D_800DD2E0[tail_index];
+        context->attack_bonus = D_800DD2D4[tail_index];
         if (tail_index == 0) {
             clear_alternate_texture_regions(1);
             return;
         }
         load_wand_palette(tail_index);
     } else {
-        context->unk_84 = D_800DD2C4[tail_index];
-        context->unk_85 = D_800DD2B4[tail_index];
+        context->accuracy = D_800DD2C4[tail_index];
+        context->attack_bonus = D_800DD2B4[tail_index];
         if (tail_index == 0) {
             clear_alternate_texture_regions(1);
             return;
@@ -136,7 +136,7 @@ void change_equipped_item_and_notify(ActorRecord *actor, DungeonItemEntry *reque
         }
     }
 
-    equipped_item = actor->unk_50.item;
+    equipped_item = actor->shield.item;
     if (equipped_item != 0) {
         item_flags = equipped_item->unk_03;
         if (item_flags & 0x40) {
@@ -183,7 +183,7 @@ void change_equipped_item_and_notify(ActorRecord *actor, DungeonItemEntry *reque
         if (had_equipped != 0) {
             state = get_unused_text_buffer();
             text_end = write_text_byte_and_advance(8, state);
-            text_end = append_item_name_with_value(actor->unk_50.address, text_end);
+            text_end = append_item_name_with_value(actor->shield.address, text_end);
             text_end = expand_text_control_codes(D_800E08BA, text_end);
             clear_byte_and_advance(text_end);
             display_text_with_fullwidth_adjustment(state);
@@ -191,10 +191,10 @@ void change_equipped_item_and_notify(ActorRecord *actor, DungeonItemEntry *reque
 
     }
 
-    actor->unk_50.item = item;
+    actor->shield.item = item;
     play_sound_if_enabled(0x508);
     text_end = item_id;
-    actor->unk_86 = D_800DD2EC[text_end];
+    actor->defense_bonus = D_800DD2EC[text_end];
     if (text_end != 0) {
         load_equipment_change_palette(text_end);
         return;

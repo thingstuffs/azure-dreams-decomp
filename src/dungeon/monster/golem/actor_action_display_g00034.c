@@ -57,8 +57,8 @@ s32 attempt_actor_action_and_display(ActorRecord *action_out, ObjectPosition *ac
         action_code = 0x7C;
         action_out->action_phase = 0;
         action_out->unk_8C.word = 0;
-        acting_actor->unk_84 = action_code;
-        acting_actor->unk_85 = 4;
+        acting_actor->accuracy = action_code;
+        acting_actor->attack_bonus = 4;
         direction_table = &golem_frame_set;
         (actor_info->frameTable) = direction_table;
         select_sprite_entry(actor_info,
@@ -83,8 +83,8 @@ void begin_golem_attack(ActorRecord *action_state, ObjectPosition *action_contex
             (sprite->frameTable) = &golem_frame_set;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + &golem_frame_set), 0);
-            actor->unk_84 = 0x7C;
-            actor->unk_85 = 4;
+            actor->accuracy = 0x7C;
+            actor->attack_bonus = 4;
             actor->pending_turn_updates = actor->pending_turn_updates - 1;
             prepare_directional_attack((Ent *)actor, (Pos *)sprite, actor->facing, 1, 0);
         }

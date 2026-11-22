@@ -61,7 +61,7 @@ s32 dispatch_selected_item_action(u32 target, DungeonItemEntry *action, s16 acti
             return 1;
         }
     } else {
-        item = state->unk_4C;
+        item = state->weapon;
         if (item != 0) {
             if (!(action->unk_03 & 0x20)) {
                 ((PlayerRecord *)state)->unk_114 = 0x202080;

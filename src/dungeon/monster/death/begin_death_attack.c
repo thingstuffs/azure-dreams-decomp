@@ -21,8 +21,8 @@ void begin_death_attack(ActorRecord *action_state, ObjectPosition *effect_contex
             action_state->action_phase = 0;
             actor->pending_turn_updates = actor->pending_turn_updates - 1;
             prepare_directional_attack(actor, action_context, actor->facing, 1, 0);
-            actor->unk_84 = 0x7C;
-            actor->unk_85 = 4;
+            actor->accuracy = 0x7C;
+            actor->attack_bonus = 4;
         }
     }
 }

@@ -33,4 +33,11 @@ typedef struct SpritePartCommand {
         SpritePartCallback callback;
     } data;
 } SpritePartCommand;
+/* Texture-only commands copied by the spell updater at halfword alignment. */
+typedef struct SpritePartTexture {
+    unsigned char flags, code;
+    signed char offset_x, offset_y;
+    unsigned short tpage, clut;
+    unsigned char u0, v0, width, height;
+} SpritePartTexture;
 #endif

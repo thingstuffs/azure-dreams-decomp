@@ -103,13 +103,13 @@ s32 refresh_actor_facing_and_lifecycle(Rec_func_800A9E70_arg0 *anim, s32 action_
                         if ((((s32)g_dungeon_status.pending_display_owner) == 0) && (active_entity == 0) &&
                             (g_dungeon_status.activity_counts.parts.pending_movement_count == 0) &&
                             !(g_dungeon_status.flags & 0x2008) &&
-                            (entity->unk_43 == 0xFD)) {
+                            (entity->town_monster_slot == 0xFD)) {
                             g_dungeon_status.active_actor = entity;
                         } else {
                             return 0;
                         }
                     }
-                    if (entity->unk_43 != 0xFD) {
+                    if (entity->town_monster_slot != 0xFD) {
                         return 0;
                     }
                 }

@@ -73,7 +73,7 @@ void update_airborne_actor_motion(ActorRecord *body, ObjectPosition *motion, Spr
         }
         if (body->action_timer == 0) {
             if (((PlayerRecord *)body)->unk_102 == 0) {
-                actor->unk_20 = 1;
+                actor->attack_power = 1;
                 if (resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1) == 0) {
                     linked_object = actor->target;
                     if (linked_object != 0) {

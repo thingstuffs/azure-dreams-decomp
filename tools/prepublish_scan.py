@@ -11,7 +11,7 @@
     python3 tools/prepublish_scan.py --json                # machine-readable findings
 
 Rules (the id is what the allowlist and the output use):
-  abs-path       home-directory (<user>)/, /Users/<user>/, /mnt/<drive>, /tmp/claude-, Windows C:\\Users\\ paths, and the
+  abs-path       home-directory (<user>)/, /Users/<user>/, /mnt/<drive>, /tmp session scratch, Windows C:\\Users\\ paths, and the
                  -home-<user>-<project> directory form used by editor session folders
   private-ip     RFC 1918 addresses (10.x, 172.16-31.x, 192.168.x) and link-local 169.254.x
   token          GitHub (ghp_, gho_, github_pat_), Anthropic (sk-ant-), OpenAI-style (sk-...), AWS (AKIA...),
@@ -25,12 +25,15 @@ Rules (the id is what the allowlist and the output use):
                  the shape of a dumped code/data region (SHA-256 hashes are 64 digits and do not trip it)
   size           a file larger than --max-bytes (reported by size alone, the content is not read unless --deep)
   secret-file    file names like .env, id_rsa, *.pem, *.key, *.p12
-
-Allowlist file: one entry per line, `#` comments. `<glob> <rule|*>`; the glob is fnmatch on the repo-relative
-path (`**` is the same as `*`, a trailing `/` matches a directory prefix). Optionally `<glob> <rule> ~ <regex>`
-only hides findings whose matched text matches the regex. Every entry should say why in a comment above it.
-
-Exit status: 0 clean (or only allowlisted), 1 findings, 2 usage/IO error.
+  provenance     rule R12, text under src/, include/ and docs/ only: lane/run ids (r<3 digits>[w]_<word>, a bare
+                 r<3 digits>, run<digits>), batch labels (AC<3 digits>), BRIEF<n>, the phrases "prior lane", "micro-lane",
+                 "lane receipt", and internal work paths (work/<name>_lane, work/<name>_wave).  A citation
+                 `docs/evidence/<file>` is fine while that file exists in the tree (it is masked before matching, so an
+                 id inside the existing file's NAME does not count); a cited docs/evidence file that does not exist, or any
+                 other receipt-style name, is reported.  tools/ (tools/lanes may name briefs) is not scanned.
+                 Optional extra patterns: set PREPUBLISH_EXTRA_PATTERNS to a file with one regex per line (`#` comments,
+                 matched case-insensitively against the same text); unset or a missing file adds nothing; a regex that
+                 does not compile is an error naming the file and line (exit 2).  Keep that file outside the tree.
 """
 import argparse, fnmatch, json, os, re, subprocess, sys
 
@@ -42,7 +45,7 @@ BLOB_EXT = {".bin", ".o", ".obj", ".elf", ".iso", ".cue", ".img", ".exe", ".dll"
 SECRET_NAME = re.compile(r"(^|/)(\.env(\..*)?|id_(rsa|dsa|ecdsa|ed25519)(\.pub)?|.*\.(pem|key|p12|pfx|keystore))$")
 ALWAYS_OK_EMAIL = re.compile(r"^(noreply|no-reply)@(anthropic\.com|github\.com|users\.noreply\.github\.com)$|@example\.(com|org)$|@users\.noreply\.github\.com$", re.I)
 
-R_ABS = re.compile(r"(?:/ho" r"me/[A-Za-z0-9_.-]+/|/Users/[A-Za-z0-9_.-]+/|/mnt/[a-z]/|/tmp/claude-|[A-Za-z]:\\Users\\|"
+R_ABS = re.compile(r"(?:/ho" r"me/[A-Za-z0-9_.-]+/|/Users/[A-Za-z0-9_.-]+/|/mnt/[a-z]/|/tmp/cl" r"aude-|[A-Za-z]:\\Users\\|"
                    r"(?<![A-Za-z0-9])-home-[A-Za-z0-9_.]+-[A-Za-z0-9_.-]+)")
 R_IP = re.compile(r"(?<![0-9.])(?:10\.\d{1,3}\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3}|172\.(?:1[6-9]|2\d|3[01])\.\d{1,3}\.\d{1,3}|169\.254\.\d{1,3}\.\d{1,3})(?![0-9])")
 R_TOKEN = re.compile(r"(?:gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,}|sk-ant-[A-Za-z0-9_-]{16,}|sk-[A-Za-z0-9]{32,}|"
@@ -51,6 +54,40 @@ R_EMAIL = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Z
 R_NAME = re.compile("|".join(re.escape(w) for w in DENY_WORDS), re.I)
 R_HEXWORDS = re.compile(r"(?:(?<![0-9A-Fa-f])[0-9A-Fa-f]{8}(?![0-9A-Fa-f])[ ,\t\"':;\[\]\n\r]{1,4}){12,}")
 R_HEXRUN = re.compile(r"(?<![0-9A-Fa-f])[0-9A-Fa-f]{96,}(?![0-9A-Fa-f])")
+PROV_PATHS = ("src/", "include/", "docs/")
+R_EVID_CITE = re.compile(r"docs/evidence/[A-Za-z0-9_./-]*[A-Za-z0-9_]")
+# case-sensitive: round/run/batch/brief ids (R108_BANK42 guards and BriefRandomParticleBody are code, not provenance)
+R_PROV_CS = re.compile("|".join((
+    r"\br\d{3}[a-z]?w?_[a-z0-9_]+",                      # lane / run id shape: r<3 digits>[w]_<word>
+    r"\br\d{3}[a-z]?(?![A-Za-z0-9_])",                   # bare r<3 digits>
+    r"\brun\d{2,}\b", r"\bAC\d{3}\b", r"\bBRIEF\d*\b")))
+R_PROV_CI = re.compile("|".join((
+    r"\b(?:prior|previous|earlier|micro)[- ]lane\b", r"\blane receipt\b",
+    r"work/[a-z0-9_]+_(?:lane|wave)\b")), re.I)
+_EXTRA = {}
+
+
+def extra_patterns():
+    """compiled regexes from the file named by PREPUBLISH_EXTRA_PATTERNS (one per line, # comments); none if unset/missing."""
+    path = os.environ.get("PREPUBLISH_EXTRA_PATTERNS")
+    if not path or not os.path.exists(path):
+        return []
+    if path not in _EXTRA:
+        rxs = []
+        for n, line in enumerate(open(path, encoding="utf-8"), 1):
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            try:
+                rxs.append(re.compile(line, re.I))
+            except re.error as e:
+                print(f"{path}:{n}: bad regex: {e}", file=sys.stderr)
+                raise SystemExit(2)
+        _EXTRA[path] = rxs
+    return _EXTRA[path]
+
+
+R_RECEIPT_NAME = re.compile(r"[A-Za-z0-9_./-]*receipt[A-Za-z0-9_./-]*", re.I)
 R_DISASM_LINE = re.compile(r"^\s*(?:0x)?[0-9a-f]{8}:?\s+(?:[0-9a-f]{8}\s+)?[a-z.][a-z0-9.]*\s", re.I)
 
 
@@ -103,6 +140,22 @@ def allowed(ents, rule, path, text):
     return False
 
 
+def provenance_hits(root, rel, text):
+    """rule R12: yield (line, text) for lane ids, run/batch ids, model names and internal paths in public text."""
+    if not rel.startswith(PROV_PATHS):
+        return
+    def mask(m):
+        cited = m.group(0)
+        return " " * len(cited) if os.path.exists(os.path.join(root, cited)) else cited
+    masked = R_EVID_CITE.sub(mask, text)
+    for rx in (R_PROV_CS, R_PROV_CI, *extra_patterns()):
+        for m in rx.finditer(masked):
+            yield masked.count("\n", 0, m.start()) + 1, m.group(0)
+    for m in R_EVID_CITE.finditer(masked):                  # a cited evidence file that is not in the tree
+        if R_RECEIPT_NAME.fullmatch(m.group(0).rsplit("/", 1)[-1]):
+            yield masked.count("\n", 0, m.start()) + 1, m.group(0)
+
+
 def scan_file(root, rel, max_bytes, deep=False):
     """yield (rule, line, text) for one file."""
     full = os.path.join(root, rel)
@@ -142,6 +195,8 @@ def scan_file(root, rel, max_bytes, deep=False):
     for m in R_EMAIL.finditer(text):
         if not ALWAYS_OK_EMAIL.search(m.group(0)):
             yield "email", text.count("\n", 0, m.start()) + 1, m.group(0)
+    for line, g in provenance_hits(root, rel, text):
+        yield "provenance", line, g
     for rx in (R_HEXWORDS, R_HEXRUN):
         m = rx.search(text)
         if m:

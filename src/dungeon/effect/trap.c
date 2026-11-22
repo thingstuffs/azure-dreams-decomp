@@ -286,13 +286,14 @@ s32 attempt_random_status_effect(ActorRecord *entity, s32 rng_input_a, s32 rng_i
     s32 random_value;
     s16 roll_or_failure;
     SpriteFrameState *parent;
+    u8 *luck = &entity->luck;
 
     if (!trap_request_blocked &&
         (random_value = generate_random_value() & 0xffff,
-         *(entity->unk_00 + 3))) {
+         *luck)) {
         s32 remainder;
 
-        remainder = random_value % entity->unk_00[3];
+        remainder = random_value % luck[0];
         roll_or_failure = remainder;
     } else {
         roll_or_failure = 0;
@@ -335,8 +336,8 @@ s32 resolve_random_trap_outcome(ActorRecord *entity, s32 forwarded_1, s32 forwar
     outcome = 0;
     if (trap_request_blocked == 0) {
         random_value = generate_random_value() & 0xFFFF;
-        if (((s32)entity->unk_00[3]) != 0) {
-            roll = ((s32)entity->unk_00[3]);
+        if (((s32)entity->luck) != 0) {
+            roll = ((s32)entity->luck);
             remainder = random_value % roll;
             roll = remainder;
         } else {
@@ -821,8 +822,8 @@ s32 take_map_item_slot(ActorRecord *object, s16 slot)
             value = 0;
         } else {
             random = generate_random_value() & 0xFFFF;
-            if (object->unk_00[3] != 0) {
-                value = random % object->unk_00[3];
+            if (object->luck != 0) {
+                value = random % object->luck;
             } else {
                 value = 0;
             }
@@ -834,7 +835,7 @@ s32 take_map_item_slot(ActorRecord *object, s16 slot)
             return value;
         }
 
-        color = &dungeon_ellipse_parameters.center_color;
+        color = &dungeon_ellipse_parameters.center_color.word;
         *color = 0x00202080;
         stack_args.words[0] = 0x01000340;
         stack_args.words[1] = 0x00200020;
@@ -1528,8 +1529,8 @@ s32 trigger_step_trap_effect(ActorRecord *object) {
         }
         if (trap_request_blocked == 0) {
             seed = generate_random_value() & 0xFFFF;
-            if (object->unk_00[3] != 0) {
-                index = seed % object->unk_00[3];
+            if (object->luck != 0) {
+                index = seed % object->luck;
             } else {
                 index = 0;
             }
@@ -1585,8 +1586,8 @@ s32 roll_trap_trigger_chance(ActorRecord *ptr, s32 unused1, s32 unused2, s32 unu
         value = 0;
         if (trap_request_blocked == 0) {
             source_value = generate_random_value() & 0xFFFF;
-            if (((u8)ptr->unk_00[3]) != 0) {
-                remainder_value = source_value % ((s16)((s32)((u8)ptr->unk_00[3])));
+            if (((u8)ptr->luck) != 0) {
+                remainder_value = source_value % ((s16)((s32)((u8)ptr->luck)));
                 value = remainder_value;
             }
         }
@@ -2139,7 +2140,7 @@ s32 update_trap_effect_grid(ActorRecord *record, s32 unused1, s32 unused2, s32 u
     if (has_anchor_linked_object_flag(record) == 0) {
         s16 probability;
         s32 random_mod;
-        firstEntry = record->unk_4C;
+        firstEntry = record->weapon;
         if (firstEntry != NULL) {
 
             entryFlags = 1;
@@ -2152,8 +2153,8 @@ s32 update_trap_effect_grid(ActorRecord *record, s32 unused1, s32 unused2, s32 u
             if (trap_request_blocked == 0) {
                                 /* garbage-passthru: a1/a3 are residue from has_anchor_linked_object_flag, without a defined C value. */
                 randomValueFirst = generate_random_value() & 0xFFFF;
-                if (record->unk_00[3] != 0) {
-                    random_mod = randomValueFirst % record->unk_00[3];
+                if (record->luck != 0) {
+                    random_mod = randomValueFirst % record->luck;
                     probability = random_mod;
                 } else {
                     probability = 0;
@@ -2170,7 +2171,7 @@ s32 update_trap_effect_grid(ActorRecord *record, s32 unused1, s32 unused2, s32 u
                 triggerFlags = 1;
             }
         }
-        secondEntry = record->unk_50.address;
+        secondEntry = record->shield.address;
         if (secondEntry != NULL) {
 
             entryValue = secondEntry->unk_00;
@@ -2181,8 +2182,8 @@ s32 update_trap_effect_grid(ActorRecord *record, s32 unused1, s32 unused2, s32 u
             if (trap_request_blocked == 0) {
                                 /* garbage-passthru: a1/a3 remain residue from earlier calls. */
                 randomValueSecond = generate_random_value() & 0xFFFF;
-                if (record->unk_00[3] != 0) {
-                    random_mod = randomValueSecond % record->unk_00[3];
+                if (record->luck != 0) {
+                    random_mod = randomValueSecond % record->luck;
                     probability = random_mod;
                 } else {
                     probability = 0;
@@ -2209,7 +2210,7 @@ s32 update_trap_effect_grid(ActorRecord *record, s32 unused1, s32 unused2, s32 u
             initialValue = get_unused_text_buffer();
             currentValue = initialValue;
             if (triggerFlags & 1) {
-                firstLookupValue = append_item_name_with_affixes(record->unk_4C, currentValue);
+                firstLookupValue = append_item_name_with_affixes(record->weapon, currentValue);
                 {
 
                     if (!(entryFlags & 1)) {
@@ -2223,7 +2224,7 @@ s32 update_trap_effect_grid(ActorRecord *record, s32 unused1, s32 unused2, s32 u
                 }
             }
             if (triggerFlags & 2) {
-                secondLookupValue = append_item_name_with_affixes(record->unk_50.address, currentValue);
+                secondLookupValue = append_item_name_with_affixes(record->shield.address, currentValue);
                 {
 
                     if (!(entryFlags & 2)) {

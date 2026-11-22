@@ -21,6 +21,6 @@ void refresh_actor_proximity_state(ActorRecord *context) {
         SpriteFrameState *state = ((ObjectNodeHeader *)context)[-1].sprite;
 
         state->room_index = find_active_rect_containing_point(state->tile_x, state->tile_y);
-        update_actor_proximity_flag(state, context, 3, 6, &context->unk_9C);
+        update_actor_proximity_flag(state, context, 3, 6, &context->route_room);
     }
 }

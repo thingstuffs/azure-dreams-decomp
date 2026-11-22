@@ -16,4 +16,6 @@ void card_boot_restore_chooser_mode(CardChooserBody *menu);
 
 void card_boot_enter_no_card_notice(CardChooserBody *chooser);
 
+void card_boot_enter_damaged_card_notice(CardChooserBody *chooser);
+
 #endif

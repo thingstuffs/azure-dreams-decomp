@@ -66,8 +66,8 @@ s32 try_death_attack(ActorRecord *action_state, ObjectPosition *effect_arg, Spri
         action_state->action_id = 0x11;
         action_state->action_phase = 0;
         action_state->unk_8C.run = 0;
-        actor->unk_84 = 0x7C;
-        actor->unk_85 = 4;
+        actor->accuracy = 0x7C;
+        actor->attack_bonus = 4;
         actor->pending_turn_updates--;
 
         prepare_directional_attack(actor, target, actor->facing, 1, 0);

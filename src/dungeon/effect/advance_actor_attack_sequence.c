@@ -122,7 +122,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
             {
                 u8 *next_animations;
 
-                if ((actor->unk_4C) != 0) {
+                if ((actor->weapon) != 0) {
                     next_animations = player_attack_frame_groups;
                 } else {
                     next_animations = player_attack_frame_groups_alt;
@@ -143,7 +143,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
             {
                 u8 *next_v1;
 
-                if ((actor->unk_4C) != 0) {
+                if ((actor->weapon) != 0) {
                     next_v1 = D_800DD080;
                 } else {
                     next_v1 = D_800DD0B0;
@@ -171,7 +171,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
         action_state->action_timer = attack_delay;
         if (((attack_delay << 0x10) <= 0) || (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
             sound_id = 0x606;
-            if ((actor->unk_4C) != 0) {
+            if ((actor->weapon) != 0) {
                 sound_id = 0x605;
             }
             play_sound_if_enabled(sound_id);

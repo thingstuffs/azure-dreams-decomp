@@ -90,7 +90,7 @@ void update_tyrant_actor(ActorRecord *body, TrailMotion *motion, SpriteFrameStat
     if (!(part_flags & 0x8000)) {
         view_angle = g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100;
         state_direction = (view_angle >> 9) & ACTOR_ELEMENT_MASK;
-        previous_direction = body->unk_94;
+        previous_direction = body->sprite_direction;
         direction_index = (u16)state_direction;
         if (previous_direction != state_direction) {
             if (*(u8 **)&sprite->frameTable != 0) {
@@ -98,7 +98,7 @@ void update_tyrant_actor(ActorRecord *body, TrailMotion *motion, SpriteFrameStat
                               (*(u8 **)&sprite->frameTable)[state_direction],
                               sprite->unk_04);
             }
-            body->unk_94 = state_direction;
+            body->sprite_direction = state_direction;
         }
 
         direction_flag = dir_sprite_flag[direction_index];
@@ -127,10 +127,10 @@ void update_tyrant_actor(ActorRecord *body, TrailMotion *motion, SpriteFrameStat
     motion->y.unk_04 += motion->velocity_y;
 
     if (body->action_state_flags & 8) {
-        body->unk_9D = 0;
+        body->fall_ticks = 0;
     } else {
-        motion->unk_14 += (body->unk_9D) * 0x14000;
-        body->unk_9D = body->unk_9D + 1;
+        motion->unk_14 += (body->fall_ticks) * 0x14000;
+        body->fall_ticks = body->fall_ticks + 1;
     }
     body->unk_90.value += motion->unk_14;
 
@@ -147,11 +147,11 @@ void update_tyrant_actor(ActorRecord *body, TrailMotion *motion, SpriteFrameStat
                     body->unk_90.value = 0;
                     motion->unk_14 = 0;
                     entity->flags1C |= 0x08000000;
-                    body->unk_9D = 0;
+                    body->fall_ticks = 0;
                 } else {
                     motion->unk_14 = 0;
                     entity->flags1C |= 0x08000000;
-                    body->unk_9D = 0;
+                    body->fall_ticks = 0;
                     body->unk_90.parts.high = ground_height - entity->ground_height;
                 }
             }

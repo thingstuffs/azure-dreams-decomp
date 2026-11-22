@@ -89,7 +89,7 @@ void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, Sp
         return;
     }
     if (g_dungeon_status.flags & 0x2000) {
-        update_actor_proximity_flag(sprite, actor_in, 3, 6, &move_state->unk_9C);
+        update_actor_proximity_flag(sprite, actor_in, 3, 6, &move_state->route_room);
         move_flags = ((S_8016FCE4_0 *)actor_in)->unk_1C;
         if (move_flags & 0x410) {
             if (move_flags & 0x400) {
@@ -155,7 +155,7 @@ void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, Sp
                         return;
                     }
                 } else {
-                    select_actor_route_target(sprite, move_state->unk_9C, actor_in,
+                    select_actor_route_target(sprite, move_state->route_room, actor_in,
                         &move_state->action_state_flags);
                 }
             }
@@ -224,7 +224,7 @@ void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, Sp
             return;
         }
         ((S_8016FCE4_0 *)actor_in)->unk_46 = (u16) (((S_8016FCE4_0 *)actor_in)->unk_46 & 0x7FFF);
-        move_state->unk_9C = (s8) sprite->room_index;
+        move_state->route_room = (s8) sprite->room_index;
         ((S_8016FCE4_0 *)actor_in)->unk_6D = (u8) (((S_8016FCE4_0 *)actor_in)->unk_6D - 1);
         g_dungeon_status.activity_counts.parts.pending_movement_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_movement_count) + 1);
         if (((s8)((S_8016FCE4_0 *)actor_in)->unk_6D) == 0) {

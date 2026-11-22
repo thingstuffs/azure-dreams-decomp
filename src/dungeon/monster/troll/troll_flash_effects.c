@@ -658,9 +658,9 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
         record_kind = 0x20;
         sprite->tile_y = saved_y;
         record_addr = result;
-        result->unk_4B = record_kind;
-        result->unk_48 = call_position;
-        result->unk_49 = alternate_kind;
+        result->carried_item.unk_03 = record_kind;
+        result->carried_item.unk_00 = call_position;
+        result->carried_item.kind = alternate_kind;
         mode = spawn_flags & 3;
 
         if (mode == 1) {
@@ -670,9 +670,9 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
             result->flags1C = branch_flags | 0x6000;
             if (global_kind >= 0xA) {
                 if (global_kind < 0xD) {
-                    result->unk_48 = alternate_kind;
+                    result->carried_item.unk_00 = alternate_kind;
                 } else {
-                    result->unk_48 = 0xD;
+                    result->carried_item.unk_00 = 0xD;
                 }
             }
         } else {
@@ -682,11 +682,11 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
             } else {
                 global_kind = (u8)entity_spawn_variant_code;
                 if (global_kind < 0xA) {
-                    result->unk_48 = call_position;
+                    result->carried_item.unk_00 = call_position;
                 } else if (global_kind < 0xD) {
-                    result->unk_48 = alternate_kind;
+                    result->carried_item.unk_00 = alternate_kind;
                 } else {
-                    result->unk_48 = 0xD;
+                    result->carried_item.unk_00 = 0xD;
                 }
 
                 if (((init_flags & ~3) << 16) == 0) {
@@ -695,7 +695,7 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
                         if (state_flags & 1) {
                             set_or_clear_actor_status_slot(result, STATUS_SLEEP,
                                 (generate_random_value() & 0x3F) | 0x20);
-                            kind = result->unk_48;
+                            kind = result->carried_item.unk_00;
                             switch (kind) {
                             case 0xD:
                                 current_frames = sprite->frameTable;
@@ -730,11 +730,11 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
         initialize_actor_sprite_and_animation((void *)call_object, (void *)call_position, sprite,
             (s16)init_flags);
         record_addr->action_id = 0xFF;
-        record_addr->unk_9C = -1;
+        record_addr->route_room = -1;
         record_addr->unk_8C.handler = update_troll_behavior;
         try_move_actor_to_valid_position(record_addr, position, sprite, result);
 
-        kind = result->unk_48;
+        kind = result->carried_item.unk_00;
         switch (kind) {
         case 0xD:
             current_frames = sprite->frameTable;

@@ -138,11 +138,11 @@ void choose_heading_and_advance_actor(ActorRecord *body, s32 action, S_8017405C_
     } else if (flags & 0x2000) {
         if (!(movement->action_flags & 0x8000)) {
             if (!(flags & 0x20000)) {
-                select_actor_route_target(actor, body->unk_9C, movement, (u8 *)body + 0x98);
+                select_actor_route_target(actor, body->route_room, movement, (u8 *)body + 0x98);
             } else {
                 {
                     s32 dir;
-                    dir = (movement->unk_44.bytes.high + (primary_actor_record->facing >> 9)) & 7;
+                    dir = (movement->approach_direction + (primary_actor_record->facing >> 9)) & 7;
                     heading = reference_tile_object[0x24] + dir_step_x[dir];
                     target_y = reference_tile_object[0x25] + dir_step_y[dir];
                     if (actor->unk_24.at00.v == (u16)heading && actor->unk_24.at01.v == (u16)target_y) {
@@ -166,7 +166,7 @@ void choose_heading_and_advance_actor(ActorRecord *body, s32 action, S_8017405C_
     } else {
         s32 mode = actor->unk_26;
         if (mode >= 0 && (dungeon_rooms[mode].flags & 2)) {
-            select_actor_route_target(actor, body->unk_9C, movement, (u8 *)body + 0x98);
+            select_actor_route_target(actor, body->route_room, movement, (u8 *)body + 0x98);
         } else {
             if (!(movement->action_flags & 0x8000)) {
                 target = probe_directional_neighbor(movement, actor->unk_24.at00.v, actor->unk_24.at01.v,
@@ -195,16 +195,16 @@ void choose_heading_and_advance_actor(ActorRecord *body, s32 action, S_8017405C_
                                               actor->unk_24.at00.v, actor->unk_24.at01.v);
                         relative_angle = (((u16)primary_actor_record->facing) + angle_delta) & 0xFFF;
                         if (relative_angle > 0x400 && relative_angle < 0xC00) {
-                            movement->unk_44.bytes.high = 3;
+                            movement->approach_direction = 3;
                         } else if (relative_angle == 0x400 || relative_angle == 0xC00) {
-                            movement->unk_44.bytes.high = 1;
+                            movement->approach_direction = 1;
                         } else {
-                            movement->unk_44.bytes.high = 2;
+                            movement->approach_direction = 2;
                         }
                     }
                     {
                         s32 dir;
-                        dir = (movement->unk_44.bytes.high + (primary_actor_record->facing >> 9)) & 7;
+                        dir = (movement->approach_direction + (primary_actor_record->facing >> 9)) & 7;
                         heading = reference_tile_object[0x24] + dir_step_x[dir];
                         target_y = reference_tile_object[0x25] + dir_step_y[dir];
                         movement->facing = get_rounded_facing_and_rounding_flag(actor->unk_24.at00.v, actor->unk_24.at01.v,
@@ -317,7 +317,7 @@ void choose_heading_and_advance_actor(ActorRecord *body, s32 action, S_8017405C_
     }
     {
         movement->action_flags &= 0x7FFF;
-        body->unk_9C = *(u8 *)&actor->unk_26;
+        body->route_room = *(u8 *)&actor->unk_26;
         movement->pending_turn_updates = movement->pending_turn_updates - 1;
         g_dungeon_status.activity_counts.parts.pending_movement_count = ((u16)g_dungeon_status.activity_counts.parts.pending_movement_count) + 1;
     }

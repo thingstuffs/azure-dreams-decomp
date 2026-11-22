@@ -81,7 +81,7 @@ void *spawn_viper(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
         }
         initialize_actor_sprite_and_animation(obj, part_a, part_b, spawn_flags);
         actor->action_id = 0xFF;
-        actor->unk_9C = -1;
+        actor->route_room = -1;
         actor->unk_8C.handler = &func_80170E94;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }

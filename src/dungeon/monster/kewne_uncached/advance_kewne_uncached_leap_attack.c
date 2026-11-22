@@ -10,36 +10,23 @@
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
 #include "dungeon/system.h"
-
-#define PTR(p, o) (*(void **)((u8 *)(p) + (o)))
-#define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
-
-
 #include "dungeon/actor/spend_actor_mp_api.h"
 
 extern u8 kewne_uncached_action_resume_address[];
 extern u8 D_80175C78[];
-extern u8 resident_globals_page[];
+extern u8 D_80175CA8[];
 
 /* Updates action movement and directional animation through three states. */
 void advance_kewne_uncached_leap_attack(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *object, ActorRecord *actor)
 {
     s32 delta_x;
     s32 delta_y;
-    s32 direction_off;
-    s32 facing_idx;
-    s32 object_type;
-    s32 anim_table;
-    s32 next_tick;
+    s32 direction;
+    u16 timer;
     u16 flags;
-    s32 state;
 
-    state = action->action_phase;
-    switch (state) {
+    switch (action->action_phase) {
     case 0:
-    {
-        u8 *facing_ptr;
-
         flags = object->flags;
         if (flags & 0x8000) {
             object->flags = flags | 0x6000;
@@ -54,99 +41,52 @@ void advance_kewne_uncached_leap_attack(ActorRecord *action, ObjectPosition *mot
             return;
         }
         object->frameTable = D_80175C78;
-        facing_ptr = &D_80175C78[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7];
-        select_sprite_entry(object, *facing_ptr, 0);
+        select_sprite_entry(object, D_80175C78[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         action->action_timer = 0;
         play_sound_if_enabled(0x808);
         action->action_phase++;
         return;
-    }
 
     case 1:
-    {
-        u8 *direction_base;
-        u8 *direction_base_2;
-        s32 motion_x;
-        s32 motion_y;
-        s32 signed_value;
-
-        anim_table = (u16)action->action_timer;
-        direction_base = (u8 *)&dir_step_x;
-        next_tick = anim_table + 1;
-        anim_table -= 3;
-        action->action_timer = next_tick;
-        direction_off = (actor->facing >> 8) & 0xE;
-        anim_table = (u32)anim_table < 8U;
-        direction_base = (direction_off + direction_base);
-        delta_x = *(s16 *)direction_base;
-        direction_base_2 = (u8 *)&dir_step_y;
-        signed_value = *(s16 *)((direction_off + direction_base_2));
-        delta_x = -delta_x;
-        delta_x <<= 16;
-        signed_value = -signed_value;
-        delta_y = signed_value << 16;
-        if (anim_table) {
-            motion_x = motion->velocity_x - delta_x;
-            motion_y = motion->velocity_y - delta_y;
-            motion->velocity_x = motion_x;
-            motion->velocity_y = motion_y;
+        timer = action->action_timer;
+        action->action_timer = timer + 1;
+        direction = (actor->facing >> 9) & 7;
+        delta_x = -dir_step_x[direction] << 16;
+        delta_y = -dir_step_y[direction] << 16;
+        if (timer >= 3 && timer < 11) {
+            motion->velocity_x -= delta_x;
+            motion->velocity_y -= delta_y;
+        } else if (action->action_timer < 18) {
+            motion->velocity_x += delta_x;
+            motion->velocity_y += delta_y;
         } else {
-            signed_value = (s16)next_tick;
-            if (signed_value < 0x12) {
-                motion_x = motion->velocity_x + delta_x;
-                motion_y = motion->velocity_y + delta_y;
-                motion->velocity_x = motion_x;
-                motion->velocity_y = motion_y;
-            } else {
-                motion->velocity_z = 0;
-                motion->velocity_y = 0;
-                motion->velocity_x = 0;
-            }
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
         }
-        object_type = object->unk_04;
-        if (object_type == 5 && (object->flags & 0x9000)) {
+        if (object->unk_04 == 5 && (object->flags & 0x9000)) {
             resolve_attack_damage_and_effects(actor, object, actor->facing, 1);
-            anim_table = 0x80170000;
-        } else {
-            anim_table = 0x80170000;
         }
-        {
-            u8 *facing_ptr;
-
-            if ((object->flags & 0x6000) == 0) {
-                return;
-            }
-            anim_table += 0x5CA8;
-            facing_ptr = resident_globals_page;
-            PTR(object, 0x2C) = (void *)anim_table;
-            facing_idx = (*(s16 *)(facing_ptr + 0x3228) + actor->facing + 0x100) >> 9;
-            facing_idx &= 7;
-            facing_ptr = (u8 *)(facing_idx + anim_table);
-            select_sprite_entry(object, *facing_ptr, 0);
+        if ((object->flags & 0x6000) == 0) {
+            return;
         }
+        object->frameTable = D_80175CA8;
+        select_sprite_entry(object, D_80175CA8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, object->tile_x, object->tile_y);
         action->action_phase++;
         return;
-    }
 
     case 2:
-    {
-        void *actor_arg;
-
         if ((object->flags & 0xE000) == 0) {
             return;
         }
         spend_actor_mp(actor, 0x100);
-        actor_arg = actor;
         action->unk_8C.address = kewne_uncached_action_resume_address;
-        S32(resident_globals_page, 0x346C) = 0;
-        advance_status_timers(actor_arg);
+        g_dungeon_status.active_actor = 0;
+        advance_status_timers(actor);
         actor->action_flags &= 0x7FFF;
     }
-
-    }
-    return;
 }

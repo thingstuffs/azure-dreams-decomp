@@ -63,12 +63,12 @@ s32 try_dreamin_attack(ActorRecord *state, ObjectPosition *action_id, SpriteFram
         state->unk_8C.word = 0;
         if (state_flags & 0x8000) {
             state->action_id = 0x17;
-            actor->unk_84 = 0x10;
-            actor->unk_85 = 0x10;
+            actor->accuracy = 0x10;
+            actor->attack_bonus = 0x10;
         } else {
             state->action_id = 0x11;
-            actor->unk_84 = 0x7C;
-            actor->unk_85 = 0;
+            actor->accuracy = 0x7C;
+            actor->attack_bonus = 0;
         }
     }
 

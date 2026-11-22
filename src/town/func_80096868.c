@@ -1,5 +1,5 @@
 #include "town/player/action_initializers.h"
-/* Recovered retail twin; complete-function proof is in the lane receipt. */
+/* Recovered retail twin. */
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/town_object.h"

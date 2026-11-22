@@ -31,14 +31,17 @@ void lift_particle_above_terrain_and_age(ParticleWork *work, ObjectPosition *pos
 }
 
 /* Creates a linked particle at a jittered source offset with the supplied age, color, and lifetime. */
-void spawn_linked_effect_particle(Row_818ED7A0_ParticleNode *owner, s32 age, s32 color, s32 lifetime, s16 dx, s16 dy, s16 dz) {
+void spawn_linked_effect_particle(ObjectNodeHeader *owner, s32 age, s32 color, s32 lifetime, s16 dx, s16 dy, s16 dz) {
     ObjectNodeHeader *node = allocate_list_node(0x211, owner);
     NewParticleWork *work;
     if (node != 0) {
         node->update_callback = lift_particle_above_terrain_and_age;
-        (*(ParticleVector * *)&node->position)->x = owner->position->x + (rand() & 31) + (dx - 16);
-        (*(ParticleVector * *)&node->position)->y = owner->position->y + (rand() & 31) + (dy - 16);
-        (*(ParticleVector * *)&node->position)->z = owner->position->z + (rand() & 31) + (dz - 16);
+        /* BYTES: The X source integer half is read by lhu. */
+        (*(ParticleVector * *)&node->position)->x = owner->position->x.unsigned_parts.integer + (rand() & 31) + (dx - 16);
+        /* BYTES: The Y source integer half is read by lhu. */
+        (*(ParticleVector * *)&node->position)->y = owner->position->y.unsigned_parts.integer + (rand() & 31) + (dy - 16);
+        /* BYTES: The Z source integer half is read by lhu. */
+        (*(ParticleVector * *)&node->position)->z = owner->position->z.unsigned_parts.integer + (rand() & 31) + (dz - 16);
         work = NODE_BODY(node);
         work->age = age;
         work->lifetime = lifetime;

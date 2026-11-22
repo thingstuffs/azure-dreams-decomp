@@ -72,11 +72,11 @@ void update_manoeva_actor_callbacks_and_floor_motion(ActorRecord *body, ObjectPo
         direction = direction_sector & 7;
         direction_index = direction;
 
-        if (body->unk_94 != direction_index) {
+        if (body->sprite_direction != direction_index) {
             u8 *direction_tiles = *(unsigned char **)&sprite->frameTable;
             select_indirect_table_entry(sprite, direction_tiles[direction_index],
                           sprite->unk_04);
-            body->unk_94 = direction;
+            body->sprite_direction = direction;
         }
 
         if (dir_sprite_flag[direction_index] != 0) {
@@ -103,10 +103,10 @@ void update_manoeva_actor_callbacks_and_floor_motion(ActorRecord *body, ObjectPo
     position->y.v += position->velocity_y;
 
     if (body->action_state_flags & 8) {
-        body->unk_9D = 0;
+        body->fall_ticks = 0;
     } else {
-        position->velocity_z += (body->unk_9D) * 0x14000;
-        body->unk_9D++;
+        position->velocity_z += (body->fall_ticks) * 0x14000;
+        body->fall_ticks++;
     }
 
     body->unk_90.value += position->velocity_z;
@@ -127,7 +127,7 @@ void update_manoeva_actor_callbacks_and_floor_motion(ActorRecord *body, ObjectPo
                 }
 
                 position->velocity_z = 0;
-                body->unk_9D = 0;
+                body->fall_ticks = 0;
                 actor->flags1C |= 0x08000000;
             }
 

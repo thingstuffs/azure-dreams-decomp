@@ -38,7 +38,7 @@ s32 use_item_to_reveal_floor_map(ActorRecord *target, DungeonItemEntry *item, s1
     if ((u32)target <= 0x9FFFFFFF) {
         display_actor_item_status_message(target, item);
         if (feed_actor_restore_mp(target,
-                          entity_action_selectors[(*(&target->unk_10 + 3))] & 3,
+                          entity_action_selectors[target->species] & 3,
                           item) == 0) {
             place_actor_item(target, item);
             return 1;

@@ -318,7 +318,7 @@ void advance_linked_actor_motion_script(ActorRecord *state_in, ObjectPosition *m
                 angle_input_m = angle_tmp + 0x1000;
             }
             owner_state->unk_2A = angle_input_m;
-            state_in->unk_94 = 1;
+            state_in->sprite_direction = 1;
             sprite_in->frameTable = &beldo_large_frame_set_14;
             select_sprite_entry(sprite_in, beldo_large_frame_set_14[((s32) (((S_80171D74_6 *)((&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
                 + (s16) owner_state->unk_2A + 0x100) >> 9) & 7], 0);
@@ -760,10 +760,10 @@ shared_tail:
     if (beldo_script_node != 0) {
         sprite_dir = ((s32) (((S_80171D74_6 *)((&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
             + (s16) owner_state->unk_2A + 0x100) >> 9) & 7;
-        if (state_in->unk_94 != sprite_dir) {
+        if (state_in->sprite_direction != sprite_dir) {
             select_indirect_table_entry(sprite_in, *(*(u8 **)&sprite_in->frameTable + sprite_dir),
                 sprite_in->unk_04);
-            state_in->unk_94 = sprite_dir;
+            state_in->sprite_direction = sprite_dir;
         }
         {
             u16 sprite_flags;

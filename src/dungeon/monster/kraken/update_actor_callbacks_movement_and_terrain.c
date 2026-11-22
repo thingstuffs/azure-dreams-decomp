@@ -81,10 +81,10 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
         if (!(body->flags1C & 0x40000) &&
             !(body->action_state_flags & 8)) {
             motion->velocity_z = motion->velocity_z +
-                ((body->unk_9D) * 0x14000);
-            body->unk_9D++;
+                ((body->fall_ticks) * 0x14000);
+            body->fall_ticks++;
         } else {
-            body->unk_9D = 0;
+            body->fall_ticks = 0;
         }
 
         body->unk_90.value = body->unk_90.value +
@@ -92,11 +92,11 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
         sprite_flags = sprite_arg->flags;
         if (!(sprite_flags & 0x8000)) {
             view_direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor_base->facing + 0x100) >> 9) & 7;
-            if (body->unk_94 != view_direction) {
+            if (body->sprite_direction != view_direction) {
                 select_indirect_table_entry(sprite_arg,
                     *(((u8 *)sprite_arg->frameTable) + view_direction),
                     sprite_arg->unk_04);
-                body->unk_94 = view_direction;
+                body->sprite_direction = view_direction;
             }
             if (dir_sprite_flag[view_direction] != 0) {
                 sprite_arg->flags |= 1;
@@ -158,7 +158,7 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
                         actor_base->ground_height;
                     if (floor_offset < body->unk_90.parts.high) {
                         body->unk_90.parts.high = floor_offset;
-                        body->unk_9D = 0;
+                        body->fall_ticks = 0;
                         motion->velocity_z = 0;
                         actor_base->flags1C |= 0x08000000;
                     }
@@ -185,7 +185,7 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
                         actor_base->ground_height;
                     if (floor_offset < body->unk_90.parts.high) {
                         body->unk_90.parts.high = floor_offset;
-                        body->unk_9D = 0;
+                        body->fall_ticks = 0;
                         motion->velocity_z = 0;
                         actor_base->flags1C |= 0x08000000;
                     }

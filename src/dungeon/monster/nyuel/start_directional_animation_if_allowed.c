@@ -25,8 +25,8 @@ void start_directional_animation_if_allowed(ActorRecord *action_state, ObjectPos
             (sprite->frameTable) = &nyuel_frame_set_8;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + &nyuel_frame_set_8), 0);
-            actor->unk_84 = 0x7C;
-            actor->unk_85 = 0;
+            actor->accuracy = 0x7C;
+            actor->attack_bonus = 0;
             actor->pending_turn_updates = actor->pending_turn_updates - 1;
             prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
         }

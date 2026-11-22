@@ -15,7 +15,7 @@
 /* Selector-image function at DUNGEON file [0x1943DD0, 0x1944338), true 0x800255D0
  * (rowbase img_1942998_80024198 delta 0x7E6E1800 continued).  Five-state handler:
  * spawn a directional effect object, follow it, then print the result message and
- * finish.  Reconstruction from r121_remnants continuation 5 (v8); the message
+ * finish.  Reconstruction (v8); the message
  * builder uses the engine's cursor idiom (message_end / message_start, as in
  * src/dungeon/func_800BB400.c and func_800940E4.c).  Evidence:
  * docs/evidence/r121_rem_opus.md. */

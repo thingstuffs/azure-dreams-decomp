@@ -127,7 +127,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
     u16 scale_y;
     u16 spawn_state;
     u16 scale_x;
-    EntityRec *target;
+    ActorRecord *target;
     ObjectPosition *jitter_position_x;
     ObjectPosition *jitter_position_y;
     ObjectPosition *burst_position;
@@ -139,7 +139,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
     ActorRecord *source;
     S_func_81832800_3 *object;
     ObjectPosition *particle_position;
-    EntityRec *found_target;
+    ActorRecord *found_target;
     ObjectPosition *height_position;
     u32 sprite_flags;
     s32 texture_word;
@@ -348,6 +348,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
             }
             count -= 1;
         } while (count >= 0);
+        /* Reuse the object header view to preserve the target register through the height update. */
         object = source->target - 0x20;
         target_position = object->unk_08;
         height_delta = target_position->z.w.i - 0x18;

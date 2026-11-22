@@ -667,6 +667,208 @@ def header_macro_cast_sites(text, tokens, pairs, events):
     return out
 
 
+# Report-only class: integer casts of pointers, (unsigned long)/(u32)/(s32)... applied to a pointer expression.
+# Lexical and per file: a pointer expression is an address-of, a string, a spelled pointer cast, or a name declared
+# in the same file with more pointer or array levels than the operand strips (indexes and dereferences). Names
+# reached through members, calls and macros are not seen, so the count is a lower bound.
+INTEGER_POINTER_CAST_TYPES = frozenset({
+    'unsigned long', 'long', 'signed long', 'unsigned long int', 'long int', 'u32', 's32', 'uptr', 'uintptr_t',
+    'intptr_t', 'unsigned int', 'int', 'size_t', 'u64', 's64', 'uint32_t', 'int32_t'})
+STATEMENT_KEYWORDS = frozenset({'return', 'goto', 'case', 'else', 'if', 'while', 'for', 'do', 'switch',
+                                'break', 'continue', 'default', 'sizeof', 'typedef'})
+DECLARATION_WORDS = frozenset(c.QUALIFIERS | {'static', 'extern', 'register', 'struct', 'union', 'enum',
+                                              'unsigned', 'signed', 'inline'})
+
+
+def split_at_depth_zero(tokens, pairs, lo, hi, separators):
+    """Yield (a, b) token ranges of [lo, hi) cut at depth-zero separator tokens."""
+    a = i = lo
+    while i < hi:
+        value = tokens[i].value
+        if value in {'(', '[', '{'} and i in pairs:
+            i = pairs[i] + 1
+            continue
+        if value in separators:
+            yield a, i
+            a = i + 1
+        i += 1
+    if a < hi:
+        yield a, hi
+
+
+def declarator(tokens, pairs, a, b, first, pointer_typedefs):
+    """(name, pointer depth, is function) of one declarator range, or None when the range is not one."""
+    i = a
+    while i < b:
+        if tokens[i].value in {'(', '[', '{'} and i in pairs:
+            i = pairs[i] + 1
+            continue
+        if tokens[i].value == '=':
+            b = i
+            break
+        i += 1
+    flat, i = [], a
+    while i < b:
+        value = tokens[i].value
+        if value in {'(', '['} and i in pairs:
+            flat.append((value, i))
+            i = pairs[i] + 1
+            continue
+        if tokens[i].kind != 'id' and value != '*':
+            return None
+        flat.append((value, i))
+        i += 1
+    if not flat:
+        return None
+    ids = [(v, k) for v, k in flat if tokens[k].kind == 'id']
+    if first and (not ids or ids[0][0] in STATEMENT_KEYWORDS):
+        return None
+    names = [(v, k) for v, k in ids if v not in DECLARATION_WORDS]
+    if first and len(names) < 2:
+        return None
+    if not first and (len(ids) != 1 or ids[0][0] in DECLARATION_WORDS):
+        return None
+    # Function pointer declarator: ( * name ) ( ... )
+    for n, (v, k) in enumerate(flat):
+        if v == '(' and n + 1 < len(flat) and flat[n + 1][0] == '(' and tokens[k + 1].value == '*':
+            inner = [t for t in tokens[k + 1:pairs[k]] if t.kind == 'id']
+            if len(inner) == 1:
+                return inner[0].value, 1, False
+            return None
+    for n, (v, k) in enumerate(flat):
+        if v == '(' and n and tokens[flat[n - 1][1]].kind == 'id':
+            return flat[n - 1][0], 0, True
+    if not names:
+        return None
+    name, position = names[-1]
+    stars = sum(1 for v, k in flat if v == '*' and k < position)
+    dims = sum(1 for v, k in flat if v == '[' and k > position)
+    base = sum(1 for v, k in names[:-1] if v in pointer_typedefs) if first else 0
+    return name, stars + dims + min(base, 1), False
+
+
+def scan_declarations(tokens, pairs, lo, hi, depths, functions, pointer_typedefs, skip_braces):
+    """Record the pointer depth of every name declared in statements of [lo, hi)."""
+
+    def statement(start, end):
+        if start >= end:
+            return
+        typedef = tokens[start].value == 'typedef'
+        parts = list(split_at_depth_zero(tokens, pairs, start + 1 if typedef else start, end, {','}))
+        for n, (a, b) in enumerate(parts):
+            found = declarator(tokens, pairs, a, b, n == 0, pointer_typedefs)
+            if found is None:
+                if n == 0:
+                    return
+                continue
+            name, depth, is_function = found
+            if typedef:
+                if depth > 0:
+                    pointer_typedefs.add(name)
+            elif is_function:
+                functions.add(name)
+            else:
+                depths[name] = depth
+
+    i = start = lo
+    while i < hi:
+        value = tokens[i].value
+        if value in {'(', '['} and i in pairs:
+            i = pairs[i] + 1
+            continue
+        if value in {';', '{', '}'}:
+            statement(start, i)
+            if value == '{' and skip_braces and i in pairs:
+                i = pairs[i]
+            start = i + 1
+        i += 1
+    statement(start, hi)
+
+
+def pointer_operand(tokens, pairs, i, depths, functions):
+    """Whether the operand starting at token i is a pointer, by the lexical evidence above."""
+    n = len(tokens)
+    stars = 0
+    while i < n and tokens[i].value == '*':
+        stars += 1
+        i += 1
+    if i >= n:
+        return False
+    token = tokens[i]
+    if token.value == '&':
+        return stars == 0
+    if token.kind == 'literal':
+        return token.value.startswith('"') and stars == 0
+    if token.value == '(' and i in pairs:
+        close = pairs[i]
+        values = [t.value for t in tokens[i + 1:close]]
+        if c.pointer_type(values):
+            return values.count('*') - stars > 0
+        if stars or close == i + 1:
+            return False
+        if close + 1 < n and tokens[close + 1].value in {'.', '->', '[', '('}:
+            return False
+        return pointer_operand(tokens, pairs, i + 1, depths, functions)
+    if token.kind != 'id' or token.value in STATEMENT_KEYWORDS:
+        return False
+    j, indexes = i + 1, 0
+    while j < n and tokens[j].value == '[' and j in pairs:
+        indexes += 1
+        j = pairs[j] + 1
+    if j < n and tokens[j].value in {'.', '->', '('}:
+        return False
+    if token.value in depths:
+        return depths[token.value] - indexes - stars > 0
+    return token.value in functions and not indexes and not stars
+
+
+def integer_pointer_cast_sites(tokens, pairs, definitions):
+    """[(token index of the cast's open paren, cast type, operand text)] for the integer casts of pointers."""
+    pointer_typedefs = set()
+    global_depths, functions = {}, set()
+    spans = sorted((start, end) for start, name, body, end, style in definitions)
+    cursor = 0
+    for start, end in spans:
+        scan_declarations(tokens, pairs, cursor, start, global_depths, functions, pointer_typedefs, True)
+        cursor = end + 1
+    scan_declarations(tokens, pairs, cursor, len(tokens), global_depths, functions, pointer_typedefs, True)
+    for start, name, body, end, style in definitions:
+        functions.add(tokens[name].value)
+    local = {}
+    for start, name, body, end, style in definitions:
+        depths = {}
+        if name + 1 in pairs:
+            close = pairs[name + 1]
+            for a, b in split_at_depth_zero(tokens, pairs, name + 2, close, {','}):
+                found = declarator(tokens, pairs, a, b, True, pointer_typedefs)
+                if found and not found[2]:
+                    depths[found[0]] = found[1]
+            scan_declarations(tokens, pairs, close + 1, body, depths, functions, pointer_typedefs, False)
+        scan_declarations(tokens, pairs, body + 1, end, depths, functions, pointer_typedefs, False)
+        local[body] = (body, end, depths)
+    bodies = sorted(local.values())
+    sites = []
+    for i, token in enumerate(tokens):
+        if token.value != '(' or i not in pairs or pairs[i] + 1 >= len(tokens):
+            continue
+        close = pairs[i]
+        spelled = ' '.join(t.value for t in tokens[i + 1:close])
+        if spelled not in INTEGER_POINTER_CAST_TYPES:
+            continue
+        before = tokens[i - 1] if i else None
+        if before is not None and before.kind == 'id' and before.value not in {'return', 'case', 'else', 'do'}:
+            continue
+        depths = global_depths
+        for body, end, local_depths in bodies:
+            if body < i < end:
+                depths = {**global_depths, **local_depths}
+                break
+        if pointer_operand(tokens, pairs, close + 1, depths, functions):
+            stop = c.operand_end(tokens, pairs, close + 1)
+            sites.append((i, spelled, ' '.join(t.value for t in tokens[close + 1:stop])[:60]))
+    return sites
+
+
 def analyze(path, text, macro_casts=False, header_events=()):
     tokens = c.lex(text)
     pairs, warnings = c.pairs_of(tokens)
@@ -753,6 +955,11 @@ def analyze(path, text, macro_casts=False, header_events=()):
     for a, b in c.cast_sites(tokens, pairs):
         if not any(i in excluded for i in range(a, b + 1)):
             counts[owners[a]]['pointer_casts'] += 1
+    integer_casts = []
+    for i, cast, operand in integer_pointer_cast_sites(tokens, pairs, definitions):
+        if i not in excluded:
+            integer_casts.append(dict(line=text.count('\n', 0, tokens[i].pos) + 1, function=owners[i],
+                                      cast=cast, operand=operand))
     hidden = {key: Counter() for key in scopes} if macro_casts else None
     header_hidden = {key: Counter() for key in scopes} if macro_casts else None
     if macro_casts:
@@ -781,6 +988,7 @@ def analyze(path, text, macro_casts=False, header_events=()):
     return dict(file=path, scopes=rows, markers=len(spans), errors=errors,
                 view_counts=dict(views), signedness_unions=signedness_unions,
                 bad_label_unions=bad_label_unions, typedef_views=typedefs, extern_split=dict(extern_split),
+                integer_pointer_casts=integer_casts,
                 union_definitions=union_definition_count(tokens, pairs),
                 generic_index_views=generic_index_views(text))
 
@@ -834,6 +1042,7 @@ def census(root, only=None, macro_casts=False, cache_dir=None, readcounts=False)
     union_definitions = generic_views = 0
     typedef_views, address_names = [], set()
     extern_split = Counter()
+    integer_pointer_casts = []
     header_cache = {}
     tool_hash, headers_hash = report_cache_keys(root) if cache_dir is not None else ('', '')
     for rel in selected:
@@ -865,6 +1074,7 @@ def census(root, only=None, macro_casts=False, cache_dir=None, readcounts=False)
         generic_views += source['generic_index_views']
         typedef_views.extend(source['typedef_views'])
         extern_split.update(source.get('extern_split', {}))
+        integer_pointer_casts.extend(dict(row, file=rel) for row in source.get('integer_pointer_casts', []))
         address_names.update(row['name'] for row in source['typedef_views']
                              if ADDRESS_NAME.search(row['name']) and not row['name'].startswith('S_'))
     if not only:
@@ -926,6 +1136,11 @@ def census(root, only=None, macro_casts=False, cache_dir=None, readcounts=False)
                 local_externs_split_report=dict({k: extern_split.get(k, 0) for k in EXTERN_SPLIT},
                                                 note='local_externs sites by declared symbol: named or address-named '
                                                      '(D_/func_<addr>) data and functions; mixed = several kinds'),
+                integer_pointer_casts_report=dict(
+                    count=len(integer_pointer_casts), files=len({row['file'] for row in integer_pointer_casts}),
+                    note='report only; (unsigned long)/(u32)/(s32)... applied to a pointer expression, lexical per file; '
+                         'member, call and macro operands are not seen, so this is a lower bound'),
+                integer_pointer_cast_sites=integer_pointer_casts,
                 signedness_union_sites=signedness_unions,
                 bad_label_unions=bad_label_unions,
                 view_inventory_report=dict(address_named_types=len(address_names),
@@ -1135,6 +1350,11 @@ def write_outputs(out, summary, baseline=None):
         writer = csv.writer(stream, delimiter='\t', lineterminator='\n')
         writer.writerow(['file', 'line'])
         writer.writerows(summary['signedness_union_sites'])
+    with (out / 'debt_integer_pointer_casts.tsv').open('w', newline='') as stream:
+        writer = csv.writer(stream, delimiter='\t', lineterminator='\n')
+        writer.writerow(['file', 'line', 'function', 'cast', 'operand'])
+        for row in summary['integer_pointer_cast_sites']:
+            writer.writerow([row['file'], row['line'], row['function'], row['cast'], row['operand']])
     with (out / 'debt_view_inventory.tsv').open('w', newline='') as stream:
         writer = csv.writer(stream, delimiter='\t', lineterminator='\n')
         writer.writerow(['file', 'line', 'kind', 'typedef', 'function_users', 'users'])
@@ -1318,6 +1538,9 @@ def main(argv=None):
         print(f'unions_total (ratchet)\t{summary["union_definitions_report"]["count"]}')
         print(f'generic_index_views (ratchet)\t{summary["generic_index_views_report"]["count"]}')
         print(f'bad_label_unions (known sites only)\t{len(summary["bad_label_unions"])}')
+        report = summary['integer_pointer_casts_report']
+        print(f'integer_pointer_casts (report only)\t{report["count"]}\tin {report["files"]} files; '
+              f'(unsigned long)/(u32)/(s32) applied to a pointer expression, a lower bound')
         for key, value in summary['view_inventory_report'].items():
             if key != 'note':
                 print(f'{key} (report only)\t{value}')

@@ -108,9 +108,9 @@ void update_boss_actor_direction_state(ActorRecord *actor_data, void *output_dat
 
     direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
     direction_short = direction_index;
-    if (actor->unk_94 != direction_short) {
+    if (actor->sprite_direction != direction_short) {
         select_sprite_entry(context, (*((((S_80172610_4 *)context)->unk_2C) + direction_short)), 0);
-        actor->unk_94 = direction_index;
+        actor->sprite_direction = direction_index;
     }
 
     context->flags = linked->unk_14;

@@ -111,7 +111,7 @@ void *spawn_zu_actor(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         call_a0 = obj;
         initialize_actor_sprite_and_animation(call_a0, part_a, part_b, flags);
         actor->action_id = 0xFF;
-        actor->unk_9C = -1;
+        actor->route_room = -1;
         actor->unk_8C.handler = update_zu_behavior;
         work->flags1C |= 0x40000;
         actor->unk_A0.parts.low = 0;
@@ -182,10 +182,10 @@ void update_zu_movement(ActorRecord *entity, ObjectPosition *motion_arg, SpriteF
 
     if (!(entity->flags1C & 0x40000) &&
         !(entity->action_state_flags & 8)) {
-        motion_arg->velocity_z += (entity->unk_9D) * 0x14000;
-        entity->unk_9D++;
+        motion_arg->velocity_z += (entity->fall_ticks) * 0x14000;
+        entity->fall_ticks++;
     } else {
-        entity->unk_9D = 0;
+        entity->fall_ticks = 0;
     }
     entity->unk_90.value += motion_arg->velocity_z;
     sprite_flags = sprite_arg->flags;
@@ -193,11 +193,11 @@ void update_zu_movement(ActorRecord *entity, ObjectPosition *motion_arg, SpriteF
     if (!(sprite_flags & 0x8000)) {
         facing = ((g_game_work.view.camera_rotation.parts.viewAngle + object->facing + 0x100) >> 9) & 7;
         state_or_facing = facing;
-        if (entity->unk_94 != state_or_facing) {
+        if (entity->sprite_direction != state_or_facing) {
             select_indirect_table_entry(sprite_arg,
                 ((u8 *)sprite_arg->frameTable)[state_or_facing],
                 sprite_arg->unk_04);
-            entity->unk_94 = facing;
+            entity->sprite_direction = facing;
         }
 
         {
@@ -260,7 +260,7 @@ void update_zu_movement(ActorRecord *entity, ObjectPosition *motion_arg, SpriteF
                     (s16)(object->ground_height - 0x20)) - object->ground_height;
                 if (entity->unk_90.parts.high > ground_delta) {
                     entity->unk_90.parts.high = ground_delta;
-                    entity->unk_9D = 0;
+                    entity->fall_ticks = 0;
                     motion_arg->velocity_z = 0;
                     object->flags1C |= 0x08000000;
                 }
@@ -285,7 +285,7 @@ void update_zu_movement(ActorRecord *entity, ObjectPosition *motion_arg, SpriteF
                     (s16)(object->ground_height - 0x20)) - object->ground_height;
                 if (entity->unk_90.parts.high > ground_delta) {
                     entity->unk_90.parts.high = ground_delta;
-                    entity->unk_9D = 0;
+                    entity->fall_ticks = 0;
                     motion_arg->velocity_z = 0;
                     object->flags1C |= 0x08000000;
                 }
@@ -677,7 +677,7 @@ void select_zu_movement(ActorRecord *move_data, ObjectPosition *context, SpriteF
         return;
     }
 
-    update_actor_proximity_flag(position_data, actor_data, 3, 6, &move_data->unk_9C);
+    update_actor_proximity_flag(position_data, actor_data, 3, 6, &move_data->route_room);
     actor_flags = actor_data->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
@@ -714,7 +714,7 @@ void select_zu_movement(ActorRecord *move_data, ObjectPosition *context, SpriteF
                     TileObject *target_position = &reference_tile_object;
                     s32 target_facing = ((u16)primary_actor_record->facing);
                     s32 offset_index =
-                        ((actor_data->unk_44.bytes.high + ((s16)target_facing >> 9)) & 7) << 1;
+                        ((actor_data->approach_direction + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
                         *(u16 *)((u8 *)dir_step_x + offset_index);
                     target_y = target_position->tile_position.parts.tile_y +
@@ -743,13 +743,13 @@ void select_zu_movement(ActorRecord *move_data, ObjectPosition *context, SpriteF
                     limit_detour = 1;
                 }
             } else {
-                select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+                select_actor_route_target((u8 *)position_data, move_data->route_room, (u8 *)actor_data,
                               &move_data->action_state_flags);
             }
         }
     } else if ((s8)position_data->room_index >= 0 &&
                dungeon_rooms[(s8)position_data->room_index].flags & ROOM_HOLY_BEAM) {
-        select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+        select_actor_route_target((u8 *)position_data, move_data->route_room, (u8 *)actor_data,
                       &move_data->action_state_flags);
     } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
         current_angle = (s32)probe_directional_neighbor(actor_data, position_data->tile_x, position_data->tile_y, actor_data->facing);
@@ -786,7 +786,7 @@ void select_zu_movement(ActorRecord *move_data, ObjectPosition *context, SpriteF
                 }
             }
         } else {
-            select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+            select_actor_route_target((u8 *)position_data, move_data->route_room, (u8 *)actor_data,
                           &move_data->action_state_flags);
         }
     }
@@ -857,7 +857,7 @@ void select_zu_movement(ActorRecord *move_data, ObjectPosition *context, SpriteF
 
     {
         actor_data->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-        move_data->unk_9C = (s8)position_data->room_index;
+        move_data->route_room = (s8)position_data->room_index;
         actor_data->pending_turn_updates--;
         g_dungeon_status.activity_counts.parts.pending_movement_count++;
     }
@@ -925,8 +925,8 @@ s32 try_begin_zu_directional_action(ActorRecord *action_state, ObjectPosition *m
         action_state->action_id = 0x11;
         action_state->action_phase = 0;
         action_state->unk_8C.handler = 0;
-        actor->unk_84 = 0x7C;
-        actor->unk_85 = 0;
+        actor->accuracy = 0x7C;
+        actor->attack_bonus = 0;
         sprite->frameTable = zu_default_frames;
         select_sprite_entry(sprite, (zu_default_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         actor->pending_turn_updates--;
@@ -961,8 +961,8 @@ void begin_zu_action(ActorRecord *action_state, ObjectPosition *motion_param, Sp
             entity->pending_turn_updates--;
             prepare_directional_attack(entity, sprite, entity->facing, 1, 0);
             action_state->action_state_flags |= 8;
-            entity->unk_84 = 0x7C;
-            entity->unk_85 = 0;
+            entity->accuracy = 0x7C;
+            entity->attack_bonus = 0;
         }
     }
 }
@@ -981,7 +981,7 @@ s32 check_zu_action_ready(ActorRecord *actor, ObjectPosition *primary_context, S
     s32 result;
     ActorRecord *entity = actor;   /* the copy is load-bearing: it changes the callee-save order */
 
-    state_type = (s16)relink_entity_and_clear_high_flag(primary_context, secondary_context, entity, 3, 6, &entity->unk_9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(primary_context, secondary_context, entity, 3, 6, &entity->route_room);
     if (state_type < 0) return 0;
     if ((force_move << 0x10) != 0) {
         select_zu_movement(entity, primary_context, secondary_context, entity);

@@ -8,6 +8,15 @@
   "evidence": "ledger/instance_load_regions.jsonl; validated packed-CD loader record",
   "entries": [
     {
+      "row": "town/func_80480378",
+      "home": "town/func_80480378",
+      "tu": "src/town/scene/event/set_kinko_talk_flag_if_rank_two.c",
+      "foff": "0x400378",
+      "vma": "0x80016378",
+      "size": 96,
+      "evidence": "TOWN +0x428d36 is a decoded m06-event08 native call. The packed CD transfer at +0x56c30 places its scene from +0x400000 at 0x80016000. It checks home rank 2 through service +0x2d4 and tests and sets flag 0xa8 through the local JAL targets at +0x402668 and +0x402570. It returns 1 only when it sets the flag."
+    },
+    {
       "row": "town/func_804803D8",
       "tu": "src/town/scene/prepare_and_register_entry_buffer.c",
       "home": "town/func_804803D8",

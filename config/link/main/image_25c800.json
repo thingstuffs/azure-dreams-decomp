@@ -1673,10 +1673,13 @@
       "evidence": "MAIN +0x2650ac is status slot 4 of the card chooser callback table at +0x26509c. The chooser poll at +0x2647bc indexes that table and stores the selected callback at +0x26484c. The active card dialog transfer maps MAIN +0x25c800 to 0x8001f800."
     },
     {
-      "kind": "unresolved",
+      "row": "main/func_80244778",
+      "home": "main/func_80244778",
+      "tu": "src/frontend/libcard/state/card_boot_enter_damaged_card_notice.c",
       "foff": "0x264778",
+      "vma": "0x80027778",
       "size": 68,
-      "evidence": "coverage-prototype: census2 span export absent; classification held"
+      "evidence": "MAIN +0x2650b0 is status slot 5 of the table read by the chooser poll. The callback saves the input handler, opens the damaged-card notice via the JAL at +0x264794 and installs the poll-and-dismiss callback at +0x2644d8."
     },
     {
       "kind": "code_region",
@@ -1821,13 +1824,13 @@
     "0x8002593C": "0x800265B8"
   },
   "census": {
-    "proven_code": 29584,
+    "proven_code": 29652,
     "library_code": 0,
     "strongly_code": 0,
     "proven_data": 0,
     "noncode_typing_pending": 0,
     "padding_leftover": 2197,
-    "unknown": 5083
+    "unknown": 5015
   },
   "provenance": {
     "labels_sha256": "38e8e13b775802242be29c9c78265ed06877fca3dbcec734f7a6a70775790e7f",

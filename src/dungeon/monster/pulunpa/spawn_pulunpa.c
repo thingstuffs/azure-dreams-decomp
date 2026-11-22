@@ -97,7 +97,7 @@ void *spawn_pulunpa_in_slot_g(s16 flags, s16 unused_kind_id, s16 variant, s16 un
         part->update_callback = D_80170AE0;
         initialize_actor_sprite_and_animation(part, coord, state, arg0_copy);
         actor->action_id = 0xFF;
-        actor->unk_9C = -1;
+        actor->route_room = -1;
         (*(u8 *)&actor->unk_A8) = 0;
         try_move_actor_to_valid_position(actor, coord, state, work);
     }

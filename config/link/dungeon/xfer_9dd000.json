@@ -91,6 +91,20 @@
       "size": 100
     },
     {
+      "row": "dungeon/func_809BFA8C",
+      "tu": "src/dungeon/monster/kewne/advance_kewne_leap_attack.c",
+      "home": "dungeon/func_809A1A8C",
+      "foff": "0x9dfa8c",
+      "vma": "0x8015528c",
+      "size": 724,
+      "evidence": "DUNGEON +0x9e2738 points to the leap action at 0x8015528c. Resource 2 slot 5 loads twelve sectors from LBA 0x43d0 to 0x80152800. The linked object uses the two animation tables and action continuation from that same bank.",
+      "bindings": {
+        "0x80175E88": "0x80157E88",
+        "0x80175EB8": "0x80157EB8",
+        "0x801710EC": "0x801530EC"
+      }
+    },
+    {
       "row": "dungeon/func_809BFD60",
       "tu": "src/dungeon/monster/kewne/advance_item_action_and_cleanup.c",
       "home": "dungeon/func_809A1D60",

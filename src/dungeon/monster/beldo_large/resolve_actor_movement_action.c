@@ -20,7 +20,7 @@ s32 resolve_actor_movement_action(ActorRecord *entity, ObjectPosition *action_ct
     action_result = 0;
     if (delay == 0) {
         action_result = relink_entity_and_clear_high_flag(action_ctx, position, actor, 3, 6,
-                                      &actor->unk_9C);
+                                      &actor->route_room);
         if ((s16)action_result < 0) {
             return 0;
         }

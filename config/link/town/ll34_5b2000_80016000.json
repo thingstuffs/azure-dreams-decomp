@@ -17,6 +17,15 @@
       "evidence": "TOWN +0x5b36b8 is the action field of choice 0 at +0x5b36b4. The registered dispatcher calls that field at +0x5b3234. The packed CD descriptor at TOWN +0x2b1a5c loads +0x5b2000 to 0x80016000."
     },
     {
+      "row": "town/func_8063217C",
+      "home": "town/func_8063217C",
+      "tu": "src/town/scene/process_entry_with_sbs17_pad03.c",
+      "foff": "0x5b217c",
+      "vma": "0x8001617c",
+      "size": 84,
+      "evidence": "TOWN +0x5b36c4 is scene choice 1 predicate. The JALs at +0x5b2194, +0x5b21a4 and +0x5b21b0 target the flag reader, entry flag setter and entry processor respectively. The flag setter is the placement at +0x5b2994."
+    },
+    {
       "row": "town/func_80632230",
       "tu": "src/town/scene/threshold_counter.c",
       "home": "town/func_80601310",

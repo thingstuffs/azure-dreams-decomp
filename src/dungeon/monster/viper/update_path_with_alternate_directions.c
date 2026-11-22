@@ -60,7 +60,7 @@ void update_path_with_alternate_directions(ActorRecord *move_ctx_in, ObjectPosit
         return;
     }
 
-    update_actor_proximity_flag(position_in, actor_in, 3, 6, &move_ctx_in->unk_9C);
+    update_actor_proximity_flag(position_in, actor_in, 3, 6, &move_ctx_in->route_room);
     actor_flags = actor_in->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
@@ -100,7 +100,7 @@ void update_path_with_alternate_directions(ActorRecord *move_ctx_in, ObjectPosit
                     TileObject *target_position = &reference_tile_object;
                     s32 target_heading = ((u16)primary_actor_record->facing);
                     s32 table_index =
-                        ((((u8 *)&actor_in->unk_44.whole)[1] + ((s16)target_heading >> 9)) & 7) << 1;
+                        ((actor_in->approach_direction + ((s16)target_heading >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
                         (u16)dir_step_x[table_index >> 1];
                     target_y = target_position->tile_position.parts.tile_y +
@@ -129,14 +129,14 @@ void update_path_with_alternate_directions(ActorRecord *move_ctx_in, ObjectPosit
                     near_target = 1;
                 }
             } else {
-                select_actor_route_target((u8 *)position_in, move_ctx_in->unk_9C, (u8 *)actor_in,
+                select_actor_route_target((u8 *)position_in, move_ctx_in->route_room, (u8 *)actor_in,
                               &move_ctx_in->action_state_flags);
             }
         }
     } else {
         if ((s8)position_in->room_index >= 0 &&
             (dungeon_rooms[(s8)position_in->room_index].flags & ROOM_HOLY_BEAM)) {
-            select_actor_route_target((u8 *)position_in, move_ctx_in->unk_9C, (u8 *)actor_in,
+            select_actor_route_target((u8 *)position_in, move_ctx_in->route_room, (u8 *)actor_in,
                           &move_ctx_in->action_state_flags);
         } else if (!(actor_in->action_flags & ACTOR_ACTION_PENDING) &&
                    !(move_ctx_in->action_state_flags & 0x8000)) {
@@ -176,7 +176,7 @@ void update_path_with_alternate_directions(ActorRecord *move_ctx_in, ObjectPosit
                     }
                 }
             } else {
-                select_actor_route_target((u8 *)position_in, move_ctx_in->unk_9C, (u8 *)actor_in,
+                select_actor_route_target((u8 *)position_in, move_ctx_in->route_room, (u8 *)actor_in,
                               &move_ctx_in->action_state_flags);
             }
         }
@@ -257,7 +257,7 @@ void update_path_with_alternate_directions(ActorRecord *move_ctx_in, ObjectPosit
 
     {
         actor_in->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-        move_ctx_in->unk_9C = position_in->room_index;
+        move_ctx_in->route_room = position_in->room_index;
         actor_in->pending_turn_updates--;
         g_dungeon_status.activity_counts.parts.pending_movement_count++;
     }

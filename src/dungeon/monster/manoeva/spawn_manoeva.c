@@ -81,7 +81,7 @@ void *spawn_manoeva(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
         }
         initialize_actor_sprite_and_animation(obj, position, sprite, spawn_flags);
         actor->actor.action_id = 0xFF;
-        actor->actor.unk_9C = -1;
+        actor->actor.route_room = -1;
         actor->actor.unk_8C.address = manoeva_action_resume_address;
         create_terrain_scaled_actor_effect(obj, &work->actor.facing, &actor->actor.action_id,
                                            &actor->actor.action_state_flags);

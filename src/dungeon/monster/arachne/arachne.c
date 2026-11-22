@@ -91,7 +91,7 @@ void *spawn_arachne_slot_g(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_he
         call_a1 = obj;
         initialize_actor_sprite_and_animation(call_a1, part_a, part_b, spawn_flags);
         actor->action_id = 0xFF;
-        actor->unk_9C = -1;
+        actor->route_room = -1;
         actor->unk_8C.address = update_arachne_turn_action;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
@@ -161,13 +161,13 @@ void update_arachne_motion_and_facing(ActorRecord *entity, ObjectPosition *motio
         state_or_direction = (rounded_angle >> 9) & 7;
         direction_index = state_or_direction;
         direction_copy = state_or_direction;
-        if (entity->unk_94 != direction_copy) {
+        if (entity->sprite_direction != direction_copy) {
             if (((u8 *)part->frameTable) != 0) {
                 select_indirect_table_entry(part,
                               ((u8 *)part->frameTable)[direction_copy],
                               part->unk_04);
             }
-            entity->unk_94 = state_or_direction;
+            entity->sprite_direction = state_or_direction;
         }
 
         direction_flag = dir_sprite_flag[direction_index];
@@ -197,10 +197,10 @@ void update_arachne_motion_and_facing(ActorRecord *entity, ObjectPosition *motio
     motion->y.v += motion->velocity_y;
 
     if (entity->action_state_flags & 8) {
-        entity->unk_9D = 0;
+        entity->fall_ticks = 0;
     } else {
-        motion->velocity_z += entity->unk_9D * 0x14000;
-        entity->unk_9D = entity->unk_9D + 1;
+        motion->velocity_z += entity->fall_ticks * 0x14000;
+        entity->fall_ticks = entity->fall_ticks + 1;
     }
     entity->unk_90.value += motion->velocity_z;
 
@@ -216,11 +216,11 @@ void update_arachne_motion_and_facing(ActorRecord *entity, ObjectPosition *motio
                 entity->unk_90.value = 0;
                 motion->velocity_z = 0;
                 entity_base->flags1C |= 0x08000000;
-                entity->unk_9D = 0;
+                entity->fall_ticks = 0;
             } else {
                 motion->velocity_z = 0;
                 entity_base->flags1C |= 0x08000000;
-                entity->unk_9D = 0;
+                entity->fall_ticks = 0;
                 entity->unk_90.parts.high = ground_height - entity_base->ground_height;
             }
 
@@ -559,7 +559,7 @@ void choose_arachne_move(ActorRecord *move_data, ObjectPosition *context, Sprite
         return;
     }
 
-    update_actor_proximity_flag(position_data, actor_data, 3, 6, &move_data->unk_9C);
+    update_actor_proximity_flag(position_data, actor_data, 3, 6, &move_data->route_room);
     actor_flags = actor_data->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
@@ -595,7 +595,7 @@ void choose_arachne_move(ActorRecord *move_data, ObjectPosition *context, Sprite
                     TileObject *target_position = &reference_tile_object;
                     s32 target_facing = ((u16)primary_actor_record->facing);
                     s32 offset_index =
-                        ((actor_data->unk_44.bytes.high + ((s16)target_facing >> 9)) & 7) << 1;
+                        ((actor_data->approach_direction + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
                         *(u16 *)((u8 *)dir_step_x + offset_index);
                     target_y = target_position->tile_position.parts.tile_y +
@@ -620,13 +620,13 @@ void choose_arachne_move(ActorRecord *move_data, ObjectPosition *context, Sprite
                     limit_detour = 1;
                 }
             } else {
-                select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+                select_actor_route_target((u8 *)position_data, move_data->route_room, (u8 *)actor_data,
                               &move_data->action_state_flags);
             }
         }
     } else if ((s8)position_data->room_index >= 0 &&
                dungeon_rooms[(s8)position_data->room_index].flags & ROOM_HOLY_BEAM) {
-        select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+        select_actor_route_target((u8 *)position_data, move_data->route_room, (u8 *)actor_data,
                       &move_data->action_state_flags);
     } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
         current_angle = (s32)probe_directional_neighbor(actor_data,position_data->tile_x,position_data->tile_y,actor_data->facing);
@@ -656,7 +656,7 @@ void choose_arachne_move(ActorRecord *move_data, ObjectPosition *context, Sprite
                 }
             }
         } else {
-            select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+            select_actor_route_target((u8 *)position_data, move_data->route_room, (u8 *)actor_data,
                           &move_data->action_state_flags);
         }
     }
@@ -732,7 +732,7 @@ void choose_arachne_move(ActorRecord *move_data, ObjectPosition *context, Sprite
 
     {
         actor_data->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-        move_data->unk_9C = position_data->room_index;
+        move_data->route_room = position_data->room_index;
         actor_data->pending_turn_updates--;
         g_dungeon_status.activity_counts.parts.pending_movement_count++;
     }
@@ -803,8 +803,8 @@ s32 try_arachne_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
         action_state->action_id = 0x11;
         action_state->action_phase = 0;
         action_state->unk_8C.handler = 0;
-        actor->unk_84 = 0x7C;
-        actor->unk_85 = 0;
+        actor->accuracy = 0x7C;
+        actor->attack_bonus = 0;
         sprite->frameTable = arachne_direction_frames;
         select_sprite_entry(sprite, (arachne_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         actor->pending_turn_updates--;
@@ -830,8 +830,8 @@ void begin_arachne_attack(ActorRecord *action_state, ObjectPosition *action_cont
                 + arachne_direction_frames), 0);
             actor->pending_turn_updates = actor->pending_turn_updates - 1;
             prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
-            actor->unk_84 = 0x7C;
-            actor->unk_85 = 0;
+            actor->accuracy = 0x7C;
+            actor->attack_bonus = 0;
         }
     }
 }
@@ -842,7 +842,7 @@ s32 relink_arachne_path(ActorRecord *entity_arg, ObjectPosition *primary_context
     s32 result;
     ActorRecord *entity = entity_arg;
 
-    state_type = (s16)relink_entity_and_clear_high_flag(primary_context_arg, secondary_context_arg, entity, 3, 6, &entity->unk_9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(primary_context_arg, secondary_context_arg, entity, 3, 6, &entity->route_room);
     if (state_type < 0) return 0;
     if ((force_state_arg << 0x10) != 0) {
         choose_arachne_move(entity, primary_context_arg, secondary_context_arg, entity);
@@ -1912,9 +1912,9 @@ s32 build_linked_curved_wireframe_grid(u8 *node, ObjectPosition *position, Sprit
         if (*(s32 *)screen_xy && next_node) {
             /* retail evidence (decision 45, docs/evidence/r97_decisions.md): both operands of this test are loaded in retail's
                compilation and the arm compiled away. next_node: the tail's successor load (lw $5,8($5)) survives as this test's
-               operand (lane r118_fable_f4). The scratchpad word: jump2 deleted it with the branch; its fingerprint is the empty
+               operand. The scratchpad word: jump2 deleted it with the branch; its fingerprint is the empty
                load-delay slot after the (frame.desc).angle field load (sched2 cannot issue the effect store there while this load waits on
-               the angle store), and the branch's label is why node is reloaded for ((s16)func_80065F90(lane r118_opus_o9; JP build:
+               the angle store), and the branch's label is why node is reloaded for ((s16)func_80065F90(JP build:
                this placement matches JP at stock 2.7.2)). The arm reconstructs a conditional update of a local nothing reads; the
                bytes fix the test's shape (a scratchpad word, then next_node), not its meaning. The second parameter is the
                loop-carried successor field the tail reloads. */

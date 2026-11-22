@@ -190,7 +190,7 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
         transform->velocity_x = 0;
         set_record_integer_tile_center(transform, sprite->tile_x, sprite->tile_y);
 
-        kind = actor->unk_48;
+        kind = actor->carried_item.unk_00;
         switch (kind) {
         case 0xD:
             current_anim = sprite->frameTable;

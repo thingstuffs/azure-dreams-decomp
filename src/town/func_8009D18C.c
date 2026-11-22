@@ -1,4 +1,4 @@
-/* Recovered retail twin; complete-function proof is in the lane receipt. */
+/* Recovered retail twin. */
 #include "common.h"
 #include "shared/object_node.h"
 #include "town/player/approach_player_angle_target_g01125.h"

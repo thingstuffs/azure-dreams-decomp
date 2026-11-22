@@ -1,0 +1,33 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/selector_04_directional_spell",
+  "container": "dungeon",
+  "foff": "0x1846800",
+  "size": "0x6000",
+  "vma": "0x80024000",
+  "evidence": "Selector 4 reads DUNGEON +0x1846800 to 0x80024000. Its first word is the updater entry, and the updater installs the delayed animation callback at the next C boundary, +0x184718c. It scans the caster heading, emits timed spell sprites and applies the hit to the selected actor.",
+  "entries": [
+    {
+      "row": "dungeon/func_81826804",
+      "home": "dungeon/func_81826804",
+      "tu": "src/dungeon/effect/update_directional_spell_sprites.c",
+      "foff": "0x1846804",
+      "vma": "0x80024004",
+      "size": 2440,
+      "evidence": "Selector 4 reads DUNGEON +0x1846800 to 0x80024000. Its first word is the updater entry, and the updater installs the delayed animation callback at the next C boundary, +0x184718c. It scans the caster heading, emits timed spell sprites and applies the hit to the selected actor."
+    },
+    {
+      "row": "dungeon/func_8182718C",
+      "home": "dungeon/func_8182718C",
+      "tu": "src/dungeon/effect/motion/advance_delayed_sprite_animation.c",
+      "foff": "0x184718c",
+      "vma": "0x8002498c",
+      "size": 264,
+      "evidence": "Selector 4 updater installs this sprite callback."
+    }
+  ],
+  "load_evidence": {
+    "path": "ledger/instance_load_regions.jsonl",
+    "record_sha256": "846c08f4c697ac2ff0181f3bd5b79e37986764e7b64c8586289e83dfaefffab7"
+  }
+}

@@ -65,7 +65,7 @@ void create_picket_held_item_sprite(ObjectPosition *source, Rec_func_800AD058_ar
     ProjectileObject *object;
     ObjectPosition *transform;
 
-    if (((appearance->unk_49) != 0) &&
+    if (((appearance->carried_item.kind) != 0) &&
         (object = allocate_flagged_object_node(0x12), object != NULL)) {
         init_object = object;
         transform = object->position;
@@ -86,13 +86,13 @@ void create_picket_held_item_sprite(ObjectPosition *source, Rec_func_800AD058_ar
         sprite->unk_1E = sprite_size;
         sprite->unk_1C = sprite_size;
         data_base = object_data;
-        if ((appearance->unk_49) == 0x12) {
+        if ((appearance->carried_item.kind) == 0x12) {
             texture = item_effect_descriptor;
             sprite->unk_08 = (s32)texture;
             record_byte = record->unk_24;
         } else {
-            texture = (void *)lookup_item_category_mapped_value((appearance->unk_49),
-                          (appearance->unk_48));
+            texture = (void *)lookup_item_category_mapped_value((appearance->carried_item.kind),
+                          (appearance->carried_item.unk_00));
             sprite->unk_08 = (s32)texture;
             record_byte = record->unk_24;
         }

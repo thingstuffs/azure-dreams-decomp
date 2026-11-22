@@ -17,7 +17,6 @@ typedef struct { u16 pad0, x, pad4, y; ParticleFixed z; } ParticlePosition;
 /* Raise a particle below terrain, then retire it when its lifetime expires. */
 typedef struct { u16 pad0, x, pad4, y, pad8, z; } ParticleVector;
 typedef struct { s32 x, y, z; } ParticleOffsets;
-typedef struct Row_818ED7A0_ParticleNode { u8 pad0[8]; ParticleVector *position; void *sprite; void *update; } Row_818ED7A0_ParticleNode;
 typedef struct { u8 pad0[8]; s32 color; u8 padC[8]; u16 age; u8 pad16[0x1C]; u16 lifetime; } NewParticleWork;
 
 /* Attach a particle with randomized offsets and a finite lifetime to its owner. */
@@ -114,7 +113,8 @@ extern Row_818EDB60_Rect D_80024048;
 s32 random_sign(void);
 struct ObjectPosition;
 void lift_particle_above_terrain_and_age(ParticleWork *work, struct ObjectPosition *position);
-void spawn_linked_effect_particle(Row_818ED7A0_ParticleNode *owner, s32 age, s32 color, s32 lifetime, s16 dx, s16 dy, s16 dz);
+struct ObjectNodeHeader;
+void spawn_linked_effect_particle(struct ObjectNodeHeader *owner, s32 age, s32 color, s32 lifetime, s16 dx, s16 dy, s16 dz);
 void update_grayscale_fade_effect(void *effect, s32 age, Row_818ED8C0_S_800250C0_1 *color, s32 fade_ticks);
 void update_timed_value_ramp_effect(void *object_ptr);
 void update_timed_rectangle_effect(void *effect_arg, void *unused, void *sprite_arg);

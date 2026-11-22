@@ -67,7 +67,7 @@ extern u8 directional_effect_entries[ ];
 extern s16 linked_effect_chain_count[ 6 ];
 extern s16 parent_effect_update_flag;
 extern u8 particle_fade_pixels[ ];
-extern u8 spark_sprite_entries[ ];
+extern SpriteSourceEntry spark_sprite_entries[];
 extern s32 tile_actor_sprite_entries;
 
 extern u8 actor_attack_frames[ ];

@@ -32,12 +32,12 @@ void begin_killer_attack_action(ActorRecord *action_state, ObjectPosition *conte
             }
             action_state->unk_AC.byte = (u8) (*((u8 *)&((EntityRec *)actor)->x + 3));
             (*((u8 *)&((EntityRec *)actor)->x + 3)) = 0xFFU;
-            actor->unk_84 = 0x7E;
-            actor->unk_85 = 8;
+            actor->accuracy = 0x7E;
+            actor->attack_bonus = 8;
         } else {
             action_state->action_id = 0x11;
-            actor->unk_84 = 0x7C;
-            actor->unk_85 = 8;
+            actor->accuracy = 0x7C;
+            actor->attack_bonus = 8;
         }
         (sprite->frameTable) = killer_direction_frames;
         select_sprite_entry(sprite, killer_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],

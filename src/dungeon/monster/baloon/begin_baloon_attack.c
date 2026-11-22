@@ -35,8 +35,8 @@ void begin_baloon_attack(ActorRecord *action_state, ObjectPosition *action_conte
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
                 + baloon_attack_frames), 0);
             prepare_directional_attack(entity, sprite, entity->facing, 1, 0);
-            entity->unk_84 = 0x7C;
-            entity->unk_85 = 0;
+            entity->accuracy = 0x7C;
+            entity->attack_bonus = 0;
         }
     }
 }

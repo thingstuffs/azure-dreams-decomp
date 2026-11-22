@@ -1,5 +1,5 @@
 #include "town/player/position_handlers.h"
-/* Recovered retail twin; complete-function proof is in the lane receipt. */
+/* Recovered retail twin. */
 #include "common.h"
 #include "shared/object_index_slots.h"
 #include "m2c_compat.h"

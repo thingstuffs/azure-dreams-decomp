@@ -25,10 +25,10 @@ void update_picket_defeat(ActorRecord *action, ObjectPosition *context, Rec_func
         }
         action->action_phase = (u8)one;
     case 1:
-        if (entity->unk_49 != 0) {
+        if (entity->carried_item.kind != 0) {
             create_picket_held_item_sprite(context, visual, entity);
-            entity->unk_48 = 0;
-            entity->unk_49 = 0U;
+            entity->carried_item.unk_00 = 0;
+            entity->carried_item.kind = 0U;
         }
 
         visual->unk_10 = 0x20;

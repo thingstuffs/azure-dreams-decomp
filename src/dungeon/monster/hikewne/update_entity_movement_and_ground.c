@@ -72,10 +72,10 @@ void update_entity_movement_and_ground(ActorRecord *entity, ObjectPosition *moti
 
     if (!(entity->flags1C & 0x40000) &&
         !(entity->action_state_flags & 8)) {
-        motion->velocity_z += entity->unk_9D * 0x14000;
-        entity->unk_9D++;
+        motion->velocity_z += entity->fall_ticks * 0x14000;
+        entity->fall_ticks++;
     } else {
-        entity->unk_9D = 0;
+        entity->fall_ticks = 0;
     }
     entity->unk_90.value += motion->velocity_z;
     sprite_flags = sprite->flags;
@@ -83,11 +83,11 @@ void update_entity_movement_and_ground(ActorRecord *entity, ObjectPosition *moti
     if (!(sprite_flags & 0x8000)) {
         sprite_direction = ((g_game_work.view.camera_rotation.parts.viewAngle + entity_state->facing + 0x100) >> 9) & 7;
         anim_direction = sprite_direction;
-        if (entity->unk_94 != anim_direction) {
+        if (entity->sprite_direction != anim_direction) {
             select_indirect_table_entry(sprite,
                 (*((*(u8 **)&sprite->frameTable) + (anim_direction))),
                 sprite->unk_04);
-            entity->unk_94 = sprite_direction;
+            entity->sprite_direction = sprite_direction;
         }
         {
             u32 flip_flags;
@@ -125,7 +125,7 @@ void update_entity_movement_and_ground(ActorRecord *entity, ObjectPosition *moti
                     ground_delta = ground_height - entity_state->ground_height;
                     if (ground_delta < entity->unk_90.parts.high) {
                         entity->unk_90.parts.high = ground_delta;
-                        entity->unk_9D = 0;
+                        entity->fall_ticks = 0;
                         motion->velocity_z = 0;
                         entity_state->flags1C |= 0x08000000;
                     }
@@ -192,7 +192,7 @@ void update_entity_movement_and_ground(ActorRecord *entity, ObjectPosition *moti
                 ground_delta = ground_height - entity_state->ground_height;
                 if (ground_delta < entity->unk_90.parts.high) {
                     entity->unk_90.parts.high = ground_delta;
-                    entity->unk_9D = 0;
+                    entity->fall_ticks = 0;
                     motion->velocity_z = 0;
                     entity_state->flags1C |= 0x08000000;
                 }

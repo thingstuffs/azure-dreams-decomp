@@ -123,7 +123,7 @@ void update_dungeon_actor_behavior(void *effect) {
         }
         timer_snapshot = S16_AT(effect, 0x18);
         if (ramp_count > 0) {
-            /* BYTES: retail evidence: the test's operands survive (the arm compiled away); reconstructed as a conditional update of a local nothing reads in the retail build - any dead local set reproduces the bytes (lane r118_fable_f4; decision 45, docs/evidence/r97_decisions.md) */
+            /* BYTES: retail evidence: the test's operands survive (the arm compiled away); reconstructed as a conditional update of a local nothing reads in the retail build - any dead local set reproduces the bytes (decision 45, docs/evidence/r97_decisions.md) */
             if (timer_snapshot) {
                 next_state = 0;
             }

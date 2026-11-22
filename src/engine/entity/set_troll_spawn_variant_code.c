@@ -9,7 +9,7 @@
 void set_troll_spawn_variant_code(ActorRecord *entity)
 {
     if (entity->species == 0x16) {
-        u8 mode = entity->unk_48;
+        u8 mode = entity->carried_item.unk_00;
         if (mode == 0xD) {
             entity_spawn_variant_code = 0xF;
         } else if (mode == 0xF) {

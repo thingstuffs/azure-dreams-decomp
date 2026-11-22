@@ -689,6 +689,10 @@
    "func_8001ACE8": "func_80018570",
    "func_8001ADE0": "func_80018668"
   },
+  "town/func_80480378": {
+   "func_8001ACE8": "func_80018570",
+   "func_8001ADE0": "func_80018668"
+  },
   "town/func_804803D8": {
    "func_80018B64": "func_80016A38",
    "func_800193F4": "func_80016948"

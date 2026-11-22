@@ -106,7 +106,7 @@ void advance_actor_path(ActorRecord *motion, ObjectPosition *context, SpriteFram
         return;
     }
     if (state_flags & 0x2000) {
-        update_actor_proximity_flag(position, actor, 3, 6, &motion->unk_9C);
+        update_actor_proximity_flag(position, actor, 3, 6, &motion->route_room);
         actor_flags = actor->flags1C;
         if (actor_flags & 0x410) {
             if (actor_flags & 0x400) {
@@ -141,7 +141,7 @@ void advance_actor_path(ActorRecord *motion, ObjectPosition *context, SpriteFram
         } else if (motion->unk_B0.bytes[2] != 0) {
             if (!(actor->action_flags & ACTOR_ACTION_PENDING)) {
                 if (actor_flags & 0x20000) {
-                    direction_offset = ((((u8 *)&actor->unk_44.whole)[1] + (primary_actor_record->facing >> 9)) & 7) * 2;
+                    direction_offset = ((actor->approach_direction + (primary_actor_record->facing >> 9)) & 7) * 2;
                     world_x = reference_tile_object.tile_position.parts.tile_x;
                     world_y = reference_tile_object.tile_position.parts.tile_y;
                     x_offset = (void *)((u16)dir_step_x[direction_offset >> 1]);
@@ -172,7 +172,7 @@ void advance_actor_path(ActorRecord *motion, ObjectPosition *context, SpriteFram
                         return;
                     }
                 } else {
-                    select_actor_route_target((u8 *)position, motion->unk_9C, (u8 *)actor, &motion->action_state_flags);
+                    select_actor_route_target((u8 *)position, motion->route_room, (u8 *)actor, &motion->action_state_flags);
                 }
             }
         } else {
@@ -207,7 +207,7 @@ void advance_actor_path(ActorRecord *motion, ObjectPosition *context, SpriteFram
                             } else {
                             }
                         } else {
-                            select_actor_route_target((u8 *)position, motion->unk_9C, (u8 *)actor, &motion->action_state_flags);
+                            select_actor_route_target((u8 *)position, motion->route_room, (u8 *)actor, &motion->action_state_flags);
                         }
                     } else {
                         actor->movement_queue_state &= 0x7F;
@@ -215,7 +215,7 @@ void advance_actor_path(ActorRecord *motion, ObjectPosition *context, SpriteFram
                     }
                 }
             } else {
-                select_actor_route_target((u8 *)position, motion->unk_9C, (u8 *)actor, &motion->action_state_flags);
+                select_actor_route_target((u8 *)position, motion->route_room, (u8 *)actor, &motion->action_state_flags);
             }
         }
         turn_index = 0;
@@ -283,7 +283,7 @@ void advance_actor_path(ActorRecord *motion, ObjectPosition *context, SpriteFram
                 return;
             }
             actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-            motion->unk_9C = position->room_index;
+            motion->route_room = position->room_index;
             actor->pending_turn_updates--;
             g_dungeon_status.activity_counts.parts.pending_movement_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_movement_count) + 1);
             if (actor->pending_turn_updates == 0) {

@@ -44,7 +44,7 @@ void advance_timed_directional_action(ActorRecord *action, ObjectPosition *motio
         }
         action->action_timer = 0;
         action->action_phase++;
-        switch (entity->unk_48) {
+        switch (entity->carried_item.unk_00) {
         case 13:
             sprite->frameTable = D_80175DDC;
             select_sprite_entry(sprite,

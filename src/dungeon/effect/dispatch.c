@@ -810,7 +810,7 @@ L_zero:
                 } else {
                     if (w->player_in_room != 0) {
                         /* BYTES: retail clears unk_6C and pending_turn_updates (+0x6D) with one sh zero,0x6C; two byte-member stores compile to two sb */
-                        *(s16 *)&e->unk_6C = 0;
+                        *(s16 *)&e->turn_fraction = 0;
                     }
                     o = e;
                     ea = ep->tile_x;

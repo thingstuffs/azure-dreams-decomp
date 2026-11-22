@@ -126,12 +126,12 @@ void update_actor_callbacks_and_motion(ActorRecord *body, ObjectPosition *motion
         state_bits = (u32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100);
         state_bits = (s32)state_bits >> 9;
         direction = state_bits & 7;
-        if (body->unk_94 != direction) {
+        if (body->sprite_direction != direction) {
             u8 *facing_steps = sprite->frameTable;
             if (facing_steps != NULL) {
                 select_indirect_table_entry(sprite, facing_steps[direction], sprite->unk_04);
             }
-            body->unk_94 = direction;
+            body->sprite_direction = direction;
         }
 
         frame_status = sprite->flags;
@@ -153,10 +153,10 @@ void update_actor_callbacks_and_motion(ActorRecord *body, ObjectPosition *motion
     motion->x.v += motion->velocity_x;
     motion->y.v += motion->velocity_y;
     if (body->action_state_flags & 8) {
-        body->unk_9D = 0;
+        body->fall_ticks = 0;
     } else {
-        motion->velocity_z += (body->unk_9D) * 0x14000;
-        body->unk_9D++;
+        motion->velocity_z += (body->fall_ticks) * 0x14000;
+        body->fall_ticks++;
     }
     body->unk_90.value += motion->velocity_z;
 
@@ -178,7 +178,7 @@ void update_actor_callbacks_and_motion(ActorRecord *body, ObjectPosition *motion
             }
             motion->velocity_z = 0;
             actor->flags1C |= ACTOR_GROUNDED;
-            body->unk_9D = 0;
+            body->fall_ticks = 0;
         }
         actor_flags = actor->flags1C;
         if (actor_flags & 0x40000000) {

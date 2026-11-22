@@ -8,6 +8,15 @@
   "evidence": "ledger/instance_load_regions.jsonl; validated packed-CD loader record",
   "entries": [
     {
+      "row": "town/func_805D2100",
+      "home": "town/func_805D2100",
+      "tu": "src/town/scene/set_scene_dispatch_mode_zero.c",
+      "foff": "0x552100",
+      "vma": "0x80016100",
+      "size": 12,
+      "evidence": "The packed CD descriptor at TOWN +0x2b1a44 places +0x552000 at 0x80016000. The three words at +0x552100 store zero to the same mode word as the setter at +0x55210c. No caller found."
+    },
+    {
       "row": "town/func_805D2BE4",
       "tu": "src/town/scene/select_mode_response_by_kind.c",
       "home": "town/func_805D232C",
@@ -123,6 +132,15 @@
         "0x800163C4": "0x80017294"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_805D34EC",
+      "home": "town/func_805D34EC",
+      "tu": "src/town/scene/event/find_lookable_person_six.c",
+      "foff": "0x5534ec",
+      "vma": "0x800174ec",
+      "size": 56,
+      "evidence": "TOWN +0x5698e4 is a decoded m18-event08 native call. The packed CD transfer at +0x2b1a44 places its scene from +0x552000 at 0x80016000. It returns the result of searching for person ID 6 through service slot +0x2c4. The script branches when that node pointer is zero."
     },
     {
       "row": "town/func_805D3604",

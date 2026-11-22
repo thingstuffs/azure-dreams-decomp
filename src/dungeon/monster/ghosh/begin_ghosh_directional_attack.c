@@ -23,8 +23,8 @@ void begin_ghosh_directional_attack(ActorRecord *action_state, ObjectPosition *a
             action_state->action_phase = 0;
             actor->pending_turn_updates = actor->pending_turn_updates - 1;
             prepare_directional_attack(actor, effect_context, actor->facing, 1, 0);
-            actor->unk_84 = 0x7C;
-            actor->unk_85 = 6;
+            actor->accuracy = 0x7C;
+            actor->attack_bonus = 6;
         }
     }
 }

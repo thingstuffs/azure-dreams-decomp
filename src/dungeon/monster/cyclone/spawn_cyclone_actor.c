@@ -85,7 +85,7 @@ void *spawn_cyclone_actor(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 
         initialize_actor_sprite_and_animation(obj, part_a, part_b, (s16)flags);
         actor->action_id = 0xFF;
-        actor->unk_9C = -1;
+        actor->route_room = -1;
         actor->unk_8C.address = dispatch_cyclone_actions;
         work->flags1C |= 0x00040000;
         actor->unk_90.parts.high = -32;

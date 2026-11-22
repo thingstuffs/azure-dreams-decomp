@@ -85,7 +85,7 @@ void *spawn_kraken(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
         initialize_actor_sprite_and_animation(obj, part_a, part_b, held_flags);
 
         actor->action_id = 0xFF;
-        actor->unk_9C = -1;
+        actor->route_room = -1;
         actor->unk_8C.handler = func_8015F1A4;
         work->flags1C |= 0x00040000;
         actor->unk_90.parts.high = -16;

@@ -102,8 +102,8 @@ scan_next:
 
                     slot_count = data->unk_02;
                     slot_count /= 10;
-                    ((ActorRecord *)slot_scan)->unk_00[10] = slot_count;
-                    ((ActorRecord *)slot_scan)->unk_00[9] = slot_count;
+                    ((ActorRecord *)slot_scan)->abilities[0].stored_level = slot_count;
+                    ((ActorRecord *)slot_scan)->abilities[0].effective_level = slot_count;
 
                     if (object->flags14 & 0x4000) {
                         message_start = get_unused_text_buffer();
@@ -145,15 +145,15 @@ scan_next:
         ((S_800C0E88_4 *)tail_status)->unk_0A--;
     } else {
         current_object->action_state_flags &= 0xFF7F;
-        object->unk_00[9] = 0xFF;
+        object->abilities[0].effective_level = 0xFF;
 
         slot = (data->unk_00 - 1) * 3;
-        object->unk_00[8] = slot + 1;
+        object->abilities[0].id = slot + 1;
         flags = item_category_tables[0][data->unk_00].flags;
         if (flags & 2) {
-            object->unk_00[8] = slot + 2;
+            object->abilities[0].id = slot + 2;
         } else if (flags & 4) {
-            object->unk_00[8] = slot + 3;
+            object->abilities[0].id = slot + 3;
         }
 
         object_record = ((S_800C0E88_2_pre *)object)[-1].unk_00;

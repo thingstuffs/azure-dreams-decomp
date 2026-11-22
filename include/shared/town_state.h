@@ -1,6 +1,8 @@
 #ifndef SHARED_TOWN_STATE_H
 #define SHARED_TOWN_STATE_H
 
+#include "town/shop/item_lookup.h"
+
 /* Record reached through the town root at +0x38. These are observed fields,
  * not a claim about the full allocation size. +0x2D5C is both threshold-tested
  * and incremented/decremented; its game meaning is not established. Unsigned
@@ -28,7 +30,8 @@ typedef struct TownStateRecord {
     /* 0x0248 */ TownListEntry slots[20]; /* twenty four-byte backing slots for town grid entries */
     /* 0x0298 */ unsigned char pad_0298[4];
     /* 0x029C */ void *entries[21]; /* active entry pointers; twenty entries plus a null terminator */
-    /* 0x02F0 */ unsigned char pad_02F0[0x2A6C];
+    /* 0x02F0 */ TownSlotSnapshot saved_monsters[20];
+    /* 0x0980 */ unsigned char pad_0980[0x23DC];
     /* 0x2D5C */ unsigned int money;
     /* 0x2D60 */ int unk_2D60;
     /* 0x2D64 */ unsigned char pad_2D64[4];

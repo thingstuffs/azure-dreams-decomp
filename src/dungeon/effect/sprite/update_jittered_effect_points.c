@@ -404,7 +404,7 @@ typedef struct S_80024810_1 {
     u16 unk_52;
 } S_80024810_1;
 
-/* micro-lane E 2026-08-14: true base 0x80024810 (delta 0x7E65D800) */
+/* true base 0x80024810 (delta 0x7E65D800) */
 
 /* Update the effect's jittered points between endpoints and advance its animation. */
 void update_jittered_effect_points(JitteredBoltSegmentBody *effect) {

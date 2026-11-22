@@ -58,7 +58,7 @@ void update_troll_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFr
     }
     if (state->mp == 0) {
         advance_actor_pending_action(actor, context, sprite, state);
-        anim_mode = state->unk_48;
+        anim_mode = state->carried_item.unk_00;
         switch (anim_mode) {
         case 0xD:
             if (*(s32 **)&sprite->frameTable == &troll_kind13_direction_frames) {
@@ -85,7 +85,7 @@ void update_troll_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFr
         return;
     }
     if (state->flags1C & ACTOR_ASLEEP) {
-        transition_mode = state->unk_48;
+        transition_mode = state->carried_item.unk_00;
         switch (transition_mode) {
         case 0xD:
             if (*(s32 **)&sprite->frameTable == &troll_kind13_direction_frames) {
@@ -134,7 +134,7 @@ void update_troll_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFr
             return;
         }
         if (actor->action_id != 0xE) {
-            idle_mode = state->unk_48;
+            idle_mode = state->carried_item.unk_00;
             switch (idle_mode) {
             case 0xD:
                 if (*(s32 **)&sprite->frameTable != &troll_frame_set_1) {
@@ -162,7 +162,7 @@ void update_troll_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFr
         }
         actor->action_state_flags = (u16) (actor->action_state_flags & 0xFFF3);
         if (state->hp_delta != 0) {
-            effect_mode = state->unk_48;
+            effect_mode = state->carried_item.unk_00;
             switch (effect_mode) {
             case 0xD:
                 if (begin_ready_actor_directional_action(actor, context, sprite, troll_frame_set_5) != 0) {
@@ -245,7 +245,7 @@ void update_troll_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFr
         case 1:
         case 2:
         case 3:
-            action_mode = state->unk_48;
+            action_mode = state->carried_item.unk_00;
             switch (action_mode) {
             case 0xD:
                 begin_actor_spell_action(actor, context, sprite, &D_80175DF4, &update_troll_behavior);
@@ -282,7 +282,7 @@ void update_troll_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFr
     if (sprite->flags & 0x40) {
         return;
     }
-    rest_mode = state->unk_48;
+    rest_mode = state->carried_item.unk_00;
     switch (rest_mode) {
     case 0xD:
         current_row = sprite->frameTable;

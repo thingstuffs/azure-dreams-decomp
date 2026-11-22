@@ -23,8 +23,8 @@ void begin_hikewne_attack(ActorRecord *action_state, ObjectPosition *effect_cont
             action_state->action_timer = 0;
             entity->pending_turn_updates = entity->pending_turn_updates - 1;
             prepare_directional_attack(entity, update_context, entity->facing, 1, 0);
-            entity->unk_84 = 0x7C;
-            entity->unk_85 = 0;
+            entity->accuracy = 0x7C;
+            entity->attack_bonus = 0;
         }
     }
 }

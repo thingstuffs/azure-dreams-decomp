@@ -38,6 +38,33 @@
         "0x80175178": "0x80169178"
       },
       "evidence": "r124w_carve1 run 2: complete registered-home section equality"
+    },
+    {
+      "row": "dungeon/func_809FFC00",
+      "home": "dungeon/func_809F3C00",
+      "tu": "src/dungeon/monster/kid/update_kid_behavior.c",
+      "foff": "0xa1fc00",
+      "vma": "0x80165400",
+      "size": 1376,
+      "evidence": "DUNGEON +0xa1f274 materializes this updater address in the bank constructor. Resource 4 slot 2 loads twelve sectors from LBA 0x4454 to 0x80164800.",
+      "bindings": {
+        "0x80175150": "0x80169150",
+        "0x80171960": "0x80165960",
+        "0x80172434": "0x80166434",
+        "0x80174218": "0x80168218",
+        "0x80175148": "0x80169148",
+        "0x80175188": "0x80169188",
+        "0x80175140": "0x80169140",
+        "0x80175170": "0x80169170",
+        "0x80175178": "0x80169178",
+        "0x80175180": "0x80169180",
+        "0x80175190": "0x80169190",
+        "0x80171400": "0x80165400",
+        "0x80174948": "0x80168948",
+        "0x8017182C": "0x80165B28",
+        "0x80171DA0": "0x80166270",
+        "0x80172628": "0x80166554"
+      }
     }
   ]
 }

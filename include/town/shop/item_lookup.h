@@ -2,6 +2,7 @@
 #define TOWN_SHOP_ITEM_LOOKUP_H
 
 #include "shared/dungeon_item_entries.h"
+#include "shared/game_state.h"
 
 int get_item_chk(void);
 struct ObjectPosition;
@@ -13,15 +14,7 @@ int find_first_vacant_record(const unsigned char *records, int count);
 
 int find_slot_index_by_address(DungeonItemEntry *target, DungeonItemEntry *slots, int slot_count);
 
-/* The 84-byte encoded slot snapshot stores resolved slot indices at +0x4C and +0x4D. */
-typedef struct S_800422DC_Self {
-    unsigned char  pad0[0x4C];
-    unsigned char  f4C;
-    unsigned char  f4D;
-    unsigned char  pad4E[2];
-    int f50;
-} TownSlotSnapshot;
-
+/* TownSlotSnapshot (the 84-byte encoded slot snapshot) is declared in shared/game_state.h. */
 extern TownSlotSnapshot town_slot_snapshot;
 
 #endif

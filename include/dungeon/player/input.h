@@ -26,4 +26,6 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
 
 void *refresh_actor_lists_and_select_controller(ActorRecord *body, ObjectPosition *unused_1, SpriteFrameState *unused_2, ActorRecord *actor);
 
+void begin_targeted_player_action(ActorRecord *action, ObjectPosition *unused_position, SpriteFrameState *unused_sprite, ActorRecord *actor);
+
 #endif

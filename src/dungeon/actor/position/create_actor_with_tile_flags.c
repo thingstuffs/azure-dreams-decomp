@@ -85,7 +85,7 @@ void *create_actor_with_tile_flags(s16 variant, u16 tile_x, u16 tile_y, s16 spaw
         }
         cycle_map_cell_flags(sprite_tile_x, sprite_tile_y, tile_flags);
         entity->action_id = 0xE;
-        entity->unk_9C = -1;
+        entity->route_room = -1;
         entity->flags1C |= (ACTOR_REFRESH_GROUND | ACTOR_ASLEEP);
     }
     return entity;

@@ -1,0 +1,33 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "town/event_2d9800",
+  "container": "town",
+  "foff": "0x2d9800",
+  "size": "0x1000",
+  "vma": "0x8001dcd0",
+  "evidence": "docs/evidence/town_ovl_2da5e4.rowbase.json",
+  "entries": [
+    {
+      "row": "town/func_8035A4BC",
+      "home": "town/func_8035A4BC",
+      "tu": "src/town/scene/event/give_and_equip_event15_kewne.c",
+      "foff": "0x2da4bc",
+      "vma": "0x8001e98c",
+      "size": 240,
+      "evidence": "The m00-event15 native opcode at TOWN +0x2d9804 calls this entry. The descriptor at +0x2b19ac reads two sectors from +0x2d9800 into 0x8001dcd0. The body adds and equips Kewne and sets flag 2."
+    },
+    {
+      "row": "town/func_8035A5E4",
+      "home": "town/func_8035A5E4",
+      "tu": "src/town/scene/invoke_callback_with_zero.c",
+      "foff": "0x2da5e4",
+      "vma": "0x8001eab4",
+      "size": 56,
+      "evidence": "TOWN +0x2da381 calls this entry in the same CD transfer."
+    }
+  ],
+  "load_evidence": {
+    "path": "ledger/instance_load_regions.jsonl",
+    "record_sha256": "6ae59ff1de153a6a7f7fa6ff5ad2900845ff07828663e611ba230c01da029e1b"
+  }
+}

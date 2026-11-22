@@ -576,6 +576,15 @@
       "size": 308
     },
     {
+      "row": "town/func_800C6338",
+      "home": "town/func_800C6338",
+      "tu": "src/town/person/object/interpolate_person_to_saved_position.c",
+      "foff": "0x46338",
+      "vma": "0x800c3a98",
+      "size": 228,
+      "evidence": "The initializer at TOWN +0x46ad8 forms the callback address and +0x46ae0 stores it in the handler slot. The return at +0x46414 has no separate entry reference in the load."
+    },
+    {
       "row": "town/func_800C6494",
       "tu": "src/town/person/state/dispatch_status_triggered_update.c",
       "home": "town/func_800C6494",
@@ -1591,6 +1600,15 @@
         "0x800D6AA8": "0x800D6EE8"
       },
       "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_800CF6E0",
+      "home": "town/func_800CF6E0",
+      "tu": "src/town/person/state/step_heading_turn_sequence_reversed.c",
+      "foff": "0x4f6e0",
+      "vma": "0x800cce40",
+      "size": 216,
+      "evidence": "TOWN +0x5988c, +0x59890 and +0x59908 hold the callback address in the town engine tables. The return at +0x4f7b0 has no separate entry reference in the load."
     },
     {
       "row": "town/func_8002F9F8",

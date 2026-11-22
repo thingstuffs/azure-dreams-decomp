@@ -68,7 +68,7 @@ void *spawn_mode_dependent_112_object(s16 flags,s16 attr_x,s16 attr_y,s16 attr_h
   object->header.update_callback=update_volcano_motion_and_facing;
   initialize_actor_sprite_and_animation(&object->header,motion,sprite,saved_flags);
   state->action_id=0xFF;
-  state->unk_9C=-1;
+  state->route_room=-1;
   try_move_actor_to_valid_position(state,motion,sprite,actor);
  }
  }
@@ -115,12 +115,12 @@ void update_volcano_motion_and_facing(ActorRecord *entity, ObjectPosition *motio
         direction_index = direction;
         direction_copy = direction;
 
-        if (entity->unk_94 != direction_index) {
+        if (entity->sprite_direction != direction_index) {
             u8 *tile_map = ((E_80170A58_S_80170A58_0 *)monster)->unk_2C;
             if (tile_map != 0) {
                 select_indirect_table_entry(monster, tile_map[direction_index], monster->unk_04);
             }
-            entity->unk_94 = direction;
+            entity->sprite_direction = direction;
         }
 
         if (dir_sprite_flag[direction_copy] != 0) {
@@ -161,10 +161,10 @@ void update_volcano_motion_and_facing(ActorRecord *entity, ObjectPosition *motio
     motion->y.v += motion->velocity_y;
 
     if (entity->action_state_flags & 8) {
-        entity->unk_9D = 0;
+        entity->fall_ticks = 0;
     } else {
-        motion->velocity_z += entity->unk_9D * 0x14000;
-        entity->unk_9D++;
+        motion->velocity_z += entity->fall_ticks * 0x14000;
+        entity->fall_ticks++;
     }
 
     entity->unk_90.value += motion->velocity_z;
@@ -186,7 +186,7 @@ void update_volcano_motion_and_facing(ActorRecord *entity, ObjectPosition *motio
 
                 motion->velocity_z = 0;
                 actor->flags1C |= 0x08000000;
-                entity->unk_9D = 0;
+                entity->fall_ticks = 0;
             }
             if (actor->flags1C & 0x40000000) {
                 actor->flags1C &= 0xBFFFFFFF;
@@ -461,7 +461,7 @@ void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *en
         return;
     }
 
-    update_actor_proximity_flag(tile, actor, 3, 6, &object->unk_9C);
+    update_actor_proximity_flag(tile, actor, 3, 6, &object->route_room);
     actor_flags = actor->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
@@ -498,11 +498,11 @@ void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *en
     else if (actor_flags & 0x2000) {
         if (!(actor->action_flags & 0x8000)) {
             if (!(actor_flags & 0x20000)) {
-                select_actor_route_target(tile, object->unk_9C, actor, &object->action_state_flags);
+                select_actor_route_target(tile, object->route_room, actor, &object->action_state_flags);
             }
             else {
                 {
-                    s32 direction = actor->unk_44.bytes.high;
+                    s32 direction = actor->approach_direction;
                     s32 player_angle = primary_actor_record->facing;
                     s32 direction_offset;
                     s32 target_x;
@@ -540,7 +540,7 @@ void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *en
         {
             s8 tile_kind = (s8)tile->room_index;
             if ((tile_kind >= 0) && (dungeon_rooms[tile_kind].flags & 2)) {
-                select_actor_route_target(tile, object->unk_9C, actor, &object->action_state_flags);
+                select_actor_route_target(tile, object->route_room, actor, &object->action_state_flags);
             }
             else {
                 if (!(actor->action_flags & 0x8000)) {
@@ -558,7 +558,7 @@ void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *en
                     }
                 }
                 if (!(actor->flags1C & 0x20000)) {
-                    select_actor_route_target(tile, object->unk_9C, actor, &object->action_state_flags);
+                    select_actor_route_target(tile, object->route_room, actor, &object->action_state_flags);
                 }
                 else {
                     u16 *angle_flags = &object->action_state_flags;
@@ -645,7 +645,7 @@ void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *en
     }
 
     actor->action_flags &= 0x7FFF;
-    object->unk_9C = tile->room_index;
+    object->route_room = tile->room_index;
     (*(u8 *)&actor->pending_turn_updates)--;
     {
         DungeonGlobalStatus *move_state = &g_dungeon_status;
@@ -808,8 +808,8 @@ s32 begin_actor_directional_attack(ActorRecord *action_state, ObjectPosition *ac
         action_state->action_id = 0x11;
         action_state->action_phase = 0;
         action_state->unk_8C.word = 0;
-        actor->unk_84 = 0x7C;
-        actor->unk_85 = 0;
+        actor->accuracy = 0x7C;
+        actor->attack_bonus = 0;
         direction_table = &volcano_frame_set_10;
         (sprite->frameTable) = direction_table;
         select_sprite_entry(sprite, direction_table[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
@@ -834,8 +834,8 @@ void begin_actor_attack_after_status_check(ActorRecord *action_state, ObjectPosi
             (sprite->frameTable) = &volcano_frame_set_10;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + &volcano_frame_set_10), 0);
-            actor->unk_84 = 0x7C;
-            actor->unk_85 = 0;
+            actor->accuracy = 0x7C;
+            actor->attack_bonus = 0;
             actor->pending_turn_updates = actor->pending_turn_updates - 1;
             prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
         }
@@ -1864,7 +1864,7 @@ s32 select_actor_relation_state(ActorRecord *actor, ObjectPosition *primary_cont
     s32 result;
     ActorRecord *entity = actor;   /* the copy is load-bearing: it changes the callee-save order */
 
-    state_type = (s16)relink_entity_and_clear_high_flag(primary_context, secondary_context, entity, 3, 6, &entity->unk_9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(primary_context, secondary_context, entity, 3, 6, &entity->route_room);
     if (state_type < 0) return 0;
     if ((force_move << 0x10) != 0) {
         update_actor_targeting_and_movement(entity, primary_context, secondary_context, entity);

@@ -58,7 +58,7 @@ void *spawn_beldo_at_tile(s16 entity_id, s32 tile_x, s16 tile_y, u16 initial_hei
         entity_state->unk_9E = 0;
         initialize_actor_sprite_and_animation(entity, world_state, tile_state, entity_id);
         entity_state->action_id = 0xFF;
-        entity_state->unk_9C = -1;
+        entity_state->route_room = -1;
         entity_state->unk_8C.handler = &update_beldo_turn_action;
         entity_state->flags1C = (s32) (entity_state->flags1C | 0x40000);
         tile_state->tpage_abr = 0x20;

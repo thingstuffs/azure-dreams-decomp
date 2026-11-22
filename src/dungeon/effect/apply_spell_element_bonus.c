@@ -34,29 +34,29 @@ typedef struct S_800B3D10_4 {
 /* Keep the three effect variants expanded at their original case labels. */
 /* May return from the enclosing function and uses the caller locals. */
 #define APPLY_TYPE_BONUS(data, flag, kind, bonus_kind) \
-data = record->unk_4C; \
+data = record->weapon; \
 record->flags14 = (s32) (record->flags14 | (flag)); \
 if (data->unk_01 == ITEM_KIND_WAND) { \
     if (data->unk_00 == (kind)) { \
-        record->unk_20 = (s16) ((u16) record->unk_20 \
-            + ((s32) (record->unk_20 * current_spell_effect_variant * 2) / (s32) (current_spell_effect_variant \
+        record->attack_power = (s16) ((u16) record->attack_power \
+            + ((s32) (record->attack_power * current_spell_effect_variant * 2) / (s32) (current_spell_effect_variant \
             + 1))); \
         return; \
     } \
-    record->unk_20 = (s16) ((u16) record->unk_20 + ((s32) (record->unk_20 * (current_spell_effect_variant \
+    record->attack_power = (s16) ((u16) record->attack_power + ((s32) (record->attack_power * (current_spell_effect_variant \
         + (current_spell_effect_variant >> 1))) / (s32) (current_spell_effect_variant + 1))); \
     return; \
 } \
-bonus_base = record->unk_20 - ((s32) (get_clamped_adjusted_value(record) << 0x10) >> 0xF); \
+bonus_base = record->attack_power - ((s32) (get_clamped_adjusted_value(record) << 0x10) >> 0xF); \
 if (bonus_base < 0) { \
     bonus_base = 0; \
 } \
-if (((S_800B3D10_6 *)(((ActorRecord *)record)->unk_4C))->unk_00 == (bonus_kind)) { \
-    record->unk_20 = (s16) ((u16) record->unk_20 + ((bonus_base * (current_spell_effect_variant \
+if (((S_800B3D10_6 *)(((ActorRecord *)record)->weapon))->unk_00 == (bonus_kind)) { \
+    record->attack_power = (s16) ((u16) record->attack_power + ((bonus_base * (current_spell_effect_variant \
         + (current_spell_effect_variant >> 1))) / (s32) (current_spell_effect_variant \
         + 1))); \
 } else { \
-    record->unk_20 = (s16) ((u16) record->unk_20 \
+    record->attack_power = (s16) ((u16) record->attack_power \
         + ((bonus_base * current_spell_effect_variant) / (s32) (current_spell_effect_variant \
         + 1))); \
 } \
@@ -79,31 +79,31 @@ void apply_spell_element_bonus(s16 effect_id, ActorRecord *unused_arg, ActorReco
     case 0:
     {
         s32 value_bonus =
-            (s32) (record->unk_20 * current_spell_effect_variant) / (s32) (current_spell_effect_variant
+            (s32) (record->attack_power * current_spell_effect_variant) / (s32) (current_spell_effect_variant
             + 1);
         s32 flags = record->flags14 | ACTOR_ELEMENT_FIRE;
         record->flags14 = flags;
-        record->unk_20 = record->unk_20 + value_bonus;
+        record->attack_power = record->attack_power + value_bonus;
         return;
     }
     case 1:
     {
         s32 value_bonus =
-            (s32) (record->unk_20 * current_spell_effect_variant) / (s32) (current_spell_effect_variant
+            (s32) (record->attack_power * current_spell_effect_variant) / (s32) (current_spell_effect_variant
             + 1);
         s32 flags = record->flags14 | ACTOR_ELEMENT_WATER;
         record->flags14 = flags;
-        record->unk_20 = record->unk_20 + value_bonus;
+        record->attack_power = record->attack_power + value_bonus;
         return;
     }
     case 2:
     {
         s32 value_bonus =
-            (s32) (record->unk_20 * current_spell_effect_variant) / (s32) (current_spell_effect_variant
+            (s32) (record->attack_power * current_spell_effect_variant) / (s32) (current_spell_effect_variant
             + 1);
         s32 flags = record->flags14 | ACTOR_ELEMENT_WIND;
         record->flags14 = flags;
-        record->unk_20 = record->unk_20 + value_bonus;
+        record->attack_power = record->attack_power + value_bonus;
         return;
     }
     case 6:

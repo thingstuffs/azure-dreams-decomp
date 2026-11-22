@@ -452,9 +452,9 @@ void advance_scripted_actor_motion(ActorRecord *actor, S_func_8132B8AC_1 *motion
     }
     final_direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + beldo->unk_2A + 0x100) >> 9) & 7;
     sprite_direction = final_direction;
-    if (actor->unk_94 != sprite_direction) {
+    if (actor->sprite_direction != sprite_direction) {
         select_indirect_table_entry(sprite, sprite->unk_2C[sprite_direction], sprite->unk_04);
-        actor->unk_94 = sprite_direction;
+        actor->sprite_direction = sprite_direction;
     }
     if (dir_sprite_flag[sprite_direction] != 0) {
         tail_test = sprite->unk_14 | 1;

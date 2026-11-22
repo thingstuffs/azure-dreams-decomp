@@ -47,10 +47,10 @@ void update_actor_floor_contact(ActorRecord *object_arg, void *motion_arg, Sprit
     motion->y.v += motion->velocity_y;
 
     if (object->action_state_flags & 8) {
-        object->unk_9D = 0;
+        object->fall_ticks = 0;
     } else {
-        motion->velocity_z += (object->unk_9D) * 0x14000;
-        object->unk_9D++;
+        motion->velocity_z += (object->fall_ticks) * 0x14000;
+        object->fall_ticks++;
     }
     object->unk_90.value += motion->velocity_z;
 
@@ -68,7 +68,7 @@ void update_actor_floor_contact(ActorRecord *object_arg, void *motion_arg, Sprit
                 }
                 motion->velocity_z = 0;
                 (*(u32 *)((u8 *)object_base + (0x1C))) |= 0x08000000;
-                object->unk_9D = 0;
+                object->fall_ticks = 0;
             }
 
             if ((*(u32 *)((u8 *)object_base + (0x1C))) & 0x40000000) {

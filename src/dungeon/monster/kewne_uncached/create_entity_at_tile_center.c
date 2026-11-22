@@ -39,7 +39,7 @@ void *create_kewne_actor_at_tile(s16 entity_id, s16 tile_x, u16 tile_y, u16 heig
         entity->flags1C |= 0x6000;
         initialize_actor_sprite_and_animation(parent, position, tile_state, entity_id);
         entity->action_id = 0xFF;
-        entity->unk_9C = -1;
+        entity->route_room = -1;
         entity->unk_8C.address = kewne_uncached_action_resume_address;
         entity->unk_90.parts.high = -0x20;
         entity->species = 0x39;
@@ -623,19 +623,19 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
         motion_in->y.v = motion_y + velocity_y;
         if (!(entity->flags1C & 0x40000) && !(actor_in->action_state_flags & 8)) {
             motion_in->velocity_z = (s32) (motion_in->velocity_z
-                + ((actor_in->unk_9D) * 0x14000));
-            actor_in->unk_9D += 1;
+                + ((actor_in->fall_ticks) * 0x14000));
+            actor_in->fall_ticks += 1;
         } else {
-            actor_in->unk_9D = 0;
+            actor_in->fall_ticks = 0;
         }
         actor_in->unk_90.value = (s32) (actor_in->unk_90.value
             + motion_in->velocity_z);
         facing = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
         sprite_facing = facing;
-        if (actor_in->unk_94 != sprite_facing) {
+        if (actor_in->sprite_direction != sprite_facing) {
             select_indirect_table_entry(sprite, ((u8 *)sprite->frameTable)[sprite_facing],
                 sprite->unk_04);
-            actor_in->unk_94 = facing;
+            actor_in->sprite_direction = facing;
         }
         if (dir_sprite_flag[sprite_facing] != 0) {
             tail_value = sprite->flags;
@@ -706,7 +706,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                         - (u16)entity->ground_height;
                     if ((s16) landing_delta < actor_in->unk_90.parts.high) {
                         actor_in->unk_90.parts.high = landing_delta;
-                        actor_in->unk_9D = 0;
+                        actor_in->fall_ticks = 0;
                         motion_in->velocity_z = 0;
                         entity->flags1C |= 0x08000000;
                     }
@@ -736,7 +736,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                         - (u16)entity->ground_height;
                     if ((s16) ground_delta < actor_in->unk_90.parts.high) {
                         actor_in->unk_90.parts.high = ground_delta;
-                        actor_in->unk_9D = 0;
+                        actor_in->fall_ticks = 0;
                         motion_in->velocity_z = 0;
                         entity->flags1C |= 0x08000000;
                     }

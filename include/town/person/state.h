@@ -9,6 +9,7 @@ struct SpriteFrameState;
 #include "shared/sprite_frame_state.h"
 
 struct TownObjectRecord;
+struct ReactionState;
 struct S_800AAE00_0;
 struct S_800CA458_0;
 struct SpriteFrameState;
@@ -130,5 +131,7 @@ void update_object_state_and_lookup(TownObjectRecord *object, ObjectPosition *po
 
 /* update_person_global_state.c */
 void update_person_global_state(void *object, s32 call_arg, s32 *values);
+
+void step_heading_turn_sequence_reversed(TownObjectRecord *sequence);
 
 #endif

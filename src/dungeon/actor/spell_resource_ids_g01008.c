@@ -17,7 +17,7 @@ s32 resolve_spell_effect_resource_id(s16 index) {
     s32 compare;
 
     index = spell_resource_ids[index];
-    if (((Inner *)dungeon_actor_ring_anchor->unk_4C)->flag != 0) {
+    if (((Inner *)dungeon_actor_ring_anchor->weapon)->flag != 0) {
         compare = index;
         if (compare == 0x32) {
             return 0x33;
@@ -138,7 +138,7 @@ void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *
             } else {
                 select_nearby_target_and_initialize_slot(effect, effect_position, 8, 0x300);
             }
-            /* BYTES: retail evidence: the test's operands survive (the arm compiled away); reconstructed as a conditional update of a local nothing reads in the retail build - any dead local set reproduces the bytes (lane r118_fable_f4; decision 45, docs/evidence/r97_decisions.md) */
+            /* BYTES: retail evidence: the test's operands survive (the arm compiled away); reconstructed as a conditional update of a local nothing reads in the retail build - any dead local set reproduces the bytes (decision 45, docs/evidence/r97_decisions.md) */
             if (text_context) {
                 effect_mode = 0;
             }

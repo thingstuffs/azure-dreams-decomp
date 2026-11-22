@@ -35,7 +35,7 @@ void advance_entity_along_stored_path(ActorRecord *body, ObjectPosition *motion,
     if (body->action_id != 0xF) {
         body->unk_90.value = 0;
         motion->velocity_z = 0;
-        body->unk_9D = 0;
+        body->fall_ticks = 0;
     }
 
     if (state->movement_queue_state <= state->unk_8A) {

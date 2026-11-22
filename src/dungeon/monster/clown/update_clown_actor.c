@@ -139,10 +139,10 @@ void update_clown_actor(ActorRecord *entity, ObjectPosition *motion, SpriteFrame
     motion->y.v += motion->velocity_y;
 
     if (!(entity->flags1C & 0x40000) && !(entity->action_state_flags & 8)) {
-        motion->velocity_z += entity->unk_9D * 0x14000;
-        entity->unk_9D = entity->unk_9D + 1;
+        motion->velocity_z += entity->fall_ticks * 0x14000;
+        entity->fall_ticks = entity->fall_ticks + 1;
     } else {
-        entity->unk_9D = 0;
+        entity->fall_ticks = 0;
     }
     entity->unk_90.value += motion->velocity_z;
 
@@ -150,9 +150,9 @@ void update_clown_actor(ActorRecord *entity, ObjectPosition *motion, SpriteFrame
     if (!(part_flags & 0x8000)) {
         view_dir = ((g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7;
         dir_index = view_dir;
-        if (entity->unk_94 != dir_index) {
+        if (entity->sprite_direction != dir_index) {
             select_indirect_table_entry(sprite,(u8)((*(u8 * *)&sprite->frameTable)[dir_index]),(s8)sprite->unk_04);
-            entity->unk_94 = view_dir;
+            entity->sprite_direction = view_dir;
         }
         if (dir_sprite_flag[dir_index] != 0) {
             sprite->flags |= 1;
@@ -202,7 +202,7 @@ void update_clown_actor(ActorRecord *entity, ObjectPosition *motion, SpriteFrame
                         state->ground_height;
                 if (ground_delta < entity->unk_90.parts.high) {
                     entity->unk_90.parts.high = ground_delta;
-                    entity->unk_9D = 0;
+                    entity->fall_ticks = 0;
                     motion->velocity_z = 0;
                     state->flags1C |= 0x8000000;
                 }
@@ -229,7 +229,7 @@ void update_clown_actor(ActorRecord *entity, ObjectPosition *motion, SpriteFrame
                         state->ground_height;
                 if (ground_delta < entity->unk_90.parts.high) {
                     entity->unk_90.parts.high = ground_delta;
-                    entity->unk_9D = 0;
+                    entity->fall_ticks = 0;
                     motion->velocity_z = 0;
                     state->flags1C |= 0x8000000;
                 }
@@ -566,7 +566,7 @@ void choose_clown_move(ActorRecord *move_data, ObjectPosition *context, SpriteFr
         return;
     }
 
-    update_actor_proximity_flag(position_data, actor_data, 3, 6, &move_data->unk_9C);
+    update_actor_proximity_flag(position_data, actor_data, 3, 6, &move_data->route_room);
     actor_flags = actor_data->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
@@ -602,7 +602,7 @@ void choose_clown_move(ActorRecord *move_data, ObjectPosition *context, SpriteFr
                     TileObject *target_position = &reference_tile_object;
                     s32 target_facing = ((u16)primary_actor_record->facing);
                     s32 offset_index =
-                        ((((u8 *)&actor_data->unk_44.whole)[1] + ((s16)target_facing >> 9)) & 7) << 1;
+                        ((actor_data->approach_direction + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
                         (u16)dir_step_x[offset_index >> 1];
                     target_y = target_position->tile_position.parts.tile_y +
@@ -627,13 +627,13 @@ void choose_clown_move(ActorRecord *move_data, ObjectPosition *context, SpriteFr
                     limit_detour = 1;
                 }
             } else {
-                select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+                select_actor_route_target((u8 *)position_data, move_data->route_room, (u8 *)actor_data,
                               &move_data->action_state_flags);
             }
         }
     } else if ((s8)position_data->room_index >= 0 &&
                dungeon_rooms[(s8)position_data->room_index].flags & ROOM_HOLY_BEAM) {
-        select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+        select_actor_route_target((u8 *)position_data, move_data->route_room, (u8 *)actor_data,
                       &move_data->action_state_flags);
     } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
         current_angle = (s32)probe_directional_neighbor(actor_data,(u8)(position_data->tile_x),(u8)(position_data->tile_y),actor_data->facing);
@@ -663,7 +663,7 @@ void choose_clown_move(ActorRecord *move_data, ObjectPosition *context, SpriteFr
                 }
             }
         } else {
-            select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+            select_actor_route_target((u8 *)position_data, move_data->route_room, (u8 *)actor_data,
                           &move_data->action_state_flags);
         }
     }
@@ -739,7 +739,7 @@ void choose_clown_move(ActorRecord *move_data, ObjectPosition *context, SpriteFr
 
     {
         actor_data->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-        move_data->unk_9C = position_data->room_index;
+        move_data->route_room = position_data->room_index;
         actor_data->pending_turn_updates--;
         g_dungeon_status.activity_counts.parts.pending_movement_count++;
     }
@@ -787,8 +787,8 @@ s32 try_clown_attack(ActorRecord *action_state, ObjectPosition *action_id, Sprit
         action_state->action_id = 0x11;
         action_state->action_phase = 0;
         action_state->unk_8C.word = 0;
-        actor->unk_84 = 0x7C;
-        actor->unk_85 = 0;
+        actor->accuracy = 0x7C;
+        actor->attack_bonus = 0;
         source_obj->frameTable = D_80174214;
         select_sprite_entry(
             source_obj,
@@ -822,8 +822,8 @@ void begin_clown_attack(ActorRecord *action_state, ObjectPosition *context, Spri
             actor->pending_turn_updates = actor->pending_turn_updates - 1;
             action_state->action_state_flags = (u16) (action_state->action_state_flags | 8);
             prepare_directional_attack(actor, animation, actor->facing, 1, 0);
-            actor->unk_84 = 0x7C;
-            actor->unk_85 = 0;
+            actor->accuracy = 0x7C;
+            actor->attack_bonus = 0;
         }
     }
 }
@@ -834,7 +834,7 @@ s32 relink_clown_path(ActorRecord *entity_arg, ObjectPosition *primary_context_a
     s32 result;
     ActorRecord *entity = entity_arg;
 
-    state_type = (s16)relink_entity_and_clear_high_flag(primary_context_arg, secondary_context_arg, entity, 3, 6, &entity->unk_9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(primary_context_arg, secondary_context_arg, entity, 3, 6, &entity->route_room);
     if (state_type < 0) return 0;
     if ((force_state_arg << 0x10) != 0) {
         choose_clown_move(entity, primary_context_arg, secondary_context_arg, entity);

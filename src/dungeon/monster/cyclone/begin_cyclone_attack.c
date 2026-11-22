@@ -32,8 +32,8 @@ void begin_cyclone_attack(ActorRecord *action_state, ObjectPosition *action_ctx,
                 + &D_80176480), 0);
             actor->pending_turn_updates = actor->pending_turn_updates - 1;
             action_state->action_state_flags = (u16) (action_state->action_state_flags | 8);
-            actor->unk_84 = 0x7C;
-            actor->unk_85 = 0;
+            actor->accuracy = 0x7C;
+            actor->attack_bonus = 0;
             prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
         }
     }

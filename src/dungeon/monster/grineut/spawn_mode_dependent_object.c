@@ -81,7 +81,7 @@ void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, 
         }
         initialize_actor_sprite_and_animation(obj, part_a, part_b, kind_flags);
         actor->action_id = 0xFF;
-        actor->unk_9C = -1;
+        actor->route_room = -1;
         actor->unk_8C.address = ((void *)dispatch_grineut_actions);
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
@@ -151,13 +151,13 @@ void update_entity_facing_motion_and_ground(ActorRecord *entity, ObjectPosition 
         state_or_direction = (rounded_angle >> 9) & 7;
         direction_index = state_or_direction;
         direction_copy = state_or_direction;
-        if (entity->unk_94 != direction_copy) {
+        if (entity->sprite_direction != direction_copy) {
             if (((R07_80170A28_S_80170A28_0 *)part)->unk_2C != 0) {
                 select_indirect_table_entry(part,
                               ((R07_80170A28_S_80170A28_0 *)part)->unk_2C[direction_copy],
                               part->unk_04);
             }
-            entity->unk_94 = state_or_direction;
+            entity->sprite_direction = state_or_direction;
         }
 
         direction_flag = dir_sprite_flag[direction_index];
@@ -187,10 +187,10 @@ void update_entity_facing_motion_and_ground(ActorRecord *entity, ObjectPosition 
     motion->y.v += motion->velocity_y;
 
     if (entity->action_state_flags & 8) {
-        entity->unk_9D = 0;
+        entity->fall_ticks = 0;
     } else {
-        motion->velocity_z += entity->unk_9D * 0x14000;
-        entity->unk_9D = entity->unk_9D + 1;
+        motion->velocity_z += entity->fall_ticks * 0x14000;
+        entity->fall_ticks = entity->fall_ticks + 1;
     }
     entity->unk_90.value += motion->velocity_z;
 
@@ -206,11 +206,11 @@ void update_entity_facing_motion_and_ground(ActorRecord *entity, ObjectPosition 
                 entity->unk_90.value = 0;
                 motion->velocity_z = 0;
                 entity_base->flags1C |= 0x08000000;
-                entity->unk_9D = 0;
+                entity->fall_ticks = 0;
             } else {
                 motion->velocity_z = 0;
                 entity_base->flags1C |= 0x08000000;
-                entity->unk_9D = 0;
+                entity->fall_ticks = 0;
                 entity->unk_90.parts.high = ground_height - entity_base->ground_height;
             }
 
@@ -596,7 +596,7 @@ void choose_grineut_move(ActorRecord *move_data, ObjectPosition *context, Sprite
         return;
     }
 
-    update_actor_proximity_flag(position_data, actor_data, 3, 6, &move_data->unk_9C);
+    update_actor_proximity_flag(position_data, actor_data, 3, 6, &move_data->route_room);
     actor_flags = actor_data->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
@@ -632,7 +632,7 @@ void choose_grineut_move(ActorRecord *move_data, ObjectPosition *context, Sprite
                     TileObject *target_position = &reference_tile_object;
                     s32 target_facing = ((u16)primary_actor_record->facing);
                     s32 offset_index =
-                        ((((u8 *)&actor_data->unk_44.whole)[1] + ((s16)target_facing >> 9)) & 7) << 1;
+                        ((actor_data->approach_direction + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
                         (u16)dir_step_x[offset_index >> 1];
                     target_y = target_position->tile_position.parts.tile_y +
@@ -657,13 +657,13 @@ void choose_grineut_move(ActorRecord *move_data, ObjectPosition *context, Sprite
                     limit_detour = 1;
                 }
             } else {
-                select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+                select_actor_route_target((u8 *)position_data, move_data->route_room, (u8 *)actor_data,
                               &move_data->action_state_flags);
             }
         }
     } else if ((s8)position_data->room_index >= 0 &&
                dungeon_rooms[(s8)position_data->room_index].flags & ROOM_HOLY_BEAM) {
-        select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+        select_actor_route_target((u8 *)position_data, move_data->route_room, (u8 *)actor_data,
                       &move_data->action_state_flags);
     } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
         current_angle = (s32)probe_directional_neighbor(actor_data,position_data->tile_x,position_data->tile_y,actor_data->facing);
@@ -693,7 +693,7 @@ void choose_grineut_move(ActorRecord *move_data, ObjectPosition *context, Sprite
                 }
             }
         } else {
-            select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+            select_actor_route_target((u8 *)position_data, move_data->route_room, (u8 *)actor_data,
                           &move_data->action_state_flags);
         }
     }
@@ -769,7 +769,7 @@ void choose_grineut_move(ActorRecord *move_data, ObjectPosition *context, Sprite
 
     {
         actor_data->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-        move_data->unk_9C = position_data->room_index;
+        move_data->route_room = position_data->room_index;
         actor_data->pending_turn_updates--;
         g_dungeon_status.activity_counts.parts.pending_movement_count++;
     }
@@ -841,8 +841,8 @@ s32 try_grineut_attack(ActorRecord *action_state, ObjectPosition *motion_param, 
         action_state->action_id = 0x11;
         action_state->action_phase = 0;
         action_state->unk_8C.handler = 0;
-        actor->unk_84 = 0x7C;
-        actor->unk_85 = 0;
+        actor->accuracy = 0x7C;
+        actor->attack_bonus = 0;
         sprite->frameTable = grineut_frame_set_1;
         select_sprite_entry(sprite, (grineut_frame_set_1)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         actor->pending_turn_updates--;
@@ -868,8 +868,8 @@ void begin_grineut_attack(ActorRecord *action_state, ObjectPosition *action_cont
                 + grineut_frame_set_1), 0);
             actor->pending_turn_updates = actor->pending_turn_updates - 1;
             prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
-            actor->unk_84 = 0x7C;
-            actor->unk_85 = 0;
+            actor->accuracy = 0x7C;
+            actor->attack_bonus = 0;
         }
     }
 }
@@ -880,7 +880,7 @@ s32 relink_grineut_path(ActorRecord *actor, ObjectPosition *primary_context, Spr
     s32 result;
     ActorRecord *entity = actor;   /* the copy is load-bearing: it changes the callee-save order */
 
-    state_type = (s16)relink_entity_and_clear_high_flag(primary_context, secondary_context, entity, 3, 6, &entity->unk_9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(primary_context, secondary_context, entity, 3, 6, &entity->route_room);
     if (state_type < 0) return 0;
     if ((force_move << 0x10) != 0) {
         choose_grineut_move(entity, primary_context, secondary_context, entity);

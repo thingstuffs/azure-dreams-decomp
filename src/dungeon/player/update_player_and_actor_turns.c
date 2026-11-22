@@ -339,11 +339,11 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
                 if (actor->flags1C & ACTOR_CURSED) {
                     slow_phase = (*(u16 *)((u8 *)linked_actor + 0xF8));
                     (*(u16 *)((u8 *)linked_actor + 0xF8)) = (u16) (slow_phase + 1);
-                    actor->unk_00[3] = (s8) ((rsin((s16) slow_phase) >> 8) + 0x30);
+                    actor->luck = (s8) ((rsin((s16) slow_phase) >> 8) + 0x30);
                 } else {
                     normal_phase = (*(u16 *)((u8 *)linked_actor + 0xF8));
                     (*(u16 *)((u8 *)linked_actor + 0xF8)) = (u16) (normal_phase + 1);
-                    actor->unk_00[3] = (s8) ((rsin((s16) normal_phase) >> 7) + 0x40);
+                    actor->luck = (s8) ((rsin((s16) normal_phase) >> 7) + 0x40);
                 }
                 (*(s32 *)((u8 *)linked_actor + 0x128)) = (s32) (generate_random_value() & 0xFFFF);
                 if (!(system_update_flags & 8)) {
@@ -431,7 +431,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
      * Found and documented by the Azure Dreams community
      * (adrando.com/guide/bugs.html).
      */
-    if (linked_actor->unk_94 != facing) {
+    if (linked_actor->sprite_direction != facing) {
         if ((get_entity_effect_value(actor, STATUS_FROG) << 0x10) != 0) {
             select_record_entry_and_value(sprite_or_root, ((void **)((S_80089AA0_16 *)sprite_or_root)->unk_2C)[facing],
                 ((S_80089AA0_16 *)sprite_or_root)->unk_04);
@@ -439,7 +439,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
             texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(sprite_or_root, ((u8 *)((S_80089AA0_16 *)sprite_or_root)->unk_2C)[facing],
                 ((S_80089AA0_16 *)sprite_or_root)->unk_04, 1);
         }
-        linked_actor->unk_94 = facing;
+        linked_actor->sprite_direction = facing;
         if ((linked_actor->action_id != 0x22) && (dir_sprite_flag[facing] != 0)) {
             ((S_80089AA0_16 *)sprite_or_root)->unk_14 = (u16)(((S_80089AA0_16 *)sprite_or_root)->unk_14 | 1);
         } else {
@@ -469,8 +469,8 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
             + motion_or_count->velocity_y);
         if (!(linked_actor->action_state_flags & 8)) {
             motion_or_count->velocity_z = (s32) (motion_or_count->velocity_z
-                + (linked_actor->unk_9D * 0x14000));
-            linked_actor->unk_9D = (s8) ((u8) linked_actor->unk_9D + 1);
+                + (linked_actor->fall_ticks * 0x14000));
+            linked_actor->fall_ticks = (s8) ((u8) linked_actor->fall_ticks + 1);
         }
         (*(s32 *)((u8 *)linked_actor + 0x90)) = (s32) ((*(s32 *)((u8 *)linked_actor + 0x90))
             + motion_or_count->velocity_z);
@@ -484,7 +484,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
                 } else {
                     (*(s32 *)((u8 *)linked_actor + 0x90)) = 0;
                     motion_or_count->velocity_z = 0;
-                    linked_actor->unk_9D = 0;
+                    linked_actor->fall_ticks = 0;
                     if (!((*(u16 *)((u8 *)linked_actor + 0xA2)) & 0x10)) {
                         if (!(((S_80089AA0_6 *)(&dungeon_floor_flags))->unk_00 & 0x80000)) {
                             play_sound_if_enabled(0x508);
@@ -521,7 +521,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
                 if (g_dungeon_status.flags & 0x80) {
                     (*(s32 *)((u8 *)linked_actor + 0x90)) = 0;
                     motion_or_count->velocity_z = 0;
-                    linked_actor->unk_9D = 0;
+                    linked_actor->fall_ticks = 0;
                     (*(u16 *)((u8 *)linked_actor + 0xA2)) =
                         (u16)((*(u16 *)((u8 *)linked_actor + 0xA2)) | 0x10);
                 }

@@ -32,7 +32,7 @@ void advance_troll_stored_path(ActorRecord *movement, ObjectPosition *actor_inde
         return;
     }
 
-    move_kind = state->unk_48;
+    move_kind = state->carried_item.unk_00;
     switch (move_kind) {
     case 0xD:
         current_table = actor->frameTable;
@@ -169,7 +169,7 @@ void choose_troll_move(ActorRecord *move_input, ObjectPosition *action_context, 
         return;
     }
 
-    update_actor_proximity_flag(position, actor, 3, 6, &move_input->unk_9C);
+    update_actor_proximity_flag(position, actor, 3, 6, &move_input->route_room);
     actor_flags = actor->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
@@ -215,7 +215,7 @@ void choose_troll_move(ActorRecord *move_input, ObjectPosition *action_context, 
                 TileObject *target;
 
                 target = &reference_tile_object;
-                direction = (((u8 *)&actor->unk_44.whole)[1] +
+                direction = (actor->approach_direction +
                              (primary_actor_record->facing >> 9)) & 7;
                 target_x = target->tile_position.parts.tile_x +
                            ((u16 *)dir_step_x)[direction];
@@ -248,7 +248,7 @@ void choose_troll_move(ActorRecord *move_input, ObjectPosition *action_context, 
                     }
                 }
             } else {
-                select_actor_route_target(position, move_input->unk_9C, actor, &move_input->action_state_flags);
+                select_actor_route_target(position, move_input->route_room, actor, &move_input->action_state_flags);
             }
         }
     } else {
@@ -256,7 +256,7 @@ void choose_troll_move(ActorRecord *move_input, ObjectPosition *action_context, 
 
         kind = (s8)position->room_index;
         if (kind >= 0 && (dungeon_rooms[kind].flags & ROOM_HOLY_BEAM)) {
-            select_actor_route_target(position, move_input->unk_9C, actor, &move_input->action_state_flags);
+            select_actor_route_target(position, move_input->route_room, actor, &move_input->action_state_flags);
         } else if (!(actor->action_flags & ACTOR_ACTION_PENDING)) {
             found_target = probe_directional_neighbor(actor, position->tile_x,
                 position->tile_y,
@@ -288,7 +288,7 @@ void choose_troll_move(ActorRecord *move_input, ObjectPosition *action_context, 
                     }
                 }
             } else {
-                select_actor_route_target(position, move_input->unk_9C, actor, &move_input->action_state_flags);
+                select_actor_route_target(position, move_input->route_room, actor, &move_input->action_state_flags);
             }
         }
     }
@@ -358,7 +358,7 @@ void choose_troll_move(ActorRecord *move_input, ObjectPosition *action_context, 
     }
     turn_state = &g_dungeon_status;
     actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-    move_input->unk_9C = position->room_index;
+    move_input->route_room = position->room_index;
     actor->pending_turn_updates--;
     turn_state->activity_counts.parts.pending_movement_count++;
     if (actor->pending_turn_updates == 0) {
@@ -382,7 +382,7 @@ void reset_troll_facing_animation(ActorRecord *state, ObjectPosition *unused, Sp
 
     state->action_id = 0x10;
     state->action_phase = 0;
-    kind = entity->unk_48;
+    kind = entity->carried_item.unk_00;
     switch (kind) {
     case 0xD:
         direction_table = D_80175E9C;
@@ -464,23 +464,23 @@ s32 try_begin_troll_attack(ActorRecord *action_state, ObjectPosition *facing, Sp
     action_state->unk_8C.word = 0;
     action_state->action_id = 0x11;
 
-    switch (actor->unk_48) {
+    switch (actor->carried_item.unk_00) {
     case 13:
-        actor->unk_84 = 0x78;
-        actor->unk_85 = 8;
+        actor->accuracy = 0x78;
+        actor->attack_bonus = 8;
         break;
     case 14:
-        actor->unk_84 = 0x70;
-        actor->unk_85 = 2;
+        actor->accuracy = 0x70;
+        actor->attack_bonus = 2;
         break;
     case 15:
-        actor->unk_84 = 0x74;
-        actor->unk_85 = result;
+        actor->accuracy = 0x74;
+        actor->attack_bonus = result;
         break;
     }
 
     actor->pending_turn_updates = actor->pending_turn_updates - 1;
-    if (actor->unk_48 == 15) {
+    if (actor->carried_item.unk_00 == 15) {
 
         actor->target =
             scan_actor_along_heading(actor, origin->tile_x,
@@ -587,7 +587,7 @@ void begin_troll_attack(ActorRecord *action_input, ObjectPosition *x_offset_inpu
     action_input->action_phase = 0;
     actor->pending_turn_updates--;
 
-    if (actor->unk_48 == 15) {
+    if (actor->carried_item.unk_00 == 15) {
         actor->target =
             scan_actor_along_heading(actor, position_input->tile_x,
                           position_input->tile_y, actor->facing, 10);
@@ -661,24 +661,24 @@ loop:
         action_input->unk_AA = 1;
     }
 
-    action_state = actor->unk_48;
+    action_state = actor->carried_item.unk_00;
     switch (action_state) {
     case 13:
-        actor->unk_84 = 0x78;
+        actor->accuracy = 0x78;
         state_param = 8;
         break;
     case 14:
-        actor->unk_84 = 0x70;
+        actor->accuracy = 0x70;
         state_param = 2;
         break;
     case 15:
-        actor->unk_84 = 0x74;
+        actor->accuracy = 0x74;
         state_param = 1;
         break;
     default:
         return;
     }
-    actor->unk_85 = state_param;
+    actor->attack_bonus = state_param;
 
     return;
 }

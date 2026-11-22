@@ -9,8 +9,6 @@
 #include "town/player/state.h"
 #include "town/scene/hooks.h"
 
-typedef void (*TownCallback)(s32, s32, s32, s32);
-
 
 extern char D_8001B9E0[];
 extern char D_80020E44[];
@@ -40,8 +38,7 @@ char *select_scene_event_text(long long lookup, s32 text_selector)
         }
         set_script_flag_bit(F_sbs32_pad25);
         if (get_script_flag_mask(F_sbs32_pad23) != 0 && is_pair_result_valid_b(13, 6) == 0) {
-            ((TownCallback)(town_scene_root->services->callback_220))
-            (6, 13, 0, 0);
+            town_scene_root->services->set_item_w0(6, 13, 0, 0);
         }
         return D_80020E44;
     }

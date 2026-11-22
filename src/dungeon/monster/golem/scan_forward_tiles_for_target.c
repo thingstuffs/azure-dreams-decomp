@@ -140,8 +140,8 @@ s32 scan_forward_tiles_for_target(GolemActionWork *action_state, ObjectPosition 
     action_state->phase = 0;
     action_state->callback = 0;
     action_state->duration = 8;
-    actor->unk_84 = 0x7E;
-    actor->unk_85 = 8;
+    actor->accuracy = 0x7E;
+    actor->attack_bonus = 8;
     advance_status_timers(actor);
     actor->pending_turn_updates--;
     copy_dest = NODE_HEADER(actor);

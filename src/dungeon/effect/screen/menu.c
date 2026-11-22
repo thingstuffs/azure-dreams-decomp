@@ -229,12 +229,12 @@ loop_0:
             if (blend_setting != 0) {
                 *((u16 *) (packet_code + 19)) = (texture_page & 0xFF9F) | ((blend_setting - 1) << 5);
             }
-            *((s32 *) (((packet_code - 3)) + 0)) = parameters->center_color;
-            *((s32 *) (packet_code + 9)) = parameters->center_color;
-            outer_color2 = parameters->outer_color;
+            *((s32 *) (((packet_code - 3)) + 0)) = parameters->center_color.word;
+            *((s32 *) (packet_code + 9)) = parameters->center_color.word;
+            outer_color2 = parameters->outer_color.word;
             *((s32 *) (packet_code + 21)) = outer_color2;
             quad_packet = cursor;
-            outer_color3 = parameters->outer_color;
+            outer_color3 = parameters->outer_color.word;
             *((s32 *) (packet_code + 33)) = outer_color3;
             SetPolyGT4(quad_packet);
             if (blend_setting != 0) {
@@ -2143,7 +2143,7 @@ void update_selection_tile_markers(ActorRecord *entity, s32 selection) {
         mode_index = mode;
         if (mode_index == 8) {
             forward_steps = 1;
-            if ((entity->species == 0x16) && (entity->unk_48 == 0xF)) {
+            if ((entity->species == 0x16) && (entity->carried_item.unk_00 == 0xF)) {
                 forward_steps = 0xA;
             }
             if (forward_steps > 0) {

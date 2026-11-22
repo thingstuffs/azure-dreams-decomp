@@ -79,6 +79,7 @@ typedef struct LinkedCounterSpriteBody {
 
 struct ObjectNodeHeader;
 struct ObjectNodeHeader *allocate_effect_at_coordinates(LinkedSpriteCounter *owner, ObjectPosition *source_coords);
+void advance_delayed_sprite_animation(void *state, void *unused, SpriteFrameState *sprite);
 void advance_linked_object_counter(LinkedCounterSpriteBody *entry, ObjectPosition *unused, SpriteFrameState *target);
 
 void select_target_sprite_scale(ActorRecord *record_field, s32 pair_index);

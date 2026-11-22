@@ -90,21 +90,21 @@ void update_actor_animation_movement(ActorRecord *body, ObjectPosition *motion, 
 
     if (!(body->flags1C & 0x40000) &&
         !(body->action_state_flags & 8)) {
-        motion->velocity_z += (body->unk_9D) * 0x14000;
-        body->unk_9D++;
+        motion->velocity_z += (body->fall_ticks) * 0x14000;
+        body->fall_ticks++;
     } else {
-        body->unk_9D = 0;
+        body->fall_ticks = 0;
     }
     body->unk_90.value += motion->velocity_z;
     initial_flags = sprite->flags;
 
     if (!(initial_flags & 0x8000)) {
         direction = ((g_game_work.view.camera_rotation.parts.viewAngle + entity_base->facing + 0x100) >> 9) & 7;
-        if (body->unk_94 != direction) {
+        if (body->sprite_direction != direction) {
             select_indirect_table_entry(sprite,
                 *(*(u8 * *)&sprite->frameTable + direction),
                 sprite->unk_04);
-            body->unk_94 = direction;
+            body->sprite_direction = direction;
         }
         {
             u32 facing_flags;
@@ -185,7 +185,7 @@ void update_actor_animation_movement(ActorRecord *body, ObjectPosition *motion, 
                             entity_base->ground_height;
                 if (ground_height < body->unk_90.parts.high) {
                     body->unk_90.parts.high = ground_height;
-                    body->unk_9D = 0;
+                    body->fall_ticks = 0;
                     motion->velocity_z = 0;
                     entity_base->flags1C |= 0x08000000;
                 }
@@ -216,7 +216,7 @@ void update_actor_animation_movement(ActorRecord *body, ObjectPosition *motion, 
                             entity_base->ground_height;
                 if (ground_height < body->unk_90.parts.high) {
                     body->unk_90.parts.high = ground_height;
-                    body->unk_9D = 0;
+                    body->fall_ticks = 0;
                     motion->velocity_z = 0;
                     entity_base->flags1C |= 0x08000000;
                 }

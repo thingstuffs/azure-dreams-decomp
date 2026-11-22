@@ -3,6 +3,7 @@
 /* Prototypes of the functions defined in src/engine/item/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
+#include "shared/game_state.h"
 
 struct DungeonItemEntry;
 
@@ -42,10 +43,7 @@ extern ItemCategory itemCategoryTable[];
  * pointer object's non-small-data addressing; it is not a species count. */
 extern ItemRecord *monster_species_table[4];
 
-/* Resident item-data slots have a 19-byte stride. */
-typedef struct ItemDataSlotRecord {
-    char bytes[0x13];
-} ItemDataSlotRecord;
+/* ItemDataSlotRecord (resident item-data slot, 19-byte stride) is declared in shared/game_state.h. */
 
 /* calc_item_value.c */
 s32 calc_item_value(struct DungeonItemEntry *item, s32 use_value1);

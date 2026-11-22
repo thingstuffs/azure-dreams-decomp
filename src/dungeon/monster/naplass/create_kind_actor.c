@@ -65,7 +65,7 @@ void *spawn_naplass(s16 spawn_flags, s16 part_b_value_24, s16 part_b_value_25, s
         }
         initialize_actor_sprite_and_animation(obj, part_a, part_b, spawn_flags);
         actor->action_id = 0xFF;
-        actor->unk_9C = -1;
+        actor->route_room = -1;
         actor->unk_8C.address = &dispatch_ability_action;
         part_b->flags |= 0xC;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);

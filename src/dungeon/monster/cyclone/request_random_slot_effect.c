@@ -23,8 +23,8 @@ s32 request_random_slot_effect(ActorRecord *actor) {
         return 0;
     }
     seed = generate_random_value() & 0xFFFF;
-    if (((s32)(actor->unk_00[3])) != 0) {
-        divisor = ((s32)(actor->unk_00[3]));
+    if (((s32)(actor->luck)) != 0) {
+        divisor = ((s32)(actor->luck));
         remainder = seed % divisor;
         slot = remainder;
     } else {

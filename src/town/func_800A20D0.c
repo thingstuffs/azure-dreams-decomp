@@ -1,4 +1,4 @@
-/* Recovered retail twin; complete-function proof is in the lane receipt. */
+/* Recovered retail twin. */
 #include "common.h"
 #include "town/shop/item_lookup.h"
 #include "shared/town_state.h"

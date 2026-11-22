@@ -72,7 +72,7 @@ void choose_maximum_move(ActorRecord *move_state, ObjectPosition *caller_context
         return;
     }
 
-    update_actor_proximity_flag(position_arg, actor_arg, 3, 6, &move_state->unk_9C);
+    update_actor_proximity_flag(position_arg, actor_arg, 3, 6, &move_state->route_room);
     flags = actor_arg->flags1C;
     if (flags & 0x410) {
         if (flags & 0x400) {
@@ -113,14 +113,14 @@ void choose_maximum_move(ActorRecord *move_state, ObjectPosition *caller_context
         turn_index = 0;
         if (!(actor_arg->action_flags & ACTOR_ACTION_PENDING)) {
             if (!(flags & 0x20000)) {
-                select_actor_route_target((u8 *)position_arg, move_state->unk_9C, (u8 *)actor_arg,
+                select_actor_route_target((u8 *)position_arg, move_state->route_room, (u8 *)actor_arg,
                               &move_state->action_state_flags);
             } else {
                 {
                     u32 follow_offset;
 
                     follow_offset =
-                        ((((u8 *)&actor_arg->unk_44.whole)[1] +
+                        ((actor_arg->approach_direction +
                           ((s32)(((u16)primary_actor_record->facing) << 16) >> 25)) &
                          7) *
                         2;
@@ -219,7 +219,7 @@ void choose_maximum_move(ActorRecord *move_state, ObjectPosition *caller_context
                 }
             } else {
                 if (turn_index == 0) {
-                    select_actor_route_target((u8 *)position_arg, move_state->unk_9C, (u8 *)actor_arg,
+                    select_actor_route_target((u8 *)position_arg, move_state->route_room, (u8 *)actor_arg,
                   &move_state->action_state_flags);
                 } else {
                     dx = position_arg->tile_x;
@@ -239,7 +239,7 @@ void choose_maximum_move(ActorRecord *move_state, ObjectPosition *caller_context
     }
     goto loop_setup;
 call_obstacle:
-    select_actor_route_target((u8 *)position_arg, move_state->unk_9C, (u8 *)actor_arg,
+    select_actor_route_target((u8 *)position_arg, move_state->route_room, (u8 *)actor_arg,
                   &move_state->action_state_flags);
 
 loop_setup:
@@ -323,7 +323,7 @@ loop_setup:
     }
 
     actor_arg->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-    move_state->unk_9C = position_arg->room_index;
+    move_state->route_room = position_arg->room_index;
     actor_arg->pending_turn_updates--;
     {
         DungeonGlobalStatus *counter_state = &g_dungeon_status;

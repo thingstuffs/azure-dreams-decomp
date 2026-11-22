@@ -18,7 +18,7 @@ s32 dispatch_actor_action_phase(ActorRecord *actor, ObjectPosition *position, Sp
 
     if (base->unk_AC.halves.high.u != 0) {
         action_state = relink_entity_and_clear_high_flag(position, sprite, base, 3, 6,
-                              &base->unk_9C);
+                              &base->route_room);
         if ((s16)action_state < 0) {
             return 0;
         }

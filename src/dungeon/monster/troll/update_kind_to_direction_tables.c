@@ -12,7 +12,7 @@ void update_kind_13_to_15_direction_tables(ActorRecord *owner, ObjectPosition *c
     u8 kind;
     s32 direction_index;
 
-    kind = state->unk_48;
+    kind = state->carried_item.unk_00;
     switch (kind) {
     case 13:
         if ((state->flags1C & ACTOR_ASLEEP) != 0 || state->mp == 0) {
@@ -70,7 +70,7 @@ void update_kind_13_to_15_direction_tables(ActorRecord *owner, ObjectPosition *c
         return;
     }
 
-    switch (state->unk_48) {
+    switch (state->carried_item.unk_00) {
     case 13:
         if (display->frameTable != D_80163E54 ||
             (state->flags1C & (ACTOR_MP_EMPTY | ACTOR_ASLEEP)) != 0) {

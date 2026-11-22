@@ -1,5 +1,5 @@
 {
- "count": 1274,
+ "count": 1271,
  "ids": [
   "include/dungeon/actor/ability_eligibility.h::S_800A4300_2.unk_F0",
   "include/dungeon/actor/action_target_selection_g00359.h::S_800CA444_0.unk_24",
@@ -742,10 +742,7 @@
   "include/shared/dungeon_status.h::DungeonGlobalStatus.trap_counts",
   "include/shared/dungeon_trail_views.h::TrailMotion.x",
   "include/shared/dungeon_trail_views.h::TrailMotion.y",
-  "include/shared/entity.h::ActorRecord.unk_0C",
-  "include/shared/entity.h::ActorRecord.unk_36",
-  "include/shared/entity.h::ActorRecord.unk_44",
-  "include/shared/entity.h::ActorRecord.unk_50",
+  "include/shared/entity.h::ActorRecord.shield",
   "include/shared/entity.h::ActorRecord.unk_8C",
   "include/shared/entity.h::ActorRecord.unk_90",
   "include/shared/entity.h::ActorRecord.unk_A0",

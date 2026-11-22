@@ -229,7 +229,7 @@ void set_record_flags_and_negate_x(u8 *record, s32 flags) {
  * The row's rowbase record already fires: true link base 0x800B13AC (PROVEN
  * region xfer_dungeon_A3000), so owner decision B applies -- this TU defines
  * set_record_list_value and must never spell the synthetic row name anywhere in the
- * file (the collect/frontier naming screen, tools/codex_wave.py::_naming_defect,
+ * file (the collect/frontier naming screen,
  * matches on the raw text, comments included; the gate refuses the TU either
  * way).  Retail word 4 is `j 0x800B13AC` -- a jump to the function's OWN first
  * instruction, i.e. a LOOP BACK-EDGE, not a tail call.  The census candidate

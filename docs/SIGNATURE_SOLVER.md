@@ -193,7 +193,7 @@ Batch flow, slus pilot (include/slus.h + include/main.h, 48 candidates, 480 reci
 one census 90 s, 3 proofs 169 s (the second and third reuse 438 and 478 of ~479 compiles), natcheck 9 s,
 4 min 45 s end to end, then one make.
 
-## Faster batches (opus_proto2)
+## Faster batches
 
 * `sig_batch.py --screen` (needs an affected.py with `prove(select=)`): every candidate set is first proved on
   one recipe per (compiled source, family, placement copy or not); only a passing screen runs the full proof,
@@ -206,7 +206,7 @@ one census 90 s, 3 proofs 169 s (the second and third reuse 438 and 478 of ~479 
 * `sig_solver.py solve --only-floors --header ALL`: re-solve exactly the recorded floors (did a type change
   release any?); `--names` over several headers solves each name under the header that owns it.
 
-## Library prototypes and address names (opus_libnames1)
+## Library prototypes and address names
 
 **Library (Psy-Q / BIOS) names.**  One prototype per library function lives in its `include/sdk/<lib>.h`
 stand-in (decision 74).  The call contracts are the table in `tools/headers/extra.py` (`_sig`): the
@@ -250,7 +250,7 @@ the function's name needs a link feature first (an image-local binding of home s
 lowering table); until then those declarations keep the address name.  A native module recipe records its import inventory by
 symbol (config/overlays/modules.json), so a library alias inside a module is held (`library_alias_in_module`).
 
-## What a reviewer (Luna/Sonnet) checks
+## What a reviewer checks
 
 Per header, read `txn/txn.json`, `txn/txn.patch` and `decisions.json`:
 - **Floors** (`floor_sites`, refused names in `decisions.json`): does each blocking site's reason match

@@ -32,8 +32,8 @@ void show_picket_held_item(ActorRecord *action, ObjectPosition *context, SpriteF
         play_sound_if_enabled(0x50C);
         action->action_timer = 10;
         create_picket_held_item_sprite(context, animation, entity);
-        entity->unk_48 = 0;
-        entity->unk_49 = 0;
+        entity->carried_item.unk_00 = 0;
+        entity->carried_item.kind = 0;
         action->action_phase++;
     case 1:
         break;

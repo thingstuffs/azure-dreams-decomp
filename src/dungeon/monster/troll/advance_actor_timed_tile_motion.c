@@ -21,7 +21,7 @@ void advance_actor_timed_tile_motion(ActorRecord *controller, ObjectPosition *tr
             transform->velocity_z = 0;
             transform->velocity_y = 0;
             transform->velocity_x = 0;
-            actor_kind = actor->unk_48;
+            actor_kind = actor->carried_item.unk_00;
             switch (actor_kind) {
             case 13:
                 begin_actor_display_action(controller, transform, entity, troll_frame_set_5);
@@ -63,7 +63,7 @@ void advance_actor_timed_tile_motion(ActorRecord *controller, ObjectPosition *tr
             transform->velocity_z = 0;
             transform->velocity_y = 0;
             transform->velocity_x = 0;
-            actor_kind = actor->unk_48;
+            actor_kind = actor->carried_item.unk_00;
             switch (actor_kind) {
             case 13:
                 begin_actor_display_action(controller, transform, entity, troll_frame_set_5);

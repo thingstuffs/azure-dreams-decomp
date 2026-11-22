@@ -131,12 +131,12 @@ void collect_selected_record_values(s32 *output, ActorRecord *record) {
     s32 second_value;
 
     write_ptr = output;
-    first_value = ((s32)record->unk_4C);
+    first_value = ((s32)record->weapon);
     if (first_value != 0) {
         *write_ptr = first_value;
         write_ptr += 1;
     }
-    second_value = (*(s32 *)&record->unk_50);
+    second_value = (*(s32 *)&record->shield);
     if (second_value != 0) {
         *write_ptr = second_value;
         write_ptr += 1;

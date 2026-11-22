@@ -86,14 +86,14 @@ void update_glacier_actor(ActorRecord *body, ObjectPosition *motion_arg, SpriteF
         direction_copy = direction;
         direction_index = direction;
 
-        if ((body->unk_94) != direction_index) {
+        if ((body->sprite_direction) != direction_index) {
             u8 *tile_map = *(u8 **)&monster->frameTable;
 
             if (tile_map != 0) {
                 select_indirect_table_entry(monster, tile_map[direction_index],
                               monster->unk_04);
             }
-            (body->unk_94) = direction;
+            (body->sprite_direction) = direction;
         }
 
         if (dir_sprite_flag[direction_copy] != 0) {
@@ -147,10 +147,10 @@ flags_done:
     motion->y.v += motion->velocity_y;
 
     if ((body->action_state_flags) & 8) {
-        (body->unk_9D) = 0;
+        (body->fall_ticks) = 0;
     } else {
-        motion->velocity_z += ((body->unk_9D)) * 0x14000;
-        (body->unk_9D)++;
+        motion->velocity_z += ((body->fall_ticks)) * 0x14000;
+        (body->fall_ticks)++;
     }
 
     (body->unk_90.value) += motion->velocity_z;
@@ -165,12 +165,12 @@ flags_done:
             (body->unk_90.value) = 0;
             motion->velocity_z = 0;
             actor->flags1C |= ACTOR_GROUNDED;
-            (body->unk_9D) = 0;
+            (body->fall_ticks) = 0;
         } else {
             (body->unk_90.parts.high) = floor_height - actor->ground_height;
             motion->velocity_z = 0;
             actor->flags1C |= ACTOR_GROUNDED;
-            (body->unk_9D) = 0;
+            (body->fall_ticks) = 0;
         }
         if (((u32)actor->flags1C) & ACTOR_REFRESH_GROUND) {
             actor->flags1C &= ACTOR_REFRESH_GROUND_CLEAR_MASK;

@@ -20,7 +20,7 @@ cell are the anchor holders that named `T`. The cell joins the existing machiner
 
 Each anchor is an edge from an open holder X to a holder Y. X is open when it is `int`, `void *`, a byte or scalar
 pointer, or a generated S_ view, and has no runtime cells. Y carries a named type, either declared or as the
-runtime type of an open holder. Precision comes from `calibrate`, measured on AC104 against 2,842 open parameters
+runtime type of an open holder. Precision comes from `calibrate`, measured on one batch against 2,842 open parameters
 that have a runtime type.
 
 | kind | edge | strength | leave-one-out precision (co-view) |

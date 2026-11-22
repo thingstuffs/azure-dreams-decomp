@@ -76,8 +76,8 @@ s32 try_baloon_attack(ActorRecord *action_state, ObjectPosition *action_param, S
     if (result != 0) {
         action_state->action_id = 0x11;
         action_state->unk_8C.word = 0;
-        actor->unk_84 = 0x7C;
-        actor->unk_85 = 0;
+        actor->accuracy = 0x7C;
+        actor->attack_bonus = 0;
         action_state->action_state_flags &= 0xFFF7;
         actor->flags1C &= 0xFFFBFFFF;
         anim_table = baloon_attack_frames;

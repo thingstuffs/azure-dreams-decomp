@@ -62,8 +62,8 @@ s32 try_turn_actor_toward_target(ActorRecord *action_state, ObjectPosition *acti
         if (action_state->unk_B4.bytes[1] == 0) {
             action_state->action_id = 0x11;
             action_state->unk_8C.word = 0;
-            actor->unk_84 = 0x7C;
-            actor->unk_85 = 0;
+            actor->accuracy = 0x7C;
+            actor->attack_bonus = 0;
             action_state->action_state_flags =
                 (u16)(action_state->action_state_flags | 8);
             prepare_directional_attack(actor, target, actor->facing, 1, 0);

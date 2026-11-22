@@ -74,8 +74,8 @@ typedef struct DungeonParameters {
     u8 x2;
     u8 y2;
     u16 count;
-    s32 center_color;
-    s32 outer_color;
+    SpriteColor center_color;
+    SpriteColor outer_color;
 } DungeonParameters;
 
 void update_familiar_selection_marker(FamiliarMarkerWork *state, ObjectPosition *position_arg, SpriteFrameState *marker_arg);

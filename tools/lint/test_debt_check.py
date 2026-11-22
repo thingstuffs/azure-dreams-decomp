@@ -445,5 +445,89 @@ class UnionInventory(unittest.TestCase):
                             for p in D.check_union_inventory([self.row], [retired], bad)))
 
 
+INTEGER_POINTER_SOURCE = r"""
+extern u8 table[];
+extern s16 *heads[4];
+extern s32 plain_count;
+void *make(s32 n);
+s32 target(void);
+void use(u8 *base, s32 index, void *object, ActorRecord *actor)
+{
+    s32 count = 0;
+    u8 *cursor = base, *other;
+    u32 a = (u32)base;
+    u32 b = (unsigned long)&count;
+    s32 c = (s32)table + index;
+    s32 d = (s32)(base + index);
+    s32 e = (s32)((u8 *)object + 4);
+    s32 f = (s32)heads[1];
+    s32 g = (s32)heads[1][0];
+    s32 h = (s32)count;
+    s32 i = (s32)plain_count;
+    s32 j = (s32)actor->x;
+    s32 k = (s32)((ActorRecord *)object)->x;
+    s32 l = (u32)(index * 6) + (unsigned long)cursor;
+    s32 m = (s32)make(1);
+    s32 n = (s32)target;
+    s32 o = (s32)"text";
+    s32 p = (u8)base;
+    other = (u8 *)(unsigned long)base;
+    /* BYTES: scheduling needs the integer form */
+    s32 q = (s32)base;
+}
+"""
+
+
+class IntegerPointerCasts(unittest.TestCase):
+    def operands(self, text):
+        return [row['operand'].replace(' ', '') for row in D.analyze('src/test.c', text)['integer_pointer_casts']]
+
+    def test_pointer_operands_are_counted(self):
+        found = self.operands(INTEGER_POINTER_SOURCE)
+        self.assertEqual(found, ['base', '&count', 'table', '(base+index)', '((u8*)object+4)', 'heads[1]',
+                                 'cursor', 'target', '"text"', 'base'])
+
+    def test_value_operands_are_not_counted(self):
+        found = self.operands(INTEGER_POINTER_SOURCE)
+        for value in ('heads[1][0]', 'count', 'plain_count', 'actor->x', 'make(1)'):
+            self.assertNotIn(value, found)
+        self.assertFalse(any(v.startswith('((ActorRecord*)object)') for v in found))
+
+    def test_only_integer_casts_count(self):
+        self.assertEqual(self.operands('void f(u8 *p) { u8 *q = (u8 *)p; s16 *r = (s16 *)(p + 2); }'), [])
+
+    def test_bytes_marker_exempts_the_adjacent_site(self):
+        line = 1 + [i for i, text in enumerate(INTEGER_POINTER_SOURCE.splitlines()) if 's32 q =' in text][0]
+        rows = D.analyze('src/test.c', INTEGER_POINTER_SOURCE)['integer_pointer_casts']
+        self.assertNotIn(line, [row['line'] for row in rows])
+        bare = INTEGER_POINTER_SOURCE.replace('/* BYTES: scheduling needs the integer form */\n', '')
+        rows = D.analyze('src/test.c', bare)['integer_pointer_casts']
+        self.assertIn(line - 1, [row['line'] for row in rows])
+
+    def test_names_resolve_per_function(self):
+        text = 'void a(u8 *p) { s32 x = (s32)p; }\nvoid b(s32 p) { s32 y = (s32)p; }\n'
+        rows = D.analyze('src/test.c', text)['integer_pointer_casts']
+        self.assertEqual([(r['function'], r['line']) for r in rows], [('a#1', 1)])
+
+    def test_report_is_not_a_ratcheted_class(self):
+        self.assertNotIn('integer_pointer_casts', D.CLASSES)
+
+    def test_census_reports_count_and_files(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / 'src').mkdir()
+            (root / 'include').mkdir()
+            (root / 'src/a.c').write_text('void a(u8 *p) { s32 x = (s32)p; }\n')
+            (root / 'src/b.c').write_text('void b(s32 p) { s32 x = (s32)p; }\n')
+            summary = D.census(root)
+            report = summary['integer_pointer_casts_report']
+            self.assertEqual((report['count'], report['files']), (1, 1))
+            self.assertEqual(summary['by_class']['pointer_casts'], 0)
+            out = root / 'out'
+            D.write_outputs(out, summary)
+            rows = (out / 'debt_integer_pointer_casts.tsv').read_text().splitlines()
+            self.assertEqual(rows[1].split('\t')[:3], ['src/a.c', '1', 'a#1'])
+
+
 if __name__ == '__main__':
     unittest.main()

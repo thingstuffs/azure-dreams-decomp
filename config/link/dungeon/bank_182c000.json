@@ -1,0 +1,20 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/bank_182c000",
+  "container": "dungeon",
+  "foff": "0x182c000",
+  "size": "0x4000",
+  "vma": "0x80025000",
+  "evidence": "DUNGEON +0x182c000 loads to 0x80025000 in the eight-sector CdRead at disc LBA 24686. The runtime transfer and full 0x4000-byte RAM comparison are recorded for the physical range.",
+  "entries": [
+    {
+      "row": "dungeon/func_8180C34C",
+      "home": "dungeon/func_8180C34C",
+      "tu": "src/dungeon/player/begin_targeted_player_action.c",
+      "foff": "0x182c34c",
+      "vma": "0x8002534c",
+      "size": 116,
+      "evidence": "DUNGEON player-input commands at +0xa5cb4 and +0xa99e4 and menu case 10 at +0xabab0 call the entry by JAL. It initializes action 0x28, clears the linked action flags, sets the active node and appends action command 0xa0. DUNGEON +0x182c000 loads to 0x80025000 in the eight-sector CdRead at disc LBA 24686. The runtime transfer and full 0x4000-byte RAM comparison are recorded for the physical range."
+    }
+  ]
+}

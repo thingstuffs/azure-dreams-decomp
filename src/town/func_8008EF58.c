@@ -1,4 +1,4 @@
-/* Recovered retail twin; complete-function proof is in the lane receipt. */
+/* Recovered retail twin. */
 typedef signed short s16;
 typedef signed int s32;
 typedef unsigned char u8;

@@ -358,7 +358,21 @@ class DeclarationTests(unittest.TestCase):
         self.assertIn('s16 timer;', flipped)
         self.assertIn('u16 other;', flipped)
         with self.assertRaises(ValueError):
-            T.field_declaration(HEADER, 'Rec', 'pad')            # an int, out of scope
+            T.field_declaration(HEADER.replace('int pad;', 'int pad[2];'), 'Rec', 'pad')
+
+    def test_32_bit_field_types_and_casts(self):
+        for declaration, opposite in (('int', 'unsigned int'), ('s32', 'u32')):
+            header = HEADER.replace('int pad;', f'{declaration} pad;')
+            flipped, declared = T.flip_declaration(header, 'Rec', 'pad')
+            self.assertEqual(declared, declaration)
+            self.assertIn(f'{opposite} pad;', flipped)
+            self.assertEqual(T.flip_declaration(flipped, 'Rec', 'pad'), (header, opposite))
+
+        text = 'a = (unsigned)p->pad; b = (uint32_t)p->pad; c = (int)p->pad;'
+        stripped, count = T.strip_casts(text, T.SPELLINGS['u32'], 'pad')
+        self.assertEqual((stripped, count), ('a = p->pad; b = p->pad; c = (int)p->pad;', 2))
+        with self.assertRaises(ValueError):
+            T.field_declaration(HEADER.replace('int pad;', 'long int pad;'), 'Rec', 'pad')
 
     def test_casts_on_the_field_only(self):
         text = ('a = (s16)r->timer; b = (s16)(r->timer); c = (s16)r->other; d = (s16)r->timer + 1;\n'

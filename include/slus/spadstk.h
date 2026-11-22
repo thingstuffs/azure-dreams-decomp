@@ -6,7 +6,7 @@
  * 4 bytes instead of the sample's 24, and the reset ends with an explicit nop after the reload. The asm volatile
  * statements are genuine source (owner ruling 2026-10-14, as the OT-link macro): they are what kept the scheduler from
  * moving the prologue save past the switch, which the earlier register-global text imitated with -fno-schedule-insns2
- * (r118_sonnet_open4; slus/w_8004CAA0). The port build has no scratchpad stack to switch to, so the macros are empty. */
+ * (slus/w_8004CAA0). The port build has no scratchpad stack to switch to, so the macros are empty. */
 #define SPAD_STACK_ADDR 0x1f8003fc
 
 #ifndef NON_MATCHING

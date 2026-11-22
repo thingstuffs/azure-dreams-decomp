@@ -19,7 +19,7 @@ ledger/struct_census_structs.json size
 
 # ---- size: PENDING ledger archive (ledger_plan.md: ARCHIVE / ARCHIVE-AFTER-TOOL-CHANGE).  These lines go away
 # ---- when the archive landing removes the files.
-ledger/agents/gpt-6-astra-high-campaign.jsonl size
+ledger/agents/*-campaign.jsonl size
 ledger/pack_inputs/erase_r56.jsonl size
 ledger/pins.jsonl size
 ledger/pins_sample.jsonl size
@@ -125,3 +125,9 @@ ledger/sweeps/t45_orzero_aspsx.jsonl name
 tools/prepublish_scan.py abs-path
 tools/prepublish_allowlist.txt email
 tools/prepublish_allowlist.txt abs-path
+
+# ---- provenance (rule R12): text under docs/ that names lane ids, run ids or models.  PENDING owner decision:
+# ---- docs/evidence and docs/history are dated evidence/study files whose names and bodies carry lane ids.
+# ---- Delete these two lines once the owner decides (rename/scrub/move).
+docs/evidence/ provenance
+docs/history/ provenance

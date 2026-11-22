@@ -80,7 +80,7 @@ BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 v
         }
         initialize_actor_sprite_and_animation(object, part0, part1, flags);
         actor->action_id = 0xFF;
-        actor->unk_9C = -1;
+        actor->route_room = -1;
         actor->unk_8C.address = stealth_behavior_entry;
         actor->unk_A4.halves.low.s = -1;
         if (mode != 0) {

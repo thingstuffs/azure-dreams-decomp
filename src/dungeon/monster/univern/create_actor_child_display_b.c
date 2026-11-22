@@ -99,7 +99,7 @@ void *spawn_univern_actor(s32 kind, s32 part_x, s32 part_y, s32 initial_value)
         outer = stable_object;
         outer_index = 0;
         stable_object->action_id = 0xFF;
-        stable_object->unk_9C = -1;
+        stable_object->route_room = -1;
         stable_object->unk_8C.address = D_8015F3A8;
         object->flags1C |= 0x40000;
         stable_object->unk_90.parts.high = -48;

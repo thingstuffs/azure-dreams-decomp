@@ -117,12 +117,12 @@ void update_entity_callbacks_and_floor(ActorRecord *body, ObjectPosition *motion
         if (!(part_flags & 0x8000)) {
             view_direction = (g_game_work.view.camera_rotation.parts.viewAngle + state_alias->facing + 0x100) >> 9;
             direction = view_direction & 7;
-            if (body->unk_94 != direction) {
+            if (body->sprite_direction != direction) {
                 direction_frames = *(u8 **)&sprite->frameTable;
                 if (direction_frames != 0) {
                     select_indirect_table_entry(sprite, direction_frames[direction], sprite->unk_04);
                 }
-                body->unk_94 = direction;
+                body->sprite_direction = direction;
             }
 
             direction_enabled = dir_sprite_flag[direction];
@@ -152,10 +152,10 @@ void update_entity_callbacks_and_floor(ActorRecord *body, ObjectPosition *motion
         motion->y.v += motion->velocity_y;
 
         if (body->action_state_flags & 8) {
-            body->unk_9D = 0;
+            body->fall_ticks = 0;
         } else {
-            motion->velocity_z += (body->unk_9D) * 0x14000;
-            body->unk_9D++;
+            motion->velocity_z += (body->fall_ticks) * 0x14000;
+            body->fall_ticks++;
         }
 
         body->unk_90.value += motion->velocity_z;
@@ -171,11 +171,11 @@ void update_entity_callbacks_and_floor(ActorRecord *body, ObjectPosition *motion
                         body->unk_90.value = 0;
                         motion->velocity_z = 0;
                         state_alias->flags1C |= 0x08000000;
-                        body->unk_9D = 0;
+                        body->fall_ticks = 0;
                     } else {
                         motion->velocity_z = 0;
                         state_alias->flags1C |= 0x08000000;
-                        body->unk_9D = 0;
+                        body->fall_ticks = 0;
                         body->unk_90.parts.high = (s16)sample_height - state_alias->ground_height;
                     }
                 }

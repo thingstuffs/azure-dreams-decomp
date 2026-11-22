@@ -109,7 +109,7 @@ void update_boss_actor_movement(ActorRecord *entity, ObjectPosition *motion, Spr
     updated_flags = sprite_flags & 0x8000;
     if (updated_flags == 0) {
         old_direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
-        previous_direction = entity->unk_94;
+        previous_direction = entity->sprite_direction;
         direction_value = old_direction;
         direction_copy = old_direction;
         if (previous_direction != direction_value) {
@@ -120,7 +120,7 @@ void update_boss_actor_movement(ActorRecord *entity, ObjectPosition *motion, Spr
                     *tile_slot,
                     sprite->unk_04);
             }
-            entity->unk_94 = old_direction;
+            entity->sprite_direction = old_direction;
         }
 
         tile_slot = dir_sprite_flag + direction_copy;
@@ -152,10 +152,10 @@ void update_boss_actor_movement(ActorRecord *entity, ObjectPosition *motion, Spr
     motion->y.v += motion->velocity_y;
 
     if (entity->action_state_flags & 8) {
-        entity->unk_9D = 0;
+        entity->fall_ticks = 0;
     } else {
-        motion->velocity_z += (entity->unk_9D) * 0x14000;
-        entity->unk_9D++;
+        motion->velocity_z += (entity->fall_ticks) * 0x14000;
+        entity->fall_ticks++;
     }
     entity->unk_90.value += motion->velocity_z;
 
@@ -175,7 +175,7 @@ void update_boss_actor_movement(ActorRecord *entity, ObjectPosition *motion, Spr
                 }
                 motion->velocity_z = 0;
                 actor->flags1C |= 0x08000000;
-                entity->unk_9D = 0;
+                entity->fall_ticks = 0;
             }
 
             if (actor->flags1C & 0x40000000) {

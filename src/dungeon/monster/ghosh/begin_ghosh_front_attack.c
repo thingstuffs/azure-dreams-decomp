@@ -51,8 +51,8 @@ s32 begin_ghosh_front_attack(ActorRecord *body, ObjectPosition *position, Sprite
         body->action_id = 0x11;
         body->action_phase = 0;
         body->unk_8C.handler = 0;
-        actor->unk_84 = 0x7C;
-        actor->unk_85 = 6;
+        actor->accuracy = 0x7C;
+        actor->attack_bonus = 6;
         actor->pending_turn_updates--;
 
         prepare_directional_attack(actor, sprite, actor->facing, 1, 0);

@@ -80,7 +80,7 @@ void *spawn_dreamin_in_slot_f(s16 init_flags, s16 x, s16 y, s16 initial_value) {
         }
         initialize_actor_sprite_and_animation(object, object_data, placement, init_flags);
         extended_state->action_id = 0xFF;
-        extended_state->unk_9C = -1;
+        extended_state->route_room = -1;
         extended_state->unk_8C.address = &dreamin_slot_f_action_callback;
         try_move_actor_to_valid_position(extended_state, object_data, placement, state);
     }

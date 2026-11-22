@@ -1,6 +1,6 @@
 {
   "schema": "overlay-module-native-v4",
-  "logical_rows": 20740,
+  "logical_rows": 20769,
   "edges": [
     {
       "module": "dungeon_cd_control_d79c4",
@@ -6935,6 +6935,39 @@
       ]
     },
     {
+      "module": "town_store_choice_value_pair_in_mode_ten",
+      "source": "src/town/scene/store_choice_value_pair_in_mode_ten.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_80469D04"
+      ]
+    },
+    {
+      "module": "main_card_boot_enter_damaged_card_notice",
+      "source": "src/frontend/libcard/state/card_boot_enter_damaged_card_notice.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "main/func_80244778"
+      ]
+    },
+    {
+      "module": "town_process_entry_with_sbs17_pad03",
+      "source": "src/town/scene/process_entry_with_sbs17_pad03.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8063217C"
+      ]
+    },
+    {
       "module": "dungeon_ovl_7f0f7800_p01",
       "placement": "dungeon_ovl_7f0f7800_p01_bank_107f000",
       "image": "dungeon/bank_107f000",
@@ -10572,26 +10605,6 @@
       },
       "rows": [
         "dungeon/D_818E6804"
-      ]
-    },
-    {
-      "source": "src/dungeon/effect/mesh/neighbor_offset_table.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "dungeon/D_818F2804"
-      ]
-    },
-    {
-      "source": "src/dungeon/effect/mesh/effect_callback_table.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "dungeon/D_818F2828"
       ]
     },
     {
@@ -19675,6 +19688,16 @@
       ]
     },
     {
+      "source": "src/dungeon/monster/kewne/advance_kewne_leap_attack.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_809A7A8C"
+      ]
+    },
+    {
       "source": "src/dungeon/monster/kewne/advance_item_action_and_cleanup.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -20092,6 +20115,16 @@
       },
       "rows": [
         "dungeon/func_809AD5DC"
+      ]
+    },
+    {
+      "source": "src/dungeon/monster/kewne/advance_kewne_leap_attack.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_809ADA8C"
       ]
     },
     {
@@ -20515,6 +20548,16 @@
       ]
     },
     {
+      "source": "src/dungeon/monster/kewne/advance_kewne_leap_attack.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_809B3A8C"
+      ]
+    },
+    {
       "source": "src/dungeon/monster/kewne/advance_item_action_and_cleanup.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -20932,6 +20975,16 @@
       },
       "rows": [
         "dungeon/func_809B95DC"
+      ]
+    },
+    {
+      "source": "src/dungeon/monster/kewne/advance_kewne_leap_attack.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_809B9A8C"
       ]
     },
     {
@@ -21355,6 +21408,16 @@
       ]
     },
     {
+      "source": "src/dungeon/monster/kewne/advance_kewne_leap_attack.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_809BFA8C"
+      ]
+    },
+    {
       "source": "src/dungeon/monster/kewne/advance_item_action_and_cleanup.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -21772,6 +21835,16 @@
       },
       "rows": [
         "dungeon/func_809C55DC"
+      ]
+    },
+    {
+      "source": "src/dungeon/monster/kewne/advance_kewne_leap_attack.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_809C5A8C"
       ]
     },
     {
@@ -24395,6 +24468,16 @@
       ]
     },
     {
+      "source": "src/dungeon/monster/kid/update_kid_behavior.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_809FFC00"
+      ]
+    },
+    {
       "source": "src/dungeon/monster/kid/advance_stored_actor_path.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -25332,6 +25415,36 @@
       },
       "rows": [
         "dungeon/func_80A0F908"
+      ]
+    },
+    {
+      "source": "src/dungeon/monster/kid/create_kid_actor_with_animation.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80A110DC"
+      ]
+    },
+    {
+      "source": "src/dungeon/monster/kid/update_actor_callbacks_and_terrain.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80A113F8"
+      ]
+    },
+    {
+      "source": "src/dungeon/monster/kid/update_kid_behavior.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80A11C00"
       ]
     },
     {
@@ -123955,6 +124068,16 @@
       ]
     },
     {
+      "source": "src/dungeon/monster/kewne/advance_item_action_and_cleanup.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_812A8898"
+      ]
+    },
+    {
       "source": "src/dungeon/monster/kewne_uncached/advance_staged_motion_and_snap_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -124255,6 +124378,16 @@
       ]
     },
     {
+      "source": "src/dungeon/monster/kewne_uncached/advance_kewne_uncached_leap_attack.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_812AE5D4"
+      ]
+    },
+    {
       "source": "src/dungeon/monster/kewne_uncached/advance_staged_motion_and_snap_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -124542,6 +124675,16 @@
       },
       "rows": [
         "dungeon/func_812B4130"
+      ]
+    },
+    {
+      "source": "src/dungeon/monster/kewne_uncached/advance_kewne_uncached_leap_attack.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_812B45D4"
       ]
     },
     {
@@ -124835,6 +124978,16 @@
       ]
     },
     {
+      "source": "src/dungeon/monster/kewne_uncached/advance_kewne_uncached_leap_attack.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_812BA5D4"
+      ]
+    },
+    {
       "source": "src/dungeon/monster/kewne_uncached/advance_staged_motion_and_snap_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -125125,6 +125278,16 @@
       ]
     },
     {
+      "source": "src/dungeon/monster/kewne_uncached/advance_kewne_uncached_leap_attack.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_812C05D4"
+      ]
+    },
+    {
       "source": "src/dungeon/monster/kewne_uncached/advance_staged_motion_and_snap_tile.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -125412,6 +125575,16 @@
       },
       "rows": [
         "dungeon/func_812C6130"
+      ]
+    },
+    {
+      "source": "src/dungeon/monster/kewne_uncached/advance_kewne_uncached_leap_attack.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_812C65D4"
       ]
     },
     {
@@ -125722,6 +125895,16 @@
       },
       "rows": [
         "dungeon/func_812CC130"
+      ]
+    },
+    {
+      "source": "src/dungeon/monster/kewne_uncached/advance_kewne_uncached_leap_attack.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_812CC5D4"
       ]
     },
     {
@@ -128855,6 +129038,16 @@
       ]
     },
     {
+      "source": "src/dungeon/player/begin_targeted_player_action.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_8180C34C"
+      ]
+    },
+    {
       "source": "src/dungeon/effect/motion/advance_paired_object_sequence.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -129312,6 +129505,16 @@
       },
       "rows": [
         "dungeon/func_818154FC"
+      ]
+    },
+    {
+      "source": "src/dungeon/effect/update_directional_spell_sprites.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_81826804"
       ]
     },
     {
@@ -130022,6 +130225,26 @@
       },
       "rows": [
         "dungeon/func_818EDB60"
+      ]
+    },
+    {
+      "source": "src/dungeon/effect/update_pulsing_orb_spell.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_818EDDB4"
+      ]
+    },
+    {
+      "source": "src/dungeon/effect/update_pulsing_bolt_spell.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_818F37A4"
       ]
     },
     {
@@ -135431,16 +135654,6 @@
         "row_asflags": ""
       },
       "rows": [
-        "town/func_80026414"
-      ]
-    },
-    {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
         "town/func_80027258"
       ]
     },
@@ -136262,16 +136475,6 @@
       },
       "rows": [
         "town/func_8002F5C4"
-      ]
-    },
-    {
-      "source": "src/main/func_8000E904.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8002F7B0"
       ]
     },
     {
@@ -145405,6 +145608,16 @@
       ]
     },
     {
+      "source": "src/town/person/object/interpolate_person_to_saved_position.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800C6338"
+      ]
+    },
+    {
       "source": "src/town/person/state/dispatch_status_triggered_update.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -147402,6 +147615,16 @@
       },
       "rows": [
         "town/func_800CF608"
+      ]
+    },
+    {
+      "source": "src/town/person/state/step_heading_turn_sequence_reversed.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800CF6E0"
       ]
     },
     {
@@ -150275,6 +150498,16 @@
       ]
     },
     {
+      "source": "src/town/scene/event/give_and_equip_event15_kewne.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8035A4BC"
+      ]
+    },
+    {
       "source": "src/town/scene/service/run_service_callback_record.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -151362,6 +151595,16 @@
       },
       "rows": [
         "town/func_80468280"
+      ]
+    },
+    {
+      "source": "src/town/scene/service/play_event08_sound_1703.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_804682E8"
       ]
     },
     {
@@ -156205,6 +156448,16 @@
       ]
     },
     {
+      "source": "src/town/scene/event/set_kinko_talk_flag_if_rank_two.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_80480378"
+      ]
+    },
+    {
       "source": "src/town/scene/prepare_and_register_entry_buffer.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -160685,6 +160938,16 @@
       ]
     },
     {
+      "source": "src/town/scene/event/adjust_scene_position_after_slot_queries.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8051F75C"
+      ]
+    },
+    {
       "source": "src/town/scene/advance_position_x_when_clear.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -160792,6 +161055,16 @@
       },
       "rows": [
         "town/func_8051FD58"
+      ]
+    },
+    {
+      "source": "src/town/scene/service/load_event08_sound_sequence_28_mode_200.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8051FD90"
       ]
     },
     {
@@ -163975,6 +164248,16 @@
       ]
     },
     {
+      "source": "src/town/scene/set_scene_dispatch_mode_zero.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_805D2100"
+      ]
+    },
+    {
       "source": "src/town/scene/set_scene_dispatch_mode_one.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -164482,6 +164765,16 @@
       },
       "rows": [
         "town/func_805D34CC"
+      ]
+    },
+    {
+      "source": "src/town/scene/event/find_lookable_person_six.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_805D34EC"
       ]
     },
     {

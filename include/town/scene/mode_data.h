@@ -9,4 +9,6 @@ extern s32 scene_dispatch_mode_index;
 /* Current town scene cell dispatch code at 0x80019AFC. */
 extern s32 scene_cell_dispatch_code;
 
+void set_scene_dispatch_mode_zero(void);
+
 #endif

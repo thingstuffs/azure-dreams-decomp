@@ -2,7 +2,7 @@
 #define DUNGEON_OVL_1960800_H
 
 struct ObjectNodeHeader;
-typedef struct S_8003DF74_Vec SpriteAttachmentVector;
+#include "engine/graphics.h"
 #include "shared/dungeon_effect_views.h"
 #include "common.h"
 #include "modules/dungeon_native_abi.h"

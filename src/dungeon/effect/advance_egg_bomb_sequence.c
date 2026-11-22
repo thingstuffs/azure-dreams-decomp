@@ -102,7 +102,7 @@ void advance_egg_bomb_sequence(EggBombBody *egg_bomb, Coord *position, void *eff
             unmark_selected_item(egg_bomb);
             init_monster_from_stats(monster, monster->species);
             apply_actor_template_and_class(monster, monster->species, 0);
-            monster->unk_43 = 0xFE;
+            monster->town_monster_slot = 0xFE;
             {
                 void *body = monster;
                 ActorRecord *actor = body;

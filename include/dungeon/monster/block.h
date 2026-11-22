@@ -828,7 +828,7 @@ void resume_actor_after_spinning_fall(ActorRecord *state, ObjectPosition *positi
 void resume_actor_after_fade(ActorRecord *state, ObjectPosition *position, SpriteFrameState *render_state, ActorRecord *entity);
 void fade_timed_primitive_effect(void *effect, ObjectPosition *unused_position, SpriteFrameState *primitive);
 void create_randomized_rotated_effect(void *unused_context, ObjectPosition *source_pos, s32 unused_value, s16 scale);
-void project_visible_effect_quad(ActorRecord *body, ObjectPosition *position, SpriteFrameState *render_info, s16 depth_bias);
+void project_visible_effect_quad(CB_80173E40_S_80173E40_6 *body, ObjectPosition *position, SpriteFrameState *render_info, s16 depth_bias);
 s32 project_linked_effect_quads(void *point, ObjectPosition *position, SpriteFrameState *color);
 void update_radial_effect_band(u8 *effect, ObjectPosition *position, s32 effect_param);
 void create_radial_effect_bands(CB_80174D14_S_80C97514_0 *owner, struct ObjectPosition *origin, void *entity);

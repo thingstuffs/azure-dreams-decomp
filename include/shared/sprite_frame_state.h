@@ -5,7 +5,7 @@
  * The constructor and minigame selector both replace/read +2C frame tables.
  * Thus the pointer at +2C is NOT evidence for a union at EntityRec+2C.
  * Byte +24/+25 and word +28 retain offset names until their roles are proven.
- * Named fields (r121 typed-field prototype; evidence rows in ledger/fields.jsonl, census of 2,994 sites in
+ * Named fields (evidence rows in ledger/fields.jsonl, census of 2,994 sites in
  * 330 functions reaching this object through ObjectNodeHeader.unk_0C):
  *   color      high: the whole word is copied into the primitive's rgb+code word and +0F receives the
  *              primitive code (engine/graphics/sprite_projection.c); r/g/b written 0x80 (neutral) by 123 sites.

@@ -58,7 +58,7 @@ void *reset_actor_animation_state(ActorRecord *body)
         object->unk_A8 = body->species;
         body->species = MONSTER_FROG;
         object->action_id = 0xFF;
-        object->unk_9C = -1;
+        object->route_room = -1;
         object->unk_8C.handler = update_actor_facing_animation;
         child->frameTable = actor_action_frames;
 

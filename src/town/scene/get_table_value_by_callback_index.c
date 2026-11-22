@@ -1,8 +1,5 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
-typedef signed int s32;
-typedef unsigned int u32;
-typedef unsigned char u8;
 
 typedef struct {
     s32 values[3];

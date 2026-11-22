@@ -72,7 +72,7 @@ void *spawn_stealth_slot_a(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) 
         }
         initialize_actor_sprite_and_animation(object, part_a, part_b, spawn_flags);
         work_copy->action_id = 0xFF;
-        work_copy->unk_9C = -1;
+        work_copy->route_room = -1;
         work_copy->unk_8C.address = &D_8014CF74;
         work_copy->unk_A4.halves.low.s = -1;
         if (variant != 0) {

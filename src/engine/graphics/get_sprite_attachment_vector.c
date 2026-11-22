@@ -20,16 +20,8 @@ typedef struct SpriteAttachmentEntry {
  * touched directly here (bits 0x6000); rest is opaque and forwarded to
  * transform_sprite_attachment_point. */
 
-/* The wrapper copies three signed halfwords from the transform result. */
-typedef struct S_8003DF74_Vec {
-    s16 x;
-    s16 y;
-    s16 z;
-    s16 pad;
-} S_8003DF74_Vec;
-
 /* Looks up an entry and fills its vector, using a fixed fallback for flagged entities. */
-SpriteAttachmentEntry *get_sprite_attachment_vector(SpriteAttachmentEntry *table, SpriteFrameState *entity, S_8003DF74_Vec *out_vec, s16 entry_id) {
+SpriteAttachmentEntry *get_sprite_attachment_vector(SpriteAttachmentEntry *table, SpriteFrameState *entity, SpriteAttachmentVector *out_vec, s16 entry_id) {
     SVECTOR vector;
     u16 entry_index;
     SpriteAttachmentEntry *entry;

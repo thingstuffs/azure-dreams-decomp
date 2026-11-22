@@ -114,17 +114,17 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState
             case 6:
                 use_player = 1;
             case 2:
-                item_slot = &actor_data->unk_0C.bytes[2];
+                item_slot = &actor_data->abilities[2].id;
                 break;
             case 5:
                 use_player = 1;
             case 1:
-                item_slot = &actor_data->unk_00[11];
+                item_slot = &actor_data->abilities[1].id;
                 break;
             case 4:
                 use_player = 1;
             case 0:
-                item_slot = &actor_data->unk_00[8];
+                item_slot = &actor_data->abilities[0].id;
                 break;
             case 3:
             default:
@@ -135,13 +135,13 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState
             s32 action_kind = actor_data->action_flags & 0x3FFF;
             switch (action_kind) {
             case 3:
-                item_slot = &actor_data->unk_0C.bytes[2];
+                item_slot = &actor_data->abilities[2].id;
                 break;
             case 2:
-                item_slot = &actor_data->unk_00[11];
+                item_slot = &actor_data->abilities[1].id;
                 break;
             case 1:
-                item_slot = &actor_data->unk_00[8];
+                item_slot = &actor_data->abilities[0].id;
                 break;
             default:
                 item_slot = 0;

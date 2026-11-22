@@ -272,7 +272,7 @@ void update_ghosh_actor(ActorRecord *entity, ObjectPosition *motion, SpriteFrame
         mode_bits = sprite_flags & 0x8000;
         if (!mode_bits) {
             view_direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
-            prior_direction = entity->unk_94;
+            prior_direction = entity->sprite_direction;
             direction_index = view_direction;
             if (prior_direction != direction_index) {
                 direction_animations = ((S_8016B0E8_14 *)sprite)->unk_2C;
@@ -280,7 +280,7 @@ void update_ghosh_actor(ActorRecord *entity, ObjectPosition *motion, SpriteFrame
                     animation_id = *(direction_animations + direction_index);
                     select_indirect_table_entry(sprite, animation_id, sprite->unk_04);
                 }
-                entity->unk_94 = view_direction;
+                entity->sprite_direction = view_direction;
             }
             facing_flip = dir_sprite_flag[direction_index];
             if (facing_flip != 0) {
@@ -310,12 +310,12 @@ void update_ghosh_actor(ActorRecord *entity, ObjectPosition *motion, SpriteFrame
         motion->y.v = (s32) (motion->y.v
             + motion->velocity_y);
         if (entity->action_state_flags & 8) {
-            entity->unk_9D = 0;
+            entity->fall_ticks = 0;
         } else {
             motion->velocity_z = (s32) (motion->velocity_z
-                + ((entity->unk_9D) * 0x14000));
-            fall_ticks =  entity->unk_9D + 1;
-            entity->unk_9D = fall_ticks;
+                + ((entity->fall_ticks) * 0x14000));
+            fall_ticks =  entity->fall_ticks + 1;
+            entity->fall_ticks = fall_ticks;
         }
         motion_position = entity->unk_90.value;
         motion_delta = motion->velocity_z;
@@ -339,7 +339,7 @@ void update_ghosh_actor(ActorRecord *entity, ObjectPosition *motion, SpriteFrame
                     }
                     motion->velocity_z = 0;
                     actor->flags1C = (s32) (actor->flags1C | 0x08000000);
-                    entity->unk_9D = 0;
+                    entity->fall_ticks = 0;
                 }
                 actor_flags = actor->flags1C;
                 if (actor_flags & 0x40000000) {

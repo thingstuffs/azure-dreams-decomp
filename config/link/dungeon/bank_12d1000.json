@@ -135,6 +135,20 @@
       "evidence": "; LL3a preserves prior rule-3 binding"
     },
     {
+      "row": "dungeon/func_812B45D4",
+      "tu": "src/dungeon/monster/kewne_uncached/advance_kewne_uncached_leap_attack.c",
+      "home": "dungeon/func_812A85D4",
+      "foff": "0x12d45d4",
+      "vma": "0x80167dd4",
+      "size": 708,
+      "evidence": "DUNGEON +0x12d6528 points to the leap action at 0x80167dd4. Resource 57 slot 2 loads twelve sectors from LBA 0x55b8 to 0x80164800. The linked object uses the two animation tables and action continuation from that same bank.",
+      "bindings": {
+        "0x80175C78": "0x80169C78",
+        "0x80175CA8": "0x80169CA8",
+        "0x80171FA4": "0x80165FA4"
+      }
+    },
+    {
       "row": "dungeon/func_812B4E10",
       "tu": "src/dungeon/monster/kewne_uncached/advance_staged_motion_and_snap_tile.c",
       "home": "dungeon/func_812A8E10",

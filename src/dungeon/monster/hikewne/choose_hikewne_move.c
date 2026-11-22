@@ -60,7 +60,7 @@ void choose_hikewne_move(ActorRecord *move_data, ObjectPosition *context, Sprite
         return;
     }
 
-    update_actor_proximity_flag(position_data, actor_data, 3, 6, &move_data->unk_9C);
+    update_actor_proximity_flag(position_data, actor_data, 3, 6, &move_data->route_room);
     actor_flags = actor_data->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
@@ -97,7 +97,7 @@ void choose_hikewne_move(ActorRecord *move_data, ObjectPosition *context, Sprite
                     TileObject *target_position = &reference_tile_object;
                     s32 target_facing = ((u16)primary_actor_record->facing);
                     s32 offset_index =
-                        ((((u8 *)&actor_data->unk_44.whole)[1] + ((s16)target_facing >> 9)) & 7) << 1;
+                        ((actor_data->approach_direction + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
                         (u16)dir_step_x[offset_index >> 1];
                     target_y = target_position->tile_position.parts.tile_y +
@@ -126,13 +126,13 @@ void choose_hikewne_move(ActorRecord *move_data, ObjectPosition *context, Sprite
                     limit_detour = 1;
                 }
             } else {
-                select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+                select_actor_route_target((u8 *)position_data, move_data->route_room, (u8 *)actor_data,
                               &move_data->action_state_flags);
             }
         }
     } else if ((s8)position_data->room_index >= 0 &&
                dungeon_rooms[(s8)position_data->room_index].flags & ROOM_HOLY_BEAM) {
-        select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+        select_actor_route_target((u8 *)position_data, move_data->route_room, (u8 *)actor_data,
                       &move_data->action_state_flags);
     } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
         current_angle = (s32)probe_directional_neighbor(actor_data, position_data->tile_x, position_data->tile_y, actor_data->facing);
@@ -169,7 +169,7 @@ void choose_hikewne_move(ActorRecord *move_data, ObjectPosition *context, Sprite
                 }
             }
         } else {
-            select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+            select_actor_route_target((u8 *)position_data, move_data->route_room, (u8 *)actor_data,
                           &move_data->action_state_flags);
         }
     }
@@ -250,7 +250,7 @@ void choose_hikewne_move(ActorRecord *move_data, ObjectPosition *context, Sprite
 
     {
         actor_data->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-        move_data->unk_9C = position_data->room_index;
+        move_data->route_room = position_data->room_index;
         actor_data->pending_turn_updates--;
         g_dungeon_status.activity_counts.parts.pending_movement_count++;
     }

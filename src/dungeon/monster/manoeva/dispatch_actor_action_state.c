@@ -19,7 +19,7 @@ s32 dispatch_actor_action_state(ActorRecord *body, ObjectPosition *position, Spr
     saved_position = position;
     saved_sprite = sprite;
     saved_actor = body;
-    call_result = relink_entity_and_clear_high_flag(saved_position, saved_sprite, saved_actor, 2, 4, &saved_actor->unk_9C);
+    call_result = relink_entity_and_clear_high_flag(saved_position, saved_sprite, saved_actor, 2, 4, &saved_actor->route_room);
     call_result <<= 16;
     state = call_result >> 16;
     call_result = 0;

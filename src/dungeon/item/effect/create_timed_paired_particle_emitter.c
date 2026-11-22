@@ -42,7 +42,7 @@ void create_timed_paired_particle_emitter(ObjectPosition *source, s32 effect_par
         return;
     }
 
-    color = &dungeon_ellipse_parameters.center_color;
+    color = &dungeon_ellipse_parameters.center_color.word;
     *color = effect_param;
     effect_init.words[0] = 0x01000340;
     init_value = 0x00200020;

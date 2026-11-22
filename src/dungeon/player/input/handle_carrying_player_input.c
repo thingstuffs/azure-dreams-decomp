@@ -23,7 +23,6 @@
 #include "engine/menu.h"
 #include "slus.h"
 
-extern s32 func_8002534C(void *, void *, void *, void *); /* extern */
 s32 request_familiar_deployment_change(void *, void *, void *, s32, u32); /* extern */
 
 #include "dungeon/item/actor_target.h"
@@ -270,7 +269,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
                         begin_familiar_summoning(object, aux_entity, sprite, looked_up);
                         return;
                     case 0xA0:
-                        func_8002534C(object, aux_entity, sprite, entity);
+                        begin_targeted_player_action(object, aux_entity, sprite, entity);
                         return;
                     case 0xD8:
                         actor_command_handlers[record->unk_00 & 0x7F](target_facing, facing);

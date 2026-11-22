@@ -59,7 +59,7 @@ void advance_actor_recovery_sequence(ActorRecord *body, ObjectPosition *motion, 
         actor->facing = get_rounded_facing_and_rounding_flag(
             sprite->unk_24, sprite->unk_25,
             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &target_distance);
-        body->unk_94 = 1;
+        body->sprite_direction = 1;
         return;
 
     case 1:

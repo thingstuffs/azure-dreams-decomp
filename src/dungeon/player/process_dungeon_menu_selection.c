@@ -48,13 +48,6 @@ typedef struct S_80090C10_6 {
     u8 unk_03;
 } S_80090C10_6;   /* (*(void **)&D_80082EB0) in process_dungeon_menu_selection */
 
-typedef struct S_80090C10_8 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x40];
-    s32 unk_60;
-} S_80090C10_8;
-
 
 
 typedef struct S_80090C10_11 {
@@ -74,7 +67,6 @@ typedef struct S_80090C10_13 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 func_8002534C(void *, s32, void *, ActorRecord *); /* extern */
 #include "dungeon/actor/state.h"
 #include "dungeon/item.h"
 #include "dungeon/system.h"
@@ -185,12 +177,12 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
         break;
     case 2:
         if (((S_80090C10_13 *)selected_item_record_alias.unk_00.as_pv)->unk_01 == ITEM_KIND_SHIELD) {
-            append_packed_action_record(actor, 0x48, get_item_slot_number(actor->unk_50.address), 0);
+            append_packed_action_record(actor, 0x48, get_item_slot_number(actor->shield.address), 0);
             change_equipped_item_and_notify(actor, NULL);
             selected_item_action_alias = 0;
             break;
         }
-        append_packed_action_record(actor, 0x48, get_item_slot_number(actor->unk_4C), 0);
+        append_packed_action_record(actor, 0x48, get_item_slot_number(actor->weapon), 0);
         equip_item_and_update_status(actor, NULL);
         selected_item_action_alias = 0;
         break;
@@ -264,7 +256,7 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
         display_text_with_fullwidth_adjustment(text_buffer);
         goto block_64;
     case 10:
-        func_8002534C(state, context, sprite, actor);
+        begin_targeted_player_action(state, (ObjectPosition *)(unsigned long)(u32)context, sprite, actor);
         ((Rec_func_8008D024_arg0 *)state)->unk_C8 = NULL;
         return;
     case 14:
@@ -272,11 +264,15 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
         ((Rec_func_8008D024_arg0 *)state)->unk_C8 = NULL;
         goto block_64;
     case 12:
-        companion_value = (s32) ((ActorRecord *)((((s32) selected_item_record_alias.unk_00.as_pv * 4)
+    {
+        ActorRecord *selected_companion;
+
+        selected_companion = ((ActorRecord *)((((s32) selected_item_record_alias.unk_00.as_pv * 4)
             + state)))->unk_AC.address;
-        if (!(((S_80090C10_8 *)((void *)companion_value))->unk_1C & 0x80000)) {
-            ((S_80090C10_8 *)((void *)companion_value))->unk_60 = 0;
+        if (!(selected_companion->flags1C & ACTOR_LIFTED)) {
+            selected_companion->target = NULL;
         }
+    }
         if (((S_80090C10_1 *)(&dungeon_menu_action_state))->unk_00.s == &familiar_menu_action_data) {
             selected_item_action_alias = 0;
             break;

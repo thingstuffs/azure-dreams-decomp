@@ -101,7 +101,7 @@ void *spawn_kid(s32 kind, s32 part_x, s32 part_y, s32 copy_value)
         outer = stable_object;
         outer_index = 0;
         stable_object->action_id = 0xFF;
-        stable_object->unk_9C = -1;
+        stable_object->route_room = -1;
         stable_object->unk_8C.address = kid_action_resume_address;
         object->flags1C |= 0x40000;
         stable_object->unk_90.parts.high = -0x20;

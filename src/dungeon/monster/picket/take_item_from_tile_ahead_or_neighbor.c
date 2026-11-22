@@ -113,10 +113,10 @@ scan_loop:
                 }
             }
         }
-        if (target->unk_49 == 0) {
+        if (target->carried_item.kind == 0) {
             return 0;
         }
-        if (target->unk_4B & 0x20) {
+        if (target->carried_item.unk_03 & 0x20) {
             return 0;
         }
         {

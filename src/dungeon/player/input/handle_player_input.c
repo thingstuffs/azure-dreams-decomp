@@ -38,7 +38,6 @@ typedef struct S_8008ACDC_9 {
     u8 unk_03;
 } S_8008ACDC_9;
 
-void func_8002534C(); /* extern */
 void try_move_player(); /* extern */
 s32 try_begin_lift_object(struct S_8008C5C4_2 *action, void *unused, SpriteAnimationTableView *position, ActorRecord *actor);  /* extern */
 s32 request_familiar_deployment_change(); /* extern */
@@ -323,7 +322,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                         }
                         return;
                     case 0xA0:
-                        func_8002534C(actor, motion, sprite, stats);
+                        begin_targeted_player_action(actor, motion, sprite, stats);
                         return;
                     case 0xC8:
                         ((ActorRecord *)actor)->action_timer =

@@ -64,7 +64,7 @@ void *allocate_object_state_and_callbacks(s16 init_flags, s16 grid_x, s16 grid_y
         }
         initialize_actor_sprite_and_animation(object, config, placement, init_flags);
         extended_state->action_id = 0xFF;
-        extended_state->unk_9C = -1;
+        extended_state->route_room = -1;
         extended_state->unk_8C.word_ptr = &D_8014D014;
         state->flags1C = (s32)(state->flags1C | 0x40000);
         extended_state->unk_90.parts.high = -0x20;

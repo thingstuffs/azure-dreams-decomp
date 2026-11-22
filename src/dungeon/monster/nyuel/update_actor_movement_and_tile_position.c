@@ -51,7 +51,7 @@ void update_actor_movement_and_tile_position(ActorRecord *object, ObjectPosition
         return;
     }
 
-    update_actor_proximity_flag(tile, actor, 3, 6, &object->unk_9C);
+    update_actor_proximity_flag(tile, actor, 3, 6, &object->route_room);
     actor_flags = actor->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
@@ -88,11 +88,11 @@ void update_actor_movement_and_tile_position(ActorRecord *object, ObjectPosition
     else if (actor_flags & 0x2000) {
         if (!(actor->action_flags & 0x8000)) {
             if (!(actor_flags & 0x20000)) {
-                select_actor_route_target(tile, object->unk_9C, actor, &object->action_state_flags);
+                select_actor_route_target(tile, object->route_room, actor, &object->action_state_flags);
             }
             else {
                 {
-                    s32 direction = actor->unk_44.bytes.high;
+                    s32 direction = actor->approach_direction;
                     s32 player_angle = primary_actor_record->facing;
                     s32 direction_offset;
                     s32 target_x;
@@ -130,7 +130,7 @@ void update_actor_movement_and_tile_position(ActorRecord *object, ObjectPosition
         {
             s8 tile_kind = (s8)tile->room_index;
             if ((tile_kind >= 0) && (dungeon_rooms[tile_kind].flags & 2)) {
-                select_actor_route_target(tile, object->unk_9C, actor, &object->action_state_flags);
+                select_actor_route_target(tile, object->route_room, actor, &object->action_state_flags);
             }
             else {
                 if (!(actor->action_flags & 0x8000)) {
@@ -148,7 +148,7 @@ void update_actor_movement_and_tile_position(ActorRecord *object, ObjectPosition
                     }
                 }
                 if (!(actor->flags1C & 0x20000)) {
-                    select_actor_route_target(tile, object->unk_9C, actor, &object->action_state_flags);
+                    select_actor_route_target(tile, object->route_room, actor, &object->action_state_flags);
                 }
                 else {
                     u16 *angle_flags = &object->action_state_flags;
@@ -226,7 +226,7 @@ void update_actor_movement_and_tile_position(ActorRecord *object, ObjectPosition
     }
 
     actor->action_flags &= 0x7FFF;
-    object->unk_9C = tile->room_index;
+    object->route_room = tile->room_index;
     (*(u8 *)&actor->pending_turn_updates)--;
     {
         DungeonGlobalStatus *move_state = &g_dungeon_status;

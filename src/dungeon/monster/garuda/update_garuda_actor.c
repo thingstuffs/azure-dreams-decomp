@@ -75,10 +75,10 @@ void update_garuda_actor(ActorRecord *body, ObjectPosition *motion, SpriteFrameS
 
         if (!((body->flags1C) & 0x40000) &&
             !((body->action_state_flags) & 8)) {
-            motion->velocity_z += ((body->unk_9D)) * 0x14000;
-            (body->unk_9D) += 1;
+            motion->velocity_z += ((body->fall_ticks)) * 0x14000;
+            (body->fall_ticks) += 1;
         } else {
-            (body->unk_9D) = 0;
+            (body->fall_ticks) = 0;
         }
     }
 
@@ -90,11 +90,11 @@ void update_garuda_actor(ActorRecord *body, ObjectPosition *motion, SpriteFrameS
         direction = ((s32)value_bits >> 9) & 7;
         mode_or_dir = (u16)direction;
         mode_or_dir = (s16)mode_or_dir;
-        if ((body->unk_94) != mode_or_dir) {
+        if ((body->sprite_direction) != mode_or_dir) {
             select_indirect_table_entry(sprite,
                 *(*(u8 **)&sprite->frameTable + mode_or_dir),
                 sprite->unk_04);
-            (body->unk_94) = direction;
+            (body->sprite_direction) = direction;
         }
         value_bits = (u32)&dir_sprite_flag[mode_or_dir];
         direction_flag = *(u8 *)value_bits;
@@ -131,7 +131,7 @@ void update_garuda_actor(ActorRecord *body, ObjectPosition *motion, SpriteFrameS
                         state->ground_height;
                 if (landing_delta < (body->unk_90.parts.high)) {
                     (body->unk_90.parts.high) = landing_delta;
-                    (body->unk_9D) = 0;
+                    (body->fall_ticks) = 0;
                     motion->velocity_z = 0;
                     state->flags1C |= 0x08000000;
                 }
@@ -179,7 +179,7 @@ void update_garuda_actor(ActorRecord *body, ObjectPosition *motion, SpriteFrameS
                         state->ground_height;
                 if (floor_delta < (body->unk_90.parts.high)) {
                     (body->unk_90.parts.high) = floor_delta;
-                    (body->unk_9D) = 0;
+                    (body->fall_ticks) = 0;
                     motion->velocity_z = 0;
                     state->flags1C |= 0x08000000;
                 }

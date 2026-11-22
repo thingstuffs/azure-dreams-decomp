@@ -1,5 +1,6 @@
 #ifndef SHARED_TOWN_SERVICES_H
 #define SHARED_TOWN_SERVICES_H
+#include "shared/game_state.h"
 
 /* Indirect-call table reached through the town root at +0x20.
  * Observed extent: through the word at +0x344; total allocation size unknown.
@@ -13,6 +14,9 @@
  * the entry of the town script call table at 0x800D3CC8 (+0x280 play_sound is entry 160, SD_Call), so a
  * slot named after a developer symbol is that table entry (+0x04C entry 19, +0x228 entry 138). */
 struct DungeonItemEntry;
+struct Node;
+struct TownListEntry;
+
 typedef struct TownServiceTable {
     /* 0x000 */ unsigned char pad_000[0x44];
     /* 0x044 */ int (*callback_044)();
@@ -26,7 +30,8 @@ typedef struct TownServiceTable {
     /* 0x070 */ int (*callback_070)();
     /* 0x074 */ void *(*callback_074)();
     /* 0x078 */ int (*callback_078)();
-    /* 0x07C */ unsigned char pad_07C[8];
+    /* 0x07C */ void (*copy_monster_to_slot)(int, struct TownListEntry *, TownSlotSnapshot *, signed char);
+    /* 0x080 */ void (*load_name_window)(int);
     /* 0x084 */ int (*callback_084)();
     /* 0x088 */ int (*callback_088)();
     /* 0x08C */ unsigned char pad_08C[0xDC];
@@ -45,7 +50,7 @@ typedef struct TownServiceTable {
     /* 0x20C */ unsigned char pad_20C[0xC];
     /* 0x218 */ int (*callback_218)();
     /* 0x21C */ int (*callback_21C)();
-    /* 0x220 */ int (*callback_220)();
+    /* 0x220 */ void *(*set_item_w0)(signed char, signed char, signed char, signed char);
     /* 0x224 */ int (*callback_224)();
     /* 0x228 */ int (*tcame_chase_fix_reset)();
     /* 0x22C */ unsigned char pad_22C[4];
@@ -55,7 +60,8 @@ typedef struct TownServiceTable {
     /* 0x23C */ unsigned char pad_23C[0x8];
     /* 0x244 */ int (*callback_244)();
     /* 0x248 */ int (*callback_248)();
-    /* 0x24C */ unsigned char pad_24C[0xC];
+    /* 0x24C */ unsigned char pad_24C[8];
+    /* 0x254 */ void (*anyone_now_ang_get)(int);
     /* 0x258 */ int (*callback_258)();
     /* 0x25C */ unsigned char pad_25C[0x8];
     /* 0x264 */ int (*callback_264)();
@@ -71,11 +77,15 @@ typedef struct TownServiceTable {
     /* 0x290 */ int (*callback_290)();
     /* 0x294 */ unsigned char pad_294[0x2C];
     /* 0x2C0 */ int (*callback_2C0)();
-    /* 0x2C4 */ unsigned char pad_2C4[0xC];
+    /* 0x2C4 */ struct Node *(*psn_lookable_get)(short);
+    /* 0x2C8 */ unsigned char pad_2C8[8];
     /* 0x2D0 */ int (*callback_2D0)();
     /* 0x2D4 */ int (*callback_2D4)();
     /* 0x2D8 */ void (*came_bright_set)(unsigned int);
-    /* 0x2DC */ unsigned char pad_2DC[0x10];
+    /* 0x2DC */ unsigned char pad_2DC[4];
+    /* 0x2E0 */ int (*equip_item)(int, int);
+    /* 0x2E4 */ void (*set_packed_flag)(int, int);
+    /* 0x2E8 */ unsigned char pad_2E8[4];
     /* 0x2EC */ int (*callback_2EC)();
     /* 0x2F0 */ unsigned char pad_2F0[4];
     /* 0x2F4 */ int (*callback_2F4)();

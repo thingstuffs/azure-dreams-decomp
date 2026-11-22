@@ -210,4 +210,6 @@ void update_transform_object_on_request(void *object, s32 request_data, s32 requ
 void func_800C2E84(TownObjectRecord *state, SpriteFrameState *output, s32 *entries);
 void initialize_object_entries(TownObjectRecord *state, SpriteFrameState *output, s32 *entries);
 
+void interpolate_person_to_saved_position(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output);
+
 #endif

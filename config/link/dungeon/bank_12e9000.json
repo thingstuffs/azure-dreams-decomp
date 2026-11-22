@@ -127,6 +127,20 @@
       "size": 100
     },
     {
+      "row": "dungeon/func_812CC5D4",
+      "tu": "src/dungeon/monster/kewne_uncached/advance_kewne_uncached_leap_attack.c",
+      "home": "dungeon/func_812A85D4",
+      "foff": "0x12ec5d4",
+      "vma": "0x8014fdd4",
+      "size": 708,
+      "evidence": "DUNGEON +0x12ee528 points to the leap action at 0x8014fdd4. Resource 57 slot 6 loads twelve sectors from LBA 0x55e8 to 0x8014c800. The linked object uses the two animation tables and action continuation from that same bank.",
+      "bindings": {
+        "0x80175C78": "0x80151C78",
+        "0x80175CA8": "0x80151CA8",
+        "0x80171FA4": "0x8014DFA4"
+      }
+    },
+    {
       "row": "dungeon/func_812CCE10",
       "tu": "src/dungeon/monster/kewne_uncached/advance_staged_motion_and_snap_tile.c",
       "home": "dungeon/func_812A8E10",

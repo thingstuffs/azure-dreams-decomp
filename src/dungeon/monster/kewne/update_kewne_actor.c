@@ -61,20 +61,20 @@ void update_kewne_actor(ActorRecord *actor, ObjectPosition *position, SpriteFram
     position->x.v += position->velocity_x;
     position->y.v += position->velocity_y;
     if ((!(actor->flags1C & 0x40000)) && (!(actor->action_state_flags & 8))) {
-        position->velocity_z += actor->unk_9D * 0x14000;
-        actor->unk_9D++;
+        position->velocity_z += actor->fall_ticks * 0x14000;
+        actor->fall_ticks++;
     }
     else {
-        actor->unk_9D = 0;
+        actor->fall_ticks = 0;
     }
     actor->unk_90.value += position->velocity_z;
     view_direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor_base->facing) + 0x100) >> 9;
     bob_step = view_direction & 7;
     direction_index = bob_step;
-    if (actor->unk_94 != direction_index) {
+    if (actor->sprite_direction != direction_index) {
         select_indirect_table_entry(sprite, *((u8 *) ((sprite->frameTable) + direction_index)),
             sprite->unk_04);
-        actor->unk_94 = bob_step;
+        actor->sprite_direction = bob_step;
     }
     if (dir_sprite_flag[direction_index] != 0) {
         sprite_flags = (sprite->flags) | 1;
@@ -153,7 +153,7 @@ void update_kewne_actor(ActorRecord *actor, ObjectPosition *position, SpriteFram
                 ground_offset = ground_height - (u16)actor_base->ground_height;
                 if (((s16) ground_offset) < actor->unk_90.parts.high) {
                     actor->unk_90.parts.high = ground_offset;
-                    actor->unk_9D = 0;
+                    actor->fall_ticks = 0;
                     position->velocity_z = 0;
                     actor_base->flags1C |= 0x08000000;
                 }

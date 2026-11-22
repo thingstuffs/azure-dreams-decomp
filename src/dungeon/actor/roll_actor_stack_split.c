@@ -28,8 +28,8 @@ s32 roll_actor_stack_split(ActorRecord *actor, s32 chance)
 
     {
         signed_arg = generate_random_value() & 0xFFFF;
-        if (actor->unk_00[3] != 0) {
-            mod = signed_arg % actor->unk_00[3];
+        if (actor->luck != 0) {
+            mod = signed_arg % actor->luck;
         } else {
             mod = 0;
         }

@@ -141,11 +141,11 @@ void update_actor_movement_and_height(ActorRecord *body, ObjectPosition *positio
 
     view_angle = g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100;
     state_direction = (view_angle >> 9) & 7;
-    if (body->unk_94 != state_direction) {
+    if (body->sprite_direction != state_direction) {
         select_indirect_table_entry(sprite,
                       *((u8 *)sprite->frameTable + state_direction),
                       sprite->unk_04);
-        body->unk_94 = state_direction;
+        body->sprite_direction = state_direction;
     }
 
     sprite->flags &= 0xFFFE;

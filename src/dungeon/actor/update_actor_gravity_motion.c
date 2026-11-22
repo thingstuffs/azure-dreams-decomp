@@ -55,10 +55,10 @@ void dispatch_actor_actions_and_integrate_gravity(ActorRecord *body, ObjectPosit
     motion->y.v = y + dy;
 
     if (body->action_state_flags & 8) {
-        body->unk_9D = 0;
+        body->fall_ticks = 0;
     } else {
-        motion->velocity_z += (body->unk_9D) * 0x14000;
-        body->unk_9D++;
+        motion->velocity_z += (body->fall_ticks) * 0x14000;
+        body->fall_ticks++;
     }
     fall_offset = body->unk_90.value;
     fall_speed = motion->velocity_z;
@@ -82,7 +82,7 @@ void dispatch_actor_actions_and_integrate_gravity(ActorRecord *body, ObjectPosit
                 }
                 motion->velocity_z = 0;
                 (*(u32 *)((u8 *)update_obj + (0x1C))) |= 0x08000000;
-                body->unk_9D = 0;
+                body->fall_ticks = 0;
             }
 
             if ((*(u32 *)((u8 *)update_obj + (0x1C))) & 0x40000000) {

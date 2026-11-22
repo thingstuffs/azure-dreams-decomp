@@ -72,11 +72,11 @@ void update_actor_facing_and_lifecycle(ActorRecord *body, ObjectPosition *motion
         direction = ((g_game_work.view.camera_rotation.parts.viewAngle + secondary->facing + 0x100) >> 9);
         direction &= 7;
         direction_index = direction;
-        if (body->unk_94 != direction_index) {
+        if (body->sprite_direction != direction_index) {
             select_record_entry_and_value(part,
                 ((void **)body->unk_A4.address)[direction_index],
                 part->unk_04);
-            body->unk_94 = direction;
+            body->sprite_direction = direction;
         }
 
         if (dir_sprite_flag[direction_index] != 0) {

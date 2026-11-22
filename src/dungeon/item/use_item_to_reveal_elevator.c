@@ -37,7 +37,7 @@ s32 use_item_to_reveal_elevator(ActorRecord *target, DungeonItemEntry *action_id
     if ((u32)target <= 0x9FFFFFFF) {
         display_actor_item_status_message(target, action_id);
         if (feed_actor_restore_mp(target,
-                          entity_action_selectors[(*(&target->unk_10 + 3))] & 3,
+                          entity_action_selectors[target->species] & 3,
                           action_id) == 0) {
             place_actor_item(target, action_id);
             return 1;

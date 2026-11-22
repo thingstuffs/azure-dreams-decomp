@@ -195,11 +195,11 @@ void _spu_Fr_(s32 ram_address, s16 spu_address, s32 block_count)
  *        statements be written in retail's order (shift first) without the andi
  *        stealing $a0.  No register pin is needed on it.
  *   NO register pin is needed anywhere in the block-count code: once `transfer_arg` is the
- *        shared multi-block pseudo, the prior lane's `size`->$a0 and `blocks`->$v1
+ *        shared multi-block pseudo, the earlier version's `size`->$a0 and `blocks`->$v1
  *        pins are both dead (ablated, still MATCH) and were removed.
  *   The shift MUST be logical: `transfer_arg` is s32, so the (u32) casts are what make it
  *        `srl` rather than `sra`.
- *   Semantics carried from the prior lane: CHCR default 0x1000201 with 0x1000200 when
+ *   Semantics carried from the earlier version: CHCR default 0x1000201 with 0x1000200 when
  *        D_800799A8 == 1; the block count is srl/andi/sltu/addu, branchless.
  *   D_800799AC is declared a volatile OBJECT with the store cast back to non-volatile
  *        so the reload survives cse without costing the bne's delay-slot fill.

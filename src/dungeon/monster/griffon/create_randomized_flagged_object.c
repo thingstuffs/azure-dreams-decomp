@@ -90,7 +90,7 @@ void *create_randomized_flagged_object(s16 spawn_flags, s16 attr_a, s16 attr_b, 
         call_a1 = obj;
         initialize_actor_sprite_and_animation(call_a1, part_a, part_b, spawn_flags);
         actor->action_id = 0xFF;
-        actor->unk_9C = -1;
+        actor->route_room = -1;
         actor->unk_8C.address = &griffon_slot_d_action_callback;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }

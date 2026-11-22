@@ -176,7 +176,7 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
                 actor->facing = saved_angle;
                 view_dir = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) saved_angle + 0x100) >> 9) & 7;
                 select_indirect_table_entry(sprite, (*(u8 * *)&sprite->frameTable)[view_dir], sprite->unk_04);
-                action->unk_94 = view_dir;
+                action->sprite_direction = view_dir;
             }
             if (action->action_timer < 0x10) {
                 return;

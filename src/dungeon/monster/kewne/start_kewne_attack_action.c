@@ -28,8 +28,8 @@ void start_kewne_attack_action(ActorRecord *controller, ObjectPosition *action_c
             actor->pending_turn_updates = actor->pending_turn_updates - 1;
             controller->action_state_flags = (u16) (controller->action_state_flags | 8);
             prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
-            actor->unk_84 = 0x7C;
-            actor->unk_85 = 0;
+            actor->accuracy = 0x7C;
+            actor->attack_bonus = 0;
         }
     }
 }

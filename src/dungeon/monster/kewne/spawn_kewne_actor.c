@@ -79,7 +79,7 @@ void *spawn_kewne_actor(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 height)
 
         initialize_actor_sprite_and_animation(entity, position, placement, saved_flags);
         actor->action_id = 0xFF;
-        actor->unk_9C = -1;
+        actor->route_room = -1;
         actor->unk_8C.address = update_actor_animation_and_behavior;
         entity_data->flags1C |= 0x40000;
         actor->unk_90.parts.high = -0x20;

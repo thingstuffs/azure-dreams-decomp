@@ -34,8 +34,8 @@ u32 try_toggle_brainwash_status(ActorRecord *attacker, ActorRecord *target) {
     }
     roll = generate_random_value() & 0xFFFF;
     base_chance = attacker->level >> 2;
-    if (attacker->unk_00[3] != 0) {
-        chance = roll % attacker->unk_00[3] + base_chance;
+    if (attacker->luck != 0) {
+        chance = roll % attacker->luck + base_chance;
     } else {
         chance = base_chance;
     }

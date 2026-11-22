@@ -88,10 +88,10 @@ void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, S
 
     if (!((*(u32 *)((u8 *)body + (0x1C))) & 0x40000) &&
         !(body->action_state_flags & 8)) {
-        motion_arg->velocity_z += (body->unk_9D) * 0x14000;
-        body->unk_9D++;
+        motion_arg->velocity_z += (body->fall_ticks) * 0x14000;
+        body->fall_ticks++;
     } else {
-        body->unk_9D = 0;
+        body->fall_ticks = 0;
     }
     body->unk_90.value += motion_arg->velocity_z;
     part_flags = sprite->flags;
@@ -101,11 +101,11 @@ void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, S
 
         direction = ((g_game_work.view.camera_rotation.parts.viewAngle + base->facing + 0x100) >> 9) & 7;
         state_or_dir = direction;
-        if (body->unk_94 != state_or_dir) {
+        if (body->sprite_direction != state_or_dir) {
             select_indirect_table_entry(sprite,
                 (*((*(unsigned char **)&sprite->frameTable) + (state_or_dir))),
                 sprite->unk_04);
-            body->unk_94 = direction;
+            body->sprite_direction = direction;
         }
 
         if (dir_sprite_flag[state_or_dir] != 0) {
@@ -163,7 +163,7 @@ void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, S
                         base->ground_height;
                 if (ground_height < body->unk_90.parts.high) {
                     body->unk_90.parts.high = ground_height;
-                    body->unk_9D = 0;
+                    body->fall_ticks = 0;
                     motion_arg->velocity_z = 0;
                     base->flags1C |= 0x08000000;
                 }
@@ -191,7 +191,7 @@ void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, S
                         base->ground_height;
                 if (ground_height < body->unk_90.parts.high) {
                     body->unk_90.parts.high = ground_height;
-                    body->unk_9D = 0;
+                    body->fall_ticks = 0;
                     motion_arg->velocity_z = 0;
                     base->flags1C |= 0x08000000;
                 }

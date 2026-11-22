@@ -47,7 +47,7 @@ void advance_troll_attack_sequence(ActorRecord *action, ObjectPosition *motion, 
         }
         action->action_timer = 0;
         action->action_phase++;
-        switch (entity->unk_48) {
+        switch (entity->carried_item.unk_00) {
         case 13:
             sprite->frameTable = D_8015DDDC;
             select_sprite_entry(sprite,

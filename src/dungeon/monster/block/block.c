@@ -217,12 +217,12 @@ void update_block_motion_and_facing(ActorRecord *entity, ObjectPosition *motion,
         direction_index = direction;
         direction_copy = direction;
 
-        if (entity->unk_94 != direction_index) {
+        if (entity->sprite_direction != direction_index) {
             u8 *tile_map = (monster->frameTable);
             if (tile_map != 0) {
                 select_indirect_table_entry(monster, tile_map[direction_index], monster->unk_04);
             }
-            entity->unk_94 = direction;
+            entity->sprite_direction = direction;
         }
 
         if (dir_sprite_flag[direction_copy] != 0) {
@@ -252,10 +252,10 @@ void update_block_motion_and_facing(ActorRecord *entity, ObjectPosition *motion,
     motion->y.v += motion->velocity_y;
 
     if (entity->action_state_flags & 8) {
-        entity->unk_9D = 0;
+        entity->fall_ticks = 0;
     } else {
-        motion->velocity_z += entity->unk_9D * 0x14000;
-        entity->unk_9D++;
+        motion->velocity_z += entity->fall_ticks * 0x14000;
+        entity->fall_ticks++;
     }
 
     entity->unk_90.value += motion->velocity_z;
@@ -277,7 +277,7 @@ void update_block_motion_and_facing(ActorRecord *entity, ObjectPosition *motion,
 
                 motion->velocity_z = 0;
                 actor->flags1C |= 0x08000000;
-                entity->unk_9D = 0;
+                entity->fall_ticks = 0;
             }
             if (actor->flags1C & 0x40000000) {
                 actor->flags1C &= 0xBFFFFFFF;
@@ -543,7 +543,7 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
         return;
     }
 
-    update_actor_proximity_flag(position_data, actor_data, 3, 6, &move_data->unk_9C);
+    update_actor_proximity_flag(position_data, actor_data, 3, 6, &move_data->route_room);
     actor_flags = actor_data->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
@@ -580,7 +580,7 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
                     TileObject *target_position = &reference_tile_object;
                     s32 target_facing = ((u16)primary_actor_record->facing);
                     s32 offset_index =
-                        ((actor_data->unk_44.bytes.high + ((s16)target_facing >> 9)) & 7) << 1;
+                        ((actor_data->approach_direction + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
                         (u16)dir_step_x[offset_index >> 1];
                     target_y = target_position->tile_position.parts.tile_y +
@@ -609,13 +609,13 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
                     limit_detour = 1;
                 }
             } else {
-                select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+                select_actor_route_target((u8 *)position_data, move_data->route_room, (u8 *)actor_data,
                               &move_data->action_state_flags);
             }
         }
     } else if ((s8)position_data->room_index >= 0 &&
                dungeon_rooms[(s8)position_data->room_index].flags & ROOM_HOLY_BEAM) {
-        select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+        select_actor_route_target((u8 *)position_data, move_data->route_room, (u8 *)actor_data,
                       &move_data->action_state_flags);
     } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
         current_angle = (s32)probe_directional_neighbor(actor_data, position_data->tile_x, position_data->tile_y, actor_data->facing);
@@ -652,7 +652,7 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
                 }
             }
         } else {
-            select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+            select_actor_route_target((u8 *)position_data, move_data->route_room, (u8 *)actor_data,
                           &move_data->action_state_flags);
         }
     }
@@ -732,7 +732,7 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
 
     {
         actor_data->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-        move_data->unk_9C = position_data->room_index;
+        move_data->route_room = position_data->room_index;
         actor_data->pending_turn_updates--;
         g_dungeon_status.activity_counts.parts.pending_movement_count++;
     }
@@ -801,8 +801,8 @@ s32 try_begin_adjacent_actor_attack(ActorRecord *action_state, ObjectPosition *m
         action_state->action_id = 0x11;
         action_state->action_phase = 0;
         action_state->unk_8C.run = 0;
-        actor->unk_84 = 0x7C;
-        actor->unk_85 = 0;
+        actor->accuracy = 0x7C;
+        actor->attack_bonus = 0;
         sprite_arg->frameTable = block_slot_g_direction_frames;
         select_sprite_entry(sprite_arg, block_slot_g_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         actor->pending_turn_updates--;
@@ -826,8 +826,8 @@ void begin_unchecked_directional_attack(ActorRecord *state, ObjectPosition *posi
             select_sprite_entry(render_state, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7) + block_slot_g_direction_frames), 0);
             entity->pending_turn_updates = entity->pending_turn_updates - 1;
             prepare_directional_attack(entity, render_state, entity->facing, 1, 0);
-            entity->unk_84 = 0x7C;
-            entity->unk_85 = 0;
+            entity->accuracy = 0x7C;
+            entity->attack_bonus = 0;
         }
     }
 }
@@ -838,7 +838,7 @@ s32 resolve_actor_action_readiness(ActorRecord *entity_arg, ObjectPosition *prim
     s32 result;
     ActorRecord *entity = entity_arg;
 
-    state_type = (s16)relink_entity_and_clear_high_flag(primary_context_arg, secondary_context_arg, entity, 3, 6, &entity->unk_9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(primary_context_arg, secondary_context_arg, entity, 3, 6, &entity->route_room);
     if (state_type < 0) return 0;
     if ((force_state_arg << 0x10) != 0) {
         choose_and_step_actor_path(entity, primary_context_arg, secondary_context_arg, entity);
@@ -1767,7 +1767,7 @@ void create_randomized_rotated_effect(void *unused_context, ObjectPosition *sour
 }
 
 /* Projects an effect quad, checks its screen bounds and depth, and queues visible shaded polygons. */
-void project_visible_effect_quad(ActorRecord *body, ObjectPosition *position_arg, SpriteFrameState *render_info_arg, s16 depth_bias)
+void project_visible_effect_quad(CB_80173E40_S_80173E40_6 *body, ObjectPosition *position_arg, SpriteFrameState *render_info_arg, s16 depth_bias)
 {
     SpriteFrameState *render_info = render_info_arg;
     ObjectPosition *position = position_arg;
@@ -1823,19 +1823,18 @@ void project_visible_effect_quad(ActorRecord *body, ObjectPosition *position_arg
     }
 
     {
-        CB_80173E40_S_80173E40_6 *draw_body = (CB_80173E40_S_80173E40_6 *)body;
-        scratch->vertices[0].vx = body->unk_44.whole;
-        scratch->vertices[1].vx = draw_body->unk_4A;
-        scratch->vertices[2].vx = body->unk_50.halves.low;
-        scratch->vertices[3].vx = draw_body->unk_56;
-        scratch->vertices[0].vy = body->action_flags;
-        scratch->vertices[1].vy = draw_body->unk_4C;
-        scratch->vertices[2].vy = body->unk_50.halves.high;
-        scratch->vertices[3].vy = draw_body->unk_58;
-        scratch->vertices[0].vz = draw_body->unk_48;
-        scratch->vertices[1].vz = draw_body->unk_4E;
-        scratch->vertices[2].vz = draw_body->unk_54;
-        scratch->vertices[3].vz = draw_body->unk_5A;
+        scratch->vertices[0].vx = body->unk_44;
+        scratch->vertices[1].vx = body->unk_4A;
+        scratch->vertices[2].vx = body->unk_50;
+        scratch->vertices[3].vx = body->unk_56;
+        scratch->vertices[0].vy = body->unk_46;
+        scratch->vertices[1].vy = body->unk_4C;
+        scratch->vertices[2].vy = body->unk_52;
+        scratch->vertices[3].vy = body->unk_58;
+        scratch->vertices[0].vz = body->unk_48;
+        scratch->vertices[1].vz = body->unk_4E;
+        scratch->vertices[2].vz = body->unk_54;
+        scratch->vertices[3].vz = body->unk_5A;
     }
 
     ot_index = RotAverage4(&scratch->vertices[0], &scratch->vertices[1],
@@ -1864,15 +1863,14 @@ void project_visible_effect_quad(ActorRecord *body, ObjectPosition *position_arg
             }
 
             {
-                CB_80173E40_S_80173E40_6 *draw_body = (CB_80173E40_S_80173E40_6 *)body;
                 /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
-                *(u32 *)&packet->red0 = draw_body->unk_04;
+                *(u32 *)&packet->red0 = body->unk_04;
                 /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
-                *(u32 *)&packet->red1 = draw_body->unk_08;
+                *(u32 *)&packet->red1 = body->unk_08;
                 /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
-                *(u32 *)&packet->red2 = (u32)(body->unk_0C.value);
+                *(u32 *)&packet->red2 = body->unk_0C;
                 /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
-                *(u32 *)&packet->red3 = draw_body->unk_10;
+                *(u32 *)&packet->red3 = body->unk_10;
             }
             SetPolyG4(packet);
             packet->code |= 2;

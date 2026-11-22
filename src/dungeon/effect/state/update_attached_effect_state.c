@@ -80,7 +80,7 @@ s32 update_attached_effect_state(s16 tile_index, ActorRecord *target, ActorRecor
         }
     }
 
-    equipped_item = caster->unk_4C;
+    equipped_item = caster->weapon;
 
     if (equipped_item == 0) {
         return 0;
@@ -126,7 +126,7 @@ s32 update_attached_effect_state(s16 tile_index, ActorRecord *target, ActorRecor
         if (!blocked) {
             return 0;
         }
-        saved = &target->unk_48;
+        saved = &target->carried_item.unk_00;
         if (saved[1] != 0) {
             return 0;
         }
@@ -149,7 +149,7 @@ s32 update_attached_effect_state(s16 tile_index, ActorRecord *target, ActorRecor
             saved[3] = 0;
         }
         else {
-            target->unk_48 = 3;
+            target->carried_item.unk_00 = 3;
             saved[2] = random_dungeon_range_16(0x10, 0x18);
             saved[3] = 1;
         }

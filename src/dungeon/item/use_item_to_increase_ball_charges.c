@@ -53,7 +53,7 @@ s32 use_item_to_increase_ball_charges(ActorRecord *target, DungeonItemEntry *act
     if ((u32)target <= 0x9FFFFFFF) {
         display_actor_item_status_message(target, action);
         if (feed_actor_restore_mp(
-                target, entity_action_selectors[(*(&target->unk_10 + 3))] & 3, 0) == 0) {
+                target, entity_action_selectors[target->species] & 3, 0) == 0) {
             place_actor_item(target, action);
             return 1;
         }

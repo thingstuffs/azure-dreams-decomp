@@ -526,7 +526,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
     return 6;
 
     case MONSTER_TROLL:
-    if (creature->unk_48 != 0xF) {
+    if (creature->carried_item.unk_00 != 0xF) {
         break;
     }
     if (!(creature->flags1C & ACTOR_PLAYER_AWARE)) {
@@ -770,7 +770,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
     }
 
     case MONSTER_PICKET:
-    if (creature->unk_49 == 0) {
+    if (creature->carried_item.kind == 0) {
         roll_actor_flag_once(creature, 2);
         if (!(creature->action_state_flags & 0x100)) {
             break;
@@ -795,7 +795,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
         return 2;
     }
     if ((s8)position[0x26] >= 0) {
-        select_actor_route_target(position, creature->unk_9C, creature, &creature->action_state_flags);
+        select_actor_route_target(position, creature->route_room, creature, &creature->action_state_flags);
     } else {
         flee_player_pos = &reference_tile_object;
         if ((s16)get_tile_chebyshev_distance(position, flee_player_pos) == 1) {
@@ -812,7 +812,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
         u16 ability_flags = creature->action_state_flags;
         creature->action_state_flags = ability_flags & 0x7FFF;
     }
-    if (creature->unk_49 != 0) {
+    if (creature->carried_item.kind != 0) {
         break;
     }
     if ((find_nearest_floor_item_in_room(position, 0x12, &tile_x, &tile_y) << 16) == 0) {

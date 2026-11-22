@@ -81,7 +81,7 @@ void advance_actor_movement_step(ActorRecord *movement_in, ObjectPosition *actio
         return;
     }
 
-    update_actor_proximity_flag(position, actor, 3, 6, &movement_in->unk_9C);
+    update_actor_proximity_flag(position, actor, 3, 6, &movement_in->route_room);
     actor_flags = actor->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
@@ -125,7 +125,7 @@ void advance_actor_movement_step(ActorRecord *movement_in, ObjectPosition *actio
                 TileObject *target;
 
                 target = &reference_tile_object;
-                direction = (((u8 *)&actor->unk_44.whole)[1] +
+                direction = (actor->approach_direction +
                              ((s32)(((u16)primary_actor_record->facing) << 16) >> 25)) & 7;
                 target_x = target->tile_position.parts.tile_x +
                            (u16)dir_step_x[direction];
@@ -159,7 +159,7 @@ void advance_actor_movement_step(ActorRecord *movement_in, ObjectPosition *actio
                     }
                 }
             } else {
-                select_actor_route_target((u8 *)position, movement_in->unk_9C, (u8 *)actor, &movement_in->action_state_flags);
+                select_actor_route_target((u8 *)position, movement_in->route_room, (u8 *)actor, &movement_in->action_state_flags);
             }
         }
     } else {
@@ -167,7 +167,7 @@ void advance_actor_movement_step(ActorRecord *movement_in, ObjectPosition *actio
 
         kind = (s8)position->room_index;
         if ((kind >= 0) && (dungeon_rooms[kind].flags & ROOM_HOLY_BEAM)) {
-            select_actor_route_target((u8 *)position, movement_in->unk_9C, (u8 *)actor, &movement_in->action_state_flags);
+            select_actor_route_target((u8 *)position, movement_in->route_room, (u8 *)actor, &movement_in->action_state_flags);
         } else if (!(actor->action_flags & ACTOR_ACTION_PENDING)) {
             found = probe_directional_neighbor(actor, position->tile_x,
                 position->tile_y,
@@ -199,7 +199,7 @@ void advance_actor_movement_step(ActorRecord *movement_in, ObjectPosition *actio
                     }
                 }
             } else {
-                select_actor_route_target((u8 *)position, movement_in->unk_9C, (u8 *)actor, &movement_in->action_state_flags);
+                select_actor_route_target((u8 *)position, movement_in->route_room, (u8 *)actor, &movement_in->action_state_flags);
             }
         }
     }
@@ -269,7 +269,7 @@ void advance_actor_movement_step(ActorRecord *movement_in, ObjectPosition *actio
     }
     turn_state = &g_dungeon_status;
     actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-    movement_in->unk_9C = position->room_index;
+    movement_in->route_room = position->room_index;
     actor->pending_turn_updates--;
     turn_state->activity_counts.parts.pending_movement_count++;
     if (actor->pending_turn_updates == 0) {

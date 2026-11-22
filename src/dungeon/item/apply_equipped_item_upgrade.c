@@ -61,7 +61,7 @@ s32 apply_equipped_item_upgrade(ActorRecord *target_addr, DungeonItemEntry *item
         return 1;
     }
 
-    linked_item = actor->unk_50.item;
+    linked_item = actor->shield.item;
     if (linked_item != 0) {
         if (!(item->unk_03 & 0x20)) {
             u8 item_flags;

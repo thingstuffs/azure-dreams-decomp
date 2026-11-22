@@ -40,7 +40,7 @@ void choose_tyrant_move_direction(ActorRecord *move_work, ObjectPosition *entry_
         return;
     }
 
-    update_actor_proximity_flag(position, actor, 3, 6, &move_work->unk_9C);
+    update_actor_proximity_flag(position, actor, 3, 6, &move_work->route_room);
     actor_flags = actor->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {

@@ -9,7 +9,7 @@
  * proven well enough for a name.
  * Phase 6: D_800E3D7C and D_800814A8 point at one 0x12C-byte record (phase 5 showed the two generated
  * Rec_D_800E3D7C / Rec_D_800814A8 views are one record); D_80016000 keeps its generated record.
- * r121 opus_entity2: that record is the dungeon player's body (initialize_dungeon_actor: D_800814A8 = node + 0x20,
+ * That record is the dungeon player's body (initialize_dungeon_actor: D_800814A8 = node + 0x20,
  * D_800E3D7C = D_800814A8), a PlayerRecord; both are typed as its ActorRecord prefix (include/shared/entity.h)
  * because nearly every use is actor-generic.  Player-only fields: ((PlayerRecord *)D_800814A8)->field.
  *   D_800814A8: 230 rows (dungeon, slus, town) - SLUS .bss, the word after objectFlagBlock's reserved bytes.

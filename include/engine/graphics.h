@@ -19,7 +19,13 @@ struct FrameState;
 struct Prim12;
 struct SpriteAttachmentEntry;
 struct SVECTOR;
-struct S_8003DF74_Vec;
+/* Attachment offset filled by get_sprite_attachment_vector from the SVECTOR it fills. */
+typedef struct S_8003DF74_Vec {
+    s16 x;
+    s16 y;
+    s16 z;
+    s16 pad;
+} SpriteAttachmentVector;
 struct S_8003F9E0;
 struct S_800475A4_Entry;
 struct S_8004761C_Entry;
@@ -149,8 +155,8 @@ struct SpriteAttachment *find_flagged_record_by_id(struct SpriteAttachment *entr
 void move_glyph_to_grid_position(u8 *image_code, s16 grid_x, s16 grid_y, s32 spacing, s16 base_x, s16 base_y, s32 unused_mode);
 
 /* get_sprite_attachment_vector.c */
-struct SpriteAttachmentEntry *func_8003DF74(struct SpriteAttachmentEntry *table, struct SpriteFrameState *entity, struct S_8003DF74_Vec *out_vec, s16 entry_id);
-struct SpriteAttachmentEntry *get_sprite_attachment_vector(struct SpriteAttachmentEntry *table, struct SpriteFrameState *entity, struct S_8003DF74_Vec *out_vec, s16 entry_id);
+struct SpriteAttachmentEntry *func_8003DF74(struct SpriteAttachmentEntry *table, struct SpriteFrameState *entity, SpriteAttachmentVector *out_vec, s16 entry_id);
+struct SpriteAttachmentEntry *get_sprite_attachment_vector(struct SpriteAttachmentEntry *table, struct SpriteFrameState *entity, SpriteAttachmentVector *out_vec, s16 entry_id);
 
 /* init_frame_buffers.c */
 void init_frame_buffers(void);

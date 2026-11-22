@@ -410,11 +410,11 @@ copy_pairs:
                 object_render->color.c.r = 0x80;
                 do {
                     scaled_red = (u8) color->unk_0C.at00.v * color_weight;
-                    ((ActorRecord *)(object_data + history_index * 4))->unk_00[0] = (s8) (scaled_red / 8);
+                    (object_data + history_index * 4)[0] = (s8) (scaled_red / 8);
                     scaled_green = color->unk_0C.at01.v * color_weight;
-                    ((ActorRecord *)(object_data + history_index * 4))->unk_00[1] = (s8) (scaled_green / 8);
+                    (object_data + history_index * 4)[1] = (s8) (scaled_green / 8);
                     scaled_blue = color->unk_0C.at02.v * color_weight;
-                    ((ActorRecord *)(object_data + history_index * 4))->unk_00[2] = (s8) (scaled_blue / 8);
+                    (object_data + history_index * 4)[2] = (s8) (scaled_blue / 8);
                     history_index += 1;
                 } while (history_index < 4);
                 object_render->depth_bias = 0;

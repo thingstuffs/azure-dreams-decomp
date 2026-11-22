@@ -85,6 +85,15 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "town/func_8051F75C",
+      "home": "town/func_8051F75C",
+      "tu": "src/town/scene/event/adjust_scene_position_after_slot_queries.c",
+      "foff": "0x49f75c",
+      "vma": "0x80016f5c",
+      "size": 172,
+      "evidence": "TOWN +0x4bbfcb is a decoded m13-event08 native call. The packed CD transfer at +0x2b1a2c places its scene from +0x49e800 at 0x80016000. It queries slot 12 through services +0x254 and +0x258 and adjusts the position by 64 according to its mode."
+    },
+    {
       "row": "town/func_8051FD20",
       "tu": "src/town/scene/object/configure_active_object_two.c",
       "home": "town/func_8047E398",
@@ -103,6 +112,15 @@
       "foff": "0x49FD58",
       "vma": "0x80017558",
       "size": 56
+    },
+    {
+      "row": "town/func_8051FD90",
+      "home": "town/func_8051FD90",
+      "tu": "src/town/scene/service/load_event08_sound_sequence_28_mode_200.c",
+      "foff": "0x49fd90",
+      "vma": "0x80017590",
+      "size": 56,
+      "evidence": "TOWN +0x4b7d48 is a decoded m13-event08 native call. The packed CD transfer at +0x2b1a2c places its scene from +0x49e800 at 0x80016000. It passes sequence 0x28 and flags 0x200 to service slot +0x238."
     },
     {
       "row": "town/func_8051FDC8",

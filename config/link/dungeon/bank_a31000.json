@@ -1,0 +1,70 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/bank_a31000",
+  "container": "dungeon",
+  "foff": "0xa31000",
+  "size": "0x6000",
+  "vma": "0x80152800",
+  "evidence": "DUNGEON +0xa31274 materializes this updater address in the bank constructor. Resource 4 slot 5 loads twelve sectors from LBA 0x4478 to 0x80152800.",
+  "entries": [
+    {
+      "row": "dungeon/func_80A110DC",
+      "home": "dungeon/func_809F30DC",
+      "tu": "src/dungeon/monster/kid/create_kid_actor_with_animation.c",
+      "foff": "0xa310dc",
+      "vma": "0x801528dc",
+      "size": 796,
+      "evidence": "DUNGEON +0xa31000 contains this entry address. Resource 4 slot 5 loads twelve sectors from LBA 0x4478 to 0x80152800.",
+      "bindings": {
+        "0x80170BF8": "0x80152BF8",
+        "0x80171400": "0x80153400",
+        "0x80175188": "0x80157188",
+        "0x80175140": "0x80157140"
+      }
+    },
+    {
+      "row": "dungeon/func_80A113F8",
+      "home": "dungeon/func_809F33F8",
+      "tu": "src/dungeon/monster/kid/update_actor_callbacks_and_terrain.c",
+      "foff": "0xa313f8",
+      "vma": "0x80152bf8",
+      "size": 2056,
+      "evidence": "DUNGEON +0xa31004 contains this entry address. Resource 4 slot 5 loads twelve sectors from LBA 0x4478 to 0x80152800.",
+      "bindings": {
+        "0x80175198": "0x80157198",
+        "0x80171400": "0x80153400",
+        "0x80175148": "0x80157148",
+        "0x80175140": "0x80157140",
+        "0x80175170": "0x80157170",
+        "0x80175178": "0x80157178"
+      }
+    },
+    {
+      "row": "dungeon/func_80A11C00",
+      "home": "dungeon/func_809F3C00",
+      "tu": "src/dungeon/monster/kid/update_kid_behavior.c",
+      "foff": "0xa31c00",
+      "vma": "0x80153400",
+      "size": 1376,
+      "evidence": "DUNGEON +0xa31274 materializes this updater address in the bank constructor. Resource 4 slot 5 loads twelve sectors from LBA 0x4478 to 0x80152800.",
+      "bindings": {
+        "0x80175150": "0x80157150",
+        "0x80171960": "0x80153960",
+        "0x80172434": "0x80154434",
+        "0x80174218": "0x80156218",
+        "0x80175148": "0x80157148",
+        "0x80175188": "0x80157188",
+        "0x80175140": "0x80157140",
+        "0x80175170": "0x80157170",
+        "0x80175178": "0x80157178",
+        "0x80175180": "0x80157180",
+        "0x80175190": "0x80157190",
+        "0x80171400": "0x80153400",
+        "0x80174948": "0x80156948",
+        "0x8017182C": "0x80153B28",
+        "0x80171DA0": "0x80154270",
+        "0x80172628": "0x80154554"
+      }
+    }
+  ]
+}

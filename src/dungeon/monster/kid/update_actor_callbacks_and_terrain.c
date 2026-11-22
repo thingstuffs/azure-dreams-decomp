@@ -92,10 +92,10 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
             + motion_arg->velocity_y);
         if (!(actor_arg->flags1C & 0x40000) && !(actor_arg->action_state_flags & 8)) {
             motion_arg->velocity_z = (s32) (motion_arg->velocity_z
-                + ((actor_arg->unk_9D) * 0x14000));
-            actor_arg->unk_9D =  (actor_arg->unk_9D + 1);
+                + ((actor_arg->fall_ticks) * 0x14000));
+            actor_arg->fall_ticks =  (actor_arg->fall_ticks + 1);
         } else {
-            actor_arg->unk_9D = 0;
+            actor_arg->fall_ticks = 0;
         }
         actor_arg->unk_90.value = (s32) (actor_arg->unk_90.value
             + motion_arg->velocity_z);
@@ -103,10 +103,10 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
         if (!(object_flags & 0x8000)) {
             facing = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor_base->facing + 0x100) >> 9) & 7;
             state_or_facing = (s16) facing;
-            if (actor_arg->unk_94 != state_or_facing) {
+            if (actor_arg->sprite_direction != state_or_facing) {
                 select_indirect_table_entry(object_arg, *(((SpriteAnimationTableView *)object_arg)->frame_table + state_or_facing),
                     object_arg->unk_04);
-                actor_arg->unk_94 = facing;
+                actor_arg->sprite_direction = facing;
             }
             if (dir_sprite_flag[state_or_facing] != 0) {
                 facing_flags = object_arg->flags;
@@ -195,7 +195,7 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
                     ground_offset_2 = (s32) ground_height - base_height;
                     if (ground_offset_2 < actor_arg->unk_90.parts.high) {
                         actor_arg->unk_90.parts.high = ground_offset_2;
-                        actor_arg->unk_9D = 0;
+                        actor_arg->fall_ticks = 0;
                         motion_arg->velocity_z = 0;
                         actor_base->flags1C = actor_base->flags1C | 0x08000000;
                     }
@@ -220,7 +220,7 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
                     ground_offset_4 = (s32) hidden_ground_height - hidden_base_height;
                     if (ground_offset_4 < actor_arg->unk_90.parts.high) {
                         actor_arg->unk_90.parts.high = ground_offset_4;
-                        actor_arg->unk_9D = 0;
+                        actor_arg->fall_ticks = 0;
                         motion_arg->velocity_z = 0;
                         actor_base->flags1C = actor_base->flags1C | 0x08000000;
                     }

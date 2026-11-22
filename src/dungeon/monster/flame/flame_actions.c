@@ -226,10 +226,10 @@ void update_flame_motion_and_facing(ActorRecord *actor, ObjectPosition *motion, 
 
             if (!(actor->flags1C & 0x00040000) &&
                 !(actor->action_state_flags & 8)) {
-                motion->velocity_z += actor->unk_9D * 0x14000;
-                actor->unk_9D++;
+                motion->velocity_z += actor->fall_ticks * 0x14000;
+                actor->fall_ticks++;
             } else {
-                actor->unk_9D = 0;
+                actor->fall_ticks = 0;
             }
             actor->unk_90.value += motion->velocity_z;
 
@@ -316,11 +316,11 @@ void update_flame_motion_and_facing(ActorRecord *actor, ObjectPosition *motion, 
                 }
                 {
 
-                    if (actor->unk_94 != (view_dir = (s16)state_index)) {
+                    if (actor->sprite_direction != (view_dir = (s16)state_index)) {
                         select_indirect_table_entry(entity,
                                       (*((((u8 *)entity->frameTable)) + view_dir)),
                                       entity->unk_04);
-                        actor->unk_94 = state_index;
+                        actor->sprite_direction = state_index;
                     }
 
                     if (D_8006CCF8[view_dir] != 0) {
@@ -402,7 +402,7 @@ void update_flame_motion_and_facing(ActorRecord *actor, ObjectPosition *motion, 
                             reset_floor_offset = (s16)(reset_ground_height - subject->ground_height);
                             if (reset_floor_offset < actor->unk_90.parts.high) {
                                 actor->unk_90.parts.high = reset_floor_offset;
-                                actor->unk_9D = 0;
+                                actor->fall_ticks = 0;
                                 motion->velocity_z = 0;
                                 subject->flags1C |= 0x08000000;
                             }
@@ -435,7 +435,7 @@ void update_flame_motion_and_facing(ActorRecord *actor, ObjectPosition *motion, 
                         floor_offset = (s16)(ground_height - subject->ground_height);
                         if (floor_offset < actor->unk_90.parts.high) {
                             actor->unk_90.parts.high = floor_offset;
-                            actor->unk_9D = 0;
+                            actor->fall_ticks = 0;
                             motion->velocity_z = 0;
                             subject->flags1C |= 0x08000000;
                         }
@@ -785,7 +785,7 @@ void choose_flame_move(ActorRecord *move_data, ObjectPosition *context, SpriteFr
         return;
     }
 
-    update_actor_proximity_flag(position_data, actor_data, 3, 6, &move_data->unk_9C);
+    update_actor_proximity_flag(position_data, actor_data, 3, 6, &move_data->route_room);
     actor_flags = actor_data->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
@@ -821,7 +821,7 @@ void choose_flame_move(ActorRecord *move_data, ObjectPosition *context, SpriteFr
                     TileObject *target_position = &reference_tile_object;
                     s32 target_facing = ((u16)primary_actor_record->facing);
                     s32 offset_index =
-                        ((((u8 *)&actor_data->unk_44.whole)[1] + ((s16)target_facing >> 9)) & 7) << 1;
+                        ((actor_data->approach_direction + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
                         (u16)dir_step_x[offset_index >> 1];
                     target_y = target_position->tile_position.parts.tile_y +
@@ -846,13 +846,13 @@ void choose_flame_move(ActorRecord *move_data, ObjectPosition *context, SpriteFr
                     limit_detour = 1;
                 }
             } else {
-                select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+                select_actor_route_target((u8 *)position_data, move_data->route_room, (u8 *)actor_data,
                               &move_data->action_state_flags);
             }
         }
     } else if ((s8)position_data->room_index >= 0 &&
                dungeon_rooms[(s8)position_data->room_index].flags & ROOM_HOLY_BEAM) {
-        select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+        select_actor_route_target((u8 *)position_data, move_data->route_room, (u8 *)actor_data,
                       &move_data->action_state_flags);
     } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
         current_angle = (s32)probe_directional_neighbor(actor_data,position_data->tile_x,position_data->tile_y,actor_data->facing);
@@ -882,7 +882,7 @@ void choose_flame_move(ActorRecord *move_data, ObjectPosition *context, SpriteFr
                 }
             }
         } else {
-            select_actor_route_target((u8 *)position_data, move_data->unk_9C, (u8 *)actor_data,
+            select_actor_route_target((u8 *)position_data, move_data->route_room, (u8 *)actor_data,
                           &move_data->action_state_flags);
         }
     }
@@ -958,7 +958,7 @@ void choose_flame_move(ActorRecord *move_data, ObjectPosition *context, SpriteFr
 
     {
         actor_data->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
-        move_data->unk_9C = position_data->room_index;
+        move_data->route_room = position_data->room_index;
         actor_data->pending_turn_updates--;
         g_dungeon_status.activity_counts.parts.pending_movement_count++;
     }
@@ -1014,8 +1014,8 @@ s32 try_flame_attack(ActorRecord *action_state, ObjectPosition *motion_param, Sp
         action_state->action_id = 0x11;
         action_state->action_phase = 0;
         action_state->unk_8C.handler = 0;
-        actor->unk_84 = 0x7C;
-        actor->unk_85 = 0;
+        actor->accuracy = 0x7C;
+        actor->attack_bonus = 0;
         sprite->frameTable = flame_direction_frames;
         select_sprite_entry(sprite, (flame_direction_frames)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         actor->pending_turn_updates--;
@@ -1042,8 +1042,8 @@ void begin_flame_attack(ActorRecord *action_state, ObjectPosition *context, Spri
             actor->pending_turn_updates = actor->pending_turn_updates - 1;
             prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
             action_state->action_state_flags = (u16) (action_state->action_state_flags | 8);
-            actor->unk_84 = 0x7C;
-            actor->unk_85 = 0;
+            actor->accuracy = 0x7C;
+            actor->attack_bonus = 0;
         }
     }
 }
@@ -1054,7 +1054,7 @@ s32 relink_flame_path(ActorRecord *actor, ObjectPosition *primary_context, Sprit
     s32 result;
     ActorRecord *entity = actor;   /* the copy is load-bearing: it changes the callee-save order */
 
-    state_type = (s16)relink_entity_and_clear_high_flag(primary_context, secondary_context, entity, 3, 6, &entity->unk_9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(primary_context, secondary_context, entity, 3, 6, &entity->route_room);
     if (state_type < 0) return 0;
     if ((force_move << 0x10) != 0) {
         choose_flame_move(entity, primary_context, secondary_context, entity);

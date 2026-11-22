@@ -15,7 +15,7 @@ s32 relink_hikewne_path(ActorRecord *actor, ObjectPosition *primary_context, Spr
     s32 result;
     ActorRecord *entity = actor;   /* the copy is load-bearing: it changes the callee-save order */
 
-    state_type = (s16)relink_entity_and_clear_high_flag(primary_context, secondary_context, entity, 3, 6, &entity->unk_9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(primary_context, secondary_context, entity, 3, 6, &entity->route_room);
     if (state_type < 0) return 0;
     if ((force_move << 0x10) != 0) {
         choose_hikewne_move(entity, primary_context, secondary_context, entity);

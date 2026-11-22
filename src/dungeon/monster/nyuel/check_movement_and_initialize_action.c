@@ -58,8 +58,8 @@ s32 check_movement_and_initialize_action(ActorRecord *action_state, ObjectPositi
         action_state->action_id = 0x11;
         action_state->action_phase = 0;
         action_state->unk_8C.word = 0;
-        actor->unk_84 = 0x7C;
-        actor->unk_85 = 0;
+        actor->accuracy = 0x7C;
+        actor->attack_bonus = 0;
         direction_table = &nyuel_frame_set_8;
         (sprite->frameTable) = direction_table;
         select_sprite_entry(sprite, direction_table[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);

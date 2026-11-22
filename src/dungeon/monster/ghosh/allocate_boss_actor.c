@@ -67,7 +67,7 @@ void *allocate_boss_actor(s16 mode, s16 config_24, s16 config_25, s16 config_0a)
         initialize_actor_sprite_and_animation(obj, part_a, part_b, saved_mode);
         actor_state = actor;
         actor_state->action_id = 0xFF;
-        actor_state->unk_9C = -1;
+        actor_state->route_room = -1;
         actor_state->unk_8C.address = &ghosh_motion_resume_address;
         actor_state->action_phase = 0;
         actor_state->unk_B0.halves.low.s = 0;

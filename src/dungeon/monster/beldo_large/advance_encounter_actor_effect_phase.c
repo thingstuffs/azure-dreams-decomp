@@ -226,11 +226,11 @@ void advance_encounter_actor_effect_phase(ActorRecord *effect, ObjectPosition *p
         s32 old_direction;
         common_page = (u32)(s32)g_game_work.view.camera_rotation.parts.viewAngle;
         direction = (((s32)common_page + (s16)heading->unk_2A + 0x100) >> 9) & 7;
-        old_direction = effect->unk_94;
+        old_direction = effect->sprite_direction;
         sprite_direction = direction;
         if (old_direction != sprite_direction) {
             select_indirect_table_entry(sprite, *(*(u8 **)&sprite->frameTable + sprite_direction), sprite->unk_04);
-            effect->unk_94 = direction;
+            effect->sprite_direction = direction;
         }
         advance_sprite_animation_and_textures(sprite);
     }
