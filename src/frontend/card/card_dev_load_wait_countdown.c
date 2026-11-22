@@ -1,5 +1,4 @@
 #include "common.h"
-#include "shared/widget_views.h"
 #include "shared/object_node.h"
 #include "m2c_compat.h"
 #include "frontend/card.h"
@@ -7,12 +6,12 @@
 #include "frontend/card/load.h"
 
 /* Decrement the record counter and replace its pointer when the counter becomes negative. */
-void card_dev_load_wait_countdown(void *record_data) {
+void card_dev_load_wait_countdown(CardDevLoadSlotScreen *screen) {
     s32 counter;
 
-    counter = ((CardCallbackState *)((u8 *)record_data - 0x10))->countdown - 1;
-    ((CardCallbackState *)((u8 *)record_data - 0x10))->countdown = counter;
+    counter = screen->countdown - 1;
+    screen->countdown = counter;
     if (counter < 0) {
-        NODE_HEADER(record_data)->update_callback = finish_load_slot_check;
+        NODE_HEADER(screen)->update_callback = finish_load_slot_check;
     }
 }

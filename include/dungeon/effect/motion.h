@@ -64,7 +64,22 @@ s32 draw_concentric_effect_layers(struct B22_81893474_EffectState *effect, s32 p
 s32 draw_static_cylinder_pair(struct B22_81893474_EffectState *effect, s32 position, s32 render_param);
 void update_spiral_spawner(void *state);
 
-void advance_linked_object_counter(void *entry, s32 unused, SpriteFrameState *target);
+/* The cylinder controller passes itself to the sprite factory and checks the
+ * halfword at +0x16 while advancing its phases. The child stores the controller
+ * at node+0x2C and increments that field from its update callback. */
+typedef struct LinkedSpriteCounter {
+    u8 pad_00[0x16];
+    u16 count;
+} LinkedSpriteCounter;
+
+typedef struct LinkedCounterSpriteBody {
+    u8 pad_00[0xC];
+    LinkedSpriteCounter *owner;
+} LinkedCounterSpriteBody;
+
+struct ObjectNodeHeader;
+struct ObjectNodeHeader *allocate_effect_at_coordinates(LinkedSpriteCounter *owner, ObjectPosition *source_coords);
+void advance_linked_object_counter(LinkedCounterSpriteBody *entry, ObjectPosition *unused, SpriteFrameState *target);
 
 void select_target_sprite_scale(ActorRecord *record_field, s32 pair_index);
 
@@ -105,5 +120,5 @@ s32 random_below_limit(s32 limit);
 #include "shared/dungeon_effect_views.h"
 s32 draw_ball_effect_points(PointRecord *first_point, ObjectPosition *first_position);
 
-void advance_and_retire_finished_effect(void *body, ObjectPosition *position, SpriteFrameState *sprite);
+void retire_finished_sprite_effect(void *body, ObjectPosition *position, SpriteFrameState *sprite);
 #endif

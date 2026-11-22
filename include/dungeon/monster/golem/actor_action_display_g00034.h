@@ -1,7 +1,6 @@
 #ifndef DUNGEON_MONSTER_GOLEM_ACTOR_ACTION_DISPLAY_G00034_H
 #define DUNGEON_MONSTER_GOLEM_ACTOR_ACTION_DISPLAY_G00034_H
-/* Actor action display shared declarations (G00034). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00034 - CL:dungeon/func_81084A18@dungeon/bank_10a3000, CL:dungeon/func_81084A18@dungeon/bank_10a9000, CL:dungeon/func_81084A18@dungeon/bank_10af000, CL:dungeon/func_81084A18@dungeon/bank_10b5000, CL:dungeon/func_81084A18@dungeon/bank_10bb000, CL:dungeon/func_81084A18@dungeon/bank_10c1000. */
+/* Handles actor action attempts and starts the directional display on success. */
 
 #include "common.h"
 #include "shared/sprite_frame_state.h"

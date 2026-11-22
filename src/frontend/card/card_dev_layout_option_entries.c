@@ -1,36 +1,26 @@
 #include "common.h"
+#include "frontend/card/slot_marker.h"
 #include "frontend/card.h"
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
 
 
-typedef struct {
-    u8 pad8[8];
-    s16 unk8;
-    s16 unkA;
-} SubStruct2;
-
-typedef struct {
-    void *unk0;
-    SubStruct2 *unk4;
-} SubStruct;
-
 /* Initializes three object entries with data pointers and attribute values. */
-void card_dev_layout_option_entries(u8 *object) {
-    SubStruct *entry;
+void card_dev_layout_option_entries(CardDevMenu10 *window) {
+    CardDevMenuEntry *entry;
 
-    entry = *(SubStruct **)(object + 0x1F0);
-    entry->unk4->unk8 = 0x100;
-    entry->unk4->unkA = 0x10;
-    entry->unk0 =  &D_80084110;
+    entry = window->entries[6];
+    entry->display.block->fields.x = 0x100;
+    entry->display.block->fields.y = 0x10;
+    entry->display.payload.data = &D_80084110;
 
-    entry = *(SubStruct **)(object + 0x1E4);
-    entry->unk0 = (void *) func_80051B50(object + 0x5C, &D_804005F0, 1);
-    entry->unk4->unk8 = 0x181;
-    entry->unk4->unkA = 0x91;
+    entry = window->entries[3];
+    entry->display.payload.data = (void *) func_80051B50(window->option_text, &D_804005F0, 1);
+    entry->display.block->fields.x = 0x181;
+    entry->display.block->fields.y = 0x91;
 
-    entry = *(SubStruct **)(object + 0x1F8);
-    entry->unk0 =  (object + 0x128);
-    entry->unk4->unk8 = 0x112;
-    entry->unk4->unkA = 0x18;
+    entry = window->entries[8];
+    entry->display.payload.data = window->option_packets;
+    entry->display.block->fields.x = 0x112;
+    entry->display.block->fields.y = 0x18;
 }

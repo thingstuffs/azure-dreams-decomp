@@ -16,7 +16,7 @@ void refresh_item_menu_page(ItemMenuObject *record) {
 }
 
 /* Disables the menu and opens the selected entry's display controller in a two-column, five-row layout. */
-void *open_selected_item_display(ItemMenuObject *entry) {
+ObjectNodeHeader *open_selected_item_display(ItemMenuObject *entry) {
     s32 x_pos;
     s32 page_slot;
 
@@ -83,7 +83,7 @@ void update_item_menu_selection(ItemMenuObject *obj)
         return;
     } else if ((g_game_work.pressed_buttons) & 0x10) {
         SD_Call(AUDIO_MENU_CONFIRM);
-        sort_entries_by_category((void *)0x8001029C);
+        sort_entries_by_category((DungeonItemEntry **)0x8001029C);
         refresh_item_menu_page(obj);
         action_inner = obj->menu;
         get_item_name(action_inner->entries[action_inner->position]);

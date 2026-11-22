@@ -6,7 +6,7 @@
 
 
 /* Advance the scale animation countdown and restore normal scale when it ends. */
-void animate_scale_and_restore(TownObjectRecord *state, void *context, SpriteFrameState *scale) {
+void animate_scale_and_restore(TownObjectRecord *state, ObjectPosition *position, SpriteFrameState *scale) {
     s16 frames_left;
     s32 shrink_value;
     s32 grow_value;
@@ -17,7 +17,7 @@ void animate_scale_and_restore(TownObjectRecord *state, void *context, SpriteFra
     if (frames_left <= 0) {
         scale->scale_y = 0x1000;
         scale->scale_x = 0x1000;
-        apply_object_setup_and_update(state, context, scale);
+        apply_object_setup_and_update(state, position, scale);
         return;
     }
     shrink_value = rsin(frames_left * 0x199);

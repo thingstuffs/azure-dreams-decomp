@@ -5,8 +5,9 @@
 
 /* create_settings_sprite_object stores the settings owner in the node body; the installed
  * remove_record_with_marked_owner callback follows that same link. */
+struct Menu;
 typedef struct SettingsOwnerLinkedBody {
-    void *owner;
+    struct Menu *owner;
 } SettingsOwnerLinkedBody;
 
 #endif

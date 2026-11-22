@@ -9,9 +9,9 @@
 extern s32 D_800D54C4[];
 
 /* Process the object when either of its 0x6000 flag bits is set. */
-void reset_object_entries_on_flag_bits(TownObjectRecord *contextId, s32 contextData, SpriteFrameState *object) {
-    if (object->flags & 0x6000) {
-        initialize_object_entries(contextId, object, D_800D54C4);
-        clear_record_indexed_byte(contextId, contextData, object);
+void reset_object_entries_on_flag_bits(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite) {
+    if (sprite->flags & 0x6000) {
+        initialize_object_entries(object, sprite, D_800D54C4);
+        clear_record_indexed_byte(object, position, sprite);
     }
 }

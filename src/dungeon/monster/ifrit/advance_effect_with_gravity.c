@@ -27,6 +27,3 @@ void advance_effect_with_gravity(Func80A209A4Data *motion) {
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-
-/* MECHANISM: Frameless leaf; direct compound member updates preserve retail load order and induce its
-   v0/v1 copy pseudos. */

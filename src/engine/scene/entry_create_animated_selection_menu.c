@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "engine/effect.h"
 #include "engine/graphics.h"
 #include "engine/item.h"
 #include "engine/menu.h"
@@ -12,12 +13,11 @@
 typedef struct S_80050BA4_s1
 {
     u8 pad00[0xC];
-    void *field_0xC;
+    MenuDisplayNode *display;
     void *field_0x10;
     u8 pad14[0x1E - 0x14];
     u16 field_0x1E;
-    u8 pad20[0x78 - 0x20];
-    u8 field_0x78;
+    MenuSelectionBody body;
 }
 S_80050BA4_s1;
 
@@ -34,7 +34,6 @@ typedef struct S_80050BA4_sub
 }
 S_80050BA4_sub;
 
-extern void init_gauge_object(void *a0, void *a1);
 
 /*
  * Creates an owner and its companion object, flagging failed setup for cleanup.
@@ -60,9 +59,9 @@ void *create_gauge_with_selection_menu(s32 context)
         state = (S_80050BA4_sub *) (((u8 *) object) + 0x20);
         state->field_0xA0 = owner;
         if (allocate_selection_menu_entry_buffers(state, 0x11) != 0) {
-            object->field_0xC = &object->field_0x78;
+            object->display = &object->body.gauge;
             state->field_0x64 = link_selection_menu_entries(state->field_0x68);
-            init_gauge_object(state, (void *) context);
+            init_gauge_object(&object->body, (void *) context);
             object->field_0x10 = (void *) invoke_leading_object_callback;
             resource = create_animated_selection_menu((void *) 2);
             state->field_0x28 = resource;

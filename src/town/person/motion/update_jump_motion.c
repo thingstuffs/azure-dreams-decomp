@@ -16,14 +16,14 @@ extern s32 D_800D6ABC;
 extern s32 D_800D6AD0;
 
 /* Advances a jump through ascent and descent, clamping the landing height. */
-void update_jump_motion(TownObjectRecord *actor, S_800CC070_1 *motion, void *animation_id, s16 jump_velocity)
+void update_jump_motion(TownObjectRecord *actor, S_800CC070_1 *motion, struct SpriteFrameState *sprite, s16 jump_velocity)
 {
     s16 state;
 
     state = ((s16)actor->unk_6A);
     switch (state) {
     case 0:
-        initialize_object_entries(actor, animation_id, &D_800D6ABC);
+        initialize_object_entries(actor, sprite, &D_800D6ABC);
         motion->unk_14.at02.v = jump_velocity;
         actor->unk_6A++;
         break;
@@ -32,7 +32,7 @@ void update_jump_motion(TownObjectRecord *actor, S_800CC070_1 *motion, void *ani
         motion->unk_08.at00.v += motion->unk_14.at00.v;
         add_vertical_gravity(motion);
         if (motion->unk_14.at00.v >= 0) {
-            initialize_object_entries(actor, animation_id, &D_800D6AD0);
+            initialize_object_entries(actor, sprite, &D_800D6AD0);
             actor->unk_6A++;
         }
         break;

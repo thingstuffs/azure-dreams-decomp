@@ -18,7 +18,7 @@ typedef void (*S_800A9590_Callback)(TownObjectRecord *, TownObjectRecord *, Obje
 void retire_object_on_check_or_callback(void *object, ObjectPosition *position, struct SpriteFrameState *sprite)
 {
     TownObjectRecord *body = object;
-    s8 *status_byte;
+    u8 *status_byte;
     S_800A9590_Callback callback;
 
     if (classify_object_against_bounds(object, position) != 0) {

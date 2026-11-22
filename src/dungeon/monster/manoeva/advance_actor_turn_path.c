@@ -212,11 +212,11 @@ void advance_actor_turn_path(ActorRecord *move_data_in, ObjectPosition *context,
             {
                 u8 *x_step;
 
-                x_step = (u8 *)((s8 *)dir_step_x);
+                x_step = (u8 *)dir_step_x;
                 direction_offset = (actor_in->facing >> 8) & 0xE;
                 x_step += direction_offset;
                 tile_in->tile_x += *x_step;
-                tile_in->tile_y += *((u8 *)((s8 *)dir_step_y) + direction_offset);
+                tile_in->tile_y += *((u8 *)dir_step_y + direction_offset);
             }
 
             cycle_map_cell_flags(

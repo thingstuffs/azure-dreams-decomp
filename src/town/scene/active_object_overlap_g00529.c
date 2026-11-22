@@ -33,20 +33,20 @@ s32 is_angle_within_tolerance(s32 value_a, s32 value_b) {
  * Searches the circular list for the first active node whose offset box overlaps the origin,
  * requiring a low-12-bit angle match within 511 for node types two and three.
  */
-Node *find_overlapping_active_node(Node *origin) {
+TownMotionListNode *find_overlapping_active_node(TownMotionListNode *origin) {
     Box *node_field_c;
     ObjectPosition *node_field_8;
     ObjectPosition *origin_field_8;
     Box *origin_field_c;
-    Node *node;
+    TownMotionListNode *node;
 
     node = origin->next;
-    origin_field_c = origin->fieldC;
-    origin_field_8 = origin->field8;
+    origin_field_c = origin->bounds;
+    origin_field_8 = origin->position;
     if (node != origin) {
         do {
-            node_field_8 = node->field8;
-            node_field_c = node->fieldC;
+            node_field_8 = node->position;
+            node_field_c = node->bounds;
             if (node->active != 0) {
                 if (((u32)(node->type - 2) >= 2U) ||
                     (is_angle_within_tolerance(node->angle, origin->angle) != 0)) {

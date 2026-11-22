@@ -5,7 +5,7 @@
    /* arg2 in dispatch_status_triggered_handler */
 
 /* Calls the object handler when either monitored status flag is set. */
-void dispatch_status_triggered_handler(s32 object, s32 unused, SpriteFrameState *status) {
+void dispatch_status_triggered_handler(TownObjectRecord *object, ObjectPosition *unused_position, SpriteFrameState *status) {
     if (status->flags & 0x6000) {
         install_object_handler_and_clear_slot_flag(object);
     }

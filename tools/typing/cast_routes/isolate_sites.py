@@ -10,6 +10,7 @@ from types import SimpleNamespace
 def main(argv=None):
     ap=argparse.ArgumentParser();ap.add_argument('--root',type=Path,default=Path.cwd());ap.add_argument('--out',type=Path,required=True)
     ap.add_argument('--workers',type=int,default=4);ap.add_argument('--folder',required=True);ap.add_argument('--name',required=True);ap.add_argument('--file',required=True);ap.add_argument('--reason',action='append')
+    ap.add_argument('--address-member',action='store_true',help='also plan the opt-in address_member route');ap.add_argument('--exclude-member',action='append',default=[]);ap.add_argument('--keep-cast',action='store_true')
     a=ap.parse_args(argv);root=a.root.resolve();out=a.out.resolve();directory=out/a.name
     assert 1 <= a.workers <= 6
     assert out.is_relative_to(root) and a.file.startswith(a.folder+'/') and '..' not in Path(a.file).parts
@@ -27,7 +28,7 @@ def main(argv=None):
             G.integer_union_member = lambda *args: None
         try:
             for tu,recipe in sorted(tus.items()):
-                result=G.scan((str(root),tu,recipe,[a.file]));assert not result['error'],result['error']
+                result=G.scan((str(root),tu,recipe,[a.file],dict(address_member=a.address_member,exclude_member=a.exclude_member,keep_cast=a.keep_cast)));assert not result['error'],result['error']
                 if use_union:holds.extend(result['holds'])
                 for p in result['plans']:
                     if not a.reason or p['reason'] in a.reason:
@@ -62,7 +63,7 @@ def main(argv=None):
     G.census.write_tsv(directory/'holds.tsv',['file','route','line','reason'],holds)
     (directory/'identity.json.gz').write_bytes(gzip.compress(json.dumps(receipts,separators=(',',':')).encode()))
     (directory/'errors.json').write_text('[]\n')
-    summary=dict(folder=a.folder,files_scanned=1,last_file=a.file,plans=len(plans),selected_files=int(bool(plans)),selected_casts={r:sum(p['casts'] for p in plans if p['route']==r) for r in G.ROUTES},holds=dict(Counter(h['reason'] for h in holds)),errors=0,applied=True,accepted_files=int(bool(kept)),accepted_casts={r:sum(p['casts'] for p in kept if p['route']==r) for r in G.ROUTES},rejected_files=[a.file] if not kept and plans else [])
+    summary=dict(folder=a.folder,files_scanned=1,last_file=a.file,plans=len(plans),selected_files=int(bool(plans)),selected_casts={r:sum(p['casts'] for p in plans if p['route']==r) for r in G.ALL_ROUTES},holds=dict(Counter(h['reason'] for h in holds)),errors=0,applied=True,accepted_files=int(bool(kept)),accepted_casts={r:sum(p['casts'] for p in kept if p['route']==r) for r in G.ALL_ROUTES},rejected_files=[a.file] if not kept and plans else [])
     (directory/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
     R.ROOT=root;R.OUT=out;R.OPTIONS=SimpleNamespace(workers=a.workers,census=None,discover_all=True,route=None)
     rows=list(csv.DictReader((out/'replay.tsv').open(),delimiter='\t')) if (out/'replay.tsv').exists() else []

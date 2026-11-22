@@ -1,5 +1,7 @@
 #ifndef TOWN_MENU_SHADED_QUAD_PROJECTION_G00568_H
 #define TOWN_MENU_SHADED_QUAD_PROJECTION_G00568_H
+
+struct ObjectPosition;
 /* inferred-strong shaded_quad_projection_g00568; shared declarations. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A56D0. */
 
@@ -37,6 +39,6 @@ extern void copy_menu_point();
 
 /* Functions defined in this translation unit. */
 void project_and_enqueue_shaded_quad(Coord8 vertex_0, Coord8 vertex_1, Packed8 vertex_2, Packed8 vertex_3, s32 shade);
-void draw_segmented_menu_ring(s32 center_source, s32 radius_a, s32 radius_b, s16 segment_arg);
+void draw_segmented_menu_ring(struct ObjectPosition *center_source, s32 radius_a, s32 radius_b, s16 segment_arg);
 
 #endif

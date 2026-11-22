@@ -5,6 +5,6 @@
 #include "town/shop/item.h"
 
 /* Dispatch the menu state callback with the object payload and supplied argument; returns the callback's result. */
-s32 invoke_item_menu_object_callback(u8 *object, s32 callback_arg) {
-    return dispatch_item_menu_entry_callback(object + 0x20, callback_arg);
+s32 invoke_item_menu_object_callback(ObjectNodeHeader *object, s32 callback_arg) {
+    return dispatch_item_menu_entry_callback(NODE_BODY(object), callback_arg);
 }

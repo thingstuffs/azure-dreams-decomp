@@ -1,5 +1,6 @@
 #ifndef ENGINE_EFFECT_H
 #define ENGINE_EFFECT_H
+struct ResourceTransitionBody;
 struct ObjectPosition;
 /* Prototypes of the functions defined in src/engine/effect/ (one true prototype each; maintained by tools/headers). */
 
@@ -69,7 +70,7 @@ struct ObjectNodeHeader;
 struct AnimatedSelectionMenuBody;
 struct S_800504B4;
 struct S_80050640;
-struct S_80050EF8;
+struct ObjectNodeHeader;
 struct S_80051E94;
 struct CdCueSequenceBody;
 struct VecState800517CC;
@@ -93,13 +94,14 @@ void create_marked_callback_node(void);
 void create_cd_cue_effect(void);
 
 /* create_deferred_resource_transition_task.c */
-void schedule_deferred_resource_transition(void *object);
+void schedule_deferred_resource_transition(struct ResourceTransitionBody *object);
 
 /* decay_gauge_counters.c */
 void decay_gauge_counters(struct S_800504B4 *object, s32 unused_arg1, s32 unused_arg2);
 
 /* fade_effect_parts.c */
-void fade_effect_parts(void *effect, void *unused, void *parts);
+struct MenuSelectionBody;
+void fade_effect_parts(struct MenuSelectionBody *effect, void *unused, void *parts);
 
 /* fade_manager_step_black.c */
 void fade_manager_step_black(FadeManagerBody *manager, struct ObjectPosition *unused_state, SpriteFrameState *fade_state);
@@ -142,7 +144,7 @@ void func_800530C4(struct Main *main);
 void mark_group_for_removal(struct Main *main);
 
 /* resolve_animated_selection_menu.c */
-void *ensure_selection_menu_and_register_draw(struct S_80050EF8 *object);
+void *ensure_selection_menu_and_register_draw(struct ObjectNodeHeader *object);
 
 /* init_polygon_edges.c */
 s32 init_polygon_edges(void *vertex_data, s32 *edges, u16 *edge_count);
@@ -189,7 +191,8 @@ void update_staged_motion_effect(CdCueEffectBody *obj, ObjectPosition *position,
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "shared/gpu_packets.h"
 #include "shared/menu_display.h"
-void init_gauge_blocks(void *unused, MenuDisplayNode *object, MenuDisplayBlock *primary_data, DisplayPositionWords *secondary_data);
+void init_gauge_object(struct MenuSelectionBody *object, void *context);
+void init_gauge_blocks(struct MenuSelectionBody *owner, MenuDisplayNode *object, MenuDisplayBlock *primary_data, DisplayPositionWords *secondary_data);
 
 s32 calc_gauge_fill(ActorRecord *state);
 

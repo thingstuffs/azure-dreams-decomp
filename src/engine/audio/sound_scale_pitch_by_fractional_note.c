@@ -36,8 +36,6 @@ u32 _spu_2pitch(s32 pitch, u32 note_offset)
 u32 _spu_note2pitch(u16 center_note, u16 center_fine, u16 note, u16 fine)
 {
     s32 center_tuning;
-            /* 8 bytes of frame below reload's spill slot: retail's product carrier
-     * spills to 8($sp) in a 16-byte frame (see MATCH receipt). */
     s32 frame_pad[2];
     s32 pitch_value;
     s32 note_distance;

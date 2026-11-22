@@ -90,11 +90,10 @@ s32 render_floor_items(s32 unused_value, ObjectPosition *unused_position, Sprite
 
 void remove_floor_items_at_tile(s16 target_x, s16 target_y);
 
-struct Entry;
 struct SourceLinkedFadeEffectBody;
 void fade_effect_primitive(struct SourceLinkedFadeEffectBody *effect, void *unused, SpriteFrameState *primitive);
 void *create_status_linked_render_effect(ObjectPosition *source_pos, s32 render_param, s16 initial_state, s8 *status);
-s32 render_actor_sprite_chain(void *initial_state, ObjectPosition *context, struct Entry *entry);
+s32 render_actor_sprite_chain(void *initial_state, ObjectPosition *context, SpriteFrameState *entry);
 void update_owner_linked_pulsing_effect(void *effect_arg, ObjectPosition *position, SpriteFrameState *appearance);
 
 #endif

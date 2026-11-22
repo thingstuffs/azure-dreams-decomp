@@ -1,7 +1,6 @@
 #ifndef DUNGEON_MONSTER_DEATH_ACTOR_STATUS_FLAGS_G00165_H
 #define DUNGEON_MONSTER_DEATH_ACTOR_STATUS_FLAGS_G00165_H
-/* Actor status flags shared declarations (G00165). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00165 - PD:dungeon/bank_be1000:8017468C, PD:dungeon/bank_be7000:8016E68C, PD:dungeon/bank_bed000:8016868C, PD:dungeon/bank_bf3000:8016268C, PD:dungeon/bank_bf9000:8015C68C, PD:dungeon/bank_bff000:8015668C. */
+/* Advances Death's action state and directional animation while processing status flags. */
 
 #include "common.h"
 #include "engine/graphics/select_sprite_entry_api.h"

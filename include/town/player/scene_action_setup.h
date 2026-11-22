@@ -26,7 +26,7 @@ void init_stopped_target_action(struct SceneActionReset *object, void *position,
 
 
 struct TownObjectRecord;
-void initialize_player_linked_record(struct TownObjectRecord *object, void *unused, void *output);
-void advance_player_state(struct TownObjectRecord *actor, struct EntityRec *position, struct SpriteFrameState *output);
+void initialize_player_linked_record(struct TownObjectRecord *object, struct ObjectPosition *unused_position, struct SpriteFrameState *sprite);
+void advance_player_state(struct TownObjectRecord *actor, struct ObjectPosition *position, struct SpriteFrameState *output);
 
 #endif

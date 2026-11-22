@@ -53,6 +53,6 @@ void create_owner_linked_directional_object(ActorRecord *owner_data, ObjectPosit
             view_direction_depth_biases[((g_game_work.view.camera_rotation.parts.viewAngle +
                 owner_data->facing + 0x100) >> 9) & 7] * 4;
         owner_data->unk_B0.bytes[0]++;
-        create_tracked_effect(object, 0, ((u8 *)sprite) + 0x2C, &object_data->unk_2A);
+        create_tracked_effect(object, 0, &sprite->frameTable, &object_data->unk_2A);
     }
 }

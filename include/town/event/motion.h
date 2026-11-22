@@ -16,16 +16,17 @@ struct Motion;
 struct Subject;
 
 /* initialize_heading_motion.c */
-void initialize_heading_motion(void *owner, void *object, void *motion);
+struct ColliderView;
+void initialize_heading_motion(TownObjectRecord *owner, struct ColliderView *object, ObjectPosition *motion);
 
 /* initialize_target_motion.c */
 void initialize_target_motion(TownObjectRecord *owner, struct ColliderView *target, ObjectPosition *parameters, void *unused);
 
 /* initialize_target_motion_state.c */
-void initialize_target_motion_state(TownObjectRecord *state, struct ColliderView *status, ObjectPosition *values, void *unused_extra_ptr);
+void initialize_target_motion_state(TownObjectRecord *state, struct ColliderView *status, ObjectPosition *values, struct SpriteFrameState *unused_sprite);
 
 /* set_actor_motion_state.c */
-void set_actor_motion_state(TownObjectRecord *object, Rec_D_800CFCB4 *state, void *unused_update_context, void *unused_output);
+void set_actor_motion_state(TownObjectRecord *object, Rec_D_800CFCB4 *state, struct ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite);
 
 /* update_actor_with_controlled_motion.c */
 struct SpriteFrameState;

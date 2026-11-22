@@ -5,7 +5,8 @@
 #include "common.h"
 
 /* advance_delayed_panel_line.c */
-void advance_delayed_panel_line(void *ptr);
+struct TownCollectionPanel;
+void advance_delayed_panel_line(struct TownCollectionPanel *panel);
 
 /* append_string.c */
 u8 *append_string(u8 *dst, u8 *src);

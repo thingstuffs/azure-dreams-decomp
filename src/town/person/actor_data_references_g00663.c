@@ -17,17 +17,17 @@ void set_linked_data_pointers_variant_2(TownObjectRecord *object) {
 }
 
 /* Sets the object's linked data pointer to D_800D5930. */
-void set_linked_data_field_pointer(S_800C6478_0 *object) {
-    ((S_800C6478_1 *)(object->linked_data))->data = &D_800D5930;
+void set_linked_data_field_pointer(TownObjectRecord *object) {
+    object->descriptor->entries[1] = &D_800D5930;
 }
 
 /* Check whether both actor data references match D_800D58B8. */
 s32 check_actor_data_references_match(TownObjectRecord *actor) {
-    s32 data_addr;
+    s32 *data_addr;
 
     data_addr = *actor->unk_7C.as_pps32;
-    if ((data_addr == (s32)&D_800D58B8) &&
-        (((S_800C648C_1 *)(actor->descriptor))->data == data_addr)) {
+    if ((data_addr == &D_800D58B8) &&
+        (actor->descriptor->entries[1] == data_addr)) {
         return 1;
     }
     return 0;

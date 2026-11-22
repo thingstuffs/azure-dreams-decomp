@@ -112,14 +112,17 @@ s32 get_state_record_byte(void);
 
 /* Callback entry points. */
 s32 *get_data_pointer_1691_c(void);
-void update_slot_machine(void *machine, void *position);
+struct S_func_80811C54_1;
+struct ObjectPosition;
+void update_slot_machine(struct S_func_80811C54_1 *self, struct ObjectPosition *position);
 
 /* Square-scene choice records. Consumers index 16-byte entries, call the
  * predicate at +0, call the text selector at +4, and read the flag at +12. */
 typedef Rec_func_800165F4_arg0 SquareSceneEntry;
 typedef s32 (*TownChoicePredicate)(SquareSceneEntry *, s32);
 typedef void *(*TownChoiceText)(SquareSceneEntry *, s32, s32);
-typedef u8 *TownChoiceData;
+/* The choice stores a pointer to a prepared data block or a live scene record. */
+typedef void *TownChoiceData;
 typedef struct {
     TownChoicePredicate predicate;
     TownChoiceText text;
@@ -174,10 +177,11 @@ struct FallingObjectState;
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 void func_800C8D34(struct FallingObjectState *object, ObjectPosition *context, SpriteFrameState *sprite);
-void init_secondary_list_record(Rec_D_800FE490 *record, s32 value_08, s32 value_0c);
+struct TownMotionListNode;
+struct Box;
+void init_secondary_list_record(struct TownMotionListNode *record, ObjectPosition *position, struct Box *bounds);
 
-struct Node;
-struct Node *find_overlapping_active_node(struct Node *origin);
+struct TownMotionListNode *find_overlapping_active_node(struct TownMotionListNode *origin);
 
 s32 count_listed_enabled_records(void);
 
@@ -215,7 +219,8 @@ s32 has_matching_entry_result(s32 first_value, s32 second_value);
 void invoke_match_callback_or_lookup(void);
 s32 *lookup_with_override_fallback(void *key, s32 unused, s32 context);
 void post_slot_ready_code(s32 group, s32 slot);
-s32 prepare_stored_value_pair(void);
+u8 *prepare_stored_value_pair(void);
+u8 *prepare_stored_value_block(void);
 void print_scene_sequence_number_sno(s32 kind);
 void process_flagged_entries_after_header(u8 *entries);
 void load_record_list_by_mode(s32 table_index, s32 mode);

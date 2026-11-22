@@ -1,7 +1,6 @@
 #ifndef DUNGEON_MENU_OBJECT_TABLE_INITIALIZATION_G00375_H
 #define DUNGEON_MENU_OBJECT_TABLE_INITIALIZATION_G00375_H
 /* Object table initialization shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800D7228, CL:dungeon/func_800D7484, CL:dungeon/func_800D74DC, CL:dungeon/func_800D7594. */
 
 #include "common.h"
 #include "shared/menu_display.h"

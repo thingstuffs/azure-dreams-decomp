@@ -1,5 +1,3 @@
-/* Town map entry processor (G00214). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:dungeon/bank_d0a0:800CFCA8. */
 #include "dungeon/system/town_map_entry_processor_g00214.h"
 #include "shared/object_flags.h"
 #include "dungeon/system.h"

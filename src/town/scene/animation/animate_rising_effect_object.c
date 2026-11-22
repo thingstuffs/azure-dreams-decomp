@@ -9,22 +9,13 @@
 #include "town/data.h"
 #include "town/scene/score_sprite_data.h"
 #include "town/devkit/old_minigame_imports.h"
+#include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 struct SpawnSeed;
 
 #ifndef NULL
 #define NULL 0
 #endif
-
-
-typedef struct S_8052F2C8_1 {
-    void * unk_00;
-    u8 pad_04[0x50];
-    s16 unk_54;
-    s16 unk_56;
-    u16 unk_58;
-} S_8052F2C8_1;   /* root in animate_rising_effect_object */
-
-   /* state_held in animate_rising_effect_object */
 
 typedef struct S_8052F2C8_3 {
     u8 pad_00[0x8];
@@ -39,34 +30,6 @@ typedef struct S_8052F2C8_3 {
     s32 unk_24;
 } S_8052F2C8_3;   /* work in animate_rising_effect_object */
 
-typedef struct S_8052F2C8_4 {
-    u8 pad_00[0x12];
-    u16 unk_12;
-} S_8052F2C8_4;   /* data0 in animate_rising_effect_object */
-
-typedef struct S_8052F2C8_5 {
-    u8 pad_00[0x16];
-    u16 unk_16;
-} S_8052F2C8_5;   /* root_obj in animate_rising_effect_object */
-
-   /* data1 in animate_rising_effect_object */
-
-   /* spawn_data in animate_rising_effect_object */
-
-
-typedef struct S_8052F2C8_9 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x2];
-    void * unk_08;
-    s32 unk_0C;
-    u8 pad_10[0xC];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_8052F2C8_9;   /* entity_data in animate_rising_effect_object */
-
-
 extern void create_object_position_configures_color(s32 color, s32 x, s32 y, s32 z);
 extern u32 D_80095AAC;
 extern u8 D_8028E17C[];
@@ -74,10 +37,12 @@ extern u8 D_8028E188[];
 extern void D_8052F8C4();
 
 /* Per-frame step for the town scene object: dispatch its mode and update the sprite it draws. */
-void animate_rising_effect_object(RisingEffectObject *obj, ObjectPosition *state_in, void *input) {
+void animate_rising_effect_object(RisingEffectObject *obj, ObjectPosition *state_in, SpriteFrameState *incoming) {
+    register SpriteFrameState *sprite;
     register RisingEffectObject *obj_held = obj;
     register ObjectPosition *state_held = state_in;
-    register S_8052F2C8_3 *work;
+    ObjectNodeHeader *child;
+    RisingScoreChild *payload;
     s16 state;
     s16 mode;
     s16 timer;
@@ -95,30 +60,30 @@ void animate_rising_effect_object(RisingEffectObject *obj, ObjectPosition *state
     s32 work_value;
     s16 scale;
     u16 kind;
-    register S_8052F2C8_1 *root;
-    S_8052F2C8_5 *root_obj;
+    register RisingScorePanel *root;
+    TownScoreCounterView *root_obj;
     ObjectPosition *position;
-    S_8052F2C8_4 *data0;
+    TownScoreCounterView *data0;
     TownScoreCounterView *data1;
     TownScoreCounterView *spawn_data;
-    S_8052F2C8_9 *entity_data;
+    SpriteFrameState *child_sprite;
     u32 *money;
 
     /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: town/func_808146C8). */
     do {
         root = obj_held->root;
     } while (0);
-    root->unk_58 |= 1;
-    root_obj = root->unk_00;
-    work = input;
+    root->flags |= 1;
+    root_obj = root->score;
+    sprite = incoming;
 
-    if (root->unk_54 == 9) {
+    if (root->progress == 9) {
         mode = obj_held->mode.s;
         if (mode == 1 && state_held->x.v <= 0x04DFFFFF) {
-            state = root->unk_56;
+            state = root->column;
             switch (state) {
             case 0:
-                work->unk_0C.u8 = 0xFF;
+                sprite->color.c.r = 0xFF;
                 count = 3;
                 do {
                     func_8052F960((struct SpawnSeed *)state_held);
@@ -126,7 +91,7 @@ void animate_rising_effect_object(RisingEffectObject *obj, ObjectPosition *state
                 } while (count >= 0);
                 break;
             case 1:
-                work->unk_14 |= 0xC;
+                sprite->flags |= 0xC;
                 count = 2;
                 do {
                     func_8052FB08((struct SpawnSeed *)state_held);
@@ -134,9 +99,9 @@ void animate_rising_effect_object(RisingEffectObject *obj, ObjectPosition *state
                 } while (count >= 0);
                 break;
             case 2:
-                timer = work->unk_1E + 0x200;
-                work->unk_1E = timer;
-                work->unk_1C = timer;
+                timer = sprite->scale_y + 0x200;
+                sprite->scale_y = timer;
+                sprite->scale_x = timer;
                 break;
             }
         }
@@ -145,9 +110,9 @@ void animate_rising_effect_object(RisingEffectObject *obj, ObjectPosition *state
     switch (obj_held->mode.s) {
     case 0:
         if (obj_held->field_0E == 0x10) {
-            root->unk_58 |= 4;
+            root->flags |= 4;
         } else {
-            root->unk_58 &= 0xFFFB;
+            root->flags &= 0xFFFB;
         }
         timer0 = (u16)obj_held->field_0E - 1;
         obj_held->field_0E = timer0;
@@ -155,10 +120,10 @@ void animate_rising_effect_object(RisingEffectObject *obj, ObjectPosition *state
             break;
         }
         func_80058F88(0x518);
-        data0 = root->unk_00;
-        data0->unk_12++;
+        data0 = root->score;
+        data0->completed++;
         obj_held->mode.s = 1;
-        work->unk_14 &= 0xFF7F;
+        sprite->flags &= 0xFF7F;
         break;
 
     case 1:
@@ -172,7 +137,7 @@ void animate_rising_effect_object(RisingEffectObject *obj, ObjectPosition *state
             if (*(u8 *)money >= 9U) {
                 *money += 0xFFF7F7F8;
             }
-            work->unk_14 |= 0x80;
+            sprite->flags |= 0x80;
             func_80058F88(0x506);
             obj_held->mode.s = 2;
             break;
@@ -199,18 +164,18 @@ void animate_rising_effect_object(RisingEffectObject *obj, ObjectPosition *state
             break;
         }
 
-        kind = root_obj->unk_16 - 3;
+        kind = root_obj->counter - 3;
         if (kind < 3U) {
             func_80058F88(0x513);
             obj_held->field_04 = 0x180000;
             obj_held->mode.s = 3;
             obj_held->field_10 |= 4;
-            data1 = root->unk_00;
-            root->unk_54++;
-            data1->unk_14 += 2;
-            if (root->unk_54 == 10) {
-                data1 = root->unk_00;
-                data1->unk_14 += 10;
+            data1 = root->score;
+            root->progress++;
+            data1->score += 2;
+            if (root->progress == 10) {
+                data1 = root->score;
+                data1->score += 10;
             }
             break;
         }
@@ -220,35 +185,36 @@ void animate_rising_effect_object(RisingEffectObject *obj, ObjectPosition *state
 
         func_80058F88(0x510);
         obj_held->field_10 |= 4;
-        spawn_data = root->unk_00;
+        spawn_data = root->score;
         count = 1;
-        spawn_data->unk_14++;
+        spawn_data->score++;
         scale = 0x1000;
         do {
-            work = func_800373DC(0x136);
-            if (work != NULL) {
-                work->unk_10 = D_8052F8C4;
-                func_8003BC18(work, score_sprite_draw_callback_address);
-                position = work->unk_08;
-                entity_data = work->unk_0C.p32;
+            child = func_800373DC(0x136);
+            if (child != NULL) {
+                child->update_callback = D_8052F8C4;
+                func_8003BC18(child, score_sprite_draw_callback_address);
+                position = child->position;
+                child_sprite = child->sprite;
                 position->x.v = state_held->x.v;
                 position->y.v = state_held->y.v;
                 position->z.v = state_held->z.v;
                 work_value = obj_held->field_04;
-                work->unk_20 = root;
-                work->unk_24 = work_value;
-                entity_data->unk_1E = scale;
-                entity_data->unk_1C = scale;
+                payload = NODE_BODY(child);
+                payload->panel = root;
+                payload->step_x = work_value;
+                child_sprite->scale_y = scale;
+                child_sprite->scale_x = scale;
                 if (count != 0) {
-                    entity_data->unk_08 = D_8028E188;
+                    child_sprite->source = D_8028E188;
                     position->velocity_y = 0x80000;
                 } else {
-                    entity_data->unk_08 = D_8028E17C;
+                    child_sprite->source = D_8028E17C;
                     position->velocity_y = 0xFFF80000;
                 }
-                entity_data->unk_04 = 0;
-                entity_data->unk_05 = 0;
-                entity_data->unk_0C = 0x808080;
+                child_sprite->unk_04 = 0;
+                child_sprite->frame_ticks = 0;
+                child_sprite->color.word = 0x808080;
             }
             count--;
         } while (count >= 0);
@@ -272,7 +238,7 @@ void animate_rising_effect_object(RisingEffectObject *obj, ObjectPosition *state
         break;
 
     case 3:
-        root->unk_58 |= 2;
+        root->flags |= 2;
         sum3 = state_held->x.v + obj_held->field_04;
         state_held->x.v = sum3;
         if (sum3 > 0x055FFFFF) {
@@ -283,13 +249,12 @@ void animate_rising_effect_object(RisingEffectObject *obj, ObjectPosition *state
         break;
 
     case 4:
-        root->unk_58 |= 2;
+        root->flags |= 2;
         for (count4 = 7; count4 >= 0; count4--) {
             x4 = (((func_80071494() & 0xFF) - 0x80) << 14) + 0x05600000;
             color4 = ((func_80071494() & 0x3F) << 16) | 0xFFC00000;
             create_object_position_configures_color(0, x4, state_held->y.v + 0x80000, color4);
         }
-
 
         timer_end = (u16)obj_held->field_0E - 1;
         obj_held->field_0E = timer_end;
@@ -299,8 +264,11 @@ void animate_rising_effect_object(RisingEffectObject *obj, ObjectPosition *state
         break;
 
     case 0xFF:
-        root->unk_58 &= 0xFFFE;
-        (*(u16 *)((u8 *)obj_held + -2)) |= 0x8000;
+        root->flags &= 0xFFFE;
+        {
+            u16 *flags = &NODE_HEADER(obj_held)->flags;
+            *flags |= 0x8000;
+        }
         scene_object_flags |= 0x8000;
         break;
 

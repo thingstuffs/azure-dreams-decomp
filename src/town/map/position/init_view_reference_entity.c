@@ -24,9 +24,8 @@ extern Rec_D_800CFCB4 town_actor_control;
 #include "town/scene.h"
 #include "engine/scene.h"
 
+#include "town/scene/secondary_object_list_g00528.h"
 extern Box D_800D0420;
-
-extern Rec_D_800FE490 town_motion_list;
 
 /* Initializes the town object and sets its position from the current position entry. */
 void init_view_reference_entity(void) {
@@ -40,7 +39,7 @@ void init_view_reference_entity(void) {
     initialize_circular_list_head();
     init_scene_list_node(&town_actor_control, &view_reference_entity, &D_800D0420);
     init_town_motion_list();
-    init_secondary_list_record(&town_motion_list, (s32)&view_reference_entity, (s32)&D_800D0420);
+    init_secondary_list_record(&town_motion_list, &view_reference_entity, &D_800D0420);
     {
         MapRuntimeState *position_data;
         TownRectangle *position_entry;

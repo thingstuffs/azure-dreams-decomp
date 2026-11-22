@@ -21,10 +21,10 @@ extern D_80082660_entry object_index_slots[];
 extern M2C_UNK person_bounce_handler_address;
 
 /* Initializes the object from its table entry and resets the companion state. */
-void initialize_bounce_reaction_object(TownObjectRecord *object, ObjectPosition *state, void *init_data) {
+void initialize_bounce_reaction_object(TownObjectRecord *object, ObjectPosition *state, SpriteFrameState *sprite) {
     s8 entry_value;
 
-    initialize_object_entries((object), init_data, person_reaction_object_entries);
+    initialize_object_entries((object), sprite, person_reaction_object_entries);
     object_index_slots[5].unk0 = 0;
     entry_value = object_index_slots[object->slot].unk2;
     object->handler = &person_bounce_handler_address;

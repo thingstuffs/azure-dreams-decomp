@@ -112,6 +112,3 @@ void resolve_familiar_deployment_request(void *context_ptr_data, s32 unused_one,
         ((Rec_func_8008D024_arg0 *)context_ptr)->unk_110 = selection_ptr;
     }
 }
-
-/* MECHANISM: frame is 4 saves (s2,ra,s1,s0 at 0x18/0x1c/0x14/0x10) with arg3->s2
-   and arg0->s1. Retail leaves both expand_text_control_codes call delay slots empty. */

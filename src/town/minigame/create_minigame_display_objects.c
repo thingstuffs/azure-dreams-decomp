@@ -4,6 +4,7 @@
 #include "common.h"
 #include "shared/vector.h"
 #include "town/minigame.h"
+#include "town/paired_indicators.h"
 #include "engine/runtime.h"
 #include "slus.h"
 #include "sdk/libgpu.h"
@@ -29,7 +30,7 @@ typedef struct S_800224E0_0 {
     } unk_20;   /* overlapping accesses */
     u8 pad_24[0x4];
     s16 unk_28;
-} S_800224E0_0;   /* obj in create_minigame_display_objects */
+} S_800224E0_0;   /* node in create_minigame_display_objects */
 
    /* prim in create_minigame_display_objects */
 
@@ -52,9 +53,10 @@ void create_minigame_display_objects(void)
 {
     RECT upload_rect;
     s32 child_index;
-    u8 *obj;
-    u8 *parent_state;
-    u8 *child_slot;
+    ObjectNodeHeader *node;
+    PairedIndicators *indicator;
+    MinigameDisplayObjectsBody *reel;
+    State8081FF68 *parent_state;
     u8 *callback;
     ObjectPosition *prim;
     SpriteFrameState *draw_state;
@@ -70,42 +72,41 @@ void create_minigame_display_objects(void)
     initialize_minigame_display(D_800246E0);
     set_resident_bit(0xA4);
 
-    obj = allocate_flagged_object_node(0x32);
-    if (obj != NULL) {
-        parent_state = obj + 0x20;
-        prim = ((ObjectNodeHeader *)obj)->position;
-        ((ObjectNodeHeader *)obj)->update_callback = D_80022768;
+    node = allocate_flagged_object_node(0x32);
+    if (node != NULL) {
+        parent_state = NODE_BODY(node);
+        prim = node->position;
+        node->update_callback = D_80022768;
         prim->x.v = 0x04600000;
         prim->y.v = 0x03600000;
-        ((State8081FF68 *)parent_state)->parent = callback;
+        parent_state->parent = callback;
         init_scene_node_mode_3(parent_state, prim, D_80024470);
     }
 
     child_index = 2;
     child_script = D_80023404;
-    child_slot = parent_state + 8;
     do {
-        obj = allocate_flagged_object_node(2);
-        ((State8081FF68 *)child_slot)->slot[0] = obj;
-        if (obj != NULL) {
-            ((ObjectNodeHeader *)obj)->update_callback = child_script;
-            ((S_800224E0_0 *)obj)->unk_28 = child_index;
-            ((S_800224E0_0 *)obj)->unk_20.at00.v = parent_state;
+        node = allocate_flagged_object_node(2);
+        parent_state->slot[child_index] = node;
+        if (node != NULL) {
+            node->update_callback = child_script;
+            reel = NODE_BODY(node);
+            reel->column = child_index;
+            reel->parent = parent_state;
         }
         child_index--;
-        child_slot -= 4;
     } while (child_index >= 0);
 
-    obj = allocate_flagged_object_node(0x136);
-    if (obj != NULL) {
-        render_state = obj + 0x28;
-        object_state = obj + 0x20;
-        register_node(obj, draw_linked_lit_meshes);
+    node = allocate_flagged_object_node(0x136);
+    if (node != NULL) {
+        render_state = (u8 *)NODE_BODY(node) + 8;
+        object_state = NODE_BODY(node);
+        register_node(node, draw_linked_lit_meshes);
         neutral_color = 0x00808080;
-        ((ObjectNodeHeader *)obj)->update_callback = D_80023DE0;
-        prim = ((ObjectNodeHeader *)obj)->position;
-        draw_state = ((ObjectNodeHeader *)obj)->sprite;
-        ((S_800224E0_0 *)obj)->unk_20.at00.v = parent_state;
+        node->update_callback = D_80023DE0;
+        prim = node->position;
+        draw_state = node->sprite;
+        ((S_800224E0_0 *)node)->unk_20.at00.v = parent_state;
         draw_state->scale_x = 0x1000;
         draw_state->scale_y = 0x1000;
         draw_state->offset_x = 0x1000;
@@ -125,29 +126,29 @@ void create_minigame_display_objects(void)
         prim->y.v = 0x02C00000;
         prim->z.v = 0;
         *(void **)(object_state + 0x50) = callback;
-        init_scene_node_mode_3(render_state, ((ObjectNodeHeader *)obj)->position, D_800244A0);
+        init_scene_node_mode_3(render_state, node->position, D_800244A0);
     }
 
     child_index = 4;
     do {
-        obj = allocate_flagged_object_node(0x100);
-        if (obj != NULL) {
-            register_node(obj, draw_depth_sorted_line_nodes);
-            ((S_800224E0_0 *)obj)->unk_20.at00.v = parent_state;
-            ((ObjectNodeHeader *)obj)->update_callback = D_80023EB0;
-            obj += 0x20;
-            ((S_800224E0_0 *)obj)->unk_20.at02.v = child_index;
+        node = allocate_flagged_object_node(0x100);
+        if (node != NULL) {
+            indicator = NODE_BODY(node);
+            register_node(node, draw_depth_sorted_line_nodes);
+            indicator->owner = (IndicatorOwner *)parent_state;
+            node->update_callback = D_80023EB0;
+            indicator->kind = child_index;
             switch (child_index) {
             case 0:
-                ((S_800224E0_0 *)obj)->unk_20.at00u.v = 1;
+                indicator->threshold = 1;
                 break;
             case 1:
             case 2:
-                ((S_800224E0_0 *)obj)->unk_20.at00u.v = 2;
+                indicator->threshold = 2;
                 break;
             case 3:
             case 4:
-                ((S_800224E0_0 *)obj)->unk_20.at00u.v = 3;
+                indicator->threshold = 3;
                 break;
             default:
                 break;

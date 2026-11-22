@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/player.h"
+#include "town/scene/collision.h"
 
 typedef struct S_80095840_0 {
     u8 pad_00[0x10];
@@ -8,48 +9,21 @@ typedef struct S_80095840_0 {
     union { void * s; s32 u; } unk_2C;   /* accessed as both */
 } S_80095840_0;   /* out in select_adjacent_source_entry */
 
-typedef struct S_80095840_1 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-    u8 pad_14[0x4];
-    s32 unk_18;
-    s32 unk_1C;
-    u8 pad_20[0x1A];
-    u8 unk_3A;
-} S_80095840_1;   /* in in select_adjacent_source_entry */
-
-typedef struct S_80095840_2 {
-    u8 pad_00[0x14];
-    u8 unk_14;
-    u8 pad_15[0x7];
-    s32 unk_1C;
-    u8 pad_20[0x1A];
-    u8 unk_3A;
-} S_80095840_2;   /* (void *)work in select_adjacent_source_entry */
-
-typedef struct S_80095840_3 {
-    u8 pad_00[0x14];
-    u8 unk_14;
-} S_80095840_3;   /* entry in select_adjacent_source_entry */
-
-
-
 /*
  * Uses the angle table to select the source or an available alternate slot, rejecting entry types
  * one and three. Stores the selected pointer and returns two for the source, one for an alternate,
  * or zero with a cleared pointer.
  */
-s32 select_adjacent_source_entry(void *destination, void *source)
+s32 select_adjacent_source_entry(void *destination, ColliderView *candidates)
 {
     S_80095840_0 *result;
-    S_80095840_1 *candidates;
     s32 selection;
     s32 offset;
     s32 initial_angle;
-    S_80095840_3 *entry;
+    ColliderView *entry;
+    ColliderView *selected;
 
     result = destination;
-    candidates = source;
     initial_angle = result->unk_10;
     selection = initial_angle + 0x100;
     if (selection >= 0) {
@@ -60,19 +34,18 @@ s32 select_adjacent_source_entry(void *destination, void *source)
         offset = 0x800D0000;
     }
 
+    /* The eight face IDs at 0x800D0484 use -1 for diagonal directions. */
     offset += 0x484;
     selection &= 0x1C;
     selection += offset;
     offset = *(s32 *)selection;
     if (offset != -1) {
-        selection = candidates->unk_3A;
-        if (selection != 0) {
-
-            selection = candidates->unk_1C;
-            candidates->unk_10 = selection;
-            candidates->unk_18 = 0;
-            entry = (void *)candidates->unk_10;
-            offset = ((S_80095840_2 *)((void *)selection))->unk_14;
+        if (candidates->pending_flags[0] != 0) {
+            selected = candidates->slots[0];
+            candidates->selected_entry = selected;
+            candidates->selected_face = 0;
+            entry = candidates->selected_entry;
+            offset = selected->mode;
             if ((offset == 1) || (offset == 3)) {
                 result->unk_2C.u = 0;
                 selection = 0;
@@ -83,16 +56,12 @@ s32 select_adjacent_source_entry(void *destination, void *source)
             return selection;
         }
 
-        selection = (s32)candidates + offset;
-        if (((S_80095840_2 *)((void *)selection))->unk_3A != 0) {
-
-            selection = offset * 4;
-            selection += (s32)candidates;
-            selection = ((S_80095840_2 *)((void *)selection))->unk_1C;
-            candidates->unk_10 = selection;
-            candidates->unk_18 = offset;
-            entry = (void *)candidates->unk_10;
-            offset = entry->unk_14;
+        if (candidates->pending_flags[offset] != 0) {
+            selected = candidates->slots[offset];
+            candidates->selected_entry = selected;
+            candidates->selected_face = offset;
+            entry = candidates->selected_entry;
+            offset = entry->mode;
             if ((offset != 1) && (offset != 3)) {
                 selection = 1;
                 result->unk_2C.s = entry;

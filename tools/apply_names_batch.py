@@ -1,6 +1,7 @@
 """Atomic naming batch: one alias-table update, one SLUS gate, each touched row once."""
 import json,re,time,subprocess,concurrent.futures
 from pathlib import Path
+import atomic_io
 from source_layout import row_path, own_source, row_ids_for_paths
 from layout_dependencies import consumer_paths
 from apply_names_data import inline_plan
@@ -201,7 +202,7 @@ def main(a,N):
    c=ln.split('\t')
    if len(c)>=3 and c[1] in renames and c[2]==renames[c[1]][0]:c[2]=renames[c[1]][1];ln='\t'.join(c)
    lines.append(ln)
-  N.NAMES.write_text('\n'.join(lines).rstrip('\n')+'\n'+''.join('\t'.join(x)+'\n' for x in new))
+  atomic_io.write_text(N.NAMES,'\n'.join(lines).rstrip('\n')+'\n'+''.join('\t'.join(x)+'\n' for x in new))
   for p,t in changed.items():p.write_text(t)
   for p,pair in metadata.items():p.write_bytes(pair[1])
   written=True
@@ -241,7 +242,7 @@ def main(a,N):
   if written:
    for p in changed:p.write_text(texts[p])
    for p,pair in metadata.items():p.write_bytes(pair[0])
-  N.NAMES.write_text(names_before)
+  atomic_io.write_text(N.NAMES,names_before)
   for rec in plan:
    if not rec['existing'] or rec.get('rename'):N.append_jsonl(N.JOURNAL,dict(rec,outcome='reverted',reason='atomic batch failed',failures=[(rid,v.get('status'),v.get('class'),v.get('total'),v.get('err')) for rid,v in bad[:5]]))
   raise

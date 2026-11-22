@@ -54,6 +54,10 @@ def batch(name, folder, rows, max_files=0, after_file='', prepared=False):
             command += ['--discover-all']
         for route in OPTIONS.route or []:
             command += ['--route',route]
+        for spec in getattr(OPTIONS, 'exclude_member', None) or []:
+            command += ['--exclude-member',spec]
+        if getattr(OPTIONS, 'keep_cast', False):
+            command += ['--keep-cast']
         for reason in getattr(OPTIONS, 'reason', None) or []:
             command += ['--reason',reason]
         if max_files:
@@ -160,7 +164,9 @@ def main():
     ap.add_argument('--workers', type=int, default=4)
     ap.add_argument('--census', type=Path)
     ap.add_argument('--discover-all', action='store_true')
-    ap.add_argument('--route', action='append', choices=('redundant', 'node_body', 'numeric_member', 'qualified_argument'))
+    ap.add_argument('--route', action='append', choices=('redundant', 'node_body', 'numeric_member', 'qualified_argument', 'address_member'))
+    ap.add_argument('--exclude-member', action='append', default=[], metavar='RECORD:OFFSET[,OFFSET...]')
+    ap.add_argument('--keep-cast', action='store_true')
     ap.add_argument('--reason', action='append', help='restrict to exact planner guard reasons')
     ap.add_argument('--resume', action='store_true')
     args = ap.parse_args()

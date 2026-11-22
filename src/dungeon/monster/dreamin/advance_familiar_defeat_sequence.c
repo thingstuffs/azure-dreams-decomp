@@ -20,7 +20,11 @@ extern u8 D_80170854[];
 extern u8 dreamin_action_continuation_address;
 extern u8 D_801738A4[];
 
-/* Run the actor's two-step death sequence: post its message, then spawn the drop and release it. */
+/*
+ * Runs the familiar's two-step defeat: shows its defeat message and animation, then spends its MP,
+ * releases the active actor, advances its status timers and gives its target a chance at a
+ * follow-up action.
+ */
 void advance_familiar_defeat_sequence(ActorRecord *work, ObjectPosition *part_a, SpriteFrameState *part_b, ActorRecord *actor)
 {
     void *first;
@@ -70,8 +74,3 @@ void advance_familiar_defeat_sequence(ActorRecord *work, ObjectPosition *part_a,
         break;
     }
 }
-
-/* MECHANISM: True-space advance_familiar_defeat_sequence turns 0x80173780/0x80173798 into local CFG joins
-   and orders state-zero before state-one, preserving the 0x30 frame and five held bases.
-   Byte-scaled table indexing keeps lbu/shift-nine; distinct result/saved_first lifetimes
-   emit retail's a1<-v0 and call-delay s0<-a1 around append_entity_display_text. */

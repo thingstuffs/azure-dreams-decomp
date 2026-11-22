@@ -6,7 +6,7 @@
 /* Gives up to ten rows (parts 26-35) item labels for the entries of the menu's current page. */
 void populate_item_menu_page_entries(ItemMenuPart **parts, ItemMenuObject *object) {
     ItemMenuPart **output_slot;
-    void *entry_value;
+    DungeonItemEntry *entry_value;
     s32 entry_index;
     s32 slot_index;
     ItemMenuState *menu;

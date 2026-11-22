@@ -7,7 +7,7 @@
 extern s32 D_8009221C;
 
 /* Selects action_object_handler_table and installs D_8009221C. */
-void initialize_action_object(s32 **record, void *ptr, void *ptr2) {
+void initialize_action_object(s32 **record, struct ObjectPosition *ptr, void *ptr2) {
     dispatch_selected_entry_if_nonzero(action_object_handler_table, (TownObjectRecord *) record, ptr2);
     *record = &D_8009221C;
 }

@@ -4,29 +4,17 @@
 #include "town.h"
 #include "town/person/state.h"
 
-typedef struct town_person_countdown_state {
-    u8 pad_00[0x50];
-    void *state;
-    u8 pad_54[0x18];
-    u16 timer;
-    u8 pad_6E[0x22];
-    s16 value;
-} State;
-
-
-
-
 /* Updates the state from the value and countdown, resetting an expired timer to ten. */
-void update_person_countdown_state(State *record) {
+void update_person_countdown_state(TownObjectRecord *record) {
     u16 timer;
 
-    if (record->value < 100) {
-        record->state = move_person_toward_sample;
+    if (record->unk_90 < 100) {
+        record->unk_50.as_pm = move_person_toward_sample;
     }
     timer = record->timer - 1;
     record->timer = timer;
     if ((s16) timer < 0) {
-        record->state = update_timed_state_transition;
+        record->unk_50.as_pm = update_timed_state_transition;
         record->timer = 10;
     }
 }

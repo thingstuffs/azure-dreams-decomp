@@ -30,15 +30,15 @@ void restore_shop_script_state(ShopMenu *shop) {
 }
 
 /* open_shop: Allocate and initialize the shop and its resources, cleaning up if either resource fails. */
-void *open_shop(s32 unused, s32 primary_param, s32 secondary_param, s32 shared_param) {
-    s32 second_resource;
+void *open_shop(s32 unused, s32 primary_param, s32 secondary_param, DungeonItemEntry *items) {
+    ObjectNodeHeader *second_resource;
     ShopMenu *shop_state;
     ObjectNodeHeader *shop;
 
     shop = allocate_flagged_object_node(0);
     if (shop != 0) {
         shop_state = NODE_BODY(shop);
-        shop_state->grid.entry_base = shared_param;
+        shop_state->grid.entry_base = items;
         shop_state->grid.field_18 = primary_param;
         shop_state->grid.dispatch_mode = secondary_param;
         shop_state->grid.repeat_ticks = 6;
@@ -46,7 +46,7 @@ void *open_shop(s32 unused, s32 primary_param, s32 secondary_param, s32 shared_p
         shop->update_callback = &advance_dispatch_when_countdown_expires;
         shop_state->grid.subrecord = allocate_paged_shop_item_list(shop, shop_state->grid.selected_index, shop_state->grid.entry_count, shop_state->grid.selected_row,
             shop_state->grid.field_10, shop_state->grid.entry_base, primary_param);
-        second_resource = (s32)(unsigned long)create_floating_number_widget(shop, 0x48, -0xC);
+        second_resource = create_floating_number_widget(shop, 0x48, -0xC);
         shop_state->grid.field_2C = second_resource;
         if ((shop_state->grid.subrecord == 0) || (second_resource == 0)) {
             close_shop(shop_state);
@@ -59,7 +59,7 @@ void *open_shop(s32 unused, s32 primary_param, s32 secondary_param, s32 shared_p
 
 /* Marks the shop record for cleanup, updates its child handlers, and restores shared shop state. */
 void close_shop(ShopMenu *shop) {
-    s32 firstUpdateValue;
+    ObjectNodeHeader *firstUpdateValue;
     NODE_HEADER(shop)->flags |= 0x8000;
     firstUpdateValue = shop->grid.subrecord;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;

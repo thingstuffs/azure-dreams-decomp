@@ -207,9 +207,12 @@ extern s32 D_800D0C40[];
 extern u16 D_80100D88;
 
 /* Functions defined in this translation unit. */
-s32 emit_linked_segment_chain(void *initial_state, s32 carrier1, u8 *carrier2);
-s32 emit_bidirectional_angular_segments(S_800A3B80_3 *object, s32 unused, void *context);
-void *project_visible_textured_strips(void *origin, void *render_flags, TownStripScratch *draw_state, void *prim_buffer, u16 texture_index);
+struct MenuAnimationPhaseObject;
+struct ObjectPosition;
+struct SpriteFrameState;
+s32 emit_linked_segment_chain(struct MenuAnimationPhaseObject *state, struct ObjectPosition *position, struct SpriteFrameState *sprite);
+s32 emit_bidirectional_angular_segments(struct MenuAnimationPhaseObject *object, struct ObjectPosition *position, struct SpriteFrameState *sprite);
+void *project_visible_textured_strips(struct MenuAnimationPhaseObject *origin, struct SpriteFrameState *sprite, TownStripScratch *draw_state, void *prim_buffer, u16 texture_index);
 void create_resource_display_object(s16 resource_index);
 
 #endif

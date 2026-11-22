@@ -1,6 +1,7 @@
 #include "dungeon/item_callbacks_api.h"
 #include "shared/runtime_dispatch.h"
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/transition_slots.h"
 #include "shared/tile_object.h"
@@ -29,32 +30,6 @@ typedef struct {
     s16 fieldE;
 } Primitive;
 
-typedef struct dungeon_return_magic_object {
-    u8 pad0[0x4A];
-    s16 phase;
-    u16 counter;
-    u8 pad50[4];
-    s16 count;
-    u8 pad54[0x14];
-    u8 *handle;
-} DungeonObject;
-
-typedef struct dungeon_return_magic_motion {
-    u8 pad0[8];
-    s32 field8;
-    u8 padC[8];
-    s32 field14;
-} MotionState;
-
-typedef struct dungeon_return_magic_effect {
-    u8 pad0[0xC];
-    u8 fieldC;
-    u8 fieldD;
-    u8 fieldE;
-    u8 padF[0xD];
-    u16 field1C;
-} EffectState;
-
 typedef struct {
     s32 field18;
     s32 field1C;
@@ -68,7 +43,7 @@ extern void SetDrawArea();
 extern void draw_transformed_sprite_with_clip_rect();
 
 /* Draws randomized vertical streaks and advances the object's motion and fade sequence. */
-void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectState *effect) {
+void update_return_magic_ascent(ReturnMagicAscentBody *obj, ObjectPosition *motion, SpriteFrameState *effect) {
     StackData draw_data;
     s16 use_alt_buffer;
     u32 buffer_diff;
@@ -94,7 +69,7 @@ void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectS
     SetDrawArea(prim, call_state, render_state);
     AddPrim(prim_list, prim);
 
-    if (obj->count > 0) {
+    if (obj->streak_count > 0) {
         index_or_phase = 0;
         do {
             RenderState *streak_state;
@@ -122,11 +97,11 @@ void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectS
             SetLineF2(prim);
             AddPrim(prim_list, prim);
             index_or_phase += 1;
-        } while (index_or_phase < obj->count);
+        } while (index_or_phase < obj->streak_count);
     }
 
-    if (obj->count < 0x60) {
-        obj->count = (u16)obj->count + 1;
+    if (obj->streak_count < 0x60) {
+        obj->streak_count = (u16)obj->streak_count + 1;
     }
 
     {
@@ -139,7 +114,7 @@ void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectS
     }
     draw_data.field20 = 0x360;
     draw_data.field22 = 0x1B8;
-    draw_transformed_sprite_with_clip_rect(obj->handle, &draw_data.field18, &draw_data.field20, 1, 0);
+    draw_transformed_sprite_with_clip_rect(obj->owner, &draw_data.field18, &draw_data.field20, 1, 0);
 
     {
         u16 frame_count = obj->counter + 1;
@@ -147,9 +122,9 @@ void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectS
         obj->counter = frame_count;
         if (index_or_phase == 0) {
             if ((s16)frame_count >= 0x21) {
-                if (obj->handle[0x13] == 0) {
+                if (obj->owner->species == 0) {
                     ActorRecord *dungeon_state;
-                    begin_deferred_player_item_effect(obj->handle, ((u8 *)(&view_reference_entity)), ((&reference_tile_object)), 0);
+                    begin_deferred_player_item_effect(obj->owner, ((u8 *)(&view_reference_entity)), ((&reference_tile_object)), 0);
                     dungeon_actor_ring_anchor->action_phase = 0x11;
                     dungeon_state = dungeon_actor_ring_anchor;
                     reference_tile_object.frame_table = (s32)return_magic_frames;
@@ -164,17 +139,17 @@ void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectS
                 return;
             }
         } else if (index_or_phase == 1) {
-            MotionState *parent_motion;
-            effect->fieldC = effect->fieldC - (effect->fieldC >> 3);
-            effect->fieldD = effect->fieldD - (effect->fieldD >> 3);
-            effect->fieldE = effect->fieldE - (effect->fieldE >> 3);
-            effect->field1C = effect->field1C + ((0x400 - effect->field1C) >> 2);
-            parent_motion = *(MotionState **)((u8 *)obj - 0x18);
-            motion->field8 = motion->field8 + motion->field14;
-            parent_motion->field8 = motion->field8;
-            motion->field14 = motion->field14 + 0xFFFC0000;
-            if (obj->handle[0x13] == 0 &&
-                (*(u16 *)(*(u8 * *)&NODE_HEADER(dungeon_actor_ring_anchor)->sprite + 0x14) & 0x6000)) {
+            ObjectPosition *node_position;
+            effect->color.c.r = effect->color.c.r - (effect->color.c.r >> 3);
+            effect->color.c.g = effect->color.c.g - (effect->color.c.g >> 3);
+            effect->color.c.b = effect->color.c.b - (effect->color.c.b >> 3);
+            effect->scale_x = effect->scale_x + ((0x400 - effect->scale_x) >> 2);
+            node_position = NODE_HEADER(obj)->position;
+            motion->z.v = motion->z.v + motion->velocity_z;
+            node_position->z.v = motion->z.v;
+            motion->velocity_z = motion->velocity_z + 0xFFFC0000;
+            if (obj->owner->species == 0 &&
+                (NODE_HEADER(dungeon_actor_ring_anchor)->sprite->flags & 0x6000)) {
                 s16 entry_index = reserve_transition_slot(6, 0x20);
                 u8 *entry_table = (u8 *)runtime_transition_slots;
                 s16 *entry_flag;

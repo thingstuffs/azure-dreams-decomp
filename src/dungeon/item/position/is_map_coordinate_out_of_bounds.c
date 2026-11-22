@@ -16,7 +16,3 @@ s32 is_map_coordinate_out_of_bounds(s16 x, s16 y)
     }
     return 0;
 }
-
-/* MECHANISM: Frameless leaf; a named DungeonBounds base holds &D_8008333C and
-   pulls the page lui to word 0 while reusing a3 for both signed field loads.
-   Explicit out-of-range returns reproduce the shared return-one CFG. */

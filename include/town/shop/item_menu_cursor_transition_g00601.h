@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B0FD4, CL:town/func_800B10F4. */
 
 #include "common.h"
+#include "shared/gpu_packets.h"
 
 /* Primitive/color record reached through each row display's +4 data slot. */
 typedef struct ItemMenuRowPrimitive {
@@ -13,20 +14,37 @@ typedef struct ItemMenuRowPrimitive {
 } ItemMenuRowPrimitive;
 
 typedef struct ItemMenuRowDisplay {
-    u8 pad_00[4];
+    void *handler;
     ItemMenuRowPrimitive *data;
 } ItemMenuRowDisplay;
 
 /* Four pointer planes, six slots apart: +8, +20, +38 and +50. Names
  * describe their demonstrated horizontal positions, not the text contents. */
 typedef struct ItemMenuRows {
-    u8 pad_00[4];
+    ItemMenuRowDisplay *count_display;
     ItemMenuRowDisplay *cursor;
     ItemMenuRowDisplay *left[6];
     ItemMenuRowDisplay *middle[6];
     ItemMenuRowDisplay *text[6];
     ItemMenuRowDisplay *right[6];
 } ItemMenuRows;
+
+typedef struct S_800AEBC4_2 {
+    u8 pad_00[0x2];
+    s16 unk_02;
+    u8 pad_04[0x4];
+    s16 unk_08;
+    s16 unk_0A;
+    s16 unk_0C;
+    u8 pad_0E[0x1];
+    u8 unk_0F;
+} S_800AEBC4_2;   /* the position / secondary records config links */
+
+typedef struct S_800AEBC4_4 {
+    s32 unk_00;
+    S_800AEBC4_2 *unk_04;
+    S_800AEBC4_2 *unk_08;
+} S_800AEBC4_4;   /* config */
 
 typedef struct ItemMenuTransition {
     void (*callback)(struct ItemMenuTransition *state);
@@ -44,12 +62,17 @@ typedef struct ItemMenuTransition {
     s32 entry_count;
     u8 pad_2C[8];
     s32 unk_34;
-    s32 entry_data_address; /* +0x38: byte table indexed by dispatch_item_menu_entry_callback */
-    s32 unk_3C;
+    u8 *entry_ids; /* selected callback indices in the display controller */
+    struct ObjectNodeHeader *owner;
     u8 row_data; /* +0x40: address stored in each row display; complete data extent is unestablished */
-    u8 pad_41[0x93];
+    u8 pad_41[0x5F];
+    s32 position_words[4];
+    s32 secondary_words[3];
+    DisplayPositionWords part_vector;
+    S_800AEBC4_4 position_links;
     void *unk_D4;
     union { ItemMenuRows *as_rows; void *as_ptr; } rows;
+    u16 *allocations[6]; /* entry table, two buffers per bank and null terminator */
 } ItemMenuTransition;
 
 void style_item_menu_entry_records(ItemMenuTransition *collection);

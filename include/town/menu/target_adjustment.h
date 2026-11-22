@@ -5,6 +5,8 @@ struct SpriteFrameState;
 #include "common.h"
 #include "shared/entity.h"
 
-void decrement_sprite_angle_y(void *unused_0, void *unused_1, struct SpriteFrameState *target);
+struct DoorProjectionChild;
+struct ObjectPosition;
+void decrement_sprite_angle_y(struct DoorProjectionChild *unused_child, struct ObjectPosition *unused_position, struct SpriteFrameState *target);
 
 #endif

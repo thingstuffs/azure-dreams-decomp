@@ -25,10 +25,10 @@ extern void update_countdown_and_fallback(struct S_80090F00_0 *, ObjectPosition 
 extern s32 D_800D00C0[];
 extern void update_airborne_object_with_land_effects(void *context, ObjectPosition *object, void *update_arg);
 void store_input_angle(void *record_arg);
-extern void update_actor_movement_actions(TownObjectRecord *, ObjectPosition *, s32);
+extern void update_actor_movement_actions(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern s32 D_800D0108[];
 s16 SD_Call(int flags);
-extern void update_actor_input_actions(struct TownPlayerRecord *, ObjectPosition *, s32);
+extern void update_actor_input_actions(struct TownPlayerRecord *, ObjectPosition *, SpriteFrameState *);
 extern s32 D_800D0110[];
 extern u8 D_800D0118[];
 extern void dispatch_actor_interaction_with_fallback(void);
@@ -57,7 +57,7 @@ void initialize_actor_movement_interaction_action(ovl_16b08_local_7FFF6DBC_InitS
 void initialize_actor_position_interaction_action(TownObjectRecord *object, s32 setup_arg, s32 context, s32 setup_extra);
 void initialize_input_driven_scene_object(s32 **outputSlot, EntityRec *state, s32 initContext);
 void initialize_threshold_interaction_object(ovl_16b08_local_7FFF6EC0_InitState *state, void *unused, void *context);
-void init_radial_effects_action(ovl_16b08_local_7FFF6F00_InitState *state, void *unused, void *context);
+void init_radial_effects_action(ovl_16b08_local_7FFF6F00_InitState *state, ObjectPosition *unused_position, void *context);
 void initialize_busy_checked_countdown_action(ovl_16b08_local_7FFF6F40_InitState *state, void *argument, void *context);
 void install_actor_interaction_handler(TownObjectRecord *record);
 #endif

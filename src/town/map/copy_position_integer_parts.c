@@ -2,9 +2,9 @@
 #include "town/map/animation.h"
 #include "town/map.h"
 
-/* Copy the three low halves of the source's 32-bit coordinates. */
-void copy_position_integer_parts(u16 *destination, const u16 *source) {
-    destination[0] = source[1];
-    destination[1] = source[3];
-    destination[2] = source[5];
+/* Copy the integer part of each 16.16 position component to a projection vertex. */
+void copy_position_integer_parts(SVECTOR *destination, const ObjectPosition *source) {
+    destination->vx = source->x.w.i;
+    destination->vy = source->y.w.i;
+    destination->vz = source->z.w.i;
 }

@@ -6,13 +6,13 @@
 /* Load an indexed value divided by four and propagate the source flag. */
 void update_color_channel_entry(MainTitleValueEntry *entry_data) {
     MainTitleValueEntry *entry = entry_data;
-    u8 *value_data = entry->value_data;
-    s32 value_index = entry->value_index;
+    SettingsScreenBody *owner = entry->owner;
+    s32 value_index = entry->index;
     s16 scaled_value;
 
-    scaled_value = (s16)(*(u16 *)(value_data + (value_index * 2) + 0xE) << 0x10 >> 0x12);
-    entry->value = scaled_value;
-    if (*(s16 *)(value_data + 0x16) & 0x8000) {
+    scaled_value = (s16)(owner->color_channels[value_index] >> 2);
+    entry->width = scaled_value;
+    if ((s16)owner->flags & NODE_REMOVE) {
         NODE_HEADER(entry)->flags = NODE_HEADER(entry)->flags | NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

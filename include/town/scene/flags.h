@@ -26,7 +26,8 @@ void set_indexed_flag_bit(s32 flag_id);
 
 /* Callback entry points. */
 void reset_catalog_lookup_count(void);
-void fade_panel_after_linked_flag(void *effect);
+struct TownCollectionPanel;
+void fade_panel_after_linked_flag(struct TownCollectionPanel *panel);
 
 void update_dependent_entry_ids(s16 checked_id, s16 first_id, s16 second_id);
 

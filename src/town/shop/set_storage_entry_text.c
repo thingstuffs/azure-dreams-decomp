@@ -12,14 +12,14 @@
 #include "town/shop/object.h"
 #include "town/shop/state.h"
 
-void set_storage_entry_text(StorageEntry *entry, s32 text, s32 style, s16 x, s32 y) {
-    void *old_text = entry->text;
+void set_storage_entry_text(ItemMenuPart *entry, char *text, s32 style, s16 x, s32 y) {
+    void *old_text = entry->handler;
     if (old_text != 0) {
         flag_object_for_removal(old_text);
-        entry->text = 0;
+        entry->handler = 0;
     }
     entry->position->x = x;
     entry->position->y = y;
-    entry->text = alloc_parsed_string(text, style);
-    entry->position->mode = 1;
+    entry->handler = alloc_parsed_string(text, style);
+    entry->position->type = 1;
 }

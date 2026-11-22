@@ -11,7 +11,7 @@
  * match for town_position_callback_address. Clears town_overlap_origin when neither key list
  * matches.
  */
-void dispatch_fallback_position(TownPlayerRecord *entry, ObjectPosition *forwarded_a, void *forwarded_b)
+void dispatch_fallback_position(TownPlayerRecord *entry, ObjectPosition *forwarded_a, SpriteFrameState *sprite)
 {
     void **key_cursor;
     void **match_cursor;
@@ -27,13 +27,13 @@ void dispatch_fallback_position(TownPlayerRecord *entry, ObjectPosition *forward
                     if (*match_cursor != 0) {
                         do {
                             if (entry->unk_04 == *match_cursor++) {
-                                compute_fallback_position_offset(entry, forwarded_a, forwarded_b);
+                                compute_fallback_position_offset(entry, forwarded_a, sprite);
                                 return;
                             }
                         } while (*match_cursor != 0);
                     }
                 } else {
-                    compute_fallback_position_offset(entry, forwarded_a, forwarded_b);
+                    compute_fallback_position_offset(entry, forwarded_a, sprite);
                     return;
                 }
             }
@@ -53,9 +53,7 @@ void clear_town_overlap_origin(void) {
  * plus the supplied vector, publishing computed_position through town_overlap_origin. Clears the
  * published pointer when no record is found.
  */
-void compute_fallback_position_offset(TownPlayerRecord *object_arg, ObjectPosition *offset, void *resources) {
-    TownPlayerRecord *object = object_arg;
-
+void compute_fallback_position_offset(TownPlayerRecord *object, ObjectPosition *offset, SpriteFrameState *sprite) {
     Record *record;
     s32 angle;
     s32 x;
@@ -63,7 +61,7 @@ void compute_fallback_position_offset(TownPlayerRecord *object_arg, ObjectPositi
     s32 height;
 
     record = find_flagged_record_by_id(
-        lookup_entry_by_byte_index(resources, *(u8 **)((u8 *)object + 0x1C), 4), 0);
+        lookup_entry_by_byte_index(sprite, *(u8 **)((u8 *)object + 0x1C), 4), 0);
     if (record != 0) {
         angle = ((u16)object->unk_10 - 0xC00) & 0xFFF;
         x = (record->scale * rcos(angle)) << 5;
@@ -90,9 +88,8 @@ void *get_nested_table_entry_data(SpriteFrameState *record, s32 row_index, s32 e
         s32 unk_00;
         void *data;
     } ResourceEntry;
-    u8 *table_handle = *(u8 **)((u8 *)record + 0x28);
-    u8 *table_ref = *(u8 **)table_handle;
-    ResourceEntry **rows = *(ResourceEntry ***)table_ref;
+    ResourceEntry ****table_handle = (ResourceEntry ****)(unsigned long)(u32)record->animation_resource;
+    ResourceEntry **rows = **table_handle;
     ResourceEntry *entries = rows[(s16)row_index];
     entries += (s16)entry_index;
     return entries->data;

@@ -1,5 +1,3 @@
-/* Special table index (G00320). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800934E8. */
 #include "dungeon/player/special_table_index_g00320.h"
 #include "dungeon/player.h"
 

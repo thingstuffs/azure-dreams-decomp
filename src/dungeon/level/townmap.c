@@ -151,7 +151,7 @@ void initialize_town_map_object_state(s32 mode, s32 *list, u8 *init_context, u8 
     u32 mode_entry;
 
 
-    *(Callback *)(context + 0x10) = run_map_object_callback;
+    ((ObjectNodeHeader *)context)->update_callback = run_map_object_callback;
     register_node(context, &town_map_tag);
     transform = *(u8 **)(context + 8);
     display = *(u8 **)(context + 0xC);
@@ -190,7 +190,7 @@ void initialize_town_map_object_state(s32 mode, s32 *list, u8 *init_context, u8 
         *(u32 *)(record + 0x74) = 0;
         town_map_selection = *(*(u8 **)(record + 0x7C));
     }
-    *(Callback *)(record + 0x68) = advance_town_map_countdown_callback;
+    ((TownMapBody *)record)->update = advance_town_map_countdown_callback;
     *(s16 *)(record + 0x64) = (s16)(s8)D_800CFC38[mode];
     *(u32 *)(record + 0x6C) = D_800CFC44[mode];
     if (mode == 9) {
@@ -198,12 +198,13 @@ void initialize_town_map_object_state(s32 mode, s32 *list, u8 *init_context, u8 
     }
 }
 
-/* Calls object->unk_68 with the object and the node's position and sprite records. */
-void run_map_object_callback(town_map_7FFEE278_S_8008B9D8_0 *object, void *position, void *sprite) {
-    object->unk_68((struct Struct_7FFEE2A0 *)object, position, sprite);
+/* Calls the current map update with its node position and sprite. */
+void run_map_object_callback(TownMapBody *object, ObjectPosition *position, SpriteFrameState *sprite) {
+    TownMapUpdate update = object->update;
+    update(object, position, sprite);
 }
 
-void advance_town_map_countdown_callback(town_map_7FFEE2A0_Struct_7FFEE2A0 *state, void *position, void *sprite) {
+void advance_town_map_countdown_callback(town_map_7FFEE2A0_Struct_7FFEE2A0 *state, ObjectPosition *position, SpriteFrameState *sprite) {
     state->unk64--;
     if (state->unk64 < 0) {
         void (*next_callback)(void *, void *, void *) = state->unk6C;
@@ -397,11 +398,11 @@ void restore_town_map_input_state(town_map_7FFEE778_S_8008BED8_0 *state) {
 }
 
 /* Clears the referenced runtime record and callback, then sets local and global removal flags. */
-void release_town_map_record(void *record) {
+void release_town_map_record(TownMapBody *body) {
     int global_flags;
-    clear_word(*(void **)record);
-    NODE_HEADER(record)->flags |= 0x8000;
+    clear_word(&body->context->unk_00);
+    NODE_HEADER(body)->flags |= 0x8000;
     global_flags = object_flag_block.flags;
-    ((s32 *)record)[-4] = 0;
+    NODE_HEADER(body)->update_callback = 0;
     object_flag_block.flags = global_flags | 0x8000;
 }

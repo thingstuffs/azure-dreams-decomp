@@ -6,11 +6,11 @@
 #include "town/person/motion.h"
 #include "town/player.h"
 
-void start_reaction_countdown(PersonSetupState *, void *, void *);
+void start_reaction_countdown(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite);
 
 
 /* Advance motion and handle reaching the position limit. */
-void advance_reaction_motion_to_limit(Rec_func_800C9B44_arg0 *state, ObjectPosition *motion, SpriteFrameState *context) {
+void advance_reaction_motion_to_limit(TownObjectRecord *state, ObjectPosition *motion, SpriteFrameState *context) {
     u16 remaining_count;
 
     motion->z.v = (s32) (motion->z.v + motion->velocity_z);

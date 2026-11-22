@@ -12,28 +12,20 @@
 #define NULL 0
 #endif
 
-typedef struct FiveWords {
-    s32 words[5];
-} FiveWords;
-
-typedef struct ObjectWithInitialWords {
-    ObjectNodeHeader header;
-    FiveWords initial_words;
-} ObjectWithInitialWords;
-
-
 extern u8 D_8028E170[];
 
 /* Creates an object and initializes its position and sprite data. */
-void create_rising_score_sprite(FiveWords *init_data, s32 y_position)
+void create_rising_score_sprite(const RisingScoreSpawn *init_data, s32 y_position)
 {
     ObjectPosition *position;
     ObjectNodeHeader *object;
+    RisingScoreSpawn *body;
     SpriteFrameState *sprite;
 
     object = func_800373DC(0x136);
     if (object != NULL) {
-        ((ObjectWithInitialWords *)object)->initial_words = *init_data;
+        body = NODE_BODY(object);
+        *body = *init_data;
         object->update_callback = animate_rising_effect_object;
         func_8003BC18(object, score_sprite_draw_callback_address);
         position = object->position;

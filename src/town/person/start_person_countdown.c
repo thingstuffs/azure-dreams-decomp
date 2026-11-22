@@ -9,7 +9,7 @@
 extern s32 D_800D6A98[];
 
 
-void start_person_countdown(TownObjectRecord *actor, s32 unused, SpriteFrameState *output) {
+void start_person_countdown(TownObjectRecord *actor, ObjectPosition *unused_position, SpriteFrameState *output) {
     initialize_object_entries(actor, output, D_800D6A98);
     object_index_slots[actor->slot].unk_00 = 0;
     actor->handler = person_countdown_update_address;

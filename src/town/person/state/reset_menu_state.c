@@ -7,19 +7,19 @@
 #include "town/person/object.h"
 #include "town/data.h"
 extern s32 D_800D55A0[];
-extern s32 D_800D55A8[];
+extern PersonDescriptor D_800D55A8;
 extern s32 D_800D55D0[];
-extern s32 D_800D55D4[];
+extern TownIndexedHandler D_800D55D4[];
 
 /* Resets menu state and switches handlers when the input flags request it. */
 void reset_menu_state(TownObjectRecord *menu, ObjectPosition *update_arg, SpriteFrameState *input) {
     if (input->flags & 0x6000) {
         initialize_object_entries(menu, input, person_menu_object_entries);
         object_index_slots[menu->slot].unk_00 = 0;
-        *(void **)((u8 *)menu + 0x58) = D_800D55D0;
-        *(void **)((u8 *)menu + 0x5C) = D_800D55D4;
+        menu->state_handlers = D_800D55D0;
+        menu->indexed_handlers = D_800D55D4;
         menu->unk_7C.as_pv = D_800D55A0;
-        *(void **)((u8 *)menu + 0x80) = D_800D55A8;
+        menu->descriptor = &D_800D55A8;
         menu->unk_70 = 0;
         apply_object_setup_and_update(menu, update_arg, input);
     }

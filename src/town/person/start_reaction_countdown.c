@@ -4,8 +4,8 @@
 extern s32 D_800D64F0[];
 
 
-void start_reaction_countdown(PersonSetupState *object, void *unused, void *context) {
-    initialize_object_entries(object, context, D_800D64F0);
-    object->callback = restart_reaction_when_timer_ends;
+void start_reaction_countdown(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite) {
+    initialize_object_entries(object, sprite, D_800D64F0);
+    object->unk_50.as_pm = restart_reaction_when_timer_ends;
     object->timer = 4;
 }

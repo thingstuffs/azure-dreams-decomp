@@ -509,8 +509,8 @@ void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *en
                     s32 target_y;
                     direction += player_angle >> 9;
                     direction_offset = (direction & 7) * 2;
-                    target_x = (reference_tile_object.tile_position.parts.tile_x) + (*((u16 *) (((u8 *) (((s8 *)dir_step_x))) + direction_offset)));
-                    target_y = (reference_tile_object.tile_position.parts.tile_y) + (*((u16 *) (((u8 *) (((s8 *)dir_step_y))) + direction_offset)));
+                    target_x = (reference_tile_object.tile_position.parts.tile_x) + (*((u16 *) (((u8 *)dir_step_x) + direction_offset)));
+                    target_y = (reference_tile_object.tile_position.parts.tile_y) + (*((u16 *) (((u8 *)dir_step_y) + direction_offset)));
                     if ((tile->tile_x == ((u16) target_x)) && (tile->tile_y == ((u16) target_y))) {
                         actor->movement_queue_state &= 0x7F;
                         return;
@@ -611,7 +611,7 @@ void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *en
                     u8 *step_x = (u8 *)dir_step_x;
                     step_x += direction;
                     tile->tile_x += *step_x;
-                    tile->tile_y += *((((u8 *) (((s8 *)dir_step_y))) + direction));
+                    tile->tile_y += *((((u8 *)dir_step_y) + direction));
                 }
                 cycle_map_cell_flags(tile->tile_x, tile->tile_y, (actor->flags1C & 0x2000)
                     ? (0x300) : (0x3000));
@@ -1773,11 +1773,11 @@ void advance_actor_state_with_child(ActorRecord *actor, ObjectPosition *context,
         creature_height = creature->ground_height;
         object_flag_block.flags = global_flags | 0x8000;
 
-        x_offsets = (u8 *)((s8 *)dir_step_x);
+        x_offsets = (u8 *)dir_step_x;
         offset_index = direction_bits & 0xE;
         x_offset = (s16 *)(x_offsets + offset_index);
         world_x = ((sprite->tile_x + *x_offset) << 6) & 0xFFC0;
-        y_offset = (s16 *)((u8 *)((s8 *)dir_step_y) + offset_index);
+        y_offset = (s16 *)((u8 *)dir_step_y + offset_index);
         spawn_height = sample_terrain_surface_height(world_x,
             ((sprite->tile_y + *y_offset) << 6) & 0xFFC0,
             (s16)(creature_height - 0x20));
@@ -1975,9 +1975,7 @@ void create_four_gray_sprite_effects(ActorRecord *owner_arg, ObjectPosition *mot
     } while (effect_index < 4);
 }
 
-/* MECHANISM: the 24-byte motion block is one aggregate copy from motion_arg (movstrsi leaves its fourth
-   word in a1, which the one-argument trig call never reads); the small u16 helpers keep the loop at 88
-   real insns so loop.c does not hoist the 0x60 colour constant into a callee-saved register. */
+/* Copies the supplied motion state and offsets four gray sprite effects around the source. */
 #include "dungeon/monster/volcano.h"
 #include "shared/sprite_frame_state.h"
 
@@ -2048,9 +2046,7 @@ void * create_gray_sprite_ahead(ActorRecord *source, ObjectPosition *initial_pos
     return 0;
 }
 
-/* MECHANISM: A typed 24-byte assignment restores the packed lw/sw copy and natural seven-register
-   frame. An unsigned color byte plus a post-copy schedule seam fixes the immediate and held table-base
-   order. The moved shape selects 2.7.2-cdk-G0. */
+/* Copies the motion state and places a gray sprite on the tile ahead of the actor. */
 #include "dungeon/monster/volcano.h"
 
 /*

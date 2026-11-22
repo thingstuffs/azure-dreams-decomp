@@ -7,8 +7,8 @@
 
 
 /* Process the record data, run the follow-up routine, and set its header pointer. */
-void card_dev_update_load_slot_highlight(void *record_data) {
-    card_devkit_highlight_selected_load_slot(record_data);
+void card_dev_update_load_slot_highlight(CardDevLoadSlotScreen *screen) {
+    card_devkit_highlight_selected_load_slot(screen);
     reset_card_selection_state();
-    NODE_HEADER(record_data)->update_callback = handle_menu_selection_input;
+    NODE_HEADER(screen)->update_callback = handle_menu_selection_input;
 }

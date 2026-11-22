@@ -20,7 +20,7 @@ short func_8025E01C(void *position);                     /* extern */
 extern u8 D_80095AA0[];
 extern u8 collection_round_work[0x14];
 extern s16 D_80530658[];
-extern u16 D_805306C8[];
+extern char D_805306C8[][2];
 void advance_accumulator_reset_lowering_stored(s32 unused, void *position);                      /* extern */
 void set_record_global_flags_object(void *record);                      /* extern */
 void set_bit_preceding_flags_global(void *value_ptr);                      /* extern */
@@ -62,20 +62,6 @@ typedef struct CollectionLineSpawnData {
     u8 pad_18[0x10];
 } CollectionLineSpawnData;   /* second in run_collection_round_sequence */
 
-typedef struct CollectionRecordSpawnData {
-    s16 unk_00;
-    u8 pad_02[0x2];
-    s32 unk_04;
-    s32 unk_08;
-    void * unk_0C;
-    s32 unk_10;
-    s16 unk_14;
-    s16 unk_16;
-    s16 unk_18;
-    s16 unk_1A;
-    u16 unk_1C;
-    u8 pad_1E[0x12];
-} CollectionRecordSpawnData;   /* first in run_collection_round_sequence */
 
    /* state8_item_addr in run_collection_round_sequence */
 
@@ -91,7 +77,7 @@ typedef struct S_80527D5C_8 {
 
 /* Advances the animation and item collection sequence and clamps its position. */
 void run_collection_round_sequence(TownCollectionSequence *sequence) {
-    CollectionRecordSpawnData record_params;
+    TownCollectionText record_params;
     CollectionLineSpawnData line_params;
     s32 coord_or_sound;
     s16 next_round;
@@ -125,8 +111,8 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
     s32 saved_flags;
     s32 record_color;
     s32 round_index;
-    s32 record_addr;
-    s32 round_count_addr;
+    char *record_addr;
+    s16 *round_count_addr;
     u16 next_state;
     s32 eased_y;
     s32 item_slot;
@@ -231,14 +217,14 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
             sequence->saved_x.u = (u16) town_motion_state.x.w.i;
             center_y = (u16) town_motion_state.y.w.i;
             sequence->angle.u = 0U;
-            sequence->flags.u = (u16) (sequence->flags.u & 0x7FFF);
+            sequence->flags = (u16) (sequence->flags & 0x7FFF);
             sequence->state.s = 6;
             sequence->saved_y.u = center_y;
         }
         break;
 
     case 6:
-        if ((s16) sequence->flags.u & 0x8000) {
+        if ((s16) sequence->flags & 0x8000) {
             sequence->angle.u -= 0x20;
         } else {
             sequence->angle.u += 0x20;
@@ -248,7 +234,7 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
             angle_magnitude = 0 - angle_magnitude;
         }
         if (angle_magnitude >= 0x200) {
-            direction_flags = sequence->flags.s;
+            direction_flags = (s16) sequence->flags;
             saved_flags = direction_flags;
             direction_flags &= 0x8000;
             if (direction_flags) {
@@ -256,7 +242,7 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
             } else {
                 direction_flags = saved_flags | 0x8000;
             }
-            sequence->flags.u = direction_flags;
+            sequence->flags = direction_flags;
         }
         line_params.unk_0C = 0;
         line_params.unk_04 = 0;
@@ -276,14 +262,14 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
             sequence->unk_28.u = 0x200U;
             sequence->angle_step.u = 0U;
             sequence->state.s = 7;
-            sequence->flags.u &= 0x7FFF;
+            sequence->flags &= 0x7FFF;
             break;
         }
         create_object_pair_word(&set_bit_preceding_flags_global, &line_params, &line_params.unk_10, sequence);
         break;
 
     case 7:
-        if ((s16) sequence->flags.u & 0x8000) {
+        if ((s16) sequence->flags & 0x8000) {
             sequence->angle_step.u -= 4;
         } else {
             sequence->angle_step.u += 4;
@@ -293,7 +279,7 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
             speed_magnitude = 0 - speed_magnitude;
         }
         if (speed_magnitude >= 0x100) {
-            direction_flags = sequence->flags.s;
+            direction_flags = (s16) sequence->flags;
             saved_flags = direction_flags;
             direction_flags &= 0x8000;
             if (direction_flags) {
@@ -301,7 +287,7 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
             } else {
                 direction_flags = saved_flags | 0x8000;
             }
-            sequence->flags.u = direction_flags;
+            sequence->flags = direction_flags;
         }
         sequence->unk_28.u = (u16) ((sequence->unk_28.u
             + sequence->angle_step.u + 0x1000) & 0xFFF);
@@ -311,20 +297,18 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
             record_color = 0x808080;
             (*(s32 *)((u8 *)render_or_counts + (0))) = (s32) &func_80243A38;
             round_index = sequence->round_index.s;
-            record_params.unk_16 = 0xB6;
-            record_params.unk_18 = 3;
-            record_params.unk_10 = record_color;
-            record_params.unk_1A = 0x7C80;
-            record_params.unk_14 = (round_index * 0x10) + 0x64;
-            record_params.unk_1C &= 0xFFFE;
-            record_addr = sequence->round_index.s * 2;
-            record_addr += (s32) D_805306C8;
-            record_params.unk_04 = record_addr;
-            round_count_addr = sequence->round_index.s * 2;
-            record_params.unk_00 = 0;
-            record_params.unk_0C = sequence;
-            round_count_addr += (s32) D_80530658;
-            record_params.unk_08 = round_count_addr;
+            record_params.y = 0xB6;
+            record_params.style = 3;
+            record_params.color = record_color;
+            record_params.field_1A = 0x7C80;
+            record_params.x = (round_index * 0x10) + 0x64;
+            record_params.flags &= 0xFFFE;
+            record_addr = D_805306C8[sequence->round_index.s];
+            record_params.text = record_addr;
+            round_count_addr = &D_80530658[sequence->round_index.s];
+            record_params.state = 0;
+            record_params.sequence = sequence;
+            record_params.value = round_count_addr;
             allocate_record_and_store_three_blocks(&tick_timed_object_and_mark_complete, &record_params);
             sequence->state.s = 8;
         }
@@ -382,9 +366,9 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
         break;
 
     case 0xA:
-        round_flags = sequence->flags.u;
+        round_flags = sequence->flags;
         if (round_flags & 2) {
-            sequence->flags.u = (u16) (round_flags & 0xFFFD);
+            sequence->flags = (u16) (round_flags & 0xFFFD);
             func_802441A4();
             next_round = (u16) sequence->round_index.s + 1;
             sequence->round_index.s = next_round;
@@ -403,10 +387,10 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
         sequence->unk_28.u = finish_ticks;
         if ((finish_ticks << 0x10) <= 0) {
             next_state = sequence->state.u;
-            finish_flags = sequence->flags.u;
+            finish_flags = sequence->flags;
             next_state++;
-            finish_flags |= 1;
-            sequence->flags.u = finish_flags;
+            finish_flags |= TOWN_COLLECTION_FINISHED;
+            sequence->flags = finish_flags;
             sequence->state.u = next_state;
         }
         break;

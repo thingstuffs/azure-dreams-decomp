@@ -334,10 +334,7 @@ void create_targeted_motion_effect(ActorRecord *body, ObjectPosition *position, 
     effect_state->unk_5E = fallback_y / 2;
 }
 
-/* MECHANISM: Raw u8 shift/sign-extension idioms reproduce the fallback branches without widening
-   artifacts. Mutating scaled_x with >>= 10 lets its sra fill an lh delay; scaled_y is shifted in one
-   expression (single-set pseudos are scheduled as births), which keeps the second half in source order
-   around the zero store. */
+/* Aims the effect using the linked target or its stored tile coordinates. */
 
 /* Create and position an effect using a linked object or stored tile coordinates. */
 void create_actor_action_effect(ActorRecord *source_object, ObjectPosition *source_pos, SpriteFrameState *sprite_template, ActorRecord *actor) {
@@ -474,14 +471,7 @@ void spawn_random_color_burst_particle(ActorRecord *source, ObjectPosition *posi
     }
 }
 
-/*
- * Creates and initializes an object at an offset from the supplied position.
- *
- * MECHANISM: The fixed s0/s1/s2 object roles leave natural argument holds to allocate as s4/s3,
- * reproducing the 0x28 frame and prologue schedule; s0 holds object+0x20 across the body. Two
- * scheduler seams retain the random_byte_1 load-delay nop, while a split random_byte_2 live range
- * hoists its lbu.
- */
+/* Spawns a growing, rotating flash at an offset from the supplied position. */
 void spawn_growing_rotating_flash(ActorRecord *unused, ObjectPosition *position, SpriteFrameState *unused_sprite) {
     T_80171928_Object *object;
     GrowingRotatingFlashBody *body;

@@ -35,7 +35,6 @@
         "0x80172514": "0x8014E514",
         "0x80172658": "0x8014E658",
         "0x80174250": "0x80150250",
-        "0x80175174": "0x80151174",
         "0x80175258": "0x80151258",
         "0x80175260": "0x80151260",
         "0x80175290": "0x80151290",
@@ -43,7 +42,8 @@
         "0x801752A0": "0x801512A0",
         "0x8014D810": "0x8014DB68",
         "0x8017139C": "0x8014D910",
-        "0x80172628": "0x8014E658"
+        "0x80172628": "0x8014E658",
+        "0x81087200": "0x80151174"
       },
       "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
@@ -353,8 +353,8 @@
         "0x80170F6C": "0x8014CF6C",
         "0x80174B20": "0x80150B20",
         "0x80174B98": "0x80150B98",
-        "0x80175174": "0x80151174",
-        "0x80175258": "0x80151258"
+        "0x80175258": "0x80151258",
+        "0x81087200": "0x80151174"
       },
       "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
@@ -397,7 +397,8 @@
       "bindings": {
         "0x800478B8": "0x800478B8",
         "0x800814A0": "0x800814A0",
-        "0x80174A00": "0x80151174"
+        "0x80174A00": "0x80151174",
+        "0x81087200": "0x80151174"
       },
       "evidence": "LL3a attestation sha256:22118011dcb4aa7490421fe3b4d6ae759718a046214074dcc3b5f160d55bcff0; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     }

@@ -15,7 +15,7 @@
     setaddr((ordering_table), (primitive)))
 
 /* Builds layered sprite tiles and texture-page commands for each linked node. */
-s32 build_settings_sprite_tiles(void *node_data, ObjectPosition *scroll_state)
+s32 build_settings_sprite_tiles(SettingsScreenBody *node_data, ObjectPosition *scroll_state)
 {
     FrameDrawContextSlot *ctx_ptr;
     s32 layer_offset;

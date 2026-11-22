@@ -15,7 +15,7 @@ struct ObjectPosition;
 #include "shared/entity.h"
 #include "records/Rec_func_8009431C_arg0.h"
 #include "records/Rec_D_800CFCB4.h"
-#include "records/Rec_D_800FE490.h"
+#include "town/scene/secondary_object_list_g00528.h"
 #include "shared/game_work.h"
 #include "shared/position_query.h"
 #include "shared/entity_objects.h"
@@ -38,7 +38,6 @@ typedef struct S_800A55CC_0_pre {
 struct IntVector3;
 
 /* extern */
-struct Rec_D_800FE490;
 
 typedef struct S_800A5638_0_pre {
     s32 unk_00;
@@ -89,17 +88,15 @@ typedef struct S_800A5FDC_0 {
 } S_800A5FDC_0;
 
 /* the 0x10 bytes before arg0 in initialize_effect_and_adjust_value, addressed as arg0[-1] */
-void initialize_actor_action_state(void *object, ObjectPosition *state, s32 initData);
+void initialize_actor_action_state(void *object, ObjectPosition *state, struct SpriteFrameState *sprite);
 
 extern s32 D_800D0CC0[];
 /* extern */
 /* extern */
 /* extern */
-void update_record_overlap_node(struct Rec_D_800FE490 *);
 /* extern */
 s32 update_object_and_clear_status_fields();
 extern Rec_D_800CFCB4 town_actor_control;
-extern Rec_D_800FE490 town_motion_list;
 extern s32 D_800A5A98;
 extern s16 town_scene_effect_flips[];
 extern u8 town_position_reference_state[];
@@ -124,11 +121,11 @@ extern u8 town_blocked_directions[];
 extern s32 town_movement_speed;
 
 /* Functions defined in this translation unit. */
-void initialize_effect_and_adjust_value(void *object, ObjectPosition *record, s32 init_value);
+void initialize_effect_and_adjust_value(void *object, ObjectPosition *record, struct SpriteFrameState *sprite);
 s32 compute_height_based_offset(ObjectPosition *state);
 void update_object_view_transition(S_800A58CC_2 *state_arg, ObjectPosition *object);
 void update_actor_movement_and_actions(State *state, ObjectPosition *actor);
-void update_actor_effect_transition(S_800A5DF8_4 *state, ObjectPosition *actor, s32 context);
-void update_town_movement_and_actions(TownPlayerRecord *state, ObjectPosition *table, void *action_context);
+void update_actor_effect_transition(S_800A5DF8_4 *state, ObjectPosition *actor, struct SpriteFrameState *sprite);
+void update_town_movement_and_actions(TownPlayerRecord *state, ObjectPosition *table, struct SpriteFrameState *sprite);
 
 #endif

@@ -1,14 +1,15 @@
 #include "common.h"
+#include "shared/dungeon_item_entries.h"
 #include "engine/item.h"
 #include "slus/data.h"
 
 /* Returns the selected item value scaled by its category multiplier and adjusted by its callback. */
-s32 calc_item_value(u8 *item, s32 use_value1) {
+s32 calc_item_value(DungeonItemEntry *item, s32 use_value1) {
     ItemCategory *category;
     ItemRecord *record;
 
-    category = &itemCategoryTable[item[1]];
-    record = &((ItemRecord *)category->records)[item[0]];
+    category = &itemCategoryTable[item->kind];
+    record = &((ItemRecord *)category->records)[item->unk_00];
 
     {
         s32 multiplier;

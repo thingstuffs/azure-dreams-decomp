@@ -6,18 +6,18 @@
 #include "shared/object_index_slots.h"
 
 /* Move coordinates halfway toward the target and advance state when the timer expires. */
-void move_coordinates_halfway_toward_target(TownObjectRecord *state, s32 *coords) {
+void move_coordinates_halfway_toward_target(TownObjectRecord *state, ObjectPosition *position) {
     s32 target;
     s32 value;
     s32 value2;
     u16 timer;
 
     target = view_reference_entity.x.v;
-    value = coords[0];
-    coords[0] = value + ((target - value) / 2);
+    value = position->x.v;
+    position->x.v = value + ((target - value) / 2);
     target = view_reference_entity.y.v;
-    value2 = coords[1];
-    coords[1] = value2 + ((target - value2) / 2);
+    value2 = position->y.v;
+    position->y.v = value2 + ((target - value2) / 2);
 
     timer = state->timer - 1;
     state->timer = timer;

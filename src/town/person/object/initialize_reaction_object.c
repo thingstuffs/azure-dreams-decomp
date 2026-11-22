@@ -10,7 +10,7 @@ extern s32 D_800D64DC[];
 
 
 /* Initialize the object and set its handler. */
-void initialize_reaction_object(TownObjectRecord *object, void *unused, void *context) {
-    initialize_object_entries((object), context, D_800D64DC);
+void initialize_reaction_object(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite) {
+    initialize_object_entries(object, sprite, D_800D64DC);
     object->unk_50.as_pm = &D_800C9864;
 }

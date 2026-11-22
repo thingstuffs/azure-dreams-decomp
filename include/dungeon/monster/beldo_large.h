@@ -120,7 +120,6 @@ void create_timed_offset_motion_effect(u8 *unused, s16 duration, s32 offset_x, s
 s32 run_beldo_large_action_script(ActorRecord *entity, ObjectPosition *action_value, SpriteFrameState *aux);
 void start_actor_directional_action(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *actor);
 
-/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void advance_actor_movement_step(ActorRecord *movement_in, ObjectPosition *action_ctx, SpriteFrameState *position, ActorRecord *actor);
 void emit_multi_form_ring_geometry(MultiFormSegmentRingBody *animation, s32 *origin, SpriteFrameState *color);
 void initialize_action_offset_and_notify(ActionOffsetObjectBody *action, void *position);

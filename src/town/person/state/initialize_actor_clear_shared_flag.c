@@ -10,8 +10,8 @@ extern s32 D_800D5360[];
 
 
 /* Initialize the actor, clear the shared flag, and set its handler and counter. */
-void initialize_actor_clear_shared_flag(TownObjectRecord *actor, s32 unused, void *init_param) {
-    initialize_object_entries((actor), init_param, D_800D5360);
+void initialize_actor_clear_shared_flag(TownObjectRecord *actor, ObjectPosition *unused_position, SpriteFrameState *sprite) {
+    initialize_object_entries((actor), sprite, D_800D5360);
     D_80082710 = 0;
     actor->handler = &apply_setup_on_timeout_variant_1;
     actor->timer = 0x15;

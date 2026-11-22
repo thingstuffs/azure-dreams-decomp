@@ -36,6 +36,7 @@ TOOLS = HERE.parents[1]
 for p in (str(HERE.parent), str(TOOLS), str(TOOLS / 'headers')):
     if p not in sys.path:
         sys.path.insert(0, p)
+import atomic_io  # noqa: E402
 
 import abi_facts as A  # noqa: E402
 import sig_census as C  # noqa: E402
@@ -305,7 +306,7 @@ def record_floors(root, decisions_path, txn_path=None):
         old[name] = rec
         n_new += 1
     ledger.parent.mkdir(parents=True, exist_ok=True)
-    ledger.write_text(''.join(json.dumps(old[k], sort_keys=True, default=str) + '\n' for k in sorted(old)))
+    atomic_io.write_text(ledger, ''.join(json.dumps(old[k], sort_keys=True, default=str) + '\n' for k in sorted(old)))
     print('%s: %d records (%d written from %s)' % (FLOORS, len(old), n_new, decisions_path))
     return 0
 

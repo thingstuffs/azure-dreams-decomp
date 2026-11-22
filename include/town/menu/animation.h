@@ -10,7 +10,9 @@
 
 struct MenuAnimationPhaseObject;
 struct SpriteFrameState;
-struct TownObject;
+struct DoorTransitionEffect;
+
+s32 animate_spinning_shrinking_object(struct DoorTransitionEffect *object, const struct ObjectPosition *point, struct SpriteFrameState *unused_sprite);
 
 /* layout_catalog_frame.c */
 void layout_catalog_frame(void);

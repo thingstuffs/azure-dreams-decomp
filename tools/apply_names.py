@@ -27,6 +27,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import ROOT, LEDGER, rows, append_jsonl, sha_text
+import atomic_io  # noqa: E402
 from source_layout import row_path as layout_row_path, source_files as layout_source_files, own_source
 from verify import verify
 
@@ -185,7 +186,7 @@ def main():
         if a.dry_run:
             print(f"would rename {old} -> {new}: {len(touched)} files, {len(touched_rows)} rows"); continue
         # 2. names.tsv first: the scorer and the gate read the alias table when they compile
-        NAMES.write_text(NAMES.read_text().rstrip("\n") + f"\n{addr}\t{old}\t{new}\t{evidence}\n")
+        atomic_io.write_text(NAMES, NAMES.read_text().rstrip("\n") + f"\n{addr}\t{old}\t{new}\t{evidence}\n")
         # 3. rewrite
         new_texts = {p: pat.sub(new, t) for p, t in touched.items()}
         for p, t in new_texts.items(): p.write_text(t)
@@ -202,7 +203,7 @@ def main():
                     bad.append((rid, v.get("status"), v.get("class"), v.get("total"), (v.get("err") or "")[-160:]))
         if bad:
             for p, t in touched.items(): p.write_text(t)
-            NAMES.write_text("".join(l for l in NAMES.read_text().splitlines(keepends=True) if not l.startswith(f"{addr}\t{old}\t{new}\t")))
+            atomic_io.write_text(NAMES, "".join(l for l in NAMES.read_text().splitlines(keepends=True) if not l.startswith(f"{addr}\t{old}\t{new}\t")))
             tally["reverted"] = tally.get("reverted", 0) + 1
             append_jsonl(JOURNAL, dict(rec, outcome="reverted", failures=bad[:5]))
             print(f"REVERT {old} -> {new}: {len(bad)} of {len(touched_rows)} rows not exact: {bad[:2]}", flush=True)

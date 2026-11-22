@@ -68,7 +68,7 @@ void update_timed_color_transition_effect(u8 *effect_state, s32 unused, SpriteFr
         } else {
             NODE_HEADER(effect_state)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
-            retire_tracked_effect_by_id(effect_state - 0x20);
+            retire_tracked_effect_by_id(NODE_HEADER(effect_state));
         }
         break;
     }

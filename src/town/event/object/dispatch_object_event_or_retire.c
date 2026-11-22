@@ -23,7 +23,7 @@ void dispatch_object_event_or_retire(void *object_arg, ObjectPosition *position,
     ObjectPosition *saved_position = position;
     struct SpriteFrameState *saved_sprite = sprite;
     void (*update)(TownObjectRecord *, TownObjectRecord *, ObjectPosition *, struct SpriteFrameState *);
-    s8 *status_ptr;
+    u8 *status_ptr;
 
     if (classify_object_against_bounds(object_arg, position) != 0) {
         unlink_scene_list_node(object);

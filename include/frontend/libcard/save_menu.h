@@ -16,7 +16,7 @@ typedef struct CardSaveMenuBody {
     s32 selection;
     s32 repeat_ticks;
     void *saved_callback;
-    u8 pad_38[4];
+    s32 overwrite_answer;
     s32 countdown;
     s32 unk_40;
 } CardSaveMenuBody;

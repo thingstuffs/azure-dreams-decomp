@@ -6,10 +6,10 @@
 #include "town/player/state.h"
 
 /* Advances and refreshes the state, then processes it when its increment is nonnegative. */
-void advance_player_state(struct TownObjectRecord *context, EntityRec *state, SpriteFrameState *updateData) {
-    state->z.v = (s32) (state->z.v + state->flags14);
-    add_vertical_gravity(state);
-    if (state->flags14 >= 0) {
-        initialize_player_linked_record(context, state, updateData);
+void advance_player_state(struct TownObjectRecord *context, ObjectPosition *position, SpriteFrameState *updateData) {
+    position->z.v += position->velocity_z;
+    add_vertical_gravity(position);
+    if (position->velocity_z >= 0) {
+        initialize_player_linked_record(context, position, updateData);
     }
 }

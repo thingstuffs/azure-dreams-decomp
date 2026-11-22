@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/minigame.h"
+#include "shared/sprite_frame_state.h"
 
 typedef struct Town215E0Inner {
     u8 pad0[0x5C];
@@ -12,13 +13,8 @@ typedef struct Town215E0State {
     s16 timer;
 } Town215E0State;
 
-typedef struct Town215E0Actor {
-    u8 pad0[0x16];
-    u16 field16;
-} Town215E0Actor;
-
-/* Updates a triggered rise-and-decay cycle for the actor's field16. */
-void update_minigame_rise_decay(Town215E0State *cycle, s32 unused, Town215E0Actor *actor) {
+/* Raise the mesh angle when the reels start, then lower it back to zero. */
+void update_minigame_rise_decay(Town215E0State *cycle, ObjectPosition *unused_position, LitMeshSprite *sprite) {
     u16 reduced_value;
 
     cycle->timer--;
@@ -31,17 +27,17 @@ void update_minigame_rise_decay(Town215E0State *cycle, s32 unused, Town215E0Acto
         break;
 
     case 1:
-        actor->field16 += 64;
+        sprite->rotation[0] += 64;
         if (cycle->timer <= 0) {
             cycle->state++;
         }
         break;
 
     case 2:
-        reduced_value = actor->field16 - 24;
-        actor->field16 = reduced_value;
+        reduced_value = sprite->rotation[0] - 24;
+        sprite->rotation[0] = reduced_value;
         if (reduced_value < 24) {
-            actor->field16 = 0;
+            sprite->rotation[0] = 0;
             cycle->state = 0;
         }
         break;

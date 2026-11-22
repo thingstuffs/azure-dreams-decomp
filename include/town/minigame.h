@@ -4,6 +4,7 @@
 
 #include "common.h"
 #include "town/scene/collection.h"
+#include "town/scene/list_setup.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
@@ -16,12 +17,11 @@ struct SpinPhaseWork;
 
 /* Slot-payout pickup body received by update_bouncing_pickup_after_hit. */
 typedef struct BouncingPickupAfterHitObject {
-    /* 0x00 */ void *slot_state;
+    /* 0x00 */ State8081FF68 *slot_state;
     /* 0x04 */ union { s16 s; u16 u; } state;
     /* 0x06 */ union { s16 s; u16 u; } timer;
-    /* 0x08 */ u8 pad_08[0x15];
-    /* 0x1D */ u8 unk_1D;
-    /* 0x1E */ u8 pad_1E[0x32];
+    /* 0x08 */ TownSceneListNode scene;
+    /* 0x20 */ u8 pad_20[0x30];
     /* 0x50 */ void *payout_callback;
     /* 0x54 */ s16 denomination;
 } BouncingPickupAfterHitObject;
@@ -114,6 +114,8 @@ s32 draw_depth_sorted_line_nodes(struct PairedIndicators *node);
 void fade_falling_particle_until_done(u8 *effect, ObjectPosition *motion, SpriteFrameState *visual);
 struct GymMeshWork;
 struct LitMeshSprite;
+struct Town215E0State;
+void update_minigame_rise_decay(struct Town215E0State *cycle, ObjectPosition *unused_position, struct LitMeshSprite *sprite);
 void rotate_gym_mesh_y(struct GymMeshWork *work, ObjectPosition *position, struct LitMeshSprite *sprite);
 void rotate_gym_mesh_x(struct GymMeshWork *work, ObjectPosition *position, struct LitMeshSprite *sprite);
 void tick_scene_value_text(void *message);
@@ -132,7 +134,6 @@ void update_betting_effect(TownEffect *effect);
 void update_effect_position_spin_phases(struct SpinPhaseWork *state_arg, ObjectPosition *target_arg, SpriteFrameState *effect_arg);
 void update_minigame_transition(MinigameTransitionObject *controller, ObjectPosition *position, SpriteFrameState *display);
 /* Mode-three record setup (town/scene/configure_set_mode_n_d.c) as the minigame constructors call it. */
-#include "town/scene/list_setup.h"
 extern s32 pickup_reward_total[];
 extern u8 D_80020014[];             /* callback data word shared by the casino models */
 extern RECT D_80020018;   /* initializer of the casino palette rectangle (112, 449, 48, 1) */

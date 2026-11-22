@@ -1,3 +1,4 @@
+#include "engine/window/cursor_source.h"
 #include "common.h"
 
 #include "engine/window.h"
@@ -6,10 +7,8 @@
 #include "shared/sprite_frame_state.h"
 #include "slus/window_choice_data.h"
 
-extern void update_blinking_cursor_with_dark_idle(void *, ObjectPosition *, SpriteFrameState *);
-
 /* Initialize the object, install its color update callback, and run it once. */
-void init_cursor_color_object(MenuChoiceCursorStorage *object_arg, void *model, s32 *data, s16 index, s16 table_index, void *list) {
+void init_cursor_color_object(MenuChoiceCursorStorage *object_arg, Rec_D_80081FDC *model, WindowCursorSource *data, s16 index, s16 table_index, void *list) {
     ObjectNodeHeader *node = &object_arg->node;
     WindowCursorBody *state;
     ObjectPosition *position;

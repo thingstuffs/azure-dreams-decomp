@@ -60,8 +60,3 @@ void create_secondary_encounter_object(void) {
         D_80175D64 = object;
     }
 }
-
-/* MECHANISM: the 48-byte render-data copy is a struct assignment (mips block-move
-   loop: lw/sw x4 through $2-$5, src $7, dst $6, end $8), and register_node takes
-   two arguments, so $6 is set once in the function: sched1's birthing boost
-   places `move $6,$0` right before the second jal. */

@@ -1,22 +1,10 @@
 #include "shared/audio_commands.h"
 #include "common.h"
+#include "engine/window.h"
+#include "engine/window/choice_info.h"
 #include "shared/game_work.h"
 
 #include "slus.h"
-
-typedef struct CursorInfo {
-    u8 pad_00[0x26];
-    u8 count_26;
-} CursorInfo;
-
-typedef struct CursorState {
-    u8 pad_00[0x4D];
-    u8 cursor_4D;
-    u8 pad_4E[0x26];
-    CursorInfo *info_74;
-} CursorState;
-
-extern void confirm_menu_choice(CursorState *, s32, s32);
 
 /* Wrap the cursor on directional input and dispatch the selected action. */
 void handle_wrapping_menu_cursor_input(CursorState *cursor, s32 unused_1, s32 unused_2)

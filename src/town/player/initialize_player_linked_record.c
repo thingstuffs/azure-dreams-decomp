@@ -13,7 +13,7 @@
 
 
 /* Set up the object using its linked record and assign its next handler. */
-void initialize_player_linked_record(TownObjectRecord *object, void *ptr, void *ptr2) {
-    dispatch_selected_entry_if_nonzero(object->handler_entries[8], object, ptr2);
+void initialize_player_linked_record(TownObjectRecord *object, struct ObjectPosition *unused_position, struct SpriteFrameState *sprite) {
+    dispatch_selected_entry_if_nonzero(object->handler_entries[8], object, sprite);
     object->unk_04 = &advance_player_position;
 }

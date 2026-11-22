@@ -59,7 +59,7 @@ typedef struct {
 
 extern u8 D_800DF564[];
 
-/* Spawn two effects at the source position and decrement its remaining count. */
+/* Spawns two particle effects at the source position, decrements the remaining count and marks the emitter for removal when it reaches zero. */
 void tick_paired_particle_emitter(PairedParticleEmitterState *source) {
     s32 effect_index;
     FuncSub *effect_state;
@@ -128,17 +128,3 @@ void tick_paired_particle_emitter(PairedParticleEmitterState *source) {
         }
     }
 }
-
-/* MECHANISM: rowbase TRUE-SPACE row (region xfer_dungeon_A3000, delta 0x7FFE5760,
-   true base 0x800C4944).  Three residues, three separate levers:
-   1. Retail reloads `source->data` a THIRD time for the z field (word 53, which is
-      what fills that load-delay slot); the warm cdk idiom held the first pointer
-      live from the x load all the way through z and emitted a nop instead.
-      Spelling z as its own `((FuncData *)source->data)->z` deref restores it.
-   2. That reload flips gcc's callee-save assignment (source -> $s2, effect_index -> $s3);
-      retail is source -> $s3, effect_index -> $s2.  Pinning `effect_index` to $s2 restores
-      both roles and every $s2/$s3-bearing word in the function.
-   3. `height_offsets[source_meta->index]` is a POINTER-array ref, so gcc canonicalises the address
-      add base-first (`addu v0,s5,v0`).  Retail has `addu v0,v0,s5` -- an integer
-      addition that keeps source order.  Writing the index first against an
-      integer-cast base reproduces it. */

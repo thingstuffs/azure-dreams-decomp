@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "sdk/libgpu_types.h"
+#include "sdk/libgte_matrix.h"
 #include "shared/entity.h"
 #include "shared/dungeon_delay_views.h"
 
@@ -100,6 +101,6 @@ void update_four_phase_animation(TownMapPhaseObject *entity, ObjectPosition *con
 void advance_building_animation_frame(BuildingSelectionHandlerBody *state);
 void advance_building_texture_frame(BuildingSelectionHandlerBody *state);
 
-void copy_position_integer_parts(u16 *destination, const u16 *source);
+void copy_position_integer_parts(SVECTOR *destination, const ObjectPosition *source);
 
 #endif

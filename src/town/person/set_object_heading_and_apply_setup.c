@@ -10,9 +10,9 @@
 #include "town/person/object.h"
 
 /* Clears the object's table flag and resets its animation before updating it. */
-void set_object_heading_and_apply_setup(TownObjectRecord *object, void *position, void *anim_state) {
-    initialize_object_entries(object, anim_state, object->descriptor->entries[1]);
+void set_object_heading_and_apply_setup(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite) {
+    initialize_object_entries(object, sprite, object->descriptor->entries[1]);
     object_index_slots[object->slot].unk_00 = 0;
     object->heading = 0x200;
-    apply_object_setup_and_update(object, position, anim_state);
+    apply_object_setup_and_update(object, position, sprite);
 }

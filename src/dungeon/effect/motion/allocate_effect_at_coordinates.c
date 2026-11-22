@@ -3,37 +3,27 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
-#include "shared/dungeon_moving_views.h"
 #include "dungeon/effect/motion.h"
 #include "slus.h"
 
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern M2C_UNK D_80024224;
+extern void D_80024224(LinkedCounterSpriteBody *, ObjectPosition *, SpriteFrameState *);
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry D_800DE8E8[];
 
-typedef struct S_800242A0_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-    u8 pad_14[0x18];
-    s32 unk_2C;
-} S_800242A0_0;
-
-   /* arg1 in allocate_effect_at_coordinates */
-
-/* Allocate and initialize an object with the supplied value and coordinates. */
-void *allocate_effect_at_coordinates(s32 object_value, MovingPosition *source_coords) {
+/* Create the positioned sprite that advances the controller's counter. */
+ObjectNodeHeader *allocate_effect_at_coordinates(LinkedSpriteCounter *owner, ObjectPosition *source_coords) {
     SpriteFrameState *sprite;
-    S_800242A0_0 *object;
-    MovingPosition *coords;
+    ObjectNodeHeader *object;
+    LinkedCounterSpriteBody *body;
+    ObjectPosition *coords;
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        object->unk_10 = &D_80024224;
-        sprite = object->unk_0C;
-        object->unk_2C = object_value;
+        object->update_callback = D_80024224;
+        sprite = object->sprite;
+        body = NODE_BODY(object);
+        body->owner = owner;
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
@@ -41,10 +31,10 @@ void *allocate_effect_at_coordinates(s32 object_value, MovingPosition *source_co
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         register_node(object, project_sprite_chain);
-        coords = object->unk_08;
-        coords->x = (u16)source_coords->x;
-        coords->y = (u16)source_coords->y;
-        coords->z = (u16)source_coords->z;
+        coords = object->position;
+        coords->x.w.i = source_coords->x.w.i;
+        coords->y.w.i = source_coords->y.w.i;
+        coords->z.w.i = source_coords->z.w.i;
         return object;
     } else {
         return NULL;

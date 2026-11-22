@@ -12,7 +12,7 @@
  * Reinitializes entries from linked data offset 0x1C, clears the indexed object slot, and installs
  * D_800C3FC8 with count 0x15.
  */
-void start_person_jump_countdown(TownObjectRecord *object, s32 unused, SpriteFrameState *updateValue) {
+void start_person_jump_countdown(TownObjectRecord *object, struct ObjectPosition *unused_position, SpriteFrameState *updateValue) {
     PersonDescriptor *descriptor;
 
     descriptor = object->descriptor;

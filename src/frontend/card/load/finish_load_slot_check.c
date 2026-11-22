@@ -1,51 +1,38 @@
+#include "frontend/card/save_image.h"
 #include "common.h"
 #include "frontend/card/load.h"
 #include "frontend/card.h"
-
-typedef struct S_func_80406AA8_0 {
-    CardDevLoadSlotWindows slot_windows;
-    u8 pad_20[4];
-    s32 unk_24;
-    u8 pad_28[4];
-    s32 unk_2C;
-    u8 pad_30[4];
-    void (*unk_34)(void);
-    u8 pad_38[8];
-    s32 unk_40;
-} S_func_80406AA8_0;
-
-typedef struct S_func_80406AA8_1 {
-    u8 pad_00[0x10];
-    void (*unk_10)(void);
-} S_func_80406AA8_1;
+#include "shared/object_node.h"
+#include "frontend/card/server_aliases.h"
 
 extern void forward_value_initcardmessageobject(void *value);
 extern void func_804069FC(void);
 extern s32 D_80010208;
 
 /* Updates the state and selects its next callback based on the current entry check. */
-void finish_load_slot_check(S_func_80406AA8_0 *state)
+void finish_load_slot_check(CardDevLoadSlotScreen *screen)
 {
-    S_func_80406AA8_1 *state_base;
+    CardDevSaveWork *save = (CardDevSaveWork *)0x80010000;
+    ObjectNodeHeader *state_base;
     s32 check_result;
 
-    init_save_header_buffer(0x80010000, state->unk_2C,
-                  state->unk_24);
-    check_result = process_entry_with_table_value(state->unk_2C, 0x80010000);
-    state_base = (S_func_80406AA8_1 *)((u8 *)state - 0x20);
+    init_save_header_buffer(save, screen->selection,
+                  screen->mode);
+    check_result = process_entry_with_table_value(screen->selection, save);
+    state_base = NODE_HEADER(screen);
     if (check_result == 0) {
-        state->unk_34 = handle_menu_selection_input;
+        screen->state_callback = handle_menu_selection_input;
         forward_value_initcardmessageobject(state_base);
-        state_base->unk_10 = func_804069FC;
+        state_base->update_callback = func_804069FC;
     } else {
-        card_info_set_value_and_refresh(state->slot_windows.info_window, state->unk_2C);
-        card_dev_refresh_slot_window_display(state->slot_windows.windows[state->unk_2C]);
+        card_info_set_value_and_refresh(screen->information, screen->selection);
+        card_dev_refresh_slot_window_display(screen->windows[screen->selection]);
         if (D_80010208 != 0) {
-            state_base->unk_10 = set_global;
+            state_base->update_callback = set_global;
         } else {
-            state_base->unk_10 = handle_menu_selection_input;
+            state_base->update_callback = handle_menu_selection_input;
         }
     }
     reset_card_selection_state();
-    state->unk_40 = 0;
+    screen->operation_state = 0;
 }

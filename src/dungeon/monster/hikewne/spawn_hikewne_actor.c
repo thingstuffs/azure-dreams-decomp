@@ -83,6 +83,3 @@ void *spawn_hikewne_actor(s16 mask, s16 value_at_24, s16 value_at_25, s32 value_
     }
     return actor;
 }
-/* MECHANISM: 2.8.0-G0 (retail shows the compiler's HIGH/LO_SUM address split: lui / lw / addiu).
-   The two byte parameters arrive as s16: their narrowing copies survive cse, combine folds the a1/a2
-   temps into them, so sched1 schedules the parameter copies and the entry order is retail's. */

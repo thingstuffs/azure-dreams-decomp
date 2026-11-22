@@ -56,20 +56,20 @@ void complete_display_transfer(ShopFirstCallbackObject *state) {
 }
 
 /* Initializes three entries with offsets and fixed, supplied, and computed values. */
-void initialize_three_display_entries(s32 source_value, Func800B8500Entry **entries, void *entry_value) {
+void initialize_three_display_entries(s32 source_value, ItemMenuPart **entries, SpritePartCommand *entry_value) {
     s32 entry_offset = 8;
 
-    entries[0]->inner->field_8 = -0x38;
-    entries[0]->inner->field_A = entry_offset;
-    entries[0]->value = &D_80077FBC[0];
+    entries[0]->position->x = -0x38;
+    entries[0]->position->y = entry_offset;
+    entries[0]->handler = &D_80077FBC[0];
 
-    entries[1]->inner->field_8 = -0x38;
-    entries[1]->inner->field_A = entry_offset;
-    entries[1]->value = entry_value;
+    entries[1]->position->x = -0x38;
+    entries[1]->position->y = entry_offset;
+    entries[1]->handler = entry_value;
 
-    entries[2]->inner->field_8 = -0x10;
-    entries[2]->inner->field_A = 0x16;
-    entries[2]->value = lookup_patterned_display_icon(get_enabled_record_flag_priority(source_value));
+    entries[2]->position->x = -0x10;
+    entries[2]->position->y = 0x16;
+    entries[2]->handler = lookup_patterned_display_icon(get_enabled_record_flag_priority(source_value));
 }
 
 /* Returns the global in mode 1, otherwise calls the default handler. */
@@ -81,14 +81,14 @@ s32 get_monster_status_label(void *entry) {
 }
 
 /* Builds and displays an entry's formatted text. */
-void draw_formatted_monster_status_text(void *entry, void *display) {
+void draw_formatted_monster_status_text(void *entry, ItemMenuPart **display) {
     u8 text[64];
 
     memcpy(text, D_800892C0, 5);
     strcat(text, (u8 *)entry + 0x34);
     strcat(text, D_8008933C);
     strcat(text, (u8 *)get_monster_status_label(entry));
-    set_display_entry_text_and_position(*(s32 *)((u8 *)display + 0x10), text, 0, 0x47, 0x88);
+    set_display_entry_text_and_position(display[4], text, 0, 0x47, 0x88);
 }
 
 /* Maps value 0x39 to 2 and returns other values unchanged. */
@@ -103,7 +103,7 @@ s32 normalize_monster_status_species_code(s32 value) {
 }
 
 /* Formats and draws entity stats and detail text in the panel. */
-void draw_entity_stats_panel(void *entity, void *panel) {
+void draw_entity_stats_panel(void *entity, ItemMenuPart **panel) {
     u8 number_text[0x40];
     u8 text[0x40];
     s32 display_value;
@@ -131,14 +131,14 @@ void draw_entity_stats_panel(void *entity, void *panel) {
     func_8004E5A0(*((u8 *)entity + 0x66), 3, &number_text);
     strcat(&text, &number_text);
 
-    set_storage_entry_text(*(s32 *)((u8 *)panel + 0x14), &text, 0, 0x6C, 0x98);
+    set_storage_entry_text(panel[5], text, 0, 0x6C, 0x98);
     display_value = monster_get_species_name_text(normalize_monster_status_species_code(*((u8 *)entity + 0x13)));
     text_style = 0;
     if (*((u8 *)entity + 0x43) >= 0x41) {
         text_style = 3;
     }
-    set_display_entry_text_and_position(*(s32 *)((u8 *)panel + 0x18), display_value, text_style, 0x68, 0x98);
-    set_storage_entry_text(*(s32 *)((u8 *)panel + 0x4C), D_80089324, 0, 0x48, 0xB8);
-    set_storage_entry_text(*(s32 *)((u8 *)panel + 0x1C), format_gauge_text(&text, entity), 0, 0x48, 0xC8);
-    set_storage_entry_text(*(s32 *)((u8 *)panel + 0x48), format_compared_stat_pairs(&text, entity), 0, 0x48, 0xB8);
+    set_display_entry_text_and_position(panel[6], display_value, text_style, 0x68, 0x98);
+    set_storage_entry_text(panel[19], D_80089324, 0, 0x48, 0xB8);
+    set_storage_entry_text(panel[7], format_gauge_text(&text, entity), 0, 0x48, 0xC8);
+    set_storage_entry_text(panel[18], format_compared_stat_pairs(&text, entity), 0, 0x48, 0xB8);
 }

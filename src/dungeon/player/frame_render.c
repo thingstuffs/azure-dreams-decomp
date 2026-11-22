@@ -12,6 +12,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/game_work.h"
+#include "shared/gpu_packets.h"
 #include "shared/sys_flags.h"
 #include "records/Rec_D_80083160.h"
 #include "shared/dungeon_floor.h"
@@ -300,7 +301,7 @@ loop_third:
                 if (!(entry_m->flags & 0x800)) {
                     callback(entry_m + 1, entry_m->position, entry_m->sprite);
                     stop_dispatch = is_frame_packet_arena_overflowed(
-                        *(s32 *)((u8 *)g_game_work.draw_buffer + 0x8D0));
+                        ((GpuContext *)g_game_work.draw_buffer)->packetCursor);
                     if (stop_dispatch != 0) {
                         return;
                     }

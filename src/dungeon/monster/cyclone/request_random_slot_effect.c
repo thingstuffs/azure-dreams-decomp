@@ -38,11 +38,3 @@ s32 request_random_slot_effect(ActorRecord *actor) {
     }
     return 0;
 }
-
-/* MECHANISM: the row is TRUE-SPACE (rowbase region sweep_0E32504_tail, delta
-   0x7F343800, true base 0x801761AC).  m2c's `func_801761F8` is a PHANTOM: that
-   word is this function's own local `j` over the else arm of the slot ternary,
-   and three prior waves floored at aligned 8 fighting an invented
-   "internal v0/v1 entry contract" for a callee that does not exist.
-   Single shared `fail:` label keeps gcc's jump.c from store-flagging the final
-   `return 1 / return 0` into nor+srl, reproducing retail's bgez + delay `li v0,1`. */

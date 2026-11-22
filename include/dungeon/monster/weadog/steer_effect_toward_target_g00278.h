@@ -2,7 +2,7 @@
 #define DUNGEON_MONSTER_WEADOG_STEER_EFFECT_TOWARD_TARGET_G00278_H
 #include "engine/node/registration.h"
 /* Steer effect toward target. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00278 - CL:dungeon/func_80EDF8B8@dungeon/bank_eff000, CL:dungeon/func_80EDF8B8@dungeon/bank_f05000, CL:dungeon/func_80EDF8B8@dungeon/bank_f0b000, CL:dungeon/func_80EDF8B8@dungeon/bank_f11000, CL:dungeon/func_80EDF8B8@dungeon/bank_f17000, CL:dungeon/func_80EDF8B8@dungeon/bank_f1d000. */
+/* Steers and fades Weadog's effect and initializes randomly offset colored objects. */
 
 #include "common.h"
 #include "shared/entity.h"

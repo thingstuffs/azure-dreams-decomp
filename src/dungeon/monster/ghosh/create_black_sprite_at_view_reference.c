@@ -15,7 +15,7 @@ typedef struct Node {
     void *data10;
 } Node;
 
-/* Allocate and initialize an effect node with default parameters and data. */
+/* Creates a black effect sprite at the view reference position. */
 void create_black_sprite_at_view_reference(void)
 {
     ObjectNodeHeader *node;
@@ -48,7 +48,3 @@ void create_black_sprite_at_view_reference(void)
         select_record_entry_and_value(effect, effect_sprite_sources, 0);
     }
 }
-
-/* MECHANISM: Node * stays live in s0, inducing the retail 0x18 frame and sole
-   s0 save; separate node_params/effect locals encode retail's disjoint v1/a0 lives.
-   Exact sh/sb/lhu widths and the three-word global copy preserve body shape. */

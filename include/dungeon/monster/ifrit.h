@@ -27,7 +27,6 @@ void tick_object_motion_and_expire(struct ActorImpactEffectBody *object_data, vo
 
 void update_sleeping_ifrit(ActorRecord *in_action, ObjectPosition *in_context, SpriteFrameState *in_sprite, ActorRecord *in_actor);
 
-/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void advance_item_use_with_impact_effect(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 #endif

@@ -4,40 +4,30 @@
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
 
-extern void update_two_slots_using_selection_mapping(void *ptr);
 
 /* Updates or clears selected slot outputs, then refreshes the state if any were selected. */
-void card_boot_update_slot_outputs(void *state, s32 *enabled, s32 *selected) {
+void card_boot_update_slot_outputs(CardDevSlotMenu *panel, s32 *enabled, s32 *selected) {
     s32 slot;
     s32 updated;
-    s32 data_offset;
-    u8 *record;
-    CardMenuDisplayNode **output_table;
     CardMenuDisplayNode *output;
 
     updated = 0;
     slot = 0;
-    record = state;
-    data_offset = 4;
     do {
         if (selected[slot] != 0) {
-            output_table = ((CardDevChoicePanelPrefix *)state)->children;
-            output = output_table[slot + 2];
+            output = &panel->entry_table[slot + 2]->display;
             updated = 1;
             if (enabled[slot] != 0) {
-                initialize_scaled_entry_cursor_8004DDBC((u8 *)state + data_offset, &card_dev_choice_cursor_data,
-                                                       &output->payload.word);
+                initialize_scaled_entry_cursor_8004DDBC(&panel->cursors[slot], &card_dev_choice_cursor_data, &output->payload.word);
             } else {
                 output->payload.word = 0;
-                *(s32 *)(record + 8) = 0;
+                panel->cursors[slot].output = 0;
             }
         }
-        record += 0xC;
-        data_offset += 0xC;
         slot++;
     } while (slot < 2);
 
     if (updated != 0) {
-        update_two_slots_using_selection_mapping(state);
+        update_two_slots_using_selection_mapping(panel);
     }
 }

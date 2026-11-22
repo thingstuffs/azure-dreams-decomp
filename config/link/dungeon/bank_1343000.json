@@ -566,7 +566,8 @@
       "size": 108,
       "bindings": {
         "0x800478B8": "0x800478B8",
-        "0x800814A0": "0x800814A0"
+        "0x800814A0": "0x800814A0",
+        "0x81087200": "0x80170D60"
       },
       "evidence": "opus_place1: re-homed from relinked copy town/func_800C19FC onto dungeon/func_81087200; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },

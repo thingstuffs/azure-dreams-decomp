@@ -1,5 +1,6 @@
 #ifndef TOWN_SHOP_ITEM_UPDATE_ITEM_MENU_RECORD_G01150_H
 #define TOWN_SHOP_ITEM_UPDATE_ITEM_MENU_RECORD_G01150_H
+struct DungeonItemEntry;
 /* update item menu record g01150. Shared declarations. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_800B2100, CL:town/func_800B2150, CL:town/func_800B2264. */
 
@@ -17,12 +18,12 @@ void populate_current_item_menu_page(ItemMenuObject *object);
 /* extern */
 void update_item_menu_page_bounds(ItemMenuObject *object);
 /* extern */
-void *create_item_menu_display_controller(ItemMenuStateNode *owner, s32 position, s32 x, s32 y, void *entry);
+ObjectNodeHeader *create_item_menu_display_controller(ItemMenuStateNode *owner, s32 position, s32 x, s32 y, void *entry);
 extern s32 D_800891F4;
 extern u8 D_800AF96C[];
 extern s32 advance_index_with_directional_clamp(s32, s32, s32);
-extern int get_item_name(void *entry);
-extern void sort_entries_by_category(void *);
+extern int get_item_name(struct DungeonItemEntry *entry);
+#include "slus/sort_rank_81540.h"
 extern void SD_Call(s32);
 extern void set_item_menu_entry_coordinates(ItemMenuObject *object);
 void fade_color_to_gray(ItemMenuPart *part, s32 stop_at_gray);
@@ -30,7 +31,7 @@ extern s32 item_menu_record_callback[];
 
 /* Functions defined in this translation unit. */
 void refresh_item_menu_page(ItemMenuObject *record);
-void *open_selected_item_display(ItemMenuObject *entry);
+ObjectNodeHeader *open_selected_item_display(ItemMenuObject *entry);
 void retry_open_item_display(ItemMenuObject *record_data);
 void update_item_menu_selection(ItemMenuObject *obj);
 void update_item_menu_frame(ItemMenuObject *entity);

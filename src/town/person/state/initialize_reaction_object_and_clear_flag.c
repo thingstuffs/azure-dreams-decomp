@@ -10,8 +10,8 @@ extern s32 D_800D6540[];
 
 
 /* Initialize the object, clear the shared flag, and set its callback. */
-void initialize_reaction_object_and_clear_flag(TownObjectRecord *object, s32 unused, void *context) {
-    initialize_object_entries((object), context, D_800D6540);
+void initialize_reaction_object_and_clear_flag(TownObjectRecord *object, ObjectPosition *unused_position, SpriteFrameState *sprite) {
+    initialize_object_entries((object), sprite, D_800D6540);
     D_800826B8 = 0;
     object->handler = &update_reaction_vertical_ease;
 }

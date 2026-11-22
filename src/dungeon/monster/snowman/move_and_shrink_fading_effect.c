@@ -282,9 +282,7 @@ void *spawn_snowman(s16 flags, s16 kind_id, s16 variant, s32 spawn_value)
     return result;
 }
 
-/* MECHANISM: 2.7.2-cdk-G0 (retail shows the compiler's HIGH/LO_SUM address split: lui / lw / addiu).
-   kind_id and variant arrive as s16: their narrowing copies survive cse, combine folds the a1/a2 temps
-   into them, so sched1 schedules the parameter copies and the entry order is retail's. */
+/* Initializes Snowman's sprites and behavior handler before moving it to a valid tile. */
 
 /* Runs actor callbacks, cycles its idle hop animation, and updates facing, motion, and ground contact. */
 void update_actor_callbacks_animation_and_ground(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite)
@@ -938,11 +936,11 @@ void choose_snowman_move(ActorRecord *move_data, ObjectPosition *context, Sprite
             {
                 u8 *x_step;
 
-                x_step = (u8 *)((s8 *)dir_step_x);
+                x_step = (u8 *)dir_step_x;
                 step_offset = (actor_data->facing >> 8) & 0xE;
                 x_step += step_offset;
                 position_data->tile_x += *x_step;
-                position_data->tile_y += *((u8 *)((s8 *)dir_step_y) + step_offset);
+                position_data->tile_y += *((u8 *)dir_step_y + step_offset);
             }
 
             cycle_map_cell_flags((s16)position_data->tile_x,(s16)position_data->tile_y,(u16)((actor_data->flags1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000));
@@ -2237,12 +2235,7 @@ s32 project_snowman_sprite_chain(void *initial_payload, ObjectPosition *position
     }
 }
 
-/*
- * Moves the effect along an oscillating directional path, changes its brightness, and expires it
- * at frame 26.
- *
- * MECHANISM: Typed page and scratch fields preserve the signed lh/sw widths and offsets.
- */
+/* Moves the effect along an oscillating path, changes its brightness, and expires it at frame 26. */
 void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect, ObjectPosition *motion, SpriteFrameState *render)
 {
     R10_80174C70_LocalVector direction;

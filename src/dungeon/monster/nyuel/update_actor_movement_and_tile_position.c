@@ -201,7 +201,7 @@ void update_actor_movement_and_tile_position(ActorRecord *object, ObjectPosition
                     u8 *step_x = (u8 *)dir_step_x;
                     step_x += direction;
                     tile->tile_x += *step_x;
-                    tile->tile_y += *((((u8 *) (((s8 *)dir_step_y))) + direction));
+                    tile->tile_y += *((((u8 *)dir_step_y) + direction));
                 }
                 cycle_map_cell_flags(tile->tile_x, tile->tile_y, (actor->flags1C & 0x2000)
                     ? (0x300) : (0x3000));

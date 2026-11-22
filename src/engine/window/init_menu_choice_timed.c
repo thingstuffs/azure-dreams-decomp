@@ -1,3 +1,4 @@
+#include "engine/window/cursor_source.h"
 #include "common.h"
 #include "slus/window_choice_data.h"
 #include "engine/window.h"
@@ -15,7 +16,8 @@ typedef struct Child {
 typedef struct Object Object;
 
 struct Object {
-    u8 unk00[0x4d];
+    WindowCursorSource source;
+    u8 pad_28[0x25];
     u8 unk4d;
     u8 unk4e[0x16];
     s16 unk64;
@@ -31,7 +33,7 @@ void init_menu_choice_timed(Object *object) {
 
     adjusted_value = object->child->unk22 - (object->child->unk26 - 1);
     object->unk4d = object->child->unk27;
-    init_cursor_color_object(&menu_choice_cursor_storage, &menu_choice_display_data, object, 1, adjusted_value,
+    init_cursor_color_object(&menu_choice_cursor_storage, &menu_choice_display_data, &object->source, 1, adjusted_value,
                   object->child->unk80);
     object->unk64 = 0x5a;
     object->unk68 = update_menu_choice_timed;

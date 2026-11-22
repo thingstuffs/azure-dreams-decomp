@@ -23,7 +23,7 @@ void *create_effect_sprite_at(MovingPosition *source) {
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        object->update_callback = advance_and_retire_finished_effect;
+        object->update_callback = retire_finished_sprite_effect;
         appearance = object->sprite;
         appearance->color.c.b = 0x80;
         appearance->color.c.g = 0x80;

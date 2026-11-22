@@ -97,7 +97,7 @@ void *format_compared_stat_pairs(void *text, ActorRecord *stats) {
 }
 
 /* Format and display numeric stats and descriptive text. */
-void format_and_display_entity_stats(ActorRecord *stats, void *panels) {
+void format_and_display_entity_stats(ActorRecord *stats, ItemMenuPart **panels) {
     u8 digits[64];
     u8 text[64];
 
@@ -116,10 +116,10 @@ void format_and_display_entity_stats(ActorRecord *stats, void *panels) {
     func_8004E5A0(stats->max_hp, 3, digits);
     strcat(text, digits);
 
-    set_storage_entry_text(*(s32 *)((u8 *)panels + 0x10), text, 0, 0x6C, 0x98);
-    set_storage_entry_text(*(s32 *)((u8 *)panels + 0x4C), D_80089324, 0, 0x48,
+    set_storage_entry_text(panels[4], text, 0, 0x6C, 0x98);
+    set_storage_entry_text(panels[19], D_80089324, 0, 0x48,
                   0xB8);
-    set_storage_entry_text(*(s32 *)((u8 *)panels + 0x14),
+    set_storage_entry_text(panels[5],
                   format_gauge_text(text, stats), 0, 0x48, 0xC0);
 }
 
@@ -150,14 +150,14 @@ void collect_selected_record_values(s32 *output, ActorRecord *record) {
 }
 
 /* Formats a nonzero signed value into text, using default text for zero. */
-u8 *format_optional_signed_value(Input *input, u8 *text) {
+u8 *format_optional_signed_value(DungeonItemEntry *input, u8 *text) {
     s8 value;
 
     memcpy(text, D_80089304, 4);
-    value = input->value;
+    value = input->unk_02;
     if (value != 0) {
         text[0] = value > 0 ? 0x6B : 0x6C;
-        func_8004E5A0(input->value >= 0 ? input->value : -input->value,
+        func_8004E5A0(input->unk_02 >= 0 ? input->unk_02 : -input->unk_02,
                       2, text + 1);
         remap_flagged_string_bytes(text);
     }
@@ -165,16 +165,16 @@ u8 *format_optional_signed_value(Input *input, u8 *text) {
 }
 
 /* Populate up to three display rows with entry text and positioned icons. */
-void populate_display_rows(struct ActorRecord *actor, void *display) {
+void populate_display_rows(struct ActorRecord *actor, ItemMenuPart **display) {
     s32 scratch[10];
     s16 icon_y;
     s32 text_y;
     s32 row_index;
     void **entry_slot;
     void *entry;
-    S_800B59A4_1 *entry_info;
-    SignedWidgetYView *icon;
-    void *row_display;
+    DungeonItemEntry *entry_info;
+    ItemMenuPartPosition *icon;
+    ItemMenuPart **row_display;
 
     row_display = display;
     bzero((void **) &scratch[0], 0xC);
@@ -184,21 +184,21 @@ void populate_display_rows(struct ActorRecord *actor, void *display) {
     text_y = 0xD8;
     for (; row_index < 3; row_index++) {
         entry_slot = (void **)((s32)(row_index << 2) + (long)&scratch[0]);
-        row_display = (u8 *)display + row_index * 4;
+        row_display = display + row_index;
         entry = *entry_slot;
         if (entry == NULL) {
             break;
         }
-        set_display_entry_text_and_position((struct S_800B5264_0 *)(((S_800B59A4_0 *)row_display)->unk_18), select_item_data(entry, &scratch[8]), scratch[8], 0x58,
+        set_display_entry_text_and_position(row_display[6], select_item_data(entry, &scratch[8]), scratch[8], 0x58,
             text_y);
-        set_storage_entry_text(((S_800B59A4_0 *)row_display)->unk_24, format_optional_signed_value(*entry_slot, &scratch[4]), 0, 0xA0, text_y);
+        set_storage_entry_text(row_display[9], format_optional_signed_value(*entry_slot, &scratch[4]), 0, 0xA0, text_y);
         entry_info = *entry_slot;
-        ((S_800B59A4_4 *)(((S_800B59A4_3 *)row_display)->unk_30))->unk_00 =
-            lookup_item_category_mapped_value(entry_info->unk_01, entry_info->unk_00);
-        ((S_800B59A4_5 *)(((S_800B59A4_4 *)(((S_800B59A4_3 *)row_display)->unk_30))->unk_04))->unk_08 = -0x30;
+        row_display[12]->handler = (void *)(long)
+            lookup_item_category_mapped_value(entry_info->kind, entry_info->unk_00);
+        row_display[12]->position->x = -0x30;
         text_y += 0x10;
-        icon = ((S_800B59A4_4 *)(((S_800B59A4_3 *)row_display)->unk_30))->unk_04;
-        icon->unk_0A = icon_y;
+        icon = row_display[12]->position;
+        icon->y = icon_y;
         icon_y += 0x10;
     }
 }

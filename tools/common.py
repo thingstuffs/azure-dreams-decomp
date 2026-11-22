@@ -43,9 +43,37 @@ def read_jsonl(p):
         return []
     return [json.loads(l) for l in p.read_text().splitlines() if l.strip()]
 
+def append_text_locked(p, text):
+    """Append `text` to the file `p` as ONE write(2) on an O_APPEND descriptor while holding an exclusive flock on
+    the file, so two tools appending to the same ledger or journal (two apply_names runs) cannot interleave or tear
+    lines. A writer that replaces the file by rename (atomic_io) leaves the old inode behind: after taking the lock the
+    path's inode is compared with the descriptor's and the open is retried when they differ. Symlinks are followed."""
+    import fcntl
+    data = text.encode()
+    p = os.path.realpath(os.fspath(p))
+    while True:
+        fd = os.open(p, os.O_WRONLY | os.O_APPEND | os.O_CREAT, 0o666)
+        try:
+            fcntl.flock(fd, fcntl.LOCK_EX)
+            try:
+                a, b = os.stat(p), os.fstat(fd)
+                same = (a.st_ino, a.st_dev) == (b.st_ino, b.st_dev)
+            except FileNotFoundError:
+                same = False
+            if same:
+                done = 0
+                while done < len(data):
+                    done += os.write(fd, data[done:])
+                return
+        finally:
+            os.close(fd)
+
 def append_jsonl(p, rec):
-    with open(p, "a") as fh:
-        fh.write(json.dumps(rec, separators=(",", ":")) + "\n")
+    append_text_locked(p, json.dumps(rec, separators=(",", ":")) + "\n")
+
+def append_jsonl_rows(p, recs):
+    """several rows as one locked write"""
+    append_text_locked(p, "".join(json.dumps(r, separators=(",", ":")) + "\n" for r in recs))
 
 def write_jsonl(p, recs):
     p = Path(p)

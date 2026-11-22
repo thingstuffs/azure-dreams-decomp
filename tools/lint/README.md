@@ -599,6 +599,15 @@ gained a declared type BASE lacked; `--no-data` skips the pass. `decl_agreement.
 symbol size with its type) and prints the top names; `debt_check.py --summary` prints the
 count as the report-only `data_decl_disagreements` line.
 
+Address-named symbols (`D_80123456`) are compared per load region, not per top directory, because an address is
+reused by every image loaded over it (town scene images, the 0x80024000 effect slots, the species banks). A
+declaration's region is the loaded image (a record of `ledger/instance_load_regions.jsonl`) that holds the declaring
+file's code (disc offsets of its translation units in `config/link_graph/tus.*.jsonl`) and covers the address; a
+file placed in several images joins them. The engines (town and dungeon at 0x80088760), the 0x800F6000 and 0x80170800 banks and the MAIN.BIN image come from the link graph's views where the ledger has no record. An address no image is loaded over is `resident` (compared across programs) below 0x80088760 and the program's own (`program/town`) above it; executable code outside every overlay declaring an engine address attaches to the engine images like a header; four dungeon/bank_d0a0 files that are byte-identical placed copies of town engine bodies count as the town engine. A header declaration is
+compared in the regions of the files that include it by name and use the symbol. Named symbols keep the whole-tree comparison. The
+region is printed with each disagreement (`[region town/0x6f4800]`, `resident`) and is the last column of
+`build/decl_data.tsv`. Without the instance ledger the old top-directory key applies.
+
 Tool notes (landing-review gaps): `debt_check.py --summary` keeps its report cache under
 `build/debt_report_cache` (or `$XDG_CACHE_HOME/debt_check/...`, or `--cache-dir`), never `out/`, and `/out/` is
 git-ignored so a stray `out/` cannot fail the lander's clean-worktree check.  Sign-view counting includes named

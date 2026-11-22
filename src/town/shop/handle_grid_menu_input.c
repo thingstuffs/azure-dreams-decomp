@@ -18,7 +18,7 @@ void handle_grid_menu_input(GridMenuObject *menu) {
     s32 repeat_ticks;
     s32 selection;
     s32 row;
-    u8 *selected_entry;
+    DungeonItemEntry *selected_entry;
     pad_state = &g_game_work;
     held_buttons = pad_state->buttons;
     selection_step = 0;
@@ -43,8 +43,8 @@ void handle_grid_menu_input(GridMenuObject *menu) {
         SD_Call(AUDIO_ACCEPT);
         runtime_script_state.variables[14] = 1;
         close_twin_shop(NODE_HEADER(menu));
-        selected_entry = (u8 *)(menu->selected_index * 4 + menu->entry_base);
-        selected_entry[3] |= 0x20;
+        selected_entry = (DungeonItemEntry *)(menu->selected_index * sizeof(*selected_entry) + (unsigned long)menu->entry_base);
+        selected_entry->unk_03 |= 0x20;
         return;
     }
     if (!(held_buttons & 0xF000))

@@ -9,7 +9,7 @@ void change_item_menu_selection(ObjectNodeHeader *object, s32 value_arg, s32 res
     s32 new_value;
     ItemMenuTransition *state;
 
-    state = (ItemMenuTransition *)(object + 1);
+    state = NODE_BODY(object);
     new_value = advance_index_with_single_wrap(state->end_row, value_arg, state->entry_count);
     if (new_value != state->end_row) {
         state->end_row = new_value;

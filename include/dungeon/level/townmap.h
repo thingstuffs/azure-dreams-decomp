@@ -4,6 +4,9 @@
 struct ObjectNodeHeader;
 #include "common.h"
 #include "town/map/building_grid_g00638.h"
+#include "town/map/body.h"
+#include "shared/sprite_frame_state.h"
+#include "shared/entity.h"
 #include "shared/object_node.h"
 #include "m2c_compat.h"
 #include "shared/entity_objects.h"
@@ -16,11 +19,6 @@ struct ObjectNodeHeader;
 #include "town/scene/resource_request_data.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 typedef void (*Callback)(void *);
-typedef struct town_map_7FFEE278_S_8008B9D8_0 {
-    u8 pad_00[0x68];
-    void (*unk_68)(struct Struct_7FFEE2A0 *object, void *position, void *sprite);
-} town_map_7FFEE278_S_8008B9D8_0;
-struct Struct_7FFEE2A0;
 typedef struct town_map_7FFEE2A0_Struct_7FFEE2A0 {
     char pad0[0x64];
     s16 unk64;
@@ -141,13 +139,13 @@ s32 town_map_set(s32 value_7c, s32 value_78);
 s32 town_map_del(void);
 s32 clear_town_map_status(void);
 void initialize_town_map_object_state(s32 mode, s32 *list, u8 *init_context, u8 *target_object);
-void run_map_object_callback(town_map_7FFEE278_S_8008B9D8_0 *object, void *position, void *sprite);
-void advance_town_map_countdown_callback(town_map_7FFEE2A0_Struct_7FFEE2A0 *state, void *position, void *sprite);
+void run_map_object_callback(TownMapBody *object, ObjectPosition *position, SpriteFrameState *sprite);
+void advance_town_map_countdown_callback(town_map_7FFEE2A0_Struct_7FFEE2A0 *state, ObjectPosition *position, SpriteFrameState *sprite);
 void lower_town_map_object_value_to_input(town_map_7FFEE2E4_S_8008BA44_0 *state);
 void lower_town_map_value_to_input(town_map_7FFEE36C_MainStruct *state);
 void raise_town_map_value_to_input(town_map_7FFEE3F0_Actor *actor);
 void lower_town_map_value_and_resume_input(town_map_7FFEE474_MainStruct *object);
 void handle_town_map_input(town_map_7FFEE4F8_S_8008BC58_0 *object, town_map_7FFEE4F8_S_8008BC58_2 *view_params, void *update_context);
 void restore_town_map_input_state(town_map_7FFEE778_S_8008BED8_0 *state);
-void release_town_map_record(void *record);
+void release_town_map_record(TownMapBody *body);
 #endif

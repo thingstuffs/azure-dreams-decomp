@@ -95,6 +95,6 @@ void create_directional_child_effect(ActorRecord *parent_data, MovingPosition *s
         direction_index &= 7;
         sprite->depth_bias = (s16) (view_direction_depth_biases[direction_index] * 4);
         *parent_data->unk_B0.bytes = (u8)(*parent_data->unk_B0.bytes + 1);
-        create_tracked_effect(effect_object, setup_mode, ((void *)sprite) + 0x2C, &effect_data->unk_2A);
+        create_tracked_effect(effect_object, setup_mode, &sprite->frameTable, &effect_data->unk_2A);
     }
 }

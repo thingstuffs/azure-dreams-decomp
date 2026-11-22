@@ -10,6 +10,7 @@ struct ObjectNodeHeader;
 #include "common.h"
 #include "shared/sound_volume.h"
 
+struct DungeonItemEntry;
 struct ObjectPosition;
 struct SpriteFrameState;
 struct Dst;
@@ -18,7 +19,6 @@ struct MessageWindow;
 struct ScriptController;
 struct FrameNode;
 struct FrameState;
-struct S_80050E20;
 struct Struct_C_next;
 struct VtableObj;
 
@@ -61,18 +61,18 @@ unsigned char read_display_spacing_byte(int index);
 s32 count_nonzero_word_prefix(s32 *entries, s32 limit);
 void append_linked_chain(struct Struct_C_next *tail, struct Struct_C_next *node);
 int is_type_twenty(int type);
-int get_item_name(void *object);
-int read_item_category_flag_ten(void *item);
+int get_item_name(struct DungeonItemEntry *object);
+int read_item_category_flag_ten(struct DungeonItemEntry *item);
 int get_low_flag_priority(int flags);
 int set_flag_and_return_success(int *flag);
 void initialize_packet_pair_from_record(void *packets, void *record);
 int advance_index_with_single_wrap(int index, int delta, int limit);
 #include "slus/menu_count_template.h"
-int read_second_argument_scaled_byte(void *unused, void *object);
-s32 func_8004A618(void *item);
-s32 get_item_sell_money(void *item);
-s32 func_8004A638(void *item);
-s32 get_item_buy_money(void *item);
+int read_second_argument_scaled_byte(s32 unused_value, struct DungeonItemEntry *item);
+s32 func_8004A618(struct DungeonItemEntry *item);
+s32 get_item_sell_money(struct DungeonItemEntry *item);
+s32 func_8004A638(struct DungeonItemEntry *item);
+s32 get_item_buy_money(struct DungeonItemEntry *item);
 void clear_floor_resource_state_table(void);
 int compare_int_values(int *left, int *right);
 s32 count_pointer_list_entries(void **entries);
@@ -106,8 +106,8 @@ void *link_menu_backdrop_display_nodes(void *entries);
 void set_menu_backdrop_owner(struct ObjectNodeHeader **dest, struct ObjectNodeHeader *owner);
 void noop_selection_menu_animation_idle(struct AnimatedSelectionMenuBody *unused);
 void initialize_menu_record_value(struct AnimatedSelectionMenuBody *menu);
-int read_selected_menu_entry_word(char *object);
-s32 resolve_selected_menu_entry(char *object);
+int read_selected_menu_entry_word(struct ObjectNodeHeader *object);
+s32 resolve_selected_menu_entry(struct ObjectNodeHeader *object);
 void handle_selection_menu_object_input(struct MenuSelectionBody *object);
 void invoke_leading_object_callback(struct VtableObj *object, void *position, void *sprite);
 void *link_selection_menu_entries(void *entries);
@@ -282,10 +282,10 @@ void *build_menu_backdrop_corner_glow(void *cursor);
 void *build_menu_backdrop_corner_glow_mirrored(void *cursor);
 
 /* w_80050DA8.c */
-void begin_selection_menu_teardown_and_fade(u8 *object);
+void begin_selection_menu_teardown_and_fade(struct ObjectNodeHeader *object);
 
 /* w_80050E20.c */
-void destroy_selection_menu_and_release_owner(struct S_80050E20 *object);
+void destroy_selection_menu_and_release_owner(struct ObjectNodeHeader *object);
 
 /* w_80053EF0.c */
 s32 read_sound_mode_blocking_status(s32 mode);

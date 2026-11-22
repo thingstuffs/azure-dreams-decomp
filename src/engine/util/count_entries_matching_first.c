@@ -1,24 +1,19 @@
-#include "common.h"
-
-typedef struct {
-    unsigned char unk0;
-    u8 unk1;
-} S_8004AFE8;
+#include "slus/sort_rank_81540.h"
 
 /*
  * Counts the initial run of records whose field at offset 1 matches the first record, advancing
  * the supplied pointer table.
  */
-s32 count_entries_matching_first(S_8004AFE8 **entries)
+s32 count_entries_matching_first(DungeonItemEntry **entries)
 {
     s32 count;
     s32 first_value;
-    S_8004AFE8 **entry;
+    DungeonItemEntry **entry;
 
     entry = entries;
-    first_value = (*entry)->unk1;
+    first_value = (*entry)->kind;
     count = 0;
-    while (entry != 0 && (*entry)->unk1 == first_value) {
+    while (entry != 0 && (*entry)->kind == first_value) {
         entry += 1;
         count += 1;
     }

@@ -1,0 +1,20 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/func_818e786c_home",
+  "container": "dungeon",
+  "foff": "0x190786c",
+  "size": "0xbc",
+  "vma": "0x8002506c",
+  "evidence": "Existing compiler home for dungeon/func_818E786C; the registered split and its source retain their established coordinates.",
+  "entries": [
+    {
+      "row": "dungeon/func_818E786C",
+      "tu": "src/dungeon/effect/motion/target.c",
+      "home": "dungeon/func_818E786C",
+      "foff": "0x190786c",
+      "vma": "0x8002506c",
+      "size": 188,
+      "evidence": "Existing compiler home for dungeon/func_818E786C; the registered split and its source retain their established coordinates."
+    }
+  ]
+}

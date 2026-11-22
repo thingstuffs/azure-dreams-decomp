@@ -11,6 +11,11 @@ typedef union TownMapHalf {
     u16 as_u16;
 } TownMapHalf;
 
+struct TownMapBody;
+struct ObjectPosition;
+struct SpriteFrameState;
+typedef void (*TownMapUpdate)(struct TownMapBody *, struct ObjectPosition *, struct SpriteFrameState *);
+
 typedef struct TownMapBody {
     /* 0x00 */ Rec_D_80081FDC *context;
     /* 0x04 */ s32 unk_04;
@@ -46,5 +51,7 @@ typedef struct TownMapBody {
     /* 0x7C */ u8 *entries;
     /* 0x80 */ u8 pad_80[0x54];
 } TownMapBody;
+
+void release_town_map_record(TownMapBody *body);
 
 #endif

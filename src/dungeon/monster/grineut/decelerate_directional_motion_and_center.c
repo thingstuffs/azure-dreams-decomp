@@ -28,8 +28,8 @@ void decelerate_directional_motion_and_center(ActorRecord *body, ObjectPosition 
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity);
-        motion->velocity_x = ((s16 *)((s8 *)dir_step_x))[direction] << 18;
-        motion->velocity_y = ((s16 *)((s8 *)dir_step_y))[direction] << 18;
+        motion->velocity_x = dir_step_x[direction] << 18;
+        motion->velocity_y = dir_step_y[direction] << 18;
         body->action_phase++;
 
         if (entity->hp == 0) {
@@ -56,8 +56,8 @@ void decelerate_directional_motion_and_center(ActorRecord *body, ObjectPosition 
         motion->velocity_y -= motion->velocity_y / 4;
 
     case 1:
-        motion->velocity_x -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
-        motion->velocity_y -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
+        motion->velocity_x -= dir_step_x[direction] << 14;
+        motion->velocity_y -= dir_step_y[direction] << 14;
 
         if (body->action_timer > 0) {
             body->action_timer = body->action_timer - 1;
@@ -86,8 +86,8 @@ void decelerate_directional_motion_and_center(ActorRecord *body, ObjectPosition 
         return;
 
     case 2:
-        motion->velocity_x -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
-        motion->velocity_y -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
+        motion->velocity_x -= dir_step_x[direction] << 14;
+        motion->velocity_y -= dir_step_y[direction] << 14;
         if (!(sprite->flags & 0x6000)) {
             return;
         }

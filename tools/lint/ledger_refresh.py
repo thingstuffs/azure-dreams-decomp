@@ -92,6 +92,9 @@ import time
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
+if str(HERE.parent) not in sys.path:
+    sys.path.append(str(HERE.parent))
+import atomic_io  # noqa: E402
 import lint_closure as C  # noqa: E402
 import ledger_integrity as I  # noqa: E402
 
@@ -825,7 +828,7 @@ class Files:
 
     def write(self):
         for rel in self.changed():
-            (self.root / rel).write_text(self.texts[rel])
+            atomic_io.write_text(self.root / rel, self.texts[rel])
 
 
 # ---------------------------------------------------------------- ledgers

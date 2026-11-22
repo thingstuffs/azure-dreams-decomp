@@ -15,7 +15,7 @@ struct S_80091260_2;
 void initialize_input_driven_scene_object(s32 **outputData, ObjectPosition *state, s32 setupValue);
 
 /* update_actor_input_actions.c */
-void update_actor_input_actions(TownPlayerRecord *context, ObjectPosition *entity, s32 update_arg);
+void update_actor_input_actions(TownPlayerRecord *context, ObjectPosition *entity, struct SpriteFrameState *sprite);
 
 /* update_actor_input_and_interaction.c */
 

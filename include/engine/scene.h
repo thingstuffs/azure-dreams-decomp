@@ -1,10 +1,12 @@
 #ifndef ENGINE_SCENE_H
 #define ENGINE_SCENE_H
+struct ObjectNodeHeader;
 struct SceneLoadBody;
 /* Prototypes of the functions defined in src/engine/scene/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
 #include "engine/scene/scene_load.h"
+#include "engine/scene/removal_counter.h"
 #include "shared/vector.h"
 #include "shared/object_node.h"
 
@@ -43,10 +45,6 @@ void change_map_by_home_rank_tertiary(void);
 
 /* chg_map_second_house_sel.c */
 void chg_map_second_house_sel(void);
-
-/* create_node_with_record_pair.c */
-/* Allocation wrappers forward a third value which this routine ignores. */
-void *create_node_with_record_pair(void *second_value, void *first_value, unsigned long unused_value);
 
 /* create_deferred_resource_transition_task.c */
 struct Task *create_deferred_resource_transition_task(s16 mode, s16 lookup_id, void *(*handler)(void *), void *context);
@@ -154,7 +152,7 @@ void reset_node_pool(s32 unused_mode);
 void scene_begin_transition_data_read(u8 *state);
 
 /* scene_create_resource_transition.c */
-void *scene_create_resource_transition(void *owner_arg, void *context_arg);
+void *scene_create_resource_transition(struct ObjectNodeHeader *owner, s32 callback_index);
 
 /* select_next_scene_mode.c */
 void select_next_scene_mode(void);

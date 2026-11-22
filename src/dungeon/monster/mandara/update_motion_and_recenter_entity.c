@@ -22,8 +22,8 @@ void update_motion_and_recenter_entity(ActorRecord *action, ObjectPosition *moti
     switch (action->action_phase) {
     case 0:
         apply_clamped_actor_value_delta(entity);
-        motion->velocity_x = ((s16 *)((s8 *)dir_step_x))[direction] << 17;
-        motion->velocity_y = ((s16 *)((s8 *)dir_step_y))[direction] << 17;
+        motion->velocity_x = dir_step_x[direction] << 17;
+        motion->velocity_y = dir_step_y[direction] << 17;
         action->action_phase++;
 
         if (entity->hp == 0) {
@@ -50,8 +50,8 @@ void update_motion_and_recenter_entity(ActorRecord *action, ObjectPosition *moti
                         /* fall through */
 
     case 1:
-        motion->velocity_x -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
-        motion->velocity_y -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
+        motion->velocity_x -= dir_step_x[direction] << 14;
+        motion->velocity_y -= dir_step_y[direction] << 14;
         if (action->action_timer > 0) {
             action->action_timer = action->action_timer - 1;
         } else if (tile->flags & 0x6000) {

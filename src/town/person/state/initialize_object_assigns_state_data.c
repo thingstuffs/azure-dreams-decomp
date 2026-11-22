@@ -8,7 +8,7 @@
 
 
 /* Initializes the object, assigns its state data, and sets a value in multiples of 21. */
-void initialize_object_assigns_state_data(TownObjectRecord *object, void *unusedArg, void *initializationArg) {
+void initialize_object_assigns_state_data(TownObjectRecord *object, ObjectPosition *unusedArg, SpriteFrameState *initializationArg) {
     initialize_object_entries((object), initializationArg, *object->unk_7C.as_pps32);
     object->unk_50.as_pm = &wait_then_choose_direction;
     object->timer = (s16) (((scale_random_by_limit(4) & 0xFFFF) * 0x15) + 0x15);

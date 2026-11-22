@@ -42,21 +42,24 @@ typedef union StorageDisplayBlock {
     s32 words[4];
     ItemMenuDisplayBlock display;
 } StorageDisplayBlock;
-typedef union StorageVector {
-    DisplayPositionWords words;
-    struct { u8 pad_00[8]; s16 z; } position;
-} StorageVector;
 typedef struct StorageDisplayLinks {
     s32 unused;
     ItemMenuDisplayBlock *display;
     StorageVector *position;
 } StorageDisplayLinks;
+struct ItemMenuInputObject;
+
 typedef struct StorageMenuObject {
-    s32 unk_00;
-    s32 unk_04;
-    u8 pad_08[0x18];
+    struct ItemMenuInputObject *owner_body;
+    ObjectNodeHeader *destination_owner;
+    u8 pad_08[4];
+    u8 pad_0C[4];
+    ObjectNodeHeader *source_owner;
+    u8 pad_14[0xC];
     u8 *data;
-    u8 pad_24[0x28];
+    StorageDisplayBlock display;
+    ItemMenuDisplayPosition position;
+    u8 pad_40[0xC];
     ItemMenuDisplayLinks links;
     ItemMenuPart *chain;
     ItemMenuPart **parts;
@@ -71,10 +74,10 @@ void arrange_storage_item_columns(StorageEntry **objects);
 void refresh_storage_page(StorageOwner *object);
 void *link_storage_item_menu_parts(void *target);
 void *link_storage_owner_menu_parts(void *parts);
-StorageMenuNode *create_storage_item_menu(ItemMenuStateNode *owner);
-StorageMenuNode *create_storage_owner_menu(ItemMenuStateNode *owner);
+StorageMenuNode *create_storage_item_menu(ObjectNodeHeader *owner);
+StorageMenuNode *create_storage_owner_menu(ObjectNodeHeader *owner);
 s32 load_storage_display_resource(StorageWork *work, s32 resource);
 
-void update_storage_display_node(void *node);
+void update_storage_display_node(ObjectNodeHeader *node);
 
 #endif

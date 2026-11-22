@@ -40,14 +40,13 @@ typedef struct InputRecord InputRecord;
 #include "town/map/object.h"
 struct IntVector3;                       /* extern */
 #include "town/player/clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2_api.h"                      /* extern */
-struct Rec_D_800FE490; void update_record_overlap_node(struct Rec_D_800FE490 *);                   /* extern */
+#include "town/scene/secondary_object_list_g00528.h"
 struct ObjectPosition; struct ObjectPosition;            /* extern */
 extern u8 D_8006CCF8[];
 extern M2C_UNK D_80089960;
 extern u8 town_blocked_directions[];
 #include "records/Rec_D_800FE490.h"
 #include "shared/minigame_body.h"
-extern Rec_D_800FE490 town_motion_list;
 extern Rec_D_80100D98 town_position_reference_state;
 
 /* Updates movement, jumping, course progress, and sprite orientation from player input. */
@@ -251,7 +250,7 @@ void update_player_minigame_motion(TownCourseActor *actor, ObjectPosition *motio
     case 3:
         prev_stage = progress->unk_00;
         advance_path_waypoint(motion, progress);
-        fill_eligible_negative_slots(course, &progress->unk_00, 0);
+        fill_eligible_negative_slots(course, progress, 0);
         if (progress->unk_00 != prev_stage) {
             s32 *best_time;
 

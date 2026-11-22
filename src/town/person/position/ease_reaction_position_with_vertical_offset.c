@@ -13,13 +13,11 @@
 
 
 /* Decrement the lifetime and ease the position toward the target with a vertical offset. */
-void ease_reaction_position_with_vertical_offset(TownObjectRecord *state_arg, void *position_arg) {
-    TownObjectRecord *state = state_arg;
+void ease_reaction_position_with_vertical_offset(TownObjectRecord *state, ObjectPosition *position) {
     ObjectNodeHeader *target_table;
     s32 x_delta;
     s32 y_delta;
     u16 ticks_left;
-    ObjectPosition *position = position_arg;
 
     ticks_left = state->timer - 1;
     state->timer = ticks_left;

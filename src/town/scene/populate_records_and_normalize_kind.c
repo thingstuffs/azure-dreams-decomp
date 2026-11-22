@@ -2,6 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "town/scene.h"
+#include "town/scene/record_actions.h"
 #include "town/data.h"
 
 typedef struct TownRecord {

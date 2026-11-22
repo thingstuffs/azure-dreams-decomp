@@ -32,26 +32,22 @@ void spawn_randomized_timed_objects(TownMapSpawnState *source)
     s32 base_coord;
     u16 next_value;
     GameWork *town;
-    u8 *kind;
+    void (*update)(TownMapFallingObject *);
     TownMapFallingObject *coords;
-    void *new_object;
     ObjectNodeHeader *object;
-    void *callback;
 
     count_bits = source->count;
     count_bits <<= 0x10;
     spawn_count = count_bits >> 0x11;
     town = &g_game_work;
     if (spawn_count >= 0) {
-        kind = (u8 *)&update_falling_object;
+        update = update_falling_object;
         do {
-            new_object = allocate_list_node((s32)((void *)0x202), &scene_object_list_anchor.next);
-            if (new_object != NULL) {
-                object = new_object;
-                callback = &draw_depth_sorted_gradient_lines;
-                coords = ((void *)object) + 0x20;
-                object->update_callback = (s32 *)kind;
-                register_node(object, callback);
+            object = allocate_list_node(0x202, &scene_object_list_anchor.next);
+            if (object != NULL) {
+                coords = NODE_BODY(object);
+                object->update_callback = update;
+                register_node(object, draw_depth_sorted_gradient_lines);
                 random_value = rand();
                 coord_term = town->view.camera_position.parts.camera_position_x;
                 random_coord = coord_term + random_value % 1024 - 512;
@@ -69,7 +65,6 @@ void spawn_randomized_timed_objects(TownMapSpawnState *source)
                 coords->motion.fixed.y.w.i = count_bits;
             }
             spawn_count -= 1;
-            object = (void *)0x202;
         } while (spawn_count >= 0);
     }
     state = source->state.s;

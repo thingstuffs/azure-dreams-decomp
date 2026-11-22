@@ -7,31 +7,23 @@
 #include "shared/entity_objects.h"
 #include "shared/entity.h"
 #include "m2c_compat.h"
-#include "records/Rec_func_800AB014_arg0.h"
+struct TownObjectRecord;
 
-typedef struct {
-    u16 field_0;
-    u16 field_2;
-    u16 field_4;
-    u16 field_6;
-} Record;
-
-typedef struct {
-    u16 field_0;
-    u16 field_2;
-    u16 field_4;
-    u16 field_6;
-} TownRecord;
-
+typedef struct TownPositionHistoryEntry {
+    u16 x;
+    u16 y;
+    u16 z;
+    u16 heading;
+} TownPositionHistoryEntry;
 
 extern u16 scene_object_payload_alias[];
 extern s16 D_800834C8;
 
-extern Record town_position_history[8];
+extern TownPositionHistoryEntry town_position_history[8];
 /* Functions defined in this translation unit. */
 void fill_position_history(void);
 void push_position_history(void);
-void load_position_history_entry(void *destination, s32 entry_index);
-void copy_history_entry_heading(Rec_func_800AB014_arg0 *record, s32 entry_index);
+void load_position_history_entry(Fixed1616 *destination, s32 entry_index);
+void copy_history_entry_heading(struct TownObjectRecord *record, s32 entry_index);
 
 #endif

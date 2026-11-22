@@ -982,7 +982,7 @@ void update_selection_menu_controller(S_80026190_0 *owner)
         entity->unk_58 = owner->unk_00;
         entity->unk_6A = source_slot;
         unlink_node((void *)object_or_kind);
-        retire_tracked_effect_by_id((void *)object_or_kind);
+        retire_tracked_effect_by_id(NODE_HEADER(entity));
         update_map_cell_flags_with_item_limit(parent->tile_x, parent->tile_y, 0x300);
         entity->unk_87 = 0xFF;
         ((S_80026190_4 *)((void *)object_or_kind))->unk_10.s = (void *)update_preview_monster_fade;
@@ -1107,11 +1107,11 @@ s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_posi
     POLY_FT4 *prim;
     Face *face;
     SpriteFrameState *sprite_data;
-    Object *main_object;
-    Object *main_entry;
-    Object *extra_entry;
-    Object *extra_object;
-    Sprite *sprite;
+    ObjectNodeHeader *main_object;
+    ObjectNodeHeader *main_entry;
+    ObjectNodeHeader *extra_entry;
+    ObjectNodeHeader *extra_object;
+    ObjectNodeHeader *sprite;
     u32 x1_shifted;
     s32 x1_masked;
     u32 packed2;
@@ -1310,28 +1310,28 @@ s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_posi
         if (objects->main != 0) {
             scratch->clear = 0;
             main_object = objects->main;
-            project_sprite_commands(main_object->transform, main_object->lo, main_object->hi, (s16) scratch->depth_base);
+            project_sprite_commands(NODE_BODY(main_object), main_object->position, main_object->sprite, (s16) scratch->depth_base);
             main_entry = objects->main;
             D_8002713A[0] = -2;
-            render_camera_facing_sprite(main_entry->lo, main_entry->hi, -2, scratch->depth_base);
+            render_camera_facing_sprite(main_entry->position, main_entry->sprite, -2, scratch->depth_base);
         }
         object_index = 0;
         do {
             if (objects->extra[object_index] != 0) {
                 scratch->clear = 0;
                 extra_object = objects->extra[object_index];
-                project_sprite_commands(extra_object->transform, extra_object->lo, extra_object->hi, (s16) scratch->depth_base);
+                project_sprite_commands(NODE_BODY(extra_object), extra_object->position, extra_object->sprite, (s16) scratch->depth_base);
                 extra_entry = objects->extra[object_index];
-                render_camera_facing_sprite(extra_entry->lo, extra_entry->hi, 0, scratch->depth_base);
+                render_camera_facing_sprite(extra_entry->position, extra_entry->sprite, 0, scratch->depth_base);
             }
             object_index += 1;
         } while (object_index < 2);
 
         sprite = objects->sprite;
         if (sprite != 0) {
-            sprite_data = sprite->data;
+            sprite_data = sprite->sprite;
             if (!(sprite_data->flags & 0x80)) {
-                draw_sprite_clipped(sprite->transform, sprite->lo, sprite_data, (s16) scratch->depth_base);
+                draw_sprite_clipped(NODE_BODY(sprite), sprite->position, sprite_data, (s16) scratch->depth_base);
             }
         }
         render_state->position[0] = saved_position[0];
@@ -1352,7 +1352,7 @@ s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_posi
  * Writes negated camera X/Y rotations and zero Z rotation to scratchpad, then renders the
  * projected sprite with the supplied depth bias arguments.
  */
-void render_camera_facing_sprite(s32 call_value, s32 call_option, s16 call_mode, s32 call_extra)
+void render_camera_facing_sprite(ObjectPosition *position, SpriteFrameState *sprite, s16 call_mode, s32 call_extra)
 {
     s16 *scratch = (s16 *)0x1F800000;
     GameWork *g = &g_game_work;
@@ -1360,7 +1360,7 @@ void render_camera_facing_sprite(s32 call_value, s32 call_option, s16 call_mode,
     scratch[0x104 / 2] = 0;
     scratch[0x100 / 2] = -((u16)g->view.camera_rotation.parts.camera_rotation_x);
     scratch[0x102 / 2] = -((u16)g->view.camera_rotation.parts.camera_rotation_y);
-    render_projected_sprite_with_depth_bias(call_value, call_option, call_mode, call_extra);
+    render_projected_sprite_with_depth_bias(position, sprite, call_mode, call_extra);
 }
 
 #include "shared/object_node.h"

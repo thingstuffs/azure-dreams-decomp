@@ -72,6 +72,11 @@ import sys
 import tempfile
 from pathlib import Path
 
+_tools = str(Path(__file__).resolve().parents[1])
+if _tools not in sys.path:
+    sys.path.append(_tools)
+import atomic_io  # noqa: E402
+
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 # Compiler helpers may import through the shared toolchain symlink.
@@ -116,7 +121,7 @@ def jl(path):
 
 def wjl(path, records, compact=True):
     sep = (',', ':') if compact else None
-    Path(path).write_text(''.join(json.dumps(r, separators=sep) + '\n' for r in records))
+    atomic_io.write_text(path, ''.join(json.dumps(r, separators=sep) + '\n' for r in records))
 
 
 def sha256(b):
@@ -1496,7 +1501,7 @@ def _install(root, work, base, gate=True, reviewer=None, evidence_dir=None, gate
         fr.freeze(rel)
         wjl(root / rel, records, compact)
     fr.freeze('ledger/modules.jsonl')
-    (root / 'ledger/modules.jsonl').write_text(''.join(json.dumps(r) + '\n' for r in assign))
+    atomic_io.write_text(root / 'ledger/modules.jsonl', ''.join(json.dumps(r) + '\n' for r in assign))
     # Other modules may list a retired member file as review evidence; point them at the merged file (the
     # make build depends on every review input, so a dangling path breaks the build).
     retired = {m['path']: next(x['source'] for x in spec['modules'] if x['key'] == m['module']) for m in members}

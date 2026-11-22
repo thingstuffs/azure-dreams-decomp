@@ -37,6 +37,9 @@ import sys
 
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parent / 'lint'), str(HERE.parent / 'build')]
+if str(HERE.parent) not in sys.path:
+    sys.path.append(str(HERE.parent))
+import atomic_io  # noqa: E402
 
 
 def modules(root):
@@ -138,14 +141,14 @@ def run(root, canonical_src, copy_srcs, dry_run=False, log=print):
                     save(root / p)
                     (root / p).write_text(rename_word((root / p).read_text(), old, new))
                 save(root / 'config/names.tsv')
-                (root / 'config/names.tsv').write_text(
+                atomic_io.write_text(root / 'config/names.tsv',
                     names_row((root / 'config/names.tsv').read_text(), mm['function'], old, new, cm['function'],
                               cm['size'] // 4, canonical_src))
                 _, problems = P.check(root)
                 mine = [p for p in problems if p.startswith(new + ':') and mm['function'] in p]
                 if mine or any(p.startswith(new + ':') for p in problems):
                     for p, t in before.items():
-                        (root / p).write_text(t)
+                        atomic_io.write_text(root / p, t)
                     results.append((src, mm['function'], 'refused', (mine or problems)[0][:200]))
                     continue
                 table = name_inputs.table(root / 'config/names.tsv')
@@ -156,7 +159,7 @@ def run(root, canonical_src, copy_srcs, dry_run=False, log=print):
     finally:
         if dry_run:
             for p, t in saved.items():
-                p.write_text(t)
+                atomic_io.write_text(p, t)
     return results
 
 
@@ -232,13 +235,13 @@ def run_family(root, canonical, copies, dry_run=False, log=print):
                 saved.setdefault(root / p, before[p])
                 (root / p).write_text(rename_word(before[p], old, new))
             saved.setdefault(root / 'config/names.tsv', before['config/names.tsv'])
-            (root / 'config/names.tsv').write_text(
+            atomic_io.write_text(root / 'config/names.tsv',
                 names_row(before['config/names.tsv'], address, old, new, caddr, rows.size(crow) // 4, csrc, proof))
             _, problems = P.check(root)
             mine = [p for p in problems if p.startswith(new + ':')]
             if mine:
                 for p, t in before.items():
-                    (root / p).write_text(t)
+                    atomic_io.write_text(root / p, t)
                 results.append((src, address, 'refused', mine[0][:200]))
                 continue
             table = name_inputs.table(root / 'config/names.tsv')
@@ -248,7 +251,7 @@ def run_family(root, canonical, copies, dry_run=False, log=print):
     finally:
         if dry_run:
             for p, t in saved.items():
-                p.write_text(t)
+                atomic_io.write_text(p, t)
     for r in results:
         log('%s %s %s: %s' % r)
     return results

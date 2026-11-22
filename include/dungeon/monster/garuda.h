@@ -14,7 +14,6 @@ void wait_garuda_mp_and_animate(void *entity, ObjectPosition *context, SpriteFra
 
 void update_creature_animation_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite_arg, ActorRecord *creature);
 
-/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void begin_garuda_walk(ActorRecord *owner, ObjectPosition *unused, SpriteFrameState *part, ActorRecord *actor);
 void *spawn_garuda_slot_a(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c);
 void *spawn_garuda_slot_f(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);

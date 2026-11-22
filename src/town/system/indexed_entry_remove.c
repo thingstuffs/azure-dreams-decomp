@@ -1,43 +1,30 @@
 /* Indexed entry remove and its file-private helper. */
 #include "common.h"
+#include "shared/dungeon_item_entries.h"
 #include "m2c_compat.h"
 /* extern */
 
-typedef struct S_800B2190_0 {
-    u8 pad_00[0x1];
-    u8 unk_01;
-} S_800B2190_0;
-typedef struct S_800B2190_1 {
-    s32 unk_00;
-} S_800B2190_1;
-typedef struct S_800B2190_2 {
-    void * unk_00;
-    void * unk_04;
-} S_800B2190_2;
-
 /* Clears the byte at 0x80010303 plus 0x54 times the low five bits of record byte 3. */
-static void clear_indexed_table_flag(void *record) {
+static void clear_indexed_table_flag(DungeonItemEntry *record) {
     u8 *page = (u8 *)0x80010000;
-    page[((((u8 *)record)[3] & 0x1F) * 0x54) + 0x303] = 0;
+    page[((record->unk_03 & 0x1F) * 0x54) + 0x303] = 0;
 }
 
 /* Clears the selected item, releases its type-0x13 table flag, and compacts the pointer list. */
-void remove_selected_entry_from_list(s32 list_addr, s32 index) {
-    s32 slot_offset;
-    void **slot;
-    S_800B2190_0 *entry;
+void remove_selected_entry_from_list(DungeonItemEntry **list, s32 index) {
+    DungeonItemEntry **slot;
+    DungeonItemEntry *entry;
 
-    slot_offset = index * 4;
-    slot = list_addr + slot_offset;
+    slot = &list[index];
     entry = *slot;
-    if (entry->unk_01 == 0x13) {
+    if (entry->kind == 0x13) {
         clear_indexed_table_flag(entry);
     }
-    ((S_800B2190_1 *)(*slot))->unk_00 = 0;
+    *(s32 *)*slot = 0;
     if (*slot != NULL) {
         do {
-            ((S_800B2190_2 *)slot)->unk_00 = ((S_800B2190_2 *)slot)->unk_04;
-            slot = (void **)((s8 *)((void **)((s8 *)slot + 4)));
+            slot[0] = slot[1];
+            slot++;
         } while (*slot != NULL);
     }
 }

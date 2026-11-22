@@ -57,8 +57,3 @@ s32 check_scratch_quad_half_turn_gaps(ovl_16b08_f6a8_7FFEF6A8_S_7FFEF6A8_0 *poly
     poly->unk_90 = turn_3;
     return turn_3 < 0x801;
 }
-
-/* MECHANISM: A vars=0 24-byte frame follows from one held object base in s0.
-   Guard-clause CFGs retain the two move-zero branch slots and exact store order.
-   A pinned a0 angle plus v0 tail result reproduces the final register lifetimes.
-   Keeping v0 before the field90 store lets that store fill the noreturn tail-j slot. */

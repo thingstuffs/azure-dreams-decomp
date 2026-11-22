@@ -19,7 +19,7 @@ typedef struct Node { u8 pad_00[8]; ObjectPosition *header; SpriteFrameState *au
 extern void register_node_if_unregistered(void *block_data, void *registration_id);
 extern void initialize_object_entries(Work * , SpriteFrameState *, void *);
 
-extern u8 scene_object_list_anchor[];
+extern struct ObjectNodeHeader scene_object_list_anchor;
 
 
 extern s32 D_800D620C[];
@@ -32,7 +32,7 @@ void mia_storker_set(ARG0_TYPE work_value, ARG1_TYPE work_byte, ARG2_TYPE header
     SpriteFrameState *node_aux;
     if (test_resident_bitmap_bit(snf_truth) == 0)
         return;
-    node = create_town_effect_object(scene_object_list_anchor, 0, run_object_callback, turn_object_after_timeout);
+    node = create_town_effect_object(&scene_object_list_anchor, 0, run_object_callback, turn_object_after_timeout);
     if (node == 0)
         return;
     header = node->header;

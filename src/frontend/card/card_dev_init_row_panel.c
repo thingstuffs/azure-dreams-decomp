@@ -31,8 +31,8 @@ void card_dev_init_row_panel(CardDevCommandPanel *panel) {
     s32 row;
 
 
-    panel->unk_80 = 1;
-    panel->unk_84 = 1;
+    panel->frames = 1;
+    panel->frame = 1;
     card_dev_bind_row_labels(panel);
     func_80403868(panel->highlight_packets, 0x36, 0x10);
     card_dev_init_row_tables(panel);

@@ -24,6 +24,11 @@ typedef struct PersonDescriptor {
     s32 *entries[10];
 } PersonDescriptor;
 
+struct TownObjectRecord;
+struct ObjectPosition;
+struct SpriteFrameState;
+typedef void (*TownIndexedHandler)(struct TownObjectRecord *, struct ObjectPosition *, struct SpriteFrameState *);
+
 typedef struct TownObjectRecord {
     /* 0x00 */ void *unk_00;   /* callback or linked-list predecessor address */
     /* 0x04 */ void *unk_04;   /* callback or linked-list backlink address */
@@ -52,8 +57,8 @@ typedef struct TownObjectRecord {
     /* 0x4F */ u8 unk_4F;
     /* 0x50 */ union { void * as_pm; void * as_pv; s32 as_s32; } unk_50;   /* opaque handler address and alternate pointer/word views; callable views retain their contracts */
     /* 0x54 */ void * handler; /* stored handler address; callable views retain their own contracts */
-    /* 0x58 */ s32 unk_58;
-    /* 0x5C */ s32 unk_5C;
+    /* 0x58 */ void *state_handlers; /* Person states and event scripts use different callback signatures. */
+    /* 0x5C */ TownIndexedHandler *indexed_handlers; /* dispatch_record_handler indexes this table for IDs starting at 0x16. */
     /* 0x60 */ s32 slot;
     /* 0x64 */ u16 unk_64;
     /* 0x66 */ s16 unk_66;
@@ -76,12 +81,12 @@ typedef struct TownObjectRecord {
     /* 0x8E */ s16 unk_8E;
     /* 0x90 */ s16 unk_90;
     /* 0x92 */ u8 unk_92;
-    /* 0x93 */ s8 unk_93;
+    /* 0x93 */ u8 unk_93;
     /* 0x94 */ s8 unk_94;
     /* 0x95 */ u8 unk_95;
     /* 0x96 */ u8 variant;
     /* 0x97 */ s8 unk_97;
-    /* 0x98 */ s8 * unk_98;
+    /* 0x98 */ u8 *unk_98; /* Scene spawns retain the entry at its active byte. Door and particle children borrow that byte. */
     /* 0x9C */ s32 unk_9C;
     /* 0xA0 */ s32 unk_A0;
     /* 0xA4 */ s32 unk_A4;

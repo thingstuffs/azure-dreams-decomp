@@ -7,25 +7,25 @@
 #include "town/player_callbacks_api.h"
 
 /* Update the entity state and handler from global flags and the signed counter. */
-void update_player_global_state(Entity *entity, void *ptr, void *ptr2) {
+void update_player_global_state(Entity *entity, ObjectPosition *position, SpriteFrameState *sprite) {
     GameWork *state = &g_game_work;
     s32 adjustment;
 
     if (((u32)state->pressed_buttons) & 0x40) {
         entity->unkA = 4;
-        dispatch_selected_entry_if_nonzero((s32 *) D_800D0190, (TownObjectRecord *) entity, ptr2);
+        dispatch_selected_entry_if_nonzero((s32 *) D_800D0190, (TownObjectRecord *) entity, sprite);
         entity->unk4 = advance_timed_action_handler;
     } else if ((((u32)state->pressed_buttons) & 0x1000) && ((adjustment = town_player_target_adjustment) >= 0)) {
         town_player_target_adjustment = adjustment - 1;
         entity->unk10 = 0x800;
         entity->unkA = 4;
-        dispatch_selected_entry_if_nonzero((s32 *) player_interaction_handler_entries, (TownObjectRecord *) entity, ptr2);
+        dispatch_selected_entry_if_nonzero((s32 *) player_interaction_handler_entries, (TownObjectRecord *) entity, sprite);
         entity->unk4 = advance_player_toward_target;
     } else if ((((u32)state->pressed_buttons) & 0x4000) && ((adjustment = town_player_target_adjustment) <= 0)) {
         town_player_target_adjustment = adjustment + 1;
         entity->unk10 = 0;
         entity->unkA = 4;
-        dispatch_selected_entry_if_nonzero((s32 *) player_interaction_handler_entries, (TownObjectRecord *) entity, ptr2);
+        dispatch_selected_entry_if_nonzero((s32 *) player_interaction_handler_entries, (TownObjectRecord *) entity, sprite);
         entity->unk4 = advance_player_toward_target;
     }
 }
@@ -44,6 +44,6 @@ void advance_player_state_table(Struct8009D814 *state, ObjectPosition *update_ar
 }
 
 /* Forward the object and values to update_player_global_state. */
-void forward_player_state_update(TownPlayerRecord *object, s32 value_1, SpriteFrameState *value_2) {
-    update_player_global_state((Entity *)object, (void *)value_1, (void *)value_2);
+void forward_player_state_update(TownPlayerRecord *object, ObjectPosition *position, SpriteFrameState *sprite) {
+    update_player_global_state((Entity *)object, position, sprite);
 }

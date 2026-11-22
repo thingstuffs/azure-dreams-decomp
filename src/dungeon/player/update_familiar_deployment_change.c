@@ -214,7 +214,7 @@ void update_familiar_deployment_change(ActorRecord *actor, ObjectPosition *map, 
                 context->target_tile_x, context->target_tile_y,
                 (s16) (context->ground_height - 0x20));
             if (new_object != NULL) {
-                (*(void **)((u8 *)(((familiar_deployment_slots.slot * 4) + (u8 *)actor)) + (0xAC))) = new_object;
+                (*(void **)((((familiar_deployment_slots.slot * 4) + (u8 *)actor)) + (0xAC))) = new_object;
                 familiar_record_slots[((S_8009345C_7 *)(*message_or_list.base))->unk_03 & 0x1F] = new_object;
                 object_scale = ((S_8009345C_10_pre *)new_object)[-1].unk_04;
                 object_scale->scale_y = 0x800;

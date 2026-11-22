@@ -4,6 +4,7 @@
 #include "slus/map_state.h"
 #include "town/event/item_query_checks_g01145.h"
 #include "shared/object_node.h"
+#include "shared/dungeon_item_entries.h"
 #include "town/event.h"
 #include "town/person/object.h"
 #include "town/person/person_object_lifecycle_g00659.h"
@@ -77,14 +78,14 @@ s32 classify_item_check_result(s32 input) {
 }
 
 /* Classifies listed entry types by two value thresholds, returning 3 for unlisted types. */
-s32 classify_listed_entry_type(u8 *entry) {
+s32 classify_listed_entry_type(DungeonItemEntry *entry) {
     s32 type_index;
     s32 entry_value;
 
     if (town_query_item_types[0] != -1) {
         type_index = 0;
         do {
-            if (town_query_item_types[type_index] == entry[1]) {
+            if (town_query_item_types[type_index] == entry->kind) {
                 entry_value = get_item_sell_money(entry);
                 if (entry_value < town_query_sell_price_limits[0]) {
                     return 0;

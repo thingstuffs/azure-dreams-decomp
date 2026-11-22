@@ -26,7 +26,7 @@ void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head)
             extern ObjectNodeHeader *free_node_list_head;
             free_node_list_head = node->next;
         }
-        zero_words((int *)node, 0x49);
+        zero_words(node, 0x49);
 
         node->next = *list_head;
         *list_head = node;

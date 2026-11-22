@@ -35,12 +35,12 @@ extern EntityDisplayLayout D_800D1658[5];
 extern M2C_UNK entity_display_gradient_color;
 /* arg0 in bind_storage_menu_object_color_update; pointer addresses record offset 0x10 */
 extern void D_800B3E68(void *);
-extern void initialize_entity_display_parts();
+void initialize_entity_display_parts(ItemMenuDisplayLinks *links, StorageDisplayBlock *part, ItemMenuDisplayPosition *vector);
 
 /* Functions defined in this translation unit. */
 void initialize_storage_menu_parts(StorageMenuObject *owner);
 void load_entity_display_data(StorageMenuObject *object);
-void bind_storage_menu_object_color_update(void *record_values, s32 base_value);
-void initialize_entity_display_owner(u8 *owner, s32 base_value);
+void bind_storage_menu_object_color_update(StorageMenuObject *object, ObjectNodeHeader *owner);
+void initialize_entity_display_owner(StorageMenuObject *object, ObjectNodeHeader *owner);
 
 #endif

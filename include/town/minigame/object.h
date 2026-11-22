@@ -109,7 +109,7 @@ void advance_object_bounded_movement_phases(BoundedMovementObject *object, Objec
 void update_spawn_controller(struct State8081A3D8 *controller);
 
 /* apply_minigame_object_tint.c */
-void apply_minigame_object_tint(struct IndicatorChild *state, MovingPosition *selected_values, SpriteFrameState *render_state);
+void apply_minigame_object_tint(struct IndicatorChild *state, ObjectPosition *position, SpriteFrameState *render_state);
 
 /* create_gym_mesh_object.c */
 void create_gym_mesh_object(ObjectPosition *position, s32 mesh_index, void *update, struct GymState *parent);

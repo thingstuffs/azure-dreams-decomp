@@ -8,8 +8,7 @@
 #include "engine/node.h"
 
 struct ObjectPosition;
-/* Knockback travel shared declarations (G00260). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00260 - CL:dungeon/func_80E3B86C@dungeon/bank_e56c58, CL:dungeon/func_80E3B86C@dungeon/bank_e5d000, CL:dungeon/func_80E3B86C@dungeon/bank_e63000, CL:dungeon/func_80E3B86C@dungeon/bank_e69000, CL:dungeon/func_80E3B86C@dungeon/bank_e6f000, CL:dungeon/func_80E3B86C@dungeon/bank_e75000. */
+/* Samples nearby terrain and creates a copied-sprite travel effect for a reachable tile. */
 
 #include "common.h"
 #include "shared/dir_step.h"

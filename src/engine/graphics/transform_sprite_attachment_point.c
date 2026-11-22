@@ -7,12 +7,10 @@
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))
-#define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
-#define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
 
 
 /* Transforms a flipped point using local scale, rotation, and offsets, then adjusts for view angles. */
-void transform_sprite_attachment_point(SpriteFrameState *transform, void *point, void *result)
+void transform_sprite_attachment_point(SpriteFrameState *transform, void *point, SVECTOR *result)
 {
     GameWork *render_state;
     SpriteFrameState *sprite = transform;
@@ -75,17 +73,17 @@ void transform_sprite_attachment_point(SpriteFrameState *transform, void *point,
     scratch->point.vy = 0;
     RotTransSV(&scratch->point, result, &scratch->transform_flag);
 
-    transformed_x = U16_AT(((u8 *)result), 0);
+    transformed_x = (u16)result->vx;
     scratch->transformed_x = transformed_x;
     final_angle_x = render_state->view.camera_rotation.parts.camera_rotation_x;
-    transformed_y = U16_AT(((u8 *)result), 2);
+    transformed_y = (u16)result->vy;
     scratch->input.vx = -final_angle_x;
     final_angle_z = render_state->view.camera_rotation.parts.viewAngle;
     base_angle = render_state->view.view_rotation_offset.parts.view_rotation_offset_z;
     scratch->transformed_y = transformed_y;
     scratch->input.vz = base_angle - final_angle_z;
-    U16_AT(((u8 *)result), 4) += ((s32)(s16)scratch->transformed_y * rcos(scratch->input.vx)) >> 12;
-    S16_AT(((u8 *)result), 0) = ((s16)scratch->transformed_x * rcos(scratch->input.vz)) >> 12;
-    S16_AT(((u8 *)result), 2) = ((s16)scratch->transformed_x * rsin(scratch->input.vz)) >> 12;
+    result->vz += ((s32)(s16)scratch->transformed_y * rcos(scratch->input.vx)) >> 12;
+    result->vx = ((s16)scratch->transformed_x * rcos(scratch->input.vz)) >> 12;
+    result->vy = ((s16)scratch->transformed_x * rsin(scratch->input.vz)) >> 12;
     PopMatrix();
 }

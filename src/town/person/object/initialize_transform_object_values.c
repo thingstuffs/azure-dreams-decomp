@@ -5,6 +5,7 @@
 #include "town/person/object.h"
 
 extern M2C_UNK D_800C26C0[3];
+#include "town/scene/active_object_overlap_g00529.h"
 
 
 /* Initialize the object values to 0x40, apply its indexed setup, and assign its table. */

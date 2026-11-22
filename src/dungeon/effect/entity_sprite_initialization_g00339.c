@@ -32,7 +32,7 @@ void initialize_entity_sprite_effect(void *entity, EntityRec *position, SpriteFr
     state->unk_AD = 1;
     state->unk_71 = 0;
     state->unk_1C |= 0x40000000;
-    create_tracked_effect(entity, 0, (u8 *)sprite + 0x2C, (u8 *)entity + 0x4A);
+    create_tracked_effect(entity, 0, &sprite->frameTable, (u8 *)entity + 0x4A);
 }
 
 /* Create an object and initialize its components and flags from the mode and supplied values. */

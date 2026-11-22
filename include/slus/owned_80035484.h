@@ -45,7 +45,7 @@ extern void prepend_embedded_object_node(void *configPtr, void *statePtr);
 extern s32 register_node(void *objectPtr, void (*callback)(void));
 
 extern s32 draw_linked_sprite_nodes(u8 *first_node, struct ObjectPosition *first_transform, struct SpriteFrameState *first_context);
-void invoke_window_object_callback(struct S_800355EC_0 *object, void *context, void *output);
+void invoke_window_object_callback(struct S_800355EC_0 *object, struct ObjectPosition *position, struct SpriteFrameState *sprite);
 extern void init_window_object(void *callbackData);
 extern void func_80035614(void *callbackData);
 

@@ -79,6 +79,3 @@ void create_linked_object_position(void)
         D_80175D68 = object;
     }
 }
-
-/* MECHANISM: Computing object_data before the callback makes its natural live range cross the call;
-   the scheduler sinks the addiu back after the call while allocation retains the retail s2/s3 frame. */

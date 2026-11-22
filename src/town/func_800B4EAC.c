@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "town/shop/resource_entry_initialization_g01156.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "town/shop.h"
@@ -12,12 +13,12 @@ typedef struct S_800B260C_1 {
 
 
 extern void SD_Call(s32);
-extern void update_active_entry_and_notify_handlers(s8 *state, s32 input);
-extern void decrement_entry_and_notify_handlers(void *);
-extern s32 move_item_to_list(void *);
+extern void update_active_entry_and_notify_handlers(ItemMenuInputObject *state, s32 input);
+extern void decrement_entry_and_notify_handlers(ItemMenuInputObject *);
+extern s32 move_item_to_list(ItemMenuInputObject *);
 
 /* Handles menu button actions and directional cursor movement with key repeat. */
-void handle_item_move_menu_input(u8 *menu) {
+void handle_item_move_menu_input(ItemMenuInputObject *menu) {
     GameWork *pad_state = &g_game_work;
     s32 held_buttons = pad_state->buttons;
     s32 pressed_buttons;
@@ -30,7 +31,7 @@ void handle_item_move_menu_input(u8 *menu) {
         pressed_buttons = pad_state->pressed_buttons;
         if (pressed_buttons & 0x20) {
             SD_Call(AUDIO_CANCEL);
-            set_apply_record_values_callback(menu - 0x20);
+            set_apply_record_values_callback(NODE_HEADER(menu));
         } else if (pressed_buttons & 0x40) {
             select_result = move_item_to_list(menu);
             if (select_result == 0) {
@@ -51,7 +52,7 @@ void handle_item_move_menu_input(u8 *menu) {
             store_shop_display_preset(menu, 1);
         } else if ((held_buttons & 0xF000) != 0) {
             if (pressed_buttons & 0xF000) {
-                ((S_800B260C_1 *)menu)->unk_10 = 0;
+                menu->input_repeat_ticks = 0;
                 pressed_buttons = pad_state->pressed_buttons;
                 if (pressed_buttons & 0x8000) {
                     cursor_step = -5;
@@ -63,7 +64,7 @@ void handle_item_move_menu_input(u8 *menu) {
                     cursor_step = 1;
                 }
             } else {
-                repeat_ticks = ((S_800B260C_1 *)menu)->unk_10;
+                repeat_ticks = menu->input_repeat_ticks;
                 if (repeat_ticks >= 5) {
                     if (held_buttons & 0x8000) {
                         cursor_step = -5;
@@ -77,9 +78,9 @@ void handle_item_move_menu_input(u8 *menu) {
                             cursor_step = 1;
                         }
                     }
-                    ((S_800B260C_1 *)menu)->unk_10--;
+                    menu->input_repeat_ticks--;
                 } else {
-                    ((S_800B260C_1 *)menu)->unk_10 = repeat_ticks + 1;
+                    menu->input_repeat_ticks = repeat_ticks + 1;
                 }
             }
             if (cursor_step != 0) {

@@ -19,7 +19,7 @@ typedef struct BoundEntityHandlerState {
 } BoundEntityHandlerState;
 
 /* start_ground_motion_adjust.c */
-void start_ground_motion_adjust(struct BoundEntityHandlerState *state, ObjectPosition *record, void *unused_action_data);
+void start_ground_motion_adjust(struct BoundEntityHandlerState *state, ObjectPosition *record, struct SpriteFrameState *unused_action_data);
 
 /* clear_object_velocity.c */
 void clear_object_velocity(ObjectPosition *record);
@@ -28,7 +28,7 @@ void clear_object_velocity(ObjectPosition *record);
 void retire_object_on_check_or_call_handler(struct S_func_800A6C4C_0 *object, ObjectPosition *position, s32 callback_data);
 
 /* initialize_action_object_and_play_sound.c */
-void initialize_action_object_and_play_sound(s32 **record, ObjectPosition *unused, s32 setup_value);
+void initialize_action_object_and_play_sound(TownObjectRecord *record, ObjectPosition *unused, struct SpriteFrameState *sprite);
 
 /* initialize_entry_object_and_play_sound.c */
 void initialize_entry_object_and_play_sound(TownPlayerRecord *object, ObjectPosition *table_target, void *ptr2);
@@ -40,7 +40,7 @@ void initialize_global_player_object(void);
 void initialize_indexed_object_and_clear_flags(TownObjectRecord *object, ObjectPosition *setupValue, struct SpriteFrameState *initializationValue);
 
 /* initialize_indexed_object_and_lookup_value.c */
-void initialize_indexed_object_and_lookup_value(void *object, s32 lookup_arg, s32 handler_param);
+void initialize_indexed_object_and_lookup_value(TownPlayerRecord *object, ObjectPosition *position, struct SpriteFrameState *sprite);
 
 /* initialize_object_and_reset_value.c */
 void initialize_object_and_reset_value(TownObjectRecord *object, ObjectPosition *setupArgument, void *ptr2);

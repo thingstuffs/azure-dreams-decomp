@@ -10,10 +10,10 @@
 
 
 /* Initializes an object and its associated state. */
-void initialize_actor_action_state(TownObjectRecord *object, ObjectPosition *state, s32 initData) {
+void initialize_actor_action_state(TownObjectRecord *object, ObjectPosition *state, struct SpriteFrameState *sprite) {
     play_sound_by_height_range();
     state->velocity_z = 0xFFEF0000;
-    dispatch_selected_entry_if_nonzero(D_800D00B0, object, (void *)(initData));
+    dispatch_selected_entry_if_nonzero(D_800D00B0, object, sprite);
     object->unk_00 = &D_8009204C;
     object->unk_0A = 0;
 }

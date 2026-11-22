@@ -47,9 +47,11 @@ typedef struct S_800A9D00_2 {
     u16 unk_4C;
 } S_800A9D00_2;
 
+struct DungeonItemEntry;
+
 extern s16 town_query_group_ids[];
 extern s16 D_800D1064[];
-extern s32 get_item_sell_money(void *entry);
+extern s32 get_item_sell_money(struct DungeonItemEntry *entry);
 extern s8 town_query_item_types[];
 extern s32 town_query_sell_price_limits[];
 extern u8 D_8006BC7A;
@@ -75,7 +77,7 @@ s32 find_sentinel_table_value_index(s32 target_value);
 s32 test_selected_resident_flag(s32 table_index);
 s32 get_query_result_for_check_type(s32 check_type);
 s32 check_slot_threshold_or_fallback(s32 slot);
-s32 classify_listed_entry_type(u8 *entry);
+s32 classify_listed_entry_type(struct DungeonItemEntry *entry);
 s32 filter_entry_by_kind(s32 unused, u8 *entry);
 s32 get_group_record_table_entry(s32 group_id, void *record);
 void increment_query_group_count_capped_at_three(s32 entry_index);

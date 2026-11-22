@@ -11,7 +11,7 @@
 /* Computes an offset position from the linked object, flagging failed validation. */
 void place_at_linked_object_offset(OwnerFollowingSpriteBody *object, ObjectPosition *out_pos)
 {
-    void *linked_object = object->linked_object;
+    TownObjectRecord *linked_object = object->linked_object;
     ObjectPosition *base_pos = NODE_HEADER(linked_object)->position;
 
     if (check_actor_data_references_match(linked_object) == 0) {
@@ -20,7 +20,7 @@ void place_at_linked_object_offset(OwnerFollowingSpriteBody *object, ObjectPosit
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
-    out_pos->x.v = base_pos->x.v + rsin(*(s16 *)((u8 *)object->linked_object + 0x72)) * 0x140;
-    out_pos->y.v = base_pos->y.v + rcos(*(s16 *)((u8 *)object->linked_object + 0x72)) * 0x140;
+    out_pos->x.v = base_pos->x.v + rsin(object->linked_object->heading) * 0x140;
+    out_pos->y.v = base_pos->y.v + rcos(object->linked_object->heading) * 0x140;
     out_pos->z.v = base_pos->z.v + (s32)0xFFE60000;
 }

@@ -28,7 +28,6 @@
 extern u8 D_800E2418[];
 
 
-#include "dungeon/monster/u_boat.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"

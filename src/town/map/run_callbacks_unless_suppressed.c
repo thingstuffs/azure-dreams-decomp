@@ -11,7 +11,7 @@ void run_callbacks_unless_suppressed(void *object, ObjectPosition *position)
 {
     CallbackEntry *entry = map_active_callbacks;
     TownObjectRecord *body = object;
-    s8 *status_byte;
+    u8 *status_byte;
 
     if (classify_object_against_bounds(object, position) != 0) {
         status_byte = body->unk_98;

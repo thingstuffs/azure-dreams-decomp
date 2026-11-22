@@ -6,7 +6,7 @@
 #include "town/event/motion.h"
 
 /* Clear status and values, then initialize the state's data pointer and mode. */
-void initialize_target_motion_state(TownObjectRecord *state, struct ColliderView *status, ObjectPosition *values, void *unused_extra_ptr) {
+void initialize_target_motion_state(TownObjectRecord *state, struct ColliderView *status, ObjectPosition *values, struct SpriteFrameState *unused_sprite) {
     status->enabled = 0;
     values->velocity_x = 0;
     values->velocity_y = 0;

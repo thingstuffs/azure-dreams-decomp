@@ -123,12 +123,23 @@ typedef struct S_func_800AED64_6 {
     u32 unk_8D0;
 } S_func_800AED64_6;
 
-typedef struct S_func_800AED64_10 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    u16 unk_08;
-    u16 unk_0A;
-} S_func_800AED64_10;
+/* The tile-texture setter fills these fields in the order copied to a textured quad. */
+typedef struct MapTileTextureCoords {
+    u8 u0, v0;
+    u16 clut;
+    u8 u1, v1;
+    u16 tpage;
+    u8 u2, v2;
+    u8 u3, v3;
+} MapTileTextureCoords;
+
+/* The renderer copies the first two UVs with their GPU attributes as whole words. */
+typedef struct MapTilePacketCoords {
+    s32 uv0_clut;
+    s32 uv1_tpage;
+    u16 uv2;
+    u16 uv3;
+} MapTilePacketCoords;
 
 typedef struct S_func_800AED64_11 {
     s32 unk_00;

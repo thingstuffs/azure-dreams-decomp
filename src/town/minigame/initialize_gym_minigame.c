@@ -1,5 +1,6 @@
 #include "shared/object_node.h"
 #include "town/minigame.h"
+#include "town/minigame/gym.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -22,11 +23,12 @@ extern s32 D_80026F0C;
 s32 initialize_gym_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_arg2, s32 unused_arg3)
 {
     ObjectPosition position;
-    s32 object_or_slot;
-    void *parent_link;
+    ObjectNodeHeader *node;
+    s32 slot;
+    GymState *parent_link;
     SpriteFrameState *render_record;
-    void *shared_data;
-    void *object_data;
+    s32 *shared_data;
+    GymPhaseSpriteBody *object_data;
     s32 count;
     u16 *count_page;
 
@@ -38,10 +40,10 @@ s32 initialize_gym_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_arg2, s
         *(count_page + (0x35C2 / 2)) = 20;
     }
 
-    object_or_slot = (s32)allocate_flagged_object_node(2);
-    if (object_or_slot != 0) {
-        parent_link = NODE_BODY((ObjectNodeHeader *)object_or_slot);
-        ((ObjectNodeHeader *)object_or_slot)->update_callback = &D_80022F60;
+    node = allocate_flagged_object_node(2);
+    if (node != 0) {
+        parent_link = NODE_BODY(node);
+        node->update_callback = &D_80022F60;
     }
 
     position.x.v = 0x03800000;
@@ -50,13 +52,13 @@ s32 initialize_gym_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_arg2, s
     create_gym_mesh_object(&position, 0x34, rotate_gym_mesh_y, parent_link);
 
     position.z.v = (s32)0xFFE00000;
-    for (object_or_slot = 3; object_or_slot >= 0; object_or_slot--) {
-        if ((object_or_slot >> 1) != 0) {
+    for (slot = 3; slot >= 0; slot--) {
+        if ((slot >> 1) != 0) {
             position.x.v = 0x02700000;
         } else {
             position.x.v = 0x04900000;
         }
-        if (object_or_slot & 1) {
+        if (slot & 1) {
             position.y.v = 0x02E00000;
         } else {
             position.y.v = 0x03E00000;
@@ -64,29 +66,29 @@ s32 initialize_gym_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_arg2, s
         create_gym_mesh_object(&position, 0x35, (u8 *)rotate_gym_mesh_y + 0x14, parent_link);
     }
 
-    object_or_slot = (s32)allocate_flagged_object_node(0x136);
-    if (object_or_slot != 0) {
-        ((ObjectNodeHeader *)object_or_slot)->update_callback = &D_800240B0;
-        object_data = NODE_BODY((ObjectNodeHeader *)object_or_slot);
-        register_node((void *)object_or_slot, project_sprite_chain);
+    node = allocate_flagged_object_node(0x136);
+    if (node != 0) {
+        node->update_callback = &D_800240B0;
+        object_data = NODE_BODY(node);
+        register_node(node, project_sprite_chain);
 
-        render_record = ((ObjectNodeHeader *)object_or_slot)->sprite;
+        render_record = node->sprite;
         render_record->scale_y = 0x1000;
         render_record->scale_x = 0x1000;
         render_record->source = &gym_sprite_source;
         render_record->unk_04 = 0;
         render_record->frame_ticks = 0;
         render_record->color.word = 0x00808080;
-        *(void **)((u8 *)object_data + 0x4C) = shared_data;
+        object_data->shared_data = shared_data;
 
-        init_scene_node_mode_3((u8 *)object_or_slot + 0x24,
-                      ((ObjectNodeHeader *)object_or_slot)->position,
+        init_scene_node_mode_3(&object_data->scene_node,
+                      node->position,
                       &D_80026F0C);
 
-        ((IntVector3 *)(((ObjectNodeHeader *)object_or_slot)->position))->x = 0x03800000;
-        ((IntVector3 *)(((ObjectNodeHeader *)object_or_slot)->position))->y = 0x03C00000;
-        ((IntVector3 *)(((ObjectNodeHeader *)object_or_slot)->position))->z = 0;
-        *(void **)NODE_BODY((ObjectNodeHeader *)object_or_slot) = parent_link;
+        node->position->x.v = 0x03800000;
+        node->position->y.v = 0x03C00000;
+        node->position->z.v = 0;
+        object_data->controller = parent_link;
     }
 
     return 0;

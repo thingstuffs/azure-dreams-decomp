@@ -2,8 +2,10 @@
 #ifndef TOWN_MENU_H
 #define TOWN_MENU_H
 struct SpriteFrameState;
+struct Rec_D_80100B70;
 
 #include "common.h"
+struct DoorTransitionEffect;
 
 
 /* draw_vram_glyph_text.c */
@@ -60,12 +62,12 @@ void initialize_menu_overlay_objects(struct CardDevSlotDetails *panel, struct Ob
 void initialize_randomized_scale_timer(TownObjectRecord *object, ObjectPosition *unused_position, SpriteFrameState *unused_sprite);
 void update_opposing_scale_effect(TownObjectRecord *state, ObjectPosition *position, SpriteFrameState *scale, s32 unused_3);
 u8 is_catalog_entry_available(s32 index);
-void no_op_callback_a(void *unused_ptr, s32 unused_state_id, s32 unused_state_arg);
+void no_op_callback_a(struct DoorTransitionEffect *unused_effect, struct ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite);
 s32 store_target_record_value_and_kind(void *unused_arg0, void *unused_arg1, void *unused_arg2, void *unused_arg3);
 
 void advance_effect_ramp_and_spawn_pair(void *updateState, s32 unused1, s32 unused2, void *accumulatorState);
-void draw_random_tinted_quad_pair(u8 *effect);
-void draw_segmented_menu_ring(s32 center_source, s32 radius_a, s32 radius_b, s16 segment_arg);
+void draw_random_tinted_quad_pair(struct DoorTransitionEffect *effect);
+void draw_segmented_menu_ring(struct ObjectPosition *center_source, s32 radius_a, s32 radius_b, s16 segment_arg);
 void initialize_catalog_entry_packets(void);
 void initialize_catalog_glyph_cache(void);
 void layout_catalog_entry_grid(void);

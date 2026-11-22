@@ -16,12 +16,6 @@ s32 sprite_command_depth_scale = 0;
 
 /* set to 0 at entry and again on the "list exhausted" exit path */
 
-/* target of D_80083160[0]; only offset 0x8D0 (u32) is read here */
-typedef struct {
-    u8 pad[0x8D0];
-    u32 unk8D0;
-} S_80045340_Target;
-
 /* Scratchpad vertex y offset word at fixed address 0x1F80013C (SpriteQuadScratch.vertex_y_offset), reached by casting the
  * scratchpad base (0x1F800000) to a padded struct so gcc folds the whole address into
  * a single store immediate (lui $at,hi; sw $0,lo($at)) instead of materializing it. */
@@ -33,7 +27,7 @@ typedef struct {
 /* Processes unflagged entries across groups until the stop condition or end of the chain. */
 
 /* Projects unhidden sprite groups until the chain ends or the frame packet arena overflows. */
-s32 project_sprite_chain(void *group_data, s32 context, SpriteFrameState *entry, s32 unused)
+s32 project_sprite_chain(void *group_data, ObjectPosition *position, SpriteFrameState *entry, s32 unused)
 {
     ObjectNodeHeader *current_data = group_data;
     SpriteFrameState *current_entry = entry;
@@ -44,8 +38,8 @@ s32 project_sprite_chain(void *group_data, s32 context, SpriteFrameState *entry,
 
     for (;;) {
         if (!(current_entry->flags & 0x80)) {
-            project_sprite_commands(current_data, (void *)context, (Entry *)current_entry, current_entry->depth_bias);
-            if (is_frame_packet_arena_overflowed(((S_80045340_Target *)g_game_work.draw_buffer)->unk8D0)) {
+            project_sprite_commands(current_data, position, current_entry, current_entry->depth_bias);
+            if (is_frame_packet_arena_overflowed(((GpuContext *)g_game_work.draw_buffer)->packetCursor)) {
                 return 0;
             }
         }
@@ -56,7 +50,7 @@ s32 project_sprite_chain(void *group_data, s32 context, SpriteFrameState *entry,
             return 0;
         }
         current_data = next_group + 1;
-        context = (s32)next_group->position;
+        position = next_group->position;
         current_entry = next_group->sprite;
     }
 }
@@ -132,13 +126,13 @@ typedef struct ScratchOt {
     s32 depth_offset;
 } ScratchOt;
 
-typedef s32 (*CommandFn)(void *, void *, Entry *, Command *, Packet *);
+typedef s32 (*CommandFn)(void *, ObjectPosition *, SpriteFrameState *, Command *, Packet *);
 
 typedef struct { u8 pad0[0xC0]; u32 depth; } ScratchDepth;
 
 
 /* Project sprite commands and link visible textured quads into the ordering table. */
-void project_sprite_commands(void *context, void *position, Entry *entry, s16 depth_bias)
+void project_sprite_commands(void *context, ObjectPosition *position, SpriteFrameState *entry, s16 depth_bias)
 {
     SpriteQuadScratch *scratch = (SpriteQuadScratch *)0x1F800000;
     GameWork *render_state = &g_game_work;
@@ -170,9 +164,9 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
     draw_context = render_state->draw_buffer;
     scratch->ordering_table = (u32 *)&draw_context->orderTag;
 
-    scratch->position.vx = *(u16 *)((u8 *)position + 2);
-    scratch->position.vy = *(u16 *)((u8 *)position + 6);
-    scratch->position.vz = *(u16 *)((u8 *)position + 0xA);
+    scratch->position.vx = position->x.w.i;
+    scratch->position.vy = position->y.w.i;
+    scratch->position.vz = position->z.w.i;
     packet = draw_context->packetCursor;
 
     scratch->sort_depth = RotTransPers(&scratch->position, (s32 *)&scratch->screen_origin, &scratch->depth_cue,
@@ -206,10 +200,10 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
             rotation_y = entry->angle_y - 0x100;
             rotation_y += ((u16)scratch->input.vz + 0x100) & 0x1FF;
             scratch->angles.vy = rotation_y;
-            sprite_extent = entry->sprite_w;
+            sprite_extent = entry->offset_x;
             scratch->local_matrix.t[0] = sprite_extent;
             scratch->extent_x = sprite_extent;
-            sprite_extent = entry->sprite_h;
+            sprite_extent = entry->offset_y;
             scratch->local_matrix.t[1] = sprite_extent;
             scratch->extent_y = sprite_extent;
 
@@ -225,7 +219,7 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
         SetTransMatrix(&scratch->matrix);
         SetRotMatrix(&scratch->matrix);
 
-        command = entry->commands;
+        command = entry->source;
         scratch->sprite_flags = entry->flags;
 
         do {
@@ -322,14 +316,14 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
                     scratch->uv_v_start <<= 8;
 
                     if (scratch->sprite_flags & 0x100) {
-                        packet->v0 = entry->texture_base;
+                        packet->v0 = entry->clut;
                     } else {
-                        packet->v0 = entry->texture_base + command->texture_offset;
+                        packet->v0 = entry->clut + command->texture_offset;
                     }
                     packet->u0 = (u16)scratch->uv_v_start + (u16)scratch->uv_u_start;
                     packet->u1 = (u16)scratch->uv_v_start + (u16)scratch->uv_u_extent;
-                    if (entry->texture_bias != 0) {
-                        packet->attr = entry->texture_bias + (command->attr & 0xFF9F);
+                    if (entry->tpage_abr != 0) {
+                        packet->attr = entry->tpage_abr + (command->attr & 0xFF9F);
                     } else {
                         packet->attr = command->attr;
                     }
@@ -362,7 +356,7 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
                         u32 entry_flags;
                         u32 packet_mode;
                         command_mode = command->mode;
-                        entry->packet.bytes.mode = command_mode;
+                        entry->color.c.code = command_mode;
                         entry_flags = scratch->sprite_flags;
                         if (entry_flags & 8) {
                             if (entry_flags & 4) {
@@ -370,11 +364,11 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
                             } else {
                                 packet_mode = command_mode & 0xFD;
                             }
-                            entry->packet.bytes.mode = packet_mode;
+                            entry->color.c.code = packet_mode;
                         }
                     }
 
-                    packet->packet_word = entry->packet.word;
+                    packet->packet_word = entry->color.word;
                     {
                         s32 depth_delta;
                         depth_delta = -((u32)(sprite_command_depth_scale * command->y) >> 14);

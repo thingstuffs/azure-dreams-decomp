@@ -1,3 +1,4 @@
+#include "frontend/card/save_image.h"
 #include "common.h"
 #include "frontend/libcard/message.h"
 #include "sdk/libgpu.h"
@@ -8,22 +9,18 @@ typedef struct MainDescriptor {
     u32 rest;
 } __attribute__((packed)) MainDescriptor;
 
-typedef struct MainRecord {
-    u32 words[8];
-} __attribute__((packed)) MainRecord;
-
 extern MainDescriptor D_800200B8;
-extern MainRecord D_80027E78[];
+extern CardSaveIconPalette D_80027E78[];
 
 /* Copy the selected record into the destination and process three descriptor entries. */
-void card_boot_store_save_icon_clut_and_frames(void *dest, s32 record_index)
+void card_boot_store_save_icon_clut_and_frames(CardSaveImage *save, s32 record_index)
 {
     MainDescriptor descriptor;
     u32 *entry;
     s32 entry_index;
 
     descriptor = D_800200B8;
-    *(MainRecord *)((u8 *)dest + 0x60) = D_80027E78[record_index];
+    save->icon_clut = D_80027E78[record_index];
     entry_index = 0;
     entry = (u32 *)(unsigned long)0x80010080;
     descriptor.second += record_index * 0x10;

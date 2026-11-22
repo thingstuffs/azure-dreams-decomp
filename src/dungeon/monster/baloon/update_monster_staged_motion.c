@@ -258,7 +258,7 @@ void update_monster_staged_motion(ActorRecord *body, ObjectPosition *motion, Spr
         }
         if (actor->flags14 & 0x4000) {
             if (!(actor->flags14 & 0x20000000)) {
-                announce_familiar_defeat((void *)actor);
+                announce_familiar_defeat(actor);
             }
         }
         break;

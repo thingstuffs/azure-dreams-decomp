@@ -94,10 +94,10 @@ void initialize_settings_screen(void) {
         index = 2;
         (*(s16 *)((u8 *)settings + 0xE)) = (s16) D_80013180;
         (*(s16 *)((u8 *)settings + 0x10)) = (s16) D_80013181;
-        settings->blue = (s16) D_80013182;
+        settings->color_channels[2] = (s16) D_80013182;
         do {
-            if (*(s16 *)((u8 *)settings + index * 2 + 14) >= 0xFF) {
-                *(s16 *)((u8 *)settings + index * 2 + 14) = 0x100;
+            if (settings->color_channels[index] >= 0xFF) {
+                settings->color_channels[index] = 0x100;
             }
             index -= 1;
         } while (index >= 0);
@@ -120,42 +120,42 @@ void initialize_settings_screen(void) {
     create_settings_sprite_object(&frame.fields.position, set_output, &card_selection_display_data, settings);
     frame.fields.label.y = 0xD0;
     frame.fields.label.style = 1;
-    frame.fields.label.extra = 0;
+    frame.fields.label.flags = 0;
     frame.fields.label.font = 0x7C80;
     frame.fields.label.color = 0x808080;
     index = 0x1A;
     frame.fields.label.owner = settings;
-    frame.fields.label.flags = 0;
+    frame.fields.label.state = 0;
     do {
         frame.fields.label.x = index * 8 + 48;
         footer_text = D_8008B2FC[index];
-        frame.fields.label.order = index * 2 + 30;
+        frame.fields.label.timer = index * 2 + 30;
         frame.fields.label.text = footer_text;
-        create_settings_color_effect(cycle_owner_effect_color, &frame.fields.label.flags);
+        create_settings_color_effect(cycle_owner_effect_color, &frame.fields.label);
         index -= 1;
     } while (index >= 0);
     frame.fields.label.x = 0x74;
     frame.fields.label.y = 0xC;
     frame.fields.label.text = D_8008B2B0;
-    create_settings_color_effect(remove_effect_with_marked_owner, &frame.fields.label.flags);
+    create_settings_color_effect(remove_effect_with_marked_owner, &frame.fields.label);
     index = 0;
     frame.fields.label.x = 0x20;
     do {
         frame.fields.label.y = index * 0xC + 0x20;
         top_text = (&D_8008B2B4)[index];
         frame.fields.label.text = top_text;
-        create_settings_color_effect(remove_effect_with_marked_owner, &frame.fields.label.flags);
+        create_settings_color_effect(remove_effect_with_marked_owner, &frame.fields.label);
         index += 1;
     } while (index < 2);
     item_index = 0;
     frame.fields.label.y -= 6;
     do {
-        frame.fields.label.value = 0;
-        frame.fields.label.index = item_index;
+        frame.fields.label.selector = 0;
+        frame.fields.label.active = item_index;
         frame.fields.label.x = item_index * 0x40 + 0xBE;
         choice_text = (&D_8008B2BC)[item_index];
         frame.fields.label.text = choice_text;
-        create_settings_color_effect(update_settings_effect_color, &frame.fields.label.flags);
+        create_settings_color_effect(update_settings_effect_color, &frame.fields.label);
         item_index += 1;
     } while (item_index < 2);
     frame.fields.label.x = 0x20;
@@ -164,7 +164,7 @@ void initialize_settings_screen(void) {
         frame.fields.label.y = item_index * 0xC + 0x40;
         middle_text = D_8008B2C4[item_index];
         frame.fields.label.text = middle_text;
-        create_settings_color_effect(remove_effect_with_marked_owner, &frame.fields.label.flags);
+        create_settings_color_effect(remove_effect_with_marked_owner, &frame.fields.label);
         item_index -= 1;
     } while (item_index >= 0);
     item_index = 1;
@@ -172,7 +172,7 @@ void initialize_settings_screen(void) {
         frame.fields.label.x = item_index * 0x40 + 0xBE;
         choice_heading = D_8008B2D4[item_index];
         frame.fields.label.text = choice_heading;
-        create_settings_color_effect(remove_effect_with_marked_owner, &frame.fields.label.flags);
+        create_settings_color_effect(remove_effect_with_marked_owner, &frame.fields.label);
         item_index -= 1;
     } while (item_index >= 0);
     frame.fields.label.x = 0x20;
@@ -181,7 +181,7 @@ void initialize_settings_screen(void) {
         frame.fields.label.y = item_index * 0xC + 0x78;
         bottom_text = (&D_8008B2DC)[item_index];
         frame.fields.label.text = bottom_text;
-        create_settings_color_effect(remove_effect_with_marked_owner, &frame.fields.label.flags);
+        create_settings_color_effect(remove_effect_with_marked_owner, &frame.fields.label);
         item_index += 1;
     } while (item_index < 2);
     frame.fields.label.x = 0xB2;
@@ -190,7 +190,7 @@ void initialize_settings_screen(void) {
         frame.fields.label.y = item_index * 0xC + 0x7E;
         channel_text = D_8008B2E4[item_index];
         frame.fields.label.text = channel_text;
-        create_settings_color_effect(remove_effect_with_marked_owner, &frame.fields.label.flags);
+        create_settings_color_effect(remove_effect_with_marked_owner, &frame.fields.label);
         item_index -= 1;
     } while (item_index >= 0);
     frame.fields.panel.x = 0x1C;
@@ -203,18 +203,18 @@ void initialize_settings_screen(void) {
     frame.fields.panel.owner = settings;
     frame.fields.panel.height = 0x1C;
     frame.fields.panel.y = 0x1C;
-    create_settings_value_entry(remove_value_entry_with_marked_source, &frame.fields.panel.flags);
+    create_settings_value_entry(remove_value_entry_with_marked_source, &frame.fields.panel);
     frame.fields.panel.height = 0x34;
     frame.fields.panel.y = 0x3C;
-    create_settings_value_entry(remove_value_entry_with_marked_source, &frame.fields.panel.flags);
+    create_settings_value_entry(remove_value_entry_with_marked_source, &frame.fields.panel);
     frame.fields.panel.height = 0x2E;
     frame.fields.panel.y = 0x74;
-    create_settings_value_entry(remove_value_entry_with_marked_source, &frame.fields.panel.flags);
+    create_settings_value_entry(remove_value_entry_with_marked_source, &frame.fields.panel);
     frame.fields.panel.x = 0x20;
     frame.fields.panel.y = 0xA6;
     frame.fields.panel.width = 0x40;
     frame.fields.panel.height = 0x18;
-    create_settings_value_entry(update_packed_color_entry, &frame.fields.panel.flags);
+    create_settings_value_entry(update_packed_color_entry, &frame.fields.panel);
     frame.fields.panel.x = 0xCA;
     frame.fields.panel.height = 8;
     frame.fields.panel.width = 0x40;
@@ -223,7 +223,7 @@ void initialize_settings_screen(void) {
     do {
         frame.fields.panel.color = 0xFF << (frame.fields.panel.index * 8);
         frame.fields.panel.y = (frame.fields.panel.index * 0xC) + 0x7E;
-        create_settings_value_entry(update_color_channel_entry, &frame.fields.panel.flags);
+        create_settings_value_entry(update_color_channel_entry, &frame.fields.panel);
         next_channel = frame.fields.panel.index - 1;
         frame.fields.panel.index = next_channel;
     } while (next_channel >= 0);
@@ -234,7 +234,7 @@ void initialize_settings_screen(void) {
     frame.fields.panel.index = 2;
     do {
         frame.fields.panel.y = ((frame.fields.panel.index + 1) * 0xC) + 0x40;
-        create_settings_value_entry(update_volume_slider_entry, &frame.fields.panel.flags);
+        create_settings_value_entry(update_volume_slider_entry, &frame.fields.panel);
         next_slider = frame.fields.panel.index - 1;
         frame.fields.panel.index = next_slider;
     } while (next_slider >= 0);

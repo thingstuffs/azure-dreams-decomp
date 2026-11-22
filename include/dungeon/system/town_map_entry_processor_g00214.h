@@ -1,7 +1,6 @@
 #ifndef DUNGEON_SYSTEM_TOWN_MAP_ENTRY_PROCESSOR_G00214_H
 #define DUNGEON_SYSTEM_TOWN_MAP_ENTRY_PROCESSOR_G00214_H
 /* Town map entry processor shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:dungeon/bank_d0a0:800CFCA8. */
 
 #include "common.h"
 #include "shared/object_flags.h"

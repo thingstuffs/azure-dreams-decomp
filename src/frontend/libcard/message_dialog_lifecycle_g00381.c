@@ -47,17 +47,17 @@ check:
 }
 
 /* Sets record fields and processes the selected table entry. */
-void card_boot_bind_message_dialog_record(CardMessageDialogBody *record, ObjectNodeHeader *value_14, s32 entry_index, s32 value_0c, void *value_20) {
+void card_boot_bind_message_dialog_record(CardMessageDialogBody *record, ObjectNodeHeader *value_14, s32 entry_index, s32 value_0c, s32 *result) {
     record->owner = value_14;
-    record->result = value_20;
+    record->result = result;
     record->entry_index = entry_index;
     record->mode = value_0c;
     card_boot_measure_five_line_message(&card_menu_entry_values[entry_index]);
 }
 
 /* Sets record fields, processes its embedded data, and updates the record. */
-void card_boot_initialize_message_dialog_layout(CardMessageDialogBody *record, ObjectNodeHeader *value_14, s32 entry_index, s32 value_0c, void *value_20) {
-    card_boot_bind_message_dialog_record(record, value_14, entry_index, value_0c, value_20);
+void card_boot_initialize_message_dialog_layout(CardMessageDialogBody *record, ObjectNodeHeader *value_14, s32 entry_index, s32 value_0c, s32 *result) {
+    card_boot_bind_message_dialog_record(record, value_14, entry_index, value_0c, result);
     card_boot_initialize_message_render_templates(record->display_data, &record->frame_block, &record->frame_vector);
     card_boot_init_dialog_packets(record);
 }
@@ -87,7 +87,7 @@ static __inline__ void set_handler(ObjectNodeHeader *base) {
 }
 
 /* Creates or resets the entity, initializes its nodes and record, and installs its handler. */
-u8 *card_boot_create_or_reset_message_dialog(ObjectNodeHeader *value_14, s32 entry_index, s32 value_0c, void *value_20) {
+ObjectNodeHeader *card_boot_create_or_reset_message_dialog(ObjectNodeHeader *value_14, s32 entry_index, s32 value_0c, s32 *result) {
     ObjectNodeHeader *base;
     CardMessageDialogBody *context;
 
@@ -104,7 +104,7 @@ u8 *card_boot_create_or_reset_message_dialog(ObjectNodeHeader *value_14, s32 ent
     card_boot_initialize_dialog_draw_nodes(context, 7);
     base->sprite = context->display_data;
     context->chain = card_boot_link_message_display_entries(context->entries);
-    card_boot_initialize_message_dialog_layout(context, value_14, entry_index, value_0c, value_20);
+    card_boot_initialize_message_dialog_layout(context, value_14, entry_index, value_0c, result);
     set_handler(base);
     return base;
 }

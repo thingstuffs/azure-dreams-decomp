@@ -1,41 +1,41 @@
+#include "frontend/card/choice_panel.h"
 #include "common.h"
 #include "frontend/card.h"
-#include "frontend/card/choice_panel.h"
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
 
 
 /* Updates two object slots using the selected slot mapping and values. */
-void card_dev_update_slot_pair_rows(u8 *object) {
+void card_dev_update_slot_pair_rows(CardDevSlotMenu *panel) {
     s32 slot;
     u8 (*slot_map)[2];
     s32 *values;
     u8 mapped_slot;
-    s32 *slot_data;
+    CardDevSlotEntry *entry;
     s32 *value_dst;
     s32 mapped_value;
-    s32 **slot_entries;
+    CardDevSlotEntry **slot_entries;
     s32 map_index;
 
     slot = 0;
     slot_map = D_80408D40;
     values = card_dev_paired_choice_data.values;
     do {
-        mapped_slot = slot_map[*(s32 *)(object + 0x24)][slot];
-        slot_data = *(s32 **)(*(u8 **)(object + 0x60) + mapped_slot * 4 + 8);
-        if (*slot_data != 0) {
-            initialize_scaled_entry_cursor_8004DDBC(object + (mapped_slot * 0xC + 4),
-                             card_dev_paired_choice_data.entries[slot], slot_data);
+        mapped_slot = slot_map[panel->selection][slot];
+        entry = panel->entry_table[mapped_slot + 2];
+        if (entry->display.payload.word != 0) {
+            initialize_scaled_entry_cursor_8004DDBC(&panel->cursors[mapped_slot],
+                          card_dev_paired_choice_data.entries[slot], &entry->display.payload.word);
         }
-        mapped_slot = slot_map[*(s32 *)(object + 0x24)][slot];
-        *(*(s32 **)((u8 *)*(s32 **)((slot * 4) + *(s32 *)(object + 0x60)) + 4)) =
+        mapped_slot = slot_map[panel->selection][slot];
+        panel->entry_table[slot]->display.block->words[0] =
             values[mapped_slot];
 
-        slot_entries = (s32 **)((slot * 4) + *(s32 *)(object + 0x60));
-        map_index = *(s32 *)(object + 0x24);
+        slot_entries = &panel->entry_table[slot];
+        map_index = panel->selection;
         mapped_slot = slot_map[map_index][slot];
-        value_dst = *(s32 * *)((u8 *)slot_entries[2] + 4);
-        mapped_value = *&values[mapped_slot];
+        value_dst = &slot_entries[2]->display.block->words[0];
+        mapped_value = values[mapped_slot];
         *value_dst = mapped_value;
         slot++;
     } while (slot < 2);

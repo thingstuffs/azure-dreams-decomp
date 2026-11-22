@@ -5,7 +5,6 @@
 #include "dungeon/monster/nyuel/spawn_nyuel_slot_d.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
-#include "dungeon/monster/nyuel/spawn_nyuel_slot_d.h"
 #include "dungeon/actor.h"
 
 /* Creates a Nyuel actor at the supplied tile and height, then initializes mode flags, status, and

@@ -20,7 +20,10 @@ extern u8 barong_action_resume_address[];
 #include "dungeon/data.h"
 extern u8 D_8017558C[];
 
-/* Updates timed movement, returns the actor to its tile, and resets its action state. */
+/*
+ * Runs Barong's hit recoil: knocks it back along its facing, glides it to its tile, then releases
+ * the pending display owner.
+ */
 void update_barong_recoil(ActorRecord *action_arg, ObjectPosition *motion_arg, SpriteFrameState *sprite_arg, ActorRecord *entity_arg)
 {
     ActorRecord *action = action_arg;
@@ -132,8 +135,3 @@ void update_barong_recoil(ActorRecord *action_arg, ObjectPosition *motion_arg, S
         return;
     }
 }
-
-/* MECHANISM: Ordered $s0-$s3 argument locals reproduce the retail save/move prologue.
-   Duplicated state increments keep the predecessor-local lbu alive, while scoped
-   coord/current temporaries expose the second lh to fill the mflo hazard slot.
-   The paired +1/-1 shapes cancel the displacement cascade at 2.8.1-G0. */

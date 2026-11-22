@@ -73,5 +73,3 @@ void advance_path_motion(ActorRecord *body, ObjectPosition *position, SpriteFram
         }
     }
 }
-
-/* MECHANISM: Byte-table typing fixes the indexed lbu sequence. */

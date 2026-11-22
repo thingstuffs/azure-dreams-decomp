@@ -12,7 +12,7 @@
 /* Leading work words of an item-menu object allocated by create_item_menu_object.
  * start_item_menu_object_processing passes them to the menu reset and child-release handlers. */
 typedef struct ItemMenuParameters {
-    int field0; /* primary menu object header passed to the retirement/reset handler */
+    struct ItemMenuObjectNode *field0; /* primary menu object header passed to the retirement/reset handler */
     ObjectNodeHeader *field4; /* display controller header scheduled for linked-entry release, or zero */
     int field8; /* auxiliary display object whose update callback is replaced for completion */
 } ItemMenuParameters;
@@ -63,8 +63,8 @@ typedef struct ItemMenuPart {
 /* Leading words of the item-menu state that owns an item-menu object (the payload of the node
  * create_item_menu_object allocates; ItemMenuParameters views the same three leading words). */
 typedef struct ItemMenuState {
-    struct ObjectNodeHeader *menu_object; /* item-menu object node from create_item_menu_child_object */
-    void *display_controller; /* selected-entry display controller, or null */
+    struct ItemMenuObjectNode *menu_object; /* item-menu object node from create_item_menu_child_object */
+    ObjectNodeHeader *display_controller; /* selected-entry display controller, or null */
     void *dual_buffer_object; /* create_floating_number_widget result */
     unsigned char pad_0C[0x4];
     int page; /* current page of ten entries */
@@ -93,12 +93,21 @@ typedef struct ItemMenuDisplayBlock {
     unsigned char mode;
 } ItemMenuDisplayBlock;
 
+/* Position linked by the item menu and both storage menus. All three constructors
+ * copy three aligned words and then set the signed low half of the last word. */
+/* UNION: initialize_storage_display_links, initialize_entity_display_parts and initialize_item_menu_linked_blocks copy three template words and set the signed low half of the third word. Both storage factories register their embedded links as the node sprite. draw_tinted_node_sprites loads the same word at 0x8004C41C and uses its signed low half at 0x8004C444 in the Y translation. */
+typedef union StorageVector {
+    DisplayPositionWords words;
+    struct { u8 pad_00[8]; s16 offset_y; } position;
+} StorageVector;
+typedef StorageVector ItemMenuDisplayPosition;
+
 /* Link block the item-menu object's node addresses as its sprite part (node->sprite); it points at
  * the object's display block and display position (initialize_item_menu_linked_blocks). */
 typedef struct ItemMenuDisplayLinks {
     int unk_00;
     ItemMenuDisplayBlock *display;
-    DisplayPositionWords *position;
+    ItemMenuDisplayPosition *position;
 } ItemMenuDisplayLinks;
 
 /* Item-menu object: the payload of the node create_item_menu_child_object allocates. */
@@ -113,7 +122,7 @@ typedef struct ItemMenuObject {
     /* 0x1C */ FrameState cursor; /* selection cursor colour stream */
     /* 0x28 */ unsigned char panel[0x48]; /* two-colour panel packet (initialize_item_menu_panel_rectangle) */
     /* 0x70 */ ItemMenuDisplayBlock display;
-    /* 0x80 */ DisplayPositionWords display_position;
+    /* 0x80 */ ItemMenuDisplayPosition display_position;
     /* 0x8C */ DisplayPositionWords part_vector; /* shared by all parts (ItemMenuPart.vector) */
     /* 0x98 */ ItemMenuDisplayLinks links; /* node->sprite */
     /* 0xA4 */ ItemMenuPart *chain; /* head of the part draw chain */

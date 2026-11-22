@@ -63,7 +63,10 @@ struct SpriteFrameState;
 extern void spend_actor_mp(Entity *, s32);
 
 
-/* Updates timed movement toward the actor's tile and finishes the action when its countdown expires. */
+/*
+ * Moves Blume to its target tile over a timed arc and, when the action timer expires, spends its
+ * MP, updates its facing and checks for a floor trap.
+ */
 void update_timed_tile_approach(ActorRecord *body, Motion *motion, SpriteFrameState *sprite, Entity *entity)
 {
     s32 direction_work[2];
@@ -169,6 +172,3 @@ end_state:
         on_actor_status_updated(entity);
     }
 }
-
-/* MECHANISM: The four live arguments plus direction_work[2] produce retail's 0x38 frame and s0/s2/s3/s1
-   roles. */

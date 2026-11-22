@@ -17,9 +17,11 @@ typedef struct ColliderView {
     /* 0x04 */ struct ColliderView *linked;
     /* 0x08 */ ObjectPosition *position;
     /* 0x0C */ CollisionBounds *bounds;
-    /* 0x10 */ unsigned char pad_10[5];
+    /* 0x10 */ struct ColliderView *selected_entry;
+    /* 0x14 */ unsigned char mode;
     /* 0x15 */ unsigned char enabled;
-    /* 0x16 */ unsigned char pad_16[6];
+    /* 0x16 */ unsigned char pad_16[2];
+    /* 0x18 */ int selected_face;
     /* 0x1C */ struct ColliderView *slots[6];
     /* 0x34 */ unsigned char response_flags[6];
     /* 0x3A */ unsigned char pending_flags[6];

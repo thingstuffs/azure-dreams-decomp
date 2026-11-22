@@ -2,32 +2,24 @@
 #include "m2c_compat.h"
 #include "town/shop/state.h"
 
-typedef struct S_800AD914_0 {
-    u8 pad_00[0x1];
-    u8 unk_01;
-} S_800AD914_0;   /* arg0 in count_equipped_entries */
-
-typedef struct S_800AD914_1 {
-    u8 pad_00[0x2];
-    u8 unk_02;
-} S_800AD914_1;
+#include "shared/dungeon_item_entries.h"
 
 /* Count entries with flag 0x20, excluding IDs 0x17 and 0x18. */
-s32 count_equipped_entries(void *entries) {
+s32 count_equipped_entries(DungeonItemEntry *entries) {
     s32 count;
-    u8 *entry_id_ptr;
+    DungeonItemEntry *entry;
     u8 entry_id;
 
-    entry_id = ((S_800AD914_0 *)entries)->unk_01;
+    entry_id = entries->kind;
     count = 0;
     if (entry_id != 0) {
-        entry_id_ptr = entries + 1;
+        entry = entries;
         do {
-            if ((((S_800AD914_1 *)entry_id_ptr)->unk_02 & 0x20) && ((u32) (entry_id - 0x17) >= 2U)) {
+            if ((entry->unk_03 & 0x20) && ((u32) (entry_id - 0x17) >= 2U)) {
                 count += 1;
             }
-            entry_id_ptr += 4;
-            entry_id = *entry_id_ptr;
+            entry++;
+            entry_id = entry->kind;
         } while (entry_id != 0);
     }
     return count;

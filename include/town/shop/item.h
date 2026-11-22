@@ -13,14 +13,15 @@ struct ItemMenuObject;
 struct ItemMenuPart;
 struct ItemMenuTransition;
 struct S_800AEBC4_4;
-struct S_800AFF00_0;
 struct S_800AFF00_4;
-struct S_800B0418_0;
 struct S_800B0700_0;
 struct ShopWindow;
 
+struct DungeonItemEntry;
+void *allocate_and_initialize_shop_object(struct DungeonItemEntry *item);
+
 /* allocate_paged_shop_item_list.c */
-void *allocate_paged_shop_item_list(s32 parent, s32 selected_index, s32 item_count, s32 page_index, s32 last_page, s32 item_base, s32 display_mode);
+void *allocate_paged_shop_item_list(ObjectNodeHeader *parent, s32 selected_index, s32 item_count, s32 page_index, s32 last_page, struct DungeonItemEntry *item_base, s32 display_mode);
 
 /* change_item_menu_selection.c */
 void change_item_menu_selection(ObjectNodeHeader *object, s32 value_arg, s32 reset_value);
@@ -42,16 +43,16 @@ s32 func_8009F6E4(void);
 s32 get_item_chk(void);
 
 /* get_item_menu_table_entry.c */
-s32 get_item_menu_table_entry(s32 index);
+char *get_item_menu_table_entry(s32 index);
 
 /* initialize_item_menu_linked_blocks.c */
-void initialize_item_menu_linked_blocks(ItemMenuDisplayLinks *state, struct S_800AFF00_0 *primary, DisplayPositionWords *secondary);
+void initialize_item_menu_linked_blocks(ItemMenuDisplayLinks *state, ItemMenuDisplayBlock *primary, ItemMenuDisplayPosition *secondary);
 
 /* init_item_menu_list_position.c */
 void init_item_menu_list_position(ItemMenuTransition *vectors, struct S_800AEBC4_4 *config, s32 *position_data, s32 *secondary_data, s32 x, s32 y);
 
 /* initialize_item_menu_list_display.c */
-void initialize_item_menu_list_display(s32 objectData, s32 owner, s32 listConfig, s32 entryCount, s32 x, s32 y, s32 entryIds);
+void initialize_item_menu_list_display(ItemMenuTransition *objectData, ObjectNodeHeader *owner, s32 listConfig, s32 entryCount, s32 x, s32 y, u8 *entryIds);
 
 /* initialize_item_menu_list_entries.c */
 void initialize_item_menu_list_entries(struct ItemMenuTransition *list);
@@ -60,13 +61,13 @@ void initialize_item_menu_list_entries(struct ItemMenuTransition *list);
 void initialize_item_menu_panel_rectangle(void *record);
 
 /* initialize_item_menu_record_fields.c */
-void initialize_item_menu_record_fields(void *record, s32 value_3c, s32 value_34, s32 value_28, s32 value_38);
+void initialize_item_menu_record_fields(ItemMenuTransition *record, ObjectNodeHeader *owner, s32 value_34, s32 value_28, u8 *entry_ids);
 
 /* initialize_item_menu_scene_value.c */
 s32 initialize_item_menu_scene_value(s32 value);
 
 /* invoke_item_menu_object_callback.c */
-s32 invoke_item_menu_object_callback(u8 *object, s32 callback_arg);
+s32 invoke_item_menu_object_callback(ObjectNodeHeader *object, s32 callback_arg);
 
 /* item_menu_no_op.c */
 void item_menu_no_op(struct ItemMenuPart **parts, struct ItemMenuObject *object);
@@ -102,7 +103,7 @@ void populate_shop_item_rows(struct ShopWindow *ctx);
 void process_item_menu_selected_entry(ItemMenuObject *record);
 
 /* release_item_menu_record_child.c */
-void release_item_menu_record_child(void *record_payload);
+void release_item_menu_record_child(ItemMenuState *state);
 
 /* schedule_item_menu_child_release.c */
 void schedule_item_menu_child_release(ObjectNodeHeader *object);
@@ -117,7 +118,7 @@ void set_item_menu_release_callback(ItemMenuStateNode *owner);
 void set_item_menu_entry_coordinates(ItemMenuObject *object);
 
 /* set_item_menu_record_active.c */
-void set_item_menu_record_active(struct S_800B0418_0 *object);
+void set_item_menu_record_active(ItemMenuObjectNode *object);
 
 /* set_item_menu_secondary_handler.c */
 void set_item_menu_secondary_handler(ItemMenuStateNode *owner);
@@ -130,7 +131,7 @@ void start_item_menu_cursor(ItemMenuObject *object);
 
 /* update_item_menu_record_g01150.c */
 void refresh_item_menu_page(ItemMenuObject *record);
-void *open_selected_item_display(ItemMenuObject *entry);
+ObjectNodeHeader *open_selected_item_display(ItemMenuObject *entry);
 void retry_open_item_display(ItemMenuObject *record_data);
 void update_item_menu_selection(ItemMenuObject *obj);
 void update_item_menu_frame(ItemMenuObject *entity);

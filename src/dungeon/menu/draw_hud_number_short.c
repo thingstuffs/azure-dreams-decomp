@@ -11,7 +11,7 @@ typedef struct {
     s16 fourth;
 } DrawRecord;
 
-/* Draws the first formatted number with mode-dependent padding glyphs. */
+/* Draws the first formatted number with 4-by-8 HUD glyphs and mode-dependent padding. */
 void draw_hud_number_short(s32 first_number, s32 second_number, u16 width, s16 y, u16 x, s16 mode)
 {
     DrawRecord record;
@@ -29,7 +29,6 @@ void draw_hud_number_short(s32 first_number, s32 second_number, u16 width, s16 y
             s32 glyph_u;
             u8 char_code;
 
-            /* Repeated test on purpose: the closest goto-free match to retail (ledger/spelling_revisits.jsonl). */
             if (padding_mode != 0 &&
                 (numeric_character_flags[char_code = *cursor] & 4) == 0) {
                 glyph_u = 0x1C0;
@@ -51,9 +50,3 @@ void draw_hud_number_short(s32 first_number, s32 second_number, u16 width, s16 y
         } while (*cursor != 0);
     }
 }
-
-/* MECHANISM: Sibling 16-byte buffers plus an 8-byte halfword record yield the 0x58 frame.
-   The s16 sixth arg stays in s4 across both calls, then narrows into reused s1; one joined
-   glyph_u yields one sh. Direct integer-ordered global indexing. Each arm stores record.first itself
-   (the two +0x100 arms share one block); jump2 cross-jumps the stores into the join head, so the
-   store is emitted before the argument set-up that sched1 would otherwise put first. */

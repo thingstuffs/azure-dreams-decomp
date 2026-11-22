@@ -55,7 +55,3 @@ void update_directional_sprite_state_and_signals(ActorRecord *controller, void *
             0);
     }
 }
-
-/* MECHANISM: Four call-live arguments naturally occupy s2/s3/s0/s1 and make
-   the 0x28 frame; the apparent callees are local CFG joins. Duplicated direct
-   E0/E8 update arms cross-jump into one suffix with a1-held byte-table bases. */

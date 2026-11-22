@@ -1,5 +1,6 @@
 #ifndef FRONTEND_LIBCARD_MESSAGE_H
 #define FRONTEND_LIBCARD_MESSAGE_H
+struct CardSaveImage;
 /* Prototypes of the functions defined in src/frontend/libcard/message/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -64,7 +65,7 @@ void card_boot_stop_slot_window_updates(struct CardSlotWindow *window);
 void format_save_heading_text(struct CardSaveHeadingDisplayPrefix *heading);
 
 /* card_boot_store_save_icon_clut_and_frames.c */
-void card_boot_store_save_icon_clut_and_frames(void *dest, s32 record_index);
+void card_boot_store_save_icon_clut_and_frames(struct CardSaveImage *save, s32 record_index);
 
 /* release_save_heading_text.c */
 void release_save_heading_text(struct CardSaveHeadingDisplayPrefix *object);
@@ -79,6 +80,36 @@ void card_boot_update_save_slot_menu_input(struct CardSaveMenuBody *menu);
 typedef MenuDisplayBlock CardDisplayBlock;
 typedef MenuDisplayNode CardDisplayNode;
 
+/* The file-list window stores a 12-byte setup command, four 24-byte
+ * shaded commands and a 12-byte end command in its 0x78-byte buffer. */
+typedef struct CardPanelBoundary {
+    u8 id;
+    u8 opcode;
+    u8 pad_02[2];
+    s16 command_value;
+    s16 end;
+    u8 pad_08[4];
+} CardPanelBoundary;
+
+typedef struct CardShadedPanelQuad {
+    u8 id;
+    u8 opcode;
+    u8 pad_02[2];
+    s32 color0;
+    u8 pad_08[2];
+    s8 half_width;
+    s8 half_height;
+    s32 color1;
+    s32 color2;
+    s32 color3;
+} CardShadedPanelQuad;
+
+typedef struct CardShadedPanelPackets {
+    CardPanelBoundary begin;
+    CardShadedPanelQuad quads[4];
+    CardPanelBoundary end;
+} CardShadedPanelPackets;
+
 /* Slot-detail panel: the 0xE30-byte body of card_rotated_grid_object, built by
  * card_boot_create_or_reset_file_list_panel. A heading node with its own block and vector,
  * then 21 list nodes that share one vector (init_card_file_list_panel,
@@ -87,7 +118,7 @@ typedef MenuDisplayNode CardDisplayNode;
  * and icon_nodes are pointers[4..10] and pointers[11..20]. */
 typedef struct CardFileListPanel {
     /* 0x000 */ struct ObjectNodeHeader *parent;
-    /* 0x004 */ u8 panel_packets[0x78]; /* four shaded packets and the final tag */
+    /* 0x004 */ CardShadedPanelPackets panel_packets;
     /* 0x07C */ s32 selected_slot;
     /* 0x080 */ s32 mode;
     /* 0x084 */ u8 text_buffers[7][0x180];

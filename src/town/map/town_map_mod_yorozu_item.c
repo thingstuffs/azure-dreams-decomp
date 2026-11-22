@@ -22,7 +22,7 @@ extern u8 *D_80073600[];
 extern s32 D_800D2134[][2];
 extern s32 D_800D214C[][2];
 extern s32 D_800D215C[];
-extern s32 D_800D216C[][2];
+extern struct SpriteSourceEntry *D_800D216C[][2];
 extern s32 D_800D21B4[];
 extern s8 D_800D2238[];
 extern u8 D_800D225C[];
@@ -39,6 +39,10 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
     CoordOrObject y_or_state;
     s32 *object_state;
     s32 *variant_row;
+    YorozuMeshProp *mesh_prop;
+    YorozuToggleProp *toggle_prop;
+    TownPropAnimationActor *animation_prop;
+    YorozuPoseProp *pose_prop;
     s32 shifted_type_index;
     s32 part_index;
     s32 entry_index;
@@ -82,8 +86,9 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
         position.w[2] = 0;
         variant_row = D_800D2134[entry_index];
         x_or_object.object = create_positioned_visual_object(position.w, cycle_prop_output_values, direction << 10, *variant_row);
-        y_or_state.object = x_or_object.object + 0x20;
-        *((s32 **) (y_or_state.object + 0xA0)) = variant_row;
+        mesh_prop = NODE_BODY(x_or_object.object);
+        y_or_state.object = (u8 *)mesh_prop;
+        mesh_prop->mesh_indices = variant_row;
         break;
 
     case 5:
@@ -161,9 +166,10 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
         position.w[1] = (y_or_state.coord << 22) + 0x200000;
         position.h[5] = query_lowered_transform_position(position.w);
         x_or_object.object = create_town_prop_graphic_object(position.w, cycle_prop_animation, D_800D21B4[(s16) object_type]);
-        y_or_state.object = x_or_object.object + 0x20;
-        *((s32 *) (y_or_state.object + 0xA0)) = D_800D216C[entry_index][0];
-        *((s32 *) (y_or_state.object + 0xA4)) = D_800D216C[entry_index][1];
+        toggle_prop = NODE_BODY(x_or_object.object);
+        y_or_state.object = (u8 *)toggle_prop;
+        toggle_prop->sources[0] = D_800D216C[entry_index][0];
+        toggle_prop->sources[1] = D_800D216C[entry_index][1];
         if (object_type == 0x13) {
             display_data = *((void **) (x_or_object.object + 0xC));
             display_flags = *((u16 *) (display_data + 0x14));
@@ -180,10 +186,11 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
         position.w[1] = (y_or_state.coord << 22) + 0x200000;
         position.h[5] = query_lowered_transform_position(position.w);
         x_or_object.object = create_town_prop_graphic_object(position.w, cycle_prop_animation_until_done, D_800D21B4[(s16) object_type]);
-        y_or_state.object = x_or_object.object + 0x20;
-        *((s32 *) (y_or_state.object + 0xA0)) = town_item_layout_coordinates[entry_index][0];
-        *((s32 *) (y_or_state.object + 0xA4)) = town_item_layout_coordinates[entry_index][1];
-        *((s32 *) (y_or_state.object + 0xA8)) = town_item_layout_coordinates[entry_index][2];
+        animation_prop = NODE_BODY(x_or_object.object);
+        y_or_state.object = (u8 *)animation_prop;
+        animation_prop->sources[0] = town_item_layout_coordinates[entry_index][0];
+        animation_prop->sources[1] = town_item_layout_coordinates[entry_index][1];
+        animation_prop->sources[2] = town_item_layout_coordinates[entry_index][2];
         if (object_type == 0x17) {
             display_data = *((void **) (x_or_object.object + 0xC));
             alt_display_flags = *((u16 *) (display_data + 0x14));
@@ -201,8 +208,9 @@ void town_map_mod_yorozu_item(s16 *tile_data, s16 object_type, s32 spawn_value)
             u8 *type_table = (u8 *) D_800D21B4;
             x_or_object.object = create_town_prop_graphic_object(position.w, advance_actor_animation_pose, *((s32 *) (type_table + (shifted_type >> 14))));
         }
-        y_or_state.object = x_or_object.object + 0x20;
-        *((s32 *) (y_or_state.object + 0xA0)) = position.h[5];
+        pose_prop = NODE_BODY(x_or_object.object);
+        y_or_state.object = (u8 *)pose_prop;
+        pose_prop->base_height = position.h[5];
         break;
 
     default:

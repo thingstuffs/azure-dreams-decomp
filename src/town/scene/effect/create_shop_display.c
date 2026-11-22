@@ -4,6 +4,8 @@
 #include "town/scene/effect.h"
 #include "town/scene/object.h"
 #include "town/data.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 #include "town/scene/score_sprite_data.h"
 #define AZ_FOREIGN_LOCAL_FUNC_80034A1C
 #include "town/devkit/old_minigame_imports.h"
@@ -38,22 +40,8 @@ typedef struct S_80813AB0_0 {
     s16 unk_76;
 } S_80813AB0_0;   /* obj in func_80813AB0 */
 
-typedef struct S_80813AB0_1 {
-    u8 pad_00[0xC];
-    u32 unk_0C;
-    u8 pad_10[0xC];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80813AB0_1;   /* part in func_80813AB0 */
-
-typedef struct S_80813AB0_2 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-} S_80813AB0_2;   /* (u8 *)y in func_80813AB0 */
-
 typedef struct RootPair {
-    void *first;
-    void *second;
+    char *entries[2];
 } RootPair;
 
 extern s32 func_80034A1C(); /* Unprototyped: this site's argument count or types differ from the foreign program's import prototype */
@@ -75,9 +63,13 @@ extern u8 D_805301F0[];
 s32 create_shop_display(void)
 {
     RootPair roots[2];
-    u8 *base;
-    S_80813AB0_0 *obj;
-    void **slot;
+    TownScoreCounterView *base;
+    ObjectNodeHeader *obj;
+    RisingScorePanelNode **slot;
+    s32 label_y;
+    RisingScorePanel *panel;
+    RisingScoreTextDisplay *label;
+    RisingScoreFade *fade;
     u8 *copy_src;
     s32 i;
     s32 scale;
@@ -95,35 +87,36 @@ s32 create_shop_display(void)
     i = 2;
     if (obj != 0) {
         base = NODE_BODY(obj);
-        obj->unk_10 = D_8052EDB8;
-        obj->unk_38 = func_80071494() & 1;
+        obj->update_callback = D_8052EDB8;
+        base->area = func_80071494() & 1;
     }
 
     scale = 0x1000;
-    slot = (void **)(base + 8);
+    slot = &base->panels[2];
     do {
         obj = func_800373DC(0x136);
-        *slot = obj;
+        *slot = (RisingScorePanelNode *)obj;
         if (obj != 0) {
-            S_80813AB0_1 *part;
-            u32 *packet;
+            SpriteFrameState *part;
+            ObjectPosition *position;
 
-            obj->unk_10 = D_8052EA14;
+            obj->update_callback = D_8052EA14;
             func_8003BC18(obj, score_sprite_draw_callback_address);
-            part = (S_80813AB0_1 *)obj->unk_0C;
-            packet = obj->unk_08.p;
-            packet[0] = 0x05600000;
-            packet[1] = (i << 22) + 0x03E00000;
-            packet[2] = 0x00800000;
-            packet[5] = 0xFFFC0000;
-            obj->unk_20 = base;
-            obj->unk_76 = i;
-            part->unk_1E = scale;
-            part->unk_1C = scale;
-            func_80034A1C(part, shop_panel_sprite_entries, 0, packet);
-            part->unk_0C = 0x00808080;
-            obj->unk_6C = D_805267AC;
-            func_8023FA58(&obj->unk_24, obj->unk_08.p2, D_805301F0);
+            part = obj->sprite;
+            position = obj->position;
+            panel = NODE_BODY(obj);
+            position->x.v = 0x05600000;
+            position->y.v = (i << 22) + 0x03E00000;
+            position->z.v = 0x00800000;
+            position->velocity_z = 0xFFFC0000;
+            panel->score = base;
+            panel->column = i;
+            part->scale_y = scale;
+            part->scale_x = scale;
+            func_80034A1C(part, shop_panel_sprite_entries, 0, position);
+            part->color.word = 0x00808080;
+            panel->resource = D_805267AC;
+            func_8023FA58(panel->work, obj->position, D_805301F0);
         }
         i--;
         slot--;
@@ -134,15 +127,16 @@ s32 create_shop_display(void)
     do {
         obj = func_800374FC(1, &scene_object_factory_data);
         if (obj != 0) {
-            obj->unk_10 = D_8052FD0C;
+            label = NODE_BODY(obj);
+            obj->update_callback = D_8052FD0C;
             func_8003BC18(obj, menu_entry_draw_callback_address);
-            obj->unk_34 = 0x20;
-            obj->unk_38 = 3;
-            obj->unk_3A = 0x7C80;
-            obj->unk_36 = y;
-            obj->unk_30.at00.v = 0x00808080;
-            obj->unk_24 = ((void **)roots)[i];
-            obj->unk_2C.at00.v = base;
+            label->x = 0x20;
+            label->field_18 = 3;
+            label->field_1A = 0x7C80;
+            label->y = y;
+            label->color = 0x00808080;
+            label->text = roots[0].entries[i];
+            label->controller = base;
         }
         i--;
         y -= 0xC;
@@ -154,13 +148,13 @@ s32 create_shop_display(void)
 
         copy_ptr = copy_src + 1;
         do {
-            u8 *dst_first;
-            u8 *dst_second;
+            char *dst_first;
+            char *dst_second;
 
             value = *copy_ptr;
             copy_ptr--;
-            dst_first = ((void **)roots)[2];
-            dst_second = ((void **)roots)[3];
+            dst_first = roots[1].entries[0];
+            dst_second = roots[1].entries[1];
             dst_first += i;
             dst_second += i;
             i--;
@@ -170,31 +164,31 @@ s32 create_shop_display(void)
     }
 
     i = 1;
-    slot = (void **)0x2C;
+    label_y = 0x2C;
     do {
         obj = func_800374FC(1, &scene_object_factory_data);
         if (obj != 0) {
-            obj->unk_10 = D_8052FD60;
+            label = NODE_BODY(obj);
+            obj->update_callback = D_8052FD60;
             func_8003BC18(obj, menu_entry_draw_callback_address);
-            obj->unk_34 = 0x50;
-            obj->unk_38 = 3;
-            obj->unk_3A = 0x7C80;
-            obj->unk_36 = (s32)slot;
-            obj->unk_30.at00.v = 0x00808080;
-            obj->unk_24 = ((void **)roots)[i + 2];
-            y = (s32)NODE_BODY(obj);
+            label->x = 0x50;
+            label->field_18 = 3;
+            label->field_1A = 0x7C80;
+            label->y = label_y;
+            label->color = 0x00808080;
+            label->text = roots[1].entries[i];
             switch (i) {
             case 0:
-                obj->unk_28.p = base + 0x12;
+                label->value = &base->completed;
                 break;
             case 1:
-                obj->unk_28.p = base + 0x14;
+                label->value = &base->score;
                 break;
             }
-            ((S_80813AB0_2 *)((u8 *)y))->unk_0C = base;
+            label->controller = base;
         }
         i--;
-        slot = (void **)((u8 *)slot - 0xC);
+        label_y -= 0xC;
     } while (i >= 0);
 
     obj = func_800374FC(1, &scene_object_factory_data);
@@ -202,29 +196,21 @@ s32 create_shop_display(void)
         s32 final_dim;
         u32 final_color;
 
-        obj->unk_10 = fade_effect_color_until_done;
+        fade = NODE_BODY(obj);
+        obj->update_callback = fade_effect_color_until_done;
         func_8003BC18(obj, menu_cursor_object_template);
         final_color = 0x00404040;
         final_dim = 0x1C;
-        obj->unk_2C.at00u.v = final_dim;
-        obj->unk_2C.at02.v = final_dim;
-        obj->unk_30.at00u.v = 0x48;
-        obj->unk_30.at02.v = final_dim;
-        obj->unk_34 = 2;
-        obj->unk_28.i = final_color;
-        obj->unk_24 = base;
-        obj->unk_36 |= 1;
+        fade->field_0C = final_dim;
+        fade->field_0E = final_dim;
+        fade->field_10 = 0x48;
+        fade->field_12 = final_dim;
+        fade->field_14 = 2;
+        fade->color = final_color;
+        fade->controller = base;
+        fade->flags |= 1;
     }
     return 0;
 }
-/* MECHANISM: The 0x40 frame comes from two sibling RootPair stack locals and the s0-s6 held roles.
-   Reusing slot as the second y carrier and y as part preserves retail's s3/s0 lifetime handoffs.
-   The i-selection is a switch on i with cases 0 then 1 and no default: gcc emits the two equality
-   tests and falls through to the end-of-switch jump, which the delay-slot filler thread-fills with
-   the shared `sw s4,12(s0)` (the j at 0x2b8 is that end-of-switch edge, not a call).  Case 0 must
-   come FIRST in the source: with case 1 first its body lands after the default jump and jump.c
-   inverts the second test (bne to the join) - three words off.
-   Explicit copy pointers and volatile final fields reproduce CFG scheduling.
-   The final object's halfwords are stored in field-offset order (0x2C, 0x2E, 0x30, 0x32): the 0x48
-   store between the dimension stores keeps the 0x1C value live across the 0x48 temporary, so local-alloc
-   gives the dimension v1 and the later unk_36 load reuses it. */
+/* The two RootPair copies account for four pointers on the stack. The body
+ * stores the number pointer in each switch arm before storing the controller. */

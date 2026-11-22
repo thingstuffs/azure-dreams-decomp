@@ -8,18 +8,18 @@
 #include "engine/message.h"
 #include "shared/game_work.h"
 
-/* Calls get_item_name with record->unk_20 +(record->unk_04 * 4). */
-void refresh_selected_item_name(Rec_func_800AD7F8_arg0 *record) {
-    get_item_name(record->unk_20 + (record->unk_04 * 4));
+/* Look up the item selected by the grid. */
+void refresh_selected_item_name(GridMenuObject *record) {
+    get_item_name(&record->entry_base[record->selected_index]);
 }
 
-/* Calls get_item_name_with_fallback_pair with entry_table->unk_20 +(entry_table->unk_04 * 4). */
+/* Look up the selected item with its fallback names. */
 void refresh_selected_item_name_with_fallback(GridMenuObject *entry_table) {
-    get_item_name_with_fallback_pair(entry_table->entry_base + (entry_table->selected_index * 4));
+    get_item_name_with_fallback_pair(&entry_table->entry_base[entry_table->selected_index]);
 }
 
 /* Handles twin shop input and updates the selected item and row. */
-void handle_twin_shop_input(s32 *menu) {
+void handle_twin_shop_input(GridMenuObject *menu) {
     GameWork *pad_state;
     s32 held_buttons;
     s32 selection_step;
@@ -54,7 +54,7 @@ void handle_twin_shop_input(s32 *menu) {
     }
 
     if ((pad_state->pressed_buttons) & 0xF000) {
-        menu[5] = 0;
+        menu->repeat_ticks = 0;
         if ((pad_state->pressed_buttons) & 0x8000)
             selection_step = -5;
         else if ((pad_state->pressed_buttons) & 0x2000)
@@ -64,7 +64,7 @@ void handle_twin_shop_input(s32 *menu) {
         else if ((pad_state->pressed_buttons) & 0x4000)
             selection_step = 1;
     } else {
-        if (menu[5] >= 9) {
+        if (menu->repeat_ticks >= 9) {
             if (held_buttons & 0x8000)
                 selection_step = -5;
             else if (held_buttons & 0x2000)
@@ -73,28 +73,28 @@ void handle_twin_shop_input(s32 *menu) {
                 selection_step = -1;
             else if (held_buttons & 0x4000)
                 selection_step = 1;
-            menu[5] = *&menu[5] - 1;
+            menu->repeat_ticks = *&menu->repeat_ticks - 1;
         } else {
-            menu[5]++;
+            menu->repeat_ticks++;
             return;
         }
     }
 
-    selection = advance_index_with_directional_clamp(menu[1], selection_step, menu[2]);
+    selection = advance_index_with_directional_clamp(menu->selected_index, selection_step, menu->entry_count);
     row = selection / 5;
-    if (selection == menu[1]) {
+    if (selection == menu->selected_index) {
         return;
     }
 
     SD_Call(AUDIO_CURSOR_MOVE);
-    menu[1] = selection;
-    if (row != menu[3]) {
-        menu[3] = row;
-        set_shop_page_and_selection(menu[10], row, selection);
+    menu->selected_index = selection;
+    if (row != menu->selected_row) {
+        menu->selected_row = row;
+        set_shop_page_and_selection(menu->subrecord, row, selection);
     }
-    set_shop_selected_entry(menu[10], selection);
+    set_shop_selected_entry(menu->subrecord, selection);
     if (pad_state->buttons & 0x40) {
         confirm_selected_entry(menu);
     }
-    refresh_selected_item_name((Rec_func_800AD7F8_arg0 *)menu);
+    refresh_selected_item_name(menu);
 }

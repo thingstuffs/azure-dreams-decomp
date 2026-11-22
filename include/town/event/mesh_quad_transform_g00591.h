@@ -6,6 +6,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/game_work.h"
+#include "shared/entity.h"
+#include "sdk/libgte_matrix.h"
 #include "shared/gpu_packets.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
@@ -33,7 +35,7 @@ struct S_800AA044_0;
 struct S_800AA044_1;
 
 typedef struct S_func_800AC9AC_0 {
-    u8 *unk_00;
+    SVECTOR *vertices;
     s16 *unk_04;
     u8 pad_08[0x18];
     u32 *unk_20;
@@ -42,7 +44,13 @@ typedef struct S_func_800AC9AC_0 {
 typedef struct S_func_800AC9AC_1 {
     u8 pad_00[0x24];
     u32 *unk_24;
-    u8 pad_28[0x9C];
+    u8 pad_28[0x1C];
+    VECTOR transformed;
+    u8 pad_54[0x20];
+    SVECTOR vertices[4];
+    s32 interpolation;
+    s32 flags;
+    u8 pad_9C[0x28];
     s32 unk_C4;
     u8 pad_C8[0x20];
     u16 unk_E8;
@@ -75,10 +83,10 @@ typedef struct S_func_800AC9AC_3 {
 /* extern */
 extern s32 D_800D11C0[4];
 extern void copy_menu_point(void *, void *);
-extern void add_entity_position_to_menu_vector(void *, void *);
+extern void add_entity_position_to_menu_vector(SVECTOR *components, Fixed1616 increments[3]);
 
 /* Functions defined in this translation unit. */
-void narrow_vector_to_svector(S_800AA044_0 *dst, S_800AA044_1 *src);
-void transform_vector(s32 transform, void *vector, void *transformed);
+void narrow_vector_to_svector(SVECTOR *dst, VECTOR *src);
+void transform_vector(s32 transform, SVECTOR *vector, VECTOR *transformed);
 
 #endif

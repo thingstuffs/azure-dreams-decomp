@@ -115,6 +115,9 @@ import subprocess
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+if str(Path(__file__).resolve().parents[1]) not in sys.path:
+    sys.path.append(str(Path(__file__).resolve().parents[1]))
+import atomic_io  # noqa: E402
 import ledger_public  # noqa: E402
 import placed_copies  # noqa: E402
 import clone_sources  # noqa: E402
@@ -1079,7 +1082,7 @@ def main(argv=None):
         tally = collections.Counter(c['how'] for c in changes)
         print(f"re-derived {len(changes)} entries: " + ', '.join(f'{k} {v}' for k, v in sorted(tally.items())))
         if args.write:
-            (root / args.ledger).write_text(''.join(json.dumps(r, sort_keys=True) + '\n' for r in head_rows))
+            atomic_io.write_text(root / args.ledger, ''.join(json.dumps(r, sort_keys=True) + '\n' for r in head_rows))
             print(f'wrote {args.ledger}')
         return 0
 

@@ -8,6 +8,15 @@
   "evidence": "config/overlays/town.rowbase.jsonl proven region r121m_scene_5c7000",
   "entries": [
     {
+      "row": "town/func_806470C8",
+      "home": "town/func_806470C8",
+      "tu": "src/town/scene/apply_position_and_mark_sbs18_pad05.c",
+      "foff": "0x5c70c8",
+      "vma": "0x800160c8",
+      "size": 84,
+      "evidence": "TOWN +0x5c70c8 at 0x800160c8. Parent choice pointer at +0x5c8a60, table at +0x5c89a4, index 0. The action at field +4 is called by town/func_80648264. Validated packed-CD record at +0x2b1a64. All 84 C text bytes match retail."
+    },
+    {
       "row": "town/func_806471B0",
       "home": "town/func_8032BFE8",
       "tu": "src/town/scene/dispatch_first.c",

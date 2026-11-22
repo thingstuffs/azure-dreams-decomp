@@ -1,7 +1,6 @@
 #ifndef DUNGEON_ITEM_MONSTER_KOYAW_G00324_H
 #define DUNGEON_ITEM_MONSTER_KOYAW_G00324_H
 /* Monster koyaw shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_8009A9F0. */
 
 #include "common.h"
 #include "shared/game_work.h"

@@ -12,23 +12,30 @@ typedef struct MenuSelectionWidgets {
     MenuDisplayNode *secondary_cursor;
     MenuDisplayNode *secondary_entries[6];
 } MenuSelectionWidgets;
-/* Observed selection-controller fields, including the per-entry highlight
- * bytes. The saved callback remains a raw word until its signature is known. */
+struct ObjectNodeHeader;
+
+/* Controller state shared by the input, fade and cleanup callbacks. */
 typedef struct MenuSelectionBody {
     u8 pad_00[4];
-    s32 saved_callback_word;
-    u8 pad_08[4];
+    void *saved_callback;
+    s32 fade_ticks;
     s32 repeat_ticks;
     s32 animation_frames;
     s32 animation_tick;
     s32 previous_selection;
     s32 selected_entry;
     s32 result;
-    u8 pad_24[4];
-    void *unk_28;
-    u8 pad_2C[0x3C];
+    void *pending_callback;
+    struct ObjectNodeHeader *attachment;
+    u8 pad_2C[4];
+    MenuDisplayBlock gauge_block;
+    DisplayPositionWords gauge_vector;
+    u8 pad_4C[0xC];
+    MenuDisplayNode gauge; /* The factory installs this embedded display at node +0x0C. */
     MenuSelectionWidgets *widgets;
-    u8 pad_6C[0x38];
+    u16 *buffers[12];
+    u8 pad_9C[4];
+    struct ObjectNodeHeader *owner;
     u8 highlight[6];
     u8 pad_AA[2];
 } MenuSelectionBody;

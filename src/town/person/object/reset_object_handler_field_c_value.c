@@ -8,7 +8,7 @@
 #include "town/system.h"
 
 
-void restart_person_countdown_update(TownObjectRecord *object, s32 unused, SpriteFrameState *updateValue) {
+void restart_person_countdown_update(TownObjectRecord *object, struct ObjectPosition *unused_position, SpriteFrameState *updateValue) {
     PersonDescriptor *descriptor;
 
     descriptor = object->descriptor;

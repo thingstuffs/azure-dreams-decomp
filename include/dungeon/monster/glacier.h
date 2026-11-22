@@ -44,7 +44,6 @@ struct DirectionalEffectBody;
 void advance_particle_with_collision(struct DirectionalEffectBody *motion, ObjectPosition *position, SpriteFrameState *update_arg);
 void update_glacier_actor(ActorRecord *entity_arg, ObjectPosition *motion_arg, SpriteFrameState *monster_arg);
 
-/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void advance_glacier_spell_action(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 
 #include "records/Rec_func_801744DC_arg0.h"

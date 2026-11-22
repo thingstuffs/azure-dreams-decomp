@@ -66,18 +66,18 @@ void advance_actor_recovery_sequence(ActorRecord *body, ObjectPosition *motion, 
         frame_count = --body->action_timer;
         if (frame_count > 0) {
             motion->velocity_x =
-                ((S_func_8016C64C_5 *)((u8 *)((s8 *)dir_step_x) + ((actor->movement_facing >> 8) & 0xE)))->unk_00 << 18;
+                ((S_func_8016C64C_5 *)((u8 *)dir_step_x + ((actor->movement_facing >> 8) & 0xE)))->unk_00 << 18;
             motion->velocity_y =
-                ((S_func_8016C64C_5 *)((u8 *)((s8 *)dir_step_y) + ((actor->movement_facing >> 8) & 0xE)))->unk_00 << 18;
+                ((S_func_8016C64C_5 *)((u8 *)dir_step_y + ((actor->movement_facing >> 8) & 0xE)))->unk_00 << 18;
             return;
         }
         if (frame_count != 0) {
             return;
         }
         motion->velocity_x =
-            ((S_func_8016C64C_5 *)((u8 *)((s8 *)dir_step_x) + ((actor->movement_facing >> 8) & 0xE)))->unk_00 << 18;
+            ((S_func_8016C64C_5 *)((u8 *)dir_step_x + ((actor->movement_facing >> 8) & 0xE)))->unk_00 << 18;
         motion->velocity_y =
-            ((S_func_8016C64C_5 *)((u8 *)((s8 *)dir_step_y) + ((actor->movement_facing >> 8) & 0xE)))->unk_00 << 18;
+            ((S_func_8016C64C_5 *)((u8 *)dir_step_y + ((actor->movement_facing >> 8) & 0xE)))->unk_00 << 18;
         body->action_timer = 8;
         body->action_phase++;
         return;

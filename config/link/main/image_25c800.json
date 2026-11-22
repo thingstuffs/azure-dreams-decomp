@@ -1664,9 +1664,18 @@
       "size": 8
     },
     {
-      "kind": "unresolved",
+      "row": "main/func_80244734",
+      "home": "main/func_80244734",
+      "tu": "src/frontend/libcard/state/card_boot_enter_no_card_notice.c",
       "foff": "0x264734",
-      "size": 136,
+      "vma": "0x80027734",
+      "size": 68,
+      "evidence": "MAIN +0x2650ac is status slot 4 of the card chooser callback table at +0x26509c. The chooser poll at +0x2647bc indexes that table and stores the selected callback at +0x26484c. The active card dialog transfer maps MAIN +0x25c800 to 0x8001f800."
+    },
+    {
+      "kind": "unresolved",
+      "foff": "0x264778",
+      "size": 68,
       "evidence": "coverage-prototype: census2 span export absent; classification held"
     },
     {
@@ -1812,13 +1821,13 @@
     "0x8002593C": "0x800265B8"
   },
   "census": {
-    "proven_code": 29516,
+    "proven_code": 29584,
     "library_code": 0,
     "strongly_code": 0,
     "proven_data": 0,
     "noncode_typing_pending": 0,
     "padding_leftover": 2197,
-    "unknown": 5151
+    "unknown": 5083
   },
   "provenance": {
     "labels_sha256": "38e8e13b775802242be29c9c78265ed06877fca3dbcec734f7a6a70775790e7f",

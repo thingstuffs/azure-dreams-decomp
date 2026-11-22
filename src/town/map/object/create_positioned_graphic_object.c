@@ -8,7 +8,7 @@
 #include "town/map/object.h"
 
 /* Creates an object at the given position and initializes its graphics. */
-void *create_town_prop_graphic_object(TownPropPosition *position, s32 object_param, s32 graphics_id) {
+void *create_town_prop_graphic_object(TownPropPosition *position, void (*update)(), s32 graphics_id) {
     SpriteFrameState *render_data;
     ObjectNodeHeader *object;
     ObjectPosition *object_pos;
@@ -18,7 +18,7 @@ void *create_town_prop_graphic_object(TownPropPosition *position, s32 object_par
         register_node(object, project_sprite_chain);
         render_data = object->sprite;
         object_pos = object->position;
-        object->update_callback = object_param;
+        object->update_callback = update;
         object_pos->x.v = (s32) position->unk_00;
         object_pos->y.v = (s32) position->unk_04;
         object_pos->z.v = (s32) position->unk_08;

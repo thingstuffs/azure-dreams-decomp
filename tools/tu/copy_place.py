@@ -33,6 +33,7 @@ sys.path.insert(0, str(ROOT / "tools/gate"))
 
 import linklist as L  # noqa: E402
 import source_layout as SL  # noqa: E402
+import atomic_io  # noqa: E402
 
 RELINK_HEAD = re.compile(r"^/\* Relink of matched ([a-z_]+/func_[0-9A-F]{8})", re.M)
 RELINKED_HEAD = re.compile(r"Relinked copy of ([a-z_]+/func_[0-9A-F]{8})")
@@ -763,11 +764,10 @@ def apply_plan(plan, root=ROOT, check=False):
             log.append((rid, "layout", "already"))
     if not check:
         if changed_layout:
-            (root / "ledger/layout.jsonl").write_text("".join(json.dumps(x, separators=(",", ":")) + "\n" for x in layout))
+            atomic_io.write_text(root / "ledger/layout.jsonl", "".join(json.dumps(x, separators=(",", ":")) + "\n" for x in layout))
         if new_retire:
-            with open(root / "ledger/raw_retired.jsonl", "a") as f:
-                for x in new_retire:
-                    f.write(json.dumps(x, separators=(",", ":")) + "\n")
+            from common import append_jsonl_rows
+            append_jsonl_rows(root / "ledger/raw_retired.jsonl", new_retire)
     return log
 
 
@@ -913,9 +913,9 @@ def revert(rows, base, root=ROOT):
             log.append((r, "layout", "restored"))
     order = {x: i for i, x in enumerate(lay_base)}
     layout.sort(key=lambda x: order.get(x["id"], 1 << 30))
-    (root / "ledger/layout.jsonl").write_text("".join(json.dumps(x, separators=(",", ":")) + "\n" for x in layout))
+    atomic_io.write_text(root / "ledger/layout.jsonl", "".join(json.dumps(x, separators=(",", ":")) + "\n" for x in layout))
     keep = [x for x in retired if not (x.get("id") in rows and x.get("batch") == "LL4-opus_place1")]
-    (root / "ledger/raw_retired.jsonl").write_text("".join(json.dumps(x, separators=(",", ":")) + "\n" for x in keep))
+    atomic_io.write_text(root / "ledger/raw_retired.jsonl", "".join(json.dumps(x, separators=(",", ":")) + "\n" for x in keep))
     # relink allowlist lines of restored files
     allow_base = (show("config/lint/relink_text.allow") or b"").decode().splitlines()
     cur = (root / "config/lint/relink_text.allow").read_text().splitlines()

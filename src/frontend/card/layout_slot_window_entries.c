@@ -1,5 +1,7 @@
 #include "common.h"
+#include "frontend/card/slot_marker.h"
 #include "frontend/card.h"
+#include "frontend/card/server_imports.h"
 
 u8 *func_80403F1C(u8 *packets, s32 width, s32 height);       /* extern */
 
@@ -8,22 +10,22 @@ u8 *func_80403F1C(u8 *packets, s32 width, s32 height);       /* extern */
 extern u8 D_800A0000[];
 
 /* Sizes two display regions and updates their content according to two fields in the selected slot record. */
-void layout_slot_window_entries(u8 *ptr) {
+void layout_slot_window_entries(CardDevMenu10 *window) {
     s32 offset;
 
-    func_80403F1C(ptr + 0xB0, 0x80, 0x18);
-    func_80403F1C(ptr + 0x128, 0x2C, 0x14);
+    func_80403F1C(window->slot_packets, 0x80, 0x18);
+    func_80403F1C(window->option_packets, 0x2C, 0x14);
 
-    offset = *(s32 *)ptr << 7;
+    offset = window->slot_index << 7;
     if (*(s32 *)(D_800A0000 + offset - 0x2228) != 0) {
-        card_dev_layout_selected_slot_entries(ptr);
+        card_dev_layout_selected_slot_entries(window);
 
-        offset = *(s32 *)ptr << 7;
+        offset = window->slot_index << 7;
         if (*(s32 *)(D_800A0000 + offset - 0x2220) != 0) {
-            card_dev_layout_option_entries(ptr);
+            card_dev_layout_option_entries(window);
             return;
         }
     } else {
-        card_dev_layout_title_entries(ptr);
+        card_dev_layout_title_entries(window);
     }
 }

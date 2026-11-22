@@ -3,6 +3,7 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
+#include "shared/gpu_packets.h"
 #include "engine/graphics/sprite_scratch.h"
 #include "sdk/libgte.h"
 
@@ -34,10 +35,9 @@ typedef struct S_80045CC4_0 {
 } S_80045CC4_0;   /* poly in draw_sprite_clipped */
 
 /* Transform sprite quads, clip them to the screen, and link visible packets into the ordering table. */
-void draw_sprite_clipped(void *context, s32 position, SpriteFrameState *sprite, s16 depth_bias)
+void draw_sprite_clipped(void *context, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias)
 {
-    ObjectPosition *position_data = (ObjectPosition *)position;
-    void (*callback)(void *, s32, SpriteFrameState *, u8 *);
+    void (*callback)(void *, ObjectPosition *, SpriteFrameState *, u8 *);
     s32 x;
     s32 packet_addr;
     s32 matrix_yy;
@@ -51,8 +51,8 @@ void draw_sprite_clipped(void *context, s32 position, SpriteFrameState *sprite, 
     s32 visible_3;
     u8 *entry;
     SpriteQuadScratch *scratchpad;
-    void **global_slots;
-    void *global_base;
+    void **frame_slot;
+    GpuContext *frame;
     u8 uv_edge;
     s32 visible_2;
     s16 sx;
@@ -60,24 +60,24 @@ void draw_sprite_clipped(void *context, s32 position, SpriteFrameState *sprite, 
     s16 ex;
     s16 ey;
 
-    global_slots = ((void * *)(&g_game_work));
-    global_base = global_slots[0];
+    frame_slot = (void **)&g_game_work;
+    frame = *frame_slot;
     scratchpad = (SpriteQuadScratch *)0x1F800000;
-    scratchpad->ordering_table = (u32 *)(global_base + 0xB0); /* the draw context's +0xB0 ordering-table slot */
+    scratchpad->ordering_table = (u32 *)&frame->orderTag;
     {
         s32 translation;
-        translation = position_data->x.w.i;
+        translation = position->x.w.i;
         scratchpad->local_matrix.t[0] = translation;
-        translation = position_data->y.w.i;
+        translation = position->y.w.i;
         scratchpad->local_matrix.t[1] = translation;
-        translation = position_data->z.w.i;
+        translation = position->z.w.i;
         scratchpad->vertices[3].vz = 0;
         scratchpad->vertices[2].vz = 0;
         scratchpad->vertices[1].vz = 0;
         scratchpad->vertices[0].vz = 0;
         scratchpad->local_matrix.t[2] = translation;
     }
-    packet = *(s32 **)((u8 *)global_base + 0x8D0);
+    packet = frame->packetCursor;
     sprite->flags |= 0x8000;
     addr_mask = 0xFFFFFF;
     PushMatrix();
@@ -285,7 +285,7 @@ void draw_sprite_clipped(void *context, s32 position, SpriteFrameState *sprite, 
             }
         }
     } else {
-        callback = *(void (**)(void *, s32, SpriteFrameState *, u8 *))(entry + 8);
+        callback = *(void (**)(void *, ObjectPosition *, SpriteFrameState *, u8 *))(entry + 8);
         if (callback != NULL) {
             callback(context, position, sprite, entry);
         }
@@ -298,5 +298,5 @@ void draw_sprite_clipped(void *context, s32 position, SpriteFrameState *sprite, 
     }
 
     PopMatrix();
-    *(s32 **)((u8 *)global_slots[0] + 0x8D0) = packet;
+    ((GpuContext *)*frame_slot)->packetCursor = packet;
 }

@@ -1,9 +1,10 @@
 #include "common.h"
 #include "shared/town_object.h"
-#include "shared/dungeon_moving_views.h"
+#include "shared/entity.h"
 
 
-extern void *D_800834A0;
+/* The +8 position link of the scene-list anchor. */
+extern ObjectPosition *D_800834A0;
 
 #include "town/person/object_setup.h"
 #include "town/person/motion.h"
@@ -12,22 +13,20 @@ extern void *D_800834A0;
 
 
 /* Move the output toward the target position until the object countdown expires. */
-void move_mother_event_output_to_target(void *object_arg, void *out_arg, void *setup_context) {
-    ObjectPosition *out = out_arg;
-    TownObjectRecord *object = object_arg;
+void move_mother_event_output_to_target(TownObjectRecord *object, ObjectPosition *out, struct SpriteFrameState *sprite) {
     s16 signed_frames;
     u16 target_x;
     u16 target_y;
     u16 frames;
 
-    target_x = ((MovingPosition *)D_800834A0)->x;
-    target_y = ((MovingPosition *)D_800834A0)->y - 0x42;
+    target_x = D_800834A0->x.w.i;
+    target_y = D_800834A0->y.w.i - 0x42;
     frames = object->timer - 1;
     object->timer = frames;
     signed_frames = (s32)((u32)frames << 16) >> 16;
 
     if (signed_frames <= 0) {
-        apply_object_setup_and_update(object, out, setup_context);
+        apply_object_setup_and_update(object, out, sprite);
         out->x.unsigned_parts.integer = target_x;
         out->y.w.i = target_y;
         return;

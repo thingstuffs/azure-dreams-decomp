@@ -35,9 +35,9 @@ void update_directional_motion_and_target_tile(ActorRecord *body, ObjectPosition
     case 0:
         apply_clamped_actor_value_delta(entity);
         motion->velocity_x =
-            ((s16 *)((s8 *)dir_step_x))[direction] << 16;
+            dir_step_x[direction] << 16;
         motion->velocity_y =
-            ((s16 *)((s8 *)dir_step_y))[direction] << 16;
+            dir_step_y[direction] << 16;
         body->action_phase++;
 
         if (entity->hp == 0) {
@@ -69,9 +69,9 @@ void update_directional_motion_and_target_tile(ActorRecord *body, ObjectPosition
 
     case 1:
         motion->velocity_x -=
-            ((s16 *)((s8 *)dir_step_x))[direction] << 13;
+            dir_step_x[direction] << 13;
         motion->velocity_y -=
-            ((s16 *)((s8 *)dir_step_y))[direction] << 13;
+            dir_step_y[direction] << 13;
 
         if (body->action_timer > 0) {
             body->action_timer = body->action_timer - 1;
@@ -128,7 +128,3 @@ void update_directional_motion_and_target_tile(ActorRecord *body, ObjectPosition
         return;
     }
 }
-
-/* MECHANISM: The natural long-lived arguments preserve the retail 0x28 frame and s1/s0/s2/s3/s4 roles.
-   Typed s16 array indexing materializes each table base before its direction shift.
-   Split expression-form s32 coordinate temps block fold reassociation and schedule the second lh over the first divide result. */

@@ -39,7 +39,7 @@ s16 get_tile_chebyshev_distance();
 
 #include "dungeon/actor/state.h"
 
-void advance_clown_cd_cue_effect(Rec_func_801732A4_arg0 *state, ObjectPosition *position,struct SpriteFrameState *actor, void *model);
+void advance_clown_cd_cue_effect(ActorRecord *state, ObjectPosition *position, struct SpriteFrameState *actor, void *model);
 extern u8 effect_update_tag[];
 extern u8 naplass_action_continuation_address[];
 extern u8 D_801741EC[];

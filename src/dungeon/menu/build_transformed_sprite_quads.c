@@ -121,7 +121,7 @@ s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, Obje
     scratch->scale.y = sprite->scale_y;
     scratch->origin_x = placement->x.unsigned_parts.integer;
     scratch->origin_y = placement->y.unsigned_parts.integer;
-    frame = (S_8009E798_5 *)sprite->source;
+    frame = sprite->source;
     scratch->sprite_flags = sprite->flags;
     PushMatrix();
 

@@ -18,16 +18,17 @@
 #include "town/map.h"
 
 /* Initialize the object and adjust its record value before final setup. */
-void initialize_effect_and_adjust_value(void *object, ObjectPosition *record, s32 init_value) {
+void initialize_effect_and_adjust_value(void *object, ObjectPosition *record, struct SpriteFrameState *sprite) {
     s32 delta;
+    s32 height;
 
     ((S_800A55CC_0_pre *)object)[-1].unk_00 = ((M2C_UNK *)rebuild_menu_node_list);
-    initialize_actor_action_state(object, record, init_value);
+    initialize_actor_action_state(object, record, sprite);
     {
         delta = 0x10000;
-        init_value = record->z.v;
+        height = record->z.v;
         record->z.v =
-            (init_value + delta) - D_800D0CC0[0];
+            (height + delta) - D_800D0CC0[0];
         register_node_if_unregistered(object, draw_entry_overlays);
     }
 }
@@ -58,16 +59,14 @@ void update_effect_record_and_dispatch(TownPlayerRecord *handler, ObjectPosition
 }
 
 /* Turn the entity toward its target angle and update its directional sprite. */
-void turn_entity_toward_target(TownPlayerRecord *entity, void *transform, SpriteFrameState *sprite) {
+void turn_entity_toward_target(TownPlayerRecord *entity, struct ObjectPosition *transform, SpriteFrameState *sprite) {
     GameWork *input_state;
-    void *transform_arg;
     s32 direction;
     s32 current_angle;
     s32 target_angle;
 
-    transform_arg = transform;
     input_state = &g_game_work;
-    clear_blocked_motion(transform_arg);
+    clear_blocked_motion(transform);
     {
         void *entity_type;
 
@@ -309,7 +308,7 @@ void update_actor_movement_and_actions(State *state, ObjectPosition *actor) {
 }
 
 /* Updates the actor effect and eases scene values before advancing the state. */
-void update_actor_effect_transition(S_800A5DF8_4 *state, ObjectPosition *actor, s32 context) {
+void update_actor_effect_transition(S_800A5DF8_4 *state, ObjectPosition *actor, struct SpriteFrameState *sprite) {
     s16 threshold;
     s32 offset_step;
     s16 angle;
@@ -362,7 +361,7 @@ void update_actor_effect_transition(S_800A5DF8_4 *state, ObjectPosition *actor, 
     if ((state->unk_0A.u == 0) &&
         (scene_state->view.camera_rotation.parts.viewAngle == 0)) {
         if (state->unk_08 != 0) {
-            initialize_effect_and_adjust_value(state, (actor), context);
+            initialize_effect_and_adjust_value(state, (actor), sprite);
         } else {
             state->unk_0A.u = 0;
             state->unk_00 = D_800A5FDC;
@@ -373,9 +372,8 @@ void update_actor_effect_transition(S_800A5DF8_4 *state, ObjectPosition *actor, 
 }
 
 /* Updates town movement, terrain response, facing, and action state from input. */
-void update_town_movement_and_actions(TownPlayerRecord *state, ObjectPosition *table, void *action_context)
+void update_town_movement_and_actions(TownPlayerRecord *state, ObjectPosition *table, SpriteFrameState *sprite)
 {
-    u8 *context;
     GameWork *globals;
     s32 random_choice;
     s32 tile_id;
@@ -387,7 +385,6 @@ void update_town_movement_and_actions(TownPlayerRecord *state, ObjectPosition *t
     s16 direction;
     s16 ground_height;
 
-    context = action_context;
     globals = &g_game_work;
     resolve_collision_axis_order(table);
 
@@ -457,7 +454,7 @@ void update_town_movement_and_actions(TownPlayerRecord *state, ObjectPosition *t
 
     if (((globals->pressed_buttons) & 0x10) &&
         (town_blocked_directions[0] == 0)) {
-        initialize_effect_and_adjust_value(state, table, (s32)(context));
+        initialize_effect_and_adjust_value(state, table, sprite);
         return;
     }
 

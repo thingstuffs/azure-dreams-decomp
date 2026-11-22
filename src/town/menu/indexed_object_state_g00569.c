@@ -9,17 +9,17 @@
 #include "town/menu/state_callbacks_api.h"
 
 /* Lowers the third coordinate by 0x240000 and creates up to twelve indexed objects, stopping on failure. */
-void spawn_randomized_motion_burst(Unk800A5C88 *input) {
-    Unk800A5C88 adjustedInput;
+void spawn_randomized_motion_burst(ObjectPosition *input) {
+    ObjectPosition adjustedInput;
     s32 checkIndex;
 
-    adjustedInput.unk0 = input->unk0;
+    adjustedInput.x.v = input->x.v;
     checkIndex = 0;
-    adjustedInput.unk4 = input->unk4;
-    adjustedInput.unk8 = input->unk8 - 0x240000;
+    adjustedInput.y.v = input->y.v;
+    adjustedInput.z.v = input->z.v - 0x240000;
 
     do {
-        if (create_scattered_motion_object((EffectInitialState *)&adjustedInput.unk0, checkIndex) == 0) {
+        if (create_scattered_motion_object(&adjustedInput, checkIndex) == 0) {
             break;
         }
         checkIndex++;
@@ -27,7 +27,7 @@ void spawn_randomized_motion_burst(Unk800A5C88 *input) {
 }
 
 /* Creates an object with copied input data, preset references, and an initial value. */
-void *create_scattered_motion_object(EffectInitialState *source_data, s32 initial_value)
+void *create_scattered_motion_object(ObjectPosition *source_data, s32 initial_value)
 {
     ObjectNodeHeader *object;
     ObjectPosition *object_data;
@@ -39,10 +39,10 @@ void *create_scattered_motion_object(EffectInitialState *source_data, s32 initia
         return 0;
     }
     object_data = object->position;
-    object_data->x.v = source_data->unk_00;
-    object_data->y.v = source_data->unk_04;
+    object_data->x.v = source_data->x.v;
+    object_data->y.v = source_data->y.v;
     result = object;
-    object_data->z.v = source_data->unk_08;
+    object_data->z.v = source_data->z.v;
     result->update_callback = dispatch_menu_state_callback;
     body = NODE_BODY(result);
     body->callback = initialize_randomized_motion_vector;

@@ -1,5 +1,3 @@
-/* Callback position updates (G00373). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800D6EF0, CL:dungeon/func_800D6FC4, CL:dungeon/func_800D70CC, PD:dungeon/engine:800E2934. */
 #include "shared/audio_commands.h"
 #include "dungeon/menu/callback_position_updates_g00373.h"
 #include "dungeon/menu.h"
@@ -47,7 +45,7 @@ void move_value_toward_target(u8 *object_data, s32 unused_coord, s32 unused_y) {
         mode = mode % 2;
     }
     result = link_indexed_entry_chain(handle, mode);
-    /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: dungeon/func_800D6EF0). */
+    /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence). */
     do {
         dungeon_menu_object->value = result;
     } while (0);

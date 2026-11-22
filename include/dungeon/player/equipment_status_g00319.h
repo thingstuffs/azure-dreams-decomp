@@ -1,7 +1,6 @@
 #ifndef DUNGEON_PLAYER_EQUIPMENT_STATUS_G00319_H
 #define DUNGEON_PLAYER_EQUIPMENT_STATUS_G00319_H
 /* Equipment status shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:dungeon/engine:800E07C0, PD:dungeon/engine:800E07D3. */
 
 #include "common.h"
 #include "shared/entity.h"

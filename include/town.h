@@ -17,18 +17,18 @@ void fade_effect_and_mark_cleanup(void *record, s32 unused, struct SpriteFrameSt
 void *set_item_w0(s8 item_byte_0, s8 item_byte_1, s8 item_byte_2, s8 item_byte_3);
 
 #include "shared/town_object.h"
-void init_flagged_entity_action(TownObjectRecord *record, void *unused, void *handler_context);
-void init_threshold_countdown_action(TownObjectRecord *record, void *unused, void *handler_context);
-void init_timed_dispatch_action(TownObjectRecord *record, void *unused, void *handler_context);
-void initialize_action_object(s32 **record, void *ptr, void *ptr2);
+void init_flagged_entity_action(TownObjectRecord *record, struct ObjectPosition *unused, struct SpriteFrameState *handler_context);
+void init_threshold_countdown_action(TownObjectRecord *record, struct ObjectPosition *unused, void *handler_context);
+void init_timed_dispatch_action(TownObjectRecord *record, struct ObjectPosition *unused_position, void *handler_context);
+void initialize_action_object(s32 **record, struct ObjectPosition *ptr, void *ptr2);
 void initialize_action_object_type_six(TownObjectRecord *record, void *ptr, void *ptr2);
-void initialize_action_object_with_counter(TownObjectRecord *record, struct ObjectPosition *unused, s32 setup_value);
+void initialize_action_object_with_counter(TownObjectRecord *record, struct ObjectPosition *unused, struct SpriteFrameState *sprite);
 s32 input_angle_with_offset(s32 unused, s32 angle_offset);
 
 void init_sound_threshold_action(s32 **record, struct ObjectPosition *unused, s32 setup_value);
 
 
-void init_height_interpolation_action(TownObjectRecord *record, void *unused, void *handler_context);
+void init_height_interpolation_action(TownObjectRecord *record, struct ObjectPosition *unused, void *handler_context);
 
 s32 forward_context_request_to_handler_b(struct Rec_func_800165F4_arg0 *entry, s32 entry_index);
 s32 forward_context_request_to_handler_c(struct Rec_func_800165F4_arg0 *entry, s32 entry_index);
@@ -38,8 +38,7 @@ s32 forward_context_request_to_handler_f(struct Rec_func_800165F4_arg0 *entry, s
 s32 forward_context_request_to_handler_g(struct Rec_func_800165F4_arg0 *entry, s32 entry_index);
 void set_scene_entry_flag_k(void);
 void initialize_entity_handlers_and_position(s32 entity_id, s32 x, s32 y);
-struct TownTimedTransitionState;
-void update_timed_state_transition(struct TownTimedTransitionState *state);
+void update_timed_state_transition(TownObjectRecord *state);
 
 #include "shared/item_menu.h"
 struct StoragePage;
@@ -48,22 +47,26 @@ struct ColliderView;
 void apply_bound_adjustments(struct ColliderView *collider, ObjectPosition *position);
 void populate_paged_entries_with_brightness(ItemMenuPart **entries, struct StoragePage *page_info, struct DungeonItemEntry **source_table);
 void place_item_menu_cursor_parts(ItemMenuObject *object);
-void remove_selected_entry_from_list(s32 list_addr, s32 index);
+struct DungeonItemEntry;
+void remove_selected_entry_from_list(struct DungeonItemEntry **list, s32 index);
 void update_entry_resources_and_brightness(s32 entry_id);
 
 void start_adjustment_at_value_bounds(struct ColliderView *collider, ObjectPosition *position);
-void clear_indexed_table_flag(void *record);
+void clear_indexed_table_flag(struct DungeonItemEntry *record);
 s32 directional_buttons_to_angle(s32 buttons);
 void dispatch_item_menu_request_result(void *request);
 s32 func_8001673C(s32 grid_y, s32 grid_x);
 s32 func_800B0198(ItemMenuObject *object, s32 entry_count);
 void retire_object_or_animate_sprite(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *sprite);
-s32 load_item_menu_display_resource(void *object, s32 resource_id);
+struct ItemMenuTransition;
+s32 load_item_menu_display_resource(struct ItemMenuTransition *object, s32 resource_id);
 s16 *map_cell_address_at_tile(s32 tile_x, s32 tile_y);
-void remove_item_menu_entry_objects(s32 entryTableAddress, s32 entryCount);
+struct ItemMenuPart;
+void remove_item_menu_entry_objects(struct ItemMenuPart **entries, s32 entryCount);
 void set_paired_entry_brightness(void *object);
 void set_ultima_egg_pickup_flag(u16 *record);
-void sort_selected_record_entries(void *record);
+struct ItemMenuInputObject;
+void sort_selected_record_entries(struct ItemMenuInputObject *record);
 s16 *town_map_mod_read_p(s16 world_x, s16 world_y);
 void remove_object_with_item_data(void *object, void *update_data);
 

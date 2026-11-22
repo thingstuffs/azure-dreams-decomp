@@ -8,6 +8,15 @@
   "evidence": "ledger/instance_load_regions.jsonl; validated packed-CD loader record",
   "entries": [
     {
+      "row": "town/func_8059E0F8",
+      "home": "town/func_8059E0F8",
+      "tu": "src/town/scene/apply_first_choice_position.c",
+      "foff": "0x51e0f8",
+      "vma": "0x800160f8",
+      "size": 56,
+      "evidence": "TOWN +0x520d08 is the first choice action field. The registered dispatcher calls it at +0x520540. The packed CD descriptor at +0x2b1a3c loads +0x51e000 at 0x80016000. The address of the string at +0x51e0f4 is passed to append_string. The callback prologue begins at +0x51e0f8."
+    },
+    {
       "row": "town/func_8059E130",
       "tu": "src/town/scene/initialize_context_entry_tables_variant_c.c",
       "home": "town/func_8059E130",

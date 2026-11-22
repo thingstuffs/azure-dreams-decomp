@@ -17,7 +17,10 @@
 
 extern struct Ent *prepare_directional_attack(void *, void *, s16, s32, void *);
 
-/* Attempt an action toward the target and update actor state on success. */
+/*
+ * Starts Death's attack against a compatible neighbor within 64 height units; returns 1, 0 if
+ * unsuitable, or -1 if busy.
+ */
 s32 try_death_attack(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *target, ActorRecord *actor) {
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
     ActorRecord *neighbor;
@@ -73,8 +76,3 @@ s32 try_death_attack(ActorRecord *action_state, ObjectPosition *effect_arg, Spri
 
     return -1;
 }
-
-/* MECHANISM: An unused 8-byte local (unused[2]) plus the natural long-lived
-   args/result/global base produce the retail 0x40 frame and s0-s5 roles.
-   The early failure paths return -1 directly and the success block sits inside the
-   final test's true arm (a failure-first `!= 0` return measured dist 9); explicit (0 - call) + 0x40 emits retail's negu/addiu arithmetic in v0. */

@@ -17,13 +17,13 @@
  * flags field 2 bytes before the object pointer, plus a global flags word. */
 
 /* Allocates and initializes a 0x104-byte object, returning NULL on failure. */
-void *create_item_label(void *init_data)
+void *create_item_label(struct DungeonItemEntry *item)
 {
     void *object;
 
     object = allocate_node_body(0x104);
     if (object != 0) {
-        if (format_item_name(object, init_data) == 0) {
+        if (format_item_name(object, item) == 0) {
             flag_object_for_removal(object);
             object = 0;
         }

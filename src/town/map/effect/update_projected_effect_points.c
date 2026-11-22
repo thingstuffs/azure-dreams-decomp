@@ -8,80 +8,47 @@
 
 
 
-typedef struct S_800A8CA8_0 {
-    u8 pad_00[0x74];
-    u16 unk_74;
-    u16 unk_76;
-    u8 pad_78[0x4];
-    u16 unk_7C;
-    u16 unk_7E;
-    u16 unk_80;
-    u8 pad_82[0x2];
-    u16 unk_84;
-    u16 unk_86;
-    u16 unk_88;
-    u8 pad_8A[0x3A];
-    s32 unk_C4;
-    u8 pad_C8[0x4C];
-    s8 unk_114;
-    s8 unk_115;
-    s8 unk_116;
-} S_800A8CA8_0;   /* arg0 in update_projected_effect_points */
-
-typedef struct S_800A8CA8_1 {
-    u8 pad_00[0xE];
-    s16 unk_0E;
-    u8 pad_10[0x2];
-    s16 unk_12;
-    u8 pad_14[0x2];
-    s16 unk_16;
-} S_800A8CA8_1;
-
-
 /* Updates three offset points, their projected coordinates, and phase-based intensities. */
-void update_projected_effect_points(void *object_arg, s32 phase, void *source_data, SpriteFrameState *extent) {
-    S_800A8CA8_0 *object = object_arg;
-    S_800A8CA8_1 *source;
+void update_projected_effect_points(TownRingProjection *object, s32 phase, ObjectPosition *source, SpriteFrameState *extent) {
     u32 phase_bits;
     s32 offset_phase;
     s32 double_phase;
     s32 y_offset;
     s32 x_offset;
-    void *start_point;
-    void *projection_scale;
-    void *projection_flags;
-    void *mid_point;
-    void *end_point;
+    SVECTOR *start_point;
+    s32 *projection_scale;
+    s32 *projection_flags;
+    SVECTOR *mid_point;
+    SVECTOR *end_point;
     u16 z_extent;
 
-    source = source_data;
     phase_bits = (u32) phase + 0x800;
     offset_phase = (s16)(phase_bits + 0);
     double_phase = offset_phase << 1;
-    object->unk_114 = (s8) ((rsin(source->unk_0E + double_phase) + 0x1000) / 128);
-    object->unk_115 = (s8) ((rsin(source->unk_12 + double_phase) + 0x1000) / 128);
-    object->unk_116 = (s8) ((rsin(source->unk_16 + double_phase) + 0x1000) / 128);
-    start_point = object_arg + 0x74;
-    copy_position_integer_parts(start_point, source_data);
-    mid_point = object_arg + 0x7C;
-    copy_position_integer_parts(mid_point, source_data);
-    end_point = object_arg + 0x84;
-    copy_position_integer_parts(end_point, source_data);
+    object->color.c.r = ((rsin((source->velocity_x >> 16) + double_phase) + 0x1000) / 128);
+    object->color.c.g = ((rsin((source->velocity_y >> 16) + double_phase) + 0x1000) / 128);
+    object->color.c.b = ((rsin((source->velocity_z >> 16) + double_phase) + 0x1000) / 128);
+    start_point = &object->start_point;
+    copy_position_integer_parts(start_point, source);
+    mid_point = &object->mid_point;
+    copy_position_integer_parts(mid_point, source);
+    end_point = &object->end_point;
+    copy_position_integer_parts(end_point, source);
     x_offset = (rsin(offset_phase) * extent->scale_x) / 4096;
     y_offset = (rcos(offset_phase) * extent->scale_y) / 4096;
-    projection_scale = object_arg + 0x94;
-    projection_flags = object_arg + 0x98;
-    object->unk_74 = (u16) (object->unk_74 + x_offset);
-    object->unk_76 = (u16) (object->unk_76 + y_offset);
-    object->unk_C4 = RotTransPers(start_point, object_arg + 0xE8, projection_scale, projection_flags);
-    object->unk_7C = (u16) (object->unk_7C + x_offset);
-    object->unk_7E = (u16) (object->unk_7E + y_offset);
+    projection_scale = &object->projection_scale;
+    projection_flags = &object->projection_flags;
+    object->start_point.vx = (object->start_point.vx + x_offset);
+    object->start_point.vy = (object->start_point.vy + y_offset);
+    object->depth_index = RotTransPers(start_point, &object->inner_xy, projection_scale, projection_flags);
+    object->mid_point.vx = (object->mid_point.vx + x_offset);
+    object->mid_point.vy = (object->mid_point.vy + y_offset);
     z_extent = extent->offset_x;
-    object->unk_80 = (u16) (object->unk_80 + ((s16) z_extent / 2));
-    object->unk_C4 = ((object->unk_C4 + RotTransPers(mid_point, object_arg + 0xEC,
+    object->mid_point.vz = (object->mid_point.vz + ((s16) z_extent / 2));
+    object->depth_index = ((object->depth_index + RotTransPers(mid_point, &object->middle_xy,
         projection_scale, projection_flags)) / 2) - 8;
-    object->unk_84 = (u16) (object->unk_84 + x_offset);
-    object->unk_86 = (u16) (object->unk_86 + y_offset);
-    object->unk_88 = (u16) (object->unk_88 + extent->offset_x);
-    RotTransPers(end_point, object_arg + 0x124, projection_scale, projection_flags);
+    object->end_point.vx = (object->end_point.vx + x_offset);
+    object->end_point.vy = (object->end_point.vy + y_offset);
+    object->end_point.vz = (object->end_point.vz + extent->offset_x);
+    RotTransPers(end_point, &object->outer_xy, projection_scale, projection_flags);
 }

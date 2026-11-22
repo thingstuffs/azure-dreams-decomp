@@ -3,7 +3,7 @@
 #include "shared/town_object.h"
 
 #include "town/person/object_setup.h"
-struct TownObjectRecord; void initialize_orbiting_object(struct TownObjectRecord *, s32, void *);    /* extern */
+#include "town/person/object.h"
 void func_800CDE4C(void *, s32, void *);    /* extern */
 #include "records/Rec_D_800CFCB4.h"
 #include "engine/window.h"

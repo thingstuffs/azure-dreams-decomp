@@ -1,49 +1,39 @@
 #include "common.h"
+#include "frontend/card/slot_marker.h"
 #include "frontend/card.h"
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
 
 
-typedef struct {
-    u8 pad8[8];
-    s16 unk8;
-    s16 unkA;
-} SubStruct2;
-
-typedef struct {
-    void *unk0;
-    SubStruct2 *unk4;
-} SubStruct;
-
 /* Sets up display element content and positions for the selected entry. */
-void card_dev_layout_selected_slot_entries(u8 *screen) {
-    SubStruct *element;
+void card_dev_layout_selected_slot_entries(CardDevMenu10 *window) {
+    CardDevMenuEntry *element;
     s32 formatted_value;
 
-    element = *(SubStruct **)(screen + 0x1EC);
-    element->unk4->unk8 = 0x70;
-    element->unk4->unkA = 0x10;
-    element->unk0 =  &D_80084158;
+    element = window->entries[5];
+    element->display.block->fields.x = 0x70;
+    element->display.block->fields.y = 0x10;
+    element->display.payload.data = &D_80084158;
 
-    element = *(SubStruct **)(screen + 0x1DC);
-    element->unk0 = (void *) func_80051B50(screen + 8, (*(s32 *)screen << 7) + (s32) &card_slot_detail_records[0], 1);
-    element->unk4->unk8 = 0xF0;
-    element->unk4->unkA = 0x91;
+    element = window->entries[1];
+    element->display.payload.data = (void *) func_80051B50(window->title_text, (window->slot_index << 7) + (s32) &card_slot_detail_records[0], 1);
+    element->display.block->fields.x = 0xF0;
+    element->display.block->fields.y = 0x91;
 
-    element = *(SubStruct **)(screen + 0x1E0);
-    element->unk0 = (void *) func_80051B50(screen + 0x50, (s32) &D_804005EC, 1);
-    element->unk4->unk8 = 0x160;
-    element->unk4->unkA = 0x91;
+    element = window->entries[2];
+    element->display.payload.data = (void *) func_80051B50(window->label_text, (s32) &D_804005EC, 1);
+    element->display.block->fields.x = 0x160;
+    element->display.block->fields.y = 0x91;
 
-    element = *(SubStruct **)(screen + 0x1E8);
-    func_80051804(card_slot_detail_records[*(s32 *)screen].words[8], 4, &formatted_value);
+    element = window->entries[4];
+    func_80051804(card_slot_detail_records[window->slot_index].words[8], 4, &formatted_value);
     remap_flagged_string_bytes_80051900(&formatted_value);
-    element->unk0 = (void *) build_positioned_text_glyphs_80051520(screen + 0x80, &formatted_value, 1);
-    element->unk4->unk8 = 0x13F;
-    element->unk4->unkA = 0x91;
+    element->display.payload.data = (void *) build_positioned_text_glyphs_80051520(window->value_text, &formatted_value, 1);
+    element->display.block->fields.x = 0x13F;
+    element->display.block->fields.y = 0x91;
 
-    element = *(SubStruct **)(screen + 0x1F4);
-    element->unk0 =  (screen + 0xB0);
-    element->unk4->unk8 = 0xAE;
-    element->unk4->unkA = 0x18;
+    element = window->entries[7];
+    element->display.payload.data = window->slot_packets;
+    element->display.block->fields.x = 0xAE;
+    element->display.block->fields.y = 0x18;
 }

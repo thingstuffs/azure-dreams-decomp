@@ -25,6 +25,121 @@ def git(root, *args):
                           capture_output=True, text=True).stdout.strip()
 
 
+class TypedefAwareTests(unittest.TestCase):
+    """two spellings of one type through typedef names agree; different types, ambiguous names and cycles do not"""
+    HEADERS = {
+        'types.h': (
+            'typedef signed int s32;\ntypedef short s16;\ntypedef unsigned char u8;\n'
+            'typedef s32 Fixed;\ntypedef Fixed Fixed2;\n'
+            'struct Tag { int a; };\ntypedef struct Tag Name;\ntypedef Name Other;\n'
+            'typedef struct Body { int b; } Bodied;\ntypedef struct { int c; } Anon;\n'
+            'typedef u8 *Ptr;\ntypedef s16 Half;\ntypedef struct Mon MonsterStats;\ntypedef MonsterStats EntityStats;\n'
+            'typedef Cyc2 Cyc1;\ntypedef Cyc1 Cyc2;\n'
+            'typedef enum { RED, BLUE } Colour;\ntypedef int Pair, *PairPtr;\ntypedef u8 Buffer[16];\n'
+            'typedef void (*Callback)(s32 a);\ntypedef Callback CallbackAlias;\n'),
+        'a.h': 'typedef s16 Clash;\n',
+        'b.h': 'typedef s32 Clash;\n',
+        'c.h': 'typedef struct { int d; } Work;\n',           # Work is an anonymous record here and an alias of Tag in d.h
+        'd.h': 'typedef struct Tag Work;\n',
+        'e.h': 'typedef struct Cell { int e; } Cell;\ntypedef struct Item Cell2;\n',
+        'f.h': 'typedef struct Item Cell;\n',                 # Cell: a self-tag record and an alias of Item
+    }
+    # (declaration A, declaration B, should agree)
+    CASES = [
+        ('void f(Fixed a);', 'void f(s32 a);', True),
+        ('void f(Fixed a);', 'void f(int a);', True),
+        ('void f(Fixed2 a);', 'void f(Fixed a);', True),
+        ('Fixed f(void);', 's32 f(void);', True),
+        ('void f(Name *a);', 'void f(struct Tag *a);', True),
+        ('void f(Other *a);', 'void f(struct Tag *a);', True),
+        ('void f(Other *a);', 'void f(Name *a);', True),
+        ('void f(Bodied *a);', 'void f(struct Body *a);', True),
+        ('void f(Anon *a);', 'void f(Anon *a);', True),
+        ('void f(Ptr a);', 'void f(u8 *a);', True),
+        ('void f(Ptr a);', 'void f(unsigned char *a);', True),
+        ('void f(EntityStats *a);', 'void f(struct Mon *a);', True),
+        ('void f(EntityStats *a);', 'void f(MonsterStats *a);', True),
+        ('void f(const Name *a);', 'void f(const struct Tag *a);', True),
+        ('void f(Callback cb);', 'void f(void (*cb)(s32 a));', True),
+        ('void f(CallbackAlias cb);', 'void f(Callback cb);', True),
+        ('void f(Fixed a, Name *b);', 'void f(int, struct Tag *);', True),
+        ('void f(Half a);', 'void f(s32 a);', False),
+        ('void f(Half a);', 'void f(s16 a);', True),
+        ('void f(Name *a);', 'void f(struct Body *a);', False),
+        ('void f(Ptr a);', 'void f(s32 *a);', False),
+        ('void f(Anon *a);', 'void f(Colour *a);', False),
+        ('void f(Clash a);', 'void f(s16 a);', False),      # defined two ways: no alias, never agrees with either
+        ('void f(Clash a);', 'void f(s32 a);', False),
+        ('void f(Clash a);', 'void f(Clash b);', True),
+        ('void f(Cyc1 a);', 'void f(Cyc1 b);', True),         # cyclic typedefs terminate
+        ('void f(Pair a);', 'void f(int a);', False),         # multi-declarator typedefs are not aliased
+        ('void f(Buffer a);', 'void f(u8 *a);', False),       # array typedefs are not aliased
+        ('void f(Work a);', 'void f(Tag a);', False),         # an anonymous record and an alias under one name: no alias
+        ('void f(Work *a);', 'void f(struct Tag *a);', False),
+        ('void f(Work a);', 'void f(Work b);', True),
+        ('void f(Cell *a);', 'void f(Item *a);', False),      # self-tag record and alias under one name: no alias
+        ('void f(Cell2 *a);', 'void f(struct Item *a);', True),
+    ]
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = tempfile.TemporaryDirectory()
+        inc = Path(cls.tmp.name) / 'include'
+        inc.mkdir()
+        for name, text in cls.HEADERS.items():
+            (inc / name).write_text(text)
+        cls.aliases = D.scalar_aliases(cls.tmp.name)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.tmp.cleanup()
+
+    def agree(self, a, b):
+        da, db = (D.declarations(t, {'f'}, self.aliases)[0] for t in (a, b))
+        return D.agrees(da, db) and D.agrees(db, da)
+
+    def test_equivalence_table(self):
+        got = [self.agree(a, b) for a, b, _ in self.CASES]
+        want = [w for _, _, w in self.CASES]
+        print('typedef-aware cases: %d/%d as expected (%d agree, %d differ)' % (
+            sum(g == w for g, w in zip(got, want)), len(want), sum(want), len(want) - sum(want)))
+        for (a, b, w), g in zip(self.CASES, got):
+            self.assertEqual(g, w, '%s  vs  %s: expected %s' % (a, b, 'agree' if w else 'differ'))
+
+    def test_alias_table_shapes(self):
+        self.assertEqual(self.aliases['Fixed'], 's32')
+        self.assertEqual(self.aliases['Name'], 'Tag')
+        self.assertEqual(self.aliases['Bodied'], 'Body')
+        self.assertEqual(self.aliases['Ptr'], 'u8 *')
+        self.assertNotIn('Anon', self.aliases)
+        self.assertNotIn('Clash', self.aliases)
+        self.assertNotIn('Work', self.aliases)
+        self.assertNotIn('Cell', self.aliases)
+        self.assertNotIn('Colour', self.aliases)
+        self.assertEqual(self.aliases['s32'], 'int')                # fixed-width names keep their spelling
+
+    def test_a_typedef_under_src_contests_an_include_alias(self):
+        with tempfile.TemporaryDirectory() as td:
+            (Path(td) / 'include').mkdir()
+            (Path(td) / 'src').mkdir()
+            (Path(td) / 'include/t.h').write_text('typedef struct Tag Task;\ntypedef struct Tag Plain;\n')
+            (Path(td) / 'src/x.c').write_text('typedef struct { int e; } Task;\ntypedef struct Tag Plain;\n')
+            aliases = D.scalar_aliases(td)
+        self.assertNotIn('Task', aliases)
+        self.assertEqual(aliases['Plain'], 'Tag')                # the same typedef repeated is not a conflict
+
+    def test_data_objects_use_the_same_aliases(self):
+        a = D.scan_data_text('extern Fixed table[4];\n', self.aliases)
+        b = D.scan_data_text('extern s32 table[4];\n', self.aliases)
+        self.assertEqual(a, b)
+        self.assertEqual(D.normalize_type('Other *', self.aliases), D.normalize_type('struct Tag *', self.aliases))
+
+    def test_the_repository_headers_still_scan(self):
+        real = D.scalar_aliases(HERE.parents[1])
+        self.assertEqual(real['u32'], 'unsigned')
+        self.assertEqual(D.normalize_type('u32', real), D.normalize_type('unsigned', real))
+
+
 class NormalizeTests(unittest.TestCase):
     def sig(self, text, name='f'):
         return [D.show_signature(e) for e in D.declarations(text, {name}, ALIASES)]

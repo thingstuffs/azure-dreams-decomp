@@ -1,20 +1,16 @@
 #include "common.h"
 #include "town/menu/motion.h"
-#include "m2c_compat.h"
-#include "records/Rec_D_80100B70.h"
 #include "town/menu.h"
 
-
-
 /* Decrease the value with a floor of four, advance the cyclic counter, and update the record. */
-void step_door_transition_sprite(Rec_D_80100B70 *record, s32 value, s32 unused_context) {
-    u16 reduced_value;
+void step_door_transition_sprite(struct DoorTransitionEffect *effect, struct ObjectPosition *position, struct SpriteFrameState *unused_sprite) {
+    s16 reduced_value;
 
-    reduced_value = record->unk_12 - 4;
-    record->unk_12 = reduced_value;
-    if ((s16) reduced_value < 4) {
-        record->unk_12 = 4U;
+    reduced_value = effect->brightness - 4;
+    effect->brightness = reduced_value;
+    if (reduced_value < 4) {
+        effect->brightness = 4U;
     }
-    record->unk_6E = (u16) ((record->unk_6E + 1) & 0x7F);
-    draw_textured_sprite_quad(record, value);
+    effect->texture_y = (effect->texture_y + 1) & 0x7F;
+    draw_textured_sprite_quad(effect, position);
 }

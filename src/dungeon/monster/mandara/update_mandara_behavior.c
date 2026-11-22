@@ -1,4 +1,5 @@
 #include "shared/sprite_source.h"
+#include "dungeon/effect/motion.h"
 #include "shared/dungeon_sprite_data.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -45,7 +46,6 @@ void reset_action_and_select_facing_animation(ActorRecord *action_state, ObjectP
 extern void func_80174250(void *, void *, void *, void *);
 
 #include "shared/record_ptrs.h"
-extern u8 mandara_object_callback_2[];
 #include "dungeon/monster/mandara.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
@@ -200,7 +200,7 @@ void update_mandara_behavior(ActorRecord *self_object, ObjectPosition *aux_entit
                 if (object != 0) {
                     register_node(&object->node, project_sprite_chain);
                     payload = object->node.position;
-                    object->node.update_callback = mandara_object_callback_2;
+                    object->node.update_callback = retire_finished_sprite_effect;
                     part = object->node.sprite;
                     payload->x.v = aux_entity->x.v;
                     payload = object->node.position;

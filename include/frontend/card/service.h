@@ -4,6 +4,8 @@
 
 #include "common.h"
 
+struct CardDevSaveWork;
+
 /* poll_selected_card_slot.c */
 s32 poll_selected_card_slot(void);
 
@@ -41,6 +43,6 @@ s32 card_devkit_poll_stable_slot_state(void);
 s32 process_selection(void);
 
 /* read_and_update_indexed_record.c */
-s32 read_and_update_indexed_record(s32 index, void *data_ptr);
+s32 read_and_update_indexed_record(s32 index, struct CardDevSaveWork *save);
 
 #endif

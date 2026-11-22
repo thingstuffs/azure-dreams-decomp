@@ -167,14 +167,7 @@ void *create_linked_object_position(s16 spawn_flags, s16 attr_a, s16 attr_b, s32
     return result;
 }
 
-/*
- * Runs actor callbacks and updates facing, animation, movement, and ground contact.
- *
- * MECHANISM: 2.7.2-cdk-G0 (retail shows the compiler's HIGH/LO_SUM address split: lui / lw /
- * addiu). The two byte parameters arrive as s16: their narrowing copies survive cse, combine folds
- * the a1/a2 temps into them, so sched1 schedules the parameter copies and the entry order is
- * retail's.
- */
+/* Runs actor callbacks and updates facing, animation, movement, and ground contact. */
 void update_block_motion_and_facing(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *monster)
 {
     ActorRecord *actor = entity;
@@ -225,7 +218,7 @@ void update_block_motion_and_facing(ActorRecord *entity, ObjectPosition *motion,
         direction_copy = direction;
 
         if (entity->unk_94 != direction_index) {
-            u8 *tile_map = ((u8 *)monster->frameTable);
+            u8 *tile_map = (monster->frameTable);
             if (tile_map != 0) {
                 select_indirect_table_entry(monster, tile_map[direction_index], monster->unk_04);
             }
@@ -698,11 +691,11 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
             {
                 u8 *x_step;
 
-                x_step = (u8 *)((s8 *)dir_step_x);
+                x_step = (u8 *)dir_step_x;
                 step_offset = (actor_data->facing >> 8) & 0xE;
                 x_step += step_offset;
                 position_data->tile_x += *x_step;
-                position_data->tile_y += *((u8 *)((s8 *)dir_step_y) + step_offset);
+                position_data->tile_y += *((u8 *)dir_step_y + step_offset);
             }
 
             cycle_map_cell_flags(
@@ -2090,7 +2083,7 @@ void create_radial_effect_bands(CB_80174D14_S_80C97514_0 *owner, ObjectPosition 
                 s32 end_angle;
 
                 effect_data = (u8 *)effect + 0x20;
-                body = (CB_80174724_S_80C96F24_1 *)effect_data;
+                body = effect_data;
 
                 body->unk_24 = 0x42;
                 init_value = 0x17;
@@ -2402,7 +2395,7 @@ void replace_actor_with_faded_effect(CB_80174D14_S_80C97514_0 *state, ObjectPosi
         if ((effect_type << 0x10) < 0) {
             effect_index = rand() % 3;
         }
-        effect_data = (void *)(*((s32 *)&D_80175318 + (s16) effect_index) + (u8 *)&dungeon_resource_buffer);
+        effect_data = (*((s32 *)&D_80175318 + (s16) effect_index) + (u8 *)&dungeon_resource_buffer);
         select_record_entry_and_value(render_obj, effect_data, 0);
         entity->flags = (u16) (entity->flags | 0x80);
         state->timer = 0U;

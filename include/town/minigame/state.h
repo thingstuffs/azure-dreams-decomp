@@ -86,7 +86,7 @@ void advance_actor_state_nearby_activation(Rec_D_80082D58 *actor, s32 *position,
 void advance_interaction_state_animating_cursor(FixedInteractionEffectBody *self, struct ObjectPosition *position, struct LitMeshSprite *cursor_data);
 
 /* process_slot_machine_state.c */
-void process_slot_machine_state(State8081FF68 *state, void *position);
+void process_slot_machine_state(State8081FF68 *state, struct ObjectPosition *position);
 
 /* retire_text_when_linked_removed.c */
 void retire_text_when_linked_removed(TerminalSceneTextObject *record);

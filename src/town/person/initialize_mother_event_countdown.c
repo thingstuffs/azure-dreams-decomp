@@ -10,8 +10,8 @@ extern s32 D_800C7E70;
 
 
 /* Initialize the object state, callback, countdown, and starting value. */
-void initialize_mother_event_countdown(TownObjectRecord *object, s32 unused, void *init_data) {
-    initialize_object_entries((object), init_data, &mother_event_object_entries);
+void initialize_mother_event_countdown(TownObjectRecord *object, ObjectPosition *unused_position, SpriteFrameState *sprite) {
+    initialize_object_entries((object), sprite, &mother_event_object_entries);
     mother_event_reset_byte = 0;
     object->handler = &D_800C7E70;
     object->timer = 0xA;

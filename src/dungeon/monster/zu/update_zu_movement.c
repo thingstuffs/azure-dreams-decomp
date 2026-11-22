@@ -716,9 +716,9 @@ void select_zu_movement(ActorRecord *move_data, ObjectPosition *context, SpriteF
                     s32 offset_index =
                         ((actor_data->unk_44.bytes.high + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
-                        *(u16 *)((u8 *)((s8 *)dir_step_x) + offset_index);
+                        *(u16 *)((u8 *)dir_step_x + offset_index);
                     target_y = target_position->tile_position.parts.tile_y +
-                        *(u16 *)((u8 *)((s8 *)dir_step_y) + offset_index);
+                        *(u16 *)((u8 *)dir_step_y + offset_index);
                 }
 
                 if (position_data->tile_x == (u16)target_x &&
@@ -825,11 +825,11 @@ void select_zu_movement(ActorRecord *move_data, ObjectPosition *context, SpriteF
             {
                 u8 *x_step;
 
-                x_step = (u8 *)((s8 *)dir_step_x);
+                x_step = (u8 *)dir_step_x;
                 step_offset = (actor_data->facing >> 8) & 0xE;
                 x_step += step_offset;
                 position_data->tile_x += *x_step;
-                position_data->tile_y += *((u8 *)((s8 *)dir_step_y) + step_offset);
+                position_data->tile_y += *((u8 *)dir_step_y + step_offset);
             }
 
             cycle_map_cell_flags(
@@ -1136,9 +1136,9 @@ void update_zu_windup_strike(ActorRecord *body, ObjectPosition *motion, SpriteFr
 
     index = actor->facing >> 8;
     setup_value = index & 0xE;
-    direction_x_table = (u8 *)((s8 *)dir_step_x);
+    direction_x_table = (u8 *)dir_step_x;
     direction_x_table += setup_value;
-    direction_y_table = (u8 *)((s8 *)dir_step_y);
+    direction_y_table = (u8 *)dir_step_y;
     direction_x = *(s16 *)direction_x_table;
     setup_value = (s32)(direction_y_table + setup_value);
     direction_y = *(s16 *)setup_value;
@@ -1560,9 +1560,9 @@ void restore_zu_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrame
             u16 action_flags;
 
             motion->velocity_x =
-                ((s16 *)((s8 *)dir_step_x))[direction] << 18;
+                dir_step_x[direction] << 18;
             motion->velocity_y =
-                ((s16 *)((s8 *)dir_step_y))[direction] << 18;
+                dir_step_y[direction] << 18;
             motion->velocity_z = 0x20000;
 
             action_flags = action->action_state_flags;
@@ -1593,8 +1593,8 @@ void restore_zu_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrame
         return;
     case 1:
         motion->velocity_x -=
-            ((s16 *)((s8 *)dir_step_x))[direction] << 15;
-        motion->velocity_y -= ((s16 *)((s8 *)dir_step_y))[direction] << 15;
+            dir_step_x[direction] << 15;
+        motion->velocity_y -= dir_step_y[direction] << 15;
 
         timer_signed = action->action_timer;
         timer_wide = (u16)action->action_timer;

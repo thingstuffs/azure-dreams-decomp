@@ -9,7 +9,10 @@
 
 
 
-/* Advances a timed transition, updates its target, and marks completion. */
+/*
+ * Advances the encounter overlay's slide phases, moving its target in y, and clears the overlay's
+ * object slot and flags the node for removal when the animation ends.
+ */
 void animate_encounter_overlay_slide(EncounterOverlayBody *transition_arg, ObjectPosition *target)
 {
     EncounterOverlayBody *transition = transition_arg;
@@ -89,7 +92,3 @@ void animate_encounter_overlay_slide(EncounterOverlayBody *transition_arg, Objec
         return;
     }
 }
-
-/* MECHANISM: Frameless leaf recovers every apparent 0x8016FAxx call as a local CFG join. A direct 0..11
-   switch and shared advance/clear/finish labels restore retail layout. Placing the page births after
-   flag branches produces the exact delay-slot luis and stores. */

@@ -2,28 +2,20 @@
 #include "common.h"
 #include "town/person.h"
 
-typedef struct town_rising_reaction_object {
-    u8 pad0[0x6C];
-    u16 timer;
-    u16 value;
-    u16 pad70;
-    u16 output;
-} TownObject;
-
 /* Raise output as the timer counts down, then set it to the base value plus 0x800. */
-void raise_reaction_output_until_expiry(TownObject *obj, s32 update_input_1, SpriteFrameState *update_input_2) {
+void raise_reaction_output_until_expiry(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite) {
     u16 timer;
     u16 output_value;
 
-    timer = obj->timer - 1;
-    obj->timer = timer;
+    timer = object->timer - 1;
+    object->timer = timer;
     if ((timer << 16) <= 0) {
-        func_800CA60C(obj, update_input_1, update_input_2);
-        output_value = obj->value + 0x800;
+        func_800CA60C(object, position, sprite);
+        output_value = object->unk_6E + 0x800;
     } else {
-        output_value = obj->output + 0x100;
+        output_value = object->heading + 0x100;
     }
-    obj->output = output_value;
+    object->heading = output_value;
 }
 
 /* MECHANISM: The seed's 24-byte frame and s0-held object base were already exact. The live output RMW

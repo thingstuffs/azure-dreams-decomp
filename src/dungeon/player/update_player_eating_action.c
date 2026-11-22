@@ -126,7 +126,3 @@ void update_player_eating_action(ActorRecord *controller, s32 action_id, SpriteF
         break;
     }
 }
-
-/* MECHANISM: True-space local joins restore retail block order and the increment path.
-   A volatile held 0x80083160 base reproduces both loads; short-lived a0/v1 roles
-   plus index-first entry arithmetic preserve the final addu destination. */

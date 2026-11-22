@@ -13,7 +13,6 @@
 
 extern struct Ent *prepare_directional_attack(void *, void *, s16, s32, void *);
 
-/* Attempts an action toward the target and initializes the action state on success. */
 /* Starts Beldo's attack against a compatible neighbor within 64 height units; returns 1, 0 if unsuitable,
  * or -1 if busy. */
 s32 try_actor_attack(ActorRecord *action_state, ObjectPosition *action_id, SpriteFrameState *target, ActorRecord *actor) {
@@ -71,8 +70,3 @@ s32 try_actor_attack(ActorRecord *action_state, ObjectPosition *action_id, Sprit
 
     return -1;
 }
-
-/* MECHANISM: An unused 8-byte local (unused[2]) plus the natural long-lived
-   args/result/global base produce the retail 0x40 frame and s0-s5 roles.
-   A shared mid-function failure block restores both branch targets and polarity;
-   explicit (0 - call) + 0x40 emits retail's negu/addiu arithmetic in v0. */

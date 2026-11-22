@@ -2869,14 +2869,14 @@ void update_five_point_effect(FivePointEffectBody *effect, ObjectPosition *posit
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
-/* Pass the buffer, value, and data to draw_linked_sprites_clipped and return zero. */
-s32 draw_linked_menu_sprites(u8 *buffer, s32 value, SpriteFrameState *data) {
-    draw_linked_sprites_clipped(buffer, value, data);
+/* Render the linked menu nodes starting at this body, position and sprite. */
+s32 draw_linked_menu_sprites(u8 *buffer, ObjectPosition *position, SpriteFrameState *data) {
+    draw_linked_sprites_clipped(buffer, position, data);
     return 0;
 }
 
 extern void update_five_point_effect(FivePointEffectBody *effect, ObjectPosition *position, s32 restore_link);
-extern s32 draw_linked_menu_sprites(u8 *buffer, s32 value, SpriteFrameState *data);
+extern s32 draw_linked_menu_sprites(u8 *buffer, ObjectPosition *position, SpriteFrameState *data);
 
 /* Creates an effect at the tile center and initializes its rendering and five angles. */
 void *create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transform_data, s16 scale, s32 setup_word_5c,
@@ -3267,44 +3267,27 @@ void create_wrapped_texture_scroll(s16 value) {
 #define NULL 0
 #endif
 
-typedef struct S_800BC26C_0 {
-    u8 pad_00[0x10];
-    void * unk_10;
-    u8 pad_14[0xC];
-    void *unk_20;
-} S_800BC26C_0;   /* result in create_tracked_effect */
-
-typedef struct S_800BC26C_1 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    u8 pad_08[0x4];
-    s16 unk_0C;
-    s16 unk_0E;
-} S_800BC26C_1;   /* fields in create_tracked_effect */
-
-extern void retire_effect_when_owner_or_value_ends(void *context);
-
-/* Creates an object and initializes its owner, parameter, and mode-dependent fields. */
-void *create_tracked_effect(ObjectNodeHeader **owner, s16 mode, s32 param, void *unused)
+/* Register the draw and update callbacks against the supplied sprite owner. */
+ObjectNodeHeader *create_tracked_effect(ObjectNodeHeader *owner, s16 mode, void *frame_table_slot, void *unused)
 {
-    S_800BC26C_0 *object;
-    S_800BC26C_1 *fields;
+    ObjectNodeHeader *object;
+    TrackedSpriteEffect *fields;
     s16 saved_mode;
 
-    object = allocate_list_node(0x110, owner);
+    object = allocate_list_node(0x110, &owner->next);
     saved_mode = mode;
     if (object != NULL) {
-        object->unk_10 = retire_effect_when_owner_or_value_ends;
+        object->update_callback = retire_effect_when_owner_or_value_ends;
         register_node(object, traverse_nodes_and_render_unflagged);
-        fields = (S_800BC26C_1 *)((u8 *)object + 0x20);
-        object->unk_20 = owner;
-        fields->unk_04 = param;
+        fields = NODE_BODY(object);
+        fields->owner = owner;
+        fields->frame_table_slot = frame_table_slot;
         if (mode != 0) {
-            fields->unk_0C = 0x7F80;
+            fields->mode_value = 0x7F80;
         } else {
-            fields->unk_0C = 0x7FC0;
+            fields->mode_value = 0x7FC0;
         }
-        fields->unk_0E = saved_mode;
+        fields->mode = saved_mode;
     }
     return object;
 }
@@ -3313,27 +3296,17 @@ void *create_tracked_effect(ObjectNodeHeader **owner, s16 mode, s32 param, void 
 #define NULL 0
 #endif
 
-typedef struct S_8003FFF0 S_8003FFF0;
-struct S_8003FFF0 {
-    S_8003FFF0 *next;
-    u8 unk04[0x0c];
-    u8 *kind;
-    u8 unk14[0x0a];
-    u16 flags;
-    s32 id;
-};
+extern ObjectNodeHeader *active_node_list_head;
 
-extern S_8003FFF0 *active_node_list_head[4];
-extern void retire_effect_when_owner_or_value_ends(void *context);
+/* Remove the first active tracked effect attached to this owner. */
+void retire_tracked_effect_by_id(ObjectNodeHeader *owner) {
+    ObjectNodeHeader *node;
 
-// Set bit 0x8000 in the first matching node's flags and the shared flags.
-void retire_tracked_effect_by_id(s32 targetId) {
-    S_8003FFF0 *node;
-
-    node = *active_node_list_head;
+    node = active_node_list_head;
     if (node != NULL) {
         do {
-            if ((node->kind == retire_effect_when_owner_or_value_ends) && (node->id == targetId)) {
+            TrackedSpriteEffect *effect = NODE_BODY(node);
+            if ((node->update_callback == retire_effect_when_owner_or_value_ends) && (effect->owner == owner)) {
                 u16 nodeFlags = node->flags;
                 s32 sharedFlags = object_flag_block.flags;
 
@@ -3348,11 +3321,10 @@ void retire_tracked_effect_by_id(s32 targetId) {
 #include "engine/node.h"
 
 /* Mark completion when the referenced object is flagged or the tracked value is zero. */
-void retire_effect_when_owner_or_value_ends(void *context)
+void retire_effect_when_owner_or_value_ends(TrackedSpriteEffect *effect)
 {
-    void *object = *(void **)context;
-    if ((*(u16 *)((u8 *)object + 0x1E) & 0x8000) || (*(*(s32 **)((u8 *)context + 4)) == 0)) {
-        *(u16 *)((u8 *)context - 2) |= NODE_REMOVE;
+    if ((effect->owner->flags & NODE_REMOVE) || *effect->frame_table_slot == 0) {
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

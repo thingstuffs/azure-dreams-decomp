@@ -19,11 +19,11 @@ extern u8 animation_tick_scale[];
 extern void func_80089c24();
 
 /* Updates menu animation, selection, and idle demo transitions. */
-void update_settings_menu_animation(SettingsMenuBody *obj, s32 *position) {
+void update_settings_menu_animation(SettingsMenuBody *obj, ObjectPosition *position) {
     int frames_left;
     int slot;
     u16 next_state;
-    void *child;
+    ObjectNodeHeader *child;
     GameWork *input = &g_game_work;
 
     frames_left = obj->counter - 1;
@@ -46,11 +46,11 @@ void update_settings_menu_animation(SettingsMenuBody *obj, s32 *position) {
             obj->state = 16;
             return;
         }
-        position[1] += 0xFFFEC000;
-        if (*(s16 *) ((u8 *) position + 6) >= 0) {
+        position->y.v += 0xFFFEC000;
+        if (position->y.w.i >= 0) {
             return;
         }
-        position[1] = 0;
+        position->y.v = 0;
         obj->counter = 105;
         obj->state = 2;
         return;
@@ -112,7 +112,7 @@ void update_settings_menu_animation(SettingsMenuBody *obj, s32 *position) {
                         /* fallthrough */
     case 17:
         if ((s16) render_screen_fade_increasing_intensity(&obj->fade)) {
-            position[1] = 0;
+            position->y.v = 0;
             obj->fade.unk_2 = 0;
             obj->state = 18;
         }
@@ -153,7 +153,7 @@ void update_settings_menu_animation(SettingsMenuBody *obj, s32 *position) {
                 obj->state = next_state;
                 break;
             }
-            *(void **) ((u8 *) child + 16) = (void *) start_settings_after_transition;
+            child->update_callback = start_settings_after_transition;
             obj->state = 253;
             break;
         case 1:
@@ -186,7 +186,7 @@ void update_settings_menu_animation(SettingsMenuBody *obj, s32 *position) {
 
     case 253:
         animation_tick_scale[0] = 2;
-        ((u16 *) obj)[-1] |= NODE_REMOVE;
+        NODE_HEADER(obj)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
 

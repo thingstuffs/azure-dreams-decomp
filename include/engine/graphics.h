@@ -15,10 +15,10 @@ void apply_display_vector_defaults(struct ItemMenuPart **objects, s32 object_cou
 struct ObjectPosition;
 struct SpriteFrameState;
 struct WindowCursorBody;
-struct Entry;
 struct FrameState;
 struct Prim12;
 struct SpriteAttachmentEntry;
+struct SVECTOR;
 struct S_8003DF74_Vec;
 struct S_8003F9E0;
 struct S_800475A4_Entry;
@@ -37,7 +37,7 @@ struct S_8004CC38_Node;
 struct S_80050550_Outer;
 struct S_800505BC;
 struct S_800508F0;
-struct S_80052C10_Arg1;
+struct CdCueSequenceFrame;
 struct Tint8004C080;
 
 /* advance_timed_tagged_stream.c */
@@ -97,7 +97,7 @@ u8 *func_8004068C(u8 *src, u8 *dst);
 void dispatch_registered_draw_callbacks(void);
 
 /* draw_double_byte_text.c */
-void clear_and_draw_paired_text_rows(s16 row, struct S_80052C10_Arg1 *texts);
+void clear_and_draw_paired_text_rows(s16 row, struct CdCueSequenceFrame *frame);
 
 /* draw_glyph_row.c */
 void draw_glyph_row(s32 x, s32 y, s32 spacing_index, u8 *glyph_codes);
@@ -105,18 +105,18 @@ void draw_glyph_row(s32 x, s32 y, s32 spacing_index, u8 *glyph_codes);
 /* draw_linked_sprites.c */
 s32 draw_linked_sprites(void *first_payload, struct ObjectPosition *first_coords, struct SpriteFrameState *first_record);
 
-/* draw_sprite_clipped.c */
-void draw_sprite_clipped(void *context, s32 position, SpriteFrameState *sprite, s16 depth_bias);
-
 /* draw_linked_sprites_clipped.c */
-s32 draw_linked_sprites_clipped(u8 *first_data, s32 link_value, SpriteFrameState *value_record);
-s32 func_80045C34(u8 *first_data, s32 link_value, struct SpriteFrameState *value_record);
+s32 draw_linked_sprites_clipped(u8 *first_data, struct ObjectPosition *position, SpriteFrameState *value_record);
+s32 func_80045C34(u8 *first_data, struct ObjectPosition *position, struct SpriteFrameState *value_record);
 
 /* draw_lit_mesh.c */
 void draw_lit_mesh(void *body, struct ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias);
 
 /* draw_shaded_horizontal_line.c */
 void draw_shaded_horizontal_line(s16 x, s16 y, s16 width, s16 shade_step);
+
+/* draw_sprite_clipped.c */
+void draw_sprite_clipped(void *context, struct ObjectPosition *position, struct SpriteFrameState *sprite, s16 depth_bias);
 
 /* draw_sprite_list.c */
 void draw_sprite_list(void);
@@ -213,7 +213,7 @@ void func_80041344(s32 data_base, void *scratch);
 void run_image_load_commands(s32 data_base, void *scratch);
 
 /* transform_sprite_attachment_point.c */
-void transform_sprite_attachment_point(struct SpriteFrameState *transform, void *point, void *result);
+void transform_sprite_attachment_point(struct SpriteFrameState *transform, void *point, struct SVECTOR *result);
 
 /* scale_four_points_about_center.c */
 void copy_and_scale_screen_outline_points(void);
@@ -246,10 +246,10 @@ void advance_gauge_ramp_and_decay(struct S_800505BC *state, s32 unused_1, s32 un
 void set_sprite_animation_frame(SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index);
 
 /* sprite_projection.c */
-s32 func_80045340(void *group_data, s32 context, struct SpriteFrameState *sprite, s32 unused);
-s32 project_sprite_chain(void *group_data, s32 context, struct SpriteFrameState *sprite, s32 unused);
-void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth_bias);
-void project_sprite_commands(void *context, void *position, struct Entry *entry, s16 depth_bias);
+s32 func_80045340(void *group_data, struct ObjectPosition *position, struct SpriteFrameState *sprite, s32 unused);
+s32 project_sprite_chain(void *group_data, struct ObjectPosition *position, struct SpriteFrameState *sprite, s32 unused);
+void func_800453E0(void *context, struct ObjectPosition *position, struct SpriteFrameState *entry, s16 depth_bias);
+void project_sprite_commands(void *context, struct ObjectPosition *position, struct SpriteFrameState *entry, s16 depth_bias);
 
 /* update_tagged_record_flag.c */
 void update_record_chain_status_bit(u8 *record, s32 set_status_bit);

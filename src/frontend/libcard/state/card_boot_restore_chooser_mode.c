@@ -3,16 +3,15 @@
 #include "m2c_compat.h"
 #include "frontend/libcard/state.h"
 
-/* Clear flag 0x2000 and restore the saved field when the flag is set. */
-void card_boot_restore_chooser_mode(void *record_part) {
+/* Restore the chooser callback when its notice completes. */
+void card_boot_restore_chooser_mode(CardChooserBody *menu) {
     u16 flags;
     ObjectNodeHeader *base_record;
 
-    base_record = NODE_HEADER(record_part);
+    base_record = NODE_HEADER(menu);
     flags = base_record->flags;
     if (flags & 0x2000) {
         base_record->flags = (u16) (flags & 0xDFFF);
-        ((CardChooserBody *)((u8 *)record_part - 0x10))->mode = (s32) ((CardChooserBody *)((u8 *)record_part
-            - 0x10))->unk_3C;
+        NODE_HEADER(menu)->update_callback = menu->resume_input;
     }
 }

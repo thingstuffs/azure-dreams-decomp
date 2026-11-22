@@ -849,11 +849,11 @@ void choose_univern_move(ActorRecord *move_data, ObjectPosition *context, Sprite
             {
                 u8 *x_step;
 
-                x_step = (u8 *)((s8 *)dir_step_x);
+                x_step = (u8 *)dir_step_x;
                 step_offset = (actor_data->facing >> 8) & 0xE;
                 x_step += step_offset;
                 position_data->tile_x += *x_step;
-                position_data->tile_y += *((u8 *)((s8 *)dir_step_y) + step_offset);
+                position_data->tile_y += *((u8 *)dir_step_y + step_offset);
             }
 
             cycle_map_cell_flags((s16)(position_data->tile_x),(s16)(position_data->tile_y),(u16)((actor_data->flags1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000));
@@ -1569,8 +1569,8 @@ void advance_univern_defeat_removal(R17_80173614_S_func_80C17E14_0 *action, Moti
     s32 state;
 
     direction_offset = (entity->unk_6A >> 8) & 0xE;
-    offset_x = *(s16 *)((u8 *)((s8 *)dir_step_x) + direction_offset);
-    offset_y = *(s16 *)((u8 *)((s8 *)dir_step_y) + direction_offset);
+    offset_x = *(s16 *)((u8 *)dir_step_x + direction_offset);
+    offset_y = *(s16 *)((u8 *)dir_step_y + direction_offset);
     state = action->unk_9B;
 
     switch (state) {

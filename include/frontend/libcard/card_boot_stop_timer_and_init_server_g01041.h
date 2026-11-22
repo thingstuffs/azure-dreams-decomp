@@ -28,8 +28,8 @@ void save_and_clear_actor_blind_flag(void);
 
 /* Functions defined in this translation unit. */
 void card_boot_stop_timer_and_init_server(void);
-void *card_boot_open_save_slot_selection(struct ObjectNodeHeader *request);
-void *card_boot_open_request_mode_two(void *request);
-void *card_boot_open_request_at_screen_center(void *request);
+CardChooser *card_boot_open_save_slot_selection(struct ObjectNodeHeader *request);
+CardChooser *card_boot_open_request_mode_two(struct ObjectNodeHeader *request);
+CardChooser *card_boot_open_request_at_screen_center(struct ObjectNodeHeader *request);
 
 #endif

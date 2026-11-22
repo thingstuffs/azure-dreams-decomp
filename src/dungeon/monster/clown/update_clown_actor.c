@@ -1639,7 +1639,7 @@ void update_expanding_spiral_effect(AngledSourceEffectBody *effect_arg, ObjectPo
 
 /* Creates a green sprite at an angular offset from the source and installs its expanding spiral animation. */
 void create_angled_source_effect(
-    s32 unused_0, ObjectPosition *origin, SpriteFrameState *unused_sprite, s32 unused_3, s16 angle, u16 depth_offset)
+    ActorRecord *source, ObjectPosition *origin, SpriteFrameState *unused_sprite, ActorRecord *subject, s16 angle, u16 depth_offset)
 {
     ObjectNodeHeader *object;
     AngledSourceEffectBody *state;
@@ -1753,7 +1753,7 @@ void fade_entity_colors_to_neutral(void *entity_data, void *unused, SpriteFrameS
 
 /* Loads transition effects, fades the view tint, emits particles, and starts loading the replacement
  * actor. */
-void advance_clown_cd_cue_effect(Rec_func_801732A4_arg0 *state, ObjectPosition *position, SpriteFrameState *actor, void *model) {
+void advance_clown_cd_cue_effect(ActorRecord *state, ObjectPosition *position, SpriteFrameState *actor, void *model) {
     s16 next_spawn;
     s16 next_trail;
     s16 spawn_count;
@@ -1771,22 +1771,22 @@ void advance_clown_cd_cue_effect(Rec_func_801732A4_arg0 *state, ObjectPosition *
     void *effect_model;
     ActorEffectColor *target_color;
     ObjectPosition *effect_position;
-    R16_80173CEC_S_80173CEC_9 *effect_sprite;
+    SpriteFrameState *effect_sprite;
     GameWork *scene_color;
     ObjectNodeHeader *effect;
 
     scene_color = &g_game_work;
-    phase = state->unk_9B;
+    phase = state->action_phase;
     switch (phase) {
     case 0:
-        state->unk_9B = (u8) (state->unk_9B + 1);
+        state->action_phase = (u8) (state->action_phase + 1);
         return;
     case 1:
     {
         Rec_D_80082E80 *model_view = model;
         run_cd_image_commands(((s32 *)D_801742CC), (clown_image_load_done), 0);
-        state->unk_A6 = 0;
-        state->unk_9B = (u8) (state->unk_9B + 1);
+        state->unk_A4.halves.high.s = 0;
+        state->action_phase = (u8) (state->action_phase + 1);
         model_view->unk_8A = (u16) model_view->unk_28.at02_u16.v;
         model_view->unk_1C.at00_s32.v =
             (s32) (model_view->unk_1C.at00_s32.v & 0xFFFBFFFF);
@@ -1808,41 +1808,41 @@ void advance_clown_cd_cue_effect(Rec_func_801732A4_arg0 *state, ObjectPosition *
         Control_CD(0x15, read_stream_cue_start_offset(), NULL);
         (*(s8 *)((s32 *)clown_effect_load_done)) = 0;
         Control_CD(0xFF, ((s32 *)resource_completion_callback_address), ((s32 *)clown_effect_load_done));
-        select_nearby_target_and_initialize_slot(model - 0x20, position, 8, 0x300);
-        state->unk_96 = 0x10U;
-        state->unk_9B = (u8) (state->unk_9B + 1);
+        select_nearby_target_and_initialize_slot(NODE_HEADER(model), position, 8, 0x300);
+        state->action_timer = 0x10U;
+        state->action_phase = (u8) (state->action_phase + 1);
     }
     case 3:
-        fade_timer = state->unk_96;
+        fade_timer = state->action_timer;
         fade_left = fade_timer - 1;
-        state->unk_96 = fade_left;
+        state->action_timer = fade_left;
         if ((fade_left << 0x10) <= 0) {
             event_done = ((R16_80173CEC_S_80173CEC_2 *)(((s32 *)clown_effect_load_done)))->unk_00;
-            state->unk_96 = fade_timer;
+            state->action_timer = fade_timer;
             if (event_done == 0) {
                 return;
             }
-            state->unk_9B = (u8) (state->unk_9B + 1);
+            state->action_phase = (u8) (state->action_phase + 1);
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
             return;
         }
         target_color = actor_effect_color_targets[lookup_masked_byte_table(model)];
         scene_color->view.tint.parts.tint_r = (u8) (scene_color->view.tint.parts.tint_r + ((s32) (target_color->r
-            - scene_color->view.tint.parts.tint_r) / (s16) state->unk_96));
+            - scene_color->view.tint.parts.tint_r) / state->action_timer));
         scene_color->view.tint.parts.tint_g = (u8) (scene_color->view.tint.parts.tint_g + ((s32) (target_color->g
-            - scene_color->view.tint.parts.tint_g) / (s16) state->unk_96));
+            - scene_color->view.tint.parts.tint_g) / state->action_timer));
         scene_color->view.tint.parts.tint_b = (u8) (scene_color->view.tint.parts.tint_b + ((s32) (target_color->b
-            - scene_color->view.tint.parts.tint_b) / (s16) state->unk_96));
+            - scene_color->view.tint.parts.tint_b) / state->action_timer));
         return;
     case 4:
         effect = allocate_flagged_object_node(0x12);
         if (effect == NULL) {
             return;
         }
-        effect->update_callback = ((void *)fade_entity_colors_to_neutral);
-        register_node(effect, ((void *)project_clown_sprite_chain));
+        effect->update_callback = fade_entity_colors_to_neutral;
+        register_node(effect, project_clown_sprite_chain);
         color = 0x808080;
-        state->unk_AC = effect;
+        state->unk_AC.address = effect;
         effect_model = model;
         effect->position->x.v = (s32) position->x.v;
         effect->position->y.v = (s32) position->y.v;
@@ -1851,9 +1851,9 @@ void advance_clown_cd_cue_effect(Rec_func_801732A4_arg0 *state, ObjectPosition *
         (*(s16 *)clown_fade_count) = -8;
         effect_position->z.v = effect_value_2;
         effect_sprite = effect->sprite;
-        effect_sprite->unk_1E = 0x1000;
-        effect_sprite->unk_1C = 0x1000;
-        effect_sprite->unk_0C.s = color;
+        effect_sprite->scale_y = 0x1000;
+        effect_sprite->scale_x = 0x1000;
+        effect_sprite->color.word = color;
         variant_index = lookup_masked_byte_table(effect_model) - 1;
         effect_value = variant_index;
         if ((variant_index << 0x10) < 0) {
@@ -1862,8 +1862,8 @@ void advance_clown_cd_cue_effect(Rec_func_801732A4_arg0 *state, ObjectPosition *
         select_record_entry_and_value(effect_sprite, ((s32 *)D_801742D4)[(s16) effect_value] + (s8 *) ((s32 *)dungeon_resource_buffer), 0);
         actor->flags = (u16) (actor->flags | 0x80);
         spawn_count = 0;
-        state->unk_96 = 0U;
-        state->unk_9B = (u8) (state->unk_9B + 1);
+        state->action_timer = 0U;
+        state->action_phase = (u8) (state->action_phase + 1);
         do {
             create_angled_source_effect(state, position, actor, model, rand() & 0xFFF, 0);
             next_spawn = spawn_count + 1;
@@ -1873,8 +1873,8 @@ void advance_clown_cd_cue_effect(Rec_func_801732A4_arg0 *state, ObjectPosition *
             }
         } while (1);
     case 5:
-        elapsed = state->unk_96;
-        state->unk_96 = (u16) (elapsed + 1);
+        elapsed = state->action_timer;
+        state->action_timer = (u16) (elapsed + 1);
         if ((s16) elapsed < 0x1E) {
             trail_count = 0;
             do {
@@ -1883,27 +1883,27 @@ void advance_clown_cd_cue_effect(Rec_func_801732A4_arg0 *state, ObjectPosition *
                 trail_count = next_trail;
             } while (next_trail < 8);
         }
-        effect_sprite = state->unk_AC;
-        effect_sprite = effect_sprite->unk_0C.u;
-        if (effect_sprite->unk_14 & 0xE000) {
-            state->unk_9B = (u8) (state->unk_9B + 1);
+        effect = state->unk_AC.address;
+        effect_sprite = effect->sprite;
+        if (effect_sprite->flags & 0xE000) {
+            state->action_phase = (u8) (state->action_phase + 1);
         }
     case 6:
     {
         Rec_D_80082E80 *model_view = model;
-        if (state->unk_9B != 6) {
+        if (state->action_phase != 6) {
             return;
         }
         if (create_status_linked_render_effect(position, (*(s32 *)D_801742E8), (*(s16 *)clown_fade_count), &staged_spawn_count) == 0) {
             return;
         }
-        state->unk_96 = 0x10U;
-        state->unk_9B = (u8) (state->unk_9B + 1);
+        state->action_timer = 0x10U;
+        state->action_phase = (u8) (state->action_phase + 1);
         decrement_monster_entry_count(model_view->unk_12.at01_u8.v, 3);
         update_map_cell_flags_with_item_limit(actor->tile_x, actor->tile_y, 0x300);
         unlink_entity_node(model);
-        effect_sprite = model - 0x20;
-        effect_sprite->unk_10 = (s32) (effect_sprite->unk_10 | 0x80000000);
+        effect = NODE_HEADER(model);
+        effect->update_callback = (void *)((unsigned long)effect->update_callback | 0x80000000U);
         return;
     }
     case 7:

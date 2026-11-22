@@ -2,9 +2,7 @@
 #include "shared/object_node.h"
 #include "shared/entity.h"
 #include "shared/actor_status_ids.h"
-/* Actor status flags (G00165).
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00165 - PD:dungeon/bank_be1000:8017468C, PD:dungeon/bank_be7000:8016E68C, PD:dungeon/bank_bed000:8016868C, PD:dungeon/bank_bf3000:8016268C, PD:dungeon/bank_bf9000:8015C68C, PD:dungeon/bank_bff000:8015668C.
- */
+/* Advances Death's action state and directional animation while processing status flags. */
 #include "dungeon/monster/death/actor_status_flags_g00165.h"
 #include "dungeon/monster/death.h"
 #include "shared/dungeon_status.h"

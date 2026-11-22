@@ -12,7 +12,7 @@ typedef void (*Callback)(TownObjectRecord *, ObjectPosition *, struct SpriteFram
 void finalize_transform_object_or_callback(void *object, ObjectPosition *position, struct SpriteFrameState *sprite) {
     TownObjectRecord *body = object;
     Callback callback;
-    s8 *status_byte;
+    u8 *status_byte;
 
     if (classify_object_against_bounds(object, position) != 0) {
         unlink_scene_list_node(object);

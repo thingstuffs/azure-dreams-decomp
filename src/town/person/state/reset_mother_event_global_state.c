@@ -6,7 +6,7 @@
 
 
 /* Clear D_80082680 and pass the object to initialize_mother_event_defaults. */
-void reset_mother_event_global_state(void *object) {
+void reset_mother_event_global_state(TownObjectRecord *object) {
     mother_event_reset_byte = 0;
     initialize_mother_event_defaults(object);
 }

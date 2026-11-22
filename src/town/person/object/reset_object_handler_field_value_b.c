@@ -8,7 +8,7 @@
 #include "town/person/object_setup.h"
 
 
-void reset_person_heading_quarter_turn(TownObjectRecord *object, s32 unused, SpriteFrameState *updateValue) {
+void reset_person_heading_quarter_turn(TownObjectRecord *object, struct ObjectPosition *unused_position, SpriteFrameState *updateValue) {
     PersonDescriptor *descriptor;
 
     descriptor = object->descriptor;

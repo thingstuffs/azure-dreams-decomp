@@ -57,7 +57,11 @@ extern u8 D_801708AC[];
 extern u8 D_801708B8[];
 extern u8 D_801708BC[];
 
-/* Start the actor's attack step: clear its 0x71 busy bit, latch the 0x400 link flag with a random facing nudge, run the animation chain for the sprite record it owns, then arm owner state 0x17 and point the part at the direction table. */
+/*
+ * Starts Picket's steal attempt: clears the busy bit, latches the link flag with a random facing
+ * nudge, displays the steal message (naming the item when one is found), then sets owner action
+ * 0x17 and the steal frames.
+ */
 void start_picket_steal_attempt(ActorRecord *owner, ObjectPosition *unused, SpriteFrameState *part, S_80174234_2 *actor) {
     void *session;
     void *anim;
@@ -99,8 +103,3 @@ void start_picket_steal_attempt(ActorRecord *owner, ObjectPosition *unused, Spri
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
     }
 }
-
-/* MECHANISM: The four-argument ABI and true-space merge preserve retail's s1/a3, s4/a2, s3/a0, s2/s0
-   roles. A packed four-byte assignment restores lwl/lwr/swl/swr; byte-table indexing plus a held
-   D_80083460 base fixes the tail and its one-word displacement cascade. The final packed-copy scratch
-   is v0 only at 2.7.2-cdk-G0; 2.8.1-G0 leaves the four-word t0 residue. */

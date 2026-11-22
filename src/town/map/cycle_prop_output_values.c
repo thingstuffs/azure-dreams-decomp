@@ -5,25 +5,14 @@
 #include "town/map.h"
 #include "engine/script.h"
 
-typedef struct S_800BDE7C_0 {
-    u8 pad_00[0x68];
-    u16 unk_68;
-    u8 pad_6A[0x36];
-    s32 * unk_A0;
-} S_800BDE7C_0;   /* arg0 in cycle_prop_output_values */
-
 /* Alternates the rendered mesh between the two indices supplied by the Yorozu prop table. */
-void cycle_prop_output_values(S_800BDE7C_0 *record, s32 unused_value, LitMeshSprite *output, s32 unused_value2)
+void cycle_prop_output_values(YorozuMeshProp *record, ObjectPosition *unused_position, LitMeshSprite *output, s32 unused_value2)
 {
     s16 state;
-        /* MATCH: Preserve retail's source register after making call arguments explicit. */
-    s32 *source;
-        /* MATCH: Keep incoming call arguments in their ABI registers across dispatch. */
-    S_800BDE7C_0 *saved_record = record;
-    LitMeshSprite *saved_output = output;
+    const s32 *source;
 
-    state = (s16)record->unk_68;
-    source = record->unk_A0;
+    state = record->phase;
+    source = record->mesh_indices;
 
     switch (state) {
     case 0:
@@ -34,12 +23,12 @@ void cycle_prop_output_values(S_800BDE7C_0 *record, s32 unused_value, LitMeshSpr
             return;
         }
         output->mesh_index = source[1];
-        record->unk_68 = record->unk_68 + 1;
+        record->phase = record->phase + 1;
         return;
     case 1:
     case 3:
         if ((service_script_controller() == 0) || (check_town_target_and_callback(record) == 0)) {
-            record->unk_68 = (record->unk_68 + 1) & 3;
+            record->phase = (record->phase + 1) & 3;
         }
         return;
     case 2:
@@ -50,11 +39,7 @@ void cycle_prop_output_values(S_800BDE7C_0 *record, s32 unused_value, LitMeshSpr
             return;
         }
         output->mesh_index = source[0];
-        record->unk_68 = record->unk_68 + 1;
+        record->phase = record->phase + 1;
         return;
     }
 }
-
-/* MECHANISM: The third ABI argument is kept live in s2, with arg0/source held in s0/s1,
-   producing the retail 0x20 frame and save order. The state switch preserves the
-   retail dispatch and the duplicated increment blocks; state 1/3 alone applies the modulo mask. */

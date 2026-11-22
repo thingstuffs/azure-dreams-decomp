@@ -10,7 +10,7 @@
 #include "town/player/input.h"
 
 /* Set up the entity state and motion, then install its handler table. */
-void initialize_motion_action(TownObjectRecord *entity, void *motion, SpriteFrameState *sprite) {
+void initialize_motion_action(TownObjectRecord *entity, struct ObjectPosition *motion, SpriteFrameState *sprite) {
     entity->unk_3E = 6;
     store_input_angle(entity);
     accelerate_toward_input_keep_speed(motion);

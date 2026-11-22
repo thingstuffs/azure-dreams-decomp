@@ -10,6 +10,12 @@ import argparse
 import csv
 import json
 from pathlib import Path
+import sys
+
+_tools = str(Path(__file__).resolve().parents[1])
+if _tools not in sys.path:
+    sys.path.append(_tools)
+import atomic_io  # noqa: E402
 
 
 def verify(rows):
@@ -55,7 +61,7 @@ def main():
     args = parser.parse_args()
     rows = [json.loads(line) for line in args.ledger.read_text().splitlines() if line.strip()]
     reviewed = list(verify(rows))
-    args.ledger.write_text(''.join(json.dumps(row, sort_keys=True) + '\n' for row, _, _ in reviewed))
+    atomic_io.write_text(args.ledger, ''.join(json.dumps(row, sort_keys=True) + '\n' for row, _, _ in reviewed))
     args.report.parent.mkdir(parents=True, exist_ok=True)
     with args.report.open('w', newline='') as stream:
         writer = csv.writer(stream, delimiter='\t', lineterminator='\n')

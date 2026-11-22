@@ -6,7 +6,6 @@
 #include "engine/util.h"
 
 s16 read_terminal_tagged_entry_value();                             /* extern */
-void init_menu_record_from_template();       /* extern */
 
 /* Initializes resource state, resolves its size, and sets its position. */
 void init_menu_panel(AnimatedMenuPanelBody *state, s32 config_id, s32 resource_id, s16 x, s16 y, s32 size) {

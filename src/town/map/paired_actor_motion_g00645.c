@@ -17,7 +17,7 @@ void update_randomized_actor_movement(TownObjectRecord *actor, ObjectPosition *m
     s32 home_dx;
 
     sequence = 0;
-    if ((service_script_controller() != 0) && (check_town_target_and_callback((s32)actor) != 0)) {
+    if ((service_script_controller() != 0) && (check_town_target_and_callback(actor) != 0)) {
         if (!(actor->unk_AC & 1)) {
             SD_Call(0x60B);
             actor->unk_AC |= 1;
@@ -374,8 +374,7 @@ void init_paired_actor_motion(TownObjectRecord *object, ObjectPosition *params, 
 }
 
 /* Randomize paired object motion until both pass the stop position, then set completion flags. */
-void update_tori_pair_motion(void *pair_data) {
-    EventToriInBody *pair = pair_data;
+void update_tori_pair_motion(EventToriInBody *pair) {
     s32 state;
     s32 random_value;
     s32 stop_x;
@@ -451,7 +450,7 @@ void update_tori_pair_motion(void *pair_data) {
             }
         }
         first_motion = pair->child_positions[0];
-        stop_x = pair->position.words[0] + 0xFEC00000;
+        stop_x = pair->position.x.v + 0xFEC00000;
         if (first_motion->x.v < stop_x) {
             second_motion = pair->child_positions[1];
             if (second_motion->x.v < stop_x) {
@@ -470,24 +469,24 @@ void update_tori_pair_motion(void *pair_data) {
 }
 
 /* Advance motion, update every eighth tick, and flag zero horizontal velocity. */
-void update_tori_child_sprite(Actor *actor, Motion *motion, SpriteFrameState *actor_id) {
+void update_tori_child_sprite(EventToriChildBody *actor, ObjectPosition *motion, SpriteFrameState *actor_id) {
     u16 tick;
 
     advance_sprite_animation_and_textures(actor_id);
-    motion->x += motion->dx;
-    motion->y += motion->dy;
-    motion->z += motion->dz;
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
+    motion->z.v += motion->velocity_z;
 
     tick = (actor->counter + 1) & 7;
     actor->counter = tick;
     if (tick == 0) {
-        if (motion->dz < 0) {
+        if (motion->velocity_z < 0) {
             select_record_entry_and_value(actor_id, (struct Elem *)(D_800E9E34), 0);
         } else {
             select_record_entry_and_value(actor_id, (struct Elem *)(D_800E9E14), 0);
         }
     }
-    if (motion->dx == 0) {
+    if (motion->velocity_x == 0) {
         NODE_HEADER(actor)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -495,32 +494,32 @@ void update_tori_child_sprite(Actor *actor, Motion *motion, SpriteFrameState *ac
 
 /* event_tori_in: Creates a parent object and two linked render objects offset from the supplied position. */
 s32 event_tori_in(void *source) {
-    void *source_data;
+    MotionSource *source_data;
     s32 child_index;
     s32 x_step;
     SpriteFrameState *render_state;
     ObjectPosition *transform;
     ObjectNodeHeader *object;
-    S_800BD980_0 *origin;
+    EventToriChildBody *origin;
     EventToriInBody *pair_body;
-    void *child_slot;
-    void (*child_handler)(void *, void *, SpriteFrameState *);
+    ObjectPosition **child_slot;
+    void (*child_handler)(EventToriChildBody *, ObjectPosition *, SpriteFrameState *);
 
     source_data = source;
     child_slot = NULL;
     pair_body = NULL;
     object = allocate_list_node(0x202, &scene_object_list_anchor.next);
     if (object != NULL) {
-        child_slot = ((void *)object) + 0x20;
-        pair_body = child_slot;
+        pair_body = NODE_BODY(object);
+        child_slot = pair_body->child_positions;
         object->update_callback = update_tori_pair_motion;
-        pair_body->position = ((MotionSource *)source_data)->position;
-        pair_body->motion = ((MotionSource *)source_data)->motion;
+        pair_body->position = source_data->position;
+        pair_body->motion = source_data->motion;
     }
     child_index = 1;
     child_handler = update_tori_child_sprite;
     x_step = 0x300000;
-    child_slot = child_slot + 4;
+    child_slot++;
     do {
         object = allocate_list_node(0x312, &scene_object_list_anchor.next);
         if (object != NULL) {
@@ -538,24 +537,24 @@ s32 event_tori_in(void *source) {
             transform = object->position;
             color |= 0x8080;
             object->update_callback = child_handler;
-            *(void **)child_slot = transform;
+            *child_slot = transform;
             render_state = object->sprite;
-            source_x_hi = (u16)((EntityRec *)source_data)->x.w.i;
-            origin = ((void *)object) + 0x20;
-            origin->unk_0C = source_x_hi;
-            source_y_hi = (u16)((EntityRec *)source_data)->y.w.i;
-            origin->unk_0E = source_y_hi;
-            origin->unk_10 = (u16)((EntityRec *)source_data)->z.w.i;
+            source_x_hi = (u16)source_data->position.x.w.i;
+            origin = NODE_BODY(object);
+            origin->origin_x = source_x_hi;
+            source_y_hi = (u16)source_data->position.y.w.i;
+            origin->origin_y = source_y_hi;
+            origin->origin_z = (u16)source_data->position.z.w.i;
             x_offset = x_step + 0x01400000;
-            transform->x.v = (s32) (((EntityRec *)source_data)->x.v + x_offset);
+            transform->x.v = (s32) (source_data->position.x.v + x_offset);
             {
                 s32 source_y;
-                source_y = ((EntityRec *)source_data)->y.v;
+                source_y = source_data->position.y.v;
                 y_offset = child_index << 0x15;
                 transform->y.v = (s32) (source_y + y_offset);
             }
             z_offset = (child_index << 0x13) + 0xFF800000;
-            transform->z.v = (s32) (((EntityRec *)source_data)->z.v + z_offset);
+            transform->z.v = (s32) (source_data->position.z.v + z_offset);
             transform->velocity_x = (s32) (motion_base - (child_index << 0x10));
             render_state->scale_y = 0x1000;
             render_state->scale_x = 0x1000;
@@ -564,7 +563,7 @@ s32 event_tori_in(void *source) {
         }
         x_step += 0xFFD00000;
         child_index -= 1;
-        child_slot = (void *)((s8 *)child_slot - 4);
+        child_slot--;
     } while (child_index >= 0);
     return 0;
 }

@@ -1,5 +1,6 @@
 #ifndef TOWN_MAP_OBJECT_H
 #define TOWN_MAP_OBJECT_H
+struct TownPropAnimationActor;
 struct LitMeshSprite;
 /* Prototypes of the functions defined in src/town/map/object/ (one true prototype each; maintained by tools/headers). */
 
@@ -42,10 +43,10 @@ void copy_object_position_and_velocity(ObjectPosition *destination, ObjectPositi
 s32 create_short_lived_spawner(struct S_800BB798_0 *spawn_data, s16 state_48, s16 state_4a);
 
 /* create_burst_particle_spawner.c */
-s32 create_burst_particle_spawner(s32 *values);
+s32 create_burst_particle_spawner(struct ObjectPosition *origin);
 
 /* create_positioned_graphic_object.c */
-void *create_town_prop_graphic_object(struct TownPropPosition *position, s32 object_param, s32 graphics_id);
+void *create_town_prop_graphic_object(struct TownPropPosition *position, void (*update)(), s32 graphics_id);
 
 /* create_positioned_visual_object.c */
 void *create_positioned_visual_object(struct TownPropPosition *source_pos, void (*update)(), s32 angle, s32 mesh_index);
@@ -57,7 +58,7 @@ void update_player_spun_object(void *object, ObjectPosition *position, struct Li
 void lower_town_map_object_value_to_input(struct S_8008BA44_0 *obj);
 
 /* init_minigame_player_actor.c */
-void init_minigame_player_actor(struct TownCourseActor *object_data, void *unused, SpriteFrameState *render_data);
+void init_minigame_player_actor(struct TownCourseActor *object_data, struct ObjectPosition *unused_position, SpriteFrameState *render_data);
 
 /* select_title_handler_when_script_idle.c */
 void select_title_handler_when_script_idle(struct S_800A54FC_0 *object, struct ObjectNodeHeader *value_1, s32 value_2, s32 value_3);

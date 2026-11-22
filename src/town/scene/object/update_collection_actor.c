@@ -234,7 +234,7 @@ void update_collection_actor(TownCollectionActor *in0, ObjectPosition *motion, S
             if (in0->state.s == 9) {
                 func_80058F88(0x700);
             }
-            sequence->flags.u = (u16)(sequence->flags.u & ~4);
+            sequence->flags = (u16)(sequence->flags & ~4);
             phase_before_increment = in0->state.u;
             in0->state.s = (s16) (phase_before_increment + 1);
         }
@@ -252,9 +252,9 @@ void update_collection_actor(TownCollectionActor *in0, ObjectPosition *motion, S
         sequence->angle.s = (s16) ((u16) sequence->angle.s
             - ((s32) (sequence->angle_step.u << 0x10) >> 0x14));
         if (motion->z.v > 0) {
-            sequence_flags = sequence->flags.u;
+            sequence_flags = sequence->flags;
             if (!(sequence_flags & 4)) {
-                sequence->flags.u = (u16) (sequence_flags | 4);
+                sequence->flags = (u16) (sequence_flags | 4);
                 func_80058F88(0x701);
             }
             x_before_clamp = motion->x.v;
@@ -349,7 +349,7 @@ void update_collection_actor(TownCollectionActor *in0, ObjectPosition *motion, S
         delta = motion->x.v + abs_v1;
         if ((abs(delta)) <= 0x80000) {
             if (((s32) (s16) in0->timer.u) < 0) {
-                sequence->flags.u = (u16) (sequence->flags.u | 2);
+                sequence->flags = (u16) (sequence->flags | 2);
                 motion->velocity_z = 0;
                 motion->velocity_y = 0;
                 motion->velocity_x = 0;

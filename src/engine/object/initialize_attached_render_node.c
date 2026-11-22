@@ -31,9 +31,9 @@ void initialize_attached_message_window_node(void *node_storage, void *attached_
 
     init_unit_scale_record(attached_object, *init_data);
 
-    object->attached_object = attached_object;
-    object->unk_04 = 0;
-    object->draw_callback = draw_window_rects;
+    object->render.model = attached_object;
+    object->render.field_04 = 0;
+    object->render.draw_callback = draw_window_rects;
     copy_window_params(object, attached_node_default_parameters);
     prepend_embedded_object_node(owner, object);
 
@@ -57,7 +57,7 @@ void initialize_attached_message_window_node(void *node_storage, void *attached_
         render_state->frame_ticks = 0;
         object->owner = owner;
         object->unk_78 = ((Rec_func_80034F58_arg0 *)owner)->unk_01;
-        ((S_80035888_5 *)(object->attached_object))->unk_34 =
+        object->render.model->unk_34 =
             attached_node_variant_data[((S_80035888_6 *)(object->owner))->unk_02];
     }
 }

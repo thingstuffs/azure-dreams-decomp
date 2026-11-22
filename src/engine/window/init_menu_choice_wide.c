@@ -1,3 +1,4 @@
+#include "engine/window/cursor_source.h"
 #include "common.h"
 #include "slus/window_choice_data.h"
 #include "engine/window/cursor_init.h"
@@ -5,7 +6,8 @@
 
 
 typedef struct S_func_8003666C_0 {
-    u8 pad_00[0x4D];
+    WindowCursorSource source;
+    u8 pad_28[0x25];
     u8 unk_4D;
     u8 pad_4E[0x1A];
     void (*unk_68)(struct Object *, void *, void *);
@@ -42,7 +44,7 @@ void init_menu_choice_wide(S_func_8003666C_0 *state) {
     init_cursor_sprite_object(
         &menu_choice_cursor_storage,
         &menu_choice_display_data,
-        (s32 *) state,
+        &state->source,
         1,
         doubled_position,
         ((S_func_8003666C_1 *) state->unk_74)->unk_80);

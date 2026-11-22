@@ -1,6 +1,4 @@
-/* Begin familiar restoration effects.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01015 - CL:dungeon/func_800BC2E4.
- */
+/* Starts the effects for restoring a familiar. */
 #include "shared/entity.h"
 #include "shared/dungeon_item_entries.h"
 #include "shared/object_node.h"

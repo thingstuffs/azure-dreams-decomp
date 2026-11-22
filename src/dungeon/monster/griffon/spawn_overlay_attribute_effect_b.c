@@ -22,9 +22,11 @@ extern u8 griffon_slot_c_action_callback;
 extern u8 D_8015CC3C[];
 extern u8 D_8015CC8C[];
 
-/* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
-/* Creates Griffon with default frames at D_8015CC3C, applies spawn flags, and attempts valid tile
- * placement. */
+/*
+ * Spawns a Griffon actor on its 0x112 node: sets its default frames, applies the side flags the
+ * low two bits of the spawn flags select (or a random sleep status when none are set), then moves
+ * it to a valid tile.
+ */
 void *spawn_overlay_attribute_effect_b(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     s32 kind;
@@ -95,6 +97,3 @@ void *spawn_overlay_attribute_effect_b(s16 spawn_flags, s16 attr_a, s16 attr_b, 
     }
     return work;
 }
-
-/* MECHANISM: Preserve the seed's exact 0x38 frame, s0-s7 holds, CFG, and true-base name.
-   The work pointer is the retail object subobject at +0x20; part_b's byte field is +0x24. */

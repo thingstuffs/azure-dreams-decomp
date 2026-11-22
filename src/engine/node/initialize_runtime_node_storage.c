@@ -19,7 +19,7 @@ void *initialize_runtime_node_storage(s32 flags, void *storage, s16 word_count, 
 
     flags = flags | 0x80;
     node = storage;
-    zero_words((int *)node, word_count);
+    zero_words(node, word_count);
     node->next = *list_head;
     *list_head = node;
     old_head = node->next;

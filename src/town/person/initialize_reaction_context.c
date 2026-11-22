@@ -10,7 +10,6 @@
 #include "town/scene.h"
 #include "town/event/state.h"
 
-extern s32 D_800D0678[];
 
 /* Initializes the state value and sets up the context using D_800D0678. */
 void initialize_reaction_context(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *state) {

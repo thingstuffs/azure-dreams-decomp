@@ -1,5 +1,3 @@
-/* Monster koyaw (G00324). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_8009A9F0. */
 #include "dungeon/item/monster_koyaw_g00324.h"
 #include "dungeon/item.h"
 

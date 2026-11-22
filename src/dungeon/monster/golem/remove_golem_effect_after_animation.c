@@ -1,15 +1,14 @@
 #include "common.h"
 #include "slus/imports.h"
-#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
+#include "shared/object_node.h"
+#include "dungeon/effect/motion.h"
 
-
-// Process the source and set destination and global flags when source status bits are set.
-void remove_golem_effect_after_animation(void *destination, s32 unused, SpriteFrameState *source)
+void retire_finished_sprite_effect(void *body, ObjectPosition *position, SpriteFrameState *sprite)
 {
-    advance_sprite_animation_and_textures(source);
-    if (source->flags & 0x6000) {
-        *(u16 *)((u8 *)destination - 2) |= NODE_REMOVE;
+    advance_sprite_animation_and_textures(sprite);
+    if (sprite->flags & 0x6000) {
+        NODE_HEADER(body)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

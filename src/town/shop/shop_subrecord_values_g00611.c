@@ -24,10 +24,10 @@ void set_shop_change_indicator_color(ShopWindow *window, s32 target_value) {
 }
 
 /* Set two subrecord values and run their associated update routines. */
-void set_shop_page_and_selection(s32 record_address, s32 value_10, s32 value_08) {
+void set_shop_page_and_selection(ObjectNodeHeader *node, s32 value_10, s32 value_08) {
     ShopWindow *subrecord;
 
-    subrecord = record_address + 0x20;
+    subrecord = NODE_BODY(node);
     subrecord->selected_entry = value_08;
     set_shop_change_indicator_color(subrecord, value_10);
     subrecord->page = value_10;

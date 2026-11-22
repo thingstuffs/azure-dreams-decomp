@@ -30,7 +30,7 @@ typedef struct { Copy16 block[3]; } Copy48;
 
 extern void select_sprite_entry(void *, u8, s32);
 extern void func_80047784(void *, u8, s32);
-extern void create_tracked_effect(void *, s32, void *, void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+#include "dungeon/effect/tracked_sprite.h"
 
 extern u8 D_800D5594[];
 extern s8 view_direction_depth_biases[];

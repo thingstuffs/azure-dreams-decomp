@@ -1,48 +1,43 @@
+#include "frontend/card/save_image.h"
 #include "common.h"
 #include "frontend/card.h"
 #include "shared/object_node.h"
 #include "frontend/card/service.h"
 #include "frontend/card/save.h"
+#include "frontend/card/save_operation.h"
 #include "frontend/card/server_aliases.h"
 
-typedef struct S_8001EDE0_0 {
-    CardDevSaveSlotWindows slot_windows;
-    u8 pad_18[0x14];
-    s32 unk_2C;
-    u8 pad_30[4];
-    void (*menu_update)(void);
-    u8 pad_38[8];
-    s32 unk_40;
-} S_8001EDE0_0;   /* ptr in func_8001EDE0 */
 
 /* Runs two card checks and processes five object entries; installs menu and message callbacks on failure. */
-void commit_save_and_refresh_slots(void *ptr_arg) {
-    S_8001EDE0_0 *ptr = ptr_arg;
+void commit_save_and_refresh_slots(CardSaveOperationBody *menu) {
+    CardDevSaveWork *save = (CardDevSaveWork *)0x80010000;
+    struct CardDevSlotWindow *value;
     s32 index;
+    s32 *selected;
     ObjectNodeHeader *node_header;
-    ObjectNodeHeader *entry_ptr;
 
-    if (read_and_update_indexed_record(ptr->unk_2C, 0x80010000) != 0) {
-        *(s32 *)0x80010208 = 0;
-        if (process_entry_with_table_value((*(s32 *)((u8 *)ptr + 0x28)), 0x80010000) != 0) {
+    if (read_and_update_indexed_record(menu->saved_entry_index, save) != 0) {
+        save->words[0] = 0;
+        selected = &menu->entry_index;
+        if (process_entry_with_table_value(*selected, save) != 0) {
             card_dev_no_op_save(0x80010000);
             index = 0;
             card_dev_cache_slot_summary();
             do {
-                entry_ptr = ptr->slot_windows.windows[index];
+                value = menu->windows[index];
                 index += 1;
-                card_dev_refresh_slot_window_display(entry_ptr);
+                card_dev_refresh_slot_window_display(value);
             } while (index < 5);
-            refresh_save_slot_selection_and_resume_menu_input(ptr);
+            refresh_save_slot_selection_and_resume_menu_input(menu);
             reset_card_selection_state();
-            ptr->unk_40 = 0;
+            menu->state = 0;
             return;
         }
     }
-    node_header = NODE_HEADER(ptr);
-    ptr->menu_update = handle_object_menu_input;
+    node_header = NODE_HEADER(menu);
+    menu->completion_callback = handle_object_menu_input;
     initialize_card_message_object_with_code_0x10(node_header);
-    node_header->update_callback = (void *)install_pending_completion_callback;
+    node_header->update_callback = install_pending_completion_callback;
     reset_card_selection_state();
-    ptr->unk_40 = 0;
+    menu->state = 0;
 }

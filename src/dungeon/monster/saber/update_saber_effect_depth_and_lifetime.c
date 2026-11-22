@@ -21,7 +21,6 @@ extern s32 object_flag_block __attribute__((section(".data")));
 extern s16 view_facing_angle_alias __attribute__((section(".data")));
 extern s8 view_direction_depth_biases[8];
 
-/* Updates the relative position value with an angle bias and flags countdown completion. */
 /* Adjusts a Saber effect's draw depth relative to its stored origin and facing, advances animation, and
  * expires its timer. */
 void update_saber_effect_depth_and_lifetime(SelectedItemActionEffectBody *state, MovingPosition *position, Rec_D_80082E80 *result)
@@ -60,6 +59,3 @@ void update_saber_effect_depth_and_lifetime(SelectedItemActionEffectBody *state,
         *(s32 *)(angle_page + 0x14A0) |= 0x8000;
     }
 }
-
-/* MECHANISM: DepthProjectionWork fixes the 0x40 frame and the s2/s1/s0 stack-output roles. A retained 0x80080000
-   page base yields the displaced angle/global accesses. The table pointer stays in a1. */

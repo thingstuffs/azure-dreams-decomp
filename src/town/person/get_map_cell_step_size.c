@@ -8,10 +8,10 @@
 
 
 /* Returns 0x18 for lookup codes in three special ranges, or 0x60 otherwise. */
-s32 get_map_cell_step_size(Rec_func_800AAE98_arg0 *coordinates) {
+s32 get_map_cell_step_size(ObjectPosition *coordinates) {
     s32 lookupCode;
 
-    lookupCode = read_map_cell_at_world_position(coordinates->unk_02, coordinates->unk_06) & 0xFFFF;
+    lookupCode = read_map_cell_at_world_position(coordinates->x.w.i, coordinates->y.w.i) & 0xFFFF;
     if ((u32) (lookupCode - 0xC0) < 3U) {
         return 0x18;
     }

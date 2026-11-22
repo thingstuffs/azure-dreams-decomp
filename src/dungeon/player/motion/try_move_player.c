@@ -215,8 +215,8 @@ void try_move_player(ActorRecord *move_state, s32 actor_id, SpriteFrameState *sp
             1, 1);
         update_map_cell_flags_with_item_limit(sprite->tile_x, sprite->tile_y, 0x300);
         direction_index = ((u16)actor->facing >> 8) & 0xE;
-        sprite->tile_x -= ((s16 *)(void *)((u8 *)dir_step_x))[direction_index / 2] * 2;
-        sprite->tile_y -= ((s16 *)(void *)((u8 *)dir_step_y))[direction_index / 2] * 2;
+        sprite->tile_x -= dir_step_x[direction_index / 2] * 2;
+        sprite->tile_y -= dir_step_y[direction_index / 2] * 2;
         cycle_map_cell_flags(sprite->tile_x, sprite->tile_y, 0x300);
         flags_2->movement_frames_left = (s16)flags_2->movement_frames_left >> 1;
         return;

@@ -7,7 +7,6 @@
 #include "modules/dungeon_ovl_7f211800.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
-#include "modules/dungeon_ovl_7f211800.h"
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 /* Creates Viper with default frames at D_8016EA7C, applies spawn flags, and attempts valid tile placement. */

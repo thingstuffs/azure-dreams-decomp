@@ -1,5 +1,3 @@
-/* Equipment status (G00319). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:dungeon/engine:800E07C0, PD:dungeon/engine:800E07D3. */
 #include "dungeon/player/equipment_status_g00319.h"
 #include "dungeon/player/object.h"
 #include "dungeon/player.h"
@@ -51,7 +49,7 @@ void equip_item_and_update_status(ActorRecord *context, DungeonItemEntry *item) 
             return;
         }
         current_item->unk_03 = value & 0xDF;
-        actor_direction_sprites[0] = (s32 *)unequipped_actor_sprite_sources;
+        actor_direction_sprites[0] = unequipped_actor_sprite_sources;
         if (current_item == selected_item) {
             selected_item = NULL;
         }
@@ -65,7 +63,7 @@ void equip_item_and_update_status(ActorRecord *context, DungeonItemEntry *item) 
         result_value = get_unused_text_buffer();
         clear_byte_and_advance(expand_text_control_codes(D_800E0844, append_item_name_with_value(selected_item, write_text_byte_and_advance(8, result_value))));
         display_text_with_fullwidth_adjustment(result_value);
-        actor_direction_sprites[0] = (s32 *)equipped_actor_sprite_sources;
+        actor_direction_sprites[0] = equipped_actor_sprite_sources;
         tail_index = 0x70A;
         if (selected_item->unk_03 & 0x40) {
             context->flags1C |= 0x800;

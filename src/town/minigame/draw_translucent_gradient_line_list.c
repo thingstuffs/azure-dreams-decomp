@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/line_packets.h"
 #include "shared/game_work.h"
 #include "sdk/libgpu.h"
 #include "town/minigame.h"
@@ -25,14 +26,6 @@ typedef struct S_8002222C_1 {
     s32 unk_1C;
 } S_8002222C_1;
 
-typedef struct S_8002222C_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-} S_8002222C_2;
-
 typedef struct S_8002222C_3 {
     s32 unk_00;
     s32 unk_04;
@@ -48,7 +41,7 @@ extern void func_80065770(void *, void *, void *, void *, void *, s32);
 
 /* Build line and draw-mode packets for each entry and link them into the ordering table. */
 s32 draw_translucent_gradient_line_list(void *first_entry) {
-    u8 *line_packet;
+    TownGradientLinePacket *line_packet;
     u8 *mode_packet;
     s32 next;
     s32 bucket_addr;
@@ -71,20 +64,20 @@ s32 draw_translucent_gradient_line_list(void *first_entry) {
         {
             S_8002222C_0 *arena;
             arena = arena_ptr->draw_buffer;
-            line_packet = arena->unk_8D0;
-            arena->unk_8D0 = line_packet + 0x14;
+            line_packet = (TownGradientLinePacket *)arena->unk_8D0;
+            arena->unk_8D0 += sizeof(*line_packet);
             arena = arena_ptr->draw_buffer;
             mode_packet = arena->unk_8D0;
             arena->unk_8D0 = mode_packet + 0xC;
             texture_page = GetTPage(0, 0, 0, 0);
         }
         SetDrawMode(mode_packet, 0, 0, texture_page & 0xFFFF, 0);
-        ((S_8002222C_2 *)line_packet)->unk_04 = ((S_8002222C_1 *)entry)->unk_18;
-        ((S_8002222C_2 *)line_packet)->unk_0C = ((S_8002222C_1 *)entry)->unk_1C;
+        line_packet->first_color = ((S_8002222C_1 *)entry)->unk_18;
+        line_packet->second_color = ((S_8002222C_1 *)entry)->unk_1C;
         SetLineG2(line_packet);
         SetSemiTrans(line_packet, 1);
-        ((S_8002222C_2 *)line_packet)->unk_08 = screen_xy->unk_00;
-        ((S_8002222C_2 *)line_packet)->unk_10 = screen_xy->unk_04;
+        line_packet->first_xy = screen_xy->unk_00;
+        line_packet->second_xy = screen_xy->unk_04;
         {
             s32 min_depth;
             raw_depth = depths->unk_00;
@@ -97,8 +90,8 @@ s32 draw_translucent_gradient_line_list(void *first_entry) {
             }
             bucket_addr = min_depth * 4;
         }
-        ((OtTag *)line_packet)->addr = ((S_8002222C_0 *)(bucket_addr + (unsigned long)arena_ptr->draw_buffer))->ot[0].addr;
-        ((S_8002222C_0 *)(bucket_addr + (unsigned long)arena_ptr->draw_buffer))->ot[0].addr = (u32)line_packet;
+        line_packet->tag.addr = ((S_8002222C_0 *)(bucket_addr + (unsigned long)arena_ptr->draw_buffer))->ot[0].addr;
+        ((S_8002222C_0 *)(bucket_addr + (unsigned long)arena_ptr->draw_buffer))->ot[0].addr = (unsigned long)line_packet;
         ((OtTag *)mode_packet)->addr = ((S_8002222C_0 *)(bucket_addr + (unsigned long)arena_ptr->draw_buffer))->ot[0].addr;
         bucket_addr += (u32)arena_ptr->draw_buffer;
         ((S_8002222C_0 *)bucket_addr)->ot[0].addr = (u32)mode_packet;

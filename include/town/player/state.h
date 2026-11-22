@@ -1,5 +1,7 @@
 #ifndef TOWN_PLAYER_STATE_H
 #define TOWN_PLAYER_STATE_H
+
+struct SpriteFrameState;
 /* Prototypes of the functions defined in src/town/player/state/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -16,7 +18,7 @@ struct S_800946FC_0;
 struct S_80098C04_0;
 
 /* advance_player_state.c */
-void advance_player_state(struct TownObjectRecord *context, EntityRec *state, SpriteFrameState *updateData);
+void advance_player_state(struct TownObjectRecord *context, ObjectPosition *position, SpriteFrameState *updateData);
 
 /* clear_script_flag_bit.c */
 void clear_script_flag_bit(s32 bit_index);
@@ -43,7 +45,7 @@ void forward_state_value_to_handler_b(TownPlayerRecord *state, ObjectPosition *v
 s32 get_script_flag_mask(s32 flagIndex);
 
 /* initialize_actor_action_state.c */
-void initialize_actor_action_state(TownObjectRecord *object, ObjectPosition *state, s32 initData);
+void initialize_actor_action_state(TownObjectRecord *object, ObjectPosition *state, struct SpriteFrameState *sprite);
 
 /* initialize_actor_interaction_state.c */
 void install_actor_interaction_handler(struct S_800946FC_0 *object);
@@ -72,7 +74,7 @@ void reset_player_slot_state(TownObjectRecord *object, void *ptr, void *ptr2);
 s32 create_item_menu_unless_minigame(s32 context);
 
 /* select_next_item_state.c */
-void select_next_item_state(void *object, void *position, void *context);
+void select_next_item_state(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *context);
 
 /* set_handler_counter_and_clear_flag.c */
 void set_handler_counter_and_clear_flag(struct S_80098C04_0 *state, ObjectPosition *target);
@@ -96,7 +98,7 @@ void update_actor_and_dispatch_state(TownPlayerRecord *actor, ObjectPosition *re
 void update_actor_with_interaction_state(TownObjectRecord *controller, ObjectPosition *entity, SpriteFrameState *context);
 
 /* update_entity_and_dispatch_timed_state.c */
-void update_entity_and_dispatch_timed_state(void *state, void *entity, void *transition_arg);
+void update_entity_and_dispatch_timed_state(void *state, ObjectPosition *position, struct SpriteFrameState *sprite);
 
 /* write_script_flag_range.c */
 void write_script_flag_range(s32 base, s32 bits, s32 count);

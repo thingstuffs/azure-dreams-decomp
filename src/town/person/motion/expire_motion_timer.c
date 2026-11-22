@@ -3,22 +3,14 @@
 #include "shared/entity.h"
 #include "town/person/motion.h"
 
-typedef struct S_800C3FC8_0 {
-    u8 pad_00[0x54];
-    void (*unk_54)(TownObjectRecord *, ObjectPosition *, struct SpriteFrameState *);
-    u8 pad_58[0x14];
-    u16 unk_6C;
-} S_800C3FC8_0;   /* arg0 in expire_motion_timer */
-
-
 /* Decrements the timer and changes the handler and motion value when it becomes negative. */
-void expire_motion_timer(S_800C3FC8_0 *object, ObjectPosition *motion) {
+void expire_motion_timer(TownObjectRecord *object, ObjectPosition *motion) {
     s16 remaining_ticks;
 
-    remaining_ticks = object->unk_6C - 1;
-    object->unk_6C = remaining_ticks;
+    remaining_ticks = object->timer - 1;
+    object->timer = remaining_ticks;
     if (remaining_ticks < 0) {
-        object->unk_54 = &advance_motion_and_switch_handler;
+        object->handler = &advance_motion_and_switch_handler;
         motion->velocity_z = 0xFFF60000;
     }
 }

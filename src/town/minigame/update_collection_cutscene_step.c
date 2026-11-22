@@ -228,7 +228,7 @@ void update_collection_cutscene_step(TownCollectionSequence *scene)
         scene->saved_x.u = (motion->x).unsigned_parts.integer;
         scene->saved_y.u = motion->y.unsigned_parts.integer;
         scene->angle.u = 0;
-        scene->flags.u &= 0x7FFF;
+        scene->flags &= 0x7FFF;
         scene->state.s = 6;
         break;
     }
@@ -239,7 +239,7 @@ void update_collection_cutscene_step(TownCollectionSequence *scene)
         u16 old_flags;
         u16 selected_flags;
 
-        if (scene->flags.s & 0x8000) {
+        if ((s16) scene->flags & 0x8000) {
             scene->angle.u -= 0x20;
         } else {
             scene->angle.u += 0x20;
@@ -249,13 +249,13 @@ void update_collection_cutscene_step(TownCollectionSequence *scene)
             magnitude = -magnitude;
         }
         if (magnitude >= 0x200) {
-            old_flags = scene->flags.u;
-            if ((s16)scene->flags.u & 0x8000) {
+            old_flags = scene->flags;
+            if ((s16)scene->flags & 0x8000) {
                 selected_flags = old_flags & 0x7FFF;
             } else {
                 selected_flags = old_flags | 0x8000;
             }
-            scene->flags.u = selected_flags;
+            scene->flags = selected_flags;
         }
         pos.h0C = 0;
         pos.h04 = 0;
@@ -277,7 +277,7 @@ void update_collection_cutscene_step(TownCollectionSequence *scene)
             scene->unk_28.u = 0x200;
             scene->angle_step.u = 0;
             scene->state.s = 7;
-            scene->flags.u &= 0x7FFF;
+            scene->flags &= 0x7FFF;
         } else {
             create_paired_vector_color_effect(D_8002241C, &pos, color, scene);
         }
@@ -290,7 +290,7 @@ void update_collection_cutscene_step(TownCollectionSequence *scene)
         u16 old_flags;
         u16 selected_flags;
 
-        if (scene->flags.s & 0x8000) {
+        if ((s16) scene->flags & 0x8000) {
             scene->angle_step.u -= 4;
         } else {
             scene->angle_step.u += 4;
@@ -300,13 +300,13 @@ void update_collection_cutscene_step(TownCollectionSequence *scene)
             magnitude = -magnitude;
         }
         if (magnitude >= 0x100) {
-            old_flags = scene->flags.u;
-            if ((s16)scene->flags.u & 0x8000) {
+            old_flags = scene->flags;
+            if ((s16)scene->flags & 0x8000) {
                 selected_flags = old_flags & 0x7FFF;
             } else {
                 selected_flags = old_flags | 0x8000;
             }
-            scene->flags.u = selected_flags;
+            scene->flags = selected_flags;
         }
         scene->unk_28.u =
             (scene->unk_28.u + scene->angle_step.u + 0x1000) & 0xFFF;
@@ -376,11 +376,11 @@ void update_collection_cutscene_step(TownCollectionSequence *scene)
         break;
 
     case 10:
-        flags = scene->flags.u;
+        flags = scene->flags;
         if ((flags & 2) == 0) {
             break;
         }
-        scene->flags.u = flags & 0xFFFD;
+        scene->flags = flags & 0xFFFD;
         initialize_town_context_action();
         value = scene->round_index.u + 1;
         scene->round_index.u = value;
@@ -399,7 +399,7 @@ void update_collection_cutscene_step(TownCollectionSequence *scene)
         scene->unk_28.u = value;
         if ((s16)value <= 0) {
             tw_sd_sq_ld_call(0x20, 0x200);
-            scene->flags.u |= 1;
+            scene->flags |= TOWN_COLLECTION_FINISHED;
             scene->state.u++;
         }
         break;

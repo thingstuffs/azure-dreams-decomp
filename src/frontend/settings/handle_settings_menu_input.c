@@ -171,10 +171,10 @@ void handle_settings_menu_input(SettingsScreenBody *menu)
         delta = shade << 5;
         channel_or_color = ((Gfx *) 0x80010000)->color & 0xFF000000;
         volume_or_red = 0xFF;
-        if (menu->red < 0x100) {
-            volume_or_red = menu->red;
+        if (menu->color_channels[0] < 0x100) {
+            volume_or_red = menu->color_channels[0];
         }
-        level = menu->green;
+        level = menu->color_channels[1];
         green_bits = level < 0x100;
         if (green_bits) {
             green_bits = level << 8;
@@ -184,7 +184,7 @@ void handle_settings_menu_input(SettingsScreenBody *menu)
         }
         red_green = volume_or_red + green_bits;
         do {
-            blue = menu->blue;
+            blue = menu->color_channels[2];
         }
         while (0);
         if (blue < 0x100) {

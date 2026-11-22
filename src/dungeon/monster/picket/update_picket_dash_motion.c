@@ -42,7 +42,7 @@ void update_picket_dash_motion(ActorRecord *action, ObjectPosition *motion, Spri
     switch (phase) {
     case 0:
         apply_clamped_actor_value_delta(entity);
-        directions_x = (s16 *)((s8 *)dir_step_x);
+        directions_x = (s16 *)dir_step_x;
         launch_offset = direction * 2;
         motion->velocity_x =
             *(s16 *)((u8 *)directions_x + launch_offset) << 0x12;
@@ -80,9 +80,9 @@ void update_picket_dash_motion(ActorRecord *action, ObjectPosition *motion, Spri
         motion->velocity_y = velocity_y - (biased_velocity_y / 4);
                         /* fall through */
     case 1:
-        directions_x = (s16 *)((s8 *)dir_step_x);
+        directions_x = (s16 *)dir_step_x;
         decel_offset = direction * 2;
-        direction_y = (s16 *)((u8 *)((s8 *)dir_step_y) + decel_offset);
+        direction_y = (s16 *)((u8 *)dir_step_y + decel_offset);
         motion->velocity_x -=
             *(s16 *)((u8 *)directions_x + decel_offset) << 0xE;
         motion->velocity_y -= *direction_y << 0xE;

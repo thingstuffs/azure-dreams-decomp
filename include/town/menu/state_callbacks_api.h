@@ -7,7 +7,9 @@
 struct TownObject;
 struct ObjectPosition;
 struct LitMeshSprite;
-void dispatch_menu_state_callback(void *obj, void *position, void *sprite);
+struct RandomizedEffectMotionBody;
+struct SpriteFrameState;
+void dispatch_menu_state_callback(struct RandomizedEffectMotionBody *body, struct ObjectPosition *position, struct SpriteFrameState *sprite);
 void flag_inactive_object_or_run_callback(DoorDisplayBody *object, struct ObjectPosition *position, struct LitMeshSprite *mesh);
 
 #endif

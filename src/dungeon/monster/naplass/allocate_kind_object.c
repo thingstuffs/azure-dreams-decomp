@@ -6,7 +6,6 @@
 #include "dungeon/monster/naplass/allocate_kind_object.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
-#include "dungeon/monster/naplass/allocate_kind_object.h"
 #include "dungeon/monster/naplass.h"
 
 /* Allocate an object, initialize its parts and kind flags, and return its work area. */

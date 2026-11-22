@@ -6,8 +6,8 @@
 #include "town/scene.h"
 
 /* Returns the address of the indexed 24-byte entry. */
-void *get_transform_entry_by_index(s32 entry_index) {
-    return (entry_index * 0x18) + &D_800D4FB8;
+Box *get_transform_entry_by_index(s32 entry_index) {
+    return &D_800D4FB8[entry_index];
 }
 
 /* Sets the motion page and updates the object state and orientation. */
@@ -24,12 +24,14 @@ void update_transform_motion_page(TownObjectRecord *object_data, ObjectPosition 
 
 /* Update the object's state value according to whether the pair check returns zero. */
 void update_transform_state_value(TownObjectRecord *object) {
+    Box *bounds;
     s32 result;
 
     result = is_angle_within_tolerance(D_800FE4A6, object->unk_16);
     if (result != 0) {
-        *(s32 *)((s8 *)object + 0xC) = get_transform_entry_by_index(0);
+        bounds = get_transform_entry_by_index(0);
     } else {
-        *(s32 *)((s8 *)object + 0xC) = get_transform_entry_by_index(1);
+        bounds = get_transform_entry_by_index(1);
     }
+    ((TownSceneListNode *)object)->bounds = bounds;
 }

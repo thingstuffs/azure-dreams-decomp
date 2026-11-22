@@ -5,8 +5,7 @@
 #include "frontend/card.h"
 
 /* Checks the stored checksum against the XOR of 6014 data words. */
-s32 card_boot_verify_save_xor_checksum(void *save_data) {
-    CardSaveImage *save = save_data;
+s32 card_boot_verify_save_xor_checksum(CardSaveImage *save) {
     s32 *data_word;
     s32 checksum;
     s32 word_index;
@@ -24,8 +23,7 @@ s32 card_boot_verify_save_xor_checksum(void *save_data) {
 }
 
 /* Updates slot data using a temporary filename before restoring the slot filename. */
-s32 card_boot_write_save_via_temporary_path(s32 slot, void *data) {
-    CardSaveImage *save = data;
+s32 card_boot_write_save_via_temporary_path(s32 slot, CardSaveImage *save) {
     s32 slot_name[8];
     s32 temporary_name[8];
     CardSaveSlot *slot_table;
@@ -40,10 +38,10 @@ s32 card_boot_write_save_via_temporary_path(s32 slot, void *data) {
         rename(slot_name, temporary_name);
     }
     save->checksum = 0;
-    card_boot_store_save_xor_checksum(data);
-    result = card_boot_write_file_units_128(temporary_name, data, 0xC0, 0, slot_entry->words[0]);
+    card_boot_store_save_xor_checksum(save);
+    result = card_boot_write_file_units_128(temporary_name, save, 0xC0, 0, slot_entry->words[0]);
     if (result != 0) {
-        card_boot_cache_save_header(slot, data);
+        card_boot_cache_save_header(slot, save);
         card_boot_refresh_directory_summary();
     }
     rename(temporary_name, slot_name);
@@ -52,8 +50,7 @@ s32 card_boot_write_save_via_temporary_path(s32 slot, void *data) {
 
 /* Marks quest data as loaded, optionally refreshing its indexed entry while preserving its state. Returns zero when
  * the save cannot be read or fails its checksum, else the final write's result (refreshing) or the checksum result. */
-s32 card_boot_load_save_and_clear_marker(s32 entry_index, void *data, s32 update_entry) {
-    CardSaveImage *save = data;
+s32 card_boot_load_save_and_clear_marker(s32 entry_index, CardSaveImage *save, s32 update_entry) {
     s32 context[8];
     CardSaveSlot *entry_table;
     CardSaveSlot *entry;
@@ -61,21 +58,21 @@ s32 card_boot_load_save_and_clear_marker(s32 entry_index, void *data, s32 update
     s32 result;
 
     card_boot_build_slot_path(context, entry_index);
-    result = card_boot_read_file_units_128(context, data, 0xC0, 0);
+    result = card_boot_read_file_units_128(context, save, 0xC0, 0);
     if (result != 0) {
-        result = card_boot_verify_save_xor_checksum(data);
+        result = card_boot_verify_save_xor_checksum(save);
         if (result != 0) {
             if (update_entry != 0) {
                 saved_state = save->data.fields.load_marker;
                 save->data.fields.load_marker = 0;
                 save->checksum = 0;
-                card_boot_store_save_xor_checksum(data);
+                card_boot_store_save_xor_checksum(save);
                 entry_table = card_save_slot_metadata;
                 entry = &entry_table[entry_index];
                 entry->halfwords[4] = 0;
                 entry->words[1] = save->checksum;
                 card_boot_write_file_units_128(context, entry, 1, 4, entry->words[0]);
-                result = card_boot_write_file_units_128(context, data, 1, 0, entry->words[0]);
+                result = card_boot_write_file_units_128(context, save, 1, 0, entry->words[0]);
                 save->data.fields.load_marker = saved_state;
             } else {
                 save->data.fields.load_marker = 0;

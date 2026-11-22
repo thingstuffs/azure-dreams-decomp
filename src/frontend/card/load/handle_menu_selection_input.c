@@ -13,19 +13,9 @@ extern s32 boot_pressed_buttons;
 extern void func_804070C4(void *object);
 
 
-typedef struct S_80406DA0_0 {
-    u8 pad_00[0x20];
-    void *unk_20;
-    void *unk_24;
-    u8 pad_28[0x4];
-    s32 unk_2C;
-    s32 unk_30;
-} S_80406DA0_0;   /* object in handle_menu_selection_input */
-
 /* Handles menu selection, held-button repeats, and menu exit. */
-void handle_menu_selection_input(void *object_arg)
+void handle_menu_selection_input(CardDevLoadSlotScreen *screen)
 {
-    S_80406DA0_0 *object = object_arg;
     s32 held_buttons;
     s32 pressed_buttons;
     s32 direction;
@@ -34,52 +24,53 @@ void handle_menu_selection_input(void *object_arg)
     s32 *buttons;
 
     buttons = &boot_pad_state.held;
-        held_buttons = buttons[0];
+    held_buttons = buttons[0];
     direction = 0;
     if (held_buttons != 0) {
         buttons = &boot_pressed_buttons;
         pressed_buttons = buttons[0];
         if (pressed_buttons & 0x40) {
             SD_Call_80063FF8(0x515);
-            func_804070C4(NODE_HEADER(object));
-            create_card_dev_slot_screen_effect(object->unk_20, object->unk_24);
+            func_804070C4(NODE_HEADER(screen));
+            create_card_dev_slot_screen_effect(screen->request, screen->mode);
             return;
         }
         if (pressed_buttons & 0x20) {
             SD_Call_80063FF8(0x514);
-            select_load_slot_callback(object);
+            select_load_slot_callback(screen);
         } else if (held_buttons & 0x5000) {
             if (pressed_buttons & 0x5000) {
-                buttons = (s32 *)((u8 *)object + 0x30);
+                buttons = &screen->repeat_ticks;
                 *buttons = 0;
                 buttons = &boot_pressed_buttons;
-        pressed_buttons = buttons[0];
+                pressed_buttons = buttons[0];
                 if (pressed_buttons & 0x1000) {
                     direction = -1;
                 } else if (pressed_buttons & 0x4000) {
                     direction = 1;
                 }
             } else {
-                repeat_ticks = object->unk_30;
+                repeat_ticks = screen->repeat_ticks;
                 if (repeat_ticks >= 13) {
-                    (*(s32 *)((u8 *)object + (0x30))) = repeat_ticks - 4;
+                    buttons = &screen->repeat_ticks;
+                    *buttons = repeat_ticks - 4;
                     buttons = &boot_pad_state.held;
-        repeat_buttons = buttons[0];
+                    repeat_buttons = buttons[0];
                     if (repeat_buttons & 0x1000) {
                         direction = -1;
                     } else if (repeat_buttons & 0x4000) {
                         direction = 1;
                     }
                 } else {
-                    object->unk_30 = repeat_ticks + 1;
+                    screen->repeat_ticks = repeat_ticks + 1;
                 }
             }
         }
         if (direction != 0) {
             SD_Call_80063FF8(0x502);
-            object->unk_2C =
-                advance_card_menu_index_80058FF0(object->unk_2C, direction, 5);
-            card_devkit_highlight_selected_load_slot(object);
+            screen->selection =
+                advance_card_menu_index_80058FF0(screen->selection, direction, 5);
+            card_devkit_highlight_selected_load_slot(screen);
         }
     }
 
@@ -91,6 +82,6 @@ void handle_menu_selection_input(void *object_arg)
     if (direction == 1) {
         return;
     }
-    func_804070C4(NODE_HEADER(object));
-    create_card_dev_slot_screen_effect(object->unk_20, object->unk_24);
+    func_804070C4(NODE_HEADER(screen));
+    create_card_dev_slot_screen_effect(screen->request, screen->mode);
 }

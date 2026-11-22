@@ -8,29 +8,29 @@
  * Inserts the node immediately before the town_motion_list sentinel and updates both neighboring
  * links.
  */
-void append_secondary_list_node(void *node) {
-    *(void **)node = town_motion_list;
-    *((void **)node + 1) = *(town_motion_list + 1);
-    *((void **)*(town_motion_list + 1)) = node;
-    *(town_motion_list + 1) = node;
+void append_secondary_list_node(TownMotionListNode *node) {
+    node->prev = &town_motion_list;
+    node->next = town_motion_list.next;
+    town_motion_list.next->prev = node;
+    town_motion_list.next = node;
 }
 
 /* Inserts a node at the front of the doubly linked list. */
-void prepend_secondary_list_node(void *node) {
-    *(void **)node = town_motion_list[0];
-    *((void **)node + 1) = town_motion_list;
-    *((void **)town_motion_list[0] + 1) = node;
-    town_motion_list[0] = node;
+void prepend_secondary_list_node(TownMotionListNode *node) {
+    node->prev = town_motion_list.prev;
+    node->next = &town_motion_list;
+    town_motion_list.prev->next = node;
+    town_motion_list.prev = node;
 }
 
 /*
  * Appends the record to the secondary list, stores the two supplied values, sets byte 0x15 to one,
  * and clears mode byte 0x14.
  */
-void init_secondary_list_record(Rec_D_800FE490 *record, s32 value_08, s32 value_0c) {
+void init_secondary_list_record(TownMotionListNode *record, ObjectPosition *position, Box *bounds) {
     append_secondary_list_node(record);
-    record->unk_08 = value_08;
-    record->unk_0C = value_0c;
-    record->unk_15 = 1;
-    record->unk_14 = 0;
+    record->position = position;
+    record->bounds = bounds;
+    record->active = 1;
+    record->type = 0;
 }

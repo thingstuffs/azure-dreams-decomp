@@ -19,7 +19,7 @@ typedef struct S_800C3960_0 S_800C3960_0;
 
 typedef struct {
     u8 pad0[0x0C];
-    s32 *field0c;
+    struct Box *bounds;
     u8 pad10[0x40];
     void (*callback)(void *, void *, void *);
     u8 pad54[0x10];
@@ -42,18 +42,18 @@ void unlink_node_if_registered(void *block_data);
 s32 classify_object_against_bounds(TownObjectRecord *, void *);
 /* extern */
 void clear_object_slot_and_mark_removed(void *);
-void call_object_callback(S_800C3960_0 *object, void *context, void *motion);
+void call_object_callback(S_800C3960_0 *object, ObjectPosition *context, struct SpriteFrameState *motion);
 
-extern M2C_UNK D_800D5028;
-extern M2C_UNK D_800D5040;
-extern M2C_UNK D_800D5058;
+extern struct Box D_800D5028;
+extern struct Box D_800D5040;
+extern struct Box D_800D5058;
 extern s32 is_node_registered(void *);
 #include "town/person/state_updates.h"
 
 /* Functions defined in this translation unit. */
-void update_object_position_or_cleanup(TownObjectRecord *object, void *position, void *motion);
-void update_object_motion_and_flags(TargetObj *obj, void *callback_arg, void *motion_data);
-void dispatch_object_state(TownObjectRecord *object, void *context, void *dispatch_data);
+void update_object_position_or_cleanup(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *motion);
+void update_object_motion_and_flags(TownObjectRecord *obj, ObjectPosition *callback_arg, SpriteFrameState *motion);
+void dispatch_object_state(TownObjectRecord *object, ObjectPosition *context, SpriteFrameState *dispatch_data);
 void initialize_person_object(TownObjectRecord *object, ObjectPosition *context, SpriteFrameState *animation);
 
 #endif

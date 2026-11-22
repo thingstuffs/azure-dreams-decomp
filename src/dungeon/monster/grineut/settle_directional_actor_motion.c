@@ -27,8 +27,8 @@ void settle_directional_actor_motion(ActorRecord *body, ObjectPosition *motion, 
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(actor);
-        motion->velocity_x = ((s16 *)((s8 *)dir_step_x))[direction] << 18;
-        motion->velocity_y = ((s16 *)((s8 *)dir_step_y))[direction] << 18;
+        motion->velocity_x = dir_step_x[direction] << 18;
+        motion->velocity_y = dir_step_y[direction] << 18;
         body->action_phase++;
 
         if (actor->hp == 0) {
@@ -55,8 +55,8 @@ void settle_directional_actor_motion(ActorRecord *body, ObjectPosition *motion, 
         motion->velocity_y -= motion->velocity_y / 4;
 
     case 1:
-        motion->velocity_x -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
-        motion->velocity_y -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
+        motion->velocity_x -= dir_step_x[direction] << 14;
+        motion->velocity_y -= dir_step_y[direction] << 14;
 
         if (body->action_timer > 0) {
             body->action_timer = body->action_timer - 1;
@@ -84,8 +84,8 @@ void settle_directional_actor_motion(ActorRecord *body, ObjectPosition *motion, 
         }
 
     case 2:
-        motion->velocity_x -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
-        motion->velocity_y -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
+        motion->velocity_x -= dir_step_x[direction] << 14;
+        motion->velocity_y -= dir_step_y[direction] << 14;
         if (!(sprite->flags & 0x6000)) {
             return;
         }

@@ -109,7 +109,7 @@ void update_actor_activity_state(ActorRecord *task, ObjectPosition *task_id, Spr
             if (actor->hp_delta != 0 && begin_ready_actor_directional_action(task, task_id, sprite_in, 0) != 0) {
                 return;
             }
-            if (((T_80175050_S_80175050_2 *)actor)->unk_25 == 0) {
+            if (actor->mp == 0) {
                 if (g_dungeon_status.flags & 0x2008) {
                     return;
                 }

@@ -9,8 +9,8 @@ extern s32 D_800D64C8[];
 
 
 /* Initialize the object and set its handler and initial value. */
-void init_reaction_object_with_timer(TownObjectRecord *object, s32 unused, void *context) {
-    initialize_object_entries((object), context, D_800D64C8);
+void init_reaction_object_with_timer(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite) {
+    initialize_object_entries(object, sprite, D_800D64C8);
     object->unk_50.as_pm = &D_800C97F4;
     object->timer = 0x15;
 }

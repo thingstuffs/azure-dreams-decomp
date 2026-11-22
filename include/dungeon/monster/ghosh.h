@@ -4,7 +4,6 @@ struct ActorRecord;
 
 #include "common.h"
 #include "shared/object_node.h"
-#include "shared/object_node.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_moving_views.h"
@@ -115,7 +114,6 @@ s32 get_actor_height_difference(ActorRecord *left_record, ActorRecord *right_rec
 struct Ent *prepare_directional_attack(ActorRecord *actor, SpriteFrameState *sprite, s16 facing, s32 mode, void *extra);
 void install_boss_action_handler(ActorRecord *object, ObjectPosition *unused_1, SpriteFrameState *unused_2, ActorRecord *flag_owner);
 
-/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void advance_boss_actor_movement_state(ActorRecord *move_state, void *unused, SpriteFrameState *sprite, void *actor_in);
 void create_scene_brighten_effect(void);
 void spawn_rising_trail_emitter(void);

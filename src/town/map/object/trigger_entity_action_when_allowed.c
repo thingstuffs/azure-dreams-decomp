@@ -6,12 +6,8 @@
 #include "engine/object.h"
 #include "sdk/libc.h"
 
-typedef map_trigger_record Entity;
-
-
-
 /* Triggers the entity action and updates its handler when its predicate and distance checks pass. */
-void trigger_entity_action_when_allowed(Entity *entity)
+void trigger_entity_action_when_allowed(map_trigger_record *entity)
 {
     s32 x_distance;
     s32 y_distance;
@@ -37,5 +33,5 @@ void trigger_entity_action_when_allowed(Entity *entity)
     }
 
     SD_Call(entity->argument);
-    entity->handler = (map_trigger_callback_fn)rearm_trigger_when_player_leaves;
+    entity->handler = rearm_trigger_when_player_leaves;
 }

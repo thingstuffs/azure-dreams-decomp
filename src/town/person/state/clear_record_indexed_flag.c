@@ -9,7 +9,7 @@
 
 
 /* Clear the record's indexed flag and set its state pointer. */
-void clear_record_indexed_flag(TownObjectRecord *state, s32 unused_context, void *unused_state_context) {
+void clear_record_indexed_flag(TownObjectRecord *state, ObjectPosition *unused_position, SpriteFrameState *unused_sprite) {
     TownObjectRecord *record;
 
     record = state;

@@ -17,7 +17,7 @@ void update_player_spun_object(void *object_arg, ObjectPosition *origin, LitMesh
     ObjectPosition *position = origin;
     LitMeshSprite *rotation = mesh;
     TownObjectRecord *object = object_arg;
-    s8 *active_flag;
+    u8 *active_flag;
     ObjectPosition *town_state;
     s32 dx;
     s32 dy;

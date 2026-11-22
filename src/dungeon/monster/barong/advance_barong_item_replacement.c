@@ -17,7 +17,10 @@ extern u8 barong_action_resume_address[];
 extern u8 D_801755BC[];
 extern u8 D_801755C4[];
 
-/* Advances a timed action animation, deforming the sprite and restoring it on completion. */
+/*
+ * Runs Barong's item replacement action: turns toward the target, plays the squash and stretch
+ * animation, creates a random item object, then releases the action.
+ */
 void advance_barong_item_replacement(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite_in, ActorRecord *actor_in)
 {
     void *direction_data = position;
@@ -174,7 +177,3 @@ void advance_barong_item_replacement(ActorRecord *body, ObjectPosition *position
 
     return;
 }
-
-/* MECHANISM: Testing timer < 3 first, then < 7, < 11, < 15 and < 17, retains both squash/stretch sites
-   and the shared completion path. The short deformation-and-sound tail is copied for the two low-timer
-   intervals; all four original gotos are removed byte-exactly. */

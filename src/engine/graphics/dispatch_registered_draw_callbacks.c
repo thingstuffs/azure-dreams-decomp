@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "shared/gpu_packets.h"
 #include "engine/entity.h"
 #include "engine/graphics.h"
 #include "shared/object_node.h"
@@ -21,7 +22,7 @@ void dispatch_registered_draw_callbacks(void)
             if (entry != 0) {
                 if (!(entry->flags & 0x800)) {
                     callback(entry + 1, entry->position, entry->sprite);
-                    if (is_frame_packet_arena_overflowed(*(s32 *)((u8 *)g_game_work.draw_buffer + 0x8D0))) {
+                    if (is_frame_packet_arena_overflowed(((GpuContext *)g_game_work.draw_buffer)->packetCursor)) {
                         break;
                     }
                 }

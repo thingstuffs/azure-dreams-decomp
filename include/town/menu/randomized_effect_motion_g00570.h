@@ -15,7 +15,7 @@
 
 /* Body installed by create_scattered_motion_object and called through dispatch_menu_state_callback. */
 typedef struct RandomizedEffectMotionBody {
-    /* 0x00 */ void (*callback)();
+    /* 0x00 */ void (*callback)(struct RandomizedEffectMotionBody *, ObjectPosition *, SpriteFrameState *);
     /* 0x04 */ u8 pad_04[0x1E];
     /* 0x22 */ s16 variant;
     /* 0x24 */ s32 ticks_left;
@@ -37,7 +37,7 @@ extern void decrease_primitive_brightness_and_mark_cleanup(RandomizedEffectMotio
 extern SpriteSourceEntry *D_800D0B20[];
 
 /* Functions defined in this translation unit. */
-void initialize_randomized_motion_vector(RandomizedEffectMotionBody *obj, s32 *vec, SpriteFrameState *record);
+void initialize_randomized_motion_vector(RandomizedEffectMotionBody *obj, ObjectPosition *position, SpriteFrameState *record);
 void advance_motion_and_reset_appearance(RandomizedEffectMotionBody *state, ObjectPosition *transform, SpriteFrameState *appearance);
 
 #endif

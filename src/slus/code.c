@@ -412,30 +412,21 @@ int is_type_twenty(int type)
     return type == 0x14;
 }
 
-typedef struct {
-    u8 unk0;
-    u8 unk1;
-    u8 unk2;
-    u8 unk3;
-} Struct8004928C;
-
 /* Test whether the record's low five type bits equal 0x14. */
-int record_has_type_twenty(Struct8004928C *record)
+int record_has_type_twenty(DungeonItemEntry *record)
 {
-    return is_type_twenty(record->unk3 & 0x1F);
+    return is_type_twenty(record->unk_03 & 0x1F);
 }
 
-extern int get_item_name_text(void *a0, int *a1);
-
 /* Process an object using the fixed global table. */
-int get_item_name(void *object) {
+int get_item_name(struct DungeonItemEntry *object) {
     return get_item_name_text(object, item_name_text_table);
 }
 
 struct DungeonItemEntry;
 
 /* Return flag bit 0x400 from the status query. */
-int read_item_category_flag_ten(void *item) {
+int read_item_category_flag_ten(struct DungeonItemEntry *item) {
     return get_item_category_flags(item) & 0x400;
 }
 
@@ -505,21 +496,19 @@ void *get_menu_count_template(int count)
     return D_800712B4[count];
 }
 
-extern int get_scaled_byte_value(void *a1);
-
-/* Forward the second argument to the object query. */
-int read_second_argument_scaled_byte(void *unused, void *object) {
-    return get_scaled_byte_value(object);
+/* The coin category takes its price from the item supplied by the value dispatcher. */
+int read_second_argument_scaled_byte(s32 unused_value, struct DungeonItemEntry *item) {
+    return get_scaled_byte_value(item);
 }
 
 /* file_load_com: process the item with mode one. */
-s32 get_item_sell_money(void *item)
+s32 get_item_sell_money(struct DungeonItemEntry *item)
 {
     return calc_item_value(item, 1);
 }
 
 /* func_koya_mon_talk_pal_ld: process the item with mode zero. */
-s32 get_item_buy_money(void *item)
+s32 get_item_buy_money(struct DungeonItemEntry *item)
 {
     return calc_item_value(item, 0);
 }
@@ -569,7 +558,7 @@ void sort_with_comparator(u8 *base, s32 count, s32 size, s32 (*compar)(u8 *, u8 
 
 /* Forward an object with fixed leading arguments zero and one. */
 void create_single_callback_payload(void *object) {
-    create_node_with_record_pair(0, (void *)1, (unsigned long)object);
+    create_node_with_record_pair(0, 1, (unsigned long)object);
 }
 
 /* Find the target node in the global linked list. */
@@ -733,20 +722,20 @@ void clear_card_server_initialized_flag(void) {
 }
 
 /* Create an object task with mode zero. */
-void *create_resource_transition_for_descriptor_check(void *object)
+void *create_resource_transition_for_descriptor_check(struct ObjectNodeHeader *object)
 {
     return scene_create_resource_transition(object, 0);
 }
 
 /* Create an object task with mode one. */
-void *create_resource_transition_card(void *object) {
-    return scene_create_resource_transition(object, (void *)1);
+void *create_resource_transition_card(struct ObjectNodeHeader *object) {
+    return scene_create_resource_transition(object, 1);
 }
 
 /* Create an object task with mode two and return it. */
 void *create_resource_transition_task(void *owner)
 {
-    return scene_create_resource_transition(owner, (void *)2);
+    return scene_create_resource_transition(owner, 2);
 }
 
 extern struct Prim12 *init_tpage_prims(struct Prim12 *prim);
@@ -810,18 +799,17 @@ void initialize_menu_record_value(AnimatedSelectionMenuBody *menu) {
 }
 
 /* Return the selected word from the embedded record's value array. */
-int read_selected_menu_entry_word(char *object)
+int read_selected_menu_entry_word(ObjectNodeHeader *object)
 {
-    int index;
-    object = object + 0x20;
-    index = *(int *)(object + 0x30);
-    return *(int *)(object + index * 4 + 0x10);
+    AnimatedSelectionMenuBody *menu = NODE_BODY(object);
+    int index = menu->selected_index;
+    return menu->entry_ids[index];
 }
 
 extern s32 func_80021300(int a0);
 
 /* Resolve and return the object's selected entry value. */
-s32 resolve_selected_menu_entry(char *object)
+s32 resolve_selected_menu_entry(ObjectNodeHeader *object)
 {
     return func_80021300(read_selected_menu_entry_word(object));
 }

@@ -1,9 +1,7 @@
 #include "engine/audio.h"
 #include "engine/cd.h"
 #include "engine/audio/data.h"
-/* Game movie playback and display lifecycle.
- * Evidence: inferred-weak.
- */
+/* Plays the selected movie and restores the display. */
 #include "ovmovie/game_movie_playback_g01063.h"
 
 /* Plays the selected movie and resets both frame buffers afterward. */

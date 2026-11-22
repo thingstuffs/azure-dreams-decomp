@@ -23,7 +23,7 @@ void reset_person_object_entries(void *);
 extern struct ActorRecord town_actor_scratch;
 extern s32 town_record_capacities[];
 extern s16 paired_scene_flag_ids[];
-extern void *town_item_list;
+extern void *town_item_list; /* BYTES: the typed form changes the compiled bytes; the pointer view keeps the load the retail code uses. */
 
 /* Functions defined in this translation unit. */
 void refresh_entity_slot_snapshot(s32 record_ref);

@@ -8,21 +8,16 @@ typedef struct S_800B62A4_0 {
     u8 unk_08;
 } S_800B62A4_0;
 
-typedef struct DisplaySlot {
-    u8 pad_00[0x38];
-    s32 *value;
-} DisplaySlot;
-
 /* Fill up to three output slots from source entries and clear unused slots. */
-void fill_display_slots(ActorRecord *source, s32 output) {
+void fill_display_slots(ActorRecord *source, ItemMenuPart **output) {
     void *entries[3];
     s32 index;
     s32 slot_count;
     s32 scan_base;
     s32 has_room;
     void *entry;
-    s32 *slot_value;
-    void *slot_cursor;
+    ItemMenuPart *part;
+    ItemMenuPart **slot_cursor;
     /* Three-byte source slots and four-byte pointer slots share this byte cursor. */
     u8 *source_cursor;
 
@@ -62,12 +57,12 @@ void fill_display_slots(ActorRecord *source, s32 output) {
     }
     index = slot_count;
     if (index < 3) {
-        slot_cursor = (index * 4) + output;
+        slot_cursor = (ItemMenuPart **)(index * sizeof(*output) + (unsigned long)output);
         do {
-            slot_value = ((DisplaySlot *)slot_cursor)->value;
-            slot_cursor += 4;
+            part = slot_cursor[14];
+            slot_cursor++;
             index += 1;
-            *slot_value = 0;
+            part->handler = 0;
         } while (index < 3);
     }
 }

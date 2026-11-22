@@ -50,5 +50,3 @@ void create_familiar_deployment_effect_with_owner_state(void *owner_body, Object
         effect_state->animation_index = 1;
     }
 }
-/* MECHANISM: The natural three-pointer lifetimes reproduce retail's 0x20 frame and s0/s2/s1 save
-   contract. A volatile first flags read fixes load placement. */

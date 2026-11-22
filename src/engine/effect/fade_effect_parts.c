@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
-#include "shared/dungeon_effect_views.h"
+#include "shared/object_node.h"
+#include "engine/menu/selection_menu.h"
 #include "engine/effect.h"
 #include "engine/item.h"
 
@@ -20,15 +21,12 @@ typedef struct S_80050CDC_1 {
     u16 unk_0C;
 } S_80050CDC_1;   /* part in fade_effect_parts */
 
-   /* arg0 in fade_effect_parts */
-
 extern s32 D_800814A0;
 
 /* Update and fade the effect parts, then signal completion when the timer expires. */
-void fade_effect_parts(void *effect_arg, void *unused, void *parts_arg)
+void fade_effect_parts(MenuSelectionBody *effect, void *unused, void *parts_arg)
 {
     S_80050CDC_0 *parts = parts_arg;
-    EffectCountdownView *effect = effect_arg;
     s32 ticks_left;
     u8 color;
     S_80050CDC_1 *part;
@@ -45,11 +43,13 @@ void fade_effect_parts(void *effect_arg, void *unused, void *parts_arg)
     part->unk_01 = color;
     part->unk_00 = color;
 
-    ticks_left = effect->unk_08 - 1;
-    effect->unk_08 = ticks_left;
+    ticks_left = effect->fade_ticks - 1;
+    effect->fade_ticks = ticks_left;
     if (ticks_left == -1) {
-        release_null_terminated_entries((u8 *)effect + 0x6C);
-        (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+        u16 *flags;
+        release_null_terminated_entries(effect->buffers);
+        flags = &NODE_HEADER(effect)->flags;
+        *flags |= NODE_REMOVE;
         D_800814A0 |= OBJECT_REMOVE_PENDING;
     }
 }

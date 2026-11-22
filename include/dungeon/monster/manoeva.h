@@ -77,7 +77,7 @@ void create_knockback_travel_object(ActorRecord *owner_data, ObjectPosition *pos
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void spawn_manoeva_particle_burst(ObjectPosition *origin, SpriteFrameState *source_sprite);
 
-s32 draw_linked_record_chain(u8 *record_data, ObjectPosition *position, u8 *linked_data);
+s32 draw_linked_record_chain(u8 *record_data, ObjectPosition *position, SpriteFrameState *sprite);
 
 void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFrameState *sprite, ActorRecord *actor);
 

@@ -3,15 +3,13 @@
 #include "engine/resource.h"
 #include "engine/texture.h"
 
-/* The owning scene header has a different legacy queue descriptor contract. */
-extern void *create_node_with_record_pair(void *second_value, void *first_value, unsigned long unused_value);
+#include "engine/scene/removal_counter.h"
 
 /* Forward the values with two leading zeros and return the allocated node. */
 void *allocate_node_body(int value)
 {
     int saved_value = value;
-    void *empty = 0;
-    return create_node_with_record_pair(empty, empty, saved_value);
+    return create_node_with_record_pair(0, 0, saved_value);
 }
 
 

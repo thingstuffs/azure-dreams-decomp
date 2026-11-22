@@ -11,9 +11,9 @@ typedef struct {
 #include "town/person.h"
 
 /* Apply descriptor setup, clear the indexed flag, and reset the object callback and state. */
-void reset_object_entries_from_descriptor(TownObjectRecord *object, s32 unused, void *setup_context) {
-    initialize_object_entries(object, setup_context, object->descriptor->entries[5]);
+void reset_object_entries_from_descriptor(TownObjectRecord *object, ObjectPosition *unused_position, SpriteFrameState *output) {
+    initialize_object_entries(object, output, object->descriptor->entries[5]);
     object_index_slots[object->slot].unk_00 = 0;
-    object->handler = (void *) apply_object_setup_update;
+    object->handler = apply_object_setup_update;
     object->heading = 0;
 }

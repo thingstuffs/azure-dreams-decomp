@@ -1,6 +1,5 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_func_800AB030_arg0.h"
 #include "sdk/libgte.h"
 #include "town/person/lookup_motion.h"
 #include "town/person.h"
@@ -8,7 +7,7 @@
 
 
 /* Advances the stored value by 0xCC and returns the helper result divided by 384. */
-s32 advance_person_sine_offset(Rec_func_800AB030_arg0 *record) {
+s32 advance_person_sine_offset(TownObjectRecord *record) {
     u16 updated_value;
 
     updated_value = record->unk_6A + 0xCC;

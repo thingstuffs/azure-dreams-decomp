@@ -312,7 +312,6 @@ s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height
 struct Ent *prepare_directional_attack();
 u32 check_entity_interaction_compatibility();
 #include "dungeon/player/object/action_state.h"
-struct Entry;
 struct ObjectNodeHeader;
 struct ObjectNodeHeader;
 s32 update_actor_movement_to_tile(ActorRecord *move_state, void *motion, void *target_tile, ActorRecord *actor);
@@ -332,15 +331,15 @@ s32 update_actor_transform_from_parent();
 s32 interpolate_actor_to_terrain_tile();
 s32 update_spinning_actor_fall();
 s32 update_actor_fade_in(ActorRecord *object, ObjectPosition *unused, SpriteFrameState *effect);
-void project_sprite_commands(void *context, void *position, struct Entry *entry, s16 depth_bias);
-void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth_bias);
+void project_sprite_commands(void *context, struct ObjectPosition *position, struct SpriteFrameState *entry, s16 depth_bias);
+void func_800453E0(void *context, struct ObjectPosition *position, struct SpriteFrameState *entry, s16 depth_bias);
 void unlink_node();
 void select_record_entry_and_value(void *state, void *entries, short index);
 void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
 void run_cd_image_commands(u32 *stream_ref, u8 *state, s32 execute);
 void func_80041588(u32 *stream_ref, u8 *state, s32 execute);
 s32 read_stream_cue_start_offset(void);
-s32 lookup_masked_byte_table();
+s32 lookup_masked_byte_table(ActorRecord *actor);
 void unlink_entity_node();
 void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 void *create_status_linked_render_effect();
@@ -394,7 +393,7 @@ void finish_griffon_thrown_travel(ActorRecord *state, ObjectPosition *entity, Sp
 void finish_griffon_terrain_settle(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void finish_griffon_spinning_fall(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void finish_griffon_fade_in(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
-s32 project_griffon_sprite_chain(void *initial_payload, s32 entry_data, SpriteFrameState *entry, s32 unused);
+s32 project_griffon_sprite_chain(void *initial_payload, ObjectPosition *entry_data, SpriteFrameState *entry, s32 unused);
 void spin_and_grow_sprite(u16 *record_data, ObjectPosition *unused_position, SpriteFrameState *object);
 void create_tinted_rotated_sprite(PositionedSpriteEffectBody *unused_0, ObjectPosition *source_pos, SpriteFrameState *unused_sprite, s8 green, u8 red_blue);
 void expand_tinted_sprite_and_expire(PositionedSpriteEffectBody *effect, ObjectPosition *position, SpriteFrameState *sprite);

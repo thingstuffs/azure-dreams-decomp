@@ -9,13 +9,13 @@ extern s32 D_800D5944[];
 
 
 /* Switch the actor state and callback when the countdown expires, then reset it to five ticks. */
-void switch_actor_state(TownObjectRecord *actor, s32 unused, void *state_context) {
+void switch_actor_state(TownObjectRecord *actor, ObjectPosition *unused_position, SpriteFrameState *sprite) {
     u16 ticks_left;
 
     ticks_left = actor->timer - 1;
     actor->timer = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        initialize_object_entries((actor), state_context, D_800D5944);
+        initialize_object_entries(actor, sprite, D_800D5944);
         actor->handler = &apply_setup_on_timeout_variant_2;
         actor->timer = 5U;
     }

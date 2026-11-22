@@ -55,6 +55,11 @@ import re
 import subprocess
 import sys
 
+_tools = str(Path(__file__).resolve().parents[1])
+if _tools not in sys.path:
+    sys.path.append(_tools)
+import atomic_io  # noqa: E402
+
 _HOME = '/ho' 'me/'  # split so the prepublish scan does not flag this file
 _SCRATCH = '/tmp/' 'claude-'
 MODELS = ('opus', 'sonnet', 'sol', 'luna', 'astra', 'fable', 'gemini', 'terra')
@@ -369,7 +374,7 @@ def scrub(root, write=False, files=SCRUB_FILES):
         lines = sum(1 for a, b in zip(text.split('\n'), new.split('\n')) if a != b)
         report.append((rel, before, after, lines))
         if write and new != text:
-            p.write_text(new)
+            atomic_io.write_text(p, new)
     return report
 
 

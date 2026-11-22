@@ -4,33 +4,19 @@
 #include "town/person.h"
 #include "town/person/motion.h"
 
-typedef struct TownTimedTransitionState {
-    u8 pad_00[0x50];
-    void *state;
-    u8 pad_54[0x18];
-    u16 timer;
-    u8 pad_6E[4];
-    u16 unk72;
-    u8 pad_74[0x1C];
-    s16 value;
-} TownTimedTransitionState;
-
-
-
-
 /* Changes the handler below value 100 and on timer expiry; otherwise turns field +0x72 by -0x400. */
-void update_timed_state_transition(TownTimedTransitionState *state) {
+void update_timed_state_transition(TownObjectRecord *state) {
     u16 timer;
 
-    if (state->value < 100) {
-        state->state = move_person_toward_sample;
+    if (state->unk_90 < 100) {
+        state->unk_50.as_pm = move_person_toward_sample;
     }
     timer = state->timer - 1;
     state->timer = timer;
     if ((s16) timer < 0) {
-        state->state = update_person_coordinates;
+        state->unk_50.as_pm = update_person_coordinates;
         state->timer = 150;
         return;
     }
-    state->unk72 -= 0x400;
+    state->heading -= 0x400;
 }

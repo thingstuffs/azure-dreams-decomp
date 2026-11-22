@@ -14,7 +14,7 @@ AnimatedMenuPanelNode *create_animated_menu_panel(s32 style_flags, s16 start_x, 
                                  s16 target_y, s16 width, s32 flags, s32 content_id) {
     AnimatedMenuPanelNode *entity;
     AnimatedMenuPanelBody *state;
-    void *buffer_addr;
+    Template96 *buffer_addr;
     void *display_link;
     s32 saved_style_flags = style_flags;
     u16 entity_flags;

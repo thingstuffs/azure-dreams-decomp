@@ -67,13 +67,6 @@ typedef struct SlotSprite {
     s16 unk_1E;
 } SlotSprite;
 
-typedef struct SlotPayout {
-    void * unk_00;
-    u8 pad_04[0x4C];
-    void * unk_50;
-    s16 unk_54;
-} SlotPayout;
-
 typedef struct SlotSpriteData {
     u8 pad_00[0x4];
     s32 unk_04;
@@ -84,16 +77,8 @@ typedef struct ReelObject {
     s16 unk_2A;
 } ReelObject;
 
-typedef struct SlotBody {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} SlotBody;
-
 /* Updates slot machine bets, reel stops, winning lines, and coin payouts. */
-void process_slot_machine_state(State8081FF68 *state, void *position)
+void process_slot_machine_state(State8081FF68 *state, ObjectPosition *position)
 {
     GameWork *input = &g_game_work;
     u8 *payout_callback;
@@ -454,23 +439,23 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
                 void *payout_obj;
                 ObjectPosition *primitive;
                 SpriteFrameState *sprite;
-                u8 *payout_state;
+                BouncingPickupAfterHitObject *payout_state;
                 coin = allocate_flagged_object_node(0x136);
                 if (coin == NULL) {
                     return;
                 }
                 payout_obj = coin;
                 coin->update_callback = update_bouncing_pickup_after_hit;
-                ((SlotBody *)(*(u8 * *)&coin->position))->unk_00 =
-                    ((IntVector3 *)position)->x + (s32)0xFEC00000;
-                ((SlotBody *)(*(u8 * *)&coin->position))->unk_04 =
-                    ((IntVector3 *)position)->y + (s32)0xFFC00000;
-                ((SlotBody *)(*(u8 * *)&coin->position))->unk_08 =
-                    ((IntVector3 *)position)->z + (s32)0xFFC00000;
+                coin->position->x.v =
+                    position->x.v + (s32)0xFEC00000;
+                coin->position->y.v =
+                    position->y.v + (s32)0xFFC00000;
+                coin->position->z.v =
+                    position->z.v + (s32)0xFFC00000;
                 primitive = coin->position;
-                (primitive)->velocity_y = 0;
-                (primitive)->velocity_x = 0;
-                ((SlotBody *)(*(u8 * *)&coin->position))->unk_14 = 0x40000;
+                primitive->velocity_y = 0;
+                primitive->velocity_x = 0;
+                coin->position->velocity_z = 0x40000;
                 payout_state = NODE_BODY(coin);
                 register_node(payout_obj, project_sprite_chain);
                 sprite = coin->sprite;
@@ -478,14 +463,14 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
                 sprite->scale_x = 0x1000;
                 if (digits[2] != 0) {
                     digits[2]--;
-                    ((SlotPayout *)payout_state)->unk_54 = 2;
+                    payout_state->denomination = 2;
                 } else if (digits[1] != 0) {
                     digits[1]--;
-                    ((SlotPayout *)payout_state)->unk_54 = 1;
+                    payout_state->denomination = 1;
                     sprite->clut = (u16)(sprite->clut - 5);
                 } else if (digits[0] != 0) {
                     digits[0]--;
-                    ((SlotPayout *)payout_state)->unk_54 = 0;
+                    payout_state->denomination = 0;
                     sprite->clut = (u16)((*(u16 *)((u8 *)sprite + (0x12))) + 5);
                 }
                 {
@@ -497,9 +482,9 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
                     glyph->frame_ticks = 0;
                     glyph->color.word = 0x00808080;
                 }
-                ((SlotPayout *)payout_state)->unk_00 = state;
-                ((SlotPayout *)payout_state)->unk_50 = payout_callback;
-                init_scene_node_mode_1(payout_state + 8, coin->position, minigame_pickup_bounds);
+                payout_state->slot_state = state;
+                payout_state->payout_callback = payout_callback;
+                init_scene_node_mode_1(&payout_state->scene, coin->position, minigame_pickup_bounds);
             }
         }
     }

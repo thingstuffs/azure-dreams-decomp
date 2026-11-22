@@ -52,7 +52,7 @@ void update_actor_interaction_actions(void *self_arg, ObjectPosition *target_arg
                 return;
             }
             if ((state->pressed_buttons) & 0x10) {
-                initialize_actor_action_state(self, target_arg, (s32)context);
+                initialize_actor_action_state(self, target_arg, context);
                 return;
             }
             return;

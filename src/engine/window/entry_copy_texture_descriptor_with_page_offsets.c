@@ -1,3 +1,4 @@
+#include "engine/window/cursor_source.h"
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -5,41 +6,29 @@
 #include "engine/window.h"
 #include "slus/blinking_cursor_data.h"
 
-typedef struct {
-    u8 unk00[0x44];
-    u8 *base;
-    u8 unk48[2];
-    s16 index;
-    u8 unk4c[0x18];
-    u16 counter;
-    s16 table_index;
-} Func37090Input;
-
-extern void copy_texture_descriptor_with_page_offsets(u8 *, u8 *, u8 *);
-
 /* Updates lookup data and selects the current entry's table value and blinking color. */
-void update_blinking_cursor_with_dark_idle(Func37090Input *state, ObjectPosition *context, SpriteFrameState *output) {
+void update_blinking_cursor_with_dark_idle(WindowCursorBody *state, ObjectPosition *context, SpriteFrameState *output) {
     u8 entry;
 
-    if (unlink_cursor_when_finished(state) != 0) {
+    if (unlink_cursor_when_finished(&state->render) != 0) {
         return;
     }
 
-    copy_texture_descriptor_with_page_offsets(state->base + 0xC, (u8 *)blinking_cursor_texture_template_0, blinking_cursor_texture_descriptor_0);
-    copy_texture_descriptor_with_page_offsets(state->base + 0xC, (u8 *)blinking_cursor_texture_template_1, blinking_cursor_texture_descriptor_1);
-    copy_texture_descriptor_with_page_offsets(state->base + 0xC, (u8 *)blinking_cursor_texture_template_2, blinking_cursor_texture_descriptor_2);
+    copy_texture_descriptor_with_page_offsets(&state->script->texture, &blinking_cursor_texture_template_0, &blinking_cursor_texture_descriptor_0.part);
+    copy_texture_descriptor_with_page_offsets(&state->script->texture, &blinking_cursor_texture_template_1, &blinking_cursor_texture_descriptor_1.part);
+    copy_texture_descriptor_with_page_offsets(&state->script->texture, &blinking_cursor_texture_template_2, &blinking_cursor_texture_descriptor_2.part);
 
     {
-        u8 *entries = state->base + 0x4C;
-        s16 entry_index = state->index;
+        u8 *entries = (u8 *)state->script + 0x4C;
+        s16 entry_index = state->cursor_offset;
 
         entry = entries[entry_index];
     }
     if (entry & 0x80) {
         s32 count;
 
-        state->counter++;
-        count = state->counter;
+        state->blink_frame++;
+        count = state->blink_frame;
         if (count & 1) {
             output->color.word = 0xC0C0C0;
         } else {
@@ -49,5 +38,5 @@ void update_blinking_cursor_with_dark_idle(Func37090Input *state, ObjectPosition
         output->color.word = 0;
     }
 
-    output->source = texture_descriptor_variant_values[((entry & 0x7F) + state->table_index)];
+    output->source = texture_descriptor_variant_values[((entry & 0x7F) + state->variant_offset)];
 }

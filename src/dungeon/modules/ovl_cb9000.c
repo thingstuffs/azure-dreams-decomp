@@ -167,11 +167,6 @@ void *spawn_block_slot_f(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 spawn_heig
 /*
  * Runs actor behavior callbacks, updates facing and sprite tint, and advances motion with terrain
  * landing checks.
- *
- * MECHANISM: 2.7.2-cdk-G0 (retail shows the compiler's HIGH/LO_SUM address split: lui / lw /
- * addiu). The two byte parameters arrive as s16: their narrowing copies survive cse, combine folds
- * the a1/a2 temps into them, so sched1 schedules the parameter copies and the entry order is
- * retail's.
  */
 void update_block_motion_and_facing_slot_f(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *sprite)
 {
@@ -581,9 +576,9 @@ void choose_block_move_slot_f(Rec_func_800A9E70_arg0 *move_data, ObjectPosition 
                     s32 offset_index =
                         ((((u8 *)&actor_data->unk_44.whole)[1] + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
-                        *(u16 *)((u8 *)((s8 *)dir_step_x) + offset_index);
+                        *(u16 *)((u8 *)dir_step_x + offset_index);
                     target_y = target_position->tile_position.parts.tile_y +
-                        *(u16 *)((u8 *)((s8 *)dir_step_y) + offset_index);
+                        *(u16 *)((u8 *)dir_step_y + offset_index);
                 }
 
                 if (position_data->tile_position.parts.tile_x == (u16)target_x &&
@@ -690,11 +685,11 @@ void choose_block_move_slot_f(Rec_func_800A9E70_arg0 *move_data, ObjectPosition 
             {
                 u8 *x_step;
 
-                x_step = (u8 *)((s8 *)dir_step_x);
+                x_step = (u8 *)dir_step_x;
                 step_offset = (actor_data->facing >> 8) & 0xE;
                 x_step += step_offset;
                 position_data->tile_position.parts.tile_x += *x_step;
-                position_data->tile_position.parts.tile_y += *((u8 *)((s8 *)dir_step_y) + step_offset);
+                position_data->tile_position.parts.tile_y += *((u8 *)dir_step_y + step_offset);
             }
 
             cycle_map_cell_flags(
@@ -2362,7 +2357,7 @@ void update_block_replacement_slot_f(CL_CB9000_80174D14_S_80C97514_0 *state, Obj
         if ((effect_type << 0x10) < 0) {
             effect_index = rand() % 3;
         }
-        effect_data = (void *)(*((s32 *)&D_8016F318 + (s16) effect_index) + (u8 *)&dungeon_resource_buffer);
+        effect_data = (*((s32 *)&D_8016F318 + (s16) effect_index) + (u8 *)&dungeon_resource_buffer);
         select_record_entry_and_value(effect_sprite, effect_data, 0);
         entity->flags = (u16) (entity->flags | 0x80);
         state->timer = 0U;

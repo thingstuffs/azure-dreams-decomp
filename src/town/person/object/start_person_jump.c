@@ -11,8 +11,8 @@ extern s32 D_800D627C[];
 
 
 /* Initialize the object callback and set its state value to negative ten in fixed point. */
-void start_person_jump(TownObjectRecord *object, ObjectPosition *state, void *init_data) {
-    initialize_object_entries((object), init_data, D_800D627C);
+void start_person_jump(TownObjectRecord *object, ObjectPosition *state, struct SpriteFrameState *sprite) {
+    initialize_object_entries(object, sprite, D_800D627C);
     object->handler = &D_800C8788;
     state->velocity_z = 0xFFF60000;
 }

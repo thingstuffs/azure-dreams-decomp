@@ -597,9 +597,9 @@ void choose_arachne_move(ActorRecord *move_data, ObjectPosition *context, Sprite
                     s32 offset_index =
                         ((actor_data->unk_44.bytes.high + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
-                        *(u16 *)((u8 *)((s8 *)dir_step_x) + offset_index);
+                        *(u16 *)((u8 *)dir_step_x + offset_index);
                     target_y = target_position->tile_position.parts.tile_y +
-                        *(u16 *)((u8 *)((s8 *)dir_step_y) + offset_index);
+                        *(u16 *)((u8 *)dir_step_y + offset_index);
                 }
 
                 if (position_data->tile_x == (u16)target_x &&
@@ -696,11 +696,11 @@ void choose_arachne_move(ActorRecord *move_data, ObjectPosition *context, Sprite
             {
                 u8 *x_step;
 
-                x_step = (u8 *)((s8 *)dir_step_x);
+                x_step = (u8 *)dir_step_x;
                 step_offset = (actor_data->facing >> 8) & 0xE;
                 x_step += step_offset;
                 position_data->tile_x += *x_step;
-                position_data->tile_y += *((u8 *)((s8 *)dir_step_y) + step_offset);
+                position_data->tile_y += *((u8 *)dir_step_y + step_offset);
             }
 
             cycle_map_cell_flags((s16)position_data->tile_x,(s16)position_data->tile_y,(u16)((actor_data->flags1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000));
@@ -1038,8 +1038,8 @@ void advance_arachne_attack(ActorRecord *body, ObjectPosition *position, SpriteF
 
     state = body->action_phase;
     dir_offset = (actor->facing >> 8) & 0xE;
-    dir_x = *(s16 *)((u8 *)((s8 *)dir_step_x) + dir_offset);
-    dir_y = *(s16 *)((u8 *)((s8 *)dir_step_y) + dir_offset);
+    dir_x = *(s16 *)((u8 *)dir_step_x + dir_offset);
+    dir_y = *(s16 *)((u8 *)dir_step_y + dir_offset);
     timer = (u16)body->action_timer - 1;
     body->action_timer = timer;
 
@@ -2112,12 +2112,7 @@ s32 project_arachne_sprite_chain(void *initial_payload, ObjectPosition *entry_da
     }
 }
 
-/*
- * Transforms line endpoints and queues their colored line and drawing-mode packets at the adjusted
- * depth.
- *
- * MECHANISM: Typed page and scratch fields preserve the signed lh/sw widths and offsets.
- */
+/* Transforms line endpoints and queues colored line and drawing-mode packets at the adjusted depth. */
 void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_80174618_S_80174618_1 *position, SpriteFrameState *render_params, s16 depth_bias)
 {
     u8 *line_packet;

@@ -5,21 +5,8 @@
 #include "sdk/libc.h"
 #include "slus.h"
 
-typedef map_trigger_record S_800C1F8C_0;   /* arg0 in rearm_trigger_when_player_leaves */
-
-
-typedef struct Position {
-    s16 pad0;
-    s16 x;
-    s16 pad4;
-    s16 y;
-} Position;
-
-
-
-
 /* Trigger an action and update the object state when either position limit is exceeded. */
-void rearm_trigger_when_player_leaves(S_800C1F8C_0 *object)
+void rearm_trigger_when_player_leaves(map_trigger_record *object)
 {
     s32 x_offset;
     s32 y_offset;
@@ -34,5 +21,5 @@ void rearm_trigger_when_player_leaves(S_800C1F8C_0 *object)
         return;
     }
     SD_Call(object->argument | 0x1000);
-    object->handler = (map_trigger_callback_fn)trigger_entity_action_when_allowed;
+    object->handler = trigger_entity_action_when_allowed;
 }

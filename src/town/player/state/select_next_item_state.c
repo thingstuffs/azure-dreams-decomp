@@ -11,7 +11,7 @@ extern s32 *town_player_action_callback;
 extern s32 town_interaction_pending;
 
 /* Select the object's next state based on slot availability. */
-void select_next_item_state(void *object, void *position, void *context) {
+void select_next_item_state(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *context) {
     if (get_item_chk() == -1) {
         write_resource_command(&D_80088D44, 0x11);
         set_deferred_dispatch_handler(object, position, context);

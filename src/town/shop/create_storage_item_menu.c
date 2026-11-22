@@ -14,7 +14,7 @@
 #include "town/shop.h"
 extern int dungeon_menu_tag(void *forwarded_ptr, int unused_arg, void *second_ptr);
 
-StorageMenuNode *create_storage_item_menu(ItemMenuStateNode *owner) {
+StorageMenuNode *create_storage_item_menu(ObjectNodeHeader *owner) {
     StorageMenuNode *object;
     StorageMenuObject *menu;
     object = allocate_flagged_object_node(0);

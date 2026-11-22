@@ -11,10 +11,10 @@ extern s32 D_800D6EFC[];
  * Initializes entries from D_800D6EFC, clears the indexed object slot, and installs func_800C3B7C
  * with count 28.
  */
-void init_countdown_entry_group_28(void *object, s32 unused, void *output)
+void init_countdown_entry_group_28(struct TownObjectRecord *object, struct ObjectPosition *unused_position, struct SpriteFrameState *output)
 {
     initialize_object_entries(object, output, D_800D6EFC);
-    object_index_slots[*(s32 *)((u8 *)object + 0x60)].unk_00 = 0;
-    *(void **)((u8 *)object + 0x54) = func_800C3B7C;
-    *(s16 *)((u8 *)object + 0x6C) = 28;
+    object_index_slots[object->slot].unk_00 = 0;
+    object->handler = func_800C3B7C;
+    object->timer = 28;
 }

@@ -3,15 +3,15 @@
 #include "frontend/card/save_slot.h"
 #include "common.h"
 #include "frontend/card.h"
+#include "frontend/card/message.h"
 #include "frontend/card/save.h"
 #include "frontend/card/server_aliases.h"
-#include "frontend/card/message.h"
+
 
 /* Selects the object's next callback based on whether its indexed entry is active. */
-void select_slot_menu_callback(void *object_state_arg)
+void select_slot_menu_callback(CardSaveOperationBody *object_state)
 {
-    CardSaveOperationBody *object_state = object_state_arg;
-    void *next_callback;
+    void (*next_callback)(CardSaveOperationBody *menu);
     ObjectNodeHeader *object_base;
     s32 entry_index;
     s32 entry_active;

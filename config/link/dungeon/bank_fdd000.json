@@ -48,7 +48,6 @@
         "0x80175298": "0x80169298",
         "0x80175258": "0x80169258",
         "0x801752A0": "0x801692A0",
-        "0x80175174": "0x80169174",
         "0x80175260": "0x80169260",
         "0x80174250": "0x80168250",
         "0x80172658": "0x80166658",
@@ -57,7 +56,8 @@
         "0x80175290": "0x80169290",
         "0x80171B68": "0x80165B68",
         "0x8017139C": "0x80165910",
-        "0x80172628": "0x80166658"
+        "0x80172628": "0x80166658",
+        "0x81087200": "0x80169174"
       },
       "evidence": "r124w_carve1 run 2: complete registered-home section equality"
     },
@@ -445,8 +445,8 @@
         "0x80170F6C": "0x80164F6C",
         "0x80174B20": "0x80168B20",
         "0x80174B98": "0x80168B98",
-        "0x80175174": "0x80169174",
-        "0x80175258": "0x80169258"
+        "0x80175258": "0x80169258",
+        "0x81087200": "0x80169174"
       },
       "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
@@ -492,7 +492,8 @@
       "size": 108,
       "bindings": {
         "0x800478B8": "0x800478B8",
-        "0x800814A0": "0x800814A0"
+        "0x800814A0": "0x800814A0",
+        "0x81087200": "0x80169174"
       },
       "evidence": "opus_place1: re-homed from relinked copy town/func_800C19FC onto dungeon/func_81087200; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },

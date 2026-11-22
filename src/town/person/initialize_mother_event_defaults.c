@@ -2,18 +2,8 @@
 #include "m2c_compat.h"
 #include "town/person.h"
 
-typedef struct S_800C7C88_0 {
-    u8 pad_00[0x6E];
-    s16 unk_6E;
-    u8 pad_70[0x14];
-    s16 unk_84;
-    s16 unk_86;
-    u8 pad_88[0xC];
-    s8 unk_94;
-} S_800C7C88_0;   /* arg0 in initialize_mother_event_defaults */
-
 /* Initializes the object's state fields to fixed defaults. */
-void initialize_mother_event_defaults(S_800C7C88_0 *object) {
+void initialize_mother_event_defaults(TownObjectRecord *object) {
     object->unk_84 = 0x520;
     object->unk_86 = 0x2A0;
     object->unk_94 = 2;

@@ -15,16 +15,16 @@
  * adjusted vector.
  */
 void create_item_category_effect(s32 index, s32 kind) {
-    s32 object_id;
+    ObjectPosition *position;
     IndexedEffectObject *state;
     SpriteFrameState *data;
     ObjectNodeHeader *object;
     s32 saved_kind = kind;
 
     object = create_town_effect_object(0, 0, &D_800A8248, 0);
-    state = ((void *)object )+ 0x20;
+    state = NODE_BODY(object);
     if (object != NULL) {
-        object_id = *(s32 *)&object->position;
+        position = object->position;
         data = object->sprite;
         state->record_index = index;
         state->category = saved_kind;
@@ -39,12 +39,12 @@ void create_item_category_effect(s32 index, s32 kind) {
             data->source = dispatch_result;
         }
         register_node_if_unregistered(state, project_sprite_chain);
-        follow_view_reference_or_retire(state, (s32 *)object_id, data);
+        follow_view_reference_or_retire(state, position, data);
     }
 }
 
 /* Copy the adjusted vector when state references match; otherwise process and flag the object. */
-void follow_view_reference_or_retire(IndexedEffectObject *object, s32 *out_vector, void *unused)
+void follow_view_reference_or_retire(IndexedEffectObject *object, ObjectPosition *position, SpriteFrameState *unused)
 {
     s32 *state_refs = scene_object_payload_alias;
 
@@ -56,7 +56,7 @@ void follow_view_reference_or_retire(IndexedEffectObject *object, s32 *out_vecto
         return;
     }
 
-    out_vector[0] = view_reference_entity.x.v;
-    out_vector[1] = view_reference_entity.y.v;
-    out_vector[2] = view_reference_entity.z.v + town_target_height_offset;
+    position->x.v = view_reference_entity.x.v;
+    position->y.v = view_reference_entity.y.v;
+    position->z.v = view_reference_entity.z.v + town_target_height_offset;
 }

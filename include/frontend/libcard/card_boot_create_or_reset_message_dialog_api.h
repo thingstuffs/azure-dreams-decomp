@@ -4,6 +4,6 @@
 #include "common.h"
 struct ObjectNodeHeader;
 
-u8 *card_boot_create_or_reset_message_dialog(struct ObjectNodeHeader *, s32, s32, void *);
+struct ObjectNodeHeader *card_boot_create_or_reset_message_dialog(struct ObjectNodeHeader *, s32, s32, s32 *);
 
 #endif

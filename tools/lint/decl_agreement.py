@@ -15,7 +15,9 @@ name under src/ and include/ -- prototypes in headers, file-scope prototypes, an
 block-scope declarations inside function bodies -- and compares return type and
 parameter types with the definition(s) on HEAD after normalisation: whitespace,
 parameter names, `struct`/`union`/`enum` keywords, scalar typedef aliases (s32/int,
-u8/unsigned char, ...), `unsigned int`/`unsigned`, array parameters/pointers.  An
+u8/unsigned char, ...), typedef names of any type (chains such as `typedef s32 Fixed;`, `typedef struct Tag Name;`,
+pointer typedefs; a name typedef'd to different types in different headers is not resolved), `unsigned int`/`unsigned`,
+array parameters/pointers.  An
 empty parameter list `()` is an unprototyped declaration and agrees with anything.
 
 A declaration agrees if it matches any non-static definition of the name (overlays can
@@ -34,7 +36,7 @@ a declaration whose parameter is `void *` where the definition takes a specific 
 pointer, listed only when the declaration is new on HEAD or the definition changed since
 BASE.  The class is report-only unless --fail-void is given.
 
-Data objects get the same treatment.  Every `extern` object declaration (file scope and block
+Data objects get the same treatment (address-named D_ symbols per load region, see RegionModel).  Every `extern` object declaration (file scope and block
 scope) and every non-static file-scope definition is grouped by name and compared by element
 type and dimensions: `T x[]` agrees with `T x[N]`, qualifiers, struct keywords and scalar
 typedefs do not matter, and an extent that is an expression is not evaluated.  Classes:
@@ -72,15 +74,120 @@ FNPTR_SHAPE = re.compile(r'^(.*?)\(\s*\*\s*(?:[A-Za-z_]\w*)?\s*\)\s*\((.*)\)\s*$
 FNPTR_PREFIX = 'fnptr:'
 
 
+def typedef_statements(text):
+    """[statement text between `typedef` and its `;`], brace bodies collapsed to `{}`; text has no comments."""
+    found = []
+    for match in re.finditer(r'\btypedef\b', text):
+        i, depth, parts, start = match.end(), 0, [], match.end()
+        while i < len(text):
+            ch = text[i]
+            if ch == '{':
+                if depth == 0:
+                    parts.append(text[start:i]); parts.append('{}')
+                depth += 1
+            elif ch == '}':
+                depth -= 1
+                if depth == 0:
+                    start = i + 1
+            elif ch == ';' and depth == 0:
+                parts.append(text[start:i])
+                found.append(' '.join(''.join(parts).split()))
+                break
+            i += 1
+    return found
+
+
+def typedef_alias(statement):
+    """(alias name, the spelled-out type it stands for) of one `typedef` statement, or None.
+
+    Covers `typedef u32 Word;`, `typedef struct Tag Name;`, `typedef struct Tag {..} Name;` (Name stands for Tag) and
+    pointer typedefs (`typedef u8 *Ptr;`).  Anonymous `typedef struct {..} Name;` needs no alias: Name is the type.
+    Function typedefs, arrays, multiple declarators and a name that stands for itself are left alone."""
+    if any(c in statement for c in '(),['):
+        return None
+    tokens = TOKEN.findall(statement)
+    if '{}' in statement:
+        tokens = [t for t in tokens if t not in ('{', '}')]
+    if len(tokens) < 2 or not re.match(r'[A-Za-z_]', tokens[-1]):
+        return None
+    name, target = tokens[-1], [t for t in tokens[:-1] if t not in ('struct', 'union', 'enum', 'typedef', 'extern')]
+    if not target or target[0] == '*' or not all(re.match(r'[A-Za-z_]|\*$', t) for t in target):
+        return None
+    if name in BASE_TYPES or target == [name]:
+        return None
+    return name, ' '.join(target)
+
+
+def expand_aliases(tokens, aliases, depth=0):
+    """Replace every typedef name in tokens by the type it stands for, through chains of typedefs."""
+    out = []
+    for token in tokens:
+        if depth < 8 and token in aliases and token not in BASE_TYPES:
+            out += expand_aliases(aliases[token].split(), aliases, depth + 1)
+        else:
+            out.append(token)
+    return out
+
+
+def typedef_declarators(statement):
+    """Names a `typedef` statement declares: pointers, arrays, function and function-pointer typedefs, several declarators."""
+    names, depth, part, parts = [], 0, [], []
+    for ch in statement:
+        depth += ch in '([{'
+        depth -= ch in ')]}'
+        if ch == ',' and depth == 0:
+            parts.append(''.join(part)); part = []
+        else:
+            part.append(ch)
+    parts.append(''.join(part))
+    for text in parts:
+        text = re.sub(r'\[[^\]]*\]', ' ', text)
+        text = re.sub(r'\{\}', ' ', text)
+        found = re.search(r'\(\s*\*+\s*([A-Za-z_]\w*)\s*\)', text) or re.search(r'([A-Za-z_]\w*)\s*\(', text)
+        names += [found[1]] if found else re.findall(r'[A-Za-z_]\w*', text)[-1:]
+    return names
+
+
 def scalar_aliases(root):
-    """{typedef name: scalar spelling} from simple typedefs under include/ plus the fixed-width set."""
+    """{typedef name: spelled-out type} from the typedefs under include/ plus the fixed-width set.
+
+    Chains (`typedef s32 Fixed;`), struct tag typedefs (`typedef struct Tag Name;`) and pointer typedefs are included,
+    so two spellings of one type agree.  A name that stands for different types in different headers is left out, and so
+    is a name that any other typedef under include/ or src/ declares in a shape that is not an alias (an anonymous or
+    self-tagged body, a function or array typedef, a multi-declarator statement): it can denote several types."""
     aliases = dict(FIXED_ALIASES)
-    for path in sorted((Path(root) / 'include').rglob('*.h')):
-        text = C.strip_comments(path.read_text(errors='replace'))
-        for match in SCALAR_TYPEDEF.finditer(text):
-            aliases.setdefault(match[2], ' '.join(match[1].split()))
-    for path in sorted((Path(root) / 'include').rglob('*.h')):
-        text = C.strip_comments(path.read_text(errors='replace'))
+    texts = [C.strip_comments(path.read_text(errors='replace')) for path in sorted((Path(root) / 'include').rglob('*.h'))]
+    seen = collections.defaultdict(list)
+    elsewhere = collections.defaultdict(list)       # src/ typedefs: they never define an alias, they only contest one
+    other = set()
+    for text in texts:
+        for statement in typedef_statements(text):
+            found = typedef_alias(statement)
+            if found:
+                seen[found[0]].append(found[1])
+            else:
+                other.update(typedef_declarators(statement))
+    for path in sorted((Path(root) / 'src').rglob('*')):
+        if path.suffix not in ('.c', '.h'):
+            continue
+        raw = path.read_text(errors='replace')
+        if 'typedef' not in raw:
+            continue
+        for statement in typedef_statements(C.strip_comments(raw)):
+            found = typedef_alias(statement)
+            if found:
+                elsewhere[found[0]].append(found[1])
+            else:
+                other.update(typedef_declarators(statement))
+    for name, targets in seen.items():
+        aliases.setdefault(name, targets[0])
+    for name, targets in seen.items():
+        if name in FIXED_ALIASES:
+            continue
+        spelled = {' '.join(expand_aliases(t.split(), aliases)) for t in targets + elsewhere.get(name, [])}
+        if name in other or len(spelled) > 1:
+            del aliases[name]
+    for text in texts:
         for match in FNPTR_TYPEDEF.finditer(text):
             aliases.setdefault(FNPTR_PREFIX + match[2], function_pointer_form(match[1], match[3], aliases))
     return aliases
@@ -141,14 +248,13 @@ def normalize_type(text, aliases):
             before = tokens[:-1]
             if not (len(before) == 1 and before[0] in ('const', 'volatile')):
                 tokens = before
+    tokens = expand_aliases(tokens, aliases)
     quals = sorted(t for t in tokens if t in ('const', 'volatile'))
     stars = ''.join(t for t in tokens if t == '*')
     words = [t for t in tokens if t not in ('const', 'volatile', '*')]
     if len(words) == 1 and FNPTR_PREFIX + words[0] in aliases and not stars:
         return aliases[FNPTR_PREFIX + words[0]]
-    resolved = []
-    for w in words:
-        resolved += aliases[w].split() if w in aliases else [w]
+    resolved = words
     if resolved and all(w in BASE_TYPES for w in resolved):
         base = scalar_form(resolved)
     else:
@@ -692,26 +798,361 @@ def parse_data_files(root, files=None, reuse=None):
     return dict(aliases=aliases, files=parsed)
 
 
-def group_data(parse):
-    """{name: {'decls': [(file, line, element, dims)], 'defs': [...]}} from a parse."""
+ADDRESS_NAME = re.compile(r'D_([0-9A-Fa-f]{8})$')
+OVERLAY_CONTAINERS = ('town', 'dungeon', 'main', 'ovmovie')
+# dungeon/bank_d0a0 holds second sources of town engine bodies that are byte-identical placed copies of them (the
+# rest of the bank is not); their declarations are the town engine's
+ENGINE_BASE = 0x80088760
+ENGINE_COPIES = frozenset((
+    'src/dungeon/actor/track_player_and_dispatch_handler.c', 'src/dungeon/level/townmap.c',
+    'src/dungeon/system/resource.c', 'src/dungeon/system/upload_town_movie_pixel_data.c'))
+FILE_START = re.compile(r'^\s*file_start:\s*(0[xX][0-9A-Fa-f]+|\d+)', re.M)
+
+
+def name_address(name):
+    """Load address of an address-named symbol (D_80123456), KSEG1 and kuseg aliases folded onto 0x8xxxxxxx; else None."""
+    match = ADDRESS_NAME.match(name)
+    if not match:
+        return None
+    address = int(match[1], 16)
+    if address < 0x00200000:
+        address += 0x80000000
+    elif 0xA0000000 <= address < 0xC0000000:
+        address -= 0x20000000
+    return address
+
+
+class RegionModel:
+    """Which declarations of an address-named symbol can be the same object.
+
+    An address is reused by every image that loads over it (61 town scene images at 0x80016000, the 0x80024000
+    effect slots, the species banks), so the same D_ name in two images is two objects; an address no loaded
+    image covers (the resident program, the bss above the banks) is one object for every file that can see it.
+    The load region of a declaration is therefore the loaded image that holds the declaring file's code and covers
+    the address:
+
+    * an image is a record of ledger/instance_load_regions.jsonl (container, disc offset, size, load base);
+    * a file's disc offsets come from every translation unit built from it (config/link_graph/tus.*.jsonl): the
+      unit's `allocations`, its placement entries, or its gate_config's `file_start`; the images that contain
+      those offsets are the file's images (a placed copy lists several);
+    * an address that no image is ever loaded over is `resident` (the executable, the bss above the banks): compared
+      across every file that declares it; an address past the end of the file's own images but inside another
+      image's window stays with the file's images;
+    * a file with no resolvable offset (a check image outside the instance ledger, a header) is `unplaced/<top>`,
+      the old per-top-directory key; a header's declarations belong to every region of the name.
+
+    Declaring files that share an image are one object; one file placed in several images joins them.
+    Without the instance ledger the model is inactive and group_data keeps the per-top-directory key."""
+
+    def __init__(self, instances, file_offsets, root=None):
+        self.root = Path(root) if root else None
+        self._closure = {}
+        self._reverse = None
+        self._tokens = {}
+        self.file_vmas = {}
+        self.instances_raw = instances
+        self.engine_views = {n: True for n, i in enumerate(instances) if str(i.get('view', '')).endswith('/engine')}
+        self.instances = [(i['container'], int(i['foff']), int(i['size']), int(i['base'])) for i in instances]
+        self.file_offsets = file_offsets
+        self._by_container = collections.defaultdict(list)
+        for index, (container, foff, size, base) in enumerate(self.instances):
+            self._by_container[container].append((foff, foff + size, index))
+        self._cache = {}
+
+    @classmethod
+    def load(cls, root):
+        import json
+        root = Path(root)
+        ledger = root / 'ledger/instance_load_regions.jsonl'
+        if not ledger.is_file():
+            return None
+        instances = []
+        for line in ledger.read_text().splitlines():
+            if line.strip():
+                instances.append(json.loads(line))
+        offsets = collections.defaultdict(set)
+        graph = root / 'config/link_graph'
+        instances += cls.view_images(graph, instances)
+        yaml_cache = {}
+
+        def number(value):
+            return int(value, 16) if isinstance(value, str) else value
+
+        def container_of(tu):
+            head = tu['id'].split('/')[0]
+            if head in OVERLAY_CONTAINERS:
+                return head
+            match = re.match(r'(?:module/)?(town|dungeon|main|ovmovie)_', tu['id'])
+            if match:
+                return match[1]
+            source = tu.get('source', '').split('/')
+            return source[1] if len(source) > 1 and source[1] in OVERLAY_CONTAINERS else None
+
+        tus = {}
+        for path in sorted(graph.glob('tus.*.jsonl')) if graph.is_dir() else ():
+            for line in path.read_text().splitlines():
+                if line.strip():
+                    tu = json.loads(line)
+                    tus[tu['id']] = tu
+        vmas = {}
+        placed = collections.defaultdict(list)
+        for path in sorted(graph.glob('entries.*.jsonl')) if graph.is_dir() else ():
+            for line in path.read_text().splitlines():
+                if '"kind":"tu"' in line.replace('": "', '":"'):
+                    row = json.loads(line)
+                    if row.get('kind') == 'tu' and 'foff' in row.get('attributes', {}):
+                        placed[row['tu']].append((row['view'].split('/')[0], number(row['attributes']['foff'])))
+        for tu_id, tu in tus.items():
+            source = tu.get('source')
+            if not source:
+                continue
+            container = container_of(tu)
+            found = set(placed.get(tu_id, ()))
+            for allocation in tu.get('allocations', ()):
+                found.add((container, number(allocation['foff'])))
+            gate = (tu.get('recipe_witness') or {}).get('gate_config')
+            if gate and not found:
+                if gate not in yaml_cache:
+                    try:
+                        match = FILE_START.search((root / gate).read_text(errors='replace'))
+                    except OSError:
+                        match = None
+                    yaml_cache[gate] = int(match[1], 0) if match else None
+                if yaml_cache[gate] is not None:
+                    found.add((container, yaml_cache[gate]))
+            offsets[source] |= {f for f in found if f[0]}
+            named = re.search(r'/(?:D|func)_([0-9A-Fa-f]{8})$', tu_id)
+            if named and container:
+                vmas.setdefault(source, set()).add((container, int(named[1], 16)))
+        model = cls(instances, offsets, root)
+        model.file_vmas = vmas
+        return model
+
+    @staticmethod
+    def view_images(graph, instances, minimum=0x1000):
+        """Images the instance ledger lacks, from the link graph's views: an image-sized view (engine, bank,
+        image, region, selector or xfer view of at least `minimum` bytes with a load address) whose disc range
+        no ledger instance of its container overlaps becomes an instance (container, foff, size, vma)."""
+        import json
+        found = []
+        for path in sorted(graph.glob('views.*.jsonl')) if graph.is_dir() else ():
+            for line in path.read_text().splitlines():
+                if not line.strip():
+                    continue
+                row = json.loads(line)
+                view = row.get('id', '')
+                container, _, leaf = view.partition('/')
+                attributes = row.get('attributes') or {}
+                if container not in OVERLAY_CONTAINERS or not re.match(r'(engine|bank_|image_|region_|selector_|xfer_)', leaf):
+                    continue
+                try:
+                    foff, size, vma = (int(attributes[k], 0) if isinstance(attributes[k], str) else attributes[k]
+                                       for k in ('foff', 'size', 'vma'))
+                except (KeyError, TypeError, ValueError):
+                    continue
+                if size < minimum or any(i['container'] == container and int(i['foff']) < foff + size
+                                         and foff < int(i['foff']) + int(i['size']) for i in instances):
+                    continue
+                found.append(dict(container=container, foff=foff, size=size, base=vma, view=view))
+        return found
+
+    def at(self, tree):
+        """The same ledger read for another source tree (a materialised src/ and include/ carries no ledger)."""
+        other = RegionModel(self.instances_raw, self.file_offsets, tree)
+        other.file_vmas = self.file_vmas
+        other._cache = self._cache
+        return other
+
+    def images_of(self, rel):
+        """(instance indexes holding the file's code, whether every code placement was resolved)."""
+        if rel in self._cache:
+            return self._cache[rel]
+        indexes, resolved = set(), bool(self.file_offsets.get(rel))
+        for container, offset in self.file_offsets.get(rel, ()):
+            hit = [i for lo, hi, i in self._by_container.get(container, ()) if lo <= offset < hi]
+            indexes.update(hit)
+            resolved = resolved and bool(hit)
+        if not resolved:
+            # an engine unit whose gate row carries no disc offset of its own: its function address is in the
+            # engine's window (the engines have no ledger instance)
+            for container, vma in self.file_vmas.get(rel, ()):
+                indexes.update(i for i, (c, _, size, base) in enumerate(self.instances)
+                               if c == container and self.engine_views.get(i) and base <= vma < base + size)
+        self._cache[rel] = (indexes, resolved)
+        return self._cache[rel]
+
+    def label(self, index):
+        container, foff, _, _ = self.instances[index]
+        return f'{container}/{foff:#x}'
+
+    def programs(self, rel):
+        """Programs (town, dungeon, main) the file's code is built into; none for resident executable code."""
+        found = sorted({container for container, _ in self.file_offsets.get(rel, ())})
+        top = rel.split('/')[1] if rel.count('/') > 1 else ''
+        return found or ([top] if top in OVERLAY_CONTAINERS else [])
+
+    def uncovered(self, programs, address):
+        """No image is loaded over the address: below the engines it is the resident executable's (one object for
+        every program that declares it); above, it is data or bss of the file's own program."""
+        if address < ENGINE_BASE:
+            return [('resident',)]
+        if not programs:
+            return [('slus',)]
+        return [('program', p) for p in programs]
+
+    def engine_image(self, container, address):
+        for i, (c, foff, size, base) in enumerate(self.instances):
+            if c == container and getattr(self, 'engine_views', {}).get(i) and base <= address < base + size:
+                return i
+        return None
+
+    def regions(self, rel, address):
+        """Region nodes of one declaration of the object at `address`: ('image', index), ('program', name),
+        ('resident',) for executable code with no unit placement, ('header',) for a header declaration."""
+        if rel.startswith('include/'):
+            return [('header',)]
+        if rel in ENGINE_COPIES:
+            engine = self.engine_image('town', address)
+            if engine is not None:
+                return [('image', engine)]
+        indexes, _ = self.images_of(rel)
+        programs = self.programs(rel)
+        if not indexes:
+            engines = [self.engine_image(p, address) for p in programs]
+            if any(e is not None for e in engines):
+                return [('image', e) for e in engines if e is not None]
+            if self.covered(address) and programs:
+                return [('unplaced', rel.split('/')[1])]
+            return self.uncovered(programs, address)
+        inside = [('image', i) for i in sorted(indexes)
+                  if self.instances[i][3] <= address < self.instances[i][3] + self.instances[i][2]]
+        if inside:
+            return inside
+        # past the end of the file's own image: still that image's data when another image is loaded over the
+        # address (ledger sizes cover the code); with none, the object belongs to the program
+        return [('image', i) for i in sorted(indexes)] if self.covered(address) else self.uncovered(programs, address)
+
+    def includers(self, header, name=None):
+        """Every file under src/ that includes the header by name (an umbrella header would reach everything)."""
+        if self._reverse is None:
+            direct = collections.defaultdict(set)
+            for rel in data_files(self.root):
+                try:
+                    text = (self.root / rel).read_text(errors='replace')
+                except OSError:
+                    continue
+                for included in re.findall(r'^\s*#\s*include\s*[<"]([^>"]+)[>"]', text, re.M):
+                    for candidate in (f'include/{included}', f'{rel.rsplit("/", 1)[0]}/{included}', f'src/{included}'):
+                        if (self.root / candidate).is_file():
+                            direct[candidate].add(rel)
+                            break
+            self._reverse = direct
+        if header not in self._closure:
+            self._closure[header] = {r for r in self._reverse.get(header, ()) if r.startswith('src/')}
+        files = self._closure[header]
+        if name is None:
+            return files
+        return {r for r in files if self.uses(r, name)}
+
+    def uses(self, rel, name):
+        """Whether the file's text (comments stripped) names the symbol."""
+        if rel not in self._tokens:
+            try:
+                self._tokens[rel] = set(re.findall(r'[A-Za-z_]\w*', clean_text((self.root / rel).read_text(errors='replace'))))
+            except OSError:
+                self._tokens[rel] = set()
+        return name in self._tokens[rel]
+
+    def covered(self, address):
+        return any(base <= address < base + size for _, _, size, base in self.instances)
+
+
+def region_label(model, nodes):
+    images = sorted({n[1] for n in nodes if n[0] == 'image'})
+    if images:
+        first = model.label(min(images, key=lambda i: model.instances[i][1]))
+        return first + (f'+{len(images) - 1}' if len(images) > 1 else '')
+    programs = sorted({n[1] for n in nodes if n[0] in ('program', 'unplaced')})
+    if programs:
+        return 'program/' + '+'.join(programs)
+    return 'resident'
+
+
+def group_data(parse, model=None):
+    """{name: {'decls': [(file, line, element, dims)], 'defs': [...], 'region': label}} from a parse.
+
+    Named symbols are compared across the whole tree.  An address-named symbol (D_80123456) is compared only among
+    the declarations that can be the same object: with a RegionModel (the instance ledger of the tree), those that
+    share a load region (see RegionModel); without one, those under one top directory of src/."""
     found = collections.defaultdict(lambda: dict(decls=[], defs=[]))
 
-    def key(name, rel):
-        # raw address names (D_80123456) are reused by every overlay that loads there: one object per image
+    def legacy_key(name, rel):
         return f'{name}@{rel.split("/")[1]}' if name.startswith('D_') and rel.count('/') > 1 else name
 
+    pending = collections.defaultdict(list)
     for rel, (_, decls, defs, statics) in parse['files'].items():
-        for name, line, element, dims in decls:
-            if name not in statics:
-                found[key(name, rel)]['decls'].append((rel, line, element, dims))
-        for name, line, element, dims in defs:
-            if name not in statics:
-                found[key(name, rel)]['defs'].append((rel, line, element, dims))
+        for role, rows in (('decls', decls), ('defs', defs)):
+            for name, line, element, dims in rows:
+                if name in statics:
+                    continue
+                entry = (rel, line, element, dims)
+                if model is None:
+                    found[legacy_key(name, rel)][role].append(entry)
+                elif name_address(name) is None:
+                    found[name][role].append(entry)
+                else:
+                    pending[name].append((role, entry))
+    for name, rows in pending.items():
+        address = name_address(name)
+        parent = {}
+
+        def find(node):
+            while parent.setdefault(node, node) != node:
+                parent[node] = parent[parent[node]]
+                node = parent[node]
+            return node
+
+        placed = [(role, entry, model.regions(entry[0], address)) for role, entry in rows]
+        for _, _, nodes in placed:
+            for node in nodes[1:]:
+                parent[find(node)] = find(nodes[0])
+            find(nodes[0])
+        components = collections.defaultdict(list)
+        headers, resident = [], []
+        for role, entry, nodes in placed:
+            if nodes == [('header',)]:
+                headers.append((role, entry, nodes))
+            elif nodes == [('slus',)]:
+                resident.append((role, entry, nodes))
+            else:
+                components[find(nodes[0])].append((role, entry, nodes))
+        loose = []
+        for role, entry, nodes in headers:
+            reached = {find(node) for rel in model.includers(entry[0], name) for node in model.regions(rel, address)
+                       if node in parent}
+            owners = [root_node for root_node in components if root_node in reached]
+            for root_node in owners:
+                components[root_node].append((role, entry, nodes))
+            if not owners:
+                loose.append((role, entry, nodes))
+        # executable code outside every overlay (slus) sees the engine images and the programs, like a header
+        for role, entry, nodes in resident:
+            for root_node in components:
+                if root_node[0] == 'program' or (root_node[0] == 'image' and model.engine_views.get(root_node[1])):
+                    components[root_node].append((role, entry, nodes))
+        if loose or (resident and not components):
+            components[('resident',)] += loose + (resident if not components else [])
+        for root_node, items in components.items():
+            label = region_label(model, [n for _, _, ns in items for n in ns])
+            key = f'{name}@{label}'
+            for role, entry, _ in items:
+                found[key][role].append(entry)
+            found[key]['region'] = label
     return found
 
 
 def scan_data_tree(root, files=None):
-    return group_data(parse_data_files(root, files))
+    return group_data(parse_data_files(root, files), RegionModel.load(root))
 
 
 def data_disagreements(found, symbols=None):
@@ -745,7 +1186,7 @@ def data_disagreements(found, symbols=None):
         rows += [('decl', f'{f}:{l}', show_type(e, d)) for f, l, e, d in decls]
         if symbol:
             rows.append(('symbol', 'config/slus_006.14.symbols.txt', f'{symbol[1]} bytes'))
-        out[name] = dict(klass=klass, types=types, rows=rows)
+        out[name] = dict(klass=klass, types=types, rows=rows, region=entry.get('region', ''))
     return out
 
 
@@ -761,11 +1202,11 @@ def write_data_list(path, disagreements, addresses):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open('w') as stream:
-        stream.write('name\taddress\tclass\trole\tsite\ttype\n')
+        stream.write('name\taddress\tclass\trole\tsite\ttype\tregion\n')
         for name in sorted(disagreements):
             row = disagreements[name]
             for role, site, shown in row['rows']:
-                stream.write(f'{name}\t{address_of(name, addresses)}\t{row["klass"]}\t{role}\t{site}\t{shown}\n')
+                stream.write(f'{name}\t{address_of(name, addresses)}\t{row["klass"]}\t{role}\t{site}\t{shown}\t{row.get("region", "")}\n')
 
 
 def new_data_disagreements(head, base):
@@ -773,9 +1214,10 @@ def new_data_disagreements(head, base):
     return sorted(n for n, row in head.items() if n not in base or row['types'] - base[n]['types'])
 
 
-def data_census(root, tsv=None, files=None, parse=None):
+def data_census(root, tsv=None, files=None, parse=None, model=None):
     """(disagreements by name, scanned names) for the tree; writes the list when tsv is given."""
-    found = group_data(parse or parse_data_files(root, files))
+    model = model or RegionModel.load(root)
+    found = group_data(parse or parse_data_files(root, files), model)
     result = data_disagreements(found, symbol_sizes(root))
     if tsv is not None:
         write_data_list(tsv, result, name_addresses(root))
@@ -786,12 +1228,16 @@ def check_data(root, head_tree, base_tree, out=None):
     """Return code for the data pass: 1 when a name's data declarations disagree newly since BASE."""
     out = out or sys.stdout
     head_parse = parse_data_files(head_tree)
-    head, _ = data_census(head_tree, tsv=Path(root) / 'build/decl_data.tsv', parse=head_parse)
-    base, _ = data_census(base_tree, parse=parse_data_files(base_tree, reuse=head_parse))
+    model = RegionModel.load(root)
+    head, _ = data_census(head_tree, tsv=Path(root) / 'build/decl_data.tsv', parse=head_parse,
+                          model=model and model.at(head_tree))
+    base, _ = data_census(base_tree, parse=parse_data_files(base_tree, reuse=head_parse),
+                          model=model and model.at(base_tree))
     new = new_data_disagreements(head, base)
     for name in new:
         row = head[name]
-        print(f'DATA DISAGREEMENT {name}: {row["klass"]}', file=out)
+        region = f' [region {row["region"]}]' if row.get('region') else ''
+        print(f'DATA DISAGREEMENT {name}: {row["klass"]}{region}', file=out)
         for role, site, shown in row['rows']:
             print(f'    {role} {site}: {shown}', file=out)
     by_class = collections.Counter(row['klass'] for row in head.values())
@@ -808,7 +1254,7 @@ def print_data_census(root, limit=20):
           ', '.join(f'{by_class[c]} {c}' for c in CLASS_ORDER) + '; list in build/decl_data.tsv')
     ranked = sorted(result.items(), key=lambda kv: (-len(kv[1]['types']), -len(kv[1]['rows']), kv[0]))
     for name, row in ranked[:limit]:
-        print(f'{name}\t{row["klass"]}\t{len(row["types"])} types: ' +
+        print(f'{name}\t{row["klass"]}\t{row.get("region") or "whole tree"}\t{len(row["types"])} types: ' +
               ' | '.join(sorted(show_type(*t) for t in row['types'])))
     return 0
 

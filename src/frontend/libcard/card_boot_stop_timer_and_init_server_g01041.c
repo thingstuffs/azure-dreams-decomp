@@ -28,20 +28,20 @@ void card_boot_destroy_card_chooser(Struct80014C90 *entry) {
 }
 
 /* Run setup and dispatch the request in mode 1. */
-void *card_boot_open_save_slot_selection(ObjectNodeHeader *request) {
+CardChooser *card_boot_open_save_slot_selection(ObjectNodeHeader *request) {
     card_boot_stop_timer_and_init_server();
     return init_card_boot_request_object(request, 1);
 }
 
 /* Run the extra setup callback and dispatch the request in mode 2. */
-void *card_boot_open_request_mode_two(void *request) {
+CardChooser *card_boot_open_request_mode_two(ObjectNodeHeader *request) {
     save_and_clear_actor_blind_flag();
     card_boot_stop_timer_and_init_server();
     return init_card_boot_request_object(request, 2);
 }
 
 /* Set up the request with scale 512 and center (160, 120), then dispatch in mode 0. */
-void *card_boot_open_request_at_screen_center(void *request) {
+CardChooser *card_boot_open_request_at_screen_center(ObjectNodeHeader *request) {
     card_boot_stop_timer_and_init_server();
     g_game_work.view.projection_distance = 0x200;
     SetGeomScreen(0x200);

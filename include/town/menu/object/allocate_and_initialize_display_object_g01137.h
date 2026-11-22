@@ -29,7 +29,7 @@ extern s32 D_800A23D0;
 /* Shared import declarations; data casts preserve each measured view. */
 
 /* Functions defined in this translation unit. */
-struct ObjectNodeHeader *allocate_and_initialize_display_object(struct TownObjectRecord *owner, s8 *active_flag, ObjectPosition *origin, s32 part_index, DoorDisplayCallback update,
+struct ObjectNodeHeader *allocate_and_initialize_display_object(struct TownObjectRecord *owner, u8 *active_flag, ObjectPosition *origin, s32 part_index, DoorDisplayCallback update,
     DoorDisplayCallback initialize);
 void run_callback_until_state_clears(DoorDisplayBody *object, ObjectPosition *position, struct LitMeshSprite *mesh);
 void initialize_directional_object_state(DoorDisplayBody *object, ObjectPosition *placement, struct LitMeshSprite *state);

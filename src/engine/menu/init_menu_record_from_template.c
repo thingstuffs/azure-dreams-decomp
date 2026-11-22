@@ -1,9 +1,7 @@
 #include "common.h"
 
 
-typedef struct {
-    u8 bytes[0x60];
-} Template96;
+#include "engine/menu/animated_panel.h"
 
 typedef struct {
     u32 words[4];
@@ -16,7 +14,7 @@ typedef struct {
 extern Template96 menu_record_default_template;
 
 /* Copies the default template and fills five byte pairs with the value and its negated half. */
-void init_menu_record_from_template(void *unused_ptr, Template96 *dst, u32 value, u32 unused_word) {
+void init_menu_record_from_template(AnimatedMenuPanelBody *panel, Template96 *dst, u32 value, u32 unused_word) {
     Template96 *base = dst;
     u8 *src_bytes;
     u8 *dst_bytes;

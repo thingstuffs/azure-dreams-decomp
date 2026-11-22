@@ -74,6 +74,7 @@ HERE = Path(__file__).resolve().parent
 TOOLS = HERE.parent
 sys.path[:0] = [str(HERE), str(TOOLS), str(TOOLS / 'lint'), str(TOOLS / 'build'), str(TOOLS / 'readability'),
                 str(TOOLS / 'fidelity')]
+import atomic_io  # noqa: E402
 
 MASKS = {'HI16': 0xFFFF, 'LO16': 0xFFFF, 'GPREL16': 0xFFFF, '26': 0x03FFFFFF, '32': 0xFFFFFFFF}
 DATA_SECTIONS = ('.data', '.bss', '.sdata', '.sbss')
@@ -1538,7 +1539,7 @@ def write_ledger(root, path, families):
         rows[fam['row']] = row
     rows = merge_families(rows)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(''.join(json.dumps(rows[k], sort_keys=True) + '\n' for k in sorted(rows)))
+    atomic_io.write_text(path, ''.join(json.dumps(rows[k], sort_keys=True) + '\n' for k in sorted(rows)))
 
 
 # ------------------------------------------------------------------------------------------------ main

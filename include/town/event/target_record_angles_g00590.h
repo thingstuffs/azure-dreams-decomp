@@ -9,6 +9,7 @@ struct ObjectPosition;
 #include "town/event/motion_step_data.h"
 #include "town/event/saved_motion_data.h"
 #include "shared/vector.h"
+#include "shared/entity.h"
 #include "sdk/libgte.h"
 
 typedef struct {
@@ -25,12 +26,12 @@ extern TownRecord D_800D1178;
 extern TownRecord D_800D119C;
 
 
-extern IntVector3 town_motion_offset_position;
+extern Fixed1616 town_motion_offset_position[3];
 extern PositionRotationPair town_event_motion_pair;
 
 extern void draw_random_colored_line(s32, void *);
 
 /* Functions defined in this translation unit. */
-void queue_two_mesh_quad_sets(void *target, struct ObjectPosition *setup_data);
+void queue_two_mesh_quad_sets(Fixed1616 target[3], struct ObjectPosition *setup_data);
 
 #endif

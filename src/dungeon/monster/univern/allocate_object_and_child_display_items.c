@@ -7,7 +7,6 @@
 #include "shared/monster_ids.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
-#include "dungeon/monster/univern/allocate_object_and_child_display_items.h"
 #include "dungeon/actor.h"
 #include "slus/data.h"
 

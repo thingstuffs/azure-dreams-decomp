@@ -41,7 +41,7 @@ void show_delayed_scene_tile_until_complete(SceneTileObject *object)
         object->state.u = next_state;
         break;
     case 1:
-        if (status_data->flags.u & 1) {
+        if (status_data->flags & TOWN_COLLECTION_FINISHED) {
             page = 0x80080000;
             ((ObjectStatusPrefix16 *)object)[-1].flags |= 0x8000;
             ((S_80020360_2 *)((void *)page))->unk_14A0 |= 0x8000;

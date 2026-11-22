@@ -1,3 +1,4 @@
+#include "town/player/direction_entry_status_g00538.h"
 #include "town/player/init_movement_action.h"
 #include "town/player/initialize_record_and_select_active_data.h"
 #include "script_symbols.h"
@@ -16,26 +17,24 @@
 #include "town/player/motion.h"
 #include "shared/sprite_frame_state.h"
 
-extern void submit_object_resource_data(s32 value);
+#include "town/scene/resource/resource_install_g00520.h"
 extern void initialize_scene_action_record(void *action_state, void *actor, s32 context); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void init_unchanged_action_fallback(void *action_state, void *actor, s32 context);
-extern void initialize_actor_action_state(void *action_state, void *actor, s32 context);
+extern void initialize_actor_action_state(void *action_state, void *actor, struct SpriteFrameState *);
 extern void initialize_actor_movement_interaction_action(void *action_state, void *actor,void *context);
 extern void play_periodic_sound(s32 count, s32 interval);
 extern void store_input_angle(void *record_arg);
 extern void accelerate_toward_input_angle(ObjectPosition *context); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern s32 select_entry_by_input_direction(void *menu_state);
-extern s32 select_adjacent_source_entry(void *action_state, void *menu_state);
 extern void set_height_and_slope_velocity(ObjectPosition *obj, s32 base_value, struct TownVec **vec_ptr);
+extern s32 select_adjacent_source_entry(void *action_state, ColliderView *collider);
 extern void spawn_directional_effects(ObjectPosition *actor, s32 value);
-extern s32 town_actor_control;
+extern ColliderView town_actor_control;
 /* Updates the actor and dispatches town actions from input and interaction state. */
 void update_actor_input_and_interaction(void *action_state, ObjectPosition *actor, SpriteFrameState *sprite)
 {
     GameWork *input_state = &g_game_work;
     register s32 saved_context;
     s32 *map_work;
-    u8 *menu_state;
     s16 sampled_height;
     u16 timer;
     s32 buttons;
@@ -63,7 +62,7 @@ void update_actor_input_and_interaction(void *action_state, ObjectPosition *acto
     }
     buttons = input_state->pressed_buttons;
     if (buttons & 0x10) {
-        initialize_actor_action_state(action_state, actor, (s32)sprite);
+        initialize_actor_action_state(action_state, actor, sprite);
         return;
     }
     if (buttons & 0x40) {
@@ -73,7 +72,7 @@ void update_actor_input_and_interaction(void *action_state, ObjectPosition *acto
                 initialize_actor_movement_interaction_action(action_state, actor, sprite);
                 return;
             }
-            initialize_action_object_with_counter(action_state, actor, (s32)sprite);
+            initialize_action_object_with_counter(action_state, actor, sprite);
             return;
         }
         if (test_resident_bitmap_bit(F_t_attack_enable) != 0) {
@@ -82,14 +81,14 @@ void update_actor_input_and_interaction(void *action_state, ObjectPosition *acto
         }
         return;
     }
-    menu_state = (u8 *) (&town_actor_control);
-    action_result = select_entry_by_input_direction(menu_state);
+    action_result = select_entry_by_input_direction(&town_actor_control);
     if (action_result != 0) {
         if (action_result == (-1)) {
             store_input_angle(action_state);
             initialize_record_and_select_active_data(action_state, (actor), sprite);
             *((s32 *) (((u8 *) action_state) + 0x2C)) = 0;
-            submit_object_resource_data(*((s32 *) (menu_state + 0x10)));
+            /* The selected collider owns the resource fields read by submission. */
+            submit_object_resource_data((Object *)town_actor_control.selected_entry);
             return;
         }
         init_movement_action(action_state, actor, sprite);

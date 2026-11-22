@@ -91,7 +91,7 @@ static __inline__ s16 offset_coord(s16 base, s32 offset)
 }
 
 /* Builds 16 segments between two radii around a shared center. */
-void draw_segmented_menu_ring(s32 center_source, s32 radius_a, s32 radius_b, s16 segment_arg)
+void draw_segmented_menu_ring(struct ObjectPosition *center_source, s32 radius_a, s32 radius_b, s16 segment_arg)
 {
     Coord8 center;
     Coord8 prev_a;

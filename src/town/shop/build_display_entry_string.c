@@ -17,13 +17,8 @@ typedef struct {
     u8 pad5[0x3B];
 } StackData;
 
-typedef struct S_800B52F4_1 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-} S_800B52F4_1;   /* arg1 in build_display_entry_string */
-
 /* Builds a string from fixed fragments and selected text, then passes it to set_display_entry_text_and_position. */
-void build_display_entry_string(struct ActorRecord *actor, S_800B52F4_1 *context) {
+void build_display_entry_string(struct ActorRecord *actor, ItemMenuPart **parts) {
     StackData text_buffer;
     StackData *text;
 
@@ -34,7 +29,7 @@ void build_display_entry_string(struct ActorRecord *actor, S_800B52F4_1 *context
     strcat(text, D_800892CC);
     strcat(text, D_800892D8);
     strcat(text, select_status_text(actor));
-    set_display_entry_text_and_position(context->unk_0C, text, 0, 0x47, 0x88);
+    set_display_entry_text_and_position(parts[3], text, 0, 0x47, 0x88);
 }
 
 /* MECHANISM: A 64-byte stack object forces the 0x68 frame; s1/s2 hold args and s0 holds its address.

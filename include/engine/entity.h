@@ -51,7 +51,7 @@ s32 lookup_level_experience_threshold(struct ActorRecord *entry, s16 index_offse
 s32 lookup_patterned_display_icon(s32 index);
 s32 lookup_unpatterned_display_icon(s32 index);
 void load_primary_optional_resource_descriptor(void);
-s32 is_frame_packet_arena_overflowed(u32 limit);
+s32 is_frame_packet_arena_overflowed(const u8 *cursor);
 void set_audio_channel_program(unsigned char entry_index, unsigned char value);
 void sort_signed_word_array(int count, void *base);
 int read_audio_channel_control(int unused_0, short entry_index, int unused_2);

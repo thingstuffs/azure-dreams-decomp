@@ -30,7 +30,6 @@ void wait_for_kid_action_slot(ActorRecord *entity_data, ObjectPosition *unused_p
 
 void create_randomly_rotated_offset_effect(void *unused_ptr, ObjectPosition *source_pos, SpriteFrameState *unused_value, s16 scale);
 
-/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void update_kid_recoil(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 void finish_kid_effect_and_tint(u8 *task, ObjectPosition *context, SpriteFrameState *input);

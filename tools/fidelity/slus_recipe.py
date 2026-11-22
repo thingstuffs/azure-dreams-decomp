@@ -23,7 +23,7 @@ import time
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path[:0] = [str(ROOT / 'tools'), str(ROOT / 'tools/build')]
-from common import parse_cfg, read_jsonl, sha_file, write_jsonl
+from common import append_jsonl, parse_cfg, read_jsonl, sha_file, write_jsonl
 from source_layout import slus_source as layout_slus_source
 from row_db import edges_of, slus_edges
 from slus_module_context import modules, partition_context
@@ -321,8 +321,7 @@ def execute(root, tu, target, out, apply=False, candidate=None, base_sha=None):
                               rule2=True if not candidate or original == sha_file(source) else None, source_sha_before=original,
                               candidate_sha=sha_file(source), proof=result['proof'], reviewer='pending',
                               lander='tools/fidelity/slus_recipe.py', how='complete physical TU + full SLUS SHA-1 gate')
-                with (root / 'ledger/recipe_trades.jsonl').open('a') as f:
-                    f.write(json.dumps(record, separators=(',', ':')) + '\n')
+                append_jsonl(root / 'ledger/recipe_trades.jsonl', record)
                 json_write(out / 'trade.json', record)
                 commit = True
                 result['applied'] = True

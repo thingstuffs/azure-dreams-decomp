@@ -1,5 +1,6 @@
 #ifndef ENGINE_SPRITE_H
 #define ENGINE_SPRITE_H
+struct DungeonItemEntry;
 /* Prototypes of the functions defined in src/engine/sprite/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -18,7 +19,7 @@ void process_sprite_scroll_and_texture_uploads(u8 *records, s32 *image_ref, s32 
 s32 *allocate_entry_slots(s32 *entries, u32 size, s32 skip_limit);
 
 /* get_item_name_with_fallback_pair.c */
-int get_item_name_with_fallback_pair(void *object);
+int get_item_name_with_fallback_pair(struct DungeonItemEntry *object);
 
 /* count_nonzero_word_prefix.c */
 s32 append_allocated_node_body(s32 *values, s32 lookup_key);

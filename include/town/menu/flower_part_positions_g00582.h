@@ -5,6 +5,7 @@
 
 #include "common.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/entity.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_effect_views.h"
 #include "shared/object_index_slots.h"
@@ -43,6 +44,6 @@ extern void unlink_node_if_registered(void *);
 
 /* Functions defined in this translation unit. */
 void present_flower_set(s32 initial_value);
-void update_linked_part_position(u16 *part, u16 *out_coords, void *unused);
+void update_linked_part_position(u16 *part, ObjectPosition *position, SpriteFrameState *unused);
 
 #endif

@@ -3,7 +3,6 @@
 
 #include "engine/town.h"
 
-extern u8 *town_item_list[];
 extern void itm_mon_koyaw_set(s32, u8 *, u8 *, s32);
 
 /* Processes type-0x13 entries whose associated record code is nonnegative. */
@@ -11,7 +10,7 @@ void clear_town_item_entries(void)
 {
     if (town_item_list[0] != 0) {
         u32 data_base = 0x80010000;
-        u32 *entry_slot = (u32 *)(data_base + 0x29C);
+        DungeonItemEntry **entry_slot = (DungeonItemEntry **)(data_base + 0x29C);
 
         do {
             u8 *entry = (u8 *)*entry_slot;
@@ -24,7 +23,7 @@ void clear_town_item_entries(void)
                     itm_mon_koyaw_set(record_code & 0x3F, entry,
                                       (u8 *)(0x800102F0 +
                                       (entry[3] & 0x1F) * 84), 0);
-                    del_t_item_w_ptr((u8 *)*entry_slot);
+                    del_t_item_w_ptr(*entry_slot);
                     continue;
                 }
             }

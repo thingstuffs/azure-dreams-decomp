@@ -16,8 +16,10 @@ typedef struct TownCdHeaderEntry {
 
 extern TownCdHeaderEntry scene_object_image_data[];
 
+struct TownCollectionText;
+
 /* tick_timed_object_and_mark_complete.c */
-void tick_timed_object_and_mark_complete(void *ptr);
+void tick_timed_object_and_mark_complete(struct TownCollectionText *entry);
 
 void initialize_scene_slot_thirteen(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite);
 
@@ -48,10 +50,10 @@ typedef union SpriteSixRender {
     } record;
 } SpriteSixRender;
 
-void init_lit_mesh_sprite(TownObjectRecord *state, ObjectPosition *position, SpriteSixRender *render);
+void init_lit_mesh_sprite(TownObjectRecord *state, ObjectPosition *position, LitMeshSprite *mesh);
 
 /* Callback entry points. */
-void update_panel_aggregate_value(void *entry);
+void update_panel_aggregate_value(struct TownCollectionText *entry);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void unlink_scene_list_node(TownObjectRecord *node);

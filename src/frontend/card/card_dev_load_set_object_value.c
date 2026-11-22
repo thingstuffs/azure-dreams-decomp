@@ -1,13 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "frontend/card.h"
+#include "frontend/card/load.h"
 
-typedef struct S_8001FF0C_0 {
-    u8 pad_00[0x20];
-    s32 unk_20;
-} S_8001FF0C_0;   /* arg0 in card_dev_load_set_object_value */
-
-/* Sets the object's field at offset 0x20 to the supplied value. */
-void card_dev_load_set_object_value(S_8001FF0C_0 *object, s32 value) {
-    object->unk_20 = value;
+/* Retain the request node for return to the card chooser. */
+void card_dev_load_set_object_value(CardDevLoadSlotScreen *screen, struct ObjectNodeHeader *request) {
+    screen->request = request;
 }

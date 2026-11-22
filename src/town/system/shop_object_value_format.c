@@ -1,6 +1,7 @@
 /* Shop object value format and its file-private helper. */
 #include "common.h"
 #include "shared/dungeon_item_entries.h"
+#include "town/shop/item.h"
 #include "engine/resource.h"
 #include "engine/text.h"
 #include "engine/util.h"

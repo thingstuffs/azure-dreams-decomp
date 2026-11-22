@@ -21,7 +21,7 @@ extern u8 D_800A34E0[];
 extern u8 D_800A3508[];
 
 /* Functions defined in this translation unit. */
-void spawn_randomized_motion_burst(Unk800A5C88 *input);
-void *create_scattered_motion_object(EffectInitialState *source_data, s32 initial_value);
+void spawn_randomized_motion_burst(ObjectPosition *input);
+void *create_scattered_motion_object(ObjectPosition *source_data, s32 initial_value);
 
 #endif

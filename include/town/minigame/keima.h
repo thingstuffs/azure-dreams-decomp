@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "shared/entity.h"
+#include "shared/minigame_body.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 
@@ -51,8 +52,7 @@ typedef struct KeimaPathActor {
     s32 flags;
     s32 impulse_x;
     s32 impulse_y;
-    u16 cycles;
-    s16 zone_index;
+    MinigameProgressPair16 progress; /* completed laps and current course rectangle */
     KeimaHalf state;
     u16 path_ticks;
     s16 waypoint_index;

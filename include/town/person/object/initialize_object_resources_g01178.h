@@ -21,12 +21,6 @@ struct TownObjectRecord;
 /* ((S_800C4F6C_5 *)arg0)->unk_80 in initialize_camera_chase_object */
 /* arg1 in initialize_camera_chase_object */
 
-typedef struct S_800C51DC_0 {
-    u8 pad_00[0x54];
-    s32 * unk_54;
-    u8 pad_58[0x8];
-    s32 unk_60;
-} S_800C51DC_0;
 
 typedef struct S_800C5214_0 {
     u8 pad_00[0xC];
@@ -48,7 +42,7 @@ extern Rec_D_80100D98 town_position_reference_state;
 extern void tcame_chase_fix(s32 *chase_fix);
 extern s32 D_80113208[];
 extern u8 message_motion_type_b[];
-extern s32 D_800C5100;
+extern void D_800C5100(struct TownObjectRecord *, struct ObjectPosition *, struct SpriteFrameState *);
 /* object in create_gray_sprite_user_object */
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern u8 D_800345B8[];
@@ -63,9 +57,9 @@ extern u8 D_800F148C[];
 /* Functions defined in this translation unit. */
 void initialize_camera_chase_object(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *display_state);
 void set_camera_chase_data(TownObjectRecord *object, ObjectPosition *chase_data, SpriteFrameState *request_param, s32 check_param);
-void clear_slot_flag_and_update(struct TownObjectRecord *obj, void *param_a, void *param_b);
+void clear_slot_flag_and_update(struct TownObjectRecord *obj, struct ObjectPosition *position, struct SpriteFrameState *sprite);
 void accelerate_to_lower_limit(TownObjectRecord *context, ObjectPosition *record, SpriteFrameState *callback_arg);
-void init_actor_handler_state(S_800C51DC_0 *actor, ObjectPosition *state);
+void init_actor_handler_state(struct TownObjectRecord *actor, ObjectPosition *state);
 void *create_gray_sprite_user_object(s32 user_data);
 
 #endif

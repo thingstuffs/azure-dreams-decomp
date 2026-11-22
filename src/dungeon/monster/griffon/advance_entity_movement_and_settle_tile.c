@@ -26,9 +26,9 @@ void advance_entity_movement_and_settle_tile(ActorRecord *controller, ObjectPosi
     case 0:
         apply_clamped_actor_value_delta(entity);
         motion->velocity_x =
-            -((s16 *)((s8 *)dir_step_x))[(entity->movement_facing >> 9) & 7] << 15;
+            -dir_step_x[(entity->movement_facing >> 9) & 7] << 15;
         motion->velocity_y =
-            -((s16 *)((s8 *)dir_step_y))[(entity->movement_facing >> 9) & 7] << 15;
+            -dir_step_y[(entity->movement_facing >> 9) & 7] << 15;
         controller->action_phase++;
 
         if (entity->hp == 0) {
@@ -56,9 +56,9 @@ void advance_entity_movement_and_settle_tile(ActorRecord *controller, ObjectPosi
 
     case 1:
         motion->velocity_x +=
-            ((s16 *)((s8 *)dir_step_x))[(entity->movement_facing >> 9) & 7] << 14;
+            dir_step_x[(entity->movement_facing >> 9) & 7] << 14;
         motion->velocity_y +=
-            ((s16 *)((s8 *)dir_step_y))[(entity->movement_facing >> 9) & 7] << 14;
+            dir_step_y[(entity->movement_facing >> 9) & 7] << 14;
 
         if (controller->action_timer > 0) {
             controller->action_timer = controller->action_timer - 1;
@@ -85,9 +85,9 @@ void advance_entity_movement_and_settle_tile(ActorRecord *controller, ObjectPosi
         return;
     case 2:
         motion->velocity_x +=
-            ((s16 *)((s8 *)dir_step_x))[(entity->movement_facing >> 9) & 7] << 14;
+            dir_step_x[(entity->movement_facing >> 9) & 7] << 14;
         motion->velocity_y +=
-            ((s16 *)((s8 *)dir_step_y))[(entity->movement_facing >> 9) & 7] << 14;
+            dir_step_y[(entity->movement_facing >> 9) & 7] << 14;
         if (!(sprite->flags & 0x6000)) {
             return;
         }

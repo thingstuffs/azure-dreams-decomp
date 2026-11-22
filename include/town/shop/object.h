@@ -12,7 +12,6 @@ struct ActorRecord;
 struct Copy4;
 struct ItemMenuTransition;
 struct AlternateStorageOwner;
-struct S_800B1718_0;
 struct S_800B1730_0;
 struct S_800B2CE8_0;
 
@@ -63,7 +62,8 @@ s32 func_800B4ED8(void *object, s32 resource_id);
 s32 initialize_storage_menu_resources(void *object, s32 resource_id);
 
 /* ease_paired_objects_to_presets.c */
-void ease_paired_objects_to_presets(void **pair_state);
+struct ItemMenuInputObject;
+void ease_paired_objects_to_presets(struct ItemMenuInputObject *pair_state);
 
 /* invoke_item_menu_node_callback.c */
 void invoke_item_menu_node_callback(struct ItemMenuTransition *state);
@@ -82,16 +82,16 @@ void *find_unused_item_slot(void **slot_list);
 void append_town_item(const struct Copy4 *input);
 
 /* apply_shop_object_slot_colors.c */
-void apply_shop_object_slot_colors(s32 object_addr);
+void apply_shop_object_slot_colors(ObjectNodeHeader *node);
 
 /* set_advance_inner_value_callback.c */
 void set_advance_inner_value_callback(ObjectNodeHeader *object);
 
 /* set_apply_record_values_callback.c */
-void set_apply_record_values_callback(struct S_800B2CE8_0 *object);
+void set_apply_record_values_callback(ObjectNodeHeader *object);
 
 /* set_shop_fade_out_callback.c */
-void set_shop_fade_out_callback(struct S_800B1718_0 *object);
+void set_shop_fade_out_callback(ObjectNodeHeader *object);
 
 /* set_shop_object_ready.c */
 void set_shop_object_ready(struct S_800B1730_0 *object);

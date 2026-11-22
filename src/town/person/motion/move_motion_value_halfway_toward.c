@@ -7,23 +7,16 @@
 
    /* arg1 in move_motion_value_halfway_toward */
 
-typedef struct S_800C5B48_1 {
-    u8 pad_00[0x54];
-    void (*unk_54)();
-    u8 pad_58[0x14];
-    u16 unk_6C;
-} S_800C5B48_1;   /* arg0 in move_motion_value_halfway_toward */
-
 /* Move the motion value halfway toward the target sum and switch callbacks when the countdown expires. */
-void move_motion_value_halfway_toward(S_800C5B48_1 *actor, DelayMotionZ *motion) {
+void move_motion_value_halfway_toward(TownObjectRecord *actor, ObjectPosition *motion) {
     s32 current_value;
     u16 ticks_left;
 
-    current_value = motion->unk_08;
-    motion->unk_08 = (s32) (current_value + ((s32) ((view_reference_entity.z.v + town_target_height_offset) - current_value) / 2));
-    ticks_left = actor->unk_6C - 1;
-    actor->unk_6C = ticks_left;
+    current_value = motion->z.v;
+    motion->z.v = (s32) (current_value + ((s32) ((view_reference_entity.z.v + town_target_height_offset) - current_value) / 2));
+    ticks_left = actor->timer - 1;
+    actor->timer = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        actor->unk_54 = &move_coordinates_halfway_toward_target;
+        actor->handler = &move_coordinates_halfway_toward_target;
     }
 }

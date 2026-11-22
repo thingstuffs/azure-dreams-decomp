@@ -39,7 +39,6 @@ typedef struct T_8017406C_S_8017406C_1 {
     u8 unk_20;
 } T_8017406C_S_8017406C_1;   /* temp_v0 in func_8017406C */
 
-#include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct T_801741A0_S_801741A0_0_pre {

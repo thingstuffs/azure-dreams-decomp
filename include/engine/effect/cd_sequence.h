@@ -15,7 +15,8 @@ typedef struct CdCueSequenceFrame {
     u16 x;
     u16 y;
     s16 line_units;
-    u8 pad_08[8];
+    u8 *left_text;
+    u8 *right_text;
 } CdCueSequenceFrame;
 typedef struct CdCueSequenceChildBody {
     u8 pad_00[6];

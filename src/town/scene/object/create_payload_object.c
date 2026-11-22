@@ -1,28 +1,18 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "town/scene/collection.h"
 #include "town/scene/object.h"
 #include "town/devkit/old_minigame_imports.h"
 
-typedef struct Copy40 {
-    s32 words[10];
-} Copy40;
-
-typedef struct Object {
-    u8 pad_00[0x10];
-    void *owner;
-    u8 pad_14[0xC];
-    Copy40 payload;
-} Object;
-
-
-/* Creates an object with the supplied payload and owner and registers its callback. */
-void create_payload_object(void *owner, Copy40 *payload)
+/* Creates an object for the supplied panel, installs its update, and registers its draw callback. */
+void create_payload_object(TownCollectionPanelUpdate callback, const TownCollectionPanel *payload)
 {
-    Object *object = func_800374FC(1, &scene_object_factory_data);
+    ObjectNodeHeader *object = func_800374FC(1, &scene_object_factory_data);
 
     if (object != 0) {
-        object->payload = *payload;
-        object->owner = owner;
+        TownCollectionPanel *body = NODE_BODY(object);
+        *body = *payload;
+        object->update_callback = callback;
         func_8003BC18(object, func_8005888C);
     }
 }

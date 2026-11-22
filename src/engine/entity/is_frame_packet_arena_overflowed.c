@@ -71,16 +71,16 @@ void load_primary_optional_resource_descriptor(void)
 /* size >8B to force %hi/%lo (not gp_rel) codegen for all three globals */
 extern u8 upper_draw_context[16];
 
-/* Return whether the state-selected table value is below the unsigned limit. */
-s32 is_frame_packet_arena_overflowed(u32 limit)
+/* Stop drawing when the packet cursor exceeds the selected frame arena address. */
+s32 is_frame_packet_arena_overflowed(const u8 *cursor)
 {
     u32 *values = &frame_packet_limit_pointers[0];
     u32 *selected_value = values;
 
-    if (g_game_work.draw_buffer != (void *)upper_draw_context) {
+    if (g_game_work.draw_buffer != upper_draw_context) {
         selected_value = values + 1;
     }
-    return *selected_value < limit;
+    return *selected_value < (unsigned long)cursor;
 }
 
  /* size 0x9C (156) */

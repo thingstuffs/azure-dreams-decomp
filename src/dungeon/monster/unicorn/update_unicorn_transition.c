@@ -38,7 +38,7 @@ extern s32 D_80174E2C[];
 extern s16 D_80174E38[];
 extern void *D_80174E40[];
 
-extern s32 lookup_masked_byte_table();
+extern s32 lookup_masked_byte_table(ActorRecord *actor);
 extern void unlink_entity_node();
 extern void *advance_staged_entity_load(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void *create_status_linked_render_effect();

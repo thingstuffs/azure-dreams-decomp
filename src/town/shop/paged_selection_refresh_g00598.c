@@ -4,33 +4,33 @@
 #include "town/shop.h"
 
 /* Counts four-byte entries until an entry's second byte is zero. */
-s32 count_leading_typed_records(void *entries) {
+s32 count_leading_typed_records(DungeonItemEntry *entries) {
     s32 count;
-    void *entry;
+    DungeonItemEntry *entry;
 
     entry = entries;
     count = 0;
-    if (((S_800ADFBC_0 *)entry)->unk_01 != 0) {
+    if (entry->kind != 0) {
         do {
-            entry += 4;
+            entry++;
             count += 1;
-        } while (((S_800ADFBC_0 *)entry)->unk_01 != 0);
+        } while (entry->kind != 0);
     }
     return count;
 }
 
 /* Refresh the entry count, clamp the selection, and update five-entry page indices. */
-void refresh_paged_selection_state(TownRecord *record) {
+void refresh_paged_selection_state(GridMenuObject *record) {
     if (record != 0) {
-        if ((record->field_08 = count_leading_typed_records((void *)record->field_20)) != 0) {
-            record->field_10 = (record->field_08 - 1) / 5;
-            if (record->field_04 >= record->field_08) {
-                record->field_04 = record->field_08 - 1;
+        if ((record->entry_count = count_leading_typed_records(record->entry_base)) != 0) {
+            record->field_10 = (record->entry_count - 1) / 5;
+            if (record->selected_index >= record->entry_count) {
+                record->selected_index = record->entry_count - 1;
             }
         } else {
-            record->field_04 = 0;
+            record->selected_index = 0;
             record->field_10 = 0;
         }
-        record->field_0C = record->field_04 / 5;
+        record->selected_row = record->selected_index / 5;
     }
 }

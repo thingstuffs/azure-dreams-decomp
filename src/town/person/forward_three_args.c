@@ -1,9 +1,9 @@
 #include "common.h"
 #include "town/person.h"
 
-s32 func_800C8644(s32, s32, s32);
+void func_800C8644(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite);
 
 /* Forward the three values to func_800C8644. */
-void forward_three_args(s32 value, s32 param_1, s32 param_2) {
-    func_800C8644(value, param_1, param_2);
+void forward_three_args(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite) {
+    func_800C8644(object, position, sprite);
 }

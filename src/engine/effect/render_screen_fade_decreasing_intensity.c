@@ -72,7 +72,7 @@ s16 render_screen_fade_decreasing_intensity(TransitionSlot *fade)
     poly->rgbc = color;
     SetPolyF4(poly);
     SetSemiTrans(poly, 1);
-    /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: slus/w_80053428). */
+    /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers. */
     do {
         addr_mask = 0xFFFFFF;
     } while (0);

@@ -14,7 +14,10 @@
 #include "dungeon/actor.h"
 #include "dungeon/data.h"
 
-/* Applies a brief directional movement, then returns the actor to its grid position. */
+/*
+ * Runs Saber's hit recoil: knocks it back along its facing, glides it to its tile, then releases
+ * the pending display owner and restores its behavior handler.
+ */
 void advance_saber_hit_recoil(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *actor, ActorRecord *entity) {
     s32 state;
     s16 timer;
@@ -132,7 +135,3 @@ void advance_saber_hit_recoil(ActorRecord *action, ObjectPosition *motion, Sprit
         return;
     }
 }
-
-/* MECHANISM: Four live arguments naturally produce the 0x28 frame and s1/s0/s2/s3 save roles.
-   A distinct u8 next_state plus timer-held constant 4 fixes v0/v1 lifetimes and the bgtz store slot.
-   The named D_80083460 pointer forces retail's split lui/addiu base before the final field load. */

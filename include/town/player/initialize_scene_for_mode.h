@@ -6,6 +6,7 @@ struct SpriteFrameState;
 #include "slus/town_map_selection_data.h"
 #include "town/shop/item_lookup.h"
 #include "town/scene/list_setup.h"
+#include "town/scene/secondary_object_list_g00528.h"
 #include "town/person/position.h"
 #include "town/player/coordinates.h"
 
@@ -82,13 +83,6 @@ typedef void (*func_80092C9C_ObjectCallback)(void *, s32, s32);
 
 typedef void (*func_80092C9C_ActorCallback)(void *, void *, s32);
 
-typedef struct func_80092C9C_S_800903FC_1 {
-    u8 pad_00[0x10];
-    void * unk_10;
-    u8 pad_14[0x2];
-    u16 unk_16;
-} func_80092C9C_S_800903FC_1;
-
 typedef struct func_80092C9C_S_800903FC_2 {
     u8 pad_00[0x20];
     void * unk_20;
@@ -125,7 +119,6 @@ extern void zero_words(void *dst, s32 count);
 extern void register_node(func_80092868_TownObject *object, void *data);
 extern void initialize_circular_list_head(void);
 extern void init_town_motion_list(void);
-extern void init_secondary_list_record(void *record, func_80092868_ScenePos *scene, void *value_0c); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern void init_probe_sample_buffers(void);
 extern void sync_collision_motion_xyz(ObjectPosition *context);
 extern void create_person_object(void);
@@ -140,8 +133,6 @@ extern s32 read_map_cell_at_world_position(s16 owner, s16 node_in);
 extern void add_motion_deltas_to_position(ObjectPosition *motion);
 extern void apply_actor_control_offsets(ObjectPosition *out);
 extern void store_position_and_compute_delta(void *owner);
-extern void update_record_overlap_node(void *owner);
-extern s32 has_attached_state_type_1_or_3(void *owner);
 extern void set_height_and_slope_velocity(ObjectPosition *obj, s32 base_value, struct TownVec **vec_ptr);
 extern s32 update_object_and_clear_status_fields(void *owner);
 extern s32 estimate_vector_length(s32, s32);
@@ -155,7 +146,6 @@ extern s32 loaded_sprite_bundle_attributes;
 
 
 extern u8 town_actor_control[];
-extern u8 town_motion_list[];
 extern u8 town_position_reference_state[];
 extern s32 camera_turn_lock[];
 extern s32 camera_height_mode[];

@@ -5,10 +5,11 @@
 #include "common.h"
 #include "shared/town_object.h"
 
-struct S_800947CC_1;
+struct ObjectPosition;
+struct SpriteFrameState;
 
 /* initialize_returned_item_action.c */
-void initialize_returned_item_action(TownObjectRecord *object, struct S_800947CC_1 *settings, void *ptr2);
+void initialize_returned_item_action(TownObjectRecord *object, struct ObjectPosition *position, struct SpriteFrameState *sprite);
 
 /* plt_carry_item_del_ext.c */
 void plt_carry_item_del_ext(void);
@@ -17,7 +18,7 @@ void plt_carry_item_del_ext(void);
 s32 set_hold_item_callback(void);
 
 /* set_deferred_dispatch_handler.c */
-void set_deferred_dispatch_handler(void *object, void *unused_position, void *unused_context);
+void set_deferred_dispatch_handler(TownObjectRecord *object, ObjectPosition *unused_position, struct SpriteFrameState *unused_context);
 
 /* set_return_item_callback.c */
 s32 set_return_item_callback(void);

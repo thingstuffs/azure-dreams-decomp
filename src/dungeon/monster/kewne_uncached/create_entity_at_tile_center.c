@@ -4,7 +4,6 @@
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
-#include "dungeon/monster/kewne_uncached/create_entity_at_tile_center.h"
 #include "dungeon/item.h"
 #include "engine/object.h"
 #include "dungeon/monster/kewne_uncached.h"

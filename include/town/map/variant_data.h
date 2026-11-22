@@ -5,7 +5,7 @@
 
 /* The entry walker passes these twenty-byte records to the town object spawner. */
 typedef struct TownSpawnEntry {
-    s8 active; /* its address is saved so object cleanup can clear it */
+    u8 active; /* its address is saved so object cleanup can clear it */
     u8 flags;
     s16 bitmap_bit;
     u8 facing_index;

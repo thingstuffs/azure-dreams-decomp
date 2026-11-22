@@ -4,7 +4,7 @@
 #include "engine/window.h"
 
 
-extern s32 D_800C355C;
+extern void D_800C355C(TownObjectRecord *, ObjectPosition *, SpriteFrameState *, s32);
 
 /* Chooses a random movement direction and advances the entity state. */
 void choose_random_movement_direction(TownObjectRecord *entity, ObjectPosition *movement, SpriteFrameState *context) {
@@ -47,5 +47,5 @@ void choose_random_movement_direction(TownObjectRecord *entity, ObjectPosition *
 
     next_node = *(void **)((u8 *)entity->unk_7C.as_pv + 4);
     initialize_object_entries(entity, context, next_node);
-    entity->unk_50.as_pv = &D_800C355C;
+    entity->unk_50.as_pv = D_800C355C;
 }

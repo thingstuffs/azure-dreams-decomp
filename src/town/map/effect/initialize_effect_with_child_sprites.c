@@ -38,7 +38,7 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
     s32 initial_angle;
     s32 angle_sector;
     s32 sector_multiple;
-    s8 *active_flag;
+    u8 *active_flag;
     s32 scale;
     s32 angle_offset;
     s32 depth;
@@ -87,7 +87,7 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
             (*(void * *)(entity + 0x9C)) = parent;
             (*(s16 *)(entity + 0x66)) = 0;
             (*(s8 *)(entity + 0x97)) = part_index;
-            (*(s8 **)(entity + 0x98)) = active_flag;
+            (*(u8 **)(entity + 0x98)) = active_flag;
             sprite = node->sprite;
             sprite->scale_x = 0x1000;
             sprite->scale_y = 0x1000;
@@ -127,7 +127,7 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
             entity = NODE_BODY(node);
             (*(void * *)(entity + 0x9C)) = parent;
             (*(s8 *)(entity + 0x97)) = part_index;
-            (*(s8 **)(entity + 0x98)) = active_flag;
+            (*(u8 **)(entity + 0x98)) = active_flag;
             sprite = node->sprite;
             sprite->source = sprite_texture;
             sprite->color.c.b = brightness;
@@ -163,7 +163,7 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
         active_flag = parent->unk_98;
         entity = NODE_BODY(node);
         (*(void * *)(entity + 0x9C)) = parent;
-        (*(s8 **)(entity + 0x98)) = active_flag;
+        (*(u8 **)(entity + 0x98)) = active_flag;
         sprite = node->sprite;
         sprite->source = map_particle_second_sprite_entries;
         sprite->color.c.b = 0x80;
@@ -194,7 +194,7 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
         active_flag = parent->unk_98;
         entity = NODE_BODY(node);
         (*(void * *)(entity + 0x9C)) = parent;
-        (*(s8 **)(entity + 0x98)) = active_flag;
+        (*(u8 **)(entity + 0x98)) = active_flag;
         sprite = node->sprite;
         sprite->scale_x = 0x1000;
         sprite->scale_y = 0x1000;

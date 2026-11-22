@@ -9,7 +9,6 @@
 #include "slus.h"
 
 extern void *card_boot_recheck_selected_channel(void);
-extern void card_boot_prepare_save_buffer(void *, s32, s32);
 void configure_shared_fade_primitive(void);
 
 extern s16 D_80010208[];

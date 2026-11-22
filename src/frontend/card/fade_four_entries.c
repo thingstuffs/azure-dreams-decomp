@@ -1,25 +1,16 @@
 #include "common.h"
 #include "frontend/card.h"
+#include "frontend/card/message_display.h"
 #include "frontend/card/server_imports.h"
 
+/* Release the draw handle in each of the four text entries. */
+void fade_four_entries(CardDevDialogDisplay *dialog) {
+    MenuDisplayNode *item;
+    s32 index = 0;
 
-typedef struct S_8001C3EC_0 {
-    u8 pad_00[0x68C];
-    s32 * unk_68C;
-} S_8001C3EC_0;
-
-/* Pass each of four referenced values to func_80051FBC. */
-void fade_four_entries(void *object) {
-    s32 *value_ptr;
-    s32 slot_index;
-    void *slot_cursor;
-
-    slot_index = 0;
-    slot_cursor = object;
     do {
-        value_ptr = ((S_8001C3EC_0 *)slot_cursor)->unk_68C;
-        slot_cursor += 4;
-        slot_index += 1;
-        func_80051FBC(*value_ptr);
-    } while (slot_index < 4);
+        item = dialog->entries[index];
+        index++;
+        func_80051FBC(item->unk_00);
+    } while (index < 4);
 }

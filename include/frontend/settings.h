@@ -6,6 +6,7 @@
 #include "shared/transition_slots.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
+#include "frontend/settings/controller_body.h"
 
 typedef struct SettingsEffectBlock {
     s32 w0;
@@ -67,51 +68,50 @@ typedef struct Menu {
     /* 0x08 */ s16 state;
     /* 0x0A */ s16 timer;
     /* 0x0C */ s16 row;
-    /* 0x0E */ s16 red;
-    /* 0x10 */ s16 green;
-    /* 0x12 */ s16 blue;
+    /* 0x0E */ s16 color_channels[3];
     /* 0x14 */ u16 shade;
     /* 0x16 */ u16 flags;
 } SettingsScreenBody;
 
-typedef struct SettingsColorEffectOwnerBody {
-    u8 pad_00[0x16];
-    s16 flags;
-} SettingsColorEffectOwnerBody;
-
-/* Timed color effect body copied into a settings callback node. */
+/* The settings screen copies each 0x30-byte label into its callback node. */
 typedef struct ColorEffect {
-    /* 0x00 */ s16 state;
-    /* 0x02 */ u16 timer;
-    /* 0x04 */ u8 pad_04[8];
-    /* 0x0C */ SettingsColorEffectOwnerBody *owner;
-    /* 0x10 */ u32 color;
-    /* 0x14 */ u8 pad_14[8];
-    /* 0x1C */ u16 flags;
+    s16 state;
+    u16 timer;
+    s32 text;
+    u8 pad_08[4];
+    SettingsScreenBody *owner;
+    s32 color;
+    s16 x;
+    u16 y;
+    s16 style;
+    s16 font;
+    u16 flags;
+    u8 pad_1E[2];
+    s32 selector;
+    u32 active;
+    u8 pad_28[8];
 } ColorEffect;
 
 /* Display entry body shared by the settings table callbacks.  The allocator copies
  * a 40-byte payload; the callbacks use its source, packed value, result and index. */
 typedef struct MainTitleValueEntry {
-    /* 0x00 */ u8 pad_00[4];
-    /* 0x04 */ void *value_data;
-    /* 0x08 */ s32 packed_components;
-    /* 0x0C */ u8 pad_0C[4];
-    /* 0x10 */ s16 value;
-    /* 0x12 */ u8 pad_12[2];
-    /* 0x14 */ u16 attribute;
-    /* 0x16 */ u8 pad_16[2];
-    /* 0x18 */ s32 value_index;
-    /* 0x1C */ u8 pad_1C[0xC];
+    s16 flags;
+    u8 pad_02[2];
+    SettingsScreenBody *owner;
+    s32 color;
+    s16 x, y;
+    s16 width, height;
+    s16 style, shading;
+    s32 index;
+    u8 pad_1C[0xC];
 } MainTitleValueEntry;
 
-struct ColorRampEffect;
 struct MainTitleValueEntry;
 struct Obj;
 struct SettingsPositionPair;
 
 /* build_settings_sprite_tiles.c */
-s32 build_settings_sprite_tiles(void *node_data, ObjectPosition *scroll_state);
+s32 build_settings_sprite_tiles(SettingsScreenBody *node_data, ObjectPosition *scroll_state);
 
 /* create_settings_controller.c */
 void create_settings_controller(void);
@@ -123,10 +123,10 @@ void *create_settings_sprite_object(struct SettingsPositionPair *position, s32 o
 void handle_settings_menu_input(SettingsScreenBody *menu);
 
 /* create_settings_color_effect.c */
-void create_settings_color_effect(void *callback_address, void *data);
+void create_settings_color_effect(void (*update)(ColorEffect *), const ColorEffect *data);
 
 /* create_settings_value_entry.c */
-void create_settings_value_entry(s32 value, void *data);
+void create_settings_value_entry(void (*update)(MainTitleValueEntry *), const MainTitleValueEntry *data);
 
 /* initialize_settings_screen.c */
 void initialize_settings_screen(void);
@@ -144,30 +144,31 @@ void update_volume_slider_entry(struct MainTitleValueEntry *entry);
 void update_packed_color_entry(MainTitleValueEntry *dest);
 
 /* remove_value_entry_with_marked_source.c */
-void remove_value_entry_with_marked_source(void *record);
+void remove_value_entry_with_marked_source(MainTitleValueEntry *entry);
 
 /* queue_settings_sprite_grid.c */
-s32 queue_settings_sprite_grid(u8 *entry_data, u8 *scroll_data);
+s32 queue_settings_sprite_grid(struct Obj *entry, ObjectPosition *position);
 
 /* update_settings_effect.c */
 void update_settings_effect(SettingsVisualEffectBody *effect);
 
 /* update_settings_effect_color.c */
-void update_settings_effect_color(struct ColorRampEffect *effect);
+void update_settings_effect_color(struct ColorEffect *effect);
 
 /* update_settings_effect_object.c */
 void update_settings_effect_object(SettingsEffectObjectBody *object, ObjectPosition *motion, SpriteFrameState *sprite);
 void sync_settings_object_with_child(SettingsSyncObjectBody *object);
 
 /* update_settings_menu_animation.c */
-void update_settings_menu_animation(struct Obj *obj, s32 *position);
+void update_settings_menu_animation(SettingsMenuBody *obj, ObjectPosition *position);
 
 /* update_settings_phase_motion.c */
 void update_settings_phase_motion(SettingsEffectObjectBody *state, ObjectPosition *motion, SpriteFrameState *update_data);
 
 
 /* Remove a callback object when its linked owner is marked. */
-void remove_record_with_marked_owner(void *body);
+struct SettingsOwnerLinkedBody;
+void remove_record_with_marked_owner(struct SettingsOwnerLinkedBody *body);
 void remove_effect_with_marked_owner(ColorEffect *body);
 
 #endif

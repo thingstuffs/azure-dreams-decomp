@@ -75,14 +75,14 @@ typedef struct S_80174B20_11 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "engine/graphics/run_cd_image_commands_api.h" /* extern */
 #include "engine/texture/select_indirect_table_entry_api.h"              /* extern */
-s32 lookup_masked_byte_table();  /* extern */
+s32 lookup_masked_byte_table(ActorRecord *actor);  /* extern */
 #include "dungeon/level/unlink_entity_node_api.h"                      /* extern */
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"             /* extern */
 #include "dungeon/item/decrement_monster_entry_count_api.h"                 /* extern */
 #include "dungeon/actor/advance_staged_entity_load_api.h"                /* extern */
 #include "dungeon/select_nearby_target_and_initialize_slot_api.h" /* extern */
 
-s32 project_kid_sprite_chain(void *initial_payload, s32 entry_data, Entry *entry, s32 unused);
+s32 project_kid_sprite_chain(void *initial_payload, ObjectPosition *entry_data, SpriteFrameState *entry, s32 unused);
 extern s32 D_80175200[];
 extern s16 D_80175218;
 extern s32 D_80175220;

@@ -15,9 +15,7 @@ typedef struct TownObjectSetup {
 } TownObjectSetup;
 
 /* Initialize object and state, using the supplied value or default data. */
-void initialize_optional_object_state(void *object_arg, void *context, void *state_arg, void *init_value) {
-    SpriteFrameState *state = state_arg;
-
+void initialize_optional_object_state(void *object_arg, ObjectPosition *context, SpriteFrameState *state, void *init_value) {
     TownObjectRecord *object = object_arg;
 
     NODE_HEADER(object)->update_callback = dispatch_object_event_or_retire;

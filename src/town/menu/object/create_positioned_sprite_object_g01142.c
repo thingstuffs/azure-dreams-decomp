@@ -10,9 +10,9 @@
 #include "town/menu/object.h"
 
 /* Creates a positioned object and initializes its state and sprite. */
-ObjectNodeHeader *create_emote_sprite_object(IntVector3 *position, s32 state_value, SpriteSourceEntry *graphic_id) {
+ObjectNodeHeader *create_emote_sprite_object(IntVector3 *position, EmoteObjectCallback on_ground, SpriteSourceEntry *graphic_id) {
     ObjectNodeHeader *object;
-    void *object_state;
+    EmoteCallbackObject *object_state;
     ObjectPosition *transform;
     SpriteFrameState *sprite;
 
@@ -29,8 +29,8 @@ ObjectNodeHeader *create_emote_sprite_object(IntVector3 *position, s32 state_val
     transform->velocity_x = (s32) D_800D0DF0;
     transform->velocity_y = (s32) ((ObjectPosition *)(&D_800D0DF0))->y.v;
     object->update_callback = &invoke_emote_object_callback;
-    ((EmoteCallbackObject *)object_state)->state_value = state_value;
-    ((EmoteCallbackObject *)object_state)->frame = 2;
+    object_state->on_ground = on_ground;
+    object_state->frame = 2;
     load_emote_launch_velocity(object_state, transform, sprite);
     sprite->scale_y = 0x1000;
     sprite->scale_x = 0x1000;
@@ -41,35 +41,35 @@ ObjectNodeHeader *create_emote_sprite_object(IntVector3 *position, s32 state_val
 }
 
 /* Copy the indexed table value to the output and advance the object state. */
-void load_emote_launch_velocity(Rec_D_80082D58 *object, ObjectPosition *output, s32 unused) {
-    output->velocity_z = D_800D0DF8[object->unk_90.as_s16];
-    object->unk_50.as_pm = &D_800A7360;
+void load_emote_launch_velocity(EmoteCallbackObject *object, ObjectPosition *output, SpriteFrameState *unused) {
+    output->velocity_z = D_800D0DF8[object->frame];
+    object->callback = &D_800A7360;
 }
 
 /* Invoke the object's callback. */
-void invoke_emote_object_callback(EmoteCallbackObject *object, ObjectPosition *motion, s32 context) {
-    object->callback(object, motion, context);
+void invoke_emote_object_callback(EmoteCallbackObject *object, ObjectPosition *motion, SpriteFrameState *sprite) {
+    object->callback(object, motion, sprite);
 }
 
 /* Accumulate motion offsets and switch the object handler when the final offset is nonnegative. */
-void advance_emote_motion(S_800A7360_1 *object, ObjectPosition *motion) {
+void advance_emote_motion(EmoteCallbackObject *object, ObjectPosition *motion, struct SpriteFrameState *unused) {
     motion->x.v = (s32) (motion->x.v + motion->velocity_x);
     motion->y.v = (s32) (motion->y.v + motion->velocity_y);
     motion->z.v = (s32) (motion->z.v + (motion->velocity_z));
     add_vertical_gravity(motion);
     if (motion->velocity_z >= 0) {
-        object->unk_50 = &advance_position_and_handle_ground_contact;
+        object->callback = &advance_position_and_handle_ground_contact;
     }
 }
 
 /* Advances position and handles ground contact or continued motion. */
-void advance_position_and_handle_ground_contact(void *entity, ObjectPosition *motion, s32 context) {
+void advance_position_and_handle_ground_contact(EmoteCallbackObject *entity, ObjectPosition *motion, SpriteFrameState *sprite) {
     s32 x;
     s32 velocity_x;
     s32 velocity_y;
     s32 velocity_z;
     u16 counter;
-    S_800A9C80_Callback callback;
+    EmoteObjectCallback callback;
 
     x = motion->x.v;
     velocity_x = motion->velocity_x;
@@ -81,15 +81,15 @@ void advance_position_and_handle_ground_contact(void *entity, ObjectPosition *mo
     motion->z.v += velocity_z;
     if (query_lowered_transform_position(motion) < motion->z.w.i) {
         motion->z.w.i = query_lowered_transform_position(motion);
-        counter = *(u16 *)((u8 *)entity + 0x90) - 1;
-        *(u16 *)((u8 *)entity + 0x90) = counter;
+        counter = (u16)entity->frame - 1;
+        entity->frame = counter;
         if ((s16)counter < 0) {
             unlink_node_if_registered(entity);
-            callback = *(S_800A9C80_Callback *)((u8 *)entity + 0x54);
-            callback(entity, motion, context);
+            callback = entity->on_ground;
+            callback(entity, motion, sprite);
             return;
         }
-        load_emote_launch_velocity(entity, motion, context);
+        load_emote_launch_velocity(entity, motion, sprite);
         return;
     }
     add_vertical_gravity(motion);

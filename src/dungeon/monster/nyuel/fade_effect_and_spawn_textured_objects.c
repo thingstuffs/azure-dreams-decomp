@@ -166,16 +166,3 @@ void fade_effect_and_spawn_textured_objects(EffectState *state, s32 *position, S
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-
-/* MECHANISM: retail word 129 (`addiu $v0,$s3,1` in the `beqz $s0` delay slot) is
-   gcc reorg STEALING the first insn of the branch TARGET block ($L17 = the loop
-   increment) and retargeting the branch one word past it. Our gcc predicts the
-   EQ branch not-taken, so fill_eager_delay_slots searches the FALLTHROUGH thread
-   first and takes `addiu $s1,$s0,0x20` instead (292 words, 1 short).
-   Loop index is a plain `i++` at
-   the loop bottom (NOT an explicit next-index phi: that shape emits the addiu in
-   both preds and misplaces the body copy into the inner-loop back-branch slot).
-   The state[-1] RMW must NOT be volatile: reorg's resource_conflicts_p returns 1
-   unconditionally once needed.volatil is set, so a volatile load at the head of
-   the bgtz fallthrough thread blocks every later candidate and the tail
-   `lui $v1,%hi(D_800814A0)` cannot reach the branch delay slot. */

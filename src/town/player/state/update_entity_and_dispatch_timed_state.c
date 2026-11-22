@@ -7,8 +7,6 @@
 #include "town/player/object.h"
 #include "town/player.h"
 
-
-
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"       /* extern */
 #include "town/player/move_both_components_toward_zero_direction_dependent_steps_clamping_zero_api.h"       /* extern */
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"       /* extern */
@@ -17,13 +15,13 @@ extern s32 town_interaction_pending;
 
 
 /* Updates the entity and dispatches a state transition when its countdown expires. */
-void update_entity_and_dispatch_timed_state(void *state_arg, void *entity, void *transition_arg) {
+void update_entity_and_dispatch_timed_state(void *state_arg, ObjectPosition *entity, struct SpriteFrameState *transition_arg) {
     TownObjectRecord *state = state_arg;
     s16 countdown;
 
     resolve_collision_axis_order(entity);
     apply_velocity_friction(entity);
-    countdown = ((u16)state->unk_0A) - 1;
+    countdown = state->unk_0A - 1;
     state->unk_0A = countdown;
     if (countdown < 0) {
         clear_object_velocity(entity);

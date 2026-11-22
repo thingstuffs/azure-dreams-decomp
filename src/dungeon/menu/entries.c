@@ -214,10 +214,6 @@ s32 pack_selected_menu_entries(s32 held_entry_set, s32 position, s32 entry_count
     return copied_count;
 }
 
-/* MECHANISM: The in-place /72 quotient forces the retail 0x30 frame and s0/s3/s6 argument holds.
-   Exact callee arity plus guarded a1/s2 runtime roles reproduce the return-slot and loop coloring.
-   Integer index-first addition preserves the retail addu a1,a1,s5 operand order. */
-
 void *get_mapped_menu_table_entry(s32 row_id, s32 entry_index)
 {
     s32 row;
@@ -1030,7 +1026,3 @@ ovl_1831cd8_81813774_UnalignedBlock12 *copy_menu_record_template(ovl_1831cd8_818
     dest[1] = menu_record_template.chunks[1];
     return dest;
 }
-
-/* MECHANISM: Frameless leaf split into two packed 12-byte aggregate copies.
-   Returning the destination makes the $v0 return value the store base, which
-   yields retail's leading move $v0,$a0 and the $a0/$a1/$a2 copy registers. */

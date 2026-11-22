@@ -3,7 +3,7 @@
 #include "town/person/position.h"
 
 /* Clamp the fixed-point coordinate deltas to the minimum before passing them to the helper. */
-s16 clamp_transform_coordinate_deltas(s32 x, s32 y, void *origin) {
+s16 clamp_transform_coordinate_deltas(s32 x, s32 y, ObjectPosition *origin) {
     s32 x_delta;
     s32 y_delta;
     s32 clamped_y_delta;
@@ -11,8 +11,8 @@ s16 clamp_transform_coordinate_deltas(s32 x, s32 y, void *origin) {
     s32 clamped_x_delta;
 
     x <<= 16;
-    x_delta = x - *(s32 *)((u8 *)origin + 0);
-    y_delta = (y << 16) - *(s32 *)((u8 *)origin + 4);
+    x_delta = x - origin->x.v;
+    y_delta = (y << 16) - origin->y.v;
     minimum = (s32)0x80010000;
 
     if (x_delta > minimum) {

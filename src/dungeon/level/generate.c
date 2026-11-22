@@ -1208,12 +1208,7 @@ void advance_current_entry_code(void)
     }
 }
 
-/*
- * Loads a sound resource into the alternate buffer and optionally starts its sound set.
- *
- * MECHANISM: Frameless leaf; the absolute base selects lui/ori; in-place index *= 4 preserves
- * index- first addu order.
- */
+/* Loads a sound resource into the alternate buffer and optionally starts its sound set. */
 s32 load_object_into_alternate_buffer(s16 object_index, s16 mode, s16 activate) {
     s16 activate_flag = activate;
     u16 saved_index = 0;
@@ -2474,9 +2469,6 @@ void pick_relative_room_edge_point(s16 side, s16 *out_x, s16 *out_y, DungeonRoom
     }
 }
 
-/* MECHANISM: The two output pointers and record pointer stay live across RNG calls,
-   naturally producing the retail s1/s2/s0 hold set and 0x20-byte frame.
-   Each mode selects a copy/random/-1 pair using exact halfword field widths. */
 
 s32 is_value_within_inclusive_bounds(s16 value, s32 lower_bound, s16 upper_bound)
 {

@@ -2,6 +2,7 @@
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
+#include "shared/gpu_packets.h"
 
 #include "engine/entity.h"
 #include "engine/graphics.h"
@@ -24,7 +25,7 @@ s32 project_and_draw_sprite_node_chain(u8 *first_data, ObjectPosition *first_coo
             scratch->h[0x74 / 2] = (u16)coords->z.w.i;
             RotTransPers(&scratch->h[0x70 / 2], &scratch->sw[0], &scratch->sw[0x90 / 4], &scratch->sw[0x94 / 4]);
             draw_sprite_parts(node_data, entry, entry->depth_bias);
-            if (is_frame_packet_arena_overflowed(*(u32 *)((u8 *)g_game_work.draw_buffer + 0x8D0))) {
+            if (is_frame_packet_arena_overflowed(((GpuContext *)g_game_work.draw_buffer)->packetCursor)) {
                 return 0;
             }
         }

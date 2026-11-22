@@ -8,7 +8,7 @@
 extern s32 object_render_cancel_switch[];
 
 /* Routes state processing according to the global gate and state flag. */
-void update_fade_draw_registration(FadeManagerBody *state, void *context) {
+void update_fade_draw_registration(FadeManagerBody *state, SpriteFrameState *context) {
     if (object_render_cancel_switch[0] == 0) {
         if ((u8)state->has_source != 0) {
             register_node_if_unregistered(state, draw_linked_sprites);

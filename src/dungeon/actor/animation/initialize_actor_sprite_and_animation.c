@@ -83,7 +83,7 @@ void initialize_actor_sprite_and_animation(void *entity, void *position, SpriteF
 
     entity_data->movement_queue_state = 0;
     entity_data->flags1C |= 0x40000000;
-    create_tracked_effect(entity, 0, (u8 *)sprite + 0x2C, &entity_data->facing);
+    create_tracked_effect(entity, 0, &sprite->frameTable, &entity_data->facing);
 
     if (dir_sprite_flag[
             ((g_game_work.view.camera_rotation.parts.viewAngle + entity_data->facing + 0x100) >> 9) & 7] != 0) {

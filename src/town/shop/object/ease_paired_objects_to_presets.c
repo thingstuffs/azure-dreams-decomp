@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/shop/resource_entry_initialization_g01156.h"
 #include "town/shop/object.h"
 #include "town/data.h"
 
@@ -6,7 +7,7 @@ struct ObjectNodeHeader; void link_typed_list_node(struct ObjectNodeHeader *, st
 extern u8 D_800D1630[];
 
 /* Ease two objects toward preset coordinates and shades, then pass them in coordinate order. */
-void ease_paired_objects_to_presets(void **pair_state)
+void ease_paired_objects_to_presets(ItemMenuInputObject *pair_state)
 {
     s32 coords[2];
     s32 item_index;
@@ -19,7 +20,7 @@ void ease_paired_objects_to_presets(void **pair_state)
     s16 second_index;
     u8 *preset_table;
     u8 *shade_table;
-    void **item_entry;
+    ObjectNodeHeader **item_entry;
     void *visual_holder;
     void *visual_data;
     void *shade_data;
@@ -28,10 +29,10 @@ void ease_paired_objects_to_presets(void **pair_state)
     preset_table = shop_display_presets;
     shade_table = D_800D1630;
     coord_offset = item_index;
-    item_entry = pair_state;
+    item_entry = (ObjectNodeHeader **)pair_state;
     do {
-        visual_holder = *((void **) (((u8 *) (*item_entry)) + 0xC));
-        preset_index = (preset_table + ((*((s32 *) (((u8 *) pair_state) + 0xC))) * 2))[item_index];
+        visual_holder = (*item_entry)->sprite;
+        preset_index = (preset_table + (pair_state->preset * 2))[item_index];
         visual_data = *((void **) (((u8 *) visual_holder) + 4));
         {
             s32 loaded_coord;
@@ -49,7 +50,7 @@ void ease_paired_objects_to_presets(void **pair_state)
         *((s32 *) (((u8 *) coords) + coord_offset)) = *((s16 *) (((u8 *) (*((void **) (((u8 *) visual_holder) + 4))))
             + 0xC));
         visual_data = *((void **) (((u8 *) visual_holder) + 4));
-        preset_index = (preset_table + ((*((s32 *) (((u8 *) pair_state) + 0xC))) * 2))[item_index];
+        preset_index = (preset_table + (pair_state->preset * 2))[item_index];
         old_shade = *((((u8 *) visual_data) + 0));
         delta = shade_table[preset_index * 4] - old_shade;
         if (preset_index == 0) {
@@ -61,12 +62,12 @@ void ease_paired_objects_to_presets(void **pair_state)
             *((((u8 *) (*((void **) (((u8 *) visual_holder) + 4)))) + 0));
         shade_data = *((void **) (((u8 *) visual_holder) + 4));
         *((((u8 *) shade_data) + 2)) = *((((u8 *) shade_data) + 0));
-        item_entry = (void **) (((u8 *) item_entry) + 4);
+        item_entry++;
         item_index++;
     } while (item_index < 2);
     if (coords[0] > coords[second_index]) {
-        link_typed_list_node(pair_state[second_index], pair_state[0]);
+        link_typed_list_node(&pair_state->source_menu->header, &pair_state->item_menu_object->header);
     } else {
-        link_typed_list_node(pair_state[0], pair_state[second_index]);
+        link_typed_list_node(&pair_state->item_menu_object->header, &pair_state->source_menu->header);
     }
 }

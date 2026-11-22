@@ -7,7 +7,6 @@
 #include "dungeon/monster/kraken/spawn_configured_overlay_effect.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
-#include "dungeon/monster/kraken/spawn_configured_overlay_effect.h"
 #include "dungeon/effect/sprite.h"
 #include "dungeon/monster/kraken.h"
 

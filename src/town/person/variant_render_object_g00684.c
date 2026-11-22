@@ -9,10 +9,10 @@
 #include "town/event/state.h"
 
 /* Creates an object, initializes its render data, and invokes its callback. */
-void * create_and_invoke_render_object(s32 initial_value, s32 resource_index) {
-    s32 callback_arg;
+void *create_and_invoke_render_object(TownObjectRecord *owner, s32 resource_index) {
+    ObjectPosition *position;
     SpriteFrameState *render_data;
-    S_800CB8CC_1 *state;
+    TownVariantSpriteBody *state;
     ObjectNodeHeader *object;
 
     object = allocate_list_node(0x136, &scene_object_list_anchor.next);
@@ -20,44 +20,44 @@ void * create_and_invoke_render_object(s32 initial_value, s32 resource_index) {
         return 0;
     }
     state = NODE_BODY(object);
-    callback_arg = *(s32 *)&object->position;
+    position = object->position;
     render_data = object->sprite;
-    state->unk_9C = initial_value;
+    state->owner = owner;
     object->update_callback = update_entity_relative_position;
     render_data->scale_y = 0x1000;
     render_data->scale_x = 0x1000;
     render_data->color.word = 0x808080;
-    state->unk_60 = resource_index;
+    state->slot = resource_index;
     render_data->source = D_800D68B0[resource_index];
     register_node(object, project_sprite_chain);
-    ((s32 (*)(void *, s32, void *))object->update_callback)(state, callback_arg, render_data);
+    ((void (*)(TownVariantSpriteBody *, ObjectPosition *, SpriteFrameState *))object->update_callback)(state, position, render_data);
     return object;
 }
 
 /* Compute an entity-relative position, or run fallback updates if its state check fails. */
-void update_entity_relative_position(Rec_D_80082D58 *entity, ObjectPosition *out_pos) {
-    void *state;
+void update_entity_relative_position(TownVariantSpriteBody *entity, ObjectPosition *out_pos) {
+    TownObjectRecord *owner;
     ObjectPosition *base_pos;
     SpriteFrameState *height_info;
     ObjectNodeHeader *state_header;
 
-    state = entity->unk_9C;
-    state_header = NODE_HEADER(state);
+    owner = entity->owner;
+    state_header = NODE_HEADER(owner);
     base_pos = state_header->position;
     height_info = state_header->sprite;
-    if (is_default_object_data(state) == 0) {
+    if (is_default_object_data(owner) == 0) {
         unlink_node_if_registered(entity);
         clear_object_slot_and_mark_removed(entity);
         return;
     }
-    out_pos->x.v = base_pos->x.v + (rsin(((TownObjectRecord *)(entity->unk_9C))->heading) * 0x140);
-    out_pos->y.v = base_pos->y.v + (rcos(((TownObjectRecord *)(entity->unk_9C))->heading) * 0x140);
+    out_pos->x.v = base_pos->x.v + (rsin(entity->owner->heading) * 0x140);
+    out_pos->y.v = base_pos->y.v + (rcos(entity->owner->heading) * 0x140);
     out_pos->z.v = base_pos->z.v + (((S_800CB9B8_6 *)(height_info->source))->unk_03 << 0x11) + 0x100000;
 }
 
 /* Invoke the object handler with the object and forwarded arguments. */
-void invoke_object_handler(S_800CBAAC_0 *object, s32 callback_arg1, s32 callback_arg2) {
-    object->unk_50(object, object, callback_arg1, callback_arg2);
+void invoke_object_handler(S_800CBAAC_0 *object, ObjectPosition *position, SpriteFrameState *sprite) {
+    object->unk_50(object, object, position, sprite);
 }
 
 /* Initializes record state using its stored table index and setup routines. */

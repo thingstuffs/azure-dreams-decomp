@@ -12,12 +12,15 @@
 s32 read_map_cell_at_tile(s32 tile_x, s32 tile_y) {
     GameWork *map_state;
     MapGrid *map_layout;
+    u16 *cells;
+    s16 cell_index;
 
     map_state = &g_game_work;
     map_layout = &map_state->map;
-    return *(u16 *)(((s32) (((((u16)map_layout->maskX) & tile_x)
-        + ((s16) (((u16)map_layout->maskY) & tile_y) << map_layout->shiftX)) << 0x10)
-        >> 0xF) + ((s32)map_state->map.cells)) & 0x3FFF;
+    cell_index = (s16)(((u16)map_layout->maskX & tile_x)
+        + ((s16)((u16)map_layout->maskY & tile_y) << map_layout->shiftX));
+    cells = map_state->map.cells;
+    return cells[cell_index] & 0x3FFF;
 }
 
 /* Read the map entry value at world coordinates converted to tiles. */

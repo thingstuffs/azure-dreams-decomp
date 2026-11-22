@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 
 /* 8-byte buffer copied from a global and indexed by a masked byte offset */
 typedef struct {
@@ -7,13 +8,8 @@ typedef struct {
 
 extern S_800498A0_Buf8 texture_masked_byte_values[];
 
-typedef struct {
-    u8 pad[0x14];
-    u32 field_0x14;
-} S_800498A0;
-
 /* Copies the global lookup table and returns the byte selected by the low three field bits. */
-u8 lookup_masked_byte_table(S_800498A0 *state) {
+s32 lookup_masked_byte_table(ActorRecord *actor) {
     S_800498A0_Buf8 lookup_table = texture_masked_byte_values[0];
-    return lookup_table.b[state->field_0x14 & 7];
+    return lookup_table.b[actor->flags14 & 7];
 }

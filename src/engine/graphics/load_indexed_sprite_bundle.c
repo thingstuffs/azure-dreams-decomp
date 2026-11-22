@@ -6,40 +6,27 @@
 #include "slus.h"
 #include "slus/data.h"
 
-typedef struct S_80048C3C_0 {
-    s32 unk_00;
-    void * unk_04;
-} S_80048C3C_0;   /* temp_s1 in load_indexed_sprite_bundle */
-
-typedef struct S_80048C3C_1 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    s32 unk_20;
-} S_80048C3C_1;   /* temp_s2 in load_indexed_sprite_bundle */
-
 /* Loads and initializes a resource, registers its payload in two VRAM cache slots, and returns its table slot. */
 void *load_indexed_sprite_bundle(s32 resource_id) {
     void *payload;
-    s32 entry_offset;
-    S_80048C3C_0 *entry2;
-    void *entry3;
-    void *resource;
+    S_80048C3C_0 *entry;
+    S_80048C3C_1 **resource_slot;
+    S_80048C3C_1 *resource;
     s32 load_mode;
 
-    entry_offset = resource_id * 8;
     load_mode = 6;
-    entry2 = (S_80048C3C_0 *)(indexed_sprite_bundle_records + entry_offset);
-    Control_CD(load_mode, entry2->unk_00, 0);
+    entry = &indexed_sprite_bundle_records[resource_id];
+    Control_CD(load_mode, entry->descriptor, 0);
     drain_cd_command_queue();
-    resource = entry2->unk_04;
-    payload = resource + ((S_80048C3C_1 *)resource)->unk_1C;
-    upload_vram_row_and_cache(payload, 0x7A00, ((S_80048C3C_1 *)resource)->unk_20, 2);
+    resource = entry->resource;
+    payload = (u8 *)resource + resource->payload_offset;
+    upload_vram_row_and_cache(payload, 0x7A00, resource->width_blocks, 2);
     DrawSync(0);
     set_palette_stp_bits(payload, 1, 1);
-    upload_vram_row_and_cache(payload, 0x7980, ((S_80048C3C_1 *)resource)->unk_20, 2);
+    upload_vram_row_and_cache(payload, 0x7980, resource->width_blocks, 2);
     relocate_sprite_metadata_pointers(resource);
-    entry3 = &entry2->unk_04;
-    stamp_sprite_part_chain_values(resource);
+    resource_slot = &entry->resource;
+    stamp_sprite_part_chain_values(&resource->parts);
     movie_overlay_loaded = 0;
-    return entry3;
+    return resource_slot;
 }

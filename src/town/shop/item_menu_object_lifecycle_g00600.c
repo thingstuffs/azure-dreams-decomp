@@ -46,8 +46,8 @@ void * create_item_menu_object(s32 selector) {
 
 /* Marks the menu object for removal, schedules child cleanup, and resumes message and selection handling. */
 void release_item_menu_object(ItemMenuParameters *parameters) {
-    s32 firstParameter = parameters->field0;
-    ((u16 *)parameters)[-1] |= NODE_REMOVE;
+    ItemMenuObjectNode *firstParameter = parameters->field0;
+    NODE_HEADER(parameters)->flags |= NODE_REMOVE;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     release_item_menu_child_object(firstParameter);
     schedule_item_menu_child_release(parameters->field4);

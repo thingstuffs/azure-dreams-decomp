@@ -8,17 +8,10 @@
 #include "town/map.h"
 
 
-typedef struct S_func_800A9624_1 {
-    u8 pad_00[0x50];
-    s32 (*unk_50)(void *, ObjectPosition *, s32);
-    u8 pad_54[0x44];
-    s8 *unk_98;
-} S_func_800A9624_1;
-
 /* Process object state results or invoke the fallback callback. */
-void run_prop_callback_or_retire(S_func_800A9624_1 *object, ObjectPosition *position, s32 callback_arg) {
+void run_prop_callback_or_retire(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite) {
     s32 state;
-    s32 (*callback)(void *, ObjectPosition *, s32);
+    void (*callback)(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 
     state = classify_record_by_state_and_position(object, position);
     if (state == 1) {
@@ -36,8 +29,8 @@ void run_prop_callback_or_retire(S_func_800A9624_1 *object, ObjectPosition *posi
         return;
     }
     register_node_if_unregistered(object, (draw_linked_shaded_quad_rings));
-    callback = object->unk_50;
+    callback = object->unk_50.as_pm;
     if (callback != 0) {
-        callback(object, position, callback_arg);
+        callback(object, position, sprite);
     }
 }

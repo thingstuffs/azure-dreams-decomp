@@ -7,9 +7,9 @@
 #include "engine/node.h"
 
 /* Update the object motion or clear its state and clean it up when the position check fails. */
-void update_object_position_or_cleanup(TownObjectRecord *object, void *position, void *motion) {
+void update_object_position_or_cleanup(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *motion) {
     s32 check_result;
-    s8 *state_flag;
+    u8 *state_flag;
 
     check_result = classify_object_against_bounds(object, position);
     if (check_result != 0) {
@@ -30,56 +30,58 @@ void update_object_position_or_cleanup(TownObjectRecord *object, void *position,
 }
 
 /* Selects state data, invokes the object callback, and updates motion data and flags. */
-void update_object_motion_and_flags(TargetObj *obj, void *callback_arg, void *motion_data) {
+void update_object_motion_and_flags(TownObjectRecord *obj, ObjectPosition *callback_arg, SpriteFrameState *motion) {
+    TownSceneListNode *node = (TownSceneListNode *)obj;
+    TargetObj *movement;
     s32 table_index;
     u8 state;
 
-    void *motion = motion_data;
-
     u32 motion_flags;
 
-    state = obj->state70;
+    state = obj->unk_70;
     if (state == 0) {
-        obj->field0c = &D_800D5028;
+        node->bounds = &D_800D5028;
     } else if (state == 1) {
-        obj->field0c = &D_800D5040;
+        node->bounds = &D_800D5040;
     } else {
-        obj->field0c = &D_800D5058;
+        node->bounds = &D_800D5058;
     }
 
-    obj->callback(obj, callback_arg, motion);
+    ((FuncPtr)obj->unk_50.as_pm)(obj, callback_arg, motion);
     if (!(NODE_HEADER(obj)->flags & 0x8000)) {
-        table_index = quantize_heading_to_sector(obj->field72, obj->field64);
-        if (obj->field74 != table_index) {
-            clear_object_status_and_dispatch_target(obj, motion, (int)(obj->table78[table_index]), *(s8 *)((u8 *)motion + 4));
-            obj->field74 = table_index;
+        table_index = quantize_heading_to_sector(obj->heading, obj->unk_64);
+        movement = (TargetObj *)obj;
+        if (movement->field74 != table_index) {
+            clear_object_status_and_dispatch_target(obj, motion, obj->unk_78[table_index], motion->unk_04);
+            movement->field74 = table_index;
         }
-        if (!(obj->flags71 & 1)) {
-            if ((check_heading_past_half_sector(obj->field72, obj->field64) << 0x10) == 0) {
-                motion_flags = (u16)(*(u16 *)((u8 *)motion + 0x14) & 0xfffe);
+        if (!(obj->unk_71 & 1)) {
+            if ((check_heading_past_half_sector(obj->heading, obj->unk_64) << 0x10) == 0) {
+                motion_flags = (u16)(motion->flags & 0xfffe);
             } else {
-                motion_flags = *(u16 *)((u8 *)motion + 0x14) | 1;
+                motion_flags = motion->flags | 1;
             }
-        } else if ((check_heading_past_half_sector(obj->field72, obj->field64) << 0x10) != 0) {
-            motion_flags = *(u16 *)((u8 *)motion + 0x14);
+        } else if ((check_heading_past_half_sector(obj->heading, obj->unk_64) << 0x10) != 0) {
+            motion_flags = motion->flags;
             motion_flags &= 0xfffe;
         } else {
-            motion_flags = *(u16 *)((u8 *)motion + 0x14) | 1;
+            motion_flags = motion->flags | 1;
         }
-        *(u16 *)((u8 *)motion + 0x14) = motion_flags;
+        motion->flags = motion_flags;
         advance_object_animation_when_idle(obj, motion, 0, 0);
     }
 }
 
 /* Update the object's flag and dispatch its current state handler. */
-void dispatch_object_state(TownObjectRecord *object, void *context, void *dispatch_data) {
+void dispatch_object_state(TownObjectRecord *object, ObjectPosition *context, SpriteFrameState *dispatch_data) {
     TownObjectRecord *object_bytes = object;
+    FuncPtr *handlers;
     u8 state;
 
     if (is_node_registered(object) != 0) {
         object_bytes->unk_15 = 1;
     }
-    state = *(u8 *)&object_bytes->unk_94;
+    state = (u8)object_bytes->unk_94;
     if (state == 0) {
         object_bytes->heading = object_bytes->unk_6E;
         install_stored_value_handler(object, context, dispatch_data);
@@ -89,8 +91,8 @@ void dispatch_object_state(TownObjectRecord *object, void *context, void *dispat
         initialize_object_assigns_state_data(object, context, dispatch_data);
         return;
     }
-    (*(FuncPtr *)((*(u8 *)&object_bytes->unk_94 * 4) + object_bytes->unk_58 - 8))(object, context,
-        dispatch_data);
+    handlers = object_bytes->state_handlers;
+    handlers[(u8)object_bytes->unk_94 - 2](object, context, dispatch_data);
 }
 
 /* Initialize the object and its animation, then dispatch its current state. */

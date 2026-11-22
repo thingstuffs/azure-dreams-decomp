@@ -88,7 +88,3 @@ void create_viewport_transition_object(void) {
         }
     }
 }
-
-/* MECHANISM: Direct D_800E296C RMW holds its page in s1, producing the 0x20 frame and retail save order.
-   Post-call caller-register roles hold the 0x8001 page in v0, child/secondary/subobject in a2/v1/a0,
-   and color in a3; reusing dead v0/v1 for the two globals, literal 4, and flag reload removes the tail nop. */

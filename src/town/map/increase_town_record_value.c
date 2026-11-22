@@ -1,21 +1,21 @@
 #include "common.h"
 
-extern void release_town_map_record(void **);
+#include "town/map/body.h"
 
 /* Increase the record value by 0x200, clamp at 0x800, and handle the upper limit. */
-void increase_town_record_value(void **record_ref) {
-    void *record;
-    void *first_record;
+void increase_town_record_value(TownMapBody *body) {
+    Rec_D_80081FDC *record;
+    Rec_D_80081FDC *first_record;
     u16 value;
 
-    first_record = *record_ref;
-    value = *(u16 *)((u8 *)first_record + 0xA);
+    first_record = body->context;
+    value = first_record->unk_0A;
     value += 0x200;
-    *(u16 *)((u8 *)first_record + 0xA) = value;
-    record = *record_ref;
-    if (*(s16 *)((u8 *)record + 0xA) >= 0x801) {
-        *(u16 *)((u8 *)record + 0xA) = 0x800;
-        release_town_map_record(record_ref);
+    first_record->unk_0A = value;
+    record = body->context;
+    if (record->unk_0A >= 0x801) {
+        record->unk_0A = 0x800;
+        release_town_map_record(body);
     }
 }
 

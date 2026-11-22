@@ -70,7 +70,7 @@ void update_path_following_actor(KeimaPathActor *actor, ObjectPosition *motion, 
     s32 path_flags;
     s16 clamp_value;
     KeimaPath *paths;
-    void *position_ref;
+    MinigameProgressPair16 *progress;
     KeimaPathPoint *waypoint;
     KeimaPathActor *actor_ref;
     u8 *directions;
@@ -80,9 +80,9 @@ void update_path_following_actor(KeimaPathActor *actor, ObjectPosition *motion, 
     model_base = actor->owner;
     waypoint = paths[actor->path_index].points + actor->waypoint_index;
     advance_sprite_animation_and_textures(sprite);
-    position_ref = &actor->cycles;
-    advance_path_waypoint(motion, position_ref);
-    fill_eligible_negative_slots(model_base, position_ref, actor->lane);
+    progress = &actor->progress;
+    advance_path_waypoint(motion, progress);
+    fill_eligible_negative_slots(model_base, progress, actor->lane);
     add_motion_deltas_to_position(motion);
     reached_point = 0;
     motion->x.v = (s32) (motion->x.v

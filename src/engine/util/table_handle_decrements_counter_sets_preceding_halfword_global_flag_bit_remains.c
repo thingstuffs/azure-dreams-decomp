@@ -1,16 +1,18 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/object_node.h"
+#include "engine/scene/removal_counter.h"
 #include "engine/util.h"
 
 extern int D_800814A0;
 
-/* Decrements the counter and sets the preceding halfword and global flag bit 0x8000 if it remains nonzero. */
-void decrement_and_flag_removal_if_nonzero(unsigned short *entry_data, int *counter)
+/* Decrement the counter and mark the node when the new count is nonzero. */
+void decrement_and_flag_removal_if_nonzero(void *body, NodeRemovalCounter *counter)
 {
-    unsigned short *flags = entry_data - 1;
+    u16 *flags = &NODE_HEADER(body)->flags;
 
-    if (--(*counter) != 0) {
-        *flags |= 0x8000;
+    if (--counter->count != 0) {
+        *flags |= NODE_REMOVE;
         D_800814A0 |= OBJECT_REMOVE_PENDING;
     }
 }

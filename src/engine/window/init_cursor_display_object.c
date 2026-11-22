@@ -1,3 +1,4 @@
+#include "engine/window/cursor_source.h"
 #include "common.h"
 
 #include "engine/window.h"
@@ -10,7 +11,7 @@ struct WindowCursorBody;
 struct SpriteFrameState;
 
 /* Initialize the display object and update its initial appearance. */
-void init_cursor_display_object(MenuChoiceCursorStorage *object_arg, void *display, s32 *data, s16 data_index,
+void init_cursor_display_object(MenuChoiceCursorStorage *object_arg, Rec_D_80081FDC *display, WindowCursorSource *data, s16 data_index,
                    s16 table_offset, void *list_head) {
     ObjectNodeHeader *object = &object_arg->node;
 

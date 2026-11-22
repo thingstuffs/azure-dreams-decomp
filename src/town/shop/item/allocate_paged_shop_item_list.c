@@ -27,7 +27,7 @@ typedef struct S_800B3D50_node {
 } S_800B3D50_node;
 
 /* Allocate and initialize a paged item-list node, returning null on failure. */
-void *allocate_paged_shop_item_list(s32 parent, s32 selected_index, s32 item_count, s32 page_index, s32 last_page, s32 item_base,
+void *allocate_paged_shop_item_list(ObjectNodeHeader *parent, s32 selected_index, s32 item_count, s32 page_index, s32 last_page, DungeonItemEntry *item_base,
     s32 display_mode)
 {
     S_800B3D50_node *node = allocate_flagged_object_node(0);

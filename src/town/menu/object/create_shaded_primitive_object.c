@@ -5,43 +5,24 @@
 #include "town/menu/state.h"
 #include "engine/node.h"
 
-typedef void (*Callback)(void);
-
-typedef struct S_func_800A1C94_0 {
-    u8 pad_00[0xC];
-    void *unk_0C;
-    Callback unk_10;
-    u8 pad_14[0xC];
-    void (*unk_20)(void *, ObjectPosition *, SpriteFrameState *);
-} S_func_800A1C94_0;
-
-typedef struct S_func_800A1C94_2 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-    u8 pad_14[0xC];
-    s16 unk_20;
-} S_func_800A1C94_2;
-
-
 /* Creates a display object with callbacks and the supplied payload values. */
-void *create_shaded_primitive_object(s32 payload_word, s32 payload_halfword, void *unused_item_data)
+ObjectNodeHeader *create_shaded_primitive_object(struct DoorTransitionEffect *parent, s32 index, struct ObjectPosition *unused_origin)
 {
-    S_func_800A1C94_0 *object;
+    ObjectNodeHeader *object;
     SpriteFrameState *display;
-    S_func_800A1C94_2 *payload;
+    DoorProjectionChild *payload;
 
     object = allocate_list_node(0x136, &scene_object_list_anchor.next);
     if (object == 0) {
         return 0;
     }
 
-    object->unk_10 = render_shaded_object_primitive;
-    display = object->unk_0C;
-    object->unk_20 = initialize_indexed_render_state;
-
+    object->update_callback = render_shaded_object_primitive;
+    display = object->sprite;
     payload = NODE_BODY(object);
-    payload->unk_10 = payload_word;
-    payload->unk_20 = payload_halfword;
+    payload->update = initialize_indexed_render_state;
+    payload->parent = parent;
+    payload->index = index;
 
     display->scale_y = 0xAAA;
     display->scale_x = 0xAAA;

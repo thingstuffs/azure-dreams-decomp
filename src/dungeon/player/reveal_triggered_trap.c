@@ -31,7 +31,3 @@ s32 reveal_triggered_trap(void *actor, s32 unused_context_a, s32 unused_context_
 
     return result;
 }
-
-/* MECHANISM: Frameless leaf; an s32 cursor held in $v1 changes role from signed index
-   to record address, with the named base created before scaling to fix emission order.
-   A path-local $v0 zero edge and SHAPE-C constant return reproduce both tail slots. */

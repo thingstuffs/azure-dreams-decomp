@@ -7,23 +7,18 @@
 #endif
 
 /* Process the initial value and each linked record value until the chain ends. */
-s32 draw_linked_shaded_quad_rings(void *object, s32 x, s32 initial_value) {
-    s32 current_value;
+s32 draw_linked_shaded_quad_rings(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite) {
+    ObjectNodeHeader *next;
 
-
-    current_value = initial_value;
     for (;;) {
-
-        draw_shaded_quad_ring(current_value, x);
-        current_value = (s32)NODE_HEADER(object)->chain_next;
-        object = NODE_BODY((ObjectNodeHeader *)current_value);
-        if (current_value == 0) {
+        draw_shaded_quad_ring(sprite, position);
+        next = NODE_HEADER(object)->chain_next;
+        if (next == NULL) {
             break;
         }
-
-        x = (s32)((ObjectNodeHeader *)current_value)->position;
-
-        current_value = (s32)((ObjectNodeHeader *)current_value)->sprite;
+        object = NODE_BODY(next);
+        position = next->position;
+        sprite = next->sprite;
     }
     return 0;
 }

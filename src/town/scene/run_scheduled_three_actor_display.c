@@ -17,15 +17,8 @@
  * foff [0x7941B8,0x794610) with delta 0x7FD9AC00; the function is then named
  * run_scheduled_three_actor_display (true-space naming), as it is here.
  *
- * One non-obvious spelling is load-bearing (gcc 2.6.3 sched.c alias model):
- *  1) `*(u16 *)((u8 *)town_state + 26)` at the top of state1 instead of town_state->flags.
- *     true_dependence() drops the store->load dependence when the load is
- *     MEM_IN_STRUCT_P with a varying address and the store is a fixed-address
- *     non-struct global; a plain pointer deref clears MEM_IN_STRUCT_P and the
- *     dependence survives, so sched1 cannot hoist the load above
- *     `D_801328F8 = 0x400`.
- *  (was 2) the address-taken `checked:` label: now `case 1:` of the real switch, which
- *     keeps the CODE_LABEL that splits the basic block (retail's table entry 1 points there).
+ * The state-two flag test reads the address of the controller flag halfword.
+ * This keeps its load after the write to D_801328F8 with the registered compiler.
  */
 #include "common.h"
 #include "town/scene/collection.h"
@@ -33,25 +26,7 @@
 #include "town/data.h"
 #include "town/devkit/old_minigame_imports.h"
 
-typedef struct TownActor {
-    u8 pad0[0x70];
-    s16 field70;
-    s16 field72;
-    u8 pad74[2];
-    s16 field76;
-} TownActor;
-
-typedef struct TownState {
-    TownActor *actors[3];
-    s16 state;
-    s16 timer;
-    s16 index;
-    s16 pad12;
-    s16 score;
-    u16 counter;
-    s16 area;
-    u16 flags;
-} TownState;
+#include "town/scene/score_sprite_data.h"
 
 extern void create_object_position_configures_color(u32, s32, s32, s32);
 
@@ -70,9 +45,9 @@ extern s32 D_805305B0;
 extern s32 D_805305B4;
 
 /* Per-frame town-state step: run the arrival/idle/departure machine and drive its actors. */
-void run_scheduled_three_actor_display(TownState *town_state)
+void run_scheduled_three_actor_display(TownScoreCounterView *town_state)
 {
-    TownActor *actor;
+    RisingScorePanelNode *actor;
     s32 i;
     s32 state;
     s32 value;
@@ -99,7 +74,7 @@ void run_scheduled_three_actor_display(TownState *town_state)
         town_state->state = 1;
         /* fallthrough */
     case 1:
-        if (town_state->actors[0]->field70 == 1) {
+        if (town_state->panels[0]->panel.mode == 1) {
             town_state->counter = 0;
             town_state->timer = *(u16 *)&town_display_timing_table[town_state->area * 400 + town_state->index * 40];
             town_state->state = 2;
@@ -107,8 +82,11 @@ void run_scheduled_three_actor_display(TownState *town_state)
         break;
 
     case 2:
+    {
+        u16 *controller_flags = &town_state->flags;
+
         D_801328F8 = 0x400;
-        if (*(u16 *)((u8 *)town_state + 26) & 1) {
+        if (*controller_flags & 1) {
             town_state->flags &= ~1;
             town_state->index++;
             if (town_state->index >= 10) {
@@ -126,13 +104,15 @@ void run_scheduled_three_actor_display(TownState *town_state)
             do {
                 i = 2;
                 for (; i >= 0; i--) {
-                    town_state->actors[i]->field76 = func_80071494() % 3;
+                    town_state->panels[i]->panel.column = func_80071494() % 3;
                 }
-            } while (town_state->actors[0]->field76 == town_state->actors[1]->field76 ||
-                     town_state->actors[1]->field76 == town_state->actors[2]->field76 ||
-                     town_state->actors[2]->field76 == town_state->actors[0]->field76);
+            } while (town_state->panels[0]->panel.column == town_state->panels[1]->panel.column ||
+                     town_state->panels[1]->panel.column == town_state->panels[2]->panel.column ||
+                     town_state->panels[2]->panel.column == town_state->panels[0]->panel.column);
         }
         break;
+
+    }
 
     case 3:
         if (town_state->flags & 4) {
@@ -145,10 +125,10 @@ void run_scheduled_three_actor_display(TownState *town_state)
         i = 2;
         value = 2;
         do {
-            actor = town_state->actors[i];
+            actor = town_state->panels[i];
             i--;
-            actor->field72 = 0;
-            actor->field70 = value;
+            actor->panel.timer = 0;
+            actor->panel.mode = value;
         } while (i >= 0);
         func_8024A900();
         func_8024A884();
@@ -191,7 +171,10 @@ void run_scheduled_three_actor_display(TownState *town_state)
         }
         func_8003F75C(2);
         D_80095AAC = 0x00808080;
-        *(u16 *)((u8 *)town_state - 2) |= 0x8000;
+        {
+            u16 *flags = &NODE_HEADER(town_state)->flags;
+            *flags |= 0x8000;
+        }
         scene_object_flags |= 0x8000;
         break;
     }

@@ -1,5 +1,6 @@
 #ifndef ENGINE_RESOURCE_H
 #define ENGINE_RESOURCE_H
+struct ResourceTransitionBody;
 /* Prototypes of the functions defined in src/engine/resource/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -40,7 +41,7 @@ void load_scene_texture_resource(void);
 void flag_object_for_removal(unsigned short *object);
 
 /* entry_scene_begin_transition_data_read.c */
-void load_transition_image_and_begin_data_read(void *state);
+void load_transition_image_and_begin_data_read(struct ResourceTransitionBody *record);
 
 /* entry_sd_call.c */
 void request_scene_dispatch_state(s16 requested_state);

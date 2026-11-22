@@ -122,7 +122,7 @@ void initialize_threshold_interaction_object(ovl_16b08_local_7FFF6EC0_InitState 
 }
 
 /* Selects action_object_handler_table and installs update_actor_movement_with_radial_effects. */
-void init_radial_effects_action(ovl_16b08_local_7FFF6F00_InitState *state, void *unused, void *context) {
+void init_radial_effects_action(ovl_16b08_local_7FFF6F00_InitState *state, ObjectPosition *unused_position, void *context) {
     dispatch_selected_entry_if_nonzero(action_object_handler_table, state, context);
     state->callback = (void *)update_actor_movement_with_radial_effects;
 }

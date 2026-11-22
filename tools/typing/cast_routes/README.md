@@ -33,6 +33,22 @@ The unified planner contains four routes:
   object-pointer type for a fixed `const void *` argument. Variadic and
   unprototyped calls are excluded.
 
+The `address_member` route is opt-in (`--route address_member`; it never runs in a default plan and
+wins overlaps against the prefix-cast routes). It rewrites an address use `(u8 *)p + K` (also `(s8 *)`, `(char *)`,
+`(void *)((u8 *)p + K)`, chained constants, and `&((u8 *)p)[K]`) on a declared record pointer variable or member chain
+into the address of the member that starts exactly at byte K: `&p->member`, `p->array` for an array member, or
+`&p->array[i]` / `&p->inner.first`. The site's type must equal the member's pointer type (`long` and `int`, `char` and `signed char` stay distinct), or the context must convert
+to `void *` / `const void *` implicitly (then the outermost member at K is used); `--keep-cast` keeps one outer cast
+when two or more casts still drop to fewer. Refused with a hold reason: `dereferenced_use_is_cast_fold` (a typed
+read/write belongs to cast_fold), `base_not_record_pointer` (void/byte/integer base, `&object`, array decay, call
+result), `generated_record_view`, `qualified_base`, `negative_offset`, `beyond_struct`, `inside_scalar_member`,
+`inside_array_member` (K not on an element start), `pad_member`, `bitfield_member`, `qualified_member`,
+`function_pointer_or_multidimensional_member`, `impure_base`, `macro_or_missing_source_range`, `no_member_at_offset` (including members of anonymous unions, which the layout reader does not size), `ambiguous_members` (several members of the one type, or sibling union
+members), `pointee_type_mismatch`, `excluded_member`, `no_net_cast_reduction`. `--exclude-member RECORD:OFFSET[,OFFSET]`
+(repeatable; decimal or 0x; `RECORD:*` for the whole record) leaves the named base record and offsets alone, for
+example `--exclude-member ActorRecord:8,0xB,0xE`. Application, per-stream byte-identity capture and rollback are the
+shared machinery below. Tests: `test_address_member_route.py`.
+
 Macro source locations remain gated. Every edit joins fresh MIPS AST facts to
 current debt-matcher spans. `--route` restricts routes; `--file` restricts files; `--reason` isolates an exact guard reason for sampled proofs or recovery after a combined trial fails.
 Without `--census`, discovery visits every cast-bearing C file in the folder.

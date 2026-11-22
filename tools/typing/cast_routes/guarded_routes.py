@@ -41,6 +41,11 @@ def setup_root(root):
 setup_root(ROOT)
 
 ROUTES = ('redundant', 'node_body', 'numeric_member', 'qualified_argument')
+# address_member is opt-in (--route address_member): it never runs in a default plan.
+OPT_IN_ROUTES = ('address_member',)
+ALL_ROUTES = ROUTES + OPT_IN_ROUTES
+# Overlap precedence: the address rewrite replaces a whole expression, so it wins over a prefix-cast removal.
+ROUTE_ORDER = OPT_IN_ROUTES + ROUTES
 CATEGORIES = {'redundant', 'node_body', 'union_pun', 'call_arg'}
 HASH_KEYS = ('raw_sha256', 'canonical_assembly_sha256', 'canonical_object_sha256', 'variant_raw_sha256')
 
@@ -140,8 +145,145 @@ def integer_union_member(unit, value, want, text):
     return None
 
 
+SIMPLE_PATH = re.compile(r'[A-Za-z_]\w*(?:(?:->|\.)[A-Za-z_]\w*)*')
+DEREFERENCE_HOLDERS = ('MemberExpr', 'ArraySubscriptExpr')
+
+
+def parse_exclusions(specs):
+    """`RECORD:OFFSET[,OFFSET...]` (decimal or 0x) or `RECORD:*` -> {record: set of offsets | None (every offset)}."""
+    rules = {}
+    for spec in specs or ():
+        record, sep, offsets = spec.partition(':')
+        if not record or not sep or not offsets:
+            raise ValueError('exclusion must be RECORD:OFFSET[,OFFSET...] or RECORD:*: ' + spec)
+        if offsets.strip() == '*':
+            rules[record] = None
+            continue
+        if record in rules and rules[record] is None:
+            continue
+        rules.setdefault(record, set()).update(int(o, 0) for o in offsets.split(',') if o.strip())
+    return rules
+
+
+def excluded(rules, record, offset):
+    if record not in rules:
+        return False
+    return rules[record] is None or offset in rules[record]
+
+
+# Spellings of one C type; unlike cast_ast.SCALAR_ALIAS, `long` stays distinct from `int`
+# (gcc warns on a long * / int * mix, so an "exact" member type must not merge them).
+STRICT_ALIAS = {
+    'signed short': 'short', 'short int': 'short', 'signed short int': 'short',
+    'unsigned short int': 'unsigned short', 'signed int': 'int', 'signed': 'int', 'unsigned': 'unsigned int',
+    'long int': 'long', 'signed long': 'long', 'signed long int': 'long',
+    'unsigned long int': 'unsigned long',
+}
+
+
+def strict_canon(unit, spelling):
+    resolved = unit.T.resolve(spelling)
+    core = resolved.rstrip('*')
+    return STRICT_ALIAS.get(core, core) + '*' * (len(resolved) - len(core))
+
+
+def address_chain(unit, e):
+    """(leaf, constant byte offset | None, variable) of an address expression, also through `&p[K]`."""
+    total = 0
+    while True:
+        leaf, off, var = CC.chain_leaf(unit, e, A, C)
+        if var or off is None:
+            return leaf, None, True
+        total += off
+        if leaf.get('kind') == 'UnaryOperator' and leaf.get('opcode') == '&' and A.kids(leaf):
+            sub = A.strip_parens(A.kids(leaf)[0])
+            if sub.get('kind') == 'ArraySubscriptExpr' and len(A.kids(sub)) == 2:
+                array, index = A.kids(sub)
+                n = C.int_value(index)
+                pointee = unit.T.pointee(C.qtype(array))
+                scale = 1 if pointee in (None, 'void') else (unit.size(pointee) or 0)
+                if n is None or not scale:
+                    return leaf, None, True
+                total += n * scale
+                e = A.strip_parens(array)
+                continue
+        return leaf, total, False
+
+
+def member_candidates(unit, record, offset):
+    """[(path, expression type pointee, is_array)] of every non-padding member path starting at `offset`."""
+    found = []
+    for path, member_type, _ in unit.leaves_at(record, offset):
+        if F.PAD.search(path):
+            continue
+        member_type = member_type.strip()
+        match = A.ARRAY.match(member_type)
+        if match:
+            element = match.group(1).strip()
+            found.append((path, element, True, member_type))
+        else:
+            found.append((path, member_type, False, member_type))
+    return found
+
+
+def outermost(paths):
+    """Paths that do not extend another candidate (`a` outranks `a.b` and `a[0]`)."""
+    return [p for p in paths if not any(q != p and (p.startswith(q + '.') or p.startswith(q + '[')) for q in paths)]
+
+
+def choose_member(unit, record, offset, top_type, dest, keep_cast):
+    """(path, is_array, reason) for the member whose address is `(u8 *)p + offset`, or (None, None, hold_reason).
+
+    top_type / dest are canonical spellings: the type of the whole replaced expression and the type
+    its context converts it to ('' when the context performs no implicit conversion)."""
+    size = unit.layouts.get(record, {}).get('size') or 0
+    if offset >= size:
+        return None, None, 'beyond_struct'
+    found = member_candidates(unit, record, offset)
+    if not found:
+        if any(True for _ in unit.leaves_at(record, offset)):
+            return None, None, 'pad_member'
+        for node in unit.layouts[record]['kids']:
+            if node['bits'] and node['off'] <= offset < node['off'] + (unit.size(node['type']) or 0):
+                return None, None, 'bitfield_member'
+        inside = CC._inside(unit, record, offset)
+        return None, None, {'array_member': 'inside_array_member', 'array_of_struct': 'inside_array_member',
+                            'inside_scalar': 'inside_scalar_member', 'inside_substruct': 'inside_scalar_member'
+                            }.get(inside, 'no_member_at_offset')
+    if any(re.search(r'\b(?:const|volatile)\b', member_type) for _, _, _, member_type in found):
+        return None, None, 'qualified_member'
+    if any('(*' in member_type or '[' in element for _, element, _, member_type in found):
+        return None, None, 'function_pointer_or_multidimensional_member'
+    by_path = {path: (element, is_array) for path, element, is_array, _ in found}
+    # `a[0]` and `a` are one address; keep the shorter spelling.
+    drop = {p for p in by_path if p.endswith('[0]') and p[:-3] in by_path and by_path[p[:-3]][1]}
+    exact = [p for p, (element, _) in by_path.items()
+             if p not in drop and strict_canon(unit, element + '*') == top_type]
+    if len(exact) > 1:
+        return None, None, 'ambiguous_members'
+    if exact:
+        return exact[0], by_path[exact[0]][1], 'exact_member_address'
+    top_paths = outermost([p for p in by_path if p not in drop])
+    if top_type in ('void*', 'const void*') and dest == top_type:
+        if len(top_paths) != 1:
+            return None, None, 'ambiguous_members'
+        return top_paths[0], by_path[top_paths[0]][1], 'untyped_void_context_member_address'
+    if keep_cast:
+        if len(top_paths) != 1:
+            return None, None, 'ambiguous_members'
+        return top_paths[0], by_path[top_paths[0]][1], 'member_address_cast_kept'
+    return None, None, 'pointee_type_mismatch'
+
+
+def member_expression(base_text, path, is_array):
+    base = base_text if SIMPLE_PATH.fullmatch(base_text) else '(' + base_text + ')'
+    return (base + '->' + path) if is_array else ('&' + base + '->' + path)
+
+
 def scan(job):
-    root, tu, recipe, files = job
+    root, tu, recipe, files = job[:4]
+    options = job[4] if len(job) > 4 else {}
+    exclusions = parse_exclusions(options.get('exclude_member'))
     setup_root(root)
     unit, error = A.clang_unit(ROOT, tu, recipe)
     result = dict(tu=tu, plans=[], holds=[], error=error or '')
@@ -158,6 +300,7 @@ def scan(job):
             lexical_cache[file] = {int(r['start']): r for r in census.lexical(ROOT, file)}
         lexical = lexical_cache[file]
         parents = {id(n): p for n, p in A.walk(declaration)}
+        address_seen = set()
 
         def hold(route, node, reason):
             span = A.node_range(node, text)
@@ -192,8 +335,67 @@ def scan(job):
                                         route=route, start=a, end=b, old=text[a:b], new=replacement,
                                         casts=net_casts, reason=reason, source_sha256=digest(text), tu=tu))
 
+
+        def address_member_site(node):
+            """`(u8 *)p + K` / `&((u8 *)p)[K]` used as an address -> the address of p's member at K."""
+            top, holder = CC.climb(parents, node, A, C)
+            if id(top) in address_seen:
+                return
+            address_seen.add(id(top))
+            if not CC.is_pointer(C.qtype(top)):
+                return
+            leaf, offset, variable = address_chain(unit, top)
+            if variable or offset is None or offset == 0 or not leaf:
+                return
+            if not any(n.get('kind') == 'CStyleCastExpr' for n, _ in A.walk(top)):
+                return
+            if typed_node_access(holder):
+                hold('address_member', top, 'dereferenced_use_is_cast_fold')
+                return
+            base = A.strip_implicit(leaf)
+            record = unit.record_of_pointer(C.qtype(base)) if base.get('kind') in ('DeclRefExpr', 'MemberExpr') else None
+            if not record:
+                hold('address_member', top, 'base_not_record_pointer')
+                return
+            if offset < 0:
+                hold('address_member', top, 'negative_offset')
+                return
+            if CC.GENERATED.search(record):
+                hold('address_member', top, 'generated_record_view')
+                return
+            base_type = census.canonical(C.qtype(base), unit.typedefs)
+            if re.search(r'\b(?:const|volatile)\b', base_type + ' ' + C.qtype(base)) or unit.volatile(C.qtype(base)):
+                hold('address_member', top, 'qualified_base')
+                return
+            if excluded(exclusions, record, offset):
+                hold('address_member', top, 'excluded_member')
+                return
+            if not A.pure(base):
+                hold('address_member', top, 'impure_base')
+                return
+            bspan = A.node_range(base, text)
+            if not bspan:
+                hold('address_member', top, 'macro_or_missing_source_range')
+                return
+            _, _, dest = context(parents, top, declaration, unit)
+            top_type = strict_canon(unit, C.qtype(top))
+            path, is_array, reason = choose_member(unit, record, offset, top_type, strict_canon(unit, dest) if dest else '',
+                                                   options.get('keep_cast', False))
+            if path is None:
+                hold('address_member', top, reason)
+                return
+            replacement = member_expression(text[bspan[0]:bspan[1]], path, is_array)
+            if reason == 'member_address_cast_kept':
+                replacement = '(' + C.qtype(top) + ')' + replacement
+            emit('address_member', top, replacement, reason)
+
         for node, parent in A.walk(declaration):
             kind = node.get('kind')
+            if options.get('address_member') and not A.in_macro(node) and (
+                    (kind == 'CStyleCastExpr' and CC.is_pointer(C.qtype(node)) and A.kids(node)) or
+                    (kind == 'UnaryOperator' and node.get('opcode') == '&' and A.kids(node) and
+                     A.strip_parens(A.kids(node)[0]).get('kind') == 'ArraySubscriptExpr')):
+                address_member_site(node)
             if kind == 'CStyleCastExpr' and CC.is_pointer(C.qtype(node)) and A.kids(node):
                 span = A.node_range(node, text)
                 if not span or span[0] not in lexical:
@@ -374,7 +576,14 @@ def main():
     ap.add_argument('--after-file', default='')
     ap.add_argument('--discover-all', action='store_true')
     ap.add_argument('--file', action='append', help='restrict discovery to an explicit source in the allowed folder')
-    ap.add_argument('--route', action='append', choices=ROUTES, help='restrict to selected routes')
+    ap.add_argument('--route', action='append', choices=ALL_ROUTES,
+                    help='restrict to selected routes; address_member runs only when named here')
+    ap.add_argument('--exclude-member', action='append', default=[], metavar='RECORD:OFFSET[,OFFSET...]',
+                    help='address_member: leave sites whose base record is RECORD and byte offset is listed '
+                         '(decimal or 0x; RECORD:* excludes the record), e.g. ActorRecord:8,0xB,0xE')
+    ap.add_argument('--keep-cast', action='store_true',
+                    help='address_member: when the member type differs from the site type keep one outer cast '
+                         '(accepted only when casts still drop)')
     ap.add_argument('--reason', action='append', help='restrict to exact guard reasons for isolated trials')
     ap.add_argument('--apply', action='store_true')
     args = ap.parse_args()
@@ -383,6 +592,11 @@ def main():
     assert not folder.is_absolute() and folder.parts[0] == 'src' and '..' not in folder.parts
     assert (ROOT / folder).resolve().is_relative_to(ROOT)
     assert 1 <= args.workers <= 6
+    parse_exclusions(args.exclude_member)
+    options = dict(address_member='address_member' in (args.route or ()), exclude_member=args.exclude_member,
+                   keep_cast=args.keep_cast)
+    if (args.exclude_member or args.keep_cast) and not options['address_member']:
+        ap.error('--exclude-member and --keep-cast need --route address_member')
     out = args.out.resolve()
     assert out.is_relative_to(ROOT) and not out.is_relative_to(HERE)
     out.mkdir(parents=True,exist_ok=True)
@@ -405,20 +619,20 @@ def main():
     print('scan',args.folder,len(files),'files',len(tus),'TUs',flush=True)
     plans, holds, errors = [], [], []
     with ProcessPoolExecutor(max_workers=args.workers) as pool:
-        for res in pool.map(scan,[(str(ROOT),t,r,files) for t,r in sorted(tus.items())]):
+        for res in pool.map(scan,[(str(ROOT),t,r,files,options) for t,r in sorted(tus.items())]):
             plans.extend(res['plans']); holds.extend(res['holds'])
             if res['error']:
                 errors.append(dict(tu=res['tu'],reason='clang_diagnostic',detail=res['error']))
     unique = {}
     for p in plans:
-        if args.route and p['route'] not in args.route:
+        if p['route'] not in (args.route or ROUTES):
             continue
         if args.reason and p['reason'] not in args.reason:
             continue
         key = (p['file'],p['start'],p['end'],p['new'],p['route'])
         unique.setdefault(key,p)
     selected = defaultdict(list)
-    for p in sorted(unique.values(),key=lambda p:(ROUTES.index(p['route']),p['file'],p['start'],-p['end'])):
+    for p in sorted(unique.values(),key=lambda p:(ROUTE_ORDER.index(p['route']),p['file'],p['start'],-p['end'])):
         if any(p['start'] < q['end'] and q['start'] < p['end'] for q in selected[p['file']]):
             holds.append(dict(file=p['file'],route=p['route'],line=p['line'],reason='overlap_with_earlier_route'))
             continue
@@ -435,7 +649,7 @@ def main():
     write_edits(out/'plan.tsv', [p for f in sorted(selected) for p in selected[f]])
     census.write_tsv(out/'holds.tsv',['file','route','line','reason'],holds)
     (out/'errors.json').write_text(json.dumps(errors,indent=2)+'\n')
-    summary = dict(folder=args.folder,files_scanned=len(files),last_file=files[-1] if files else '',plans=len(unique),selected_files=len(selected),selected_casts=dict(Counter({route:sum(p['casts'] for edits in selected.values() for p in edits if p['route']==route) for route in ROUTES})),holds=dict(Counter(p['reason'] for p in holds)),errors=len(errors),applied=False)
+    summary = dict(folder=args.folder,files_scanned=len(files),last_file=files[-1] if files else '',plans=len(unique),selected_files=len(selected),selected_casts=dict(Counter({route:sum(p['casts'] for edits in selected.values() for p in edits if p['route']==route) for route in ALL_ROUTES})),holds=dict(Counter(p['reason'] for p in holds)),errors=len(errors),applied=False)
     print('plan',json.dumps(summary,sort_keys=True),flush=True)
     if args.apply and proposed:
         touched,_ = F.physical_for(ROOT,sorted(proposed))
@@ -469,7 +683,7 @@ def main():
             (out/'identity.json.gz').write_bytes(gzip.compress(json.dumps(receipts,separators=(',',':')).encode()))
             accepted_plans = [p for f in sorted(accepted) for p in selected[f]]
             write_edits(out/'applied.tsv',accepted_plans)
-            summary.update(applied=True,accepted_files=len(accepted),accepted_casts={r:sum(p['casts'] for p in accepted_plans if p['route']==r) for r in ROUTES},rejected_files=sorted(set(proposed)-accepted))
+            summary.update(applied=True,accepted_files=len(accepted),accepted_casts={r:sum(p['casts'] for p in accepted_plans if p['route']==r) for r in ALL_ROUTES},rejected_files=sorted(set(proposed)-accepted))
         except BaseException:
             for file in proposed:
                 (ROOT/file).write_text(original[file])

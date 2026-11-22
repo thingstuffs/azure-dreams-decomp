@@ -922,11 +922,11 @@ void choose_flame_move(ActorRecord *move_data, ObjectPosition *context, SpriteFr
             {
                 u8 *x_step;
 
-                x_step = (u8 *)((s8 *)dir_step_x);
+                x_step = (u8 *)dir_step_x;
                 step_offset = (actor_data->facing >> 8) & 0xE;
                 x_step += step_offset;
                 position_data->tile_x += *x_step;
-                position_data->tile_y += *((u8 *)((s8 *)dir_step_y) + step_offset);
+                position_data->tile_y += *((u8 *)dir_step_y + step_offset);
             }
 
             cycle_map_cell_flags((s16)position_data->tile_x,(s16)position_data->tile_y,(u16)((actor_data->flags1C & ACTOR_PLAYER_SIDE) ? 0x300 : 0x3000));
@@ -1348,10 +1348,7 @@ void cast_flame_targeted_spell(ActorRecord *action, ObjectPosition *position, Sp
     }
 }
 
-/* MECHANISM: The 0x38 frame naturally holds args in s3/s4/s2/s1, with s5 state and s0 choice. Carrying
-   the loaded object through the copy join removes a redundant lw+nop pair. A kept special-test copy
-   restores move v0,s5; holding the copied record in v1 closes the final four register-field
-   substitutions. */
+/* Resolves Flame's targeted spell and clears its pending action after the spell completes. */
 
 /* Applies a value change and knockback, decelerates the actor, then recenters it and restores movement. */
 void damp_flame_motion_and_recenter(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *tile_state, ActorRecord *entity) {
@@ -1957,12 +1954,7 @@ s32 project_flame_sprite_chain(void *initial_payload, ObjectPosition *entry_data
     }
 }
 
-/*
- * Projects linked effect positions and queues brightness-scaled pixel and drawing-mode packets by
- * depth.
- *
- * MECHANISM: Typed page and scratch fields preserve the signed lh/sw widths and offsets.
- */
+/* Projects linked effects and queues brightness-scaled point and drawing-mode packets by depth. */
 s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg)
 {
     u8 **state_ptr;
@@ -2164,15 +2156,7 @@ void spawn_jittered_shaded_point(
     }
 }
 
-/*
- * Projects an effect quad, clips it by depth and screen bounds, then queues a colored textured
- * polygon.
- *
- * MECHANISM: a splitting cell (2.8.0-G0) emits ((u8 *)advance_randomized_motion_and_complete) /
- * ((u8 *)append_linked_shaded_point_packets) as HIGH/LO pairs itself (the lui in the beqz delay
- * slot). The s16 stack offsets stay in s2-s4 from the prologue, and fields is the 0x20-advanced
- * record.
- */
+/* Projects an effect quad, clips it by depth and screen bounds, and queues a colored textured polygon. */
 void project_and_queue_textured_quad(ActorRecord *quad, ObjectPosition *position, SpriteFrameState *draw_state, s16 depth_bias)
 {
     R06_80174334_S_80174334_0 *scratch = (R06_80174334_S_80174334_0 *)0x1F800000;

@@ -27,7 +27,6 @@ void finish_pulunpa_floor_trap_check(ActorRecord *object, ObjectPosition *positi
 void display_record_name_message(void *record);
 void display_actor_message(ActorRecord *source);
 
-/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 struct S_8017405C_1;
 void choose_heading_and_advance_actor(ActorRecord *body, s32 action, struct S_8017405C_1 *actor, ActorRecord *movement);
 void advance_selected_item_action(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);

@@ -1897,7 +1897,7 @@ void finish_griffon_fade_in(ActorRecord *state, ObjectPosition *motion, SpriteFr
 }
 
 /* Projects visible sprites in the linked effect chain using the shared depth adjustment. */
-s32 project_griffon_sprite_chain(void *initial_payload, s32 entry_data, SpriteFrameState *entry, s32 unused)
+s32 project_griffon_sprite_chain(void *initial_payload, ObjectPosition *entry_data, SpriteFrameState *entry, s32 unused)
 {
     void *payload = initial_payload;
     R08_801740F4_Scratchpad *scratch = (R08_801740F4_Scratchpad *)0x1F800000;
@@ -1915,7 +1915,7 @@ s32 project_griffon_sprite_chain(void *initial_payload, s32 entry_data, SpriteFr
             return 0;
         }
         payload = NODE_BODY(next_node);
-        entry_data = (s32)next_node->position;
+        entry_data = next_node->position;
         entry = next_node->sprite;
     }
 }

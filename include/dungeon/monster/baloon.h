@@ -33,7 +33,6 @@ typedef struct {
 void create_baloon_translucent_copy(void *unused, BaloonTemplateAnchor *anchor,
     SpriteFrameState *object_template, ActorRecord *facing_source);
 
-/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void spawn_angled_random_velocity_effect(EntityRec *source, u32 angle, s32 effect_param);
 
 /* Timer and fade divisor for a directional random-velocity effect. */

@@ -70,7 +70,7 @@ void unlink_entity_node();
 
 void *advance_staged_entity_load(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 void create_cylindrical_effect(); /* Unprototyped: retail passes an unused sprite; dropping it changes bytes. */
-s32 lookup_masked_byte_table(void *, ...);
+s32 lookup_masked_byte_table(ActorRecord *actor);
 extern void func_8017487C(u8 *task, void *context, SpriteFrameState *input);
 extern s32 D_80174FB4;
 extern s32 D_80174FD0[];

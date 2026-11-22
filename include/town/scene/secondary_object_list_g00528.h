@@ -5,12 +5,16 @@
 
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800FE490.h"
+#include "town/scene/active_object_overlap_g00529.h"
 
-extern void *town_motion_list[];
+extern TownMotionListNode town_motion_list;
 
 /* Functions defined in this translation unit. */
-void append_secondary_list_node(void *node);
-void prepend_secondary_list_node(void *node);
+void append_secondary_list_node(TownMotionListNode *node);
+void prepend_secondary_list_node(TownMotionListNode *node);
+
+void init_secondary_list_record(TownMotionListNode *record, ObjectPosition *position, Box *bounds);
+void update_record_overlap_node(TownMotionListNode *record);
+s32 has_attached_state_type_1_or_3(TownMotionListNode *record);
 
 #endif

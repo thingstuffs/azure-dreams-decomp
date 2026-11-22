@@ -3,23 +3,6 @@
 #include "town/shop/item_menu_cursor_transition_g00601.h"
 #include "town/shop/floating_number_widget_g00612.h"
 
-typedef struct S_800AEBC4_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x4];
-    s16 unk_08;
-    s16 unk_0A;
-    s16 unk_0C;
-    u8 pad_0E[0x1];
-    u8 unk_0F;
-} S_800AEBC4_2;   /* the position / secondary records config links */
-
-typedef struct S_800AEBC4_4 {
-    s32 unk_00;
-    S_800AEBC4_2 *unk_04;
-    S_800AEBC4_2 *unk_08;
-} S_800AEBC4_4;   /* config */
-
 /* Copies two templates into linked records and initializes position and offset vectors. */
 void init_item_menu_list_position(ItemMenuTransition *vectors, S_800AEBC4_4 *config, s32 *position_data,
                    s32 *secondary_data, s32 x, s32 y) {

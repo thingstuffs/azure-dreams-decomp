@@ -22,7 +22,7 @@ typedef struct {
 extern Pair D_80089128;
 
 /* Process a position and its raised copy using a local vector pair. */
-void spawn_paired_radial_effects(s32 unused_arg, s32 *position) {
+void spawn_paired_radial_effects(struct TownObjectRecord *unused_owner, s32 *position) {
     Pair pair;
     Work raised_pos;
 

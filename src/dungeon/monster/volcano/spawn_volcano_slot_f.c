@@ -6,7 +6,6 @@
 #include "dungeon/monster/volcano/spawn_volcano_slot_f.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
-#include "dungeon/monster/volcano/spawn_volcano_slot_f.h"
 #include "dungeon/actor.h"
 
 /* Creates a Volcano actor at the supplied tile and height, then initializes mode flags, status, and

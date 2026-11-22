@@ -8,29 +8,29 @@
 #include "town/menu/motion.h"
 
 /* Process linked states until a nonzero signed 16-bit result or the end of the chain. */
-s32 emit_linked_segment_chain(void *initial_state, s32 carrier1, u8 *carrier2) {
-    u8 *state = initial_state;
+s32 emit_linked_segment_chain(MenuAnimationPhaseObject *state, ObjectPosition *position, SpriteFrameState *sprite) {
+    ObjectNodeHeader *next;
     u16 result;
 
     for (;;) {
-        result = emit_bidirectional_angular_segments((S_800A3B80_3 *)state, carrier1, carrier2);
+        result = emit_bidirectional_angular_segments(state, position, sprite);
         if ((result << 0x10) != 0) {
             return (s16)result;
         }
 
-        carrier2 = *(u8 **)(state - 8);
-        if (carrier2 == 0) {
+        next = NODE_HEADER(state)->chain_next;
+        if (next == 0) {
             return (s16)result;
         }
 
-        state = carrier2 + 0x20;
-        carrier1 = *(s32 *)(carrier2 + 8);
-        carrier2 = (u8 *)(u32)*(s32 *)(carrier2 + 0xC);
+        state = NODE_BODY(next);
+        position = next->position;
+        sprite = next->sprite;
     }
 }
 
 /* Emits segments in both angular directions and updates the town output pointer. */
-s32 emit_bidirectional_angular_segments(S_800A3B80_3 *object, s32 unused, void *context)
+s32 emit_bidirectional_angular_segments(MenuAnimationPhaseObject *object, ObjectPosition *position, SpriteFrameState *sprite)
 {
 
     TownStripScratch *scratch;
@@ -46,7 +46,6 @@ s32 emit_bidirectional_angular_segments(S_800A3B80_3 *object, s32 unused, void *
     void *output;
     void *next_output;
     GpuContext *end_town;
-    S_800A3B80_1 *context_view;
     S_800A3B80_2 *context_data;
     u16 origin_y;
     u16 origin_x;
@@ -61,12 +60,11 @@ s32 emit_bidirectional_angular_segments(S_800A3B80_3 *object, s32 unused, void *
     scratch->unk_20.p = (u8 *)town + 0x8B0;
     origin_y = D_80100D88;
     origin_x = (u16)town_display_offset;
-    context_view = context;
-    context_data = context_view->unk_08;
+    context_data = sprite->source;
     scratch->unk_118.p = context_data;
-    context_view->unk_0F = context_data->unk_01;
+    sprite->color.c.code = context_data->unk_01;
 
-    angle_or_coord = object->unk_06;
+    angle_or_coord = (u8)object->phase;
     view_angle = ((u16)g_game_work.view.camera_rotation.parts.viewAngle);
     angle_or_coord += 0xC00;
     view_angle = (view_angle + 0x80) & 0xF00;
@@ -88,14 +86,14 @@ forward_segment:
 
         angle_or_coord = shifted >> 16;
     }
-    if (object->unk_0C != 0) {
+    if (object->state != 0) {
         coord_value = angle_or_coord -
             (rsin(((s32)(forward_angle << 16) >> 14) +
-                           (object->unk_00 << 5)) >> 1);
+                           (object->frame << 5)) >> 1);
     } else {
         coord_value = angle_or_coord +
             (rsin(((s32)(forward_angle << 16) >> 14) +
-                           (object->unk_00 << 5)) >> 1);
+                           (object->frame << 5)) >> 1);
     }
     stepped = forward_angle + 0x80;
     forward_angle = stepped;
@@ -116,16 +114,16 @@ forward_segment:
     coord_x = coord_value;
     coord_value <<= 16;
     angle_or_coord = coord_value >> 16;
-    if (object->unk_0C != 0) {
+    if (object->state != 0) {
         result = angle_or_coord -
-            (rsin((next_angle * 4) + (object->unk_00 << 5)) >> 1);
+            (rsin((next_angle * 4) + (object->frame << 5)) >> 1);
     } else {
         result = angle_or_coord +
-            (rsin((next_angle * 4) + (object->unk_00 << 5)) >> 1);
+            (rsin((next_angle * 4) + (object->frame << 5)) >> 1);
     }
     scratch->data8A = result;
     scratch->data7A = result;
-    next_output = project_visible_textured_strips(object, context, scratch, output, 0);
+    next_output = project_visible_textured_strips(object, sprite, scratch, output, 0);
     if (next_output != 0) {
         output = next_output;
 
@@ -136,14 +134,14 @@ forward_segment:
 
             angle_or_coord = shifted >> 16;
         }
-        if (object->unk_0C != 0) {
+        if (object->state != 0) {
             coord_value = angle_or_coord -
                 (rsin(((s32)(forward_angle << 16) >> 14) +
-                               (object->unk_00 << 5)) >> 1);
+                               (object->frame << 5)) >> 1);
         } else {
             coord_value = angle_or_coord +
                 (rsin(((s32)(forward_angle << 16) >> 14) +
-                               (object->unk_00 << 5)) >> 1);
+                               (object->frame << 5)) >> 1);
         }
         stepped = forward_angle + 0x80;
         forward_angle = stepped;
@@ -164,16 +162,16 @@ forward_segment:
         coord_x = coord_value;
         coord_value <<= 16;
         angle_or_coord = coord_value >> 16;
-        if (object->unk_0C != 0) {
+        if (object->state != 0) {
             result = angle_or_coord -
-                (rsin((next_angle * 4) + (object->unk_00 << 5)) >> 1);
+                (rsin((next_angle * 4) + (object->frame << 5)) >> 1);
         } else {
             result = angle_or_coord +
-                (rsin((next_angle * 4) + (object->unk_00 << 5)) >> 1);
+                (rsin((next_angle * 4) + (object->frame << 5)) >> 1);
         }
         scratch->data8A = result;
         scratch->data7A = result;
-        next_output = project_visible_textured_strips(object, context, scratch, output, 1);
+        next_output = project_visible_textured_strips(object, sprite, scratch, output, 1);
         if (next_output != 0) {
             output = next_output;
             goto forward_segment;
@@ -195,14 +193,14 @@ reverse_segment:
 
         angle_or_coord = shifted >> 16;
     }
-    if (object->unk_0C != 0) {
+    if (object->state != 0) {
         coord_value = angle_or_coord -
             (rsin(((s32)(reverse_angle << 16) >> 14) +
-                           (object->unk_00 << 5)) >> 1);
+                           (object->frame << 5)) >> 1);
     } else {
         coord_value = angle_or_coord +
             (rsin(((s32)(reverse_angle << 16) >> 14) +
-                           (object->unk_00 << 5)) >> 1);
+                           (object->frame << 5)) >> 1);
     }
     stepped = reverse_angle - 0x80;
     reverse_angle = stepped;
@@ -223,16 +221,16 @@ reverse_segment:
     coord_x = coord_value;
     coord_value <<= 16;
     angle_or_coord = coord_value >> 16;
-    if (object->unk_0C != 0) {
+    if (object->state != 0) {
         result = angle_or_coord -
-            (rsin((next_angle * 4) + (object->unk_00 << 5)) >> 1);
+            (rsin((next_angle * 4) + (object->frame << 5)) >> 1);
     } else {
         result = angle_or_coord +
-            (rsin((next_angle * 4) + (object->unk_00 << 5)) >> 1);
+            (rsin((next_angle * 4) + (object->frame << 5)) >> 1);
     }
     scratch->data82 = result;
     scratch->data72 = result;
-    next_output = project_visible_textured_strips(object, context, scratch, output, 1);
+    next_output = project_visible_textured_strips(object, sprite, scratch, output, 1);
     if (next_output != 0) {
         output = next_output;
 
@@ -243,14 +241,14 @@ reverse_segment:
 
             angle_or_coord = shifted >> 16;
         }
-        if (object->unk_0C != 0) {
+        if (object->state != 0) {
             coord_value = angle_or_coord -
                 (rsin(((s32)(reverse_angle << 16) >> 14) +
-                               (object->unk_00 << 5)) >> 1);
+                               (object->frame << 5)) >> 1);
         } else {
             coord_value = angle_or_coord +
                 (rsin(((s32)(reverse_angle << 16) >> 14) +
-                               (object->unk_00 << 5)) >> 1);
+                               (object->frame << 5)) >> 1);
         }
         stepped = reverse_angle - 0x80;
         reverse_angle = stepped;
@@ -271,16 +269,16 @@ reverse_segment:
         coord_x = coord_value;
         coord_value <<= 16;
         angle_or_coord = coord_value >> 16;
-        if (object->unk_0C != 0) {
+        if (object->state != 0) {
             result = angle_or_coord -
-                (rsin((next_angle * 4) + (object->unk_00 << 5)) >> 1);
+                (rsin((next_angle * 4) + (object->frame << 5)) >> 1);
         } else {
             result = angle_or_coord +
-                (rsin((next_angle * 4) + (object->unk_00 << 5)) >> 1);
+                (rsin((next_angle * 4) + (object->frame << 5)) >> 1);
         }
         scratch->data82 = result;
         scratch->data72 = result;
-        next_output = project_visible_textured_strips(object, context, scratch, output, 0);
+        next_output = project_visible_textured_strips(object, sprite, scratch, output, 0);
         if (next_output != 0) {
             output = next_output;
             goto reverse_segment;
@@ -292,8 +290,7 @@ reverse_segment:
 }
 
 /* Projects and draws visible textured strips, returning the next free primitive. */
-void *project_visible_textured_strips(void *origin_arg, void *render_flags, TownStripScratch *draw_state, void *prim_buffer, u16 texture_index) {
-    MenuAnimationPhaseObject *origin = origin_arg;
+void *project_visible_textured_strips(MenuAnimationPhaseObject *origin, SpriteFrameState *sprite, TownStripScratch *draw_state, void *prim_buffer, u16 texture_index) {
     s32 buckets[2];
     u16 texture_id;
     u16 base_shade;
@@ -332,6 +329,7 @@ void *project_visible_textured_strips(void *origin_arg, void *render_flags, Town
     void *entry_cursor;
     s32 half_index;
     s32 texture_entry;
+    S_800A41D8_7 *texture;
     s32 strip_index;
     s32 *bucket_list;
     s32 *bucket_slot;
@@ -436,14 +434,15 @@ void *project_visible_textured_strips(void *origin_arg, void *render_flags, Town
                     SetPolyFT4(prim_buffer);
                     quad_view->unk_07 =
                         (u8) (quad_view->unk_07
-                        | (((S_800A41D8_6 *)render_flags)->unk_0F & 2));
-                    draw_state->unk_08.n = (s32) ((S_800A41D8_7 *)texture_entry)->unk_08;
-                    draw_state->unk_0C.n = (s32) ((S_800A41D8_7 *)texture_entry)->unk_09;
+                        | (sprite->color.c.code & 2));
+                    texture = (S_800A41D8_7 *)(unsigned long)(u32)texture_entry;
+                    draw_state->unk_08.n = (s32) texture->unk_08;
+                    draw_state->unk_0C.n = (s32) texture->unk_09;
                     uv_left = draw_state->unk_08.v;
                     uv_top = draw_state->unk_0C.v;
-                    draw_state->unk_10 = (s32) ((S_800A41D8_7 *)texture_entry)->unk_0A;
+                    draw_state->unk_10 = (s32) texture->unk_0A;
                     uv_value = uv_top;
-                    draw_state->unk_14.n = (s32) ((S_800A41D8_7 *)texture_entry)->unk_0B;
+                    draw_state->unk_14.n = (s32) texture->unk_0B;
                     uv_top <<= 8;
                     draw_state->unk_0C.n = uv_top;
                     uv_height = draw_state->unk_14.v;
@@ -453,9 +452,9 @@ void *project_visible_textured_strips(void *origin_arg, void *render_flags, Town
                     draw_state->unk_10 = (s32) (draw_state->unk_10 + uv_left);
                     uv_value_2 = draw_state->unk_08.v;
                     uv_view->uv_0 = (s32) ((uv_top + uv_value_2)
-                        | (((S_800A41D8_7 *)texture_entry)->unk_06 << 0x10));
+                        | (texture->unk_06 << 0x10));
                     uv_view->uv_1 = (s32) ((draw_state->unk_0C.n
-                        + draw_state->unk_10) | (((S_800A41D8_7 *)texture_entry)->unk_04 << 0x10));
+                        + draw_state->unk_10) | (texture->unk_04 << 0x10));
                     uv_view->uv_2 = (s16) ((u16) draw_state->unk_14.n
                         + (u16) draw_state->unk_08.n);
                     right_u = (u8)(quad_view->unk_14 - 1);
@@ -515,30 +514,30 @@ void create_resource_display_object(s16 resource_index) {
 
     ObjectNodeHeader *object;
     MenuAnimationPhaseObject *object_state;
-    S_800A47A8_1 *component;
-    SpriteFrameState *scale;
+    ObjectPosition *position;
+    SpriteFrameState *sprite;
 
     object = allocate_flagged_object_node(0x12);
     if (object != NULL) {
         object->update_callback = advance_animation_phase_and_frame;
         register_node(object, D_800A3B1C);
         object->sprite->source = D_800D0C40[resource_index];
-        component = object->sprite;
-        component->unk_0E = 0xE0;
-        component->unk_0D = 0xE0;
-        component->unk_0C = 0xE0;
-        scale = object->sprite;
-        scale->scale_y = 0x1000;
-        scale->scale_x = 0x1000;
-        component = object->position;
-        ((LargeS16 *)&D_80100D88)->value = 0;
-        component->unk_02 = 0;
-        component = object->position;
-        ((LargeS16 *)&town_display_offset)->value = 0;
-        component->unk_06 = 0;
-        component = object->position;
-        component->unk_0A = 0x4000;
-        object_state = ((void *)object) + 0x20;
+        sprite = object->sprite;
+        sprite->color.c.b = 0xE0;
+        sprite->color.c.g = 0xE0;
+        sprite->color.c.r = 0xE0;
+        sprite = object->sprite;
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
+        position = object->position;
+        D_80100D88 = 0;
+        position->x.w.i = 0;
+        position = object->position;
+        town_display_offset = 0;
+        position->y.w.i = 0;
+        position = object->position;
+        position->z.w.i = 0x4000;
+        object_state = NODE_BODY(object);
         object_state->state = resource_index;
         object_state->transition = 0;
         object_state->step = 0;

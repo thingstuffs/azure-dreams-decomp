@@ -1,5 +1,7 @@
 #ifndef ENGINE_TEXT_H
 #define ENGINE_TEXT_H
+struct ResourceTransitionBody;
+struct ObjectNodeHeader;
 /* Prototypes of the functions defined in src/engine/text/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -52,10 +54,10 @@ u8 *remap_flagged_string_bytes(u8 *string);
 void set_style_for_tagged_glyph_entries(u8 *entries, s32 process_arg);
 
 /* set_object_and_global_removal_flag.c */
-void set_object_and_global_removal_flag(unsigned short *object_fields);
+void set_object_and_global_removal_flag(struct ObjectNodeHeader *node);
 
 /* set_object_and_global_removal_flag_second.c */
-void propagate_linked_removal_request(void *link_field);
+void propagate_linked_removal_request(struct ResourceTransitionBody *body);
 
 /* string_has_non_whitespace.c */
 s32 string_has_non_whitespace(u8 *text);

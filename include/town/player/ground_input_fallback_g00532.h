@@ -11,6 +11,8 @@
 #include "shared/entity.h"
 #include "town/player/coordinates.h"
 
+struct SpriteFrameState;
+
 void initialize_actor_action_state();
 /* extern */
 void initialize_action_object();
@@ -21,11 +23,11 @@ void apply_velocity_friction(ObjectPosition *record);
 /* extern */
 /* extern */
 void resolve_collision_axis_order(ObjectPosition *position);
-extern void init_input_action_fallback(void *, void *, s32);
+extern void init_input_action_fallback(void *, void *, void *);
 
 /* Functions defined in this translation unit. */
-void update_actor_ground_and_input(s32 controller, ObjectPosition *actor, s32 context);
-void update_and_fallback_on_input(s32 *value, ObjectPosition *context, s32 update_arg);
-void update_input_and_fallback_action(s32 *value, ObjectPosition *input_a, s32 input_b);
+void update_actor_ground_and_input(s32 controller, ObjectPosition *actor, struct SpriteFrameState *sprite);
+void update_and_fallback_on_input(s32 *value, ObjectPosition *context, struct SpriteFrameState *sprite);
+void update_input_and_fallback_action(s32 *value, ObjectPosition *input_a, struct SpriteFrameState *sprite);
 
 #endif

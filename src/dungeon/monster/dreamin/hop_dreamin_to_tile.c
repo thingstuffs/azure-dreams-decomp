@@ -130,6 +130,3 @@ void hop_dreamin_to_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrameS
         }
     }
 }
-
-/* MECHANISM: Four held arguments naturally give the 0x38 frame and s0/s1/s3/s2 save order. Named
-   coordinate/delta and position/offset locals close both load-order residues. */

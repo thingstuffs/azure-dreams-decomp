@@ -5,7 +5,7 @@
 #include "dungeon/item.h"
 
 
-/* Selects a table entry address, fixed buffer, or current data pointer by ID. */
+/* Selects an item record from the item table, the selected floor entry, or the held item. */
 u8 *select_item_record_pointer(s32 selector_id) {
     s16 selector_index = selector_id - 1;
     DungeonItemEntry *result;
@@ -18,5 +18,3 @@ u8 *select_item_record_pointer(s32 selector_id) {
     }
     return (u8 *)result;
 }
-
-/* MECHANISM: Frameless s16 selector preserves the retail a0 lifetime and CFG. */

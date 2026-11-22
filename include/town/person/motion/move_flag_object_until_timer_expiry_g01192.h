@@ -5,14 +5,7 @@
 
 #include "common.h"
 
-/* Timed movement phase state supplied by the town actor caller.
- * move_flag_object_until_timer_expiry initializes the timer and advances the outer phase on expiry. */
-typedef struct {
-    u8 pad0[0x68];
-    u16 unk68; /* outer movement phase; incremented when the timer expires */
-    s16 unk6A; /* movement subphase: 0 initializes the timer/steps, 1 continues them */
-    u16 unk6C; /* remaining movement callback ticks; decremented before each movement step */
-} TownCf814State;
+#include "shared/town_object.h"
 
 /* Integer-half position/step view of the town object moved by the phase helper.
  * move_flag_object_until_timer_expiry installs per-tick steps and advances these coordinates. */
@@ -28,13 +21,13 @@ typedef struct {
 } TownCf814Obj;
 
 /* Functions defined in this translation unit. */
-void move_flag_object_until_timer_expiry(TownCf814State *motion, TownCf814Obj *target, s32 unused, s32 duration, s32 step_x, s32 step_y);
-void move_flag_object_toward_negative_y(TownCf814State *state_addr, TownCf814Obj *object_addr, s32 unused);
-void move_flag_object_by_step_16_minus_4_plus_8(TownCf814State *input_first, TownCf814Obj *input_second, s32 input_third);
-void move_flag_object_by_step_16_plus_8_minus_4(TownCf814State *input_first, TownCf814Obj *input_second, s32 input_third);
-void move_flag_object_by_step_16_minus_8(TownCf814State *state, TownCf814Obj *obj, s32 unused);
-void move_flag_object_by_step_16_plus_8_plus_4(TownCf814State *input_first, TownCf814Obj *input_second, s32 input_third);
-void move_flag_object_by_step_16_minus_4_minus_8(TownCf814State *input_first, TownCf814Obj *input_second, s32 input_third);
-void move_flag_object_by_step_32_plus_y_4(TownCf814State *state, TownCf814Obj *object, s32 unused);
+void move_flag_object_until_timer_expiry(TownObjectRecord *state, TownCf814Obj *target, struct SpriteFrameState *unused_sprite, s32 duration, s32 step_x, s32 step_y);
+void move_flag_object_toward_negative_y(TownObjectRecord *state, TownCf814Obj *position, struct SpriteFrameState *sprite);
+void move_flag_object_by_step_16_minus_4_plus_8(TownObjectRecord *state, TownCf814Obj *position, struct SpriteFrameState *sprite);
+void move_flag_object_by_step_16_plus_8_minus_4(TownObjectRecord *state, TownCf814Obj *position, struct SpriteFrameState *sprite);
+void move_flag_object_by_step_16_minus_8(TownObjectRecord *state, TownCf814Obj *obj, struct SpriteFrameState *sprite);
+void move_flag_object_by_step_16_plus_8_plus_4(TownObjectRecord *state, TownCf814Obj *position, struct SpriteFrameState *sprite);
+void move_flag_object_by_step_16_minus_4_minus_8(TownObjectRecord *state, TownCf814Obj *position, struct SpriteFrameState *sprite);
+void move_flag_object_by_step_32_plus_y_4(TownObjectRecord *state, TownCf814Obj *object, struct SpriteFrameState *sprite);
 
 #endif

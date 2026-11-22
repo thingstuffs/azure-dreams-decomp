@@ -72,7 +72,7 @@ extern u8 D_80020360[];
 extern u8 D_800203F4[];
 extern u8 D_80020488[];
 
-extern u8 D_80026DC8[];
+extern struct Box D_80026DC8;
 extern void *D_80026EE0[];
 extern void *D_80026F04[];
 extern void *D_80026F08[];
@@ -128,7 +128,7 @@ s32 initialize_snowball_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_ar
         object_data->scale_x = 0x1000;
         select_record_entry_and_value(object_data, D_800F2F28, 0);
         object_data->color.word = 0x00808080;
-        init_scene_node_mode_2(object_part, object->transform, D_80026DC8);
+        init_scene_node_mode_2(object_part, object->transform, &D_80026DC8);
     }
 
     index = 7;

@@ -18,7 +18,7 @@ typedef struct S_800C4D78_0 {
     s16 unk_26;
 } S_800C4D78_0;
 
-/* Creates an object with the supplied payload, optionally triggers an event, and increments the counter. */
+/* Creates a timed view color flash with the supplied payload, plays a sound when the event flag is set, and counts a pending action. */
 void create_view_color_flash(s32 payload, s16 trigger_event) {
     S_800C4D78_0 *object;
     s16 held_event = trigger_event;
@@ -35,6 +35,3 @@ void create_view_color_flash(s32 payload, s16 trigger_event) {
             (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
     }
 }
-
-/* MECHANISM: A short-lived D_80083460 base preserves the retail lui/addiu/lhu form. Tail keepalives
-   force sw-before-sll while leaving the retail prologue schedule intact. */

@@ -10,6 +10,7 @@
 #include "dungeon/item.h"
 #include "dungeon/actor/effect.h"
 #include "dungeon/effect/screen.h"
+#include "dungeon/effect/motion.h"
 #include "dungeon/system.h"
 
 /* Moves to a directional target, emits spiraling particles, and attempts a timed target effect before
@@ -188,7 +189,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, Row_818E0800_S_818E0
         return;
     }
     case 0xF0:
-        jitter_effect_position_and_fade(actor->unk_60, ((s16)effect_arg->unk_50));
+        select_target_sprite_scale(actor->unk_60, (s16)effect_arg->unk_50);
         if (((s16)effect_arg->unk_50) == 2 &&
             !try_trigger_target_record_effect(actor->unk_60, 2, actor)) {
             if (((Row_818E0800_S_818E0800_15 *)(actor->unk_60))->unk_14 & 1) {

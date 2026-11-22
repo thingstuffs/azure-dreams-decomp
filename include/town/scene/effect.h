@@ -6,8 +6,10 @@
 #include "shared/entity.h"
 
 
+struct RisingScoreChild;
+
 /* advance_effect_and_reduce_scale.c */
-void advance_effect_and_reduce_scale(void *effect, ObjectPosition *motion, SpriteFrameState *scale);
+void advance_effect_and_reduce_scale(struct RisingScoreChild *effect, ObjectPosition *motion, SpriteFrameState *scale);
 
 typedef struct EffectState {
     u8 pad_00[0x66];
@@ -43,7 +45,8 @@ typedef union EffectPointer {
 void create_map_particle_effect(EffectState *parent, ObjectPosition *position, SpriteFrameState *unused_sprite);
 
 /* Callback entry points. */
-void fade_effect_color_until_done(void *ptr);
+struct RisingScoreFade;
+void fade_effect_color_until_done(struct RisingScoreFade *effect);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 struct SpawnSeed;

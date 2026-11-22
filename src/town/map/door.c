@@ -2,6 +2,7 @@
 #include "script_symbols.h"
 #include "shared/object_flags.h"
 #include "town/map/door.h"
+#include "town/menu/animation.h"
 #include "town.h"
 #include "town/map.h"
 #include "engine/script.h"
@@ -9,11 +10,11 @@
 #include "town/player/input.h"
 
 /* Test the object status, reversing the result when the linked record has bit 3 set. */
-s32 check_door_status_inverted(S800A3088Arg0 *door) {
-    if ((((S_800A0668_1 *)door->unk98)->unk_01 & 8) != 0) {
-        return door->unk95 == 0;
+s32 check_door_status_inverted(TownObjectRecord *door) {
+    if ((((S_800A0668_1 *)door->unk_98)->unk_01 & 8) != 0) {
+        return door->unk_95 == 0;
     }
-    return door->unk95 != 0;
+    return door->unk_95 != 0;
 }
 
 /* Initialize the record and select its handler according to its variant. */
@@ -23,20 +24,20 @@ void initialize_door_variant(TownObjectRecord *record_data, ObjectPosition *posi
     variant = ((u8)(record_data->unk_94));
     NODE_HEADER(record_data)->update_callback = update_door_object;
     {
-        union { s32 *pointer; s32 value; } handler;
+        union { void (*callback)(); s32 value; } handler;
 
         if (variant == 1) {
             handler.value = 2;
             record_data->unk_90 = handler.value;
-            handler.pointer = &create_door_transition_objects;
+            handler.callback = &create_door_transition_objects;
             record_data->unk_6E = 0;
         } else if (variant == 0) {
-            handler.pointer = &check_door_entry_and_change_map;
+            handler.callback = &check_door_entry_and_change_map;
         } else {
-            handler.pointer = &create_door_shared_object;
+            handler.callback = &create_door_shared_object;
             record_data->unk_6E = 0;
         }
-        record_data->unk_50.as_pm = handler.pointer;
+        record_data->unk_50.as_pm = handler.callback;
     }
     ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->position = position;
     ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_1C = &D_800D09E0;
@@ -71,19 +72,19 @@ void update_door_object(S_func_800A0708_0 *object, ObjectPosition *position, Spr
 }
 
 /* Install the next object handler when the update call succeeds. */
-void create_door_shared_object(TownObjectRecord *object, TownObjectRecord *unused_context, void *update_context, SpriteFrameState *unused_data) {
-    s8 *active_flag = object->unk_98;
+void create_door_shared_object(TownObjectRecord *object, TownObjectRecord *unused_context, ObjectPosition *origin, SpriteFrameState *unused_data) {
+    u8 *active_flag = object->unk_98;
     u8 status_byte = ((u8)(object->unk_94));
 
-    if (create_default_display_object(object, active_flag, update_context, status_byte) != 0) {
+    if (create_default_display_object(object, active_flag, origin, status_byte) != 0) {
         object->unk_50.as_s32 = (s32) &check_door_entry_and_open;
     }
 }
 
 /* Set the entity effect and emit it at the supplied position when the checks pass. */
-void check_door_entry_and_open(S800A3088Arg0 *entity, TownObjectRecord *collision_body, ObjectPosition *position) {
+void check_door_entry_and_open(TownObjectRecord *entity, TownObjectRecord *collision_body, ObjectPosition *position) {
     s32 position_x;
-    if (entity->unk68 == 0) {
+    if ((s16)entity->unk_68 == 0) {
         if (check_door_status_inverted(entity) != 0) {
             return;
         }
@@ -91,9 +92,9 @@ void check_door_entry_and_open(S800A3088Arg0 *entity, TownObjectRecord *collisio
         return;
     }
     if (check_door_input_and_angle(entity, collision_body) != 0) {
-        entity->unk50 = open_door_to_target;
+        entity->unk_50.as_pm = open_door_to_target;
         position_x = position->x.w.i;
-        initialize_player_entity_callbacks(entity->unk72, position_x, position->y.w.i);
+        initialize_player_entity_callbacks(entity->heading, position_x, position->y.w.i);
     }
 }
 
@@ -223,10 +224,8 @@ void into_dn_door_demo_set(void) {
 }
 
 /* Check interaction conditions, apply the target value, and trigger a positional effect. */
-void check_door_entry_and_change_map(void *actor, void *target, void *position_arg) {
-    ObjectPosition *position;
-
-    if (*(s16 *)((u8 *)actor + 0x68) == 0) {
+void check_door_entry_and_change_map(TownObjectRecord *actor, TownObjectRecord *target, ObjectPosition *position) {
+    if ((s16)actor->unk_68 == 0) {
         if (check_door_status_inverted(actor) != 0) {
             return;
         }
@@ -238,19 +237,19 @@ void check_door_entry_and_change_map(void *actor, void *target, void *position_a
     if (check_door_input_and_angle(actor, target) == 0) {
         return;
     }
-    change_door_map(actor, *(s32 *)((u8 *)target + 0x48));
-    *(void **)((u8 *)actor + 0x50) = &door_no_op;
-    position = position_arg;
-    initialize_entity_handlers_and_position(*(s16 *)((u8 *)actor + 0x72), position->x.w.i, position->y.w.i);
+    change_door_map(actor, target->unk_48);
+    actor->unk_50.as_pm = &door_no_op;
+    initialize_entity_handlers_and_position(actor->heading, position->x.w.i, position->y.w.i);
 }
 
 /* Changes maps using direct map data or a selected table entry. */
-void change_door_map(void *map_source, s32 *map_table) {
+void change_door_map(TownObjectRecord *door, s32 *map_table) {
     u8 selection_mode;
+    struct InputRecord *destination;
 
-    selection_mode = *((u8 *)((s8 *)map_source + 0x96));
+    selection_mode = door->variant;
     if (selection_mode == 0) {
-        map_source = map_table;
+        destination = (struct InputRecord *)map_table;
     } else {
         s32 map_index;
 
@@ -259,17 +258,16 @@ void change_door_map(void *map_source, s32 *map_table) {
         } else {
             map_index = get_player_homerank();
         }
-        map_source = (void *)map_table[map_index];
+        destination = (struct InputRecord *)map_table[map_index];
     }
-    change_map(map_source);
+    change_map(destination);
 }
 
 /* Update the entity step state and switch handlers when the result is zero. */
-void create_door_transition_objects(void *entity_arg, TownObjectRecord *unused_context, void *update_context, SpriteFrameState *unused_data) {
-    TownObjectRecord *entity = entity_arg;
+void create_door_transition_objects(TownObjectRecord *entity, TownObjectRecord *unused_context, ObjectPosition *origin, SpriteFrameState *unused_data) {
     s16 step_result;
 
-    step_result = create_display_object_series(entity, entity->unk_98, update_context, entity->unk_90);
+    step_result = create_display_object_series(entity, entity->unk_98, origin, entity->unk_90);
     entity->unk_90 = step_result;
     if ((step_result << 0x10) == 0) {
         entity->unk_50.as_pv = &start_door_entry_or_wait;
@@ -277,35 +275,34 @@ void create_door_transition_objects(void *entity_arg, TownObjectRecord *unused_c
 }
 
 /* Selects the door's entrance or waiting handler according to whether the entry count is below six. */
-void start_door_entry_or_wait(S_800A0C30_0 *script_state, TownObjectRecord *collision_body, ObjectPosition *position) {
+void start_door_entry_or_wait(TownObjectRecord *script_state, TownObjectRecord *collision_body, ObjectPosition *position) {
     if (check_door_input_and_angle(script_state, collision_body) != 0) {
         if (count_used_item_slots() < 6) {
             script_state->unk_90 = 6;
-            script_state->unk_50 = &start_door_transition_effect;
-            initialize_entity_handlers_and_position(script_state->unk_72, position->x.w.i, position->y.w.i);
+            script_state->unk_50.as_pm = &start_door_transition_effect;
+            initialize_entity_handlers_and_position(script_state->heading, position->x.w.i, position->y.w.i);
             return;
         }
-        script_state->unk_50 = &resume_door_entry_when_script_idle;
-        set_player_block_value(script_state->unk_72);
+        script_state->unk_50.as_pm = &resume_door_entry_when_script_idle;
+        set_player_block_value(script_state->heading);
     }
 }
 
 /* Set the object handler when service_script_controller returns zero. */
-void resume_door_entry_when_script_idle(S_800A0CC0_0 *object, s32 value_1, s32 value_2, s32 value_3) {
+void resume_door_entry_when_script_idle(TownObjectRecord *object, TownObjectRecord *unused_context, ObjectPosition *unused_position, SpriteFrameState *unused_sprite) {
     if (service_script_controller() == 0) {
-        object->unk_50 = &start_door_entry_or_wait;
+        object->unk_50.as_pm = &start_door_entry_or_wait;
     }
 }
 
 /* Updates the object's state and applies completion effects when it reaches zero. */
-void start_door_transition_effect(u8 *object, s32 unused, s32 state_id, s32 state_arg) {
-    TownObjectRecord *door = (TownObjectRecord *)object;
+void start_door_transition_effect(TownObjectRecord *door, TownObjectRecord *unused_context, ObjectPosition *position, SpriteFrameState *sprite) {
     s16 state;
 
-    state = initialize_object_items_in_reverse(&door_transition_state, state_id, door->unk_90);
+    state = initialize_object_items_in_reverse(&door_transition_state, position, door->unk_90);
     door->unk_90 = state;
     if ((s32)(state << 0x10) == 0) {
-        no_op_callback_a(&door_transition_state, state_id, state_arg);
+        no_op_callback_a(&door_transition_state, position, sprite);
         door->unk_50.as_pv = update_door_transition_spin;
         load_indexed_resource_package(0);
         sound_set_cd_cue_parameters(0, cd_cue_base, 0x0600065E, 0x030008B6);
@@ -314,20 +311,20 @@ void start_door_transition_effect(u8 *object, s32 unused, s32 state_id, s32 stat
 }
 
 /* Advance the state counter and apply the next state when the check succeeds. */
-void update_door_transition_spin(TownObjectRecord *state, TownObjectRecord *unused_context, s32 context_a, s32 context_b) {
-    step_door_transition_sprite(&door_transition_state, context_a, context_b);
+void update_door_transition_spin(TownObjectRecord *state, TownObjectRecord *unused_context, ObjectPosition *position, SpriteFrameState *sprite) {
+    step_door_transition_sprite(&door_transition_state, position, sprite);
     state->unk_6E = (u16)(state->unk_6E + 0x10);
-    if (animate_spinning_shrinking_object(&door_transition_state, context_a, context_b) != 0) {
+    if (animate_spinning_shrinking_object(&door_transition_state, position, sprite) != 0) {
         state->timer = 0x20;
         state->unk_50.as_pv = &tick_door_countdown;
     }
 }
 
 /* Update the countdown and reset the object's state when it expires. */
-void tick_door_countdown(TownObjectRecord *object, TownObjectRecord *source, s32 update_arg_a, s32 update_arg_b) {
+void tick_door_countdown(TownObjectRecord *object, TownObjectRecord *source, ObjectPosition *position, SpriteFrameState *sprite) {
     u16 remaining_count;
 
-    step_door_transition_sprite(&door_transition_state, update_arg_a, update_arg_b);
+    step_door_transition_sprite(&door_transition_state, position, sprite);
     remaining_count = object->timer - 1;
     object->timer = remaining_count;
     if ((remaining_count << 0x10) <= 0) {
@@ -349,11 +346,11 @@ void into_dn_door_jobs(void) {
 }
 
 /* Tests the input and object angle against either supported global state. */
-s32 check_door_input_and_angle(Rec_func_800A0668_arg0 *object, TownObjectRecord *collision_body) {
+s32 check_door_input_and_angle(TownObjectRecord *object, TownObjectRecord *collision_body) {
     if (get_box_overlap_axis(collision_body, &town_actor_control) != 0) {
         s32 *global_base = &scene_object_payload_alias;
         s32 global_angle = ((u16)((TownObjectRecord *)global_base)->unk_10) & 0xFFF;
-        s32 object_angle = object->unk_72 & 0xFFF;
+        s32 object_angle = object->heading & 0xFFF;
 
         if ((u32) ((object_angle - global_angle) + 0x3FF) < 0x7FFU) {
             if ((scene_object_payload_alias == (s32)dispatch_actor_input_actions) || (scene_object_payload_alias == (s32)update_actor_input_and_interaction)) {

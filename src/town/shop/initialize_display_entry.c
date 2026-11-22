@@ -2,7 +2,7 @@
 #include "town/shop/display_element_layout_g00630.h"
 #include "town/shop.h"
 
-void build_display_entry_string(); /* Slot contract: loading images do not establish one callee contract. */                /* extern */
+void build_display_entry_string(struct ActorRecord *actor, ItemMenuPart **parts);
 
 /* Run four setup routines with the supplied context and data. */
 void initialize_display_entry(ActorRecord *actor, ItemMenuPart **data, SpritePartCommand *value) {

@@ -274,7 +274,6 @@ s32 check_directional_move_and_terrain();
 struct Ent *prepare_directional_attack();
 u32 check_entity_interaction_compatibility();
 #include "dungeon/player/object/action_state.h"
-struct Entry;
 struct ObjectNodeHeader;
 struct ObjectNodeHeader;
 s32 update_actor_movement_to_tile(ActorRecord *move_state, void *motion, void *target_tile, ActorRecord *actor);
@@ -293,13 +292,13 @@ s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, ObjectPosi
 s32 interpolate_actor_to_terrain_tile(struct S_800AC480_0 *move_state, ObjectPosition *motion, MovingTile *target_tile, struct S_800AC480_3 *height_state);
 s32 update_spinning_actor_fall();
 s32 update_actor_fade_in(ActorRecord *object, ObjectPosition *unused, SpriteFrameState *effect);
-void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth_bias);
+void func_800453E0(void *context, struct ObjectPosition *position, struct SpriteFrameState *sprite, s16 depth_bias);
 void select_record_entry_and_value(void *state, void *entries, short index);
 void unlink_node();
 void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
 void func_80041588(u32 *stream_ref, u8 *state, s32 execute);
 int read_stream_cue_start_offset(void);
-s32 lookup_masked_byte_table();
+s32 lookup_masked_byte_table(ActorRecord *actor);
 void unlink_entity_node(struct EntityLinkNode *node);
 void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 void * create_status_linked_render_effect(struct ObjectPosition *source_pos, s32 render_param, s16 initial_state, s8 *status);
@@ -351,10 +350,10 @@ void finish_clown_floor_trap(ActorRecord *state, ObjectPosition *motion, SpriteF
 s32 project_clown_sprite_chain(void *initial_payload, ObjectPosition *position, SpriteFrameState *entry, s32 unused);
 void update_expanding_spiral_effect(AngledSourceEffectBody *effect, ObjectPosition *position, struct SpriteFrameState *primitive);
 void create_angled_source_effect(
-    s32 unused_0, struct ObjectPosition *origin, SpriteFrameState *unused_sprite, s32 unused_3, s16 angle, u16 depth_offset);
+    ActorRecord *source, struct ObjectPosition *origin, SpriteFrameState *unused_sprite, ActorRecord *subject, s16 angle, u16 depth_offset);
 void wait_for_clown_action_slot(ActorRecord *entity_data, ObjectPosition *unused_position, SpriteFrameState *unused_sprite, void *other_data);
 void fade_entity_colors_to_neutral(void *entity_data, void *unused, SpriteFrameState *source_data);
-void advance_clown_cd_cue_effect(Rec_func_801732A4_arg0 *state, struct ObjectPosition *position, struct SpriteFrameState *actor, void *model);
+void advance_clown_cd_cue_effect(ActorRecord *state, struct ObjectPosition *position, struct SpriteFrameState *actor, void *model);
 
 
 void finish_actor_action_animation(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *anim, ActorRecord *actor);

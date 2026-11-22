@@ -7,7 +7,6 @@
 #include "shared/monster_ids.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
-#include "dungeon/monster/kid/allocate_kind_object_with_children.h"
 #include "dungeon/monster/kid.h"
 #include "dungeon/actor.h"
 #include "slus/data.h"

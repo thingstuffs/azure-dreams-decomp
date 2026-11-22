@@ -62,6 +62,3 @@ void spawn_manoeva_particle_burst(ObjectPosition *origin, SpriteFrameState *sour
         remaining -= 1;
     } while (remaining > 0);
 }
-
-/* MECHANISM: Named word and halfword read locals extend the arg1 value live ranges, reproducing
-   retail's load-before-store emission order in the setup block. */

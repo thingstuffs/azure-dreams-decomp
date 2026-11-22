@@ -1,7 +1,6 @@
 #ifndef OVMOVIE_MOVIE_FRAME_PLAYBACK_G00427_H
 #define OVMOVIE_MOVIE_FRAME_PLAYBACK_G00427_H
 /* Movie frame playback shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:ovmovie/func_80040360, CL:ovmovie/func_800403EC, CL:ovmovie/func_80040690, CL:ovmovie/func_8004072C, CL:ovmovie/func_800408BC, CL:ovmovie/func_80040954, CL:ovmovie/func_80040ED8, PD:ovmovie/ovmovie_bin:801781D0. */
 
 #include "../../src/ovmovie/modules/ovmovie_game.h"
 

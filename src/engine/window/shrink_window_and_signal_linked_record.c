@@ -14,7 +14,7 @@ void dispatch_window_fade_and_update_extents(AttachedMessageWindowBody *state, O
     s16 offset;
     u8 *cursor;
 
-    if (unlink_cursor_when_finished(state) == 0) {
+    if (unlink_cursor_when_finished(&state->render) == 0) {
         if (state->active != 0) {
             base = state->unk_44;
             offset = state->object_id;

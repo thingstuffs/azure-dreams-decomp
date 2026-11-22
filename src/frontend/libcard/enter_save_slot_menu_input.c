@@ -9,7 +9,7 @@
 
 
 /* Update the record, run the shared follow-up, and install its next table. */
-void enter_save_slot_menu_input(void *record_data) {
+void enter_save_slot_menu_input(CardSaveMenuBody *record_data) {
     card_boot_highlight_selected_load_slot(record_data);
     card_boot_recheck_selected_channel();
     NODE_HEADER(record_data)->update_callback = card_boot_update_save_slot_menu_input;

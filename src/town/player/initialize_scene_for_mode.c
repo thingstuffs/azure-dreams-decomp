@@ -56,7 +56,7 @@ void initialize_scene_for_mode(void)
     bounds = &D_800D0420;
     init_scene_list_node(town_actor_control, scene, bounds);
     init_town_motion_list();
-    init_secondary_list_record(town_motion_list, scene, bounds);
+    init_secondary_list_record(&town_motion_list, scene, bounds);
 
     state = &map_runtime_state;
     if (state->scene_selector == 12 && state->map_index == 55) {
@@ -197,7 +197,7 @@ void rebuild_menu_node_list(TownPlayerRecord *owner, ObjectPosition *node_in, Sp
     void *handler;
     func_80092C9C_S_800903FC_2 *base;
     u8 *object;
-    func_80092C9C_S_800903FC_1 *work;
+    TownMotionListNode *work;
     s16 value;
 
     handler = owner->unk_00;
@@ -220,12 +220,12 @@ void rebuild_menu_node_list(TownPlayerRecord *owner, ObjectPosition *node_in, Sp
 
     store_position_and_compute_delta(node_in);
 
-    work = (func_80092C9C_S_800903FC_1 *)&town_motion_list;
-    work->unk_16 = (u16)owner->unk_10;
+    work = &town_motion_list;
+    work->angle = owner->unk_10;
     update_record_overlap_node(work);
     if (has_attached_state_type_1_or_3(work) != 0) {
         owner->unk_2C = 0;
-        submit_object_resource_data(work->unk_10);
+        submit_object_resource_data(work->overlap);
 
         object = window_node_list_storage;
         (*(func_80092C9C_ObjectCallback *)(object + (0x10)))(object + 0x20, 0, 0);

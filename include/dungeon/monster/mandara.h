@@ -49,7 +49,6 @@ typedef struct MandaraEntryEffectBody {
 
 void blend_animation_palette_and_complete(MandaraEntryEffectBody *effect);
 
-/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void advance_action_through_recovery(ActorRecord *action_state, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor);
 void *create_mandara_actor_with_parts(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value);
 void *spawn_mandara_in_slot_c(s32 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height);

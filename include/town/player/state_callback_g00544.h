@@ -7,13 +7,16 @@
 #include "shared/object_index_slots.h"
 #include "m2c_compat.h"
 
-typedef void (*Callback)(s32, void *, void *);
+struct ObjectPosition;
+struct SpriteFrameState;
+typedef void (*TownPlayerStateCallback)(void *, struct ObjectPosition *, struct SpriteFrameState *);
 
-extern s32 *D_800D0508[];
+extern TownPlayerStateCallback D_800D0508[];
+/* Raw callback addresses. The item action and interaction handlers have distinct body types. */
 extern s32 *town_player_action_callback[3];
 
 /* Functions defined in this translation unit. */
-void dispatch_state_callback_by_mode(s32 value, void *ptr, void *ptr2, s32 unused);
-void forward_state_callback_dispatch(s32 value, void *context, void *data, s32 mode);
+void dispatch_state_callback_by_mode(void *object, struct ObjectPosition *position, struct SpriteFrameState *sprite, s32 unused);
+void forward_state_callback_dispatch(void *object, struct ObjectPosition *position, struct SpriteFrameState *sprite, s32 mode);
 
 #endif

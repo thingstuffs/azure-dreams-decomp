@@ -12,13 +12,13 @@
 #include "town/person/object.h"
 #include "town/system.h"
 /* Decrement the countdown and call apply_object_setup_and_update when it reaches zero or becomes negative. */
-void run_setup_on_timer_expiry(TownObjectRecord *object, void *callback_arg_1, void *callback_arg_2) {
+void run_setup_on_timer_expiry(TownObjectRecord *object, struct ObjectPosition *position, struct SpriteFrameState *sprite) {
     u16 countdown;
 
     countdown = object->timer - 1;
     object->timer = countdown;
     if ((countdown << 0x10) <= 0) {
-        apply_object_setup_and_update(object, callback_arg_1, callback_arg_2);
+        apply_object_setup_and_update(object, position, sprite);
     }
 }
 #include "m2c_compat.h"

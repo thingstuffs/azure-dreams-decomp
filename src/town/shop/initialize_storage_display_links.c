@@ -1,3 +1,4 @@
+#include "shared/menu_display.h"
 #include "town/shop.h"
 #include "shared/object_flags.h"
 #include "engine/item.h"
@@ -13,7 +14,7 @@
 #include "town/shop/state.h"
 #include "town/shop/floating_number_widget_g00612.h"
 
-void initialize_storage_display_links(StorageDisplayLinks *state, StorageDisplayBlock *primary, StorageVector *secondary) {
+void initialize_storage_display_links(ItemMenuDisplayLinks *state, StorageDisplayBlock *primary, ItemMenuDisplayPosition *secondary) {
     s32 *defaults = display_block_defaults.words;
     DisplayPositionWords *vector = &display_vector_defaults;
     s32 head;
@@ -28,11 +29,11 @@ void initialize_storage_display_links(StorageDisplayLinks *state, StorageDisplay
     secondary->words.unk8 = vector->unk8;
     state->display = &primary->display;
     state->position = secondary;
-    state->unused = 0;
+    state->unk_00 = 0;
     state->display->x = offset;
     state->display->y = offset;
     state->display->depth = 0x228;
     state->display->ramp = 0;
-    state->position->position.z = 0x30;
+    state->position->position.offset_y = 0x30;
     state->display->mode = 4;
 }

@@ -23,9 +23,11 @@
 
 extern u8 D_80171964[];
 
-/* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
-/* Creates Baloon with default frames at baloon_default_frames, applies spawn flags, and attempts valid
- * tile placement. */
+/*
+ * Spawns a Baloon actor on its 0x112 node: sets its default frames, applies the side flags the low
+ * two bits of the spawn flags select (or a random sleep status when none are set), then moves it
+ * to a valid tile.
+ */
 void *spawn_baloon(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s32 kind;
@@ -94,5 +96,3 @@ void *spawn_baloon(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     }
     return work;
 }
-/* MECHANISM: A matched sibling supplied the shared RMW/write and call-merge CFG. Narrow args stay in
-   s6/s2/s5; pointer locals naturally produce the 0x38 frame, held bases, joins, and delay slots. */

@@ -1,6 +1,10 @@
 #ifndef TOWN_SHOP_STATE_H
 #define TOWN_SHOP_STATE_H
 
+struct TownObjectRecord;
+struct ColliderView;
+void start_move_toward_view_reference(struct TownObjectRecord *state, struct ColliderView *collider);
+
 #include "town/shop/object.h"
 #include "common.h"
 
@@ -18,7 +22,8 @@ struct ShopWindow;
 void update_shop_page_edge_flags(struct ShopWindow *window);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-s32 count_equipped_entries(void *entries);
+struct DungeonItemEntry;
+s32 count_equipped_entries(struct DungeonItemEntry *entries);
 s32 func_800B44F0(void *state, s32 input);
 void set_indexed_flag(s32 bit_index);
 

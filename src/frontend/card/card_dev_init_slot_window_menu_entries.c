@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card/slot_marker.h"
 #include "frontend/card/menu_defaults.h"
 #include "frontend/card/server_menu.h"
 

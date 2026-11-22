@@ -16,7 +16,7 @@ void *dispatch_after_controller_release(void *data) {
             while (is_sound_mode_unblocked() == 0) {
                 update_vsync_frame_id(2);
             }
-            result = effect_state_callbacks[dispatch->callback_index]((u8 *)dispatch - 0x20);
+            result = effect_state_callbacks[dispatch->callback_index](NODE_HEADER(dispatch));
         }
     }
     return result;

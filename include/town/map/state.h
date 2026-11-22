@@ -7,8 +7,7 @@
 #include "shared/town_object.h"
 #include "shared/entity.h"
 
-struct S_800BDFA0_0;
-struct S_func_800A9624_1;
+struct YorozuToggleProp;
 struct SpriteFrameState;
 struct TownCameraState;
 struct MapSecondaryCallbackState;
@@ -18,7 +17,7 @@ struct TownPropAnimationActor;
 void fill_wrapped_tile_pair(s16 start_x, s16 start_y, s16 mode, s32 pair_index);
 
 /* cycle_prop_animation_until_done.c */
-void cycle_prop_animation_until_done(struct TownPropAnimationActor *self, s32 unused_value, SpriteFrameState *destination);
+void cycle_prop_animation_until_done(struct TownPropAnimationActor *self, struct ObjectPosition *unused_position, SpriteFrameState *destination);
 
 /* flag_nodes_by_id.c */
 void flag_nodes_by_id(s32 id);
@@ -36,13 +35,13 @@ void initialize_secondary_view_state(struct MapSecondaryCallbackState *state);
 void initialize_randomized_velocity_object(TownObjectRecord *object, ObjectPosition *random_state, SpriteFrameState *settings);
 
 /* cycle_prop_animation.c */
-void cycle_prop_animation(struct S_800BDFA0_0 *record, s32 unused, SpriteFrameState *value);
+void cycle_prop_animation(struct YorozuToggleProp *record, struct ObjectPosition *unused_position, SpriteFrameState *value);
 
 /* initialize_midpoint_tracking.c */
 void initialize_midpoint_tracking(struct TownCameraState *state);
 
 /* run_prop_callback_or_retire.c */
-void run_prop_callback_or_retire(struct S_func_800A9624_1 *object, ObjectPosition *position, s32 callback_arg);
+void run_prop_callback_or_retire(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite);
 
 /* retire_record_when_status_clear.c */
 void retire_record_when_status_clear(void *record);

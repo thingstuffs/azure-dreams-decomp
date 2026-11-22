@@ -12,6 +12,7 @@
  * Scene and event callbacks borrow these slots; the table initializer remains untraced. Slot offset / 4 is
  * the entry of the town script call table at 0x800D3CC8 (+0x280 play_sound is entry 160, SD_Call), so a
  * slot named after a developer symbol is that table entry (+0x04C entry 19, +0x228 entry 138). */
+struct DungeonItemEntry;
 typedef struct TownServiceTable {
     /* 0x000 */ unsigned char pad_000[0x44];
     /* 0x044 */ int (*callback_044)();
@@ -21,7 +22,7 @@ typedef struct TownServiceTable {
     /* 0x054 */ int (*rand_sn)(int limit);
     /* 0x058 */ unsigned char pad_058[0x10];
     /* 0x068 */ int (*callback_068)();
-    /* 0x06C */ unsigned char pad_06C[4];
+    /* 0x06C */ int (*callback_06C)(struct DungeonItemEntry *); /* get_item_sell_money */
     /* 0x070 */ int (*callback_070)();
     /* 0x074 */ void *(*callback_074)();
     /* 0x078 */ int (*callback_078)();

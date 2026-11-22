@@ -48,10 +48,14 @@ typedef struct ItemDataSlotRecord {
 } ItemDataSlotRecord;
 
 /* calc_item_value.c */
-s32 calc_item_value(u8 *item, s32 use_value1);
+s32 calc_item_value(struct DungeonItemEntry *item, s32 use_value1);
+s32 get_scaled_byte_value(struct DungeonItemEntry *item);
 
 /* create_item_label.c */
-void *create_item_label(void *init_data);
+void *create_item_label(struct DungeonItemEntry *item);
+s32 get_item_name_text(struct DungeonItemEntry *item, char *const *fallbacks);
+int record_has_type_twenty(struct DungeonItemEntry *record);
+int read_item_category_flag_ten(struct DungeonItemEntry *item);
 
 /* create_item_view_for_entry.c */
 void *create_item_view_for_entry(int target, void *record_addr, int entry_value);
@@ -87,7 +91,8 @@ ItemDataSlotRecord *get_item_data_record(int category, int item);
 void *get_or_create_item_data(s32 category, s32 item);
 
 /* mark_and_release_record_pair.c */
-void mark_and_release_record_pair(void *first_ptr, void *second_ptr);
+struct NodeRemovalCounter;
+void mark_and_release_record_pair(void *body, struct NodeRemovalCounter *counter);
 
 /* open_view_alternate.c */
 void open_view_alternate(void *first_data, void *second_data, void *extra_data);

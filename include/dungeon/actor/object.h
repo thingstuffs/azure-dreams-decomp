@@ -21,8 +21,8 @@ void advance_object_countdown_and_invoke_handlers(TownObjectRecord *object, Obje
 s32 has_blindness_protection(ActorRecord *entity);
 
 
-void initialize_object_with_seven_tick_counter(TownObjectRecord *object, ObjectPosition *unused_position, void *context);
-void initialize_object_with_six_tick_counter(void *object_arg, ObjectPosition *unused_position, void *context);
+void initialize_object_with_seven_tick_counter(TownObjectRecord *object, ObjectPosition *unused_position, struct SpriteFrameState *sprite);
+void initialize_object_with_six_tick_counter(struct TownObjectRecord *object, ObjectPosition *unused_position, struct SpriteFrameState *sprite);
 
 void *create_positioned_graphic_object(s16 x, s16 y, s16 z, s16 graphic_index, s32 state_value);
 

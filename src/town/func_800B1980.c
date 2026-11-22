@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/item_menu.h"
 #include "slus.h"
 #include "town.h"
 
@@ -6,9 +7,9 @@
  * Flags referenced objects for removal across the requested number of entry-table slots, starting
  * at slot 20.
  */
-void remove_item_menu_entry_objects(s32 entryTableAddress, s32 entryCount) {
-    s32 **entryCursor;
-    s32 *entry;
+void remove_item_menu_entry_objects(struct ItemMenuPart **entries, s32 entryCount) {
+    ItemMenuPart **entryCursor;
+    ItemMenuPart *entry;
     s32 endIndex;
     s32 entryIndex;
 
@@ -16,12 +17,12 @@ void remove_item_menu_entry_objects(s32 entryTableAddress, s32 entryCount) {
     entryCount += 0x14;
     if (entryIndex < entryCount) {
         endIndex = entryCount;
-        entryCursor = entryTableAddress + 0x50;
+        entryCursor = entries + 0x14;
         do {
             entry = *entryCursor;
             entryCursor += 1;
             entryIndex += 1;
-            flag_optional_object_for_removal(*entry);
+            flag_optional_object_for_removal(entry->handler);
         } while (entryIndex < endIndex);
     }
 }

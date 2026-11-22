@@ -96,8 +96,8 @@ void advance_kewne_ellipse_attack(ActorRecord *body, ObjectPosition *movement, S
 
     case 3:
     {
-        u8 *direction_x = (u8 *)((s8 *)dir_step_x);
-        u8 *direction_y = (u8 *)((s8 *)dir_step_y);
+        u8 *direction_x = (u8 *)dir_step_x;
+        u8 *direction_y = (u8 *)dir_step_y;
         u16 timer;
 
         movement->velocity_x +=

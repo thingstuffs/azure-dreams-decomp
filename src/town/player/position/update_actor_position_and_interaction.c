@@ -1,4 +1,5 @@
 #include "shared/position_query.h"
+#include "town/scene/collision.h"
 #include "common.h"
 #include "shared/town_action_flag.h"
 #include "shared/town_handler_entries.h"
@@ -17,7 +18,7 @@
 void submit_object_resource_data();
 void initialize_actor_movement_interaction_action(s32 **record, void *ptr, void *ptr2);
 struct ObjectPosition; void initialize_input_driven_scene_object(s32 * *, struct ObjectPosition *, s32);
-void init_radial_effects_action(s32 **record, void *ptr, void *ptr2);
+void init_radial_effects_action(void *record, ObjectPosition *unused_position, void *ptr2);
 void initialize_busy_checked_countdown_action(TownObjectRecord *record,void *unused,void *setup_value);
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"
@@ -27,7 +28,7 @@ void initialize_busy_checked_countdown_action(TownObjectRecord *record,void *unu
 void init_motion_action_callback(s32 record, s32 setup_value, s32 init_value);
 #include "records/Rec_func_8009B828_arg0.h"
 
-extern s32 town_actor_control;
+extern ColliderView town_actor_control;
 extern s32 *town_player_action_callback;
 
 
@@ -36,22 +37,16 @@ typedef struct S_80092A84_3 {
     void * unk_50;
 } S_80092A84_3;   /* entity in update_actor_position_and_interaction */
 
-typedef struct S_80092A84_4 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_80092A84_4;   /* base in update_actor_position_and_interaction */
-
 /* Updates the actor's position and dispatches town actions from input and interaction state. */
 void update_actor_position_and_interaction(TownObjectRecord *actor, ObjectPosition *body, s32 context) {
     GameWork *input_state;
     s32 *position_data;
-    s32 *interaction_ctrl;
+    ColliderView *interaction_ctrl;
     s16 position;
     s32 input_flags;
     u8 *response_script;
     S_80092A84_3 *entity;
     void *handler;
-    S_80092A84_4 *interaction_state;
 
     input_state = &g_game_work;
     resolve_collision_axis_order(body);
@@ -93,12 +88,11 @@ void update_actor_position_and_interaction(TownObjectRecord *actor, ObjectPositi
             }
         }
 
-        interaction_state = &town_actor_control;
-        response_script = select_response_text(interaction_state->unk_10, actor->unk_2C);
+        response_script = select_response_text(town_actor_control.selected_entry, actor->unk_2C);
         if (response_script != 0) {
             call_script(response_script);
         } else {
-            submit_object_resource_data(interaction_state->unk_10);
+            submit_object_resource_data(town_actor_control.selected_entry);
         }
         town_player_action_callback = (s32 *)&begin_town_actor_interaction;
         return;

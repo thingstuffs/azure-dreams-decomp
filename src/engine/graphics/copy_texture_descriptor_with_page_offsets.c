@@ -1,3 +1,4 @@
+#include "engine/window/cursor_source.h"
 #include "common.h"
 #include "engine/graphics.h"
 #include "engine/window.h"
@@ -5,20 +6,19 @@
 #include "shared/sprite_frame_state.h"
 #include "slus/blinking_cursor_data.h"
 
-extern void copy_texture_descriptor_with_page_offsets(u32 *texture_pos, u32 *src, void *dst);
 
 /* Updates three data tables and selects an output value and flashing intensity. */
 void update_blinking_cursor_with_bright_idle(WindowCursorBody *input, ObjectPosition *unused, SpriteFrameState *output) {
     u8 flags;
-    s32 *data;
+    WindowCursorSource *data;
 
-    if (unlink_cursor_when_finished(input) != 0) {
+    if (unlink_cursor_when_finished(&input->render) != 0) {
         return;
     }
 
-    copy_texture_descriptor_with_page_offsets(input->script + 3, blinking_cursor_texture_template_0, blinking_cursor_texture_descriptor_0);
-    copy_texture_descriptor_with_page_offsets(input->script + 3, blinking_cursor_texture_template_1, blinking_cursor_texture_descriptor_1);
-    copy_texture_descriptor_with_page_offsets(input->script + 3, blinking_cursor_texture_template_2, blinking_cursor_texture_descriptor_2);
+    copy_texture_descriptor_with_page_offsets(&input->script->texture, &blinking_cursor_texture_template_0, &blinking_cursor_texture_descriptor_0.part);
+    copy_texture_descriptor_with_page_offsets(&input->script->texture, &blinking_cursor_texture_template_1, &blinking_cursor_texture_descriptor_1.part);
+    copy_texture_descriptor_with_page_offsets(&input->script->texture, &blinking_cursor_texture_template_2, &blinking_cursor_texture_descriptor_2.part);
 
     data = input->script;
     flags = ((u8 *)data + input->cursor_offset)[0x4C];

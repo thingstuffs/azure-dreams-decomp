@@ -1,3 +1,4 @@
+#include "town/scene/collision.h"
 #include "script_symbols.h"
 #include "shared/position_query.h"
 #include "common.h"
@@ -11,17 +12,17 @@
 #include "town/player/position.h"
 
 
-extern void init_threshold_countdown_action(void *, void *,void *);
-extern void initialize_actor_action_state(void *, void *, s32);
-extern void initialize_action_object(void *, void *, s32);
+extern void init_threshold_countdown_action(void *, struct ObjectPosition *,void *);
+extern void initialize_actor_action_state(void *, void *, struct SpriteFrameState *);
+extern void initialize_action_object(void *, struct ObjectPosition *, void *);
 extern void initialize_interaction_fallback_action(void *, void *,void *);
-extern void initialize_action_object_with_counter(void *, ObjectPosition *, s32);
+extern void initialize_action_object_with_counter(void *, ObjectPosition *, struct SpriteFrameState *);
 extern void initialize_actor_movement_interaction_action(void *, void *,void *);
 
-extern s32 town_actor_control;
+extern ColliderView town_actor_control;
 
 /* Update the entity and dispatch its handler according to state flags and checks. */
-void update_actor_input_actions(TownPlayerRecord *context, ObjectPosition *entity, s32 update_arg)
+void update_actor_input_actions(TownPlayerRecord *context, ObjectPosition *entity, struct SpriteFrameState *sprite)
 {
     GameWork *state = &g_game_work;
     s16 reference_value;
@@ -33,7 +34,7 @@ void update_actor_input_actions(TownPlayerRecord *context, ObjectPosition *entit
     reference_value = query_capped_surface_height(entity, &position_query_scratch);
     if ((reference_value - entity->z.w.i) >= 4) {
         if (town_action_state_flag == 0) {
-            initialize_action_object(context, entity, update_arg);
+            initialize_action_object(context, entity, sprite);
             return;
         }
     }
@@ -43,21 +44,21 @@ void update_actor_input_actions(TownPlayerRecord *context, ObjectPosition *entit
 
     state_flags = (state->pressed_buttons);
     if (state_flags & 0x10) {
-        initialize_actor_action_state(context, entity, update_arg);
+        initialize_actor_action_state(context, entity, sprite);
         return;
     }
     if (state_flags & 0x40) {
         check_result = select_adjacent_source_entry(context, &town_actor_control);
         if (check_result != 0) {
             if (check_result == 2) {
-                initialize_actor_movement_interaction_action(context, entity, update_arg);
+                initialize_actor_movement_interaction_action(context, entity, sprite);
                 return;
             }
-            initialize_action_object_with_counter(context, entity, update_arg);
+            initialize_action_object_with_counter(context, entity, sprite);
             return;
         }
         if (test_resident_bitmap_bit(F_t_attack_enable) != 0) {
-            init_threshold_countdown_action(context, entity, update_arg);
+            init_threshold_countdown_action(context, entity, sprite);
             return;
         }
     }
@@ -68,7 +69,7 @@ void update_actor_input_actions(TownPlayerRecord *context, ObjectPosition *entit
                 return;
             }
         }
-        initialize_interaction_fallback_action(context, entity, update_arg);
+        initialize_interaction_fallback_action(context, entity, sprite);
     }
 
     return;

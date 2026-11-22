@@ -30,7 +30,7 @@ void fade_scene_tile_across_terminal_phase(SceneTileObject *effect) {
         if (color <= 0x40403F) {
             effect->color = color + 0x80808;
         }
-        if ((object->flags.u & 1) == 0) {
+        if ((object->flags & TOWN_COLLECTION_FINISHED) == 0) {
             break;
         }
         effect->state.u++;

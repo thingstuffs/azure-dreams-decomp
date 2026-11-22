@@ -1056,10 +1056,6 @@ void restore_marked_item_flags(void)
     clear_fixed_item_mark_flag();
 }
 
-/* MECHANISM: The 0x18 frame has only the $ra save; explicit clear_flag_mask/page locals
-   fix preheader order, and preincrement loads count before the inner increment.
-   Loop-top ASM_KEEP holds the unrebased group base, yielding v0-high/a2-low
-   split addressing with +2/+0xC fields; index-first RAM arithmetic fixes addu. */
 
 typedef struct S_800A6B70_0 {
     u8 pad_00[0xC];
@@ -1115,12 +1111,6 @@ void stagger_record_values_by_step(Record *record, s16 step)
     }
 }
 
-/* MECHANISM: retail word 4 (`j 0x800A6BCC` == true_name+0x10) is a loop
-   back-edge, not a call -- func_800A6BCC was m2c's fake callee name for the
-   function's own mid-body label. Written as the for(;;) it actually is, gcc's
-   own dbr sinks record++'s addiu into the back-edge j's delay slot with no
-   pin; the former ASM_KEEP(value)/ASM_TAILSLOT_PIN_TIED(record) pair (needed
-   only to fake liveness across the old pseudo-call) is gone along with the call. */
 
 s32 register_node(void *entry, void *registration_id);
 extern u8 D_80089074[];

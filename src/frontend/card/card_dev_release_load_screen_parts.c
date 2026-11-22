@@ -1,38 +1,32 @@
 #include "common.h"
 #include "frontend/card.h"
+#include "frontend/card/load.h"
 #include "frontend/card/server_aliases.h"
-
-/* The parts of the devkit load screen object (offsets of the server build). */
-typedef struct CardDevLoadScreenParts {
-    u8 pad_00[0x1E];
-    u16 flags;
-    void *parts[8];
-} CardDevLoadScreenParts;
 
 /*
  * Devkit-server load-screen build of release_card_screen_parts: mark the screen's object dirty, release its
  * window and slot parts and the five slot windows, then raise the 0x8000 flag on the screen and on the card UI.
  */
-void card_dev_release_load_screen_parts(CardDevLoadScreenParts *screen)
+void card_dev_release_load_screen_parts(CardDevLoadNode *screen)
 {
-    void **parts;
+    CardDevLoadSlotScreen *body;
     s32 i;
     u16 flags;
     s32 dirty;
 
-    parts = screen->parts;
+    body = &screen->body;
     if (screen != 0) {
-        card_dev_flag_object_dirty(screen->parts[0]);
-        card_dev_refresh_info_object(screen->parts[1]);
-        card_dev_refresh_sme_object(screen->parts[2]);
+        card_dev_flag_object_dirty(body->background);
+        card_dev_refresh_info_object(body->information);
+        card_dev_refresh_sme_object(body->slot_display);
         for (i = 0; i < 5; i++) {
-            card_dev_refresh_slot_window(parts[i + 3]);
+            card_dev_refresh_slot_window(body->windows[i]);
         }
-        flags = screen->flags;
+        flags = screen->node.flags;
         dirty = card_ui_dirty_flags;
         flags |= 0x8000;
         dirty |= 0x8000;
-        screen->flags = flags;
+        screen->node.flags = flags;
         card_ui_dirty_flags = dirty;
     }
 }

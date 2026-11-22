@@ -9,25 +9,18 @@
 
 struct IntVector3;        /* extern */
 
-typedef struct S_800A7B98_2 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    u16 unk_14;
-} S_800A7B98_2;   /* arg2 in create_timed_effect_object */
-
 /* Creates an object, copies its source data fields, and initializes its state. */
-void create_timed_effect_object(s32 ownerDataAddress, ObjectPosition *position, S_800A7B98_2 *sourceData) {
+void create_timed_effect_object(TownObjectRecord *owner, ObjectPosition *position, SpriteFrameState *source) {
     BoundsExpiryObject *objectState;
     ObjectNodeHeader *createdObject;
     SpriteFrameState *objectData;
 
-    createdObject = create_town_effect_object(ownerDataAddress - 0x20, (struct IntVector3 *)(position), (s32)(&retire_object_on_check_or_timeout), 0);
+    createdObject = create_town_effect_object(NODE_HEADER(owner), (struct IntVector3 *)(position), (s32)(&retire_object_on_check_or_timeout), 0);
     objectState = NODE_BODY(createdObject);
     if (createdObject != NULL) {
         objectData = createdObject->sprite;
-        objectData->source = sourceData->unk_08;
-        objectData->flags = (u16) sourceData->unk_14;
+        objectData->source = source->source;
+        objectData->flags = source->flags;
         register_node_if_unregistered(objectState, project_sprite_chain);
         objectState->timer = 5;
     }

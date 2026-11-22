@@ -3,6 +3,8 @@
 
 #ifndef TOWN_EVENT_ACTOR_SCRIPT_MOTION_G00549_H
 #define TOWN_EVENT_ACTOR_SCRIPT_MOTION_G00549_H
+
+struct ObjectPosition;
 struct SpriteFrameState;
 /* inferred-strong actor_script_motion_g00549; shared declarations. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8009DB64. */
@@ -52,7 +54,7 @@ extern s32 D_800CFDD8[];
 extern void actor_surface_callback_address(void *actor, void *subject, void *motion, void *context);
 extern void actor_output_update_address(void *state_owner, void *update_target, void *update_context, void *output);
 
-extern void set_actor_motion_state(TownObjectRecord *object, Rec_D_800CFCB4 *state, void *unused_update_context, void *unused_output); /* Unprototyped: retail call passes more arguments than the callee reads */
+extern void set_actor_motion_state(TownObjectRecord *object, Rec_D_800CFCB4 *state, struct ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite); /* Unprototyped: retail call passes more arguments than the callee reads */
 
 extern TownControl town_actor_control;
 

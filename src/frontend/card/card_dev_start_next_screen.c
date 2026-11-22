@@ -1,23 +1,19 @@
 #include "common.h"
 #include "frontend/card.h"
+#include "frontend/card/save_operation.h"
 #include "main/data.h"
 #include "frontend/card/server_imports.h"
 extern s32 D_80010208;
 
-typedef struct S_8001EC4C_0 {
-    u8 pad_00[0x44];
-    s32 unk_44;
-} S_8001EC4C_0;   /* arg0 in card_dev_start_next_screen */
-
 /* Set the state from the object and select an action from the global flag. */
-void card_dev_start_next_screen(S_8001EC4C_0 *object) {
+void card_dev_start_next_screen(CardSaveOperationBody *menu) {
     s32 actionId;
     s16 state;
 
     card_dev_effect_mode = 2;
     card_dev_close_events();
     state = 1;
-    if (object->unk_44 == 0) {
+    if (menu->option_index == 0) {
         state = 3;
     }
     D_80011F48 = state;

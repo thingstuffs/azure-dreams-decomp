@@ -22,6 +22,3 @@ void reset_beldo_effect_state_for_entry(s32 entry_index) {
     state->flags = (state->flags | 9) & 0xFFEF;
     state->field_371C = D_80173F84[entry_index];
 }
-
-/* MECHANISM: A typed 0x80010000 page-base local emits retail's lone lui without
-   materializing D_80013714; struct fields preserve the 0x3714..0x371C offsets. */

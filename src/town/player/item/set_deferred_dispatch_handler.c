@@ -4,9 +4,7 @@
 #include "town/player/item.h"
 
 
-/* Stores the address of D_800933FC in the output pointer. */
-void set_deferred_dispatch_handler(void *object, void *unused_position, void *unused_context) {
-    s32 **out_ptr = object;
-
-    *out_ptr = dispatch_deferred_callback;
+/* Select the deferred action dispatcher in the object’s first callback slot. */
+void set_deferred_dispatch_handler(TownObjectRecord *object, ObjectPosition *unused_position, struct SpriteFrameState *unused_context) {
+    object->unk_00 = dispatch_deferred_callback;
 }

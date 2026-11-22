@@ -92,7 +92,3 @@ void fade_remove_entity_and_update_tile(ActorRecord *fade_state, ObjectPosition 
         return;
     }
 }
-
-/* MECHANISM: A natural three-case switch preserves the retail dispatch and fallthrough block order.
-   True-space targets remain local joins. Direct D_80083460+0xA access schedules the page base, and u16
-   0xFF80 selects the ori encoding. */

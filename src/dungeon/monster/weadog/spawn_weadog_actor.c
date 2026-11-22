@@ -27,9 +27,11 @@ extern u8 D_801718E0[];
 extern u8 weadog_action_resume_address[];
 
 
-/* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
-/* Creates Weadog with default frames at D_80174EB8, applies spawn flags, and attempts valid tile
- * placement. */
+/*
+ * Spawns a Weadog actor on its 0x112 node: sets its default frames, applies the side flags the low
+ * two bits of the spawn flags select (or a random sleep status when none are set), then moves it
+ * to a valid tile.
+ */
 void *spawn_weadog_actor(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
 {
     s32 kind;
@@ -93,7 +95,3 @@ void *spawn_weadog_actor(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
 
     return result;
 }
-
-/* MECHANISM: 2.7.2-cdk-G0 (retail shows the compiler's HIGH/LO_SUM address split: lui / lw / addiu).
-   The two byte parameters arrive as s16: their narrowing copies survive cse, combine folds the a1/a2
-   temps into them, so sched1 schedules the parameter copies and the entry order is retail's. */

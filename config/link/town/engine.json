@@ -343,6 +343,24 @@
       "evidence": "docs/evidence/r124w_carve1_run10.md"
     },
     {
+      "row": "town/func_800B7484",
+      "home": "town/func_800B7484",
+      "tu": "src/town/shop/update_storage_cursor_and_fade_indicators.c",
+      "foff": "0x37484",
+      "vma": "0x800b4be4",
+      "size": 84,
+      "evidence": "The opening callback at TOWN +0x374D8 stores guest 0x800B4BE4 at +0x37528. This full 84-byte body advances the cursor and fades parts 38 and 39. The return at +0x374D0 and delay slot at +0x374D4 belong to this body."
+    },
+    {
+      "row": "town/func_800B74D8",
+      "home": "town/func_800B74D8",
+      "tu": "src/town/shop/advance_storage_open_ramp.c",
+      "foff": "0x374d8",
+      "vma": "0x800b4c38",
+      "size": 92,
+      "evidence": "The storage-display creator forms guest 0x800B4C38 at TOWN +0x37728 and stores it in the node update slot at +0x37734. The link initializer receives body +0x4C at +0x37754. This callback advances the ramp and installs the steady cursor update."
+    },
+    {
       "row": "town/func_800B755C",
       "home": "town/func_800B755C",
       "tu": "src/town/shop/initialize_storage_display_links.c",
@@ -564,6 +582,33 @@
       "foff": "0x46494",
       "vma": "0x800C3BF4",
       "size": 52
+    },
+    {
+      "row": "town/func_800C6634",
+      "home": "town/func_800C6634",
+      "tu": "src/town/person/position/step_person_x_down.c",
+      "foff": "0x46634",
+      "vma": "0x800c3d94",
+      "size": 140,
+      "evidence": "TOWN +0x46e5c forms this callback address and +0x46e60 stores it in the actor handler slot at +0x54. The initializer sets the timer to 32. The callback clamps height and steps along X until the timer expires."
+    },
+    {
+      "row": "town/func_800C66C0",
+      "home": "town/func_800C66C0",
+      "tu": "src/town/person/position/step_person_x_up.c",
+      "foff": "0x466c0",
+      "vma": "0x800c3e20",
+      "size": 140,
+      "evidence": "TOWN +0x46ec0 forms this callback address and +0x46ec4 stores it in the actor handler slot at +0x54. The initializer sets the timer to 32. The callback clamps height and steps along X until the timer expires."
+    },
+    {
+      "row": "town/func_800C7260",
+      "home": "town/func_800C7260",
+      "tu": "src/town/person/object/register_object_and_apply_setup.c",
+      "foff": "0x47260",
+      "vma": "0x800c49c0",
+      "size": 112,
+      "evidence": "TOWN +0x5796c is slot 18 of the record handler table at +0x57924. The dispatcher at +0x461c8 indexes this table in the path that follows the object slot flag, loads the selected callback at +0x462c0 and invokes it at +0x462f4."
     },
     {
       "row": "town/func_800C76D0",

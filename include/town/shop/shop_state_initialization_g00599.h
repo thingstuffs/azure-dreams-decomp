@@ -7,20 +7,19 @@
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "town/shop.h"
+#include "town/shop/object.h"
 
-void refresh_paged_selection_state();
+void refresh_paged_selection_state(GridMenuObject *record);
 /* extern */
-s32 allocate_paged_shop_item_list(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+void *allocate_paged_shop_item_list(ObjectNodeHeader *parent, s32 selected_index, s32 item_count, s32 page_index, s32 last_page, DungeonItemEntry *item_base, s32 display_mode);
 /* extern */
 void *create_floating_number_widget();
 /* extern */
 void advance_dispatch_when_countdown_expires(GridMenuObject *state_data);
-extern void set_shop_fade_out_callback(s32 object);
-extern void set_advance_inner_value_callback(s32 object); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Functions defined in this translation unit. */
 void save_shop_script_state(struct ShopMenu *shop);
 void restore_shop_script_state(struct ShopMenu *shop);
-void *open_shop(s32 unused, s32 primary_param, s32 secondary_param, s32 shared_param);
+void *open_shop(s32 unused, s32 primary_param, s32 secondary_param, DungeonItemEntry *items);
 
 #endif

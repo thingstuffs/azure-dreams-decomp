@@ -538,7 +538,6 @@ s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height
 struct Ent *prepare_directional_attack();
 u32 check_entity_interaction_compatibility();
 #include "dungeon/player/object/action_state.h"
-struct Entry;
 struct ObjectNodeHeader;
 struct ObjectNodeHeader;
 s32 update_actor_movement_to_tile(ActorRecord *move_state, void *motion, void *target_tile, ActorRecord *actor);
@@ -565,7 +564,7 @@ s32 rcos(s32);
 void func_80065770();
 s32 ratan2(s32, s32);
 void transform_rotated_vertices(void *transform_data);
-void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth_bias);
+void func_800453E0(void *context, struct ObjectPosition *position, struct SpriteFrameState *sprite, s16 depth_bias);
 struct MATRIX *CompMatrix(void *, void *, void *);
 void PushMatrix(void);
 void PopMatrix(void);
@@ -580,7 +579,7 @@ void select_record_entry_and_value(void *state, void *entries, short index);
 void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
 void func_80041588(u32 *stream_ref, u8 *state, s32 execute);
 s32 read_stream_cue_start_offset(void);
-s32 lookup_masked_byte_table();
+s32 lookup_masked_byte_table(ActorRecord *actor);
 void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 void *create_status_linked_render_effect();
 extern u8 arachne_direction_frames[];

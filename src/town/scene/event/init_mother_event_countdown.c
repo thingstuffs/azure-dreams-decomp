@@ -15,7 +15,7 @@ extern s32 D_800D64DC;
  * Initializes entries from D_800D64DC, clears D_800826B8, and installs D_800CA0D4 with count ten
  * and angle 0x400.
  */
-void init_mother_event_countdown(TownObjectRecord *object, s32 unused, SpriteFrameState *init_data) {
+void init_mother_event_countdown(TownObjectRecord *object, struct ObjectPosition *unused_position, SpriteFrameState *init_data) {
     initialize_object_entries((object), init_data, &D_800D64DC);
     D_800826B8 = 0;
     object->handler = &D_800CA0D4;

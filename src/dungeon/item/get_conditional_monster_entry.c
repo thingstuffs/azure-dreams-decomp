@@ -23,6 +23,3 @@ s32 get_active_room_entries(s16 entry_index) {
     }
     return value;
 }
-
-/* MECHANISM: Frameless leaf; assigning the halfword before the literal-zero guard preserves both zero
-   delay slots. */

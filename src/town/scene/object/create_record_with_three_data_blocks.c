@@ -1,30 +1,20 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "town/scene/collection.h"
 #include "town/scene/object.h"
 #include "town/devkit/old_minigame_imports.h"
 
 extern u8 menu_entry_draw_callback_address[];
 
-typedef struct FourWords {
-    s32 word[4];
-} FourWords;
+/* Allocate a text node, copy its body and register the shared draw callback. */
+void create_record_with_three_data_blocks(TownCollectionTextUpdate callback, const TownCollectionText *data_blocks)
+{
+    ObjectNodeHeader *node = func_800374FC(1, &scene_object_factory_data);
 
-/* Allocate a record, install its callback, and copy three data blocks. */
-void create_record_with_three_data_blocks(void *callback, void *data_blocks) {
-    u8 *record;
-    FourWords *src_block;
-    FourWords *dst_block;
-    FourWords *src_end;
-
-    record = func_800374FC(1, &scene_object_factory_data);
-    dst_block = (FourWords *)(record + 0x20);
-    if (record != 0) {
-        src_block = data_blocks;
-        src_end = src_block + 3;
-        do {
-            *dst_block++ = *src_block++;
-        } while (src_block != src_end);
-        *(void **)(record + 0x10) = callback;
-        func_8003BC18(record, menu_entry_draw_callback_address);
+    if (node != 0) {
+        TownCollectionText *body = NODE_BODY(node);
+        *body = *data_blocks;
+        node->update_callback = callback;
+        func_8003BC18(node, menu_entry_draw_callback_address);
     }
 }

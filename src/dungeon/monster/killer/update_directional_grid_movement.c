@@ -59,7 +59,7 @@ void update_directional_grid_movement(ActorRecord *action, ObjectPosition *motio
             u8 *y_table;
 
             table_offset = (source->movement_facing >> 8) & 0xE;
-            y_table = (u8 *)((s8 *)dir_step_y);
+            y_table = (u8 *)dir_step_y;
             motion->velocity_y +=
                 *(s16 *)(y_table + table_offset) << 14;
         }

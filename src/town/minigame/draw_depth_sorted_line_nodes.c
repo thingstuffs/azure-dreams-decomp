@@ -1,4 +1,4 @@
-#include "shared/gpu_packets.h"
+#include "town/line_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "sdk/libgpu.h"
@@ -7,19 +7,8 @@
 #include "town/minigame.h"
 #include "town/paired_indicators.h"
 
-typedef struct S_8002415C_1 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-} S_8002415C_1;   /* record in draw_depth_sorted_line_nodes */
-
-
-typedef struct PacketTag {
-    unsigned addr : 24;
-    unsigned len : 8;
-} PacketTag;
-
-#define setaddr(packet, address) (((PacketTag *)(packet))->addr = (u32)(address))
-#define getaddr(packet) ((u32)(((PacketTag *)(packet))->addr))
+#define setaddr(packet, address) (((GpuLinkTag *)(packet))->addr = (u32)(address))
+#define getaddr(packet) ((u32)(((GpuLinkTag *)(packet))->addr))
 #define addPrim(ordering_table, primitive) \
 (setaddr((primitive), getaddr(ordering_table)), \
     setaddr((ordering_table), (primitive)))
@@ -31,7 +20,7 @@ s32 draw_depth_sorted_line_nodes(PairedIndicators *node)
     s32 *second_coord;
     GameWork *town_state;
     GpuContext *render_state;
-    u8 *line_prim;
+    TownFlatLinePacket *line_prim;
     DR_MODE *draw_mode_prim;
     ObjectNodeHeader *next_link;
     s16 first_depth;
@@ -44,18 +33,19 @@ s32 draw_depth_sorted_line_nodes(PairedIndicators *node)
         if (!(node->flags & 1)) {
             render_state = town_state->draw_buffer;
             line_prim = render_state->packetCursor;
-            render_state->packetCursor = line_prim + 0x10;
-            ((S_8002415C_1 *)line_prim)->unk_04 = node->blink_color;
+            render_state->packetCursor = line_prim + 1;
+            line_prim->color = node->blink_color;
             SetLineF2(line_prim);
             SetSemiTrans(line_prim, 1);
-            first_depth = RotTransPers(&node->first_x, line_prim + 8,
+            first_depth = RotTransPers(&node->first_x, &line_prim->first_xy,
                                   &coords[0], second_coord);
-            avg_depth = (first_depth + RotTransPers(&node->second_x, line_prim + 0xC,
+            avg_depth = (first_depth + RotTransPers(&node->second_x, &line_prim->second_xy,
                                              &coords[0], second_coord)) >> 1;
             if ((u16)avg_depth < 0x1E0U) {
                 ot_offset = (s16)avg_depth * 4;
-                addPrim((u8 *)(ot_offset + (long)town_state->draw_buffer) + 0xB0,
-                        line_prim);
+                line_prim->tag.addr = getaddr((u8 *)(ot_offset + (long)town_state->draw_buffer) + 0xB0);
+                setaddr((u8 *)(ot_offset + (long)town_state->draw_buffer) + 0xB0,
+                        (unsigned long)line_prim);
 
                 render_state = town_state->draw_buffer;
                 draw_mode_prim = render_state->packetCursor;

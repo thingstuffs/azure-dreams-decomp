@@ -1,5 +1,6 @@
 #ifndef TOWN_MAP_RANDOMIZED_POSITION_EFFECT_G00585_H
 #define TOWN_MAP_RANDOMIZED_POSITION_EFFECT_G00585_H
+struct TimedPrimitiveBody;
 /* Randomized position effect shared declarations. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AAD70. */
 
@@ -33,7 +34,7 @@ typedef struct {
 
 void select_record_entry_and_value(void *state,void *entries, short index);
 
-void fade_timed_primitive(void *record_fields, void *unused, SpriteFrameState *primitive);
+void fade_timed_primitive(struct TimedPrimitiveBody *body, struct ObjectPosition *unused_position, SpriteFrameState *primitive);
 extern s32 radial_sprite_entries;
 
 /* Functions defined in this translation unit. */

@@ -9,6 +9,7 @@
 #include "shared/position_views.h"
 #include "engine/graphics.h"
 #include "sdk/libgpu.h"
+#include "sdk/libgpu_packets.h"
 #include "town/map.h"
 #include "town/map/position.h"
 #include "town/player.h"
@@ -18,24 +19,6 @@
    /* coord in draw_entry_overlays */
 
    /* &D_800D0504 in draw_entry_overlays */
-
-typedef struct S_800970FC_4 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    u8 pad_08[0x4];
-    s8 unk_0C;
-    s8 unk_0D;
-    u8 pad_0E[0x6];
-    s8 unk_14;
-    s8 unk_15;
-    s16 unk_16;
-    u8 pad_18[0x4];
-    s8 unk_1C;
-    s8 unk_1D;
-    u8 pad_1E[0x6];
-    s8 unk_24;
-    s8 unk_25;
-} S_800970FC_4;   /* temp_s0_2 in draw_entry_overlays */
 
 /* Texture rectangle used for the page selector and overlay UV limits.
  * Coordinates retain both signed and unsigned halfword reads; extents are
@@ -56,36 +39,7 @@ typedef struct S_800970FC_8 {
     u16 unk_06;
 } S_800970FC_8;   /* rect in draw_entry_overlays */
 
-typedef struct S_800970FC_10 {
-    u8 pad_00[0x4];
-    u8 unk_04;
-    u8 unk_05;
-    u8 unk_06;
-} S_800970FC_10;   /* temp_s0_3 in draw_entry_overlays */
-
-typedef struct S_800970FC_11 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    s8 unk_05;
-    s8 unk_06;
-    u8 pad_07[0x1];
-    u16 unk_08;
-    s16 unk_0A;
-    s16 unk_0C;
-    s16 unk_0E;
-    u16 unk_10;
-    s16 unk_12;
-    s16 unk_14;
-} S_800970FC_11;   /* temp_s0_4 in draw_entry_overlays */
-
    /* late_entry in draw_entry_overlays */
-
-typedef struct S_800970FC_14 {
-    u8 pad_00[0x4];
-    u8 unk_04;
-    u8 unk_05;
-    u8 unk_06;
-} S_800970FC_14;   /* temp_s0_8 in draw_entry_overlays */
 
 extern u8 scene_object_payload_alias[];
 extern PlayerOverlayTextureRect player_overlay_texture_rect;
@@ -123,6 +77,9 @@ s32 draw_entry_overlays(void) {
     u16 rotation;
     u16 quad_x;
     void *primitive;
+    /* Each quad keeps its final signed Y store ahead of the ordering-table load. */
+    POLY_FT4 *textured;
+    POLY_F4 *flat;
     TileObject *entry;
     ObjectPosition *coord;
     PlayerOverlayTextureRect *texture_rect;
@@ -164,28 +121,28 @@ s32 draw_entry_overlays(void) {
                 ((GpuContext *)CUR_PAGE)->packetCursor = (primitive + 0xC);
                 SetDrawArea(primitive, CUR_PAGE);
                 AddPrim(CUR_PAGE + 0x830, primitive);
-                primitive = ((GpuContext *)CUR_PAGE)->packetCursor;
-                ((GpuContext *)CUR_PAGE)->packetCursor = (primitive + 0x28);
+                textured = ((GpuContext *)CUR_PAGE)->packetCursor;
+                ((GpuContext *)CUR_PAGE)->packetCursor = textured + 1;
                 color = 0x808080;
-                ((S_800970FC_4 *)primitive)->unk_04 = color;
-                SetPolyFT4(primitive);
+                *(u32 *)&textured->r0 = color;
+                SetPolyFT4(textured);
                 texture_depth = 2;
                 color = texture_depth;
                 texture_rect = &player_overlay_texture_rect;
                 page_mask = ~0xFF;
-                ((S_800970FC_4 *)primitive)->unk_16 = GetTPage(texture_depth, color,
+                textured->tpage = GetTPage(texture_depth, color,
                     (s16) (((u16)player_overlay_texture_rect.x) & page_mask),
                     (s16) (((u16)texture_rect->y) & page_mask));
-                SetSemiTrans(primitive, 1);
-                ((S_800970FC_4 *)primitive)->unk_0C = (s8) (player_overlay_texture_rect.x % 0x100);
-                ((S_800970FC_4 *)primitive)->unk_0D = (s8) (texture_rect->y % 0x100);
-                ((S_800970FC_4 *)primitive)->unk_14 = (s8) ((player_overlay_texture_rect.x % 0x100)
+                SetSemiTrans(textured, 1);
+                textured->u0 = (s8) (player_overlay_texture_rect.x % 0x100);
+                textured->v0 = (s8) (texture_rect->y % 0x100);
+                textured->u1 = (s8) ((player_overlay_texture_rect.x % 0x100)
                     + ((u8)texture_rect->width));
-                ((S_800970FC_4 *)primitive)->unk_15 = (s8) (texture_rect->y % 0x100);
-                ((S_800970FC_4 *)primitive)->unk_1C = (s8) (player_overlay_texture_rect.x % 0x100);
-                ((S_800970FC_4 *)primitive)->unk_1D = (s8) ((texture_rect->y % 0x100)
+                textured->v1 = (s8) (texture_rect->y % 0x100);
+                textured->u2 = (s8) (player_overlay_texture_rect.x % 0x100);
+                textured->v2 = (s8) ((texture_rect->y % 0x100)
                     + ((u8)texture_rect->height));
-                ((S_800970FC_4 *)primitive)->unk_24 = (s8) ((player_overlay_texture_rect.x % 0x100)
+                textured->u3 = (s8) ((player_overlay_texture_rect.x % 0x100)
                     + ((u8)texture_rect->width));
                 texture_y = texture_rect->y;
                 if (texture_y < 0) {
@@ -197,7 +154,7 @@ s32 draw_entry_overlays(void) {
                 }
                 uv_sum = texture_y - ((rounded_texture_y >> 8) * 0x100) +
                          ((u8)texture_rect->height);
-                ((S_800970FC_4 *)primitive)->unk_25 = uv_sum;
+                textured->v3 = uv_sum;
                 {
                     S_800970FC_8 *rect;
                     u32 edge_height;
@@ -208,69 +165,69 @@ s32 draw_entry_overlays(void) {
                     if (page_offset != 0) {
                         rect_y -= 0xE0;
                     }
-                    (*(u16 *)((u8 *)primitive + 8)) = quad_x;
-                    (*(s16 *)((u8 *)primitive + 0xA)) = rect_y;
+                    textured->x0 = quad_x;
+                    textured->y0 = rect_y;
                     rect_width = rect->unk_04;
-                    (*(s16 *)((u8 *)primitive + 0x10)) = (s16) (quad_x + rect_width);
-                    (*(s16 *)((u8 *)primitive + 0x12)) = rect_y;
-                    (*(u16 *)((u8 *)primitive + 0x18)) = quad_x;
+                    textured->x1 = (s16) (quad_x + rect_width);
+                    textured->y1 = rect_y;
+                    textured->x2 = quad_x;
                     rect_height = rect->unk_06;
-                    (*(s16 *)((u8 *)primitive + 0x1A)) = (s16) (rect_y + rect_height);
+                    textured->y2 = (s16) (rect_y + rect_height);
                     rect_width = 0;
                     rect_width = rect->unk_04;
-                    (*(s16 *)((u8 *)primitive + 0x20)) = (s16) (quad_x + rect_width);
+                    textured->x3 = (s16) (quad_x + rect_width);
                     rect_height = 0;
                     rect_height = rect->unk_06;
-                    (*(s16 *)((u8 *)primitive + 0x22)) = (s16) (rect_y + rect_height);
-                    AddPrim(CUR_CTX + 0x830, primitive);
-                    primitive = ((GpuContext *)CUR_CTX)->packetCursor;
-                    ((GpuContext *)CUR_CTX)->packetCursor = (primitive + 0x18);
-                    ((S_800970FC_10 *)primitive)->unk_04 = 0x40;
-                    ((S_800970FC_10 *)primitive)->unk_05 = 0x40;
-                    ((S_800970FC_10 *)primitive)->unk_06 = 0xC0;
-                    SetPolyF4(primitive);
-                    SetSemiTrans(primitive, 0);
-                    (*(u16 *)((u8 *)primitive + 8)) = quad_x;
+                    *(s16 *)((u8 *)textured + 0x22) = (s16) (rect_y + rect_height);
+                    AddPrim(CUR_CTX + 0x830, textured);
+                    flat = ((GpuContext *)CUR_CTX)->packetCursor;
+                    ((GpuContext *)CUR_CTX)->packetCursor = flat + 1;
+                    flat->red = 0x40;
+                    flat->green = 0x40;
+                    flat->blue = 0xC0;
+                    SetPolyF4(flat);
+                    SetSemiTrans(flat, 0);
+                    flat->x0 = quad_x;
                     fill_height = rect->unk_06;
-                    (*(s16 *)((u8 *)primitive + 0xA)) = (s16) ((rect_y + fill_height) - overlay_height);
+                    flat->y0 = (s16) ((rect_y + fill_height) - overlay_height);
                     rect_width = rect->unk_04;
-                    (*(s16 *)((u8 *)primitive + 0xC)) = (s16) (quad_x + rect_width);
+                    flat->x1 = (s16) (quad_x + rect_width);
                     fill_height = 0;
                     edge_height = rect->unk_06;
-                    (*(u16 *)((u8 *)primitive + 0x10)) = quad_x;
-                    (*(s16 *)((u8 *)primitive + 0xE)) = (s16) ((rect_y + edge_height) - overlay_height);
+                    flat->x2 = quad_x;
+                    flat->y1 = (s16) ((rect_y + edge_height) - overlay_height);
                     edge_height = 0;
                     fill_height = rect->unk_06;
-                    (*(s16 *)((u8 *)primitive + 0x12)) = (s16) (rect_y + fill_height);
+                    flat->y2 = (s16) (rect_y + fill_height);
                     rect_width = 0;
                     rect_width = rect->unk_04;
-                    (*(s16 *)((u8 *)primitive + 0x14)) = (s16) (quad_x + rect_width);
+                    flat->x3 = (s16) (quad_x + rect_width);
                     fill_height = 0;
                     fill_height = rect->unk_06;
-                    (*(s16 *)((u8 *)primitive + 0x16)) = (s16) (rect_y + fill_height);
-                    AddPrim(CUR_CTX + 0x830, primitive);
-                    primitive = ((GpuContext *)CUR_CTX)->packetCursor;
-                    ((GpuContext *)CUR_CTX)->packetCursor = (primitive + 0x18);
-                    ((S_800970FC_11 *)primitive)->unk_06 = 0;
-                    ((S_800970FC_11 *)primitive)->unk_05 = 0;
-                    ((S_800970FC_11 *)primitive)->unk_04 = 0;
-                    SetPolyF4(primitive);
-                    SetSemiTrans(primitive, 0);
-                    ((S_800970FC_11 *)primitive)->unk_08 = quad_x;
-                    ((S_800970FC_11 *)primitive)->unk_0A = rect_y;
+                    *(s16 *)((u8 *)flat + 0x16) = (s16) (rect_y + fill_height);
+                    AddPrim(CUR_CTX + 0x830, flat);
+                    flat = ((GpuContext *)CUR_CTX)->packetCursor;
+                    ((GpuContext *)CUR_CTX)->packetCursor = flat + 1;
+                    flat->blue = 0;
+                    flat->green = 0;
+                    flat->red = 0;
+                    SetPolyF4(flat);
+                    SetSemiTrans(flat, 0);
+                    flat->x0 = quad_x;
+                    flat->y0 = rect_y;
                     rect_width = rect->unk_04;
-                    ((S_800970FC_11 *)primitive)->unk_0C = (s16) (quad_x + rect_width);
-                    ((S_800970FC_11 *)primitive)->unk_0E = rect_y;
-                    ((S_800970FC_11 *)primitive)->unk_10 = quad_x;
+                    flat->x1 = (s16) (quad_x + rect_width);
+                    flat->y1 = rect_y;
+                    flat->x2 = quad_x;
                     rect_height = rect->unk_06;
-                    ((S_800970FC_11 *)primitive)->unk_12 = (s16) (rect_y + rect_height);
+                    flat->y2 = (s16) (rect_y + rect_height);
                     rect_width = 0;
                     rect_width = rect->unk_04;
-                    ((S_800970FC_11 *)primitive)->unk_14 = (s16) (quad_x + rect_width);
+                    flat->x3 = (s16) (quad_x + rect_width);
                     rect_height = 0;
                     rect_height = rect->unk_06;
-                    (*(s16 *)((u8 *)primitive + 0x16)) = (s16) (rect_y + rect_height);
-                    AddPrim(CUR_CTX + 0x830, primitive);
+                    *(s16 *)((u8 *)flat + 0x16) = (s16) (rect_y + rect_height);
+                    AddPrim(CUR_CTX + 0x830, flat);
                     primitive = ((GpuContext *)CUR_CTX)->packetCursor;
                     ((GpuContext *)CUR_CTX)->packetCursor = (primitive + 0xC);
                     SetDrawArea(primitive, rect);
@@ -311,24 +268,24 @@ s32 draw_entry_overlays(void) {
                 draw_ctx->packetCursor = (primitive + 0xC);
                 SetPriority(primitive, 0, 0);
                 AddPrim(CUR_CTX + 0x830, primitive);
-                primitive = ((GpuContext *)CUR_CTX)->packetCursor;
-                ((GpuContext *)CUR_CTX)->packetCursor = (primitive + 0x18);
-                ((S_800970FC_14 *)primitive)->unk_06 = 0xFF;
-                ((S_800970FC_14 *)primitive)->unk_05 = 0xFF;
-                ((S_800970FC_14 *)primitive)->unk_04 = 0xFF;
-                SetPolyF4(primitive);
-                SetSemiTrans(primitive, 0);
-                (*(u16 *)((u8 *)primitive + 8)) = quad_x;
-                (*(s16 *)((u8 *)primitive + 0xA)) = texture_top;
-                (*(s16 *)((u8 *)primitive + 0xC)) = (s16) (quad_x + texture_rect->width);
-                (*(s16 *)((u8 *)primitive + 0xE)) = texture_top;
-                (*(u16 *)((u8 *)primitive + 0x10)) = quad_x;
+                flat = ((GpuContext *)CUR_CTX)->packetCursor;
+                ((GpuContext *)CUR_CTX)->packetCursor = flat + 1;
+                flat->blue = 0xFF;
+                flat->green = 0xFF;
+                flat->red = 0xFF;
+                SetPolyF4(flat);
+                SetSemiTrans(flat, 0);
+                flat->x0 = quad_x;
+                flat->y0 = texture_top;
+                flat->x1 = (s16) (quad_x + texture_rect->width);
+                flat->y1 = texture_top;
+                flat->x2 = quad_x;
                 bottom = texture_top + texture_rect->height;
-                (*(s16 *)((u8 *)primitive + 0x12)) = bottom;
-                (*(s16 *)((u8 *)primitive + 0x14)) = (s16) (quad_x + texture_rect->width);
+                flat->y2 = bottom;
+                flat->x3 = (s16) (quad_x + texture_rect->width);
                 bottom = texture_top + texture_rect->height;
-                (*(s16 *)((u8 *)primitive + 0x16)) = bottom;
-                AddPrim(CUR_CTX + 0x830, primitive);
+                *(s16 *)((u8 *)flat + 0x16) = bottom;
+                AddPrim(CUR_CTX + 0x830, flat);
                 primitive = ((GpuContext *)CUR_CTX)->packetCursor;
                 ((GpuContext *)CUR_CTX)->packetCursor = (primitive + 0xC);
                 SetPriority(primitive, 0, 1);

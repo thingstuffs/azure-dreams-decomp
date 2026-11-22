@@ -6,13 +6,13 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
-#include "records/Rec_func_800AB030_arg0.h"
+#include "shared/town_object.h"
 #include "town/person/lookup_motion.h"
 
 /* arg0 in raise_object_while_counter_runs */
 
 #include "town/person/position.h"
 /* Functions defined in this translation unit. */
-void raise_object_while_counter_runs(Rec_func_800AB030_arg0 *state, ObjectPosition *output);
+void raise_object_while_counter_runs(TownObjectRecord *state, ObjectPosition *output);
 
 #endif

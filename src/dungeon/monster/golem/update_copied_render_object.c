@@ -29,7 +29,11 @@ typedef struct S_80174D24_4 {
     void * unk_2C;
 } S_80174D24_4;   /* ((CopiedRenderObjectBody *)arg0)->render_data */
 
-/* Copies object data with offsets and advances a timed target flag cycle. */
+/*
+ * Copies the source position, offset by the render object's orientation, and cycles the 0x80 flag
+ * of the target sprite on a timer; removes itself once the render data no longer uses the third
+ * golem frame set.
+ */
 void update_copied_render_object(CopiedRenderObjectBody *state, void *output_arg, SpriteFrameState *target)
 {
     S_80174D24_1 *output = output_arg;
@@ -92,6 +96,3 @@ void update_copied_render_object(CopiedRenderObjectBody *state, void *output_arg
         break;
     }
 }
-
-/* MECHANISM: True-space epilogue joins and a u16[3] output object produce the 0x28 frame. Ordering
-   mode_zero before mode_one removes the word-61 displacement cascade. */

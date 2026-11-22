@@ -1,7 +1,5 @@
 #include "shared/entity.h"
-/* Actor action display (G00034).
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00034 - CL:dungeon/func_81084A18@dungeon/bank_10a3000, CL:dungeon/func_81084A18@dungeon/bank_10a9000, CL:dungeon/func_81084A18@dungeon/bank_10af000, CL:dungeon/func_81084A18@dungeon/bank_10b5000, CL:dungeon/func_81084A18@dungeon/bank_10bb000, CL:dungeon/func_81084A18@dungeon/bank_10c1000.
- */
+/* Handles actor action attempts and starts the directional display on success. */
 #include "dungeon/monster/golem/actor_action_display_g00034.h"
 #include "dungeon/monster/golem.h"
 #include "shared/sprite_frame_state.h"

@@ -11,19 +11,20 @@ extern s32 scene_object_payload_alias;
 
 
 /* Initialize heading-based motion, apply it to the object, and update the owner state. */
-void initialize_heading_motion(void *owner, void *object, void *motion) {
+void initialize_heading_motion(TownObjectRecord *owner, ColliderView *object, ObjectPosition *motion) {
     s32 *global_state = &scene_object_payload_alias;
     s32 source_z;
+    s32 *x_velocity = &motion->velocity_x;
 
-    *(s8 *)((u8 *)object + 0x15) = 1;
-    *(s32 *)((u8 *)motion + 0xC) = rsin(*(s16 *)((u8 *)global_state + 0x10)) << 6;
-    *(s32 *)((u8 *)motion + 0x10) = rcos(*(s16 *)((u8 *)global_state + 0x10)) << 6;
-    *(s32 *)((u8 *)motion + 0x14) = 0xFFF20000;
+    object->enabled = 1;
+    *x_velocity = rsin(*(s16 *)((u8 *)global_state + 0x10)) << 6;
+    motion->velocity_y = rcos(*(s16 *)((u8 *)global_state + 0x10)) << 6;
+    motion->velocity_z = 0xFFF20000;
     source_z = NODE_HEADER(global_state)->position->velocity_z;
     if (source_z < 0) {
-        *(s32 *)((u8 *)motion + 0x14) = source_z + 0xFFF20000;
+        motion->velocity_z = source_z + 0xFFF20000;
     }
     add_motion_deltas_to_position(motion);
     resolve_collider_overlaps(object, motion);
-    *(void **)((u8 *)owner + 0x50) = update_falling_motion;
+    owner->unk_50.as_pm = update_falling_motion;
 }

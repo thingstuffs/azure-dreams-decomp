@@ -8,7 +8,7 @@
 #include "town/menu.h"
 
 /* Initializes the object record and a randomized motion vector. */
-void initialize_randomized_motion_vector(RandomizedEffectMotionBody *obj, s32 *vec, SpriteFrameState *record)
+void initialize_randomized_motion_vector(RandomizedEffectMotionBody *obj, ObjectPosition *position, SpriteFrameState *record)
 {
     s32 tilt_angle;
     s32 scale;
@@ -55,25 +55,25 @@ void initialize_randomized_motion_vector(RandomizedEffectMotionBody *obj, s32 *v
     if (product < 0) {
         product += 0xFFF;
     }
-    vec[3] = product >> 12;
+    position->velocity_x = product >> 12;
 
     direction_term = rcos(direction_angle);
     product = direction_term * rsin(tilt_angle);
-    vec[4] = (product / 4096);
+    position->velocity_y = (product / 4096);
 
-    vec[5] = rcos(tilt_angle);
-    vec[3] *= scale;
-    vec[4] *= scale;
-    vec[5] *= scale;
+    position->velocity_z = rcos(tilt_angle);
+    position->velocity_x *= scale;
+    position->velocity_y *= scale;
+    position->velocity_z *= scale;
 
-    obj->velocity_x = vec[3] / 23;
-    obj->velocity_y = vec[4] / 23;
-    obj->velocity_z = vec[5] / 23;
+    obj->velocity_x = position->velocity_x / 23;
+    obj->velocity_y = position->velocity_y / 23;
+    obj->velocity_z = position->velocity_z / 23;
     obj->ticks_left = 0x18;
     obj->callback = advance_motion_and_reset_appearance;
 
-    add_motion_deltas_to_position((ObjectPosition *)vec);
-    add_motion_deltas_to_position((ObjectPosition *)vec);
+    add_motion_deltas_to_position(position);
+    add_motion_deltas_to_position(position);
 }
 
 /* Updates the transform until the countdown expires, then resets appearance and advances state. */

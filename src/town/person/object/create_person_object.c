@@ -23,23 +23,23 @@ extern s32 D_800D1200[];
 /* Creates an object and initializes its state, rendering data, and position. */
 void create_person_object(void) {
     ObjectNodeHeader *object;
-    s8 *state;
+    TownObjectRecord *state;
     ObjectPosition *position;
     SpriteFrameState *render_data;
 
-    object = (s8 *) create_town_effect_object(0, 0, update_person_view_and_record, 0);
+    object = create_town_effect_object(0, 0, update_person_view_and_record, 0);
     state = NODE_BODY(object);
     if (object != NULL) {
         position = object->position;
         render_data = object->sprite;
-        *(state + 0x93) = 1;
+        state->unk_93 = 1;
         render_data->animation_resource = loaded_town_resource_attributes[0];
         initialize_object_entries(state, render_data, D_800D1200);
         register_node_if_unregistered(state, project_sprite_chain);
         fill_position_history();
-        *(s16 *)(state + 0x90) = 0;
-        *(void **)(state + 0x50) = person_approach_state_address;
-        *(s16 *)(state + 0x6A) = 0;
+        state->unk_90 = 0;
+        state->unk_50.as_pm = person_approach_state_address;
+        state->unk_6A = 0;
         position->x.w.i = (u16) ((u16)view_reference_entity.x.w.i);
         position->y.w.i = (u16) ((u16)view_reference_entity.y.w.i);
         position->z.w.i = (s16) (((u16)view_reference_entity.z.w.i) - get_map_cell_step_size(position));

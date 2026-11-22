@@ -47753,7 +47753,7 @@
           "evidence": "docs/evidence/dungeon_ovl_190081c.imports.json"
         },
         {
-          "symbol": "func_80024784",
+          "symbol": "func_8002506C",
           "kind": "function",
           "vma": 2147633028
         },
@@ -82083,12 +82083,10 @@
           "declaration": "include/town/person/four_slot_object_owner_g00628.h"
         },
         {
-          "symbol": "D_800B4C38",
-          "kind": "data",
+          "symbol": "func_800B4C38",
+          "kind": "function",
           "vma": 2148224056,
-          "foff": 226520,
-          "view_bytes": 4,
-          "owner": "retail_asset:town:xfer_town_B000"
+          "evidence": "docs/evidence/town_person_four_slot_object_owner_g00628.imports.json"
         },
         {
           "symbol": "func_800B3558",

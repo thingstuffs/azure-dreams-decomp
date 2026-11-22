@@ -1,26 +1,17 @@
+#include "frontend/libcard/card_chooser.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "frontend/card.h"
 
-typedef struct S_80020D90_0 {
-    s32 unk_00;
-    u8 pad_04[0xA];
-    u16 unk_0E;
-    u8 pad_10[0x2C];
-    s32 unk_3C;
-} S_80020D90_0;   /* arg0 in card_sme_commit_pending_value; pointer addresses record offset 0x10 */
-
-
-/* Clear flag 0x2000 and copy record offset 0x3C to offset 0x00 when set. */
-void card_sme_commit_pending_value(void *record_data_arg) {
-    ObjectNodeHeader *record_data = record_data_arg;
+/* Resume chooser input when its notice sets the completion flag. */
+void card_sme_commit_pending_value(CardChooserBody *menu) {
+    ObjectNodeHeader *node = NODE_HEADER(menu);
     u16 flags;
 
-    flags = (record_data - 1)->flags;
+    flags = node->flags;
     if (flags & 0x2000) {
-        (record_data - 1)->flags = (u16) (flags & 0xDFFF);
-        ((S_80020D90_0 *)((u8 *)record_data - 0x10))->unk_00 = (s32) ((S_80020D90_0 *)((u8 *)record_data
-            - 0x10))->unk_3C;
+        node->flags = (u16) (flags & 0xDFFF);
+        node->update_callback = menu->resume_input;
     }
 }

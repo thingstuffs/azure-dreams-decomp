@@ -3,7 +3,10 @@
 /* Prototypes of the functions defined in src/town/system/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
+struct DungeonItemEntry;
 #include "shared/town_object.h"
+
+struct SpriteFrameState;
 #include "records/Rec_func_800AD7F8_arg0.h"
 
 struct KeimaState;
@@ -23,12 +26,12 @@ s32 process_flag_test_record(u32 records, s32 condition_arg, struct S_8001670C_1
 void clear_listed_flag_pairs(s16 *value_pairs, s32 pair_count);
 
 /* person_idle_dispatch.c */
-void advance_object_animation_when_idle(TownObjectRecord *object, void *callback_arg, s32 unused_a, s32 unused_b);
-void clear_object_status_and_dispatch_target(void *object, void *target, int value, s16 flags);
+void advance_object_animation_when_idle(TownObjectRecord *object, struct SpriteFrameState *callback_arg, s32 unused_a, s32 unused_b);
+void clear_object_status_and_dispatch_target(TownObjectRecord *object, struct SpriteFrameState *target, int value, s16 flags);
 
 /* person_timers.c */
-void run_setup_on_timer_expiry(TownObjectRecord *object, void *callback_arg_1, void *callback_arg_2);
-void func_800C3B7C(TownObjectRecord *object, void *callback_arg_1, void *callback_arg_2);
+void run_setup_on_timer_expiry(TownObjectRecord *object, struct ObjectPosition *position, struct SpriteFrameState *sprite);
+void func_800C3B7C(TownObjectRecord *object, struct ObjectPosition *position, struct SpriteFrameState *sprite);
 void install_handler_on_timer_expiry(TownObjectRecord *object);
 void func_800C3BB8(TownObjectRecord *object);
 
@@ -39,8 +42,9 @@ s32 randomize_keima_payout_factors(void);
 void play_overlay_height_sound(void);
 
 /* shop_entry_flags.c */
-void toggle_selected_entry_flag(Rec_func_800AD7F8_arg0 *state);
-s32 sum_flagged_entry_prices(u8 *entry, s32 mode);
+struct GridMenuObject;
+void toggle_selected_entry_flag(struct GridMenuObject *state);
+s32 sum_flagged_entry_prices(struct DungeonItemEntry *entry, s32 mode);
 
 /* shop_value_dispatch.c */
 void buy_flagged_entries(void *value);

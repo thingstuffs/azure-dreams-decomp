@@ -69,6 +69,3 @@ void create_linked_child_object(ActorRecord *parent_state) {
         draw_textured_ellipse(D_80175FB4, pair_ptr, 1, 0);
     }
 }
-
-/* MECHANISM: The Pair stack object plus long-lived arg0/result locals produces the retail 0x28 frame
-   and s1/s0 save contract. */

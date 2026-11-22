@@ -30,7 +30,10 @@ typedef struct S_80E122F4_6_pre {
 } S_80E122F4_6_pre;   /* the 0x18 bytes before ((S_80E122F4_0 *)owner)->unk_60 in func_80E122F4, addressed as ((S_80E122F4_0 *)owner)->unk_60[-1] */
 
 
-/* Spawn a 0x312 effect object at the source's position, offset into the owner's room and depth-sorted against the camera. */
+/*
+ * Creates a 0x312 bobbing effect sprite at the source position, moved by the source's orientation
+ * offset, with a velocity of one 32nd of the distance to the owner's target.
+ */
 void *create_source_to_owner_sprite(ActorRecord *owner, ObjectPosition *position, SpriteFrameState *sprite)
 {
     GteOffset offset;
@@ -94,6 +97,3 @@ void *create_source_to_owner_sprite(ActorRecord *owner, ObjectPosition *position
     }
     return 0;
 }
-
-/* MECHANISM: Reverse-order Vec3 zero stores and explicit negative-add-31/shift CFGs reproduce retail
-   scheduling. The row's own `j` to its epilogue is spelled honestly as `return obj;`. */

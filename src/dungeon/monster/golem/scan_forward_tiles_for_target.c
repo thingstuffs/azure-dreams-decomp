@@ -77,13 +77,13 @@ s32 scan_forward_tiles_for_target(GolemActionWork *action_state, ObjectPosition 
     direction_offset = dir_index * 2;
     tile_x = sprite->tile_x;
     tile_y = sprite->tile_y;
-    delta_x = (s16 *)((u8 *)((s8 *)dir_step_x) + direction_offset);
+    delta_x = (s16 *)((u8 *)dir_step_x + direction_offset);
     direction = dir_index;
     action_state->target_x = tile_x;
     action_state->target_y = tile_y;
 
     do {
-        delta_x = (s16 *)((u8 *)((s8 *)dir_step_x) + direction_offset);
+        delta_x = (s16 *)((u8 *)dir_step_x + direction_offset);
         signed_x = (s16)tile_x;
         world_x = (signed_x << 6) & 0xFFC0;
         signed_y = (s16)tile_y;
@@ -95,7 +95,7 @@ s32 scan_forward_tiles_for_target(GolemActionWork *action_state, ObjectPosition 
         }
 
         next_world_x = (((signed_x + *delta_x) << 6) + 0x20) & 0xFFE0;
-        delta_y = (s16 *)((u8 *)((s8 *)dir_step_y) + direction_offset);
+        delta_y = (s16 *)((u8 *)dir_step_y + direction_offset);
         next_height = sample_terrain_surface_height(
             next_world_x,
             (((signed_y + *delta_y) << 6) + 0x20) & 0xFFE0,

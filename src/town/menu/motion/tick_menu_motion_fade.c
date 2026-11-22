@@ -3,19 +3,8 @@
 #include "shared/object_node.h"
 #include "town/menu.h"
 
-typedef struct Obj800A5BC0 {
-    u8 pad0[8];
-    s16 timer;
-    u8 padA[6];
-    s32 x;
-    s32 dx;
-    s32 y;
-    s32 dy;
-    s16 value;
-} Obj800A5BC0;
-
 /* Advance the object's motion and timer-scaled value, or mark it expired. */
-void tick_menu_motion_fade(Obj800A5BC0 *obj, void *ctx)
+void tick_menu_motion_fade(MenuRingAnimationState *obj, struct ObjectPosition *center)
 {
     obj->timer--;
     if (obj->timer < 0) {
@@ -24,9 +13,9 @@ void tick_menu_motion_fade(Obj800A5BC0 *obj, void *ctx)
         return;
     }
 
-    obj->x += obj->dx;
-    obj->y += obj->dy;
-    obj->dx -= 16;
-    obj->value = (obj->timer * 255) / 20;
-    draw_segmented_menu_ring(ctx, obj->x, obj->y, obj->value);
+    obj->radius_a += obj->delta_a;
+    obj->radius_b += obj->delta_b;
+    obj->delta_a -= 16;
+    obj->shade = (obj->timer * 255) / 20;
+    draw_segmented_menu_ring(center, obj->radius_a, obj->radius_b, obj->shade);
 }

@@ -12,21 +12,22 @@
 
 /* Set texture coordinates, page, and palette for a 32-by-32 quad. */
 void set_texture_quad_32_uv(u16 texture_page, u16 palette, u8 texture_u, u8 texture_v) {
-    s8 right_u;
-    s8 bottom_v;
+    MapTileTextureCoords *uv = (MapTileTextureCoords *)map_tile_uvs;
+    u8 right_u;
+    u8 bottom_v;
 
-    map_tile_uvs[8] = texture_u;
-    map_tile_uvs[0] = texture_u;
+    uv->u2 = texture_u;
+    uv->u0 = texture_u;
     right_u = texture_u + 0x1F;
-    map_tile_uvs[5] = texture_v;
-    map_tile_uvs[1] = texture_v;
+    uv->v1 = texture_v;
+    uv->v0 = texture_v;
     bottom_v = texture_v + 0x1F;
-    map_tile_uvs[0xA] = right_u;
-    map_tile_uvs[4] = right_u;
-    map_tile_uvs[0xB] = bottom_v;
-    map_tile_uvs[9] = bottom_v;
-    *(s16 *)&map_tile_uvs[6] = texture_page;
-    *(s16 *)&map_tile_uvs[2] = palette;
+    uv->u3 = right_u;
+    uv->u1 = right_u;
+    uv->v3 = bottom_v;
+    uv->v2 = bottom_v;
+    uv->tpage = texture_page;
+    uv->clut = palette;
 }
 
 /* Render visible town map tiles as shaded polygons in the ordering table. */
@@ -61,13 +62,13 @@ void render_shaded_map_tiles(void) {
     s32 column_rounding;
     S_func_800AED64_16 *lookup_value;
     s32 edge_index;
-    s8 *tile_map;
+    u16 *tile_map;
     s32 row_rounding;
     u16 normal_index;
     LitMeshQuadPacket *packet;
     SVECTOR *view_bounds;
     MapGrid *map_data;
-    S_func_800AED64_10 *tile_uvs;
+    const MapTilePacketCoords *tile_uvs;
     S_func_800AED64_13 *polygon;
     s32 x_step;
     u32 error_step;
@@ -144,7 +145,7 @@ void render_shaded_map_tiles(void) {
     if (scratch.ptr->unk_174 != 0) {
         one = 1;
         vertex_input = &scratch.ptr->unk_E0;
-        tile_uvs = (S_func_800AED64_10 *)map_tile_uvs;
+        tile_uvs = (const MapTilePacketCoords *)map_tile_uvs;
         tag_low_mask = 0xFFFFFF;
         tag_high_mask = 0xFF000000;
         do {
@@ -247,11 +248,10 @@ void render_shaded_map_tiles(void) {
                             scratch.ptr->unk_144 = work_value;
                         }
                     }
-                    tile_id = ((MapTileHalfView *)(tile_map
-                        + (scratch.ptr->unk_144 * 2)))->unk_00 & 0x3FFF;
+                    tile_id = tile_map[scratch.ptr->unk_144] & 0x3FFF;
                     scratch.ptr->unk_C0 = tile_id;
                     if (tile_id != 0) {
-                        tile_flags = ((MapTileHalfView *)(tile_map + (scratch.ptr->unk_144 * 2)))->unk_00 & 0xC000;
+                        tile_flags = tile_map[scratch.ptr->unk_144] & 0xC000;
                         scratch.ptr->unk_17C = tile_flags;
                         if (tile_flags != 0) {
                             scratch.ptr->unk_FC = 0;
@@ -274,9 +274,9 @@ void render_shaded_map_tiles(void) {
                             packet->uv_clut.word = (s32) ((s32 *)map_tile_uvs)[0];
                             gte_rtps_nn();
                             gte_stsxy(&packet->xy3);
-                            packet->uv_page.word = (s32) tile_uvs->unk_04;
-                            packet->uv2 = (u16) tile_uvs->unk_08;
-                            packet->uv3 = (u16) tile_uvs->unk_0A;
+                            packet->uv_page.word = tile_uvs->uv1_tpage;
+                            packet->uv2 = tile_uvs->uv2;
+                            packet->uv3 = tile_uvs->uv3;
                             gte_stszotz((u8 *)scratch.ptr + 0xD4);
                             fourth_depth = scratch.ptr->unk_D4;
                             work_value = scratch.ptr->unk_C8;

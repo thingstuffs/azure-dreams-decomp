@@ -1,7 +1,5 @@
 #include "shared/entity.h"
-/* Face target and start action.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00250 - CL:dungeon/func_80E0EC38@dungeon/bank_e2d000, CL:dungeon/func_80E0EC38@dungeon/bank_e33000, CL:dungeon/func_80E0EC38@dungeon/bank_e39000, CL:dungeon/func_80E0EC38@dungeon/bank_e3f000, CL:dungeon/func_80E0EC38@dungeon/bank_e45000, CL:dungeon/func_80E0EC38@dungeon/bank_e4b000, CL:dungeon/func_80E0EF2C@dungeon/bank_e2d000, CL:dungeon/func_80E0EF2C@dungeon/bank_e33000 (+4 more).
- */
+/* Faces the target or searches ahead before starting the actor's action. */
 #include "dungeon/monster/cyclone/face_target_and_start_action_g00250.h"
 #include "dungeon/monster/cyclone.h"
 #include "shared/actor_action_flags.h"
@@ -79,7 +77,7 @@ s32 search_ahead_and_start_action(ActorRecord *action_state, ObjectPosition *act
     step_offset = direction << 1;
     tile_x = sprite->tile_x;
     tile_y = sprite->tile_y;
-    x_step = (s16 *)((u8 *)((s8 *)dir_step_x) + step_offset);
+    x_step = (s16 *)((u8 *)dir_step_x + step_offset);
     action_state->unk_B0.halves.high.u = 0;
     call_direction = direction;
 
@@ -98,7 +96,7 @@ s32 search_ahead_and_start_action(ActorRecord *action_state, ObjectPosition *act
             return 2;
         }
 
-        floor_y = (s16 *)((s8 *)dir_step_y);
+        floor_y = (s16 *)dir_step_y;
         floor_x = (((try_x + *x_step) << 6) + 0x20) & 0xFFE0;
         y_step = (s16 *)(step_offset + (u8 *)floor_y);
         floor_y = (((try_y + *y_step) << 6) + 0x20) & 0xFFE0;

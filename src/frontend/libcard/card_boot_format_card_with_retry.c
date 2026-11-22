@@ -9,37 +9,36 @@
 #include "main/data.h"
 
 /* Polls status with bounded retries and dispatches the corresponding context update. */
-void card_boot_format_card_with_retry(void *state_arg) {
-    CardFormatOperationBody *state = state_arg;
+void card_boot_format_card_with_retry(CardFormatOperationBody *state) {
     s32 retry_status;
     s32 status;
     s32 retry_count;
-    void *context;
+    ObjectNodeHeader *context;
 
     retry_count = 0;
     retry_status = 5;
     do {
-        status = card_boot_format_card_and_wait(state->channel);
+        status = card_boot_format_card_and_wait(state->selected_channel);
         if (status != retry_status) {
             break;
         }
     } while (retry_count++ < 6);
 
-    state->notice_state = 0;
+    state->wait_notice_state = 0;
     card_boot_recheck_selected_channel();
     if (status == 1) {
         context = NODE_HEADER(state);
-        state->resume_callback = card_boot_update_card_chooser_input;
+        state->resume_input = card_boot_update_card_chooser_input;
         card_boot_show_format_success_notice(context);
         NODE_HEADER(state)->update_callback = D_800274D8;
     } else if (status == 4) {
         context = NODE_HEADER(state);
-        state->resume_callback = card_boot_update_card_chooser_input;
+        state->resume_input = card_boot_update_card_chooser_input;
         card_boot_show_no_memory_card_notice(context);
         NODE_HEADER(state)->update_callback = card_boot_restore_chooser_mode;
     } else {
         context = NODE_HEADER(state);
-        state->resume_callback = card_boot_update_card_chooser_input;
+        state->resume_input = card_boot_update_card_chooser_input;
         card_boot_show_format_failure_notice(context);
         NODE_HEADER(state)->update_callback = D_800274D8;
     }

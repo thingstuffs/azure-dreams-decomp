@@ -1,13 +1,10 @@
 /* Timed settings-screen color fading and cleanup when the owning object is removed. */
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/object_node.h"
 #include "frontend/settings.h"
 
-typedef struct SignedStateView {
-    s16 value;
-} SignedStateView;
-
-/* Reads the effect through SignedStateView and returns its signed 16-bit value. */
+/* Read the signed effect state. */
 static __inline__ s16 load_signed_state(ColorEffect *effect)
 {
     s16 value;
@@ -23,7 +20,7 @@ void update_settings_color_cycle(ColorEffect *effect)
     s32 initial_state;
     s32 timer;
     u16 old_timer;
-    SettingsColorEffectOwnerBody *owner;
+    SettingsScreenBody *owner;
 
     old_timer = effect->timer;
     owner = effect->owner;
@@ -63,8 +60,8 @@ void update_settings_color_cycle(ColorEffect *effect)
         break;
     }
 
-    if ((owner->flags & 0x8000) != 0) {
-        ((u16 *)effect)[-1] |= NODE_REMOVE;
+    if (((s16)owner->flags & 0x8000) != 0) {
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

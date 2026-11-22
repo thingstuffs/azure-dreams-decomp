@@ -1,20 +1,14 @@
 #include "common.h"
 #include "engine/effect.h"
-
-/* Struct for init_gauge_object's first argument: only the accessed offset (0x68, a pointer)
-   is given a real field; 0x30/0x40/0x58 are only address-taken (sub-object bases). */
-typedef struct {
-    u8 pad0[0x68];
-    void *field_68;
-} S_80050A00;
+#include "engine/menu/selection_menu.h"
 
 extern void set_gauge_context(void *a0, void *a1);
 extern void initialize_gauge_menu_display_rows(void *a0, void *a1, void *a2);
 
 /* Reinitializes the object, sets up its sub-objects, and initializes its linked object. */
-void init_gauge_object(S_80050A00 *object, void *context)
+void init_gauge_object(MenuSelectionBody *object, void *context)
 {
     set_gauge_context(object, context);
-    init_gauge_blocks(object, (u8 *)object + 0x58, (u8 *)object + 0x30, (u8 *)object + 0x40);
-    initialize_gauge_menu_display_rows(object->field_68, object, context);
+    init_gauge_blocks(object, &object->gauge, &object->gauge_block, &object->gauge_vector);
+    initialize_gauge_menu_display_rows(object->widgets, object, context);
 }

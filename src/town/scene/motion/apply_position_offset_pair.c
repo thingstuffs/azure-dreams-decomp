@@ -4,7 +4,6 @@
 #include "shared/town_root.h"
 
 
-typedef void (*Callback)(s32);
 
 
 typedef struct S_80019E7C_1 {
@@ -19,17 +18,11 @@ typedef struct S_80019E7C_1 {
 void apply_position_offset_pair(void *offsets)
 {
     Rec_D_80016000 *root;
-    u8 *base;
-    s32 *object;
     u16 second_offset;
 
-    root = (void *)town_scene_root;
-    ((Callback)(root->services->callback_258))(1);
-
-    base = (u8 *)town_scene_root;
-    object = ((S_80019E7C_1 *)base)->unk_1C.p;
-    object[1] += *(s16 *)offsets;
+    town_scene_root->services->callback_258(1);
+    root = town_scene_root;
+    root->position->x += *(s16 *)offsets;
     second_offset = *(u16 *)((u8 *)offsets + 2);
-    base = ((S_80019E7C_1 *)base)->unk_1C.p2;
-    ((S_80019E7C_1 *)base)->unk_08 += (s16)second_offset / 2 - 0x40;
+    root->position->y += (s16)second_offset / 2 - 0x40;
 }

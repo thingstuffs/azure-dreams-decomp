@@ -1,19 +1,15 @@
 /* Item menu page format and its file-private helper. */
 #include "common.h"
+#include "shared/item_menu.h"
 #include "shared/object_links.h"
+#include "town/shop/item_menu_cursor_transition_g00601.h"
 #include "engine/item.h"
 #include "slus.h"
 #include "shared/object_flags.h"
-typedef struct S_800AF148_0 {
-    u8 pad_00[0x28];
-    s32 unk_28;
-    u8 pad_2C[0xAC];
-    s32 unk_D8;
-} S_800AF148_0;
 /* Marks the objects referenced by the requested entries, starting at index 20, for removal. */
-static void remove_item_menu_entry_objects(s32 entryTableAddress, s32 entryCount) {
-    s32 **entryCursor;
-    s32 *entry;
+static void remove_item_menu_entry_objects(struct ItemMenuPart **entries, s32 entryCount) {
+    ItemMenuPart **entryCursor;
+    ItemMenuPart *entry;
     s32 endIndex;
     s32 entryIndex;
 
@@ -21,24 +17,24 @@ static void remove_item_menu_entry_objects(s32 entryTableAddress, s32 entryCount
     entryCount += 0x14;
     if (entryIndex < entryCount) {
         endIndex = entryCount;
-        entryCursor = entryTableAddress + 0x50;
+        entryCursor = entries + 0x14;
         do {
             entry = *entryCursor;
             entryCursor += 1;
             entryIndex += 1;
-            flag_optional_object_for_removal(*entry);
+            flag_optional_object_for_removal(entry->handler);
         } while (entryIndex < endIndex);
     }
 }
 
-void release_item_menu_list_object(s32 objectAddress) {
-    void *objectFields;
+void release_item_menu_list_object(ObjectNodeHeader *object) {
+    ItemMenuTransition *display;
 
-    if (objectAddress != 0) {
-        objectFields = objectAddress + 0x20;
-        remove_item_menu_entry_objects(((S_800AF148_0 *)objectFields)->unk_D8, ((S_800AF148_0 *)objectFields)->unk_28);
-        release_null_terminated_entries(objectAddress + 0xFC);
-        ((ObjectRetirementFlags *)objectFields)[-1].flags = (u16) (((ObjectRetirementFlags *)objectFields)[-1].flags | 0x8000);
+    if (object != 0) {
+        display = NODE_BODY(object);
+        remove_item_menu_entry_objects(display->rows.as_ptr, display->entry_count);
+        release_null_terminated_entries(display->allocations);
+        NODE_HEADER(display)->flags |= 0x8000;
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }

@@ -1,6 +1,4 @@
-/* Knockback travel (G00260).
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00260 - CL:dungeon/func_80E3B86C@dungeon/bank_e56c58, CL:dungeon/func_80E3B86C@dungeon/bank_e5d000, CL:dungeon/func_80E3B86C@dungeon/bank_e63000, CL:dungeon/func_80E3B86C@dungeon/bank_e69000, CL:dungeon/func_80E3B86C@dungeon/bank_e6f000, CL:dungeon/func_80E3B86C@dungeon/bank_e75000.
- */
+/* Samples nearby terrain and creates a copied-sprite travel effect for a reachable tile. */
 #include "dungeon/monster/manoeva/knockback_travel_g00260.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"

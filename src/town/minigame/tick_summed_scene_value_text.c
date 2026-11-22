@@ -45,7 +45,7 @@ void tick_summed_scene_value_text(TerminalSceneTextObject *entry) {
     case 1:
         format_decimal_field_space_padded(value_sum, strlen(entry->text),
                       entry->text);
-        if (linked_object->flags.u & 1) {
+        if (linked_object->flags & TOWN_COLLECTION_FINISHED) {
             flags = &((ObjectNodeHeader *)entry - 1)->flags;
             *flags =
                 (u16) (*flags | NODE_REMOVE);

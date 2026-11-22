@@ -2,7 +2,8 @@
 #define TOWN_MINIGAME_ENTRY_STATE_H
 
 struct ObjectPosition;
-void advance_path_waypoint(struct ObjectPosition *bounds_data, void *state_data);
-void fill_eligible_negative_slots(void *record, short *eligibility, short new_value);
+struct MinigameProgressPair16;
+void advance_path_waypoint(struct ObjectPosition *bounds_data, struct MinigameProgressPair16 *progress);
+void fill_eligible_negative_slots(void *record, struct MinigameProgressPair16 *progress, short new_value);
 
 #endif

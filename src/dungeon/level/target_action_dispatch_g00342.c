@@ -1,8 +1,6 @@
 #include "shared/item_ids.h"
 #include "dungeon/level/tile_flags.h"
 #include "shared/actor_status_ids.h"
-/* Target action dispatch (G00342). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:dungeon/engine:800DF258. */
 #include "dungeon/level/target_action_dispatch_g00342.h"
 #include "dungeon/level.h"
 #include "dungeon/item.h"

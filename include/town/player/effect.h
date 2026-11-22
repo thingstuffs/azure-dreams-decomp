@@ -22,14 +22,14 @@ void tick_random_radial_spawns(TownObjectRecord *object, s32 target);
 void fade_and_grow_effect(void *record, s32 unused, struct SpriteFrameState *effect);
 
 /* initialize_effect_and_adjust_value_g01140.c */
-void initialize_effect_and_adjust_value(void *object, ObjectPosition *record, s32 init_value);
+void initialize_effect_and_adjust_value(void *object, ObjectPosition *record, struct SpriteFrameState *sprite);
 s32 compute_height_based_offset(ObjectPosition *state);
 void update_object_view_transition(struct S_800A58CC_2 *state_arg, ObjectPosition *object);
-void update_actor_effect_transition(struct S_800A5DF8_4 *state, ObjectPosition *actor, s32 context);
-void update_town_movement_and_actions(TownPlayerRecord *state, ObjectPosition *table, void *action_context);
+void update_actor_effect_transition(struct S_800A5DF8_4 *state, ObjectPosition *actor, struct SpriteFrameState *sprite);
+void update_town_movement_and_actions(TownPlayerRecord *state, ObjectPosition *table, struct SpriteFrameState *sprite);
 
 #include "shared/sprite_frame_state.h"
-void turn_entity_toward_target(struct TownPlayerRecord *entity, void *transform, SpriteFrameState *sprite);
+void turn_entity_toward_target(struct TownPlayerRecord *entity, struct ObjectPosition *transform, SpriteFrameState *sprite);
 
 void update_effect_record_and_dispatch(TownPlayerRecord *handler, ObjectPosition *record, struct SpriteFrameState *sprite);
 

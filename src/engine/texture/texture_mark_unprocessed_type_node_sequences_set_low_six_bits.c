@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "engine/texture.h"
+#include "engine/texture/sprite_part_list.h"
 
 typedef struct S_80048B8C_node {
     u8 flags;
@@ -14,12 +15,6 @@ typedef struct S_80048B8C_entry {
     s16 type;
     S_80048B8C_node *node;
 } S_80048B8C_entry;
-
-typedef struct S_80048B8C {
-    u8 *list;
-    s32 index;
-    u8 *listEnd;
-} S_80048B8C;
 
 /*
  * Walks type-two entry sequences, marks unprocessed roots with flag 8, and replaces each node

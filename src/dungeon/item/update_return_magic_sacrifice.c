@@ -83,7 +83,7 @@ typedef struct S_800C2824_16 {
 
 void draw_transformed_sprite_with_clip_rect();
 void * create_five_point_effect(u8, u8, s16, void *, s32, s32, void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-void retire_tracked_effect_by_id(s32 targetId);
+#include "dungeon/effect/tracked_sprite.h"
 extern s32 return_magic_begin_address(void);
 extern u8 D_800DF45C[];
 extern void *return_magic_effect_object;

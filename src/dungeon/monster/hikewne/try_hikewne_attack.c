@@ -27,7 +27,6 @@ typedef struct S_8017237C_3 {
 extern struct Ent *prepare_directional_attack(void *, void *, s32, s32, void *);
 struct ActorRecord;
 
-/* Validates an actor action, applies its effect, and updates the action state and remaining count. */
 /* Starts Hikewne's attack against a compatible neighbor within 64 height units; returns 1, 0 if
  * unsuitable, or -1 if busy. */
 s32 try_hikewne_attack(ActorRecord *action, ObjectPosition *effect, SpriteFrameState *target, ActorRecord *actor_data) {
@@ -108,8 +107,3 @@ s32 try_hikewne_attack(ActorRecord *action, ObjectPosition *effect, SpriteFrameS
         }
     }
 }
-
-/* MECHANISM: nearby_actor is set once (the first call's result), so sched1's
-   birthing boost launches its copy into $s1 right before the a1 use and the
-   a0 move comes first; `result` (zero at its declaration, later action_ready)
-   is the separate multi-set variable that keeps the tail copy `move $17,$18`. */

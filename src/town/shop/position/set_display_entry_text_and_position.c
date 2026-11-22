@@ -3,34 +3,17 @@
 #include "slus.h"
 #include "town/shop/position.h"
 
-typedef struct S_800B5264_1 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_800B5264_1;   /* arg0 in set_display_entry_text_and_position */
-
-typedef struct S_800B5264_2 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-    s16 unk_0A;
-    u8 pad_0C[0x2];
-    s8 unk_0E;
-} S_800B5264_2;   /* ((S_800B5264_1 *)arg0)->unk_04 in set_display_entry_text_and_position */
-
-typedef struct S_800B5264_0 {
-    s32 unk_00;
-} S_800B5264_0;   /* arg0 in set_display_entry_text_and_position */
-
 /* Replace the entry's text, set its position, and select display mode 2. */
-void set_display_entry_text_and_position(S_800B5264_0 *entry, s32 text, s32 text_style, s16 x, s32 y) {
-    s32 old_text;
+void set_display_entry_text_and_position(ItemMenuPart *entry, s32 text, s32 text_style, s16 x, s32 y) {
+    void *old_text;
 
-    old_text = entry->unk_00;
+    old_text = entry->handler;
     if (old_text != 0) {
         flag_optional_object_for_removal(old_text);
-        entry->unk_00 = 0;
+        entry->handler = 0;
     }
-    ((S_800B5264_2 *)(((S_800B5264_1 *)entry)->unk_04))->unk_08 = x;
-    ((S_800B5264_2 *)(((S_800B5264_1 *)entry)->unk_04))->unk_0A = (s16) y;
-    entry->unk_00 = create_label_glyph_entries(text, text_style);
-    ((S_800B5264_2 *)(((S_800B5264_1 *)entry)->unk_04))->unk_0E = 2;
+    entry->position->x = x;
+    entry->position->y = (s16) y;
+    entry->handler = create_label_glyph_entries(text, text_style);
+    entry->position->type = 2;
 }

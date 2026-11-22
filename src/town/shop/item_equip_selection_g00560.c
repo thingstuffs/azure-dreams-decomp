@@ -9,11 +9,11 @@
  * Sets entry flag 0x20 and searches 20 four-byte slots at 0x80010248; saves a successful index at
  * 0x80012D52 and returns the search result.
  */
-s32 equip_entry_and_save_slot(void *entry) {
+s32 equip_entry_and_save_slot(DungeonItemEntry *entry) {
     s32 entry_index;
 
-    *((u8 *)entry + 3) |= 0x20;
-    entry_index = find_slot_index_by_address(entry, (void *)0x80010248, 0x14);
+    entry->unk_03 |= 0x20;
+    entry_index = find_slot_index_by_address(entry, (DungeonItemEntry *)0x80010248, 0x14);
     if (entry_index != -1) {
         *(s8 *)0x80012D52 = entry_index;
     }

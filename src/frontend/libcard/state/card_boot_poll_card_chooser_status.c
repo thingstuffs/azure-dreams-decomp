@@ -8,9 +8,9 @@
 #include "main/data.h"
 
 /* Updates the selected callback or triggers a one-time action when no callback is selected. */
-void card_boot_poll_card_chooser_status(Object_800128C8 *state) {
+void card_boot_poll_card_chooser_status(CardChooserBody *state) {
     s32 callback_index;
-    void *callback;
+    void (*callback)(CardChooserBody *);
 
     if ((g_game_work.buttons != 0) && ((g_game_work.pressed_buttons) & 0x20)) {
         card_boot_toggle_channel();
@@ -23,7 +23,7 @@ void card_boot_poll_card_chooser_status(Object_800128C8 *state) {
     no_op_card_stub();
     if (callback_index != 0) {
         state->wait_notice_state = 0;
-        state->unk_30 = callback_index;
+        state->slot_status = callback_index;
         callback = D_8002809C[callback_index];
         state->unk_34 = callback_index;
         (NODE_HEADER(state))->update_callback = callback;

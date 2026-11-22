@@ -78,7 +78,6 @@ void update_timed_hop_and_landing(ActorRecord *action, ObjectPosition *motion, S
 struct S_801747F0_1;
 void update_tossed_item_motion(TossedItemMotionBody *motion, struct S_801747F0_1 *position, SpriteFrameState *object);
 
-/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void wait_for_barong_activity(ActorRecord *body, ObjectPosition *unused, SpriteFrameState *animation, ActorRecord *actor);
 
 void update_barong_recoil(ActorRecord *action_arg, ObjectPosition *motion_arg, SpriteFrameState *sprite_arg, ActorRecord *entity_arg);

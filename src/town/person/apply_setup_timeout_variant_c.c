@@ -8,7 +8,7 @@
 #include "town/person.h"
 #include "town/person/object.h"
 /* Decrement the countdown and call apply_object_setup_and_update when it reaches zero. */
-void apply_setup_on_timeout_variant_3(TownObjectRecord *object, void *context, void *update_data) {
+void apply_setup_on_timeout_variant_3(TownObjectRecord *object, ObjectPosition *context, SpriteFrameState *update_data) {
     u16 remaining_ticks;
 
     remaining_ticks = object->timer - 1;

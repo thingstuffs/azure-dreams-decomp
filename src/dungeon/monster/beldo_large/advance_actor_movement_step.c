@@ -204,7 +204,7 @@ void advance_actor_movement_step(ActorRecord *movement_in, ObjectPosition *actio
         }
     }
     attempt = 0;
-    x_offsets = (u8 *)((s8 *)dir_step_x);
+    x_offsets = (u8 *)dir_step_x;
 
     do {
         base_angle = actor->facing;
@@ -241,7 +241,7 @@ void advance_actor_movement_step(ActorRecord *movement_in, ObjectPosition *actio
             direction_offset = (actor->facing >> 8) & 0xE;
             position->tile_x +=
                 *((u8 *)((u32)direction_offset + (u32)x_offsets));
-            position->tile_y += *((u8 *)((s8 *)dir_step_y) + direction_offset);
+            position->tile_y += *((u8 *)dir_step_y + direction_offset);
             next_x = position->tile_x;
             next_y = position->tile_y;
             tile_mask = 0x3000;

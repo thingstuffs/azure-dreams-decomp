@@ -52,7 +52,7 @@ typedef struct S_800B23F8_1 {
 #include "dungeon/item/find_active_rect_containing_point_api.h"
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void insert_node_before_primary_actor(struct ObjectNodeHeader *);
-extern void create_tracked_effect(void *, s32, void *, void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+#include "dungeon/effect/tracked_sprite.h"
 /* (void *)reg_s3 in create_actor_node_at_tile */
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);

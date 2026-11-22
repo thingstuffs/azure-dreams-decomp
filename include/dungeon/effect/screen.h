@@ -62,7 +62,6 @@ void spawn_blinking_sprite_flash(s16 x, s16 y, s16 z);
 struct SpriteQuadScratch;
 void create_fullscreen_fade(s32 flag, s8 value);
 void queue_visible_rectangle_copy(struct RectangleCopy *copy_rect, struct SpriteQuadScratch *source);
-void retire_tracked_effect_by_id(s32 targetId);
 
 void *create_item_target_selector(u8 *selection_data);
 
@@ -82,6 +81,6 @@ void refresh_packed_grid_nibbles(void);
 
 void create_actor_linked_effect(ActorRecord *source_data);
 
-void *create_tracked_effect(ObjectNodeHeader **owner, s16 mode, s32 param, void *unused);
+#include "dungeon/effect/tracked_sprite.h"
 
 #endif

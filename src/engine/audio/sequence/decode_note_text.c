@@ -48,7 +48,7 @@ void *decode_fullwidth_text(void *entries, u8 *text, s32 initial_style)
                 u8 glyph_hi = cursor[0];
                 u8 glyph_lo = cursor[1];
                 u8 glyph = (u8)map_fullwidth_character_to_glyph_byte(glyph_lo | (glyph_hi << 8));
-                /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: slus/w_8004DA74). */
+                /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence). */
                 do {
                     cursor += 2;
                 } while (0);

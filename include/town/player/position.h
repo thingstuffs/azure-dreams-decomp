@@ -25,10 +25,10 @@ void add_motion_deltas_to_position(ObjectPosition *motion);
 /* advance_player_position_and_angle.c */
 
 /* approach_linked_position_until_timeout.c */
-void approach_linked_position_until_timeout(struct TownObject *object, IntVector3 *position, void *context);
+void approach_linked_position_until_timeout(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *sprite);
 
 /* approach_target_tile_until_timeout.c */
-void approach_target_tile_until_timeout(TownObjectRecord *target, struct S_800935BC_0 *position, void *transition_arg);
+void approach_target_tile_until_timeout(TownObjectRecord *target, struct ObjectPosition *position, struct SpriteFrameState *sprite);
 
 /* clamp_coordinates_to_bounds.c */
 s32 clamp_coordinates_to_bounds(s32 *x_ptr, s32 *y_ptr);
@@ -37,7 +37,7 @@ s32 clamp_coordinates_to_bounds(s32 *x_ptr, s32 *y_ptr);
 void expand_bounds_to_inset_rectangle(s32 *bounds, struct TownRectangle *rect);
 
 /* follow_linked_position_until_timeout.c */
-void follow_linked_position_until_timeout(UnsignedCountdownView *state, IntVector3 *out, struct SpriteFrameState *handler_arg);
+void follow_linked_position_until_timeout(TownObjectRecord *state, ObjectPosition *out, struct SpriteFrameState *handler_arg);
 
 /* resolve_collision_axis_order.c */
 void resolve_collision_axis_order(ObjectPosition *position);
@@ -56,10 +56,10 @@ s16 query_larger_position_result(ObjectPosition *input);
 /* refresh_object_position_and_initialize.c */
 
 /* select_the_smaller_position_query_result_capped_writes_associated.c */
-s16 query_capped_surface_height(void *position_data, s32 *out_value);
+s16 query_capped_surface_height(struct ObjectPosition *position_data, s32 *out_value);
 
 /* set_player_handler_and_position_value.c */
-void set_player_handler_and_position_value(TownObjectRecord *object, s32 value_arg, struct SpriteFrameState *handler_param);
+void set_player_handler_and_position_value(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *sprite);
 
 /* store_position_and_compute_delta.c */
 void store_position_and_compute_delta(s32 *newValue);

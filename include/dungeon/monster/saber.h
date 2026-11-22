@@ -59,7 +59,6 @@ void update_tile_movement_and_action_completion(ActorRecord *action, ObjectPosit
 
 void finish_saber_tile_move(ActorRecord *entity_arg, ObjectPosition *motion, SpriteFrameState *check_arg, ActorRecord *actor_arg);
 
-/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void initialize_actor_facing_sprite(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *orientation);
 
 void resolve_saber_hits_on_target_tile(void *node, s32 target_x, s32 target_y, s32 target_height);

@@ -10,6 +10,8 @@
 #include "shared/vector.h"
 
 struct ColliderView;
+struct Box;
+struct ObjectNodeHeader;
 struct S_8009C46C_0;
 struct S_8009C4E8_2;
 struct SpriteFrameState;
@@ -21,7 +23,7 @@ extern u8 tracked_actor_callback_address[];
 void initialize_object_state_from_selector(TownObjectRecord *context, ObjectPosition *selector, SpriteFrameState *state);
 
 /* initialize_optional_object_state.c */
-void initialize_optional_object_state(void *object, void *context, void *state, void *init_value);
+void initialize_optional_object_state(void *object, ObjectPosition *context, SpriteFrameState *state, void *init_value);
 
 /* init_trigger_action_object.c */
 void init_trigger_action_object(TownObjectRecord *record_data, ObjectPosition *placement, struct SpriteFrameState *unused_sprite);
@@ -30,15 +32,15 @@ void init_trigger_action_object(TownObjectRecord *record_data, ObjectPosition *p
 void init_item_flag_check_object(TownObjectRecord *record_data, ObjectPosition *placement, struct SpriteFrameState *unused_sprite);
 
 /* select_object_state_by_mode.c */
-void select_object_state_by_mode(Rec_D_800CFCB4 *record, ObjectPosition *context, SpriteFrameState *state, void *default_value, void *alternate_value, void *update_value);
+void select_object_state_by_mode(TownObjectRecord *record, ObjectPosition *context, SpriteFrameState *state, void *default_value, void *alternate_value, struct Box *bounds);
 
 /* set_actor_drop_state.c */
-void set_actor_drop_state(TownObjectRecord *object, struct ColliderView *state, void *unused_motion, void *unused_context);
+void set_actor_drop_state(TownObjectRecord *object, struct ColliderView *state, struct ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite);
 
 /* spawn_and_flag_object_parts_g01128.c */
 void spawn_and_flag_object_parts(unsigned short *object, s32 unused, s32 action_id);
 void unlink_and_remove_scene_object(void *object, void *unused_owner, void *unused_position, s32 unused_dispatch_param);
-void *create_town_effect_object(s32 parent, IntVector3 *position, s32 object_value, s32 state_value);
+void *create_town_effect_object(struct ObjectNodeHeader *parent, IntVector3 *position, s32 object_value, s32 state_value);
 void run_object_secondary_callback(struct S_8009C46C_0 *object, ObjectPosition *motion, SpriteFrameState *context);
 void update_timed_object_to_height_limit(void *object, ObjectPosition *motion, SpriteFrameState *appearance);
 void fade_object_primitive(void *object, ObjectPosition *unusedContext, u8 *primitive);

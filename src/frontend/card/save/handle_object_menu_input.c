@@ -2,6 +2,7 @@
 #include "shared/object_node.h"
 #include "frontend/card.h"
 #include "frontend/card/save.h"
+#include "frontend/card/save_operation.h"
 #include "frontend/card/service.h"
 #include "frontend/card/server_imports.h"
 #include "frontend/card/server_aliases.h"
@@ -9,10 +10,10 @@
 extern s32 boot_pad_state;
 extern s32 boot_pressed_buttons;
 
+
 /* Handles menu navigation, button actions, and display refreshes. */
-void handle_object_menu_input(void *menu_arg)
+void handle_object_menu_input(CardSaveOperationBody *menu)
 {
-    CardDevSaveMenuBody *menu = menu_arg;
     s32 held_buttons;
     s32 pressed_buttons;
     s32 nav_result;
@@ -29,11 +30,11 @@ void handle_object_menu_input(void *menu_arg)
         if (pressed_buttons & 0x40) {
             SD_Call_80063FF8(0x515);
             propagate_object_high_bit_flags(NODE_HEADER(menu));
-            create_card_dev_slot_screen_effect(menu->unk_20, 0);
+            create_card_dev_slot_screen_effect(menu->request, 0);
             return;
         } else if (pressed_buttons & 0x20) {
             SD_Call_80063FF8(0x514);
-            if (menu->unk_48 == 0) {
+            if (menu->slot_mode == 0) {
                 card_dev_set_save_menu_slot_mode(menu);
                 needs_refresh = 1;
             } else {
@@ -62,19 +63,19 @@ void handle_object_menu_input(void *menu_arg)
             }
         } else if (held_buttons & 0xA000) {
             if (held_buttons & 0x2000) {
-                menu->unk_48 = 1;
+                menu->slot_mode = 1;
             } else {
-                menu->unk_48 = 0;
+                menu->slot_mode = 0;
             }
             needs_refresh = 1;
         }
 
         if (nav_result != 0) {
             SD_Call_80063FF8(0x502);
-            if (menu->unk_48 == 1) {
-                menu->unk_28 = advance_card_menu_index_80058FF0(menu->unk_28, nav_result, 5);
+            if (menu->slot_mode == 1) {
+                menu->entry_index = advance_card_menu_index_80058FF0(menu->entry_index, nav_result, 5);
             } else {
-                menu->callback_index = advance_card_menu_index_80058FF0(menu->callback_index, nav_result, 4);
+                menu->option_index = advance_card_menu_index_80058FF0(menu->option_index, nav_result, 4);
             }
             card_devkit_refresh_save_slot_selection(menu);
         }
@@ -85,7 +86,7 @@ void handle_object_menu_input(void *menu_arg)
     if (nav_result != 0) {
         if (nav_result != 1) {
             propagate_object_high_bit_flags(NODE_HEADER(menu));
-            create_card_dev_slot_screen_effect(menu->unk_20, 0);
+            create_card_dev_slot_screen_effect(menu->request, 0);
         }
     }
     if (needs_refresh != 0) {

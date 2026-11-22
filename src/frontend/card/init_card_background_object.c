@@ -40,7 +40,7 @@ void * init_card_background_object(ObjectNodeHeader *owner, s32 *selection_flag)
         }
         func_80040560(base, card_dev_render_panel_hierarchy);
     } else {
-        card_dev_flag_object_dirty(base);
+        card_dev_flag_object_dirty(NODE_HEADER(obj));
         {
             u16 flags = card_background_object.flags;
             flags &= 0x7FFF;

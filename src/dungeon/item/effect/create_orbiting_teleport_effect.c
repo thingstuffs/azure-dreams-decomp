@@ -16,7 +16,10 @@
 
 extern u8 D_800DF630[];
 
-/* Creates and initializes a display object linked to its owner. */
+/*
+ * Links the teleport effect to its owner and initializes its orbit and phase from the requested
+ * direction and mode.
+ */
 void *create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 direction, s16 effect_mode)
 {
     ObjectNodeHeader *object;
@@ -78,7 +81,3 @@ void *create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 directi
     }
     return object;
 }
-
-/* MECHANISM: The true rowbase function uses a 0x30 frame with s2/s4/s5/s3
-   holding the four arguments, a post-call s6 copy, and s1/s0 object bases.
-   The 800C5558/800C555C targets are local mode-store joins, not tail calls. */

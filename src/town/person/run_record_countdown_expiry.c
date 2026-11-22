@@ -9,14 +9,14 @@
 
 
 /* Decrement the record's countdown and run its expiry handlers when it reaches zero. */
-void run_record_countdown_expiry(TownObjectRecord *record, ObjectPosition *forward_arg_1, void *forward_arg_2) {
+void run_record_countdown_expiry(TownObjectRecord *record, ObjectPosition *position, struct SpriteFrameState *sprite) {
     u16 countdown;
 
     countdown = record->timer - 1;
     record->timer = countdown;
     if ((countdown << 0x10) <= 0) {
-        set_linked_data_pointers_variant_1(record, forward_arg_1, forward_arg_2);
+        set_linked_data_pointers_variant_1(record, position, sprite);
         create_owner_following_sprite(record);
-        apply_object_setup_and_update(record, forward_arg_1, forward_arg_2);
+        apply_object_setup_and_update(record, position, sprite);
     }
 }

@@ -2,6 +2,7 @@
 #ifndef DUNGEON_ENGINE_MENU_EFFECTS_H
 #define DUNGEON_ENGINE_MENU_EFFECTS_H
 #include "common.h"
+#include "dungeon/effect/tracked_sprite.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/sprite_part_command.h"
 #include "m2c_compat.h"

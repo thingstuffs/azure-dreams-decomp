@@ -1,9 +1,9 @@
 #include "common.h"
-#include "town/person.h"
+#include "town/person/jump_motion.h"
 
-void func_800CD158(s32, s32, s32, s32);
+void func_800CD158(TownObjectRecord *, s32, struct SpriteFrameState *, s16);
 
-/* Forward the state, object, and context to func_800CD158 with a fixed value of -15. */
-void move_flag_object_with_step_minus_15(s32 state, s32 object, s32 context) {
-    func_800CD158(state, object, context, -15);
+/* Start the registered jump with a vertical velocity of -15. */
+void move_flag_object_with_step_minus_15(TownObjectRecord *object, s32 motion, struct SpriteFrameState *sprite) {
+    func_800CD158(object, motion, sprite, -15);
 }

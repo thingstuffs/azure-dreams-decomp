@@ -628,7 +628,6 @@ s32 check_directional_move_and_terrain();
 struct Ent *prepare_directional_attack();
 u32 check_entity_interaction_compatibility();
 #include "dungeon/player/object/action_state.h"
-struct Entry;
 struct ObjectNodeHeader;
 struct ObjectNodeHeader;
 s32 update_actor_movement_to_tile(ActorRecord *move_state, void *motion, void *target_tile, ActorRecord *actor);
@@ -647,15 +646,15 @@ s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, ObjectPosi
 s32 interpolate_actor_to_terrain_tile(struct S_800AC480_0 *move_state, ObjectPosition *motion, MovingTile *target_tile, struct S_800AC480_3 *height_state);
 s32 update_spinning_actor_fall();
 s32 update_actor_fade_in(ActorRecord *object, ObjectPosition *unused, SpriteFrameState *effect);
-void project_sprite_commands(void *context, void *position, struct Entry *entry, s16 depth_bias);
-void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth_bias);
+void project_sprite_commands(void *context, struct ObjectPosition *position, struct SpriteFrameState *entry, s16 depth_bias);
+void func_800453E0(void *context, struct ObjectPosition *position, struct SpriteFrameState *entry, s16 depth_bias);
 void unlink_node();
 void select_record_entry_and_value(void *state, void *entries, short index);
 void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
 void run_cd_image_commands(u32 *stream_ref, u8 *state, s32 execute);
 void func_80041588(u32 *stream_ref, u8 *state, s32 execute);
 s32 read_stream_cue_start_offset(void);
-s32 lookup_masked_byte_table();
+s32 lookup_masked_byte_table(ActorRecord *actor);
 void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 void *create_status_linked_render_effect();
 extern u8 child_texture_entries[];

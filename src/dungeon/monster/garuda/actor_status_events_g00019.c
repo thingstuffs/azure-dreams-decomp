@@ -3,9 +3,7 @@
 #include "shared/entity.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
-/* Actor status events (G00019).
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00019 - PD:dungeon/bank_1025000:801748E8, PD:dungeon/bank_102b000:8016E8E8, PD:dungeon/bank_1031000:801688E8, PD:dungeon/bank_1037000:801628E8, PD:dungeon/bank_103d000:8015C8E8, PD:dungeon/bank_1043000:801568E8.
- */
+/* Updates Garuda's animation and dispatches callbacks for active status effects. */
 #include "dungeon/monster/garuda/actor_status_events_g00019.h"
 #include "dungeon/monster/garuda.h"
 #include "shared/sprite_frame_state.h"

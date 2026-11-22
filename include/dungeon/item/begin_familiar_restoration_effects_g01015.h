@@ -3,7 +3,6 @@
 #ifndef DUNGEON_ITEM_BEGIN_FAMILIAR_RESTORATION_EFFECTS_G01015_H
 #define DUNGEON_ITEM_BEGIN_FAMILIAR_RESTORATION_EFFECTS_G01015_H
 /* Begin familiar restoration effects. Shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01015 - CL:dungeon/func_800BC2E4. */
 
 #include "common.h"
 #include "dungeon/item/familiar_restore_sprite_data.h"

@@ -14,7 +14,7 @@ typedef struct {
 } Fields;
 
 /* Initializes four pairs of records from D_80400544 and marks the final pair. */
-void *init_frame_primitive_pairs(void *buffer, void *unused_object)
+void *init_frame_primitive_pairs(void *buffer, struct CardDevDialogDisplay *dialog)
 {
     Bytes4 values;
     s32 i;

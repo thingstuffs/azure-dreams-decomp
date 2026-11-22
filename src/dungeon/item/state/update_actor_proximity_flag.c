@@ -8,34 +8,34 @@ extern s16 get_tile_chebyshev_distance(void *, void *);
 /* Updates and returns the state flag using a source index and two thresholds. */
 s32 update_actor_proximity_flag(void *source_arg, ActorRecord *state, s32 lower_limit, s32 upper_limit, s8 *result) {
     TileObject *source = source_arg;
-    u32 flags = (*(u32 *)&((EntityRec *)state)->flags1C);
+    u32 flags = (*(u32 *)&state->flags1C);
     s8 source_index;
 
     if (flags & ACTOR_PLAYER_AWARE) {
         if (flags & ACTOR_BLIND) {
-            (*(u32 *)&((EntityRec *)state)->flags1C) = flags & ~ACTOR_PLAYER_AWARE;
-            ((EntityRec *)state)->unk_73 = 0;
-            ((EntityRec *)state)->unk_72 = 0;
+            (*(u32 *)&state->flags1C) = flags & ~ACTOR_PLAYER_AWARE;
+            state->target_tile_y = 0;
+            state->target_tile_x = 0;
             *result = -1;
-            return ((*(u32 *)&((EntityRec *)state)->flags1C) >> 17) & 1;
+            return ((*(u32 *)&state->flags1C) >> 17) & 1;
         }
         source_index = source->room_index;
         if (source_index < 0 || source_index != reference_tile_object.room_index) {
             if ((get_tile_chebyshev_distance(((&reference_tile_object)), source) << 16) >= (upper_limit << 16)) {
-                ((EntityRec *)state)->unk_73 = 0;
-                ((EntityRec *)state)->unk_72 = 0;
-                (*(u32 *)&((EntityRec *)state)->flags1C) &= ~ACTOR_PLAYER_AWARE;
+                state->target_tile_y = 0;
+                state->target_tile_x = 0;
+                (*(u32 *)&state->flags1C) &= ~ACTOR_PLAYER_AWARE;
                 *result = -1;
-                return ((*(u32 *)&((EntityRec *)state)->flags1C) >> 17) & 1;
+                return ((*(u32 *)&state->flags1C) >> 17) & 1;
             }
         }
-        return ((*(u32 *)&((EntityRec *)state)->flags1C) >> 17) & 1;
+        return ((*(u32 *)&state->flags1C) >> 17) & 1;
     }
     if (!(flags & ACTOR_BLIND)) {
         source_index = source->room_index;
         if ((source_index >= 0 && source_index == reference_tile_object.room_index)
             || (get_tile_chebyshev_distance(((&reference_tile_object)), source) << 16) < (lower_limit << 16))
-            (*(u32 *)&((EntityRec *)state)->flags1C) |= ACTOR_PLAYER_AWARE;
+            (*(u32 *)&state->flags1C) |= ACTOR_PLAYER_AWARE;
     }
-    return ((*(u32 *)&((EntityRec *)state)->flags1C) >> 17) & 1;
+    return ((*(u32 *)&state->flags1C) >> 17) & 1;
 }

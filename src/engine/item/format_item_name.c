@@ -13,7 +13,6 @@ typedef struct
 }
 S_800492B0_Ret;
 
-extern s32 get_scaled_byte_value(void *);
 
 /* Formats and displays item modifiers and status markers. */
 s32 format_item_name(u8 *text_target, DungeonItemEntry *item)

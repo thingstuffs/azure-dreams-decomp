@@ -6,7 +6,7 @@
 extern u8 D_80082A39;
 
 /* Select the object setup path after a successful request. */
-s32 select_object_setup_path(void *object, ObjectPosition *request_data, SpriteFrameState *request_param) {
+s32 select_object_setup_path(TownObjectRecord *object, ObjectPosition *request_data, SpriteFrameState *request_param) {
     if (service_script_controller() == 0) {
         return 0;
     }

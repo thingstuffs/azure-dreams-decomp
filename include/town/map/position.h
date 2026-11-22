@@ -18,7 +18,7 @@ void copy_building_tiles_at_position(s16 x, s16 y, u16 *src_tiles);
 void init_view_reference_entity(void);
 
 /* spawn_paired_radial_effects.c */
-void spawn_paired_radial_effects(s32 unused_arg, s32 *position);
+void spawn_paired_radial_effects(struct TownObjectRecord *unused_owner, s32 *position);
 
 /* query_offset_position_minus_x.c */
 s16 query_offset_position_minus_x(struct Vec4 *vector, struct Vec4 *entries, s32 entry_index);

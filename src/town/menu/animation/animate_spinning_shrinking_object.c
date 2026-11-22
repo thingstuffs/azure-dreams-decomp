@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/position_views.h"
+#include "town/menu/motion.h"
 #include "sdk/libgte.h"
 #include "sdk/libgte_matrix.h"
 #include "town/menu.h"
@@ -12,31 +12,13 @@ typedef struct TownScratch {
     VECTOR translation; /* TransMatrix translation: the anchor point */
 } TownScratch;
 
-typedef s16 TownExtent;
-
 typedef union TownReciprocal {
     u16 bits;
     s16 signed_value;
 } TownReciprocal;
 
-typedef struct TownObject {
-    u16 angle_x;
-    u16 angle_y;
-    u16 angle_z;
-    u8 pad_06[2];
-    TownExtent extent;
-    s16 finished;
-    s32 timer;
-    TownReciprocal reciprocal;
-    u8 pad_12[2];
-    MATRIX first_matrix;
-    MATRIX second_matrix;
-    u8 pad_54[0x26];
-    s16 half_height;
-} TownObject;
-
 /* Spin and shrink the object, update both transforms, and mark completion at zero extent. */
-s32 animate_spinning_shrinking_object(TownObject *object, const SignedPositionView *point, s32 unused_arg2)
+s32 animate_spinning_shrinking_object(struct DoorTransitionEffect *object, const struct ObjectPosition *point, struct SpriteFrameState *unused_sprite)
 {
     TownScratch *scratch = (TownScratch *)0x1F800000;
     VECTOR *translation;
@@ -47,8 +29,6 @@ s32 animate_spinning_shrinking_object(TownObject *object, const SignedPositionVi
     s32 animation_time;
     s32 wave_value;
     u16 spin_angle;
-    u16 reciprocal;
-    u16 extent;
 
     spin_angle = object->angle_y;
     spin_angle += 0x16;
@@ -58,8 +38,7 @@ s32 animate_spinning_shrinking_object(TownObject *object, const SignedPositionVi
 
         next_timer = object->timer + 5;
         object->timer = next_timer;
-        reciprocal = object->reciprocal.bits + 5;
-        object->reciprocal.bits = reciprocal;
+        object->intensity += 5;
         if (next_timer >= 0xFF)
             object->timer = 0xFF;
     }
@@ -71,23 +50,22 @@ s32 animate_spinning_shrinking_object(TownObject *object, const SignedPositionVi
         wave_value = rsin((animation_time * 0x10) - 0x400);
     if (wave_value < 0) {
         wave_value += 0xF;
-        object->reciprocal.bits = wave_value >> 4;
+        object->intensity = wave_value >> 4;
     } else {
-        object->reciprocal.bits = wave_value >> 4;
+        object->intensity = wave_value >> 4;
     }
-    if (object->reciprocal.signed_value >= 0xFF)
-        object->reciprocal.bits = 0xFF;
+    if (object->intensity >= 0xFF)
+        object->intensity = 0xFF;
 
-    extent = (u16)object->extent - 6;
-    object->extent = extent;
-    if ((s16)extent < 0)
+    object->extent -= 6;
+    if (object->extent < 0)
         object->extent = 0;
 
     translation = &scratch->translation;
     PushMatrix();
-    scratch->translation.vx = point->x;
-    scratch->translation.vy = point->y;
-    scratch->translation.vz = point->z - (object->half_height / 2);
+    scratch->translation.vx = point->x.w.i;
+    scratch->translation.vy = point->y.w.i;
+    scratch->translation.vz = point->z.w.i - (object->half_height / 2);
     scratch->scale.vx = object->extent;
     scratch->scale.vy = object->extent;
     scratch->scale.vz = object->extent;
@@ -95,7 +73,7 @@ s32 animate_spinning_shrinking_object(TownObject *object, const SignedPositionVi
     scratch->rotation.vx = object->angle_x;
     scratch->rotation.vy = object->angle_y;
     scratch->rotation.vz = object->angle_z;
-    first_matrix = &object->first_matrix;
+    first_matrix = &object->matrices[0];
     TransMatrix(first_matrix, translation);
 
     rotation = &scratch->rotation;
@@ -106,7 +84,7 @@ s32 animate_spinning_shrinking_object(TownObject *object, const SignedPositionVi
     scratch->rotation.vx = -object->angle_x;
     scratch->rotation.vy = -object->angle_y;
     scratch->rotation.vz = -object->angle_z;
-    second_matrix = &object->second_matrix;
+    second_matrix = &object->matrices[1];
     TransMatrix(second_matrix, translation);
     RotMatrix(rotation, second_matrix);
     ScaleMatrix(second_matrix, scale);

@@ -21,5 +21,3 @@ void advance_multi_form_ring_phase(void) {
         object_index += 1;
     } while (object_index < 0x10);
 }
-
-/* MECHANISM: Frameless leaf loop retained; an explicit u16 temp exposes the retail RMW lifetime. */

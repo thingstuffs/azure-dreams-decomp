@@ -4,6 +4,7 @@
 
 #include "common.h"
 #include "frontend/card/server_text.h"
+#include "shared/timed_stream.h"
 #include "frontend/settings.h"
 #include "m2c_compat.h"
 
@@ -27,7 +28,8 @@ extern s32 D_800263C0[ ];
 extern s32 D_8002644C[ ];
 extern s32 D_800267C0[ ];
 
-extern u8 D_800274D8[ ];
+struct CardChooserBody;
+void D_800274D8(struct CardChooserBody *menu);
 
 
 
@@ -42,7 +44,7 @@ extern s32 D_8002806C[ ];
 extern s32 D_80028074[ ];
 extern s32 D_8002807C[2];
 extern s32 D_80028084[2];
-extern void *D_8002809C[ ];
+extern void (*D_8002809C[])(struct CardChooserBody *menu);
 extern s32 D_80028294[ ];
 extern s32 D_800282A0;
 extern void *D_800282A4[ 3 ];
@@ -117,8 +119,8 @@ extern M2C_UNK D_80405DE0;
 
 
 
-extern u8 D_80407D90[ ];
-extern u8 D_80407DB8[ ];
+void D_80407D90(struct CardChooserBody *menu);
+void D_80407DB8(struct CardChooserBody *menu);
 
 extern void *D_80407F40;
 
@@ -144,7 +146,7 @@ extern M2C_UNK D_80408D64;
 extern s32 D_80408D6C;
 extern M2C_UNK D_80408D74;
 extern short D_80408EC8[ ];
-extern s32 D_804090E0[ ];
+extern void (*D_804090E0[])(struct CardChooserBody *menu);
 extern M2C_UNK D_80409110;
 extern M2C_UNK D_80409128;
 extern s32 card_slot_state_repeat_count[ ];

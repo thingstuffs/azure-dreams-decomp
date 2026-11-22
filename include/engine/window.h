@@ -47,7 +47,6 @@ typedef struct {
 struct MessageWindowImage;
 struct Container;
 struct CursorState;
-struct Func37534State;
 struct AttachedMessageWindowBody;
 struct ObjectPosition;
 struct SpriteFrameState;
@@ -69,7 +68,6 @@ struct Rec_func_80036210_arg0;
 struct S_80036110_0;
 struct S_8003626C_0;
 struct S_800362A0_0;
-struct S_80036434_0;
 struct S_80036484_0;
 struct S_800364BC_0;
 struct S_8003661C_0;
@@ -94,7 +92,7 @@ void cleanup_window_object(void *record);
 void confirm_list_menu_choice(struct S_80036880_0 *object, void *unused_arg1, void *unused_arg2);
 
 /* confirm_menu_choice.c */
-void confirm_menu_choice(struct S_80036434_0 *object, s32 unused_arg1, s32 unused_arg2);
+void confirm_menu_choice(struct CursorState *object, s32 unused_arg1, s32 unused_arg2);
 
 /* confirm_timed_menu_choice.c */
 void confirm_timed_menu_choice(struct S_8003661C_0 *object);
@@ -104,10 +102,10 @@ void confirm_timed_menu_choice(struct S_8003661C_0 *object);
 void func_800375C0(struct Container *container, struct Source *source);
 
 /* create_blinking_cursor_object.c */
-void create_blinking_cursor_object(void *node_addr, Rec_D_80081FDC *record, s32 *config, s16 initial_mode, s32 initial_value, void *setup_id);
+void create_blinking_cursor_object(struct ObjectNodeHeader *node_addr, Rec_D_80081FDC *record, struct WindowCursorSource *config, s16 initial_mode, s32 initial_value, void *setup_id);
 
 /* create_cursor_object.c */
-void create_cursor_object(void *task_buffer, Rec_D_80081FDC *record, s32 *source, s16 state_value, void *setup_arg);
+void create_cursor_object(void *task_buffer, Rec_D_80081FDC *record, Rec_func_80036210_arg0 *source, s16 state_value, void *setup_arg);
 
 /* create_default_window_object.c */
 void create_default_window_object(void *value);
@@ -139,7 +137,7 @@ void handle_wrapping_menu_cursor_input(struct CursorState *cursor, s32 unused_1,
 void display_speaker_name_plate(struct Func80035AF8State *state);
 
 /* init_cursor_color_object.c */
-void init_cursor_color_object(struct MenuChoiceCursorStorage *object, void *model, s32 *data, s16 index, s16 table_index, void *list);
+void init_cursor_color_object(struct MenuChoiceCursorStorage *object, Rec_D_80081FDC *model, struct WindowCursorSource *data, s16 index, s16 table_index, void *list);
 
 /* init_cursor_sprite_object.c */
 #include "engine/window/cursor_init.h"
@@ -161,7 +159,7 @@ void func_80035614(struct S_80035614_0 *object);
 void init_window_object(struct S_80035614_0 *object);
 
 /* invoke_window_object_callback.c */
-void invoke_window_object_callback(struct S_800355EC_0 *object, void *context, void *output);
+void invoke_window_object_callback(struct S_800355EC_0 *object, struct ObjectPosition *position, struct SpriteFrameState *sprite);
 
 /* mark_menu_slot_used.c */
 void mark_menu_slot_used(struct S_func_800368D0_0 *state);
@@ -215,8 +213,10 @@ void dispatch_window_fade_and_update_extents(struct AttachedMessageWindowBody *s
 /* shrink_window_extent.c */
 void fade_and_shrink_window_on_value_change(struct Func80035C80Object *object);
 
+void update_blinking_cursor_with_dark_idle(WindowCursorBody *state, ObjectPosition *context, SpriteFrameState *output);
+
 /* unlink_cursor_when_finished.c */
-s32 unlink_cursor_when_finished(struct Func37534State *state);
+s32 unlink_cursor_when_finished(WindowRenderPrefix *render);
 
 /* update_cursor_blink_colors.c */
 void update_cursor_blink_colors(WindowCursorBody *state, ObjectPosition *position, SpriteFrameState *output);

@@ -8,6 +8,31 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F2DD800: img_e752d0_80152ad0, r121nd_E7AC80; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80E550B4",
+      "tu": "src/dungeon/monster/manoeva/spawn_manoeva.c",
+      "home": "dungeon/func_80E370B4",
+      "foff": "0xe750b4",
+      "vma": "0x801528b4",
+      "size": 540,
+      "evidence": "Bank table entry at DUNGEON +0xe75000 points to this function.  Resource 30 slot 5, docs/evidence/dungeon_normal_resource_loader.json. Full 540-byte home object matches the retail entry at 0x801528b4.",
+      "bindings": {
+        "0x80083498": "0x80083498",
+        "0x800E2968": "0x800E2968",
+        "0x80170EE4": "0x80152EE4",
+        "0x801765D8": "0x801585D8",
+        "0x80176650": "0x80158650",
+        "0x8003FD64": "0x8003FD64",
+        "0x8004491C": "0x8004491C",
+        "0x80045340": "0x80045340",
+        "0x800A48F0": "0x800A48F0",
+        "0x800A6D30": "0x800A6D30",
+        "0x800A9C18": "0x800A9C18",
+        "0x800AA36C": "0x800AA36C",
+        "0x80170AD0": "0x80152AD0",
+        "0x80174B90": "0x80156B90"
+      }
+    },
+    {
       "row": "dungeon/func_80E552D0",
       "tu": "src/dungeon/monster/manoeva/update_manoeva_actor_callbacks_and_floor_motion.c",
       "home": "dungeon/func_80E372D0",

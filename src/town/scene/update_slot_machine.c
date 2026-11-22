@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/entity.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "town/scene.h"
 #include "town/data.h"
@@ -69,12 +70,11 @@ typedef struct S_func_80811C54_7 {
 } S_func_80811C54_7;
 
 /* Updates slot machine bets, reels, winning lines, and payout effects. */
-void update_slot_machine(void *machine, void *position)
+void update_slot_machine(S_func_80811C54_1 *self, ObjectPosition *position)
 {
-    S_func_80811C54_1 *self = machine;
     S_func_80811C54_2 *input;
     u8 *effect_config;
-    register S_func_80811C54_7 *position_or_effect;
+    register S_func_80811C54_7 *payout_body;
     s32 state_or_buttons;
     s32 symbol_index;
     s32 scan_index;
@@ -85,7 +85,6 @@ void update_slot_machine(void *machine, void *position)
 
     input = (S_func_80811C54_2 *)D_8012F130;
     state_or_buttons = self->unk_5C;
-    position_or_effect = position;
     effect_config = D_80526704;
     if ((u32)state_or_buttons >= 8U) {
         return;
@@ -101,7 +100,7 @@ void update_slot_machine(void *machine, void *position)
         if (COUNT_VALUE < 1000U) {
             return;
         }
-        if (func_80252550(D_80530154, position_or_effect) == 0) {
+        if (func_80252550(D_80530154, position) == 0) {
             return;
         }
         slot_machine_bet_effect[0] = func_80232868(0, -80, 64);
@@ -495,20 +494,20 @@ matrix_outer:
             }
             effect_obj->unk_10 = D_8052D770;
             effect_obj->unk_08->x.v =
-                position_or_effect->unk_00.s + (s32)0xFEC00000;
+                position->x.v + (s32)0xFEC00000;
             effect_obj->unk_08->y.v =
-                position_or_effect->unk_04 + (s32)0xFFC00000;
+                position->y.v + (s32)0xFFC00000;
             effect_obj->unk_08->z.v =
-                position_or_effect->unk_08 + (s32)0xFFC00000;
+                position->z.v + (s32)0xFFC00000;
             motion = effect_obj->unk_08;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             effect_obj->unk_08->velocity_z = 0x40000;
+            payout_body = NODE_BODY(effect_obj);
             func_8003BC18(effect_obj, score_sprite_draw_callback_address);
             sprite = effect_obj->unk_0C;
             sprite->scale_y = 0x1000;
             sprite->scale_x = 0x1000;
-            position_or_effect = (S_func_80811C54_7 *)((u8 *)effect_obj + 0x20);
 
             if (DIGIT2 != 0) {
                 DIGIT2--;
@@ -531,9 +530,9 @@ matrix_outer:
             sprite->unk_04 = 0;
             sprite->frame_ticks = 0;
             sprite->color.word = tint;
-            position_or_effect->unk_00.p = self;
-            position_or_effect->unk_50 = effect_config;
-            func_8023FA58(&position_or_effect->unk_08, effect_obj->unk_08, falling_object_update_address);
+            payout_body->unk_00.p = self;
+            payout_body->unk_50 = effect_config;
+            func_8023FA58(&payout_body->unk_08, effect_obj->unk_08, falling_object_update_address);
         }
     }
 

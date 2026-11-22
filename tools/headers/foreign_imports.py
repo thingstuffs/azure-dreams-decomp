@@ -62,6 +62,9 @@ for p in (str(HERE.parent), str(HERE.parents[1] / 'typing'), str(HERE.parents[1]
         sys.path.insert(0, p)
 
 import cscan  # noqa: E402
+if str(HERE.parents[1]) not in sys.path:
+    sys.path.append(str(HERE.parents[1]))
+import atomic_io  # noqa: E402
 
 FOREIGN = ('FOREIGN_SLUS', 'FOREIGN_IMAGE', 'NOWHERE')
 MARK = re.compile(r'foreign-program:\s*([^\n]+)')
@@ -632,9 +635,7 @@ def decide(a, root, progs, sites, workers, floors_path):
             hpath.write_text(append_block(htext, lines), errors='surrogateescape')
         print('decide %s: %d names appended' % (prog['header'], len(lines)))
     (a.out / 'decisions.json').write_text(json.dumps(decisions, indent=1, default=str))
-    with floors_path.open('w') as fh:
-        for r in floor_rows:
-            fh.write(json.dumps(r, sort_keys=True) + '\n')
+    atomic_io.write_text(floors_path, ''.join(json.dumps(r, sort_keys=True) + '\n' for r in floor_rows))
 
 
 def address_key(name):

@@ -18,7 +18,7 @@ typedef struct {
 
 s32 get_item_sprite_source(void *item_data);
 extern void place_item_at_valid_floor_position(s32, s32, s32, void *, void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern void create_tracked_effect(void *, s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+#include "dungeon/effect/tracked_sprite.h"
 
 extern u8 item_effect_descriptor[9];
 

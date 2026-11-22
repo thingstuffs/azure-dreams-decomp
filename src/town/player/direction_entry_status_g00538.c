@@ -8,9 +8,8 @@
  * for a matching direction. Saves the entry and slot, returning -1 for entry type one, one for
  * another match, or zero when absent.
  */
-s32 select_entry_by_input_direction(void *record_arg)
+s32 select_entry_by_input_direction(ColliderView *record)
 {
-    Rec_D_800CFCB4 *record = record_arg;
     s16 *direction_ptr;
     s16 angle;
     s32 *slot_ptr;
@@ -19,7 +18,7 @@ s32 select_entry_by_input_direction(void *record_arg)
     u8 entry_type;
     s32 special_type;
     s32 direction_index;
-    S_8009567C_3 *entry;
+    ColliderView *entry;
 
     angle = input_angle_with_offset(g_game_work.buttons, g_game_work.view.camera_rotation.parts.viewAngle);
     if (angle != -1) {
@@ -31,11 +30,11 @@ s32 select_entry_by_input_direction(void *record_arg)
         do {
             if (direction == *direction_ptr) {
                 slot = *slot_ptr;
-                if (((S_8009567C_0 *)((u8 *)record + slot))->unk_3A != 0) {
-                    entry = ((S_8009567C_1 *)((u8 *)record + slot * 4))->unk_1C;
-                    record->unk_18 = slot;
-                    record->unk_10 = entry;
-                    entry_type = entry->unk_14;
+                if (record->pending_flags[slot] != 0) {
+                    entry = record->slots[slot];
+                    record->selected_face = slot;
+                    record->selected_entry = entry;
+                    entry_type = entry->mode;
                     if (entry_type == special_type) {
                         return -1;
                     }
@@ -51,7 +50,7 @@ s32 select_entry_by_input_direction(void *record_arg)
 }
 
 /* Returns the status of the active entry matching the current direction. */
-s32 get_status_active_entry_matching_direction(void *entries)
+s32 get_status_active_entry_matching_direction(ColliderView *entries)
 {
     s16 *direction_ptr;
     s16 angle;
@@ -61,7 +60,7 @@ s32 get_status_active_entry_matching_direction(void *entries)
     u8 state;
     s32 blocked_state;
     s32 entry_index;
-    S_80095760_2 *entry;
+    ColliderView *entry;
 
     angle = input_angle_with_offset(g_game_work.buttons, g_game_work.view.camera_rotation.parts.viewAngle);
     if (angle != -1) {
@@ -73,9 +72,9 @@ s32 get_status_active_entry_matching_direction(void *entries)
         do {
             if (direction == *direction_ptr) {
                 slot = *slot_ptr;
-                if (((S_80095760_0 *)((u8 *)entries + slot))->unk_3A != 0) {
-                    entry = ((S_80095760_1 *)((u8 *)entries + slot * 4))->unk_1C;
-                    state = entry->unk_14;
+                if (entries->pending_flags[slot] != 0) {
+                    entry = entries->slots[slot];
+                    state = entry->mode;
                                          /* MATCH: preserve the loop pointers' live ranges through the byte load after removing the label call. */
                     if (state == blocked_state) {
                         return -1;

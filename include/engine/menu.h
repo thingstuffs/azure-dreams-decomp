@@ -165,7 +165,7 @@ void reset_menu_slot_leaf_records(void *slots);
 void initialize_gauge_menu_display_rows(struct S_800506BC_Obj *obj, struct S_800506BC_Ctx *ctx, void *unused_data);
 
 /* run_state_callback_and_restore.c */
-s32 run_state_callback_and_restore(void *state);
+s32 run_state_callback_and_restore(MenuSelectionBody *state);
 
 /* set_object_cleanup_flag.c */
 void set_object_cleanup_flag(unsigned short *object_fields);

@@ -37,7 +37,7 @@ void fade_delayed_scene_tile_on_completion(SceneTileObject *effect) {
         }
         return;
     case 1:
-        if (linked_object->flags.u & 1) {
+        if (linked_object->flags & TOWN_COLLECTION_FINISHED) {
             effect->state.s++;
             return;
         }

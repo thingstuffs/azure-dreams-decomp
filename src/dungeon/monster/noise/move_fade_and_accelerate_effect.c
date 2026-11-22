@@ -44,8 +44,7 @@ void move_fade_and_accelerate_effect(T_80170F0C_S_func_80D1170C_1 *effect, IntVe
     }
 }
 
-/* MECHANISM: Storing red and green immediately after their divisions invalidates
-   the shared scale/divisor loads before scheduling; the stores then schedule late. */
+/* Moves and fades the effect until its lifetime expires. */
 
 /* Spawns an effect at an offset from its parent with randomized velocity. */
 /* Creates an offset Noise particle with randomized velocity, a two-step X/Y displacement, and copied

@@ -32,7 +32,7 @@ void initialize_enabled_scene_object(void) {
             *(void **)&D_80100E28 = D_800D0CE8;
             town_movement_speed = 0x1C0000;
         }
-        object = create_town_effect_object(((s8 *)(&scene_object_list_anchor)), 0, D_800A6684, 0);
+        object = create_town_effect_object(&scene_object_list_anchor, 0, D_800A6684, 0);
         if (object != NULL) {
             position = object->position;
             object_resource = object->sprite;
@@ -59,7 +59,7 @@ void initialize_enabled_scene_object(void) {
             position_y = position->y.v;
             *(s32 *)(state + 0xA4) = position_y;
             *(s32 *)(state + 0xA0) = position_y;
-            init_scene_list_node(state, position, D_800D0CAC);
+            init_scene_list_node(state, position, &D_800D0CAC);
             initialize_optional_object_state(state, position, object_resource, D_800D0C90);
             initialize_object_entries((TownObjectRecord *)state, object_resource, (s32 *)D_80100E24_R);
             NODE_HEADER(state)->update_callback = D_800A6684;
@@ -69,14 +69,14 @@ void initialize_enabled_scene_object(void) {
 }
 
 /* Update the entity sprite and trigger effects when it crosses the height threshold. */
-void update_entity_sprite_and_effects(void *entity, EntityRec *position, SpriteFrameState *sprite)
+void update_entity_sprite_and_effects(void *entity, ObjectPosition *position, SpriteFrameState *sprite)
 {
     StackRecord effect_pos;
     s32 frame_index;
     s32 height_or_shade;
 
     (*(EntityCallback *)((u8 *)entity + 0x50))(entity, entity, position, sprite);
-    if (!((*(u16 *)((u8 *)entity + -2)) & 0x8000)) {
+    if (!(NODE_HEADER(entity)->flags & 0x8000)) {
         set_state_bytes_from_flags(update_object_and_clear_status_fields(position), entity);
 
         frame_index = quantize_heading_to_sector((*(s16 *)((u8 *)entity + 0x72)), (*(s16 *)((u8 *)entity + 0x64)));
@@ -125,46 +125,42 @@ void update_entity_sprite_and_effects(void *entity, EntityRec *position, SpriteF
 }
 
 /* Initialize object state and position, then invoke its new callback. */
-void start_bicycle_at_view_reference(Obj *obj, State *state, ObjectPosition *motion, void *callback_arg)
+void start_bicycle_at_view_reference(TownObjectRecord *object, TownObjectRecord *state, ObjectPosition *motion, SpriteFrameState *sprite)
 {
-    TownObjectRecord *object = (TownObjectRecord *)obj;
-    void *resource_arg;
-    void *resource;
+    s32 *entries;
 
-    resource_arg = callback_arg;
-    state->flag15 = 0;
-    resource = D_80100E28[0];
+    state->unk_15 = 0;
+    entries = D_80100E28[0];
     motion->velocity_x = 0;
     motion->velocity_y = 0;
     motion->velocity_z = 0;
-    obj->callback = update_bicycle_position_and_heading;
-    initialize_object_entries(object, resource_arg, (s32 *)resource);
+    object->unk_50.as_pv = update_bicycle_position_and_heading;
+    initialize_object_entries(object, sprite, entries);
     update_target_from_previous_state();
     motion->x.v = view_reference_entity.x.v;
     motion->y.v = view_reference_entity.y.v;
     motion->z.v = view_reference_entity.z.v;
     apply_pending_indexed_value(0xE5, (s32)read_and_clear_stored_value);
     set_flagged_entry_values((u32 *)D_800D0D54, (s32)store_pending_value_and_get_source);
-    update_bicycle_position_and_heading(object, (s32)state, motion, callback_arg);
+    update_bicycle_position_and_heading(object, state, motion, sprite);
 }
 
 /* Updates the actor position and rounds its heading, or restores the fixed position and heading. */
-void update_bicycle_position_and_heading(TownObjectRecord *object, s32 update_context, void *position_arg, void *setup_context) {
-    EntityRec *position = position_arg;
+void update_bicycle_position_and_heading(TownObjectRecord *object, TownObjectRecord *update_context, ObjectPosition *position, SpriteFrameState *sprite) {
     u32 heading;
     ObjectNodeHeader *state;
     s32 *saved_position;
     ObjectPosition *fixed_position;
 
-    state = ((u8 *)(&scene_object_list_anchor));
-    if (*(s32 *)&state->update_callback != &D_800A5638) {
+    state = &scene_object_list_anchor;
+    if (state->update_callback != D_800A5638) {
         set_flagged_entry_values((u32 *)&D_800D0D54, 0);
         *bike_saved_position = position->x.v;
-        saved_position = (s32 *)&bike_saved_position;
-        ((EntityRec *)saved_position)->y.v = position->y.v;
-        ((DelayMotionZ *)saved_position)->unk_08 = position->z.v;
-        initialize_object_entries(object, setup_context, (s32 *)D_80100E24);
-        select_object_value_by_height_band(object, update_context, position_arg, setup_context);
+        saved_position = bike_saved_position;
+        saved_position[1] = position->y.v;
+        saved_position[2] = position->z.v;
+        initialize_object_entries(object, sprite, D_80100E24);
+        select_object_value_by_height_band(object, update_context, position, sprite);
         heading = ((u16)object->heading);
         heading += 0x200;
         heading &= 0xFC00;

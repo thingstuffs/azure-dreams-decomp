@@ -21,9 +21,11 @@ extern u8 barong_action_resume_address[];
 #include "dungeon/monster/barong.h"
 #include "dungeon/monster/barong_frames.h"
 
-/* Spawn the overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
-/* Creates Barong with default frames at D_80175554, applies spawn flags, and attempts valid tile
- * placement. */
+/*
+ * Spawns a Barong actor on its 0x112 node: sets its default frames, applies the side flags the low
+ * two bits of the spawn flags select (or a random sleep status when none are set), then moves it
+ * to a valid tile.
+ */
 void *spawn_barong_at_tile(s16 flags, s16 kind_id, s16 variant, s32 spawn_value)
 {
     s32 kind;
@@ -88,7 +90,3 @@ void *spawn_barong_at_tile(s16 flags, s16 kind_id, s16 variant, s32 spawn_value)
     }
     return result;
 }
-
-/* MECHANISM: 2.7.2-cdk-G0 (retail shows the compiler's HIGH/LO_SUM address split: lui / lw / addiu).
-   The two byte parameters arrive as s16: their narrowing copies survive cse, combine folds the a1/a2
-   temps into them, so sched1 schedules the parameter copies and the entry order is retail's. */

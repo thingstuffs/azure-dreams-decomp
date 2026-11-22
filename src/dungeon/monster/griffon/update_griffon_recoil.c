@@ -28,9 +28,9 @@ void update_griffon_recoil(ActorRecord *action, ObjectPosition *motion, SpriteFr
     case 0:
         apply_clamped_actor_value_delta(entity);
         motion->velocity_x =
-            -((s16 *)((s8 *)dir_step_x))[(entity->movement_facing >> 9) & 7] << 15;
+            -dir_step_x[(entity->movement_facing >> 9) & 7] << 15;
         motion->velocity_y =
-            -((s16 *)((s8 *)dir_step_y))[(entity->movement_facing >> 9) & 7] << 15;
+            -dir_step_y[(entity->movement_facing >> 9) & 7] << 15;
         action->action_phase++;
 
         if (entity->hp == 0) {
@@ -59,9 +59,9 @@ void update_griffon_recoil(ActorRecord *action, ObjectPosition *motion, SpriteFr
 
     case 1:
         motion->velocity_x +=
-            ((s16 *)((s8 *)dir_step_x))[(entity->movement_facing >> 9) & 7] << 14;
+            dir_step_x[(entity->movement_facing >> 9) & 7] << 14;
         motion->velocity_y +=
-            ((s16 *)((s8 *)dir_step_y))[(entity->movement_facing >> 9) & 7] << 14;
+            dir_step_y[(entity->movement_facing >> 9) & 7] << 14;
 
         if (action->action_timer > 0) {
             action->action_timer = action->action_timer - 1;
@@ -89,9 +89,9 @@ void update_griffon_recoil(ActorRecord *action, ObjectPosition *motion, SpriteFr
 
     case 2:
         motion->velocity_x +=
-            ((s16 *)((s8 *)dir_step_x))[(entity->movement_facing >> 9) & 7] << 14;
+            dir_step_x[(entity->movement_facing >> 9) & 7] << 14;
         motion->velocity_y +=
-            ((s16 *)((s8 *)dir_step_y))[(entity->movement_facing >> 9) & 7] << 14;
+            dir_step_y[(entity->movement_facing >> 9) & 7] << 14;
         if (!(sprite->flags & 0x6000)) {
             return;
         }

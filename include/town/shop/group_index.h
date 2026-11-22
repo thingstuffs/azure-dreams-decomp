@@ -6,9 +6,9 @@
 /* A value and its zero-based group of ten. Two disjoint instances occur
  * at +0x1c and +0x2c in the storage input body. */
 typedef struct TownGroupIndex {
-    u8 pad_00[4];
+    s32 page;
     s32 index;
-    u8 pad_08[4];
+    s32 selection;
     s32 value;
 } TownGroupIndex;
 

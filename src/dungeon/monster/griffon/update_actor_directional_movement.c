@@ -24,9 +24,9 @@ void update_actor_directional_movement(ActorRecord *action, ObjectPosition *moti
     case 0:
         apply_clamped_actor_value_delta(actor);
         motion->velocity_x =
-            -((s16 *)((s8 *)dir_step_x))[(actor->movement_facing >> 9) & 7] << 15;
+            -dir_step_x[(actor->movement_facing >> 9) & 7] << 15;
         motion->velocity_y =
-            -((s16 *)((s8 *)dir_step_y))[(actor->movement_facing >> 9) & 7] << 15;
+            -dir_step_y[(actor->movement_facing >> 9) & 7] << 15;
         action->action_phase++;
 
         if (actor->hp == 0) {
@@ -54,9 +54,9 @@ void update_actor_directional_movement(ActorRecord *action, ObjectPosition *moti
 
     case 1:
         motion->velocity_x +=
-            ((s16 *)((s8 *)dir_step_x))[(actor->movement_facing >> 9) & 7] << 14;
+            dir_step_x[(actor->movement_facing >> 9) & 7] << 14;
         motion->velocity_y +=
-            ((s16 *)((s8 *)dir_step_y))[(actor->movement_facing >> 9) & 7] << 14;
+            dir_step_y[(actor->movement_facing >> 9) & 7] << 14;
 
         if (action->action_timer > 0) {
             action->action_timer = action->action_timer - 1;
@@ -84,9 +84,9 @@ void update_actor_directional_movement(ActorRecord *action, ObjectPosition *moti
 
     case 2:
         motion->velocity_x +=
-            ((s16 *)((s8 *)dir_step_x))[(actor->movement_facing >> 9) & 7] << 14;
+            dir_step_x[(actor->movement_facing >> 9) & 7] << 14;
         motion->velocity_y +=
-            ((s16 *)((s8 *)dir_step_y))[(actor->movement_facing >> 9) & 7] << 14;
+            dir_step_y[(actor->movement_facing >> 9) & 7] << 14;
         if (!(sprite->flags & 0x6000)) {
             return;
         }

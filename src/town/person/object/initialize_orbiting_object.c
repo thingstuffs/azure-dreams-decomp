@@ -8,8 +8,8 @@ extern s32 D_800D72AC[];
 
 
 /* Initialize the object and set its data pointer and initial field values. */
-void initialize_orbiting_object(TownObjectRecord *object, s32 unused, void *init_value) {
-    initialize_object_entries((object), init_value, D_800D72AC);
+void initialize_orbiting_object(TownObjectRecord *object, ObjectPosition *unused_position, SpriteFrameState *sprite) {
+    initialize_object_entries(object, sprite, D_800D72AC);
     object->unk_50.as_pm = &update_object_orbit_and_timer;
     object->unk_84 = 0x50;
     object->timer = 0xD2;

@@ -6,7 +6,6 @@
 #include "dungeon/monster/stealth/spawn_stealth_slot_f.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
-#include "dungeon/monster/stealth/spawn_stealth_slot_f.h"
 #include "dungeon/effect/screen.h"
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */

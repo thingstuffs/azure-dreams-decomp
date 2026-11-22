@@ -27,7 +27,8 @@ void propagate_object_high_bit_flags(void *object);
 
 /* Server functions at their true addresses. */
 s32 card_devkit_poll_hardware_status_8040153C(void);                 /* hardware-status poll */
-void card_dev_poll_save_result_and_resume_menu_input(void *record_data);
+struct CardSaveOperationBody;
+void card_dev_poll_save_result_and_resume_menu_input(struct CardSaveOperationBody *record_data);
 void func_80405A64(void *record_data);   /* Same placement, retained by the save factories. */
 void card_dev_enter_copying_progress(void *record_data);
 void card_dev_set_save_menu_slot_mode(void *menu);         /* set save-menu words at +0x48 and +0x4C */
@@ -39,7 +40,8 @@ void card_dev_enter_card_space_advice(void *record_data);
 void card_dev_refresh_info_object(void *part);
 void card_dev_refresh_sme_object(void *part);
 void card_dev_refresh_slot_window(void *part);
-void card_dev_prepare_save_heading_layout(struct CardDevMenu4 *state, struct ObjectNodeHeader *owner); /* the server copy of prepare_save_heading_layout */
+struct CardDevLoadNode;
+void card_dev_prepare_save_heading_layout(struct CardDevMenu4 *state, struct CardDevLoadNode *owner); /* the server copy of prepare_save_heading_layout */
 
 /* the card UI dirty word (0x8008DAB4) as the server's load-screen release reads and writes it: one scalar word
  * (its other users still declare their own array views locally) */

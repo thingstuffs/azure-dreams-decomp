@@ -15,7 +15,7 @@ struct Struct_func_8009BDDC_arg0;
 struct TownObjectRecord;
 
 void update_actor_and_select_ground_handler(int context, struct ObjectPosition *record, struct SpriteFrameState *action_data);
-void update_actor_movement_actions(struct TownObjectRecord *action, struct ObjectPosition *actor, int context);
+void update_actor_movement_actions(struct TownObjectRecord *action, struct ObjectPosition *actor, struct SpriteFrameState *sprite);
 void update_ground_countdown_action(void *state, struct ObjectPosition *object, struct SpriteFrameState *context);
 void invoke_handler_when_countdown_expires(struct TownObjectRecord *state, struct ObjectPosition *update_ctx, struct SpriteFrameState *handler_ctx);
 void accelerate_toward_input_keep_speed(struct ObjectPosition *object);

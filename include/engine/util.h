@@ -5,7 +5,7 @@
 #include "common.h"
 #include "engine/camera/interpolation.h"
 
-struct S_8004B298_a1;
+struct NodeRemovalCounter;
 struct S_8004DA24_dst;
 struct S_8004DA24_src;
 struct S_Src;
@@ -45,7 +45,7 @@ char *format_int_space_padded(int value, unsigned short width, char *buf);
 char *func_8004E5A0(int value, unsigned short width, char *buf);
 
 /* flag_removal_when_value_zero.c */
-void flag_removal_when_value_zero(u16 *record_data, struct S_8004B298_a1 *value_ref);
+void flag_removal_when_value_zero(void *body, struct NodeRemovalCounter *counter);
 
 /* realloc_field_buffer.c */
 s32 *func_80049004(s32 *buffer_slot, s32 entry_count, s32 clear_words);
@@ -71,7 +71,7 @@ void sort_sound_ram_blocks(void);
 void assign_item_category_data_blocks(void);
 
 /* table_handle_decrements_counter_sets_preceding_halfword_global_flag_bit_remains.c */
-void decrement_and_flag_removal_if_nonzero(unsigned short *entry_data, int *counter);
+void decrement_and_flag_removal_if_nonzero(void *body, struct NodeRemovalCounter *counter);
 
 /* uint_to_dec_str.c */
 char *func_8004E634(u32 num, char *buf);

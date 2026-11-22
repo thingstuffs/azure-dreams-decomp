@@ -7,7 +7,6 @@
 #include "dungeon/monster/univern/create_actor_child_display.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
-#include "dungeon/monster/univern/create_actor_child_display.h"
 #include "dungeon/effect/sprite.h"
 #include "dungeon/monster/death.h"
 #include "dungeon/actor.h"

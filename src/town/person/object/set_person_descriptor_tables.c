@@ -1,27 +1,20 @@
 #include "common.h"
 #include "town/person/object.h"
 
-extern s32 D_800D6330[];
-extern s32 D_800D6338[];
-extern s32 D_800D6360[];
-extern s32 D_800D6364[];
+#include "shared/town_object.h"
 
-typedef struct S_800C8928_0 {
-    u8 pad_00[0x58];
-    s32 * unk_58;
-    s32 * unk_5C;
-    u8 pad_60[0x1C];
-    s32 * unk_7C;
-    s32 * unk_80;
-} S_800C8928_0;   /* arg0 in set_person_descriptor_tables */
+extern s32 *D_800D6330[];
+extern PersonDescriptor D_800D6338;
+extern s32 D_800D6360[];
+extern TownIndexedHandler D_800D6364[];
 
 /*
  * Binds object fields 0x58/0x5C to D_800D6360/D_800D6364 and fields 0x7C/0x80 to
  * D_800D6330/D_800D6338.
  */
-void set_person_descriptor_tables(S_800C8928_0 *object) {
-    object->unk_58 = D_800D6360;
-    object->unk_5C = D_800D6364;
-    object->unk_7C = D_800D6330;
-    object->unk_80 = D_800D6338;
+void set_person_descriptor_tables(TownObjectRecord *object) {
+    object->state_handlers = D_800D6360;
+    object->indexed_handlers = D_800D6364;
+    object->unk_7C.as_pps32 = D_800D6330;
+    object->descriptor = &D_800D6338;
 }

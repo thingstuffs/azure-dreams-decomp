@@ -3,8 +3,8 @@
 #include "common.h"
 #include "sdk/libgte.h"
 #include "shared/game_work.h"
-#include "records/Rec_D_80100B70.h"
-#include "shared/object_payload.h"
+#include "town/menu/motion.h"
+#include "shared/object_node.h"
 #include "sdk/libc.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgpu_types.h"
@@ -14,35 +14,23 @@
 extern void copy_moving_position_to_menu_point(void *, void *);
 extern void copy_menu_point(void *, void *);
 
-   /* ctx in draw_random_tinted_quad_pair */
-
-
-typedef struct S_800A1354_4 {
-    u8 pad_00[0x54];
-    u8 * unk_54;
-    u8 * unk_58;
-    u8 * unk_5C;
-} S_800A1354_4;   /* obj in draw_random_tinted_quad_pair */
-
-   /* Draw two translucent quads with random vertex colors scaled by the effect intensity. */
-void draw_random_tinted_quad_pair(u8 *effect)
+/* Draw two translucent quads with random vertex colors scaled by the effect intensity. */
+void draw_random_tinted_quad_pair(struct DoorTransitionEffect *effect)
 {
     GpuContext **render_ctx_addr = (GpuContext **)&g_game_work.draw_buffer;
     s32 vertex_index = 0;
     u32 rgb_mask = 0xFFFFFF;
     MenuLineScratch *scratch = (MenuLineScratch *)0x1F800000;
-    S_800A1354_4 *vertex_group;
     s32 intensity;
     MenuLineG4 *quad;
     s32 random_value;
     s32 random_color;
 
-    intensity = ((Rec_D_80100B70 *)effect)->unk_10;
+    intensity = effect->intensity;
     scratch->order_table.bytes = &(*render_ctx_addr)->orderTag;
     do {
         GpuContext *render_ctx = *render_ctx_addr;
         DR_MODE *draw_mode;
-        vertex_group = (S_800A1354_4 *)(effect + (vertex_index * 4));
 
         quad = render_ctx->packetCursor;
         render_ctx->packetCursor = (u8 *)(quad + 1);
@@ -71,9 +59,9 @@ void draw_random_tinted_quad_pair(u8 *effect)
         SetLineG4(quad);
         SetSemiTrans(quad, 1);
 
-        copy_moving_position_to_menu_point(scratch->vertices[0], ((ObjectPayloadView *)(vertex_group->unk_54))->unk_08);
-        copy_moving_position_to_menu_point(scratch->vertices[1], ((ObjectPayloadView *)(vertex_group->unk_58))->unk_08);
-        copy_moving_position_to_menu_point(scratch->vertices[2], ((ObjectPayloadView *)(vertex_group->unk_5C))->unk_08);
+        copy_moving_position_to_menu_point(scratch->vertices[0], effect->children[vertex_index]->position);
+        copy_moving_position_to_menu_point(scratch->vertices[1], effect->children[vertex_index + 1]->position);
+        copy_moving_position_to_menu_point(scratch->vertices[2], effect->children[vertex_index + 2]->position);
         copy_menu_point(scratch->vertices[3], scratch->vertices[0]);
         scratch->depth = RotTransPers4(
             scratch->vertices[0], scratch->vertices[1], scratch->vertices[2], scratch->vertices[3], &scratch->screen.words[0], &scratch->screen.words[1],

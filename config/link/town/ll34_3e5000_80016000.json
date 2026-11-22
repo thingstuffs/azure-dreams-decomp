@@ -29,6 +29,33 @@
       "evidence": "TU view gather: moved from town/image_3e8000 (same load delta) so the merged file's members share one view"
     },
     {
+      "row": "town/func_80469F2C",
+      "home": "town/func_80469F2C",
+      "tu": "src/town/scene/store_choice_value_block_in_mode_eight.c",
+      "foff": "0x3e9f2c",
+      "vma": "0x8001af2c",
+      "size": 104,
+      "evidence": "TOWN +0x3e7184 contains the choice predicate. The registered dispatcher calls it at +0x3ecf68. The predicate stores the prepared data pointer at choice field +8."
+    },
+    {
+      "row": "town/func_80469FB8",
+      "home": "town/func_80469FB8",
+      "tu": "src/town/scene/store_choice_three_records_in_mode_eight.c",
+      "foff": "0x3e9fb8",
+      "vma": "0x8001afb8",
+      "size": 104,
+      "evidence": "TOWN +0x3e7254 contains the choice predicate. The registered dispatcher calls it at +0x3ecf68. The predicate stores the prepared data pointer at choice field +8."
+    },
+    {
+      "row": "town/func_8046A074",
+      "home": "town/func_8046A074",
+      "tu": "src/town/scene/store_choice_value_pair_in_mode_five.c",
+      "foff": "0x3ea074",
+      "vma": "0x8001b074",
+      "size": 104,
+      "evidence": "TOWN +0x3e7154 contains the choice predicate. The registered dispatcher calls it at +0x3ecf68. The predicate stores the prepared data pointer at choice field +8."
+    },
+    {
       "row": "town/func_8046A39C",
       "home": "town/func_8046A308",
       "tu": "src/town/scene/event/store_prepared_buffer_if_mode_three.c",
@@ -40,6 +67,15 @@
         "0x8001E950": "0x8001E950",
         "0x8001A664": "0x8001AA80"
       }
+    },
+    {
+      "row": "town/func_8046AC04",
+      "home": "town/func_8046AC04",
+      "tu": "src/town/scene/prepare_choice_and_mark_ending_step.c",
+      "foff": "0x3eac04",
+      "vma": "0x8001bc04",
+      "size": 80,
+      "evidence": "TOWN +0x3e7464 contains the choice predicate. The registered dispatcher calls it at +0x3ecf68. The predicate stores the prepared data pointer at choice field +8."
     },
     {
       "row": "town/func_8046B3C0",

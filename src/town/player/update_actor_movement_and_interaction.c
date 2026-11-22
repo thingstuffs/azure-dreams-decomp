@@ -1,5 +1,6 @@
 #include "town/player/position_handlers.h"
 #include "shared/position_query.h"
+#include "town/scene/collision.h"
 #include "common.h"
 #include "shared/town_action_flag.h"
 #include "shared/game_work.h"
@@ -18,7 +19,7 @@
 void submit_object_resource_data();                         /* extern */
 struct TownObjectRecord; void initialize_actor_position_interaction_action(struct TownObjectRecord *, ObjectPosition *, s32);     /* extern */
 struct ObjectPosition; void initialize_input_driven_scene_object(s32 * *, struct ObjectPosition *, s32);     /* extern */
-void init_radial_effects_action(s32 **record, void *ptr, void *ptr2);
+void init_radial_effects_action(void *record, ObjectPosition *unused_position, void *ptr2);
 void initialize_busy_checked_countdown_action(TownObjectRecord *record,void *unused,void *setup_value);
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"                      /* extern */
 #include "town/player/move_both_components_toward_zero_direction_dependent_steps_clamping_zero_api.h"                      /* extern */
@@ -29,16 +30,11 @@ void init_motion_action_callback(s32 record, s32 setup_value, s32 init_value);
 #include "town/player.h"
 #include "town/event/motion.h"
 
-struct Rec_D_800CFCB4; extern struct Rec_D_800CFCB4 town_actor_control;
+extern ColliderView town_actor_control;
 extern void *town_target_record;
 extern s32 town_interaction_pending[];
 extern s32 *town_player_action_callback;
 
-
-typedef struct S_800927EC_4 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_800927EC_4;
 
 typedef struct S_800927EC_5 {
     u8 pad_00[0x50];
@@ -48,7 +44,6 @@ typedef struct S_800927EC_5 {
 /* Update the actor and dispatch town movement and interaction input. */
 void update_actor_movement_and_interaction(void *actor, ObjectPosition *position, s32 context) {
     GameWork *input = &g_game_work;
-    S_800927EC_4 *interaction;
     s16 ground_height;
     u8 *response_script;
     s32 target_handler;
@@ -100,13 +95,12 @@ void update_actor_movement_and_interaction(void *actor, ObjectPosition *position
                     ((TownObjectRecord *)actor)->unk_2C = NULL;
                 }
             }
-            interaction = (S_800927EC_4 *)&town_actor_control;
-            response_script = select_response_text(interaction->unk_10,
+            response_script = select_response_text(town_actor_control.selected_entry,
                 ((TownObjectRecord *)actor)->unk_2C);
             if (response_script != 0) {
                 call_script(response_script);
             } else {
-                submit_object_resource_data(interaction->unk_10);
+                submit_object_resource_data(town_actor_control.selected_entry);
             }
             town_player_action_callback = &begin_town_actor_interaction;
             return;

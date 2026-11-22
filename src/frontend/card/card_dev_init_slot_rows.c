@@ -1,15 +1,14 @@
+#include "frontend/card/server_imports.h"
+#include "frontend/card/choice_panel.h"
 #include "common.h"
 #include "frontend/card.h"
 #include "main/data.h"
 
-void update_two_slots_using_selection_mapping(s32 slot_addr);
-void initialize_child(s32);
-void initialize_two_positioned_object_entries(s32 slot_addr);
 
 /* Run the slot setup sequence with the two shared data tables. */
-void card_dev_init_slot_rows(s32 slot_addr) {
-    initialize_child(slot_addr);
-    initialize_two_positioned_object_entries(slot_addr);
-    card_boot_update_slot_outputs(slot_addr, D_80408D54, D_80408D5C);
-    update_two_slots_using_selection_mapping(slot_addr);
+void card_dev_init_slot_rows(CardDevSlotMenu *panel) {
+    initialize_child(panel);
+    initialize_two_positioned_object_entries(panel);
+    card_boot_update_slot_outputs(panel, D_80408D54, D_80408D5C);
+    update_two_slots_using_selection_mapping(panel);
 }

@@ -26,8 +26,8 @@ void update_directional_movement_and_center(ActorRecord *action, ObjectPosition 
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity);
-        motion->velocity_x = ((s16 *)((s8 *)dir_step_x))[direction] << 18;
-        motion->velocity_y = ((s16 *)((s8 *)dir_step_y))[direction] << 18;
+        motion->velocity_x = dir_step_x[direction] << 18;
+        motion->velocity_y = dir_step_y[direction] << 18;
         action->action_phase++;
 
         if (entity->hp == 0) {
@@ -54,8 +54,8 @@ void update_directional_movement_and_center(ActorRecord *action, ObjectPosition 
         motion->velocity_y -= motion->velocity_y / 4;
                         /* fall through */
     case 1:
-        motion->velocity_x -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
-        motion->velocity_y -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
+        motion->velocity_x -= dir_step_x[direction] << 14;
+        motion->velocity_y -= dir_step_y[direction] << 14;
 
         if (action->action_timer > 0) {
             action->action_timer = action->action_timer - 1;
@@ -82,8 +82,8 @@ void update_directional_movement_and_center(ActorRecord *action, ObjectPosition 
         return;
         break;
     case 2:
-        motion->velocity_x -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
-        motion->velocity_y -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
+        motion->velocity_x -= dir_step_x[direction] << 14;
+        motion->velocity_y -= dir_step_y[direction] << 14;
         if (!(actor->flags & 0x6000)) {
             break;
         }

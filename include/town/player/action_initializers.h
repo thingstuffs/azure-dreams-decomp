@@ -7,17 +7,17 @@ struct SpriteFrameState;
 #include "shared/town_object.h"
 
 void init_sound_threshold_action(s32 **record, struct ObjectPosition *unused, s32 setup_value);
-void set_deferred_dispatch_handler(void *object, void *unused_position, void *unused_context);
-void init_timed_dispatch_action(TownObjectRecord *record, void *unused, void *handler_context);
+void set_deferred_dispatch_handler(TownObjectRecord *object, struct ObjectPosition *unused_position, struct SpriteFrameState *unused_context);
+void init_timed_dispatch_action(TownObjectRecord *record, struct ObjectPosition *unused_position, void *handler_context);
 void init_actor_action_state(TownObjectRecord *record, void *unused, void *handler_context);
 s32 init_record_target_approach(TownObjectRecord *record, struct ObjectPosition *setup_value, struct SpriteFrameState *init_context);
-void init_linked_position_action(TownObjectRecord *record, s32 unused, struct SpriteFrameState *setup_value);
+void init_linked_position_action(TownObjectRecord *record, struct ObjectPosition *unused_position, struct SpriteFrameState *setup_value);
 void init_ground_input_fallback(s32 **record, void *unused, void *handler_context);
 void init_button_transition_action(s32 **record, void *unused, void *handler_context);
 void init_unchanged_action_fallback(s32 **record, void *unused, void *handler_context);
-void init_flagged_entity_action(TownObjectRecord *record, void *unused, void *handler_context);
-void init_height_interpolation_action(TownObjectRecord *record, void *unused, void *handler_context);
-void init_target_tile_action(TownObjectRecord *record, void *unused, void *handler_context);
+void init_flagged_entity_action(TownObjectRecord *record, struct ObjectPosition *unused, struct SpriteFrameState *handler_context);
+void init_height_interpolation_action(TownObjectRecord *record, struct ObjectPosition *unused, void *handler_context);
+void init_target_tile_action(TownObjectRecord *record, struct ObjectPosition *unused_position, void *handler_context);
 void init_flagged_action_fallback(s32 **record, void *unused, void *handler_context);
 void init_input_action_fallback(s32 **record, void *unused, void *handler_context);
 void init_negative_x_step_action(TownObjectRecord *object, void *unused, void *handler_context);

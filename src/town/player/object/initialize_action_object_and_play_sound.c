@@ -9,9 +9,9 @@
 #include "shared/entity.h"
 
 /* Reset and initialize the record, then assign its handler. */
-void initialize_action_object_and_play_sound(s32 **record, ObjectPosition *unused_position, s32 setup_value) {
+void initialize_action_object_and_play_sound(TownObjectRecord *record, ObjectPosition *unused_position, struct SpriteFrameState *sprite) {
     SD_Call(0x50B);
     store_input_angle(record);
-    dispatch_selected_entry_if_nonzero(D_800D0110, (struct TownObjectRecord *)(record), (void *)(setup_value));
-    *record = &update_actor_input_actions;
+    dispatch_selected_entry_if_nonzero(D_800D0110, record, sprite);
+    record->unk_00 = update_actor_input_actions;
 }

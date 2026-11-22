@@ -1,7 +1,6 @@
 #ifndef DUNGEON_LEVEL_TARGET_ACTION_DISPATCH_G00342_H
 #define DUNGEON_LEVEL_TARGET_ACTION_DISPATCH_G00342_H
 /* Target action dispatch shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:dungeon/engine:800DF258. */
 
 #include "common.h"
 #include "m2c_compat.h"

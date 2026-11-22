@@ -3,7 +3,6 @@
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
-#include "dungeon/monster/volcano/spawn_volcano_slot_a.h"
 #include "dungeon/actor.h"
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
@@ -70,11 +69,11 @@ void *spawn_volcano(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
         }
 
         object->update_callback = func_8014CA58;
-        initialize_actor_sprite_and_animation(object, part_a, (u8 *)part_b, (s16)flags_s16);
+        initialize_actor_sprite_and_animation(object, part_a, part_b, (s16)flags_s16);
 
         *((u8 *)work_copy + 0x9A) = 0xFF;
         *(s8 *)((u8 *)work_copy + 0x9C) = -1;
-        try_move_actor_to_valid_position((u8 *)work_copy, part_a, (u8 *)part_b, work);
+        try_move_actor_to_valid_position((u8 *)work_copy, part_a, part_b, work);
     }
     return work;
 }

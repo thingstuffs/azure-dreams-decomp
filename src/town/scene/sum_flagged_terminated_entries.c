@@ -3,7 +3,7 @@
 #include "town/scene.h"
 #include "shared/town_root.h"
 
-typedef s32 (*Callback)(void *);
+typedef s32 (*Callback)(struct DungeonItemEntry *);
 
 
 /* Sum callback results for flagged entries in a terminated four-byte entry list. */
@@ -15,17 +15,9 @@ s32 sum_flagged_terminated_entries(void *entry, s32 callback_mode) {
     while (((u8 *)entry)[1] != 0) {
         if (((u8 *)entry)[3] & 0x20) {
             if (callback_mode == 0) {
-                void *object;
-
-                object = (void *)town_scene_root;
-                object = *(void **)((u8 *)object + 0x20);
-                callback = *(Callback *)((u8 *)object + 0x50);
+                callback = town_scene_root->services->callback_050;
             } else {
-                void *object;
-
-                object = (void *)town_scene_root;
-                object = *(void **)((u8 *)object + 0x20);
-                callback = *(Callback *)((u8 *)object + 0x6C);
+                callback = town_scene_root->services->callback_06C;
             }
             total += callback(entry);
         }

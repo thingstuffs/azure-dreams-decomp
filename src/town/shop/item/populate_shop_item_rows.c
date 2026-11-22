@@ -11,62 +11,44 @@
 #include "town/shop/item.h"
 #include "town/shop/state.h"
 
-s32 allocate_and_initialize_shop_object(s32);                             /* extern */
 extern M2C_UNK D_800D1600;
-
-
-typedef struct S_800B0FD4_1 {
-    u8 unk_00;
-    u8 unk_01;
-} S_800B0FD4_1;
 
 /* Populate up to five shop item rows with item details and buy or sell prices. */
 void populate_shop_item_rows(ShopWindow *ctx) {
-    s32 price_text[8];
+    char price_text[32];
     s32 item_info;
     s32 item_value;
     s32 page;
-    s32 item_offset;
-    s32 row_offset;
     s32 item_index;
     s32 row;
-    S_800B0FD4_1 *item;
-    ShopWindowWidgets *row_widgets;
+    DungeonItemEntry *item;
+    void *widget_data;
 
     reset_five_shop_slots(ctx);
     row = 0;
     page = ctx->page;
-    row_offset = 0;
     item_index = page * 5;
-    item_offset = page * 0x14;
     while (row < 5 && item_index < ctx->entry_count) {
-        item = item_offset + ctx->item_address;
-        item_value = lookup_item_category_mapped_value(item->unk_01, item->unk_00);
-        row_widgets = row_offset + (s32)ctx->widgets;
-        row_widgets->rows[0][0]->value.word = item_value;
-        item_value = create_label_glyph_entries(select_item_data(ctx->item_address + item_offset, &item_info), item_info);
-        row_widgets = row_offset + (s32)ctx->widgets;
-        row_widgets->rows[2][0]->value.word = item_value;
-        if (check_shop_entry_type_and_flags((void *)(ctx->item_address + item_offset)) != 0) {
+        item = (DungeonItemEntry *)(item_index * sizeof(*item) + (unsigned long)ctx->items);
+        item_value = lookup_item_category_mapped_value(item->kind, item->unk_00);
+        ctx->widgets->rows[0][row]->value.word = item_value;
+        widget_data = create_label_glyph_entries(select_item_data(&ctx->items[item_index], &item_info), item_info);
+        ctx->widgets->rows[2][row]->value.pointer = widget_data;
+        if (check_shop_entry_type_and_flags(&ctx->items[item_index]) != 0) {
             if (ctx->price_mode == 0) {
-                item_value = get_item_buy_money((void *)(ctx->item_address + item_offset));
+                item_value = get_item_buy_money(&ctx->items[item_index]);
             } else {
-                item_value = get_item_sell_money((void *)(ctx->item_address + item_offset));
+                item_value = get_item_sell_money(&ctx->items[item_index]);
             }
-            format_int_space_padded(item_value, 8, (char *)(&price_text));
-            remap_flagged_string_bytes((u8 *)(&price_text));
-            strcat(&price_text, &D_800D1600);
-            item_value = alloc_parsed_string(&price_text, 0);
-            row_widgets = row_offset + (s32)ctx->widgets;
-            row_widgets->rows[3][0]->value.word = item_value;
+            format_int_space_padded(item_value, 8, price_text);
+            remap_flagged_string_bytes((u8 *)price_text);
+            strcat(price_text, &D_800D1600);
+            widget_data = alloc_parsed_string(price_text, 0);
+            ctx->widgets->rows[3][row]->value.pointer = widget_data;
         }
+        ctx->widgets->rows[4][row]->value.pointer = allocate_and_initialize_shop_object(&ctx->items[item_index]);
         row += 1;
         item_index += 1;
-        item_value = allocate_and_initialize_shop_object(ctx->item_address + item_offset);
-        item_offset += 4;
-        row_widgets = row_offset + (s32)ctx->widgets;
-        row_widgets->rows[4][0]->value.word = item_value;
-        row_offset += 4;
     }
     update_shop_page_edge_flags(ctx);
     update_current_shop_page(ctx);

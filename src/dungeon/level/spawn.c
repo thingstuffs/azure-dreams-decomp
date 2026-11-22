@@ -819,7 +819,7 @@ void draw_dungeon_value_and_label(void)
     }
 
     create_floor_label_sprite(0xAA, 0x78, draw_mode, D_80077DE8);
-    /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: dungeon/func_8028C450). */
+    /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers. */
     do {
         digit_ptr = digits;
     } while (0);

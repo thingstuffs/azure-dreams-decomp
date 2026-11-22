@@ -1,18 +1,16 @@
 #include "common.h"
 #include "engine/sprite.h"
 
-extern int check_required_building_slots(void);
-extern int get_item_name_text(void *a0, int *a1);
+#include "engine/item.h"
+#include "slus/data.h"
 
-extern int item_text_checked_fallback_pair[4]; /* >8B forces %hi/%lo addressing (matches target's lui/addiu) */
-extern int item_text_default_fallback_pair[4]; /* >8B forces %hi/%lo addressing (matches target's lui/addiu) */
+extern int check_required_building_slots(void);
 
 /* Selects a global array based on the object check and returns get_item_name_text's result. */
-int get_item_name_with_fallback_pair(void *object)
+int get_item_name_with_fallback_pair(struct DungeonItemEntry *object)
 {
-    void *saved_object = object;
     int check_result = check_required_building_slots();
-    int *selected_array;
+    char **selected_array;
 
     if (check_result) {
         selected_array = item_text_checked_fallback_pair;
@@ -20,5 +18,5 @@ int get_item_name_with_fallback_pair(void *object)
         selected_array = item_text_default_fallback_pair;
     }
 
-    return get_item_name_text(saved_object, selected_array);
+    return get_item_name_text(object, selected_array);
 }

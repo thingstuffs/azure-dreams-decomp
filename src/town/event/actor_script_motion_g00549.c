@@ -29,7 +29,7 @@ s32 dispatch_active_town_object_script(TownObjectRecord *object, ColliderView *o
             entry = (index + (u8 *)control);
             if (entry[0x3A] == 1) {
                 if (scene_object_payload_alias == (s32)&D_800924EC) {
-                    vtable = (TownVtable *)(unsigned long)(u32)object->unk_58;
+                    vtable = object->state_handlers;
                     vtable->func0(object, owner, context, extra_ptr);
                     return 1;
                 }
@@ -57,7 +57,7 @@ s32 dispatch_active_town_object_script(TownObjectRecord *object, ColliderView *o
         if ((active_script == (s32)&D_80091F64) ||
             (active_script == (s32)&D_800920F4) ||
             (active_script == (s32)&D_8009204C)) {
-            vtable = (TownVtable *)(unsigned long)(u32)object->unk_58;
+            vtable = object->state_handlers;
             vtable->func18(object, owner, context, extra_ptr);
         }
     }

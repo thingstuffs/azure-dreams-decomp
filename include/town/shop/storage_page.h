@@ -1,6 +1,8 @@
 #ifndef TOWN_SHOP_STORAGE_PAGE_H
 #define TOWN_SHOP_STORAGE_PAGE_H
 
+#include "shared/timed_stream.h"
+
 struct ItemMenuPart;
 struct DungeonItemEntry;
 
@@ -29,7 +31,8 @@ typedef struct AlternateStorageOwner {
     AlternateStorageSource *source;
     unsigned char pad_04[0x10];
     unsigned int flags;
-    unsigned char pad_18[0x10];
+    unsigned char pad_18[4];
+    FrameState cursor;
     unsigned char panel[0x48];
     unsigned char pad_70[0x38];
     struct ItemMenuPart **parts;

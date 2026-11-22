@@ -1,7 +1,6 @@
 #ifndef DUNGEON_MENU_CALLBACK_POSITION_UPDATES_G00373_H
 #define DUNGEON_MENU_CALLBACK_POSITION_UPDATES_G00373_H
 /* Callback position updates shared declarations. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800D6EF0, CL:dungeon/func_800D6FC4, CL:dungeon/func_800D70CC, PD:dungeon/engine:800E2934. */
 
 #include "common.h"
 #include "m2c_compat.h"

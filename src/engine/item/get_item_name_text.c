@@ -5,24 +5,14 @@
 #include "sdk/libc.h"
 #include "slus/data.h"
 
-typedef struct {
-    u8 unk0;
-    u8 unk1;
-} Item;
+#include "shared/dungeon_item_entries.h"
 
-typedef struct {
-    char *unk0;
-    char *unk4;
-} StrPair;
-
-extern s32 record_has_type_twenty(Item *);
-extern int read_item_category_flag_ten(void *item);
 extern s32 submit_script_with_registered_context(char *);
 
 extern char item_name_suffix_buffer[0x40];
 
 /* Selects item text or a fallback, adjusts its special suffix, and passes it to func_8004DD2C. */
-s32 get_item_name_text(Item *item, StrPair *fallbacks) {
+s32 get_item_name_text(DungeonItemEntry *item, char *const *fallbacks) {
     char *item_text;
     s32 item_id;
     s32 record_words;
@@ -30,27 +20,27 @@ s32 get_item_name_text(Item *item, StrPair *fallbacks) {
     ItemCategory *category_table;
     s32 category_id;
 
-    if ((item == 0) || (item->unk1 == ITEM_KIND_NONE)) {
-        item_text = fallbacks->unk4;
+    if ((item == 0) || (item->kind == ITEM_KIND_NONE)) {
+        item_text = fallbacks[1];
     } else if (read_item_category_flag_ten(item) != 0) {
-        item_text = fallbacks->unk0;
+        item_text = fallbacks[0];
     } else {
                         /* 3-statement category_table form: lui fills prior branch delay; category_id then add */
         category_table = itemCategoryTable;
-        category_id = item->unk1;
+        category_id = item->kind;
         category = category_table + category_id;
         if (category->record_format == 0) {
-            item_id = item->unk0;
+            item_id = item->unk_00;
             record_words = item_id * 4;
         } else {
-            item_id = item->unk0;
+            item_id = item->unk_00;
             record_words = item_id * 2;
         }
         record_words = record_words + item_id;
         record_words = record_words * 4;
         record_words = record_words + (s32)category->records;
         item_text = *(char **)(record_words + 8);
-        record_words = item->unk1;
+        record_words = item->kind;
         if ((record_words == ITEM_KIND_FAMILIAR) && (record_has_type_twenty(item) != 0)) {
             strcpy(item_name_suffix_buffer, item_text);
             strcpy(rindex(item_name_suffix_buffer, 0) - 0x12, item_name_suffix_texts[0]);

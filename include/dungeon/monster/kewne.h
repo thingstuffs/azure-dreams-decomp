@@ -20,7 +20,6 @@ void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *con
 /* Directional frame entries; the full allocation extent is not inferred. */
 extern u8 kewne_direction_frames[];
 
-/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void create_linked_child_object(ActorRecord *parent_state);
 void create_linked_source_object(ActorRecord *source_actor);
 void create_ellipse_ring_effect(EntityRec *parent, s32 effect_param, u8 *effect_data);

@@ -22,7 +22,7 @@ typedef struct {
 #define NULL 0
 #endif
 
-extern void create_tracked_effect(void *, s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+#include "dungeon/effect/tracked_sprite.h"
 
 extern u8 item_effect_descriptor[9];
 
@@ -102,7 +102,7 @@ void create_picket_held_item_sprite(ObjectPosition *source, Rec_func_800AD058_ar
         data_base->unk_AA = record_byte;
         zero = 0;
         (*(unaligned_s32 *)((u8 *)object_data + 0x48)) = (*(unaligned_s32 *)((u8 *)appearance + 0x48));
-        create_tracked_effect(active_object, zero, zero, zero);
+        create_tracked_effect(active_object, zero, NULL, NULL);
         object->update_callback = update_picket_item_drop_effect;
     }
 }

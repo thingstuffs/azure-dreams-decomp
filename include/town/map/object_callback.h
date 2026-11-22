@@ -15,7 +15,7 @@ struct CallbackEntry {
 struct ObjectPosition;
 extern CallbackEntry map_active_callbacks[];
 
-void run_map_object_callback(TownMapBody *object, void *position, void *sprite);
+void run_map_object_callback(TownMapBody *object, struct ObjectPosition *position, struct SpriteFrameState *sprite);
 
 
 void run_callbacks_unless_suppressed(void *object, struct ObjectPosition *position);

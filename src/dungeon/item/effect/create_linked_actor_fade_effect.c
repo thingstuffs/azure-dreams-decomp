@@ -13,83 +13,47 @@
 #define NULL 0
 #endif
 
-typedef struct CopyFields {
-    u8 pad0[2];
-    u16 field2;
-    u8 pad4[2];
-    u16 field6;
-    u8 pad8[2];
-    u16 fieldA;
-} CopyFields;
-
-typedef struct ConfigFields {
-    u8 pad0[8];
-    void * field8;
-    u32 fieldC;
-    u16 field10;
-    u16 field12;
-    u16 field14;
-    u8 pad16[6];
-    u16 field1C;
-    u16 field1E;
-} ConfigFields;
-
-typedef struct TailFields {
-    u8 pad0[0x14];
-    u32 field14;
-    u8 pad18[0x34];
-    u16 field4C;
-    u8 pad4E[0x1A];
-    void *field68;
-} TailFields;
-
 typedef struct EntityFields {
-    u8 pad0[8];
-    CopyFields *field8;
-    ConfigFields *fieldC;
-    void *field10;
-    u8 pad14[0xC];
-    TailFields tail;
+    ObjectNodeHeader header;
+    ActorRecord actor;
 } EntityFields;
-
-
 
 /* Creates and configures an entity, copies source fields, and links it to the source. */
 void *create_linked_actor_fade_effect(EntityFields *source) {
-    EntityFields *entity;
-    CopyFields *source_fields;
+    ObjectNodeHeader *entity;
+    ObjectPosition *source_fields;
     ObjectPosition *entity_fields;
     SpriteFrameState *config;
-    TailFields *entity_tail;
-    TailFields *source_tail;
+    ReturnMagicAscentBody *fade;
+    ActorRecord *source_actor;
     u16 size;
 
-    entity = allocate_list_node(2, source);
+    entity = allocate_list_node(2, &source->header.next);
     if (entity != NULL) {
-        unlink_node(source);
-        retire_tracked_effect_by_id(source);
-        entity->field10 = update_return_magic_ascent;
+        unlink_node(&source->header);
+        retire_tracked_effect_by_id(&source->header);
+        entity->update_callback = update_return_magic_ascent;
         register_node(entity, project_sprite_chain);
 
-        source_fields = source->field8;
-        entity_fields = entity->field8;
-        entity_fields->x.w.i = source_fields->field2;
-        entity_fields->y.w.i = source_fields->field6;
-        entity_fields->z.w.i = source_fields->fieldA;
+        source_fields = source->header.position;
+        entity_fields = entity->position;
+        entity_fields->x.w.i = source_fields->x.w.i;
+        entity_fields->y.w.i = source_fields->y.w.i;
+        entity_fields->z.w.i = source_fields->z.w.i;
 
-        config = entity->fieldC;
+        config = entity->sprite;
         config->tpage_abr = 0x20;
         config->source = return_magic_sprite_data;
         size = 0x1000;
         config->scale_y = size;
         config->color.word = 0x808080;
         config->scale_x = size;
-        source_tail = &source->tail;
+        source_actor = &source->actor;
         config->flags |= 0xC;
-        entity_tail = &entity->tail;
-        entity_tail->field4C = 0x10;
-        entity_tail->field68 = source_tail;
-        source_tail->field14 |= 0x100000;
+        fade = NODE_BODY(entity);
+        fade->counter = 0x10;
+        fade->owner = source_actor;
+        source_actor->flags14 |= 0x100000;
     }
     return entity;
 }

@@ -6,6 +6,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/timed_stream.h"
+#include "shared/object_node.h"
+#include "shared/dungeon_item_entries.h"
 
 /* Five pointer planes begin at +0x10, +0x24, +0x38, +0x4C and +0x60.
  * The layout routine positions all five rows; the population routine stores
@@ -42,8 +44,8 @@ typedef struct ShopWindow {
     /* 0x14 */ s32 page_limit; /* upper page bound used by update_shop_page_edge_flags */
     /* 0x18 */ s32 price_mode;
     /* 0x1C */ s32 page_edge_flags; /* low two bits mark the page bounds */
-    /* 0x20 */ u8 pad_20[4];
-    /* 0x24 */ s32 item_address;
+    /* 0x20 */ ObjectNodeHeader *owner;
+    /* 0x24 */ DungeonItemEntry *items; /* five four-byte entries per displayed page */
     /* 0x28 */ FrameState cursor_record; /* cursor stream initialize_shop_window_layout starts on the cursor widget */
     /* 0x34 */ u8 header_record[0x98];
     /* 0xCC */ ShopWindowWidgets *widgets;
@@ -63,8 +65,8 @@ typedef struct S_800B1390_1 {
     s32 unk_14;
     s32 unk_18;
     u8 pad_1C[0x4];
-    s32 unk_20;
-    s32 unk_24;
+    ObjectNodeHeader *owner;
+    DungeonItemEntry *items;
 } S_800B1390_1;
 
 void build_shop_panel_records(u8 *);
@@ -77,7 +79,7 @@ extern void initialize_shop_parts(void *, void *, void *);
 
 /* Functions defined in this translation unit. */
 void initialize_shop_window_layout(ShopWindow *ui);
-void initialize_shop_window_state(void *record_data, s32 value_20, s32 value_08, s32 value_0c, s32 value_10, s32 value_14, s32 value_24, s32 value_18);
-void setup_shop_window(void *object, s32 setup_value_1, s32 setup_value_2, s32 setup_value_3, s32 setup_value_4, s32 setup_value_5, s32 setup_value_6, s32 setup_value_7);
+void initialize_shop_window_state(void *record_data, ObjectNodeHeader *owner, s32 value_08, s32 value_0c, s32 value_10, s32 value_14, DungeonItemEntry *items, s32 value_18);
+void setup_shop_window(void *object, ObjectNodeHeader *owner, s32 setup_value_2, s32 setup_value_3, s32 setup_value_4, s32 setup_value_5, DungeonItemEntry *items, s32 setup_value_7);
 
 #endif

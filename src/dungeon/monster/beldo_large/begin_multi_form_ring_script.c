@@ -43,7 +43,10 @@ void unlink_entity_node();                         /* extern */
 extern s32 D_80173C94;
 extern u8 *D_80173D5C;
 
-/* Reset shared state and update the two occupied object slots. */
+/*
+ * Starts the multi-form ring script: resets the shared state and flags, unlinks the actors held in
+ * the two ring slots, then creates the segment ring.
+ */
 void begin_multi_form_ring_script(void) {
     s32 object_data;
     s32 slot_offset;
@@ -81,8 +84,3 @@ void begin_multi_form_ring_script(void) {
     } while (slot_index < 2);
     create_multi_form_segment_ring(&view_reference_entity.x.v);
 }
-
-/* MECHANISM: A 40-byte frame falls out naturally from s0-s3: s2 holds the
-   relocatable D_800E3D7C page across calls, while s3 holds 0x80000000.
-   Short-lived 0x80010000/0x800E0000 page locals preserve direct displacements
-   and avoid the extra address-add/register hold that caused the residue. */

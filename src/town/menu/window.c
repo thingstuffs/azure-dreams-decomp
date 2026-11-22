@@ -256,7 +256,7 @@ s32 classify_record_by_state_and_position(Rec_D_80082D58 *record, ObjectPosition
 }
 
 /* Create an object, initialize its position and render state, and invoke its callback. */
-s32 spawn_town_entry_object(s32 callback_id, s32 angle_index, s32 state_94, u8 state_95, u8 state_96, u8 height_mode, s32 state_48, s16 coord_x, s16 coord_z, s8 *active_flag)
+s32 spawn_town_entry_object(s32 callback_id, s32 angle_index, s32 state_94, u8 state_95, u8 state_96, u8 height_mode, s32 state_48, s16 coord_x, s16 coord_z, u8 *active_flag)
 {
     TownObjectCallbackEntry initializer;
     s32 saved_angle_index;
@@ -267,9 +267,9 @@ s32 spawn_town_entry_object(s32 callback_id, s32 angle_index, s32 state_94, u8 s
     u16 angle;
     TownObjectRecord *state;
     u32 color;
-    void *callback_render;
+    SpriteFrameState *callback_render;
     s32 saved_state_48;
-    s8 *saved_active_flag;
+    u8 *saved_active_flag;
     s32 saved_state_94;
 
     saved_angle_index = angle_index;
@@ -708,8 +708,8 @@ void dispatch_object_or_switch_alternate_state(func_800A075C_S_func_8009DEBC_0 *
 }
 
 /* Reset the object handler and restore its saved byte unless the check returns two. */
-void install_state_dispatch_callback(func_800A075C_S_func_8009DEBC_0 *object, void *context) {
-    if (classify_record_by_state_and_position(object, context) != 2) {
+void install_state_dispatch_callback(func_800A075C_S_func_8009DEBC_0 *object, ObjectPosition *position) {
+    if (classify_record_by_state_and_position(object, position) != 2) {
         register_node_if_unregistered(object, project_sprite_chain);
         NODE_HEADER(object)->update_callback = &dispatch_object_or_switch_alternate_state;
         object->unk_15 = object->unk_AC;
@@ -848,7 +848,7 @@ s32 kewn_namewin_open(void) {
 /* kewn_namewin_close_check: Copies the entered name to the main and matching item buffers when the close flag is set. */
 s32 kewn_namewin_close_check(void) {
     s32 close_flag;
-    void *matched_item;
+    DungeonItemEntry *matched_item;
 
     close_flag = active_item_view->unk_1E & 0x8000 & 0xFFFF;
     if (close_flag != 0) {
@@ -857,7 +857,7 @@ s32 kewn_namewin_close_check(void) {
         if (matched_item != 0) {
             strcpy(
                    (void *)(0x80010324 +
-                            ((*((u8 *)matched_item + 3) & 0x1F) * 0x54)),
+                            ((matched_item->unk_03 & 0x1F) * 0x54)),
                    (void *)0x80010AB4);
         }
     }
@@ -942,16 +942,16 @@ void initialize_town_object_by_mode(TownObjectRecord *object, ObjectPosition *po
 }
 
 /* Updates an object's pulse brightness and handles its completion state. */
-void update_object_pulse_brightness(TownObjectRecord *object, s32 context, SpriteFrameState *primitive) {
+void update_object_pulse_brightness(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *primitive) {
     s32 status_match;
     s16 phase;
     s32 wave;
     s32 wave_step;
     s32 brightness;
 
-    status_match = classify_record_by_state_and_position(object, context) == 1;
-    if (classify_record_by_state_and_position(object, context) == 1) {
-        s8 *active_flag = object->unk_98;
+    status_match = classify_record_by_state_and_position(object, position) == 1;
+    if (classify_record_by_state_and_position(object, position) == 1) {
+        u8 *active_flag = object->unk_98;
         if (active_flag != 0) {
             *active_flag = 0;
         }

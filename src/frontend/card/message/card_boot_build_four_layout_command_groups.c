@@ -43,10 +43,12 @@ u8 *card_boot_build_four_layout_command_groups(u8 *buffer, CardDevDialogDisplay 
     u8 *id_ptr;
     u8 command_id;
     u8 *size_ptr;
-    u8 *write_ptr;
+    LayoutCommand *sized;
+    LayoutQuadColors *quad;
+    LayoutCommand *command;
     u8 * stack_end;
 
-    write_ptr = buffer;
+    command = (LayoutCommand *)buffer;
     memcpy(&command_ids, D_80400000 + 0x544, 4);
     do {
         opcode = 0x48;
@@ -56,7 +58,7 @@ u8 *card_boot_build_four_layout_command_groups(u8 *buffer, CardDevDialogDisplay 
         stack_end = (u8 *)&ids_limit;
     } while (0);
     layout_offset = layout_index * 4;
-    size_ptr = write_ptr + 0xB;
+    size_ptr = &command->half_height;
     width_extent = D_80408ADC[layout_offset] * 0xC;
     width = width_extent + 8;
     height_extent = D_80408ADC[layout_offset + 1] * 0x11;
@@ -74,36 +76,40 @@ u8 *card_boot_build_four_layout_command_groups(u8 *buffer, CardDevDialogDisplay 
     layout->height = height;
 loop:
     do {
-        ((LayoutCommand *)(size_ptr - 0xB))->half_width = (u8)half_width;
-        ((LayoutCommand *)(size_ptr - 0xB))->half_height = (u8)half_height;
-        ((LayoutCommand *)(size_ptr - 0xB))->opcode = (u8)opcode;
-        ((LayoutCommand *)(size_ptr - 0xB))->shade = shade;
+        sized = (LayoutCommand *)(size_ptr - 0xB);
+        sized->half_width = (u8)half_width;
+        sized->half_height = (u8)half_height;
+        sized->opcode = (u8)opcode;
+        sized->shade = shade;
         size_ptr += 0xC;
-        ((LayoutCommand *)write_ptr)->id = *id_ptr;
-        write_ptr += 0xC;
-        ((LayoutCommand *)(size_ptr - 0xB))->half_width = (u8)outer_half_width;
-        ((LayoutCommand *)(size_ptr - 0xB))->half_height = (u8)((u32)outer_height >> 1);
-        ((LayoutCommand *)(size_ptr - 0xB))->opcode = (u8)opcode;
-        ((LayoutCommand *)(size_ptr - 0xB))->shade = shade;
+        command->id = *id_ptr;
+        command++;
+        sized = (LayoutCommand *)(size_ptr - 0xB);
+        sized->half_width = (u8)outer_half_width;
+        sized->half_height = (u8)((u32)outer_height >> 1);
+        sized->opcode = (u8)opcode;
+        sized->shade = shade;
         command_id = *id_ptr;
         size_ptr += 0xC;
-        ((LayoutCommand *)write_ptr)->id = command_id;
-        write_ptr += 0xC;
-        memcpy(write_ptr, D_80410000 - 0x7394, 0x18);
-        ((LayoutCommand *)(size_ptr - 0xB))->shade = 0x30BFC0;
-        ((LayoutQuadColors *)(size_ptr - 0xB))->second = 0x30BFC0;
-        ((LayoutQuadColors *)(size_ptr - 0xB))->third = 0x30BFC0;
-        ((LayoutQuadColors *)(size_ptr - 0xB))->fourth = 0x30BFC0;
-        ((LayoutCommand *)(size_ptr - 0xB))->half_width = (u8)half_width;
-        ((LayoutCommand *)(size_ptr - 0xB))->half_height = (u8)half_height;
+        command->id = command_id;
+        command++;
+        memcpy(command, D_80410000 - 0x7394, 0x18);
+        sized = (LayoutCommand *)(size_ptr - 0xB);
+        quad = (LayoutQuadColors *)sized;
+        quad->first = 0x30BFC0;
+        quad->second = 0x30BFC0;
+        quad->third = 0x30BFC0;
+        quad->fourth = 0x30BFC0;
+        sized->half_width = (u8)half_width;
+        sized->half_height = (u8)half_height;
         size_ptr += 0x18;
         command_id = *id_ptr;
         id_ptr += 1;
-        ((LayoutCommand *)write_ptr)->id = command_id;
-        write_ptr += 0x18;
+        command->id = command_id;
+        command += 2;
     } while (0);
     if ((s32)id_ptr < (s32)stack_end)
         goto loop;
-    ((LayoutCommand *)(write_ptr - 0x18))->id |= 0x80;
-    return write_ptr;
+    command[-2].id |= 0x80;
+    return (u8 *)command;
 }

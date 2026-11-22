@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/line_packets.h"
 #include "town/scene.h"
 #include "town/devkit/old_minigame_imports.h"
 
@@ -7,14 +8,6 @@ typedef struct S_8080DAB8_0 {
     u8 pad_00[0x8D0];
     s32 unk_8D0;
 } S_8080DAB8_0;   /* *rootp in draw_projected_linked_records */
-
-typedef struct S_8080DAB8_1 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-} S_8080DAB8_1;
 
 typedef struct S_8080DAB8_2 {
     s32 unk_00;
@@ -46,7 +39,7 @@ extern u8 *D_8012F130;
 /* Build projected primitives and draw modes for linked records and add them to the ordering table. */
 s32 draw_projected_linked_records(void *first_record) {
     s32 ot_slot;
-    s32 primitive;
+    TownGradientLinePacket *primitive;
     s32 *draw_mode;
     s32 primitive_cursor;
     s32 mode_cursor;
@@ -78,10 +71,10 @@ s32 draw_projected_linked_records(void *first_record) {
     for (;;) {
         func_8006BFA0(record + 8, screen_coords, depths, transform_scratch, transform_scratch, 2);
         primitive_cursor = 0;
-        primitive = ((S_8080DAB8_0 *)(*render_root))->unk_8D0;
+        primitive = (TownGradientLinePacket *)(unsigned long)(u32)((S_8080DAB8_0 *)(*render_root))->unk_8D0;
         primitive_base = *render_root;
         if (primitive != 0) {
-            primitive_end = primitive + 0x14;
+            primitive_end = (unsigned long)(primitive + 1);
             buffer_limit_2 = 0x108D4;
             primitive_cursor = primitive_end & (0 - ((u32)(primitive_base + buffer_limit_2) >= primitive_end));
         }
@@ -97,12 +90,12 @@ s32 draw_projected_linked_records(void *first_record) {
         }
         ((S_8080DAB8_0 *)(*render_root))->unk_8D0 = mode_cursor;
         func_8006F49C(draw_mode, 0, 0, func_8006D9DC(0, 0, 0, 0) & 0xFFFF, 0);
-        ((S_8080DAB8_1 *)primitive)->unk_04 = (s32)((S_8080DAB8_2 *)((u8 *)record - 0x8))->unk_20;
-        ((S_8080DAB8_1 *)primitive)->unk_0C = (s32)((S_8080DAB8_2 *)((u8 *)record - 0x8))->unk_24;
-        func_8006DD4C((s32 *)primitive);
-        func_8006DBBC((s32 *)primitive, 1);
-        ((S_8080DAB8_1 *)primitive)->unk_08 = (s32)*(s32 *)screen_coords;
-        ((S_8080DAB8_1 *)primitive)->unk_10 = (s32)*(s32 *)(screen_coords + 4);
+        primitive->first_color = (s32)((S_8080DAB8_2 *)((u8 *)record - 0x8))->unk_20;
+        primitive->second_color = (s32)((S_8080DAB8_2 *)((u8 *)record - 0x8))->unk_24;
+        func_8006DD4C(primitive);
+        func_8006DBBC(primitive, 1);
+        primitive->first_xy = (s32)*(s32 *)screen_coords;
+        primitive->second_xy = (s32)*(s32 *)(screen_coords + 4);
         depth0_raw = *(u16 *)depths;
         depth0_shifted = depth0_raw << 0x10;
         depth1_raw = *((u16 *)depths + 1);
@@ -118,13 +111,13 @@ s32 draw_projected_linked_records(void *first_record) {
         }
         ot_slot = (s32)(depth0_shifted << 0x10) >> 0xE;
         {
-            setaddr(primitive, getaddr((u8 *)((u32)ot_slot + (u32)*render_root) + 0xB0));
+            primitive->tag.addr = getaddr((u8 *)((u32)ot_slot + (u32)*render_root) + 0xB0);
         }
         {
             u32 tag_word;
             ot_entry = (void *)&((*render_root))[ot_slot];
             tag_word = ot_entry->unk_B0;
-            setaddr((u8 *)ot_entry + 0xB0, primitive);
+            setaddr((u8 *)ot_entry + 0xB0, (unsigned long)primitive);
         }
         {
             setaddr(draw_mode, getaddr((u8 *)((u32)ot_slot + (u32)*render_root) + 0xB0));

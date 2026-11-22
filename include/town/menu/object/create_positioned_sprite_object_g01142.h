@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_800A9BA8. */
 
 #include "common.h"
+#include "town/menu/object_setup.h"
 #include "shared/sprite_source.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -20,8 +21,8 @@ struct EmoteCallbackObject;
 /* Body shared by the positioned-emote creator and callback dispatcher. */
 typedef struct EmoteCallbackObject {
     /* 0x00 */ u8 pad_00[0x50];
-    /* 0x50 */ s32 (*callback)(struct EmoteCallbackObject *, ObjectPosition *, s32);
-    /* 0x54 */ s32 state_value;
+    /* 0x50 */ EmoteObjectCallback callback;
+    /* 0x54 */ EmoteObjectCallback on_ground;
     /* 0x58 */ u8 pad_58[0x38];
     /* 0x90 */ s16 frame;
 } EmoteCallbackObject;
@@ -37,28 +38,21 @@ struct ObjectNodeHeader;
 
 
 
-typedef struct S_800A7360_1 {
-    u8 pad_00[0x50];
-    void (*unk_50)(void *, ObjectPosition *, s32);
-} S_800A7360_1;
-
-typedef void (*S_800A9C80_Callback)(void *, void *, s32);
-
 void select_record_entry_and_value(void *state,void *entries, short index);
 void * allocate_list_node(s32, struct ObjectNodeHeader * *);
 extern s32 D_800D0DF0;
-extern void D_800A7360();
+extern void D_800A7360(EmoteCallbackObject *, ObjectPosition *, struct SpriteFrameState *);
 extern s32 D_800D0DF8[];
 extern void unlink_node_if_registered(void *);
 
 /* Shared import declarations; data casts preserve each measured view. */
 
 /* Functions defined in this translation unit. */
-ObjectNodeHeader *create_emote_sprite_object(IntVector3 *position, s32 state_value, SpriteSourceEntry *graphic_id);
+ObjectNodeHeader *create_emote_sprite_object(IntVector3 *position, EmoteObjectCallback on_ground, SpriteSourceEntry *graphic_id);
 ObjectNodeHeader *create_preset_sprite_object(IntVector3 *position);
-void load_emote_launch_velocity(Rec_D_80082D58 *object, ObjectPosition *output, s32 unused);
-void invoke_emote_object_callback(EmoteCallbackObject *object, ObjectPosition *motion, s32 context);
-void advance_emote_motion(S_800A7360_1 *object, ObjectPosition *motion);
-void advance_position_and_handle_ground_contact(void *entity, ObjectPosition *motion, s32 context);
+void load_emote_launch_velocity(struct EmoteCallbackObject *object, ObjectPosition *output, struct SpriteFrameState *unused);
+void invoke_emote_object_callback(EmoteCallbackObject *object, ObjectPosition *motion, struct SpriteFrameState *sprite);
+void advance_emote_motion(EmoteCallbackObject *object, ObjectPosition *motion, struct SpriteFrameState *unused);
+void advance_position_and_handle_ground_contact(struct EmoteCallbackObject *entity, ObjectPosition *motion, struct SpriteFrameState *sprite);
 
 #endif

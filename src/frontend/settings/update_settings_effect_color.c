@@ -1,27 +1,13 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "frontend/settings.h"
-
-typedef struct EffectOwner {
-    u8 pad0[0x16];
-    u16 flags;
-} EffectOwner;
-
-typedef struct ColorRampEffect {
-    u8 pad0[0x0C];
-    EffectOwner *owner;
-    s32 color;
-    u8 pad14[0x0C];
-    s32 selector;
-    u32 active;
-} ColorRampEffect;
-
+#include "shared/object_node.h"
 
 /* Ramp the effect color using owner flags and active state, then propagate the owner high bit. */
-void update_settings_effect_color(ColorRampEffect *effect)
+void update_settings_effect_color(ColorEffect *effect)
 {
     u16 flag_masks[2];
-    EffectOwner *owner;
+    SettingsScreenBody *owner;
     s32 brighten;
     s32 next_color;
     u32 state_bits;
@@ -32,8 +18,7 @@ void update_settings_effect_color(ColorRampEffect *effect)
     flag_masks[1] = 1;
     brighten = 0;
     selected_flags = owner->flags;
-    selected_flags &= *(u16 *)((unsigned long)(effect->selector * 2)
-                      + (unsigned long)flag_masks);
+    selected_flags &= flag_masks[effect->selector];
 
     if (selected_flags != 0) {
         state_bits = effect->active;
@@ -64,7 +49,7 @@ void update_settings_effect_color(ColorRampEffect *effect)
 
     state_bits = (s16)owner->flags;
     if ((state_bits & 0x8000) != 0) {
-        ((u16 *)effect)[-1] |= NODE_REMOVE;
+        NODE_HEADER(effect)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

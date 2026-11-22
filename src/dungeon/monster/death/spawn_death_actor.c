@@ -83,7 +83,3 @@ void *spawn_death_actor(s16 flags, s16 value_24, s16 value_25, s16 value_0A)
     }
     return work;
 }
-
-/* MECHANISM: Preserve the seed's exact 0x38 frame, s0-s7 holds, CFG, and true-base name.
-   The sole residue was part_b's saved_arg1 byte field at 0xF versus retail offset 0x24.
-   part_b->unk_24 closes the substitution at emitted word 32. */

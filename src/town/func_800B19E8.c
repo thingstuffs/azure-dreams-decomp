@@ -1,26 +1,22 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "shared/object_links.h"
+#include "town/shop/item_menu_cursor_transition_g00601.h"
 #include "engine/item.h"
 #include "town.h"
 
 
-typedef struct S_800AF148_0 {
-    u8 pad_00[0x28];
-    s32 unk_28;
-    u8 pad_2C[0xAC];
-    s32 unk_D8;
-} S_800AF148_0;
 
 /* Updates an object's state and sets its local and global 0x8000 flags. */
-void release_item_menu_list_object(s32 objectAddress) {
-    void *objectFields;
+void release_item_menu_list_object(ObjectNodeHeader *object) {
+    ItemMenuTransition *display;
 
-    if (objectAddress != 0) {
-        objectFields = objectAddress + 0x20;
-        remove_item_menu_entry_objects(((S_800AF148_0 *)objectFields)->unk_D8, ((S_800AF148_0 *)objectFields)->unk_28);
-        release_null_terminated_entries(objectAddress + 0xFC);
-        ((ObjectRetirementFlags *)objectFields)[-1].flags = (u16) (((ObjectRetirementFlags *)objectFields)[-1].flags | 0x8000);
+    if (object != 0) {
+        display = NODE_BODY(object);
+        remove_item_menu_entry_objects(display->rows.as_ptr, display->entry_count);
+        release_null_terminated_entries(display->allocations);
+        NODE_HEADER(display)->flags |= 0x8000;
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }

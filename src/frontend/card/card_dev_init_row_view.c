@@ -1,17 +1,7 @@
 #include "common.h"
+#include "frontend/card/slot_marker.h"
 #include "frontend/card/menu_default_words.h"
 #include "frontend/card.h"
-
-   /* arg0 in card_dev_init_row_view */
-
-typedef struct S_8001CDA0_4 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-    s16 unk_0A;
-    s16 unk_0C;
-    u8 pad_0E[0x1];
-    s8 unk_0F;
-} S_8001CDA0_4;   /* entry->unk_04 in card_dev_init_row_view */
 
 extern s32 D_8002D694[];
 extern s32 D_8002D698[];
@@ -20,42 +10,23 @@ extern s32 D_8002D69C[];
 extern s32 D_8002D6A4[];
 extern s32 D_8002D6A8[];
 
-typedef struct S_8001CDA0_0 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-} S_8001CDA0_0;   /* arg1 in card_dev_init_row_view */
-
-typedef struct S_8001CDA0_1 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_8001CDA0_1;   /* arg2 in card_dev_init_row_view */
-
-typedef struct S_8001CDA0_2 {
-    s32 unk_00;
-    void * unk_04;
-    void * unk_08;
-} S_8001CDA0_2;   /* arg0 in card_dev_init_row_view */
-
 /* Initialize an entry from defaults and set its row position. */
-void card_dev_init_row_view(S_8001CDA0_2 *entry, S_8001CDA0_0 *placement, S_8001CDA0_1 *settings, s32 row_index) {
+void card_dev_init_row_view(CardDevMenuEntry *entry, MenuDisplayBlock *placement, s32 *settings, s32 row_index) {
     s32 settings_header;
 
-    placement->unk_00 = menu_primitive_defaults[0];
+    placement->words[0] = menu_primitive_defaults[0];
     settings_header = menu_settings_defaults[0];
-    placement->unk_04 = D_8002D694[0];
-    placement->unk_08 = D_8002D698[0];
-    placement->unk_0C = D_8002D69C[0];
-    settings->unk_00 = settings_header;
-    settings->unk_04 = D_8002D6A4[0];
-    settings->unk_08 = D_8002D6A8[0];
-    entry->unk_04 = placement;
-    entry->unk_08 = settings;
-    entry->unk_00 = 0;
-    ((S_8001CDA0_4 *)entry->unk_04)->unk_08 = -0xA0;
-    ((S_8001CDA0_4 *)entry->unk_04)->unk_0A = (s16) ((row_index * 0x18) - 0x78);
-    ((S_8001CDA0_4 *)entry->unk_04)->unk_0C = 0x200;
-    ((S_8001CDA0_4 *)entry->unk_04)->unk_0F = 4;
+    placement->words[1] = D_8002D694[0];
+    placement->words[2] = D_8002D698[0];
+    placement->words[3] = D_8002D69C[0];
+    settings[0] = settings_header;
+    settings[1] = D_8002D6A4[0];
+    settings[2] = D_8002D6A8[0];
+    entry->display.block = placement;
+    entry->settings = settings;
+    entry->display.payload.word = 0;
+    entry->display.block->fields.x = -0xA0;
+    entry->display.block->fields.y = (s16) ((row_index * 0x18) - 0x78);
+    entry->display.block->fields.depth = 0x200;
+    entry->display.block->fields.mode = 4;
 }

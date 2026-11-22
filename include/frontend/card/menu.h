@@ -6,7 +6,7 @@
 #include "frontend/libcard/card_chooser.h"
 
 /* card_boot_clear_menu_state.c */
-void card_boot_clear_menu_state(void *ptr);
+void card_boot_clear_menu_state(CardChooserBody *menu);
 
 /* card_boot_handle_menu_selection_input.c */
 void card_boot_handle_menu_selection_input(CardChooserBody *menu);
@@ -15,12 +15,12 @@ void card_boot_handle_menu_selection_input(CardChooserBody *menu);
 void card_boot_init_chooser_callback(CardChooserBody *ptr);
 
 /* card_boot_poll_status_and_select_context.c */
-void card_boot_poll_status_and_select_context(void *state);
+void card_boot_poll_status_and_select_context(CardChooserBody *state);
 
 /* card_boot_update_object_state_and_callback.c */
-void card_boot_update_object_state_and_callback(void *object_data);
+void card_boot_update_object_state_and_callback(CardChooserBody *object);
 
 /* menu.c */
-void decrement_card_menu_countdown(void *record_data);
+void decrement_card_menu_countdown(CardChooserBody *record_data);
 
 #endif

@@ -36,7 +36,7 @@ void unlink_and_remove_scene_object(void *object, void *unused_owner, void *unus
 }
 
 /* Creates a type 0x116 object with an optional parent and position, and initializes its rendering. */
-void *create_town_effect_object(s32 parent, IntVector3 *position, s32 object_value, s32 state_value) {
+void *create_town_effect_object(ObjectNodeHeader *parent, IntVector3 *position, s32 object_value, s32 state_value) {
     S_8009C390_1 *state;
     ObjectPosition *object_position;
     SpriteFrameState *render;
@@ -57,7 +57,7 @@ void *create_town_effect_object(s32 parent, IntVector3 *position, s32 object_val
     object->update_callback = object_value;
     state->unk_50 = state_value;
     if (parent != 0) {
-        state->unk_9C = (s32)(parent + 0x20);
+        state->owner_body = NODE_BODY(parent);
     }
     if (position != NULL) {
         object_position->x.v = position->x;
@@ -146,7 +146,7 @@ void spawn_randomized_effect_parts(u8 *source_data, s32 spawn_arg) {
     ObjectPosition *velocity;
     S_8009C648_3 *part_data;
     ObjectNodeHeader *part_object;
-    void *source_object;
+    ObjectNodeHeader *source_node;
     s32 random_z;
     ObjectPosition *motion;
 
@@ -155,8 +155,8 @@ void spawn_randomized_effect_parts(u8 *source_data, s32 spawn_arg) {
     velocity_bias = 0xFFFC0000;
     part_params = D_800D06C8;
     do {
-        source_object = source_data - 0x20;
-        part_object = create_town_effect_object(source_object, spawn_arg, ((S_8009C648_0 *)part_params)->unk_00,
+        source_node = NODE_HEADER(source_data);
+        part_object = create_town_effect_object(source_node, spawn_arg, ((S_8009C648_0 *)part_params)->unk_00,
             ((S_8009C648_0 *)part_params)->unk_04);
         if (part_object == NULL) {
             break;

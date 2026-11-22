@@ -93,9 +93,3 @@ void create_multi_form_segment_ring(EntityRec *origin) {
         end_angle += 0x100;
     } while (segment_index < 0x10);
 }
-
-/* MECHANISM: the flag word is two compound ORs (cse keeps them apart and
-   post-reload CSE turns the re-read into `move`); effect->unk_20 re-reads the
-   just-stored colour byte; one pointer variable carries both effect->unk_0C
-   loads (two sets -> global pseudo -> $a1); color_level is a user variable
-   declared with an initialiser, so loop.c does not hoist the 0x40 set. */

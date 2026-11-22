@@ -9,7 +9,7 @@
 #include "engine/menu.h"
 
 /* Initialize the record and active flag, then install the object handler. */
-void start_item_object_motion(S_800A022C_2 *object, S_800A022C_0 *state, ObjectPosition *record, void *unused_render) {
+void start_item_object_motion(S_800A022C_2 *object, S_800A022C_0 *state, ObjectPosition *record, struct SpriteFrameState *unused_render) {
     state->unk_15 = 1;
     record->velocity_x = 0;
     record->velocity_y = 0;
@@ -22,7 +22,7 @@ void start_item_object_motion(S_800A022C_2 *object, S_800A022C_0 *state, ObjectP
 void *create_item_object_at(S_800A027C_5 *config, MovingPosition *position) {
     u8 type;
     S_800A027C_4 *state;
-    S_800A027C_3 *render;
+    SpriteFrameState *render;
     ObjectPosition *coords;
     ProjectileObject *object;
 
@@ -36,9 +36,9 @@ void *create_item_object_at(S_800A027C_5 *config, MovingPosition *position) {
     coords->y.w.i = (u16) position->y;
     state = NODE_BODY(object);
     coords->z.w.i = (u16) position->z;
-    render->unk_1E = 0x1000;
-    render->unk_1C = 0x1000;
-    render->unk_0C = 0x808080;
+    render->scale_y = 0x1000;
+    render->scale_x = 0x1000;
+    render->color.word = 0x808080;
     state->unk_48 = 0;
     state->unk_98 = 0;
     state->unk_93 = 0;
@@ -53,12 +53,12 @@ void *create_item_object_at(S_800A027C_5 *config, MovingPosition *position) {
         state->unk_0C = &D_800D0754;
     }
     if (type == 0x12 && type == state->unk_4D) {
-        render->unk_08 = (s32) &item_effect_descriptor;
+        render->source = &item_effect_descriptor;
     } else {
-        render->unk_08 = lookup_item_category_mapped_value(state->unk_4D, state->unk_4C);
+        render->source = (void *)(unsigned long)(u32)lookup_item_category_mapped_value(state->unk_4D, state->unk_4C);
     }
     object->update_callback = &dispatch_object_or_switch_alternate_state;
-    start_item_object_motion((S_800A022C_2 *)state, (S_800A022C_0 *)state, (ObjectPosition *)coords, render);
+    start_item_object_motion((S_800A022C_2 *)state, (S_800A022C_0 *)state, coords, render);
 
     return object;
 }

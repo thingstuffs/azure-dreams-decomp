@@ -1,4 +1,5 @@
 #include "shared/sprite_source.h"
+#include "dungeon/effect/motion.h"
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
 #include "common.h"
@@ -74,7 +75,6 @@ extern void draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, 
 extern u8 D_8017086C[];
 extern u8 D_80170874[];
 
-extern u8 mandara_object_callback_2[];
 #include "dungeon/monster/mandara.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/item.h"
@@ -174,7 +174,7 @@ void cast_mandara_spin_spell(ActorRecord *effect, ObjectPosition *motion, Sprite
                 register_node(effect_alloc, project_sprite_chain);
                 effect_data = NODE_BODY(effect_alloc);
                 tile = effect_alloc->sprite;
-                effect_alloc->update_callback = mandara_object_callback_2;
+                effect_alloc->update_callback = retire_finished_sprite_effect;
 
                 random = rand();
                 {

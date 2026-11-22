@@ -71,9 +71,9 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
         }
 
         action->action_timer = 0x12;
-        direction_x = (s16 *)((s8 *)dir_step_x);
+        direction_x = (s16 *)dir_step_x;
         action->action_phase++;
-        direction_y = (s16 *)((s8 *)dir_step_y);
+        direction_y = (s16 *)dir_step_y;
         motion->velocity_x =
             -*(s16 *)((u8 *)direction_x +
               ((actor->facing >> 8) & 0xE)) << 18;
@@ -106,8 +106,8 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
                 animation_ids[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 1);
 
-            direction_x = (s16 *)((s8 *)dir_step_x);
-            direction_y = (s16 *)((s8 *)dir_step_y);
+            direction_x = (s16 *)dir_step_x;
+            direction_y = (s16 *)dir_step_y;
             motion->velocity_x =
                 *(s16 *)((u8 *)direction_x +
                   ((actor->facing >> 8) & 0xE)) << 19;

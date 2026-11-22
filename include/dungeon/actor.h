@@ -107,7 +107,7 @@ s32 trigger_actor_floor_trap(SpriteFrameState *actor, ActorRecord *ctx);
 
 #include "shared/town_object.h"
 void advance_actor_status_turn(ActorRecord *actor, ObjectPosition *action_context, SpriteFrameState *sprite, u8 *state);
-void apply_setup_on_timeout_variant_3(TownObjectRecord *object);
+void apply_setup_on_timeout_variant_3(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite);
 void begin_actor_floor_trap_action(struct SpriteFrameState *unused, ActorRecord *object);
 void begin_actor_throw_from_attachment(Rec_func_800A9E70_arg0 *state, ObjectPosition *motion, SpriteFrameState *tile, ActorRecord *entity);
 s32 check_entity_flag_4000(ActorRecord *entity);

@@ -9,7 +9,6 @@
 #include "town/event/state.h"
 struct Dst;
 struct Elem;
-extern s32 D_800D0678[];
 extern s32 D_800D0690[];
 extern u8 D_800ED15C[];
 

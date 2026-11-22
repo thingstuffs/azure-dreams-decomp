@@ -9,7 +9,7 @@
 #include "shared/object_node.h"/* Allocate an object and initialize its payload, display transform, and color. */
 #include "town/menu/position_callbacks_api.h"
 #include "town/menu/state_callbacks_api.h"
-struct ObjectNodeHeader *allocate_and_initialize_display_object(struct TownObjectRecord *owner, s8 *active_flag, ObjectPosition *origin, s32 part_index, DoorDisplayCallback update,
+struct ObjectNodeHeader *allocate_and_initialize_display_object(struct TownObjectRecord *owner, u8 *active_flag, ObjectPosition *origin, s32 part_index, DoorDisplayCallback update,
     DoorDisplayCallback initialize) {
     ObjectNodeHeader *obj = allocate_list_node(0x136, &NODE_HEADER(owner)->next);
     SpriteFrameState *display;
@@ -40,7 +40,7 @@ struct ObjectNodeHeader *allocate_and_initialize_display_object(struct TownObjec
 }
 
 /* Create objects with descending indices until allocation fails or index zero is reached. */
-s32 create_display_object_series(struct TownObjectRecord *owner, s8 *active_flag, ObjectPosition *origin, s32 count) {
+s32 create_display_object_series(struct TownObjectRecord *owner, u8 *active_flag, ObjectPosition *origin, s32 count) {
     s32 index;
     index = count;
     do {
@@ -105,6 +105,6 @@ void copy_directional_value(DoorDisplayBody *object, ObjectPosition *unused, str
 }
 
 /* Forward four inputs to allocate_and_initialize_display_object with two fixed data pointers. */
-struct ObjectNodeHeader *create_default_display_object(struct TownObjectRecord *owner, s8 *active_flag, ObjectPosition *origin, s32 part_index) {
+struct ObjectNodeHeader *create_default_display_object(struct TownObjectRecord *owner, u8 *active_flag, ObjectPosition *origin, s32 part_index) {
     return allocate_and_initialize_display_object(owner, active_flag, origin, part_index, flag_inactive_object_or_run_callback, initialize_lit_mesh_object_with_phase);
 }

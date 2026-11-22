@@ -199,7 +199,7 @@ void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition 
                     *music = town_actor_interaction_address;
                     motion->velocity_z = 0x100000;
                 }
-                actor->flags.u &= 0xFFFB;
+                actor->flags &= 0xFFFB;
                 object->state.u++;
             } else {
                 *music = tracked_actor_callback_address;
@@ -231,9 +231,9 @@ void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition 
         if (motion->z.v > 0) {
             u16 flags;
 
-            flags = actor->flags.u;
+            flags = actor->flags;
             if (!(flags & 4)) {
-                actor->flags.u = flags | 4;
+                actor->flags = flags | 4;
                 SD_Call(0x701);
             }
             x = motion->x.v;
@@ -355,7 +355,7 @@ void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition 
             center_dist = center_dist - 0x03A00000;
             center_dist = abs(center_dist);
             if (center_dist <= 0x80000 && object->timer.s < 0) {
-                actor->flags.u |= 2;
+                actor->flags |= 2;
                 motion->velocity_z = 0;
                 motion->velocity_y = 0;
                 motion->velocity_x = 0;

@@ -554,25 +554,9 @@ typedef struct {
 
 typedef struct {
     u8 pad0[8];
-    s32 lo;
-    s32 hi;
-    u8 pad1[0x10];
-    u8 transform[1];
-} Object;
-
-typedef struct {
-    u8 pad0[8];
-    s32 lo;
-    SpriteFrameState *data;
-    u8 pad1[0x10];
-    u8 transform[1];
-} Sprite;
-
-typedef struct {
-    u8 pad0[8];
-    Object *main;
-    Object *extra[2];
-    Sprite *sprite;
+    ObjectNodeHeader *main;
+    ObjectNodeHeader *extra[2];
+    ObjectNodeHeader *sprite;
 } Objects;
 
 typedef struct {
@@ -636,7 +620,7 @@ typedef struct MenuFadeRect {
 void update_selection_menu_shade(MenuFadeRect *effect, ObjectPosition *control);
 void *create_selection_menu_controller(s16 initialValue);
 s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_position, RenderParams *render_params);
-void render_camera_facing_sprite(s32 call_value, s32 call_option, s16 call_mode, s32 call_extra);
+void render_camera_facing_sprite(ObjectPosition *position, SpriteFrameState *sprite, s16 call_mode, s32 call_extra);
 s32 queue_four_shaded_quadrants(MenuFadeRect *rect_arg, ObjectPosition *owner_arg);
 
 extern void advance_sprite_animation_and_textures(void *, s16, void *, void *);
@@ -645,7 +629,6 @@ void select_record_entry_and_value(void *state, void *entries, short index);  /*
 #include "sdk/libgpu.h"
 void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s32 extra_byte);      /* extern */
 #include "engine/texture.h"
-struct Entry;
 struct ObjectNodeHeader;
 extern void func_80048AC8(void *, s32);
 extern s16 selection_menu_closing;
@@ -664,7 +647,7 @@ extern u8 *find_or_retain_sprite_resource_slot(s32, s32);
 struct EntityLinkNode;
 extern void unlink_entity_node(struct EntityLinkNode *node);
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
-extern void retire_tracked_effect_by_id(void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+#include "dungeon/effect/tracked_sprite.h"
 void set_message_mode(int value);                     /* extern */
 void call_message_mode_handler(void);                            /* extern */
 void submit_script_with_registered_context(void *context);                   /* extern */
@@ -674,8 +657,8 @@ extern s16 D_8002713A[];
 extern s8 scene_geometry[];
 #include "sdk/libgte.h"
 extern s32 func_800656C0();
-extern void func_800453E0(void *context, void *position, struct Entry *entry, s16 depth_bias);
-extern void func_80045CC4();
+extern void func_800453E0(void *context, struct ObjectPosition *position, struct SpriteFrameState *sprite, s16 depth_bias);
+void func_80045CC4(void *context, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias);
 extern s16 selection_blink_timer[5];
 extern u16 selection_blink_target[5];
 extern s16 selection_animation_counters[5];

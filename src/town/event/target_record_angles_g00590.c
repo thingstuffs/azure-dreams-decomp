@@ -5,7 +5,7 @@
 #include "town/event.h"
 
 /* Initialize and apply the two town records to the target. */
-void queue_two_mesh_quad_sets(void *target, ObjectPosition *setup_data)
+void queue_two_mesh_quad_sets(Fixed1616 target[3], ObjectPosition *setup_data)
 {
     s32 record_value;
     s32 record_value2;
@@ -57,9 +57,9 @@ void update_positions_from_origin(ObjectPosition *origin)
             position, rsin(angle) * town_orbit_radius, rotation)) * town_orbit_radius;
         draw_random_colored_line((s32)position, (origin));
         scale = town_orbit_radius;
-        town_motion_offset_position.x = origin->x.v + scale * 0x1800;
-        town_motion_offset_position.y = origin->y.v;
-        town_motion_offset_position.z = origin->z.v;
-        queue_two_mesh_quad_sets(&town_motion_offset_position, (origin));
+        town_motion_offset_position[0].v = origin->x.v + scale * 0x1800;
+        town_motion_offset_position[1].v = origin->y.v;
+        town_motion_offset_position[2].v = origin->z.v;
+        queue_two_mesh_quad_sets(town_motion_offset_position, (origin));
     }
 }

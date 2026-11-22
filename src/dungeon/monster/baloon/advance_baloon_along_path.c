@@ -87,7 +87,3 @@ void advance_baloon_along_path(ActorRecord *body, ObjectPosition *position, Spri
 
     return;
 }
-
-/* MECHANISM: The four live arguments and two call results naturally produce the retail 0x38 frame and
-   saved-register order. Explicit mode initialization plus scoped next-coordinate locals reproduce the
-   post-call load/store and branch emission order. */

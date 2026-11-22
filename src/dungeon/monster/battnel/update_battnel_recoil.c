@@ -38,7 +38,7 @@ void update_battnel_recoil(ActorRecord *action, ObjectPosition *motion, SpriteFr
     switch (action->action_phase) {
     case 0:
         apply_clamped_actor_value_delta(actor);
-        x_steps = (s16 *)((s8 *)dir_step_x);
+        x_steps = (s16 *)dir_step_x;
         initial_step_offset = direction * 2;
         motion->velocity_x =
             *(s16 *)((u8 *)x_steps + initial_step_offset) << 0x12;
@@ -77,9 +77,9 @@ void update_battnel_recoil(ActorRecord *action, ObjectPosition *motion, SpriteFr
                         /* fall through */
 
     case 1:
-        x_steps = (s16 *)((s8 *)dir_step_x);
+        x_steps = (s16 *)dir_step_x;
         brake_step_offset = direction * 2;
-        y_step = (s16 *)((u8 *)((s8 *)dir_step_y) + brake_step_offset);
+        y_step = (s16 *)((u8 *)dir_step_y + brake_step_offset);
         motion->velocity_x -=
             *(s16 *)((u8 *)x_steps + brake_step_offset) << 0xF;
         motion->velocity_y -= *y_step << 0xF;

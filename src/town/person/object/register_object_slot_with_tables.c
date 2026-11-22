@@ -9,9 +9,6 @@ typedef struct {
     void *object;
 } ObjectSlot;
 
-typedef struct {
-    void *value;
-} PointerField;
 
 typedef struct {
     s32 value;
@@ -29,11 +26,11 @@ void register_object_slot_with_tables(TownObjectRecord *object, s32 slot_index, 
 {
     s32 registered_slot;
 
-    ((PointerField *)((u8 *)object - 0x10))->value = update_object_position_or_cleanup;
+    NODE_HEADER(object)->update_callback = update_object_position_or_cleanup;
     object->unk_50.as_pm = initialize_person_object;
     object->slot = slot_index;
-    ((PointerField *)((u8 *)object + 0x58))->value = field_58_value;
-    ((PointerField *)((u8 *)object + 0x5C))->value = field_5c_value;
+    object->state_handlers = field_58_value;
+    object->indexed_handlers = field_5c_value;
     object->unk_7C.as_pps32 = field_7c_value;
     registered_slot = object->slot;
     object->descriptor = field_80_value;

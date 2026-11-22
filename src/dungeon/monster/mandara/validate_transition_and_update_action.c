@@ -16,7 +16,10 @@ extern struct Ent *prepare_directional_attack();
 #include "dungeon/item.h"
 #include "dungeon/effect.h"
 
-/* Validate an actor transition and update its state and directional animation on success. */
+/*
+ * Starts Mandara's attack against a compatible neighbor within 64 height units and selects its
+ * directional sprite; returns 1, 0 if unsuitable, or -1 if busy.
+ */
 s32 validate_transition_and_update_action(ActorRecord *state, ObjectPosition *transition_id, SpriteFrameState *sprite, ActorRecord *actor) {
     s16 transitioned;
     ActorRecord *neighbor;
@@ -74,6 +77,3 @@ s32 validate_transition_and_update_action(ActorRecord *state, ObjectPosition *tr
     prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
     return transitioned;
 }
-
-/* MECHANISM: True-rowbase 0x80172484/0x801724E8 are local joins; placing the abort label before the
-   success body reproduces the branch polarity and exact 0x38-frame CFG. */

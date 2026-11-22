@@ -1,17 +1,7 @@
 #include "common.h"
+#include "shared/menu_display.h"
 #include "frontend/card/menu_default_words.h"
 #include "frontend/card.h"
-
-   /* arg0 in card_dev_init_view_defaults */
-
-typedef struct S_8001B974_4 {
-    u8 pad_00[0x8];
-    s16 unk_08;
-    s16 unk_0A;
-    s16 unk_0C;
-    u8 pad_0E[0x1];
-    s8 unk_0F;
-} S_8001B974_4;   /* state->unk_04 in card_dev_init_view_defaults */
 
 extern s32 D_8002D694[];
 extern s32 D_8002D698[];
@@ -20,41 +10,22 @@ extern s32 D_8002D69C[];
 extern s32 D_8002D6A4[];
 extern s32 D_8002D6A8[];
 
-typedef struct S_8001B974_0 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-} S_8001B974_0;   /* arg1 in card_dev_init_view_defaults */
-
-typedef struct S_8001B974_1 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_8001B974_1;   /* arg2 in card_dev_init_view_defaults */
-
-typedef struct S_8001B974_2 {
-    s32 unk_00;
-    void * unk_04;
-    void * unk_08;
-} S_8001B974_2;   /* arg0 in card_dev_init_view_defaults */
-
 /* Initialize the state with default configuration blocks and fixed main settings. */
-void card_dev_init_view_defaults(S_8001B974_2 *state, S_8001B974_0 *main_config, S_8001B974_1 *aux_config) {
+void card_dev_init_view_defaults(MenuDisplayNode *state, MenuDisplayBlock *main_config, DisplayPositionWords *aux_config) {
     s32 aux_default;
-    main_config->unk_00 = menu_primitive_defaults[0];
+    main_config->words[0] = menu_primitive_defaults[0];
     aux_default = menu_settings_defaults[0];
-    main_config->unk_04 = D_8002D694[0];
-    main_config->unk_08 = D_8002D698[0];
-    main_config->unk_0C = D_8002D69C[0];
-    aux_config->unk_00 = aux_default;
-    aux_config->unk_04 = D_8002D6A4[0];
-    aux_config->unk_08 = D_8002D6A8[0];
-    state->unk_04 = main_config;
-    state->unk_08 = aux_config;
+    main_config->words[1] = D_8002D694[0];
+    main_config->words[2] = D_8002D698[0];
+    main_config->words[3] = D_8002D69C[0];
+    aux_config->unk0 = aux_default;
+    aux_config->unk4 = D_8002D6A4[0];
+    aux_config->unk8 = D_8002D6A8[0];
+    state->block = main_config;
+    state->vector = aux_config;
     state->unk_00 = 0;
-    ((S_8001B974_4 *)state->unk_04)->unk_08 = -0xA0;
-    ((S_8001B974_4 *)state->unk_04)->unk_0A = -0x48;
-    ((S_8001B974_4 *)state->unk_04)->unk_0C = 0x200;
-    ((S_8001B974_4 *)state->unk_04)->unk_0F = 4;
+    state->block->fields.x = -0xA0;
+    state->block->fields.y = -0x48;
+    state->block->fields.depth = 0x200;
+    state->block->fields.mode = 4;
 }

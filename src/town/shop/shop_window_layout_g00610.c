@@ -62,24 +62,24 @@ void initialize_shop_window_layout(ShopWindow *ui) {
 }
 
 /* Stores the supplied shop subrecord values, enables it, and installs its update callback. */
-void initialize_shop_window_state(void *record_data, s32 value_20, s32 value_08, s32 value_0c, s32 value_10,
-                   s32 value_14, s32 value_24, s32 value_18) {
+void initialize_shop_window_state(void *record_data, ObjectNodeHeader *owner, s32 value_08, s32 value_0c, s32 value_10,
+                   s32 value_14, DungeonItemEntry *items, s32 value_18) {
     S_800B1390_1 *r = record_data;
     r->unk_04 = 1;
     r->unk_08 = value_08;
     r->unk_0C = value_0c;
-    r->unk_20 = value_20;
+    r->owner = owner;
     ((S_800B1390_0 *)r)[-1].unk_m10 = increase_shop_subrecord_value;
     r->unk_10 = value_10;
     r->unk_14 = value_14;
-    r->unk_24 = value_24;
+    r->items = items;
     r->unk_18 = value_18;
 }
 
 /* Configure the object, update its embedded records, and finalize it. */
-void setup_shop_window(void *object, s32 setup_value_1, s32 setup_value_2, s32 setup_value_3,
-                   s32 setup_value_4, s32 setup_value_5, s32 setup_value_6, s32 setup_value_7) {
-    initialize_shop_window_state(object, setup_value_1, setup_value_2, setup_value_3, setup_value_4, setup_value_5, setup_value_6,
+void setup_shop_window(void *object, ObjectNodeHeader *owner, s32 setup_value_2, s32 setup_value_3,
+                   s32 setup_value_4, s32 setup_value_5, DungeonItemEntry *items, s32 setup_value_7) {
+    initialize_shop_window_state(object, owner, setup_value_2, setup_value_3, setup_value_4, setup_value_5, items,
         setup_value_7);
     initialize_shop_parts((u8 *)object + 0xBC, (u8 *)object + 0x94,
                   (u8 *)object + 0xA4);

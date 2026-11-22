@@ -12,11 +12,11 @@ typedef struct {
 #include "town/person/object.h"
 
 /* Store the object in its slot, mark the slot inactive, and call the next handler. */
-void store_object_slot_and_dispatch(TownObjectRecord *object, ObjectPosition *update_context, void *setup_context) {
+void store_object_slot_and_dispatch(TownObjectRecord *object, ObjectPosition *update_context, SpriteFrameState *sprite) {
     s32 slot_index;
 
     slot_index = object->slot;
     object_index_slots[slot_index].object = NODE_HEADER(object);
     object_index_slots[object->slot].unk_00 = 0;
-    apply_object_setup_and_update(object, update_context, setup_context);
+    apply_object_setup_and_update(object, update_context, sprite);
 }

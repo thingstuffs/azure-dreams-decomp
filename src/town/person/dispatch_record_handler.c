@@ -7,23 +7,19 @@
 
 extern u8 object_index_slots[9];
 extern s32 town_actor_control[5];
-extern volatile M2C_UNK D_800D5084[20];
+extern TownIndexedHandler volatile D_800D5084[];
 
 
-typedef struct S_800C3988_1_pre {
-    M2C_UNK (*unk_00)(void *, void *, void *);
-    u8 pad_04[0x54];
-} S_800C3988_1_pre;
 
 /* Dispatches the record handler or clears its pending state. */
-void dispatch_record_handler(TownObjectRecord *record, void *dispatch_arg, void *dispatch_data, int check_arg) {
+void dispatch_record_handler(TownObjectRecord *record, struct ObjectPosition *dispatch_arg, struct SpriteFrameState *dispatch_data, int check_arg) {
     s32 slot_offset;
-    s32 handler_addr;
-    s32 handler_id;
+    TownIndexedHandler selected;
+    long handler_id;
     u8 *handler_slot;
-    M2C_UNK (*handler)(void *, void *, void *);
+    TownIndexedHandler handler;
     TownObjectRecord *dispatch_record;
-    void *saved_arg;
+    ObjectPosition *saved_arg;
 
     if (service_script_controller() == 0) {
         s32 *state;
@@ -39,20 +35,20 @@ void dispatch_record_handler(TownObjectRecord *record, void *dispatch_arg, void 
         handler_slot = &object_index_slots[slot_offset];
         handler_id = *handler_slot;
         if ((u32) (handler_id - 2) < 0x14U) {
-            handler_addr = D_800D5084[(s8) handler_id];
+            selected = D_800D5084[(s8) handler_id];
             dispatch_record = record;
-            handler = (M2C_UNK (*)(void *, void *, void *)) handler_addr;
+            handler = selected;
             saved_arg = dispatch_arg;
             goto dispatch;
         }
         if ((s8) handler_id >= 0x16) {
-            s32 handler_base;
+            unsigned long table_address;
             saved_arg = dispatch_arg;
             dispatch_record = record;
-            handler_id = (s8)handler_id * 4;
-            handler_base = dispatch_record->unk_5C;
-            handler_id = handler_base + handler_id;
-            handler = ((S_800C3988_1_pre *)handler_id)[-1].unk_00;
+            handler_id = (s8)handler_id * sizeof(*dispatch_record->indexed_handlers);
+            table_address = (unsigned long)dispatch_record->indexed_handlers;
+            handler_id += table_address;
+            handler = ((TownIndexedHandler *)handler_id)[-0x16];
 dispatch:
             handler(dispatch_record, saved_arg, dispatch_data);
             return;

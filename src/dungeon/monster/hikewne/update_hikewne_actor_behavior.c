@@ -20,7 +20,6 @@
 
 extern void update_directional_sprite_state_and_signals(ActorRecord *, void *, void *, void *);
 
-#include "dungeon/monster/hikewne.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"

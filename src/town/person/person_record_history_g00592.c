@@ -13,10 +13,10 @@ void fill_position_history(void) {
     primary_values = &view_reference_entity;
     secondary_values = scene_object_payload_alias;
     for (; record_index < 8; record_index++) {
-        town_position_history[record_index].field_0 = ((u16)primary_values->x.w.i);
-        town_position_history[record_index].field_2 = ((u16)primary_values->y.w.i);
-        town_position_history[record_index].field_4 = ((u16)primary_values->z.w.i);
-        town_position_history[record_index].field_6 = secondary_values[8];
+        town_position_history[record_index].x = primary_values->x.w.i;
+        town_position_history[record_index].y = primary_values->y.w.i;
+        town_position_history[record_index].z = primary_values->z.w.i;
+        town_position_history[record_index].heading = secondary_values[8];
     }
 }
 
@@ -25,54 +25,47 @@ void push_position_history(void)
 {
     s32 destination_offset;
     s32 record_index;
-    u8 *records;
-    TownRecord *destination;
-    TownRecord *source;
+    TownPositionHistoryEntry *records;
+    TownPositionHistoryEntry *destination;
+    TownPositionHistoryEntry *source;
 
     record_index = 7;
-    records = (u8 *)&town_position_history;
+    records = town_position_history;
     while (record_index > 0) {
         destination_offset = record_index * 8;
-        source = (TownRecord *)(((record_index - 1) * 8) + (unsigned long)records);
-        destination = (TownRecord *)(destination_offset + (unsigned long)records);
-        destination->field_0 = source->field_0;
-        destination->field_2 = source->field_2;
-        destination->field_4 = source->field_4;
-        destination->field_6 = source->field_6;
+        source = (TownPositionHistoryEntry *)(((record_index - 1) * 8) + (unsigned long)records);
+        destination = (TownPositionHistoryEntry *)(destination_offset + (unsigned long)records);
+        destination->x = source->x;
+        destination->y = source->y;
+        destination->z = source->z;
+        destination->heading = source->heading;
         record_index--;
     }
 
     {
         ObjectPosition *current_values;
-        TownRecord *newest_record;
+        TownPositionHistoryEntry *newest_record;
 
         current_values = &view_reference_entity;
-        newest_record = (TownRecord *)&town_position_history;
-        newest_record->field_0 = ((u16)current_values->x.w.i);
-        newest_record->field_2 = ((u16)current_values->y.w.i);
-        newest_record->field_4 = ((u16)current_values->z.w.i);
-        newest_record->field_6 = D_800834C8;
+        newest_record = town_position_history;
+        newest_record->x = current_values->x.w.i;
+        newest_record->y = current_values->y.w.i;
+        newest_record->z = current_values->z.w.i;
+        newest_record->heading = D_800834C8;
     }
 }
 
 /* Copies three halfwords from the selected table entry into the destination. */
-void load_position_history_entry(void *destination, s32 entry_index) {
-    s8 *table_base;
-    s8 *entry;
+void load_position_history_entry(Fixed1616 *destination, s32 entry_index) {
+    TownPositionHistoryEntry *table = town_position_history;
+    TownPositionHistoryEntry *entry = table + entry_index;
 
-    table_base = (s8 *)&town_position_history;
-    entry = table_base + (entry_index * 8);
-    *(u16 *)((s8 *)destination + 2) = *(u16 *)(entry + 0);
-    *(u16 *)((s8 *)destination + 6) = *(u16 *)(entry + 2);
-    *(u16 *)((s8 *)destination + 10) = *(u16 *)(entry + 4);
+    destination[0].w.i = entry->x;
+    destination[1].w.i = entry->y;
+    destination[2].w.i = entry->z;
 }
 
 /* Copy the indexed table entry's 16-bit value into the record. */
-void copy_history_entry_heading(Rec_func_800AB014_arg0 *record, s32 entry_index) {
-    s8 *table_base;
-    s8 *entry;
-
-    table_base = (s8 *) &town_position_history;
-    entry = table_base + (entry_index * 8);
-    record->unk_72.as_u16 = (u16) ((ObjectPosition *)entry)->y.unsigned_parts.integer;
+void copy_history_entry_heading(TownObjectRecord *record, s32 entry_index) {
+    record->heading = town_position_history[entry_index].heading;
 }

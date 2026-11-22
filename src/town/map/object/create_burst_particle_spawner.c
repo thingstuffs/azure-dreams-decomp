@@ -13,12 +13,11 @@ extern void clear_resident_bit(s16 flag_id);
 extern void *allocate_list_node(s32 flags, void *list_head);
 
 /* Creates an object and initializes its data pointer and three input values. */
-s32 create_burst_particle_spawner(s32 *values)
+s32 create_burst_particle_spawner(struct ObjectPosition *origin)
 {
     ObjectNodeHeader *object;
     u8 (*object_data)[16];
     ObjectNodeHeader *created_object;
-    s32 *values_src;
     u8 (*init_data)[16];
     clear_resident_bit(0x97);
     init_data = ((u8 *)(&scene_object_list_anchor));
@@ -27,10 +26,9 @@ s32 create_burst_particle_spawner(s32 *values)
     if (created_object != 0) {
         object_data = spawn_burst_particles_around_origin;
         object->update_callback = object_data;
-        ((ObjectPosition *)*(s32 * *)&object->position)->x.v = values[0];
-        values_src = values;
-        ((ObjectPosition *)*(s32 * *)&object->position)->y.v = values_src[1];
-        ((ObjectPosition *)*(s32 * *)&object->position)->z.v = values_src[2];
+        object->position->x.v = origin->x.v;
+        object->position->y.v = origin->y.v;
+        object->position->z.v = origin->z.v;
     }
     if (object) {
         return 0;

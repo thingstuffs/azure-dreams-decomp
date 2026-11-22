@@ -4,7 +4,7 @@
 #include "town/player.h"
 
 /* Update the actor against ground height, then dispatch input actions. */
-void update_actor_ground_and_input(s32 controller, ObjectPosition *actor, s32 context) {
+void update_actor_ground_and_input(s32 controller, ObjectPosition *actor, SpriteFrameState *sprite) {
     s16 ground_height;
     GameWork *input_state = &g_game_work;
 
@@ -13,7 +13,7 @@ void update_actor_ground_and_input(s32 controller, ObjectPosition *actor, s32 co
     ground_height = query_capped_surface_height(actor, &position_query_scratch);
     if ((ground_height - actor->z.w.i) >= 4) {
         if (town_action_state_flag == 0) {
-            initialize_action_object(controller, actor, context);
+            initialize_action_object(controller, actor, sprite);
             return;
         }
     } else {
@@ -22,7 +22,7 @@ void update_actor_ground_and_input(s32 controller, ObjectPosition *actor, s32 co
         }
     }
     if ((input_state->pressed_buttons) & 0x10) {
-        initialize_actor_action_state(controller, actor, context);
+        initialize_actor_action_state(controller, actor, sprite);
         return;
     }
     if (input_state->buttons & 0xF000) {
@@ -31,37 +31,37 @@ void update_actor_ground_and_input(s32 controller, ObjectPosition *actor, s32 co
 }
 
 /* Updates the value and dispatches follow-up handling if it remains unchanged. */
-void update_and_fallback_on_input(s32 *value, ObjectPosition *context, s32 update_arg) {
-    s32 saved_update_arg ;   /* Required for the retail saved-register set and frame layout. */
+void update_and_fallback_on_input(s32 *value, ObjectPosition *context, SpriteFrameState *sprite) {
+    SpriteFrameState *saved_sprite;   /* Required for the retail saved-register set and frame layout. */
     s32 previous_value;
     GameWork *state = &g_game_work;
 
     previous_value = *value;
-    update_actor_ground_and_input((s32)value, (context), update_arg);
+    update_actor_ground_and_input((s32)value, (context), sprite);
 
     if (previous_value == *value) {
-        saved_update_arg = update_arg;
+        saved_sprite = sprite;
         if (!(state->buttons & 0x20)) {
-            initialize_scene_action_record((TownObjectRecord *)value, context, (void *)saved_update_arg);
+            initialize_scene_action_record((TownObjectRecord *)value, context, saved_sprite);
             return;
         }
 
         if ((context->velocity_x == 0) &&
             (context->velocity_y == 0)) {
-            init_input_action_fallback(value, context, saved_update_arg);
+            init_input_action_fallback(value, context, saved_sprite);
         }
     }
 }
 
 /* Calls initialize_scene_action_record if update_actor_ground_and_input leaves the value unchanged and flag 0x20 is clear. */
-void update_input_and_fallback_action(s32 *value, ObjectPosition *position, s32 input_b) {
+void update_input_and_fallback_action(s32 *value, ObjectPosition *position, SpriteFrameState *sprite) {
     GameWork *state;
     s32 old_value;
 
     state = &g_game_work;
     old_value = *value;
-    update_actor_ground_and_input((s32)value, (position), input_b);
+    update_actor_ground_and_input((s32)value, (position), sprite);
     if ((old_value == *value) && !(state->buttons & 0x20)) {
-        initialize_scene_action_record((TownObjectRecord *)value, position, (void *)input_b);
+        initialize_scene_action_record((TownObjectRecord *)value, position, sprite);
     }
 }

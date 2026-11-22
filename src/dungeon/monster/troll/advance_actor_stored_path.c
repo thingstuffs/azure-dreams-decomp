@@ -218,9 +218,9 @@ void choose_troll_move(ActorRecord *move_input, ObjectPosition *action_context, 
                 direction = (((u8 *)&actor->unk_44.whole)[1] +
                              (primary_actor_record->facing >> 9)) & 7;
                 target_x = target->tile_position.parts.tile_x +
-                           ((u16 *)((s8 *)dir_step_x))[direction];
+                           ((u16 *)dir_step_x)[direction];
                 target_y = target->tile_position.parts.tile_y +
-                           ((u16 *)((s8 *)dir_step_y))[direction];
+                           ((u16 *)dir_step_y)[direction];
                 if ((position->tile_x == (u16)target_x) &&
                     (position->tile_y == (u16)target_y)) {
                     actor->movement_queue_state &= 0x7F;
@@ -293,7 +293,7 @@ void choose_troll_move(ActorRecord *move_input, ObjectPosition *action_context, 
         }
     }
     attempt = 0;
-    x_offsets = (u8 *)((s8 *)dir_step_x);
+    x_offsets = (u8 *)dir_step_x;
 
     do {
         base_angle = actor->facing;
@@ -330,7 +330,7 @@ void choose_troll_move(ActorRecord *move_input, ObjectPosition *action_context, 
             direction_offset = (actor->facing >> 8) & 0xE;
             position->tile_x +=
                 *((u8 *)((u32)direction_offset + (u32)x_offsets));
-            position->tile_y += *((u8 *)((s8 *)dir_step_y) + direction_offset);
+            position->tile_y += *((u8 *)dir_step_y + direction_offset);
             next_x = position->tile_x;
             next_y = position->tile_y;
             tile_mask = 0x3000;

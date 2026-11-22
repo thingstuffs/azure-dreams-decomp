@@ -100,8 +100,8 @@ void update_staged_movement_height_and_animation(ActorRecord *motion, ObjectPosi
 
     case 3:
     {
-        u8 *direction_x = (u8 *)((s8 *)dir_step_x);
-        u8 *direction_y = (u8 *)((s8 *)dir_step_y);
+        u8 *direction_x = (u8 *)dir_step_x;
+        u8 *direction_y = (u8 *)dir_step_y;
         u16 frame;
 
         velocity->velocity_x +=

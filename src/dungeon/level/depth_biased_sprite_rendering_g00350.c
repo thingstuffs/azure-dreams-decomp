@@ -11,8 +11,7 @@
 #include "shared/sprite_part_command.h"
 
 /* Traverse object nodes backward and process unflagged primitives with their computed depth. */
-s32 traverse_nodes_and_render_unflagged(void *start_node) {
-    S_800BC3E4_0_pre *node = start_node;
+s32 traverse_nodes_and_render_unflagged(TrackedSpriteEffect *node) {
     GameWork *state = &g_game_work;
     SpriteQuadScratch *scratch = (SpriteQuadScratch *)0x1F800000;
     ObjectNodeHeader *previous;
@@ -22,12 +21,14 @@ s32 traverse_nodes_and_render_unflagged(void *start_node) {
     scratch->angles.vz = state->view.view_rotation_offset.parts.view_rotation_offset_z;
 
     for (;;) {
-        S_800BC3E4_1 *object = node->unk_00;
-        SpriteFrameState *primitive = object->unk_0C;
+        ObjectNodeHeader *object = node->owner;
+        SpriteFrameState *primitive = object->sprite;
 
         if (!(primitive->flags & 0x8000)) {
-            S_800BC3E4_3 *coord = object->unk_08;
-            s16 depth = sample_terrain_surface_height(coord->unk_02, coord->unk_06, coord->unk_0A);
+            ObjectPosition *coord = object->position;
+            u16 world_x = coord->x.w.i;
+            u16 world_y = coord->y.w.i;
+            s16 depth = sample_terrain_surface_height(world_x, world_y, coord->z.w.i);
             render_projected_sprite_with_depth_bias(coord, primitive, depth, 0);
             if (is_frame_packet_arena_overflowed(((GpuContext *)state->draw_buffer)->packetCursor) != 0) {
                 break;

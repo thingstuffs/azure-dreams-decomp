@@ -1,14 +1,9 @@
 #include "common.h"
+#include "town/line_packets.h"
 #include "town/scene/dialogue.h"
 #include "town/devkit/old_minigame_imports.h"
 
 extern u8 *D_8012F130;
-
-typedef struct {
-    u32 addr : 24;
-    u32 len : 8;
-} P_TAG;
-
 
 /* Builds line and draw-state packets for visible list items and links them by depth. */
 s32 build_visible_item_line_packets(void *first_item)
@@ -23,7 +18,7 @@ s32 build_visible_item_line_packets(void *first_item)
     u32 table_sum;
     u8 *state_pool;
     u8 *state_table;
-    u8 *line_packet;
+    TownFlatLinePacket *line_packet;
     u32 *line_slot;
     u32 *state_head;
     u32 *state_slot;
@@ -48,11 +43,11 @@ s32 build_visible_item_line_packets(void *first_item)
         if ((*(u16 *)(item + 0x24) & 1) == 0) {
             depth_index = 0;
             line_pool = *render_context;
-            line_packet = *(u8 **)(line_pool + 0x8D0);
+            line_packet = *(TownFlatLinePacket **)(line_pool + 0x8D0);
             pool_or_endpoint = line_pool;
             if (line_packet != 0) {
                 pool_limit = 0x108D4;
-                depth_index = (s32)(line_packet + 0x10);
+                depth_index = (s32)(unsigned long)(line_packet + 1);
                 pool_limit += (u32)pool_or_endpoint;
                 pool_limit = (u32)depth_index <= pool_limit;
                 pool_limit = -pool_limit;
@@ -60,14 +55,14 @@ s32 build_visible_item_line_packets(void *first_item)
             }
             *(u8 **)(line_pool + 0x8D0) = (u8 *)depth_index;
 
-            *(u32 *)(line_packet + 4) = *(u32 *)(item + 0x14);
+            line_packet->color = *(u32 *)(item + 0x14);
             func_8006DD38(line_packet);
             func_8006DBBC(line_packet, 1);
 
             line_pool = item + 4;
-            start_depth = func_8006BC50(line_pool, line_packet + 8, &screen_coords[0], screen_y);
+            start_depth = func_8006BC50(line_pool, &line_packet->first_xy, &screen_coords[0], screen_y);
             line_pool = item + 0xC;
-            pool_or_endpoint = line_packet + 0xC;
+            pool_or_endpoint = (u8 *)&line_packet->second_xy;
             out_x = &screen_coords[0];
             out_y = screen_y;
             first_depth = start_depth;
@@ -79,14 +74,14 @@ s32 build_visible_item_line_packets(void *first_item)
                 table_offset = depth_index * 4;
                 line_table = *render_context;
                 out_x = (s32 *)(table_offset + (unsigned long)line_table + 0xB0);
-                next = ((P_TAG *)out_x)->addr;
-                *(u32 *)line_packet = (*(u32 *)line_packet & 0xFF000000) | (next & 0x00FFFFFF);
+                next = ((GpuLinkTag *)out_x)->addr;
+                line_packet->tag.addr = next;
 
                 work_ptr = *render_context;
                 table_sum = table_offset + (u32)work_ptr;
                 work_ptr = (u8 *)table_sum;
                 line_slot = (u32 *)(work_ptr + 0xB0);
-                *line_slot = (*line_slot & 0xFF000000) | ((u32)line_packet & 0x00FFFFFF);
+                *line_slot = (*line_slot & 0xFF000000) | ((unsigned long)line_packet & 0x00FFFFFF);
 
                 state_pool = *render_context;
                 depth_index = 0;
@@ -107,7 +102,7 @@ s32 build_visible_item_line_packets(void *first_item)
 
                 state_table = *render_context;
                 state_head = (u32 *)(table_offset + (unsigned long)state_table + 0xB0);
-                next = ((P_TAG *)state_head)->addr;
+                next = ((GpuLinkTag *)state_head)->addr;
                 *(u32 *)depth_sum = (*(u32 *)depth_sum & 0xFF000000) | (next & 0x00FFFFFF);
 
                 work_ptr = *render_context;

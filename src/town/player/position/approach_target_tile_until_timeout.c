@@ -3,21 +3,15 @@
 #include "town/player/action_initializers.h"
 #include "town/player/position.h"
 
-typedef struct S_800935BC_0 {
-    s32 unk_00;
-    s32 unk_04;
-} S_800935BC_0;   /* arg1 in approach_target_tile_until_timeout */
-
-
 /* Move the fixed-point position halfway toward the target and advance when the countdown expires. */
-void approach_target_tile_until_timeout(TownObjectRecord *target, S_800935BC_0 *position, void *transition_arg) {
+void approach_target_tile_until_timeout(TownObjectRecord *target, ObjectPosition *position, struct SpriteFrameState *sprite) {
     s16 ticks_left;
 
-    position->unk_00 = ((s32) ((s16)target->unk_30 << 0x10) + position->unk_00) / 2;
-    position->unk_04 = ((s32) ((s16)target->unk_32 << 0x10) + position->unk_04) / 2;
-    ticks_left = ((u16)target->unk_0A) - 1;
+    position->x.v = (((s16)target->unk_30 << 0x10) + position->x.v) / 2;
+    position->y.v = (((s16)target->unk_32 << 0x10) + position->y.v) / 2;
+    ticks_left = target->unk_0A - 1;
     target->unk_0A = ticks_left;
     if (ticks_left < 0) {
-        initialize_scene_action_record(target, position, transition_arg);
+        initialize_scene_action_record(target, position, sprite);
     }
 }

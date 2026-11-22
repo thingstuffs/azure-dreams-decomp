@@ -25,7 +25,6 @@ struct EffectState;
 void fade_effect_and_spawn_textured_objects(struct EffectState *state, s32 *position, SpriteFrameState *color);
 void create_cylindrical_effect(ActorRecord *source, ObjectPosition *origin);
 
-/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void update_nyuel_behavior(ActorRecord *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *state);
 void update_monster_facing_and_contact(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite);
 

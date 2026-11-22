@@ -16,12 +16,12 @@ void fill_wrapped_four_by_four_grid(s32 start_x, s16 start_y, s32 unused_value) 
     s32 x_limit;
     GameWork *state;
     MapGrid *grid;
-    s32 cells_addr;
+    u16 *cells;
 
     x = (s16)start_x;
     state = &g_game_work;
     grid = &state->map;
-    cells_addr = ((s32)state->map.cells);
+    cells = state->map.cells;
     origin_x = start_x;
     end_x = x + 4;
     if (x < end_x) {
@@ -33,8 +33,7 @@ void fill_wrapped_four_by_four_grid(s32 start_x, s16 start_y, s32 unused_value) 
                 wrapped_y = y & grid->maskY;
                 cell_value += (y - start_y) * 4;
                 y += 1;
-                *((s16 *) (((s32) ((((u16)grid->maskX & x)
-                    + (wrapped_y << grid->shiftX)) << 0x10) >> 0xF) + cells_addr)) = cell_value;
+                cells[(s16)(((u16)grid->maskX & x) + (wrapped_y << grid->shiftX))] = cell_value;
             }
             x += 1;
         } while (x < x_limit);

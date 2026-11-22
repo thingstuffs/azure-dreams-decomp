@@ -44,6 +44,7 @@ void *apply_command_colors(void *tint0, void *tint1,
     s32 length_or_code;
     s32 extended_type;
     u8 *packet_color;
+    PacketColorWords *vertex_colors;
     s16 tex_window[4];
 
     opcode = command->unk_01;
@@ -76,20 +77,21 @@ void *apply_command_colors(void *tint0, void *tint1,
         multiply_rgb_tint_saturated(packet_color, tint0);
         multiply_rgb_tint_saturated(packet_color, tint1);
         record = (u8 *)record + 0xC;
+        vertex_colors = record;
         length_or_code = 8;
         packet_color = packet_arg + 0xC;
         packet->unk_03 = length_or_code;
         packet->unk_04.at03.v = primitive_type;
         packet->unk_04.at03.v = command->unk_01;
-        packet->unk_0C = ((PacketColorWords *)record)->unk_00;
+        packet->unk_0C = vertex_colors->unk_00;
         multiply_rgb_tint_saturated(packet_color, tint0);
         multiply_rgb_tint_saturated(packet_color, tint1);
         packet_color = packet_arg + 0x14;
-        packet->unk_14 = ((PacketColorWords *)record)->unk_04;
+        packet->unk_14 = vertex_colors->unk_04;
         multiply_rgb_tint_saturated(packet_color, tint0);
         multiply_rgb_tint_saturated(packet_color, tint1);
         packet_color = packet_arg + 0x1C;
-        packet->unk_1C = ((PacketColorWords *)record)->unk_08;
+        packet->unk_1C = vertex_colors->unk_08;
         multiply_rgb_tint_saturated(packet_color, tint0);
         multiply_rgb_tint_saturated(packet_color, tint1);
         return record;

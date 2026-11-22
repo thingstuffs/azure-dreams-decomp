@@ -7,7 +7,6 @@
 #include "shared/monster_ids.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
-#include "dungeon/monster/kid/create_kid_actor_with_animation.h"
 #include "dungeon/monster/kid.h"
 #include "dungeon/actor.h"
 #include "slus/data.h"

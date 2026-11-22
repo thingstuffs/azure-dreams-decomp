@@ -1,30 +1,14 @@
 #include "common.h"
-#include "shared/object_links.h"
+#include "shared/object_node.h"
+#include "town/scene/collection.h"
 #include "town/scene/object.h"
 #include "town/data.h"
 #include "town/devkit/old_minigame_imports.h"
 
-   /* the 0x2 bytes before entry in update_panel_aggregate_value, addressed as entry[-1] */
-
-typedef struct S_8080BE0C_0 {
-    u16 unk_00;
-    u16 unk_02;
-    const char *unk_04;
-    u8 pad_08[0x4];
-    void * unk_0C;
-    u8 pad_10[0xC];
-    u16 unk_1C;
-} S_8080BE0C_0;   /* entry in update_panel_aggregate_value */
-
-typedef struct S_8080BE0C_1 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-} S_8080BE0C_1;   /* data_ptr in update_panel_aggregate_value */
 extern s16 D_80530000[];
 
 /* Waits for a delay, passes the eight-entry sum to func_80058588, and handles a linked cleanup flag. */
-void update_panel_aggregate_value(void *entry_arg) {
-    S_8080BE0C_0 *entry = entry_arg;
+void update_panel_aggregate_value(TownCollectionText *entry) {
     s16 *value_ptr;
     s16 current_state;
     s32 remaining;
@@ -32,36 +16,37 @@ void update_panel_aggregate_value(void *entry_arg) {
     u16 countdown;
     u16 next_state;
     u16 flags;
-    S_8080BE0C_1 *data_ptr;
+    TownCollectionSequence *sequence;
 
     total = 0;
     remaining = 7;
     value_ptr = &D_80530000[0x333];
-    data_ptr = entry->unk_0C;
+    sequence = entry->sequence;
     do {
         total += *value_ptr;
         value_ptr -= 1;
         remaining -= 1;
     } while (remaining >= 0);
-    current_state = ((s16)entry->unk_00);
+    current_state = entry->state;
     switch (current_state) {
     case 0:
-        countdown = entry->unk_02 - 1;
-        entry->unk_02 = countdown;
+        countdown = entry->timer - 1;
+        entry->timer = countdown;
         if ((countdown << 0x10) > 0) {
             return;
         }
-        next_state = entry->unk_00;
-        flags = entry->unk_1C;
+        next_state = entry->state;
+        flags = entry->flags;
         next_state += 1;
         flags &= 0xFFFD;
-        entry->unk_1C = flags;
-        entry->unk_00 = next_state;
+        entry->flags = flags;
+        entry->state = next_state;
         return;
     case 1:
-        func_80058588(total, func_80071424(entry->unk_04), entry->unk_04);
-        if (data_ptr->unk_2A & 1) {
-            (*(u16 *)((u8 *)entry + -2)) = (u16) (((ObjectStatusPrefix16 *)entry)[-1].flags | 0x8000);
+        func_80058588(total, func_80071424(entry->text), entry->text);
+        if (sequence->flags & TOWN_COLLECTION_FINISHED) {
+            u16 *node_flags = &NODE_HEADER(entry)->flags;
+            *node_flags |= 0x8000;
             scene_object_flags |= 0x8000;
         }
         return;

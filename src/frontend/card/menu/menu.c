@@ -1,21 +1,16 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "m2c_compat.h"
 #include "frontend/card/menu.h"
 #include "main/data.h"
 
-typedef struct S_80020F40_0 {
-    s32 * unk_00;
-    u8 pad_04[0x4C];
-    s32 unk_50;
-} S_80020F40_0;   /* arg0 in func_80020F40; pointer addresses record offset 0x10 */
-
 /* Decrement the record's counter and replace its pointer when the counter becomes negative. */
-void decrement_card_menu_countdown(void *record_data) {
+void decrement_card_menu_countdown(CardChooserBody *record_data) {
     s32 counter;
 
-    counter = ((S_80020F40_0 *)((u8 *)record_data - 0x10))->unk_50 - 1;
-    ((S_80020F40_0 *)((u8 *)record_data - 0x10))->unk_50 = counter;
+    counter = record_data->format_countdown - 1;
+    record_data->format_countdown = counter;
     if (counter < 0) {
-        ((S_80020F40_0 *)((u8 *)record_data - 0x10))->unk_00 = card_boot_poll_status_and_select_context;
+        NODE_HEADER(record_data)->update_callback = card_boot_poll_status_and_select_context;
     }
 }

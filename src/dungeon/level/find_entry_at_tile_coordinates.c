@@ -50,8 +50,3 @@ s16 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z) {
     }
     return -1;
 }
-
-/* MECHANISM: func_800B510C is a j-only noreturn dispatcher (config/sibcall_syms.dungeon.txt)
-   that is SERVED ITS ARGUMENT IN $v0, so the return value must be materialised BEFORE the
-   tail call, not after it: an `s32 rv` carrier assigned then
-   `func_800B510C(); return rv;`. */

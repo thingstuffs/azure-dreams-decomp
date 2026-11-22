@@ -9,13 +9,13 @@
 #include "town/scene.h"
 
 /* Update position and displacement, then dispatch the active entity handler. */
-void bob_entity_and_dispatch_handler(Rec_func_8009EE9C_arg0 *entity, s32 entity_id, S_8009EE9C_0 *motion, SpriteFrameState *context) {
+void bob_entity_and_dispatch_handler(Rec_func_8009EE9C_arg0 *entity, s32 entity_id, ObjectPosition *motion, SpriteFrameState *context) {
     s32 previous_pos;
 
-    previous_pos = motion->unk_08;
-    motion->unk_08 = (u32) (entity->unk_A0 + (rsin(entity->unk_6C) << 6) + 0xFFFC0000);
+    previous_pos = motion->z.v;
+    motion->z.v = (u32) (entity->unk_A0 + (rsin(entity->unk_6C) << 6) + 0xFFFC0000);
     entity->unk_6C = (s16) ((u16) entity->unk_6C + 0x40);
-    motion->unk_14 = (s32) (motion->unk_08 - previous_pos);
+    motion->velocity_z = (s32) (motion->z.v - previous_pos);
     if (town_target_record[0] == entity_id) {
         if (scene_object_payload_alias[0] == &town_timed_state_address) {
             start_slot_entity_move_toward_view(entity, town_target_record[0], motion, context);
@@ -106,7 +106,7 @@ void start_entity_bob(TownObjectRecord *entity, TownObjectRecord *state, ObjectP
 }
 
 /* Initialize the entity's action and copy its selected record for state 0x13. */
-void start_slot_entity_move_toward_view(Rec_func_8009EE9C_arg0 *entity, S_8009F1C0_0 *action, void *unused_motion, SpriteFrameState *unused_context)
+void start_slot_entity_move_toward_view(Rec_func_8009EE9C_arg0 *entity, S_8009F1C0_0 *action, ObjectPosition *unused_motion, SpriteFrameState *unused_context)
 {
     u8 state;
     void *callback;
@@ -147,11 +147,10 @@ s32 get_target_itemp(void) {
  * matching active event and D_800935BC payload, processes input, allocates callbacks, plays sound
  * 0x513, and synchronizes town state.
  */
-void bob_entity_and_wait_for_event(void *state_arg, s32 event_id, DelayMotionZ *target, SpriteFrameState *context) {
-    TownObjectRecord *state = state_arg;
+void bob_entity_and_wait_for_event(TownObjectRecord *state, s32 event_id, ObjectPosition *target, SpriteFrameState *context) {
     s32 active_event;
 
-    target->unk_08 = (s32) (state->unk_A0
+    target->z.v = (s32) (state->unk_A0
         + (rsin(((s16)state->timer)) << 7));
     state->timer = (s16) ((u16) ((s16)state->timer) + 0x40);
     active_event = (*town_target_record);
@@ -159,7 +158,7 @@ void bob_entity_and_wait_for_event(void *state_arg, s32 event_id, DelayMotionZ *
         spawn_randomized_motion_burst(target);
         create_animated_menu_ring(target);
         SD_Call(0x513);
-        snapshot_entity_slot_and_start_jitter(state_arg, active_event, (s32)(target), (void *)(context));
+        snapshot_entity_slot_and_start_jitter(state, active_event, target, context);
     }
 }
 
@@ -188,7 +187,7 @@ void jitter_and_pulse_entity_scale(TownObjectRecord *entity, TownObjectRecord *s
 }
 
 /* Call unlink_node_if_registered and set the record handler. */
-void unlink_entity_and_set_bob_handler(Rec_func_8009EE9C_arg0 *record, s32 value, void *unused_motion, SpriteFrameState *unused_context) {
+void unlink_entity_and_set_bob_handler(Rec_func_8009EE9C_arg0 *record, s32 value, ObjectPosition *unused_motion, SpriteFrameState *unused_context) {
     unlink_node_if_registered(record);
     record->unk_50.as_pm = &D_8009F2A8;
 }
@@ -198,7 +197,7 @@ void unlink_entity_and_set_bob_handler(Rec_func_8009EE9C_arg0 *record, s32 value
  * type/index fields, and applies the mode-selected object state. Installs the jitter/pulse
  * callback with a ten-tick countdown.
  */
-void snapshot_entity_slot_and_start_jitter(TownObjectRecord *entity, s32 unused_arg1, s32 unused_arg2, void *context) {
+void snapshot_entity_slot_and_start_jitter(TownObjectRecord *entity, s32 unused_arg1, ObjectPosition *unused_position, SpriteFrameState *context) {
     void *stored_entry;
     s32 unused_value;
     s32 record_offset;

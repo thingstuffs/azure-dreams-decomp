@@ -13,9 +13,6 @@
 
 
 
-extern void assert_slot_store_value_and_process_state(s32 slot_addr, s32 slot_value);
-extern void update_embedded_selected_slot_outputs(s32 slot_addr, CardChooserPresence *display_state, s32 *state_changed);
-extern void release_devkit_node_handles(void *object);
 
 
 
@@ -23,8 +20,8 @@ extern void release_devkit_node_handles(void *object);
 void card_boot_handle_menu_selection_input(CardChooserBody *menu)
 {
     s32 state_changed[2];
-    CardChooserPresence *state;
-    CardChooserPresence *display_state;
+    s32 *state;
+    s32 *display_state;
     s32 buttons;
     s32 button_flags;
     s32 selection_changed;
@@ -68,18 +65,18 @@ void card_boot_handle_menu_selection_input(CardChooserBody *menu)
 
         if (selection_changed != 0) {
             SD_Call_80063FF8(0x502);
-            assert_slot_store_value_and_process_state((*(s32 *)((u8 *)menu + 0x24)), menu->selected_channel);
+            assert_slot_store_value_and_process_state(menu->choices, menu->selected_channel);
         }
     }
 
     state = card_devkit_debounce_channel_status();
-    state_changed[0] = state->first != menu->card_presence.first;
-    state_changed[1] = state->second != menu->card_presence.second;
+    state_changed[0] = state[0] != menu->card_presence.first;
+    state_changed[1] = state[1] != menu->card_presence.second;
     display_state = state;
-    menu->card_presence = *state;
-    update_embedded_selected_slot_outputs((*(s32 *)((u8 *)menu + 0x24)), display_state, state_changed);
-    card_diagnostic_printf_8003FA78(dev_card_first_status_format, dev_card_channel_status_names[state->first]);
-    card_diagnostic_printf_8003FA78(dev_card_second_status_format, dev_card_channel_status_names[state->second]);
+    __builtin_memcpy(&menu->card_presence, state, sizeof(menu->card_presence));
+    update_embedded_selected_slot_outputs(menu->choices, display_state, state_changed);
+    card_diagnostic_printf_8003FA78(dev_card_first_status_format, dev_card_channel_status_names[state[0]]);
+    card_diagnostic_printf_8003FA78(dev_card_second_status_format, dev_card_channel_status_names[state[1]]);
     card_dev_print_status();
 
     return;

@@ -15,6 +15,6 @@ void initialize_record_with_handler_table(void *record_arg, ObjectPosition *posi
 
     clear_object_velocity(position);
     dispatch_selected_entry_if_nonzero(town_scene_record_handlers, record, (s32)sprite);
-    record->unk4 = dispatch_state_callback_by_mode;
+    record->handler = dispatch_state_callback_by_mode;
     player_handler_reset_byte = 0;
 }

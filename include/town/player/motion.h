@@ -68,6 +68,6 @@ void process_player_motion_state(TownPlayerRecord *object, ObjectPosition *forwa
 
 void initialize_player_motion_parameters(void *record, ObjectPosition *update_value, struct SpriteFrameState *sprite);
 
-void initialize_motion_action(TownObjectRecord *entity, void *motion, struct SpriteFrameState *sprite);
+void initialize_motion_action(TownObjectRecord *entity, struct ObjectPosition *motion, struct SpriteFrameState *sprite);
 
 #endif

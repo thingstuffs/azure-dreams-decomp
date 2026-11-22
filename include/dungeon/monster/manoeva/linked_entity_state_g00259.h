@@ -4,8 +4,7 @@
 #include "engine/entity.h"
 
 struct ObjectNodeHeader;
-/* Linked entity state shared declarations (G00259). */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00259 - CL:dungeon/func_80E3A540@dungeon/bank_e56c58, CL:dungeon/func_80E3A540@dungeon/bank_e5d000, CL:dungeon/func_80E3A540@dungeon/bank_e63000, CL:dungeon/func_80E3A540@dungeon/bank_e69000, CL:dungeon/func_80E3A540@dungeon/bank_e6f000, CL:dungeon/func_80E3A540@dungeon/bank_e75000. */
+/* Transfers state between linked objects and initializes or resets Manoeva's action state. */
 
 #include "common.h"
 #include "dungeon/item/actor_target.h"

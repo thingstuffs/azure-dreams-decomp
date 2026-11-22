@@ -84,10 +84,10 @@ void update_jump_movement_and_landing(ActorRecord *jump, ObjectPosition *motion,
             s32 arc;
             s16 timer;
 
-            x_table = (s16 *)((s8 *)dir_step_x);
+            x_table = (s16 *)dir_step_x;
             y_entry = (s16 *)((actor->facing >> 8) & 0xE);
             x_entry = (s16 *)((s32)y_entry + (u8 *)x_table);
-            y_table = (s16 *)((s8 *)dir_step_y);
+            y_table = (s16 *)dir_step_y;
             y_entry = (s16 *)((s32)y_entry + (u8 *)y_table);
             arc = *x_entry;
             y_entry = (s16 *)(*y_entry);
@@ -128,10 +128,10 @@ void update_jump_movement_and_landing(ActorRecord *jump, ObjectPosition *motion,
             if (jump->action_timer == 10) {
                 resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             }
-            x_table = (s16 *)((s8 *)dir_step_x);
+            x_table = (s16 *)dir_step_x;
             dir_offset = (actor->facing >> 8) & 0xE;
             x_entry = (s16 *)(dir_offset + (u8 *)x_table);
-            y_table = (s16 *)((s8 *)dir_step_y);
+            y_table = (s16 *)dir_step_y;
             y_entry = (s16 *)(dir_offset + (u8 *)y_table);
             direction_x = *x_entry;
             arc = *y_entry;

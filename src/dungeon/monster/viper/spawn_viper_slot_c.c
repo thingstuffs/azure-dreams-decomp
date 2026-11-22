@@ -7,7 +7,6 @@
 #include "modules/dungeon_ovl_7f1ed800.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
-#include "modules/dungeon_ovl_7f1ed800.h"
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 /* Creates Viper with default frames at D_8015CA7C, applies spawn flags, and attempts valid tile placement. */

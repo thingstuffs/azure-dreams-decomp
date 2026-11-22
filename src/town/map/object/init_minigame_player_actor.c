@@ -11,7 +11,7 @@
 extern M2C_UNK D_800D0C58;
 
 /* Initializes object and rendering data and registers its resources. */
-void init_minigame_player_actor(TownCourseActor *object_data, void *unused, SpriteFrameState *render_data) {
+void init_minigame_player_actor(TownCourseActor *object_data, struct ObjectPosition *unused_position, SpriteFrameState *render_data) {
     NODE_HEADER(object_data)->update_callback = &update_player_minigame_motion;
     object_data->sprite_direction = -1;
     object_data->facing.s = 0xC00;

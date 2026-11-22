@@ -96,6 +96,24 @@
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
+      "row": "town/func_80614C98",
+      "home": "town/func_80614C98",
+      "tu": "src/town/scene/skip_hospital_scene01_after_cheriru_scene03.c",
+      "foff": "0x594c98",
+      "vma": "0x80016498",
+      "size": 76,
+      "evidence": "TOWN +0x594c98 at 0x80016498. Parent choice pointer at +0x59791c, table at +0x597800, index 1. The predicate at field +0 is called by town/func_80616B60. Validated packed-CD record at +0x2b1a54. All 76 C text bytes match retail."
+    },
+    {
+      "row": "town/func_80614D48",
+      "home": "town/func_80614D48",
+      "tu": "src/town/scene/skip_hospital_scene02_after_cheriru_scene03.c",
+      "foff": "0x594d48",
+      "vma": "0x80016548",
+      "size": 76,
+      "evidence": "TOWN +0x594d48 at 0x80016548. Parent choice pointer at +0x59791c, table at +0x597800, index 2. The predicate at field +0 is called by town/func_80616B60. Validated packed-CD record at +0x2b1a54. All 76 C text bytes match retail."
+    },
+    {
       "row": "town/func_8061564C",
       "tu": "src/town/scene/service/cache_scaled_service_result_g00738.c",
       "home": "town/func_8060127C",

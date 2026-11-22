@@ -4,6 +4,8 @@
 
 #include "common.h"
 
+struct CardSaveImage;
+
 struct S_80025B38_0;
 
 /* func_8000D924.c */
@@ -102,10 +104,10 @@ s32 card_boot_get_slot_marker(s32 entry_index);
 s32 card_boot_load_slot_metadata(s32 slot);
 
 /* func_8000EDF4.c */
-void card_boot_cache_save_header(s32 entry_index, void *source);
+void card_boot_cache_save_header(s32 entry_index, struct CardSaveImage *source);
 
 /* func_8000EEB8.c */
-void card_boot_store_save_xor_checksum(void *buffer);
+void card_boot_store_save_xor_checksum(struct CardSaveImage *save);
 
 /* func_8000F0DC.c */
 void card_boot_refresh_directory_summary(void);

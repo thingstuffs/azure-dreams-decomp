@@ -7,7 +7,8 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_800B1DCC_arg0.h"
 
-typedef void (*DispatchFunc)(void *context, void *self);
+struct ObjectNodeHeader;
+typedef void (*DispatchFunc)(struct ObjectNodeHeader *node);
 
 typedef struct S_800B1F80_1 {
     s32 unk_00;
@@ -28,9 +29,10 @@ extern DispatchFunc D_800D1640[];
 s32 advance_index_with_directional_clamp(s32 index, s32 step, s32 count);
 
 /* Functions defined in this translation unit. */
-void dispatch_indexed_handler(void *context, s32 handler_index);
-void dispatch_entry_change_handler(void *context, s32 handler_index);
-void update_active_entry_and_notify_handlers(s8 *state, s32 input);
-void decrement_entry_and_notify_handlers(void *state);
+void dispatch_indexed_handler(struct ObjectNodeHeader *node, s32 handler_index);
+void dispatch_entry_change_handler(struct ObjectNodeHeader *node, s32 handler_index);
+struct ItemMenuInputObject;
+void update_active_entry_and_notify_handlers(struct ItemMenuInputObject *state, s32 input);
+void decrement_entry_and_notify_handlers(struct ItemMenuInputObject *state);
 
 #endif

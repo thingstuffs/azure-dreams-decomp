@@ -14,9 +14,6 @@ struct TownObjectRecord;
 struct TownObjectRecord;
 struct S_800C2864_0;
 struct S_800C3960_0;
-struct S_800C51DC_0;
-struct S_800C8928_0;
-struct S_800C895C_0;
 struct SpriteFrameState;
 
 /* advance_and_clamp_entity_value.c */
@@ -26,23 +23,23 @@ void advance_and_clamp_entity_value(TownObjectRecord *context, ObjectPosition *o
 void advance_entity_countdown(TownObjectRecord *object, ObjectPosition *context, SpriteFrameState *update_data);
 
 /* advance_object_and_run_follow_up.c */
-void advance_object_and_run_follow_up(TownObjectRecord *object, EntityRec *motion, s32 context);
+void advance_object_and_run_follow_up(TownObjectRecord *object, ObjectPosition *motion, SpriteFrameState *sprite);
 
 /* apply_object_setup_and_update.c */
-void apply_object_setup_and_update(void *object, void *update_context, void *setup_context);
+void apply_object_setup_and_update(TownObjectRecord *object, ObjectPosition *update_context, SpriteFrameState *setup_context);
 
 /* init_person_target_move.c */
 void init_person_target_move(struct TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output);
 void func_800C4804(struct TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output);
 
 /* set_person_descriptor_tables.c */
-void set_person_descriptor_tables(struct S_800C8928_0 *object);
+void set_person_descriptor_tables(struct TownObjectRecord *object);
 
 /* assign_object_data_pointers.c */
-void set_object_data_tables_with_link(struct S_800C895C_0 *object);
+void set_object_data_tables_with_link(struct TownObjectRecord *object);
 
 /* call_object_callback.c */
-void call_object_callback(struct S_800C3960_0 *object, void *context, void *motion);
+void call_object_callback(struct S_800C3960_0 *object, ObjectPosition *context, SpriteFrameState *motion);
 
 /* check_active_transform_object.c */
 s32 check_active_transform_object(TownObjectRecord *other);
@@ -51,7 +48,7 @@ s32 check_active_transform_object(TownObjectRecord *other);
 void clear_object_slot_and_mark_removed(void *object);
 
 /* clear_object_slot_and_run_callbacks.c */
-void clear_object_slot_and_run_callbacks(TownObjectRecord *object, void *callback_arg_1, void *callback_arg_2);
+void clear_object_slot_and_run_callbacks(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite);
 
 /* create_person_object.c */
 void create_person_object(void);
@@ -69,13 +66,13 @@ void forward_to_select_setup_path(TownObjectRecord *object, ObjectPosition *valu
 void update_reaction_vertical_ease(TownObjectRecord *object);
 
 /* initialize_mother_event_object.c */
-void initialize_mother_event_object(TownObjectRecord *object, s32 unused, void *init_data);
+void initialize_mother_event_object(TownObjectRecord *object, ObjectPosition *unused_position, SpriteFrameState *sprite);
 
 /* load_entries_and_advance_state.c */
-void load_entries_and_advance_state(void *object, s32 unused, void *context);
+void load_entries_and_advance_state(TownObjectRecord *object, ObjectPosition *unused_position, struct SpriteFrameState *sprite);
 
 /* initialize_orbiting_object.c */
-void initialize_orbiting_object(TownObjectRecord *object, s32 unused, void *init_value);
+void initialize_orbiting_object(TownObjectRecord *object, ObjectPosition *unused_position, SpriteFrameState *sprite);
 
 /* register_object_slot_with_tables.c */
 void func_800C3050(struct TownObjectRecord *object, s32 slot_index, void *field_58_value, void *field_5c_value, void *field_7c_value, void *field_80_value);
@@ -85,19 +82,19 @@ void register_object_slot_with_tables(struct TownObjectRecord *object, s32 slot_
 void reset_heading_and_update_object(TownObjectRecord *object, ObjectPosition *update_context, SpriteFrameState *setup_context);
 
 /* start_person_jump.c */
-void start_person_jump(TownObjectRecord *object, ObjectPosition *state, void *init_data);
+void start_person_jump(TownObjectRecord *object, ObjectPosition *state, struct SpriteFrameState *sprite);
 
 /* init_mia_person.c */
 void init_mia_person(TownObjectRecord *object, ObjectPosition *position_unused, struct SpriteFrameState *sprite_unused);
 
 /* initialize_actor_response_object.c */
-void initialize_actor_response_object(TownObjectRecord *object, ObjectPosition *followupValue, void *setupValue);
+void initialize_actor_response_object(TownObjectRecord *object, ObjectPosition *followupValue, SpriteFrameState *sprite);
 
 /* start_random_wait_select_setup.c */
 void start_random_wait_select_setup(struct TownObjectRecord *object, ObjectPosition *unusedArg, SpriteFrameState *initValue);
 
 /* initialize_bounce_reaction_object.c */
-void initialize_bounce_reaction_object(TownObjectRecord *object, ObjectPosition *state, void *init_data);
+void initialize_bounce_reaction_object(TownObjectRecord *object, ObjectPosition *state, SpriteFrameState *sprite);
 
 /* initialize_object_handlers.c */
 void initialize_object_handlers(TownObjectRecord *object, ObjectPosition *unused_context, SpriteFrameState *unused_setup);
@@ -108,9 +105,9 @@ void initialize_object_referenced_data_pointers(struct TownObjectRecord *object,
 /* initialize_object_resources_g01178.c */
 void initialize_camera_chase_object(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *display_state);
 void set_camera_chase_data(TownObjectRecord *object, ObjectPosition *chase_data, SpriteFrameState *request_param, s32 check_param);
-void clear_slot_flag_and_update(struct TownObjectRecord *obj, void *param_a, void *param_b);
+void clear_slot_flag_and_update(struct TownObjectRecord *obj, struct ObjectPosition *position, struct SpriteFrameState *sprite);
 void accelerate_to_lower_limit(TownObjectRecord *context, ObjectPosition *record, SpriteFrameState *callback_arg);
-void init_actor_handler_state(struct S_800C51DC_0 *actor, ObjectPosition *state);
+void init_actor_handler_state(struct TownObjectRecord *actor, ObjectPosition *state);
 void *create_gray_sprite_user_object(s32 user_data);
 
 /* initialize_object_slot_and_display.c */
@@ -123,16 +120,16 @@ void init_far_person(TownObjectRecord *object, ObjectPosition *unused_1, struct 
 void initialize_object_sprite(Rec_D_800CFCB4 *object, ObjectPosition *context, SpriteFrameState *sprite);
 
 /* initialize_object_tables.c */
-void initialize_object_tables(TownObjectRecord *object, s32 unused, void *init_value);
+void initialize_object_tables(TownObjectRecord *object, ObjectPosition *unused_position, SpriteFrameState *sprite);
 
 /* init_reaction_object_with_z_velocity.c */
-void init_reaction_object_with_z_velocity(TownObjectRecord *object, ObjectPosition *motion, void *init_data);
+void init_reaction_object_with_z_velocity(TownObjectRecord *object, ObjectPosition *motion, SpriteFrameState *sprite);
 
 /* initialize_reaction_object.c */
-void initialize_reaction_object(TownObjectRecord *object, void *unused, void *context);
+void initialize_reaction_object(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite);
 
 /* initialize_reaction_object_type.c */
-void init_reaction_object_with_timer(TownObjectRecord *object, s32 unused, void *context);
+void init_reaction_object_with_timer(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite);
 
 /* initialize_reaction_object_type_a.c */
 void init_reaction_object_slot_clut(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *state);
@@ -162,22 +159,22 @@ void process_transform_object_on_zero(void *object, s32 value, s32 options, s32 
 void reset_matching_transform_object(s32 object_addr);
 
 /* reset_object_handler_after_update.c */
-void reset_object_handler_after_update(void *object, s32 unused, void *updateValue);
+void reset_object_handler_after_update(TownObjectRecord *object, ObjectPosition *unused_position, SpriteFrameState *output);
 
 /* reset_object_handler_field_c_value.c */
-void restart_person_countdown_update(TownObjectRecord *object, s32 unused, SpriteFrameState *updateValue);
+void restart_person_countdown_update(TownObjectRecord *object, struct ObjectPosition *unused_position, SpriteFrameState *updateValue);
 
 /* reset_object_handler_field_c_value_ee.c */
-void start_person_jump_countdown(TownObjectRecord *object, s32 unused, SpriteFrameState *updateValue);
+void start_person_jump_countdown(TownObjectRecord *object, struct ObjectPosition *unused_position, SpriteFrameState *updateValue);
 
 /* reset_object_handler_field_value.c */
-void reset_person_heading_half_turn(TownObjectRecord *object, s32 unused, SpriteFrameState *updateValue);
+void reset_person_heading_half_turn(TownObjectRecord *object, struct ObjectPosition *unused_position, SpriteFrameState *updateValue);
 
 /* reset_object_handler_field_value_b.c */
-void reset_person_heading_quarter_turn(TownObjectRecord *object, s32 unused, SpriteFrameState *updateValue);
+void reset_person_heading_quarter_turn(TownObjectRecord *object, struct ObjectPosition *unused_position, SpriteFrameState *updateValue);
 
 /* reset_person_descriptor_entries.c */
-void reset_person_descriptor_entries(struct TownObjectRecord *object, s32 unused, SpriteFrameState *output);
+void reset_person_descriptor_entries(struct TownObjectRecord *object, ObjectPosition *unused_position, SpriteFrameState *output);
 
 /* reset_person_object_entries.c */
 void reset_person_object_entries(void *object);
@@ -186,19 +183,19 @@ void reset_person_object_entries(void *object);
 void run_object_callback(TownObjectRecord *object, ObjectPosition *context, SpriteFrameState *record);
 
 /* select_object_setup_path.c */
-s32 select_object_setup_path(void *object, ObjectPosition *request_data, SpriteFrameState *request_param);
+s32 select_object_setup_path(TownObjectRecord *object, ObjectPosition *request_data, SpriteFrameState *request_param);
 
 /* set_object_referenced_data_pointers.c */
-void set_object_referenced_data_pointers(TownObjectRecord *object, void *unused_context, struct SpriteFrameState *unused_sprite);
+void set_object_referenced_data_pointers(TownObjectRecord *object, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite);
 
 /* set_transform_object_data.c */
 void set_transform_object_data(struct S_800C2864_0 *object);
 
 /* store_object_slot_and_dispatch.c */
-void store_object_slot_and_dispatch(TownObjectRecord *object, ObjectPosition *update_context, void *setup_context);
+void store_object_slot_and_dispatch(TownObjectRecord *object, ObjectPosition *update_context, SpriteFrameState *sprite);
 
 /* update_entity_countdown_completion.c */
-void update_entity_countdown_completion(TownObjectRecord *entity, void *update_context, void *setup_context);
+void update_entity_countdown_completion(TownObjectRecord *entity, ObjectPosition *position, SpriteFrameState *sprite);
 
 /* update_object_orbit_and_timer.c */
 void update_object_orbit_and_timer(struct TownObjectRecord *object, ObjectPosition *position, void *update_arg, s32 check_param);

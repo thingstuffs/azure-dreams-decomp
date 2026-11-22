@@ -17,7 +17,7 @@ typedef struct Obj800AD0E4 {
 } Obj800AD0E4;
 
 extern void initialize_scene_action_record(Obj800AD0E4 *, void *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern void initialize_actor_action_state(Obj800AD0E4 *, ObjectPosition *, s32);
+extern void initialize_actor_action_state(void *, ObjectPosition *, struct SpriteFrameState *);
 extern void initialize_action_object(Obj800AD0E4 *, void *, s32);
 extern void apply_velocity_friction(ObjectPosition *);
 extern void set_height_and_slope_velocity(ObjectPosition *obj, s32 base_value, struct TownVec **vec_ptr);
@@ -54,7 +54,7 @@ void update_object_and_dispatch_actions(Obj800AD0E4 *timer_obj, ObjectPosition *
     }
 
     if (((u32)state->pressed_buttons) & 0x10) {
-        initialize_actor_action_state(timer_obj, object, (s32)sprite);
+        initialize_actor_action_state(timer_obj, object, sprite);
         return;
     }
 

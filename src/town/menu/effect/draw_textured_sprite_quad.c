@@ -46,7 +46,7 @@ struct S_800A1330_0; struct S_800A1330_1; void copy_menu_point(struct S_800A1330
 extern RECT D_800D0A40;
 
 /* Project and enqueue a textured sprite quad with a translucent overlay. */
-void draw_textured_sprite_quad(void *sprite_arg, s32 position) {
+void draw_textured_sprite_quad(void *sprite_arg, struct ObjectPosition *position) {
     S_800A17CC_2 *sprite = sprite_arg;
     RECT texture_window;
     u16 texture_page;

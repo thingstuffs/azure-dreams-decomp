@@ -1,3 +1,4 @@
+#include "town/scene/collision.h"
 #include "town/player/init_movement_action.h"
 #include "town/player/initialize_record_and_select_active_data.h"
 #include "town/player/object.h"
@@ -21,10 +22,10 @@ void init_ground_input_fallback(s32 * *, void *, void *);
 struct TownObjectRecord; void initialize_randomized_object_action(struct TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 struct TownObjectRecord; void init_input_angle_random_timer_action(struct TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 struct TownObjectRecord;
-struct TownObjectRecord; struct ObjectPosition; void initialize_actor_action_state(struct TownObjectRecord *, struct ObjectPosition *, s32);
-void initialize_action_object(s32 * *, void *, void *);
+struct TownObjectRecord; struct ObjectPosition; void initialize_actor_action_state(struct TownObjectRecord *, struct ObjectPosition *, struct SpriteFrameState *);
+void initialize_action_object(s32 * *, struct ObjectPosition *, void *);
 struct TownObjectRecord;
-struct TownObjectRecord; void initialize_action_object_with_counter(struct TownObjectRecord *, ObjectPosition *, s32);
+struct TownObjectRecord; void initialize_action_object_with_counter(struct TownObjectRecord *, ObjectPosition *, struct SpriteFrameState *);
 void initialize_actor_movement_interaction_action(s32 * *, void *, void *);
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"
@@ -32,7 +33,7 @@ void initialize_actor_movement_interaction_action(s32 * *, void *, void *);
 #include "town/player.h"
 #include "town/player/position_handlers.h"
 
-extern s32 town_actor_control[];
+extern ColliderView town_actor_control;
 
 
 typedef struct S_80091260_2 {
@@ -52,7 +53,6 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, ObjectPosition *position,
     s32 tile_id;
     s16 height;
     s16 remaining_count;
-    s32 *action_data;
 
     resolve_collision_axis_order(position);
     step_perpendicular_to_input(position);
@@ -69,18 +69,18 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, ObjectPosition *position,
 
     input_flags = (input_state->pressed_buttons);
     if (input_flags & 0x10) {
-        initialize_actor_action_state((struct TownObjectRecord *)(actor), (position), (s32)sprite);
+        initialize_actor_action_state((struct TownObjectRecord *)(actor), (position), sprite);
         return;
     }
 
     if (input_flags & 0x40) {
-        action_result = select_adjacent_source_entry(actor, town_actor_control);
+        action_result = select_adjacent_source_entry(actor, &town_actor_control);
         if (action_result != 0) {
             if (action_result == 2) {
                 initialize_actor_movement_interaction_action((s32 * *)(actor), position, sprite);
                 return;
             } else {
-                initialize_action_object_with_counter((struct TownObjectRecord *)(actor), (position), (s32)sprite);
+                initialize_action_object_with_counter((struct TownObjectRecord *)(actor), (position), sprite);
                 return;
             }
         } else if (test_resident_bitmap_bit(F_t_attack_enable) != 0) {
@@ -90,14 +90,13 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, ObjectPosition *position,
         return;
     }
 
-    action_data = town_actor_control;
-    action_result = select_entry_by_input_direction(action_data);
+    action_result = select_entry_by_input_direction(&town_actor_control);
     if (action_result != 0) {
         if (action_result == -1) {
             store_input_angle(actor);
             initialize_record_and_select_active_data(actor, (position), sprite);
             actor->unk_2C = 0;
-            submit_object_resource_data(action_data[4]);
+            submit_object_resource_data(town_actor_control.selected_entry);
             return;
         } else {
             init_movement_action((struct TownObjectRecord *)(actor), position, sprite);

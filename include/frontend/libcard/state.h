@@ -6,12 +6,14 @@
 #include "frontend/libcard.h"
 
 /* card_boot_poll_card_chooser_status.c */
-void card_boot_poll_card_chooser_status(Object_800128C8 *state);
+void card_boot_poll_card_chooser_status(CardChooserBody *state);
 
 /* card_boot_poll_status_and_dismiss_dialog.c */
 void card_boot_poll_status_and_dismiss_dialog(Object_800128C8 *record_data);
 
 /* card_boot_restore_chooser_mode.c */
-void card_boot_restore_chooser_mode(void *record_part);
+void card_boot_restore_chooser_mode(CardChooserBody *menu);
+
+void card_boot_enter_no_card_notice(CardChooserBody *chooser);
 
 #endif

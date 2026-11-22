@@ -6,7 +6,6 @@
 #include "dungeon/monster/naplass/create_actor_with_kind_parts.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
-#include "dungeon/monster/naplass/create_actor_with_kind_parts.h"
 #include "dungeon/monster/naplass.h"
 #include "dungeon/actor.h"
 

@@ -20,9 +20,11 @@ typedef struct FallingSceneController {
     u16 flags;
 } FallingSceneController;
 
+struct RisingScorePanel;
+
 /* Body of the rising effect object: root link, mode, and per-frame state. */
 typedef struct RisingEffectObject {
-    /* 0x00 */ void *root;
+    /* 0x00 */ struct RisingScorePanel *root;
     /* 0x04 */ s32 field_04;
     /* 0x08 */ s32 field_08;
     /* 0x0C */ union { s16 s; u16 u; } mode;
@@ -53,7 +55,7 @@ typedef struct CollectionCenterControlBody {
 /* Callback entry points. */
 void animate_collection_center_sprite(CollectionCenterControlBody *ctrl, struct ObjectPosition *setup, struct SpriteFrameState *view);
 void animate_falling_timed_object(struct FallingTimedSceneObject *obj, struct ObjectPosition *motion, struct SpriteFrameState *incoming_out);
-void animate_rising_effect_object(RisingEffectObject *obj, struct ObjectPosition *state_in, void *input);
+void animate_rising_effect_object(RisingEffectObject *obj, struct ObjectPosition *state_in, struct SpriteFrameState *sprite);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 /* Copied into the new score node before its bouncing callback is installed. */

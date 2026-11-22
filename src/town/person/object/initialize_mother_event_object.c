@@ -10,8 +10,8 @@ extern s32 D_800D5FA0[];
 
 
 /* Initialize the object callback and clear its state values. */
-void initialize_mother_event_object(TownObjectRecord *object, s32 unused, void *init_data) {
-    initialize_object_entries((object), init_data, D_800D5FA0);
+void initialize_mother_event_object(TownObjectRecord *object, ObjectPosition *unused_position, SpriteFrameState *sprite) {
+    initialize_object_entries((object), sprite, D_800D5FA0);
     mother_event_reset_byte = 0;
     object->handler = &forward_mother_event_update;
     object->heading = 0;

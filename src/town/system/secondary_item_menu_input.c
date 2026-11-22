@@ -1,16 +1,8 @@
 /* Secondary item menu input and its file-private helper. */
 #include "shared/audio_commands.h"
 #include "common.h"
-typedef struct S_800B25D8_0 {
-    u8 pad_00[0x3C];
-    s32 unk_3C;
-} S_800B25D8_0;
-/* (((*(s32 *)((u8 *)arg0 + 0x14)) * 4) + arg0) in func_800B25D8 */
-typedef struct {
-    u8 unk0;
-    u8 unk1;
-} S_8004AFE8;
-void sort_entries_by_category(S_8004AFE8 **entries);
+#include "slus/sort_rank_81540.h"
+
 #include "shared/game_work.h"
 #include "town/shop.h"
 #include "town/shop/resource_entry_initialization_g01156.h"
@@ -19,18 +11,15 @@ void sort_entries_by_category(S_8004AFE8 **entries);
 /* arg0 in handle_item_move_menu_input */
 
 
-static void sort_selected_record_entries(void *);
+static void sort_selected_record_entries(ItemMenuInputObject *record);
 
-/*
- * Calls sort_entries_by_category with ((S_800B25D8_0 *)((((*(s32 *)((u8 *)record + 0x14))* 4)+
- * record)))->unk_3C.
- */
-static void sort_selected_record_entries(void *record) {
-    sort_entries_by_category(((S_800B25D8_0 *)((((*(s32 *)((u8 *)record + 0x14)) * 4) + record)))->unk_3C);
+/* Sort the currently selected carried or stored item list. */
+static void sort_selected_record_entries(ItemMenuInputObject *record) {
+    sort_entries_by_category(record->lists[record->source_index]);
 }
 
 /* Handles item moves, sorting, page changes, and repeated cursor input, then updates menu transitions. */
-void handle_item_move_menu_input(u8 *menu) {
+void handle_item_move_menu_input(ItemMenuInputObject *menu) {
     GameWork *pad_state = &g_game_work;
     s32 held_buttons = pad_state->buttons;
     s32 pressed_buttons;
@@ -43,7 +32,7 @@ void handle_item_move_menu_input(u8 *menu) {
         pressed_buttons = (pad_state->pressed_buttons);
         if (pressed_buttons & 0x20) {
             SD_Call(AUDIO_CANCEL);
-            set_apply_record_values_callback(menu - 0x20);
+            set_apply_record_values_callback(NODE_HEADER(menu));
         } else if (pressed_buttons & 0x40) {
             select_result = move_item_to_list(menu);
             if (select_result == 0) {
@@ -64,7 +53,7 @@ void handle_item_move_menu_input(u8 *menu) {
             store_shop_display_preset(menu, 1);
         } else if ((held_buttons & 0xF000) != 0) {
             if (pressed_buttons & 0xF000) {
-                ((ItemMenuInputObject *)menu)->input_repeat_ticks = 0;
+                menu->input_repeat_ticks = 0;
                 pressed_buttons = (pad_state->pressed_buttons);
                 if (pressed_buttons & 0x8000) {
                     cursor_step = -5;
@@ -76,7 +65,7 @@ void handle_item_move_menu_input(u8 *menu) {
                     cursor_step = 1;
                 }
             } else {
-                repeat_ticks = ((ItemMenuInputObject *)menu)->input_repeat_ticks;
+                repeat_ticks = menu->input_repeat_ticks;
                 if (repeat_ticks >= 5) {
                     if (held_buttons & 0x8000) {
                         cursor_step = -5;
@@ -90,9 +79,9 @@ void handle_item_move_menu_input(u8 *menu) {
                             cursor_step = 1;
                         }
                     }
-                    ((ItemMenuInputObject *)menu)->input_repeat_ticks--;
+                    menu->input_repeat_ticks--;
                 } else {
-                    ((ItemMenuInputObject *)menu)->input_repeat_ticks = repeat_ticks + 1;
+                    menu->input_repeat_ticks = repeat_ticks + 1;
                 }
             }
             if (cursor_step != 0) {

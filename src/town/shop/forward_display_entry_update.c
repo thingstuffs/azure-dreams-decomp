@@ -4,6 +4,6 @@
 
 
 /* Forward the object and value to fill_display_slots. */
-void forward_display_entry_update(void *object, s32 value) {
+void forward_display_entry_update(void *object, ItemMenuPart **value) {
     fill_display_slots(object, value);
 }

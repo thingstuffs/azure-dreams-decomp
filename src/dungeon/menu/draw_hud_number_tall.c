@@ -11,7 +11,7 @@ typedef struct {
     s16 fourth;
 } DrawRecord;
 
-/* Draw the first formatted number with mode-dependent filler glyphs. */
+/* Draws the first formatted number with 4-by-16 HUD glyphs and mode-dependent padding. */
 void draw_hud_number_tall(s32 first_number, s32 second_number, u16 width, s16 y, u16 x, s16 mode)
 {
     DrawRecord record;
@@ -28,7 +28,6 @@ void draw_hud_number_tall(s32 first_number, s32 second_number, u16 width, s16 y,
         do {
             u8 character;
 
-            /* Repeated test on purpose: the closest goto-free match to retail (ledger/spelling_revisits.jsonl). */
             if (fill_mode != 0 &&
                 (numeric_character_flags[character = *char_ptr] & 4) == 0) {
                 record.first = 0x1C0;
@@ -47,6 +46,3 @@ void draw_hud_number_tall(s32 first_number, s32 second_number, u16 width, s16 y,
         } while (*char_ptr != 0);
     }
 }
-
-/* MECHANISM: Sibling 16-byte buffers plus an 8-byte halfword record yield the 0x58 frame. The s16 sixth
-   arg stays in s4 across both calls, then narrows into reused s1; one joined glyph_coord yields one sh. */

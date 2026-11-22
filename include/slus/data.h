@@ -1,8 +1,10 @@
 #ifndef SLUS_DATA_H
 #define SLUS_DATA_H
+struct ResourceTransitionBody;
 /* Imported data declarations for this image; maintained by tools/headers. */
 
 #include "common.h"
+#include "shared/sprite_part_command.h"
 #include "sdk/libgte_matrix.h"
 #include "m2c_compat.h"
 #include "shared/game_work.h"
@@ -35,7 +37,7 @@ extern s16 D_8006AE18[ 5 ];
 extern s8 D_800712E4[ ];
 extern u8 D_800712F0[ ];
 extern MATRIX effect_view_matrix; /* view matrix the effect and linked-sprite renderers compose with; t[2] takes the projection distance or the scaled sprite depth */
-extern int item_name_text_table[ 4 ];
+extern char *item_name_text_table[ 4 ];
 extern unsigned char menu_backdrop_link_indices[ 16 ];
 extern unsigned char selection_menu_link_indices[ 16 ];
 extern s32 D_800737D4[ 4 ];
@@ -95,18 +97,18 @@ extern u32 cd_stream_end_sector[ 3 ];
 struct S_80038464_0; extern void wait_for_message_flag(struct S_80038464_0 *);
 extern void *cursor_blink_variant_values[ ];
 extern u8 cursor_sprite_source[ ];
-extern u8 cursor_texture_descriptor_0[ ];
-extern u8 cursor_texture_descriptor_1[ ];
-extern u8 cursor_texture_descriptor_2[ ];
-extern u8 cursor_texture_descriptor_3[ ];
-extern u8 cursor_texture_descriptor_4[ ];
-extern u8 cursor_texture_descriptor_5[ ];
-extern u8 cursor_texture_template_0[ ];
-extern u8 cursor_texture_template_1[ ];
-extern u8 cursor_texture_template_2[ ];
-extern u8 cursor_texture_template_3[ ];
-extern u8 cursor_texture_template_4[ ];
-extern u8 cursor_texture_template_5[ ];
+extern SpritePartCommand cursor_texture_descriptor_0[];
+extern SpritePartCommand cursor_texture_descriptor_1[];
+extern SpritePartCommand cursor_texture_descriptor_2[];
+extern SpritePartCommand cursor_texture_descriptor_3[];
+extern SpritePartCommand cursor_texture_descriptor_4[];
+extern SpritePartCommand cursor_texture_descriptor_5[];
+extern SpritePartCommand cursor_texture_template_0[];
+extern SpritePartCommand cursor_texture_template_1[];
+extern SpritePartCommand cursor_texture_template_2[];
+extern SpritePartCommand cursor_texture_template_3[];
+extern SpritePartCommand cursor_texture_template_4[];
+extern SpritePartCommand cursor_texture_template_5[];
 extern u8 cursor_variant_values[ ];
 extern u8 default_window_model_storage[ ];
 extern u8 default_window_node_storage[ ];
@@ -133,11 +135,11 @@ extern struct InputRecord *home_rank_primary_map_table[];
 extern struct InputRecord *home_rank_secondary_map_table[];
 extern struct InputRecord *home_rank_tertiary_map_table[];
 extern void *indexed_resource_packages[ ];
-extern u8 indexed_sprite_bundle_records[ ];
+#include "slus/indexed_sprite_bundle_data.h"
 extern s32 item_display_icon_words[ 256 ];
 extern char *item_name_suffix_texts[ ];
-extern int item_text_checked_fallback_pair[ 4 ];
-extern int item_text_default_fallback_pair[ 4 ];
+extern char *item_text_checked_fallback_pair[ 4 ];
+extern char *item_text_default_fallback_pair[ 4 ];
 extern s32 item_value_multipliers[ ];
 extern s32 loaded_sprite_bundle_attributes;
 extern s32 lower_background_flag[ 3 ];
@@ -176,7 +178,7 @@ extern s16 pending_sound_selection_entries[ ] [ 16 ];
 extern s32 primary_mode_resource_table;
 extern u8 primary_packet_limit_indices[ 16 ];
 extern u16 primary_voice_volume_scale_alias[ 8 ];
-extern void propagate_linked_removal_request(void *);
+extern void propagate_linked_removal_request(struct ResourceTransitionBody *body);
 extern u8 record_sort_key_weights[ 256 ];
 extern ResidentBitmapEntry resident_bitmap_key_map[ ];
 extern s32 resident_bitmap_special_value[ ];

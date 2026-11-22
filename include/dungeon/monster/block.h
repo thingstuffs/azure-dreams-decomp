@@ -754,7 +754,7 @@ extern void unlink_node(void *node);
 extern void select_sprite_entry(void *, s16, s16);
 extern void func_80047784(void *, s16, s16);
 extern void advance_sprite_animation_and_textures(void *entity);
-extern s32 lookup_masked_byte_table();
+extern s32 lookup_masked_byte_table(ActorRecord *actor);
 extern void unlink_entity_node(struct EntityLinkNode *node);
 extern s16 check_entity_relation(ActorRecord *entry, ActorRecord *anchor);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);

@@ -33,11 +33,18 @@ typedef struct MinigameProgressPair16 {
     short unk_02;
 } MinigameProgressPair16;
 
-/* Score/collection total rooted at the rising-effect controller's first pointer.
- * It shares an offset with sprite flags but is updated as a counter. */
+/* The shop display stores three panel nodes before its timing and score fields. */
+struct RisingScorePanelNode;
 typedef struct TownScoreCounterView {
-    unsigned char pad_00[0x14];
-    unsigned short unk_14;
+    struct RisingScorePanelNode *panels[3];
+    short state;
+    short timer;
+    short index;
+    short completed;
+    short score;
+    unsigned short counter;
+    short area;
+    unsigned short flags;
 } TownScoreCounterView;
 
 #endif

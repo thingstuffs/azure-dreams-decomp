@@ -107,7 +107,8 @@ extern TownRecord shop_record_queue[20];
 extern Rec_D_800CFCB4 town_actor_control;
 
 /* Functions defined in this translation unit. */
-void start_item_object_motion(S_800A022C_2 *object, S_800A022C_0 *state, ObjectPosition *record, void *unused_render);
+struct SpriteFrameState;
+void start_item_object_motion(S_800A022C_2 *object, S_800A022C_0 *state, ObjectPosition *record, struct SpriteFrameState *unused_render);
 void *create_item_object_at(S_800A027C_5 *config, MovingPosition *position);
 void clear_shop_record_queue(void);
 void enqueue_shop_record(TownRecord *record);

@@ -36,9 +36,9 @@ extern TownOverlapBox computed_position;
 extern TownOverlapBox *town_overlap_origin;
 
 /* Functions defined in this translation unit. */
-void dispatch_fallback_position(TownPlayerRecord *entry, ObjectPosition *forwarded_a, void *forwarded_b);
+void dispatch_fallback_position(TownPlayerRecord *entry, ObjectPosition *forwarded_a, SpriteFrameState *sprite);
 void clear_town_overlap_origin(void);
-void compute_fallback_position_offset(TownPlayerRecord *object, ObjectPosition *offset, void *resources);
+void compute_fallback_position_offset(TownPlayerRecord *object, ObjectPosition *offset, SpriteFrameState *sprite);
 void *lookup_entry_by_byte_index(struct SpriteFrameState *object, u8 *values, s32 index);
 void *get_nested_table_entry_data(SpriteFrameState *record, s32 row_index, s32 entry_index, s32 unused);
 

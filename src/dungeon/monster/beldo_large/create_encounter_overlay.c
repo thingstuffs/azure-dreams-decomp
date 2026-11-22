@@ -86,7 +86,3 @@ void create_encounter_overlay(s32 variant)
         sprite->source = sprite_vector;
     }
 }
-
-/* MECHANISM: The true-space body uses a local join, not a phantom call at 0x8016FC28.
-   A 0x20 frame holds variant, obj, and obj+0x20 in s2/s0/s1; packed 12-byte
-   assignments reproduce the two unaligned vector-copy arms. */

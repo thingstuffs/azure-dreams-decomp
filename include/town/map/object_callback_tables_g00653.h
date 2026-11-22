@@ -8,8 +8,6 @@
 
 #include "town/map/trigger_callbacks.h"
 
-typedef map_trigger_callback_fn Callback;
-
 extern u8 D_800C1E50[];
 
 

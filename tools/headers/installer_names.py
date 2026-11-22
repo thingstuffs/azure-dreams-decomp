@@ -21,6 +21,9 @@ import sys
 
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parent / 'codemap'), str(HERE.parent / 'gate')]
+if str(HERE.parent) not in sys.path:
+    sys.path.append(str(HERE.parent))
+import atomic_io  # noqa: E402
 import address_names as A
 import cscan
 import model as M
@@ -454,7 +457,7 @@ def retire(root, rows, write=True):
         else:
             kept.append(line)
     if write:
-        path.write_text(''.join(kept))
+        atomic_io.write_text(path, ''.join(kept))
     if retired:
         changed_files.add('config/names.tsv')
     return dict(dead_aliases=removed, names_retired=retired, files_changed=sorted(changed_files), retained=retained)

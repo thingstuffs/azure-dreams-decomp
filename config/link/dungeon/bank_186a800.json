@@ -1,0 +1,35 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/bank_186a800",
+  "container": "dungeon",
+  "foff": "0x186a800",
+  "size": "0x6000",
+  "vma": "0x80024000",
+  "evidence": "Selector 10 loads DUNGEON +0x186A800 into 0x80024000 for 0x6000 bytes.",
+  "entries": [
+    {
+      "row": "dungeon/func_8184AB74",
+      "tu": "src/dungeon/monster/golem/remove_golem_effect_after_animation.c",
+      "home": "dungeon/func_81087200",
+      "foff": "0x186AB74",
+      "vma": "0x80024374",
+      "size": 108,
+      "evidence": "The creator forms this callback at DUNGEON +0x186AC18 and stores it in the node update slot at +0x186AC20. The 108-byte body is identical at +0x10A7200 and +0x186AB74.",
+      "bindings": {
+        "0x81087200": "0x80024374"
+      }
+    },
+    {
+      "row": "dungeon/func_8184ABE0",
+      "home": "dungeon/func_8184ABE0",
+      "tu": "src/dungeon/effect/motion/create_effect_sprite_at.c",
+      "foff": "0x186abe0",
+      "vma": "0x800243e0",
+      "size": 196
+    }
+  ],
+  "load_evidence": {
+    "path": "ledger/instance_load_regions.jsonl",
+    "record_sha256": "e1f4a661b6b22141460fed61fc20f208f68de476402842aeb3b5ac8d6db33e08"
+  }
+}

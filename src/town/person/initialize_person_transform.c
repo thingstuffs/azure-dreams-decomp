@@ -3,13 +3,14 @@
 #include "town/person.h"
 #include "town/scene.h"
 
+#include "town/scene/active_object_overlap_g00529.h"
 extern s32 D_800C283C[];
 
 /* Initialize the object with its indexed resource and set its flag and data pointer. */
-void initialize_person_transform(void *object, s32 setup_value, SpriteFrameState *unused) {
+void initialize_person_transform(void *object, ObjectPosition *position, SpriteFrameState *unused) {
     u8 *obj = object;
 
-    init_secondary_list_record(object, setup_value, person_transform_defaults[obj[0x94]]);
+    init_secondary_list_record(object, position, person_transform_defaults[obj[0x94]]);
     obj[0x14] = 1;
     *(void **)(obj + 0x50) = D_800C283C;
 }

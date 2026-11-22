@@ -2,6 +2,8 @@
 #define MAIN_SERVER_SHIP_H
 #include "common.h"
 
+struct CardSaveImage;
+
 /* Runtime/storage views. This diagnostic header makes no allocation claim. */
 typedef struct MainCardPair { s32 a; s32 b; } MainCardPair;
 #include "modules/main_server_callbacks.h"
@@ -72,10 +74,10 @@ void card_boot_build_slot_path(s32 dest, s32 suffix_index);
 s32 card_boot_read_file_units_128(void *path, void *buffer, s32 read_size, s32 block_offset);
 s32 card_boot_write_file_units_128(void *path, void *buffer, s32 unit_count, s32 unit_offset, s32 skip_create);
 s32 card_boot_get_slot_marker(s32 entry_index);
-void card_boot_cache_save_header(s32 entry_index, void *source);
-void card_boot_store_save_xor_checksum(void *buffer);
-s32 card_boot_verify_save_xor_checksum(void *save_data);
-s32 card_boot_write_save_via_temporary_path(s32 slot, void *data);
-s32 card_boot_load_save_and_clear_marker(s32 entry_index, void *data, s32 update_entry);
+void card_boot_cache_save_header(s32 entry_index, struct CardSaveImage *source);
+void card_boot_store_save_xor_checksum(struct CardSaveImage *save);
+s32 card_boot_verify_save_xor_checksum(struct CardSaveImage *save);
+s32 card_boot_write_save_via_temporary_path(s32 slot, struct CardSaveImage *save);
+s32 card_boot_load_save_and_clear_marker(s32 entry_index, struct CardSaveImage *save, s32 update_entry);
 #include "modules/main_server_ship_interfaces.h"
 #endif

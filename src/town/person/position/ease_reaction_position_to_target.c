@@ -8,7 +8,7 @@
 #include "town/person/position.h"
 
 /* Ease the position toward its target, snapping to it when the timer expires. */
-void ease_reaction_position_to_target(TownObjectRecord *state, ObjectPosition *position, void *update_arg) {
+void ease_reaction_position_to_target(TownObjectRecord *state, ObjectPosition *position, struct SpriteFrameState *sprite) {
     s32 x_delta;
     s32 y_delta;
     s32 z_delta;
@@ -17,7 +17,7 @@ void ease_reaction_position_to_target(TownObjectRecord *state, ObjectPosition *p
     timer = state->timer - 1;
     state->timer = timer;
     if ((timer << 16) <= 0) {
-        apply_object_setup_and_update(state, position, update_arg);
+        apply_object_setup_and_update(state, position, sprite);
         position->x.w.i = ((u16)state->unk_84);
         position->y.w.i = state->unk_86;
         position->z.w.i = 0;

@@ -11,10 +11,10 @@ extern s32 D_800D58E0[];
  * Initializes entries from D_800D58E0, clears the indexed object slot, and installs func_800C68E0
  * with count 9.
  */
-void initialize_scene_entry_group_9(void *object, s32 unused, void *output)
+void initialize_scene_entry_group_9(struct TownObjectRecord *object, struct ObjectPosition *unused_position, struct SpriteFrameState *output)
 {
     initialize_object_entries(object, output, D_800D58E0);
-    object_index_slots[*(s32 *)((u8 *)object + 0x60)].unk_00 = 0;
-    *(void **)((u8 *)object + 0x54) = func_800C68E0;
-    *(s16 *)((u8 *)object + 0x6C) = 9;
+    object_index_slots[object->slot].unk_00 = 0;
+    object->handler = func_800C68E0;
+    object->timer = 9;
 }

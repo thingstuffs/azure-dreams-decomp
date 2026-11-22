@@ -11,29 +11,9 @@
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
 
-typedef struct S_800BC3E4_0_pre {
-    void * unk_00;
-    u8 pad_04[0x4];
-} S_800BC3E4_0_pre;
+#include "dungeon/effect/tracked_sprite.h"
 
-/* node in traverse_nodes_and_render_unflagged */
-typedef struct S_800BC3E4_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-} S_800BC3E4_1;
-
-/* primitive in traverse_nodes_and_render_unflagged */
-typedef struct S_800BC3E4_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800BC3E4_3;
-
-extern s32 is_frame_packet_arena_overflowed(void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+s32 is_frame_packet_arena_overflowed(const u8 *cursor);
 
 /* Functions defined in this translation unit. */
 

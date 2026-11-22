@@ -68,6 +68,7 @@ extern u8 D_800D0754[];
 extern u8 D_800D076C[];
 
 /* Functions defined in this translation unit. */
-void start_item_object_motion(S_800A022C_2 *object, S_800A022C_0 *state, ObjectPosition *record, void *unused_render);
+struct SpriteFrameState;
+void start_item_object_motion(S_800A022C_2 *object, S_800A022C_0 *state, ObjectPosition *record, struct SpriteFrameState *unused_render);
 
 #endif

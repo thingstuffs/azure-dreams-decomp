@@ -17,7 +17,6 @@ void update_picket_jump_attack(ActorRecord *body, ObjectPosition *motion, Sprite
 void update_picket_item_drop_effect(struct S_80174978_0 *actor, ObjectPosition *motion, SpriteFrameState *visual);
 void update_picket_dash_and_retreat(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
-/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "records/Rec_func_800AD058_arg2.h"
 void create_picket_held_item_sprite(ObjectPosition *source, Rec_func_800AD058_arg2 *record, ActorRecord *appearance);
 

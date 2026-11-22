@@ -5,16 +5,10 @@
 
 #include "sdk/libgpu_types.h"
 
-/* Struct passed as arg1: only offsets 0x8 and 0xC (two text pointers) are
- * touched by this function; the rest is unknown padding. */
-typedef struct S_80052C10_Arg1 {
-    u8 pad0[8];
-    u8 *text8;
-    u8 *textC;
-} S_80052C10_Arg1;
+#include "engine/effect/cd_sequence.h"
 
 /* Clears two 64x16 VRAM text regions and draws the two strings at the given row. */
-void clear_and_draw_paired_text_rows(s16 row, S_80052C10_Arg1 *texts) {
+void clear_and_draw_paired_text_rows(s16 row, CdCueSequenceFrame *frame) {
     RECT left_rect;
     RECT right_rect;
 
@@ -30,6 +24,6 @@ void clear_and_draw_paired_text_rows(s16 row, S_80052C10_Arg1 *texts) {
     right_rect.h = 0x10;
     ClearImage(&right_rect, 0, 0, 0);
 
-    draw_double_byte_text(texts->text8, 0x380, row * 0x10);
-    draw_double_byte_text(texts->textC, 0x3C0, row * 0x10);
+    draw_double_byte_text(frame->left_text, 0x380, row * 0x10);
+    draw_double_byte_text(frame->right_text, 0x3C0, row * 0x10);
 }

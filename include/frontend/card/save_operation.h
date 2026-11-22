@@ -1,15 +1,22 @@
 #ifndef FRONTEND_CARD_SAVE_OPERATION_H
 #define FRONTEND_CARD_SAVE_OPERATION_H
 #include "common.h"
-/* Fields read by the save-operation completion callback. */
+/* Devkit save-screen body shared by the input and operation callbacks. */
 typedef struct CardSaveOperationBody {
-    u8 pad_00[0x28];
+    struct ObjectNodeHeader *background;
+    struct CardDevSlotWindow *windows[5];
+    struct ObjectNodeHeader *options;
+    struct ObjectNodeHeader *information;
+    struct ObjectNodeHeader *request;
+    s32 window_index;
     s32 entry_index;
     s32 saved_entry_index;
-    u8 pad_30[4];
+    s32 repeat_ticks;
     void *completion_callback;
-    u8 pad_38[4];
+    s32 dialog_answer;
     s32 countdown;
     s32 state;
+    s32 option_index;
+    s32 slot_mode;
 } CardSaveOperationBody;
 #endif

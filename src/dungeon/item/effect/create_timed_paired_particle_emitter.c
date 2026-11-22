@@ -20,7 +20,10 @@
 #include "dungeon/effect/screen/menu.h"
 #include "dungeon/data.h"
 
-/* Create an effect object, copy its source components, and initialize its state. */
+/*
+ * Draws the effect initialization ellipse and starts a 64-tick particle emitter at the source
+ * position.
+ */
 void create_timed_paired_particle_emitter(ObjectPosition *source, s32 effect_param, void *state_param)
 {
     GpuRectBuffer effect_init;
@@ -65,7 +68,3 @@ void create_timed_paired_particle_emitter(ObjectPosition *source, s32 effect_par
     status = &g_dungeon_status;
     (*(u16 *)&status->activity_counts.parts.pending_action_count)++;
 }
-
-/* MECHANISM: The 0x30 frame, s1/s2/s3 argument holds, two-word init record, and callee ABIs
-   reproduce the retail structure. Moving init[1]'s store immediately before draw_textured_ellipse
-   schedules move a3,zero at word 25 and the stack store into the jal delay slot at word 28. */

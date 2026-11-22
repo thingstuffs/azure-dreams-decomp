@@ -6,10 +6,11 @@
 #include "common.h"
 #include "m2c_compat.h"
 
+struct ObjectNodeHeader;
 struct ShopWindow;
 
 /* Functions defined in this translation unit. */
 void set_shop_change_indicator_color(struct ShopWindow *window, s32 target_value);
-void set_shop_page_and_selection(s32 record_address, s32 value_10, s32 value_08);
+void set_shop_page_and_selection(struct ObjectNodeHeader *node, s32 value_10, s32 value_08);
 
 #endif

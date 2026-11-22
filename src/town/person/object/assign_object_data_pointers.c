@@ -1,32 +1,18 @@
 #include "common.h"
-#include "m2c_compat.h"
+#include "shared/town_object.h"
 #include "town/person/object.h"
 
-extern u8 D_800D6220;
-extern u8 D_800D62D8;
-extern u8 D_800D62E0;
-extern u8 D_800D6308;
-extern u8 D_800D630C;
-
-typedef struct S_800C895C_0 {
-    u8 pad_00[0x58];
-    void * unk_58;
-    void * unk_5C;
-    u8 pad_60[0x1C];
-    void * unk_7C;
-    void * unk_80;
-} S_800C895C_0;   /* arg0 in set_object_data_tables_with_link */
-
-typedef struct S_800C895C_1 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_800C895C_1;   /* &D_800D62E0 in set_object_data_tables_with_link */
+extern s32 D_800D6220[];
+extern s32 *D_800D62D8[];
+extern PersonDescriptor D_800D62E0;
+extern s32 D_800D6308[];
+extern TownIndexedHandler D_800D630C[];
 
 /* Assign the object data pointers and link the shared data entry. */
-void set_object_data_tables_with_link(S_800C895C_0 *object) {
-    object->unk_58 = &D_800D6308;
-    object->unk_5C = &D_800D630C;
-    object->unk_7C = &D_800D62D8;
-    object->unk_80 = &D_800D62E0;
-    ((S_800C895C_1 *)(&D_800D62E0))->unk_04 = &D_800D6220;
+void set_object_data_tables_with_link(TownObjectRecord *object) {
+    object->state_handlers = D_800D6308;
+    object->indexed_handlers = D_800D630C;
+    object->unk_7C.as_pps32 = D_800D62D8;
+    object->descriptor = &D_800D62E0;
+    D_800D62E0.entries[1] = D_800D6220;
 }

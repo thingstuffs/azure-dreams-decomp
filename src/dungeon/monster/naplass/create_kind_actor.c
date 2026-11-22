@@ -6,7 +6,6 @@
 #include "dungeon/monster/naplass/create_kind_actor.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
-#include "dungeon/monster/naplass/create_kind_actor.h"
 #include "dungeon/monster/naplass.h"
 
 /* Allocate an actor and initialize its parts and behavior from the kind flags. */

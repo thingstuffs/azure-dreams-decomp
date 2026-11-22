@@ -11,27 +11,24 @@ extern s16 get_clamped_transform_coordinate(void *object, s32 step_x, s32 step_y
 
 
 /* Advance motion, clamp at the facing boundary, and update directional speed. */
-void advance_bounded_motion(TownObjectRecord *entity, void *motion_arg, SpriteFrameState *context, s32 check_param)
+void advance_bounded_motion(TownObjectRecord *entity, ObjectPosition *motion, SpriteFrameState *context, s32 check_param)
 {
-    ObjectPosition *motion = motion_arg;
     s32 pos_x;
     s32 step_y;
     s32 angle;
     s32 quadrant;
     s32 speed;
     s32 max_speed;
-    s32 *motion_words;
 
     if (select_object_setup_path(entity, motion, context) != 0) {
         return;
     }
 
-    motion_words = (s32 *)motion;
-    pos_x = motion_words[0];
-    max_speed = motion_words[3];
+    pos_x = motion->x.v;
+    max_speed = motion->velocity_x;
     pos_x += max_speed;
-    speed = motion_words[1];
-    step_y = motion_words[4];
+    speed = motion->y.v;
+    step_y = motion->velocity_y;
     speed += step_y;
     motion->x.v = pos_x;
     motion->y.v = speed;

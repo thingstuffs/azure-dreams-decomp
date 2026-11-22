@@ -6,7 +6,7 @@
 #include "engine/effect.h"
 
 /* Initialize the object and its two data blocks from defaults, then apply starting settings. */
-void init_gauge_blocks(void *unused, MenuDisplayNode *object,
+void init_gauge_blocks(struct MenuSelectionBody *owner, MenuDisplayNode *object,
                    MenuDisplayBlock *primary_data, DisplayPositionWords *secondary_data) {
     MenuDisplayBlock *primary_defaults = &display_block_defaults;
     DisplayPositionWords *secondary_defaults = &display_vector_defaults;

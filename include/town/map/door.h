@@ -95,11 +95,11 @@ typedef struct S_800A0CC0_0 {
 } S_800A0CC0_0;
 
 
-s32 check_door_status_inverted(S800A3088Arg0 *door);
+s32 check_door_status_inverted(TownObjectRecord *door);
 
 void update_door_object(S_func_800A0708_0 *object, ObjectPosition *position, SpriteFrameState *sprite);
-void create_door_shared_object(TownObjectRecord *object, TownObjectRecord *unused_context, void *update_context, SpriteFrameState *unused_data);
-void check_door_entry_and_open(S800A3088Arg0 *entity, TownObjectRecord *collision_body, ObjectPosition *position);
+void create_door_shared_object(TownObjectRecord *object, TownObjectRecord *unused_context, ObjectPosition *origin, SpriteFrameState *unused_data);
+void check_door_entry_and_open(TownObjectRecord *entity, TownObjectRecord *collision_body, ObjectPosition *position);
 void open_door_to_target(TownObjectRecord *object, TownObjectRecord *context);
 void door_no_op(void);
 void advance_door_open_angle(TownObjectRecord *door);
@@ -110,29 +110,29 @@ void door_open_demo_set_sub(s32 door_id, s16 demo_angle);
 void door_open_demo_set(s32 script_context);
 void door_atari_on_off(s32 door_id, s16 collision_enabled);
 void into_dn_door_demo_set(void);
-void check_door_entry_and_change_map(void *actor, void *target, void *position);
-void change_door_map(void *map_source, s32 *map_table);
-void create_door_transition_objects(void *entity_arg, TownObjectRecord *unused_context, void *update_context, SpriteFrameState *unused_data);
-void start_door_entry_or_wait(S_800A0C30_0 *script_state, TownObjectRecord *collision_body, ObjectPosition *position);
-void resume_door_entry_when_script_idle(S_800A0CC0_0 *object, s32 value_1, s32 value_2, s32 value_3);
-void start_door_transition_effect(u8 *object, s32 unused, s32 state_id, s32 state_arg);
-void update_door_transition_spin(TownObjectRecord *state, TownObjectRecord *unused_context, s32 context_a, s32 context_b);
-void tick_door_countdown(TownObjectRecord *object, TownObjectRecord *source, s32 update_arg_a, s32 update_arg_b);
+void check_door_entry_and_change_map(TownObjectRecord *actor, TownObjectRecord *target, ObjectPosition *position);
+void change_door_map(TownObjectRecord *door, s32 *map_table);
+void create_door_transition_objects(TownObjectRecord *entity, TownObjectRecord *unused_context, ObjectPosition *origin, SpriteFrameState *unused_data);
+void start_door_entry_or_wait(TownObjectRecord *script_state, TownObjectRecord *collision_body, ObjectPosition *position);
+void resume_door_entry_when_script_idle(TownObjectRecord *object, TownObjectRecord *unused_context, ObjectPosition *unused_position, SpriteFrameState *unused_sprite);
+void start_door_transition_effect(TownObjectRecord *door, TownObjectRecord *unused_context, ObjectPosition *position, SpriteFrameState *sprite);
+void update_door_transition_spin(TownObjectRecord *state, TownObjectRecord *unused_context, ObjectPosition *position, SpriteFrameState *sprite);
+void tick_door_countdown(TownObjectRecord *object, TownObjectRecord *source, ObjectPosition *position, SpriteFrameState *sprite);
 void into_dn_door_jobs(void);
-s32 check_door_input_and_angle(Rec_func_800A0668_arg0 *object, TownObjectRecord *collision_body);
+s32 check_door_input_and_angle(TownObjectRecord *object, TownObjectRecord *collision_body);
 
 extern void unlink_node_if_registered(void *);
 extern void func_80033D08(void *);
 extern s32 classify_object_against_bounds(void *, struct ObjectPosition *position);
-struct ObjectNodeHeader *create_default_display_object(struct TownObjectRecord *owner, s8 *active_flag, ObjectPosition *origin, s32 part_index);
+struct ObjectNodeHeader *create_default_display_object(struct TownObjectRecord *owner, u8 *active_flag, ObjectPosition *origin, s32 part_index);
 extern void initialize_player_entity_callbacks(s32 entity_id, s32 x, s32 y);
 extern void change_map(struct InputRecord *input);
-extern s32 create_display_object_series(struct TownObjectRecord *owner, s8 *active_flag, ObjectPosition *origin, s32 count);
+extern s32 create_display_object_series(struct TownObjectRecord *owner, u8 *active_flag, ObjectPosition *origin, s32 count);
 s32 count_used_item_slots(void);
 void set_player_block_value(s32 value);
 s32 func_800352FC(void);
-s16 initialize_object_items_in_reverse(void *ptr, s32 stateId, s16 currentState);
-void no_op_callback_a(void *unused_ptr, s32 unused_state_id, s32 unused_state_arg); /* Unprototyped: retail call passes more arguments than the callee reads */
+s32 initialize_object_items_in_reverse(struct DoorTransitionEffect *object, struct ObjectPosition *origin, s32 item_count);
+void no_op_callback_a(struct DoorTransitionEffect *unused_effect, struct ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite);
 void sound_set_cd_cue_parameters(s32 value0, s32 value1, s32 value2, s32 value3);
 void SD_Call(s32 value);
 extern void clear_resident_bit_patterns(void);
@@ -143,7 +143,7 @@ extern void sync_resident_flag_pairs(void);
 extern s32 D_800D09E0;
 extern ListHead active_node_list_head;
 extern s32 D_800D4404;
-extern Rec_D_80100B70 door_transition_state;
+extern DoorTransitionEffect door_transition_state;
 extern s16 current_dungeon_floor;
 extern s32 scene_object_payload_alias;
 

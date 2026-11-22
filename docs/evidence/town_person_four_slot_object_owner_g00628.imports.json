@@ -15,11 +15,11 @@
   "maps": {},
   "basis": [
     "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
-    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+    "Views of other proven resident load regions (engine) of this container; no ownership claim.",
+    "TOWN +0x37724 and +0x37728 form the entry of advance_storage_open_ramp at +0x374D8. The creator stores it in the node update slot at +0x37734."
   ],
   "view_bytes_method": {
-    "D_80078CDC": "word_default",
-    "D_800B4C38": "sizeof"
+    "D_80078CDC": "word_default"
   },
   "address_only_anchors": {}
 }

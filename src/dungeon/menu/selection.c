@@ -95,7 +95,7 @@ void clear_object_buffer_and_state(void *objectAddress)
 {
     ovl_1831370_8181154C_S_8002654C_0 *objectState;
 
-    objectState = (void *)(objectAddress + 0x20);
+    objectState = (objectAddress + 0x20);
     memset(objectState->unk_14, 0,
            (text_editor_pair_limits[objectState->unk_10] * 2) | 1);
     inventory_set_object_entry_address(objectState->unk_70, objectState->unk_14);
@@ -387,7 +387,3 @@ next_pair:
     }
     return has_content;
 }
-
-/* MECHANISM: Frameless leaf with held t0/t1/t2/t3/t4 roles and a volatile second byte read.
-   Distinct a1 -> v1 -> t2 bound lifetimes plus the t0-relative test force retail's slt/beqz
-   and move handoff, restoring the two missing words and every cascaded branch displacement. */

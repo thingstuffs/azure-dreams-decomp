@@ -31,7 +31,7 @@ typedef struct S_8009C390_1 {
     u8 pad_00[0x50];
     s32 unk_50;
     u8 pad_54[0x48];
-    s32 unk_9C;
+    void *owner_body; /* +0x9C, the body of the optional parent node */
 } S_8009C390_1;
 
 typedef struct S_8009C46C_0 {

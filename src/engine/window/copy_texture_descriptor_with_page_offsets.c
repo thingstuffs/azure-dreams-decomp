@@ -1,29 +1,15 @@
-#include "common.h"
-
+#include "engine/window/cursor_source.h"
 #include "sdk/libgpu.h"
 
-typedef struct {
-    u8 pad0[8];
-    s16 x;
-    s16 y;
-    u8 padC[0xC];
-    u8 x_offset;
-    u8 pad19;
-    u8 y_offset;
-} FuncInput;
+/* Copy the sprite part and translate its page and UV coordinates into the window. */
+void copy_texture_descriptor_with_page_offsets(TEX_RECT *texture, SpritePartCommand *source, SpritePartCommand *destination) {
+    u32 *source_words = (u32 *)source;
+    u32 *destination_words = (u32 *)destination;
 
-typedef struct {
-    u32 value0;
-    u32 value4;
-    u32 value8;
-} FuncOutput;
-
-/* Copies texture data and adjusts its texture page and UV coordinates. */
-void copy_texture_descriptor_with_page_offsets(FuncInput *texture_pos, u32 *src, FuncOutput *dst) {
-    dst->value0 = src[0];
-    dst->value4 = src[1];
-    dst->value8 = src[2];
-    ((u16 *)&dst->value4)[0] = GetTPage(0, 1, texture_pos->x, texture_pos->y);
-    ((u8 *)&dst->value8)[0] += texture_pos->x_offset + (texture_pos->x % 64) * 4;
-    ((u8 *)&dst->value8)[1] += (texture_pos->y % 256) + texture_pos->y_offset;
+    destination_words[0] = source_words[0];
+    destination_words[1] = source_words[1];
+    destination_words[2] = source_words[2];
+    destination->tpage = GetTPage(0, 1, texture->page_x, texture->page_y);
+    destination->data.texture.u0 += texture->tex_x + (texture->page_x % 64) * 4;
+    destination->data.texture.v0 += (texture->page_y % 256) + texture->tex_y;
 }

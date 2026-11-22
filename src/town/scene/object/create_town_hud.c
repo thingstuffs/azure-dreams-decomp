@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "town/scene.h"
 #include "town/scene/object.h"
 #include "town/data.h"
@@ -25,6 +26,7 @@ extern u8 D_805305B8[];
 /* Build the town HUD: the frame object, its three child slots, the gauge sprite and the five icons. */
 void create_town_hud(void) {
     void *object;
+    ObjectNodeHeader *controller;
     s8 *parent;
     s8 *slot;
     s8 *primitive;
@@ -38,9 +40,10 @@ void create_town_hud(void) {
     object = func_800373DC(0x32);
     common_value = D_80526704;
     if (object != NULL) {
-        parent = (s8 *)object + 0x20;
+        controller = object;
+        parent = NODE_BODY(controller);
         primitive = *(s8 **)((s8 *)object + 8);
-        *(u8 **)((s8 *)object + 0x10) = update_slot_machine;
+        controller->update_callback = update_slot_machine;
         *(s32 *)(primitive + 0) = 0x04600000;
         *(s32 *)(primitive + 4) = 0x03600000;
         *(u8 **)((s8 *)object + 0x68) = common_value;

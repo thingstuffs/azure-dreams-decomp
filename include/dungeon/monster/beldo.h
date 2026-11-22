@@ -36,7 +36,6 @@ void create_attached_sprite_with_offset(ActorRecord *owner_data, ObjectPosition 
 
 void finish_beldo_tile_move(void *entity_ptr, void *motion, void *check_arg, void *actor_arg);
 
-/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void update_actor_movement_and_height(ActorRecord *entity_arg, ObjectPosition *motion_arg, SpriteFrameState *monster_arg);
 
 void advance_actor_action_and_target(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);

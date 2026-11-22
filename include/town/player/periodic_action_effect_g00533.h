@@ -20,7 +20,7 @@ typedef struct S_800917EC_2 {
 } S_800917EC_2;
 
 void init_flagged_action_fallback(s32 **record, void *ptr, void *ptr2);
-void initialize_action_object(s32 **record, void *ptr, void *ptr2);
+void initialize_action_object(s32 **record, struct ObjectPosition *ptr, void *ptr2);
 void play_periodic_sound(s32 count, s32 interval);
 void resolve_collision_axis_order(ObjectPosition *position);
 void spawn_radial_effect_objects();

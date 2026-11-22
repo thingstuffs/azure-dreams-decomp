@@ -16,11 +16,6 @@
 extern Box D_800D0420;
 
 
-typedef struct S_800236BC_3 {
-    u8 pad_00[0x62];
-    u16 unk_62;
-} S_800236BC_3;   /* ((S_800236BC_1 *)arg0)->unk_00 in update_bouncing_pickup_after_hit */
-
 extern s32 town_money[];
 extern TownRewardValues D_80020278;
 extern s32 D_800244DC[];
@@ -40,14 +35,14 @@ void update_bouncing_pickup_after_hit(BouncingPickupAfterHitObject *object, Obje
     motion->x.v += motion->velocity_x;
     motion->y.v += motion->velocity_y;
     motion->z.v += motion->velocity_z;
-    ((S_800236BC_3 *)(object->slot_state))->unk_62 |= 2;
+    object->slot_state->flags |= 2;
 
     state = object->state.s;
     switch (state) {
     case 0:
         advance_sprite_animation_and_textures(sprite);
         motion->velocity_z += 0x40000;
-        object->unk_1D = 0;
+        object->scene.active = 0;
         if (motion->z.v < 0) {
             return;
         }
@@ -169,7 +164,7 @@ void update_bouncing_pickup_after_hit(BouncingPickupAfterHitObject *object, Obje
         return;
 
     case 255:
-        unlink_scene_list_node((u8 *)object + 8);
+        unlink_scene_list_node(&object->scene);
         (((ObjectNodeHeader *)object - 1)->flags) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

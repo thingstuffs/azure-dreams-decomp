@@ -22,7 +22,7 @@ typedef struct IndexedEffectObject {
 /* extern */
 /* extern */
 extern s32 item_effect_descriptor;
-extern void D_800A8248(void *object, s32 *out_vector, void *unused);
+extern void D_800A8248(IndexedEffectObject *object, ObjectPosition *position, SpriteFrameState *unused);
 extern s32 scene_object_payload_alias[2];
 extern s32 town_position_callback_address;
 extern s32 D_80097EA0;
@@ -31,6 +31,6 @@ extern void unlink_node_if_registered(void *object);
 
 /* Functions defined in this translation unit. */
 void create_item_category_effect(s32 index, s32 kind);
-void follow_view_reference_or_retire(IndexedEffectObject *object, s32 *out_vector, void *unused);
+void follow_view_reference_or_retire(IndexedEffectObject *object, ObjectPosition *position, SpriteFrameState *unused);
 
 #endif

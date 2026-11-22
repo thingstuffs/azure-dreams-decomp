@@ -3,14 +3,14 @@
 
 extern s32 scene_object_payload_alias;
 extern s32 town_position_callback_address[3];
-extern s32 town_target_record;
+extern void *town_target_record;
 
-/* Check whether both the requested identifier and the global pointer match. */
-s32 check_town_target_and_callback(s32 requested_id) {
+/* The selected contact is the word at +0x10 in the Town collision controller. */
+s32 check_town_target_and_callback(const void *object) {
     s32 matches;
 
     matches = 0;
-    if (town_target_record == requested_id) {
+    if (town_target_record == object) {
         matches = scene_object_payload_alias == (s32) &town_position_callback_address;
     }
     return matches;

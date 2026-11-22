@@ -4,6 +4,7 @@
 
 #include "common.h"
 
+struct ObjectNodeHeader;
 struct CopyBlock;
 struct OvWork;
 struct CardDevSlotDetails;
@@ -120,7 +121,7 @@ void invoke_indexed_runtime_operation(s32 scene_index);
 void load_scene_data_block(s32 scene, s32 mode);
 
 /* init_card_dev_slot_screen_object.c */
-void *init_card_dev_slot_screen_object(s32 init_value_a, s32 init_value_b);
+void *init_card_dev_slot_screen_object(struct ObjectNodeHeader *request, s32 mode);
 
 /* noop_hook_k.c */
 void noop_hook_k(void);
@@ -135,10 +136,10 @@ s32 set_stage_flag_two_if_ready(s32 fallback_result);
 void reinit_card_and_write_sector(s32 target);
 
 /* start_card_dev_slot_screen_mode_one.c */
-void start_card_dev_slot_screen_mode_one(s32 target);
+void start_card_dev_slot_screen_mode_one(struct ObjectNodeHeader *request);
 
 /* start_card_dev_slot_screen_mode_zero.c */
-void start_card_dev_slot_screen_mode_zero(s32 target);
+void start_card_dev_slot_screen_mode_zero(struct ObjectNodeHeader *request);
 
 /* clear_table_flag_pair.c */
 void clear_table_flag_pair(void);
@@ -162,7 +163,7 @@ s32 dispatch_scene_stage_if_counter_positive(s32 fallback_result);
 s32 dispatch_scene_stage_at_count_three(s32 entry);
 
 /* mark_card_dev_object_handles_dirty.c */
-void mark_card_dev_object_handles_dirty(void *object);
+void mark_card_dev_object_handles_dirty(struct ObjectNodeHeader *node);
 
 /* reset_cursor_and_redraw_list.c */
 s32 reset_cursor_and_redraw_list(void);

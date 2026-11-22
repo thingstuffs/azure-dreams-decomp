@@ -8,17 +8,17 @@
 #include "engine/resource.h"
 
 /* Collect pointers to enabled entries and terminate the list with 0. */
-void collect_enabled_entry_pointers(UA32 **entries, s32 entry_count) {
-    UA32 **output;
-    UA32 *entry;
+void collect_enabled_entry_pointers(DungeonItemEntry **entries, s32 entry_count) {
+    DungeonItemEntry **output;
+    DungeonItemEntry *entry;
     s32 entry_index;
 
     output = entries;
     entry_index = 0;
     if (entry_count > 0) {
-        entry = (UA32 *)0x80011F80;
+        entry = (DungeonItemEntry *)0x80011F80;
         do {
-            if (((S_800B2964_0 *)entry)->unk_01 != 0) {
+            if (entry->kind != 0) {
                 *output = entry;
                 output += 1;
             }
@@ -29,9 +29,9 @@ void collect_enabled_entry_pointers(UA32 **entries, s32 entry_count) {
     *output = 0;
 }
 
-/* Counts entries in a zero-terminated integer array. */
-s32 count_nonzero_entries(s32 *entries) {
-    s32 *entry;
+/* Count the item pointers before the list terminator. */
+s32 count_nonzero_entries(DungeonItemEntry **entries) {
+    DungeonItemEntry **entry;
     s32 count;
 
     entry = entries;
@@ -46,32 +46,32 @@ s32 count_nonzero_entries(s32 *entries) {
 }
 
 /* Acquires a resource and initializes its associated state on success. */
-UA32 **allocate_item_pointer_list(ItemMenuInputObject *state) {
-    UA32 **resourceHandle;
+DungeonItemEntry **allocate_item_pointer_list(ItemMenuInputObject *state) {
+    DungeonItemEntry **resourceHandle;
     s32 resourceConfig;
 
     resourceHandle = allocate_node_body(0x100);
-    state->items = resourceHandle;
+    state->lists[1] = resourceHandle;
     if (resourceHandle != 0) {
         resourceConfig = get_mode_selected_value();
         state->count = resourceConfig;
-        collect_enabled_entry_pointers(state->items, resourceConfig);
-        state->second_group.value = count_nonzero_entries((s32 *)state->items);
-        get_zero_based_group_index(&state->second_group);
+        collect_enabled_entry_pointers(state->lists[1], resourceConfig);
+        state->groups[1].value = count_nonzero_entries(state->lists[1]);
+        get_zero_based_group_index(&state->groups[1]);
     }
-    return state->items;
+    return state->lists[1];
 }
 
 /* Copy leading item values to the fixed output buffer and zero the remaining slots. */
 void write_back_item_table(ItemMenuInputObject *table) {
-    UA32 values[64];
-    UA32 *item;
+    DungeonItemEntry values[64];
+    DungeonItemEntry *item;
     s32 i;
     u8 *page;
 
-    if (table->items != 0) {
+    if (table->lists[1] != 0) {
         for (i = 0; i < table->count; i++) {
-            item = table->items[i];
+            item = table->lists[1][i];
             if (item == 0) {
                 break;
             }
@@ -79,23 +79,23 @@ void write_back_item_table(ItemMenuInputObject *table) {
         }
         page = (u8 *)0x80010000;
         for (i = 0; i < table->count; i++) {
-            if (table->items[i] == 0) {
+            if (table->lists[1][i] == 0) {
                 break;
             }
-            ((UA32 *)(page + 0x1F80))[i] = values[i];
+            ((DungeonItemEntry *)(page + 0x1F80))[i] = values[i];
         }
         for (; i < table->count; i++) {
             ((s32 *)0x80011F80)[i] = 0;
         }
-        flag_object_for_removal(table->items);
+        flag_object_for_removal(table->lists[1]);
     }
 }
 
 /* Initialize the record table pointer, stored value, and group index. */
 void init_item_list_group(ItemMenuInputObject *record) {
-    record->table = (u32 *)0x8001029C;
-    record->first_group.value = func_800B0718();
-    get_zero_based_group_index(&record->first_group);
+    record->lists[0] = (DungeonItemEntry **)0x8001029C;
+    record->groups[0].value = func_800B0718();
+    get_zero_based_group_index(&record->groups[0]);
 }
 
 /* Initializes the task and resources for open_twin_souko. */

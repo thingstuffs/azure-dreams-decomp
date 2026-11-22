@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "frontend/card/slot_assert_bytes.h"
 #include "frontend/card.h"
 #include "frontend/card/server_aliases.h"
@@ -9,17 +10,17 @@
 
 
 /* Asserts a valid card slot and sets its local and global status flags. */
-void card_dev_flag_slot_dirty(s32 card_slot) {
+void card_dev_flag_slot_dirty(ObjectNodeHeader *slot) {
     u16 slot_flags;
     s32 global_flags;
-    if (card_slot == 0) {
+    if (slot == 0) {
         printf_8007C040(card_slot_assert_format, card_slot_filename, 0x14B);
         exit_8007BEF0(1);
     }
-    slot_flags = *(u16 *)(card_slot + 0x1E);
+    slot_flags = slot->flags;
     global_flags = card_ui_dirty_flags;
     slot_flags |= 0x8000;
     global_flags |= 0x8000;
-    *(u16 *)(card_slot + 0x1E) = slot_flags;
+    slot->flags = slot_flags;
     card_ui_dirty_flags = global_flags;
 }

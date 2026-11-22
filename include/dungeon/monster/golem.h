@@ -81,7 +81,6 @@ s32 consume_pending_flag(ActorRecord *body, ActorRecord *flag_record);
 void finish_successful_actor_action(ActorRecord *action_entity, ObjectPosition *action, SpriteFrameState *source_actor, ActorRecord *target_actor);
 void * create_actor_animation_effect(ActorRecord *unused, ObjectPosition *position, SpriteFrameState *sprite);
 
-/* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_80172D08_arg1.h"
 void *create_large_animation_effect(ActorRecord *unused, ObjectPosition *position, Rec_D_80082E80 *source);

@@ -4,6 +4,6 @@
 
 /* Initializes both town_motion_list links to the list sentinel. */
 void init_town_motion_list(void) {
-    town_motion_list[0] = town_motion_list;
-    town_motion_list[1] = town_motion_list;
+    town_motion_list.prev = &town_motion_list;
+    town_motion_list.next = &town_motion_list;
 }

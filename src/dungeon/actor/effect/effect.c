@@ -833,7 +833,7 @@ s32 render_floor_items(s32 unused0, ObjectPosition *unused1, SpriteFrameState *r
 #ifndef NULL
 #define NULL 0
 #endif
-extern void create_tracked_effect(void *, s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
+#include "dungeon/effect/tracked_sprite.h"
 
 /* Create a sprite object with the supplied position and default color and scale. */
 void *create_item_render_object(void *parent, void *sprite_source, s16 x, s32 y, s16 z) {
@@ -1223,7 +1223,6 @@ typedef struct {
 
 extern u8 D_800A871C[];
 
-extern void create_tracked_effect(void *, s32, s32, s32);
 
 /* Creates a dungeon object at a tile or the supplied coordinates. */
 DroppedItemNode *create_dropped_item_object(void *owner, ObjectPosition *source_coords, SpriteFrameState *unused,
@@ -1271,7 +1270,7 @@ DroppedItemNode *create_dropped_item_object(void *owner, ObjectPosition *source_
         data->unk_13 = 0xFF;
         data->unk_98 = init_value;
         insert_node_before_primary_actor(&object->header);
-        create_tracked_effect(object, 0, 0, 0);
+        create_tracked_effect(&object->header, 0, 0, 0);
     }
     return object;
 }

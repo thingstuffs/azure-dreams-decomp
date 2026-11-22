@@ -1,15 +1,10 @@
 #ifndef OVMOVIE_GAME_MOVIE_PLAYBACK_G01063_H
 #define OVMOVIE_GAME_MOVIE_PLAYBACK_G01063_H
 /* Game movie playback and display lifecycle. */
-/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - refs/tuweak1/split_plan.tsv:game_movie_playback. */
 
-/* Movie display setup.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:ovmovie/func_800402D8, CL:ovmovie/func_8004033C, CL:ovmovie/func_80040360, CL:ovmovie/func_800403EC, CL:ovmovie/func_80040954, CL:ovmovie/func_80040ED8, PD:ovmovie/ovmovie_bin:801781D8, PD:ovmovie/ovmovie_bin:80189390.
- */
+/* Prepares the frame buffers and display for movie playback. */
 #include "ovmovie/movie_display_setup_g00426.h"
-/* Movie frame playback.
- * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:ovmovie/func_80040360, CL:ovmovie/func_800403EC, CL:ovmovie/func_80040690, CL:ovmovie/func_8004072C, CL:ovmovie/func_800408BC, CL:ovmovie/func_80040954, CL:ovmovie/func_80040ED8, PD:ovmovie/ovmovie_bin:801781D0.
- */
+/* Decodes and displays movie frames. */
 #include "ovmovie/movie_frame_playback_g00427.h"
 
 /* Functions defined in this translation unit. */

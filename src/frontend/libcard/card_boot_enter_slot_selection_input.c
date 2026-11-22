@@ -6,7 +6,7 @@
 #include "frontend/libcard.h"
 
 /* Update the record, run the shared follow-up, and install its next table. */
-void card_boot_enter_slot_selection_input(void *record_data) {
+void card_boot_enter_slot_selection_input(CardSlotMenuState *record_data) {
     card_boot_refresh_five_slot_selection(record_data);
     card_boot_recheck_selected_channel();
     (NODE_HEADER(record_data))->update_callback = card_boot_handle_slot_selection_input;

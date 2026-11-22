@@ -4,11 +4,12 @@
 #include "frontend/libcard_callbacks_api.h"
 #include "shared/object_node.h"
 
-/*
- * Builds the card save description and initializes the text editor context with the same owner and
- * value.
- */
-void initialize_save_description(void *owner, s32 value) { card_boot_build_save_description(owner, value); card_boot_store_save_icon_clut_and_frames(owner, value); }
+/* Write the title and icon for the selected slot into the same save image. */
+void initialize_save_description(struct CardSaveImage *save, s32 value)
+{
+    card_boot_build_save_description(save, value);
+    card_boot_store_save_icon_clut_and_frames(save, value);
+}
 
 /* Process five context entries if checks pass, or schedule the fallback callback. */
 void write_save_and_refresh_slot_windows(CardSlotMenuState *context) {
@@ -16,7 +17,7 @@ void write_save_and_refresh_slot_windows(CardSlotMenuState *context) {
     s32 entry_count;
 
     if (card_boot_load_save_and_clear_marker(context->unk_2C, 0x80010000, 0) != 0) {
-        initialize_save_description((void *)0x80010000, context->unk_28);
+        initialize_save_description((struct CardSaveImage *)0x80010000, context->unk_28);
         if (card_boot_write_save_via_temporary_path(context->unk_28, 0x80010000) != 0) {
             no_op_card_hook(0x80010000);
             entry_count = 0;

@@ -8,6 +8,15 @@
   "evidence": "ledger/instance_load_regions.jsonl; validated packed-CD loader record",
   "entries": [
     {
+      "row": "town/func_806320C8",
+      "home": "town/func_806320C8",
+      "tu": "src/town/scene/apply_scene_entry_position.c",
+      "foff": "0x5b20c8",
+      "vma": "0x800160c8",
+      "size": 56,
+      "evidence": "TOWN +0x5b36b8 is the action field of choice 0 at +0x5b36b4. The registered dispatcher calls that field at +0x5b3234. The packed CD descriptor at TOWN +0x2b1a5c loads +0x5b2000 to 0x80016000."
+    },
+    {
       "row": "town/func_80632230",
       "tu": "src/town/scene/threshold_counter.c",
       "home": "town/func_80601310",

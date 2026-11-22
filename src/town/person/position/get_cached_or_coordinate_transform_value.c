@@ -21,7 +21,7 @@ extern s16 D_800D5078[];
 #include "town/person/position.h"
 
 /* Return the current object's cached value or look it up at the town coordinates. */
-s16 get_cached_or_coordinate_transform_value(TownObjectRecord *object, void *lookup_mode)
+s16 get_cached_or_coordinate_transform_value(TownObjectRecord *object, ObjectPosition *position)
 {
     TownState *state = &town_actor_control;
 
@@ -30,5 +30,5 @@ s16 get_cached_or_coordinate_transform_value(TownObjectRecord *object, void *loo
         return D_800D5078[state->object_index];
     }
 
-    return clamp_transform_coordinate_deltas(view_reference_entity.x.w.i, view_reference_entity.y.w.i, lookup_mode);
+    return clamp_transform_coordinate_deltas(view_reference_entity.x.w.i, view_reference_entity.y.w.i, position);
 }

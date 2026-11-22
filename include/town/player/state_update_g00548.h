@@ -36,9 +36,9 @@ extern u8 D_8009B014[];
 extern void *D_8009AFF4[];
 
 /* Functions defined in this translation unit. */
-void update_player_global_state(Entity *entity, void *ptr, void *ptr2);
+void update_player_global_state(Entity *entity, struct ObjectPosition *position, struct SpriteFrameState *sprite);
 void advance_player_state_table(Struct8009D814 *state, struct ObjectPosition *update_arg, struct SpriteFrameState *shared_arg);
 struct SpriteFrameState;
-void forward_player_state_update(TownPlayerRecord *object, s32 value_1, struct SpriteFrameState *value_2);
+void forward_player_state_update(TownPlayerRecord *object, struct ObjectPosition *position, struct SpriteFrameState *sprite);
 
 #endif

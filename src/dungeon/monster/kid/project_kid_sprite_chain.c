@@ -1,13 +1,9 @@
 #include "common.h"
 
-typedef struct Entry {
-    u8 pad00[6];
-    s16 unk06;
-    void *unk08;
-    struct Entry *unk0C;
-    u8 pad10[4];
-    u16 unk14;
-} Entry;
+#include "shared/object_node.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
+#include "engine/graphics.h"
 
 typedef struct {
     u8 pad[0x13C];
@@ -20,29 +16,28 @@ typedef struct {
 } GlobalPage;
 
 extern s16 D_80175218[];
-extern void project_sprite_commands(void *, s32, Entry *, s16); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Projects visible entries in the linked sprite chain using the current transition depth adjustment. */
-s32 project_kid_sprite_chain(void *initial_payload, s32 entry_data, Entry *entry, s32 unused)
+s32 project_kid_sprite_chain(void *initial_payload, ObjectPosition *entry_data, SpriteFrameState *entry, s32 unused)
 {
     void *payload = initial_payload;
     Scratchpad *scratch = (Scratchpad *)0x1F800000;
-    Entry *next_entry;
+    ObjectNodeHeader *next_entry;
 
     for (;;) {
         scratch->value = D_80175218[0];
 
-        if (!(entry->unk14 & 0x80)) {
-            project_sprite_commands(payload, entry_data, entry, entry->unk06);
+        if (!(entry->flags & 0x80)) {
+            project_sprite_commands(payload, entry_data, entry, entry->depth_bias);
         }
 
-        next_entry = *(Entry **)((u8 *)payload - 8);
+        next_entry = NODE_HEADER(payload)->chain_next;
         if (next_entry == 0) {
             return 0;
         }
-        payload = (u8 *)next_entry + 0x20;
-        entry_data = (s32)next_entry->unk08;
-        entry = next_entry->unk0C;
+        payload = NODE_BODY(next_entry);
+        entry_data = next_entry->position;
+        entry = next_entry->sprite;
     }
 }
 

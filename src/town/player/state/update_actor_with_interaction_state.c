@@ -15,7 +15,7 @@
 #endif
 
 extern void initialize_actor_action_state();
-void initialize_action_object(s32 **record, void *ptr, void *ptr2);
+void initialize_action_object(s32 **record, struct ObjectPosition *ptr, void *ptr2);
 void initialize_actor_movement_interaction_action(s32 **record, void *ptr, void *ptr2);
 
 extern void *town_target_record[3];

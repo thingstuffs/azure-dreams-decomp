@@ -10,7 +10,7 @@ SpriteAttachment *find_flagged_record_by_id(SpriteAttachment *entry, u32 target_
         if (entry->flags & 0x80) {
             break;
         }
-        entry = (SpriteAttachment *)((u8 *)entry + 0xC);
+        entry++;
     }
     return 0;
 }

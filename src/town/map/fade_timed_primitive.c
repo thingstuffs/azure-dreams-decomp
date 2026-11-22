@@ -8,8 +8,7 @@
 #include "town/map.h"
 
 /* Fades the primitive and sets completion flags when the countdown expires. */
-void fade_timed_primitive(void *record_fields, void *unused, SpriteFrameState *primitive) {
-    TimedPrimitiveBody *body = record_fields;
+void fade_timed_primitive(TimedPrimitiveBody *body, struct ObjectPosition *unused_position, SpriteFrameState *primitive) {
     u16 ticks_left;
     u8 brightness;
     u8 unused_byte;

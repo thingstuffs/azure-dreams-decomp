@@ -178,7 +178,7 @@ void update_script_entry_lists(void);
 void build_entry_list_and_process_items(void);
 s32 classify_object_against_bounds(func_8009F880_S_8009CFE0_0 *object, struct ObjectPosition *position);
 s32 classify_record_by_state_and_position(Rec_D_80082D58 *record, struct ObjectPosition *position);
-s32 spawn_town_entry_object(s32 callback_id, s32 angle_index, s32 state_94, u8 state_95, u8 state_96, u8 height_mode, s32 state_48, s16 coord_x, s16 coord_z, s8 *active_flag);
+s32 spawn_town_entry_object(s32 callback_id, s32 angle_index, s32 state_94, u8 state_95, u8 state_96, u8 height_mode, s32 state_48, s16 coord_x, s16 coord_z, u8 *active_flag);
 void initialize_town_resource_context(TownRectangle **entries);
 void clear_script_entry_statuses(TownRectangle **entries);
 void clear_record_status_bytes(TownSpawnEntry *records);
@@ -190,7 +190,7 @@ void set_window_sprite_for_mode(void *owner, struct SpriteFrameState *object, s3
 void retire_or_run_record_callback(void *object, s32 source, s32 context);
 void invoke_entity_callback_and_follow_up(func_800A06C8_EntityLike *entity, s32 callback_id, SpriteFrameState *callback_data);
 void dispatch_object_or_switch_alternate_state(func_800A075C_S_func_8009DEBC_0 *object, s32 source, s32 context);
-void install_state_dispatch_callback(func_800A075C_S_func_8009DEBC_0 *object, void *context);
+void install_state_dispatch_callback(func_800A075C_S_func_8009DEBC_0 *object, ObjectPosition *position);
 s32 store_target_record_script_state(void);
 s32 open_monster_status_window(void);
 s32 close_monster_status_window(void);
@@ -201,7 +201,7 @@ s32 kewn_namewin_close_check(void);
 s32 t_soukowin_open(void);
 s32 t_soukowin_close_check(void);
 void initialize_town_object_by_mode(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output);
-void update_object_pulse_brightness(TownObjectRecord *object, s32 context, struct SpriteFrameState *primitive);
+void update_object_pulse_brightness(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *primitive);
 void init_pulsing_item_entity(TownObjectRecord *entity, ObjectPosition *placement, struct SpriteFrameState *state);
 
 #include "engine/node/registration.h"
@@ -226,7 +226,7 @@ void register_node_if_unregistered(void *block_data, void *registration_id);
 void func_80033CD8(void *block_data, void *registration_id);
 struct ColliderView;
 void initialize_object_and_maybe_play_sound(TownObjectRecord *object, struct ColliderView *collider, ObjectPosition *motion, struct SpriteFrameState *unused);
-extern void del_t_item_w_ptr(void *object_data);
+extern void del_t_item_w_ptr(DungeonItemEntry *entry);
 void restore_actor_stats_from_snapshot();
 struct ActorRecord;
 void *load_and_open_monster_status_display(struct ActorRecord *actor, s32 second_arg, s32 third_arg, s32 fourth_arg, s32 fifth_arg);

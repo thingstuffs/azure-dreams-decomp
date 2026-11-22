@@ -39,9 +39,9 @@ extern u8 D_800287E8[];
 
 /* Functions defined in this translation unit. */
 void card_boot_measure_five_line_message(CardMenuEntry *entry);
-void card_boot_bind_message_dialog_record(CardMessageDialogBody *record, ObjectNodeHeader *value_14, s32 entry_index, s32 value_0c, void *value_20);
-void card_boot_initialize_message_dialog_layout(CardMessageDialogBody *record, ObjectNodeHeader *value_14, s32 entry_index, s32 value_0c, void *value_20);
+void card_boot_bind_message_dialog_record(CardMessageDialogBody *record, ObjectNodeHeader *value_14, s32 entry_index, s32 value_0c, s32 *result);
+void card_boot_initialize_message_dialog_layout(CardMessageDialogBody *record, ObjectNodeHeader *value_14, s32 entry_index, s32 value_0c, s32 *result);
 void card_boot_activate_message_dialog(CardMessageDialogBody *object);
-u8 *card_boot_create_or_reset_message_dialog(ObjectNodeHeader *value_14, s32 entry_index, s32 value_0c, void *value_20);
+ObjectNodeHeader *card_boot_create_or_reset_message_dialog(ObjectNodeHeader *value_14, s32 entry_index, s32 value_0c, s32 *result);
 
 #endif

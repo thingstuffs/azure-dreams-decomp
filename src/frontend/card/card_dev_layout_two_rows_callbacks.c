@@ -9,14 +9,14 @@
    (established .set idiom) rather than declaring undefined func_ externs. */
 
 /* Initializes two child objects and assigns their callbacks. */
-void card_dev_layout_two_rows_callbacks(CardDevChoicePanelPrefix *owner) {
+void card_dev_layout_two_rows_callbacks(CardDevSlotMenu *owner) {
     CardMenuDisplayNode *firstChild;
 
-    firstChild = owner->children[0];
+    firstChild = &owner->entry_table[0]->display;
     firstChild->block->fields.x = 0x40;
     firstChild->block->fields.y = 0x20;
     firstChild->payload.data = &D_80409110;
-    firstChild = owner->children[1];
+    firstChild = &owner->entry_table[1]->display;
     firstChild->block->fields.x = 0xC0;
     firstChild->block->fields.y = 0x20;
     firstChild->payload.data = &D_80409128;

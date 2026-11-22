@@ -36,20 +36,18 @@ void load_entity_display_data(StorageMenuObject *object) {
 }
 
 /* Sets the record's base value, offset value, and data pointer. */
-void bind_storage_menu_object_color_update(void *record_values, s32 base_value) {
-    StorageMenuObject *object = record_values;
-
-    object->unk_04 = base_value;
-    object->unk_00 = (s32)(base_value + 0x20);
-    NODE_HEADER(record_values)->update_callback = fade_entry_to_neutral;
+void bind_storage_menu_object_color_update(StorageMenuObject *object, ObjectNodeHeader *owner) {
+    object->destination_owner = owner;
+    object->owner_body = NODE_BODY(owner);
+    NODE_HEADER(object)->update_callback = fade_entry_to_neutral;
 }
 
 /*
  * Sets the record base and data pointer, binds three embedded display parts, and initializes the
  * owner data blocks and entries.
  */
-void initialize_entity_display_owner(u8 *owner, s32 base_value) {
-    bind_storage_menu_object_color_update(owner, base_value);
-    initialize_entity_display_parts(owner + 0x4C, owner + 0x24, owner + 0x34);
-    load_entity_display_data((struct StorageMenuObject *)(owner));
+void initialize_entity_display_owner(StorageMenuObject *object, ObjectNodeHeader *owner) {
+    bind_storage_menu_object_color_update(object, owner);
+    initialize_entity_display_parts(&object->links, &object->display, &object->position);
+    load_entity_display_data(object);
 }

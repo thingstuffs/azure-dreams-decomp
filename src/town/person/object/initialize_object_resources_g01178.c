@@ -53,10 +53,10 @@ void set_camera_chase_data(TownObjectRecord *object, ObjectPosition *chase_data,
  * Clears the object-index slot selected by the word at offset 0x60, then runs
  * apply_object_setup_and_update.
  */
-void clear_slot_flag_and_update(TownObjectRecord *obj, void *param_a, void *param_b)
+void clear_slot_flag_and_update(TownObjectRecord *obj, struct ObjectPosition *position, struct SpriteFrameState *sprite)
 {
     object_index_slots[obj->slot].unk_00 = 0;
-    apply_object_setup_and_update(obj, param_a, param_b);
+    apply_object_setup_and_update(obj, position, sprite);
 }
 
 /* Updates and clamps record motion, delegating when the lower bound is reached. */
@@ -86,9 +86,9 @@ void accelerate_to_lower_limit(TownObjectRecord *context, ObjectPosition *record
 }
 
 /* Clear the actor table flag, install its handler, and initialize state values. */
-void init_actor_handler_state(S_800C51DC_0 *actor, ObjectPosition *state) {
-    object_index_slots[actor->unk_60].unk_00 = 0;
-    actor->unk_54 = &D_800C5100;
+void init_actor_handler_state(struct TownObjectRecord *actor, ObjectPosition *state) {
+    object_index_slots[actor->slot].unk_00 = 0;
+    actor->handler = D_800C5100;
     state->velocity_y = 0x80000;
     state->velocity_z = 0x40000;
 }

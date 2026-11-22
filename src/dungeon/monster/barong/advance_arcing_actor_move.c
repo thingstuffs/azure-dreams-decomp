@@ -17,7 +17,6 @@
 #include "sdk/libgte.h"
 
 extern u8 barong_action_resume_address[];
-#include "dungeon/monster/barong.h"
 extern u8 D_80175574[];
 extern u8 D_8017557C[];
 

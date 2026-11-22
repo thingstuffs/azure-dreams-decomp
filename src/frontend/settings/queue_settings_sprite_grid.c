@@ -4,6 +4,7 @@
 #include "shared/gpu_packets.h"
 #include "shared/game_work.h"
 #include "frontend/settings.h"
+#include "frontend/settings/controller_body.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgpu_types.h"
 #include "shared/entity.h"
@@ -21,9 +22,8 @@
 
 
 /* Queue a 2x2 grid of textured sprites for each linked entry. */
-s32 queue_settings_sprite_grid(u8 *entry_data, u8 *scroll_data)
+s32 queue_settings_sprite_grid(SettingsMenuBody *entry, ObjectPosition *position)
 {
-    ObjectPosition *position = (ObjectPosition *)scroll_data;
     FrameDrawContextSlot *main_state;
     TexturedSpritePacket *sprite;
     DR_MODE *draw_mode;
@@ -48,7 +48,7 @@ s32 queue_settings_sprite_grid(u8 *entry_data, u8 *scroll_data)
                 SetSprt(sprite);
                 SetShadeTex(sprite, 1);
                 sprite->x = column << 8;
-                sprite->y = base_y - position->y.unsigned_parts.integer;
+                sprite->y = base_y - position->y.w.i;
                 sprite->width = 0x100;
                 sprite->height = 0x100;
                 sprite->texture.packed = 0;
@@ -66,11 +66,11 @@ s32 queue_settings_sprite_grid(u8 *entry_data, u8 *scroll_data)
             row++;
         } while (row < 2);
 
-        next_entry = NODE_HEADER(entry_data)->chain_next;
+        next_entry = NODE_HEADER(entry)->chain_next;
         if (next_entry == 0) {
             return 0;
         }
-        entry_data = NODE_BODY(next_entry);
+        entry = NODE_BODY(next_entry);
         position = next_entry->position;
     }
 }

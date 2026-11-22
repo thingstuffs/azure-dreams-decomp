@@ -40,7 +40,7 @@ typedef struct TownCourseActor {
     s32 impulse_y;
 } TownCourseActor;
 
-void init_minigame_player_actor(TownCourseActor *object_data, void *unused, SpriteFrameState *render_data);
+void init_minigame_player_actor(TownCourseActor *object_data, struct ObjectPosition *unused_position, SpriteFrameState *render_data);
 void update_player_minigame_motion(TownCourseActor *actor, ObjectPosition *motion, SpriteFrameState *sprite);
 
 #endif

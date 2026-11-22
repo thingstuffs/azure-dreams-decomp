@@ -5,25 +5,15 @@
 #include "shared/town_object.h"
 #include "dungeon/actor/object.h"
 
-void initialize_object_entries(void *state, s8 *output, s32 *entries);
+#include "town/person/object/initialize_object_entries_api.h"
 void func_800CB570(TownObjectRecord *record, s32 forward_arg1, s32 forward_arg2);
 extern s32 D_800D694C[];
 
-typedef struct S_800CB5DC_0 {
-    u8 pad_00[0x54];
-    void (*unk_54)(TownObjectRecord *, s32,  s32);
-    u8 pad_58[0x8];
-    s32 unk_60;
-    u8 pad_64[0x8];
-    s16 unk_6C;
-} S_800CB5DC_0;   /* arg0 in initialize_object_with_ten_tick_counter */
-
 /* Initialize the object's state, clear its slot flag, and set its counter to ten. */
-void initialize_object_with_ten_tick_counter(void *object_arg, s32 unused, s8 *context) {
-    S_800CB5DC_0 *object = object_arg;
+void initialize_object_with_ten_tick_counter(struct TownObjectRecord *object, struct ObjectPosition *unused_position, struct SpriteFrameState *sprite) {
 
-    initialize_object_entries(object, context, D_800D694C);
-    object_index_slots[object->unk_60].unk_00 = 0;
-    object->unk_54 = &func_800CB570;
-    object->unk_6C = 0xA;
+    initialize_object_entries(object, sprite, D_800D694C);
+    object_index_slots[object->slot].unk_00 = 0;
+    object->handler = &func_800CB570;
+    object->timer = 0xA;
 }

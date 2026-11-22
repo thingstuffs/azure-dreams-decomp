@@ -6,10 +6,10 @@ struct SpriteFrameState;
 #include "common.h"
 
 /* Town player dispatch record initialized by initialize_record_with_handler_table.
- * The initializer installs the common town handler table at +4. */
+ * The initializer installs the mode dispatcher at +4. */
 typedef struct {
     s32 unk0;
-    void **unk4; /* handler table pointer installed from D_80097DE8 */
+    void (*handler)(void *, struct ObjectPosition *, struct SpriteFrameState *, s32);
 } Struct8009B1C8;
 
 

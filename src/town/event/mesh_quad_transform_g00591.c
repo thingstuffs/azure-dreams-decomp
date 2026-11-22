@@ -6,14 +6,14 @@
 #include "town/event.h"
 
 /* Copies three spaced halfwords into contiguous fields. */
-void narrow_vector_to_svector(S_800AA044_0 *dst, S_800AA044_1 *src) {
-    dst->unk_00 = (u16) src->unk_00;
-    dst->unk_02 = (u16) src->unk_04;
-    dst->unk_04 = (u16) src->unk_08;
+void narrow_vector_to_svector(SVECTOR *dst, VECTOR *src) {
+    dst->vx = src->vx;
+    dst->vy = src->vy;
+    dst->vz = src->vz;
 }
 
 /* Apply rotation, scale, and translation to a vector and copy the result back. */
-void transform_vector(s32 transform, void *vector, void *transformed) {
+void transform_vector(s32 transform, SVECTOR *vector, VECTOR *transformed) {
     s32 flags;
 
     TransMatrix(0x1F800054, &D_800D11C0);
@@ -26,18 +26,18 @@ void transform_vector(s32 transform, void *vector, void *transformed) {
 }
 
 /* Transform and queue mesh quads with randomized vertex colors. */
-void transform_and_queue_mesh_quads(S_func_800AC9AC_0 *mesh, void *transform)
+void transform_and_queue_mesh_quads(S_func_800AC9AC_0 *mesh, Fixed1616 origin[3])
 {
     S_func_800AC9AC_1 *scratch;
     u8 *initial_state;
-    u8 *vertices;
+    SVECTOR *vertices;
     u32 *color_masks;
     s16 *quad_indices;
-    u8 *vertex_0;
-    u8 *vertex_1;
-    u8 *vertex_2;
-    u8 *vertex_3;
-    u8 *vertex_work;
+    SVECTOR *vertex_0;
+    SVECTOR *vertex_1;
+    SVECTOR *vertex_2;
+    SVECTOR *vertex_3;
+    VECTOR *vertex_work;
     GpuContext *render_state;
     u8 **render_state_ptr;
     S_func_800AC9AC_3 *quad;
@@ -47,7 +47,7 @@ void transform_and_queue_mesh_quads(S_func_800AC9AC_0 *mesh, void *transform)
     u32 length_mask;
 
     quad_indices = mesh->unk_04;
-    vertices = mesh->unk_00;
+    vertices = mesh->vertices;
     render_state_ptr = ((u8 * *)(&g_game_work));
     initial_state = *render_state_ptr;
     color_masks = mesh->unk_20;
@@ -55,11 +55,11 @@ void transform_and_queue_mesh_quads(S_func_800AC9AC_0 *mesh, void *transform)
     scratch->unk_24 = (u32 *)(initial_state + 0xB0);
 
     if (*quad_indices != -1) {
-        vertex_0 = (u8 *)scratch + 0x74;
-        vertex_1 = (u8 *)scratch + 0x7C;
-        vertex_2 = (u8 *)scratch + 0x84;
-        vertex_3 = (u8 *)scratch + 0x8C;
-        vertex_work = (u8 *)scratch + 0x44;
+        vertex_0 = &scratch->vertices[0];
+        vertex_1 = &scratch->vertices[1];
+        vertex_2 = &scratch->vertices[2];
+        vertex_3 = &scratch->vertices[3];
+        vertex_work = &scratch->transformed;
         address_mask = 0x00FFFFFF;
 
         do {
@@ -79,10 +79,10 @@ void transform_and_queue_mesh_quads(S_func_800AC9AC_0 *mesh, void *transform)
             SetLineG4(quad);
             SetSemiTrans(quad, 1);
 
-            copy_menu_point(vertex_0, vertices + (quad_indices[0] * 8));
-            copy_menu_point(vertex_1, vertices + (quad_indices[1] * 8));
-            copy_menu_point(vertex_2, vertices + (quad_indices[2] * 8));
-            copy_menu_point(vertex_3, vertices + (quad_indices[3] * 8));
+            copy_menu_point(vertex_0, &vertices[quad_indices[0]]);
+            copy_menu_point(vertex_1, &vertices[quad_indices[1]]);
+            copy_menu_point(vertex_2, &vertices[quad_indices[2]]);
+            copy_menu_point(vertex_3, &vertices[quad_indices[3]]);
 
             PushMatrix();
             transform_vector((s32)mesh, vertex_0, vertex_work);
@@ -91,16 +91,16 @@ void transform_and_queue_mesh_quads(S_func_800AC9AC_0 *mesh, void *transform)
             transform_vector((s32)mesh, vertex_3, vertex_work);
             PopMatrix();
 
-            add_entity_position_to_menu_vector(vertex_0, transform);
-            add_entity_position_to_menu_vector(vertex_1, transform);
-            add_entity_position_to_menu_vector(vertex_2, transform);
-            add_entity_position_to_menu_vector(vertex_3, transform);
+            add_entity_position_to_menu_vector(vertex_0, origin);
+            add_entity_position_to_menu_vector(vertex_1, origin);
+            add_entity_position_to_menu_vector(vertex_2, origin);
+            add_entity_position_to_menu_vector(vertex_3, origin);
 
             scratch->unk_C4 = RotTransPers4(
                 vertex_0, vertex_1, vertex_2, vertex_3,
                 (s32 *)&scratch->unk_E8, (s32 *)&scratch->unk_EC,
                 (s32 *)&scratch->unk_F0, (s32 *)&scratch->unk_F4,
-                (u8 *)scratch + 0x94, (u8 *)scratch + 0x98) - 0x30;
+                &scratch->interpolation, &scratch->flags) - 0x30;
 
             quad->unk_08 = scratch->unk_E8;
             quad->unk_0A = scratch->unk_EA;

@@ -3,23 +3,16 @@
 #include "engine/item.h"
 #include "engine/scene.h"
 
-/* Sub-record written into the node's field_0x8 slot: two words at offset
- * 0x00 and 0x04. */
-typedef struct S_8004B364_Sub {
-    void *field_0x00;
-    void *field_0x04;
-} S_8004B364_Sub;
-
 /* Allocates a pool node, installs its record and callback when both values exist, and returns its payload or NULL. */
-void *create_node_with_record_pair(void *second_value, void *first_value, unsigned long unused_value)
+void *create_node_with_record_pair(s32 *watched_value, s32 initial_count, unsigned long unused_value)
 {
     ObjectNodeHeader *node = allocate_flagged_object_node(0);
 
     if (node != 0) {
-        if (second_value != 0 && first_value != 0) {
-            S_8004B364_Sub *callback_record = *(S_8004B364_Sub * *)&node->position;
-            callback_record->field_0x00 = first_value;
-            callback_record->field_0x04 = second_value;
+        if (watched_value != 0 && initial_count != 0) {
+            NodeRemovalCounter *counter = (NodeRemovalCounter *)node->position;
+            counter->count = initial_count;
+            counter->watched_value = watched_value;
             node->update_callback = mark_and_release_record_pair;
         }
         node = NODE_BODY(node);

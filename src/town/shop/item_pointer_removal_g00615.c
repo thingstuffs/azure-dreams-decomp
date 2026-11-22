@@ -4,8 +4,8 @@
 #include "town/shop.h"
 
 /* Return the first matching value index, or the number of entries searched. */
-s32 find_value_index_or_count(void **values, void *target_value, s32 count) {
-    void **current_value;
+s32 find_value_index_or_count(DungeonItemEntry **values, DungeonItemEntry *target_value, s32 count) {
+    DungeonItemEntry **current_value;
     s32 index;
 
     current_value = values;
@@ -18,6 +18,7 @@ s32 find_value_index_or_count(void **values, void *target_value, s32 count) {
 }
 
 /* del_t_item_w_ptr: Find the town item pointer and delete its table entry. */
-void del_t_item_w_ptr(void *item_ptr) {
-    remove_selected_entry_from_list((void *)0x8001029C, find_value_index_or_count((void **)0x8001029C, item_ptr, 0x14));
+void del_t_item_w_ptr(DungeonItemEntry *item_ptr) {
+    DungeonItemEntry **items = (DungeonItemEntry **)0x8001029C;
+    remove_selected_entry_from_list(items, find_value_index_or_count(items, item_ptr, 0x14));
 }

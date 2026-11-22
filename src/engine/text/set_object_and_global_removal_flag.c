@@ -1,14 +1,15 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "shared/object_node.h"
 #include "engine/text.h"
 
 /* Sets bit 0x8000 in the object and global flags when the object exists. */
-void set_object_and_global_removal_flag(unsigned short *object_fields)
+void set_object_and_global_removal_flag(struct ObjectNodeHeader *node)
 {
-    if (object_fields != 0) {
-        u16 flags = object_fields[0xF];
+    if (node != 0) {
+        u16 flags = node->flags;
         int global_flags = object_flag_block.flags;
-        object_fields[0xF] = flags | 0x8000;
-        object_flag_block.flags = global_flags | 0x8000;
+        node->flags = flags | NODE_REMOVE;
+        object_flag_block.flags = global_flags | OBJECT_REMOVE_PENDING;
     }
 }

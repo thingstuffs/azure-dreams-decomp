@@ -10,7 +10,7 @@
 #include "shared/sprite_frame_state.h"
 
 /* Reset and initialize the record with its handler and a count of six. */
-void init_movement_action(TownObjectRecord *record, void *unused, SpriteFrameState *sprite) {
+void init_movement_action(TownObjectRecord *record, struct ObjectPosition *unused, SpriteFrameState *sprite) {
     store_input_angle(record);
     dispatch_selected_entry_if_nonzero(D_800D0108, record, sprite);
     record->unk_00 = &update_actor_movement_actions;

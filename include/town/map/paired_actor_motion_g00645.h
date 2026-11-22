@@ -39,19 +39,14 @@ typedef struct Func800BFE50Object {
     s32 fieldA4;
 } Func800BFE50Object;
 
-typedef struct {
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 dx;
-    s32 dy;
-    s32 dz;
-} Motion;
-
-typedef struct {
-    u8 pad0[0x48];
+/* Each of the two child nodes stores the origin's integer coordinates and
+ * advances its animation on the eighth tick. */
+typedef struct EventToriChildBody {
+    u8 pad_00[0x0C];
+    u16 origin_x, origin_y, origin_z;
+    u8 pad_12[0x36];
     u16 counter;
-} Actor;
+} EventToriChildBody;
 
 typedef struct {
     s32 words[4];
@@ -61,21 +56,21 @@ typedef struct {
     s32 words[2];
 } Copy8;
 
+/* The event copies these four words together. Its child setup also reads
+ * the integer halves and complete words of the first three coordinates. */
+typedef struct EventToriOriginCopy {
+    Fixed1616 x, y, z;
+    s32 fourth_word;
+} EventToriOriginCopy;
+
 /* Parent body coordinating the two linked motions in the event_tori_in effect. */
 typedef struct EventToriInBody {
     /* 0x00 */ ObjectPosition *child_positions[2];
-    /* 0x08 */ Copy16 position;
+    /* 0x08 */ EventToriOriginCopy position;
     /* 0x18 */ Copy8 motion;
     /* 0x20 */ union { s16 s; u16 u; } state;
     /* 0x22 */ u16 ticks;
 } EventToriInBody;
-
-typedef struct S_800BD980_0 {
-    u8 pad_00[0xC];
-    u16 unk_0C;
-    u16 unk_0E;
-    u16 unk_10;
-} S_800BD980_0;
 
 typedef struct LinkedMotionObject {
     u8 pad_00[0x10];
@@ -89,12 +84,12 @@ typedef struct LinkedMotionObject {
 } LinkedMotionObject;
 
 typedef struct MotionSource {
-    Copy16 position;
+    EventToriOriginCopy position;
     Copy8 motion;
 } MotionSource;
 
 /* arg1 in update_randomized_actor_movement */
-extern s32 check_town_target_and_callback(s32);
+extern s32 check_town_target_and_callback(const void *object);
 extern s16 SD_Call(s32);
 extern void unlink_node_if_registered(void *);
 extern s32 D_800E9E34[];
@@ -115,8 +110,8 @@ extern s32 D_800E9E14[];
 /* Functions defined in this translation unit. */
 void update_randomized_actor_movement(TownObjectRecord *actor, ObjectPosition *motion,struct SpriteFrameState *sprite, s32 update_mode);
 void init_paired_actor_motion(TownObjectRecord *object, ObjectPosition *params, SpriteFrameState *dispatch_context);
-void update_tori_pair_motion(void *pair_in);
-void update_tori_child_sprite(Actor *actor, Motion *motion, struct SpriteFrameState *actor_id);
+void update_tori_pair_motion(EventToriInBody *pair);
+void update_tori_child_sprite(EventToriChildBody *actor, ObjectPosition *motion, struct SpriteFrameState *actor_id);
 s32 event_tori_in(void *source);
 
 #endif

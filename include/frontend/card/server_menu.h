@@ -12,11 +12,16 @@ typedef struct CardDevMenuEntry {
 
 typedef MenuDisplayBlock CardDevMenuPrimitive;
 
-/* Devkit SME menu body with shared settings, the heading, and four rendered entries. */
+/* Four-entry SME panel created by the developer load screen. Its factory
+ * clears 0x180 bytes and binds the four initialized entries at +0xF0. */
 typedef struct CardDevMenu4 {
-    u8 unk_000[0xD4];
+    struct CardDevLoadNode *owner;
+    u8 first_payload[0x78];
+    u8 label_payload[0x3C];
+    MenuDisplayBlock frame_block;
+    s32 frame_position[3];
     s32 settings[3];
-    CardDevMenuEntry heading;
+    CardDevMenuEntry frame;
     CardDevMenuEntry *entries[4];
     CardDevMenuEntry entry_blocks[4];
     CardDevMenuPrimitive primitives[4];
@@ -24,11 +29,21 @@ typedef struct CardDevMenu4 {
 
 void card_dev_init_sme_menu_entries(CardDevMenu4 *state, s32 entry_count);
 
-/* Devkit slot window menu body with shared settings, the heading and its rendered entries. */
+/* Each slot occupies 0x360 bytes including its 0x20-byte node header.
+ * The factory clears this body and initializes its ten entries and blocks. */
 typedef struct CardDevMenu10 {
-    u8 unk_000[0x1BC];
+    s32 slot_index;
+    struct ObjectNodeHeader *owner;
+    u8 title_text[0x48];
+    u8 label_text[0x0C];
+    u8 option_text[0x24];
+    u8 value_text[0x30];
+    u8 slot_packets[0x78];
+    u8 option_packets[0x78];
+    MenuDisplayBlock frame_block;
+    s32 frame_position[3];
     s32 settings[3];
-    CardDevMenuEntry heading;
+    CardDevMenuEntry frame;
     CardDevMenuEntry *entries[10];
     CardDevMenuEntry entry_blocks[10];
     CardDevMenuPrimitive primitives[10];

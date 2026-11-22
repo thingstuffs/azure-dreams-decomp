@@ -16,10 +16,10 @@ typedef struct {
 
 /* Initialize window data and configure the four window objects. */
 void configure_card_file_list_windows(CardFileListPanel *window_state) {
-    void *window_data;
+    CardShadedPanelPackets *window_data;
     WinObj *window;
 
-    window_data = window_state->panel_packets;
+    window_data = &window_state->panel_packets;
     card_boot_build_shaded_panel_packets(window_data, 0xF8, 0x48);
 
     window = (WinObj *)window_state->pointers[3];

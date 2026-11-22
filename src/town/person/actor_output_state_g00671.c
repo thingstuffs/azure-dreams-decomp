@@ -5,7 +5,7 @@
 #include "town/person/position.h"
 
 /* Set the object value to its base plus the source value minus 76. */
-void set_object_z_from_lookup(Rec_func_800AB030_arg0 *source, ObjectPosition *object) {
+void set_object_z_from_lookup(TownObjectRecord *source, ObjectPosition *object) {
     s32 value_offset;
     s16 base_value;
 
@@ -16,10 +16,10 @@ void set_object_z_from_lookup(Rec_func_800AB030_arg0 *source, ObjectPosition *ob
 }
 
 /* Update the output, adding eight while the state's countdown is positive. */
-void raise_object_while_counter_runs(Rec_func_800AB030_arg0 *state, ObjectPosition *output) {
+void raise_object_while_counter_runs(TownObjectRecord *state, ObjectPosition *output) {
     set_object_z_from_lookup(state, output);
-    if ((s16)state->unk_6C > 0) {
+    if ((s16)state->timer > 0) {
         output->y.unsigned_parts.integer = (u16) (output->y.unsigned_parts.integer + 8);
-        state->unk_6C = (s16) ((u16) state->unk_6C - 1);
+        state->timer = (s16) ((u16) state->timer - 1);
     }
 }

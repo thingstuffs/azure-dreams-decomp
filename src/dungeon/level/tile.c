@@ -281,7 +281,7 @@ void cycle_map_cell_flags(s16 x, s16 y, u16 flags)
 }
 #include "shared/dir_step.h"
 
-/* Checks whether the adjacent tile has masked flags or a zero tile value. */
+/* Checks whether the neighboring tile in the given direction blocks movement: its masked flags are set or its tile value is zero. */
 s32 is_neighbor_tile_blocked(s16 origin_x, s16 origin_y, s32 direction) {
     s32 tile_index;
     s32 tile_y;
@@ -290,11 +290,11 @@ s32 is_neighbor_tile_blocked(s16 origin_x, s16 origin_y, s32 direction) {
     u8 *tile;
 
     dungeon = &g_game_work;
-    /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: dungeon/func_80094B58). */
+    /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence). */
     do {
     } while (0);
-    tile_index = origin_x + ((s16 *)((u8 *)dir_step_x))[(s16)direction];
-    tile_y = origin_y + ((s16 *)((u8 *)dir_step_y))[(s16)direction];
+    tile_index = origin_x + dir_step_x[(s16)direction];
+    tile_y = origin_y + dir_step_y[(s16)direction];
     tile_index += tile_y << dungeon->map.shiftX;
     tile = ((u8 *)dungeon->map.cells) + tile_index * 6;
     result = *(u16 *)(tile + 4) & 0xF320;
@@ -311,9 +311,6 @@ s32 is_neighbor_tile_blocked(s16 origin_x, s16 origin_y, s32 direction) {
     return result;
 }
 
-/* MECHANISM: Frameless leaf; ASM_KEEP holds D_80083160 at words 0-1.
-   Symbolic s16 indexing reproduces the interleaved argument normalization.
-   One v0 result lifetime plus an epilogue barrier prevents tail duplication. */
 
 typedef struct {
     s16 value;
@@ -403,7 +400,7 @@ s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height
         for (side = -1; side < 2; side += 2) {
             if (get_offset_map_cell_value_and_flags(x, y, (saved + side) & 7, &tile_flags) != 0) {
                 dir = ((u16)saved + side) & 7;
-                if (map_height_wrapped((x << 6) + 0x20 + ((u16 *)direction_x_offsets)[dir], (y << 6) + 0x20 + ((u16 *)direction_y_offsets)[dir], h) > 0x200) {
+                if (map_height_wrapped((x << 6) + 0x20 + (direction_x_offsets)[dir], (y << 6) + 0x20 + (direction_y_offsets)[dir], h) > 0x200) {
                     break;
                 }
             }
@@ -920,8 +917,8 @@ s32 measure_directional_stopping_distance(u32 direction_flags, ObjectPosition *o
                     }
                     return (s16)step;
                 }
-                world_x += ((u16 *)direction_x_offsets)[direction];
-                world_y += ((u16 *)direction_y_offsets)[direction];
+                world_x += (direction_x_offsets)[direction];
+                world_y += (direction_y_offsets)[direction];
                 height_result = map_height_short(world_x & 0xFFFF, world_y & 0xFFFF, origin->z.w.i);
                 if (height_result >= 0x200) {
                     return (s16) (step - 1);

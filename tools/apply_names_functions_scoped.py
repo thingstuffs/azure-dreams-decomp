@@ -9,6 +9,7 @@ import json
 import re
 import time
 from pathlib import Path
+import atomic_io
 
 from apply_names_data import identifiers, inline_plan, rewrite
 from source_layout import own_source, row_path, row_ids_for_paths
@@ -112,31 +113,32 @@ def main(a, N, complete, scopes):
     print(f"bank function batch: {len(additions)} new aliases; {len(changed)} files; UNVERIFIED staging", flush=True)
     if a.dry_run:
         return receipt
-    names_before = N.NAMES.read_bytes()
-    journal_before = N.JOURNAL.read_bytes() if N.JOURNAL.exists() else None
+    journal_existed = N.JOURNAL.exists()
+    own_names, own_journal = [], []   # exactly the rows this run adds: the undo removes these and nothing else (other tools may append meanwhile)
     try:
         if additions:
-            N.NAMES.write_bytes(names_before.rstrip(b'\n')+b'\n'+''.join('\t'.join(r)+'\n' for r in additions).encode())
+            rows = [('\t'.join(r)+'\n').encode() for r in additions]
+            atomic_io.append_rows(N.NAMES, rows); own_names = rows
         for p,t in changed.items():
             p.write_text(t)
         for p,pair in metadata.items():
             p.write_bytes(pair[1])
         for addr,old,new,evidence in additions:
-            N.append_jsonl(N.JOURNAL, dict(addr=addr, old=old, new=new,
+            rec = dict(addr=addr, old=old, new=new,
                 identity_row=identities[new]['row'], rewrite_paths=scopes[new],
                 outcome='staged-unverified', batch=True,
-                at=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())))
+                at=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()))
+            N.append_jsonl(N.JOURNAL, rec); own_journal.append((json.dumps(rec, separators=(",", ":")) + "\n").encode())
         if a.proof_log:
             a.proof_log.write_text(json.dumps(receipt,indent=2)+'\n')
     except BaseException:
-        N.NAMES.write_bytes(names_before)
+        atomic_io.remove_rows(N.NAMES, own_names)
         for p in changed:
             p.write_text(texts[p])
         for p,pair in metadata.items():
             p.write_bytes(pair[0])
-        if journal_before is None:
+        atomic_io.remove_rows(N.JOURNAL, own_journal)
+        if not journal_existed and N.JOURNAL.exists() and N.JOURNAL.stat().st_size == 0:
             N.JOURNAL.unlink(missing_ok=True)
-        else:
-            N.JOURNAL.write_bytes(journal_before)
         raise
     return receipt

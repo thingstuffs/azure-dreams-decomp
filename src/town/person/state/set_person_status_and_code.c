@@ -10,16 +10,10 @@ typedef struct S_800AAE00_0 {
     s8 unk_15;
 } S_800AAE00_0;   /* arg1 in set_person_status_and_code */
 
-typedef struct S_800AAE00_1 {
-    u8 pad_00[0x50];
-    void (*unk_50)();
-    u8 pad_54[0x18];
-    s16 unk_6C;
-} S_800AAE00_1;   /* arg0 in set_person_status_and_code */
 
 /* Set the status flag and initialize the context's data pointer and code. */
-void set_person_status_and_code(S_800AAE00_1 *context, S_800AAE00_0 *status) {
+void set_person_status_and_code(TownObjectRecord *context, S_800AAE00_0 *status) {
     status->unk_15 = 1;
-    context->unk_50 = &randomize_person_color;
-    context->unk_6C = 0x15;
+    context->unk_50.as_pm = &randomize_person_color;
+    context->timer = 0x15;
 }

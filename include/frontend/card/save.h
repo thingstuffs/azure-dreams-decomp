@@ -6,6 +6,8 @@
 
 struct ObjectNodeHeader;
 struct S_func_804061C4_0;
+struct CardSaveOperationBody;
+void process_menu_input_and_cursor_state(struct CardSaveOperationBody *menu);
 
 /* The five window headers stored by the save-slot builder at body offset 0x04. */
 typedef struct CardDevSaveSlotWindows {
@@ -15,19 +17,20 @@ typedef struct CardDevSaveSlotWindows {
 
 /* card_dev_create_save_screen.c */
 struct CardSaveScreenState;
-struct CardSaveScreenState *card_dev_create_save_screen(s32 init_value);
+struct ObjectNodeHeader;
+struct CardSaveScreenState *card_dev_create_save_screen(struct ObjectNodeHeader *request);
 
 /* select_save_slot_callback.c */
-void select_save_slot_callback(void *inputPtr);
+void select_save_slot_callback(struct CardSaveOperationBody *base);
 
 /* card_devkit_build_save_slot_windows.c */
-void card_devkit_build_save_slot_windows(void *ptr);
+void card_devkit_build_save_slot_windows(struct CardSaveOperationBody *base);
 
 /* card_devkit_refresh_save_slot_pair_highlights.c */
-void card_devkit_refresh_save_slot_pair_highlights(void *ptr);
+void card_devkit_refresh_save_slot_pair_highlights(struct CardSaveOperationBody *menu);
 
 /* card_devkit_refresh_save_slot_selection.c */
-void card_devkit_refresh_save_slot_selection(void *menu);
+void card_devkit_refresh_save_slot_selection(struct CardSaveOperationBody *menu);
 
 /* finish_save_slot_check.c */
 void finish_save_slot_check(void *context);
@@ -50,21 +53,21 @@ typedef struct CardDevSaveMenuBody {
 } CardDevSaveMenuBody;
 
 /* card_dev_dispatch_callback_by_index at its MAIN card server address 0x804062F4. */
-void invoke_indexed_object_callback(CardDevSaveMenuBody *object);
+void invoke_indexed_object_callback(struct CardSaveOperationBody *object);
 
 /* handle_object_menu_input.c */
-void handle_object_menu_input(void *menu);
+void handle_object_menu_input(struct CardSaveOperationBody *menu);
 
 /* refresh_save_slot_selection_and_resume_menu_input.c */
-void refresh_save_slot_selection_and_resume_menu_input(void *record_data);
+void refresh_save_slot_selection_and_resume_menu_input(struct CardSaveOperationBody *menu);
 
 /* finish_save_slot_operation.c */
-void finish_save_slot_operation(struct S_func_804061C4_0 *state);
+void finish_save_slot_operation(struct CardSaveOperationBody *menu);
 
 /* commit_save_and_refresh_slots.c */
-void commit_save_and_refresh_slots(void *ptr);
+void commit_save_and_refresh_slots(struct CardSaveOperationBody *menu);
 
 /* select_slot_menu_callback.c */
-void select_slot_menu_callback(void *object_state);
+void select_slot_menu_callback(struct CardSaveOperationBody *object_state);
 
 #endif

@@ -1,49 +1,35 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
+#include "shared/town_object.h"
 #include "town/person/position.h"
 #include "town/map/variant_data.h"
 
-typedef struct S_800C4AEC_0 {
-    u8 pad_00[0x60];
-    s32 unk_60;
-    u8 pad_64[0x20];
-    u16 unk_84;
-    u16 unk_86;
-    u16 unk_88;
-    u16 unk_8A;
-    u8 pad_8C[0xC];
-    void * unk_98;
-} S_800C4AEC_0;
-
-typedef struct S_800C4AEC_1 {
-    u8 pad_00[0x8];
-    u32 unk_08;
-} S_800C4AEC_1;
-
-typedef struct S_800C4AEC_2 {
-    u8 pad_00[0x10];
-    s16 unk_10;
-    s16 unk_12;
-} S_800C4AEC_2;   /* store_ptr in update_sprite_offset_and_position */
-
+/* The linked child carries the frame flags and the adjusted coordinates. */
+typedef struct SpriteOffsetChild {
+    u8 pad_00[8];
+    u32 frame_flags;
+    u8 pad_0c[4];
+    s16 x;
+    s16 y;
+} SpriteOffsetChild;
 
 #define NULL 0
 
-extern void install_object_handler_and_clear_slot_flag(void *, s32, s32);
+extern void install_object_handler_and_clear_slot_flag(); /* K&R: retail passes three arguments to this one-parameter function */
 
 
 /* Update the sprite position using frame offsets, save the object position, and apply the update. */
-void update_sprite_offset_and_position(void *object_arg, s32 update_arg, s32 setup_context)
+void update_sprite_offset_and_position(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *sprite_arg)
 {
-    S_800C4AEC_0 *object = object_arg;
-    S_800C4AEC_1 *sprite;
+    SpriteOffsetChild *frame_source;
+    SpriteOffsetChild *coordinate_target;
     u32 flags;
     s32 x_offset;
     s32 y_offset;
 
-    *(((u8 *)object_index_slots) + object->unk_60 * 8) = 0;
-    sprite = object->unk_98;
-    if (sprite != NULL && ((flags = sprite->unk_08) & 0xC0000000) == 0xC0000000) {
+    object_index_slots[object->slot].unk_00 = 0;
+    frame_source = (SpriteOffsetChild *)object->unk_98;
+    if (frame_source != NULL && ((flags = frame_source->frame_flags) & 0xC0000000) == 0xC0000000) {
         u32 table_select = (flags >> 23) & 1;
         u32 frame_index = (flags >> 24) & 0x3F;
 
@@ -59,11 +45,14 @@ void update_sprite_offset_and_position(void *object_arg, s32 update_arg, s32 set
     } else {
         y_offset = x_offset = 0;
     }
-    if (sprite != NULL) {
-        ((S_800C4AEC_2 *)object->unk_98)->unk_10 = object->unk_88 - x_offset;
-        ((S_800C4AEC_2 *)object->unk_98)->unk_12 = object->unk_8A - y_offset;
+    if (frame_source != NULL) {
+        /* The routine reads the child link again for each coordinate store. */
+        coordinate_target = (SpriteOffsetChild *)object->unk_98;
+        coordinate_target->x = object->target_x - x_offset;
+        coordinate_target = (SpriteOffsetChild *)object->unk_98;
+        coordinate_target->y = object->target_y - y_offset;
     }
-    object->unk_84 = object->unk_88;
-    object->unk_86 = object->unk_8A;
-    install_object_handler_and_clear_slot_flag(object, update_arg, setup_context);
+    object->unk_84 = object->target_x;
+    object->unk_86 = object->target_y;
+    install_object_handler_and_clear_slot_flag(object, position, sprite_arg);
 }

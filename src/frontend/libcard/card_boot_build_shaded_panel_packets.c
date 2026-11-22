@@ -1,36 +1,26 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "frontend/libcard.h"
+#include "frontend/libcard/message.h"
 #include "main/data.h"
 
-typedef struct S_800242D8_0 {
-    u8 unk_00;
-    u8 unk_01;
-    u8 pad_02[0x2];
-    s16 unk_04;
-    s16 unk_06;
-} S_800242D8_0;   /* arg0 in card_boot_build_shaded_panel_packets */
-
-typedef struct S_800242D8_1_pre {
-    s8 unk_00;
-} S_800242D8_1_pre;
-
 /* Initialize four graphics packets with shared colors and halved coordinates. */
-void *card_boot_build_shaded_panel_packets(u8 *packet, u32 x, u32 y) {
+void *card_boot_build_shaded_panel_packets(CardShadedPanelPackets *packets, u32 x, u32 y) {
     s32 packet_index;
     u8 *table_entry;
-    S_800242D8_1_pre *field_cursor;
+    CardShadedPanelQuad *quad;
+    u8 *packet = (u8 *)packets;
+    CardPanelBoundary *end;
     s8 opcode;
     s32 main_color;
     s32 dark_color;
     s32 half_x;
     u8 *packet_tags;
-    S_800242D8_0 *initial_view = (S_800242D8_0 *)packet;
 
-    initial_view->unk_01 = 0x81;
-    initial_view->unk_04 = 0x20;
-    initial_view->unk_06 = 0;
-    packet = packet + 0xC;
+    packets->begin.opcode = 0x81;
+    packets->begin.command_value = 0x20;
+    packets->begin.end = 0;
+    packet += sizeof(packets->begin);
     packet_index = 0;
     opcode = 0x38;
     main_color = 0x9CBCBC;
@@ -39,25 +29,23 @@ void *card_boot_build_shaded_panel_packets(u8 *packet, u32 x, u32 y) {
     x = (s32) ((y >> 0x1F) + y) >> 1;
     packet_tags = D_80027FD0;
     do {
-        field_cursor = (S_800242D8_1_pre *)(packet + 0xB);
+        quad = (CardShadedPanelQuad *)packet;
         table_entry = (u8 *) (packet_index + (long)packet_tags);
         packet_index += 1;
-        (*(s8 *)((u8 *)field_cursor + -0xA)) = opcode;
-        (*(s32 *)((u8 *)field_cursor + -7)) = main_color;
-        (*(s32 *)((u8 *)field_cursor + 1)) = main_color;
-        (*(s32 *)((u8 *)field_cursor + 5)) = main_color;
-        (*(s32 *)((u8 *)field_cursor + 9)) = dark_color;
-        field_cursor[-1].unk_00 = half_x;
-        field_cursor->unk_00 = x;
+        quad->opcode = opcode;
+        quad->color0 = main_color;
+        quad->color1 = main_color;
+        quad->color2 = main_color;
+        quad->color3 = dark_color;
+        quad->half_width = half_x;
+        quad->half_height = x;
         *packet = *table_entry;
-        packet += 0x18;
+        packet += sizeof(*quad);
     } while (packet_index < 4);
-    {
-        S_800242D8_0 *final_view = (S_800242D8_0 *)packet;
-        final_view->unk_01 = 0x81;
-        final_view->unk_04 = 0x20;
-        final_view->unk_06 = 1;
-        final_view->unk_00 = 0x80;
-    }
-    return packet + 0xC;
+    end = (CardPanelBoundary *)packet;
+    end->opcode = 0x81;
+    end->command_value = 0x20;
+    end->end = 1;
+    end->id = 0x80;
+    return end + 1;
 }

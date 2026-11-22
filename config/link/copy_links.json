@@ -131,7 +131,11 @@
   "dungeon/func_80FB176C": {
    "func_8014D810": "func_80171B68",
    "func_8017139C": "func_80171910",
-   "func_80172628": "func_80172658"
+   "func_80172628": "func_80172658",
+   "func_81087200": "func_80175174"
+  },
+  "dungeon/func_80FB4E68": {
+   "func_81087200": "func_80175174"
   },
   "dungeon/func_80FDB6A8": {
    "func_8014D810": "func_8017167C",
@@ -232,6 +236,9 @@
   "dungeon/func_81327710": {
    "func_800F6D28": "func_8016A928"
   },
+  "dungeon/func_8184ABE0": {
+   "func_81087200": "func_80024374"
+  },
   "dungeon/func_818ADA2C": {
    "func_80025340": "func_80024ED0"
   },
@@ -308,6 +315,9 @@
   },
   "town/func_8046ABB4": {
    "func_8001AD60": "func_8001E5F0"
+  },
+  "town/func_8046AC04": {
+   "func_8001ACE8": "func_8001E578"
   },
   "town/func_8046AED0": {
    "func_8001ACE8": "func_8001E578"
@@ -996,6 +1006,9 @@
   "town/func_805797CC": {
    "func_80019ADC": "func_800167F0"
   },
+  "town/func_8059E0F8": {
+   "func_80019DFC": "func_80017EDC"
+  },
   "town/func_8059E4A0": {
    "func_80019C68": "func_80017D48"
   },
@@ -1142,6 +1155,16 @@
    "func_80019DFC": "func_800181C8",
    "func_8001ADE0": "func_80018C50"
   },
+  "town/func_80614C98": {
+   "func_8001ACE8": "func_80018B58",
+   "func_8001AD60": "func_80018BD0",
+   "func_8001ADE0": "func_80018C50"
+  },
+  "town/func_80614D48": {
+   "func_8001ACE8": "func_80018B58",
+   "func_8001AD60": "func_80018BD0",
+   "func_8001ADE0": "func_80018C50"
+  },
   "town/func_80614DF8": {
    "func_8001AD60": "func_80018BD0",
    "func_8001ADE0": "func_80018C50"
@@ -1202,12 +1225,19 @@
   "town/func_80615604": {
    "func_8001B0C8": "func_80018CC0"
   },
+  "town/func_806320C8": {
+   "func_80019DFC": "func_80016BD0"
+  },
   "town/func_80632100": {
    "func_8001A7B0": "func_8001764C"
   },
   "town/func_80632120": {
    "func_80019DFC": "func_80016BD0",
    "func_8001A7B0": "func_8001764C"
+  },
+  "town/func_806470C8": {
+   "func_80019DFC": "func_80016C64",
+   "func_8001ACE8": "func_800176A0"
   },
   "town/func_8064711C": {
    "func_8001ADE0": "func_80017798"

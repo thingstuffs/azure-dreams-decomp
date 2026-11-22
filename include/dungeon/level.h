@@ -21,7 +21,8 @@ s32 is_neighbor_tile_blocked(s16 origin_x, s16 origin_y, s32 direction);
 
 s32 select_floor_item_with_special_overrides(s8 *out_group, s8 *out_index, s32 unused, s32 skip_special);
 void build_dungeon_floor(void);
-s32 traverse_nodes_and_render_unflagged(void *start_node);
+struct TrackedSpriteEffect;
+s32 traverse_nodes_and_render_unflagged(struct TrackedSpriteEffect *node);
 
 
 void render_projected_sprite_with_depth_bias(ObjectPosition *position, SpriteFrameState *sprite, s16 world_z, s32 depth_bias);

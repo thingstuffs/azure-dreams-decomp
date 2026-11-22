@@ -7,18 +7,18 @@
 
 typedef struct AllocatedObject {
     u8 pad_0[8];
-    EffectInitialState *data;
+    ObjectPosition *data;
     u8 pad_C[4];
-    void (*callback_10)(void *, void *, void *);
+    void (*callback_10)(void *, struct ObjectPosition *, void *);
     u8 pad_14[12];
     void (*callback_20)(MenuRingAnimationState *);
 } AllocatedObject;
 
 /* Allocate an object, copy its initial data, and set its callbacks. */
-AllocatedObject *create_animated_menu_ring(EffectInitialState *source)
+AllocatedObject *create_animated_menu_ring(ObjectPosition *source)
 {
     AllocatedObject *obj;
-    EffectInitialState *data;
+    ObjectPosition *data;
 
     obj = allocate_list_node(0x10, &scene_object_list_anchor.next);
     if (obj == 0) {
@@ -26,9 +26,9 @@ AllocatedObject *create_animated_menu_ring(EffectInitialState *source)
     }
 
     data = obj->data;
-    data->unk_00 = source->unk_00;
-    data->unk_04 = source->unk_04;
-    data->unk_08 = source->unk_08;
+    data->x.v = source->x.v;
+    data->y.v = source->y.v;
+    data->z.v = source->z.v;
     obj->callback_10 = invoke_menu_motion_handler;
     obj->callback_20 = initialize_animated_menu_ring;
     return obj;

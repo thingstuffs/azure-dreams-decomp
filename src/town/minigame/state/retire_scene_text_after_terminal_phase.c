@@ -21,7 +21,7 @@ void retire_scene_text_after_terminal_phase(TerminalSceneTextObject *context) {
         }
         break;
     case 1:
-        if (entity->flags.u & 1) {
+        if (entity->flags & TOWN_COLLECTION_FINISHED) {
             (((ObjectNodeHeader *)context - 1)->flags) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }

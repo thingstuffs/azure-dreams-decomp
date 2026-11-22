@@ -53,7 +53,7 @@ void func_80033D08(void *block_data);
 void update_active_nodes(void);
 
 /* update_fade_draw_registration.c */
-void update_fade_draw_registration(struct FadeManagerBody *state, void *context);
+void update_fade_draw_registration(struct FadeManagerBody *state, struct SpriteFrameState *context);
 
 #include "shared/object_node_flags.h"
 

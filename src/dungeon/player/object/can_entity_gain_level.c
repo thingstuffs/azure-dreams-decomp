@@ -1093,9 +1093,6 @@ void distribute_experience_and_report_gains(EntityRec *entity) {
     }
 }
 
-/* MECHANISM: The seed's 0x20 frame, s1/s2/s0 roles, CFG, and 124-word shape were already exact.
-   The middle get_unused_text_buffer result stays guarded in v0 through the D_8007359C load, then copies
-   to guarded s0 in that load-delay slot; this fixes both equal-length register substitutions. */
 
 typedef struct Entity Entity;
 

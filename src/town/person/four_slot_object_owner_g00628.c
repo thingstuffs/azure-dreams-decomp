@@ -6,7 +6,7 @@
 #include "shared/object_node.h"
 
 /* Initialize slot data and offsets, then configure the object. */
-void initialize_four_slot_object(StorageDisplayBody *obj) {
+void initialize_four_slot_object(StorageMenuObject *obj) {
     s32 slot_index;
 
     for (slot_index = 0; slot_index < 2; slot_index++) {
@@ -14,10 +14,10 @@ void initialize_four_slot_object(StorageDisplayBody *obj) {
         obj->parts[slot_index]->position->x = slot_index << 7;
     }
 
-    func_800B3558(obj->unk20);
+    func_800B3558(obj->data);
 
     for (slot_index = 2; slot_index < 4; slot_index++) {
-        obj->parts[slot_index]->handler = obj->unk20;
+        obj->parts[slot_index]->handler = obj->data;
         obj->parts[slot_index]->position->x = (slot_index - 2) << 7;
     }
 
@@ -31,20 +31,18 @@ void initialize_four_slot_object(StorageDisplayBody *obj) {
 }
 
 /* Set the record's data pointer, base value, and value offset by 0x20. */
-void bind_storage_display_object(void *field_ptr, s32 base_value) {
-    StorageDisplayBody *object = field_ptr;
-
-    object->unk10 = base_value;
-    object->unk00 = (s32)(base_value + 0x20);
-    NODE_HEADER(field_ptr)->update_callback = &D_800B4C38;
+void bind_storage_display_object(StorageMenuObject *object, ObjectNodeHeader *owner) {
+    object->source_owner = owner;
+    object->owner_body = NODE_BODY(owner);
+    NODE_HEADER(object)->update_callback = advance_storage_open_ramp;
 }
 
 /*
  * Sets the owner base value and data pointer, binds three embedded blocks at offsets
  * 0x4C/0x24/0x34, and initializes its four-slot object.
  */
-void initialize_four_slot_object_owner(u8 *owner, s32 base_value) {
-    bind_storage_display_object(owner, base_value);
-    initialize_storage_display_links(owner + 0x4C, owner + 0x24, owner + 0x34);
-    initialize_four_slot_object((struct StorageDisplayBody *)(owner));
+void initialize_four_slot_object_owner(StorageMenuObject *object, ObjectNodeHeader *owner) {
+    bind_storage_display_object(object, owner);
+    initialize_storage_display_links(&object->links, &object->display, &object->position);
+    initialize_four_slot_object(object);
 }

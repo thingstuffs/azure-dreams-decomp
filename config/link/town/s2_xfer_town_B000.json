@@ -1337,21 +1337,6 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
-      "row": "town/func_800174D0",
-      "tu": "src/main/func_8000E904.c",
-      "home": "main/func_8000E904",
-      "foff": "0x374D0",
-      "vma": "0x800b4c30",
-      "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH",
-      "bindings": {
-        "0x8008F3CC": "0x8008F41C",
-        "0x8008F46C": "0x8008F4BC",
-        "0x800B0214": "0x800B3924",
-        "0x800C58F4": "0x800C591C"
-      }
-    },
-    {
       "row": "town/func_800BB95C",
       "tu": "src/town/map/object/create_idle_map_object.c",
       "home": "town/func_800BB95C",
@@ -1414,7 +1399,8 @@
         "0x8008F3CC": "0x8008F41C",
         "0x8008F46C": "0x8008F4BC",
         "0x800B0214": "0x800B3924",
-        "0x800C58F4": "0x800C591C"
+        "0x800C58F4": "0x800C591C",
+        "0x81087200": "0x800bf15c"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },

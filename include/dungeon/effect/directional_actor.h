@@ -125,7 +125,6 @@ typedef struct {
 
 /* Advances effect motion and sprite appearance, marking completion after 32 ticks. */
 void *allocate_list_node(s32, void *);
-void jitter_effect_position_and_fade(void *, s32); /* Unprototyped: retail call passes a different argument count */
 void initialize_timed_motion_step(s32, s32);
 s32 get_spell_range(s16 entry_index);
 void advance_sprite_animation_and_textures(void *);

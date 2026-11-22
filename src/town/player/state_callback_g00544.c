@@ -5,29 +5,29 @@
 #include "engine/script.h"
 
 /* Dispatches the player action or indexed callback according to script activity and the signed mode. */
-void dispatch_state_callback_by_mode(s32 value, void *ptr, void *ptr2, s32 unused) {
+void dispatch_state_callback_by_mode(void *object, ObjectPosition *position, SpriteFrameState *sprite, s32 unused) {
     u8 *state;
-    Callback callback;
+    TownPlayerStateCallback callback;
     s8 status;
 
     if (service_script_controller() == 0) {
-        ((Callback)town_player_action_callback[0])(value, ptr, ptr2);
+        ((TownPlayerStateCallback)town_player_action_callback[0])(object, position, sprite);
         return;
     }
     state = object_index_slots;
     status = *(s8 *)(state + 8);
     if (status >= 2) {
-        ((Callback)D_800D0508[status])(value, ptr, ptr2);
+        D_800D0508[status](object, position, sprite);
         return;
     }
     if (status < 0) {
-        callback = (Callback)town_player_action_callback[0];
+        callback = (TownPlayerStateCallback)town_player_action_callback[0];
         *(s8 *)(state + 8) = 0;
-        callback(value, ptr, ptr2);
+        callback(object, position, sprite);
     }
 }
 
 /* Forward the value, context, data, and mode to dispatch_state_callback_by_mode. */
-void forward_state_callback_dispatch(s32 value, void *context, void *data, s32 mode) {
-    dispatch_state_callback_by_mode(value, context, data, mode);
+void forward_state_callback_dispatch(void *object, ObjectPosition *position, SpriteFrameState *sprite, s32 mode) {
+    dispatch_state_callback_by_mode(object, position, sprite, mode);
 }
