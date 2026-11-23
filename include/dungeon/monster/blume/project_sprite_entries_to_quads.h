@@ -182,13 +182,6 @@ typedef struct T_80170874_S_80DB9000_9 {
     } unk_24;
 } T_80170874_S_80DB9000_9;
 
-typedef struct {
-    unsigned addr: 24;
-    unsigned len: 8;
-    u8 r0, g0, b0, code;
-} T_80170874_P_TAG;
-#define setaddr(p, _addr) (((T_80170874_P_TAG *)(p))->addr = (u32)(_addr))
-#define getaddr(p) (u32)(((T_80170874_P_TAG *)(p))->addr)
 
 extern void RotMatrix();
 #endif

@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "shared/game_state.h"
 #include "dungeon/player.h"
 #include "common.h"
 #include "dungeon/item/monster_resource_slots_g00325.h"
@@ -66,12 +67,6 @@ typedef struct S_80094988_5 {
     u8 unk_2D52;
 } S_80094988_5;
 
-typedef struct S_80094988_7 {
-    u8 pad_00[0x21E0];
-    u8 unk_21E0;
-    u8 unk_21E1;
-} S_80094988_7;   /* (void *)probe in restore_inventory_and_familiars */
-
 typedef struct S_80094988_9_pre {
     u8 unk_00;
     u8 pad_01[0x1];
@@ -90,11 +85,6 @@ typedef struct S_80094988_12 {
     DungeonItemEntry * unk_D0;
 } S_80094988_12;   /* slot_rec in restore_inventory_and_familiars */
 
-
-typedef struct S_80094988_15 {
-    u8 pad_00[0x3714];
-    s16 unk_3714;
-} S_80094988_15;   /* save_page in restore_inventory_and_familiars */
 
 /* Rebuild the dungeon's slot tables from the 0x80010000 save page: relink each of the 0x14 entries with its 0x8C record, re-point the two dispatch slots, then spawn and register an actor for every flagged party member. */
 void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, u16 base_x, u16 base_y) {
@@ -120,7 +110,7 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
     s16 entry_idx;
     u32 entry_idx32;
     u8 *save_page;
-    void **dispatch_table;
+    DungeonItemEntry *dispatch_table;
     s32 ff2;
     s32 scaled_i;
     s32 sign_shift;
@@ -163,7 +153,7 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
     i = 0;
     page_base = save_page;
     ff2 = 0xFF;
-    dispatch_table = (void **)(save_page + 0x248);
+    dispatch_table = GAME_STATE->items;
     do {
         entry_idx32 = (s32)((u8 *)(i + (unsigned long)page_base));
         cursor_ptr = (u8 *)(((S_80094988_5 *)(u8 *)entry_idx32)->unk_2D52);
@@ -176,14 +166,14 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
         i += 1;
     } while (i < 2);
 
-    if (((S_80094988_7 *)0x80010000)->unk_21E0 != 0xFF) {
-        slot_ptr = (DungeonItemEntry *)((void **)0x80010248 + ((S_80094988_7 *)0x80010000)->unk_21E0);
+    if (GAME_STATE->carry.player.f4C != 0xFF) {
+        slot_ptr = GAME_STATE->items + GAME_STATE->carry.player.f4C;
     } else {
         slot_ptr = 0;
     }
     equip_item_and_update_status(actor, slot_ptr);
-    if (((S_80094988_7 *)0x80010000)->unk_21E1 != 0xFF) {
-        slot_ptr = (DungeonItemEntry *)((void **)0x80010248 + ((S_80094988_7 *)0x80010000)->unk_21E1);
+    if (GAME_STATE->carry.player.f4D != 0xFF) {
+        slot_ptr = GAME_STATE->items + GAME_STATE->carry.player.f4D;
     } else {
         slot_ptr = 0;
     }
@@ -257,9 +247,7 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
         slot_ptr += 1;
     } while (slot_i < 0x14);
     if (flag_was_set == 0) {
-        save_page = (u8 *)0x80010000;
-        ((S_80094988_15 *)save_page)->unk_3714 =
-            (s16)((u16)((S_80094988_15 *)save_page)->unk_3714 & 0xFFFD);
+        GAME_STATE->log.head.flags = GAME_STATE->log.head.flags & 0xFFFD;
     }
     call_script(restore_actor_script);
     return;

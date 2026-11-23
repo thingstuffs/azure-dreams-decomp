@@ -8,6 +8,15 @@
   "evidence": "ledger/instance_load_regions.jsonl; validated packed-CD loader record",
   "entries": [
     {
+      "row": "town/func_806D42B4",
+      "tu": "src/town/scene/lookup_entry_fallback_special_case.c",
+      "home": "town/func_806D42B4",
+      "foff": "0x6542b4",
+      "vma": "0x800162b4",
+      "size": 168,
+      "evidence": "Existing compiler home for town/func_806D42B4; the registered split and its source retain their established coordinates."
+    },
+    {
       "row": "town/func_806D4F38",
       "tu": "src/town/scene/select_status_code_from_callback.c",
       "home": "town/func_8032E254",

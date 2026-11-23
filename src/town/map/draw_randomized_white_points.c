@@ -8,17 +8,6 @@
 #include "sdk/libgte.h"
 #include "town/map.h"
 
-typedef struct S_800BB218_0 {
-    u16 unk_00;
-    u16 unk_02;
-    u32 unk_04;
-    u8 pad_08[0x8];
-    u8 * unk_10;
-    s16 unk_14;
-    s16 unk_16;
-    s16 unk_18;
-} S_800BB218_0;   /* scratch in draw_randomized_white_points */
-
 /* Draws randomized white points around each object in the linked chain. */
 s32 draw_randomized_white_points(TownMapPhaseObject *object, ObjectPosition *coords)
 {
@@ -26,7 +15,7 @@ s32 draw_randomized_white_points(TownMapPhaseObject *object, ObjectPosition *coo
     s32 radius_offset;
     TILE_1 *packet;
     s32 point_index;
-    S_800BB218_0 *scratch;
+    WhitePointScratch *scratch;
     u32 addr_mask;
     u32 tag_mask;
     GpuContext *arena;
@@ -39,8 +28,8 @@ s32 draw_randomized_white_points(TownMapPhaseObject *object, ObjectPosition *coo
     GameWork *render_state;
 
     render_state = &g_game_work;
-    scratch = (S_800BB218_0 *)0x1F800000;
-    scratch->unk_10 = render_state->draw_buffer + 0xB0;
+    scratch = WHITE_POINT_SCRATCH;
+    scratch->ordering_table = render_state->draw_buffer + 0xB0;
     addr_mask = 0x00FFFFFF;
     tag_mask = 0xFF000000;
 
@@ -63,39 +52,35 @@ s32 draw_randomized_white_points(TownMapPhaseObject *object, ObjectPosition *coo
             {
                 s32 base_radius = object->radius_bias;
                 radius_offset = (point_index / 8) % 12 + 0x48;
-                scratch->unk_14 =
+                scratch->position.vx =
                     coords->x.w.i + ((x_scale * (base_radius + radius_offset)) >> 8);
             }
 
-            scratch->unk_16 =
+            scratch->position.vy =
                 coords->y.w.i +
                 (((rcos(angle) >> 4) *
                   (object->radius_bias + radius_offset)) >> 8);
 
-            scratch->unk_18 =
+            scratch->position.vz =
                 coords->z.w.i -
                 (((rsin((point_index % 16) << 6) >> 4) *
                   (object->unk_66 + 0x10)) >> 8);
 
-            scratch->unk_04 = RotTransPers(
-                &scratch->unk_14, (s32 *)scratch, (u8 *)scratch + 8, (u8 *)scratch + 0xC);
-            packet->x0 = scratch->unk_00;
-            packet->y0 = scratch->unk_02;
+            scratch->ot_index = RotTransPers(
+                &scratch->position, (s32 *)scratch, &scratch->depth_cue, &scratch->gte_flag);
+            packet->x0 = scratch->screen.x;
+            packet->y0 = scratch->screen.y;
 
-            ot_link = scratch->unk_04;
+            ot_link = scratch->ot_index;
             if (ot_link < 0x1E0) {
-                ot_link <<= 2;
-                ot_link += (unsigned long)scratch->unk_10;
                 packet_tag = packet->tag;
-                ot_link = *(u32 *)ot_link;
+                ot_link = scratch->ordering_table[ot_link];
                 ot_link &= addr_mask;
                 linked_tag = packet_tag & tag_mask;
                 linked_tag |= ot_link;
                 packet->tag = linked_tag;
-                *(u32 *)(scratch->unk_10 +
-                         scratch->unk_04 * 4) =
-                    (*(u32 *)(scratch->unk_10 +
-                              scratch->unk_04 * 4) & tag_mask) |
+                scratch->ordering_table[scratch->ot_index] =
+                    (scratch->ordering_table[scratch->ot_index] & tag_mask) |
                     ((u32)packet & addr_mask);
             }
         } while (++point_index < 0x180);

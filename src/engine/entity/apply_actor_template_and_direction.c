@@ -1,6 +1,6 @@
 #include "common.h"
 #include "dungeon/item/actor_target.h"
-
+#include "shared/game_state.h"
 #include "engine/entity.h"
 
 typedef struct S_800E3E48
@@ -53,14 +53,14 @@ void apply_actor_template_and_direction(S_800423C0_Obj *obj, s16 unused, S_80042
         direction = (s16)find_linked_object_slot_index(pinned_obj);
         if (direction >= 0) {
             u8 *direction_page;
-            u16 *other_direction = (u16 *)0x80012094;
+            u16 *other_direction = &GAME_STATE->familiar_direction[0];
             s32 slot_offset;
 
             direction_page = (u8 *)0x80010000;
             slot_offset = direction * 2;
             direction_page = (u8 *)((unsigned long)slot_offset + (unsigned long)direction_page);
             if (direction == 0) {
-                other_direction = (u16 *)0x80012096;
+                other_direction = &GAME_STATE->familiar_direction[1];
             }
             direction = *(u16 *)(direction_page + 0x2094);
             if (direction == *other_direction) {

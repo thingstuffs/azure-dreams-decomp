@@ -170,23 +170,6 @@ struct DungeonObj {
     s16 state; /* child phase; 0 drifts, phases below 2 rise/transform, 2 fades, 3 retires */
 };
 
-/* Stack vertex-transform request filled by update_flickering_effect_vertices.
- * transform_rotated_vertices reads its rotations, translation and count and transforms the point array in place. */
-typedef struct {
-    void *p0; /* source vertex array; the trail callback supplies the child points at +0x28 */
-    void *p4; /* destination vertex array; equal to p0 for the in-place trail transform */
-    s16 h8; /* first rotation component, initialized to zero for the trail transform */
-    s16 hA; /* second rotation component, initialized to zero for the trail transform */
-    u16 angle; /* third rotation component, copied from the child angle */
-    s16 padE;
-    s16 x; /* integer world X translation, including the orbit offset */
-    s16 y; /* integer world Y translation, including the orbit offset */
-    u16 height; /* integer height translation: terrain reference plus twice the child vertical offset */
-    s16 pad16;
-    s16 type; /* vertex count supplied to the transform; four for trail children */
-    s16 pad1A;
-} LocalPacket;
-
 /* Twenty-byte flat triangle allocated at the frame packet cursor by draw_jittered_triangle_trails.
  * Each of the four child points produces one jittered screen-space triangle. */
 typedef struct TrailTriangle {

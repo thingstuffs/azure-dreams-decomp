@@ -8,11 +8,6 @@
 #include "sdk/libgpu.h"
 
 
-#define setaddr(packet, address) (((GpuLinkTag *)(packet))->addr = (u32)(address))
-#define getaddr(packet) ((u32)(((GpuLinkTag *)(packet))->addr))
-#define addPrim(ordering_table, primitive) \
-(setaddr((primitive), getaddr(ordering_table)), \
-    setaddr((ordering_table), (primitive)))
 
 /* Builds layered sprite tiles and texture-page commands for each linked node. */
 s32 build_settings_sprite_tiles(SettingsScreenBody *node_data, ObjectPosition *scroll_state)

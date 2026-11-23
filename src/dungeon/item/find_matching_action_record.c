@@ -23,12 +23,11 @@ void *find_matching_action_record(s32 wanted_kind, s32 wanted_flag) {
     s32 group_78;
     s32 group_80;
     s32 group_90;
-    void *entries;
+    u8 *entries;
     S_8009F9E8_0 *entry;
 
-    entries = (void *)0x80010000;
     entry_index = *&GAME_STATE->log.head.length - 1;
-    entries = (void *)((u32)entries | 0x3720);
+    entries = GAME_STATE->log_data;
     if (entry_index >= 0) {
         group_70 = 0x70;
         group_78 = 0x78;
@@ -37,7 +36,7 @@ void *find_matching_action_record(s32 wanted_kind, s32 wanted_flag) {
         wanted_kind &= 0xFF;
         wanted_flag &= 0xFF;
         do {
-            entry = (void *)((u8 *)entries + entry_index * 2);
+            entry = (S_8009F9E8_0 *)(entries + entry_index * 2);
             kind_group = entry->unk_01 & 0xF8;
             if (kind_group == group_70 || kind_group == group_78 || kind_group == group_80 || kind_group == group_90) {
                 if (entry->unk_01 == wanted_kind

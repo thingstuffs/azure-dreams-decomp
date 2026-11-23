@@ -3,6 +3,7 @@
 /* Imported data declarations for this image; maintained by tools/headers. */
 
 #include "common.h"
+#include "shared/game_state.h"
 #include "m2c_compat.h"
 #include "shared/gpu_packets.h"
 #include "shared/item_menu.h"
@@ -65,7 +66,6 @@ extern s32 devkit_flag_test_result;
 extern SpriteSourceEntry emote_sprite_entries[ ];
 extern u8 gym_object_state_address[ ];
 extern s32 gym_sprite_source;
-extern u16 high_display_best_score[ ];
 extern u8 item_display_chain_indices[ ];
 extern u8 item_menu_slot_handler_address[ ];
 extern s32 keima_panel_object[ ];
@@ -111,14 +111,11 @@ extern s16 shop_resident_flag_ids[ ];
 extern s32 slot_bet_display_object[ ];
 extern s16 slot_payout_digits[ 8 ];
 extern u8 snowball_actor_sprites[ ];
-extern volatile u16 snowball_best_score;
-extern u16 tako_best_score;
 extern u8 tako_particle_sprite_data[ ];
 extern u8 tako_target_timing_table[ ];
 extern s16 terrain_height_limits[ ];
 extern s32 timed_scene_handler_entries;
 extern struct ActorRecord town_actor_scratch;
-extern u8 town_building_scene_index;
 extern u16 town_facing_angles[ ];
 /* Two rows of three sprite sources used by the Yorozu prop animation. */
 struct SpriteSourceEntry;

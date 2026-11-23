@@ -7,7 +7,7 @@
 #include "slus.h"
 #include "town/minigame/state.h"
 #include "town/person.h"
-
+#include "shared/game_state.h"
 
 typedef struct Entry {
     u8 bytes[8];
@@ -17,14 +17,7 @@ typedef struct EntryPair {
     Entry entries[2];
 } EntryPair;
 
-typedef struct Counter {
-    u32 value;
-    u32 pad[2];
-} Counter;
-
 extern EntryPair D_800898C4;
-extern u8 D_80011F81[];
-extern Counter town_money;
 
 /* Advances the interaction state, animating the cursor and vertical position. */
 void advance_interaction_state_animating_cursor(FixedInteractionEffectBody *self, ObjectPosition *position, LitMeshSprite *cursor_data) {
@@ -43,12 +36,11 @@ void advance_interaction_state_animating_cursor(FixedInteractionEffectBody *self
     case 0:
         /* BYTES: reorg mostly_true_jump: LOOP_BEG before the join label decides a delay-slot fill (ledger/onetrip_loadbearing.jsonl: town/func_800C1A68). */
         do {
-            const Counter *global_counter = &town_money;
             entry_index = 0;
-            if (D_80011F81[0] != 0) {
+            if (GAME_STATE->unk_1F80[0].kind != 0) {
                 entry_index = 1;
             } else {
-                counter_value = global_counter->value;
+                counter_value = GAME_STATE->town_money;
                 if ((u32)counter_value >= 0x1388U) {
                     entry_index = 1;
                 }

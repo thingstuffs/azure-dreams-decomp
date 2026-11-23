@@ -3,6 +3,7 @@
 #include "sdk/libc.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/level.h"
+#include "shared/scratchpad.h"
 #include "slus.h"
 /* Map surface queries, particle bursts, owner-following effects, and linked mesh rendering. */
 
@@ -26,13 +27,7 @@ const OffsetTable D_80024028 = {{{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},
 
 typedef struct S_func_80024064_0 {
     u8 pad_00[0x140];
-    u16 unk_140;
-    u16 unk_142;
-    s32 unk_144;
-    s32 unk_148;
-    s32 unk_14C;
-    s16 unk_150;
-    s16 unk_152;
+    TerrainQueryFields query;
     union {
         struct { u32 v; } at00;
         struct { s16 v; } at00u;
@@ -131,31 +126,31 @@ void *find_impact_surface_polygon(s32 world_x, s32 world_y, s16 min_height) {
     u16 cell_y;
 
     scratch = (S_func_80024064_0 *)0x1F800000;
-    scratch->unk_148 = 0x400;
-    scratch->unk_140 = world_x & 0x3F;
-    scratch->unk_142 = world_y & 0x3F;
-    scratch->unk_14C = min_height;
+    scratch->query.best_height = 0x400;
+    scratch->query.query_x = world_x & 0x3F;
+    scratch->query.query_y = world_y & 0x3F;
+    scratch->query.limit = min_height;
 
     cell_index = (u16)world_x >> 6;
-    scratch->unk_150 = cell_index;
+    scratch->query.cell_index = cell_index;
     map_data = &g_game_work.map;
     cell_index += ((u16)world_y >> 6) << map_data->shiftX;
-    (*(s16 *)((u8 *)scratch + 0x150)) = cell_index;
+    scratch->query.cell_index = cell_index;
     map_entry = (S_func_80024064_2 *)((long)cell_index * 6 +
                        (unsigned long)map_data->cells);
     vertices = map_data->vertices;
     planes = map_data->surface_planes;
     best_polygon = 0;
     if (map_entry->unk_00 != 0) {
-        scratch->unk_152 = -map_entry->unk_02;
+        scratch->query.face_offset = -map_entry->unk_02;
         best_polygon = map_data->cell_faces[map_entry->unk_00];
         polygon = best_polygon;
         if (((S_func_80024064_8 *)(planes + ((S_func_80024064_3 *)best_polygon)->unk_10 * 8))->unk_04
             < -0x7FF) {
             do {
                 if ((((S_func_80024064_4 *)polygon)->unk_17 & 1) == 0) {
-                    cell_x = scratch->unk_140;
-                    cell_y = scratch->unk_142;
+                    cell_x = scratch->query.query_x;
+                    cell_y = scratch->query.query_y;
 
                     vertex =
                         (S_func_80024064_5 *)((unsigned long)((S_func_80024064_4 *)polygon)->unk_00 * 8 +
@@ -208,20 +203,20 @@ void *find_impact_surface_polygon(s32 world_x, s32 world_y, s16 min_height) {
                         height =
                             (plane->unk_00 *
                              (plane_vertex->unk_00 -
-                              (s16)scratch->unk_140) +
+                              (s16)scratch->query.query_x) +
                              plane->unk_02 *
                              (plane_vertex->unk_02 -
-                              (s16)scratch->unk_142) +
+                              (s16)scratch->query.query_y) +
                              plane->unk_04 *
                              plane_vertex->unk_04) /
                             plane->unk_04;
-                        scratch->unk_144 = height;
-                        height += scratch->unk_152;
-                        scratch->unk_144 = height;
-                        if (height >= scratch->unk_14C &&
-                            height < scratch->unk_148) {
+                        scratch->query.candidate_height = height;
+                        height += scratch->query.face_offset;
+                        scratch->query.candidate_height = height;
+                        if (height >= scratch->query.limit &&
+                            height < scratch->query.best_height) {
                             best_polygon = polygon;
-                            scratch->unk_148 = height;
+                            scratch->query.best_height = height;
                         }
                     }
                 }

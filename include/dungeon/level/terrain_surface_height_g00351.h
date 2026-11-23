@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800B771C. */
 
 #include "common.h"
+#include "shared/scratchpad.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "sdk/libgte.h"
@@ -46,13 +47,7 @@ typedef union {
  * The query uses this view at scratchpad offset +0x140 and returns its best height. */
 typedef struct {
     u8 pad000[0x140];
-    u16 x; /* query X within its tile, x & 63 */
-    u16 y; /* query Y within its tile, y & 63 */
-    s32 value; /* candidate surface height including the cell height offset */
-    s32 best; /* lowest qualifying height; initialized to the 0x400 no-surface result */
-    s32 limit; /* minimum accepted height supplied by the caller */
-    u16 index; /* linear map cell index after clamping tile coordinates to 0..63 */
-    s16 offset; /* negated current cell height value */
+    TerrainQueryFields query;
     WorkPair p0; /* first corner relative to the query point */
     WorkPair p1; /* second corner relative to the query point */
     WorkPair p2; /* third corner relative to the query point */
@@ -65,14 +60,7 @@ typedef struct S_800BCE7C_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_158;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_15C;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_160;   /* overlapping accesses */
-    s32 unk_164;
-    s32 unk_168;
-    s32 unk_16C;
-    s32 unk_170;
-    u8 pad_174[0x4];
-    s32 unk_178;
-    s32 unk_17C;
-    s32 unk_180;
+    ScratchQuadTurnOutput turn;
 } S_800BCE7C_0;
 
 /* arg0 in is_point_in_quad */

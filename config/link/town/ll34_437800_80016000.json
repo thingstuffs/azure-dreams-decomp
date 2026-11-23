@@ -101,13 +101,13 @@
       "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
-      "row": "town/func_80418CE0",
-      "tu": "src/main/func_8000E904.c",
-      "home": "main/func_8000E904",
-      "foff": "0x438CE0",
-      "vma": "0x800174e0",
-      "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+      "row": "town/func_804B8C18",
+      "home": "town/func_804B8C18",
+      "tu": "src/town/scene/motion/nudge_scene_y_in_state_two.c",
+      "foff": "0x438c18",
+      "vma": "0x80017418",
+      "size": 208,
+      "evidence": "The event 8 library script for the scene at TOWN +0x437800 invokes 0x80017418 through its call_native operand at +0x43ffd7 and branches on the result."
     },
     {
       "row": "town/func_804B8E1C",

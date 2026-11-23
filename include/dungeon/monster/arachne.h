@@ -1,5 +1,6 @@
 #ifndef DUNGEON_RESOURCE12_SLOT0_H
 #define DUNGEON_RESOURCE12_SLOT0_H
+#include "dungeon/effect/particle/vertex_transform.h"
 #include "shared/dungeon_effect_status.h"
 #include "shared/sound_state.h"
 #include "dungeon/globals.h"
@@ -273,13 +274,6 @@ typedef struct ArachneActionEffectBody {
     u16 unk_10;
     s16 unk_12;
 } ArachneActionEffectBody;
-typedef struct R12_80173FDC_S_80173FDC_2_pre {
-    s16 unk_00;
-    u8 pad_02[0xE];
-} R12_80173FDC_S_80173FDC_2_pre;
-typedef struct R12_80173FDC_S_80173FDC_2 {
-    s16 unk_00;
-} R12_80173FDC_S_80173FDC_2;
 typedef struct R12_80173FDC_S_80173FDC_3 {
     u8 pad_00[0x8D0];
     union { R12_80173FDC_LineG2 * p; u8 * p2; } unk_8D0;   
@@ -287,9 +281,6 @@ typedef struct R12_80173FDC_S_80173FDC_3 {
 typedef struct R12_80173FDC_S_80173FDC_5 {
     u32 unk_00;
 } R12_80173FDC_S_80173FDC_5;
-typedef struct R12_80173FDC_S_80173FDC_6 {
-    s16 unk_00;
-} R12_80173FDC_S_80173FDC_6;
 typedef struct R12_80173FDC_S_80173FDC_8 {
     u8 pad_00[0x8];
     u8 * unk_08;
@@ -548,7 +539,6 @@ s32 rsin(s32);
 s32 rcos(s32);
 void func_80065770();
 s32 ratan2(s32, s32);
-void transform_rotated_vertices(void *transform_data);
 void func_800453E0(void *context, struct ObjectPosition *position, struct SpriteFrameState *sprite, s16 depth_bias);
 struct MATRIX *CompMatrix(void *, void *, void *);
 void PushMatrix(void);

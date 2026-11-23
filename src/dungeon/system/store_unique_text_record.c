@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "dungeon/system.h"
 #include "dungeon/menu.h"
 #include "sdk/libc.h"
@@ -13,8 +14,8 @@ typedef struct {
 void store_unique_text_record(char *text, s32 type, s32 value) {
     Record818105FC *record;
     u8 *type_base;
-    u8 *records_base;
-    u8 *data_base;
+    TextRecord *records_base;
+    GameState *data_base;
     s32 cursor;
     s32 write_slot;
 
@@ -41,16 +42,15 @@ void store_unique_text_record(char *text, s32 type, s32 value) {
 
     write_slot = *(s32 *)0x80015C80;
     *(s32 *)0x80015C80 = write_slot + 1;
-    data_base = (u8 *)0x80010000;
-    if (*(s32 *)(data_base + 0x5C80) == 64) {
-        *(s32 *)(data_base + 0x5C80) = 0;
+    data_base = GAME_STATE;
+    if (data_base->text_record_next == 64) {
+        data_base->text_record_next = 0;
     }
 
-    records_base = (u8 *)0x800157C0;
-    cursor = write_slot * 19;
-    strncpy((char *)(records_base + cursor), text, 18);
+    records_base = GAME_STATE->text_records;
+    strncpy((char *)records_base[write_slot].text, text, 18);
     if (type == 19) {
-        data_base[cursor + 0x57D1] = value;
+        data_base->text_records[write_slot].text[17] = value;
     }
-    data_base[cursor + 0x57D2] = type;
+    data_base->text_records[write_slot].type = type;
 }

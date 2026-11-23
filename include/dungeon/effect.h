@@ -102,4 +102,10 @@ struct ActorValuePopupBody;
 void update_anchored_fading_effect(struct ActorValuePopupBody *effect, ObjectPosition *motion, SpriteFrameState *sprite);
 void update_attached_fading_effect(struct ActorValuePopupBody *effect, ObjectPosition *motion, SpriteFrameState *sprite);
 
+struct OrbitRingSpell;
+struct SpellMotion;
+void update_orbit_ring_spell(struct OrbitRingSpell *spell, struct SpellMotion *motion, SpriteFrameState *sprite);
+/* The callback at 0x80024714 reads only a0. */
+s32 draw_rippled_screen_strips(void *entry);
+
 #endif

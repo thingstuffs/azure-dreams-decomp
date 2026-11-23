@@ -1,0 +1,20 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/func_7ffe7be8_home",
+  "container": "dungeon",
+  "foff": "0x7be8",
+  "size": "0xd4",
+  "vma": "0x7ffe7be8",
+  "evidence": "Existing compiler home for dungeon/func_7FFE7BE8; the historic recipe links at its synthetic window address. The sector header and call independently put the original function at 0x7ffe7be8.",
+  "entries": [
+    {
+      "row": "dungeon/func_7FFE7BE8",
+      "tu": "src/dungeon/effect/particle/initialize_source_position_object.c",
+      "home": "dungeon/func_7FFE7BE8",
+      "foff": "0x7be8",
+      "vma": "0x7ffe7be8",
+      "size": 212,
+      "evidence": "Existing compiler home for dungeon/func_7FFE7BE8; the historic recipe links at its synthetic window address. The sector header and call independently put the original function at 0x7ffe7be8."
+    }
+  ]
+}

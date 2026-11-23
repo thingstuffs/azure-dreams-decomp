@@ -1,4 +1,5 @@
 #include "sdk/libc.h"
+#include "shared/game_state.h"
 #include "common.h"
 #include "town/map/course.h"
 #include "shared/sprite_frame_state.h"
@@ -254,7 +255,7 @@ void update_player_minigame_motion(TownCourseActor *actor, ObjectPosition *motio
         if (progress->unk_00 != prev_stage) {
             s32 *best_time;
 
-            best_time = (s32 *)0x800135B4;
+            best_time = &GAME_STATE->keima_best_time;
             stage_time = (prev_stage + course->lap_times)->s;
             if (stage_time < *best_time) {
                 *best_time = (s32) stage_time;

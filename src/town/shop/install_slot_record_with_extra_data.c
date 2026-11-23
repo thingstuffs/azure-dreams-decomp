@@ -10,7 +10,6 @@ void install_slot_record_with_extra_data(s32 entry_index, void *source) {
     u8 *record;
     s32 tag;
     s32 data_slot;
-    u8 *table_base;
 
     record = find_unused_default_pool_slot();
     record[0] = ((u8 *)source)[0];
@@ -19,11 +18,10 @@ void install_slot_record_with_extra_data(s32 entry_index, void *source) {
     tag = record[1];
     record[3] = ((u8 *)source)[3];
     if (tag == 0x13) {
-        data_slot = find_first_vacant_record((void *)0x800102F0, 0x14);
+        data_slot = find_first_vacant_record((void *)GAME_STATE->item_monsters, 0x14);
         *(TownSlotSnapshot *)(0x800102F0 + data_slot * 0x54) = town_slot_snapshot;
         record[3] = (record[3] & 0xC0) | data_slot;
     }
-    table_base = (u8 *)0x80010000;
-    *(void **)(table_base + entry_index * 4 + 0x29C) = record;
-    *(s32 *)(table_base + entry_index * 4 + 0x2A0) = 0;
+    GAME_STATE->item_list[entry_index] = (void *)record;
+    GAME_STATE->item_list[entry_index + 1] = 0;
 }

@@ -21,13 +21,13 @@ struct TownObjectRecord;
 #include "shared/town_object.h"
 
 /* Scratchpad slots of draw_randomized_white_points: RotTransPers(position, screen, depth_cue, gte_flag)
- * returns the ordering offset that is added to the ordering table base. */
+ * returns the ordering-table index. */
 typedef struct WhitePointScratch {
     /* 0x000 */ SpriteScratchScreenPoint screen;
     /* 0x004 */ u32 ot_index;
     /* 0x008 */ s32 depth_cue;
     /* 0x00C */ s32 gte_flag;
-    /* 0x010 */ void *ordering_table; /* used in integer arithmetic: keep the pointer, cast at the add */
+    /* 0x010 */ u32 *ordering_table;
     /* 0x014 */ SVECTOR position;
 } WhitePointScratch;
 #define WHITE_POINT_SCRATCH ((WhitePointScratch *)0x1F800000)

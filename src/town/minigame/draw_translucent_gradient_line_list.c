@@ -41,10 +41,10 @@ s32 draw_translucent_gradient_line_list(void *first_entry) {
     s32 texture_page;
     u8 *entry;
     GameWork *arena_ptr;
-    u16 *depths;
+    s16 *depths;
     u16 *transform_work;
     s32 *screen_xy;
-    s32 raw_depth;
+    u16 raw_depth;
 
     entry = first_entry;
     arena_ptr = &g_game_work;
@@ -73,9 +73,11 @@ s32 draw_translucent_gradient_line_list(void *first_entry) {
         line_packet->second_xy = screen_xy[1];
         {
             s32 min_depth;
+            u16 second_depth;
             raw_depth = depths[0];
             bucket_addr = raw_depth << 0x10;
-            min_depth = depths[1] << 0x10;
+            second_depth = depths[1];
+            min_depth = second_depth << 0x10;
             if (bucket_addr < min_depth) {
                 min_depth = bucket_addr >> 0x13;
             } else {

@@ -4,6 +4,7 @@
 #define SDK_LIBGPU_H
 
 #include "common.h"
+#include "sdk/libgpu_types.h"
 
 /* Psy-Q record types (include/sdk/libgpu_types.h and libgpu_packets.h define them). */
 struct RECT;
@@ -14,6 +15,12 @@ struct POLY_F4;
 struct POLY_FT4;
 struct POLY_G3;
 struct POLY_G4;
+
+/* Ordering-table links occupy the low 24 bits of the packet tag. */
+#define setaddr(packet, address) (((struct GpuLinkTag *)(packet))->addr = (unsigned long)(address))
+#define getaddr(packet) ((u32)((struct GpuLinkTag *)(packet))->addr)
+#define addPrim(ordering_table, primitive) \
+    (setaddr((primitive), getaddr(ordering_table)), setaddr((ordering_table), (primitive)))
 
 void AddPrim(void *, void *);
 s32 ClearImage(struct RECT *, u8, u8, u8);

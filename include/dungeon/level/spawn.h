@@ -51,15 +51,6 @@ typedef struct {
     u8 flag7;
     s32 object;
 } floor_spawns_isolated_8028BC54_DungeonCell;
-typedef struct floor_spawns_isolated_8028BF0C_S_8001EF0C_0 {
-    u8 pad_00[0x11];
-    u8 unk_11;
-    s8 unk_12;
-    u8 pad_13[0x5];
-    u32 unk_18;
-    u8 pad_1C[0x27];
-    union { u8 s; s8 u; } unk_43;   
-} floor_spawns_isolated_8028BF0C_S_8001EF0C_0;
 typedef struct {
     u8 type;
     u8 state;

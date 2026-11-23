@@ -9,6 +9,7 @@
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/mesh.h"
+#include "dungeon/effect/projected_quad_scratch.h"
 void (*const dungeon_ovl_1930844_entry)(ApproachingImpactSpellBody *state, ObjectPosition *motion, SpriteFrameState *appearance) = update_approaching_impact_effect;
 
 /* Moves a rotating, shrinking sprite along its velocity with a sinusoidal height offset until its
@@ -134,6 +135,7 @@ void queue_radial_line_burst(ovl_1930844_81911BF4_Obj81911BF4 *effect_data, void
     do {
         void **render_ptr = (void **) render_global;
         void *render_ctx = *render_ptr;
+        ProjectedQuadScratch *projection = (ProjectedQuadScratch *)scratch;
         s32 start_step_offset;
         s32 end_step_offset;
         s32 z_delta;
@@ -158,9 +160,9 @@ void queue_radial_line_burst(ovl_1930844_81911BF4_Obj81911BF4 *effect_data, void
         radial_x = ((rsin(angle + (*((s16 *) (((u8 *) effect_data) + 0xA))))
             >> 4) * effect_data->scale) << 8;
         start_step_offset = radial_x / scale;
-        *((s32 *) (scratch + 0x108)) = radial_x;
+        projection->step_x = radial_x;
         *((u16 *) (scratch + 0x64)) += (start_step_offset * prev_step) >> 16;
-        end_step_offset = (*((s32 *) (scratch + 0x108))) / scale;
+        end_step_offset = projection->step_x / scale;
         *((u16 *) (scratch + 0x6C)) += (end_step_offset * step) >> 16;
         origin_ptr = origin;
         origin_coord = *((u16 *) (((u8 *) origin_ptr) + 6));
@@ -173,9 +175,9 @@ void queue_radial_line_burst(ovl_1930844_81911BF4_Obj81911BF4 *effect_data, void
         radial_y = ((rcos(angle + (*((s16 *) (((u8 *) effect_data) + 0xA))))
             >> 4) * effect_data->scale) << 8;
         start_step_offset = radial_y / scale;
-        *((s32 *) (scratch + 0x10C)) = radial_y;
+        projection->step_y = radial_y;
         *((u16 *) (scratch + 0x66)) += (start_step_offset * prev_step) >> 16;
-        end_step_offset = (*((s32 *) (scratch + 0x10C))) / scale;
+        end_step_offset = projection->step_y / scale;
         render_ptr = (void **)(scratch + 0x84);
         *((u16 *) (scratch + 0x6E)) += (end_step_offset * step) >> 16;
         origin_ptr = origin;
@@ -183,19 +185,19 @@ void queue_radial_line_burst(ovl_1930844_81911BF4_Obj81911BF4 *effect_data, void
         *((u16 *) (scratch + 0x70)) = origin_coord;
         *((u16 *) (scratch + 0x68)) = origin_coord;
         z_delta = (((s32) effect_data->field14) << 16) - (*((s32 *) (((u8 *) origin_ptr) + 8)));
-        *((s32 *) (scratch + 0x110)) = z_delta;
+        projection->step_z = z_delta;
         z_step = z_delta >> scale;
         *((u16 *) (scratch + 0x68)) += (z_step << prev_step) >> 16;
-        *((u16 *) (scratch + 0x70)) += (((*((s32 *) (scratch + 0x110))) >> scale) << step) >> 16;
+        *((u16 *) (scratch + 0x70)) += ((projection->step_z >> scale) << step) >> 16;
         origin_ptr = scratch + 0x88;
-        *((s32 *) (scratch + 0xF4)) = RotTransPers(start_vertex, start_screen, render_ptr, origin_ptr);
-        *((s32 *) (scratch + 0xF8)) = RotTransPers(end_vertex, end_screen, render_ptr,
+        projection->start_depth = RotTransPers(start_vertex, start_screen, render_ptr, origin_ptr);
+        projection->end_depth = RotTransPers(end_vertex, end_screen, render_ptr,
             origin_ptr);
-        *((u16 *) (line_packet + 8)) = *((u16 *) (scratch + 0xD8));
-        *((u16 *) (line_packet + 0xA)) = *((u16 *) (scratch + 0xDA));
-        *((u16 *) (line_packet + 0x10)) = *((u16 *) (scratch + 0xDC));
-        *((u16 *) (line_packet + 0x12)) = *((u16 *) (scratch + 0xDE));
-        avg_depth = ((*((s32 *) (scratch + 0xF4))) + (*((s32 *) (scratch + 0xF8)))) / 2;
+        *((u16 *) (line_packet + 8)) = projection->screen[0].x;
+        *((u16 *) (line_packet + 0xA)) = projection->screen[0].y;
+        *((u16 *) (line_packet + 0x10)) = projection->screen[1].x;
+        *((u16 *) (line_packet + 0x12)) = projection->screen[1].y;
+        avg_depth = ((projection->start_depth) + (projection->end_depth)) / 2;
         *((s32 *) (scratch + 0xB4)) = avg_depth;
         if (((u32) avg_depth) < 0x1E0U) {
             OT_SETADDR(line_packet, OT_GETADDR((*((u32 **) (((u8 *) scratch) + 0x18))) + avg_depth, addr_mask),
@@ -225,7 +227,6 @@ void queue_radial_line_burst(ovl_1930844_81911BF4_Obj81911BF4 *effect_data, void
    by depth. */
 #include "sdk/libgpu_types.h"
 #include "sdk/libgpu_packets.h"
-#include "dungeon/effect/projected_quad_scratch.h"
 
 void build_and_enqueue_five_translucent_quads_between_interpolated_points(u8 *shape, ObjectPosition *position, s16 scale_num, s16 scale_den)
 {
@@ -987,7 +988,7 @@ void update_approaching_impact_effect(ApproachingImpactSpellBody *state, ObjectP
                 if (floor_height >= 0x201) {
                     break;
                 }
-                if ((s16) (floor_height -  owner->ground_height) < -0x3F) {
+                if ((s16) (floor_height - owner->ground_height) < -0x3F) {
                     break;
                 }
                 step_direction = (s16) state->unk_0E;

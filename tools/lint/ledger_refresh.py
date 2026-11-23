@@ -97,6 +97,7 @@ if str(HERE.parent) not in sys.path:
 import atomic_io  # noqa: E402
 import lint_closure as C  # noqa: E402
 import ledger_integrity as I  # noqa: E402
+import name_scope as NS  # noqa: E402
 
 NAMES = 'config/names.tsv'
 ACCEPTED = C.ACCEPTED
@@ -575,6 +576,12 @@ class Refresher:
         self.unresolved = []                    # (ledger, where, value, reason)
         self._seen_unresolved = set()
 
+    def geometry(self):
+        """The rows' geometry (ledger/rows.jsonl as registry.py last derived it, the config/link images)."""
+        if getattr(self, '_geometry', None) is None:
+            self._geometry = NS.Geometry(self.root)
+        return self._geometry
+
     INCLUDE = re.compile(r'(?m)^[ \t]*#[ \t]*include[ \t]*"([^"]+)"')
 
     def includes(self, rel):
@@ -896,8 +903,19 @@ def names_ledger(r, files):
                 line = '\t'.join(cols)
                 dirty = True
         out.append(line)
+    text = '\n'.join(out)
+    geometry = getattr(r, 'geometry', None)
+    if geometry is not None and any(len(line.split('\t')) > 4 and line.startswith('0x') for line in out):
+        # scope cells follow a location that now lies in a placed copy to its home (name_scope.py renormalise),
+        # after registry.py has re-derived each row's source_row; a move onto another name's location is refused
+        text, moved, refused = NS.renormalise_text(text, geometry())
+        for number, before, after in moved:
+            r.note('names', f'{NAMES}:{number}', before, after, 'scope renormalised')
+            dirty = True
+        for number, loc, home, other in refused:
+            r.fail('names', f'{NAMES}:{number}', str(loc), f'renormalise to {home} refused: it carries {other}')
     if dirty:
-        files.set(NAMES, '\n'.join(out))
+        files.set(NAMES, text)
 
 
 def floor_row(r, row, where):

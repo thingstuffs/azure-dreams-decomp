@@ -7,11 +7,6 @@
 #include "town/minigame.h"
 #include "town/paired_indicators.h"
 
-#define setaddr(packet, address) (((GpuLinkTag *)(packet))->addr = (u32)(address))
-#define getaddr(packet) ((u32)(((GpuLinkTag *)(packet))->addr))
-#define addPrim(ordering_table, primitive) \
-(setaddr((primitive), getaddr(ordering_table)), \
-    setaddr((ordering_table), (primitive)))
 
 /* Queue enabled nodes as line primitives with draw modes, sorted by average depth. */
 s32 draw_depth_sorted_line_nodes(PairedIndicators *node)

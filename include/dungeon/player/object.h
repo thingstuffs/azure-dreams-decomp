@@ -25,7 +25,7 @@ u32 check_entity_interaction_compatibility(void *entity, ActorRecord *other_enti
 void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-s32 raise_entity_level(void *entity_data, s32 show_message);
+s32 raise_entity_level(ActorRecord *actor, s32 show_message);
 
 void distribute_experience_and_report_gains(EntityRec *entity);
 

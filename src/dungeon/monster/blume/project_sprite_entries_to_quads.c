@@ -1,3 +1,4 @@
+#include "sdk/libgpu.h"
 #include "dungeon/monster/blume/project_sprite_entries_to_quads.h"
 #include "dungeon/monster/garuda.h"
 #include "dungeon/monster/blume.h"

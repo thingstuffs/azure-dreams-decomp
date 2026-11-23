@@ -90,6 +90,36 @@
       "evidence": "docs/evidence/r141w_town_dev.md"
     },
     {
+      "row": "town/func_80881574",
+      "home": "town/func_80878714",
+      "tu": "src/town/shop/state/shop_test_indexed_flag.c",
+      "foff": "0x801574",
+      "vma": "0x80700d74",
+      "size": 96,
+      "evidence": "The complete 96-byte home links at TOWN +0x801574 in the image loaded at 0x80700000. The image operands at +0x8015a4 identify its local imports.",
+      "bindings": {
+        "0x807030A4": "0x80700FF8"
+      }
+    },
+    {
+      "row": "town/func_808815D4",
+      "home": "town/func_80880194",
+      "tu": "src/town/devkit/copy_trace_overlay_work_record.c",
+      "foff": "0x8015d4",
+      "vma": "0x80700dd4",
+      "size": 224,
+      "evidence": "The complete 224-byte home links at TOWN +0x8015d4 in the image loaded at 0x80700000. The image operands at +0x8015e0, +0x801630, +0x801638, +0x801648, +0x801658, +0x801660, +0x80166c, +0x80167c, +0x801684, +0x80168c identify its local imports.",
+      "bindings": {
+        "0x80700B50": "0x80700764",
+        "0x80700B5C": "0x80700770",
+        "0x80700B64": "0x80700778",
+        "0x80700B74": "0x80700788",
+        "0x80700B88": "0x8070079C",
+        "0x8070139C": "0x80700FF4",
+        "0x807013B4": "0x8070100C"
+      }
+    },
+    {
       "row": "town/func_808816B4",
       "home": "town/func_808816B4",
       "tu": "src/town/devkit/scale_stored_value_and_base_alt.c",

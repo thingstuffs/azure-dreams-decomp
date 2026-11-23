@@ -42,13 +42,16 @@
       }
     },
     {
-      "row": "dungeon/func_809EE534",
-      "tu": "src/main/func_8000E904.c",
-      "home": "main/func_8000E904",
-      "foff": "0xA0E534",
-      "vma": "0x8014dd34",
-      "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+      "row": "dungeon/func_809EDDF4",
+      "home": "dungeon/func_809C9DF4",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
+      "foff": "0xa0ddf4",
+      "vma": "0x8014d5f4",
+      "size": 1864,
+      "evidence": "The resource 3 slot 6 JALs at +0xa0da54, +0xa0e938 reach the chooser. Its 1,864-byte linked Dragon owner uses the same resident clearance function and the verified image-local Dragon attack. The return has no independent entry.",
+      "bindings": {
+        "0x80171DA0": "0x8014DDA0"
+      }
     },
     {
       "row": "dungeon/func_809EE53C",

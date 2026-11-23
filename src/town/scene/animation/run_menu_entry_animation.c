@@ -5,7 +5,7 @@
 #include "town/data.h"
 #include "town/scene/score_sprite_data.h"
 #include "town/devkit/old_minigame_imports.h"
-
+#include "shared/game_state.h"
 
 typedef struct Part {
     u8 pad0[6];
@@ -46,7 +46,6 @@ typedef struct Object {
     FallingSceneController *owner;
 } Object;
 
-extern s16 D_8001339C;
 extern u8 menu_entry_draw_callback_address[16];
 extern u8 menu_cursor_object_template[16];
 extern u8 D_8028E628[16];
@@ -190,8 +189,8 @@ void run_menu_entry_animation(FallingSceneController *self) {
         if (self->timer >= 0) {
             break;
         }
-        if (D_8001339C < self->value.s) {
-            D_8001339C = self->value.s;
+        if (GAME_STATE->best_score_339C < self->value.s) {
+            GAME_STATE->best_score_339C = self->value.s;
             func_80050BFC(0x553);
         } else {
             func_80050BD8(0x553);

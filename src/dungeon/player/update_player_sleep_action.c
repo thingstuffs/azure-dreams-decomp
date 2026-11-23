@@ -11,6 +11,7 @@
 #include "dungeon/level.h"
 #include "engine/graphics.h"
 #include "dungeon/player.h"
+#include "dungeon/player/input.h"
 #include "dungeon/data.h"
 #ifndef NULL
 #define NULL 0
@@ -27,9 +28,6 @@ typedef struct {
     u16 flagsa2;
 } Arg0Struct;
 
-extern void *D_8008B870;
-
-
 /* Advances actor animation states, periodic events, and handler transitions. */
 void update_player_sleep_action(ActorRecord *controller, void *unused, SpriteAnimationTableView *animation, ActorRecord *actor) {
     s32 event_code;
@@ -42,7 +40,7 @@ void update_player_sleep_action(ActorRecord *controller, void *unused, SpriteAni
             animation->frame_table = &player_sleep_frames;
             set_sprite_animation_frame(animation, (&player_sleep_frames)[((s32)(scene->view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
                 1);
-            controller->unk_8C.address = &D_8008B870;
+            controller->unk_8C.address = handle_sleeping_player_input;
             controller->action_phase = (s8)(controller->action_phase + 1);
         }
         break;

@@ -120,7 +120,11 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
             } else {
                 direction = 5;
             }
-            (*(s16 *)((u8 *)actor + 0x2A)) = direction << 9;
+            {
+                /* BYTES: The local pointer keeps the facing store ahead of the dungeon mode load. */
+                s16 *facing_slot = &actor->facing;
+                *facing_slot = direction << 9;
+            }
 
             if ((dungeon_mode_state != 0) || (current_dungeon_floor != 0x28)) {
                 if (actor->level >= current_dungeon_floor) {

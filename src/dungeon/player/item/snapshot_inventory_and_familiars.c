@@ -1,12 +1,11 @@
 #include "shared/actor_status_ids.h"
+#include "shared/game_state.h"
 #include "common.h"
 #include "dungeon/player/item.h"
 #include "engine/entity.h"
 #include "engine/scene.h"
 #include "slus.h"
 #include "dungeon/actor/effect.h"
-
-typedef struct { u8 bytes[4]; } WordCopy;
 
 typedef struct {
     u32 word[35];
@@ -22,7 +21,7 @@ void snapshot_inventory_and_familiars(void *input_state) {
     u8 *src_cursor;
 
     state = input_state;
-    build_entity_slot_snapshot((void *)0x80012194, state);
+    build_entity_slot_snapshot(&GAME_STATE->carry.player, state);
 
     {
         s32 record_index;
@@ -62,15 +61,16 @@ void snapshot_inventory_and_familiars(void *input_state) {
     }
 
     {
-        u8 *globals;
+        GameState *globals;
 
-        globals = (u8 *)0x80010000;
+        globals = GAME_STATE;
         slot_index = 0x13;
         do {
-            ((WordCopy *)(globals + 0x21E8))[slot_index] = ((WordCopy *)(globals + 0x248))[slot_index];
-            (globals + 0x2238)[slot_index] = get_bounded_stride_index(((s32 *)(globals + 0x29C))[slot_index], (void *)0x80010248, 4, 0x14);
-            ((Blob140 *)(globals + 0x2260))[slot_index] = ((Blob140 *)familiar_record_storage)[slot_index];
-            (globals + 0x224C)[slot_index] = get_bounded_stride_index(familiar_record_slots[slot_index], familiar_record_storage, 0x8C, 0x14);
+            globals->carry.items[slot_index] = globals->items[slot_index];
+            /* get_bounded_stride_index takes the addresses as integers. */
+            globals->carry.item_list[slot_index] = get_bounded_stride_index((unsigned long)globals->item_list[slot_index], (unsigned long)GAME_STATE->items, 4, 0x14);
+            ((Blob140 *)globals->carry.familiar_records)[slot_index] = ((Blob140 *)familiar_record_storage)[slot_index];
+            globals->carry.familiar_slots[slot_index] = get_bounded_stride_index(familiar_record_slots[slot_index], familiar_record_storage, 0x8C, 0x14);
             slot_index -= 1;
         } while (slot_index >= 0);
     }
@@ -84,30 +84,31 @@ void snapshot_inventory_and_familiars(void *input_state) {
         saved_source = state;
         saved_source += 4;
         do {
-            index_cursor[slot_index + 0x2D52] = get_bounded_stride_index(*(s32 *)(saved_source + 0xD0), (void *)0x80010248, 4, 0x14);
+            /* get_bounded_stride_index takes the addresses as integers. */
+            index_cursor[slot_index + 0x2D52] = get_bounded_stride_index(*(s32 *)(saved_source + 0xD0), (unsigned long)GAME_STATE->items, 4, 0x14);
             saved_source -= 4;
             slot_index -= 1;
         } while (slot_index >= 0);
     }
 
     {
-        u8 *state_base;
+        GameState *state_base;
         u32 field_value;
         u32 saved_setting;
 
-        state_base = (u8 *)0x80010000;
-        field_value = *(u16 *)(state_base + 0x3626);
-        saved_setting = *(u16 *)(state_base + 0x209E);
-        *(u16 *)(state_base + 0x3624) = field_value;
-        *(u16 *)(state_base + 0x209C) = saved_setting;
+        state_base = GAME_STATE;
+        field_value = state_base->egg_counter;
+        saved_setting = state_base->fruit_counter;
+        state_base->egg_counter_saved = field_value;
+        state_base->fruit_counter_saved = saved_setting;
         field_value = *(u16 *)((u8 *)state + 0xF8);
-        *(u16 *)(state_base + 0x2D50) = field_value;
+        state_base->carry.player_F8 = field_value;
         field_value = *(s32 *)((u8 *)state + 0xFC);
-        *(s32 *)(state_base + 0x2D58) = field_value;
+        state_base->carry.dungeon_money = field_value;
         field_value = ((u8 *)state)[0xFA];
-        state_base[0x2D6C] = field_value;
+        state_base->carry_player_FA[0] = field_value;
         field_value = ((u8 *)state)[0xFB];
-        state_base[0x2D6D] = field_value;
+        state_base->carry_player_FA[1] = field_value;
         snapshot_item_flag_bitmap(saved_setting);
     }
 }

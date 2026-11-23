@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
@@ -169,13 +170,13 @@ case 5:
 
         tw_sd_sq_ld_call(0x20, 0x200);
         initialize_player_object_data();
-        progress = tako_best_score;
-        tako_best_score = progress;
+        progress = GAME_STATE->tako_best_score;
+        GAME_STATE->tako_best_score = progress;
         threshold = state->threshold;
         if ((s16)progress < threshold) {
             sound_set_cd_cue_parameters(0, 0x2C3D, 0x01000001, 0x01000271);
             SD_Call(0x300);
-            tako_best_score = state->threshold;
+            GAME_STATE->tako_best_score = state->threshold;
             set_resident_bit(0xAE4);
         } else {
             sound_set_cd_cue_parameters(0, 0x2C3D, 0, 0x01000290);

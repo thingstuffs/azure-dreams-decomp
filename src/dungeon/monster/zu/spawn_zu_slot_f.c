@@ -20,10 +20,8 @@
 
 
 
-extern u8 D_8016AA70[];
 extern u8 zu_frame_set_6[];
 extern u8 D_8016EAFC[];
-extern u8 D_8016B138[];
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 /* Creates Zu with default frames at D_8016EAD4, applies spawn flags, and attempts valid tile placement. */
@@ -47,7 +45,7 @@ void *spawn_zu_slot_f(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
         work = NODE_BODY(obj);
-        obj->update_callback = D_8016AA70;
+        obj->update_callback = update_zu_movement;
         work->species = MONSTER_ZU;
         register_node(obj, project_sprite_chain);
 
@@ -84,7 +82,7 @@ void *spawn_zu_slot_f(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
         initialize_actor_sprite_and_animation(obj, part_a, part_b, spawn_flags);
         actor->action_id = 0xFF;
         actor->route_room = -1;
-        actor->unk_8C.address = D_8016B138;
+        actor->unk_8C.address = update_zu_behavior;
         work->flags1C |= 0x40000;
         actor->unk_A0.parts.low = 0;
         actor->unk_90.parts.high = -0x30;

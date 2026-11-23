@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "town/minigame/keima.h"
 #include "town/map/directional_sprite_effect_g00644.h"
 #include "shared/sprite_frame_state.h"
@@ -157,7 +158,7 @@ s32 initialize_keima_interface(void) {
     }
 
     widget_init.h14 = 0x3C;
-    timer = (s32 *)0x800135B4;
+    timer = &GAME_STATE->keima_best_time;
     if (*timer == 0) {
         *timer = 0x258;
     }

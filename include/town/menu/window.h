@@ -162,7 +162,7 @@ typedef struct TownWindowItemRecord { u8 pad_00[0x14]; u8 unk_14; u8 pad_15[0x37
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 #define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
 #define TOWN_SYSTEM_SCRATCH ((func_8009FE60_TownSystemScratch *)0x80016000U)
-#define COPY_TABLE_ADDRESS ((TownSlotSnapshot *)0x800102F0)
+#define COPY_TABLE_ADDRESS (GAME_STATE->item_monsters)
 #define BYTE_AT(base, offset) (*(u8 *)((u8 *)(base) + (offset)))
 #define HALF_AT(base, offset) (*(u16 *)((u8 *)(base) + (offset)))
 #define WORD_AT(base, offset) (*(s32 *)((u8 *)(base) + (offset)))

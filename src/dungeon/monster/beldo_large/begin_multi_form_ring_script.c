@@ -25,13 +25,6 @@ typedef struct S_8016EE8C_1 {
     s32 unk_296C;
 } S_8016EE8C_1;   /* page_800e in begin_multi_form_ring_script */
 
-typedef struct S_8016EE8C_2 {
-    u8 pad_00[0x3714];
-    u16 unk_3714;
-    u8 pad_3716[0x6];
-    s32 unk_371C;
-} S_8016EE8C_2;   /* page_8001 in begin_multi_form_ring_script */
-
 
 typedef struct S_8016EE8C_4 {
     u8 pad_00[0x10];
@@ -41,7 +34,7 @@ typedef struct S_8016EE8C_4 {
 
 
 void unlink_entity_node();                         /* extern */
-extern s32 D_80173C94;
+extern u8 *D_80173C94[];
 extern u8 *D_80173D5C;
 
 /*
@@ -69,7 +62,7 @@ void begin_multi_form_ring_script(void) {
     beldo_script_timer = 0;
     page_800e->unk_296C = (s32) (page_800e->unk_296C | 0x08000000);
     GAME_STATE->log.head.flags = (u16) ((GAME_STATE->log.head.flags | 9) & 0xFFEF);
-    ((S_8016EE8C_2 *)page_8001)->unk_371C = (s32) D_80173C94;
+    GAME_STATE->log.data = D_80173C94[0];
     encounter_script_cursor = D_80173D5C;
     active_data->script_index = 0;
     do {

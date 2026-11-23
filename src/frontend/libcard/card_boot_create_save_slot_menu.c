@@ -29,7 +29,7 @@ void *card_boot_create_save_slot_menu(ObjectNodeHeader *init_value, s32 state_va
         state->surface = card_boot_create_or_reset_file_list_panel(object, state->selection, 3);
         state->heading = create_save_heading(object);
         state->state = 0;
-        object->update_callback = D_800267C0;
+        object->update_callback = create_next_save_slot_window;
     }
     return object;
 }

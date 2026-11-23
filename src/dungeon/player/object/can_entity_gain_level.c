@@ -82,7 +82,7 @@ extern u8 D_800E0970[];
 extern u8 D_800E0979[];
 
 /* Raise the entity one level, update its stats, XP reward and abilities, and optionally display a message. */
-s32 raise_entity_level(void *entity_data, s32 show_message) {
+s32 raise_entity_level(ActorRecord *actor, s32 show_message) {
     u8 ability_gained[3];
     u8 *stat_growth;
     u8 *initial_stats;
@@ -96,11 +96,11 @@ s32 raise_entity_level(void *entity_data, s32 show_message) {
     s32 level_product;
     s32 level_product_2;
 
-    if (((u8 *)entity_data)[0x11] < 99U) {
+    if (actor->level < 99U) {
         s32 stat_gain_m;
-        level = ((u8 *)entity_data)[0x11];
-        species_id = ((u8 *)entity_data)[0x13];
-        ((u8 *)entity_data)[0x11] = level + 1;
+        level = actor->level;
+        species_id = actor->species;
+        actor->level = level + 1;
         stat_growth = species_growth_table[species_id].growth;
         prev_level = level - 1;
         initial_stats = species_base_stats + (species_id * 0x18);
@@ -144,19 +144,19 @@ s32 raise_entity_level(void *entity_data, s32 show_message) {
                 new_stat = new_sum + (new_curve >> 0xF);
             }
 
-            stat = ((u8 *)entity_data)[5];
+            stat = actor->level_max_hp;
             old_value = stat;
             stat += new_stat - old_stat;
             if ((u32) stat >= 0x100) {
                 stat = 0xFF;
             }
             stat_gain_m = stat - old_value;
-            ((u8 *)entity_data)[5] = stat;
+            actor->level_max_hp = stat;
             /*
              * BUG: HP growth is added directly to a byte even when doubled HP is already 255. It wraps instead
              * of saturating; a full-health Naplass can reach zero HP on leveling up.
              */
-            ((u8 *)entity_data)[0x28] += stat_gain_m;
+            actor->hp += stat_gain_m;
         }
 
         {
@@ -178,15 +178,15 @@ s32 raise_entity_level(void *entity_data, s32 show_message) {
             new_scaled = slot * level;
             old_stat = initial_stats[4] + (old_scaled >> 0xA);
             new_stat = initial_stats[4] + (new_scaled / 1024);
-            stat = ((u8 *)entity_data)[4];
+            stat = actor->level_max_mp;
             old_value = stat;
             stat += new_stat - old_stat;
             if ((u32) stat >= 0x100) {
                 stat = 0xFF;
             }
             stat_gain_m = stat - old_value;
-            ((u8 *)entity_data)[4] = stat;
-            ((u8 *)entity_data)[0x25] += stat_gain_m;
+            actor->level_max_mp = stat;
+            actor->mp += stat_gain_m;
         }
 
         {
@@ -199,7 +199,7 @@ s32 raise_entity_level(void *entity_data, s32 show_message) {
             base_stat = initial_stats[0];
             slot = old_scaled * base_stat;
             old_scaled = slot * prev_level;
-            stat = ((u8 *)entity_data)[0];
+            stat = actor->attack;
             old_value = stat;
             if (old_scaled < 0) {
                 old_scaled += 0x3F;
@@ -215,12 +215,12 @@ s32 raise_entity_level(void *entity_data, s32 show_message) {
                 stat = 0xFF;
             }
             stat_gain_m = stat - old_value;
-            ((u8 *)entity_data)[0] = stat;
+            actor->attack = stat;
             /*
              * BUG: doubled attack can already be 255 while base attack still grows. This byte addition wraps;
              * a full-strength Arachne can reach zero attack on leveling up.
              */
-            ((u8 *)entity_data)[0x26] += stat_gain_m;
+            actor->current_attack += stat_gain_m;
         }
 
         {
@@ -236,7 +236,7 @@ s32 raise_entity_level(void *entity_data, s32 show_message) {
             base_stat = initial_stats[1];
             slot = old_scaled * base_stat;
             old_scaled = slot * prev_step;
-            stat = ((u8 *)entity_data)[1];
+            stat = actor->defense;
             old_value = stat;
             if (old_scaled < 0) {
                 old_scaled += 0x3F;
@@ -253,18 +253,18 @@ s32 raise_entity_level(void *entity_data, s32 show_message) {
                 stat = 0xFF;
             }
             stat_gain_m = stat - old_value;
-            ((u8 *)entity_data)[1] = stat;
+            actor->defense = stat;
             /*
              * BUG: doubled defense can already be 255 while base defense still grows. This byte addition
              * wraps; a full-strength Metal can drop to 1 defense on leveling up.
              */
-            ((u8 *)entity_data)[0x27] += stat_gain_m;
+            actor->current_defense += stat_gain_m;
 
             old_scaled = stat_growth[2];
             base_stat = initial_stats[2];
             slot = old_scaled * base_stat;
             old_scaled = slot * prev_step;
-            stat = ((u8 *)entity_data)[2];
+            stat = actor->agility;
             if (old_scaled < 0) {
                 old_scaled += 0x3F;
             }
@@ -279,13 +279,13 @@ s32 raise_entity_level(void *entity_data, s32 show_message) {
             if ((u32) stat >= 0x100) {
                 stat = 0xFF;
             }
-            ((u8 *)entity_data)[2] = stat;
+            actor->agility = stat;
 
             old_scaled = stat_growth[3];
             base_stat = initial_stats[3];
             slot = old_scaled * base_stat;
             old_scaled = slot * prev_step;
-            stat = ((u8 *)entity_data)[3];
+            stat = actor->luck;
             if (old_scaled < 0) {
                 old_scaled += 0x3FF;
             }
@@ -300,7 +300,7 @@ s32 raise_entity_level(void *entity_data, s32 show_message) {
             if ((u32) stat >= 0x100) {
                 stat = 0xFF;
             }
-            ((u8 *)entity_data)[3] = stat;
+            actor->luck = stat;
         }
 
         {
@@ -322,10 +322,10 @@ s32 raise_entity_level(void *entity_data, s32 show_message) {
             if (xp_given > 0xFFFFU) {
                 xp_given = 0xFFFF;
             }
-            ((ActorRecord *)entity_data)->exp_reward = xp_given;
+            actor->exp_reward = xp_given;
         }
 
-        if (((u8 *)entity_data)[0x13] != 0) {
+        if (actor->species != 0) {
             u8 *gained_base;
             s32 gained_flag;
             DefEntry *ability_table;
@@ -339,7 +339,7 @@ s32 raise_entity_level(void *entity_data, s32 show_message) {
             ability_table = item_action_definitions;
             gained_flag = 1;
             levels_left = 100 - level;
-            ability_slot = ((u8 *)entity_data) + 6;
+            ability_slot = ((u8 *)actor) + 6;
 loop_0:
             {
                 gained = gained_base + slot;
@@ -347,7 +347,7 @@ loop_0:
                 ability_value = ability_slot[8];
                 if (ability_value != 0) {
                     s32 type_mask = ability_table[ability_value].unk_10 >> 4;
-                    if ((type_mask & (*(s32 *)(((u8 *)entity_data) + 0x14))) || !(type_mask & 7)) {
+                    if ((type_mask & actor->flags14) || !(type_mask & 7)) {
                         s32 ability_level = ability_slot[10];
                         if ((u32) ability_level < 99U) {
                             s32 new_level;
@@ -373,7 +373,7 @@ loop_0:
                 goto loop_0;
         }
 
-        apply_entity_effects((entity_data));
+        apply_entity_effects(actor);
 
         if ((show_message << 0x10) != 0) {
             if (!(system_update_flags & 1)) {
@@ -381,25 +381,25 @@ loop_0:
                 g_dungeon_status.activity_counts.parts.pending_action_count++;
             }
             stat_gain_m = 0x8003;
-            if ((*(s32 *)(((u8 *)entity_data) + 0x14) & 0x2000) != 0) {
+            if ((actor->flags14 & 0x2000) != 0) {
                 stat_gain_m = 0x8002;
             }
-            create_actor_value_popup(stat_gain_m, (entity_data), -2, 1);
+            create_actor_value_popup(stat_gain_m, actor, -2, 1);
 
             message = get_unused_text_buffer();
             text_end = expand_text_control_codes(D_800E0953, message);
             text_end = write_text_byte_and_advance(0xA, text_end);
-            text_end = append_entity_display_text((entity_data), text_end);
+            text_end = append_entity_display_text(actor, text_end);
             text_end = expand_text_control_codes(D_800E095F, text_end);
-            text_end = format_fullwidth_decimal(((u8 *)entity_data)[0x11], text_end);
+            text_end = format_fullwidth_decimal(actor->level, text_end);
             text_end = expand_text_control_codes(fullwidth_period, text_end);
 
-            if (((u8 *)entity_data)[0x13] != 0 && ((*(s32 *)(((u8 *)entity_data) + 0x14) & 0x4000) != 0)) {
+            if (actor->species != 0 && ((actor->flags14 & 0x4000) != 0)) {
                 u8 *ability_slot;
                 DefEntry *ability_table;
                 slot = 0;
                 ability_table = item_action_definitions;
-                ability_slot = entity_data;
+                ability_slot = (u8 *)actor;
                 do {
                     if (ability_gained[slot] != 0) {
                         text_end = write_text_byte_and_advance(0xA, text_end);
@@ -829,7 +829,7 @@ u32 check_entity_interaction_compatibility(void *entity_arg, ActorRecord *other_
     if (other_entity == NULL) {
         return 0;
     }
-    if ((entity->flags1C) & (ACTOR_BLIND | ACTOR_CONFUSED)) {
+    if (entity->flags1C & (ACTOR_BLIND | ACTOR_CONFUSED)) {
         return 1;
     }
     if (entity->species == MONSTER_TYRANT &&
@@ -840,8 +840,8 @@ u32 check_entity_interaction_compatibility(void *entity_arg, ActorRecord *other_
         (((u32)entity->flags14) & ACTOR_PARTY_MEMBER)) {
         return ((u16)get_entity_effect_value(entity, STATUS_BRAINWASH) << 16) != 0;
     }
-    return ((((entity->flags1C) ^
-              (other_entity->flags1C)) & 0x2000) << 16) >> 16;
+    return (((entity->flags1C ^
+              other_entity->flags1C) & 0x2000) << 16) >> 16;
 }
 #include "shared/dungeon_floor.h"
 

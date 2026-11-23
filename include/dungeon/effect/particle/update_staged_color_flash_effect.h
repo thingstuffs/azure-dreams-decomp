@@ -155,11 +155,6 @@ typedef union Scratch {
     u8 byte;
 } Scratch;
 
-typedef struct {
-    unsigned addr: 24;
-    unsigned len: 8;
-    u8 r0, g0, b0, code;
-} P_TAG;
 
 typedef struct {
     s32 x, y, z;

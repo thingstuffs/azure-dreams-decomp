@@ -5216,7 +5216,6 @@
 {"id":"dungeon/func_81844F2C","path":"src/dungeon/effect/particle/update_staged_color_flash_effect.c"}
 {"id":"dungeon/func_81845068","path":"src/dungeon/effect/particle/update_staged_color_flash_effect.c"}
 {"id":"dungeon/func_81845484","path":"src/dungeon/effect/particle/update_staged_color_flash_effect.c"}
-{"id":"dungeon/func_8184A800","path":"src/dungeon/func_8184A800.c"}
 {"id":"dungeon/func_8184A930","path":"src/dungeon/effect/motion/create_random_rotation_effect_sprite.c"}
 {"id":"dungeon/func_8184AA24","path":"src/dungeon/effect/motion/advance_linked_object_counter.c"}
 {"id":"dungeon/func_8184AAA0","path":"src/dungeon/effect/motion/allocate_effect_at_coordinates.c"}
@@ -7853,3 +7852,8 @@
 {"id":"dungeon/func_818F37A4","path":"src/dungeon/effect/update_pulsing_bolt_spell.c"}
 {"id":"dungeon/func_818DAF14","path":"src/dungeon/effect/draw_rippled_screen_strips.c"}
 {"id":"dungeon/func_818A4FD4","path":"src/dungeon/effect/update_orbit_ring_spell.c"}
+{"id":"dungeon/func_8184B890","path":"src/dungeon/effect/update_orbit_burst_spell.c"}
+{"id":"dungeon/func_8184A848","path":"src/dungeon/effect/motion/advance_randomized_orbit_child_animation.c"}
+{"id":"town/func_8080BD70","path":"src/town/scene/dialogue/advance_delayed_panel_text.c"}
+{"id":"town/func_804B8C18","path":"src/town/scene/motion/nudge_scene_y_in_state_two.c"}
+{"id":"main/func_802437C0","path":"src/frontend/libcard/create_next_save_slot_window.c"}

@@ -1,5 +1,5 @@
 {
- "count": 1252,
+ "count": 1247,
  "ids": [
   "include/dungeon/actor/ability_eligibility.h::S_800A4300_2.unk_F0",
   "include/dungeon/actor/action_target_selection_g00359.h::S_800CA444_0.unk_24",
@@ -256,7 +256,6 @@
   "include/dungeon/level/floor_object_position_entry.h::D_800E39C8_entry.field6",
   "include/dungeon/level/floor_object_position_entry.h::D_800E39C8_entry.field7",
   "include/dungeon/level/floor_object_position_entry.h::D_800E39C8_entry.field8",
-  "include/dungeon/level/spawn.h::floor_spawns_isolated_8028BF0C_S_8001EF0C_0.unk_43",
   "include/dungeon/level/terrain_surface_height_g00351.h::S_800BCE7C_0.unk_154",
   "include/dungeon/level/terrain_surface_height_g00351.h::S_800BCE7C_0.unk_158",
   "include/dungeon/level/terrain_surface_height_g00351.h::S_800BCE7C_0.unk_15C",
@@ -544,9 +543,6 @@
   "include/modules/dungeon_ovl_197e800.h::S_8195F43C_7.unk_22",
   "include/modules/dungeon_ovl_197e800.h::S_8195FD40_4.unk_00",
   "include/modules/dungeon_ovl_197e800.h::S_8195FD40_4.unk_04",
-  "include/modules/dungeon_ovl_197e800.h::S_81960530_0.unk_140",
-  "include/modules/dungeon_ovl_197e800.h::S_81960530_0.unk_142",
-  "include/modules/dungeon_ovl_197e800.h::S_81960530_0.unk_152",
   "include/modules/dungeon_ovl_197e800.h::S_81960530_0.unk_154",
   "include/modules/dungeon_ovl_197e800.h::S_81960530_0.unk_158",
   "include/modules/dungeon_ovl_197e800.h::S_81960530_0.unk_15C",
@@ -770,7 +766,6 @@
   "include/town/map/display_fade_g00643.h::TimedDisplayDecayBody.timer",
   "include/town/map/forward_surface_query_with_argument_g01117.h::Quad.Quad",
   "include/town/map/forward_surface_query_with_argument_g01117.h::S_8008DA80_1.unk_16",
-  "include/town/map/forward_surface_query_with_argument_g01117.h::ScratchArena.ScratchArena",
   "include/town/map/motion.h::FadingEffectMotionObject.timer",
   "include/town/map/paired_actor_motion_g00645.h::EventToriInBody.state",
   "include/town/map/paired_actor_motion_g00645.h::LinkedMotionObject.update",

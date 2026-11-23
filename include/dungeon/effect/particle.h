@@ -4,6 +4,7 @@ struct ScatterLandingSparksOnGridBody;
 struct LayeredSpritePulseBody;
 struct ProjectileBurstImpactBody;
 struct ScatteredTimedEffectBody;
+#include "dungeon/effect/particle/vertex_transform.h"
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -212,7 +213,6 @@ void update_animated_textured_ribbon(EightPartTexturedRibbonBody *effect, void *
 void update_flickering_layer_sprite(struct LayeredSpritePulseBody *effect_data, void *unused, SpriteFrameState *effect);
 void update_landing_particle_fade(struct ScatterLandingSparksOnGridBody *object, u8 *motion, u8 *sprite);
 
-void transform_rotated_vertices(void *transform_data);
 
 struct ObjectNodeHeader;
 struct ParticleCleanupWork;

@@ -12,12 +12,6 @@
 
 
 
-#define PTR32(address) ((u32)(unsigned long)(address))
-#define setaddr(packet, address) (((GpuLinkTag *)(packet))->addr = PTR32(address))
-#define getaddr(packet) ((u32)(((GpuLinkTag *)(packet))->addr))
-#define addPrim(ordering_table, primitive) \
-(setaddr((primitive), getaddr(ordering_table)), \
-    setaddr((ordering_table), (primitive)))
 
 
 

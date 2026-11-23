@@ -83,7 +83,7 @@ void update_tyrant_actor(ActorRecord *body, TrailMotion *motion, SpriteFrameStat
         sprite->clut = wobble_base;
     } else if ((body->flags14 & ACTOR_ELEMENT_MASK) != body->unk_AA) {
         update_owner_class_bits(body);
-        body->unk_AA = (*(u16 *)((u8 *)body + 0x14)) & ACTOR_ELEMENT_MASK;
+        body->unk_AA = body->flags14 & ACTOR_ELEMENT_MASK;
     }
 
     part_flags = sprite->flags;

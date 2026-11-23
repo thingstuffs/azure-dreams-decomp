@@ -12,6 +12,15 @@
   },
   "entries": [
     {
+      "row": "town/func_8080BD70",
+      "home": "town/func_8080BD70",
+      "tu": "src/town/scene/dialogue/advance_delayed_panel_text.c",
+      "foff": "0x78bd70",
+      "vma": "0x80526970",
+      "size": 156,
+      "evidence": "The linked minigame image starts at TOWN +0x78b800 with base 0x80526400. Its panel initializer passes this entry to allocate_record_and_store_three_blocks for the score label and text rows. Address operands at TOWN +0x78c568 and +0x78c5d8."
+    },
+    {
       "row": "town/func_8080E534",
       "home": "town/func_8080E534",
       "tu": "src/town/scene/fall_to_ground_height.c",

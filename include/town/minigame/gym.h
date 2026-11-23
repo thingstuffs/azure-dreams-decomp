@@ -1,12 +1,12 @@
 #ifndef TOWN_MINIGAME_GYM_H
 #define TOWN_MINIGAME_GYM_H
 #include "common.h"
+#include "shared/game_state.h"
 #include "shared/entity.h"
 
 extern s16 gym_lane;
 extern s16 gym_lane_delay;
 extern s16 gym_lane_positions[];
-extern u16 gym_high_score[];
 
 /* Controller body created by initialize_gym_minigame and linked at the
  * first word of every score object. Score updates signal flags 1/2 and

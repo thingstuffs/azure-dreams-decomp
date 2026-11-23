@@ -20,10 +20,8 @@
 
 
 
-extern u8 D_80164A70[];
 extern u8 D_80168AD4[];
 extern u8 D_80168AFC[];
-extern u8 D_80165138[];
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 /* Creates Zu with default frames at D_80168AD4, applies spawn flags, and attempts valid tile placement. */
@@ -47,7 +45,7 @@ void *create_configured_overlay_actor_third(s16 flags, s16 kind_id, s16 variant,
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
         work = NODE_BODY(obj);
-        obj->update_callback = D_80164A70;
+        obj->update_callback = update_zu_movement;
         work->species = MONSTER_ZU;
         register_node(obj, project_sprite_chain);
 
@@ -86,7 +84,7 @@ void *create_configured_overlay_actor_third(s16 flags, s16 kind_id, s16 variant,
         initialize_actor_sprite_and_animation(obj, part_a, part_b, flags);
         actor->action_id = 0xFF;
         actor->route_room = -1;
-        actor->unk_8C.address = D_80165138;
+        actor->unk_8C.address = update_zu_behavior;
         work->flags1C |= 0x40000;
         actor->unk_A0.parts.low = 0;
         actor->unk_90.parts.high = -0x30;

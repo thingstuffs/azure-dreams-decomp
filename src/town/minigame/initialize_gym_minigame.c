@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/game_state.h"
 #include "town/minigame.h"
 #include "town/minigame/gym.h"
 #include "shared/sprite_frame_state.h"
@@ -30,14 +31,12 @@ s32 initialize_gym_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_arg2, s
     s32 *shared_data;
     GymPhaseSpriteBody *object_data;
     s32 count;
-    u16 *count_page;
 
     parent_link = NULL;
     shared_data = &D_80020054;
-    count_page = (u16 *)0x80010000;
-    count = (s16)*(count_page + (0x35C2 / 2));
+    count = GAME_STATE->gym_high_score;
     if (count < 20) {
-        *(count_page + (0x35C2 / 2)) = 20;
+        GAME_STATE->gym_high_score = 20;
     }
 
     node = allocate_flagged_object_node(2);

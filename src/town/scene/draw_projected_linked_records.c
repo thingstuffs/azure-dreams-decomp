@@ -1,3 +1,4 @@
+#include "sdk/libgpu.h"
 #include "common.h"
 #include "engine/graphics/sprite_scratch.h"
 #include "town/line_packets.h"
@@ -28,13 +29,6 @@ typedef struct S_8080DAB8_4 {
 } S_8080DAB8_4;
 
 
-typedef struct {
-    unsigned addr: 24;
-    unsigned len: 8;
-    u8 r0, g0, b0, code;
-} P_TAG;
-#define setaddr(p, _addr) (((P_TAG *)(p))->addr = (u32)(_addr))
-#define getaddr(p) (u32)(((P_TAG *)(p))->addr)
 extern u8 *D_8012F130;
 
 /* Build projected primitives and draw modes for linked records and add them to the ordering table. */
@@ -58,7 +52,7 @@ s32 draw_projected_linked_records(void *first_record) {
     void *record;
     u8 **render_root;
     register s32 *screen_coords;
-    u16 *depths;
+    s16 *depths;
     u16 *transform_scratch;
     u8 *primitive_base;
     u32 buffer_limit;

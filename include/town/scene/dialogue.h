@@ -10,6 +10,9 @@ struct TownObjectSet;
 struct TownCollectionPanel;
 void advance_delayed_panel_line(struct TownCollectionPanel *panel);
 
+struct TownCollectionText;
+void advance_delayed_panel_text(struct TownCollectionText *text);
+
 /* append_string.c */
 u8 *append_string(u8 *dst, u8 *src);
 

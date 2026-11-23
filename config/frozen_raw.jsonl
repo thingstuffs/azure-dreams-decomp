@@ -4864,7 +4864,6 @@
 {"noreturn":["func_80024808","func_80024860"],"path":"raw/dungeon/func_81844F2C.c","sha256":"f9ff1e8dd750b62d68ccf0ec0924d2244ad03959f614edd340ba3c5614ee26a3","size":2921}
 {"path":"raw/dungeon/func_81845068.c","sha256":"54e1b3c66f3196e8da67478f1ad66dc0ba986ec84319a55f17945a618aff62f9","size":6926}
 {"noreturn":["func_80024DD8"],"path":"raw/dungeon/func_81845484.c","sha256":"a644419937fdd70c128733096b0a27d7f9147d571b5b86b7d51aff04a34d0585","size":1692}
-{"path":"raw/dungeon/func_8184A800.c","sha256":"6e0f4fd87c40da45c2240553cf46ffe5bb532a76b94d0181e024be5948ce290c","size":1928}
 {"path":"raw/dungeon/func_8184A930.c","sha256":"95cb7f31452dc4d32c9b4999419ca932d021201ec9310c8124883a88202639ce","size":1902}
 {"path":"raw/dungeon/func_8184AA24.c","sha256":"002176831bb64d62a72120b4d6d57bedfbe2b5d9e85d61f0fd2a875b76d3840a","size":377}
 {"noreturn":["func_80024354"],"path":"raw/dungeon/func_8184AAA0.c","sha256":"96c2acf4b31f9b25b2112726000e835ecfa3b0c369bcf561e8e20177abfcf18f","size":1556}
@@ -10969,3 +10968,8 @@
 {"path":"raw/dungeon/func_818F37A4.c","sha256":"e76f84b1971457401c12e3dcf659cf68680b7e4e3ca02270940c32b85fa97447","size":16473}
 {"path":"raw/dungeon/func_818DAF14.c","sha256":"7d3d5ddbc9ad86c60b280a4ea14df3ebdb08e84181f44d2070fb433d145e1aaa","size":14958}
 {"path":"raw/dungeon/func_818A4FD4.c","sha256":"944c525acd6e125b1e1120da2bf3a7d0878806aadef910ee1229a54ffd4df5d1","size":18362}
+{"path":"raw/dungeon/func_8184B890.c","sha256":"e1e485a96b05b0040627bd97170086c551fbde40482bf761c5db21fd60792a3b","size":18272}
+{"path":"raw/dungeon/func_8184A848.c","sha256":"c45a7296715a7dbd1bcf3602e6e6c242f4eb47d507eabd593244923a544acfa7","size":1064}
+{"path":"raw/town/func_8080BD70.c","sha256":"1c72e4c04e624e3e9ae633f37561f0189f12d250c6485c096883545089f63fbe","size":862}
+{"path":"raw/town/func_804B8C18.c","sha256":"54329b73ea2ce24a8cfcbc7e55b962adb9ba71dd48d0ab0e1c46adbe1a8a2394","size":981}
+{"path":"raw/main/func_802437C0.c","sha256":"0c6cbbef62d39dfde5bb83482fb7dd4d246d1a83d8747f7da62386c3791c0869","size":993}

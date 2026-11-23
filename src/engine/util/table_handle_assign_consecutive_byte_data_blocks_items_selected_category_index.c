@@ -15,8 +15,8 @@
  */
 void assign_item_category_data_blocks(void)
 {
-    ResourceCategoryPair *item_pair = (ResourceCategoryPair *)0x80013564;
-    void *item_data = (void *)0x800133E8;
+    ResourceCategoryPair *item_pair = GAME_STATE->item_data_keys;
+    ItemDataSlotRecord *item_data = GAME_STATE->item_data;
     ItemCategory *category_table;
     s32 pair_index = 0;
 
@@ -27,6 +27,6 @@ void assign_item_category_data_blocks(void)
             records[item_pair->b].data = item_data;
         }
         item_pair++;
-        item_data = (u8 *)item_data + 0x13;
+        item_data++;
     }
 }

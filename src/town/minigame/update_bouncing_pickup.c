@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "town/scene/active_object_overlap_g00529.h"
 #include "town/minigame.h"
 #include "shared/entity.h"
@@ -17,7 +18,6 @@ extern Box D_800D0420;
 
 
 
-extern s32 town_money[];
 extern TownRewardValues D_80020020;
 extern s32 D_8007947C[];
 
@@ -116,7 +116,7 @@ void update_bouncing_pickup(minigame_pickup_source *pickup, ObjectPosition *moti
         if (offset_boxes_overlap(minigame_source_bounds, motion, &D_800D0420, &view_reference_entity) != 0) {
             SD_Call(0x516);
             reward = reward_units.values[pickup->x] * 100;
-            town_money[0] += reward;
+            GAME_STATE->town_money += reward;
             pickup_reward_total[0] += reward;
             pickup->kind = 6;
         }
@@ -139,7 +139,7 @@ void update_bouncing_pickup(minigame_pickup_source *pickup, ObjectPosition *moti
         if (offset_boxes_overlap(minigame_source_bounds, motion, &D_800D0420, &view_reference_entity) != 0) {
             SD_Call(0x516);
             reward = reward_units.values[pickup->x] * 100;
-            town_money[0] += reward;
+            GAME_STATE->town_money += reward;
             pickup_reward_total[0] += reward;
             pickup->kind = 6;
         }
@@ -160,7 +160,7 @@ void update_bouncing_pickup(minigame_pickup_source *pickup, ObjectPosition *moti
         if (offset_boxes_overlap(minigame_source_bounds, motion, &D_800D0420, &view_reference_entity) != 0) {
             SD_Call(0x516);
             reward = reward_units.values[pickup->x] * 100;
-            town_money[0] += reward;
+            GAME_STATE->town_money += reward;
             pickup_reward_total[0] += reward;
             pickup->kind = 6;
         }

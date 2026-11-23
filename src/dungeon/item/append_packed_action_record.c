@@ -1,19 +1,12 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "shared/dungeon_floor.h"
 #include "dungeon/item.h"
-
-typedef struct DungeonWriteState {
-    u8 pad0[4];
-    u16 flags;
-    u16 position;
-    u8 pad8[4];
-    u8 *data;
-} DungeonWriteState;
 
 /* Records an object action in the dungeon buffer, combining compatible entries. */
 void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s32 extra_byte) {
     u8 *object = object_ptr;
-    DungeonWriteState *state = (DungeonWriteState *)0x80013710;
+    ActionLog *state = &GAME_STATE->log;
     u16 saved_action = action_code;
     s32 saved_payload = payload;
     s8 saved_extra = extra_byte;
@@ -32,14 +25,14 @@ void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload,
     if (dungeon_floor_flags & 0x10000000) {
         return;
     }
-    if (state->flags & 1) {
+    if (state->head.flags & 1) {
         return;
     }
-    if (state->position >= 0xF01U) {
+    if (state->head.length >= 0xF01U) {
         return;
     }
 
-    entry = state->data + state->position * 2;
+    entry = state->data + state->head.length * 2;
     compare_kind = (*(u16 *)(object + 0x2A) >> 9) & 7;
     kind_byte = compare_kind;
     kind = kind_byte;
@@ -51,7 +44,7 @@ void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload,
              entry_action &= 0xF8,
              entry_action != shifted_action) ||
             entry[0] >= 0x7F) {
-            state->position++;
+            state->head.length++;
             entry += 2;
             entry[1] = 0;
             entry[0] = 0;
@@ -81,7 +74,7 @@ void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload,
         entry[0] = saved_payload | 0x80;
         entry[2] = saved_extra;
         entry[3] = 0;
-        state->position += 2;
+        state->head.length += 2;
         entry += 2;
         break;
     case 104:
@@ -93,7 +86,7 @@ void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload,
         entry = find_matching_action_record(entry_tag & 0xFF, (saved_payload & 1) << 5);
         flag_bit = (saved_payload & 1) << 5;
         if (old_entry != entry) {
-            state->position--;
+            state->head.length--;
             entry[1] = entry_tag;
             entry[0] = flag_bit | -0x80 | (saved_extra & 0x1F);
             return;

@@ -22,6 +22,7 @@ void clamp_position_y_to_bounds(struct ColliderView *collider, ObjectPosition *p
 
 /* advance_player_position_by_step.c */
 void advance_player_position_by_step(void);
+s32 nudge_scene_y_in_state_two(void);
 
 /* advance_three_component_motion.c */
 void advance_three_component_motion(void *timer_state, void *motion);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "records/Rec_func_80021E88_arg1.h"
 #include "town/menu.h"
 #include "town/minigame/object.h"
@@ -9,7 +10,6 @@ typedef struct S_80021E88_4 {
     s16 unk_22;
 } S_80021E88_4;   /* ((MinigameTransitionObject *)arg0)->unk_04 in update_minigame_transition */
 
-extern s32 town_money;
 extern u8 D_800243F0[];
 extern s32 D_80024438[];
 extern s32 D_80024444[];
@@ -27,7 +27,7 @@ void update_minigame_transition(MinigameTransitionObject *controller, ObjectPosi
     if (object->state == 0) {
         controller->state = 0;
     }
-    if (town_money >= 100U) {
+    if (GAME_STATE->town_money >= 100U) {
         if (test_three_axis_box_overlap(D_800243F0, position) != 0) {
             transition = 1;
         } else {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "town/minigame/gym.h"
 #include "shared/town_handler_entries.h"
 #include "shared/object_flags.h"
@@ -65,8 +66,8 @@ void update_gym_score_object(GymScoreObject *obj, ObjectPosition *motion)
             if (obj->state == 0) {
                 score++;
                 child->score.s = score;
-                if ((gym_high_score[0] << 16) < (score << 16)) {
-                    gym_high_score[0] = score;
+                if ((GAME_STATE->gym_high_score << 16) < (score << 16)) {
+                    GAME_STATE->gym_high_score = score;
                 }
             }
         }
@@ -133,7 +134,7 @@ void update_gym_score_object(GymScoreObject *obj, ObjectPosition *motion)
             break;
         }
 
-        if (*(s16 *)0x800135C2 == child->score.s) {
+        if (GAME_STATE->gym_high_score == child->score.s) {
             sound_set_cd_cue_parameters(0, 0x2C3D, 0x01000001, 0x01000271);
             SD_Call(0x300);
             state = obj->state + 1;

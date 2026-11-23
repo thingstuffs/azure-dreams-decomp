@@ -11,6 +11,7 @@ struct ObjectPosition;
 #include "records/Rec_D_80082E80.h"
 #include "sdk/libgte.h"
 #include "dungeon/effect.h"
+#include "dungeon/effect/orbit_ring_spell.h"
 
 /* Applies a flag-adjusted stat increase to an eligible target and updates its state. */
 typedef struct {
@@ -119,7 +120,6 @@ extern u8 D_80025214[];
 void apply_small_random_value_gain(ActorRecord *target, s32 effect_param, ActorRecord *record);
 void animate_randomly_rotated_sprite(Row_818A48C4_Func818A48C4Object **source_ref, struct ObjectPosition *unused,
                    SpriteFrameState *target);
-struct OrbitRingSpell;
 void *create_coordinate_sprite_effect(struct OrbitRingSpell *owner, ObjectPosition *source_coords);
 void advance_counted_sprite_animation(void **object_ref, long long value);
 void *create_randomized_grayscale_effect(s32 context_value, Row_818A4A64_S_818A4A64_2 *initial_position);

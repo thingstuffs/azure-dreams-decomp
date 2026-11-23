@@ -12,8 +12,7 @@ typedef struct SpriteScratchScreenPoint {
 /* Quad renderers share these UV, matrix, vertex, depth and GTE output slots.
  * The three input words at +0x30 hold camera angles before they are reused
  * for scale. The matrix translation is also the temporary sprite offset.
- * The terrain query block (TerrainQueryScratch) starts at +0x140, so a renderer may call
- * sample_terrain_surface_height with these slots live. matrix_50 and matrix_D0 swap roles in
+ * Terrain surface queries use the scratchpad from +0x140. matrix_50 and matrix_D0 swap roles in
  * transform_mesh_and_append_draw_packets, set_effect_gte_matrix and draw_lit_mesh. */
 typedef struct SpriteQuadScratch {
     /* 0x000 */ SVECTOR position; /* RotTransPers input: the sprite's world position; draw_sprite_parts reads vx/vy set by its callers */
@@ -26,7 +25,7 @@ typedef struct SpriteQuadScratch {
     /* 0x020 */ u32 *ordering_table;
     /* 0x024 */ u16 sprite_flags;
     /* 0x026 */ u16 pad_26;
-    /* 0x028 */ SVECTOR rotation; /* RotMatrix angles; RotTransPers input position in transform_mesh_and_append_draw_packets; a centre offset in build_transformed_sprite_quads */
+    /* 0x028 */ SVECTOR rotation; /* RotMatrix angles; RotTransPers input position in transform_mesh_and_append_draw_packets */
     /* 0x030 */ VECTOR input; /* camera angles, then the ScaleMatrix scale */
     /* 0x040 */ VECTOR translation;
     /* 0x050 */ MATRIX matrix_50; /* composed matrix set into the GTE in most renderers; RotMatrix output in three */
@@ -42,7 +41,7 @@ typedef struct SpriteQuadScratch {
     /* 0x0CC */ s32 depth_offset;
     /* 0x0D0 */ MATRIX matrix_D0; /* RotMatrix output in most renderers; composed matrix set into the GTE in three */
     /* 0x0F0 */ SpriteScratchScreenPoint projected_vertices[4];
-    /* 0x100 */ SVECTOR angles; /* RotMatrix input; build_transformed_sprite_quads reads centre values here */
+    /* 0x100 */ SVECTOR angles; /* RotMatrix input */
     /* 0x108 */ u16 extent_x;
     /* 0x10A */ u16 extent_y;
     /* 0x10C */ u8 pad_10C[8];
@@ -112,7 +111,7 @@ typedef struct SpriteLinkedScratch {
  * interpolation and flag outputs. */
 typedef struct PointListScratch {
     /* 0x000 */ s32 screen_xy[64]; /* packed sxy words RotTransPersN writes; read as words */
-    /* 0x100 */ u16 depths[64];
+    /* 0x100 */ s16 depths[64];
     /* 0x180 */ u16 gte_discard[64]; /* RotTransPersN p and flag arrays, both aimed here and never read */
 } PointListScratch;
 #define POINT_LIST_SCRATCH ((PointListScratch *)0x1F800000)

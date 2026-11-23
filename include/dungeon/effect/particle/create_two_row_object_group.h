@@ -1,6 +1,7 @@
 /* Complete resident-engine cohort contract. Review pending. */
 #ifndef DUNGEON_ENGINE_PARTICLE_EFFECTS_H
 #define DUNGEON_ENGINE_PARTICLE_EFFECTS_H
+#include "dungeon/effect/particle/vertex_transform.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
@@ -24,7 +25,6 @@ typedef struct ScatteredTimedEffectBody {
 void *allocate_flagged_object_node(int flags);
 
 /* Shared packed-vertex projection record. */
-void transform_rotated_vertices(void *transform_data);
 
 struct SpriteFrameState;
 void create_two_effect_groups(ObjectPosition *position, struct SpriteFrameState *source_visual, ActorRecord *source_arg, s16 effect_param);

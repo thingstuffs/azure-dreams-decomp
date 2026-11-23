@@ -8,6 +8,15 @@
   "evidence": "Selector 10 loads DUNGEON +0x186A800 into 0x80024000 for 0x6000 bytes.",
   "entries": [
     {
+      "row": "dungeon/func_8184A848",
+      "home": "dungeon/func_8184A848",
+      "tu": "src/dungeon/effect/motion/advance_randomized_orbit_child_animation.c",
+      "foff": "0x186a848",
+      "vma": "0x80024048",
+      "size": 232,
+      "evidence": "The factory at DUNGEON +0x186a930 stores the child callback and owner. This callback advances the child frames and increments the owner count."
+    },
+    {
       "row": "dungeon/func_8184AB74",
       "tu": "src/dungeon/monster/golem/remove_golem_effect_after_animation.c",
       "home": "dungeon/func_81087200",
@@ -26,6 +35,15 @@
       "foff": "0x186abe0",
       "vma": "0x800243e0",
       "size": 196
+    },
+    {
+      "row": "dungeon/func_8184B890",
+      "home": "dungeon/func_8184B890",
+      "tu": "src/dungeon/effect/update_orbit_burst_spell.c",
+      "foff": "0x186b890",
+      "vma": "0x80025090",
+      "size": 2836,
+      "evidence": "Selector 10 loads the twelve sectors from DUNGEON +0x186a800 to 0x80024000. The first word names the spell updater, which travels to its target and spawns a thirty-two sprite burst."
     }
   ],
   "load_evidence": {

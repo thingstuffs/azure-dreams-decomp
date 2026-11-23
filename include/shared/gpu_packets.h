@@ -1,14 +1,6 @@
 #ifndef SHARED_GPU_PACKETS_H
 #define SHARED_GPU_PACKETS_H
-/* DMA/GPU packet tag: addr is the next packet's low 24-bit address,
- * len is the command-word count in the high byte. The existing bitfield
- * consumers in the layered renderer and text renderer use this layout. */
-/* DMA tag embedded in a render packet; builders set its count and link it into the ordering table.
- * It has the containing packet's frame lifetime; changing addr must preserve the high length byte. */
-typedef struct GpuLinkTag {
-    unsigned int addr : 24; /* next packet address, low 24 bits */
-    unsigned int len : 8; /* number of following GPU command words, in 32-bit words */
-} GpuLinkTag;
+#include "sdk/libgpu_types.h"
 
 #define add_primitive_to_ordering_table(order, packet) \
     (((GpuLinkTag *)(packet))->addr = ((GpuLinkTag *)(order))->addr, \

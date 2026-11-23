@@ -10,11 +10,9 @@ ItemDataSlotRecord *alloc_item_data_slot(s16 first_value, s16 second_value)
     s32 slot = find_item_data_slot(0, 0);
 
     if (slot < 0x14) {
-        s32 offset = slot * sizeof(ResourceCategoryPair);
-
-        record = (ItemDataSlotRecord *)0x800133E8 + slot;
-        ((ResourceCategoryPair *)(offset + 0x80013564))->a = first_value;
-        ((ResourceCategoryPair *)(offset + 0x80013564))->b = second_value;
+        record = GAME_STATE->item_data + slot;
+        GAME_STATE->item_data_keys[slot].a = first_value;
+        GAME_STATE->item_data_keys[slot].b = second_value;
     }
 
     return record;

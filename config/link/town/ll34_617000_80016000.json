@@ -8,6 +8,22 @@
   "evidence": "ledger/instance_load_regions.jsonl; validated packed-CD loader record",
   "entries": [
     {
+      "row": "town/func_80697100",
+      "home": "town/func_8032BAF8",
+      "tu": "src/town/scene/lookup_with_override_fallback.c",
+      "foff": "0x617100",
+      "vma": "0x80016100",
+      "size": 132,
+      "evidence": "The complete 132-byte home links at TOWN +0x617100 in the image loaded at 0x80016000. The image operands at +0x61711c, +0x617128, +0x617138, +0x61714c, +0x61715c identify its local imports.",
+      "bindings": {
+        "0x8001B234": "0x80018954",
+        "0x8001DE4A": "0x80019B97",
+        "0x8001C358": "0x80018AD0",
+        "0x80019DFC": "0x80017BDC",
+        "0x80019D44": "0x80017B24"
+      }
+    },
+    {
       "row": "town/func_80697474",
       "tu": "src/town/scene/event/run_event_helper_get_buffer.c",
       "home": "town/func_80697474",

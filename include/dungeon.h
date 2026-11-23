@@ -57,7 +57,4 @@ void empty_reserved_callback(void);
 /* func_81329928.c */
 void empty_reserved_callback_alt(void);
 
-/* func_8184A800.c */
-void func_8184A800(void *owner, void *unused, SpriteFrameState *target);
-
 #endif

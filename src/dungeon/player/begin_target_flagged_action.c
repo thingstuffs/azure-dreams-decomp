@@ -14,6 +14,8 @@ extern u8 D_800E04E6[];
 
 /* Start the actor action and apply its target effect unless a blocking flag is set. */
 s32 begin_target_flagged_action(void *actor, s32 action_arg, SpriteFrameState *unused, ActorRecord *target) {
+    PlayerRecord *player = actor;
+
     if ((held_item_kind_alias != 0) || (D_80081471 != 0)) {
         if (D_80081471 != 0) {
             display_formatted_context_message(D_800E04BA);
@@ -28,6 +30,7 @@ s32 begin_target_flagged_action(void *actor, s32 action_arg, SpriteFrameState *u
     *(s8 *)((u8 *)actor + 0x9B) = 0;
     *(s32 *)((u8 *)actor + 0x8C) = 0;
     select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, action_arg, 8, 0x300);
-    append_packed_action_record(target, 0x48, get_item_slot_number(*(s32 *)((u8 *)actor + 0xBC)), 0);
+    /* get_item_slot_number takes the item address as an integer. */
+    append_packed_action_record(target, 0x48, get_item_slot_number((unsigned long)player->held_item), 0);
     return 1;
 }

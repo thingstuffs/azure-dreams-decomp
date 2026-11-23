@@ -32,7 +32,7 @@ typedef struct S_80024790_2 {
 } S_80024790_2;
 
 /* Creates an effect at the origin with index-dependent color, scale, and position. */
-void * create_orbit_sprite_at_index(MovingPosition *origin, u16 index) {
+void * create_orbit_sprite_at_index(MovingPosition *origin, s16 index) {
     u8 color_index;
     s32 frame;
     s16 scale;
@@ -49,7 +49,7 @@ void * create_orbit_sprite_at_index(MovingPosition *origin, u16 index) {
         ((S_80024790_0 *)effect)->unk_20 = (u16) origin->x;
         state = NODE_BODY(effect);
         state->unk_02 = (u16) origin->y;
-        frame = (s16) index;
+        frame = index;
         state->unk_04 = (u16) origin->z;
         state->unk_08 = (s16) ((frame << 8) % 0x1000);
         sprite = effect->sprite;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "town/shop.h"
 
 typedef struct {
@@ -14,7 +15,7 @@ s32 get_player_homerank(void) {
     s32 home_value;
 
     home_values = D_8008925C;
-    home_value = *(u8 *)0x800133BA;
+    home_value = GAME_STATE->building_slots[11][0];
     home_rank = 0;
     while (home_values.bytes[home_rank] != 0) {
         if (home_values.bytes[home_rank] == home_value) {

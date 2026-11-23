@@ -1,3 +1,4 @@
+#include "dungeon/effect/particle/vertex_transform.h"
 #include "sdk/libgte.h"
 #ifndef DUNGEON_OVL_7E67B800_H
 #define DUNGEON_OVL_7E67B800_H
@@ -65,7 +66,6 @@ static __inline__ u8 *grid_cell(u8 *grid, s32 row, s32 col)
 }
 
 /* Build a textured quad grid for each object in the linked list. */
-void transform_rotated_vertices(void *transform_data);
 
 
 s32 render_rotated_grid_surface(DirectionalGridEffectBody *node);

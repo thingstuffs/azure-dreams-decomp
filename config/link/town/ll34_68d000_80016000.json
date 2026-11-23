@@ -17,6 +17,28 @@
       "evidence": "docs/evidence/r124w_carve1_town_phase_callbacks.md"
     },
     {
+      "row": "town/func_8070E580",
+      "tu": "src/town/scene/select_scene_text_by_selector.c",
+      "home": "town/func_8070E580",
+      "foff": "0x68e580",
+      "vma": "0x80017580",
+      "size": 132,
+      "evidence": "Existing compiler home for town/func_8070E580; the registered split and its source retain their established coordinates."
+    },
+    {
+      "row": "town/func_8070F5F4",
+      "home": "town/func_8070E580",
+      "tu": "src/town/scene/select_scene_text_by_selector.c",
+      "foff": "0x68f5f4",
+      "vma": "0x800185f4",
+      "size": 132,
+      "evidence": "The complete 132-byte home links at TOWN +0x68f5f4 in the image loaded at 0x80016000. The image operands at +0x68f610, +0x68f634, +0x68f640 identify its local imports. The entry pointer is at +0x691bac.",
+      "bindings": {
+        "0x8001B9E8": "0x8001C018",
+        "0x80021386": "0x800227FB"
+      }
+    },
+    {
       "row": "town/func_8070F6BC",
       "tu": "src/town/scene/hooks/get_shared_entry_buffer_y.c",
       "home": "town/func_8070F6BC",

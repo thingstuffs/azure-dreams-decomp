@@ -138,6 +138,7 @@ void card_boot_create_menu_child_panels(CardChooserBody *chooser);
 
 /* card_boot_create_save_slot_menu.c */
 void *card_boot_create_save_slot_menu(ObjectNodeHeader *init_value, s32 state_value);
+void create_next_save_slot_window(CardSaveMenuBody *menu);
 
 /* card_boot_create_slot_selection_menu.c */
 void *card_boot_create_slot_selection_menu(ObjectNodeHeader *init_value, s32 unused);
@@ -231,6 +232,7 @@ void card_boot_reset_command_panel_highlight(CardCommandPanelBody *panel);
 
 /* card_boot_restore_saved_selection_callback.c */
 void card_boot_restore_saved_selection_callback(void *object_data);
+void card_boot_restore_save_slot_callback(void *object_data);
 
 /* card_boot_resume_menu_after_slot_refresh.c */
 void card_boot_resume_menu_after_slot_refresh(struct CardSlotMenuState *menu);

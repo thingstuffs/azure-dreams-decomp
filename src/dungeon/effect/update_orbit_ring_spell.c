@@ -1,5 +1,6 @@
 #include "common.h"
-#include "dungeon/effect/spell_effect.h"
+#include "dungeon/effect.h"
+#include "dungeon/effect/orbit_ring_spell.h"
 #include "dungeon/effect/sprite/create_coordinate_sprite_effect.h"
 #include "dungeon/level.h"
 #include "dungeon/level/tile_flags.h"
@@ -13,35 +14,6 @@
 #include "shared/object_node.h"
 #include "shared/object_node_flags.h"
 #include "shared/sprite_frame_state.h"
-
-/* This spell's view of the node's ObjectPosition (same 0x18 bytes; fold it into that record once the velocity
- * members settle). The three steps are added as whole units when the spell flies to a target, and as 16.16 words
- * when it flies along the caster's facing. */
-typedef struct SpellMotion {
-    Fixed1616 x;
-    Fixed1616 y;
-    Fixed1616 z;
-    Fixed1616 step_x;
-    Fixed1616 step_y;
-    Fixed1616 step_z;
-} SpellMotion;
-
-/* Body of the spell node: a sprite that flies to the target (or along the facing) and then opens a ring of ten
- * orbiting sprites around it. */
-typedef struct OrbitRingSpell {
-    SpellEffectHeader effect;
-    s16 reserved_0c;
-    s16 direction;
-    s16 timer;
-    s16 duration;
-    s16 busy;
-    s16 spin;
-    s16 orbit;
-    s16 reserved_1a;
-    ObjectNodeHeader *trail;
-    ObjectNodeHeader *ring;
-    ObjectNodeHeader *orbs[10];
-} OrbitRingSpell;
 
 /* The object completion word, declared as a plain word: the removal stores below are scheduled as retail has
  * them only against a scalar. */
@@ -75,6 +47,7 @@ void update_orbit_ring_spell(OrbitRingSpell *spell, SpellMotion *motion, SpriteF
             spell->orbs[i] = 0;
         }
         sprite->color.word = 0x808080;
+        /* fall through */
     case 1:
         caster_node = NODE_HEADER(caster);
         if (!resolve_record_orientation_or_fallback(caster_node->sprite->source, caster_node->sprite, (SVECTOR *)delta, 0) &&
@@ -210,6 +183,7 @@ void update_orbit_ring_spell(OrbitRingSpell *spell, SpellMotion *motion, SpriteF
             D_800814A0 |= OBJECT_REMOVE_PENDING;
             spell->trail = 0;
         }
+        /* fall through */
     case 4:
         if (spell->timer >= 32) {
             spell->timer = 0;

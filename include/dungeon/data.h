@@ -1,6 +1,7 @@
 #ifndef DUNGEON_DATA_H
 #define DUNGEON_DATA_H
 #include "dungeon/monster/garuda_frames.h"
+#include "shared/game_state.h"
 #include "dungeon/monster/picket_frames.h"
 #include "dungeon/monster/pulunpa_frames.h"
 #include "dungeon/globals.h"
@@ -40,7 +41,6 @@ extern u8 *item_type_text_suffixes[ ];
 extern u8 confusion_cure_text[ ];
 extern u16 magic_ball_delay[ ];
 extern u8 monster_module_read_descriptor[ ];
-extern u16 monster_special_entry_index;
 extern u8 poison_cure_text[ 25 ];
 
 extern s16 bounded_runtime_counter;
@@ -102,7 +102,6 @@ extern SpriteSourceEntry random_motion_sprite_data_a[ ];
 extern SpriteSourceEntry random_motion_sprite_data_b[ ];
 extern SpriteSourceEntry random_motion_sprite_data_c[ ];
 
-extern u16 camera_depth_index[ 5 ];
 extern M2C_UNK familiar_menu_action_data;
 extern u8 familiar_removed_during_change;
 extern u8 player_damage_frames[ ];

@@ -17,6 +17,21 @@
       "evidence": "TOWN +0x5ff0f8, 216 bytes at 0x800160f8; scene record at TOWN +0x6017d4 points to 0x800160f8; docs/evidence/town_scene_loader_receipt.json"
     },
     {
+      "row": "town/func_8067F6E0",
+      "home": "town/func_80471108",
+      "tu": "src/town/scene/active_object_records_g00710.c",
+      "foff": "0x5ff6e0",
+      "vma": "0x800166e0",
+      "size": 108,
+      "evidence": "The complete 108-byte home links at TOWN +0x5ff6e0 in the image loaded at 0x80016000. The image operands at +0x5ff6ec, +0x5ff6f8, +0x5ff700, +0x5ff734 identify its local imports.",
+      "bindings": {
+        "0x8001B218": "0x800188D0",
+        "0x8001B318": "0x800189D0",
+        "0x80018B64": "0x80016964",
+        "0x800193F4": "0x80016874"
+      }
+    },
+    {
       "row": "town/func_8067F770",
       "tu": "src/town/scene/store_scene_price_total.c",
       "home": "town/func_804712B4",

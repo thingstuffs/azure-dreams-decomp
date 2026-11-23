@@ -51,7 +51,7 @@ typedef struct S_801663AC_4 {
 /* Transform a textured quad and add it to the ordering table if visible. */
 void draw_gouraud_textured_ribbon_quad(S_801663AC_4 *quad, ObjectPosition *position, SpriteFrameState *render_state, s16 depth_bias)
 {
-    ShadedQuadScratch *scratch = (ShadedQuadScratch *)0x1F800000;
+    ShadedQuadScratch *scratch = SHADED_QUAD_SCRATCH;
     POLY_GT4 *packet;
     u8 *texture;
     s32 ot_index;

@@ -758,7 +758,7 @@ def symbol_aliases(root):
     for line in (Path(root) / 'config/names.tsv').read_text().splitlines():
         if not line or line.startswith('#'):
             continue
-        parts = line.split('\t', 3)
+        parts = line.split('\t')[:4]
         if len(parts) >= 3:
             aliases[parts[2]].add(parts[1])
     return {name: next(iter(old)) for name, old in aliases.items() if len(old) == 1}

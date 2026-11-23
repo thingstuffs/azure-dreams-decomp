@@ -8,7 +8,7 @@
 #include "sdk/libgte_matrix.h"
 #include "sdk/libgpu_types.h"
 #include "sdk/libgpu_packets.h"
-#include "dungeon/effect/point_tile_scratch.h"
+#include "dungeon/effect/shaded_quad_scratch.h"
 
 
 /* Builds and queues render packets for a linked list of positioned entries. */

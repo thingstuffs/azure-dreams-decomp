@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "town/minigame.h"
 #include "engine/menu.h"
 #include "town/minigame/gym.h"
@@ -192,8 +193,8 @@ loop_0:
                         sprite->field_10 = 0x808080;
                         sprite->link.object = state_obj;
                         sprite->field_08 =
-                            count ? &state_obj->score
-                        : (void *)0x800135C2;
+                            count ? &state_obj->score.s
+                        : &GAME_STATE->gym_high_score;
                         sprite->field_04 = *table_cursor;
                     }
                     table_cursor--;
@@ -263,7 +264,7 @@ loop_0:
 
     case 0x20:
     {
-        count = state - (*(s16 *)0x800135C2 / 10);
+        count = state - (GAME_STATE->gym_high_score / 10);
         if (count <= 0) {
             count = 1;
         }

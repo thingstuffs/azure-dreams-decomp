@@ -16,6 +16,7 @@
 #include "shared/entity.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
+#include "shared/object_node.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
@@ -54,15 +55,6 @@ typedef struct S_func_800B1364_1 {
     u8 *unk_BC;
     u8 *unk_C0;
 } S_func_800B1364_1;
-
-typedef struct S_func_800B1364_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_func_800B1364_2;
 
 
 typedef struct S_func_800B1364_4 {
@@ -150,11 +142,6 @@ typedef struct S_func_800B1364_17 {
     void *unk_04;
 } S_func_800B1364_17;
 
-typedef struct S_func_800B1364_18 {
-    void *unk_00;
-    void *unk_04;
-} S_func_800B1364_18;
-
 typedef struct S_func_800B1364_19 {
     u16 unk_00;
 } S_func_800B1364_19;
@@ -215,7 +202,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, Objec
     u8 state;
     u8 species;
     u8 next_state;
-    S_func_800B1364_2 *creature_pos;
+    ObjectPosition *creature_pos;
     DungeonGlobalStatus *summon_state;
     S_func_800B1364_9 *item_entry;
     S_func_800B1364_5 *stored_creature;
@@ -224,7 +211,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, Objec
     S_func_800B1364_5 *saved_creature;
     S_func_800B1364_11 *input_command;
     S_func_800B1364_10 *item_effect;
-    S_func_800B1364_5 *creature;
+    ActorRecord *creature;
     SpriteFrameState *creature_sprite;
     ActorRecord *linked_creature;
     u32 *level_thresholds;
@@ -412,43 +399,43 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, Objec
         if (creature == NULL) {
             return;
         }
-        set_packed_2bit_flag(creature->unk_13, 0);
+        set_packed_2bit_flag(creature->species, 0);
         unmark_selected_item(action->unk_C0);
-        creature_sprite = ((S_func_800B1364_18 *)((u8 *)creature - 0x18))->unk_04;
+        creature_sprite = NODE_HEADER(creature)->sprite;
         update_map_cell_flags_with_item_limit(creature_sprite->tile_x, creature_sprite->tile_y, 0x300);
         if (resolve_record_orientation_or_fallback(sprite->source, sprite, &spawn_offset, 0) == 0) {
             spawn_offset.vy = 0;
             spawn_offset.vx = 0;
             spawn_offset.vz = 0 - (*entity_height_offsets);
         }
-        creature_pos = ((S_func_800B1364_18 *)((u8 *)creature - 0x18))->unk_00;
-        creature_pos->unk_02 = (s16) ((u16) position->x.w.i + (u16) spawn_offset.vx);
-        creature_pos->unk_06 = (s16) ((u16) position->y.w.i + (u16) spawn_offset.vy);
+        creature_pos = NODE_HEADER(creature)->position;
+        creature_pos->x.w.i = (s16) ((u16) position->x.w.i + (u16) spawn_offset.vx);
+        creature_pos->y.w.i = (s16) ((u16) position->y.w.i + (u16) spawn_offset.vy);
         spawn_height = (u16) position->z.w.i + (u16) spawn_offset.vz;
-        creature_pos->unk_0A = spawn_height;
-        creature->unk_88 = spawn_height;
+        creature_pos->z.w.i = spawn_height;
+        creature->ground_height = spawn_height;
         actor->unk_60 = creature;
-        init_monster_from_stats(creature, creature->unk_13);
-        apply_actor_template_and_class(creature, creature->unk_13, 0);
-        creature->unk_43 = 0xFF;
-        creature->unk_60 = actor;
-        creature->unk_1C = (s32) (creature->unk_1C | ACTOR_LIFTED);
-        creature->unk_14 = (s32) (creature->unk_14 | 0x104000);
+        init_monster_from_stats(creature, creature->species);
+        apply_actor_template_and_class(creature, creature->species, 0);
+        creature->town_monster_slot = 0xFF;
+        creature->target = actor;
+        creature->flags1C = (s32) (creature->flags1C | ACTOR_LIFTED);
+        creature->flags14 = (s32) (creature->flags14 | 0x104000);
         linked_creature = actor->unk_60;
         linked_creature->action_state_flags = (u16) (linked_creature->action_state_flags | 0xC);
-        strcpy((u8 *)creature + 0x34, get_mode_table_entry(creature->unk_13));
+        strcpy((char *)creature->name, get_mode_table_entry(creature->species));
         experience = level_experience_table[dungeon_actor_ring_anchor->level];
         level_thresholds = level_experience_table + 1;
-        creature->unk_18 = experience;
-        if (experience >= level_thresholds[creature->unk_11]) {
+        creature->experience = experience;
+        if (experience >= level_thresholds[creature->level]) {
             level_table = level_thresholds;
             do {
                 raise_entity_level(creature, 0);
-            } while (level_table[creature->unk_11] <= (u32) creature->unk_18);
+            } while (level_table[creature->level] <= (u32) creature->experience);
         }
-        creature->unk_28 = (u8) creature->unk_29;
-        creature->unk_26 = (u8) creature->unk_68;
-        creature->unk_27 = (u8) creature->unk_69;
+        creature->hp = (u8) creature->max_hp;
+        creature->current_attack = (u8) creature->base_attack;
+        creature->current_defense = (u8) creature->base_defense;
         if (!(((S_func_800B1364_14 *)&system_update_flags)->unk_00 & 1)) {
             u16 summon_count;
             DungeonGlobalStatus *summon_control;
@@ -459,7 +446,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, Objec
         }
         message_start = get_unused_text_buffer();
         message_end = expand_text_control_codes(D_800E0A33, append_entity_display_text(creature, expand_text_control_codes(D_800E0A2A,
-            expand_text_control_codes(((S_func_800B1364_17 *)((creature->unk_13 * 0x14) + monster_species_table))->unk_04,
+            expand_text_control_codes(((S_func_800B1364_17 *)((creature->species * 0x14) + monster_species_table))->unk_04,
             write_text_byte_and_advance(8, message_start)))));
         if (!((*(&system_update_flags)) & 1)) {
             message_end = copy_four_text_bytes(familiar_defeat_text, write_text_byte_and_advance(0x4C, write_text_byte_and_advance(0x11, message_end)));

@@ -1,0 +1,1 @@
+{"schema":"azure-clean.switch-table.v1","owner":"town/func_8070F5F4","foff":"0x68db38","vma":"0x80016b38","size":172,"sha256":"860a5ca1a5559f0e2f6875a6d5a4fc9e060bcef93736a7fe589cc78848705767","section":".rodata","rows":[],"padding_words":[],"evidence":"The 43-case scene selector table matches every linked case pointer."}

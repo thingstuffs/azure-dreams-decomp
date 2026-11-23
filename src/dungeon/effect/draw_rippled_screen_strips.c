@@ -1,5 +1,5 @@
 #include "modules/dungeon_ovl_18fa800.h"
-#include "dungeon/effect/particle.h"
+#include "dungeon/effect/particle/vertex_transform.h"
 #include "engine/graphics/frame_context.h"
 #include "common.h"
 #include "engine/scene.h"
@@ -22,16 +22,6 @@ typedef struct RippleBody {
     /* 0x10 */ s16 timer; /* ticks left */
     /* 0x12 */ s16 unk_12; /* set to 1 by the creator, not read here */
 } RippleBody;
-
-/* Request read by transform_rotated_vertices. */
-typedef struct VertexTransformRequest {
-    SVECTOR *source;
-    SVECTOR *destination;
-    SVECTOR rotation;
-    SVECTOR translation;
-    s16 count;
-    s16 reserved_1a;
-} VertexTransformRequest;
 
 /* One corner of the screen bounding box, both halves in one word. */
 typedef struct ScreenCorner {
@@ -88,7 +78,7 @@ s32 draw_rippled_screen_strips(void *arg) {
                               game->view.camera_rotation.parts.viewAngle;
         request.translation = body->position;
         request.count = 4;
-        request.reserved_1a = 0;
+        request.rotation_mode = 0;
         transform_rotated_vertices(&request);
         low.x = low.y = 30000;
         high.x = high.y = -30000;

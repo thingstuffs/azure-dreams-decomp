@@ -1586,8 +1586,8 @@ s32 roll_trap_trigger_chance(ActorRecord *ptr, s32 unused1, s32 unused2, s32 unu
         value = 0;
         if (trap_request_blocked == 0) {
             source_value = generate_random_value() & 0xFFFF;
-            if ((ptr->luck) != 0) {
-                remainder_value = source_value % ((s16)((s32)(ptr->luck)));
+            if (ptr->luck != 0) {
+                remainder_value = source_value % ptr->luck;
                 value = remainder_value;
             }
         }

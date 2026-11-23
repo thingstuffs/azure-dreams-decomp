@@ -71,7 +71,6 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
     u8 * effect_handle;
     s16 special_or_effect;
     GteOffset effect_offset;
-    S_80173230_7 *item_slot;
     ObjectNodeHeader *action_object;
     s32 next_state;
     u8 state;
@@ -84,49 +83,51 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
         return;
     }
     switch (state) {
-    case 0:
+    case 0: {
+        ActorAbility *ability;
+
         if (actor->flags1C & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & 0x3FFF) {
             case 7:
                 special_or_effect = 1;
                 /* fallthrough */
             case 3:
-                item_slot = (S_80173230_7 *)((u8 *)actor + 0xE);
+                ability = &actor->abilities[2];
                 break;
             case 6:
                 special_or_effect = 1;
                 /* fallthrough */
             case 2:
-                item_slot = (S_80173230_7 *)((u8 *)actor + 0xB);
+                ability = &actor->abilities[1];
                 break;
             case 5:
                 special_or_effect = 1;
                 /* fallthrough */
             case 1:
-                item_slot = (S_80173230_7 *)((u8 *)actor + 8);
+                ability = &actor->abilities[0];
                 break;
             default:
-                item_slot = 0;
+                ability = 0;
                 break;
             }
         } else {
             switch (actor->action_flags & 0x3FFF) {
             case 3:
-                item_slot = (S_80173230_7 *)((u8 *)actor + 0xE);
+                ability = &actor->abilities[2];
                 break;
             case 2:
-                item_slot = (S_80173230_7 *)((u8 *)actor + 0xB);
+                ability = &actor->abilities[1];
                 break;
             case 1:
-                item_slot = (S_80173230_7 *)((u8 *)actor + 8);
+                ability = &actor->abilities[0];
                 break;
             default:
-                item_slot = 0;
+                ability = 0;
                 break;
             }
         }
 
-        if (*(u8 *)item_slot != 0) {
+        if (ability->id != 0) {
             body->action_state_flags &= 0xFF7F;
             if ((s16)special_or_effect != 0) {
                 item_target = (ObjectNodeHeader *)primary_actor_record;
@@ -135,7 +136,7 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
                 actor->target_tile_x = target_sprite->tile_x;
                 actor->target_tile_y = target_sprite->tile_y;
             } else {
-                u8 item_id = *(u8 *)item_slot;
+                u8 item_id = ability->id;
                 u8 *item_defs = item_action_definitions;
                 if (item_defs[item_id * 20 + 0x12] == 2) {
                     item_target = actor->target;
@@ -159,7 +160,7 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
                 }
             }
 
-            if (create_actor_spell_effect(actor, item_slot, special_or_effect, (u8 *)body + 0x98) == 0) {
+            if (create_actor_spell_effect(actor, ability, special_or_effect, (u8 *)body + 0x98) == 0) {
                 return;
             }
             body->action_timer = 0x11;
@@ -180,6 +181,7 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
         actor->target_tile_x = 0;
         actor->action_flags &= 0x7FFF;
         return;
+    }
 
     case 1:
         if (get_cd_command_queue_depth()) {
@@ -200,6 +202,7 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
                 effect_handle = allocate_list_node(0x112, &scene_object_list_anchor.next);
                 if (effect_handle != 0) {
                     SpriteFrameState *actor_model;
+                    S_80173230_7 *item_slot;
                     u8 animation_id;
 
                     effect_state = NODE_BODY(effect_handle);

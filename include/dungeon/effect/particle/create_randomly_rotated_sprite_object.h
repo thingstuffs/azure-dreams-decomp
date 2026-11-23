@@ -150,11 +150,6 @@ typedef struct B22_81892C5C_S_81892C5C_5 {
     void * unk_8D0;
 } B22_81892C5C_S_81892C5C_5;
 struct B22_81892C5C_OtCtxS { void *cur; };
-typedef struct {
-    unsigned addr: 24;
-    unsigned len: 8;
-    u8 r0, g0, b0, code;
-} B22_81892C5C_P_TAG;
 typedef struct B22_81892BF8_S_81892BF8_1 {
     u8 pad_00[0x14];
     u16 unk_14;

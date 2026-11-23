@@ -14,17 +14,16 @@ typedef struct S_80024130_0 {
     void * unk_0C;
     void * unk_10;
     u8 pad_14[0x18];
-    s32 unk_2C;
+    struct OrbitBurstSpell *owner;
 } S_80024130_0;
 
    /* arg1 in create_random_rotation_effect_sprite */
 
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern u8 D_80024048[9];
 extern SpriteSourceEntry D_800DE8E8[];
 
-/* Creates an object with the given context and position and randomized rotation. */
-void * create_random_rotation_effect_sprite(s32 context, MovingPosition *position)
+/* Creates an object with the given owner, position, and a randomized rotation. */
+void *create_random_rotation_effect_sprite(struct OrbitBurstSpell *owner, MovingPosition *position)
 {
     s32 random_value;
     s32 rounded_value;
@@ -36,9 +35,9 @@ void * create_random_rotation_effect_sprite(s32 context, MovingPosition *positio
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        object->unk_10 = D_80024048;
+        object->unk_10 = advance_randomized_orbit_child_animation;
         visual = object->unk_0C;
-        object->unk_2C = context;
+        object->owner = owner;
         visual->color.c.b = 0x80;
         visual->color.c.g = 0x80;
         visual->color.c.r = 0x80;

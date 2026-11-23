@@ -24,6 +24,10 @@ s32 update_sound_settings_from_pad(ActorRecord *actor, ObjectPosition *unused_mo
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void handle_player_input(void *actor, void *motion, register void *sprite, void *stats);
 
+struct Rec_func_8008ACDC_arg0;
+void handle_sleeping_player_input(struct Rec_func_8008ACDC_arg0 *controller, ObjectPosition *move_state,
+    SpriteFrameState *entity, ActorRecord *actor);
+
 void *refresh_actor_lists_and_select_controller(ActorRecord *body, ObjectPosition *unused_1, SpriteFrameState *unused_2, ActorRecord *actor);
 
 void begin_targeted_player_action(ActorRecord *action, ObjectPosition *unused_position, SpriteFrameState *unused_sprite, ActorRecord *actor);

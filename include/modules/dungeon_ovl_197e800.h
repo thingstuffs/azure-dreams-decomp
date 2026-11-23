@@ -2,6 +2,7 @@
 #define DUNGEON_OVL_197E800_H
 struct SpriteFrameState;
 #include "common.h"
+#include "shared/scratchpad.h"
 #include "m2c_compat.h"
 #include "modules/dungeon_native_abi.h"
 #include "modules/dungeon_draw_chain.h"
@@ -269,13 +270,7 @@ typedef struct TableEntry {
 } TableEntry;
 typedef struct S_81960530_0 {
     u8 pad_00[0x140];
-    union { s16 s; u16 u; } unk_140;   /* accessed as both */
-    union { s16 s; u16 u; } unk_142;   /* accessed as both */
-    s32 unk_144;
-    s32 unk_148;
-    s32 unk_14C;
-    s16 unk_150;
-    union { s16 s; u16 u; } unk_152;   /* accessed as both */
+    TerrainQueryFields query;
     union {
         struct { u32 v; } at00;
         struct { s16 v; } at00u;

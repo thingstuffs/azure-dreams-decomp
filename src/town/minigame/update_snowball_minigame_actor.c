@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "town/event/state.h"
 #include "town/scene/collection.h"
 #include "town/minigame.h"
@@ -382,13 +383,13 @@ void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition 
         } while (index >= 0);
 
         {
-            s16 best_score = snowball_best_score;
+            s16 best_score = GAME_STATE->snowball_best_score;
             s32 zero = 0;
 
             if (best_score < score_total || score_total == 0x40) {
                 sound_set_cd_cue_parameters(zero, 0x2C3D, 0x01000001, 0x01000271);
                 SD_Call(0x300);
-                snowball_best_score = score_total;
+                GAME_STATE->snowball_best_score = score_total;
                 set_resident_bit(0x5DA);
             } else {
                 sound_set_cd_cue_parameters(zero, 0x2C3D, zero, 0x01000290);

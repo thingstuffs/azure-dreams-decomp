@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "town/player/state.h"
 #include "town/data.h"
 
 /* Initializes the state tables with an extra entry for mode 10. */
 void initialize_mode_state_tables(void) {
-    u8 *mode_page;
 
     player_motion_bounds[0] = 0x025FFFFF;
     player_motion_bounds[2] = 0x01000000;
@@ -38,8 +38,7 @@ void initialize_mode_state_tables(void) {
     player_blocking_rects[25] = 0x30000000;
     player_blocking_rects[26] = 0;
     player_blocking_rects[27] = 0x09EFFFFF;
-    mode_page = (u8 *)0x80010000;
-    if (mode_page[0x33A6] == 0xA) {
+    if (GAME_STATE->building_slots[1][0] == 0xA) {
         player_blocking_rects[29] = 0x05F00000;
         player_blocking_rects[28] = 0xF0000000;
         player_blocking_rects[30] = 0;

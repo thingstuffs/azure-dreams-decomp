@@ -1,5 +1,6 @@
 #include "common.h"
 #include "town/scene/collection.h"
+#include "town/scene/dialogue.h"
 #include "town/scene/object.h"
 #include "town/scene/score_sprite_data.h"
 #include "town/scene/flags.h"
@@ -14,7 +15,6 @@
 extern u8 D_80289454[];
 
 extern void D_805268D4(TownCollectionPanel *);
-extern void D_80526970(TownCollectionText *);
 
 extern u8 D_80527250[];
 extern u8 D_80527D5C[];
@@ -148,7 +148,7 @@ s32 init_panel_display_nodes(void) {
         content_record.timer = 0x10;
         content_record.sequence = root;
         content_record.text = (char *)color_or_content;
-        allocate_record_and_store_three_blocks(D_80526970, &content_record);
+        allocate_record_and_store_three_blocks(advance_delayed_panel_text, &content_record);
 
         content_record.y = 0xA4;
         clear_addr = 8;
@@ -158,7 +158,7 @@ s32 init_panel_display_nodes(void) {
             {
                 TownCollectionTextUpdate entry_template;
 
-                entry_template = D_80526970;
+                entry_template = advance_delayed_panel_text;
                 content = *content_ptr;
                 content_record.x = content_x;
                 content_record.text = content;

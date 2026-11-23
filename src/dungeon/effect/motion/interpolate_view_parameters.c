@@ -744,6 +744,7 @@ void launch_effect_to_target_and_apply_damage(Row_81917C08_ActionState *action, 
             dest_tile_x = tile_x;
             dest_tile_y = tile_y;
             do {
+                /* BYTES: The casts keep the tile sign extensions and masks, the facing shift pair and the result shift before the branch. */
                 if ((s16)check_layer_offset_height((u16)((s16)tile_x * 0x40),
                                  (u16)((s16)tile_y * 0x40), actor->unk_88, (s16)(action->direction << 9)))
                     break;

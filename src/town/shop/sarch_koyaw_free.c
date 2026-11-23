@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "town/shop.h"
 #include "town/data.h"
 
@@ -7,5 +8,5 @@ void sarch_koyaw_free(void) {
     s32 capacity_index;
 
     capacity_index = find_target_index_in_list();
-    find_free_entry_index((void *)0x80010980, town_record_capacities[capacity_index]);
+    find_free_entry_index(GAME_STATE->town_monster_entries, town_record_capacities[capacity_index]);
 }

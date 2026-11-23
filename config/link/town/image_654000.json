@@ -8,6 +8,22 @@
   "evidence": "config/overlays/town.rowbase.jsonl proven regions with delta 0x7F9C2000: r121c2_65561C, r121c2_655AE8, r121c2_655FDC, r121c2_65606C, r121nd_655904, r121nd_655AF8 (+2 more)",
   "entries": [
     {
+      "row": "town/func_806D4118",
+      "home": "town/func_806D42B4",
+      "tu": "src/town/scene/lookup_entry_fallback_special_case.c",
+      "foff": "0x654118",
+      "vma": "0x80016118",
+      "size": 168,
+      "evidence": "The complete 168-byte home links at TOWN +0x654118 in the image loaded at 0x80016000. The image operands at +0x654158, +0x654164 identify its local imports. The entry pointer is at +0x656a18.",
+      "bindings": {
+        "0x800189AC": "0x80018994",
+        "0x80019DFC": "0x80017960",
+        "0x80019D44": "0x800178A8",
+        "0x80018B94": "0x80018B98",
+        "0x8001ACE8": "0x80018594"
+      }
+    },
+    {
       "row": "town/func_806D49D0",
       "tu": "src/town/scene/event/forward_four_args.c",
       "home": "town/func_806D49D0",

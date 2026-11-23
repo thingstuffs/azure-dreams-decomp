@@ -9,6 +9,15 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F1BD800: img_fad270_8016aa70_rc5_FADE70_FAF240, img_fad270_8016aa70_rc5_FAF700_FB125C, r101_rc5_func_80F8D938, r101_rc5_func_80F8F240, sweep_0FAD000",
   "entries": [
     {
+      "row": "dungeon/func_80F8D000",
+      "home": "dungeon/func_80F8D000",
+      "tu": "src/dungeon/monster/zu/spawn_zu_slot_f.c",
+      "foff": "0xfad080",
+      "vma": "0x8016a880",
+      "size": 496,
+      "evidence": "spawn_zu_slot_f installs the Zu movement updater and turn callback from the same bank. The retail address pairs resolve to 0x8016AA70 and 0x8016B138."
+    },
+    {
       "row": "dungeon/func_80F8D270",
       "tu": "src/dungeon/monster/zu/update_zu_movement.c",
       "home": "dungeon/func_80F87270",

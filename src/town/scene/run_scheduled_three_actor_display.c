@@ -21,6 +21,7 @@
  * This keeps its load after the write to D_801328F8 with the registered compiler.
  */
 #include "common.h"
+#include "shared/game_state.h"
 #include "town/scene/collection.h"
 #include "town/scene.h"
 #include "town/data.h"
@@ -30,7 +31,6 @@
 
 extern void create_object_position_configures_color(u32, s32, s32, s32);
 
-extern s16 D_8001339E;
 extern u32 D_80095AAC;
 extern u8 D_80095AAD;
 extern u8 D_80095AAE;
@@ -163,8 +163,8 @@ void run_scheduled_three_actor_display(TownScoreCounterView *town_state)
 
     case 5:
         func_8024A900();
-        if (D_8001339E < town_state->score) {
-            D_8001339E = town_state->score;
+        if (GAME_STATE->best_score_339E < town_state->score) {
+            GAME_STATE->best_score_339E = town_state->score;
             func_80050BFC(0xAE4);
         } else {
             func_80050BD8(0xAE4);

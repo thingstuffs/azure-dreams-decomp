@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_8008F958, CL:town/func_8008FE64, CL:town/func_80090320, CL:town/func_80090854, CL:town/func_80090D8C, CL:town/func_800912C0, PD:town/engine:800FE480, PD:town/engine:800FE484. */
 
 #include "common.h"
+#include "shared/scratchpad.h"
 #include "shared/position_views.h"
 #include "m2c_compat.h"
 #include "shared/game_work.h"
@@ -34,20 +35,12 @@ typedef struct TargetScratch {
     u16 origin_x;
     u16 origin_y;
     u8 pad20[4];
-    s32 height;
-    s32 best;
-    s32 threshold;
+    MapSurfacePlaneRange plane_range;
     u8 pad30[0x1c];
     u16 x_base;
     u16 y_base;
-    u16 x_scan;
-    u16 y_scan;
-    s32 x_step;
-    s32 y_step;
-    s32 inner_count;
-    s32 outer_count;
-    s32 inner_offset;
-    s32 outer_offset;
+    MapSurfaceScanStart start;
+    MapSurfaceScan scan;
     Quad quad;
 } TargetScratch;
 
@@ -106,46 +99,14 @@ typedef struct Scratch {
     s16 x;
     s16 y;
     u8 pad22[4];
-    s32 value;
-    s32 best;
-    s32 limit;
+    MapSurfacePlaneRange plane_range;
     u8 pad30[0x1C];
     s16 base_x;
     s16 base_y;
-    s16 orig_x;
-    s16 orig_y;
-    s32 step_x;
-    s32 step_y;
-    s32 inner_count;
-    s32 outer_count;
-    s32 inner_delta;
-    s32 outer_delta;
+    MapSurfaceScanStart start;
+    MapSurfaceScan scan;
     Quad quad;
 } Scratch;
-
-typedef struct ScratchPrefix {
-    u8 pad00[4];
-    u16 tile;
-    u8 pad06[0x12];
-    Vec8 * planes;
-    s16 x;
-    s16 y;
-    u8 pad22[4];
-    s32 value;
-    s32 best;
-    s32 limit;
-    u8 pad30[0x1C];
-    s16 base_x;
-    s16 base_y;
-    s16 orig_x;
-    s16 orig_y;
-    s32 step_x;
-    s32 step_y;
-    s32 inner_count;
-    s32 outer_count;
-} ScratchPrefix;
-
-typedef union ScratchArena { Scratch full; ScratchPrefix prefix; } ScratchArena;
 
 typedef struct Scratch80090320 {
     u8 pad00[4];
@@ -156,21 +117,13 @@ typedef struct Scratch80090320 {
     u16 origin_y;
     u16 origin_z;
     u8 pad22[0xE];
-    s32 best;
-    s32 lower_bound;
-    s32 block_base;
+    MapSurfaceSearchRange x_range;
     u8 pad3C[0xC];
     u16 inner_index;
     u8 pad4A[4];
     u16 saved_y;
-    u16 start_x;
-    u16 start_y;
-    s32 x_step;
-    s32 y_step;
-    s32 inner_count;
-    s32 outer_count;
-    s32 inner_offset;
-    s32 outer_offset;
+    MapSurfaceScanStart start;
+    MapSurfaceScan scan;
     s16 d0;
     s16 d1;
     s16 d2;
@@ -290,21 +243,13 @@ typedef struct Scratch_80090854 {
     s16 x;
     s16 z;
     u8 pad22[0xE];
-    s32 best;
-    s32 limit;
-    s32 block;
+    MapSurfaceSearchRange x_range;
     u8 pad3C[0xC];
     s16 inner_bias;
     u8 pad4A[4];
     s16 origin_x;
-    s16 scan_x;
-    s16 scan_z;
-    s32 x_step;
-    s32 z_step;
-    s32 inner_count;
-    s32 outer_count;
-    s32 inner_offset;
-    s32 outer_offset;
+    MapSurfaceScanStart start;
+    MapSurfaceScan scan;
     s16 quad[8];
 } Scratch_80090854;
 
@@ -352,21 +297,13 @@ typedef struct {
     s16 y;
     s16 z;
     u8 pad22[0x1A];
-    s32 best;
-    s32 lower;
-    s32 base_y;
+    MapSurfaceSearchRange height_range;
     u8 pad48[2];
     s16 outer_bias;
     s16 base_x;
     u8 pad4E[2];
-    s16 scan_x;
-    s16 scan_y;
-    s32 step_x;
-    s32 step_y;
-    s32 inner_count;
-    s32 outer_count;
-    s32 inner_delta;
-    s32 outer_delta;
+    MapSurfaceScanStart start;
+    MapSurfaceScan scan;
     s16 quad[8];
 } LowestSurfaceScratch;
 
@@ -419,21 +356,13 @@ typedef struct Scratch_8008EA20 {
     s16 z;
     s16 y;
     u8 pad22[0x1A];
-    s32 best;
-    s32 limit;
-    s32 z_base;
+    MapSurfaceSearchRange height_range;
     u8 pad48[2];
     s16 z_offset;
     s16 x_origin;
     u8 pad4E[2];
-    s16 x_start;
-    s16 z_start;
-    s32 x_step;
-    s32 z_step;
-    s32 x_count;
-    s32 z_count;
-    s32 x_offset;
-    s32 z_offset_acc;
+    MapSurfaceScanStart start;
+    MapSurfaceScan scan;
     s16 quad[8];
 } Scratch_8008EA20;
 

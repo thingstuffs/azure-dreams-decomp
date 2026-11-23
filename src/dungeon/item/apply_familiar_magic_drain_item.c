@@ -38,16 +38,16 @@ s32 apply_familiar_magic_drain_item(ActorRecord *entity, DungeonItemEntry *actio
     }
     if (((u32) (entity->species - 1) < 0x2EU) && ((u32) entity <= 0x9FFFFFFFU)) {
         display_item_status_message(entity, action, action_param);
-        saved_flag = ((u32) ((u32)entity->flags1C) >> 3) & 1;
+        saved_flag = ((u32)entity->flags1C >> 3) & 1;
         if (feed_actor_restore_mp(entity, (entity_action_selectors[entity->species] >> 6) & 3, 0) == 0) {
             place_actor_item(entity, action);
             return 1;
         }
         flag_test = saved_flag;
         if (flag_test != 0) {
-            entity->flags1C = (u32) (((u32)entity->flags1C) | ACTOR_MP_EMPTY);
+            entity->flags1C |= ACTOR_MP_EMPTY;
         }
-        flags = ((u32)entity->flags1C);
+        flags = entity->flags1C;
         *(u16 *)&entity->mp_fraction = 0;
         if (!(flags & 8)) {
             flag_test = flags & 0x80000;

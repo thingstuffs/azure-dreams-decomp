@@ -19,15 +19,15 @@
         "0x80083498": "0x80083498",
         "0x8003FD64": "0x8003FD64",
         "0x80045340": "0x80045340",
-        "0x80164A70": "0x80152A70",
         "0x8004491C": "0x8004491C",
         "0x80168AD4": "0x80156AD4",
         "0x800A6D30": "0x800A6D30",
         "0x800A48F0": "0x800A48F0",
         "0x80168AFC": "0x80156AFC",
         "0x800A9C18": "0x800A9C18",
-        "0x80165138": "0x80153138",
-        "0x800AA36C": "0x800AA36C"
+        "0x800AA36C": "0x800AA36C",
+        "0x80170A70": "0x80152A70",
+        "0x80171138": "0x80153138"
       },
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },

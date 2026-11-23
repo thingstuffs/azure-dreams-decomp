@@ -76,7 +76,7 @@ void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *actio
         return;
     }
 
-    update_actor_proximity_flag(position, actor, 3, 6, (u8 *)work_data + 0x9C);
+    update_actor_proximity_flag(position, actor, 3, 6, &work_data->route_room);
     movement_flags = actor->flags1C;
 
     if (movement_flags & 0x410) {

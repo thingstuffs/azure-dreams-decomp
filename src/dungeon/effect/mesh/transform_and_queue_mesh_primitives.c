@@ -189,12 +189,6 @@ typedef struct {
     u8 a;
 } MeshTexture;
 
-typedef struct {
-    unsigned addr: 24;
-    unsigned len: 8;
-} P_TAG;
-#define setaddr(p, _addr) (((P_TAG *)(p))->addr = (u32)(_addr))
-#define getaddr(p) (u32)(((P_TAG *)(p))->addr)
 
 /* Transform the mesh and enqueue textured quads or lines in the ordering table. */
 void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition *transform, SpriteFrameState *object, s32 depth_bias)

@@ -1,11 +1,11 @@
 /* Relink of matched dungeon/reset_and_release_beldo_effect_slots at file 0x1274460; imports and data use paired retail relocations. */
 #include "common.h"
 #include "dungeon/stale_bank_imports.h"
-
+#include "shared/game_state.h"
 extern s32 D_80173714;
 extern s32 D_80173710;
 extern s16 D_80173718;
-extern s32 D_80172F90;
+extern u8 *D_80172F90;
 extern s32 D_80172FBC;
 
 typedef struct FlagsPage {
@@ -29,7 +29,7 @@ void reset_state_occupied_entries(void) {
     s16 next_slot;
     s32 object_addr;
     s32 slot_offset;
-    s32 saved_state;
+    u8 *saved_state;
     s32 saved_value;
     ActiveState *active_state;
     void *object_header;
@@ -52,7 +52,7 @@ void reset_state_occupied_entries(void) {
     state_flags = (state_flags | 9) & 0xFFEF;
     flags_base->unk_3714 = state_flags;
     saved_state = D_80172F90;
-    flags_base->unk_371C = saved_state;
+    GAME_STATE->log.data = saved_state;
     saved_value = D_80172FBC;
     active_state->unk_B8 = 0;
     D_80173714 = saved_value;

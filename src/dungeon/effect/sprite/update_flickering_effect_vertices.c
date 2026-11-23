@@ -235,7 +235,7 @@ void update_flickering_effect_vertices(DungeonObj *obj)
     s32 z_offset;
     s32 packet_height;
     u8 *vertex_cursor;
-    LocalPacket packet;
+    VertexTransformRequest packet;
 
     obj->parent->timer |= 0x8000;
     old_timer = obj->timer--;
@@ -325,24 +325,24 @@ void update_flickering_effect_vertices(DungeonObj *obj)
             vertex_cursor -= 8;
         } while (--height_or_index >= 0);
 
-        packet.p0 = &obj->vx0;
-        packet.p4 = &obj->vx0;
-        packet.hA = 0;
-        packet.h8 = 0;
-        packet.angle = obj->angle;
-        packet.x = *(u16 *)((u8 *)obj + 6)
+        packet.source = &obj->vx0;
+        packet.destination = &obj->vx0;
+        packet.rotation.vy = 0;
+        packet.rotation.vx = 0;
+        packet.rotation.vz = obj->angle;
+        packet.translation.vx = *(u16 *)((u8 *)obj + 6)
         + (rcos(*(s16 *)((u8 *)obj + 0x4E)
             + (*(s16 *)((u8 *)obj + 0x0E) << 4)) >> 8);
-        packet.y = *(u16 *)((u8 *)obj + 0x0A)
+        packet.translation.vy = *(u16 *)((u8 *)obj + 0x0A)
         + (rsin(*(s16 *)((u8 *)obj + 0x4E)
             + (*(s16 *)((u8 *)obj + 0x0E) << 4)) >> 8);
         {
-            LocalPacket *packet_ptr = &packet;
+            VertexTransformRequest *packet_ptr = &packet;
             z_offset = *(u16 *)((u8 *)obj + 0x0E);
             packet_height = obj->height + (z_offset << 1);
-            packet.height = packet_height;
-            packet.type = 4;
-            packet.pad1A = 0;
+            packet.translation.vz = packet_height;
+            packet.count = 4;
+            packet.rotation_mode = 0;
             transform_rotated_vertices(packet_ptr);
         }
         return;

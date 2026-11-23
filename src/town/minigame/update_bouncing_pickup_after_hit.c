@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "town/scene/active_object_overlap_g00529.h"
 #include "town/minigame.h"
 #include "town/minigame/pickup_bounds_data.h"
@@ -16,7 +17,6 @@
 extern Box D_800D0420;
 
 
-extern s32 town_money[];
 extern TownRewardValues D_80020278;
 extern s32 D_800244DC[];
 
@@ -107,9 +107,9 @@ void update_bouncing_pickup_after_hit(BouncingPickupAfterHitObject *object, Obje
             {
                 s32 reward_total, collected_total;
                 reward_amount = reward_units * 100;
-                reward_total = town_money[0];
+                reward_total = GAME_STATE->town_money;
                 collected_total = pickup_reward_total[0];
-                town_money[0] = reward_total + reward_amount;
+                GAME_STATE->town_money = reward_total + reward_amount;
                 pickup_reward_total[0] = collected_total + reward_amount;
             }
             object->state.s = 255;
@@ -131,9 +131,9 @@ void update_bouncing_pickup_after_hit(BouncingPickupAfterHitObject *object, Obje
         {
             s32 reward_total, collected_total;
             reward_amount = reward_units * 100;
-            reward_total = town_money[0];
+            reward_total = GAME_STATE->town_money;
             collected_total = pickup_reward_total[0];
-            town_money[0] = reward_total + reward_amount;
+            GAME_STATE->town_money = reward_total + reward_amount;
             pickup_reward_total[0] = collected_total + reward_amount;
         }
         object->state.s = 255;
@@ -143,7 +143,7 @@ void update_bouncing_pickup_after_hit(BouncingPickupAfterHitObject *object, Obje
         if (offset_boxes_overlap(minigame_pickup_bounds, motion, &D_800D0420, &view_reference_entity) != 0) {
             SD_Call(0x516);
             reward_amount = reward_values.values[object->denomination] * 100;
-            town_money[0] += reward_amount;
+            GAME_STATE->town_money += reward_amount;
             pickup_reward_total[0] += reward_amount;
             object->state.s = 255;
         }

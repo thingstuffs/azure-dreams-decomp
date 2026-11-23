@@ -3,6 +3,8 @@
 struct ItemMenuPart;
 struct ObjectNodeHeader;
 #include "common.h"
+#include "sdk/libgte_matrix.h"
+#include "shared/vector.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "records/Rec_func_801237A4_arg0.h"
@@ -69,6 +71,36 @@ void follow_selection_and_blink_sprite(void *motion_state, ObjectPosition *posit
 
 
 void draw_hud_number_short(s32 first, s32 second, u16 width, s16 y, u16 x, s16 mode);
+
+/* GTE transforms, frame texture coordinates and placement for the viewport transition sprite. */
+typedef struct ViewportSpriteQuadScratch {
+    /* 0x00 */ u16 origin_x; /* placement X; the transform translates by it and the projected center subtracts it */
+    /* 0x02 */ u16 origin_y; /* placement Y */
+    u8 pad_04[0x4];
+    /* 0x08 */ s32 tex_u; /* frame texture left U; shifted into the packed UV words */
+    /* 0x0C */ s32 tex_v; /* frame texture top V */
+    /* 0x10 */ s32 tex_width; /* frame texture width, then advanced to the right U */
+    /* 0x14 */ s32 tex_height; /* frame texture height, then advanced to the bottom V */
+    u8 pad_18[0x8];
+    /* 0x20 */ u8 *order_table; /* ordering table of the current draw context */
+    /* 0x24 */ u16 sprite_flags; /* copy of the sprite's flags */
+    u8 pad_26[0x2];
+    /* 0x28 */ SVECTOR center_offset; /* offset of the sprite center from its extent, rotated to find the screen center */
+    /* 0x30 */ IntVector3 scale; /* ScaleMatrix scale vector */
+    u8 pad_3C[0xC];
+    /* 0x48 */ s32 unk_48;
+    u8 pad_4C[0x24];
+    /* 0x70 */ SVECTOR corners[4]; /* the four frame corners passed to RotTransSV */
+    u8 pad_90[0x4];
+    /* 0x94 */ s32 gte_flags; /* RotTransSV flag output */
+    /* 0x98 */ SVECTOR rotation; /* RotMatrix angles; only the view angle is nonzero */
+    u8 pad_A0[0x30];
+    /* 0xD0 */ MATRIX transform; /* rotation, scale and placement translation */
+    u8 pad_F0[0x10];
+    /* 0x100 */ u16 center_x; /* projected sprite center X, made relative to the placement */
+    /* 0x102 */ u16 center_y; /* projected sprite center Y, made relative to the placement */
+} ViewportSpriteQuadScratch;
+#define VIEWPORT_SPRITE_QUAD_SCRATCH ((ViewportSpriteQuadScratch *)0x1F800000)
 
 /* Callback entry points. */
 void update_map_marker_reveal(MapMarkerRevealBody *state, ObjectPosition *unused, SpriteFrameState *sprite);

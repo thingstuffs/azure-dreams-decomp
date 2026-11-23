@@ -1876,16 +1876,16 @@ s32 build_linked_curved_wireframe_grid(u8 *node, ObjectPosition *position, Sprit
     /* The loop state also carries a successor header before reloading its position. */
     s32 next_node = (s32)position;
     ArachneActionEffectBody *effect;
-    u8 *vertex_depths;
+    s16 *vertex_depths;
     u16 *transform_work;
-    u8 *depth_base;
+    s16 *depth_base;
     s32 *xy_base;
     s32 *xy_row;
-    u8 *ring_depth_row;
+    s16 *ring_depth_row;
     s32 *vertical_xy_row;
     s32 *screen_xy;
     R12_80173FDC_GridPoint *point_base;
-    u8 *vertical_depth_row;
+    s16 *vertical_depth_row;
     s32 *ring_xy;
     R12_80173FDC_LineG2 *line;
     u8 *tpage;
@@ -1899,7 +1899,7 @@ s32 build_linked_curved_wireframe_grid(u8 *node, ObjectPosition *position, Sprit
     R12_80173FDC_RootSlot *display_root = (R12_80173FDC_RootSlot *)((u8 *)(&g_game_work));
 
     screen_xy = POINT_LIST_SCRATCH->screen_xy;
-    vertex_depths = (u8 *)0x1F800100;
+    vertex_depths = POINT_LIST_SCRATCH->depths;
     transform_work = POINT_LIST_SCRATCH->gte_discard;
     addr_mask = 0x00FFFFFF;
 
@@ -1964,20 +1964,20 @@ grid_loop:
         transform_rotated_vertices(&(frame.desc));
 
         {
-            u8 *vertex_depth;
+            s16 *vertex_depth;
             s32 *xy;
 
             func_80065770((frame.points), screen_xy, vertex_depths, transform_work, transform_work, (frame.desc).count);
             row = 0x38;
             vertical_xy_row = screen_xy + 56;
-            vertical_depth_row = vertex_depths + 0x70;
+            vertical_depth_row = vertex_depths + 56;
             while (row > 0) {
                 col = 7;
                 xy = vertical_xy_row + 7;
-                vertex_depth = vertical_depth_row + 0x0E;
+                vertex_depth = vertical_depth_row + 7;
                 while (col >= 0) {
-                    ot_index = ((s16)((R12_80173FDC_S_80173FDC_2 *)vertex_depth)->unk_00 +
-                        (s16)((R12_80173FDC_S_80173FDC_2_pre *)vertex_depth)[-1].unk_00) >> 3;
+                    ot_index = (vertex_depth[0] +
+                        vertex_depth[-8]) >> 3;
                     if ((u32)ot_index < 0x1E0) {
                         display = (R12_80173FDC_S_80173FDC_3 *)display_root->ptr;
                         line = display->unk_8D0.p;
@@ -2010,31 +2010,31 @@ grid_loop:
                             ((u32)tpage & addr_mask);
                     }
                     xy--;
-                    vertex_depth -= 2;
+                    vertex_depth--;
                     col--;
                 }
-                vertical_depth_row -= 0x10;
+                vertical_depth_row -= 8;
                 vertical_xy_row -= 8;
                 row -= 8;
             }
         }
 
         {
-            u8 *ring_depth;
+            s16 *ring_depth;
 
             row = 0x30;
             xy_row = screen_xy + 48;
-            ring_depth_row = vertex_depths + 0x60;
+            ring_depth_row = vertex_depths + 48;
             while (row > 0) {
                 depth_base = ring_depth_row;
                 ring_xy = xy_row + 7;
                 xy_base = xy_row;
                 col = 7;
-                ring_depth = ring_depth_row + 0x0E;
+                ring_depth = ring_depth_row + 7;
                 while (col >= 0) {
                     s32 next_col = (col + 1) & 7;
-                    ot_index = ((s16)((R12_80173FDC_S_80173FDC_6 *)ring_depth)->unk_00 +
-                        (*(s16 *)(depth_base + next_col * 2))) >> 3;
+                    ot_index = (ring_depth[0] +
+                        depth_base[next_col]) >> 3;
                     if ((u32)ot_index < 0x1E0) {
                         display = (R12_80173FDC_S_80173FDC_3 *)display_root->ptr;
                         line = display->unk_8D0.p;
@@ -2067,11 +2067,11 @@ grid_loop:
                             ((u32)tpage & addr_mask);
                     }
                     ring_xy--;
-                    ring_depth -= 2;
+                    ring_depth--;
                     col--;
                 }
                 xy_row -= 8;
-                ring_depth_row -= 0x10;
+                ring_depth_row -= 8;
                 row -= 8;
             }
         }

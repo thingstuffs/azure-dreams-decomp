@@ -1,16 +1,11 @@
 #include "common.h"
 #include "town/map.h"
 #include "town/minigame/object.h"
-
+#include "shared/game_state.h"
 
 
 /* The final state reset is coupled to the non-overflow path.  This is a
  * defined source-level guard whose natural branch leader is the epilogue. */
-
-typedef struct S_800BF72C_2 {
-    u8 pad_00[0x2D5C];
-    u32 unk_2D5C;
-} S_800BF72C_2;   /* clock in advance_object_bounded_movement_phases */
 
 /* Advance the object through bounded movement phases and trigger a timed event. */
 void advance_object_bounded_movement_phases(BoundedMovementObject *object, ObjectPosition *position) {
@@ -23,7 +18,6 @@ void advance_object_bounded_movement_phases(BoundedMovementObject *object, Objec
     s32 event_z;
     u16 linked_state;
     u32 state_index;
-    u32 *clock_base;
     u32 ticks;
 
     linked_state = ((TownObjectRecord *)(object->linked_object))->unk_68;
@@ -46,8 +40,7 @@ void advance_object_bounded_movement_phases(BoundedMovementObject *object, Objec
         increased_x = position->x.v + 0x40000;
         position->x.v = increased_x;
         if (increased_x == 0x10000000) {
-            clock_base = (u32 *)0x80010000;
-            ticks = ((S_800BF72C_2 *)clock_base)->unk_2D5C;
+            ticks = GAME_STATE->town_money;
             if ((ticks % 1000U) == 777U) {
                 event_pos[0] = 0x0FA00000;
                 event_z = 0xFFF80000;

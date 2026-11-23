@@ -17,6 +17,15 @@
       "evidence": "docs/evidence/r124w_carve1_run11.md"
     },
     {
+      "row": "town/func_80471108",
+      "tu": "src/town/scene/active_object_records_g00710.c",
+      "home": "town/func_80471108",
+      "foff": "0x3f1108",
+      "vma": "0x80018108",
+      "size": 108,
+      "evidence": "Existing compiler home for town/func_80471108; the registered split and its source retain their established coordinates."
+    },
+    {
       "row": "town/func_8047144C",
       "home": "town/func_8046C188",
       "tu": "src/town/scene/history/group_history.c",

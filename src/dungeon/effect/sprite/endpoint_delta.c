@@ -3,6 +3,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "dungeon/effect/sprite.h"
+#include "engine/graphics/sprite_scratch.h"
 #include "sdk/libgte.h"
 
 typedef struct S_800247D4_0 {
@@ -22,10 +23,7 @@ typedef struct S_800247D4_0 {
     u8 pad_8C[0x28];
     s32 unk_B4;
     u8 pad_B8[0x20];
-    u16 unk_D8;
-    u16 unk_DA;
-    u16 unk_DC;
-    u16 unk_DE;
+    SpriteScratchScreenPoint screen[2];
     u8 pad_E0[0x14];
     s32 unk_F4;
     s32 unk_F8;
@@ -265,21 +263,21 @@ s32 draw_animated_shaded_lines(void *effect_data, void *unused_render_data)
         project_work_b = &scratch->gte_flag;
         {
             u16 *start_pos = &scratch->unk_64;
-            u16 *start_screen = &scratch->unk_D8;
+            u16 *start_screen = &scratch->screen[0].x;
             start_depth = RotTransPers(start_pos, (s32 *)start_screen, project_work_a, project_work_b);
         }
         scratch->unk_F4 = start_depth;
         {
             u16 *end_pos = &scratch->unk_6C;
-            u16 *end_screen = &scratch->unk_DC;
+            u16 *end_screen = &scratch->screen[1].x;
             end_depth = RotTransPers(end_pos, (s32 *)end_screen, project_work_a, project_work_b);
         }
         scratch->unk_F8 = end_depth;
 
-        packet->unk_08 = scratch->unk_D8;
-        packet->unk_0A = scratch->unk_DA;
-        packet->unk_10 = scratch->unk_DC;
-        packet->unk_12 = scratch->unk_DE;
+        packet->unk_08 = scratch->screen[0].x;
+        packet->unk_0A = scratch->screen[0].y;
+        packet->unk_10 = scratch->screen[1].x;
+        packet->unk_12 = scratch->screen[1].y;
 
         {
             s32 depth_sum = scratch->unk_F4;

@@ -23,10 +23,6 @@ typedef struct S_80024740_0 {
 } S_80024740_0;   /* node in draw_gradient_line_chain */
 
 
-typedef struct PacketTag { unsigned addr : 24; unsigned len : 8; u8 r0; u8 g0; u8 b0; u8 code; } PacketTag;
-#define setaddr(packet, address) (((PacketTag *)(packet))->addr = (u32)(address))
-#define getaddr(packet) ((u32)(((PacketTag *)(packet))->addr))
-#define addPrim(ordering_table, primitive) (setaddr((primitive), getaddr(ordering_table)), setaddr((ordering_table), (primitive)))
 typedef union PackedColor { u32 word; struct { u8 r; u8 g; u8 b; u8 code; } channel; } PackedColor;
 typedef struct LineG2 { u32 tag; PackedColor color0; s16 x0; s16 y0; PackedColor color1; s16 x1; s16 y1; } LineG2;
 

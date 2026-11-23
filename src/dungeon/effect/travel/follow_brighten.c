@@ -218,8 +218,9 @@ void follow_brighten(FollowBrightenEffect *self, ObjectPosition *motion, SpriteF
             break;
         }
         if (owner->target != 0) {
-            if ((*(u32 *)&owner->unk_70 & 0xFFFF0000) ==
-                (*(u32 *)self->pad_1C & 0xFFFF0000)) {
+            /* BYTES: Comparing both coordinates keeps the word loads and high-half masks. */
+            if (owner->target_tile_x == self->current_tile.tile.x.s &&
+                owner->target_tile_y == self->current_tile.tile.y.s) {
                 s32 snap_x = owner->target_tile_x;
                 s32 snap_y;
                 snap_x <<= 6;

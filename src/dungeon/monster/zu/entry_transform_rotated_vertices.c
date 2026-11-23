@@ -70,8 +70,6 @@ typedef struct S_80F90E88_7 {
 } S_80F90E88_7;   /* g_game_work.unk_000 in func_80F90E88 */
 
 
-#define getaddr(t) ((t) & address_mask)
-#define setaddr(t, a) ((t) = ((t) & 0xFF000000) | ((a) & address_mask))
 
 /*
  * Projects each linked effect into two color-gradient quads and queues them with a drawing-mode
@@ -247,10 +245,13 @@ loop_1:
         ((S_80F90E88_7 *)gw->draw_buffer)->unk_8D0 = (s32 *) ((s8 *) draw_mode + 0xC);
         SetDrawMode(draw_mode, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
         mode_ot_offset = depth * 4;
-        link = getaddr(((S_80F90E88_2 *)(mode_ot_offset + (long)gw->draw_buffer))->unk_B0);
-        setaddr(*draw_mode, link);
+        link = ((S_80F90E88_2 *)(mode_ot_offset + (long)gw->draw_buffer))->unk_B0 & address_mask;
+        *draw_mode = (*draw_mode & 0xFF000000) | (link & address_mask);
         ot_entry_address = mode_ot_offset + (s32)gw->draw_buffer;
-        setaddr(((S_80F90E88_2 *)ot_entry_address)->unk_B0, (s32) draw_mode);
+        {
+            S_80F90E88_2 *entry = (S_80F90E88_2 *)ot_entry_address;
+            entry->unk_B0 = (entry->unk_B0 & 0xFF000000) | ((s32)draw_mode & address_mask);
+        }
     }
     next_object = *(s32 *)((u8 *)object - 0x8);
     if (next_object != 0) {

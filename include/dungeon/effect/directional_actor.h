@@ -1,5 +1,6 @@
 #ifndef DUNGEON_OVL_190081C_H
 #define DUNGEON_OVL_190081C_H
+#include "dungeon/effect/particle/vertex_transform.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/object_node.h"
@@ -128,7 +129,6 @@ void *allocate_list_node(s32, void *);
 void initialize_timed_motion_step(s32, s32);
 s32 get_spell_range(s16 entry_index);
 void advance_sprite_animation_and_textures(void *);
-void transform_rotated_vertices(void *);
 extern u8 directional_effect_entries[];
 void update_directional_actor_effect(EntityRec *effect_arg, Row_818E0800_S_818E0800_2 *motion_arg, Row_818E0800_S_818E0800_10 *actor_state);
 void shrink_spiraling_sprite_effect(SpiralingSpriteEffectBody *effect, ObjectPosition *position, SpriteFrameState *sprite);

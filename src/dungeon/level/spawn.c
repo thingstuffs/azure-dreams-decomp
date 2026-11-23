@@ -627,7 +627,7 @@ void restore_spawns_and_place_floor_traps(void) {
     u8 spawn_variant;
     u8 spawn_marker;
     s32 spawn_height;
-    floor_spawns_isolated_8028BF0C_S_8001EF0C_0 *object;
+    ActorRecord *object;
 
     slot = 0;
     initial = level_experience_table;
@@ -644,19 +644,19 @@ void restore_spawns_and_place_floor_traps(void) {
                 if (object != 0) {
                     retain_spawn_resource(existing_type, 1);
                     func_80042640(object, existing_type);
-                    object->unk_43.s = 0xFF;
-                    object->unk_12 = 0;
+                    object->town_monster_slot = 0xFF;
+                    object->ai_mode = 0;
                     initial_value = initial[(s8)meta[slot].unk2];
-                    object->unk_18 = initial_value;
-                    if (initial_value >= (u32)limits[object->unk_11]) {
+                    object->experience = initial_value;
+                    if (initial_value >= limits[object->level]) {
                         s32 *loop_limits;
                         loop_limits = entity_level_thresholds;
                         do {
                             raise_entity_level(object, 0);
-                        } while ((u32)loop_limits[object->unk_11] <=
-                                 object->unk_18);
+                        } while (loop_limits[object->level] <=
+                                 (u32)object->experience);
                     }
-                    object->unk_43.u = generate_random_value();
+                    object->town_monster_slot = generate_random_value();
                 }
             }
             *(s32 *)&meta[slot] = 0;

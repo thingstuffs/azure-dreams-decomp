@@ -1,4 +1,5 @@
 #include "dungeon/level.h"
+#include "shared/scratchpad.h"
 #include "engine/graphics/sprite_scratch.h"
 #include "shared/dungeon_height_query.h"
 #include "shared/audio_commands.h"
@@ -1163,29 +1164,29 @@ void *select_containing_cell_surface(s32 world_x, s32 world_y, s16 min_height) {
     u16 cell_y;
 
     scratch = (S_81960530_0 *)0x1F800000;
-    scratch->unk_148 = 0x400;
-    scratch->unk_140.s = world_x & 0x3F;
-    scratch->unk_142.s = world_y & 0x3F;
-    scratch->unk_14C = min_height;
+    scratch->query.best_height = 0x400;
+    scratch->query.query_x = world_x & 0x3F;
+    scratch->query.query_y = world_y & 0x3F;
+    scratch->query.limit = min_height;
 
     cell_index = (u16)world_x >> 6;
-    scratch->unk_150 = cell_index;
+    scratch->query.cell_index = cell_index;
     map_data = &g_game_work.map;
     cell_index += ((u16)world_y >> 6) << map_data->shiftX;
-    (*(s16 *)((u8 *)scratch + 0x150)) = cell_index;
+    scratch->query.cell_index = cell_index;
     map_entry = (S_81960530_2 *)((long)cell_index * 6 + (unsigned long)map_data->cells);
     vertices = map_data->vertices;
     planes = map_data->surface_planes;
     best_polygon = 0;
     if (map_entry->unk_00 != 0) {
-        scratch->unk_152.s = -map_entry->unk_02;
+        scratch->query.face_offset = -map_entry->unk_02;
         best_polygon = map_data->cell_faces[map_entry->unk_00];
         polygon = best_polygon;
         if (((S_81960530_8 *)(planes + ((S_81960530_3 *)best_polygon)->unk_10 * 8))->unk_04 < -0x7FF) {
             do {
                 if ((((S_81960530_4 *)polygon)->unk_17.u & 1) == 0) {
-                    cell_x = scratch->unk_140.u;
-                    cell_y = scratch->unk_142.u;
+                    cell_x = scratch->query.query_x;
+                    cell_y = scratch->query.query_y;
 
                     vertex = (S_81960530_5 *)((unsigned long)((S_81960530_4 *)polygon)->unk_00 * 8 + (unsigned long)vertices);
                     scratch->unk_154.at00.v = vertex->unk_00;
@@ -1212,18 +1213,18 @@ void *select_containing_cell_surface(s32 world_x, s32 world_y, s16 min_height) {
                         plane_vertex = (S_81960530_7 *)((unsigned long)((S_81960530_4 *)polygon)->unk_00 * 8
                             + (unsigned long)vertices);
                         height = (plane->unk_00 * (plane_vertex->unk_00
-                            - (s16)scratch->unk_140.u) +
+                            - (s16)scratch->query.query_x) +
                                   plane->unk_02 * (plane_vertex->unk_02
-                                      - (s16)scratch->unk_142.u) +
+                                      - (s16)scratch->query.query_y) +
                                   plane->unk_04 * plane_vertex->unk_04) /
                                 plane->unk_04;
-                        scratch->unk_144 = height;
-                        height += (s16)scratch->unk_152.u;
-                        scratch->unk_144 = height;
-                        if (height >= scratch->unk_14C &&
-                            height < scratch->unk_148) {
+                        scratch->query.candidate_height = height;
+                        height += scratch->query.face_offset;
+                        scratch->query.candidate_height = height;
+                        if (height >= scratch->query.limit &&
+                            height < scratch->query.best_height) {
                             best_polygon = polygon;
-                            scratch->unk_148 = height;
+                            scratch->query.best_height = height;
                         }
                     }
                 }

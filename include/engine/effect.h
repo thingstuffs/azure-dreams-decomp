@@ -33,65 +33,6 @@ typedef struct MapCellVertex {
     u16 pad;
 } MapCellVertex;
 
-/* Scratchpad slots of the map cell rasterisers (render_map_cell_mesh, the town map tile renderers):
- * init_polygon_edges fills edges and active_edges, the GTE stores write otz, otz4 and opz, and the map spans
- * and masks come from the map shift and mask fields. Slots +0xC0/+0xC4 (tile id in render_shaded_map_tiles,
- * gte_stdp outputs in draw_empty_map_cell_quads) and +0x17C..+0x181 (packet_end in render_map_cell_mesh,
- * tile flags in render_shaded_map_tiles, a normal SVECTOR loaded by gte_ldv0 in draw_empty_map_cell_quads)
- * play different roles per function and stay padding. */
-typedef struct MapCellScratch {
-    /* 0x000 */ s32 color;
-    /* 0x004 */ s32 lit_color;
-    /* 0x008 */ s32 cur_x;
-    /* 0x00C */ s32 cur_y;
-    /* 0x010 */ s32 step;
-    /* 0x014 */ s32 min_x;
-    /* 0x018 */ s32 max_x;
-    /* 0x01C */ ScanEdge edges[4];
-    /* 0x0BC */ s32 ot_base;
-    /* 0x0C0 */ u8 pad_0C0[8];
-    /* 0x0C8 */ s32 otz;
-    /* 0x0CC */ u8 pad_0CC[8];
-    /* 0x0D4 */ s32 otz4;
-    /* 0x0D8 */ s32 flag;
-    /* 0x0DC */ s32 opz;
-    /* 0x0E0 */ MapCellVertex v[4]; /* xy stored as one word, z read as u16 */
-    /* 0x100 */ u8 pad_100[0x10];
-    /* 0x110 */ s32 overlay_color;
-    /* 0x114 */ s32 map_width;
-    /* 0x118 */ s32 map_height;
-    /* 0x11C */ s32 column_mask;
-    /* 0x120 */ s32 row_mask;
-    /* 0x124 */ s32 width_shift;
-    /* 0x128 */ s32 height_shift;
-    /* 0x12C */ u16 cell_height;
-    /* 0x12E */ u8 pad_12E[6];
-    /* 0x134 */ s32 column;
-    /* 0x138 */ s32 row_base;
-    /* 0x13C */ s32 neighbor_index;
-    /* 0x140 */ u8 pad_140[4];
-    /* 0x144 */ s32 cell_index;
-    /* 0x148 */ s32 min_height;
-    /* 0x14C */ s32 last_normal;
-    /* 0x150 */ u8 pad_150[8];
-    /* 0x158 */ s32 view_height; /* written after sample_terrain_surface_height returns */
-    /* 0x15C */ u8 pad_15C[8];
-    /* 0x164 */ s32 vtx;
-    /* 0x168 */ u8 pad_168[4];
-    /* 0x16C */ u16 face_tex;
-    /* 0x16E */ u8 face_skip;
-    /* 0x16F */ u8 face_flags;
-    /* 0x170 */ u16 halfword_170; /* face attribute x in render_map_cell_mesh and render_shaded_map_tiles; the edge count handed to init_polygon_edges in draw_empty_map_cell_quads */
-    /* 0x172 */ u16 face_attr_y;
-    /* 0x174 */ u16 active_edges;
-    /* 0x176 */ u16 draw_mode;
-    /* 0x178 */ u16 blend;
-    /* 0x17A */ u8 pad_17A[0x92];
-    /* 0x20C */ u16 uv_scroll; /* town tile renderer; stored as a halfword, read back through (u8) value casts */
-    /* 0x20E */ u8 pad_20E[2];
-} MapCellScratch;
-#define MAP_CELL_SCRATCH ((MapCellScratch *)0x1F800000)
-
 typedef struct CdCueMotionOwner {
     u8 pad_00[6];
     u16 count;

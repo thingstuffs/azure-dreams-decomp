@@ -2,9 +2,9 @@
 #include "shared/object_node.h"
 #include "dungeon/monster/beldo.h"
 #include "dungeon/monster/beldo/command_ticks_data.h"
-
+#include "shared/game_state.h"
 extern void unlink_entity_node(s32 node);
-extern s32 D_80173F90;
+extern u8 *D_80173F90;
 
 typedef struct FlagsPage {
     u8 pad_00[0x3714];
@@ -26,7 +26,7 @@ void reset_and_release_beldo_effect_slots(void) {
     s16 next_slot;
     s32 object_addr;
     s32 slot_offset;
-    s32 saved_state;
+    u8 *saved_state;
     BeldoEffectScriptState *active_state;
     void *object_header;
     BeldoObjectTablePage *table_page;
@@ -48,7 +48,7 @@ void reset_and_release_beldo_effect_slots(void) {
     state_flags = (state_flags | 9) & 0xFFEF;
     flags_base->unk_3714 = state_flags;
     saved_state = D_80173F90;
-    flags_base->unk_371C = saved_state;
+    GAME_STATE->log.data = saved_state;
     beldo_effect_stream = beldo_effect_scripts[0];
     active_state->script_index = 0;
 

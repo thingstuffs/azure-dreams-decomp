@@ -11,17 +11,6 @@
 #include "slus/data.h"
 #include "slus/map_state.h"
 
-typedef struct MainMemoryPage {
-    u8 pad_0000[0x20A];
-    u16 status_020A;
-    u8 pad_020C[0x2D5C - 0x20C];
-    s32 word_2D5C;
-    u8 pad_2D60[0x2D6C - 0x2D60];
-    u8 red_collar_status;
-    u8 pad_2D6D[0x3714 - 0x2D6D];
-    u16 flags_3714;
-} MainMemoryPage;
-
 extern void initialize_circular_list_head(void);
 extern void init_town_motion_list(void);
 extern void clear_shop_record_queue(void);
@@ -38,7 +27,7 @@ extern void town_sd_se_load_init(void);
 void dispatch_town_transition(void)
 {
     u16 runtime_flags;
-    MainMemoryPage *page;
+    GameState *page;
 
     reset_callback_list(&town_movie_callback_list);
     reset_callback_list(&town_transition_callback_list);
@@ -76,12 +65,12 @@ void dispatch_town_transition(void)
         reserve_tw_mon_load(1);
         file_load_com(&town_scene_resource);
     } else {
-        page = (MainMemoryPage *)0x80010000;
+        page = GAME_STATE;
         if (runtime_flags & 2) {
-            page->flags_3714 &= 0xFFFD;
-            if (page->status_020A != 0) {
+            page->log.head.flags &= 0xFFFD;
+            if (page->resume_in_dungeon != 0) {
                 set_dungeon_exit_flags(1);
-                page->status_020A = 0;
+                page->resume_in_dungeon = 0;
                 delete_items_and_reset_state();
                 chg_map_second_house_sel();
             } else {
@@ -92,9 +81,9 @@ void dispatch_town_transition(void)
             file_load_com(&town_scene_resource);
         } else {
             reset_state_defaults();
-            page->red_collar_status = 1;
+            page->carry_player_FA[0] = 1;
             load_building_slot_states();
-            page->word_2D5C = 0;
+            page->town_money = 0;
             change_map(town_transition_map_descriptor);
             reserve_twch_load(0);
             reserve_tw_mon_load(0);

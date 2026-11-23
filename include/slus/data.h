@@ -14,7 +14,7 @@ struct ResourceTransitionBody;
 #include "shared/sound_state.h"
 #include "engine/audio/spu/sound_range_records.h"
 #include "slus/window_choice_data.h"
-
+#include "shared/game_state.h"
 
 struct InputRecord;
 struct RECT;
@@ -28,10 +28,6 @@ extern MovieListNode town_movie_callback_list;
 extern MovieListNode town_transition_callback_list;
 extern char scene_string_fallback[];
 extern MATRIX sprite_projection_matrix;
-extern u8 D_80012D6E[ 9 ];
-extern u8 D_80013614[ 16 ];
-extern s32 D_80013628;
-extern u8 D_800136B8;
 extern int D_800212DC[ 8 ];
 extern s16 D_8006AE18[ 5 ];
 extern s8 D_800712E4[ ];

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "engine/menu.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -196,8 +197,8 @@ void update_spawn_controller(State8081A3D8 *controller)
 
         tw_sd_sq_ld_call(0x20, 0x200);
         clear_resident_bit(0xA4);
-        best_score = high_display_best_score[0];
-        high_display_best_score[0] = best_score;
+        best_score = GAME_STATE->high_display_best_score;
+        GAME_STATE->high_display_best_score = best_score;
         score_threshold = controller->threshold;
         dialog_zero = 0;
         if ((s16)best_score < score_threshold) {
@@ -205,7 +206,7 @@ void update_spawn_controller(State8081A3D8 *controller)
             dialog_id = 0x2C3D;
             sound_set_cd_cue_parameters(dialog_zero, dialog_id, 0x01000001, 0x01000271);
             SD_Call(0x300);
-            high_display_best_score[0] = controller->threshold;
+            GAME_STATE->high_display_best_score = controller->threshold;
             set_resident_bit(0x553);
         } else {
             s32 dialog_id;

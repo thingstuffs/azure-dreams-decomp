@@ -1,4 +1,5 @@
 #include "town/player.h"
+#include "shared/game_state.h"
 #include "shared/audio_commands.h"
 #include "common.h"
 #include "town/minigame.h"
@@ -32,7 +33,6 @@ typedef struct {
 
 extern u8 D_80024450[];
 extern u8 scene_object_payload_alias[];
-extern s32 town_money[3];
 extern s32 camera_height_mode[3];
 extern u8 D_800D0080[];
 extern u8 town_position_callback_address[];
@@ -202,15 +202,15 @@ void update_betting_effect(TownEffect *input)
             effect->timer = 5;
         }
         if ((((controls->pressed_buttons) & 0x1000) != 0 || ((controls->buttons & 0x1000) != 0 && effect->timer <= 0))
-            && effect->amount < 10000 && (u32)town_money[0] >= 100) {
+            && effect->amount < 10000 && (u32)GAME_STATE->town_money >= 100) {
             SD_Call(AUDIO_CURSOR_MOVE);
-            town_money[0] -= 100;
+            GAME_STATE->town_money -= 100;
             effect->amount = effect->amount + 100;
         } else {
             if (((controls->pressed_buttons) & 0x4000) != 0 || ((controls->buttons & 0x4000) != 0 && effect->timer <= 0)) {
                 if (effect->amount >= 100) {
                     SD_Call(AUDIO_CURSOR_MOVE);
-                    town_money[0] += 100;
+                    GAME_STATE->town_money += 100;
                     effect->amount = effect->amount - 100;
                 }
             }
@@ -606,11 +606,11 @@ void update_betting_effect(TownEffect *input)
         s32 ticks_left;
         s32 money;
         if (effect->amount != 0) {
-            money = town_money[0];
+            money = GAME_STATE->town_money;
             if (effect->ticks < 2) {
-                town_money[0] = money + 100;
+                GAME_STATE->town_money = money + 100;
             } else {
-                town_money[0] = money + 200;
+                GAME_STATE->town_money = money + 200;
             }
         }
         ticks_left = (u16)effect->ticks - 2;

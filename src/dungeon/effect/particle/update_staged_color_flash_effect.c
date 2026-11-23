@@ -1,3 +1,4 @@
+#include "sdk/libgpu.h"
 #include "shared/audio_commands.h"
 /* Staged target motion, layered sprite-chain drawing, and delayed sprite fading. */
 #include "shared/object_node.h"
@@ -369,8 +370,6 @@ void update_staged_color_flash_effect(s32 effect_or_count) {
     }
 }
 
-#define setaddr(p, _addr) (((P_TAG *)(p))->addr = (u32)(_addr))
-#define getaddr(p) (u32)(((P_TAG *)(p))->addr)
 #define OTP(d) ((u32 *)((u8 *)render_state->draw_buffer + 0xB0) + (d))
 
 #define LOAD_PTR(p) (*(u8 **)(p))

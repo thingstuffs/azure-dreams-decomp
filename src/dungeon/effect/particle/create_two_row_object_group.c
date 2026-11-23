@@ -852,24 +852,9 @@ extern void RotMatrixX(s16 value, void *matrix, s32 diagonal_value, s32 last_col
 extern void RotMatrixY(s16 value, void *matrix);
 extern void RotMatrixZ(s16 value, void *matrix);
 
-typedef struct Struct_800D6330 {
-    /* 0x00 */ s32 *unk00;
-    /* 0x04 */ s16 *unk04;
-    /* 0x08 */ s16 unk08;
-    /* 0x0A */ s16 unk0A;
-    /* 0x0C */ s16 unk0C;
-    /* 0x0E */ s16 unk0E;
-    /* 0x10 */ s16 unk10;
-    /* 0x12 */ s16 unk12;
-    /* 0x14 */ s16 unk14;
-    /* 0x16 */ s16 unk16;
-    /* 0x18 */ s16 unk18;
-    /* 0x1A */ u16 unk1A;
-} Struct_800D6330;
-
 /* Transforms source_vertices using the selected rotation matrix and stores their coordinates. */
 void transform_rotated_vertices(void *transform_data) {
-    Struct_800D6330 *transform = transform_data;
+    VertexTransformRequest *transform = transform_data;
     union {
         s16 rotation_matrix[9];
         struct {
@@ -894,15 +879,15 @@ void transform_rotated_vertices(void *transform_data) {
     void *output_coordinates;
 
     PushMatrix();
-    scratch.s.input_0 = transform->unk10;
-    scratch.s.input_1 = transform->unk12;
-    scratch.s.input_2 = transform->unk14;
+    scratch.s.input_0 = transform->translation.vx;
+    scratch.s.input_1 = transform->translation.vy;
+    scratch.s.input_2 = transform->translation.vz;
     SetTransMatrix(scratch.rotation_matrix);
-    if (transform->unk1A == 0) {
-        RotMatrix(&transform->unk08, scratch.rotation_matrix);
+    if (transform->rotation_mode == 0) {
+        RotMatrix(&transform->rotation.vx, scratch.rotation_matrix);
     } else {
         index = 2;
-        if (transform->unk1A != 0x8000) {
+        if (transform->rotation_mode != 0x8000) {
             last_column_index = index;
             diagonal_value = 0x1000;
             matrix_row = scratch.rotation_matrix + 6;
@@ -921,27 +906,27 @@ void transform_rotated_vertices(void *transform_data) {
                 index--;
                 matrix_row -= 3;
             } while (index >= 0);
-            if (transform->unk1A == 1) {
-                RotMatrixX(transform->unk08, scratch.rotation_matrix, diagonal_value, last_column_index);
-                RotMatrixY(transform->unk0A, scratch.rotation_matrix);
-                RotMatrixZ(transform->unk0C, scratch.rotation_matrix);
+            if (transform->rotation_mode == 1) {
+                RotMatrixX(transform->rotation.vx, scratch.rotation_matrix, diagonal_value, last_column_index);
+                RotMatrixY(transform->rotation.vy, scratch.rotation_matrix);
+                RotMatrixZ(transform->rotation.vz, scratch.rotation_matrix);
             }
         }
     }
     SetRotMatrix(scratch.rotation_matrix);
     index = 0;
-    if (transform->unk18 > 0) {
+    if (transform->count > 0) {
         output_coordinates = &scratch.s.output_x;
         do {
             vertex_byte_offset = index * 8;
-            source_vertices = transform->unk00;
+            source_vertices = transform->source;
             RotTrans((s8 *) source_vertices + vertex_byte_offset, output_coordinates, &column_index);
-            *(u16 *) ((s8 *) transform->unk04 + index * 8) = *(u16 *) &scratch.s.output_x;
-            *(u16 *) ((s8 *) transform->unk04 + index * 8 + 2) = *(u16 *) &scratch.s.output_y;
-            vertex_byte_offset = (s32)transform->unk04 + vertex_byte_offset;
+            *(u16 *) ((s8 *) transform->destination + index * 8) = *(u16 *) &scratch.s.output_x;
+            *(u16 *) ((s8 *) transform->destination + index * 8 + 2) = *(u16 *) &scratch.s.output_y;
+            vertex_byte_offset = (s32)transform->destination + vertex_byte_offset;
             *(u16 *) (vertex_byte_offset + 4) = *(u16 *) &scratch.s.output_z;
             index++;
-            if (index >= transform->unk18) {
+            if (index >= transform->count) {
                 break;
             }
             output_coordinates = &scratch.s.output_x;

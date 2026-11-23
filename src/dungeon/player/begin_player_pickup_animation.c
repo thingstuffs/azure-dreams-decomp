@@ -16,6 +16,7 @@ extern u8 player_item_render_update_address[];
 
 /* Create an effect at the target and initialize its state and sound. */
 void begin_player_pickup_animation(ActorRecord *actor, s32 effect_arg, u8 *target, ActorRecord *source) {
+    PlayerRecord *player = (PlayerRecord *)actor;
     u16 flags;
     s32 direction;
     ObjectNodeHeader *effect;
@@ -35,7 +36,7 @@ void begin_player_pickup_animation(ActorRecord *actor, s32 effect_arg, u8 *targe
     direction = ((g_game_work.view.camera_rotation.parts.viewAngle + source->facing + 0x100) >> 9) & 7;
     set_sprite_animation_frame(target, player_carry_frames[direction], 0, 1);
 
-    effect = create_item_render_object(NODE_HEADER(actor), ((PlayerRecord *)actor)->held_item, 0, 0, 0);
+    effect = create_item_render_object(NODE_HEADER(actor), player->held_item, 0, 0, 0);
     *(void **)(((u8 *)actor) + 0x124) = effect;
     if (effect != NULL) {
         effect->update_callback = player_item_render_update_address;
@@ -51,7 +52,7 @@ void begin_player_pickup_animation(ActorRecord *actor, s32 effect_arg, u8 *targe
         *(u8 **)(effect_state + 0x9C) = ((u8 *)effect) + 0xB8;
 
         sound_id = 0x505;
-        if (((PlayerRecord *)actor)->held_item->kind == 0xE) {
+        if (player->held_item->kind == 0xE) {
             sound_id = 0x516;
         }
         play_sound_if_enabled(sound_id);

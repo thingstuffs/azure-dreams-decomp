@@ -13,7 +13,7 @@ ItemDataSlotRecord *get_item_data_record(int category, int item)
     int index = find_item_data_slot(category, item);
 
     if (index < 0x14) {
-        record = (ItemDataSlotRecord *)0x800133E8 + index;
+        record = GAME_STATE->item_data + index;
     }
     return record;
 }

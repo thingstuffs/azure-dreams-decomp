@@ -14,41 +14,41 @@ s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height) {
     s32 cell_y;
     Primitive *primitive;
 
-    work->x = x & 0x3F;
+    work->query.query_x = x & 0x3F;
     cell_x = (s32)((u32)(x & 0xFFFF) >> 6);
-    work->y = y & 0x3F;
-    work->limit = min_height;
-    work->index = cell_x;
+    work->query.query_y = y & 0x3F;
+    work->query.limit = min_height;
+    work->query.cell_index = cell_x;
     tables = &g_game_work.map;
     vertices = tables->vertices;
     cells = tables->cells;
     normals = tables->surface_planes;
     if (cell_x < 0) {
-        work->index = 0;
+        work->query.cell_index = 0;
         cell_y = y & 0xFFFF;
     } else if (cell_x < 0x40) {
         cell_y = y & 0xFFFF;
     } else {
-        work->index = 0x3F;
+        work->query.cell_index = 0x3F;
         cell_y = y & 0xFFFF;
     }
     cell_y = (s32)((u32)cell_y >> 6);
-    work->best = cell_y;
+    work->query.best_height = cell_y;
     if (cell_y < 0) {
-        work->best = 0;
+        work->query.best_height = 0;
     } else if (cell_y >= 0x40) {
-        work->best = 0x3F;
+        work->query.best_height = 0x3F;
     }
-    work->index += work->best << tables->shiftX;
-    work->best = 0x400;
+    work->query.cell_index += work->query.best_height << tables->shiftX;
+    work->query.best_height = 0x400;
     {
         TerrainMapCell *cell = (TerrainMapCell *)(
-            (unsigned long)((s16)work->index * sizeof(TerrainMapCell)) +
+            (unsigned long)((s16)work->query.cell_index * sizeof(TerrainMapCell)) +
             (unsigned long)cells);
 
         if (cell->face_index != 0) {
-            work->offset = -cell->height_offset;
-            primitive = tables->cell_faces[cells[(s16)*&work->index].face_index];
+            work->query.face_offset = -cell->height_offset;
+            primitive = tables->cell_faces[cells[(s16)*&work->query.cell_index].face_index];
             while (normals[primitive->next].z < -2047) {
                 if (!(primitive->flags & 1)) {
                     u16 local_x;
@@ -58,8 +58,8 @@ s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height) {
                     u16 p3_y;
 
                     vertex_index = *&primitive->v0;
-                    local_x = *&work->x;
-                    local_y = *&work->y;
+                    local_x = *&work->query.query_x;
+                    local_y = *&work->query.query_y;
                     work->p0.word = *(u32 *)&vertices[vertex_index];
                     work->p0.half.x -= local_x;
                     work->p0.half.y -= local_y;
@@ -81,8 +81,8 @@ s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height) {
                         Vertex *vertex = (Vertex *)(
                             (unsigned long)(primitive->v0 * sizeof(Vertex)) +
                             (unsigned long)vertices);
-                        s32 delta_x = (s16)vertex->x - (s16)*&work->x;
-                        s32 delta_y = (s16)vertex->y - (s16)*&work->y;
+                        s32 delta_x = (s16)vertex->x - (s16)*&work->query.query_x;
+                        s32 delta_y = (s16)vertex->y - (s16)*&work->query.query_y;
                         s32 x_term = (s16)normal->x * delta_x;
                         s32 y_term = (s16)normal->y * delta_y;
                         s32 z_term = (s16)normal->z * (s16)vertex->z;
@@ -91,14 +91,14 @@ s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height) {
                         s32 height_limit;
                         s32 cell_height;
 
-                        work->value = height;
-                        raw_offset = work->offset;
-                        height_limit = work->limit;
+                        work->query.candidate_height = height;
+                        raw_offset = work->query.face_offset;
+                        height_limit = work->query.limit;
                         cell_height = height + (s16)raw_offset;
-                        work->value = cell_height;
+                        work->query.candidate_height = cell_height;
                         if (cell_height >= height_limit) {
-                            if (cell_height < work->best) {
-                                work->best = cell_height;
+                            if (cell_height < work->query.best_height) {
+                                work->query.best_height = cell_height;
                             }
                         }
                     }
@@ -122,7 +122,7 @@ s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height) {
     }
 
     {
-        s32 best_height = (s16)work->best;
+        s32 best_height = (s16)work->query.best_height;
                  /* MATCH: keep best_height sign extension before the shared epilogue. */
         return best_height;
     }
@@ -146,13 +146,13 @@ s32 is_point_in_quad(S_800BCE7C_0 *poly) {
     if (poly->unk_160.at00.v == 0) {
         return 1;
     }
-    poly->unk_164 = ratan2(poly->unk_154.at02.v, (s16) poly->unk_154.at00.v);
+    poly->turn.angles[0] = ratan2(poly->unk_154.at02.v, (s16) poly->unk_154.at00.v);
     angle_1 = ratan2(poly->unk_160.at02.v, (s16) poly->unk_160.at00.v);
-    poly->unk_170 = angle_1;
-    delta_1 = angle_1 - poly->unk_164;
+    poly->turn.angles[3] = angle_1;
+    delta_1 = angle_1 - poly->turn.angles[0];
     turn_1 = (0x1000 - delta_1) & 0xFFF;
-    poly->unk_180 = turn_1;
-    poly->unk_170 = delta_1;
+    poly->turn.gaps[2] = turn_1;
+    poly->turn.angles[3] = delta_1;
     if (turn_1 >= 0x801) {
         return 0;
     }
@@ -160,11 +160,11 @@ s32 is_point_in_quad(S_800BCE7C_0 *poly) {
         return 1;
     }
     angle_2 = ratan2(poly->unk_15C.at02.v, (s16) poly->unk_15C.at00.v);
-    poly->unk_16C = angle_2;
-    delta_2 = angle_2 - poly->unk_164;
-    turn_2 = (poly->unk_170 - delta_2) & 0xFFF;
-    poly->unk_17C = turn_2;
-    poly->unk_16C = delta_2;
+    poly->turn.angles[2] = angle_2;
+    delta_2 = angle_2 - poly->turn.angles[0];
+    turn_2 = (poly->turn.angles[3] - delta_2) & 0xFFF;
+    poly->turn.gaps[1] = turn_2;
+    poly->turn.angles[2] = delta_2;
     if (turn_2 >= 0x801) {
         return 0;
     }
@@ -172,13 +172,13 @@ s32 is_point_in_quad(S_800BCE7C_0 *poly) {
         return 1;
     }
     angle_3 = ratan2(poly->unk_158.at02.v, (s16) poly->unk_158.at00.v);
-    poly->unk_168 = angle_3;
-    delta_3 = (angle_3 - poly->unk_164) & 0xFFF;
-    poly->unk_168 = delta_3;
+    poly->turn.angles[1] = angle_3;
+    delta_3 = (angle_3 - poly->turn.angles[0]) & 0xFFF;
+    poly->turn.angles[1] = delta_3;
     if (delta_3 >= 0x801) {
         return 0;
     }
-    turn_3 = (poly->unk_16C - delta_3) & 0xFFF;
-    poly->unk_178 = turn_3;
+    turn_3 = (poly->turn.angles[2] - delta_3) & 0xFFF;
+    poly->turn.gaps[0] = turn_3;
     return turn_3 < 0x801;
 }

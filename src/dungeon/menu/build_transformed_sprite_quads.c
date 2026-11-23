@@ -9,37 +9,6 @@
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
 
-/* Scratchpad work area (0x1F800000) used while building the sprite quads: the GTE rotation, scale and
- * transform inputs, the four corner vectors and the texture rectangle of the selected frame. */
-typedef struct SpriteQuadScratch {
-    /* 0x00 */ u16 origin_x; /* placement X; the transform translates by it and the projected center subtracts it */
-    /* 0x02 */ u16 origin_y; /* placement Y */
-    u8 pad_04[0x4];
-    /* 0x08 */ s32 tex_u; /* frame texture left U; shifted into the packed UV words */
-    /* 0x0C */ s32 tex_v; /* frame texture top V */
-    /* 0x10 */ s32 tex_width; /* frame texture width, then advanced to the right U */
-    /* 0x14 */ s32 tex_height; /* frame texture height, then advanced to the bottom V */
-    u8 pad_18[0x8];
-    /* 0x20 */ u8 *order_table; /* ordering table of the current draw context */
-    /* 0x24 */ u16 sprite_flags; /* copy of the sprite's flags */
-    u8 pad_26[0x2];
-    /* 0x28 */ SVECTOR center_offset; /* offset of the sprite center from its extent, rotated to find the screen center */
-    /* 0x30 */ IntVector3 scale; /* ScaleMatrix scale vector */
-    u8 pad_3C[0xC];
-    /* 0x48 */ s32 unk_48;
-    u8 pad_4C[0x24];
-    /* 0x70 */ SVECTOR corners[4]; /* the four frame corners passed to RotTransSV */
-    u8 pad_90[0x4];
-    /* 0x94 */ s32 gte_flags; /* RotTransSV flag output */
-    /* 0x98 */ SVECTOR rotation; /* RotMatrix angles; only the view angle is nonzero */
-    u8 pad_A0[0x30];
-    /* 0xD0 */ MATRIX transform; /* rotation, scale and placement translation */
-    u8 pad_F0[0x10];
-    /* 0x100 */ u16 center_x; /* projected sprite center X, made relative to the placement */
-    /* 0x102 */ u16 center_y; /* projected sprite center Y, made relative to the placement */
-} SpriteQuadScratch;
-
-
 typedef struct S_8009E798_5_pre {
     u32 unk_00;
     u8 pad_04[0x4];
@@ -95,7 +64,7 @@ s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, Obje
 {
     u8 **state_ptr = (u8 **)((u8 *)(&g_game_work));
     u8 *state = *state_ptr;
-    SpriteQuadScratch *scratch = (SpriteQuadScratch *)0x1F800000;
+    ViewportSpriteQuadScratch *scratch = VIEWPORT_SPRITE_QUAD_SCRATCH;
     u8 *packet = ((GpuContext *)state)->packetCursor;
     S_8009E798_6 *packet_view;
     S_8009E798_5 *frame;

@@ -1376,18 +1376,13 @@
       "census_label": "proven_code"
     },
     {
-      "kind": "unresolved",
+      "row": "main/func_802437C0",
+      "home": "main/func_802437C0",
+      "tu": "src/frontend/libcard/create_next_save_slot_window.c",
       "foff": "0x2637c0",
-      "size": 160,
-      "evidence": "coverage-prototype: census2 span export absent; classification held"
-    },
-    {
-      "row": "main/func_80243860",
-      "tu": "src/main/func_8000E904.c",
-      "home": "main/func_8000E904",
-      "foff": "0x263860",
-      "vma": "0x80026860",
-      "size": 8
+      "vma": "0x800267c0",
+      "size": 168,
+      "evidence": "The save-slot menu installer at MAIN +0x263868 constructs the callback address at +0x2638ec and stores it to the node update slot at +0x2638f8."
     },
     {
       "kind": "code_region",
@@ -1824,13 +1819,13 @@
     "0x8002593C": "0x800265B8"
   },
   "census": {
-    "proven_code": 29652,
+    "proven_code": 29812,
     "library_code": 0,
     "strongly_code": 0,
     "proven_data": 0,
     "noncode_typing_pending": 0,
     "padding_leftover": 2197,
-    "unknown": 5015
+    "unknown": 4855
   },
   "provenance": {
     "labels_sha256": "38e8e13b775802242be29c9c78265ed06877fca3dbcec734f7a6a70775790e7f",

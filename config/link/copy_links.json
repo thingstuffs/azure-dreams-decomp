@@ -128,6 +128,18 @@
   "dungeon/func_80F5FAA4": {
    "func_80171F64": "func_80171F94"
   },
+  "dungeon/func_80F8D000": {
+   "func_80170A70": "func_8016AA70",
+   "func_80171138": "func_8016B138"
+  },
+  "dungeon/func_80F93000": {
+   "func_80170A70": "func_80164A70",
+   "func_80171138": "func_80165138"
+  },
+  "dungeon/func_80FAB000": {
+   "func_80170A70": "func_8014CA70",
+   "func_80171138": "func_8014D138"
+  },
   "dungeon/func_80FB176C": {
    "func_8014D810": "func_80171B68",
    "func_8017139C": "func_80171910",

@@ -1,3 +1,4 @@
+#include "sdk/libgpu.h"
 #include "common.h"
 #include "shared/dungeon_effect_state.h"
 #include "shared/object_node.h"
@@ -174,9 +175,6 @@ void expire_counted_child_effect(TimedTransformCopyEffectBody *counter_state) {
 
    /* next in draw_red_triangle_fan */
 
-#define setaddr(p, _addr) (((B22_81892C5C_P_TAG *)(p))->addr = (u32)(_addr))
-#define getaddr(p) (u32)(((B22_81892C5C_P_TAG *)(p))->addr)
-#define addPrim(ot, p) setaddr(p, getaddr(ot)), setaddr(ot, p)
 
 /* Draw a red ring around the effect center using eight projected polylines. */
 s32 draw_red_triangle_fan(TimedTransformCopyEffectBody *effect, ObjectPosition *center)

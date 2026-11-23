@@ -7,7 +7,7 @@ struct B22_81893474_EffectState;
 #include "shared/dungeon_moving_views.h"
 struct S_7FFE83DC_3;
 void create_brief_positioned_color_effect(struct S_7FFE83DC_3 *source, s32 color);
-void * create_orbit_sprite_at_index(MovingPosition *origin, u16 index);
+void * create_orbit_sprite_at_index(MovingPosition *origin, s16 index);
 s32 draw_counter_rotating_cylinders(struct B22_81893474_EffectState *effect, MovingPosition *center, s32 unused_value);
 void spawn_jittered_child_effect( void *source, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
 void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u32 variant);
@@ -122,4 +122,12 @@ s32 random_below_limit(s32 limit);
 s32 draw_ball_effect_points(PointRecord *first_point, ObjectPosition *first_position);
 
 void retire_finished_sprite_effect(void *body, ObjectPosition *position, SpriteFrameState *sprite);
+struct OrbitBurstSpell;
+void *create_random_rotation_effect_sprite(struct OrbitBurstSpell *owner, MovingPosition *position);
+void advance_randomized_orbit_child_animation(LinkedCounterSpriteBody *body, ObjectPosition *unused, SpriteFrameState *target);
+
+void *create_effect_sprite_at(MovingPosition *source);
+void spawn_sprite_at_random_radial_offset(MovingPosition *origin);
+s32 dispatch_effect_rendering(struct B22_81893474_EffectState *effect, s32 position, s32 render_param);
+
 #endif

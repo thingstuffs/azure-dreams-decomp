@@ -32,7 +32,7 @@ s32 use_level_gain_item(ActorRecord *entity, DungeonItemEntry *item, s16 action_
             return 1;
         }
     }
-    if ((u8) entity->level < 0x63U) {
+    if (entity->level < 0x63U) {
         entity->experience = lookup_level_experience_threshold(entity, 0);
         entity->pending_experience_low = 0;
         entity->pending_experience_high = 0;

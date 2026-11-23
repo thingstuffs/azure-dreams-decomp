@@ -1,0 +1,24 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/foreign_effect_a34c",
+  "container": "dungeon",
+  "foff": "0xa34c",
+  "size": "0xd4",
+  "vma": "0x8010c7a8",
+  "evidence": "The DUNGEON sector at +0xa000 supplies the constructor pointer. The JAL at +0xa234 targets this helper at 0x8010c7a8. The two direct imports belong to the linked foreign executable.",
+  "entries": [
+    {
+      "row": "dungeon/func_7FFEA34C",
+      "home": "dungeon/func_7FFE7BE8",
+      "tu": "src/dungeon/effect/particle/initialize_source_position_object.c",
+      "foff": "0xa34c",
+      "vma": "0x8010c7a8",
+      "size": 212,
+      "evidence": "The DUNGEON sector at +0xa000 supplies the constructor pointer. The JAL at +0xa234 targets this helper at 0x8010c7a8. The two direct imports belong to the linked foreign executable.",
+      "bindings": {
+        "0x7003A7C4": "0x8003A7C4",
+        "0x70040A18": "0x80040A18"
+      }
+    }
+  ]
+}

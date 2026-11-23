@@ -30,7 +30,7 @@ void begin_killer_attack_action(ActorRecord *action_state, ObjectPosition *conte
                 action_state->action_state_flags =
                     (u16) (action_state->action_state_flags & 0xBFFF);
             }
-            action_state->unk_AC.byte = (u8) actor->luck;
+            action_state->unk_AC.byte = actor->luck;
             actor->luck = 0xFFU;
             actor->accuracy = 0x7E;
             actor->attack_bonus = 8;
