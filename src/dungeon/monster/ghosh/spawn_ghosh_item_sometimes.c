@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/game_state.h"
 #include "dungeon/monster/ghosh.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -28,9 +29,8 @@ void spawn_ghosh_item_sometimes(void) {
 
     source = ghosh_actor_node;
     {
-        u8 *addr = (u8 *)0x80010000;   /* integer page, two genuine reads of the 16-bit counter at 0x80013610 (decision 44; func_8132C638 uses the same counter) */
-        low_byte = addr[0x3611];
-        high_byte = addr[0x3610];
+        low_byte = GAME_STATE->resident_bytes[5];
+        high_byte = GAME_STATE->resident_bytes[4];
     }
     count = low_byte | (high_byte << 8);
     source_pos = ghosh_actor_node->position;

@@ -272,7 +272,7 @@ void dispatch_grineut_actions(ActorRecord *record, ObjectPosition *entity, Sprit
         return;
     }
 
-    if (((u32)other_entity->flags1C) & ACTOR_ASLEEP) {
+    if ((other_entity->flags1C) & ACTOR_ASLEEP) {
         if (object->frameTable == grineut_alt_direction_frames) {
             record->action_id = 0xD;
             record->action_phase = 1;
@@ -286,7 +286,7 @@ void dispatch_grineut_actions(ActorRecord *record, ObjectPosition *entity, Sprit
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((u32)other_entity->flags1C) & ACTOR_PUSH_PENDING) {
+        if ((other_entity->flags1C) & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(record, entity, object, other_entity);
             return;
         }
@@ -309,7 +309,7 @@ void dispatch_grineut_actions(ActorRecord *record, ObjectPosition *entity, Sprit
             }
         }
 
-        if (((u32)other_entity->flags1C) & ACTOR_LIFTED) {
+        if ((other_entity->flags1C) & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(record, entity, object, other_entity);
             update_grineut_parent_motion(record, entity, object, other_entity);
             object->frameTable = grineut_frame_set_3;
@@ -328,7 +328,7 @@ void dispatch_grineut_actions(ActorRecord *record, ObjectPosition *entity, Sprit
     object->room_index = result;
 
     if (other_entity->pending_turn_updates > 0) {
-        if (((u32)other_entity->flags1C) & ACTOR_PARALYZED) {
+        if ((other_entity->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(other_entity);
             return;
         }
@@ -398,11 +398,11 @@ void dispatch_grineut_actions(ActorRecord *record, ObjectPosition *entity, Sprit
         }
     }
 
-    if (!(((u32)other_entity->flags1C) & ACTOR_PLAYER_SIDE)) {
+    if (!((other_entity->flags1C) & ACTOR_PLAYER_SIDE)) {
         s32 index = result;
 
         if ((index < 0) || !(dungeon_rooms[index].flags & 2)) {
-            if (!(((u32)other_entity->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
+            if (!((other_entity->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((test_neighbor_position_relation(
                         object->tile_x, object->tile_y,
@@ -582,7 +582,7 @@ void choose_grineut_move(ActorRecord *move_data, ObjectPosition *context, Sprite
     ActorRecord *blocker;
 
     if ((dungeon_flags & 0x4000) || (s8)actor_data->movement_queue_state >= 0) {
-        if (actor_data->unk_12 >= 2 ||
+        if (actor_data->ai_mode >= 2 ||
             (s16)try_grineut_attack(move_data, context, position_data, actor_data) == 0) {
             update_actor_status_and_mp(actor_data);
             return;
@@ -1207,26 +1207,26 @@ void cast_grineut_targeted_spell(ActorRecord *body, ObjectPosition *motion, Spri
     state = (R07_80172CC0_S_80172CC0_2 *)(body->action_phase);
     switch ((u8)state) {
     case 0:
-        if ((u32)actor->flags1C & ACTOR_PLAYER_SIDE) {
+        if (actor->flags1C & ACTOR_PLAYER_SIDE) {
             u32 kind = (actor->action_flags & 0x3FFF) - 1;
             switch (kind) {
             case 6:
                 is_special = 1;
                 /* fall through */
             case 2:
-                item = (u8 *)actor + 0xE;
+                item = &actor->abilities[2].id;
                 break;
             case 5:
                 is_special = 1;
                 /* fall through */
             case 1:
-                item = (u8 *)actor + 0xB;
+                item = &actor->abilities[1].id;
                 break;
             case 4:
                 is_special = 1;
                 /* fall through */
             case 0:
-                item = (u8 *)actor + 8;
+                item = &actor->abilities[0].id;
                 break;
             default:
                 item = 0;
@@ -1236,13 +1236,13 @@ void cast_grineut_targeted_spell(ActorRecord *body, ObjectPosition *motion, Spri
             s32 kind = actor->action_flags & 0x3FFF;
             switch (kind) {
             case 3:
-                item = (u8 *)actor + 0xE;
+                item = &actor->abilities[2].id;
                 break;
             case 2:
-                item = (u8 *)actor + 0xB;
+                item = &actor->abilities[1].id;
                 break;
             case 1:
-                item = (u8 *)actor + 8;
+                item = &actor->abilities[0].id;
                 break;
             default:
                 item = 0;
@@ -1446,7 +1446,7 @@ void settle_directional_motion_at_tile(ActorRecord *body, ObjectPosition *motion
             return;
         }
 
-        if (((u32)entity->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+        if ((entity->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         } else {
             timer = -1;
@@ -1786,7 +1786,7 @@ void wait_for_grineut_mp(ActorRecord *controller, ObjectPosition *context, Sprit
             return;
         }
 
-        entity_flags = ((u32)entity->flags1C);
+        entity_flags = (entity->flags1C);
         if (entity_flags & 0x100) {
             begin_pushed_actor_move(controller, context, sprite, entity);
             return;

@@ -5,7 +5,7 @@
 #include "town/scene/flags.h"
 
 /* Selects an interaction response from a table, a progress flag, and a one-time response latch. */
-s32 select_one_time_interaction_response(void *object, s32 check_value, s32 selection)
+s32 select_one_time_interaction_response(TownObjectSet *object, s32 check_value, s32 selection)
 {
     void *response_table;
     s32 default_response;
@@ -20,7 +20,7 @@ s32 select_one_time_interaction_response(void *object, s32 check_value, s32 sele
     default_response = apply_entry_position(response_table, &scene_override_context, object, selection);
     response = default_response;
     if (resolve_entry_flag(response_table, object, selection) != 0) {
-        if (get_script_flag_mask(*(s16 *)((s8 *)object + 0x18)) != 0) {
+        if (get_script_flag_mask(object->entry_flag) != 0) {
 
             response = &D_8001F543;
         } else {

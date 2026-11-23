@@ -39,18 +39,7 @@ delta `0x7E705800`). **Target** `0x80025DF4` = dungeon foff `0x19205F4`.
 
 **Bytes at the target** (the finding's `lw ra,124(sp)` …), and the prologue they pair with:
 
-```
-80024f10:  27bdff80   addiu  sp,sp,-128        <- prologue of func_80024F10
-80024f30:  afbf007c   sw     ra,124(sp)
-...
-80025df4:  8fbf007c   lw     ra,124(sp)        <- "func_80025DF4"
-80025df8:  8fbe0078   lw     s8,120(sp)
-80025dfc:  8fb70074   lw     s7,116(sp)
-   ... s6 s5 s4 s3 s2 s1 s0 ...
-80025e1c:  27bd0080   addiu  sp,sp,128
-80025e20:  03e00008   jr     ra
-80025e24:  00000000   nop                      <- function ends 0x80025E28
-```
+(instruction listing not kept in the repository)
 
 The frame size (`-128`) and the `ra` slot (`124(sp)`) match exactly: `0x80025DF4` is the epilogue
 of the function whose prologue is at `0x80024F10`.
@@ -111,29 +100,7 @@ monster-AI overlay bank:
 
 **Bytes at the target** (bank `0x80170800`, delta `0x7EEFF800`):
 
-```
-801725f8:  10400023   beqz   v0,0x80172688         <- switch bounds check
-801725fc:  3c028017   lui    v0,0x8017
-80172600:  24420860   addiu  v0,v0,2144            <- jump table at 0x80170860
-80172608:  00621821   addu   v1,v1,v0
-8017260c:  8c620000   lw     v0,0(v1)
-80172614:  00400008   jr     v0                    <- casesi dispatch
-...
-8017261c:  0805c99c   j      0x80172670            <- case, delay slot li s5,1
-80172624:  0805c99e   j      0x80172678
-8017262c:  0805c9a0   j      0x80172680
-...
-80172644:  1062000c   beq    v1,v0,0x80172678      <- second (if/else) dispatch
-80172654:  1062000a   beq    v1,v0,0x80172680
-80172670:  0805c9a3   j      0x8017268c            <- "func_80172670": 8 bytes
-80172674:  2611000e   addiu  s1,s0,14
-80172678:  0805c9a3   j      0x8017268c            <- "func_80172678": 8 bytes
-8017267c:  2611000b   addiu  s1,s0,11
-80172680:  0805c9a3   j      0x8017268c            <- "func_80172680": 8 bytes
-80172684:  26110008   addiu  s1,s0,8
-80172688:  00008821   move   s1,zero               <- default
-8017268c:  92220000   lbu    v0,0(s1)              <- join
-```
+(instruction listing not kept in the repository)
 
 Each "function" is **two instructions**: set `s1` to a member pointer and `j` to the join at
 `0x8017268C`. They are the bodies of a three-way selection (`s1 = &s0->unk_0E / unk_0B / unk_08`),
@@ -191,10 +158,7 @@ The legacy `func_80171xxx` spelling is the row's pre-true-base naming, exactly `
 true-space name. Every `func_8015Fxxx` target lies **inside** the row's own extent
 `[0x8015F3A8, 0x8015F9DC)`. The retail bytes confirm the row is one whole function:
 
-```
-8015f3b0:  27bdffd0   addiu  sp,sp,-48      <- single prologue
-8015f9d4:  03e00008   jr     ra             <- single epilogue, row ends 0x8015F9DC
-```
+(instruction listing not kept in the repository)
 
 and every `j` in the row's 0x634 bytes stays inside it:
 
@@ -267,23 +231,7 @@ delta `0x7FC21000`). Currently **L0**, `l4_residue: [tail_jump, not_in_module]` 
 
 **The whole row, from retail:**
 
-```
-8001f0d8:  3c028001   lui   v0,0x8001
-8001f0dc:  8c436000   lw    v1,24576(v0)     <- the fixed word 0x80016000 (docs/SYMBOLS.md §5.1)
-8001f0e0:  27bdffe8   addiu sp,sp,-24
-8001f0e4:  afbf0010   sw    ra,16(sp)
-8001f0e8:  8c620008   lw    v0,8(v1)
-8001f0ec:  8c630040   lw    v1,64(v1)
-8001f0f0:  000210c0   sll   v0,v0,0x3
-8001f0f4:  00431021   addu  v0,v0,v1
-8001f0f8:  8c420000   lw    v0,0(v0)
-8001f100:  14400005   bnez  v0,0x8001f118
-8001f108:  0c00584c   jal   0x80016130       <- ra := 0x8001f110
-8001f110:  08005848   j     0x80016120       <- the audited "jumper"
-8001f118:  0040f809   jalr  v0
-8001f120:  8fbf0010   lw    ra,16(sp)
-8001f128:  03e00008   jr    ra
-```
+(instruction listing not kept in the repository)
 
 **Jumpers: 1 — and it is this row's own `j` at `0x8001F110`.** There is no second site, so
 "shared tail fragment" has no support at all.

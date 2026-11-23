@@ -2,8 +2,9 @@
 #include "town/player/script_flags.h"
 #include "town/scene/record_actions.h"
 #include "town/scene/state_data.h"
+#include "town/scene.h"
 
-s32 apply_entry_values_marking_request(Rec_func_800165F4_arg0 *row, s32 entry_index) {
+s32 apply_entry_values_marking_request(TownObjectSet *row, s32 entry_index) {
     if (get_script_flag_mask(scene_request_flag_id) == 0) {
         set_script_flag_bit(F_sbs07_pad26);
     }

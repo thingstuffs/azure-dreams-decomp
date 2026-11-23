@@ -31,7 +31,7 @@ typedef struct S_818C29D4_6 {
 /* Builds and queues a shaded textured quad with texture-window commands. */
 s32 draw_shaded_textured_quad(S_818C29D4_6 *sprite, MovingPosition *position)
 {
-    ProjectedQuadScratch *scratch = (ProjectedQuadScratch *)0x1F800000;
+    ProjectedQuadScratch *scratch = PROJECTED_QUAD_SCRATCH;
     s32 angle;
     s32 axis_offset;
     s16 texture_v;

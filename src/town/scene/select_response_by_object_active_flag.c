@@ -11,7 +11,7 @@ extern s32 D_8001E3B0;
 extern s32 D_8001E59B;
 
 // Returns the lookup result or an alternate pointer selected by the current state.
-void *select_response_by_object_active_flag(s32 lookupValue, s32 unused, s32 lookupOption) {
+void *select_response_by_object_active_flag(TownObjectSet *lookupValue, s32 unused, s32 lookupOption) {
     void *lookupResult;
 
     lookupResult = apply_entry_position(&D_8001BB3C, scene_dispatch_context, lookupValue, lookupOption);

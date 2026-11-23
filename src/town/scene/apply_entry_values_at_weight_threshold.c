@@ -1,9 +1,10 @@
 #include "common.h"
 #include "town/scene/record_actions.h"
 #include "town/player.h"
+#include "town/scene.h"
 
 /* Check the supplied inputs only when the prerequisite value is at least 3. */
-s32 apply_entry_values_at_weight_threshold(Rec_func_800165F4_arg0 *check_value, s32 check_data) {
+s32 apply_entry_values_at_weight_threshold(TownObjectSet *check_value, s32 check_data) {
     s32 check_passed;
 
     check_passed = 0;

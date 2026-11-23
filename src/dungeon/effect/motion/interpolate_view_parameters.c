@@ -1,3 +1,4 @@
+#include "dungeon/level/tile_flags.h"
 #include "shared/object_node_flags.h"
 #include "shared/audio_commands.h"
 /* Moving attack visuals, linked particle creation, and timed view parameter updates. */
@@ -743,8 +744,8 @@ void launch_effect_to_target_and_apply_damage(Row_81917C08_ActionState *action, 
             dest_tile_x = tile_x;
             dest_tile_y = tile_y;
             do {
-                if (check_layer_offset_height((s16)tile_x * 0x40, (s16)tile_y * 0x40,
-                                 actor->unk_88, action->direction << 9))
+                if ((s16)check_layer_offset_height((u16)((s16)tile_x * 0x40),
+                                 (u16)((s16)tile_y * 0x40), actor->unk_88, (s16)(action->direction << 9)))
                     break;
                 height = sample_terrain_surface_height(((s16)tile_x + dir_step_x[action->direction]) * 0x40 + 0x20,
                                      ((s16)tile_y + dir_step_y[action->direction]) * 0x40 + 0x20,

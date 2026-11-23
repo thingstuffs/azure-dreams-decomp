@@ -79,8 +79,8 @@ void draw_wave_distorted_sprite(WaveScreenOrigin *screen_pos, ParticleState *wav
     sprite = NODE_HEADER(context)->sprite;
     part = sprite->source;
     callback_arg = NODE_HEADER(context)->position;
-    scratch = (SpriteQuadScratch *) 0x1F800000;
-    scratch->local_matrix.t[2] = 0;
+    scratch = SPRITE_SCRATCH;
+    scratch->matrix_D0.t[2] = 0;
     scratch->vertices[3].vz = 0;
     scratch->vertices[2].vz = 0;
     scratch->vertices[1].vz = 0;
@@ -111,19 +111,19 @@ void draw_wave_distorted_sprite(WaveScreenOrigin *screen_pos, ParticleState *wav
     scratch->angles.vz = sprite->angle_z - scratch->input.vy;
     scratch->angles.vy = (s16) ((((scratch->input.vz + 0x100) & 0x1FF) - 0x100) + sprite->angle_y);
     origin_x = sprite->offset_x;
-    scratch->local_matrix.t[0] = origin_x;
+    scratch->matrix_D0.t[0] = origin_x;
     scratch->extent_x = origin_x;
     origin_y = sprite->offset_y;
-    scratch->local_matrix.t[1] = origin_y;
+    scratch->matrix_D0.t[1] = origin_y;
     scratch->extent_y = origin_y;
-    RotMatrix(&scratch->angles, &scratch->local_matrix);
+    RotMatrix(&scratch->angles, &scratch->matrix_D0);
     scratch->input.vx = sprite->scale_x;
     scratch->input.vy = sprite->scale_y;
     scratch->input.vz = 0x1000;
-    ScaleMatrix(&scratch->local_matrix, &scratch->input);
-    CompMatrix(view_matrix, &scratch->local_matrix, &scratch->matrix);
-    SetTransMatrix(&scratch->matrix);
-    SetRotMatrix(&scratch->matrix);
+    ScaleMatrix(&scratch->matrix_D0, &scratch->input);
+    CompMatrix(view_matrix, &scratch->matrix_D0, &scratch->matrix_50);
+    SetTransMatrix(&scratch->matrix_50);
+    SetRotMatrix(&scratch->matrix_50);
     scratch->sprite_flags = sprite->flags;
     for (;;) {
         if (!(part->flags & 0x20)) {

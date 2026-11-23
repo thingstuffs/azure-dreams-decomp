@@ -79,7 +79,7 @@ void *move_and_fade_effect_sprite(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16
             if (((spawn_flags & ~3) << 0x10) == 0) {
                 if (!(state->flags14 & ACTOR_RESIST_SLEEP)) {
                     if (generate_random_value() & 1) {
-                        state->flags1C = (s32) (state->flags1C | ACTOR_ASLEEP);
+                        state->flags1C = (state->flags1C | ACTOR_ASLEEP);
                         set_or_clear_actor_status_slot(state, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                     }
                 }

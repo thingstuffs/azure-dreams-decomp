@@ -3,10 +3,10 @@
 #include "engine/script/vm.h"
 
 /* Opcode 0x4F: Load through a pointer table: v[var] = *LE32(addr32 + 4 * v[index]). */
-void script_load_indirect_by_variable(ScriptReader *state) {
+void script_load_indirect_by_variable(MessageWindow *state) {
     u8 *cursor;
     u8 *addr_bytes;
-    u8 *table;
+    ScriptController *table;
     u8 *entry;
     u32 dst_index;
     u32 src_index;
@@ -19,8 +19,8 @@ void script_load_indirect_by_variable(ScriptReader *state) {
     cursor++;
     state->cursor = cursor;
     src_index = *cursor;
-    table = state->data;
-    entry_offset = *(u32 *)(table + (src_index * 4) + 0x48);
+    table = state->controller;
+    entry_offset = table->variables[src_index];
     addr_bytes = cursor + 1;
     state->cursor = addr_bytes;
     entry_offset <<= 2;
@@ -34,5 +34,5 @@ void script_load_indirect_by_variable(ScriptReader *state) {
     value_addr += (u32)entry[1] << 8;
     value_addr += (u32)entry[2] << 16;
     value_addr += (u32)entry[3] << 24;
-    *(u32 *)(table + (dst_index * 4) + 0x48) = *(u32 *)value_addr;
+    table->variables[dst_index] = *(u32 *)value_addr;
 }

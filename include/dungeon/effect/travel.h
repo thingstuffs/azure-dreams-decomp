@@ -4,6 +4,8 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/object_node.h"
+#include "dungeon/effect/spell_effect.h"
 
 
 
@@ -36,6 +38,27 @@ typedef struct TrackingEffect {
     s16 sound_played;
 } TrackingEffect;
 
+/* Work of the effect follow_brighten runs: the spell effect prefix, the target position, the packed tile pairs
+ * compared when the effect crosses a tile, the child effect it spawns on arrival and a 16.16 height. */
+typedef struct FollowBrightenEffect {
+    SpellEffectHeader spell;
+    u16 target_x; /* target world X, integer half */
+    u16 target_y; /* target world Y, integer half */
+    s16 target_z; /* target height the effect closes on, integer half */
+    u8 flags; /* 4: the sprite was registered for drawing */
+    u8 pad_13;
+    u16 tiles_left; /* tiles left to cross before the effect fades */
+    s16 direction; /* actor facing as a direction index 0..7 */
+    s16 frame_count; /* updates since creation; its sine lifts the effect */
+    u8 pad_1A[2];
+    u8 pad_1C[2];
+    TrackingTilePair current_tile;
+    TrackingTilePair previous_tile;
+    u8 pad_22[0xA];
+    ObjectNodeHeader *child; /* the effect spawned on arrival; its node flags show completion */
+    Fixed1616 height; /* travel height, 16.16 */
+} FollowBrightenEffect;
+
 /* Target and phase counter carried by the red tint effect emitted during travel. */
 typedef struct BrighteningFollowerEffectBody {
     ActorRecord *target;
@@ -59,6 +82,8 @@ typedef struct RisingFadingEmitterBody {
 } RisingFadingEmitterBody;
 
 void update_accelerating_condition_projectile(TrackingEffect *self, ObjectPosition *motion, SpriteFrameState *part);
+
+void follow_brighten(FollowBrightenEffect *self, ObjectPosition *motion, SpriteFrameState *part);
 
 void advance_rising_fading_emitter(RisingFadingEmitterBody *effect, ObjectPosition *motion, SpriteFrameState *primitive);
 

@@ -1,4 +1,5 @@
 #include "dungeon/level/tile_flags.h"
+#include "shared/game_state.h"
 #include "dungeon/player/held_item_kind_data.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
@@ -55,10 +56,10 @@ void *register_item_object_in_free_slot(void *target, void *ptr1, void *ptr2, s1
     play_sound_if_enabled(0x508);
 
     if (target == &held_item_record) {
-        slot = &((u32 *)0x80010248)[index];
+        slot = &((u32 *)GAME_STATE->items)[index];
         *slot = *(u32 *)&held_item_record;
         global_object = primary_actor_record;
-        flags = *(u32 *)((u8 *)global_object + 0x1C);
+        flags = global_object->flags1C;
         *(u32 *)&held_item_record = 0;
         *(s32 *)((u8 *)global_object + 0x124) = 0;
         global_object->flags1C = flags & 0xFFEFFFFF;
@@ -70,9 +71,9 @@ void *register_item_object_in_free_slot(void *target, void *ptr1, void *ptr2, s1
             positions = dungeon_ground_item_positions;
             entry = positions + found;
             update_map_cell_flags_with_item_limit(entry->x, entry->y, TILE_HAS_ITEM);
-            ((u32 *)0x80010248)[index] = *(u32 *)&temporary_item_record;
+            ((u32 *)GAME_STATE->items)[index] = *(u32 *)&temporary_item_record;
         } else {
-            ((u32 *)0x80010248)[index] = *(u32 *)&temporary_item_record;
+            ((u32 *)GAME_STATE->items)[index] = *(u32 *)&temporary_item_record;
         }
         *(s32 *)*(void **)((u8 *)primary_actor_record + 0xF0) = 0;
     }

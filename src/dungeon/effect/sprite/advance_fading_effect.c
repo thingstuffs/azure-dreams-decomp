@@ -1,7 +1,10 @@
+#include "dungeon/level/tile_flags.h"
 #include "shared/audio_commands.h"
 #include "dungeon/actor/spell_resource_ids_data.h"
 /* Linked line travel, directional sprite rings, timed fades, and nearby status effects. */
 #include "shared/object_node.h"
+#include "shared/record_ptrs.h"
+#include "shared/entity.h"
 #include "dungeon/effect/sprite/advance_fading_effect.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -13,21 +16,21 @@ void (*const dungeon_ovl_188298c_entry)(ovl_188298c_818632E4_Controller *ctrl, O
 
 /* Attempts a status effect on compatible, eligible actors within two tiles of the supplied center. */
 void apply_status_to_nearby_actors(s32 x, s32 y, void *kind, s32 flags) {
-    u8 *actor = dungeon_actor_ring_anchor;
+    ActorRecord *actor = dungeon_actor_ring_anchor;
     x = (s16)x;
     y = (s16)y;
     flags = ((u8)flags >> 2) + 0x10;
     do {
         if ((s16)check_entity_interaction_compatibility(kind, actor) != 0) {
-            u8 *header = *(u8 * *)&NODE_HEADER(actor)->sprite;
-            if (abs(header[0x24] - x) < 3 && abs(header[0x25] - y) < 3 && (s16)check_entity_eligibility(actor) != 0) {
+            SpriteFrameState *sprite = NODE_HEADER(actor)->sprite;
+            if (abs(sprite->tile_x - x) < 3 && abs(sprite->tile_y - y) < 3 && (s16)check_entity_eligibility(actor) != 0) {
                 s32 amount = flags + (generate_random_value() & 3);
                 s32 mode = 0x10;
                 if (current_spell_effect_variant == 0xFF) mode = 0xFF;
                 try_apply_status_effect(actor, mode, amount);
             }
         }
-        actor = *(u8 **)(actor + 0x5C) + 0x20;
+        actor = NODE_BODY(actor->next_actor_header);
     } while (actor != dungeon_actor_ring_anchor);
 }
 

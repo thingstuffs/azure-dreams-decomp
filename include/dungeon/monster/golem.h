@@ -57,8 +57,8 @@ typedef struct RandomizedOffsetObjectBody {
     s32 unk_3C;
     ActorRecord *unk_40;
     RandomizedOffsetVector *unk_44;
-    void *unk_48;
-    void *unk_4C;
+    SpriteFrameState *unk_48;
+    ActorRecord *unk_4C;
 } RandomizedOffsetObjectBody;
 
 s32 attempt_actor_action_and_display(ActorRecord *action_out, ObjectPosition *action_param, SpriteFrameState *actor_info, ActorRecord *acting_actor);

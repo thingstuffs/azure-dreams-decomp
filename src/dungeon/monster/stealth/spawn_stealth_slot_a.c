@@ -56,14 +56,14 @@ void *spawn_stealth_slot_a(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) 
         part_b->tile_x = attr_a;
         if (kind == 1) {
             work->flags14 = (s32) (work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER));
-            work->flags1C = (s32) (work->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER));
+            work->flags1C = (work->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER));
         } else if (kind >= 2) {
             work->flags14 = (s32) (work->flags14 | ACTOR_CLASS_ENABLED);
-            work->flags1C = (s32) (work->flags1C | ACTOR_PLAYER_SIDE);
+            work->flags1C = (work->flags1C | ACTOR_PLAYER_SIDE);
         } else if (((spawn_flags & ~3) << 0x10) == 0) {
             if (!(work->flags14 & ACTOR_RESIST_SLEEP)) {
                 if (generate_random_value() & 1) {
-                    work->flags1C = (s32) (work->flags1C | ACTOR_ASLEEP);
+                    work->flags1C = (work->flags1C | ACTOR_ASLEEP);
                     set_or_clear_actor_status_slot(work, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                     part_b->frameTable = &D_8014FD78;
                 }

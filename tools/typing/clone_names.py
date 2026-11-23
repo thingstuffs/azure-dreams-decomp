@@ -84,7 +84,7 @@ def names_row(text, address, old, new, canonical, words, canonical_file, proof=N
             cols[2] = new
             same = ('the same %d words as %s at 0x%s (%s)' % (words, new, canonical[5:], canonical_file)
                     if proof is None else proof)
-            cols[3:] = ['copy_of=0x%s; %s: %s; %s (tools/lint/placed_copies.py), '
+            cols[3:4] = ['copy_of=0x%s; %s: %s; %s (tools/lint/placed_copies.py), '
                         'so one function placed in another image (renamed from %s)'
                         % (canonical[5:], where, what.rstrip('.; '), same, old)]
             line = '\t'.join(cols) + '\n'

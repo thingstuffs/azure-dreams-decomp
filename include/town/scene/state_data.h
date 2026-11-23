@@ -39,8 +39,8 @@ typedef struct TownSceneCopiedState {
 
 TownSceneCopiedState *copy_indexed_entry_to_state(s32 entry_index);
 
-struct Rec_func_800165F4_arg0;
-extern struct Rec_func_800165F4_arg0 *scene_saved_choice_row;
+struct TownObjectSet;
+extern struct TownObjectSet *scene_saved_choice_row;
 extern s32 scene_saved_choice_index;
 
 /* The library scene names the middle halfword of its three dependency flag IDs here. */

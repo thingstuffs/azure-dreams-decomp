@@ -100,7 +100,7 @@ void *spawn_killer_slot_b(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_valu
                 if (!(work->flags14 & ACTOR_RESIST_SLEEP)) {
                     random_bits = generate_random_value();
                     if (random_bits & 1) {
-                        work->flags1C = (s32) (work->flags1C | ACTOR_ASLEEP);
+                        work->flags1C = (work->flags1C | ACTOR_ASLEEP);
                         set_or_clear_actor_status_slot(work, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                         part_b->frameTable = &D_80156088;
                     }

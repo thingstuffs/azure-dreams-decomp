@@ -54,26 +54,26 @@ void advance_selected_actor_action(ActorRecord *action, ObjectPosition *transfor
 
     switch (action_state) {
     case 0:
-        if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
+        if ((actor->flags1C) & ACTOR_PLAYER_SIDE) {
             flagged_action = actor->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (flagged_action) {
             case 7:
                 target_mode = 1;
                 /* fall through */
             case 3:
-                action_slot = (u8 *)actor + 0xE;
+                action_slot = &actor->abilities[2].id;
                 break;
             case 6:
                 target_mode = 1;
                 /* fall through */
             case 2:
-                action_slot = (u8 *)actor + 0xB;
+                action_slot = &actor->abilities[1].id;
                 break;
             case 5:
                 target_mode = 1;
                 /* fall through */
             case 1:
-                action_slot = (u8 *)actor + 8;
+                action_slot = &actor->abilities[0].id;
                 break;
             default:
                 action_slot = 0;
@@ -83,13 +83,13 @@ void advance_selected_actor_action(ActorRecord *action, ObjectPosition *transfor
             action_kind = actor->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (action_kind) {
             case 3:
-                action_slot = (u8 *)actor + 0xE;
+                action_slot = &actor->abilities[2].id;
                 break;
             case 2:
-                action_slot = (u8 *)actor + 0xB;
+                action_slot = &actor->abilities[1].id;
                 break;
             case 1:
-                action_slot = (u8 *)actor + 8;
+                action_slot = &actor->abilities[0].id;
                 break;
             default:
                 action_slot = 0;

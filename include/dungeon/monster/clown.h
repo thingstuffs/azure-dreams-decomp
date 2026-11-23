@@ -196,11 +196,6 @@ typedef struct R16_80172D50_S_80173E50_0 {
 
 
 
-typedef struct {
-    u8 pad[0x13C];
-    s32 value;
-} R16_801736AC_Scratchpad;
-
 typedef struct R16_80173738_S_80173738_0_pre {
     u16 unk_00;
 } R16_80173738_S_80173738_0_pre;

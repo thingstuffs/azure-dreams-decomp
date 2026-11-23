@@ -103,7 +103,7 @@ void advance_naplass_sleep_and_wake_sequence(ActorRecord *body, void *transform,
                     body->action_phase = (u8)(body->action_phase + 1);
                     return;
                 }
-                actor_state->flags1C = (s32)(actor_state->flags1C & ~ACTOR_ASLEEP);
+                actor_state->flags1C = (actor_state->flags1C & ~ACTOR_ASLEEP);
                 body->unk_8C.address = naplass_action_continuation_address;
                 return;
             }
@@ -174,7 +174,7 @@ void advance_naplass_sleep_and_wake_sequence(ActorRecord *body, void *transform,
             >> 9) & 7], 0);
         if (sprite->flags & 0x8000) {
             if (!(body->action_state_flags & 0x8000)) {
-                actor_state->flags1C = (s32)(actor_state->flags1C & ~ACTOR_ASLEEP);
+                actor_state->flags1C = (actor_state->flags1C & ~ACTOR_ASLEEP);
                 body->unk_8C.address = naplass_action_continuation_address;
                 return;
             }
@@ -240,7 +240,7 @@ void advance_naplass_sleep_and_wake_sequence(ActorRecord *body, void *transform,
             ((Rec_func_801732A4_arg0 *)body)->unk_A0 = NULL;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
-        actor_state->flags1C = (s32)(actor_state->flags1C & ~ACTOR_ASLEEP);
+        actor_state->flags1C = (actor_state->flags1C & ~ACTOR_ASLEEP);
         effect_flags = body->action_state_flags;
         if (effect_flags & 0x8000) {
             body->action_state_flags = (u16)(effect_flags & 0x7FFF);

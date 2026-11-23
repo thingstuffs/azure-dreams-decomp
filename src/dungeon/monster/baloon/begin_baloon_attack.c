@@ -30,7 +30,7 @@ void begin_baloon_attack(ActorRecord *action_state, ObjectPosition *action_conte
             entity->pending_turn_updates = entity->pending_turn_updates - 1;
             action_state->action_state_flags =
                 (u16) (action_state->action_state_flags & 0xFFF7);
-            entity->flags1C = (s32) (entity->flags1C & 0xFFFBFFFF);
+            entity->flags1C = (entity->flags1C & 0xFFFBFFFF);
             (sprite->frameTable) = baloon_attack_frames;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
                 + baloon_attack_frames), 0);

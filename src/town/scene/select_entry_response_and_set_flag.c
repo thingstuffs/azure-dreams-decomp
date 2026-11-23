@@ -8,11 +8,11 @@ extern u8 D_8001ADE7[16];
 extern u8 D_8001AE39[16];
 
 /* Checks prerequisites, conditionally performs an action, and returns its response. */
-void *select_entry_response_and_set_flag(void *object, s32 action_arg) {
+void *select_entry_response_and_set_flag(TownObjectSet *object, s32 action_arg) {
     void *response;
 
-    if (get_script_flag_mask(*(s16 *)((u8 *)object + 0x18)) == 0) {
-        set_script_flag_bit(*(s16 *)((u8 *)object + 0x18));
+    if (get_script_flag_mask(object->entry_flag) == 0) {
+        set_script_flag_bit(object->entry_flag);
         return D_8001AADC;
     }
     if (check_callback_record_bytes(13, 5) == 0) {

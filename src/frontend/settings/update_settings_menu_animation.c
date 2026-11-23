@@ -1,4 +1,5 @@
 #include "frontend/settings/controller_body.h"
+#include "shared/game_state.h"
 #include "modules/main_title_callbacks.h"
 #include "common.h"
 #include "shared/game_work.h"
@@ -158,16 +159,15 @@ void update_settings_menu_animation(SettingsMenuBody *obj, ObjectPosition *posit
             break;
         case 1:
         {
-            u8 *globals_base;
             u16 mode_value;
             u16 phase_value;
-            globals_base = (u8 *) 0x80010000;
+            GameState *gs = GAME_STATE;
             mode_value = 5;
             phase_value = 2;
             reset_game_state_preserving_session_fields();
-            *(s16 *) (globals_base + 0x2094) = mode_value;
-            *(globals_base + 0x2D6E) = 0;
-            *(s16 *) (globals_base + 0x2098) = phase_value;
+            gs->familiar_direction[0] = mode_value;
+            gs->message_speed = 0;
+            gs->familiar_ai_mode[0] = phase_value;
             request_scene_dispatch_state(6);
             next_state = 255;
             obj->state = next_state;

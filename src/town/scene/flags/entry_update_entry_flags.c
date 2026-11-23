@@ -13,7 +13,7 @@ typedef void (*TownCallback)(s32, s32);
 extern void func_80019988(void); /* this scene's placed copy of set_current_entry_script_flag */
 
 /* Advance the town scene: clear flag 0x943 when it is set and the step check passes, otherwise hand back to the scene callback. */
-s32 update_and_test_pending_entry_flags(Rec_func_800165F4_arg0 *kind, s32 value) {
+s32 update_and_test_pending_entry_flags(TownObjectSet *kind, s32 value) {
     Rec_D_80016000 *root;
 
     set_script_flag_sbs32_pad34();

@@ -1,4 +1,5 @@
 #include "shared/entity_action_selectors.h"
+#include "shared/game_state.h"
 #include "shared/entity.h"
 #include "shared/dungeon_item_entries.h"
 #include "dungeon/item.h"
@@ -49,7 +50,7 @@ s32 apply_return_magic_item(ActorRecord *entity, DungeonItemEntry *event, s16 ta
         }
         ((Struct_80083460 *)&g_dungeon_status)->count--;
     } else {
-        if (*(s32 *)0x80012090 == 0 && current_dungeon_floor == 0x28 && test_resident_bit(0xA2) == 0) {
+        if (GAME_STATE->dungeon_mode_state == 0 && current_dungeon_floor == 0x28 && test_resident_bit(0xA2) == 0) {
             display_formatted_context_message(D_800E1375);
             ((Struct_80083460 *)&g_dungeon_status)->count--;
             clear_item_slot(event);

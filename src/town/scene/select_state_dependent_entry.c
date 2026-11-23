@@ -10,7 +10,7 @@ extern u8 D_8001E16A[];
 extern u8 D_8001E42A[];
 
 /* Selects an entry pointer, with state-dependent alternatives for entry 0x1E. */
-void *select_state_dependent_entry(s32 table_index, s32 unused, s32 entry_id) {
+void *select_state_dependent_entry(TownObjectSet *table_index, s32 unused, s32 entry_id) {
     void *result;
 
     if (entry_id == 0x1E) {

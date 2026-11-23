@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "town/map/building_grid_g00638.h"
 #include "engine/object.h"
 #include "town/map.h"
@@ -74,7 +75,7 @@ s32 CheckBuildBuildingLand(s32 record_key) {
         if (single_id == 0)
             return 0;
         pair_page = (u8 *)0x80010000;
-        if (pair_page[0x33E6] == single_id) {
+        if (GAME_STATE->building_slots[33][0] == single_id) {
             owner_page = pair_page;
             if (owner_page[0x33E7] != entry_id)
                 return 1;

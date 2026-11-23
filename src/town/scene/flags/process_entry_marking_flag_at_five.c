@@ -4,7 +4,7 @@
 
 
 /* Update the current script flag when the linked value passes the check. */
-s32 process_entry_marking_flag_at_five(void *object, s32 entry_index)
+s32 process_entry_marking_flag_at_five(TownObjectSet *object, s32 entry_index)
 {
     if (get_town_state_count() >= 5) {
         mark_active_entry_script_flag();

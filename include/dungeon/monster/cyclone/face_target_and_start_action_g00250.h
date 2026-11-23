@@ -1,5 +1,6 @@
 #ifndef DUNGEON_MONSTER_CYCLONE_FACE_TARGET_AND_START_ACTION_G00250_H
 #define DUNGEON_MONSTER_CYCLONE_FACE_TARGET_AND_START_ACTION_G00250_H
+#include "dungeon/level/tile_flags.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/level.h"
 
@@ -35,7 +36,6 @@ typedef struct S_801722E4_2 {
 
 extern u8 cyclone_frame_set_2[];
 /* arg0 in search_ahead_and_start_action */
-extern s32 check_layer_offset_height(s32, s32, s16, s32);
 extern s32 find_eligible_entry_at_coordinates(void *, u16, u16);
 extern s32 check_entity_interaction_compatibility(void *, void *);
 

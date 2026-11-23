@@ -144,26 +144,26 @@ void render_shaded_map_tiles(void) {
     scratch.ptr->unk_0C = (s16) init_polygon_edges(view_bounds, coord_offset, edge_count);
     if (scratch.ptr->unk_174 != 0) {
         one = 1;
-        vertex_input = &scratch.ptr->unk_E0;
+        vertex_input = &scratch.ptr->v[0].xy;
         tile_uvs = (const MapTilePacketCoords *)map_tile_uvs;
         tag_low_mask = 0xFFFFFF;
         tag_high_mask = 0xFF000000;
         do {
             for (edge_index = 3; edge_index >= 0; edge_index--) {
-                if (scratch.ptr->edges[edge_index].unk_1C == 0) {
-                    work_bits = scratch.ptr->edges[edge_index].unk_18;
+                if (scratch.ptr->edges[edge_index].state == 0) {
+                    work_bits = scratch.ptr->edges[edge_index].start_y;
                     work_value = scratch.ptr->unk_0C;
                     work_value = work_value < work_bits;
                     if (!work_value) {
-                        scratch.ptr->edges[edge_index].unk_1C = one;
+                        scratch.ptr->edges[edge_index].state = one;
                     }
                 }
             }
             scratch.ptr->unk_14.s32 = 0x7FFF;
             scratch.ptr->unk_18 = -0x7FFF;
             for (edge_index = 3; edge_index >= 0; edge_index--) {
-                if (scratch.ptr->edges[edge_index].unk_1C > 0) {
-                    edge_x = scratch.ptr->edges[edge_index].unk_00;
+                if (scratch.ptr->edges[edge_index].state > 0) {
+                    edge_x = scratch.ptr->edges[edge_index].x;
                     scratch.ptr->unk_08 = edge_x;
                     if (edge_x < scratch.ptr->unk_14.s32) {
                         scratch.ptr->unk_14.s32 = edge_x;
@@ -172,24 +172,24 @@ void render_shaded_map_tiles(void) {
                     if (scratch.ptr->unk_18 < span_x) {
                         scratch.ptr->unk_18 = span_x;
                     }
-                    edge_error = scratch.ptr->edges[edge_index].unk_10 + scratch.ptr->edges[edge_index].unk_08;
-                    scratch.ptr->edges[edge_index].unk_10 = edge_error;
+                    edge_error = scratch.ptr->edges[edge_index].error + scratch.ptr->edges[edge_index].error_inc;
+                    scratch.ptr->edges[edge_index].error = edge_error;
                     if (edge_error >= 0) {
-                        x_step = scratch.ptr->edges[edge_index].unk_14;
-                        error_step = scratch.ptr->edges[edge_index].unk_04;
+                        x_step = scratch.ptr->edges[edge_index].x_inc;
+                        error_step = scratch.ptr->edges[edge_index].error_dec;
                         do {
-                            work_value = scratch.ptr->edges[edge_index].unk_00;
-                            work_bits = scratch.ptr->edges[edge_index].unk_20;
+                            work_value = scratch.ptr->edges[edge_index].x;
+                            work_bits = scratch.ptr->edges[edge_index].height;
                             work_value += x_step;
-                            scratch.ptr->edges[edge_index].unk_00 = work_value;
-                            work_value = scratch.ptr->edges[edge_index].unk_10;
+                            scratch.ptr->edges[edge_index].x = work_value;
+                            work_value = scratch.ptr->edges[edge_index].error;
                             work_bits -= 0x40;
-                            scratch.ptr->edges[edge_index].unk_20 = work_bits;
+                            scratch.ptr->edges[edge_index].height = work_bits;
                             work_value -= error_step;
-                            scratch.ptr->edges[edge_index].unk_10 = work_value;
+                            scratch.ptr->edges[edge_index].error = work_value;
                         } while (work_bits > 0 && work_value >= 0);
                     }
-                    stepped_x = scratch.ptr->edges[edge_index].unk_00;
+                    stepped_x = scratch.ptr->edges[edge_index].x;
                     scratch.ptr->unk_08 = stepped_x;
                     if (stepped_x < scratch.ptr->unk_14.s32) {
                         scratch.ptr->unk_14.s32 = stepped_x;
@@ -254,15 +254,15 @@ void render_shaded_map_tiles(void) {
                         tile_flags = tile_map[scratch.ptr->unk_144] & 0xC000;
                         scratch.ptr->unk_17C = tile_flags;
                         if (tile_flags != 0) {
-                            scratch.ptr->unk_FC = 0;
-                            scratch.ptr->unk_F4 = 0;
-                            scratch.ptr->unk_EC = 0;
-                            scratch.ptr->unk_E4.s16 = 0;
-                            scratch.ptr->unk_E0 = (u16) scratch.ptr->unk_14.s32 | (scratch.ptr->unk_0C << 0x10);
-                            scratch.ptr->unk_E8 = ((u16) (scratch.ptr->unk_14.s32 + 0x40))
+                            scratch.ptr->v[3].z = 0;
+                            scratch.ptr->v[2].z = 0;
+                            scratch.ptr->v[1].z = 0;
+                            scratch.ptr->v[0].z = 0;
+                            scratch.ptr->v[0].xy = (u16) scratch.ptr->unk_14.s32 | (scratch.ptr->unk_0C << 0x10);
+                            scratch.ptr->v[1].xy = ((u16) (scratch.ptr->unk_14.s32 + 0x40))
                                 | (scratch.ptr->unk_0C << 0x10);
-                            scratch.ptr->unk_F0 = (u16) scratch.ptr->unk_14.s32 | ((scratch.ptr->unk_0C + 0x40) << 0x10);
-                            scratch.ptr->unk_F8 = ((u16) (scratch.ptr->unk_14.s32 + 0x40))
+                            scratch.ptr->v[2].xy = (u16) scratch.ptr->unk_14.s32 | ((scratch.ptr->unk_0C + 0x40) << 0x10);
+                            scratch.ptr->v[3].xy = ((u16) (scratch.ptr->unk_14.s32 + 0x40))
                                 | ((scratch.ptr->unk_0C + 0x40) << 0x10);
                             gte_ldv3(vertex_input, (u8 *)scratch.ptr + 0xE8, (u8 *)scratch.ptr + 0xF0);
                             packet->color.word = 0x2C404040;
@@ -323,7 +323,7 @@ void render_shaded_map_tiles(void) {
                                 work_value = ((Vertex *)work_value)->depth;
                                 packed_xy &= 0xFFFF;
                                 work_value -= work_bits;
-                                scratch.ptr->unk_E4.s16 = work_value;
+                                scratch.ptr->v[0].z = work_value;
                                 work_value = scratch.ptr->unk_168.at_16A.unk_16A;
                                 work_bits = scratch.ptr->unk_0C;
                                 y_shift = work_value << 0x10;
@@ -332,7 +332,7 @@ void render_shaded_map_tiles(void) {
                                 work_bits += y_shift;
                                 work_bits <<= 0x10;
                                 packed_xy |= work_bits;
-                                scratch.ptr->unk_E0 = packed_xy;
+                                scratch.ptr->v[0].xy = packed_xy;
                                 packed_xy = scratch.ptr->unk_14.u16;
                                 work_bits = scratch.ptr->unk_12C.u16;
                                 work_value <<= 3;
@@ -347,7 +347,7 @@ void render_shaded_map_tiles(void) {
                                 work_value = ((Vertex *)work_value)->depth;
                                 packed_xy &= 0xFFFF;
                                 work_value -= work_bits;
-                                scratch.ptr->unk_EC = work_value;
+                                scratch.ptr->v[1].z = work_value;
                                 work_value = scratch.ptr->unk_168.at_16A.unk_16A;
                                 work_bits = scratch.ptr->unk_0C;
                                 y_shift = work_value << 0x10;
@@ -356,7 +356,7 @@ void render_shaded_map_tiles(void) {
                                 work_bits += y_shift;
                                 work_bits <<= 0x10;
                                 packed_xy |= work_bits;
-                                scratch.ptr->unk_E8 = packed_xy;
+                                scratch.ptr->v[1].xy = packed_xy;
                                 packed_xy = scratch.ptr->unk_14.u16;
                                 work_value <<= 3;
                                 work_value += (s32)vertices;
@@ -373,14 +373,14 @@ void render_shaded_map_tiles(void) {
                                 work_value += work_bits;
                                 work_value <<= 0x10;
                                 packed_xy |= work_value;
-                                scratch.ptr->unk_F0 = packed_xy;
+                                scratch.ptr->v[2].xy = packed_xy;
                                 work_value = polygon->unk_04;
                                 work_value <<= 3;
                                 work_value += (s32)vertices;
                                 work_bits = ((Vertex *)work_value)->depth;
                                 work_value = scratch.ptr->unk_12C.u16;
                                 work_bits -= work_value;
-                                scratch.ptr->unk_F4 = work_bits;
+                                scratch.ptr->v[2].z = work_bits;
                                 gte_ldv3(vertex_input, (u8 *)scratch.ptr + 0xE8, (u8 *)scratch.ptr + 0xF0);
                                 gte_rtpt();
                                 gte_nclip();
@@ -392,7 +392,7 @@ void render_shaded_map_tiles(void) {
                                     work_bits = ((Vertex *)work_value)->depth;
                                     work_value = scratch.ptr->unk_12C.u16;
                                     work_bits -= work_value;
-                                    scratch.ptr->unk_FC = work_bits;
+                                    scratch.ptr->v[3].z = work_bits;
                                     gte_stsxy3_g3(packet);
                                     gte_avsz3();
                                     gte_stotz((u8 *)scratch.ptr + 0xC8);
@@ -421,7 +421,7 @@ void render_shaded_map_tiles(void) {
                                     work_value += work_bits;
                                     work_value <<= 0x10;
                                     packed_xy |= work_value;
-                                    scratch.ptr->unk_F8 = packed_xy;
+                                    scratch.ptr->v[3].xy = packed_xy;
                                     gte_ldv0((u8 *)scratch.ptr + 0xF8);
                                     packet->uv_clut.word = (s32) polygon->unk_08;
                                     gte_rtps_nn();
@@ -442,7 +442,7 @@ void render_shaded_map_tiles(void) {
                                     if ((u32) work_value >= 0x200U) {
                                         scratch.ptr->unk_C8 = 0x1FF;
                                     }
-                                    if ((((s32) scratch.ptr->unk_C8 < 0x1C1) || ((s32) (scratch.ptr->unk_E4.u16 << 0x10) >= 0)
+                                    if ((((s32) scratch.ptr->unk_C8 < 0x1C1) || ((s32) (scratch.ptr->v[0].z << 0x10) >= 0)
                                         || ((work_value = scratch.ptr->unk_14C, work_value <<= 3,
                                         /* Preserve the index-first address add emitted for the normal lookup. */
                                         lookup_value = (void *)(work_value + (long)normals),
@@ -588,11 +588,11 @@ void render_shaded_map_tiles(void) {
             row_progress += 0x40;
             scratch.ptr->unk_0C = row_progress;
             for (edge_index = 3, column_rounding = -1; edge_index >= 0; edge_index--) {
-                if (scratch.ptr->edges[edge_index].unk_1C > 0) {
-                    row_progress = scratch.ptr->edges[edge_index].unk_0C - 0x40;
-                    scratch.ptr->edges[edge_index].unk_0C = row_progress;
+                if (scratch.ptr->edges[edge_index].state > 0) {
+                    row_progress = scratch.ptr->edges[edge_index].remaining - 0x40;
+                    scratch.ptr->edges[edge_index].remaining = row_progress;
                     if (row_progress <= 0) {
-                        scratch.ptr->edges[edge_index].unk_1C = column_rounding;
+                        scratch.ptr->edges[edge_index].state = column_rounding;
                         scratch.ptr->unk_174 = scratch.ptr->unk_174 - 1;
                     }
                 }
@@ -729,9 +729,9 @@ void draw_empty_map_cell_quads(u32 packet_limit)
         do {
             edge_index = 3;
             do {
-                if ((scratch->edges[edge_index].active == 0) &&
+                if ((scratch->edges[edge_index].state == 0) &&
                     (scratch->edges[edge_index].start_y <= scratch->scan_y.value)) {
-                    scratch->edges[edge_index].active = edge_active;
+                    scratch->edges[edge_index].state = edge_active;
                 }
                 edge_index--;
             } while (edge_index >= 0);
@@ -740,8 +740,8 @@ void draw_empty_map_cell_quads(u32 packet_limit)
             scratch->min_x.value = 0x7FFF;
             scratch->max_x = -0x7FFF;
             do {
-                if (scratch->edges[edge_index].active > 0) {
-                    x = scratch->edges[edge_index].position;
+                if (scratch->edges[edge_index].state > 0) {
+                    x = scratch->edges[edge_index].x;
                     scratch->edge_x = x;
                     if (x < scratch->min_x.value) {
                         scratch->min_x.value = x;
@@ -750,7 +750,7 @@ void draw_empty_map_cell_quads(u32 packet_limit)
                     if (scratch->max_x < x) {
                         scratch->max_x = x;
                     }
-                    edge_error = scratch->edges[edge_index].error + scratch->edges[edge_index].error_step;
+                    edge_error = scratch->edges[edge_index].error + scratch->edges[edge_index].error_inc;
                     scratch->edges[edge_index].error = edge_error;
                     if (edge_error >= 0) {
 
@@ -765,7 +765,7 @@ void draw_empty_map_cell_quads(u32 packet_limit)
                         } while ((edge->phase > 0) &&
                                  (edge->remaining >= 0));
                     }
-                    x = scratch->edges[edge_index].position;
+                    x = scratch->edges[edge_index].x;
                     scratch->edge_x = x;
                     if (x < scratch->min_x.value) {
                         scratch->min_x.value = x;
@@ -949,11 +949,11 @@ void draw_empty_map_cell_quads(u32 packet_limit)
             edge_done = -1;
             scratch->scan_y.value += 0x40;
             do {
-                if (scratch->edges[edge_index].active > 0) {
-                    rows_left = scratch->edges[edge_index].rows_left - 0x40;
-                    scratch->edges[edge_index].rows_left = rows_left;
+                if (scratch->edges[edge_index].state > 0) {
+                    rows_left = scratch->edges[edge_index].remaining - 0x40;
+                    scratch->edges[edge_index].remaining = rows_left;
                     if (rows_left <= 0) {
-                        scratch->edges[edge_index].active = edge_done;
+                        scratch->edges[edge_index].state = edge_done;
                         scratch->edge_count -= 1;
                     }
                 }

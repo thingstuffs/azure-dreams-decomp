@@ -1,3 +1,4 @@
+#include "dungeon/level/tile_flags.h"
 #include "engine/scene.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/audio_commands.h"
@@ -82,7 +83,6 @@ typedef union WideProduct {
     } word;
 } WideProduct;
 
-extern s32 check_layer_offset_height();
 extern void *create_expanding_spiral_effect();
 extern void func_80024060();
 extern void advance_expanding_spiral(void);

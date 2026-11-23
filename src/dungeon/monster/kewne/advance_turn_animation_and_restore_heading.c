@@ -125,7 +125,7 @@ void advance_turn_animation_and_restore_heading(ActorRecord *actor, ObjectPositi
         return;
     case 4:
         if (animation->flags & 0xE000) {
-            transform->flags1C = (s32) (transform->flags1C | 0x40000);
+            transform->flags1C = (transform->flags1C | 0x40000);
             {
                 u8 *animation_table = kewne_turn_frames;
                 animation->frameTable = animation_table;

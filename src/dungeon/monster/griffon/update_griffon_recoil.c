@@ -46,7 +46,7 @@ void update_griffon_recoil(ActorRecord *action, ObjectPosition *motion, SpriteFr
             return;
         }
 
-        if (((u32)entity->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+        if ((entity->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         } else {
             timer = -1;

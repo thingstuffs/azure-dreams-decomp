@@ -18,10 +18,10 @@ void apply_small_random_value_gain(ActorRecord *target, s32 effect_param, ActorR
         if (target->hp & 1) {
             stat_gain = base_gain + ((s32)(base_gain << 16) >> 17);
         }
-        *(u16 *)((u8 *)target + 0x64) += stat_gain;
+        target->hp_delta += stat_gain;
         cap_pending_actor_value_delta(target);
         base_gain = 0x8004;
-        create_actor_value_popup(base_gain, target, (s16)*(u16 *)((u8 *)target + 0x64), 1);
+        create_actor_value_popup(base_gain, target, target->hp_delta, 1);
         apply_clamped_actor_value_delta(target);
     }
 }
@@ -47,11 +47,11 @@ void animate_randomly_rotated_sprite(Row_818A48C4_Func818A48C4Object **source_re
 
 typedef struct {
     ObjectNodeHeader header;
-    s32 user_data;
+    struct OrbitRingSpell *owner;
 } CoordinateSpriteEffectNode;
 
 /* Creates a gray half-scale animated sprite at the supplied coordinates and stores the user data. */
-void *create_coordinate_sprite_effect(s32 user_data, ObjectPosition *source_coords) {
+void *create_coordinate_sprite_effect(struct OrbitRingSpell *owner, ObjectPosition *source_coords) {
     CoordinateSpriteEffectNode *obj;
     SpriteFrameState *render_data;
     ObjectPosition *coords;
@@ -60,7 +60,7 @@ void *create_coordinate_sprite_effect(s32 user_data, ObjectPosition *source_coor
     if (obj != 0) {
         obj->header.update_callback = animate_randomly_rotated_sprite;
         render_data = obj->header.sprite;
-        obj->user_data = user_data;
+        obj->owner = owner;
         render_data->color.c.b = 0x80;
         render_data->color.c.g = 0x80;
         render_data->color.c.r = 0x80;
@@ -159,8 +159,9 @@ void cycle_sprite_height_and_position(Row_818A4B40_S_818A4B40_0 *motion, ObjectP
 }
 
 /* Creates a gray animated sprite around the origin at a random angle, with a randomized vertical step. */
-s32 create_random_radial_effect(Row_818A4CA0_S_818A4CA0_1 *effect_data, ObjectPosition *origin, s16 effect_param, s16 frame_index) {
-    s32 result;
+ObjectNodeHeader *create_random_radial_effect(struct OrbitRingSpell *owner, ObjectPosition *origin, s16 effect_param, s16 frame_index) {
+    ObjectNodeHeader *result;
+    Row_818A4CA0_S_818A4CA0_1 *effect_data;
     s16 angle;
     u16 height;
     s32 shifted_frame;
@@ -174,7 +175,7 @@ s32 create_random_radial_effect(Row_818A4CA0_S_818A4CA0_1 *effect_data, ObjectPo
     effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
         random_value = (s32)cycle_sprite_height_and_position;
-        ((Row_818A4CA0_S_818A4CA0_0 *)effect)->unk_20 = effect_data;
+        ((Row_818A4CA0_S_818A4CA0_0 *)effect)->unk_20 = owner;
         effect_data = NODE_BODY(effect);
         effect->update_callback = (void *)random_value;
         effect_data->unk_04 = effect_param;
@@ -201,7 +202,7 @@ s32 create_random_radial_effect(Row_818A4CA0_S_818A4CA0_1 *effect_data, ObjectPo
         position->x.w.i = (s16) (effect_data->unk_08 + ((s32) (rsin(angle) * 2) >> 8));
         position->y.w.i = (s16) (effect_data->unk_0A + ((s32) (rcos(angle) * 2) >> 8));
         height = effect_data->unk_0C;
-        result = (s32)effect;
+        result = effect;
         position->z.w.i = (s16)height;
         return result;
     }
@@ -224,11 +225,11 @@ void randomize_counted_sprite_angle(void **object_ref, s32 unused, SpriteFrameSt
 
 typedef struct {
     ObjectNodeHeader header;
-    s32 object_param;
+    struct OrbitRingSpell *owner;
 } RandomlyRotatedEffectNode;
 
 /* Creates an initially black, zero-scale sprite at the supplied coordinates with a random rotation. */
-s32 create_randomly_rotated_effect(s32 object_param, ObjectPosition *spawn_position) {
+ObjectNodeHeader *create_randomly_rotated_effect(struct OrbitRingSpell *owner, ObjectPosition *spawn_position) {
     s32 rotation_rng;
     SpriteFrameState *render_state;
     ObjectPosition *position;
@@ -237,7 +238,7 @@ s32 create_randomly_rotated_effect(s32 object_param, ObjectPosition *spawn_posit
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         object->header.update_callback = randomize_counted_sprite_angle;
-        object->object_param = object_param;
+        object->owner = owner;
         render_state = object->header.sprite;
         render_state->source = D_80025214;
         render_state->clut = 0x7E07;
@@ -261,12 +262,8 @@ s32 create_randomly_rotated_effect(s32 object_param, ObjectPosition *spawn_posit
         {
             u16 final_z = spawn_position->z.unsigned_parts.integer;
             position->z.w.i = final_z;
-            return (s32)object;
+            return &object->header;
         }
     }
-    {
-        s32 failure_result;
-        failure_result = 0;
-        return failure_result;
-    }
+    return 0;
 }

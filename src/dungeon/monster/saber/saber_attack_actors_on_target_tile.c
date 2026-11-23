@@ -46,7 +46,7 @@ void saber_attack_actors_on_target_tile(ActorRecord *node, s32 tile_x, s32 tile_
             ((u32)(node->species - 0x33) >= 4U)) {
             actor->accuracy = 0x7C;
             actor->attack_bonus =
-                (s8)((s32)(actor->current_attack * 3) >> 1);
+                ((s32)(actor->current_attack * 3) >> 1);
             prepare_directional_attack(actor, owner,
                           actor->facing, 1, 0);
         }

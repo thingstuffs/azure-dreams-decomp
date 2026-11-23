@@ -7,7 +7,7 @@
 #include "town/scene/record_actions.h"
 
 /* Processes the selected context entry and applies a fallback value on failure. */
-s32 process_context_entry_with_fallback(Rec_func_800165F4_arg0 *entry_context, s32 entry_index)
+s32 process_context_entry_with_fallback(TownObjectSet *entry_context, s32 entry_index)
 {
     if (has_matching_entry_result(13, 1) != 0) {
         set_current_entry_script_flag();

@@ -5,10 +5,10 @@
 /* Opcode 0x50: Store variable v[source] through entry [v[index]] of the pointer table at the inline address.
  * Retail reads only the first byte of that entry as the store address (lbu), unlike the load
  * opcode 0x4F which assembles all four; no shipped script uses this opcode. */
-void script_store_indirect_by_variable(ScriptReader *state) {
+void script_store_indirect_by_variable(MessageWindow *state) {
     u8 *read_ptr;
     u8 *addr_bytes;
-    u8 *table;
+    ScriptController *table;
     u32 source_slot;
     u32 lookup_addr;
     u32 index_slot;
@@ -22,7 +22,7 @@ void script_store_indirect_by_variable(ScriptReader *state) {
     read_ptr++;
     state->cursor = read_ptr;
     index_slot = read_ptr[0];
-    table = state->data;
+    table = state->controller;
     index_slot <<= 2;
     index_slot += (u32)table;
     element_offset = *(u32 *)(index_slot + 0x48);

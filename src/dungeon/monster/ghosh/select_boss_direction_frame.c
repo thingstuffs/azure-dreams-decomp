@@ -1,15 +1,12 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/record_ptrs.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
-
-typedef struct S_80170A54_1 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-} S_80170A54_1;   /* object in select_boss_direction_frame */
 
 typedef struct S_80170A54_2 {
     u16 unk_00;
@@ -19,11 +16,10 @@ typedef struct S_80170A54_2 {
 
 #include "engine/texture.h"
 #include "dungeon/monster/ghosh.h"
-extern void *primary_actor_record[3];
 
 /* Applies a direction-indexed table entry in state 2 and sets record and global flags. */
 void select_boss_direction_frame(void *record_data) {
-    S_80170A54_1 *active_object = primary_actor_record[0];
+    ActorRecord *active_object = primary_actor_record;
     TileObject *state_data = &reference_tile_object;
 
 
@@ -31,7 +27,7 @@ void select_boss_direction_frame(void *record_data) {
         u8 direction_entry;
         direction_entry = ((u8 *)state_data->frame_table)[
                  (((s32) (g_game_work.view.camera_rotation.parts.viewAngle +
-                          active_object->unk_2A +
+                          active_object->facing +
                           0x100) >> 9) & 7)];
         texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(state_data, direction_entry,
             4, 1);

@@ -265,7 +265,7 @@ void dispatch_dragon_actions(ActorRecord *controller, ObjectPosition *context, S
         return;
     }
 
-    if (((u32)actor_state->flags1C) & ACTOR_ASLEEP) {
+    if ((actor_state->flags1C) & ACTOR_ASLEEP) {
         if (entity->frameTable == dragon_alt_direction_frames) {
             controller->action_id = 0xD;
             controller->action_phase = 1;
@@ -279,7 +279,7 @@ void dispatch_dragon_actions(ActorRecord *controller, ObjectPosition *context, S
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((u32)actor_state->flags1C) & ACTOR_PUSH_PENDING) {
+        if ((actor_state->flags1C) & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(controller, context, entity, actor_state);
             return;
         }
@@ -304,7 +304,7 @@ void dispatch_dragon_actions(ActorRecord *controller, ObjectPosition *context, S
             }
         }
 
-        if (((u32)actor_state->flags1C) & ACTOR_LIFTED) {
+        if ((actor_state->flags1C) & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(controller, context, entity, actor_state);
             update_dragon_parent_motion(controller, context, entity, actor_state);
             return;
@@ -319,7 +319,7 @@ void dispatch_dragon_actions(ActorRecord *controller, ObjectPosition *context, S
     entity->room_index = room_id;
 
     if (actor_state->pending_turn_updates > 0) {
-        if (((u32)actor_state->flags1C) & ACTOR_PARALYZED) {
+        if ((actor_state->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(actor_state);
             return;
         }
@@ -385,11 +385,11 @@ void dispatch_dragon_actions(ActorRecord *controller, ObjectPosition *context, S
 
         choose_dragon_move(controller, context, entity, actor_state);
         return;
-    } else if (!(((u32)actor_state->flags1C) & ACTOR_PLAYER_SIDE)) {
+    } else if (!((actor_state->flags1C) & ACTOR_PLAYER_SIDE)) {
         s32 room_index = (s8)room_id;
 
         if ((room_index < 0) || !(dungeon_rooms[room_index].flags & 2)) {
-            if (!(((u32)actor_state->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
+            if (!((actor_state->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((s16)test_neighbor_position_relation(entity->tile_x,
                     entity->tile_y, reference_tile_object.tile_position.parts.tile_x,
@@ -524,7 +524,7 @@ void choose_dragon_move(ActorRecord *move_data, ObjectPosition *context, SpriteF
     ActorRecord *blocker;
 
     if ((dungeon_flags & 0x4000) || (s8)actor_data->movement_queue_state >= 0) {
-        if (actor_data->unk_12 >= 2 ||
+        if (actor_data->ai_mode >= 2 ||
             (s16)try_dragon_attack(move_data, context, position_data, actor_data) == 0) {
             update_actor_status_and_mp(actor_data);
             return;
@@ -1144,25 +1144,25 @@ void cast_dragon_targeted_spell(ActorRecord *body, ObjectPosition *transform, Sp
     use_player_target = 0;
     switch (body->action_phase) {
     case 0:
-        if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
+        if ((actor->flags1C) & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 7:
                 use_player_target = 1;
                 /* fallthrough */
             case 3:
-                motion = (u8 *)actor + 0xE;
+                motion = &actor->abilities[2].id;
                 break;
             case 6:
                 use_player_target = 1;
                 /* fallthrough */
             case 2:
-                motion = (u8 *)actor + 0xB;
+                motion = &actor->abilities[1].id;
                 break;
             case 5:
                 use_player_target = 1;
                 /* fallthrough */
             case 1:
-                motion = (u8 *)actor + 8;
+                motion = &actor->abilities[0].id;
                 break;
             default:
                 motion = 0;
@@ -1171,13 +1171,13 @@ void cast_dragon_targeted_spell(ActorRecord *body, ObjectPosition *transform, Sp
         } else {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 3:
-                motion = (u8 *)actor + 0xE;
+                motion = &actor->abilities[2].id;
                 break;
             case 2:
-                motion = (u8 *)actor + 0xB;
+                motion = &actor->abilities[1].id;
                 break;
             case 1:
-                motion = (u8 *)actor + 8;
+                motion = &actor->abilities[0].id;
                 break;
             default:
                 motion = 0;
@@ -1659,7 +1659,7 @@ void wait_for_dragon_mp(ActorRecord *controller, ObjectPosition *context, Sprite
             return;
         }
 
-        entity_flags = ((u32)entity->flags1C);
+        entity_flags = (entity->flags1C);
         if (entity_flags & 0x100) {
             begin_pushed_actor_move(controller, context, sprite, entity);
             return;

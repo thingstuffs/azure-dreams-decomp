@@ -66,7 +66,7 @@ void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
         return;
     }
 
-    if (((u32)actor_state_arg->flags1C) & ACTOR_ASLEEP) {
+    if ((actor_state_arg->flags1C) & ACTOR_ASLEEP) {
         if (map_object_arg->frameTable == D_80174000) {
             actor_arg->action_id = 0xD;
             actor_arg->action_phase = 1;
@@ -80,7 +80,7 @@ void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((u32)actor_state_arg->flags1C) & ACTOR_PUSH_PENDING) {
+        if ((actor_state_arg->flags1C) & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(actor_arg, context_arg, map_object_arg, actor_state_arg);
             return;
         }
@@ -106,7 +106,7 @@ void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
             }
         }
 
-        if (((u32)actor_state_arg->flags1C) & ACTOR_LIFTED) {
+        if ((actor_state_arg->flags1C) & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(actor_arg, context_arg, map_object_arg, actor_state_arg);
             func_80173900(actor_arg, context_arg, map_object_arg, actor_state_arg);
             return;
@@ -122,7 +122,7 @@ void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
     map_object_arg->room_index = tile_id;
 
     if (actor_state_arg->pending_turn_updates > 0) {
-        if (((u32)actor_state_arg->flags1C) & ACTOR_PARALYZED) {
+        if ((actor_state_arg->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(actor_state_arg);
             return;
         }
@@ -197,11 +197,11 @@ void update_dungeon_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
             choose_tyrant_move_direction(actor_arg, context_arg, map_object_arg, actor_state_arg);
             return;
         }
-    } else if (!(((u32)actor_state_arg->flags1C) & ACTOR_PLAYER_SIDE)) {
+    } else if (!((actor_state_arg->flags1C) & ACTOR_PLAYER_SIDE)) {
         s32 record_index = (s8)tile_id;
 
         if ((record_index < 0) || !(dungeon_rooms[record_index].flags & 2)) {
-            if (!(((u32)actor_state_arg->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
+            if (!((actor_state_arg->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((s16)test_neighbor_position_relation(map_object_arg->tile_x,
                         map_object_arg->tile_y, reference_tile_object.tile_position.parts.tile_x,

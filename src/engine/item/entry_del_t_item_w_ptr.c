@@ -7,10 +7,10 @@
 /* Process type-0x13 entries whose indexed status is negative. */
 void delete_negative_status_familiar_items(void)
 {
-    if (town_item_list[0] != 0) {
+    if (GAME_STATE->item_list[0] != 0) {
         u32 target_type = ITEM_KIND_FAMILIAR;
         u32 data_base = 0x80010000;
-        DungeonItemEntry **entry_slot = (DungeonItemEntry **)(data_base + 0x29C);
+        DungeonItemEntry **entry_slot = &GAME_STATE->item_list[0];
 
         do {
             DungeonItemEntry *entry = *entry_slot;

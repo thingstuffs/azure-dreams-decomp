@@ -9,7 +9,7 @@ extern s32 D_80018AF8;
 extern s32 D_80019A30;
 
 /* Updates shared state and increments the current table entry if the selector-10 check returns zero. */
-s32 *apply_entry_values_and_count_entry(void *value, s32 unused, s32 selector) {
+s32 *apply_entry_values_and_count_entry(TownObjectSet *value, s32 unused, s32 selector) {
     Rec_D_80016000 *context;
     u8 *entry;
     s32 *count_ptr;

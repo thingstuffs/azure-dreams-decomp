@@ -3,15 +3,16 @@
 #include "town/player/script_flags.h"
 #include "town/scene/flags.h"
 #include "town/scene/position_entries.h"
+#include "town/scene.h"
 
 extern s32 D_8001BB6C;
 extern u8 D_8001F8B5[];
 
 
 /* Return the dispatch result, overriding it when the 0x1390 check succeeds. */
-u8 *select_kenka_override_data(s32 dispatch_arg, s32 unused, s32 dispatch_option) {
+u8 *select_kenka_override_data(TownObjectSet *dispatch_arg, s32 unused, s32 dispatch_option) {
     u8 *result;
-    s32 first_arg = dispatch_arg;
+    TownObjectSet *first_arg = dispatch_arg;
     s32 fourth_arg = dispatch_option;
 
 

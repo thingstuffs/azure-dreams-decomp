@@ -45,7 +45,7 @@ void run_selected_item_action(ActorRecord *body, ObjectPosition *motion, SpriteF
     item_slot = (u8 *)(body->action_phase);
     switch ((u8)item_slot) {
     case 0:
-        if ((u32)actor->flags1C & ACTOR_PLAYER_SIDE) {
+        if (actor->flags1C & ACTOR_PLAYER_SIDE) {
             u32 kind_index;
 
             kind_index = actor->action_flags & 0x3FFF;
@@ -53,19 +53,19 @@ void run_selected_item_action(ActorRecord *body, ObjectPosition *motion, SpriteF
             case 7:
                 is_special = 1;
             case 3:
-                item_slot = (u8 *)actor + 0xE;
+                item_slot = &actor->abilities[2].id;
                 break;
             case 6:
                 is_special = 1;
                 /* fall through */
             case 2:
-                item_slot = (u8 *)actor + 0xB;
+                item_slot = &actor->abilities[1].id;
                 break;
             case 5:
                 is_special = 1;
                 /* fall through */
             case 1:
-                item_slot = (u8 *)actor + 8;
+                item_slot = &actor->abilities[0].id;
                 break;
             default:
                 item_slot = 0;
@@ -77,13 +77,13 @@ void run_selected_item_action(ActorRecord *body, ObjectPosition *motion, SpriteF
             item_kind = actor->action_flags & 0x3FFF;
             switch (item_kind) {
             case 3:
-                item_slot = (u8 *)actor + 0xE;
+                item_slot = &actor->abilities[2].id;
                 break;
             case 2:
-                item_slot = (u8 *)actor + 0xB;
+                item_slot = &actor->abilities[1].id;
                 break;
             case 1:
-                item_slot = (u8 *)actor + 8;
+                item_slot = &actor->abilities[0].id;
                 break;
             default:
                 item_slot = 0;

@@ -1,6 +1,7 @@
 /* Ghosh level clamping and actor animation, movement, and terrain updates. */
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/game_state.h"
 #include "dungeon/level/experience_data.h"
 #include "slus/imports.h"
 #include "dungeon/monster/ghosh.h"
@@ -50,12 +51,6 @@ typedef struct S_8016B0E8_0 {
     u8 pad_B2[0x2];
     u8 unk_B4;
 } S_8016B0E8_0;   /* arg0 in update_ghosh_actor */
-
-typedef struct S_8016B0E8_1 {
-    u8 pad_00[0x3610];
-    u8 unk_3610;
-    u8 unk_3611;
-} S_8016B0E8_1;   /* page_8001 in update_ghosh_actor */
 
 
 
@@ -158,7 +153,6 @@ void update_ghosh_actor(ActorRecord *entity, ObjectPosition *motion, SpriteFrame
     register SpriteFrameState *linked_sprite;
     register S_8016B0E8_12 *status_record;
     register void *slot_cursor;
-    S_8016B0E8_1 *seed_page;
 
 
     ActorRecord *actor;
@@ -171,8 +165,7 @@ void update_ghosh_actor(ActorRecord *entity, ObjectPosition *motion, SpriteFrame
 
     actor = entity;
     if (((S_8016B0E8_0 *)entity)->unk_18 == 0) {
-        seed_page = (void *)0x80010000;
-        level_seed = seed_page->unk_3611 | (seed_page->unk_3610 << 8);
+        level_seed = GAME_STATE->resident_bytes[5] | (GAME_STATE->resident_bytes[4] << 8);
         scaled_level = (u32) level_seed >> 2;
         if (level_seed < 0) {
             scaled_level = (u32) (level_seed + 3) >> 2;
@@ -224,7 +217,7 @@ void update_ghosh_actor(ActorRecord *entity, ObjectPosition *motion, SpriteFrame
         }
     }
 
-    if (*(u16 *)0x80013714 & 8) {
+    if (GAME_STATE->log.head.flags & 8) {
         actor_index = 1;
         slot_cursor = ((EntityRec *)(((u8 * *)(&dungeon_actor_ring_anchor))))->x.v + 4;
         do {
@@ -328,7 +321,7 @@ void update_ghosh_actor(ActorRecord *entity, ObjectPosition *motion, SpriteFrame
             if (floor_height < 0x200) {
                 base_height = actor->ground_height;
                 if ((entity->unk_90.parts.high + base_height) < floor_height) {
-                    actor->flags1C = (s32) (actor->flags1C & 0xF7FFFFFF);
+                    actor->flags1C = (actor->flags1C & 0xF7FFFFFF);
                 } else {
                     height_bits = actor->ground_height;
                     if (floor_height >= base_height) {
@@ -338,12 +331,12 @@ void update_ghosh_actor(ActorRecord *entity, ObjectPosition *motion, SpriteFrame
                         entity->unk_90.parts.high = height_delta;
                     }
                     motion->velocity_z = 0;
-                    actor->flags1C = (s32) (actor->flags1C | 0x08000000);
+                    actor->flags1C = (actor->flags1C | 0x08000000);
                     entity->fall_ticks = 0;
                 }
                 actor_flags = actor->flags1C;
                 if (actor_flags & 0x40000000) {
-                    actor->flags1C = (s32) (actor_flags & 0xBFFFFFFF);
+                    actor->flags1C = (actor_flags & 0xBFFFFFFF);
                     floor_height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
                         (sprite->tile_y << 6) | 0x20,
                         (s16) (actor->ground_height - 0x20));
@@ -357,7 +350,7 @@ void update_ghosh_actor(ActorRecord *entity, ObjectPosition *motion, SpriteFrame
                 return;
             }
         }
-        actor->flags1C = (s32) (actor->flags1C & 0xF7FFFFFF);
+        actor->flags1C = (actor->flags1C & 0xF7FFFFFF);
         motion->z.w.i = (s16) (actor->ground_height
             + entity->unk_90.parts.high);
         sprite->flags = (u16) (sprite->flags | 0x40);

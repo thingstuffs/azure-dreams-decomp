@@ -12,7 +12,7 @@ extern s32 D_80019F15;
 extern s32 D_8001A0A1;
 
 /* Look up the slot's record; when it is already claimed, substitute one of two fixed records. */
-s32 *lookup_slot_record_with_substitute(s32 slot, s32 unused, s32 context) {
+s32 *lookup_slot_record_with_substitute(TownObjectSet *slot, s32 unused, s32 context) {
     s32 *record;
     s32 *result;
 

@@ -1,4 +1,5 @@
 #include "dungeon/level/unlink_entity_node_api.h"
+#include "shared/game_state.h"
 #include "shared/monster_ids.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_flags.h"
@@ -623,9 +624,8 @@ merge_donor_primary:
             update_map_cell_flags_with_item_limit(room_x, room_y, map_mask);
             unlink_entity_node((struct EntityLinkNode *)donor);
             if (owner_action == 1) {
-                u8 *room_page = (u8 *) 0x80010000;
 
-                room_page[0x980 + (donor->unk_43 * 4)] = result->unk_13;
+                GAME_STATE->town_monster_entries[donor->unk_43].unk_00 = result->unk_13;
                 donor->unk_43 = 0xFF;
             } else if (owner_action == 2) {
                 u32 room_base = 0x80010000;

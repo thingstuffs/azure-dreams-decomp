@@ -44,28 +44,28 @@ void apply_entity_action_flags(ActorRecord *object, s32 action) {
     action_index = (s16) (action - 1);
     switch (action_index) {
     case STATUS_SLEEP - 1:
-        object->flags1C = (s32) (object->flags1C | ACTOR_ASLEEP);
+        object->flags1C = (object->flags1C | ACTOR_ASLEEP);
         break;
     case STATUS_CONFUSION - 1:
-        object->flags1C = (s32) (object->flags1C | ACTOR_CONFUSED);
+        object->flags1C = (object->flags1C | ACTOR_CONFUSED);
         break;
     case STATUS_BLIND - 1:
-        object->flags1C = (s32) ((object->flags1C & ACTOR_PLAYER_AWARE_CLEAR_MASK) | 0x10);
+        object->flags1C = ((object->flags1C & ACTOR_PLAYER_AWARE_CLEAR_MASK) | 0x10);
         break;
     case STATUS_PARALYSIS - 1:
-        object->flags1C = (s32) (object->flags1C | ACTOR_PARALYZED);
+        object->flags1C = (object->flags1C | ACTOR_PARALYZED);
         break;
     case STATUS_POISON - 1:
-        object->flags1C = (s32) (object->flags1C | ACTOR_POISONED);
+        object->flags1C = (object->flags1C | ACTOR_POISONED);
         break;
     case STATUS_MAGIC_BIND - 1:
-        object->flags1C = (s32) (object->flags1C | ACTOR_MAGIC_BOUND);
+        object->flags1C = (object->flags1C | ACTOR_MAGIC_BOUND);
         break;
     case STATUS_CURSE - 1:
-        object->flags1C = (s32) (object->flags1C | ACTOR_CURSED);
+        object->flags1C = (object->flags1C | ACTOR_CURSED);
         break;
     case STATUS_ANGER - 1:
-        object->flags1C = (s32) (object->flags1C | ACTOR_ANGRY);
+        object->flags1C = (object->flags1C | ACTOR_ANGRY);
         break;
     case STATUS_NO_TILE_OCCUPANCY - 1:
         target_sprite = NODE_HEADER(object)->sprite;
@@ -105,7 +105,7 @@ void apply_entity_action_flags(ActorRecord *object, s32 action) {
             disable_clear_mask = 0x300;
         }
         update_map_cell_flags_with_item_limit(tile_x, tile_y, disable_clear_mask);
-        object->flags1C = (s32) (object->flags1C & ~ACTOR_PLAYER_SIDE);
+        object->flags1C = (object->flags1C & ~ACTOR_PLAYER_SIDE);
         tile_x = target_sprite->tile_x;
         tile_y = target_sprite->tile_y;
         set_mask = 0x3000;

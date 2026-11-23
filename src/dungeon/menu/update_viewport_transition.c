@@ -1,4 +1,5 @@
 #include "dungeon/level/floor_flags.h"
+#include "shared/game_state.h"
 #include "shared/actor_status_flags.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
@@ -220,7 +221,7 @@ void update_viewport_transition(InactiveTypeTwelveObjectBody *transition, Object
                 target_left = (u16) transition->target_x;
                 viewport_page = (S_func_8009E038_8 *)0x80010000;
                 transition->view_x = (s16) target_left;
-                viewport_page->unk_3630 = target_left;
+                GAME_STATE->map_view.rect[0] = target_left;
                 target_top = (u16) transition->target_y;
                 transition->view_y = (s16) target_top;
                 viewport_page->unk_3632 = target_top;
@@ -241,10 +242,10 @@ void update_viewport_transition(InactiveTypeTwelveObjectBody *transition, Object
                 if (current_scale < 0x5000) {
                     next_scale = (u16) transition->target_scale + 0x1000;
                     transition->target_scale = next_scale;
-                    *(s32 *)0x8001363C = (s32) next_scale;
+                    GAME_STATE->map_view.scale = (s32) next_scale;
                 } else {
                     transition->target_scale = 0;
-                    *(s32 *)0x8001363C = 0;
+                    GAME_STATE->map_view.scale = 0;
                 }
                 transition->frames_left = 4;
             }

@@ -5,7 +5,7 @@
 
 
 /* Set the indexed entry flag while the fixed script flag is enabled. */
-s32 set_entry_flag_when_enabled(void *object, s32 entry_index)
+s32 set_entry_flag_when_enabled(TownObjectSet *object, s32 entry_index)
 {
     if (get_script_flag_mask(0x5C7) != 0) {
         set_indexed_entry_flag(object, entry_index);

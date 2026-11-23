@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "shared/game_state.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
@@ -69,7 +70,7 @@ void update_actor_callbacks_and_motion(ActorRecord *body, ObjectPosition *motion
         body->action_phase = 0;
     }
 
-    if ((*(u16 *)0x80013714) & 8) {
+    if ((GAME_STATE->log.head.flags) & 8) {
         slot_index = 1;
         slot_ptr = ((u8 *)dungeon_actor_ring_anchor) + 4;
         do {

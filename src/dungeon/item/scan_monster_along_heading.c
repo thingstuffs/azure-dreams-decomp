@@ -1,3 +1,4 @@
+#include "dungeon/level/tile_flags.h"
 #include "common.h"
 #include "dungeon/actor/ability_eligibility.h"
 #include "dungeon/item/actor_target.h"
@@ -41,7 +42,7 @@ void *scan_actor_along_heading(ActorRecord *source, s32 start_x, s32 start_y, s1
             source->target_tile_y = dir_step_y[dir] - y;
             return 0;
         }
-        if (check_layer_offset_height(x << 6, y << 6, source->ground_height - height, heading << 9) != 0) {
+        if ((s16)check_layer_offset_height((u16)(x << 6), (u16)(y << 6), (s16)(source->ground_height - height), heading << 9) != 0) {
             source->target_tile_x = -x;
             source->target_tile_y = -y;
             return 0;

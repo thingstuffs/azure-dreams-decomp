@@ -72,10 +72,10 @@ void fade_reshape_and_remove_entity(ActorRecord *body, ObjectPosition *position,
         if (entity->carried_item.kind != 0 &&
             (entity->carried_item.unk_03 & 0x20) == 0) {
             create_item_drop_effect(position->x.w.i, position->y.w.i,
-                          entity->ground_height, (u8 *)entity + 0x48);
+                          entity->ground_height, &entity->carried_item);
         }
         if ((get_entity_effect_value(entity, STATUS_NO_TILE_OCCUPANCY) << 16) == 0) {
-            s32 entity_flags = ((u32)entity->flags1C);
+            s32 entity_flags = (entity->flags1C);
             s32 effect_color_0 = sprite->tile_x;
             s32 effect_color_1 = sprite->tile_y;
             s32 effect_mask = 0x3000;
@@ -96,7 +96,7 @@ void fade_reshape_and_remove_entity(ActorRecord *body, ObjectPosition *position,
     distribute_experience_and_report_gains((EntityRec *)entity);
     detach_record_and_update_slot_state(entity);
     if ((get_entity_effect_value(entity, STATUS_NO_TILE_OCCUPANCY) << 16) == 0) {
-        s32 entity_flags = ((u32)entity->flags1C);
+        s32 entity_flags = (entity->flags1C);
         s32 effect_color_0 = sprite->tile_x;
         s32 effect_color_1 = sprite->tile_y;
         s32 effect_mask = 0x3000;

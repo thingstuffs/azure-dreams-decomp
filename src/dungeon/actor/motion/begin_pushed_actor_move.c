@@ -38,7 +38,7 @@ void begin_pushed_actor_move(void *state_in, ObjectPosition *unused, void *posit
     position->tile_x = next_x;
     position->tile_y = (u8) (position->tile_y + *(direction_index + ((s8 *)dir_step_y)));
     cycle_map_cell_flags(position->tile_x, position->tile_y, tile_mask);
-    actor->flags1C = (s32) (actor->flags1C & ~ACTOR_PUSH_PENDING);
+    actor->flags1C = (actor->flags1C & ~ACTOR_PUSH_PENDING);
     state->unk_96.as_s16 = 0x21;
     state->unk_98 = (u16) (state->unk_98 | 8);
     g_dungeon_status.activity_counts.parts.pending_action_count = (u16)((u16) g_dungeon_status.activity_counts.parts.pending_action_count + 1);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "dungeon/monster/ghosh.h"
 
 /* Return the stored count and optionally increment it up to 9999. */
@@ -9,9 +10,8 @@ s32 read_or_increment_capped_counter(s32 read_only) {
     register u16 count;
 
     {
-        u8 *addr = (u8 *)0x80010000;
-        high_byte = addr[0x3610];
-        low_byte = addr[0x3611];
+        high_byte = GAME_STATE->resident_bytes[4];
+        low_byte = GAME_STATE->resident_bytes[5];
     }
     shifted = high_byte << 8;
     count = low_byte | shifted;
@@ -26,9 +26,8 @@ s32 read_or_increment_capped_counter(s32 read_only) {
             }
         }
         {
-            u8 *addr = (u8 *)0x80010000;
-            addr[0x3611] = low_byte;
-            addr[0x3610] = high_byte;
+            GAME_STATE->resident_bytes[5] = low_byte;
+            GAME_STATE->resident_bytes[4] = high_byte;
         }
     }
 

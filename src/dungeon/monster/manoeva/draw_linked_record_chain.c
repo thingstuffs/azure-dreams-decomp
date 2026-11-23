@@ -1,11 +1,12 @@
 #include "common.h"
+#include "engine/graphics/sprite_scratch.h"
 #include "dungeon/monster/manoeva.h"
 
 #include "engine/graphics.h"
 
 /* Clears the scratchpad counter and processes each record in the linked chain. */
 s32 draw_linked_record_chain(u8 *record_data, ObjectPosition *position, SpriteFrameState *sprite) {
-    *(s32 *)0x1F80013C = 0;
+    SPRITE_SCRATCH->vertex_y_offset = 0;
     for (;;) {
         ObjectNodeHeader *next;
 

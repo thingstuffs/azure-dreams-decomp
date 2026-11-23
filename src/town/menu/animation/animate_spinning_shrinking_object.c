@@ -1,16 +1,11 @@
 #include "common.h"
+#include "engine/graphics/sprite_scratch.h"
 #include "town/menu/motion.h"
 #include "sdk/libgte.h"
 #include "sdk/libgte_matrix.h"
 #include "town/menu.h"
 #include "town/menu/animation.h"
 
-typedef struct TownScratch {
-    u8 pad_00[0x2C];
-    SVECTOR rotation; /* RotMatrix angles: the object angles, then their negation */
-    VECTOR scale; /* ScaleMatrix scale: the object extent on every axis */
-    VECTOR translation; /* TransMatrix translation: the anchor point */
-} TownScratch;
 
 typedef union TownReciprocal {
     u16 bits;
@@ -20,7 +15,7 @@ typedef union TownReciprocal {
 /* Spin and shrink the object, update both transforms, and mark completion at zero extent. */
 s32 animate_spinning_shrinking_object(struct DoorTransitionEffect *object, const struct ObjectPosition *point, struct SpriteFrameState *unused_sprite)
 {
-    TownScratch *scratch = (TownScratch *)0x1F800000;
+    SpriteLinkedScratch *scratch = LINKED_SPRITE_SCRATCH;
     VECTOR *translation;
     SVECTOR *rotation;
     VECTOR *scale;
@@ -66,24 +61,24 @@ s32 animate_spinning_shrinking_object(struct DoorTransitionEffect *object, const
     scratch->translation.vx = point->x.w.i;
     scratch->translation.vy = point->y.w.i;
     scratch->translation.vz = point->z.w.i - (object->half_height / 2);
-    scratch->scale.vx = object->extent;
-    scratch->scale.vy = object->extent;
-    scratch->scale.vz = object->extent;
+    scratch->input.vx = object->extent;
+    scratch->input.vy = object->extent;
+    scratch->input.vz = object->extent;
 
-    scratch->rotation.vx = object->angle_x;
-    scratch->rotation.vy = object->angle_y;
-    scratch->rotation.vz = object->angle_z;
+    scratch->work_vector.vx = object->angle_x;
+    scratch->work_vector.vy = object->angle_y;
+    scratch->work_vector.vz = object->angle_z;
     first_matrix = &object->matrices[0];
     TransMatrix(first_matrix, translation);
 
-    rotation = &scratch->rotation;
+    rotation = &scratch->work_vector;
     RotMatrix(rotation, first_matrix);
-    scale = &scratch->scale;
+    scale = &scratch->input;
     ScaleMatrix(first_matrix, scale);
 
-    scratch->rotation.vx = -object->angle_x;
-    scratch->rotation.vy = -object->angle_y;
-    scratch->rotation.vz = -object->angle_z;
+    scratch->work_vector.vx = -object->angle_x;
+    scratch->work_vector.vy = -object->angle_y;
+    scratch->work_vector.vz = -object->angle_z;
     second_matrix = &object->matrices[1];
     TransMatrix(second_matrix, translation);
     RotMatrix(rotation, second_matrix);

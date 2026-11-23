@@ -5,17 +5,15 @@
 
 
 // Processes the selected entry if the object's handle passes its status check.
-s32 process_checked_entry(void *object, s32 entryIndex)
+s32 process_checked_entry(TownObjectSet *object, s32 entryIndex)
 {
     s32 processed;
-    u8 *entries;
 
-    if (get_script_flag_mask(*(s16 *)((s8 *)object + 0x18)) == 0) {
+    if (get_script_flag_mask(object->entry_flag) == 0) {
         processed = 0;
     } else {
-        entries = *(u8 **)((s8 *)object + 0x10);
-        set_script_flag_bit(*(s16 *)(entries + entryIndex * 0x10 + 0xC));
-        clear_script_flag_bit(*(s16 *)((s8 *)object + 0x18));
+        set_script_flag_bit(object->choices[entryIndex].script_flag);
+        clear_script_flag_bit(object->entry_flag);
         processed = 1;
     }
     return processed;

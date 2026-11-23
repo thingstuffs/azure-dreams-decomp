@@ -192,7 +192,7 @@ void update_actor_facing_animation(ActorRecord *actor, ObjectPosition *motion, S
         }
     } else {
 
-        if (((u32)status->flags1C) & ACTOR_ASLEEP) {
+        if ((status->flags1C) & ACTOR_ASLEEP) {
             if (sprite->frameTable == actor_action_frames) {
                 actor->action_id = 0xD;
                 actor->action_phase = 1;
@@ -206,7 +206,7 @@ void update_actor_facing_animation(ActorRecord *actor, ObjectPosition *motion, S
         }
 
         if (!(g_dungeon_status.flags & 0x2000)) {
-            if (((u32)status->flags1C) & ACTOR_PUSH_PENDING) {
+            if ((status->flags1C) & ACTOR_PUSH_PENDING) {
                 begin_pushed_actor_move(actor, motion, sprite, status);
                 return;
             }
@@ -231,7 +231,7 @@ void update_actor_facing_animation(ActorRecord *actor, ObjectPosition *motion, S
                 }
             }
 
-            if (((u32)status->flags1C) & ACTOR_LIFTED) {
+            if ((status->flags1C) & ACTOR_LIFTED) {
                 actor->unk_90.value = 0;
                 actor->action_state_flags &= 0xFFFE;
                 motion->velocity_z = 0;
@@ -256,7 +256,7 @@ void update_actor_facing_animation(ActorRecord *actor, ObjectPosition *motion, S
         sprite->room_index = cell_record;
 
         if (status->pending_turn_updates > 0) {
-            if (((u32)status->flags1C) & ACTOR_PARALYZED) {
+            if ((status->flags1C) & ACTOR_PARALYZED) {
                 update_actor_status_and_mp(status);
                 return;
             }
@@ -264,12 +264,12 @@ void update_actor_facing_animation(ActorRecord *actor, ObjectPosition *motion, S
             return;
         }
 
-        if (!(((u32)status->flags1C) & ACTOR_PLAYER_SIDE)) {
+        if (!((status->flags1C) & ACTOR_PLAYER_SIDE)) {
             s32 record_index = (s8)cell_record;
 
             if ((record_index < 0) ||
                 !(dungeon_rooms[record_index].flags & ROOM_HOLY_BEAM)) {
-                if (!(((u32)status->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
+                if (!((status->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                     if ((s16)test_neighbor_position_relation(sprite->tile_x,
                             sprite->tile_y, reference_tile_object.tile_position.parts.tile_x,

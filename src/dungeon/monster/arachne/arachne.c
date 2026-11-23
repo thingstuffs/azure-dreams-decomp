@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "engine/graphics/sprite_scratch.h"
 #include "engine/entity/effect_slots.h"
 #include "shared/entity.h"
 #include "shared/audio_commands.h"
@@ -282,7 +283,7 @@ void update_arachne_turn_action(ActorRecord *entity, ObjectPosition *context, Sp
         return;
     }
 
-    if ((u32)actor->flags1C & 0x200) {
+    if (actor->flags1C & 0x200) {
         if (sprite->frameTable == arachne_alt_direction_frames) {
             entity->action_id = 13;
             entity->action_phase = 1;
@@ -296,7 +297,7 @@ void update_arachne_turn_action(ActorRecord *entity, ObjectPosition *context, Sp
     }
 
     if ((g_dungeon_status.flags & 0x2000) == 0) {
-        if ((u32)actor->flags1C & 0x100) {
+        if (actor->flags1C & 0x100) {
             begin_pushed_actor_move(entity, context, sprite, actor);
             return;
         }
@@ -322,7 +323,7 @@ void update_arachne_turn_action(ActorRecord *entity, ObjectPosition *context, Sp
             }
         }
 
-        if ((u32)actor->flags1C & 0x80000) {
+        if (actor->flags1C & 0x80000) {
             begin_actor_move_to_target_facing(entity, context, sprite, actor);
             update_arachne_parent_motion(entity, context, sprite, actor);
             return;
@@ -339,7 +340,7 @@ void update_arachne_turn_action(ActorRecord *entity, ObjectPosition *context, Sp
     sprite->room_index = tile_id;
 
     if (actor->pending_turn_updates > 0) {
-        if ((u32)actor->flags1C & 0x20) {
+        if (actor->flags1C & 0x20) {
             update_actor_status_and_mp(actor);
             return;
         }
@@ -406,7 +407,7 @@ void update_arachne_turn_action(ActorRecord *entity, ObjectPosition *context, Sp
         }
     }
 
-    actor_flags = (u32)actor->flags1C;
+    actor_flags = actor->flags1C;
     if ((actor_flags & 0x2000) == 0) {
         if ((tile_id < 0) ||
             ((dungeon_rooms[tile_id].flags & 2) == 0)) {
@@ -545,7 +546,7 @@ void choose_arachne_move(ActorRecord *move_data, ObjectPosition *context, Sprite
     ActorRecord *blocker;
 
     if ((dungeon_flags & 0x4000) || (s8)actor_data->movement_queue_state >= 0) {
-        if (actor_data->unk_12 >= 2 ||
+        if (actor_data->ai_mode >= 2 ||
             (s16)try_arachne_attack(move_data, context, position_data, actor_data) == 0) {
             update_actor_status_and_mp(actor_data);
             return;
@@ -952,7 +953,7 @@ void complete_actor_arc_movement(ActorRecord *action, ObjectPosition *motion, Sp
         }
                         /* fallthrough */
     case 2:
-        if (((u32)actor->flags1C) & ACTOR_GROUNDED) {
+        if ((actor->flags1C) & ACTOR_GROUNDED) {
             action->action_state_flags &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
@@ -989,7 +990,7 @@ void complete_actor_arc_movement(ActorRecord *action, ObjectPosition *motion, Sp
             }
         }
 
-        actor_flags = ((u32)actor->flags1C);
+        actor_flags = (actor->flags1C);
         if (actor_flags & 0x2000) {
             if (actor->action_flags & ACTOR_ACTION_PENDING) {
                 actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
@@ -1174,25 +1175,25 @@ void advance_actor_motion_and_wait(ActorRecord *action, ObjectPosition *transfor
     special_motion = 0;
     switch (action->action_phase) {
     case 0:
-        if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
+        if ((actor->flags1C) & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 7:
                 special_motion = 1;
                 /* fallthrough */
             case 3:
-                motion = (u8 *)actor + 0xE;
+                motion = &actor->abilities[2].id;
                 break;
             case 6:
                 special_motion = 1;
                 /* fallthrough */
             case 2:
-                motion = (u8 *)actor + 0xB;
+                motion = &actor->abilities[1].id;
                 break;
             case 5:
                 special_motion = 1;
                 /* fallthrough */
             case 1:
-                motion = (u8 *)actor + 8;
+                motion = &actor->abilities[0].id;
                 break;
             default:
                 motion = 0;
@@ -1201,13 +1202,13 @@ void advance_actor_motion_and_wait(ActorRecord *action, ObjectPosition *transfor
         } else {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 3:
-                motion = (u8 *)actor + 0xE;
+                motion = &actor->abilities[2].id;
                 break;
             case 2:
-                motion = (u8 *)actor + 0xB;
+                motion = &actor->abilities[1].id;
                 break;
             case 1:
-                motion = (u8 *)actor + 8;
+                motion = &actor->abilities[0].id;
                 break;
             default:
                 motion = 0;
@@ -1729,7 +1730,7 @@ void resume_arachne_after_status_animation(ActorRecord *controller, ObjectPositi
             return;
         }
 
-        entity_flags = ((u32)entity->flags1C);
+        entity_flags = (entity->flags1C);
         if (entity_flags & 0x100) {
             begin_pushed_actor_move(controller, context, sprite, entity);
             return;
@@ -1876,16 +1877,16 @@ s32 build_linked_curved_wireframe_grid(u8 *node, ObjectPosition *position, Sprit
     s32 next_node = (s32)position;
     ArachneActionEffectBody *effect;
     u8 *vertex_depths;
-    u8 *transform_work;
+    u16 *transform_work;
     u8 *depth_base;
-    u8 *xy_base;
-    u8 *xy_row;
+    s32 *xy_base;
+    s32 *xy_row;
     u8 *ring_depth_row;
-    u8 *vertical_xy_row;
-    u8 *screen_xy;
+    s32 *vertical_xy_row;
+    s32 *screen_xy;
     R12_80173FDC_GridPoint *point_base;
     u8 *vertical_depth_row;
-    u8 *ring_xy;
+    s32 *ring_xy;
     R12_80173FDC_LineG2 *line;
     u8 *tpage;
     R12_80173FDC_S_80173FDC_3 *display;
@@ -1897,9 +1898,9 @@ s32 build_linked_curved_wireframe_grid(u8 *node, ObjectPosition *position, Sprit
     s32 addr_mask;
     R12_80173FDC_RootSlot *display_root = (R12_80173FDC_RootSlot *)((u8 *)(&g_game_work));
 
-    screen_xy = (u8 *)0x1F800000;
+    screen_xy = POINT_LIST_SCRATCH->screen_xy;
     vertex_depths = (u8 *)0x1F800100;
-    transform_work = (u8 *)0x1F800180;
+    transform_work = POINT_LIST_SCRATCH->gte_discard;
     addr_mask = 0x00FFFFFF;
 
     for (;;) {
@@ -1909,7 +1910,7 @@ s32 build_linked_curved_wireframe_grid(u8 *node, ObjectPosition *position, Sprit
         (frame.desc).angle = ((ArachneActionEffectBody *)node)->unk_10 - 0x400;
         effect = (ArachneActionEffectBody *)node;
         /* BYTES: The bytes fix the test's shape (a scratchpad word, then next_node), not its meaning; the arm reconstructs a conditional update of a local nothing reads (decision 45). */
-        if (*(s32 *)screen_xy && next_node) {
+        if (screen_xy[0] && next_node) {
             /* retail evidence (decision 45, docs/evidence/r97_decisions.md): both operands of this test are loaded in retail's
                compilation and the arm compiled away. next_node: the tail's successor load (lw $5,8($5)) survives as this test's
                operand. The scratchpad word: jump2 deleted it with the branch; its fingerprint is the empty
@@ -1964,15 +1965,15 @@ grid_loop:
 
         {
             u8 *vertex_depth;
-            u8 *xy;
+            s32 *xy;
 
             func_80065770((frame.points), screen_xy, vertex_depths, transform_work, transform_work, (frame.desc).count);
             row = 0x38;
-            vertical_xy_row = screen_xy + 0xE0;
+            vertical_xy_row = screen_xy + 56;
             vertical_depth_row = vertex_depths + 0x70;
             while (row > 0) {
                 col = 7;
-                xy = vertical_xy_row + 0x1C;
+                xy = vertical_xy_row + 7;
                 vertex_depth = vertical_depth_row + 0x0E;
                 while (col >= 0) {
                     ot_index = ((s16)((R12_80173FDC_S_80173FDC_2 *)vertex_depth)->unk_00 +
@@ -1993,8 +1994,8 @@ grid_loop:
                         SetLineG2(line);
                         SetSemiTrans(line, 1);
 
-                        line->xy0 = ((R12_80173FDC_S_80173FDC_4 *)xy)->unk_00;
-                        line->xy1 = ((R12_80173FDC_S_80173FDC_4_pre *)xy)[-1].unk_00;
+                        line->xy0 = xy[0];
+                        line->xy1 = xy[-8];
 
                         line->tag = (line->tag & 0xFF000000) |
                             ((*(u32 *)((display_root->ptr) + 0xB0 + ot_index * 4)) & addr_mask);
@@ -2008,12 +2009,12 @@ grid_loop:
                             ((*(u32 *)((display_root->ptr) + 0xB0 + ot_index * 4)) & 0xFF000000) |
                             ((u32)tpage & addr_mask);
                     }
-                    xy -= 4;
+                    xy--;
                     vertex_depth -= 2;
                     col--;
                 }
                 vertical_depth_row -= 0x10;
-                vertical_xy_row -= 0x20;
+                vertical_xy_row -= 8;
                 row -= 8;
             }
         }
@@ -2022,11 +2023,11 @@ grid_loop:
             u8 *ring_depth;
 
             row = 0x30;
-            xy_row = screen_xy + 0xC0;
+            xy_row = screen_xy + 48;
             ring_depth_row = vertex_depths + 0x60;
             while (row > 0) {
                 depth_base = ring_depth_row;
-                ring_xy = xy_row + 0x1C;
+                ring_xy = xy_row + 7;
                 xy_base = xy_row;
                 col = 7;
                 ring_depth = ring_depth_row + 0x0E;
@@ -2050,8 +2051,8 @@ grid_loop:
                         SetLineG2(line);
                         SetSemiTrans(line, 1);
 
-                        line->xy0 = ((R12_80173FDC_S_80173FDC_7 *)ring_xy)->unk_00;
-                        line->xy1 = (*(u32 *)(xy_base + next_col * 4));
+                        line->xy0 = ring_xy[0];
+                        line->xy1 = xy_base[next_col];
 
                         line->tag = (line->tag & 0xFF000000) |
                             ((*(u32 *)((display_root->ptr) + 0xB0 + ot_index * 4)) & addr_mask);
@@ -2065,11 +2066,11 @@ grid_loop:
                             ((*(u32 *)((display_root->ptr) + 0xB0 + ot_index * 4)) & 0xFF000000) |
                             ((u32)tpage & addr_mask);
                     }
-                    ring_xy -= 4;
+                    ring_xy--;
                     ring_depth -= 2;
                     col--;
                 }
-                xy_row -= 0x20;
+                xy_row -= 8;
                 ring_depth_row -= 0x10;
                 row -= 8;
             }
@@ -2092,11 +2093,11 @@ grid_loop:
 s32 project_arachne_sprite_chain(void *initial_payload, ObjectPosition *entry_data, SpriteFrameState *entry, s32 unused)
 {
     void *payload = initial_payload;
-    R12_8017458C_Scratchpad *scratch = (R12_8017458C_Scratchpad *)0x1F800000;
+    SpriteQuadScratch *scratch = SPRITE_SCRATCH;
     ObjectNodeHeader *next_node;
 
     for (;;) {
-        scratch->value = ((s16 *)D_80175B20)[0];
+        scratch->vertex_y_offset = ((s16 *)D_80175B20)[0];
 
         if (!(entry->flags & 0x80)) {
             project_sprite_commands(payload, entry_data, entry, entry->depth_bias);

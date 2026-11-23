@@ -46,7 +46,7 @@ void update_entity_callbacks_and_floor_motion(ActorRecord *body, ObjectPosition 
         return;
     }
 
-    old_direction = (s8)(*((u8 *)body + 0x6D));
+    old_direction = (s8)(body->pending_turn_updates);
     if (refresh_actor_facing_and_lifecycle(body, motion, sprite, body) != 0) {
         return;
     }

@@ -1,6 +1,6 @@
 {
   "schema": "overlay-module-native-v4",
-  "logical_rows": 20769,
+  "logical_rows": 20771,
   "edges": [
     {
       "module": "dungeon_cd_control_d79c4",
@@ -129898,6 +129898,16 @@
       ]
     },
     {
+      "source": "src/dungeon/effect/update_orbit_ring_spell.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_818A4FD4"
+      ]
+    },
+    {
       "source": "src/dungeon/effect/create_moving_fading_particle.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -130175,6 +130185,16 @@
       },
       "rows": [
         "dungeon/func_818C3B90"
+      ]
+    },
+    {
+      "source": "src/dungeon/effect/draw_rippled_screen_strips.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_818DAF14"
       ]
     },
     {

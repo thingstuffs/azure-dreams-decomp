@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "engine/graphics/sprite_scratch.h"
 #include "engine/entity/effect_slots.h"
 #include "shared/entity.h"
 #include "shared/audio_commands.h"
@@ -127,7 +128,7 @@ void update_griffon_motion_and_facing(ActorRecord *entity, ObjectPosition *motio
     call_entity = entity;
     call_motion = motion;
     call_part = sprite;
-    old_state = (s8)(*((u8 *)entity + 0x6D));
+    old_state = entity->pending_turn_updates;
     call_self = entity;
     if (refresh_actor_facing_and_lifecycle(call_entity, call_motion, call_part, call_self) != 0) {
         return;
@@ -267,7 +268,7 @@ void update_griffon_actor_behavior(ActorRecord *actor, ObjectPosition *position,
         return;
     }
 
-    if (((u32)actor_data->flags1C) & ACTOR_ASLEEP) {
+    if ((actor_data->flags1C) & ACTOR_ASLEEP) {
         if (object->frameTable == griffon_frame_set_3) {
             actor->action_id = 0xD;
             actor->action_phase = 1;
@@ -281,7 +282,7 @@ void update_griffon_actor_behavior(ActorRecord *actor, ObjectPosition *position,
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((u32)actor_data->flags1C) & ACTOR_PUSH_PENDING) {
+        if ((actor_data->flags1C) & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(actor, position, object, actor_data);
             return;
         }
@@ -310,7 +311,7 @@ void update_griffon_actor_behavior(ActorRecord *actor, ObjectPosition *position,
             }
         }
 
-        if (((u32)actor_data->flags1C) & ACTOR_LIFTED) {
+        if ((actor_data->flags1C) & ACTOR_LIFTED) {
 
             begin_actor_move_to_target_facing(actor, position, object, actor_data);
             update_griffon_parent_motion(actor, position, object, actor_data);
@@ -332,7 +333,7 @@ void update_griffon_actor_behavior(ActorRecord *actor, ObjectPosition *position,
     object->room_index = room_id;
 
     if (actor_data->pending_turn_updates > 0) {
-        if (((u32)actor_data->flags1C) & ACTOR_PARALYZED) {
+        if ((actor_data->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(actor_data);
             return;
         }
@@ -405,11 +406,11 @@ void update_griffon_actor_behavior(ActorRecord *actor, ObjectPosition *position,
         }
     }
 
-    if (!(((u32)actor_data->flags1C) & ACTOR_PLAYER_SIDE)) {
+    if (!((actor_data->flags1C) & ACTOR_PLAYER_SIDE)) {
         s32 room_index = room_id;
 
         if ((room_index < 0) || !(dungeon_rooms[room_index].flags & 2)) {
-            if (!(((u32)actor_data->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
+            if (!((actor_data->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((test_neighbor_position_relation(
                         object->tile_x, object->tile_y,
@@ -597,7 +598,7 @@ void choose_griffon_move(ActorRecord *move_data, ObjectPosition *context, Sprite
     ActorRecord *blocker;
 
     if ((dungeon_flags & 0x4000) || (s8)actor_data->movement_queue_state >= 0) {
-        if (actor_data->unk_12 >= 2 ||
+        if (actor_data->ai_mode >= 2 ||
             (s16)try_griffon_attack(move_data, context, position_data, actor_data) == 0) {
             update_actor_status_and_mp(actor_data);
             return;
@@ -1021,7 +1022,7 @@ void hop_griffon_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
         action->action_phase++;
         break;
     case 2:
-        if ((u32)(actor->flags1C) & 0x08000000) {
+        if ((actor->flags1C) & 0x08000000) {
             action->action_state_flags &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
@@ -1240,7 +1241,7 @@ void advance_griffon_attack(ActorRecord *action, ObjectPosition *motion, SpriteF
 void update_item_activation_and_cleanup(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *object) {
     u16 position[3];
     s16 is_special;
-    u8 *item_slot;
+    ActorAbility *item_slot;
     R08_80172CE8_S_80172CE8_1_pre *node;
     u8 state;
 
@@ -1248,28 +1249,28 @@ void update_item_activation_and_cleanup(ActorRecord *action, ObjectPosition *mot
     state = action->action_phase;
     switch (state) {
     case 0:
-        if ((((u32)object->flags1C)) & ACTOR_PLAYER_SIDE) {
+        if (((object->flags1C)) & ACTOR_PLAYER_SIDE) {
             u32 kind = ((object->action_flags) & 0x3FFF) - 1;
             switch (kind) {
             case 6: is_special = 1;
-            case 2: item_slot = (u8 *)object + 0xE; break;
+            case 2: item_slot = &object->abilities[2]; break;
             case 5: is_special = 1;
-            case 1: item_slot = (u8 *)object + 0xB; break;
+            case 1: item_slot = &object->abilities[1]; break;
             case 4: is_special = 1;
-            case 0: item_slot = (u8 *)object + 8; break;
+            case 0: item_slot = &object->abilities[0]; break;
             default: item_slot = 0; break;
             }
         } else {
             s32 kind = (object->action_flags) & 0x3FFF;
             switch (kind) {
-            case 3: item_slot = (u8 *)object + 0xE; break;
-            case 2: item_slot = (u8 *)object + 0xB; break;
-            case 1: item_slot = (u8 *)object + 8; break;
+            case 3: item_slot = &object->abilities[2]; break;
+            case 2: item_slot = &object->abilities[1]; break;
+            case 1: item_slot = &object->abilities[0]; break;
             default: item_slot = 0; break;
             }
         }
 
-        if (*item_slot != 0) {
+        if (item_slot->id != 0) {
 
             action->action_state_flags &= 0xFF7F;
             {
@@ -1287,7 +1288,7 @@ void update_item_activation_and_cleanup(ActorRecord *action, ObjectPosition *mot
                     }
                 } else {
                     u8 *item_defs = item_action_definitions;
-                    u8 item_id = *item_slot;
+                    u8 item_id = item_slot->id;
                     item_def = (item_id * 20 + item_defs)[0x12];
                     if (item_def == 2) {
                         node = (object->target);
@@ -1321,7 +1322,7 @@ void update_item_activation_and_cleanup(ActorRecord *action, ObjectPosition *mot
             if (create_actor_spell_effect(object, item_slot, is_special, (u8 *)action + 0x98)) {
                 sprite->flags &= 0xF7FF;
                 play_sound_if_enabled(0x703);
-                create_two_row_object_group(position, (s16)((*item_slot - 1) % 3));
+                create_two_row_object_group(position, (s16)((item_slot->id - 1) % 3));
                 action->action_phase++;
                 return;
             }
@@ -1456,7 +1457,7 @@ void advance_action_phase_and_process_actor(ActorRecord *action, ObjectPosition 
             return;
         }
 
-        if (((u32)entity->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+        if ((entity->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             move_timer = 8;
         } else {
             move_timer = -1;
@@ -1796,7 +1797,7 @@ void wait_for_griffon_mp(ActorRecord *controller, ObjectPosition *context, Sprit
             return;
         }
 
-        entity_flags = ((u32)entity->flags1C);
+        entity_flags = (entity->flags1C);
         if (entity_flags & 0x100) {
             begin_pushed_actor_move(controller, context, sprite, entity);
             return;
@@ -1900,11 +1901,11 @@ void finish_griffon_fade_in(ActorRecord *state, ObjectPosition *motion, SpriteFr
 s32 project_griffon_sprite_chain(void *initial_payload, ObjectPosition *entry_data, SpriteFrameState *entry, s32 unused)
 {
     void *payload = initial_payload;
-    R08_801740F4_Scratchpad *scratch = (R08_801740F4_Scratchpad *)0x1F800000;
+    SpriteQuadScratch *scratch = SPRITE_SCRATCH;
     ObjectNodeHeader *next_node;
 
     for (;;) {
-        scratch->value = ((s16 *)D_80174D14)[0];
+        scratch->vertex_y_offset = ((s16 *)D_80174D14)[0];
 
         if (!(entry->flags & 0x80)) {
             project_sprite_commands(payload, entry_data, entry, entry->depth_bias);

@@ -56,7 +56,7 @@ void update_movement_and_directional_animation(void *state_arg, void *motion_arg
     switch (phase) {
     case 0:
         state->unk_98 = (u16) (state->unk_98 | 8);
-        entity->flags1C = (s32) (entity->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
+        entity->flags1C = (entity->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
         state->unk_9E = 5;
         state->unk_A0 = 0;
         state->unk_9B = (u8) (state->unk_9B + 1);
@@ -79,7 +79,7 @@ void update_movement_and_directional_animation(void *state_arg, void *motion_arg
         if ((next_move_ticks << 0x10) < 0) {
             state->unk_90 = 0;
             state->unk_98 = (u16) (state->unk_98 & 0xFFF7);
-            entity->flags1C = (s32) (entity->flags1C | ACTOR_GROUNDED);
+            entity->flags1C = (entity->flags1C | ACTOR_GROUNDED);
             state->unk_9B = (u8) (state->unk_9B + 1);
         }
     case 2:

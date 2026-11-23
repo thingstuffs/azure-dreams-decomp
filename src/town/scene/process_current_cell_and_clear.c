@@ -29,7 +29,7 @@ typedef struct S_80016B0C_2 {
 extern void mark_indexed_records_8000(void *, u8 *);
 
 /* Process the current cell value and clear it when the handler returns nonzero. */
-s32 process_current_cell_and_clear(void *object, s32 entry_index) {
+s32 process_current_cell_and_clear(TownObjectSet *object, s32 entry_index) {
     u8 fallback_args[2] = { 2, 0xFF };
     S_80016B0C_0 *state;
     s32 result;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "shared/object_index_slots.h"
 
 #include "engine/message.h"
@@ -15,7 +16,6 @@ typedef struct RuntimeTask {
     MessageWindowLinks links;
 } RuntimeTask;
 
-extern u8 D_80012D6E[9];
 
 /* Create the runtime task and initialize its shared state and blocks. */
 void initialize_message_window_runtime_task(void)
@@ -50,7 +50,7 @@ void initialize_message_window_runtime_task(void)
     do {
         linked_controller = links->controller;
     } while (0);
-    linked_controller->text_speed = D_80012D6E[0];
+    linked_controller->text_speed = GAME_STATE->message_speed;
     init_message_window(links->controller, 3);
     links->window->skip_disabled = 0;
     links->window->active = 0;

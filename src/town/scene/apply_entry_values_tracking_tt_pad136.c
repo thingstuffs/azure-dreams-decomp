@@ -4,7 +4,7 @@
 #include "town/scene.h"
 
 /* Select the handler for 0xDB8 based on the query result and return its truth value. */
-s32 apply_entry_values_tracking_tt_pad136(void *object, s32 query_value) {
+s32 apply_entry_values_tracking_tt_pad136(TownObjectSet *object, s32 query_value) {
     s32 result;
 
     if (apply_selected_entry_values(object, query_value) == 0) {

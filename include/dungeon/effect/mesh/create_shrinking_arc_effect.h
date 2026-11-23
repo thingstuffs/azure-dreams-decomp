@@ -1,3 +1,4 @@
+#include "dungeon/level/tile_flags.h"
 #include "engine/scene.h"
 #include "shared/sprite_frame_state.h"
 #ifndef DUNGEON_OVL_1930844_H
@@ -262,7 +263,6 @@ typedef struct ovl_1930844_81912154_LocalStack {
 } ovl_1930844_81912154_LocalStack;
 extern u8 D_800DE720[9];
 void apply_attack_power_and_element_effects();
-s32 check_layer_offset_height();
 static __inline__ s32 radial_coordinate(s32 center, s32 trig, s16 radius);
 void advance_shrinking_arc_effect(RandomAngleSpriteEffectBody *state, ObjectPosition *motion, SpriteFrameState *visual);
 void * create_shrinking_arc_effect(ApproachingImpactSpellBody *owner, ObjectPosition *source_position);

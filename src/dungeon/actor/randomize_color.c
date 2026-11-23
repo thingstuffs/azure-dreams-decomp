@@ -1,4 +1,5 @@
 #include "shared/entity.h"
+#include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "common.h"
 #include "slus/imports.h"
@@ -6,8 +7,6 @@
 #include "sdk/libc.h"
 
 typedef struct { u8 pad[0xE]; u16 flags; } SpriteOwner;
-typedef struct { u16 flags; u16 unused; SpriteOwner *owner; } OwnerLink;
-typedef struct { u8 pad[0xC]; u8 r, g, b; u8 padF[5]; u16 flags; } Render;
 
 /* Randomize color and mark the owner complete when the render flags request it. */
 void randomize_color(SpriteOwner **action, ObjectPosition *unused, SpriteFrameState *render) {
@@ -18,7 +17,7 @@ void randomize_color(SpriteOwner **action, ObjectPosition *unused, SpriteFrameSt
     render->color.c.b = (rand() & 0x7F) + 0x20;
     if (render->flags & 0x6000) {
         ObjectFlagBlock *status = &object_flag_block;
-        ((OwnerLink *)((u8 *)action - 4))->unused |= 0x8000;
+        NODE_HEADER(action)->flags |= 0x8000;
         status->flags |= OBJECT_REMOVE_PENDING;
     }
 }

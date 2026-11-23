@@ -1,6 +1,5 @@
 #ifndef ENGINE_SCRIPT_VM_H
 #define ENGINE_SCRIPT_VM_H
-struct ScriptReader;
 /* Prototypes of the functions defined in src/engine/script/vm/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -11,7 +10,6 @@ struct FadeManagerBody;
 struct ObjectPosition;
 struct SpriteFrameState;
 struct MessageWindow;
-struct ScriptReader;
 struct Func80039D48Reader;
 struct Func80039E1CReader;
 struct Func80039EF4State;
@@ -60,7 +58,7 @@ void script_call_service(struct MessageWindow *window);
 void script_call_service_from_table(struct Func80039E1CReader *reader);
 
 /* vm_op_call_sound_command.c */
-void script_sound_command(struct ScriptReader *state);
+void script_sound_command(struct MessageWindow *state);
 
 /* vm_op_call_value.c */
 void script_call_variable(struct MessageWindow *window);
@@ -69,10 +67,10 @@ void script_call_variable(struct MessageWindow *window);
 void script_yield(struct S_80039ED0_0 *script);
 
 /* vm_op_clear_flag_bit.c */
-void script_clear_flag(struct ScriptReader *state);
+void script_clear_flag(struct MessageWindow *state);
 
 /* vm_op_clear_image.c */
-void script_clear_text_window(struct ScriptReader *vm_state);
+void script_clear_text_window(struct MessageWindow *vm_state);
 
 /* vm_op_clear_value.c */
 void script_clear_variable(struct MessageWindow *window);
@@ -96,10 +94,10 @@ void script_jump(struct MessageWindow *window);
 void script_jump_by_choice(struct S_80039760_0 *vm);
 
 /* vm_op_jump_if_flag_bit_clear.c */
-void script_jump_if_flag_clear(struct ScriptReader *state);
+void script_jump_if_flag_clear(struct MessageWindow *state);
 
 /* vm_op_jump_if_flag_bit_set.c */
-u32 script_jump_if_flag_set(struct ScriptReader *state);
+u32 script_jump_if_flag_set(struct MessageWindow *state);
 
 /* vm_op_jump_if_negative.c */
 void script_jump_if_negative(struct MessageWindow *window);
@@ -123,16 +121,16 @@ void script_jump_if_zero(struct MessageWindow *window);
 void script_jump_to_variable(struct MessageWindow *window);
 
 /* vm_op_load_immediate_indexed_pointer.c */
-void script_load_indirect(struct ScriptReader *state);
+void script_load_indirect(struct MessageWindow *state);
 
 /* vm_op_load_table_pointer_value.c */
 void script_load_system_variable(struct MessageWindow *window);
 
 /* vm_op_load_value_indexed_pointer.c */
-void script_load_indirect_by_variable(struct ScriptReader *state);
+void script_load_indirect_by_variable(struct MessageWindow *state);
 
 /* vm_op_load_value_indexed_word.c */
-void script_load_table_word_by_variable(struct ScriptReader *state);
+void script_load_table_word_by_variable(struct MessageWindow *state);
 
 /* vm_op_multiply_values.c */
 void script_multiply(struct MessageWindow *window);
@@ -181,13 +179,13 @@ void script_set_text_speed(struct MessageWindow *window);
 void script_compare(struct MessageWindow *window);
 
 /* vm_op_set_entry_byte.c */
-void script_set_sound_entry_byte(struct ScriptReader *parser);
+void script_set_sound_entry_byte(struct MessageWindow *parser);
 
 /* vm_op_set_entry_byte_pair.c */
-void script_set_sound_entry_bytes(struct ScriptReader *parser);
+void script_set_sound_entry_bytes(struct MessageWindow *parser);
 
 /* vm_op_set_flag_bit.c */
-s32 script_set_flag(struct ScriptReader *state);
+s32 script_set_flag(struct MessageWindow *state);
 
 /* vm_op_set_loop_counter.c */
 void script_set_loop_counter(struct RuntimeState *state);
@@ -202,7 +200,7 @@ void script_instant_text(struct MessageWindow *window);
 void script_skip_byte(ScriptCounterView *script_ctx);
 
 /* vm_op_store_immediate_indexed_word.c */
-void script_store_table_word(struct ScriptReader *state);
+void script_store_table_word(struct MessageWindow *state);
 
 /* vm_op_store_table_pointer_value.c */
 void script_store_system_variable(struct MessageWindow *window);

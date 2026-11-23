@@ -21,18 +21,18 @@ typedef struct S_80016844_3 {
                        ((S_80016844_1 *)(D_80016000[0]))->unk_40) in run_object_handler_and_clear_entry */
 
 /* Runs the selected object handler and clears the current entry status. */
-s32 run_object_handler_and_clear_entry(Rec_func_800165F4_arg0 *object, s32 context) {
+s32 run_object_handler_and_clear_entry(TownObjectSet *object, s32 context) {
     s32 result;
 
     result = 0;
     if (get_script_flag_mask(F_s34_sero_quickstart) != 0) {
-        set_script_flag_bit(object->unk_18);
+        set_script_flag_bit(object->entry_flag);
         ((S_80016844_2 *)(((town_scene_root->entry_index * 8) +
                    ((s32)town_scene_root->event_data))))->unk_04 = 0;
         return process_checked_entry(object, context);
     }
     if (get_script_flag_mask(F_s34_sero_start) != 0) {
-        set_script_flag_bit(object->unk_18);
+        set_script_flag_bit(object->entry_flag);
         result = apply_selected_entry_values(object, context);
         if (result != 0) {
             ((S_80016844_3 *)(((town_scene_root->entry_index * 8) +

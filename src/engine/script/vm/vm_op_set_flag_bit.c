@@ -6,7 +6,7 @@
 extern s32 set_resident_bitmap_bit(s32 value);
 
 /* Opcode 0x0C: Set the event flag given by the 16-bit operand. */
-s32 script_set_flag(ScriptReader *state) {
+s32 script_set_flag(MessageWindow *state) {
     u8 *data;
     s32 low;
     s32 high;

@@ -5,7 +5,7 @@
 
 
 /* Set the indexed entry flag while the fixed script flag is enabled. */
-s32 set_indexed_entry_flag_when_dac_flag_set(void *object, s32 entry_index)
+s32 set_indexed_entry_flag_when_dac_flag_set(TownObjectSet *object, s32 entry_index)
 {
     if (get_script_flag_mask(0xDAC) != 0) {
         set_indexed_entry_flag(object, entry_index);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "shared/entity.h"
 #include "shared/dungeon_item_entries.h"
 #include "shared/tile_object.h"
@@ -15,7 +16,6 @@ typedef struct Entity {
     DungeonItemEntry *unk_110;
 } Entity;
 
-extern s32 dungeon_mode_state;
 extern u8 D_80089384[];
 extern u8 D_800E15FE[];
 extern u8 D_800E1677[];
@@ -38,7 +38,7 @@ s32 use_return_magic(Entity *entity, DungeonItemEntry *item, s16 action_type) {
     }
     if (entity->flags & 0x4000) {
         if ((u32)(entity->unk_13 - 3) < 0x2B) {
-            if (dungeon_mode_state == 0 && current_dungeon_floor == 0x28 && test_resident_bit(0xA2) == 0) {
+            if (GAME_STATE->dungeon_mode_state == 0 && current_dungeon_floor == 0x28 && test_resident_bit(0xA2) == 0) {
                 DungeonGlobalStatus *counter;
                 display_formatted_context_message(D_800E15FE);
                 counter = &g_dungeon_status;

@@ -1,4 +1,5 @@
 #include "dungeon/player/saved_held_item_data.h"
+#include "shared/game_state.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "dungeon/player/input.h"
 #include "shared/entity.h"
@@ -72,7 +73,7 @@ void update_player_jump(u8 *action, ObjectPosition *motion, u8 *sprite, u8 *enti
         }
 
         if ((*(s32 *)(entity + 0x1C) & 0x300000) == 0x100000) {
-            if (!((*(u16 *)0x80013714) & 1)) {
+            if (!((GAME_STATE->log.head.flags) & 1)) {
                 effect_id = measure_directional_stopping_distance(*(s16 *)(entity + 0x2A), motion, sprite, 8);
                 if ((effect_id << 16) != 0) {
                     child = *(u8 **)(action + 0x124);

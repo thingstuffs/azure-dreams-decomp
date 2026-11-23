@@ -1,3 +1,4 @@
+#include "dungeon/level/tile_flags.h"
 #include "shared/audio_commands.h"
 /* Color-cycling radial bands, rotating spark effects, and movement toward reachable tiles. */
 #include "dungeon/effect/travel/cycle_seven_color_fade.h"
@@ -265,7 +266,7 @@ s32 draw_indexed_shaded_quad(s32 texture_index, SpriteFrameState *color_source_a
     s32 *depth_cue;
     s32 *transform_flags;
 
-    scratch = (RadialBandQuadScratch *)0x1F800000;
+    scratch = RADIAL_BAND_SCRATCH;
     render_buffer = g_game_work.draw_buffer;
     scratch->ordering_table = (u32 *)(render_buffer + 0xB0);
     packet = ((GpuContext *)render_buffer)->packetCursor;
@@ -383,7 +384,7 @@ s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, ObjectPositi
     s32 jitter_limit;
     s32 scaled;
 
-    scratch = (RadialBandQuadScratch *)0x1F800000;
+    scratch = RADIAL_BAND_SCRATCH;
     if (effect->unk_06 < 8) {
         s32 growing_z;
         growing_z = center->z.v - (effect->unk_06 * 0x180000);
@@ -964,7 +965,7 @@ void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, Obje
                 step_y = &dir_step_y[(s16) state->unk_0E];
                 floor_z = sample_terrain_surface_height(((grid_x + *(s16 *)source_position) << 6) + 0x20 & 0xFFE0,
                     ((grid_y + *step_y) << 6) + 0x20 & 0xFFE0, probe_z);
-                if (floor_z >= 0x201 || (s16) (floor_z - (u16) owner->ground_height) < -0x3F) {
+                if (floor_z >= 0x201 || (s16) (floor_z -  owner->ground_height) < -0x3F) {
                     break;
                 }
                 index += 1;

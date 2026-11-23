@@ -78,7 +78,7 @@ void update_mandara_jump_to_tile(ActorRecord *action, ObjectPosition *motion, Sp
         }
 
     case 2:
-        if (((u32)actor->flags1C) & ACTOR_GROUNDED) {
+        if ((actor->flags1C) & ACTOR_GROUNDED) {
             action->action_state_flags &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
@@ -111,7 +111,7 @@ void update_mandara_jump_to_tile(ActorRecord *action, ObjectPosition *motion, Sp
             }
         }
 
-        actor_flags = ((u32)actor->flags1C);
+        actor_flags = (actor->flags1C);
         if (actor_flags & 0x2000) {
             if (actor->action_flags & ACTOR_ACTION_PENDING) {
                 actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;

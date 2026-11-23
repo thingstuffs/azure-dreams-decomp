@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene/flags.h"
 #include "town/scene/motion.h"
+#include "town/scene.h"
 
 extern s32 D_80018968;
 extern u8 D_80019104[];
@@ -8,7 +9,7 @@ extern u8 D_800197D0[];
 extern u8 D_80019397[];
 
 /* Looks up an entry and substitutes special results for codes 0x2D and 0x2F. */
-void *select_response_with_two_overrides(void *input, s32 unused_1, s32 input_code, s32 unused_3) {
+void *select_response_with_two_overrides(TownObjectSet *input, s32 unused_1, s32 input_code, s32 unused_3) {
     s32 code;
     void *result;
 

@@ -64,7 +64,7 @@ void update_dungeon_entity_action_and_facing(ActorRecord *body, ObjectPosition *
         return;
     }
 
-    if (((u32)actor->flags1C) & 0x200) {
+    if ((actor->flags1C) & 0x200) {
         if (sprite->frameTable == bank_actor_action_frames) {
             body->action_id = 0xD;
             body->action_phase = 1;
@@ -78,7 +78,7 @@ void update_dungeon_entity_action_and_facing(ActorRecord *body, ObjectPosition *
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((u32)actor->flags1C) & 0x100) {
+        if ((actor->flags1C) & 0x100) {
             begin_pushed_actor_move(body, position, sprite, actor);
             return;
         }
@@ -103,7 +103,7 @@ void update_dungeon_entity_action_and_facing(ActorRecord *body, ObjectPosition *
             }
         }
 
-        if (((u32)actor->flags1C) & 0x80000) {
+        if ((actor->flags1C) & 0x80000) {
             begin_actor_move_to_target_facing(body, position, sprite, actor);
             func_8016DA84(body, position, sprite, actor);
             return;
@@ -118,7 +118,7 @@ void update_dungeon_entity_action_and_facing(ActorRecord *body, ObjectPosition *
     sprite->room_index = tile_record;
 
     if (actor->pending_turn_updates > 0) {
-        if (((u32)actor->flags1C) & 0x20) {
+        if ((actor->flags1C) & 0x20) {
             update_actor_status_and_mp(actor);
             return;
         }
@@ -148,7 +148,7 @@ void update_dungeon_entity_action_and_facing(ActorRecord *body, ObjectPosition *
             body->action_state_flags |= 0x8000;
         /* fall through */
         case 8:
-            if (((u32)actor->flags1C) & 0x2000) {
+            if ((actor->flags1C) & 0x2000) {
                 if ((actor->action_flags & ACTOR_ACTION_CODE_MASK) == 8) {
                     body->action_state_flags &= 0x7FFF;
                 }
@@ -189,11 +189,11 @@ void update_dungeon_entity_action_and_facing(ActorRecord *body, ObjectPosition *
             choose_block_move_slot_a(body, position, sprite, actor);
             return;
         }
-    } else if (!(((u32)actor->flags1C) & 0x2000)) {
+    } else if (!((actor->flags1C) & 0x2000)) {
         s32 record_index = (s8)tile_record;
 
         if ((record_index < 0) || !(dungeon_rooms[record_index].flags & 2)) {
-            if (!(((u32)actor->flags1C) & 0x430)) {
+            if (!((actor->flags1C) & 0x430)) {
 
                 if ((s16)test_neighbor_position_relation(sprite->tile_x,
                         sprite->tile_y, reference_tile_object.tile_position.parts.tile_x,

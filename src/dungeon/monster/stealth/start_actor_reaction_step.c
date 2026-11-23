@@ -20,7 +20,7 @@ void start_actor_reaction_step(ActorRecord *owner, ObjectPosition *unused, Sprit
     actor->movement_queue_state &= 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) &&
         ((has_pending_dungeon_activity(actor) << 16) == 0)) {
-        if (((u32)actor->flags1C) & ACTOR_CONFUSED) {
+        if ((actor->flags1C) & ACTOR_CONFUSED) {
             s32 link;
 
             link = actor->flags14;

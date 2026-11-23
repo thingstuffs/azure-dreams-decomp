@@ -3,16 +3,17 @@
 #include "town/scene/object.h"
 #include "town/player/state.h"
 #include "town/scene/flags.h"
+#include "town/scene.h"
 
 /* Selects an object's response from a lookup table, its checked status, and its stored flag ID. */
-s32 select_object_response_by_status(void *object, s32 check_mode, s32 context) {
+s32 select_object_response_by_status(TownObjectSet *object, s32 check_mode, s32 context) {
     s32 *data_table;
     s32 result;
     s32 status_or_base;
 
     status_or_base = check_table_result_below_minus_47();
     if (status_or_base != 0) {
-        if (get_script_flag_mask(*(s16 *)((s8 *)object + 0x18)) == 0) {
+        if (get_script_flag_mask(object->entry_flag) == 0) {
             return &D_8001B6D0;
         }
     }
@@ -20,7 +21,7 @@ s32 select_object_response_by_status(void *object, s32 check_mode, s32 context) 
     data_table = &D_8001A98C;
     result = apply_entry_position(data_table, &scene_override_context, object, context);
     if (resolve_entry_flag(data_table, object, context) != 0) {
-        status_or_base = get_script_flag_mask(*(s16 *)((s8 *)object + 0x18));
+        status_or_base = get_script_flag_mask(object->entry_flag);
         if (status_or_base == 0) {
             result = &D_8001F690;
         } else {

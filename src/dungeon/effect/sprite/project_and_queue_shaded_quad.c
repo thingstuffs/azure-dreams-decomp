@@ -20,7 +20,7 @@ void project_and_queue_shaded_quad(Row_81922998_S_80024198_6 *quad, void *positi
 {
     Row_81922998_S_80024198_2 *render_state = render_state_arg;
     Row_81922998_S_80024198_1 *position = position_arg;
-    ShadedQuadScratch *scratch = (ShadedQuadScratch *)0x1F800000;
+    ShadedQuadScratch *scratch = SHADED_QUAD_SCRATCH;
     DR_MODE *mode;
     POLY_G4 *packet;
     u8 *texture;

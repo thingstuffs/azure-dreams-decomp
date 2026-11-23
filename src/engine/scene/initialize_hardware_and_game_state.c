@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "shared/dungeon_floor.h"
 #include "shared/runtime_dispatch.h"
 #include "shared/object_flags.h"
@@ -70,21 +71,20 @@ void initialize_hardware_and_game_state(void)
     reset_game_state_preserving_session_fields();
 
     {
-        u8 *config_base = (u8 *)0x80010000;
         u32 config_word = 0x2A080808;
         u8 config_byte4, config_byte6;
 
-        *(u32 *)(config_base + 0x3180) = config_word; /* D_80013180 */
+        GAME_STATE->options.option_color = config_word; /* D_80013180 */
         *(u32 *)0x80081494 = config_word;
         config_byte4 = 0x20;
-        *(config_base + 0x3184) = config_byte4; /* D_80013184 */
+        GAME_STATE->options.unk_3184 = config_byte4; /* D_80013184 */
         *(u8 *)0x800814AC = config_byte4;
         config_byte6 = 3;
-        *(config_base + 0x3186) = config_byte6; /* D_80013186 */
+        GAME_STATE->options.unk_3186 = config_byte6; /* D_80013186 */
         *(u8 *)0x800814A4 = config_byte6;
-        *(s16 *)(config_base + 0x2094) = 5;   /* D_80012094 */
-        *(config_base + 0x2D6E) = 0;    /* D_80012D6E */
-        *(s16 *)(config_base + 0x2098) = 2;   /* D_80012098 */
+        GAME_STATE->familiar_direction[0] = 5;   /* D_80012094 */
+        GAME_STATE->message_speed = 0;    /* D_80012D6E */
+        GAME_STATE->familiar_ai_mode[0] = 2;   /* D_80012098 */
     }
     build_cubic_cumulative_table();
 

@@ -41,7 +41,7 @@ void move_boss_actor_to_tile(ActorRecord *action, ObjectPosition *motion, Sprite
     switch (action->action_phase) {
     case 0:
         action->action_state_flags = (u16) (action->action_state_flags | 8);
-        entity->flags1C = (s32) (entity->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
+        entity->flags1C = (entity->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
         action->unk_9E = 5;
         action->unk_A4.value = 0;
         action->action_phase = (u8) (action->action_phase + 1);
@@ -72,7 +72,7 @@ void move_boss_actor_to_tile(ActorRecord *action, ObjectPosition *motion, Sprite
         if ((next_frame << 0x10) < 0) {
             action->unk_90.value = 0;
             action->action_state_flags = (u16) (action->action_state_flags & 0xFFF7);
-            entity->flags1C = (s32) (entity->flags1C | ACTOR_GROUNDED);
+            entity->flags1C = (entity->flags1C | ACTOR_GROUNDED);
             action->action_phase = (u8) (action->action_phase + 1);
         }
                         /* fall through */

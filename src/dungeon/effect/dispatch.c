@@ -978,7 +978,7 @@ typedef struct ScratchDepth {
 
 /* Draws sprite parts as a 4-by-4 grid of textured quads, invoking custom part callbacks. */
 void draw_sprite_parts_as_quad_grid(ActorRecord *context, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias) {
-    SpriteQuadScratch *scratch = (SpriteQuadScratch *)0x1F800000;
+    SpriteQuadScratch *scratch = SPRITE_SCRATCH;
     GpuContext *state;
     GameWork *render_globals;
     POLY_FT4 *packet_next;
@@ -1048,7 +1048,7 @@ void draw_sprite_parts_as_quad_grid(ActorRecord *context, ObjectPosition *positi
 
     render_globals = &g_game_work;
     state = g_game_work.draw_buffer;
-    scratch->local_matrix.t[2] = 0;
+    scratch->matrix_D0.t[2] = 0;
     scratch->vertices[3].vz = 0;
     scratch->vertices[2].vz = 0;
     scratch->vertices[1].vz = 0;
@@ -1080,21 +1080,21 @@ void draw_sprite_parts_as_quad_grid(ActorRecord *context, ObjectPosition *positi
         scratch->angles.vy = (s16)((((u16)scratch->input.vz + 0x100) & 0x1FF)
             + (angle_offset = (s32)sprite->angle_y - 0x100));
         origin_x = sprite->offset_x;
-        scratch->local_matrix.t[0] = origin_x;
+        scratch->matrix_D0.t[0] = origin_x;
         scratch->extent_x = origin_x;
     /* MATCH: retain these views for production byte identity. */
         origin_y = (*(u16 *)((u8 *)sprite + 0x22));
-        scratch->local_matrix.t[1] = origin_y;
+        scratch->matrix_D0.t[1] = origin_y;
         scratch->extent_y = origin_y;
-        RotMatrix(&scratch->angles, &scratch->local_matrix);
+        RotMatrix(&scratch->angles, &scratch->matrix_D0);
     /* MATCH: retain these views for production byte identity. */
         scratch->input.vx = sprite->scale_x;
         scratch->input.vy = *(u16 *)((u8 *)sprite + 0x1E);
         scratch->input.vz = 0;
-        ScaleMatrix(&scratch->local_matrix, &scratch->input);
-        CompMatrix((MATRIX *)matrix_or_u, &scratch->local_matrix, &scratch->matrix);
-        SetTransMatrix(&scratch->matrix);
-        SetRotMatrix(&scratch->matrix);
+        ScaleMatrix(&scratch->matrix_D0, &scratch->input);
+        CompMatrix((MATRIX *)matrix_or_u, &scratch->matrix_D0, &scratch->matrix_50);
+        SetTransMatrix(&scratch->matrix_50);
+        SetRotMatrix(&scratch->matrix_50);
         sprite_flags = sprite->flags;
         part = sprite->source;
         scratch->sprite_flags = (u16)sprite_flags;

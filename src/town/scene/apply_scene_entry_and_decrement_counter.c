@@ -4,13 +4,14 @@
 #include "town/scene/state_data.h"
 #include "town/scene/position_entries.h"
 #include "town/scene/flags.h"
+#include "town/scene.h"
 
 void decrement_entry_counter_if_flag(void);                            /* extern */
 extern ScenePositionEntry D_80018B28;
 extern s32 D_80018E38;
 
 /* Runs the operation and invokes the fallback when both checks return zero. */
-s32 apply_scene_entry_and_decrement_counter(void *input, s32 unused, s32 aux_input) {
+s32 apply_scene_entry_and_decrement_counter(TownObjectSet *input, s32 unused, s32 aux_input) {
     s32 result;
 
     result = apply_entry_position(&D_80018B28, &D_80018E38, input, aux_input);

@@ -2,9 +2,10 @@
 #include "town/player.h"
 #include "town/scene/flags.h"
 #include "town/scene/record_actions.h"
+#include "town/scene.h"
 
 /* Dispatches by status, converting the fallback handler result to a boolean. */
-s32 apply_entry_values_by_enabled_weight(Rec_func_800165F4_arg0 *row, s32 entry_index) {
+s32 apply_entry_values_by_enabled_weight(TownObjectSet *row, s32 entry_index) {
     s32 result;
 
     if (sum_enabled_record_weights() >= 2) {

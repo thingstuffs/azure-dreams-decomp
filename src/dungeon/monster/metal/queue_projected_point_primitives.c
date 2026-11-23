@@ -1,10 +1,11 @@
 #include "dungeon/monster/metal/queue_projected_point_primitives.h"
+#include "dungeon/effect/shaded_quad_scratch.h"
 
 
 /* Adds projected point primitives and draw-mode packets to the ordering table. */
 s32 queue_projected_point_primitives_2(u8 *item_data, u16 *coords)
 {
-    PointTileScratch *scratch = (PointTileScratch *)0x1F800000;
+    ShadedQuadScratch *scratch = SHADED_QUAD_SCRATCH;
     void **globals = ((void * *)(&g_game_work));
     GpuContext *render_state = globals[0];
     TILE_1 *first_packet = render_state->packetCursor;

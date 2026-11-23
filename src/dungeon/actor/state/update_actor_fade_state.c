@@ -58,7 +58,7 @@ void update_actor_fade_state(ActorRecord *state, void *unused, S_800D34CC_2 *dat
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             break;
         }
-        entity->flags1C = (s32) (entity->flags1C | 0x10000000);
+        entity->flags1C = (entity->flags1C | 0x10000000);
         play_sound_if_enabled(0x805);
         data->unk_0C.at00.v = 0x808080;
         state->action_timer = 0x10;

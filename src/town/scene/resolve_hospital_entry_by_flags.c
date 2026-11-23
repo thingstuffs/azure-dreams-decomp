@@ -1,13 +1,14 @@
 #include "script_symbols.h"
 #include "town/player/script_flags.h"
 #include "town/scene/position_entries.h"
+#include "town/scene.h"
 
 extern ScenePositionEntry D_80017ED4[];
 extern ScenePositionEntry D_80017EDC[];
 extern ScenePositionEntry D_80017EE4[];
 extern u8 D_80017FA8[];
 
-s32 resolve_hospital_entry_by_flags(void *context, s32 unused, s32 selection) {
+s32 resolve_hospital_entry_by_flags(TownObjectSet *context, s32 unused, s32 selection) {
     if (get_script_flag_mask(F_shospital_first)) {
         if (get_script_flag_mask(F_shospital_build)) {
             return apply_entry_position(D_80017EE4, D_80017FA8, context, selection);

@@ -1,3 +1,4 @@
+#include "dungeon/level/tile_flags.h"
 #include "sdk/libgpu_types.h"
 #include "shared/audio_commands.h"
 /* Moving radial effects, their line geometry, and timed brightness changes. */

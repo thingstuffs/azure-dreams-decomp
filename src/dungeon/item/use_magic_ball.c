@@ -167,7 +167,7 @@ scan_next:
         object->target_tile_y = abs(object->target_tile_y);
 
         if (data->unk_03 & 0x20) {
-            if (create_actor_spell_effect(object, ((u8 *)object) + 8, 0,
+            if (create_actor_spell_effect(object, &object->abilities[0].id, 0,
                               ((u8 *)dungeon_actor_ring_anchor) + 0x98) == 0) {
                 return 0;
             }

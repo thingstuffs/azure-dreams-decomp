@@ -25,7 +25,7 @@ extern u8 D_80088CA8[];
 u8 *append_item_reveal_text(Object *object, u8 *input_value) {
     u8 *result = input_value;
 
-    if (!(((u32)dungeon_actor_ring_anchor->flags1C) & ACTOR_BLIND)) {
+    if (!((dungeon_actor_ring_anchor->flags1C) & ACTOR_BLIND)) {
         if ((object->flags & 0x80) || get_item_category_flags(object)) {
             result = expand_text_control_codes(
                 D_800E18C0,

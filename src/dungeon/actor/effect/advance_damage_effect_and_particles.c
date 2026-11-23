@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "dungeon/actor/effect.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
@@ -175,7 +176,7 @@ void advance_damage_effect_and_particles(S_800CABA8_0 *effect, ObjectPosition *c
         advance_status_timers(actor_state);
         cycles_left = effect->unk_B6 - 1;
         effect->unk_B6 = cycles_left;
-        if ((cycles_left << 0x10) <= 0 || ((*(u16 *)0x80013714) & 8)) {
+        if ((cycles_left << 0x10) <= 0 || ((GAME_STATE->log.head.flags) & 8)) {
             set_actor_action_state_eight(effect, context, record);
         } else {
             effect->unk_8C = &actor_motion_resume_address;

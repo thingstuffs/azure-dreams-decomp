@@ -19,27 +19,6 @@ typedef struct LocalWork {
     u16 delta[3];
 } LocalWork;
 
-typedef struct S_81087818_1 {
-    u8 pad_00[8];
-    void *unk_08;
-    u8 pad_0C[8];
-    u16 unk_14;
-    u8 pad_16[0x16];
-    void *unk_2C;
-    u8 pad_30[0x78];
-    s16 unk_A8;
-    s16 unk_AA;
-    s16 unk_AC;
-    u8 unk_AE;
-} S_81087818_1;
-
-typedef struct S_81087818_2 {
-    u8 pad_00[0x2A];
-    union { s16 s; u16 u; } unk_2A;
-    u8 pad_2C[0x34];
-    void *unk_60;
-} S_81087818_2;
-
 
 typedef struct S_81087818_4 {
     u8 pad_00[2];
@@ -76,9 +55,9 @@ void update_line_effect_toward_target(RandomizedOffsetObjectBody *motion, Vec3Wo
     base = *motion->unk_44;
     delta[0] = delta[1] = delta[2] = 0;
     {
-        S_81087818_1 *actor = motion->unk_48;
-        if ((actor->unk_14 & 0x9FFF) == 0 &&
-            resolve_record_orientation_or_fallback(actor->unk_08, actor, delta, 3) != 0) {
+        SpriteFrameState *sprite = motion->unk_48;
+        if ((sprite->flags & 0x9FFF) == 0 &&
+            resolve_record_orientation_or_fallback(sprite->source, sprite, delta, 3) != 0) {
             ((S_81087818_4 *)&base)->unk_02.u += delta[0];
             ((S_81087818_4 *)&base)->unk_06.u += delta[1];
             ((S_81087818_4 *)&base)->unk_0A.u += delta[2];
@@ -97,7 +76,7 @@ void update_line_effect_toward_target(RandomizedOffsetObjectBody *motion, Vec3Wo
     case 0:
     {
         ActorRecord *actor = motion->unk_40;
-        S_81087818_2 *source;
+        ActorRecord *source;
                 s32 base_y;
         s32 distance_x;
         u32 direction_offset;
@@ -110,7 +89,7 @@ void update_line_effect_toward_target(RandomizedOffsetObjectBody *motion, Vec3Wo
         case 1:
             source = motion->unk_4C;
             tile_x = actor->unk_A8;
-            direction_offset = (source->unk_2A.u >> 8) & 0xE;
+            direction_offset = (source->facing >> 8) & 0xE;
             direction_table = dir_step_x;
             motion->unk_28.half.unk_2A =
                 (tile_x * 64) +
@@ -153,11 +132,11 @@ void update_line_effect_toward_target(RandomizedOffsetObjectBody *motion, Vec3Wo
             s32 height;
             s32 position_z;
 
-            node = ((S_81087818_2 *)motion->unk_4C)->unk_60;
+            node = motion->unk_4C->target;
             x_distance = (s32)NODE_HEADER(node)->position;
             motion->unk_28.word = ((s32 *)x_distance)[0];
             motion->unk_2C.word = ((s32 *)x_distance)[1];
-            height = entity_height_offsets[((ActorRecord *)((S_81087818_2 *)motion->unk_4C)->unk_60)->species];
+            height = entity_height_offsets[((ActorRecord *)motion->unk_4C->target)->species];
             position_z = ((s32 *)x_distance)[2];
             x_distance = motion->unk_28.half.unk_2A;
             motion->unk_30.word = position_z - (height << 15);
@@ -284,9 +263,9 @@ void update_line_effect_toward_target(RandomizedOffsetObjectBody *motion, Vec3Wo
             {
                 ActorRecord *actor = motion->unk_40;
                 if (actor->unk_AC.bytes[2] == 2) {
-                    S_81087818_2 *source = motion->unk_4C;
+                    ActorRecord *source = motion->unk_4C;
                     resolve_attack_damage_and_effects(source, motion->unk_48,
-                                  source->unk_2A.s, actor->unk_AC.halves.low.s);
+                                  source->facing, actor->unk_AC.halves.low.s);
                 }
             }
             trajectory->dx = (base.x - trajectory->x) >> (motion->unk_04.s + 1);
@@ -316,12 +295,12 @@ void update_line_effect_toward_target(RandomizedOffsetObjectBody *motion, Vec3Wo
         trajectory->y = base.y;
         trajectory->z = base.z;
         {
-            S_81087818_1 *actor = motion->unk_48;
-            u16 flags = actor->unk_14;
+            SpriteFrameState *sprite = motion->unk_48;
+            u16 flags = sprite->flags;
             if (!(flags & 0x800)) {
                 break;
             }
-            actor->unk_14 = flags & 0xF7FF;
+            sprite->flags = flags & 0xF7FF;
         }
         motion->unk_00.u++;
         motion->unk_02.u = 0;
@@ -329,13 +308,13 @@ void update_line_effect_toward_target(RandomizedOffsetObjectBody *motion, Vec3Wo
 
     case 4:
     {
-        S_81087818_1 *actor = motion->unk_48;
-        if (actor->unk_2C != golem_frame_set_1) {
+        SpriteFrameState *sprite = motion->unk_48;
+        if (sprite->frameTable != golem_frame_set_1) {
             (*(u16 *)((u8 *)motion - 2)) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
-        actor->unk_14 &= 0xF7FF;
+        sprite->flags &= 0xF7FF;
         trajectory->x = base.x;
         trajectory->y = base.y;
         trajectory->z = base.z;

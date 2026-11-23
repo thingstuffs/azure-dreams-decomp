@@ -1,4 +1,5 @@
 #include "shared/object_node_flags.h"
+#include "engine/graphics/sprite_scratch.h"
 #include "shared/object_links.h"
 #include "shared/gpu_packets.h"
 /* Direction-selection menu animation, preview objects, and terrain rendering. */
@@ -1354,12 +1355,12 @@ s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_posi
  */
 void render_camera_facing_sprite(ObjectPosition *position, SpriteFrameState *sprite, s16 call_mode, s32 call_extra)
 {
-    s16 *scratch = (s16 *)0x1F800000;
+    SpriteQuadScratch *scratch = SPRITE_SCRATCH;
     GameWork *g = &g_game_work;
 
-    scratch[0x104 / 2] = 0;
-    scratch[0x100 / 2] = -((u16)g->view.camera_rotation.parts.camera_rotation_x);
-    scratch[0x102 / 2] = -((u16)g->view.camera_rotation.parts.camera_rotation_y);
+    scratch->angles.vz = 0;
+    scratch->angles.vx = -((u16)g->view.camera_rotation.parts.camera_rotation_x);
+    scratch->angles.vy = -((u16)g->view.camera_rotation.parts.camera_rotation_y);
     render_projected_sprite_with_depth_bias(position, sprite, call_mode, call_extra);
 }
 

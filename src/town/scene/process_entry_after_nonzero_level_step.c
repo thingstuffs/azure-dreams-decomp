@@ -3,7 +3,7 @@
 #include "town/player.h"
 void func_80016A78(void);
 /* Run the optional pre-step when the guard passes, then the main step. */
-void process_entry_after_nonzero_level_step(s32 target, s32 param)
+void process_entry_after_nonzero_level_step(TownObjectSet *target, s32 param)
 {
     if (get_town_state_count() != 0) {
         func_80016A78();

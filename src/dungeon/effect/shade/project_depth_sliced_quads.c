@@ -17,7 +17,7 @@
 /* Project depth-sliced quads and link visible packets into the ordering table. */
 void project_depth_sliced_quads(void *geometry, ObjectPosition *position, SpriteFrameState *render_state, s16 depth_bias)
 {
-    ShadedQuadScratch *scratch = (ShadedQuadScratch *)0x1F800000;
+    ShadedQuadScratch *scratch = SHADED_QUAD_SCRATCH;
     u8 **render_context = (u8 **)((u8 *)(&g_game_work));
     POLY_F4 *packet;
     s32 ot_index;

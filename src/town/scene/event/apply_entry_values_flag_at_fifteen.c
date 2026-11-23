@@ -2,7 +2,7 @@
 #include "town/scene.h"
 #include "town/scene/flags.h"
 
-s32 apply_entry_values_flag_at_fifteen(SquareSceneEntry *entry, s32 entry_index) {
+s32 apply_entry_values_flag_at_fifteen(TownObjectSet *entry, s32 entry_index) {
     if (get_town_state_count() >= 15) {
         set_current_entry_script_flag();
     }

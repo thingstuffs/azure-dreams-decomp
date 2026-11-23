@@ -23,7 +23,7 @@ void run_saved_actor_action(ActorRecord *object_arg, void *unused, SpriteFrameSt
     object->action_phase = 0;
     object->unk_8C.word = 0;
     if (!(generate_random_value() & 3)) {
-        saved->flags1C = (s32) (saved->flags1C & ~0x620);
+        saved->flags1C = (saved->flags1C & ~0x620);
     }
     table = actor_alternate_frames;
     saved2->frameTable = table;

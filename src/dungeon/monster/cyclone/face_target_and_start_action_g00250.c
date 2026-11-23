@@ -1,3 +1,4 @@
+#include "dungeon/level/tile_flags.h"
 #include "shared/entity.h"
 /* Faces the target or searches ahead before starting the actor's action. */
 #include "dungeon/monster/cyclone/face_target_and_start_action_g00250.h"

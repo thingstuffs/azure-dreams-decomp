@@ -4,12 +4,13 @@
 #include "town/player/state.h"
 #include "town/scene/motion.h"
 #include "town/data.h"
+#include "town/scene.h"
 
 extern M2C_UNK D_80018EF4;
 extern M2C_UNK D_80018F0C;
 
 /* Selects data based on the 0xFB1 check and forwards it with the caller's parameters. */
-void apply_naoruru_hospital_position(s32 callerValue, s32 unused, s32 callerData) {
+void apply_naoruru_hospital_position(TownObjectSet *callerValue, s32 unused, s32 callerData) {
 
     set_script_flag_bit(Ft_nyu);
     if (get_script_flag_mask(Fr_hospital_naoruru) == 0) {

@@ -75,7 +75,7 @@ void cast_cyclone_targeted_spell(ActorRecord *anim, ObjectPosition *transform_ar
     is_special = 0;
     switch (state) {
     case 0:
-        if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
+        if ((actor->flags1C) & ACTOR_PLAYER_SIDE) {
             s32 effect_kind;
 
             effect_kind = actor->action_flags & ACTOR_ACTION_CODE_MASK;
@@ -83,17 +83,17 @@ void cast_cyclone_targeted_spell(ActorRecord *anim, ObjectPosition *transform_ar
             case 7:
                 is_special = 1;
             case 3:
-                effect_id = (u8 *)actor + 0xE;
+                effect_id = &actor->abilities[2].id;
                 break;
             case 6:
                 is_special = 1;
             case 2:
-                effect_id = (u8 *)actor + 0xB;
+                effect_id = &actor->abilities[1].id;
                 break;
             case 5:
                 is_special = 1;
             case 1:
-                effect_id = (u8 *)actor + 8;
+                effect_id = &actor->abilities[0].id;
                 break;
             default:
                 effect_id = 0;
@@ -105,13 +105,13 @@ void cast_cyclone_targeted_spell(ActorRecord *anim, ObjectPosition *transform_ar
             effect_kind = actor->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (effect_kind) {
             case 3:
-                effect_id = (u8 *)actor + 0xE;
+                effect_id = &actor->abilities[2].id;
                 break;
             case 2:
-                effect_id = (u8 *)actor + 0xB;
+                effect_id = &actor->abilities[1].id;
                 break;
             case 1:
-                effect_id = (u8 *)actor + 8;
+                effect_id = &actor->abilities[0].id;
                 break;
             default:
                 effect_id = 0;

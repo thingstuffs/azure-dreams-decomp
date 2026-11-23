@@ -45,7 +45,7 @@ void update_path_with_alternate_directions(ActorRecord *move_ctx_in, ObjectPosit
     ActorRecord *blocker;
 
     if ((dungeon_flags & 0x4000) || (s8)actor_in->movement_queue_state >= 0) {
-        if (actor_in->unk_12 >= 2 ||
+        if (actor_in->ai_mode >= 2 ||
             (s16)try_dragon_attack(move_ctx_in, action_ctx, position_in, actor_in) == 0) {
             update_actor_status_and_mp(actor_in);
             return;

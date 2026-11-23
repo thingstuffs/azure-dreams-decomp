@@ -8,7 +8,7 @@
 #include "town/scene/event.h"
 
 /* Updates the current town entry and clears its state on a nonzero result or global state 1. */
-s32 update_entry_state_and_clear(void *object, s32 entry_index)
+s32 update_entry_state_and_clear(TownObjectSet *object, s32 entry_index)
 {
     s32 update_result;
     u8 entry_state;

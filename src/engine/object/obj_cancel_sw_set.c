@@ -59,7 +59,7 @@ s32 draw_linked_sprite_nodes(u8 *first_node, ObjectPosition *first_transform, Sp
     s32 third_visible;
     s32 corner_visible;
     s32 context_flags;
-    s32 prim_cursor;
+    u8 *prim_cursor;
     s32 sum_u;
     s32 sum_v;
     s32 bottom_v_bits;
@@ -79,25 +79,25 @@ s32 draw_linked_sprite_nodes(u8 *first_node, ObjectPosition *first_transform, Sp
 
     render_disabled = object_render_cancel_switch;
     state_ptr = D_80083160;
-    scratch = (SpriteLinkedScratch *)0x1F800000;
+    scratch = LINKED_SPRITE_SCRATCH;
     if (render_disabled != 0) {
         return 0;
     }
 
-    matrix = (void *)0x1F800054;
-    translation = (void *)0x1F800044;
-    work_matrix = (void *)0x1F8000C8;
+    matrix = &scratch->matrix.rotation_row0_xy;
+    translation = &scratch->translation.vx;
+    work_matrix = &scratch->work_matrix.m[0][0];
 
     render_state = D_80083160[0];
-    prim_cursor = S32_AT(render_state, 0x8D0);
-    scratch->ordering_table = (u32)(render_state + 0x70);
+    prim_cursor = PTR_AT(render_state, 0x8D0);
+    scratch->ordering_table = (u32 *)(render_state + 0x70);
     scratch->input.vz = 0x1000;
     scratch->translation.vz = 0;
     scratch->vertices[3].vz = 0;
     scratch->vertices[2].vz = 0;
     scratch->vertices[1].vz = 0;
     scratch->vertices[0].vz = 0;
-    scratch->primitive_cursor = prim_cursor;
+    scratch->packet_cursor = prim_cursor;
     PushMatrix();
 
     while (1) {
@@ -164,8 +164,8 @@ s32 draw_linked_sprite_nodes(u8 *first_node, ObjectPosition *first_transform, Sp
         if (sprite_data != 0) {
             sprite = sprite_data + 1;
 sprite_loop:
-            primitive = (u8 *)scratch->primitive_cursor;
-            scratch->primitive_cursor = (s32)(primitive + 0x28);
+            primitive = scratch->packet_cursor;
+            scratch->packet_cursor = primitive + 0x28;
 
             coord = *(volatile u8 *)(sprite + 0x7);
             left_u = U8_AT(sprite, 0x7);
@@ -347,11 +347,11 @@ sprite_loop:
             }
         }
 
-        S32_AT(state_ptr[0], 0x8D0) = scratch->primitive_cursor;
+        PTR_AT(state_ptr[0], 0x8D0) = scratch->packet_cursor;
         if (callback != 0) {
             callback(node);
         }
-        scratch->primitive_cursor = S32_AT(state_ptr[0], 0x8D0);
+        scratch->packet_cursor = PTR_AT(state_ptr[0], 0x8D0);
 
         next_node = NODE_HEADER(node)->chain_next;
         node = NODE_BODY(next_node);
@@ -363,6 +363,6 @@ sprite_loop:
     }
 
     PopMatrix();
-    S32_AT(state_ptr[0], 0x8D0) = scratch->primitive_cursor;
+    PTR_AT(state_ptr[0], 0x8D0) = scratch->packet_cursor;
     return 0;
 }

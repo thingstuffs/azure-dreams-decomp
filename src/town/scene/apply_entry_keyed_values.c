@@ -8,13 +8,14 @@
  * Finds the eight-byte entry by key, uses its selector to index the resource table, and submits
  * the first three halfwords to update_dependent_entry_ids.
  */
-void apply_entry_keyed_values(ScenePositionEntry *entryTable, void *resource, s32 entryKey) {
+void apply_entry_keyed_values(ScenePositionEntry *entryTable, TownObjectSet *resource, s32 entryKey) {
     s32 selector;
-    u8 *table;
-    s16 *valueRecord;
+    const TownFlagDependency *valueRecord;
+    TownFlagDependency *table;
 
     selector = entryTable[find_eight_byte_entry_or_assert(entryTable, entryKey)].selector;
-    table = *(u8 **)((u8 *)resource + 0x14);
-    valueRecord = (s16 *)(selector * 8 + (unsigned long)table);
-    update_dependent_entry_ids(valueRecord[0], valueRecord[1], valueRecord[2]);
+    table = resource->flag_dependencies;
+    /* BYTES: Keep the dependency base lw before the selector sll. */
+    valueRecord = (const TownFlagDependency *)(selector * 8 + (unsigned long)table);
+    update_dependent_entry_ids(valueRecord->source_flag, valueRecord->clear_flag, valueRecord->target_flag);
 }

@@ -44,7 +44,7 @@ void settle_directional_actor_motion(ActorRecord *body, ObjectPosition *motion, 
             return;
         }
 
-        if (((u32)actor->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+        if ((actor->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         } else {
             timer = -1;

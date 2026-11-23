@@ -55,7 +55,7 @@ void update_death_motion_and_facing(ActorRecord *body, ObjectPosition *motion, S
         return;
     }
 
-    old_state_byte = (*((u8 *)body + 0x6D));
+    old_state_byte = (body->pending_turn_updates);
     old_state = (s8)old_state_byte;
     if (refresh_actor_facing_and_lifecycle(body, motion, sprite, body) != 0) {
         return;

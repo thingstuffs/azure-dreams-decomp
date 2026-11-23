@@ -12,7 +12,7 @@ extern char D_80018042[];
 extern char D_800182CA[];
 
 /* Resolve the scene entry, using its alternate text when its flag is set. */
-char *resolve_scene_entry_text(void *context, s32 unused, s32 selection)
+char *resolve_scene_entry_text(TownObjectSet *context, s32 unused, s32 selection)
 {
     char *result;
     u8 *entries = D_8001759C;

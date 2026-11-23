@@ -447,7 +447,7 @@ void advance_actor_stored_path(ActorRecord *motion, ObjectPosition *update_param
     old_x = entity->tile_x;
     old_y = entity->tile_y;
     tile_mask = 0x3000;
-    if ((u32)(state->flags1C) & 0x2000) {
+    if ((state->flags1C) & 0x2000) {
         tile_mask = 0x300;
     }
     update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
@@ -469,7 +469,7 @@ void advance_actor_stored_path(ActorRecord *motion, ObjectPosition *update_param
     new_x = entity->tile_x;
     new_y = entity->tile_y;
     tile_mask = 0x3000;
-    if ((u32)(state->flags1C) & 0x2000) {
+    if ((state->flags1C) & 0x2000) {
         tile_mask = 0x300;
     }
     cycle_map_cell_flags(new_x, new_y, tile_mask);
@@ -498,7 +498,7 @@ void advance_actor_stored_path(ActorRecord *motion, ObjectPosition *update_param
     }
 
     motion->unk_8C.word = 0;
-    state->flags1C = (u32)((u32)(state->flags1C) | (0x40000000));
+    state->flags1C = ((state->flags1C) | (0x40000000));
     if (g_dungeon_status.flags & 0x80) {
         motion->action_timer = 0;
         return;
@@ -529,7 +529,7 @@ void choose_and_step_actor_path(ActorRecord *move_data, ObjectPosition *context,
     EntityRec *blocker;
 
     if ((dungeon_flags & 0x4000) || (s8)actor_data->movement_queue_state >= 0) {
-        if (actor_data->unk_12 >= 2 ||
+        if (actor_data->ai_mode >= 2 ||
             (s16)try_begin_adjacent_actor_attack(move_data, context, position_data, actor_data) == 0) {
             update_actor_status_and_mp(actor_data);
             return;
@@ -914,7 +914,7 @@ void update_tile_movement_and_height(ActorRecord *action, ObjectPosition *motion
         map_entry->frameTable = D_801752CC;
         select_sprite_entry(map_entry, D_801752CC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         action->action_state_flags = (u16) (action->action_state_flags | 8);
-        actor->flags1C = (s32) (actor->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
+        actor->flags1C = (actor->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
         action->unk_9E = 5;
         action->unk_A0.value = 0;
         action->action_phase = (u8) (action->action_phase + 1);
@@ -953,20 +953,20 @@ void update_tile_movement_and_height(ActorRecord *action, ObjectPosition *motion
                     action->unk_90.value = (s32) (0xFFFE0000 - ((action->unk_A4.halves.high.s
                         - action->unk_A8) << 0x10));
                     flags_mask |= 0xFFFF;
-                    actor->flags1C = (s32) (actor->flags1C & flags_mask);
+                    actor->flags1C = (actor->flags1C & flags_mask);
                     break;
                 case 5:
                     flags_mask = 0xF7FF0000;
                     action->unk_90.value = (s32) (0 - ((action->unk_A4.halves.high.s
                         - action->unk_A8) << 0x10));
                     flags_mask |= 0xFFFF;
-                    actor->flags1C = (s32) (actor->flags1C & flags_mask);
+                    actor->flags1C = (actor->flags1C & flags_mask);
                     break;
                 case 4:
                     scaled_height_delta = (action->unk_A4.halves.high.s
                         - action->unk_A8) * 3;
                     action->unk_90.value = (s32) (0 - ((scaled_height_delta / 4) << 0x10));
-                    actor->flags1C = (s32) (actor->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
+                    actor->flags1C = (actor->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
                     break;
                 case 3:
                     action->unk_90.value = (s32) (0 - ((((action->unk_A4.halves.high.s
@@ -983,7 +983,7 @@ void update_tile_movement_and_height(ActorRecord *action, ObjectPosition *motion
         if (next_move_frame < 0) {
             action->unk_90.value = 0;
             action->action_state_flags = (u16) (action->action_state_flags & 0xFFF7);
-            actor->flags1C = (s32) (actor->flags1C | ACTOR_GROUNDED);
+            actor->flags1C = (actor->flags1C | ACTOR_GROUNDED);
             action->action_phase = (u8) (action->action_phase + 1);
         }
                         /* fall through */
@@ -1771,7 +1771,7 @@ void project_visible_effect_quad(CB_80173E40_S_80173E40_6 *body, ObjectPosition 
 {
     SpriteFrameState *render_info = render_info_arg;
     ObjectPosition *position = position_arg;
-    ShadedQuadScratch *scratch = (ShadedQuadScratch *)0x1F800000;
+    ShadedQuadScratch *scratch = SHADED_QUAD_SCRATCH;
     DR_MODE *mode;
     POLY_G4 *packet;
     u8 *texture;

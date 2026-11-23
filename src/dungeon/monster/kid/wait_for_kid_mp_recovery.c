@@ -77,7 +77,7 @@ void wait_for_kid_mp_recovery(ActorRecord *action, ObjectPosition *context, Spri
             sprite->frameTable = kid_frame_set_3;
             direction = (g_game_work.view.camera_rotation.parts.viewAngle + saved_entity->facing + 0x100) >> 9;
             select_sprite_entry(sprite, kid_frame_set_3[direction & 7], 0);
-            (*(u32 *)((u8 *)saved_entity + 0x1C)) |= 0x40000;
+            saved_entity->flags1C |= 0x40000;
             counter_state = (S_80173ED8_2 *)&g_dungeon_status.turn_scale;
             counter_state->unk_0A++;
             action->action_phase++;
@@ -98,12 +98,12 @@ void wait_for_kid_mp_recovery(ActorRecord *action, ObjectPosition *context, Spri
             return;
         }
 
-        if (((u32)saved_entity->flags1C) & ACTOR_PUSH_PENDING) {
+        if ((saved_entity->flags1C) & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(action, context, sprite, saved_entity);
             return;
         }
 
-        if (((u32)saved_entity->flags1C) & ACTOR_LIFTED) {
+        if ((saved_entity->flags1C) & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(action, context, sprite, saved_entity);
             action->unk_A8 = 0;
             func_80174218(action, context, sprite, saved_entity);

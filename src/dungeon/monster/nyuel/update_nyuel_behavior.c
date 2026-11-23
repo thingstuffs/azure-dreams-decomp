@@ -75,7 +75,7 @@ void update_nyuel_behavior(ActorRecord *entity, ObjectPosition *context, SpriteF
             entity->action_id = 0xDU;
             entity->action_phase = 1;
             entity->unk_8C.word = 0;
-            state->flags1C = (s32)(state->flags1C & 0xFFFBFFFF);
+            state->flags1C = (state->flags1C & 0xFFFBFFFF);
             sprite->color.c.b = 0x40;
             sprite->color.c.g = 0x40;
             sprite->color.c.r = 0x40;

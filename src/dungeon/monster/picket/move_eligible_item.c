@@ -1,5 +1,6 @@
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
+#include "shared/record_ptrs.h"
 #include "dungeon/system/random.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
@@ -11,7 +12,6 @@
 
 extern void clear_item_slot(void *, void *); /* Unprototyped: retail call passes more arguments than the callee reads */
 
-extern s32 dungeon_actor_ring_anchor[];
 extern s32 D_80162FE4[];
 
 typedef struct { s32 value; } ItemWord;
@@ -43,7 +43,7 @@ typedef struct { s32 value; } ItemWord;
     target = probe_directional_neighbor(actor, *(origin_bytes + 0x24), *(origin_bytes + 0x25),
                            actor_bytes->facing);
     if (target != NULL) {
-        if (target == (void *)dungeon_actor_ring_anchor[0]) {
+        if (target == dungeon_actor_ring_anchor) {
             if (has_item_theft_protection(target, target) != 0) {
                 return 0;
             }

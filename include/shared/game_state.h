@@ -4,7 +4,7 @@
 /* The resident game state block at 0x80010000, below the executable. One record tiles +0x0 .. +0x5C84; the
  * save file is the first 0x6000 bytes of it (0xC0 card units of 128 bytes), so the card image runs 0x37C bytes
  * past the cleared block (+0x5C84 .. +0x5FFF are written and checksummed but never accessed). The block is
- * reset by one bzero of 0x5C84 bytes; options, message speed and the first familiar direction and command
+ * reset by one bzero of 0x5C84 bytes; options, message speed and the first familiar direction and AI mode
  * survive the reset. In-block addresses are built with lui/ori, so every access spells the address as an integer
  * constant, never as a linked symbol (&game_state would assemble to addiu). */
 
@@ -102,7 +102,7 @@ typedef struct GameState {
     s32 ending_requested;         /* 0x208C set on floor 40 while resident bit 0xA2 (F_end_ending) is clear */
     s32 dungeon_mode_state;       /* 0x2090 */
     u16 familiar_direction[2];    /* 0x2094 */
-    u16 familiar_command[2];      /* 0x2098 */
+    u16 familiar_ai_mode[2];    /* 0x2098 */
     u16 fruit_counter_saved;      /* 0x209C */
     u16 fruit_counter;            /* 0x209E */
     u16 camera_depth_index;       /* 0x20A0 */

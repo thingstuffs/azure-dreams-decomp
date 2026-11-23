@@ -222,7 +222,6 @@ struct Source_827C *bind_sprite_resource_slot_record(struct Source_827C *source,
 /* --- v6 (maspsx LEAD 2 %lo-fold) --- */
 
 typedef struct { short a, b; } TableValuePair;
-extern TableValuePair D_80013564[];
 
 /* Finds the item data slot and clears both halfwords when the returned index is below 20. */
 void item_clear_recorded_category_pair(int first_value, int second_value)

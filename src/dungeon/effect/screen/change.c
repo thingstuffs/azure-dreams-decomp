@@ -156,9 +156,9 @@ void pass_quarter_damage_to_target(ActorRecord *body, ActorRecord *target) {
 
     type_data = *(u8 **)((s8 *)body + 0x50);
     if (type_data != NULL && *type_data == 0xB && !(generate_random_value() & 3)) {
-        amount = ((s32)(*(u16 *)((s8 *)body + 0x64) << 0x10)) >> 0x12;
+        amount = ((s32)((u16)body->hp_delta << 0x10)) >> 0x12;
         signed_amount = amount;
-        *(u16 *)((s8 *)target + 0x64) += amount;
+        target->hp_delta += amount;
         if (signed_amount != 0) {
             source_entity = *(void **)((s8 *)body - 0x14);
             target_entity = *(void **)((s8 *)target - 0x14);

@@ -21,8 +21,8 @@ s32 roll_sleep_effect(ActorRecord *record, s16 chance, s8 action)
     }
 
     value = generate_random_value() & 0xFFFF;
-    if (((u8)(record->luck)) != 0) {
-        divisor = ((u8)(record->luck));
+    if (((record->luck)) != 0) {
+        divisor = ((record->luck));
         remainder = value % divisor;
     } else {
         remainder = 0;

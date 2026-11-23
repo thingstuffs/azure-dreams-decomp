@@ -1,4 +1,5 @@
 #include "shared/dungeon_actor_callbacks.h"
+#include "shared/game_state.h"
 #include "dungeon/player/position.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -46,8 +47,8 @@ void advance_normal_tile_center_motion(void *entity, ObjectPosition *motion, Spr
 
     if (((Rec_func_8008ACDC_arg0 *)entity)->unk_A2 & 0x100) {
         frames_left = g_dungeon_status.movement_frames_left;
-        if (((*(u16 *)0x80013714 & 8) && frames_left == 3) ||
-            (!(*(u16 *)0x80013714 & 8) && frames_left == 6)) {
+        if (((GAME_STATE->log.head.flags & 8) && frames_left == 3) ||
+            (!(GAME_STATE->log.head.flags & 8) && frames_left == 6)) {
             begin_wake_nearby_monsters(entity, motion, sprite, facing);
             return;
         }

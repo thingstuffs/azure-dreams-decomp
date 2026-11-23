@@ -1,5 +1,6 @@
 #ifndef MODULE_DUNGEON_OVL_E0365C_H
 #define MODULE_DUNGEON_OVL_E0365C_H
+#include "dungeon/level/tile_flags.h"
 #include "engine/node/registration.h"
 struct SpriteFrameState;
 struct ObjectPosition;
@@ -537,7 +538,6 @@ s32 has_pending_actor_or_turn_action(void *unused_actor);
 struct S_80047738;
 
 extern s32 check_entity_interaction_compatibility();
-extern s32 check_layer_offset_height();
 extern s32 generate_random_value(void);
 extern void func_800A9A04(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);

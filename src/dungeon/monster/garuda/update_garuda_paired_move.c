@@ -387,7 +387,7 @@ place_actors:
         if (!(actor->action_state_flags & 0x2000)) {
             partner_actor->action_state_flags = (u16) (partner_actor->action_state_flags & 0xFFFB);
         }
-        entity->flags1C = (s32) (entity->flags1C | 0x40000000);
+        entity->flags1C = (entity->flags1C | 0x40000000);
         partner->unk_1C = (s32) (partner->unk_1C | 0x40000000);
         {
             s16 angle_or_duration;

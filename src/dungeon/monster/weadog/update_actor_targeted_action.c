@@ -61,19 +61,19 @@ void update_actor_targeted_action(ActorRecord *action, ObjectPosition *motion, S
                 use_player_target = 1;
                 /* fall through */
             case 2:
-                action_data = (u8 *)actor + 0xE;
+                action_data = &actor->abilities[2].id;
                 break;
             case 5:
                 use_player_target = 1;
                 /* fall through */
             case 1:
-                action_data = (u8 *)actor + 0xB;
+                action_data = &actor->abilities[1].id;
                 break;
             case 4:
                 use_player_target = 1;
                 /* fall through */
             case 0:
-                action_data = (u8 *)actor + 8;
+                action_data = &actor->abilities[0].id;
                 break;
             default:
                 action_data = 0;
@@ -83,13 +83,13 @@ void update_actor_targeted_action(ActorRecord *action, ObjectPosition *motion, S
             action_kind = actor->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (action_kind) {
             case 3:
-                action_data = (u8 *)actor + 0xE;
+                action_data = &actor->abilities[2].id;
                 break;
             case 2:
-                action_data = (u8 *)actor + 0xB;
+                action_data = &actor->abilities[1].id;
                 break;
             case 1:
-                action_data = (u8 *)actor + 8;
+                action_data = &actor->abilities[0].id;
                 break;
             default:
                 action_data = 0;

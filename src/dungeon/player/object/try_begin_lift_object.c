@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "shared/game_state.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
@@ -12,7 +13,6 @@
 #include "dungeon/system.h"
 
 extern u8 resident_globals_page[];
-
 extern s32 get_lift_target_at_tile(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern u8 D_800E0495[];
 
@@ -60,7 +60,7 @@ s32 try_begin_lift_object(S_8008C5C4_2 *action, void *unused, SpriteAnimationTab
                 action->unk_11C = target_result;
                 action->unk_124 = 0;
             } else {
-                mode = *(s32 *)0x80012090;
+                mode = GAME_STATE->dungeon_mode_state;
                 if (mode == 1) {
                     target_kind = ((ActorRecord *)target_result)->species;
                     if ((target_kind == 0x39) || (target_kind == 2)) {

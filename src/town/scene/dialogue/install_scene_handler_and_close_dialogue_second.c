@@ -4,6 +4,7 @@
 #include "town/scene/motion.h"
 #include "town/scene/flags.h"
 #include "town/scene/dialogue.h"
+#include "town/scene.h"
 
 extern ScenePositionEntry D_80017A18;
 extern u8 D_80017B5C[9];
@@ -11,13 +12,13 @@ extern u8 D_80018AE5[9];
 
 
 /* Selects a result for the context, applying an override when both checks pass. */
-void *select_response_if_entry_flag_set(void *context, s32 unused, s32 mode)
+void *select_response_if_entry_flag_set(TownObjectSet *context, s32 unused, s32 mode)
 {
     void *result;
 
     result = apply_entry_position(&D_80017A18, D_80017B5C, context, mode);
     if (query_referenced_flag_for_table_entry(&D_80017A18, context, mode) != 0) {
-        if (get_script_flag_mask(*(s16 *)((u8 *)context + 0x18)) != 0) {
+        if (get_script_flag_mask(context->entry_flag) != 0) {
             result = D_80018AE5;
         }
     }

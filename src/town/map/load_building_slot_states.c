@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "town/map.h"
 #include "town/menu/window.h"
 
@@ -14,8 +15,8 @@ void load_building_slot_states(void)
     source_record = town_building_slot_rectangles;
     page = (u8 *)0x80010000;
     for (entry_index = 0; entry_index < 0x22; entry_index++) {
-        page[0x33A4 + entry_index * 2] = source_record[entry_index].first_building_id;
-        page[0x33A5 + entry_index * 2] = source_record[entry_index].second_building_id;
+        GAME_STATE->building_slots[entry_index][0] = source_record[entry_index].first_building_id;
+        GAME_STATE->building_slots[entry_index][1] = source_record[entry_index].second_building_id;
     }
 
     entry_index = 0;

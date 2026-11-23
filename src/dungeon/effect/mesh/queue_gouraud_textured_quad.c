@@ -5,6 +5,7 @@
 #include "dungeon/effect/mesh.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
+#include "dungeon/effect/travel/cycle_seven_color_fade.h"
 
 typedef struct {
     u32 addr : 24;
@@ -13,10 +14,6 @@ typedef struct {
 
 typedef struct {
     u8 *ordering_table;
-    s32 ordering_index;
-    s16 input[20];
-    s32 values[16];
-    u16 output[8];
 } Scratch;
 
 typedef union {
@@ -42,6 +39,7 @@ s32 queue_gouraud_textured_quad(s32 color0, s32 color1, s32 color2, s32 color3) 
     Context *u_right;
     s16 texture_page;
     Scratch *scratch;
+    RadialBandQuadScratch *band;
     MeshEffectOrigin *offsets;
     u16 *screen0;
     u16 *screen1;
@@ -59,6 +57,7 @@ s32 queue_gouraud_textured_quad(s32 color0, s32 color1, s32 color2, s32 color3) 
     u_right = g_game_work.draw_buffer;
     vertex2 = (void *)0x300;
     scratch = (Scratch *)0x1F800000;
+    band = RADIAL_BAND_SCRATCH;
     scratch->ordering_table = (u8 *)u_right + 0xB0;
     quad = u_right->poly;
     u_right->poly = (Poly *)((u8 *)quad + 0x34);
@@ -66,10 +65,10 @@ s32 queue_gouraud_textured_quad(s32 color0, s32 color1, s32 color2, s32 color3) 
     quad->bytes[7] = 0x3E;
     vertex3 = (void *)0x100;
     texture_page = GetTPage(vertex0, vertex1, vertex2, vertex3);
-    screen0 = (u16 *)0x1F800070;
-    screen1 = (u16 *)0x1F800074;
-    screen2 = (u16 *)0x1F800078;
-    screen3 = (u16 *)0x1F80007C;
+    screen0 = &band->screen[0].x;
+    screen1 = &band->screen[1].x;
+    screen2 = &band->screen[2].x;
+    screen3 = &band->screen[3].x;
     quad->halfwords[0x1A / 2] = texture_page;
     quad->halfwords[0xE / 2] = 0x7DCF;
     quad->bytes[0xC] = 0xC0;
@@ -93,37 +92,37 @@ s32 queue_gouraud_textured_quad(s32 color0, s32 color1, s32 color2, s32 color3) 
     quad->bytes[0x1E] = (u8)color2;
     quad->bytes[0x2A] = (u8)color3;
     offsets = effect_position_source;
-    scratch->input[4] = (s16)((scratch->values[0] + offsets->x.v) >> 0x10);
-    scratch->input[8] = (s16)((scratch->values[4] + offsets->x.v) >> 0x10);
-    depth_cue = (void *)0x1F800008;
-    scratch->input[12] = (s16)((scratch->values[8] + offsets->x.v) >> 0x10);
-    scratch->input[16] = (s16)((scratch->values[12] + offsets->x.v) >> 0x10);
-    transform_flags = (void *)0x1F80000C;
-    scratch->input[5] = (s16)((scratch->values[1] + offsets->y.v) >> 0x10);
-    scratch->input[9] = (s16)((scratch->values[5] + offsets->y.v) >> 0x10);
-    vertex0 = (void *)0x1F800010;
-    scratch->input[13] = (s16)((scratch->values[9] + offsets->y.v) >> 0x10);
-    scratch->input[17] = (s16)((scratch->values[13] + offsets->y.v) >> 0x10);
-    vertex1 = (void *)0x1F800018;
-    scratch->input[6] = (s16)((scratch->values[2] + offsets->z.v) >> 0x10);
-    scratch->input[10] = (s16)((scratch->values[6] + offsets->z.v) >> 0x10);
-    vertex2 = (void *)0x1F800020;
-    scratch->input[14] = (s16)((scratch->values[10] + offsets->z.v) >> 0x10);
-    scratch->input[18] = (s16)((scratch->values[14] + offsets->z.v) >> 0x10);
-    vertex3 = (void *)0x1F800028;
-    scratch->ordering_index = RotAverage4(vertex0, vertex1, vertex2, vertex3, screen0, screen1, screen2, screen3,
+    band->vertices[0].vx = (s16)((band->positions[0].vx + offsets->x.v) >> 0x10);
+    band->vertices[1].vx = (s16)((band->positions[1].vx + offsets->x.v) >> 0x10);
+    depth_cue = &band->depth_cue;
+    band->vertices[2].vx = (s16)((band->positions[2].vx + offsets->x.v) >> 0x10);
+    band->vertices[3].vx = (s16)((band->positions[3].vx + offsets->x.v) >> 0x10);
+    transform_flags = &band->gte_flag;
+    band->vertices[0].vy = (s16)((band->positions[0].vy + offsets->y.v) >> 0x10);
+    band->vertices[1].vy = (s16)((band->positions[1].vy + offsets->y.v) >> 0x10);
+    vertex0 = &band->vertices[0];
+    band->vertices[2].vy = (s16)((band->positions[2].vy + offsets->y.v) >> 0x10);
+    band->vertices[3].vy = (s16)((band->positions[3].vy + offsets->y.v) >> 0x10);
+    vertex1 = &band->vertices[1];
+    band->vertices[0].vz = (s16)((band->positions[0].vz + offsets->z.v) >> 0x10);
+    band->vertices[1].vz = (s16)((band->positions[1].vz + offsets->z.v) >> 0x10);
+    vertex2 = &band->vertices[2];
+    band->vertices[2].vz = (s16)((band->positions[2].vz + offsets->z.v) >> 0x10);
+    band->vertices[3].vz = (s16)((band->positions[3].vz + offsets->z.v) >> 0x10);
+    vertex3 = &band->vertices[3];
+    band->ot_index = RotAverage4(vertex0, vertex1, vertex2, vertex3, screen0, screen1, screen2, screen3,
         depth_cue, transform_flags);
-    quad->halfwords[8 / 2] = scratch->output[0];
-    quad->halfwords[0xA / 2] = scratch->output[1];
-    quad->halfwords[0x14 / 2] = scratch->output[2];
-    quad->halfwords[0x16 / 2] = scratch->output[3];
-    quad->halfwords[0x20 / 2] = scratch->output[4];
-    quad->halfwords[0x22 / 2] = scratch->output[5];
-    quad->halfwords[0x2C / 2] = scratch->output[6];
-    quad->halfwords[0x2E / 2] = scratch->output[7];
-    if ((u32)scratch->ordering_index < 0x1E0U) {
-        ((Tag *)quad)->addr = ((Tag *)((u32 *)scratch->ordering_table + scratch->ordering_index))->addr;
-        ((Tag *)((u32 *)scratch->ordering_table + scratch->ordering_index))->addr = (u32)quad;
+    quad->halfwords[8 / 2] = band->screen[0].x;
+    quad->halfwords[0xA / 2] = band->screen[0].y;
+    quad->halfwords[0x14 / 2] = band->screen[1].x;
+    quad->halfwords[0x16 / 2] = band->screen[1].y;
+    quad->halfwords[0x20 / 2] = band->screen[2].x;
+    quad->halfwords[0x22 / 2] = band->screen[2].y;
+    quad->halfwords[0x2C / 2] = band->screen[3].x;
+    quad->halfwords[0x2E / 2] = band->screen[3].y;
+    if (band->ot_index < 0x1E0U) {
+        ((Tag *)quad)->addr = ((Tag *)((u32 *)scratch->ordering_table + band->ot_index))->addr;
+        ((Tag *)((u32 *)scratch->ordering_table + band->ot_index))->addr = (u32)quad;
     }
     return 0;
 }

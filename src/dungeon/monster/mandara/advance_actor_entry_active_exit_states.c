@@ -227,7 +227,7 @@ void advance_actor_entry_active_exit_states(ActorRecord *action, ObjectPosition 
         {
             u32 actor_flags;
 
-            actor_flags = ((u32)actor->flags1C);
+            actor_flags = (actor->flags1C);
             if (actor_flags & 0x100) {
                 begin_pushed_actor_move(action, context, sprite, actor);
                 return;

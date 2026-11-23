@@ -34,7 +34,7 @@ void update_actor_landing(ActorRecord *motion_state, ObjectPosition *transform, 
     case 0:
         motion_state->action_state_flags = (u16) (motion_state->action_state_flags | 8);
         transform->velocity_z = 0xFFF00000;
-        actor->flags1C = (s32) (actor->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
+        actor->flags1C = (actor->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
         motion_state->unk_A4.value = 0;
         motion_state->action_phase = (u8) (motion_state->action_phase + 1);
     case 1:
@@ -59,7 +59,7 @@ void update_actor_landing(ActorRecord *motion_state, ObjectPosition *transform, 
         if (motion_state->action_timer < 2) {
             motion_state->unk_90.value = 0;
             motion_state->action_state_flags = (u16) (motion_state->action_state_flags & 0xFFF7);
-            actor->flags1C = (s32) (actor->flags1C | ACTOR_GROUNDED);
+            actor->flags1C = (actor->flags1C | ACTOR_GROUNDED);
             motion_state->action_phase = (u8) (motion_state->action_phase + 1);
         }
     case 2:

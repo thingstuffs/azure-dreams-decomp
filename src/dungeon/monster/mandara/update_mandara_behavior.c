@@ -99,7 +99,7 @@ void update_mandara_behavior(ActorRecord *self_object, ObjectPosition *aux_entit
         }
     }
 
-    if (((u32)entity->flags1C) & 0x200) {
+    if ((entity->flags1C) & 0x200) {
         if (sprite->frameTable == mandara_frame_set_1) {
             self_object->action_id = 0xD;
             self_object->action_phase = 1;
@@ -113,7 +113,7 @@ void update_mandara_behavior(ActorRecord *self_object, ObjectPosition *aux_entit
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((u32)entity->flags1C) & 0x100) {
+        if ((entity->flags1C) & 0x100) {
             begin_pushed_actor_move(self_object, aux_entity, sprite, entity);
             return;
         }
@@ -298,7 +298,7 @@ void update_mandara_behavior(ActorRecord *self_object, ObjectPosition *aux_entit
             self_object->action_state_flags &= 0xFFF3;
             if (entity->hp_delta == 0 ||
                 begin_ready_actor_directional_action(self_object, aux_entity, sprite, D_80175260) == 0) {
-                if (((u32)entity->flags1C) & 0x80000) {
+                if ((entity->flags1C) & 0x80000) {
                     begin_actor_move_to_target_facing(self_object, aux_entity, sprite, entity);
                     func_80174250(self_object, aux_entity, sprite, entity);
                     return;
@@ -316,7 +316,7 @@ void update_mandara_behavior(ActorRecord *self_object, ObjectPosition *aux_entit
     sprite->room_index = result;
 
     if (entity->pending_turn_updates > 0) {
-        if (((u32)entity->flags1C) & 0x20) {
+        if ((entity->flags1C) & 0x20) {
             update_actor_status_and_mp(entity);
             return;
         }
@@ -398,7 +398,7 @@ void update_mandara_behavior(ActorRecord *self_object, ObjectPosition *aux_entit
 
     {
         u32 final_flags =
-            ((u32)entity->flags1C);
+            (entity->flags1C);
         if (!(final_flags & 0x2000)) {
             if ((result < 0) || !(dungeon_rooms[result].flags & 2)) {
                 u32 final_mask =

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "shared/sys_flags.h"
 #include "shared/game_work.h"
 #include "shared/ot_link.h"
@@ -6,6 +7,7 @@
 #include "sdk/libgte.h"
 #include "dungeon/level.h"
 #include "dungeon/effect/mesh.h"
+#include "engine/effect.h"
 #include "engine/graphics.h"
 
 
@@ -43,25 +45,6 @@ typedef struct {
 } CellRec;
 
 
-typedef struct {
-    s32 x;             /* 0x00 */
-    s32 error_dec;     /* 0x04 */
-    s32 error_inc;     /* 0x08 */
-    s32 remaining;     /* 0x0C */
-    s32 error;         /* 0x10 */
-    s32 x_inc;         /* 0x14 */
-    s32 start_y;       /* 0x18 */
-    s32 state;         /* 0x1C */
-    s32 height;        /* 0x20 */
-    s32 pad_24;
-} ScanEdge;
-
-typedef struct {
-    s32 xy;
-    u16 z;
-    u16 pad;
-} ScratchVertex;
-
 typedef union {
     s32 word;
     struct {
@@ -86,7 +69,7 @@ typedef struct {
     s32 otz4;                   /* 0x0D4 */
     s32 flag;                   /* 0x0D8 */
     s32 opz;                    /* 0x0DC */
-    ScratchVertex v[4];         /* 0x0E0 */
+    MapCellVertex v[4];         /* 0x0E0 */
     u8 pad_100[0x10];
     s32 overlay_color;          /* 0x110 */
     s32 map_width;              /* 0x114 */
@@ -129,16 +112,6 @@ typedef struct {
     s32 packet_end;             /* 0x17C */
 } RenderScratch;
 
-
-/* Draw settings record at 0x80013180 in the 0x80010000 work page (the town renderer town/func_800AED64 reads the
- * same three fields). */
-typedef struct DrawSettings {
-    s32 flat_color;             /* 0x00 */
-    u8 draw_mode;               /* 0x04 */
-    u8 draw_flags;              /* 0x05 */
-} DrawSettings;
-
-#include "engine/effect.h"
 
 /* Render visible dungeon cells as lit, textured polygons in the ordering table. */
 void render_map_cell_mesh(void) {
@@ -379,9 +352,9 @@ void render_map_cell_mesh(void) {
             u8 *render_buffer;
 
             render_input = packet + 8;
-            coord_offset = (void *)((u32)scratch | 0x01C);
+            coord_offset = &scratch->edges[0].x;
             base_color = *(s32 *)&((GameView *)packet)->tint.parts.tint_r;
-            edge_count = (void *)((u32)scratch | 0x174);
+            edge_count = &scratch->active_edges;
             scratch->color = base_color;
             ordering_table = scene->draw_buffer;
             width_shift = map->shiftX;
@@ -389,12 +362,10 @@ void render_map_cell_mesh(void) {
             max_column = map->maskX;
             max_row = map->maskY;
             {
-                u8 *work_page;
 
-                work_page = (u8 *)0x80010000;   /* integer page, three genuine field reads (decision 44) */
-                flat_color = ((DrawSettings *)(work_page + 0x3180))->flat_color;
-                draw_mode = ((DrawSettings *)(work_page + 0x3180))->draw_mode;
-                draw_flags = ((DrawSettings *)(work_page + 0x3180))->draw_flags;
+                flat_color = GAME_STATE->options.option_color;
+                draw_mode = GAME_STATE->options.unk_3184;
+                draw_flags = GAME_STATE->options.unk_3185;
             }
             ordering_table = (u8 *)ordering_table + 0xB8;
             scratch->width_shift = width_shift;

@@ -1,3 +1,4 @@
+#include "dungeon/level/tile_flags.h"
 #include "engine/scene.h"
 #include "shared/sprite_frame_state.h"
 #ifndef DUNGEON_OVL_188298C_H
@@ -190,7 +191,6 @@ typedef struct ovl_188298c_818632E4_LargeFlag {
     u32 value;
     u32 pad[2];
 } ovl_188298c_818632E4_LargeFlag;
-extern void *dungeon_actor_ring_anchor;
 extern s32 check_entity_interaction_compatibility(void *kind, void *actor);
 extern s32 generate_random_value(void);
 #include "dungeon/effect/sprite/rising_entries.h"
@@ -200,7 +200,6 @@ extern s32 register_node(); /* Unprototyped: two, three or four arguments; retai
 extern s32 check_left_tile_and_center_height(s32, s32, s16);
 extern s16 get_surface_height_at_record(void *);
 extern u8 countdown_sprite_entries[];
-extern s32 check_layer_offset_height();
 static __inline__ s32 first_delta_s32_s32(s32 end, s32 start);
 void apply_status_to_nearby_actors(s32 x, s32 y, void *kind, s32 flags);
 void advance_fading_effect(ovl_188298c_8186298C_Arg0Ent *state, void *unused, SpriteFrameState *effect);

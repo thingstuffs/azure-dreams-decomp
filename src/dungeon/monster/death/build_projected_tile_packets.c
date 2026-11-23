@@ -1,4 +1,5 @@
 #include "sdk/libc.h"
+#include "dungeon/effect/shaded_quad_scratch.h"
 /* Death effect projection, motion, fading, and object creation. */
 #include "shared/object_node.h"
 #include "dungeon/monster/death.h"
@@ -9,7 +10,7 @@
 /* Projects linked effect positions and queues their colored pixel and drawing-mode packets by depth. */
 s32 build_projected_tile_packets(u8 *item_data, u16 *coords)
 {
-    PointTileScratch *scratch = (PointTileScratch *)0x1F800000;
+    ShadedQuadScratch *scratch = SHADED_QUAD_SCRATCH;
     void **globals = ((void * *)(&g_game_work));
     GpuContext *render_state = globals[0];
     TILE_1 *first_packet = render_state->packetCursor;

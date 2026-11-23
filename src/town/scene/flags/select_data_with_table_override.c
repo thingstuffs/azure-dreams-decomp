@@ -3,12 +3,13 @@
 #include "town/scene/motion.h"
 #include "town/scene/position_entries.h"
 #include "town.h"
+#include "town/scene.h"
 
 extern u8 D_800176AC[9];
 extern u8 D_80018ED1[9];
 
 /* Select a result and override it when condition 12 is active. */
-void *select_data_with_table_override(s32 selection_value, s32 unused, s32 selection_mode) {
+void *select_data_with_table_override(TownObjectSet *selection_value, s32 unused, s32 selection_mode) {
     void *result;
 
     result = apply_entry_position(D_800176AC, sbs17_choice_position_flags, selection_value, selection_mode);

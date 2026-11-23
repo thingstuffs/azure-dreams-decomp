@@ -56,17 +56,17 @@ void update_unicorn_spell_hop(ActorRecord *body, ObjectPosition *motion, SpriteF
             case 6:
                 use_player = 1;
             case 2:
-                move_id = (u8 *)actor + 0xE;
+                move_id = &actor->abilities[2].id;
                 break;
             case 5:
                 use_player = 1;
             case 1:
-                move_id = (u8 *)actor + 0xB;
+                move_id = &actor->abilities[1].id;
                 break;
             case 4:
                 use_player = 1;
             case 0:
-                move_id = (u8 *)actor + 8;
+                move_id = &actor->abilities[0].id;
                 break;
             default:
                 move_id = 0;
@@ -76,13 +76,13 @@ void update_unicorn_spell_hop(ActorRecord *body, ObjectPosition *motion, SpriteF
             move_kind = actor->action_flags & 0x3FFF;
             switch (move_kind) {
             case 3:
-                move_id = (u8 *)actor + 0xE;
+                move_id = &actor->abilities[2].id;
                 break;
             case 2:
-                move_id = (u8 *)actor + 0xB;
+                move_id = &actor->abilities[1].id;
                 break;
             case 1:
-                move_id = (u8 *)actor + 8;
+                move_id = &actor->abilities[0].id;
                 break;
             default:
                 move_id = 0;

@@ -66,7 +66,7 @@ void update_actor_turn_and_action(ActorRecord *entity, ObjectPosition *context, 
         }
     }
 
-    if (((u32)actor->flags1C) & ACTOR_ASLEEP) {
+    if ((actor->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == uboat_action_frames) {
             entity->action_id = 0xD;
             entity->action_phase = 1;
@@ -80,7 +80,7 @@ void update_actor_turn_and_action(ActorRecord *entity, ObjectPosition *context, 
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((u32)actor->flags1C) & ACTOR_PUSH_PENDING) {
+        if ((actor->flags1C) & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(entity, context, sprite, actor);
             return;
         }
@@ -119,7 +119,7 @@ void update_actor_turn_and_action(ActorRecord *entity, ObjectPosition *context, 
             }
         }
 
-        if (((u32)actor->flags1C) & ACTOR_LIFTED) {
+        if ((actor->flags1C) & ACTOR_LIFTED) {
             s16 height_delta;
 
             begin_actor_move_to_target_facing(entity, context, sprite, actor);
@@ -141,7 +141,7 @@ void update_actor_turn_and_action(ActorRecord *entity, ObjectPosition *context, 
     sprite->room_index = room_id;
 
     if (actor->pending_turn_updates > 0) {
-        if (((u32)actor->flags1C) & ACTOR_PARALYZED) {
+        if ((actor->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(actor);
             return;
         }
@@ -260,12 +260,12 @@ void update_actor_turn_and_action(ActorRecord *entity, ObjectPosition *context, 
         }
     }
 
-    if (!(((u32)actor->flags1C) & ACTOR_PLAYER_SIDE)) {
+    if (!((actor->flags1C) & ACTOR_PLAYER_SIDE)) {
         s32 room_index = room_id;
 
         if ((room_index < 0) ||
             !(dungeon_rooms[room_index].flags & 2)) {
-            if (!(((u32)actor->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
+            if (!((actor->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((test_neighbor_position_relation(
                         sprite->tile_x, sprite->tile_y,

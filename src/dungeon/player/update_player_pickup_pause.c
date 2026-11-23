@@ -1,4 +1,5 @@
 #include "shared/dungeon_actor_callbacks.h"
+#include "shared/game_state.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "dungeon/player.h"
@@ -22,7 +23,7 @@ void update_player_pickup_pause(ActorRecord *object) {
             if ((shared_data->pressed_buttons) == 0) {
                 return;
             }
-            if (*(s32 *)0x80012090 == state) {
+            if (GAME_STATE->dungeon_mode_state == state) {
                 return;
             }
         }

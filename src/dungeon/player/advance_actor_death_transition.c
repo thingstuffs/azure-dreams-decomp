@@ -12,7 +12,7 @@
 #include "dungeon/player/item.h"
 #include "dungeon/item.h"
 #include "dungeon/player.h"
-
+#include "shared/game_state.h"
 extern u8 dungeon_button_latch;
 extern u8 D_800E0672[17];
 
@@ -41,7 +41,7 @@ void advance_actor_death_transition(ActorRecord *context, ObjectPosition *unused
         if ((remaining << 0x10) > 0) {
             break;
         }
-        if (*(u16 *)0x80013714 & 4) {
+        if (GAME_STATE->log.head.flags & 4) {
             if (dungeon_button_latch == 0) {
                 dungeon_button_latch = state;
                 request_scene_dispatch_state(3);

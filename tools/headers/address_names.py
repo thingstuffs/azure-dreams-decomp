@@ -568,11 +568,13 @@ def link_records(root, rows):
             if len(cols) >= 3 and cols[2] in selfs:
                 sym = selfs[cols[2]]
                 note = 'true symbol: the definition runs at %s (home_self, same-image copy lane)' % sym
-                evidence = '\t'.join(cols[3:])
-                out.append('\t'.join(['0x' + sym[5:], sym, cols[2], (evidence + ' | ' + note) if evidence else note]) + '\n')
+                evidence = cols[3] if len(cols) > 3 else ''
+                # a 5th column (scope) stays a column of the row
+                out.append('\t'.join(['0x' + sym[5:], sym, cols[2], (evidence + ' | ' + note) if evidence else note]
+                                     + cols[4:]) + '\n')
                 continue
             if len(cols) >= 3 and cols[1] in targets and cols[2] not in selfs:
-                same_row = any(k in '\t'.join(cols[3:]) for k in rowkey.get(cols[1], ()))
+                same_row = any(k in '\t'.join(cols[3:4]) for k in rowkey.get(cols[1], ()))
                 if same_row and not spelled_anywhere(root, cols[2]):
                     retired.append(cols[2])
                     continue

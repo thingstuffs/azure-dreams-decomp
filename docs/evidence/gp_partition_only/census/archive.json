@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "status": "ARCHIVED",
-  "interpretation": "Source receipt hashes refer to original private artifacts. Archived text paths are scrubbed; archive hashes bind the stored bytes. Decompress .gz journals before replay. No production census keys were installed.",
+  "interpretation": "Source receipt hashes refer to original private artifacts. Archived text paths are scrubbed; archive hashes bind the stored bytes. Decompress .gz journals before replay. No production census keys were installed. The three disassembly listings of the code metadata probe are not kept in the repository.",
   "production_dependencies": 189,
   "candidate_dependencies": 167,
   "removed_rows": [
@@ -431,16 +431,6 @@
       "gzip": false
     },
     {
-      "source": "code_metadata_probe/disable_store_delay.disasm.txt",
-      "archived": "code_metadata_probe/disable_store_delay.disasm.txt",
-      "source_sha256": "f002ba851ead5f949658a3009d32e5fbd491127f5b0ac5d2d889c1d65b6d9ef9",
-      "content_sha256": "f002ba851ead5f949658a3009d32e5fbd491127f5b0ac5d2d889c1d65b6d9ef9",
-      "archived_sha256": "f002ba851ead5f949658a3009d32e5fbd491127f5b0ac5d2d889c1d65b6d9ef9",
-      "source_bytes": 50491,
-      "archived_bytes": 50491,
-      "gzip": false
-    },
-    {
       "source": "code_metadata_probe/disable_store_delay.o",
       "archived": "code_metadata_probe/disable_store_delay.o",
       "source_sha256": "ffebeeaf481a62c26d0b05ee74816e087b90b922fb20ef5b032d8c6daa02a21b",
@@ -478,16 +468,6 @@
       "archived_sha256": "4465f46b1ebebb529c4b55deb5c6f559949fbd36c68e9f19259aa5d79377beef",
       "source_bytes": 936,
       "archived_bytes": 936,
-      "gzip": false
-    },
-    {
-      "source": "code_metadata_probe/normal.disasm.txt",
-      "archived": "code_metadata_probe/normal.disasm.txt",
-      "source_sha256": "283ccb2e4bdf822782dce3d237f49bcaef8cc3720e61a6dd14843f5c4da54b9e",
-      "content_sha256": "283ccb2e4bdf822782dce3d237f49bcaef8cc3720e61a6dd14843f5c4da54b9e",
-      "archived_sha256": "283ccb2e4bdf822782dce3d237f49bcaef8cc3720e61a6dd14843f5c4da54b9e",
-      "source_bytes": 50271,
-      "archived_bytes": 50271,
       "gzip": false
     },
     {
@@ -568,16 +548,6 @@
       "archived_sha256": "b6257158f9fa1140bd5af0458ccf1693972b3cc23cc5563b9eca28ecd191faa3",
       "source_bytes": 2714,
       "archived_bytes": 2595,
-      "gzip": false
-    },
-    {
-      "source": "code_metadata_probe/strip_externs.disasm.txt",
-      "archived": "code_metadata_probe/strip_externs.disasm.txt",
-      "source_sha256": "f002ba851ead5f949658a3009d32e5fbd491127f5b0ac5d2d889c1d65b6d9ef9",
-      "content_sha256": "f002ba851ead5f949658a3009d32e5fbd491127f5b0ac5d2d889c1d65b6d9ef9",
-      "archived_sha256": "f002ba851ead5f949658a3009d32e5fbd491127f5b0ac5d2d889c1d65b6d9ef9",
-      "source_bytes": 50491,
-      "archived_bytes": 50491,
       "gzip": false
     },
     {

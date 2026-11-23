@@ -1,5 +1,6 @@
 #ifndef DUNGEON_OVL_193C848_H
 #define DUNGEON_OVL_193C848_H
+#include "dungeon/level/tile_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
@@ -272,7 +273,6 @@ typedef struct Row_8191CD78_S_func_80024578_13 {
 /* Updates effect movement, target spinning, and completion across animation states. */
 void select_record_entry_and_value(void *state, void *entries, short index);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
-s32 check_layer_offset_height(s32, s32, s16, s32);
 void initialize_timed_motion_step(u16, u32);
 s32 read_sound_mode_blocking_status(s32);
 void drain_audio_commands_and_service_channels(void);

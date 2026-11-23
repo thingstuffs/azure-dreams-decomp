@@ -77,18 +77,18 @@ extern M2C_UNK D_8015C000;
             state_flags = object_state->action_state_flags;
             object_state->flags14 = (s32) (object_state->flags14 | 0x6000);
             object_state->action_state_flags = (u16) (state_flags | 0x4000);
-            object_state->flags1C = (s32) (object_state->flags1C | 0x6000);
+            object_state->flags1C = (object_state->flags1C | 0x6000);
         } else if (mode_or_roll >= 2) {
             state_flags = object_state->action_state_flags;
             object_state->flags14 = (s32) (object_state->flags14 | 0x2000);
             object_state->action_state_flags = (u16) (state_flags | 0x4000);
-            object_state->flags1C = (s32) (object_state->flags1C | 0x2000);
+            object_state->flags1C = (object_state->flags1C | 0x2000);
         } else if (((spawn_flags & ~3) << 0x10) == 0) {
             if (!(object_state->flags14 & 0x200)) {
                 init_config = config;
                 mode_or_roll = generate_random_value();
                 if (mode_or_roll & 1) {
-                    object_state->flags1C = (s32) (object_state->flags1C | 0x200);
+                    object_state->flags1C = (object_state->flags1C | 0x200);
                     set_or_clear_actor_status_slot(object_state, 1, (generate_random_value() & 0x3F) | 0x20);
                     placement->frameTable = &D_8015C000;
                 }

@@ -5,7 +5,7 @@
 #include "engine/script/vm.h"
 
 /* Opcode 0x18: If the 16-bit event flag is set, jump to the 32-bit address. */
-u32 script_jump_if_flag_set(ScriptReader *state) {
+u32 script_jump_if_flag_set(MessageWindow *state) {
     u32 key_addr = (u32)state->cursor;
     u32 key_low_byte = *(u8 *)key_addr;
     u32 key_high_byte = *(u8 *)(key_addr + 1);

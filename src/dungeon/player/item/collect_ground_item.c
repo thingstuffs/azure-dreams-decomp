@@ -1,4 +1,5 @@
 #include "dungeon/player/held_item_kind_data.h"
+#include "shared/game_state.h"
 #include "shared/monster_ids.h"
 #include "dungeon/level/tile_flags.h"
 #include "shared/dungeon_item_entries.h"
@@ -64,7 +65,6 @@ s32 collect_ground_item(Ctx *ctx, char *text, SpriteFrameState *sprite, Unit *un
     DungeonItemEntry *special_item;
     DungeonItemEntry *stored_item;
     DungeonItemEntry *consumed_item;
-    u16 *state_page;
     s32 unused_three;
     void **inventory_slot;
     u8 *active_effect;
@@ -133,13 +133,12 @@ s32 collect_ground_item(Ctx *ctx, char *text, SpriteFrameState *sprite, Unit *un
             message = expand_text_control_codes(D_800E0ABC, write_text_byte_and_advance(10, expand_text_control_codes(D_800E0AA1, write_text_byte_and_advance(10,
                 message))));
             ctx->done = 1;
-            state_page = (u16 *) 0x80010000;
-            if (state_page[0x104A] != 3) {
-                state_page[0x104B] = 3;
+            if (GAME_STATE->familiar_direction[0] != 3) {
+                GAME_STATE->familiar_direction[1] = 3;
             } else {
-                state_page[0x104B] = 5;
+                GAME_STATE->familiar_direction[1] = 5;
             }
-            *(u16 *) 0x8001209A = 0;
+            GAME_STATE->familiar_ai_mode[1] = 0;
         } else if (item_kind == ITEM_KIND_COIN) {
             pickup_value = get_scaled_byte_value(special_item);
             ctx->total += pickup_value;

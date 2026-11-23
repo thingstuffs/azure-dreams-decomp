@@ -14,7 +14,7 @@ struct SpriteFrameState;
 #include "sdk/libgte_matrix.h"
 #include "sdk/libgpu_types.h"
 #include "sdk/libgpu_packets.h"
-#include "dungeon/effect/point_tile_scratch.h"
+#include "dungeon/effect/shaded_quad_scratch.h"
 
 extern void * spawn_saber(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c);
 void update_entity_callbacks_and_floor_motion(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite);
@@ -71,7 +71,7 @@ __asm__(".size saber_slot_g_callback_table, 644");
 /* Projects a point and queues a semitransparent pixel and its drawing mode. */
 s32 queue_projected_translucent_pixel(u8 *node_data, u16 *position)
 {
-    PointTileScratch *scratch = (PointTileScratch *)0x1F800000;
+    ShadedQuadScratch *scratch = SHADED_QUAD_SCRATCH;
     void **global_state = ((void * *)(&g_game_work));
     GpuContext *render_state = global_state[0];
     TILE_1 *first_packet = render_state->packetCursor;

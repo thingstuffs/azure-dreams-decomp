@@ -78,7 +78,7 @@ void wait_for_kewne_mp(ActorRecord *actor, ObjectPosition *context, SpriteFrameS
             return;
         }
 
-        entity_flags = ((u32)entity->flags1C);
+        entity_flags = (entity->flags1C);
         if (entity_flags & 0x100) {
             begin_pushed_actor_move(actor, context, animation, entity);
             return;

@@ -138,7 +138,7 @@ void update_unicorn_transition(ActorRecord *action, ObjectPosition *position, Sp
         action->unk_B0.halves.low.s = 0;
         action->action_phase++;
         actor->unk_8A = ((S_80174704_1 *)actor)->unk_2A;
-        actor->flags1C = (u32)((u32)actor->flags1C & (0xFFFBFFFF));
+        actor->flags1C = (actor->flags1C & (0xFFFBFFFF));
 
     case 2:
     {

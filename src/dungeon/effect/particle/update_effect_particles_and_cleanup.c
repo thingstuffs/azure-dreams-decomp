@@ -623,7 +623,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
         effect->timer = old_cleanup_tick;
         if (effect_active == 0) {
             g_dungeon_status.active_actor = 0;
-            ((MovingEffectState_pre *)effect)[-1].unk_00 = (u16) (((MovingEffectState_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+            NODE_HEADER(effect)->flags |= NODE_REMOVE;
             (*&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
             return;
         }

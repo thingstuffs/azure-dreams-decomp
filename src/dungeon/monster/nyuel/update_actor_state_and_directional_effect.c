@@ -63,12 +63,12 @@ void update_actor_state_and_directional_effect(ActorRecord *controller, ObjectPo
                 return;
             }
 
-            if (((u32)actor->flags1C) & ACTOR_PUSH_PENDING) {
+            if ((actor->flags1C) & ACTOR_PUSH_PENDING) {
                 begin_pushed_actor_move(controller, context, sprite, actor);
                 return;
             }
 
-            if (((u32)actor->flags1C) & ACTOR_LIFTED) {
+            if ((actor->flags1C) & ACTOR_LIFTED) {
                 begin_actor_move_to_target_facing(controller, context, sprite, actor);
                 func_801737C4(controller, context, sprite, actor);
                 return;

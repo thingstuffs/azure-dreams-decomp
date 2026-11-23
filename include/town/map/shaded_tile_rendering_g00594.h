@@ -4,24 +4,12 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AF9D8, PD:town/engine:800D1548. */
 
 #include "common.h"
+#include "engine/effect.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_floor.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
-
-typedef struct S_func_800AED64_7 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-    s32 unk_18;
-    s32 unk_1C;
-    s32 unk_20;
-    u8 pad_24[0x4];
-} S_func_800AED64_7;
 
 typedef struct S_func_800AED64_4 {
     s32 unk_00;
@@ -34,7 +22,7 @@ typedef struct S_func_800AED64_4 {
         u16 u16;
     } unk_14;
     s32 unk_18;
-    S_func_800AED64_7 edges[4];
+    ScanEdge edges[4];
     s32 unk_BC;
     s32 unk_C0;
     u8 pad_C4[0x4];
@@ -43,21 +31,8 @@ typedef struct S_func_800AED64_4 {
     s32 unk_D4;
     u8 pad_D8[0x4];
     s32 unk_DC;
-    s32 unk_E0;
-    union {
-        s16 s16;
-        u16 u16;
-    } unk_E4;
-    u8 pad_E6[0x2];
-    s32 unk_E8;
-    s16 unk_EC;
-    u8 pad_EE[0x2];
-    s32 unk_F0;
-    s16 unk_F4;
-    u8 pad_F6[0x2];
-    s32 unk_F8;
-    s16 unk_FC;
-    u8 pad_FE[0x12];
+    MapCellVertex v[4];
+    u8 pad_100[0x10];
     s32 unk_110;
     s32 unk_114;
     s32 unk_118;
@@ -242,18 +217,6 @@ typedef struct MapQuadTextureWords {
     s16 texture_page;
 } MapQuadTextureWords;
 
-typedef struct MapQuadEdge {
-    s32 position;
-    s32 unused_04;
-    s32 error_step;
-    s32 rows_left;
-    s32 error;
-    s32 unused_14;
-    s32 start_y;
-    s32 active;
-    u8 pad_20[8];
-} MapQuadEdge;
-
 typedef struct MapQuadVertex {
     u16 x, y, z, pad;
 } MapQuadVertex;
@@ -271,7 +234,7 @@ typedef struct MapQuadScratch {
     s32 unused_10;
     MapQuadCoordinate min_x;
     s32 max_x;
-    MapQuadEdge edges[4];
+    ScanEdge edges[4];
     s32 chain_address;
     s32 shade;
     s32 last_shade;
@@ -303,7 +266,6 @@ typedef struct MapQuadScratch {
 
 
 extern s8 map_tile_uvs[12];
-#include "engine/effect.h"
 /* Functions defined in this translation unit. */
 void set_texture_quad_32_uv(u16 texture_page, u16 palette, u8 texture_u, u8 texture_v);
 void render_shaded_map_tiles(void);

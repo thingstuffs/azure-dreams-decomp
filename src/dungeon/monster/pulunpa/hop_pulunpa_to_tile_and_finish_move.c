@@ -85,7 +85,7 @@ void hop_pulunpa_to_tile_and_finish_move(ActorRecord *body, ObjectPosition *moti
                         /* fall through */
 
     case 2:
-        if (((u32)actor->flags1C) & ACTOR_GROUNDED) {
+        if ((actor->flags1C) & ACTOR_GROUNDED) {
             u8 *direction_table;
 
             body->action_state_flags &= 0xFFF7;
@@ -129,7 +129,7 @@ void hop_pulunpa_to_tile_and_finish_move(ActorRecord *body, ObjectPosition *moti
             g_dungeon_status.activity_counts.parts.pending_movement_count--;
         }
 
-        actor_flags = ((u32)actor->flags1C);
+        actor_flags = (actor->flags1C);
         if (actor_flags & 0x2000) {
             if (actor->action_flags & ACTOR_ACTION_PENDING) {
                 actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;

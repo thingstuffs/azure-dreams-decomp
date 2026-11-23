@@ -118,6 +118,6 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
     retain_spawn_resource(spawned->species, 1);
     func_80042640(spawned, spawned->species);
     spawned->town_monster_slot = 0xFF;
-    spawned->unk_12 = 0;
+    spawned->ai_mode = 0;
     return work;
 }

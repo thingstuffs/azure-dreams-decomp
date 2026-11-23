@@ -5,7 +5,7 @@ extern u8 D_8001F5AD[];
 extern u8 D_8001C354[];
 extern s32 func_80019DA0(void *, void *, s32);
 
-void *select_square_entry_or_alternate(SquareSceneEntry *entry, s32 unused, s32 selection) {
+void *select_square_entry_or_alternate(TownObjectSet *entry, s32 unused, s32 selection) {
     void *records = D_8001BBB4;
     void *result;
     void *selected;

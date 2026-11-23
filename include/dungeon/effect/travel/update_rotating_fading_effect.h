@@ -1,3 +1,4 @@
+#include "dungeon/level/tile_flags.h"
 #include "engine/scene.h"
 #include "shared/sprite_frame_state.h"
 #ifndef DUNGEON_OVL_18CA83C_H
@@ -127,7 +128,6 @@ extern void register_node(void *, void *);
 extern void advance_sprite_animation_and_textures(void *);
 #include "shared/sprite_source.h"
 extern u8 D_800777DC[];
-s32 check_layer_offset_height(s32, s32, s16, s32);
 void apply_large_random_value_gain(ActorRecord *target, s32 amount_input, ActorRecord *owner);
 void update_rotating_fading_effect(RandomizedTargetEffectBody *effect, ObjectPosition *position, SpriteFrameState *sprite);
 void *create_randomized_target_effect(TargetTravelStatusBody *source, ObjectPosition *start, ObjectPosition *center, s16 index);

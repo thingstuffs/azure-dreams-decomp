@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/game_state.h"
 #include "dungeon/system/random.h"
 #include "engine/menu.h"
 #include "shared/entity.h"
@@ -77,7 +78,6 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
     u16 button_flags;
     u16 turn_flags;
     s32 next_angle;
-    u16 *flags_page;
     s32 input_flags;
     s32 slot_addr;
     void *selected_target;
@@ -145,7 +145,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
         switch (g_dungeon_status.flags & 4) {
         case 0:
             if (((ActorRecord *)stats)->flags1C & 0x20) {
-                if (!((*(u16 *)0x80013714) & 1) && (((u32)input->buttons) & 0x80)) {
+                if (!((GAME_STATE->log.head.flags) & 1) && (((u32)input->buttons) & 0x80)) {
                     ((ActorRecord *)stats)->unk_8A = 2;
                     menu_action_argument = 2;
                     begin_player_menu_action(actor, motion, sprite, &D_8004F5F4);
@@ -157,8 +157,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                 begin_player_wait_turn(actor, motion, sprite, stats);
                 return;
             }
-            flags_page = (u16 *) 0x80010000;
-            input_flags = flags_page[0x1B8A];
+            input_flags = GAME_STATE->log.head.flags;
             if (input_flags & 1) {
                 ((ActorRecord *)actor)->unk_A0.parts.high = action_flags & 0xFFFE;
                 if (action_flags & 0x200) {
@@ -416,7 +415,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                                 }
                             }
                         }
-                        if ((*(u16 *)0x80013714) & 9) {
+                        if ((GAME_STATE->log.head.flags) & 9) {
                             ((ActorRecord *)actor)->unk_A4.halves.low.u = 0U;
                         }
                         if (((ActorRecord *)actor)->action_id == 0xE) {

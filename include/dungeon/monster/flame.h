@@ -234,11 +234,6 @@ typedef struct R06_801738E0_S_801738E0_4 {
 } R06_801738E0_S_801738E0_4;
 
 
-typedef struct {
-    u8 pad[0x13C];
-    s32 value;
-} R06_80173E08_Scratchpad;
-
 typedef struct R06_80173E94_OrderingTag { u32 addr : 24; u32 count : 8; } R06_80173E94_OrderingTag;
 typedef struct R06_80173E94_S_80173E94_1 {
     u16 unk_00;

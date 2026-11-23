@@ -44,7 +44,7 @@ void update_directional_motion_and_center_variant(ActorRecord *controller, Objec
             return;
         }
 
-        if (((u32)entity->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+        if ((entity->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         } else {
             timer = -1;

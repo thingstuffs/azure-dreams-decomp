@@ -172,7 +172,7 @@ typedef struct ActorRecord {
     /* 0x006 */ unsigned short exp_reward; /* experience awarded for defeating this actor: init_monster_from_stats copies the species base, raise_entity_level and lower_entity_level recompute it (clamped to 0xFFFF), distribute_experience_awards shares it out */
     /* 0x008 */ ActorAbility abilities[3]; /* ability slots for action codes 1..3 (action_flags & ACTOR_ACTION_CODE_MASK) */
     /* 0x011 */ unsigned char level; /* experience level; indexes the level experience table */
-    /* 0x012 */ unsigned char unk_12; /* template byte; movement handlers skip adjacent attacks when it is 2 or more */
+    /* 0x012 */ unsigned char ai_mode; /* template byte; movement handlers skip adjacent attacks when it is 2 or more */
     /* 0x013 */ unsigned char species; /* monster species id (shared/monster_ids.h); init_monster_from_stats and the spawn factories store it */
     /* 0x014 */ int flags14; /* template/property mask; resistance and class bits are documented in shared/actor_property_flags.h */
     /* 0x018 */ int experience; /* accumulated experience, compared with the next-level requirement */

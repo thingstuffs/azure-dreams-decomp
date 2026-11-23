@@ -1,10 +1,16 @@
 """Atomic naming batch: one alias-table update, one SLUS gate, each touched row once."""
-import json,re,time,subprocess,concurrent.futures
+import json,re,sys,time,subprocess,concurrent.futures
 from pathlib import Path
 import atomic_io
 from source_layout import row_path, own_source, row_ids_for_paths
 from layout_dependencies import consumer_paths
 from apply_names_data import inline_plan
+
+def flush_journal(N,rows):
+ """Journal rows reach ledger/names.jsonl only when the whole batch succeeded: one atomic, locked update (temp file in the
+ same directory, fsync, rename), so a batch that fails verification or aborts leaves the file exactly as it found it."""
+ if not rows:return
+ atomic_io.append_rows(N.JOURNAL,[(json.dumps(r,separators=(',',':'))+'\n').encode() for r in rows])
 
 def rewrite(text,pattern,mapping,code_only=False):
  if code_only:
@@ -194,7 +200,7 @@ def main(a,N):
  print(f"batch: {len(new)} new aliases, {len(changed)} files, {len(touched_rows)} rows"+('; UNVERIFIED staging' if deferred else ''),flush=True)
  if a.dry_run:return
  if a.proof_log:Path(a.proof_log).write_text('')
- names_before=N.NAMES.read_text();written=False;bad=[];proofs=[]
+ names_before=N.NAMES.read_text();written=False;bad=[];proofs=[];journal=[]
  try:
   written=True
   lines=[]
@@ -212,7 +218,8 @@ def main(a,N):
                 required='independent complete-TU object identity, SLUS SHA-1 and scoped overlay gates')
    if a.proof_log:Path(a.proof_log).write_text(json.dumps(receipt,indent=2)+'\n')
    for rec in plan:
-    if not rec['existing'] or changed:N.append_jsonl(N.JOURNAL,dict(rec,outcome='staged-unverified',batch=True))
+    if not rec['existing'] or changed:journal.append(dict(rec,outcome='staged-unverified',batch=True))
+   flush_journal(N,journal)
    return receipt
   if any(p.parts[-2]=='slus' and p.suffix=='.c' for p in changed):
    gate=subprocess.run(['bash',str(N.ROOT/'tools/build/build_slus.sh'),'-j',str(a.workers)],cwd=N.ROOT,capture_output=True,text=True)
@@ -243,8 +250,9 @@ def main(a,N):
    for p in changed:p.write_text(texts[p])
    for p,pair in metadata.items():p.write_bytes(pair[0])
   atomic_io.write_text(N.NAMES,names_before)
+  # a failed batch leaves ledger/names.jsonl byte-for-byte as it was: the revert records go to stderr only
   for rec in plan:
-   if not rec['existing'] or rec.get('rename'):N.append_jsonl(N.JOURNAL,dict(rec,outcome='reverted',reason='atomic batch failed',failures=[(rid,v.get('status'),v.get('class'),v.get('total'),v.get('err')) for rid,v in bad[:5]]))
+   if not rec['existing'] or rec.get('rename'):print('names journal NOT written (batch failed): '+json.dumps(dict(rec,outcome='reverted',reason='atomic batch failed',failures=[(rid,v.get('status'),v.get('class'),v.get('total'),v.get('err')) for rid,v in bad[:5]])),file=sys.stderr,flush=True)
   raise
  for rec in plan:
   old=rec.get('renamed_from') or rec['old'];pat=re.compile(r'\b'+re.escape(old)+r'\b')
@@ -252,5 +260,6 @@ def main(a,N):
   ids={r['id'] for p,r in by_file.items() if p in direct or h and dependencies.get(p,set())&h}
   if not rec['existing'] or direct:
    rec.update(files=len(direct),rows=sorted(ids),outcome='renamed' if rec.get('rename') else 'references-rewritten' if rec['existing'] else 'applied',batch=True)
-   rec.pop('existing');rec.pop('rename',None);N.append_jsonl(N.JOURNAL,rec)
+   rec.pop('existing');rec.pop('rename',None);journal.append(rec)
+ flush_journal(N,journal)
  print('batch applied:',len(new),'new aliases;',len(touched_rows),'rows exact',flush=True)

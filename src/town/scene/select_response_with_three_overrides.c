@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene/flags.h"
 #include "town/scene/motion.h"
+#include "town/scene.h"
 
 extern u8 D_80018998[];
 extern u8 D_80019104[];
@@ -9,7 +10,7 @@ extern u8 D_8001ABCC[];
 extern u8 D_80019397[];
 
 /* Looks up an entry, substituting fixed data for matching IDs 45 through 47. */
-s32 select_response_with_three_overrides(s32 lookup_key, s32 unused, s32 entry_id)
+s32 select_response_with_three_overrides(TownObjectSet *lookup_key, s32 unused, s32 entry_id)
 {
     s32 result;
 

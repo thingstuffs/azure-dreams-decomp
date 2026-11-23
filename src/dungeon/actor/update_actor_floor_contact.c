@@ -56,7 +56,7 @@ void update_actor_floor_contact(ActorRecord *object_arg, void *motion_arg, Sprit
 
     if (!(object->action_state_flags & 4)) {
         floor_height = sample_terrain_surface_height(motion->x.unsigned_parts.integer, motion->y.unsigned_parts.integer,
-                              (s16)((*(u16 *)((u8 *)object_base + (0x88))) - 0x20));
+                              (s16)((object_base->ground_height) - 0x20));
         if (floor_height < 0x200) {
             if (object->unk_90.parts.high + object_base->ground_height < floor_height) {
                 object->action_state_flags &= 0xFFFF;   /* BYTES: +0x98 no-op write-back: retail reads the field, the unchanged store compiles away (decision 39) */
@@ -64,31 +64,31 @@ void update_actor_floor_contact(ActorRecord *object_arg, void *motion_arg, Sprit
                 if (floor_height >= object_base->ground_height) {
                     object->unk_90.value = 0;
                 } else {
-                    object->unk_90.parts.high = floor_height - (*(u16 *)((u8 *)object_base + (0x88)));
+                    object->unk_90.parts.high = floor_height - (object_base->ground_height);
                 }
                 motion->velocity_z = 0;
-                (*(u32 *)((u8 *)object_base + (0x1C))) |= 0x08000000;
+                object_base->flags1C |= 0x08000000;
                 object->fall_ticks = 0;
             }
 
-            if ((*(u32 *)((u8 *)object_base + (0x1C))) & 0x40000000) {
-                (*(u32 *)((u8 *)object_base + (0x1C))) &= ~0x40000000;
+            if ((object_base->flags1C) & 0x40000000) {
+                object_base->flags1C &= ~0x40000000;
                 floor_height = sample_terrain_surface_height(
                     (entity->tile_x << 6) | 0x20,
                     (entity->tile_y << 6) | 0x20,
-                    (s16)((*(u16 *)((u8 *)object_base + (0x88))) - 0x20));
-                object->unk_90.parts.high += (*(u16 *)((u8 *)object_base + (0x88))) - floor_height;
+                    (s16)((object_base->ground_height) - 0x20));
+                object->unk_90.parts.high += (object_base->ground_height) - floor_height;
                 object_base->ground_height = floor_height;
             }
         } else {
-            (*(u32 *)((u8 *)object_base + (0x1C))) &= ~0x08000000;
+            object_base->flags1C &= ~0x08000000;
         }
     } else {
-        (*(u32 *)((u8 *)object_base + (0x1C))) &= ~0x08000000;
+        object_base->flags1C &= ~0x08000000;
     }
 
-    motion->z.unsigned_parts.integer = (*(u16 *)((u8 *)object_base + (0x88)))
+    motion->z.unsigned_parts.integer = (object_base->ground_height)
         + object->unk_90.parts.high;
     entity->flags |= 0x40;
-    (*(u32 *)((u8 *)object_base + (0x1C))) |= 0x200;
+    object_base->flags1C |= 0x200;
 }

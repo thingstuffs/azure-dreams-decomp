@@ -61,7 +61,7 @@ s32 use_item_to_reset_actor_statuses(ActorRecord *actor, DungeonItemEntry *cause
         slot += 1;
     }
     while (slot < 0x21);
-    actor->flags1C = (s32) (actor->flags1C & 0xFBFFE10F);
+    actor->flags1C = (actor->flags1C & 0xFBFFE10F);
     apply_entity_effects(actor);
     clear_item_slot(cause);
     counters = &g_dungeon_status;

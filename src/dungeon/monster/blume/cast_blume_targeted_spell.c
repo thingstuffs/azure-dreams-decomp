@@ -52,25 +52,25 @@ void cast_blume_targeted_spell(ActorRecord *controller, ObjectPosition *motion, 
     state = controller->action_phase;
     switch (state) {
     case 0:
-        if ((*(u32 *)((u8 *)actor_body + 0x1C)) & ACTOR_PLAYER_SIDE) {
+        if ((actor_body->flags1C) & ACTOR_PLAYER_SIDE) {
             switch (actor_body->action_flags & 0x3FFF) {
             case 7:
                 use_player = 1;
                 /* fallthrough */
             case 3:
-                item_slot = (u8 *)actor_body + 0xE;
+                item_slot = &actor_body->abilities[2].id;
                 break;
             case 6:
                 use_player = 1;
                 /* fallthrough */
             case 2:
-                item_slot = (u8 *)actor_body + 0xB;
+                item_slot = &actor_body->abilities[1].id;
                 break;
             case 5:
                 use_player = 1;
                 /* fallthrough */
             case 1:
-                item_slot = (u8 *)actor_body + 8;
+                item_slot = &actor_body->abilities[0].id;
                 break;
             default:
                 item_slot = 0;
@@ -79,13 +79,13 @@ void cast_blume_targeted_spell(ActorRecord *controller, ObjectPosition *motion, 
         } else {
             switch (actor_body->action_flags & 0x3FFF) {
             case 3:
-                item_slot = (u8 *)actor_body + 0xE;
+                item_slot = &actor_body->abilities[2].id;
                 break;
             case 2:
-                item_slot = (u8 *)actor_body + 0xB;
+                item_slot = &actor_body->abilities[1].id;
                 break;
             case 1:
-                item_slot = (u8 *)actor_body + 8;
+                item_slot = &actor_body->abilities[0].id;
                 break;
             default:
                 item_slot = 0;

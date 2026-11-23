@@ -1376,7 +1376,7 @@ s32 move_actor_beside_player(void) {
         motion[5] = (((s16)ground_height - entity_aux->ground_height) << 16) /
                     entity->action_timer;
         entity_aux->ground_height =
-            (u16)entity_aux->ground_height + ((S_807B040C_7 *)motion)->unk_16;
+            entity_aux->ground_height + ((S_807B040C_7 *)motion)->unk_16;
 
         dx = motion[3];
         motion[5] = 0;

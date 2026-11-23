@@ -10,6 +10,10 @@ typedef struct GpuLinkTag {
     unsigned int len : 8; /* number of following GPU command words, in 32-bit words */
 } GpuLinkTag;
 
+#define add_primitive_to_ordering_table(order, packet) \
+    (((GpuLinkTag *)(packet))->addr = ((GpuLinkTag *)(order))->addr, \
+     ((GpuLinkTag *)(order))->addr = (unsigned long)(packet))
+
 /* Textured four-vertex packet. The grid renderer advances its cursor by
  * 0x28, copies four packed XY words, sets four UV pairs and fills the CLUT
  * and texture-page words. The high tag byte is preserved while linking.

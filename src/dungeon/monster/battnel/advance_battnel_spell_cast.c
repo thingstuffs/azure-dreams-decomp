@@ -51,25 +51,25 @@ void advance_battnel_spell_cast(ActorRecord *state, ObjectPosition *position, Sp
     special_motion = 0;
     switch (state->action_phase) {
     case 0:
-        if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
+        if ((actor->flags1C) & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 7:
                 special_motion = 1;
                 /* fallthrough */
             case 3:
-                motion = (u8 *)actor + 0xE;
+                motion = &actor->abilities[2].id;
                 break;
             case 6:
                 special_motion = 1;
                 /* fallthrough */
             case 2:
-                motion = (u8 *)actor + 0xB;
+                motion = &actor->abilities[1].id;
                 break;
             case 5:
                 special_motion = 1;
                 /* fallthrough */
             case 1:
-                motion = (u8 *)actor + 8;
+                motion = &actor->abilities[0].id;
                 break;
             default:
                 motion = 0;
@@ -78,13 +78,13 @@ void advance_battnel_spell_cast(ActorRecord *state, ObjectPosition *position, Sp
         } else {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 3:
-                motion = (u8 *)actor + 0xE;
+                motion = &actor->abilities[2].id;
                 break;
             case 2:
-                motion = (u8 *)actor + 0xB;
+                motion = &actor->abilities[1].id;
                 break;
             case 1:
-                motion = (u8 *)actor + 8;
+                motion = &actor->abilities[0].id;
                 break;
             default:
                 motion = 0;

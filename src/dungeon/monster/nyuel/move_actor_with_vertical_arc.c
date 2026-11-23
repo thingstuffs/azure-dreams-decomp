@@ -70,13 +70,13 @@ void move_actor_with_vertical_arc(ActorRecord *action, ObjectPosition *motion, S
         if (next_move_ticks < 0) {
             action->unk_90.value = 0;
             action->action_state_flags &= 0xFFF7;
-            actor->flags1C = (u32)((u32)(actor->flags1C) | (ACTOR_GROUNDED));
+            actor->flags1C = ((actor->flags1C) | (ACTOR_GROUNDED));
             action->action_phase++;
         }
 
                         /* fall through */
     case 2:
-        if (((u32)actor->flags1C) & ACTOR_GROUNDED) {
+        if ((actor->flags1C) & ACTOR_GROUNDED) {
             action->action_state_flags &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;

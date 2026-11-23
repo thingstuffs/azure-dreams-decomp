@@ -433,6 +433,10 @@ def run_batch(root, rows, tus=None, dry_run=False, workers=4, max_rounds=8, max_
                     blamed = {}
                     for rel, o in bad:
                         hit = [r for r in live if re.search(r"'(%s|%s)'" % (re.escape(r.old), re.escape(r.new)), o)]
+                        nm = NO_MEMBER.search(o) or DESIGNATOR.search(o)
+                        if nm:  # blame the row of the record the diagnostic names, not every row with that member name
+                            exact = [r for r in hit if r.old == nm.group('f') and nm.group('t') in r.types]
+                            hit = exact or hit
                         if not hit:
                             raise RuntimeError('unexplained diagnostic in %s: %s' % (rel, o[:300]))
                         for r in hit:

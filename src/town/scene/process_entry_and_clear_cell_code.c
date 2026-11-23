@@ -30,7 +30,7 @@ typedef struct S_8001640C_3 {
 
 
 /* Pass the selected entry byte to func_80018618 and clear it if the call returns nonzero. */
-s32 process_entry_and_clear_cell_code(void *context, s32 entry_index) {
+s32 process_entry_and_clear_cell_code(TownObjectSet *context, s32 entry_index) {
     S_8001640C_0 *pageSlot;
     s32 handlerResult;
 

@@ -4,6 +4,8 @@
 
 #include "common.h"
 
+struct TownObjectSet;
+
 /* advance_delayed_panel_line.c */
 struct TownCollectionPanel;
 void advance_delayed_panel_line(struct TownCollectionPanel *panel);
@@ -25,7 +27,7 @@ s32 func_8001781C(void);
 s32 install_scene_handler_and_close_dialogue(void);
 
 /* install_scene_handler_and_close_dialogue_second.c */
-void *select_response_if_entry_flag_set(void *context, s32 unused, s32 mode);
+void *select_response_if_entry_flag_set(struct TownObjectSet *context, s32 unused, s32 mode);
 
 /* prepare_shared_text_buffer.c */
 void *prepare_shared_text_buffer(s32 source);
@@ -46,7 +48,7 @@ s8 *select_next_dialogue_line(void);
 char *select_message_text_marking_pad08(s32 unused_0, s32 unused_1, s32 selector);
 
 /* process_entry_or_start_message.c */
-s32 process_entry_or_start_message(void *object, s32 entry_index);
+s32 process_entry_or_start_message(struct TownObjectSet *object, s32 entry_index);
 
 
 typedef struct {

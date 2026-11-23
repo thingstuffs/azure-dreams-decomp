@@ -1,3 +1,4 @@
+#include "dungeon/level/tile_flags.h"
 #include "dungeon/player/held_item_kind_data.h"
 #include "common.h"
 #include "dungeon/actor/ability_eligibility.h"

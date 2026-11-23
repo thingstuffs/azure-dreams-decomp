@@ -7851,3 +7851,5 @@
 {"id":"town/func_800CF6E0","path":"src/town/person/state/step_heading_turn_sequence_reversed.c"}
 {"id":"dungeon/func_818EDDB4","path":"src/dungeon/effect/update_pulsing_orb_spell.c"}
 {"id":"dungeon/func_818F37A4","path":"src/dungeon/effect/update_pulsing_bolt_spell.c"}
+{"id":"dungeon/func_818DAF14","path":"src/dungeon/effect/draw_rippled_screen_strips.c"}
+{"id":"dungeon/func_818A4FD4","path":"src/dungeon/effect/update_orbit_ring_spell.c"}

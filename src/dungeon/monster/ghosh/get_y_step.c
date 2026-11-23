@@ -92,7 +92,7 @@ void advance_actor_path(ActorRecord *motion, ObjectPosition *context, SpriteFram
     state_flags = g_dungeon_status.flags;
     near_target = 0;
     if ((state_flags & 0x4000) || ((s8)actor->movement_queue_state >= 0)) {
-        if ((actor->unk_12 >= 2U) || ((begin_ghosh_front_attack(motion, context, position, actor) << 0x10)
+        if ((actor->ai_mode >= 2U) || ((begin_ghosh_front_attack(motion, context, position, actor) << 0x10)
             == 0)) {
             update_actor_status_and_mp(actor);
             return;

@@ -13,7 +13,7 @@
 /* Transform grid tiles into quads and add visible ones to the ordering table. */
 void build_visible_tile_quads(MeshEffectObjectBody *tiles)
 {
-    SpriteQuadScratch *scratch = (SpriteQuadScratch *)0x1F800000;
+    SpriteQuadScratch *scratch = SPRITE_SCRATCH;
     GameWork *globals = &g_game_work;
     LitMeshFace *style;
     POLY_FT4 *prim;

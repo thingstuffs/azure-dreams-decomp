@@ -5,7 +5,7 @@
 #include "engine/script/vm.h"
 
 /* Opcode 0x1E: Send the 16-bit operand to SD_Call. */
-void script_sound_command(ScriptReader *state)
+void script_sound_command(MessageWindow *state)
 {
     u8 *cursor = state->cursor;
     u8 low = cursor[0];

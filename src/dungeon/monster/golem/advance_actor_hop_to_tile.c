@@ -64,7 +64,7 @@ void advance_actor_hop_to_tile(ActorRecord *body, ObjectPosition *position, Spri
         }
 
     case 2:
-        if (((u32)actor->flags1C) & ACTOR_GROUNDED) {
+        if ((actor->flags1C) & ACTOR_GROUNDED) {
             body->action_state_flags &= 0xFFF7;
             position->velocity_z = 0;
             position->velocity_y = 0;
@@ -96,7 +96,7 @@ void advance_actor_hop_to_tile(ActorRecord *body, ObjectPosition *position, Spri
         }
     }
 
-    actor_flags = ((u32)actor->flags1C);
+    actor_flags = (actor->flags1C);
     if (actor_flags & 0x2000) {
         if (actor->action_flags & ACTOR_ACTION_PENDING) {
             actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;

@@ -66,7 +66,7 @@ void advance_actor_movement_step(ActorRecord *movement_in, ObjectPosition *actio
     near_target = 0;
 
     if ((dungeon_flags & 0x4000) || ((s8)actor->movement_queue_state >= 0)) {
-        if ((actor->unk_12 >= 2) ||
+        if ((actor->ai_mode >= 2) ||
             ((try_actor_attack(movement_in, action_ctx, position, actor) << 16) == 0)) {
             update_actor_status_and_mp(actor);
             return;

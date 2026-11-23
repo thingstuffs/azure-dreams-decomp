@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "engine/cd.h"
 #include "engine/graphics.h"
 #include "engine/scene.h"
@@ -45,7 +46,7 @@ void load_variant_texture_set(void)
     case 0:
     case 1:
     default:
-        switch (D_800136B8) {
+        switch (GAME_STATE->unk_36B8) {
         default:
             command = 6;
             resource = scene_variant_texture_resource_0;
@@ -69,7 +70,7 @@ void load_variant_texture_set(void)
         resource = scene_variant_texture_resource_4;
         break;
     case 3:
-        switch (D_800136B8) {
+        switch (GAME_STATE->unk_36B8) {
         default:
             command = 6;
             resource = scene_variant_texture_resource_5;

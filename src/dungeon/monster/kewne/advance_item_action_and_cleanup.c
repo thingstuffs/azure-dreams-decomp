@@ -61,19 +61,19 @@ void advance_item_action_and_cleanup(ActorRecord *body, ObjectPosition *motion, 
         item_or_audio_base = 1;
         /* fallthrough */
     case 3:
-        item_addr = ((u8 *)actor + 0xE);
+        item_addr = &actor->abilities[2].id;
         break;
     case 6:
         item_or_audio_base = 1;
         /* fallthrough */
     case 2:
-        item_addr = ((u8 *)actor + 0xB);
+        item_addr = &actor->abilities[1].id;
         break;
     case 5:
         item_or_audio_base = 1;
         /* fallthrough */
     case 1:
-        item_addr = ((u8 *)actor + 8);
+        item_addr = &actor->abilities[0].id;
         break;
     default:
         item_addr = 0;

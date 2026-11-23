@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/graphics/sprite_scratch.h"
 #include "town/line_packets.h"
 #include "town/scene.h"
 #include "town/devkit/old_minigame_imports.h"
@@ -56,18 +57,18 @@ s32 draw_projected_linked_records(void *first_record) {
     void *unused_ptr;
     void *record;
     u8 **render_root;
-    register u8 *screen_coords;
-    u8 *depths;
-    u8 *transform_scratch;
+    register s32 *screen_coords;
+    u16 *depths;
+    u16 *transform_scratch;
     u8 *primitive_base;
     u32 buffer_limit;
     u32 buffer_limit_2;
 
     record = first_record;
     render_root = &D_8012F130;
-    screen_coords = (u8 *)0x1F800000;
-    depths = (u8 *)0x1F800100;
-    transform_scratch = (u8 *)0x1F800180;
+    screen_coords = POINT_LIST_SCRATCH->screen_xy;
+    depths = POINT_LIST_SCRATCH->depths;
+    transform_scratch = POINT_LIST_SCRATCH->gte_discard;
     for (;;) {
         func_8006BFA0(record + 8, screen_coords, depths, transform_scratch, transform_scratch, 2);
         primitive_cursor = 0;
@@ -94,11 +95,11 @@ s32 draw_projected_linked_records(void *first_record) {
         primitive->second_color = (s32)((S_8080DAB8_2 *)((u8 *)record - 0x8))->unk_24;
         func_8006DD4C(primitive);
         func_8006DBBC(primitive, 1);
-        primitive->first_xy = (s32)*(s32 *)screen_coords;
-        primitive->second_xy = (s32)*(s32 *)(screen_coords + 4);
-        depth0_raw = *(u16 *)depths;
+        primitive->first_xy = screen_coords[0];
+        primitive->second_xy = screen_coords[1];
+        depth0_raw = depths[0];
         depth0_shifted = depth0_raw << 0x10;
-        depth1_raw = *((u16 *)depths + 1);
+        depth1_raw = depths[1];
         depth0 = (s32)depth0_shifted >> 0x10;
         /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: town/func_8080DAB8). */
         do {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "shared/dungeon_height_query.h"
 #include "shared/entity.h"
 #include "shared/sys_flags.h"
@@ -33,13 +34,6 @@ typedef struct S_8008C8BC_0 {
 
    /* held2 in begin_front_tile_attack */
 
-typedef struct S_8008C8BC_2 {
-    u8 pad_00[0x3186];
-    u8 unk_3186;
-    u8 pad_3187[0x58D];
-    u16 unk_3714;
-} S_8008C8BC_2;   /* r4 in begin_front_tile_attack */
-
 
    /* state in begin_front_tile_attack */
 
@@ -58,9 +52,9 @@ s32 begin_front_tile_attack(ActorRecord *body, ObjectPosition *unused, SpriteFra
             + ((u16 *)dir_step_y)[direction]) & 0xFFFF, (s16) entity->unk_88);
         page_or_entity = (u8 *)0x80010000;
         entity->unk_60 = target;
-        if (!(((S_8008C8BC_2 *)page_or_entity)->unk_3714 & 1) && (target != 0)
+        if (!(GAME_STATE->log.head.flags & 1) && (target != 0)
             && (target->flags14 & 0x4000)
-            && (((S_8008C8BC_2 *)page_or_entity)->unk_3186 & 1) && !(entity->unk_1C & 0x410)) {
+            && (GAME_STATE->options.unk_3186 & 1) && !(entity->unk_1C & 0x410)) {
             entity->unk_60 = NULL;
             return 0;
         }

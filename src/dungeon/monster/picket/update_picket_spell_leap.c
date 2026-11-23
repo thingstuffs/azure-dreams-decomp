@@ -59,7 +59,7 @@ void update_picket_spell_leap(ActorRecord *action, ObjectPosition *motion, Sprit
 
     case 0:
         action->unk_AC.halves.low.u = ((u16)motion->z.w.i);
-        if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
+        if ((actor->flags1C) & ACTOR_PLAYER_SIDE) {
             u16 action_kind;
 
             action_kind = actor->action_flags & ACTOR_ACTION_CODE_MASK;
@@ -68,17 +68,17 @@ void update_picket_spell_leap(ActorRecord *action, ObjectPosition *motion, Sprit
             case 6:
                 special = 1;
             case 2:
-                selector = (u8 *)actor + 0xE;
+                selector = &actor->abilities[2].id;
                 break;
             case 5:
                 special = 1;
             case 1:
-                selector = (u8 *)actor + 0xB;
+                selector = &actor->abilities[1].id;
                 break;
             case 4:
                 special = 1;
             case 0:
-                selector = (u8 *)actor + 8;
+                selector = &actor->abilities[0].id;
                 break;
             case 3:
             default:
@@ -90,13 +90,13 @@ void update_picket_spell_leap(ActorRecord *action, ObjectPosition *motion, Sprit
             action_kind = actor->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (action_kind) {
             case 3:
-                selector = (u8 *)actor + 0xE;
+                selector = &actor->abilities[2].id;
                 break;
             case 2:
-                selector = (u8 *)actor + 0xB;
+                selector = &actor->abilities[1].id;
                 break;
             case 1:
-                selector = (u8 *)actor + 8;
+                selector = &actor->abilities[0].id;
                 break;
             default:
                 selector = 0;
@@ -239,7 +239,7 @@ void update_picket_spell_leap(ActorRecord *action, ObjectPosition *motion, Sprit
 
     case 4:
         motion->velocity_z += 0x20000;
-        if (!((((u32)actor->flags1C) & ACTOR_GROUNDED) && (motion->z.w.i <= action->unk_AC.halves.low.s))) {
+        if (!(((actor->flags1C) & ACTOR_GROUNDED) && (motion->z.w.i <= action->unk_AC.halves.low.s))) {
             if (motion->z.w.i <= action->unk_AC.halves.low.s) {
                 return;
             }

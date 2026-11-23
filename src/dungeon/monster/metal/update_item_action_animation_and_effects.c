@@ -43,25 +43,25 @@ void update_item_action_animation_and_effects(ActorRecord *action, ObjectPositio
     }
     switch (state) {
     case 0:
-        if ((u32)actor->flags1C & ACTOR_PLAYER_SIDE) {
+        if (actor->flags1C & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & 0x3FFF) {
             case 7:
                 special = 1;
                 /* fallthrough */
             case 3:
-                item_slot = (u8 *)actor + 0xE;
+                item_slot = &actor->abilities[2].id;
                 break;
             case 6:
                 special = 1;
                 /* fallthrough */
             case 2:
-                item_slot = (u8 *)actor + 0xB;
+                item_slot = &actor->abilities[1].id;
                 break;
             case 5:
                 special = 1;
                 /* fallthrough */
             case 1:
-                item_slot = (u8 *)actor + 8;
+                item_slot = &actor->abilities[0].id;
                 break;
             default:
                 item_slot = 0;
@@ -70,13 +70,13 @@ void update_item_action_animation_and_effects(ActorRecord *action, ObjectPositio
         } else {
             switch (actor->action_flags & 0x3FFF) {
             case 3:
-                item_slot = (u8 *)actor + 0xE;
+                item_slot = &actor->abilities[2].id;
                 break;
             case 2:
-                item_slot = (u8 *)actor + 0xB;
+                item_slot = &actor->abilities[1].id;
                 break;
             case 1:
-                item_slot = (u8 *)actor + 8;
+                item_slot = &actor->abilities[0].id;
                 break;
             default:
                 item_slot = 0;

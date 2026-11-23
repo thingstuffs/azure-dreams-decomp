@@ -15,11 +15,11 @@ void *spawn_nyuel(s16 spawn_flags, s16 tile_x, s32 tile_y, s32 spawn_height) {
     s32 held_c;
     s32 held_b;
     s16 arg0_copy;
-    Body *body;
+    ActorRecord *body;
     Object *object;
     ObjectPosition *child_a;
     SpriteFrameState *child_b;
-    Body *body_alias;
+    ActorRecord *body_alias;
 
     held_flags = spawn_flags;
     held_a = tile_x;
@@ -30,7 +30,7 @@ void *spawn_nyuel(s16 spawn_flags, s16 tile_x, s32 tile_y, s32 spawn_height) {
     arg0_copy = held_flags;
     if (object != 0) {
         body = &object->body_20;
-        body->field_13 = 14;
+        body->species = 14;
         register_node(&object->header, project_sprite_chain);
 
         child_a = object->header.position;
@@ -42,32 +42,32 @@ void *spawn_nyuel(s16 spawn_flags, s16 tile_x, s32 tile_y, s32 spawn_height) {
         body_alias = body;
 
         if (tile_y == 1) {
-            body->callback_8C = nyuel_slot_d_action_callback;
-            body->flags_14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
-            body->flags_1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
+            body->unk_8C.address = nyuel_slot_d_action_callback;
+            body->flags14 |= (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
+            body->flags1C |= (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER);
             child_b->frameTable = nyuel_frame_set_7;
         } else if (tile_y >= 2) {
-            body->callback_8C = nyuel_slot_d_action_callback;
-            body->flags_14 |= ACTOR_CLASS_ENABLED;
-            body->flags_1C |= ACTOR_PLAYER_SIDE;
+            body->unk_8C.address = nyuel_slot_d_action_callback;
+            body->flags14 |= ACTOR_CLASS_ENABLED;
+            body->flags1C |= ACTOR_PLAYER_SIDE;
             child_b->frameTable = nyuel_frame_set_7;
         } else {
             if (((held_flags & ~3) << 16) == 0) {
-                if (!(body->flags_14 & ACTOR_RESIST_SLEEP) && (generate_random_value() & 1)) {
+                if (!(body->flags14 & ACTOR_RESIST_SLEEP) && (generate_random_value() & 1)) {
                     set_or_clear_actor_status_slot(body, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                     child_b->frameTable = D_80162F00;
                 }
-                body_alias->callback_8C = nyuel_slot_d_action_callback;
+                body_alias->unk_8C.address = nyuel_slot_d_action_callback;
                 child_b->frameTable = nyuel_frame_set_7;
             } else {
-                body->callback_8C = nyuel_slot_d_action_callback;
+                body->unk_8C.address = nyuel_slot_d_action_callback;
                 child_b->frameTable = nyuel_frame_set_7;
             }
         }
         object->header.update_callback = D_8015EA98;
         initialize_actor_sprite_and_animation(&object->header, child_a, child_b, (s16)arg0_copy);
-        body_alias->field_9A = 0xFF;
-        body_alias->field_9C = -1;
+        body_alias->action_id = 0xFF;
+        body_alias->route_room = -1;
         try_move_actor_to_valid_position(body_alias, child_a, child_b, body);
     }
     return body;

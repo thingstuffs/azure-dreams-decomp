@@ -3,8 +3,9 @@
 #include "town/scene/hooks.h"
 #include "town/scene/record_actions.h"
 #include "town/scene/state_data.h"
+#include "town/scene.h"
 
-s32 apply_entry_values_if_sbs07_pad25(Rec_func_800165F4_arg0 *row, s32 entry_index) {
+s32 apply_entry_values_if_sbs07_pad25(TownObjectSet *row, s32 entry_index) {
     set_global_entry_pair(row, entry_index);
     if (get_script_flag_mask(F_sbs07_pad25) != 0) {
         return apply_selected_entry_values(row, entry_index);

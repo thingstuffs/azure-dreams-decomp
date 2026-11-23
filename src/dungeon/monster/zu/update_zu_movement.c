@@ -663,7 +663,7 @@ void select_zu_movement(ActorRecord *move_data, ObjectPosition *context, SpriteF
     ActorRecord *blocker;
 
     if ((dungeon_flags & 0x4000) || (s8)actor_data->movement_queue_state >= 0) {
-        if (actor_data->unk_12 >= 2 ||
+        if (actor_data->ai_mode >= 2 ||
             (s16)try_begin_zu_directional_action(move_data, context, position_data, actor_data) == 0) {
             update_actor_status_and_mp(actor_data);
             return;
@@ -1354,26 +1354,26 @@ void update_zu_spell_action(ActorRecord *owner_input, ObjectPosition *motion_inp
     special = 0;
     switch (state) {
     case 0:
-        if (((u32)object->flags1C) & ACTOR_PLAYER_SIDE) {
+        if ((object->flags1C) & ACTOR_PLAYER_SIDE) {
             slot_index = (object->action_flags & ACTOR_ACTION_CODE_MASK) - 1;
             switch (slot_index) {
             case 6:
                 special = 1;
                 /* fall through */
             case 2:
-                item_slot = (u8 *)object + 0xE;
+                item_slot = &object->abilities[2].id;
                 break;
             case 5:
                 special = 1;
                 /* fall through */
             case 1:
-                item_slot = (u8 *)object + 0xB;
+                item_slot = &object->abilities[1].id;
                 break;
             case 4:
                 special = 1;
                 /* fall through */
             case 0:
-                item_slot = (u8 *)object + 8;
+                item_slot = &object->abilities[0].id;
                 break;
             default:
                 item_slot = 0;
@@ -1383,13 +1383,13 @@ void update_zu_spell_action(ActorRecord *owner_input, ObjectPosition *motion_inp
             slot_kind = object->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (slot_kind) {
             case 3:
-                item_slot = (u8 *)object + 0xE;
+                item_slot = &object->abilities[2].id;
                 break;
             case 2:
-                item_slot = (u8 *)object + 0xB;
+                item_slot = &object->abilities[1].id;
                 break;
             case 1:
-                item_slot = (u8 *)object + 8;
+                item_slot = &object->abilities[0].id;
                 break;
             default:
                 item_slot = 0;
@@ -1441,7 +1441,7 @@ void update_zu_spell_action(ActorRecord *owner_input, ObjectPosition *motion_inp
             owner_input->action_phase++;
             owner_input->action_state_flags |= 8;
             (*(u32 *)&object->flags1C) &= ACTOR_GROUNDED_CLEAR_MASK;
-            object->flags1C = (u32)((u32)(object->flags1C) & (0xFFFBFFFF));
+            object->flags1C = ((object->flags1C) & (0xFFFBFFFF));
             return;
         }
 
@@ -1487,8 +1487,8 @@ void update_zu_spell_action(ActorRecord *owner_input, ObjectPosition *motion_inp
         motion_input->velocity_x = 0;
         set_record_integer_tile_center(motion_input, actor_input->tile_x, actor_input->tile_y);
         owner_input->action_state_flags &= 0xFFF7;
-        object->flags1C = (u32)((u32)(object->flags1C) | (ACTOR_GROUNDED));
-        object->flags1C = (u32)((u32)(object->flags1C) | (0x00040000));
+        object->flags1C = ((object->flags1C) | (ACTOR_GROUNDED));
+        object->flags1C = ((object->flags1C) | (0x00040000));
 
         if (*(u8 **)&actor_input->frameTable != zu_default_frames) {
             (actor_input->frameTable) = zu_default_frames;
@@ -1568,7 +1568,7 @@ void restore_zu_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrame
             action_flags = action->action_state_flags;
             action_flags |= 8;
             action->action_state_flags = action_flags;
-            entity_flags = ((u32)entity->flags1C);
+            entity_flags = (entity->flags1C);
             entity_flags &= mask_bit_27;
             entity_flags &= mask_bit_18;
             entity->flags1C = entity_flags;
@@ -1576,7 +1576,7 @@ void restore_zu_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrame
 
         action->action_phase = action->action_phase + 1;
         timer_signed = -1;
-        if (((u32)entity->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+        if ((entity->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer_signed = 8;
         }
         action->action_timer = timer_signed;

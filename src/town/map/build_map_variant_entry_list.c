@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "town/map.h"
 #include "town/data.h"
 #include "town/map/variant_data.h"
@@ -37,7 +38,7 @@ void build_map_variant_entry_list(void) {
     map_records = town_map_variants;
     switch (map_records[town_map_selection_state[6]].entry_kind) {
     case 5:
-        switch ((*(u8 *)0x800136B8)) {
+        switch ((GAME_STATE->unk_36B8)) {
         default: town_map_entry_list[count++] = D_800D1D54; break;
         case 0xB: town_map_entry_list[count++] = D_800D1D5C; break;
         case 0xC: town_map_entry_list[count++] = D_800D1D64; break;
@@ -46,7 +47,7 @@ void build_map_variant_entry_list(void) {
         town_map_entry_list[count++] = town_map_optional_entry;
         break;
     case 0xF:
-        switch ((*(u8 *)0x800136B8)) {
+        switch ((GAME_STATE->unk_36B8)) {
         default: town_map_entry_list[count++] = D_800D1DB4; break;
         case 0xB: town_map_entry_list[count++] = D_800D1DBC; break;
         case 0xC: town_map_entry_list[count++] = D_800D1DC4; break;
@@ -55,7 +56,7 @@ void build_map_variant_entry_list(void) {
         town_map_entry_list[count++] = town_map_optional_entry;
         break;
     case 0x10:
-        switch ((*(u8 *)0x800136B8)) {
+        switch ((GAME_STATE->unk_36B8)) {
         default: town_map_entry_list[count++] = D_800D1DD4; break;
         case 0xB: town_map_entry_list[count++] = D_800D1DDC; break;
         case 0xC: town_map_entry_list[count++] = D_800D1DE4; break;

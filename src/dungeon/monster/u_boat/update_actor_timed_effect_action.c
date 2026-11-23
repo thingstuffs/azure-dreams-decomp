@@ -206,7 +206,7 @@ void update_actor_timed_effect_action(ActorRecord *action, ObjectPosition *posit
             position->velocity_y = 0;
             position->velocity_x = 0;
             set_record_integer_tile_center(position, sprite->tile_x, sprite->tile_y);
-            actor->flags1C = (s32) (actor->flags1C | 0x40000);
+            actor->flags1C = (actor->flags1C | 0x40000);
             action->action_state_flags = (u16) (action->action_state_flags | 8);
             if (*(u8 * *)&sprite->frameTable == uboat_default_frames) {
                 return;

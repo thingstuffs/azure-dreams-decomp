@@ -3,7 +3,7 @@
 #include "engine/script/vm.h"
 
 /* Opcode 0x3A: Store word: LE32(addr32 + 4 * u8) = v[var]. */
-void script_store_table_word(ScriptReader *state) {
+void script_store_table_word(MessageWindow *state) {
     u8 *dst;
     u8 *src;
     u8 *addr_bytes;
@@ -33,7 +33,7 @@ void script_store_table_word(ScriptReader *state) {
     dst = (u8 *)(addr_byte0 + (addr_byte1 << 8) +
                  (addr_byte2 << 16) + (addr_byte3 << 24) +
                  dst_offset);
-    src = (u8 *)((src_index * 4) + (unsigned long)state->data);
+    src = (u8 *)((src_index * 4) + (unsigned long)state->controller);
 
     dst[0] = *(s32 *)(src + 0x48);
     dst[1] = *(s32 *)(src + 0x48) >> 8;

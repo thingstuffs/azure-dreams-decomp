@@ -1,3 +1,4 @@
+#include "dungeon/level/tile_flags.h"
 #include "engine/node/registration.h"
 #include "shared/entity.h"
 #include "shared/audio_commands.h"
@@ -234,7 +235,7 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(u8 *sh
     s32 scale = scale_num;
     s32 divisor = scale_den;
     s32 interpolate = scale < divisor;
-    ProjectedQuadScratch *scratch = (ProjectedQuadScratch *)0x1F800000;
+    ProjectedQuadScratch *scratch = PROJECTED_QUAD_SCRATCH;
 
     scratch->ordering_table = (u32 *)(gfx + 0xB0);
     do {
@@ -426,7 +427,7 @@ void queue_perimeter_vertical_quads(ovl_1930844_81911BF4_Obj81911BF4 *effect_in,
 
     context_slot = ovl_1930844_819112CC_GFX_ROOT_SLOT;
     point_index = 0;
-    scratch = (ProjectedQuadScratch *)0x1F800000;
+    scratch = PROJECTED_QUAD_SCRATCH;
     interpolate = step < duration;
     vertex_base = &scratch->vertices[0];
     scratch->ordering_table = (u32 *)(render_context + 0xB0);
@@ -986,7 +987,7 @@ void update_approaching_impact_effect(ApproachingImpactSpellBody *state, ObjectP
                 if (floor_height >= 0x201) {
                     break;
                 }
-                if ((s16) (floor_height - (u16) owner->ground_height) < -0x3F) {
+                if ((s16) (floor_height -  owner->ground_height) < -0x3F) {
                     break;
                 }
                 step_direction = (s16) state->unk_0E;

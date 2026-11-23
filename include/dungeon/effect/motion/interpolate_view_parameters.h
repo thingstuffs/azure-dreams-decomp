@@ -1,5 +1,6 @@
 #ifndef DUNGEON_OVL_1936800_H
 #define DUNGEON_OVL_1936800_H
+#include "dungeon/level/tile_flags.h"
 #include "sdk/libc.h"
 #include "dungeon/globals.h"
 #include "sdk/libgte.h"
@@ -355,7 +356,6 @@ void AddPrim(void *, void *);
 #include "engine/node/allocation.h"
 #include "sdk/abs.h"
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
-s16 check_layer_offset_height(u16, u16, s16, s16);
 s32 sample_terrain_surface_height(u16, u16, s16);
 void apply_attack_power_and_element_effects(void *, s32, s32, s32, s16, void *, s32);
 extern u8 D_80025B1C[16];

@@ -51,20 +51,20 @@ void advance_actor_item_use_sequence(ActorRecord *body, ObjectPosition *position
     action_state = body->action_phase;
     switch (action_state) {
     case 0:
-        if ((u32)actor->flags1C & ACTOR_PLAYER_SIDE) {
+        if (actor->flags1C & ACTOR_PLAYER_SIDE) {
             item_selector = (actor->action_flags & 0x3FFF) - 1;
             switch (item_selector) {
             case 6:
                 special_mode = 1;
                 /* fall through */
             case 2:
-                item = (u8 *)actor + 0x0E;
+                item = &actor->abilities[2].id;
                 break;
             case 5:
                 special_mode = 1;
                 /* fall through */
             case 1:
-                item = (u8 *)actor + 0x0B;
+                item = &actor->abilities[1].id;
                 break;
             case 4:
                 special_mode = 1;
@@ -81,13 +81,13 @@ void advance_actor_item_use_sequence(ActorRecord *body, ObjectPosition *position
             item_selector = actor->action_flags & 0x3FFF;
             switch (item_selector) {
             case 3:
-                item = (u8 *)actor + 0x0E;
+                item = &actor->abilities[2].id;
                 break;
             case 2:
-                item = (u8 *)actor + 0x0B;
+                item = &actor->abilities[1].id;
                 break;
             case 1:
-                item = (u8 *)actor + 8;
+                item = &actor->abilities[0].id;
                 break;
             default:
                 item = 0;

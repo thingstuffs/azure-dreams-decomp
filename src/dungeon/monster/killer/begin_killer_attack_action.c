@@ -30,8 +30,8 @@ void begin_killer_attack_action(ActorRecord *action_state, ObjectPosition *conte
                 action_state->action_state_flags =
                     (u16) (action_state->action_state_flags & 0xBFFF);
             }
-            action_state->unk_AC.byte = (u8) (*((u8 *)&((EntityRec *)actor)->x + 3));
-            (*((u8 *)&((EntityRec *)actor)->x + 3)) = 0xFFU;
+            action_state->unk_AC.byte = (u8) actor->luck;
+            actor->luck = 0xFFU;
             actor->accuracy = 0x7E;
             actor->attack_bonus = 8;
         } else {
@@ -45,7 +45,7 @@ void begin_killer_attack_action(ActorRecord *action_state, ObjectPosition *conte
         actor->pending_turn_updates = actor->pending_turn_updates - 1;
         prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
         if (!(action_state->action_state_flags & 0x8000)) {
-            actor->flags1C = (s32) (actor->flags1C & 0xFEFFFFFF);
+            actor->flags1C = (actor->flags1C & 0xFEFFFFFF);
         }
     }
 }

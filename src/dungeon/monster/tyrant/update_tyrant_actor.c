@@ -43,7 +43,7 @@ void update_tyrant_actor(ActorRecord *body, TrailMotion *motion, SpriteFrameStat
     call_entity = body;
     call_motion = motion;
     call_part = sprite;
-    previous_state_2 = (*((u8 *)body + 0x6D));
+    previous_state_2 = ((u8)body->pending_turn_updates);
     call_self = body;
     state_direction = (s8)previous_state_2;
     if (refresh_actor_facing_and_lifecycle(call_entity, call_motion, call_part, call_self) != 0) {

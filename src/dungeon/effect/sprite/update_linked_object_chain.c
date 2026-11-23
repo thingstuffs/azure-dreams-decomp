@@ -1,3 +1,4 @@
+#include "dungeon/level/tile_flags.h"
 #include "shared/object_node.h"
 #include "shared/dungeon_effect_status.h"
 #include "engine/scene.h"
@@ -22,7 +23,6 @@ void func_80026548(MATRIX *dest, LinkedSpriteFrame *source);                 /* 
 void func_800266D0(SpriteFrameState *sprite, s16 entry_index);                  /* extern */
 s32 find_eligible_entry_at_coordinates();                /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
-s32 check_layer_offset_height();              /* extern */
 #include "dungeon/effect/sprite_effect_count_data.h"
 extern s32 D_800C9034();
 

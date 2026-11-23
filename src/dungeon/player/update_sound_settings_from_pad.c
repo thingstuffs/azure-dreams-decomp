@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
@@ -35,7 +36,7 @@ s32 update_sound_settings_from_pad(ActorRecord *actor, ObjectPosition *unused_mo
         stopped = 1;
     }
     else {
-        input_flags = *(u16 *) 0x80013714;
+        input_flags = GAME_STATE->log.head.flags;
         if (((input_flags & 0xC) || (input_flags & 1)) || (actor->action_id == 0x19)) {
             stopped = 1;
         }
@@ -63,8 +64,8 @@ s32 update_sound_settings_from_pad(ActorRecord *actor, ObjectPosition *unused_mo
             if ((base->buttons) & 0x10) {
                 if ((base->pressed_buttons) & 1) {
                     changed = 1;
-                    value = (u16) ((camera_pitch_index + 1) & 3);
-                    camera_pitch_index = value;
+                    value = (u16) ((GAME_STATE->camera_pitch_index + 1) & 3);
+                    GAME_STATE->camera_pitch_index = value;
                     dungeon_camera_targets.rotation.x = (u16) camera_pitch_presets[(u16) value];
                 }
             }
@@ -76,8 +77,8 @@ s32 update_sound_settings_from_pad(ActorRecord *actor, ObjectPosition *unused_mo
         }
         if ((base->buttons) & 0x10) {
             if ((base->pressed_buttons) & 4) {
-                value = (s16) ((camera_depth_index[0] + 1) & 3);
-                camera_depth_index[0] = value;
+                value = (s16) ((GAME_STATE->camera_depth_index + 1) & 3);
+                GAME_STATE->camera_depth_index = value;
                 dungeon_floor_flags |= 0x40;
                 camera_depth_target[0] = camera_depth_presets[(u16) value];
             }

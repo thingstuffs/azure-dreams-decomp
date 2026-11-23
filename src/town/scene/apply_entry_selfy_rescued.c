@@ -12,7 +12,7 @@ extern u8 D_8001E2E0[];
 extern void *select_response_checking_free_slots(SquareSceneEntry *, s32, s32);
 extern s32 func_80017410(SquareSceneEntry *, s32);
 
-s32 apply_entry_selfy_rescued(SquareSceneEntry *entry, s32 entry_index) {
+s32 apply_entry_selfy_rescued(TownObjectSet *entry, s32 entry_index) {
     if (get_script_flag_mask(5000) != 0) {
         set_current_entry_script_flag();
     }

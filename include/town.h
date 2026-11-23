@@ -2,7 +2,7 @@
 #define TOWN_H
 struct ObjectPosition;
 struct SpriteFrameState;
-struct Rec_func_800165F4_arg0;
+struct TownObjectSet;
 
 #include "common.h"
 
@@ -30,12 +30,12 @@ void init_sound_threshold_action(s32 **record, struct ObjectPosition *unused, s3
 
 void init_height_interpolation_action(TownObjectRecord *record, struct ObjectPosition *unused, void *handler_context);
 
-s32 forward_context_request_to_handler_b(struct Rec_func_800165F4_arg0 *entry, s32 entry_index);
-s32 forward_context_request_to_handler_c(struct Rec_func_800165F4_arg0 *entry, s32 entry_index);
-s32 forward_context_request_to_handler_d(struct Rec_func_800165F4_arg0 *entry, s32 entry_index);
-s32 forward_context_request_to_handler_e(struct Rec_func_800165F4_arg0 *entry, s32 entry_index);
-s32 forward_context_request_to_handler_f(struct Rec_func_800165F4_arg0 *entry, s32 entry_index);
-s32 forward_context_request_to_handler_g(struct Rec_func_800165F4_arg0 *entry, s32 entry_index);
+s32 forward_context_request_to_handler_b(struct TownObjectSet *entry, s32 entry_index);
+s32 forward_context_request_to_handler_c(struct TownObjectSet *entry, s32 entry_index);
+s32 forward_context_request_to_handler_d(struct TownObjectSet *entry, s32 entry_index);
+s32 forward_context_request_to_handler_e(struct TownObjectSet *entry, s32 entry_index);
+s32 forward_context_request_to_handler_f(struct TownObjectSet *entry, s32 entry_index);
+s32 forward_context_request_to_handler_g(struct TownObjectSet *entry, s32 entry_index);
 void set_scene_entry_flag_k(void);
 void initialize_entity_handlers_and_position(s32 entity_id, s32 x, s32 y);
 void update_timed_state_transition(TownObjectRecord *state);

@@ -34,16 +34,16 @@ s32 use_item_to_increase_defense(ActorRecord *entity, DungeonItemEntry *update_v
     if ((u32)entity <= 0x9FFFFFFF) {
         display_item_status_message(entity, update_value, update_mode);
         if (feed_actor_restore_mp(
-                entity, (entity_action_selectors[(*((u8 *)&((EntityRec *)entity)->unk_10 + 3))] >> 6) & 3, 0) == 0) {
+                entity, (entity_action_selectors[entity->species] >> 6) & 3, 0) == 0) {
             place_actor_item(entity, update_value);
             return 1;
         }
     }
 
     if (entity->current_defense == entity->base_defense) {
-        completion_count = (*((u8 *)&((EntityRec *)entity)->x + 1));
+        completion_count = entity->defense;
         if (completion_count < 0xFF) {
-            (*((u8 *)&((EntityRec *)entity)->x + 1)) = completion_count + 1;
+            entity->defense = completion_count + 1;
             apply_entity_effects(entity);
         }
     }

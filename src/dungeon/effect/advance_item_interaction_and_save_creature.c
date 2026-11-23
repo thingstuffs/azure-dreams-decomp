@@ -1,4 +1,5 @@
 #include "dungeon/level/unlink_entity_node_api.h"
+#include "shared/game_state.h"
 #include "engine/scene.h"
 #include "shared/actor_status_flags.h"
 #include "shared/dungeon_actor_callbacks.h"
@@ -292,7 +293,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, Objec
             return;
         }
         use_item = 0;
-        if (((S_func_800B1364_14 *)0x80013714)->unk_00 & 1) {
+        if (GAME_STATE->log.head.flags & 1) {
             input_command = advance_monster_timed_sequence();
             if (input_command == NULL) {
                 build_floating_number_widget(0x22, 0xF2, 0xBA, 0x105, 0, 8);

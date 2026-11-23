@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/game_state.h"
 #include "dungeon/menu.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
@@ -12,14 +13,6 @@
 #endif
 
 
-
-
-typedef struct Obj12ConfigPage {
-    u8 pad_00[0x3638];
-    u16 unk_3638;
-    u16 unk_363A;
-    u16 unk_363C;
-} Obj12ConfigPage;
 
 
 struct ConfigWord { s32 value; };
@@ -43,7 +36,6 @@ void create_viewport_transition_object(void) {
                 InactiveTypeTwelveObjectBody *object_state;
                 ObjectPosition *child;
                 s32 color;
-                Obj12ConfigPage *config_value;
                 s32 config_word;
                 s32 config_word2;
                 s32 flags;
@@ -54,16 +46,15 @@ void create_viewport_transition_object(void) {
                 render_data = object->sprite;
                 render_data->flags = 0xC;
                 render_data->source = D_800DD7E0;
-                config_value = (void *) 0x80010000;
                 render_data->scale_y = 0;
                 render_data->scale_x = 0;
-                field_value_2 = config_value->unk_363C;
+                field_value_2 = GAME_STATE->map_view.scale;
                 object_state = NODE_BODY(object);
                 object_state->target_scale = field_value_2;
-                field_value = config_value->unk_3638;
+                field_value = GAME_STATE->map_view.unk_08;
                 child->x.w.i = field_value;
                 object_state->target_center_x = field_value;
-                field_z = config_value->unk_363A;
+                field_z = GAME_STATE->map_view.unk_0A;
                 child->y.w.i = field_z;
                 object_state->target_center_y = field_z;
                 object_state->state = 0x10;

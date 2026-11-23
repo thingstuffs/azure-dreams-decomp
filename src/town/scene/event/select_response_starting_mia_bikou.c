@@ -6,13 +6,14 @@
 #include "town/scene/position_entries.h"
 #include "town/scene/event.h"
 #include "town/scene/flags.h"
+#include "town/scene.h"
 
 void decrement_entry_counter_if_flag(void);                            /* extern */
 extern ScenePositionEntry D_80018B38;
 extern s32 D_80018E38;
 
 /* Runs the town interaction handler and returns its saved result. */
-s32 select_response_starting_mia_bikou(void *object, s32 unused, s32 context) {
+s32 select_response_starting_mia_bikou(TownObjectSet *object, s32 unused, s32 context) {
     s32 result;
 
     result = apply_entry_position(&D_80018B38, &D_80018E38, object, context);

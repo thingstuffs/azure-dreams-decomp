@@ -251,7 +251,7 @@ void wait_death_mp_and_animate(ActorRecord *actor, ObjectPosition *context, Spri
             return;
         }
 
-        entity_flags = ((u32)entity->flags1C);
+        entity_flags = (entity->flags1C);
         if (entity_flags & 0x100) {
             begin_pushed_actor_move(actor, context, animation, entity);
             return;
@@ -307,7 +307,7 @@ void wait_death_mp_and_animate(ActorRecord *actor, ObjectPosition *context, Spri
         select_sprite_entry(animation,
             death_frame_set_3[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        entity->flags1C = (u32)((u32)(entity->flags1C) | (0x40000));
+        entity->flags1C = ((entity->flags1C) | (0x40000));
         dungeon_state->unk_0A++;
     }
         actor->action_phase++;

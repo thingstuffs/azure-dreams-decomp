@@ -4,6 +4,8 @@
 #include "common.h"
 #include "town/scene/motion.h"
 
+struct TownObjectSet;
+
 typedef struct ScenePositionEntry {
     s16 id;
     s16 selector;
@@ -22,7 +24,7 @@ extern s16 first_choice_action_position_flags[];
 extern ScenePositionEntry sbs17_choice_position_entries[];
 extern s16 sbs17_choice_position_flags[];
 
-long resolve_entry_with_override_49(void *context, s32 unused, s32 selection);
+long resolve_entry_with_override_49(struct TownObjectSet *context, s32 unused, s32 selection);
 
 /* Placed entry points for apply_entry_position. */
 s32 func_80018044(ScenePositionEntry *entries, void *object, void *context, s32 selection);

@@ -1,6 +1,6 @@
 # Incoming references to the three unregistered MAIN routines
 
-The held `MAIN_MAIN.BIN` contains **four direct `jal` instructions** to the three routines in a coherent caller block immediately before them. The [disassembly](main_callsite_block.disasm.txt) shows two functions with normal stack prologues and returns; this is mapped executable code, not just an opcode-shaped raw word. The same 208-byte block is byte-identical in held `TOWN_TOWN.BIN` ([copy disassembly](town_callsite_block.disasm.txt)), giving eight physical instruction-word occurrences but **four distinct callsite instructions**. The TOWN copy's runtime load address is not established here.
+The held `MAIN_MAIN.BIN` contains **four direct `jal` instructions** to the three routines in a coherent caller block immediately before them. The disassembly of that block (listing not kept in the repository) shows two functions with normal stack prologues and returns; this is mapped executable code, not just an opcode-shaped raw word. The same 208-byte block is byte-identical in held `TOWN_TOWN.BIN` (the copy's listing is likewise not kept in the repository), giving eight physical instruction-word occurrences but **four distinct callsite instructions**. The TOWN copy's runtime load address is not established here.
 
 | MAIN file offset | MAIN devkit-linked callsite VMA | Caller block start | Encoded instruction | Linked target | Historical row name |
 |---:|---:|---:|---|---:|---|

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "engine/audio.h"
 #include "engine/resource.h"
 
@@ -9,7 +10,7 @@ u32 *find_sound_table_entry(s32 sound_id)
 
     index = find_resource_key_index(sound_id);
     if (index >= 0) {
-        return (u32 *)0x800135C4 + index;
+        return (u32 *)GAME_STATE->unk_35C4 + index;
     }
     return 0;
 }

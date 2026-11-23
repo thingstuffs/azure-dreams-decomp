@@ -74,7 +74,7 @@ void update_picket_jump_to_tile(ActorRecord *jump_state, ObjectPosition *motion,
             jump_state->action_phase++;
         }
     case 2:
-        if (((u32)actor->flags1C) & ACTOR_GROUNDED) {
+        if ((actor->flags1C) & ACTOR_GROUNDED) {
             jump_state->action_state_flags &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
@@ -105,7 +105,7 @@ void update_picket_jump_to_tile(ActorRecord *jump_state, ObjectPosition *motion,
             }
         }
 
-        actor_flags = ((u32)actor->flags1C);
+        actor_flags = (actor->flags1C);
         if (actor_flags & 0x2000) {
             if (actor->action_flags & ACTOR_ACTION_PENDING) {
                 actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;

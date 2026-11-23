@@ -80,7 +80,7 @@ s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, st
         sprite->tpage_abr = 0x20;
         sprite->clut = (u16) (sprite->clut - 0x80);
         sprite->flags = (u16) (sprite->flags | 0xC);
-        entity->flags1C = (s32) (entity->flags1C | 0x10000000);
+        entity->flags1C = (entity->flags1C | 0x10000000);
         entity_type = entity->species;
         if ((entity_type == 5) || (sound_id = 0x805, (entity_type == 0x1E))) {
             sound_id = 0x806;
@@ -114,7 +114,7 @@ s32 update_actor_defeat_removal(ActorRecord *state, ObjectPosition *position, st
                 detach_record_and_update_slot_state(entity);
                 if (entity->carried_item.kind != 0 && !(entity->carried_item.unk_03 & 0x20)) {
                     create_item_drop_effect(position->x.w.i, position->y.w.i,
-                        entity->ground_height, (u8 *)entity + 0x48);
+                        entity->ground_height, &entity->carried_item);
                 }
                 break;
             }

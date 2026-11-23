@@ -3,9 +3,10 @@
 #include "shared/town_root.h"
 #include "town/scene/event.h"
 #include "town/scene/flags.h"
+#include "town/scene.h"
 
 /* Call func_80017BA0 when the current entry byte is at least two, then clear it and return success. */
-s32 consume_ready_entry(s32 first_input, s32 second_input)
+s32 consume_ready_entry(TownObjectSet *first_input, s32 second_input)
 {
     Rec_D_80016000 *state_before;
     Rec_D_80016000 *state_after;

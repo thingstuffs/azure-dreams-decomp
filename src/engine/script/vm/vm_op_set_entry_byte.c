@@ -4,7 +4,7 @@
 #include "engine/script/vm.h"
 
 /* Opcode 0x1C: Set byte 2 of the sound-table entry selected by the u8 key. */
-void script_set_sound_entry_byte(ScriptReader *parser)
+void script_set_sound_entry_byte(MessageWindow *parser)
 {
     u8 entry_key;
     u8 *entry;

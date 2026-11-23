@@ -54,13 +54,18 @@ def scoped_texts(texts, prefixes, root):
                    for prefix in normalized)}
 
 def read_names():
+    """[addr, old, new, evidence, scope] per row; scope is the optional 5th column (tools/name_scope.py), else ''."""
     out = []
     for raw in NAMES.read_text().splitlines():
         line = raw.split("#", 1)[0].rstrip()
         cols = line.split("\t")
         if len(cols) >= 3 and cols[1].strip():
-            out.append([c.strip() for c in cols[:4]] + [""] * (4 - len(cols)))
+            out.append([c.strip() for c in cols[:5]] + [""] * (5 - len(cols)))
     return out
+
+def names_line(addr, old, new, evidence, scope=""):
+    """One config/names.tsv row, newline-ended; the scope column is written only when there is one."""
+    return f"{addr}\t{old}\t{new}\t{evidence}" + (f"\t{scope}" if scope else "") + "\n"
 
 def load_tree():
     """{path: text} for every src/ file, and the set of identifiers the tree uses."""
@@ -121,11 +126,14 @@ def main():
         from apply_names_batch import main as batch_main
         return batch_main(a, sys.modules[__name__])
     proposed = []
+    proposed_scope = {}      # (old, new) -> the proposal row's optional 5th column, written through to names.tsv
     for raw in Path(a.tsv).read_text().splitlines():
         line = raw.split("#", 1)[0].rstrip()
         cols = [c.strip() for c in line.split("\t")]
         if len(cols) >= 4 and cols[1]:
             proposed.append(cols[:4])
+            if len(cols) >= 5 and cols[4]:
+                proposed_scope[(cols[1], cols[2])] = cols[4]
     if a.only:
         keep = set(a.only.split(",")); proposed = [p for p in proposed if p[1] in keep]
     if a.limit:
@@ -149,6 +157,7 @@ def main():
     print(f"{len(proposed)} proposed, {len(applied)} already in names.tsv", flush=True)
     tally = {}
     for addr, old, new, evidence in proposed:
+        scope = proposed_scope.get((old, new), "")
         rec = {"addr": addr, "old": old, "new": new, "at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
         why = None
         explicit = identity_map.get(new) or identity_map.get(old)
@@ -186,7 +195,7 @@ def main():
         if a.dry_run:
             print(f"would rename {old} -> {new}: {len(touched)} files, {len(touched_rows)} rows"); continue
         # 2. names.tsv first: the scorer and the gate read the alias table when they compile
-        atomic_io.write_text(NAMES, NAMES.read_text().rstrip("\n") + f"\n{addr}\t{old}\t{new}\t{evidence}\n")
+        atomic_io.write_text(NAMES, NAMES.read_text().rstrip("\n") + "\n" + names_line(addr, old, new, evidence, scope))
         # 3. rewrite
         new_texts = {p: pat.sub(new, t) for p, t in touched.items()}
         for p, t in new_texts.items(): p.write_text(t)

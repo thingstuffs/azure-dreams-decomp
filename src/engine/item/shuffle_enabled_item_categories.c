@@ -11,7 +11,6 @@
 
 
 /* External words used to select item categories. */
-extern s32 dungeon_mode_state;
 
 extern void save_or_restore_random_seed(s32 a0);
 extern void restore_dungeon_random_seed(s32 a0);
@@ -25,11 +24,11 @@ void shuffle_enabled_item_categories(void)
     queue_mode_selected_resource_table();
     drain_cd_command_queue();
     save_or_restore_random_seed(1);
-    restore_dungeon_random_seed(D_80013628);
+    restore_dungeon_random_seed(GAME_STATE->dungeon_seed);
 
     category = itemCategoryTable;
     for (category_id = 0; category_id < 20; category_id++, category++) {
-        if (((s32)category->flags >> dungeon_mode_state) & 1) {
+        if (((s32)category->flags >> GAME_STATE->dungeon_mode_state) & 1) {
             shuffle_category_item_data(category_id);
         }
     }

@@ -56,30 +56,31 @@ void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFram
     state = action->action_phase;
     use_global_source = 0;
     switch (state) {
-    case 0:
+    case 0: {
+        ActorAbility *ability;
         {
             ObjectNodeHeader *source_entity;
 
-            item = 0;
-            if (((u32)act->flags1C) & ACTOR_PLAYER_SIDE) {
+            ability = 0;
+            if ((act->flags1C) & ACTOR_PLAYER_SIDE) {
                 switch (act->action_flags & 0x3FFF) {
                 case 7:
                     use_global_source = 1;
                     /* fallthrough */
                 case 3:
-                    item = (u8 *)act + 0xE;
+                    ability = &act->abilities[2];
                     break;
                 case 6:
                     use_global_source = 1;
                     /* fallthrough */
                 case 2:
-                    item = (u8 *)act + 0xB;
+                    ability = &act->abilities[1];
                     break;
                 case 5:
                     use_global_source = 1;
                     /* fallthrough */
                 case 1:
-                    item = (u8 *)act + 8;
+                    ability = &act->abilities[0];
                     break;
                 default:
                     break;
@@ -88,19 +89,19 @@ void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFram
                 item_kind = act->action_flags & 0x3FFF;
                 switch (item_kind) {
                 case 3:
-                    item = (u8 *)act + 0xE;
+                    ability = &act->abilities[2];
                     break;
                 case 2:
-                    item = (u8 *)act + 0xB;
+                    ability = &act->abilities[1];
                     break;
                 case 1:
-                    item = (u8 *)act + 8;
+                    ability = &act->abilities[0];
                     break;
                 default:
                     break;
                 }
             }
-            if ((*(u8 *)&((EntityRec *)item)->x) == 0) {
+            if (ability->id == 0) {
                 return;
             }
 
@@ -115,7 +116,7 @@ void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFram
                     target_sprite = (source_entity - 1)->sprite;
                     act->target_tile_x = target_sprite->tile_x;
                     act->target_tile_y = target_sprite->tile_y;
-                } else if (item_action_definitions[(*(u8 *)&((EntityRec *)item)->x)].kind == 2) {
+                } else if (item_action_definitions[ability->id].kind == 2) {
                     source_entity = act->target;
                     if (source_entity != 0) {
                         target_sprite = (source_entity - 1)->sprite;
@@ -135,12 +136,13 @@ void update_actor_item_use_animation(ActorRecord *action, void *item, SpriteFram
             }
         }
 
-        if (!create_actor_spell_effect(act, item, use_global_source, ((u8 *)action + 0x98))) {
+        if (!create_actor_spell_effect(act, ability, use_global_source, ((u8 *)action + 0x98))) {
             return;
         }
         create_actor_linked_effect(act);
         action->action_phase++;
         return;
+    }
 
     case 1:
         if (get_cd_command_queue_depth()) {

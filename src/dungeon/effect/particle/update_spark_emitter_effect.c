@@ -248,7 +248,7 @@ loop_effects:
                         owner = effect->unk_30.p;
                         effect->unk_00 = 1;
                         owner_sprite = ((SpriteLinkPrefixView *)owner)[-1].sprite;
-                        ((ActorRecord *)owner)->flags1C = (s32) (((ActorRecord *)owner)->flags1C | 0x10000000);
+                        ((ActorRecord *)owner)->flags1C = (((ActorRecord *)owner)->flags1C | 0x10000000);
                         owner_sprite->color.c.b = 0x30;
                         owner_sprite->color.c.g = 0x30;
                         owner_sprite->color.c.r = 0x30;
@@ -295,7 +295,7 @@ loop_effects:
         if ((s16) fade_ticks >= 0x15) {
             if ((effect->unk_0A == 4) && (effect->unk_08 == state)) {
                 owner_flags = effect->unk_30.p;
-                owner_flags->flags1C = (s32) (owner_flags->flags1C & 0xEFFFFFFF);
+                owner_flags->flags1C = (owner_flags->flags1C & 0xEFFFFFFF);
                 owner_sprite = ((S_81814EDC_12_pre *)(effect->unk_30.p))[-1].unk_04;
                 owner_sprite->color.c.b = 0x80;
                 owner_sprite->color.c.g = 0x80;

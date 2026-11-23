@@ -73,7 +73,7 @@ CREATE TABLE image(name TEXT PRIMARY KEY, tag TEXT, output TEXT, kind TEXT, star
 CREATE TABLE image_unit(image TEXT, idx INTEGER, recipe TEXT, func TEXT, kind TEXT, off INTEGER, size INTEGER,
     vma INTEGER, rows TEXT, rebind INTEGER);
 CREATE INDEX image_unit_recipe ON image_unit(recipe);
-CREATE TABLE name(address TEXT, symbol TEXT, name TEXT, evidence TEXT);
+CREATE TABLE name(address TEXT, symbol TEXT, name TEXT, evidence TEXT, scope TEXT);
 CREATE INDEX name_symbol ON name(symbol);
 CREATE INDEX name_name ON name(name);
 CREATE TABLE function(name TEXT PRIMARY KEY, symbol TEXT, address TEXT, defs INTEGER, protos INTEGER,
@@ -237,6 +237,10 @@ class CodeMap:
             for column in ('size', 'mtime_ns'):
                 if column not in have:
                     self.db.execute('ALTER TABLE source_file ADD COLUMN %s INTEGER' % column)
+            if 'scope' not in {r[1] for r in self.db.execute('PRAGMA table_info(name)')}:
+                # maps built before names.tsv had a scope column: add it and make the next load re-read the table
+                self.db.execute('ALTER TABLE name ADD COLUMN scope TEXT')
+                self.db.execute("DELETE FROM fact_key WHERE kind='names'")
             tables = {r[0] for r in self.db.execute("SELECT name FROM sqlite_master WHERE type='table'")}
             for table, ddl in LATE_TABLES.items():
                 if table not in tables:
@@ -351,8 +355,8 @@ class CodeMap:
                 continue
             f = line.split('\t')
             if len(f) >= 3:
-                rows.append((f[0], f[1], f[2], f[3] if len(f) > 3 else ''))
-        self.db.executemany('INSERT INTO name VALUES (?,?,?,?)', rows)
+                rows.append((f[0], f[1], f[2], f[3] if len(f) > 3 else '', f[4] if len(f) > 4 else ''))
+        self.db.executemany('INSERT INTO name(address, symbol, name, evidence, scope) VALUES (?,?,?,?,?)', rows)
         self.set_key('names', 'config/names.tsv', stamp)
         self.db.commit()
         self.log('names: %d rows' % len(rows))

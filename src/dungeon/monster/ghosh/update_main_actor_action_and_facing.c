@@ -1,4 +1,5 @@
 #include "dungeon/item.h"
+#include "shared/game_state.h"
 #include "dungeon/level/tile.h"
 #include "engine/graphics.h"
 #include "shared/actor_status_flags.h"
@@ -207,7 +208,7 @@ void update_main_actor_action_and_facing(ActorRecord *actor, ObjectPosition *con
     if (entity_flags & 0x2000) {
         return;
     }
-    if (*(u16 *)0x80013714 & 8) {
+    if (GAME_STATE->log.head.flags & 8) {
         return;
     }
     if (tile_index >= 0) {

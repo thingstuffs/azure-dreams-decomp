@@ -61,7 +61,7 @@ void update_manoeva_behavior(ActorRecord *actor_state_in, ObjectPosition *update
         return;
     }
 
-    if (((u32)actor_data->flags1C) & 0x200) {
+    if ((actor_data->flags1C) & 0x200) {
         if (*(u8 **)&map_object->frameTable == D_80176650) {
             actor_state_in->action_id = 13;
             actor_state_in->action_phase = 1;
@@ -75,7 +75,7 @@ void update_manoeva_behavior(ActorRecord *actor_state_in, ObjectPosition *update
     }
 
     if ((g_dungeon_status.flags & 0x2000) == 0) {
-        if (((u32)actor_data->flags1C) & 0x100) {
+        if ((actor_data->flags1C) & 0x100) {
             begin_pushed_actor_move(actor_state_in, update_context_in, map_object, actor_data);
             return;
         }
@@ -102,7 +102,7 @@ void update_manoeva_behavior(ActorRecord *actor_state_in, ObjectPosition *update
             }
         }
 
-        if (((u32)actor_data->flags1C) & 0x80000) {
+        if ((actor_data->flags1C) & 0x80000) {
             begin_actor_move_to_target_facing(actor_state_in, update_context_in, map_object, actor_data);
             func_801737B8(actor_state_in, update_context_in, map_object, actor_data);
             return;
@@ -118,7 +118,7 @@ void update_manoeva_behavior(ActorRecord *actor_state_in, ObjectPosition *update
     map_object->room_index = tile_index;
 
     if (actor_data->pending_turn_updates > 0) {
-        if (((u32)actor_data->flags1C) & 0x20) {
+        if ((actor_data->flags1C) & 0x20) {
             update_actor_status_and_mp(actor_data);
             return;
         }
@@ -200,7 +200,7 @@ void update_manoeva_behavior(ActorRecord *actor_state_in, ObjectPosition *update
         }
     }
 
-    status_flags = ((u32)actor_data->flags1C);
+    status_flags = (actor_data->flags1C);
     if (!(status_flags & 0x2000)) {
         if ((tile_index < 0) ||
             !(dungeon_rooms[tile_index].flags & 2)) {

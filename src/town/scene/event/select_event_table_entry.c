@@ -6,11 +6,12 @@
 #include "shared/town_root.h"
 #include "town/player/state.h"
 #include "town/scene/motion.h"
+#include "town/scene.h"
 
 extern s8 D_80018EBC[];
 
 /* Selects a table entry from flag 0xFCB or callback 4 and passes it to func_800182E4. */
-void select_event_table_entry(s32 forwarded_first, s32 unused, s32 forwarded_last)
+void select_event_table_entry(TownObjectSet *forwarded_first, s32 unused, s32 forwarded_last)
 {
     s32 entry_index;
 

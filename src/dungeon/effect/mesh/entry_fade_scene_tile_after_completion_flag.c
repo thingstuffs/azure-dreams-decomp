@@ -1,5 +1,6 @@
 #include "common.h"
 #include "sdk/libgte.h"
+#include "dungeon/effect/travel/cycle_seven_color_fade.h"
 
 typedef struct {
     s16 u0[2];
@@ -33,7 +34,7 @@ extern void fade_scene_tile_after_completion_flag(s32, s32, s32, s32); /* Unprot
 /* Builds scaled vertices and submits a shaded strip using scratchpad storage. */
 s32 draw_shaded_rotating_vertex_strip(Record *record) {
     register s32 shade_step = 0;
-    s32 *vertices;
+    RadialBandQuadScratch *scratch;
     s32 upper_color;
     register s32 lower_color;
     s32 segment;
@@ -41,7 +42,7 @@ s32 draw_shaded_rotating_vertex_strip(Record *record) {
     s32 lower_shade;
     s32 upper_shade;
 
-    vertices = (s32 *)0x1F800000;
+    scratch = RADIAL_BAND_SCRATCH;
 
     switch (record->type) {
     case 0:
@@ -86,31 +87,31 @@ shade:
         scale = record->scale10;
         scaled_coord = (trig_value >> 4) * scale;
         fixed_coord = scaled_coord << 8;
-        vertices[12] = fixed_coord;
+        scratch->positions[0].vx = fixed_coord;
 
         trig_value = rsin(record->f41 + record->add);
         scale = record->scale11;
         scaled_coord = (trig_value >> 4) * scale;
         fixed_coord = scaled_coord << 8;
-        vertices[16] = fixed_coord;
+        scratch->positions[1].vx = fixed_coord;
 
         trig_value = rsin(record->f35 + record->add);
         scale = record->scale0;
         scaled_coord = (trig_value >> 4) * scale;
         fixed_coord = scaled_coord << 8;
-        vertices[20] = fixed_coord;
+        scratch->positions[2].vx = fixed_coord;
 
         trig_value = rcos(record->f40 + record->add);
         scale = record->scale10;
         scaled_coord = (trig_value >> 4) * scale;
         fixed_coord = scaled_coord << 8;
-        vertices[13] = fixed_coord;
+        scratch->positions[0].vy = fixed_coord;
 
         trig_value = rcos(record->f41 + record->add);
         scale = record->scale11;
         scaled_coord = (trig_value >> 4) * scale;
         fixed_coord = scaled_coord << 8;
-        vertices[17] = fixed_coord;
+        scratch->positions[1].vy = fixed_coord;
 
         {
 
@@ -147,20 +148,20 @@ shade:
             prev_upper_color = intensity * 0x10101;
 
             fixed_coord = scaled_coord << 8;
-            vertices[21] = fixed_coord;
+            scratch->positions[2].vy = fixed_coord;
 
-            vertices[14] = record->f70 << 16;
-            vertices[18] = record->f71 << 16;
+            scratch->positions[0].vz = record->f70 << 16;
+            scratch->positions[1].vz = record->f71 << 16;
             end_color = prev_upper_color;
-            vertices[22] = record->f65 << 16;
+            scratch->positions[2].vz = record->f65 << 16;
             func_80024770(shade_work * 0x10101, lower_color, end_color);
             upper_color = end_color;
         }
     }
 
-    vertices[24] = vertices[20];
-    vertices[25] = vertices[21];
-    vertices[26] = vertices[22];
+    scratch->positions[3].vx = scratch->positions[2].vx;
+    scratch->positions[3].vy = scratch->positions[2].vy;
+    scratch->positions[3].vz = scratch->positions[2].vz;
     for (; segment < 23; segment++) {
         s32 scaled_coord;
         s32 prev_lower_color;
@@ -169,16 +170,16 @@ shade:
         s32 last_scaled_coord;
         s32 prev_z;
 
-        vertices[12] = vertices[16];
+        scratch->positions[0].vx = scratch->positions[1].vx;
         scaled_coord = (rsin(((s16 *)record)[segment + 42] + record->add) >> 4) * ((s16 *)record)[segment + 12];
-        vertices[20] = vertices[24];
-        vertices[16] = scaled_coord << 8;
+        scratch->positions[2].vx = scratch->positions[3].vx;
+        scratch->positions[1].vx = scaled_coord << 8;
         scaled_coord = (rsin(((s16 *)record)[segment + 36] + record->add) >> 4) * ((s16 *)record)[segment + 6];
-        vertices[13] = vertices[17];
-        vertices[24] = scaled_coord << 8;
+        scratch->positions[0].vy = scratch->positions[1].vy;
+        scratch->positions[3].vx = scaled_coord << 8;
         scaled_coord = (rcos(((s16 *)record)[segment + 42] + record->add) >> 4) * ((s16 *)record)[segment + 12];
-        vertices[21] = vertices[25];
-        vertices[17] = scaled_coord << 8;
+        scratch->positions[2].vy = scratch->positions[3].vy;
+        scratch->positions[1].vy = scaled_coord << 8;
         last_trig_value = rcos(((s16 *)record)[segment + 36] + record->add);
 
         lower_shade = (22 - segment) * shade_step;
@@ -187,23 +188,23 @@ shade:
         prev_lower_color = lower_color;
         saved_upper_color = prev_upper_color;
         last_scaled_coord = (last_trig_value >> 4) * ((s16 *)record)[segment + 6];
-        vertices[14] = vertices[18];
+        scratch->positions[0].vz = scratch->positions[1].vz;
         lower_color = (((lower_shade >> 16) & 0xff) * 0x10101);
         upper_color = (((upper_shade >> 16) & 0xff) * 0x10101);
-        prev_z = vertices[26];
-        vertices[25] = last_scaled_coord << 8;
-        vertices[18] = ((s16 *)record)[segment + 72] << 16;
-        vertices[22] = prev_z;
-        vertices[26] = ((s16 *)record)[segment + 66] << 16;
+        prev_z = scratch->positions[3].vz;
+        scratch->positions[3].vy = last_scaled_coord << 8;
+        scratch->positions[1].vz = ((s16 *)record)[segment + 72] << 16;
+        scratch->positions[2].vz = prev_z;
+        scratch->positions[3].vz = ((s16 *)record)[segment + 66] << 16;
         fade_scene_tile_after_completion_flag(prev_lower_color, lower_color, saved_upper_color, upper_color);
     }
 
-    vertices[12] = vertices[16];
-    vertices[16] = vertices[24];
-    vertices[13] = vertices[17];
-    vertices[17] = vertices[25];
-    vertices[14] = vertices[18];
-    vertices[18] = vertices[26];
+    scratch->positions[0].vx = scratch->positions[1].vx;
+    scratch->positions[1].vx = scratch->positions[3].vx;
+    scratch->positions[0].vy = scratch->positions[1].vy;
+    scratch->positions[1].vy = scratch->positions[3].vy;
+    scratch->positions[0].vz = scratch->positions[1].vz;
+    scratch->positions[1].vz = scratch->positions[3].vz;
     func_80024770(lower_color, upper_color, prev_upper_color);
     return 0;
 }

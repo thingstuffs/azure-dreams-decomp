@@ -65,7 +65,7 @@ s32 update_actor_movement_to_tile(ActorRecord *move_state_arg, void *motion_arg,
         }
         if (g_dungeon_status.flags & 0x80) {
             actor->flags1C =
-                (s32)(actor->flags1C & ACTOR_REFRESH_GROUND_CLEAR_MASK);
+                (actor->flags1C & ACTOR_REFRESH_GROUND_CLEAR_MASK);
             new_height = sample_terrain_surface_height(
                 (target_tile->unk_24 << 6) | 0x20,
                 (target_tile->unk_25 << 6) | 0x20,

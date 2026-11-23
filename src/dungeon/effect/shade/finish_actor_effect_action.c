@@ -29,6 +29,6 @@ void finish_actor_effect_action(ActorRecord *action_state, ObjectPosition *unuse
         action_state->action_state_flags |= 8;
         clear_slots_of_type(actor, STATUS_POISON);
         advance_status_timers(actor);
-        *((u8 *) actor + 0x6D) -= 1;
+        actor->pending_turn_updates -= 1;
     }
 }

@@ -284,31 +284,16 @@ typedef struct R12_80173FDC_S_80173FDC_3 {
     u8 pad_00[0x8D0];
     union { R12_80173FDC_LineG2 * p; u8 * p2; } unk_8D0;   
 } R12_80173FDC_S_80173FDC_3;
-typedef struct R12_80173FDC_S_80173FDC_4_pre {
-    u32 unk_00;
-    u8 pad_04[0x1C];
-} R12_80173FDC_S_80173FDC_4_pre;
-typedef struct R12_80173FDC_S_80173FDC_4 {
-    u32 unk_00;
-} R12_80173FDC_S_80173FDC_4;
 typedef struct R12_80173FDC_S_80173FDC_5 {
     u32 unk_00;
 } R12_80173FDC_S_80173FDC_5;
 typedef struct R12_80173FDC_S_80173FDC_6 {
     s16 unk_00;
 } R12_80173FDC_S_80173FDC_6;
-typedef struct R12_80173FDC_S_80173FDC_7 {
-    u32 unk_00;
-} R12_80173FDC_S_80173FDC_7;
 typedef struct R12_80173FDC_S_80173FDC_8 {
     u8 pad_00[0x8];
     u8 * unk_08;
 } R12_80173FDC_S_80173FDC_8;
-typedef struct {
-    u8 pad[0x13C];
-    s32 value;
-} R12_8017458C_Scratchpad;
-
 typedef struct R12_80174618_S_80174618_0 {
     u8 pad_00[0x24];
     union { u8 * s; u32 * u; } unk_24;   

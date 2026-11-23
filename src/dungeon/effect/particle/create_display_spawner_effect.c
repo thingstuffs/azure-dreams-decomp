@@ -695,7 +695,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
         }
         target = primary_actor_record->target;
         if (target != 0) {
-            target->flags1C = (s32) (target->flags1C | 0x10000000);
+            target->flags1C = (target->flags1C | 0x10000000);
             tint_part = NODE_HEADER(target)->sprite;
             target_tint = 0;
             if (transition_flags->unk_004 & 1) {
@@ -711,7 +711,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
         if (parent_effect_update_flag == 0) {
             target = primary_actor_record->target;
             if (target != 0) {
-                target->flags1C = (s32) (target->flags1C & 0xEFFFFFFF);
+                target->flags1C = (target->flags1C & 0xEFFFFFFF);
                 tint_part = NODE_HEADER(target)->sprite;
                 tint_part->color.word = TINT_NEUTRAL;
             }

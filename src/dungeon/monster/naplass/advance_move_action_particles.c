@@ -89,22 +89,22 @@ void advance_move_action_particles(ActorRecord *action, ObjectPosition *position
         ObjectNodeHeader *move_object;
         s16 special_flag;
 
-        if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
+        if ((actor->flags1C) & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & 0x3FFF) {
             case 7:
                 is_special = 1;
             case 3:
-                move_slot = (u8 *)actor + 0x0E;
+                move_slot = &actor->abilities[2].id;
                 break;
             case 6:
                 is_special = 1;
             case 2:
-                move_slot = (u8 *)actor + 0x0B;
+                move_slot = &actor->abilities[1].id;
                 break;
             case 5:
                 is_special = 1;
             case 1:
-                move_slot = (u8 *)actor + 8;
+                move_slot = &actor->abilities[0].id;
                 break;
             default:
                 move_slot = 0;
@@ -113,13 +113,13 @@ void advance_move_action_particles(ActorRecord *action, ObjectPosition *position
             move_kind = actor->action_flags & 0x3FFF;
             switch (move_kind) {
             case 3:
-                move_slot = (u8 *)actor + 0x0E;
+                move_slot = &actor->abilities[2].id;
                 break;
             case 2:
-                move_slot = (u8 *)actor + 0x0B;
+                move_slot = &actor->abilities[1].id;
                 break;
             case 1:
-                move_slot = (u8 *)actor + 8;
+                move_slot = &actor->abilities[0].id;
                 break;
             default:
                 move_slot = 0;

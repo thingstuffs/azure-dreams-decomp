@@ -61,17 +61,17 @@ void *damp_effect_motion_and_fade_sprite(s16 init_flags, s16 value_24, s16 value
         data_0c->tile_x = saved_value_24;
         if (init_mode == 1) {
             state->flags14 = (s32) (state->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER));
-            state->flags1C = (s32) (state->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER));
+            state->flags1C = (state->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER));
         } else if (init_mode >= 2) {
             state->flags14 = (s32) (state->flags14 | ACTOR_CLASS_ENABLED);
-            state->flags1C = (s32) (state->flags1C | ACTOR_PLAYER_SIDE);
+            state->flags1C = (state->flags1C | ACTOR_PLAYER_SIDE);
         } else {
             object_arg = object;
             if (((init_flags & ~3) << 0x10) == 0) {
                 if (!(state->flags14 & ACTOR_RESIST_SLEEP)) {
                     data_arg = data_08;
                     if (generate_random_value() & 1) {
-                        state->flags1C = (s32) (state->flags1C | ACTOR_ASLEEP);
+                        state->flags1C = (state->flags1C | ACTOR_ASLEEP);
                         set_or_clear_actor_status_slot(state, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                     }
                 }

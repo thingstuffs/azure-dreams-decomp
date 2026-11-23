@@ -5,7 +5,7 @@ extern u8 D_8001BB9C[];
 extern u8 D_8001EA73[];
 extern u8 D_8001C354[];
 
-void *select_square_entry_or_fallback(SquareSceneEntry *entry, s32 unused, s32 selection) {
+void *select_square_entry_or_fallback(TownObjectSet *entry, s32 unused, s32 selection) {
     void *records = D_8001BB9C;
     void *result;
     void *selected;

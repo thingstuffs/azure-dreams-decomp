@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "engine/graphics/sprite_scratch.h"
 #include "engine/node/allocation.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/system.h"
@@ -1795,22 +1796,22 @@ extern void draw_projected_quad_with_depth_bias(void *unused, ObjectPosition *po
 
 /* Initialize scratchpad quad coordinates and process each linked node. */
 s32 draw_linked_quad_chain(void *node_payload, ObjectPosition *position, SpriteFrameState *sprite) {
-    s16 *scratch = (s16 *)0x1F800000;
+    SpriteQuadScratch *scratch = SPRITE_SCRATCH;
     ObjectNodeHeader *next;
     s32 result;
 
-    scratch[0x46] = 0;
-    scratch[0x42] = 0;
-    scratch[0x3E] = 0;
-    scratch[0x3A] = 0;
-    scratch[0x40] = -31;
-    scratch[0x38] = -31;
-    scratch[0x44] = 31;
-    scratch[0x3C] = 31;
-    scratch[0x3D] = -31;
-    scratch[0x39] = -31;
-    scratch[0x45] = 31;
-    scratch[0x41] = 31;
+    scratch->vertices[3].vz = 0;
+    scratch->vertices[2].vz = 0;
+    scratch->vertices[1].vz = 0;
+    scratch->vertices[0].vz = 0;
+    scratch->vertices[2].vx = -31;
+    scratch->vertices[0].vx = -31;
+    scratch->vertices[3].vx = 31;
+    scratch->vertices[1].vx = 31;
+    scratch->vertices[1].vy = -31;
+    scratch->vertices[0].vy = -31;
+    scratch->vertices[3].vy = 31;
+    scratch->vertices[2].vy = 31;
 
     for (;;) {
         draw_projected_quad_with_depth_bias(node_payload, position, sprite, sprite->depth_bias);
@@ -3003,37 +3004,7 @@ void update_orbiting_color_particle(OrbitingColorParticleBody *state, ObjectPosi
 
 typedef struct S_800BBDEC_0 {
     u8 pad_00[0x20];
-    void * unk_20;
-    u8 pad_24[0x2C];
-    MATRIX composed_matrix; /* CompMatrix(view_matrix, local_matrix); loaded with SetRotMatrix/SetTransMatrix */
-    s16 unk_70;
-    s16 unk_72;
-    s16 unk_74;
-    u8 pad_76[0x2];
-    s16 unk_78;
-    s16 unk_7A;
-    s16 unk_7C;
-    u8 pad_7E[0x2];
-    s16 unk_80;
-    s16 unk_82;
-    s16 unk_84;
-    u8 pad_86[0x2];
-    s16 unk_88;
-    s16 unk_8A;
-    s16 unk_8C;
-    u8 pad_8E[0x2];
-    s32 depth_cue; /* RotAverage4 depth-cue output */
-    s32 gte_flag; /* RotAverage4 GTE flag output */
-    u8 pad_98[0x28];
-    u32 unk_C0;
-    u8 pad_C4[0xC];
-    MATRIX local_matrix; /* RotMatrix of the appearance angles; its translation takes the object position */
-    u8 pad_F0[0x10];
-    u16 unk_100;
-    u16 unk_102;
-    u16 unk_104;
-    u8 pad_106[0x16];
-    MATRIX view_matrix; /* ReadRotMatrix: the current GTE rotation and translation */
+    void *unk_20;
 } S_800BBDEC_0;   /* scratch in draw_shaded_vertical_quad */
 
    /* arg1 in draw_shaded_vertical_quad */
@@ -3076,49 +3047,50 @@ extern void SetDrawMode(void *, s32, s32, s32, s32);
 /* Projects and queues a shaded quad with optional semitransparency. */
 void draw_shaded_vertical_quad(OrbitingColorParticleBody *object, ObjectPosition *position, SpriteFrameState *appearance, s32 unused_draw_value)
 {
-    S_800BBDEC_0 *scratch = (S_800BBDEC_0 *)0x1F800000;
-    void **render_ctx = (void **)((u8 *)(&g_game_work));
+    S_800BBDEC_0 *legacy = (S_800BBDEC_0 *)0x1F800000;
+    SpriteQuadScratch *scratch = SPRITE_SCRATCH;
+    void **render_ctx = &g_game_work.draw_buffer;
     u8 *prim;
     u32 depth_index;
     s32 color_word;
     s16 end_z;
 
-    scratch->unk_20 = (u8 *)*render_ctx + 0xB0;
-    scratch->local_matrix.t[0] = position->x.w.i;
-    scratch->local_matrix.t[1] = position->y.w.i;
-    scratch->local_matrix.t[2] = position->z.w.i;
+    legacy->unk_20 = (u8 *)*render_ctx + 0xB0;
+    scratch->matrix_D0.t[0] = position->x.w.i;
+    scratch->matrix_D0.t[1] = position->y.w.i;
+    scratch->matrix_D0.t[2] = position->z.w.i;
     prim = ((GpuContext *)(*render_ctx))->packetCursor;
 
     PushMatrix();
 
-    scratch->unk_100 = appearance->angle_x;
-    scratch->unk_104 = appearance->angle_z;
-    scratch->unk_102 = appearance->angle_y;
-    RotMatrix(&scratch->unk_100, &scratch->local_matrix);
+    scratch->angles.vx = appearance->angle_x;
+    scratch->angles.vz = appearance->angle_z;
+    scratch->angles.vy = appearance->angle_y;
+    RotMatrix(&scratch->angles, &scratch->matrix_D0);
     ReadRotMatrix(&scratch->view_matrix);
-    CompMatrix(&scratch->view_matrix, &scratch->local_matrix, &scratch->composed_matrix);
-    SetTransMatrix(&scratch->composed_matrix);
-    SetRotMatrix(&scratch->composed_matrix);
+    CompMatrix(&scratch->view_matrix, &scratch->matrix_D0, &scratch->matrix_50);
+    SetTransMatrix(&scratch->matrix_50);
+    SetRotMatrix(&scratch->matrix_50);
 
-    scratch->unk_7C = 0;
-    scratch->unk_74 = 0;
+    scratch->vertices[1].vz = 0;
+    scratch->vertices[0].vz = 0;
     end_z = -object->vertical_extent;
-    scratch->unk_88 = 0x10;
-    scratch->unk_78 = 0x10;
-    scratch->unk_80 = 0;
-    scratch->unk_70 = 0;
-    scratch->unk_7A = 0;
-    scratch->unk_72 = 0;
-    scratch->unk_8A = 0;
-    scratch->unk_82 = 0;
-    scratch->unk_8C = end_z;
-    scratch->unk_84 = end_z;
+    scratch->vertices[3].vx = 0x10;
+    scratch->vertices[1].vx = 0x10;
+    scratch->vertices[2].vx = 0;
+    scratch->vertices[0].vx = 0;
+    scratch->vertices[1].vy = 0;
+    scratch->vertices[0].vy = 0;
+    scratch->vertices[3].vy = 0;
+    scratch->vertices[2].vy = 0;
+    scratch->vertices[3].vz = end_z;
+    scratch->vertices[2].vz = end_z;
 
-    depth_index = RotAverage4(&scratch->unk_70, &scratch->unk_78,
-                          &scratch->unk_80, &scratch->unk_88,
+    depth_index = RotAverage4(&scratch->vertices[0], &scratch->vertices[1],
+                          &scratch->vertices[2], &scratch->vertices[3],
                           prim + 8, prim + 0x10, prim + 0x18, prim + 0x20,
                           &scratch->depth_cue, &scratch->gte_flag);
-    scratch->unk_C0 = depth_index;
+    scratch->sort_depth = depth_index;
 
     if (depth_index < 0x1E0U) {
         color_word = appearance->color.word;
@@ -3134,15 +3106,15 @@ void draw_shaded_vertical_quad(OrbitingColorParticleBody *object, ObjectPosition
             ((S_800BBDEC_5 *)prim)->unk_04.at03.v |= 2;
         }
 
-        AddPrim((u8 *)scratch->unk_20 +
-                      scratch->unk_C0 * 4,
+        AddPrim((u8 *)legacy->unk_20 +
+                      scratch->sort_depth * 4,
                       prim);
         prim += 0x24;
 
         if (appearance->flags & 4) {
             SetDrawMode(prim, 0, 0, 0x20, 0);
-            AddPrim((u8 *)scratch->unk_20 +
-                          scratch->unk_C0 * 4,
+            AddPrim((u8 *)legacy->unk_20 +
+                          scratch->sort_depth * 4,
                           prim);
             prim += 0xC;
         }

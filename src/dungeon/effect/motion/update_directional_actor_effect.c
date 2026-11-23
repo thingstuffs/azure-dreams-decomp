@@ -114,7 +114,7 @@ void update_directional_actor_effect(TimedModelTintSpellBody *effect, void *colo
         model = ((S_8195281C_10 *)(((S_8195281C_1 *)((int *)(&primary_actor_record)))->unk_00.i))->unk_60;
         if (model != 0) {
             model_colors = NODE_HEADER(model)->sprite;
-            model->flags1C = (s32) (model->flags1C | 0x10000000);
+            model->flags1C = (model->flags1C | 0x10000000);
             model_colors->color.c.r = (u8) (model_colors->color.c.r - 4);
             model_colors->color.c.g = (u8) (model_colors->color.c.g - 4);
             model_colors->color.c.b = (u8) (model_colors->color.c.b - 4);

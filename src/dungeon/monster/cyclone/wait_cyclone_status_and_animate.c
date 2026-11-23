@@ -67,7 +67,7 @@ void wait_cyclone_status_and_animate(ActorRecord *body, ObjectPosition *position
         select_sprite_entry(sprite,
             cyclone_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        actor->flags1C = (u32)((u32)(actor->flags1C) | (0x40000));
+        actor->flags1C = ((actor->flags1C) | (0x40000));
         if (sprite->flags & 0x8000) {
             body->unk_8C.address = dispatch_cyclone_actions;
             break;
@@ -155,7 +155,7 @@ void wait_cyclone_status_and_animate(ActorRecord *body, ObjectPosition *position
         select_sprite_entry(sprite,
             cyclone_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        actor->flags1C = (u32)((u32)(actor->flags1C) | (0x40000));
+        actor->flags1C = ((actor->flags1C) | (0x40000));
         if (sprite->flags & 0x8000) {
             body->unk_8C.address = dispatch_cyclone_actions;
             break;

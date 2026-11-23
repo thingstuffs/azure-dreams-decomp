@@ -59,7 +59,7 @@ void run_entity_callbacks_and_update_ground(ActorRecord *body, ObjectPosition *m
         return;
     }
 
-    old_state_byte = (*((u8 *)body + 0x6D));
+    old_state_byte = (body->pending_turn_updates);
     old_state = (s8)old_state_byte;
     if (refresh_actor_facing_and_lifecycle(body, motion, sprite, body) != 0) {
         return;

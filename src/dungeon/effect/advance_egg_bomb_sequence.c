@@ -184,7 +184,7 @@ void advance_egg_bomb_sequence(EggBombBody *egg_bomb, Coord *position, void *eff
             }
         }
         ((PlayerRecord *)((u8 *)dungeon_actor_ring_anchor))->pending_item_action = 0;
-        monster->flags1C = (s32) (monster->flags1C | 0x400000);
+        monster->flags1C = (monster->flags1C | 0x400000);
         {
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         }

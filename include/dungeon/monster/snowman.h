@@ -315,11 +315,6 @@ typedef struct R10_80174898_OffsetTable {
     R10_80174898_OffsetPair entries[8];
 } R10_80174898_OffsetTable;
 typedef struct {
-    u8 pad[0x13C];
-    s32 value;
-} R10_80174BE4_Scratchpad;
-
-typedef struct {
     s16 x;
     s16 y;
     s16 z;

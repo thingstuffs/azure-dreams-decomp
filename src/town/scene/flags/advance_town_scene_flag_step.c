@@ -11,7 +11,7 @@ extern void func_80019988(void); /* this scene's placed copy of set_current_entr
 typedef void (*Callback)(s32, s32);
 
 /* Advance the town scene: clear flag 0x943 when it is set and the step check passes, otherwise hand back to the scene callback. */
-s32 advance_town_scene_flag_step(s32 kind, s32 value) {
+s32 advance_town_scene_flag_step(TownObjectSet *kind, s32 value) {
     set_script_flag_sbs32_pad34();
     init_okami_give_cape_state();
 

@@ -19,7 +19,7 @@ void clear_player_linked_action_flags(void) {
     if (root->flags1C & ACTOR_CARRYING) {
         linkedObject = ((PlayerRecord *)root)->unk_124;
         if (linkedObject != 0) {
-            linkedObject->flags1C = (s32)(linkedObject->flags1C & ACTOR_LIFTED_CLEAR_MASK);
+            linkedObject->flags1C = (linkedObject->flags1C & ACTOR_LIFTED_CLEAR_MASK);
         }
         rootFlags = root->flags1C;
         savedGlobalValue = held_item_record;

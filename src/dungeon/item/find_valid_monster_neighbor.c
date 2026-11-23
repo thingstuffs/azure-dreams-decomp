@@ -37,7 +37,7 @@ void *find_adjacent_actor(ActorRecord *entity, u16 x, u16 y) {
             (base_y + y_offsets[direction]) & 0xFFFF, entity->ground_height);
         if (result != 0) {
             if (((check_diagonal_side_height(direction, entity_data->tile_x, entity_data->tile_y,
-                (s16)((u16)entity->ground_height - 0x20)) << 16) == 0)) {
+                (s16)(entity->ground_height - 0x20)) << 16) == 0)) {
                 continue;
             }
             return result;

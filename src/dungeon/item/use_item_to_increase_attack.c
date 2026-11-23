@@ -35,16 +35,16 @@ s32 use_item_to_increase_attack(ActorRecord *entity, DungeonItemEntry *action_id
     if ((u32)entity <= 0x9FFFFFFF) {
         display_item_status_message(entity, action_id, action_param);
         if (feed_actor_restore_mp(
-                entity, (entity_action_selectors[(*((u8 *)&((EntityRec *)entity)->unk_10 + 3))] >> 6) & 3, 0) == 0) {
+                entity, (entity_action_selectors[entity->species] >> 6) & 3, 0) == 0) {
             place_actor_item(entity, action_id);
             return 1;
         }
     }
 
     if (entity->current_attack == entity->base_attack) {
-        completion_count = (*(u8 *)&((EntityRec *)entity)->x);
+        completion_count = entity->attack;
         if (completion_count < 0xFF) {
-            (*(u8 *)&((EntityRec *)entity)->x) = completion_count + 1;
+            entity->attack = completion_count + 1;
             apply_entity_effects(entity);
         }
     }

@@ -13,7 +13,7 @@ extern u8 D_8001A495[];
 extern void check_ready_or_run_followup(void);
 
 /* Looks up an entry and applies special-case overrides for selectors 0xB and 0x1C. */
-void *lookup_entry_with_selector_overrides(s32 entry_id, s32 unused_arg, s32 selector)
+void *lookup_entry_with_selector_overrides(TownObjectSet *entry_id, s32 unused_arg, s32 selector)
 {
     void *entry_data;
     u8 *entry_table;

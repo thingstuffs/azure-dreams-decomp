@@ -84,7 +84,7 @@ s32 apply_genus_change_item(ActorRecord *target, DungeonItemEntry *event, s32 va
         }
         update_owner_class_bits(target);
 
-        slot = ((u8 *)target) + 8;
+        slot = &target->abilities[0].id;
         for (slot_index = 0; slot_index < 3; slot_index++, slot += 3) {
             if (slot[0] != 0) {
                 s32 item = slot[0];

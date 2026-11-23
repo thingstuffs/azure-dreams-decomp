@@ -523,7 +523,7 @@ void choose_block_move_slot_c(Rec_func_800A9E70_arg0 *move_data, ObjectPosition 
     EntityRec *blocker;
 
     if ((dungeon_flags & 0x4000) || (s8)actor_data->movement_queue_state >= 0) {
-        if (actor_data->unk_12 >= 2 ||
+        if (actor_data->ai_mode >= 2 ||
             (s16)try_begin_block_attack_slot_c(move_data, context, position_data, actor_data) == 0) {
             update_actor_status_and_mp(actor_data);
             return;
@@ -897,7 +897,7 @@ void update_block_hop_slot_c(ActorRecord *action, ObjectPosition *motion, Sprite
         map_entry->frameTable = D_8015D2CC;
         select_sprite_entry(map_entry, D_8015D2CC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         action->action_state_flags = (u16) (action->action_state_flags | 8);
-        actor->flags1C = (s32) (actor->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
+        actor->flags1C = (actor->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
         action->unk_9E = 5;
         action->unk_A0.value = 0;
         action->action_phase = (u8) (action->action_phase + 1);
@@ -936,20 +936,20 @@ void update_block_hop_slot_c(ActorRecord *action, ObjectPosition *motion, Sprite
                     action->unk_90.value = (s32) (0xFFFE0000 - ((action->unk_A4.halves.high.s
                         - action->unk_A8) << 0x10));
                     flags_mask |= 0xFFFF;
-                    actor->flags1C = (s32) (actor->flags1C & flags_mask);
+                    actor->flags1C = (actor->flags1C & flags_mask);
                     break;
                 case 5:
                     flags_mask = 0xF7FF0000;
                     action->unk_90.value = (s32) (0 - ((action->unk_A4.halves.high.s
                         - action->unk_A8) << 0x10));
                     flags_mask |= 0xFFFF;
-                    actor->flags1C = (s32) (actor->flags1C & flags_mask);
+                    actor->flags1C = (actor->flags1C & flags_mask);
                     break;
                 case 4:
                     scaled_height_delta = (action->unk_A4.halves.high.s
                         - action->unk_A8) * 3;
                     action->unk_90.value = (s32) (0 - ((scaled_height_delta / 4) << 0x10));
-                    actor->flags1C = (s32) (actor->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
+                    actor->flags1C = (actor->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
                     break;
                 case 3:
                     action->unk_90.value = (s32) (0 - ((((action->unk_A4.halves.high.s
@@ -966,7 +966,7 @@ void update_block_hop_slot_c(ActorRecord *action, ObjectPosition *motion, Sprite
         if (next_move_frame < 0) {
             action->unk_90.value = 0;
             action->action_state_flags = (u16) (action->action_state_flags & 0xFFF7);
-            actor->flags1C = (s32) (actor->flags1C | ACTOR_GROUNDED);
+            actor->flags1C = (actor->flags1C | ACTOR_GROUNDED);
             action->action_phase = (u8) (action->action_phase + 1);
         }
                         /* fall through */
@@ -1739,7 +1739,7 @@ void create_gray_fading_sprite_slot_c(void *unused_context, ObjectPosition *sour
 /* Transforms four colored vertices and queues a visible shaded quad with the requested depth bias. */
 void draw_shaded_effect_quad_slot_c(CL_CCB000_80173E40_S_80173E40_6 *quad, ObjectPosition *position, SpriteFrameState *render_info, s16 depth_bias)
 {
-    ShadedQuadScratch *scratch = (ShadedQuadScratch *)0x1F800000;
+    ShadedQuadScratch *scratch = SHADED_QUAD_SCRATCH;
     DR_MODE *mode;
     POLY_G4 *packet;
     u8 *texture;

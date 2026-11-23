@@ -1,10 +1,11 @@
 #include "dungeon/monster/metal/build_projected_tile_packets.h"
+#include "dungeon/effect/shaded_quad_scratch.h"
 
 
 /* Builds and links tile and draw-mode packets for a chain of projected positions. */
 s32 build_projected_tile_packets(u8 *item_data, u16 *coords)
 {
-    PointTileScratch *scratch = (PointTileScratch *)0x1F800000;
+    ShadedQuadScratch *scratch = SHADED_QUAD_SCRATCH;
     void **globals = ((void * *)(&g_game_work));
     GpuContext *render_state = globals[0];
     TILE_1 *first_packet = render_state->packetCursor;

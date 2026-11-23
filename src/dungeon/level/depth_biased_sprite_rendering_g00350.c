@@ -13,7 +13,7 @@
 /* Traverse object nodes backward and process unflagged primitives with their computed depth. */
 s32 traverse_nodes_and_render_unflagged(TrackedSpriteEffect *node) {
     GameWork *state = &g_game_work;
-    SpriteQuadScratch *scratch = (SpriteQuadScratch *)0x1F800000;
+    SpriteQuadScratch *scratch = SPRITE_SCRATCH;
     ObjectNodeHeader *previous;
 
     scratch->angles.vx = -state->view.camera_rotation.parts.camera_rotation_x;
@@ -46,7 +46,7 @@ s32 traverse_nodes_and_render_unflagged(TrackedSpriteEffect *node) {
 /* Project sprite tiles and append textured quads to the ordering table. */
 void render_projected_sprite_with_depth_bias(ObjectPosition *position, SpriteFrameState *sprite, s16 world_z, s32 depth_bias)
 {
-    SpriteQuadScratch *scratch_view = (SpriteQuadScratch *)0x1F800000;
+    SpriteQuadScratch *scratch_view = SPRITE_SCRATCH;
     GpuContext **root_ptr;
     MATRIX *matrix;
     POLY_FT4 *packet;
@@ -71,9 +71,9 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, SpriteFra
     root = g_game_work.draw_buffer;
     packet = root->packetCursor;
     scratch_view->ordering_table = (u32 *)&root->orderTag;
-    scratch_view->local_matrix.t[2] = 0;
-    scratch_view->local_matrix.t[1] = 0;
-    scratch_view->local_matrix.t[0] = 0;
+    scratch_view->matrix_D0.t[2] = 0;
+    scratch_view->matrix_D0.t[1] = 0;
+    scratch_view->matrix_D0.t[0] = 0;
     scratch_view->vertices[3].vz = 0;
     scratch_view->vertices[2].vz = 0;
     scratch_view->vertices[1].vz = 0;
@@ -114,17 +114,17 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, SpriteFra
         clamped_scale = scratch_view->input.vz;
         scratch_view->input.vx = clamped_scale;
         scratch_view->input.vy = (s32)(clamped_scale + ((u32)clamped_scale >> 31)) >> 1;
-        RotMatrix(&scratch_view->angles, &scratch_view->local_matrix);
+        RotMatrix(&scratch_view->angles, &scratch_view->matrix_D0);
 
-        CompMatrix(matrix, &scratch_view->local_matrix, &scratch_view->matrix);
-        ScaleMatrix(&scratch_view->matrix, &scratch_view->input);
+        CompMatrix(matrix, &scratch_view->matrix_D0, &scratch_view->matrix_50);
+        ScaleMatrix(&scratch_view->matrix_50, &scratch_view->input);
 
         scratch_view->input.vx = sprite->scale_x;
         scratch_view->input.vy = sprite->scale_y;
         scratch_view->input.vz = 0x1000;
-        ScaleMatrix(&scratch_view->matrix, &scratch_view->input);
-        SetTransMatrix(&scratch_view->matrix);
-        SetRotMatrix(&scratch_view->matrix);
+        ScaleMatrix(&scratch_view->matrix_50, &scratch_view->input);
+        SetTransMatrix(&scratch_view->matrix_50);
+        SetRotMatrix(&scratch_view->matrix_50);
 
         for (;;) {
             if (!(part->flags & 0x20)) {

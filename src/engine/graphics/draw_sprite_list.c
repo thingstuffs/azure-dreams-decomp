@@ -31,7 +31,7 @@ void draw_sprite_list(void)
     s32 height;
 
     context = g_game_work.draw_buffer;
-    scratch = (SpriteQuadScratch *)0x1F800000;
+    scratch = SPRITE_SCRATCH;
     transform_flag = &scratch->gte_flag;
     prim = context->packetCursor;
     contexts = (GpuContext **)&g_game_work;
@@ -48,10 +48,10 @@ void draw_sprite_list(void)
     scratch->rotation.vx = 0;
     scratch->rotation.vy = 0;
     scratch->rotation.vz = 0;
-    TransMatrix(&scratch->matrix, &scratch->translation);
-    RotMatrix(&scratch->rotation, &scratch->matrix);
-    SetRotMatrix(&scratch->matrix);
-    SetTransMatrix(&scratch->matrix);
+    TransMatrix(&scratch->matrix_50, &scratch->translation);
+    RotMatrix(&scratch->rotation, &scratch->matrix_50);
+    SetRotMatrix(&scratch->matrix_50);
+    SetTransMatrix(&scratch->matrix_50);
 
     do {
         tex_start = U8_AT((sprite + 4), 4);

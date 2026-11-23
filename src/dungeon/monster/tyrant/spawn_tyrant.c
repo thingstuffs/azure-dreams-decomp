@@ -72,17 +72,17 @@ void *spawn_tyrant_in_slot_a(s16 input0, s16 input1, s16 input2, s16 input3) {
             flags98 = record->action_state_flags;
             record->flags14 = (s32) (record->flags14 | 0x6000);
             record->action_state_flags = (u16) (flags98 | 0x4000);
-            record->flags1C = (s32) (record->flags1C | 0x6000);
+            record->flags1C = (record->flags1C | 0x6000);
         } else if (value >= 2) {
             flags98 = record->action_state_flags;
             record->flags14 = (s32) (record->flags14 | 0x2000);
             record->action_state_flags = (u16) (flags98 | 0x4000);
-            record->flags1C = (s32) (record->flags1C | 0x2000);
+            record->flags1C = (record->flags1C | 0x2000);
         } else if (((input0 & ~3) << 0x10) == 0) {
             if (!(record->flags14 & 0x200)) {
                 value = generate_random_value();
                 if (value & 1) {
-                    record->flags1C = (s32) (record->flags1C | 0x200);
+                    record->flags1C = (record->flags1C | 0x200);
                     set_or_clear_actor_status_slot(record, 1, (generate_random_value() & 0x3F) | 0x20);
                     child_0C->frameTable = &D_80150000;
                 }

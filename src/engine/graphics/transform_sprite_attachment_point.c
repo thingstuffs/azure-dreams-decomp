@@ -14,7 +14,7 @@ void transform_sprite_attachment_point(SpriteFrameState *transform, void *point,
 {
     GameWork *render_state;
     SpriteFrameState *sprite = transform;
-    SpriteAttachmentScratch *scratch;
+    SpriteQuadScratch *scratch;
     s32 view_angle_x;
     s32 view_angle_y;
     s32 view_angle_z;
@@ -29,7 +29,7 @@ void transform_sprite_attachment_point(SpriteFrameState *transform, void *point,
 
     render_state = &g_game_work;
     PushMatrix();
-    scratch = (SpriteAttachmentScratch *)0x1F800000;
+    scratch = SPRITE_SCRATCH;
 
     view_angle_x = render_state->view.camera_rotation.parts.camera_rotation_x;
     view_angle_y = render_state->view.camera_rotation.parts.camera_rotation_y;
@@ -42,48 +42,48 @@ void transform_sprite_attachment_point(SpriteFrameState *transform, void *point,
     scratch->angles.vz = ((u16)(render_state->view.view_rotation_offset.parts.view_rotation_offset_z)) + (sprite->angle_z - (u16)scratch->input.vy);
     scratch->angles.vy = sprite->angle_y;
     offset_x = sprite->offset_x;
-    scratch->local_matrix.t[0] = offset_x;
+    scratch->matrix_D0.t[0] = offset_x;
     scratch->extent_x = offset_x;
     offset_y = sprite->offset_y;
-    scratch->local_matrix.t[2] = 0;
-    scratch->local_matrix.t[1] = offset_y;
+    scratch->matrix_D0.t[2] = 0;
+    scratch->matrix_D0.t[1] = offset_y;
     scratch->extent_y = offset_y;
-    RotMatrix(&scratch->angles, &scratch->local_matrix);
+    RotMatrix(&scratch->angles, &scratch->matrix_D0);
 
     scratch->input.vx = sprite->scale_x << 1;
     scratch->input.vy = sprite->scale_y << 1;
     scratch->input.vz = 0x2000;
-    ScaleMatrix(&scratch->local_matrix, &scratch->input);
-    SetTransMatrix(&scratch->local_matrix);
-    SetRotMatrix(&scratch->local_matrix);
+    ScaleMatrix(&scratch->matrix_D0, &scratch->input);
+    SetTransMatrix(&scratch->matrix_D0);
+    SetRotMatrix(&scratch->matrix_D0);
 
     scratch->sprite_flags = sprite->flags;
 
     if ((U8_AT(point, 0) ^ scratch->sprite_flags) & 1) {
-        scratch->point.vx = -S8_AT(point, 2) - scratch->extent_x;
+        scratch->vertices[0].vx = -S8_AT(point, 2) - scratch->extent_x;
     } else {
-        scratch->point.vx = S8_AT(point, 2) - scratch->extent_x;
+        scratch->vertices[0].vx = S8_AT(point, 2) - scratch->extent_x;
     }
 
     if ((U8_AT(point, 0) ^ scratch->sprite_flags) & 2) {
-        scratch->point.vz = -S8_AT(point, 3) - scratch->extent_y;
+        scratch->vertices[0].vz = -S8_AT(point, 3) - scratch->extent_y;
     } else {
-        scratch->point.vz = S8_AT(point, 3) - scratch->extent_y;
+        scratch->vertices[0].vz = S8_AT(point, 3) - scratch->extent_y;
     }
-    scratch->point.vy = 0;
-    RotTransSV(&scratch->point, result, &scratch->transform_flag);
+    scratch->vertices[0].vy = 0;
+    RotTransSV(&scratch->vertices[0], result, &scratch->gte_flag);
 
     transformed_x = (u16)result->vx;
-    scratch->transformed_x = transformed_x;
+    scratch->position.vx = transformed_x;
     final_angle_x = render_state->view.camera_rotation.parts.camera_rotation_x;
     transformed_y = (u16)result->vy;
     scratch->input.vx = -final_angle_x;
     final_angle_z = render_state->view.camera_rotation.parts.viewAngle;
     base_angle = render_state->view.view_rotation_offset.parts.view_rotation_offset_z;
-    scratch->transformed_y = transformed_y;
+    scratch->position.vy = transformed_y;
     scratch->input.vz = base_angle - final_angle_z;
-    result->vz += ((s32)(s16)scratch->transformed_y * rcos(scratch->input.vx)) >> 12;
-    result->vx = ((s16)scratch->transformed_x * rcos(scratch->input.vz)) >> 12;
-    result->vy = ((s16)scratch->transformed_x * rsin(scratch->input.vz)) >> 12;
+    result->vz += ((s32)scratch->position.vy * rcos(scratch->input.vx)) >> 12;
+    result->vx = (scratch->position.vx * rcos(scratch->input.vz)) >> 12;
+    result->vy = (scratch->position.vx * rsin(scratch->input.vz)) >> 12;
     PopMatrix();
 }

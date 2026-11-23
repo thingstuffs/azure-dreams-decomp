@@ -14,7 +14,7 @@ extern ScenePositionEntry D_8001BE44[];
 
 
 /* Handles the conditional callback and selects data according to flag 0x1460. */
-void select_isaku_scene01_response(s32 context, s32 unused, s32 event_code) {
+void select_isaku_scene01_response(TownObjectSet *context, s32 unused, s32 event_code) {
     void *selected_data;
 
     if ((event_code == 0x1E) && (check_callback_record_bytes(0xD, 1) != 0)) {

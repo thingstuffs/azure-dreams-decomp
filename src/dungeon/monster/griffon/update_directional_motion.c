@@ -45,7 +45,7 @@ void update_directional_motion(ActorRecord *action, ObjectPosition *motion, Spri
             return;
         }
 
-        if (((u32)entity->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+        if ((entity->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         } else {
             timer = -1;

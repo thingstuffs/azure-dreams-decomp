@@ -2,7 +2,7 @@
 #define MODULES_TOWN_OVL_3FE0D0_P00_H
 #include "common.h"
 #include "town/scene/service.h"
-#include "records/Rec_func_800165F4_arg0.h"
+struct TownObjectSet;
 #include "shared/record_ptrs.h"
 #include "shared/town_event_state.h"
 #include "shared/town_pointees.h"
@@ -59,11 +59,11 @@ void run_entry_callback_or_set_buffers(s32 value0, s32 value1);
 void run_entry_callback_or_default(s32 value0, s32 value1);
 void install_entry_tables_and_next_step(s32 unused_a, s32 unused_b);
 s32 set_script_flag_sbs07_pad22(void);
-s32 initialize_context_entry_tables_variant_1(s32 object, s32 entry_index);
+s32 initialize_context_entry_tables_variant_1(struct TownObjectSet *object, s32 entry_index);
 void install_floor_event_counter_context(void);
 void fade_sequence_audio_fast(void);
 void begin_town_rain_step(void);
-void clear_sbs34_pad15_and_process_entry(s32 value, s32 context);
+void clear_sbs34_pad15_and_process_entry(struct TownObjectSet *value, s32 context);
 void set_active_position_state_record(void);
 
 void func_80016278(void);
@@ -77,7 +77,7 @@ void func_80016360(void);
 void play_town_sound_1700(void);
 s32 select_response_with_count_override(s32 context, s32 check_value, s32 selector);
 void start_town_movie3(void);
-s32 forward_selected_entry_values(Rec_func_800165F4_arg0 *row, s32 entry_index);
+s32 forward_selected_entry_values(struct TownObjectSet *row, s32 entry_index);
 void load_scene_sound_sequence(void);
 void func_80016408(void);
 

@@ -59,14 +59,14 @@ u32 advance_eligible_actor_or_perform_action(ActorRecord *actor, s16 action_arg_
     }
 
     if (((u32)actor->flags14) & ACTOR_PARTY_MEMBER) {
-        state_index = actor->unk_12;
+        state_index = actor->ai_mode;
         if ((state_index != 4) && (actor->species != 0)) {
-            actor->unk_12 = state_index + 1;
+            actor->ai_mode = state_index + 1;
             state_index = (s16)find_linked_object_slot_index(actor);
             if (state_index >= 0) {
                 table_page = (TablePage *)0x80010000;
                 state_offset = state_index * 2;
-                next_state = actor->unk_12;
+                next_state = actor->ai_mode;
                 table_page->entries[state_index] = next_state;
             }
             adjust_source_value_and_finalize(actor, D_800E195C);

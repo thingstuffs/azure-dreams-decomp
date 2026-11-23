@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/game_state.h"
 
 #include "engine/scene.h"
 #include "shared/dungeon_item_entries.h"
 
-extern u8 *town_item_list[];
 extern void itm_mon_koyaw_set(s32, void *, void *, s8);
 
 /* Process kind 0x13 entries with nonnegative codes in their indexed records. */
@@ -15,7 +15,7 @@ void refresh_monster_items_from_creature_records(void) {
     u32 data_page;
     s32 record_code;
 
-    if (town_item_list[0] != 0) {
+    if (GAME_STATE->item_list[0] != 0) {
         data_page = 0x80010000;
         cursor = (DungeonItemEntry **)0x8001029C;
         do {

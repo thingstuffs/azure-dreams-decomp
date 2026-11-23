@@ -74,12 +74,12 @@ void advance_actor_state_and_dispatch(ActorRecord *body, ObjectPosition *positio
                 return;
             }
 
-            if (((u32)actor->flags1C) & ACTOR_PUSH_PENDING) {
+            if ((actor->flags1C) & ACTOR_PUSH_PENDING) {
                 begin_pushed_actor_move(body, position, sprite, actor);
                 return;
             }
 
-            if (((u32)actor->flags1C) & ACTOR_LIFTED) {
+            if ((actor->flags1C) & ACTOR_LIFTED) {
                 begin_actor_move_to_target_facing(body, position, sprite, actor);
                 update_pulunpa_parent_motion(body, position, sprite, actor);
                 return;

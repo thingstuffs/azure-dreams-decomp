@@ -51,7 +51,7 @@ void advance_kid_defeat_sequence(ActorRecord *body, ObjectPosition *motion, Spri
         clear_bit_18 = 0xFFFBFFFF;
         anim_flags |= 8;
         body->action_state_flags = anim_flags;
-        entity_flags = ((u32)entity_view->flags1C);
+        entity_flags = (entity_view->flags1C);
         entity_flags &= clear_bit_27;
         entity_flags &= clear_bit_18;
         entity_view->flags1C = entity_flags;

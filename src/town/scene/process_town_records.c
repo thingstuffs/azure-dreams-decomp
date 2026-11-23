@@ -3,13 +3,6 @@
 #include "town/scene.h"
 #include "town/data.h"
 
-typedef struct {
-    s16 source_flag;
-    s16 clear_flag;
-    s16 target_flag;
-    u8 pad_06[2];
-} TownFlagDependency;
-
 static inline const TownFlagDependency *flag_dependency_at(u32 address, s32 index)
 {
     /* BYTES: Scaling the index before adding the image address preserves addu operand order. */

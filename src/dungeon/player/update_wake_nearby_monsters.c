@@ -1,4 +1,5 @@
 #include "shared/actor_status_ids.h"
+#include "shared/game_state.h"
 #include "shared/actor_action.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_actor_callbacks.h"
@@ -98,7 +99,7 @@ void update_wake_nearby_monsters(ActorRecord *controller, ObjectPosition *motion
         }
 
         found_match = 0;
-        if (!((*(u16 *)0x80013714) & 8)) {
+        if (!((GAME_STATE->log.head.flags) & 8)) {
             node = (u8 *)((S_80092E90_5 *)entry)->unk_5C + 0x20;
             do {
                 if ((reference_tile_object.room_index ==

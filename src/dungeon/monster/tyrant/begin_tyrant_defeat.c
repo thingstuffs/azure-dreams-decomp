@@ -44,7 +44,7 @@ void begin_tyrant_defeat(ActorRecord *work_in, ObjectPosition *part_a, SpriteFra
             burst = 0x300;
         }
         update_map_cell_flags_with_item_limit(call_a0, call_a1, burst);
-        actor->flags1C = (s32) (actor->flags1C & ~0x2000);
+        actor->flags1C = (actor->flags1C & ~0x2000);
         cycle_map_cell_flags(part_b->tile_x, part_b->tile_y, 0x3000);
         (part_b->frameTable) = tyrant_frame_set_1;
         select_sprite_entry(part_b, tyrant_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)

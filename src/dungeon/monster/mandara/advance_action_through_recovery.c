@@ -38,25 +38,25 @@ void advance_action_through_recovery(ActorRecord *action_state, ObjectPosition *
     use_global_target = 0;
     switch (action_state->action_phase) {
     case 0:
-        if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
+        if ((actor->flags1C) & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 7:
                 use_global_target = 1;
                 /* fall through */
             case 3:
-                motion = (u8 *)actor + 0xE;
+                motion = &actor->abilities[2].id;
                 break;
             case 6:
                 use_global_target = 1;
                 /* fall through */
             case 2:
-                motion = (u8 *)actor + 0xB;
+                motion = &actor->abilities[1].id;
                 break;
             case 5:
                 use_global_target = 1;
                 /* fall through */
             case 1:
-                motion = (u8 *)actor + 8;
+                motion = &actor->abilities[0].id;
                 break;
             default:
                 motion = 0;
@@ -65,13 +65,13 @@ void advance_action_through_recovery(ActorRecord *action_state, ObjectPosition *
         } else {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 3:
-                motion = (u8 *)actor + 0xE;
+                motion = &actor->abilities[2].id;
                 break;
             case 2:
-                motion = (u8 *)actor + 0xB;
+                motion = &actor->abilities[1].id;
                 break;
             case 1:
-                motion = (u8 *)actor + 8;
+                motion = &actor->abilities[0].id;
                 break;
             default:
                 motion = 0;

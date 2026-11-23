@@ -2,7 +2,9 @@
 #define TOWN_SCENE_H
 
 #include "common.h"
-#include "records/Rec_func_800165F4_arg0.h"
+#include "town/map/variant_data.h"
+
+struct TownObjectSet;
 
 
 /* select_data_by_cell_code.c */
@@ -38,11 +40,11 @@ extern void *D_800166F8[];
 extern void *D_80016718[];
 
 s32 match_request_input_to_state(void *request_value);
-s32 process_entry_and_clear_cell_code(void *context, s32 entry_index);
+s32 process_entry_and_clear_cell_code(struct TownObjectSet *context, s32 entry_index);
 
 s32 apply_scene_override_flag(s32 unused_first, s32 unused_second);
 s32 check_any_entry_matches_predicate(void);
-void *lookup_variant_with_special_overrides(s32 lookup_key, s32 unused, s32 entry_id);
+void *lookup_variant_with_special_overrides(struct TownObjectSet *lookup_key, s32 unused, s32 entry_id);
 s32 consume_required_flag_once(s32 requiredFlag, s32 completionFlag);
 void *select_mode_response_marking_paty_new(s32 unused_0, s32 unused_1, s32 request_type);
 s32 *select_response_by_town_state_count(s32 first_value, s32 second_value, s32 unused_context);
@@ -56,19 +58,18 @@ void subtract_threshold_from_counter(void);
 void request_handler_state_9(void);
 void request_handler_command_17(void);
 
-s32 set_indexed_entry_flag_when_dac_flag_set(void *object, s32 entry_index);
+s32 set_indexed_entry_flag_when_dac_flag_set(struct TownObjectSet *object, s32 entry_index);
 
-struct Rec_func_800165F4_arg0;
-s32 process_entry_with_script_flag(struct Rec_func_800165F4_arg0 *object, s32 entry_index);
+s32 process_entry_with_script_flag(struct TownObjectSet *object, s32 entry_index);
 
 /* Map-exit callback invoked by change_map. */
 struct MapRuntimeState;
 void reserve_town_monster_load_two(struct MapRuntimeState *unused_transition, void *unused_map_data);
 
 /* Complete TOWN callbacks at the validated phase load addresses. */
-s32 process_entry_marking_flag_if_nonzero(void *object, s32 entry_index);
-s32 process_entry_marking_flag_at_five(void *object, s32 entry_index);
-s32 set_entry_flag_when_enabled(void *object, s32 entry_index);
+s32 process_entry_marking_flag_if_nonzero(struct TownObjectSet *object, s32 entry_index);
+s32 process_entry_marking_flag_at_five(struct TownObjectSet *object, s32 entry_index);
+s32 set_entry_flag_when_enabled(struct TownObjectSet *object, s32 entry_index);
 void set_script_flag_sbs32_pad34(void);
 void start_keima_and_clear_flag(void);
 void set_active_entry_script_flag(void);
@@ -79,8 +80,7 @@ void set_indexed_scene_entry_flag(void *object, s32 entry_index);
 extern u8 D_8001798C[];
 extern u8 *D_80017AA4;
 
-struct Rec_func_800165F4_arg0;
-s32 process_entry_with_exit_flag(struct Rec_func_800165F4_arg0 *, s32);
+s32 process_entry_with_exit_flag(struct TownObjectSet *, s32);
 
 struct SceneActionEntry;
 s32 initialize_scene_action_state(struct SceneActionEntry *object, s32 value);
@@ -105,7 +105,7 @@ void store_scene_image_pair(void);
 void call_scene_service_one(void);
 
 /* Return the selected scene text, including flag-selected alternatives. */
-char *resolve_scene_entry_text(void *context, s32 unused, s32 selection);
+char *resolve_scene_entry_text(struct TownObjectSet *context, s32 unused, s32 selection);
 
 /* Return the stored state byte as the word consumed by scene tests. */
 s32 get_state_record_byte(void);
@@ -118,7 +118,7 @@ void update_slot_machine(struct S_func_80811C54_1 *self, struct ObjectPosition *
 
 /* Square-scene choice records. Consumers index 16-byte entries, call the
  * predicate at +0, call the text selector at +4, and read the flag at +12. */
-typedef Rec_func_800165F4_arg0 SquareSceneEntry;
+typedef struct TownObjectSet SquareSceneEntry;
 typedef s32 (*TownChoicePredicate)(SquareSceneEntry *, s32);
 typedef void *(*TownChoiceText)(SquareSceneEntry *, s32, s32);
 /* The choice stores a pointer to a prepared data block or a live scene record. */
@@ -131,14 +131,35 @@ typedef struct {
     s16 reserved;
 } TownSceneChoice;
 
-/* The object set every choice predicate receives: the scene's choice rows follow at +0x10. */
+/* One flag-dependency row of an object set (8 bytes): each row names a source flag, a flag to clear and a flag to set
+ * when the source is on. process_town_records walks the rows; resolve_entry_flag and apply_entry_position read them
+ * by the selector of a position entry. */
+typedef struct TownFlagDependency {
+    s16 source_flag;
+    s16 clear_flag;
+    s16 target_flag;
+    u8 pad_06[2];
+} TownFlagDependency;
+
+/* One 0x1C-byte row of the scene's object-set table. The table is retail data in each scene image; a zero first
+ * word ends it. build_object_set_and_select_lists walks it, find_eligible_entry and the choice callbacks receive a
+ * row, and save_context_and_dispatch_entry_type indexes it by the root's current entry. */
 typedef struct TownObjectSet {
-    u8 selected_choice;
-    u8 pad_01[0x0F];
+    /* +0x00 is one word: the builder rewrites its low byte, shifts and masks it, and passes it whole to
+     * populate_and_dispatch_entry_records. Low byte: the selected choice. Bit 15: hidden from the select lists.
+     * Bits 8-13: a 6-bit id copied into the spawn entries. Bits 16-29: the 14-bit key that
+     * find_masked_record_and_initialize matches (bit 23 also picks the group bank, bits 24-29 the group). */
+    s32 flags;
+    /* +0x04 the first spawn entry this row produced; the builder stores it and copies it into the select lists. */
+    TownSpawnEntry *object_record;
+    /* +0x08 a CD header block {data offset, id}; non-zero means +0x10 is a choice table. */
+    s32 *cd_header;
+    /* +0x0C the row's data inside the scene image; its offset is written into the CD header at +0x08. */
+    s8 *data;
     TownSceneChoice *choices;
-    u32 flag_records_address;
+    TownFlagDependency *flag_dependencies;
     s16 entry_flag;
-    s16 flag_record_count;
+    s16 flag_dependency_count;
 } TownObjectSet;
 s32 apply_entry_mia_bikou_start(SquareSceneEntry *entry, s32 entry_index);
 s32 apply_entry_selfy_rescued(SquareSceneEntry *entry, s32 entry_index);
@@ -187,12 +208,12 @@ s32 count_listed_enabled_records(void);
 
 void advance_event_dispatch_state(void);
 s32 advance_to_next_enabled_entry(void);
-s32 apply_selected_entry_values(Rec_func_800165F4_arg0 *record, s32 entry_index);
+s32 apply_selected_entry_values(struct TownObjectSet *record, s32 entry_index);
 s32 check_callback_record_bytes(s32 expected_second, s32 expected_first);
 s32 count_enabled_town_entries(void);
 s32 find_first_enabled_entry_id(void);
 s32 *get_special_data_for_low_value_id(s32 id);
-s32 process_checked_entry(void *object, s32 entryIndex);
+s32 process_checked_entry(struct TownObjectSet *object, s32 entryIndex);
 s32 select_status_code_from_callback(void);
 
 void dispatch_paired_table_values(void);
@@ -217,7 +238,7 @@ s32 find_entry_index_by_grid_bytes(s32 match_byte_1, s32 match_byte_0);
 u8 *get_special_data_by_id(s32 id);
 s32 has_matching_entry_result(s32 first_value, s32 second_value);
 void invoke_match_callback_or_lookup(void);
-s32 *lookup_with_override_fallback(void *key, s32 unused, s32 context);
+s32 *lookup_with_override_fallback(struct TownObjectSet *key, s32 unused, s32 context);
 void post_slot_ready_code(s32 group, s32 slot);
 u8 *prepare_stored_value_pair(void);
 u8 *prepare_stored_value_block(void);
@@ -233,7 +254,7 @@ void init_scene_node_mode_1(void *record, struct ObjectPosition *position, void 
 #include "shared/town_object.h"
 s32 advance_counter_modulo_eight(void);
 void advance_town_events_and_dispatch_entry(void);
-s32 apply_record_value_when_enabled(Rec_func_800165F4_arg0 *entry, s32 entry_index);
+s32 apply_record_value_when_enabled(struct TownObjectSet *entry, s32 entry_index);
 s32 blit_default_rectangle(void);
 s32 is_bar_top_flag_set(void);
 void init_scene_node_mode_4(void *record, struct ObjectPosition *position, void *bounds);
@@ -242,8 +263,8 @@ s32 find_eligible_entry(void *context, s32 unused_group_bits);
 s32 get_linked_record_value(void);
 s32 get_min_surface_probe_capped(ObjectPosition *source, s32 *out_detail);
 s32 is_angle_within_tolerance(s32 value_a, s32 value_b);
-void lookup_entry_after_grid_match(s32 dispatch_context, s32 unused, s32 dispatch_arg);
-s32 apply_entry_and_write_flag_range(Rec_func_800165F4_arg0 *entry, s32 entry_index);
+void lookup_entry_after_grid_match(struct TownObjectSet *dispatch_context, s32 unused, s32 dispatch_arg);
+s32 apply_entry_and_write_flag_range(struct TownObjectSet *entry, s32 entry_index);
 char *select_address_based_input(void);
 void *select_data_for_pad82_flag(s32 unused_value, s32 unused_special_value, s32 unused_code);
 void *select_data_pointer_based_result(void);
@@ -257,10 +278,9 @@ void fall_to_ground_height(s32 unused, ObjectPosition *position);
 
 struct Entry;
 struct ScenePositionEntry;
-struct SceneFlagContext;
-void apply_entry_keyed_values(struct ScenePositionEntry *entryTable, void *resource, s32 entryKey);
+void apply_entry_keyed_values(struct ScenePositionEntry *entryTable, struct TownObjectSet *resource, s32 entryKey);
 s32 find_entry_index_or_assert(struct Entry *entries, s32 key);
-s32 lookup_entry_value_and_set_flag(struct ScenePositionEntry *entries, struct SceneFlagContext *context, s32 lookup_key);
+s32 lookup_entry_value_and_set_flag(struct ScenePositionEntry *entries, struct TownObjectSet *context, s32 lookup_key);
 void process_flagged_entries_mode_append(void *entries);
 s32 *select_fallback_when_below_threshold(void *input);
 /* Address-qualified entries of distinct diagnostic devkit builds. */

@@ -1,4 +1,5 @@
 #include "shared/runtime_dispatch.h"
+#include "shared/game_state.h"
 #include "common.h"
 #include "frontend/libcard.h"
 
@@ -13,14 +14,11 @@
 
 /* Selects object and global modes, sets the shared state flag, and runs updates. */
 void card_boot_finish_slot_load_and_change_scene(CardSlotMenuState *object) {
+    /* The resident block base is held in one local across the two calls below. */
+    GameState *gs = GAME_STATE;
     s16 object_mode;
     s32 global_mode;
     u16 state_flags;
-            /* D_80013714 and D_80010208 sit on the same 64K page; retail keeps ONE
-     * lui (0x8001) live in a callee-saved reg ($s1) across both accesses and
-     * across the two intervening calls. Pin the page base to a saved hard
-     * register so it survives the calls instead of being rematerialized. */
-    u8 *global_page = (u8 *)0x80010000;
 
     card_boot_close_events_and_resume_timer();
     object_mode = 1;
@@ -28,12 +26,12 @@ void card_boot_finish_slot_load_and_change_scene(CardSlotMenuState *object) {
         object_mode = 3;
     }
     state_flags = runtime_dispatch_state.flags16;
-    *(s16 *)(global_page + 0x3714) = object_mode;
+    gs->log.head.flags = object_mode;
     runtime_dispatch_state.flags16 = state_flags | 2;
     card_boot_destroy_slot_selection_menu(NODE_HEADER(object));
     swap_saved_state_block();
     global_mode = 6;
-    if (*(u16 *)(global_page + 0x208) != 0) {
+    if (gs->dungeon_save_marker != 0) {
         global_mode = 5;
     }
     request_scene_dispatch_state(global_mode);

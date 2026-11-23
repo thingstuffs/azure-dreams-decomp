@@ -37,7 +37,7 @@ s32 queue_projected_rectangle_chain(void *object, MovingPosition *position, S_80
     S_80099A1C_4 *next_node;
     s32 transform_result;
 
-    scratch = (SpriteQuadScratch *)0x1F800000;
+    scratch = SPRITE_SCRATCH;
 
     do {
         scratch->position.vx = position->x;

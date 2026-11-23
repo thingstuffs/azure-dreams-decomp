@@ -54,7 +54,7 @@ void update_directional_motion_and_target_tile(ActorRecord *body, ObjectPosition
         }
 
         initial_timer = -1;
-        if (((u32)entity->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+        if ((entity->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             initial_timer = 8;
         }
         body->action_timer = initial_timer;

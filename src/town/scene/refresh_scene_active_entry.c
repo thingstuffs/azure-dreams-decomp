@@ -28,7 +28,7 @@ extern ScenePositionEntry D_80018B40[];
 extern s32 D_80018E38;
 
 /* Refresh the active entry value and apply its corresponding table record. */
-void refresh_scene_active_entry(void *update_arg, s32 unused, s32 entry_arg)
+void refresh_scene_active_entry(TownObjectSet *update_arg, s32 unused, s32 entry_arg)
 {
     TownState *dispatch_state;
     TownState *update_state;

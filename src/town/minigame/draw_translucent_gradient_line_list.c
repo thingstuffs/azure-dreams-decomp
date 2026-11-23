@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/graphics/sprite_scratch.h"
 #include "town/line_packets.h"
 #include "shared/game_work.h"
 #include "sdk/libgpu.h"
@@ -26,15 +27,7 @@ typedef struct S_8002222C_1 {
     s32 unk_1C;
 } S_8002222C_1;
 
-typedef struct S_8002222C_3 {
-    s32 unk_00;
-    s32 unk_04;
-} S_8002222C_3;   /* scratch in draw_translucent_gradient_line_list */
 
-typedef struct S_8002222C_4 {
-    u16 unk_00;
-    u16 unk_02;
-} S_8002222C_4;   /* scratch100 in draw_translucent_gradient_line_list */
 
 
 extern void func_80065770(void *, void *, void *, void *, void *, s32);
@@ -48,16 +41,16 @@ s32 draw_translucent_gradient_line_list(void *first_entry) {
     s32 texture_page;
     u8 *entry;
     GameWork *arena_ptr;
-    S_8002222C_4 *depths;
-    u8 *transform_work;
-    S_8002222C_3 *screen_xy;
+    u16 *depths;
+    u16 *transform_work;
+    s32 *screen_xy;
     s32 raw_depth;
 
     entry = first_entry;
     arena_ptr = &g_game_work;
-    screen_xy = (S_8002222C_3 *)0x1F800000;
-    depths = (S_8002222C_4 *)((u32)screen_xy | 0x100);
-    transform_work = (u8 *)((u32)screen_xy | 0x180);
+    screen_xy = POINT_LIST_SCRATCH->screen_xy;
+    depths = POINT_LIST_SCRATCH->depths;
+    transform_work = POINT_LIST_SCRATCH->gte_discard;
     for (;;) {
         func_80065770(entry + 8, screen_xy, depths, transform_work,
                       transform_work, 2);
@@ -76,13 +69,13 @@ s32 draw_translucent_gradient_line_list(void *first_entry) {
         line_packet->second_color = ((S_8002222C_1 *)entry)->unk_1C;
         SetLineG2(line_packet);
         SetSemiTrans(line_packet, 1);
-        line_packet->first_xy = screen_xy->unk_00;
-        line_packet->second_xy = screen_xy->unk_04;
+        line_packet->first_xy = screen_xy[0];
+        line_packet->second_xy = screen_xy[1];
         {
             s32 min_depth;
-            raw_depth = depths->unk_00;
+            raw_depth = depths[0];
             bucket_addr = raw_depth << 0x10;
-            min_depth = depths->unk_02 << 0x10;
+            min_depth = depths[1] << 0x10;
             if (bucket_addr < min_depth) {
                 min_depth = bucket_addr >> 0x13;
             } else {

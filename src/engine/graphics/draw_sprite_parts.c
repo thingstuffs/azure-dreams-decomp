@@ -41,7 +41,7 @@ void draw_sprite_parts(void *unused, SpriteFrameState *sprite, s32 ot_depth)
 
     (void)unused;
     context = g_game_work.draw_buffer;
-    scratch = (SpriteQuadScratch *)0x1F800000;
+    scratch = SPRITE_SCRATCH;
     depth = ot_depth;
     contexts = (u8 **)((void * *)(&g_game_work));
     prim = context->packetCursor;
@@ -66,11 +66,11 @@ void draw_sprite_parts(void *unused, SpriteFrameState *sprite, s32 ot_depth)
     sprite_x = sprite->offset_x;
     scratch->translation.vx = origin_x + sprite_x;
     scratch->translation.vy = scratch->position.vy + sprite->offset_y;
-    TransMatrix(&scratch->matrix, &scratch->translation, sprite_x);
-    RotMatrix(&sprite->angle_x, &scratch->matrix);
-    ScaleMatrix(&scratch->matrix, &scratch->input);
-    SetRotMatrix(&scratch->matrix);
-    SetTransMatrix(&scratch->matrix);
+    TransMatrix(&scratch->matrix_50, &scratch->translation, sprite_x);
+    RotMatrix(&sprite->angle_x, &scratch->matrix_50);
+    ScaleMatrix(&scratch->matrix_50, &scratch->input);
+    SetRotMatrix(&scratch->matrix_50);
+    SetTransMatrix(&scratch->matrix_50);
 
 next_part:
     if (!(parts[0] & 0x20)) {
@@ -184,12 +184,12 @@ next_part:
         S16_AT(packet, 0x20) =
             (u16)scratch->uv_v_extent + (u16)scratch->uv_u_extent;
 
-        if (scratch->matrix.m[0][0] >= 0x1800) {
+        if (scratch->matrix_50.m[0][0] >= 0x1800) {
             u8 edge_u = U8_AT(packet, 0x20);
             U8_AT(packet, 0x20) = edge_u + 0xFF;
             U8_AT(packet, 0x10) = edge_u;
         }
-        if (scratch->matrix.m[1][1] >= 0x1800) {
+        if (scratch->matrix_50.m[1][1] >= 0x1800) {
             u8 edge_v = U8_AT(packet, 0x21);
             U8_AT(packet, 0x21) = edge_v + 0xFF;
             U8_AT(packet, 0x19) = edge_v;

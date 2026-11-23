@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/game_state.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "dungeon/actor/state.h"
@@ -50,7 +51,7 @@ void create_circular_segment_object(s16 new_state) {
         obj->position->x.w.i = 0;
         obj->position->y.w.i = 0;
         obj->position->z.w.i = 0x4000;
-        mode = *(s32 *)0x80012090;
+        mode = GAME_STATE->dungeon_mode_state;
         obj_state = NODE_BODY(obj);
         if (mode == 0) {
             if (current_dungeon_floor == 0x28) {

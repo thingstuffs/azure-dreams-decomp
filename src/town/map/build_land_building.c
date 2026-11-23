@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "town/map.h"
 
 /* BuildLandBuilding: store the selected palette and preserve the previous common palette. */
@@ -14,9 +15,9 @@ void BuildLandBuilding(s32 slot, s16 palette)
             u8 previous_palette;
 
             state[0x33A5 + index] = (u8)palette;
-            previous_palette = state[0x360A];
-            state[0x360A] = (u8)palette;
-            state[0x360B] = previous_palette;
+            previous_palette = GAME_STATE->building_palette[1][0];
+            GAME_STATE->building_palette[1][0] = (u8)palette;
+            GAME_STATE->building_palette[1][1] = previous_palette;
             return;
         }
     case 1:
@@ -34,7 +35,7 @@ void BuildLandBuilding(s32 slot, s16 palette)
     case 39:
     case 40:
     case 41:
-        *(u8 *)0x800133E7 = palette;
+        GAME_STATE->building_slots[33][1] = palette;
         return;
     }
 }

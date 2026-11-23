@@ -1,6 +1,6 @@
 #include "common.h"
 #include "town/map.h"
-
+#include "shared/game_state.h"
 
 
 typedef struct {
@@ -30,7 +30,6 @@ void store_normalized_building_code(s32 code) {
     S_800B8B00_1 *free_slot;
     u8 *scan_base;
     u8 *free_base;
-    u8 *store_base;
 
     stored_code = code;
     slot_ids = building_pair_indices;
@@ -71,18 +70,15 @@ void store_normalized_building_code(s32 code) {
                 /* fallthrough */
     case 0x9:
     case 0x2B:
-        store_base = (u8 *)0x80010000;
-        store_base[0x33A7] = stored_code;
+        GAME_STATE->building_slots[1][1] = stored_code;
         return;
     case 0x10:
     case 0x11:
-        store_base = (u8 *)0x80010000;
-        store_base[0x33A9] = stored_code;
+        GAME_STATE->building_slots[2][1] = stored_code;
         return;
     case 0x37:
         stored_code = 3;
-        store_base = (u8 *)0x80010000;
-        store_base[0x33BB] = stored_code;
+        GAME_STATE->building_slots[11][1] = stored_code;
         return;
     case 0x0:
 
@@ -91,41 +87,34 @@ void store_normalized_building_code(s32 code) {
     case 0x3F:
     case 0x40:
     case 0x41:
-        store_base = (u8 *)0x80010000;
-        store_base[0x33BB] = stored_code;
+        GAME_STATE->building_slots[11][1] = stored_code;
         return;
     case 0x38:
         stored_code = 2;
-        store_base = (u8 *)0x80010000;
-        store_base[0x33BB] = stored_code;
+        GAME_STATE->building_slots[11][1] = stored_code;
         return;
     case 0x3E:
         stored_code = 1;
-        store_base = (u8 *)0x80010000;
-        store_base[0x33BB] = stored_code;
+        GAME_STATE->building_slots[11][1] = stored_code;
         return;
     case 0x3:
     case 0x4:
-        store_base = (u8 *)0x80010000;
-        store_base[0x33C5] = stored_code;
+        GAME_STATE->building_slots[16][1] = stored_code;
         return;
     case 0xE:
     case 0xF:
-        store_base = (u8 *)0x80010000;
-        store_base[0x33C7] = stored_code;
+        GAME_STATE->building_slots[17][1] = stored_code;
         return;
     case 0x6:
     case 0x2C:
-        store_base = (u8 *)0x80010000;
-        store_base[0x33C9] = stored_code;
+        GAME_STATE->building_slots[18][1] = stored_code;
         return;
     case 0x24:
     case 0x25:
     case 0x26:
     case 0x27:
     case 0x28:
-        store_base = (u8 *)0x80010000;
-        store_base[0x33E7] = stored_code;
+        GAME_STATE->building_slots[33][1] = stored_code;
         break;
     }
 }

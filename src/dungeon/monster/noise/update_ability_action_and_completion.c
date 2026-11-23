@@ -51,17 +51,17 @@ void update_ability_action_and_completion(ActorRecord *body, ObjectPosition *mot
             case 7:
                 use_player = 1;
             case 3:
-                ability = (u8 *)actor + 0xE;
+                ability = &actor->abilities[2].id;
                 break;
             case 6:
                 use_player = 1;
             case 2:
-                ability = (u8 *)actor + 0xB;
+                ability = &actor->abilities[1].id;
                 break;
             case 5:
                 use_player = 1;
             case 1:
-                ability = (u8 *)actor + 8;
+                ability = &actor->abilities[0].id;
                 break;
             default:
                 ability = NULL;
@@ -71,13 +71,13 @@ void update_ability_action_and_completion(ActorRecord *body, ObjectPosition *mot
             normal_ability = actor->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (normal_ability) {
             case 3:
-                ability = (u8 *)actor + 0xE;
+                ability = &actor->abilities[2].id;
                 break;
             case 2:
-                ability = (u8 *)actor + 0xB;
+                ability = &actor->abilities[1].id;
                 break;
             case 1:
-                ability = (u8 *)actor + 8;
+                ability = &actor->abilities[0].id;
                 break;
             default:
                 ability = NULL;

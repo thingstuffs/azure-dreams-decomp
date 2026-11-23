@@ -62,7 +62,7 @@ void update_hikewne_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
         return;
     }
 
-    if (((u32)stats->flags1C) & ACTOR_ASLEEP) {
+    if ((stats->flags1C) & ACTOR_ASLEEP) {
         if (*(u8 **)&sprite->frameTable == hikewne_frame_set_2) {
             ((ActorRecord *)actor_arg)->action_id = 13;
             ((ActorRecord *)actor_arg)->action_phase = 1;
@@ -76,7 +76,7 @@ void update_hikewne_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
     }
 
     if ((g_dungeon_status.flags & 0x2000) == 0) {
-        if (((u32)stats->flags1C) & ACTOR_PUSH_PENDING) {
+        if ((stats->flags1C) & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(actor_arg, context_arg, sprite, stats);
             return;
         }
@@ -106,7 +106,7 @@ void update_hikewne_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
             }
         }
 
-        if (((u32)stats->flags1C) & ACTOR_LIFTED) {
+        if ((stats->flags1C) & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(actor_arg, context_arg, sprite, stats);
             ((ActorRecord *)actor_arg)->unk_90.parts.high -= ((ActorRecord *)actor_arg)->unk_A0.parts.high;
             ((ActorRecord *)actor_arg)->unk_A0.parts.high = 0;
@@ -127,7 +127,7 @@ void update_hikewne_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
     sprite->room_index = tile_index;
 
     if (stats->pending_turn_updates > 0) {
-        if (((u32)stats->flags1C) & ACTOR_PARALYZED) {
+        if ((stats->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(stats);
             return;
         }
@@ -206,7 +206,7 @@ void update_hikewne_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
         }
     }
 
-    flags = ((u32)stats->flags1C);
+    flags = (stats->flags1C);
     if (flags & 0x2000) {
         return;
     }

@@ -48,19 +48,19 @@ void advance_tyrant_spell_action(ActorRecord *action, ObjectPosition *motion, Sp
                 reuse_target = 1;
                 /* fall through */
             case 2:
-                animation = (u8 *)actor + 0xE;
+                animation = &actor->abilities[2].id;
                 break;
             case 5:
                 reuse_target = 1;
                 /* fall through */
             case 1:
-                animation = (u8 *)actor + 0xB;
+                animation = &actor->abilities[1].id;
                 break;
             case 4:
                 reuse_target = 1;
                 /* fall through */
             case 0:
-                animation = (u8 *)actor + 8;
+                animation = &actor->abilities[0].id;
                 break;
             case 3:
             default:
@@ -71,13 +71,13 @@ void advance_tyrant_spell_action(ActorRecord *action, ObjectPosition *motion, Sp
             anim_kind = actor->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (anim_kind) {
             case 3:
-                animation = (u8 *)actor + 0xE;
+                animation = &actor->abilities[2].id;
                 break;
             case 2:
-                animation = (u8 *)actor + 0xB;
+                animation = &actor->abilities[1].id;
                 break;
             case 1:
-                animation = (u8 *)actor + 8;
+                animation = &actor->abilities[0].id;
                 break;
             default:
                 animation = 0;

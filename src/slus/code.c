@@ -515,7 +515,7 @@ s32 get_item_buy_money(struct DungeonItemEntry *item)
 
 /* Clear the 0x50-byte table at address 0x80013564. */
 void clear_floor_resource_state_table(void) {
-    bzero((void *)0x80013564, 0x50);
+    bzero(GAME_STATE->item_data_keys, 0x50);
 }
 
 /* Compare two signed words by subtraction. */

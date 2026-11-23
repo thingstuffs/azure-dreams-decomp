@@ -166,7 +166,7 @@ s32 select_creature_action_and_target(ObjectPosition *unused, u8 *position, Acto
     if ((creature->flags1C & (ACTOR_BLIND | ACTOR_CONFUSED | ACTOR_PLAYER_SIDE)) == 0x2000) {
         {
             ActorRecord *player = dungeon_actor_ring_anchor;
-            behavior_byte = creature->unk_12;
+            behavior_byte = creature->ai_mode;
             if ((player->flags1C & (ACTOR_PARALYZED | ACTOR_ASLEEP)) || (get_entity_effect_value(player, STATUS_FROG) << 16) != 0) {
                 if (creature->flags1C & ACTOR_PLAYER_AWARE) {
                     if (behavior_byte != 0) {

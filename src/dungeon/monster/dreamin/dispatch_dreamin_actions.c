@@ -63,7 +63,7 @@ void dispatch_dreamin_actions(ActorRecord *actor, ObjectPosition *context, Sprit
     if (state->mp == 0) {
         advance_actor_pending_action(actor, context, sprite, state);
     } else {
-        initial_flags = ((u32)state->flags1C);
+        initial_flags = (state->flags1C);
         state->flags1C = initial_flags & -0x201;
 
         status_flags = dungeon_status[1];
@@ -93,7 +93,7 @@ void dispatch_dreamin_actions(ActorRecord *actor, ObjectPosition *context, Sprit
                 }
             }
 
-            if (((u32)state->flags1C) & ACTOR_LIFTED) {
+            if ((state->flags1C) & ACTOR_LIFTED) {
                 begin_actor_move_to_target_facing(actor, context, sprite, state);
                 func_80173478(actor, context, sprite, state);
                 return;
@@ -108,7 +108,7 @@ void dispatch_dreamin_actions(ActorRecord *actor, ObjectPosition *context, Sprit
         sprite->room_index = result;
 
         if (state->pending_turn_updates > 0) {
-            if (((u32)state->flags1C) & ACTOR_PARALYZED) {
+            if ((state->flags1C) & ACTOR_PARALYZED) {
                 update_actor_status_and_mp(state);
                 return;
             }
@@ -150,7 +150,7 @@ void dispatch_dreamin_actions(ActorRecord *actor, ObjectPosition *context, Sprit
                 actor->action_state_flags |= 0x8000;
                                         /* fallthrough */
             case 8:
-                if ((((u32)state->flags1C) & ACTOR_PLAYER_SIDE) &&
+                if (((state->flags1C) & ACTOR_PLAYER_SIDE) &&
                     ((state->action_flags & ACTOR_ACTION_CODE_MASK) == 8)) {
                     actor->action_state_flags &= 0x7FFF;
                 }
@@ -192,7 +192,7 @@ void dispatch_dreamin_actions(ActorRecord *actor, ObjectPosition *context, Sprit
             }
         }
 
-        flags = ((u32)state->flags1C);
+        flags = (state->flags1C);
         if ((flags & 0x2000) == 0) {
             entry_index = (s8)result;
             if (entry_index >= 0) {

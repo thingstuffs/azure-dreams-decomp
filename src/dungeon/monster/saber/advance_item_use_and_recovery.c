@@ -85,7 +85,7 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
     }
     switch (state) {
     case 0:
-        if ((u32)actor->flags1C & ACTOR_PLAYER_SIDE) {
+        if (actor->flags1C & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & 0x3FFF) {
             case 7:
                 special_or_effect = 1;

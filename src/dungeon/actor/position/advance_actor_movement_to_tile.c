@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "dungeon/actor/motion.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_status.h"
@@ -25,7 +26,7 @@ void advance_actor_movement_to_tile(ActorRecord *entity_ptr, void *input_arg_1, 
         remaining_count = entity_ptr->unk_B4.halves.high.u - 1;
         entity_ptr->unk_B4.halves.high.u = remaining_count;
 
-        if (((remaining_count << 16) <= 0 || ((*(u16 *)0x80013714) & 8)) &&
+        if (((remaining_count << 16) <= 0 || ((GAME_STATE->log.head.flags) & 8)) &&
             actor->movement_queue_state == actor->unk_8A) {
             set_actor_action_state_eight(entity_ptr, update_arg_1, update_arg_2);
             return;

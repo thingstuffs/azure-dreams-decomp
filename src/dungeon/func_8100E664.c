@@ -250,7 +250,7 @@ void restore_bank_actor_callback(PairAction *actor, ActorMotion *motion, SpriteF
         y_velocity = y_velocity / (s16) actor->ticks;
         motion->dz = 0;
         motion->dy = y_velocity;
-        partner->flags1C = (s32) (partner->flags1C & 0xFFFBFFFF);
+        partner->flags1C = (partner->flags1C & 0xFFFBFFFF);
         partner_actor->flags = (u16) (partner_actor->flags | 0xC);
         anim_table0 = D_8016E8F0;
         angle_or_count = &g_game_work.view.camera_rotation.parts.viewAngle;
@@ -389,7 +389,7 @@ commit_tile_positions:
         actor->heightOffset.word = 0;
         partner_actor->heightOffset.word = 0;
         if (actor->flags & 0x1000) {
-            partner->flags1C = (s32) (partner->flags1C | 0x40000);
+            partner->flags1C = (partner->flags1C | 0x40000);
         }
         if (!(actor->flags & 0x4000)) {
             partner_actor->flags = (u16) (partner_actor->flags & 0xFFF7);
@@ -397,8 +397,8 @@ commit_tile_positions:
         if (!(actor->flags & 0x2000)) {
             partner_actor->flags = (u16) (partner_actor->flags & 0xFFFB);
         }
-        entity->flags1C = (s32) (entity->flags1C | 0x40000000);
-        partner->flags1C = (s32) (partner->flags1C | 0x40000000);
+        entity->flags1C = (entity->flags1C | 0x40000000);
+        partner->flags1C = (partner->flags1C | 0x40000000);
         {
             s16 angle_or_duration;
             s32 return_step_offset;

@@ -1,3 +1,4 @@
+#include "dungeon/level/tile_flags.h"
 #include "shared/object_node.h"
 #include "engine/entity/effect_slots.h"
 #include "shared/entity.h"
@@ -446,7 +447,7 @@ void update_actor_targeting_and_movement(ActorRecord *object, ObjectPosition *en
     state_flags = state->flags;
     limit_turn = 0;
     if ((state_flags & 0x4000) || (s8)actor->movement_queue_state >= 0) {
-        if (actor->unk_12 >= 2 || (begin_actor_directional_attack(object, entry_context, tile, actor) << 16) == 0) {
+        if (actor->ai_mode >= 2 || (begin_actor_directional_attack(object, entry_context, tile, actor) << 16) == 0) {
             update_actor_status_and_mp(actor);
 
             return;
@@ -1037,12 +1038,12 @@ void update_actor_hop_to_tile(ActorRecord *anim, ObjectPosition *motion, SpriteF
         if (next_hop_frames < 0) {
             anim->unk_90.value = 0;
             anim->action_state_flags &= 0xFFF7;
-            actor_state->flags1C = (u32)((u32)(actor_state->flags1C) | (ACTOR_GROUNDED));
+            actor_state->flags1C = ((actor_state->flags1C) | (ACTOR_GROUNDED));
             anim->action_phase++;
         }
                         /* fall through */
     case 2:
-        if (((u32)actor_state->flags1C) & ACTOR_GROUNDED) {
+        if ((actor_state->flags1C) & ACTOR_GROUNDED) {
             anim->action_state_flags &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;
@@ -1184,18 +1185,18 @@ void update_actor_spell_action(E_80172A58_S_80172A58_0 *state, E_80172A58_S_8017
         if (actor->flags1C & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & 0x3FFF) {
             case 7: use_player_target=1;
-            case 3: action_entry=(u8 *)actor+0xE; break;
+            case 3: action_entry=&actor->abilities[2].id; break;
             case 6: use_player_target=1;
-            case 2: action_entry=(u8 *)actor+0xB; break;
+            case 2: action_entry=&actor->abilities[1].id; break;
             case 5: use_player_target=1;
-            case 1: action_entry=(u8 *)actor+8; break;
+            case 1: action_entry=&actor->abilities[0].id; break;
             default: action_entry=0; break;
             }
         } else {
             switch (actor->action_flags & 0x3FFF) {
-            case 3: action_entry=(u8 *)actor+0xE; break;
-            case 2: action_entry=(u8 *)actor+0xB; break;
-            case 1: action_entry=(u8 *)actor+8; break;
+            case 3: action_entry=&actor->abilities[2].id; break;
+            case 2: action_entry=&actor->abilities[1].id; break;
+            case 1: action_entry=&actor->abilities[0].id; break;
             default: action_entry=0; break;
             }
         }
@@ -1590,7 +1591,7 @@ void wait_for_volcano_mp(ActorRecord *controller, ObjectPosition *context, Sprit
             {
                 void *call_controller = controller;
 
-                if (((u32)actor->flags1C) & ACTOR_PUSH_PENDING) {
+                if ((actor->flags1C) & ACTOR_PUSH_PENDING) {
                     /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: dungeon/func_80DE5D7C). */
                     do {
                         begin_pushed_actor_move(call_controller, context, sprite, actor);
@@ -1598,7 +1599,7 @@ void wait_for_volcano_mp(ActorRecord *controller, ObjectPosition *context, Sprit
                     return;
                 }
 
-                if (((u32)actor->flags1C) & ACTOR_LIFTED) {
+                if ((actor->flags1C) & ACTOR_LIFTED) {
                     begin_actor_move_to_target_facing(call_controller, context, sprite, actor);
                     update_actor_landing_and_trap(controller, context, sprite, actor);
                     return;
@@ -1786,7 +1787,7 @@ void advance_actor_state_with_child(ActorRecord *actor, ObjectPosition *context,
             spawn_height = creature->ground_height;
         }
 
-        object_flag = (u32)(creature->flags1C) & ACTOR_PLAYER_SIDE;
+        object_flag = (creature->flags1C) & ACTOR_PLAYER_SIDE;
         object = create_actor_with_tile_flags(
             object_flag != 0,
             (s16)(sprite->tile_x + (u16)*x_offset),

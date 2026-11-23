@@ -21,7 +21,7 @@ void (* const dungeon_1990800_entry)(FadingSpriteSequenceBody *, void *, void *)
 #include "sdk/libgpu_packets.h"
 #include "sdk/libgpu_types.h"
 #include "dungeon/effect/shaded_quad_scratch.h"
-#include "dungeon/effect/colored_point_scratch.h"
+#include "engine/graphics/sprite_scratch.h"
 
 typedef struct {
     u8 bytes[12];
@@ -45,7 +45,7 @@ typedef struct FadingSequenceChildBody {
 /* Project and enqueue a shaded quad if its depth and screen bounds are visible. */
 void project_and_queue_visible_shaded_quad(FadingSequenceChildBody *quad, ObjectPosition *position, SpriteFrameState *object, s16 depth_bias)
 {
-    ShadedQuadScratch *scratch = (ShadedQuadScratch *)0x1F800000;
+    ShadedQuadScratch *scratch = SHADED_QUAD_SCRATCH;
     DR_MODE *mode;
     POLY_G4 *packet;
     u8 *texture;
@@ -201,7 +201,7 @@ s32 draw_linked_records_zero_depth_bias(FadingSequenceChildBody *record, ObjectP
 s32 project_scaled_colored_point(RisingPointEffectBody *record, ObjectPosition *position)
 {
     GpuContext **state_ptr;
-    ColoredPointScratch *scratch;
+    SpriteQuadScratch *scratch;
     GpuContext *render_state;
     TILE_1 *packet;
     DR_MODE *mode_packet;
@@ -211,7 +211,7 @@ s32 project_scaled_colored_point(RisingPointEffectBody *record, ObjectPosition *
 
     render_state = g_game_work.draw_buffer;
     state_ptr = (GpuContext **)&g_game_work;
-    scratch = (ColoredPointScratch *)0x1F800000;
+    scratch = SPRITE_SCRATCH;
     scratch->packet_cursor = render_state->packetCursor;
     scratch->ordering_table = (u32 *)&render_state->orderTag;
     do {
@@ -222,7 +222,7 @@ s32 project_scaled_colored_point(RisingPointEffectBody *record, ObjectPosition *
         scratch->packet_cursor = packet + 1;
 
         depth_index = RotTransPers(&scratch->position, (s32 *)&packet->x0, &scratch->depth_cue, &scratch->gte_flag);
-        scratch->ot_index = depth_index;
+        scratch->sort_depth = depth_index;
         if (depth_index < 0x1E0U) {
             /* BYTES: retail stores the tile colour word (r0, g0, b0 and code) with one sw; member stores compile to four sb */
             *(u32 *)&packet->r0 = record->color;
@@ -233,15 +233,15 @@ s32 project_scaled_colored_point(RisingPointEffectBody *record, ObjectPosition *
             packet->code = 0x6A;
             packet->b0 = blue;
 
-            ((GpuLinkTag *)&packet->tag)->addr = ((GpuLinkTag *)&scratch->ordering_table[scratch->ot_index])->addr;
-            scratch->ordering_table[scratch->ot_index] = (scratch->ordering_table[scratch->ot_index] & 0xFF000000) | ((u32)packet & 0x00FFFFFF);
+            ((GpuLinkTag *)&packet->tag)->addr = ((GpuLinkTag *)&scratch->ordering_table[scratch->sort_depth])->addr;
+            scratch->ordering_table[scratch->sort_depth] = (scratch->ordering_table[scratch->sort_depth] & 0xFF000000) | ((u32)packet & 0x00FFFFFF);
 
             mode_packet = scratch->packet_cursor;
             scratch->packet_cursor = mode_packet + 1;
             SetDrawMode(mode_packet, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
 
-            ((GpuLinkTag *)&mode_packet->tag)->addr = ((GpuLinkTag *)&scratch->ordering_table[scratch->ot_index])->addr;
-            scratch->ordering_table[scratch->ot_index] = (scratch->ordering_table[scratch->ot_index] & 0xFF000000) | ((u32)mode_packet & 0x00FFFFFF);
+            ((GpuLinkTag *)&mode_packet->tag)->addr = ((GpuLinkTag *)&scratch->ordering_table[scratch->sort_depth])->addr;
+            scratch->ordering_table[scratch->sort_depth] = (scratch->ordering_table[scratch->sort_depth] & 0xFF000000) | ((u32)mode_packet & 0x00FFFFFF);
         }
 
         node = NODE_HEADER(record)->chain_next;

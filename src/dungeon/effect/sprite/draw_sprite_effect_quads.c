@@ -20,7 +20,7 @@ void *draw_sprite_effect_quads(u8 *sprite_list, ObjectPosition *position, Sprite
     sprite = 0;
     index = 0;
     packet = packet_buf;
-    scratch = (SpriteQuadScratch *) 0x1F800000;
+    scratch = SPRITE_SCRATCH;
     {
         s16 sprite_count;
         sprite_count = *((s16 *) (sprite_list + 0x9E));

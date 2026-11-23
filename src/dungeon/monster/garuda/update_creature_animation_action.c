@@ -57,12 +57,12 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
         return;
     }
     sprite = sprite_arg;
-    if ((u32)creature->flags1C & 0x200) {
+    if (creature->flags1C & 0x200) {
         if ((sprite->frameTable) == garuda_frame_set_2) {
             actor->action_id = 0xD;
             actor->action_phase = 1;
             actor->unk_8C.word = 0;
-            creature->flags1C = (u32)((u32)creature->flags1C & (0xFFFBFFFF));
+            creature->flags1C = (creature->flags1C & (0xFFFBFFFF));
             return;
         }
         if (reset_actor_action_state(actor, context, sprite, D_801748D8) != 0) {
@@ -70,7 +70,7 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
         }
     }
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if ((u32)creature->flags1C & 0x100) {
+        if (creature->flags1C & 0x100) {
             begin_pushed_actor_move(actor, context, sprite, creature);
             return;
         }
@@ -97,14 +97,14 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
                 actor->unk_B0.halves.high.s = 0;
             }
         }
-        creature->flags1C = (u32)((u32)creature->flags1C | (0x40000));
+        creature->flags1C = (creature->flags1C | (0x40000));
         actor->action_state_flags &= 0xFFF7;
         if (creature->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, context, sprite, D_80174890) != 0) {
                 return;
             }
         }
-        if ((u32)creature->flags1C & 0x80000) {
+        if (creature->flags1C & 0x80000) {
             s16 adjusted_offset;
             begin_actor_move_to_target_facing(actor, context, sprite, creature);
             adjusted_offset = actor->unk_90.parts.high - actor->unk_A4.halves.high.u;
@@ -121,7 +121,7 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
     room_id = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
     sprite->room_index = room_id;
     if (creature->pending_turn_updates > 0) {
-        if ((u32)creature->flags1C & 0x20) {
+        if (creature->flags1C & 0x20) {
             update_actor_status_and_mp(creature);
             return;
         }
@@ -217,10 +217,10 @@ void update_creature_animation_action(ActorRecord *actor, ObjectPosition *contex
             return;
         }
     }
-    if (!((u32)creature->flags1C & 0x2000)) {
+    if (!(creature->flags1C & 0x2000)) {
         s32 room_index = room_id;
         if ((room_index < 0) || (!(dungeon_rooms[room_index].flags & 2))) {
-            if (!((u32)creature->flags1C & 0x430)) {
+            if (!(creature->flags1C & 0x430)) {
                 TileObject *player_pos = &reference_tile_object;
                 if ((test_neighbor_position_relation(sprite->tile_x, sprite->tile_y,
                     player_pos->tile_position.parts.tile_x, player_pos->tile_position.parts.tile_y) << 16) != 0) {

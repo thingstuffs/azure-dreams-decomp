@@ -47,7 +47,7 @@ void advance_tyrant_hop_sequence(ActorRecord *work, ObjectPosition *part_a, Spri
         select_sprite_entry(part_b, (&D_80173FD8)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         work->action_state_flags = (u16) (work->action_state_flags | 8);
         part_a->velocity_z = 0xFFF00000;
-        actor->flags1C = (s32) (actor->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
+        actor->flags1C = (actor->flags1C & ACTOR_GROUNDED_CLEAR_MASK);
         work->unk_A0.value = 0;
         work->action_timer = 10;
         work->action_phase++;
@@ -73,7 +73,7 @@ void advance_tyrant_hop_sequence(ActorRecord *work, ObjectPosition *part_a, Spri
         }
         work->unk_90.value = 0;
         work->action_state_flags = (u16) (work->action_state_flags & 0xFFF7);
-        actor->flags1C = (s32) (actor->flags1C | ACTOR_GROUNDED);
+        actor->flags1C = (actor->flags1C | ACTOR_GROUNDED);
         work->action_phase++;
         return;
     case 2:

@@ -233,7 +233,7 @@ void wait_garuda_mp_and_animate(void *entity_arg, ObjectPosition *context, Sprit
             return;
         }
 
-        actor_flags = ((u32)actor->flags1C);
+        actor_flags = (actor->flags1C);
         if (actor_flags & 0x100) {
             begin_pushed_actor_move(entity, context, sprite, actor);
             return;

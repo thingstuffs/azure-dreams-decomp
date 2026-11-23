@@ -5,7 +5,7 @@
 #include "engine/script/vm.h"
 
 /* Opcode 0x0D: Clear the event flag given by the 16-bit operand. */
-void script_clear_flag(ScriptReader *state) {
+void script_clear_flag(MessageWindow *state) {
     u8 *cursor = state->cursor;
     s32 low = cursor[0];
     s32 high = cursor[1];

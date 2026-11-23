@@ -16,14 +16,6 @@ s32 sprite_command_depth_scale = 0;
 
 /* set to 0 at entry and again on the "list exhausted" exit path */
 
-/* Scratchpad vertex y offset word at fixed address 0x1F80013C (SpriteQuadScratch.vertex_y_offset), reached by casting the
- * scratchpad base (0x1F800000) to a padded struct so gcc folds the whole address into
- * a single store immediate (lui $at,hi; sw $0,lo($at)) instead of materializing it. */
-typedef struct {
-    u8 pad[0x13C];
-    u32 flag;
-} S_80045340_HwFlag;
-
 /* Processes unflagged entries across groups until the stop condition or end of the chain. */
 
 /* Projects unhidden sprite groups until the chain ends or the frame packet arena overflows. */
@@ -34,7 +26,7 @@ s32 project_sprite_chain(void *group_data, ObjectPosition *position, SpriteFrame
     ObjectNodeHeader *next_group;
 
     sprite_command_depth_scale = 0;
-    ((S_80045340_HwFlag *)0x1F800000)->flag = 0;
+    (SPRITE_SCRATCH)->vertex_y_offset = 0;
 
     for (;;) {
         if (!(current_entry->flags & 0x80)) {
@@ -134,7 +126,7 @@ typedef struct { u8 pad0[0xC0]; u32 depth; } ScratchDepth;
 /* Project sprite commands and link visible textured quads into the ordering table. */
 void project_sprite_commands(void *context, ObjectPosition *position, SpriteFrameState *entry, s16 depth_bias)
 {
-    SpriteQuadScratch *scratch = (SpriteQuadScratch *)0x1F800000;
+    SpriteQuadScratch *scratch = SPRITE_SCRATCH;
     GameWork *render_state = &g_game_work;
     GpuContext *draw_context;
     Packet *packet;
@@ -156,7 +148,7 @@ void project_sprite_commands(void *context, ObjectPosition *position, SpriteFram
     u8 uv_start;
     u8 uv_extent;
 
-    scratch->local_matrix.t[2] = 0;
+    scratch->matrix_D0.t[2] = 0;
     scratch->vertices[3].vz = 0;
     scratch->vertices[2].vz = 0;
     scratch->vertices[1].vz = 0;
@@ -201,23 +193,23 @@ void project_sprite_commands(void *context, ObjectPosition *position, SpriteFram
             rotation_y += ((u16)scratch->input.vz + 0x100) & 0x1FF;
             scratch->angles.vy = rotation_y;
             sprite_extent = entry->offset_x;
-            scratch->local_matrix.t[0] = sprite_extent;
+            scratch->matrix_D0.t[0] = sprite_extent;
             scratch->extent_x = sprite_extent;
             sprite_extent = entry->offset_y;
-            scratch->local_matrix.t[1] = sprite_extent;
+            scratch->matrix_D0.t[1] = sprite_extent;
             scratch->extent_y = sprite_extent;
 
-            RotMatrix(&scratch->angles, &scratch->local_matrix);
+            RotMatrix(&scratch->angles, &scratch->matrix_D0);
         }
         scale_x = entry->scale_x;
         scratch->input.vx = scale_x;
         scale_y = entry->scale_y;
         scratch->input.vz = 0x1000;
         scratch->input.vy = scale_y;
-        ScaleMatrix(&scratch->local_matrix, &scratch->input);
-        CompMatrix(&sprite_projection_matrix, &scratch->local_matrix, &scratch->matrix);
-        SetTransMatrix(&scratch->matrix);
-        SetRotMatrix(&scratch->matrix);
+        ScaleMatrix(&scratch->matrix_D0, &scratch->input);
+        CompMatrix(&sprite_projection_matrix, &scratch->matrix_D0, &scratch->matrix_50);
+        SetTransMatrix(&scratch->matrix_50);
+        SetRotMatrix(&scratch->matrix_50);
 
         command = entry->source;
         scratch->sprite_flags = entry->flags;
@@ -330,12 +322,12 @@ void project_sprite_commands(void *context, ObjectPosition *position, SpriteFram
                     packet->u2 = (u16)scratch->uv_v_extent | (u16)scratch->uv_u_start;
                     packet->u3 = (u16)scratch->uv_v_extent | (u16)scratch->uv_u_extent;
 
-                    if (scratch->matrix.m[0][0] >= 0x1800) {
+                    if (scratch->matrix_50.m[0][0] >= 0x1800) {
                         uv_edge = *((u8 *)packet + 0x24);
                         *((u8 *)packet + 0x24) = uv_edge + 0xFF;
                         *((u8 *)packet + 0x14) = uv_edge;
                     }
-                    if (scratch->matrix.m[1][1] >= 0x1800) {
+                    if (scratch->matrix_50.m[1][1] >= 0x1800) {
                         uv_edge = *((u8 *)packet + 0x25);
                         *((u8 *)packet + 0x25) = uv_edge + 0xFF;
                         *((u8 *)packet + 0x1D) = uv_edge;

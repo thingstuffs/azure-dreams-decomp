@@ -130,7 +130,7 @@ void update_sleeping_kewne(ActorRecord *actor, ObjectPosition *context, SpriteFr
         select_sprite_entry(render_record,
             kewne_frame_set_2[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
             0);
-        actor_state->flags1C = (u32)((u32)(actor_state->flags1C) | (0x40000));
+        actor_state->flags1C = ((actor_state->flags1C) | (0x40000));
         if (render_record->flags & 0x8000) {
             actor->unk_8C.address = kewne_action_resume_address;
             return;

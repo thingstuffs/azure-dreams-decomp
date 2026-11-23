@@ -23,4 +23,10 @@ typedef struct DR_PRIO {
     u32 code[2];
 } DR_PRIO;
 
+/* VRAM move packet emitted by SetDrawMove. */
+typedef struct DR_MOVE {
+    u32 tag;
+    u32 code[5];
+} DR_MOVE;
+
 #endif

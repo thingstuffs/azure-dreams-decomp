@@ -114,7 +114,7 @@ void draw_cd_wait_sprite_trail(s32 blend_step)
     s32 shade;
     s32 colour;
 
-    scratch = (SpriteQuadScratch *)0x1F800000;
+    scratch = SPRITE_SCRATCH;
     render_state = (GpuContext **)g_game_work;
 
     if (scene_sprite_list_initialized == 0) {
@@ -171,10 +171,10 @@ void draw_cd_wait_sprite_trail(s32 blend_step)
             s32 end_y = *(s16 *)((u8 *)scene_sprite_y_history + 4 + path_offset);
             scratch->translation.vy = start_y + ((end_y - start_y) * blend_step) / 8;
         }
-        TransMatrix(&scratch->matrix, &scratch->translation);
-        RotMatrix(&scratch->rotation, &scratch->matrix);
-        SetRotMatrix(&scratch->matrix);
-        SetTransMatrix(&scratch->matrix);
+        TransMatrix(&scratch->matrix_50, &scratch->translation);
+        RotMatrix(&scratch->rotation, &scratch->matrix_50);
+        SetRotMatrix(&scratch->matrix_50);
+        SetTransMatrix(&scratch->matrix_50);
 
         uv_start = U8_AT(sprite_uv, 4);
         scratch->uv_u_start = uv_start;

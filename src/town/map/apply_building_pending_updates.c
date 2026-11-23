@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "m2c_compat.h"
 #include "town/map.h"
 
@@ -11,19 +12,17 @@ typedef struct S_800B8A40_0 {
 
 /* Apply and clear pending byte updates, then copy two additional state bytes. */
 void apply_building_pending_updates(void) {
-    u8 *entry_base;
     s32 entry_index;
     s32 byte_index;
     u8 pending_value;
     u8 source_value;
     S_800B8A40_0 *byte_record;
 
-    entry_base = (u8 *)0x80010000;
     for (entry_index = 0; entry_index < 0x22; entry_index++) {
-        pending_value = entry_base[entry_index * 2 + 0x33A5];
+        pending_value = GAME_STATE->building_slots[entry_index][1];
         if (pending_value != 0) {
-            entry_base[entry_index * 2 + 0x33A4] = pending_value;
-            entry_base[entry_index * 2 + 0x33A5] = 0;
+            GAME_STATE->building_slots[entry_index][0] = pending_value;
+            GAME_STATE->building_slots[entry_index][1] = 0;
         }
     }
     byte_index = 0;

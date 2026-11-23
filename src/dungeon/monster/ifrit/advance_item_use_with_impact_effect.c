@@ -109,17 +109,17 @@ void advance_item_use_with_impact_effect(ActorRecord *body, ObjectPosition *moti
             case 6:
                 special_mode = 1;
             case 2:
-                anim = (u8 *)actor + 0xE;
+                anim = &actor->abilities[2].id;
                 break;
             case 5:
                 special_mode = 1;
             case 1:
-                anim = (u8 *)actor + 0xB;
+                anim = &actor->abilities[1].id;
                 break;
             case 4:
                 special_mode = 1;
             case 0:
-                anim = (u8 *)actor + 8;
+                anim = &actor->abilities[0].id;
                 break;
             default:
                 anim = 0;
@@ -128,13 +128,13 @@ void advance_item_use_with_impact_effect(ActorRecord *body, ObjectPosition *moti
         } else {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 3:
-                anim = (u8 *)actor + 0xE;
+                anim = &actor->abilities[2].id;
                 break;
             case 2:
-                anim = (u8 *)actor + 0xB;
+                anim = &actor->abilities[1].id;
                 break;
             case 1:
-                anim = (u8 *)actor + 8;
+                anim = &actor->abilities[0].id;
                 break;
             default:
                 anim = 0;

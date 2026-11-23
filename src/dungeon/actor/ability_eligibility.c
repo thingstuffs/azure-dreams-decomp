@@ -686,7 +686,10 @@ s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey) {
 }
 
 /* Tests for a flagged floor or a height above 0x200 at the layer-offset cell. */
-s16 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags)
+s32 check_layer_offset_height(x, y, height, flags)
+    u16 x, y;
+    s16 height;
+    u32 flags;
 {
     s16 floor_height;
     s16 offset_height;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "slus/gp_d92c_owned.h"
 #include "dungeon/player/camera_depth_presets_data.h"
 #include "engine/entity/effect_slots.h"
@@ -12,7 +13,6 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/level.h"
 #include "modules/dungeon_engine_tile_map_fragment_b5d50.h"
-
 struct ObjectPosition;
 #include "shared/dungeon_actor_callbacks.h"
 #include "shared/object_node.h"
@@ -232,7 +232,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
         ((S_80089AA0_1 *)record_or_page)->unk_AA0 = 0;
         scene_music_hold = 1;
     }
-    if ((*(u16 *)0x80013714) & 4) {
+    if ((GAME_STATE->log.head.flags) & 4) {
         DungeonCameraTargets *effect_data;
         s32 effect_angle;
         s32 angle_step;
@@ -398,7 +398,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
                 reset_base->flags = 0U;
             }
         }
-        if (!((*(u16 *)0x80013714) & 8) && (!(g_dungeon_status.flags & 4)
+        if (!((GAME_STATE->log.head.flags) & 8) && (!(g_dungeon_status.flags & 4)
             || (((S_80089AA0_6 *)(&dungeon_floor_flags))->unk_00 & 0x40) || (linked_actor->action_id == 0x17))) {
             dungeon_floor_flags = (s32)(dungeon_floor_flags & ~0x40);
             if ((select_nearby_target_and_initialize_slot(NODE_HEADER(actor), in_motion, 8, dungeon_camera_targets.depth) << 0x10) != 0) {

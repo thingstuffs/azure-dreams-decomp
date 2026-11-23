@@ -57,7 +57,7 @@ void choose_maximum_move(ActorRecord *move_state, ObjectPosition *caller_context
     limit_turns = 0;
     flags = dungeon_state->flags;
     if ((flags & 0x4000) || ((s8)actor_arg->movement_queue_state >= 0)) {
-        if ((actor_arg->unk_12 >= 2) ||
+        if ((actor_arg->ai_mode >= 2) ||
             ((s16)try_dragon_attack(move_state, caller_context, position_arg, actor_arg) == 0)) {
             update_actor_status_and_mp(actor_arg);
             return;

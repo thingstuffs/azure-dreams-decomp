@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "shared/dungeon_status.h"
 #include "dungeon/actor.h"
 #include "dungeon/item.h"
@@ -11,15 +12,13 @@ extern u8 D_800E0C78[];
 /* Conditionally advances the dungeon counter and processes the input through the result chain. */
 void announce_familiar_defeat(void *input_data) {
     signed char *event_flag;
-    u16 *flag_page;
     void *saved_input;
     void *initial_result;
     void *result;
     u16 counter;
 
-    flag_page = (u16 *)0x80010000;
     saved_input = input_data;
-    if (!(flag_page[0x3714 / 2] & 1)) {
+    if (!(GAME_STATE->log.head.flags & 1)) {
         event_flag = &dungeon_event_pending_flag;
         {
             DungeonGlobalStatus *counter_state = &g_dungeon_status;
@@ -30,7 +29,7 @@ void announce_familiar_defeat(void *input_data) {
     }
     initial_result = get_unused_text_buffer();
     result = expand_text_control_codes(D_800E0C78, append_entity_display_text(saved_input, initial_result));
-    if (!(flag_page[0x3714 / 2] & 1)) {
+    if (!(GAME_STATE->log.head.flags & 1)) {
         result = copy_four_text_bytes(familiar_defeat_text,
             write_text_byte_and_advance(0x4C, write_text_byte_and_advance(0x11, result)));
     }

@@ -41,7 +41,7 @@ void update_terrain_scaled_actor_effect(ManoevaTerrainEffectBody *effect, Moving
 
         owner_base = effect->unk_0C;
         owner = NODE_BODY(owner_base);
-        if ((((u32)owner->flags1C) & 0x00800000) ||
+        if (((owner->flags1C) & 0x00800000) ||
             (owner_base->flags & 0x8000) ||
             (owner->unk_8C.address == (void *)transfer_linked_object_state) ||
             ((get_entity_effect_value(owner, STATUS_FROG) << 16) != 0)) {

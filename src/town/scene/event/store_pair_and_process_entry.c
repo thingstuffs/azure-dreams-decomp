@@ -3,8 +3,9 @@
 #include "town/scene/entry_requests.h"
 #include "town/scene/hooks.h"
 #include "town/scene/state_data.h"
+#include "town/scene.h"
 
-s32 store_pair_and_process_entry(struct Rec_func_800165F4_arg0 *row, s32 entry_index) {
+s32 store_pair_and_process_entry(TownObjectSet *row, s32 entry_index) {
     if (get_script_flag_mask(F_sbs07_pad21) != 0) {
         if (get_script_flag_mask(scene_request_flag_id) == 0) {
             clear_script_flag_bit(F_sbs07_pad21);

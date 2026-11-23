@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "engine/graphics/sprite_scratch.h"
 #include "engine/entity/effect_slots.h"
 #include "dungeon/actor/motion.h"
 #include "shared/actor_status_flags.h"
@@ -525,7 +526,7 @@ void dispatch_flame_actions(ActorRecord *actor, ObjectPosition *actor_context, S
         return;
     }
 
-    if ((u32)creature->flags1C & 0x200) {
+    if (creature->flags1C & 0x200) {
         if (sprite->frameTable == flame_alt_direction_frames) {
             actor->action_id = 0xD;
             actor->action_phase = 1;
@@ -542,7 +543,7 @@ void dispatch_flame_actions(ActorRecord *actor, ObjectPosition *actor_context, S
         void *current_animation;
         u8 *animation_table;
 
-        if ((u32)creature->flags1C & 0x100) {
+        if (creature->flags1C & 0x100) {
             begin_pushed_actor_move(actor, actor_context, sprite, creature);
             return;
         }
@@ -564,7 +565,7 @@ void dispatch_flame_actions(ActorRecord *actor, ObjectPosition *actor_context, S
             *(u16 *)&actor->unk_B8 = 0;
         }
 
-        creature->flags1C = (u32)((u32)creature->flags1C | (0x40000));
+        creature->flags1C = (creature->flags1C | (0x40000));
         actor->action_state_flags &= 0xFFF7;
 
         if (creature->hp_delta != 0) {
@@ -573,7 +574,7 @@ void dispatch_flame_actions(ActorRecord *actor, ObjectPosition *actor_context, S
             }
         }
 
-        if ((u32)creature->flags1C & 0x80000) {
+        if (creature->flags1C & 0x80000) {
             s16 adjusted_offset;
 
             begin_actor_move_to_target_facing(actor, actor_context, sprite, creature);
@@ -597,7 +598,7 @@ void dispatch_flame_actions(ActorRecord *actor, ObjectPosition *actor_context, S
     sprite->room_index = room_id;
 
     if (creature->pending_turn_updates > 0) {
-        if ((u32)creature->flags1C & 0x20) {
+        if (creature->flags1C & 0x20) {
             update_actor_status_and_mp(creature);
             return;
         }
@@ -668,12 +669,12 @@ void dispatch_flame_actions(ActorRecord *actor, ObjectPosition *actor_context, S
         return;
     }
 
-    if (!((u32)creature->flags1C & 0x2000)) {
+    if (!(creature->flags1C & 0x2000)) {
         s32 room_index = room_id;
 
         if ((room_index < 0) ||
             !(dungeon_rooms[room_index].flags & 2)) {
-            if (!((u32)creature->flags1C & 0x430)) {
+            if (!(creature->flags1C & 0x430)) {
 
                 if ((test_neighbor_position_relation(
                         sprite->tile_x, sprite->tile_y,
@@ -771,7 +772,7 @@ void choose_flame_move(ActorRecord *move_data, ObjectPosition *context, SpriteFr
     ActorRecord *blocker;
 
     if ((dungeon_flags & 0x4000) || (s8)actor_data->movement_queue_state >= 0) {
-        if (actor_data->unk_12 >= 2 ||
+        if (actor_data->ai_mode >= 2 ||
             (s16)try_flame_attack(move_data, context, position_data, actor_data) == 0) {
             update_actor_status_and_mp(actor_data);
             return;
@@ -1195,26 +1196,26 @@ void cast_flame_targeted_spell(ActorRecord *action, ObjectPosition *position, Sp
     is_special = 0;
     switch (phase) {
     case 0:
-        if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
+        if ((actor->flags1C) & ACTOR_PLAYER_SIDE) {
             move_kind = (actor->action_flags & ACTOR_ACTION_CODE_MASK) - 1;
             switch (move_kind) {
             case 6:
                 is_special = 1;
                 /* fall through */
             case 2:
-                move_data = (u8 *)actor + 0xE;
+                move_data = &actor->abilities[2].id;
                 break;
             case 5:
                 is_special = 1;
                 /* fall through */
             case 1:
-                move_data = (u8 *)actor + 0xB;
+                move_data = &actor->abilities[1].id;
                 break;
             case 4:
                 is_special = 1;
                 /* fall through */
             case 0:
-                move_data = (u8 *)actor + 8;
+                move_data = &actor->abilities[0].id;
                 break;
             default:
                 move_data = 0;
@@ -1224,13 +1225,13 @@ void cast_flame_targeted_spell(ActorRecord *action, ObjectPosition *position, Sp
             move_kind = actor->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (move_kind) {
             case 3:
-                move_data = (u8 *)actor + 0xE;
+                move_data = &actor->abilities[2].id;
                 break;
             case 2:
-                move_data = (u8 *)actor + 0xB;
+                move_data = &actor->abilities[1].id;
                 break;
             case 1:
-                move_data = (u8 *)actor + 8;
+                move_data = &actor->abilities[0].id;
                 break;
             default:
                 move_data = 0;
@@ -1637,7 +1638,7 @@ void wait_flame_status_and_animate(ActorRecord *in_actor, ObjectPosition *in_con
             (in_sprite->frameTable) = flame_alt_direction_frames;
             select_sprite_entry(in_sprite,(u8)(flame_alt_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + in_entity->facing + 0x100) >> 9) & 7]),
                 0);
-            in_entity->flags1C = (u32)((u32)in_entity->flags1C | (0x40000));
+            in_entity->flags1C = (in_entity->flags1C | (0x40000));
             if (!(in_sprite->flags & 0x8000)) {
 
                 state = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
@@ -1722,7 +1723,7 @@ void wait_flame_status_and_animate(ActorRecord *in_actor, ObjectPosition *in_con
         {
             u32 updated_flags;
 
-            updated_flags = (u32)in_entity->flags1C;
+            updated_flags = in_entity->flags1C;
             updated_flags |= 0x40000;
             in_entity->flags1C = updated_flags;
         }
@@ -1796,7 +1797,7 @@ void wait_for_flame_mp(ActorRecord *entity, ObjectPosition *context, SpriteFrame
             select_sprite_entry(anim,
                 flame_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            actor->flags1C = (u32)((u32)actor->flags1C | (0x40000));
+            actor->flags1C = (actor->flags1C | (0x40000));
             status_page = &g_dungeon_status.turn_scale;
             ((R06_801738E0_S_801738E0_2 *)status_page)->unk_0A++;
             entity->action_phase++;
@@ -1818,7 +1819,7 @@ void wait_for_flame_mp(ActorRecord *entity, ObjectPosition *context, SpriteFrame
             return;
         }
 
-        actor_flags = (u32)actor->flags1C;
+        actor_flags = actor->flags1C;
         if (actor_flags & 0x100) {
             begin_pushed_actor_move(entity, context, anim, actor);
             return;
@@ -1859,7 +1860,7 @@ void wait_for_flame_mp(ActorRecord *entity, ObjectPosition *context, SpriteFrame
         select_sprite_entry(anim,
             flame_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        actor->flags1C = (u32)((u32)actor->flags1C | (0x40000));
+        actor->flags1C = (actor->flags1C | (0x40000));
         scene_state->unk_0A++;
     }
         entity->action_phase++;
@@ -1934,11 +1935,11 @@ void finish_flame_fade_in(ActorRecord *state, ObjectPosition *motion, SpriteFram
 s32 project_flame_sprite_chain(void *initial_payload, ObjectPosition *entry_data, SpriteFrameState *entry, s32 unused)
 {
     void *payload = initial_payload;
-    R06_80173E08_Scratchpad *scratch = (R06_80173E08_Scratchpad *)0x1F800000;
+    SpriteQuadScratch *scratch = SPRITE_SCRATCH;
     ObjectNodeHeader *next_node;
 
     for (;;) {
-        scratch->value = ((s16 *)D_8017591C)[0];
+        scratch->vertex_y_offset = ((s16 *)D_8017591C)[0];
 
         if (!(entry->flags & 0x80)) {
             project_sprite_commands(payload, entry_data, entry, entry->depth_bias);
@@ -2710,7 +2711,7 @@ void advance_flame_transition(ActorRecord *action, ObjectPosition *position, Spr
         ((R06_80175270_S_80175270_0 *)action)->unk_BA = 0;
         action->action_phase++;
         actor->unk_8A = actor->facing;
-        actor->flags1C = (u32)((u32)actor->flags1C & (0xFFFBFFFF));
+        actor->flags1C = (actor->flags1C & (0xFFFBFFFF));
         /* fallthrough */
 
     case 2:

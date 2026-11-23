@@ -14,7 +14,7 @@ extern u8 D_8001B333[];
 extern u8 D_8001B3D2[];
 
 /* Selects a response and advances the four-state counter for event 11. */
-s32 select_response_cycling_sbs34_state(struct ScriptContext *context, s32 unused, s32 event_id)
+s32 select_response_cycling_sbs34_state(TownObjectSet *context, s32 unused, s32 event_id)
 {
     ScenePositionEntry *event_table;
     s32 result;

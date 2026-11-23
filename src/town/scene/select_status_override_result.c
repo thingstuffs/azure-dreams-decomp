@@ -10,7 +10,7 @@ extern u8 D_80019425[];
 extern u8 D_80019915[];
 
 /* Selects a result for the object, using its status to choose an override. */
-void *select_status_override_result(void *object, s32 unused, s32 mode)
+void *select_status_override_result(TownObjectSet *object, s32 unused, s32 mode)
 {
     void *base;
     void *result;
@@ -18,7 +18,7 @@ void *select_status_override_result(void *object, s32 unused, s32 mode)
     base = D_800181C8;
     result = apply_entry_position(base, D_8001832C, object, mode);
     if (resolve_entry_flag(base, object, mode) != 0) {
-        if (get_script_flag_mask(*(s16 *)((u8 *)object + 0x18)) != 0) {
+        if (get_script_flag_mask(object->entry_flag) != 0) {
             result = D_80019915;
         } else {
             result = D_80019425;

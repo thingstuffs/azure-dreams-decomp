@@ -9,13 +9,14 @@ s32 find_eligible_entry(void *context, s32 unused_group_bits)
     s32 *flag_page;
     s32 entry_index;
 
-    process_town_records(set->flag_records_address, set->flag_record_count);
+    /* BYTES: Pass the table as an integer: a pointer argument swaps the operands of one addu. */
+    process_town_records((unsigned long)set->flag_dependencies, set->flag_dependency_count);
     flag_page = (s32 *)0x80020000;
     do {
         flag_page[-3874] = 0;
         entry_index = 0;
         while (get_script_flag_mask(set->choices[entry_index].script_flag) != 0 ||
-               set->choices[entry_index].predicate((SquareSceneEntry *)set, entry_index) != 0) {
+               set->choices[entry_index].predicate(set, entry_index) != 0) {
             entry_index++;
         }
     } while (flag_page[-3874] != 0);

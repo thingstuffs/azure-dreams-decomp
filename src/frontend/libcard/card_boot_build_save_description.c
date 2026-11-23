@@ -1,11 +1,11 @@
 #include "frontend/card/save_image.h"
+#include "shared/game_state.h"
 #include "common.h"
 #include "engine/town.h"
 #include "frontend/libcard.h"
 #include "main/data.h"
 #include "sdk/libc.h"
 
-extern s16 D_80010208;
 
 /* Build text from a one-based index, global state, and a trailing value. */
 void card_boot_build_save_description(CardSaveImage *save, s32 index) {
@@ -29,7 +29,7 @@ void card_boot_build_save_description(CardSaveImage *save, s32 index) {
     strcat(output_text_target, text_fragments[3]);
 
     append_target = output_text_target;
-    if (D_80010208 != 0) {
+    if (GAME_STATE->dungeon_save_marker != 0) {
         selected_text = text_fragments[1];
     } else {
         selected_text = text_fragments[2];
@@ -38,7 +38,7 @@ void card_boot_build_save_description(CardSaveImage *save, s32 index) {
 
     suffix_text_target = save->title_and_reserved;
     strcat(suffix_text_target, D_800282A0);
-    trailing_value = *(s32 *)0x8001022C;
+    trailing_value = GAME_STATE->tower_entry_count;
     format_fullwidth_decimal(trailing_value, number_buffer);
     strcat(suffix_text_target, number_buffer);
 }

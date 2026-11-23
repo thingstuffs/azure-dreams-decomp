@@ -90,7 +90,7 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
 {
     S_81874988_4 *quad = quad_arg;
     u8 *render_state = g_game_work.draw_buffer;
-    ShadedQuadScratch *scratch = (ShadedQuadScratch *)0x1F800000;
+    ShadedQuadScratch *scratch = SHADED_QUAD_SCRATCH;
     POLY_FT4 *packet;
     u32 tex_attr;
     u8 *texture;
@@ -274,7 +274,7 @@ void draw_textured_sphere_mesh(TexturedSparkSphereBody *mesh, ObjectPosition *po
     u8 *texture;
     s32 column;
     s32 row;
-    ShadedQuadScratch *scratch = (ShadedQuadScratch *)0x1F800000;
+    ShadedQuadScratch *scratch = SHADED_QUAD_SCRATCH;
     GpuContext *page;
     u8 *initial_page;
     u32 page_dependency;
@@ -515,13 +515,13 @@ s32 draw_chained_object_records(TexturedSparkSphereBody *record, ObjectPosition 
 }
 
 #include "sdk/libgpu_types.h"
-#include "dungeon/effect/colored_point_scratch.h"
+#include "engine/graphics/sprite_scratch.h"
 
 /* Projects a colored point and links its drawing packets into the ordering table. */
 s32 project_colored_point(TerrainSeekingPointBody *render_data, ObjectPosition *position)
 {
     GpuContext **context_slot;
-    ColoredPointScratch *scratch;
+    SpriteQuadScratch *scratch;
     GpuContext *context;
     TILE_1 *point_packet;
     DR_MODE *mode_packet;
@@ -536,7 +536,7 @@ s32 project_colored_point(TerrainSeekingPointBody *render_data, ObjectPosition *
     context_slot = (GpuContext **)&g_game_work;
     address_mask = 0x00FFFFFF;
     length_mask = 0xFF000000;
-    scratch = (ColoredPointScratch *)0x1F800000;
+    scratch = SPRITE_SCRATCH;
     scratch->packet_cursor = context->packetCursor;
     scratch->ordering_table = (u32 *)&context->orderTag;
     do {
@@ -548,7 +548,7 @@ s32 project_colored_point(TerrainSeekingPointBody *render_data, ObjectPosition *
 
         depth_index = RotTransPers(&scratch->position, (s32 *)&point_packet->x0, &scratch->depth_cue,
                                    &scratch->gte_flag);
-        scratch->ot_index = depth_index;
+        scratch->sort_depth = depth_index;
         if (depth_index < 0x1E0U) {
             /* BYTES: retail stores the tile colour word (r0, g0, b0 and code) with one sw; member stores compile to four sb */
             *(u32 *)&point_packet->r0 = render_data->color;
@@ -563,11 +563,11 @@ s32 project_colored_point(TerrainSeekingPointBody *render_data, ObjectPosition *
             point_packet->b0 = blue;
 
             point_packet->tag = (point_packet->tag & length_mask) |
-                (scratch->ordering_table[scratch->ot_index] & address_mask);
+                (scratch->ordering_table[scratch->sort_depth] & address_mask);
             {
                 u32 *ot_entry;
                 u32 ot_tag;
-                ot_entry = (u32 *)(scratch->ot_index * 4 + (u32)scratch->ordering_table);
+                ot_entry = (u32 *)(scratch->sort_depth * 4 + (u32)scratch->ordering_table);
                 ot_tag = *ot_entry;
                 *ot_entry = (ot_tag & length_mask) |
                            ((u32)point_packet & address_mask);
@@ -578,8 +578,8 @@ s32 project_colored_point(TerrainSeekingPointBody *render_data, ObjectPosition *
             SetDrawMode(mode_packet, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
 
             mode_packet->tag = (mode_packet->tag & length_mask) |
-                (scratch->ordering_table[scratch->ot_index] & address_mask);
-            mode_ot_entry = (u32 *)(scratch->ot_index * 4 + (u32)scratch->ordering_table);
+                (scratch->ordering_table[scratch->sort_depth] & address_mask);
+            mode_ot_entry = (u32 *)(scratch->sort_depth * 4 + (u32)scratch->ordering_table);
             *mode_ot_entry = (*mode_ot_entry & length_mask) | ((u32)mode_packet & address_mask);
         }
 

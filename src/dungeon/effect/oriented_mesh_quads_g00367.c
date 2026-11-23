@@ -3,6 +3,7 @@
 #include "dungeon/effect/oriented_mesh_quads_g00367.h"
 #include "shared/game_work.h"
 #include "dungeon/effect.h"
+#include "engine/graphics/sprite_scratch.h"
 
 /* Process each linked state with draw_mesh_quads_with_orientation_mode in mode zero. */
 s32 draw_linked_segment_aligned_quads(void *initial_state, s32 value, SpriteFrameState *data) {
@@ -151,7 +152,7 @@ void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints_arg, Sp
             origin_y = sprite->offset_y;
             scratch->unk_0E8 = (s32) origin_y;
             scratch->unk_10A = origin_y;
-            RotMatrix((void *)0x1F800100, (void *)0x1F8000D0);
+            RotMatrix(&SPRITE_SCRATCH->angles, &SPRITE_SCRATCH->matrix_D0);
         }
         {
             s32 scale_x;
@@ -163,11 +164,11 @@ void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints_arg, Sp
             scale_z = 0x1000;
             scratch->unk_038 = scale_z;
             scratch->unk_034 = scale_y;
-            ScaleMatrix((void *)0x1F8000D0, (void *)0x1F800030);
+            ScaleMatrix(&SPRITE_SCRATCH->matrix_D0, &SPRITE_SCRATCH->input);
         }
-        CompMatrix(end_depth, (void *)0x1F8000D0, (void *)0x1F800050);
-        SetTransMatrix((void *)0x1F800050);
-        SetRotMatrix((void *)0x1F800050);
+        CompMatrix(end_depth, &SPRITE_SCRATCH->matrix_D0, &SPRITE_SCRATCH->matrix_50);
+        SetTransMatrix(&SPRITE_SCRATCH->matrix_50);
+        SetRotMatrix(&SPRITE_SCRATCH->matrix_50);
         part = sprite->source;
         scratch->unk_024 = (u16) sprite->flags;
         for (;;) {

@@ -22,7 +22,7 @@ void begin_player_sleep_action(void *record_arg, ObjectPosition *unused, void *o
     mask = ~0x20;
          /* MATCH: Emit the mask before loading the data pointer. */
     data = &D_800DD0E8;
-    entity->flags1C = (s32) (entity->flags1C & mask);
+    entity->flags1C = (entity->flags1C & mask);
     (*(s32 **)((u8 *)object + 0x2C)) = data;
     set_sprite_animation_frame(object, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7) + data), 0, 1);
 }

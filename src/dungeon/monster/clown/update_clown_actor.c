@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "engine/graphics/sprite_scratch.h"
 #include "engine/entity/effect_slots.h"
 #include "shared/actor_property_flags.h"
 #include "shared/actor_status_flags.h"
@@ -299,7 +300,7 @@ void dispatch_clown_actions(ActorRecord *actor, ObjectPosition *actor_context, S
         return;
     }
 
-    if (((u32)creature->flags1C) & ACTOR_ASLEEP) {
+    if ((creature->flags1C) & ACTOR_ASLEEP) {
         if (map_object->frameTable == clown_alt_direction_frames) {
             actor->action_id = 0xD;
             actor->action_phase = 1;
@@ -313,7 +314,7 @@ void dispatch_clown_actions(ActorRecord *actor, ObjectPosition *actor_context, S
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((u32)creature->flags1C) & ACTOR_PUSH_PENDING) {
+        if ((creature->flags1C) & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(actor, actor_context, map_object, creature);
             return;
         }
@@ -349,7 +350,7 @@ void dispatch_clown_actions(ActorRecord *actor, ObjectPosition *actor_context, S
             }
         }
 
-        if (((u32)creature->flags1C) & ACTOR_LIFTED) {
+        if ((creature->flags1C) & ACTOR_LIFTED) {
             s16 offset_delta;
 
             begin_actor_move_to_target_facing(actor, actor_context, map_object, creature);
@@ -373,7 +374,7 @@ void dispatch_clown_actions(ActorRecord *actor, ObjectPosition *actor_context, S
     map_object->room_index = room_id;
 
     if (creature->pending_turn_updates > 0) {
-        if (((u32)creature->flags1C) & ACTOR_PARALYZED) {
+        if ((creature->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(creature);
             return;
         }
@@ -443,12 +444,12 @@ void dispatch_clown_actions(ActorRecord *actor, ObjectPosition *actor_context, S
         return;
     }
 
-    if (!(((u32)creature->flags1C) & ACTOR_PLAYER_SIDE)) {
+    if (!((creature->flags1C) & ACTOR_PLAYER_SIDE)) {
         s32 room_index = room_id;
 
         if ((room_index < 0) ||
             !(dungeon_rooms[room_index].flags & 2)) {
-            if (!(((u32)creature->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
+            if (!((creature->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((test_neighbor_position_relation(
                     map_object->tile_x, map_object->tile_y,
@@ -552,7 +553,7 @@ void choose_clown_move(ActorRecord *move_data, ObjectPosition *context, SpriteFr
     ActorRecord *blocker;
 
     if ((dungeon_flags & 0x4000) || (s8)actor_data->movement_queue_state >= 0) {
-        if (actor_data->unk_12 >= 2 ||
+        if (actor_data->ai_mode >= 2 ||
             (s16)try_clown_attack(move_data, context, position_data, actor_data) == 0) {
             update_actor_status_and_mp(actor_data);
             return;
@@ -951,7 +952,7 @@ void update_overlay_object_action(ActorRecord *body, ObjectPosition *position, S
 {
     ActorRecord *object = actor;
     register s32 is_special;
-    u8 *action_data;
+    ActorAbility *action_data;
     s16 x;
     s32 absolute_x;
     s32 y;
@@ -973,17 +974,17 @@ void update_overlay_object_action(ActorRecord *body, ObjectPosition *position, S
             case 6:
                 is_special = 1;
             case 2:
-                action_data = (u8 *)object + 0xE;
+                action_data = &object->abilities[2];
                 break;
             case 5:
                 is_special = 1;
             case 1:
-                action_data = (u8 *)object + 0xB;
+                action_data = &object->abilities[1];
                 break;
             case 4:
                 is_special = 1;
             case 0:
-                action_data = (u8 *)object + 8;
+                action_data = &object->abilities[0];
                 break;
             default:
                 action_data = 0;
@@ -993,20 +994,20 @@ void update_overlay_object_action(ActorRecord *body, ObjectPosition *position, S
             kind = object->action_flags & 0x3FFF;
             switch (kind) {
             case 3:
-                action_data = (u8 *)object + 0xE;
+                action_data = &object->abilities[2];
                 break;
             case 2:
-                action_data = (u8 *)object + 0xB;
+                action_data = &object->abilities[1];
                 break;
             case 1:
-                action_data = (u8 *)object + 8;
+                action_data = &object->abilities[0];
                 break;
             default:
                 action_data = 0;
                 break;
             }
         }
-        if (*action_data != 0) {
+        if (action_data->id != 0) {
             x = body->action_state_flags & 0xFF7F;
             body->action_state_flags = x;
             x = is_special;
@@ -1020,7 +1021,7 @@ void update_overlay_object_action(ActorRecord *body, ObjectPosition *position, S
                 object->target_tile_y = x;
             } else {
                 action_table = item_action_definitions;
-                action_id = *action_data;
+                action_id = action_data->id;
                 action_entry = action_table + (action_id * 20);
                 if (action_entry[0x12] == 2) {
                     spawn = object->target;
@@ -1365,7 +1366,7 @@ void advance_clown_status_action(ActorRecord *actor, ObjectPosition *context, Sp
         select_sprite_entry(render_record,
             clown_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
             0);
-        actor_state->flags1C = (u32)((u32)(actor_state->flags1C) | (0x40000));
+        actor_state->flags1C = ((actor_state->flags1C) | (0x40000));
         if (render_record->flags & 0x8000) {
             actor->unk_8C.address = dispatch_clown_actions;
             return;
@@ -1438,7 +1439,7 @@ void advance_clown_mp_action(ActorRecord *actor, ObjectPosition *context, Sprite
             return;
         }
 
-        entity_flags = ((u32)entity->flags1C);
+        entity_flags = (entity->flags1C);
         if (entity_flags & 0x100) {
             begin_pushed_actor_move(actor, context, animation, entity);
             return;
@@ -1573,11 +1574,11 @@ void finish_clown_floor_trap(ActorRecord *state, ObjectPosition *motion, SpriteF
 s32 project_clown_sprite_chain(void *initial_payload, ObjectPosition *position, SpriteFrameState *entry, s32 unused)
 {
     void *payload = initial_payload;
-    R16_801736AC_Scratchpad *scratch = (R16_801736AC_Scratchpad *)0x1F800000;
+    SpriteQuadScratch *scratch = SPRITE_SCRATCH;
     ObjectNodeHeader *next_node;
 
     for (;;) {
-        scratch->value = ((s16 *)clown_fade_count)[0];
+        scratch->vertex_y_offset = ((s16 *)clown_fade_count)[0];
 
         if (!(entry->flags & 0x80)) {
             project_sprite_commands(payload, position, entry, entry->depth_bias);

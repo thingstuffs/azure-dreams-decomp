@@ -70,7 +70,7 @@ void cast_death_targeted_spell(ActorRecord *body, ObjectPosition *motion, Sprite
     state = body->action_phase;
     switch (state) {
     case 0:
-        if ((((u32)actor->flags1C)) & ACTOR_PLAYER_SIDE) {
+        if (actor->flags1C & ACTOR_PLAYER_SIDE) {
             u32 kind_index;
 
             kind_index = ((actor->action_flags) & 0x3FFF) - 1;
@@ -78,17 +78,17 @@ void cast_death_targeted_spell(ActorRecord *body, ObjectPosition *motion, Sprite
             case 6:
                 special = 1;
             case 2:
-                item_slot = (u8 *)actor + 0xE;
+                item_slot = &actor->abilities[2].id;
                 break;
             case 5:
                 special = 1;
             case 1:
-                item_slot = (u8 *)actor + 0xB;
+                item_slot = &actor->abilities[1].id;
                 break;
             case 4:
                 special = 1;
             case 0:
-                item_slot = (u8 *)actor + 8;
+                item_slot = &actor->abilities[0].id;
                 break;
             default:
                 item_slot = 0;
@@ -100,13 +100,13 @@ void cast_death_targeted_spell(ActorRecord *body, ObjectPosition *motion, Sprite
             action_kind = (actor->action_flags) & 0x3FFF;
             switch (action_kind) {
             case 3:
-                item_slot = (u8 *)actor + 0xE;
+                item_slot = &actor->abilities[2].id;
                 break;
             case 2:
-                item_slot = (u8 *)actor + 0xB;
+                item_slot = &actor->abilities[1].id;
                 break;
             case 1:
-                item_slot = (u8 *)actor + 8;
+                item_slot = &actor->abilities[0].id;
                 break;
             default:
                 item_slot = 0;

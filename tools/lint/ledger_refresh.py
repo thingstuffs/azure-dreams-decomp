@@ -639,7 +639,7 @@ class Refresher:
             self._base_rows, by_symbol = {}, collections.defaultdict(list)
             for line in (text or '').split('\n'):
                 old = line.split('\t')
-                if len(old) == 4 and old[0].startswith('0x'):
+                if len(old) >= 4 and old[0].startswith('0x'):
                     self._base_rows[tuple(old[:3])] = old[3]
                     by_symbol[tuple(old[:2])].append(old[3])
             self._base_by_symbol = by_symbol
@@ -886,7 +886,7 @@ def names_ledger(r, files):
     out, dirty = [], False
     for number, line in enumerate(text.split('\n'), 1):
         cols = line.split('\t')
-        if len(cols) == 4 and cols[0].startswith('0x'):
+        if len(cols) >= 4 and cols[0].startswith('0x'):      # a 5th column (scope) is carried as written
             where = f'{NAMES}:{number} {cols[2]}'
             own = sorted(r.tree.defined.get(cols[2], ()))
             evidence = r.text('names', where, cols[3], own, cols[2], r.base_evidence(cols))

@@ -1,0 +1,20 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/bank_18fa800",
+  "container": "dungeon",
+  "foff": "0x18fa800",
+  "size": "0x6000",
+  "vma": "0x80024000",
+  "evidence": "Selector 34 loads DUNGEON +0x18fa800 at 0x80024000. The bank updater passes this drawing callback to register_node at +0x18fab8c.",
+  "entries": [
+    {
+      "row": "dungeon/func_818DAF14",
+      "home": "dungeon/func_818DAF14",
+      "tu": "src/dungeon/effect/draw_rippled_screen_strips.c",
+      "foff": "0x18faf14",
+      "vma": "0x80024714",
+      "size": 2708,
+      "evidence": "Selector 34 loads DUNGEON +0x18fa800 at 0x80024000. The bank updater passes this drawing callback to register_node at +0x18fab8c."
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 #include "frontend/settings/initialization.h"
+#include "shared/game_state.h"
 #include "shared/entity.h"
 /* Settings-screen object creation and initialization, with a helper for copying two words. */
 #include "modules/main_title_callbacks.h"
@@ -90,7 +91,7 @@ void initialize_settings_screen(void) {
         settings = NODE_BODY(screen_object);
         screen_object->position->y.w.i = 0xF0;
         (*(s16 *)((u8 *)settings + 4)) = 0x20;
-        (*(s16 *)((u8 *)settings + 0x14)) = (s16) ((u8) D_80013184 >> 5);
+        (*(s16 *)((u8 *)settings + 0x14)) = (s16) ((u8) GAME_STATE->options.unk_3184 >> 5);
         index = 2;
         (*(s16 *)((u8 *)settings + 0xE)) = (s16) D_80013180;
         (*(s16 *)((u8 *)settings + 0x10)) = (s16) D_80013181;
@@ -101,7 +102,7 @@ void initialize_settings_screen(void) {
             }
             index -= 1;
         } while (index >= 0);
-        if ((D_80013186 & 1) == 0) {
+        if ((GAME_STATE->options.unk_3186 & 1) == 0) {
             settings->flags = (u16) (settings->flags | 2);
         } else {
             settings->flags = (u16) (settings->flags & 0xFFFD);

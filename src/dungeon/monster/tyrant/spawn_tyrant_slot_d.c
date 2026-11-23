@@ -75,12 +75,12 @@ void *spawn_tyrant_in_slot_d(s16 input0, s16 input1, s16 input2, s16 input3) {
             flags98 = record->action_state_flags;
             record->flags14 = (s32) (record->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER));
             record->action_state_flags = (u16) (flags98 | 0x4000);
-            record->flags1C = (s32) (record->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER));
+            record->flags1C = (record->flags1C | (ACTOR_PLAYER_SIDE | ACTOR_PARTY_MEMBER));
         } else if (value >= 2) {
             flags98 = record->action_state_flags;
             record->flags14 = (s32) (record->flags14 | ACTOR_CLASS_ENABLED);
             record->action_state_flags = (u16) (flags98 | 0x4000);
-            record->flags1C = (s32) (record->flags1C | ACTOR_PLAYER_SIDE);
+            record->flags1C = (record->flags1C | ACTOR_PLAYER_SIDE);
         } else {
             call_a0 = allocation;
             if (((input0 & ~3) << 0x10) == 0) {
@@ -89,7 +89,7 @@ void *spawn_tyrant_in_slot_d(s16 input0, s16 input1, s16 input2, s16 input3) {
                     value = generate_random_value();
                     call_a0 = allocation;
                     if (value & 1) {
-                        record->flags1C = (s32) (record->flags1C | ACTOR_ASLEEP);
+                        record->flags1C = (record->flags1C | ACTOR_ASLEEP);
                         set_or_clear_actor_status_slot(record, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                         child_0C->frameTable = &D_80162000;
                     }

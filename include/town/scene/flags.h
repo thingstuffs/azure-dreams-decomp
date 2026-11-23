@@ -43,14 +43,14 @@ s32 run_flag_test_callbacks(struct S_80016818_0 *context);
 
 void dispatch_flag_test_state(void);
 
-#include "records/Rec_func_800165F4_arg0.h"
-s32 apply_record_value_for_either_flag(Rec_func_800165F4_arg0 *entry, s32 entry_index);
-s32 dispatch_entry_for_active_flags(Rec_func_800165F4_arg0 *entry, s32 entry_index);
-u8 *select_kenka_override_data(s32 dispatch_arg, s32 unused, s32 dispatch_option);
+struct TownObjectSet;
+s32 apply_record_value_for_either_flag(struct TownObjectSet *entry, s32 entry_index);
+s32 dispatch_entry_for_active_flags(struct TownObjectSet *entry, s32 entry_index);
+u8 *select_kenka_override_data(struct TownObjectSet *dispatch_arg, s32 unused, s32 dispatch_option);
 void post_code_107_if_entry_bit_0(s32 row, s32 column);
-s32 resolve_entry_flag(void *entry_table, void *context, s32 entry_key);
-u8 *select_context_data_with_flag_override(void *context, s32 unused, s32 selector);
-s32 set_record_flag_on_query_failure(void *record_field, s32 query_value);
+s32 resolve_entry_flag(void *entry_table, struct TownObjectSet *context, s32 entry_key);
+u8 *select_context_data_with_flag_override(struct TownObjectSet *context, s32 unused, s32 selector);
+s32 set_record_flag_on_query_failure(struct TownObjectSet *record_field, s32 query_value);
 s32 test_indexed_flag_bit(s32 bit);
 s32 mirror_sbs11_pad32_flag(void);
 
@@ -58,16 +58,15 @@ s32 mirror_sbs11_pad32_flag(void);
 #include "records/Rec_D_800CFCB4.h"
 #include "records/Rec_func_8008F2D4_arg0.h"
 #include "records/Rec_func_8008F2D4_arg1.h"
-struct ScriptContext;
 struct ScenePositionEntry;
 s32 get_selected_flag_stage(s32 unused_captured_value);
-s32 query_referenced_flag_for_table_entry(struct ScenePositionEntry *entry_table, struct ScriptContext *context, s32 entry_key);
+s32 query_referenced_flag_for_table_entry(struct ScenePositionEntry *entry_table, struct TownObjectSet *context, s32 entry_key);
 void stop_at_max_x(ColliderView *collider, ObjectPosition *position, s32 value);
 void stop_at_min_x(ColliderView *collider, ObjectPosition *position, s32 value);
 void stop_at_min_y(ColliderView *collider, ObjectPosition *position, s32 value);
 void stop_at_max_y(ColliderView *collider, ObjectPosition *position, s32 value);
 void stop_at_max_z(ColliderView *collider, ObjectPosition *position, s32 value);
-s32 update_scene_action_flags(Rec_func_800165F4_arg0 *row, s32 entry_index);
+s32 update_scene_action_flags(struct TownObjectSet *row, s32 entry_index);
 
 struct SpawnDisplayObject;
 void decrement_timer_and_set_completion_flag(struct SpawnDisplayObject *work);
@@ -76,9 +75,9 @@ void clear_indexed_flag_bit(s32 flag_id);
 void process_pair_16_bit_table(void);
 
 void clear_indexed_entry_flag(void);
-void set_indexed_entry_flag(Rec_func_800165F4_arg0 *record, s32 entry_index);
+void set_indexed_entry_flag(struct TownObjectSet *record, s32 entry_index);
 void set_current_entry_flag(void);
-s32 replace_record_flag_with_entry_flag(void *record, s32 entry_index);
+s32 replace_record_flag_with_entry_flag(struct TownObjectSet *record, s32 entry_index);
 
 /* Address-qualified entries of distinct diagnostic devkit builds. */
 void clear_indexed_flag_bit_unless_index_one_80700d20(s32 bit_index);

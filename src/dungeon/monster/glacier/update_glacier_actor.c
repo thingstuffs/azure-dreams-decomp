@@ -102,7 +102,7 @@ void update_glacier_actor(ActorRecord *body, ObjectPosition *motion_arg, SpriteF
             monster->flags &= 0xFFFE;
         }
 
-        if (!(((u32)actor->flags1C) & ACTOR_PARALYZED)) {
+        if (!((actor->flags1C) & ACTOR_PARALYZED)) {
             if (!(monster->flags & 0x40)) {
                 advance_sprite_animation_and_textures(monster);
             }
@@ -110,7 +110,7 @@ void update_glacier_actor(ActorRecord *body, ObjectPosition *motion_arg, SpriteF
             monster->flags |= 0x7000;
         }
 
-        if (!(((u32)actor->flags1C) & 0x10000000)) {
+        if (!((actor->flags1C) & 0x10000000)) {
             if ((get_entity_effect_value(actor, STATUS_SLEEP) << 16) != 0) {
                 s32 monster_state = monster->unk_04;
                 s32 shade;
@@ -133,7 +133,7 @@ void update_glacier_actor(ActorRecord *body, ObjectPosition *motion_arg, SpriteF
                     monster->color.c.r = shade;
                 }
             } else {
-                apply_monster_koyaw_data(((u32)actor->flags1C),
+                apply_monster_koyaw_data((actor->flags1C),
                               (u8 *)monster + 0xC);
             }
         }
@@ -172,7 +172,7 @@ flags_done:
             actor->flags1C |= ACTOR_GROUNDED;
             (body->fall_ticks) = 0;
         }
-        if (((u32)actor->flags1C) & ACTOR_REFRESH_GROUND) {
+        if ((actor->flags1C) & ACTOR_REFRESH_GROUND) {
             actor->flags1C &= ACTOR_REFRESH_GROUND_CLEAR_MASK;
             floor_height = sample_terrain_surface_height(
                 (monster->tile_x << 6) | 0x20,

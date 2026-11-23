@@ -1,4 +1,5 @@
 #include "sdk/libc.h"
+#include "shared/game_state.h"
 #include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "dungeon/item.h"
@@ -42,7 +43,7 @@ void release_entity_children(Entity *entity) {
     if (entity->field_14 == 0x13) {
         state = entity->field_1C;
         if (state == 2 || state == 0x39) {
-            strcpy((void *)0x80010238, entity->field_4);
+            strcpy(GAME_STATE->kewne_name, entity->field_4);
         }
     }
 }

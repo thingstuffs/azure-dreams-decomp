@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "shared/game_state.h"
 #include "slus.h"
 #include "dungeon/system.h"
 #include "dungeon/actor/animation.h"
@@ -21,7 +22,6 @@ struct SpriteFrameState;
 
 #include "dungeon/player.h"
 #include "dungeon/item.h"
-
 #include "dungeon/player/object/action_state.h"
 #include "dungeon/actor/state.h"
 #include "dungeon/player/motion.h"
@@ -64,7 +64,6 @@ void update_actor_commands_and_facing(ActorRecord *actor, ObjectPosition *motion
     u8 *flags_ptr;
     S_80096384_5 *command;
     GameWork *input = &g_game_work;
-    u16 *flags_page;
     s32 command_flags;
     s32 idle_state = 0x32; /* MATCH: preserve retail register allocation after sharing the internal tails. */
     s32 command_state;
@@ -116,8 +115,7 @@ void update_actor_commands_and_facing(ActorRecord *actor, ObjectPosition *motion
             begin_action_33_and_dispatch(actor, motion, sprite, actor_data);
             return;
         }
-        flags_page = (u16 *)0x80010000;
-        command_flags = flags_page[0x1B8A];
+        command_flags = GAME_STATE->log.head.flags;
         if (command_flags & 1) {
             actor->unk_A0.parts.high = actor_flags & 0xFFFE;
             if (actor_flags & 0x200) {

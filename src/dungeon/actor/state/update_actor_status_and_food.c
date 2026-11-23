@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "shared/game_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sys_flags.h"
@@ -21,7 +22,7 @@ void update_actor_status_and_mp(ActorRecord *entity) {
     if (!(g_dungeon_status.flags & 0x2800)) {
         if (entity->pending_turn_updates != 0) {
             do {
-                if (!(*(u16 *)0x80013714 & 8)) {
+                if (!(GAME_STATE->log.head.flags & 8)) {
                     if (!(entity->flags1C & ACTOR_MP_EMPTY) && ((entity_type = entity->species, ((entity_type
                         < 0x2FU) != 0)) || (entity_type == 0x39))) {
                         spend_actor_mp(entity, 4);

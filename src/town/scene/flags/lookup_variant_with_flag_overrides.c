@@ -3,6 +3,7 @@
 #include "town/scene/flags.h"
 #include "town/player/state.h"
 #include "town/scene/motion.h"
+#include "town/scene.h"
 
 extern u8 D_800189D8[];
 extern u8 D_80019104[];
@@ -11,7 +12,7 @@ extern u8 D_8001ABCC[];
 extern u8 D_80019397[];
 
 /* Looks up an entry and applies conditional overrides for variants 45 through 47. */
-s32 lookup_variant_with_flag_overrides(s32 entry_id, s32 unused, s32 variant_id)
+s32 lookup_variant_with_flag_overrides(TownObjectSet *entry_id, s32 unused, s32 variant_id)
 {
     s32 default_result;
 

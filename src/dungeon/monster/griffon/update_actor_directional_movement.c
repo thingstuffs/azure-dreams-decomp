@@ -42,7 +42,7 @@ void update_actor_directional_movement(ActorRecord *action, ObjectPosition *moti
             return;
         }
 
-        if (((u32)actor->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+        if ((actor->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             timer = 8;
         } else {
             timer = -1;

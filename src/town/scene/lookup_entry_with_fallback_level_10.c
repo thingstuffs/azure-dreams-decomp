@@ -11,7 +11,7 @@ extern s32 D_80018AD0;
 extern M2C_UNK D_80019B97;
 
 /* Retrieves a result and substitutes the fallback when the follow-up check succeeds. */
-s32 *lookup_entry_with_fallback_level_10(s32 key, s32 unused, s32 context) {
+s32 *lookup_entry_with_fallback_level_10(TownObjectSet *key, s32 unused, s32 context) {
     s32 *result;
 
     if (get_town_state_count() >= 0xA) {

@@ -60,7 +60,7 @@ void *spawn_beldo_at_tile(s16 entity_id, s32 tile_x, s16 tile_y, u16 initial_hei
         entity_state->action_id = 0xFF;
         entity_state->route_room = -1;
         entity_state->unk_8C.handler = &update_beldo_turn_action;
-        entity_state->flags1C = (s32) (entity_state->flags1C | 0x40000);
+        entity_state->flags1C = (entity_state->flags1C | 0x40000);
         tile_state->tpage_abr = 0x20;
         tile_state->flags = (u16) (tile_state->flags | 0xC);
         try_move_actor_to_valid_position(entity_state, world_state, tile_state, entity_state);

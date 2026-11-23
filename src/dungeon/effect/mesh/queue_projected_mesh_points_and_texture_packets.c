@@ -6,14 +6,14 @@
 #include "sdk/libgte.h"
 #include "sdk/libgpu_types.h"
 #include "sdk/libgpu_packets.h"
-#include "dungeon/effect/point_tile_scratch.h"
+#include "dungeon/effect/shaded_quad_scratch.h"
 
 
 
 /* Queues projected points and texture-page packets in the ordering table. */
 s32 queue_projected_mesh_points_and_texture_packets(u8 *item_data, u16 *coords)
 {
-    PointTileScratch *scratch = (PointTileScratch *)0x1F800000;
+    ShadedQuadScratch *scratch = SHADED_QUAD_SCRATCH;
     void **globals = ((void * *)(&g_game_work));
     GpuContext *render_state = globals[0];
     TILE_1 *first_packet = render_state->packetCursor;

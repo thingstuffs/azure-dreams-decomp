@@ -60,7 +60,7 @@ s32 update_thrown_actor_travel(ActorRecord *move_state, ObjectPosition *motion, 
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            actor->flags1C = (s32) (actor->flags1C | ACTOR_REFRESH_GROUND);
+            actor->flags1C = (actor->flags1C | ACTOR_REFRESH_GROUND);
             move_state->route_room = tile_pos->room_index;
             tile_pos->room_index = find_active_rect_containing_point(tile_pos->tile_x, tile_pos->tile_y);
             update_actor_proximity_flag(tile_pos, actor, 3, 6, &move_state->route_room);
@@ -80,7 +80,7 @@ s32 update_thrown_actor_travel(ActorRecord *move_state, ObjectPosition *motion, 
                     contact_tile_mask = 0x300;
                 }
                 cycle_map_cell_flags(contact_x, contact_y, contact_tile_mask);
-                actor->flags1C = (s32) (actor->flags1C & 0xFFDFFFFF);
+                actor->flags1C = (actor->flags1C & 0xFFDFFFFF);
                 g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
                 move_state->action_timer = 0;
                 actor->movement_queue_state = 0;
@@ -108,7 +108,7 @@ s32 update_thrown_actor_travel(ActorRecord *move_state, ObjectPosition *motion, 
             }
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
             move_state->action_timer = 0;
-            actor->flags1C = (s32) ((actor->flags1C | ACTOR_REFRESH_GROUND) & 0xFFDFFFFF);
+            actor->flags1C = ((actor->flags1C | ACTOR_REFRESH_GROUND) & 0xFFDFFFFF);
             if ((find_valid_nearby_position(actor, tile_pos->tile_x, tile_pos->tile_y, &resolved_x, &resolved_y) << 0x10) == 0) {
                 set_record_integer_tile_center(motion, tile_pos->tile_x, tile_pos->tile_y);
                 begin_actor_random_warp(move_state, motion, tile_pos, actor);

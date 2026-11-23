@@ -1,5 +1,5 @@
 {
-  "note": "Read-only caller evidence for three still unimplemented MAIN routines. Restore scan.py at its original path. Raw hits, mapped calls and linked-vs-derived addresses remain distinct; no runtime-execution or exact SDK-release claim.",
+  "note": "Read-only caller evidence for three still unimplemented MAIN routines. Restore scan.py at its original path. Raw hits, mapped calls and linked-vs-derived addresses remain distinct; no runtime-execution or exact SDK-release claim. The two disassembly listings are not kept in the repository.",
   "files": [
     {
       "source": "work/native_lane/main_kernel_callers/REPORT.md",
@@ -34,28 +34,12 @@
       "archive_bytes": 208
     },
     {
-      "source": "work/native_lane/main_kernel_callers/main_callsite_block.disasm.txt",
-      "archive": "main_callsite_block.disasm.txt",
-      "source_sha256": "25bda530739009fac3bb12a6d829f773702d7a3d6dadd195d74a6670b1c89511",
-      "archive_sha256": "1f341ff7fe397ff63b235c12aff3b57ae1b96dd6acce85c6cd7b9dfd0f4718fd",
-      "source_bytes": 1746,
-      "archive_bytes": 1729
-    },
-    {
       "source": "work/native_lane/main_kernel_callers/town_callsite_block.bin",
       "archive": "town_callsite_block.bin",
       "source_sha256": "fc9a0c189abd1f7e14b6bf0c4c5bef40e792a251c56fe45ab186a8e8009fbec6",
       "archive_sha256": "fc9a0c189abd1f7e14b6bf0c4c5bef40e792a251c56fe45ab186a8e8009fbec6",
       "source_bytes": 208,
       "archive_bytes": 208
-    },
-    {
-      "source": "work/native_lane/main_kernel_callers/town_callsite_block.disasm.txt",
-      "archive": "town_callsite_block.disasm.txt",
-      "source_sha256": "58b6a0b4f2afe4a8f8ec63795b9e314a970682ae21deb7d0bf1b401ffdfc22b6",
-      "archive_sha256": "c83c430dba7a4f826cb7c317d5a2830bb645e60299b2da495d995799862f0727",
-      "source_bytes": 1746,
-      "archive_bytes": 1729
     },
     {
       "source": "work/native_lane/main_kernel_callers/town_pointer_block.bin",

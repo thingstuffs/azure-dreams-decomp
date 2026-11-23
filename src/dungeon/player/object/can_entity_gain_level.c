@@ -46,7 +46,7 @@ s32 can_entity_gain_level(void *entity) {
     if ((get_entity_effect_value(entity,  STATUS_FROG) << 16) != 0) {
         return 0;
     }
-    if ((u32)actor->flags1C & ACTOR_LIFTED) {
+    if (actor->flags1C & ACTOR_LIFTED) {
         return can_level_up;
     }
     if (actor->species == 0) {
@@ -55,7 +55,7 @@ s32 can_entity_gain_level(void *entity) {
             return can_level_up;
         }
     }
-    if ((u32)actor->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+    if (actor->flags1C & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
         return can_level_up;
     }
          /* Required for byte-exact code generation. */
@@ -322,7 +322,7 @@ s32 raise_entity_level(void *entity_data, s32 show_message) {
             if (xp_given > 0xFFFFU) {
                 xp_given = 0xFFFF;
             }
-            *(u16 *)(((u8 *)entity_data) + 6) = xp_given;
+            ((ActorRecord *)entity_data)->exp_reward = xp_given;
         }
 
         if (((u8 *)entity_data)[0x13] != 0) {
@@ -829,7 +829,7 @@ u32 check_entity_interaction_compatibility(void *entity_arg, ActorRecord *other_
     if (other_entity == NULL) {
         return 0;
     }
-    if (((u32)entity->flags1C) & (ACTOR_BLIND | ACTOR_CONFUSED)) {
+    if ((entity->flags1C) & (ACTOR_BLIND | ACTOR_CONFUSED)) {
         return 1;
     }
     if (entity->species == MONSTER_TYRANT &&
@@ -840,8 +840,8 @@ u32 check_entity_interaction_compatibility(void *entity_arg, ActorRecord *other_
         (((u32)entity->flags14) & ACTOR_PARTY_MEMBER)) {
         return ((u16)get_entity_effect_value(entity, STATUS_BRAINWASH) << 16) != 0;
     }
-    return (((((u32)entity->flags1C) ^
-              (u32)(other_entity->flags1C)) & 0x2000) << 16) >> 16;
+    return ((((entity->flags1C) ^
+              (other_entity->flags1C)) & 0x2000) << 16) >> 16;
 }
 #include "shared/dungeon_floor.h"
 

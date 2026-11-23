@@ -63,5 +63,5 @@ void update_phase_driven_motion_offset(ActorRecord *state, ObjectPosition *outpu
         }
     }
     owner = NODE_BODY(beldo_script_node);
-    output->z.w.i = (s16) (((u16)owner->ground_height + state->unk_90.parts.high) - state->unk_A0.parts.high);
+    output->z.w.i = (s16) ((owner->ground_height + state->unk_90.parts.high) - state->unk_A0.parts.high);
 }

@@ -1586,8 +1586,8 @@ s32 roll_trap_trigger_chance(ActorRecord *ptr, s32 unused1, s32 unused2, s32 unu
         value = 0;
         if (trap_request_blocked == 0) {
             source_value = generate_random_value() & 0xFFFF;
-            if (((u8)ptr->luck) != 0) {
-                remainder_value = source_value % ((s16)((s32)((u8)ptr->luck)));
+            if ((ptr->luck) != 0) {
+                remainder_value = source_value % ((s16)((s32)(ptr->luck)));
                 value = remainder_value;
             }
         }
@@ -1661,7 +1661,7 @@ void mark_all_actors_with_high_flag(void) {
     record = dungeon_actor_ring_anchor;
     first_record = record;
     do {
-        record->flags1C = (s32) (record->flags1C | 0x40000000);
+        record->flags1C = (record->flags1C | 0x40000000);
         record = NODE_BODY(record->next_actor_header);
     } while (record != first_record);
 }

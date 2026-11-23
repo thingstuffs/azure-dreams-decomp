@@ -457,7 +457,7 @@ void dispatch_univern_actions(ActorRecord *actor, ObjectPosition *context, Sprit
         return;
     }
 
-    if (((u32)status->flags1C) & ACTOR_ASLEEP) {
+    if ((status->flags1C) & ACTOR_ASLEEP) {
         if (*(u8 **)&sprite->frameTable == univern_alt_spawn_direction_frames) {
             actor->action_id = 13;
             actor->action_phase = 2;
@@ -471,7 +471,7 @@ void dispatch_univern_actions(ActorRecord *actor, ObjectPosition *context, Sprit
     }
 
     if ((g_dungeon_status.flags & 0x2000) == 0) {
-        if (((u32)status->flags1C) & ACTOR_PUSH_PENDING) {
+        if ((status->flags1C) & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(actor, context, sprite, status);
             return;
         }
@@ -498,7 +498,7 @@ void dispatch_univern_actions(ActorRecord *actor, ObjectPosition *context, Sprit
             }
         }
 
-        if (((u32)status->flags1C) & ACTOR_LIFTED) {
+        if ((status->flags1C) & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(actor, context, sprite, status);
             actor->unk_A8 = 0;
             update_univern_parent_motion(actor, context, sprite, status);
@@ -514,7 +514,7 @@ void dispatch_univern_actions(ActorRecord *actor, ObjectPosition *context, Sprit
     sprite->room_index = tile_index;
 
     if (status->pending_turn_updates > 0) {
-        if (((u32)status->flags1C) & ACTOR_PARALYZED) {
+        if ((status->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(status);
             return;
         }
@@ -592,7 +592,7 @@ void dispatch_univern_actions(ActorRecord *actor, ObjectPosition *context, Sprit
         }
     }
 
-    flags = ((u32)status->flags1C);
+    flags = (status->flags1C);
     if (flags & 0x2000) {
         return;
     }
@@ -663,7 +663,7 @@ void advance_univern_stored_path(ActorRecord *motion, ObjectPosition *unused, Sp
     path_state->facing = ((s16)get_rounded_facing_and_rounding_flag(
         old_x, old_y, entity->tile_x, entity->tile_y,
         (u8 *)motion + 0x98));
-    path_state->flags1C = (u32)((u32)path_state->flags1C | (0x40000000));
+    path_state->flags1C = (path_state->flags1C | (0x40000000));
     motion->action_id = 0xF;
     motion->unk_8C.word = 0;
 
@@ -698,7 +698,7 @@ void choose_univern_move(ActorRecord *move_data, ObjectPosition *context, Sprite
     ActorRecord *blocker;
 
     if ((dungeon_flags & 0x4000) || (s8)actor_data->movement_queue_state >= 0) {
-        if (actor_data->unk_12 >= 2 ||
+        if (actor_data->ai_mode >= 2 ||
             (s16)try_univern_attack(move_data, context, position_data, actor_data) == 0) {
             update_actor_status_and_mp(actor_data);
             return;
@@ -1460,7 +1460,7 @@ void advance_univern_flight(ActorRecord *body, ObjectPosition *motion, SpriteFra
         body->action_phase++;
 
         flight_timer = -1;
-        if (((u32)actor->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+        if ((actor->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             flight_timer = 8;
         }
         body->action_timer = flight_timer;
@@ -1976,12 +1976,12 @@ void advance_univern_status_action(ActorRecord *action, ObjectPosition *context,
             return;
         }
 
-        if (((u32)entity->flags1C) & ACTOR_PUSH_PENDING) {
+        if ((entity->flags1C) & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(action, context, sprite, entity);
             return;
         }
 
-        if (((u32)entity->flags1C) & ACTOR_LIFTED) {
+        if ((entity->flags1C) & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(action, context, sprite, entity);
             ((R17_80173F10_S_80173ED8_0 *)action)->unk_A8 = 0;
             update_univern_parent_motion(action, context, sprite, entity);

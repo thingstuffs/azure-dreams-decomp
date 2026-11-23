@@ -6,6 +6,8 @@
 #include "shared/entity.h"
 #include "shared/town_object.h"
 
+struct TownObjectSet;
+
 struct ColliderView;
 struct CollisionOverlap;
 struct CollisionScratch;
@@ -26,7 +28,7 @@ void advance_three_component_motion(void *timer_state, void *motion);
 void func_8052FC8C(void *timer_state, void *motion);
 
 /* apply_entry_position.c */
-s32 apply_entry_position(struct ScenePositionEntry *entries, void *object, void *context, s32 selection);
+s32 apply_entry_position(struct ScenePositionEntry *entries, void *object, struct TownObjectSet *context, s32 selection);
 
 /* blend_position_and_trace.c */
 void blend_position_and_trace(s32 first_input, s32 second_input, s32 blend_weight, s32 remaining_weight);

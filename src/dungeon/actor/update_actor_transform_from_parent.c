@@ -118,7 +118,7 @@ s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, ObjectPosi
         ((ActorRecord *)actor)->ground_height = parent_height;
         state->unk_90.at02_s16.v = (s16) (((parent_position->z.unsigned_parts.integer + ((u16)offset.vz)) - parent_height) + 8);
         tile->unk_06.as_s16 = 0x10;
-        ((ActorRecord *)actor)->flags1C = (s32) (((ActorRecord *)actor)->flags1C | ACTOR_REFRESH_GROUND);
+        ((ActorRecord *)actor)->flags1C = (((ActorRecord *)actor)->flags1C | ACTOR_REFRESH_GROUND);
         parent_rotation = ((ActorRecord *)actor)->target;
         prev_parent_angle = (*(s16 *)((u8 *)actor + 0x6A));
         parent_angle_raw = ((u16)parent_rotation->unk_2A);

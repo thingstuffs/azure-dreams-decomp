@@ -10,6 +10,8 @@
 #include "shared/record_ptrs.h"
 #include "town/scene/position_entries.h"
 
+struct TownObjectSet;
+
 #define FIELD(expr, type_ptr, offset) (*(type_ptr)((u8 *)(expr) + (offset)))
 
 typedef struct S_func_80016D74_0 {
@@ -34,7 +36,7 @@ extern s32 scene_request_context;
 extern s32 func_80018BD0(s32);
 
 /* Functions defined in this translation unit. */
-void apply_selected_entry_position(void *firstValue, s32 unusedValue, s32 secondValue);
+void apply_selected_entry_position(struct TownObjectSet *firstValue, s32 unusedValue, s32 secondValue);
 s32 reset_hospital_flags_and_pick_entry(void);
 
 #endif

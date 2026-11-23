@@ -10967,3 +10967,5 @@
 {"path":"raw/town/func_800CF6E0.c","sha256":"f76a9c1a72d4de9d79d2ab3bd80a7b6ba58c48957ea978d04d7ba16104a6766c","size":1496}
 {"path":"raw/dungeon/func_818EDDB4.c","sha256":"d53d3b82f0b6dbe992a8955e6b6b3349c83c39d552d373fec5d46a9438af496d","size":24008}
 {"path":"raw/dungeon/func_818F37A4.c","sha256":"e76f84b1971457401c12e3dcf659cf68680b7e4e3ca02270940c32b85fa97447","size":16473}
+{"path":"raw/dungeon/func_818DAF14.c","sha256":"7d3d5ddbc9ad86c60b280a4ea14df3ebdb08e84181f44d2070fb433d145e1aaa","size":14958}
+{"path":"raw/dungeon/func_818A4FD4.c","sha256":"944c525acd6e125b1e1120da2bf3a7d0878806aadef910ee1229a54ffd4df5d1","size":18362}

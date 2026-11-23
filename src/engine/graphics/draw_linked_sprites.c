@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/graphics/sprite_scratch.h"
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
@@ -11,17 +12,17 @@ s32 draw_linked_sprites(void *first_payload, ObjectPosition *first_coords, Sprit
     ObjectPosition *coords;
     SpriteFrameState *record;
     ObjectNodeHeader *next_node;
-    u16 *scratch;
+    SpriteQuadScratch *scratch;
 
     payload = first_payload;
     coords = first_coords;
     record = first_record;
-    scratch = (u16 *)0x1F800000;
+    scratch = SPRITE_SCRATCH;
 
     while (1) {
         if (!(record->flags & 0x80)) {
-            scratch[0] = (coords->x).unsigned_parts.integer;
-            scratch[1] = *(u16 *)&coords->y.w.i;
+            scratch->position.vx = (coords->x).unsigned_parts.integer;
+            scratch->position.vy = *(u16 *)&coords->y.w.i;
             draw_sprite_parts(payload, record, (s16)((coords->z).unsigned_parts.integer + ((u16)(record->depth_bias))));
         }
 

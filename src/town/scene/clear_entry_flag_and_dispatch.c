@@ -8,11 +8,6 @@
 #include "town/scene/event.h"
 #include "town/scene/flags.h"
 
-typedef struct S_800167E4_0 {
-    u8 pad_00[0x18];
-    s16 unk_18;
-} S_800167E4_0;   /* arg0 in clear_entry_flag_and_dispatch */
-
 typedef struct S_800167E4_1 {
     u8 pad_00[0x8];
     s32 unk_08;
@@ -40,13 +35,13 @@ typedef struct S_800167E4_4 {
 extern s16 D_80019676;
 
 /* Clears flagged town status and dispatches the action when its conditions are met. */
-s32 clear_entry_flag_and_dispatch(S_800167E4_0 *entity, s32 action_arg)
+s32 clear_entry_flag_and_dispatch(TownObjectSet *entity, s32 action_arg)
 {
     S_800167E4_1 *town;
     s32 flag_id;
 
     town = (void *)town_scene_root;
-    flag_id = entity->unk_18;
+    flag_id = entity->entry_flag;
     scene_cell_dispatch_code = ((S_800167E4_3 *)(town->unk_08 * 8 + town->unk_40))->unk_04;
 
     if (get_script_flag_mask(flag_id) != 0) {
@@ -58,7 +53,7 @@ s32 clear_entry_flag_and_dispatch(S_800167E4_0 *entity, s32 action_arg)
             entry_index = clear_town->unk_08;
             ((S_800167E4_4 *)(entry_index * 8 + clear_town->unk_40))->unk_04 = 0;
         }
-        flag_id = entity->unk_18;
+        flag_id = entity->entry_flag;
         scene_cell_dispatch_code = 0;
         clear_script_flag_bit(flag_id);
     }

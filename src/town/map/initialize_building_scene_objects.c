@@ -1,4 +1,5 @@
 #include "town/map/building_grid_g00638.h"
+#include "shared/game_state.h"
 #include "town/map/map_cursor_input_g00641.h"
 #include "common.h"
 #include "town/map.h"
@@ -28,7 +29,6 @@ void initialize_building_scene_objects(void *draw_param) {
     Event6 *event;
     Event6 *event_table;
     u8 *draw_state;
-    u8 *status_page;
     s32 entry_kind;
     s32 draw_x;
     s16 draw_kind;
@@ -42,7 +42,7 @@ void initialize_building_scene_objects(void *draw_param) {
         draw_kind = entry_kind;
         blit_indexed_tile_block_with_origin(draw_x, draw_state[1], draw_kind, draw_param);
         if (draw_kind == 0x26) {
-            overlay_index = town_building_scene_index - 6;
+            overlay_index = GAME_STATE->building_slots[31][0] - 6;
             switch (overlay_index) {
             case 0:
                 blit_tile_block_with_origin(0x2E, 0x24, D_8012669C, draw_param);
@@ -62,24 +62,19 @@ void initialize_building_scene_objects(void *draw_param) {
             }
             {
                 s16 status_c8;
-                u8 *status_c8_page;
 
-                status_c8_page = (u8 *)0x80010000;
-                status_c8 = status_c8_page[0x33C8];
-                status_page = (u8 *)0x80010000;
+                status_c8 = GAME_STATE->building_slots[18][0];
                 if (7 == status_c8) {
                     blit_tile_block_with_origin(0x40, 0xC, D_80127024, draw_param);
                 }
-                if (status_page[0x33C4] == 5) {
+                if (GAME_STATE->building_slots[16][0] == 5) {
                     blit_tile_block_with_origin(0xE, 0xE, D_80126494, draw_param);
                 }
             }
         } else if (draw_kind == 0x27) {
             s32 status_c4;
-            u8 *status_c4_page;
 
-            status_c4_page = (u8 *)0x80010000;
-            status_c4 = status_c4_page[0x33C4];
+            status_c4 = GAME_STATE->building_slots[16][0];
             if (5 == status_c4) {
                 blit_tile_block_with_origin(0x38, 0xE, D_80127FA8, draw_param);
             }

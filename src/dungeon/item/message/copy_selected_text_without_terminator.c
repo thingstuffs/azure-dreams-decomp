@@ -20,7 +20,7 @@ u8 *copy_selected_text_without_terminator(void *text_id, u8 *dest) {
     u8 *text;
     s32 length;
 
-    if (((u32)dungeon_actor_ring_anchor->flags1C) & ACTOR_BLIND) {
+    if ((dungeon_actor_ring_anchor->flags1C) & ACTOR_BLIND) {
         text = D_800DD724[0];
     } else {
         text = (u8 *)select_item_data(text_id, &text_info);

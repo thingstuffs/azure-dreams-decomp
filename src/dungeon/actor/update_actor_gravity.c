@@ -61,8 +61,8 @@ void update_actor_gravity(ActorRecord *object, ObjectPosition *motion, SpriteFra
     if (!(fall_flags & 4) && (ground_height = sample_terrain_surface_height(
             ((u16) motion->x.w.i),
             ((u16) motion->y.w.i),
-            (s16)((*(u16 *)((u8 *)update_obj + (0x88))) - 0x20))) < 0x200) {
-            base_height_u = (*(u16 *)((u8 *)update_obj + (0x88)));
+            (s16)((update_obj->ground_height) - 0x20))) < 0x200) {
+            base_height_u = ((u16)update_obj->ground_height);
             base_height = update_obj->ground_height;
             if (object->unk_90.parts.high + base_height < ground_height) {
                 u16 object_flags = object->action_state_flags;
@@ -74,27 +74,27 @@ void update_actor_gravity(ActorRecord *object, ObjectPosition *motion, SpriteFra
                     object->unk_90.parts.high = ground_height - base_height_u;
                 }
                 motion->velocity_z = 0;
-                (*(u32 *)((u8 *)update_obj + (0x1C))) |= 0x08000000;
+                update_obj->flags1C |= 0x08000000;
                 object->fall_ticks = 0;
             }
 
-            if ((*(u32 *)((u8 *)update_obj + (0x1C))) & 0x40000000) {
+            if ((update_obj->flags1C) & 0x40000000) {
                 s32 tile_x;
                 s32 tile_y;
-                (*(u32 *)((u8 *)update_obj + (0x1C))) &= ~0x40000000;
+                update_obj->flags1C &= ~0x40000000;
                 tile_x = (ent->tile_x << 6) | 0x20;
                 tile_y = (ent->tile_y << 6) | 0x20;
                 ground_height = sample_terrain_surface_height(
-                    tile_x, tile_y, (s16)((*(u16 *)((u8 *)update_obj + (0x88))) - 0x20));
-                object->unk_90.parts.high += (*(u16 *)((u8 *)update_obj + (0x88))) - ground_height;
+                    tile_x, tile_y, (s16)((update_obj->ground_height) - 0x20));
+                object->unk_90.parts.high += (update_obj->ground_height) - ground_height;
                 update_obj->ground_height = ground_height;
             }
     } else {
-        (*(u32 *)((u8 *)update_obj + (0x1C))) &= ~0x08000000;
+        update_obj->flags1C &= ~0x08000000;
     }
 
 
-    motion->z.w.i = (*(u16 *)((u8 *)update_obj + (0x88))) + object->unk_90.parts.high;
+    motion->z.w.i = (update_obj->ground_height) + object->unk_90.parts.high;
     ent->flags |= 0x40;
-    (*(u32 *)((u8 *)update_obj + (0x1C))) |= 0x200;
+    update_obj->flags1C |= 0x200;
 }

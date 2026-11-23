@@ -10,7 +10,7 @@
 extern void func_80019988(void); /* this scene's placed copy of set_current_entry_script_flag */
 
 /* Run the three teardown passes; when the check fails, stop the scene object and report failure. */
-s32 run_three_teardown_passes(s32 kind, s32 value)
+s32 run_three_teardown_passes(TownObjectSet *kind, s32 value)
 {
     s32 result;
 

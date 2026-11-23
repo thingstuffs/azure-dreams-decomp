@@ -1,4 +1,5 @@
 #include "dungeon/level/unlink_entity_node_api.h"
+#include "shared/game_state.h"
 #include "shared/entity.h"
 #include "shared/object_node_flags.h"
 #include "shared/actor_status_ids.h"
@@ -198,7 +199,7 @@ void update_return_magic_sacrifice(S_800C2824_0 *effect, S_800C2824_3 *vertices,
             if (object_slot < 0x40) {
                 slots_page = (u8 *)0x80010000;
                 ((S_800C2824_5 *)(slots_page + (object_slot * 0x54)))->unk_A93 = 0;
-                ((s32 *)0x80010980)[object_slot] = 0;
+                ((s32 *)GAME_STATE->town_monster_entries)[object_slot] = 0;
             }
         }
         if ((get_entity_effect_value(effect->unk_00, STATUS_NO_TILE_OCCUPANCY) << 0x10) == 0) {

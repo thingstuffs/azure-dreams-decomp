@@ -8,7 +8,7 @@
 #include "town/scene/flags.h"
 
 /* Conditionally reset the subsystem, select 0xD7F, and forward the request. */
-void reset_and_dispatch_request(Rec_func_800165F4_arg0 *request, s32 request_data) {
+void reset_and_dispatch_request(TownObjectSet *request, s32 request_data) {
     if (get_town_state_count() >= 5) {
         set_current_entry_script_flag();
     }

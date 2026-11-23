@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/game_state.h"
 #include "shared/audio_commands.h"
 #include "common.h"
 #include "frontend/libcard/message.h"
@@ -11,7 +12,6 @@
 extern void *card_boot_recheck_selected_channel(void);
 void configure_shared_fade_primitive(void);
 
-extern s16 D_80010208[];
 
 /* Processes the current selection and stores the next state. */
 void *card_boot_save_selected_slot(CardSaveMenuBody *menu) {
@@ -26,7 +26,7 @@ void *card_boot_save_selected_slot(CardSaveMenuBody *menu) {
         card_boot_set_slot_details_selection(menu->surface, menu->selection, 3);
         card_boot_refresh_five_slot_objects(menu);
         card_boot_set_slot_selection_marker(menu->slots[menu->selection], 1);
-        if (D_80010208[0] != 0) {
+        if (GAME_STATE->dungeon_save_marker != 0) {
             configure_shared_fade_primitive();
             NODE_HEADER(menu)->update_callback = release_card_records_and_request_scene_state_three;
         } else {

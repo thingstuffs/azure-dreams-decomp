@@ -11,7 +11,7 @@ extern s32 D_800189BC[];
 extern M2C_UNK D_8001A04A;
 
 /* Selects a request result and conditionally advances a three-state cursor. */
-s32 *select_request_data_and_cycle(s32 entry_id, s32 unused, s32 request_id) {
+s32 *select_request_data_and_cycle(TownObjectSet *entry_id, s32 unused, s32 request_id) {
     s32 *result;
     s32 cursor;
 

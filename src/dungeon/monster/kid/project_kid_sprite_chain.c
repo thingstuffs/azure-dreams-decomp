@@ -1,14 +1,10 @@
 #include "common.h"
+#include "engine/graphics/sprite_scratch.h"
 
 #include "shared/object_node.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "engine/graphics.h"
-
-typedef struct {
-    u8 pad[0x13C];
-    s32 value;
-} Scratchpad;
 
 typedef struct {
     u8 pad[0x5218];
@@ -21,11 +17,11 @@ extern s16 D_80175218[];
 s32 project_kid_sprite_chain(void *initial_payload, ObjectPosition *entry_data, SpriteFrameState *entry, s32 unused)
 {
     void *payload = initial_payload;
-    Scratchpad *scratch = (Scratchpad *)0x1F800000;
+    SpriteQuadScratch *scratch = SPRITE_SCRATCH;
     ObjectNodeHeader *next_entry;
 
     for (;;) {
-        scratch->value = D_80175218[0];
+        scratch->vertex_y_offset = D_80175218[0];
 
         if (!(entry->flags & 0x80)) {
             project_sprite_commands(payload, entry_data, entry, entry->depth_bias);

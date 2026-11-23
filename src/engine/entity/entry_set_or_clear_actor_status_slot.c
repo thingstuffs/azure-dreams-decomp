@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "dungeon/actor/status.h"
 #include "shared/actor_status.h"
 #include "shared/entity.h"
@@ -15,11 +16,10 @@ void replay_actor_status_slots(ActorRecord *object)
     ActorStatusSlot saved_slots[4];
     s32 initial_type = 0x1B;
     s32 slot_index;
-    u8 *page = (u8 *)0x80010000;
     u16 saved_flags;
 
-    saved_flags = *(u16 *)(page + 0x3714);
-    *(u16 *)(page + 0x3714) = saved_flags | 2;
+    saved_flags = GAME_STATE->log.head.flags;
+    GAME_STATE->log.head.flags = saved_flags | 2;
     func_80042518(object, initial_type);
     slot_index = 0;
 

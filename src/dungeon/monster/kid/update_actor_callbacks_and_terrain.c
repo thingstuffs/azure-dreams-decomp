@@ -124,7 +124,7 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
                 }
             } else {
                 object_arg->flags = (u16) (object_arg->flags | 0x7000);
-                actor_base->flags1C = (s32) (actor_base->flags1C & 0xFFFBFFFF);
+                actor_base->flags1C = (actor_base->flags1C & 0xFFFBFFFF);
             }
             actor_flags = actor_base->flags1C & 0xF7FFFFFF;
             actor_base->flags1C = actor_flags;
@@ -285,7 +285,7 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
         }
         height_flags = actor_base->flags1C;
         if (height_flags & 0x40000000) {
-            actor_base->flags1C = (s32) (height_flags & 0xBFFFFFFF);
+            actor_base->flags1C = (height_flags & 0xBFFFFFFF);
             tile_height = sample_terrain_surface_height((object_arg->tile_x << 6) | 0x20,
                 (object_arg->tile_y << 6) | 0x20,
                 (s16) (actor_base->ground_height - 0x20));

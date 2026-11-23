@@ -3,9 +3,10 @@
 #include "town/scene/response_checks.h"
 #include "town/scene/flags.h"
 #include "town/player/state.h"
+#include "town/scene.h"
 
 /* Chooses response data using the selector, checked status, and progress flags, with an alternate handler. */
-s32 *select_response_by_selector_and_flags(s32 context, s32 check_value, s32 selector) {
+s32 *select_response_by_selector_and_flags(TownObjectSet *context, s32 check_value, s32 selector) {
     s32 *response;
 
     if (selector == 9) {

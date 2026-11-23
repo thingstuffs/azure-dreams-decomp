@@ -236,7 +236,7 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
                             (&familiar_turn_counters_alias)[slot_index] = 0;
                             if (spawned->mp == 0) {
                                 spawned->flags1C =
-                                    (s32)(spawned->flags1C | ACTOR_MP_EMPTY);
+                                    (spawned->flags1C | ACTOR_MP_EMPTY);
                             }
                             familiar_record_slots[((S_80094988_9 *)slot_flags)->unk_00 & 0x1F] =
                                 (s32)spawned;

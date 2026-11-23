@@ -180,46 +180,6 @@ typedef struct RenderState {
     u8 pad_00[0x8D0];
     u8 *packet;
 } RenderState;
-typedef struct S_81960CD4_0 {
-    u8 pad_00[0x30];
-    u32 unk_30;
-    u32 unk_34;
-    u32 unk_38;
-    u8 pad_3C[0x14];
-    MATRIX tile_matrix; /* RotMatrix of the effect angles with a zero translation, installed in the GTE */
-    u16 unk_70;
-    u16 unk_72;
-    u16 unk_74;
-    u8 pad_76[0x2];
-    u16 unk_78;
-    u16 unk_7A;
-    u16 unk_7C;
-    u8 pad_7E[0x2];
-    u16 unk_80;
-    u16 unk_82;
-    u16 unk_84;
-    u8 pad_86[0x2];
-    u16 unk_88;
-    u16 unk_8A;
-    u16 unk_8C;
-    u8 pad_8E[0x6];
-    s32 gte_flag; /* GTE flag output of the four vertex transforms */
-    u16 unk_98;
-    u16 unk_9A;
-    u16 unk_9C;
-    u8 pad_9E[0x2];
-    u16 unk_A0;
-    u16 unk_A2;
-    u16 unk_A4;
-    u8 pad_A6[0x2];
-    u16 unk_A8;
-    u16 unk_AA;
-    u16 unk_AC;
-    u8 pad_AE[0x2];
-    u16 unk_B0;
-    u16 unk_B2;
-    u16 unk_B4;
-} S_81960CD4_0;
 typedef struct S_81960CD4_1_pre {
     u16 unk_00;
 } S_81960CD4_1_pre;

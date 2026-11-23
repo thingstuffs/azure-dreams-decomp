@@ -1,6 +1,7 @@
 #include "common.h"
 #include "town/scene/entry_requests.h"
 #include "town/data.h"
+#include "town/scene.h"
 
 typedef struct {
     s32 words[4];
@@ -9,7 +10,7 @@ typedef struct {
 extern UnkStruct80476358 D_80017124;
 
 /* Pass a local copy of the word template and fixed data to the handler. */
-void dispatch_scene_request_with_local_words(s32 request, s32 unused, s32 value) {
+void dispatch_scene_request_with_local_words(TownObjectSet *request, s32 unused, s32 value) {
     UnkStruct80476358 local_words = D_80017124;
 
     apply_entry_position(&local_words, scene_pair_dispatch_context, request, value);

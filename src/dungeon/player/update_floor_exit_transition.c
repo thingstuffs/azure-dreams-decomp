@@ -1,4 +1,5 @@
 #include "shared/runtime_dispatch.h"
+#include "shared/game_state.h"
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/sys_flags.h"
@@ -23,18 +24,6 @@ extern u8 resident_globals_page[];
 
    /* ((Rec_D_800E3D7C *)arg0)->unk_C8 in update_floor_exit_transition */
 
-
-typedef struct S_800930F0_4 {
-    u8 pad_00[0x234];
-    s32 unk_234;
-    u8 pad_238[0x1E58];
-    s32 unk_2090;
-    u8 pad_2094[0x1680];
-    u16 unk_3714;
-    s16 unk_3716;
-    s16 unk_3718;
-    s16 unk_371A;
-} S_800930F0_4;
 
 typedef struct S_800930F0_5 {
     union { s32 * s; void * (*u)(s32, s32); } unk_00;   /* accessed as both */
@@ -74,7 +63,6 @@ extern void *dungeon_menu_action_state[];
 /* Advances the dungeon transition through its delay, setup, and completion phases. */
 void update_floor_exit_transition(PlayerRecord *state, ObjectPosition *unused, MovingTile *tile, ActorRecord *actor) {
     s32 *transition_base;
-    S_800930F0_4 *saved_state_base;
     s32 *slot_cursor;
     s32 slot_index;
     s32 slot_object;
@@ -92,7 +80,7 @@ void update_floor_exit_transition(PlayerRecord *state, ObjectPosition *unused, M
         create_map_position_object((tile->tile_x << 6) | 0x20, (tile->tile_y << 6) | 0x20);
         type_values = &actor_event_values;
         slot_cursor = (s32 *)state + 1;
-        actor->flags1C = (s32) (actor->flags1C | 0x40000000);
+        actor->flags1C = (actor->flags1C | 0x40000000);
         do {
             slot_object = ((ActorRecord *)slot_cursor)->unk_AC.value;
             if (slot_object != 0) {
@@ -109,8 +97,7 @@ void update_floor_exit_transition(PlayerRecord *state, ObjectPosition *unused, M
             break;
         }
         transition_base = (s32 *)0x800E0000;
-        saved_state_base = (S_800930F0_4 *)0x80010000;
-        if (saved_state_base->unk_3714 & 4) {
+        if (GAME_STATE->log.head.flags & 4) {
             if (((S_800930F0_8 *)transition_base)->unk_3CD0 != 0) {
                 break;
             }
@@ -127,22 +114,22 @@ void update_floor_exit_transition(PlayerRecord *state, ObjectPosition *unused, M
             copy_src = (UnalignedCopy3 *)0x80013710;
             copy_dst = (UnalignedCopy3 *)0x80012080;
             *copy_dst = *copy_src;
-            saved_state_base->unk_3714 = 0;
-            saved_state_base->unk_3716 = 0;
-            saved_state_base->unk_3718 = 0;
-            saved_state_base->unk_371A = 0;
+            GAME_STATE->log.head.flags = 0;
+            GAME_STATE->log.head.length = 0;
+            GAME_STATE->log.head.repeat = 0;
+            GAME_STATE->log.head.cursor = 0;
             check_action_boundary_and_set_flag();
         }
-        if (saved_state_base->unk_2090 != 0) {
-            if (saved_state_base->unk_2090 == 1) {
-                saved_state_base->unk_234 = (s32) (saved_state_base->unk_234 + 1);
+        if (GAME_STATE->dungeon_mode_state != 0) {
+            if (GAME_STATE->dungeon_mode_state == 1) {
+                GAME_STATE->dungeon_floor = GAME_STATE->dungeon_floor + 1;
                 reset_tagged_entry_states();
-                saved_state_base->unk_2090 = 0;
+                GAME_STATE->dungeon_mode_state = 0;
             } else {
-                saved_state_base->unk_234 = (s32) (saved_state_base->unk_234 + 1);
+                GAME_STATE->dungeon_floor = GAME_STATE->dungeon_floor + 1;
             }
         } else {
-            saved_state_base->unk_234 = (s32) (saved_state_base->unk_234 + 1);
+            GAME_STATE->dungeon_floor = GAME_STATE->dungeon_floor + 1;
         }
         play_sound_if_enabled(0x514);
         ((S_800930F0_5 *)(&dungeon_menu_action_state))->unk_00.s = &D_80021268;

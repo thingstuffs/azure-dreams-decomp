@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "dungeon/item.h"
 #include "dungeon/data.h"
 
@@ -17,7 +18,6 @@ typedef struct {
 /* Scan backward through special entry kinds for a matching kind and flag bit. */
 void *find_matching_action_record(s32 wanted_kind, s32 wanted_flag) {
     s32 entry_index;
-    s32 count_page;
     s32 kind_group;
     s32 group_70;
     s32 group_78;
@@ -27,7 +27,7 @@ void *find_matching_action_record(s32 wanted_kind, s32 wanted_flag) {
     S_8009F9E8_0 *entry;
 
     entries = (void *)0x80010000;
-    entry_index = *&monster_special_entry_index - 1;
+    entry_index = *&GAME_STATE->log.head.length - 1;
     entries = (void *)((u32)entries | 0x3720);
     if (entry_index >= 0) {
         group_70 = 0x70;
@@ -36,7 +36,6 @@ void *find_matching_action_record(s32 wanted_kind, s32 wanted_flag) {
         group_90 = 0x90;
         wanted_kind &= 0xFF;
         wanted_flag &= 0xFF;
-        count_page = 0x80010000;
         do {
             entry = (void *)((u8 *)entries + entry_index * 2);
             kind_group = entry->unk_01 & 0xF8;
@@ -46,7 +45,7 @@ void *find_matching_action_record(s32 wanted_kind, s32 wanted_flag) {
                     return entry;
                 }
             } else {
-                return (*(u16 *)(count_page + 0x3716) * 2) + entries;
+                return (GAME_STATE->log.head.length * 2) + entries;
             }
             entry_index--;
         } while (entry_index >= 0);

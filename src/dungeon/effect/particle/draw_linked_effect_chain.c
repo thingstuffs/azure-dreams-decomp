@@ -16,7 +16,7 @@
 /* Transforms four colored vertices and queues a visible shaded quad with the requested depth bias. */
 void project_vertex_shaded_effect_quad(EntityEffectSequencePrefix *quad, ObjectPosition *position, SpriteFrameState *render_state, s16 depth_bias)
 {
-    ShadedQuadScratch *scratch = (ShadedQuadScratch *)0x1F800000;
+    ShadedQuadScratch *scratch = SHADED_QUAD_SCRATCH;
     DR_MODE *mode;
     POLY_G4 *packet;
     u8 *texture;

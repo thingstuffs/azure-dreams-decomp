@@ -66,7 +66,7 @@ void *create_flagged_actor_object(s16 init_flags, s16 grid_x, s16 grid_y, s16 ty
         extended_state->action_id = 0xFF;
         extended_state->route_room = -1;
         extended_state->unk_8C.word_ptr = &D_8016B014;
-        state->flags1C = (s32)(state->flags1C | 0x40000);
+        state->flags1C = (state->flags1C | 0x40000);
         extended_state->unk_90.parts.high = -0x20;
         try_move_actor_to_valid_position(extended_state, config, placement, state);
     }

@@ -1,4 +1,5 @@
 #include "engine/entity.h"
+#include "shared/game_state.h"
 #include "shared/actor_status_flags.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
@@ -52,7 +53,7 @@ void spend_actor_mp(ActorRecord *entity, s32 base_reduction) {
 
             one = 1;
 
-            dungeon_mode = *(s32 *)0x80012090;
+            dungeon_mode = GAME_STATE->dungeon_mode_state;
             if ((dungeon_mode == one) &&
                 ((entity->species == MONSTER_KEWNE) ||
                  (entity->species == 0x39))) {

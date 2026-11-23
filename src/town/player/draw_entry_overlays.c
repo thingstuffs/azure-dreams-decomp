@@ -1,3 +1,4 @@
+#include "engine/graphics/sprite_scratch.h"
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/entity_objects.h"
@@ -86,7 +87,7 @@ s32 draw_entry_overlays(void) {
     TileObject *draw_entry;
     GpuContext *draw_ctx;
     void **page_state;
-    u32 *scratch_control;
+    SpriteQuadScratch *scratch_control;
     u16 *scratch_x;
     u16 *scratch_y;
     u16 rect_width;
@@ -110,12 +111,12 @@ s32 draw_entry_overlays(void) {
             overlay_height = height_delta + 6;
             if ((u32) ((height_delta + 5) & 0xFFFF) < 0x3FU) {
                 overlay_height_in_range = 1;
-                scratch_control = (u32 *)0x1F80013C;
-                *scratch_control = 0;
+                scratch_control = SPRITE_SCRATCH;
+                scratch_control->vertex_y_offset = 0;
                 project_sprite_commands(NULL, coord, D_800D04E0, (s16) (rotation + ((AngleHalfView *)(&town_overlay_rotation_offset))->unk_00));
                 scratch_control = (void *)0;
-                scratch_control = (u32 *)0x1F80013C;
-                *scratch_control = 0;
+                scratch_control = SPRITE_SCRATCH;
+                scratch_control->vertex_y_offset = 0;
                 project_sprite_commands(scene_object_payload_alias, coord, entry, (s16) (rotation + ((AngleHalfView *)(&town_overlay_rotation_offset))->unk_00));
                 primitive = ((GpuContext *)CUR_PAGE)->packetCursor;
                 ((GpuContext *)CUR_PAGE)->packetCursor = (primitive + 0xC);
@@ -298,8 +299,8 @@ s32 draw_entry_overlays(void) {
             }
         }
         scratch_control = (void *)0;
-        scratch_control = (u32 *)0x1F80013C;
-        *scratch_control = 0;
+        scratch_control = SPRITE_SCRATCH;
+        scratch_control->vertex_y_offset = 0;
         project_sprite_commands(scene_object_payload_alias, coord, entry, (s16) (rotation + ((AngleHalfView *)(&town_overlay_rotation_offset))->unk_00));
         return 0;
     }

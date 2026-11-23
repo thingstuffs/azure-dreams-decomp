@@ -57,7 +57,7 @@ void update_kid_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFram
         return;
     }
 
-    if (((u32)entity->flags1C) & 0x200) {
+    if ((entity->flags1C) & 0x200) {
         if (sprite_in->frameTable == kid_frame_set_4) {
             actor->action_id = 0xD;
             actor->action_phase = 1;
@@ -71,7 +71,7 @@ void update_kid_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFram
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((u32)entity->flags1C) & 0x100) {
+        if ((entity->flags1C) & 0x100) {
             begin_pushed_actor_move(actor, context, sprite_in, entity);
             return;
         }
@@ -100,7 +100,7 @@ void update_kid_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFram
             }
         }
 
-        if (((u32)entity->flags1C) & 0x80000) {
+        if ((entity->flags1C) & 0x80000) {
             begin_actor_move_to_target_facing(actor, context, sprite_in, entity);
             actor->unk_A8 = 0;
             func_80174218(actor, context, sprite_in, entity);
@@ -118,7 +118,7 @@ void update_kid_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFram
     sprite_in->room_index = room_id;
 
     if (entity->pending_turn_updates > 0) {
-        if (((u32)entity->flags1C) & 0x20) {
+        if ((entity->flags1C) & 0x20) {
             update_actor_status_and_mp(entity);
             return;
         }
@@ -205,11 +205,11 @@ void update_kid_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFram
         }
     }
 
-    if (!(((u32)entity->flags1C) & 0x2000)) {
+    if (!((entity->flags1C) & 0x2000)) {
         s32 room_index = room_id;
 
         if ((room_index < 0) || !(dungeon_rooms[room_index].flags & 2)) {
-            if (!(((u32)entity->flags1C) & 0x430)) {
+            if (!((entity->flags1C) & 0x430)) {
 
                 if ((test_neighbor_position_relation(
                         sprite_in->tile_x, sprite_in->tile_y,

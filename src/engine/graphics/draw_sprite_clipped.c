@@ -62,20 +62,20 @@ void draw_sprite_clipped(void *context, ObjectPosition *position, SpriteFrameSta
 
     frame_slot = (void **)&g_game_work;
     frame = *frame_slot;
-    scratchpad = (SpriteQuadScratch *)0x1F800000;
+    scratchpad = SPRITE_SCRATCH;
     scratchpad->ordering_table = (u32 *)&frame->orderTag;
     {
         s32 translation;
         translation = position->x.w.i;
-        scratchpad->local_matrix.t[0] = translation;
+        scratchpad->matrix_D0.t[0] = translation;
         translation = position->y.w.i;
-        scratchpad->local_matrix.t[1] = translation;
+        scratchpad->matrix_D0.t[1] = translation;
         translation = position->z.w.i;
         scratchpad->vertices[3].vz = 0;
         scratchpad->vertices[2].vz = 0;
         scratchpad->vertices[1].vz = 0;
         scratchpad->vertices[0].vz = 0;
-        scratchpad->local_matrix.t[2] = translation;
+        scratchpad->matrix_D0.t[2] = translation;
     }
     packet = frame->packetCursor;
     sprite->flags |= 0x8000;
@@ -91,12 +91,12 @@ void draw_sprite_clipped(void *context, ObjectPosition *position, SpriteFrameSta
     scratchpad->angles.vz = sprite->angle_z;
     scratchpad->angles.vy = sprite->angle_y;
 
-    RotMatrix((void *)0x1F800100, (void *)0x1F8000D0);
-    ReadRotMatrix((void *)0x1F80011C);
-    CompMatrix((void *)0x1F80011C, (void *)0x1F8000D0, (void *)0x1F800050);
-    ScaleMatrix((void *)0x1F800050, (void *)0x1F800030);
-    SetTransMatrix((void *)0x1F800050);
-    SetRotMatrix((void *)0x1F800050);
+    RotMatrix(&SPRITE_SCRATCH->angles, &SPRITE_SCRATCH->matrix_D0);
+    ReadRotMatrix(&SPRITE_SCRATCH->view_matrix);
+    CompMatrix(&SPRITE_SCRATCH->view_matrix, &SPRITE_SCRATCH->matrix_D0, &SPRITE_SCRATCH->matrix_50);
+    ScaleMatrix(&SPRITE_SCRATCH->matrix_50, &SPRITE_SCRATCH->input);
+    SetTransMatrix(&SPRITE_SCRATCH->matrix_50);
+    SetRotMatrix(&SPRITE_SCRATCH->matrix_50);
 
     entry = sprite->source;
     scratchpad->sprite_flags = sprite->flags;
@@ -221,13 +221,13 @@ void draw_sprite_clipped(void *context, ObjectPosition *position, SpriteFrameSta
                         ((S_80045CC4_0 *)(packet + 1))->unk_12 = tpage;
                         ((S_80045CC4_0 *)(packet + 1))->unk_18.at00.v = (u16)scratchpad->uv_v_extent + (u16)scratchpad->uv_u_start;
                         ((S_80045CC4_0 *)(packet + 1))->unk_20.at00.v = (u16)scratchpad->uv_v_extent + (u16)scratchpad->uv_u_extent;
-                        matrix_xx = (u16)scratchpad->matrix.m[0][0];
+                        matrix_xx = (u16)scratchpad->matrix_50.m[0][0];
                     } else {
                         tpage = *(u16 *)(entry + 4);
                         ((S_80045CC4_0 *)(packet + 1))->unk_12 = tpage;
                         ((S_80045CC4_0 *)(packet + 1))->unk_18.at00.v = (u16)scratchpad->uv_v_extent + (u16)scratchpad->uv_u_start;
                         ((S_80045CC4_0 *)(packet + 1))->unk_20.at00.v = (u16)scratchpad->uv_v_extent + (u16)scratchpad->uv_u_extent;
-                        matrix_xx = (u16)scratchpad->matrix.m[0][0];
+                        matrix_xx = (u16)scratchpad->matrix_50.m[0][0];
                     }
                 }
                 {
@@ -235,9 +235,9 @@ void draw_sprite_clipped(void *context, ObjectPosition *position, SpriteFrameSta
                         uv_edge = ((S_80045CC4_0 *)(packet + 1))->unk_20.at00u.v;
                         ((S_80045CC4_0 *)(packet + 1))->unk_20.at00u.v = uv_edge + 0xFF;
                         ((S_80045CC4_0 *)(packet + 1))->unk_10.u8 = uv_edge;
-                        matrix_yy = (u16)scratchpad->matrix.m[1][1];
+                        matrix_yy = (u16)scratchpad->matrix_50.m[1][1];
                     } else {
-                        matrix_yy = (u16)scratchpad->matrix.m[1][1];
+                        matrix_yy = (u16)scratchpad->matrix_50.m[1][1];
                     }
                 }
                 {

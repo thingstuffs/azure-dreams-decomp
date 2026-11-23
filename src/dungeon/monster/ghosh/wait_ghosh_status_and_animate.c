@@ -1,4 +1,5 @@
 #include "engine/graphics/select_sprite_entry_api.h"
+#include "shared/game_state.h"
 #include "shared/actor_status_ids.h"
 #include "common.h"
 #include "dungeon/system/random.h"
@@ -45,11 +46,6 @@ typedef struct S_8016D6F0_2 {
     u16 unk_3462;
 } S_8016D6F0_2;   /* base8008 in wait_ghosh_status_and_animate */
 
-typedef struct S_8016D6F0_5 {
-    u8 pad_00[0x3714];
-    u16 unk_3714;
-} S_8016D6F0_5;   /* base8001 in wait_ghosh_status_and_animate */
-
 typedef struct S_8016D6F0_9 {
     u8 pad_00[0x58];
     void * unk_58;
@@ -60,7 +56,6 @@ void wait_ghosh_status_and_animate(S_8016D6F0_0 *actor, void *actor_id, SpriteFr
 {
     TileObject *reference_pos;
     DungeonGlobalStatus *counter_base;
-    S_8016D6F0_5 *flags_page;
     DungeonGlobalStatus *reference_base;
     void *action_actor;
     s32 state;
@@ -92,8 +87,7 @@ void wait_ghosh_status_and_animate(S_8016D6F0_0 *actor, void *actor_id, SpriteFr
             if (((S_8016D6F0_2 *)resident_globals_page)->unk_3462 & 0x1000) {
                 return;
             }
-            flags_page = (S_8016D6F0_5 *)0x80010000;
-            if (actor->unk_B4 == 0 && !(flags_page->unk_3714 & 8)) {
+            if (actor->unk_B4 == 0 && !(GAME_STATE->log.head.flags & 8)) {
                 if (entity->hp_delta != 0) {
                     if (begin_ready_actor_directional_action(actor, actor_id, sprite, ghosh_ready_action_frames) != 0) {
                         return;

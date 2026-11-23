@@ -1,0 +1,20 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/bank_18c4800",
+  "container": "dungeon",
+  "foff": "0x18c4800",
+  "size": "0x6000",
+  "vma": "0x80024000",
+  "evidence": "Selector 25 loads DUNGEON +0x18c4800 at 0x80024000. Its first word points to this updater. The updater sends the spell to its target and creates ten orbiting sprites.",
+  "entries": [
+    {
+      "row": "dungeon/func_818A4FD4",
+      "home": "dungeon/func_818A4FD4",
+      "tu": "src/dungeon/effect/update_orbit_ring_spell.c",
+      "foff": "0x18c4fd4",
+      "vma": "0x800247d4",
+      "size": 2624,
+      "evidence": "Selector 25 loads DUNGEON +0x18c4800 at 0x80024000. Its first word points to this updater. The updater sends the spell to its target and creates ten orbiting sprites."
+    }
+  ]
+}

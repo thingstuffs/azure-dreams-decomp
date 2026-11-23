@@ -61,7 +61,7 @@ void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *actio
     limit_turn = turn_flags & 0;
 
     if ((turn_flags & 0x4000) || ((s8)actor->movement_queue_state >= 0)) {
-        if ((actor->unk_12 >= 2) || work_data->unk_B4.bytes[1] ||
+        if ((actor->ai_mode >= 2) || work_data->unk_B4.bytes[1] ||
             ((try_turn_actor_toward_target(work_data, action_context, position, actor) << 16) == 0)) {
             update_actor_status_and_mp(actor);
             return;

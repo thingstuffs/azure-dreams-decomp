@@ -62,7 +62,7 @@ void update_baloon_turn_action(ActorRecord *body, ObjectPosition *position, Spri
         return;
     }
 
-    if (((u32)move_data->flags1C) & ACTOR_ASLEEP) {
+    if ((move_data->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == baloon_frame_set_1) {
             body->action_id = 0xD;
             body->action_phase = 1;
@@ -76,7 +76,7 @@ void update_baloon_turn_action(ActorRecord *body, ObjectPosition *position, Spri
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((u32)move_data->flags1C) & ACTOR_PUSH_PENDING) {
+        if ((move_data->flags1C) & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(body, position, sprite, move_data);
             return;
         }
@@ -112,7 +112,7 @@ void update_baloon_turn_action(ActorRecord *body, ObjectPosition *position, Spri
             }
         }
 
-        if (((u32)move_data->flags1C) & ACTOR_LIFTED) {
+        if ((move_data->flags1C) & ACTOR_LIFTED) {
             s16 base_height;
 
             begin_actor_move_to_target_facing(body, position, sprite, move_data);
@@ -133,7 +133,7 @@ void update_baloon_turn_action(ActorRecord *body, ObjectPosition *position, Spri
     sprite->room_index = room_id;
 
     if (move_data->pending_turn_updates > 0) {
-        if (((u32)move_data->flags1C) & ACTOR_PARALYZED) {
+        if ((move_data->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(move_data);
             return;
         }
@@ -183,7 +183,7 @@ void update_baloon_turn_action(ActorRecord *body, ObjectPosition *position, Spri
                 return;
 
             case 9:
-                if (!(((u32)move_data->flags1C) & ACTOR_PLAYER_AWARE)) {
+                if (!((move_data->flags1C) & ACTOR_PLAYER_AWARE)) {
                     update_actor_status_and_mp(move_data);
                     return;
                 }
@@ -229,11 +229,11 @@ void update_baloon_turn_action(ActorRecord *body, ObjectPosition *position, Spri
         return;
     }
 
-    if (!(((u32)move_data->flags1C) & ACTOR_PLAYER_SIDE)) {
+    if (!((move_data->flags1C) & ACTOR_PLAYER_SIDE)) {
         s32 room_index = room_id;
 
         if ((room_index < 0) || !(dungeon_rooms[room_index].flags & 2)) {
-            if (!(((u32)move_data->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
+            if (!((move_data->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((test_neighbor_position_relation(
                         sprite->tile_x, sprite->tile_y,

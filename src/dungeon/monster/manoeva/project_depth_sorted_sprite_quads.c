@@ -29,7 +29,7 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
     s16 depth_bias)
 {
     GameWork *render_globals = &g_game_work;
-    SpriteQuadScratch *scratch = (SpriteQuadScratch *)0x1F800000;
+    SpriteQuadScratch *scratch = SPRITE_SCRATCH;
     GpuContext *state;
     MATRIX *matrix;
     POLY_FT4 *packet;
@@ -49,7 +49,7 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
     }
 
     state = render_globals->draw_buffer;
-    scratch->local_matrix.t[2] = 0;
+    scratch->matrix_D0.t[2] = 0;
     scratch->vertices[3].vz = 0;
     scratch->vertices[2].vz = 0;
     scratch->vertices[1].vz = 0;
@@ -89,19 +89,19 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
         angle_offset = render->unk_18 - 0x100;
         scratch->angles.vy = view_angle + angle_offset;
 
-        scratch->extent_x = scratch->local_matrix.t[0] =
+        scratch->extent_x = scratch->matrix_D0.t[0] =
             render->unk_20;
-        scratch->extent_y = scratch->local_matrix.t[1] =
+        scratch->extent_y = scratch->matrix_D0.t[1] =
             render->unk_22;
-        RotMatrix(&scratch->angles, &scratch->local_matrix);
+        RotMatrix(&scratch->angles, &scratch->matrix_D0);
 
         scratch->input.vx = render->unk_1C;
         scratch->input.vy = render->unk_1E;
         scratch->input.vz = 0x1000;
-        ScaleMatrix(&scratch->local_matrix, &scratch->input);
-        CompMatrix(matrix, &scratch->local_matrix, &scratch->matrix);
-        SetTransMatrix(&scratch->matrix);
-        SetRotMatrix(&scratch->matrix);
+        ScaleMatrix(&scratch->matrix_D0, &scratch->input);
+        CompMatrix(matrix, &scratch->matrix_D0, &scratch->matrix_50);
+        SetTransMatrix(&scratch->matrix_50);
+        SetRotMatrix(&scratch->matrix_50);
 
         texture = (Texture *)render->unk_08;
         scratch->sprite_flags = render->unk_14;

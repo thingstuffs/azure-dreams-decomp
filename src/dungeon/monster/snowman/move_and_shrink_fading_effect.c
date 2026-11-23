@@ -1,4 +1,5 @@
 #include "engine/entity/effect_slots.h"
+#include "engine/graphics/sprite_scratch.h"
 #include "sdk/libc.h"
 #include "shared/audio_commands.h"
 #include "dungeon/actor/motion.h"
@@ -26,7 +27,7 @@
 #include "shared/gpu_packets.h"
 #include "sdk/libgpu_types.h"
 #include "sdk/libgpu_packets.h"
-#include "dungeon/effect/point_tile_scratch.h"
+#include "dungeon/effect/shaded_quad_scratch.h"
 
 void * (*const resource10_slot0_entry0)(s16 flags, s16 kind_id, s16 variant, s32 spawn_value) = spawn_snowman;
 void (*const resource10_slot0_entry1)(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite) = update_actor_callbacks_animation_and_ground;
@@ -34,7 +35,7 @@ void (*const resource10_slot0_entry1)(ActorRecord *actor, ObjectPosition *motion
 /* Projects linked effect positions and queues their colored pixel and drawing-mode packets by depth. */
 s32 draw_snowman_point_chain(u8 *item_data, u16 *coords)
 {
-    PointTileScratch *scratch = (PointTileScratch *)0x1F800000;
+    ShadedQuadScratch *scratch = SHADED_QUAD_SCRATCH;
     void **globals = ((void * *)(&g_game_work));
     GpuContext *render_state = globals[0];
     TILE_1 *first_packet = render_state->packetCursor;
@@ -520,7 +521,7 @@ void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg
         return;
     }
 
-    if (((u32)entity_arg->flags1C) & ACTOR_ASLEEP) {
+    if ((entity_arg->flags1C) & ACTOR_ASLEEP) {
         if (sprite_arg->frameTable == snowman_alt_direction_frames) {
             actor_arg->action_id = 0xD;
             actor_arg->action_phase = 1;
@@ -534,7 +535,7 @@ void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((u32)entity_arg->flags1C) & ACTOR_PUSH_PENDING) {
+        if ((entity_arg->flags1C) & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(actor_arg, context_arg, sprite_arg, entity_arg);
             return;
         }
@@ -567,7 +568,7 @@ void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg
             }
         }
 
-        if (((u32)entity_arg->flags1C) & ACTOR_LIFTED) {
+        if ((entity_arg->flags1C) & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(actor_arg, context_arg, sprite_arg, entity_arg);
             update_snowman_parent_motion(actor_arg, context_arg, sprite_arg, entity_arg);
             sprite_arg->frameTable = snowman_direction_frames;
@@ -590,7 +591,7 @@ void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg
     sprite_arg->room_index = tile_record;
 
     if (entity_arg->pending_turn_updates > 0) {
-        if (((u32)entity_arg->flags1C) & ACTOR_PARALYZED) {
+        if ((entity_arg->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(entity_arg);
             return;
         }
@@ -657,12 +658,12 @@ void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg
         }
     }
 
-    if (!(((u32)entity_arg->flags1C) & ACTOR_PLAYER_SIDE)) {
+    if (!((entity_arg->flags1C) & ACTOR_PLAYER_SIDE)) {
         s32 record_index = (s8)tile_record;
 
         if ((record_index < 0) ||
             !(dungeon_rooms[record_index].flags & 2)) {
-            if (!(((u32)entity_arg->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
+            if (!((entity_arg->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((s16)test_neighbor_position_relation(
                         sprite_arg->tile_x, sprite_arg->tile_y,
@@ -785,7 +786,7 @@ void choose_snowman_move(ActorRecord *move_data, ObjectPosition *context, Sprite
     ActorRecord *blocker;
 
     if ((dungeon_flags & 0x4000) || (s8)actor_data->movement_queue_state >= 0) {
-        if (actor_data->unk_12 >= 2 ||
+        if (actor_data->ai_mode >= 2 ||
             (s16)try_snowman_attack(move_data, context, position_data, actor_data) == 0) {
             update_actor_status_and_mp(actor_data);
             return;
@@ -1391,13 +1392,13 @@ void advance_snowman_spell_action(ActorRecord *actor, ObjectPosition *motion, Sp
     }
 
 kind_3:
-    kind_data = (u8 *)action + 0xE;
+    kind_data = &action->abilities[2].id;
     goto use_kind;
 kind_2:
-    kind_data = (u8 *)action + 0xB;
+    kind_data = &action->abilities[1].id;
     goto use_kind;
 kind_1:
-    kind_data = (u8 *)action + 8;
+    kind_data = &action->abilities[0].id;
     goto use_kind;
 kind_default:
     kind_data = 0;
@@ -2083,7 +2084,7 @@ void prepare_directional_attacks_for_neighbor_entities(ActorRecord *node, s32 ti
             ((u32)(node->species - 0x33) >= 4U)) {
             actor->accuracy = 0x7C;
             actor->attack_bonus =
-                (s8)((s32)(actor->current_attack * 3) >> 1);
+                ((s32)(actor->current_attack * 3) >> 1);
             prepare_directional_attack(actor, owner,
                           actor->facing, 1, 0);
         }
@@ -2215,11 +2216,11 @@ void advance_directional_attack_sequence(ActorRecord *action, ObjectPosition *po
 s32 project_snowman_sprite_chain(void *initial_payload, ObjectPosition *position, SpriteFrameState *entry, s32 unused)
 {
     void *payload = initial_payload;
-    R10_80174BE4_Scratchpad *scratch = (R10_80174BE4_Scratchpad *)0x1F800000;
+    SpriteQuadScratch *scratch = SPRITE_SCRATCH;
     ObjectNodeHeader *next_node;
 
     for (;;) {
-        scratch->value = ((s16 *)D_80175A18)[0];
+        scratch->vertex_y_offset = ((s16 *)D_80175A18)[0];
 
         if (!(entry->flags & 0x80)) {
             project_sprite_commands(payload, position, entry, entry->depth_bias);

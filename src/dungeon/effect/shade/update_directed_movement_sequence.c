@@ -1,3 +1,4 @@
+#include "dungeon/level/tile_flags.h"
 #include "shared/audio_commands.h"
 #include "common.h"
 #include "shared/object_flags.h"
@@ -68,7 +69,6 @@ typedef struct StackLocals {
 
 
 extern s32 create_random_variant_effect(State *, ObjectPosition *);
-extern s32 check_layer_offset_height(s32, s32, s16, s32);
 extern s32 create_scaled_rotation_effect(State *, ObjectPosition *);
 extern void interpolate_view_parameters(void *, u8, Owner *);
 

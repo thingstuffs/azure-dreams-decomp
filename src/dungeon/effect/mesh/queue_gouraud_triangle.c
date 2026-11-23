@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/effect/travel/cycle_seven_color_fade.h"
 #include "shared/game_work.h"
 #include "dungeon/effect/mesh.h"
 #include "sdk/libgpu.h"
@@ -40,41 +41,6 @@ typedef struct State81976F70 {
     Packet81976F70 *next;
 } State81976F70;
 
-typedef struct Scratch81976F70 {
-    u32 *ordering_table;
-    s32 ordering_index;
-    u8 pad8[8];
-    s16 x0;
-    s16 y0;
-    s16 z0;
-    u8 pad16[2];
-    s16 x1;
-    s16 y1;
-    s16 z1;
-    u8 pad1E[2];
-    s16 x2;
-    s16 y2;
-    s16 z2;
-    u8 pad26[0xA];
-    s32 vx0;
-    s32 vy0;
-    s32 vz0;
-    u8 pad3C[4];
-    s32 vx1;
-    s32 vy1;
-    s32 vz1;
-    u8 pad4C[4];
-    s32 vx2;
-    s32 vy2;
-    s32 vz2;
-    u8 pad5C[0x14];
-    u16 out0;
-    u16 out1;
-    u16 out2;
-    u16 out3;
-    u16 out4;
-    u16 out5;
-} Scratch81976F70;
 
 extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *, void *);
 
@@ -87,7 +53,7 @@ s32 queue_gouraud_triangle(s32 vertex_color0, s32 vertex_color1, s32 vertex_colo
 {
     State81976F70 *state;
     Packet81976F70 *packet;
-    Scratch81976F70 *scratch = (Scratch81976F70 *)0x1F800000;
+    RadialBandQuadScratch *scratch = RADIAL_BAND_SCRATCH;
     MeshEffectOrigin *vertex_offset;
     s32 texture_u;
     s32 texture_page;
@@ -104,9 +70,9 @@ s32 queue_gouraud_triangle(s32 vertex_color0, s32 vertex_color1, s32 vertex_colo
     packet->type = 9;
     packet->unk7 = 0x36;
     texture_page = GetTPage(0, 3, 0x300, 0x100);
-    screen_xy1 = (void *)0x1F800074;
-    screen_xy2 = (void *)0x1F800078;
-    depth_cue_out = (void *)0x1F800008;
+    screen_xy1 = &scratch->screen[1];
+    screen_xy2 = &scratch->screen[2];
+    depth_cue_out = &scratch->depth_cue;
     packet->random = texture_page;
     packet->unkE = 0x7DCF;
     texture_u = 0xC0;
@@ -128,34 +94,34 @@ s32 queue_gouraud_triangle(s32 vertex_color0, s32 vertex_color1, s32 vertex_colo
     packet->x2_lo = vertex_color2;
 
     vertex_offset = effect_position_source;
-    scratch->x0 = (scratch->vx0 + vertex_offset->x.v) >> 16;
-    scratch->x1 = (scratch->vx1 + vertex_offset->x.v) >> 16;
-    scratch->x2 = (scratch->vx2 + vertex_offset->x.v) >> 16;
-    scratch->y0 = (scratch->vy0 + vertex_offset->y.v) >> 16;
-    scratch->y1 = (scratch->vy1 + vertex_offset->y.v) >> 16;
-    scratch->y2 = (scratch->vy2 + vertex_offset->y.v) >> 16;
-    scratch->z0 = (scratch->vz0 + vertex_offset->z.v) >> 16;
-    scratch->z1 = (scratch->vz1 + vertex_offset->z.v) >> 16;
-    scratch->z2 = (scratch->vz2 + vertex_offset->z.v) >> 16;
+    scratch->vertices[0].vx = (scratch->positions[0].vx + vertex_offset->x.v) >> 16;
+    scratch->vertices[1].vx = (scratch->positions[1].vx + vertex_offset->x.v) >> 16;
+    scratch->vertices[2].vx = (scratch->positions[2].vx + vertex_offset->x.v) >> 16;
+    scratch->vertices[0].vy = (scratch->positions[0].vy + vertex_offset->y.v) >> 16;
+    scratch->vertices[1].vy = (scratch->positions[1].vy + vertex_offset->y.v) >> 16;
+    scratch->vertices[2].vy = (scratch->positions[2].vy + vertex_offset->y.v) >> 16;
+    scratch->vertices[0].vz = (scratch->positions[0].vz + vertex_offset->z.v) >> 16;
+    scratch->vertices[1].vz = (scratch->positions[1].vz + vertex_offset->z.v) >> 16;
+    scratch->vertices[2].vz = (scratch->positions[2].vz + vertex_offset->z.v) >> 16;
 
-    scratch->ordering_index = func_80065530(
-        (void *)0x1F800010, (void *)0x1F800018,
-        (void *)0x1F800020, (void *)0x1F800070,
-        screen_xy1, screen_xy2, depth_cue_out, (void *)0x1F80000C);
+    scratch->ot_index = func_80065530(
+        &scratch->vertices[0], &scratch->vertices[1],
+        &scratch->vertices[2], &scratch->screen[0],
+        screen_xy1, screen_xy2, depth_cue_out, &scratch->gte_flag);
 
-    packet->u8 = scratch->out0;
-    packet->uA = scratch->out1;
-    packet->u14 = scratch->out2;
-    packet->u16 = scratch->out3;
-    packet->u20 = scratch->out4;
-    packet->u22 = scratch->out5;
+    packet->u8 = scratch->screen[0].x;
+    packet->uA = scratch->screen[0].y;
+    packet->u14 = scratch->screen[1].x;
+    packet->u16 = scratch->screen[1].y;
+    packet->u20 = scratch->screen[2].x;
+    packet->u22 = scratch->screen[2].y;
 
-    if ((u32)scratch->ordering_index < 0x1E0U) {
-        ordering_link = scratch->ordering_table[scratch->ordering_index];
+    if (scratch->ot_index < 0x1E0U) {
+        ordering_link = scratch->ordering_table[scratch->ot_index];
         *(u32 *)packet = (*(u32 *)packet & 0xFF000000) |
                         (ordering_link & 0x00FFFFFF);
-        scratch->ordering_table[scratch->ordering_index] =
-            (scratch->ordering_table[scratch->ordering_index] & 0xFF000000) |
+        scratch->ordering_table[scratch->ot_index] =
+            (scratch->ordering_table[scratch->ot_index] & 0xFF000000) |
             ((u32)packet & 0x00FFFFFF);
     }
 

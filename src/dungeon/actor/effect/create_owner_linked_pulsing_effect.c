@@ -85,7 +85,7 @@ void *create_owner_linked_pulsing_effect(ObjectPosition *spawn_pos_arg, ActorRec
         object_state->unk_88 = source_state->ground_height;
         object_state->unk_13 = 0xFF;
         object_state->unk_14 = (s32) source_state->flags14;
-        object_state->unk_1C = (s32) source_state->flags1C;
+        object_state->unk_1C = source_state->flags1C;
         object_state->unk_2A = (s16) (((Rec_D_800287A4 *)owner)->unk_2A - 0x800);
         object_state->unk_90 = (s32) spawn_pos->z.v;
         if (create_actor_spell_effect(object_state, ((void *)object) + 0x28, 0, ((void *)object) + 0xB8) == 0) {

@@ -129,7 +129,7 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
             actor->unk_AC.halves.high.s = 0;
             actor->unk_A8 = 0;
         }
-        status->flags1C = (s32) (status->flags1C | 0x40000);
+        status->flags1C = (status->flags1C | 0x40000);
         actor->action_state_flags = (u16) (actor->action_state_flags & 0xFFF7);
         if (status->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor, context, sprite, kraken_frame_set) != 0) {

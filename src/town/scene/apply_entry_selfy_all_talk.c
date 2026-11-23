@@ -3,9 +3,9 @@
 #include "town/scene/record_actions.h"
 #include "town/scene/flags.h"
 
-s32 apply_entry_selfy_all_talk(SquareSceneEntry *entry, s32 entry_index) {
+s32 apply_entry_selfy_all_talk(TownObjectSet *entry, s32 entry_index) {
     if (get_script_flag_mask(5003) != 0) {
-        set_script_flag_bit(entry->unk_18);
+        set_script_flag_bit(entry->entry_flag);
     }
     return apply_selected_entry_values(entry, entry_index);
 }

@@ -93,7 +93,7 @@ void update_barong_motion_and_facing(ActorRecord *body, ObjectPosition *motion, 
             sprite->flags &= 0xFFFE;
         }
 
-        if (!(((u32)actor->flags1C) & 0x20)) {
+        if (!((actor->flags1C) & 0x20)) {
             if (!(sprite->flags & 0x40)) {
                 advance_sprite_animation_and_textures(sprite);
             }
@@ -136,7 +136,7 @@ void update_barong_motion_and_facing(ActorRecord *body, ObjectPosition *motion, 
             actor->flags1C |= 0x08000000;
             body->fall_ticks = 0;
         }
-        if (((u32)actor->flags1C) & 0x40000000) {
+        if ((actor->flags1C) & 0x40000000) {
             actor->flags1C &= 0xBFFFFFFF;
             floor_height = sample_terrain_surface_height(
                 (sprite->tile_x << 6) | 0x20,

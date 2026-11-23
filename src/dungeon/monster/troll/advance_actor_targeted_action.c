@@ -49,26 +49,26 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
     use_player_target = 0;
     switch (state) {
     case 0:
-        if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
+        if ((actor->flags1C) & ACTOR_PLAYER_SIDE) {
             kind = (actor->action_flags & ACTOR_ACTION_CODE_MASK) - 1;
             switch (kind) {
             case 6:
                 use_player_target = 1;
                 /* fall through */
             case 2:
-                move = (u8 *)actor + 0xE;
+                move = &actor->abilities[2].id;
                 break;
             case 5:
                 use_player_target = 1;
                 /* fall through */
             case 1:
-                move = (u8 *)actor + 0xB;
+                move = &actor->abilities[1].id;
                 break;
             case 4:
                 use_player_target = 1;
                 /* fall through */
             case 0:
-                move = (u8 *)actor + 8;
+                move = &actor->abilities[0].id;
                 break;
             default:
                 move = 0;
@@ -78,13 +78,13 @@ void advance_actor_targeted_action(ActorRecord *action, ObjectPosition *transfor
             kind = actor->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (kind) {
             case 3:
-                move = (u8 *)actor + 0xE;
+                move = &actor->abilities[2].id;
                 break;
             case 2:
-                move = (u8 *)actor + 0xB;
+                move = &actor->abilities[1].id;
                 break;
             case 1:
-                move = (u8 *)actor + 8;
+                move = &actor->abilities[0].id;
                 break;
             default:
                 move = 0;

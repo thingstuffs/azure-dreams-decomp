@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "dungeon/effect/shaded_quad_scratch.h"
 #include "shared/slus_callbacks.h"
 #include "sdk/libc.h"
 #include "dungeon/effect/mesh.h"
@@ -458,13 +459,6 @@ s32 draw_chained_mesh_records(void *record, void *context, void *data) {
 }
 #include "shared/position_views.h"
 
-typedef struct S_8187B1F4_1 {
-    u8 pad_00[0x90];
-    s32 unk_90;
-    u8 pad_94[0x12];
-    u16 unk_A6;
-} S_8187B1F4_1;   /* scratch in project_shaded_points_to_ordering_table */
-
 typedef struct S_8187B1F4_4 {
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; s8 v; } at03; } unk_00;   /* overlapping accesses */
     union {
@@ -504,8 +498,8 @@ typedef struct PrimitiveTag { unsigned addr : 24; unsigned len : 8; } PrimitiveT
 s32 project_shaded_points_to_ordering_table(RandomRadialVectorEffectBody *points, ObjectPosition *position, SpriteFrameState *sprite) {
     s32 view_matrix[8];
     void *model_matrix;
-    u8 *scratch;
-    u8 *transform_matrix;
+    ShadedQuadScratch *scratch;
+    MATRIX *transform_matrix;
     GlobalRef *global;
     register GlobalState *state;
     GlobalState *cur_state;
@@ -527,25 +521,25 @@ s32 project_shaded_points_to_ordering_table(RandomRadialVectorEffectBody *points
     ObjectNodeHeader *tail_2;
 
     global = (GlobalRef *)((GlobalState * *)(&g_game_work));
-    scratch = (u8 *)0x1F800000;
-    model_matrix = (u8 *)((u32)scratch | 0x74);
-    transform_matrix = (u8 *)((u32)scratch | 0x54);
+    scratch = SHADED_QUAD_SCRATCH;
+    model_matrix = &scratch->local_matrix;
+    transform_matrix = &scratch->composed_matrix;
     do {
-        VFIELD(scratch, s32, 0x88) = position->x.w.i;
-        VFIELD(scratch, s32, 0x8C) = position->y.w.i;
-        ((S_8187B1F4_1 *)scratch)->unk_90 = position->z.w.i;
+        scratch->local_matrix.t[0] = position->x.w.i;
+        scratch->local_matrix.t[1] = position->y.w.i;
+        scratch->local_matrix.t[2] = position->z.w.i;
         PushMatrix();
-        VFIELD(scratch, s32, 0x3C) = 0x1000;
-        VFIELD(scratch, s32, 0x38) = 0x1000;
-        VFIELD(scratch, s32, 0x34) = 0x1000;
-        VFIELD(scratch, u16, 0xA4) = sprite->angle_x;
-        VFIELD(scratch, u16, 0xA8) = sprite->angle_z;
+        scratch->scale.vz = 0x1000;
+        scratch->scale.vy = 0x1000;
+        scratch->scale.vx = 0x1000;
+        scratch->angles.vx = sprite->angle_x;
+        scratch->angles.vz = sprite->angle_z;
         component = sprite->angle_y;
-        ((S_8187B1F4_1 *)scratch)->unk_A6 = component;
-        RotMatrix(scratch + 0xA4, (model_matrix));
+        scratch->angles.vy = component;
+        RotMatrix(&scratch->angles, model_matrix);
         ReadRotMatrix(&view_matrix);
         CompMatrix(&view_matrix, model_matrix, transform_matrix);
-        ScaleMatrix(transform_matrix, scratch + 0x34);
+        ScaleMatrix(transform_matrix, &scratch->scale);
         SetTransMatrix(transform_matrix);
         SetRotMatrix(transform_matrix);
         state = global->cur;
@@ -558,15 +552,15 @@ s32 project_shaded_points_to_ordering_table(RandomRadialVectorEffectBody *points
         if (points->unk_14 > 0) {
             point_coords = (u16 *)points;
             do {
-                VFIELD(scratch, u16, 4) = point_coords[point_index + 0xB];
-                VFIELD(scratch, u16, 6) = point_coords[point_index + 0x22];
-                vertex = scratch + 4;
+                scratch->position.vx = point_coords[point_index + 0xB];
+                scratch->position.vy = point_coords[point_index + 0x22];
+                vertex = &scratch->position;
                 component = point_coords[point_index + 0x39];
                 cur_state = global->cur;
-                depth_cue = scratch + 0xD0;
-                VFIELD(scratch, u16, 8) = component;
+                depth_cue = &scratch->depth_cue;
+                scratch->position.vz = component;
                 point_packet = cur_state->next;
-                projection_flags = scratch + 0xD4;
+                projection_flags = &scratch->gte_flag;
                 cur_state->next = point_packet + 0xC;
                 depth = RotTransPers(vertex, point_packet + 8,
                                       depth_cue, projection_flags);
@@ -640,7 +634,7 @@ void rotate_point_cloud_until_expired(RandomRadialVectorEffectBody *object, Obje
 #include "shared/gpu_packets.h"
 #include "sdk/libgpu_types.h"
 #include "sdk/libgpu_packets.h"
-#include "dungeon/effect/colored_point_scratch.h"
+#include "engine/graphics/sprite_scratch.h"
 
 extern u8 resident_globals_page[];
 extern u32 RotTransPers();
@@ -649,7 +643,7 @@ extern u32 RotTransPers();
 s32 project_colored_point_to_ordering_table(TerrainSeekingColoredPointBody *render_data, ObjectPosition *position)
 {
     GpuContext **context_slot;
-    ColoredPointScratch *scratch;
+    SpriteQuadScratch *scratch;
     GpuContext *context;
     TILE_1 *point_packet;
     DR_MODE *mode_packet;
@@ -664,7 +658,7 @@ s32 project_colored_point_to_ordering_table(TerrainSeekingColoredPointBody *rend
     context = *context_slot;
     address_mask = 0x00FFFFFF;
     length_mask = 0xFF000000;
-    scratch = (ColoredPointScratch *)0x1F800000;
+    scratch = SPRITE_SCRATCH;
     scratch->packet_cursor = context->packetCursor;
     scratch->ordering_table = (u32 *)&context->orderTag;
     do {
@@ -676,7 +670,7 @@ s32 project_colored_point_to_ordering_table(TerrainSeekingColoredPointBody *rend
 
         depth_index = RotTransPers(&scratch->position, &point_packet->x0, &scratch->depth_cue,
                                    &scratch->gte_flag);
-        scratch->ot_index = depth_index;
+        scratch->sort_depth = depth_index;
         if (depth_index < 0x1E0U) {
             /* BYTES: retail stores the tile colour word (r0, g0, b0 and code) with one sw; member stores compile to four sb */
             *(u32 *)&point_packet->r0 = render_data->color;
@@ -691,11 +685,11 @@ s32 project_colored_point_to_ordering_table(TerrainSeekingColoredPointBody *rend
             point_packet->b0 = blue;
 
             point_packet->tag = (point_packet->tag & length_mask) |
-                (scratch->ordering_table[scratch->ot_index] & address_mask);
+                (scratch->ordering_table[scratch->sort_depth] & address_mask);
             {
                 u32 *ot_entry;
                 u32 ot_tag;
-                ot_entry = (u32 *)(scratch->ot_index * 4 + (u32)scratch->ordering_table);
+                ot_entry = (u32 *)(scratch->sort_depth * 4 + (u32)scratch->ordering_table);
                 ot_tag = *ot_entry;
                 *ot_entry = (ot_tag & length_mask) |
                            ((u32)point_packet & address_mask);
@@ -706,8 +700,8 @@ s32 project_colored_point_to_ordering_table(TerrainSeekingColoredPointBody *rend
             SetDrawMode(mode_packet, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
 
             mode_packet->tag = (mode_packet->tag & length_mask) |
-                (scratch->ordering_table[scratch->ot_index] & address_mask);
-            mode_ot_entry = (u32 *)(scratch->ot_index * 4 + (u32)scratch->ordering_table);
+                (scratch->ordering_table[scratch->sort_depth] & address_mask);
+            mode_ot_entry = (u32 *)(scratch->sort_depth * 4 + (u32)scratch->ordering_table);
             *mode_ot_entry = (*mode_ot_entry & length_mask) | ((u32)mode_packet & address_mask);
         }
 

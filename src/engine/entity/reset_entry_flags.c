@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "engine/entity.h"
 
 /* Reset global state and clear flags in the primary and secondary entry arrays. */
@@ -7,14 +8,14 @@ void reset_entry_flags(void) {
     s32 i;
 
     base = (u8 *)0x80010000;
-    *(s32 *)(base + 0x208C) = 0;
-    *(s32 *)(base + 0x2090) = 0;
-    base[0x2D52] = 0xFF;
-    base[0x2D53] = 0xFF;
-    base[0x21E0] = 0xFF;
-    base[0x21E1] = 0xFF;
+    GAME_STATE->ending_requested = 0;
+    GAME_STATE->dungeon_mode_state = 0;
+    GAME_STATE->carry.familiar_items[0] = 0xFF;
+    GAME_STATE->carry.familiar_items[1] = 0xFF;
+    GAME_STATE->carry.player.f4C = 0xFF;
+    GAME_STATE->carry.player.f4D = 0xFF;
     for (i = 0; i < 20; i++) {
-        base[0x24B + i * 4] &= 0x5F;
+        GAME_STATE->items[i].unk_03 &= 0x5F;
         *(s32 *)(base + 0x304 + i * 0x54) &= ~0x4000;
     }
     base = (u8 *)0x80010000;

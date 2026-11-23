@@ -1,4 +1,5 @@
 #include "engine/entity/effect_slots.h"
+#include "shared/game_state.h"
 #include "dungeon/system.h"
 #include "dungeon/system/random_range.h"
 #include "shared/actor_status_flags.h"
@@ -13,7 +14,6 @@
 #include "dungeon/item/message.h"
 #include "dungeon/item.h"
 
-extern s32 dungeon_mode_state;
 extern s16 current_dungeon_floor;
 extern u8 D_800892C4[];
 extern u8 D_800892C8[];
@@ -134,14 +134,14 @@ s32 update_attached_effect_state(s16 tile_index, ActorRecord *target, ActorRecor
             return 0;
         }
         saved[1] = 0xE;
-        if ((dungeon_mode_state != 2) && (current_dungeon_floor < 0xC)) {
+        if ((GAME_STATE->dungeon_mode_state != 2) && (current_dungeon_floor < 0xC)) {
             low = 0x10;
             high = 0x18;
             saved[0] = 1;
             saved[2] = random_dungeon_range_16(low, high);
             saved[3] = 0;
         }
-        else if ((dungeon_mode_state != 2) && (current_dungeon_floor < 0x16)) {
+        else if ((GAME_STATE->dungeon_mode_state != 2) && (current_dungeon_floor < 0x16)) {
             low = 0x50;
             high = 0x78;
             saved[0] = 2;

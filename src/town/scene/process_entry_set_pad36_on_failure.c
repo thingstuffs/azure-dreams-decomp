@@ -7,7 +7,7 @@
  * Reads and returns func_80019928 status, passing F_sbs22_pad36 to func_8001A418 for zero or
  * func_8001A490 otherwise.
  */
-s32 process_entry_set_pad36_on_failure(void *object, s32 entry_index) {
+s32 process_entry_set_pad36_on_failure(TownObjectSet *object, s32 entry_index) {
     s32 status;
 
     status = process_checked_entry(object, entry_index);

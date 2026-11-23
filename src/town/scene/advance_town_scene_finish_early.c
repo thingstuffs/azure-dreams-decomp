@@ -12,7 +12,7 @@ typedef s32 (*Callback)(s32, s32);
 extern void func_80019988(void); /* this scene's placed copy of set_current_entry_script_flag */
 
 /* Advance the town scene: finish early on flag 0x1068, else arm the 0x949/0x94A record or run the step check, then hand back to the scene callback. */
-s32 advance_town_scene_finish_early(s32 kind, void *param)
+s32 advance_town_scene_finish_early(TownObjectSet *kind, void *param)
 {
     set_script_flag_sbs32_pad34();
     if (get_script_flag_mask(Frg_vivian_fine) != 0) {

@@ -1,3 +1,4 @@
+#include "dungeon/level/tile_flags.h"
 #include "shared/audio_commands.h"
 /* Rotating linked particles and their travel toward an actor or terrain endpoint. */
 #include "shared/entity.h"
@@ -22,10 +23,10 @@ void apply_large_random_value_gain(ActorRecord *target, s32 amount_input, ActorR
         if (target->hp & 2) {
             adjusted_amount = base_amount + ((s32)(base_amount << 16) >> 19);
         }
-        *(u16 *)((u8 *)target + 0x64) += adjusted_amount;
+        target->hp_delta += adjusted_amount;
         cap_pending_actor_value_delta(target);
         base_amount = 0x8004;
-        create_actor_value_popup(base_amount, target, (s16)*(u16 *)((u8 *)target + 0x64), 1);
+        create_actor_value_popup(base_amount, target, target->hp_delta, 1);
         apply_clamped_actor_value_delta(target);
     }
 }

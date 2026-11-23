@@ -1,3 +1,4 @@
+#include "dungeon/level/tile_flags.h"
 #include "engine/node/registration.h"
 #include "slus.h"
 #include "shared/entity.h"

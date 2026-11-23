@@ -10,5 +10,5 @@ void finish_paralyzed_actor_action(ActorRecord *entity, void *unused_1, SpriteFr
     entity->action_phase = 0;
     entity->unk_8C.address = 0;
     entity->action_timer = 0;
-    context->flags1C = (s32) (context->flags1C & ~ACTOR_PARALYZED);
+    context->flags1C = (context->flags1C & ~ACTOR_PARALYZED);
 }

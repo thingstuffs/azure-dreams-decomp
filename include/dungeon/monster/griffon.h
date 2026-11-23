@@ -162,11 +162,6 @@ typedef struct R08_80173234_S_80173234_1 {
 } R08_80173234_S_80173234_1;
 
 
-typedef struct {
-    u8 pad[0x13C];
-    s32 value;
-} R08_801740F4_Scratchpad;
-
 typedef struct R08_801741D0_S_801741D0_0 {
     u8 pad_00[0x8];
     void * unk_08;

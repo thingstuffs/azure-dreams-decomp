@@ -92,7 +92,7 @@ void update_troll_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFr
                 actor->action_id = transition_mode;
                 actor->action_phase = 1;
                 actor->unk_8C.word = 0;
-                state->flags1C = (s32) (state->flags1C & 0xFFFBFFFF);
+                state->flags1C = (state->flags1C & 0xFFFBFFFF);
                 return;
             }
             if (reset_actor_action_state(actor, context, sprite, &troll_frame_set_8) != 0) {
@@ -104,7 +104,7 @@ void update_troll_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFr
                 actor->action_id = 0xDU;
                 actor->action_phase = 1;
                 actor->unk_8C.word = 0;
-                state->flags1C = (s32) (state->flags1C & 0xFFFBFFFF);
+                state->flags1C = (state->flags1C & 0xFFFBFFFF);
                 return;
             }
             if (reset_actor_action_state(actor, context, sprite, &troll_frame_set_9) != 0) {
@@ -116,7 +116,7 @@ void update_troll_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFr
                 actor->action_id = 0xDU;
                 actor->action_phase = 1;
                 actor->unk_8C.word = 0;
-                state->flags1C = (s32) (state->flags1C & 0xFFFBFFFF);
+                state->flags1C = (state->flags1C & 0xFFFBFFFF);
                 return;
             }
             if (reset_actor_action_state(actor, context, sprite, &troll_frame_set_10) != 0) {

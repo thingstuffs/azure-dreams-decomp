@@ -72,7 +72,7 @@ void *spawn_dreamin_in_slot_f(s16 init_flags, s16 x, s16 y, s16 initial_value) {
             if (((init_flags & ~3) << 0x10) == 0) {
                 if (!(state->flags14 & ACTOR_RESIST_SLEEP)) {
                     if (generate_random_value() & 1) {
-                        state->flags1C = (s32) (state->flags1C | ACTOR_ASLEEP);
+                        state->flags1C = (state->flags1C | ACTOR_ASLEEP);
                         set_or_clear_actor_status_slot(state, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
                     }
                 }

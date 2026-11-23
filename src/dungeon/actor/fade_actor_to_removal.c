@@ -40,7 +40,7 @@ s32 fade_actor_to_removal(ActorRecord *state, ObjectPosition *unused, SpriteFram
         visual->tpage_abr = 0x20;
         visual->clut = (u16) (visual->clut - 0x80);
         visual->flags = (u16) (visual->flags | 0xC);
-        entity->flags1C = (s32) (entity->flags1C | 0x10000000);
+        entity->flags1C = (entity->flags1C | 0x10000000);
         play_sound_if_enabled(0x805);
         visual->color.word = 0x808080;
         state->action_timer = 0x10;

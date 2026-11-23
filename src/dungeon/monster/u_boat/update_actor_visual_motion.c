@@ -63,7 +63,7 @@ void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, S
     check_obj = body;
     check_motion = motion_arg;
     check_part = sprite;
-    update_value_2 = (*((u8 *)body + (0x6D)));
+    update_value_2 = ((u8)body->pending_turn_updates);
     check_context = body;
     state_or_dir = (s8)update_value_2;
     if (refresh_actor_facing_and_lifecycle(check_obj, check_motion, check_part, check_context) != 0) {
@@ -86,7 +86,7 @@ void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, S
     motion_arg->x.v += motion_arg->velocity_x;
     motion_arg->y.v += motion_arg->velocity_y;
 
-    if (!((*(u32 *)((u8 *)body + (0x1C))) & 0x40000) &&
+    if (!((body->flags1C) & 0x40000) &&
         !(body->action_state_flags & 8)) {
         motion_arg->velocity_z += (body->fall_ticks) * 0x14000;
         body->fall_ticks++;
@@ -116,8 +116,8 @@ void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, S
         }
         sprite->flags = facing_flags;
 
-        apply_monster_koyaw_data(((u32)base->flags1C), (u8 *)sprite + 0xC);
-        if (!(((u32)base->flags1C) & 0x20)) {
+        apply_monster_koyaw_data((base->flags1C), (u8 *)sprite + 0xC);
+        if (!((base->flags1C) & 0x20)) {
             if (!(sprite->flags & 0x40)) {
                 advance_sprite_animation_and_textures(sprite);
             }
@@ -126,7 +126,7 @@ void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, S
             base->flags1C &= 0xFFFBFFFF;
         }
 
-        normal_flags = ((u32)base->flags1C) & 0xF7FFFFFF;
+        normal_flags = (base->flags1C) & 0xF7FFFFFF;
         base->flags1C = normal_flags;
         if (normal_flags & 0x40000) {
             if (!(sprite->flags & 0x40) &&
@@ -177,7 +177,7 @@ void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, S
             sprite->flags = part_flags | 0x7000;
         }
 
-        special_flags = ((u32)base->flags1C) & 0xF7FFFFFF;
+        special_flags = (base->flags1C) & 0xF7FFFFFF;
         base->flags1C = special_flags;
         if (!(special_flags & 0x40000)) {
             s32 bob_offset = body->unk_A0.value;
@@ -224,7 +224,7 @@ void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, S
         }
     }
 
-    flags = ((u32)base->flags1C);
+    flags = (base->flags1C);
     if (flags & 0x40000000) {
         base->flags1C = flags & 0xBFFFFFFF;
         ground_height = sample_terrain_surface_height(

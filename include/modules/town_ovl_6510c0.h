@@ -2,9 +2,11 @@
 #define TOWN_OVL_6510C0_H
 #include "common.h"
 
+struct TownObjectSet;
+
 extern s32 func_80016A2C(void *, void *, s32, s32);
 extern u8 D_800173B4[];
 extern u8 D_80017474[];
 
-s32 apply_selected_scene_entry(s32, s32, s32);
+s32 apply_selected_scene_entry(struct TownObjectSet *, s32, s32);
 #endif

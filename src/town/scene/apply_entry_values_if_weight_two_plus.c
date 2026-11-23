@@ -4,7 +4,7 @@
 #include "town/player.h"
 
 /* Check the supplied inputs only when the prerequisite value is at least 2. */
-s32 apply_entry_values_if_weight_two_plus(Rec_func_800165F4_arg0 *check_value, s32 check_data) {
+s32 apply_entry_values_if_weight_two_plus(TownObjectSet *check_value, s32 check_data) {
     s32 check_passed;
 
     check_passed = 0;

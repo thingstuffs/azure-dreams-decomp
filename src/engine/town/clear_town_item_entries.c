@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "town/shop/item_pointer_removal_g00615.h"
 
 #include "engine/town.h"
@@ -8,9 +9,9 @@ extern void itm_mon_koyaw_set(s32, u8 *, u8 *, s32);
 /* Processes type-0x13 entries whose associated record code is nonnegative. */
 void clear_town_item_entries(void)
 {
-    if (town_item_list[0] != 0) {
+    if (GAME_STATE->item_list[0] != 0) {
         u32 data_base = 0x80010000;
-        DungeonItemEntry **entry_slot = (DungeonItemEntry **)(data_base + 0x29C);
+        DungeonItemEntry **entry_slot = &GAME_STATE->item_list[0];
 
         do {
             u8 *entry = (u8 *)*entry_slot;

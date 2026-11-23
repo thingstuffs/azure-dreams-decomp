@@ -57,7 +57,7 @@ void update_saber_behavior(ActorRecord *actor_in, ObjectPosition *context_in, Sp
         return;
     }
 
-    if (((u32)creature_in->flags1C) & ACTOR_ASLEEP) {
+    if ((creature_in->flags1C) & ACTOR_ASLEEP) {
         if (sprite->frameTable == saber_direction_frames_2) {
             actor_in->action_id = 0xD;
             actor_in->action_phase = 1;
@@ -71,7 +71,7 @@ void update_saber_behavior(ActorRecord *actor_in, ObjectPosition *context_in, Sp
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((u32)creature_in->flags1C) & ACTOR_PUSH_PENDING) {
+        if ((creature_in->flags1C) & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(actor_in, context_in, sprite, creature_in);
             return;
         }
@@ -102,7 +102,7 @@ void update_saber_behavior(ActorRecord *actor_in, ObjectPosition *context_in, Sp
             }
         }
 
-        if (((u32)creature_in->flags1C) & ACTOR_LIFTED) {
+        if ((creature_in->flags1C) & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(actor_in, context_in, sprite, creature_in);
             func_801743E8(actor_in, context_in, sprite, creature_in);
             (sprite->frameTable) = saber_direction_frames;
@@ -122,7 +122,7 @@ void update_saber_behavior(ActorRecord *actor_in, ObjectPosition *context_in, Sp
     sprite->room_index = room_id;
 
     if (creature_in->pending_turn_updates > 0) {
-        if (((u32)creature_in->flags1C) & ACTOR_PARALYZED) {
+        if ((creature_in->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(creature_in);
             return;
         }
@@ -206,12 +206,12 @@ void update_saber_behavior(ActorRecord *actor_in, ObjectPosition *context_in, Sp
         }
     }
 
-    if (!(((u32)creature_in->flags1C) & ACTOR_PLAYER_SIDE)) {
+    if (!((creature_in->flags1C) & ACTOR_PLAYER_SIDE)) {
         s32 room_index = room_id;
 
         if ((room_index < 0) ||
             !(dungeon_rooms[room_index].flags & 2)) {
-            if (!(((u32)creature_in->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
+            if (!((creature_in->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((test_neighbor_position_relation(
                     sprite->tile_x, sprite->tile_y,

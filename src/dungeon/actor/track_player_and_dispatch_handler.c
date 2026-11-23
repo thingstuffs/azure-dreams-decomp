@@ -1,4 +1,5 @@
 #include "town/scene/collision.h"
+#include "town/scene/active_object_overlap_g00529.h"
 #include "shared/position_query.h"
 #include "common.h"
 #include "shared/entity_objects.h"
@@ -32,7 +33,7 @@ typedef struct S_7FFFE25C_4 {
 
 
 extern TownState scene_object_payload_alias;
-extern s32 D_800D0420[];
+extern Box D_800D0420;
 
 extern s32 D_80092698;
 extern u8 town_actor_interaction_address[];
@@ -49,7 +50,7 @@ extern void retry_sound_sequence_when_ready(void);
 void track_player_and_dispatch_handler(Rec_D_80082D58 *context, ColliderView *owner, ObjectPosition *adjusted_pos, s32 dispatch_param)
 {
     TownState *state = &scene_object_payload_alias;
-    s32 *offset = D_800D0420;
+    Box *offset = &D_800D0420;
     s32 previous_owner = state->previous_owner;
     s32 current;
     s32 target_z;
@@ -57,13 +58,13 @@ void track_player_and_dispatch_handler(Rec_D_80082D58 *context, ColliderView *ow
 
     adjusted_pos->x.v = view_reference_entity.x.v;
     adjusted_pos->y.v = view_reference_entity.y.v;
-    adjusted_pos->z.v = view_reference_entity.z.v + offset[2];
+    adjusted_pos->z.v = view_reference_entity.z.v + offset->z;
 
     get_min_surface_probe_capped(adjusted_pos, (&position_query_scratch));
     apply_bound_adjustments(owner, adjusted_pos);
     resolve_collider_overlaps(owner, adjusted_pos);
 
-    target_z = view_reference_entity.z.v + offset[2];
+    target_z = view_reference_entity.z.v + offset->z;
     if (target_z - adjusted_pos->z.v >= 0x10) {
         adjusted_pos->z.v =
             target_z + owner->bounds->size_z;

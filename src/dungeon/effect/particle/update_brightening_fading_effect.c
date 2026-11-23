@@ -1,4 +1,5 @@
 #include "dungeon/level.h"
+#include "engine/graphics/sprite_scratch.h"
 #include "shared/dungeon_height_query.h"
 #include "shared/audio_commands.h"
 /* Animated terrain grids, tile-region restoration, projected quads, and fading particle transitions. */
@@ -1451,7 +1452,7 @@ s32 rand();
 
 /* Rotate and move a quad, fade its color in and out, then mark it for removal. */
 void update_rotating_fading_tile_quad(void *quad, S_81960CD4_2 *motion, S_81960CD4_3 *effect) {
-    S_81960CD4_0 *scratch = (S_81960CD4_0 *)0x1F800000;
+    SpriteQuadScratch *scratch = SPRITE_SCRATCH;
     u16 rotation[3];
     s16 remaining_count;
     s16 fade_in_ticks;
@@ -1469,55 +1470,55 @@ void update_rotating_fading_tile_quad(void *quad, S_81960CD4_2 *motion, S_81960C
     u16 vertex_z;
     TerrainTileQuadBody *quad_body = quad;
 
-    scratch->unk_70 = quad_body->unk_10 - motion->unk_00.at02.v;
-    scratch->unk_78 = quad_body->unk_18 - motion->unk_00.at02.v;
-    scratch->unk_80 = quad_body->unk_20 - motion->unk_00.at02.v;
-    scratch->unk_88 = quad_body->unk_28 - motion->unk_00.at02.v;
-    scratch->unk_72 = quad_body->unk_12 - motion->unk_04.at02.v;
-    scratch->unk_7A = quad_body->unk_1A - motion->unk_04.at02.v;
-    scratch->unk_82 = quad_body->unk_22 - motion->unk_04.at02.v;
-    scratch->unk_8A = quad_body->unk_2A - motion->unk_04.at02.v;
-    scratch->unk_74 = quad_body->unk_14 - motion->unk_08.at02.v;
-    scratch->unk_7C = quad_body->unk_1C - motion->unk_08.at02.v;
+    scratch->vertices[0].vx = quad_body->unk_10 - motion->unk_00.at02.v;
+    scratch->vertices[1].vx = quad_body->unk_18 - motion->unk_00.at02.v;
+    scratch->vertices[2].vx = quad_body->unk_20 - motion->unk_00.at02.v;
+    scratch->vertices[3].vx = quad_body->unk_28 - motion->unk_00.at02.v;
+    scratch->vertices[0].vy = quad_body->unk_12 - motion->unk_04.at02.v;
+    scratch->vertices[1].vy = quad_body->unk_1A - motion->unk_04.at02.v;
+    scratch->vertices[2].vy = quad_body->unk_22 - motion->unk_04.at02.v;
+    scratch->vertices[3].vy = quad_body->unk_2A - motion->unk_04.at02.v;
+    scratch->vertices[0].vz = quad_body->unk_14 - motion->unk_08.at02.v;
+    scratch->vertices[1].vz = quad_body->unk_1C - motion->unk_08.at02.v;
     update_count = terrain_effect_update_count;
     vertex_z = quad_body->unk_24;
     center_z = motion->unk_08.at02.v;
     terrain_effect_update_count = (u16)(update_count + 1);
-    scratch->unk_84 = vertex_z - center_z;
-    scratch->unk_8C = quad_body->unk_2C - motion->unk_08.at02.v;
+    scratch->vertices[2].vz = vertex_z - center_z;
+    scratch->vertices[3].vz = quad_body->unk_2C - motion->unk_08.at02.v;
     PushMatrix(center_z);
     rotation[0] = effect->unk_16;
     rotation[1] = effect->unk_18;
     rotation[2] = 0;
-    scratch->unk_30 = effect->unk_1C;
-    scratch->unk_34 = effect->unk_1E;
-    scratch->unk_38 = 0x1000;
-    scratch->tile_matrix.t[2] = 0;
-    scratch->tile_matrix.t[1] = 0;
-    scratch->tile_matrix.t[0] = 0;
-    RotMatrix(rotation, &scratch->tile_matrix);
-    SetTransMatrix(&scratch->tile_matrix);
-    SetRotMatrix(&scratch->tile_matrix);
-    func_80065320(&scratch->unk_70, &scratch->unk_98, &scratch->gte_flag);
-    func_80065320(&scratch->unk_78, &scratch->unk_A0, &scratch->gte_flag);
-    func_80065320(&scratch->unk_80, &scratch->unk_A8, &scratch->gte_flag);
-    func_80065320(&scratch->unk_88, &scratch->unk_B0, &scratch->gte_flag);
+    scratch->input.vx = effect->unk_1C;
+    scratch->input.vy = effect->unk_1E;
+    scratch->input.vz = 0x1000;
+    scratch->matrix_50.t[2] = 0;
+    scratch->matrix_50.t[1] = 0;
+    scratch->matrix_50.t[0] = 0;
+    RotMatrix(rotation, &scratch->matrix_50);
+    SetTransMatrix(&scratch->matrix_50);
+    SetRotMatrix(&scratch->matrix_50);
+    func_80065320(&scratch->vertices[0], &scratch->rotated[0], &scratch->gte_flag);
+    func_80065320(&scratch->vertices[1], &scratch->rotated[1], &scratch->gte_flag);
+    func_80065320(&scratch->vertices[2], &scratch->rotated[2], &scratch->gte_flag);
+    func_80065320(&scratch->vertices[3], &scratch->rotated[3], &scratch->gte_flag);
     PopMatrix();
     motion->unk_00.at00.v = (s32)(motion->unk_00.at00.v + motion->unk_0C);
     motion->unk_04.at00.v = (s32)(motion->unk_04.at00.v + motion->unk_10);
     motion->unk_08.at00.v = (s32)(motion->unk_08.at00.v + motion->unk_14);
-    quad_body->unk_10 = (u16)(scratch->unk_98 + motion->unk_00.at02.v);
-    quad_body->unk_18 = (u16)(scratch->unk_A0 + motion->unk_00.at02.v);
-    quad_body->unk_20 = (u16)(scratch->unk_A8 + motion->unk_00.at02.v);
-    quad_body->unk_28 = (u16)(scratch->unk_B0 + motion->unk_00.at02.v);
-    quad_body->unk_12 = (u16)(scratch->unk_9A + motion->unk_04.at02.v);
-    quad_body->unk_1A = (u16)(scratch->unk_A2 + motion->unk_04.at02.v);
-    quad_body->unk_22 = (u16)(scratch->unk_AA + motion->unk_04.at02.v);
-    quad_body->unk_2A = (u16)(scratch->unk_B2 + motion->unk_04.at02.v);
-    quad_body->unk_14 = (u16)(scratch->unk_9C + motion->unk_08.at02.v);
-    quad_body->unk_1C = (u16)(scratch->unk_A4 + motion->unk_08.at02.v);
-    quad_body->unk_24 = (u16)(scratch->unk_AC + motion->unk_08.at02.v);
-    quad_body->unk_2C = (u16)(scratch->unk_B4 + motion->unk_08.at02.v);
+    quad_body->unk_10 = (u16)(scratch->rotated[0].vx + motion->unk_00.at02.v);
+    quad_body->unk_18 = (u16)(scratch->rotated[1].vx + motion->unk_00.at02.v);
+    quad_body->unk_20 = (u16)(scratch->rotated[2].vx + motion->unk_00.at02.v);
+    quad_body->unk_28 = (u16)(scratch->rotated[3].vx + motion->unk_00.at02.v);
+    quad_body->unk_12 = (u16)(scratch->rotated[0].vy + motion->unk_04.at02.v);
+    quad_body->unk_1A = (u16)(scratch->rotated[1].vy + motion->unk_04.at02.v);
+    quad_body->unk_22 = (u16)(scratch->rotated[2].vy + motion->unk_04.at02.v);
+    quad_body->unk_2A = (u16)(scratch->rotated[3].vy + motion->unk_04.at02.v);
+    quad_body->unk_14 = (u16)(scratch->rotated[0].vz + motion->unk_08.at02.v);
+    quad_body->unk_1C = (u16)(scratch->rotated[1].vz + motion->unk_08.at02.v);
+    quad_body->unk_24 = (u16)(scratch->rotated[2].vz + motion->unk_08.at02.v);
+    quad_body->unk_2C = (u16)(scratch->rotated[3].vz + motion->unk_08.at02.v);
     if (quad_body->unk_48.s == 0) {
         fade_in_red = effect->unk_0C;
         effect->unk_0C = (u8)(fade_in_red + ((s32)(0xC0 - fade_in_red) / (s16)quad_body->unk_4C));

@@ -10,7 +10,7 @@
 #include "town/scene/event.h"
 
 /* Dispatches the current cell's action and clears its status after completion or a status-1 fallback. */
-s32 process_current_town_cell(Rec_func_800165F4_arg0 *input_value, s32 input) {
+s32 process_current_town_cell(TownObjectSet *input_value, s32 input) {
     s32 result;
     u8 state;
 

@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "shared/record_ptrs.h"
 #include "dungeon/item/state.h"
 #include "dungeon/data.h"
-
 /* Sets flag 0x400000 once when the blocking flag is clear and either threshold is met. */
 s32 set_monster_reachability_flag(void) {
     u8 *flag_page = (u8 *)0x800E0000;
@@ -15,7 +15,7 @@ s32 set_monster_reachability_flag(void) {
     }
 
     if (*(u16 *)(((u8 *)dungeon_actor_ring_anchor) + 0x118) < 0x401) {
-        if (monster_special_entry_index < 0xC01) {
+        if (GAME_STATE->log.head.length < 0xC01) {
             /* BYTES: reorg mostly_true_jump: LOOP_BEG before the join label decides a delay-slot fill. */
             do {
                 changed = 0;

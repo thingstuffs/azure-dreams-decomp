@@ -154,7 +154,7 @@ void choose_troll_move(ActorRecord *move_input, ObjectPosition *action_context, 
     near_target = 0;
 
     if ((state_flags & 0x4000) || ((s8)actor->movement_queue_state >= 0)) {
-        if ((actor->unk_12 >= 2) ||
+        if ((actor->ai_mode >= 2) ||
             ((try_begin_troll_attack(move_input, action_context, position, actor) << 16) == 0)) {
             update_actor_status_and_mp(actor);
             return;

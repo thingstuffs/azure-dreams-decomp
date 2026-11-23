@@ -36,7 +36,7 @@ void update_actor_movement_and_tile_position(ActorRecord *object, ObjectPosition
     state_flags = state->flags;
     limit_turn = 0;
     if ((state_flags & 0x4000) || (s8)actor->movement_queue_state >= 0) {
-        if (actor->unk_12 >= 2 || (check_movement_and_initialize_action(object, entry_context, tile, actor) << 16) == 0) {
+        if (actor->ai_mode >= 2 || (check_movement_and_initialize_action(object, entry_context, tile, actor) << 16) == 0) {
             update_actor_status_and_mp(actor);
 
             return;

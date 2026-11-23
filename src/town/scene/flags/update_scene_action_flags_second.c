@@ -6,6 +6,7 @@
 #include "town/scene/state_data.h"
 #include "town/scene/flags.h"
 #include "town/scene/hooks.h"
+#include "town/scene.h"
 
 typedef struct S_func_804B80D0_1 {
     u8 pad_00[2];
@@ -13,7 +14,7 @@ typedef struct S_func_804B80D0_1 {
 } S_func_804B80D0_1;
 
 /* Update action flags from the active entry and check whether the action is allowed. */
-s32 update_scene_action_flags(Rec_func_800165F4_arg0 *row, s32 entry_index) {
+s32 update_scene_action_flags(TownObjectSet *row, s32 entry_index) {
     s32 action_allowed;
 
     set_global_entry_pair(row, entry_index);

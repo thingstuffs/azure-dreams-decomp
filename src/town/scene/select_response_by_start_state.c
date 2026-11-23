@@ -7,7 +7,7 @@ extern u8 D_8001B924[];
 extern u8 D_8001B944[];
 
 // Dispatches a value and code with state-selected data, setting the state for codes other than 0x2D.
-void select_response_by_start_state(s32 value, s32 unused, s32 code) {
+void select_response_by_start_state(TownObjectSet *value, s32 unused, s32 code) {
     void *selectedData;
 
     if (scene_dispatch_started != 0) {

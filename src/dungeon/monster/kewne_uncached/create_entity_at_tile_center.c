@@ -655,7 +655,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
                 }
             } else {
                 sprite->flags = (u16) (sprite->flags | 0x7000);
-                entity->flags1C = (s32) (entity->flags1C & 0xFFFBFFFF);
+                entity->flags1C = (entity->flags1C & 0xFFFBFFFF);
             }
             moving_flags = entity->flags1C & 0xF7FFFFFF;
             entity->flags1C = moving_flags;
@@ -777,7 +777,7 @@ void update_actor_scripts_and_motion(ActorRecord *actor_in, ObjectPosition *moti
         }
         entity_flags = entity->flags1C;
         if (entity_flags & 0x40000000) {
-            entity->flags1C = (s32) (entity_flags & 0xBFFFFFFF);
+            entity->flags1C = (entity_flags & 0xBFFFFFFF);
             ground_height = sample_terrain_surface_height((sprite->tile_x << 6) | 0x20,
                 (sprite->tile_y << 6) | 0x20, (s16) (entity->ground_height - 0x20));
             if (ground_height < 0x200) {

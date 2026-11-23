@@ -66,7 +66,7 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, ObjectPosition *
     PushMatrix();
 
     scale_x = sprite->scale_x;
-    scratch = (SpriteQuadScratch *)0x1F800000;
+    scratch = SPRITE_SCRATCH;
     scratch->input.vx = scale_x;
     scratch->input.vy = sprite->scale_y;
     scratch->input.vz = sprite->offset_x;
@@ -76,19 +76,19 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, ObjectPosition *
 
     ReadRotMatrix(&saved_transform);
 
-    scratch->matrix.m[2][2] = 0x1000;
-    scratch->matrix.m[1][1] = 0x1000;
-    scratch->matrix.m[0][0] = 0x1000;
-    scratch->matrix.m[2][1] = 0;
-    scratch->matrix.m[2][0] = 0;
-    scratch->matrix.m[1][2] = 0;
-    scratch->matrix.m[1][0] = 0;
-    scratch->matrix.m[0][2] = 0;
-    scratch->matrix.m[0][1] = 0;
+    scratch->matrix_50.m[2][2] = 0x1000;
+    scratch->matrix_50.m[1][1] = 0x1000;
+    scratch->matrix_50.m[0][0] = 0x1000;
+    scratch->matrix_50.m[2][1] = 0;
+    scratch->matrix_50.m[2][0] = 0;
+    scratch->matrix_50.m[1][2] = 0;
+    scratch->matrix_50.m[1][0] = 0;
+    scratch->matrix_50.m[0][2] = 0;
+    scratch->matrix_50.m[0][1] = 0;
 
-    RotMatrixX(sprite->angle_x, &scratch->matrix);
-    RotMatrixZ(sprite->angle_z, &scratch->matrix);
-    RotMatrixY(sprite->angle_y, &scratch->matrix);
+    RotMatrixX(sprite->angle_x, &scratch->matrix_50);
+    RotMatrixZ(sprite->angle_z, &scratch->matrix_50);
+    RotMatrixY(sprite->angle_y, &scratch->matrix_50);
 
     if (sprite->flags & 1) {
         scratch->input.vx = -scratch->input.vx;
@@ -97,12 +97,12 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, ObjectPosition *
         scratch->input.vy = -scratch->input.vy;
     }
 
-    ScaleMatrix(&scratch->matrix, &scratch->input);
-    TransMatrix(&scratch->matrix, &scratch->translation);
-    CompMatrix(&scratch->matrix, parent_matrix, &scratch->local_matrix);
-    CompMatrix(&saved_transform, &scratch->local_matrix, &scratch->matrix);
-    SetTransMatrix(&scratch->matrix);
-    SetRotMatrix(&scratch->matrix);
+    ScaleMatrix(&scratch->matrix_50, &scratch->input);
+    TransMatrix(&scratch->matrix_50, &scratch->translation);
+    CompMatrix(&scratch->matrix_50, parent_matrix, &scratch->matrix_D0);
+    CompMatrix(&saved_transform, &scratch->matrix_D0, &scratch->matrix_50);
+    SetTransMatrix(&scratch->matrix_50);
+    SetRotMatrix(&scratch->matrix_50);
 
     state = work->draw_buffer;
     base_color = (CVECTOR *)&sprite->color;
@@ -257,7 +257,7 @@ s32 queue_linked_visible_rectangle_copies(RectangleCopy *initial_state, ObjectPo
     RectangleCopy *state = initial_state;
     ObjectPosition *position = input_values;
     SpriteFrameState *delta = initial_delta;
-    SpriteQuadScratch *scratch = (SpriteQuadScratch *)0x1F800000;
+    SpriteQuadScratch *scratch = SPRITE_SCRATCH;
     ObjectNodeHeader *next_node;
 
     for (;;) {
@@ -285,7 +285,7 @@ struct RectangleCopy;
 s32 queue_linked_rectangles_at_position(void *entry_data, void *initial_position) {
     ObjectPosition *position = initial_position;
     register RectangleCopy *data = entry_data;
-    register SpriteQuadScratch *scratch = (SpriteQuadScratch *)0x1F800000;
+    register SpriteQuadScratch *scratch = SPRITE_SCRATCH;
     register ObjectNodeHeader *next_node;
     s32 offset;
 

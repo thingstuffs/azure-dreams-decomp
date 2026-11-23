@@ -76,7 +76,7 @@ void wait_cyclone_mp_and_animate(ActorRecord *actor, ObjectPosition *action_ctx,
             return;
         }
 
-        entity_flags = ((u32)entity->flags1C);
+        entity_flags = (entity->flags1C);
         if (entity_flags & 0x100) {
             begin_pushed_actor_move(actor, action_ctx, anim, entity);
             return;

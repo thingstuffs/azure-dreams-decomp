@@ -1,5 +1,6 @@
 #ifndef DUNGEON_OVL_18D0850_H
 #define DUNGEON_OVL_18D0850_H
+#include "dungeon/level/tile_flags.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
@@ -261,7 +262,6 @@ extern unsigned char resident_globals_page[];
 #include "shared/scratchpad.h"
 extern M2C_UNK D_8002588C;
 extern s32 resolve_record_orientation_or_fallback(void *, void *, s16 *, s32);
-extern s32 check_layer_offset_height(s32, s32, s32, s32);
 void apply_random_actor_value_gain(EntityRec *entity, s32 value_id, void *record);
 void write_fixed_palette_pixels(void *unused0, void *unused1, void *unused2);
 void advance_owner_effect_counter(ovl_18d0850_818B097C_EffectOwner *owner, void *unused, SpriteFrameState *state);

@@ -118,6 +118,14 @@ class BatchTests(unittest.TestCase):
         self.assertIn('int unk_00;', (self.tmp / 'include/rec.h').read_text())
         self.assertIn('ACTOR_ID(o)', (self.tmp / 'src/a.c').read_text())
 
+    def test_blame_is_limited_to_the_record_the_diagnostic_names(self):
+        # an access the tool cannot locate (token pasting) in Other must refuse only Other's row,
+        # not Actor's row that shares the member name
+        (self.tmp / 'src/a.c').write_text(SRC + '#define PASTE(p) ((p)->unk_ ## 04)\nint g(Other *o) { return PASTE(o); }\n')
+        rows = [row('unk_04', 'state'), row('unk_04', 'tag', record='Other')]
+        self.run_rows(rows)
+        self.assertEqual([r.status for r in rows], ['renamed', 'refused'])
+
     def test_unexplained_error_aborts_and_restores_everything(self):
         # a macro that swallows the new spelling: the compiler error names no row
         (self.tmp / 'src/a.c').write_text('#define state 1\n' + SRC)

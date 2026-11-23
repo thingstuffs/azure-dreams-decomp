@@ -6,6 +6,7 @@
 #include "town/player/script_flags.h"
 #include "town/scene/position_entries.h"
 #include "town/scene/event.h"
+#include "town/scene.h"
 
 extern ScenePositionEntry D_8001BB44;
 
@@ -13,7 +14,7 @@ extern ScenePositionEntry D_8001BB44;
  * Sets F_05_niko_and_gosh and applies D_8001BB44 entry positions using
  * active_scene_dispatch_context and the supplied dispatch arguments.
  */
-void select_response_setting_niko_and_gosh(void *dispatch_value, s32 unused, s32 dispatch_context) {
+void select_response_setting_niko_and_gosh(TownObjectSet *dispatch_value, s32 unused, s32 dispatch_context) {
     set_script_flag_bit(F_05_niko_and_gosh);
     apply_entry_position(&D_8001BB44, active_scene_dispatch_context, dispatch_value, dispatch_context);
 }

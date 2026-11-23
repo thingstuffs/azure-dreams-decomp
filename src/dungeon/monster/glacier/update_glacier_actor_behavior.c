@@ -88,7 +88,7 @@ void update_glacier_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
         return;
     }
 
-    if (((u32)stats->flags1C) & 0x200) {
+    if ((stats->flags1C) & 0x200) {
         if (sprite->frameTable == glacier_frame_set_2) {
             actor->action_id = 0xD;
             actor->action_phase = 1;
@@ -102,7 +102,7 @@ void update_glacier_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((u32)stats->flags1C) & 0x100) {
+        if ((stats->flags1C) & 0x100) {
             begin_pushed_actor_move(actor, context, sprite, stats);
             return;
         }
@@ -129,7 +129,7 @@ void update_glacier_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
             }
         }
 
-        if (((u32)stats->flags1C) & 0x80000) {
+        if ((stats->flags1C) & 0x80000) {
             begin_actor_move_to_target_facing(actor, context, sprite, stats);
             func_8017412C(actor, context, sprite, stats);
             return;
@@ -144,7 +144,7 @@ void update_glacier_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
     sprite->room_index = room_id;
 
     if (stats->pending_turn_updates > 0) {
-        if (!(((u32)stats->flags1C) & 0x20)) {
+        if (!((stats->flags1C) & 0x20)) {
             if (*(u16 *)&sprite->tile_x == reference_tile_object.tile_position.word) {
                 choose_block_move_slot_a(actor, context, sprite, stats);
                 return;
@@ -227,11 +227,11 @@ aaf_cleanup:
 ordinary_cleanup:
         choose_block_move_slot_a(actor, context, sprite, stats);
         return;
-    } else if (!(((u32)stats->flags1C) & 0x2000)) {
+    } else if (!((stats->flags1C) & 0x2000)) {
         s32 room_index = (s8)room_id;
 
         if ((room_index < 0) || !(dungeon_rooms[room_index].flags & 2)) {
-            if (!(((u32)stats->flags1C) & 0x430)) {
+            if (!((stats->flags1C) & 0x430)) {
 
                 if ((s16)test_neighbor_position_relation(
                         sprite->tile_x, sprite->tile_y,
@@ -251,7 +251,7 @@ ordinary_cleanup:
     if (sprite->flags & 0x40) {
         return;
     }
-    if (((u32)stats->flags1C) & 0x20) {
+    if ((stats->flags1C) & 0x20) {
         return;
     }
 

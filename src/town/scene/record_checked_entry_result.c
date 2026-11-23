@@ -4,9 +4,10 @@
 #include "town/scene/entry_requests.h"
 #include "town/player/script_flags.h"
 #include "town/data.h"
+#include "town/scene.h"
 
 /* Record whether the check returned zero and invoke the handler when it did. */
-s32 record_checked_entry_result(void *check_input_1, s32 check_input_2) {
+s32 record_checked_entry_result(TownObjectSet *check_input_1, s32 check_input_2) {
     s32 result;
 
     result = process_checked_entry(check_input_1, check_input_2);

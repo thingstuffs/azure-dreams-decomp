@@ -22,7 +22,7 @@ typedef struct S_800D07C8_4 {
 /* Transform sprite parts into textured quads, queue visible quads, and invoke part callbacks. */
 void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias) {
     MATRIX matrix;
-    SpriteQuadScratch *scratch = (SpriteQuadScratch *)0x1F800000;
+    SpriteQuadScratch *scratch = SPRITE_SCRATCH;
     u8 *part_uv;
     u8 *part;
     POLY_GT4 *packet;
@@ -45,9 +45,9 @@ void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, Spri
     Callback callback;
 
     scratch->ordering_table = (u32 *)(table[0] + 0xB0);
-    scratch->local_matrix.t[0] = position->x.w.i;
-    scratch->local_matrix.t[1] = position->y.w.i;
-    scratch->local_matrix.t[2] = position->z.w.i;
+    scratch->matrix_D0.t[0] = position->x.w.i;
+    scratch->matrix_D0.t[1] = position->y.w.i;
+    scratch->matrix_D0.t[2] = position->z.w.i;
     scratch->vertices[3].vz = 0;
     scratch->vertices[2].vz = 0;
     scratch->vertices[1].vz = 0;
@@ -63,12 +63,12 @@ void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, Spri
     scratch->angles.vx = sprite->angle_x;
     scratch->angles.vz = sprite->angle_z;
     scratch->angles.vy = sprite->angle_y;
-    RotMatrix(&scratch->angles, &scratch->local_matrix);
+    RotMatrix(&scratch->angles, &scratch->matrix_D0);
     ReadRotMatrix(&matrix);
-    CompMatrix(&matrix, &scratch->local_matrix, &scratch->matrix);
-    ScaleMatrix(&scratch->matrix, &scratch->input);
-    SetTransMatrix(&scratch->matrix);
-    SetRotMatrix(&scratch->matrix);
+    CompMatrix(&matrix, &scratch->matrix_D0, &scratch->matrix_50);
+    ScaleMatrix(&scratch->matrix_50, &scratch->input);
+    SetTransMatrix(&scratch->matrix_50);
+    SetRotMatrix(&scratch->matrix_50);
 
     part = *(u8 * *)&sprite->source;
     scratch->sprite_flags = sprite->flags;

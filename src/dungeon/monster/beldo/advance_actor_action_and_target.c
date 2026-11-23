@@ -56,19 +56,19 @@ void advance_actor_action_and_target(ActorRecord *action, ObjectPosition *motion
                 is_special = 1;
                 /* fallthrough */
             case 3:
-                action_entry = (u8 *)actor + 0xE;
+                action_entry = &actor->abilities[2].id;
                 break;
             case 6:
                 is_special = 1;
                 /* fallthrough */
             case 2:
-                action_entry = (u8 *)actor + 0xB;
+                action_entry = &actor->abilities[1].id;
                 break;
             case 5:
                 is_special = 1;
                 /* fallthrough */
             case 1:
-                action_entry = (u8 *)actor + 8;
+                action_entry = &actor->abilities[0].id;
                 break;
             default:
                 action_entry = 0;
@@ -78,13 +78,13 @@ void advance_actor_action_and_target(ActorRecord *action, ObjectPosition *motion
             kind = actor->action_flags & 0x3FFF;
             switch (kind) {
             case 3:
-                action_entry = (u8 *)actor + 0xE;
+                action_entry = &actor->abilities[2].id;
                 break;
             case 2:
-                action_entry = (u8 *)actor + 0xB;
+                action_entry = &actor->abilities[1].id;
                 break;
             case 1:
-                action_entry = (u8 *)actor + 8;
+                action_entry = &actor->abilities[0].id;
                 break;
             default:
                 action_entry = 0;

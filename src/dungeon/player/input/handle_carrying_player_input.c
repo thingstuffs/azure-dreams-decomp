@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "shared/game_state.h"
 #include "shared/dungeon_actor_callbacks.h"
 #include "dungeon/actor.h"
 #include "dungeon/player/input.h"
@@ -126,7 +127,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
         || (begin_selected_target_level_up(object, aux_entity, sprite, entity) == 0))) {
         if (!(g_dungeon_status.flags & 4)) {
             if (((ActorRecord *)entity)->flags1C & 0x20) {
-                if (!((*(u16 *)0x80013714) & 1) && (((u32)held_D_80083160->buttons) & 0x80)) {
+                if (!((GAME_STATE->log.head.flags) & 1) && (((u32)held_D_80083160->buttons) & 0x80)) {
                     ((ActorRecord *)entity)->unk_8A = 2;
                     menu_action_argument = 2;
                     begin_player_menu_action(object, aux_entity, sprite, &create_animated_selection_menu_owner);
@@ -138,7 +139,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameSta
                 begin_player_wait_turn(object, aux_entity, sprite, entity);
                 return;
             }
-            if ((*(u16 *)0x80013714) & 1) {
+            if ((GAME_STATE->log.head.flags) & 1) {
                 flags_a2 = ((Rec_func_8008ACDC_arg0 *)object)->unk_A2;
                 ((Rec_func_8008ACDC_arg0 *)object)->unk_A2 = (u16) (flags_a2 & 0xFFFE);
                 if (flags_a2 & 0x200) {

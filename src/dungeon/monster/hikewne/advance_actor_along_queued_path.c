@@ -79,7 +79,7 @@ void advance_actor_along_queued_path(ActorRecord *motion, ObjectPosition *unused
     }
     motion->action_id = 0xF;
     motion->unk_8C.word = 0;
-    move_state->flags1C = (u32)((u32)move_state->flags1C | (0x40000000));
+    move_state->flags1C = (move_state->flags1C | (0x40000000));
 
     if (g_dungeon_status.flags & 0x80) {
         motion->action_timer = 0;

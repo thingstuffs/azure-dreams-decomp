@@ -1,4 +1,5 @@
 #include "dungeon/actor.h"
+#include "shared/game_state.h"
 #include "shared/entity.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
@@ -89,7 +90,7 @@ void update_actor_movement_and_height(ActorRecord *body, ObjectPosition *positio
         actor->action_phase = 0;
     }
 
-    flag_word = &(*(u16 *)0x80013714);
+    flag_word = &(GAME_STATE->log.head.flags);
     global_flags = *flag_word;
     if (global_flags & 8) {
         s32 slot_index = 1;

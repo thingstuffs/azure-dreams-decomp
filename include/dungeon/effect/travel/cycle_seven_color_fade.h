@@ -1,3 +1,4 @@
+#include "dungeon/level/tile_flags.h"
 #include "engine/scene.h"
 #include "shared/sprite_frame_state.h"
 #ifndef DUNGEON_OVL_18D6800_H
@@ -253,6 +254,7 @@ typedef struct RadialBandQuadScratch {
     /* 0x30 */ VECTOR positions[4];
     /* 0x70 */ SpriteScratchScreenPoint screen[4];
 } RadialBandQuadScratch;
+#define RADIAL_BAND_SCRATCH ((RadialBandQuadScratch *)0x1F800000)
 typedef struct B28_818B6F90_S_818B6F90_3 {
     u8 pad_00[0xC];
     u8 unk_0C;
@@ -330,5 +332,4 @@ extern s32 get_random_scaled_value(s16 input_value);
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
 #include "sdk/rand.h"
-s32 check_layer_offset_height();              /* extern */
 #endif

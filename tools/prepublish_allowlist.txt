@@ -87,21 +87,6 @@ ledger/sweeps/t8_passthru.jsonl size
 ledger/sweeps/t9_regpins.jsonl size
 
 # ---- retail-hex ----
-# PENDING owner decision (README_PKG.md section 1b): JSON evidence files that embed words of retail code/data.
-# Most are only cited by path from config/overlays/*.rowbase.jsonl; none is opened by a tool except as noted.
-docs/evidence/dungeon_gap_*.json retail-hex
-docs/evidence/dungeon_ovl_*.json retail-hex
-docs/evidence/r10[6-9]_*.json retail-hex
-docs/evidence/r110_selector_*.json retail-hex
-docs/evidence/r107_*.json retail-hex
-docs/evidence/r108_*.json retail-hex
-docs/evidence/cd_command_state_receipt.json retail-hex
-docs/evidence/gp_cd_partition/buffer_extent.json retail-hex
-docs/evidence/r120_jtbl_slus_ownership_receipt.json retail-hex
-docs/evidence/slus_rodata_migration/ownership_receipt*.json retail-hex
-# tool-read: the SLUS data-piece manifest carries the bytes of 6 small jump tables (~3 KB of hex) that the
-# build checks; replace with a run-time derivation from the user's disc before publishing (README_PKG.md 1b).
-config/slus_modules.json retail-hex
 # false positive: a list of function addresses, not data words.
 docs/evidence/pin_research_round73_move_table.md retail-hex
 

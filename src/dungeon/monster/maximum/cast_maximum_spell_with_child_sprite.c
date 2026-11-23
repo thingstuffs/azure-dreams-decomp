@@ -98,17 +98,17 @@ void cast_maximum_spell_with_child_sprite(ActorRecord *actor, ObjectPosition *mo
             case 6:
                 use_player = 1;
             case 2:
-                slot_or_effect = (u8 *)action + 0xE;
+                slot_or_effect = &action->abilities[2].id;
                 break;
             case 5:
                 use_player = 1;
             case 1:
-                slot_or_effect = (u8 *)action + 0xB;
+                slot_or_effect = &action->abilities[1].id;
                 break;
             case 4:
                 use_player = 1;
             case 0:
-                slot_or_effect = (u8 *)action + 8;
+                slot_or_effect = &action->abilities[0].id;
                 break;
             default:
                 slot_or_effect = NULL;
@@ -117,13 +117,13 @@ void cast_maximum_spell_with_child_sprite(ActorRecord *actor, ObjectPosition *mo
         } else {
             switch (action->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 3:
-                slot_or_effect = (u8 *)action + 0xE;
+                slot_or_effect = &action->abilities[2].id;
                 break;
             case 2:
-                slot_or_effect = (u8 *)action + 0xB;
+                slot_or_effect = &action->abilities[1].id;
                 break;
             case 1:
-                slot_or_effect = (u8 *)action + 8;
+                slot_or_effect = &action->abilities[0].id;
                 break;
             default:
                 slot_or_effect = NULL;

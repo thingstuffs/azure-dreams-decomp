@@ -1,4 +1,5 @@
 #include "slus.h"
+#include "shared/game_state.h"
 
 struct ObjectPosition;
 #include "shared/dungeon_actor_callbacks.h"
@@ -25,7 +26,6 @@ extern s32 menu_action_argument[];
 s32 check_familiar_deployment_placement(); /* extern */
 void *create_familiar_selection_marker(ActorRecord **entity_ref);
 void update_selection_tile_markers(ActorRecord *entity, s32 selection);
-extern u8 D_80012D6D;
 extern M2C_UNK D_80023C58;
 extern M2C_UNK D_80088904;
 extern M2C_UNK D_80088934;
@@ -76,7 +76,7 @@ void update_familiar_command_selection(ActorRecord *state, s32 context_a, Sprite
         set_message_mode(2);
         call_message_mode_handler();
         if ((*(s16 *)((u8 *)state + 0x120)) == 0) {
-            if (D_80012D6D == 0) {
+            if (GAME_STATE->carry_player_FA[1] == 0) {
                 submit_script_with_registered_context(&D_80088904);
             } else {
                 submit_script_with_registered_context(&D_80088934);

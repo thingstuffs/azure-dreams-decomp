@@ -80,12 +80,12 @@ void advance_weadog_hop(ActorRecord *action, ObjectPosition *motion, SpriteFrame
         if (phase_timer < 0) {
             action->unk_90.value = 0;
             action->action_state_flags &= 0xFFF7;
-            actor->flags1C = (u32)((u32)(actor->flags1C) | (ACTOR_GROUNDED));
+            actor->flags1C = ((actor->flags1C) | (ACTOR_GROUNDED));
             action->action_phase++;
         }
 
     case 2:
-        if (((u32)actor->flags1C) & ACTOR_GROUNDED) {
+        if ((actor->flags1C) & ACTOR_GROUNDED) {
             action->action_state_flags &= 0xFFF7;
             motion->velocity_z = 0;
             motion->velocity_y = 0;

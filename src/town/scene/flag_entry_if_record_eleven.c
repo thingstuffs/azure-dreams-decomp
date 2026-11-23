@@ -9,7 +9,7 @@ extern u8 D_8001C33C[];
 extern u8 D_8001E4E8[];
 extern s32 func_8001822C(SquareSceneEntry *, s32);
 extern void *forward_values_to_fixed_data_handler(SquareSceneEntry *, s32, s32);
-s32 flag_entry_if_record_eleven(SquareSceneEntry *entry, s32 entry_index) {
+s32 flag_entry_if_record_eleven(TownObjectSet *entry, s32 entry_index) {
     s32 result;
     if (town_pair_table_has_first(11) == 0) {
         result = 0;

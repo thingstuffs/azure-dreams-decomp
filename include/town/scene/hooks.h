@@ -1,7 +1,7 @@
 #ifndef TOWN_SCENE_HOOKS_H
 #define TOWN_SCENE_HOOKS_H
 struct CatalogDisplay;
-struct Rec_func_800165F4_arg0;
+struct TownObjectSet;
 /* Prototypes of the functions defined in src/town/scene/hooks/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -13,37 +13,37 @@ void clear_script_flag_db3(void);
 void forward_context_value_options(s32 context, s32 value, s32 options);
 
 /* forward_context_value_to_handler.c */
-void forward_context_value_to_handler_d(void *first_arg, s32 second_arg);
+void forward_context_value_to_handler_d(struct TownObjectSet *first_arg, s32 second_arg);
 
 /* forward_context_value_to_handler_a.c */
-void forward_context_value_to_handler_a(void *input_a, s32 input_b);
+void forward_context_value_to_handler_a(struct TownObjectSet *input_a, s32 input_b);
 
 /* forward_context_value_to_handler_b.c */
-void forward_context_value_to_handler_b(void *first_value, s32 second_value);
+void forward_context_value_to_handler_b(struct TownObjectSet *first_value, s32 second_value);
 
 /* forward_context_value_to_handler_c.c */
-void forward_context_value_to_handler_c(void *context, s32 value);
+void forward_context_value_to_handler_c(struct TownObjectSet *context, s32 value);
 
 /* forward_context_value_to_handler_e.c */
-void forward_context_value_to_handler_e(void *first_input, s32 second_input);
+void forward_context_value_to_handler_e(struct TownObjectSet *first_input, s32 second_input);
 
 /* forward_data_and_value.c */
-s32 forward_data_and_value(struct Rec_func_800165F4_arg0 *entry, s32 entry_index);
+s32 forward_data_and_value(struct TownObjectSet *entry, s32 entry_index);
 
 /* forward_data_and_value_b.c */
-s32 forward_data_and_value_b(struct Rec_func_800165F4_arg0 *entry, s32 entry_index);
+s32 forward_data_and_value_b(struct TownObjectSet *entry, s32 entry_index);
 
 /* forward_entry_index.c */
-void forward_entry_index(void *context, s32 entry_index);
+void forward_entry_index(struct TownObjectSet *context, s32 entry_index);
 
 /* forward_indexed_table_value.c */
 void forward_indexed_table_value(s32 index);
 
 /* forward_pair_to_handler.c */
-s32 forward_pair_to_handler(s32 object, s32 entry_index);
+s32 forward_pair_to_handler(struct TownObjectSet *object, s32 entry_index);
 
 /* forward_pair_to_handler_b.c */
-s32 forward_pair_to_handler_b(s32 object, s32 entry_index);
+s32 forward_pair_to_handler_b(struct TownObjectSet *object, s32 entry_index);
 
 /* match_request_input_to_state.c */
 s32 match_request_input_to_state(void *request_value);
@@ -52,13 +52,13 @@ s32 match_request_input_to_state(void *request_value);
 void dispatch_scene_request_with_template(s32 first_value, s32 unused, s32 second_value);
 
 /* forward_request_with_local_words.c */
-void dispatch_scene_request_with_local_words(s32 request, s32 unused, s32 value);
+void dispatch_scene_request_with_local_words(struct TownObjectSet *request, s32 unused, s32 value);
 
 /* forward_request_with_tables_d.c */
-s32 dispatch_scene_alt_tables(void *request, s32 unused, s32 mode);
+s32 dispatch_scene_alt_tables(struct TownObjectSet *request, s32 unused, s32 mode);
 
 /* forward_scene_inputs.c */
-s32 forward_scene_inputs(struct Rec_func_800165F4_arg0 *entry, s32 entry_index);
+s32 forward_scene_inputs(struct TownObjectSet *entry, s32 entry_index);
 
 /* forward_selected_entry_to_callback.c */
 void forward_selected_entry_to_callback(void);
@@ -137,7 +137,7 @@ s32 return_zero_fn_p(void);
 void send_shared_town_record(void);
 
 /* set_global_entry_pair.c */
-void set_global_entry_pair(struct Rec_func_800165F4_arg0 *row, s32 entry_index);
+void set_global_entry_pair(struct TownObjectSet *row, s32 entry_index);
 
 /* set_global_entry_value_s.c */
 void capture_global_entry_value(void);

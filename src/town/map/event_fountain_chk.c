@@ -1,9 +1,9 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "town/map.h"
 
-extern u8 D_800133C4;
 
 /* event_fountain_chk: return the fountain event check flag. */
 u8 event_fountain_chk(void) {
-    return D_800133C4;
+    return GAME_STATE->building_slots[16][0];
 }

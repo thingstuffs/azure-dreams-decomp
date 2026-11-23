@@ -46,33 +46,33 @@ void update_actor_motion_and_brightness(ActorRecord *body, ObjectPosition *motio
     body->unk_90.value += motion->velocity_z;
     if (!(body->action_state_flags & 4) &&
         (ground_height = (s16)(ground_height_raw = sample_terrain_surface_height(motion->x.unsigned_parts.integer, motion->y.unsigned_parts.integer,
-                        (s16)((*(u16 *)((u8 *)entity_ref + 0x88)) - 0x20)))) < 0x200) {
+                        (s16)((entity_ref->ground_height) - 0x20)))) < 0x200) {
         if (body->unk_90.parts.high + entity_ref->ground_height < ground_height) {
             body->action_state_flags &= 0xF7FFFFFF;
         } else {
             if (ground_height >= entity_ref->ground_height) {
                 body->unk_90.value = 0;
             } else {
-                body->unk_90.parts.high = ground_height_raw - (*(u16 *)((u8 *)entity_ref + 0x88));
+                body->unk_90.parts.high = ground_height_raw - (entity_ref->ground_height);
             }
             motion->velocity_z = 0;
             entity_ref->flags1C |= 0x08000000;
             body->fall_ticks = 0;
         }
-        entity_flags = (*(u32 *)((u8 *)entity_ref + 0x1c));
+        entity_flags = (entity_ref->flags1C);
         if (entity_flags & 0x40000000) {
             entity_ref->flags1C = entity_flags & 0xbfffffff;
             ground_height_raw = sample_terrain_surface_height(
                 (sprite->tile_x << 6) | 0x20,
                 (sprite->tile_y << 6) | 0x20,
-                (s16)((*(u16 *)((u8 *)entity_ref + 0x88)) - 0x20));
-            body->unk_90.parts.high += (*(u16 *)((u8 *)entity_ref + 0x88)) - ground_height_raw;
+                (s16)((entity_ref->ground_height) - 0x20));
+            body->unk_90.parts.high += (entity_ref->ground_height) - ground_height_raw;
             entity_ref->ground_height = ground_height_raw;
         }
     } else {
-        (*(u32 *)((u8 *)entity_ref + 0x1c)) &= 0xf7ffffff;
+        entity_ref->flags1C &= 0xf7ffffff;
     }
-    motion->z.w.i = (*(u16 *)((u8 *)entity_ref + 0x88)) +
+    motion->z.w.i = (entity_ref->ground_height) +
                                    body->unk_90.parts.high;
     pulse_phase = body->unk_9E;
     pulse_phase++;
@@ -90,6 +90,6 @@ void update_actor_motion_and_brightness(ActorRecord *body, ObjectPosition *motio
         sprite->color.c.r = 0x80;
     }
     sprite->flags |= 0x40;
-    (*(u32 *)((u8 *)entity_ref + 0x1c)) |= 0x200;
+    entity_ref->flags1C |= 0x200;
     return;
 }

@@ -40,22 +40,22 @@ void cast_garuda_targeted_spell(ActorRecord *action_state, ObjectPosition *motio
     is_special = 0;
     switch (phase) {
     case 0:
-        if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
+        if ((actor->flags1C) & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 7:
                 is_special = 1;
             case 3:
-                action_data = (u8 *)actor + 0xE;
+                action_data = &actor->abilities[2].id;
                 break;
             case 6:
                 is_special = 1;
             case 2:
-                action_data = (u8 *)actor + 0xB;
+                action_data = &actor->abilities[1].id;
                 break;
             case 5:
                 is_special = 1;
             case 1:
-                action_data = (u8 *)actor + 8;
+                action_data = &actor->abilities[0].id;
                 break;
             default:
                 action_data = 0;
@@ -64,13 +64,13 @@ void cast_garuda_targeted_spell(ActorRecord *action_state, ObjectPosition *motio
         } else {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 3:
-                action_data = (u8 *)actor + 0xE;
+                action_data = &actor->abilities[2].id;
                 break;
             case 2:
-                action_data = (u8 *)actor + 0xB;
+                action_data = &actor->abilities[1].id;
                 break;
             case 1:
-                action_data = (u8 *)actor + 8;
+                action_data = &actor->abilities[0].id;
                 break;
             default:
                 action_data = 0;

@@ -5,7 +5,7 @@
 /* Opcode 0x4E: Store variable v[source] through entry [index] of the pointer table at the inline address.
  * Retail reads only the first byte of that entry as the store address (lbu), unlike the load
  * opcode 0x4D which assembles all four; no shipped script uses this opcode. */
-void script_store_indirect(ScriptReader *state) {
+void script_store_indirect(MessageWindow *state) {
     u8 *cursor;
     u32 source_entry;
     u32 dest_offset;
@@ -28,7 +28,7 @@ void script_store_indirect(ScriptReader *state) {
     addr_byte2 = addr_bytes[2];
     addr_byte3 = addr_bytes[3];
     state->cursor = cursor + 5;
-    table_base = (u32)state->data;
+    table_base = (u32)state->controller;
     dest_offset <<= 2;
     addr_byte1 <<= 8;
     /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers. */

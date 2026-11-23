@@ -55,7 +55,7 @@ void update_actor_fade_in_transition(ActorRecord *actor_state, ObjectPosition *c
         sprite->tpage_abr = 0x20;
         sprite->clut -= 0x80;
         sprite->flags |= 0xC;
-        actor_data->flags1C = (u32)((u32)(actor_data->flags1C) | (ACTOR_REFRESH_GROUND));
+        actor_data->flags1C = ((actor_data->flags1C) | (ACTOR_REFRESH_GROUND));
         actor_state->action_phase++;
                         /* fall through */
 

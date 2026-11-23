@@ -1,4 +1,5 @@
 #include "shared/object_node_flags.h"
+#include "engine/graphics/sprite_scratch.h"
 #include "shared/dungeon_height_query.h"
 #include "sdk/libc.h"
 #include "shared/audio_commands.h"
@@ -941,7 +942,7 @@ s32 queue_shaded_line_chain(GradientLineParticleBody *first_owner, ObjectPositio
     GradientLineParticleBody *owner = first_owner;
     LineEndpoints *points = (LineEndpoints *)first_vertices;
     SpriteFrameState *line = first_line;
-    Scratch *scratch = (Scratch *)0x1F800000;
+    SpriteQuadScratch *scratch = SPRITE_SCRATCH;
     GradientLinePacket *line_packet;
     GradientLinePacket *packet;
     u16 red_blue;
@@ -953,24 +954,24 @@ s32 queue_shaded_line_chain(GradientLineParticleBody *first_owner, ObjectPositio
     s32 point_index;
     s32 color_word;
     register void **render_state = &g_game_work.draw_buffer;
-    scratch->current = render_data->packetCursor;
-    scratch->table = &render_data->orderTag;
+    scratch->packet_cursor = render_data->packetCursor;
+    scratch->ordering_table = &render_data->orderTag;
     for (;;) {
-        line_packet = scratch->current;
-        scratch->current = line_packet + 1;
+        line_packet = scratch->packet_cursor;
+        scratch->packet_cursor = line_packet + 1;
         blend = line->depth_bias;
         if (blend >= 0) {
-            scratch->point.x = points->end[0].w.i;
-            scratch->point.y = points->end[1].w.i;
-            scratch->point.z = points->end[2].w.i;
-            scratch->index = RotTransPers(&scratch->point, &line_packet->xy0, &scratch->out90, &scratch->out94);
-            scratch->point.x =
+            scratch->position.vx = points->end[0].w.i;
+            scratch->position.vy = points->end[1].w.i;
+            scratch->position.vz = points->end[2].w.i;
+            scratch->sort_depth = RotTransPers(&scratch->position, &line_packet->xy0, &scratch->depth_cue, &scratch->gte_flag);
+            scratch->position.vx =
                 points->end[0].w.i +
                 (((points->start[0].w.i - points->end[0].w.i) * line->depth_bias) >> 8);
-            scratch->point.y =
+            scratch->position.vy =
                 points->end[1].w.i +
                 (((points->start[1].w.i - points->end[1].w.i) * line->depth_bias) >> 8);
-            scratch->point.z =
+            scratch->position.vz =
                 points->end[2].w.i +
                 (((points->start[2].w.i - points->end[2].w.i) * line->depth_bias) >> 8);
             point_index = owner->slot + 0x10;
@@ -978,33 +979,34 @@ s32 queue_shaded_line_chain(GradientLineParticleBody *first_owner, ObjectPositio
                 GlowPoint *point_table = (GlowPoint *)staged_glow_data;
                 s32 table_index;
                 u16 coord;
-                point_table[point_index].x = scratch->point.x;
+                point_table[point_index].x = scratch->position.vx;
                 table_index = owner->slot;
-                coord = scratch->point.y;
+                coord = scratch->position.vy;
                 table_index += 0x10;
                 point_table[table_index].y = coord;
                 table_index = owner->slot;
-                coord = scratch->point.z;
+                coord = scratch->position.vz;
                 table_index += 0x10;
                 point_table[table_index].z = coord;
             }
         } else {
-            scratch->point.x = points->start[0].w.i -
+            scratch->position.vx = points->start[0].w.i -
                 (((points->end[0].w.i - points->start[0].w.i) * blend) >> 8);
-            scratch->point.y =
+            scratch->position.vy =
                 points->start[1].w.i -
                 (((points->end[1].w.i - points->start[1].w.i) * line->depth_bias) >> 8);
-            scratch->point.z =
+            scratch->position.vz =
                 points->start[2].w.i -
                 (((points->end[2].w.i - points->start[2].w.i) * line->depth_bias) >> 8);
-            scratch->index = RotTransPers(&scratch->point, &line_packet->xy0, &scratch->out90, &scratch->out94);
-            scratch->point.x = points->start[0].w.i;
-            scratch->point.y = points->start[1].w.i;
-            scratch->point.z = points->start[2].w.i;
+            scratch->sort_depth = RotTransPers(&scratch->position, &line_packet->xy0, &scratch->depth_cue, &scratch->gte_flag);
+            scratch->position.vx = points->start[0].w.i;
+            scratch->position.vy = points->start[1].w.i;
+            scratch->position.vz = points->start[2].w.i;
         }
-        avg_depth = (scratch->index + RotTransPers(&scratch->point, &line_packet->xy1, &scratch->out90,
-            &scratch->out94)) >> 1;
-        scratch->index = avg_depth;
+        avg_depth = scratch->sort_depth + RotTransPers(&scratch->position, &line_packet->xy1, &scratch->depth_cue,
+            &scratch->gte_flag);
+        avg_depth >>= 1;
+        scratch->sort_depth = avg_depth;
         if (((u32) avg_depth) < 0x1E0U) {
             packet = line_packet;
             packet->tag.len = (color_word = line->color.word, 4);
@@ -1019,11 +1021,11 @@ s32 queue_shaded_line_chain(GradientLineParticleBody *first_owner, ObjectPositio
             packet->color1.c.g = green;
             red_blue >>= 1;
             packet->color1.c.b = red_blue;
-            AddPrim(scratch->table + scratch->index, packet);
-            draw_mode = scratch->current;
-            scratch->current = draw_mode + 1;
+            AddPrim(scratch->ordering_table + scratch->sort_depth, packet);
+            draw_mode = scratch->packet_cursor;
+            scratch->packet_cursor = draw_mode + 1;
             SetDrawMode(draw_mode, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
-            AddPrim(scratch->table + scratch->index, draw_mode);
+            AddPrim(scratch->ordering_table + scratch->sort_depth, draw_mode);
         }
         next_node = NODE_HEADER(owner)->chain_next;
         if (next_node != 0) {
@@ -1034,7 +1036,7 @@ s32 queue_shaded_line_chain(GradientLineParticleBody *first_owner, ObjectPositio
         }
         break;
     }
-    ((GpuContext *)*render_state)->packetCursor = scratch->current;
+    ((GpuContext *)*render_state)->packetCursor = scratch->packet_cursor;
     return 0;
 }
 #include "m2c_compat.h"
@@ -1215,7 +1217,7 @@ void update_rotating_quad_effect(RadialQuadWork *effect, ObjectPosition *motion_
 {
     u16 angles[3];
     s32 matrix[8];
-    RotatingQuadScratch *scratch = (RotatingQuadScratch *)0x1F800000;
+    SpriteQuadScratch *scratch = SPRITE_SCRATCH;
     ObjectPosition *motion = motion_data;
     u16 *globals_page;
     s32 origin_z;
@@ -1225,16 +1227,16 @@ void update_rotating_quad_effect(RadialQuadWork *effect, ObjectPosition *motion_
     s16 ticks_left;
     s32 ticks_test;
 
-    scratch->relative[0].x = effect->vertices[0].x - (u16)motion->x.w.i;
-    scratch->relative[1].x = effect->vertices[1].x - (u16)motion->x.w.i;
-    scratch->relative[2].x = effect->vertices[2].x - (u16)motion->x.w.i;
-    scratch->relative[3].x = effect->vertices[3].x - (u16)motion->x.w.i;
-    scratch->relative[0].y = effect->vertices[0].y - (u16)motion->y.w.i;
-    scratch->relative[1].y = effect->vertices[1].y - (u16)motion->y.w.i;
-    scratch->relative[2].y = effect->vertices[2].y - (u16)motion->y.w.i;
-    scratch->relative[3].y = effect->vertices[3].y - (u16)motion->y.w.i;
-    scratch->relative[0].z = effect->vertices[0].z - (u16)motion->z.w.i;
-    scratch->relative[1].z = effect->vertices[1].z - (u16)motion->z.w.i;
+    scratch->vertices[0].vx = effect->vertices[0].x - (u16)motion->x.w.i;
+    scratch->vertices[1].vx = effect->vertices[1].x - (u16)motion->x.w.i;
+    scratch->vertices[2].vx = effect->vertices[2].x - (u16)motion->x.w.i;
+    scratch->vertices[3].vx = effect->vertices[3].x - (u16)motion->x.w.i;
+    scratch->vertices[0].vy = effect->vertices[0].y - (u16)motion->y.w.i;
+    scratch->vertices[1].vy = effect->vertices[1].y - (u16)motion->y.w.i;
+    scratch->vertices[2].vy = effect->vertices[2].y - (u16)motion->y.w.i;
+    scratch->vertices[3].vy = effect->vertices[3].y - (u16)motion->y.w.i;
+    scratch->vertices[0].vz = effect->vertices[0].z - (u16)motion->z.w.i;
+    scratch->vertices[1].vz = effect->vertices[1].z - (u16)motion->z.w.i;
     globals_page = (u16 *)0x80020000;
 
     update_count = globals_page[0x6326 / 2];
@@ -1243,8 +1245,8 @@ void update_rotating_quad_effect(RadialQuadWork *effect, ObjectPosition *motion_
     update_count++;
     relative_z = vertex_z - origin_z;
     globals_page[0x6326 / 2] = update_count;
-    scratch->relative[2].z = relative_z;
-    scratch->relative[3].z = effect->vertices[3].z - (u16)motion->z.w.i;
+    scratch->vertices[2].vz = relative_z;
+    scratch->vertices[3].vz = effect->vertices[3].z - (u16)motion->z.w.i;
     PushMatrix(origin_z);
 
     angles[0] = rotation_data->angle_x;
@@ -1257,33 +1259,33 @@ void update_rotating_quad_effect(RadialQuadWork *effect, ObjectPosition *motion_
     SetTransMatrix(matrix);
     SetRotMatrix(matrix);
 
-    func_80065320(&scratch->relative[0], &scratch->rotated[0],
-                  &scratch->transform_flags);
-    func_80065320(&scratch->relative[1], &scratch->rotated[1],
-                  &scratch->transform_flags);
-    func_80065320(&scratch->relative[2], &scratch->rotated[2],
-                  &scratch->transform_flags);
-    func_80065320(&scratch->relative[3], &scratch->rotated[3],
-                  &scratch->transform_flags);
+    func_80065320(&scratch->vertices[0], &scratch->rotated[0],
+                  &scratch->gte_flag);
+    func_80065320(&scratch->vertices[1], &scratch->rotated[1],
+                  &scratch->gte_flag);
+    func_80065320(&scratch->vertices[2], &scratch->rotated[2],
+                  &scratch->gte_flag);
+    func_80065320(&scratch->vertices[3], &scratch->rotated[3],
+                  &scratch->gte_flag);
     PopMatrix();
 
     motion->x.v = motion->x.v + motion->velocity_x;
     motion->y.v = motion->y.v + motion->velocity_y;
     motion->z.v = motion->z.v + motion->velocity_z;
 
-    effect->vertices[0].x = scratch->rotated[0].x + (u16)motion->x.w.i;
-    effect->vertices[1].x = scratch->rotated[1].x + (u16)motion->x.w.i;
-    effect->vertices[2].x = scratch->rotated[2].x + (u16)motion->x.w.i;
-    effect->vertices[3].x = scratch->rotated[3].x + (u16)motion->x.w.i;
-    effect->vertices[0].y = scratch->rotated[0].y + (u16)motion->y.w.i;
-    effect->vertices[1].y = scratch->rotated[1].y + (u16)motion->y.w.i;
-    effect->vertices[2].y = scratch->rotated[2].y + (u16)motion->y.w.i;
-    effect->vertices[3].y = scratch->rotated[3].y + (u16)motion->y.w.i;
-    effect->vertices[0].z = scratch->rotated[0].z + (u16)motion->z.w.i;
+    effect->vertices[0].x = scratch->rotated[0].vx + (u16)motion->x.w.i;
+    effect->vertices[1].x = scratch->rotated[1].vx + (u16)motion->x.w.i;
+    effect->vertices[2].x = scratch->rotated[2].vx + (u16)motion->x.w.i;
+    effect->vertices[3].x = scratch->rotated[3].vx + (u16)motion->x.w.i;
+    effect->vertices[0].y = scratch->rotated[0].vy + (u16)motion->y.w.i;
+    effect->vertices[1].y = scratch->rotated[1].vy + (u16)motion->y.w.i;
+    effect->vertices[2].y = scratch->rotated[2].vy + (u16)motion->y.w.i;
+    effect->vertices[3].y = scratch->rotated[3].vy + (u16)motion->y.w.i;
+    effect->vertices[0].z = scratch->rotated[0].vz + (u16)motion->z.w.i;
 
-    effect->vertices[1].z = scratch->rotated[1].z + (u16)motion->z.w.i;
-    effect->vertices[2].z = scratch->rotated[2].z + (u16)motion->z.w.i;
-    effect->vertices[3].z = scratch->rotated[3].z + (u16)motion->z.w.i;
+    effect->vertices[1].z = scratch->rotated[1].vz + (u16)motion->z.w.i;
+    effect->vertices[2].z = scratch->rotated[2].vz + (u16)motion->z.w.i;
+    effect->vertices[3].z = scratch->rotated[3].vz + (u16)motion->z.w.i;
     effect->colors[0].r -= effect->colors[0].r / effect->frames_left;
     effect->colors[0].g -= effect->colors[0].g / effect->frames_left;
     effect->colors[0].b -= effect->colors[0].b / effect->frames_left;

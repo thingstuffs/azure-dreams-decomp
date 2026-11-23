@@ -1,3 +1,4 @@
+#include "dungeon/level/tile_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 #include "dungeon/actor/status.h"

@@ -279,7 +279,7 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
             u16 effect_y;
             u16 effect_z;
             s32 duration;
-            register_node(impact_obj, func_80024714);
+            register_node(impact_obj, draw_rippled_screen_strips);
             impact_obj->unk_10 = D_80024684;
             child_state = (S_func_818DA800_8 *)((u8 *)impact_obj + 0x20);
             child_state->unk_04 = motion->unk_00.half.unk_02;

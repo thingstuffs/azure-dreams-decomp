@@ -1,4 +1,5 @@
 #include "shared/actor_status_flags.h"
+#include "shared/game_state.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
@@ -145,7 +146,7 @@ block_31:
 block_32:
             actor->action_phase = (s8)state_changed;
             actor->unk_8C.word = 0;
-            entity->flags1C = (s32) (entity->flags1C & (clear_mask | 0xFFFFU));
+            entity->flags1C = (entity->flags1C & (clear_mask | 0xFFFFU));
             return;
         default:
             goto block_37;
@@ -360,7 +361,7 @@ block_37:
     if (entity->flags1C & ACTOR_PARALYZED) {
         return;
     }
-    if ((*(u16 *)0x80013714) & 8) {
+    if ((GAME_STATE->log.head.flags) & 8) {
         return;
     }
     idle_pose = pose_actor->unk_AC;

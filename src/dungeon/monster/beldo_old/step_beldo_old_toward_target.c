@@ -53,7 +53,7 @@ void step_beldo_old_toward_target(Rec_func_800A9E70_arg0 *move_state_arg, void *
     ActorRecord *blocker;
 
     if ((dungeon_flags & 0x4000) || (s8)actor_arg->movement_queue_state >= 0) {
-        if (actor_arg->unk_12 >= 2 ||
+        if (actor_arg->ai_mode >= 2 ||
             (s16)return_zero_fn(move_state_arg, action_context, position_arg, actor_arg) == 0) {
             func_800A86C4(actor_arg);
             return;

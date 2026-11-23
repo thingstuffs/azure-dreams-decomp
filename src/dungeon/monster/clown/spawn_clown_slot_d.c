@@ -101,7 +101,7 @@ void *spawn_clown_slot_d(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_valu
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_8015F014;
-        actor_state->flags1C = (s32) (actor_state->flags1C | 0x40000);
+        actor_state->flags1C = (actor_state->flags1C | 0x40000);
         actor->unk_92 = -0x20;
         try_move_actor_to_valid_position(actor, attributes, placement, actor_state);
     }

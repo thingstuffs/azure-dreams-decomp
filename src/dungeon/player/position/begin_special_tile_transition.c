@@ -1,4 +1,5 @@
 #include "shared/actor_status_ids.h"
+#include "shared/game_state.h"
 #include "engine/entity/effect_slots.h"
 #include "common.h"
 #include "shared/sprite_frame_state.h"
@@ -38,7 +39,7 @@ void begin_special_tile_transition(ActorRecord *state, s32 unused, SpriteFrameSt
         return;
     }
     if (tile_type == 4) {
-        *(s32 *)0x80012090 = 2;
+        GAME_STATE->dungeon_mode_state = 2;
         mark_category_items(2);
     }
 }

@@ -69,7 +69,7 @@ s32 use_item_to_revive_selected_actor(ActorRecord *entity, DungeonItemEntry *act
                 flags_mask = 0xFBFFFFFF;
                 update_target = target;
                 target->hp = (s8) (((u8) target->max_hp >> 1) + 1);
-                target->flags1C = (s32) (target->flags1C & flags_mask);
+                target->flags1C = (target->flags1C & flags_mask);
                 apply_entity_effects(update_target);
                 target_updated = 1;
                 adjust_source_value_and_finalize(target, D_800E1580);

@@ -3,17 +3,7 @@
 /* Prototypes of the functions defined in src/engine/script/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
-
-/* Event-script reader projection used by operand decoders and message-byte
- * dispatch. The cursor advances at +0x1C; +0x80 is the linked byte buffer or
- * VM value-table base. Cursor-only users make no claim about the tail.
- * These handlers use pointers, with no aggregate copies or reader arrays. */
-typedef struct ScriptReader {
-    /* 0x00 */ u8 pad_00[0x1C];
-    /* 0x1C */ u8 *cursor;
-    /* 0x20 */ u8 pad_20[0x60];
-    /* 0x80 */ u8 *data;
-} ScriptReader;
+#include "engine/message.h"
 
 struct S_800389B4_0;
 
@@ -232,10 +222,10 @@ void script_set_variable_b(struct MessageWindow *window);
 void script_load_table_word_b(struct Func8003A858State *state);
 
 /* opcode_78_store_word_indirect_immediate.c */
-void script_store_indirect(ScriptReader *state);
+void script_store_indirect(MessageWindow *state);
 
 /* opcode_80_store_word_indirect_indexed.c */
-void script_store_indirect_by_variable(ScriptReader *state);
+void script_store_indirect_by_variable(MessageWindow *state);
 
 /* remove_all_controller_nodes.c */
 void remove_all_controller_nodes(struct ScriptController *controller);

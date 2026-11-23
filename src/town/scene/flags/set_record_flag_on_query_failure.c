@@ -8,7 +8,7 @@ typedef struct S_80017158_0 {
 } S_80017158_0;   /* arg0 in set_record_flag_on_query_failure; pointer addresses record offset 0x1C */
 
 /* Set the record flag 0x8000 when the query returns zero and return the query result. */
-s32 set_record_flag_on_query_failure(void *record_field, s32 query_value) {
+s32 set_record_flag_on_query_failure(TownObjectSet *record_field, s32 query_value) {
     s32 query_result;
 
     query_result = process_checked_entry(record_field, query_value);

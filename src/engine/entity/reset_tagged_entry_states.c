@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/game_state.h"
 #include "engine/entity.h"
 
 /* Replace state 0x39 with 2 in entries tagged 0x13 and their linked records. */
 void reset_tagged_entry_states(void) {
     s32 slot;
     u32 ram_base;
-    u8 *cursor;
     u32 packed_index;
     s32 match_tag;
     s32 old_state;
@@ -21,10 +21,9 @@ void reset_tagged_entry_states(void) {
     old_state = 0x39;
     new_state = 2;
     for (; slot >= 0; slot--) {
-        cursor = (u8 *)ram_base + slot * 4;
-        if (cursor[0x981] == match_tag && cursor[0x980] == old_state) {
-            packed_index = cursor[0x983];
-            cursor[0x980] = new_state;
+        if (GAME_STATE->town_monster_entries[slot].kind == match_tag && GAME_STATE->town_monster_entries[slot].unk_00 == old_state) {
+            packed_index = GAME_STATE->town_monster_entries[slot].unk_03;
+            GAME_STATE->town_monster_entries[slot].unk_00 = new_state;
             record_index = packed_index & 0x3F;
             ((u8 *)ram_base)[record_index * 0x54 + 0xA93] = new_state;
         }
@@ -36,13 +35,12 @@ void reset_tagged_entry_states(void) {
     old_state = 0x39;
     new_state = 2;
     for (slot = slot; slot >= 0; slot--) {
-        cursor = (u8 *)ram_base + slot * 4;
-        if (cursor[0x249] == match_tag && cursor[0x248] == old_state) {
-            cursor[0x248] = new_state;
+        if (GAME_STATE->items[slot].kind == match_tag && GAME_STATE->items[slot].unk_00 == old_state) {
+            GAME_STATE->items[slot].unk_00 = new_state;
         }
-        if (cursor[0x21E9] == match_tag && cursor[0x21E8] == old_state) {
-            packed_index = cursor[0x21EB];
-            cursor[0x21E8] = new_state;
+        if (GAME_STATE->carry.items[slot].kind == match_tag && GAME_STATE->carry.items[slot].unk_00 == old_state) {
+            packed_index = GAME_STATE->carry.items[slot].unk_03;
+            GAME_STATE->carry.items[slot].unk_00 = new_state;
             record_index = packed_index & 0x1F;
             ((u8 *)ram_base)[record_index * 0x8C + 0x2273] = new_state;
         }

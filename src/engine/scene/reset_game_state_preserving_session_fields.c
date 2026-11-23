@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_state.h"
 
 #include "engine/scene.h"
 #include "sdk/libc.h"
@@ -30,22 +31,22 @@ void reset_game_state_preserving_session_fields(void)
     u16 saved_2098;
 
 
-    saved_3186 = *(page + 0x3186);
-    saved_3180 = *(u32 *)(page + 0x3180);
-    saved_3184 = *(page + 0x3184);
-    saved_2d6e = *(page + 0x2D6E);
-    saved_2094 = *(u16 *)(page + 0x2094);
-    saved_2098 = *(u16 *)(page + 0x2098);
+    saved_3186 = GAME_STATE->options.unk_3186;
+    saved_3180 = GAME_STATE->options.option_color;
+    saved_3184 = GAME_STATE->options.unk_3184;
+    saved_2d6e = GAME_STATE->message_speed;
+    saved_2094 = GAME_STATE->familiar_direction[0];
+    saved_2098 = GAME_STATE->familiar_ai_mode[0];
 
     bzero(clear_page, 0x5C84);
 
     *(Copy6 *)0x8001020C = *(Copy6 *)session_reset_default_pair;
     *(Copy10 *)0x80010238 = *(Copy10 *)session_reset_default_block;
 
-    *(page + 0x3186) = saved_3186;
-    *(u32 *)(page + 0x3180) = saved_3180;
-    *(page + 0x3184) = saved_3184;
-    *(page + 0x2D6E) = saved_2d6e;
-    *(u16 *)(page + 0x2094) = saved_2094;
-    *(u16 *)(page + 0x2098) = saved_2098;
+    GAME_STATE->options.unk_3186 = saved_3186;
+    GAME_STATE->options.option_color = saved_3180;
+    GAME_STATE->options.unk_3184 = saved_3184;
+    GAME_STATE->message_speed = saved_2d6e;
+    GAME_STATE->familiar_direction[0] = saved_2094;
+    GAME_STATE->familiar_ai_mode[0] = saved_2098;
 }

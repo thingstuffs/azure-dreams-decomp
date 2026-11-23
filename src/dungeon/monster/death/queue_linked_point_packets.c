@@ -1,10 +1,11 @@
 #include "dungeon/monster/death/queue_linked_point_packets.h"
+#include "dungeon/effect/shaded_quad_scratch.h"
 
 
 /* Projects linked effect positions and queues their colored pixel and drawing-mode packets by depth. */
 s32 queue_linked_point_packets(u8 *item_data, u16 *coords)
 {
-    PointTileScratch *scratch = (PointTileScratch *)0x1F800000;
+    ShadedQuadScratch *scratch = SHADED_QUAD_SCRATCH;
     void **globals = ((void * *)(&g_game_work));
     GpuContext *render_state = globals[0];
     TILE_1 *first_packet = render_state->packetCursor;

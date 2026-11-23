@@ -9,7 +9,7 @@ extern u8 D_8001E36C[];
 extern s32 advance_mia_bikou_counter(SquareSceneEntry *, s32);
 extern void *select_record_by_mode(SquareSceneEntry *, s32, s32);
 
-s32 apply_entry_mia_bikou_start(SquareSceneEntry *entry, s32 entry_index) {
+s32 apply_entry_mia_bikou_start(TownObjectSet *entry, s32 entry_index) {
     if (get_script_flag_mask(5217) != 0) {
         set_current_entry_script_flag();
     }

@@ -54,7 +54,7 @@ void update_kid_recoil(ActorRecord *body, ObjectPosition *motion, SpriteFrameSta
         body->action_phase++;
 
         flight_timer = -1;
-        if (((u32)actor->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
+        if ((actor->flags1C) & (ACTOR_MP_EMPTY | ACTOR_PARALYZED | ACTOR_ASLEEP)) {
             flight_timer = 8;
         }
         body->action_timer = flight_timer;

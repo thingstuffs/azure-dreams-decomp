@@ -74,19 +74,19 @@ void update_actor_action_target_and_animation(ActorRecord *action, ObjectPositio
                 is_special = 1;
                 /* fallthrough */
             case 3:
-                entry = (u8 *)actor + 0xE;
+                entry = &actor->abilities[2].id;
                 break;
             case 6:
                 is_special = 1;
                 /* fallthrough */
             case 2:
-                entry = (u8 *)actor + 0xB;
+                entry = &actor->abilities[1].id;
                 break;
             case 5:
                 is_special = 1;
                 /* fallthrough */
             case 1:
-                entry = (u8 *)actor + 8;
+                entry = &actor->abilities[0].id;
                 break;
             default:
                 entry = 0;
@@ -96,13 +96,13 @@ void update_actor_action_target_and_animation(ActorRecord *action, ObjectPositio
             slot = actor->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (slot) {
             case 3:
-                entry = (u8 *)actor + 0xE;
+                entry = &actor->abilities[2].id;
                 break;
             case 2:
-                entry = (u8 *)actor + 0xB;
+                entry = &actor->abilities[1].id;
                 break;
             case 1:
-                entry = (u8 *)actor + 8;
+                entry = &actor->abilities[0].id;
                 break;
             default:
                 entry = 0;

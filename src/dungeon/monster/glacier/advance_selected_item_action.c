@@ -90,19 +90,19 @@ void advance_glacier_spell_action(ActorRecord *body, ObjectPosition *position, S
                 is_special = 1;
                 /* fallthrough */
             case 3:
-                selection = (u8 *)actor + 0xE;
+                selection = &actor->abilities[2].id;
                 break;
             case 6:
                 is_special = 1;
                 /* fallthrough */
             case 2:
-                selection = (u8 *)actor + 0xB;
+                selection = &actor->abilities[1].id;
                 break;
             case 5:
                 is_special = 1;
                 /* fallthrough */
             case 1:
-                selection = (u8 *)actor + 8;
+                selection = &actor->abilities[0].id;
                 break;
             default:
                 selection = 0;
@@ -111,13 +111,13 @@ void advance_glacier_spell_action(ActorRecord *body, ObjectPosition *position, S
         } else {
             switch ((actor->action_flags) & 0x3FFF) {
             case 3:
-                selection = (u8 *)actor + 0xE;
+                selection = &actor->abilities[2].id;
                 break;
             case 2:
-                selection = (u8 *)actor + 0xB;
+                selection = &actor->abilities[1].id;
                 break;
             case 1:
-                selection = (u8 *)actor + 8;
+                selection = &actor->abilities[0].id;
                 break;
             default:
                 selection = 0;

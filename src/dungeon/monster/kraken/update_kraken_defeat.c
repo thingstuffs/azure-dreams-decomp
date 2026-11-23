@@ -48,7 +48,7 @@ void update_kraken_defeat(ActorRecord *state, ObjectPosition *motion, SpriteFram
         clear_bit_18 = 0xFFFBFFFF;
         state_flags |= 8;
         state->action_state_flags = state_flags;
-        entity_flags = ((u32)entity_view->flags1C);
+        entity_flags = (entity_view->flags1C);
         entity_flags &= clear_bit_27;
         entity_flags &= clear_bit_18;
         entity_view->flags1C = entity_flags;

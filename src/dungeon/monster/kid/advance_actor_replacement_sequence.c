@@ -127,7 +127,7 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
         state->unk_B0.halves.low.s = 0;
         state->action_phase = (u8) (state->action_phase + 1);
         actor->unk_8A = actor->facing;
-        actor->flags1C = (s32) (actor->flags1C & 0xFFFBFFFF);
+        actor->flags1C = (actor->flags1C & 0xFFFBFFFF);
     case 2:
         direction = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
         if (kid_image_load_done == 0 || direction != 2) {

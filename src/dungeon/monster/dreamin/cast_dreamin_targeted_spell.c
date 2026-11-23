@@ -50,25 +50,25 @@ void cast_dreamin_targeted_spell(ActorRecord *action_state, ObjectPosition *posi
     special_mode = 0;
     switch (action_state->action_phase) {
     case 0:
-        if (((u32)actor->flags1C) & ACTOR_PLAYER_SIDE) {
+        if ((actor->flags1C) & ACTOR_PLAYER_SIDE) {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 7:
                 special_mode = 1;
                 /* fallthrough */
             case 3:
-                motion = (u8 *)actor + 0xE;
+                motion = &actor->abilities[2].id;
                 break;
             case 6:
                 special_mode = 1;
                 /* fallthrough */
             case 2:
-                motion = (u8 *)actor + 0xB;
+                motion = &actor->abilities[1].id;
                 break;
             case 5:
                 special_mode = 1;
                 /* fallthrough */
             case 1:
-                motion = (u8 *)actor + 8;
+                motion = &actor->abilities[0].id;
                 break;
             default:
                 motion = 0;
@@ -77,13 +77,13 @@ void cast_dreamin_targeted_spell(ActorRecord *action_state, ObjectPosition *posi
         } else {
             switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 3:
-                motion = (u8 *)actor + 0xE;
+                motion = &actor->abilities[2].id;
                 break;
             case 2:
-                motion = (u8 *)actor + 0xB;
+                motion = &actor->abilities[1].id;
                 break;
             case 1:
-                motion = (u8 *)actor + 8;
+                motion = &actor->abilities[0].id;
                 break;
             default:
                 motion = 0;

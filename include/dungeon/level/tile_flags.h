@@ -17,4 +17,7 @@ enum TileFlags {
 
 void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 
+/* Coordinates and height are passed in words and narrowed by the callee. */
+s32 check_layer_offset_height(s32 x, s32 y, s32 height, u32 flags);
+
 #endif

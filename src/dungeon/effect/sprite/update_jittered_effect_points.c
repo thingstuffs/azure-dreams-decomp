@@ -3,6 +3,7 @@
 /* Timed target effects, jittered intermediate points, and linked trail quad rendering. */
 #include "modules/dungeon_ovl_19c6800.h"
 #include "shared/entity.h"
+#include "shared/record_ptrs.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/sprite.h"
 #include "shared/dungeon_projectile_views.h"
@@ -74,12 +75,9 @@ typedef struct S_func_819A6800_7 {
     u16 unk_4C;
 } S_func_819A6800_7;
 
-extern u8 primary_actor_record[16];
 struct S_800244BC_2;
 s32 draw_chained_trail_quads(void *);
 extern u32 D_800814A0[];
-
-#define GLOBAL_OBJECT (*(void **)primary_actor_record)
 
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
 
@@ -146,7 +144,7 @@ void run_jittered_point_sequence(AttackSequenceController *sequence, void *out_p
             return;
         }
 
-        counter_object = GLOBAL_OBJECT;
+        counter_object = (S_func_819A6800_4 *)primary_actor_record;
         sequence->unk_50 = 10;
         counter_object->unk_A6--;
         counter_object->unk_A8 = sequence->unk_08;
@@ -242,7 +240,7 @@ void run_jittered_point_sequence(AttackSequenceController *sequence, void *out_p
                           10,
                           sequence->unk_09,
                           12,
-                          ((S_func_819A6800_4 *)(GLOBAL_OBJECT))->unk_2A,
+                          primary_actor_record->facing,
                           owner,
                           2);
         }

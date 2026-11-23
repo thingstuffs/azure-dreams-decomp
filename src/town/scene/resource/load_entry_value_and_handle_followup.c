@@ -7,6 +7,7 @@
 #include "shared/town_root.h"
 #include "town/player/state.h"
 #include "town/scene/event.h"
+#include "town/scene.h"
 
 typedef struct TownRecord {
     s8 pad0[8];
@@ -17,7 +18,7 @@ typedef struct TownRecord {
 
 
 /* Loads the current entry's value, conditionally clears it, and handles the follow-up check. */
-s32 load_entry_value_and_handle_followup(void *object, s32 entry_index) {
+s32 load_entry_value_and_handle_followup(TownObjectSet *object, s32 entry_index) {
     TownRecord *record;
 
     record = (TownRecord *)town_scene_root;

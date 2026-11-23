@@ -212,7 +212,7 @@ void update_sleeping_hikewne(ActorRecord *action, ObjectPosition *context, Sprit
         }
 
         local_table_4 = D_801740F8;
-        phase_flags = ((u32)actor->flags1C);
+        phase_flags = (actor->flags1C);
 
         phase_flags |= phase_flag;
         actor->flags1C = phase_flags;

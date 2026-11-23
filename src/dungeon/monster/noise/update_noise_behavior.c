@@ -58,7 +58,7 @@ void update_noise_behavior(ActorRecord *motion, ObjectPosition *render_ctx, Spri
         return;
     }
 
-    if (((u32)actor->flags1C) & ACTOR_ASLEEP) {
+    if ((actor->flags1C) & ACTOR_ASLEEP) {
         if (map_entity->frameTable == noise_frame_set) {
             motion->action_id = 0xD;
             motion->action_phase = 1;
@@ -72,7 +72,7 @@ void update_noise_behavior(ActorRecord *motion, ObjectPosition *render_ctx, Spri
     }
 
     if (!(g_dungeon_status.flags & 0x2000)) {
-        if (((u32)actor->flags1C) & ACTOR_PUSH_PENDING) {
+        if ((actor->flags1C) & ACTOR_PUSH_PENDING) {
             begin_pushed_actor_move(motion, render_ctx, map_entity, actor);
             return;
         }
@@ -104,7 +104,7 @@ void update_noise_behavior(ActorRecord *motion, ObjectPosition *render_ctx, Spri
             }
         }
 
-        if (((u32)actor->flags1C) & ACTOR_LIFTED) {
+        if ((actor->flags1C) & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(motion, render_ctx, map_entity, actor);
             func_80174598(motion, render_ctx, map_entity, actor);
             return;
@@ -121,7 +121,7 @@ void update_noise_behavior(ActorRecord *motion, ObjectPosition *render_ctx, Spri
     if (actor->pending_turn_updates > 0) {
         u16 action_state;
 
-        if (((u32)actor->flags1C) & ACTOR_PARALYZED) {
+        if ((actor->flags1C) & ACTOR_PARALYZED) {
             update_actor_status_and_mp(actor);
             return;
         }
@@ -200,12 +200,12 @@ void update_noise_behavior(ActorRecord *motion, ObjectPosition *render_ctx, Spri
         }
         choose_block_move_slot_a(motion, render_ctx, map_entity, actor);
         return;
-    } else if (!(((u32)actor->flags1C) & ACTOR_PLAYER_SIDE)) {
+    } else if (!((actor->flags1C) & ACTOR_PLAYER_SIDE)) {
         s32 room_index = (s8)room_id;
 
         if ((room_index < 0) ||
             !(dungeon_rooms[room_index].flags & 2)) {
-            if (!(((u32)actor->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
+            if (!((actor->flags1C) & (ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_CONFUSED))) {
 
                 if ((test_neighbor_position_relation(
                         map_entity->tile_x, map_entity->tile_y,

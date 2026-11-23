@@ -21,6 +21,10 @@ Rules (the id is what the allowlist and the output use):
   retail-blob    a file whose extension is a binary/image/archive/object type (.bin .o .elf .iso .cue .img .exe
                  .rom .a .lib .raw .dat .pak .gz of such), or a .s/.dis whose first lines look like a disassembly
                  (address column, "file format elf32")
+  retail-disasm  a disassembly listing of code: a `.disasm.txt` (or `.disasm`) file with three or more objdump lines
+                 (`<offset>:  <8-digit word>  <mnemonic>`) or an objdump `file format` header, and a `.s`/`.S` file with
+                 three or more glabel word comments (`/* <address> <8-digit word> */`).  Compiler output of our own C
+                 (`.file`, `.set`, `.comm`, plain instruction text) has neither shape and passes.
   retail-hex     a run of >= 12 consecutive 8-hex-digit words, or >= 96 contiguous hex digits, in a text file:
                  the shape of a dumped code/data region (SHA-256 hashes are 64 digits and do not trip it)
   size           a file larger than --max-bytes (reported by size alone, the content is not read unless --deep)
@@ -87,6 +91,8 @@ def extra_patterns():
     return _EXTRA[path]
 
 
+R_OBJDUMP_LINE = re.compile(r"^[ \t]*(?:0x)?[0-9a-f]{1,8}:[ \t]+[0-9a-f]{8}[ \t]+[a-z.][a-z0-9.]*(?:[ \t]|$)", re.I | re.M)
+R_GLABEL_WORD = re.compile(r"^[ \t]*/\*[ \t]*[0-9a-f]{1,8}[ \t]+[0-9a-f]{8}(?:[ \t]+[0-9a-f]{8})?[ \t]*\*/", re.I | re.M)
 R_RECEIPT_NAME = re.compile(r"[A-Za-z0-9_./-]*receipt[A-Za-z0-9_./-]*", re.I)
 R_DISASM_LINE = re.compile(r"^\s*(?:0x)?[0-9a-f]{8}:?\s+(?:[0-9a-f]{8}\s+)?[a-z.][a-z0-9.]*\s", re.I)
 
@@ -189,6 +195,11 @@ def scan_file(root, rel, max_bytes, deep=False):
         head = text.splitlines()[:40]
         if sum(1 for l in head if R_DISASM_LINE.match(l)) >= 3 or "file format elf32" in text[:400]:
             yield "retail-blob", 1, "disassembly listing (address column)"
+    if rel.lower().endswith((".disasm.txt", ".disasm")):
+        if len(R_OBJDUMP_LINE.findall(text)) >= 3 or "file format" in text[:600]:
+            yield "retail-disasm", 1, "disassembly listing (objdump lines)"
+    elif ext == ".s" and len(R_GLABEL_WORD.findall(text)) >= 3:
+        yield "retail-disasm", 1, "disassembly listing (glabel with raw words)"
     for rule, rx in (("abs-path", R_ABS), ("private-ip", R_IP), ("token", R_TOKEN), ("name", R_NAME)):
         for m in rx.finditer(text):
             yield rule, text.count("\n", 0, m.start()) + 1, m.group(0)

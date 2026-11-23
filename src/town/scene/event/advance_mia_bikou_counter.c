@@ -5,6 +5,7 @@
 #include "town/scene/record_actions.h"
 #include "town/player/state.h"
 #include "town/scene/flags.h"
+#include "town/scene.h"
 
 typedef struct S_800161C0_0 {
     u8 pad_00[0x24];
@@ -27,7 +28,7 @@ extern void func_8001DCD4(s32 slot_id);
 ((S_800161C0_2 *)(((S_800161C0_1 *)(((S_800161C0_0 *)(*(void **)((s8 *)(&town_scene_root))))->unk_24))->unk_74))->unk_2A
 
 /* Advance the counter up to five and process the current floor unless an early exit applies. */
-s32 advance_mia_bikou_counter(Rec_func_800165F4_arg0 *fallback_arg_a, s32 fallback_arg_b) {
+s32 advance_mia_bikou_counter(TownObjectSet *fallback_arg_a, s32 fallback_arg_b) {
     s32 count;
     s32 next_count;
     s32 capped_count;

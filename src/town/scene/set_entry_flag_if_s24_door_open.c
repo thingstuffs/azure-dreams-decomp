@@ -10,7 +10,7 @@
  * Sets the indexed entry flag and returns one only while F_s24_door_open has a nonzero script flag
  * mask.
  */
-s32 set_entry_flag_if_s24_door_open(Rec_func_800165F4_arg0 *dispatch_value, s32 dispatch_option) {
+s32 set_entry_flag_if_s24_door_open(TownObjectSet *dispatch_value, s32 dispatch_option) {
     if (get_script_flag_mask(F_s24_door_open) != 0) {
         set_indexed_entry_flag(dispatch_value, dispatch_option);
         return 1;

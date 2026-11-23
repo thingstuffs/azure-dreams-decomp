@@ -1,4 +1,5 @@
 #include "dungeon/level/unlink_entity_node_api.h"
+#include "shared/game_state.h"
 #include "shared/dungeon_floor.h"
 #include "common.h"
 #include "slus/imports.h"
@@ -86,10 +87,8 @@ void advance_go_up_trap_sequence(TrapOwnedTimedEffectBody *trap_state, void *mot
             u8 *transition_page;
             u32 floors_ascended;
             u16 go_up_trap_count;
-            S_800CB9DC_2 *next_motion;
 
-            next_motion = (void *)0x80010000;
-            if (next_motion->unk_3714 & 4) {
+            if (GAME_STATE->log.head.flags & 4) {
                 request_scene_dispatch_state(3U);
             } else {
                 snapshot_inventory_and_familiars(actor);
@@ -98,10 +97,10 @@ void advance_go_up_trap_sequence(TrapOwnedTimedEffectBody *trap_state, void *mot
                 transition_page = resident_globals_page;
                 trap_counts = &floor_generation_state;
                 transition_id = transition_page[0x2E6B];
-                floors_ascended = next_motion->unk_234 + 1;
+                floors_ascended = GAME_STATE->dungeon_floor + 1;
                 go_up_trap_count = trap_counts->floor_number;
                 go_up_trap_count++;
-                next_motion->unk_234 = floors_ascended;
+                GAME_STATE->dungeon_floor = floors_ascended;
                 trap_counts->floor_number = go_up_trap_count;
                 request_scene_dispatch_state(transition_id);
                 mark_sprite_resources_for_purge();

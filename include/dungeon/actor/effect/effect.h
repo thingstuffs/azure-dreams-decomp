@@ -20,10 +20,6 @@
 #include "modules/dungeon_engine_entity_effects_abi_views.h"
 #include "modules/dungeon_engine_entity_effects_storage.h"
 
-/* render_floor_items uses one scratchpad workspace. RotTransPers4 consumes the
- * four local SVECTOR vertices and writes four packed screen-coordinate pairs;
- * the two matrices and their translations are built by RotMatrix/CompMatrix. */
-typedef struct FloorItemScreen { u16 x, y; } FloorItemScreen;
 /* Twelve-byte command-source entries advanced by the floor-item renderer. */
 typedef struct FloorItemSprite {
     union { u8 u; s8 s; } flags;
@@ -39,26 +35,6 @@ typedef struct FloorItemPosition {
     u8 pad_06[2];
     FloorItemSprite *sprite;
 } FloorItemPosition;
-typedef struct FloorItemScratch {
-    /* 0x000 */ SVECTOR world; /* RotTransPers input: the item's tile-centre position */
-    /* 0x008 */ union { u32 word; u16 low; } tex_u, tex_v, tex_width, tex_height;
-    u8 pad_018[8];
-    /* 0x020 */ u32 *ordering_table;
-    u8 pad_024[0x2C];
-    /* 0x050 */ MATRIX transform;
-    /* 0x070 */ SVECTOR vertices[4];
-    /* 0x090 */ s32 depth;
-    /* 0x094 */ s32 flags;
-    u8 pad_098[0x20];
-    /* 0x0B8 */ u16 origin_x, origin_y;
-    u8 pad_0BC[4];
-    /* 0x0C0 */ u32 sort_depth;
-    u8 pad_0C4[0xC];
-    /* 0x0D0 */ MATRIX rotation;
-    /* 0x0F0 */ FloorItemScreen screen[4];
-    /* 0x100 */ SVECTOR angles; /* RotMatrix input */
-} FloorItemScratch;
-
 extern s8 random_pickup_enabled;
 extern s16 pickup_event_latch;
 #endif

@@ -1,3 +1,4 @@
+#include "engine/graphics/sprite_scratch.h"
 #include "shared/object_node.h"
 #include "shared/dungeon_height_query.h"
 #include "shared/gpu_packets.h"
@@ -1104,22 +1105,6 @@ void set_animation_entry_address(SpriteFrameState *sprite, s16 entry_index) {
 }
 
 
-typedef struct S_8002593C_0 {
-    u8 pad_00[0x40];
-    s32 unk_40;
-    s32 unk_44;
-    s32 unk_48;
-    u8 pad_4C[0x4];
-    s16 unk_50;
-    s16 unk_52;
-    s16 unk_54;
-    s16 unk_56;
-    s16 unk_58;
-    s16 unk_5A;
-    s16 unk_5C;
-    s16 unk_5E;
-    s16 unk_60;
-} S_8002593C_0;   /* scratch in set_effect_gte_matrix */
 
 #include "sdk/libgte_matrix.h"
 
@@ -1135,27 +1120,27 @@ extern void RotMatrixZ(u16, void *);
 /* Build and install a transform from position, rotation, and a base matrix. */
 void set_effect_gte_matrix(AnimFrame *base_matrix, ObjectPosition *position, SpriteFrameState *rotation)
 {
-    S_8002593C_0 *scratch = (S_8002593C_0 *)0x1F800000;
+    SpriteQuadScratch *scratch = SPRITE_SCRATCH;
     MATRIX matrix;
 
-    scratch->unk_40 = position->x.w.i;
-    scratch->unk_44 = position->y.w.i;
-    scratch->unk_48 = position->z.w.i;
+    scratch->translation.vx = position->x.w.i;
+    scratch->translation.vy = position->y.w.i;
+    scratch->translation.vz = position->z.w.i;
     ReadRotMatrix(&matrix);
 
-    scratch->unk_50 = scratch->unk_58 =
-        scratch->unk_60 = 0x1000;
-    scratch->unk_52 = scratch->unk_54 =
-        scratch->unk_56 = scratch->unk_5A =
-        scratch->unk_5C = scratch->unk_5E = 0;
+    scratch->matrix_50.m[0][0] = scratch->matrix_50.m[1][1] =
+        scratch->matrix_50.m[2][2] = 0x1000;
+    scratch->matrix_50.m[0][1] = scratch->matrix_50.m[0][2] =
+        scratch->matrix_50.m[1][0] = scratch->matrix_50.m[1][2] =
+        scratch->matrix_50.m[2][0] = scratch->matrix_50.m[2][1] = 0;
 
-    RotMatrixX(rotation->angle_x, &scratch->unk_50);
-    RotMatrixZ(rotation->angle_z, &scratch->unk_50);
-    RotMatrixY(rotation->angle_y, &scratch->unk_50);
-    TransMatrix(&scratch->unk_50, &scratch->unk_40);
-    CompMatrix(&scratch->unk_50, base_matrix, (u8 *)scratch + 0xD0);
-    SetTransMatrix((u8 *)scratch + 0xD0);
-    SetRotMatrix((u8 *)scratch + 0xD0);
+    RotMatrixX(rotation->angle_x, &scratch->matrix_50);
+    RotMatrixZ(rotation->angle_z, &scratch->matrix_50);
+    RotMatrixY(rotation->angle_y, &scratch->matrix_50);
+    TransMatrix(&scratch->matrix_50, &scratch->translation);
+    CompMatrix(&scratch->matrix_50, base_matrix, &scratch->matrix_D0);
+    SetTransMatrix(&scratch->matrix_D0);
+    SetRotMatrix(&scratch->matrix_D0);
 }
 
 

@@ -6,8 +6,6 @@
 #include "town/scene.h"
 
 /* Set the indexed entry flag using its identifier and entry pointer. */
-void set_indexed_entry_flag(Rec_func_800165F4_arg0 *record, s32 entry_index) {
-    TownObjectSet *set = (TownObjectSet *)record;
-
+void set_indexed_entry_flag(TownObjectSet *set, s32 entry_index) {
     set_script_flag_bit(set->choices[entry_index].script_flag);
 }

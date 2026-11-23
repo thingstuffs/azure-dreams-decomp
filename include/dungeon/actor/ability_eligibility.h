@@ -2,6 +2,7 @@
 #define DUNGEON_ACTOR_ABILITY_ELIGIBILITY_H
 /* Select eligible actor abilities and entries, check tile clearance, and advance status timers. */
 
+#include "dungeon/level/tile_flags.h"
 #include "common.h"
 #include "dungeon/level.h"
 #include "dungeon/level/floor_flags.h"
@@ -147,7 +148,6 @@ s32 get_spell_range(s16 entry_index);
 
 u8 *get_selected_item_data(void);
 s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey);
-s16 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags);
 
 s32 has_empty_status_slot(s32 record_addr);
 

@@ -8,7 +8,7 @@ extern s32 D_80016754[];
 extern s32 D_800170CC[];
 
 /* Returns the selected table value for mode 1, or delegates the lookup for other modes. */
-s32 lookup_selected_value_by_mode(s32 lookupInput, s32 unused, s32 mode) {
+s32 lookup_selected_value_by_mode(TownObjectSet *lookupInput, s32 unused, s32 mode) {
     s32 result;
 
     if (mode != 1) {

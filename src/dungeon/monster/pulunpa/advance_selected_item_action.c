@@ -43,25 +43,25 @@ void advance_selected_item_action(ActorRecord *body, ObjectPosition *motion, Spr
     selection = (u8 *)(body->action_phase);
     switch ((u8)selection) {
     case 0:
-        if ((((u32)actor->flags1C)) & ACTOR_PLAYER_SIDE) {
+        if (actor->flags1C & ACTOR_PLAYER_SIDE) {
             switch (((actor->action_flags) & 0x3FFF)) {
             case 7:
                 special = 1;
                 /* fallthrough */
             case 3:
-                selection = (u8 *)actor + 0xE;
+                selection = &actor->abilities[2].id;
                 break;
             case 6:
                 special = 1;
                 /* fallthrough */
             case 2:
-                selection = (u8 *)actor + 0xB;
+                selection = &actor->abilities[1].id;
                 break;
             case 5:
                 special = 1;
                 /* fallthrough */
             case 1:
-                selection = (u8 *)actor + 8;
+                selection = &actor->abilities[0].id;
                 break;
             default:
                 selection = 0;
@@ -70,13 +70,13 @@ void advance_selected_item_action(ActorRecord *body, ObjectPosition *motion, Spr
         } else {
             switch ((actor->action_flags) & 0x3FFF) {
             case 3:
-                selection = (u8 *)actor + 0xE;
+                selection = &actor->abilities[2].id;
                 break;
             case 2:
-                selection = (u8 *)actor + 0xB;
+                selection = &actor->abilities[1].id;
                 break;
             case 1:
-                selection = (u8 *)actor + 8;
+                selection = &actor->abilities[0].id;
                 break;
             default:
                 selection = 0;

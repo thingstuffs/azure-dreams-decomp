@@ -85,7 +85,7 @@ void update_player_push(ActorRecord *actor, void *motion, SpriteFrameState *spri
         set_sprite_animation_frame(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + model->facing + 0x100) >> 9) & 7)
             + player_push_frames), 0, 1);
         attachment = ((PlayerRecord *)actor)->unk_124;
-        attachment->flags1C = (s32) (attachment->flags1C | 0x100);
+        attachment->flags1C = (attachment->flags1C | 0x100);
         ((ActorRecord *)(((PlayerRecord *)actor)->unk_124))->movement_facing = model->facing;
         ((ActorRecord *)(((PlayerRecord *)actor)->unk_124))->target = model;
         actor->action_phase = (u8) (actor->action_phase + 1);
