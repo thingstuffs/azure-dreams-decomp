@@ -19,7 +19,7 @@ struct ObjectPosition;
 #include "dungeon/system/random.h"
 #include "slus/imports.h"
 #include "shared/dir_step.h"
-#include "shared/sys_flags.h"
+
 #include "shared/dungeon_floor.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -213,7 +213,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
 
     linked_actor = in_actor;
     world_state = &g_game_work;
-    initial_flags = system_update_flags;
+    initial_flags = GAME_STATE->log.head.flags;
     sprite_or_root = in_sprite;
     actor = linked_actor;
     world_object = (u8 *)world_state + 0x18;
@@ -256,7 +256,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
     previous_input = (S_80089AA0_4 *)D_800E4948;
     if ((((s32)(status_base->activity_counts.word)) == D_800E4948[0]) && (*(s32 *)&status_base->active_actor == previous_input->unk_04)
         && (*(s32 *)&status_base->pending_display_owner == previous_input->unk_08)
-        && (status_base->trap_counts.parts.pending_trap_count == previous_input->unk_0C) && !(system_update_flags & 8)
+        && (status_base->trap_counts.parts.pending_trap_count == previous_input->unk_0C) && !(GAME_STATE->log.head.flags & 8)
         && ((action_id = linked_actor->action_id) != 0x17) && (action_id != 0x27) && (action_id != 0x29)
         && (dungeon_event_pending_flag == 0) && ((status_base->active_actor != 0) || (status_base->pending_display_owner != 0) || (status_base->trap_counts.parts.pending_trap_count != 0)
         || (((s32)(status_base->activity_counts.word)) != 0))) {
@@ -291,7 +291,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
                 } else {
                     ((S_80089AA0_7_pre *)input_snapshot)[-1].unk_00 = (s16) state_or_address;
                 }
-                if (!(system_update_flags & 8)) {
+                if (!(GAME_STATE->log.head.flags & 8)) {
                     g_dungeon_status.turn_counter = (u16) (g_dungeon_status.turn_counter + 1);
                     actor_fraction = ((ObjectPosition *)(&player_turn_fraction))->x.v + actor->max_hp;
                     player_turn_fraction = (s32)actor_fraction;
@@ -346,7 +346,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
                     actor->luck = (s8) ((rsin((s16) normal_phase) >> 7) + 0x40);
                 }
                 (*(s32 *)((u8 *)linked_actor + 0x128)) = (s32) (generate_random_value() & 0xFFFF);
-                if (!(system_update_flags & 8)) {
+                if (!(GAME_STATE->log.head.flags & 8)) {
                     (*(u16 *)((u8 *)linked_actor + 0x118)) = (u16) ((*(u16 *)((u8 *)linked_actor + 0x118)) + 1);
                 }
                 advance_status_timers(actor);
@@ -377,7 +377,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
     } else {
         g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 4);
     }
-    if (!(system_update_flags & 8)) {
+    if (!(GAME_STATE->log.head.flags & 8)) {
         if ((linked_actor->action_id != 0x17) && (dungeon_event_pending_flag == 0)
             && ((u32) ((S_80089AA0_13 *)(&player_idle_turn_count))->unk_00 >= 0x385U)) {
             reset_actor = dungeon_actor_ring_anchor;

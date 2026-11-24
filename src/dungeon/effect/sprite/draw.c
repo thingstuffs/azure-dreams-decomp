@@ -1,4 +1,5 @@
 /* Waving textured sprite strips and linked shaded particle rendering. */
+#include "engine/graphics/sprite_scratch.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/sprite/draw.h"
 #include "shared/game_work.h"
@@ -8,6 +9,7 @@
 void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *position, Row_818F2800_S_BODY_1 *state, s32 depth_offset)
 {
     u8 *scratch;
+    SpriteQuadScratch *layout;
     u8 *part;
     PolyFT4 *packet;
     s32 angle;
@@ -31,7 +33,8 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
 
     globals = ((void **)(&g_game_work));
     graphics = globals[0];
-    scratch = (u8 *)0x1F800000;
+    layout = SPRITE_SCRATCH;
+    scratch = (u8 *)layout;
 
     DM_U32(0x20) = (u32)((u8 *)graphics + 0xB0);
     DM_S32(0xE4) = *(s16 *)((u8 *)position + 2);
@@ -42,18 +45,18 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
     state->unk_14 = (u16)(state->unk_14 | 0x8000);
     depth_bias = depth_offset;
     PushMatrix();
-    DM_U32(0x30) = state->unk_1C * 2;
-    DM_U32(0x34) = state->unk_1E * 2;
-    DM_U32(0x38) = 0x2000;
-    DM_U16(0x100) = state->unk_16;
-    DM_U16(0x104) = state->unk_1A;
-    DM_U16(0x102) = state->unk_18;
-    RotMatrix(scratch + 0x100, scratch + 0xD0);
+    layout->input.vx = state->unk_1C * 2;
+    layout->input.vy = state->unk_1E * 2;
+    layout->input.vz = 0x2000;
+    layout->angles.vx = state->unk_16;
+    layout->angles.vz = state->unk_1A;
+    layout->angles.vy = state->unk_18;
+    RotMatrix(&layout->angles, &layout->matrix_D0);
     ReadRotMatrix(&transform_buf[0]);
-    CompMatrix(&transform_buf[0], scratch + 0xD0, scratch + 0x50);
-    ScaleMatrix(scratch + 0x50, scratch + 0x30);
-    SetTransMatrix(scratch + 0x50);
-    SetRotMatrix(scratch + 0x50);
+    CompMatrix(&transform_buf[0], &layout->matrix_D0, &layout->matrix_50);
+    ScaleMatrix(&layout->matrix_50, &layout->input);
+    SetTransMatrix(&layout->matrix_50);
+    SetRotMatrix(&layout->matrix_50);
     edge_cache = (u8 *)&transform_buf[0];
     {
         s32 init_flags;

@@ -3,7 +3,6 @@
 /* Imported data declarations for this image; maintained by tools/headers. */
 
 #include "common.h"
-#include "shared/game_state.h"
 #include "m2c_compat.h"
 #include "shared/gpu_packets.h"
 #include "shared/item_menu.h"

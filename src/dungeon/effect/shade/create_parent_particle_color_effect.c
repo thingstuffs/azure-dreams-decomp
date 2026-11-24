@@ -11,8 +11,7 @@ void create_parent_particle_color_effect(ColorEffectSource *source, u32 color)
     SourceColorEffect *effect;
     SpriteFrameState *render;
     MovingPosition *position;
-    /* BYTES: Taking the address puts the color spill in the allocator call delay slot. */
-    u32 *color_value = &color;
+    u32 packed_color;
 
     effect = func_8003CF18(18);
     if (effect != 0) {
@@ -32,10 +31,12 @@ void create_parent_particle_color_effect(ColorEffectSource *source, u32 color)
         render->color.c.b = 128;
         render->color.c.g = 128;
         render->color.c.r = 128;
+        /* BYTES: Taking the address puts the color spill in the allocator call delay slot. */
+        packed_color = *&color;
         render->scale_y = 4096;
         render->scale_x = 4096;
-        render->color.word = *color_value;
-        effect->color = *color_value;
+        render->color.word = packed_color;
+        effect->color = packed_color;
         render->clut = 0x7DCE;
         render->flags |= 0x100;
         func_8003A7C4(render, positioned_effect_source, 0);

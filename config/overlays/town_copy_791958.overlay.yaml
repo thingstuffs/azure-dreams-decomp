@@ -1,4 +1,4 @@
-# The 148-byte body lies between the registered minigame routines ending at +0x791958 and starting at +0x7919ec.
+# This body is bounded by the adjacent routines ending at TOWN +0x791958 and starting at +0x7919ec in the foreign old-minigame image.
 name: town_copy_791958
 sha1: b946a57aa5fc8cec29db3ecabad6e6b76df418b7
 options:

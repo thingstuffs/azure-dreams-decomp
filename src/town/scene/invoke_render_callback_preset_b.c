@@ -5,7 +5,7 @@
 #include "town/scene.h"
 
 
-/* Invoke the callback at offset 0x278 with settings (1, 1, 0, 0x1E). */
-void invoke_render_callback_preset_b(void) {
+/* Set the speech balloon with settings (1, 1, 0, 0x1E). */
+void set_speech_balloon_preset_b(void) {
     town_scene_root->services->callback_278(1, 1, 0, 0x1E);
 }

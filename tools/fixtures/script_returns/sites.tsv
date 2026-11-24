@@ -613,8 +613,8 @@ town	m00-event12	2970108	call_native	800162C8	overwrite-call		subfile-scene-imag
 town	m00-event12	2970126	call_native	8001A658	overwrite-call		subfile-scene-image	set_scaled_pointer_value:void:town/func_8032FE58	void	set_scaled_pointer_value:void:town/func_8032FE58
 town	m00-event12	2970143	call_native	8001A678	overwrite-call		subfile-scene-image	set_position_from_tile_and_entry_offsets:void:town/func_8032FE78	void	set_position_from_tile_and_entry_offsets:void:town/func_8032FE78
 town	m00-event12	2970168	call_native	8001A678	exit-end_message		subfile-scene-image	set_position_from_tile_and_entry_offsets:void:town/func_8032FE78	void	set_position_from_tile_and_entry_offsets:void:town/func_8032FE78
-town	m00-event12	2970197	call_native	80018160	overwrite-call		subfile-scene-image	invoke_render_callback_preset_a:void:town/func_8032D960	void	invoke_render_callback_preset_a:void:town/func_8032D960
-town	m00-event12	2970212	call_native	800181E0	overwrite-call		subfile-scene-image	invoke_render_callback_preset_c:void:town/func_8032D9E0	void	invoke_render_callback_preset_c:void:town/func_8032D9E0|save_context_and_dispatch_entry_type:void:town/func_804821E0
+town	m00-event12	2970197	call_native	80018160	overwrite-call		subfile-scene-image	set_speech_balloon_preset_a:void:town/func_8032D960	void	set_speech_balloon_preset_a:void:town/func_8032D960
+town	m00-event12	2970212	call_native	800181E0	overwrite-call		subfile-scene-image	set_speech_balloon_preset_c:void:town/func_8032D9E0	void	set_speech_balloon_preset_c:void:town/func_8032D9E0|save_context_and_dispatch_entry_type:void:town/func_804821E0
 town	m00-event12	2970228	call_native	8001A658	overwrite-call		subfile-scene-image	set_scaled_pointer_value:void:town/func_8032FE58	void	set_scaled_pointer_value:void:town/func_8032FE58
 town	m00-event12	2970245	call_native	8001A678	overwrite-call		subfile-scene-image	set_position_from_tile_and_entry_offsets:void:town/func_8032FE78	void	set_position_from_tile_and_entry_offsets:void:town/func_8032FE78
 town	m00-event12	2970270	call_native	8001A678	overwrite-call		subfile-scene-image	set_position_from_tile_and_entry_offsets:void:town/func_8032FE78	void	set_position_from_tile_and_entry_offsets:void:town/func_8032FE78
@@ -644,8 +644,8 @@ town	m00-event14	2986469	call_native	8001A760	overwrite-call		subfile-scene-imag
 town	m00-event14	2986485	call_service	svc210	exit-end_message		-			
 town	m00-event15	2988036	call_native	8001E98C	overwrite-call		self	give_and_equip_event15_kewne:void:town/func_8035A4BC	void	give_and_equip_event15_kewne:void:town/func_8035A4BC
 town	m00-event15	2988043	call_service	svc132	overwrite-call		-			
-town	m00-event15	2988100	call_native	80018160	overwrite-call		subfile-scene-image	invoke_render_callback_preset_a:void:town/func_8032D960	void	invoke_render_callback_preset_a:void:town/func_8032D960
-town	m00-event15	2988134	call_native	800181A0	exit-choice-table		subfile-scene-image	invoke_render_callback_preset_b:void:town/func_8032D9A0	void	invoke_render_callback_preset_b:void:town/func_8032D9A0|set_scaled_pointer_value:void:town/func_806D61A0
+town	m00-event15	2988100	call_native	80018160	overwrite-call		subfile-scene-image	set_speech_balloon_preset_a:void:town/func_8032D960	void	set_speech_balloon_preset_a:void:town/func_8032D960
+town	m00-event15	2988134	call_native	800181A0	exit-choice-table		subfile-scene-image	set_speech_balloon_preset_b:void:town/func_8032D9A0	void	set_speech_balloon_preset_b:void:town/func_8032D9A0|set_scaled_pointer_value:void:town/func_806D61A0
 town	m00-event15	2990428	call_service	svc175	overwrite-call		-			
 town	m00-event15	2990430	call_service	svc186	overwrite-call		-			
 town	m00-event15	2990433	call_service	svc194	read	jump_if_zero@2403	-			
@@ -669,7 +669,7 @@ town	m00-event18-alt1	2998018	call_native	80018524	exit-end_message		subfile-sce
 town	m00-event18-alt1	3000360	call_native	80019370	read	jump_if_zero@4141	subfile-scene-image	count_free_item_slots:s32:town/func_8032EB70	s32	count_free_item_slots:s32:town/func_8032EB70
 town	m00-event18-alt1	3000371	call_native	80018704	overwrite-call		subfile-scene-image	pass_global_record_to_handler:void:town/func_8032DF04	void	pass_global_record_to_handler:void:town/func_8032DF04
 town	m00-event18-alt1	3000376	call_native	800187D0	exit-end_message		subfile-scene-image	invoke_event_code_d_81:void:town/func_8032DFD0	void	invoke_event_code_d_81:void:town/func_8032DFD0
-town	m00-event18-alt1	3000387	call_native	80018728	read-text	fd@4219	subfile-scene-image	call_service_050_with_record:s32:town/func_8032DF28	s32	call_service_050_with_record:s32:town/func_8032DF28
+town	m00-event18-alt1	3000387	call_native	80018728	read-text	fd@4219	subfile-scene-image	get_item_buy_money_from_scene_record:s32:town/func_8032DF28	s32	get_item_buy_money_from_scene_record:s32:town/func_8032DF28
 town	m00-event18-alt1	3000501	call_native	80019370	read	jump_if_zero@4282	subfile-scene-image	count_free_item_slots:s32:town/func_8032EB70	s32	count_free_item_slots:s32:town/func_8032EB70
 town	m00-event18-alt1	3000601	call_native	80018760	read	jump_if_zero@4382	subfile-scene-image	deduct_computed_cost:s32:town/func_8032DF60	s32	deduct_computed_cost:s32:town/func_8032DF60
 town	m00-event18-alt1	3000723	call_native	80018704	exit-end_message		subfile-scene-image	pass_global_record_to_handler:void:town/func_8032DF04	void	pass_global_record_to_handler:void:town/func_8032DF04
@@ -1138,7 +1138,7 @@ town	m13-event08	4952618	call_native	80016D98	overwrite-call		subfile-scene-imag
 town	m13-event08	4952717	call_native	80017558	overwrite-call		no-native-body			
 town	m13-event08	4952722	call_native	80017300	exit-park		subfile-scene-image	enter_scene:void:town/func_8051FB00	void	enter_scene:void:town/func_8051FB00|mark_indexed_records_8000:void:town/func_803DF300
 town	m13-event08	4952739	call_native	80018C08	overwrite-call		subfile-scene-image	call_scene_service_280_d1:void:town/func_80521408	void	call_scene_service_280_d1:void:town/func_80521408
-town	m13-event08	4952747	call_native	80017378	exit-park		subfile-scene-image	start_sbs11_pad29_event:void:town/func_8051FB78	void	start_sbs11_pad29_event:void:town/func_8051FB78|clear_bytes:s8 *:town/func_806CE378|set_script_flag_bit:void:town/func_80786378
+town	m13-event08	4952747	call_native	80017378	exit-park		subfile-scene-image	change_map_for_sbs11_pad29_event:void:town/func_8051FB78	void	change_map_for_sbs11_pad29_event:void:town/func_8051FB78|clear_bytes:s8 *:town/func_806CE378|set_script_flag_bit:void:town/func_80786378
 town	m13-event08	4952922	call_native	80016290	read	jump_if_positive@11103	single-candidate	find_entry_28_index_or_assert:s32:town/func_806DB290	s32	find_entry_28_index_or_assert:s32:town/func_806DB290
 town	m13-event08	4952942	call_native	800171CC	overwrite-call		subfile-scene-image	shift_scene_position:void:town/func_8051F9CC	void	shift_scene_position:void:town/func_8051F9CC
 town	m13-event08	4953104	call_native	80016290	read	jump_if_positive@11285	single-candidate	find_entry_28_index_or_assert:s32:town/func_806DB290	s32	find_entry_28_index_or_assert:s32:town/func_806DB290
@@ -1743,7 +1743,7 @@ town	m23-event08	6208167	call_native	80016AC4	overwrite-call		ambiguous		s32|voi
 town	m23-event08	6208174	call_native	80016B08	overwrite-call		ambiguous		s32|void	advance_counter_modulo_eight:void:town/func_806D8308|process_town_records:void:town/func_80559B08|resolve_entry_flag:s32:town/func_804D8B08
 town	m23-event08	6208179	call_native	80016C24	overwrite-call		subfile-scene-image	tick_scene_state_counter:void:town/func_8065C424	void	refresh_scene_active_entry:void:town/func_804B8424|tick_scene_state_counter:void:town/func_8065C424
 town	m23-event08	6208387	call_native	80017438	exit-end_message		subfile-scene-image	set_current_entry_script_flag:void:town/func_8065CC38	void	set_current_entry_script_flag:void:town/func_8065CC38
-town	m24-event08	6305803	call_native	80016674	read	jump_if_zero@16	subfile-scene-image	register_shop_goods_entries:TownEventRegistrationHandle *:town/func_8067F674	TownEventRegistrationHandle *	register_shop_goods_entries:TownEventRegistrationHandle *:town/func_8067F674
+town	m24-event08	6305803	call_native	80016674	read	jump_if_zero@16	subfile-scene-image	open_shop_with_goods_entries:TownShopHandle *:town/func_8067F674	TownShopHandle *	open_shop_with_goods_entries:TownShopHandle *:town/func_8067F674
 town	m24-event08	6305823	call_native	800166E0	read	jump_if_zero@36	no-native-body			
 town	m24-event08	6305837	call_native	8001674C	read	jump_if_zero@50	subfile-scene-image	process_ids_zero:s32:town/func_8067F74C	s32	find_entry_index_by_grid_bytes:s32:town/func_80774F4C|find_entry_index_by_grid_bytes:s32:town/func_8077774C|process_ids_zero:s32:town/func_80614F4C|process_ids_zero:s32:town/func_8067F74C|update_entry_flags:s32:town/func_804D874C
 town	m24-event08	6310851	call_native	8001679C	read-text	fd@5092	subfile-scene-image	store_price_from_entries:void:town/func_8067F79C	void	dispatch_inputs_by_current_state:s32:town/func_805D279C|find_entry_index_by_grid_bytes:s32:town/func_806CF79C|store_price_from_entries:void:town/func_8067F79C
@@ -1845,7 +1845,7 @@ town	m27-event08	6696659	call_native	80018A48	overwrite-call		subfile-scene-imag
 town	m27-event08	6696672	call_service	svc146	exit-return		-			
 town	m27-event08	6699242	call_native	80016EDC	exit-end_message		subfile-scene-image	call_helper_with_fixed_id_0x1478:void:town/func_806C5EDC	void	call_helper_with_fixed_id_0x1478:void:town/func_806C5EDC
 town	m34-event08	6719538	call_native	80016D78	overwrite-call		subfile-scene-image	select_data_array_based_flag:s32:town/func_806D4D78	s32	compact_lshop_entry_list:void:town/func_80697D78|select_data_array_based_flag:s32:town/func_806D3578|select_data_array_based_flag:s32:town/func_806D4D78|select_data_array_based_flag:void *:town/func_804B8578
-town	m34-event08	6719549	call_native	800181A0	overwrite-call		subfile-scene-image	set_scaled_pointer_value:void:town/func_806D61A0	void	invoke_render_callback_preset_b:void:town/func_8032D9A0|set_scaled_pointer_value:void:town/func_806D61A0
+town	m34-event08	6719549	call_native	800181A0	overwrite-call		subfile-scene-image	set_scaled_pointer_value:void:town/func_806D61A0	void	set_speech_balloon_preset_b:void:town/func_8032D9A0|set_scaled_pointer_value:void:town/func_806D61A0
 town	m34-event08	6719566	call_native	80018170	exit-choice-table		subfile-scene-image	set_scaled_record_coordinates:void:town/func_806D6170	void	set_scaled_record_coordinates:void:town/func_806D6170|test_unless_2:s32:town/func_803F7170|test_unless_2:s32:town/func_8047B970
 town	m34-event08	6722240	call_service	svc131	exit-choice-table		-			
 town	m34-event08	6722861	call_native	80016D78	overwrite-call		subfile-scene-image	select_data_array_based_flag:s32:town/func_806D4D78	s32	compact_lshop_entry_list:void:town/func_80697D78|select_data_array_based_flag:s32:town/func_806D3578|select_data_array_based_flag:s32:town/func_806D4D78|select_data_array_based_flag:void *:town/func_804B8578

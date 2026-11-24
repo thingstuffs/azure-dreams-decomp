@@ -285,10 +285,17 @@ void create_source_positioned_object(ObjectPosition *source_pos, s16 initial_val
 
 void scatter_landing_sparks_on_grid(struct ObjectNodeHeader *source);
 
-struct PeriodicSourceEffect;
-void spawn_periodic_source_effect(struct PeriodicSourceEffect *source, s32 spawn_argument, s32 renderer_argument);
+/* Emitter callback state. The callbacks increment age and decrement lifetime. */
+typedef struct TimedParticleEmitter {
+    void *source;
+    u8 pad_04[0x12];
+    u16 age;
+    u8 pad_18[6];
+    u16 lifetime;
+} TimedParticleEmitter;
 
-struct AlternatingTickEffect;
-void spawn_alternating_tick_effects(struct AlternatingTickEffect *source, s32 spawn_argument, s32 renderer_argument);
+void spawn_periodic_source_effect(TimedParticleEmitter *source, s32 spawn_argument, s32 renderer_argument);
+
+void spawn_alternating_tick_effects(TimedParticleEmitter *source, s32 spawn_argument, s32 renderer_argument);
 
 #endif

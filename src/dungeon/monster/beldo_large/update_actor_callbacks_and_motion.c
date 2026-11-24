@@ -4,7 +4,7 @@
 #include "shared/actor_status_ids.h"
 #include "common.h"
 #include "dungeon/monster/beldo_large.h"
-#include "shared/sys_flags.h"
+
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -63,7 +63,7 @@ void update_actor_callbacks_and_motion(ActorRecord *body, ObjectPosition *motion
     s32 height_offset;
 
     if (body->unk_B0.bytes[1] == 0 &&
-        !(system_update_flags & 1) && g_dungeon_status.activity_counts.parts.pending_action_count == 0) {
+        !(GAME_STATE->log.head.flags & 1) && g_dungeon_status.activity_counts.parts.pending_action_count == 0) {
         body->unk_B0.bytes[1] = 1;
         queue_pool_service_script(D_80173DDC);
         body->pending_turn_updates = 0;

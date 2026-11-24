@@ -21,8 +21,7 @@ typedef struct {
 /* Clear the memory region and copy defaults while preserving six saved fields. */
 void reset_game_state_preserving_session_fields(void)
 {
-    u8 *page = (u8 *)0x80010000;
-    void *clear_page = page;
+    GameState *page = GAME_STATE;
     u8 saved_3186;
     u32 saved_3180;
     u8 saved_3184;
@@ -38,7 +37,8 @@ void reset_game_state_preserving_session_fields(void)
     saved_2094 = GAME_STATE->familiar_direction[0];
     saved_2098 = GAME_STATE->familiar_ai_mode[0];
 
-    bzero(clear_page, 0x5C84);
+    /* The resident block ends before the unused card image tail. */
+    bzero(page, sizeof(*page));
 
     *(Copy6 *)0x8001020C = *(Copy6 *)session_reset_default_pair;
     *(Copy10 *)0x80010238 = *(Copy10 *)session_reset_default_block;

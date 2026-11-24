@@ -1,4 +1,4 @@
-# The old minigame creates the callback at +0x790c70 and +0x790d60 and stores it in the node handler at +0x10.
+# The foreign old-minigame image creates the callback at TOWN +0x790c70 and +0x790d60 and stores it in the node handler at +0x10.
 name: town_copy_791080
 sha1: b946a57aa5fc8cec29db3ecabad6e6b76df418b7
 options:

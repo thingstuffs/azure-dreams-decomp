@@ -148,7 +148,7 @@ s32 init_panel_display_nodes(void) {
         content_record.timer = 0x10;
         content_record.sequence = root;
         content_record.text = (char *)color_or_content;
-        allocate_record_and_store_three_blocks(advance_delayed_panel_text, &content_record);
+        allocate_record_and_store_three_blocks(retire_delayed_scene_text_on_completion_devkit, &content_record);
 
         content_record.y = 0xA4;
         clear_addr = 8;
@@ -158,7 +158,7 @@ s32 init_panel_display_nodes(void) {
             {
                 TownCollectionTextUpdate entry_template;
 
-                entry_template = advance_delayed_panel_text;
+                entry_template = retire_delayed_scene_text_on_completion_devkit;
                 content = *content_ptr;
                 content_record.x = content_x;
                 content_record.text = content;

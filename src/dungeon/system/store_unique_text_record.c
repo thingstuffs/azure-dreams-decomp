@@ -17,7 +17,7 @@ void store_unique_text_record(char *text, s32 type, s32 value) {
     TextRecord *records_base;
     GameState *data_base;
     s32 cursor;
-    s32 write_slot;
+    s32 write_slot, *next_slot;
 
     if (type == 19) {
         for (cursor = 0; cursor < 5; cursor++) {
@@ -39,9 +39,9 @@ void store_unique_text_record(char *text, s32 type, s32 value) {
         cursor++;
         type_base += 19;
     } while (cursor < 64);
-
-    write_slot = *(s32 *)0x80015C80;
-    *(s32 *)0x80015C80 = write_slot + 1;
+    next_slot = &GAME_STATE->text_record_next;
+    write_slot = *next_slot;
+    *next_slot = write_slot + 1;
     data_base = GAME_STATE;
     if (data_base->text_record_next == 64) {
         data_base->text_record_next = 0;

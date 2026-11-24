@@ -14,7 +14,7 @@
 extern s16 D_800272A0[];
 
 /* Advances a text entry's delay, processes its string, and propagates the linked object's flag. */
-void tick_summed_scene_value_text(TerminalSceneTextObject *entry) {
+void tick_summed_scene_value_text(TownCollectionText *entry) {
     u16 *flags;
     s16 state;
     s32 value_index;
@@ -24,23 +24,23 @@ void tick_summed_scene_value_text(TerminalSceneTextObject *entry) {
 
     value_sum = 0;
     value_index = 7;
-    linked_object = entry->owner;
+    linked_object = entry->sequence;
     do {
         value_sum += D_800272A0[value_index];
         value_index -= 1;
     } while (value_index >= 0);
-    state = entry->state.s;
+    state = entry->state;
     switch (state) {
     case 0:
-        ticks_left = entry->delay - 1;
-        entry->delay = ticks_left;
+        ticks_left = entry->timer - 1;
+        entry->timer = ticks_left;
         if ((ticks_left << 0x10) > 0) {
             return;
         }
         entry->flags =
             (u16) (entry->flags & 0xFFFD);
-        entry->state.u =
-            (u16) (entry->state.u + 1);
+        entry->state =
+            (u16) (entry->state + 1);
         break;
     case 1:
         format_decimal_field_space_padded(value_sum, strlen(entry->text),

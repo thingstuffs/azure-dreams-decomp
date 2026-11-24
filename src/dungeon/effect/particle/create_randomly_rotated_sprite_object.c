@@ -1,3 +1,5 @@
+#include "dungeon/effect/projected_quad_scratch.h"
+#include "shared/gpu_packets.h"
 #include "sdk/libgpu.h"
 #include "common.h"
 #include "shared/dungeon_effect_state.h"
@@ -179,8 +181,8 @@ void expire_counted_child_effect(TimedTransformCopyEffectBody *counter_state) {
 /* Draw a red ring around the effect center using eight projected polylines. */
 s32 draw_red_triangle_fan(TimedTransformCopyEffectBody *effect, ObjectPosition *center)
 {
-    B22_81892C5C_S_81892C5C_0 *scratch = (B22_81892C5C_S_81892C5C_0 *)0x1F800000;
-    void *initial_context;
+    ProjectedQuadScratch *scratch = PROJECTED_QUAD_SCRATCH;
+    GpuContext *initial_context;
     s32 base_height;
     s32 radius;
     s32 segment;
@@ -189,11 +191,11 @@ s32 draw_red_triangle_fan(TimedTransformCopyEffectBody *effect, ObjectPosition *
 
     ot_ctx = &g_game_work;
     initial_context = ot_ctx->draw_buffer;
-    scratch->unk_18.s = (u8 *)initial_context + 0xB0;
+    scratch->ordering_table = (u32 *)&initial_context->orderTag;
     for (;;) {
         base_height = effect->frame.base_height;
-        scratch->unk_68 = scratch->unk_70 =
-            scratch->unk_78 = center->z.w.i;
+        scratch->vertices[0].vz = scratch->vertices[1].vz =
+            scratch->vertices[2].vz = center->z.w.i;
         radius = (s16)((base_height + 1) << 5);
 
         angle_step = 0x100;
@@ -228,50 +230,50 @@ s32 draw_red_triangle_fan(TimedTransformCopyEffectBody *effect, ObjectPosition *
 
             angle_base = segment * 2;
             mid_angle = (angle_base + 1) * angle_step;
-            scratch->unk_64 = (s16)(center->x.w.i +
+            scratch->vertices[0].vx = (s16)(center->x.w.i +
                 (((x_trig >> 4) * radius) >> 8));
             x_trig = rsin(mid_angle);
 
             end_angle = (angle_base + 2) * angle_step;
-            scratch->unk_6C = (s16)(center->x.w.i +
+            scratch->vertices[1].vx = (s16)(center->x.w.i +
                 (((x_trig >> 4) * radius) >> 8));
-            scratch->unk_74 = (s16)(center->x.w.i +
+            scratch->vertices[2].vx = (s16)(center->x.w.i +
                 (((rsin(end_angle) >> 4) * radius) >> 8));
-            scratch->unk_66 = (s16)(center->y.w.i +
+            scratch->vertices[0].vy = (s16)(center->y.w.i +
                 (((rcos(start_angle) >> 4) * radius) >> 8));
-            scratch->unk_6E = (s16)(center->y.w.i +
+            scratch->vertices[1].vy = (s16)(center->y.w.i +
                 (((rcos(mid_angle) >> 4) * radius) >> 8));
             {
 
                 end_y_scaled = (rcos(end_angle) >> 4) * radius;
                 base_height = end_y_scaled >> 8;
-                scratch->unk_76 = (s16)(center->y.w.i + base_height);
+                scratch->vertices[2].vy = (s16)(center->y.w.i + base_height);
             }
 
             {
-                u8 *start_vertex = (u8 *)scratch + 0x64;
-                u8 *mid_vertex = (u8 *)scratch + 0x6C;
-                u8 *end_vertex = (u8 *)scratch + 0x74;
-                u8 *screen_start = (u8 *)scratch + 0xD8;
-                scratch->unk_B4.s = func_80065530(
-                    start_vertex, mid_vertex, end_vertex, screen_start, (u8 *)scratch + 0xDC, (u8 *)scratch + 0xE0,
-                    (u8 *)scratch + 0x84, (u8 *)scratch + 0x88);
+                SVECTOR *start_vertex = &scratch->vertices[0];
+                SVECTOR *mid_vertex = &scratch->vertices[1];
+                SVECTOR *end_vertex = &scratch->vertices[2];
+                SpriteScratchScreenPoint *screen_start = &scratch->screen[0];
+                scratch->ot_index = func_80065530(
+                    start_vertex, mid_vertex, end_vertex, screen_start, &scratch->screen[1], &scratch->screen[2],
+                    &scratch->depth_cue, &scratch->gte_flag);
             }
 
-            ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_08 = scratch->unk_D8;
-            ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_0A = scratch->unk_DA;
-            ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_0C = scratch->unk_DC;
-            ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_0E = scratch->unk_DE;
-            ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_10 = scratch->unk_E0;
-            ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_12 = scratch->unk_E2;
+            ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_08 = scratch->screen[0].x;
+            ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_0A = scratch->screen[0].y;
+            ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_0C = scratch->screen[1].x;
+            ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_0E = scratch->screen[1].y;
+            ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_10 = scratch->screen[2].x;
+            ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_12 = scratch->screen[2].y;
 
             {
-                u32 otz = scratch->unk_B4.u;
+                u32 otz = scratch->ot_index;
 
                 if (otz < 0x1E0) {
                     void *tpage;
 
-                    addPrim(scratch->unk_18.u + scratch->unk_B4.u, polyline);
+                    addPrim(scratch->ordering_table + scratch->ot_index, polyline);
 
                     {
                         B22_81892C5C_S_81892C5C_5 *draw_context;
@@ -282,7 +284,7 @@ s32 draw_red_triangle_fan(TimedTransformCopyEffectBody *effect, ObjectPosition *
                     }
                     SetDrawMode(tpage, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
 
-                    addPrim(scratch->unk_18.u + scratch->unk_B4.u, tpage);
+                    addPrim(scratch->ordering_table + scratch->ot_index, tpage);
                 }
             }
 

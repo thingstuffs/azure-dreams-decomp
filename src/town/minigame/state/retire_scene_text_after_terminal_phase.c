@@ -7,17 +7,17 @@
 
 
 /* Advances the context state and sets completion flags in response to entity fields. */
-void retire_scene_text_after_terminal_phase(TerminalSceneTextObject *context) {
+void retire_scene_text_after_terminal_phase(TownCollectionText *context) {
     s16 state;
     TownCollectionSequence *entity;
 
-    state = context->state.s;
-    entity = context->owner;
+    state = context->state;
+    entity = context->sequence;
     switch (state) {
     case 0:
         if (entity->state.s == 0xFF) {
             context->flags &= 0xFFFD;
-            context->state.u++;
+            context->state++;
         }
         break;
     case 1:

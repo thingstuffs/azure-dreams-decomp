@@ -1,35 +1,10 @@
 #include "shared/gpu_packets.h"
+#include "dungeon/effect/projected_quad_scratch.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
 #include "dungeon/monster/golem.h"
 #include "sdk/libc.h"
-
-typedef struct S_80175A90_0 {
-    u8 pad_00[0x18];
-    union { void * p; u32 * p2; } unk_18;   /* accessed as both */
-    u8 pad_1C[0x48];
-    u16 unk_64;
-    u16 unk_66;
-    u16 unk_68;
-    u8 pad_6A[0x2];
-    union { s16 s; u16 u; } unk_6C;   /* accessed as both */
-    union { s16 s; u16 u; } unk_6E;   /* accessed as both */
-    union { s16 s; u16 u; } unk_70;   /* accessed as both */
-    u8 pad_72[0x2];
-    u16 unk_74;
-    u16 unk_76;
-    u16 unk_78;
-    u8 pad_7A[0x3A];
-    union { s32 s; u32 u; } unk_B4;   /* accessed as both */
-    u8 pad_B8[0x20];
-    u16 unk_D8;
-    u16 unk_DA;
-    u16 unk_DC;
-    u16 unk_DE;
-    u16 unk_E0;
-    u16 unk_E2;
-} S_80175A90_0;   /* scratch in draw_randomized_shaded_polylines */
 
    /* context in draw_randomized_shaded_polylines */
 
@@ -73,18 +48,20 @@ extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *,
  */
 void draw_randomized_shaded_polylines(S_80175A90_3 *start_pos, EntityRec *end_pos)
 {
-    void **context_ptr = (void **)((u8 *)(&g_game_work));
-    S_80175A90_0 *scratch = (S_80175A90_0 *)0x1F800000;
+    GameWork *render_state = &g_game_work;
+    ProjectedQuadScratch *scratch = PROJECTED_QUAD_SCRATCH;
     S_80175A90_2 *prim;
     s32 line_index = 0;
     s32 endpoint_red = 0xC0;
     u32 addr_mask = 0x00FFFFFF;
     u32 length_mask = 0xFF000000;
 
-    scratch->unk_18.p = (u8 *)*context_ptr + 0xB0;
+    GpuContext *initial_context = render_state->draw_buffer;
+
+    scratch->ordering_table = (u32 *)&initial_context->orderTag;
 
     do {
-        GpuContext *context = *context_ptr;
+        GpuContext *context = render_state->draw_buffer;
         s32 offset;
 
         prim = context->packetCursor;
@@ -95,52 +72,52 @@ void draw_randomized_shaded_polylines(S_80175A90_3 *start_pos, EntityRec *end_po
         prim->unk_1C = 0x55555555;
         prim->unk_07 |= 2;
 
-        scratch->unk_64 = start_pos->unk_02;
-        scratch->unk_66 = start_pos->unk_06;
-        scratch->unk_68 = start_pos->unk_0A;
+        scratch->vertices[0].vx = start_pos->unk_02;
+        scratch->vertices[0].vy = start_pos->unk_06;
+        scratch->vertices[0].vz = start_pos->unk_0A;
 
-        scratch->unk_6C.s =
+        scratch->vertices[1].vx =
             (((s16)start_pos->unk_02) + end_pos->x.w.i) / 2;
-        scratch->unk_6E.s =
+        scratch->vertices[1].vy =
             (((s16)start_pos->unk_06) + end_pos->y.w.i) / 2;
-        scratch->unk_70.s =
+        scratch->vertices[1].vz =
             (((s16)start_pos->unk_0A) + end_pos->z.w.i) / 2;
 
-        scratch->unk_74 = ((u16)end_pos->x.w.i);
-        scratch->unk_76 = ((u16)end_pos->y.w.i);
-        scratch->unk_78 = ((u16)end_pos->z.w.i);
+        scratch->vertices[2].vx = end_pos->x.w.i;
+        scratch->vertices[2].vy = end_pos->y.w.i;
+        scratch->vertices[2].vz = end_pos->z.w.i;
 
         offset = (rand() % 9) + 4;
         switch (line_index) {
         case 0:
-            scratch->unk_64 -= 2;
-            scratch->unk_6C.u += offset;
-            scratch->unk_74 -= offset;
+            scratch->vertices[0].vx -= 2;
+            scratch->vertices[1].vx += offset;
+            scratch->vertices[2].vx -= offset;
             break;
         case 1:
-            scratch->unk_66 -= 2;
-            scratch->unk_6E.u += offset;
-            scratch->unk_76 -= offset;
+            scratch->vertices[0].vy -= 2;
+            scratch->vertices[1].vy += offset;
+            scratch->vertices[2].vy -= offset;
             break;
         case 2:
-            scratch->unk_68 -= 2;
-            scratch->unk_70.u += offset;
-            scratch->unk_78 -= offset;
+            scratch->vertices[0].vz -= 2;
+            scratch->vertices[1].vz += offset;
+            scratch->vertices[2].vz -= offset;
             break;
         case 3:
-            scratch->unk_64 += 2;
-            scratch->unk_6C.u -= offset;
-            scratch->unk_74 += offset;
+            scratch->vertices[0].vx += 2;
+            scratch->vertices[1].vx -= offset;
+            scratch->vertices[2].vx += offset;
             break;
         case 4:
-            scratch->unk_66 += 2;
-            scratch->unk_6E.u -= offset;
-            scratch->unk_76 += offset;
+            scratch->vertices[0].vy += 2;
+            scratch->vertices[1].vy -= offset;
+            scratch->vertices[2].vy += offset;
             break;
         case 5:
-            scratch->unk_68 += 2;
-            scratch->unk_70.u -= offset;
-            scratch->unk_78 += offset;
+            scratch->vertices[0].vz += 2;
+            scratch->vertices[1].vz -= offset;
+            scratch->vertices[2].vz += offset;
             break;
         case 6:
             break;
@@ -156,27 +133,26 @@ void draw_randomized_shaded_polylines(S_80175A90_3 *start_pos, EntityRec *end_po
         prim->unk_0E = 0;
         prim->unk_14 = endpoint_red;
 
-        scratch->unk_B4.s = func_80065530(
-            &scratch->unk_64, &scratch->unk_6C, &scratch->unk_74,
-            &scratch->unk_D8, &scratch->unk_DC, &scratch->unk_E0,
-            (u8 *)scratch + 0x84, (u8 *)scratch + 0x88);
+        scratch->ot_index = func_80065530(
+            &scratch->vertices[0], &scratch->vertices[1], &scratch->vertices[2],
+            &scratch->screen[0].x, &scratch->screen[1].x, &scratch->screen[2].x,
+            &scratch->depth_cue, &scratch->gte_flag);
 
-        prim->unk_08 = scratch->unk_D8;
-        prim->unk_0A = scratch->unk_DA;
-        prim->unk_10 = scratch->unk_DC;
-        prim->unk_12 = scratch->unk_DE;
-        prim->unk_18 = scratch->unk_E0;
-        prim->unk_1A = scratch->unk_E2;
+        prim->unk_08 = scratch->screen[0].x;
+        prim->unk_0A = scratch->screen[0].y;
+        prim->unk_10 = scratch->screen[1].x;
+        prim->unk_12 = scratch->screen[1].y;
+        prim->unk_18 = scratch->screen[2].x;
+        prim->unk_1A = scratch->screen[2].y;
 
         {
-            u32 depth = scratch->unk_B4.u;
+            u32 depth = scratch->ot_index;
             if (depth < 0x1E0) {
                 prim->unk_00.at00.v =
                     (prim->unk_00.at00.v & length_mask) |
-                    ((*(u32 *)((u8 *)(scratch->unk_18.p2) + depth * 4)) & addr_mask);
-                (*(u32 *)((u8 *)(scratch->unk_18.p2) + scratch->unk_B4.u * 4)) =
-                    ((*(u32 *)((u8 *)(scratch->unk_18.p2)
-                        + scratch->unk_B4.u * 4)) & length_mask) |
+                    (scratch->ordering_table[depth] & addr_mask);
+                scratch->ordering_table[scratch->ot_index] =
+                    (scratch->ordering_table[scratch->ot_index] & length_mask) |
                     ((u32)prim & addr_mask);
             }
         }

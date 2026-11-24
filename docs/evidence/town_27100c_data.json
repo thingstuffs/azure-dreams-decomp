@@ -49,5 +49,19 @@
   "zero_head_bytes": 116,
   "retained_tail_equals_MAIN": true,
   "baseline": "production window MATCH",
-  "placement": "unproven"
+  "placement": "unproven",
+  "retained_tail_classification": {
+    "file_start": "0x271220",
+    "file_end": "0x271394",
+    "bytes": 372,
+    "kind": "foreign_card_devkit_code",
+    "reason": "The retained tail is identical to MAIN at the same offset and begins 116 bytes into the MAIN function. The TOWN copy has a zeroed prefix in place of the function entry. The data row preserves the full physical residue, which cannot be placed as the complete MAIN function."
+  },
+  "card_devkit_call": {
+    "town_insn_offset": "0x2715b4",
+    "target": "0x80400e34",
+    "main_file_offset": "0x269e34",
+    "main_row": "main/func_80019E34",
+    "town_witness": "The call word also occurs in MAIN at +0x2715b4. Its target falls outside the TOWN card-devkit image at +0x26e000. TOWN bytes at +0x269e34 differ from the MAIN callee. MAIN identifies the address in the devkit program, while TOWN supplies no callee body at that address."
+  }
 }

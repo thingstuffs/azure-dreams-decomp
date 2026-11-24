@@ -30,11 +30,11 @@ typedef struct {
     u8 bytes[4];
 } __attribute__((packed)) Copy4;
 
-typedef struct TownEventRegistrationHandle {
+typedef struct TownShopHandle {
     u8 pad_00[0x20];
     s32 unk_20;
     s32 unk_24;
-} TownEventRegistrationHandle;
+} TownShopHandle;
 
 extern s32 func_8001A510(s32 flag_id);
 extern u8 D_8001B1C0[];
@@ -43,13 +43,13 @@ void func_80018914(void *);
 extern s32 D_8001B31C;
 
 extern s8 *func_80018824(s8 *buffer, s32 length);
-extern TownEventRegistrationHandle *scene_registered_event_handle;
+extern TownShopHandle *scene_registered_event_handle;
 
 /* Functions defined in this translation unit. */
 s32 check_selected_entry_8(S_80017EB8_0 *position);
 u8 *build_town_event_records(void *unused);
-TownEventRegistrationHandle *register_check_event_records(void);
-TownEventRegistrationHandle *register_coordinate_event_records(void);
+TownShopHandle *register_check_event_records(void);
+TownShopHandle *register_coordinate_event_records(void);
 s32 cache_event_handle_value_and_get_id(void);
 
 #endif

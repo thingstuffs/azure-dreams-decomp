@@ -9,6 +9,7 @@
 #include "modules/dungeon_native_abi.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
+#include "dungeon/effect/shaded_quad_scratch.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -1302,27 +1303,6 @@ void update_rotating_quad_effect(RadialQuadWork *effect, ObjectPosition *motion_
     }
 }
 
-typedef struct S_80025E4C_0 {
-    u8 pad_00[0x18];
-    void * unk_18;
-    u8 pad_1C[0x4];
-    void * unk_20;
-    u8 pad_24[0x4C];
-    void * unk_70;
-    u16 unk_74;
-    u8 pad_76[0x2];
-    void * unk_78;
-    u16 unk_7C;
-    u8 pad_7E[0x2];
-    void * unk_80;
-    u16 unk_84;
-    u8 pad_86[0x2];
-    void * unk_88;
-    u16 unk_8C;
-    u8 pad_8E[0x32];
-    u32 unk_C0;
-} S_80025E4C_0;   /* scratch in queue_linked_shaded_quads */
-
 typedef struct S_80025E4C_1_pre {
     s32 unk_00;
     u8 pad_04[0x4];
@@ -1330,16 +1310,16 @@ typedef struct S_80025E4C_1_pre {
 
 typedef struct S_80025E4C_1 {
     u8 pad_00[0x30];
-    void * unk_30;
+    s32 unk_30;
     u16 unk_34;
     u8 pad_36[0x2];
-    void * unk_38;
+    s32 unk_38;
     u16 unk_3C;
     u8 pad_3E[0x2];
-    void * unk_40;
+    s32 unk_40;
     u16 unk_44;
     u8 pad_46[0x2];
-    void * unk_48;
+    s32 unk_48;
     u16 unk_4C;
     u8 pad_4E[0x2];
     s32 unk_50;
@@ -1360,37 +1340,37 @@ typedef struct GlobalState {
  */
 s32 queue_linked_shaded_quads(S_80025E4C_1 *quad) {
     GlobalState **render_states = ((GlobalState **)(&g_game_work));
-    u8 *scratch = (u8 *)0x1F800000;
+    PackedShadedQuadScratch *scratch = PACKED_SHADED_QUAD_SCRATCH;
     POLY_G4 *packet;
     DR_MODE *mode_packet;
     u32 depth_bucket;
     s32 first_color;
     s32 second_color;
     s32 next_node;
-    void *vertex3_xy;
+    s32 vertex3_xy;
     GlobalState *render_state;
 
     render_state = render_states[0];
-    (*(void **)(scratch + 0x20)) = (u8 *)render_state + 0xB0;
-    ((S_80025E4C_0 *)scratch)->unk_18 = render_state->next;
+    (*(void **)((u8 *)scratch + 0x20)) = (u8 *)render_state + 0xB0;
+    scratch->packet_cursor = render_state->next;
     do {
-        packet = ((S_80025E4C_0 *)scratch)->unk_18;
-        ((S_80025E4C_0 *)scratch)->unk_18 = packet + 1;
-        ((S_80025E4C_0 *)scratch)->unk_70 = quad->unk_30;
-        ((S_80025E4C_0 *)scratch)->unk_78 = quad->unk_38;
-        ((S_80025E4C_0 *)scratch)->unk_80 = quad->unk_40;
+        packet = scratch->packet_cursor;
+        scratch->packet_cursor = packet + 1;
+        scratch->vertices[0].xy = quad->unk_30;
+        scratch->vertices[1].xy = quad->unk_38;
+        scratch->vertices[2].xy = quad->unk_40;
         vertex3_xy = quad->unk_48;
-        ((S_80025E4C_0 *)scratch)->unk_74 = quad->unk_34;
-        ((S_80025E4C_0 *)scratch)->unk_7C = quad->unk_3C;
-        ((S_80025E4C_0 *)scratch)->unk_84 = quad->unk_44;
-        ((S_80025E4C_0 *)scratch)->unk_88 = vertex3_xy;
-        ((S_80025E4C_0 *)scratch)->unk_8C = quad->unk_4C;
-        depth_bucket = RotTransPers4(scratch + 0x70, scratch + 0x78,
-                              scratch + 0x80, scratch + 0x88,
+        scratch->vertices[0].z = quad->unk_34;
+        scratch->vertices[1].z = quad->unk_3C;
+        scratch->vertices[2].z = quad->unk_44;
+        scratch->vertices[3].xy = vertex3_xy;
+        scratch->vertices[3].z = quad->unk_4C;
+        depth_bucket = RotTransPers4((SVECTOR *)&scratch->vertices[0], (SVECTOR *)&scratch->vertices[1],
+                              (SVECTOR *)&scratch->vertices[2], (SVECTOR *)&scratch->vertices[3],
                               (s32 *)&packet->x0, (s32 *)&packet->x1,
                               (s32 *)&packet->x2, (s32 *)&packet->x3,
-                              scratch + 0x90, scratch + 0x94) - 8;
-        ((S_80025E4C_0 *)scratch)->unk_C0 = depth_bucket;
+                              &scratch->depth_cue, &scratch->gte_flag) - 8;
+        scratch->ot_index = depth_bucket;
         if (depth_bucket < 0x1E0U) {
             first_color = quad->unk_50;
             /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
@@ -1404,14 +1384,14 @@ s32 queue_linked_shaded_quads(S_80025E4C_1 *quad) {
             *(s32 *)&packet->red2 = second_color;
             SetPolyG4(packet);
             packet->code = packet->code | 2;
-            AddPrim((u8 *)((S_80025E4C_0 *)scratch)->unk_20 +
-                          (((S_80025E4C_0 *)scratch)->unk_C0 * 4), packet);
-            mode_packet = ((S_80025E4C_0 *)scratch)->unk_18;
-            ((S_80025E4C_0 *)scratch)->unk_18 = mode_packet + 1;
+            AddPrim(scratch->ordering_table +
+                          scratch->ot_index * 4, packet);
+            mode_packet = scratch->packet_cursor;
+            scratch->packet_cursor = mode_packet + 1;
             SetDrawMode(mode_packet, 0, 0,
                           (u16)GetTPage(0, 1, 0, 0), 0);
-            AddPrim((u8 *)((S_80025E4C_0 *)scratch)->unk_20 +
-                          (((S_80025E4C_0 *)scratch)->unk_C0 * 4), mode_packet);
+            AddPrim(scratch->ordering_table +
+                          scratch->ot_index * 4, mode_packet);
         }
         next_node = ((S_80025E4C_1_pre *)quad)[-1].unk_00;
         if (next_node == 0) {
@@ -1420,7 +1400,7 @@ s32 queue_linked_shaded_quads(S_80025E4C_1 *quad) {
         quad = (S_80025E4C_1 *)(next_node + 0x20);
     } while (1);
     render_states[0]->next =
-        ((S_80025E4C_0 *)scratch)->unk_18;
+        scratch->packet_cursor;
     return 0;
 }
 

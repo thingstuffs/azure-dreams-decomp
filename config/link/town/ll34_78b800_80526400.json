@@ -5,7 +5,7 @@
   "foff": "0x78b800",
   "size": "0x9b84",
   "vma": "0x80526400",
-  "evidence": "docs/evidence/town_prototypes_run7/diagnostic_views.json; linked base only; retail load/execution not established",
+  "evidence": "Foreign old-minigame image at its devkit link base. The US and JP retail loader tables skip this range (docs/evidence/town_prototypes_run7/owner_audit.md).",
   "load_evidence": {
     "path": "ledger/instance_load_regions.jsonl",
     "record_sha256": "f00d99b7b453a1900dff26d5c5b7c930c67739d71ee175604f530fd22e13c24a"
@@ -18,7 +18,7 @@
       "foff": "0x78bd70",
       "vma": "0x80526970",
       "size": 156,
-      "evidence": "The linked minigame image starts at TOWN +0x78b800 with base 0x80526400. Its panel initializer passes this entry to allocate_record_and_store_three_blocks for the score label and text rows. Address operands at TOWN +0x78c568 and +0x78c5d8."
+      "evidence": "In the foreign old-minigame image at TOWN +0x78b800 (devkit base 0x80526400), the panel initializer passes this entry to allocate_record_and_store_three_blocks for the score label and text rows. Address operands at TOWN +0x78c568 and +0x78c5d8."
     },
     {
       "row": "town/func_8080BFFC",
@@ -63,7 +63,7 @@
       "foff": "0x791080",
       "vma": "0x8052bc80",
       "size": 76,
-      "evidence": "The old minigame creates the callback at +0x790c70 and +0x790d60 and stores it in the node handler at +0x10."
+      "evidence": "The foreign old-minigame image creates the callback at TOWN +0x790c70 and +0x790d60 and stores it in the node handler at +0x10."
     },
     {
       "row": "town/func_80811958",
@@ -72,7 +72,7 @@
       "foff": "0x791958",
       "vma": "0x8052c558",
       "size": 148,
-      "evidence": "The 148-byte body lies between the registered minigame routines ending at +0x791958 and starting at +0x7919ec."
+      "evidence": "This body is bounded by the adjacent routines ending at TOWN +0x791958 and starting at +0x7919ec in the foreign old-minigame image."
     }
   ]
 }

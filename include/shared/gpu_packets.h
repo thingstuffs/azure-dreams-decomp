@@ -2,6 +2,11 @@
 #define SHARED_GPU_PACKETS_H
 #include "sdk/libgpu_types.h"
 
+/* Packed-word access for renderers that keep the link mask in a local. */
+#define GPU_TAG_LINK(tag, mask) ((tag) & (mask))
+#define GPU_SET_TAG_LINK(tag, address, mask) \
+    ((tag) = ((tag) & 0xFF000000) | GPU_TAG_LINK((address), (mask)))
+
 /* Textured four-vertex packet. The grid renderer advances its cursor by
  * 0x28, copies four packed XY words, sets four UV pairs and fills the CLUT
  * and texture-page words. The high tag byte is preserved while linking.

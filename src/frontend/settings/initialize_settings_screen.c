@@ -90,12 +90,12 @@ void initialize_settings_screen(void) {
         register_node(screen_object, build_settings_sprite_tiles);
         settings = NODE_BODY(screen_object);
         screen_object->position->y.w.i = 0xF0;
-        (*(s16 *)((u8 *)settings + 4)) = 0x20;
+        settings->fade.param = 0x20;
         (*(s16 *)((u8 *)settings + 0x14)) = (s16) ((u8) GAME_STATE->options.unk_3184 >> 5);
         index = 2;
-        (*(s16 *)((u8 *)settings + 0xE)) = (s16) D_80013180;
-        (*(s16 *)((u8 *)settings + 0x10)) = (s16) D_80013181;
-        settings->color_channels[2] = (s16) D_80013182;
+        (*(s16 *)((u8 *)settings + 0xE)) = (u8)GAME_STATE->options.option_color;
+        (*(s16 *)((u8 *)settings + 0x10)) = ((const u8 *)&GAME_STATE->options.option_color)[1];
+        settings->color_channels[2] = ((const u8 *)&GAME_STATE->options.option_color)[2];
         do {
             if (settings->color_channels[index] >= 0xFF) {
                 settings->color_channels[index] = 0x100;

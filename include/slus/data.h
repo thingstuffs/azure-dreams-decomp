@@ -14,7 +14,6 @@ struct ResourceTransitionBody;
 #include "shared/sound_state.h"
 #include "engine/audio/spu/sound_range_records.h"
 #include "slus/window_choice_data.h"
-#include "shared/game_state.h"
 
 struct InputRecord;
 struct RECT;

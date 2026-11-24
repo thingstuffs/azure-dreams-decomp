@@ -1,4 +1,5 @@
 #include "sdk/libgte.h"
+#include "sdk/libgte_matrix.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "slus/data.h"
@@ -30,17 +31,9 @@ typedef struct S_func_800CDFD8_1 {
         u16 unk_24_u16;
     } unk_24;
     u8 pad_28[0x8];
-    u32 unk_30;
-    union {
-        u32 unk_34_u32;
-        u16 unk_34_u16;
-    } unk_34;
-    u32 unk_38;
-    u8 pad_3C[0x14];
-    u16 unk_50;
-    u8 pad_52[0x6];
-    u16 unk_58;
-    u8 pad_5A[0x16];
+    VECTOR input;
+    u8 pad_40[0x10];
+    MATRIX composed_matrix;
     u16 unk_70;
     u16 unk_72;
     u16 unk_74;
@@ -61,10 +54,8 @@ typedef struct S_func_800CDFD8_1 {
     u16 unk_BA;
     u8 pad_BC[0x4];
     u32 unk_C0;
-    u8 pad_C4[0x20];
-    u32 unk_E4;
-    u32 unk_E8;
-    u32 unk_EC;
+    u8 pad_C4[0xC];
+    MATRIX local_matrix;
     u16 unk_F0;
     u16 unk_F2;
     u16 unk_F4;
@@ -73,10 +64,7 @@ typedef struct S_func_800CDFD8_1 {
     u16 unk_FA;
     u16 unk_FC;
     u16 unk_FE;
-    u16 unk_100;
-    u16 unk_102;
-    u16 unk_104;
-    u8 pad_106[0x2];
+    SVECTOR angles;
     u16 unk_108;
     u16 unk_10A;
 } S_func_800CDFD8_1;
@@ -219,7 +207,7 @@ void render_actor_sprite_parts(void *unused, MovingPosition *position, SpriteFra
     scratch = (S_func_800CDFD8_1 *)0x1F800000;
     render_state = &g_game_work;
     render_root = g_game_work.draw_buffer;
-    scratch->unk_EC = 0;
+    scratch->local_matrix.t[2] = 0;
     scratch->unk_8C = 0;
     scratch->unk_84 = 0;
     scratch->unk_7C = 0;
@@ -239,37 +227,38 @@ void render_actor_sprite_parts(void *unused, MovingPosition *position, SpriteFra
     scratch->unk_C0 = ot_depth;
     if (ot_depth < 0x1D6U) {
         PushMatrix();
-        angles = (void *)0x1F800100;
+        angles = &scratch->angles;
         scratch->unk_B8 -= 0xA0;
         scratch->unk_BA -= 0x78;
         camera_rot_x = render_state->view.camera_rotation.parts.camera_rotation_x;
         camera_rot_y = render_state->view.camera_rotation.parts.camera_rotation_y;
         camera_rot_z = render_state->view.camera_rotation.parts.viewAngle;
-        scratch->unk_30 = (u32) camera_rot_x;
-        scratch->unk_34.unk_34_u32 = (u32) camera_rot_y;
-        scratch->unk_38 = (u32) camera_rot_z;
-        camera_y = scratch->unk_34.unk_34_u16;
-        scratch->unk_100 = (u16) sprite->angle_x;
+        scratch->input.vx = camera_rot_x;
+        scratch->input.vy = camera_rot_y;
+        scratch->input.vz = camera_rot_z;
+        /* BYTES: the low-halfword conversion keeps lhu at scratch offset 0x34. */
+        camera_y = (u16)scratch->input.vy;
+        scratch->angles.vx = sprite->angle_x;
         rotation_delta = sprite->angle_z;
         rotation_z = ((u16)render_state->view.view_rotation_offset.parts.view_rotation_offset_z);
         rotation_delta -= camera_y;
         rotation_z += rotation_delta;
-        scratch->unk_104 = (s16) rotation_z;
+        scratch->angles.vz = rotation_z;
         rotation_y = sprite->angle_y - 0x100;
-        rotation_y += ((u16) scratch->unk_38 + 0x100) & 0x1FF;
-        scratch->unk_102 = (s16) rotation_y;
-        scratch->unk_108 = scratch->unk_E4 = sprite->offset_x;
-        scratch->unk_10A = scratch->unk_E8 = sprite->offset_y;
-        RotMatrix(angles, (void *)0x1F8000D0);
+        rotation_y += ((u16) scratch->input.vz + 0x100) & 0x1FF;
+        scratch->angles.vy = rotation_y;
+        scratch->unk_108 = scratch->local_matrix.t[0] = sprite->offset_x;
+        scratch->unk_10A = scratch->local_matrix.t[1] = sprite->offset_y;
+        RotMatrix(angles, &scratch->local_matrix);
         quad_cursor = (S_func_800CDFD8_8 *)((u8 *)packet + 7);
-        scratch->unk_30 = sprite->scale_x;
+        scratch->input.vx = sprite->scale_x;
         scale_y = sprite->scale_y;
-        scratch->unk_38 = 0x1000;
-        scratch->unk_34.unk_34_u32 = scale_y;
-        ScaleMatrix((void *)0x1F8000D0, (void *)0x1F800030);
-        CompMatrix(matrix_or_part, (void *)0x1F8000D0, (void *)0x1F800050);
-        SetTransMatrix((void *)0x1F800050);
-        SetRotMatrix((void *)0x1F800050);
+        scratch->input.vz = 0x1000;
+        scratch->input.vy = scale_y;
+        ScaleMatrix(&scratch->local_matrix, &scratch->input);
+        CompMatrix(matrix_or_part, &scratch->local_matrix, &scratch->composed_matrix);
+        SetTransMatrix(&scratch->composed_matrix);
+        SetRotMatrix(&scratch->composed_matrix);
         part = sprite->source;
         matrix_or_part = (S_func_800CDFD8_6 *)((u8 *)part + 4);
         scratch->unk_24.unk_24_u16 = (u16) sprite->flags;
@@ -401,13 +390,13 @@ void render_actor_sprite_parts(void *unused, MovingPosition *position, SpriteFra
                         (s16) ((u16) scratch->unk_14.unk_14_u32 | (u16) scratch->unk_08);
                     ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_30.unk_30_s16 =
                         (s16) ((u16) scratch->unk_14.unk_14_u32 | (u16) scratch->unk_10);
-                    matrix_xx = (s16) scratch->unk_50;
+                    matrix_xx = scratch->composed_matrix.m[0][0];
                     if (matrix_xx >= 0x1800) {
                         scaled_right_u = (u8) ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_30.unk_30_s16;
                         ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_30.unk_30_u8 = (u8) (scaled_right_u + 0xFF);
                         ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_18.unk_18_u8 = scaled_right_u;
                     }
-                    matrix_yy = (s16) scratch->unk_58;
+                    matrix_yy = scratch->composed_matrix.m[1][1];
                     if (matrix_yy >= 0x1800) {
                         scaled_bottom_v = ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_30.unk_31_u8.unk_31;
                         ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_30.unk_31_u8.unk_31 =

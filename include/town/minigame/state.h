@@ -101,8 +101,8 @@ void retire_line_effect_on_linked_phase(RetiringLineEffectObject *record);
 void retire_scene_label_after_completion_flag(void *object);
 
 /* retire_scene_text_after_terminal_phase.c */
-void retire_scene_text_after_terminal_phase(TerminalSceneTextObject *context);
 struct TownCollectionText;
+void retire_scene_text_after_terminal_phase(struct TownCollectionText *context);
 void retire_delayed_scene_text_on_completion(struct TownCollectionText *object);
 
 /* update_value_text_entry.c */

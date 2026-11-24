@@ -10,7 +10,7 @@
 #include "dungeon/entity_spawn_variant_data.h"
 #include "dungeon/system/random.h"
 #include "dungeon/item/monster_resource_slots_g00325.h"
-#include "shared/sys_flags.h"
+
 #include "shared/dungeon_floor.h"
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
@@ -129,10 +129,6 @@ typedef struct S_func_800B1364_13 {
     s32 unk_00;
 } S_func_800B1364_13;
 
-typedef struct S_func_800B1364_14 {
-    u16 unk_00;
-} S_func_800B1364_14;
-
 typedef struct S_func_800B1364_15 {
     s32 unk_00;
 } S_func_800B1364_15;
@@ -175,8 +171,12 @@ extern void *familiar_record_slots[];
 extern u8 familiar_record_storage[];
 
 /* Advances the item interaction, spawning, initializing, and saving a linked creature. */
-void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, ObjectPosition *position, SpriteFrameState *sprite,
-    S_func_800B1364_4 *actor) {
+void advance_item_interaction_and_save_creature(
+    S_func_800B1364_1 *action,
+    ObjectPosition *position,
+    SpriteFrameState *sprite,
+    S_func_800B1364_4 *actor)
+{
     SVECTOR spawn_offset;
     s16 spawn_height;
     void *creature_variant;
@@ -250,7 +250,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, Objec
         sprite->frameTable = D_800DD110;
         set_sprite_animation_frame(sprite, D_800DD110[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
         action->unk_9B = (u8) (action->unk_9B + 1);
-        if (!(((S_func_800B1364_14 *)&system_update_flags)->unk_00 & 1)) {
+        if (!(GAME_STATE->log.head.flags & 1)) {
             build_floating_number_widget(0x22, 0xF2, 0xBA, 0x105, 0, 8);
             build_floating_number_widget(0x23, 0xE0, 0xCE, 0x104, 1, 8);
         }
@@ -327,7 +327,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, Objec
         }
         {
             s32 cancel_test;
-            cancel_test = ((S_func_800B1364_14 *)&system_update_flags)->unk_00 & 1;
+            cancel_test = GAME_STATE->log.head.flags & 1;
             if (cancel_test) {
                 return;
             }
@@ -436,7 +436,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, Objec
         creature->hp = (u8) creature->max_hp;
         creature->current_attack = (u8) creature->base_attack;
         creature->current_defense = (u8) creature->base_defense;
-        if (!(((S_func_800B1364_14 *)&system_update_flags)->unk_00 & 1)) {
+        if (!(GAME_STATE->log.head.flags & 1)) {
             u16 summon_count;
             DungeonGlobalStatus *summon_control;
             dungeon_event_pending_flag = 1;
@@ -448,14 +448,14 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, Objec
         message_end = expand_text_control_codes(D_800E0A33, append_entity_display_text(creature, expand_text_control_codes(D_800E0A2A,
             expand_text_control_codes(((S_func_800B1364_17 *)((creature->species * 0x14) + monster_species_table))->unk_04,
             write_text_byte_and_advance(8, message_start)))));
-        if (!((*(&system_update_flags)) & 1)) {
+        if (!(GAME_STATE->log.head.flags & 1)) {
             message_end = copy_four_text_bytes(familiar_defeat_text, write_text_byte_and_advance(0x4C, write_text_byte_and_advance(0x11, message_end)));
         }
         clear_byte_and_advance(message_end);
         display_text_with_fullwidth_adjustment(message_start);
         *(u16 *)((u8 *)action + 0x96) = 0x20U;
         action->unk_9B = (u8) (action->unk_9B + 1);
-        if (!((*(&system_update_flags)) & 1)) {
+        if (!(GAME_STATE->log.head.flags & 1)) {
             summon_state = &g_dungeon_status;
             if ((s16) ((u16)summon_state->activity_counts.parts.pending_action_count) < 2) {
                 return;

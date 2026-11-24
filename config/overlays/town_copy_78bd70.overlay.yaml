@@ -1,4 +1,4 @@
-# The linked minigame image starts at TOWN +0x78b800 with base 0x80526400. Its panel initializer passes this entry to allocate_record_and_store_three_blocks for the score label and text rows. Address operands at TOWN +0x78c568 and +0x78c5d8.
+# In the foreign old-minigame image at TOWN +0x78b800 (devkit base 0x80526400), the panel initializer passes this entry to allocate_record_and_store_three_blocks for the score label and text rows. Address operands at TOWN +0x78c568 and +0x78c5d8.
 name: town_copy_78bd70
 sha1: b946a57aa5fc8cec29db3ecabad6e6b76df418b7
 options:

@@ -8,8 +8,8 @@ struct FadeEffect;
 struct Obj;
 void apply_random_value_gain(ActorRecord *target, int amount_param, ActorRecord *record);
 void apply_conditional_target_effect(ActorRecord *target, int packed_value, void *record);
-struct Owner;
-void create_owner_color_sprite(struct Owner *owner, unsigned int color);
+struct ColorEffectSource;
+void create_owner_color_sprite(struct ColorEffectSource *source, unsigned int color);
 
 
 void advance_damped_effect_motion(void *effect, ObjectPosition *motion, SpriteFrameState *color);

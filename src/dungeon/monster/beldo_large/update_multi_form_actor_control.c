@@ -4,7 +4,7 @@
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "m2c_compat.h"
-#include "shared/sys_flags.h"
+
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -266,7 +266,7 @@ block_37:
                     return;
                 }
             }
-            if (system_update_flags & 8) {
+            if (GAME_STATE->log.head.flags & 8) {
                 run_beldo_large_action_script(actor, context, sprite);
                 entity->movement_queue_state = entity->movement_queue_state & 0x7F;
                 update_actor_status_and_mp(entity);
@@ -340,7 +340,7 @@ block_37:
     pose_actor = (Rec_func_800A9E70_arg0 *)actor;
     entity_flags = entity->flags1C;
     if (!(entity_flags & 0x2000)) {
-        if (!(system_update_flags & 8)) {
+        if (!(GAME_STATE->log.head.flags & 8)) {
             if (room_id < 0 || !(dungeon_rooms[room_id].flags & 2)) {
                 if (!(entity_flags & 0x430)) {
                     if ((test_neighbor_position_relation(sprite->tile_x,

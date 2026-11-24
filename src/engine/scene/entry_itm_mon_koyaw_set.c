@@ -17,7 +17,7 @@ void refresh_monster_items_from_creature_records(void) {
 
     if (GAME_STATE->item_list[0] != 0) {
         data_page = 0x80010000;
-        cursor = (DungeonItemEntry **)0x8001029C;
+        cursor = GAME_STATE->item_list;
         do {
             entry = *cursor;
             if (entry->kind == 0x13) {

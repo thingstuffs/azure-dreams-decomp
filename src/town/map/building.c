@@ -63,17 +63,13 @@ s8 *slots_out;
     }
     case 16:
     {
-        u8 *pair_page;
-        u8 *owner_page;
         TownBuildingRecord *records = town_building_records;
         s32 entry_id = record_key & 0xFF;
         single_id = records[entry_id].partner_building_id;
         if (single_id == 0)
             break;
-        pair_page = (u8 *)0x80010000;
         if (GAME_STATE->building_slots[33][0] == single_id) {
-            owner_page = pair_page;
-            if (owner_page[0x33E7] != entry_id) {
+            if (GAME_STATE->building_slots[33][1] != entry_id) {
                 *slots_out++ = 0xB;
                 slot_count++;
             }

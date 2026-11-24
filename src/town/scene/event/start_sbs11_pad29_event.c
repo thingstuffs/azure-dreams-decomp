@@ -8,8 +8,8 @@
 #include "town/scene.h"
 
 
-/* Set F_sbs11_pad31 and F_sbs11_pad29, mirror the pad32 flag, then run services 0x340 and 0x218. */
-void start_sbs11_pad29_event(void) {
+/* Set F_sbs11_pad31 and F_sbs11_pad29, mirror the pad32 flag, then prepare sound and change the map. */
+void change_map_for_sbs11_pad29_event(void) {
     set_script_flag_bit(F_sbs11_pad31);
     set_script_flag_bit(F_sbs11_pad29);
     mirror_sbs11_pad32_flag();

@@ -15,7 +15,7 @@ typedef struct CopyBlock {
 } CopyBlock;
 
 /* Creates a text object from an update callback and a 48-byte initialization block. */
-void create_text_sprite_object(void *update_callback, void *init_data)
+void create_text_sprite_object(TownCollectionTextUpdate update_callback, void *init_data)
 {
     ObjectNodeHeader *obj;
 

@@ -751,7 +751,7 @@ ObjectNodeHeader *create_selection_entry_object(DungeonItemEntry *entry, Fixed16
     type = BYTE_AT(object, 0x4D);
 
     if (type == 0x13) {
-        TownSlotSnapshot *copy_table = COPY_TABLE_ADDRESS;
+        TownSlotSnapshot *copy_table = GAME_STATE->item_monsters;
         TownSlotSnapshot *copy_src;
 
         copy_src = (TownSlotSnapshot *)((u32)(BYTE_AT(object, 0x4F) & 0x1F) * 84U

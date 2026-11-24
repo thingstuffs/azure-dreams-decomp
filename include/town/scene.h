@@ -315,13 +315,13 @@ s32 store_two_record_block_in_mode_ten_entry(TownObjectSet *set, s32 entry_index
 
 s32 apply_entry_mia_bikou_end(SquareSceneEntry *entry, s32 entry_index);
 
-void start_sbs11_pad29_event(void);
+void change_map_for_sbs11_pad29_event(void);
 
 s32 store_two_record_block_in_mode_seven_entry(TownObjectSet *set, s32 entry_index);
 
 s32 apply_entry_set_mascot2(SquareSceneEntry *entry, s32 entry_index);
 
-void invoke_render_callback_preset_c(void);
+void set_speech_balloon_preset_c(void);
 
 extern u8 slot_31_first_source_table[];
 

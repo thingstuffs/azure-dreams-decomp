@@ -18,7 +18,7 @@ extern u8 sbs11_pad29_service_record[];
 
 extern u8 square_scene_service_050_record[];
 
-s32 call_service_050_with_record(void);
+s32 get_item_buy_money_from_scene_record(void);
 
 void call_service_2cc_with_zero(void);
 

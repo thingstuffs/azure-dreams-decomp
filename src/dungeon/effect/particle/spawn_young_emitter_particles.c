@@ -17,14 +17,6 @@ typedef struct S_7FFEA9D4_5 {
 } S_7FFEA9D4_5;
 
 
-typedef struct S_7FFEA9D4_0 {
-    void * unk_00;
-    u8 pad_04[0x12];
-    u16 unk_16;
-    u8 pad_18[0x6];
-    u16 unk_1E;
-} S_7FFEA9D4_0;   /* arg0 in spawn_young_emitter_particles */
-
 typedef struct S_7FFEA9D4_1 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -47,7 +39,7 @@ typedef struct S_7FFEA9D4_3 {
 extern M2C_UNK D_8010C994;
 
 /* Spawns randomized particles while the emitter is young and marks it inactive when its timer expires. */
-void spawn_young_emitter_particles(S_7FFEA9D4_0 *emitter, s32 init_param_1, s32 init_param_2) {
+void spawn_young_emitter_particles(TimedParticleEmitter *emitter, s32 init_param_1, s32 init_param_2) {
     s32 z_offset;
     s32 spawn_count;
     s32 rand_value;
@@ -62,8 +54,8 @@ void spawn_young_emitter_particles(S_7FFEA9D4_0 *emitter, s32 init_param_1, s32 
     S_7FFEA9D4_3 *emitter_data;
     S_7FFEA9D4_1 *particle;
 
-    age_or_flags = emitter->unk_16 + 1;
-    emitter->unk_16 = age_or_flags;
+    age_or_flags = emitter->age + 1;
+    emitter->age = age_or_flags;
     if ((s16) age_or_flags < 0x28) {
         spawn_count = 0;
         do {
@@ -85,7 +77,7 @@ void spawn_young_emitter_particles(S_7FFEA9D4_0 *emitter, s32 init_param_1, s32 
                 pos_y -= 0x1F;
                 pos_y += rand_value & 0x3F;
                 position->y = (u16) pos_y;
-                emitter_data = emitter->unk_00;
+                emitter_data = emitter->source;
                 particle->unk_60 = (u16) position->z;
                 rand_value = func_700750E0();
                 z_offset = emitter_height_offsets[emitter_data->unk_13];
@@ -98,8 +90,8 @@ void spawn_young_emitter_particles(S_7FFEA9D4_0 *emitter, s32 init_param_1, s32 
             }
         } while (spawn_count < 2);
     }
-    ticks_left = emitter->unk_1E - 1;
-    emitter->unk_1E = ticks_left;
+    ticks_left = emitter->lifetime - 1;
+    emitter->lifetime = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         header = (u16 *)emitter - 1;
         z_offset = (s32)emitted_effect_counter;

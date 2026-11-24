@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/game_state.h"
-#include "shared/sys_flags.h"
+
 #include "shared/game_work.h"
 #include "shared/ot_link.h"
 #include "shared/gpu_packets.h"
@@ -179,7 +179,7 @@ void render_map_cell_mesh(void) {
     s32 vertex_x;
 
     scene = &g_game_work;
-    render_flags = system_update_flags;
+    render_flags = GAME_STATE->log.head.flags;
     view_scratch = (RenderScratch *)0x1F800000;
     view = &scene->view;
     map = &scene->map;

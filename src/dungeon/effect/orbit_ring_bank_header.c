@@ -5,4 +5,4 @@
 static const struct {
     void (*entry)(OrbitRingSpell *, SpellMotion *, SpriteFrameState *);
     u32 padding;
-} D_80024000 __attribute__((unused)) = { update_orbit_ring_spell, 0 };
+} orbit_ring_bank_header __attribute__((unused)) = { update_orbit_ring_spell, 0 };

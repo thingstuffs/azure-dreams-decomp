@@ -34,9 +34,7 @@ struct ActorHopExtra;
 void update_actor_facing_and_lifecycle(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *part);
 void update_rising_landing_effect(RisingLandingEffectBody *effect, ObjectPosition *motion, SpriteFrameState *sprite);
 
-struct S_800AC480_0;
-struct S_800AC480_3;
-s32 interpolate_actor_to_terrain_tile(struct S_800AC480_0 *state, ObjectPosition *motion, MovingTile *tile, struct S_800AC480_3 *height);
+s32 interpolate_actor_to_terrain_tile(ActorRecord *state, ObjectPosition *motion, MovingTile *tile, ActorRecord *height);
 void run_terrain_tile_interpolation(void *owner, ObjectPosition *motion, MovingTile *tile, void *height);
 
 struct CallbackOwner;

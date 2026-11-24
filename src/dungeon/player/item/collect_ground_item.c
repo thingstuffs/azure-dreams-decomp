@@ -6,7 +6,7 @@
 #include "shared/item_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
-#include "shared/sys_flags.h"
+
 #include "shared/game_work.h"
 #include "dungeon/player.h"
 #include "dungeon/effect.h"
@@ -97,7 +97,7 @@ s32 collect_ground_item(Ctx *ctx, char *text, SpriteFrameState *sprite, Unit *un
     }
     free_slot = find_last_zero_entry_run_start();
     free_entry = find_and_clear_empty_item_slot();
-    if ((system_update_flags & 1) == 0) {
+    if ((GAME_STATE->log.head.flags & 1) == 0) {
         if ((sys->buttons & 0x20) != 0) {
             append_packed_action_record(unit, 64, 0, 0);
             clear_byte_and_advance(expand_text_control_codes(D_80088A80, append_item_name_with_value(&dungeon_ground_items[item_id], expand_text_control_codes(D_800E0A83,

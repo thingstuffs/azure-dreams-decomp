@@ -6,7 +6,7 @@
 #include "town/data.h"
 
 /* Clears text flag 2 after a delay, then marks the text node for removal when the linked flag is set. */
-void advance_delayed_panel_text(TownCollectionText *text) {
+void retire_delayed_scene_text_on_completion_devkit(TownCollectionText *text) {
     s16 state;
     s32 remaining;
     u16 next_state;

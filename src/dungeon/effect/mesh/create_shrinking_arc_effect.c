@@ -112,8 +112,9 @@ void queue_radial_line_burst(ovl_1930844_81911BF4_Obj81911BF4 *effect_data, void
     register s32 step;
     u32 addr_mask;
     s32 angle;
-    u8 *scratch;
+    ProjectedQuadScratch *projection;
     GameWork *render_global;
+    GpuContext *initial_context;
     u8 *line_packet;
     void *start_vertex;
     void *start_screen;
@@ -130,12 +131,12 @@ void queue_radial_line_burst(ovl_1930844_81911BF4_Obj81911BF4 *effect_data, void
     prev_step = step - 1;
     addr_mask = 0x00FFFFFF;
     angle = 0;
-    scratch = (u8 *) 0x1F800000;
-    *((void **) (scratch + 0x18)) = (*(u8 **)&g_game_work.draw_buffer) + 0xB0;
+    projection = PROJECTED_QUAD_SCRATCH;
+    initial_context = g_game_work.draw_buffer;
+    projection->ordering_table = (u32 *)&initial_context->orderTag;
     do {
         void **render_ptr = (void **) render_global;
         void *render_ctx = *render_ptr;
-        ProjectedQuadScratch *projection = (ProjectedQuadScratch *)scratch;
         s32 start_step_offset;
         s32 end_step_offset;
         s32 z_delta;
@@ -155,41 +156,41 @@ void queue_radial_line_burst(ovl_1930844_81911BF4_Obj81911BF4 *effect_data, void
         *((line_packet + 0xE)) = effect_data->field42;
         origin_ptr = origin;
         origin_coord = *((u16 *) (((u8 *) origin_ptr) + 2));
-        *((u16 *) (scratch + 0x6C)) = origin_coord;
-        *((u16 *) (scratch + 0x64)) = origin_coord;
+        projection->vertices[1].vx = origin_coord;
+        projection->vertices[0].vx = origin_coord;
         radial_x = ((rsin(angle + (*((s16 *) (((u8 *) effect_data) + 0xA))))
             >> 4) * effect_data->scale) << 8;
         start_step_offset = radial_x / scale;
         projection->step_x = radial_x;
-        *((u16 *) (scratch + 0x64)) += (start_step_offset * prev_step) >> 16;
+        projection->vertices[0].vx += (start_step_offset * prev_step) >> 16;
         end_step_offset = projection->step_x / scale;
-        *((u16 *) (scratch + 0x6C)) += (end_step_offset * step) >> 16;
+        projection->vertices[1].vx += (end_step_offset * step) >> 16;
         origin_ptr = origin;
         origin_coord = *((u16 *) (((u8 *) origin_ptr) + 6));
-        *((u16 *) (scratch + 0x6E)) = origin_coord;
-        *((u16 *) (scratch + 0x66)) = origin_coord;
-        start_vertex = scratch + 0x64;
-        start_screen = scratch + 0xD8;
-        end_vertex = scratch + 0x6C;
-        end_screen = scratch + 0xDC;
+        projection->vertices[1].vy = origin_coord;
+        projection->vertices[0].vy = origin_coord;
+        start_vertex = &projection->vertices[0];
+        start_screen = &projection->screen[0];
+        end_vertex = &projection->vertices[1];
+        end_screen = &projection->screen[1];
         radial_y = ((rcos(angle + (*((s16 *) (((u8 *) effect_data) + 0xA))))
             >> 4) * effect_data->scale) << 8;
         start_step_offset = radial_y / scale;
         projection->step_y = radial_y;
-        *((u16 *) (scratch + 0x66)) += (start_step_offset * prev_step) >> 16;
+        projection->vertices[0].vy += (start_step_offset * prev_step) >> 16;
         end_step_offset = projection->step_y / scale;
-        render_ptr = (void **)(scratch + 0x84);
-        *((u16 *) (scratch + 0x6E)) += (end_step_offset * step) >> 16;
+        render_ptr = (void **)&projection->depth_cue;
+        projection->vertices[1].vy += (end_step_offset * step) >> 16;
         origin_ptr = origin;
         origin_coord = *((u16 *) (((u8 *) origin_ptr) + 0xA));
-        *((u16 *) (scratch + 0x70)) = origin_coord;
-        *((u16 *) (scratch + 0x68)) = origin_coord;
+        projection->vertices[1].vz = origin_coord;
+        projection->vertices[0].vz = origin_coord;
         z_delta = (((s32) effect_data->field14) << 16) - (*((s32 *) (((u8 *) origin_ptr) + 8)));
         projection->step_z = z_delta;
         z_step = z_delta >> scale;
-        *((u16 *) (scratch + 0x68)) += (z_step << prev_step) >> 16;
-        *((u16 *) (scratch + 0x70)) += ((projection->step_z >> scale) << step) >> 16;
-        origin_ptr = scratch + 0x88;
+        projection->vertices[0].vz += (z_step << prev_step) >> 16;
+        projection->vertices[1].vz += ((projection->step_z >> scale) << step) >> 16;
+        origin_ptr = &projection->gte_flag;
         projection->start_depth = RotTransPers(start_vertex, start_screen, render_ptr, origin_ptr);
         projection->end_depth = RotTransPers(end_vertex, end_screen, render_ptr,
             origin_ptr);
@@ -198,24 +199,23 @@ void queue_radial_line_burst(ovl_1930844_81911BF4_Obj81911BF4 *effect_data, void
         *((u16 *) (line_packet + 0x10)) = projection->screen[1].x;
         *((u16 *) (line_packet + 0x12)) = projection->screen[1].y;
         avg_depth = ((projection->start_depth) + (projection->end_depth)) / 2;
-        *((s32 *) (scratch + 0xB4)) = avg_depth;
+        projection->ot_index = avg_depth;
         if (((u32) avg_depth) < 0x1E0U) {
-            OT_SETADDR(line_packet, OT_GETADDR((*((u32 **) (((u8 *) scratch) + 0x18))) + avg_depth, addr_mask),
+            OT_SETADDR(line_packet, OT_GETADDR(projection->ordering_table + avg_depth, addr_mask),
                 0xFF000000, addr_mask);
-            *((u32 *) (((u8 *) ((*((u32 **) (scratch + 0x18))) + (*((s32 *) (scratch + 0xB4)))))
-                + 0)) = ((*((u32 *) (((u8 *) ((*((u32 **) (scratch + 0x18)))
-                + (*((s32 *) (scratch + 0xB4))))) + 0))) & 0xFF000000) | (((u32) line_packet) & addr_mask);
+            *((u32 *) (((u8 *) (projection->ordering_table + projection->ot_index))
+                + 0)) = (projection->ordering_table[projection->ot_index] & 0xFF000000) | (((u32) line_packet) & addr_mask);
             render_ptr = (void **) render_global;
             render_ctx = *render_ptr;
             draw_mode_packet = *((u8 **) (((u8 *) render_ctx) + 0x8D0));
             *((u8 **) (((u8 *) render_ctx) + 0x8D0)) = draw_mode_packet + 0xC;
             SetDrawMode(draw_mode_packet, 0, 0, GetTPage(0, effect_data->field12, 0,
                 0) & 0xFFFF, 0);
-            OT_SETADDR(draw_mode_packet, OT_GETADDR((*((u32 **) (((u8 *) scratch) + 0x18)))
-                + (*((s32 *) (((u8 *) scratch) + 0xB4))), addr_mask), 0xFF000000, addr_mask);
-            *((u32 *) (((u8 *) ((*((u32 **) (scratch + 0x18))) + (*((s32 *) (scratch + 0xB4)))))
-                + 0)) = ((*((u32 *) (((u8 *) ((*((u32 **) (scratch + 0x18)))
-                + (*((s32 *) (scratch + 0xB4))))) + 0))) & 0xFF000000) | (((u32) draw_mode_packet) & addr_mask);
+            OT_SETADDR(draw_mode_packet, OT_GETADDR(projection->ordering_table
+                + projection->ot_index, addr_mask), 0xFF000000, addr_mask);
+            projection->ordering_table[projection->ot_index] =
+                (projection->ordering_table[projection->ot_index] & 0xFF000000) |
+                (((u32) draw_mode_packet) & addr_mask);
         }
         angle += 0x333;
         ray_index++;

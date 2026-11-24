@@ -20,13 +20,6 @@ typedef struct SpinContext {
     s16 sector;
 } SpinContext;
 
-typedef struct {
-    s16 x;
-    s16 unk2;
-    s16 y;
-    s16 unk6;
-} LocalPoint;
-
 extern u8 D_8002004C[];
 extern u8 D_800245DC[];
 
@@ -39,7 +32,7 @@ void update_effect_position_spin_phases(SpinPhaseWork *state_arg, ObjectPosition
     s32 dy = (world_pos->y.v + (s32)0xFCA00000) >> 16;
     SpinContext *spin_data;
     s32 prev_angle;
-    LocalPoint point;
+    RECT point;
     s32 distance;
     s32 dx_squared;
     s32 dy_squared;
@@ -61,7 +54,7 @@ void update_effect_position_spin_phases(SpinPhaseWork *state_arg, ObjectPosition
 
     spin_data = state_arg->context;
     prev_angle = effect_arg->angle_z;
-    point = *(LocalPoint *)D_8002004C;
+    point = *(RECT *)D_8002004C;
     dx_squared = dx * dx;
     dy_squared = dy * dy;
     distance = SquareRoot0(dx_squared + dy_squared);
@@ -210,7 +203,7 @@ void update_effect_position_spin_phases(SpinPhaseWork *state_arg, ObjectPosition
     case 7:
         for (dx = 0; dx < 3; dx++) {
             point.x = 122 + dx * 16;
-            point.y = 6;
+            point.w = 6;
             icon_frame = (((s16)state_arg->phase_value) >> 1) + dx;
             LoadImage(&point, (void *)((icon_frame % 3) * 32 + D_800245DC));
         }

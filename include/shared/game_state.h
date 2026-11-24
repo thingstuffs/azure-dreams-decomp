@@ -83,7 +83,7 @@ typedef struct GameState {
     s16 dungeon_save_marker;      /* 0x0208 1 when the save mode is 2 (card title "D" or "T"); cleared after a load */
     s16 resume_in_dungeon;        /* 0x020A same (mode == 2) value; picks scene mode 5 or 6 on load */
     char player_name[16];         /* 0x020C default "Koh" */
-    u32 unk_021C;                 /* 0x021C main() adds animation_tick_scale once per frame; no reader found */
+    u32 ticks;                    /* 0x021C main() adds animation_tick_scale once per frame; no reader found */
     u8 unk_0220[4];
     s32 saved_money;              /* 0x0224 town_money at save time */
     s32 saved_building_total;     /* 0x0228 */
@@ -133,7 +133,11 @@ typedef struct GameState {
     s16 gym_high_score;           /* 0x35C2 */
     u8 unk_35C4[17][4];           /* 0x35C4 byte-accessed records: byte 0 a count capped at 3, bytes 2/3 per speaker */
     u8 building_palette[2][2];    /* 0x3608 */
-    u8 resident_bytes[8];         /* 0x360C */
+    u8 unk_360C[4];               /* 0x360C */
+    u8 ghosh_counter_high;        /* 0x3610 */
+    u8 ghosh_counter_low;         /* 0x3611 */
+    u8 ghosh_second_counter_high;  /* 0x3612 */
+    u8 ghosh_second_counter_low;   /* 0x3613 */
     u8 catalog_flags[16];         /* 0x3614 two bits per entry */
     u16 egg_counter_saved;        /* 0x3624 */
     u16 egg_counter;              /* 0x3626 */

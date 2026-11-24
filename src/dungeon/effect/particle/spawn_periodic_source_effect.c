@@ -15,14 +15,6 @@ typedef struct S_7FFEA1CC_0_pre {
     u16 unk_00;
 } S_7FFEA1CC_0_pre;   /* the 0x2 bytes before arg0 in spawn_periodic_source_effect, addressed as arg0[-1] */
 
-typedef struct PeriodicSourceEffect {
-    void * unk_00;
-    u8 pad_04[0x12];
-    u16 unk_16;
-    u8 pad_18[0x6];
-    u16 unk_1E;
-} PeriodicSourceEffect;   /* arg0 in spawn_periodic_source_effect */
-
 typedef struct S_7FFEA1CC_1 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -51,7 +43,7 @@ typedef struct S_7FFEA1CC_3 {
 typedef struct S_7FFEA1CC_4 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_7FFEA1CC_4;   /* ((PeriodicSourceEffect *)arg0)->unk_00 in spawn_periodic_source_effect */
+} S_7FFEA1CC_4;   /* emitter source in spawn_periodic_source_effect */
 
 
 
@@ -59,15 +51,15 @@ extern M2C_UNK D_8010C460;
 extern M2C_UNK D_8010C984;
 
 /* Periodically spawns an effect and retires the source when its countdown expires. */
-void spawn_periodic_source_effect(PeriodicSourceEffect *source, s32 spawn_arg1, s32 spawn_arg2) {
+void spawn_periodic_source_effect(TimedParticleEmitter *source, s32 spawn_arg1, s32 spawn_arg2) {
     s16 elapsed_ticks;
     u16 remaining_ticks;
     S_7FFEA1CC_2 *effect_position;
     S_7FFEA1CC_1 *effect;
     S_7FFEA1CC_3 *render_state;
 
-    elapsed_ticks = source->unk_16 + 1;
-    source->unk_16 = (u16) elapsed_ticks;
+    elapsed_ticks = source->age + 1;
+    source->age = (u16) elapsed_ticks;
     if ((elapsed_ticks < 0x17) && (elapsed_ticks & 1)) {
         effect = func_7003CF18(0x212);
         if (effect != NULL) {
@@ -77,7 +69,7 @@ void spawn_periodic_source_effect(PeriodicSourceEffect *source, s32 spawn_arg1, 
             effect->unk_10 = &D_8010C460;
             effect_position = effect->unk_08;
             effect_position->unk_0A = (u16) (effect_position->unk_0A
-                - (emitter_height_offsets[((S_7FFEA1CC_4 *)(source->unk_00))->unk_13] >> 1));
+                - (emitter_height_offsets[((S_7FFEA1CC_4 *)(source->source))->unk_13] >> 1));
             render_state = effect->unk_0C;
             memcpy((s8 *) effect + 0x62, &D_8010C984, 0xC);
             render_state->unk_08 = ((u8 *)effect + 0x62);
@@ -87,8 +79,8 @@ void spawn_periodic_source_effect(PeriodicSourceEffect *source, s32 spawn_arg1, 
             render_state->unk_0C = 0;
         }
     }
-    remaining_ticks = source->unk_1E - 1;
-    source->unk_1E = remaining_ticks;
+    remaining_ticks = source->lifetime - 1;
+    source->lifetime = remaining_ticks;
     if ((remaining_ticks << 0x10) <= 0) {
         u16 *active_count = emitted_effect_counter;
         u16 next_count;

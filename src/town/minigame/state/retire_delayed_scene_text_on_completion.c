@@ -8,7 +8,7 @@
 void retire_delayed_scene_text_on_completion(TownCollectionText *object) {
     s16 state;
     TownCollectionSequence *status_data;
-    u16 ticks_left;
+    s32 ticks_left;
     u16 flags;
     u16 next_state;
 
@@ -18,7 +18,7 @@ void retire_delayed_scene_text_on_completion(TownCollectionText *object) {
     case 0:
         ticks_left = object->timer - 1;
         object->timer = ticks_left;
-        if ((ticks_left << 16) > 0) {
+        if ((s16)ticks_left > 0) {
             return;
         }
         flags = object->flags;

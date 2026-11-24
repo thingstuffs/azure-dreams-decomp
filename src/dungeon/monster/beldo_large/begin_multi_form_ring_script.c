@@ -10,16 +10,6 @@
 #include "dungeon/monster/beldo_large_data.h"
 #include "dungeon/data.h"
 
-/* Sparse views for fields not covered by the existing record types. */
-typedef struct {
-    u8 pad_00[0x3716];
-    s16 field_3716;
-    s16 field_3718;
-    s16 field_371A;
-} Page8001FieldView_81337E8C;
-
-
-
 typedef struct S_8016EE8C_1 {
     u8 pad_00[0x296C];
     s32 unk_296C;
@@ -46,18 +36,18 @@ void begin_multi_form_ring_script(void) {
     s32 slot_offset;
     s32 slot_index;
     BeldoScriptControl *active_data;
-    void *page_8001;
+    GameState *page_8001;
     S_8016EE8C_1 *page_800e;
     S_8016EE8C_4 *object_header;
 
     slot_index = 0;
-    page_8001 = (void *)0x80010000;
+    page_8001 = GAME_STATE;
     page_800e = (void *)0x800E0000;
     active_data = NODE_BODY(beldo_actor_nodes);
     active_data->script_active = 1;
-    (((Page8001FieldView_81337E8C *)page_8001)->field_371A) = 0;
-    (((Page8001FieldView_81337E8C *)page_8001)->field_3718) = 0;
-    (((Page8001FieldView_81337E8C *)page_8001)->field_3716) = 0;
+    page_8001->log.head.cursor = 0;
+    page_8001->log.head.repeat = 0;
+    page_8001->log.head.length = 0;
     g_dungeon_status.active_actor = 0;
     beldo_script_timer = 0;
     page_800e->unk_296C = (s32) (page_800e->unk_296C | 0x08000000);

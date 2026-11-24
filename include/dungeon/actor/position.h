@@ -11,8 +11,6 @@ struct ActorRecord;
 #include "shared/sprite_frame_state.h"
 
 struct ActorTrailWork;
-struct S_800AC480_0;
-struct S_800AC480_3;
 
 /* advance_actor_movement_to_tile.c */
 void advance_actor_movement_to_tile(ActorRecord *entity_ptr, void *input_arg_1, void *input_arg_2, struct ActorRecord *actor_ptr);
@@ -33,7 +31,7 @@ void *create_actor_with_tile_flags(s16 variant, u16 tile_x, u16 tile_y, s16 spaw
 void *create_player_tile_actor_at_coordinates(u16 tile_x, u16 tile_z, u16 height);
 
 /* interpolate_actor_to_terrain_tile.c */
-s32 interpolate_actor_to_terrain_tile(struct S_800AC480_0 *move_state, ObjectPosition *motion, MovingTile *target_tile, struct S_800AC480_3 *height_state);
+s32 interpolate_actor_to_terrain_tile(struct ActorRecord *move_state, ObjectPosition *motion, MovingTile *target_tile, struct ActorRecord *height_state);
 
 /* move_actor_to_destination_tile.c */
 void move_actor_to_destination_tile(Rec_func_8008ACDC_arg0 *actor, ObjectPosition *motion, SpriteFrameState *destination, void *context);

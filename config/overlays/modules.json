@@ -100704,7 +100704,7 @@
         "membership": "pending",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex"
+        "reviewer": "source-review"
       },
       "review_inputs": [
         "config/link/main/image_25c800.json",
@@ -100756,7 +100756,7 @@
         "membership": "pending",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex"
+        "reviewer": "source-review"
       },
       "review_inputs": [
         "config/link/town/ll34_437800_80016000.json",
@@ -100798,7 +100798,7 @@
         "membership": "pending",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex"
+        "reviewer": "source-review"
       },
       "review_inputs": [
         "config/link/dungeon/bank_d1f000.json",

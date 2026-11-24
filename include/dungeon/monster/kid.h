@@ -37,4 +37,11 @@ void begin_kid_attack_action(ActorRecord *action_state, ObjectPosition *context,
 
 void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
+void update_kid_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
+struct MovingTile;
+
+void resume_kid_behavior_after_fade_in(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite);
+void resume_kid_behavior_after_interpolation(ActorRecord *actor, ObjectPosition *motion, struct MovingTile *tile, ActorRecord *height);
+void resume_kid_behavior_after_spinning_fall(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite, void *context);
+
 #endif

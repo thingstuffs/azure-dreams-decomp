@@ -2,7 +2,7 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-11-24T05:05:36Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-11-24T15:54:51Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
@@ -86,8 +86,8 @@ Defects still present in the current tree (files = source files, bytes = image b
 | any live audit site, unnarrowed | 1,595 | 2,673,012 | 32.3% |
 | do{}while(0) scheduling barrier | 18 | 146,736 | 1.8% |
 | fake dependency x=(e)+a;x-=a / arg+v-v | 1 | 408 | 0.0% |
-| local address-named struct | 1,234 | 1,608,792 | 19.4% |
-| clean shape | 7,897 | 7,916,784 | 95.6% |
+| local address-named struct | 1,227 | 1,606,924 | 19.4% |
+| clean shape | 7,900 | 7,916,784 | 95.6% |
 
 <details><summary>pinned first-pass text vs current tree, every defect</summary>
 
@@ -107,8 +107,8 @@ Defects still present in the current tree (files = source files, bytes = image b
 | maspsx marker pins (scaffolding) | 394 | 347,664 | 4.2% | 0 | 0 | 0.0% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 1.9% | 18 | 146,736 | 1.8% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
-| local address-named struct | 633 | 346,824 | 4.2% | 1234 | 1,608,792 | 19.4% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 7897 | 7,916,784 | 95.6% |
+| local address-named struct | 633 | 346,824 | 4.2% | 1227 | 1,606,924 | 19.4% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 7900 | 7,916,784 | 95.6% |
 
 </details>
 
@@ -117,7 +117,7 @@ Pin sites now: 0 in 0 rows; none left.  At the pin: 25,916; REG 12,815, KEEP 6,9
 
 ## Image proof
 
-`make check`: 1471/1471 images exact; 8321 overlay recipes checked. L4/L5 use current image proof and registered module shared headers. Module certificates are retired from this rule.
+`make check`: 1471/1471 images exact; 8324 overlay recipes checked. L4/L5 use current image proof and registered module shared headers. Module certificates are retired from this rule.
 
 
 

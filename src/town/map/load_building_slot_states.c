@@ -13,7 +13,6 @@ void load_building_slot_states(void)
     u8 *page;
 
     source_record = town_building_slot_rectangles;
-    page = (u8 *)0x80010000;
     for (entry_index = 0; entry_index < 0x22; entry_index++) {
         GAME_STATE->building_slots[entry_index][0] = source_record[entry_index].first_building_id;
         GAME_STATE->building_slots[entry_index][1] = source_record[entry_index].second_building_id;

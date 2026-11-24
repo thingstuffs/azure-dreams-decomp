@@ -4,50 +4,33 @@
 #include "engine/text.h"
 #include "town/minigame.h"
 
-typedef struct S_80020618_0 {
-    u16 unk_00;
-    u16 unk_02;
-    char *unk_04;
-    s16 * unk_08;
-    void * unk_0C;
-    u8 pad_10[0xC];
-    u16 unk_1C;
-} S_80020618_0;   /* arg0 in tick_scene_value_text */
-
-typedef struct S_80020618_1 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-} S_80020618_1;   /* owner in tick_scene_value_text */
-
-
 
 /* Displays a timed message and signals completion when its owner is ready. */
-void tick_scene_value_text(void *message_arg)
+void tick_scene_value_text(TownCollectionText *message)
 {
-    S_80020618_0 *message = message_arg;
     s16 state;
     u16 timer;
-    S_80020618_1 *owner;
+    TownCollectionSequence *owner;
 
-    owner = message->unk_0C;
+    owner = message->sequence;
     format_decimal_field_space_padded(
-        *message->unk_08,
-        strlen(message->unk_04),
-        message->unk_04);
+        *message->value,
+        strlen(message->text),
+        message->text);
 
-    state = ((s16)message->unk_00);
+    state = message->state;
     switch (state) {
     case 0:
-        timer = message->unk_02 - 1;
-        message->unk_02 = timer;
+        timer = message->timer - 1;
+        message->timer = timer;
         if ((timer << 16) <= 0) {
-            message->unk_1C &= 0xFFFD;
-            message->unk_00++;
+            message->flags &= 0xFFFD;
+            message->state++;
         }
         break;
 
     case 1:
-        if (owner->unk_2A & 1) {
+        if (owner->flags & TOWN_COLLECTION_FINISHED) {
             (*(u16 *)((u8 *)message + -2)) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }

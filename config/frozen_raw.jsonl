@@ -11004,3 +11004,6 @@
 {"path":"raw/dungeon/func_7FFEB428.c","sha256":"c1ef103534d8c82742b01b80eb8f57841601a093e91265119879c65992f2d0c1","size":1751}
 {"path":"raw/dungeon/D_8184A800.c","sha256":"44631500bab5dfc09834c7238e2f38edcae0b0be99400c33666445b8e5956e84","size":318}
 {"path":"raw/dungeon/D_818A4800.c","sha256":"6d4ac6ec2530516ba4f143bc1643b23550322b50eff669f71d86f63cbff1c85d","size":343}
+{"path":"raw/dungeon/func_809F6B44.c","sha256":"afd03c50f4c7b5ed5486927a5c4c0c7e451827aba35b408ada763b09f2f02273","size":268}
+{"path":"raw/dungeon/func_809F6B7C.c","sha256":"a190884b3a031fc939016bf75f87ecad0171fb8a4776df2acdd3d44e2ecedc87","size":268}
+{"path":"raw/dungeon/func_809F6BB4.c","sha256":"3577bac48d5cdd9038a5de3972bef79844eea473837e17e67a41b5233a24e826","size":268}

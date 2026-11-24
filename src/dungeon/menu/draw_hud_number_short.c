@@ -4,17 +4,10 @@
 #include "slus.h"
 #include "dungeon/data.h"
 
-typedef struct {
-    s16 first;
-    s16 second;
-    s16 third;
-    s16 fourth;
-} DrawRecord;
-
 /* Draws the first formatted number with 4-by-8 HUD glyphs and mode-dependent padding. */
 void draw_hud_number_short(s32 first_number, s32 second_number, u16 width, s16 y, u16 x, s16 mode)
 {
-    DrawRecord record;
+    RECT record;
     char first_buf[16];
     char second_buf[16];
     u8 *cursor;
@@ -32,18 +25,18 @@ void draw_hud_number_short(s32 first_number, s32 second_number, u16 width, s16 y
             if (padding_mode != 0 &&
                 (numeric_character_flags[char_code = *cursor] & 4) == 0) {
                 glyph_u = 0x1C0;
-                record.first = glyph_u;
+                record.x = glyph_u;
             } else if (padding_mode != 0 ||
                        (numeric_character_flags[char_code = *cursor] & 4) != 0) {
                 glyph_u = (char_code << 2) + 0x100;
-                record.first = glyph_u;
+                record.x = glyph_u;
             } else {
                 glyph_u = 0x1E8;
-                record.first = glyph_u;
+                record.x = glyph_u;
             }
-            record.second = 0x1C0;
-            record.third = 4;
-            record.fourth = 8;
+            record.y = 0x1C0;
+            record.w = 4;
+            record.h = 8;
             MoveImage(&record, y, (s16)x);
             cursor++;
             y -= 4;

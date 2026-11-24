@@ -41,15 +41,6 @@ extern s32 familiar_turn_counters_alias;
 extern s32 get_entity_class();
 
 
-typedef struct S_80094988_0 {
-    u8 pad_00[0x2D50];
-    u16 unk_2D50;
-    u8 pad_2D52[0x6];
-    s32 unk_2D58;
-    u8 pad_2D5C[0x9B8];
-    s16 unk_3714;
-} S_80094988_0;   /* page in restore_inventory_and_familiars */
-
 typedef struct S_80094988_1 {
     u8 pad_00[0xF8];
     u16 unk_F8;
@@ -66,15 +57,6 @@ typedef struct S_80094988_5 {
     u8 pad_00[0x2D52];
     u8 unk_2D52;
 } S_80094988_5;
-
-typedef struct S_80094988_9_pre {
-    u8 unk_00;
-    u8 pad_01[0x1];
-} S_80094988_9_pre;   /* the 0x2 bytes before slot_flags in restore_inventory_and_familiars, addressed as slot_flags[-1] */
-
-typedef struct S_80094988_9 {
-    u8 unk_00;
-} S_80094988_9;   /* slot_flags in restore_inventory_and_familiars */
 
    /* cursor in restore_inventory_and_familiars */
 
@@ -95,7 +77,6 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
     u16 spawn_x;
     u16 spawn_y;
     u16 flag_was_set;
-    u8 *slot_flags;
     u8 *page_base;
     void *kind;
     u32 scratch;
@@ -106,7 +87,6 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
     ActorRecord *spawned;
     void *cursor;
     u8 *cursor_ptr;
-    S_80094988_0 *page_view;
     s16 entry_idx;
     u32 entry_idx32;
     u8 *save_page;
@@ -118,16 +98,14 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
     s32 slot_offset;
 
     cursor_ptr = (u8 *)0x80010000;
-    page_view = (S_80094988_0 *)cursor_ptr;
-    flag_was_set = (s16)page_view->unk_3714 & 2;
-    page_view->unk_3714 =
-        (s16)((u16)page_view->unk_3714 | 2);
+    flag_was_set = GAME_STATE->log.head.flags & 2;
+    GAME_STATE->log.head.flags = GAME_STATE->log.head.flags | 2;
     spawn_x = base_x;
     spawn_y = base_y;
     restore_marked_item_flags();
-    restore_actor_stats_from_snapshot(actor, (s32)cursor_ptr | 0x2194);
-    dungeon->unk_F8 = (u16)page_view->unk_2D50;
-    dungeon->unk_FC = (s32)page_view->unk_2D58;
+    restore_actor_stats_from_snapshot(actor, (S_80041E28_Src *)&GAME_STATE->carry.player);
+    dungeon->unk_F8 = GAME_STATE->carry.player_F8;
+    dungeon->unk_FC = GAME_STATE->carry.dungeon_money;
     i = 0;
     do {
         *(Unaligned4 *)(cursor_ptr + 0x248 + i * 4) = *(Unaligned4 *)(cursor_ptr + 0x21E8 + i * 4);
@@ -178,13 +156,12 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
         slot_ptr = 0;
     }
     change_equipped_item_and_notify(actor, slot_ptr);
-    slot_ptr = (DungeonItemEntry *)0x80010248;
+    slot_ptr = GAME_STATE->items;
     slot_i = 0;
-    slot_flags = (u8 *)0x8001024B;
     do {
-        if (((S_80094988_9_pre *)slot_flags)[-1].unk_00 == 0x13) {
+        if (slot_ptr->kind == 0x13) {
             i = 0;
-            if (((S_80094988_9 *)slot_flags)->unk_00 & 0x20) {
+            if (slot_ptr->unk_03 & 0x20) {
                 scratch = 0;
                 cursor = dungeon;
                 do {
@@ -221,14 +198,14 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
                                           spawned->species,
                                           slot_ptr);
                             slot_rec->unk_D0 = slot_ptr;
-                            ((S_80094988_9 *)slot_flags)->unk_00 =
-                                (u8)(((S_80094988_9 *)slot_flags)->unk_00 | 0x20);
+                            slot_ptr->unk_03 =
+                                (u8)(slot_ptr->unk_03 | 0x20);
                             (&familiar_turn_counters_alias)[slot_index] = 0;
                             if (spawned->mp == 0) {
                                 spawned->flags1C =
                                     (spawned->flags1C | ACTOR_MP_EMPTY);
                             }
-                            familiar_record_slots[((S_80094988_9 *)slot_flags)->unk_00 & 0x1F] =
+                            familiar_record_slots[slot_ptr->unk_03 & 0x1F] =
                                 (s32)spawned;
                             update_owner_class_bits(spawned);
                             retain_spawn_resource(slot_ptr->unk_00, 3);
@@ -243,7 +220,6 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
             }
         }
         slot_i += 1;
-        slot_flags += 4;
         slot_ptr += 1;
     } while (slot_i < 0x14);
     if (flag_was_set == 0) {

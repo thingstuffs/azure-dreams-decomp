@@ -1,7 +1,7 @@
 #include "common.h"
 #include "dungeon/player/camera_depth_presets_data.h"
 #include "dungeon/item.h"
-#include "shared/sys_flags.h"
+#include "shared/game_state.h"
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
 #include "engine/camera.h"
@@ -30,7 +30,7 @@ void *advance_monster_timed_sequence(void)
     opcode = entry[1];
 
     if (opcode == 0) {
-        if (system_update_flags & 8) {
+        if (GAME_STATE->log.head.flags & 8) {
             state->unk_04 |= 0x10;
             return 0;
         }

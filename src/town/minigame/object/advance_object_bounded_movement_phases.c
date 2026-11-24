@@ -18,7 +18,7 @@ void advance_object_bounded_movement_phases(BoundedMovementObject *object, Objec
     s32 event_z;
     u16 linked_state;
     u32 state_index;
-    u32 ticks;
+    u32 money;
 
     linked_state = ((TownObjectRecord *)(object->linked_object))->unk_68;
     if ((linked_state & 1) && object->movement_state == 0)
@@ -40,8 +40,8 @@ void advance_object_bounded_movement_phases(BoundedMovementObject *object, Objec
         increased_x = position->x.v + 0x40000;
         position->x.v = increased_x;
         if (increased_x == 0x10000000) {
-            ticks = GAME_STATE->town_money;
-            if ((ticks % 1000U) == 777U) {
+            money = GAME_STATE->town_money;
+            if ((money % 1000U) == 777U) {
                 event_pos[0] = 0x0FA00000;
                 event_z = 0xFFF80000;
                 event_pos[1] = position->y.v;

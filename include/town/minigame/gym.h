@@ -1,7 +1,6 @@
 #ifndef TOWN_MINIGAME_GYM_H
 #define TOWN_MINIGAME_GYM_H
 #include "common.h"
-#include "shared/game_state.h"
 #include "shared/entity.h"
 
 extern s16 gym_lane;

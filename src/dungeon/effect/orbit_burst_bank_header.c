@@ -4,4 +4,4 @@
 static const struct {
     void (*entry)(OrbitBurstSpell *, SpellMotion *, SpriteFrameState *);
     u32 padding;
-} D_80024000 __attribute__((unused)) = { update_orbit_burst_spell, 0 };
+} orbit_burst_bank_header __attribute__((unused)) = { update_orbit_burst_spell, 0 };

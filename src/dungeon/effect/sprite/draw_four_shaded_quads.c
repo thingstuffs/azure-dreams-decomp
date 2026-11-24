@@ -2,41 +2,10 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/effect/sprite.h"
+#include "dungeon/effect/projected_quad_scratch.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
 
-
-typedef struct S_func_818BC9CC_2 {
-    u8 pad_00[0x18];
-    void *unk_18;
-    u8 pad_1C[0x48];
-    u16 unk_64;
-    u16 unk_66;
-    u16 unk_68;
-    u8 pad_6A[0x2];
-    u16 unk_6C;
-    u16 unk_6E;
-    u16 unk_70;
-    u8 pad_72[0x2];
-    u16 unk_74;
-    u16 unk_76;
-    u16 unk_78;
-    u8 pad_7A[0x2];
-    u16 unk_7C;
-    u16 unk_7E;
-    u16 unk_80;
-    u8 pad_82[0x32];
-    u32 unk_B4;
-    u8 pad_B8[0x20];
-    u16 unk_D8;
-    u16 unk_DA;
-    u16 unk_DC;
-    u16 unk_DE;
-    u16 unk_E0;
-    u16 unk_E2;
-    u16 unk_E4;
-    u16 unk_E6;
-} S_func_818BC9CC_2;
 
 typedef struct S_func_818BC9CC_3 {
     struct {
@@ -91,12 +60,16 @@ typedef struct S_func_818BC9CC_5 {
 
 typedef struct { unsigned addr : 24; unsigned len : 8; } PacketTag;
 
-#define OT_ADDR(sc) ((u32 *)((((S_func_818BC9CC_2 *)(sc))->unk_B4 << 2) + (u32)(sc)->unk_18))
+static inline u32 *projected_ordering_entry(ProjectedQuadScratch *scratch)
+{
+    /* BYTES: pointer indexing changes the ordering-table load destination from $3 to $5. */
+    return (u32 *)((scratch->ot_index << 2) + (unsigned long)scratch->ordering_table);
+}
 
 /* Draw four shaded textured quads around the given position. */
 s32 draw_four_shaded_quads(OffsetColorEffectBody *effect, MovingPosition *position)
 {
-    S_func_818BC9CC_2 *scratch;
+    ProjectedQuadScratch *scratch;
     S_func_818BC9CC_3 *packet;
     S_func_818BC9CC_4 *draw_mode;
     S_func_818BC9CC_4 *draw_mode_2;
@@ -122,9 +95,9 @@ s32 draw_four_shaded_quads(OffsetColorEffectBody *effect, MovingPosition *positi
     s16 full_window[4];
 
     render_state = &g_game_work;
-    scratch = (S_func_818BC9CC_2 *)0x1F800000;
+    scratch = PROJECTED_QUAD_SCRATCH;
     angle = render_state->view.camera_rotation.parts.viewAngle;
-    scratch->unk_18 = (u8 *)g_game_work.draw_buffer + 0xB0;
+    scratch->ordering_table = (u32 *)((u8 *)g_game_work.draw_buffer + 0xB0);
     x_extent = (u32)((rcos(angle) >> 4) * (s16)effect->unk_08) >> 8;
     y_extent = (u32)((rsin(angle) >> 4) * (s16)effect->unk_08) >> 8;
     texture_v = (effect->unk_04.s16 % 4) << 3;
@@ -165,113 +138,113 @@ s32 draw_four_shaded_quads(OffsetColorEffectBody *effect, MovingPosition *positi
         switch (quad_index) {
         case 0:
             coord = position->x;
-            scratch->unk_74 = coord;
-            scratch->unk_64 = coord;
+            scratch->vertices[2].vx = coord;
+            scratch->vertices[0].vx = coord;
             coord = position->x + x_extent;
-            scratch->unk_7C = coord;
-            scratch->unk_6C = coord;
+            scratch->vertices[3].vx = coord;
+            scratch->vertices[1].vx = coord;
             coord = position->y;
-            scratch->unk_76 = coord;
-            scratch->unk_66 = coord;
+            scratch->vertices[2].vy = coord;
+            scratch->vertices[0].vy = coord;
             coord = position->y - y_extent;
-            scratch->unk_7E = coord;
-            scratch->unk_6E = coord;
+            scratch->vertices[3].vy = coord;
+            scratch->vertices[1].vy = coord;
             coord = position->z;
-            scratch->unk_70 = coord;
-            scratch->unk_68 = coord;
+            scratch->vertices[1].vz = coord;
+            scratch->vertices[0].vz = coord;
             far_z = position->z;
             z_extent = effect->unk_08;
             far_z = far_z + z_extent;
-            scratch->unk_80 = far_z;
-            scratch->unk_78 = far_z;
+            scratch->vertices[3].vz = far_z;
+            scratch->vertices[2].vz = far_z;
             break;
         case 1:
             coord = position->x;
-            scratch->unk_74 = coord;
-            scratch->unk_64 = coord;
+            scratch->vertices[2].vx = coord;
+            scratch->vertices[0].vx = coord;
             coord = position->x - x_extent;
-            scratch->unk_7C = coord;
-            scratch->unk_6C = coord;
+            scratch->vertices[3].vx = coord;
+            scratch->vertices[1].vx = coord;
             coord = position->y;
-            scratch->unk_76 = coord;
-            scratch->unk_66 = coord;
+            scratch->vertices[2].vy = coord;
+            scratch->vertices[0].vy = coord;
             coord = position->y + y_extent;
-            scratch->unk_7E = coord;
-            scratch->unk_6E = coord;
+            scratch->vertices[3].vy = coord;
+            scratch->vertices[1].vy = coord;
             coord = position->z;
-            scratch->unk_70 = coord;
-            scratch->unk_68 = coord;
+            scratch->vertices[1].vz = coord;
+            scratch->vertices[0].vz = coord;
             far_z = position->z;
             far_z = far_z + effect->unk_08;
-            scratch->unk_80 = far_z;
-            scratch->unk_78 = far_z;
+            scratch->vertices[3].vz = far_z;
+            scratch->vertices[2].vz = far_z;
             break;
         case 2:
             coord = position->x;
-            scratch->unk_74 = coord;
-            scratch->unk_64 = coord;
+            scratch->vertices[2].vx = coord;
+            scratch->vertices[0].vx = coord;
             coord = position->x + x_extent;
-            scratch->unk_7C = coord;
-            scratch->unk_6C = coord;
+            scratch->vertices[3].vx = coord;
+            scratch->vertices[1].vx = coord;
             coord = position->y;
-            scratch->unk_76 = coord;
-            scratch->unk_66 = coord;
+            scratch->vertices[2].vy = coord;
+            scratch->vertices[0].vy = coord;
             far_y = (u32)position->y - y_extent;
-            scratch->unk_7E = far_y;
-            scratch->unk_6E = far_y;
+            scratch->vertices[3].vy = far_y;
+            scratch->vertices[1].vy = far_y;
             coord = position->z;
-            scratch->unk_70 = coord;
-            scratch->unk_68 = coord;
+            scratch->vertices[1].vz = coord;
+            scratch->vertices[0].vz = coord;
             far_z = position->z;
             far_z -= effect->unk_08;
-            scratch->unk_80 = far_z;
-            scratch->unk_78 = far_z;
+            scratch->vertices[3].vz = far_z;
+            scratch->vertices[2].vz = far_z;
             break;
         case 3:
             coord = position->x;
-            scratch->unk_74 = coord;
-            scratch->unk_64 = coord;
+            scratch->vertices[2].vx = coord;
+            scratch->vertices[0].vx = coord;
             coord = position->x - x_extent;
-            scratch->unk_7C = coord;
-            scratch->unk_6C = coord;
+            scratch->vertices[3].vx = coord;
+            scratch->vertices[1].vx = coord;
             coord = position->y;
-            scratch->unk_76 = coord;
-            scratch->unk_66 = coord;
+            scratch->vertices[2].vy = coord;
+            scratch->vertices[0].vy = coord;
             far_y = (u32)position->y + y_extent;
-            scratch->unk_7E = far_y;
-            scratch->unk_6E = far_y;
+            scratch->vertices[3].vy = far_y;
+            scratch->vertices[1].vy = far_y;
             coord = position->z;
-            scratch->unk_70 = coord;
-            scratch->unk_68 = coord;
+            scratch->vertices[1].vz = coord;
+            scratch->vertices[0].vz = coord;
             far_z = position->z;
             far_z -= effect->unk_08;
-            scratch->unk_80 = far_z;
-            scratch->unk_78 = far_z;
+            scratch->vertices[3].vz = far_z;
+            scratch->vertices[2].vz = far_z;
             break;
         }
 
         {
-            void *vertex0 = &scratch->unk_64;
-            void *vertex1 = &scratch->unk_6C;
-            void *vertex2 = &scratch->unk_74;
-            void *vertex3 = &scratch->unk_7C;
+            void *vertex0 = &scratch->vertices[0];
+            void *vertex1 = &scratch->vertices[1];
+            void *vertex2 = &scratch->vertices[2];
+            void *vertex3 = &scratch->vertices[3];
 
             depth = RotAverage4(vertex0, vertex1, vertex2, vertex3,
-                              (s32 *)&scratch->unk_D8, (s32 *)&scratch->unk_DC,
-                              (s32 *)&scratch->unk_E0, (s32 *)&scratch->unk_E4,
-                              (u8 *)scratch + 0x84, (u8 *)scratch + 0x88);
+                              (s32 *)&scratch->screen[0].x, (s32 *)&scratch->screen[1].x,
+                              (s32 *)&scratch->screen[2].x, (s32 *)&scratch->screen[3].x,
+                              &scratch->depth_cue, &scratch->gte_flag);
         }
-        scratch->unk_B4 = depth;
-        packet->unk_08 = scratch->unk_D8;
-        packet->unk_0A = scratch->unk_DA;
-        packet->unk_14 = scratch->unk_DC;
-        packet->unk_16 = scratch->unk_DE;
-        packet->unk_20 = scratch->unk_E0;
-        packet->unk_22 = scratch->unk_E2;
-        packet->unk_2C = scratch->unk_E4;
-        packet->unk_2E = scratch->unk_E6;
+        scratch->ot_index = depth;
+        packet->unk_08 = scratch->screen[0].x;
+        packet->unk_0A = scratch->screen[0].y;
+        packet->unk_14 = scratch->screen[1].x;
+        packet->unk_16 = scratch->screen[1].y;
+        packet->unk_20 = scratch->screen[2].x;
+        packet->unk_22 = scratch->screen[2].y;
+        packet->unk_2C = scratch->screen[3].x;
+        packet->unk_2E = scratch->screen[3].y;
 
-        if (scratch->unk_B4 < 0x1E0U) {
+        if (scratch->ot_index < 0x1E0U) {
             full_window[1] = 0;
             full_window[0] = 0;
             full_ctx = render_state->draw_buffer;
@@ -288,25 +261,25 @@ s32 draw_four_shaded_quads(OffsetColorEffectBody *effect, MovingPosition *positi
             {
                 u32 *ot;
 
-                ot = OT_ADDR(scratch);
+                ot = projected_ordering_entry(scratch);
                 ((PacketTag *)draw_mode)->addr = ((PacketTag *)ot)->addr;
             }
             {
                 u32 *ot;
 
-                ot = OT_ADDR(scratch);
+                ot = projected_ordering_entry(scratch);
                 ((PacketTag *)ot)->addr = (u32)draw_mode;
             }
             {
                 u32 *ot;
 
-                ot = OT_ADDR(scratch);
+                ot = projected_ordering_entry(scratch);
                 ((PacketTag *)packet)->addr = ((PacketTag *)ot)->addr;
             }
             {
                 u32 *ot;
 
-                ot = OT_ADDR(scratch);
+                ot = projected_ordering_entry(scratch);
                 ((PacketTag *)ot)->addr = (u32)packet;
             }
 
@@ -322,13 +295,13 @@ s32 draw_four_shaded_quads(OffsetColorEffectBody *effect, MovingPosition *positi
             {
                 u32 *ot;
 
-                ot = OT_ADDR(scratch);
+                ot = projected_ordering_entry(scratch);
                 ((PacketTag *)draw_mode_2)->addr = ((PacketTag *)ot)->addr;
             }
             {
                 u32 *ot;
 
-                ot = OT_ADDR(scratch);
+                ot = projected_ordering_entry(scratch);
                 ((PacketTag *)ot)->addr = (u32)draw_mode_2;
             }
         }

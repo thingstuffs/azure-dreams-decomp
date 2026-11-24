@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/effect/particle.h"
 #include "dungeon/effect/emission_data.h"
 #include "dungeon/effect/head_bank_imports.h"
 #include "dungeon/globals.h"
@@ -22,14 +23,6 @@ typedef struct S_7FFE99BC_0_pre {
     u16 unk_00;
 } S_7FFE99BC_0_pre;   /* the 0x2 bytes before arg0 in spawn_odd_tick_emitter_effects, addressed as arg0[-1] */
 
-typedef struct S_7FFE99BC_0 {
-    void * unk_00;
-    u8 pad_04[0x12];
-    u16 unk_16;
-    u8 pad_18[0x6];
-    u16 unk_1E;
-} S_7FFE99BC_0;   /* arg0 in spawn_odd_tick_emitter_effects */
-
 typedef struct S_7FFE99BC_1 {
     u8 pad_00[0xA];
     u16 unk_0A;
@@ -47,18 +40,18 @@ typedef struct S_7FFE99BC_2 {
 typedef struct S_7FFE99BC_3 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_7FFE99BC_3;   /* ((S_7FFE99BC_0 *)arg0)->unk_00 in spawn_odd_tick_emitter_effects */
+} S_7FFE99BC_3;   /* emitter source in spawn_odd_tick_emitter_effects */
 
 /* Spawn effects on early odd ticks and retire the emitter when its timer expires. */
-void spawn_odd_tick_emitter_effects(S_7FFE99BC_0 *emitter, s32 spawn_param_1, s32 spawn_param_2) {
+void spawn_odd_tick_emitter_effects(TimedParticleEmitter *emitter, s32 spawn_param_1, s32 spawn_param_2) {
     s16 tick;
     u16 ticks_left;
     S_7FFE99BC_1 *effect_state;
     void *effect;
     S_7FFE99BC_2 *effect_config;
 
-    tick = emitter->unk_16 + 1;
-    emitter->unk_16 = (u16)tick;
+    tick = emitter->age + 1;
+    emitter->age = (u16)tick;
     if ((tick < 0x17) && (tick & 1)) {
         effect = func_7003CF18(0x212);
         if (effect != NULL) {
@@ -69,7 +62,7 @@ void spawn_odd_tick_emitter_effects(S_7FFE99BC_0 *emitter, s32 spawn_param_1, s3
             effect_state = (*(void **)((u8 *)effect + 8));
             effect_state->unk_0A =
                 (u16)(effect_state->unk_0A -
-                (emitter_height_offsets[(u8)((S_7FFE99BC_3 *)(emitter->unk_00))->unk_13] >> 1));
+                (emitter_height_offsets[(u8)((S_7FFE99BC_3 *)(emitter->source))->unk_13] >> 1));
             effect_config = (*(void **)((u8 *)effect + 0xC));
             (*(Packed12 *)((u8 *)effect + 0x62)) = D_8010C450;
             effect_config->unk_08 = (effect + 0x62);
@@ -78,8 +71,8 @@ void spawn_odd_tick_emitter_effects(S_7FFE99BC_0 *emitter, s32 spawn_param_1, s3
             effect_config->unk_06 = 0x64;
         }
     }
-    ticks_left = emitter->unk_1E - 1;
-    emitter->unk_1E = ticks_left;
+    ticks_left = emitter->lifetime - 1;
+    emitter->lifetime = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         u16 *active_count = emitted_effect_counter;
         u16 next_count;

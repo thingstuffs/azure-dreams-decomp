@@ -23,7 +23,7 @@ int main(void) {
         reset_transition_state();
         select_next_scene_mode();
         while (!(scene->flags0F & 1)) {
-            clock->unk_021C += animation_tick_scale;
+            clock->ticks += animation_tick_scale;
             game->unk_004++;
             scene->update();
             render_cd_wait_animation_on_new_field();

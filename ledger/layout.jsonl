@@ -7888,3 +7888,6 @@
 {"id":"dungeon/func_7FFEB428","path":"src/dungeon/effect/shade/create_alternating_tick_color_effect.c"}
 {"id":"dungeon/D_8184A800","path":"src/dungeon/effect/orbit_burst_bank_header.c"}
 {"id":"dungeon/D_818A4800","path":"src/dungeon/effect/orbit_ring_bank_header.c"}
+{"id":"dungeon/func_809F6B44","path":"src/dungeon/monster/kid/resume_kid_behavior_after_interpolation.c"}
+{"id":"dungeon/func_809F6B7C","path":"src/dungeon/monster/kid/resume_kid_behavior_after_spinning_fall.c"}
+{"id":"dungeon/func_809F6BB4","path":"src/dungeon/monster/kid/resume_kid_behavior_after_fade_in.c"}

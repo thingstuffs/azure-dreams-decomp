@@ -50,7 +50,6 @@ s32 begin_front_tile_attack(ActorRecord *body, ObjectPosition *unused, SpriteFra
         target = find_eligible_actor_at_tile_and_height(entity, (position_arg->tile_x
             + ((u16 *)dir_step_x)[direction]) & 0xFFFF, (position_arg->tile_y
             + ((u16 *)dir_step_y)[direction]) & 0xFFFF, (s16) entity->unk_88);
-        page_or_entity = (u8 *)0x80010000;
         entity->unk_60 = target;
         if (!(GAME_STATE->log.head.flags & 1) && (target != 0)
             && (target->flags14 & 0x4000)

@@ -22,11 +22,6 @@ struct POLY_G4;
 #define addPrim(ordering_table, primitive) \
     (setaddr((primitive), getaddr(ordering_table)), setaddr((ordering_table), (primitive)))
 
-/* Packed-word access for renderers that keep the link mask in a local. */
-#define GPU_TAG_LINK(tag, mask) ((tag) & (mask))
-#define GPU_SET_TAG_LINK(tag, address, mask) \
-    ((tag) = ((tag) & 0xFF000000) | GPU_TAG_LINK((address), (mask)))
-
 void AddPrim(void *, void *);
 s32 ClearImage(struct RECT *, u8, u8, u8);
 u32 * ClearOTagR(u32 *, s32);

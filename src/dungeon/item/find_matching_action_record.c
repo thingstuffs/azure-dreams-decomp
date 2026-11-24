@@ -8,13 +8,6 @@ typedef struct S_8009F9E8_0 {
     u8 unk_01;
 } S_8009F9E8_0;   /* p in find_matching_action_record */
 
-typedef struct {
-    u8 flags;
-    u8 kind;
-} DungeonEntry;
-
-
-
 /* Scan backward through special entry kinds for a matching kind and flag bit. */
 void *find_matching_action_record(s32 wanted_kind, s32 wanted_flag) {
     s32 entry_index;
@@ -26,7 +19,7 @@ void *find_matching_action_record(s32 wanted_kind, s32 wanted_flag) {
     u8 *entries;
     S_8009F9E8_0 *entry;
 
-    entry_index = *&GAME_STATE->log.head.length - 1;
+    entry_index = GAME_STATE->log.head.length - 1;
     entries = GAME_STATE->log_data;
     if (entry_index >= 0) {
         group_70 = 0x70;

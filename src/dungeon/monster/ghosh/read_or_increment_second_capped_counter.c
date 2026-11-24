@@ -10,8 +10,8 @@ s32 read_or_increment_second_capped_counter(s32 read_only) {
     register u16 count;
 
     {
-        high_byte = GAME_STATE->resident_bytes[6];
-        low_byte = GAME_STATE->resident_bytes[7];
+        high_byte = GAME_STATE->ghosh_second_counter_high;
+        low_byte = GAME_STATE->ghosh_second_counter_low;
     }
     shifted = high_byte << 8;
     count = low_byte | shifted;
@@ -26,8 +26,8 @@ s32 read_or_increment_second_capped_counter(s32 read_only) {
             }
         }
         {
-            GAME_STATE->resident_bytes[7] = low_byte;
-            GAME_STATE->resident_bytes[6] = high_byte;
+            GAME_STATE->ghosh_second_counter_low = low_byte;
+            GAME_STATE->ghosh_second_counter_high = high_byte;
         }
     }
 

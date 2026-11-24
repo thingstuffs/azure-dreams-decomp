@@ -214,7 +214,7 @@ void interpolate_person_to_saved_position(TownObjectRecord *object, ObjectPositi
 
 void unregister_and_update_object(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite);
 
-void start_person_scale_animation(TownObjectRecord *object, s32 unused, SpriteFrameState *output);
+void start_person_scale_animation(TownObjectRecord *object, ObjectPosition *unused, SpriteFrameState *output);
 
 extern s32 countdown_expiry_entry_group[];
 
@@ -224,7 +224,7 @@ void initialize_countdown_expiry_entry_group(TownObjectRecord *object, struct Ob
 
 extern s32 effect_spawn_countdown_entries[];
 
-void start_effect_spawn_countdown(TownObjectRecord *actor, s32 unused, SpriteFrameState *output);
+void start_effect_spawn_countdown(TownObjectRecord *actor, ObjectPosition *unused, SpriteFrameState *output);
 
 extern s32 entity_countdown_entries[];
 

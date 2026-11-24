@@ -1,7 +1,6 @@
 #ifndef DUNGEON_DATA_H
 #define DUNGEON_DATA_H
 #include "dungeon/monster/garuda_frames.h"
-#include "shared/game_state.h"
 #include "dungeon/monster/picket_frames.h"
 #include "dungeon/monster/pulunpa_frames.h"
 #include "dungeon/globals.h"

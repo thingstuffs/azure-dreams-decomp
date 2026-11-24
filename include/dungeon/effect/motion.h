@@ -5,9 +5,9 @@ struct B22_81893474_EffectState;
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_moving_views.h"
-struct S_7FFE83DC_3;
+struct ColorEffectSource;
 struct SpellMotion;
-void create_brief_positioned_color_effect(struct S_7FFE83DC_3 *source, s32 color);
+void create_brief_positioned_color_effect(struct ColorEffectSource *source, s32 color);
 void * create_orbit_sprite_at_index(struct SpellMotion *origin, s16 index);
 s32 draw_counter_rotating_cylinders(struct B22_81893474_EffectState *effect, MovingPosition *center, s32 unused_value);
 void spawn_jittered_child_effect( void *source, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);

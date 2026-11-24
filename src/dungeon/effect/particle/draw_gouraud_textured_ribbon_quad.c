@@ -52,6 +52,7 @@ typedef struct S_801663AC_4 {
 void draw_gouraud_textured_ribbon_quad(S_801663AC_4 *quad, ObjectPosition *position, SpriteFrameState *render_state, s16 depth_bias)
 {
     ShadedQuadScratch *scratch = SHADED_QUAD_SCRATCH;
+    GpuContext *draw_context;
     POLY_GT4 *packet;
     u8 *texture;
     s32 ot_index;
@@ -84,10 +85,11 @@ void draw_gouraud_textured_ribbon_quad(S_801663AC_4 *quad, ObjectPosition *posit
     scratch->render_flags = render_state->flags;
     scratch->uv_u_start = texture[8];
     scratch->uv_v_start = texture[9];
-    (*(s32 *)((u8 *)scratch + 0x14)) = texture[0xA];
+    scratch->uv_u_extent = texture[0xA];
     scratch->uv_v_extent = texture[0xB];
-    packet = ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor;
-    ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor = packet + 1;
+    draw_context = g_game_work.draw_buffer;
+    packet = draw_context->packetCursor;
+    draw_context->packetCursor = packet + 1;
 
     scratch->vertices[0].vx = quad->unk_74;
     scratch->vertices[1].vx = quad->unk_7A;

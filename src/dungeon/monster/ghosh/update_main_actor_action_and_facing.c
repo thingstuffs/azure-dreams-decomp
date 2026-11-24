@@ -6,7 +6,7 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
-#include "shared/sys_flags.h"
+
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -101,7 +101,7 @@ void update_main_actor_action_and_facing(ActorRecord *actor, ObjectPosition *con
         }
         actor->action_state_flags = (u16) (actor->action_state_flags & 0xFFF3);
         if (actor->unk_B4.bytes[0] == 0) {
-            if (!((u16)*((s16 *)&system_update_flags) & 8)) {
+            if (!(GAME_STATE->log.head.flags & 8)) {
                 if (entity->hp_delta != 0) {
                     if (begin_ready_actor_directional_action(actor, context, map_actor, ghosh_ready_action_frames) != 0) {
                         return;
@@ -151,7 +151,7 @@ void update_main_actor_action_and_facing(ActorRecord *actor, ObjectPosition *con
                     return;
                 }
             }
-            if ((u16) *((s16 *)&system_update_flags) & 8) {
+            if (GAME_STATE->log.head.flags & 8) {
                 execute_actor_script_command(actor, context, (map_actor));
                 entity->movement_queue_state = entity->movement_queue_state & 0x7F;
                 update_actor_status_and_mp(entity);

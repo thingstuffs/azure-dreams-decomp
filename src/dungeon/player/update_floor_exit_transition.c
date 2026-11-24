@@ -2,7 +2,7 @@
 #include "shared/game_state.h"
 #include "shared/object_node.h"
 #include "common.h"
-#include "shared/sys_flags.h"
+
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
@@ -35,10 +35,6 @@ typedef struct S_800930F0_6 {
     s32 unk_00;
 } S_800930F0_6;   /* &D_800E296C in update_floor_exit_transition */
 
-typedef struct S_800930F0_7 {
-    u16 unk_00;
-} S_800930F0_7;   /* &D_80013714 in update_floor_exit_transition */
-
 typedef struct S_800930F0_8 {
     u8 pad_00[0x3CD0];
     u8 unk_3CD0;
@@ -50,18 +46,22 @@ typedef struct S_800930F0_9 {
 } S_800930F0_9;   /* store_base in update_floor_exit_transition */
 
 s32 get_entity_class();
+
 typedef struct {
     s32 unk0;
     s32 unk4;
     s32 unk8;
 } __attribute__((packed)) UnalignedCopy3;
+
 extern M2C_UNK D_80021268;
 extern s16 current_dungeon_floor;
 extern void *D_800DCF64;
 extern void *dungeon_menu_action_state[];
 
 /* Advances the dungeon transition through its delay, setup, and completion phases. */
-void update_floor_exit_transition(PlayerRecord *state, ObjectPosition *unused, MovingTile *tile, ActorRecord *actor) {
+void update_floor_exit_transition(PlayerRecord *state, ObjectPosition *unused,
+                                  MovingTile *tile, ActorRecord *actor)
+{
     s32 *transition_base;
     s32 *slot_cursor;
     s32 slot_index;
@@ -164,7 +164,7 @@ void update_floor_exit_transition(PlayerRecord *state, ObjectPosition *unused, M
         break;
     case 16:
         transition_base = (s32 *)0x800E0000;
-        if (((S_800930F0_7 *)(((s32 *)&system_update_flags)))->unk_00 & 4) {
+        if (GAME_STATE->log.head.flags & 4) {
             if (((S_800930F0_8 *)transition_base)->unk_3CD0 != 0) {
                 break;
             }

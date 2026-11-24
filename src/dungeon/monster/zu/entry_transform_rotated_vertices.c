@@ -2,6 +2,7 @@
 #include "dungeon/effect/motion.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "shared/gpu_packets.h"
 #include "dungeon/monster/zu.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"

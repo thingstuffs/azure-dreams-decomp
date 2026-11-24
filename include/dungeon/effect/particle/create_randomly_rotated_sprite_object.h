@@ -97,31 +97,6 @@ typedef struct B22_818930F8_S_818930F8_1 {
     u8 pad_00[0x14];
     u16 unk_14;
 } B22_818930F8_S_818930F8_1;
-typedef struct B22_81892C5C_S_81892C5C_0 {
-    u8 pad_00[0x18];
-    union { void * s; u32 * u; } unk_18;   /* accessed as both */
-    u8 pad_1C[0x48];
-    s16 unk_64;
-    s16 unk_66;
-    u16 unk_68;
-    u8 pad_6A[0x2];
-    s16 unk_6C;
-    s16 unk_6E;
-    u16 unk_70;
-    u8 pad_72[0x2];
-    s16 unk_74;
-    s16 unk_76;
-    u16 unk_78;
-    u8 pad_7A[0x3A];
-    union { s32 s; u32 u; } unk_B4;   /* accessed as both */
-    u8 pad_B8[0x20];
-    u16 unk_D8;
-    u16 unk_DA;
-    u16 unk_DC;
-    u16 unk_DE;
-    u16 unk_E0;
-    u16 unk_E2;
-} B22_81892C5C_S_81892C5C_0;
 typedef struct TimedTransformCopyEffectBody {
     union { void *linked_counter; s32 owner_value; } owner;
     union { u16 frame_count; s16 base_height; } frame;

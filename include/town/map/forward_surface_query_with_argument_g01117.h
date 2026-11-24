@@ -4,10 +4,59 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_8008F958, CL:town/func_8008FE64, CL:town/func_80090320, CL:town/func_80090854, CL:town/func_80090D8C, CL:town/func_800912C0, PD:town/engine:800FE480, PD:town/engine:800FE484. */
 
 #include "common.h"
-#include "shared/scratchpad.h"
 #include "shared/position_views.h"
 #include "m2c_compat.h"
 #include "shared/game_work.h"
+
+/* Cell index used to look up the query tile. */
+typedef struct MapSurfaceCell {
+    s16 index;
+    u8 pad_02[0x12];
+} MapSurfaceCell;
+
+/* Coordinates, steps, counters and offsets for a two-by-two surface search. */
+typedef struct MapSurfaceScan {
+    /* 0x000 */ u16 start_column;
+    /* 0x002 */ u16 start_row;
+    /* 0x004 */ s32 x_step;
+    /* 0x008 */ s32 y_step;
+    /* 0x00C */ s32 inner_count;
+    /* 0x010 */ s32 outer_count;
+    /* 0x014 */ s32 inner_offset;
+    /* 0x018 */ s32 outer_offset;
+} MapSurfaceScan;
+
+/* Candidate plane height, best accepted height and threshold. */
+typedef struct MapSurfacePlaneRange {
+    s32 candidate;
+    s32 best;
+    s32 threshold;
+} MapSurfacePlaneRange;
+
+/* Best eligible value, query bound and aligned base for one axis. */
+typedef struct MapSurfaceSearchRange {
+    /* 0x000 */ s32 best;
+    /* 0x004 */ s32 bound;
+    /* 0x008 */ s32 base;
+} MapSurfaceSearchRange;
+
+/* Search range and the column displacement added to each intersection. */
+typedef struct MapSurfaceXSearch {
+    MapSurfaceSearchRange range;
+    u8 pad_0C[0x0C];
+    u16 inner_offset;
+} MapSurfaceXSearch;
+
+/* Query coordinates, intersection result and bounds for an X-axis search. */
+typedef struct MapSurfaceXQuery {
+    s16 result;
+    u16 y;
+    u16 z;
+    u8 pad_06[0x0E];
+    MapSurfaceXSearch search;
+    u8 pad_30[2];
+    u16 base_y;
+} MapSurfaceXQuery;
 
 typedef struct {
     s8 pad[0x14];
@@ -27,22 +76,20 @@ typedef union Quad {
     s16 vals[8];
 } Quad;
 
-typedef struct TargetScratch {
+typedef struct MapSurfacePlaneScratch {
     void *result;
-    s16 cell;
-    u8 pad06[0x12];
+    MapSurfaceCell lookup;
     Vec8 *planes;
-    u16 origin_x;
-    u16 origin_y;
+    s16 x;
+    s16 y;
     u8 pad20[4];
     MapSurfacePlaneRange plane_range;
     u8 pad30[0x1c];
-    u16 x_base;
-    u16 y_base;
-    MapSurfaceScanStart start;
+    u16 base_x;
+    u16 base_y;
     MapSurfaceScan scan;
     Quad quad;
-} TargetScratch;
+} MapSurfacePlaneScratch;
 
 typedef struct TargetMap {
     u16 *tiles;
@@ -91,47 +138,19 @@ typedef struct MapInfo {
 
 typedef struct GlobalState { u8 pad000[0x1DC]; MapInfo map; } GlobalState;
 
-typedef struct Scratch {
-    u8 pad00[4];
-    u16 tile;
-    u8 pad06[0x12];
-    Vec8 * planes;
-    s16 x;
+/* The Y and Z offsets of each corner from the X-intersection query point. */
+typedef struct MapSurfaceYZOffset {
     s16 y;
-    u8 pad22[4];
-    MapSurfacePlaneRange plane_range;
-    u8 pad30[0x1C];
-    s16 base_x;
-    s16 base_y;
-    MapSurfaceScanStart start;
-    MapSurfaceScan scan;
-    Quad quad;
-} Scratch;
+    s16 z;
+} MapSurfaceYZOffset;
 
 typedef struct Scratch80090320 {
     u8 pad00[4];
-    u16 tile;
-    u8 pad06[0x12];
+    MapSurfaceCell lookup;
     u8 * height_data;
-    s16 result;
-    u16 origin_y;
-    u16 origin_z;
-    u8 pad22[0xE];
-    MapSurfaceSearchRange x_range;
-    u8 pad3C[0xC];
-    u16 inner_index;
-    u8 pad4A[4];
-    u16 saved_y;
-    MapSurfaceScanStart start;
+    MapSurfaceXQuery query;
     MapSurfaceScan scan;
-    s16 d0;
-    s16 d1;
-    s16 d2;
-    s16 d3;
-    s16 d4;
-    s16 d5;
-    s16 d6;
-    s16 d7;
+    MapSurfaceYZOffset quad[4];
 } Scratch80090320;
 
 typedef struct Grid80090320 {
@@ -236,21 +255,11 @@ typedef struct Map_80090854 {
 
 typedef struct Scratch_80090854 {
     u8 pad00[4];
-    s16 tile;
-    u8 pad06[0x12];
+    MapSurfaceCell lookup;
     Vec_80090854 *planes;
-    s16 result;
-    s16 x;
-    s16 z;
-    u8 pad22[0xE];
-    MapSurfaceSearchRange x_range;
-    u8 pad3C[0xC];
-    s16 inner_bias;
-    u8 pad4A[4];
-    s16 origin_x;
-    MapSurfaceScanStart start;
+    MapSurfaceXQuery query;
     MapSurfaceScan scan;
-    s16 quad[8];
+    MapSurfaceYZOffset quad[4];
 } Scratch_80090854;
 
 typedef struct Global_80090854 {
@@ -263,7 +272,7 @@ typedef struct {
     s16 y;
     s16 z;
     s16 pad;
-} LowestSurfaceVector;
+} MapSurfaceHeightVector;
 
 typedef struct {
     u16 vertex0;
@@ -279,8 +288,8 @@ typedef struct {
 typedef struct {
     u16 *grid;
     LowestSurfaceCell **records;
-    LowestSurfaceVector *vertices;
-    LowestSurfaceVector *planes;
+    MapSurfaceHeightVector *vertices;
+    MapSurfaceHeightVector *planes;
     u8 pad10[4];
     s16 shift;
     u8 pad16[2];
@@ -288,36 +297,27 @@ typedef struct {
     u16 y_mask;
 } LowestSurfaceMap;
 
-typedef struct {
+typedef struct MapSurfaceHeightScratch {
     u8 pad00[4];
-    s16 cell;
-    u8 pad06[0x12];
-    LowestSurfaceVector *planes;
+    MapSurfaceCell lookup;
+    MapSurfaceHeightVector *planes;
     s16 x;
-    s16 y;
+    s16 height;
     s16 z;
     u8 pad22[0x1A];
     MapSurfaceSearchRange height_range;
     u8 pad48[2];
-    s16 outer_bias;
+    s16 outer_offset;
     s16 base_x;
     u8 pad4E[2];
-    MapSurfaceScanStart start;
     MapSurfaceScan scan;
     s16 quad[8];
-} LowestSurfaceScratch;
+} MapSurfaceHeightScratch;
 
 typedef struct {
     u8 pad000[0x1DC];
     LowestSurfaceMap map;
 } LowestSurfaceGlobal;
-
-typedef struct Vec_8008EA20 {
-    s16 x;
-    s16 y;
-    s16 z;
-    s16 pad;
-} Vec_8008EA20;
 
 typedef struct Cell_8008EA20 {
     u16 v0;
@@ -333,8 +333,8 @@ typedef struct Cell_8008EA20 {
 typedef struct Map_8008EA20 {
     u16 *tiles;
     Cell_8008EA20 **cells;
-    Vec_8008EA20 *vertices;
-    Vec_8008EA20 *heights;
+    MapSurfaceHeightVector *vertices;
+    MapSurfaceHeightVector *heights;
     u8 pad10[4];
     s16 shift;
     u16 pad16;
@@ -346,25 +346,6 @@ typedef struct Global_8008EA20 {
     u8 pad000[0x1DC];
     Map_8008EA20 map;
 } Global_8008EA20;
-
-typedef struct Scratch_8008EA20 {
-    u8 pad00[4];
-    u16 tile;
-    u8 pad06[0x12];
-    Vec_8008EA20 *heights;
-    s16 x;
-    s16 z;
-    s16 y;
-    u8 pad22[0x1A];
-    MapSurfaceSearchRange height_range;
-    u8 pad48[2];
-    s16 z_offset;
-    s16 x_origin;
-    u8 pad4E[2];
-    MapSurfaceScanStart start;
-    MapSurfaceScan scan;
-    s16 quad[8];
-} Scratch_8008EA20;
 
 extern u8 D_800CFCAC[];
 extern GlobalState D_80083160;

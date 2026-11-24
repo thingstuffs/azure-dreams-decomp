@@ -55,6 +55,7 @@ DroppedItemNode *create_dropped_item_object(void *owner, ObjectPosition *source_
                                  ActorRecord *source_data, DungeonItemEntry *init_data, s16 tile_id);
 void update_dropped_object_motion(DroppedObjectMotionBody *object, register ObjectPosition *motion, SpriteFrameState *tile);
 
+s32 update_spinning_actor_fall(ActorRecord *animation, ObjectPosition *position, SpriteFrameState *tile, void *object);
 s32 update_actor_fade_in(ActorRecord *object, ObjectPosition *unused, SpriteFrameState *effect);
 void run_actor_fade_in(void *owner, s32 context, void *effect);
 

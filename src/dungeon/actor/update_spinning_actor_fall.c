@@ -1,3 +1,4 @@
+#include "dungeon/actor/effect.h"
 #include "dungeon/level/unlink_entity_node_api.h"
 #include "common.h"
 #include "shared/object_flags.h"

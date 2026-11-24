@@ -29,8 +29,8 @@ void spawn_ghosh_item_sometimes(void) {
 
     source = ghosh_actor_node;
     {
-        low_byte = GAME_STATE->resident_bytes[5];
-        high_byte = GAME_STATE->resident_bytes[4];
+        low_byte = GAME_STATE->ghosh_counter_low;
+        high_byte = GAME_STATE->ghosh_counter_high;
     }
     count = low_byte | (high_byte << 8);
     source_pos = ghosh_actor_node->position;

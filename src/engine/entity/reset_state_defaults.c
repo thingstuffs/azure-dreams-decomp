@@ -6,7 +6,7 @@
 /* Reset global state and initialize default parameters. */
 void reset_state_defaults(void)
 {
-    u8 *globals_base = (u8 *)0x80010000;
+    GameState *globals_base = GAME_STATE;
 
     GAME_STATE->options.unk_3185 = 1;
     GAME_STATE->town_money = 0;
@@ -15,9 +15,9 @@ void reset_state_defaults(void)
     GAME_STATE->tower_entry_count = 0;
     reset_entry_flags();
     GAME_STATE->map_view.rect[0] = 0xD5;
-    *(s16 *)(globals_base + 0x3632) = 0x38;
-    *(s16 *)(globals_base + 0x3634) = 0x6B;
-    *(s16 *)(globals_base + 0x3636) = 0x70;
+    globals_base->map_view.rect[1] = 0x38;
+    globals_base->map_view.rect[2] = 0x6B;
+    globals_base->map_view.rect[3] = 0x70;
     GAME_STATE->map_view.unk_08 = 0x100;
     GAME_STATE->map_view.unk_0A = 0x78;
     GAME_STATE->map_view.scale = 0x4000;

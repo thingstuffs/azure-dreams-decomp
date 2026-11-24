@@ -39,4 +39,26 @@ typedef struct ShadedQuadScratch {
 } ShadedQuadScratch;
 #define SHADED_QUAD_SCRATCH ((ShadedQuadScratch *)0x1F800000)
 
+/* The linked fragment renderers copy each packed XY word and Z halfword into an
+ * eight-byte GTE input, then queue the projected packet by its biased depth. */
+typedef struct PackedQuadVertex {
+    s32 xy;
+    s16 z;
+    u8 pad_06[2];
+} PackedQuadVertex;
+
+typedef struct PackedShadedQuadScratch {
+    /* 0x000 */ u8 pad_000[0x18];
+    /* 0x018 */ void *packet_cursor;
+    /* 0x01C */ u8 pad_01C[4];
+    /* 0x020 */ u8 *ordering_table;
+    /* 0x024 */ u8 pad_024[0x4C];
+    /* 0x070 */ PackedQuadVertex vertices[4];
+    /* 0x090 */ s32 depth_cue;
+    /* 0x094 */ s32 gte_flag;
+    /* 0x098 */ u8 pad_098[0x28];
+    /* 0x0C0 */ u32 ot_index;
+} PackedShadedQuadScratch;
+#define PACKED_SHADED_QUAD_SCRATCH ((PackedShadedQuadScratch *)0x1F800000)
+
 #endif

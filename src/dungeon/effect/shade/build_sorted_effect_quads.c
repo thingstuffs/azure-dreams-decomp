@@ -1,31 +1,11 @@
 #include "common.h"
+#include "dungeon/effect/shaded_quad_scratch.h"
 #include "shared/game_work.h"
 #include "dungeon/effect/shade.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
 #include "sdk/libgpu_types.h"
 #include "sdk/libgpu_packets.h"
-
-typedef struct S_800259DC_0 {
-    u8 pad_00[0x18];
-    void * unk_18;
-    u8 pad_1C[0x4];
-    void * unk_20;
-    u8 pad_24[0x4C];
-    void * unk_70;
-    u16 unk_74;
-    u8 pad_76[0x2];
-    void * unk_78;
-    u16 unk_7C;
-    u8 pad_7E[0x2];
-    void * unk_80;
-    u16 unk_84;
-    u8 pad_86[0x2];
-    void * unk_88;
-    u16 unk_8C;
-    u8 pad_8E[0x32];
-    u32 unk_C0;
-} S_800259DC_0;   /* scratch in build_sorted_effect_quads */
 
 typedef struct S_800259DC_1_pre {
     s32 unk_00;
@@ -34,16 +14,16 @@ typedef struct S_800259DC_1_pre {
 
 typedef struct S_800259DC_1 {
     u8 pad_00[0x34];
-    void * unk_34;
+    s32 unk_34;
     u16 unk_38;
     u8 pad_3A[0x2];
-    void * unk_3C;
+    s32 unk_3C;
     u16 unk_40;
     u8 pad_42[0x2];
-    void * unk_44;
+    s32 unk_44;
     u16 unk_48;
     u8 pad_4A[0x2];
-    void * unk_4C;
+    s32 unk_4C;
     u16 unk_50;
     u8 pad_52[0x2];
     s32 unk_54;
@@ -60,58 +40,60 @@ typedef struct GlobalState {
 /* Build and depth-sort quad primitives from the linked entries. */
 s32 build_sorted_effect_quads(void *quad_entry) {
     GlobalState **state_table = ((GlobalState * *)(&g_game_work));
-    S_800259DC_0 *scratch = (S_800259DC_0 *)0x1F800000;
+    PackedShadedQuadScratch *scratch = PACKED_SHADED_QUAD_SCRATCH;
+    S_800259DC_1 *entry;
     POLY_G4 *packet;
     DR_MODE *mode_packet;
     u32 depth_index;
     s32 color_01;
     s32 color_23;
     s32 next_entry;
-    void *corner3_xy;
+    s32 corner3_xy;
     GlobalState *render_state;
 
     render_state = state_table[0];
-    (*(void * *)((u8 *)scratch + 0x20)) = (u8 *)render_state + 0xB0;
-    scratch->unk_18 = render_state->next;
+    (*(void **)((u8 *)scratch + 0x20)) = (u8 *)render_state + 0xB0;
+    scratch->packet_cursor = render_state->next;
     do {
-        packet = scratch->unk_18;
-        scratch->unk_18 = packet + 1;
-        scratch->unk_70 = ((S_800259DC_1 *)quad_entry)->unk_34;
-        scratch->unk_78 = ((S_800259DC_1 *)quad_entry)->unk_3C;
-        scratch->unk_80 = ((S_800259DC_1 *)quad_entry)->unk_44;
-        corner3_xy = ((S_800259DC_1 *)quad_entry)->unk_4C;
-        scratch->unk_74 = ((S_800259DC_1 *)quad_entry)->unk_38;
-        scratch->unk_7C = ((S_800259DC_1 *)quad_entry)->unk_40;
-        scratch->unk_84 = ((S_800259DC_1 *)quad_entry)->unk_48;
-        scratch->unk_88 = corner3_xy;
-        scratch->unk_8C = ((S_800259DC_1 *)quad_entry)->unk_50;
-        depth_index = RotTransPers4((u8 *)scratch + 0x70, (u8 *)scratch + 0x78,
-                              (u8 *)scratch + 0x80, (u8 *)scratch + 0x88,
+        entry = quad_entry;
+        packet = scratch->packet_cursor;
+        scratch->packet_cursor = packet + 1;
+        scratch->vertices[0].xy = entry->unk_34;
+        scratch->vertices[1].xy = entry->unk_3C;
+        scratch->vertices[2].xy = entry->unk_44;
+        corner3_xy = entry->unk_4C;
+        scratch->vertices[0].z = entry->unk_38;
+        scratch->vertices[1].z = entry->unk_40;
+        scratch->vertices[2].z = entry->unk_48;
+        scratch->vertices[3].xy = corner3_xy;
+        scratch->vertices[3].z = entry->unk_50;
+        depth_index = RotTransPers4((SVECTOR *)&scratch->vertices[0], (SVECTOR *)&scratch->vertices[1],
+                              (SVECTOR *)&scratch->vertices[2], (SVECTOR *)&scratch->vertices[3],
                               (s32 *)&packet->x0, (s32 *)&packet->x1,
                               (s32 *)&packet->x2, (s32 *)&packet->x3,
-                              (u8 *)scratch + 0x90, (u8 *)scratch + 0x94) - 8;
-        scratch->unk_C0 = depth_index;
+                              &scratch->depth_cue, &scratch->gte_flag) - 8;
+        scratch->ot_index = depth_index;
         if (depth_index < 0x1E0U) {
-            color_01 = ((S_800259DC_1 *)quad_entry)->unk_54;
+            color_01 = entry->unk_54;
             /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
             *(s32 *)&packet->red1 = color_01;
             /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
             *(s32 *)&packet->red0 = color_01;
-            color_23 = ((S_800259DC_1 *)quad_entry)->unk_58;
+            color_23 = entry->unk_58;
             /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
             *(s32 *)&packet->red3 = color_23;
             /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
             *(s32 *)&packet->red2 = color_23;
             SetPolyG4(packet);
             packet->code = packet->code | 2;
-            AddPrim((u8 *)scratch->unk_20 +
-                          (scratch->unk_C0 * 4), packet);
-            mode_packet = scratch->unk_18;
-            scratch->unk_18 = mode_packet + 1;
+            AddPrim(scratch->ordering_table +
+                          scratch->ot_index * 4, packet);
+            mode_packet = scratch->packet_cursor;
+            scratch->packet_cursor = mode_packet + 1;
             SetDrawMode(mode_packet, 0, 0,
                           (u16)GetTPage(0, 1, 0, 0), 0);
-            AddPrim((u8 *)scratch->unk_20 +
-                          (scratch->unk_C0 * 4), mode_packet);
+            AddPrim(scratch->ordering_table +
+                          scratch->ot_index * 4, mode_packet);
         }
         next_entry = ((S_800259DC_1_pre *)quad_entry)[-1].unk_00;
         if (next_entry == 0) {
@@ -120,7 +102,7 @@ s32 build_sorted_effect_quads(void *quad_entry) {
         quad_entry = (void *)(next_entry + 0x20);
     } while (1);
     state_table[0]->next =
-        scratch->unk_18;
+        scratch->packet_cursor;
     return 0;
 }
 

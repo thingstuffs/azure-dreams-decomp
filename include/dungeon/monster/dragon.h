@@ -35,8 +35,6 @@ struct ActorRecord;
 #include "engine/texture.h"
 #include "sdk/abs.h"
 #include "sdk/rand.h"
-struct S_800AC480_0;
-struct S_800AC480_3;
 
 typedef s32 R03_80170854_M2C_UNK;
 
@@ -195,7 +193,7 @@ void func_80042B68(ActorRecord *owner, s8 match_type);
 s32 get_tile_chebyshev_distance();
 
 s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, ObjectPosition *position, Rec_D_80082E80 *tile, void *actor);
-s32 interpolate_actor_to_terrain_tile(struct S_800AC480_0 *move_state, ObjectPosition *motion, MovingTile *target_tile, struct S_800AC480_3 *height_state);
+s32 interpolate_actor_to_terrain_tile(ActorRecord *move_state, ObjectPosition *motion, MovingTile *target_tile, ActorRecord *height_state);
 s32 update_spinning_actor_fall();
 s32 update_actor_fade_in(ActorRecord *object, ObjectPosition *unused, SpriteFrameState *effect);
 extern u8 dragon_direction_frames[];

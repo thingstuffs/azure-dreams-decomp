@@ -6,7 +6,7 @@
 #include "slus/imports.h"
 #include "dungeon/monster/ghosh.h"
 #include "shared/dir_step.h"
-#include "shared/sys_flags.h"
+
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -165,7 +165,7 @@ void update_ghosh_actor(ActorRecord *entity, ObjectPosition *motion, SpriteFrame
 
     actor = entity;
     if (((S_8016B0E8_0 *)entity)->unk_18 == 0) {
-        level_seed = GAME_STATE->resident_bytes[5] | (GAME_STATE->resident_bytes[4] << 8);
+        level_seed = GAME_STATE->ghosh_counter_low | (GAME_STATE->ghosh_counter_high << 8);
         scaled_level = (u32) level_seed >> 2;
         if (level_seed < 0) {
             scaled_level = (u32) (level_seed + 3) >> 2;
@@ -193,7 +193,7 @@ void update_ghosh_actor(ActorRecord *entity, ObjectPosition *motion, SpriteFrame
 
 
 
-            (*(s16 *)&system_update_flags) = (s16) (system_update_flags | 8);
+            GAME_STATE->log.head.flags |= 8;
 
             queue_pool_service_script(message);
             actor_index = 0;

@@ -24171,7 +24171,7 @@
       ]
     },
     {
-      "source": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "source": "src/dungeon/monster/kid/resume_kid_behavior_after_interpolation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -24181,7 +24181,7 @@
       ]
     },
     {
-      "source": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "source": "src/dungeon/monster/kid/resume_kid_behavior_after_spinning_fall.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -24191,7 +24191,7 @@
       ]
     },
     {
-      "source": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "source": "src/dungeon/monster/kid/resume_kid_behavior_after_fade_in.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -24491,7 +24491,7 @@
       ]
     },
     {
-      "source": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "source": "src/dungeon/monster/kid/resume_kid_behavior_after_interpolation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -24501,7 +24501,7 @@
       ]
     },
     {
-      "source": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "source": "src/dungeon/monster/kid/resume_kid_behavior_after_spinning_fall.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -24511,7 +24511,7 @@
       ]
     },
     {
-      "source": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "source": "src/dungeon/monster/kid/resume_kid_behavior_after_fade_in.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -24821,7 +24821,7 @@
       ]
     },
     {
-      "source": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "source": "src/dungeon/monster/kid/resume_kid_behavior_after_interpolation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -24831,7 +24831,7 @@
       ]
     },
     {
-      "source": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "source": "src/dungeon/monster/kid/resume_kid_behavior_after_spinning_fall.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -24841,7 +24841,7 @@
       ]
     },
     {
-      "source": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "source": "src/dungeon/monster/kid/resume_kid_behavior_after_fade_in.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -25141,7 +25141,7 @@
       ]
     },
     {
-      "source": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "source": "src/dungeon/monster/kid/resume_kid_behavior_after_interpolation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -25151,7 +25151,7 @@
       ]
     },
     {
-      "source": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "source": "src/dungeon/monster/kid/resume_kid_behavior_after_spinning_fall.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -25161,7 +25161,7 @@
       ]
     },
     {
-      "source": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "source": "src/dungeon/monster/kid/resume_kid_behavior_after_fade_in.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -25461,7 +25461,7 @@
       ]
     },
     {
-      "source": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "source": "src/dungeon/monster/kid/resume_kid_behavior_after_interpolation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -25471,7 +25471,7 @@
       ]
     },
     {
-      "source": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "source": "src/dungeon/monster/kid/resume_kid_behavior_after_spinning_fall.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -25481,7 +25481,7 @@
       ]
     },
     {
-      "source": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "source": "src/dungeon/monster/kid/resume_kid_behavior_after_fade_in.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -25791,7 +25791,7 @@
       ]
     },
     {
-      "source": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "source": "src/dungeon/monster/kid/resume_kid_behavior_after_interpolation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -25801,7 +25801,7 @@
       ]
     },
     {
-      "source": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "source": "src/dungeon/monster/kid/resume_kid_behavior_after_spinning_fall.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -25811,7 +25811,7 @@
       ]
     },
     {
-      "source": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "source": "src/dungeon/monster/kid/resume_kid_behavior_after_fade_in.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -26111,7 +26111,7 @@
       ]
     },
     {
-      "source": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "source": "src/dungeon/monster/kid/resume_kid_behavior_after_interpolation.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -26121,7 +26121,7 @@
       ]
     },
     {
-      "source": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "source": "src/dungeon/monster/kid/resume_kid_behavior_after_spinning_fall.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -26131,7 +26131,7 @@
       ]
     },
     {
-      "source": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
+      "source": "src/dungeon/monster/kid/resume_kid_behavior_after_fade_in.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""

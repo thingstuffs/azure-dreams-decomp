@@ -7,13 +7,9 @@
 #include "shared/timed_stream.h"
 #include "frontend/settings.h"
 #include "m2c_compat.h"
-#include "shared/game_state.h"
 
 /* Data declarations. */
 extern s16 D_80011F48;
-extern u8 D_80013180;
-extern u8 D_80013181;
-extern u8 D_80013182;
 
 
 extern M2C_UNK D_80025398;

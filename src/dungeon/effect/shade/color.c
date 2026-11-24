@@ -1,77 +1,43 @@
 #include "dungeon/effect/shade.h"
-#include "dungeon/effect/head_bank_imports.h"
-
-typedef struct Position {
-    u8 pad0[2];
-    u16 x;
-    u8 pad4[2];
-    u16 y;
-    u8 pad8[2];
-    u16 z;
-} Position;
-
-typedef struct RenderData {
-    u8 pad0[12];
-    u32 value_c;
-    u16 field_10;
-    u16 field_12;
-    u16 flags;
-    u8 pad16[6];
-    u16 field_1c;
-    u16 field_1e;
-} RenderData;
-
-typedef struct Object {
-    u8 pad0[8];
-    Position *position;
-    RenderData *render;
-    void (*callback)(void);
-    u8 pad14[24];
-    u32 value_2c;
-    u8 pad30[14];
-    u16 field_3e;
-    u8 pad40[4];
-    void *owner;
-} Object;
-
-typedef struct Owner {
-    u8 pad0[8];
-    Position *position;
-} Owner;
-
+#include "common.h"
 #include "dungeon/effect/emission_data.h"
+#include "dungeon/effect/head_bank_imports.h"
+#include "dungeon/effect/particle.h"
+#include "shared/dungeon_effect_source.h"
+#include "shared/dungeon_moving_views.h"
 
-/* Creates and initializes an object at its owner's position. */
-void create_owner_color_sprite(Owner *owner, u32 value)
+/* Create a colored effect at its source position. */
+void create_owner_color_sprite(ColorEffectSource *source, u32 color)
 {
-    Object *object;
-    RenderData *render;
-    Position *position;
-    u32 *value_ptr = &value;
+    SourceColorEffect *effect;
+    SpriteFrameState *render;
+    MovingPosition *position;
+    u32 packed_color;
 
-    object = func_8003CF18(18);
-    if (object != 0) {
-        render = object->render;
-        object->callback = func_8010C0F8;
-        object->owner = owner;
-        object->field_3e = 55;
-        render->field_10 = 32;
+    effect = func_8003CF18(18);
+    if (effect != 0) {
+        render = effect->render;
+        effect->update_callback = func_8010C0F8;
+        effect->source = source;
+        effect->lifetime = 55;
+        render->tpage_abr = 32;
         render->flags |= 12;
 
-        position = object->position;
-        position->x = owner->position->x;
-        position->y = owner->position->y;
-        position->z = owner->position->z;
+        position = effect->position;
+        position->x = source->position->x;
+        position->y = source->position->y;
+        position->z = source->position->z;
 
-        render = object->render;
-        ((u8 *)&render->value_c)[2] = 128;
-        ((u8 *)&render->value_c)[1] = 128;
-        ((u8 *)&render->value_c)[0] = 128;
-        render->field_1e = 4096;
-        render->field_1c = 4096;
-        render->value_c = *value_ptr;
-        object->value_2c = *value_ptr;
-        render->field_12 = 32206;
+        render = effect->render;
+        render->color.c.b = 128;
+        render->color.c.g = 128;
+        render->color.c.r = 128;
+        packed_color = *&color;
+        render->scale_y = 4096;
+        render->scale_x = 4096;
+        render->color.word = packed_color;
+        effect->color = packed_color;
+        render->clut = 0x7DCE;
         render->flags |= 0x100;
         func_8003A7C4(render, positioned_effect_source, 0);
         emitted_effect_counter[0]++;
