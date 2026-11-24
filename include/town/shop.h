@@ -137,4 +137,13 @@ void update_active_entry_and_notify_handlers(struct ItemMenuInputObject *state, 
 
 void *format_compared_stat_pairs(void *text, ActorRecord *stats);
 
+u8 *build_shop_goods_entries(u8 *entries);
+
+struct TownEventRegistrationHandle;
+extern struct TownEventRegistrationHandle *shop_scene_registration_handle;
+
+extern u8 shop_scene_entry_bytes[];
+
+struct TownEventRegistrationHandle *register_shop_goods_entries(void);
+
 #endif

@@ -5,7 +5,7 @@
   "foff": "0xbbf8",
   "size": "0xd4",
   "vma": "0x8010d810",
-  "evidence": "The DUNGEON sector at +0xb800 supplies the constructor pointer. The JAL at +0xbaf0 targets this helper at 0x8010d810. The two direct imports belong to the linked foreign executable.",
+  "evidence": "The older Dungeon head-bank program's sector at DUNGEON +0xb800 supplies the constructor pointer. The JAL at +0xbaf0 targets this helper at 0x8010d810. The two direct imports belong to that program.",
   "entries": [
     {
       "row": "dungeon/func_7FFEBBF8",
@@ -14,7 +14,7 @@
       "foff": "0xbbf8",
       "vma": "0x8010d810",
       "size": 212,
-      "evidence": "The DUNGEON sector at +0xb800 supplies the constructor pointer. The JAL at +0xbaf0 targets this helper at 0x8010d810. The two direct imports belong to the linked foreign executable.",
+      "evidence": "The older Dungeon head-bank program's sector at DUNGEON +0xb800 supplies the constructor pointer. The JAL at +0xbaf0 targets this helper at 0x8010d810. The two direct imports belong to that program.",
       "bindings": {
         "0x7003A7C4": "0x8003A7C4",
         "0x70040A18": "0x80040A18"

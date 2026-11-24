@@ -2,18 +2,18 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-11-23T20:18:44Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-11-24T05:05:36Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
 
 | | |
 |---|---|
-| **Matched** | 21,675 functions and data rows, 8,279,128 bytes, in 5 containers (`slus` = SLUS_006.14 executable, `main` = MAIN.BIN, `town` = TOWN overlays, `dungeon` = DUNGEON overlays, `ovmovie` = OVMOVIE overlay) |
-| **Byte-identical to retail** | 21,185 of 21,675 rows (97.7%), 8,020,892 bytes; 490 unverified |
-| **Code that is C** | 99.9% as C; 99.9% counting byte-identical copies of C functions proven elsewhere (of 7,806,516 bytes of classified or estimated code in `dungeon`, `main`, `ovmovie`, `town`; `slus` is accounted by its own rows; breakdown under Not yet C) |
+| **Matched** | 21,705 functions and data rows, 8,283,544 bytes, in 5 containers (`slus` = SLUS_006.14 executable, `main` = MAIN.BIN, `town` = TOWN overlays, `dungeon` = DUNGEON overlays, `ovmovie` = OVMOVIE overlay) |
+| **Byte-identical to retail** | 21,160 of 21,705 rows (97.5%), 8,020,692 bytes; 545 unverified |
+| **Code that is C** | 99.9% as C; 99.9% counting byte-identical copies of C functions proven elsewhere (of 7,807,480 bytes of classified or estimated code in `dungeon`, `main`, `ovmovie`, `town`; `slus` is accounted by its own rows; breakdown under Not yet C) |
 | **Assembler scaffolding left** | 0 pin sites in 0 rows (from 25,916 at the first pass) |
-| **Readability** | L3 87.9%, L4 12.3%, L5 12.0% of bytes (levels below) |
+| **Readability** | L3 87.8%, L4 12.3%, L5 12.0% of bytes (levels below) |
 
 
 ## Not yet C
@@ -23,11 +23,11 @@ Code bytes per binary: `slus` = SLUS_006.14 executable, `main` = MAIN.BIN, `town
 | container | code bytes | in C | C % | byte-identical copies of C | undecompiled split segments | SDK library asm | other hand asm / unported | heuristic only | not yet C (excl. library) |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | `slus` (SLUS_006.14) | 225,000 | 181,104 | 80.5% | 0 | 0 | 43,872 | 24 | 0 | 24 |
-| `main` (MAIN.BIN) | 72,840 | 71,532 | 98.2% | 0 | 0 | 492 | 0 | 816 | 816 |
-| `town` (TOWN overlays) | 833,708 | 829,104 | 99.4% | 1,460 | 0 | 132 | 0 | 3,012 | 4,472 |
-| `dungeon` (DUNGEON overlays) | 6,892,228 | 6,891,104 | 100.0% | 188 | 0 | 0 | 0 | 936 | 1,124 |
+| `main` (MAIN.BIN) | 72,856 | 71,676 | 98.4% | 0 | 0 | 492 | 0 | 688 | 688 |
+| `town` (TOWN overlays) | 834,652 | 832,304 | 99.7% | 1,004 | 0 | 132 | 0 | 1,212 | 2,216 |
+| `dungeon` (DUNGEON overlays) | 6,892,232 | 6,892,160 | 100.0% | 0 | 0 | 0 | 0 | 72 | 72 |
 | `ovmovie` (OVMOVIE overlay) | 6,396 | 5,516 | 86.2% | 0 | 0 | 880 | 0 | 0 | 0 |
-| **total** | 8,030,172 | 7,978,360 | 99.4% | 1,648 | 0 | 45,376 | 24 | 4,764 | 6,436 |
+| **total** | 8,031,136 | 7,982,760 | 99.4% | 1,004 | 0 | 45,376 | 24 | 1,972 | 3,000 |
 
 - **in C**: code whose C is compiled and compared byte for byte with retail.
 - **byte-identical copies of C**: a span proven identical to a C function elsewhere in the images; it becomes a link-list placement of that function's source, not new C.
@@ -43,13 +43,13 @@ Code bytes per binary: `slus` = SLUS_006.14 executable, `main` = MAIN.BIN, `town
 | container | rows | bytes | verified byte-identical | verified bytes | unverified |
 |---|---:|---:|---:|---:|---:|
 | slus | 885 | 473,992 | 884 | 473,788 | 1 |
-| main | 507 | 71,532 | 465 | 66,228 | 42 |
-| town | 6,073 | 833,336 | 5,894 | 812,856 | 179 |
-| dungeon | 14,182 | 6,894,752 | 13,914 | 6,662,504 | 268 |
+| main | 508 | 71,676 | 463 | 66,212 | 45 |
+| town | 6,094 | 836,536 | 5,872 | 812,680 | 222 |
+| dungeon | 14,190 | 6,895,824 | 13,913 | 6,662,496 | 277 |
 | ovmovie | 28 | 5,516 | 28 | 5,516 | 0 |
-| ALL | 21,675 | 8,279,128 | 21,185 | 8,020,892 | 490 |
+| ALL | 21,705 | 8,283,544 | 21,160 | 8,020,692 | 545 |
 
-Data rows: 185 (7,880 B); stale-image residue DATA: 1 (488 B).
+Data rows: 187 (7,896 B); stale-image residue DATA: 1 (488 B).
 
 Placement unproven (excluded from L4 module placement): 6 rows (1,688 B): town/D_802F100C, town/D_802F1074, town/D_802F11AC, dungeon/D_808CB000, dungeon/D_80921000, dungeon/func_80921000
 
@@ -61,10 +61,10 @@ Baseline NOT exact: 0 rows
 
 | level | bytes | % |
 |---|---:|---:|
-| L0 | 8,020,892 | 96.9% |
-| L1 | 8,020,892 | 96.9% |
-| L2 | 8,020,892 | 96.9% |
-| L3 | 7,274,284 | 87.9% |
+| L0 | 8,020,692 | 96.8% |
+| L1 | 8,020,692 | 96.8% |
+| L2 | 8,020,692 | 96.8% |
+| L3 | 7,274,084 | 87.8% |
 | L4 | 1,019,256 | 12.3% |
 | L5 | 989,924 | 12.0% |
 
@@ -72,7 +72,7 @@ L0 byte-exact, L1 no fidelity blockers, L2 typed field access, L3 readable body 
 
 On shared record headers (T7, `include/records/`): 4491 rows, 2,781,712 bytes (33.6%); records used: 80.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 18,744 rows (6,995,872 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 18,719 rows (6,995,672 B).
 
 ## Code shape: what is left to clean in the C
 
@@ -83,11 +83,11 @@ Defects still present in the current tree (files = source files, bytes = image b
 | goto | 122 | 366,760 | 4.4% |
 | computed-goto jump table | 1 | 16 | 0.0% |
 | inline asm outside macros | 6 | 7,608 | 0.1% |
-| any live audit site, unnarrowed | 1,595 | 2,672,764 | 32.3% |
+| any live audit site, unnarrowed | 1,595 | 2,673,012 | 32.3% |
 | do{}while(0) scheduling barrier | 18 | 146,736 | 1.8% |
 | fake dependency x=(e)+a;x-=a / arg+v-v | 1 | 408 | 0.0% |
-| local address-named struct | 1,236 | 1,608,896 | 19.4% |
-| clean shape | 7,866 | 7,912,368 | 95.6% |
+| local address-named struct | 1,234 | 1,608,792 | 19.4% |
+| clean shape | 7,897 | 7,916,784 | 95.6% |
 
 <details><summary>pinned first-pass text vs current tree, every defect</summary>
 
@@ -102,13 +102,13 @@ Defects still present in the current tree (files = source files, bytes = image b
 | inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 2.9% | 6 | 7,608 | 0.1% |
 | fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 676,096 | 8.2% | 0 | 0 | 0.0% |
 | any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,280,740 | 15.5% | 0 | 0 | 0.0% |
-| any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,740 | 15.5% | 1595 | 2,672,764 | 32.3% |
+| any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,740 | 15.5% | 1595 | 2,673,012 | 32.3% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 668 | 489,140 | 5.9% | 0 | 0 | 0.0% |
 | maspsx marker pins (scaffolding) | 394 | 347,664 | 4.2% | 0 | 0 | 0.0% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 1.9% | 18 | 146,736 | 1.8% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
-| local address-named struct | 633 | 346,824 | 4.2% | 1236 | 1,608,896 | 19.4% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 7866 | 7,912,368 | 95.6% |
+| local address-named struct | 633 | 346,824 | 4.2% | 1234 | 1,608,792 | 19.4% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 7897 | 7,916,784 | 95.6% |
 
 </details>
 
@@ -117,7 +117,7 @@ Pin sites now: 0 in 0 rows; none left.  At the pin: 25,916; REG 12,815, KEEP 6,9
 
 ## Image proof
 
-`make check`: 1503/1503 images exact; 8290 overlay recipes checked. L4/L5 use current image proof and registered module shared headers. Module certificates are retired from this rule.
+`make check`: 1471/1471 images exact; 8321 overlay recipes checked. L4/L5 use current image proof and registered module shared headers. Module certificates are retired from this rule.
 
 
 
@@ -179,7 +179,7 @@ Choices the tree keeps on purpose and tracks; none is an assembler pin. The comp
 | load-bearing one-trip rows | 85 | `ledger/onetrip_loadbearing.jsonl` |
 | carve debt: composite rows | 0 statements in 0 rows | `tools/pin_census.py composite_asm_spans` |
 | hidden scaffolding (not pins) | 8 sites (6 symbol aliases) | `pin_census.hidden_asm` |
-| per-row optimization flags | 2,037 rows with one, 0 with two or more | `ledger/rows.jsonl` |
+| per-row optimization flags | 2,043 rows with one, 0 with two or more | `ledger/rows.jsonl` |
 | site-for-pin trades | 27 | `ledger/recipe_trades.jsonl` |
 | dead-initializer trades | 24 | `ledger/recipe_trades.jsonl` |
 | union trades (tracked, plausibility unproven) | 41 open of 52 sites | `ledger/union_trades.jsonl` |
@@ -195,7 +195,7 @@ Tracked, not pins (owner 2026-10-06): oddities 0 (ledger/oddities.jsonl - zero-b
 Carve debt - composite rows (r95 decisions item 8 kept the spelling for bytes; r99: it is an artifact of one-row-per-function carving, owned by module placement): the `asm("func_X")` data prefix (another function's jump table / overlay data that retail places before this row's code) and its `.globl/.type/.size func_X` stamp (`pin_census.composite_asm_spans`), 0 statements in 0 rows - counted here, not in the inline-asm row above; still L5 `inline_asm` residue in levels.py until the module TU owns the data.
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 0, calls of local asm wrappers 0, hand-written asm in function bodies 0 (C that is missing); symbol aliases 6 (a second typed name for one symbol: a missing type); file-scope asm directives 2; file-scope global register variables 0 (`register T g asm("$R")`).
 
-Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 2,037 rows carry one flag, 0 carry two or more.
+Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 2,043 rows carry one flag, 0 carry two or more.
 
 Site-for-pin trades (`ledger/recipe_trades.jsonl` records shaped `{"kind":"site_for_pin","id":row,"site":"LABEL_AS_CALL|ITC|PASSTHRU","pin":macro,"residue_without_pin":str,"at":iso,"note":str}` -- one pin, or two when one is not enough (owner ruling 2026-09-22 afternoon, "accept 2 pins") -- charter rule 3, "a pin moved elsewhere is not a removal"; the trade is tracked, and L4 is where pins stop counting toward removal regardless): 27.
 

@@ -1,3 +1,4 @@
+#include "dungeon/effect/particle.h"
 #include "common.h"
 #include "dungeon/effect/emission_data.h"
 #include "dungeon/effect/head_bank_imports.h"
@@ -17,13 +18,13 @@ extern M2C_UNK D_8010CEE0;
 extern Packed12 D_8010D40C;
 
 
-typedef struct S_7FFEB1CC_0 {
+typedef struct AlternatingTickEffect {
     void * unk_00;
     u8 pad_04[0x12];
     u16 unk_16;
     u8 pad_18[0x6];
     u16 unk_1E;
-} S_7FFEB1CC_0;   /* arg0 in spawn_alternating_tick_effects */
+} AlternatingTickEffect;   /* arg0 in spawn_alternating_tick_effects */
 
 typedef struct S_7FFEB1CC_1 {
     u8 pad_00[0xA];
@@ -44,10 +45,10 @@ typedef struct S_7FFEB1CC_2 {
 typedef struct S_7FFEB1CC_3 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_7FFEB1CC_3;   /* ((S_7FFEB1CC_0 *)arg0)->unk_00 in spawn_alternating_tick_effects */
+} S_7FFEB1CC_3;   /* ((AlternatingTickEffect *)arg0)->unk_00 in spawn_alternating_tick_effects */
 
 /* Spawn effects on alternating early ticks and expire the source when its lifetime ends. */
-void spawn_alternating_tick_effects(S_7FFEB1CC_0 *effect, s32 init_param_1, s32 init_param_2) {
+void spawn_alternating_tick_effects(AlternatingTickEffect *effect, s32 init_param_1, s32 init_param_2) {
     s16 age;
     u16 remaining_life;
     void *spawned_effect;

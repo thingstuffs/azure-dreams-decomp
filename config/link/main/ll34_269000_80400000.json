@@ -611,6 +611,15 @@
       "size": 92
     },
     {
+      "row": "main/func_8002159C",
+      "tu": "src/frontend/card/card_dev_enter_mode_second_effect.c",
+      "home": "main/func_8002159C",
+      "foff": "0x27159c",
+      "vma": "0x8040859c",
+      "size": 64,
+      "evidence": "Existing compiler home for main/func_8002159C; the registered split and its source retain their established coordinates."
+    },
+    {
       "row": "main/func_8002161C",
       "tu": "src/frontend/libcard/libcard_query_status.c",
       "home": "main/func_8002161C",

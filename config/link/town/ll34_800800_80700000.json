@@ -96,7 +96,7 @@
       "foff": "0x801574",
       "vma": "0x80700d74",
       "size": 96,
-      "evidence": "The complete 96-byte home links at TOWN +0x801574 in the image loaded at 0x80700000. The image operands at +0x8015a4 identify its local imports.",
+      "evidence": "The complete 96-byte home links at TOWN +0x801574 in the Town devkit build linked at 0x80700000. The image operands at +0x8015a4 identify its local imports.",
       "bindings": {
         "0x807030A4": "0x80700FF8"
       }
@@ -108,7 +108,7 @@
       "foff": "0x8015d4",
       "vma": "0x80700dd4",
       "size": 224,
-      "evidence": "The complete 224-byte home links at TOWN +0x8015d4 in the image loaded at 0x80700000. The image operands at +0x8015e0, +0x801630, +0x801638, +0x801648, +0x801658, +0x801660, +0x80166c, +0x80167c, +0x801684, +0x80168c identify its local imports.",
+      "evidence": "The complete 224-byte home links at TOWN +0x8015d4 in the Town devkit build linked at 0x80700000. The image operands at +0x8015e0, +0x801630, +0x801638, +0x801648, +0x801658, +0x801660, +0x80166c, +0x80167c, +0x801684, +0x80168c identify its local imports.",
       "bindings": {
         "0x80700B50": "0x80700764",
         "0x80700B5C": "0x80700770",

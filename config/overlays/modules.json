@@ -100658,6 +100658,152 @@
         "src/town/scene/process_checked_entry.c"
       ],
       "source": "src/town/scene/process_entry_with_sbs17_pad03.c"
+    },
+    {
+      "container": "main",
+      "key": "main_card_boot_enter_format_confirmation",
+      "name": "card_boot_enter_format_confirmation.c",
+      "source": "src/frontend/libcard/state/card_boot_enter_format_confirmation.c",
+      "headers": [
+        "include/frontend/libcard/state.h"
+      ],
+      "members": [
+        {
+          "id": "main/func_802446EC",
+          "source": "src/frontend/libcard/state/card_boot_enter_format_confirmation.c",
+          "function": "func_800276EC",
+          "foff": 2508524,
+          "vma": 2147645164,
+          "size": 72
+        }
+      ],
+      "imports": [
+        {
+          "symbol": "func_80027684",
+          "kind": "function",
+          "vma": 2147645060
+        },
+        {
+          "symbol": "func_80024FAC",
+          "kind": "function",
+          "vma": 2147644632
+        },
+        {
+          "symbol": "func_80022E74",
+          "kind": "function",
+          "vma": 2147626612
+        }
+      ],
+      "owned_data": [],
+      "region": "xfer_main_25CA6C",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "review": {
+        "membership": "pending",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex"
+      },
+      "review_inputs": [
+        "config/link/main/image_25c800.json",
+        "config/overlays/main.rowbase.jsonl"
+      ]
+    },
+    {
+      "container": "town",
+      "key": "town_apply_entry_mia_bikou_end",
+      "name": "apply_entry_mia_bikou_end.c",
+      "source": "src/town/scene/apply_entry_mia_bikou_end.c",
+      "headers": [
+        "include/town/scene.h"
+      ],
+      "members": [
+        {
+          "id": "town/func_804B8524",
+          "source": "src/town/scene/apply_entry_mia_bikou_end.c",
+          "function": "func_80016D24",
+          "foff": 4424996,
+          "vma": 2147577124,
+          "size": 84
+        }
+      ],
+      "imports": [
+        {
+          "symbol": "func_80019B54",
+          "kind": "function",
+          "vma": 2147581340
+        },
+        {
+          "symbol": "func_8001ADE0",
+          "kind": "function",
+          "vma": 2147584332
+        },
+        {
+          "symbol": "func_80019BC0",
+          "kind": "function",
+          "vma": 2147581448
+        }
+      ],
+      "owned_data": [],
+      "region": "sweep_437C44",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "review": {
+        "membership": "pending",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex"
+      },
+      "review_inputs": [
+        "config/link/town/ll34_437800_80016000.json",
+        "config/overlays/town.rowbase.jsonl"
+      ]
+    },
+    {
+      "container": "dungeon",
+      "key": "dungeon_draw_segmented_motion_line_chain",
+      "name": "draw_segmented_motion_line_chain.c",
+      "source": "src/dungeon/monster/troll/draw_segmented_motion_line_chain.c",
+      "headers": [
+        "include/dungeon/monster/troll.h"
+      ],
+      "members": [
+        {
+          "id": "dungeon/func_80CFF4EC",
+          "source": "src/dungeon/monster/troll/draw_segmented_motion_line_chain.c",
+          "function": "func_80158CEC",
+          "foff": 13759724,
+          "vma": 2148895980,
+          "size": 84
+        }
+      ],
+      "imports": [
+        {
+          "symbol": "func_8017086C",
+          "kind": "function",
+          "vma": 2148894828
+        }
+      ],
+      "owned_data": [],
+      "region": "code_d1f4ec",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "review": {
+        "membership": "pending",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex"
+      },
+      "review_inputs": [
+        "config/link/dungeon/bank_d1f000.json",
+        "config/overlays/dungeon.rowbase.jsonl"
+      ]
     }
   ]
 }

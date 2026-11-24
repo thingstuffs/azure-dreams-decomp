@@ -6,6 +6,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "sdk/libc.h"
 #include "dungeon/effect/motion.h"
+#include "dungeon/effect/spell_effect.h"
 #include "slus.h"
 
 typedef struct S_80024130_0 {
@@ -23,19 +24,19 @@ extern s32 register_node(); /* Unprototyped: two, three or four arguments; retai
 extern SpriteSourceEntry D_800DE8E8[];
 
 /* Creates an object with the given owner, position, and a randomized rotation. */
-void *create_random_rotation_effect_sprite(struct OrbitBurstSpell *owner, MovingPosition *position)
+void *create_random_rotation_effect_sprite(struct OrbitBurstSpell *owner, SpellMotion *position)
 {
     s32 random_value;
     s32 rounded_value;
     SpriteFrameState *visual;
     S_80024130_0 *object;
     MovingPosition *object_pos;
-    s32 pos_z;
+    u16 pos_z;
     void *result;
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        object->unk_10 = advance_randomized_orbit_child_animation;
+        object->unk_10 = advance_random_rotation_flight_sprite;
         visual = object->unk_0C;
         object->owner = owner;
         visual->color.c.b = 0x80;
@@ -52,9 +53,9 @@ void *create_random_rotation_effect_sprite(struct OrbitBurstSpell *owner, Moving
         visual->angle_z = (random_value % 4096);
         register_node(object, project_sprite_chain);
         object_pos = object->unk_08;
-        object_pos->x = position->x;
-        object_pos->y = position->y;
-        pos_z = position->z;
+        object_pos->x = position->x.w.i;
+        object_pos->y = position->y.w.i;
+        pos_z = position->z.w.i;
         result = object;
         object_pos->z = pos_z;
         return result;

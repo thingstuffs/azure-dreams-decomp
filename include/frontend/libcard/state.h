@@ -18,4 +18,6 @@ void card_boot_enter_no_card_notice(CardChooserBody *chooser);
 
 void card_boot_enter_damaged_card_notice(CardChooserBody *chooser);
 
+void card_boot_enter_format_confirmation(CardChooserBody *state);
+
 #endif

@@ -8,6 +8,15 @@
   "evidence": "Selector 25 loads DUNGEON +0x18c4800 at 0x80024000. Its first word points to this updater. The updater sends the spell to its target and creates ten orbiting sprites.",
   "entries": [
     {
+      "row": "dungeon/D_818A4800",
+      "home": "dungeon/D_818A4800",
+      "tu": "src/dungeon/effect/orbit_ring_bank_header.c",
+      "foff": "0x18c4800",
+      "vma": "0x80024000",
+      "size": 8,
+      "evidence": "Selector 25 loads the bank at 0x80024000. Its header points to 0x800247d4, followed by the zero word before the case table."
+    },
+    {
       "row": "dungeon/func_818A4FD4",
       "home": "dungeon/func_818A4FD4",
       "tu": "src/dungeon/effect/update_orbit_ring_spell.c",

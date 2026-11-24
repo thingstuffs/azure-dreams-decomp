@@ -27,6 +27,8 @@ WARNINGS = (
 MODES = ('m32', 'm64')
 PHASES = ('syntax', 'flow')
 LOCATION = re.compile(r'^(.*?):(\d+):(\d+): (warning|error|fatal error): (.*?)(?: \[(-W[^]]+)\])?$')
+UNTAGGED = 'untagged: '
+QUOTED = re.compile(r"[\u2018'].*?[\u2019']")
 FUNCTION = re.compile(r"^.*?: In (?:function|member function) [‘'](.*?)[’']:")
 
 
@@ -124,18 +126,54 @@ def parse_diagnostics(log, root, port, source, mode, phase):
         file = sanitize(file, root, port).removeprefix('$ROOT/')
         rows.append(dict(file=file, function=function, line=int(row), column=int(column),
                          severity=severity, message=sanitize(message, root, port),
-                         warning=(warning or 'compiler-error').split('=')[0],
+                         warning=(warning or ('untagged' if severity == 'warning'
+                                              else 'compiler-error')).split('=')[0],
                          tu=source, mode=mode, phase=phase))
     return rows
+
+
+def message_head(message):
+    """Message text with quoted names and numbers removed: the stable identity of an untagged warning."""
+    head = QUOTED.sub("'_'", message)
+    return re.sub(r'\d+', 'N', head).strip()[:80]
+
+
+def in_game_source(diagnostic):
+    return diagnostic['severity'] == 'warning' and diagnostic['file'].startswith(('src/', 'include/'))
+
+
+def group_class(diagnostic):
+    """Finding class of a warning: its option tag, `untagged: <head>` when the compiler printed no tag,
+    or None for a tagged warning outside WARNINGS (counted by unlisted_classes, report-only)."""
+    if diagnostic['warning'] == 'untagged':
+        return UNTAGGED + message_head(diagnostic['message'])
+    if diagnostic['warning'].removeprefix('-W') in WARNINGS:
+        return diagnostic['warning']
+    return None
+
+
+def unlisted_classes(diagnostics):
+    """{tag: distinct sites} of tagged warnings in game source whose tag is not in WARNINGS (report-only)."""
+    sites = collections.defaultdict(set)
+    for d in diagnostics:
+        if in_game_source(d) and d['warning'] != 'untagged' and group_class(d) is None:
+            sites[d['warning']].add((d['file'], d['line'], d['column']))
+    return {tag: len(v) for tag, v in sorted(sites.items())}
+
+
+def format_unlisted(unlisted):
+    total = sum(unlisted.values())
+    by_class = ', '.join(f'{tag} {n}' for tag, n in sorted(unlisted.items(), key=lambda kv: (-kv[1], kv[0])))
+    return f'report-only: {total} sites in {len(unlisted)} unlisted warning classes' + (f' ({by_class})' if by_class else '')
 
 
 def group_findings(diagnostics):
     grouped = {}
     for d in diagnostics:
-        if (d['severity'] != 'warning' or d['warning'].removeprefix('-W') not in WARNINGS
-                or not d['file'].startswith(('src/', 'include/'))):
+        warning = group_class(d) if in_game_source(d) else None
+        if warning is None:
             continue
-        key = d['file'], d['function'], d['warning']
+        key = d['file'], d['function'], warning
         group = grouped.setdefault(key, dict(observations=set(), sites=set(), modes=set(),
                                             tus=set(), phases=set(), messages=set(), site_messages={}))
         # The same observation in syntax and flow is counted only once.
@@ -161,7 +199,18 @@ def group_findings(diagnostics):
     return findings
 
 
-def counts(findings):
+def listed(findings):
+    return [r for r in findings if not r['warning'].startswith(UNTAGGED)]
+
+
+def untagged(findings):
+    return [r for r in findings if r['warning'].startswith(UNTAGGED)]
+
+
+def counts(findings, unlisted=None):
+    """Listed classes drive the baseline; untagged groups and unlisted tags are reported beside them."""
+    untagged_rows, findings = untagged(findings), listed(findings)
+
     def classes(rows):
         counter = collections.Counter(r['warning'] for r in rows)
         return {'-W' + w: counter['-W' + w] for w in WARNINGS}
@@ -169,13 +218,17 @@ def counts(findings):
         normalized_findings=len(findings), by_class=classes(findings),
         by_subsystem={s: classes(r for r in findings if r['subsystem'] == s)
                       for s in sorted({r['subsystem'] for r in findings})},
-        by_mode={m: classes(r for r in findings if m in r['modes'].split(',')) for m in MODES})
+        by_mode={m: classes(r for r in findings if m in r['modes'].split(',')) for m in MODES},
+        untagged_findings=len(untagged_rows),
+        untagged_by_class=dict(sorted(collections.Counter(
+            r['warning'][len(UNTAGGED):] for r in untagged_rows).items())),
+        unlisted_by_class=dict(unlisted or {}))
 
 
 def baseline_record(summary):
     return {key: summary[key] for key in (
         'schema_version', 'compiler', 'units', 'compiler_jobs', 'modes', 'phases', 'flags',
-        'by_class', 'by_subsystem', 'by_mode', 'normalized_findings')}
+        'by_class', 'by_subsystem', 'by_mode', 'normalized_findings', 'untagged_by_class')}
 
 
 def check_baseline(summary, baseline):
@@ -194,6 +247,11 @@ def check_baseline(summary, baseline):
         for warning, current in summary['by_class'].items():
             if current > recorded[warning]:
                 problems.append(f'{warning}: {current} > baseline {recorded[warning]}')
+    recorded = baseline.get('untagged_by_class')
+    if recorded is not None:      # a baseline written before untagged groups were counted has no such record
+        for head, current in summary.get('untagged_by_class', {}).items():
+            if current > recorded.get(head, 0):
+                problems.append(f'untagged {head}: {current} > baseline {recorded.get(head, 0)}')
     return problems
 
 
@@ -207,6 +265,9 @@ def format_summary(summary):
                     *(str(summary['by_subsystem'][s][warning]) for s in subsystems)]))
     rows.append('\t'.join(['TOTAL', str(summary['normalized_findings']),
                 *(str(sum(summary['by_subsystem'][s].values())) for s in subsystems)]))
+    for head, n in summary.get('untagged_by_class', {}).items():
+        rows.append(f'untagged: {head}\t{n}')
+    rows.append(format_unlisted(summary.get('unlisted_by_class', {})))
     return '\n'.join(rows)
 
 
@@ -285,9 +346,10 @@ def main(argv=None):
                 print(f'{index}/{len(tasks)} compiler jobs complete', file=sys.stderr, flush=True)
 
     findings = group_findings(diagnostics)
+    unlisted = unlisted_classes(diagnostics)
     write_tsv(out / 'lint_findings.tsv', ['finding', 'file', 'function', 'warning', 'subsystem',
               'count', 'tu_count', 'modes', 'phases', 'sites', 'messages', 'site_messages'], findings)
-    totals = counts(findings)
+    totals = counts(findings, unlisted)
     write_tsv(out / 'lint_counts.tsv', ['warning', 'subsystem', 'findings'],
               [dict(warning=w, subsystem=s, findings=n)
                for s, classes in totals['by_subsystem'].items() for w, n in classes.items()])

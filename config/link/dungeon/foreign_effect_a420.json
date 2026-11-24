@@ -1,0 +1,20 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/foreign_effect_a420",
+  "container": "dungeon",
+  "foff": "0xa420",
+  "size": "0x108",
+  "vma": "0x8010c87c",
+  "evidence": "The older Dungeon head-bank program has a leading word at DUNGEON +0xa000 that points to the constructor at 0x8010c87c. The operand at +0xa450 installs spawn_periodic_source_effect at 0x8010c628 in its update slot.",
+  "entries": [
+    {
+      "row": "dungeon/func_7FFEA420",
+      "home": "dungeon/func_7FFEA420",
+      "tu": "src/dungeon/effect/shade/create_periodic_source_color_effect.c",
+      "foff": "0xa420",
+      "vma": "0x8010c87c",
+      "size": 264,
+      "evidence": "The older Dungeon head-bank program has a leading word at DUNGEON +0xa000 that points to the constructor at 0x8010c87c. The operand at +0xa450 installs spawn_periodic_source_effect at 0x8010c628 in its update slot."
+    }
+  ]
+}

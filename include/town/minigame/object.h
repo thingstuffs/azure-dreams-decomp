@@ -115,7 +115,7 @@ void apply_minigame_object_tint(struct IndicatorChild *state, ObjectPosition *po
 void create_gym_mesh_object(ObjectPosition *position, s32 mesh_index, void *update, struct GymState *parent);
 
 /* create_scene_object_with_byte_payload.c */
-void create_text_sprite_object(s32 init_value, void *init_data);
+void create_text_sprite_object(void *update_callback, void *init_data);
 
 /* create_menu_line_object.c */
 void create_menu_line_object(void *object_value, void *record);

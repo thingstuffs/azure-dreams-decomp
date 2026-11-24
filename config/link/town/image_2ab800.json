@@ -17,6 +17,15 @@
       "evidence": "docs/evidence/r124w_carve1_run12.md"
     },
     {
+      "row": "town/func_8032BE48",
+      "home": "town/func_8032BE48",
+      "tu": "src/town/scene/apply_entry_set_mascot2.c",
+      "foff": "0x2abe48",
+      "vma": "0x80016648",
+      "size": 84,
+      "evidence": "TOWN +0x2b0ab4 references this entry. The return at +0x2abe94 has no separate entry in the active image."
+    },
+    {
       "row": "town/func_8032C020",
       "tu": "src/town/scene/run_preliminary_callback_count_ten.c",
       "home": "town/func_8032C020",
@@ -227,6 +236,27 @@
       "evidence": "docs/evidence/r124w_carve1_run12.md"
     },
     {
+      "row": "town/func_8032D7C4",
+      "home": "town/func_806C50F8",
+      "tu": "src/town/scene/service/run_scene_service_218_g.c",
+      "foff": "0x2ad7c4",
+      "vma": "0x80017fc4",
+      "size": 56,
+      "evidence": "The body lies in the TOWN image at +0x2ab800. References to this entry occur at +0x2df1a7. The slot 0x218 call passes the image-local record at 0x8001c0fc. The return at +0x2ad7f4 has no separate entry in the active image.",
+      "bindings": {
+        "0x80019040": "0x8001C0FC"
+      }
+    },
+    {
+      "row": "town/func_8032D9E0",
+      "home": "town/func_8032D9E0",
+      "tu": "src/town/scene/invoke_render_callback_preset_c.c",
+      "foff": "0x2ad9e0",
+      "vma": "0x800181e0",
+      "size": 64,
+      "evidence": "TOWN +0x2d5264 references this entry. The return at +0x2ada18 has no separate entry in the active image."
+    },
+    {
       "row": "town/func_8028DA2C",
       "tu": "src/town/scene/run_preliminary_callback_count_ten.c",
       "home": "town/func_8032C020",
@@ -246,6 +276,15 @@
       "vma": "0x80018370",
       "size": 84,
       "evidence": "docs/evidence/r124w_carve1_run12.md"
+    },
+    {
+      "row": "town/func_8032DF28",
+      "home": "town/func_8032DF28",
+      "tu": "src/town/scene/service/call_service_050_with_record.c",
+      "foff": "0x2adf28",
+      "vma": "0x80018728",
+      "size": 56,
+      "evidence": "TOWN +0x2dc843 references this entry. The return at +0x2adf58 has no separate entry in the active image."
     },
     {
       "row": "town/func_8032E364",
@@ -416,6 +455,19 @@
       "size": 84
     },
     {
+      "row": "town/func_8032F5A0",
+      "home": "town/func_80481B84",
+      "tu": "src/town/scene/flags/query_referenced_flag_table_entry.c",
+      "foff": "0x2af5a0",
+      "vma": "0x80019da0",
+      "size": 92,
+      "evidence": "TOWN +0x2ad51c, +0x2ad5fc references the entry at 0x80019da0. The return at +0x2af5f4 has no separate entry in its active image.",
+      "bindings": {
+        "0x800194E4": "0x800194E4",
+        "0x8001ADE0": "0x8001ADE0"
+      }
+    },
+    {
       "row": "town/func_8032FBA4",
       "tu": "src/town/scene/mark_indexed_records.c",
       "home": "town/func_8032FBA4",
@@ -470,6 +522,15 @@
       "foff": "0x2B0374",
       "vma": "0x8001AB74",
       "size": 248
+    },
+    {
+      "row": "town/func_8033046C",
+      "tu": "src/town/player/points_within_squared_threshold.c",
+      "home": "town/func_8033046C",
+      "foff": "0x2b046c",
+      "vma": "0x8001ac6c",
+      "size": 52,
+      "evidence": "Existing compiler home for town/func_8033046C; the registered split and its source retain their established coordinates."
     },
     {
       "row": "town/func_80333574",

@@ -8,6 +8,7 @@
 #include "engine/runtime.h"
 #include "engine/util.h"
 #include "town/minigame/object.h"
+#include "town/minigame/state.h"
 
 typedef struct TownDraw24 {
     s16 unk00;
@@ -69,8 +70,6 @@ struct TownObject {
 extern u8 D_8002017C[];
 extern u8 D_80020260[];
 extern u8 D_80020360[];
-extern u8 D_800203F4[];
-extern u8 D_80020488[];
 
 extern struct Box D_80026DC8;
 extern void *D_80026EE0[];
@@ -201,7 +200,7 @@ s32 initialize_snowball_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_ar
     tile.unk02 = 0x10;
     tile.unk0C = root_part;
     tile.unk04 = D_80026F04[0];
-    create_text_sprite_object(D_800203F4, &tile);
+    create_text_sprite_object(retire_delayed_scene_text_on_completion, &tile);
 
     {
         void **image_base = D_80026EE0;
@@ -213,7 +212,7 @@ s32 initialize_snowball_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_ar
     do {
         tile.unk04 = images[index];
         tile.unk14 = 0x64 + index * 0x10;
-        create_text_sprite_object(D_800203F4, &tile);
+        create_text_sprite_object(retire_delayed_scene_text_on_completion, &tile);
         index--;
     } while (index >= 0);
 
@@ -225,6 +224,6 @@ s32 initialize_snowball_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_ar
     tile.unk14 = 0x7E;
     tile.unk16 = 0x44;
     tile.unk04 = D_80026F08[0];
-    create_text_sprite_object(D_80020488, &tile);
+    create_text_sprite_object(retire_scene_text_after_terminal_phase, &tile);
     return 0;
 }

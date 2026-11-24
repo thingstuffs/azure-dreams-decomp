@@ -181,7 +181,7 @@
       "foff": "0x839750",
       "vma": "0xa0700750",
       "size": 96,
-      "evidence": "The complete 96-byte home links at TOWN +0x839750 in the image loaded at 0xa0700000. The image operands at +0x839780 identify its local imports.",
+      "evidence": "The complete 96-byte home links at TOWN +0x839750 in the Town devkit build at its KSEG1 alias 0xA0700000. The image operands at +0x839780 identify its local imports.",
       "bindings": {
         "0x807030A4": "0xA0700B3C"
       }

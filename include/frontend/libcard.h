@@ -232,6 +232,7 @@ void card_boot_reset_command_panel_highlight(CardCommandPanelBody *panel);
 
 /* card_boot_restore_saved_selection_callback.c */
 void card_boot_restore_saved_selection_callback(void *object_data);
+/* Same-image placement of card_boot_restore_saved_selection_callback at MAIN 0x800261C0. */
 void card_boot_restore_save_slot_callback(void *object_data);
 
 /* card_boot_resume_menu_after_slot_refresh.c */
@@ -483,5 +484,7 @@ void initialize_save_heading_draw_state(CardHeadingDrawState *work, s32 count);
 
 void prepare_save_heading_layout(CardHeadingDrawState *work, ObjectNodeHeader *owner);
 void release_card_record_handles(ObjectNodeHeader *object);
+
+void card_boot_set_copy_source_marker(ObjectNodeHeader *object_addr, s32 enable_table);
 
 #endif

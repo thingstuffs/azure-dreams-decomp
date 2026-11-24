@@ -153,6 +153,71 @@ class LintBuildTest(unittest.TestCase):
                         'negative': -1, 'bool': True, 'string': '1'}[mutation]
                 self.assertTrue(L.check_baseline(summary, baseline))
 
+    def test_untagged_warning_is_its_own_group_class_and_listed_counts_are_unchanged(self):
+        message = 'pointer type mismatch in conditional expression'
+        log = (f"{self.source}: In function 'a':\n"
+               f'{self.source}:4:9: warning: {message}\n'
+               f'{self.source}:4:9: note: neither side is void\n'
+               f'{self.source}:5:9: warning: comparison of distinct pointer types lacks a cast\n'
+               f"{self.source}:6:9: error: unknown name 'q'\n")
+        rows = L.parse_diagnostics(log, self.root, self.port, 'src/slus/a.c', 'm32', 'syntax')
+        self.assertEqual([r['warning'] for r in rows], ['untagged', 'untagged', 'compiler-error'])
+        findings = L.group_findings(rows)
+        self.assertEqual([r['warning'] for r in findings],
+                         ['untagged: comparison of distinct pointer types lacks a cast',
+                          'untagged: pointer type mismatch in conditional expression'])
+        self.assertEqual(findings[1]['messages'], message)
+        totals = L.counts(findings, {'-Wunused-variable': 3})
+        self.assertEqual(totals['normalized_findings'], 0)
+        self.assertEqual(totals['untagged_findings'], 2)
+        self.assertEqual(totals['untagged_by_class'][
+            'pointer type mismatch in conditional expression'], 1)
+        self.assertEqual(totals['by_subsystem'], {})
+
+    def test_untagged_group_identity_ignores_quoted_names_and_numbers(self):
+        a = self.diagnostic(warning='untagged', message="assignment to 'int *' from 'long' at 3")
+        b = self.diagnostic(warning='untagged', message="assignment to 'char *' from 'int' at 9", line=7)
+        c = self.diagnostic(warning='untagged', function='other', message="assignment to 'int *' from 'long' at 3")
+        findings = L.group_findings([a, b, c])
+        self.assertEqual(len(findings), 2)
+        self.assertEqual(findings[0]['count'], 2)
+        self.assertEqual(L.group_findings([a])[0]['finding'], L.group_findings([a])[0]['finding'])
+        self.assertNotEqual(L.group_findings([a])[0]['finding'],
+                            L.group_findings([self.diagnostic(warning='untagged', message='other head')])[0]['finding'])
+        outside = self.diagnostic(warning='untagged', file='$PORT/include/a.h')
+        self.assertEqual(L.group_findings([outside]), [])
+
+    def test_unlisted_tagged_warnings_are_counted_report_only(self):
+        d = [self.diagnostic(warning='-Wunused-variable', line=1), self.diagnostic(warning='-Wunused-variable', line=1, mode='m64'),
+             self.diagnostic(warning='-Wunused-variable', line=2), self.diagnostic(warning='-Wpointer-sign', line=3),
+             self.diagnostic(warning='-Wshadow'), self.diagnostic(warning='untagged'),
+             self.diagnostic(warning='-Wpointer-sign', file='$PORT/include/a.h')]
+        unlisted = L.unlisted_classes(d)
+        self.assertEqual(unlisted, {'-Wpointer-sign': 1, '-Wunused-variable': 2})
+        self.assertEqual(L.format_unlisted(unlisted),
+                         'report-only: 3 sites in 2 unlisted warning classes (-Wunused-variable 2, -Wpointer-sign 1)')
+        self.assertEqual(len(L.group_findings(d)), 2)    # -Wshadow and the untagged site; unlisted tags are no group
+
+    def test_baseline_check_gates_untagged_only_when_the_baseline_records_them(self):
+        previous = self.summary()
+        current = self.summary()
+        current['untagged_by_class'] = {'pointer type mismatch in conditional expression': 2}
+        old_record = L.baseline_record(previous)
+        del old_record['untagged_by_class']       # a baseline written before untagged groups were counted
+        self.assertEqual(L.check_baseline(current, old_record), [])
+        previous['untagged_by_class'] = {'pointer type mismatch in conditional expression': 1}
+        self.assertEqual(L.check_baseline(current, L.baseline_record(previous)),
+                         ['untagged pointer type mismatch in conditional expression: 2 > baseline 1'])
+
+    @unittest.skipUnless(shutil.which('gcc'), 'GCC is required for the integration test')
+    def test_real_gcc_untagged_conditional_mismatch_is_found(self):
+        self.source.write_text('struct A { int x; };\nstruct B { int y; };\n'
+                               'struct A *a(int c, struct A *p, struct B *q) { return c ? p : q; }\n')
+        result = self.cli('--summary')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('untagged: pointer type mismatch in conditional expression\t1', result.stdout)
+        self.assertIn('report-only:', result.stdout)
+
     def cli(self, *arguments):
         return subprocess.run([sys.executable, str(ROOT / 'tools/lint/lint_build.py'),
                                '--root', str(self.root), '--port', str(self.port),

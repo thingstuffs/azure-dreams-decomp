@@ -145,4 +145,6 @@ void create_tracked_fade_sprite(void *owner, MovingPosition *source_pos, void *u
 void create_fixed_offset_effect_sprite(void *unused, ObjectPosition *origin, void *unused_sprite);
 
 void update_boss_actor_direction_state(ActorRecord *actor_data, void *output_data, SpriteFrameState *context_data);
+s32 read_or_increment_second_capped_counter(s32 read_only);
+
 #endif

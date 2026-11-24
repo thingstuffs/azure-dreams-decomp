@@ -60,4 +60,6 @@ void update_flight_landing_and_fall(struct S_func_80EF1000_1 *motion, struct S_f
 void update_weadog_item_throw(struct S_func_80EF7000_1 *motion, struct S_func_80EF7000_2 *position, struct S_func_80EF7000_3 *animation);
 void advance_item_flight_to_floor(struct WeadogFlightBody *motion, struct S_func_80EDF000_1 *position, struct S_func_80EDF000_2 *render);
 
+void finish_weadog_fade_in(ActorRecord *actor, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *context);
+
 #endif

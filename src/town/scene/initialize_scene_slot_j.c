@@ -2,13 +2,9 @@
 #include "town/person.h"
 #include "town/scene.h"
 
-extern u8 D_800D63BC[];
-extern u8 D_800D63C4[];
-extern u8 D_800D63EC[];
-extern u8 D_800D63F0[];
 
 /* Registers the object in scene slot 31 using the four local setup tables. */
 void initialize_scene_slot_31(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
 {
-    register_object_slot_with_tables(object, 31, D_800D63EC, D_800D63F0, D_800D63BC, D_800D63C4);
+    register_object_slot_with_tables(object, 31, slot_31_first_registration_table, slot_31_second_registration_table, slot_31_first_source_table, slot_31_second_source_table);
 }

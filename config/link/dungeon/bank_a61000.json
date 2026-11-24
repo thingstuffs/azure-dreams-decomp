@@ -3,10 +3,10 @@
   "image": "dungeon/bank_a61000",
   "container": "dungeon",
   "foff": "0xA61000",
-  "size": "0x4000",
+  "size": "0x40c4",
   "vma": "0x8014C800",
   "layout": "bank_a3d000_family",
-  "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F6EB800: r101_rc4_func_80A41684, r101_rc4_func_80A430C4, r101rc4_res_A61000_A61684, r101rc4_res_A61BCC_A630C4, r101rc4_res_A638B8_A65000; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
+  "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F6EB800: r101_rc4_func_80A41684, r101_rc4_func_80A430C4, r101rc4_res_A61000_A61684, r101rc4_res_A61BCC_A630C4, r101rc4_res_A638B8_A65000; symbol map: r121 obj_screen bindings of the placements in this image (rule 5) Resource 5 slot 6 loads twelve sectors from LBA 0x44d8 to 0x8014c800. The entry word at DUNGEON +0xa650c0 is inside that transfer.",
   "entries": [
     {
       "row": "dungeon/func_80A41258",
@@ -381,6 +381,18 @@
         "0x801733BC": "0x801733BC"
       },
       "evidence": "; LL3a preserves prior rule-3 binding"
+    },
+    {
+      "row": "dungeon/func_80A44FE0",
+      "home": "dungeon/func_809CC43C",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
+      "foff": "0xa64fe0",
+      "vma": "0x801507e0",
+      "size": 56,
+      "evidence": "Resource 5 slot 6 loads twelve sectors from LBA 0x44d8 to 0x8014c800. DUNGEON +0xa650c0 points here. Its call at +0xa64fec reaches propagate_actor_action_flag and the stored callback at +0xa64ffc is the Dragon action dispatcher placed at +0xa61684.",
+      "bindings": {
+        "0x80170E54": "0x8014CE84"
+      }
     }
   ],
   "symbols": {

@@ -136,6 +136,23 @@ class GateTests(unittest.TestCase):
         self.assertEqual(C.increases(base, head, {'src/new.c': 'src/old.c'}), [])
         self.assertEqual(len(C.increases(base, head)), 1)
 
+    def test_untagged_group_is_a_new_site_and_a_base_untagged_site_is_not(self):
+        head = 'untagged: pointer type mismatch in conditional expression'
+        old = finding('src/a.c', 'a', head, ['src/a.c:4:9'])
+        new = finding('src/b.c', 'b', head, ['src/b.c:8:3'])
+        self.assertEqual(C.increases([old], [old]), [])
+        self.assertEqual([r['file'] for r in C.increases([old], [old, new])], ['src/b.c'])
+        more = finding('src/a.c', 'a', head, ['src/a.c:4:9', 'src/a.c:9:9'])
+        self.assertEqual([(r['base_sites'], r['head_sites']) for r in C.increases([old], [more])], [(1, 2)])
+        with redirect_stdout(io.StringIO()) as out:
+            self.assertEqual(C.report([old], [old, new], [], [], {}, 0), 1)
+            self.assertEqual(C.report([old], [old], [], [], {}, 0), 0)
+        self.assertIn('NEW untagged: pointer type mismatch in conditional expression src/b.c b', out.getvalue())
+
+    def test_untagged_group_cannot_be_accepted(self):
+        head = 'untagged: pointer type mismatch in conditional expression'
+        self.assertNotIn(head, C.ACCEPTABLE_CLASSES)
+
     def test_report_exit_codes(self):
         with redirect_stdout(io.StringIO()) as out:
             self.assertEqual(C.report([], [], [], [], {}, 0), 0)
@@ -551,6 +568,15 @@ class RenameAndFullTests(unittest.TestCase):
         code, out, _ = self.run_full(same, more)
         self.assertEqual(code, 1)
         self.assertIn('NEW -Wint-conversion src/b.c b', out)
+        untagged = same + [finding('src/c.c', 'c', 'untagged: pointer type mismatch in conditional expression',
+                                   ['src/c.c:3:3'])]
+        code, out, _ = self.run_full(same, untagged)      # BASE census written before untagged groups
+        self.assertEqual(code, 0, out)
+        self.assertIn('no untagged groups', out)
+        code, out, _ = self.run_full(untagged, untagged + [finding('src/d.c', 'd', untagged[1]['warning'],
+                                                                   ['src/d.c:1:1'])], dict(untagged_findings=1))
+        self.assertEqual(code, 1, out)         # BASE census that does count untagged groups: new sites fail
+        self.assertIn('NEW untagged: pointer type', out)
         self.assertEqual(self.run_full(same, same, dict(limited=True))[0], 2)
         code, out, _ = self.run_full(same, same, dict(flags=['-O2']))
         self.assertEqual(code, 2)

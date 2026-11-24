@@ -213,6 +213,15 @@
       "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADABC onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
+      "row": "dungeon/func_80EE2FEC",
+      "home": "dungeon/func_80EE2FEC",
+      "tu": "src/dungeon/monster/weadog/finish_weadog_fade_in.c",
+      "foff": "0xf02fec",
+      "vma": "0x801747ec",
+      "size": 56,
+      "evidence": "Resource 34 slot 0 loads twelve sectors from LBA 0x4e14 to 0x80170800. DUNGEON +0xf0376c names the fade-in callback. Its call at +0xf02ff8 reaches the resident fade-in step, and its store installs the bank's action dispatcher from +0xf004e8. The final return has no separate entry."
+    },
+    {
       "row": "dungeon/func_80EE3024",
       "tu": "src/dungeon/monster/weadog/finish_actor_turn_action.c",
       "home": "dungeon/func_80EE3024",

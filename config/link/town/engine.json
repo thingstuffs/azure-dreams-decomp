@@ -611,6 +611,15 @@
       "evidence": "TOWN +0x46ec0 forms this callback address and +0x46ec4 stores it in the actor handler slot at +0x54. The initializer sets the timer to 32. The callback clamps height and steps along X until the timer expires."
     },
     {
+      "row": "town/func_800C71F8",
+      "home": "town/func_800C71F8",
+      "tu": "src/town/person/object/unregister_and_update_object.c",
+      "foff": "0x471f8",
+      "vma": "0x800c4958",
+      "size": 104,
+      "evidence": "TOWN +0x57968 references this entry. The return at +0x47258 has no separate entry in the active image."
+    },
+    {
       "row": "town/func_800C7260",
       "home": "town/func_800C7260",
       "tu": "src/town/person/object/register_object_and_apply_setup.c",
@@ -628,12 +637,30 @@
       "size": 216
     },
     {
+      "row": "town/func_800C77A8",
+      "home": "town/func_800C77A8",
+      "tu": "src/town/person/object/start_person_scale_animation.c",
+      "foff": "0x477a8",
+      "vma": "0x800c4f08",
+      "size": 100,
+      "evidence": "TOWN +0x58248, +0x58bc4, +0x58e70, +0x59618 references this entry. The return at +0x47804 has no separate entry in the active image."
+    },
+    {
       "row": "town/func_80027C98",
       "tu": "src/town/person/animate_scale_and_restore.c",
       "home": "town/func_800C76D0",
       "foff": "0x47C98",
       "vma": "0x800C53F8",
       "size": 216
+    },
+    {
+      "row": "town/func_800C7DE8",
+      "home": "town/func_800C7DE8",
+      "tu": "src/town/person/init_person_slot_81.c",
+      "foff": "0x47de8",
+      "vma": "0x800c5548",
+      "size": 72,
+      "evidence": "The body is bounded by the adjacent allocations in the image at TOWN +0xb000. Neither object handler table references the entry."
     },
     {
       "row": "town/func_800C7EFC",
@@ -792,6 +819,15 @@
       "foff": "0x48B84",
       "vma": "0x800C62E4",
       "size": 96
+    },
+    {
+      "row": "town/func_800C9054",
+      "home": "town/func_800C9054",
+      "tu": "src/town/person/object/initialize_countdown_expiry_entry_group.c",
+      "foff": "0x49054",
+      "vma": "0x800c67b4",
+      "size": 96,
+      "evidence": "TOWN +0x58230 references this entry. The return at +0x490ac has no separate entry in the active image."
     },
     {
       "row": "town/func_800C90B4",
@@ -1010,12 +1046,38 @@
       "size": 88
     },
     {
+      "row": "town/func_800CA8F8",
+      "home": "town/func_8004CF44",
+      "tu": "src/town/scene/event/init_mother_event_countdown.c",
+      "foff": "0x4a8f8",
+      "vma": "0x800c8058",
+      "size": 88,
+      "evidence": "TOWN +0x588f8 references the entry at 0x800c8058. The return at +0x4a948 has no separate entry in its active image.",
+      "bindings": {
+        "0x800826B8": "0x80082680",
+        "0x800CA0D4": "0x800C7EB0",
+        "0x800D64DC": "0x800D5FE8"
+      }
+    },
+    {
       "row": "town/func_800CA950",
       "tu": "src/town/person/object/initialize_mother_event_object.c",
       "home": "town/func_800CA950",
       "foff": "0x4A950",
       "vma": "0x800C80B0",
       "size": 76
+    },
+    {
+      "row": "town/func_800CAB4C",
+      "home": "town/func_800CE728",
+      "tu": "src/town/person/start_person_countdown.c",
+      "foff": "0x4ab4c",
+      "vma": "0x800c82ac",
+      "size": 96,
+      "evidence": "TOWN +0x58a9c, +0x58aa4 references the entry at 0x800c82ac. The return at +0x4aba4 has no separate entry in its active image.",
+      "bindings": {
+        "0x800D6A98": "0x800D6110"
+      }
     },
     {
       "row": "town/func_800CAC2C",
@@ -1059,6 +1121,15 @@
         "0x800CDF00": "0x800CDF00"
       },
       "evidence": "opus_place1: re-homed from relinked copy town/func_800C90B4 onto dungeon/func_8002DB7C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
+    },
+    {
+      "row": "town/func_800CAE40",
+      "home": "town/func_800CAE40",
+      "tu": "src/town/person/object/start_effect_spawn_countdown.c",
+      "foff": "0x4ae40",
+      "vma": "0x800c85a0",
+      "size": 96,
+      "evidence": "TOWN +0x58bac references this entry. The return at +0x4ae98 has no separate entry in the active image."
     },
     {
       "row": "town/func_800CAEA0",
@@ -1152,6 +1223,15 @@
       "vma": "0x800C8D34",
       "size": 140,
       "evidence": "docs/evidence/r124w_carve1_run11.md"
+    },
+    {
+      "row": "town/func_800CBA04",
+      "home": "town/func_800CBA04",
+      "tu": "src/town/scene/initialize_scene_slot_82.c",
+      "foff": "0x4ba04",
+      "vma": "0x800c9164",
+      "size": 72,
+      "evidence": "The body is bounded by the adjacent allocations in the image at TOWN +0xb000. Neither object handler table references the entry."
     },
     {
       "row": "town/func_8002BB44",
@@ -1335,6 +1415,15 @@
       "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
     },
     {
+      "row": "town/func_8004CF44",
+      "tu": "src/town/scene/event/init_mother_event_countdown.c",
+      "home": "town/func_8004CF44",
+      "foff": "0x4cf44",
+      "vma": "0x800ca6a4",
+      "size": 88,
+      "evidence": "Existing compiler home for town/func_8004CF44; the registered split and its source retain their established coordinates."
+    },
+    {
       "row": "town/func_8002D02C",
       "tu": "src/town/person/object/initialize_mother_event_object.c",
       "home": "town/func_800CA950",
@@ -1390,6 +1479,15 @@
         "0x800D561C": "0x800D67A4"
       },
       "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "town/func_800CDABC",
+      "home": "town/func_800CDABC",
+      "tu": "src/town/person/object/advance_counter_and_start_entity_countdown.c",
+      "foff": "0x4dabc",
+      "vma": "0x800cb21c",
+      "size": 96,
+      "evidence": "The body is bounded by the adjacent allocations in the image at TOWN +0xb000. The initializer makes the callback address at TOWN +0x4db54 and stores it in its handler slot at +0x4db5c."
     },
     {
       "row": "town/func_8002DC48",

@@ -1,0 +1,20 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/bank_d1f000",
+  "container": "dungeon",
+  "foff": "0xd1f000",
+  "size": "0x6000",
+  "vma": "0x80158800",
+  "evidence": "Resource 22 slot 4 loads twelve sectors from LBA 0x4a54 to 0x80158800. The callback is formed at DUNGEON +0xd1fa5c and passed to register_node at +0xd1ffe8. Its JAL at +0xd1f500 reaches the segmented-line renderer at +0xd1f06c.",
+  "entries": [
+    {
+      "row": "dungeon/func_80CFF4EC",
+      "home": "dungeon/func_80CFF4EC",
+      "tu": "src/dungeon/monster/troll/draw_segmented_motion_line_chain.c",
+      "foff": "0xd1f4ec",
+      "vma": "0x80158cec",
+      "size": 84,
+      "evidence": "Resource 22 slot 4 loads twelve sectors from LBA 0x4a54 to 0x80158800. The callback is formed at DUNGEON +0xd1fa5c and passed to register_node at +0xd1ffe8. Its JAL at +0xd1f500 reaches the segmented-line renderer at +0xd1f06c."
+    }
+  ]
+}

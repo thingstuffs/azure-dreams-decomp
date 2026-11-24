@@ -374,6 +374,18 @@
         "0x8001B038": "0x800180A8"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_8065D8F0",
+      "home": "town/func_804737B0",
+      "tu": "src/town/func_804737B0.c",
+      "foff": "0x5dd8f0",
+      "vma": "0x800180f0",
+      "size": 72,
+      "evidence": "The body lies in the TOWN image at +0x5db800. Its adjacent allocations bound the body. No caller found.",
+      "bindings": {
+        "0x80016000": "0x80016000"
+      }
     }
   ],
   "load_evidence": {

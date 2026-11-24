@@ -14,15 +14,15 @@ typedef struct CopyBlock {
     s32 words[12];
 } CopyBlock;
 
-/* Creates an object with the supplied value and 48-byte initialization block. */
-void create_text_sprite_object(s32 init_value, void *init_data)
+/* Creates a text object from an update callback and a 48-byte initialization block. */
+void create_text_sprite_object(void *update_callback, void *init_data)
 {
     ObjectNodeHeader *obj;
 
     obj = allocate_list_node(1, &scene_object_list_anchor.next);
     if (obj != NULL) {
         *((CopyBlock *)NODE_BODY(obj)) = *(CopyBlock *)init_data;
-        obj->update_callback = init_value;
+        obj->update_callback = update_callback;
         register_node(obj, &text_sprite_builder_address);
     }
 }

@@ -2,10 +2,6 @@
 #define SHARED_GPU_PACKETS_H
 #include "sdk/libgpu_types.h"
 
-#define add_primitive_to_ordering_table(order, packet) \
-    (((GpuLinkTag *)(packet))->addr = ((GpuLinkTag *)(order))->addr, \
-     ((GpuLinkTag *)(order))->addr = (unsigned long)(packet))
-
 /* Textured four-vertex packet. The grid renderer advances its cursor by
  * 0x28, copies four packed XY words, sets four UV pairs and fills the CLUT
  * and texture-page words. The high tag byte is preserved while linking.

@@ -161,7 +161,7 @@ s32 draw_rippled_screen_strips(void *arg) {
                     poly->x2 = poly->x3 = poly->x0 + area.w - poly->u0;
                     poly->y0 = poly->y2 = i % 224 - n;
                     poly->y1 = poly->y3 = poly->y0 + 2;
-                    add_primitive_to_ordering_table(&draw->context->orderTag + depth, poly);
+                    addPrim(&draw->context->orderTag + depth, poly);
                 }
             }
             if (top == 0) {
@@ -181,17 +181,17 @@ s32 draw_rippled_screen_strips(void *arg) {
                     poly->u2 = poly->u3 = area.w;
                     poly->v0 = poly->v2 = 0;
                     poly->v1 = poly->v3 = area.h;
-                    add_primitive_to_ordering_table(&draw->context->orderTag + depth, poly);
+                    addPrim(&draw->context->orderTag + depth, poly);
                 }
             }
             priority = draw->context->packetCursor;
             draw->context->packetCursor = priority + 1;
             SetPriority(priority, 0, 0);
-            add_primitive_to_ordering_table(&draw->context->orderTag + depth, priority);
+            addPrim(&draw->context->orderTag + depth, priority);
             move = draw->context->packetCursor;
             draw->context->packetCursor = move + 1;
             SetDrawMove(move, &area, page_x, page_y);
-            add_primitive_to_ordering_table(&draw->context->orderTag + depth, move);
+            addPrim(&draw->context->orderTag + depth, move);
             poly = draw->context->packetCursor;
             draw->context->packetCursor = poly + 1;
             /* BYTES: Store the complete color word before SetPolyFT4 writes the command byte. */
@@ -206,15 +206,15 @@ s32 draw_rippled_screen_strips(void *arg) {
             poly->u2 = poly->u3 = area.w;
             poly->v0 = poly->v2 = 0;
             poly->v1 = poly->v3 = area.h;
-            add_primitive_to_ordering_table(&draw->context->orderTag + depth, poly);
+            addPrim(&draw->context->orderTag + depth, poly);
             priority = draw->context->packetCursor;
             draw->context->packetCursor = priority + 1;
             SetPriority(priority, 0, 1);
-            add_primitive_to_ordering_table(&draw->context->orderTag + depth, priority);
+            addPrim(&draw->context->orderTag + depth, priority);
             move = draw->context->packetCursor;
             draw->context->packetCursor = move + 1;
             SetDrawMove(move, &area, page_x, page_y);
-            add_primitive_to_ordering_table(&draw->context->orderTag + depth, move);
+            addPrim(&draw->context->orderTag + depth, move);
         }
         if (!NODE_HEADER(arg)->chain_next) {
             break;

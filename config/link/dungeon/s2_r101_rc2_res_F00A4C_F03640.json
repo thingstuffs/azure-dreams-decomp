@@ -72,15 +72,6 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
-      "row": "dungeon/func_80EE301C",
-      "tu": "src/main/func_8000E904.c",
-      "home": "main/func_8000E904",
-      "foff": "0xF0301C",
-      "vma": "0x8017481c",
-      "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
-    },
-    {
       "row": "dungeon/func_80EE30E0",
       "home": "dungeon/func_80EE30E0",
       "tu": "src/dungeon/monster/weadog/update_weadog_projectile_attack.c",

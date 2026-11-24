@@ -1,4 +1,4 @@
-# The complete 96-byte home links at TOWN +0x839750 in the image loaded at 0xa0700000. The image operands at +0x839780 identify its local imports.
+# The complete 96-byte home links at TOWN +0x839750 in the Town devkit build at its KSEG1 alias 0xA0700000. The image operands at +0x839780 identify its local imports.
 name: town_copy_839750
 sha1: b946a57aa5fc8cec29db3ecabad6e6b76df418b7
 options:

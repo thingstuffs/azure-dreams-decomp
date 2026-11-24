@@ -198,6 +198,15 @@
       "evidence": "docs/evidence/r141w_town_dev.md"
     },
     {
+      "row": "town/func_808B3310",
+      "home": "town/func_808B32AC",
+      "tu": "src/town/devkit/update_flag_page_2_value.c",
+      "foff": "0x833310",
+      "vma": "0x80700b10",
+      "size": 100,
+      "evidence": "In the Town devkit build linked at 0x80700000, this body follows its home at +0x8332ac and precedes the routine at +0x833374. Its jump lands at the same offset within the body."
+    },
+    {
       "row": "town/func_808B337C",
       "home": "town/func_808B337C",
       "tu": "src/town/scene/dispatch_first_failed_entry_b.c",

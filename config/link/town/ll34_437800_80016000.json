@@ -8,6 +8,15 @@
   "evidence": "ledger/instance_load_regions.jsonl; validated packed-CD loader record",
   "entries": [
     {
+      "row": "town/func_804B78C0",
+      "home": "town/func_804B78C0",
+      "tu": "src/town/scene/hooks/set_saved_choice_entry_flag.c",
+      "foff": "0x4378c0",
+      "vma": "0x800160c0",
+      "size": 44,
+      "evidence": "TOWN +0x43d80a, +0x43dfb5, +0x43f34a references this entry."
+    },
+    {
       "row": "town/func_804B78EC",
       "tu": "src/town/scene/event/forward_stored_pair.c",
       "home": "town/func_804B78EC",
@@ -43,13 +52,13 @@
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
-      "row": "town/func_80418570",
-      "tu": "src/main/func_8000E904.c",
-      "home": "main/func_8000E904",
-      "foff": "0x438570",
-      "vma": "0x80016d70",
-      "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+      "row": "town/func_804B8524",
+      "home": "town/func_804B8524",
+      "tu": "src/town/scene/apply_entry_mia_bikou_end.c",
+      "foff": "0x438524",
+      "vma": "0x80016d24",
+      "size": 84,
+      "evidence": "TOWN +0x43a428 references this entry. The return at +0x438570 has no separate entry in the active image."
     },
     {
       "row": "town/func_804B86F4",
@@ -92,13 +101,13 @@
       "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
-      "row": "town/func_80418A68",
-      "tu": "src/main/func_8000E904.c",
-      "home": "main/func_8000E904",
-      "foff": "0x438A68",
-      "vma": "0x80017268",
-      "size": 8,
-      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+      "row": "town/func_804B89E0",
+      "home": "town/func_804B89E0",
+      "tu": "src/town/scene/motion/shift_scene_position_in_state_three.c",
+      "foff": "0x4389e0",
+      "vma": "0x800171e0",
+      "size": 144,
+      "evidence": "The library scene event 8 script at TOWN +0x43d8ec calls 0x800171E0 and branches on the returned value. The final return has no separate reference in the active image."
     },
     {
       "row": "town/func_804B8C18",

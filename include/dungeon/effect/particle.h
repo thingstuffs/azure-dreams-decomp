@@ -285,4 +285,10 @@ void create_source_positioned_object(ObjectPosition *source_pos, s16 initial_val
 
 void scatter_landing_sparks_on_grid(struct ObjectNodeHeader *source);
 
+struct PeriodicSourceEffect;
+void spawn_periodic_source_effect(struct PeriodicSourceEffect *source, s32 spawn_argument, s32 renderer_argument);
+
+struct AlternatingTickEffect;
+void spawn_alternating_tick_effects(struct AlternatingTickEffect *source, s32 spawn_argument, s32 renderer_argument);
+
 #endif

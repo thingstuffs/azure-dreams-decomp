@@ -1,4 +1,4 @@
-# The DUNGEON sector at +0xb000 supplies the constructor pointer. The JAL at +0xb234 targets this helper at 0x8010d230. The two direct imports belong to the linked foreign executable.
+# The older Dungeon head-bank program's sector at DUNGEON +0xb000 supplies the constructor pointer. The JAL at +0xb234 targets this helper at 0x8010d230. The two direct imports belong to that program.
 name: dungeon_copy_b354
 sha1: 27f9fcc384a570a991e349b920881e7070c0e13c
 options:

@@ -634,6 +634,15 @@
       "evidence": "docs/evidence/r124w_carve1_run11.md"
     },
     {
+      "row": "dungeon/func_8132C684",
+      "home": "dungeon/func_8132C684",
+      "tu": "src/dungeon/monster/ghosh/read_or_increment_second_capped_counter.c",
+      "foff": "0x134c684",
+      "vma": "0x80173e84",
+      "size": 76,
+      "evidence": "DUNGEON +0x7d1a54, +0x7d1c10 references this entry. The same script prints the first counter from this bank at +0x7d1a33 and the second at +0x7d1a54."
+    },
+    {
       "row": "dungeon/func_8132C6D0",
       "tu": "src/dungeon/monster/beldo/remove_beldo_active_entity.c",
       "home": "dungeon/func_81254248",

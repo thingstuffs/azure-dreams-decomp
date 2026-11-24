@@ -12,6 +12,10 @@ typedef struct ScenePositionEntry {
     s32 result;
 } ScenePositionEntry;
 
+typedef struct ScenePositionTemplate {
+    ScenePositionEntry rows[5];
+} ScenePositionTemplate;
+
 /* Zero-terminated list of flags that must all be set before apply_entry_position sets the context flag. */
 extern s16 scene_dispatch_context[];
 
@@ -30,5 +34,9 @@ long resolve_entry_with_override_49(struct TownObjectSet *context, s32 unused, s
 s32 func_80018044(ScenePositionEntry *entries, void *object, void *context, s32 selection);
 s32 func_800181C8(ScenePositionEntry *entries, void *object, void *context, s32 selection);
 s32 func_800182E4(ScenePositionEntry *entries, void *object, void *context, s32 selection);
+
+extern ScenePositionTemplate flag_20_choice_position_template;
+
+extern s16 flag_20_choice_position_flags[];
 
 #endif

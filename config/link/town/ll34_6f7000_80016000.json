@@ -8,6 +8,15 @@
   "evidence": "ledger/instance_load_regions.jsonl; validated packed-CD loader record",
   "entries": [
     {
+      "row": "town/func_807770C0",
+      "home": "town/func_800B0DB0",
+      "tu": "src/town/shop/item/item_menu_return_zero.c",
+      "foff": "0x6f70c0",
+      "vma": "0x800160c0",
+      "size": 8,
+      "evidence": "The body lies in the TOWN image at +0x6f7000. References to this entry occur at +0x6f83f8."
+    },
+    {
       "row": "town/func_807770C8",
       "tu": "src/town/shop/item/item_menu_return_zero.c",
       "home": "town/func_800B0DB0",

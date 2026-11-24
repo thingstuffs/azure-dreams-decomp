@@ -1,5 +1,6 @@
 #include "common.h"
 #include "dungeon/effect/motion.h"
+#include "dungeon/effect/orbit_burst_spell.h"
 #include "slus/imports.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
@@ -7,15 +8,15 @@
 
 #include "sdk/rand.h"
 
-/* Apply a random number of updates to the target and propagate its status flags. */
-void advance_randomized_orbit_child_animation(LinkedCounterSpriteBody *body, ObjectPosition *unused, SpriteFrameState *target)
+/* Advance a random number of flight sprite frames and signal that the parent spell is busy. */
+void advance_random_rotation_flight_sprite(LinkedCounterSpriteBody *body, ObjectPosition *unused, SpriteFrameState *target)
 {
     s32 random_value;
     s16 update_count;
     s16 update_index;
     s16 next_index;
 
-    body->owner->count++;
+    body->owner->busy++;
     target->angle_z = 0;
 
     random_value = rand();

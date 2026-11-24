@@ -864,18 +864,13 @@
       "census_label": "proven_code"
     },
     {
-      "kind": "unresolved",
+      "row": "main/func_80241224",
+      "home": "main/func_80241224",
+      "tu": "src/frontend/libcard/card_boot_set_copy_source_marker.c",
       "foff": "0x261224",
-      "size": 72,
-      "evidence": "coverage-prototype: census2 span export absent; classification held"
-    },
-    {
-      "row": "main/func_8024126C",
-      "tu": "src/main/func_8000E904.c",
-      "home": "main/func_8000E904",
-      "foff": "0x26126C",
-      "vma": "0x8002426C",
-      "size": 8
+      "vma": "0x80024224",
+      "size": 80,
+      "evidence": "MAIN +0x26211c references this entry. The return at +0x26126c has no separate entry in the active image."
     },
     {
       "kind": "code_region",
@@ -1645,18 +1640,13 @@
       "census_label": "proven_code"
     },
     {
-      "kind": "unresolved",
+      "row": "main/func_802446EC",
+      "home": "main/func_802446EC",
+      "tu": "src/frontend/libcard/state/card_boot_enter_format_confirmation.c",
       "foff": "0x2646ec",
-      "size": 64,
-      "evidence": "coverage-prototype: census2 span export absent; classification held"
-    },
-    {
-      "row": "main/func_8024472C",
-      "tu": "src/main/func_8000E904.c",
-      "home": "main/func_8000E904",
-      "foff": "0x26472C",
-      "vma": "0x8002772C",
-      "size": 8
+      "vma": "0x800276ec",
+      "size": 72,
+      "evidence": "MAIN +0x2650a8 references this entry. The return at +0x26472c has no separate entry in the active image."
     },
     {
       "row": "main/func_80244734",
@@ -1819,13 +1809,13 @@
     "0x8002593C": "0x800265B8"
   },
   "census": {
-    "proven_code": 29812,
+    "proven_code": 29948,
     "library_code": 0,
     "strongly_code": 0,
     "proven_data": 0,
     "noncode_typing_pending": 0,
     "padding_leftover": 2197,
-    "unknown": 4855
+    "unknown": 4719
   },
   "provenance": {
     "labels_sha256": "38e8e13b775802242be29c9c78265ed06877fca3dbcec734f7a6a70775790e7f",

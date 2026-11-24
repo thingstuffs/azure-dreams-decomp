@@ -1,8 +1,6 @@
 #include "common.h"
-#include "dungeon/effect/spell_effect.h"
+#include "dungeon/effect/orbit_burst_spell.h"
 #include "dungeon/effect/motion.h"
-#include "dungeon/effect/orbit_ring_spell.h"
-#include "shared/object_flags.h"
 #include "dungeon/effect/screen.h"
 #include "dungeon/level.h"
 #include "dungeon/level/tile_flags.h"
@@ -13,29 +11,11 @@
 #include "shared/dir_step.h"
 #include "shared/dungeon_status.h"
 #include "shared/object_node.h"
-#include "shared/object_node_flags.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 
-
-/* Body of the spell node: a sprite that flies to the target (or along the facing), then a core sprite with
- * thirty-two orbiting sprites at the target, then the hit. */
-typedef struct OrbitBurstSpell {
-    SpellEffectHeader effect;
-    u16 flags;
-    s16 direction;
-    s16 timer;
-    s16 duration;
-    s16 age;
-    s16 busy;
-    ObjectNodeHeader *core;
-    ObjectNodeHeader *orbs[32];
-} OrbitBurstSpell;
-
-/* The object completion word, declared as a plain word: the removal stores below are scheduled as retail has
- * them only against a scalar. */
-/* BYTES: The scalar declaration keeps the completion-word store in retail order. */
+/* BYTES: The scalar keeps the completion-word LUI before the store marking the core for removal. */
 extern s32 D_800814A0;
-
 
 void update_orbit_burst_spell(OrbitBurstSpell *spell, SpellMotion *motion, SpriteFrameState *sprite) {
     ActorRecord *caster = spell->effect.caster;
@@ -67,6 +47,7 @@ void update_orbit_burst_spell(OrbitBurstSpell *spell, SpellMotion *motion, Sprit
         /* fall through */
     case 1:
         caster_node = NODE_HEADER(caster);
+        /* BYTES: A separate SVECTOR changes the 112-byte stack frame to 120 bytes. */
         if (!resolve_record_orientation_or_fallback(caster_node->sprite->source, caster_node->sprite, (SVECTOR *)delta, 0) &&
             !(caster_node->sprite->flags & 0x8000)) {
             break;
@@ -183,16 +164,16 @@ void update_orbit_burst_spell(OrbitBurstSpell *spell, SpellMotion *motion, Sprit
                 ActorRecord *target = caster->target;
                 motion->z.w.i = target->ground_height;
             }
-            spell->core = create_effect_sprite_at((MovingPosition *)motion);
+            spell->core = create_effect_sprite_at(motion);
             play_sound_if_enabled(0x300);
         } else {
-            allocate_effect_at_coordinates((LinkedSpriteCounter *)spell, (ObjectPosition *)motion);
+            allocate_effect_at_coordinates(spell, motion);
         }
         break;
     case 3:
         if (spell->timer >= 16) {
             for (i = 31; i >= 0; i--) {
-                spell->orbs[i] = create_orbit_sprite_at_index((MovingPosition *)motion, i);
+                spell->orbs[i] = create_orbit_sprite_at_index(motion, i);
             }
             spell->timer = 0;
             spell->effect.phase++;
@@ -200,7 +181,7 @@ void update_orbit_burst_spell(OrbitBurstSpell *spell, SpellMotion *motion, Sprit
         break;
     case 4:
         if (!(spell->timer & 3)) {
-            spawn_sprite_at_random_radial_offset((MovingPosition *)motion);
+            spawn_sprite_at_random_radial_offset(motion);
         }
         if (spell->timer >= 32) {
             spell->timer = 0;
@@ -230,7 +211,7 @@ void update_orbit_burst_spell(OrbitBurstSpell *spell, SpellMotion *motion, Sprit
     case 6:
         if (!spell->busy) {
             g_dungeon_status.active_actor = 0;
-            /* BYTES: The direct halfword access keeps the two flag stores in retail order. */
+            /* BYTES: The direct halfword load precedes the completion-word LUI. */
             *((u16 *)spell - 1) |= NODE_REMOVE;
             D_800814A0 |= OBJECT_REMOVE_PENDING;
         }
@@ -240,7 +221,7 @@ void update_orbit_burst_spell(OrbitBurstSpell *spell, SpellMotion *motion, Sprit
             motion->x.w.i += motion->step_x.w.i * spell->timer;
             motion->y.w.i += motion->step_y.w.i * spell->timer;
             motion->z.w.i += motion->step_z.w.i * spell->timer;
-            create_random_rotation_effect_sprite(spell, (MovingPosition *)motion);
+            create_random_rotation_effect_sprite(spell, motion);
             motion->x.w.i -= motion->step_x.w.i * spell->timer;
             motion->y.w.i -= motion->step_y.w.i * spell->timer;
             motion->z.w.i -= motion->step_z.w.i * spell->timer;
@@ -249,7 +230,7 @@ void update_orbit_burst_spell(OrbitBurstSpell *spell, SpellMotion *motion, Sprit
                 motion->x.w.i += motion->step_x.w.i * (spell->duration + 1);
                 motion->y.w.i += motion->step_y.w.i * (spell->duration + 1);
                 motion->z.w.i += motion->step_z.w.i * (spell->duration + 1);
-                create_random_rotation_effect_sprite(spell, (MovingPosition *)motion);
+                create_random_rotation_effect_sprite(spell, motion);
                 motion->x.w.i -= motion->step_x.w.i * spell->duration;
                 motion->y.w.i -= motion->step_y.w.i * spell->duration;
                 motion->z.w.i -= motion->step_z.w.i * spell->duration;
@@ -257,7 +238,7 @@ void update_orbit_burst_spell(OrbitBurstSpell *spell, SpellMotion *motion, Sprit
                 motion->x.w.i += motion->step_x.w.i * 5;
                 motion->y.w.i += motion->step_y.w.i * 5;
                 motion->z.w.i += motion->step_z.w.i * 5;
-                create_random_rotation_effect_sprite(spell, (MovingPosition *)motion);
+                create_random_rotation_effect_sprite(spell, motion);
                 motion->x.w.i -= motion->step_x.w.i * 4;
                 motion->y.w.i -= motion->step_y.w.i * 4;
                 motion->z.w.i -= motion->step_z.w.i * 4;

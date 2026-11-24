@@ -5,7 +5,6 @@
 #include "dungeon/actor/object.h"
 #include "town/person/object/initialize_object_entries_api.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
 extern M2C_UNK D_800CB21C;
 extern s32 D_800D6910[];
 

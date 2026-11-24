@@ -17,6 +17,15 @@
       "evidence": "TOWN +0x5ff0f8, 216 bytes at 0x800160f8; scene record at TOWN +0x6017d4 points to 0x800160f8; docs/evidence/town_scene_loader_receipt.json"
     },
     {
+      "row": "town/func_8067F674",
+      "home": "town/func_8067F674",
+      "tu": "src/town/shop/register_shop_goods_entries.c",
+      "foff": "0x5ff674",
+      "vma": "0x80016674",
+      "size": 108,
+      "evidence": "TOWN +0x60380b references this entry."
+    },
+    {
       "row": "town/func_8067F6E0",
       "home": "town/func_80471108",
       "tu": "src/town/scene/active_object_records_g00710.c",

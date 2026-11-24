@@ -8,13 +8,22 @@
   "evidence": "Selector 10 loads DUNGEON +0x186A800 into 0x80024000 for 0x6000 bytes.",
   "entries": [
     {
+      "row": "dungeon/D_8184A800",
+      "home": "dungeon/D_8184A800",
+      "tu": "src/dungeon/effect/orbit_burst_bank_header.c",
+      "foff": "0x186a800",
+      "vma": "0x80024000",
+      "size": 8,
+      "evidence": "Selector 10 loads the bank at 0x80024000. Its header points to 0x80025090, followed by the zero word before the case table."
+    },
+    {
       "row": "dungeon/func_8184A848",
       "home": "dungeon/func_8184A848",
-      "tu": "src/dungeon/effect/motion/advance_randomized_orbit_child_animation.c",
+      "tu": "src/dungeon/effect/motion/advance_random_rotation_flight_sprite.c",
       "foff": "0x186a848",
       "vma": "0x80024048",
       "size": 232,
-      "evidence": "The factory at DUNGEON +0x186a930 stores the child callback and owner. This callback advances the child frames and increments the owner count."
+      "evidence": "The flight sprite factory at DUNGEON +0x186a930 sets a random rotation and installs this callback. The callback advances a random number of frames and increments the parent spell's busy count."
     },
     {
       "row": "dungeon/func_8184AB74",

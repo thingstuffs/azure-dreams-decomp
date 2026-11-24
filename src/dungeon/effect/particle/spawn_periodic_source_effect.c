@@ -15,13 +15,13 @@ typedef struct S_7FFEA1CC_0_pre {
     u16 unk_00;
 } S_7FFEA1CC_0_pre;   /* the 0x2 bytes before arg0 in spawn_periodic_source_effect, addressed as arg0[-1] */
 
-typedef struct S_7FFEA1CC_0 {
+typedef struct PeriodicSourceEffect {
     void * unk_00;
     u8 pad_04[0x12];
     u16 unk_16;
     u8 pad_18[0x6];
     u16 unk_1E;
-} S_7FFEA1CC_0;   /* arg0 in spawn_periodic_source_effect */
+} PeriodicSourceEffect;   /* arg0 in spawn_periodic_source_effect */
 
 typedef struct S_7FFEA1CC_1 {
     u8 pad_00[0x8];
@@ -51,7 +51,7 @@ typedef struct S_7FFEA1CC_3 {
 typedef struct S_7FFEA1CC_4 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_7FFEA1CC_4;   /* ((S_7FFEA1CC_0 *)arg0)->unk_00 in spawn_periodic_source_effect */
+} S_7FFEA1CC_4;   /* ((PeriodicSourceEffect *)arg0)->unk_00 in spawn_periodic_source_effect */
 
 
 
@@ -59,7 +59,7 @@ extern M2C_UNK D_8010C460;
 extern M2C_UNK D_8010C984;
 
 /* Periodically spawns an effect and retires the source when its countdown expires. */
-void spawn_periodic_source_effect(S_7FFEA1CC_0 *source, s32 spawn_arg1, s32 spawn_arg2) {
+void spawn_periodic_source_effect(PeriodicSourceEffect *source, s32 spawn_arg1, s32 spawn_arg2) {
     s16 elapsed_ticks;
     u16 remaining_ticks;
     S_7FFEA1CC_2 *effect_position;

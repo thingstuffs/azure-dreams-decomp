@@ -17,6 +17,15 @@
       "evidence": "TOWN +0x412ba7 is a decoded m01-event08 native call. The packed CD transfer at +0x56c00 places its scene from +0x3e5000 at 0x80016000. It passes sound 0x1703 to service slot +0x280."
     },
     {
+      "row": "town/func_804686F8",
+      "home": "town/func_806D4E68",
+      "tu": "src/town/func_806D4E68.c",
+      "foff": "0x3e86f8",
+      "vma": "0x800196f8",
+      "size": 56,
+      "evidence": "The body lies in the TOWN image at +0x3e5000. Its adjacent allocations bound the body. No caller found. The return at +0x3e8728 has no separate entry in the active image."
+    },
+    {
       "row": "town/func_80469150",
       "home": "town/func_80469150",
       "tu": "src/town/scene/call_scene_service_one.c",
@@ -45,6 +54,24 @@
       "vma": "0x8001ad04",
       "size": 104,
       "evidence": "TOWN +0x3e7124 holds the choice 5 predicate for the dispatcher at +0x3ecf68. The predicate checks selection mode 10 and calls the local value-pair builder at +0x3e97e8 through the JAL at +0x3e9d38, then writes the returned pointer to choice field +8."
+    },
+    {
+      "row": "town/func_80469D90",
+      "home": "town/func_80469D90",
+      "tu": "src/town/scene/store_two_record_block_in_mode_ten_entry.c",
+      "foff": "0x3e9d90",
+      "vma": "0x8001ad90",
+      "size": 104,
+      "evidence": "TOWN +0x3e71f4 references this entry. The return at +0x3e9df0 has no separate entry in the active image."
+    },
+    {
+      "row": "town/func_80469EC4",
+      "home": "town/func_80469EC4",
+      "tu": "src/town/scene/store_two_record_block_in_mode_seven_entry.c",
+      "foff": "0x3e9ec4",
+      "vma": "0x8001aec4",
+      "size": 104,
+      "evidence": "TOWN +0x3e7244 references this entry. The return at +0x3e9f24 has no separate entry in the active image."
     },
     {
       "row": "town/func_80469F2C",
@@ -123,6 +150,15 @@
       "evidence": "TOWN +0x3eb448, 68 bytes at 0x8001c448; m01-event09 +0x41871f, m01-event09 +0x41881e; docs/evidence/town_scene_loader_receipt.json"
     },
     {
+      "row": "town/func_8046B698",
+      "home": "town/func_80480198",
+      "tu": "src/town/scene/service/run_scene_service_2dc_zero.c",
+      "foff": "0x3eb698",
+      "vma": "0x8001c698",
+      "size": 56,
+      "evidence": "The body lies in the TOWN image at +0x3e5000. References to this entry occur at +0x4166a9. The return at +0x3eb6c8 has no separate entry in the active image."
+    },
+    {
       "row": "town/func_8046B6D0",
       "home": "town/func_8046B6D0",
       "tu": "src/town/scene/service/set_event09_camera_brightness_5.c",
@@ -139,6 +175,15 @@
       "vma": "0x8001c740",
       "size": 56,
       "evidence": "TOWN +0x3eb740, 56 bytes at 0x8001c740; m01-event08 +0x412ae6, m01-event09 +0x415f66, m01-event09 +0x4166fc, m01-event09 +0x416ed5, m01-event09 +0x41744f, m01-event09 +0x41791f, m01-event09 +0x417c78, m01-event09 +0x41800c; docs/evidence/town_scene_loader_receipt.json"
+    },
+    {
+      "row": "town/func_8046C010",
+      "home": "town/func_8046C010",
+      "tu": "src/town/scene/service/call_service_2cc_with_zero.c",
+      "foff": "0x3ec010",
+      "vma": "0x8001d010",
+      "size": 56,
+      "evidence": "TOWN +0x3e7b08, +0x3e7b1c, +0x3e7b30, +0x3e7b44, +0x3e7b58 references this entry. The return at +0x3ec040 has no separate entry in the active image."
     },
     {
       "row": "town/func_8046D488",

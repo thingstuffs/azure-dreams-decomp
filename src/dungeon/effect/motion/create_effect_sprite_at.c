@@ -7,6 +7,7 @@
 #include "shared/dungeon_moving_views.h"
 #include "engine/node.h"
 #include "dungeon/effect/motion.h"
+#include "dungeon/effect/spell_effect.h"
 #include "slus.h"
 
 typedef s32 M2C_UNK;
@@ -15,7 +16,7 @@ typedef s32 M2C_UNK;
 
 
 /* Creates a type 0x212 object, initializes its appearance, and copies the supplied components. */
-void *create_effect_sprite_at(MovingPosition *source) {
+void *create_effect_sprite_at(SpellMotion *source) {
     SpriteFrameState *appearance;
     ObjectNodeHeader *object;
     ObjectPosition *components;
@@ -33,9 +34,9 @@ void *create_effect_sprite_at(MovingPosition *source) {
         appearance->scale_x = 0x2000;
         register_node(object, project_sprite_chain);
         components = object->position;
-        components->x.w.i = source->x;
-        components->y.w.i = source->y;
-        components->z.w.i = source->z;
+        components->x.w.i = source->x.w.i;
+        components->y.w.i = source->y.w.i;
+        components->z.w.i = source->z.w.i;
         result = object;
         return result;
     } else {

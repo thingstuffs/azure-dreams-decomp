@@ -11,6 +11,7 @@
 #include "sdk/libgte.h"
 #include "slus.h"
 #include "dungeon/effect/motion.h"
+#include "dungeon/effect/spell_effect.h"
 
 
    /* arg0 in spawn_sprite_at_random_radial_offset */
@@ -18,7 +19,7 @@
 extern u8 D_800244A4[];
 
 /* Spawn an effect at a random radial offset from the given position. */
-void spawn_sprite_at_random_radial_offset(MovingPosition *origin)
+void spawn_sprite_at_random_radial_offset(SpellMotion *origin)
 {
     GameWork *scene_state;
     s32 random_value;
@@ -53,10 +54,10 @@ void spawn_sprite_at_random_radial_offset(MovingPosition *origin)
                                       scene_state->view.camera_rotation.parts.viewAngle) >> 4) << 8)) >> 8;
         register_node(effect, project_sprite_chain);
         position = effect->position;
-        position->x.w.i = origin->x +
+        position->x.w.i = origin->x.w.i +
             ((rsin(effect_state->unk_08) * 2) >> 8);
-        position->y.w.i = origin->y +
+        position->y.w.i = origin->y.w.i +
             ((rcos(effect_state->unk_08) * 2) >> 8);
-        position->z.w.i = origin->z;
+        position->z.w.i = origin->z.w.i;
     }
 }

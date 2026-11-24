@@ -6,8 +6,9 @@ struct B22_81893474_EffectState;
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_moving_views.h"
 struct S_7FFE83DC_3;
+struct SpellMotion;
 void create_brief_positioned_color_effect(struct S_7FFE83DC_3 *source, s32 color);
-void * create_orbit_sprite_at_index(MovingPosition *origin, s16 index);
+void * create_orbit_sprite_at_index(struct SpellMotion *origin, s16 index);
 s32 draw_counter_rotating_cylinders(struct B22_81893474_EffectState *effect, MovingPosition *center, s32 unused_value);
 void spawn_jittered_child_effect( void *source, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
 void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u32 variant);
@@ -64,21 +65,16 @@ s32 draw_concentric_effect_layers(struct B22_81893474_EffectState *effect, s32 p
 s32 draw_static_cylinder_pair(struct B22_81893474_EffectState *effect, s32 position, s32 render_param);
 void update_spiral_spawner(void *state);
 
-/* The cylinder controller passes itself to the sprite factory and checks the
- * halfword at +0x16 while advancing its phases. The child stores the controller
- * at node+0x2C and increments that field from its update callback. */
-typedef struct LinkedSpriteCounter {
-    u8 pad_00[0x16];
-    u16 count;
-} LinkedSpriteCounter;
+/* Both flight sprites keep the parent spell in their node body. */
+struct OrbitBurstSpell;
 
 typedef struct LinkedCounterSpriteBody {
     u8 pad_00[0xC];
-    LinkedSpriteCounter *owner;
+    struct OrbitBurstSpell *owner;
 } LinkedCounterSpriteBody;
 
 struct ObjectNodeHeader;
-struct ObjectNodeHeader *allocate_effect_at_coordinates(LinkedSpriteCounter *owner, ObjectPosition *source_coords);
+struct ObjectNodeHeader *allocate_effect_at_coordinates(struct OrbitBurstSpell *owner, struct SpellMotion *source_coords);
 void advance_delayed_sprite_animation(void *state, void *unused, SpriteFrameState *sprite);
 void advance_linked_object_counter(LinkedCounterSpriteBody *entry, ObjectPosition *unused, SpriteFrameState *target);
 
@@ -122,12 +118,11 @@ s32 random_below_limit(s32 limit);
 s32 draw_ball_effect_points(PointRecord *first_point, ObjectPosition *first_position);
 
 void retire_finished_sprite_effect(void *body, ObjectPosition *position, SpriteFrameState *sprite);
-struct OrbitBurstSpell;
-void *create_random_rotation_effect_sprite(struct OrbitBurstSpell *owner, MovingPosition *position);
-void advance_randomized_orbit_child_animation(LinkedCounterSpriteBody *body, ObjectPosition *unused, SpriteFrameState *target);
+void *create_random_rotation_effect_sprite(struct OrbitBurstSpell *owner, struct SpellMotion *position);
+void advance_random_rotation_flight_sprite(LinkedCounterSpriteBody *body, ObjectPosition *unused, SpriteFrameState *target);
 
-void *create_effect_sprite_at(MovingPosition *source);
-void spawn_sprite_at_random_radial_offset(MovingPosition *origin);
+void *create_effect_sprite_at(struct SpellMotion *source);
+void spawn_sprite_at_random_radial_offset(struct SpellMotion *origin);
 s32 dispatch_effect_rendering(struct B22_81893474_EffectState *effect, s32 position, s32 render_param);
 
 #endif

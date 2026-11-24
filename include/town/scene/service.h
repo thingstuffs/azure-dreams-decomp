@@ -14,4 +14,12 @@ void run_service_callback_1(s32 unused_value, s32 unused_context);
 
 void call_scene_service_2f4_fixed(void);
 
+extern u8 sbs11_pad29_service_record[];
+
+extern u8 square_scene_service_050_record[];
+
+s32 call_service_050_with_record(void);
+
+void call_service_2cc_with_zero(void);
+
 #endif

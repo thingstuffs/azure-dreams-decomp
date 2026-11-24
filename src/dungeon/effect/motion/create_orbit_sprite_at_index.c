@@ -2,6 +2,7 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/motion.h"
+#include "dungeon/effect/spell_effect.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
@@ -32,7 +33,7 @@ typedef struct S_80024790_2 {
 } S_80024790_2;
 
 /* Creates an effect at the origin with index-dependent color, scale, and position. */
-void * create_orbit_sprite_at_index(MovingPosition *origin, s16 index) {
+void * create_orbit_sprite_at_index(SpellMotion *origin, s16 index) {
     u8 color_index;
     s32 frame;
     s16 scale;
@@ -46,11 +47,11 @@ void * create_orbit_sprite_at_index(MovingPosition *origin, s16 index) {
     effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
         effect->update_callback = &D_800246AC;
-        ((S_80024790_0 *)effect)->unk_20 = (u16) origin->x;
+        ((S_80024790_0 *)effect)->unk_20 = (u16) origin->x.w.i;
         state = NODE_BODY(effect);
-        state->unk_02 = (u16) origin->y;
+        state->unk_02 = (u16) origin->y.w.i;
         frame = index;
-        state->unk_04 = (u16) origin->z;
+        state->unk_04 = (u16) origin->z.w.i;
         state->unk_08 = (s16) ((frame << 8) % 0x1000);
         sprite = effect->sprite;
         color_index <<= 3;

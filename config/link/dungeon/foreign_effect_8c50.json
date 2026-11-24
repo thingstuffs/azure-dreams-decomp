@@ -1,0 +1,20 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/foreign_effect_8c50",
+  "container": "dungeon",
+  "foff": "0x8c50",
+  "size": "0x108",
+  "vma": "0x8010b938",
+  "evidence": "The older Dungeon head-bank program has a leading word at DUNGEON +0x8800 that points to the constructor at 0x8010b938. The operand at +0x8c80 installs emit_parent_relative_particles at 0x8010b698 in its update slot.",
+  "entries": [
+    {
+      "row": "dungeon/func_7FFE8C50",
+      "home": "dungeon/func_7FFE8C50",
+      "tu": "src/dungeon/effect/shade/create_parent_particle_color_effect.c",
+      "foff": "0x8c50",
+      "vma": "0x8010b938",
+      "size": 264,
+      "evidence": "The older Dungeon head-bank program has a leading word at DUNGEON +0x8800 that points to the constructor at 0x8010b938. The operand at +0x8c80 installs emit_parent_relative_particles at 0x8010b698 in its update slot."
+    }
+  ]
+}

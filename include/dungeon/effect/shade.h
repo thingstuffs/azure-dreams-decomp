@@ -4,6 +4,7 @@ struct FadeEffect;
 #include "shared/dungeon_effect_source.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/dungeon_moving_views.h"
 struct Obj;
 void apply_random_value_gain(ActorRecord *target, int amount_param, ActorRecord *record);
 void apply_conditional_target_effect(ActorRecord *target, int packed_value, void *record);
@@ -43,5 +44,28 @@ s32 draw_adjacent_row_quads(void);
 void project_depth_sliced_quads(void *geometry, ObjectPosition *position, SpriteFrameState *render_state, s16 depth_bias);
 
 void finish_actor_effect_action(ActorRecord *action_state, ObjectPosition *unused_1, SpriteFrameState *unused_2, ActorRecord *actor);
+
+/* The source object a colored effect follows. */
+typedef struct ColorEffectSource {
+    u8 pad_00[8];
+    MovingPosition *position;
+} ColorEffectSource;
+
+/* The colored effect object; update_callback takes the object node header's callback slot type. */
+typedef struct SourceColorEffect {
+    u8 pad_00[8];
+    MovingPosition *position;
+    SpriteFrameState *render;
+    void *update_callback;
+    u8 pad_14[0x18];
+    u32 color;
+    u8 pad_30[0xE];
+    u16 lifetime;
+    u8 pad_40[4];
+    ColorEffectSource *source;
+} SourceColorEffect;
+void create_parent_particle_color_effect(struct ColorEffectSource *source, u32 color);
+void create_periodic_source_color_effect(struct ColorEffectSource *source, u32 color);
+void create_alternating_tick_color_effect(struct ColorEffectSource *source, u32 color);
 
 #endif

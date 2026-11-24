@@ -311,4 +311,26 @@ void remove_scene_runtime_callback(void);
 u8 *copy_records_with_control_bits(u8 *dst, u8 *src, s32 control_bits, u8 byte_value);
 s32 *prepare_selected_entry_buffer(s32 entryIndex);
 
+s32 store_two_record_block_in_mode_ten_entry(TownObjectSet *set, s32 entry_index);
+
+s32 apply_entry_mia_bikou_end(SquareSceneEntry *entry, s32 entry_index);
+
+void start_sbs11_pad29_event(void);
+
+s32 store_two_record_block_in_mode_seven_entry(TownObjectSet *set, s32 entry_index);
+
+s32 apply_entry_set_mascot2(SquareSceneEntry *entry, s32 entry_index);
+
+void invoke_render_callback_preset_c(void);
+
+extern u8 slot_31_first_source_table[];
+
+extern u8 slot_31_second_source_table[];
+
+extern u8 slot_31_first_registration_table[];
+
+extern u8 slot_31_second_registration_table[];
+
+void initialize_scene_slot_82(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
+
 #endif

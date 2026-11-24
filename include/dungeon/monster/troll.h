@@ -40,4 +40,6 @@ void create_targeted_motion_effect(ActorRecord *body, ObjectPosition *position, 
 
 void spawn_random_color_burst_particle(ActorRecord *source, ObjectPosition *position, void *unused_sprite, void *unused_actor);
 
+s32 draw_segmented_motion_line_chain(struct SegmentedLineState *state, ObjectPosition *position, SpriteFrameState *sprite);
+
 #endif

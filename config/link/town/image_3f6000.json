@@ -8,6 +8,15 @@
   "evidence": "config/overlays/town.rowbase.jsonl proven regions with delta 0x7FC21000: r121nd_3F8A44, w4t2_bank_3f6298; symbol map: r121 obj_screen bindings of the placements in this image (rule 5); docs/evidence/r124w_carve1_run10.md; descriptor/grid bounds; existing source addresses preserved",
   "entries": [
     {
+      "row": "town/func_80476218",
+      "home": "town/func_80476218",
+      "tu": "src/town/scene/hooks/dispatch_scene_request_with_flag_20_template.c",
+      "foff": "0x3f6218",
+      "vma": "0x80017218",
+      "size": 128,
+      "evidence": "TOWN +0x3f5360 references this entry."
+    },
+    {
       "row": "town/func_804762B8",
       "tu": "src/town/scene/hooks/dispatch_scene_request_with_template.c",
       "home": "town/func_804762B8",

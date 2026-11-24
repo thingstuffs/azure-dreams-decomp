@@ -85,6 +85,18 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "town/func_8051F724",
+      "home": "town/func_806C50F8",
+      "tu": "src/town/scene/service/run_scene_service_218_g.c",
+      "foff": "0x49f724",
+      "vma": "0x80016f24",
+      "size": 56,
+      "evidence": "The body lies in the TOWN image at +0x49e800. References to this entry occur at +0x4bb8bc. The slot 0x218 call passes the image-local record at 0x800190a4. The return at +0x49f754 has no separate entry in the active image.",
+      "bindings": {
+        "0x80019040": "0x800190A4"
+      }
+    },
+    {
       "row": "town/func_8051F75C",
       "home": "town/func_8051F75C",
       "tu": "src/town/scene/event/adjust_scene_position_after_slot_queries.c",
@@ -92,6 +104,24 @@
       "vma": "0x80016f5c",
       "size": 172,
       "evidence": "TOWN +0x4bbfcb is a decoded m13-event08 native call. The packed CD transfer at +0x2b1a2c places its scene from +0x49e800 at 0x80016000. It queries slot 12 through services +0x254 and +0x258 and adjusts the position by 64 according to its mode."
+    },
+    {
+      "row": "town/func_8051FA44",
+      "home": "town/func_8051FA44",
+      "tu": "src/town/scene/motion/shift_scene_position_left_down.c",
+      "foff": "0x49fa44",
+      "vma": "0x80017244",
+      "size": 120,
+      "evidence": "The body is bounded by its adjacent allocations in the image at TOWN +0x49e800. No caller found. The return at +0x49fab4 has no separate entry in the active image."
+    },
+    {
+      "row": "town/func_8051FB78",
+      "home": "town/func_8051FB78",
+      "tu": "src/town/scene/event/start_sbs11_pad29_event.c",
+      "foff": "0x49fb78",
+      "vma": "0x80017378",
+      "size": 120,
+      "evidence": "TOWN +0x4b92ab references this entry. The return at +0x49fbe8 has no separate entry in the active image."
     },
     {
       "row": "town/func_8051FD20",

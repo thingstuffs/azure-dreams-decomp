@@ -78,7 +78,8 @@ typedef struct TownServiceTable {
     /* 0x294 */ unsigned char pad_294[0x2C];
     /* 0x2C0 */ int (*callback_2C0)();
     /* 0x2C4 */ struct Node *(*psn_lookable_get)(short);
-    /* 0x2C8 */ unsigned char pad_2C8[8];
+    /* 0x2C8 */ unsigned char pad_2C8[4];
+    /* 0x2CC */ int (*callback_2CC)();
     /* 0x2D0 */ int (*callback_2D0)();
     /* 0x2D4 */ int (*callback_2D4)();
     /* 0x2D8 */ void (*came_bright_set)(unsigned int);

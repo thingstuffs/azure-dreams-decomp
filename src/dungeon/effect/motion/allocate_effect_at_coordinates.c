@@ -4,15 +4,15 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "dungeon/effect/motion.h"
+#include "dungeon/effect/spell_effect.h"
 #include "slus.h"
 
 s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern void D_80024224(LinkedCounterSpriteBody *, ObjectPosition *, SpriteFrameState *);
 #include "shared/sprite_source.h"
 extern SpriteSourceEntry D_800DE8E8[];
 
 /* Create the positioned sprite that advances the controller's counter. */
-ObjectNodeHeader *allocate_effect_at_coordinates(LinkedSpriteCounter *owner, ObjectPosition *source_coords) {
+ObjectNodeHeader *allocate_effect_at_coordinates(struct OrbitBurstSpell *owner, SpellMotion *source_coords) {
     SpriteFrameState *sprite;
     ObjectNodeHeader *object;
     LinkedCounterSpriteBody *body;
@@ -20,7 +20,7 @@ ObjectNodeHeader *allocate_effect_at_coordinates(LinkedSpriteCounter *owner, Obj
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        object->update_callback = D_80024224;
+        object->update_callback = advance_linked_object_counter;
         sprite = object->sprite;
         body = NODE_BODY(object);
         body->owner = owner;

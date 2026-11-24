@@ -21,6 +21,15 @@
       "evidence": "The linked minigame image starts at TOWN +0x78b800 with base 0x80526400. Its panel initializer passes this entry to allocate_record_and_store_three_blocks for the score label and text rows. Address operands at TOWN +0x78c568 and +0x78c5d8."
     },
     {
+      "row": "town/func_8080BFFC",
+      "tu": "src/town/scene/object/create_record_with_three_data_blocks.c",
+      "home": "town/func_8080BFFC",
+      "foff": "0x78bffc",
+      "vma": "0x80526bfc",
+      "size": 148,
+      "evidence": "Existing compiler home for town/func_8080BFFC; the registered split and its source retain their established coordinates."
+    },
+    {
       "row": "town/func_8080E534",
       "home": "town/func_8080E534",
       "tu": "src/town/scene/fall_to_ground_height.c",
@@ -37,6 +46,33 @@
       "vma": "0x8052b1ec",
       "size": 100,
       "evidence": "docs/evidence/r124w_carve1_run7.md; independently recompiled legacy home, not new source coverage; TU view gather: moved from town/r124w7_home_func_808105ec (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_80811034",
+      "tu": "src/town/scene/flags/raise_object_flag_when_countdown_expires.c",
+      "home": "town/func_80811034",
+      "foff": "0x791034",
+      "vma": "0x8052bc34",
+      "size": 76,
+      "evidence": "Existing compiler home for town/func_80811034; the registered split and its source retain their established coordinates."
+    },
+    {
+      "row": "town/func_80811080",
+      "home": "town/func_80811034",
+      "tu": "src/town/scene/flags/raise_object_flag_when_countdown_expires.c",
+      "foff": "0x791080",
+      "vma": "0x8052bc80",
+      "size": 76,
+      "evidence": "The old minigame creates the callback at +0x790c70 and +0x790d60 and stores it in the node handler at +0x10."
+    },
+    {
+      "row": "town/func_80811958",
+      "home": "town/func_8080BFFC",
+      "tu": "src/town/scene/object/create_record_with_three_data_blocks.c",
+      "foff": "0x791958",
+      "vma": "0x8052c558",
+      "size": 148,
+      "evidence": "The 148-byte body lies between the registered minigame routines ending at +0x791958 and starting at +0x7919ec."
     }
   ]
 }

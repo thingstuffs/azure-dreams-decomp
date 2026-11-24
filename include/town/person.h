@@ -170,4 +170,16 @@ void apply_setup_on_timeout_variant_2(TownObjectRecord *object, ObjectPosition *
 s32 check_actor_data_references_match(TownObjectRecord *actor);
 void choose_random_movement_direction(TownObjectRecord *entity, ObjectPosition *movement, SpriteFrameState *context);
 
+void animate_scale_and_restore(TownObjectRecord *state, ObjectPosition *position, SpriteFrameState *scale);
+
+extern u8 slot_81_first_source_table[];
+
+extern u8 slot_81_second_source_table[];
+
+extern u8 slot_81_first_registration_table[];
+
+extern u8 slot_81_second_registration_table[];
+
+void init_person_slot_81(TownObjectRecord *object, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite);
+
 #endif

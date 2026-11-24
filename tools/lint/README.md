@@ -45,6 +45,17 @@ Outputs:
   failures outside game headers. Logs replace checkout paths with `$ROOT`/`$PORT`.
   Only logs named in the current failure TSV belong to the current census.
 
+Warnings the compiler prints with no option tag (GCC's `pointer type mismatch in conditional
+expression`, `comparison of distinct pointer types lacks a cast`, `comparison between pointer and
+integer`) are not dropped: each is a finding of its own class `untagged: <message head>`, where the head is
+the message with quoted names and numbers replaced, so one function with one such site is one group.
+They count in `lint_closure.py` like any other group (a new site fails; sites BASE already has do not) and
+are listed under `untagged_by_class` in `lint_summary.json` and by `--summary`. They are not part of
+`by_class` or the baseline's class check; a baseline that records `untagged_by_class` is also checked
+against it. Tagged warnings outside the list above are only counted, in one report-only line
+(`report-only: N sites in M unlisted warning classes (...)`), so the list can be widened on purpose.
+A `--full --base-census` run against a census written before this change skips untagged groups (a note says so).
+
 A finding is one **(file, function, warning class)** group, unioned across TUs,
 pointer widths and phases. Global declarations use `<global>`; a header belongs
 to its path's subsystem. `count` counts distinct observations, not finding groups.

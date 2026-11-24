@@ -1,3 +1,4 @@
+#include "town/shop.h"
 #include "script_symbols.h"
 #include "common.h"
 #include "town/player/state.h"
@@ -9,7 +10,7 @@ typedef struct {
 extern PackedWord D_80018880;
 
 /* Copy the header, initialize 32 entries with conditional flags, append a terminator, and return the original buffer. */
-u8 * build_shop_goods_entries(u8 *entries) {
+u8 *build_shop_goods_entries(u8 *entries) {
     s32 index;
     s32 marker;
     s32 tail_offset;

@@ -66,6 +66,15 @@
       "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
+      "row": "town/func_802F159C",
+      "home": "main/func_8002159C",
+      "tu": "src/frontend/card/card_dev_enter_mode_second_effect.c",
+      "foff": "0x27159c",
+      "vma": "0x8040859c",
+      "size": 64,
+      "evidence": "The card devkit mode-two body is bracketed by modes one and three at +0x27155c and +0x2715dc. Its JAL at +0x2715c0 reaches the devkit initializer at +0x2713fc."
+    },
+    {
       "row": "town/func_802F161C",
       "tu": "src/frontend/libcard/libcard_query_status.c",
       "home": "main/func_8002161C",

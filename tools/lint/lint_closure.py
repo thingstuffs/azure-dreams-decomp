@@ -456,8 +456,10 @@ def compute_closure(root, base, head, registered, cap=DEFAULT_CAP, head_tree=Non
 
 # ---------------------------------------------------------------- linting
 
-def lint_tree(tree_root, tus, port, cc='gcc', jobs=2):
-    """Compile tus under tree_root with lint_build's flags; (findings, failures)."""
+def lint_tree(tree_root, tus, port, cc='gcc', jobs=2, unlisted=None):
+    """Compile tus under tree_root with lint_build's flags; (findings, failures).  Untagged warnings are
+    findings of their own class; `unlisted` (a dict, when given) receives the report-only count of
+    tagged warnings outside lint_build.WARNINGS."""
     tree_root, port = Path(tree_root).resolve(), Path(port).resolve()
     version = subprocess.check_output([cc, '--version'], text=True).splitlines()[0]
     flags = lint_build.native_flags(port, tree_root, version)
@@ -481,6 +483,8 @@ def lint_tree(tree_root, tus, port, cc='gcc', jobs=2):
                 first = next((r['file'] + ':' + str(r['line']) + ': ' + r['message']
                               for r in rows if r['severity'] != 'warning'), '(no diagnostic)')
                 failures.append(dict(tu=source, mode=mode, phase=phase, first_error=first))
+    if unlisted is not None:
+        unlisted.update(lint_build.unlisted_classes(diagnostics))
     return lint_build.group_findings(diagnostics), failures
 
 
@@ -628,9 +632,11 @@ def run(args, parser):
     print(f'BASE: {len(base_tus)} TUs linted in {time.time() - t:.1f}s, {len(base_findings)} finding groups, '
           f'{len(base_failures)} failed jobs')
     t = time.time()
-    head_findings, head_failures = lint_tree(head_tree, head_tus, args.port, args.cc, args.jobs)
+    unlisted = {}
+    head_findings, head_failures = lint_tree(head_tree, head_tus, args.port, args.cc, args.jobs, unlisted)
     print(f'HEAD: {len(head_tus)} TUs linted in {time.time() - t:.1f}s, {len(head_findings)} finding groups, '
           f'{len(head_failures)} failed jobs')
+    print(lint_build.format_unlisted(unlisted))
     write_json(out / 'closure_result.json', dict(plan=plan, base_findings=base_findings,
                head_findings=head_findings, base_failures=base_failures, head_failures=head_failures))
     code = report(base_findings, head_findings, base_failures, head_failures, plan['renames'], started,
@@ -1026,13 +1032,19 @@ def run_full(args, root, out, started):
         if base_summary.get(key) != summary.get(key):
             print(f'base census {key} differs from this run; re-census BASE before comparing', file=sys.stderr)
             return 2
+    head_findings = read_census(census)
+    if 'untagged_findings' not in base_summary:
+        # A census written before untagged warnings were grouped cannot say which untagged sites BASE had.
+        print('note: the BASE census has no untagged groups; HEAD untagged groups are not compared (re-census BASE)')
+        head_findings = lint_build.listed(head_findings)
+    print(lint_build.format_unlisted(summary.get('unlisted_by_class', {})))
     if base_summary.get('units') != summary.get('units'):
         print(f"note: TU count {base_summary.get('units')} -> {summary.get('units')}")
     base_failures = list(csv.DictReader((base_dir / 'lint_compile_failures.tsv').open(), delimiter='\t')) \
         if (base_dir / 'lint_compile_failures.tsv').is_file() else []
     head_failures = list(csv.DictReader((census / 'lint_compile_failures.tsv').open(), delimiter='\t'))
     renames = {new: old for status, old, new in changes(root, args.base, None) if status == 'R'}
-    result = report(read_census(base_dir), read_census(census), base_failures, head_failures,
+    result = report(read_census(base_dir), head_findings, base_failures, head_failures,
                     renames, started, recorded_renames(root, args.base), diff_line_map(root, args.base, renames),
                     accepted=accepted_rows(root, args.base), write_root=root if args.write_accepted else None,
                     base=args.base, sdk=sdk_functions(root))

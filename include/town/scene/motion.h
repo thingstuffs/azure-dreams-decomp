@@ -23,6 +23,7 @@ void clamp_position_y_to_bounds(struct ColliderView *collider, ObjectPosition *p
 /* advance_player_position_by_step.c */
 void advance_player_position_by_step(void);
 s32 nudge_scene_y_in_state_two(void);
+s32 shift_scene_position_in_state_three(void);
 
 /* advance_three_component_motion.c */
 void advance_three_component_motion(void *timer_state, void *motion);
@@ -99,5 +100,7 @@ void update_motion_and_brightness(void *object, void *motion, void *visual);
 
 /* apply_collider_z_response.c */
 void apply_collider_z_response(struct ColliderView *collider, ObjectPosition *position, struct CollisionScratch *entry);
+
+void shift_scene_position_left_down(void);
 
 #endif

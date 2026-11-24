@@ -148,4 +148,8 @@ void set_script_flag_db3(void);
 /* shared_script_no_op.c */
 void shared_script_no_op(void);
 
+void set_saved_choice_entry_flag(void);
+
+void dispatch_scene_request_with_flag_20_template(struct TownObjectSet *request, s32 unused, s32 value);
+
 #endif
