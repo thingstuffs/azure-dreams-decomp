@@ -19,5 +19,5 @@ void set_sbs11_pad37_and_entry_state(void) {
     set_script_flag_bit(F_sbs11_pad37);
     ((S_8051FC84_1 *)(((town_scene_root->entry_index * 8)
         + ((u8 *)town_scene_root->event_data))))->unk_01 = 2;
-    ((s32 (*)(s32 *))town_scene_root->services->callback_218)(&D_800190E0);
+    ((s32 (*)(s32 *))town_scene_root->services->change_map)(&D_800190E0);
 }

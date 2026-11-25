@@ -7,5 +7,5 @@
 
 /* Set the speech balloon with settings (1, 1, 0, 0x1E). */
 void set_speech_balloon_preset_b(void) {
-    town_scene_root->services->callback_278(1, 1, 0, 0x1E);
+    town_scene_root->services->fukidasi_set(1, 1, 0, 0x1E);
 }

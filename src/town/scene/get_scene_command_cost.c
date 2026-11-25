@@ -8,7 +8,7 @@ u32 get_scene_command_cost(s32 unused_query, s32 unused_param) {
 
     command[1] = 0x17;
     command[0] = 0xA;
-    return (u32)town_scene_root->services->callback_050(command);
+    return (u32)town_scene_root->services->get_item_buy_money(command);
 }
 
 s32 can_afford_scene_command(s32 query_input, s32 query_param) {

@@ -1,3 +1,4 @@
+#include "engine/graphics/sprite_scratch.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor/spell_resource_ids_data.h"
 #include "shared/object_node_flags.h"
@@ -127,6 +128,7 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
     s32 addr_mask;
     s32 length_mask;
     S_func_81904990_4 *scratch;
+    SpriteQuadScratch *layout;
     GameWork *state_page;
 
     setup_arg = screen_pos;
@@ -140,6 +142,7 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
     }
     frame_header = frame->unk_08;
     scratch = (S_func_81904990_4 *)0x1F800000;
+    layout = (SpriteQuadScratch *)scratch;
     scratch->unk_EC = NULL;
     scratch->unk_8C = 0;
     scratch->unk_84 = 0;
@@ -197,7 +200,7 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
         scratch->unk_E8 = pivot_y;
         scratch->unk_10A = pivot_y;
     }
-    RotMatrix((void *)0x1F800100, (void *)0x1F8000D0);
+    RotMatrix(&layout->angles, &layout->matrix_D0);
     {
         s32 scale_x;
         s32 scale_y;
@@ -207,10 +210,10 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
         scratch->unk_38 = (s32)0x1000;
         scratch->unk_34 = scale_y;
     }
-    ScaleMatrix((void *)0x1F8000D0, (void *)0x1F800030);
-    CompMatrix(view_matrix, (void *)0x1F8000D0, (void *)0x1F800050);
-    SetTransMatrix((void *)0x1F800050);
-    SetRotMatrix((void *)0x1F800050);
+    ScaleMatrix(&layout->matrix_D0, &layout->input);
+    CompMatrix(view_matrix, &layout->matrix_D0, &layout->matrix_50);
+    SetTransMatrix(&layout->matrix_50);
+    SetRotMatrix(&layout->matrix_50);
     scratch->unk_24 = (u16) frame->unk_14;
     for (;;) {
         if (!(frame_header->unk_00 & 0x20)) {

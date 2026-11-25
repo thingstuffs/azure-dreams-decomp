@@ -94,6 +94,14 @@
     differing symbols only where the recorded map takes the donor's symbol to the copy's.  --fail-new and
     --fail-all fail on any copy that drifted or cannot be found (a later edit to one copy belongs in all of them).
 
+(l) residue comparisons (ledger/coverage_regions.jsonl): every active stale_town_copy and foreign_program_fragment row
+    must carry compare_container, compare_foff and words (formatter_remnant rows are checked when they carry them),
+    and the range must equal its stated source range byte for byte, with equal_words == words (a formatter copy
+    compares with the first copy).  coverage.py subtracts these rows from game-code coverage, so each one is a claim
+    about bytes.  The field check runs always; the byte comparison reads the retail containers
+    (work/disc/containers) and is reported as skipped when they are absent.  --fail-new and --fail-all fail on any
+    row that lacks a field or differs.
+
 --rederive proposes a current line for each stale or `wrong` entry: the nearest line holding
 the same cast spelling that passes the field rule, following the file's history from the
 newest committed version where the entry held (cast and field), unique per row; a line that
@@ -1048,6 +1056,68 @@ def check_developer_names(root, base, head_text=None, base_text=None):
     return out
 
 
+RESIDUE_REQUIRING = ('stale_town_copy', 'foreign_program_fragment')
+RESIDUE_CATEGORIES = RESIDUE_REQUIRING + ('formatter_remnant', 'formatter_build_string')
+
+
+def residue_comparison_problems(root, notes=None, regions=None):
+    """(rows, rows_compared, problems) for the compare claims of the retail residue rows of coverage_regions.jsonl.
+
+    Rows are the latest record of each (container, foff, size) that is still active.  A stale_town_copy or
+    foreign_program_fragment row without compare_container, compare_foff and words is a problem; a row that carries
+    them is compared with the containers when present (a skip is appended to notes)."""
+    root = Path(root)
+    if regions is None:
+        path = root / 'ledger' / 'coverage_regions.jsonl'
+        regions = [json.loads(line) for line in path.read_text().splitlines() if line.strip()] if path.is_file() else []
+    latest = {}
+    for row in regions:
+        if row.get('category') in RESIDUE_CATEGORIES:
+            latest[(row['container'], int(row['foff']), int(row['size']))] = row
+    rows = [latest[key] for key in sorted(latest) if latest[key].get('active', True)]
+    containers = placed_copies.CONTAINERS
+    present = not placed_copies.missing_containers(root)
+    problems, checked, blobs = [], 0, {}
+
+    def blob(name):
+        if name not in blobs:
+            blobs[name] = (root / placed_copies.CONTAINER_DIR / containers[name]).read_bytes()
+        return blobs[name]
+
+    for row in rows:
+        where = f"{row['category']} {row['container']} +0x{int(row['foff']):X} ({int(row['size'])} bytes)"
+        keys = ('compare_container', 'compare_foff', 'words')
+        has = [k for k in keys if k in row]
+        if len(has) != 3:
+            if row['category'] in RESIDUE_REQUIRING or has:
+                problems.append(where + ': missing ' + ', '.join(k for k in keys if k not in row))
+            continue
+        start, size, other = int(row['foff']), int(row['size']), int(row['compare_foff'])
+        if row['container'] not in containers or row['compare_container'] not in containers:
+            problems.append(where + ': unknown container')
+            continue
+        if size % 4 or int(row['words']) != size // 4:
+            problems.append(where + f": words {row['words']} does not match the size")
+            continue
+        if int(row.get('equal_words', -1)) != int(row['words']):
+            problems.append(where + f": equal_words {row.get('equal_words')} differs from words {row['words']}")
+            continue
+        if not present:
+            continue
+        mine = blob(row['container'])[start:start + size]
+        theirs = blob(row['compare_container'])[other:other + size]
+        checked += 1
+        if len(mine) != size or len(theirs) != size:
+            problems.append(where + ': a range lies outside its container')
+        elif mine != theirs:
+            equal = sum(mine[i:i + 4] == theirs[i:i + 4] for i in range(0, size, 4))
+            problems.append(where + f": differs from {row['compare_container']} +0x{other:X} "
+                            f"({equal} of {size // 4} words equal)")
+    if not present and notes is not None:
+        notes.append('skipped: retail containers absent')
+    return len(rows), checked, problems
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('base', help='base revision to compare loads and staleness against')
@@ -1167,12 +1237,18 @@ def main(argv=None):
     print(f'developer symbols: {len(developer)} renamed without an owner decision')
     for addr, name, now, why in developer:
         print(f"  DEVELOPER {addr} {name} -> {', '.join(now)} ({why})")
+    residue_notes = []
+    residue_rows, residue_checked, residue_problems = residue_comparison_problems(root, residue_notes)
+    print(f'residue comparisons: {residue_rows} rows, {residue_checked} compared with the containers, '
+          f'{len(residue_problems)} lack a field or differ' + ''.join(f' ({note})' for note in residue_notes))
+    for problem in residue_problems:
+        print('  RESIDUE ' + problem)
     lane_local = ledger_public.check(root, args.base, public_ref=args.public_ref)
     failed = (bool(loads['problems']) or (args.fail_all and flagged) or (args.fail_new and new_bad)
               or (args.fail_all and floor_bad) or (args.fail_new and floor_new)
               or (args.fail_new and floor_missing_new) or (args.fail_all and floor_missing)
               or ((args.fail_new or args.fail_all) and (lane_local > 0 or bool(developer)))
-              or ((args.fail_new or args.fail_all) and (copy_problems or clone_problems)))
+              or ((args.fail_new or args.fail_all) and (copy_problems or clone_problems or residue_problems)))
     print('ledger integrity ' + ('FAIL' if failed else 'PASS'))
     return 1 if failed else 0
 

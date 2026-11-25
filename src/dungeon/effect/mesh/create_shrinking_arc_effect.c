@@ -136,7 +136,7 @@ void queue_radial_line_burst(ovl_1930844_81911BF4_Obj81911BF4 *effect_data, void
     projection->ordering_table = (u32 *)&initial_context->orderTag;
     do {
         void **render_ptr = (void **) render_global;
-        void *render_ctx = *render_ptr;
+        GpuContext *render_ctx = *render_ptr;
         s32 start_step_offset;
         s32 end_step_offset;
         s32 z_delta;
@@ -144,8 +144,8 @@ void queue_radial_line_burst(ovl_1930844_81911BF4_Obj81911BF4 *effect_data, void
         s32 avg_depth;
         void *origin_ptr;
         u16 origin_coord;
-        line_packet = *((u8 **) (((u8 *) render_ctx) + 0x8D0));
-        *((u8 **) (((u8 *) render_ctx) + 0x8D0)) = line_packet + 0x14;
+        line_packet = render_ctx->packetCursor;
+        render_ctx->packetCursor = line_packet + 0x14;
         *((line_packet + 3)) = 4;
         *((line_packet + 7)) = 0x52;
         *((line_packet + 4)) = effect_data->field40;
@@ -207,8 +207,8 @@ void queue_radial_line_burst(ovl_1930844_81911BF4_Obj81911BF4 *effect_data, void
                 + 0)) = (projection->ordering_table[projection->ot_index] & 0xFF000000) | (((u32) line_packet) & addr_mask);
             render_ptr = (void **) render_global;
             render_ctx = *render_ptr;
-            draw_mode_packet = *((u8 **) (((u8 *) render_ctx) + 0x8D0));
-            *((u8 **) (((u8 *) render_ctx) + 0x8D0)) = draw_mode_packet + 0xC;
+            draw_mode_packet = render_ctx->packetCursor;
+            render_ctx->packetCursor = draw_mode_packet + 0xC;
             SetDrawMode(draw_mode_packet, 0, 0, GetTPage(0, effect_data->field12, 0,
                 0) & 0xFFFF, 0);
             OT_SETADDR(draw_mode_packet, OT_GETADDR(projection->ordering_table

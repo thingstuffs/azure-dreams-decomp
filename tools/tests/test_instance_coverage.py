@@ -28,6 +28,15 @@ class CoverageTests(unittest.TestCase):
         r=self.report()['windows'];self.assertEqual(r['scope_bytes'],80);self.assertEqual(r['unported'],0);self.assertEqual(r['data_excluded'],0)
     def test_unknown_is_visible_and_not_excluded_as_data(self):
         write(self.led/'coverage_regions.jsonl',[]);r=self.report();self.assertFalse(r['denominator_complete']);self.assertEqual(r['whole_image']['unknown'],30)
+    def test_verified_residue_wins_over_compiled_rows_and_instances(self):
+        write(self.led/'coverage_regions.jsonl', [
+            {'container':'dungeon','foff':20,'size':25,'category':'stale_town_copy','compare_container':'town','compare_foff':20,'words':6,'equal_words':6},
+        ])
+        report = self.report()['whole_image']
+        self.assertEqual(report['retail_residue'], 25)
+        self.assertEqual(report['c_rows'], 20)
+        self.assertEqual(report['proven_instances'], 15)
+        self.assertEqual(report['partition_bytes'], 100)
     def test_out_of_file_proof_is_rejected(self):
         write(self.led/'instances.jsonl',[{'container':'dungeon','foff':99,'size':4,'result':'proven'}]);self.assertRaises(ValueError,self.report)
     def test_subtract_and_intersection_boundaries(self):

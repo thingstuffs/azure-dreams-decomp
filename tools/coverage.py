@@ -9,6 +9,11 @@ from __future__ import annotations
 import argparse, json
 from pathlib import Path
 
+RETAIL_RESIDUE_CATEGORIES = {
+    'stale_town_copy', 'foreign_program_fragment', 'formatter_remnant',
+    'formatter_build_string',
+}
+
 def records(p):
     return [json.loads(s) for s in Path(p).read_text().splitlines() if s.strip() and not s.startswith('#')] if Path(p).exists() else []
 def merge(iv):
@@ -34,9 +39,23 @@ def intersection(a,b): return subtract(a,subtract(a,b))
 def size(iv): return sum(b-a for a,b in merge(iv))
 def extent(r): return [int(r['foff']),int(r['foff'])+int(r['size'])]
 
+def retail_residue_regions(regions):
+    """Read the current, disjoint retail residue attestations."""
+    latest = {}
+    for row in regions:
+        if row['category'] in RETAIL_RESIDUE_CATEGORIES:
+            key = (row['container'], *extent(row))
+            latest[key] = row
+    active = [latest[key] for key in sorted(latest) if latest[key].get('active', True)]
+    for first, second in zip(active, active[1:]):
+        if first['container'] == second['container'] and extent(first)[1] > extent(second)[0]:
+            raise ValueError('overlapping retail residue classifications')
+    return active
+
 def coverage(root):
     root=Path(root); led=root/'ledger'; rows=records(led/'rows.jsonl'); instances=records(led/'instances.jsonl'); regions=records(led/'coverage_regions.jsonl')
     containers={r['container']:r for r in records(led/'containers.jsonl')}
+    residue=retail_residue_regions(regions)
     latest_regions={}
     for r in regions:latest_regions[(r['container'],r['foff'],r['size'],r['category'])]=r
     regions=[r for r in latest_regions.values() if r.get('active',True)]
@@ -60,12 +79,13 @@ def coverage(root):
         data_rows=[extent(r) for r in rows if r['container']==c and r.get('foff') is not None and not r.get('func','').startswith('func_')]
         for iv in code_rows+data_rows+[extent(r) for r in proven if r['container']==c]:
             if not 0<=iv[0]<iv[1]<=n: raise ValueError('row or instance outside '+c)
-        code_rows=merge(code_rows)
-        inst=subtract([extent(r) for r in proven if r['container']==c],code_rows+data_rows+cats.get('data_excluded',[]))
-        # Fixed priority means every byte belongs to at most one category. Known
-        # compiled C wins over provisional survey classification.
-        partitions={'c_rows':code_rows,'proven_instances':inst}
-        occupied=merge(code_rows+inst)
+        excluded=[extent(r) for r in residue if r['container']==c]
+        code_rows=subtract(code_rows,excluded)
+        inst=subtract([extent(r) for r in proven if r['container']==c],
+                      excluded+code_rows+data_rows+cats.get('data_excluded',[]))
+        # Verified residue takes precedence over diagnostic C reproductions.
+        partitions={'retail_residue':excluded,'c_rows':code_rows,'proven_instances':inst}
+        occupied=merge(excluded+code_rows+inst)
         for key,ivs in [('data_excluded',cats.get('data_excluded',[])+data_rows),('sdk_asm',cats.get('sdk_asm',[])),('unported',cats.get('unported',[])),('estimated_code',cats.get('estimated_code',[]))]:
             partitions[key]=subtract(ivs,occupied); occupied=merge(occupied+partitions[key])
         partitions['unknown']=subtract(whole,occupied)

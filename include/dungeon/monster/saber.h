@@ -65,4 +65,6 @@ void resolve_saber_hits_on_target_tile(void *node, s32 target_x, s32 target_y, s
 
 void begin_saber_action_and_spend_turn(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor);
 
+void update_entity_callbacks_and_floor_motion(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite);
+
 #endif

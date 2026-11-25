@@ -61,4 +61,8 @@ void begin_actor_directional_target_action(ActorRecord *action_state, ObjectPosi
 void *spawn_blume_actor(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c);
 void dispatch_blume_actions(ActorRecord *actor_in, ObjectPosition *actor_data_in, SpriteFrameState *sprite_in, ActorRecord *status_in);
 
+void resume_blume_actions_after_hop(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *context);
+void resume_blume_actions_after_spinning_fall(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite, void *context);
+void resume_blume_actions_after_fade_in(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite);
+
 #endif

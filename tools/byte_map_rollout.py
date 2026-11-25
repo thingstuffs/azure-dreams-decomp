@@ -22,6 +22,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import byte_map as B
 import byte_map_format as F
+from coverage import retail_residue_regions, subtract
 import leftover_audit
 L = B.L
 EVIDENCE = 'docs/evidence/r121w_ll6/LEFTOVERS_REPORT.md'
@@ -38,6 +39,32 @@ def write_json(path, value):
 
 def records(path):
     return list(B.read_jsonl(path))
+
+
+def residue_catalogue(blobs, legacy, rows):
+    """Publish explicit ownership records alongside disjoint older residues."""
+    intervals = defaultdict(list)
+    entries = []
+    for row in rows:
+        container = row['container']
+        start, size = row['foff'], row['size']
+        payload = blobs[container][start:start+size]
+        if len(payload) != size or digest(payload) != row['retail_sha256']:
+            raise ValueError(f'retail residue digest differs in {container} at 0x{start:x}')
+        intervals[container].append((start, start+size))
+        entry = dict(row)
+        entry.pop('schema')
+        entry['sha256'] = entry.pop('retail_sha256')
+        entry['physical_root'] = f'{container}/{container}_bin'
+        entries.append(entry)
+    for row in legacy:
+        container = row['container']
+        start = row['foff']
+        for a, b in subtract([(start, start+row['size'])], intervals[container]):
+            entries.append(dict(row, foff=a, size=b-a, sha256=digest(blobs[container][a:b])))
+    return dict(schema='azure-clean.leftover-intervals.v1', group='stale_images',
+                entries=sorted(entries, key=lambda r: (r['container'], r['foff'])),
+                scope='Disjoint physical residue attestations from the coverage ledger and earlier census witnesses.')
 
 
 def digest(blob):
@@ -273,6 +300,10 @@ def build(root, output, census_dir=None, bin_root=None, disc_path=None, link_out
                                  descriptor_container='slus',descriptor_foff=load['descriptor_foff'],
                                  descriptor_evidence='link/leftovers/evidence/audit.json')
     footprints = {c:union([(e['foff'],e['foff']+e['size']) for g in groups.values() for e in g if e['container']==c]) for c in B.RETAIL}
+    residue = retail_residue_regions(records(root/'ledger/coverage_regions.jsonl'))
+    for c in footprints:
+        footprints[c] = union(footprints[c] + [(r['foff'], r['foff']+r['size'])
+                                               for r in residue if r['container']==c])
     physical, census_receipt = census_spans(root, blobs, census_dir)
     # Category refinements retain the authoritative census label. Only existing
     # registered code can enter C/placement; census code alone never registers C.
@@ -453,9 +484,7 @@ def build(root, output, census_dir=None, bin_root=None, disc_path=None, link_out
                 a,n=s['foff'],s['size']
                 stale.append(dict(container=c,foff=a,size=n,sha256=digest(blobs[c][a:a+n]),
                                   evidence=s['evidence'],physical_root=next(k for k in ROOTS if k.startswith(c+'/'))))
-    write_json(link_out/'leftovers/stale_images/intervals.json',
-               dict(schema='azure-clean.leftover-intervals.v1',group='stale_images',entries=stale,
-                    scope='Only disjoint census ledger stale/prior intervals; no enclosing image extent or additional runtime deadness is inferred.'))
+    write_json(link_out/'leftovers/stale_images/intervals.json', residue_catalogue(blobs, stale, residue))
     totals = {k:sum(r[k] for r in coverage if r['physical_root']) for k in ['bytes',*CLASSES,'leftover_footprint_bytes','leftover_code_bytes','game_code_bytes','unaccounted_bytes']}
     write_json(output/'span_export_receipt.json',dict(path='scratch/physical_spans.tsv',
                sha256=B.sha256(span_export),bytes=span_export.stat().st_size,

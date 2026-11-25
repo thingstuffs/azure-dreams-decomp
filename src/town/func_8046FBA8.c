@@ -3,5 +3,5 @@
 #include "town.h"
 
 void run_scene_record_service_b(void) {
-    town_scene_root->services->callback_218(&D_8001AC3C);
+    town_scene_root->services->change_map(&D_8001AC3C);
 }

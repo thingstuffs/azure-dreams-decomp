@@ -1,0 +1,11 @@
+#{"a":0,"d":{"c":"dungeon","e":"docs/evidence/r121w_s1.receipt.json: rowbase beldo_boss_cluster The resource-5 slot-6 load owns the preceding bytes through +0xa650c4.","i":"dungeon/region_a650c4_a6d000","n":"0x7f3c","o":"0xa650c4","p":["788f7a54afae7122504420cb4471d635a71e1ea4b97606fc7eb90e5534b05e4e","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:7655fdde21b9be80f8ac883bd78b8ffef96bbc29d50b8ff0e820a1d50ba66b8f"],"t":[20588,0,0,3988,7996,0,0],"v":"0x8016e8c4"},"p":[{"type":"typing pending"},{"census_label":"proven_code"},{"tu":"src/dungeon/monster/flame/flame_actions.c"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+10899652	7996	d	census:noncode:entropy:unplaced		0
+10907648	15156	r	census:c_row		1
+"0xa6ab34"	1384	c	census:registered_tu		["func_80A4AB34",null,"0x80174334",2]
+10924188	4048	r	census:c_row		1
+10928236	48	a	census:audit+noncode_confirmed	322b554f7b7844264837a1174a96b5fd2d62ec31790a0f45dbe3e1c7557bc77f	3
+10928284	24	a	census:format:ptrtab	41136c1950d66e49db84d47daca5643cb94042bd666b0a73cea9ea6430046374	4
+10928308	16	a	census:audit+noncode_confirmed	3dcc50bdc2ebfbd4155f49ac7c1c50391518a5f8bc378feed3f06544fe1df959	3
+10928324	56	a	census:format:ptrtab	d810d20a8ecbdf75af865aaca812f8b8ba24451daa406051b9b736fdd411a4d3	4
+10928380	3844	a	census:audit+noncode_confirmed	ec47508f0db16c3ad2bc0d15f75450d2e2c7272565c5218e6ef4947b70cad053	3

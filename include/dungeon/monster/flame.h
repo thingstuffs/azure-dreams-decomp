@@ -306,55 +306,6 @@ typedef struct R06_80174214_S_80174214_6 {
     u8 pad_08[0x2];
     u16 unk_0A;
 } R06_80174214_S_80174214_6;
-typedef struct R06_80174334_S_80174334_0 {
-    u8 pad_00[0xC];
-    union { s32 s32; u16 u16; } unk_0C;   
-    union { s32 s32; u16 u16; } unk_10;   
-    union { s32 s32; u16 u16; } unk_14;   
-    union { s32 s32; u16 u16; } unk_18;   
-    u8 pad_1C[0x8];
-    union { u8 * p; u32 * p2; } unk_24;   
-    u16 unk_28;
-    u8 pad_2A[0xA];
-    s32 unk_34;
-    s32 unk_38;
-    s32 unk_3C;
-    u8 pad_40[0x14];
-    union {
-        MATRIX transform[2];
-        struct {
-            u8 pad_00[0x34];
-            s32 x;
-            s32 y;
-            s32 z;
-        } position;
-    } matrices;
-    u8 pad_94[0x10];
-    u16 unk_A4;
-    u16 unk_A6;
-    u16 unk_A8;
-    u8 pad_AA[0x6];
-    u16 unk_B0;
-    u16 unk_B2;
-    u16 unk_B4;
-    u8 pad_B6[0x2];
-    u16 unk_B8;
-    u16 unk_BA;
-    u16 unk_BC;
-    u8 pad_BE[0x2];
-    u16 unk_C0;
-    u16 unk_C2;
-    u16 unk_C4;
-    u8 pad_C6[0x2];
-    u16 unk_C8;
-    u16 unk_CA;
-    u16 unk_CC;
-    u8 pad_CE[2];
-    s32 transform_p;
-    s32 transform_flags;
-    u8 pad_D8[0x28];
-    s32 unk_100;
-} R06_80174334_S_80174334_0;
 typedef struct R06_80174334_S_80174334_1 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -363,18 +314,6 @@ typedef struct R06_80174334_S_80174334_1 {
     u8 pad_08[0x2];
     s16 unk_0A;
 } R06_80174334_S_80174334_1;
-typedef struct R06_80174334_S_80174334_2 {
-    u8 pad_00[0x8];
-    u8 * unk_08;
-    u8 pad_0C[0x3];
-    u8 unk_0F;
-    u16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-} R06_80174334_S_80174334_2;
 typedef struct R06_80174334_S_80174334_4 {
     u8 pad_00[0x4];
     u32 unk_04;

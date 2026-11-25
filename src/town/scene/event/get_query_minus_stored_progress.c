@@ -12,6 +12,6 @@ s32 get_query_minus_stored_progress(void) {
 
     queryPair[1] = 0x17;
     queryPair[0] = 5;
-    return ((s32 (*) (s8 *))town_scene_root->services->callback_050)(queryPair)
+    return ((s32 (*) (s8 *))town_scene_root->services->get_item_buy_money)(queryPair)
     - town_scene_root->event_data->unk_110;
 }

@@ -5,7 +5,7 @@
   "foff": "0xD0A0",
   "size": "0x41000",
   "vma": "0x8008A800",
-  "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x8007D760: img_16ae8_80094248, img_4dae0_800cb240, img_d54c_8008ad4c, img_f6a8_8008ce08; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
+  "evidence": "Diagnostic link view using delta 0x8007D760. The TOWN-identical runs and compiled splits are classified in docs/evidence/retail_byte_ownership.json. The preceding older head-bank code ends at DUNGEON +0xbdd4.",
   "entries": [
     {
       "row": "dungeon/func_7FFED524",

@@ -1,3 +1,4 @@
+#include "dungeon/effect/projected_quad_scratch.h"
 #include "dungeon/level/tile_flags.h"
 #include "sdk/libgpu_types.h"
 #include "shared/audio_commands.h"
@@ -190,16 +191,16 @@ s32 queue_shaded_line_segments(void *unused_0, ObjectPosition *origin, SpriteFra
   s32 *point_base = points_addr;
   s32 initial_z = plane_z;
   s16 phase = (s16) color_phase;
-  ScratchPad *scratch;
+  ProjectedQuadScratch *scratch;
   u8 *line_prim;
   GpuContext *initial_ctx;
   GameWork *render_state = &g_game_work;
   s32 depth;
   initial_ctx = *((GpuContext **) (globals_page + 0x3160));
-  scratch = (ScratchPad *) 0x1F800000;
-  scratch->h[56] = (u16) initial_z;
-  scratch->h[52] = (u16) initial_z;
-  ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->ot = (u32 *) (((u8 *) initial_ctx) + 0xB0);
+  scratch = PROJECTED_QUAD_SCRATCH;
+  scratch->vertices[1].vz = (u16) initial_z;
+  scratch->vertices[0].vz = (u16) initial_z;
+  scratch->ordering_table = (u32 *)&initial_ctx->orderTag;
   do
   {
     s32 phase_offset = phase;
@@ -253,49 +254,49 @@ s32 queue_shaded_line_segments(void *unused_0, ObjectPosition *origin, SpriteFra
       point_component = point_base[segment];
       coord_offset = point_component * (s16) point_scale;
       coord_offset >>= 8;
-      scratch->h[50] = origin_bytes->x.unsigned_parts.integer + coord_offset;
+      scratch->vertices[0].vx = origin_bytes->x.unsigned_parts.integer + coord_offset;
       point_component = point_base[segment + 1];
       coord_offset = point_component * (s16) point_scale;
       coord_offset >>= 8;
-      scratch->h[54] = origin_bytes->x.unsigned_parts.integer + coord_offset;
+      scratch->vertices[1].vx = origin_bytes->x.unsigned_parts.integer + coord_offset;
       point_component = point_base[segment + 0x11];
       coord_offset = point_component * (s16) point_scale;
       coord_offset >>= 8;
-      scratch->h[51] = origin_bytes->y.unsigned_parts.integer + coord_offset;
+      scratch->vertices[0].vy = origin_bytes->y.unsigned_parts.integer + coord_offset;
       point_component = point_base[segment + 0x12];
       coord_offset = point_component * (s16) point_scale;
       coord_offset >>= 8;
-      scratch->h[55] = origin_bytes->y.unsigned_parts.integer + coord_offset;
+      scratch->vertices[1].vy = origin_bytes->y.unsigned_parts.integer + coord_offset;
     }
     {
-      u8 *start_vertex = &scratch->b[0x64];
-      u8 *end_vertex = &scratch->b[0x6C];
-      s32 *start_screen = &scratch->sw[54];
-      s32 *end_screen = &scratch->sw[55];
-      s32 *projection_aux = &scratch->sw[33];
-      s32 *projection_flags = &scratch->sw[34];
-      scratch->sw[61] = RotTransPers(start_vertex, start_screen, projection_aux, projection_flags);
-      scratch->sw[62] = RotTransPers(end_vertex, end_screen, projection_aux, projection_flags);
+      SVECTOR *start_vertex = &scratch->vertices[0];
+      SVECTOR *end_vertex = &scratch->vertices[1];
+      SpriteScratchScreenPoint *start_screen = &scratch->screen[0];
+      SpriteScratchScreenPoint *end_screen = &scratch->screen[1];
+      s32 *projection_aux = &scratch->depth_cue;
+      s32 *projection_flags = &scratch->gte_flag;
+      scratch->start_depth = RotTransPers(start_vertex, start_screen, projection_aux, projection_flags);
+      scratch->end_depth = RotTransPers(end_vertex, end_screen, projection_aux, projection_flags);
     }
-    *((u16 *) (line_prim + 8)) = scratch->h[108];
-    *((u16 *) (line_prim + 0xA)) = scratch->h[109];
-    *((u16 *) (line_prim + 0x10)) = scratch->h[110];
-    *((u16 *) (line_prim + 0x12)) = scratch->h[111];
+    *((u16 *) (line_prim + 8)) = scratch->screen[0].x;
+    *((u16 *) (line_prim + 0xA)) = scratch->screen[0].y;
+    *((u16 *) (line_prim + 0x10)) = scratch->screen[1].x;
+    *((u16 *) (line_prim + 0x12)) = scratch->screen[1].y;
     {
       s32 depth_sum;
-      depth_sum = scratch->sw[61];
-      depth_sum += scratch->sw[62];
+      depth_sum = scratch->start_depth;
+      depth_sum += scratch->end_depth;
       depth = depth_sum / 2;
     }
-    scratch->sw[45] = depth;
+    scratch->ot_index = depth;
     if (((u32) depth) < 0x1E0U)
     {
       DR_MODE *draw_mode_prim;
-      ovl_18d0850_818B0E10_addPrim(((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->ot + ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_B4, line_prim);
+      ovl_18d0850_818B0E10_addPrim(scratch->ordering_table + scratch->ot_index, line_prim);
       draw_mode_prim = ((GpuContext *)render_state->draw_buffer)->packetCursor;
       ((GpuContext *)render_state->draw_buffer)->packetCursor = draw_mode_prim + 1;
       SetDrawMode(draw_mode_prim, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
-      ovl_18d0850_818B0E10_addPrim(((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->ot + ((ovl_18d0850_818B0E10_LineSegmentScratch *) scratch)->unk_B4, draw_mode_prim);
+      ovl_18d0850_818B0E10_addPrim(scratch->ordering_table + scratch->ot_index, draw_mode_prim);
     }
     segment -= 1;
   }

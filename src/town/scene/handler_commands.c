@@ -48,5 +48,5 @@ void request_handler_command_17(void) {
 
     command_args[1] = 0x17;
     command_args[0] = *state_byte;
-    scene_command_result = town_scene_root->services->callback_050(command_args);
+    scene_command_result = town_scene_root->services->get_item_buy_money(command_args);
 }

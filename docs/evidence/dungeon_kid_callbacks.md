@@ -29,3 +29,15 @@ relocations. Every changed address follows the corresponding slot's load
 delta. The three source homes are in slot 0. Across all 21 entries only
 the updater address moves relative to its source home. The resident step
 addresses stay fixed, and the complete links reproduce the retail words.
+
+The bank data also references each of the three entries by its linked address.
+
+| Resource 4 slot | Interpolation pointer | Spinning-fall pointer | Fade-in pointer |
+|---|---|---|---|
+| 0 | `+0xa179a4` | `+0xa179a8` | `+0xa179e4` |
+| 1 | `+0xa1d9a4` | `+0xa1d9a8` | `+0xa1d9e4` |
+| 2 | `+0xa239a4` | `+0xa239a8` | `+0xa239e4` |
+| 3 | `+0xa299a4` | `+0xa299a8` | `+0xa299e4` |
+| 4 | `+0xa2f9a4` | `+0xa2f9a8` | `+0xa2f9e4` |
+| 5 | `+0xa359a4` | `+0xa359a8` | `+0xa359e4` |
+| 6 | `+0xa3b9a4` | `+0xa3b9a8` | `+0xa3b9e4` |

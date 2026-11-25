@@ -145,16 +145,6 @@ typedef struct Quad {
     u8 pad_00[0x10];
     QuadVertex v[4];
 } Quad;
-typedef struct Bank56_819611CC_Scratch {
-    u8 pad_00[0x20];
-    u32 ot_base;
-    u8 pad_24[0x4C];
-    QuadVertex v[4];
-    s32 out_a;
-    s32 out_b;
-    u8 pad_98[0x28];
-    u32 depth;
-} Bank56_819611CC_Scratch;
 typedef struct Bank56_819611CC_PolyFT4 {
     u32 tag;
     u8 r0, g0, b0, code;
@@ -177,10 +167,6 @@ typedef struct Texture {
     u8 pad_06[0x2];
     u8 u, v, w, h;
 } Texture;
-typedef struct RenderState {
-    u8 pad_00[0x8D0];
-    u8 *packet;
-} RenderState;
 typedef struct S_81960CD4_1_pre {
     u16 unk_00;
 } S_81960CD4_1_pre;

@@ -11,7 +11,7 @@ struct TownCollectionPanel;
 void advance_delayed_panel_line(struct TownCollectionPanel *panel);
 
 struct TownCollectionText;
-void retire_delayed_scene_text_on_completion_devkit(struct TownCollectionText *text);
+void retire_older_panel_text_on_completion(struct TownCollectionText *text);
 
 /* append_string.c */
 u8 *append_string(u8 *dst, u8 *src);

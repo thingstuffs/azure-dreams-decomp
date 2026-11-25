@@ -5,7 +5,7 @@
   "foff": "0x78b800",
   "size": "0x9b84",
   "vma": "0x80526400",
-  "evidence": "Foreign old-minigame image at its devkit link base. The US and JP retail loader tables skip this range (docs/evidence/town_prototypes_run7/owner_audit.md).",
+  "evidence": "Earlier minigame program at its linked base. The US and JP retail loader tables skip this range (docs/evidence/town_prototypes_run7/owner_audit.md).",
   "load_evidence": {
     "path": "ledger/instance_load_regions.jsonl",
     "record_sha256": "f00d99b7b453a1900dff26d5c5b7c930c67739d71ee175604f530fd22e13c24a"
@@ -14,11 +14,11 @@
     {
       "row": "town/func_8080BD70",
       "home": "town/func_8080BD70",
-      "tu": "src/town/scene/dialogue/advance_delayed_panel_text.c",
+      "tu": "src/town/scene/dialogue/retire_older_panel_text_on_completion.c",
       "foff": "0x78bd70",
       "vma": "0x80526970",
       "size": 156,
-      "evidence": "In the foreign old-minigame image at TOWN +0x78b800 (devkit base 0x80526400), the panel initializer passes this entry to allocate_record_and_store_three_blocks for the score label and text rows. Address operands at TOWN +0x78c568 and +0x78c5d8."
+      "evidence": "In the earlier minigame program at TOWN +0x78b800 (linked at 0x80526400), the panel initializer passes this entry to allocate_record_and_store_three_blocks for the score label and text rows. Address operands at TOWN +0x78c568 and +0x78c5d8."
     },
     {
       "row": "town/func_8080BFFC",

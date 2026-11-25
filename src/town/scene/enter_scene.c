@@ -23,5 +23,5 @@ void enter_scene(void) {
     ((TownCall0)dispatch->callback_340)(0);
 
     dispatch = *(TownServiceTable **)(*(u8 **)(D_80010000 + 0x6000) + 0x20);
-    ((TownCall1)dispatch->callback_218)(D_800190B8);
+    ((TownCall1)dispatch->change_map)(D_800190B8);
 }

@@ -250,7 +250,7 @@
     {
       "row": "town/func_8032D9E0",
       "home": "town/func_8032D9E0",
-      "tu": "src/town/scene/invoke_render_callback_preset_c.c",
+      "tu": "src/town/scene/set_speech_balloon_preset_c.c",
       "foff": "0x2ad9e0",
       "vma": "0x800181e0",
       "size": 64,
@@ -280,7 +280,7 @@
     {
       "row": "town/func_8032DF28",
       "home": "town/func_8032DF28",
-      "tu": "src/town/scene/service/call_service_050_with_record.c",
+      "tu": "src/town/scene/service/get_item_buy_money_from_scene_record.c",
       "foff": "0x2adf28",
       "vma": "0x80018728",
       "size": 56,

@@ -61,7 +61,7 @@ warning	file	function	sites	callees
 -Wincompatible-pointer-types	src/dungeon/menu/copy_cached_hud_rectangle_to_fixed_position.c	copy_cached_hud_rectangle_to_fixed_position	1	MoveImage
 -Wincompatible-pointer-types	src/dungeon/menu/draw_hud_number_tall.c	draw_hud_number_tall	1	MoveImage
 -Wincompatible-pointer-types	src/dungeon/menu/draw_hud_number_short.c	draw_hud_number_short	1	MoveImage
--Wincompatible-pointer-types	src/dungeon/menu/pass_global_data_with_fixed_args.c	copy_menu_vram_block	1	MoveImage
+-Wincompatible-pointer-types	src/dungeon/menu/copy_menu_vram_block.c	copy_menu_vram_block	1	MoveImage
 -Wincompatible-pointer-types	src/dungeon/menu/queue_black_draw_buffer_rectangle.c	queue_black_draw_buffer_rectangle	1	SetDrawArea
 -Wincompatible-pointer-types	src/dungeon/menu/select.c	render_three_by_three_terrain_grid	9	RotMatrix,RotTransPers,ScaleMatrix,SetRotMatrix,SetTransMatrix,TransMatrix
 -Wincompatible-pointer-types	src/dungeon/monster/arachne/arachne.c	build_linked_curved_wireframe_grid	2	SetDrawMode

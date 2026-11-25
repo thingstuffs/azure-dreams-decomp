@@ -22,10 +22,10 @@ typedef struct TownServiceTable {
     /* 0x044 */ int (*callback_044)();
     /* 0x048 */ unsigned char pad_048[0x4];
     /* 0x04C */ int (*BuildLandBuilding)();
-    /* 0x050 */ int (*callback_050)();
+    /* 0x050 */ int (*get_item_buy_money)();
     /* 0x054 */ int (*rand_sn)(int limit);
     /* 0x058 */ unsigned char pad_058[0x10];
-    /* 0x068 */ int (*callback_068)();
+    /* 0x068 */ int (*open_shop)();
     /* 0x06C */ int (*callback_06C)(struct DungeonItemEntry *); /* get_item_sell_money */
     /* 0x070 */ int (*callback_070)();
     /* 0x074 */ void *(*callback_074)();
@@ -48,7 +48,7 @@ typedef struct TownServiceTable {
     /* 0x1F8 */ unsigned char pad_1F8[0x10];
     /* 0x208 */ int (*callback_208)();
     /* 0x20C */ unsigned char pad_20C[0xC];
-    /* 0x218 */ int (*callback_218)();
+    /* 0x218 */ int (*change_map)();
     /* 0x21C */ int (*callback_21C)();
     /* 0x220 */ void *(*set_item_w0)(signed char, signed char, signed char, signed char);
     /* 0x224 */ int (*callback_224)();
@@ -69,7 +69,7 @@ typedef struct TownServiceTable {
     /* 0x26C */ int (*callback_26C)();
     /* 0x270 */ int (*callback_270)();
     /* 0x274 */ unsigned char pad_274[0x4];
-    /* 0x278 */ int (*callback_278)();
+    /* 0x278 */ int (*fukidasi_set)();
     /* 0x27C */ int (*callback_27C)();
     /* 0x280 */ int (*play_sound)();
     /* 0x284 */ unsigned char pad_284[0x8];

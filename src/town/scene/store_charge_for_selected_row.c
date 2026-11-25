@@ -19,7 +19,7 @@ void store_charge_for_selected_row(void) {
     request[1] = 0x19;
     request[0] = kind;
     slot->row_index = kind;
-    handler_result = ((Callback)(town_scene_root->services->callback_050))(request);
+    handler_result = ((Callback)(town_scene_root->services->get_item_buy_money))(request);
     scene_charge = handler_result;
     slot->charge = handler_result;
 }

@@ -64,59 +64,6 @@ void try_apply_wind_protection(ActorRecord *target, s32 effect_arg, ActorRecord 
 
 typedef struct {} EmptyArg;
 
-typedef struct S_func_800241A8_1 {
-    u8 pad_00[0xC];
-    union {
-        s32 as_s32_0C;
-        u16 as_u16_0C;
-    } unk_0C;
-    union {
-        s32 as_s32_10;
-        u16 as_u16_10;
-    } unk_10;
-    union {
-        s32 as_s32_14;
-        u16 as_u16_14;
-    } unk_14;
-    union {
-        s32 as_s32_18;
-        u16 as_u16_18;
-    } unk_18;
-    u8 pad_1C[0x8];
-    void * unk_24;
-    u16 unk_28;
-    u8 pad_2A[0xA];
-    s32 unk_34;
-    s32 unk_38;
-    s32 unk_3C;
-    u8 pad_40[0x48];
-    s32 unk_88;
-    s32 unk_8C;
-    s32 unk_90;
-    u8 pad_94[0x10];
-    u16 unk_A4;
-    u16 unk_A6;
-    u16 unk_A8;
-    u8 pad_AA[0x6];
-    s16 unk_B0;
-    u16 unk_B2;
-    u16 unk_B4;
-    u8 pad_B6[0x2];
-    s16 unk_B8;
-    u16 unk_BA;
-    u16 unk_BC;
-    u8 pad_BE[0x2];
-    s16 unk_C0;
-    u16 unk_C2;
-    u16 unk_C4;
-    u8 pad_C6[0x2];
-    s16 unk_C8;
-    u16 unk_CA;
-    u16 unk_CC;
-    u8 pad_CE[0x32];
-    s32 unk_100;
-} S_func_800241A8_1;
-
 typedef struct S_func_800241A8_5 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
@@ -193,7 +140,7 @@ typedef struct {
 /* Transform the mesh and enqueue textured quads or lines in the ordering table. */
 void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition *transform, SpriteFrameState *object, s32 depth_bias)
 {
-    S_func_800241A8_1 *scratch = (S_func_800241A8_1 *)0x1F800000;
+    ShadedQuadScratch *scratch = SHADED_QUAD_SCRATCH;
     MeshTexture *texture;
     s32 depth_offset;
     MATRIX matrix;
@@ -201,30 +148,30 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
     GameWork *game_work;
 
     game_work = &g_game_work;
-    scratch->unk_24 = (u8 *)game_work->draw_buffer + 0xB0;
-    scratch->unk_88 = transform->x.w.i;
-    scratch->unk_8C = transform->y.w.i;
-    scratch->unk_90 = transform->z.w.i;
+    scratch->ordering_table = (u32 *)&((GpuContext *)game_work->draw_buffer)->orderTag;
+    scratch->local_matrix.t[0] = transform->x.w.i;
+    scratch->local_matrix.t[1] = transform->y.w.i;
+    scratch->local_matrix.t[2] = transform->z.w.i;
     object->flags |= 0x8000;
 
     PushMatrix();
 
-    scratch->unk_3C = 0x2000;
-    scratch->unk_38 = 0x2000;
-    scratch->unk_34 = 0x2000;
-    scratch->unk_A4 = object->angle_x;
-    scratch->unk_A8 = object->angle_z;
-    scratch->unk_A6 = object->angle_y;
-    RotMatrix(&scratch->unk_A4, (u8 *)scratch + 0x74);
+    scratch->scale.vz = 0x2000;
+    scratch->scale.vy = 0x2000;
+    scratch->scale.vx = 0x2000;
+    scratch->angles.vx = object->angle_x;
+    scratch->angles.vz = object->angle_z;
+    scratch->angles.vy = object->angle_y;
+    RotMatrix(&scratch->angles, &scratch->local_matrix);
     ReadRotMatrix(&matrix);
-    CompMatrix(&matrix, (u8 *)scratch + 0x74, (u8 *)scratch + 0x54);
-    ScaleMatrix((u8 *)scratch + 0x54, &scratch->unk_34);
-    SetTransMatrix((u8 *)scratch + 0x54);
-    SetRotMatrix((u8 *)scratch + 0x54);
+    CompMatrix(&matrix, &scratch->local_matrix, &scratch->composed_matrix);
+    ScaleMatrix(&scratch->composed_matrix, &scratch->scale);
+    SetTransMatrix(&scratch->composed_matrix);
+    SetRotMatrix(&scratch->composed_matrix);
 
     depth_offset = (s16)depth_bias;
     texture = object->source;
-    scratch->unk_28 = object->flags;
+    scratch->render_flags = object->flags;
 
     for (;;) {
         if (mesh->unk_4E != 0) {
@@ -238,31 +185,31 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
             packet = render_state->unk_8D0;
             render_state->unk_8D0 = (u8 *)packet + 0x28;
 
-            scratch->unk_0C.as_s32_0C = texture->r;
-            scratch->unk_10.as_s32_10 = texture->g;
-            scratch->unk_14.as_s32_14 = texture->b;
-            scratch->unk_18.as_s32_18 = texture->a;
+            scratch->uv_u_start = texture->r;
+            scratch->uv_v_start = texture->g;
+            scratch->uv_u_extent = texture->b;
+            scratch->uv_v_extent = texture->a;
 
-            scratch->unk_B0 = mesh->unk_58.as_u16_58;
-            scratch->unk_B8 = mesh->unk_5A.as_u16_5A;
-            scratch->unk_C0 = mesh->unk_5C.as_u16_5C;
-            scratch->unk_C8 = mesh->unk_5E.as_u16_5E;
-            scratch->unk_B2 = mesh->unk_60.as_u16_60;
-            scratch->unk_BA = mesh->unk_62.as_u16_62;
-            scratch->unk_C2 = mesh->unk_64.as_u16_64;
-            scratch->unk_CA = mesh->unk_66.as_u16_66;
-            scratch->unk_B4 = mesh->unk_68.as_u16_68;
-            scratch->unk_BC = mesh->unk_6A.as_u16_6A;
-            scratch->unk_C4 = mesh->unk_6C.as_u16_6C;
-            scratch->unk_CC = mesh->unk_6E.as_u16_6E;
+            scratch->vertices[0].vx = mesh->unk_58.as_u16_58;
+            scratch->vertices[1].vx = mesh->unk_5A.as_u16_5A;
+            scratch->vertices[2].vx = mesh->unk_5C.as_u16_5C;
+            scratch->vertices[3].vx = mesh->unk_5E.as_u16_5E;
+            scratch->vertices[0].vy = mesh->unk_60.as_u16_60;
+            scratch->vertices[1].vy = mesh->unk_62.as_u16_62;
+            scratch->vertices[2].vy = mesh->unk_64.as_u16_64;
+            scratch->vertices[3].vy = mesh->unk_66.as_u16_66;
+            scratch->vertices[0].vz = mesh->unk_68.as_u16_68;
+            scratch->vertices[1].vz = mesh->unk_6A.as_u16_6A;
+            scratch->vertices[2].vz = mesh->unk_6C.as_u16_6C;
+            scratch->vertices[3].vz = mesh->unk_6E.as_u16_6E;
 
-            ot_index = RotAverage4(&scratch->unk_B0, &scratch->unk_B8,
-                                     &scratch->unk_C0, &scratch->unk_C8,
+            ot_index = RotAverage4(&scratch->vertices[0], &scratch->vertices[1],
+                                     &scratch->vertices[2], &scratch->vertices[3],
                                      &packet->unk_08, &packet->unk_10,
                                      &packet->unk_18, &packet->unk_20,
-                                     (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4,
+                                     &scratch->depth_cue, &scratch->gte_flag,
                                      ({ EmptyArg empty; empty; })) - depth_offset - 6;
-            scratch->unk_100 = ot_index;
+            scratch->ot_index = ot_index;
 
             if ((u32)ot_index < 0x1E0 &&
                 ((((u16)(packet->unk_08 + 0x20) < 0x181) &&
@@ -277,22 +224,22 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
                 packet->unk_04.as_u8_07.unk_07 = 0x2C;
                 object->flags &= 0x7FFF;
 
-                scratch->unk_14.as_s32_14 += scratch->unk_0C.as_s32_0C;
-                if (scratch->unk_14.as_s32_14 & 0x100) {
-                    scratch->unk_14.as_s32_14--;
+                scratch->uv_u_extent += scratch->uv_u_start;
+                if (scratch->uv_u_extent & 0x100) {
+                    scratch->uv_u_extent--;
                 }
-                scratch->unk_18.as_s32_18 += scratch->unk_10.as_s32_10;
-                if (scratch->unk_18.as_s32_18 & 0x100) {
-                    scratch->unk_18.as_s32_18--;
+                scratch->uv_v_extent += scratch->uv_v_start;
+                if (scratch->uv_v_extent & 0x100) {
+                    scratch->uv_v_extent--;
                 }
-                scratch->unk_10.as_s32_10 <<= 8;
-                scratch->unk_18.as_s32_18 <<= 8;
+                scratch->uv_v_start <<= 8;
+                scratch->uv_v_extent <<= 8;
 
                 {
                     u32 palette_id;
                     texture_adjust = object->clut;
                     if (texture_adjust != 0) {
-                        if (scratch->unk_28 & 0x100) {
+                        if (scratch->render_flags & 0x100) {
                             packet->unk_0E = texture_adjust;
                         } else {
                             palette_id = texture_adjust + texture->clut;
@@ -304,10 +251,10 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
                     }
                 }
 
-                packet->unk_0C = scratch->unk_10.as_u16_10 +
-                                           scratch->unk_0C.as_u16_0C;
-                packet->unk_14.as_u16_14 = scratch->unk_10.as_u16_10 +
-                                           scratch->unk_14.as_u16_14;
+                packet->unk_0C = scratch->uv_v_start +
+                                           scratch->uv_u_start;
+                packet->unk_14.as_u16_14 = scratch->uv_v_start +
+                                           scratch->uv_u_extent;
 
                 texture_adjust = object->tpage_abr;
                 if (texture_adjust != 0) {
@@ -316,10 +263,10 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
                     packet->unk_16 = texture->tpage;
                 }
 
-                packet->unk_1C.as_u16_1C = scratch->unk_18.as_u16_18 +
-                                           scratch->unk_0C.as_u16_0C;
-                packet->unk_24.as_u16_24 = scratch->unk_18.as_u16_18 +
-                                           scratch->unk_14.as_u16_14;
+                packet->unk_1C.as_u16_1C = scratch->uv_v_extent +
+                                           scratch->uv_u_start;
+                packet->unk_24.as_u16_24 = scratch->uv_v_extent +
+                                           scratch->uv_u_extent;
 
                 if (packet->unk_08 > packet->unk_20) {
                     packet->unk_14.as_u8_14--;
@@ -332,15 +279,15 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
 
                 texture_flags = texture->texture_flags;
                 object->color.c.code = texture_flags;
-                render_flags = scratch->unk_28;
+                render_flags = scratch->render_flags;
                 if (render_flags & 8) {
                     object->color.c.code = (render_flags & 4) ?
                         (texture_flags | 2) : (texture_flags & 0xFD);
                 }
 
                 packet->unk_04.as_u32_04 = ((u32)(object->color.word));
-                setaddr(packet, getaddr((u32 *)scratch->unk_24 + scratch->unk_100));
-                setaddr((u32 *)scratch->unk_24 + scratch->unk_100, packet);
+                setaddr(packet, getaddr(scratch->ordering_table + scratch->ot_index));
+                setaddr(scratch->ordering_table + scratch->ot_index, packet);
             }
         }
 
@@ -364,43 +311,43 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
             coord_a = mesh->unk_58.as_s16_58;
             coord_b = mesh->unk_5C.as_s16_5C;
             midpoint = (coord_a + coord_b) / 2;
-            scratch->unk_C0 = midpoint;
-            scratch->unk_B0 = midpoint;
+            scratch->vertices[2].vx = midpoint;
+            scratch->vertices[0].vx = midpoint;
             coord_a = mesh->unk_5A.as_s16_5A;
             coord_b = mesh->unk_5E.as_s16_5E;
             midpoint = (coord_a + coord_b) / 2;
-            scratch->unk_C8 = midpoint;
-            scratch->unk_B8 = midpoint;
+            scratch->vertices[3].vx = midpoint;
+            scratch->vertices[1].vx = midpoint;
             coord_a = mesh->unk_60.as_s16_60;
             coord_b = mesh->unk_64.as_s16_64;
             midpoint = (coord_a + coord_b) / 2;
-            scratch->unk_C2 = midpoint;
-            scratch->unk_B2 = midpoint;
+            scratch->vertices[2].vy = midpoint;
+            scratch->vertices[0].vy = midpoint;
             coord_a = mesh->unk_62.as_s16_62;
             coord_b = mesh->unk_66.as_s16_66;
             midpoint = (coord_a + coord_b) / 2;
-            scratch->unk_CA = midpoint;
-            scratch->unk_BA = midpoint;
+            scratch->vertices[3].vy = midpoint;
+            scratch->vertices[1].vy = midpoint;
             coord_a = mesh->unk_68.as_s16_68;
             coord_b = mesh->unk_6C.as_s16_6C;
             midpoint = (coord_a + coord_b) / 2;
-            scratch->unk_C4 = midpoint;
-            scratch->unk_B4 = midpoint;
+            scratch->vertices[2].vz = midpoint;
+            scratch->vertices[0].vz = midpoint;
             end_z_a = mesh->unk_6A.as_s16_6A;
             end_z_b = mesh->unk_6E.as_s16_6E;
             midpoint_z = (end_z_a + end_z_b) / 2;
-            scratch->unk_CC = midpoint_z;
-            scratch->unk_BC = midpoint_z;
+            scratch->vertices[3].vz = midpoint_z;
+            scratch->vertices[1].vz = midpoint_z;
 
-            ot_index = RotAverage4(&scratch->unk_B0, &scratch->unk_B8,
-                                     &scratch->unk_C0, &scratch->unk_C8,
+            ot_index = RotAverage4(&scratch->vertices[0], &scratch->vertices[1],
+                                     &scratch->vertices[2], &scratch->vertices[3],
                                      &line->unk_08, &line->unk_0C,
                                      &line->unk_08, &line->unk_0C,
-                                     (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4,
+                                     &scratch->depth_cue, &scratch->gte_flag,
                                      ({ EmptyArg empty; empty; })) - depth_offset - 6;
-            scratch->unk_100 = ot_index;
+            scratch->ot_index = ot_index;
 
-            render_flags = scratch->unk_28;
+            render_flags = scratch->render_flags;
             if (render_flags & 8) {
                 if (render_flags & 4) {
                     object->color.c.code |= 2;
@@ -413,15 +360,15 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
             line->unk_00.unk_03 = 3;
             line->unk_04.as_u32_04 = render_flags;
             line->unk_04.as_u8_07.unk_07 = 0x42;
-            setaddr(line, getaddr((u32 *)scratch->unk_24 + scratch->unk_100));
-            setaddr((u32 *)scratch->unk_24 + scratch->unk_100, line);
+            setaddr(line, getaddr(scratch->ordering_table + scratch->ot_index));
+            setaddr(scratch->ordering_table + scratch->ot_index, line);
 
             tpage_state = game_work->draw_buffer;
             tpage = tpage_state->unk_8D0;
             tpage_state->unk_8D0 = &tpage->unk_0C;
             SetDrawMode(tpage, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
-            setaddr(tpage, getaddr((u32 *)scratch->unk_24 + scratch->unk_100));
-            setaddr((u32 *)scratch->unk_24 + scratch->unk_100, tpage);
+            setaddr(tpage, getaddr(scratch->ordering_table + scratch->ot_index));
+            setaddr(scratch->ordering_table + scratch->ot_index, tpage);
         }
 
         if ((s8)texture->flags < 0) {

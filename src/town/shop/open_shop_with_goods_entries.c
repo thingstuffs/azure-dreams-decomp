@@ -10,5 +10,5 @@ TownShopHandle *open_shop_with_goods_entries(void) {
     build_shop_goods_entries(shop_scene_entry_bytes);
     /* The service returns the handle as an int. */
     return shop_scene_registration_handle = (TownShopHandle *)(unsigned long)
-        town_scene_root->services->callback_068(0, 0, 1, shop_scene_entry_bytes);
+        town_scene_root->services->open_shop(0, 0, 1, shop_scene_entry_bytes);
 }

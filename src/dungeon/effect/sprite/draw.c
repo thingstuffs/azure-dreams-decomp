@@ -37,10 +37,10 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
     scratch = (u8 *)layout;
 
     DM_U32(0x20) = (u32)((u8 *)graphics + 0xB0);
-    DM_S32(0xE4) = *(s16 *)((u8 *)position + 2);
-    DM_S32(0xE8) = *(s16 *)((u8 *)position + 6);
+    layout->matrix_D0.t[0] = *(s16 *)((u8 *)position + 2);
+    layout->matrix_D0.t[1] = *(s16 *)((u8 *)position + 6);
     position_z = *(s16 *)((u8 *)position + 0xA);
-    DM_S32(0xEC) = position_z;
+    layout->matrix_D0.t[2] = position_z;
     packet = graphics->packetCursor;
     state->unk_14 = (u16)(state->unk_14 | 0x8000);
     depth_bias = depth_offset;
@@ -63,7 +63,7 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
         part = state->unk_08;
         init_flags = state->unk_14;
         invalid_coord = 0x7D00;
-        DM_U16(0x24) = (u16)init_flags;
+        layout->sprite_flags = init_flags;
     }
 
     do {

@@ -13,7 +13,7 @@
 #include "sdk/libgte.h"
 #include "sdk/rand.h"
 
-#define OTSLOT() (*(u32 *)((u8 *)scratch->unk_24 + scratch->unk_C4 * 4))
+#define OTSLOT() (*(u32 *)((u8 *)scratch->ordering_table + scratch->ordering_depth * 4))
 
 typedef struct S_800AA044_0 {
     u16 unk_00;
@@ -40,29 +40,6 @@ typedef struct S_func_800AC9AC_0 {
     u8 pad_08[0x18];
     u32 *unk_20;
 } S_func_800AC9AC_0;
-
-typedef struct S_func_800AC9AC_1 {
-    u8 pad_00[0x24];
-    u32 *unk_24;
-    u8 pad_28[0x1C];
-    VECTOR transformed;
-    u8 pad_54[0x20];
-    SVECTOR vertices[4];
-    s32 interpolation;
-    s32 flags;
-    u8 pad_9C[0x28];
-    s32 unk_C4;
-    u8 pad_C8[0x20];
-    u16 unk_E8;
-    u16 unk_EA;
-    u16 unk_EC;
-    u16 unk_EE;
-    u16 unk_F0;
-    u16 unk_F2;
-    u16 unk_F4;
-    u16 unk_F6;
-} S_func_800AC9AC_1;
-
 
 typedef struct S_func_800AC9AC_3 {
     u32 unk_00;

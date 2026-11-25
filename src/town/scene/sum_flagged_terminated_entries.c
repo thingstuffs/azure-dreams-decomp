@@ -15,7 +15,7 @@ s32 sum_flagged_terminated_entries(void *entry, s32 callback_mode) {
     while (((u8 *)entry)[1] != 0) {
         if (((u8 *)entry)[3] & 0x20) {
             if (callback_mode == 0) {
-                callback = town_scene_root->services->callback_050;
+                callback = town_scene_root->services->get_item_buy_money;
             } else {
                 callback = town_scene_root->services->callback_06C;
             }

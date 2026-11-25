@@ -31,7 +31,7 @@ void create_alternating_tick_color_effect(ColorEffectSource *source, u32 color)
         render->color.c.b = 128;
         render->color.c.g = 128;
         render->color.c.r = 128;
-        /* BYTES: Taking the address puts the color spill in the allocator call delay slot. */
+        /* BYTES: taking the address keeps the colour argument's stack spill in the allocator call's delay slot; a plain read keeps the colour in a saved register instead. */
         packed_color = *&color;
         render->scale_y = 4096;
         render->scale_x = 4096;

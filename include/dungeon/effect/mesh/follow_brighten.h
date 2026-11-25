@@ -82,32 +82,6 @@ typedef struct ovl_18d0850_818B0C3C_S_8002443C_2 {
     u8 pad_08[0x2];
     u16 unk_0A;
 } ovl_18d0850_818B0C3C_S_8002443C_2;
-typedef struct
-{
-  u8 pad00[0x18];
-  u32 *ot;
-  u8 pad1C[0x48];
-  u16 unk_64;
-  u16 unk_66;
-  u16 unk_68;
-  u8 pad6A[0x2];
-  u16 unk_6C;
-  u16 unk_6E;
-  u16 unk_70;
-  u8 pad72[0x12];
-  s32 unk_84;
-  s32 unk_88;
-  u8 pad8C[0x28];
-  s32 unk_B4;
-  u8 padB8[0x20];
-  u16 unk_D8;
-  u16 unk_DA;
-  u16 unk_DC;
-  u16 unk_DE;
-  u8 padE0[0x14];
-  s32 unk_F4;
-  s32 unk_F8;
-} ovl_18d0850_818B0E10_LineSegmentScratch;
 typedef struct {
     unsigned addr: 24;
     unsigned len: 8;

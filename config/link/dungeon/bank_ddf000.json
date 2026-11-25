@@ -239,15 +239,15 @@
     },
     {
       "row": "dungeon/func_80DC29A0",
-      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
-      "home": "dungeon/func_800AD94C",
+      "tu": "src/dungeon/monster/blume/resume_blume_actions_after_hop.c",
+      "home": "dungeon/func_80DBC9A0",
       "foff": "0xDE29A0",
       "vma": "0x8016E1A0",
       "size": 56,
+      "evidence": "DUNGEON +0xde29ac calls the resident hop step. The store at +0xde29c0 installs the Blume dispatcher from +0xde0620. The dispatcher and its address operands match its home with the bank delta applied to relocated addresses.",
       "bindings": {
-        "0x800D36D0": "0x800D36D0"
-      },
-      "evidence": "; LL3a preserves prior rule-3 binding"
+        "0x80171E20": "0x8016BE20"
+      }
     },
     {
       "row": "dungeon/func_80DC29D8",
@@ -312,29 +312,27 @@
     },
     {
       "row": "dungeon/func_80DC31F4",
-      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
-      "home": "dungeon/func_800AD94C",
+      "tu": "src/dungeon/monster/blume/resume_blume_actions_after_spinning_fall.c",
+      "home": "dungeon/func_80DBD1F4",
       "foff": "0xDE31F4",
       "vma": "0x8016E9F4",
       "size": 56,
+      "evidence": "DUNGEON +0xde3200 calls the resident spinning fall step. The store at +0xde3214 installs the Blume dispatcher from +0xde0620. The dispatcher and its address operands match its home with the bank delta applied to relocated addresses.",
       "bindings": {
-        "0x800ABDBC": "0x800AC5C8",
-        "0x800B2A60": "0x8016BE20"
-      },
-      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADABC onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
+        "0x80171E20": "0x8016BE20"
+      }
     },
     {
       "row": "dungeon/func_80DC322C",
-      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
-      "home": "dungeon/func_800AD94C",
+      "tu": "src/dungeon/monster/blume/resume_blume_actions_after_fade_in.c",
+      "home": "dungeon/func_80DBD22C",
       "foff": "0xDE322C",
       "vma": "0x8016EA2C",
       "size": 56,
+      "evidence": "DUNGEON +0xde3238 calls the resident fade in step. The store at +0xde324c installs the Blume dispatcher from +0xde0620. The dispatcher and its address operands match its home with the bank delta applied to relocated addresses.",
       "bindings": {
-        "0x800ABDBC": "0x800ACE34",
-        "0x800B2A60": "0x8016BE20"
-      },
-      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADAF4 onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
+        "0x80171E20": "0x8016BE20"
+      }
     },
     {
       "row": "dungeon/func_80DC3264",

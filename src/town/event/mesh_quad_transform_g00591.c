@@ -1,3 +1,4 @@
+#include "engine/graphics/sprite_scratch.h"
 /* Transforms vectors and mesh quads and queues quads with randomized vertex colors. */
 /* inferred-strong mesh_quad_transform_g00591; joins CL:town/func_800AC7B4,CL:town/func_800AC8E4,CL:town/func_800AC908,CL:town/func_800AC9AC,PD:town/engine:80100D18,PD:town/engine:80100D1C,PD:town/engine:80100D40; no crossing cuts. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AC7B4, CL:town/func_800AC8E4, CL:town/func_800AC908, CL:town/func_800AC9AC, PD:town/engine:80100D18, PD:town/engine:80100D1C, PD:town/engine:80100D40. */
@@ -28,7 +29,7 @@ void transform_vector(s32 transform, SVECTOR *vector, VECTOR *transformed) {
 /* Transform and queue mesh quads with randomized vertex colors. */
 void transform_and_queue_mesh_quads(S_func_800AC9AC_0 *mesh, Fixed1616 origin[3])
 {
-    S_func_800AC9AC_1 *scratch;
+    SpriteLinkedScratch *scratch;
     u8 *initial_state;
     SVECTOR *vertices;
     u32 *color_masks;
@@ -51,15 +52,15 @@ void transform_and_queue_mesh_quads(S_func_800AC9AC_0 *mesh, Fixed1616 origin[3]
     render_state_ptr = ((u8 * *)(&g_game_work));
     initial_state = *render_state_ptr;
     color_masks = mesh->unk_20;
-    scratch = (S_func_800AC9AC_1 *)0x1F800000;
-    scratch->unk_24 = (u32 *)(initial_state + 0xB0);
+    scratch = LINKED_SPRITE_SCRATCH;
+    scratch->ordering_table = (u32 *)(initial_state + 0xB0);
 
     if (*quad_indices != -1) {
         vertex_0 = &scratch->vertices[0];
         vertex_1 = &scratch->vertices[1];
         vertex_2 = &scratch->vertices[2];
         vertex_3 = &scratch->vertices[3];
-        vertex_work = &scratch->transformed;
+        vertex_work = &scratch->translation;
         address_mask = 0x00FFFFFF;
 
         do {
@@ -96,25 +97,25 @@ void transform_and_queue_mesh_quads(S_func_800AC9AC_0 *mesh, Fixed1616 origin[3]
             add_entity_position_to_menu_vector(vertex_2, origin);
             add_entity_position_to_menu_vector(vertex_3, origin);
 
-            scratch->unk_C4 = RotTransPers4(
+            scratch->ordering_depth = RotTransPers4(
                 vertex_0, vertex_1, vertex_2, vertex_3,
-                (s32 *)&scratch->unk_E8, (s32 *)&scratch->unk_EC,
-                (s32 *)&scratch->unk_F0, (s32 *)&scratch->unk_F4,
-                &scratch->interpolation, &scratch->flags) - 0x30;
+                (s32 *)&scratch->screen[0], (s32 *)&scratch->screen[1],
+                (s32 *)&scratch->screen[2], (s32 *)&scratch->screen[3],
+                &scratch->depth_cue, &scratch->gte_flag) - 0x30;
 
-            quad->unk_08 = scratch->unk_E8;
-            quad->unk_0A = scratch->unk_EA;
-            quad->unk_10 = scratch->unk_EC;
-            quad->unk_12 = scratch->unk_EE;
-            quad->unk_18 = scratch->unk_F0;
-            quad->unk_1A = scratch->unk_F2;
-            quad->unk_20 = scratch->unk_F4;
-            quad->unk_22 = scratch->unk_F6;
+            quad->unk_08 = scratch->screen[0].x;
+            quad->unk_0A = scratch->screen[0].y;
+            quad->unk_10 = scratch->screen[1].x;
+            quad->unk_12 = scratch->screen[1].y;
+            quad->unk_18 = scratch->screen[2].x;
+            quad->unk_1A = scratch->screen[2].y;
+            quad->unk_20 = scratch->screen[3].x;
+            quad->unk_22 = scratch->screen[3].y;
 
-            if (scratch->unk_C4 >= 0x1E0)
-                scratch->unk_C4 = 0x1DF;
-            if (scratch->unk_C4 < 0)
-                scratch->unk_C4 = 0;
+            if (scratch->ordering_depth >= 0x1E0)
+                scratch->ordering_depth = 0x1DF;
+            if (scratch->ordering_depth < 0)
+                scratch->ordering_depth = 0;
 
             render_state = (GpuContext *)*render_state_ptr;
             draw_mode = render_state->packetCursor;

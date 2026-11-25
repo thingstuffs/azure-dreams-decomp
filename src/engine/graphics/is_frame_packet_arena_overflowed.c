@@ -8,6 +8,7 @@
 #include "engine/graphics.h"
 #include "sdk/libgte.h"
 #include "shared/scratchpad.h"
+#include "engine/graphics/sprite_scratch.h"
 
 /* Projects coordinates and processes linked entries whose 0x80 flag is clear. */
 s32 project_and_draw_sprite_node_chain(u8 *first_data, ObjectPosition *first_coords, SpriteFrameState *first_entry)
@@ -15,15 +16,15 @@ s32 project_and_draw_sprite_node_chain(u8 *first_data, ObjectPosition *first_coo
     u8 *node_data = first_data;
     ObjectPosition *coords = first_coords;
     SpriteFrameState *entry = first_entry;
-    ScratchPad *scratch = (ScratchPad *)0x1F800000;
+    SpriteQuadScratch *scratch = SPRITE_SCRATCH;
     ObjectNodeHeader *next_node;
 
     for (;;) {
         if (!(entry->flags & 0x80)) {
-            scratch->h[0x70 / 2] = (u16)coords->x.w.i;
-            scratch->h[0x72 / 2] = (u16)coords->y.w.i;
-            scratch->h[0x74 / 2] = (u16)coords->z.w.i;
-            RotTransPers(&scratch->h[0x70 / 2], &scratch->sw[0], &scratch->sw[0x90 / 4], &scratch->sw[0x94 / 4]);
+            scratch->vertices[0].vx = coords->x.w.i;
+            scratch->vertices[0].vy = coords->y.w.i;
+            scratch->vertices[0].vz = coords->z.w.i;
+            RotTransPers(&scratch->vertices[0], &((ScratchPad *)scratch)->sw[0], &scratch->depth_cue, &scratch->gte_flag);
             draw_sprite_parts(node_data, entry, entry->depth_bias);
             if (is_frame_packet_arena_overflowed(((GpuContext *)g_game_work.draw_buffer)->packetCursor)) {
                 return 0;

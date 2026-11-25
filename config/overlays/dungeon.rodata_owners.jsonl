@@ -177,3 +177,5 @@
 {"schema":"azure-clean.rodata_owner.v1","id":"dungeon/D_80DE3038","foff":"0xe03038","rodata_size":28,"rodata":"jump_table","owner":"dungeon/func_80DE5258","ownership_status":"evidenced","reviewer":"pending","evidence":"docs/evidence/dungeon_ovl_e0365c.boundary.json"}
 {"schema":"azure-clean.rodata_owner.v1","id":"dungeon/D_8184A800","foff":"0x186a800","rodata_size":8,"rodata":"selector entry pointer and one zero pad word","owner":"dungeon/func_8184B890","ownership_status":"evidenced"}
 {"schema":"azure-clean.rodata_owner.v1","id":"dungeon/D_818A4800","foff":"0x18c4800","rodata_size":8,"rodata":"selector entry pointer and one zero pad word","owner":"dungeon/func_818A4FD4","ownership_status":"evidenced"}
+{"schema":"azure-clean.rodata_owner.v1","id":"dungeon/D_80C9F000","foff":"0xcbf000","rodata_size":8,"rodata":"two bank function pointers","owner":"dungeon/func_80C9F25C","ownership_status":"evidenced"}
+{"schema":"azure-clean.rodata_owner.v1","id":"dungeon/D_80CB1000","foff":"0xcd1000","rodata_size":8,"rodata":"two bank function pointers","owner":"dungeon/func_80CB125C","ownership_status":"evidenced"}

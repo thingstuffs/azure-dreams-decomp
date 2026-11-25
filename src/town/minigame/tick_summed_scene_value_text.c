@@ -37,18 +37,15 @@ void tick_summed_scene_value_text(TownCollectionText *entry) {
         if ((ticks_left << 0x10) > 0) {
             return;
         }
-        entry->flags =
-            (u16) (entry->flags & 0xFFFD);
-        entry->state =
-            (u16) (entry->state + 1);
+        entry->flags &= 0xFFFD;
+        entry->state = entry->state + 1;
         break;
     case 1:
         format_decimal_field_space_padded(value_sum, strlen(entry->text),
                       entry->text);
         if (linked_object->flags & TOWN_COLLECTION_FINISHED) {
             flags = &((ObjectNodeHeader *)entry - 1)->flags;
-            *flags =
-                (u16) (*flags | NODE_REMOVE);
+            *flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;

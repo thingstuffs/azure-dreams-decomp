@@ -108,14 +108,14 @@ u8 *build_town_event_records(void *unused)
 TownShopHandle *register_check_event_records(void) {
     clear_bytes((s8 *)town_event_records, 0x100);
     build_town_event_records(town_event_records);
-    return scene_registered_event_handle = (TownShopHandle *)town_scene_root->services->callback_068(0, 0, 1, town_event_records);
+    return scene_registered_event_handle = (TownShopHandle *)town_scene_root->services->open_shop(0, 0, 1, town_event_records);
 }
 
 /* Prepares D_8001B218 for the active object's callback and stores its result. */
 TownShopHandle *register_coordinate_event_records(void) {
     clear_bytes((s8 *)town_event_records, 0x100);
     copy_and_terminate_coordinate_entries(town_event_records);
-    return scene_registered_event_handle = (TownShopHandle *)town_scene_root->services->callback_068(0, 1, 1, town_event_records);
+    return scene_registered_event_handle = (TownShopHandle *)town_scene_root->services->open_shop(0, 1, 1, town_event_records);
 }
 
 /* Cache the value at offset 0x24 and return the value at offset 0x20. */

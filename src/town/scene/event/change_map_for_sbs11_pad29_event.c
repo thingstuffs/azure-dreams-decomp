@@ -14,5 +14,5 @@ void change_map_for_sbs11_pad29_event(void) {
     set_script_flag_bit(F_sbs11_pad29);
     mirror_sbs11_pad32_flag();
     town_scene_root->services->callback_340(0);
-    town_scene_root->services->callback_218(sbs11_pad29_service_record);
+    town_scene_root->services->change_map(sbs11_pad29_service_record);
 }

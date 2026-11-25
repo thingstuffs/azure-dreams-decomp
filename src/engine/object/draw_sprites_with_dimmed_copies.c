@@ -1,3 +1,4 @@
+#include "engine/graphics/sprite_scratch.h"
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/entity.h"
@@ -65,9 +66,12 @@ s32 draw_sprites_with_dimmed_copies(u8 *node_data, ObjectPosition *position, Spr
     scratch = (ScratchPad *) 0x1F800000;
     render_pool = g_game_work.draw_buffer;
     next_prim = render_pool->packetCursor;
-    scratch->sw[0x24 / 4] = (s32) (((u8 *) render_pool) + 0xB0);
-    scratch->sw[0xE4 / 4] = 0;
-    scratch->sw[0x1C / 4] = (s32) next_prim;
+    {
+        SpriteLinkedScratch *linked = (SpriteLinkedScratch *)scratch;
+        linked->ordering_table = (u32 *)&render_pool->orderTag;
+        scratch->sw[0xE4 / 4] = 0;
+        linked->packet_cursor = next_prim;
+    }
     render_pools = ((GpuContext * *)(&g_game_work));
     fixed_matrix = (MATRIX *) 0x1F8000C8;
     do {
@@ -149,8 +153,11 @@ s32 draw_sprites_with_dimmed_copies(u8 *node_data, ObjectPosition *position, Spr
                 scratch->h[0x28 / 2] = render_state->flags;
                 for (;;) {
                 if (!(record[0] & 0x20)) {
-                    prim = (u8 *) (scratch->sw[0x1C / 4]);
-                    scratch->sw[0x1C / 4] = (s32) (prim + 0x28);
+                    {
+                        SpriteLinkedScratch *linked = (SpriteLinkedScratch *)scratch;
+                        prim = linked->packet_cursor;
+                        linked->packet_cursor = prim + 0x28;
+                    }
                     scratch->sw[0x0C / 4] = record[8];
                     scratch->sw[0x10 / 4] = record[9];
                     scratch->sw[0x14 / 4] = record[10];
@@ -312,7 +319,10 @@ s32 draw_sprites_with_dimmed_copies(u8 *node_data, ObjectPosition *position, Spr
                             prim[5] >>= 2;
                             prim[6] >>= 2;
                         }
-                        AddPrim((void *) ((scratch->sw[0x24 / 4]) + ((scratch->sw[0xC4 / 4]) << 2)), prim);
+                        {
+                            SpriteLinkedScratch *linked = (SpriteLinkedScratch *)scratch;
+                            AddPrim(linked->ordering_table + linked->ordering_depth, prim);
+                        }
                     }
                 }
 
@@ -326,7 +336,7 @@ s32 draw_sprites_with_dimmed_copies(u8 *node_data, ObjectPosition *position, Spr
             }
             PopMatrix();
         }
-        next_node = ((ObjectNodeHeader *)node_data - 1)->chain_next;
+        next_node = NODE_HEADER(node_data)->chain_next;
         if (next_node != 0) {
             node_data = NODE_BODY(next_node);
             position = next_node->position;
@@ -334,6 +344,6 @@ s32 draw_sprites_with_dimmed_copies(u8 *node_data, ObjectPosition *position, Spr
         }
     }
     while (next_node != 0);
-    render_pools[0]->packetCursor = (u8 *) (scratch->sw[0x1C / 4]);
+    render_pools[0]->packetCursor = ((SpriteLinkedScratch *)scratch)->packet_cursor;
     return 0;
 }

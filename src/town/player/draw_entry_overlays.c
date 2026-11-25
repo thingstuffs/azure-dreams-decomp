@@ -88,8 +88,8 @@ s32 draw_entry_overlays(void) {
     GpuContext *draw_ctx;
     void **page_state;
     SpriteQuadScratch *scratch_control;
-    u16 *scratch_x;
-    u16 *scratch_y;
+    s16 *scratch_x;
+    s16 *scratch_y;
     u16 rect_width;
     u32 rect_height;
     u32 fill_height;
@@ -246,19 +246,19 @@ s32 draw_entry_overlays(void) {
                 }
                 draw_x = quad_x + 0x20;
                 draw_y = texture_top + 0x39;
-                scratch_x = (u16 *)0x1F800000;
-                scratch_y = (u16 *)0x1F800002;
-                *scratch_x = (u16) draw_x;
-                *scratch_y = (u16) draw_y;
+                scratch_x = &SPRITE_SCRATCH->position.vx;
+                scratch_y = &SPRITE_SCRATCH->position.vy;
+                *scratch_x = draw_x;
+                *scratch_y = draw_y;
                 draw_entry->tpage_offset = 0x40U;
                 draw_entry->sprite_flags = (u16) ((*(u16 *)((u8 *)draw_entry + 0x14)) | 0xC);
                 draw_sprite_parts(0, draw_entry, 0x1F0);
                 scratch_x = (void *)0;
                 scratch_y = (void *)0;
-                scratch_x = (u16 *)0x1F800000;
-                scratch_y = (u16 *)0x1F800002;
-                *scratch_x = (u16) draw_x;
-                *scratch_y = (u16) draw_y;
+                scratch_x = &SPRITE_SCRATCH->position.vx;
+                scratch_y = &SPRITE_SCRATCH->position.vy;
+                *scratch_x = draw_x;
+                *scratch_y = draw_y;
                 draw_entry->tpage_offset = 0x20U;
                 draw_entry->sprite_flags = (u16) ((*(u16 *)((u8 *)draw_entry + 0x14)) & 0xFFF3);
                 draw_sprite_parts(0, draw_entry, 0x1F0);

@@ -117,7 +117,7 @@
     {
       "row": "town/func_8051FB78",
       "home": "town/func_8051FB78",
-      "tu": "src/town/scene/event/start_sbs11_pad29_event.c",
+      "tu": "src/town/scene/event/change_map_for_sbs11_pad29_event.c",
       "foff": "0x49fb78",
       "vma": "0x80017378",
       "size": 120,

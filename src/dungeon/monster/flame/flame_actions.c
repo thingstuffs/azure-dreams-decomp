@@ -1,4 +1,5 @@
 #include "shared/audio_commands.h"
+#include "dungeon/effect/shaded_quad_scratch.h"
 #include "engine/graphics/sprite_scratch.h"
 #include "engine/entity/effect_slots.h"
 #include "dungeon/actor/motion.h"
@@ -2160,7 +2161,7 @@ void spawn_jittered_shaded_point(
 /* Projects an effect quad, clips it by depth and screen bounds, and queues a colored textured polygon. */
 void project_and_queue_textured_quad(ActorRecord *quad, ObjectPosition *position, SpriteFrameState *draw_state, s16 depth_bias)
 {
-    R06_80174334_S_80174334_0 *scratch = (R06_80174334_S_80174334_0 *)0x1F800000;
+    ShadedQuadScratch *scratch = SHADED_QUAD_SCRATCH;
     R06_80174334_S_80174334_5 *packet;
     void *packet_data;
     u8 *texture;
@@ -2169,60 +2170,62 @@ void project_and_queue_textured_quad(ActorRecord *quad, ObjectPosition *position
     u8 tex_flags;
     R06_80174334_MATRIX matrix;
 
-    scratch->unk_24.p = *(u8 **)&g_game_work.draw_buffer + 0xB0;
-    scratch->matrices.position.x = position->x.w.i;
-    scratch->matrices.position.y = position->y.w.i;
-    scratch->matrices.position.z = position->z.w.i;
+    GpuContext *context = g_game_work.draw_buffer;
+
+    scratch->ordering_table = (u32 *)&context->orderTag;
+    scratch->local_matrix.t[0] = position->x.w.i;
+    scratch->local_matrix.t[1] = position->y.w.i;
+    scratch->local_matrix.t[2] = position->z.w.i;
     draw_state->flags |= 0x8000;
 
     PushMatrix();
 
-    scratch->unk_3C = 0x2000;
-    scratch->unk_38 = 0x2000;
-    scratch->unk_34 = 0x2000;
-    scratch->unk_A4 = draw_state->angle_x;
-    scratch->unk_A8 = draw_state->angle_z;
-    scratch->unk_A6 = draw_state->angle_y;
-    RotMatrix(&scratch->unk_A4, &scratch->matrices.transform[1]);
+    scratch->scale.vz = 0x2000;
+    scratch->scale.vy = 0x2000;
+    scratch->scale.vx = 0x2000;
+    scratch->angles.vx = draw_state->angle_x;
+    scratch->angles.vz = draw_state->angle_z;
+    scratch->angles.vy = draw_state->angle_y;
+    RotMatrix(&scratch->angles, &scratch->local_matrix);
     ReadRotMatrix(&matrix);
-    CompMatrix(&matrix, &scratch->matrices.transform[1], &scratch->matrices.transform[0]);
-    ScaleMatrix(&scratch->matrices.transform[0], &scratch->unk_34);
-    SetTransMatrix(&scratch->matrices.transform[0]);
-    SetRotMatrix(&scratch->matrices.transform[0]);
+    CompMatrix(&matrix, &scratch->local_matrix, &scratch->composed_matrix);
+    ScaleMatrix(&scratch->composed_matrix, &scratch->scale);
+    SetTransMatrix(&scratch->composed_matrix);
+    SetRotMatrix(&scratch->composed_matrix);
 
-    texture = ((R06_80174334_S_80174334_2 *)draw_state)->unk_08;
-    scratch->unk_28 = draw_state->flags;
-    scratch->unk_0C.s32 = texture[8];
-    scratch->unk_10.s32 = texture[9];
+    texture = draw_state->source;
+    scratch->render_flags = draw_state->flags;
+    scratch->uv_u_start = texture[8];
+    scratch->uv_v_start = texture[9];
     /* BYTES: this raw word store keeps the following draw-buffer load in order. */
     (*(s32 *)((u8 *)scratch + 0x14)) = texture[0xA];
-    scratch->unk_18.s32 = texture[0xB];
+    scratch->uv_v_extent = texture[0xB];
     packet_data = ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor;
     packet = packet_data;
     ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor = packet_data + 0x34;
 
     {
         R06_80174334_S_80174334_4 *quad_view = (R06_80174334_S_80174334_4 *)quad;
-        scratch->unk_B0 = quad_view->unk_64;
-        scratch->unk_B8 = quad->movement_facing;
-        scratch->unk_C0 = quad_view->unk_70;
-        scratch->unk_C8 = quad_view->unk_76;
-        scratch->unk_B2 = quad_view->unk_66;
-        scratch->unk_BA = quad_view->unk_6C;
-        scratch->unk_C2 = quad_view->unk_72;
-        scratch->unk_CA = quad_view->unk_78;
-        scratch->unk_B4 = quad_view->unk_68;
-        scratch->unk_BC = quad_view->unk_6E;
-        scratch->unk_C4 = quad_view->unk_74;
-        scratch->unk_CC = quad_view->unk_7A;
+        scratch->vertices[0].vx = quad_view->unk_64;
+        scratch->vertices[1].vx = quad->movement_facing;
+        scratch->vertices[2].vx = quad_view->unk_70;
+        scratch->vertices[3].vx = quad_view->unk_76;
+        scratch->vertices[0].vy = quad_view->unk_66;
+        scratch->vertices[1].vy = quad_view->unk_6C;
+        scratch->vertices[2].vy = quad_view->unk_72;
+        scratch->vertices[3].vy = quad_view->unk_78;
+        scratch->vertices[0].vz = quad_view->unk_68;
+        scratch->vertices[1].vz = quad_view->unk_6E;
+        scratch->vertices[2].vz = quad_view->unk_74;
+        scratch->vertices[3].vz = quad_view->unk_7A;
 
     }
-    ot_index = RotAverage4(&scratch->unk_B0, &scratch->unk_B8,
-                             &scratch->unk_C0, &scratch->unk_C8,
+    ot_index = RotAverage4(&scratch->vertices[0], &scratch->vertices[1],
+                             &scratch->vertices[2], &scratch->vertices[3],
                              &packet->xy0.word, &packet->xy1.word,
                              &packet->xy2.word, &packet->xy3.word,
-                             &scratch->transform_p, &scratch->transform_flags) - depth_bias - 6;
-    scratch->unk_100 = ot_index;
+                             &scratch->depth_cue, &scratch->gte_flag) - depth_bias - 6;
+    scratch->ot_index = ot_index;
 
     if ((u32)ot_index < 0x1E0) {
         if ((((u16)(packet->xy0.parts.x.u + 0x20) < 0x181) &&
@@ -2235,19 +2238,19 @@ void project_and_queue_textured_quad(ActorRecord *quad, ObjectPosition *position
              ((u16)(packet->xy3.parts.y.u + 0x20) < 0x121))) {
             draw_state->flags &= 0x7FFF;
 
-            scratch->unk_14.s32 += scratch->unk_0C.s32;
-            if (scratch->unk_14.s32 & 0x100) {
-                scratch->unk_14.s32--;
+            scratch->uv_u_extent += scratch->uv_u_start;
+            if (scratch->uv_u_extent & 0x100) {
+                scratch->uv_u_extent--;
             }
-            scratch->unk_18.s32 += scratch->unk_10.s32;
-            if (scratch->unk_18.s32 & 0x100) {
-                scratch->unk_18.s32--;
+            scratch->uv_v_extent += scratch->uv_v_start;
+            if (scratch->uv_v_extent & 0x100) {
+                scratch->uv_v_extent--;
             }
-            scratch->unk_10.s32 <<= 8;
-            scratch->unk_18.s32 <<= 8;
+            scratch->uv_v_start <<= 8;
+            scratch->uv_v_extent <<= 8;
 
             if (draw_state->clut) {
-                if (scratch->unk_28 & 0x100) {
+                if (scratch->render_flags & 0x100) {
                     packet->unk_0E = draw_state->clut;
                 } else {
                     packet->unk_0E = draw_state->clut +
@@ -2257,10 +2260,10 @@ void project_and_queue_textured_quad(ActorRecord *quad, ObjectPosition *position
                 packet->unk_0E = ((R06_80174334_S_80174334_6 *)texture)->unk_06;
             }
 
-            packet->unk_0C = scratch->unk_10.u16 +
-                                      scratch->unk_0C.u16;
-            packet->unk_18.u16 = scratch->unk_10.u16 +
-                                       scratch->unk_14.u16;
+            packet->unk_0C = scratch->uv_v_start +
+                                      scratch->uv_u_start;
+            packet->unk_18.u16 = scratch->uv_v_start +
+                                       scratch->uv_u_extent;
 
             if (draw_state->tpage_abr) {
                 packet->unk_1A = draw_state->tpage_abr +
@@ -2269,10 +2272,10 @@ void project_and_queue_textured_quad(ActorRecord *quad, ObjectPosition *position
                 packet->unk_1A = ((R06_80174334_S_80174334_6 *)texture)->unk_04;
             }
 
-            packet->unk_24.at00.v = scratch->unk_18.u16 +
-                                       scratch->unk_0C.u16;
-            packet->unk_30.at00.v = scratch->unk_18.u16 +
-                                       scratch->unk_14.u16;
+            packet->unk_24.at00.v = scratch->uv_v_extent +
+                                       scratch->uv_u_start;
+            packet->unk_30.at00.v = scratch->uv_v_extent +
+                                       scratch->uv_u_extent;
 
             if (packet->xy0.parts.x.s > packet->xy3.parts.x.s) {
                 packet->unk_18.u8--;
@@ -2295,7 +2298,7 @@ void project_and_queue_textured_quad(ActorRecord *quad, ObjectPosition *position
 
             tex_flags = texture[1];
             draw_state->color.c.code = tex_flags;
-            draw_flags = scratch->unk_28;
+            draw_flags = scratch->render_flags;
             if (draw_flags & 8) {
                 draw_state->color.c.code = (draw_flags & 4) ?
                     (tex_flags | 2) : (tex_flags & 0xFD);
@@ -2303,12 +2306,10 @@ void project_and_queue_textured_quad(ActorRecord *quad, ObjectPosition *position
 
             packet->unk_04.at03.v |= draw_state->color.c.code;
             packet->unk_00 = (packet->unk_00 & 0xFF000000) |
-                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
-                    + scratch->unk_100 * 4)) & 0x00FFFFFF);
+                (scratch->ordering_table[scratch->ot_index] & 0x00FFFFFF);
 
-            (*(u32 *)((u8 *)(scratch->unk_24.p2) + scratch->unk_100 * 4)) =
-                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
-                    + scratch->unk_100 * 4)) & 0xFF000000) |
+            scratch->ordering_table[scratch->ot_index] =
+                (scratch->ordering_table[scratch->ot_index] & 0xFF000000) |
                 ((u32)packet & 0x00FFFFFF);
         }
     }

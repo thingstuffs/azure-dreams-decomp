@@ -9,6 +9,19 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F481800: img_cd1120_80152920; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/D_80CB1000",
+      "home": "dungeon/D_80C9F000",
+      "tu": "src/dungeon/monster/block/block_bank_header.c",
+      "foff": "0xcd1000",
+      "vma": "0x80152800",
+      "size": 8,
+      "evidence": "DUNGEON +0xcd1000 starts the bank at 0x80152800. The first word points to dungeon/func_80CB125C at 0x80152A5C. The second points to dungeon/func_80CB1424 at 0x80152C24.",
+      "bindings": {
+        "0x80170A5C": "0x80152A5C",
+        "0x80171320": "0x80152C24"
+      }
+    },
+    {
       "row": "dungeon/func_80CB107C",
       "home": "dungeon/func_80CB7000",
       "tu": "src/dungeon/modules/ovl_cd7000.c",

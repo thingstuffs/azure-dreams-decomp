@@ -34,9 +34,18 @@
     {
       "row": "D_802F11AC",
       "start": "0x2711ac",
+      "end": "0x271220",
+      "bytes": 116,
+      "sha256": "5b517952cbe9c4c147bc3f3434f9d82409e76d09ea58905aefe7fb5415912d9a",
+      "description": "TOWN +0x2711ac..+0x271220 is zero where MAIN has the card-server entry and prologue."
+    },
+    {
+      "row": "unowned_tail",
+      "start": "0x271220",
       "end": "0x271394",
-      "bytes": 488,
-      "sha256": "a3c7a3ecfb718a45d32ffdc987d0df9f0bc665e6ca31a4381cb04d99c0346598"
+      "bytes": 372,
+      "sha256": "cbffb2bc39bae9de5b3071ede6ead5e93e2394efaf8bdca8abba15e113e569b5",
+      "description": "TOWN +0x271220..+0x271394 is the final 372 bytes of a MAIN function. It has no source row: the build imports these bytes from the user's disc, and no record counts them as C."
     }
   ],
   "partition_exact": true,
@@ -55,7 +64,7 @@
     "file_end": "0x271394",
     "bytes": 372,
     "kind": "foreign_card_devkit_code",
-    "reason": "The retained tail is identical to MAIN at the same offset and begins 116 bytes into the MAIN function. The TOWN copy has a zeroed prefix in place of the function entry. The data row preserves the full physical residue, which cannot be placed as the complete MAIN function."
+    "reason": "TOWN +0x271220..+0x271394 is the final 372 bytes of a MAIN function. It has no source row: the build imports these bytes from the user's disc, and no record counts them as C. Its own row preserves the code fragment as physical residue."
   },
   "card_devkit_call": {
     "town_insn_offset": "0x2715b4",

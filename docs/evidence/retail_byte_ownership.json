@@ -1,0 +1,960 @@
+{
+  "coordinates": "File offsets are decimal. Ranges are half-open.",
+  "survey": [
+    {
+      "container": "dungeon",
+      "foff": 49152,
+      "size": 14336,
+      "compare_container": "town",
+      "compare_foff": 49152,
+      "equal_words": 3119,
+      "words": 3584,
+      "retail_sha256": "809e5102b4c765582498e6d03ceef5c4d6b0356fd2e0e766e615cb1f5ed85e36"
+    },
+    {
+      "container": "dungeon",
+      "foff": 123124,
+      "size": 148,
+      "compare_container": "town",
+      "compare_foff": 123124,
+      "equal_words": 35,
+      "words": 37,
+      "retail_sha256": "cf37d91bc3ab350e65864359d16e260d6f442c90934c3f361b6bce19d9c500d5"
+    },
+    {
+      "container": "dungeon",
+      "foff": 124512,
+      "size": 416,
+      "compare_container": "town",
+      "compare_foff": 124512,
+      "equal_words": 104,
+      "words": 104,
+      "retail_sha256": "9668fdfa40d996e409ab64e770424aded72f1dcfe6a16d499b72021b4799f5b8"
+    },
+    {
+      "container": "dungeon",
+      "foff": 134688,
+      "size": 404,
+      "compare_container": "town",
+      "compare_foff": 134688,
+      "equal_words": 101,
+      "words": 101,
+      "retail_sha256": "9e435fe1b1b9cab315e91aba92d9a01db8887d56b4f4e2740f382c3cc78df00c"
+    },
+    {
+      "container": "dungeon",
+      "foff": 5365760,
+      "size": 2048,
+      "compare_container": "town",
+      "compare_foff": 5365760,
+      "equal_words": 48,
+      "words": 512,
+      "retail_sha256": "ed5d42140df77d573de5da6e27a3751c496fc74f25deacf7ac3a1160d3dda1b5"
+    },
+    {
+      "container": "dungeon",
+      "foff": 9244672,
+      "size": 2048,
+      "compare_container": "town",
+      "compare_foff": 9244672,
+      "equal_words": 91,
+      "words": 512,
+      "retail_sha256": "f166236d2003f1855a34f7212dab69b11bf9941d10eba85268121a368bd3f711"
+    },
+    {
+      "container": "dungeon",
+      "foff": 9351168,
+      "size": 2048,
+      "compare_container": "town",
+      "compare_foff": 9351168,
+      "equal_words": 427,
+      "words": 512,
+      "retail_sha256": "5bac0920236ef03368d943922066fa90f666da41cf9eed9c0b9d2a27a98950e9"
+    },
+    {
+      "container": "dungeon",
+      "foff": 9353088,
+      "size": 128,
+      "compare_container": "town",
+      "compare_foff": 9353088,
+      "equal_words": 32,
+      "words": 32,
+      "retail_sha256": "c91067fe7ef0c921ed13b8545c962a5b35814222b0df24f3be5869057b99723d"
+    }
+  ],
+  "older_head_bank": {
+    "last_function": "dungeon/func_7FFEBCCC",
+    "comparison": {
+      "container": "dungeon",
+      "foff": 48332,
+      "size": 264,
+      "compare_container": "town",
+      "compare_foff": 48332,
+      "equal_words": 0,
+      "words": 66,
+      "retail_sha256": "51df9e3216ba64e5873ce3840c9b6155a1637acd42550dfff9a9cbbff6a4d1b3"
+    },
+    "evidence": "The final older-sector routine links at 0x8010D8E4 and ends at DUNGEON +0xbdd4. From +0xbdd4 through +0xe800 the bytes match TOWN at the same offsets, including the tail of the +0xb800 sector. The 0x8008xxxx diagnostic mapping is separate from the 0x8010xxxx older head-bank placements."
+  },
+  "diagnostic_view": {
+    "image": "dungeon/bank_d0a0",
+    "compiled_matching_splits": [
+      {
+        "foff": 54564,
+        "size": 40,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFED524",
+        "town_row": "town/func_8008D524"
+      },
+      {
+        "foff": 54604,
+        "size": 60,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFED54C",
+        "town_row": "town/func_8008D54C"
+      },
+      {
+        "foff": 54664,
+        "size": 52,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFED588",
+        "town_row": "town/func_8008D588"
+      },
+      {
+        "foff": 54716,
+        "size": 116,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFED5BC",
+        "town_row": "town/func_8008D5BC"
+      },
+      {
+        "foff": 54832,
+        "size": 188,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFED630",
+        "town_row": "town/func_8008D630"
+      },
+      {
+        "foff": 55020,
+        "size": 224,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFED6EC",
+        "town_row": "town/func_8008D6EC"
+      },
+      {
+        "foff": 55244,
+        "size": 132,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFED7CC",
+        "town_row": "town/func_8008D7CC"
+      },
+      {
+        "foff": 55376,
+        "size": 312,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFED850",
+        "town_row": "town/func_8008D850"
+      },
+      {
+        "foff": 55688,
+        "size": 112,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFED988",
+        "town_row": "town/func_8008D988"
+      },
+      {
+        "foff": 55800,
+        "size": 228,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFED9F8",
+        "town_row": "town/func_8008D9F8"
+      },
+      {
+        "foff": 56028,
+        "size": 128,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEDADC",
+        "town_row": "town/func_8008DADC"
+      },
+      {
+        "foff": 56156,
+        "size": 8,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEDB5C",
+        "town_row": "town/func_8008DB5C"
+      },
+      {
+        "foff": 56164,
+        "size": 8,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEDB64",
+        "town_row": "town/func_8008DB64"
+      },
+      {
+        "foff": 56172,
+        "size": 8,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEDB6C",
+        "town_row": "town/func_8008DB6C"
+      },
+      {
+        "foff": 56180,
+        "size": 8,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEDB74",
+        "town_row": "town/func_8008DB74"
+      },
+      {
+        "foff": 56188,
+        "size": 8,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEDB7C",
+        "town_row": "town/func_8008DB7C"
+      },
+      {
+        "foff": 56196,
+        "size": 68,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEDB84",
+        "town_row": "town/func_8008DB84"
+      },
+      {
+        "foff": 56264,
+        "size": 132,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEDBC8",
+        "town_row": "town/func_8008DBC8"
+      },
+      {
+        "foff": 56396,
+        "size": 92,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEDC4C",
+        "town_row": "town/func_8008DC4C"
+      },
+      {
+        "foff": 56488,
+        "size": 168,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEDCA8",
+        "town_row": "town/func_8008DCA8"
+      },
+      {
+        "foff": 56656,
+        "size": 160,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEDD50",
+        "town_row": "town/func_8008DD50"
+      },
+      {
+        "foff": 56816,
+        "size": 12,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEDDF0",
+        "town_row": "town/func_8008DDF0"
+      },
+      {
+        "foff": 56828,
+        "size": 124,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEDDFC",
+        "town_row": "town/func_8008DDFC"
+      },
+      {
+        "foff": 56952,
+        "size": 72,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEDE78",
+        "town_row": "town/func_8008DE78"
+      },
+      {
+        "foff": 57024,
+        "size": 52,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEDEC0",
+        "town_row": "town/func_8008DEC0"
+      },
+      {
+        "foff": 57076,
+        "size": 416,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEDEF4",
+        "town_row": "town/func_8008DEF4"
+      },
+      {
+        "foff": 57492,
+        "size": 20,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEE094",
+        "town_row": "town/func_8008E094"
+      },
+      {
+        "foff": 57512,
+        "size": 16,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEE0A8",
+        "town_row": "town/func_8008E0A8"
+      },
+      {
+        "foff": 57528,
+        "size": 448,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEE0B8",
+        "town_row": "town/func_8008E0B8"
+      },
+      {
+        "foff": 57976,
+        "size": 40,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEE278",
+        "town_row": "town/func_8008E278"
+      },
+      {
+        "foff": 58016,
+        "size": 68,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEE2A0",
+        "town_row": "town/func_8008E2A0"
+      },
+      {
+        "foff": 58084,
+        "size": 136,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEE2E4",
+        "town_row": "town/func_8008E2E4"
+      },
+      {
+        "foff": 58220,
+        "size": 132,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEE36C",
+        "town_row": "town/func_8008E36C"
+      },
+      {
+        "foff": 58352,
+        "size": 132,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEE3F0",
+        "town_row": "town/func_8008E3F0"
+      },
+      {
+        "foff": 58484,
+        "size": 132,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEE474",
+        "town_row": "town/func_8008E474"
+      },
+      {
+        "foff": 58616,
+        "size": 640,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEE4F8",
+        "town_row": "town/func_8008E4F8"
+      },
+      {
+        "foff": 59256,
+        "size": 52,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEE778",
+        "town_row": "town/func_8008E778"
+      },
+      {
+        "foff": 59308,
+        "size": 80,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEE7AC",
+        "town_row": "town/func_8008E7AC"
+      },
+      {
+        "foff": 60248,
+        "size": 76,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEEB58",
+        "town_row": "town/func_8008EB58"
+      },
+      {
+        "foff": 60324,
+        "size": 112,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEEBA4",
+        "town_row": "town/func_8008EBA4"
+      },
+      {
+        "foff": 60436,
+        "size": 68,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEEC14",
+        "town_row": "town/func_8008EC14"
+      },
+      {
+        "foff": 60504,
+        "size": 104,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEEC58",
+        "town_row": "town/func_8008EC58"
+      },
+      {
+        "foff": 60608,
+        "size": 168,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEECC0",
+        "town_row": "town/func_8008ECC0"
+      },
+      {
+        "foff": 60776,
+        "size": 168,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEED68",
+        "town_row": "town/func_8008ED68"
+      },
+      {
+        "foff": 60944,
+        "size": 160,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEEE10",
+        "town_row": "town/func_8008EE10"
+      },
+      {
+        "foff": 61104,
+        "size": 168,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEEEB0",
+        "town_row": "town/func_8008EEB0"
+      },
+      {
+        "foff": 61272,
+        "size": 160,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEEF58",
+        "town_row": "town/func_8008EF58"
+      },
+      {
+        "foff": 62612,
+        "size": 156,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEF494",
+        "town_row": "town/func_8008F494"
+      },
+      {
+        "foff": 62768,
+        "size": 376,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEF530",
+        "town_row": "town/func_8008F530"
+      },
+      {
+        "foff": 63144,
+        "size": 320,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFEF6A8",
+        "town_row": "town/func_8008F6A8"
+      },
+      {
+        "foff": 92936,
+        "size": 72,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFF6B08",
+        "town_row": "town/func_80096B08"
+      },
+      {
+        "foff": 93008,
+        "size": 108,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFF6B50",
+        "town_row": "town/func_80096B50"
+      },
+      {
+        "foff": 93116,
+        "size": 20,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFF6BBC",
+        "town_row": "town/func_80096BBC"
+      },
+      {
+        "foff": 93136,
+        "size": 72,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFF6BD0",
+        "town_row": "town/func_80096BD0"
+      },
+      {
+        "foff": 93208,
+        "size": 64,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFF6C18",
+        "town_row": "town/func_80096C18"
+      },
+      {
+        "foff": 93272,
+        "size": 92,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFF6C58",
+        "town_row": "town/func_80096C58"
+      },
+      {
+        "foff": 93364,
+        "size": 96,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFF6CB4",
+        "town_row": "town/func_80096CB4"
+      },
+      {
+        "foff": 93460,
+        "size": 72,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFF6D14",
+        "town_row": "town/func_80096D14"
+      },
+      {
+        "foff": 93532,
+        "size": 96,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFF6D5C",
+        "town_row": "town/func_80096D5C"
+      },
+      {
+        "foff": 93628,
+        "size": 64,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFF6DBC",
+        "town_row": "town/func_80096DBC"
+      },
+      {
+        "foff": 93692,
+        "size": 92,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFF6DFC",
+        "town_row": "town/func_80096DFC"
+      },
+      {
+        "foff": 93784,
+        "size": 104,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFF6E58",
+        "town_row": "town/func_80096E58"
+      },
+      {
+        "foff": 93888,
+        "size": 64,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFF6EC0",
+        "town_row": "town/func_80096EC0"
+      },
+      {
+        "foff": 93952,
+        "size": 64,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFF6F00",
+        "town_row": "town/func_80096F00"
+      },
+      {
+        "foff": 94016,
+        "size": 92,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFF6F40",
+        "town_row": "town/func_80096F40"
+      },
+      {
+        "foff": 94108,
+        "size": 24,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFF6F9C",
+        "town_row": "town/func_80096F9C"
+      },
+      {
+        "foff": 123272,
+        "size": 212,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFFE188",
+        "town_row": "town/func_8009E188"
+      },
+      {
+        "foff": 123484,
+        "size": 648,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFFE25C",
+        "town_row": "town/func_8009E25C"
+      },
+      {
+        "foff": 124132,
+        "size": 380,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_7FFFE4E4",
+        "town_row": "town/func_8009E4E4"
+      },
+      {
+        "foff": 318236,
+        "size": 96,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_8002DB1C",
+        "town_row": "town/func_8002DB1C"
+      },
+      {
+        "foff": 318332,
+        "size": 108,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_8002DB7C",
+        "town_row": "town/func_8002DB7C"
+      },
+      {
+        "foff": 318440,
+        "size": 96,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_8002DBE8",
+        "town_row": "town/func_8002DBE8"
+      },
+      {
+        "foff": 318536,
+        "size": 108,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_8002DC48",
+        "town_row": "town/func_8002DC48"
+      },
+      {
+        "foff": 318644,
+        "size": 96,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_8002DCB4",
+        "town_row": "town/func_8002DCB4"
+      },
+      {
+        "foff": 318740,
+        "size": 60,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_8002DD14",
+        "town_row": "town/func_800CDD14"
+      },
+      {
+        "foff": 318800,
+        "size": 96,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_8002DD50",
+        "town_row": "town/func_8002DD50"
+      },
+      {
+        "foff": 318896,
+        "size": 96,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_8002DDB0",
+        "town_row": "town/func_8002DDB0"
+      },
+      {
+        "foff": 318992,
+        "size": 108,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_8002DE10",
+        "town_row": "town/func_8002DE10"
+      },
+      {
+        "foff": 319100,
+        "size": 96,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_8002DE7C",
+        "town_row": "town/func_8002DE7C"
+      },
+      {
+        "foff": 319196,
+        "size": 108,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_8002DEDC",
+        "town_row": "town/func_8002DEDC"
+      },
+      {
+        "foff": 319304,
+        "size": 96,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_8002DF48",
+        "town_row": "town/func_8002DF48"
+      },
+      {
+        "foff": 319400,
+        "size": 52,
+        "category": "stale_town_copy",
+        "dungeon_row": "dungeon/func_8002DFA8",
+        "town_row": "town/func_8002DFA8"
+      }
+    ],
+    "compiled_matching_split_count": 82,
+    "compiled_matching_bytes": 10512,
+    "compiled_rows_in_first_run": 38
+  },
+  "formatter": {
+    "code_bytes_per_copy": 896,
+    "following_metadata_bytes": 72,
+    "fragments": [
+      "0x4c9480",
+      "0x4cf480",
+      "0x4d5480",
+      "0x4db480"
+    ],
+    "absolute_jal_targets": [
+      "0xbfa0fe70",
+      "0xbfa10644"
+    ],
+    "absolute_data_targets": [
+      "0xbfa20234",
+      "0xbfa2023c",
+      "0xbfa20250"
+    ],
+    "operation_witnesses": [
+      "+0x88 loads a short vararg; +0xd0 stores the output count through a vararg pointer",
+      "+0x194 calls a bounded string search and +0x1e4 calls a string-length routine; both targets are outside the game images",
+      "+0x2f0 divides by base and +0x308 emits a digit",
+      "Branches target before +0 and beyond +0x380. No prologue or return survives."
+    ],
+    "trailer_length": 72,
+    "trailer_sha256": "0df2862a4e5b510d2c6e097893b592e2e4a3c9b958f09177f5443d5d90a91dda",
+    "library_search": {
+      "retail_printf": "SLUS file +0x3d718, 12-byte BIOS A0/3F trampoline",
+      "examined": [
+        "SLUS",
+        "MAIN",
+        "TOWN",
+        "OVMOVIE",
+        "Psy-Q 4.6 LIBC.LIB"
+      ],
+      "libc_signature_catalogues": [
+        "300",
+        "330",
+        "340",
+        "350",
+        "3610",
+        "3611",
+        "370",
+        "400",
+        "410",
+        "420",
+        "430",
+        "440",
+        "450",
+        "460",
+        "470"
+      ],
+      "match": "No shared aligned 24-byte run. The absolute addresses and build string support copied development residue. The exact formatter implementation is unresolved."
+    }
+  },
+  "card": {
+    "identical_tail": {
+      "container": "town",
+      "foff": 2560544,
+      "size": 372,
+      "compare_container": "main",
+      "compare_foff": 2560544,
+      "equal_words": 93,
+      "words": 93,
+      "retail_sha256": "cbffb2bc39bae9de5b3071ede6ead5e93e2394efaf8bdca8abba15e113e569b5"
+    },
+    "erased_prefix_bytes": 116,
+    "main_entry": "0x804081AC",
+    "called_at": "TOWN +0x2715b4",
+    "jal_target": "0x80400e34",
+    "main_callee_offset": "0x269e34",
+    "town_candidate_bytes": "The 196-byte MAIN callee occurs nowhere byte-for-byte in TOWN. The TOWN image starts at +0x26e000 and does not contain runtime 0x80400e34."
+  },
+  "coverage_records": [
+    {
+      "container": "dungeon",
+      "foff": 48596,
+      "size": 10796,
+      "compare_container": "town",
+      "compare_foff": 48596,
+      "equal_words": 2699,
+      "words": 2699,
+      "retail_sha256": "30581b351c68846b9a0b505703645022c7792097bba3f32a7d15395d337ef609",
+      "category": "stale_town_copy",
+      "basis": "DUNGEON +0xbdd4..+0xe800 equals TOWN at the same offsets."
+    },
+    {
+      "container": "dungeon",
+      "foff": 60232,
+      "size": 1208,
+      "compare_container": "town",
+      "compare_foff": 60232,
+      "equal_words": 302,
+      "words": 302,
+      "retail_sha256": "07502db9b306005cd2a93c44f34df5e5d1d37c298615391eb5badc2f0937e3e7",
+      "category": "stale_town_copy",
+      "basis": "DUNGEON +0xeb48..+0xf000 equals TOWN at the same offsets."
+    },
+    {
+      "container": "dungeon",
+      "foff": 62500,
+      "size": 988,
+      "compare_container": "town",
+      "compare_foff": 62500,
+      "equal_words": 247,
+      "words": 247,
+      "retail_sha256": "f2ca44e899f46218f3381fc895d39f0ce6a6d3887677dc07ae109677690ff030",
+      "category": "stale_town_copy",
+      "basis": "DUNGEON +0xf424..+0xf800 equals TOWN at the same offsets."
+    },
+    {
+      "container": "dungeon",
+      "foff": 92904,
+      "size": 1304,
+      "compare_container": "town",
+      "compare_foff": 92904,
+      "equal_words": 326,
+      "words": 326,
+      "retail_sha256": "d937e8df0fcde2d1d88053a4eea456a3354291e4ef79b5313398d815276218be",
+      "category": "stale_town_copy",
+      "basis": "DUNGEON +0x16ae8..+0x17000 equals TOWN at the same offsets."
+    },
+    {
+      "container": "dungeon",
+      "foff": 123132,
+      "size": 1796,
+      "compare_container": "town",
+      "compare_foff": 123132,
+      "equal_words": 449,
+      "words": 449,
+      "retail_sha256": "4a68e809142e063569a07be7de2280c067c74289ef8bb2877725a51a051867b4",
+      "category": "stale_town_copy",
+      "basis": "DUNGEON +0x1e0fc..+0x1e800 equals TOWN at the same offsets."
+    },
+    {
+      "container": "dungeon",
+      "foff": 134688,
+      "size": 480,
+      "compare_container": "town",
+      "compare_foff": 134688,
+      "equal_words": 120,
+      "words": 120,
+      "retail_sha256": "7a727a8d64df33def0b8fd8e6d1d4c4b121675918dcff4d1ac289c188831a656",
+      "category": "stale_town_copy",
+      "basis": "DUNGEON +0x20e20..+0x21000 equals TOWN at the same offsets."
+    },
+    {
+      "container": "dungeon",
+      "foff": 318176,
+      "size": 1312,
+      "compare_container": "town",
+      "compare_foff": 318176,
+      "equal_words": 328,
+      "words": 328,
+      "retail_sha256": "d18f180ff41b81d5760efbfe70344830692b3a61ae25edf7c2e732dc0ebc7f6e",
+      "category": "stale_town_copy",
+      "basis": "DUNGEON +0x4dae0..+0x4e000 equals TOWN at the same offsets."
+    },
+    {
+      "container": "dungeon",
+      "foff": 5367656,
+      "size": 152,
+      "compare_container": "town",
+      "compare_foff": 5367656,
+      "equal_words": 38,
+      "words": 38,
+      "retail_sha256": "953cb2dde94379ec30ee3da1d5aa091b9b40f75cc17e3a5597a72a9179a0b94d",
+      "category": "stale_town_copy",
+      "basis": "DUNGEON +0x51e768..+0x51e800 equals TOWN at the same offsets."
+    },
+    {
+      "container": "dungeon",
+      "foff": 9246356,
+      "size": 364,
+      "compare_container": "town",
+      "compare_foff": 9246356,
+      "equal_words": 91,
+      "words": 91,
+      "retail_sha256": "a279b51bcb1e6a407b24555091b93e8909f37039f9e8fafb9a8c2e06fdf89982",
+      "category": "stale_town_copy",
+      "basis": "DUNGEON +0x8d1694..+0x8d1800 equals TOWN at the same offsets."
+    },
+    {
+      "container": "dungeon",
+      "foff": 9351508,
+      "size": 1708,
+      "compare_container": "town",
+      "compare_foff": 9351508,
+      "equal_words": 427,
+      "words": 427,
+      "retail_sha256": "5f749c10a68c60800610e563f2a2899fe7cac01b16598dac72bbe39c16bec6f0",
+      "category": "stale_town_copy",
+      "basis": "DUNGEON +0x8eb154..+0x8eb800 equals TOWN at the same offsets."
+    },
+    {
+      "container": "dungeon",
+      "foff": 5018752,
+      "size": 896,
+      "category": "formatter_remnant",
+      "retail_sha256": "a95f3ba747380c24df00a115561ad299b62d6729ec4e75caa00e0514760a11a1",
+      "compare_foff": 5018752,
+      "compare_container": "dungeon",
+      "equal_words": 224,
+      "words": 224,
+      "basis": "Repeated formatter interior with calls and data in the 0xBFA2 expansion address range."
+    },
+    {
+      "container": "dungeon",
+      "foff": 5019648,
+      "size": 72,
+      "category": "formatter_build_string",
+      "retail_sha256": "0df2862a4e5b510d2c6e097893b592e2e4a3c9b958f09177f5443d5d90a91dda",
+      "basis": "A 72-byte Shift-JIS build identifier follows the formatter remnant."
+    },
+    {
+      "container": "dungeon",
+      "foff": 5043328,
+      "size": 896,
+      "category": "formatter_remnant",
+      "retail_sha256": "a95f3ba747380c24df00a115561ad299b62d6729ec4e75caa00e0514760a11a1",
+      "compare_foff": 5018752,
+      "compare_container": "dungeon",
+      "equal_words": 224,
+      "words": 224,
+      "basis": "Repeated formatter interior with calls and data in the 0xBFA2 expansion address range."
+    },
+    {
+      "container": "dungeon",
+      "foff": 5044224,
+      "size": 72,
+      "category": "formatter_build_string",
+      "retail_sha256": "0df2862a4e5b510d2c6e097893b592e2e4a3c9b958f09177f5443d5d90a91dda",
+      "basis": "A 72-byte Shift-JIS build identifier follows the formatter remnant."
+    },
+    {
+      "container": "dungeon",
+      "foff": 5067904,
+      "size": 896,
+      "category": "formatter_remnant",
+      "retail_sha256": "a95f3ba747380c24df00a115561ad299b62d6729ec4e75caa00e0514760a11a1",
+      "compare_foff": 5018752,
+      "compare_container": "dungeon",
+      "equal_words": 224,
+      "words": 224,
+      "basis": "Repeated formatter interior with calls and data in the 0xBFA2 expansion address range."
+    },
+    {
+      "container": "dungeon",
+      "foff": 5068800,
+      "size": 72,
+      "category": "formatter_build_string",
+      "retail_sha256": "0df2862a4e5b510d2c6e097893b592e2e4a3c9b958f09177f5443d5d90a91dda",
+      "basis": "A 72-byte Shift-JIS build identifier follows the formatter remnant."
+    },
+    {
+      "container": "dungeon",
+      "foff": 5092480,
+      "size": 896,
+      "category": "formatter_remnant",
+      "retail_sha256": "a95f3ba747380c24df00a115561ad299b62d6729ec4e75caa00e0514760a11a1",
+      "compare_foff": 5018752,
+      "compare_container": "dungeon",
+      "equal_words": 224,
+      "words": 224,
+      "basis": "Repeated formatter interior with calls and data in the 0xBFA2 expansion address range."
+    },
+    {
+      "container": "town",
+      "foff": 2560544,
+      "size": 372,
+      "compare_container": "main",
+      "compare_foff": 2560544,
+      "equal_words": 93,
+      "words": 93,
+      "retail_sha256": "cbffb2bc39bae9de5b3071ede6ead5e93e2394efaf8bdca8abba15e113e569b5",
+      "category": "foreign_program_fragment",
+      "basis": "TOWN retains the 372-byte tail of MAIN func_804081AC following a 116-byte erased entry."
+    }
+  ]
+}

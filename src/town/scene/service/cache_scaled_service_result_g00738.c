@@ -14,7 +14,7 @@ u32 invoke_state_callback(void) {
     callback_args[0] = 1;
     callback_args[2] = 0;
     callback_args[3] = 0;
-    scaled_result = (u32) (town_scene_root->services->callback_050(callback_args) * 3) >> 2;
+    scaled_result = (u32) (town_scene_root->services->get_item_buy_money(callback_args) * 3) >> 2;
     D_80017FB8 = scaled_result;
     return scaled_result;
 }

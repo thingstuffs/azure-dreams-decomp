@@ -15,5 +15,5 @@ extern s8 D_80019440[];
 s32 prepare_and_register_entry_buffer(void) {
     clear_bytes(D_80019440, 0x100);
     copy_and_terminate_coordinate_entries(&D_80019440);
-    return scene_registered_entry_handle = town_scene_root->services->callback_068(0, 1, 2, &D_80019440);
+    return scene_registered_entry_handle = town_scene_root->services->open_shop(0, 1, 2, &D_80019440);
 }

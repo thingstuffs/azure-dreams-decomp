@@ -13,5 +13,5 @@ void store_scene_service_response(void) {
 
     callback_args[1] = 0x17;
     callback_args[0] = 0x12;
-    D_80017788 = ((TownCallback)(town_scene_root->services->callback_050))(callback_args);
+    D_80017788 = ((TownCallback)(town_scene_root->services->get_item_buy_money))(callback_args);
 }
