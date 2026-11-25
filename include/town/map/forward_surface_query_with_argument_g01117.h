@@ -144,20 +144,13 @@ typedef struct MapSurfaceYZOffset {
     s16 z;
 } MapSurfaceYZOffset;
 
-typedef struct Scratch80090320 {
-    u8 pad00[4];
-    MapSurfaceCell lookup;
-    u8 * height_data;
-    MapSurfaceXQuery query;
-    MapSurfaceScan scan;
-    MapSurfaceYZOffset quad[4];
-} Scratch80090320;
+typedef struct Vec_80090854 Vec_80090854;
 
 typedef struct Grid80090320 {
     u16 * occupancy;
     u8 **entries;
     u8 * vertices;
-    u8 * height_data;
+    Vec_80090854 *height_data;
     u8 pad10[4];
     s16 shift;
     u16 pad16;
@@ -176,24 +169,12 @@ typedef struct S_8008DA80_1 {
     union { struct { u16 v; } at00; struct { u8 pad[0x1]; u8 v; } at01; } unk_16;   /* overlapping accesses */
 } S_8008DA80_1;
 
-/* entry in find_smallest_surface_x_across_tiles */
-typedef struct S_8008DA80_2 {
-    s16 unk_00;
-    s16 unk_02;
-    s16 unk_04;
-} S_8008DA80_2;
-
 /* plane in find_smallest_surface_x_across_tiles */
 typedef struct S_8008DA80_3 {
     s16 unk_00;
     s16 unk_02;
     s16 unk_04;
 } S_8008DA80_3;
-
-/* vertex in find_smallest_surface_x_across_tiles */
-typedef struct S_8008DA80_4 {
-    s16 unk_00;
-} S_8008DA80_4;
 
 /* ((S_8008DA80_1 *)entry)->unk_10 * 8 + scratch->height_data in find_smallest_surface_x_across_tiles */
 typedef struct S_8008DA80_5 {
@@ -223,12 +204,12 @@ typedef struct S_8008DA80_8 {
     u16 unk_04;
 } S_8008DA80_8;
 
-typedef struct Vec_80090854 {
+struct Vec_80090854 {
     s16 x;
     s16 y;
     s16 z;
     s16 pad;
-} Vec_80090854;
+};
 
 typedef struct Cell_80090854 {
     u16 v0;
@@ -301,14 +282,14 @@ typedef struct MapSurfaceHeightScratch {
     u8 pad00[4];
     MapSurfaceCell lookup;
     MapSurfaceHeightVector *planes;
-    s16 x;
-    s16 height;
-    s16 z;
+    s16 query_x;
+    s16 candidate_height;
+    s16 query_z;
     u8 pad22[0x1A];
     MapSurfaceSearchRange height_range;
     u8 pad48[2];
-    s16 outer_offset;
-    s16 base_x;
+    s16 cell_row_offset;
+    s16 tile_query_x;
     u8 pad4E[2];
     MapSurfaceScan scan;
     s16 quad[8];

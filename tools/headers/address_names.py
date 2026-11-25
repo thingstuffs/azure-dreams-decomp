@@ -539,7 +539,12 @@ def link_records(root, rows):
     source or header spells any more (one name per function)."""
     import subprocess, tempfile, shutil
     import linklist as L
-    units = {r: {'func_%08X' % h: 'func_%08X' % c for h, c in v.items()} for r, v in L.copy_links(root).items()}
+    units = {}
+    for row, links in L.copy_links(root).items():
+        units[row] = {}
+        for home, (address, source) in links.items():
+            copy = 'func_%08X' % address
+            units[row]['func_%08X' % home] = {'copy': copy, 'source': source} if source is not None else copy
     copies = [r for r in rows if r['kind'] == 'placed_copy']
     for r in copies:
         h, x = r['link'].split('>')

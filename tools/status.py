@@ -104,7 +104,7 @@ def coverage_summary(root):
 def not_yet_c(root):
     """Per-container split of the code that is not (yet) C, from the ledger alone, with the same interval arithmetic and priorities as
     tools/coverage.py (loaded by path; its helpers do the set work) extended by the undecompiled split segments inside overlay windows:
-    {container: dict(in_c, copies, split, recorded, heuristic)} in bytes.  Every byte belongs to at most one class."""
+    Returns disjoint code classes and the older head-bank byte count for each container."""
     import importlib.util
     root = Path(root)
     spec = importlib.util.spec_from_file_location("azure_coverage", root / "tools" / "coverage.py")
@@ -112,6 +112,7 @@ def not_yet_c(root):
     merge, subtract, inter, size, ext = cv.merge, cv.subtract, cv.intersection, cv.size, cv.extent
     led = root / "ledger"
     rows_, inst, regs = cv.records(led / "rows.jsonl"), cv.records(led / "instances.jsonl"), cv.records(led / "coverage_regions.jsonl")
+    residue = cv.retail_residue_regions(regs)
     conts = {r["container"]: r for r in cv.records(led / "containers.jsonl")}
     latest = {}
     for r in regs: latest[(r["container"], r["foff"], r["size"], r["category"])] = r
@@ -138,9 +139,10 @@ def not_yet_c(root):
         for r in regs:
             if r["container"] == c: cats[r["category"]].append(ext(r))
         win = merge(cats["window"] + ywin.get(c, []))
-        C = merge([ext(r) for r in rows_ if r["container"] == c and r.get("foff") is not None and (r.get("func") or "").startswith("func_")])
+        excluded = [ext(r) for r in residue if r["container"] == c]
+        C = subtract([ext(r) for r in rows_ if r["container"] == c and r.get("foff") is not None and (r.get("func") or "").startswith("func_")], excluded)
         drow = [ext(r) for r in rows_ if r["container"] == c and r.get("foff") is not None and not (r.get("func") or "").startswith("func_")]
-        data = merge(cats["data_excluded"] + drow)
+        data = merge(cats["data_excluded"] + drow + excluded)
         cop = subtract([ext(r) for r in proven if r["container"] == c], C + data)
         ss, dseg = [], []
         for key in [c] + (["dungeon_engine"] if c == "dungeon" else []):
@@ -159,7 +161,8 @@ def not_yet_c(root):
         got_ = {}
         for k in ("sdk_asm", "unported", "estimated_code"):
             got_[k] = subtract(cats[k], occ + data_all); occ = merge(occ + got_[k])
-        res[c] = dict(in_c=size(C), copies=size(cop), split=size(raw), sdk=size(got_["sdk_asm"]), unported=size(got_["unported"]), heuristic=size(got_["estimated_code"]))
+        res[c] = dict(in_c=size(C), copies=size(cop), split=size(raw), sdk=size(got_["sdk_asm"]), unported=size(got_["unported"]), heuristic=size(got_["estimated_code"]),
+                      older_head_bank=size([ext(r) for r in residue if r["container"] == c and r["category"] == "older_dungeon_head_bank"]))
     return res
 
 
@@ -228,11 +231,13 @@ def not_yet_c_section(root):
         out.append(line("`slus` (SLUS_006.14)", dict(in_c=st["in_c"], copies=0, split=0, sdk=st["sdk"], unported=st["other"], heuristic=0)))
     for c in sorted(res, key=lambda c: list(BINARY_NAMES).index(c) if c in BINARY_NAMES else 99):
         out.append(line(f"`{c}` ({BINARY_NAMES.get(c, c)})", res[c]))
-    code = sum(tot[k] for k in tot)
+    code = sum(value for key, value in tot.items() if key != "older_head_bank")
     if code:
         rest = tot["copies"] + tot["split"] + tot["unported"] + tot["heuristic"]
         out.append(f"| **total** | {code:,} | {tot['in_c']:,} | {100 * tot['in_c'] / code:.1f}% | {tot['copies']:,} | {tot['split']:,} | {tot['sdk']:,} | {tot['unported']:,} | {tot['heuristic']:,} | {rest:,} |")
     sdk_objs = sum(1 for _ in read_jsonl(LEDGER / "sdk_objects.jsonl")) if (LEDGER / "sdk_objects.jsonl").exists() else 0
+    if tot["older_head_bank"]:
+        out.append(f"\nOlder DUNGEON head-bank program: {tot['older_head_bank']:,} bytes of separately reproduced code, outside the game-code totals.")
     out += ["",
             "- **in C**: code whose C is compiled and compared byte for byte with retail.",
             "- **byte-identical copies of C**: a span proven identical to a C function elsewhere in the images; it becomes a link-list placement of that function's source, not new C.",

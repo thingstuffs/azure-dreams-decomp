@@ -198,8 +198,8 @@ s32 queue_shaded_line_segments(void *unused_0, ObjectPosition *origin, SpriteFra
   s32 depth;
   initial_ctx = *((GpuContext **) (globals_page + 0x3160));
   scratch = PROJECTED_QUAD_SCRATCH;
-  scratch->vertices[1].vz = (u16) initial_z;
-  scratch->vertices[0].vz = (u16) initial_z;
+  scratch->vertices[1].vz = initial_z;
+  scratch->vertices[0].vz = initial_z;
   scratch->ordering_table = (u32 *)&initial_ctx->orderTag;
   do
   {

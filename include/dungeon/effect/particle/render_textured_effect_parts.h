@@ -46,20 +46,6 @@ typedef struct {
     D8181A8C0Asset *fieldc;
     void *field10;
 } D8181A8C0Object;
-typedef struct Scratch800241EC {
-    u16 x;
-    u16 y;
-    u16 z;
-    u8 pad06[0x12];
-    u8 *cursor;
-    u8 pad1C[4];
-    u32 *ot;
-    u8 pad24[0x6C];
-    u32 xy;
-    u32 depth;
-    u8 pad98[0x28];
-    u32 index;
-} Scratch800241EC;
 typedef struct MotionState {
     unsigned char pad_00[2];
     u16 frames_left;

@@ -64,11 +64,6 @@ void try_apply_wind_protection(ActorRecord *target, s32 effect_arg, ActorRecord 
 
 typedef struct {} EmptyArg;
 
-typedef struct S_func_800241A8_5 {
-    u8 pad_00[0x8D0];
-    void * unk_8D0;
-} S_func_800241A8_5;
-
 typedef struct S_func_800241A8_6 {
     struct {
         u8 pad_00[0x3];
@@ -179,11 +174,11 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
             s32 ot_index;
             u8 texture_flags;
             s32 texture_adjust;
-            S_func_800241A8_5 *render_state;
+            GpuContext *render_state;
 
             render_state = game_work->draw_buffer;
-            packet = render_state->unk_8D0;
-            render_state->unk_8D0 = (u8 *)packet + 0x28;
+            packet = render_state->packetCursor;
+            render_state->packetCursor = (u8 *)packet + 0x28;
 
             scratch->uv_u_start = texture->r;
             scratch->uv_v_start = texture->g;
@@ -301,12 +296,12 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
             s32 end_z_b;
             S_func_800241A8_6 *line;
             S_func_800241A8_6 *tpage;
-            S_func_800241A8_5 *render_state;
-            S_func_800241A8_5 *tpage_state;
+            GpuContext *render_state;
+            GpuContext *tpage_state;
 
             render_state = game_work->draw_buffer;
-            line = render_state->unk_8D0;
-            render_state->unk_8D0 = &line->unk_10;
+            line = render_state->packetCursor;
+            render_state->packetCursor = &line->unk_10;
 
             coord_a = mesh->unk_58.as_s16_58;
             coord_b = mesh->unk_5C.as_s16_5C;
@@ -364,8 +359,8 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
             setaddr(scratch->ordering_table + scratch->ot_index, line);
 
             tpage_state = game_work->draw_buffer;
-            tpage = tpage_state->unk_8D0;
-            tpage_state->unk_8D0 = &tpage->unk_0C;
+            tpage = tpage_state->packetCursor;
+            tpage_state->packetCursor = &tpage->unk_0C;
             SetDrawMode(tpage, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
             setaddr(tpage, getaddr(scratch->ordering_table + scratch->ot_index));
             setaddr(scratch->ordering_table + scratch->ot_index, tpage);

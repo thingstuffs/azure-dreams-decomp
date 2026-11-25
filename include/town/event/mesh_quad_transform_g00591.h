@@ -13,6 +13,7 @@
 #include "sdk/libgte.h"
 #include "sdk/rand.h"
 
+/* Indexing the pointer changes where the renderer loads the vertex pointer. */
 #define OTSLOT() (*(u32 *)((u8 *)scratch->ordering_table + scratch->ordering_depth * 4))
 
 typedef struct S_800AA044_0 {

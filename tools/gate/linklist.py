@@ -470,7 +470,8 @@ def _redefine(obj, renames):
 #      "units": {"town/func_8046BBF8": {"func_806D2C3C": "func_8001643C"}}}
 #
 # The rule (copy_link_target): the callee TU is the home whose symbol is func_<H> (its synthetic row key, or its
-# entry vma for a true-space home); its instances (home + placements) are the link-list code entries of that home;
+# entry vma for a true-space home). A record of {"copy": "func_<X>", "source": "src/...c"} also requires
+# the home TU to be that source file. Its instances (home + placements) are the link-list code entries of that home;
 # exactly ONE instance must lie in the caller's load image and it must be a placement (if the home itself is the
 # only instance there, the name already links and no record is needed).  Unrecorded units and unrecorded symbols are
 # untouched, so a home unit may still call the home address of a TU that also has a copy in its image.
@@ -499,22 +500,30 @@ def _copy_links(stamp):
             raise ValueError("copy links: bad unit record " + repr(row))
         rec = {}
         for home, copy in links.items():
-            mh, mc = ADDR.match(home), ADDR.match(str(copy))
+            source = None
+            if isinstance(copy, dict):
+                source = copy.get("source")
+                if (set(copy) != {"copy", "source"} or not isinstance(source, str)
+                        or not re.fullmatch(r"src/(?:[\w.-]+/)*[\w.-]+\.c", source)
+                        or str(Path(source)) != source or ".." in Path(source).parts):
+                    raise ValueError("copy links: %s maps %s with an invalid source record" % (row, home))
+                copy = copy["copy"]
+            mh, mc = ADDR.fullmatch(home), ADDR.fullmatch(str(copy))
             if not mh or not mc or mh.group(1) != "func" or mc.group(1) != "func" or home == copy:
                 raise ValueError("copy links: %s maps %s -> %s (two distinct func_ symbols required)" % (row, home, copy))
-            rec[int(mh.group(2), 16)] = int(mc.group(2), 16)
+            rec[int(mh.group(2), 16)] = (int(mc.group(2), 16), source)
         out[row] = rec
     return out
 
 
 def copy_links(root):
-    """{caller row id: {home address: recorded copy address}}; {} without the record file."""
+    """{caller row id: {home address: (copy address, optional source path)}}."""
     path = copy_links_path(root)
     return _copy_links(_stamp([path]) if path.is_file() else ())
 
 
 def write_copy_links(root, units):
-    """Write the record ({row: {home symbol: copy symbol}}) in its canonical form; an empty map removes the file."""
+    """Write the canonical record, using a copy symbol or a copy/source object for each home symbol."""
     path = copy_links_path(root)
     units = {r: dict(sorted(v.items())) for r, v in sorted(units.items()) if v}
     if not units:
@@ -530,24 +539,26 @@ def is_load_view(image, vma):
             or (image.startswith("town/") and vma == 0x80016000))
 
 
-def callee_home(tables, address):
-    """The home entry whose own symbol is func_<address>: its synthetic row key, else its (body) entry vma."""
+def callee_home(tables, address, source=None):
+    """The unique home matching the symbol or body vma and, when supplied, the source file."""
     _, _, by_row, _ = tables
     hits = [e for e in by_row.values() if e["row"] == e["home"]
+            and (source is None or e["tu"] == source)
             and (e["row"].split("/", 1)[1] == "func_%08X" % address
                  or e["vma"] + e.get("body_offset", 0) == address)]
     if len(hits) != 1:
-        raise ValueError("copy link: func_%08X names %d placed homes" % (address, len(hits)))
+        qualified = " in " + source if source is not None else ""
+        raise ValueError("copy link: func_%08X names %d placed homes%s" % (address, len(hits), qualified))
     return hits[0]
 
 
-def copy_link_target(tables, image, address):
+def copy_link_target(tables, image, address, source=None):
     """Same-image copy rule: the vma of the unique placement of func_<address>'s TU inside link image `image`."""
     images, _, by_row, _ = tables
     img = images.get(image)
     if img is None or img["vma"] is None:
         raise ValueError("copy link: %s is not a link-list load image" % image)
-    home = callee_home(tables, address)
+    home = callee_home(tables, address, source)
     inside = [e for e in by_row.values() if e["home"] == home["row"] and e["container"] == img["container"]
               and img["foff"] <= e["foff"] < img["foff"] + img["size"]]
     if len(inside) != 1:
@@ -579,9 +590,9 @@ def copy_link_renames(root, row, image=None, *, container=None, foff=None):
     if not scope:
         raise ValueError("copy link: %s lies in no load image" % row)
     out = {}
-    for home, recorded in sorted(record.items()):
+    for home, (recorded, source) in sorted(record.items()):
         for name in scope:
-            got = copy_link_target(tables, name, home)
+            got = copy_link_target(tables, name, home, source)
             if got != recorded:
                 raise ValueError("copy link: %s func_%08X binds to 0x%08X in %s, the record says 0x%08X"
                                  % (row, home, got, name, recorded))
@@ -618,9 +629,9 @@ def copy_link_files(root, row_ids):
     images, _, by_row, _ = tables
     out = {str(copy_links_path(root))}
     for r in rows:
-        for home in links[r]:
+        for home, (_, source) in links[r].items():
             try:
-                h = callee_home(tables, home)
+                h = callee_home(tables, home, source)
             except ValueError:
                 continue
             out.update(images[e["image"]]["path"] for e in by_row.values() if e["home"] == h["row"])

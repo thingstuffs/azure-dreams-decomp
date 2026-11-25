@@ -233,20 +233,6 @@ typedef struct R06_801738E0_S_801738E0_4 {
 
 
 typedef struct R06_80173E94_OrderingTag { u32 addr : 24; u32 count : 8; } R06_80173E94_OrderingTag;
-typedef struct R06_80173E94_S_80173E94_1 {
-    u16 unk_00;
-    u16 unk_02;
-    u16 unk_04;
-    u8 pad_06[0x12];
-    void * unk_18;
-    u8 pad_1C[0x4];
-    union { u8 * p; u32 * p2; } unk_20;   
-    u8 pad_24[0x6C];
-    s32 transform_p;
-    s32 transform_flags;
-    u8 pad_98[0x28];
-    u32 unk_C0;
-} R06_80173E94_S_80173E94_1;
 typedef struct R06_80173E94_S_80173E94_2 {
     u8 pad_00[0x2];
     u16 unk_02;

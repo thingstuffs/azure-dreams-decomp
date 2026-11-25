@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 
 /* Common prefix initialized by create_actor_spell_effect.
  * Callback sets use separate bodies after this prefix, as in TrackingEffect. */
@@ -25,5 +26,8 @@ typedef struct SpellMotion {
     Fixed1616 step_y;
     Fixed1616 step_z;
 } SpellMotion;
+
+struct DirectionalSpell;
+void update_directional_spell_sprites(struct DirectionalSpell *spell, ObjectPosition *position, SpriteFrameState *sprite);
 
 #endif

@@ -1,3 +1,4 @@
+#include "dungeon/effect.h"
 #include "shared/audio_commands.h"
 /* Particle rendering, timed display slots, and an actor tint and particle sequence. */
 #include "dungeon/effect/particle/advance_object_spawning_displays_high.h"
@@ -195,9 +196,9 @@ s32 draw_brightness_scaled_point_chain(PointRecord *first_point, ObjectPosition 
     ObjectPosition *position = first_position;
     GameWork *render_state = &g_game_work;
     GpuContext *render_ctx = render_state->draw_buffer;
-    u8 *packet_start;
-    Scratch800244E4 *scratch =
-        (Scratch800244E4 *)0x1F800000;
+    PointPacket *packet_start;
+    LinkedPointScratch *scratch =
+        (LinkedPointScratch *)0x1F800000;
     PointPacket *tile;
     PointPacket *draw_mode;
     s32 color_value;
@@ -209,11 +210,11 @@ s32 draw_brightness_scaled_point_chain(PointRecord *first_point, ObjectPosition 
     scratch->cursor = packet_start;
 
     for (;;) {
-        tile = (PointPacket *)scratch->cursor;
+        tile = scratch->cursor;
         scratch->x = position->x.w.i;
         scratch->y = position->y.w.i;
         scratch->z = position->z.w.i;
-        scratch->cursor = (u8 *)tile + 0xC;
+        scratch->cursor = tile + 1;
         scratch->index = RotTransPers(scratch, &tile->data,
                                        &scratch->xy, &scratch->depth);
 
@@ -240,8 +241,8 @@ s32 draw_brightness_scaled_point_chain(PointRecord *first_point, ObjectPosition 
             ((GpuLinkTag *)&tile->tag)->addr = ((GpuLinkTag *)&scratch->ot[scratch->index])->addr;
             ((GpuLinkTag *)&scratch->ot[scratch->index])->addr = (u32)(unsigned long)tile;
 
-            draw_mode = (PointPacket *)scratch->cursor;
-            scratch->cursor = (u8 *)draw_mode + 0xC;
+            draw_mode = scratch->cursor;
+            scratch->cursor = draw_mode + 1;
             draw_page = GetTPage(0, 1, 0, 0);
             SetDrawMode(draw_mode, 0, 0, (u16)draw_page, 0);
 

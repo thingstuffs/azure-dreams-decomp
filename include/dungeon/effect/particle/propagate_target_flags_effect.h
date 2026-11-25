@@ -51,22 +51,6 @@ typedef struct StagedParticleEffectBody {
 
 /* Promoted Layer-2 record names and layouts are shared without changing the bodies. */
 
-/* GPU scratchpad (0x1F800000) workspace used while projecting. */
-typedef struct Scratch80024124 {
-    u16 x;
-    u16 y;
-    u16 z;
-    u8 pad06[0x12];
-    u8 *cursor;
-    u8 pad1C[4];
-    u32 *ot;
-    u8 pad24[0x6C];
-    u32 xy;
-    u32 depth;
-    u8 pad98[0x28];
-    u32 index;
-} Scratch80024124;
-
 #include "shared/tile_object.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"

@@ -70,22 +70,6 @@ void try_lower_actor_level(void *target, s32 threshold_arg, void *owner_context)
     create_actor_value_popup(0x53, target, -1, 1);
 }
 
-/* GPU scratchpad (0x1F800000) workspace used while projecting. */
-typedef struct Scratch80024154 {
-    u16 x;
-    u16 y;
-    u16 z;
-    u8 pad06[0x12];
-    u8 *cursor;
-    u8 pad1C[4];
-    u32 *ot;
-    u8 pad24[0x6C];
-    u32 xy;
-    u32 depth;
-    u8 pad98[0x28];
-    u32 index;
-} Scratch80024154;
-
 /* Retail 8190A954 (func_80024154): projects each linked point and queues a brightness-scaled shaded tile
  * followed by a draw-mode packet for it. */
 s32 draw_dimmed_height_effect_points(PointRecord *first_point, ObjectPosition *first_position)
@@ -95,10 +79,10 @@ s32 draw_dimmed_height_effect_points(PointRecord *first_point, ObjectPosition *f
     GameWork *render_state = &g_game_work;
     u32 addr_mask = 0x00FFFFFF;
     GpuContext *render_ctx = g_game_work.draw_buffer;
-    u8 *packet_start;
+    PointPacket *packet_start;
     u32 tag_mask = 0xFF000000;
-    Scratch80024154 *scratch =
-        (Scratch80024154 *)0x1F800000;
+    LinkedPointScratch *scratch =
+        (LinkedPointScratch *)0x1F800000;
     PointPacket *tile;
     PointPacket *draw_mode;
     GpuContext *final_render_ctx;
@@ -111,11 +95,11 @@ s32 draw_dimmed_height_effect_points(PointRecord *first_point, ObjectPosition *f
     scratch->cursor = packet_start;
 
     for (;;) {
-        tile = (PointPacket *)scratch->cursor;
+        tile = scratch->cursor;
         scratch->x = position->x.w.i;
         scratch->y = position->y.w.i;
         scratch->z = (u16)position->z.w.i;
-        scratch->cursor = (u8 *)tile + 0xC;
+        scratch->cursor = tile + 1;
         scratch->index = RotTransPers(scratch, &tile->data,
                                        &scratch->xy, &scratch->depth);
 
@@ -145,8 +129,8 @@ s32 draw_dimmed_height_effect_points(PointRecord *first_point, ObjectPosition *f
             ((GpuLinkTag *)&tile->tag)->addr = ((GpuLinkTag *)&scratch->ot[scratch->index])->addr;
             ((GpuLinkTag *)&scratch->ot[scratch->index])->addr = (u32)tile;
 
-            draw_mode = (PointPacket *)scratch->cursor;
-            scratch->cursor = (u8 *)draw_mode + 0xC;
+            draw_mode = scratch->cursor;
+            scratch->cursor = draw_mode + 1;
             draw_page = func_80066460(0, 1, 0, 0);
             SetDrawMode(draw_mode, 0, 0, (u16)draw_page, 0);
 

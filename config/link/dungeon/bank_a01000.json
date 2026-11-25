@@ -257,16 +257,15 @@
     },
     {
       "row": "dungeon/func_809E3B20",
-      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
-      "home": "dungeon/func_800AD94C",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
+      "home": "dungeon/func_809CBB20",
       "foff": "0xA03B20",
       "vma": "0x8015B320",
       "size": 56,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0",
-        "0x80172620": "0x80172620",
-        "0x80173C3C": "0x80173C3C"
-      }
+        "0x80170E54": "0x80158E54"
+      },
+      "evidence": "DUNGEON +0xa03b2c calls the same resident step as finish_dragon_hop_and_grow. The callback store installs the Dragon dispatcher at +a01654. Its body and relocated operands match the home with the bank address shift."
     },
     {
       "row": "dungeon/func_809E3B58",
@@ -314,42 +313,39 @@
     },
     {
       "row": "dungeon/func_809E435C",
-      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
-      "home": "dungeon/func_800AD94C",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
+      "home": "dungeon/func_809CC35C",
       "foff": "0xA0435C",
       "vma": "0x8015BB5C",
       "size": 56,
       "bindings": {
-        "0x800ABDBC": "0x800AC480",
-        "0x800B2A60": "0x80158E54"
+        "0x80170E54": "0x80158E54"
       },
-      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADA84 onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
+      "evidence": "DUNGEON +0xa04368 calls the same resident step as finish_dragon_terrain_move. The callback store installs the Dragon dispatcher at +a01654. Its body and relocated operands match the home with the bank address shift."
     },
     {
       "row": "dungeon/func_809E4394",
-      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
-      "home": "dungeon/func_800AD94C",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
+      "home": "dungeon/func_809CC394",
       "foff": "0xA04394",
       "vma": "0x8015BB94",
       "size": 56,
       "bindings": {
-        "0x800ABDBC": "0x800AC5C8",
-        "0x800B2A60": "0x80158E54"
+        "0x80170E54": "0x80158E54"
       },
-      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADABC onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
+      "evidence": "DUNGEON +0xa043a0 calls the same resident step as finish_dragon_spinning_fall. The callback store installs the Dragon dispatcher at +a01654. Its body and relocated operands match the home with the bank address shift."
     },
     {
       "row": "dungeon/func_809E43CC",
-      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
-      "home": "dungeon/func_800AD94C",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
+      "home": "dungeon/func_809CC3CC",
       "foff": "0xA043CC",
       "vma": "0x8015BBCC",
       "size": 56,
       "bindings": {
-        "0x800ABDBC": "0x800ACE34",
-        "0x800B2A60": "0x80158E54"
+        "0x80170E54": "0x80158E54"
       },
-      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADAF4 onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
+      "evidence": "DUNGEON +0xa043d8 calls the same resident step as finish_dragon_fade_in. The callback store installs the Dragon dispatcher at +a01654. Its body and relocated operands match the home with the bank address shift."
     },
     {
       "row": "dungeon/func_809E4404",

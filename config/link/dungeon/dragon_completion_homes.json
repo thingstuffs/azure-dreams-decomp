@@ -1,0 +1,43 @@
+{
+  "schema": "azure-clean.linklist.v0",
+  "image": "dungeon/dragon_completion_homes",
+  "container": "dungeon",
+  "foff": "0x9ebb20",
+  "size": "0x8e4",
+  "vma": "0x80173320",
+  "evidence": "Four complete C members of the Dragon overlay at DUNGEON +0x9eb000. The original module links the source at 0x80172800, and its completion wrappers store the Dragon dispatcher at 0x80170e54.",
+  "entries": [
+    {
+      "row": "dungeon/func_809CBB20",
+      "home": "dungeon/func_809CBB20",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
+      "foff": "0x9ebb20",
+      "size": 56,
+      "vma": "0x80173320"
+    },
+    {
+      "row": "dungeon/func_809CC35C",
+      "home": "dungeon/func_809CC35C",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
+      "foff": "0x9ec35c",
+      "size": 56,
+      "vma": "0x80173B5C"
+    },
+    {
+      "row": "dungeon/func_809CC394",
+      "home": "dungeon/func_809CC394",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
+      "foff": "0x9ec394",
+      "size": 56,
+      "vma": "0x80173B94"
+    },
+    {
+      "row": "dungeon/func_809CC3CC",
+      "home": "dungeon/func_809CC3CC",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
+      "foff": "0x9ec3cc",
+      "size": 56,
+      "vma": "0x80173BCC"
+    }
+  ]
+}

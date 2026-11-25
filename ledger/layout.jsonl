@@ -7895,3 +7895,11 @@
 {"id":"dungeon/func_80DBC9A0","path":"src/dungeon/monster/blume/resume_blume_actions_after_hop.c"}
 {"id":"dungeon/func_80DBD1F4","path":"src/dungeon/monster/blume/resume_blume_actions_after_spinning_fall.c"}
 {"id":"dungeon/func_80DBD22C","path":"src/dungeon/monster/blume/resume_blume_actions_after_fade_in.c"}
+{"id":"dungeon/D_80DEF000","path":"src/dungeon/monster/volcano/volcano_bank_header.c"}
+{"id":"dungeon/func_80DBD1BC","path":"src/dungeon/monster/blume/resume_blume_actions_after_terrain_interpolation.c"}
+{"id":"dungeon/D_80BA3000","path":"src/dungeon/monster/nyuel/nyuel_bank_header.c"}
+{"id":"dungeon/D_80BF7000","path":"src/dungeon/monster/clown/clown_slot_f_bank_header.c"}
+{"id":"dungeon/D_80C09000","path":"src/dungeon/monster/clown/clown_slot_c_bank_header.c"}
+{"id":"dungeon/D_80E01000","path":"src/dungeon/monster/volcano/volcano_slot_c_bank_header.c"}
+{"id":"dungeon/D_80EEB000","path":"src/dungeon/monster/weadog/weadog_bank_header.c"}
+{"id":"dungeon/D_81826800","path":"src/dungeon/effect/directional_spell_bank_header.c"}

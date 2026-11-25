@@ -1,3 +1,4 @@
+#include "dungeon/effect.h"
 #include "shared/object_node_flags.h"
 #include "dungeon/actor/spell_resource_ids_data.h"
 #include "shared/audio_commands.h"
@@ -463,28 +464,12 @@ void draw_wave_sprite_in_draw_area(ParticleState *wave, void *context, GpuRect *
 #include "shared/game_work.h"
 #include "shared/object_node.h"
 
-/* GPU scratchpad (0x1F800000) workspace used while projecting. */
-typedef struct Scratch80024EDC {
-    u16 x;
-    u16 y;
-    u16 z;
-    u8 pad_06[0x12];
-    u8 *cursor;         /* next free packet */
-    u8 pad_1C[4];
-    u32 *ot;            /* ordering table */
-    u8 pad_24[0x6C];
-    u32 xy;
-    u32 depth;
-    u8 pad_98[0x28];
-    u32 index;          /* ordering table slot */
-} Scratch80024EDC;
-
 /* Retail 818F96DC (draw_linked_brightness_points): projects each linked point and queues a brightness-scaled shaded point
  * followed by a draw-mode packet for it. */
 s32 draw_linked_brightness_points(PointRecord *start_node, ObjectPosition *start_coords)
 {
     GpuContext **state_ptr;
-    Scratch80024EDC *scratch;
+    LinkedPointScratch *scratch;
     GpuContext *render_state;
     GpuContext *final_state;
     PointPacket *packet;
@@ -498,18 +483,18 @@ s32 draw_linked_brightness_points(PointRecord *start_node, ObjectPosition *start
     coords = start_coords;
     state_ptr = (GpuContext **)&g_game_work;
     render_state = *state_ptr;
-    scratch = (Scratch80024EDC *)0x1F800000;
+    scratch = (LinkedPointScratch *)0x1F800000;
 
     scratch->cursor = render_state->packetCursor;
     scratch->ot = (u32 *)&render_state->orderTag;
 
     for (;;) {
         coord_x = coords->x.w.i;
-        packet = (PointPacket *)scratch->cursor;
+        packet = scratch->cursor;
         scratch->x = coord_x;
         scratch->y = (u16)coords->y.w.i;
         scratch->z = (u16)coords->z.w.i;
-        scratch->cursor = (u8 *)packet + 0xC;
+        scratch->cursor = packet + 1;
 
         depth_index = RotTransPers(scratch, &packet->data, &scratch->xy, &scratch->depth);
         scratch->index = depth_index;
@@ -542,8 +527,8 @@ s32 draw_linked_brightness_points(PointRecord *start_node, ObjectPosition *start
             ((GpuLinkTag *)&packet->tag)->addr = ((GpuLinkTag *)&scratch->ot[scratch->index])->addr;
             scratch->ot[scratch->index] = (scratch->ot[scratch->index] & 0xFF000000) | ((u32)packet & 0x00FFFFFF);
 
-            mode_packet = (PointPacket *)scratch->cursor;
-            scratch->cursor = (u8 *)mode_packet + 0xC;
+            mode_packet = scratch->cursor;
+            scratch->cursor = mode_packet + 1;
             color_or_tpage = GetTPage(0, 1, 0, 0);
             SetDrawMode(mode_packet, 0, 0, (u16)color_or_tpage, 0);
 

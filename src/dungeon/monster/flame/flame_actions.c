@@ -1,3 +1,4 @@
+#include "shared/dungeon_effect_views.h"
 #include "shared/audio_commands.h"
 #include "dungeon/effect/shaded_quad_scratch.h"
 #include "engine/graphics/sprite_scratch.h"
@@ -1959,37 +1960,39 @@ s32 project_flame_sprite_chain(void *initial_payload, ObjectPosition *entry_data
 /* Projects linked effects and queues brightness-scaled point and drawing-mode packets by depth. */
 s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg)
 {
-    u8 **state_ptr;
-    R06_80173E94_S_80173E94_1 *scratch;
-    register u8 *state;
-    register u8 *final_state;
-    register u8 *packet_end;
+    GameWork *state_page;
+    LinkedPointScratch *scratch;
+    register GpuContext *state;
+    register GpuContext *final_state;
+    register PointPacket *packet_end;
+    PointPacket *next_packet;
     register R06_80173E94_S_80173E94_3 *packet;
-    u8 *mode_packet;
+    PointPacket *mode_packet;
     R06_80173E94_S_80173E94_2 *vertex;
     R06_80173E94_S_80173E94_5 *previous;
     u32 depth_index;
     u16 vertex_x;
 
     vertex = vertex_arg;
-    state_ptr = (u8 **)((u8 *)(&g_game_work));
+    state_page = &g_game_work;
     state = g_game_work.draw_buffer;
-    scratch = (R06_80173E94_S_80173E94_1 *)0x1F800000;
+    scratch = (LinkedPointScratch *)0x1F800000;
 
-    scratch->unk_18 = ((GpuContext *)state)->packetCursor;
-    scratch->unk_20.p = state + 0xB0;
+    scratch->cursor = state->packetCursor;
+    scratch->ot = (u32 *)&state->orderTag;
 
     do {
         vertex_x = vertex->unk_02;
-        packet = scratch->unk_18;
-        scratch->unk_00 = vertex_x;
-        scratch->unk_02 = vertex->unk_06;
-        scratch->unk_04 = vertex->unk_0A;
-        scratch->unk_18 = packet + 1;
+        next_packet = scratch->cursor;
+        packet = (R06_80173E94_S_80173E94_3 *)next_packet;
+        scratch->x = vertex_x;
+        scratch->y = vertex->unk_06;
+        scratch->z = vertex->unk_0A;
+        scratch->cursor = next_packet + 1;
 
-        depth_index = RotTransPers(scratch, &packet->screen, &scratch->transform_p,
-                             &scratch->transform_flags);
-        scratch->unk_C0 = depth_index;
+        depth_index = RotTransPers(scratch, &packet->screen, &scratch->xy,
+                             &scratch->depth);
+        scratch->index = depth_index;
 
         if (depth_index < 0x1E0) {
             R06_80173E94_S_80173E94_4 *node_view = (R06_80173E94_S_80173E94_4 *)node;
@@ -2027,32 +2030,32 @@ s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg)
             packet->unk_04.at03.v = tile_code;
 
             ((R06_80173E94_OrderingTag *)packet)->addr =
-                ((R06_80173E94_OrderingTag *)(scratch->unk_20.p2
-                    + scratch->unk_C0))->addr;
+                ((R06_80173E94_OrderingTag *)(scratch->ot
+                    + scratch->index))->addr;
             {
                 u32 *ot_entry;
                 u32 ot_tag;
                 u32 packet_addr;
 
-                ot_entry = (u32 *)(scratch->unk_C0 << 2);
+                ot_entry = (u32 *)(scratch->index << 2);
                 ot_entry = (u32 *)((u32)ot_entry +
-                                   (u32)scratch->unk_20.p2);
+                                   (u32)scratch->ot);
                 ot_tag = *ot_entry;
                 *ot_entry = ((u32)((ot_tag & 0xFF000000) | ((u32)((u32)packet & 0x00FFFFFF))));
             }
 
-            mode_packet = scratch->unk_18;
-            scratch->unk_18 = mode_packet + 0xC;
+            mode_packet = scratch->cursor;
+            scratch->cursor = mode_packet + 1;
             shade_or_page = GetTPage(pixel_mode, blend_mode, page_x, pixel_mode);
             SetDrawMode(mode_packet, 0, 0, (u16)shade_or_page, 0);
 
             ((R06_80173E94_OrderingTag *)mode_packet)->addr =
-                ((R06_80173E94_OrderingTag *)(scratch->unk_20.p2
-                    + scratch->unk_C0))->addr;
-            mode_packet = (u8 *)((u32)mode_packet & 0x00FFFFFF);
-            (*(u32 *)((u8 *)(scratch->unk_20.p2) + scratch->unk_C0 * 4)) =
-                ((*(u32 *)((u8 *)(scratch->unk_20.p2)
-                    + scratch->unk_C0 * 4)) & 0xFF000000) |
+                ((R06_80173E94_OrderingTag *)(scratch->ot
+                    + scratch->index))->addr;
+            mode_packet = (PointPacket *)((u32)mode_packet & 0x00FFFFFF);
+            (*(u32 *)((u8 *)(scratch->ot) + scratch->index * 4)) =
+                ((*(u32 *)((u8 *)(scratch->ot)
+                    + scratch->index * 4)) & 0xFF000000) |
                 (u32)mode_packet;
         }
 
@@ -2064,9 +2067,9 @@ s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg)
         vertex = (R06_80173E94_S_80173E94_2 *)previous->unk_08;
     } while (1);
 
-    final_state = *state_ptr;
-    packet_end = scratch->unk_18;
-    ((GpuContext *)final_state)->packetCursor = packet_end;
+    final_state = state_page->draw_buffer;
+    packet_end = scratch->cursor;
+    final_state->packetCursor = packet_end;
     return 0;
 }
 
@@ -2200,9 +2203,12 @@ void project_and_queue_textured_quad(ActorRecord *quad, ObjectPosition *position
     /* BYTES: this raw word store keeps the following draw-buffer load in order. */
     (*(s32 *)((u8 *)scratch + 0x14)) = texture[0xA];
     scratch->uv_v_extent = texture[0xB];
-    packet_data = ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor;
-    packet = packet_data;
-    ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor = packet_data + 0x34;
+    {
+        GpuContext *packet_context = g_game_work.draw_buffer;
+        packet_data = packet_context->packetCursor;
+        packet = packet_data;
+        packet_context->packetCursor = packet_data + 0x34;
+    }
 
     {
         R06_80174334_S_80174334_4 *quad_view = (R06_80174334_S_80174334_4 *)quad;

@@ -9,6 +9,18 @@ import re
 import struct
 
 
+POINTER_KINDS = ('typed_function_pointer', 'typed_function_pointer_table')
+
+
+def pointer_targets(data):
+    if data['kind'] == 'typed_function_pointer':
+        return [data.get('target')]
+    targets = data.get('targets')
+    if not isinstance(targets, list) or len(targets) < 2:
+        raise ValueError('native pointer table needs at least two targets')
+    return targets
+
+
 def digest(data):
     return hashlib.sha256(data).hexdigest()
 
@@ -24,10 +36,12 @@ def validate_layout(m):
                 or d['size'] <= 0 or d['size'] % 4):
             raise ValueError('invalid owned rodata layout')
         kind = d['kind']
-        if i == 0 and kind not in ('typed_function_pointer', 'switch_table'):
+        if i == 0 and kind not in (*POINTER_KINDS, 'switch_table'):
             raise ValueError('native prefix must start with a complete-member pointer or owned switch')
-        if kind == 'typed_function_pointer':
-            if (d['size'] != 4 or d.get('target') not in owners or not d.get('symbol')):
+        if kind in POINTER_KINDS:
+            targets = pointer_targets(d)
+            if (d['size'] != 4 * len(targets) or not d.get('symbol')
+                    or any(not isinstance(target, str) or target not in owners for target in targets)):
                 raise ValueError('native entry must target a complete native member')
         elif kind in ('typed_string', 'message_bytes', 'rectangle_records',
                       'grid_offsets', 'u16_parameter_record5'):
@@ -271,9 +285,11 @@ def validate_switch_assembly(m, assembly):
     expected_bytes = {}
     for d in m['owned_data']:
         start = d['foff'] - base
-        if d['kind'] == 'typed_function_pointer':
-            expected[start] = (d['target'], None)
-            if labels.get(d['symbol']) != (start, None):
+        if d['kind'] in POINTER_KINDS:
+            for i, target in enumerate(pointer_targets(d)):
+                expected[start + i * 4] = (target, None)
+            if (labels.get(d['symbol']) != (start, None)
+                    or any(start < loc[0] < start + d['size'] for loc in labels.values())):
                 raise ValueError('native entry assembly symbol differs')
         elif d['kind'] in ('typed_string', 'message_bytes', 'rectangle_records',
                            'grid_offsets', 'u16_parameter_record5'):
@@ -353,13 +369,14 @@ def validate_relocations(m, view):
     members = {a['function']: a['size'] - a.get('body_offset', 0) for a in m['members']}
     for d in ds:
         start = d['foff'] - base
-        if d['kind'] == 'typed_function_pointer':
+        if d['kind'] in POINTER_KINDS:
             sym = view.obj.symbols.get(d['symbol'])
             if (sym is None or sym[0] != sec or sym[1] != start
                     or any(s[0] == sec and start < s[1] < start + d['size']
                            for s in view.obj.symbols.values())):
                 raise ValueError('native entry symbol differs')
-            expected[start] = ('32', ('fn', d['target'], 0))
+            for i, target in enumerate(pointer_targets(d)):
+                expected[start + i * 4] = ('32', ('fn', target, 0))
         elif d['kind'] in ('typed_string', 'message_bytes', 'rectangle_records',
                            'grid_offsets', 'u16_parameter_record5'):
             sym = view.obj.symbols.get(d['symbol'])

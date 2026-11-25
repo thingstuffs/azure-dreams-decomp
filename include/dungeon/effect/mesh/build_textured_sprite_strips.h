@@ -15,6 +15,7 @@ struct TravelingSpriteEffectBody;
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "dungeon/effect.h"
+#include "sdk/libgte_matrix.h"
 
 /* Same three position slots, with the signed spawn and unsigned raise views
  * visible together. Retail loads at +2,+6,+10; raise also updates the z word. */
@@ -98,10 +99,9 @@ typedef struct S_func_81904990_4 {
     s32 * unk_20;
     u16 unk_24;
     u8 pad_26[0xA];
-    s32 unk_30;
-    s32 unk_34;
-    s32 unk_38;
-    u8 pad_3C[0x34];
+    VECTOR scale;
+    u8 pad_40[0x10];
+    MATRIX matrix_50;
     u16 unk_70;
     u16 unk_72;
     u16 unk_74;
@@ -122,10 +122,8 @@ typedef struct S_func_81904990_4 {
     u16 unk_BA;
     u8 pad_BC[0x4];
     s32 unk_C0;
-    u8 pad_C4[0x20];
-    s32 unk_E4;
-    s32 unk_E8;
-    s32 unk_EC;
+    u8 pad_C4[0xC];
+    MATRIX matrix_D0;
     u16 unk_F0;
     u16 unk_F2;
     u16 unk_F4;
@@ -134,10 +132,7 @@ typedef struct S_func_81904990_4 {
     u16 unk_FA;
     u16 unk_FC;
     u16 unk_FE;
-    u16 unk_100;
-    u16 unk_102;
-    u16 unk_104;
-    u8 pad_106[0x2];
+    SVECTOR angles;
     u16 unk_108;
     u16 unk_10A;
 } S_func_81904990_4;
@@ -212,21 +207,6 @@ typedef struct FillPacket {
     s16 y;
     s32 size;
 } FillPacket;
-
-typedef struct Scratch80024D64 {
-    u16 x;
-    u16 y;
-    u16 z;
-    u8 pad06[0x12];
-    u8 *cursor;
-    u8 pad1C[4];
-    u32 *ot;
-    u8 pad24[0x6C];
-    u32 xy;
-    u32 depth;
-    u8 pad98[0x28];
-    u32 index;
-} Scratch80024D64;
 
 typedef struct EffectRecord {
     u8 pad_00[0x32];

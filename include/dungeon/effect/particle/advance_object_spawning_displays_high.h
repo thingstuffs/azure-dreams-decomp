@@ -84,20 +84,6 @@ typedef struct S_800243D8_1_pre {
     void * unk_00;
     u8 pad_04[0x14];
 } S_800243D8_1_pre;
-typedef struct Scratch800244E4 {
-    u16 x;
-    u16 y;
-    u16 z;
-    u8 pad06[0x12];
-    u8 *cursor;         /* next free packet */
-    u8 pad1C[4];
-    u32 *ot;            /* ordering table */
-    u8 pad24[0x6C];
-    u32 xy;
-    u32 depth;
-    u8 pad98[0x28];
-    u32 index;          /* ordering table slot */
-} Scratch800244E4;
 typedef struct {
     unsigned char pad_00[0x32];
     s16 timer;

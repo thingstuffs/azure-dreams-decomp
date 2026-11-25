@@ -149,30 +149,6 @@ typedef struct Row_818F30EC_S_800248EC_4 {
 
    /* final_ctx in func_800248EC */
 
-typedef struct {
-    u16 x;
-    u16 y;
-    u16 z;
-    u8 pad06[0x12];
-    u8 *cursor;
-    u8 pad1C[4];
-    u32 *ot;
-    u8 pad24[0x6C];
-    s32 xy;
-    s32 depth;
-    u8 pad98[0x28];
-    u32 index;
-} Row_818F30EC_Scratch800248EC;
-
-typedef struct {
-    u32 tag;
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 code;
-    s32 data;
-} Row_818F30EC_Packet800248EC;
-
 /* Projects linked points and queues shaded tiles with draw-mode packets. */
 
 #include "sdk/libgte.h"

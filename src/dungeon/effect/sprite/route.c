@@ -1,3 +1,5 @@
+#include "dungeon/effect.h"
+#include "shared/dungeon_effect_views.h"
 #include "shared/audio_commands.h"
 #include "dungeon/actor/spell_resource_ids_data.h"
 /* Shaded particles, terrain collisions, chasing-star trails, and owner-following effects. */
@@ -32,12 +34,12 @@ const B32_818CFB74_PackedOffsets sprite_route_direction_offsets = {{{32,0},{32,3
    /* Project linked nodes and enqueue shaded point primitives with their draw modes. */
 s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, void *start_coords)
 {
-    u8 **state_ptr;
-    B32_818CE83C_S_8002403C_1 *scratch;
-    u8 *render_state;
-    u8 *final_state;
-    u8 *packet_end;
-    u8 *packet;
+    GameWork *state_page;
+    LinkedPointScratch *scratch;
+    GpuContext *render_state;
+    GpuContext *final_state;
+    PointPacket *packet_end;
+    PointPacket *packet;
     JitteredTerrainSeekingPointBody *node;
     B32_818CE83C_S_8002403C_2 *coords;
     B32_818CE83C_S_8002403C_5 *prev_entry;
@@ -46,24 +48,24 @@ s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, vo
 
     node = start_node;
     coords = start_coords;
-    state_ptr = (u8 **)((u8 *)(&g_game_work));
-    render_state = *(u8 **)&g_game_work.draw_buffer;
-    scratch = (B32_818CE83C_S_8002403C_1 *)0x1F800000;
+    state_page = &g_game_work;
+    render_state = g_game_work.draw_buffer;
+    scratch = (LinkedPointScratch *)0x1F800000;
 
-    scratch->unk_18 = ((GpuContext *)render_state)->packetCursor;
-    scratch->unk_20.p = render_state + 0xB0;
+    scratch->cursor = render_state->packetCursor;
+    scratch->ot = (u32 *)&render_state->orderTag;
 
     for (;;) {
         coord_x = coords->unk_02;
-        packet = scratch->unk_18;
-        scratch->unk_00 = coord_x;
-        scratch->unk_02 = coords->unk_06;
-        scratch->unk_04 = coords->unk_0A;
-        scratch->unk_18 = packet + 0xC;
+        packet = scratch->cursor;
+        scratch->x = coord_x;
+        scratch->y = coords->unk_06;
+        scratch->z = coords->unk_0A;
+        scratch->cursor = packet + 1;
 
-        depth_index = RotTransPers(scratch, packet + 8, &scratch->depth_cue,
-                             &scratch->gte_flag);
-        scratch->unk_C0 = depth_index;
+        depth_index = RotTransPers(scratch, &packet->data, &scratch->xy,
+                             &scratch->depth);
+        scratch->index = depth_index;
 
         if (depth_index < 0x1E0) {
             s32 color_or_tpage;
@@ -71,7 +73,7 @@ s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, vo
             s32 blend_mode;
             u32 page_x;
             s32 opcode;
-            u8 *mode_packet;
+            PointPacket *mode_packet;
 
             ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at00.v = node->unk_08.word;
             color_or_tpage = ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at00u.v * node->unk_32;
@@ -101,29 +103,29 @@ s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, vo
             ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at03.v = opcode;
 
             ((B32_818CE83C_PacketTag *)packet)->addr =
-                ((B32_818CE83C_PacketTag *)((u8 *)(scratch->unk_20.p2) + (scratch->unk_C0 * 4)))->addr;
+                ((B32_818CE83C_PacketTag *)((u8 *)(scratch->ot) + (scratch->index * 4)))->addr;
             {
                 u32 *ot_entry;
                 u32 ot_tag;
                 u32 packet_addr;
 
-                ot_entry = (u32 *)(scratch->unk_C0 << 2);
+                ot_entry = (u32 *)(scratch->index << 2);
                 ot_entry = (u32 *)((u32)ot_entry +
-                                (u32)scratch->unk_20.p2);
+                                (u32)scratch->ot);
                 ot_tag = *ot_entry;
                 *ot_entry = ((u32)((ot_tag & 0xFF000000) | ((u32)((u32)packet & 0x00FFFFFF))));
             }
 
-            mode_packet = scratch->unk_18;
-            scratch->unk_18 = mode_packet + 0xC;
+            mode_packet = scratch->cursor;
+            scratch->cursor = mode_packet + 1;
             color_or_tpage = GetTPage(texture_depth, blend_mode, page_x, texture_depth);
             SetDrawMode(mode_packet, 0, 0, (u16)color_or_tpage, 0);
 
             ((B32_818CE83C_PacketTag *)mode_packet)->addr =
-                ((B32_818CE83C_PacketTag *)((u8 *)(scratch->unk_20.p2) + (scratch->unk_C0 * 4)))->addr;
-            mode_packet = (u8 *)((u32)mode_packet & 0x00FFFFFF);
-            (*(u32 *)((u8 *)(scratch->unk_20.p2) + (scratch->unk_C0 * 4))) =
-                ((*(u32 *)((u8 *)(scratch->unk_20.p2) + (scratch->unk_C0 * 4))) & 0xFF000000) |
+                ((B32_818CE83C_PacketTag *)((u8 *)(scratch->ot) + (scratch->index * 4)))->addr;
+            mode_packet = (PointPacket *)((u32)mode_packet & 0x00FFFFFF);
+            (*(u32 *)((u8 *)(scratch->ot) + (scratch->index * 4))) =
+                ((*(u32 *)((u8 *)(scratch->ot) + (scratch->index * 4))) & 0xFF000000) |
                 (u32)mode_packet;
         }
 
@@ -135,9 +137,9 @@ s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, vo
         coords = (B32_818CE83C_S_8002403C_2 *)prev_entry->unk_08;
     }
 
-    final_state = *state_ptr;
-    packet_end = scratch->unk_18;
-    ((GpuContext *)final_state)->packetCursor = packet_end;
+    final_state = state_page->draw_buffer;
+    packet_end = scratch->cursor;
+    final_state->packetCursor = packet_end;
     return 0;
 }
 #include "shared/object_flags.h"

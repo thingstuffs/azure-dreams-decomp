@@ -1,3 +1,4 @@
+#include "dungeon/effect.h"
 #include "engine/graphics/sprite_scratch.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/actor/spell_resource_ids_data.h"
@@ -128,7 +129,6 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
     s32 addr_mask;
     s32 length_mask;
     S_func_81904990_4 *scratch;
-    SpriteQuadScratch *layout;
     GameWork *state_page;
 
     setup_arg = screen_pos;
@@ -142,8 +142,7 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
     }
     frame_header = frame->unk_08;
     scratch = (S_func_81904990_4 *)0x1F800000;
-    layout = (SpriteQuadScratch *)scratch;
-    scratch->unk_EC = NULL;
+    scratch->matrix_D0.t[2] = 0;
     scratch->unk_8C = 0;
     scratch->unk_84 = 0;
     scratch->unk_7C = 0;
@@ -181,39 +180,39 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
         view_x = state_page->view.camera_rotation.parts.camera_rotation_x;
         view_y = state_page->view.camera_rotation.parts.camera_rotation_y;
         view_z = state_page->view.camera_rotation.parts.viewAngle;
-        scratch->unk_30 = view_x;
-        scratch->unk_34 = view_y;
-        scratch->unk_38 = view_z;
+        scratch->scale.vx = view_x;
+        scratch->scale.vy = view_y;
+        scratch->scale.vz = view_z;
     }
-    scratch->unk_100 = (u16) frame->unk_16;
-    scratch->unk_104 = (s16) (frame->unk_1A - (u16) scratch->unk_34);
-    angle_or_pivot = (((u16) scratch->unk_38 + 0x100) & 0x1FF);
+    scratch->angles.vx = (u16) frame->unk_16;
+    scratch->angles.vz = (s16) (frame->unk_1A - (u16) scratch->scale.vy);
+    angle_or_pivot = (((u16) scratch->scale.vz + 0x100) & 0x1FF);
     angle_bias = frame->unk_18 - 0x100;
-    scratch->unk_102 = angle_or_pivot + angle_bias;
+    scratch->angles.vy = angle_or_pivot + angle_bias;
     {
         s32 pivot_x;
         s32 pivot_y;
         pivot_x = frame->unk_20;
-        scratch->unk_E4 = pivot_x;
+        scratch->matrix_D0.t[0] = pivot_x;
         scratch->unk_108 = pivot_x;
         pivot_y = frame->unk_22;
-        scratch->unk_E8 = pivot_y;
+        scratch->matrix_D0.t[1] = pivot_y;
         scratch->unk_10A = pivot_y;
     }
-    RotMatrix(&layout->angles, &layout->matrix_D0);
+    RotMatrix(&scratch->angles, &scratch->matrix_D0);
     {
         s32 scale_x;
         s32 scale_y;
         scale_x = frame->unk_1C;
-        scratch->unk_30 = scale_x;
+        scratch->scale.vx = scale_x;
         scale_y = frame->unk_1E;
-        scratch->unk_38 = (s32)0x1000;
-        scratch->unk_34 = scale_y;
+        scratch->scale.vz = (s32)0x1000;
+        scratch->scale.vy = scale_y;
     }
-    ScaleMatrix(&layout->matrix_D0, &layout->input);
-    CompMatrix(view_matrix, &layout->matrix_D0, &layout->matrix_50);
-    SetTransMatrix(&layout->matrix_50);
-    SetRotMatrix(&layout->matrix_50);
+    ScaleMatrix(&scratch->matrix_D0, &scratch->scale);
+    CompMatrix(view_matrix, &scratch->matrix_D0, &scratch->matrix_50);
+    SetTransMatrix(&scratch->matrix_50);
+    SetRotMatrix(&scratch->matrix_50);
     scratch->unk_24 = (u16) frame->unk_14;
     for (;;) {
         if (!(frame_header->unk_00 & 0x20)) {
@@ -574,10 +573,10 @@ s32 draw_linked_brightness_points(PointRecord *first_point, ObjectPosition *firs
     GameWork *render_state = &g_game_work;
     u32 addr_mask = 0x00FFFFFF;
     GpuContext *render_ctx = g_game_work.draw_buffer;
-    u8 *packet_start;
+    PointPacket *packet_start;
     u32 tag_mask = 0xFF000000;
-    Scratch80024D64 *scratch =
-        (Scratch80024D64 *)0x1F800000;
+    LinkedPointScratch *scratch =
+        (LinkedPointScratch *)0x1F800000;
     PointPacket *tile;
     PointPacket *draw_mode;
     GpuContext *final_render_ctx;
@@ -590,11 +589,11 @@ s32 draw_linked_brightness_points(PointRecord *first_point, ObjectPosition *firs
     scratch->cursor = packet_start;
 
     for (;;) {
-        tile = (PointPacket *)scratch->cursor;
+        tile = scratch->cursor;
         scratch->x = (u16)position->x.w.i;
         scratch->y = (u16)position->y.w.i;
         scratch->z = (u16)position->z.w.i;
-        scratch->cursor = (u8 *)tile + 0xC;
+        scratch->cursor = tile + 1;
         scratch->index = RotTransPers(scratch, &tile->data,
                                        &scratch->xy, &scratch->depth);
 
@@ -624,8 +623,8 @@ s32 draw_linked_brightness_points(PointRecord *first_point, ObjectPosition *firs
             ((GpuLinkTag *)&tile->tag)->addr = ((GpuLinkTag *)&scratch->ot[scratch->index])->addr;
             ((GpuLinkTag *)&scratch->ot[scratch->index])->addr = (u32)tile;
 
-            draw_mode = (PointPacket *)scratch->cursor;
-            scratch->cursor = (u8 *)draw_mode + 0xC;
+            draw_mode = scratch->cursor;
+            scratch->cursor = draw_mode + 1;
             draw_page = GetTPage(0, 1, 0, 0);
             SetDrawMode(draw_mode, 0, 0, (u16)draw_page, 0);
 

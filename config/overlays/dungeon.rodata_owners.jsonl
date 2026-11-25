@@ -179,3 +179,12 @@
 {"schema":"azure-clean.rodata_owner.v1","id":"dungeon/D_818A4800","foff":"0x18c4800","rodata_size":8,"rodata":"selector entry pointer and one zero pad word","owner":"dungeon/func_818A4FD4","ownership_status":"evidenced"}
 {"schema":"azure-clean.rodata_owner.v1","id":"dungeon/D_80C9F000","foff":"0xcbf000","rodata_size":8,"rodata":"two bank function pointers","owner":"dungeon/func_80C9F25C","ownership_status":"evidenced"}
 {"schema":"azure-clean.rodata_owner.v1","id":"dungeon/D_80CB1000","foff":"0xcd1000","rodata_size":8,"rodata":"two bank function pointers","owner":"dungeon/func_80CB125C","ownership_status":"evidenced"}
+{"schema":"azure-clean.rodata_owner.v1","id":"dungeon/D_80DEF000","foff":"0xe0f000","rodata_size":8,"rodata":"bank function pointer and zero pad word","owner":"dungeon/func_80DEF054","ownership_status":"evidenced"}
+{"schema":"azure-clean.rodata_owner.v1","id":"dungeon/D_80BA3000","foff":"0xbc3000","rodata_size":8,"rodata":"bank function pointer and zero pad word","owner":"dungeon/func_80BA3094","ownership_status":"evidenced"}
+{"schema":"azure-clean.rodata_owner.v1","id":"dungeon/D_80BB5000","foff":"0xbd5000","rodata_size":8,"rodata":"bank function pointer and zero pad word","owner":"dungeon/func_80BB5094","ownership_status":"evidenced"}
+{"schema":"azure-clean.rodata_owner.v1","id":"dungeon/D_80BF7000","foff":"0xc17000","rodata_size":8,"rodata":"bank function pointer and zero pad word","owner":"dungeon/func_80BF7078","ownership_status":"evidenced"}
+{"schema":"azure-clean.rodata_owner.v1","id":"dungeon/D_80C09000","foff":"0xc29000","rodata_size":8,"rodata":"bank function pointer and zero pad word","owner":"dungeon/func_80C09078","ownership_status":"evidenced"}
+{"schema":"azure-clean.rodata_owner.v1","id":"dungeon/D_80E01000","foff":"0xe21000","rodata_size":8,"rodata":"bank function pointer and zero pad word","owner":"dungeon/func_80E01054","ownership_status":"evidenced"}
+{"schema":"azure-clean.rodata_owner.v1","id":"dungeon/D_80EEB000","foff":"0xf0b000","rodata_size":8,"rodata":"two bank function pointers","owner":"dungeon/func_80EEBF18","ownership_status":"evidenced"}
+{"schema":"azure-clean.rodata_owner.v1","id":"dungeon/D_80EFD000","foff":"0xf1d000","rodata_size":8,"rodata":"two bank function pointers","owner":"dungeon/func_80EFDF18","ownership_status":"evidenced"}
+{"schema":"azure-clean.rodata_owner.v1","id":"dungeon/D_81826800","foff":"0x1846800","rodata_size":4,"rodata":"selector entry function pointer","owner":"dungeon/func_81826804","ownership_status":"evidenced"}

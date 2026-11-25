@@ -1,9 +1,49 @@
 {
  "schema": "azure-clean.copy-links.v1",
  "units": {
+  "dungeon/D_80BA3000": {
+   "func_8016A894": {
+    "copy": "func_80164894",
+    "source": "src/dungeon/monster/nyuel/spawn_nyuel_slot_f.c"
+   }
+  },
+  "dungeon/D_80BF7000": {
+   "func_8016A878": {
+    "copy": "func_80164878",
+    "source": "src/dungeon/monster/clown/create_flagged_actor_object.c"
+   }
+  },
+  "dungeon/D_80C09000": {
+   "func_80158878": {
+    "copy": "func_80152878",
+    "source": "src/dungeon/monster/clown/spawn_clown_slot_c.c"
+   }
+  },
   "dungeon/D_80C9F000": {
    "func_80170A5C": "func_80164A5C",
    "func_80171320": "func_80164C24"
+  },
+  "dungeon/D_80DEF000": {
+   "func_80170854": {
+    "copy": "func_80164854",
+    "source": "src/dungeon/monster/volcano/volcano_actions.c"
+   }
+  },
+  "dungeon/D_80E01000": {
+   "func_80158854": {
+    "copy": "func_80152854",
+    "source": "src/dungeon/monster/volcano/spawn_volcano.c"
+   }
+  },
+  "dungeon/D_80EEB000": {
+   "func_80171320": {
+    "copy": "func_801658E0",
+    "source": "src/dungeon/monster/saber/update_entity_callbacks_and_floor_motion.c"
+   },
+   "func_80171718": {
+    "copy": "func_80165718",
+    "source": "src/dungeon/monster/weadog/spawn_weadog_actor.c"
+   }
   },
   "dungeon/func_8099F8EC": {
    "func_80171C34": "func_80171854"

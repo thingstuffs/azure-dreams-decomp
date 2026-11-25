@@ -102,6 +102,25 @@ class ObjectTests(unittest.TestCase):
                 proof=N.make_proof(self.m,self.raw,self.raw,self.view,self.view,self.asm,ROOT/'tools/build/slus_rodata_trim.py',artifacts)
                 N.verify_proof(self.m,proof,self.raw,self.raw,self.view,self.view,self.asm,ROOT/'tools/build/slus_rodata_trim.py',artifacts)
 
+    def test_two_complete_members_can_share_one_pointer_object(self):
+        self.fixture(1,2)
+        first, second, *tail = self.m['owned_data']
+        table = {k:v for k,v in first.items() if k != 'target'}
+        table.update(kind='typed_function_pointer_table', size=8, targets=[first['target'], second['target']])
+        self.m['owned_data'] = [table, *tail]
+        self.asm = self.asm.replace('.globl entry1\nentry1:\n', '')
+        path = Path(self.tmp.name)
+        obj = path/'in.o'
+        subprocess.run(['mipsel-linux-gnu-as','-EL','-march=r3000','-G0','-o',str(obj),'-'],
+                       input=self.asm.replace('.text','.section .text.func_test,"ax",@progbits'), text=True, check=True)
+        self.view = A.View(A.read_elf(obj.read_bytes()))
+        self.assertEqual(len(self.validate()['relocations']),2)
+        with self.assertRaisesRegex(ValueError,'symbol differs'):
+            N.validate_switch_assembly(self.m,self.asm.replace('.word func_test\n', '.word func_test\ninterior:\n',1))
+        table['targets'][1] = 'external'
+        with self.assertRaisesRegex(ValueError,'complete native member'):
+            N.validate_layout(self.m)
+
     def test_consumer_evidence_required_in_all_layers(self):
         self.fixture('grid_offsets')
         for consumers in (None,[],['external'],['func_test','func_test']):

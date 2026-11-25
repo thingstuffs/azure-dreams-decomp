@@ -322,16 +322,15 @@
     },
     {
       "row": "dungeon/func_80DD51BC",
-      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
-      "home": "dungeon/func_800AD94C",
+      "tu": "src/dungeon/monster/blume/resume_blume_actions_after_terrain_interpolation.c",
+      "home": "dungeon/func_80DBD1BC",
       "foff": "0xDF51BC",
       "vma": "0x8015C9BC",
       "size": 56,
+      "evidence": "DUNGEON +0xdf5c3c contains this bank-local entry pointer. DUNGEON +0xdf51c8 calls the resident terrain interpolation step. The store at +0xdf51dc installs the Blume dispatcher from +0xdf2620. The dispatcher and its address operands match its home with the bank delta applied to relocated addresses.",
       "bindings": {
-        "0x800ABDBC": "0x800AC480",
-        "0x800B2A60": "0x80159E20"
-      },
-      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADA84 onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
+        "0x80171E20": "0x80159E20"
+      }
     },
     {
       "row": "dungeon/func_80DD51F4",

@@ -42,6 +42,31 @@ class Rule(Fixture):
         with self.assertRaisesRegex(ValueError, "holds 2 instances"):
             K.copy_link_target(K.load(self.root), "dungeon/bank_fad000", 0x80F8A664)
 
+    def test_source_disambiguates_homes_at_the_same_address(self):
+        twin = dict(HOME, row="dungeon/func_80F96664", home="dungeon/func_80F96664",
+                    tu="src/dungeon/other.c", foff="0xFB6664")
+        self.write(image("bank_fa7000", "0xFA7000", "0x80170800", [HOME]),
+                   image("bank_fad000", "0xFAD000", "0x8016A800", [COPY]),
+                   image("bank_fb3000", "0xFB3000", "0x80170800", [twin]))
+        self.record({CALLER: {"func_80173E64": "func_8016DE64"}})
+        with self.assertRaisesRegex(ValueError, "names 2 placed homes"):
+            K.copy_link_renames(self.root, CALLER, "dungeon/bank_fad000")
+
+        self.record({CALLER: {"func_80173E64": {"copy": "func_8016DE64", "source": HOME["tu"]}}})
+        self.assertEqual(K.copy_link_renames(self.root, CALLER, "dungeon/bank_fad000"),
+                         {"func_80173E64": "func_8016DE64"})
+        self.assertEqual(K.copy_link_files(self.root, [CALLER]),
+                         ["config/link/copy_links.json", "config/link/dungeon/bank_fa7000.json",
+                          "config/link/dungeon/bank_fad000.json"])
+
+        self.record({CALLER: {"func_80173E64": {"copy": "func_8016DE64", "source": "src/dungeon/missing.c"}}})
+        with self.assertRaisesRegex(ValueError, "names 0 placed homes in src/dungeon/missing.c"):
+            K.copy_link_renames(self.root, CALLER, "dungeon/bank_fad000")
+
+        self.record({CALLER: {"func_80173E64": {"copy": "func_8016DE64", "source": twin["tu"]}}})
+        with self.assertRaisesRegex(ValueError, "holds 0 instances"):
+            K.copy_link_renames(self.root, CALLER, "dungeon/bank_fad000")
+
     def test_record_is_checked_against_the_rule(self):
         self.assertEqual(K.copy_link_renames(self.root, CALLER, "dungeon/bank_fad000"), {})
         self.record({CALLER: {"func_80F8A664": "func_8016DE64"}})

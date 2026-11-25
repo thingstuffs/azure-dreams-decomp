@@ -8,6 +8,15 @@
   "evidence": "Selector 4 reads DUNGEON +0x1846800 to 0x80024000. Its first word is the updater entry, and the updater installs the delayed animation callback at the next C boundary, +0x184718c. It scans the caster heading, emits timed spell sprites and applies the hit to the selected actor.",
   "entries": [
     {
+      "row": "dungeon/D_81826800",
+      "home": "dungeon/D_81826800",
+      "tu": "src/dungeon/effect/directional_spell_bank_header.c",
+      "foff": "0x1846800",
+      "vma": "0x80024000",
+      "size": 4,
+      "evidence": "DUNGEON +0x1846800 starts the bank at 0x80024000. The first word points to dungeon/func_81826804 at 0x80024004. The updater begins immediately at +0x1846804."
+    },
+    {
       "row": "dungeon/func_81826804",
       "home": "dungeon/func_81826804",
       "tu": "src/dungeon/effect/update_directional_spell_sprites.c",

@@ -1,5 +1,5 @@
 {
- "count": 1224,
+ "count": 1220,
  "ids": [
   "include/dungeon/actor/ability_eligibility.h::S_800A4300_2.unk_F0",
   "include/dungeon/actor/action_target_selection_g00359.h::S_800CA444_0.unk_24",
@@ -202,7 +202,6 @@
   "include/dungeon/effect/sprite/project_and_queue_shaded_quad.h::Row_8192365C_S_80024E5C_3.unk_00",
   "include/dungeon/effect/sprite/project_and_queue_shaded_quad.h::Row_8192365C_S_80024E5C_3.unk_04",
   "include/dungeon/effect/sprite/render_rotated_effect_quads.h::Row_818ED25C_S_80024A5C_4.unk_00",
-  "include/dungeon/effect/sprite/route.h::B32_818CE83C_S_8002403C_1.unk_20",
   "include/dungeon/effect/sprite/route.h::B32_818CE83C_S_8002403C_3.unk_00",
   "include/dungeon/effect/sprite/route.h::B32_818CE83C_S_8002403C_3.unk_04",
   "include/dungeon/effect/sprite/route.h::B32_818CF0E8_S_818CF0E8_1.unk_00",
@@ -289,7 +288,6 @@
   "include/dungeon/monster/arachne.h::R12_80172654_S_80172654_4.unk_04",
   "include/dungeon/monster/arachne.h::R12_80172FE8_S_801730B8_1.timer",
   "include/dungeon/monster/arachne.h::R12_80173FDC_S_80173FDC_3.unk_8D0",
-  "include/dungeon/monster/arachne.h::R12_80174618_S_80174618_0.unk_24",
   "include/dungeon/monster/arachne.h::R12_80174618_S_80174618_2.unk_0C",
   "include/dungeon/monster/arachne.h::R12_80174618_S_80174618_5.unk_00",
   "include/dungeon/monster/arachne.h::R12_80174618_S_80174618_5.unk_04",
@@ -361,7 +359,6 @@
   "include/dungeon/monster/flame.h::R06_80171964_S_8017169C_0.unk_71",
   "include/dungeon/monster/flame.h::R06_80171964_S_8017169C_0.unk_8A",
   "include/dungeon/monster/flame.h::R06_801734B0_S_801734B0_2.unk_1C",
-  "include/dungeon/monster/flame.h::R06_80173E94_S_80173E94_1.unk_20",
   "include/dungeon/monster/flame.h::R06_80173E94_S_80173E94_3.unk_00",
   "include/dungeon/monster/flame.h::R06_80173E94_S_80173E94_3.unk_04",
   "include/dungeon/monster/flame.h::R06_80174214_S_80174214_0.unk_08",
@@ -921,7 +918,6 @@
   "src/dungeon/effect/particle/emit_scattered_particles_until_expired.c::spawned.spawned",
   "src/dungeon/effect/particle/entry_play_sound_if_enabled.c::S_818154FC_3.unk_60",
   "src/dungeon/effect/particle/fade_effect_sprite_to_black.c::EffectFrame.target_z",
-  "src/dungeon/effect/particle/impact.c::S_80024BF4_0.unk_24",
   "src/dungeon/effect/particle/impact.c::S_80024BF4_5.unk_04",
   "src/dungeon/effect/particle/impact.c::S_func_80024064_0.unk_154",
   "src/dungeon/effect/particle/impact.c::S_func_80024064_0.unk_158",

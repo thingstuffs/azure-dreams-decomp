@@ -37735,19 +37735,13 @@
           "section": ".rodata",
           "foff": 13316096,
           "vma": 2148993024,
-          "size": 4,
-          "kind": "typed_function_pointer",
-          "symbol": "cb3000_spawn_entry",
-          "target": "func_80170A5C"
-        },
-        {
-          "section": ".rodata",
-          "foff": 13316100,
-          "vma": 2148993028,
-          "size": 4,
-          "kind": "typed_function_pointer",
-          "symbol": "cb3000_update_entry",
-          "target": "func_80170C24"
+          "size": 8,
+          "kind": "typed_function_pointer_table",
+          "symbol": "block_home_bank_header",
+          "targets": [
+            "func_80170A5C",
+            "func_80170C24"
+          ]
         },
         {
           "section": ".rodata",

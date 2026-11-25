@@ -22,8 +22,13 @@
 #include "engine/graphics.h"
 #include "dungeon/effect/screen.h"
 
-void *(*const cb3000_spawn_entry)(s16,s16,s16,s32) = create_linked_object_position;
-void (*const cb3000_update_entry)(ActorRecord *, ObjectPosition *, SpriteFrameState *) = update_block_motion_and_facing;
+const struct {
+    void *(*spawn)(s16, s16, s16, s32);
+    void (*update)(ActorRecord *, ObjectPosition *, SpriteFrameState *);
+} block_home_bank_header = {
+    create_linked_object_position,
+    update_block_motion_and_facing,
+};
 
 /* Stores the owner value, copies the source position, and initializes a gray sprite for rendering. */
 void initialize_block_sprite_copy(CB_8017087C_Object *object, ActorRecord *field60_value, ObjectPosition *source_coords)

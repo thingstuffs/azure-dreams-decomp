@@ -1,12 +1,11 @@
-# Explicit stale/prior intervals
+# Explicit stale and prior image intervals
 
-`intervals.json` replays only the disjoint B13 census intervals whose evidence
-kind is `ledger:stale_or_prior_image_row`. Five TOWN intervals total 2,288 bytes.
-Their file offsets, lengths and user-container SHA-256 values are recorded.
-These are the census's existing positive ledger witnesses, not a new conclusion
-from shifted addresses or old text. No complete encompassing stale-image extent
-or runtime non-loading is inferred.
+`intervals.json` records 22 disjoint ranges totaling 26,196 bytes. The
+DUNGEON ranges include ten exact TOWN copies (20,108 bytes), four formatter
+interiors (3,584 bytes) and three formatter build identifiers (216 bytes).
+TOWN has a 372-byte fragment from MAIN and four prior-image ranges totaling
+1,916 bytes. The entries carry physical offsets, lengths and SHA-256 values.
 
-Other stale-image candidates remain held pending bounded image and loader/selector
-evidence. Known code keeps its exported code label. The five intervals already
-occur exactly once in the physical roots; this list adds no denominator bytes.
+The coverage ledger records the exact comparison ranges and the formatter
+hashes. The physical roots already include all these bytes. The interval
+index counts them once and leaves runtime loading to the bank evidence.

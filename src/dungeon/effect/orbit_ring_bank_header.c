@@ -2,7 +2,7 @@
 #include "dungeon/effect.h"
 
 /* Selector 25 reads the first word. The zero word aligns the following case table. */
-static const struct {
+const struct {
     void (*entry)(OrbitRingSpell *, SpellMotion *, SpriteFrameState *);
     u32 padding;
-} orbit_ring_bank_header __attribute__((unused)) = { update_orbit_ring_spell, 0 };
+} orbit_ring_bank_header = { update_orbit_ring_spell, 0 };

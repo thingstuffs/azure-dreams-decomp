@@ -1,3 +1,5 @@
+#include "dungeon/effect.h"
+#include "shared/dungeon_effect_views.h"
 /* Waving textured sprite strips and linked shaded particle rendering. */
 #include "engine/graphics/sprite_scratch.h"
 #include "shared/sprite_frame_state.h"
@@ -36,7 +38,7 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
     layout = SPRITE_SCRATCH;
     scratch = (u8 *)layout;
 
-    DM_U32(0x20) = (u32)((u8 *)graphics + 0xB0);
+    layout->ordering_table = (u32 *)&graphics->orderTag;
     layout->matrix_D0.t[0] = *(s16 *)((u8 *)position + 2);
     layout->matrix_D0.t[1] = *(s16 *)((u8 *)position + 6);
     position_z = *(s16 *)((u8 *)position + 0xA);
@@ -428,28 +430,28 @@ s32 draw_linked_shaded_tiles(RandomOffsetEffectObjectBody *first_point, void *fi
     Row_818F30EC_S_800248EC_1 *position = first_position;
     GameWork *render_state = &g_game_work;
     u32 addr_mask = 0x00FFFFFF;
-    u8 *render_ctx = g_game_work.draw_buffer;
-    u8 *packet_start;
+    GpuContext *render_ctx = g_game_work.draw_buffer;
+    PointPacket *packet_start;
     u32 tag_mask = 0xFF000000;
-    Row_818F30EC_Scratch800248EC *scratch =
-        (Row_818F30EC_Scratch800248EC *)0x1F800000;
-    Row_818F30EC_Packet800248EC *tile;
-    Row_818F30EC_Packet800248EC *draw_mode;
+    LinkedPointScratch *scratch =
+        (LinkedPointScratch *)0x1F800000;
+    PointPacket *tile;
+    PointPacket *draw_mode;
     GpuContext *final_render_ctx;
     s32 color_value;
     s32 draw_page;
     Row_818F30EC_S_800248EC_4 *next_node;
 
-    packet_start = ((GpuContext *)render_ctx)->packetCursor;
-    scratch->ot = (u32 *)(render_ctx + 0xB0);
+    packet_start = render_ctx->packetCursor;
+    scratch->ot = (u32 *)&render_ctx->orderTag;
     scratch->cursor = packet_start;
 
     for (;;) {
-        tile = *(Row_818F30EC_Packet800248EC **)&scratch->cursor;
+        tile = scratch->cursor;
         scratch->x = position->unk_02;
         scratch->y = position->unk_06;
         scratch->z = position->unk_0A;
-        scratch->cursor = (u8 *)tile + 0xC;
+        scratch->cursor = tile + 1;
         scratch->index = RotTransPers(scratch, &tile->data,
                                        &scratch->xy, &scratch->depth);
 
@@ -476,8 +478,8 @@ s32 draw_linked_shaded_tiles(RandomOffsetEffectObjectBody *first_point, void *fi
             ((Row_818F30EC_P_TAG *)&tile->tag)->addr = ((Row_818F30EC_P_TAG *)&scratch->ot[scratch->index])->addr;
             ((Row_818F30EC_P_TAG *)&scratch->ot[scratch->index])->addr = (u32)tile;
 
-            draw_mode = (Row_818F30EC_Packet800248EC *)scratch->cursor;
-            scratch->cursor = (u8 *)draw_mode + 0xC;
+            draw_mode = scratch->cursor;
+            scratch->cursor = draw_mode + 1;
             draw_page = GetTPage(0, 1, 0, 0);
             SetDrawMode(draw_mode, 0, 0, (u16)draw_page, 0);
 

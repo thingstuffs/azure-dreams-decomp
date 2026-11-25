@@ -1,3 +1,4 @@
+#include "dungeon/effect/shaded_quad_scratch.h"
 #include "shared/object_node.h"
 #include "engine/graphics/sprite_scratch.h"
 #include "engine/entity/effect_slots.h"
@@ -2117,15 +2118,15 @@ s32 project_arachne_sprite_chain(void *initial_payload, ObjectPosition *entry_da
 void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_80174618_S_80174618_1 *position, SpriteFrameState *render_params, s16 depth_bias)
 {
     u8 *line_packet;
-    R12_80174618_S_80174618_0 *scratch = (R12_80174618_S_80174618_0 *)0x1F800000;
+    ShadedQuadScratch *scratch = SHADED_QUAD_SCRATCH;
     u8 *draw_packet;
     GameWork *work_base;
     GpuContext *context;
     u8 *screen_start;
     u8 *screen_end;
-    u8 *start_vertex;
-    u8 *depth_cue;
-    u8 *transform_flags;
+    SVECTOR *start_vertex;
+    s32 *depth_cue;
+    s32 *transform_flags;
     u16 flags;
     u16 field_value;
     s32 color_word;
@@ -2135,67 +2136,67 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
     R12_80174618_EMPTY_ARG no_arg;
 
     context = (GpuContext *)&g_game_work;
-    scratch->unk_24.s = *(u8 **)context + 0xB0;
-    scratch->unk_88 = position->unk_02;
-    scratch->unk_8C = position->unk_06;
-    scratch->unk_90 = position->unk_0A;
+    scratch->ordering_table = (u32 *)(*(u8 **)context + 0xB0);
+    scratch->local_matrix.t[0] = position->unk_02;
+    scratch->local_matrix.t[1] = position->unk_06;
+    scratch->local_matrix.t[2] = position->unk_0A;
     render_params->flags |= 0x8000;
 
     PushMatrix();
 
-    scratch->unk_3C = 0x2000;
-    scratch->unk_38 = 0x2000;
-    scratch->unk_34 = 0x2000;
-    scratch->unk_A4 = render_params->angle_x;
-    scratch->unk_A8 = render_params->angle_z;
-    scratch->unk_A6 = render_params->angle_y;
-    RotMatrix(&scratch->unk_A4, (u8 *)scratch + 0x74);
+    scratch->scale.vz = 0x2000;
+    scratch->scale.vy = 0x2000;
+    scratch->scale.vx = 0x2000;
+    scratch->angles.vx = render_params->angle_x;
+    scratch->angles.vz = render_params->angle_z;
+    scratch->angles.vy = render_params->angle_y;
+    RotMatrix(&scratch->angles, &scratch->local_matrix);
     ReadRotMatrix(&matrix);
-    CompMatrix(&matrix, (u8 *)scratch + 0x74, (u8 *)scratch + 0x54);
-    ScaleMatrix((u8 *)scratch + 0x54, &scratch->unk_34);
-    SetTransMatrix((u8 *)scratch + 0x54);
-    SetRotMatrix((u8 *)scratch + 0x54);
+    CompMatrix(&matrix, &scratch->local_matrix, &scratch->composed_matrix);
+    ScaleMatrix(&scratch->composed_matrix, &scratch->scale);
+    SetTransMatrix(&scratch->composed_matrix);
+    SetRotMatrix(&scratch->composed_matrix);
 
-    depth_cue = (u8 *)scratch + 0xD0;
-    transform_flags = (u8 *)scratch + 0xD4;
-    start_vertex = (u8 *)scratch + 0xB0;
+    depth_cue = &scratch->depth_cue;
+    transform_flags = &scratch->gte_flag;
+    start_vertex = &scratch->vertices[0];
 
     field_value = render_params->flags;
     context = (GpuContext *)(*(u8 **)context);
-    scratch->unk_28 = field_value;
+    scratch->render_flags = field_value;
     line_packet = context->packetCursor;
     context->packetCursor = line_packet + 0x10;
 
     field_value = endpoints->unk_64;
-    scratch->unk_C0 = field_value;
-    scratch->unk_B0 = field_value;
+    scratch->vertices[2].vx = field_value;
+    scratch->vertices[0].vx = field_value;
     field_value = endpoints->unk_6A;
-    scratch->unk_C8 = field_value;
-    scratch->unk_B8 = field_value;
+    scratch->vertices[3].vx = field_value;
+    scratch->vertices[1].vx = field_value;
     field_value = endpoints->unk_66;
-    scratch->unk_C2 = field_value;
-    scratch->unk_B2 = field_value;
+    scratch->vertices[2].vy = field_value;
+    scratch->vertices[0].vy = field_value;
     field_value = endpoints->unk_6C;
-    scratch->unk_CA = field_value;
-    scratch->unk_BA = field_value;
+    scratch->vertices[3].vy = field_value;
+    scratch->vertices[1].vy = field_value;
     field_value = endpoints->unk_68;
-    scratch->unk_C4 = field_value;
-    scratch->unk_B4 = field_value;
+    scratch->vertices[2].vz = field_value;
+    scratch->vertices[0].vz = field_value;
     end_z = endpoints->unk_6E;
     screen_start = line_packet + 8;
     screen_end = line_packet + 0xC;
     work_base = &g_game_work;
-    depth_index = RotAverage4(start_vertex, (u8 *)scratch + 0xB8,
-                          (u8 *)scratch + 0xC0, (u8 *)scratch + 0xC8,
+    depth_index = RotAverage4(start_vertex, &scratch->vertices[1],
+                          &scratch->vertices[2], &scratch->vertices[3],
                           screen_start, screen_end,
                           screen_start, screen_end,
                           depth_cue, transform_flags,
-                          (scratch->unk_CC = end_z,
-                           scratch->unk_BC = end_z,
+                          (scratch->vertices[3].vz = end_z,
+                           scratch->vertices[1].vz = end_z,
                            no_arg));
     depth_index = depth_index - depth_bias - 6;
-    scratch->unk_100 = depth_index;
-    flags = scratch->unk_28;
+    scratch->ot_index = depth_index;
+    flags = scratch->render_flags;
 
     if (flags & 8) {
         u8 color_code;
@@ -2211,7 +2212,7 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
     ((R12_80174618_S_80174618_5 *)line_packet)->unk_00.at03.v = 3;
     ((R12_80174618_S_80174618_5 *)line_packet)->unk_04.at00.v = color_word;
     ((R12_80174618_S_80174618_5 *)line_packet)->unk_04.at03.v = 0x40;
-    flags = scratch->unk_28;
+    flags = scratch->render_flags;
     if (flags & 8) {
         s32 line_code = flags & 4;
         if (line_code) {
@@ -2224,16 +2225,16 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
 
     {
         GpuContext *draw_context;
-        ((R12_80174618_P_TAG *)line_packet)->addr = ((R12_80174618_P_TAG *)&scratch->unk_24.u[scratch->unk_100])->addr;
-        ((R12_80174618_P_TAG *)&scratch->unk_24.u[scratch->unk_100])->addr = (u32)line_packet;
+        ((R12_80174618_P_TAG *)line_packet)->addr = ((R12_80174618_P_TAG *)&scratch->ordering_table[scratch->ot_index])->addr;
+        ((R12_80174618_P_TAG *)&scratch->ordering_table[scratch->ot_index])->addr = (u32)line_packet;
 
         draw_context = work_base->draw_buffer;
         draw_packet = draw_context->packetCursor;
         draw_context->packetCursor = draw_packet + 0xC;
         SetDrawMode(draw_packet, 0, 0, (u16)GetTPage(0, 1, 0, 0), 0);
 
-        ((R12_80174618_P_TAG *)draw_packet)->addr = ((R12_80174618_P_TAG *)&scratch->unk_24.u[scratch->unk_100])->addr;
-        ((R12_80174618_P_TAG *)&scratch->unk_24.u[scratch->unk_100])->addr = (u32)draw_packet;
+        ((R12_80174618_P_TAG *)draw_packet)->addr = ((R12_80174618_P_TAG *)&scratch->ordering_table[scratch->ot_index])->addr;
+        ((R12_80174618_P_TAG *)&scratch->ordering_table[scratch->ot_index])->addr = (u32)draw_packet;
 
         PopMatrix();
     }

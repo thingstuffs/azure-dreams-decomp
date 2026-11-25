@@ -7,22 +7,6 @@
 
 /* Promoted Layer-2 record names and layouts are shared without changing the bodies. */
 
-/* GPU scratchpad (0x1F800000) workspace used while projecting. */
-typedef struct Scratch8002416C {
-    u16 x;
-    u16 y;
-    u16 z;
-    u8 pad_06[0x12];
-    u8 *cursor;         /* next free packet */
-    u8 pad_1C[4];
-    u32 *ot;            /* ordering table */
-    u8 pad_24[0x6C];
-    u32 xy;
-    u32 depth;
-    u8 pad_98[0x28];
-    u32 index;          /* ordering table slot */
-} Scratch8002416C;
-
 /* Shaded point primitive (code 0x6A, 3 words). */
 
 typedef struct { u8 b[32]; } AggU32;

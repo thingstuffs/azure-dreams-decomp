@@ -1,3 +1,4 @@
+#include "dungeon/effect.h"
 #include "shared/audio_commands.h"
 #include "dungeon/actor/status.h"
 #include "dungeon/effect/sprite/ribbon_entries.h"
@@ -89,7 +90,7 @@ void apply_random_actor_value_adjustment(ActorRecord *entity, s32 effect_param, 
 s32 draw_linked_brightness_points(PointRecord *start_node, ObjectPosition *start_coords)
 {
     GpuContext **state_ptr;
-    Scratch8002416C *scratch;
+    LinkedPointScratch *scratch;
     GpuContext *render_state;
     GpuContext *final_state;
     PointPacket *packet;
@@ -103,18 +104,18 @@ s32 draw_linked_brightness_points(PointRecord *start_node, ObjectPosition *start
     coords = start_coords;
     state_ptr = (GpuContext **)&g_game_work;
     render_state = *state_ptr;
-    scratch = (Scratch8002416C *)0x1F800000;
+    scratch = (LinkedPointScratch *)0x1F800000;
 
     scratch->cursor = render_state->packetCursor;
     scratch->ot = (u32 *)&render_state->orderTag;
 
     for (;;) {
         coord_x = (u16)coords->x.w.i;
-        packet = (PointPacket *)scratch->cursor;
+        packet = scratch->cursor;
         scratch->x = coord_x;
         scratch->y = (u16)coords->y.w.i;
         scratch->z = (u16)coords->z.w.i;
-        scratch->cursor = (u8 *)packet + 0xC;
+        scratch->cursor = packet + 1;
 
         depth_index = RotTransPers(scratch, &packet->data, &scratch->xy, &scratch->depth);
         scratch->index = depth_index;
@@ -147,8 +148,8 @@ s32 draw_linked_brightness_points(PointRecord *start_node, ObjectPosition *start
             ((GpuLinkTag *)&packet->tag)->addr = ((GpuLinkTag *)&scratch->ot[scratch->index])->addr;
             scratch->ot[scratch->index] = (scratch->ot[scratch->index] & 0xFF000000) | ((u32)packet & 0x00FFFFFF);
 
-            mode_packet = (PointPacket *)scratch->cursor;
-            scratch->cursor = (u8 *)mode_packet + 0xC;
+            mode_packet = scratch->cursor;
+            scratch->cursor = mode_packet + 1;
             color_or_tpage = GetTPage(0, 1, 0, 0);
             SetDrawMode(mode_packet, 0, 0, (u16)color_or_tpage, 0);
 

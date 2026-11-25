@@ -9,6 +9,18 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F57D800: img_bd5298_80152a98; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/D_80BB5000",
+      "home": "dungeon/D_80BA3000",
+      "tu": "src/dungeon/monster/nyuel/nyuel_bank_header.c",
+      "foff": "0xbd5000",
+      "vma": "0x80152800",
+      "size": 8,
+      "evidence": "DUNGEON +0xbd5000 starts the bank at 0x80152800. The first word points to dungeon/func_80BB5094 at 0x80152894. The second is zero padding before the bank tables.",
+      "bindings": {
+        "0x8016A894": "0x80152894"
+      }
+    },
+    {
       "row": "dungeon/func_80BB5094",
       "home": "dungeon/func_80B9D094",
       "tu": "src/dungeon/monster/nyuel/spawn_nyuel_slot_f.c",

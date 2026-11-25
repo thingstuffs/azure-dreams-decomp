@@ -8,6 +8,23 @@
 #include "dungeon/effect/object.h"
 #include "dungeon/effect/motion/variant_effect_with_random_motion.h"
 
+/* Scratch slots used while projecting linked point tiles and their draw modes. */
+typedef struct LinkedPointScratch {
+    u16 x;
+    u16 y;
+    u16 z;
+    u8 pad06[0x12];
+    struct PointPacket *cursor;
+    u8 pad1C[4];
+    u32 *ot;
+    u8 pad24[0x6C];
+    u32 xy;
+    u32 depth;
+    u8 pad98[0x28];
+    u32 index;
+} LinkedPointScratch;
+
+
 /* Difference of two positions, one s32 per axis (the direction-angle helpers' stack delta). */
 typedef struct PositionDelta {
     s32 x;

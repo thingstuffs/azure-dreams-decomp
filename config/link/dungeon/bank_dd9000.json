@@ -275,7 +275,7 @@
       "foff": "0xDDC9A0",
       "vma": "0x801741A0",
       "size": 56,
-      "evidence": "DUNGEON +0xddc9ac calls the resident hop step. The store at +0xddc9c0 installs the Blume dispatcher from +0xdda620. The dispatcher and its address operands match its home with the bank delta applied to relocated addresses."
+      "evidence": "DUNGEON +0xdddc30 contains the bank-local entry pointer to 0x801741A0. DUNGEON +0xddc9ac calls the resident hop step. The store at +0xddc9c0 installs the Blume dispatcher from +0xdda620. The dispatcher and its address operands match its home with the bank delta applied to relocated addresses."
     },
     {
       "row": "dungeon/func_80DBC9D8",
@@ -323,16 +323,12 @@
     },
     {
       "row": "dungeon/func_80DBD1BC",
-      "tu": "src/dungeon/effect/advance_actor_hop_and_dispatch.c",
-      "home": "dungeon/func_800AD94C",
+      "tu": "src/dungeon/monster/blume/resume_blume_actions_after_terrain_interpolation.c",
+      "home": "dungeon/func_80DBD1BC",
       "foff": "0xDDD1BC",
       "vma": "0x801749BC",
       "size": 56,
-      "bindings": {
-        "0x800ABDBC": "0x800AC480",
-        "0x800B2A60": "0x80171E20"
-      },
-      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_800ADA84 onto dungeon/func_800AD94C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
+      "evidence": "DUNGEON +0xdddc3c contains this bank-local entry pointer. DUNGEON +0xddd1c8 calls the resident terrain interpolation step. The store at +0xddd1dc installs the Blume dispatcher from +0xdda620. The dispatcher and its address operands match its home with the bank delta applied to relocated addresses."
     },
     {
       "row": "dungeon/func_80DBD1F4",
@@ -341,7 +337,7 @@
       "foff": "0xDDD1F4",
       "vma": "0x801749F4",
       "size": 56,
-      "evidence": "DUNGEON +0xddd200 calls the resident spinning fall step. The store at +0xddd214 installs the Blume dispatcher from +0xdda620. The dispatcher and its address operands match its home with the bank delta applied to relocated addresses."
+      "evidence": "DUNGEON +0xdddc40 contains the bank-local entry pointer to 0x801749F4. DUNGEON +0xddd200 calls the resident spinning fall step. The store at +0xddd214 installs the Blume dispatcher from +0xdda620. The dispatcher and its address operands match its home with the bank delta applied to relocated addresses."
     },
     {
       "row": "dungeon/func_80DBD22C",
@@ -350,7 +346,7 @@
       "foff": "0xDDD22C",
       "vma": "0x80174A2C",
       "size": 56,
-      "evidence": "DUNGEON +0xddd238 calls the resident fade in step. The store at +0xddd24c installs the Blume dispatcher from +0xdda620. The dispatcher and its address operands match its home with the bank delta applied to relocated addresses."
+      "evidence": "DUNGEON +0xdddc7c contains the bank-local entry pointer to 0x80174A2C. DUNGEON +0xddd238 calls the resident fade in step. The store at +0xddd24c installs the Blume dispatcher from +0xdda620. The dispatcher and its address operands match its home with the bank delta applied to relocated addresses."
     },
     {
       "row": "dungeon/func_80DBD264",

@@ -11011,3 +11011,11 @@
 {"path":"raw/dungeon/func_80DBC9A0.c","sha256":"101f22f820c2af38752cd8bd41c5b5f11c8554883a5490ebd9e54e5580e9520a","size":326}
 {"path":"raw/dungeon/func_80DBD1F4.c","sha256":"2d635c919f2dc45ad9652935cd874aba719d0d38f3b4e1d8b23f0e7aabd95edc","size":337}
 {"path":"raw/dungeon/func_80DBD22C.c","sha256":"da19d0398f28ba189415afad55f7ecd646808b51a4e612b2777bcc6439748834","size":301}
+{"path":"raw/dungeon/D_80DEF000.c","sha256":"6139b26e4f32004120d468f5b022cf251d8761c3c3c18f0c8757825b4e83d00e","size":183}
+{"path":"raw/dungeon/func_80DBD1BC.c","sha256":"83e6df00b96823cf6203215c35e557b700afe42a83efa57f1653b84cdf2db3b6","size":347}
+{"path":"raw/dungeon/D_80BA3000.c","sha256":"f96c9af83c89b0e85337adbd3c13e4e85a04c18dbad102f6d9ce6863afbd52d6","size":185}
+{"path":"raw/dungeon/D_80BF7000.c","sha256":"5f7d7d98b04111ca4f510bc2151db08c6a72d7e9c80ea3d345f2f0379066c274","size":210}
+{"path":"raw/dungeon/D_80C09000.c","sha256":"9470e755b712cd117021726bf12ac5a48dd589dadd767284f766180c38a0b8b5","size":180}
+{"path":"raw/dungeon/D_80E01000.c","sha256":"a9b43e4c5f357950716b3c61019fa46fd051a3f1bb0bec1830b7e01fc7caa8b8","size":193}
+{"path":"raw/dungeon/D_80EEB000.c","sha256":"13c8a826752a4c38a2b2f1cb8cd79e0abb22dd32c662208ef333d421e5cb5c9f","size":298}
+{"path":"raw/dungeon/D_81826800.c","sha256":"773e7195387a7c25492832141d4a15a55191203b2017989c6ce8090f6c1a85db","size":289}

@@ -97,10 +97,16 @@
 (l) residue comparisons (ledger/coverage_regions.jsonl): every active stale_town_copy and foreign_program_fragment row
     must carry compare_container, compare_foff and words (formatter_remnant rows are checked when they carry them),
     and the range must equal its stated source range byte for byte, with equal_words == words (a formatter copy
-    compares with the first copy).  coverage.py subtracts these rows from game-code coverage, so each one is a claim
+    compares with the first copy). Formatter interiors and build identifiers also require a retail SHA-256.
+    coverage.py subtracts these rows from game-code coverage, so each one is a claim
     about bytes.  The field check runs always; the byte comparison reads the retail containers
     (work/disc/containers) and is reported as skipped when they are absent.  --fail-new and --fail-all fail on any
     row that lacks a field or differs.
+
+(m) older Dungeon head-bank rows (ledger/coverage_regions.jsonl) must match a registered C extent.
+    The bank entry pointer and local helper call verify the link base. A resident call and the
+    retail executable verify the incompatible entry. Hashes bind the classified bodies and
+    the calling sequence. Missing retail inputs skip only the byte checks.
 
 --rederive proposes a current line for each stale or `wrong` entry: the nearest line holding
 the same cast spelling that passes the field rule, following the file's history from the
@@ -114,6 +120,7 @@ from __future__ import annotations
 
 import argparse
 import collections
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -1057,7 +1064,17 @@ def check_developer_names(root, base, head_text=None, base_text=None):
 
 
 RESIDUE_REQUIRING = ('stale_town_copy', 'foreign_program_fragment')
-RESIDUE_CATEGORIES = RESIDUE_REQUIRING + ('formatter_remnant', 'formatter_build_string')
+FORMATTER_RESIDUE = ('formatter_remnant', 'formatter_build_string')
+OLDER_HEAD_BANK = 'older_dungeon_head_bank'
+RESIDUE_CATEGORIES = RESIDUE_REQUIRING + FORMATTER_RESIDUE + (OLDER_HEAD_BANK,)
+
+
+def active_retail_residue(regions):
+    latest = {}
+    for row in regions:
+        if row.get('category') in RESIDUE_CATEGORIES:
+            latest[(row['container'], int(row['foff']), int(row['size']))] = row
+    return [latest[key] for key in sorted(latest) if latest[key].get('active', True)]
 
 
 def residue_comparison_problems(root, notes=None, regions=None):
@@ -1069,12 +1086,9 @@ def residue_comparison_problems(root, notes=None, regions=None):
     root = Path(root)
     if regions is None:
         path = root / 'ledger' / 'coverage_regions.jsonl'
-        regions = [json.loads(line) for line in path.read_text().splitlines() if line.strip()] if path.is_file() else []
-    latest = {}
-    for row in regions:
-        if row.get('category') in RESIDUE_CATEGORIES:
-            latest[(row['container'], int(row['foff']), int(row['size']))] = row
-    rows = [latest[key] for key in sorted(latest) if latest[key].get('active', True)]
+        regions = [json.loads(line) for line in path.read_text().splitlines()
+                   if line.strip() and not line.startswith('#')] if path.is_file() else []
+    rows = [row for row in active_retail_residue(regions) if row['category'] != OLDER_HEAD_BANK]
     containers = placed_copies.CONTAINERS
     present = not placed_copies.missing_containers(root)
     problems, checked, blobs = [], 0, {}
@@ -1085,15 +1099,28 @@ def residue_comparison_problems(root, notes=None, regions=None):
         return blobs[name]
 
     for row in rows:
-        where = f"{row['category']} {row['container']} +0x{int(row['foff']):X} ({int(row['size'])} bytes)"
+        start, size = int(row['foff']), int(row['size'])
+        where = f"{row['category']} {row['container']} +0x{start:X} ({size} bytes)"
+        if row['container'] not in containers:
+            problems.append(where + ': unknown container')
+            continue
+        requires_hash = row['category'] in FORMATTER_RESIDUE
+        if requires_hash and not re.fullmatch('[0-9a-f]{64}', str(row.get('retail_sha256', ''))):
+            problems.append(where + ': missing or invalid retail_sha256')
+            continue
+        mine = blob(row['container'])[start:start + size] if present else b''
+        if requires_hash and present:
+            checked += 1
+            if len(mine) != size or hashlib.sha256(mine).hexdigest() != row['retail_sha256']:
+                problems.append(where + ': differs from recorded retail_sha256')
         keys = ('compare_container', 'compare_foff', 'words')
         has = [k for k in keys if k in row]
         if len(has) != 3:
             if row['category'] in RESIDUE_REQUIRING or has:
                 problems.append(where + ': missing ' + ', '.join(k for k in keys if k not in row))
             continue
-        start, size, other = int(row['foff']), int(row['size']), int(row['compare_foff'])
-        if row['container'] not in containers or row['compare_container'] not in containers:
+        other = int(row['compare_foff'])
+        if row['compare_container'] not in containers:
             problems.append(where + ': unknown container')
             continue
         if size % 4 or int(row['words']) != size // 4:
@@ -1104,9 +1131,9 @@ def residue_comparison_problems(root, notes=None, regions=None):
             continue
         if not present:
             continue
-        mine = blob(row['container'])[start:start + size]
         theirs = blob(row['compare_container'])[other:other + size]
-        checked += 1
+        if not requires_hash:
+            checked += 1
         if len(mine) != size or len(theirs) != size:
             problems.append(where + ': a range lies outside its container')
         elif mine != theirs:
@@ -1115,6 +1142,96 @@ def residue_comparison_problems(root, notes=None, regions=None):
                             f"({equal} of {size // 4} words equal)")
     if not present and notes is not None:
         notes.append('skipped: retail containers absent')
+    return len(rows), checked, problems
+
+
+def older_head_bank_problems(root, notes=None):
+    """Check the positive retail evidence for the compact Dungeon bank program."""
+    ledger = root / 'ledger'
+    regions = ledger / 'coverage_regions.jsonl'
+    if not regions.is_file():
+        return 0, 0, []
+    category = OLDER_HEAD_BANK
+    entries = (json.loads(line) for line in regions.read_text().splitlines()
+               if line.strip() and not line.startswith('#'))
+    rows = [row for row in active_retail_residue(entries) if row['category'] == category]
+    if not rows:
+        return 0, 0, []
+
+    evidence_path = 'docs/evidence/older_dungeon_head_banks.json'
+    try:
+        evidence = json.loads((root / evidence_path).read_text())
+        banks = {b['foff']: b for b in evidence['banks']}
+        registry = {r['id']: r for line in (ledger / 'rows.jsonl').read_text().splitlines()
+                    if line.strip() for r in [json.loads(line)]}
+        resident = evidence['resident']
+        resident_row = registry[resident['row']]
+        resident_start = int(resident_row['func'].removeprefix('func_'), 16)
+        target = resident['target']
+        if (resident_row['container'] != 'slus' or not resident_start < target < resident_start + resident_row['size']
+                or not re.fullmatch('[0-9a-f]{64}', resident['sha256'])):
+            raise ValueError('the incompatible resident target must be interior to its SLUS function')
+    except (OSError, KeyError, TypeError, ValueError) as exc:
+        return len(rows), 0, [f'{category}: {exc}']
+
+    dungeon = root / placed_copies.CONTAINER_DIR / placed_copies.CONTAINERS['dungeon']
+    slus = root / 'baserom/slus_006.14'
+    present = dungeon.is_file() and slus.is_file()
+    problems = []
+    checked = 0
+    if present:
+        disc, exe = dungeon.read_bytes(), slus.read_bytes()
+        exe_base = int.from_bytes(exe[0x18:0x1c], 'little')
+        exe_off = resident_start - exe_base + 0x800
+        if (not exe.startswith(b'PS-X EXE') or exe_off < 0x800
+                or hashlib.sha256(exe[exe_off:exe_off + resident_row['size']]).hexdigest() != resident['sha256']):
+            problems.append(f'{category}: SLUS resident body differs')
+    elif notes is not None:
+        notes.append('skipped byte checks: DUNGEON or SLUS absent')
+
+    def word(foff):
+        return int.from_bytes(disc[foff:foff + 4], 'little')
+
+    checked_banks = set()
+    for row in rows:
+        start = row['foff']
+        where = f'{category} +0x{start:X}'
+        try:
+            if row['evidence'] != evidence_path or row['container'] != 'dungeon':
+                raise ValueError('wrong container or bank evidence path')
+            registered = registry[row['row']]
+            if (registered['container'], registered['foff'], registered['size']) != ('dungeon', start, row['size']):
+                raise ValueError('registered extent differs')
+            if not registered['func'].startswith('func_') or not re.fullmatch('[0-9a-f]{64}', row['retail_sha256']):
+                raise ValueError('expected a C function row with a retail hash')
+            bank = banks[row['bank_foff']]
+            first, end, base = bank['foff'], bank['end'], bank['linked_base']
+            entry, helper = bank['entry_foff'], bank['helper_foff']
+            local_call, resident_call = bank['local_call_foff'], bank['resident_call_foff']
+            if (first % 0x800 or not first < start < start + row['size'] <= end <= first + 0x800
+                    or any(foff % 4 or not first < foff <= end - 4 for foff in (entry, helper, local_call, resident_call))
+                    or not first <= resident_call - 24 < resident_call + 8 <= end
+                    or not re.fullmatch('[0-9a-f]{64}', bank['resident_sequence_sha256'])):
+                raise ValueError('invalid bank or witness extent')
+            if not present:
+                continue
+            checked += 1
+            if first not in checked_banks:
+                checked_banks.add(first)
+                if word(first) != base + entry - first:
+                    problems.append(f'{category} bank +0x{first:X}: entry pointer differs')
+                for site, expected in ((local_call, base + helper - first), (resident_call, target)):
+                    opcode = word(site)
+                    decoded = ((base + site - first + 4) & 0xf0000000) | ((opcode & 0x3ffffff) << 2)
+                    if opcode >> 26 != 3 or decoded != expected:
+                        problems.append(f'{category} bank +0x{first:X}: call at +0x{site:X} differs')
+                call_sequence = disc[resident_call - 24:resident_call + 8]
+                if hashlib.sha256(call_sequence).hexdigest() != bank['resident_sequence_sha256']:
+                    problems.append(f'{category} bank +0x{first:X}: resident call sequence differs')
+            if hashlib.sha256(disc[start:start + row['size']]).hexdigest() != row['retail_sha256']:
+                problems.append(f'{where}: classified body differs')
+        except (KeyError, TypeError, ValueError) as exc:
+            problems.append(f'{where}: {exc}')
     return len(rows), checked, problems
 
 
@@ -1243,12 +1360,18 @@ def main(argv=None):
           f'{len(residue_problems)} lack a field or differ' + ''.join(f' ({note})' for note in residue_notes))
     for problem in residue_problems:
         print('  RESIDUE ' + problem)
+    bank_notes = []
+    bank_rows, bank_checked, bank_problems = older_head_bank_problems(root, bank_notes)
+    print(f'older head bank: {bank_rows} rows, {bank_checked} compared with retail, '
+          f'{len(bank_problems)} problems' + ''.join(f' ({note})' for note in bank_notes))
+    for problem in bank_problems:
+        print('  RESIDUE ' + problem)
     lane_local = ledger_public.check(root, args.base, public_ref=args.public_ref)
     failed = (bool(loads['problems']) or (args.fail_all and flagged) or (args.fail_new and new_bad)
               or (args.fail_all and floor_bad) or (args.fail_new and floor_new)
               or (args.fail_new and floor_missing_new) or (args.fail_all and floor_missing)
               or ((args.fail_new or args.fail_all) and (lane_local > 0 or bool(developer)))
-              or ((args.fail_new or args.fail_all) and (copy_problems or clone_problems or residue_problems)))
+              or ((args.fail_new or args.fail_all) and (copy_problems or clone_problems or residue_problems or bank_problems)))
     print('ledger integrity ' + ('FAIL' if failed else 'PASS'))
     return 1 if failed else 0
 

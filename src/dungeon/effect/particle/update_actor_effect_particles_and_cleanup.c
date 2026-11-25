@@ -1,3 +1,5 @@
+#include "dungeon/effect.h"
+#include "shared/dungeon_effect_views.h"
 #include "slus/imports.h"
 /* Shaded particle drawing, accelerating return particles, and staged actor effect cleanup. */
 #include "shared/sprite_frame_state.h"
@@ -23,26 +25,6 @@
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
 #include "dungeon/system.h"
-
-typedef struct DungeonState818D4800 {
-    u8 pad0[0x8D0];
-    u8 *next;
-} DungeonState818D4800;
-
-typedef struct Scratch818D4800 {
-    u16 x;
-    u16 y;
-    u16 z;
-    u8 pad06[0x12];
-    u8 *next;
-    u8 pad1C[4];
-    u32 *ot;
-    u8 pad24[0x6C];
-    u32 unk90;
-    u32 unk94;
-    u8 pad98[0x28];
-    u32 index;
-} Scratch818D4800;
 
 typedef struct PrimTag818D4800 {
     u32 addr : 24;
@@ -79,52 +61,53 @@ typedef struct ReturningParticleBody {
 s32 draw_actor_effect_points(ReturningParticleBody *object, ObjectPosition *position)
 {
     GameWork *state_slot = &g_game_work;
-    DungeonState818D4800 *state =
+    GpuContext *state =
         g_game_work.draw_buffer;
-    Scratch818D4800 *scratch = (Scratch818D4800 *)0x1F800000;
-    register u8 *prim;
-    u8 *tile_prim;
+    LinkedPointScratch *scratch = (LinkedPointScratch *)0x1F800000;
+    register PointPacket *prim;
+    PointPacket *tile_prim;
     u32 draw_mode;
     ObjectNodeHeader *next_object;
-    u8 *packet_start;
-    u8 *next_prim;
+    PointPacket *packet_start;
+    PointPacket *next_prim;
+    GpuContext *final_state;
 
-    packet_start = state->next;
-    scratch->ot = (u32 *)((u8 *)state + 0xB0);
-    scratch->next = packet_start;
+    packet_start = state->packetCursor;
+    scratch->ot = (u32 *)&state->orderTag;
+    scratch->cursor = packet_start;
 
     do {
         scratch->x = position->x.w.i;
-        tile_prim = scratch->next;
+        tile_prim = scratch->cursor;
         scratch->y = position->y.w.i;
         scratch->z = position->z.w.i;
-        scratch->next = tile_prim + 0xC;
+        scratch->cursor = tile_prim + 1;
 
-        scratch->index = RotTransPers(scratch, tile_prim + 8,
-            &scratch->unk90, &scratch->unk94);
+        scratch->index = RotTransPers(scratch, &tile_prim->data,
+            &scratch->xy, &scratch->depth);
 
         if (scratch->index < 0x1E0U) {
-            *(u32 *)(tile_prim + 4) = object->color;
+            *(u32 *)&tile_prim->r = object->color;
 
-            tile_prim[4] = (tile_prim[4] * object->intensity) / 0x100;
-            tile_prim[5] = (tile_prim[5] * object->intensity) / 0x100;
-            tile_prim[6] = (tile_prim[6] * object->intensity) / 0x100;
+            tile_prim->r = (tile_prim->r * object->intensity) / 0x100;
+            tile_prim->g = (tile_prim->g * object->intensity) / 0x100;
+            tile_prim->b = (tile_prim->b * object->intensity) / 0x100;
 
-            tile_prim[3] = 2;
-            tile_prim[7] = 0x6A;
+            ((u8 *)&tile_prim->tag)[3] = 2;
+            tile_prim->code = 0x6A;
 
             ((PrimTag818D4800 *)tile_prim)->addr =
                 ((PrimTag818D4800 *)&scratch->ot[scratch->index])->addr;
             ((PrimTag818D4800 *)&scratch->ot[scratch->index])->addr = (u32)tile_prim;
 
-            prim = scratch->next;
-            next_prim = prim + 0xC;
-            scratch->next = next_prim;
+            prim = scratch->cursor;
+            next_prim = prim + 1;
+            scratch->cursor = next_prim;
             draw_mode = GetTPage(0, 1, 0, 0);
             SetDrawMode(prim, 0, 0, draw_mode & 0xFFFF, 0);
 
             ((PrimTag818D4800 *)prim)->addr = ((PrimTag818D4800 *)&scratch->ot[scratch->index])->addr;
-            prim = (u8 *)((u32)prim & 0x00FFFFFF);
+            prim = (PointPacket *)((u32)prim & 0x00FFFFFF);
             scratch->ot[scratch->index] = (scratch->ot[scratch->index] & 0xFF000000) | (u32)prim;
         }
         next_object = NODE_HEADER(object)->chain_next;
@@ -136,7 +119,8 @@ s32 draw_actor_effect_points(ReturningParticleBody *object, ObjectPosition *posi
         position = next_object->position;
     } while (1);
 
-    (((DungeonState818D4800 *)state_slot->draw_buffer))->next = scratch->next;
+    final_state = state_slot->draw_buffer;
+    final_state->packetCursor = scratch->cursor;
     return 0;
 }
 

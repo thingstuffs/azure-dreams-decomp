@@ -71,7 +71,10 @@ instance of that TU inside the caller's load image, which must be a placement
 at the recorded address `X`. The rule is recomputed at every image link
 (`tools/build/mkbuild.py`), window compile and native port link; a second
 instance, the home itself, a moved copy or an import the object lacks fails
-the link. Unrecorded references keep their home address, so a home unit may
+the link. When several homes have address `H`, use
+`"func_<H>": {"copy": "func_<X>", "source": "src/path/to/callee.c"}`.
+The address and source path must identify one home.
+Unrecorded references keep their home address, so a home unit may
 still call the home of a TU that also has a copy in its image. The record is a
 link input, the link graph carries it as the TU identity's `copy_links`
 attribute (`tools/link/graph.py sync-copy-links`), and

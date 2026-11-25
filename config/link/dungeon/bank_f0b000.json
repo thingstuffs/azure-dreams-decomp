@@ -9,6 +9,15 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F259800: img_f0b6d8_80164ed8, img_f0d8e0_801670e0, img_f0dcb0_801674b0, r121_followup_F0E71C; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/D_80EEB000",
+      "home": "dungeon/D_80EEB000",
+      "tu": "src/dungeon/monster/weadog/weadog_bank_header.c",
+      "foff": "0xf0b000",
+      "vma": "0x80164800",
+      "size": 8,
+      "evidence": "DUNGEON +0xf0b000 starts the bank at 0x80164800. The first word points to dungeon/func_80EEBF18 at 0x80165718. The second points to dungeon/func_80EEC0E0 at 0x801658E0."
+    },
+    {
       "row": "dungeon/func_80EEB0BC",
       "home": "dungeon/func_80EDF000",
       "tu": "src/dungeon/monster/weadog/update_weadog_flight.c",

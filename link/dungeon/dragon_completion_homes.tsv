@@ -1,0 +1,7 @@
+#{"a":0,"d":{"c":"dungeon","e":"Four complete C members of the Dragon overlay at DUNGEON +0x9eb000. The original module links the source at 0x80172800, and its completion wrappers store the Dragon dispatcher at 0x80170e54.","i":"dungeon/dragon_completion_homes","n":"0x8e4","o":"0x9ebb20","t":[2276,0,0,0,0,0,0],"v":"0x80173320"},"p":[{"tu":"src/dungeon/monster/dragon/spawn_mode_dependent_object.c"},{"census_label":"proven_code"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+o	n	k	r	h	x
+"0x9ebb20"	56	c	census:registered_tu		["func_809CBB20",null,"0x80173320",0]
+10402648	2052	r	Dragon native module code between the completion wrappers.		1
+"0x9ec35c"	56	c	census:registered_tu		["func_809CC35C",null,"0x80173B5C",0]
+"0x9ec394"	56	c	census:registered_tu		["func_809CC394",null,"0x80173B94",0]
+"0x9ec3cc"	56	c	census:registered_tu		["func_809CC3CC",null,"0x80173BCC",0]

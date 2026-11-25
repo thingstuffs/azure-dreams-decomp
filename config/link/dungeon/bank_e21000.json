@@ -9,6 +9,15 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F331800: img_e21054_80152854, r121_followup_E239BC; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/D_80E01000",
+      "home": "dungeon/D_80E01000",
+      "tu": "src/dungeon/monster/volcano/volcano_slot_c_bank_header.c",
+      "foff": "0xe21000",
+      "vma": "0x80152800",
+      "size": 8,
+      "evidence": "DUNGEON +0xe21000 starts the bank at 0x80152800. The first word points to dungeon/func_80E01054 at 0x80152854. The second is zero padding before the bank tables."
+    },
+    {
       "row": "dungeon/func_80E01054",
       "tu": "src/dungeon/monster/volcano/spawn_volcano.c",
       "home": "dungeon/func_80DFB054",

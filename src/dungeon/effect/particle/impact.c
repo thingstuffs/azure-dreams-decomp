@@ -1,3 +1,4 @@
+#include "dungeon/effect/shaded_quad_scratch.h"
 #include "shared/vector.h"
 #include "shared/audio_commands.h"
 #include "sdk/libc.h"
@@ -661,44 +662,6 @@ void clear_circular_list_flags(void)
 #include "shared/gpu_packets.h"
 #include "sdk/libgte.h"
 
-typedef struct S_80024BF4_0 {
-    u8 pad_00[0x24];
-    union { u8 * p; u32 * p2; } unk_24;   /* accessed as both */
-    u16 unk_28;
-    u8 pad_2A[0xA];
-    s32 unk_34;
-    s32 unk_38;
-    s32 unk_3C;
-    u8 pad_40[0x14];
-    MATRIX composed_matrix; /* CompMatrix of the view matrix and object_matrix, scaled by +0x34 and installed */
-    MATRIX object_matrix; /* RotMatrix of the angles at +0xA4; its translation is the integer position */
-    u8 pad_94[0x10];
-    u16 unk_A4;
-    u16 unk_A6;
-    u16 unk_A8;
-    u8 pad_AA[0x6];
-    u16 unk_B0;
-    u16 unk_B2;
-    u16 unk_B4;
-    u8 pad_B6[0x2];
-    u16 unk_B8;
-    u16 unk_BA;
-    u16 unk_BC;
-    u8 pad_BE[0x2];
-    u16 unk_C0;
-    u16 unk_C2;
-    u16 unk_C4;
-    u8 pad_C6[0x2];
-    u16 unk_C8;
-    u16 unk_CA;
-    u16 unk_CC;
-    u8 pad_CE[0x2];
-    s32 depth_cue; /* RotAverage4 depth-cue output */
-    s32 gte_flag; /* RotAverage4 GTE flag output */
-    u8 pad_D8[0x28];
-    s32 unk_100;
-} S_80024BF4_0;   /* scratch in project_visible_textured_quad */
-
    /* *(u8 **)D_80083160 in project_visible_textured_quad */
 
 typedef struct S_80024BF4_4 {
@@ -767,7 +730,7 @@ typedef struct S_80024BF4_5 {
 /* Projects a textured quad and adds it to the ordering table when visible. */
 void project_visible_textured_quad(S_80024BF4_4 *quad, ObjectPosition *position, SpriteFrameState *render_state, s16 depth_bias)
 {
-    S_80024BF4_0 *scratch = (S_80024BF4_0 *)0x1F800000;
+    ShadedQuadScratch *scratch = SHADED_QUAD_SCRATCH;
     S_80024BF4_5 *packet;
     u8 *texture;
     s32 ot_index;
@@ -775,51 +738,53 @@ void project_visible_textured_quad(S_80024BF4_4 *quad, ObjectPosition *position,
     u8 texture_flags;
     MATRIX matrix;
 
-    scratch->unk_24.p = *(u8 **)&g_game_work.draw_buffer + 0xB0;
-    scratch->object_matrix.t[0] = position->x.w.i;
-    scratch->object_matrix.t[1] = position->y.w.i;
-    scratch->object_matrix.t[2] = position->z.w.i;
+    GpuContext *context = g_game_work.draw_buffer;
+
+    scratch->ordering_table = (u32 *)&context->orderTag;
+    scratch->local_matrix.t[0] = position->x.w.i;
+    scratch->local_matrix.t[1] = position->y.w.i;
+    scratch->local_matrix.t[2] = position->z.w.i;
     render_state->flags |= 0x8000;
 
     PushMatrix();
 
-    scratch->unk_3C = 0x2000;
-    scratch->unk_38 = 0x2000;
-    scratch->unk_34 = 0x2000;
-    scratch->unk_A4 = render_state->angle_x;
-    scratch->unk_A8 = render_state->angle_z;
-    scratch->unk_A6 = render_state->angle_y;
-    RotMatrix(&scratch->unk_A4, &scratch->object_matrix);
+    scratch->scale.vz = 0x2000;
+    scratch->scale.vy = 0x2000;
+    scratch->scale.vx = 0x2000;
+    scratch->angles.vx = render_state->angle_x;
+    scratch->angles.vz = render_state->angle_z;
+    scratch->angles.vy = render_state->angle_y;
+    RotMatrix(&scratch->angles, &scratch->local_matrix);
     ReadRotMatrix(&matrix);
-    CompMatrix(&matrix, &scratch->object_matrix, &scratch->composed_matrix);
-    ScaleMatrix(&scratch->composed_matrix, &scratch->unk_34);
+    CompMatrix(&matrix, &scratch->local_matrix, &scratch->composed_matrix);
+    ScaleMatrix(&scratch->composed_matrix, &scratch->scale);
     SetTransMatrix(&scratch->composed_matrix);
     SetRotMatrix(&scratch->composed_matrix);
 
     texture = render_state->source;
-    scratch->unk_28 = render_state->flags;
+    scratch->render_flags = render_state->flags;
     packet = ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor;
     ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor = (u8 *)packet + 0x34;
 
-    scratch->unk_B0 = quad->unk_4A;
-    scratch->unk_B8 = quad->unk_50;
-    scratch->unk_C0 = quad->unk_56;
-    scratch->unk_C8 = quad->unk_5C;
-    scratch->unk_B2 = quad->unk_4C;
-    scratch->unk_BA = quad->unk_52;
-    scratch->unk_C2 = quad->unk_58;
-    scratch->unk_CA = quad->unk_5E;
-    scratch->unk_B4 = quad->unk_4E;
-    scratch->unk_BC = quad->unk_54;
-    scratch->unk_C4 = quad->unk_5A;
-    scratch->unk_CC = quad->unk_60;
+    scratch->vertices[0].vx = quad->unk_4A;
+    scratch->vertices[1].vx = quad->unk_50;
+    scratch->vertices[2].vx = quad->unk_56;
+    scratch->vertices[3].vx = quad->unk_5C;
+    scratch->vertices[0].vy = quad->unk_4C;
+    scratch->vertices[1].vy = quad->unk_52;
+    scratch->vertices[2].vy = quad->unk_58;
+    scratch->vertices[3].vy = quad->unk_5E;
+    scratch->vertices[0].vz = quad->unk_4E;
+    scratch->vertices[1].vz = quad->unk_54;
+    scratch->vertices[2].vz = quad->unk_5A;
+    scratch->vertices[3].vz = quad->unk_60;
 
-    ot_index = RotAverage4(&scratch->unk_B0, &scratch->unk_B8,
-                             &scratch->unk_C0, &scratch->unk_C8,
+    ot_index = RotAverage4(&scratch->vertices[0], &scratch->vertices[1],
+                             &scratch->vertices[2], &scratch->vertices[3],
                              (s32 *)&packet->unk_08, (s32 *)&packet->unk_14,
                              (s32 *)&packet->unk_20, (s32 *)&packet->unk_2C,
                              &scratch->depth_cue, &scratch->gte_flag) - depth_bias - 6;
-    scratch->unk_100 = ot_index;
+    scratch->ot_index = ot_index;
 
     if ((u32)ot_index < 0x1E0) {
         if ((((u16)(packet->unk_08 + 0x20) < 0x181) &&
@@ -850,7 +815,7 @@ void project_visible_textured_quad(S_80024BF4_4 *quad, ObjectPosition *position,
 
             texture_flags = texture[1];
             render_state->color.c.code = texture_flags;
-            draw_flags = scratch->unk_28;
+            draw_flags = scratch->render_flags;
             if (draw_flags & 8) {
                 render_state->color.c.code = (draw_flags & 4) ?
                     (texture_flags | 2) : (texture_flags & 0xFD);
@@ -858,12 +823,10 @@ void project_visible_textured_quad(S_80024BF4_4 *quad, ObjectPosition *position,
 
             packet->unk_04.at03.v |= render_state->color.c.code;
             packet->unk_00 = (packet->unk_00 & 0xFF000000) |
-                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
-                    + scratch->unk_100 * 4)) & 0x00FFFFFF);
+                (scratch->ordering_table[scratch->ot_index] & 0x00FFFFFF);
 
-            (*(u32 *)((u8 *)(scratch->unk_24.p2) + scratch->unk_100 * 4)) =
-                ((*(u32 *)((u8 *)(scratch->unk_24.p2)
-                    + scratch->unk_100 * 4)) & 0xFF000000) |
+            scratch->ordering_table[scratch->ot_index] =
+                (scratch->ordering_table[scratch->ot_index] & 0xFF000000) |
                 ((u32)packet & 0x00FFFFFF);
         }
     }

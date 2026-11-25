@@ -11,7 +11,7 @@ from pathlib import Path
 
 RETAIL_RESIDUE_CATEGORIES = {
     'stale_town_copy', 'foreign_program_fragment', 'formatter_remnant',
-    'formatter_build_string',
+    'formatter_build_string', 'older_dungeon_head_bank',
 }
 
 def records(p):
@@ -79,7 +79,11 @@ def coverage(root):
         data_rows=[extent(r) for r in rows if r['container']==c and r.get('foff') is not None and not r.get('func','').startswith('func_')]
         for iv in code_rows+data_rows+[extent(r) for r in proven if r['container']==c]:
             if not 0<=iv[0]<iv[1]<=n: raise ValueError('row or instance outside '+c)
-        excluded=[extent(r) for r in residue if r['container']==c]
+        residue_by_class = {}
+        for row in residue:
+            if row['container'] == c:
+                residue_by_class.setdefault(row['category'], []).append(extent(row))
+        excluded = [iv for spans in residue_by_class.values() for iv in spans]
         code_rows=subtract(code_rows,excluded)
         inst=subtract([extent(r) for r in proven if r['container']==c],
                       excluded+code_rows+data_rows+cats.get('data_excluded',[]))
@@ -95,6 +99,10 @@ def coverage(root):
             before_inst=b['proven_instances']; numerator=b['c_rows']+before_inst
             b.update(code_bytes_classified_or_estimated=denominator,c_coverage_before_pct=round(100*b['c_rows']/denominator,4) if denominator else None,c_coverage_after_pct=round(100*numerator/denominator,4) if denominator else None,scope_bytes=size(scope),partition_bytes=sum(b.values()))
             assert b['partition_bytes']==b['scope_bytes'],(c,b)
+            b['retail_residue_by_class'] = {
+                category: size(intersection(spans, scope))
+                for category, spans in sorted(residue_by_class.items())
+            }
             return b
         report['containers'][c]={'file_bytes':n,'whole_image':measure(whole),'windows':measure(merge(window)),'denominator_complete':size(partitions['unknown'])==0,'proven_instance_records':sum(r['container']==c for r in proven),'note':'Before/after share the final denominator; unknown bytes prevent a complete whole-image code percentage.'}
     return report

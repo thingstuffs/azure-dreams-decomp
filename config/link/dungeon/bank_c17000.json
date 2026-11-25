@@ -9,6 +9,15 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F54D800: img_c17060_80164860, r121_followup_C194AC; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/D_80BF7000",
+      "home": "dungeon/D_80BF7000",
+      "tu": "src/dungeon/monster/clown/clown_slot_f_bank_header.c",
+      "foff": "0xc17000",
+      "vma": "0x80164800",
+      "size": 8,
+      "evidence": "DUNGEON +0xc17000 starts the bank at 0x80164800. The first word points to dungeon/func_80BF7078 at 0x80164878. The second is zero padding before the bank tables."
+    },
+    {
       "row": "dungeon/func_80BF7078",
       "tu": "src/dungeon/monster/clown/create_flagged_actor_object.c",
       "home": "dungeon/func_80BF1078",

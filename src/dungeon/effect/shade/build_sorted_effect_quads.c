@@ -52,6 +52,7 @@ s32 build_sorted_effect_quads(void *quad_entry) {
     GlobalState *render_state;
 
     render_state = state_table[0];
+    /* BYTES: assigning the pointer member moves the ordering-table address calculation ahead of the packet cursor load. */
     (*(void **)((u8 *)scratch + 0x20)) = (u8 *)render_state + 0xB0;
     scratch->packet_cursor = render_state->next;
     do {

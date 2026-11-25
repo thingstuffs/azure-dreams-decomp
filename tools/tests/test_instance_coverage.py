@@ -1,7 +1,10 @@
-import importlib.util,json,tempfile,unittest
+import importlib.util,json,sys,tempfile,unittest
 from pathlib import Path
 LANE=Path(__file__).resolve().parents[2]
 spec=importlib.util.spec_from_file_location('instance_coverage',LANE/'tools/coverage.py'); C=importlib.util.module_from_spec(spec);spec.loader.exec_module(C)
+sys.path.insert(0, str(LANE / 'tools'))
+import status
+
 def write(p,rs):p.parent.mkdir(parents=True,exist_ok=True);p.write_text(''.join(json.dumps(r)+'\n' for r in rs))
 class CoverageTests(unittest.TestCase):
     def setUp(self):
@@ -37,6 +40,31 @@ class CoverageTests(unittest.TestCase):
         self.assertEqual(report['c_rows'], 20)
         self.assertEqual(report['proven_instances'], 15)
         self.assertEqual(report['partition_bytes'], 100)
+    def test_status_excludes_residue_from_rows_instances_estimates_and_splits(self):
+        (self.root / 'tools').mkdir()
+        (self.root / 'tools/coverage.py').write_bytes((LANE / 'tools/coverage.py').read_bytes())
+        residue = {'container': 'dungeon', 'foff': 20, 'size': 44, 'category': 'stale_town_copy'}
+        revoked = dict(residue, foff=70, size=10)
+        regions = C.records(self.led / 'coverage_regions.jsonl')
+        write(self.led / 'coverage_regions.jsonl', regions + [residue, revoked, dict(revoked, active=False)])
+        write(self.led / 'splits/dungeon.jsonl', [{'foff': 20, 'size': 44, 'result': 'CFAIL'}])
+        report = self.report()['whole_image']
+        tally = status.not_yet_c(self.root)['dungeon']
+        self.assertEqual(tally, {'in_c': 20, 'copies': 0, 'split': 0, 'sdk': 10, 'unported': 10, 'heuristic': 6, 'older_head_bank': 0})
+        self.assertEqual(sum(tally.values()), report['code_bytes_classified_or_estimated'])
+        self.assertEqual(tally['in_c'], report['c_rows'])
+    def test_older_head_bank_is_reported_apart_from_game_c(self):
+        (self.root / 'tools').mkdir()
+        (self.root / 'tools/coverage.py').write_bytes((LANE / 'tools/coverage.py').read_bytes())
+        write(self.led / 'coverage_regions.jsonl', [
+            {'container': 'dungeon', 'foff': 0, 'size': 20, 'category': 'older_dungeon_head_bank'},
+        ])
+        report = self.report()['whole_image']
+        tally = status.not_yet_c(self.root)['dungeon']
+        self.assertEqual(report['retail_residue_by_class'], {'older_dungeon_head_bank': 20})
+        self.assertEqual(tally['older_head_bank'], 20)
+        self.assertEqual(tally['in_c'], report['c_rows'])
+        self.assertEqual(tally['in_c'], 10)
     def test_out_of_file_proof_is_rejected(self):
         write(self.led/'instances.jsonl',[{'container':'dungeon','foff':99,'size':4,'result':'proven'}]);self.assertRaises(ValueError,self.report)
     def test_subtract_and_intersection_boundaries(self):

@@ -2,6 +2,7 @@
 #define DUNGEON_MONSTER_BLUME_H
 
 #include "common.h"
+#include "shared/dungeon_moving_views.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
@@ -64,5 +65,7 @@ void dispatch_blume_actions(ActorRecord *actor_in, ObjectPosition *actor_data_in
 void resume_blume_actions_after_hop(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *context);
 void resume_blume_actions_after_spinning_fall(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite, void *context);
 void resume_blume_actions_after_fade_in(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite);
+
+void resume_blume_actions_after_terrain_interpolation(ActorRecord *actor, ObjectPosition *motion, MovingTile *tile, ActorRecord *height);
 
 #endif

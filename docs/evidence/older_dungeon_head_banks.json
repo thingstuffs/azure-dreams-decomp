@@ -1,0 +1,102 @@
+{
+  "coordinates": "Decimal physical offsets, decimal runtime addresses, and half-open extents.",
+  "basis": "Each compact bank begins with a constructor pointer. Its call to its own helper corroborates the link address. All nine banks also call the resident address 0x8003A7C4 with a constant in a result register; at that address the retail executable is inside another function, which reads a byte through that register after its own entry would have loaded it from its input pointer.",
+  "retail_loader": "The retail monster resource loader starts its normal banks at DUNGEON +0x995000 and uses 0x6000-byte slots at 0x80170800 minus 0x6000 per slot. See docs/evidence/dungeon_normal_resource_loader.json. The compact bank witnesses establish a different linked program. The absence of a reference in the surveyed resident code is supplementary static evidence.",
+  "resident": {
+    "row": "slus/konami_runtime_w_8003A7BC",
+    "target": 2147723204,
+    "sha256": "6feeeb79df6dbe8657a059e1bbb072843e2d9692e41ab5537701aaa78fe0754e"
+  },
+  "banks": [
+    {
+      "foff": 30720,
+      "end": 32196,
+      "linked_base": 2148575808,
+      "entry_foff": 31932,
+      "helper_foff": 31720,
+      "local_call_foff": 31408,
+      "resident_call_foff": 31896,
+      "resident_sequence_sha256": "3ec909b266b802201a1c7a59eca82119bff6cd623f02ce98184faab441db7e2f"
+    },
+    {
+      "foff": 32768,
+      "end": 34020,
+      "linked_base": 2148577284,
+      "entry_foff": 33756,
+      "helper_foff": 33544,
+      "local_call_foff": 33300,
+      "resident_call_foff": 33720,
+      "resident_sequence_sha256": "3ec909b266b802201a1c7a59eca82119bff6cd623f02ce98184faab441db7e2f"
+    },
+    {
+      "foff": 34816,
+      "end": 36184,
+      "linked_base": 2148578536,
+      "entry_foff": 35920,
+      "helper_foff": 35708,
+      "local_call_foff": 35440,
+      "resident_call_foff": 35884,
+      "resident_sequence_sha256": "3ec909b266b802201a1c7a59eca82119bff6cd623f02ce98184faab441db7e2f"
+    },
+    {
+      "foff": 36864,
+      "end": 38128,
+      "linked_base": 2148579904,
+      "entry_foff": 37864,
+      "helper_foff": 37652,
+      "local_call_foff": 37372,
+      "resident_call_foff": 37828,
+      "resident_sequence_sha256": "3ec909b266b802201a1c7a59eca82119bff6cd623f02ce98184faab441db7e2f"
+    },
+    {
+      "foff": 38912,
+      "end": 40212,
+      "linked_base": 2148581180,
+      "entry_foff": 39948,
+      "helper_foff": 39736,
+      "local_call_foff": 39460,
+      "resident_call_foff": 39912,
+      "resident_sequence_sha256": "3ec909b266b802201a1c7a59eca82119bff6cd623f02ce98184faab441db7e2f"
+    },
+    {
+      "foff": 40960,
+      "end": 42280,
+      "linked_base": 2148582492,
+      "entry_foff": 42016,
+      "helper_foff": 41804,
+      "local_call_foff": 41524,
+      "resident_call_foff": 41980,
+      "resident_sequence_sha256": "3ec909b266b802201a1c7a59eca82119bff6cd623f02ce98184faab441db7e2f"
+    },
+    {
+      "foff": 43008,
+      "end": 44364,
+      "linked_base": 2148583824,
+      "entry_foff": 44100,
+      "helper_foff": 43888,
+      "local_call_foff": 43600,
+      "resident_call_foff": 44064,
+      "resident_sequence_sha256": "3ec909b266b802201a1c7a59eca82119bff6cd623f02ce98184faab441db7e2f"
+    },
+    {
+      "foff": 45056,
+      "end": 46384,
+      "linked_base": 2148585180,
+      "entry_foff": 46120,
+      "helper_foff": 45908,
+      "local_call_foff": 45620,
+      "resident_call_foff": 46084,
+      "resident_sequence_sha256": "3ec909b266b802201a1c7a59eca82119bff6cd623f02ce98184faab441db7e2f"
+    },
+    {
+      "foff": 47104,
+      "end": 48596,
+      "linked_base": 2148586520,
+      "entry_foff": 48332,
+      "helper_foff": 48120,
+      "local_call_foff": 47856,
+      "resident_call_foff": 48296,
+      "resident_sequence_sha256": "3ec909b266b802201a1c7a59eca82119bff6cd623f02ce98184faab441db7e2f"
+    }
+  ]
+}
