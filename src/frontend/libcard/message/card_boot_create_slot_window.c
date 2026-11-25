@@ -7,10 +7,9 @@
 #include "main/data.h"
 #include "sdk/libc.h"
 #include "slus.h"
-#include "frontend/libcard/message_callbacks_api.h"
+#include "frontend/libcard/message.h"
 
 extern void func_80024184(void *object);
-extern s32 card_boot_link_slot_window_entries(void *value); /* Unprototyped: compile_error */
 
 /* Initialize the indexed object and its runtime state, then return the object. */
 struct ObjectNodeHeader *card_boot_create_slot_window(struct ObjectNodeHeader *parent_object, s32 object_index)
@@ -30,7 +29,9 @@ struct ObjectNodeHeader *card_boot_create_slot_window(struct ObjectNodeHeader *p
     }
     init_card_slot_list_nodes(runtime, 0xA);
     object->sprite = &runtime->frame;
-    runtime->frame.unk_0C = card_boot_link_slot_window_entries(runtime->pointers);
+    /* The display frame stores the chain head in an address word. */
+    runtime->frame.unk_0C = (s32)(unsigned long)card_boot_link_slot_window_entries(
+        (struct S_800491F4 **)runtime->pointers);
     card_boot_initialize_slot_window(runtime, parent_object, object_index);
     object->update_callback = card_boot_stop_slot_window_updates;
     return object;

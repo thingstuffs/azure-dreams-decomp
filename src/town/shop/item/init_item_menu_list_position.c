@@ -4,7 +4,7 @@
 #include "town/shop/floating_number_widget_g00612.h"
 
 /* Copies two templates into linked records and initializes position and offset vectors. */
-void init_item_menu_list_position(ItemMenuTransition *vectors, S_800AEBC4_4 *config, s32 *position_data,
+void init_item_menu_list_position(ItemMenuTransition *vectors, ItemMenuDisplayLinks *config, s32 *position_data,
                    s32 *secondary_data, s32 x, s32 y) {
     const s32 *src0 = display_block_defaults.words;
     const DisplayPositionWords *src1 = &display_vector_defaults;
@@ -18,14 +18,14 @@ void init_item_menu_list_position(ItemMenuTransition *vectors, S_800AEBC4_4 *con
     secondary_data[0] = first_vector_word;
     secondary_data[1] = src1->unk4;
     secondary_data[2] = src1->unk8;
-    config->unk_08 = (S_800AEBC4_2 *)secondary_data;
-    config->unk_04 = (S_800AEBC4_2 *)position_data;
+    config->position = (ItemMenuDisplayPosition *)secondary_data;
+    config->display = (ItemMenuDisplayBlock *)position_data;
     config->unk_00 = 0;
-    config->unk_08->unk_02 = -0x400;
-    config->unk_04->unk_08 = x;
-    config->unk_04->unk_0A = y;
-    config->unk_04->unk_0C = 0x400;
-    config->unk_04->unk_0F = 4;
+    config->position->position.rotation_y = -0x400;
+    config->display->x = x;
+    config->display->y = y;
+    config->display->depth = 0x400;
+    config->display->mode = 4;
     vectors->unk_0C = x;
     vectors->unk_0E = y;
     vectors->unk_10.low = 0x400;

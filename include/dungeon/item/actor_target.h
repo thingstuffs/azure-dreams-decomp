@@ -4,6 +4,7 @@
 #include "common.h"
 
 struct ActorRecord;
+struct DungeonItemEntry;
 
 /* Actor searches and route-point selection. */
 s32 find_linked_object_slot_index(void *target_value);

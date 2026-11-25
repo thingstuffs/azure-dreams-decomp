@@ -8,6 +8,7 @@
 #include "shared/monster_ids.h"
 #include "engine/text.h"
 #include "dungeon/system.h"
+#include "slus.h"
 
 /* Transfer pending texture and palette data, then clear the transfer state. */
 void complete_display_transfer(ShopFirstCallbackObject *state) {
@@ -56,7 +57,7 @@ void complete_display_transfer(ShopFirstCallbackObject *state) {
 }
 
 /* Initializes three entries with offsets and fixed, supplied, and computed values. */
-void initialize_three_display_entries(s32 source_value, ItemMenuPart **entries, SpritePartCommand *entry_value) {
+void initialize_three_display_entries(ActorRecord *actor, ItemMenuPart **entries, SpritePartCommand *entry_value) {
     s32 entry_offset = 8;
 
     entries[0]->position->x = -0x38;
@@ -69,7 +70,7 @@ void initialize_three_display_entries(s32 source_value, ItemMenuPart **entries, 
 
     entries[2]->position->x = -0x10;
     entries[2]->position->y = 0x16;
-    entries[2]->handler = lookup_patterned_display_icon(get_enabled_record_flag_priority(source_value));
+    entries[2]->handler = lookup_patterned_display_icon(get_enabled_record_flag_priority(actor));
 }
 
 /* Returns the global in mode 1, otherwise calls the default handler. */

@@ -20,6 +20,7 @@ typedef struct FamiliarItemSlotView {
     s32 item_address;
 } FamiliarItemSlotView;
 
+s16 get_clamped_adjusted_value(ActorRecord *actor);
 void begin_actor_turn_toward_target(ActorRecord *body, ObjectPosition *unused, void *actor, ActorRecord *motion);
 s32 begin_familiar_command_selection(Rec_func_8008D024_arg0 *actor, ObjectPosition *context, SpriteFrameState *display, s32 target_index, s32 action_mode);
 s32 begin_familiar_summoning(ActorRecord *record, s32 input1, void *pointer_input, s32 value_input);
@@ -36,7 +37,7 @@ s32 dispatch_dungeon_category_action(void *actor, void *action, s16 dispatch_mod
 s32 reject_forbidden_familiar_recall(s32 entry_index);
 void select_player_motion_animation(void *entity, ObjectPosition *unused, void *animation, ActorRecord *state);
 void set_familiar_formation_offset(s32 entry_index, s8 value);
-void set_linked_actor_code_and_mirror(s16 object_index, s8 value);
+void set_linked_actor_code_and_mirror(s16 object_index, s16 value);
 void set_linked_actor_pending_value(s32 entry_index, s32 value);
 void update_player_height_step(ActorRecord *actor, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *model);
 

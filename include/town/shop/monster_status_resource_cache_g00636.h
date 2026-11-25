@@ -22,11 +22,9 @@ typedef struct S_800B6E3C_2 {
 } S_800B6E3C_2;
 
 extern s32 normalize_monster_status_species_code(s32);
-extern s32 select_mapped_object_status_code(void *);
 extern void *alloc_gpu_scratch_ring(s32 size);
 extern void bzero(void *dst, s32 size);
 extern s32 Control_CD();
-extern s32 get_enabled_record_flag_priority();
 #include "slus/display_resource_cache_keys_data.h"
 
 

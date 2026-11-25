@@ -17,6 +17,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 from common import rows, LEDGER, read_jsonl  # noqa: E402
+from decoded_images import manifests, number
 from source_layout import row_path as layout_row_path
 from pin_census import sites_of  # noqa: E402
 
@@ -27,6 +28,10 @@ def main():
     by = collections.defaultdict(list)
     for r in rows():
         by[r["id"].split("/")[0]].append(r)
+    decoded = collections.defaultdict(list)
+    for image in manifests(ROOT):
+        container = image['image'].split('/', 1)[0]
+        decoded[container].append(image)
     for c, rs in sorted(by.items()):
         d = ROOT / "src" / c
         if not (d / "INDEX.md").exists():
@@ -44,6 +49,18 @@ def main():
             lv = lev.get(r["id"])
             out.append(f"| {display_path} | {name} | {r.get('size', '')} | {r['cfg']} | {'' if lv is None else lv} | "
                        f"{mod.get(r['id'], '')} | {pins} |")
+        for image in decoded[c]:
+            base = number(image['address'])
+            entries = [(unit, function) for unit in image['units'] for function in unit['functions']]
+            out.extend(["", f"## Decoded image `{image['image']}`", "",
+                        "| file | function | decoded offset | bytes | compiler | placement |",
+                        "|---|---|---:|---:|---|---|"])
+            for unit, function in sorted(entries, key=lambda entry: number(entry[1]['address'])):
+                source = Path(os.path.relpath(ROOT / unit['source'], d)).as_posix()
+                offset = number(function['address']) - base
+                recipe = unit['compiler'] + unit['flags']
+                out.append(f"| {source} | {function['name']} | 0x{offset:04X} | "
+                           f"{number(function['size'])} | {recipe} | {unit.get('placement', '')} |")
         (d / "INDEX.md").write_text("\n".join(out) + "\n")
         print(f"{c}: {len(rs)} rows")
 

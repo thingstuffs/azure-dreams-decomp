@@ -653,6 +653,12 @@ def settle(bulk, prover, disk, max_rounds=10, screen=True, log=print, out=None, 
     raise RuntimeError('no full PASS within %d rounds' % max_rounds)
 
 
+def decoded_sources(root):
+    from decoded_images import manifests
+    return {unit['source'] for image in manifests(root) for unit in image['units']
+            if 'placement' not in unit}
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--root', type=Path, default=HERE.parents[1])
@@ -705,10 +711,7 @@ def main(argv=None):
     files = sorted({f for f in files if not f.startswith(tuple(a.exclude)) and not Path(f).name.startswith('.')})
     # decoded-image sources are outside the recipe graph (tools/decoded_images.py proves them; affected.prove
     # refuses an edit to one): never edited here
-    try:
-        decoded = {u['source'] for u in json.loads((root / 'config/decoded/menu_cache.json').read_text())['units']}
-    except (OSError, ValueError, KeyError):
-        decoded = set()
+    decoded = decoded_sources(root)
     files = [f for f in files if f not in decoded]
 
     def writable(h, exists):

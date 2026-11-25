@@ -8,7 +8,7 @@ typedef struct S_800B6580_0 {
 } S_800B6580_0;   /* arg0 in set_monster_status_panel_height */
 
 /* Applies a rectangle to the object and sets its high flag. */
-void set_monster_status_panel_height(S_800B6580_0 *object, s16 height) {
+void set_monster_status_panel_height(S_800B6580_0 *object, s32 height) {
     s16 rectangle[4];
 
     rectangle[0] = 0xC6;

@@ -42,7 +42,7 @@ typedef struct SpriteAttachment {
 struct S_8004CC38_Node;
 struct S_80050550_Outer;
 struct S_800505BC;
-struct S_800508F0;
+struct PrimitivePairEntry;
 struct CdCueSequenceFrame;
 struct Tint8004C080;
 
@@ -142,8 +142,8 @@ int func_8004CAA0(void *forwarded_ptr, int unused_arg, void *second_ptr);
 void *emit_gpu_packets(u32 *ot, u8 *source, u8 **anchor, u8 *entry);
 
 /* fill_primitive_pair.c */
-void *fill_primitive_pair(struct S_800508F0 *entry, u8 *template);
-void *func_800508F0(struct S_800508F0 *entry, u8 *template);
+void *fill_primitive_pair(struct PrimitivePairEntry *entry, u8 *template);
+void *func_800508F0(struct PrimitivePairEntry *entry, u8 *template);
 
 /* fill_vram_rect.c */
 void fill_vram_rect(s16 x, s16 y, s16 width, s16 height, u8 red, u8 green, u8 blue);

@@ -78,24 +78,36 @@
           "size": 116
         },
         {
-          "name": "invoke_cached_menu_callback",
+          "name": "invoke_menu_callback",
           "address": "0x80017ebc",
           "size": 40
         },
         {
-          "name": "link_cached_menu_entries",
+          "name": "link_menu_entries",
           "address": "0x80017ee4",
           "size": 40
         },
         {
-          "name": "initialize_cached_menu_entry",
+          "name": "initialize_menu_entry",
           "address": "0x80018084",
           "size": 116
         },
         {
-          "name": "prepare_cached_menu_entries",
+          "name": "prepare_menu_entries",
           "address": "0x800180f8",
           "size": 124
+        },
+        {
+          "name": "link_cached_monster_display_entries",
+          "address": "0x80017c08",
+          "size": 40
+        }
+      ],
+      "data": [
+        {
+          "section": ".rodata",
+          "address": "0x80024794",
+          "size": 28
         }
       ]
     },
@@ -134,6 +146,2909 @@
           "name": "list_menu_linked_actor_records",
           "address": "0x80021468",
           "size": 32
+        },
+        {
+          "name": "count_menu_familiars",
+          "address": "0x800214b4",
+          "size": 48
+        }
+      ],
+      "data": [
+        {
+          "section": ".rodata",
+          "address": "0x80024ab0",
+          "size": 4
+        }
+      ]
+    },
+    {
+      "source": "src/town/shop/position/set_display_entry_text_and_position.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "set_display_entry_text_and_position",
+      "bindings": {
+        "func_8004DC14": "0x8004dc14",
+        "func_8004E99C": "0x8004e99c"
+      },
+      "functions": [
+        {
+          "name": "set_display_entry_text_and_position",
+          "symbol": "func_800B5264",
+          "address": "0x800168ac",
+          "size": 144
+        }
+      ]
+    },
+    {
+      "source": "src/town/shop/set_storage_entry_text.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "set_storage_entry_text",
+      "bindings": {
+        "func_8004B1A4": "0x8004b1a4",
+        "func_8004E928": "0x8004e928"
+      },
+      "functions": [
+        {
+          "name": "set_storage_entry_text",
+          "symbol": "func_800B53BC",
+          "address": "0x80016a04",
+          "size": 144
+        }
+      ]
+    },
+    {
+      "source": "src/town/shop/stat_display.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "stat_display",
+      "bindings": {
+        "D_800814A8": "0x800814a8",
+        "D_80089304": "0x8001605c",
+        "bzero": "0x80069ec8",
+        "func_8004A658": "0x8004a658",
+        "func_8004AC3C": "0x8004ac3c",
+        "func_8004E5A0": "0x8004e5a0",
+        "func_8004E69C": "0x8004e69c",
+        "func_800B5264": "0x800168ac",
+        "func_800B53BC": "0x80016a04"
+      },
+      "functions": [
+        {
+          "name": "compare_values_to_display_code",
+          "symbol": "func_800B555C",
+          "address": "0x80016c6c",
+          "size": 32
+        },
+        {
+          "name": "collect_selected_record_values",
+          "symbol": "func_800B58B8",
+          "address": "0x80017014",
+          "size": 96
+        },
+        {
+          "name": "format_optional_signed_value",
+          "symbol": "func_800B5918",
+          "address": "0x80017074",
+          "size": 140
+        },
+        {
+          "name": "populate_display_rows",
+          "symbol": "func_800B59A4",
+          "address": "0x80017100",
+          "size": 292
+        }
+      ]
+    },
+    {
+      "source": "src/town/shop/stat_panel.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "stat_panel",
+      "bindings": {
+        "D_80082E60": "0x80082e60",
+        "D_80083D78": "0x80083d78",
+        "D_800892C0": "0x80016018",
+        "D_8008933C": "0x80016094",
+        "D_800D1790": "0x80024790",
+        "DrawSync": "0x80067014",
+        "LoadImage": "0x800672d8",
+        "func_800A652C": "0x800a652c",
+        "func_800B5264": "0x800168ac",
+        "strcat": "0x80069e38"
+      },
+      "functions": [
+        {
+          "name": "complete_display_transfer",
+          "symbol": "func_800B5B20",
+          "address": "0x8001727c",
+          "size": 320
+        },
+        {
+          "name": "get_monster_status_label",
+          "symbol": "func_800B5D30",
+          "address": "0x800174d4",
+          "size": 64
+        },
+        {
+          "name": "draw_formatted_monster_status_text",
+          "symbol": "func_800B5D70",
+          "address": "0x80017514",
+          "size": 160
+        },
+        {
+          "name": "normalize_monster_status_species_code",
+          "symbol": "func_800B5E10",
+          "address": "0x800175b4",
+          "size": 24
+        }
+      ]
+    },
+    {
+      "source": "src/town/shop/build_encoded_display_sequence.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "build_encoded_display_sequence",
+      "bindings": {
+        "func_8004E5A0": "0x8004e5a0",
+        "func_8004E69C": "0x8004e69c"
+      },
+      "functions": [
+        {
+          "name": "build_encoded_display_sequence",
+          "symbol": "func_800B6030",
+          "address": "0x800177d4",
+          "size": 100
+        }
+      ]
+    },
+    {
+      "source": "src/town/shop/populate_action_display_row.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "populate_action_display_row",
+      "bindings": {
+        "D_8006DE24": "0x8006de24",
+        "func_800439BC": "0x800439bc",
+        "func_800498EC": "0x800498ec",
+        "func_80049918": "0x80049918",
+        "func_80049944": "0x80049944",
+        "func_800B5264": "0x800168ac",
+        "func_800B53BC": "0x80016a04",
+        "func_800B6030": "0x800177d4"
+      },
+      "functions": [
+        {
+          "name": "populate_action_display_row",
+          "symbol": "func_800B6094",
+          "address": "0x80017838",
+          "size": 300
+        }
+      ]
+    },
+    {
+      "source": "src/town/shop/populate_display_row.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "populate_display_row",
+      "bindings": {
+        "func_8004A658": "0x8004a658",
+        "func_8004AC3C": "0x8004ac3c",
+        "func_800B5264": "0x800168ac",
+        "func_800B53BC": "0x80016a04",
+        "func_800B5918": "0x80017074"
+      },
+      "functions": [
+        {
+          "name": "populate_display_row",
+          "symbol": "func_800B61C0",
+          "address": "0x80017964",
+          "size": 228
+        }
+      ]
+    },
+    {
+      "source": "src/town/shop/fill_display_slots.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "fill_display_slots",
+      "bindings": {
+        "bzero": "0x80069ec8",
+        "func_800B58B8": "0x80017014",
+        "func_800B6094": "0x80017838",
+        "func_800B61C0": "0x80017964"
+      },
+      "functions": [
+        {
+          "name": "fill_display_slots",
+          "symbol": "func_800B62A4",
+          "address": "0x80017a48",
+          "size": 328
+        }
+      ]
+    },
+    {
+      "source": "src/town/shop/state/set_monster_status_panel_height.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "set_monster_status_panel_height",
+      "bindings": {
+        "func_80048E00": "0x80048e00"
+      },
+      "functions": [
+        {
+          "name": "set_monster_status_panel_height",
+          "symbol": "func_800B6580",
+          "address": "0x80017cd8",
+          "size": 88
+        }
+      ]
+    },
+    {
+      "source": "src/town/shop/state/set_monster_status_panel_height.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "set_monster_status_panel_height_at_5290",
+      "bindings": {
+        "func_80048E00": "0x80048e00"
+      },
+      "functions": [
+        {
+          "name": "set_item_panel_height",
+          "symbol": "func_800B6580",
+          "address": "0x8001b290",
+          "size": 88
+        }
+      ]
+    },
+    {
+      "source": "src/town/shop/event_fountain_chk.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "event_fountain_chk",
+      "bindings": {
+        "D_8002E5D8": "0x8002e5d8",
+        "D_8002E5E8": "0x8002e5e8"
+      },
+      "functions": [
+        {
+          "name": "initialize_positioned_display_templates",
+          "symbol": "func_800B67A4",
+          "address": "0x80017f0c",
+          "size": 152
+        }
+      ]
+    },
+    {
+      "source": "src/town/shop/monster_status_initialization_g00634.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "monster_status_initialization_g00634",
+      "bindings": {
+        "D_800D17C8": "0x800247b0"
+      },
+      "functions": [
+        {
+          "name": "get_monster_status_type_data",
+          "symbol": "func_800B68AC",
+          "address": "0x80018014",
+          "size": 28
+        }
+      ]
+    },
+    {
+      "source": "src/town/shop/position/set_monster_status_display_position.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "set_monster_status_display_position",
+      "bindings": {},
+      "functions": [
+        {
+          "name": "set_monster_status_display_position",
+          "symbol": "func_800B6C94",
+          "address": "0x800183fc",
+          "size": 56
+        }
+      ]
+    },
+    {
+      "source": "src/town/shop/monster_status_resource_cache_g00636.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "monster_status_resource_cache_g00636",
+      "bindings": {
+        "D_80083D78": "0x80083d78",
+        "DrawSync": "0x80067014",
+        "LoadImage": "0x800672d8",
+        "bzero": "0x80069ec8",
+        "func_8003E4FC": "0x8003e4fc",
+        "func_80040574": "0x80040574",
+        "func_80042900": "0x80042900",
+        "func_80049984": "0x80049984",
+        "func_80049E88": "0x80049e88",
+        "func_800B5B20": "0x8001727c",
+        "func_800B5E10": "0x800175b4",
+        "func_800B6F54": "0x800186bc"
+      },
+      "functions": [
+        {
+          "name": "fill_cd_read_descriptor",
+          "symbol": "func_800B6CCC",
+          "address": "0x80018434",
+          "size": 32
+        },
+        {
+          "name": "get_monster_status_species_code",
+          "symbol": "func_800B6CEC",
+          "address": "0x80018454",
+          "size": 104
+        },
+        {
+          "name": "set_monster_status_cd_read_target",
+          "symbol": "func_800B6D54",
+          "address": "0x800184bc",
+          "size": 64
+        },
+        {
+          "name": "clear_monster_status_texture",
+          "symbol": "func_800B6D94",
+          "address": "0x800184fc",
+          "size": 168
+        },
+        {
+          "name": "queue_monster_status_reload",
+          "symbol": "func_800B6E3C",
+          "address": "0x800185a4",
+          "size": 280
+        }
+      ]
+    },
+    {
+      "source": "src/town/shop/state/release_monster_status_request_handles.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "release_monster_status_request_handles",
+      "bindings": {
+        "func_8003F2A4": "0x8003f2a4"
+      },
+      "functions": [
+        {
+          "name": "release_monster_status_request_handles",
+          "symbol": "func_800B6F54",
+          "address": "0x800186bc",
+          "size": 100
+        }
+      ]
+    },
+    {
+      "source": "src/town/shop/item/layout_item_menu_lower_pair_columns.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "layout_item_menu_lower_pair_columns",
+      "bindings": {},
+      "functions": [
+        {
+          "name": "layout_item_menu_lower_pair_columns",
+          "symbol": "func_800AF2F8",
+          "address": "0x80019dd4",
+          "size": 116
+        }
+      ]
+    },
+    {
+      "source": "src/town/shop/item/layout_item_menu_upper_pair_columns.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "layout_item_menu_upper_pair_columns",
+      "bindings": {},
+      "functions": [
+        {
+          "name": "layout_item_menu_upper_pair_columns",
+          "symbol": "func_800AF4AC",
+          "address": "0x80019fe8",
+          "size": 116
+        }
+      ]
+    },
+    {
+      "source": "src/town/shop/item/layout_item_menu_lower_item_columns.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "layout_item_menu_lower_item_columns",
+      "bindings": {},
+      "functions": [
+        {
+          "name": "layout_item_menu_lower_item_columns",
+          "symbol": "func_800AF600",
+          "address": "0x8001a13c",
+          "size": 116
+        }
+      ]
+    },
+    {
+      "source": "src/town/shop/position/position_item_menu_side_indicators.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "position_item_menu_side_indicators",
+      "bindings": {},
+      "functions": [
+        {
+          "name": "position_item_menu_side_indicators",
+          "symbol": "func_800AF734",
+          "address": "0x8001a2f4",
+          "size": 80
+        }
+      ]
+    },
+    {
+      "source": "src/town/shop/item/initialize_item_menu_panel_rectangle.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "initialize_item_menu_panel_rectangle",
+      "bindings": {
+        "D_800D15B8": "0x800247f0",
+        "func_80048E00": "0x80048e00"
+      },
+      "functions": [
+        {
+          "name": "initialize_item_menu_panel_rectangle",
+          "symbol": "func_800AFDD0",
+          "address": "0x8001ac58",
+          "size": 64
+        }
+      ]
+    },
+    {
+      "source": "src/town/shop/item/initialize_item_menu_linked_blocks.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "initialize_item_menu_linked_blocks",
+      "bindings": {
+        "D_8002E5D8": "0x8002e5d8",
+        "D_8002E5E8": "0x8002e5e8"
+      },
+      "functions": [
+        {
+          "name": "initialize_item_menu_linked_blocks",
+          "symbol": "func_800AFF00",
+          "address": "0x8001acc0",
+          "size": 168
+        }
+      ]
+    },
+    {
+      "source": "src/town/shop/item/clear_item_menu_entry_groups.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "clear_item_menu_entry_groups",
+      "bindings": {
+        "func_8004E99C": "0x8004e99c"
+      },
+      "functions": [
+        {
+          "name": "clear_item_menu_entry_groups",
+          "symbol": "func_800B0318",
+          "address": "0x8001b11c",
+          "size": 156
+        }
+      ]
+    },
+    {
+      "source": "src/town/menu/motion/invoke_menu_motion_handler.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "invoke_menu_motion_handler",
+      "bindings": {},
+      "functions": [
+        {
+          "name": "invoke_menu_motion_handler",
+          "symbol": "func_800A32C8",
+          "address": "0x8001da70",
+          "size": 40
+        }
+      ]
+    },
+    {
+      "source": "src/town/shop/item/link_item_menu_display_entries.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "link_item_menu_display_entries",
+      "bindings": {
+        "D_800D1594": "0x800248dc",
+        "func_800491F4": "0x800491f4"
+      },
+      "functions": [
+        {
+          "name": "link_item_menu_display_entries",
+          "symbol": "func_800AEB9C",
+          "address": "0x8001dd8c",
+          "size": 40
+        }
+      ]
+    },
+    {
+      "source": "src/town/shop/item/init_item_menu_list_position.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "init_item_menu_list_position",
+      "bindings": {
+        "D_8002E5D8": "0x8002e5d8",
+        "D_8002E5E8": "0x8002e5e8"
+      },
+      "functions": [
+        {
+          "name": "init_item_menu_list_position",
+          "symbol": "func_800AEBC4",
+          "address": "0x8001ddb4",
+          "size": 224
+        }
+      ]
+    },
+    {
+      "source": "src/town/func_800B1980.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "func_800b1980",
+      "bindings": {
+        "func_8004E99C": "0x8004e99c"
+      },
+      "functions": [
+        {
+          "name": "remove_item_menu_entry_objects",
+          "symbol": "func_800AF0E0",
+          "address": "0x8001e4c4",
+          "size": 104
+        }
+      ]
+    },
+    {
+      "source": "src/frontend/card/mark_node_for_removal.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "mark_node_for_removal",
+      "bindings": {
+        "D_800814A0": "0x800814a0"
+      },
+      "functions": [
+        {
+          "name": "mark_node_for_removal",
+          "symbol": "func_80089A14",
+          "address": "0x800212dc",
+          "size": 36
+        }
+      ]
+    },
+    {
+      "source": "src/frontend/card/mark_node_for_removal.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "mark_node_for_removal_at_c12c",
+      "bindings": {
+        "D_800814A0": "0x800814a0"
+      },
+      "functions": [
+        {
+          "name": "mark_cached_secondary_node_for_removal",
+          "symbol": "func_80089A14",
+          "address": "0x8002212c",
+          "size": 36
+        }
+      ]
+    },
+    {
+      "source": "src/engine/text/set_object_and_global_removal_flag.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "set_object_and_global_removal_flag",
+      "bindings": {
+        "D_800814A0": "0x800814a0"
+      },
+      "functions": [
+        {
+          "name": "set_object_and_global_removal_flag",
+          "symbol": "func_8004EE90",
+          "address": "0x8001ec98",
+          "size": 44
+        }
+      ]
+    },
+    {
+      "source": "src/slus/code.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "compare_selection_menu_entry_order",
+      "bindings": {},
+      "functions": [
+        {
+          "name": "compare_selection_menu_entry_order",
+          "symbol": "func_8004F85C",
+          "address": "0x800209e0",
+          "size": 40
+        }
+      ]
+    },
+    {
+      "source": "src/slus/code.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "compare_selection_menu_entry_order_for_party",
+      "bindings": {},
+      "functions": [
+        {
+          "name": "compare_selection_menu_entry_order_for_party",
+          "symbol": "func_8004F85C",
+          "address": "0x80022f6c",
+          "size": 40
+        }
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_display_layout.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "header": "include/dungeon/menu_cache_stats.h",
+      "functions": [
+        {
+          "name": "layout_cached_display_pair",
+          "address": "0x8001683c",
+          "size": 112
+        },
+        {
+          "name": "layout_status_icons",
+          "address": "0x800173bc",
+          "size": 280
+        }
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_status_line.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "header": "include/dungeon/menu_cache_stats.h",
+      "functions": [
+        {
+          "name": "build_actor_status_line",
+          "address": "0x8001693c",
+          "size": 200
+        },
+        {
+          "name": "initialize_party_display",
+          "address": "0x80017bb0",
+          "size": 88
+        },
+        {
+          "name": "initialize_actor_status_display",
+          "address": "0x80017224",
+          "size": 88
+        }
+      ],
+      "data": [
+        {
+          "section": ".data",
+          "address": "0x8002478c",
+          "size": 8,
+          "trim_end_padding": true
+        }
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_actor_stats.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "header": "include/dungeon/menu_cache_stats.h",
+      "functions": [
+        {
+          "name": "format_cached_gauge_text",
+          "address": "0x80016a94",
+          "size": 272
+        },
+        {
+          "name": "format_cached_equipment_bonuses",
+          "address": "0x80016ba4",
+          "size": 200
+        },
+        {
+          "name": "format_cached_attack_defense",
+          "address": "0x80016c8c",
+          "size": 496
+        },
+        {
+          "name": "draw_cached_actor_stats",
+          "address": "0x80016e7c",
+          "size": 408
+        },
+        {
+          "name": "draw_party_actor_stats",
+          "address": "0x800175cc",
+          "size": 520
+        }
+      ]
+    },
+    {
+      "source": "src/town/shop/forward_display_entry_update.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "forward_display_entry_update",
+      "bindings": {
+        "func_800B62A4": "0x80017a48"
+      },
+      "functions": [
+        {
+          "name": "forward_display_entry_update",
+          "symbol": "func_800B63EC",
+          "address": "0x80017b90",
+          "size": 32
+        }
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_status_entries.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "header": "include/dungeon/menu_cache_stats.h",
+      "functions": [
+        {
+          "name": "join_status_display_entries",
+          "address": "0x80017c30",
+          "size": 68
+        },
+        {
+          "name": "build_status_display",
+          "address": "0x80017c74",
+          "size": 92
+        },
+        {
+          "name": "reset_status_parts",
+          "address": "0x80017fa4",
+          "size": 112
+        },
+        {
+          "name": "layout_cached_opening_icons",
+          "address": "0x80017d30",
+          "size": 272
+        },
+        {
+          "name": "advance_status_opening",
+          "address": "0x80017e40",
+          "size": 124
+        },
+        {
+          "name": "release_status_entries",
+          "address": "0x80018278",
+          "size": 180
+        },
+        {
+          "name": "initialize_status_state",
+          "address": "0x80018030",
+          "size": 84
+        },
+        {
+          "name": "change_status_display_target",
+          "address": "0x80018398",
+          "size": 100
+        }
+      ],
+      "data": [
+        {
+          "section": ".rodata",
+          "address": "0x8001609c",
+          "size": 4
+        },
+        {
+          "section": ".data",
+          "address": "0x800247b0",
+          "size": 16
+        }
+      ]
+    },
+    {
+      "source": "src/town/shop/attenuate_effect_scale_and_brightness.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "noop_monster_status_idle",
+      "bindings": {},
+      "functions": [
+        {
+          "name": "noop_monster_status_idle",
+          "address": "0x80017cd0",
+          "size": 8,
+          "symbol": "func_800B6578"
+        }
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_item_display.c",
+      "header": "include/dungeon/menu_cache.h",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "functions": [
+        {
+          "name": "populate_item_labels",
+          "address": "0x80019d30",
+          "size": 164
+        },
+        {
+          "name": "position_item_cursors",
+          "address": "0x80019e48",
+          "size": 220
+        },
+        {
+          "name": "populate_item_icons",
+          "address": "0x8001a05c",
+          "size": 224
+        },
+        {
+          "name": "refresh_item_page",
+          "address": "0x8001a53c",
+          "size": 80
+        },
+        {
+          "name": "redraw_item_selection",
+          "address": "0x8001ad68",
+          "size": 124
+        },
+        {
+          "name": "initialize_item_parts",
+          "address": "0x8001ade4",
+          "size": 272
+        },
+        {
+          "name": "initialize_item_request",
+          "address": "0x8001aef4",
+          "size": 104
+        },
+        {
+          "name": "configure_item_display",
+          "address": "0x8001af5c",
+          "size": 64
+        },
+        {
+          "name": "prepare_item_parts",
+          "address": "0x8001af9c",
+          "size": 124
+        },
+        {
+          "name": "create_open_item_display",
+          "address": "0x8001b0d8",
+          "size": 68
+        },
+        {
+          "name": "release_item_display",
+          "address": "0x8001b1b8",
+          "size": 108
+        },
+        {
+          "name": "resume_item_display",
+          "address": "0x8001b224",
+          "size": 108
+        },
+        {
+          "name": "refresh_item_cursor_graphics",
+          "address": "0x80019f24",
+          "size": 116
+        },
+        {
+          "name": "refresh_item_cursor_pair",
+          "address": "0x80019f98",
+          "size": 80
+        },
+        {
+          "name": "populate_item_page_text",
+          "address": "0x8001a1b0",
+          "size": 324
+        },
+        {
+          "name": "update_item_page_bounds",
+          "address": "0x8001a344",
+          "size": 96
+        },
+        {
+          "name": "populate_item_page_indicators",
+          "address": "0x8001a3a4",
+          "size": 408
+        },
+        {
+          "name": "retry_item_pair_open",
+          "address": "0x8001a658",
+          "size": 36
+        },
+        {
+          "name": "cancel_item_selection",
+          "address": "0x8001a76c",
+          "size": 132
+        },
+        {
+          "name": "create_item_display",
+          "address": "0x8001b018",
+          "size": 192
+        },
+        {
+          "name": "open_item_display_selection_action",
+          "address": "0x8001a58c",
+          "size": 204
+        },
+        {
+          "name": "advance_item_display_resume",
+          "address": "0x8001a67c",
+          "size": 72
+        },
+        {
+          "name": "confirm_item_selection",
+          "address": "0x8001a6c4",
+          "size": 168
+        },
+        {
+          "name": "poll_item_display_input",
+          "address": "0x8001a7f0",
+          "size": 920
+        }
+      ],
+      "data": [
+        {
+          "section": ".rodata",
+          "address": "0x800247ec",
+          "size": 12
+        }
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_item_links.c",
+      "header": "include/dungeon/menu_cache.h",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "functions": [
+        {
+          "name": "link_item_display_entries",
+          "address": "0x8001ac98",
+          "size": 40
+        }
+      ],
+      "data": [
+        {
+          "section": ".rodata",
+          "address": "0x800247f8",
+          "size": 41,
+          "trim_end_padding": true
+        }
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_selection_panel.c",
+      "header": "include/dungeon/menu_cache_selection.h",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "functions": [
+        {
+          "name": "style_selection_rows",
+          "address": "0x8002219c",
+          "size": 268
+        },
+        {
+          "name": "animate_selection_rows",
+          "address": "0x800222a8",
+          "size": 492
+        },
+        {
+          "name": "process_selection_input",
+          "address": "0x80022494",
+          "size": 412
+        },
+        {
+          "name": "update_selection_panel",
+          "address": "0x80022630",
+          "size": 32
+        },
+        {
+          "name": "open_selection_panel",
+          "address": "0x80022650",
+          "size": 116
+        },
+        {
+          "name": "slide_selection_panel_out",
+          "address": "0x800226c4",
+          "size": 108
+        },
+        {
+          "name": "populate_selection_parts",
+          "address": "0x8002277c",
+          "size": 268
+        },
+        {
+          "name": "initialize_selection_display",
+          "address": "0x80022888",
+          "size": 148
+        },
+        {
+          "name": "initialize_selection_positions",
+          "address": "0x8002291c",
+          "size": 360
+        },
+        {
+          "name": "prepare_selection_rows",
+          "address": "0x80022a84",
+          "size": 64
+        },
+        {
+          "name": "configure_selection_panel",
+          "address": "0x80022ac4",
+          "size": 68
+        },
+        {
+          "name": "release_selection_indicators",
+          "address": "0x80022c78",
+          "size": 124
+        },
+        {
+          "name": "release_selection_panel",
+          "address": "0x80022cf4",
+          "size": 84
+        },
+        {
+          "name": "enable_selection_panel",
+          "address": "0x80022d48",
+          "size": 20
+        },
+        {
+          "name": "schedule_selection_panel_open",
+          "address": "0x80022d5c",
+          "size": 24
+        },
+        {
+          "name": "prepare_selection_parts",
+          "address": "0x80022b08",
+          "size": 156
+        },
+        {
+          "name": "create_party_command_panel",
+          "address": "0x80022ba4",
+          "size": 212
+        },
+        {
+          "name": "initialize_selection_panel_packets",
+          "address": "0x80022730",
+          "size": 36
+        },
+        {
+          "name": "link_selection_panel_entries",
+          "address": "0x80022754",
+          "size": 40
+        }
+      ],
+      "data": [
+        {
+          "section": ".rodata",
+          "address": "0x80024af0",
+          "size": 19,
+          "trim_end_padding": true
+        }
+      ],
+      "genuine_asflags": [
+        "-0"
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_paged_menu.c",
+      "header": "include/dungeon/menu_cache_paged.h",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "functions": [
+        {
+          "name": "dispatch_paged_menu_action",
+          "address": "0x8001d73c",
+          "size": 68
+        },
+        {
+          "name": "run_paged_menu_action",
+          "address": "0x8001d780",
+          "size": 56
+        },
+        {
+          "name": "style_paged_rows",
+          "address": "0x8001da98",
+          "size": 288
+        },
+        {
+          "name": "release_paged_menu",
+          "address": "0x8001e52c",
+          "size": 96
+        },
+        {
+          "name": "dispatch_paged_owner_resume",
+          "address": "0x8001d0f8",
+          "size": 88
+        },
+        {
+          "name": "close_paged_menu_owner",
+          "address": "0x8001d150",
+          "size": 64
+        },
+        {
+          "name": "resume_paged_menu_owner",
+          "address": "0x8001d190",
+          "size": 64
+        },
+        {
+          "name": "release_paged_menu_owner",
+          "address": "0x8001d1d0",
+          "size": 64
+        },
+        {
+          "name": "confirm_paged_owner_close",
+          "address": "0x8001d2ec",
+          "size": 32
+        },
+        {
+          "name": "request_item_equip",
+          "address": "0x8001d358",
+          "size": 52
+        },
+        {
+          "name": "request_item_unequip",
+          "address": "0x8001d38c",
+          "size": 52
+        },
+        {
+          "name": "request_item_use",
+          "address": "0x8001d3c0",
+          "size": 52
+        },
+        {
+          "name": "request_item_hold",
+          "address": "0x8001d3f4",
+          "size": 52
+        },
+        {
+          "name": "request_familiar_slot_change",
+          "address": "0x8001d428",
+          "size": 68
+        },
+        {
+          "name": "request_familiar_alternate_deployment",
+          "address": "0x8001d46c",
+          "size": 52
+        },
+        {
+          "name": "open_paged_fusion_menu",
+          "address": "0x8001d4a0",
+          "size": 84
+        },
+        {
+          "name": "open_paged_party_menu",
+          "address": "0x8001d4f4",
+          "size": 84
+        },
+        {
+          "name": "open_paged_linked_actor_menu",
+          "address": "0x8001d548",
+          "size": 84
+        },
+        {
+          "name": "request_target_item_use",
+          "address": "0x8001d59c",
+          "size": 52
+        },
+        {
+          "name": "request_familiar_deployment",
+          "address": "0x8001d5d0",
+          "size": 52
+        },
+        {
+          "name": "request_item_registration_mode_two",
+          "address": "0x8001d604",
+          "size": 52
+        },
+        {
+          "name": "request_item_registration_mode_one",
+          "address": "0x8001d638",
+          "size": 52
+        },
+        {
+          "name": "request_marked_item_use",
+          "address": "0x8001d66c",
+          "size": 72
+        },
+        {
+          "name": "request_familiar_target",
+          "address": "0x8001d6b4",
+          "size": 52
+        },
+        {
+          "name": "open_paged_familiar_prompt",
+          "address": "0x8001d6e8",
+          "size": 84
+        },
+        {
+          "name": "poll_paged_menu_input",
+          "address": "0x8001d7b8",
+          "size": 372
+        },
+        {
+          "name": "run_paged_menu_input",
+          "address": "0x8001d92c",
+          "size": 32
+        },
+        {
+          "name": "advance_paged_menu_opening",
+          "address": "0x8001d94c",
+          "size": 244
+        },
+        {
+          "name": "start_paged_menu_opening",
+          "address": "0x8001da40",
+          "size": 48
+        },
+        {
+          "name": "cancel_paged_menu",
+          "address": "0x8001d2bc",
+          "size": 48
+        },
+        {
+          "name": "initialize_paged_rows",
+          "address": "0x8001de94",
+          "size": 560
+        },
+        {
+          "name": "initialize_paged_request",
+          "address": "0x8001e0e8",
+          "size": 168
+        },
+        {
+          "name": "setup_paged_menu",
+          "address": "0x8001e190",
+          "size": 124
+        },
+        {
+          "name": "prepare_paged_parts",
+          "address": "0x8001e20c",
+          "size": 156
+        },
+        {
+          "name": "open_paged_item_menu",
+          "address": "0x8001e3cc",
+          "size": 52
+        },
+        {
+          "name": "open_paged_action_item_menu",
+          "address": "0x8001e400",
+          "size": 60
+        },
+        {
+          "name": "open_paged_item_menu_with_source",
+          "address": "0x8001e43c",
+          "size": 56
+        },
+        {
+          "name": "create_familiar_assignment_menu",
+          "address": "0x8001e474",
+          "size": 80
+        },
+        {
+          "name": "create_paged_menu_node",
+          "address": "0x8001e2a8",
+          "size": 292
+        },
+        {
+          "name": "open_paged_item_view",
+          "address": "0x8001d210",
+          "size": 172
+        },
+        {
+          "name": "view_paged_item",
+          "address": "0x8001d30c",
+          "size": 76
+        },
+        {
+          "name": "initialize_paged_panel_packets",
+          "address": "0x8001e0c4",
+          "size": 36
+        }
+      ],
+      "data": [
+        {
+          "section": ".rodata",
+          "address": "0x800160a4",
+          "size": 12
+        },
+        {
+          "section": ".data",
+          "address": "0x8002486c",
+          "size": 148,
+          "trim_end_padding": true
+        }
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_message_actions.c",
+      "header": "include/dungeon/menu_cache_selection.h",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "functions": [
+        {
+          "name": "queue_menu_message",
+          "address": "0x800220a0",
+          "size": 60
+        },
+        {
+          "name": "poll_menu_owner_cancel",
+          "address": "0x80023a40",
+          "size": 92
+        },
+        {
+          "name": "start_menu_message_mode",
+          "address": "0x800240ec",
+          "size": 60
+        },
+        {
+          "name": "queue_menu_restore_message",
+          "address": "0x80024054",
+          "size": 60
+        },
+        {
+          "name": "poll_cached_action_owner_cancel",
+          "address": "0x800241e0",
+          "size": 92
+        }
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_actor_choice.c",
+      "header": "include/dungeon/menu_cache_actor_choice.h",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "functions": [
+        {
+          "name": "shade_actor_choices",
+          "address": "0x80020904",
+          "size": 220
+        },
+        {
+          "name": "advance_actor_choice_transition",
+          "address": "0x80020ae0",
+          "size": 80
+        },
+        {
+          "name": "spread_actor_choices",
+          "address": "0x80020b30",
+          "size": 148
+        },
+        {
+          "name": "begin_actor_choice_change",
+          "address": "0x80020bc4",
+          "size": 164
+        },
+        {
+          "name": "poll_actor_choice_input",
+          "address": "0x80020c68",
+          "size": 384
+        },
+        {
+          "name": "update_actor_choice",
+          "address": "0x80020de8",
+          "size": 60
+        },
+        {
+          "name": "initialize_actor_choice",
+          "address": "0x80020e24",
+          "size": 48
+        },
+        {
+          "name": "find_actor_choice",
+          "address": "0x80020f44",
+          "size": 104
+        },
+        {
+          "name": "initialize_actor_choice_entries",
+          "address": "0x80020e54",
+          "size": 240
+        },
+        {
+          "name": "create_actor_choice",
+          "address": "0x80020fac",
+          "size": 212
+        },
+        {
+          "name": "create_cached_linked_actor_selector",
+          "address": "0x80021080",
+          "size": 44
+        },
+        {
+          "name": "create_fusion_actor_selector",
+          "address": "0x800210ac",
+          "size": 44
+        },
+        {
+          "name": "poll_cached_actor_message_cancel",
+          "address": "0x80021160",
+          "size": 100
+        },
+        {
+          "name": "start_cached_actor_message_transition",
+          "address": "0x800211c4",
+          "size": 64
+        },
+        {
+          "name": "poll_cached_actor_message_switch",
+          "address": "0x80021204",
+          "size": 100
+        },
+        {
+          "name": "create_cached_actor_message",
+          "address": "0x80021268",
+          "size": 116
+        },
+        {
+          "name": "style_familiar_behavior_row",
+          "address": "0x80021588",
+          "size": 192
+        },
+        {
+          "name": "confirm_familiar_behavior",
+          "address": "0x80021760",
+          "size": 124
+        },
+        {
+          "name": "advance_familiar_behavior_opening",
+          "address": "0x8002199c",
+          "size": 116
+        },
+        {
+          "name": "populate_familiar_behavior_labels",
+          "address": "0x80021a38",
+          "size": 256
+        },
+        {
+          "name": "initialize_familiar_behavior_display",
+          "address": "0x80021b38",
+          "size": 172
+        },
+        {
+          "name": "position_familiar_behavior_cursor",
+          "address": "0x80021be4",
+          "size": 40
+        },
+        {
+          "name": "initialize_familiar_behavior_parts",
+          "address": "0x80021c0c",
+          "size": 336
+        },
+        {
+          "name": "initialize_familiar_behavior_request",
+          "address": "0x80021d9c",
+          "size": 72
+        },
+        {
+          "name": "configure_familiar_behavior_panel",
+          "address": "0x80021de4",
+          "size": 68
+        },
+        {
+          "name": "prepare_familiar_behavior_parts",
+          "address": "0x80021ec4",
+          "size": 144
+        },
+        {
+          "name": "complete_cached_message_transition",
+          "address": "0x80022064",
+          "size": 60
+        },
+        {
+          "name": "reorder_actor_choices",
+          "address": "0x80020a08",
+          "size": 216
+        },
+        {
+          "name": "create_familiar_behavior_panel",
+          "address": "0x80021f54",
+          "size": 272
+        },
+        {
+          "name": "release_actor_choice",
+          "address": "0x800210d8",
+          "size": 136
+        },
+        {
+          "name": "bind_familiar_behavior_vectors",
+          "address": "0x80021e28",
+          "size": 156
+        },
+        {
+          "name": "poll_familiar_behavior_panel",
+          "address": "0x800217dc",
+          "size": 448
+        },
+        {
+          "name": "initialize_cached_compact_panel_rectangle",
+          "address": "0x80021d5c",
+          "size": 64
+        },
+        {
+          "name": "link_familiar_behavior_parts",
+          "address": "0x80021a10",
+          "size": 40
+        }
+      ],
+      "data": [
+        {
+          "section": ".rodata",
+          "address": "0x80024aa0",
+          "size": 12
+        },
+        {
+          "section": ".data",
+          "address": "0x80024ad8",
+          "size": 24,
+          "trim_end_padding": true
+        }
+      ],
+      "genuine_asflags": [
+        "-0"
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_party_choice.c",
+      "header": "include/dungeon/menu_cache_actor_choice.h",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "functions": [
+        {
+          "name": "shade_party_choices",
+          "address": "0x80022e90",
+          "size": 220
+        },
+        {
+          "name": "advance_party_choice_transition",
+          "address": "0x8002306c",
+          "size": 80
+        },
+        {
+          "name": "spread_party_choices",
+          "address": "0x800230bc",
+          "size": 148
+        },
+        {
+          "name": "begin_party_choice_change",
+          "address": "0x80023150",
+          "size": 128
+        },
+        {
+          "name": "resume_party_choice_transition",
+          "address": "0x800231d0",
+          "size": 132
+        },
+        {
+          "name": "poll_party_choice_input",
+          "address": "0x80023254",
+          "size": 452
+        },
+        {
+          "name": "update_party_choice",
+          "address": "0x80023418",
+          "size": 92
+        },
+        {
+          "name": "initialize_party_choice",
+          "address": "0x80023474",
+          "size": 48
+        },
+        {
+          "name": "find_party_choice",
+          "address": "0x80023594",
+          "size": 104
+        },
+        {
+          "name": "get_party_choice_selection",
+          "address": "0x80023a08",
+          "size": 56
+        },
+        {
+          "name": "initialize_party_choice_entries",
+          "address": "0x800234a4",
+          "size": 240
+        },
+        {
+          "name": "create_party_actor_choice",
+          "address": "0x800235fc",
+          "size": 176
+        },
+        {
+          "name": "enable_party_choice_input",
+          "address": "0x8002372c",
+          "size": 20
+        },
+        {
+          "name": "disable_party_choice_input",
+          "address": "0x80023740",
+          "size": 20
+        },
+        {
+          "name": "place_party_choice_focus",
+          "address": "0x80023754",
+          "size": 124
+        },
+        {
+          "name": "advance_party_choice_focus",
+          "address": "0x800238d8",
+          "size": 144
+        },
+        {
+          "name": "get_party_choice_actor",
+          "address": "0x800239e8",
+          "size": 32
+        },
+        {
+          "name": "reorder_party_choices",
+          "address": "0x80022f94",
+          "size": 216
+        },
+        {
+          "name": "release_party_actor_choice",
+          "address": "0x800236ac",
+          "size": 128
+        },
+        {
+          "name": "start_party_choice_focus",
+          "address": "0x80023968",
+          "size": 128
+        }
+      ],
+      "data": [
+        {
+          "section": ".rodata",
+          "address": "0x80024b04",
+          "size": 28
+        }
+      ],
+      "genuine_asflags": [
+        "-0"
+      ]
+    },
+    {
+      "source": "src/slus/code.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "idle_actor_choice",
+      "bindings": {},
+      "functions": [
+        {
+          "name": "idle_actor_choice",
+          "symbol": "func_8004F67C",
+          "address": "0x800207e0",
+          "size": 8
+        }
+      ]
+    },
+    {
+      "source": "src/slus/code.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "idle_party_choice",
+      "bindings": {},
+      "functions": [
+        {
+          "name": "idle_party_choice",
+          "symbol": "func_8004F67C",
+          "address": "0x80022d74",
+          "size": 8
+        }
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_fusion_messages.c",
+      "header": "include/dungeon/menu_cache_fusion.h",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "functions": [
+        {
+          "name": "show_fusion_need_two",
+          "address": "0x8001e58c",
+          "size": 56
+        },
+        {
+          "name": "show_fusion_confirmation",
+          "address": "0x8001e5fc",
+          "size": 56
+        },
+        {
+          "name": "check_fusion_close_signal",
+          "address": "0x8001e70c",
+          "size": 84
+        },
+        {
+          "name": "poll_fusion_confirmation",
+          "address": "0x8001e690",
+          "size": 124
+        },
+        {
+          "name": "check_action_close_signal",
+          "address": "0x800242b8",
+          "size": 84
+        },
+        {
+          "name": "show_fusion_invalid_pair",
+          "address": "0x8001e5c4",
+          "size": 56
+        },
+        {
+          "name": "poll_fusion_cancel",
+          "address": "0x8001e634",
+          "size": 92
+        }
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_fusion_cleanup.c",
+      "header": "include/dungeon/menu_cache_close.h",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "functions": [
+        {
+          "name": "release_fusion_children",
+          "address": "0x8001e760",
+          "size": 88
+        },
+        {
+          "name": "ensure_fusion_close",
+          "address": "0x8001e91c",
+          "size": 96
+        },
+        {
+          "name": "start_fusion_close",
+          "address": "0x8001e97c",
+          "size": 64
+        },
+        {
+          "name": "finish_fusion_cleanup",
+          "address": "0x8001e9bc",
+          "size": 76
+        },
+        {
+          "name": "schedule_fusion_close",
+          "address": "0x8001ea08",
+          "size": 24
+        },
+        {
+          "name": "schedule_fusion_cleanup",
+          "address": "0x8001ea20",
+          "size": 24
+        }
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_item_action_cleanup.c",
+      "header": "include/dungeon/menu_cache_close.h",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "functions": [
+        {
+          "name": "poll_action_notice_cancel",
+          "address": "0x8002423c",
+          "size": 124
+        },
+        {
+          "name": "queue_action_cleanup_message",
+          "address": "0x8002463c",
+          "size": 32
+        },
+        {
+          "name": "release_action_node",
+          "address": "0x8002465c",
+          "size": 76
+        },
+        {
+          "name": "ensure_action_close",
+          "address": "0x800246a8",
+          "size": 96
+        },
+        {
+          "name": "start_action_close",
+          "address": "0x80024708",
+          "size": 64
+        },
+        {
+          "name": "finish_action_cleanup",
+          "address": "0x80024758",
+          "size": 52
+        },
+        {
+          "name": "schedule_action_menu_close",
+          "address": "0x80024748",
+          "size": 16
+        }
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_menu_pair.c",
+      "header": "include/dungeon/menu_cache_close.h",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "functions": [
+        {
+          "name": "create_cached_pair_panel",
+          "address": "0x80018720",
+          "size": 148
+        },
+        {
+          "name": "reopen_cached_pair_panel",
+          "address": "0x800187b4",
+          "size": 148
+        },
+        {
+          "name": "initialize_menu_pair",
+          "address": "0x80018848",
+          "size": 420
+        },
+        {
+          "name": "allocate_menu_pair",
+          "address": "0x800189ec",
+          "size": 196
+        },
+        {
+          "name": "reopen_menu_pair",
+          "address": "0x80018b5c",
+          "size": 32
+        },
+        {
+          "name": "release_menu_pair_active_panel",
+          "address": "0x80018b7c",
+          "size": 112
+        },
+        {
+          "name": "release_menu_pair_and_queue_message",
+          "address": "0x80018bec",
+          "size": 40
+        },
+        {
+          "name": "resume_menu_pair_panel",
+          "address": "0x80018d44",
+          "size": 84
+        },
+        {
+          "name": "resume_menu_pair_for_familiar",
+          "address": "0x80018d98",
+          "size": 48
+        },
+        {
+          "name": "refresh_storage_panel",
+          "address": "0x80018fec",
+          "size": 48
+        },
+        {
+          "name": "is_familiar_item",
+          "address": "0x80019114",
+          "size": 20
+        },
+        {
+          "name": "release_storage_display",
+          "address": "0x80019c8c",
+          "size": 104
+        },
+        {
+          "name": "resume_storage_display",
+          "address": "0x80019cf4",
+          "size": 60
+        },
+        {
+          "name": "open_cached_inventory_or_dialog",
+          "address": "0x80018ad0",
+          "size": 140
+        },
+        {
+          "name": "release_menu_pair_node",
+          "address": "0x80018c14",
+          "size": 76
+        },
+        {
+          "name": "start_menu_pair_close",
+          "address": "0x80018cc0",
+          "size": 64
+        },
+        {
+          "name": "finish_menu_pair_cleanup",
+          "address": "0x80018d10",
+          "size": 52
+        },
+        {
+          "name": "schedule_menu_pair_close",
+          "address": "0x80018d00",
+          "size": 16
+        }
+      ],
+      "data": [
+        {
+          "section": ".rodata",
+          "address": "0x800247c0",
+          "size": 16
+        }
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_item_action_cleanup.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "ensure_menu_pair_close",
+      "bindings": {
+        "func_80050EF8": "0x80050ef8",
+        "D_800814A0": "0x800814a0"
+      },
+      "functions": [
+        {
+          "name": "ensure_menu_pair_close",
+          "symbol": "ensure_action_close",
+          "address": "0x80018c60",
+          "size": 96
+        }
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_storage_display.c",
+      "header": "include/dungeon/menu_cache_close.h",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "functions": [
+        {
+          "name": "try_storage_panel_reopen",
+          "address": "0x80018edc",
+          "size": 36
+        },
+        {
+          "name": "advance_storage_panel_resume",
+          "address": "0x80018f00",
+          "size": 72
+        },
+        {
+          "name": "reopen_display_from_storage_panel",
+          "address": "0x8001908c",
+          "size": 136
+        },
+        {
+          "name": "link_storage_display_entries",
+          "address": "0x800193f0",
+          "size": 40
+        },
+        {
+          "name": "configure_storage_display_blocks",
+          "address": "0x80019418",
+          "size": 156
+        },
+        {
+          "name": "initialize_storage_request",
+          "address": "0x800199b4",
+          "size": 196
+        },
+        {
+          "name": "prepare_storage_parts",
+          "address": "0x80019ab8",
+          "size": 124
+        },
+        {
+          "name": "release_storage_components",
+          "address": "0x80019bf4",
+          "size": 152
+        },
+        {
+          "name": "locate_storage_cursor",
+          "address": "0x80018e50",
+          "size": 140
+        },
+        {
+          "name": "poll_storage_panel_input",
+          "address": "0x80019128",
+          "size": 644
+        },
+        {
+          "name": "handle_storage_panel_input",
+          "address": "0x800193ac",
+          "size": 68
+        },
+        {
+          "name": "initialize_storage_rectangle",
+          "address": "0x800194b4",
+          "size": 72
+        },
+        {
+          "name": "cancel_storage_selection",
+          "address": "0x8001901c",
+          "size": 112
+        },
+        {
+          "name": "refresh_storage_header",
+          "address": "0x800194fc",
+          "size": 112
+        },
+        {
+          "name": "populate_storage_panel_rows",
+          "address": "0x8001956c",
+          "size": 304
+        },
+        {
+          "name": "initialize_storage_parts",
+          "address": "0x8001969c",
+          "size": 792
+        },
+        {
+          "name": "create_storage_display_node",
+          "address": "0x80019b34",
+          "size": 192
+        },
+        {
+          "name": "open_storage_selection_action",
+          "address": "0x80018dc8",
+          "size": 136
+        },
+        {
+          "name": "confirm_storage_selection",
+          "address": "0x80018f48",
+          "size": 164
+        },
+        {
+          "name": "configure_storage_panel",
+          "address": "0x80019a78",
+          "size": 64
+        }
+      ],
+      "data": [
+        {
+          "section": ".rodata",
+          "address": "0x800247d0",
+          "size": 28
+        }
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_linked_actor_menu.c",
+      "header": "include/dungeon/menu_cache_linked_actor.h",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "functions": [
+        {
+          "name": "show_cached_linked_actor_notice",
+          "address": "0x8001ecc4",
+          "size": 36
+        },
+        {
+          "name": "release_cached_linked_actor_children",
+          "address": "0x8001ed98",
+          "size": 88
+        },
+        {
+          "name": "create_linked_actor_menu",
+          "address": "0x8001edf0",
+          "size": 284
+        },
+        {
+          "name": "create_linked_actor_submenu",
+          "address": "0x8001ef2c",
+          "size": 32
+        },
+        {
+          "name": "ensure_cached_linked_actor_close",
+          "address": "0x8001ef4c",
+          "size": 96
+        },
+        {
+          "name": "start_cached_linked_actor_close",
+          "address": "0x8001efac",
+          "size": 116
+        },
+        {
+          "name": "finish_cached_linked_actor_cleanup",
+          "address": "0x8001f020",
+          "size": 88
+        },
+        {
+          "name": "set_cached_actor_preview_target",
+          "address": "0x8001f0a8",
+          "size": 40
+        },
+        {
+          "name": "reset_cached_linked_actor_preview",
+          "address": "0x8001f0d0",
+          "size": 40
+        },
+        {
+          "name": "find_cached_actor_action_text",
+          "address": "0x8001f3dc",
+          "size": 92
+        },
+        {
+          "name": "get_cached_actor_action_label",
+          "address": "0x8001f438",
+          "size": 36
+        },
+        {
+          "name": "get_cached_actor_action_description",
+          "address": "0x8001f45c",
+          "size": 36
+        },
+        {
+          "name": "link_cached_actor_grid_parts",
+          "address": "0x8001f8d8",
+          "size": 40
+        },
+        {
+          "name": "link_cached_actor_panel_parts",
+          "address": "0x8001fba0",
+          "size": 40
+        },
+        {
+          "name": "open_linked_actor_menu",
+          "address": "0x8001ef0c",
+          "size": 32
+        },
+        {
+          "name": "reset_actor_command_row_positions",
+          "address": "0x8001f0f8",
+          "size": 268
+        },
+        {
+          "name": "is_actor_command_input_disabled",
+          "address": "0x8001f5b4",
+          "size": 68
+        },
+        {
+          "name": "run_actor_command_input",
+          "address": "0x8001f810",
+          "size": 32
+        },
+        {
+          "name": "advance_actor_command_grid_opening",
+          "address": "0x8001f900",
+          "size": 120
+        },
+        {
+          "name": "prepare_actor_command_parts",
+          "address": "0x8001fae4",
+          "size": 188
+        },
+        {
+          "name": "initialize_actor_command_background",
+          "address": "0x8001fbc8",
+          "size": 160
+        },
+        {
+          "name": "create_actor_command_description",
+          "address": "0x8001fe24",
+          "size": 332
+        },
+        {
+          "name": "populate_actor_command_descriptions",
+          "address": "0x8001ff70",
+          "size": 320
+        },
+        {
+          "name": "build_actor_command_options",
+          "address": "0x800200b0",
+          "size": 248
+        },
+        {
+          "name": "count_actor_command_abilities",
+          "address": "0x800201a8",
+          "size": 52
+        },
+        {
+          "name": "configure_actor_command_panel",
+          "address": "0x800203d0",
+          "size": 68
+        },
+        {
+          "name": "clear_actor_command_labels",
+          "address": "0x80020598",
+          "size": 124
+        },
+        {
+          "name": "release_cached_linked_actor_panel",
+          "address": "0x80020614",
+          "size": 92
+        },
+        {
+          "name": "clear_actor_command_parts",
+          "address": "0x80020670",
+          "size": 48
+        },
+        {
+          "name": "restart_actor_command_panel",
+          "address": "0x800206a0",
+          "size": 92
+        },
+        {
+          "name": "begin_actor_command_update",
+          "address": "0x800206fc",
+          "size": 28
+        },
+        {
+          "name": "reset_actor_command_panel",
+          "address": "0x800207a8",
+          "size": 56
+        },
+        {
+          "name": "get_actor_command_hint",
+          "address": "0x8001f480",
+          "size": 308
+        },
+        {
+          "name": "finish_actor_command_grid_opening",
+          "address": "0x8001f830",
+          "size": 168
+        },
+        {
+          "name": "animate_actor_command_change",
+          "address": "0x8001f978",
+          "size": 176
+        },
+        {
+          "name": "initialize_actor_command_row_layout",
+          "address": "0x8001fc68",
+          "size": 444
+        },
+        {
+          "name": "create_cached_linked_actor_panel",
+          "address": "0x800204a4",
+          "size": 244
+        },
+        {
+          "name": "save_cached_linked_actor_action_flags",
+          "address": "0x80020414",
+          "size": 72
+        },
+        {
+          "name": "restore_cached_linked_actor_action_flags",
+          "address": "0x8002045c",
+          "size": 72
+        },
+        {
+          "name": "apply_actor_command",
+          "address": "0x80020718",
+          "size": 144
+        },
+        {
+          "name": "find_actor_command_row",
+          "address": "0x80020200",
+          "size": 144
+        },
+        {
+          "name": "poll_actor_command_panel",
+          "address": "0x8001f5f8",
+          "size": 536
+        },
+        {
+          "name": "bind_actor_command_part_vectors",
+          "address": "0x8001fa28",
+          "size": 188
+        },
+        {
+          "name": "schedule_cached_linked_actor_close",
+          "address": "0x8001f078",
+          "size": 24
+        },
+        {
+          "name": "schedule_cached_linked_actor_cleanup",
+          "address": "0x8001f090",
+          "size": 24
+        },
+        {
+          "name": "poll_cached_linked_actor_cancel",
+          "address": "0x8001ece8",
+          "size": 92
+        },
+        {
+          "name": "check_cached_linked_actor_close_signal",
+          "address": "0x8001ed44",
+          "size": 84
+        },
+        {
+          "name": "initialize_linked_actor_panel_packets",
+          "address": "0x800201dc",
+          "size": 36
+        }
+      ],
+      "data": [
+        {
+          "section": ".rodata",
+          "address": "0x80024a60",
+          "size": 64
+        },
+        {
+          "section": ".data",
+          "address": "0x80024910",
+          "size": 336
+        }
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_familiar_prompt.c",
+      "header": "include/dungeon/menu_cache_familiar_prompt.h",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "functions": [
+        {
+          "name": "link_cached_action_parts",
+          "address": "0x8001bf78",
+          "size": 40
+        },
+        {
+          "name": "link_familiar_prompt_parts",
+          "address": "0x8001c078",
+          "size": 40
+        },
+        {
+          "name": "release_familiar_prompt_labels",
+          "address": "0x8001c8ec",
+          "size": 80
+        },
+        {
+          "name": "release_familiar_prompt",
+          "address": "0x8001c93c",
+          "size": 88
+        },
+        {
+          "name": "enable_familiar_prompt_input",
+          "address": "0x8001c9a0",
+          "size": 12
+        },
+        {
+          "name": "disable_familiar_prompt_input",
+          "address": "0x8001c9ac",
+          "size": 8
+        },
+        {
+          "name": "release_familiar_prompt_flow_children",
+          "address": "0x8001c9b4",
+          "size": 68
+        },
+        {
+          "name": "start_familiar_prompt_close",
+          "address": "0x8001cb98",
+          "size": 72
+        },
+        {
+          "name": "schedule_familiar_prompt_close",
+          "address": "0x8001cbe0",
+          "size": 52
+        },
+        {
+          "name": "release_familiar_prompt_owner",
+          "address": "0x8001cc14",
+          "size": 76
+        },
+        {
+          "name": "finish_familiar_prompt_close",
+          "address": "0x8001cc60",
+          "size": 116
+        },
+        {
+          "name": "get_familiar_prompt_actor_status",
+          "address": "0x8001cd08",
+          "size": 12
+        },
+        {
+          "name": "enable_familiar_prompt_flow_input",
+          "address": "0x8001cd14",
+          "size": 36
+        },
+        {
+          "name": "disable_familiar_prompt_flow_input",
+          "address": "0x8001cd38",
+          "size": 36
+        },
+        {
+          "name": "configure_familiar_prompt_links",
+          "address": "0x8001c0a0",
+          "size": 152
+        },
+        {
+          "name": "find_familiar_prompt_actor",
+          "address": "0x8001c56c",
+          "size": 60
+        },
+        {
+          "name": "setup_familiar_prompt",
+          "address": "0x8001c6c4",
+          "size": 104
+        },
+        {
+          "name": "prepare_familiar_prompt",
+          "address": "0x8001c72c",
+          "size": 156
+        },
+        {
+          "name": "schedule_familiar_prompt_cleanup",
+          "address": "0x8001ccd4",
+          "size": 52
+        }
+      ],
+      "data": [
+        {
+          "section": ".rodata",
+          "address": "0x8002483c",
+          "size": 37,
+          "trim_end_padding": true
+        }
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_linked_actor_menu.c",
+      "header": "include/dungeon/menu_cache_linked_actor.h",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "ensure_familiar_prompt_close",
+      "bindings": {
+        "func_80050EF8": "0x80050ef8",
+        "D_800814A0": "0x800814a0"
+      },
+      "functions": [
+        {
+          "name": "ensure_familiar_prompt_close",
+          "symbol": "ensure_cached_linked_actor_close",
+          "address": "0x8001cb38",
+          "size": 96
+        }
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_item_action_options.c",
+      "header": "include/dungeon/menu_cache_paged.h",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "functions": [
+        {
+          "name": "menu_has_familiar",
+          "address": "0x8001cd78",
+          "size": 56
+        },
+        {
+          "name": "build_item_action_options",
+          "address": "0x8001cdb0",
+          "size": 840
+        },
+        {
+          "name": "get_paged_item_action_label",
+          "address": "0x8001cd5c",
+          "size": 28
+        }
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_party_menu.c",
+      "header": "include/dungeon/menu_cache_party_menu.h",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "functions": [
+        {
+          "name": "show_party_menu_notice",
+          "address": "0x80023a9c",
+          "size": 52
+        },
+        {
+          "name": "create_party_menu",
+          "address": "0x80023b24",
+          "size": 276
+        },
+        {
+          "name": "open_party_menu",
+          "address": "0x80023c38",
+          "size": 32
+        },
+        {
+          "name": "open_party_submenu",
+          "address": "0x80023c58",
+          "size": 32
+        },
+        {
+          "name": "release_party_menu_children",
+          "address": "0x80023c78",
+          "size": 84
+        },
+        {
+          "name": "start_party_menu_close",
+          "address": "0x80023d2c",
+          "size": 116
+        },
+        {
+          "name": "finish_party_menu_cleanup",
+          "address": "0x80023da0",
+          "size": 88
+        },
+        {
+          "name": "create_party_command_state",
+          "address": "0x800220e4",
+          "size": 72
+        },
+        {
+          "name": "complete_party_command_state_release",
+          "address": "0x80022150",
+          "size": 32
+        },
+        {
+          "name": "release_party_command_state",
+          "address": "0x80022170",
+          "size": 24
+        },
+        {
+          "name": "set_party_command_marker",
+          "address": "0x80022188",
+          "size": 20
+        },
+        {
+          "name": "resume_party_menu",
+          "address": "0x80023e28",
+          "size": 68
+        },
+        {
+          "name": "finish_party_preview",
+          "address": "0x80023e6c",
+          "size": 64
+        },
+        {
+          "name": "wait_for_party_preview_close",
+          "address": "0x80023eac",
+          "size": 48
+        },
+        {
+          "name": "open_party_preview",
+          "address": "0x80023edc",
+          "size": 88
+        },
+        {
+          "name": "prepare_party_preview",
+          "address": "0x80023f34",
+          "size": 136
+        },
+        {
+          "name": "schedule_menu_preview",
+          "address": "0x80023fbc",
+          "size": 84
+        },
+        {
+          "name": "update_party_preview_target",
+          "address": "0x80024010",
+          "size": 68
+        },
+        {
+          "name": "open_party_behavior_panel",
+          "address": "0x80024090",
+          "size": 92
+        },
+        {
+          "name": "schedule_party_menu_resume",
+          "address": "0x80024128",
+          "size": 24
+        },
+        {
+          "name": "refresh_party_choice_preview",
+          "address": "0x80024140",
+          "size": 112
+        },
+        {
+          "name": "get_party_preview_mode",
+          "address": "0x800241b0",
+          "size": 12
+        },
+        {
+          "name": "schedule_party_menu_close",
+          "address": "0x80023df8",
+          "size": 24
+        },
+        {
+          "name": "schedule_party_menu_cleanup",
+          "address": "0x80023e10",
+          "size": 24
+        },
+        {
+          "name": "check_party_menu_close_signal",
+          "address": "0x80023ad0",
+          "size": 84
+        }
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_fusion_result.c",
+      "header": "include/dungeon/menu_cache_fusion.h",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "functions": [
+        {
+          "name": "shade_fusion_result",
+          "address": "0x8001ea38",
+          "size": 168
+        },
+        {
+          "name": "update_fusion_result",
+          "address": "0x8001eae0",
+          "size": 76
+        },
+        {
+          "name": "position_fusion_result",
+          "address": "0x8001eb2c",
+          "size": 76
+        },
+        {
+          "name": "initialize_fusion_result_parts",
+          "address": "0x8001eb78",
+          "size": 164
+        },
+        {
+          "name": "create_fusion_result",
+          "address": "0x8001ec1c",
+          "size": 124
+        }
+      ],
+      "data": [
+        {
+          "section": ".rodata",
+          "address": "0x80024900",
+          "size": 15,
+          "trim_end_padding": true
+        }
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_familiar_prompt_display.c",
+      "header": "include/dungeon/menu_cache_familiar_prompt.h",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "functions": [
+        {
+          "name": "initialize_familiar_cursor_shape",
+          "address": "0x8001b2e8",
+          "size": 64
+        },
+        {
+          "name": "set_familiar_previous_page",
+          "address": "0x8001b328",
+          "size": 36
+        },
+        {
+          "name": "set_familiar_next_page",
+          "address": "0x8001b34c",
+          "size": 36
+        },
+        {
+          "name": "position_familiar_prompt_cursors",
+          "address": "0x8001b370",
+          "size": 124
+        },
+        {
+          "name": "update_familiar_prompt_page",
+          "address": "0x8001b804",
+          "size": 116
+        },
+        {
+          "name": "update_familiar_prompt_description",
+          "address": "0x8001ba64",
+          "size": 108
+        },
+        {
+          "name": "run_familiar_prompt_input",
+          "address": "0x8001bf58",
+          "size": 32
+        },
+        {
+          "name": "advance_familiar_prompt_opening",
+          "address": "0x8001bfa0",
+          "size": 216
+        },
+        {
+          "name": "build_familiar_backdrop",
+          "address": "0x8001c51c",
+          "size": 80
+        },
+        {
+          "name": "open_familiar_prompt",
+          "address": "0x8001c8cc",
+          "size": 32
+        },
+        {
+          "name": "populate_familiar_page_labels",
+          "address": "0x8001b3ec",
+          "size": 348
+        },
+        {
+          "name": "refresh_familiar_slot_markers",
+          "address": "0x8001b548",
+          "size": 544
+        },
+        {
+          "name": "populate_familiar_prompt_parts",
+          "address": "0x8001c138",
+          "size": 848
+        },
+        {
+          "name": "create_familiar_prompt",
+          "address": "0x8001c7c8",
+          "size": 260
+        }
+      ],
+      "data": [
+        {
+          "section": ".rodata",
+          "address": "0x80024824",
+          "size": 16
+        },
+        {
+          "section": ".data",
+          "address": "0x80024864",
+          "size": 8,
+          "trim_end_padding": true
+        }
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_familiar_prompt_slots.c",
+      "header": "include/dungeon/menu_cache_familiar_prompt.h",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "functions": [
+        {
+          "name": "shade_familiar_slot",
+          "address": "0x8001b9e4",
+          "size": 36
+        },
+        {
+          "name": "shade_familiar_assignment_slots",
+          "address": "0x8001ba08",
+          "size": 92
+        },
+        {
+          "name": "select_familiar_assignment_slot",
+          "address": "0x8001bbe8",
+          "size": 120
+        }
+      ],
+      "data": [
+        {
+          "section": ".rodata",
+          "address": "0x80024834",
+          "size": 8
+        }
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_familiar_prompt_selection.c",
+      "header": "include/dungeon/menu_cache_familiar_prompt.h",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "functions": [
+        {
+          "name": "find_familiar_assignment_item",
+          "address": "0x8001b878",
+          "size": 208
+        },
+        {
+          "name": "begin_familiar_assignment",
+          "address": "0x8001b948",
+          "size": 156
+        },
+        {
+          "name": "move_familiar_prompt_selection",
+          "address": "0x8001bad0",
+          "size": 220
+        },
+        {
+          "name": "retry_familiar_assignment",
+          "address": "0x8001bbac",
+          "size": 60
+        },
+        {
+          "name": "poll_familiar_prompt_input",
+          "address": "0x8001bc60",
+          "size": 760
+        },
+        {
+          "name": "collect_familiar_actors",
+          "address": "0x8001c488",
+          "size": 148
+        },
+        {
+          "name": "initialize_familiar_prompt_request",
+          "address": "0x8001c5a8",
+          "size": 284
+        },
+        {
+          "name": "find_familiar_assignment_actor",
+          "address": "0x8001b768",
+          "size": 156
+        }
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_item_action_dialog.c",
+      "header": "include/dungeon/menu_cache_close.h",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "functions": [
+        {
+          "name": "poll_item_action_confirmation",
+          "address": "0x8002430c",
+          "size": 132
+        },
+        {
+          "name": "initialize_item_action",
+          "address": "0x80024390",
+          "size": 132
+        },
+        {
+          "name": "create_item_action_dialog",
+          "address": "0x80024414",
+          "size": 260
+        },
+        {
+          "name": "poll_item_action_notice",
+          "address": "0x80024518",
+          "size": 144
+        },
+        {
+          "name": "create_cached_elevator_notice",
+          "address": "0x800245a8",
+          "size": 148
+        },
+        {
+          "name": "show_cached_action_unavailable",
+          "address": "0x800241bc",
+          "size": 36
+        }
+      ]
+    },
+    {
+      "source": "src/slus/code.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "idle_party_command_state",
+      "bindings": {},
+      "functions": [
+        {
+          "name": "idle_party_command_state",
+          "symbol": "func_8004F67C",
+          "address": "0x800220dc",
+          "size": 8
+        }
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_familiar_slot_status.c",
+      "header": "include/dungeon/menu_cache_familiar_prompt.h",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "functions": [
+        {
+          "name": "get_familiar_menu_state_mask",
+          "address": "0x80021488",
+          "size": 44
+        },
+        {
+          "name": "get_familiar_slot_marker",
+          "address": "0x800214e4",
+          "size": 60
+        },
+        {
+          "name": "get_assigned_familiar_marker",
+          "address": "0x80021520",
+          "size": 104
+        }
+      ],
+      "data": [
+        {
+          "section": ".data",
+          "address": "0x80024ab4",
+          "size": 36,
+          "trim_end_padding": true
+        }
+      ]
+    },
+    {
+      "source": "src/dungeon/menu/cache_item_action_cleanup.c",
+      "compiler": "2.7.2-cdk",
+      "flags": "-G0",
+      "placement": "ensure_party_menu_close",
+      "bindings": {
+        "func_80050EF8": "0x80050ef8",
+        "D_800814A0": "0x800814a0"
+      },
+      "functions": [
+        {
+          "name": "ensure_party_menu_close",
+          "address": "0x80023ccc",
+          "size": 96,
+          "symbol": "ensure_action_close"
         }
       ]
     }
@@ -145,20 +3060,221 @@
     "release_null_terminated_entries": "0x8004b248",
     "draw_tinted_node_sprites_scratch": "0x8004caa0",
     "object_flag_block": "0x800814a0",
-    "clear_menu_entries": "0x80018278",
-    "release_menu_entry_state": "0x800186bc",
-    "allocate_menu_pair": "0x800189ec",
     "advance_timed_tagged_stream": "0x8004cb2c",
     "fade_color_to_gray": "0x800497f4",
-    "handle_menu_panel_input": "0x8001a7f0",
-    "menu_entry_common_template": "0x8002e5e8",
-    "menu_entry_link_table": "0x800247ac",
-    "rebuild_pointer_pool": "0x80049004",
-    "set_entry_common_pointers": "0x800491cc",
+    "D_80077FBC": "0x80077fbc",
+    "cached_status_separator": "0x80016024",
+    "get_shield_defense_bonus": "0x80098250",
+    "func_8004E5A0": "0x8004e5a0",
+    "func_8004E634": "0x8004e634",
+    "func_8004E69C": "0x8004e69c",
+    "func_80043868": "0x80043868",
+    "func_800B555C": "0x80016c6c",
+    "strcat": "0x80069e38",
+    "func_800B5E10": "0x800175b4",
+    "func_800B5D70": "0x80017514",
+    "func_800B63EC": "0x80017b90",
+    "flag_optional_object_for_removal": "0x8004e99c",
+    "flag_object_for_removal": "0x8004b1a4",
+    "func_80049790": "0x80049790",
+    "get_item_category_flags": "0x80042a80",
+    "func_800AFDD0": "0x8001ac58",
+    "func_800AF4AC": "0x80019fe8",
+    "func_800AF600": "0x8001a13c",
+    "func_800AF734": "0x8001a2f4",
+    "func_800AF2F8": "0x80019dd4",
+    "display_block_defaults": "0x8002e5d8",
+    "display_vector_defaults": "0x8002e5e8",
+    "g_game_work": "0x80083160",
+    "SD_Call": "0x80053da8",
+    "advance_index_with_single_wrap": "0x80049de8",
+    "get_menu_count_template": "0x80049e6c",
+    "cached_selection_row_left_template": "0x80077ef0",
+    "cached_selection_row_middle_template": "0x80077efc",
+    "cached_selection_row_indicator_texts": "0x80071740",
+    "menu_leaf_template_6": "0x80077e84",
+    "create_label_glyph_entries": "0x8004dc14",
+    "enqueue_script_message_command": "0x8004e130",
+    "call_message_mode_handler": "0x8004dcec",
+    "set_message_mode": "0x8004dce0",
+    "build_object_registration_script": "0x8004dde4",
+    "dispatch_control_coded_message": "0x8004de88",
+    "cached_fusion_need_two_message": "0x8007175c",
+    "cached_fusion_confirm_message": "0x80071764",
+    "test_resident_bitmap_bit": "0x80033b2c",
+    "clear_resident_bitmap_bit": "0x80033ae8",
+    "set_dungeon_menu_flag_if_idle": "0x800dbf5c",
+    "ensure_selection_menu_and_register_draw": "0x80050ef8",
+    "destroy_selection_menu_and_release_owner": "0x80050e20",
+    "cached_familiar_action_context": "0x80071414",
+    "submit_script_with_registered_context": "0x8004dd2c",
+    "allocate_list_node": "0x8003fd64",
+    "advance_index_with_directional_clamp": "0x80049e1c",
+    "get_item_name": "0x80049490",
+    "cached_no_linked_actor_notice": "0x800716a4",
+    "clear_win_sw0_resident_bit": "0x8004ddc4",
+    "clear_dungeon_menu_flag": "0x800dbf38",
+    "update_selection_tile_markers": "0x800ba810",
+    "selected_item_record_alias": "0x80082eb0",
+    "create_cached_fusion_menu": "0x8001e7b8",
+    "create_cached_familiar_prompt_flow": "0x8001c9f8",
+    "poll_window_switch_flags": "0x8004e0ac",
+    "selected_item_action_alias": "0x80082eb8",
+    "card_selection_display_data": "0x800786e8",
+    "bzero": "0x80069ec8",
+    "func_800494FC": "0x800494fc",
+    "itemCategoryTable": "0x80073414",
+    "item_menu_primary_page_data": "0x800786dc",
+    "shared_primitive_color": "0x80080b54",
+    "monster_species_table": "0x8007359c",
+    "cached_familiar_empty_description": "0x8007168c",
+    "held_item_record": "0x80081484",
+    "get_selected_item_data": "0x800a442c",
+    "func_8004DF8C": "0x8004df8c",
+    "cached_opening_status_templates": "0x800793cc",
+    "cached_paged_item_action_labels": "0x800716f4",
+    "update_cached_paged_row_motion": "0x8001dbb8",
+    "cached_available_slot_markers": "0x80077878",
+    "cached_fixed_storage_cursor": "0x800788d4",
+    "cached_storage_one_row_frame": "0x8007921c",
+    "cached_storage_two_row_frame": "0x8007927c",
+    "cached_familiar_fainted_text": "0x800160a0",
+    "cached_familiar_slot_one_button": "0x80077fa4",
+    "cached_familiar_slot_two_button": "0x80077f98",
+    "cached_linked_actor_strings": "0x800160b0",
+    "cached_item_secondary_cursor": "0x80071244",
+    "func_800B0318": "0x8001b11c",
+    "D_8002E5E8": "0x8002e5e8",
+    "D_80077E84": "0x80077e84",
+    "func_80049E6C": "0x80049e6c",
+    "func_80042900": "0x80042900",
+    "D_8006DE24": "0x8006de24",
+    "D_8002E5D8": "0x8002e5d8",
+    "strcpy": "0x80069e78",
+    "cached_actor_command_descriptions": "0x800716d0",
+    "initialize_cached_actor_command_request": "0x80020290",
+    "func_8004EE70": "0x8004ee70",
+    "cached_actor_message_text": "0x800716e8",
+    "func_8004E0AC": "0x8004e0ac",
+    "func_8009F644": "0x8009f644",
+    "cached_behavior_header_graphic": "0x80078da8",
+    "cached_behavior_row_graphic": "0x80078e5c",
+    "cached_behavior_cursor_template": "0x8007936c",
+    "ease_cached_party_choice_focus": "0x800237d0",
+    "func_800BD124": "0x800bd124",
+    "func_8003F320": "0x8003f320",
+    "func_800267F0": "0x800267f0",
+    "func_800260C8": "0x800260c8",
+    "func_800BA810": "0x800ba810",
+    "func_800A9400": "0x800a9400",
+    "cached_actor_direct_attack_hint": "0x800716c0",
+    "cached_actor_current_direction_move_hint": "0x800716c4",
+    "cached_actor_stay_hint": "0x800716c8",
+    "cached_actor_command_unavailable_hint": "0x800716cc",
+    "func_8004AFC8": "0x8004afc8",
+    "func_80044AAC": "0x80044aac",
+    "func_8004F85C": "0x800209e0",
+    "position_cached_actor_choice_entries": "0x800207e8",
+    "position_cached_party_choice_entries": "0x80022d7c",
+    "func_8004491C": "0x8004491c",
+    "func_8004CAA0": "0x8004caa0",
+    "cached_familiar_behavior_descriptions": "0x80071748",
+    "func_8004DDC4": "0x8004ddc4",
+    "D_80082EB0": "0x80082eb0",
+    "update_cached_actor_command_row_motion": "0x8001f204",
+    "func_8004B08C": "0x8004b08c",
+    "update_cached_familiar_behavior_motion": "0x80021648",
+    "fusion_invalid_pair_message": "0x80071760",
+    "item_action_nothing_found_notice": "0x80071768",
     "build_reverse_indexed_chain": "0x800491f4",
-    "initialize_menu_display_templates": "0x80017f0c",
-    "clear_cached_menu_entry": "0x80017fa4",
-    "set_cached_menu_entry_resource": "0x80018030"
+    "refresh_vram_blocks_on_flag": "0x80048d60",
+    "convert_hsv_to_rgb": "0x8004cecc",
+    "select_display_spacing_table_entry": "0x80048da0",
+    "read_display_spacing_byte": "0x80048de8",
+    "read_display_spacing_word": "0x80048dcc",
+    "lookup_patterned_display_icon": "0x800498ec",
+    "monster_get_species_name_text": "0x8004ac18",
+    "select_status_text": "0x800a652c",
+    "build_panel_rectangle_packets": "0x80048e00",
+    "init_packet_pair_and_gradient": "0x80049d80",
+    "append_linked_chain": "0x80049250",
+    "rebuild_pointer_pool": "0x80049004",
+    "append_allocated_node_body": "0x80048fbc",
+    "allocate_entry_slots": "0x80049150",
+    "set_menu_part_vectors": "0x800491cc",
+    "resolve_familiar_slot_value": "0x800492b0",
+    "resolve_item_record_slot_value": "0x80049330",
+    "select_item_data": "0x8004ac3c",
+    "lookup_item_category_mapped_value": "0x8004a658",
+    "build_positioned_text_glyphs": "0x8004e298",
+    "remap_flagged_string_bytes": "0x8004e69c",
+    "fill_primitive_pair": "0x800508f0",
+    "build_tinted_gradient_rect": "0x800499e8",
+    "menu_leaf_template_1": "0x80077e48",
+    "item_menu_slot_handler_address": "0x80078cdc",
+    "shop_cursor_template": "0x800792dc",
+    "score_sprite_initial_value": "0x80077c68",
+    "dungeon_actor_ring_anchor": "0x800e3d7c",
+    "initialize_scaled_entry_cursor": "0x8004cbfc",
+    "set_linked_actor_code_and_mirror": "0x8009458c",
+    "func_8004EE90": "0x8001ec98",
+    "func_800AFF00": "0x8001acc0",
+    "func_800B53BC": "0x80016a04",
+    "func_80089A14": "0x800212dc",
+    "func_800B5264": "0x800168ac",
+    "func_800B6578": "0x80017cd0",
+    "func_800B6580": "0x80017cd8",
+    "func_800B67A4": "0x80017f0c",
+    "func_800B68AC": "0x80018014",
+    "func_800B6E3C": "0x800185a4",
+    "func_800B6F54": "0x800186bc",
+    "func_800A32C8": "0x8001da70",
+    "func_800AEB9C": "0x8001dd8c",
+    "func_800AEBC4": "0x8001ddb4",
+    "open_view_default": "0x8004b718",
+    "open_view_primary": "0x8004b660",
+    "open_view_secondary": "0x8004b6bc",
+    "open_view_alternate": "0x8004b774",
+    "get_enabled_record_flag_priority": "0x80049984",
+    "get_clamped_adjusted_value": "0x800981f8",
+    "func_800AF0E0": "0x8001e4c4",
+    "count_pointer_list_entries": "0x8004ae3c",
+    "func_800B59A4": "0x80017100",
+    "health_label": "0x80016000",
+    "tamer_label": "0x8001600c",
+    "cached_status_prefix": "0x80016018",
+    "cached_status_break": "0x80016020",
+    "cached_gauge_prefix": "0x80016028",
+    "cached_full_gauge_marker": "0x80016030",
+    "cached_half_gauge_marker": "0x80016034",
+    "cached_gauge_suffix": "0x80016038",
+    "cached_equipment_prefix": "0x8001603c",
+    "cached_equipment_separator": "0x80016044",
+    "cached_comparison_prefix": "0x80016048",
+    "cached_comparison_marker_separator": "0x8001604c",
+    "cached_comparison_attack_separator": "0x80016050",
+    "cached_comparison_defense_separator": "0x80016054",
+    "cached_comparison_base_separator": "0x8001605c",
+    "cached_stat_prefix": "0x80016060",
+    "cached_stat_suffix": "0x80016068",
+    "cached_stat_line_break": "0x80016070",
+    "cached_stat_separator": "0x80016074",
+    "cached_stat_column_labels": "0x8001607c",
+    "cached_status_line_break": "0x80016094",
+    "cached_hp_mp_break": "0x80016098"
   },
-  "evidence": "docs/DECODED_IMAGES.md"
+  "evidence": "docs/DECODED_IMAGES.md",
+  "import_classes": {
+    "code": 3052,
+    "text": 2001,
+    "alignment": 91,
+    "data": 12
+  },
+  "coverage": {
+    "functions": 421,
+    "text_bytes": 54116,
+    "data_bytes": 920,
+    "imported_bytes": 5156,
+    "stream_bytes": 28662
+  }
 }

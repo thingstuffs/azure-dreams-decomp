@@ -599,7 +599,6 @@ typedef struct {
 
 extern s32 generate_random_value(void);
 extern Ent *find_eligible_actor_at_tile_and_height(Ent *, s32, s32, s16);
-extern s16 get_clamped_adjusted_value(Ent *);
 
 /* Finds a directional attack target, updates facing and hit flags, and rolls attack and evasion values. */
 Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent2) {
@@ -704,7 +703,7 @@ Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent
         s32 flag = masked != 0;
         s32 sum = low_bit + flag;
         
-        step = sum + (a->unk26 + (s16)get_clamped_adjusted_value(a)) * 2;
+        step = sum + (a->unk26 + (s16)get_clamped_adjusted_value((ActorRecord *)a)) * 2;
     }
     a->unk20 = step;
     if (a->flags1c & ACTOR_ANGRY) {

@@ -4,8 +4,11 @@ import json
 import os
 from pathlib import Path
 import random
+import shutil
+import struct
 import sys
 import tempfile
+from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[2]
@@ -13,6 +16,7 @@ sys.path.insert(0, str(ROOT))
 from tools.decoded.lz import decode, encode
 from tools import decoded_images as D
 from tools.decoded.census import discover, signatures
+from tools.decoded.genuine import linked_data
 
 
 class CodecTests(unittest.TestCase):
@@ -54,6 +58,23 @@ class CodecTests(unittest.TestCase):
         self.assertTrue(any(c.get('base') == 0 for c in starts[36+0x4000]))
 
 
+class GenuineDataTests(unittest.TestCase):
+    def test_genuine_pointer_table_resolves_complete_data_words(self):
+        section = '.rdata'
+        view = SimpleNamespace(
+            obj=SimpleNamespace(sections={section: bytes(8) + b'\x7f'}),
+            rel={(section, 0): ('32', ('fn', 'entry', 4)),
+                 (section, 4): ('32', ('sec', '.rodata', 8))},
+        )
+        anchors = {'.rodata': 0x80017000}
+        resolver = {'entry': 0x80016400}.get
+        self.assertEqual(linked_data(view, section, resolver, anchors),
+                         struct.pack('<II', 0x80016404, 0x80017008) + b'\x7f')
+        view.rel[(section, 0)] = ('32', ('sym', 'unbound', 0))
+        with self.assertRaisesRegex(ValueError, 'unbound decoded data relocation'):
+            linked_data(view, section, resolver, anchors)
+
+
 class RegistryFixture(unittest.TestCase):
     """Temporary root holding the menu-cache registry and fixture sources (no tests of its own)."""
     def setUp(self):
@@ -63,6 +84,8 @@ class RegistryFixture(unittest.TestCase):
         self.spec = json.loads((ROOT/'config/decoded/menu_cache.json').read_text())
         for unit in self.spec['units']:
             for key in ('source', 'header'):
+                if key not in unit:
+                    continue
                 p = self.root / unit[key]
                 p.parent.mkdir(parents=True, exist_ok=True)
                 p.write_text('/* fixture */\n')
@@ -75,14 +98,54 @@ class RegistryFixture(unittest.TestCase):
         (state/'index.json').write_text(json.dumps(dict(images=[])))
         self.write()
 
+    def pin_fixture_coverage(self):
+        units = self.spec['units']
+        functions = [function for unit in units for function in unit['functions']]
+        text = sum(function['size'] for function in functions)
+        data = sum(datum['size'] for unit in units for datum in unit.get('data', []))
+        stream = sum(s['used'] for s in self.spec['streams']) if self.spec['proof_mode'] == 'recompress' else 0
+        self.spec['coverage'].update(functions=len(functions), text_bytes=text, data_bytes=data,
+                                     imported_bytes=self.spec['size'] - text - data,
+                                     stream_bytes=stream)
+
     def write(self):
         (self.root/'config/decoded/menu_cache.json').write_text(json.dumps(self.spec))
 
 
 class RegistryTests(RegistryFixture):
+    def test_scope_includes_project_headers_outside_the_manifest(self):
+        from tools.lanes.prove_scope import decoded_scope
+        entry_header = self.root / self.spec['units'][0]['header']
+        for path in ('include/town/fixture_transitive.h', 'src/dungeon/fixture_local.h'):
+            with self.subTest(path=path):
+                header = self.root / path
+                header.parent.mkdir(parents=True, exist_ok=True)
+                header.write_text('/* included by a decoded translation unit */\n')
+                include = os.path.relpath(header, entry_header.parent)
+                entry_header.write_text(f'#include "{include}"\n')
+                selected, consumed = decoded_scope(self.root, {path})
+                self.assertEqual(selected, [self.spec['image']])
+                self.assertEqual(consumed, {path})
+
+
+    def test_owned_sources_exclude_a_placement_only_home(self):
+        from tools.headers.extern_bulk import decoded_sources
+        own = self.spec['units'][0]
+        placed = dict(source='src/town/fixture_home.c', compiler=own['compiler'],
+                      flags=own['flags'], placement='fixture_copy', bindings={},
+                      functions=[dict(name='fixture_copy', symbol='fixture_original',
+                                      address='0x80016000', size=8)])
+        (self.root / placed['source']).parent.mkdir(parents=True, exist_ok=True)
+        (self.root / placed['source']).write_text('void fixture_original(void) {}\n')
+        self.spec['units'] = [own, placed]
+        self.pin_fixture_coverage()
+        self.write()
+        self.assertEqual(decoded_sources(self.root), {own['source']})
+
+
     def test_rows_use_explicit_decoded_identity(self):
         rows = D.rows(self.root)
-        self.assertEqual(len(rows), 15)
+        self.assertEqual(len(rows), sum(len(unit['functions']) for unit in self.spec['units']))
         self.assertTrue(all(r['coordinate_space'] == 'decoded' and r['id'].startswith('decoded/') for r in rows))
         self.assertTrue(all('foff' not in r for r in rows))
 
@@ -103,6 +166,24 @@ class RegistryTests(RegistryFixture):
         with self.assertRaisesRegex(ValueError, 'unsafe'):
             D.manifests(self.root)
 
+    def test_coverage_pin_detects_a_function_becoming_an_import(self):
+        self.spec['units'][0]['functions'].pop()
+        self.write()
+        with self.assertRaisesRegex(ValueError, 'decoded coverage differs'):
+            D.manifests(self.root)
+
+    def test_coverage_pin_is_required(self):
+        del self.spec['coverage']
+        self.write()
+        with self.assertRaisesRegex(ValueError, 'decoded coverage differs'):
+            D.manifests(self.root)
+
+    def test_menu_cache_import_classes(self):
+        image = D.manifests(self.root)[0]
+        classes = image['import_classes']
+        self.assertEqual(classes, dict(code=3052, text=2001, alignment=91, data=12))
+        self.assertEqual(sum(classes.values()), image['coverage']['imported_bytes'])
+
     def test_no_cannot_silently_become_an_import(self):
         self.spec['units'] = []
         self.write()
@@ -121,6 +202,40 @@ class RegistryTests(RegistryFixture):
         with self.assertRaisesRegex(ValueError, 'duplicate decoded translation unit'):
             D.manifests(self.root)
 
+    def test_genuine_assembler_recipe_accepts_only_unchecked_division(self):
+        unit = self.spec['units'][0]
+        unit['genuine_asflags'] = ['-0']
+        self.write()
+        self.assertEqual(D.manifests(self.root)[0]['units'][0]['genuine_asflags'], ['-0'])
+        unit['genuine_asflags'] = ['-G8']
+        self.write()
+        with self.assertRaisesRegex(ValueError, 'genuine assembler recipe'):
+            D.manifests(self.root)
+
+    def test_placement_accepts_a_distinct_export_from_a_home_source(self):
+        self.spec['units'] = self.spec['units'][:2]
+        unit = copy.deepcopy(self.spec['units'][0])
+        unit.pop('data', None)
+        unit.update(placement='home_copy', bindings={'resident_call': '0x80045000'})
+        unit['functions'] = [dict(name='home_copy_entry', symbol='func_800B5264',
+                                  address='0x80016000', size=144)]
+        self.spec['units'].append(unit)
+        self.pin_fixture_coverage()
+        self.write()
+        row = D.rows(self.root)[-1]
+        self.assertEqual((row['placement'], row['symbol']), ('home_copy', 'func_800B5264'))
+        unit['bindings']['func_800B5264'] = '0x80016000'
+        self.write()
+        with self.assertRaisesRegex(ValueError, 'export also supplied'):
+            D.manifests(self.root)
+
+    def test_reject_owned_data_that_overlaps_text(self):
+        unit = self.spec['units'][0]
+        unit['data'] = [dict(section='.rodata', address=unit['functions'][0]['address'], size=8)]
+        self.write()
+        with self.assertRaisesRegex(ValueError, 'overlapping decoded extents'):
+            D.manifests(self.root)
+
     def test_altered_source_command_fails_before_decoding(self):
         path = self.root / self.spec['streams'][0]['container']
         path.parent.mkdir(parents=True)
@@ -130,16 +245,136 @@ class RegistryTests(RegistryFixture):
             D.reproduce(self.root, self.spec)
 
 
+@unittest.skipUnless(shutil.which('mipsel-linux-gnu-as'), 'MIPS binutils required')
+class PlacementLinkTests(RegistryFixture):
+    def test_complete_export_can_be_linked_twice_with_private_bindings(self):
+        unit = self.spec['units'][0]
+        unit.pop('data', None)
+        unit.update(placement='first', bindings={'resident_call': '0x80045100',
+                                                'resident_data': '0x80078020'})
+        unit['functions'] = [dict(name='first_copy', symbol='home_call',
+                                  address='0x80016000', size=16)]
+        second = copy.deepcopy(unit)
+        second.update(placement='second', bindings={'resident_call': '0x80045200',
+                                                    'resident_data': '0x80068120'})
+        second['functions'][0].update(name='second_copy', address='0x80016010')
+        stream = dict(self.spec['streams'][0], size=32)
+        self.spec.update(units=[unit, second], streams=[stream], size=32, proof_mode='decoded-only')
+        self.pin_fixture_coverage()
+        self.write()
+        (image,) = D.manifests(self.root)
+        work = self.root/'build/decoded/dungeon/menu_cache'
+        work.mkdir(parents=True)
+        source = work/'home.s'
+        source.write_text('''
+.set noreorder
+.section .text.home_call,"ax",@progbits
+.globl home_call
+home_call:
+    jal resident_call
+    nop
+    lui $2,%hi(resident_data)
+    addiu $2,$2,%lo(resident_data)
+.section .text.other_function,"ax",@progbits
+    jal unregistered
+    nop
+.section .rodata,"a",@progbits
+    .word 1
+''')
+        obj = work/'unit_0.o'
+        D.run(self.root, ['mipsel-linux-gnu-as', '-EL', '-march=r3000', '-o', str(obj), str(source)])
+        expected = struct.pack('<8I', 0x0C011440, 0, 0x3C028008, 0x24428020,
+                               0x0C011480, 0, 0x3C028007, 0x24428120)
+        with patch.object(D, 'reproduce', return_value=(expected, [])):
+            proof = D.build(self.root, image, compile_units=False)
+            self.assertEqual(proof['decoded_c_text_bytes'], len(expected))
+            self.assertEqual(proof['decoded_imported_bytes'], 0)
+            image['units'][1]['bindings']['resident_call'] = '0x80045204'
+            with self.assertRaisesRegex(ValueError, 'decoded image C differs'):
+                D.build(self.root, image, compile_units=False)
+            del image['units'][1]['bindings']['resident_call']
+            with self.assertRaisesRegex(ValueError, 'undefined reference'):
+                D.build(self.root, image, compile_units=False)
+
+    def test_link_and_compare_exact_owned_read_only_data(self):
+        unit = self.spec['units'][0]
+        unit['functions'] = [dict(name='home_call', address='0x80016004', size=8)]
+        unit['data'] = [dict(section='.rodata', address='0x80016000', size=4)]
+        self.spec.update(units=[unit], streams=[dict(self.spec['streams'][0], size=12)],
+                         size=12, proof_mode='decoded-only')
+        self.pin_fixture_coverage()
+        self.write()
+        (image,) = D.manifests(self.root)
+        work = self.root/'build/decoded/dungeon/menu_cache'
+        work.mkdir(parents=True)
+        source = work/'home.s'
+        source.write_text('''
+.set noreorder
+.section .text.home_call,"ax",@progbits
+.globl home_call
+home_call:
+    jr $31
+    nop
+.section .rodata,"a",@progbits
+    .word 7
+''')
+        D.run(self.root, ['mipsel-linux-gnu-as', '-EL', '-march=r3000', '-o', str(work/'unit_0.o'), str(source)])
+        expected = struct.pack('<3I', 7, 0x03E00008, 0)
+        with patch.object(D, 'reproduce', return_value=(expected, [])):
+            proof = D.build(self.root, image, compile_units=False)
+            self.assertEqual(proof['decoded_c_data_bytes'], 4)
+            self.assertEqual(proof['decoded_imported_bytes'], 0)
+        with patch.object(D, 'reproduce', return_value=(struct.pack('<3I', 8, 0x03E00008, 0), [])):
+            with self.assertRaisesRegex(ValueError, 'decoded image C differs.*rodata'):
+                D.build(self.root, image, compile_units=False)
+
+    def test_owned_data_can_end_before_an_unaligned_import(self):
+        unit = self.spec['units'][0]
+        unit['functions'] = [dict(name='home_call', address='0x80016004', size=8)]
+        unit['data'] = [dict(section='.rodata', address='0x80016000', size=1, trim_end_padding=True)]
+        self.spec.update(units=[unit], streams=[dict(self.spec['streams'][0], size=12)],
+                         size=12, proof_mode='decoded-only')
+        self.pin_fixture_coverage()
+        self.write()
+        (image,) = D.manifests(self.root)
+        work = self.root/'build/decoded/dungeon/menu_cache'
+        work.mkdir(parents=True)
+        source = work/'home.s'
+        source.write_text('''
+.set noreorder
+.section .text.home_call,"ax",@progbits
+.globl home_call
+home_call:
+    jr $31
+    nop
+.section .rodata,"a",@progbits
+    .balign 4
+    .byte 7
+''')
+        D.run(self.root, ['mipsel-linux-gnu-as', '-EL', '-march=r3000', '-o', str(work/'unit_0.o'), str(source)])
+        expected = struct.pack('<4B2I', 7, 8, 9, 10, 0x03E00008, 0)
+        with patch.object(D, 'reproduce', return_value=(expected, [])):
+            proof = D.build(self.root, image, compile_units=False)
+            self.assertEqual(proof['decoded_c_data_bytes'], 1)
+            self.assertEqual(proof['decoded_imported_bytes'], 3)
+            del image['units'][0]['data'][0]['trim_end_padding']
+            with self.assertRaisesRegex(ValueError, 'mismatched decoded TU data'):
+                D.build(self.root, image, compile_units=False)
+
+
 @unittest.skipUnless(os.environ.get('AZURE_DECODED_RETAIL_TEST'), 'explicit private retail fixture required')
 class RetailTests(unittest.TestCase):
     def test_whole_image_streams_container_and_tampered_artifact(self):
         proofs = D.build_all(ROOT)
-        self.assertEqual(proofs[0]['decoded_c_text_bytes'], 1320)
-        self.assertEqual(proofs[0]['compressed_stream_bytes'], 28662)
-        self.assertEqual(proofs[0]['decoded_imported_bytes'], 58872)
+        proof = next(record for record in proofs if record['image'] == 'dungeon/menu_cache')
+        self.assertEqual(len(proof['functions']), 421)
+        self.assertEqual(proof['decoded_c_text_bytes'], 54116)
+        self.assertEqual(proof['decoded_c_data_bytes'], 1076)
+        self.assertEqual(proof['compressed_stream_bytes'], 28662)
+        self.assertEqual(proof['decoded_imported_bytes'], 5000)
         self.assertEqual((ROOT/'build/decoded/disc/DUNGEON/DUNGEON.BIN').read_bytes(),
                          (ROOT/'work/disc/containers/DUNGEON_DUNGEON.BIN').read_bytes())
-        stream = proofs[0]['compressed_streams'][0]
+        stream = proof['compressed_streams'][0]
         path = ROOT / stream['output']
         original = path.read_bytes()
         try:

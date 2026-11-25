@@ -1,3 +1,4 @@
+#include "dungeon/menu/state.h"
 #include "dungeon/level/unlink_entity_node_api.h"
 #include "dungeon/item/message.h"
 #include "shared/dungeon_actor_callbacks.h"
@@ -35,7 +36,6 @@ void set_sprite_animation_frame(SpriteFrameState *obj, s16 frame_group, s16 fram
 struct Entity;
 struct EntityLinkNode;
 extern s32 loaded_entity_sprite_resource;
-extern void *selected_item_record_alias[];
 extern struct S_8009345C_4 familiar_deployment_slots;
 extern u8 D_800E05E1[15];
 extern u8 D_800E05F0[16];
@@ -46,7 +46,7 @@ extern void *familiar_record_slots[];
 
 typedef union ScratchS1 {
     void *text;
-    void **base;
+    DungeonItemEntry **base;
 } ScratchS1;
 
    /* entity in update_familiar_deployment_change */
@@ -175,7 +175,7 @@ void update_familiar_deployment_change(ActorRecord *actor, ObjectPosition *map, 
         removed_object[-1].flags = (u16) (removed_object[-1].flags
             | 0x8000);
         (*&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
-        if (selected_item_record_alias[0] == NULL) {
+        if (selected_item_record_alias.item == NULL) {
             actor->action_timer = 0U;
             next_state = actor->action_phase + 4;
             break;
@@ -186,7 +186,7 @@ void update_familiar_deployment_change(ActorRecord *actor, ObjectPosition *map, 
         if ((has_pending_dungeon_activity(0) << 0x10) != 0) {
             return;
         }
-        message_or_list.base = selected_item_record_alias;
+        message_or_list.base = &selected_item_record_alias.item;
         load_id = find_or_retain_sprite_resource_slot(((S_8009345C_7 *)(*message_or_list.base))->unk_00, 3);
         if (load_id != 0) {
             loaded_entity_sprite_resource = begin_sprite_resource_load(((S_8009345C_7 *)(*message_or_list.base))->unk_00, &sprite_resource_completion_flag);
@@ -201,12 +201,12 @@ void update_familiar_deployment_change(ActorRecord *actor, ObjectPosition *map, 
             return;
         }
         if (loaded_entity_sprite_resource != 0) {
-            register_and_upload_sprite_resource(((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_00, loaded_entity_sprite_resource);
+            register_and_upload_sprite_resource(((S_8009345C_9 *)(selected_item_record_alias.item))->unk_00, loaded_entity_sprite_resource);
         }
         actor->action_phase++;
         return;
     case 5:
-        message_or_list.base = selected_item_record_alias;
+        message_or_list.base = &selected_item_record_alias.item;
         create_id = find_or_retain_sprite_resource_slot(((S_8009345C_7 *)(*message_or_list.base))->unk_00, 3);
         if (create_id != 0) {
             map_familiar_spawn_variant_code(*message_or_list.base);
@@ -228,8 +228,8 @@ void update_familiar_deployment_change(ActorRecord *actor, ObjectPosition *map, 
                 object_flags = ((ActorRecord *)new_object)->flags1C;
                 object_slot = familiar_deployment_slots.slot;
                 ((ActorRecord *)new_object)->flags1C = object_flags | 0x02000000;
-                ((S_8009345C_14 *)(((object_slot * 4) + (u8 *)actor)))->unk_D0 = selected_item_record_alias[0];
-                ((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_03 = (u8) (((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_03 | 0x20);
+                ((S_8009345C_14 *)(((object_slot * 4) + (u8 *)actor)))->unk_D0 = selected_item_record_alias.item;
+                ((S_8009345C_9 *)(selected_item_record_alias.item))->unk_03 = (u8) (((S_8009345C_9 *)(selected_item_record_alias.item))->unk_03 | 0x20);
                 message_or_list.text = get_unused_text_buffer();
                 create_message = message_or_list.text;
                 if (familiar_removed_during_change == 0) {
@@ -245,7 +245,7 @@ void update_familiar_deployment_change(ActorRecord *actor, ObjectPosition *map, 
                 display_text_with_fullwidth_adjustment(message_or_list.text);
                 cleanup_slot = familiar_deployment_slots.slot;
                 familiar_turn_counters_alias[cleanup_slot] = 0;
-                retain_spawn_resource(((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_00, 3);
+                retain_spawn_resource(((S_8009345C_9 *)(selected_item_record_alias.item))->unk_00, 3);
                 replay_actor_status_slots(new_object);
                 play_sound_if_enabled(0x704);
             }

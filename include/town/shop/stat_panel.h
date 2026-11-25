@@ -14,7 +14,6 @@ void LoadImage(void *, s32);
 /* extern */
 #include "slus/display_resource_cache_keys_data.h"
 extern s32 lookup_patterned_display_icon(s32 value);
-extern s32 get_enabled_record_flag_priority(s32 value);
 extern s32 D_80077FBC[];
 /* D_80082E6A: standalone byte global, declared >8B to force %hi/%lo
  * addressing (matches src/w_80047694.c sibling; same symbol, same form). */
@@ -39,7 +38,7 @@ extern void set_display_entry_text_and_position(ItemMenuPart *entry, s32 text, s
 
 /* Functions defined in this translation unit. */
 void complete_display_transfer(ShopFirstCallbackObject *state);
-void initialize_three_display_entries(s32 source_value, ItemMenuPart **entries, SpritePartCommand *entry_value);
+void initialize_three_display_entries(ActorRecord *actor, ItemMenuPart **entries, SpritePartCommand *entry_value);
 s32 get_monster_status_label(void *entry);
 void draw_formatted_monster_status_text(void *entry, ItemMenuPart **display);
 s32 normalize_monster_status_species_code(s32 value);

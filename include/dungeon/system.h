@@ -33,7 +33,7 @@ s32 display_text_with_fullwidth_adjustment(s8 *text);
 s32 find_and_clear_empty_item_slot(void);
 s32 find_last_zero_entry_run_start(void);
 
-void allocate_item_without_data_override(s32 owner, s32 context, s32 mode, s32 item_id);
+void *allocate_item_without_data_override(void *owner, s32 context, s32 mode, void *descriptor);
 void *allocate_item_object(s32 value_00, s32 value_10, s32 value_18, void *descriptor, s32 setup_arg);
 s32 check_action_boundary_and_set_flag(void);
 void *create_item_view(s32 context, s32 related_context, s32 mode, void *descriptor, s32 item_data);

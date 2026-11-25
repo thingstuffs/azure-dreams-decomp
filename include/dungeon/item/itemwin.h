@@ -241,7 +241,6 @@ void clear_item_window_entry_data(ovl_1830850_81810C4C_S_80025C4C_0 *entry);
 void set_item_window_entry_default_data(ovl_1830850_81810C58_S_80025C58_0 *dest);
 void *init_action_row_sprites(void *entryBuffer);
 void init_large_editor_descriptor(ovl_1830850_81810CD8_S_80025CD8_0 *packet);
-S_800491F4 *create_item_window_chain(S_800491F4 **context);
 void init_item_window_display_defaults(void *unused, ovl_1830850_81810D9C_Owner *owner, ovl_1830850_81810D9C_S_8002E5D8 *patch,
                    ovl_1830850_81810D9C_S_8002E5E8 *state);
 void initialize_item_window_layout(ovl_1830850_81810E3C_Source *source, ovl_1830850_81810E3C_Owner **owners);

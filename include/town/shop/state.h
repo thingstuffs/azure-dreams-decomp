@@ -11,7 +11,7 @@ void start_move_toward_view_reference(struct TownObjectRecord *state, struct Col
 
 struct S_800B6580_0;
 /* set_monster_status_panel_height.c */
-void set_monster_status_panel_height(struct S_800B6580_0 *object, s16 height);
+void set_monster_status_panel_height(struct S_800B6580_0 *object, s32 height);
 
 s32 set_item_menu_flag_and_return_one(void *state, void *unused_config);
 

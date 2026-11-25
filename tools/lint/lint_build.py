@@ -18,6 +18,7 @@ import sys
 TOOLS = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(TOOLS))
 import source_layout
+from decoded_images import rows as decoded_rows
 
 WARNINGS = (
     'int-conversion', 'pointer-to-int-cast', 'int-to-pointer-cast', 'return-type',
@@ -94,7 +95,7 @@ def native_flags(port, root, compiler_id='gcc'):
 
 
 def units(root):
-    """Same physical home selection as the port builder's by_tu census."""
+    """Enumerate source files and the ordinary and decoded rows they supply."""
     result = collections.defaultdict(list)
     for row in source_layout.registry(root).values():
         if row.get('source_row'):
@@ -102,6 +103,8 @@ def units(root):
         source = source_layout.row_relative(row, root)
         if (root / source).is_file():
             result[source].append(row['id'])
+    for row in decoded_rows(root):
+        result[row['source']].append(row['id'])
     return dict(sorted(result.items()))
 
 

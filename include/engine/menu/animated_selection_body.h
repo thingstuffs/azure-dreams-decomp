@@ -32,4 +32,6 @@ typedef struct AnimatedSelectionMenuBody {
     s32 repeat_ticks;
 } AnimatedSelectionMenuBody;
 
+s32 compare_selection_menu_entry_order(u8 *left, u8 *right);
+
 #endif

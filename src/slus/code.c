@@ -371,7 +371,7 @@ int read_display_spacing_word(int index)
 }
 
 /* Read the indexed byte from the global table. */
-unsigned char read_display_spacing_byte(int index) {
+s32 read_display_spacing_byte(s32 index) {
     return D_80071298[index];
 }
 
@@ -445,19 +445,13 @@ int get_low_flag_priority(int flags) {
     return priority;
 }
 
-typedef struct {
-    unsigned char pad[0x13];
-    unsigned char unk13;
-    int unk14;
-} Struct80049984;
-
 /* Return the record's flag priority, or 3 when its enabling byte is clear. */
-int get_enabled_record_flag_priority(Struct80049984 *record)
+s32 get_enabled_record_flag_priority(ActorRecord *record)
 {
     int priority = 3;
 
-    if (record->unk13 != 0) {
-        priority = get_low_flag_priority(record->unk14);
+    if (record->species != 0) {
+        priority = get_low_flag_priority(record->flags14);
     }
 
     return priority;
@@ -767,28 +761,17 @@ void set_menu_backdrop_owner(struct ObjectNodeHeader **dest, struct ObjectNodeHe
 void noop_selection_menu_animation_idle(AnimatedSelectionMenuBody *unused) {
 }
 
-typedef struct {
-    char pad0[0xC];
-    short val;
-} Level3;
+/* Sort operands are addresses of entry-pointer slots. The caller supplies the slot width. */
+s32 compare_selection_menu_entry_order(u8 *left, u8 *right)
+{
+    AnimatedSelectionEntry *const *left_entry =
+        (AnimatedSelectionEntry *const *)left;
 
-typedef struct {
-    char pad0[0x4];
-    Level3 *l3;
-} Level2;
+    AnimatedSelectionEntry *const *right_entry =
+        (AnimatedSelectionEntry *const *)right;
 
-typedef struct {
-    char pad0[0xC];
-    Level2 *l2;
-} Level1;
-
-typedef struct {
-    Level1 *l1;
-} Level0;
-
-/* Compare the signed halfwords reached through two pointer chains. */
-int compare_selection_menu_entry_order(Level0 *left, Level0 *right) {
-    return left->l1->l2->l3->val - right->l1->l2->l3->val;
+    return (*left_entry)->display->block->fields.depth
+         - (*right_entry)->display->block->fields.depth;
 }
 
 extern s32 func_80021448(void *embedded_record);

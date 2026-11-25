@@ -5,6 +5,7 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "dungeon/effect.h"
+#include "dungeon/player.h"
 
 
 typedef struct S_800B3D10_6 {
@@ -13,7 +14,6 @@ typedef struct S_800B3D10_6 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s16 get_clamped_adjusted_value();                          /* extern */
 s32 resolve_alternate_spell_id(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */                             /* extern */
 
 typedef struct S_800B3D10_2 {

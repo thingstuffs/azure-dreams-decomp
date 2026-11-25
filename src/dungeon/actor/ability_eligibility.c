@@ -651,8 +651,8 @@ void select_position_data_and_update_owner(SpriteFrameState *entity, ActorRecord
 }
 
 /* Return the stored pointer when available, otherwise the fallback data buffer. */
-u8 *get_selected_item_data(void) {
-    u8 *stored_data;
+DungeonItemEntry *get_selected_item_data(void) {
+    DungeonItemEntry *stored_data;
 
     if (temporary_item_record.kind < 0x14U) {
         stored_data = ((PlayerRecord *)primary_actor_record)->selected_floor_entry;
@@ -661,7 +661,7 @@ u8 *get_selected_item_data(void) {
         }
         *(u32 *)&temporary_item_record = 0;
     }
-    return (u8 *)&temporary_item_record;
+    return &temporary_item_record;
 }
 
 /*

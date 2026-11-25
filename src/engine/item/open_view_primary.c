@@ -6,8 +6,8 @@
 #include "slus.h"
 
 /* Prepares shared state and initializes an item in mode 1. */
-void open_view_primary(s32 context, s32 user_data, s32 item) {
+struct ObjectNodeHeader *open_view_primary(struct ObjectNodeHeader *owner, s32 item_index, struct DungeonItemEntry *item) {
     submit_global_cd_command_six();
     drain_cd_command_queue();
-    allocate_item_without_data_override(context, user_data, 1, item);
+    return allocate_item_without_data_override(owner, item_index, 1, item);
 }

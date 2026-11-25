@@ -21,6 +21,8 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_height_query.h"
 
+DungeonItemEntry *get_selected_item_data(void);
+
 #ifndef NULL
 #define NULL 0
 #endif
@@ -146,7 +148,6 @@ s32 get_action_slot_range(ActorRecord *actor, s32 entry_index);
 s32 get_element_advantage(s32 left_mask, s32 right_mask);
 s32 get_spell_range(s16 entry_index);
 
-u8 *get_selected_item_data(void);
 s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey);
 
 s32 has_empty_status_slot(s32 record_addr);

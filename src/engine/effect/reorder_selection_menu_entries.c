@@ -3,14 +3,12 @@
 #include "engine/menu.h"
 #include "slus.h"
 
-extern int compare_selection_menu_entry_order(void *a0, void *a1);
-
 /* Sorts and relinks the list entries, then runs the list update hooks. */
 void reorder_selection_menu_entries(AnimatedSelectionMenuBody *list) {
-    void *sorted[4];
+    AnimatedSelectionEntry *sorted[4];
     s32 index;
-    void **dest;
-    void **pair;
+    AnimatedSelectionEntry **dest;
+    AnimatedSelectionEntry **pair;
 
     index = 0;
     if (list->count > 0) {
@@ -23,7 +21,8 @@ void reorder_selection_menu_entries(AnimatedSelectionMenuBody *list) {
         } while (index < list->count);
     }
 
-    sort_with_comparator(sorted, list->count, 4, compare_selection_menu_entry_order);
+    sort_with_comparator((u8 *)sorted, list->count, sizeof(sorted[0]),
+                         compare_selection_menu_entry_order);
 
     index = 0;
     if (list->count - 1 > 0) {

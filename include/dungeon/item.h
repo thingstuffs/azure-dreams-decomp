@@ -32,6 +32,8 @@ typedef struct ViewColorFlashState {
 } ViewColorFlashState;
 
 void *append_value_sign(s32 value, u8 *buffer);
+struct S_800491F4;
+struct S_800491F4 *create_item_window_chain(struct S_800491F4 **context);
 struct DungeonItemEntry;
 u8 *append_item_name_with_affixes(struct DungeonItemEntry *entry, u8 *value);
 void create_view_color_flash(s32 payload, s16 trigger_event);

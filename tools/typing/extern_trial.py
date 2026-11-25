@@ -126,13 +126,6 @@ def floors_of(root):
     return out
 
 
-def decoded_sources(root):
-    try:
-        return {u['source'] for u in json.loads((Path(root) / 'config/decoded/menu_cache.json').read_text())['units']}
-    except (OSError, ValueError, KeyError):
-        return set()
-
-
 def local_sites(plan):
     """{name: [SiteRow]} of non-static declarations in .c files (tree-wide)."""
     out = defaultdict(list)
@@ -537,7 +530,7 @@ def main(argv=None):
     sites = local_sites(plan)
     kinds = {n: ('data' if any(getattr(r.site, 'kind', '') == 'data' for r in sites.get(n, [])) else 'function')
              for n in selected}
-    decoded = decoded_sources(root)
+    decoded = B.decoded_sources(root)
     files = sorted({r.site.path for n in selected for r in sites.get(n, [])} - decoded)
     static = {}
     for n in selected:

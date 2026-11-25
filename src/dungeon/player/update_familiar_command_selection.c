@@ -9,7 +9,7 @@ struct ObjectPosition;
 #include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_80082EB0.h"
+#include "dungeon/menu/state.h"
 #include "dungeon/player.h"
 #include "dungeon/player/input.h"
 #include "dungeon/item.h"
@@ -21,7 +21,6 @@ struct ObjectPosition;
 #include "dungeon/data.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s32 selected_item_record_alias[];
 extern s32 menu_action_argument[];
 s32 check_familiar_deployment_placement(); /* extern */
 void *create_familiar_selection_marker(ActorRecord **entity_ref);
@@ -99,8 +98,9 @@ void update_familiar_command_selection(ActorRecord *state, s32 context_a, Sprite
             if (selection_data != NULL && ((dungeon_state->pressed_buttons) & 0x80)) {
                 if ((reject_forbidden_familiar_recall(0) == 0) && !(actor->flags1C & 0x100000)) {
                     actor->unk_8A = (s32) (*(void **)((u8 *)state + 0x104)) != state->unk_AC.value;
-                    selected_item_record_alias[0] = 0;
-                    if ((check_familiar_deployment_placement(state, context_a, sprite, &action_id, &action_arg, selected_item_record_alias[0]) << 0x10)
+                    selected_item_record_alias.item = 0;
+                    /* The placement check receives the slot encoded in the item word. */
+                    if ((check_familiar_deployment_placement(state, context_a, sprite, &action_id, &action_arg, (s32)(unsigned long)selected_item_record_alias.item) << 0x10)
                         != 0) {
                         display_formatted_context_message(&D_800E2004);
                     } else {
@@ -125,7 +125,7 @@ void update_familiar_command_selection(ActorRecord *state, s32 context_a, Sprite
                         actor->unk_8A = slot_index;
                         *menu_action_argument = (s32) slot_index;
                         begin_player_menu_action(state, context_a, sprite, &familiar_menu_action_data);
-                        ((Rec_D_80082EB0 *)selected_item_record_alias)->unk_00.as_s32 = 0;
+                        selected_item_record_alias.item = 0;
                         (*(s32 *)((u8 *)state + 0xC8)) = 0;
                         (*(void **)((u8 *)state + 0x104)) = NULL;
                         enqueue_script_message_command();
@@ -136,7 +136,7 @@ void update_familiar_command_selection(ActorRecord *state, s32 context_a, Sprite
                         actor->unk_8A = slot_index;
                         *menu_action_argument = (s32) slot_index;
                         begin_player_menu_action(state, context_a, sprite, &D_80023C58);
-                        ((Rec_D_80082EB0 *)selected_item_record_alias)->unk_00.as_s32 = 0;
+                        selected_item_record_alias.item = 0;
                         (*(s32 *)((u8 *)state + 0xC8)) = 0;
                         (*(void **)((u8 *)state + 0x104)) = NULL;
                         enqueue_script_message_command();
@@ -149,7 +149,7 @@ void update_familiar_command_selection(ActorRecord *state, s32 context_a, Sprite
                         actor->unk_8A = slot_index;
                         *menu_action_argument = (s32) slot_index;
                         begin_player_menu_action(state, context_a, sprite, D_8004F5F4);
-                        ((Rec_D_80082EB0 *)selected_item_record_alias)->unk_00.as_s32 = 0;
+                        selected_item_record_alias.item = 0;
                         (*(s32 *)((u8 *)state + 0xC8)) = 0;
                         (*(void **)((u8 *)state + 0x104)) = NULL;
                         enqueue_script_message_command();

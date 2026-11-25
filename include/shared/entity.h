@@ -297,7 +297,9 @@ typedef struct PlayerRecord {
     /* 0x0EC */ unsigned char pad_EC[4];
     /* 0x0F0 */ void *selected_floor_entry; /* selected four-byte floor/map item entry, or null */
     /* 0x0F4 */ int unk_F4;                       /* player transition data */
-    /* 0x0F8 */ unsigned char pad_F8[8];
+    /* 0x0F8 */ unsigned char pad_F8[2];
+    /* 0x0FA */ unsigned char familiar_slot_state[2]; /* the blue collar unlocks slot one, deployment checks the slot state */
+    /* 0x0FC */ unsigned char pad_FC[4];
     /* 0x100 */ short unk_100; /* signed: the destination-move handlers start the trap trigger when it is zero or more */
     /* 0x102 */ unsigned char unk_102;            /* player transition flag */
     /* 0x103 */ unsigned char pad_103[1];

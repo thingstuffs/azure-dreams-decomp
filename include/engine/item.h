@@ -6,6 +6,7 @@
 #include "shared/game_state.h"
 
 struct DungeonItemEntry;
+struct ObjectNodeHeader;
 
 s32 select_item_data(struct DungeonItemEntry *item, s32 *out_mode);
 
@@ -93,16 +94,16 @@ struct NodeRemovalCounter;
 void mark_and_release_record_pair(void *body, struct NodeRemovalCounter *counter);
 
 /* open_view_alternate.c */
-void open_view_alternate(void *first_data, void *second_data, void *extra_data);
+struct ObjectNodeHeader *open_view_alternate(struct ObjectNodeHeader *owner, s32 item_index, struct DungeonItemEntry *item);
 
 /* open_view_default.c */
-void open_view_default(void *first_data, void *second_data, void *extra_data);
+struct ObjectNodeHeader *open_view_default(struct ObjectNodeHeader *owner, s32 item_index, struct DungeonItemEntry *item);
 
 /* open_view_primary.c */
-void open_view_primary(s32 context, s32 user_data, s32 item);
+struct ObjectNodeHeader *open_view_primary(struct ObjectNodeHeader *owner, s32 item_index, struct DungeonItemEntry *item);
 
 /* open_view_secondary.c */
-void open_view_secondary(void *first_ptr, void *second_ptr, void *last_ptr);
+struct ObjectNodeHeader *open_view_secondary(struct ObjectNodeHeader *owner, s32 item_index, struct DungeonItemEntry *item);
 
 /* release_counted_entries.c */
 void release_counted_entries(u16 **entries, s32 count);

@@ -11,6 +11,7 @@ struct ObjectNodeHeader;
 #include "shared/sound_volume.h"
 
 struct DungeonItemEntry;
+struct ActorRecord;
 struct ObjectPosition;
 struct SpriteFrameState;
 struct Dst;
@@ -57,10 +58,11 @@ int load_dungeon_sprite_bundle(void);
 int load_town_sprite_bundle(void);
 int load_alternate_town_sprite_bundle(void);
 int read_display_spacing_word(int index);
-unsigned char read_display_spacing_byte(int index);
+s32 read_display_spacing_byte(s32 index);
 s32 count_nonzero_word_prefix(s32 *entries, s32 limit);
 void append_linked_chain(struct Struct_C_next *tail, struct Struct_C_next *node);
 int is_type_twenty(int type);
+s32 get_enabled_record_flag_priority(struct ActorRecord *record);
 int get_item_name(struct DungeonItemEntry *object);
 int read_item_category_flag_ten(struct DungeonItemEntry *item);
 int get_low_flag_priority(int flags);
@@ -187,7 +189,7 @@ int monster_get_species_name_text(int index);
 void clear_vram_row_upload_cache(void);
 void item_clear_recorded_category_pair(int first_value, int second_value);
 void scene_save_previous_mode_and_reset_callbacks(void);
-u8 select_display_spacing_table_entry(s32 index, s32 count);
+s32 select_display_spacing_table_entry(s32 index, s32 count);
 void load_secondary_optional_resource_descriptor(void);
 u8 get_previous_cd_command(void);
 void audio_disable_reverb(void);
@@ -249,7 +251,7 @@ void request_scene_state_with_parameters(u16 notify_value, s16 state_10, s16 sta
 void remove_runtime_callback(s32 value);
 
 /* w_80049E88.c */
-u8 select_mapped_object_status_code(void *object);
+s32 select_mapped_object_status_code(void *object);
 
 /* w_8004DCA8.c */
 void register_message_command_object(void *object);

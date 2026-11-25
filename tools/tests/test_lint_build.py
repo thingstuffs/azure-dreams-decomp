@@ -78,6 +78,19 @@ class LintBuildTest(unittest.TestCase):
                 r['id']: r for r in [*self.rows, extra]}):
             self.assertEqual(L.units(self.root)['src/slus/a.c'], ['slus/a', 'slus/other'])
 
+    def test_decoded_sources_share_the_census_without_counting_placements_twice(self):
+        rows = [
+            dict(id='decoded/fixture/menu', source='src/dungeon/menu.c'),
+            dict(id='decoded/fixture/copy', source='src/slus/a.c', placement='copy'),
+            dict(id='decoded/fixture/other', source='src/dungeon/other.c', placement='other'),
+        ]
+        with patch.object(L, 'decoded_rows', return_value=rows):
+            self.assertEqual(L.units(self.root), {
+                'src/dungeon/menu.c': ['decoded/fixture/menu'],
+                'src/dungeon/other.c': ['decoded/fixture/other'],
+                'src/slus/a.c': ['slus/a', 'decoded/fixture/copy'],
+            })
+
     def test_parser_function_global_context_options_and_private_paths(self):
         log = (f"{self.source}: In function 'a':\n"
                f'{self.root}/include/shared/inline.h:5:8: warning: bad access [-Warray-bounds=]\n'

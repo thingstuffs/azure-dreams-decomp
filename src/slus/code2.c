@@ -266,7 +266,7 @@ extern u8 indexed_byte_table_double_count_plus_five;
  * Caches count plus five and twice count plus five, then returns the indexed byte from
  * indexed_count_byte_table.
  */
-u8 select_display_spacing_table_entry(s32 index, s32 count)
+s32 select_display_spacing_table_entry(s32 index, s32 count)
 {
     u8 *table;
 

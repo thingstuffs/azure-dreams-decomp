@@ -98,7 +98,12 @@ typedef struct ItemMenuDisplayBlock {
 /* UNION: initialize_storage_display_links, initialize_entity_display_parts and initialize_item_menu_linked_blocks copy three template words and set the signed low half of the third word. Both storage factories register their embedded links as the node sprite. draw_tinted_node_sprites loads the same word at 0x8004C41C and uses its signed low half at 0x8004C444 in the Y translation. */
 typedef union StorageVector {
     DisplayPositionWords words;
-    struct { u8 pad_00[8]; s16 offset_y; } position;
+    struct {
+        u8 pad_00[2];
+        s16 rotation_y;
+        u8 pad_04[4];
+        s16 offset_y;
+    } position;
 } StorageVector;
 typedef StorageVector ItemMenuDisplayPosition;
 

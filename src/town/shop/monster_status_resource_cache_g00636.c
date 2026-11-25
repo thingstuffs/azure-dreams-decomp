@@ -4,6 +4,7 @@
 #include "town/shop/monster_status_resource_cache_g00636.h"
 #include "town/shop.h"
 #include "town/shop/state.h"
+#include "slus.h"
 #include "town/shop/stat_panel_callbacks_api.h"
 
 /* Initialize an entry with a mode-dependent value offset and a fixed data offset. */
@@ -85,7 +86,8 @@ s32 queue_monster_status_reload(ShopFirstCallbackObject *state) {
         state->read_descriptor.sector = 0;
         set_monster_status_cd_read_target(state);
         state->read_handle = Control_CD(6, &state->read_descriptor, NULL);
-        state->completion_handle = Control_CD(0xFF, complete_display_transfer, state);
+        /* The command stores its callback context in a 32-bit payload word. */
+        state->completion_handle = Control_CD(0xFF, complete_display_transfer, (s32)(unsigned long)state);
         return 1;
     }
     return 0;

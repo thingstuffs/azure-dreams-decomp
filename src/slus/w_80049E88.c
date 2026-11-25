@@ -5,7 +5,7 @@
 #include "engine/entity.h"
 
 /* Selects a table value from descending object queries, with an adjustment for query 7. */
-u8 select_mapped_object_status_code(void *object) {
+s32 select_mapped_object_status_code(void *object) {
     s32 query_index;
     s32 query_base;
     u8 *result_entry;

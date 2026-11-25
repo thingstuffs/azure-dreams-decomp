@@ -17,6 +17,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from tools.decoded.lz import decode, encode
+from tools.build.slus_rodata_trim import trim
+
+
+IDENTIFIER = re.compile(r'[A-Za-z_][A-Za-z_0-9]*')
+ROW_NAME = re.compile(r'[a-z][a-z0-9_]*')
+DATA_SECTIONS = {'.rodata', '.data'}
+DATA_PREFIXES = ('.data', '.rodata', '.rdata', '.srodata', '.lit', '.bss',
+                 '.sdata', '.sbss', '.ctors', '.dtors')
 
 
 def number(value):
@@ -39,6 +47,16 @@ def local(root, name, prefix=None):
     if not asset and (target.is_symlink() or not target.resolve().is_relative_to(root.resolve())):
         raise ValueError('decoded image path escapes root: ' + str(name))
     return target
+
+
+def validate_bindings(bindings):
+    for symbol, address in bindings.items():
+        if not IDENTIFIER.fullmatch(symbol) or not 0x80000000 <= number(address) < 0x80200000:
+            raise ValueError('invalid decoded symbol binding')
+
+
+def source_symbol(function):
+    return function.get('symbol', function['name'])
 
 
 def manifests(root=ROOT):
@@ -74,40 +92,83 @@ def manifests(root=ROOT):
             for key in ('source_sha256', 'decoded_sha256'):
                 if not re.fullmatch('[a-f0-9]{64}', stream[key]):
                     raise ValueError('invalid stream digest')
-        functions, seen, sources = [], set(), set()
+        functions, data, seen, sources, placements = [], [], set(), set(), set()
         for unit in image['units']:
             source = unit['source']
-            if source in sources:
-                raise ValueError('duplicate decoded translation unit')
-            sources.add(source)
+            placed = 'placement' in unit
+            if placed:
+                placement = unit['placement']
+                if not ROW_NAME.fullmatch(placement) or placement in placements:
+                    raise ValueError('invalid or duplicate decoded placement')
+                placements.add(placement)
+                validate_bindings(unit['bindings'])
+            else:
+                if source in sources:
+                    raise ValueError('duplicate decoded translation unit')
+                if 'bindings' in unit:
+                    raise ValueError('decoded bindings require a placement')
+                sources.add(source)
             for key, prefix in (('source', 'src/'), ('header', 'include/')):
+                if placed and key == 'header' and key not in unit:
+                    continue
                 if not local(root, unit[key], prefix).is_file():
                     raise ValueError('missing decoded unit input: ' + unit[key])
             if unit['compiler'] != '2.7.2-cdk' or unit['flags'] != '-G0':
                 raise ValueError('unreviewed decoded compiler recipe')
+            if unit.get('genuine_asflags', []) not in ([], ['-0']):
+                raise ValueError('unreviewed decoded genuine assembler recipe')
             if not unit['functions']:
                 raise ValueError('decoded translation unit has no functions')
+            data_sections = set()
+            for datum in unit.get('data', []):
+                section = datum['section']
+                if not isinstance(datum.get('trim_end_padding', False), bool):
+                    raise ValueError('invalid decoded data padding policy')
+                address, length = number(datum['address']), number(datum['size'])
+                if placed or section not in DATA_SECTIONS or section in data_sections:
+                    raise ValueError('invalid or duplicate decoded data section')
+                if length <= 0 or not base <= address < address + length <= base + size:
+                    raise ValueError('decoded data outside image')
+                data_sections.add(section)
+                data.append((address, address + length, section))
+            exports = set()
             for function in unit['functions']:
                 symbol = function['name']
                 address, length = number(function['address']), number(function['size'])
-                if not re.fullmatch('[a-z][a-z0-9_]*', symbol) or symbol in seen:
+                if not ROW_NAME.fullmatch(symbol) or symbol in seen:
                     raise ValueError('invalid or duplicate decoded function')
+                if 'symbol' in function and (not placed or not IDENTIFIER.fullmatch(source_symbol(function))):
+                    raise ValueError('invalid decoded placement export')
+                export = source_symbol(function)
+                if export in exports:
+                    raise ValueError('duplicate decoded placement export')
+                exports.add(export)
                 seen.add(symbol)
                 if address & 3 or length <= 0 or length & 3 or not base <= address < address + length <= base + size:
                     raise ValueError('decoded function outside image')
                 functions.append((address, address + length, symbol))
+            if placed and exports & unit['bindings'].keys():
+                raise ValueError('placement export also supplied as a binding')
         if not functions:
             raise ValueError('decoded image has no C')
         last = base
-        for begin, end, _ in sorted(functions):
+        for begin, end, _ in sorted(functions + data):
             if begin < last:
-                raise ValueError('overlapping decoded functions')
+                raise ValueError('overlapping decoded extents')
             last = end
+        text_bytes = sum(end - begin for begin, end, _ in functions)
+        data_bytes = sum(end - begin for begin, end, _ in data)
+        coverage = dict(functions=len(functions), text_bytes=text_bytes, data_bytes=data_bytes,
+                        imported_bytes=size - text_bytes - data_bytes,
+                        stream_bytes=sum(number(s['used']) for s in image['streams'])
+                        if image['proof_mode'] == 'recompress' else 0)
+        expected = image.get('coverage')
+        if (not isinstance(expected, dict) or any(type(value) is not int for value in expected.values())
+                or expected != coverage):
+            raise ValueError(f'{name}: decoded coverage differs: expected {expected}, found {coverage}')
         if set(image['symbols']) & seen:
             raise ValueError('function also supplied as an external binding')
-        for symbol, address in image['symbols'].items():
-            if not re.fullmatch('[a-zA-Z_][a-zA-Z_0-9]*', symbol) or not 0x80000000 <= number(address) < 0x80200000:
-                raise ValueError('invalid decoded symbol binding')
+        validate_bindings(image['symbols'])
         local(root, image['evidence'], 'docs/')
         images.append(image)
     return images
@@ -116,7 +177,8 @@ def manifests(root=ROOT):
 def rows(root=ROOT):
     return [dict(id='decoded/' + image['image'] + '/' + function['name'],
                  image=image['image'], coordinate_space='decoded', source=unit['source'],
-                 header=unit['header'], **function)
+                 header=unit.get('header'), **function,
+                 **({'placement': unit['placement']} if 'placement' in unit else {}))
             for image in manifests(root) for unit in image['units'] for function in unit['functions']]
 
 
@@ -150,8 +212,29 @@ def run(root, command, log=None):
         with log.open('w') as output:
             subprocess.run(command, cwd=root, stdout=output, stderr=subprocess.STDOUT, check=True)
         return ''
-    return subprocess.run(command, cwd=root, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                          text=True, check=True).stdout
+    result = subprocess.run(command, cwd=root, capture_output=True, text=True)
+    if result.returncode:
+        raise ValueError(f'{command[0]} failed: {result.stderr.strip()}')
+    return result.stdout
+
+
+def object_sections(root, obj):
+    table = run(root, ['mipsel-linux-gnu-objdump', '-h', str(obj)])
+    return {name: int(length, 16) for name, length in
+            re.findall(r'^\s*\d+\s+(\S+)\s+([0-9a-fA-F]+)\s+', table, re.M)
+            if int(length, 16)}
+
+
+def place_object(root, work, obj, unit, text):
+    placement = unit['placement']
+    prefix = f'_decoded_{placement}.'
+    section_prefix = f'.decoded.{placement}'
+    placed = work / f'placed_{placement}.o'
+    rename_sections = [arg for section in text for arg in
+                       ('--rename-section', f'{section}={section_prefix}{section}')]
+    run(root, ['mipsel-linux-gnu-objcopy', '--prefix-symbols', prefix,
+               *rename_sections, str(obj), str(placed)])
+    return placed, prefix, section_prefix
 
 
 def build(root, image, *, compile_units=True):
@@ -162,28 +245,53 @@ def build(root, image, *, compile_units=True):
     expected, streams = reproduce(root, image)
     retail = work / 'retail.bin'
     retail.write_bytes(expected)
-    objects, inputs = [], {}
-    functions = sorted((number(f['address']), number(f['size']), f['name'], unit)
-                       for unit in image['units'] for f in unit['functions'])
-    for unit in image['units']:
-        obj = work / (Path(unit['source']).stem + '.o')
-        if compile_units:
-            run(root, ['nice', '-n', '10', 'bash', 'build_ovl/tools/cc.sh', unit['source'],
-                       str(obj.relative_to(root)), unit['compiler'], unit['flags']], obj.with_suffix('.compile.log'))
-        section_table = run(root, ['mipsel-linux-gnu-objdump', '-h', str(obj)])
-        sections = {}
-        for name, length in re.findall(r'^\s*\d+\s+(\S+)\s+([0-9a-fA-F]+)\s+', section_table, re.M):
-            if int(length, 16):
-                sections[name] = int(length, 16)
-        text = {'.text.' + f['name']: number(f['size']) for f in unit['functions']}
-        if {n: s for n, s in sections.items() if n.startswith('.text')} != text:
-            raise ValueError('complete decoded TU text extents differ: ' + unit['source'])
-        if any(n.startswith(('.data', '.rodata', '.rdata', '.srodata', '.lit', '.bss', '.sdata', '.sbss', '.ctors', '.dtors')) for n in sections):
-            raise ValueError('unregistered decoded TU data')
-        objects.append(obj)
-        for key in ('source', 'header'):
-            inputs[unit[key]] = digest(local(root, unit[key]).read_bytes())
+    objects, inputs, compiled, functions, data = [], {}, {}, [], []
     imports, script, gaps = [], [], []
+    for unit in image['units']:
+        key = (unit['source'], unit['compiler'], unit['flags'])
+        if key not in compiled:
+            obj = work / f'unit_{len(compiled)}.o'
+            if compile_units:
+                run(root, ['nice', '-n', '10', 'bash', 'build_ovl/tools/cc.sh', unit['source'],
+                           str(obj.relative_to(root)), unit['compiler'], unit['flags']], obj.with_suffix('.compile.log'))
+            compiled[key] = obj, object_sections(root, obj)
+        obj, sections = compiled[key]
+        text = {'.text.' + source_symbol(f): number(f['size']) for f in unit['functions']}
+        prefix = section_prefix = ''
+        if 'placement' in unit:
+            if any(sections.get(n) != s for n, s in text.items()):
+                raise ValueError('complete decoded placement extents differ: ' + unit['placement'])
+            obj, prefix, section_prefix = place_object(root, work, obj, unit, text)
+            for name, address in sorted(unit['bindings'].items()):
+                script.append(f'{prefix}{name} = 0x{number(address):X};')
+        else:
+            if {n: s for n, s in sections.items() if n.startswith('.text')} != text:
+                raise ValueError('complete decoded TU text extents differ: ' + unit['source'])
+            owned_data = unit.get('data', [])
+            data_extents = {d['section']: number(d['size']) for d in owned_data}
+            emitted_data = {n: s for n, s in sections.items() if n.startswith(DATA_PREFIXES)}
+            trims = [d for d in owned_data if d.get('trim_end_padding')
+                     and emitted_data.get(d['section'], 0) > number(d['size'])]
+            if trims:
+                contents = bytearray(obj.read_bytes())
+                for datum in trims:
+                    section, length = datum['section'], number(datum['size'])
+                    trim(contents, length, section)
+                    emitted_data[section] = length
+                obj = work / (obj.stem + '_owned.o')
+                obj.write_bytes(contents)
+            if emitted_data != data_extents:
+                raise ValueError('unregistered or mismatched decoded TU data: ' + unit['source'])
+        obj_path = obj.relative_to(root).as_posix()
+        objects.append(obj_path)
+        for f in unit['functions']:
+            functions.append((number(f['address']), number(f['size']), f['name'], unit,
+                              obj_path, section_prefix + '.text.' + source_symbol(f), source_symbol(f), prefix))
+        for d in unit.get('data', []):
+            data.append((number(d['address']), number(d['size']), d['section'], unit, obj_path))
+        for key in ('source', 'header'):
+            if key in unit and unit[key] not in inputs:
+                inputs[unit[key]] = digest(local(root, unit[key]).read_bytes())
     symbols = dict(image['symbols'])
     # ccproc may canonicalize resident names. Accept only aliases of the same
     # explicit binding; no unresolved relocation is masked or guessed.
@@ -202,30 +310,46 @@ def build(root, image, *, compile_units=True):
         script.append(f'{name} = 0x{number(address):X};')
     script.append('SECTIONS {')
     cursor = base
-    for address, length, name, unit in functions + [(base + size, 0, '', None)]:
+    functions.sort()
+    allocations = functions + [
+        (address, length, f'data_{index}', unit, obj, section, None, '')
+        for index, (address, length, section, unit, obj) in enumerate(data)
+    ]
+    for address, length, name, unit, obj, section_name, export, prefix in (
+            sorted(allocations) + [(base + size, 0, '', None, '', '', '', '')]):
         if address > cursor:
             index = len(gaps)
             section = '.decoded_gap_' + str(index)
             # Relative path: generated assembler/linker files are portable too.
             imports.extend([f'.section {section},"a",@progbits',
                             f'.incbin "{retail.relative_to(root).as_posix()}", {cursor-base}, {address-cursor}'])
-            script.append(f'.gap_{index} 0x{cursor:X} : SUBALIGN(4) {{ *({section}) }}')
+            script.append(f'.gap_{index} 0x{cursor:X} : SUBALIGN(1) {{ *({section}) }}')
             gaps.append(dict(offset=cursor-base, size=address-cursor, owner='imported decoded asset'))
         if name:
-            script.append(f'.fn_{name} 0x{address:X} : SUBALIGN(4) {{ *(.text.{name}) }}')
-            script.append(f'ASSERT(SIZEOF(.fn_{name}) == {length}, "decoded function size differs")')
+            if export is not None:
+                if 'placement' in unit:
+                    script.append(f'{name} = {prefix}{export};')
+                    script.append(f'ASSERT({prefix}{export} == 0x{address:X}, "decoded placement entry differs")')
+                output, alignment = '.fn_' + name, 4
+            else:
+                output, alignment = '.' + name, 1
+            script.append(f'{output} 0x{address:X} : SUBALIGN({alignment}) {{ {obj}({section_name}) }}')
+            script.append(f'ASSERT(SIZEOF({output}) == {length}, "decoded section size differs")')
         cursor = address + length
     script.append('/DISCARD/ : { *(*) }\n}')
     (work / 'imports.s').write_text('\n'.join(imports) + '\n')
     (work / 'image.ld').write_text('\n'.join(script) + '\n')
     run(root, ['mipsel-linux-gnu-as', '-EL', '-march=r3000', '-o', str(work/'imports.o'), str(work/'imports.s')])
     run(root, ['mipsel-linux-gnu-ld', '-T', str(work/'image.ld'), '-o', str(work/'image.elf'),
-               *map(str, objects), str(work/'imports.o')])
+               *objects, str(work/'imports.o')])
     run(root, ['mipsel-linux-gnu-objcopy', '-O', 'binary', str(work/'image.elf'), str(work/'image.bin')])
     actual = (work / 'image.bin').read_bytes()
     if actual != expected:
         differing = [dict(function=n, address=hex(a), size=s)
-                     for a, s, n, _ in functions if actual[a-base:a-base+s] != expected[a-base:a-base+s]]
+                     for a, s, n, *_ in functions if actual[a-base:a-base+s] != expected[a-base:a-base+s]]
+        differing.extend(dict(section=section, source=u['source'], address=hex(a), size=s)
+                         for a, s, section, u, _ in data
+                         if actual[a-base:a-base+s] != expected[a-base:a-base+s])
         raise ValueError('decoded image C differs: ' + json.dumps(differing))
     compressed = []
     if image['proof_mode'] == 'recompress':
@@ -241,12 +365,17 @@ def build(root, image, *, compile_units=True):
     result = dict(result='PASS', image=image['image'], proof_mode=image['proof_mode'],
                   compressed_streams_produced_from_linked_image=bool(compressed), raw_c_coverage_bytes=0,
                   compressed_stream_bytes=sum(s['size'] for s in compressed), compressed_streams=compressed,
-                  decoded_c_text_bytes=sum(s for _, s, _, _ in functions),
+                  decoded_c_text_bytes=sum(s for _, s, *_ in functions),
+                  decoded_c_data_bytes=sum(s for _, s, *_ in data),
+                  data=[dict(section=section, source=u['source'], address=hex(a),
+                             offset=a-base, size=s, sha256=digest(actual[a-base:a-base+s]))
+                        for a, s, section, u, _ in sorted(data)],
                   decoded_imported_bytes=sum(g['size'] for g in gaps),
                   size=len(actual), sha256=digest(actual), source_sha256=inputs, streams=streams,
                   functions=[dict(id='decoded/'+image['image']+'/'+n, name=n, address=hex(a),
-                                  offset=a-base, size=s, source=u['source'], sha256=digest(actual[a-base:a-base+s]))
-                             for a, s, n, u in functions], gaps=gaps)
+                                  offset=a-base, size=s, source=u['source'], sha256=digest(actual[a-base:a-base+s]),
+                                  **({'placement': u['placement'], 'symbol': export} if 'placement' in u else {}))
+                             for a, s, n, u, _, _, export, _ in functions], gaps=gaps)
     (work / 'proof.json').write_text(json.dumps(result, indent=2) + '\n')
     return result
 

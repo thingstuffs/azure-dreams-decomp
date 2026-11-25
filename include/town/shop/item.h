@@ -12,7 +12,7 @@ struct ItemMenuTransition;
 struct ItemMenuObject;
 struct ItemMenuPart;
 struct ItemMenuTransition;
-struct S_800AEBC4_4;
+struct ItemMenuDisplayLinks;
 struct S_800AFF00_4;
 struct S_800B0700_0;
 struct ShopWindow;
@@ -49,7 +49,7 @@ char *get_item_menu_table_entry(s32 index);
 void initialize_item_menu_linked_blocks(ItemMenuDisplayLinks *state, ItemMenuDisplayBlock *primary, ItemMenuDisplayPosition *secondary);
 
 /* init_item_menu_list_position.c */
-void init_item_menu_list_position(ItemMenuTransition *vectors, struct S_800AEBC4_4 *config, s32 *position_data, s32 *secondary_data, s32 x, s32 y);
+void init_item_menu_list_position(ItemMenuTransition *vectors, struct ItemMenuDisplayLinks *config, s32 *position_data, s32 *secondary_data, s32 x, s32 y);
 
 /* initialize_item_menu_list_display.c */
 void initialize_item_menu_list_display(ItemMenuTransition *objectData, ObjectNodeHeader *owner, s32 listConfig, s32 entryCount, s32 x, s32 y, u8 *entryIds);

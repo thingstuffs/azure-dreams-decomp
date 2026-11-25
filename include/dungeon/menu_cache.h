@@ -3,12 +3,31 @@
 
 #include "common.h"
 
+#include "engine/node/registration.h"
 #include "shared/entity.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
+#include "shared/record_ptrs.h"
+#include "shared/item_menu.h"
+#include "shared/sprite_part_command.h"
+#include "town/shop/object.h"
 
-/* This bank reads the player tail as well as the ActorRecord prefix. */
-extern PlayerRecord *primary_actor_record;
+/* Only this player body uses both scratch pointers as indexed familiar links. */
+static inline ActorRecord *read_cached_familiar_link(const u8 *actor_base)
+{
+    /* The link walk adds the constant offset of the first familiar field. */
+    return *(void *const *)(actor_base + (unsigned long)&((ActorRecord *)0)->unk_AC.address);
+}
+
+static inline ActorRecord *get_cached_player_familiar(s32 slot)
+{
+    unsigned long scaled_slot = slot * sizeof(void *);
+    const u8 *actor_base = (const u8 *)primary_actor_record;
+    /* The indexed offset is the first operand of the address addition. */
+    const u8 *slot_address = (const u8 *)(scaled_slot + (unsigned long)actor_base);
+
+    return read_cached_familiar_link(slot_address);
+}
 
 s32 get_menu_actor_index(void *actor);
 void *get_menu_actor(s32 index);
@@ -16,84 +35,116 @@ s32 get_menu_actor_mask(void);
 s32 list_menu_actor_records(void **records, s32 include_primary);
 s32 list_menu_actor_records_with_primary(void **records);
 s32 list_menu_linked_actor_records(void **records);
-
-typedef struct MenuEntryTemplate {
-    s32 words[4];
-} MenuEntryTemplate;
-
-typedef struct MenuEntryCommon {
-    s32 word0, word1, word2;
-} MenuEntryCommon;
-
-typedef struct MenuEntryState {
-    void (*callback)(struct MenuEntryState *, void *, void *, void *);
-    u8 pad_04[0x5C];
-    MenuEntryTemplate display_template;
-    MenuEntryCommon linked_common;
-    MenuEntryCommon entry_common;
-    u8 display_owner[0x0C];
-    s32 entry_value;
-    void **entries;
-    u16 *resources[1];
-} MenuEntryState;
+s32 get_familiar_menu_state_mask(void);
+s32 count_menu_familiars(void);
 
 typedef struct MenuEntryObject {
     ObjectNodeHeader node;
-    MenuEntryState state;
+    ShopFirstCallbackObject state;
 } MenuEntryObject;
 
-s32 prepare_cached_menu_entries(MenuEntryState *state, s32 count);
-s32 link_cached_menu_entries(void **entries);
-void initialize_cached_menu_entry(MenuEntryState *state, s32 resource_id, s32 slot_index, s32 x, s32 y, s32 z);
-void invoke_cached_menu_callback(MenuEntryState *state, void *position, void *sprite, void *context);
+s32 prepare_menu_entries(ShopFirstCallbackObject *state, s32 count);
+ItemMenuPart *link_menu_entries(ItemMenuPart **entries);
+void initialize_menu_entry(ShopFirstCallbackObject *state, ActorRecord *actor, s32 slot_index, s32 x, s32 y, s32 z);
+void invoke_menu_callback(ShopFirstCallbackObject *state);
 int draw_tinted_node_sprites_scratch(void *forwarded_ptr, int unused_arg, void *second_ptr);
-void register_node(MenuEntryObject *object, void (*draw)(void *, s32, void *));
 void release_null_terminated_entries(u16 **resources);
-MenuEntryObject *allocate_menu_entry_object(s32 resource_id, s32 slot_index, s32 x, s32 y, s32 z);
-void clear_menu_entries(void **entries);
-void release_menu_entry_state(MenuEntryState *state);
+MenuEntryObject *allocate_menu_entry_object(ActorRecord *actor, s32 slot_index, s32 x, s32 y, s32 z);
 void release_menu_entry_object(MenuEntryObject *object);
-void *allocate_menu_pair(void *first, void *second, s32 mode);
-void *allocate_menu_pair_default(void *first, void *second);
+ObjectNodeHeader *allocate_menu_pair(ObjectNodeHeader *owner, s32 position, s32 mode);
+ObjectNodeHeader *allocate_menu_pair_default(ObjectNodeHeader *owner, s32 position);
 
-typedef struct MenuPanelTransform {
-    u8 pad_00[6];
-    s16 scale;
-} MenuPanelTransform;
 
-typedef struct MenuPanelChildren {
-    u8 pad_00[0x98];
-    void *colors[2];
-} MenuPanelChildren;
+/* The list header's body is installed by the item display setup routine. */
+typedef struct CachedItemList {
+    ObjectNodeHeader *owner;
+    ObjectNodeHeader *panels[2];
+    DungeonItemEntry **entries;
+    DungeonItemEntry *extra_entries[2];
+    s32 position;
+    s32 count;
+    s32 page;
+    s32 last_page;
+    s32 excluded_count;
+    s32 active_panel;
+    s32 script_pending;
+    s32 mode;
+} CachedItemList;
 
+typedef struct CachedItemListNode {
+    ObjectNodeHeader header;
+    CachedItemList list;
+} CachedItemListNode;
+
+/* A retry returns zero while waiting, one on success, or the allocated node address. */
+typedef ObjectNodeHeader *CachedMenuRetryResult;
+
+/* The body of the node that allocates the 40 display parts. */
 typedef struct MenuPanelState {
-    u8 pad_00[8];
+    void *saved_update;
+    CachedMenuRetryResult (*resume)(struct MenuPanelState *display);
     s32 step;
-    u8 pad_0C[0x18];
-    u8 tagged_stream[0x80];
-    MenuPanelTransform *transform;
-    u8 pad_A8[8];
-    MenuPanelChildren *children;
+    s32 repeat_delay;
+    s32 enabled;
+    CachedItemListNode *owner;
+    CachedItemList *list;
+    s32 visible_count;
+    s32 last_visible_page;
+    FrameState cursor;
+    u8 panel[0x48];
+    ItemMenuDisplayBlock display;
+    ItemMenuDisplayPosition display_position;
+    DisplayPositionWords part_common;
+    ItemMenuDisplayLinks links;
+    ItemMenuPart *draw_chain;
+    ItemMenuPart **parts;
+    u16 *part_resources[1];
 } MenuPanelState;
 
-typedef struct MenuPanelUpdateRecord {
-    void (*update)(MenuPanelState *);
-    u8 pad_04[12];
+
+typedef struct CachedItemDisplayNode {
+    ObjectNodeHeader header;
     MenuPanelState state;
-} MenuPanelUpdateRecord;
+} CachedItemDisplayNode;
 
-s32 advance_timed_tagged_stream(void *stream);
+void initialize_item_menu_panel_rectangle(void *record);
+void layout_item_menu_upper_pair_columns(ItemMenuPart **parts);
+void layout_item_menu_lower_item_columns(ItemMenuPart **parts);
+void position_item_menu_side_indicators(ItemMenuPart **parts);
+void layout_item_menu_lower_pair_columns(ItemMenuPart **parts);
+CachedItemDisplayNode *create_item_display(ObjectNodeHeader *owner);
+CachedItemDisplayNode *create_open_item_display(ObjectNodeHeader *owner);
+void update_item_page_bounds(MenuPanelState *display);
+extern u8 cached_item_secondary_cursor[];
+CachedMenuRetryResult retry_item_pair_open(MenuPanelState *display);
+CachedMenuRetryResult open_item_display_selection_action(MenuPanelState *display);
+void advance_item_display_resume(MenuPanelState *display);
+void confirm_item_selection(MenuPanelState *display);
+void poll_item_display_input(MenuPanelState *display);
+void cancel_item_selection(MenuPanelState *display);
+void populate_item_page_text(MenuPanelState *display);
+void populate_item_page_indicators(ItemMenuPart **parts, MenuPanelState *display);
+void refresh_item_cursor_pair(MenuPanelState *display);
+void initialize_item_parts(MenuPanelState *display);
+/* The resident resource allocator appends the packet buffer to the same pointer pool. */
+
+void populate_item_labels(ItemMenuPart **parts, MenuPanelState *display);
+void position_item_cursors(MenuPanelState *display);
+void populate_item_icons(MenuPanelState *display);
+void refresh_item_page(MenuPanelState *display);
+void redraw_item_selection(MenuPanelState *display);
+void initialize_item_request(MenuPanelState *display, CachedItemListNode *owner);
+void configure_item_display(MenuPanelState *display, CachedItemListNode *owner);
+s32 prepare_item_parts(MenuPanelState *display, s32 count);
+ItemMenuPart *link_item_display_entries(ItemMenuPart **entries);
+
 void fade_color_to_gray(void *object, s32 unused);
-void handle_menu_panel_input(MenuPanelState *state);
+void refresh_item_cursor_graphics(MenuPanelState *panel);
+void resume_item_display(ObjectNodeHeader *node);
 void update_menu_panel_colors(MenuPanelState *state);
-void advance_menu_panel_scale(void *record);
+void advance_menu_panel_scale(MenuPanelState *state);
 
-extern MenuEntryCommon menu_entry_common_template;
-extern u8 menu_entry_link_table[];
-void set_entry_common_pointers(void **entries, MenuEntryCommon *common, s32 count);
-s32 build_reverse_indexed_chain(void **entries, void *table, s32 count);
-void initialize_menu_display_templates(void *owner, MenuEntryTemplate *display, MenuEntryCommon *common, s32 x, s32 y, s32 z);
-void clear_cached_menu_entry(MenuEntryState *state);
-void set_cached_menu_entry_resource(MenuEntryState *state, s32 resource_id, s32 slot_index);
+extern const u8 menu_entry_link_table[];
+
 
 #endif
