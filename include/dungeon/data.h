@@ -20,6 +20,7 @@
 #include "shared/entity_action_selectors.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/sprite_source.h"
+#include "shared/object_node.h"
 
 struct CallbackEntry;
 struct DungeonParameters;
@@ -239,5 +240,61 @@ typedef struct SpeciesGrowthEntry {
 } SpeciesGrowthEntry;
 
 extern SpeciesGrowthEntry species_growth_table[];
+
+/* Disc-backed text allocations. */
+extern const u32 is_psyched_up_message_slot_a[8];
+extern const u32 is_psyched_up_message_slot_b[8];
+extern const u32 is_psyched_up_message_slot_c[8];
+extern const u32 is_psyched_up_message_slot_d[8];
+extern const u32 is_psyched_up_message_slot_e[8];
+extern const u32 is_psyched_up_message_slot_f[8];
+extern const u32 is_psyched_up_message_slot_g[21];
+extern const u32 revealed_its_true_power_message_slot_a[13];
+extern const u32 revealed_its_true_power_message_slot_b[13];
+extern const u32 revealed_its_true_power_message_slot_c[13];
+extern const u32 revealed_its_true_power_message_slot_d[13];
+extern const u32 revealed_its_true_power_message_slot_e[13];
+extern const u32 revealed_its_true_power_message_slot_f[13];
+extern const u32 roared_message_slot_a[5];
+extern const u32 roared_message_slot_b[5];
+extern const u32 roared_message_slot_c[5];
+extern const u32 roared_message_slot_d[5];
+extern const u32 roared_message_slot_e[5];
+extern const u32 roared_message_slot_f[5];
+extern const u32 texture_rect_table_slot_g[14];
+extern const u32 used_hypnosis_message_slot_a[8];
+extern const u32 used_hypnosis_message_slot_b[8];
+extern const u32 used_hypnosis_message_slot_c[8];
+extern const u32 used_hypnosis_message_slot_d[8];
+extern const u32 used_hypnosis_message_slot_f[8];
+extern const u8 away_message_slot_a[16];
+extern const u8 away_message_slot_c[16];
+extern const u8 away_message_slot_d[16];
+extern const u8 away_message_slot_f[16];
+extern const u8 could_not_steal_the_item_message_slot_a[52];
+extern const u8 could_not_steal_the_item_message_slot_c[52];
+extern const u8 could_not_steal_the_item_message_slot_d[52];
+extern const u8 could_not_steal_the_item_message_slot_f[52];
+extern const u8 garuda_slot_a_message_data[16];
+extern const u8 garuda_slot_c_message_data[16];
+extern const u8 garuda_slot_d_message_data[16];
+extern const u8 garuda_slot_f_message_data[16];
+extern const u8 item_message_slot_a[12];
+extern const u8 item_message_slot_c[12];
+extern const u8 item_message_slot_d[12];
+extern const u8 item_message_slot_f[12];
+extern const u8 led_a_merry_dance_message_slot_a[40];
+extern const u8 led_a_merry_dance_message_slot_c[40];
+extern const u8 led_a_merry_dance_message_slot_d[40];
+extern const u8 led_a_merry_dance_message_slot_f[40];
+extern const u8 stole_message_slot_a[16];
+extern const u8 stole_message_slot_c[16];
+extern const u8 stole_message_slot_d[16];
+extern const u8 stole_message_slot_f[16];
+extern const u8 went_berserk_message_slot_a[32];
+extern const u8 went_berserk_message_slot_c[32];
+extern const u8 went_berserk_message_slot_d[32];
+
+extern ObjectNodeHeader *dungeon_menu_object;
 
 #endif

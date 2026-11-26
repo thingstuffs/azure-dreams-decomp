@@ -173,12 +173,12 @@ static const u8 linked_actor_panel_draw_order[] __attribute__((aligned(4))) = {0
 
 ItemMenuPart *link_cached_actor_grid_parts(ItemMenuPart **parts)
 {
-    return (ItemMenuPart *)build_reverse_indexed_chain((struct S_800491F4 **)parts, (u8 *)linked_actor_grid_draw_order, 50);
+    return (ItemMenuPart *)build_reverse_indexed_chain((struct S_800491F4 **)parts, linked_actor_grid_draw_order, 50);
 }
 
 ItemMenuPart *link_cached_actor_panel_parts(ItemMenuPart **parts)
 {
-    return (ItemMenuPart *)build_reverse_indexed_chain((struct S_800491F4 **)parts, (u8 *)linked_actor_panel_draw_order, 50);
+    return (ItemMenuPart *)build_reverse_indexed_chain((struct S_800491F4 **)parts, linked_actor_panel_draw_order, 50);
 }
 
 const RECT cached_actor_command_panel_rectangle __attribute__((aligned(4))) = {-68, -8, 136, 16};
@@ -758,7 +758,7 @@ void bind_actor_command_part_vectors(ItemMenuPart **parts, DisplayPositionWords 
     parts[1]->vector = common;
     do {
         /* The indexed offset is the first operand of the address addition. */
-        ItemMenuPart **row_parts = (ItemMenuPart **)(index * sizeof(*parts) + (unsigned long)parts);
+        ItemMenuPart **row_parts = &parts[index];
 
         row_parts[26]->vector = &banks[(u32)index / 21][(u32)index % 21];
         row_parts[2]->vector = row_parts[26]->vector;
@@ -802,5 +802,5 @@ void check_cached_linked_actor_close_signal(void *body)
 
 void initialize_linked_actor_panel_packets(void *packets)
 {
-    init_packet_pair_and_gradient(packets, (void *)&cached_actor_command_panel_rectangle);
+    init_packet_pair_and_gradient(packets, &cached_actor_command_panel_rectangle);
 }

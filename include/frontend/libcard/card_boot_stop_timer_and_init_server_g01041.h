@@ -18,7 +18,7 @@ typedef CardChooser Struct80014C90;
 
 typedef struct Node8002BB08 Node8002BB08;
 
-extern s8 animation_tick_scale;
+#include "slus/animation_tick_data.h"
 extern void configure_shared_fade_primitive(void);
 extern s32 D_800814A0;
 void save_and_clear_actor_blind_flag(void);

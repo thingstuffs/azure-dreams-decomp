@@ -42,7 +42,7 @@ void enqueue_script_message_command(void);
 void call_message_mode_handler(void);
 void complete_cached_message_transition(void *body);
 void queue_menu_message(ObjectNodeHeader *node);
-void poll_menu_owner_cancel(void *body);
+void poll_party_menu_cancel(void *body);
 void schedule_party_menu_close(ObjectNodeHeader *node);
 void start_menu_message_mode(ObjectNodeHeader *node);
 void schedule_menu_preview(ObjectNodeHeader *node);

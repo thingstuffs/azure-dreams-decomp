@@ -34,6 +34,7 @@
 #include "sdk/libc.h"
 #include "engine/entity.h"
 #include "dungeon/item/message.h"
+#include "shared/dungeon_image_buffer.h"
 
 struct Dst;
 struct Elem;
@@ -413,7 +414,6 @@ s32 attempt_confusion_trap(void *object) {
 
 #define U32(p, o) (*(u32 *)((u8 *)(p) + (o)))
 
-extern s16 D_8006CCD8[], D_8006CCE8[];
 extern s32 find_object_near_tile_height();
 extern void apply_attack_power_and_element_effects();
 
@@ -423,8 +423,8 @@ void advance_trap_effect_and_process_collisions(FivePartTargetEffectBody *effect
     s32 target;
     s16 entry_index;
 
-    effect->x = effect->x + D_8006CCD8[effect->direction];
-    effect->y = effect->y + D_8006CCE8[effect->direction];
+    effect->x = effect->x + dir_step_x[effect->direction];
+    effect->y = effect->y + dir_step_y[effect->direction];
     target = find_object_near_tile_height(effect->x, effect->y, effect->z);
     if (target) {
         apply_attack_power_and_element_effects(target, 6, dungeon_actor_ring_anchor->level, 9,
@@ -708,7 +708,6 @@ void apply_attack_power_and_element_effects(); /* extern */
 extern u8 D_800CC370;
 extern u8 D_800CC9BC;
 extern u8 trap_resource_slot;
-extern u8 dungeon_resource_buffer;
 
 /* Creates a five-part effect at the given position and applies its target effect. */
 void create_five_part_target_effect(u16 x, u16 y, s16 z) {
@@ -725,7 +724,7 @@ void create_five_part_target_effect(u16 x, u16 y, s16 z) {
     FivePartTargetEffectRecord *effect;
     FivePartTargetEffectRecord *part;
 
-    effect = initialize_scene_object_in_buffer(0, (trap_resource_slot * 0xC8) + &dungeon_resource_buffer, 0xA);
+    effect = initialize_scene_object_in_buffer(0, (trap_resource_slot * 0xC8) + dungeon_resource_buffer, 0xA);
     effect->resource = &D_800CC9BC;
     effect->body.x = x;
     effect->body.y = y;
@@ -734,7 +733,7 @@ void create_five_part_target_effect(u16 x, u16 y, s16 z) {
     g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
     part_index = 3;
     do {
-        part = initialize_scene_object_in_buffer(0, (((trap_resource_slot * 5) + part_index) * 0x28) + (&dungeon_resource_buffer + 0x28), 0xA);
+        part = initialize_scene_object_in_buffer(0, (((trap_resource_slot * 5) + part_index) * 0x28) + (dungeon_resource_buffer + 0x28), 0xA);
         part->resource = &D_800CC370;
         part_x = effect->body.x;
         direction = part_index * 2;

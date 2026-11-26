@@ -5,14 +5,13 @@
 #include "town.h"
 #include "town/scene.h"
 
-extern u8 D_800176AC[9];
 extern u8 D_80018ED1[9];
 
 /* Select a result and override it when condition 12 is active. */
 void *select_data_with_table_override(TownObjectSet *selection_value, s32 unused, s32 selection_mode) {
     void *result;
 
-    result = apply_entry_position(D_800176AC, sbs17_choice_position_flags, selection_value, selection_mode);
+    result = apply_entry_position(&sbs17_choice_position_entries[1], sbs17_choice_position_flags, selection_value, selection_mode);
     if (town_pair_table_has_first(12) != 0) {
         result = D_80018ED1;
     }

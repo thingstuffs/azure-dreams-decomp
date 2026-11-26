@@ -231,7 +231,7 @@ void update_brightening_fading_effect(BrighteningFadeBody *effect, ObjectPositio
 #define NULL 0
 
 extern s32 D_80027380;
-extern s32 D_800DF334;
+extern struct DungeonParameters D_800DF334;
 
 /* Creates an object, initializes its parts, and loads its graphics. */
 void *create_brightening_fading_effect(S_8195ED3C_2 *source, s32 offset)

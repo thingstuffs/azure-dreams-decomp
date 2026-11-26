@@ -6,7 +6,12 @@
 
 struct ObjectNodeHeader;
 struct CopyBlock;
-struct OvWork;
+typedef struct OvWork {
+    s32 unk_00;
+    s32 unk_04;
+    s32 kind;
+    u8 pad_0C[0x28];
+} OvWork;
 struct CardDevSlotDetails;
 
 /* set_stage_flag_four_if_ready.c */

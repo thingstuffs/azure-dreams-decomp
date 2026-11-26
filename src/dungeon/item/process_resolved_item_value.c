@@ -12,12 +12,13 @@
 #include "slus.h"
 #include "dungeon/item.h"
 #include "dungeon/system.h"
+#include "shared/dir_step.h"
 /* Selector-image function at DUNGEON file [0x1943DD0, 0x1944338), true 0x800255D0
  * (rowbase img_1942998_80024198 delta 0x7E6E1800 continued).  Five-state handler:
  * spawn a directional effect object, follow it, then print the result message and
  * finish.  Reconstruction (v8); the message
  * builder uses the engine's cursor idiom (message_end / message_start, as in
- * src/dungeon/func_800BB400.c and func_800940E4.c).  Evidence:
+ * src/dungeon/item/apply_genus_change_item.c and func_800940E4.c).  Evidence:
  * docs/evidence/r121_rem_opus.md. */
 extern s16 set_or_clear_actor_status_slot(void *, s8, s8);
 typedef struct { s32 w[12]; } Packet48;
@@ -28,8 +29,6 @@ extern u8 D_80024024[];
 extern u8 D_80024E5C[];
 extern u8 D_80025B40[];
 
-extern u8 dir_step_x[];
-extern u8 dir_step_y[];
 #include "shared/object_flags.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -184,8 +183,8 @@ void process_resolved_item_value(ObjectNodeHeader *effect_state, ResolvedMotion 
             (spawn_state->kind) = (u8) (((ResolvedEffect *)effect_state)->kind);
             (spawn_state->direction) = (u16) (((ResolvedEffect *)effect_state)->direction);
             owner_sprite = ((ResolvedSprite *)NODE_HEADER(owner)->sprite);
-            (((ResolvedEffect *)effect_state)->tile_x) = (s8) ((owner_sprite->tile_x) + dir_step_x[((((ResolvedEffect *)effect_state)->direction) * 2)]);
-            (((ResolvedEffect *)effect_state)->tile_y) = (s8) ((owner_sprite->tile_y) + dir_step_y[((((ResolvedEffect *)effect_state)->direction) * 2)]);
+            (((ResolvedEffect *)effect_state)->tile_x) = (s8) ((owner_sprite->tile_x) + (u8)dir_step_x[(((ResolvedEffect *)effect_state)->direction)]);
+            (((ResolvedEffect *)effect_state)->tile_y) = (s8) ((owner_sprite->tile_y) + (u8)dir_step_y[(((ResolvedEffect *)effect_state)->direction)]);
             if ((owner->target) != 0) {
                 (spawn_state->target_x) = (s16) (s8) (owner->tile_x);
                 (spawn_state->target_y) = (s16) (s8) (owner->tile_y);

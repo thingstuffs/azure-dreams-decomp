@@ -103,7 +103,8 @@
     (work/disc/containers) and is reported as skipped when they are absent.  --fail-new and --fail-all fail on any
     row that lacks a field or differs.
 
-(m) older Dungeon head-bank rows (ledger/coverage_regions.jsonl) must match a registered C extent.
+(m) older Dungeon head-bank rows (ledger/coverage_regions.jsonl) match a complete
+    bank or a registered C extent inside one.
     The bank entry pointer and local helper call verify the link base. A resident call and the
     retail executable verify the incompatible entry. Hashes bind the classified bodies and
     the calling sequence. Missing retail inputs skip only the byte checks.
@@ -136,6 +137,9 @@ import atomic_io  # noqa: E402
 import ledger_public  # noqa: E402
 import placed_copies  # noqa: E402
 import clone_sources  # noqa: E402
+import retail_text_imports  # noqa: E402
+from tools.lint import retail_text  # noqa: E402
+from tools.gate.linklist import num  # noqa: E402
 
 FLOORS = 'ledger/prototype_floors.jsonl'
 
@@ -1066,7 +1070,9 @@ def check_developer_names(root, base, head_text=None, base_text=None):
 RESIDUE_REQUIRING = ('stale_town_copy', 'foreign_program_fragment')
 FORMATTER_RESIDUE = ('formatter_remnant', 'formatter_build_string')
 OLDER_HEAD_BANK = 'older_dungeon_head_bank'
-RESIDUE_CATEGORIES = RESIDUE_REQUIRING + FORMATTER_RESIDUE + (OLDER_HEAD_BANK,)
+PRIOR_TOWN_IMAGE = 'prior_town_image'
+PRIOR_TOWN_INDEX = 'link/leftovers/stale_images/intervals.json'
+RESIDUE_CATEGORIES = RESIDUE_REQUIRING + FORMATTER_RESIDUE + (OLDER_HEAD_BANK, PRIOR_TOWN_IMAGE)
 
 
 def active_retail_residue(regions):
@@ -1098,13 +1104,31 @@ def residue_comparison_problems(root, notes=None, regions=None):
             blobs[name] = (root / placed_copies.CONTAINER_DIR / containers[name]).read_bytes()
         return blobs[name]
 
+    prior = {}
+    if any(row['category'] == PRIOR_TOWN_IMAGE for row in rows):
+        try:
+            index = json.loads((root / PRIOR_TOWN_INDEX).read_text())['entries']
+            for entry in index:
+                if entry.get('category') == PRIOR_TOWN_IMAGE:
+                    key = entry['container'], entry['foff'], entry['size']
+                    if key in prior:
+                        raise ValueError('duplicate prior image range')
+                    prior[key] = entry['sha256']
+        except (OSError, ValueError, TypeError, KeyError) as error:
+            problems.append(f'{PRIOR_TOWN_INDEX}: {error}')
+
     for row in rows:
         start, size = int(row['foff']), int(row['size'])
         where = f"{row['category']} {row['container']} +0x{start:X} ({size} bytes)"
         if row['container'] not in containers:
             problems.append(where + ': unknown container')
             continue
-        requires_hash = row['category'] in FORMATTER_RESIDUE
+        if row['category'] == PRIOR_TOWN_IMAGE:
+            key = row['container'], start, size
+            if (key[0] != 'town' or row.get('evidence') != PRIOR_TOWN_INDEX
+                    or key not in prior or row.get('retail_sha256') != prior[key]):
+                problems.append(where + ': range or digest differs from the prior-image index')
+        requires_hash = row['category'] in (*FORMATTER_RESIDUE, PRIOR_TOWN_IMAGE)
         if requires_hash and not re.fullmatch('[0-9a-f]{64}', str(row.get('retail_sha256', ''))):
             problems.append(where + ': missing or invalid retail_sha256')
             continue
@@ -1199,20 +1223,26 @@ def older_head_bank_problems(root, notes=None):
         try:
             if row['evidence'] != evidence_path or row['container'] != 'dungeon':
                 raise ValueError('wrong container or bank evidence path')
-            registered = registry[row['row']]
-            if (registered['container'], registered['foff'], registered['size']) != ('dungeon', start, row['size']):
-                raise ValueError('registered extent differs')
-            if not registered['func'].startswith('func_') or not re.fullmatch('[0-9a-f]{64}', row['retail_sha256']):
-                raise ValueError('expected a C function row with a retail hash')
             bank = banks[row['bank_foff']]
             first, end, base = bank['foff'], bank['end'], bank['linked_base']
             entry, helper = bank['entry_foff'], bank['helper_foff']
             local_call, resident_call = bank['local_call_foff'], bank['resident_call_foff']
-            if (first % 0x800 or not first < start < start + row['size'] <= end <= first + 0x800
+            if (first % 0x800 or not first < end <= first + 0x800
                     or any(foff % 4 or not first < foff <= end - 4 for foff in (entry, helper, local_call, resident_call))
                     or not first <= resident_call - 24 < resident_call + 8 <= end
                     or not re.fullmatch('[0-9a-f]{64}', bank['resident_sequence_sha256'])):
                 raise ValueError('invalid bank or witness extent')
+            if row.get('scope') == 'bank':
+                if start != first or start + row['size'] != end or 'row' in row:
+                    raise ValueError('classified extent differs from the complete bank')
+            else:
+                registered = registry[row['row']]
+                if (registered['container'], registered['foff'], registered['size']) != ('dungeon', start, row['size']):
+                    raise ValueError('registered extent differs')
+                if not registered['func'].startswith('func_') or not first < start < start + row['size'] <= end:
+                    raise ValueError('registered function lies outside its bank')
+            if not re.fullmatch('[0-9a-f]{64}', row['retail_sha256']):
+                raise ValueError('expected a retail hash')
             if not present:
                 continue
             checked += 1
@@ -1228,11 +1258,65 @@ def older_head_bank_problems(root, notes=None):
                 call_sequence = disc[resident_call - 24:resident_call + 8]
                 if hashlib.sha256(call_sequence).hexdigest() != bank['resident_sequence_sha256']:
                     problems.append(f'{category} bank +0x{first:X}: resident call sequence differs')
-            if hashlib.sha256(disc[start:start + row['size']]).hexdigest() != row['retail_sha256']:
-                problems.append(f'{where}: classified body differs')
+            payload = disc[start:start + row['size']]
+            if len(payload) != row['size'] or hashlib.sha256(payload).hexdigest() != row['retail_sha256']:
+                problems.append(f'{where}: classified extent differs from retail')
         except (KeyError, TypeError, ValueError) as exc:
             problems.append(f'{where}: {exc}')
     return len(rows), checked, problems
+
+
+def bank_pointer_table_problems(root, regions=None):
+    """Check bank-local pointer tables between a bank header and its first routine."""
+    root = Path(root)
+    if regions is None:
+        ledger = root / 'ledger/coverage_regions.jsonl'
+        if not ledger.is_file():
+            return 0, 0, []
+        regions = [json.loads(line) for line in ledger.read_text().splitlines()
+                   if line.strip() and not line.startswith('#')]
+    disc_path = root / placed_copies.CONTAINER_DIR / placed_copies.CONTAINERS['dungeon']
+    records = [row for row in regions if row.get('category') == 'bank_pointer_table']
+    if not records:
+        return 0, 0, []
+    disc = disc_path.read_bytes() if disc_path.is_file() else None
+    checked, problems = 0, []
+    for row in records:
+        where = f'bank pointer table at +0x{row["foff"]:X}'
+        try:
+            start, size, bank_start = row['foff'], row['size'], row['bank_foff']
+            path = f'config/link/dungeon/bank_{bank_start:x}.json'
+            if row['container'] != 'dungeon' or bank_start < 0 or row.get('evidence') != path:
+                raise ValueError('wrong container or bank location')
+            bank = json.loads((root / path).read_text())
+            header, routine = bank['entries'][:2]
+            if (bank['image'] != f'dungeon/bank_{bank_start:x}' or bank['container'] != 'dungeon'
+                    or num(bank['foff']) != bank_start or num(header['foff']) != bank_start
+                    or not header.get('row', '').startswith('dungeon/D_')
+                    or not routine.get('row', '').startswith('dungeon/func_')
+                    or start != bank_start + num(header['size'])
+                    or start + size != num(routine['foff']) or size < 4 or size % 4
+                    or start + size > bank_start + num(bank['size'])):
+                raise ValueError('table is outside its recorded bank prefix')
+            slots = row['null_slots']
+            if type(slots) is not int or not 0 <= slots < size // 4:
+                raise ValueError('invalid null slot count')
+            if not re.fullmatch('[0-9a-f]{64}', row['retail_sha256']):
+                raise ValueError('invalid retail digest')
+            if disc is None:
+                continue
+            checked += 1
+            payload = disc[start:start+size]
+            if len(payload) != size or hashlib.sha256(payload).hexdigest() != row['retail_sha256']:
+                raise ValueError('table differs from recorded retail bytes')
+            low = num(bank['vma'])
+            high = low + num(bank['size'])
+            pointers = [int.from_bytes(payload[off:off+4], 'little') for off in range(0, size, 4)]
+            if pointers.count(0) != slots or any(p and not (low <= p < high and p % 4 == 0) for p in pointers):
+                raise ValueError('pointer or null slot is not consistent with its bank load window')
+        except (OSError, KeyError, TypeError, ValueError) as error:
+            problems.append(f'{where}: {error}')
+    return len(records), checked, problems
 
 
 def main(argv=None):
@@ -1366,12 +1450,26 @@ def main(argv=None):
           f'{len(bank_problems)} problems' + ''.join(f' ({note})' for note in bank_notes))
     for problem in bank_problems:
         print('  RESIDUE ' + problem)
+    text_count, text_checked, text_problems = retail_text_imports.check(root)
+    print(f'imported retail text: {text_count} ranges, {text_checked} compared with retail, '
+          f'{len(text_problems)} problems')
+    for problem in text_problems:
+        print('  RETAIL TEXT ' + problem)
+    text_lint = retail_text.check(root)
+    print(f'retail text lint: {len(text_lint)} findings')
+    for problem in text_lint:
+        print('  TEXT LINT ' + problem)
+    table_rows, table_checked, table_problems = bank_pointer_table_problems(root)
+    print(f'bank pointer tables: {table_rows} ranges, {table_checked} compared with retail, '
+          f'{len(table_problems)} problems')
+    for problem in table_problems:
+        print('  BANK TABLE ' + problem)
     lane_local = ledger_public.check(root, args.base, public_ref=args.public_ref)
     failed = (bool(loads['problems']) or (args.fail_all and flagged) or (args.fail_new and new_bad)
               or (args.fail_all and floor_bad) or (args.fail_new and floor_new)
               or (args.fail_new and floor_missing_new) or (args.fail_all and floor_missing)
               or ((args.fail_new or args.fail_all) and (lane_local > 0 or bool(developer)))
-              or ((args.fail_new or args.fail_all) and (copy_problems or clone_problems or residue_problems or bank_problems)))
+              or ((args.fail_new or args.fail_all) and (copy_problems or clone_problems or residue_problems or bank_problems or text_problems or text_lint or table_problems)))
     print('ledger integrity ' + ('FAIL' if failed else 'PASS'))
     return 1 if failed else 0
 

@@ -21,6 +21,7 @@
 #include "sdk/libgpu.h"
 #include "dungeon/level.h"
 #include "dungeon/level/room_count_data.h"
+#include "shared/dungeon_image_buffer.h"
 typedef struct floor_generate_isolated_8028444C_S_8001744C_0 {
     s16 unk_00;
 } floor_generate_isolated_8028444C_S_8001744C_0;
@@ -376,7 +377,6 @@ short SD_Call(int flags);
 extern void drain_audio_commands_and_service_channels(void);
 extern s32 random_dungeon_range_16(s32 lower, u16 upper);
 extern void pack_tagged_resource_descriptor(s32, void *, s32 *, s32);
-extern floor_generate_isolated_802864C4_Copy32 dungeon_resource_buffer;
 extern s8 D_80012D52;
 void audio_load_sound_effect_bank(s16 record_id);
 extern s32 load_sound_set(s16 state_index);

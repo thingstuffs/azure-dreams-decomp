@@ -180,3 +180,12 @@ These words do not acquire synthetic function identities.
 [Leftover reviews](../link/leftovers/README.md) distinguish slice identity from
 unreachability and shared compiled ownership. Detailed layout/publication
 rulings remain in [the decision record](evidence/r97_decisions.md).
+
+### Disc-backed text objects
+
+An imported text allocation uses a link-list data entry with the type
+`Imported retail text`, a disc slice hash and one canonical data symbol at
+the extent's load address. The image header declares its source-level
+extern. The ledger check verifies the range, the canonical binding in
+`config/names.tsv` and the exact declaration. The window exporter and
+production image link verify the allocation's hash before using disc bytes.

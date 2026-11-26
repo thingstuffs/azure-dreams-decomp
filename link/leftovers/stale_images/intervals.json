@@ -241,6 +241,7 @@
    "words": 93
   },
   {
+   "category": "prior_town_image",
    "container": "town",
    "evidence": "census:ledger:stale_or_prior_image_row",
    "foff": 6628260,
@@ -249,6 +250,7 @@
    "size": 20
   },
   {
+   "category": "prior_town_image",
    "container": "town",
    "evidence": "census:ledger:stale_or_prior_image_row",
    "foff": 6628296,
@@ -257,6 +259,7 @@
    "size": 40
   },
   {
+   "category": "prior_town_image",
    "container": "town",
    "evidence": "census:ledger:stale_or_prior_image_row",
    "foff": 6628352,
@@ -265,6 +268,7 @@
    "size": 1024
   },
   {
+   "category": "prior_town_image",
    "container": "town",
    "evidence": "census:ledger:stale_or_prior_image_row",
    "foff": 9243840,

@@ -8,6 +8,7 @@
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "engine/node/registration.h"
+#include "dungeon/data.h"
 
 typedef struct {
     s32 unk0;
@@ -43,7 +44,6 @@ extern void invalidate_hud_cache(void *);
 extern s32 run_object_setup_and_finalize(void *, s32);
 extern int dungeon_menu_tag(void *forwarded_ptr, int unused_arg, void *second_ptr);
 
-extern void *dungeon_menu_object[];
 
 /* Functions defined in this translation unit. */
 void initialize_nine_records_and_vectors(u8 *object);

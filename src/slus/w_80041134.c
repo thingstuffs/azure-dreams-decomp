@@ -2,8 +2,8 @@
 #include "slus.h"
 
 /* Removes the first matching value from the zero-terminated list and backs up its append cursor. */
-void remove_runtime_callback(s32 value) {
-    s32 *entry = runtime_callback_entries;
+void remove_runtime_callback(void (*value)(void)) {
+    void (**entry)(void) = runtime_callback_entries;
     if (*entry != 0) {
         do {
             if (*entry == value) {

@@ -128,11 +128,11 @@ void handle_animated_selection_menu_input(AnimatedSelectionMenuBody *menu);
 void handle_selection_menu_input(void *object);
 
 /* init_paired_packet_records.c */
-void *init_paired_packet_records(void *record, void *source);
+void *init_paired_packet_records(void *record, const void *source);
 
 /* init_packet_pair_and_gradient.c */
-void func_80049D80(void *record_pair, void *init_data);
-void init_packet_pair_and_gradient(void *record_pair, void *init_data);
+void func_80049D80(void *record_pair, const void *init_data);
+void init_packet_pair_and_gradient(void *record_pair, const void *init_data);
 
 /* initialize_menu_backdrop_display_nodes.c */
 void initialize_menu_backdrop_display_nodes(SevenEntryMenuBackdropBody *body, s32 node_count);

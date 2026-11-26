@@ -10,7 +10,7 @@ void attach_scene_event_data_and_run_callback(void)
     Rec_D_80016000 *state = town_scene_root;
     TownServiceTable *callback_base;
 
-    state->position->unk_40 = &scene_event_data;
+    state->position->unk_40 = scene_event_data;
     callback_base = state->services;
     D_80017508 = &D_80016084;
     /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: town/func_8079A1EC). */

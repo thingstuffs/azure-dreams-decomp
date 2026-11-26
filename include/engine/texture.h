@@ -16,7 +16,7 @@ struct S_80048B8C;
 struct S_800491F4;
 
 /* build_reverse_indexed_chain.c */
-struct S_800491F4 *build_reverse_indexed_chain(struct S_800491F4 **node_table, u8 *indices, s32 index_limit);
+struct S_800491F4 *build_reverse_indexed_chain(struct S_800491F4 **node_table, const u8 *indices, s32 index_limit);
 
 /* clear_marked_slot_entries.c */
 void clear_marked_slot_entries(void);

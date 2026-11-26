@@ -1,6 +1,5 @@
 #include "script_symbols.h"
 #include "town/scene.h"
-#include "town/scene/choice_data.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "town/scene/state_data.h"

@@ -242,4 +242,8 @@ typedef struct DevkitShopFlagLink {
 
 extern DevkitShopFlagLink devkit_shop_flag_links[];
 
+/* Disc-backed text allocations. */
+extern const u8 dev_asset_path[28];
+extern const u8 dev_asset_path_in_image[32];
+
 #endif

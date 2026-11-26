@@ -4,7 +4,7 @@
 #include "common.h"
 
 /* Word view of external storage; its complete extent is not established. */
-extern s32 runtime_callback_entries[];
-extern s32 *runtime_callback_write_cursor;
+extern void (*runtime_callback_entries[16])(void);
+extern void (**runtime_callback_write_cursor)(void);
 
 #endif

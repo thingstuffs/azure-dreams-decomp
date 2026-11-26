@@ -117,10 +117,10 @@ void advance_kewne_trail_attack(ActorRecord *action, ObjectPosition *motion, Spr
             if ((action->action_timer) == 10) {
                 resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             }
-            directions_x = (s16 *)dir_step_x;
+            directions_x = dir_step_x;
             direction_offset = (actor->facing >> 8) & 0xE;
             direction_x_ptr = (s16 *)(direction_offset + (u8 *)directions_x);
-            directions_y = (s16 *)dir_step_y;
+            directions_y = dir_step_y;
             direction_y_ptr = (s16 *)(direction_offset + (u8 *)directions_y);
             direction_x_2 = *direction_x_ptr;
             arc = *direction_y_ptr;

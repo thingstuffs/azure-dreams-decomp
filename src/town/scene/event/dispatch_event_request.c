@@ -56,7 +56,7 @@ void *dispatch_event_request(s32 request, void *data, s32 mode) {
         return scene_mode_event_data;
     }
     if (mode == 4) {
-        return &scene_event_data;
+        return scene_event_data;
     }
     return resolve_event_response_key(request, data, mode);
 }

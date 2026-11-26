@@ -4,7 +4,7 @@
 #include "town/player/state.h"
 #include "town/scene.h"
 
-/* Copy, in this TOWN script module, of the module-0 helper resolve_entry_flag (src/town/func_8032F544.c);
+/* Copy, in this TOWN script module, of the module-0 helper resolve_entry_flag (src/town/scene/flags/resolve_entry_flag.c);
  * this build reads the flag number from offset 0x4 of the flag record. */
 
 /* Resolve a table entry to its referenced flag and return that flag's query result. */

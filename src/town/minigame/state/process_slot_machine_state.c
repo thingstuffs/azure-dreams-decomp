@@ -20,6 +20,7 @@
 #include "town/scene.h"
 #include "town/shop/display_objects.h"
 #include "slus.h"
+#include "shared/sprite_source.h"
 
 #ifndef NULL
 #define NULL 0
@@ -30,7 +31,7 @@ extern s32 town_money[];
 extern s16 D_800244E8[16];
 extern u8 D_80024470[];
 
-extern u8 D_8007947C[];
+extern SpriteSourceEntry D_8007947C[6];
 extern s16 D_800834C8;
 
 extern void stop_scene_player_and_defer_action_setup(void);
@@ -475,9 +476,9 @@ void process_slot_machine_state(State8081FF68 *state, ObjectPosition *position)
                 }
                 {
                     SpriteFrameState *glyph = sprite;
-                    u8 *sprite_data = D_8007947C;
+                    SpriteSourceEntry *sprite_data = D_8007947C;
                     glyph->unk_00 = sprite_data;
-                    glyph->source = ((SlotSpriteData *)sprite_data)->unk_04;
+                    glyph->source = sprite_data->source;
                     glyph->unk_04 = 0;
                     glyph->frame_ticks = 0;
                     glyph->color.word = 0x00808080;

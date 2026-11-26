@@ -36,6 +36,7 @@ u32 _spu_2pitch(s32 pitch, u32 note_offset)
 u32 _spu_note2pitch(u16 center_note, u16 center_fine, u16 note, u16 fine)
 {
     s32 center_tuning;
+    /* BYTES: frame_pad keeps the 16-byte frame the product carrier spills into. */
     s32 frame_pad[2];
     s32 pitch_value;
     s32 note_distance;

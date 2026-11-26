@@ -9,7 +9,7 @@
 #include "town/player/state.h"
 
 
-/* Plays sound 0x511, selects counted_action_handler_table, and installs D_80092698 with count six. */
+/* Plays sound 0x511, selects counted_action_handler_table, and installs update_actor_with_interaction_state with count six. */
 void initialize_action_object_with_counter(TownObjectRecord *record, ObjectPosition *unused_position, struct SpriteFrameState *sprite) {
     SD_Call(0x511);
     dispatch_selected_entry_if_nonzero(counted_action_handler_table, record, sprite);

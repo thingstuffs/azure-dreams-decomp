@@ -384,7 +384,7 @@ extern void (*menu_countdown_callbacks[2])(void *);
 extern void (*menu_page_countdown_callbacks[2])(void *);
 s32 advance_timed_tagged_stream(FrameState *state);
 extern void *build_tinted_gradient_rect();
-extern void * func_800499E8(u8 *cmd, u8 *rect, u8 *tint);
+void *func_800499E8(u8 *cmd, const u8 *rect, u8 *tint);
 extern ovl_1831cd8_81812AD0_RECT D_80025034[2];
 extern void strncat(void *, void *, s32);
 extern s32 func_8004DC14(void *, s32);

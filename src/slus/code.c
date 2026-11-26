@@ -193,7 +193,7 @@ int count_null_terminated_pointers(void **entries)
 }
 
 /* Append a value to the global word list and restore its zero terminator. */
-void append_terminated_runtime_word(int value)
+void append_terminated_runtime_word(void (*value)(void))
 {
     *runtime_callback_write_cursor = value;
     runtime_callback_write_cursor++;
@@ -604,7 +604,7 @@ void *create_item_view_without_event(int object, int value)
     return create_item_view_for_entry(object, value, 0);
 }
 
-extern unsigned char animation_tick_scale;
+#include "slus/animation_tick_data.h"
 
 /* Start a timed stream at entry: scale its duration by the animation tick rate and, when there is an
  * output word, write the entry's value to it. */

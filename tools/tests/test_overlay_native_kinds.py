@@ -13,7 +13,7 @@ import aspsx_diff as A
 
 class ShapeTests(unittest.TestCase):
     def test_typed_text_matches_encoded_message(self):
-        text='Ｔｈｅｒｅ　ｗａｓ　ｎｏ　ｅｆｆｅｃｔ　ｏｎ　'
+        text='Ｗｏｖｅｎ\u3000ｃｌｏｃｋｓ\u3000ｔｉｃｋ\u3000ｏｎｃｅ\u3000'
         a=dict(kind='typed_string',encoding='shift_jis',text=text,size=48)
         b=dict(kind='message_bytes',encoding='shift_jis',bytes=list(text.encode('shift_jis')),size=48)
         self.assertEqual(N.literal_bytes(a),N.literal_bytes(b))

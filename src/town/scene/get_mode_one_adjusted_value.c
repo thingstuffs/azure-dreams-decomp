@@ -1,10 +1,11 @@
 #include "common.h"
 #include "town/scene.h"
+#include "town/devkit.h"
 
 extern s32 scene_captured_value;
 extern s32 scene_captured_flags;
 extern s32 D_00003FBC[];
-extern s32 D_000045F8;
+extern OvWork D_000045F8;
 extern s32 D_00001598[];
 
 extern s32 set_flag_entry_has_bit(s32 index, s32 mode);
@@ -19,5 +20,5 @@ s32 get_mode_one_adjusted_value(void) {
         held = (s32)&D_00001598[0];
     }
     set_flag_entry_has_bit(scene_captured_value, 1);
-    return held + D_000045F8;
+    return held + D_000045F8.unk_00;
 }

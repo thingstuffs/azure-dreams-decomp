@@ -13,6 +13,7 @@ import unittest
 from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
+from tools.decoded import bindings, import_ranges
 from tools.decoded.lz import decode, encode
 from tools import decoded_images as D
 from tools.decoded.census import discover, signatures
@@ -58,6 +59,119 @@ class CodecTests(unittest.TestCase):
         self.assertTrue(any(c.get('base') == 0 for c in starts[36+0x4000]))
 
 
+class BindingIdentityTests(unittest.TestCase):
+    def setUp(self):
+        self.image = dict(
+            image='sample/menu', address=0x80016000, size=32,
+            symbols={'read_message': 0x80016010, 'timer': 0x80030000},
+            units=[dict(placement='caller', bindings={'home_entry': 0x80016000},
+                        functions=[dict(name='caller_entry', address=0x80016008)]),
+                   dict(placement='helper', functions=[dict(name='local_entry', symbol='home_entry',
+                                                             address=0x80016000)]),
+                   dict(functions=[dict(name='different_entry', address=0x80016004)])],
+        )
+        self.data = bytes(16) + b'sample text 0123'
+        self.homes = {('timer', 0x80030000)}
+        self.evidence = {('read_message', 0x80016010): (16, D.digest(b'sample text 0123'))}
+
+    def test_binding_names_and_decoded_extent_agree(self):
+        self.assertEqual(bindings.audit(self.image, self.homes, self.evidence, data=self.data),
+                         {'global': 2, 'placement': 1})
+
+    def test_binding_to_a_different_export_fails(self):
+        self.image['units'][0]['bindings']['home_entry'] = 0x80016004
+        with self.assertRaisesRegex(ValueError, 'points to the decoded export different_entry'):
+            bindings.audit(self.image, self.homes, self.evidence, data=self.data)
+
+    def test_global_binding_to_a_different_address_fails(self):
+        self.image['symbols']['timer'] += 4
+        with self.assertRaisesRegex(ValueError, 'no binding identity for timer'):
+            bindings.audit(self.image, self.homes, self.evidence, data=self.data)
+
+    def test_imported_binding_digest_must_match(self):
+        with self.assertRaisesRegex(ValueError, 'binding extent differs for read_message'):
+            bindings.audit(self.image, self.homes, self.evidence, data=bytes(32))
+
+
+    def test_short_binding_extent_has_no_digest(self):
+        short = {('read_message', 0x80016010): (7, '-')}
+        self.assertEqual(bindings.audit(self.image, self.homes, short, data=bytes(32)),
+                         {'global': 2, 'placement': 1})
+
+    def test_short_binding_extent_with_a_digest_is_refused(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / 'evidence.tsv'
+            path.write_text('symbol\taddress\tsize\tsha256\nread_message\t0x80016010\t7\t' + D.digest(b'sample\0') + '\n')
+            with self.assertRaisesRegex(ValueError, 'invalid decoded binding evidence'):
+                bindings.read_evidence(path)
+
+
+class ImportRangeTests(unittest.TestCase):
+    def setUp(self):
+        base = 0x80016000
+        self.image = dict(
+            address=base, size=32,
+            units=[dict(source='src/fixture.c',
+                        functions=[dict(address=base + 8, size=4), dict(address=base + 16, size=4)],
+                        data=[dict(section='.data', address=base + 24, size=4)])],
+            symbols={'item_name': base},
+            import_layout=dict(code=[8, 20], text_symbols=['item_name'],
+                               text_tables=[dict(source='src/fixture.c', section='.data',
+                                                 offset=0, count=1, stride=4, pointers=[0])]),
+            import_classes=dict(code=4, text=8, alignment=4, data=4),
+        )
+        self.data = b'item\0' + bytes(19) + struct.pack('<I', base + 28) + b'ok\0\0'
+
+    def test_derive_uses_string_references_and_keeps_an_aligned_zero_word_as_data(self):
+        rows = import_ranges.derive(self.image, self.data, D.number)
+        self.assertEqual([row[:3] for row in rows],
+                         [(0, 5, 'text'), (5, 3, 'alignment'), (12, 4, 'code'),
+                          (20, 4, 'data'), (28, 3, 'text'), (31, 1, 'alignment')])
+        self.assertEqual(import_ranges.audit(self.image, rows, D.number, data=self.data),
+                         self.image['import_classes'])
+
+    def test_short_ranges_carry_no_digest(self):
+        rows = import_ranges.derive(self.image, self.data, D.number)
+        self.assertTrue(all(row[3] == '-' for row in rows))
+
+    def test_short_range_with_a_digest_is_refused(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / 'ranges.tsv'
+            path.write_text('offset\tsize\tclass\tsha256\n0x0000\t5\ttext\t' + D.digest(b'item\0') + '\n')
+            with self.assertRaisesRegex(ValueError, 'invalid decoded import range'):
+                import_ranges.read_table(path)
+
+    def test_long_range_without_a_digest_is_refused(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / 'ranges.tsv'
+            path.write_text('offset\tsize\tclass\tsha256\n0x0000\t20\tdata\t-\n')
+            with self.assertRaisesRegex(ValueError, 'invalid decoded import range'):
+                import_ranges.read_table(path)
+
+    def test_range_digest_drift_fails(self):
+        base = 0x80016000
+        image = dict(address=base, size=40, units=[dict(source='src/fixture.c', functions=[dict(address=base, size=4)], data=[])],
+                     symbols={}, import_layout=dict(code=[0, 4], text_symbols=[], text_tables=[]),
+                     import_classes=dict(code=0, text=0, alignment=0, data=36))
+        data = bytes(range(1, 41))
+        rows = import_ranges.derive(image, data, D.number)
+        self.assertEqual(rows[-1][3], D.digest(data[4:]))
+        updated = data[:10] + b'I' + data[11:]
+        with self.assertRaisesRegex(ValueError, 'differs from the derived ranges'):
+            import_ranges.audit(image, rows, D.number, data=updated)
+
+    def test_range_size_change_fails(self):
+        rows = import_ranges.derive(self.image, self.data, D.number)
+        rows[0] = (rows[0][0], rows[0][1] + 1) + rows[0][2:]
+        with self.assertRaises(ValueError):
+            import_ranges.audit(self.image, rows, D.number, data=self.data)
+
+    def test_range_missing_from_imports_fails(self):
+        rows = import_ranges.derive(self.image, self.data, D.number)
+        with self.assertRaisesRegex(ValueError, 'does not cover exactly'):
+            import_ranges.audit(self.image, rows[:-1], D.number)
+
+
 class GenuineDataTests(unittest.TestCase):
     def test_genuine_pointer_table_resolves_complete_data_words(self):
         section = '.rdata'
@@ -82,6 +196,8 @@ class RegistryFixture(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
         self.spec = json.loads((ROOT/'config/decoded/menu_cache.json').read_text())
+        self.spec.pop('binding_evidence', None)
+        self.spec.pop('import_layout', None)
         for unit in self.spec['units']:
             for key in ('source', 'header'):
                 if key not in unit:
@@ -181,7 +297,7 @@ class RegistryTests(RegistryFixture):
     def test_menu_cache_import_classes(self):
         image = D.manifests(self.root)[0]
         classes = image['import_classes']
-        self.assertEqual(classes, dict(code=3052, text=2001, alignment=91, data=12))
+        self.assertEqual(classes, dict(code=3052, text=1964, alignment=128, data=12))
         self.assertEqual(sum(classes.values()), image['coverage']['imported_bytes'])
 
     def test_no_cannot_silently_become_an_import(self):
@@ -369,9 +485,9 @@ class RetailTests(unittest.TestCase):
         proof = next(record for record in proofs if record['image'] == 'dungeon/menu_cache')
         self.assertEqual(len(proof['functions']), 421)
         self.assertEqual(proof['decoded_c_text_bytes'], 54116)
-        self.assertEqual(proof['decoded_c_data_bytes'], 1076)
+        self.assertEqual(proof['decoded_c_data_bytes'], 920)
         self.assertEqual(proof['compressed_stream_bytes'], 28662)
-        self.assertEqual(proof['decoded_imported_bytes'], 5000)
+        self.assertEqual(proof['decoded_imported_bytes'], 5156)
         self.assertEqual((ROOT/'build/decoded/disc/DUNGEON/DUNGEON.BIN').read_bytes(),
                          (ROOT/'work/disc/containers/DUNGEON_DUNGEON.BIN').read_bytes())
         stream = proof['compressed_streams'][0]
@@ -386,6 +502,7 @@ class RetailTests(unittest.TestCase):
 
     def test_complete_section_size_cannot_be_sliced(self):
         image = copy.deepcopy(D.manifests(ROOT)[0])
+        image.pop('import_layout')
         image['units'][0]['functions'][0]['size'] -= 4
         with self.assertRaisesRegex(ValueError, 'complete decoded TU text extents'):
             D.build(ROOT, image)

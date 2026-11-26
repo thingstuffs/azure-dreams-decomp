@@ -7,7 +7,7 @@
 #include "records/Rec_func_800243C4_arg1.h"
 #include "sdk/libgte.h"
 
-extern u8 D_800DF334[];
+extern struct DungeonParameters D_800DF334;
 void compute_direction_angles_between_points();
 #include "engine/node/allocation.h"
 #include "dungeon/item/position.h"
@@ -98,7 +98,7 @@ void *create_linked_effect_segments(ObjectPosition *position) {
                     (s32) segment_state->unk_16, (s32) segment_state->unk_18, ((void *)segment) + 0x2C);
                 setup_params.words[0] = 0x01200340;
                 setup_params.words[1] = 0x200020;
-                draw_textured_ellipse(D_800DF334, &setup_params.rect, 1, 0);
+                draw_textured_ellipse(&D_800DF334, &setup_params.rect, 1, 0);
             }
             segment_state->unk_08 = previous_segment;
             previous_segment = &segment->next;

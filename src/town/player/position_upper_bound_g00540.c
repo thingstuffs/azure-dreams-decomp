@@ -13,7 +13,7 @@ s32 query_position_upper_bound(ObjectPosition *position) {
     pos.x = (u32)position->x.v;
     pos.y = position->y.v;
     pos.z = position->z.v - D_800FE5D4;
-    return max_position_minus_z(&pos, D_800D040C[0], 4);
+    return max_position_minus_z(&pos, D_800D040C, 4);
 }
 
 /* Set the record value, clear its secondary value, and refresh it with the global flag set. */

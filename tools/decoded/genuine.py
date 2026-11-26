@@ -9,6 +9,7 @@ import re
 import struct
 import subprocess
 import sys
+import tempfile
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 from tools import decoded_images as D
@@ -143,9 +144,44 @@ def verify(root, work, scratch):
                 functions=sum(len(r['functions']) for r in results),text_bytes=sum(f['size'] for r in results for f in r['functions']))
 
 
-if __name__=='__main__':
+def check(root, work=None, scratch=None, output=None, *, optional=False):
+    root = root.resolve()
+    assembler = root / 'toolchain/genuine/psyq/psyq4.4/ASPSX.EXE'
+    runner = root / 'toolchain/genuine/bin/wibo'
+    if not assembler.is_file() or not os.access(runner, os.X_OK):
+        if optional:
+            print('Genuine ASPSX 2.79 SKIP: assembler or runner unavailable')
+            return
+        raise ValueError('genuine ASPSX 2.79 and wibo are required')
+    if optional and not all((root / s['container']).is_file()
+                            for image in D.manifests(root) for s in image['streams']):
+        print('Genuine ASPSX 2.79 SKIP: extracted retail inputs unavailable')
+        return
+
+    work = work or (root / 'build/decoded/genuine')
+    output = output or work / 'proof.json'
+    if scratch is None:
+        (root / 'build').mkdir(exist_ok=True)
+        # ASPSX needs a short working path and fixed DOS-compatible filenames.
+        with tempfile.TemporaryDirectory(prefix='as', dir=root / 'build') as scratch_dir:
+            result = verify(root, work, Path(scratch_dir))
+    else:
+        result = verify(root, work, scratch)
+    output.write_text(json.dumps(result, indent=2) + '\n')
+    print(f"Genuine ASPSX 2.79 PASS: {result['functions']} functions, "
+          f"{result['masked_relocations']} masked relocations")
+
+
+def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    for name in ('root','work','scratch','output'):
-        parser.add_argument('--'+name,type=Path,required=True)
+    parser.add_argument('--root', type=Path, default=ROOT)
+    for name in ('work', 'scratch', 'output'):
+        parser.add_argument('--' + name, type=Path)
+    parser.add_argument('--if-available', action='store_true',
+                        help='print a skip when the original assembler or retail inputs are absent')
     args = parser.parse_args()
-    args.output.write_text(json.dumps(verify(args.root,args.work,args.scratch),indent=2)+'\n')
+    check(args.root, args.work, args.scratch, args.output, optional=args.if_available)
+
+
+if __name__ == '__main__':
+    main()

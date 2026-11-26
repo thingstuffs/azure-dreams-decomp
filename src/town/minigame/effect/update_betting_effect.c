@@ -35,7 +35,6 @@ extern u8 D_80024450[];
 extern u8 scene_object_payload_alias[];
 extern s32 camera_height_mode[3];
 extern u8 D_800D0080[];
-extern u8 town_position_callback_address[];
 
 extern void stop_scene_player_and_defer_action_setup(void);
 #include "town/shop/display_objects.h"
@@ -180,7 +179,7 @@ void update_betting_effect(TownEffect *input)
             motion->velocity_x = 0;
             primitive->unk_10 = 0;
             apply_global_scene_value(town_scene_record_handlers);
-            primitive->unk_00 = town_position_callback_address;
+            primitive->unk_00 = invoke_object_state_callback;
             primitive->unk_04 = draw_translucent_gradient_line_list;
         }
         child->phase = 1;

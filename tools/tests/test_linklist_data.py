@@ -10,7 +10,8 @@ import subprocess
 import tempfile
 import unittest
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'gate'))
+TOOLS = Path(__file__).resolve().parents[1]
+sys.path[:0] = [str(TOOLS / 'gate'), str(TOOLS)]
 import linklist as L
 import linklist_data as D
 from byte_map_format import write, read_parts
@@ -71,6 +72,19 @@ class LinkDataTests(unittest.TestCase):
         self.assertEqual(D.window_files(self.root,'dungeon',0,8), ['config/link/dungeon/word_4.json'])
         with self.assertRaisesRegex(ValueError,'cuts'):
             D.window_files(self.root,'dungeon',0,6)
+
+    def test_window_can_clip_text_after_verifying_the_entire_import(self):
+        self.entry.update(type=L.RETAIL_TEXT, size=8, sha256=hashlib.sha256(self.blob[4:]).hexdigest())
+        self.doc.update(size=8, census={'proven_data': 8})
+        self.save()
+        segments = [Segment(end=10)]
+        result = D.project_segments(segments, self.container, self.root/'build', self.root, 'dungeon', 0, 10)
+        self.assertEqual(result['bytes'], 6)
+        self.assertEqual(result['symbols'], {'D_80002004': 0x80002004})
+        self.assertEqual(segments[-1].bytes_path.read_bytes(), self.blob[4:10])
+        self.container.write_bytes(self.blob[:-1] + b'?')
+        with self.assertRaisesRegex(ValueError, 'SHA-256'):
+            D.project_segments([Segment(end=10)], self.container, self.root/'build', self.root, 'dungeon', 0, 10)
 
     def test_refuses_compiled_or_module_overlap(self):
         for kind in ('c', 'asm', 'rowbase', 'module'):

@@ -4,6 +4,7 @@
 
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/object_node.h"
 
 typedef void (*Func)(void *, s32);
 
@@ -61,7 +62,7 @@ extern s32 link_indexed_entry_chain(s32, s32);
 extern short SD_Call(int flags);
 extern u8 D_800E2924[];
 
-extern GlobalState *dungeon_menu_object;
+extern ObjectNodeHeader *dungeon_menu_object;
 
 /* Functions defined in this translation unit. */
 void move_value_toward_target(u8 *object_data, s32 unused_coord, s32 unused_y);

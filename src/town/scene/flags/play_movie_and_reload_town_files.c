@@ -9,7 +9,7 @@
 #include "town/scene/flags.h"
 
 extern u32 town_scene_resource_descriptor[2];
-extern u8 D_800D1D54[];
+extern u32 D_800D1D54[2];
 
 /* Sets the global flag, runs the setup sequence, and processes both global data blocks. */
 void play_movie_and_reload_town_files(void) {

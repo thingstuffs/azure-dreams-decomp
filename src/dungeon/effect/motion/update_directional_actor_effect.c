@@ -71,7 +71,7 @@ void update_directional_actor_effect(TimedModelTintSpellBody *effect, void *colo
     case 0:
         upload_rect.words[0] = 0x01000340;
         upload_rect.words[1] = 0x200020;
-        draw_textured_ellipse(D_800DF334, &upload_rect.rect, 1, 0);
+        draw_textured_ellipse(&D_800DF334, &upload_rect.rect, 1, 0);
         upload_rect.words[0] = 0x01000360;
         draw_textured_ellipse(D_80024980, &upload_rect.rect, 1, 0);
         ((S_8195281C_10 *)(((S_8195281C_1 *)((int *)(&primary_actor_record)))->unk_00.i))->unk_F4 = directional_effect_sprite_data;

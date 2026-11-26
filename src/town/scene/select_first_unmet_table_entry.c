@@ -2,8 +2,9 @@
 #include "common.h"
 #include "town/scene.h"
 #include "town/shop.h"
+#include "town/data.h"
 
-extern u8 D_00000DB4[];
+extern DevkitShopFlagLink D_00000DB4[];
 extern s32 func_80000BE4(u16 value);
 
 /* Select the first table entry whose value check returns zero; returns the selection's result. */
@@ -11,7 +12,7 @@ s32 select_first_unmet_table_entry(void) {
     s32 index = 0;
     s32 offset = 0;
 
-    while (func_80000BE4(*(u16 *)&D_00000DB4[offset]) != 0) {
+    while (func_80000BE4(D_00000DB4[index].first) != 0) {
         offset += 4;
         index += 1;
     }

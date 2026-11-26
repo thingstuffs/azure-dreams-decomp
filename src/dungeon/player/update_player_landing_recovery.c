@@ -8,6 +8,7 @@
 #include "engine/graphics.h"
 #include "slus.h"
 #include "dungeon/data.h"
+#include "dungeon/player/held_item_kind_data.h"
 
 typedef struct S_8008E504_0 {
     u8 pad_00[0x8C];
@@ -22,7 +23,6 @@ typedef struct S_8008E504_0 {
     void * unk_124;
 } S_8008E504_0;   /* arg0 in update_player_landing_recovery */
 
-extern s32 held_item_record;
 
 
 #include "dungeon/player/input.h"
@@ -48,9 +48,9 @@ void update_player_landing_recovery(S_8008E504_0 *actor, ObjectPosition *action,
             initialize_timed_motion_step(8, 0x10);
             if (entity->flags1C & 0x100000) {
                 linked_object = actor->unk_124;
-                saved_status = held_item_record;
+                saved_status = *(s32 *)&held_item_record;
                 object_flags = linked_object->flags1C;
-                held_item_record = 0;
+                *(s32 *)&held_item_record = 0;
                 linked_object->flags1C = object_flags & 0xFFF7FFFF;
                 entity_flags = entity->flags1C;
                 saved_held_item_word = saved_status;

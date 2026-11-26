@@ -3,7 +3,7 @@
 #include "town/player/state.h"
 #include "town/scene/indexed_values_data.h"
 
-extern u8 *D_80019BBC[];
+extern u8 *D_80019BBC;
 
 /* Selects and returns the next eligible entry in the wrapping order list. */
 s32 select_next_eligible_wrapped_entry(void)
@@ -14,7 +14,7 @@ s32 select_next_eligible_wrapped_entry(void)
     u8 *order;
     u8 *order_cursor;
 
-    start_index = D_80019BBC[0][4];
+    start_index = D_80019BBC[4];
     order_index = start_index + 1;
     if (order_index != start_index) {
         entries = town_indexed_values;
@@ -32,6 +32,6 @@ s32 select_next_eligible_wrapped_entry(void)
             order_cursor++;
         } while (order_index != start_index);
     }
-    D_80019BBC[0][4] = order_index;
+    D_80019BBC[4] = order_index;
     return town_wrapped_entry_order[order_index];
 }

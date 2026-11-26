@@ -26,10 +26,13 @@ include build/build.mk
 endif
 
 # Decoded code has an independent exact/recompressed image producer.
-.PHONY: decoded-images decoded-check
+.PHONY: decoded-images decoded-check decoded-genuine-check
 all: decoded-images
 check: decoded-images
 decoded-check:
 	@$(NICE) python3 tools/decoded_images.py check
+	@$(NICE) python3 tools/coverage.py --check-streams
+decoded-genuine-check:
+	@$(NICE) python3 tools/decoded/genuine.py --if-available
 decoded-images: build/.state/compiletools.ok
 	@$(NICE) python3 tools/decoded_images.py build

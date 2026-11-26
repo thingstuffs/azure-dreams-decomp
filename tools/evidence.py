@@ -69,7 +69,7 @@ SOURCE_FILES = {
     "memory.c":  "Konami memory-card module (MAIN.BIN devkit module; a code-only copy in TOWN.BIN)",
 }
 DEV_STRINGS = [  # §7.1 of the catalogue: other developer strings, with container file offsets
-    {"string": "\\vx035\\data\\town\\sb43s000.bin, \\vx035\\data\\town\\sb06.bin", "container": "town", "foff": ["0x65281C", "0x65283C"], "note": "developer volume \\vx035; town map data files"},
+    {"string": "Development asset paths", "container": "town", "foff": ["0x65281C", "0x65283C"], "note": "Named disc imports for the town resource test image"},
     {"string": "\\vx035\\data\\sn\\SENGEI00.BIN .. SENGEI10.BIN (11)", "container": "town", "foff": ["0x7F877C-0x7F8894"], "note": "scene data files (sn = scene), devkit blob path table"},
     {"string": "\\vx035\\data\\town\\st.bin (6)", "container": "town", "foff": ["0x8CD128", "0x8CE128", "0x8CF124", "0x8D0124", "0x8D1124", "0x8D21E8"], "note": ""},
     {"string": "\\vx035\\data\\sn\\mv05.bin", "container": "town", "foff": ["0x8D20FC"], "note": ""},

@@ -4,7 +4,7 @@
 #include "sdk/memory.h"
 
 /* Builds a tinted rectangle with gradient top and bottom bands. */
-void *build_tinted_gradient_rect(u8 *cmd, u8 *rect, u8 *tint)
+void *build_tinted_gradient_rect(u8 *cmd, const u8 *rect, u8 *tint)
 {
     u8 edge_color[4];
     u8 center_color[4];
@@ -39,15 +39,15 @@ void *build_tinted_gradient_rect(u8 *cmd, u8 *rect, u8 *tint)
     cmd[2] = rect[0];
     cmd[3] = rect[2];
     cmd[0xA] = rect[4];
-    cmd[0xB] = *(s16 *)(rect + 6) / 4;
+    cmd[0xB] = *(const s16 *)(rect + 6) / 4;
 
     cmd += 0x18;
     cmd[1] = 0x28;
     *(u32 *)(cmd + 4) = *(u32 *)center_color;
     cmd[2] = rect[0];
-    cmd[3] = rect[2] + *(s16 *)(rect + 6) / 4;
+    cmd[3] = rect[2] + *(const s16 *)(rect + 6) / 4;
     cmd[0xA] = rect[4];
-    cmd[0xB] = *(s16 *)(rect + 6) / 2;
+    cmd[0xB] = *(const s16 *)(rect + 6) / 2;
 
     cmd += 0xC;
     cmd[1] = 0x38;
@@ -58,9 +58,9 @@ void *build_tinted_gradient_rect(u8 *cmd, u8 *rect, u8 *tint)
     *(u32 *)(cmd + 0x10) = bottom_edge;
     *(u32 *)(cmd + 0x14) = bottom_edge;
     cmd[2] = rect[0];
-    cmd[3] = rect[2] + *(s16 *)(rect + 6) / 4 + *(s16 *)(rect + 6) / 2;
+    cmd[3] = rect[2] + *(const s16 *)(rect + 6) / 4 + *(const s16 *)(rect + 6) / 2;
     cmd[0xA] = rect[4];
-    cmd[0xB] = rect[6] - *(s16 *)(rect + 6) / 4 - *(s16 *)(rect + 6) / 2;
+    cmd[0xB] = rect[6] - *(const s16 *)(rect + 6) / 4 - *(const s16 *)(rect + 6) / 2;
 
     cmd += 0x18;
     start = cmd - 0x3C;

@@ -525,7 +525,7 @@ void bind_familiar_behavior_vectors(ItemMenuPart **parts, DisplayPositionWords *
     parts[12]->vector = common;
     do {
         /* The indexed offset is the first operand of the address addition. */
-        ItemMenuPart **row_parts = (ItemMenuPart **)(index * sizeof(*parts) + (unsigned long)parts);
+        ItemMenuPart **row_parts = &parts[index];
 
         row_parts[2]->vector = common;
         row_parts[7]->vector = &banks[(u32)index / 21][(u32)index % 21];

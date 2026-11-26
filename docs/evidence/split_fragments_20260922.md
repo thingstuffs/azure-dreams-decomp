@@ -237,14 +237,8 @@ delta `0x7FC21000`). Currently **L0**, `l4_residue: [tail_jump, not_in_module]` 
 "shared tail fragment" has no support at all.
 
 **The target is outside this row's segment.** `0x80016120 - 0x7FC21000 = 0x3F5120`, and those
-bytes are Shift-JIS script text, not code:
-
-```
-003f5110: 8373 835e 82cc 8ec0 82f0 8ee8 82c9 93fc
-003f5120: 82ea 82bd 8149 8149 110a 0c16 002e 7901
-```
-
-(`0x8373 0x835E` = カタ…, `0x8149` = "！"). `Segments` assigns that offset no delta at all. So the
+bytes are Shift-JIS script text, not code (the 32 bytes from file offset `0x3F5110` are
+double-byte text; no characters are quoted here). `Segments` assigns that offset no delta at all. So the
 audit's `extern-j-only` here is again single-delta aliasing: the target lives in a co-resident town
 overlay, not in this scene module, and the only `j` the index could find at that offset was the
 row's own.

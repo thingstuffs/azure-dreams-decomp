@@ -1,15 +1,17 @@
-#{"a":0,"d":{"c":"dungeon","e":"ledger/instance_load_regions.jsonl: validated dungeon loader arithmetic (a1=0; selector 1..63); docs/evidence/dungeon_gap_183a800.json","i":"dungeon/load_186a800_6000","n":24576,"o":25602048,"p":["788f7a54afae7122504420cb4471d635a71e1ea4b97606fc7eb90e5534b05e4e","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:7655fdde21b9be80f8ac883bd78b8ffef96bbc29d50b8ff0e820a1d50ba66b8f"],"t":[4240,0,2836,0,17500,0,0],"v":2147631104},"p":[{"census_label":"proven_code"},{"census_label":"strongly_code"},{"type":"typing pending"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"dungeon","e":"ledger/instance_load_regions.jsonl: validated dungeon loader arithmetic (a1=0; selector 1..63); docs/evidence/dungeon_gap_183a800.json","i":"dungeon/load_186a800_6000","n":24576,"o":25602048,"p":["788f7a54afae7122504420cb4471d635a71e1ea4b97606fc7eb90e5534b05e4e","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:7655fdde21b9be80f8ac883bd78b8ffef96bbc29d50b8ff0e820a1d50ba66b8f"],"t":[4176,0,2836,64,17500,0,0],"v":2147631104},"p":[{"census_label":"proven_code"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"PSX bank-local pointer table"},{"census_label":"strongly_code"},{"type":"typing pending"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
-25602048	4240	r	census:c_row		0
-25606288	204	r	census:T2_framed_ref:jtbl+ptr		1
-25606492	52	r	census:T1_twin		1
-25606544	144	r	census:T2_framed_ref:jtbl+ptr		1
-25606688	68	r	census:T1_twin		1
-25606756	376	r	census:T2_framed_ref:jtbl+ptr		1
-25607132	104	r	census:T1_twin		1
-25607236	4	r	census:T2_framed_ref:jtbl+ptr		1
-25607240	76	r	census:T1_twin		1
-25607316	1756	r	census:T2_framed_ref:jtbl+ptr		1
-25609072	52	r	census:T1_twin		1
-25609124	28	d	census:noncode:decode		2
-25609152	17472	d	census:noncode:entropy:unplaced		2
+25602048	8	r	census:c_row		0
+25602056	64	a	census:ledger:bank_pointer_table	b89b80caf24f91c31e2aa9f32e4f4acd8919f0a520c070a3f1ed9db26e8c3512	1
+25602120	4168	r	census:c_row		0
+25606288	204	r	census:T2_framed_ref:jtbl+ptr		2
+25606492	52	r	census:T1_twin		2
+25606544	144	r	census:T2_framed_ref:jtbl+ptr		2
+25606688	68	r	census:T1_twin		2
+25606756	376	r	census:T2_framed_ref:jtbl+ptr		2
+25607132	104	r	census:T1_twin		2
+25607236	4	r	census:T2_framed_ref:jtbl+ptr		2
+25607240	76	r	census:T1_twin		2
+25607316	1756	r	census:T2_framed_ref:jtbl+ptr		2
+25609072	52	r	census:T1_twin		2
+25609124	28	d	census:noncode:decode		3
+25609152	17472	d	census:noncode:entropy:unplaced		3

@@ -416,8 +416,6 @@ extern struct SpriteAttachmentEntry *get_sprite_attachment_vector(void *, void *
 extern void apply_attack_power_and_element_effects(void *, s32, u8, s32, s32, void *, s32);
 
 extern u8 D_800258FC[];
-extern u8 D_8006CCD8[];
-extern u8 D_8006CCE8[];
 extern s32 D_800814A0[3];
 
 /* Updates a projectile effect through travel, impact, particles, and cleanup. */
@@ -498,7 +496,7 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
                     direction = effect->unk_7E;
                     direction_table = target_height;
                     effect->unk_78 = direction_table;
-                    direction_table = D_8006CCD8;
+                    direction_table = (u8 *)dir_step_x;
                     direction <<= 1;
                     direction += (s32)direction_table;
                     target_graphics = ((S_80024BE8_3_pre *)source)[-1].unk_00;
@@ -507,7 +505,7 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
                     direction_table = (direction_table + direction);
                     effect->unk_A2 = (s32)direction_table;
                     direction = effect->unk_7E;
-                    direction_table = D_8006CCE8;
+                    direction_table = (u8 *)dir_step_y;
                     direction <<= 1;
                     direction += (s32)direction_table;
                     direction_table = (u8 *)(u32)target_graphics->tile_y;

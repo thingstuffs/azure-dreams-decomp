@@ -105,7 +105,7 @@ typedef struct {
 struct EntityRec; void create_jittered_child_effect(struct EntityRec *, s32, s16, s16, s16, s16);
 extern s32 D_80166D14(void *initial_state, void *context, void *data);
 
-extern PositionTableEntry ribbon_vertices[];
+extern s16 ribbon_vertices[][8][2][3];
 
 /* Narrows the input to a signed 16-bit result. */
 static __inline__ s16 clamp_narrow(s32 value)

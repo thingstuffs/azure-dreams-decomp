@@ -9,6 +9,7 @@
 #include "slus.h"
 #include "town.h"
 #include "town/person.h"
+#include "town/person/four_slot_object_owner_g00628.h"
 #include "town/shop/object.h"
 #include "town/shop/state.h"
 #include "town/shop.h"

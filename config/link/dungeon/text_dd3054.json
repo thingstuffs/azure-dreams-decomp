@@ -1,0 +1,32 @@
+{
+  "schema": "azure-clean.linklist.v1",
+  "image": "dungeon/text_dd3054",
+  "container": "dungeon",
+  "foff": "0xdd3054",
+  "size": 32,
+  "vma": "0x8014c854",
+  "evidence": "Disc-backed text allocation",
+  "entries": [
+    {
+      "kind": "data",
+      "foff": "0xdd3054",
+      "size": 32,
+      "type": "Imported retail text",
+      "evidence": "ledger/coverage_regions.jsonl",
+      "sha256": "86b2cac09fa031c0240591950842a2fdaa775451be432afa5af44396ab4c183c",
+      "extractor": "container-slice-v1",
+      "symbols": {
+        "D_8014C854": "0x8014c854"
+      }
+    }
+  ],
+  "census": {
+    "proven_code": 0,
+    "library_code": 0,
+    "strongly_code": 0,
+    "proven_data": 32,
+    "noncode_typing_pending": 0,
+    "padding_leftover": 0,
+    "unknown": 0
+  }
+}

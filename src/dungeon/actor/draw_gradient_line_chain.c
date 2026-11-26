@@ -1,6 +1,6 @@
 /* Selector 49 bank (DUNGEON file 0x1954800 loaded at 0x80024000), retail
  * file [0x1954F40, 0x1955128).  The 488 retail bytes are identical, word for
- * word, to TOWN file 0x42894 (town row draw_depth_sorted_gradient_lines, src/town/func_800C2894.c):
+ * word, to TOWN file 0x42894 (town row draw_depth_sorted_gradient_lines, src/town/map/init_line_colors.c):
  * the same source linked into a dungeon bank.  Evidence:
  * docs/evidence/r121_rem_opus.md. */
 #include "shared/gpu_packets.h"

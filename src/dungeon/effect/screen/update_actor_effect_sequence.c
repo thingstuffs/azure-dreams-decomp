@@ -24,7 +24,7 @@ typedef struct S_80024578_0 {
 #include "dungeon/effect/screen.h"
 extern u8 D_800243C4[9];
 extern u8 D_80028208[9];
-extern u8 D_800DF334[9];
+extern struct DungeonParameters D_800DF334;
 
 /* Allocate and initialize an effect object from the supplied part data. */
 void *update_actor_effect_sequence(MovingPosition *source_part, s32 offset_base) {
@@ -38,7 +38,7 @@ void *update_actor_effect_sequence(MovingPosition *source_part, s32 offset_base)
     if (object != NULL) {
         init_data.words[0] = 0x01000340;
         init_data.words[1] = 0x00200020;
-        draw_textured_ellipse(D_800DF334, &init_data.rect, 1, 0);
+        draw_textured_ellipse(&D_800DF334, &init_data.rect, 1, 0);
 
         part = object->position;
         object->update_callback = D_800243C4;

@@ -643,3 +643,15 @@ with the casts `--check-removal` keeps under the current declaration.  Run it in
 `union_census.load_check` now votes per access width (a byte view's lbu no longer counts for a halfword) and reports
 `biased` when an unsigned declaration's lead rests on lbu/lhu loads with no unsigned-only consumer (access_sites.tsv
 gains a `compound` column).  `ledger_integrity.py --list` shows evidence prose load numbers that differ from the row's `loads`.
+
+## Retail text
+
+Run `python3 tools/lint/retail_text.py` to check C sources and headers. The
+scanner recognizes adjacent string literals and simple integer initializers
+with ASCII, UTF-8 or Shift-JIS content. It reports paths, line numbers and
+hashes. The exceptions in `config/lint/retail_text.allow` are scoped to both
+the path and the exact payload hash.
+
+Arrays of record types, preprocessor-built initializers and text assembled
+through byte stores require other evidence. The scanner also skips comments
+and preprocessor include filenames.

@@ -14,7 +14,7 @@ s32 select_indexed_event_value(s32 unused_arg0, s32 unused_arg1, s32 selector)
         return scene_mode_event_data;
     }
     if (selector == 4) {
-        return &scene_event_data;
+        return scene_event_data;
     }
     if (selector == 1) {
         return town_indexed_event_values[town_event_state->selected_entry];

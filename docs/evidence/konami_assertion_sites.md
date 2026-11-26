@@ -645,7 +645,7 @@ container.
 
 | string | container | file offsets |
 |---|---|---|
-| `\vx035\data\town\sb43s000.bin`, `\vx035\data\town\sb06.bin` | TOWN.BIN | `0x65281C`, `0x65283C` |
+| Two development asset paths | TOWN.BIN | `0x65281C`, `0x65283C` |
 | `\vx035\data\sn\SENGEI00.BIN` … `SENGEI10.BIN` (11) | TOWN.BIN | `0x7F877C`–`0x7F8894` |
 | `\vx035\data\town\st.bin` (6) | TOWN.BIN | `0x8CD128`, `0x8CE128`, `0x8CF124`, `0x8D0124`, `0x8D1124`, `0x8D21E8` |
 | `\vx035\data\sn\mv05.bin` | TOWN.BIN | `0x8D20FC` |

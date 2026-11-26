@@ -10,7 +10,7 @@ struct ActorRecord;
 #include "dungeon/effect/shade/row_quad_colors.h"
 extern u8 radial_effect_colors[];
 extern u8 D_80026474[];
-extern u8 D_80026476[];
+extern s16 D_80026476;
 extern u8 D_80026484[];
 extern u8 D_80026490[];
 extern u8 particle_target_height[];

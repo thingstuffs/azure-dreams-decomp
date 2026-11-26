@@ -12,8 +12,8 @@
 #include "sdk/libc.h"
 #include "dungeon/effect.h"
 #include "dungeon/system.h"
+#include "shared/dir_step.h"
 
-extern u16 D_8006CCD8[8],D_8006CCE8[8];
 extern u32 D_800814A0;
 extern SpriteFrameState D_80082E80;
 s16 get_surface_height_at_record(ObjectPosition *);
@@ -54,7 +54,7 @@ void update_transform_spell(TransformSpellState *spell, ObjectPosition *motion, 
     case 0:
         source_sprite = NODE_HEADER(source_actor)->sprite;
         direction_byte_offset = (primary_actor_record->facing >> 8) & 0xE;
-        source_actor->facing = get_rounded_facing_and_rounding_flag(source_sprite->tile_x, source_sprite->tile_y, D_80082E80.tile_x + D_8006CCD8[direction_byte_offset / 2], D_80082E80.tile_y + D_8006CCE8[direction_byte_offset / 2], &result_flags[0]);
+        source_actor->facing = get_rounded_facing_and_rounding_flag(source_sprite->tile_x, source_sprite->tile_y, D_80082E80.tile_x + (u16)dir_step_x[direction_byte_offset / 2], D_80082E80.tile_y + (u16)dir_step_y[direction_byte_offset / 2], &result_flags[0]);
         spell->ticks = 0;
         spell->phase++;
         spell->direction = (source_actor->facing >> 9) & 7;
@@ -81,11 +81,11 @@ void update_transform_spell(TransformSpellState *spell, ObjectPosition *motion, 
             if (*spell->request_flags & 0x80) {
                 target = &travel.fields.target;
                 if ((source_node->flags | 0x2000) != 0) {
-                    spell->tile_x = D_80082E80.tile_x + D_8006CCD8[(primary_actor_record->facing >> 9) & 7];
-                    spell->tile_y = D_80082E80.tile_y + D_8006CCE8[(primary_actor_record->facing >> 9) & 7];
+                    spell->tile_x = D_80082E80.tile_x + (u16)dir_step_x[(primary_actor_record->facing >> 9) & 7];
+                    spell->tile_y = D_80082E80.tile_y + (u16)dir_step_y[(primary_actor_record->facing >> 9) & 7];
                 } else {
-                    spell->tile_x = D_80082E80.tile_x + D_8006CCD8[spell->direction];
-                    spell->tile_y = D_80082E80.tile_y + D_8006CCE8[spell->direction];
+                    spell->tile_x = D_80082E80.tile_x + (u16)dir_step_x[spell->direction];
+                    spell->tile_y = D_80082E80.tile_y + (u16)dir_step_y[spell->direction];
                 }
                 tile_center_x = spell->tile_x;
                 tile_center_x = (tile_center_x << 6) + 0x20;

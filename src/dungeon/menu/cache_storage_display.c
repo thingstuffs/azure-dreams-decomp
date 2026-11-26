@@ -24,7 +24,7 @@ const RECT cached_storage_panel_rectangles[] = {
 /* Build the draw chain for the eleven storage-display parts. */
 ItemMenuPart *link_storage_display_entries(ItemMenuPart **entries)
 {
-    return (ItemMenuPart *)build_reverse_indexed_chain((struct S_800491F4 **)entries, (u8 *)cached_storage_draw_order, 11);
+    return (ItemMenuPart *)build_reverse_indexed_chain((struct S_800491F4 **)entries, cached_storage_draw_order, 11);
 }
 
 /* Copy the display defaults and set the storage panel position. */

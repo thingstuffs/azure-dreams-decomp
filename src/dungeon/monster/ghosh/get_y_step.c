@@ -34,7 +34,6 @@ s32 update_actor_proximity_flag(void *, ActorRecord *, s32, s32, s8 *); /* exter
 #include "dungeon/actor/state.h"
 s32 begin_ghosh_front_attack(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);          /* extern */
 
-extern s16 D_8006CCD8[8];
 extern u16 reference_tile_position_alias;
 
 
@@ -219,7 +218,7 @@ void advance_actor_path(ActorRecord *motion, ObjectPosition *context, SpriteFram
             }
         }
         turn_index = 0;
-        x_offsets = (u8 *)D_8006CCD8;
+        x_offsets = (u8 *)dir_step_x;
         do {
             current_angle = actor->facing;
             if (motion->action_state_flags & 2) {

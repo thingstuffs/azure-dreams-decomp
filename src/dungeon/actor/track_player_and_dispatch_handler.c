@@ -11,6 +11,7 @@
 #include "dungeon/actor.h"
 #include "town/event/state.h"
 #include "dungeon/data.h"
+#include "town/player/state.h"
 
 
 typedef struct {
@@ -35,7 +36,6 @@ typedef struct S_7FFFE25C_4 {
 extern TownState scene_object_payload_alias;
 extern Box D_800D0420;
 
-extern s32 D_80092698;
 extern u8 town_actor_interaction_address[];
 extern s32 town_threshold_interaction_address;
 extern u8 town_interaction_action_address[];
@@ -99,7 +99,7 @@ void track_player_and_dispatch_handler(Rec_D_80082D58 *context, ColliderView *ow
             ((DispatchFn)handler)(dispatch_context, dispatch_owner, dispatch_pos, dispatch_param);
         } else if (current == (s32)&scene_fallback_request_address) {
             unlink_and_remove_scene_object(context, owner, adjusted_pos, dispatch_param);
-        } else if (!(current == (s32)&D_80092698 || current == (s32)tracked_actor_callback_address ||
+        } else if (!(current == (s32)&update_actor_with_interaction_state || current == (s32)tracked_actor_callback_address ||
             current == (s32)town_actor_interaction_address || current == (s32)&town_busy_countdown_address ||
             current == (s32)&town_input_object_address || current == (s32)&town_threshold_interaction_address ||
             current == (s32)&town_radial_motion_address || current == (s32)&scene_deferred_dispatch_address ||

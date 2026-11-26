@@ -33,7 +33,7 @@ void start_menu_message_mode(ObjectNodeHeader *node)
 }
 
 /* Play the cancellation sound and schedule the owning node to close. */
-void poll_menu_owner_cancel(void *body)
+void poll_party_menu_cancel(void *body)
 {
     if (g_game_work.buttons != 0 && (g_game_work.pressed_buttons & 0x20)) {
         SD_Call(AUDIO_CANCEL);

@@ -68,7 +68,7 @@ void damp_dreamin_motion_and_recenter(ActorRecord *body, ObjectPosition *motion,
             dreamin_frame_set_1[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
 
-        direction_x_table = (s16 *)dir_step_x;
+        direction_x_table = dir_step_x;
         launch_offset = direction * 2;
         motion->velocity_x =
             *(s16 *)((u8 *)direction_x_table + launch_offset) << 19;
@@ -94,7 +94,7 @@ void damp_dreamin_motion_and_recenter(ActorRecord *body, ObjectPosition *motion,
         body->action_phase = timer_or_state;
         return;
     case 2:
-        direction_x_table = (s16 *)dir_step_x;
+        direction_x_table = dir_step_x;
         decel_offset = direction * 2;
         direction_y = (s16 *)((u8 *)dir_step_y + decel_offset);
         motion->velocity_x -=

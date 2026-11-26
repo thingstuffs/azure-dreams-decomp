@@ -269,6 +269,6 @@ void check_party_menu_close_signal(void *body)
         clear_resident_bitmap_bit(sn_win_sw0);
         schedule_party_menu_close(NODE_HEADER(body));
     } else {
-        poll_menu_owner_cancel(body);
+        poll_party_menu_cancel(body);
     }
 }

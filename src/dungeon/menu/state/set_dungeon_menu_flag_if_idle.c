@@ -1,8 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "dungeon/menu/state.h"
+#include "dungeon/data.h"
 
-extern s32 dungeon_menu_object;
 
 typedef struct S_800DBF5C_0 {
     u8 pad_00[0x54];
@@ -15,7 +15,7 @@ typedef struct S_800DBF5C_0 {
 void set_dungeon_menu_flag_if_idle(void) {
     S_800DBF5C_0 *state;
 
-    state = dungeon_menu_object + 0x20;
+    state = NODE_BODY(dungeon_menu_object);
     if (state->unk_5C == 0) {
         state->unk_54 = (s32) (state->unk_54 | 1);
     }

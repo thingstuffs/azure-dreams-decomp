@@ -167,13 +167,13 @@
  },
  "developer_strings": [
   {
-   "string": "\\vx035\\data\\town\\sb43s000.bin, \\vx035\\data\\town\\sb06.bin",
+   "string": "Development asset paths",
    "container": "town",
    "foff": [
     "0x65281C",
     "0x65283C"
    ],
-   "note": "developer volume \\vx035; town map data files"
+   "note": "Named disc imports for the town resource test image"
   },
   {
    "string": "\\vx035\\data\\sn\\SENGEI00.BIN .. SENGEI10.BIN (11)",

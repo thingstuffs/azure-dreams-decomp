@@ -13,13 +13,14 @@
 #include "town/minigame/pickup_data.h"
 #include "town/minigame/source_bounds_data.h"
 #include "town/data.h"
+#include "shared/sprite_source.h"
 
 extern Box D_800D0420;
 
 
 
 extern TownRewardValues D_80020020;
-extern s32 D_8007947C[];
+extern SpriteSourceEntry D_8007947C[6];
 
 /* Updates a bouncing pickup, awards its value on collection, and expires it. */
 void update_bouncing_pickup(minigame_pickup_source *pickup, ObjectPosition *motion, SpriteFrameState *sprite)
@@ -69,7 +70,7 @@ void update_bouncing_pickup(minigame_pickup_source *pickup, ObjectPosition *moti
         s32 denomination;
 
         sprite->unk_00 = D_8007947C;
-        sprite->source = D_8007947C[1];
+        sprite->source = D_8007947C[0].source;
         sprite->unk_04 = 0;
         sprite->frame_ticks = rand() & 3;
         sprite->flags &= 0xFF7F;

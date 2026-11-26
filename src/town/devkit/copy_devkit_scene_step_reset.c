@@ -3,7 +3,7 @@
 #include "town/devkit/flag_test_imports.h"
 #include "town/devkit.h"
 
-/* Copy of the devkit scene step reset_cursor_and_redraw_list (src/town/func_80881424.c) in the image linked at
+/* Copy of the devkit scene step reset_cursor_and_redraw_list (src/town/devkit/reset_cursor_and_redraw_list.c) in the image linked at
  * file 0x802800; here the latched length (0x8070070C) and the redraw argument (0x80700710) are separate words. */
 
 extern s32 devkit_scene_list_length;

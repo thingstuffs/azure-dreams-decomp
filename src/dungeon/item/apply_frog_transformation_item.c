@@ -87,7 +87,7 @@ s32 apply_frog_transformation_item(ActorRecord *entity, DungeonItemEntry *action
             flag_mask = 0x80000;
             original_id = entity->species;
             if (entity->flags1C & flag_mask) {
-                ((NODE_HEADER(entity)->sprite))->depth_bias = 0;
+                NODE_HEADER(entity)->sprite->depth_bias = 0;
             }
             {
                 u8 *message; /* MATCH: Keep the merged message address in retail's argument register. */

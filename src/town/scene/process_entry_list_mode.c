@@ -1,8 +1,8 @@
 #include "common.h"
 #include "town/scene.h"
 
-/* TOWN bank at link delta 0x7FC16000: see src/town/func_804811DC.c for the module identity.
- * The callee is this bank's mirror of sell_flagged_entries (src/town/func_8032EB08.c),
+/* TOWN bank at link delta 0x7FC16000: see src/town/scene/flagged_entry_followup_g00725.c for the module identity.
+ * The callee is this bank's mirror of sell_flagged_entries (src/town/system/shop_value_dispatch.c),
  * which takes a pointer to a four-byte-entry list.  Evidence: docs/evidence/r121_rem_opus.md. */
 
 extern u8 D_80019440[];

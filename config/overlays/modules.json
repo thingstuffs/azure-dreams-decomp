@@ -100531,7 +100531,7 @@
         "membership": "pending",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex"
+        "reviewer": "pending"
       },
       "review_inputs": [
         "config/link/town/image_3e8000.json",
@@ -100585,7 +100585,7 @@
         "membership": "pending",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex"
+        "reviewer": "pending"
       },
       "review_inputs": [
         "config/link/main/image_25c800.json",
@@ -100642,7 +100642,7 @@
         "membership": "pending",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex"
+        "reviewer": "pending"
       },
       "review_inputs": [
         "config/link/town/ll34_5b2000_80016000.json",

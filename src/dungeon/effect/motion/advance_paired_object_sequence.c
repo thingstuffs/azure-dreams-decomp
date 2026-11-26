@@ -255,8 +255,8 @@ case 4:
         object_index_m = 0;
         object_slot = sequence;
         move_scene = &g_game_work;
-        table_x = (s16 *)dir_step_x;
-        table_y = (s16 *)dir_step_y;
+        table_x = dir_step_x;
+        table_y = dir_step_y;
         scene->view.tint.parts.tint_r = brightness;
         ((u8 *)message_text)[1] = brightness;
         ((u8 *)message_text)[2] = brightness;
@@ -320,8 +320,8 @@ case 4:
             ((S_800253C0_11 *)(u8 *)message_text)->unk_00 = 0x2C202020;
             object_index_m = 0;
             snap_scene = &g_game_work;
-            snap_x = (s16 *)dir_step_x;
-            snap_y = (s16 *)dir_step_y;
+            snap_x = dir_step_x;
+            snap_y = dir_step_y;
             final_slot = sequence;
             do {
                 s32 table_index = (object_index_m << 11) - snap_scene->view.camera_rotation.parts.viewAngle;
@@ -583,7 +583,7 @@ case 4:
             s16 *row_x;
             object_index_m = 0;
             restore_scene = &g_game_work;
-            row_x = (s16 *)dir_step_x;
+            row_x = dir_step_x;
 loop_7:
             {
                 object_m =

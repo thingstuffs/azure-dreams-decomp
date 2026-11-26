@@ -58,7 +58,7 @@ void pack_map_row_nibbles(s32 lookup_key, void *context) {
 
 /* Pass the entry index and its 64-byte record to pack_map_row_nibbles. */
 void pack_map_row_into_table(s32 entry_index) {
-    pack_map_row_nibbles(entry_index, (entry_index << 6) + &D_800FC428);
+    pack_map_row_nibbles(entry_index, (entry_index << 6) + D_800FC428);
 }
 
 /*
@@ -66,7 +66,7 @@ void pack_map_row_into_table(s32 entry_index) {
  */
 void upload_town_movie_pixels(void) {
     if (map_runtime_state.scene_selector == 12 && map_runtime_state.map_index == 19) {
-        upload_pixel_rectangle(0x360, 0x100, 0x20, 0x80, &D_800FC428);
+        upload_pixel_rectangle(0x360, 0x100, 0x20, 0x80, D_800FC428);
     }
 }
 

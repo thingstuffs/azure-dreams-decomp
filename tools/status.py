@@ -90,15 +90,30 @@ def coverage_summary(root):
         import importlib.util   # by path: a site-packages `coverage` must never shadow tools/coverage.py
         spec = importlib.util.spec_from_file_location("azure_coverage", Path(root) / "tools" / "coverage.py")
         _cov = importlib.util.module_from_spec(spec); spec.loader.exec_module(_cov)
-        rep = _cov.coverage(root)["containers"]
+        coverage = _cov.coverage(root)
+        rep = coverage["containers"]
         num_c = num_all = den = 0
         for v in rep.values():
             w = v["whole_image"]
             den += w["code_bytes_classified_or_estimated"]
             num_c += w["c_rows"]; num_all += w["c_rows"] + w["proven_instances"]
-        return {"containers": sorted(rep), "c_pct": 100 * num_c / den, "copy_pct": 100 * num_all / den, "code_bytes": den} if den else None
+        return {"containers": sorted(rep), "c_pct": 100 * num_c / den, "copy_pct": 100 * num_all / den, "code_bytes": den, "decoded_images": coverage["decoded_images"]} if den else None
     except Exception:
         return None
+
+
+def decoded_coverage_section(summary):
+    images = summary.get("decoded_images", {}) if summary else {}
+    if not images:
+        return ""
+    out = ["### Decoded images", "",
+           "| Image | Compressed bytes | Bytes with C | Imported code | Imported text | Alignment | Data with unproved owners |",
+           "| --- | ---: | ---: | ---: | ---: | ---: | ---: |"]
+    for name, image in sorted(images.items()):
+        imports = image["import_classes"]
+        out.append(f"| `{name}` | {image['stream_bytes']:,} | {image['bytes_with_c']:,} | "
+                   f"{imports['code']:,} | {imports['text']:,} | {imports['alignment']:,} | {imports['data']:,} |")
+    return "\n".join(out) + "\n"
 
 
 def not_yet_c(root):
@@ -113,6 +128,7 @@ def not_yet_c(root):
     led = root / "ledger"
     rows_, inst, regs = cv.records(led / "rows.jsonl"), cv.records(led / "instances.jsonl"), cv.records(led / "coverage_regions.jsonl")
     residue = cv.retail_residue_regions(regs)
+    native = cv.module_data_ranges(root)
     conts = {r["container"]: r for r in cv.records(led / "containers.jsonl")}
     latest = {}
     for r in regs: latest[(r["container"], r["foff"], r["size"], r["category"])] = r
@@ -140,9 +156,9 @@ def not_yet_c(root):
             if r["container"] == c: cats[r["category"]].append(ext(r))
         win = merge(cats["window"] + ywin.get(c, []))
         excluded = [ext(r) for r in residue if r["container"] == c]
-        C = subtract([ext(r) for r in rows_ if r["container"] == c and r.get("foff") is not None and (r.get("func") or "").startswith("func_")], excluded)
-        drow = [ext(r) for r in rows_ if r["container"] == c and r.get("foff") is not None and not (r.get("func") or "").startswith("func_")]
-        data = merge(cats["data_excluded"] + drow + excluded)
+        text, drow, alignment = cv.overlay_c_ranges(rows_, c, native)
+        C = subtract(text, excluded)
+        data = merge(cats["data_excluded"] + drow + alignment + excluded)
         cop = subtract([ext(r) for r in proven if r["container"] == c], C + data)
         ss, dseg = [], []
         for key in [c] + (["dungeon_engine"] if c == "dungeon" else []):
@@ -154,13 +170,16 @@ def not_yet_c(root):
                 if sp.get("result") in ("CFAIL", "M2C_FAIL") and sp["size"] > 8192: continue   # a whole-window view, not a function
                 ss.append(e)
         data_all = merge(data + dseg)
-        # An evidenced SDK interval remains library code when a historical split
-        # view also names it. C and proven copies still have higher priority.
-        raw = inter(subtract(ss, C + data_all + cop + cats["sdk_asm"]), win)
+        # Explicit assembly and unported regions keep their ledger classes
+        # when a historical split view also names them.
+        explicit = cats["sdk_asm"] + cats["unported"]
+        raw = inter(subtract(ss, C + data_all + cop + explicit), win)
         occ = merge(C + cop + raw)
         got_ = {}
         for k in ("sdk_asm", "unported", "estimated_code"):
-            got_[k] = subtract(cats[k], occ + data_all); occ = merge(occ + got_[k])
+            excluded_data = data_all if k == "estimated_code" else data
+            got_[k] = subtract(cats[k], occ + excluded_data)
+            occ = merge(occ + got_[k])
         res[c] = dict(in_c=size(C), copies=size(cop), split=size(raw), sdk=size(got_["sdk_asm"]), unported=size(got_["unported"]), heuristic=size(got_["estimated_code"]),
                       older_head_bank=size([ext(r) for r in residue if r["container"] == c and r["category"] == "older_dungeon_head_bank"]))
     return res
@@ -812,15 +831,17 @@ def main():
         out.append("\nEvery lane prompt (tools/agent_task.py) carries the row's block; L4 module placement must agree with the assertion source map.")
     except Exception as e:
         out.append(f"\n(evidence census unavailable: {type(e).__name__})")
+    whole_coverage = coverage_summary(ROOT)
     try:
         lvp = {l: 100 * L[l] / tot for l in range(6)} if lv.exists() else None
         sec["glance"].append(at_a_glance(denom, sorted({r["container"] for r in rs if r["container"] not in PARKED_CONTAINERS}, key=("slus", "main", "town", "dungeon", "ovmovie").index),
-                                          slus_groups, ov_groups, coverage_summary(ROOT), sum(now.values()), sum(1 for c in live.values() if c["pin_total"]),
+                                          slus_groups, ov_groups, whole_coverage, sum(now.values()), sum(1 for c in live.values() if c["pin_total"]),
                                           sum(pins.values()), lvp))
     except Exception as e:
         sec["glance"].append(f"## At a glance\n\n(summary unavailable: {type(e).__name__})\n")
     try:
         sec["notyet"].append(not_yet_c_section(ROOT))
+        sec["notyet"].append(decoded_coverage_section(whole_coverage))
     except Exception as e:
         sec["notyet"].append(f"## Not yet C\n\n(summary unavailable: {type(e).__name__})\n")
     sec["trades"].extend(_details(f"Tracked spellings and trades: {len(trade_tab)} kinds (none is an assembler pin)", ["| kind | count | where recorded |", "|---|---|---|"],

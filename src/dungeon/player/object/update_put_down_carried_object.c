@@ -9,8 +9,8 @@
 #include "dungeon/level.h"
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
+#include "dungeon/player/held_item_kind_data.h"
 
-extern s32 held_item_record;
 
 
 
@@ -66,8 +66,8 @@ void update_put_down_carried_object(PlayerRecord *action, void *unused, S_8008F8
                     event_id = 0x517;
                 }
                 play_sound_if_enabled(event_id);
-                saved_value = (*&held_item_record);
-                (*&held_item_record) = 0;
+                saved_value = (*(s32 *)&held_item_record);
+                (*(s32 *)&held_item_record) = 0;
                 saved_held_item_word = saved_value;
                 action->actor.action_phase++;
             }

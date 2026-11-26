@@ -16,6 +16,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+from tools.decoded import bindings, import_ranges
 from tools.decoded.lz import decode, encode
 from tools.build.slus_rodata_trim import trim
 
@@ -207,6 +208,18 @@ def reproduce(root, image):
     return data, receipts
 
 
+def audit_bindings(root, image, expected=None):
+    path = image.get('binding_evidence')
+    evidence = bindings.read_evidence(local(root, path, 'config/decoded/evidence/')) if path else {}
+    return bindings.audit(image, bindings.external_symbols(root), evidence, data=expected, number=number)
+
+
+def audit_import_ranges(root, image, expected=None):
+    path = local(root, image['import_layout']['table'], 'config/decoded/evidence/')
+    rows = import_ranges.read_table(path)
+    return import_ranges.audit(image, rows, number, data=expected)
+
+
 def run(root, command, log=None):
     if log:
         with log.open('w') as output:
@@ -243,6 +256,10 @@ def build(root, image, *, compile_units=True):
     work = local(root, 'build/decoded/' + image['image'])
     work.mkdir(parents=True, exist_ok=True)
     expected, streams = reproduce(root, image)
+    if 'binding_evidence' in image:
+        audit_bindings(root, image, expected)
+    if 'import_layout' in image:
+        audit_import_ranges(root, image, expected)
     retail = work / 'retail.bin'
     retail.write_bytes(expected)
     objects, inputs, compiled, functions, data = [], {}, {}, [], []
@@ -428,7 +445,7 @@ def build_all(root, images=None):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root', type=Path, default=ROOT)
-    parser.add_argument('command', choices=('check', 'build', 'rows'))
+    parser.add_argument('command', choices=('check', 'build', 'rows', 'imports'))
     parser.add_argument('--image', help='one decoded image identity')
     args = parser.parse_args()
     root = args.root.resolve()
@@ -441,10 +458,28 @@ def main():
         for row in rows(root):
             if not args.image or row['image'] == args.image:
                 print(json.dumps(row, sort_keys=True))
+    elif args.command == 'imports':
+        if len(images) != 1:
+            parser.error('select one decoded image with --image')
+        image, = images
+        import_ranges.write_table(import_ranges.derive(image, reproduce(root, image)[0], number),
+                                  sys.stdout)
     elif args.command == 'build':
         for proof in build_all(root, images):
             print(json.dumps(proof, sort_keys=True))
     else:
+        for image in images:
+            available = all(local(root, stream['container']).is_file() for stream in image['streams'])
+            expected = reproduce(root, image)[0] if available else None
+            counts = audit_bindings(root, image, expected)
+            print(f"{image['image']}: {counts['placement']} placement bindings and "
+                  f"{counts['global']} global symbols verified")
+            if 'import_layout' in image:
+                totals = audit_import_ranges(root, image, expected)
+                detail = ', '.join(f'{kind} {size:,}' for kind, size in totals.items())
+                print(f"{image['image']}: imported bytes ({detail})")
+            if not available:
+                print(f"{image['image']}: decoded extent digests skipped (retail input unavailable)")
         print(f'decoded registry OK: {len(images)} images, {len(rows(root))} functions; physical rows unchanged')
 
 

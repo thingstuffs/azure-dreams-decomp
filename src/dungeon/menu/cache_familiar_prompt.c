@@ -15,12 +15,12 @@ static const u8 cached_familiar_prompt_draw_order[] __attribute__((aligned(4))) 
 
 ItemMenuPart *link_cached_action_parts(ItemMenuPart **parts)
 {
-    return (ItemMenuPart *)build_reverse_indexed_chain((struct S_800491F4 **)parts, (u8 *)cached_action_draw_order, 27);
+    return (ItemMenuPart *)build_reverse_indexed_chain((struct S_800491F4 **)parts, cached_action_draw_order, 27);
 }
 
 ItemMenuPart *link_familiar_prompt_parts(ItemMenuPart **parts)
 {
-    return (ItemMenuPart *)build_reverse_indexed_chain((struct S_800491F4 **)parts, (u8 *)cached_familiar_prompt_draw_order, 27);
+    return (ItemMenuPart *)build_reverse_indexed_chain((struct S_800491F4 **)parts, cached_familiar_prompt_draw_order, 27);
 }
 
 /* Clear the five action labels before releasing the remaining part storage. */

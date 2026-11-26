@@ -6,7 +6,7 @@
 #include "town/scene.h"
 #include "town/player/state.h"
 
-extern M2C_UNK scene_event_data;
+extern u8 scene_event_data[];
 extern M2C_UNK D_8001605E;
 extern M2C_UNK D_800162A4;
 extern s32 *D_80017760;
@@ -28,7 +28,7 @@ void toggle_active_scene_event(void) {
         dispatch_base_2->unk_40 = &D_8001605E;
     } else {
         dispatch_base = state->position;
-        dispatch_base->unk_40 = &scene_event_data;
+        dispatch_base->unk_40 = scene_event_data;
     }
     event = 0x7E;
     *toggle = (*toggle + 1) & 1;

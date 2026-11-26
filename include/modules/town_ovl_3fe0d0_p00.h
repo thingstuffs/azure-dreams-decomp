@@ -50,7 +50,7 @@ extern s32 D_8001802A;
 extern u8 D_80010000[];
 extern s32 D_8001781C;
 extern s32 D_8001857C;
-extern s32 scene_event_data;
+extern u8 scene_event_data[];
 extern s32 D_80017870;
 /* Placed copy of clear_script_flag_bit. */
 void func_800175E0(s32 bit_index);

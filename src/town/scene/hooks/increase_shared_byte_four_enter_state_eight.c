@@ -4,7 +4,7 @@
 #include "town/menu/catalog.h"
 
 /* Increase the shared byte by four and enter state eight when its low nibble clears
- * (the scroll-down partner of scroll_catalog_text_up, src/town/func_8096D1C4.c). */
+ * (the scroll-down partner of scroll_catalog_text_up, src/town/menu/scroll_catalog_text_up.c). */
 void scroll_catalog_text_down(CatalogDisplay *controller) {
     u8 *state = catalog_selection_state;
 

@@ -42,7 +42,7 @@ typedef struct S_8008B23C_0 {
     s32 unk_04;
 } S_8008B23C_0;
 
-extern u32 *D_801131EC[3];
+extern u32 *D_801131EC;
 extern TownAllocEntry resource_cache_records[];
 extern s32 town_resource_buffer;
 extern void start_cd_read(u32 *, s32);

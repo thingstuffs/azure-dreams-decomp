@@ -1,6 +1,7 @@
 #include "shared/audio_commands.h"
 #include "dungeon/menu/callback_position_updates_g00373.h"
 #include "dungeon/menu.h"
+#include "shared/sprite_frame_state.h"
 
 /* Moves the current value toward its selected target and updates the object state. */
 void move_value_toward_target(u8 *object_data, s32 unused_coord, s32 unused_y) {
@@ -47,7 +48,7 @@ void move_value_toward_target(u8 *object_data, s32 unused_coord, s32 unused_y) {
     result = link_indexed_entry_chain(handle, mode);
     /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence). */
     do {
-        dungeon_menu_object->value = result;
+        dungeon_menu_object->sprite = (SpriteFrameState *)(unsigned long)result;
     } while (0);
     set_object_value_and_negation(state, current);
 }
@@ -141,7 +142,7 @@ void advance_wrapped_cycle_index(void) {
     s32 incrementedIndex;
     S_800DC888_0 *cycleState;
 
-    cycleState = (S_800DC888_0 *)((u8 *)dungeon_menu_object + 0x20);
+    cycleState = NODE_BODY(dungeon_menu_object);
     cycleIndexToIncrement = cycleState->unk_38;
     *cycleIndexToIncrement += 1;
     cycleIndexToWrap = cycleState->unk_38;

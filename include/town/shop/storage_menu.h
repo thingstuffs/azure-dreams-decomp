@@ -42,24 +42,19 @@ typedef union StorageDisplayBlock {
     s32 words[4];
     ItemMenuDisplayBlock display;
 } StorageDisplayBlock;
-typedef struct StorageDisplayLinks {
-    s32 unused;
-    ItemMenuDisplayBlock *display;
-    StorageVector *position;
-} StorageDisplayLinks;
 struct ItemMenuInputObject;
 
 typedef struct StorageMenuObject {
     struct ItemMenuInputObject *owner_body;
     ObjectNodeHeader *destination_owner;
-    u8 pad_08[4];
+    s32 open_step;
     u8 pad_0C[4];
     ObjectNodeHeader *source_owner;
-    u8 pad_14[0xC];
+    FrameState cursor;
     u8 *data;
     StorageDisplayBlock display;
     ItemMenuDisplayPosition position;
-    u8 pad_40[0xC];
+    DisplayPositionWords vector;
     ItemMenuDisplayLinks links;
     ItemMenuPart *chain;
     ItemMenuPart **parts;

@@ -400,7 +400,7 @@ s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height
         for (side = -1; side < 2; side += 2) {
             if (get_offset_map_cell_value_and_flags(x, y, (saved + side) & 7, &tile_flags) != 0) {
                 dir = ((u16)saved + side) & 7;
-                if (map_height_wrapped((x << 6) + 0x20 + (direction_x_offsets)[dir], (y << 6) + 0x20 + (direction_y_offsets)[dir], h) > 0x200) {
+                if (map_height_wrapped((x << 6) + 0x20 + direction_x_offsets[dir], (y << 6) + 0x20 + direction_y_offsets[dir], h) > 0x200) {
                     break;
                 }
             }
@@ -917,8 +917,8 @@ s32 measure_directional_stopping_distance(u32 direction_flags, ObjectPosition *o
                     }
                     return (s16)step;
                 }
-                world_x += (direction_x_offsets)[direction];
-                world_y += (direction_y_offsets)[direction];
+                world_x += direction_x_offsets[direction];
+                world_y += direction_y_offsets[direction];
                 height_result = map_height_short(world_x & 0xFFFF, world_y & 0xFFFF, origin->z.w.i);
                 if (height_result >= 0x200) {
                     return (s16) (step - 1);

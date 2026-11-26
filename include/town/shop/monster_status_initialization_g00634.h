@@ -10,7 +10,7 @@ struct ShopFirstCallbackObject;
 #include "m2c_compat.h"
 #include "records/Rec_func_800B683C_arg0.h"
 
-extern SpritePartCommand *D_800D17C8[];
+extern SpritePartCommand *D_800D17C8[4];
 /* extern */
 s32 queue_monster_status_reload(ShopFirstCallbackObject *);
 /* extern */

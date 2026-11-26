@@ -74,8 +74,8 @@ s32 *build_sprite_image_read_descriptor(s16 entry_id, s32 request_arg);
 s32 *build_sprite_metadata_read_descriptor(s16 record_id, s32 packed_value);
 
 /* build_tinted_gradient_rect.c */
-void *build_tinted_gradient_rect(u8 *cmd, u8 *rect, u8 *tint);
-void *func_800499E8(u8 *cmd, u8 *rect, u8 *tint);
+void *build_tinted_gradient_rect(u8 *cmd, const u8 *rect, u8 *tint);
+void *func_800499E8(u8 *cmd, const u8 *rect, u8 *tint);
 
 /* clear_alternate_texture_regions.c */
 void clear_alternate_texture_regions(s16 use_alt_rect);

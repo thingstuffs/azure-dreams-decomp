@@ -300,7 +300,10 @@ def build(root, output, census_dir=None, bin_root=None, disc_path=None, link_out
                                  descriptor_container='slus',descriptor_foff=load['descriptor_foff'],
                                  descriptor_evidence='link/leftovers/evidence/audit.json')
     footprints = {c:union([(e['foff'],e['foff']+e['size']) for g in groups.values() for e in g if e['container']==c]) for c in B.RETAIL}
-    residue = retail_residue_regions(records(root/'ledger/coverage_regions.jsonl'))
+    stale = {'stale_town_copy', 'foreign_program_fragment', 'formatter_remnant',
+             'formatter_build_string', 'prior_town_image'}
+    residue = [row for row in retail_residue_regions(records(root/'ledger/coverage_regions.jsonl'))
+               if row['category'] in stale]
     for c in footprints:
         footprints[c] = union(footprints[c] + [(r['foff'], r['foff']+r['size'])
                                                for r in residue if r['container']==c])

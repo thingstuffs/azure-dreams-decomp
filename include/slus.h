@@ -39,7 +39,7 @@ void pack_tagged_resource_descriptor(int tag, int id, int *record, int value);
 void push_node_onto_free_list(struct ObjectNodeHeader *node);
 void flag_all_active_nodes(void);
 int count_null_terminated_pointers(void **entries);
-void append_terminated_runtime_word(int value);
+void append_terminated_runtime_word(void (*value)(void));
 short get_bounded_stride_index(unsigned int value, unsigned int base, unsigned short stride, unsigned short limit);
 void apply_actor_template_and_class(void *entity, int value, void *source);
 void set_cd_cue_and_submit_sound_command(int first, int second, int third, int fourth);
@@ -248,7 +248,7 @@ void cd_set_mode_with_retry(void);
 void request_scene_state_with_parameters(u16 notify_value, s16 state_10, s16 state_12, s16 state_14, s32 state_16);
 
 /* w_80041134.c */
-void remove_runtime_callback(s32 value);
+void remove_runtime_callback(void (*value)(void));
 
 /* w_80049E88.c */
 s32 select_mapped_object_status_code(void *object);

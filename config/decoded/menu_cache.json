@@ -1469,7 +1469,7 @@
           "size": 60
         },
         {
-          "name": "poll_menu_owner_cancel",
+          "name": "poll_party_menu_cancel",
           "address": "0x80023a40",
           "size": 92
         },
@@ -3263,11 +3263,58 @@
     "cached_status_line_break": "0x80016094",
     "cached_hp_mp_break": "0x80016098"
   },
+  "binding_evidence": "config/decoded/evidence/menu_cache_bindings.tsv",
   "evidence": "docs/DECODED_IMAGES.md",
+  "import_layout": {
+    "table": "config/decoded/evidence/menu_cache_imports.tsv",
+    "code": [
+      "0x083c",
+      "0xe78c"
+    ],
+    "text_symbols": [
+      "cached_status_separator",
+      "cached_familiar_fainted_text",
+      "health_label",
+      "tamer_label",
+      "cached_status_prefix",
+      "cached_status_break",
+      "cached_gauge_prefix",
+      "cached_full_gauge_marker",
+      "cached_half_gauge_marker",
+      "cached_gauge_suffix",
+      "cached_equipment_prefix",
+      "cached_equipment_separator",
+      "cached_comparison_prefix",
+      "cached_comparison_marker_separator",
+      "cached_comparison_attack_separator",
+      "cached_comparison_defense_separator",
+      "cached_comparison_base_separator",
+      "cached_stat_prefix",
+      "cached_stat_suffix",
+      "cached_stat_line_break",
+      "cached_stat_separator",
+      "cached_stat_column_labels",
+      "cached_status_line_break",
+      "cached_hp_mp_break"
+    ],
+    "text_tables": [
+      {
+        "source": "src/dungeon/menu/cache_linked_actor_menu.c",
+        "section": ".data",
+        "offset": 0,
+        "count": 27,
+        "stride": 12,
+        "pointers": [
+          4,
+          8
+        ]
+      }
+    ]
+  },
   "import_classes": {
     "code": 3052,
-    "text": 2001,
-    "alignment": 91,
+    "text": 1964,
+    "alignment": 128,
     "data": 12
   },
   "coverage": {

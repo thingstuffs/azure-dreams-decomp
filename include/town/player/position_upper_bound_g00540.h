@@ -6,6 +6,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "town/scene/secondary_probe_samples_data.h"
 
 typedef struct {
     u32 x;
@@ -24,7 +25,7 @@ typedef struct {
 struct EntityRec;
 
 extern s16 max_position_minus_z();
-extern s32 D_800D040C[];
+extern TownProbeSample *D_800D040C;
 /* extern */
 extern s8 D_800CFCE8;
 

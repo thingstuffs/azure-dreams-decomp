@@ -143,18 +143,6 @@ typedef struct R03_80173358_S_80173358_1 {
     u8 pad_16[0x10];
     s8 unk_26;
 } R03_80173358_S_80173358_1;
-typedef struct R03_80173358_S_80173358_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x38];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} R03_80173358_S_80173358_2;
 
 
 

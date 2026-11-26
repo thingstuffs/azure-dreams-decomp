@@ -9,7 +9,7 @@
 #include "shared/town_handler.h"
 #include "records/Rec_D_80082D58.h"
 
-extern u8 animation_tick_scale;
+#include "slus/animation_tick_data.h"
 
 /* Functions defined in this translation unit. */
 void dispatch_selected_entry_if_nonzero(s32 *entries, TownObjectRecord *record, void *ptr2);

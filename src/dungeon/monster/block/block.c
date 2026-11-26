@@ -223,7 +223,7 @@ void update_block_motion_and_facing(ActorRecord *entity, ObjectPosition *motion,
         direction_copy = direction;
 
         if (entity->sprite_direction != direction_index) {
-            u8 *tile_map = (monster->frameTable);
+            u8 *tile_map = monster->frameTable;
             if (tile_map != 0) {
                 select_indirect_table_entry(monster, tile_map[direction_index], monster->unk_04);
             }

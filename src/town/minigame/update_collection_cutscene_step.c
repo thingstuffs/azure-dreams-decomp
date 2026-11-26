@@ -73,7 +73,6 @@ extern s16 D_800272A0[];
 extern s16 D_800272B0[];
 extern s32 scene_object_payload_alias;
 extern u8 town_interaction_action_address[];
-extern s32 town_position_callback_address[3];
 
 extern void create_paired_vector_color_effect(void *, TownPos *, s32 *, TownCollectionSequence *);
 extern void return_zero_variadic(void *, s32);
@@ -112,7 +111,7 @@ void update_collection_cutscene_step(TownCollectionSequence *scene)
         motion->velocity_z = (s32)0xFFE00000;
         (*(s32 *)((u8 *)motion + 0x10)) = 0;
         (*(s32 *)((u8 *)motion + 0x0C)) = 0;
-        scene_object_payload_alias = (s32)town_position_callback_address;
+        scene_object_payload_alias = (s32)invoke_object_state_callback;
         global->unk_04 = D_80022C2C;
         t10 = global->unk_10;
         global->unk_10 = (t10 + 0x1000) & 0xFE00;

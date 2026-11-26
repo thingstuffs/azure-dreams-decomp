@@ -35,7 +35,7 @@ s32 rsin();                             /* extern */
 s32 rcos();           /* extern */
 s32 rand();                      /* extern */
 #include "town/shop/display_objects.h"       /* extern */
-extern s32 town_money[0xB58];
+extern s32 town_money;
 extern u8 D_80022514[0x100];
 extern ObjectNodeHeader *D_80024338;
 
@@ -391,11 +391,11 @@ loop_3:
             s32 stage;
 
             if (keima_selection_mask != 0) {
-                gold_total = town_money[0];
+                gold_total = town_money;
                 gold_remaining = keima_payout_remaining;
                 payout_handle = D_80024338;
                 gold_total += gold_remaining;
-                town_money[0] = gold_total;
+                town_money = gold_total;
                 set_advance_inner_value_callback(payout_handle);
             }
             stage = game->stage;
@@ -433,14 +433,14 @@ loop_3:
     if ((u32) ((u16) game->stage - 6) < 3U) {
         payout_amount = keima_payout_remaining;
         if (payout_amount >= 0x3E8) {
-            payout_gold = town_money;
+            payout_gold = &town_money;
             payout_carry = *payout_gold;
             payout_amount -= 0x3E8;
             keima_payout_remaining = payout_amount;
             payout_carry += 0x3E8;
             *payout_gold = payout_carry;
         } else if (payout_amount >= 0x64) {
-            payout_gold = town_money;
+            payout_gold = &town_money;
             payout_carry = *payout_gold;
             payout_amount -= 0x64;
             keima_payout_remaining = payout_amount;

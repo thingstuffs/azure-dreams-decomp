@@ -1,7 +1,7 @@
 #include "town/person/four_slot_object_owner_g00628.h"
 #include "shared/object_node.h"
 
-void advance_storage_open_ramp(StorageDisplayBody *object)
+void advance_storage_open_ramp(StorageMenuObject *object)
 {
     s32 next_step;
 

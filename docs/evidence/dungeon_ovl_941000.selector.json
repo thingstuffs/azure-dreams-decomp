@@ -1,0 +1,17 @@
+{
+ "kind": "packed-descriptor-loader-receipt",
+ "descriptor_foff": "0xf9c94",
+ "consumer": "DUNGEON func_800BD184 at file 0xD7A24 (load_indexed_item_module) submits record index 1 from D_800DF3EC + 8 to Control_CD(6); index 1 is selected by run_indexed_callback_list through D_800DF64C",
+ "table_symbol": "D_800DF3EC (item_module_read_descriptors)",
+ "indexed_record": 1,
+ "file_start": "0x941000",
+ "file_end": "0x942000",
+ "destination": "0x800f6000",
+ "sectors": 2,
+ "lba": "0x4298",
+ "delta": "0x7f7b5000",
+ "domain": "indexed record 1 is an actual packed descriptor passed to Control_CD(6); static receipt only, no runtime occurrence or TU ownership claim",
+ "static_only": true,
+ "review": "pending",
+ "reviewer": null
+}

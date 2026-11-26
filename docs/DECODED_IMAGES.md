@@ -36,12 +36,37 @@ standard disc containers. Nothing writes the extracted retail inputs.
 
 The menu cache owns 421 C functions, 54,116 decoded text bytes
 and 920 bytes of C-emitted tables. The full image is 60,192 bytes at
-0x80016000. The 5,156 imported bytes comprise 3,052 bytes of code, 2,001 bytes
-of text, 91 bytes of alignment and 12 data bytes with unproved owners.
+0x80016000. The 5,156 imported bytes comprise 3,052 bytes of code, 1,964 bytes
+of text, 128 bytes of alignment and 12 data bytes with unproved owners.
 The two regenerated compressed streams occupy 28,662 bytes in the disc
 container. Registry validation checks the registered function count and the text, data, import and stream byte totals. Headers,
 resource tails and the rest of the container remain imported assets. A full
 DUNGEON comparison checks every byte of the completed container.
+The coverage ledger identifies the physical streams as `compressed_code_stream`.
+`make decoded-check` compares their offsets, sizes and hashes with the
+manifest. Coverage and status report the decoded totals alongside the
+container accounting.
+
+The import table records decoded offsets, sizes, classes and SHA-256 digests.
+The executable interval identifies the unowned code. A named string import
+or a pointer in an owned string table identifies text through its first NUL.
+A gap of zero bytes that ends at the next four-byte boundary is alignment.
+The remaining data has unproved owners, including the byte at 0x083B and the
+aligned zero word at 0xEAAC. With extracted inputs present, the registry and
+build checks derive the table and compare every range. Regenerate the table
+with `python3 tools/decoded_images.py imports --image dungeon/menu_cache`.
+
+The status template tables in town and the decoded menu have four matching
+slots. The decoded selector initializers use slots 1 and 2, and the
+familiar prompt and fusion factories use slot 3. The town window passes
+slot 1 through the status display loader.
+
+The stat panel placement resolves its status text call through the dungeon
+engine's `select_status_text` at 0x800A652C. At that address the town
+engine image contains an interior address of
+`initialize_enabled_scene_object`. The two stat panel homes retain that
+ordinary overlay call as an exception. Their encoded call address alone
+supplies no town-side identity for the callee.
 
 Census and provenance
 ---------------------
@@ -80,6 +105,12 @@ the emitted home symbol and its `name` gives the decoded entry identity.
 References to other exports of the same placement resolve at their registered
 decoded addresses. The linker discards unselected sections and requires
 all relocations from the selected sections to resolve.
+`make decoded-check` validates placement and global bindings against
+decoded exports, ordinary symbol registries and the binding evidence table.
+With the extracted inputs present, it verifies all decoded evidence extents
+by SHA-256. The evidence table records address identity for resident data
+with no entry in the ordinary registries. The full decoded build checks
+the linked functions and tables with every relocation applied.
 New TUs can register a complete emitted `.rodata` or `.data` section by
 name, address and size. Those sections take part in the whole-image byte
 comparison and are counted separately from text in the proof. The linked pointer tables are checked with their relocations applied.
@@ -97,8 +128,12 @@ under `include/` or `src/` select every decoded image. Paths outside those
 directories also select every decoded image.
 The same command verifies the affected ordinary images.
 
-`tools/decoded/genuine.py` needs the genuine assembler and a short scratch
-path. A unit can record `genuine_asflags: ["-0"]` when the retail instructions
+`make decoded-genuine-check` compares the compiled units with genuine
+ASPSX 2.79. It uses wibo, the original assembler, the ordinary compiler
+tools and extracted retail inputs. If the assembler, runner or retail
+inputs are absent, the target prints a skip. The verifier creates a short
+scratch path for the original tools and writes its receipt under
+`build/decoded/genuine/`. A unit can record `genuine_asflags: ["-0"]` when the retail instructions
 omit the assembler's signed division checks. The actor selector, party
 selector and command panel use this flag because plain `-G0` adds a 36-byte
 division guard to each shade routine.

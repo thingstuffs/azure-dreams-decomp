@@ -45,7 +45,6 @@ typedef struct {
     u8 pad[0x34B8];
     u8 state[0x20];
 } TownPage;
-extern s32 town_position_callback_address[3];
 
 /* Run the ending cutscene's state machine: swing the camera, spawn the credits sprites and hand over to the next scene. */
 void update_gym_minigame(GymState *state_obj) {
@@ -82,7 +81,7 @@ void update_gym_minigame(GymState *state_obj) {
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             motion->velocity_z = 0xFFE00000;
-            main_state->unk_00 = town_position_callback_address;
+            main_state->unk_00 = invoke_object_state_callback;
             main_state->unk_04 = gym_object_state_address;
             state_obj->score.u = 0;
         }

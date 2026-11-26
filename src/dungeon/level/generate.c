@@ -1174,11 +1174,11 @@ void load_floor_spawn_tables(s16 resource_index)
     s32 load_result;
     u8 *resource_data;
 
-    resource_data = (u8 *)&dungeon_resource_buffer;
+    resource_data = dungeon_resource_buffer;
     pack_tagged_resource_descriptor(1, resource_data, &load_result, resource_index + 0x3F5E);
     Control_CD(6, &load_result, 0);
     drain_cd_command_queue();
-    *(floor_generate_isolated_802864C4_Copy32 *)*&g_dungeon_status.monster_spawn_table = dungeon_resource_buffer;
+    *(floor_generate_isolated_802864C4_Copy32 *)*&g_dungeon_status.monster_spawn_table = *(floor_generate_isolated_802864C4_Copy32 *)dungeon_resource_buffer;
     (*(floor_generate_isolated_802864C4_Copy32 *)floor_species_pool) = *(floor_generate_isolated_802864C4_Copy32 *)(resource_data + 0x20);
     floor_generation_track_variant = resource_data[0x40];
 }

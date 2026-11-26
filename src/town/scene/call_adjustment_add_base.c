@@ -1,8 +1,9 @@
 #include "common.h"
 #include "town/scene.h"
+#include "town/devkit.h"
 
 extern void func_80003BCC(s32);
-extern s32 D_000045F8[];
+extern OvWork D_000045F8;
 extern s32 D_00004148[];
 
 /* Call func_80003BCC and return the base value plus its adjustment. */
@@ -12,7 +13,7 @@ s32 call_adjustment_and_add_base(void) {
     s32 result;
 
     func_80003BCC(0x20C);
-    base_value = D_000045F8[0];
+    base_value = D_000045F8.unk_00;
     adjustment = D_00004148[0];
     result = base_value + adjustment;
     return result;

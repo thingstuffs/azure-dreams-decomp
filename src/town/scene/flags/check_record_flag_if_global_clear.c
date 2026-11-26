@@ -2,7 +2,7 @@
 #include "town/scene/flags/event_checks.h"
 #include "town/scene/flags.h"
 
-/* This TOWN module's copy of check_flag_test_record (src/town/func_806D2D84.c). */
+/* This TOWN module's copy of check_flag_test_record (src/town/scene/flags/check_flag_test_record.c). */
 
 typedef struct FlagTestRecord {
     u8 pad_00[0x18];

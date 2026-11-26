@@ -97,7 +97,7 @@ s32 search_ahead_and_start_action(ActorRecord *action_state, ObjectPosition *act
             return 2;
         }
 
-        floor_y = (s16 *)dir_step_y;
+        floor_y = dir_step_y;
         floor_x = (((try_x + *x_step) << 6) + 0x20) & 0xFFE0;
         y_step = (s16 *)(step_offset + (u8 *)floor_y);
         floor_y = (((try_y + *y_step) << 6) + 0x20) & 0xFFE0;

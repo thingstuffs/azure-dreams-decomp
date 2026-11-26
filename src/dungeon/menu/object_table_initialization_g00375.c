@@ -41,7 +41,7 @@ void *create_dungeon_menu_object(void) {
 
     object = allocate_flagged_object_node(0);
     if (object != 0) {
-        dungeon_menu_object[0] = object;
+        dungeon_menu_object = object;
         allocation = allocate_node_body(0x100);
         header = NODE_BODY(object);
         if (allocation != 0) {

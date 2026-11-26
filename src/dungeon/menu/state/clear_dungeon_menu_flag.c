@@ -1,8 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "dungeon/menu/state.h"
+#include "dungeon/data.h"
 
-extern u8 *dungeon_menu_object;
 
 typedef struct S_800DBF38_0 {
     u8 pad_00[0x54];
@@ -13,6 +13,6 @@ typedef struct S_800DBF38_0 {
 void clear_dungeon_menu_flag(void) {
     S_800DBF38_0 *state;
 
-    state = (S_800DBF38_0 *)(dungeon_menu_object + 0x20);
+    state = NODE_BODY(dungeon_menu_object);
     state->unk_54 = (s32) (state->unk_54 & ~1);
 }

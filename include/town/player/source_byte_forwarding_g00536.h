@@ -9,7 +9,7 @@
 #include "records/Rec_D_80082D58.h"
 #include "engine/graphics.h"
 
-extern u8 animation_tick_scale;
+#include "slus/animation_tick_data.h"
 
 /* Functions defined in this translation unit. */
 void set_sprite_frame_by_view_angle(u8 *sourceBytes, s32 selection, u8 *destination);

@@ -9,13 +9,13 @@
 #include "town/scene/resource.h"
 
 extern u32 town_scene_resource_descriptor[2];
-extern u8 D_800D1D54[];
+extern u32 D_800D1D54[2];
 extern u8 D_80080F48;
 extern u8 D_80080F98;
 /* Initialize town resources and configure the scene. */
 void initialize_resources(void)
 {
-    u8 *resource_data;
+    void *resource_data;
     play_movie_with_fixed_display_flag(1, 0x73);
     SetDispMask(1);
     file_load_com(&town_scene_resource_descriptor);

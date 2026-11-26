@@ -2,24 +2,17 @@
 #include "town/devkit.h"
 #include "town/data.h"
 
-/* Devkit debug code (sn_main.c line 47 trace) in the link-at-0 scene-test image A; the same routine as
- * copy_and_trace_overlay_work_record (src/town/func_80880194.c, line 48) in the 0x80700000-linked image. */
-
-typedef struct OvWork {
-    s32 unk_00;
-    s32 unk_04;
-    s32 kind;
-    u8 pad_0C[0x28];
-} OvWork;
+/* Overlay work diagnostics in the scene-test image linked at zero.
+ * The trace also appears in the devkit image linked at 0x80700000. */
 
 extern OvWork D_000045F8;            /* ov_work */
-extern char D_000034D0[];            /* "%s = %d\n" */
-extern char D_000034DC[];            /* "p->kind" */
-extern char D_000034E4[];            /* "ov_work.kind" */
-extern char D_000034F4[];            /* "mark: %s line %d\n" */
-extern char D_00003508[];            /* "sn_main.c" */
+extern char D_000034D0[];            /* Label and integer format. */
+extern char D_000034DC[];            /* Label for the source kind. */
+extern char D_000034E4[];            /* Label for the copied kind. */
+extern char D_000034F4[];            /* Format for a source-location trace. */
+extern char D_00003508[];            /* Source filename for the trace. */
 
-/* Copy the overlay work record, trace both kind fields, mark sn_main.c line 47 and flush. */
+/* Copy the overlay work record, trace both kind fields, log the source location and flush the trace. */
 void copy_overlay_work_record_trace(OvWork *p) {
     D_000045F8 = *p;
     overlay_trace_methods->print(D_000034D0, D_000034DC, p->kind);

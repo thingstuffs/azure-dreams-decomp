@@ -86,6 +86,8 @@ void init_person_target_move(TownObjectRecord *object, ObjectPosition *position,
 void reset_person_heading_three_quarter_turn(TownObjectRecord *object, ObjectPosition *unused_position, SpriteFrameState *output);
 void step_person_y_up(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output);
 void step_person_y_down(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output);
+void step_person_x_up(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output);
+void step_person_x_down(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output);
 void start_countdown_toward_target(TownObjectRecord *object, s32 unused, SpriteFrameState *output);
 void init_person_heading_quarter_turn(TownObjectRecord *object, s32 unused, SpriteFrameState *output);
 
@@ -137,11 +139,6 @@ void initialize_mother_event_defaults(TownObjectRecord *object);
 void set_person_velocity_from_angle(struct S_800AAE30_1 *object, void *unusedContext, MotionDeltaView *outputVector);
 
 void anyone_now_pos_get(s32 actor_id);
-
-struct StorageMenuObject;
-struct ObjectNodeHeader;
-void func_800B44B0(struct StorageMenuObject *object, struct ObjectNodeHeader *owner);
-void initialize_four_slot_object_owner(struct StorageMenuObject *object, struct ObjectNodeHeader *owner);
 
 s32 check_town_target_and_callback(const void *object);
 

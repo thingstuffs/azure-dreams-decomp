@@ -4,8 +4,8 @@
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
 #include "dungeon/player.h"
+#include "dungeon/player/held_item_kind_data.h"
 
-extern s32 held_item_record;
 
 
 /* Clear the root and linked object flags, saving and resetting D_80081484 when the root flag is set. */
@@ -22,8 +22,8 @@ void clear_player_linked_action_flags(void) {
             linkedObject->flags1C = (linkedObject->flags1C & ACTOR_LIFTED_CLEAR_MASK);
         }
         rootFlags = root->flags1C;
-        savedGlobalValue = held_item_record;
-        held_item_record = 0;
+        savedGlobalValue = *(s32 *)&held_item_record;
+        *(s32 *)&held_item_record = 0;
         root->flags1C = rootFlags & 0xFFEFFFFF;
         saved_held_item_word = savedGlobalValue;
     }

@@ -1,6 +1,6 @@
-"""Hash-checked linker-owned words (decision 68c); no payloads in the catalogue.
+"""Hash-checked linker-owned data; no payloads in the catalogue.
 
-The container is produced by the disc extractor. Each word is checked and
+The container is produced by the disc extractor. Each allocation is checked and
 published atomically before the window linker consumes it. Accounting metadata
 without an extractor never supplies build bytes.
 """
@@ -25,7 +25,8 @@ def entries(root, container, start=None, end=None):
             a, b = entry['foff'], entry['foff'] + entry['size']
             if start is not None and (b <= start or a >= end):
                 continue
-            if start is not None and not start <= a < b <= end:
+            if (start is not None and not start <= a < b <= end
+                    and entry.get('type') != linklist.RETAIL_TEXT):
                 raise ValueError('window cuts a linker-owned word')
             key = (a, b)
             current = dict(entry, path=image['path'])
@@ -71,12 +72,19 @@ def project_segments(segments, container, build_dir, root, family, start, end):
     receipts = []
     symbols = {}
     for entry in emitted:
-        a, b = entry['foff'], entry['foff'] + entry['size']
+        origin = entry['foff']
+        a, b = max(start, origin), min(end, origin + entry['size'])
         touched = [s for s in output if s.start < b and a < s.end]
         if len(touched) != 1 or touched[0].kind != 'raw':
             raise ValueError('linker-owned word overlaps a source/module/split payload at 0x%X' % a)
         old = touched[0]
-        path = extract_slice(container, entry, Path(build_dir) / ('word_%08x.bin' % a))
+        path = extract_slice(container, entry, Path(build_dir) / ('word_%08x.bin' % origin))
+        if a != origin or b != origin + entry['size']:
+            # A diagnostic window can start or end inside a text allocation.
+            # Verify the whole allocation before using the requested part.
+            clipped = Path(build_dir) / ('text_%08x_%08x.bin' % (a, b))
+            clipped.write_bytes(path.read_bytes()[a-origin:b-origin])
+            path = clipped
         pieces = []
         if old.start < a:
             pieces.append(dataclasses.replace(old, end=a))
@@ -91,7 +99,8 @@ def project_segments(segments, container, build_dir, root, family, start, end):
             if name in symbols and symbols[name] != value:
                 raise ValueError('conflicting linker-owned symbol: ' + name)
             symbols[name] = value
-        receipts.append(dict(foff=a, size=entry['size'], kind=entry['kind'], sha256=entry['sha256'],
+        receipts.append(dict(foff=a, size=b-a, kind=entry['kind'],
+                             sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
                              symbols=entry['symbols'], verified=True))
     if emitted:
         # Fresh unique sections avoid duplicating a split raw segment's section.

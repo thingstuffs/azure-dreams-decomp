@@ -81,6 +81,41 @@ class ResidueComparison(unittest.TestCase):
         self.write('dungeon', data[:-57] + bytes(57))
         self.assertIn('differs from recorded retail_sha256', self.check(identifier)[2][0])
 
+    def test_prior_image_requires_the_index_and_matching_disc_bytes(self):
+        path = self.root / LI.PRIOR_TOWN_INDEX
+        path.parent.mkdir(parents=True)
+        retail = (self.root / placed_copies.CONTAINER_DIR / placed_copies.CONTAINERS['town']).read_bytes()
+        digest = hashlib.sha256(retail[8:24]).hexdigest()
+        record = dict(container='town', foff=8, size=16, category=LI.PRIOR_TOWN_IMAGE,
+                      retail_sha256=digest, evidence=LI.PRIOR_TOWN_INDEX)
+        path.write_text(json.dumps({'entries': [dict(record, sha256=digest)]}))
+        self.assertEqual(self.check(record), (1, 1, []))
+        self.assertIn('prior-image index', self.check(dict(record, foff=9))[2][0])
+        self.write('town', bytes(len(retail)))
+        self.assertIn('differs from recorded retail_sha256', self.check(record)[2][0])
+
+    def test_pointer_tables_require_a_bank_prefix_and_in_bank_targets(self):
+        bank_file = self.root/'config/link/dungeon/bank_0.json'
+        bank_file.parent.mkdir(parents=True)
+        bank_file.write_text(json.dumps(dict(image='dungeon/bank_0', container='dungeon',
+            foff=0, size=64, vma=0x80020000, entries=[
+                dict(row='dungeon/D_00000000', foff=0, size=8),
+                dict(row='dungeon/func_00000010', foff=16, size=8)])))
+        payload = struct.pack('<II', 0x80020018, 0)
+        self.write('dungeon', bytes(8) + payload + bytes(48))
+        record = dict(container='dungeon', category='bank_pointer_table', foff=8, size=8,
+                      bank_foff=0, null_slots=1, evidence=bank_file.relative_to(self.root).as_posix(),
+                      retail_sha256=hashlib.sha256(payload).hexdigest())
+        check = LI.bank_pointer_table_problems
+        self.assertEqual(check(self.root, [record]), (1, 1, []))
+        self.assertIn('outside its recorded bank', check(self.root, [dict(record, foff=12)])[2][0])
+        self.assertIn('null slot', check(self.root, [dict(record, null_slots=0)])[2][0])
+        payload = struct.pack('<II', 0x80020118, 0)
+        self.write('dungeon', bytes(8) + payload + bytes(48))
+        self.assertIn('differs from recorded retail bytes', check(self.root, [record])[2][0])
+        record['retail_sha256'] = hashlib.sha256(payload).hexdigest()
+        self.assertIn('bank load window', check(self.root, [record])[2][0])
+
     def test_a_revoked_row_is_not_checked(self):
         bad = row(foff=32, compare_foff=32)
         _, _, problems = self.check(bad, dict(bad, active=False))
@@ -148,6 +183,17 @@ class HeadBankComparison(unittest.TestCase):
 
     def test_verified_incompatible_bank(self):
         self.assertEqual(self.check(), (1, 1, []))
+
+    def test_complete_bank_includes_its_entry_and_checks_every_byte(self):
+        del self.region['row']
+        self.region.update(scope='bank', foff=0, size=64, retail_sha256=self.digest(self.bank))
+        self.assertEqual(self.check(), (1, 1, []))
+        changed = self.bank[:]
+        changed[-1] ^= 1
+        self.dungeon.write_bytes(changed)
+        self.assertTrue(any('differs from retail' in issue for issue in self.check()[2]))
+        self.region['size'] += 4
+        self.assertTrue(any('complete bank' in issue for issue in self.check()[2]))
 
     def test_changed_bank_witnesses_fail(self):
         for off, problem in [(0, 'entry pointer'), (12, 'call at +0xC'), (40, 'resident call sequence')]:

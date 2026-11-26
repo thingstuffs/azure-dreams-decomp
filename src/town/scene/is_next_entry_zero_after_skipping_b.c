@@ -1,6 +1,7 @@
 /* Relinked copy of town/func_80878110 (func_80878110.c); retail differs only at relocation sites. */
 #include "common.h"
 #include "town/scene.h"
+#include "town/data.h"
 
 typedef struct ListLink {
     u16 first;
@@ -8,7 +9,7 @@ typedef struct ListLink {
 } ListLink;
 
 s32 func_80000BE4(s32 flag_index);                             /* extern */
-extern ListLink D_00000DB4[];
+extern DevkitShopFlagLink D_00000DB4[];
 extern s16 *D_00000DB0[];
 
 /* Skips entries accepted by func_80000BE4 and checks whether the next entry is zero. */

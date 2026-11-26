@@ -9,6 +9,7 @@
 #include "slus.h"
 #include "town.h"
 #include "town/person.h"
+#include "town/person/entity_display_owner_g00624.h"
 #include "town/shop/object.h"
 #include "town/shop/state.h"
 #include "town/shop.h"
@@ -23,7 +24,7 @@ StorageMenuNode *create_storage_item_menu(ObjectNodeHeader *owner) {
         if (func_800B44F0(menu, 33) != 0) {
             object->header.sprite = &object->menu.links;
             menu->chain = link_storage_item_menu_parts(menu->parts);
-            func_800B44B0(menu, owner);
+            initialize_entity_display_owner(menu, owner);
             register_node(object, dungeon_menu_tag);
             return object;
         }

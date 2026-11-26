@@ -4,7 +4,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
-extern s32 scene_event_data;
+extern u8 scene_event_data[];
 extern s32 D_80016084;
 extern void *D_80017508;
 void attach_scene_event_data_and_run_callback(void);

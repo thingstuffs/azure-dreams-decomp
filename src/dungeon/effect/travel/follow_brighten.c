@@ -55,7 +55,7 @@ void follow_brighten(FollowBrightenEffect *self, ObjectPosition *motion, SpriteF
         part->source = D_80026490;
         ((SignedWordView *)radial_effect_colors)->unk_00 = 0;
         ((SignedHalfView *)D_80026474)->unk_00 = 0;
-        ((UnsignedWordView *)D_80026476)->unk_00 = 0;
+        ((UnsignedWordView *)&D_80026476)->unk_00 = 0;
         ((UnsignedHalfView *)&row_quad_top_color)->unk_00 = 0;
         ((UnsignedByteView *)&row_quad_bottom_color)->unk_00 = 0;
         {

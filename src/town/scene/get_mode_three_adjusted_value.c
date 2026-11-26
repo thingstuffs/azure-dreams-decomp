@@ -1,9 +1,10 @@
 #include "common.h"
 #include "town/scene.h"
+#include "town/devkit.h"
 
 extern s32 scene_captured_value[];
 extern s32 D_00003FCC[];
-extern s32 D_000045F8[];
+extern OvWork D_000045F8;
 
 extern s32 set_flag_entry_has_bit(s32 index, s32 mode);
 
@@ -16,7 +17,7 @@ s32 get_mode_three_adjusted_value(void) {
     entry_value = D_00003FCC[entry_index * 8];
     set_flag_entry_has_bit(entry_index, 3);
     print_scene_sequence_number_sno(3);
-    return entry_value + D_000045F8[0];
+    return entry_value + D_000045F8.unk_00;
 }
 
 /* MECHANISM: Named overlay globals force the retail hi/lo address forms.

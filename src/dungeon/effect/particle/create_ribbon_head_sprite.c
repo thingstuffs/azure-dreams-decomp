@@ -23,7 +23,7 @@ typedef struct {
 #include "dungeon/effect/sprite/rising_entries.h"
 #include "dungeon/effect/sprite/moving_entries.h"
 extern M2C_UNK D_80167A2C;
-extern PositionTableEntry ribbon_vertices[];
+extern s16 ribbon_vertices[][8][2][3];
 
 /* Creates a visual object with a source-indexed position offset and appearance. */
 void create_ribbon_head_sprite(Rec_func_80167A98_arg0 *source, Rec_func_80167A98_arg1 *origin, void *unused_color) {
@@ -40,9 +40,9 @@ void create_ribbon_head_sprite(Rec_func_80167A98_arg0 *source, Rec_func_80167A98
         render_state->depth_bias = 0;
         render_state->flags = (u16) (render_state->flags | 0xC);
         position = object->position;
-        position->x.v = origin->unk_00 + (ribbon_vertices[source->unk_1C].x << 0x11);
-        position->y.v = origin->unk_04 + (ribbon_vertices[source->unk_1C].y << 0x11);
-        position->z.v = origin->unk_08 + (ribbon_vertices[source->unk_1C].z << 0x11);
+        position->x.v = origin->unk_00 + (ribbon_vertices[source->unk_1C][0][0][0] << 0x11);
+        position->y.v = origin->unk_04 + (ribbon_vertices[source->unk_1C][0][0][1] << 0x11);
+        position->z.v = origin->unk_08 + (ribbon_vertices[source->unk_1C][0][0][2] << 0x11);
         render_state = object->sprite;
         render_state->scale_y = 0x1000;
         render_state->scale_x = 0x1000;

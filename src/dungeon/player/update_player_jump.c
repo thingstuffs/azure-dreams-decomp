@@ -13,12 +13,12 @@
 #include "dungeon/player.h"
 #include "dungeon/system.h"
 #include "dungeon/data.h"
+#include "dungeon/player/held_item_kind_data.h"
 
    /* entity in update_player_jump */
 
 extern s32 measure_directional_stopping_distance(s16 a0, ObjectPosition *a1, void *a2, s32 a3);
 
-extern s32 held_item_record;
 
 extern u8 D_800DD048[8];
 extern u8 player_throw_frame_set[8];
@@ -90,8 +90,8 @@ void update_player_jump(u8 *action, ObjectPosition *motion, u8 *sprite, u8 *enti
                         s32 heading;
 
                         ((ActorRecord *)entity)->flags1C &= 0xFFEFFFFF;
-                        saved_state = held_item_record;
-                        held_item_record = 0;
+                        saved_state = *(s32 *)&held_item_record;
+                        *(s32 *)&held_item_record = 0;
                         g_dungeon_status.activity_counts.parts.pending_action_count++;
                         *(u8 **)(sprite + 0x2C) = player_jump_frame_set;
                         angle = g_game_work.view.camera_rotation.parts.viewAngle;

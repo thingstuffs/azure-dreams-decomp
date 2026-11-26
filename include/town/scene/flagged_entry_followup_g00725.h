@@ -11,8 +11,8 @@
  * the matched module at TOWN file 0x2AE364..0x2AEBF4 (delta 0x7FD6A800): the 2192 bytes
  * are identical except relocated fields, and 11 of 12 bank-local calls land on the
  * mirrored function starts at this delta.  This row mirrors buy_flagged_entries
- * (src/town/func_8032EAE8.c).  Evidence: docs/evidence/r121_rem_opus.md. */
-/* = apply_shop_transaction of the reference module (src/town/func_8032EA2C.c). */
+ * (src/town/system/shop_value_dispatch.c).  Evidence: docs/evidence/r121_rem_opus.md. */
+/* = apply_shop_transaction of the reference module (src/town/shop/state/set_lshop_special_flag_g00699.c). */
 extern void lookup_entry_with_default_fallback(void *entries, s32 entry_mode);
 
 /* Functions defined in this translation unit. */

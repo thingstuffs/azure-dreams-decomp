@@ -82,7 +82,7 @@ void invoke_menu_callback(ShopFirstCallbackObject *state)
 
 ItemMenuPart *link_menu_entries(ItemMenuPart **entries)
 {
-    return (ItemMenuPart *)build_reverse_indexed_chain((struct S_800491F4 **)entries, (u8 *)menu_entry_link_table, 25);
+    return (ItemMenuPart *)build_reverse_indexed_chain((struct S_800491F4 **)entries, menu_entry_link_table, 25);
 }
 
 void initialize_menu_entry(ShopFirstCallbackObject *state, ActorRecord *actor, s32 slot_index, s32 x, s32 y, s32 z)
@@ -117,5 +117,5 @@ const u8 menu_entry_link_table[4] = {24, 21, 22, 25};
 ItemMenuPart *link_cached_monster_display_entries(ItemMenuPart **entries)
 {
     return (ItemMenuPart *)build_reverse_indexed_chain((struct S_800491F4 **)entries,
-                                                       (u8 *)cached_monster_display_link_table, 25);
+                                                       cached_monster_display_link_table, 25);
 }

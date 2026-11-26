@@ -3,7 +3,7 @@
 
 typedef void (*S_80083C68)(void);
 
-extern S_80083C68 runtime_callback_entries[];
+extern void (*runtime_callback_entries[16])(void);
 
 /* Invokes runtime_callback_entries in order until the null terminator. */
 void run_frame_callbacks(void) {

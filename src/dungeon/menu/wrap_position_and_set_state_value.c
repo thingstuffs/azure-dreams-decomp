@@ -1,8 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "dungeon/menu.h"
+#include "dungeon/data.h"
 
-extern s32 dungeon_menu_object;
 
 typedef struct S_800DC1B8_0 {
     u8 pad_00[0x18];
@@ -17,7 +17,7 @@ void wrap_position_and_set_state_value(s32 state_value) {
     s32 adjusted_position;
     S_800DC1B8_0 *state;
 
-    state = dungeon_menu_object + 0x20;
+    state = NODE_BODY(dungeon_menu_object);
     position = state->unk_18;
     adjusted_position = position;
     state->unk_18 = (s32) ((position % 32) + 0x20);

@@ -17,20 +17,6 @@ typedef struct T_80175050_S_80175050_0 {
 } T_80175050_S_80175050_0;   /* arg0 in func_80175050 */
 
 
-typedef struct T_80175050_S_80175050_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x1C];
-    u8 unk_48;
-    u8 pad_49[0x1B];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} T_80175050_S_80175050_2;   /* arg3 in func_80175050 */
 
 typedef struct T_80175050_S_80175050_3 {
     u8 unk_00;

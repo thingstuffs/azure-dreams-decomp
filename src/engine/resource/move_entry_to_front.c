@@ -5,13 +5,13 @@
 #include "sdk/libgpu.h"
 #include "slus.h"
 #include "slus/data.h"
+#include "slus/runtime_directory.h"
 
 typedef struct {
     void *data;
     struct SpriteSourceEntry *source;
 } Entry;
 
-extern u8 *runtime_resource_directory[];
 
 /* Processes the selected entry and uploads its two image regions to VRAM. */
 s32 activate_resource_and_upload(s32 entry_group, s32 entry_index) {
@@ -29,9 +29,9 @@ s32 activate_resource_and_upload(s32 entry_group, s32 entry_index) {
                 result = find_or_load_runtime_resource_key(entry_data);
                 move_directory_entry_to_front(result);
 
-                LoadImage(resource_directory_upload_rectangles, (void *)runtime_resource_directory[1]);
+                LoadImage(resource_directory_upload_rectangles, (void *)runtime_resource_directory.entries[0].data);
                 LoadImage(&resource_directory_upload_rectangles[2],
-                          (void *)(runtime_resource_directory[1] + 0x2000));
+                          (void *)(runtime_resource_directory.entries[0].data + 0x2000));
 
                 return result;
             }

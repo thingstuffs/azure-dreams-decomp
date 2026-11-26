@@ -95,7 +95,7 @@ void clear_object_buffer_and_state(void *objectAddress)
 {
     ovl_1831370_8181154C_S_8002654C_0 *objectState;
 
-    objectState = (objectAddress + 0x20);
+    objectState = NODE_BODY(objectAddress);
     memset(objectState->unk_14, 0,
            (text_editor_pair_limits[objectState->unk_10] * 2) | 1);
     inventory_set_object_entry_address(objectState->unk_70, objectState->unk_14);

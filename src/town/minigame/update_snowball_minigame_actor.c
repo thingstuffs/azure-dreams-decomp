@@ -19,6 +19,7 @@
 #include "town/player/position.h"
 #include "town/scene/object.h"
 #include "town/data.h"
+#include "town/player/state.h"
 
 #ifndef NULL
 #define NULL 0
@@ -28,7 +29,6 @@ extern u8 D_80022B80[];
 extern s16 D_800272A0[];
 extern void *scene_object_payload_alias;
 extern s32 town_target_height_offset;
-extern u8 D_80092698[];
 extern u8 town_actor_interaction_address[];
 extern u8 D_800F2DC0[];
 extern u8 D_800F2E08[];
@@ -145,7 +145,7 @@ void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition 
         break;
 
     case 5:
-        if (*music == D_80092698) {
+        if (*music == update_actor_with_interaction_state) {
             object->timer.u = 7;
             *music = tracked_actor_callback_address;
             object->unk_15 = 0;

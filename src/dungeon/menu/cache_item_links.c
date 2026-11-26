@@ -13,5 +13,5 @@ const u8 cached_item_part_order[41] __attribute__((aligned(1))) = {
 /* Link the 40 item display parts in draw order. */
 ItemMenuPart *link_item_display_entries(ItemMenuPart **entries)
 {
-    return (ItemMenuPart *)build_reverse_indexed_chain((struct S_800491F4 **)entries, (u8 *)cached_item_part_order, 40);
+    return (ItemMenuPart *)build_reverse_indexed_chain((struct S_800491F4 **)entries, cached_item_part_order, 40);
 }

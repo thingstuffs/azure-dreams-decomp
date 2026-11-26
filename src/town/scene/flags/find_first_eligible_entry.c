@@ -3,7 +3,7 @@
 #include "town/player/state.h"
 #include "town/scene.h"
 
-/* Copy, in this TOWN script module, of the module-0 helper find_eligible_entry (src/town/func_8032F794.c). */
+/* Copy, in this TOWN script module, of the module-0 helper find_eligible_entry (src/town/scene/find_eligible_entry.c). */
 
 extern s32 D_80019550;
 

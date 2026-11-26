@@ -1,7 +1,7 @@
 #include "common.h"
 #include "town/scene.h"
 
-/* Devkit link-at-0 image C copy of the scene-step routine reset_cursor_and_redraw_list (src/town/func_80881424.c);
+/* Devkit link-at-0 image C copy of the scene-step routine reset_cursor_and_redraw_list (src/town/devkit/reset_cursor_and_redraw_list.c);
  * the latched length (0xD9C) and the redraw argument (0xDA0) are separate words here. */
 extern s32 D_00000D9C;
 extern s32 D_00000DA0;

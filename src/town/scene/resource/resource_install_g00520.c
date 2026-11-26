@@ -13,7 +13,7 @@ u32 *find_packed_resource_descriptor(s32 flag_bit, s32 high_key, s32 low_key) {
     u32 high_mask;
     u32 low_mask;
 
-    flags = D_801131EC[0];
+    flags = D_801131EC;
     if (flags[1] != 0) {
         high_mask = 0x3F000000;
         low_mask = 0x007F0000;

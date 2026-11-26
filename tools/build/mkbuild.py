@@ -1474,7 +1474,7 @@ def owner_switch_tables(family):
     return records
 
 
-def check_linker_words(root, family, start, size, compiled, padding):
+def check_linker_words(root, family, start, size, compiled, padding, retail=None):
     """Refuse compiled bytes over a decision-68c linker-owned word unless a switch table claims it.
 
     The link-list word views (config/link, docs/LINK_LISTS.md) stay as accounting records. A registered
@@ -1493,6 +1493,10 @@ def check_linker_words(root, family, start, size, compiled, padding):
             a, b = entry['foff'], entry['foff'] + entry['size']
             if b <= start or a >= start + size:
                 continue
+            if entry.get('type') == linklist.RETAIL_TEXT:
+                if (retail is None or b > len(retail)
+                        or sha(retail[a:b]) != entry['sha256']):
+                    raise ValueError('imported retail text SHA-256 differs at 0x%X' % a)
             over = [c for c in compiled if c['foff'] < b and a < c['foff'] + c['size']]
             if not over:
                 continue
@@ -1707,7 +1711,7 @@ def _image_one(path):
         raise ValueError('registered switch table not placed by its owner in ' + spec['image'] + ': ' + hex(unused[0]))
     padding = {word: (foff, switch_tables[foff]['size']) for foff in loaded_tables
                for word in switch_tables[foff].get('padding_words', [])}
-    check_linker_words(gate.ROOT, spec['image'].split('/')[0], spec['start'], spec['size'], compiled, padding)
+    check_linker_words(gate.ROOT, spec['image'].split('/')[0], spec['start'], spec['size'], compiled, padding, raw)
     chunks = cover_image(spec['start'], spec['size'], compiled)
     imports = []
     import_object = directory/'imports.o'

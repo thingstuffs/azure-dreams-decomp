@@ -35,6 +35,7 @@ SCHEMA = "azure-clean.linklist.v0"
 MAP_SCHEMA = "azure-clean.linklist.v1"
 CENSUS_LABELS = ("proven_code", "library_code", "strongly_code", "proven_data",
                  "noncode_typing_pending", "padding_leftover", "unknown")
+RETAIL_TEXT = "Imported retail text"
 ADDR = re.compile(r"^(func|D)_([0-9A-F]{8})$")
 OBJCOPY = "mipsel-linux-gnu-objcopy"
 NM = "mipsel-linux-gnu-nm"
@@ -85,14 +86,18 @@ def _metadata(raw):
     if emitted:
         if not {"sha256", "extractor", "symbols"} <= set(raw):
             raise ValueError("emitted data/padding needs sha256, extractor and symbols")
-        if num(raw['size']) != 4 or num(raw['foff']) % 4:
-            raise ValueError("emitted data/padding must be one aligned word")
+        text = kind == "data" and raw["type"] == RETAIL_TEXT
+        size = num(raw["size"])
+        if num(raw["foff"]) % 4 or size % 4 or (not text and size != 4):
+            raise ValueError("emitted data must be word aligned; only retail text may span words")
         symbols = raw["symbols"]
         if (not isinstance(symbols, dict) or not symbols
                 or any(not isinstance(k, str) or not ADDR.fullmatch(k)
                        or num(v) != int(k.split('_')[1], 16) for k, v in symbols.items())
                 or len({num(v) for v in symbols.values()}) != 1):
             raise ValueError("emitted symbols must bind canonical address identities")
+        if text and (len(symbols) != 1 or not next(iter(symbols)).startswith("D_")):
+            raise ValueError("retail text needs one canonical data symbol")
     elif kind != "asset" and set(raw) & {"sha256", "extractor", "symbols"}:
         raise ValueError("extraction fields require asset or emitted data/padding")
     if kind == "asset" or emitted:
@@ -152,6 +157,8 @@ def validate_image(doc, path="<image>"):
         name = raw.get("row", raw.get("kind"))
         if e["size"] <= 0 or not img["foff"] <= e["foff"] < e["foff"] + e["size"] <= img["foff"] + img["size"]:
             raise ValueError("entry outside its image: " + str(name))
+        if e.get('type') == RETAIL_TEXT and (img['vma'] is None or not e.get('extractor')):
+            raise ValueError('retail text needs a disc extractor and a load address')
         if raw.get('kind') in ('data', 'padding') and raw.get('extractor') and img['vma'] is not None:
             expected = img['vma'] + e['foff'] - img['foff']
             if any(num(v) != expected for v in raw['symbols'].values()):

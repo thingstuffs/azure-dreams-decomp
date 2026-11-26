@@ -21,6 +21,7 @@ s32 get_menu_actor_index(void *actor)
             return 0;
         }
     }
+    /* BYTES: Preserve the separate primary actor load for the second slot. */
     player = menu_player();
     if (player->menu_alternate[1] != 0) {
         if (actor == player->menu_alternate[1]) {

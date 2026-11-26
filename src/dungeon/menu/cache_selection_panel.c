@@ -282,7 +282,7 @@ const u8 cached_selection_panel_draw_order[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 ItemMenuPart *link_selection_panel_entries(ItemMenuPart **parts)
 {
     return (ItemMenuPart *)build_reverse_indexed_chain((struct S_800491F4 **)parts,
-                                                       (u8 *)cached_selection_panel_draw_order, 10);
+                                                       cached_selection_panel_draw_order, 10);
 }
 
 /* Allocate the ten draw parts and their shared command storage. */
@@ -331,5 +331,5 @@ CachedSelectionPanelNode *create_party_command_panel(ObjectNodeHeader *owner)
 
 void initialize_selection_panel_packets(void *packets)
 {
-    init_packet_pair_and_gradient(packets, (void *)&cached_selection_panel_rectangle);
+    init_packet_pair_and_gradient(packets, &cached_selection_panel_rectangle);
 }

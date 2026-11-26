@@ -7,7 +7,7 @@
 #include "town/map/event_entry_data.h"
 
 extern void *D_800D1A0C[][2];
-extern u8 D_800D1D54[];
+extern u32 D_800D1D54[2];
 extern u8 D_800D1D5C[];
 extern u8 D_800D1D64[];
 extern u8 D_800D1D6C[];

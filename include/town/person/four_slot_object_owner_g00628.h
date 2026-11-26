@@ -9,24 +9,6 @@
 
 
 
-typedef struct StorageDisplayBody {
-    s32 unk00;
-    u8 pad04[4];
-    s32 open_step;
-    u8 pad0c[4];
-    s32 unk10;
-    FrameState cursor;
-    void *unk20;
-    u8 pad24[0x1C];
-    DisplayPositionWords vector;
-    StorageDisplayLinks links;
-    u8 pad58[4];
-    ItemMenuPart **parts;
-    s32 unk60;
-} StorageDisplayBody;
-
-
-struct StorageDisplayBody;
 
 extern u8 item_menu_slot_handler_address[];
 extern void func_800B3558(void *);
@@ -35,10 +17,10 @@ extern void func_800B47BC(void *);
 extern void func_800B4908(void *);
 extern void func_800B49A8(void *);
 extern void func_800B4A60(void *);
-void advance_storage_open_ramp(StorageDisplayBody *object);
+void advance_storage_open_ramp(StorageMenuObject *object);
 
 /* Functions defined in this translation unit. */
-void update_storage_cursor_and_fade_indicators(StorageDisplayBody *object);
+void update_storage_cursor_and_fade_indicators(StorageMenuObject *object);
 void initialize_four_slot_object(StorageMenuObject *obj);
 void bind_storage_display_object(StorageMenuObject *object, ObjectNodeHeader *owner);
 void initialize_four_slot_object_owner(StorageMenuObject *object, ObjectNodeHeader *owner);

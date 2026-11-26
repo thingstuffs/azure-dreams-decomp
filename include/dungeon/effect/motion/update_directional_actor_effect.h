@@ -25,7 +25,7 @@ void update_spiral_spawner(void *);
 void create_spiral_spawner(ObjectNodeHeader *, s16, s16, ActorRecord *);
 #include "dungeon/effect/screen.h"
 #include "sdk/libgte.h"
-extern u8 D_800DF334[];
+extern struct DungeonParameters D_800DF334;
 extern u8 linked_mesh_processor_address[];
 extern u8 D_80024980[];
 extern u8 directional_effect_sprite_data[];

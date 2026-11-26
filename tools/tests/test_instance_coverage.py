@@ -53,6 +53,22 @@ class CoverageTests(unittest.TestCase):
         self.assertEqual(tally, {'in_c': 20, 'copies': 0, 'split': 0, 'sdk': 10, 'unported': 10, 'heuristic': 6, 'older_head_bank': 0})
         self.assertEqual(sum(tally.values()), report['code_bytes_classified_or_estimated'])
         self.assertEqual(tally['in_c'], report['c_rows'])
+    def test_status_keeps_an_explicit_unported_class_in_split_windows(self):
+        (self.root / 'tools').mkdir()
+        (self.root / 'tools/coverage.py').write_bytes((LANE / 'tools/coverage.py').read_bytes())
+        write(self.led / 'coverage_regions.jsonl', [
+            {'container': 'dungeon', 'foff': 0, 'size': 100, 'category': 'window'},
+            {'container': 'dungeon', 'foff': 80, 'size': 10, 'category': 'unported'},
+        ])
+        write(self.led / 'splits/dungeon.jsonl', [
+            {'foff': 76, 'size': 8, 'result': 'CFAIL'},
+            {'foff': 84, 'size': 6, 'result': 'data'},
+        ])
+        report = self.report()['whole_image']
+        tally = status.not_yet_c(self.root)['dungeon']
+        self.assertEqual(tally['unported'], report['unported'])
+        self.assertEqual(tally['split'], 4)
+
     def test_older_head_bank_is_reported_apart_from_game_c(self):
         (self.root / 'tools').mkdir()
         (self.root / 'tools/coverage.py').write_bytes((LANE / 'tools/coverage.py').read_bytes())
@@ -69,4 +85,33 @@ class CoverageTests(unittest.TestCase):
         write(self.led/'instances.jsonl',[{'container':'dungeon','foff':99,'size':4,'result':'proven'}]);self.assertRaises(ValueError,self.report)
     def test_subtract_and_intersection_boundaries(self):
         self.assertEqual(C.subtract([[0,10],[20,30]],[[3,8],[8,22]]),[[0,3],[22,30]]);self.assertEqual(C.intersection([[0,10]],[[10,20]]),[])
+
+    def test_compressed_stream_class_matches_manifest_and_keeps_code_coordinates_separate(self):
+        write(self.led / 'containers.jsonl', [dict(container='dungeon', file='DUNGEON.BIN', bytes=100)])
+        write(self.led / 'instances.jsonl', [])
+        manifest = 'config/decoded/sample.json'
+        path = self.root / manifest
+        path.parent.mkdir(parents=True)
+        sha = '1' * 64
+        path.write_text(json.dumps(dict(
+            image='dungeon/sample', proof_mode='recompress',
+            streams=[dict(container='work/disc/containers/DUNGEON.BIN', offset='0x20', used=9,
+                          source_sha256=sha)],
+            coverage=dict(functions=2, text_bytes=16, data_bytes=4, imported_bytes=4, stream_bytes=9),
+            import_classes=dict(code=4, text=0, alignment=0, data=0),
+        )))
+        row = dict(container='dungeon', foff=32, size=9, category='compressed_code_stream',
+                   decoded_manifest=manifest, retail_sha256=sha)
+        write(self.led / 'coverage_regions.jsonl', [row])
+        report = C.coverage(self.root)
+        image = report['containers']['dungeon']['whole_image']
+        self.assertEqual((image['compressed_code_stream'], image['unknown'], image['c_rows']), (9, 51, 30))
+        self.assertEqual(report['decoded_images']['dungeon/sample']['bytes_with_c'], 20)
+        for changed in ({'retail_sha256': '2' * 64}, {'foff': 33}, {'size': 8},
+                        {'decoded_manifest': 'config/decoded/other.json'}):
+            write(self.led / 'coverage_regions.jsonl', [dict(row, **changed)])
+            with self.subTest(changed=changed):
+                with self.assertRaisesRegex(ValueError, 'differs from decoded manifest'):
+                    C.coverage(self.root)
+
 if __name__=='__main__':unittest.main()
