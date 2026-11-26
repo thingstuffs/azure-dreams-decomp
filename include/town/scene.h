@@ -218,7 +218,7 @@ struct S_func_8001A854_4;
 s32 blend_point_2s_by_signed_weight(void *base_point, void *other_point, s32 blend_weight, s32 other_weight, void *result_point);
 void fetch_scene_position_xy(struct S_func_8001A854_4 *output, s32 handler_arg);
 
-void copy_words_backward_from_offset(s32 dest_addr, s32 src_addr, s32 byte_count);
+void copy_words_backward_from_offset(u8 *dest_addr, u8 *src_addr, s32 byte_count);
 
 struct S_8001A188_0;
 struct S_8001A188_1;

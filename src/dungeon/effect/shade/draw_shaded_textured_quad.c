@@ -44,7 +44,7 @@ s32 draw_shaded_textured_quad(S_818C29D4_6 *sprite, MovingPosition *position)
     s32 page_x;
 
     angle = g_game_work.view.camera_rotation.parts.viewAngle;
-    scratch->ordering_table = (u32 *)((u8 *)g_game_work.draw_buffer + 0xB0);
+    scratch->ordering_table = &g_game_work.draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE];
     axis_offset = ((rcos(angle) >> 4) * 36) >> 8;
     vertex_coord = position->x - axis_offset;
     scratch->vertices[2].vx = vertex_coord;
@@ -65,8 +65,8 @@ s32 draw_shaded_textured_quad(S_818C29D4_6 *sprite, MovingPosition *position)
     vertex_coord = position->z;
     scratch->vertices[2].vz = vertex_coord;
     scratch->vertices[3].vz = vertex_coord;
-    poly = ((GpuContext *)g_game_work.draw_buffer)->packetCursor;
-    ((GpuContext *)g_game_work.draw_buffer)->packetCursor = poly + 1;
+    poly = g_game_work.draw_buffer->packetCursor;
+    g_game_work.draw_buffer->packetCursor = poly + 1;
     ((GpuLinkTag *)&poly->tag)->len = 12;
     poly->code = 0x3E;
     poly->tpage = GetTPage(0, 1, 0x280, 0x100);
@@ -107,8 +107,8 @@ s32 draw_shaded_textured_quad(S_818C29D4_6 *sprite, MovingPosition *position)
         s32 reset_page_y;
         reset_depth = 0; reset_blend = 1; reset_page_x = 0x280; reset_page_y = 0x100;
         texture_window.y = 0; texture_window.x = 0; texture_window.h = 0xFF; texture_window.w = 0xFF;
-        draw_mode = ((GpuContext *)g_game_work.draw_buffer)->packetCursor;
-        ((GpuContext *)g_game_work.draw_buffer)->packetCursor = draw_mode + 1;
+        draw_mode = g_game_work.draw_buffer->packetCursor;
+        g_game_work.draw_buffer->packetCursor = draw_mode + 1;
         SetDrawMode(draw_mode, 0, 0,
                      GetTPage(reset_depth, reset_blend, reset_page_x, reset_page_y) & 0xFFFF,
                      &texture_window);
@@ -126,8 +126,8 @@ s32 draw_shaded_textured_quad(S_818C29D4_6 *sprite, MovingPosition *position)
             ot = (u32 *)((scratch->ot_index << 2) + (u32)scratch->ordering_table);
             ((GpuLinkTag *)ot)->addr = (u32)poly; }
         texture_window.y = 0x80; texture_window.x = 0; texture_window.h = 0x40; texture_window.w = 0x40;
-        draw_mode_2 = ((GpuContext *)g_game_work.draw_buffer)->packetCursor;
-        ((GpuContext *)g_game_work.draw_buffer)->packetCursor = draw_mode_2 + 1;
+        draw_mode_2 = g_game_work.draw_buffer->packetCursor;
+        g_game_work.draw_buffer->packetCursor = draw_mode_2 + 1;
         SetDrawMode(draw_mode_2, 0, 0,
                      GetTPage(tex_depth, blend_mode, page_x, 0x100) & 0xFFFF, &texture_window);
         { u32 *ot;

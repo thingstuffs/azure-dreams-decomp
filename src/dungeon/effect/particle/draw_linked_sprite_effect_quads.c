@@ -806,10 +806,10 @@ s32 draw_fading_radial_effect_grid(void *effect_data) {
                             color_column = (u8 *)((column << 2) + (unsigned long)scratch);
 
                             {
-                                u8 *packet_pool;
+                                GpuContext *packet_pool;
                                 packet_pool = gw->draw_buffer;
-                                quad = *(Quad **)(packet_pool + 0x8d0);
-                                *(Quad **)(packet_pool + 0x8d0) = quad + 1;
+                                quad = packet_pool->packetCursor;
+                                packet_pool->packetCursor = quad + 1;
                             }
 
                             vertex_colors = (u8 *)(row_offset + (unsigned long)color_column);
@@ -830,8 +830,8 @@ s32 draw_fading_radial_effect_grid(void *effect_data) {
                                 column_limit = last_vertex - first_cell;
                             }
 
-                            ((P_TAG *)quad)->addr = ((P_TAG *)((u8 *)gw->draw_buffer + 0xb0))->addr;
-                            ((P_TAG *)((u8 *)gw->draw_buffer + 0xb0))->addr = (u32)quad;
+                            ((P_TAG *)quad)->addr = ((P_TAG *)&gw->draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE])->addr;
+                            ((P_TAG *)&gw->draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE])->addr = (u32)quad;
                         } while (column < column_limit);
                     }
                     row++;
@@ -844,16 +844,16 @@ s32 draw_fading_radial_effect_grid(void *effect_data) {
             s32 texture_page;
 
             {
-                u8 *packet_pool;
+                GpuContext *packet_pool;
                 packet_pool = gw->draw_buffer;
-                draw_mode = *(u8 **)(packet_pool + 0x8d0);
-                *(u8 **)(packet_pool + 0x8d0) = draw_mode + 12;
+                draw_mode = packet_pool->packetCursor;
+                packet_pool->packetCursor = draw_mode + 12;
             }
             texture_page = func_80066460(0, 2, 0, 0);
             SetDrawMode(draw_mode, 0, 0, texture_page & 0xffff, 0);
 
-            ((P_TAG *)draw_mode)->addr = ((P_TAG *)((u8 *)gw->draw_buffer + 0xb0))->addr;
-            ((P_TAG *)((u8 *)gw->draw_buffer + 0xb0))->addr = (u32)draw_mode;
+            ((P_TAG *)draw_mode)->addr = ((P_TAG *)&gw->draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE])->addr;
+            ((P_TAG *)&gw->draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE])->addr = (u32)draw_mode;
         }
 
         next_effect = *(u8 **)((u8 *)effect_data - 8);

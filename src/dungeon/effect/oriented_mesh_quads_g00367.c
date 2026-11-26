@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "shared/sprite_frame_state.h"
 /* Draws linked mesh quads using the selected orientation mode. */
 #include "dungeon/effect/oriented_mesh_quads_g00367.h"
@@ -391,5 +392,5 @@ void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints_arg, Sp
         }
         PopMatrix();
     }
-    ((S_800CEFB8_9 *)(render_state->draw_buffer))->unk_8D0 = packet_next;
+    render_state->draw_buffer->packetCursor = packet_next;
 }

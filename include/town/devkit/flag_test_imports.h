@@ -44,7 +44,6 @@ void func_8070096C(s32, s32);
 s32 func_80700A78(void);
 void func_80700BC4(s32);
 void func_80700BCC(void);
-void func_80700C08(s32);
 #ifndef AZ_FOREIGN_LOCAL_FUNC_80700C54
 void func_80700C54(s32);
 #endif
@@ -68,6 +67,11 @@ void func_80701298(s32, s32);
 s32 func_80701404(void);
 void func_80702924(s32);
 void func_80702A54(void);
+s32 func_A07002D8(s32);
+void func_A0700348(s32, s32);
+void func_A07006AC(s32);
+void func_A07006FC(s32);
+s32 func_A0700750(s32);
 /* --- end of imports --- */
 
 #endif

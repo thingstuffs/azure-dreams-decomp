@@ -706,17 +706,17 @@ s32 queue_glow_grid_quads(void)
 {
     s32 quad_index = 0;
     Scratch *scratch = (Scratch *)0x1F800000;
-    u8 *state = g_game_work.draw_buffer;
-    u8 *primitive_start = *(u8 **)(state + 0x8D0);
+    GpuContext *state = g_game_work.draw_buffer;
+    u8 *primitive_start = state->packetCursor;
     u32 *vertices;
     u8 *vertex_record;
 
-    scratch->table = (u32 *)(state + 0xB0);
+    scratch->table = &state->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->current = primitive_start;
 
             /* This address is needed only by the loop's terminal writeback. */
     {
-        void **state_slot = &g_game_work.draw_buffer;
+        GpuContext **state_slot = &g_game_work.draw_buffer;
 
         if (D_8002632A > 0) {
             vertices = staged_glow_data;
@@ -807,7 +807,7 @@ s32 queue_glow_grid_quads(void)
                 quad_index++;
             } while (quad_index < D_8002632A);
         }
-        ((GpuContext *)*state_slot)->packetCursor = scratch->current;
+        (*state_slot)->packetCursor = scratch->current;
     }
     return 0;
 }
@@ -954,7 +954,7 @@ s32 queue_shaded_line_chain(GradientLineParticleBody *first_owner, ObjectPositio
     struct DR_MODE *draw_mode;
     s32 point_index;
     s32 color_word;
-    register void **render_state = &g_game_work.draw_buffer;
+    register GpuContext **render_state = &g_game_work.draw_buffer;
     scratch->packet_cursor = render_data->packetCursor;
     scratch->ordering_table = &render_data->orderTag[GPU_ORDER_DEPTH_BASE];
     for (;;) {
@@ -1037,7 +1037,7 @@ s32 queue_shaded_line_chain(GradientLineParticleBody *first_owner, ObjectPositio
         }
         break;
     }
-    ((GpuContext *)*render_state)->packetCursor = scratch->packet_cursor;
+    (*render_state)->packetCursor = scratch->packet_cursor;
     return 0;
 }
 #include "m2c_compat.h"
@@ -1329,17 +1329,13 @@ typedef struct S_80025E4C_1 {
 
 
 
-typedef struct GlobalState {
-    u8 pad[0x8D0];
-    void *next;
-} GlobalState;
 
 /*
  * Projects each linked quad with a depth bias of -8 and queues its translucent shaded packet and
  * draw-mode packet for depths below 0x1E0, then saves the packet cursor.
  */
 s32 queue_linked_shaded_quads(S_80025E4C_1 *quad) {
-    GlobalState **render_states = ((GlobalState **)(&g_game_work));
+    GpuContext **render_states = &g_game_work.draw_buffer;
     PackedShadedQuadScratch *scratch = PACKED_SHADED_QUAD_SCRATCH;
     POLY_G4 *packet;
     DR_MODE *mode_packet;
@@ -1348,11 +1344,11 @@ s32 queue_linked_shaded_quads(S_80025E4C_1 *quad) {
     s32 second_color;
     s32 next_node;
     s32 vertex3_xy;
-    GlobalState *render_state;
+    GpuContext *render_state;
 
     render_state = render_states[0];
-    (*(void **)((u8 *)scratch + 0x20)) = (u8 *)render_state + 0xB0;
-    scratch->packet_cursor = render_state->next;
+    (*(void **)((u8 *)scratch + 0x20)) = &render_state->orderTag[GPU_ORDER_DEPTH_BASE];
+    scratch->packet_cursor = render_state->packetCursor;
     do {
         packet = scratch->packet_cursor;
         scratch->packet_cursor = packet + 1;
@@ -1399,7 +1395,7 @@ s32 queue_linked_shaded_quads(S_80025E4C_1 *quad) {
         }
         quad = (S_80025E4C_1 *)(next_node + 0x20);
     } while (1);
-    render_states[0]->next =
+    render_states[0]->packetCursor =
         scratch->packet_cursor;
     return 0;
 }

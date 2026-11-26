@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 #include "frontend/card/command_panel.h"
 #include "frontend/card/server_imports.h"
 

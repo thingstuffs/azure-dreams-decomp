@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "shared/entity.h"
 /* Transforms linked batches of textured quads and submits their primitives. */
 #include "dungeon/actor/textured_quad_batches_g00338.h"
@@ -13,8 +14,8 @@ s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u
     u8 *transform = (u8 *)0x1F8000D0;
     GameWork *global_addr = &g_game_work;
     S_800B06F0_0 *scratch;
-    S_800B06F0_7 *manager;
-    u8 *initial_manager;
+    GpuContext *manager;
+    GpuContext *initial_manager;
     S_800B06F0_5 *packet;
     u8 **primitive_list;
     u8 *texture_data;
@@ -35,8 +36,8 @@ s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u
     initial_manager = g_game_work.draw_buffer;
     scratch = (S_800B06F0_0 *)0x1F800000;
     scratch->unk_EC = global_value;
-    packet = (S_800B06F0_5 *)((S_800B06F0_1 *)initial_manager)->unk_8D0;
-    scratch->unk_20 = initial_manager + 0xB0;
+    packet = initial_manager->packetCursor;
+    scratch->ordering_table = &initial_manager->orderTag[GPU_ORDER_DEPTH_BASE];
 
     for (;;) {
     S_800B06F0_2 *batch_view = (S_800B06F0_2 *)batch;
@@ -48,7 +49,7 @@ s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u
 
     if (depth < 0x1E0U) {
         ot_entry_addr = depth * 4;
-        ot_entry_addr += (u32)scratch->unk_20;
+        ot_entry_addr += (u32)scratch->ordering_table;
         scratch->unk_C0.p = (u8 *)ot_entry_addr;
         scratch->unk_B8 -= 0xA0;
         scratch->unk_BA -= 0x78;
@@ -194,7 +195,7 @@ s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u
     params = (S_800B06F0_3 *)((S_800B06F0_6 *)next_batch)->unk_0C;
     }
     manager = global_addr->draw_buffer;
-    manager->unk_8D0 = (u8 *)packet;
+    manager->packetCursor = packet;
     return hard_zero;
 }
 

@@ -23,4 +23,13 @@ void card_boot_update_object_state_and_callback(CardChooserBody *object);
 /* menu.c */
 void decrement_card_menu_countdown(CardChooserBody *record_data);
 
+/* card_dev_open_format_confirmation_dialog.c */
+void card_dev_open_format_confirmation_dialog(CardChooserBody *menu);
+
+/* card_dev_open_no_memory_card_dialog.c */
+void card_dev_open_no_memory_card_dialog(CardChooserBody *menu);
+
+/* card_dev_open_damaged_card_dialog.c */
+void card_dev_open_damaged_card_dialog(CardChooserBody *menu);
+
 #endif

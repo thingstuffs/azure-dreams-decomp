@@ -1,5 +1,6 @@
 #include "dungeon/level/init_dungeon_view.h"
 #include "dungeon/level.h"
+#include "shared/gpu_packets.h"
 
 
 /* Initializes dungeon projection, lighting, draw colors, screen clipping, and the default monster
@@ -37,9 +38,9 @@ void init_dungeon_view(void)
     SetFogFar(0x1000, render_state->unk_88);
     SetBackColor(0xA0, 0xA0, 0xA0);
 
-    upper_draw_context[0x19] = 0;
-    upper_draw_context[0x1A] = 0;
-    upper_draw_context[0x1B] = 0;
+    upper_draw_context[0].draw.r0 = 0;
+    upper_draw_context[0].draw.g0 = 0;
+    upper_draw_context[0].draw.b0 = 0;
     lower_draw_context[0x19] = 0;
     lower_draw_context[0x1A] = 0;
     lower_draw_context[0x1B] = 0;

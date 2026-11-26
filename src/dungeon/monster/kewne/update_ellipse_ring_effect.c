@@ -1,4 +1,5 @@
 /* Kewne actor rendering, moving sprite effects, and projected ellipse geometry. */
+#include "shared/gpu_packets.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
 #include "modules/dungeon_ovl_9c32d4.h"
@@ -14,11 +15,11 @@ void update_ellipse_ring_effect(u8 *actor_data, ObjectPosition *output_data, Spr
     ovl_9c32d4_809A32D4_LocalArgs draw_region;
     ovl_9c32d4_809A32D4_Actor *actor;
     ObjectPosition *output;
-    u8 *initial_page;
-    ovl_9c32d4_809A32D4_S_80174AD4_1 *rect_page;
-    ovl_9c32d4_809A32D4_S_80174AD4_3 *region_page;
-    u8 *base_page;
-    u8 *packet_list;
+    GpuContext *initial_page;
+    GpuContext *rect_page;
+    GpuContext *region_page;
+    GpuContext *base_page;
+    u32 *packet_list;
     void *page_packet;
     ovl_9c32d4_809A32D4_S_80174AD4_2 *rect_packet;
     void *region_packet;
@@ -39,12 +40,12 @@ void update_ellipse_ring_effect(u8 *actor_data, ObjectPosition *output_data, Spr
     base_page = upper_draw_context;
     state = actor->state;
     alternate_page = initial_page != base_page;
-    packet_list = initial_page + 0xB0;
+    packet_list = &initial_page->orderTag[GPU_ORDER_DEPTH_BASE];
 
     if (state == 0) {
-        page_packet = ((ovl_9c32d4_809A32D4_S_80174AD4_0 *)initial_page)->unk_8D0;
-        ((ovl_9c32d4_809A32D4_S_80174AD4_0 *)initial_page)->unk_8D0 = (u8 *)page_packet + 0xC;
-        SetDrawArea(page_packet, DUNGEON_FROM_PAGE);
+        page_packet = initial_page->packetCursor;
+        initial_page->packetCursor = (u8 *)page_packet + 0xC;
+        SetDrawArea(page_packet, &DUNGEON_FROM_PAGE->draw.clip);
         AddPrim(packet_list, page_packet);
 
         draw_y = 0x110;
@@ -64,8 +65,8 @@ void update_ellipse_ring_effect(u8 *actor_data, ObjectPosition *output_data, Spr
                       actor, (u8 *)actor + 4, packet_list, 0, 0x20);
 
         rect_page = DUNGEON_FROM_PAGE;
-        rect_packet = rect_page->unk_8D0;
-        rect_page->unk_8D0 = (u8 *)rect_packet + 0x10;
+        rect_packet = rect_page->packetCursor;
+        rect_page->packetCursor = (u8 *)rect_packet + 0x10;
         rect_packet->unk_04 = 0x60000000;
         rect_packet->unk_03 = 3;
         rect_packet->unk_08 = draw_region.x;
@@ -79,8 +80,8 @@ void update_ellipse_ring_effect(u8 *actor_data, ObjectPosition *output_data, Spr
         AddPrim(packet_list, rect_packet);
 
         region_page = DUNGEON_FROM_PAGE;
-        region_packet = region_page->unk_8D0;
-        region_page->unk_8D0 = (u8 *)region_packet + 0xC;
+        region_packet = region_page->packetCursor;
+        region_page->packetCursor = (u8 *)region_packet + 0xC;
         SetDrawArea(region_packet, &draw_region);
         AddPrim(packet_list, region_packet);
         actor->state++;
@@ -220,7 +221,7 @@ static __inline__ s16 project_ring_coordinate(s32 radius, s32 trig, u16 center)
 /* Emit colored quads between two concentric elliptical arcs. */
 void emit_concentric_ellipse_quads(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_y,
                    u16 center_x, s16 center_y, s32 *color_b_ptr, s32 *color_a_ptr,
-                   s32 draw_bucket, s32 start_segment, s32 end_segment)
+                   u32 *draw_bucket, s32 start_segment, s32 end_segment)
 {
     ovl_9c32d4_809A38E4_RingRadii radii;
     union { u16 v; } segment_limit = {0};
@@ -238,8 +239,8 @@ void emit_concentric_ellipse_quads(u16 radius_a_x, u16 radius_a_y, u16 radius_b_
     u8 *submit_prim;
     u8 *next_vertex;
     u8 *vertex_data;
-    ovl_9c32d4_809A38E4_GraphicsState **graphics_ptr;
-    ovl_9c32d4_809A38E4_GraphicsState *graphics;
+    GpuContext **graphics_ptr;
+    u8 *graphics;
     u16 next_segment;
     s32 outer_prev_x;
     s32 outer_prev_y;
@@ -257,8 +258,9 @@ void emit_concentric_ellipse_quads(u16 radius_a_x, u16 radius_a_y, u16 radius_b_
     angle = (s32)vertex_data << 7;
     radii.inner_x = radius_a_x;
     graphics_ptr = &g_game_work.draw_buffer;
-    graphics = *graphics_ptr;
-    graphics = (ovl_9c32d4_809A38E4_GraphicsState *)((u8 *)graphics + 0x8D0);
+    /* one local holds the context, then the address of its packet cursor */
+    graphics = (u8 *)*graphics_ptr;
+    graphics += 0x8D0;
     prim = *(u8 **)graphics;
     radii.inner_y = radius_a_y;
     radii.outer_x = radius_b_x;
@@ -331,5 +333,5 @@ void emit_concentric_ellipse_quads(u16 radius_a_x, u16 radius_a_y, u16 radius_b_
             segment = next_segment;
         } while (((s32)(u32)next_segment << 16) < ((s32)(u32)segment_limit.v << 16));
     }
-    (*graphics_ptr)->next_prim = prim;
+    (*graphics_ptr)->packetCursor = prim;
 }

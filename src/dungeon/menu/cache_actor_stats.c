@@ -119,11 +119,11 @@ void draw_cached_actor_stats(ActorRecord *actor, ItemMenuPart **panels)
     format_int_space_padded(actor->max_hp, 3, digits);
     strcat(text, digits);
 
-    set_storage_entry_text(panels[4], (char *)text, 0, 0x6C, 0x98);
+    set_storage_entry_text(panels[4], text, 0, 0x6C, 0x98);
     set_storage_entry_text(panels[19], (char *)cached_stat_column_labels, 0, 0x48, 0xB8);
-    set_storage_entry_text(panels[5], (char *)format_cached_gauge_text(text, actor), 0, 0x48, 0xC8);
-    set_storage_entry_text(panels[18], (char *)format_cached_attack_defense(text, actor), 0, 0x48, 0xB8);
-    set_storage_entry_text(panels[2], (char *)format_cached_equipment_bonuses(text, actor), 0, 0x48, 0xB0);
+    set_storage_entry_text(panels[5], format_cached_gauge_text(text, actor), 0, 0x48, 0xC8);
+    set_storage_entry_text(panels[18], format_cached_attack_defense(text, actor), 0, 0x48, 0xB8);
+    set_storage_entry_text(panels[2], format_cached_equipment_bonuses(text, actor), 0, 0x48, 0xB0);
 }
 
 /* Draw the party actor version with HP, MP and a species label. */
@@ -157,7 +157,7 @@ void draw_party_actor_stats(ActorRecord *actor, ItemMenuPart **panels)
     format_int_space_padded(actor->max_mp, 3, digits);
     strcat(text, digits);
 
-    set_storage_entry_text(panels[5], (char *)text, 0, 0x6C, 0x98);
+    set_storage_entry_text(panels[5], text, 0, 0x6C, 0x98);
     species_name = (const char *)(unsigned long)(u32)monster_get_species_name_text(normalize_monster_status_species_code(actor->species));
     text_style = 0;
     if (actor->town_monster_slot >= 0x41) {
@@ -165,7 +165,7 @@ void draw_party_actor_stats(ActorRecord *actor, ItemMenuPart **panels)
     }
     /* The text setter receives the string address as a word. */
     set_display_entry_text_and_position(panels[6], (s32)(unsigned long)species_name, text_style, 0x68, 0x98);
-    set_storage_entry_text(panels[7], (char *)format_cached_gauge_text(text, actor), 0, 0x48, 0xC8);
+    set_storage_entry_text(panels[7], format_cached_gauge_text(text, actor), 0, 0x48, 0xC8);
     set_storage_entry_text(panels[19], (char *)cached_stat_column_labels, 0, 0x48, 0xB8);
-    set_storage_entry_text(panels[18], (char *)format_cached_attack_defense(text, actor), 0, 0x48, 0xB8);
+    set_storage_entry_text(panels[18], format_cached_attack_defense(text, actor), 0, 0x48, 0xB8);
 }

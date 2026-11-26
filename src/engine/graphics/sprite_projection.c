@@ -31,7 +31,7 @@ s32 project_sprite_chain(void *group_data, ObjectPosition *position, SpriteFrame
     for (;;) {
         if (!(current_entry->flags & 0x80)) {
             project_sprite_commands(current_data, position, current_entry, current_entry->depth_bias);
-            if (is_frame_packet_arena_overflowed(((GpuContext *)g_game_work.draw_buffer)->packetCursor)) {
+            if (is_frame_packet_arena_overflowed(g_game_work.draw_buffer->packetCursor)) {
                 return 0;
             }
         }
@@ -398,5 +398,5 @@ void project_sprite_commands(void *context, ObjectPosition *position, SpriteFram
         PopMatrix();
     }
 
-    ((GpuContext *)render_state->draw_buffer)->packetCursor = packet;
+    render_state->draw_buffer->packetCursor = packet;
 }

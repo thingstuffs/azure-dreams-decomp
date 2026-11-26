@@ -126,7 +126,7 @@ extern u8 D_80037714;
 extern u8 D_800794AC;
 extern u32 D_800CFB74[];
 extern u8 D_800CFC38[];
-extern u32 D_800CFC44[];
+extern TownMapUpdate D_800CFC44[];
 
 extern s32 town_map_state_values[];
 extern void advance_sprite_animation_and_textures(void *entity);

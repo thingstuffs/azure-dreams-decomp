@@ -36,11 +36,6 @@ typedef struct Packet81976F70 {
     u8 pad26[2];
 } Packet81976F70;
 
-typedef struct State81976F70 {
-    u8 pad0[0x8D0];
-    Packet81976F70 *next;
-} State81976F70;
-
 
 extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *, void *);
 
@@ -51,7 +46,7 @@ extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *,
  */
 s32 queue_gouraud_triangle(s32 vertex_color0, s32 vertex_color1, s32 vertex_color2)
 {
-    State81976F70 *state;
+    GpuContext *state;
     Packet81976F70 *packet;
     RadialBandQuadScratch *scratch = RADIAL_BAND_SCRATCH;
     MeshEffectOrigin *vertex_offset;
@@ -63,9 +58,9 @@ s32 queue_gouraud_triangle(s32 vertex_color0, s32 vertex_color1, s32 vertex_colo
     u32 ordering_link;
 
     state = g_game_work.draw_buffer;
-    scratch->ordering_table = (u32 *)((u8 *)state + 0xB0);
-    packet = state->next;
-    state->next = packet + 1;
+    scratch->ordering_table = &state->orderTag[GPU_ORDER_DEPTH_BASE];
+    packet = state->packetCursor;
+    state->packetCursor = packet + 1;
 
     packet->type = 9;
     packet->unk7 = 0x36;

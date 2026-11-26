@@ -1,4 +1,5 @@
 /* Ifrit texture division and linked textured-strip rendering. */
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "sdk/libgpu.h"
@@ -49,11 +50,6 @@ typedef struct S_func_80174228_3 {
     s16 unk_18;
 } S_func_80174228_3;
 
-typedef struct S_func_80174228_4 {
-    u8 pad_00[0xB0];
-    u32 unk_B0[520];
-    void *unk_8D0;
-} S_func_80174228_4;
 
 typedef struct S_func_80174228_5 {
     u32 unk_00;
@@ -155,8 +151,8 @@ s32 render_linked_textured_strips(u8 *item_data)
     S_func_80174228_5 *prim;
     u8 shade;
     u8 tex_height;
-    S_func_80174228_4 *context;
-    S_func_80174228_4 *context2;
+    GpuContext *context;
+    GpuContext *context2;
     S_func_80174228_6 *profile_dst;
     S_func_80174228_7 *profile_mirror;
     s32 brightness;
@@ -274,11 +270,12 @@ s32 render_linked_textured_strips(u8 *item_data)
             i = 0;
             do {
                 context = render_state->draw_buffer;
-                prim = context->unk_8D0;
+                prim = context->packetCursor;
                 render_term = (s32)((u8 *)prim + 0x28);
-                context->unk_8D0 = (void *)render_term;
+                context->packetCursor = (void *)render_term;
 
-                context = (S_func_80174228_4 *)(storage + i * 2 - 0x10);
+                /* BYTES: this local holds the frame context, then a profile row read as S_func_80174228_8; a separate local changes the code */
+                context = (GpuContext *)(storage + i * 2 - 0x10);
                 render_term = 0xB;
                 render_term -= i;
                 brightness = ((S_func_80174228_8 *)context)->unk_58;

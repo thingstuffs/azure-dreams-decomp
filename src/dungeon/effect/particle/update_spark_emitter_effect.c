@@ -82,7 +82,7 @@ void update_spark_emitter_effect(DirectionalParticleChainBody *effect, ObjectPos
     s32 unit_scale;
     u16 ticks_left;
     u16 fade_ticks;
-    void *owner;
+    ActorRecord *owner;
     ActorRecord *owner_flags;
     SpriteFrameState *owner_sprite;
     SpriteFrameState *sprite;
@@ -248,7 +248,7 @@ loop_effects:
                         owner = effect->unk_30.p;
                         effect->unk_00 = 1;
                         owner_sprite = ((SpriteLinkPrefixView *)owner)[-1].sprite;
-                        ((ActorRecord *)owner)->flags1C = (((ActorRecord *)owner)->flags1C | 0x10000000);
+                        owner->flags1C = (owner->flags1C | 0x10000000);
                         owner_sprite->color.c.b = 0x30;
                         owner_sprite->color.c.g = 0x30;
                         owner_sprite->color.c.r = 0x30;

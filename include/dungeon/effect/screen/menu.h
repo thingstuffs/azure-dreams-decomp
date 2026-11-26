@@ -23,7 +23,7 @@
 typedef struct ArcingEffectBody {
     void *unk_00;
     void *unk_04;
-    void *unk_08;
+    ObjectPosition *unk_08;
     s32 unk_0C;
     u8 pad_10[0x10];
     s16 phase;

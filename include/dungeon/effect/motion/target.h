@@ -37,10 +37,6 @@ typedef struct Row_818E747C_S_80024C7C_1 {
     void * unk_00;
 } Row_818E747C_S_80024C7C_1;   /* global_base in func_80024C7C */
 
-typedef struct Row_818E747C_S_80024C7C_2 {
-    u8 pad_00[0x8D0];
-    void * unk_8D0;
-} Row_818E747C_S_80024C7C_2;   /* context in func_80024C7C */
 
 typedef struct Row_818E747C_S_80024C7C_3 {
     union { s32 s; u32 u; } unk_00;   /* accessed as both */

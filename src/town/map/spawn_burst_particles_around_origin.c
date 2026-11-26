@@ -13,7 +13,7 @@
 
    /* origin in spawn_burst_particles_around_origin */
 
-extern u8 D_800F1654[];
+extern SpriteSourceEntry D_800F1654[];
 
 /* Spawns particles around the origin, emits a burst, then marks the effect finished. */
 void spawn_burst_particles_around_origin(BurstParticleSpawnerObject *self, ObjectPosition *origin)
@@ -37,7 +37,7 @@ void spawn_burst_particles_around_origin(BurstParticleSpawnerObject *self, Objec
         spawn_count = 7;
     {
         u8 *object_type;
-        u8 *sprite_type;
+        SpriteSourceEntry *sprite_type;
         object_type = update_effect_motion_size_and_brightness;
         sprite_type = D_800F1654;
         do {
@@ -67,7 +67,7 @@ void spawn_burst_particles_around_origin(BurstParticleSpawnerObject *self, Objec
                 sprite->flags |= 0xC;
                 motion->ticks_left = 6;
                 sprite->unk_00 = sprite_type;
-                sprite->source = ((SpriteSourceEntry *)sprite_type)->source;
+                sprite->source = sprite_type->source;
                 sprite->unk_04 = 0;
                 sprite->frame_ticks = 0;
                 sprite->color.word = 0x101010;
@@ -85,7 +85,7 @@ void spawn_burst_particles_around_origin(BurstParticleSpawnerObject *self, Objec
     case 1:
     {
         u8 *object_type;
-        u8 *sprite_type;
+        SpriteSourceEntry *sprite_type;
         spawn_count = 0x64;
         object_type = update_effect_motion_size_and_brightness;
         sprite_type = D_800F1654;
@@ -123,7 +123,7 @@ void spawn_burst_particles_around_origin(BurstParticleSpawnerObject *self, Objec
                 motion->ticks_left = 0xF;
                 motion->phase = 1;
                 sprite->unk_00 = sprite_type;
-                sprite->source = ((SpriteSourceEntry *)sprite_type)->source;
+                sprite->source = sprite_type->source;
                 sprite->unk_04 = 0;
                 sprite->frame_ticks = 0;
                 sprite->color.word = 0x808080;

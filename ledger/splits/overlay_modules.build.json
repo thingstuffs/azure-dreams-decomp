@@ -1,6 +1,6 @@
 {
   "schema": "overlay-module-native-v4",
-  "logical_rows": 20777,
+  "logical_rows": 20795,
   "edges": [
     {
       "module": "dungeon_cd_control_d79c4",
@@ -133541,6 +133541,16 @@
       ]
     },
     {
+      "source": "src/frontend/card/card_dev_init_command_panel_frame.c",
+      "recipe": {
+        "cfg": "2.7.2-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "main/func_8001C9F8"
+      ]
+    },
+    {
       "source": "src/frontend/card/card_dev_bind_panel_template.c",
       "recipe": {
         "cfg": "2.7.2-G0",
@@ -133741,6 +133751,16 @@
       ]
     },
     {
+      "source": "src/frontend/card/card_dev_clear_slot_window_words.c",
+      "recipe": {
+        "cfg": "2.6.3",
+        "row_asflags": ""
+      },
+      "rows": [
+        "main/func_8001D4D8"
+      ]
+    },
+    {
       "source": "src/frontend/card/card_dev_clear_ten_values.c",
       "recipe": {
         "cfg": "2.6.3",
@@ -133768,6 +133788,16 @@
       },
       "rows": [
         "main/func_8001D5C8"
+      ]
+    },
+    {
+      "source": "src/frontend/card/card_devkit_set_window_saved_marker.c",
+      "recipe": {
+        "cfg": "2.6.3",
+        "row_asflags": ""
+      },
+      "rows": [
+        "main/func_8001D618"
       ]
     },
     {
@@ -133828,6 +133858,16 @@
       },
       "rows": [
         "main/func_8001D818"
+      ]
+    },
+    {
+      "source": "src/frontend/card/card_background_init_selected_prims.c",
+      "recipe": {
+        "cfg": "2.7.2",
+        "row_asflags": ""
+      },
+      "rows": [
+        "main/func_8001D888"
       ]
     },
     {
@@ -134711,6 +134751,16 @@
       ]
     },
     {
+      "source": "src/frontend/card/card_dev_init_command_panel_frame.c",
+      "recipe": {
+        "cfg": "2.7.2-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "main/func_80020A44"
+      ]
+    },
+    {
       "source": "src/frontend/card/card_dev_bind_slot_rows_template.c",
       "recipe": {
         "cfg": "2.6.3",
@@ -134838,6 +134888,36 @@
       },
       "rows": [
         "main/func_80020F68"
+      ]
+    },
+    {
+      "source": "src/frontend/card/menu/card_dev_open_format_confirmation_dialog.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "main/func_80020FD4"
+      ]
+    },
+    {
+      "source": "src/frontend/card/menu/card_dev_open_no_memory_card_dialog.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "main/func_8002101C"
+      ]
+    },
+    {
+      "source": "src/frontend/card/menu/card_dev_open_damaged_card_dialog.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "main/func_80021060"
       ]
     },
     {
@@ -184571,6 +184651,16 @@
       ]
     },
     {
+      "source": "src/town/devkit/propagate_devkit_page_flag_pair.c",
+      "recipe": {
+        "cfg": "2.6.3",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_80874C08"
+      ]
+    },
+    {
       "source": "src/town/devkit/check_devkit_secondary_condition.c",
       "recipe": {
         "cfg": "2.6.3",
@@ -184758,6 +184848,16 @@
       },
       "rows": [
         "town/func_808755AC"
+      ]
+    },
+    {
+      "source": "src/town/devkit/handle_devkit_page_2_clear.c",
+      "recipe": {
+        "cfg": "2.6.3",
+        "row_asflags": "--aspsx-version=2.40"
+      },
+      "rows": [
+        "town/func_80875618"
       ]
     },
     {
@@ -185111,6 +185211,16 @@
       ]
     },
     {
+      "source": "src/town/devkit/dev_report_kind_mode_sno.c",
+      "recipe": {
+        "cfg": "2.6.3-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8087FBC4"
+      ]
+    },
+    {
       "source": "src/town/scene/flags/update_entry_value_flag_from_test_flag.c",
       "recipe": {
         "cfg": "2.6.3-G0",
@@ -185301,6 +185411,16 @@
       ]
     },
     {
+      "source": "src/town/devkit/dev_report_kind_mode_sno.c",
+      "recipe": {
+        "cfg": "2.6.3-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_80880FD8"
+      ]
+    },
+    {
       "source": "src/town/devkit/trigger_selected_entry_operation.c",
       "recipe": {
         "cfg": "2.6.3-G0",
@@ -185308,6 +185428,16 @@
       },
       "rows": [
         "town/func_8088116C"
+      ]
+    },
+    {
+      "source": "src/town/devkit/advance_devkit_entry_step_278.c",
+      "recipe": {
+        "cfg": "2.6.3-G0",
+        "row_asflags": "--aspsx-version=2.40"
+      },
+      "rows": [
+        "town/func_808811B4"
       ]
     },
     {
@@ -186131,6 +186261,16 @@
       ]
     },
     {
+      "source": "src/town/scene/print_scene_sequence_number_sno.c",
+      "recipe": {
+        "cfg": "2.6.3-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_808B91B4"
+      ]
+    },
+    {
       "source": "src/town/scene/flags/update_entry_value_flag_from_test_flag.c",
       "recipe": {
         "cfg": "2.6.3-G0",
@@ -186148,6 +186288,26 @@
       },
       "rows": [
         "town/func_808B9348"
+      ]
+    },
+    {
+      "source": "src/town/devkit/advance_devkit_entry_step_152.c",
+      "recipe": {
+        "cfg": "2.6.3-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_808B9394"
+      ]
+    },
+    {
+      "source": "src/town/devkit/select_first_unset_devkit_entry.c",
+      "recipe": {
+        "cfg": "2.6.3-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_808B942C"
       ]
     },
     {
@@ -186388,6 +186548,26 @@
       },
       "rows": [
         "town/func_808BB364"
+      ]
+    },
+    {
+      "source": "src/town/shop/state/shop_set_indexed_flag.c",
+      "recipe": {
+        "cfg": "2.6.3",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_808BB3C8"
+      ]
+    },
+    {
+      "source": "src/town/shop/state/shop_clear_indexed_flag.c",
+      "recipe": {
+        "cfg": "2.6.3",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_808BB418"
       ]
     },
     {

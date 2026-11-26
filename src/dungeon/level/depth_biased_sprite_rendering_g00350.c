@@ -30,7 +30,7 @@ s32 traverse_nodes_and_render_unflagged(TrackedSpriteEffect *node) {
             u16 world_y = coord->y.w.i;
             s16 depth = sample_terrain_surface_height(world_x, world_y, coord->z.w.i);
             render_projected_sprite_with_depth_bias(coord, primitive, depth, 0);
-            if (is_frame_packet_arena_overflowed(((GpuContext *)state->draw_buffer)->packetCursor) != 0) {
+            if (is_frame_packet_arena_overflowed(state->draw_buffer->packetCursor) != 0) {
                 break;
             }
         }

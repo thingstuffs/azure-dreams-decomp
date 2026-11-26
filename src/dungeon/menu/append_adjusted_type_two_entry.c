@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "dungeon/effect/sprite/render_rotated_effect_quads.h"
 #include "common.h"
 #include "dungeon/menu.h"
@@ -12,10 +13,6 @@ typedef struct Inner {
     s16 valA;
 } Inner;
 
-typedef struct State {
-    u8 pad[0x8D0];
-    Inner *next;
-} State;
 
 // Append a single-dot tile at the offset map position with the given color and submit it.
 void append_map_dot_tile(s32 x, s32 y, void *color_data, void *submissionTarget)
@@ -23,14 +20,14 @@ void append_map_dot_tile(s32 x, s32 y, void *color_data, void *submissionTarget)
     s32 *entryValue = color_data;
     s32 maskedY = y & 0xFFFF;
     s32 adjustedY = maskedY + 0xC0;
-    State *state = g_game_work.draw_buffer;
-    Inner *entry = state->next;
+    GpuContext *state = g_game_work.draw_buffer;
+    Inner *entry = state->packetCursor;
     s32 adjustedX = x + 0x300;
 
-    state->next = entry + 1;
+    state->packetCursor = entry + 1;
     entry->type = 2;
     entry->val8 = (s16)adjustedX;
-    if (state != (State *)upper_draw_context) {
+    if (state != upper_draw_context) {
         adjustedY = maskedY - 0x20;
     }
     entry->valA = (s16)adjustedY;

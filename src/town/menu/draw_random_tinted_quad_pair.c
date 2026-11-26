@@ -17,7 +17,7 @@ extern void copy_menu_point(void *, void *);
 /* Draw two translucent quads with random vertex colors scaled by the effect intensity. */
 void draw_random_tinted_quad_pair(struct DoorTransitionEffect *effect)
 {
-    GpuContext **render_ctx_addr = (GpuContext **)&g_game_work.draw_buffer;
+    GpuContext **render_ctx_addr = &g_game_work.draw_buffer;
     s32 vertex_index = 0;
     u32 rgb_mask = 0xFFFFFF;
     MenuLineScratch *scratch = (MenuLineScratch *)0x1F800000;

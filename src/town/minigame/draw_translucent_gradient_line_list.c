@@ -2,6 +2,7 @@
 #include "engine/graphics/sprite_scratch.h"
 #include "town/line_packets.h"
 #include "shared/game_work.h"
+#include "shared/gpu_packets.h"
 #include "sdk/libgpu.h"
 #include "town/minigame.h"
 
@@ -13,7 +14,6 @@ typedef struct OtTag {
 typedef struct S_8002222C_0 {
     u8 pad_00[0xB0];
     OtTag ot[0x208];
-    u8 * unk_8D0;
 } S_8002222C_0;   /* arena in draw_translucent_gradient_line_list */
 
 typedef struct S_8002222C_1_pre {
@@ -54,13 +54,13 @@ s32 draw_translucent_gradient_line_list(void *first_entry) {
         func_80065770(entry + 8, screen_xy, depths, transform_work,
                       transform_work, 2);
         {
-            S_8002222C_0 *arena;
+            GpuContext *arena;
             arena = arena_ptr->draw_buffer;
-            line_packet = (TownGradientLinePacket *)arena->unk_8D0;
-            arena->unk_8D0 += sizeof(*line_packet);
+            line_packet = arena->packetCursor;
+            arena->packetCursor += sizeof(*line_packet);
             arena = arena_ptr->draw_buffer;
-            mode_packet = arena->unk_8D0;
-            arena->unk_8D0 = mode_packet + 0xC;
+            mode_packet = arena->packetCursor;
+            arena->packetCursor = mode_packet + 0xC;
             texture_page = GetTPage(0, 0, 0, 0);
         }
         SetDrawMode(mode_packet, 0, 0, texture_page & 0xFFFF, 0);

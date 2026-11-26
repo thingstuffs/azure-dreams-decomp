@@ -26,7 +26,7 @@ s32 project_and_draw_sprite_node_chain(u8 *first_data, ObjectPosition *first_coo
             scratch->vertices[0].vz = coords->z.w.i;
             RotTransPers(&scratch->vertices[0], &((ScratchPad *)scratch)->sw[0], &scratch->depth_cue, &scratch->gte_flag);
             draw_sprite_parts(node_data, entry, entry->depth_bias);
-            if (is_frame_packet_arena_overflowed(((GpuContext *)g_game_work.draw_buffer)->packetCursor)) {
+            if (is_frame_packet_arena_overflowed(g_game_work.draw_buffer->packetCursor)) {
                 return 0;
             }
         }

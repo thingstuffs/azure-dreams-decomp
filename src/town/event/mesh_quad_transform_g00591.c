@@ -30,7 +30,7 @@ void transform_vector(s32 transform, SVECTOR *vector, VECTOR *transformed) {
 void transform_and_queue_mesh_quads(S_func_800AC9AC_0 *mesh, Fixed1616 origin[3])
 {
     SpriteLinkedScratch *scratch;
-    u8 *initial_state;
+    GpuContext *initial_state;
     SVECTOR *vertices;
     u32 *color_masks;
     s16 *quad_indices;
@@ -40,7 +40,7 @@ void transform_and_queue_mesh_quads(S_func_800AC9AC_0 *mesh, Fixed1616 origin[3]
     SVECTOR *vertex_3;
     VECTOR *vertex_work;
     GpuContext *render_state;
-    u8 **render_state_ptr;
+    GameWork *render_state_ptr;
     S_func_800AC9AC_3 *quad;
     u32 *draw_mode;
     s32 random_factor;
@@ -49,11 +49,11 @@ void transform_and_queue_mesh_quads(S_func_800AC9AC_0 *mesh, Fixed1616 origin[3]
 
     quad_indices = mesh->unk_04;
     vertices = mesh->vertices;
-    render_state_ptr = ((u8 * *)(&g_game_work));
-    initial_state = *render_state_ptr;
+    render_state_ptr = &g_game_work;
+    initial_state = render_state_ptr->draw_buffer;
     color_masks = mesh->unk_20;
     scratch = LINKED_SPRITE_SCRATCH;
-    scratch->ordering_table = (u32 *)(initial_state + 0xB0);
+    scratch->ordering_table = &initial_state->orderTag[GPU_ORDER_DEPTH_BASE];
 
     if (*quad_indices != -1) {
         vertex_0 = &scratch->vertices[0];
@@ -64,7 +64,7 @@ void transform_and_queue_mesh_quads(S_func_800AC9AC_0 *mesh, Fixed1616 origin[3]
         address_mask = 0x00FFFFFF;
 
         do {
-            render_state = (GpuContext *)*render_state_ptr;
+            render_state = render_state_ptr->draw_buffer;
             quad = render_state->packetCursor;
             render_state->packetCursor = (u8 *)quad + 0x28;
 
@@ -117,7 +117,7 @@ void transform_and_queue_mesh_quads(S_func_800AC9AC_0 *mesh, Fixed1616 origin[3]
             if (scratch->ordering_depth < 0)
                 scratch->ordering_depth = 0;
 
-            render_state = (GpuContext *)*render_state_ptr;
+            render_state = render_state_ptr->draw_buffer;
             draw_mode = render_state->packetCursor;
             render_state->packetCursor = (u8 *)draw_mode + 0xC;
             SetDrawMode(draw_mode, 1, 0,
@@ -129,7 +129,7 @@ void transform_and_queue_mesh_quads(S_func_800AC9AC_0 *mesh, Fixed1616 origin[3]
             quad->unk_00 = (quad->unk_00 & length_mask) | (OTSLOT() & address_mask);
             OTSLOT() = (OTSLOT() & length_mask) | ((u32)quad & address_mask);
 
-            render_state = (GpuContext *)*render_state_ptr;
+            render_state = render_state_ptr->draw_buffer;
             draw_mode = render_state->packetCursor;
             render_state->packetCursor = (u8 *)draw_mode + 0xC;
             SetDrawMode(draw_mode, 1, 0,

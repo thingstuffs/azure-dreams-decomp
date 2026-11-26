@@ -33,7 +33,7 @@ typedef struct CachedPagedMenu {
     u8 pad_4C[4];
     s32 owner_released;
     u8 entry_ids[8];
-    u8 pad_5C[8];
+    u8 row_highlight[8];
     ObjectNodeHeader *owner;
     struct DungeonItemEntry *item;
     void *panel_packets;

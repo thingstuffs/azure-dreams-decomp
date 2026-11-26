@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "dungeon/item_callbacks_api.h"
 #include "shared/runtime_dispatch.h"
 #include "shared/object_node.h"
@@ -16,10 +17,6 @@
 #include "engine/graphics.h"
 #include "dungeon/data.h"
 
-typedef struct {
-    u8 pad0[0x8D0];
-    void *nextPrim;
-} RenderState;
 
 typedef struct {
     u8 pad0[4];
@@ -47,11 +44,11 @@ void update_return_magic_ascent(ReturnMagicAscentBody *obj, ObjectPosition *moti
     StackData draw_data;
     s16 use_alt_buffer;
     u32 buffer_diff;
-    void **render_state_slot;
-    RenderState *render_state;
-    RenderState *call_state;
+    GpuContext **render_state_slot;
+    GpuContext *render_state;
+    GpuContext *call_state;
     Primitive *prim;
-    u8 *prim_list;
+    u32 *prim_list;
     s32 index_or_phase;
     s32 area_origin;
 
@@ -60,10 +57,10 @@ void update_return_magic_ascent(ReturnMagicAscentBody *obj, ObjectPosition *moti
     draw_data.field1C = 0x00400040;
     render_state_slot = &g_game_work.draw_buffer;
     render_state = g_game_work.draw_buffer;
-    prim = render_state->nextPrim;
-    render_state->nextPrim = (u8 *)prim + 0xC;
+    prim = render_state->packetCursor;
+    render_state->packetCursor = (u8 *)prim + 0xC;
     buffer_diff = (u32)render_state ^ (u32)upper_draw_context;
-    prim_list = (u8 *)render_state + 0x8B0;
+    prim_list = &render_state->orderTag[528];
     call_state = g_game_work.draw_buffer;
     use_alt_buffer = buffer_diff != 0;
     SetDrawArea(prim, call_state, render_state);
@@ -72,10 +69,10 @@ void update_return_magic_ascent(ReturnMagicAscentBody *obj, ObjectPosition *moti
     if (obj->streak_count > 0) {
         index_or_phase = 0;
         do {
-            RenderState *streak_state;
+            GpuContext *streak_state;
             streak_state = *render_state_slot;
-            prim = streak_state->nextPrim;
-            streak_state->nextPrim = (u8 *)prim + 0x10;
+            prim = streak_state->packetCursor;
+            streak_state->packetCursor = (u8 *)prim + 0x10;
             prim->fieldC = (rand() & 0x3F) + 0x340;
             prim->field8 = prim->fieldC;
             {
@@ -105,10 +102,10 @@ void update_return_magic_ascent(ReturnMagicAscentBody *obj, ObjectPosition *moti
     }
 
     {
-        RenderState *area_state;
+        GpuContext *area_state;
         area_state = *render_state_slot;
-        prim = area_state->nextPrim;
-        area_state->nextPrim = (u8 *)prim + 0xC;
+        prim = area_state->packetCursor;
+        area_state->packetCursor = (u8 *)prim + 0xC;
         SetDrawArea(prim, &draw_data.field18);
         AddPrim(prim_list, prim);
     }

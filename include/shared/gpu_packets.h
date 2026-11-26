@@ -36,13 +36,21 @@ typedef struct PolyFT4 {
 
 enum { GPU_ORDER_DEPTH_BASE = 16 };
 
-/* Partial frame draw context owned by the frame-buffer setup, borrowed through GameWork.draw_buffer.
- * render_scene_frame_with_timing reuses contexts, clears ordering tags and resets packet storage each frame. */
+/* One of the two frame draw contexts (0x108D4 bytes each, back to back in upper_draw_context), reached through
+ * GameWork.draw_buffer. init_double_buffered_gpu_environments fills both environments; each frame
+ * render_scene_frame_with_timing applies the current one, draws its ordering table, swaps to the other context,
+ * clears that context's ordering table and resets its packet cursor to the start of its packet storage. */
 typedef struct GpuContext {
-    /* 0x000 */ unsigned char pad_000[0x70];
-    /* 0x070 */ unsigned int orderTag[0x218]; /* ordering buckets cleared together by frame setup */
-    /* 0x8D0 */ void *packetCursor; /* next free packet byte; reset to context +0x8D4 when reused, then advanced by each packet builder */
+    /* 0x000 */ DRAWENV draw; /* drawing environment, applied by PutDrawEnv */
+    /* 0x05C */ DISPENV disp; /* display environment, applied by PutDispEnv */
+    /* 0x070 */ unsigned int orderTag[0x218]; /* ordering buckets cleared together by frame setup (ClearOTagR) */
+    /* 0x8D0 */ void *packetCursor; /* next free packet byte; reset to packets when reused, then advanced by each packet builder */
+    /* 0x8D4 */ unsigned char packets[0x10000]; /* packet storage for one frame */
 } GpuContext;
+
+/* The two frame draw contexts, back to back; init_double_buffered_gpu_environments fills them and every frame swap
+ * steps between them. */
+extern GpuContext upper_draw_context[2];
 
 /* Exact access views shared across registered binary consumers. */
 /* Three signed words supplying packed GPU vertex colors; not a position vector. */

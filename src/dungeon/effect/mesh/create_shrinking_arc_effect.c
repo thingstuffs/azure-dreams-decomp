@@ -231,16 +231,16 @@ void queue_radial_line_burst(ovl_1930844_81911BF4_Obj81911BF4 *effect_data, void
 void build_and_enqueue_five_translucent_quads_between_interpolated_points(u8 *shape, ObjectPosition *position, s16 scale_num, s16 scale_den)
 {
     GameWork *gfx_slot= ovl_1930844_81910EC0_GFX_ROOT_SLOT;
-    u8 *gfx = gfx_slot->draw_buffer;
+    GpuContext *gfx = gfx_slot->draw_buffer;
     s32 edge = 0;
     s32 scale = scale_num;
     s32 divisor = scale_den;
     s32 interpolate = scale < divisor;
     ProjectedQuadScratch *scratch = PROJECTED_QUAD_SCRATCH;
 
-    scratch->ordering_table = (u32 *)(gfx + 0xB0);
+    scratch->ordering_table = &gfx->orderTag[GPU_ORDER_DEPTH_BASE];
     do {
-        GpuContext **gfx_pool = (GpuContext **)gfx_slot;
+        GpuContext **gfx_pool = &gfx_slot->draw_buffer;
         u8 *start_point = shape + edge * 4;
         POLY_G4 *packet;
         DR_MODE *mode_packet;
@@ -336,7 +336,7 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(u8 *sh
                 (scratch->ordering_table[scratch->ot_index] & length_mask) |
                 ((u32)packet & addr_mask);
 
-            gfx_pool = (GpuContext **)gfx_slot;
+            gfx_pool = &gfx_slot->draw_buffer;
             mode_packet = (*gfx_pool)->packetCursor;
             (*gfx_pool)->packetCursor = mode_packet + 1;
             SetDrawMode(mode_packet, 0, 0,
@@ -424,14 +424,14 @@ void queue_perimeter_vertical_quads(ovl_1930844_81911BF4_Obj81911BF4 *effect_in,
     s32 *depth;
     s32 *flag;
     ovl_1930844_819112CC_EmptyArg empty_arg;
-    u8 *render_context = g_game_work.draw_buffer;
+    GpuContext *render_context = g_game_work.draw_buffer;
 
     context_slot = ovl_1930844_819112CC_GFX_ROOT_SLOT;
     point_index = 0;
     scratch = PROJECTED_QUAD_SCRATCH;
     interpolate = step < duration;
     vertex_base = &scratch->vertices[0];
-    scratch->ordering_table = (u32 *)(render_context + 0xB0);
+    scratch->ordering_table = &render_context->orderTag[GPU_ORDER_DEPTH_BASE];
     for (; point_index < 5; point_index = next_index) {
         twice_index = point_index * 2;
         angle_x_or_mask_2 = (twice_index + 1) * 0x199;
@@ -444,7 +444,7 @@ void queue_perimeter_vertical_quads(ovl_1930844_81911BF4_Obj81911BF4 *effect_in,
             ((row_off * effect->scale) << 8);
         target_y = radial_y;
         {
-            GpuContext **pool = (GpuContext **)context_slot;
+            GpuContext **pool = &context_slot->draw_buffer;
             quad = (*pool)->packetCursor;
             (*pool)->packetCursor = quad + 1;
         }
@@ -537,7 +537,7 @@ void queue_perimeter_vertical_quads(ovl_1930844_81911BF4_Obj81911BF4 *effect_in,
             *link = (*link & (u32)angle_x_or_mask) | ((u32)mode & 0xFFFFFF);
         }
         {
-            GpuContext **pool = (GpuContext **)context_slot;
+            GpuContext **pool = &context_slot->draw_buffer;
             quad = (*pool)->packetCursor;
             (*pool)->packetCursor = quad + 1;
         }
@@ -635,9 +635,8 @@ void draw_screen_overlay_fade(void *effect, void *unused, SpriteFrameState *fade
 
     effect_state = ((ovl_1930844_81911A8C_S_81911A8C_0 *)effect)->unk_00;
     effect_state->unk_14 = (u16) (effect_state->unk_14 + 1);
-    overlay = ((ovl_1930844_81911A8C_S_81911A8C_5 *)(g_game_work.draw_buffer))->unk_8D0;
-    ((ovl_1930844_81911A8C_S_81911A8C_5 *)(g_game_work.draw_buffer))->unk_8D0 =
-        (overlay + 1);
+    overlay = g_game_work.draw_buffer->packetCursor;
+    g_game_work.draw_buffer->packetCursor = overlay + 1;
     overlay->unk_0C = 0x140;
     overlay->unk_0E = 0xE0;
     overlay->unk_08 = 0;
@@ -648,7 +647,7 @@ void draw_screen_overlay_fade(void *effect, void *unused, SpriteFrameState *fade
     overlay->unk_05 = green_blue;
     SetTile(overlay);
     overlay->unk_07 = (u8) (overlay->unk_07 | 2);
-    AddPrim(g_game_work.draw_buffer + 0xB0, overlay);
+    AddPrim(&g_game_work.draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE], overlay);
     frames_left = (u8) fade_state->frame_ticks - 1;
     fade_state->frame_ticks = frames_left;
     if ((frames_left << 0x18) == 0) {

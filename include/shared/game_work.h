@@ -144,7 +144,7 @@ typedef struct MapGrid {
 /* Resident singleton shared by overlays; scene setup rebinds its draw/map pointers and embedded view.
  * Controller polling replaces input samples, frame rendering selects the current draw context. */
 typedef struct GameWork {
-    /* 0x000 */ void * draw_buffer; /* borrowed current frame draw context; packet allocation advances its +0x8D0 cursor */
+    /* 0x000 */ struct GpuContext *draw_buffer; /* current frame draw context, one of the two that frame setup swaps (shared/gpu_packets.h) */
     /* 0x004 */ unsigned short unk_004; /* texture-pack generation token; narrow/wide VRAM packers reset their cursors when their cached token differs */
     /* 0x006 */ unsigned char pad_006[0x2];
     /* 0x008 */ int buttons; /* currently held controller buttons, in the PS1 pad bit layout */

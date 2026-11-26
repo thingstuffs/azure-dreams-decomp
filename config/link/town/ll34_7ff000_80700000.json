@@ -12,6 +12,24 @@
   },
   "entries": [
     {
+      "row": "town/func_8087FBC4",
+      "home": "town/func_80877FEC",
+      "tu": "src/town/devkit/dev_report_kind_mode_sno.c",
+      "foff": "0x7ffbc4",
+      "vma": "0x80700bc4",
+      "size": 144,
+      "evidence": "dev_dispatch_flag_test_and_get_result at TOWN +0x7ffef0 calls this entry at +0x7fff08. The 36 words equal dev_report_kind_mode_sno after relocation; its four label strings equal the home image's and its two values are this image's mode and scene-number words.",
+      "bindings": {
+        "0x80701FCC": "0x80700B10",
+        "0x80701FD8": "0x80700B1C",
+        "0x80701FE0": "0x80700B24",
+        "0x80701FE8": "0x80700B2C",
+        "0x807030B8": "0x807013B4",
+        "0x80701DC4": "0x807009B0",
+        "0x80701DC8": "0x807009B4"
+      }
+    },
+    {
       "row": "town/func_8087FC54",
       "home": "town/func_808B7DD4",
       "tu": "src/town/scene/flags/update_entry_value_flag_from_test_flag.c",

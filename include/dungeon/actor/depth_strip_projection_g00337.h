@@ -7,11 +7,6 @@ struct ObjectPosition;
 #include "shared/game_work.h"
 #include "sdk/libgte.h"
 
-typedef struct State_80083160 {
-    char pad0[0x8d0];
-    s32 value;
-} State_80083160;
-
 typedef struct Arg0_800AFBFC {
     char pad0[6];
     u8 value;
@@ -190,6 +185,6 @@ void SetPolyGT4(void *);
 
 /* Functions defined in this translation unit. */
 s32 process_circular_segments(Arg0_800AFBFC *shape, struct ObjectPosition *unused, Arg2_800AFBFC *segment);
-s32 project_depth_strips_and_quads(S_800AFFB4_0 *origin, void *unused, S_800AFFB4_1 *render_data_in, u8 *packet_buffer, s16 texture_arg);
+u8 *project_depth_strips_and_quads(S_800AFFB4_0 *origin, void *unused, S_800AFFB4_1 *render_data_in, u8 *packet_buffer, s16 texture_arg);
 
 #endif

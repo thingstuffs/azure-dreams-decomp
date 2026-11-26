@@ -1,4 +1,5 @@
 /* Mandara effect phase updates and layered wavy-strip rendering. */
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "dungeon/effect/particle.h"
@@ -42,7 +43,6 @@ typedef struct {
 } Projection;
 
 extern u8 D_8017089C[];
-extern u8 upper_draw_context[];
 
 /* Adds 80 and four times the layer index to the phase. */
 static __inline__ s32 advance_phase(s32 phase, s32 layer)
@@ -187,7 +187,7 @@ s32 draw_layered_wavy_object_strips(void *object_data, void *unused, SpriteFrame
         bounds[2] = (s16) (max_xy.word - min_xy.word);
         bounds[0] = left_bound;
         depth = depth >> 2;
-        if ((*(u8 **)&render_state->draw_buffer) != upper_draw_context) {
+        if (render_state->draw_buffer != upper_draw_context) {
             base_y += 0xE0;
         }
         max_y = (s16) (max_xy.word >> 16);
@@ -235,7 +235,7 @@ s32 draw_layered_wavy_object_strips(void *object_data, void *unused, SpriteFrame
                     row_span = bottom_y - index_or_row;
                     row_count = row_span + 1;
                     do {
-                        u8 *frame;
+                        GpuContext *frame;
                         u8 *depth_bucket;
                         s32 texture_width;
                         s32 strip_y;
@@ -247,8 +247,8 @@ s32 draw_layered_wavy_object_strips(void *object_data, void *unused, SpriteFrame
                         s32 bucket_link;
                         depth_out_or_phase = advance_phase(depth_out_or_phase, scratch.outer);
                         frame = render_state->draw_buffer;
-                        poly = *((u8 **) (frame + 0x8D0));
-                        *((u8 **) (frame + 0x8D0)) = poly + 40;
+                        poly = frame->packetCursor;
+                        frame->packetCursor = poly + 40;
                         *((s32 *) (poly + 4)) = appearance->color.word;
                         SetPolyFT4(poly);
                         SetSemiTrans(poly, 1);

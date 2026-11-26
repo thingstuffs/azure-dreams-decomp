@@ -116,8 +116,11 @@ devkit-linked image. The checker follows a direct call from a registered row,
 a callback table addressed by registered rows, or a linked wrapper. It
 verifies the recorded entry and a return at the recorded end and refuses a
 mismatched entry, image hash, duplicate coverage or overlap with compiled
-allocations. More than one end can satisfy the return check. The extents
-are interim evidence pending byte-matched C.
+allocations. More than one end can satisfy the return check. Seventeen of
+the eighteen extents this class first recorded (2,100 bytes) are now C
+rows or placements whose compiled bytes fix their ends. One MAIN extent of
+68 bytes remains: a linked wrapper jumps to it and leaves its input live
+instead of passing an argument, and it stays interim evidence.
 
 **Foreign program fragments.** The ledger gives the source extent in MAIN for
 each Town fragment. The integrity gate compares the two ranges and refuses a

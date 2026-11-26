@@ -7,6 +7,7 @@ struct ObjectNodeHeader;
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - CL:town/func_8008E0B8. */
 
 #include "common.h"
+#include "town/map/body.h"
 #include "slus/town_map_selection_data.h"
 #include "town/map/link_slots_data.h"
 #include "shared/sprite_frame_state.h"
@@ -33,7 +34,7 @@ extern u8 D_800794AC;
 extern s32 D_8008BA00;
 extern s32 D_800CFB74[];
 extern u8 D_800CFC38[];
-extern s32 D_800CFC44[];
+extern TownMapUpdate D_800CFC44[];
 
 /* Shared import declarations; data casts preserve each measured view. */
 void init_unit_scale_record(struct Rec_D_80081FDC *, s32);

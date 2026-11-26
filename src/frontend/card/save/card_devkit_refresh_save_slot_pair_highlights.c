@@ -11,7 +11,7 @@ void card_devkit_refresh_save_slot_pair_highlights(CardSaveOperationBody *menu) 
 
     for (i = 0; i < 5; i++) {
         if (i == menu->saved_entry_index) {
-            func_80404618(menu->windows[i], 1);
+            card_devkit_set_window_saved_marker(menu->windows[i], 1);
         } else if (i == menu->entry_index) {
             card_devkit_set_window_selection_marker(menu->windows[i], 1);
         } else {

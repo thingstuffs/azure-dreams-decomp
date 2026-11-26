@@ -62,10 +62,10 @@ typedef struct S_8009E798_6 {
 /* Build and enqueue transformed sprite quads and restore the drawing area. */
 s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, ObjectPosition *placement, SpriteFrameState *sprite)
 {
-    u8 **state_ptr = (u8 **)((u8 *)(&g_game_work));
-    u8 *state = *state_ptr;
+    GameWork *state_ptr = &g_game_work;
+    GpuContext *state = state_ptr->draw_buffer;
     ViewportSpriteQuadScratch *scratch = VIEWPORT_SPRITE_QUAD_SCRATCH;
-    u8 *packet = ((GpuContext *)state)->packetCursor;
+    u8 *packet = state->packetCursor;
     S_8009E798_6 *packet_view;
     S_8009E798_5 *frame;
     u8 *copy;
@@ -78,11 +78,11 @@ s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, Obje
     s16 vertex_x;
     u16 rect[4];
 
-    scratch->order_table = state + 0xB0;
+    scratch->order_table = (u8 *)&state->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->scale.z = 0x1000;
     scratch->unk_48 = 0;
 
-    SetDrawArea(packet, state);
+    SetDrawArea(packet, &state->draw.clip);
     AddPrim(scratch->order_table + placement->z.w.i * 4,
                   packet);
 
@@ -218,6 +218,6 @@ s32 build_transformed_sprite_quads(InactiveTypeTwelveObjectBody *draw_area, Obje
                   prim);
     prim = packet + 0x58;
     PopMatrix();
-    ((GpuContext *)*state_ptr)->packetCursor = prim;
+    state_ptr->draw_buffer->packetCursor = prim;
     return 0;
 }

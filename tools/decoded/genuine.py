@@ -123,7 +123,7 @@ def verify(root, work, scratch):
                 actual = struct.pack('<'+'I'*len(words),*words)
                 if masked or len(actual)!=size or actual!=data[address-base:address-base+size]:
                     raise ValueError('complete decoded genuine function differs: '+name)
-                functions.append(dict(name=name,address=hex(address),size=size,sha256=D.digest(actual)))
+                functions.append(dict(name=name,address=hex(address),size=size,sha256=D.extent_digest(actual)))
             if not placement:
                 if len(genuine.obj.sections['.text']) != sum(f['size'] for f in functions):
                     raise ValueError('unaccounted complete-TU text')

@@ -12,6 +12,24 @@
   },
   "entries": [
     {
+      "row": "town/func_80880FD8",
+      "home": "town/func_80877FEC",
+      "tu": "src/town/devkit/dev_report_kind_mode_sno.c",
+      "foff": "0x800fd8",
+      "vma": "0x807007d8",
+      "size": 144,
+      "evidence": "read_selected_table_value at TOWN +0x801478 calls this entry at +0x8014b0. The 36 words equal dev_report_kind_mode_sno after relocation; its four label strings equal the home image's and its two values are this image's mode and scene-number words.",
+      "bindings": {
+        "0x80701FCC": "0x80700744",
+        "0x80701FD8": "0x80700750",
+        "0x80701FE0": "0x80700758",
+        "0x80701FE8": "0x80700760",
+        "0x807030B8": "0x8070100C",
+        "0x80701DC4": "0x80700630",
+        "0x80701DC8": "0x80700634"
+      }
+    },
+    {
       "row": "town/func_8088116C",
       "home": "town/func_8088116C",
       "tu": "src/town/devkit/trigger_selected_entry_operation.c",
@@ -19,6 +37,15 @@
       "vma": "0x8070096C",
       "size": 72,
       "evidence": "Recorded in the production link map."
+    },
+    {
+      "row": "town/func_808811B4",
+      "home": "town/func_808811B4",
+      "tu": "src/town/devkit/advance_devkit_entry_step_278.c",
+      "foff": "0x8011b4",
+      "vma": "0x807009b4",
+      "size": 152,
+      "evidence": "Slot 0 of the entry callback table at TOWN +0x800edc, read by dispatch_first_rejected_entry at +0x80134c, holds this entry."
     },
     {
       "row": "town/func_8088124C",

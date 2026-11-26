@@ -6,7 +6,7 @@
 
 /* Plays the selected movie and resets both frame buffers afterward. */
 void play_selected_movie_and_restore_display(void) {
-    u8 *frame_buffers;
+    GpuContext *frame_buffers;
     s32 movie_flag;
     s32 saved_movie_flag;
     u8 *resident_globals_hi = (u8 *) 0x80080000;
@@ -29,8 +29,8 @@ void play_selected_movie_and_restore_display(void) {
     SetDispMask(0);
 
     frame_buffers = upper_draw_context;
-    frame_buffers[0x6D] = 1;
-    frame_buffers[0x10941] = 1;
+    frame_buffers[0].disp.isrgb24 = 1;
+    frame_buffers[1].disp.isrgb24 = 1;
     saved_movie_flag = *(s32 *) (movie_globals_hi - 0x7E1C);
     clear_movie_display_area(saved_movie_flag);
 
@@ -43,8 +43,8 @@ void play_selected_movie_and_restore_display(void) {
         u8 *active_buffer;
 
         active_buffer = *(u8 **) (resident_globals_hi + 0x3160);
-        frame_buffers[0x6D] = 0;
-        frame_buffers[0x10941] = 0;
+        frame_buffers[0].disp.isrgb24 = 0;
+        frame_buffers[1].disp.isrgb24 = 0;
         func_800678E0(active_buffer + 0x5C);
     }
     DrawSync(0);
@@ -58,30 +58,30 @@ void play_selected_movie_and_restore_display(void) {
     clear_movie_display_area(*(s32 *) (movie_globals_hi - 0x7E1C));
 
     {
-        u8 *active_buffer;
-        u8 *next_buffer;
+        GpuContext *active_buffer;
+        GpuContext *next_buffer;
 
-        active_buffer = *(u8 **) (resident_globals_hi + 0x3160);
+        active_buffer = *(GpuContext **) (resident_globals_hi + 0x3160);
         next_buffer = frame_buffers;
-        frame_buffers[0x6D] = 0;
-        frame_buffers[0x10941] = 0;
+        frame_buffers[0].disp.isrgb24 = 0;
+        frame_buffers[1].disp.isrgb24 = 0;
         if (active_buffer == frame_buffers) {
-            next_buffer = frame_buffers + 0x108D4;
+            next_buffer = frame_buffers + 1;
         }
-        *(u8 **) (resident_globals_hi + 0x3160) = next_buffer;
-        func_8006751C(next_buffer + 0x70, 0x218);
+        *(GpuContext **) (resident_globals_hi + 0x3160) = next_buffer;
+        func_8006751C(next_buffer->orderTag, 0x218);
         func_80067688(*(void **) (resident_globals_hi + 0x3160));
     }
     VSync(0);
     {
-        u8 *next_buffer;
+        GpuContext *next_buffer;
 
         next_buffer = frame_buffers;
-        if (*(u8 **) (resident_globals_hi + 0x3160) == frame_buffers) {
-            next_buffer = frame_buffers + 0x108D4;
+        if (*(GpuContext **) (resident_globals_hi + 0x3160) == frame_buffers) {
+            next_buffer = frame_buffers + 1;
         }
-        *(u8 **) (resident_globals_hi + 0x3160) = next_buffer;
-        func_8006751C(next_buffer + 0x70, 0x218);
+        *(GpuContext **) (resident_globals_hi + 0x3160) = next_buffer;
+        func_8006751C(next_buffer->orderTag, 0x218);
         func_80067688(*(void **) (resident_globals_hi + 0x3160));
     }
     VSync(0);
@@ -312,7 +312,7 @@ s32 play_movie_frames_with_skip_fade(s32 unused,s32 frame_limit,s32 stream,s32 m
     s32 fade_step = 1;
     s32 frames = 0;
     s32 previous_buttons;
-    u8 **screen_slot = (u8 **)&g_game_work;
+    GpuContext **screen_slot = &g_game_work.draw_buffer;
 
     movie_stop_frame = frame_limit - 8;
     movie_frame_number = 0;
@@ -335,7 +335,7 @@ s32 play_movie_frames_with_skip_fade(s32 unused,s32 frame_limit,s32 stream,s32 m
             func_800678E0(&display);
             func_80067688(&draw);
         } else {
-            func_800678E0(*screen_slot + 0x5C);
+            func_800678E0(&(*screen_slot)->disp);
             func_80067688(*screen_slot);
         }
         previous_buttons = 0;
@@ -350,8 +350,8 @@ s32 play_movie_frames_with_skip_fade(s32 unused,s32 frame_limit,s32 stream,s32 m
                 func_80066424(&display,active_movie->screen[index].x,active_movie->screen[index].y,active_movie->screen[index].w,active_movie->screen[index].h);
                 func_8006636C(&draw,active_movie->screen[index].x,active_movie->screen[index].y,active_movie->screen[index].w,active_movie->screen[index].h);
             } else {
-                u8 *buffer = upper_draw_context;
-                if (active_movie->screen_index) buffer += 0x108D4;
+                GpuContext *buffer = upper_draw_context;
+                if (active_movie->screen_index) buffer++;
                 *screen_slot = buffer;
             }
             if (movie_rgb24_mode & 1) {
@@ -362,7 +362,7 @@ s32 play_movie_frames_with_skip_fade(s32 unused,s32 frame_limit,s32 stream,s32 m
                 func_800678E0(&display);
                 func_80067688(&draw);
             } else {
-                func_800678E0(*screen_slot + 0x5C);
+                func_800678E0(&(*screen_slot)->disp);
                 func_80067688(*screen_slot);
             }
             if (movie_frame_number >= frame_limit - 8 || frames >= frame_limit - 3) break;
@@ -402,7 +402,7 @@ s32 play_movie_frames_with_skip_fade(s32 unused,s32 frame_limit,s32 stream,s32 m
        read (retail word 310) while deleting the redundant store. */
     display.viewport.w *= 3 / 2;
     if (active_movie->height >= 225) func_800678E0(&display);
-    else func_800678E0(*screen_slot + 0x5C);
+    else func_800678E0(&(*screen_slot)->disp);
     func_80063538();
     return 0;
 }

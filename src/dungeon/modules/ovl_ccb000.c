@@ -1749,7 +1749,7 @@ void draw_shaded_effect_quad_slot_c(CL_CCB000_80173E40_S_80173E40_6 *quad, Objec
     GameWork *render_state_ptr = &g_game_work;
     MATRIX current_matrix;
 
-    scratch->ordering_table = &((GpuContext *)g_game_work.draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE];
+    scratch->ordering_table = &g_game_work.draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->local_matrix.t[0] = position->x.w.i;
     scratch->local_matrix.t[1] = position->y.w.i;
     scratch->local_matrix.t[2] = position->z.w.i;
@@ -1772,14 +1772,14 @@ void draw_shaded_effect_quad_slot_c(CL_CCB000_80173E40_S_80173E40_6 *quad, Objec
 
     texture = render_info->source;
     scratch->render_flags = render_info->flags;
-    mode = ((GpuContext *)g_game_work.draw_buffer)->packetCursor;
-    ((GpuContext *)g_game_work.draw_buffer)->packetCursor = mode + 1;
+    mode = g_game_work.draw_buffer->packetCursor;
+    g_game_work.draw_buffer->packetCursor = mode + 1;
     SetDrawMode(mode, 0, 0, GetTPage(0, 0, 0, 0), 0);
 
     mode->tag = (mode->tag & 0xFF000000) |
-        (((GpuContext *)g_game_work.draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE] & 0x00FFFFFF);
-    ((GpuContext *)g_game_work.draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE] =
-        (((GpuContext *)g_game_work.draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE] & 0xFF000000) |
+        (g_game_work.draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE] & 0x00FFFFFF);
+    g_game_work.draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE] =
+        (g_game_work.draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE] & 0xFF000000) |
         ((u32)mode & 0x00FFFFFF);
 
     {
@@ -1843,8 +1843,8 @@ void draw_shaded_effect_quad_slot_c(CL_CCB000_80173E40_S_80173E40_6 *quad, Objec
                 (scratch->ordering_table[scratch->ot_index] & 0xFF000000) |
                 ((u32)packet & 0x00FFFFFF);
 
-            mode = ((GpuContext *)render_state_ptr->draw_buffer)->packetCursor;
-            ((GpuContext *)render_state_ptr->draw_buffer)->packetCursor = mode + 1;
+            mode = render_state_ptr->draw_buffer->packetCursor;
+            render_state_ptr->draw_buffer->packetCursor = mode + 1;
             SetDrawMode(mode, 0, 0, GetTPage(0, 1, 0, 0), 0);
             mode->tag = (mode->tag & 0xFF000000) |
                 (scratch->ordering_table[scratch->ot_index] & 0x00FFFFFF);

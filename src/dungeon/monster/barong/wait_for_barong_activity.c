@@ -29,10 +29,10 @@ void wait_for_barong_activity(ActorRecord *body, ObjectPosition *unused, SpriteF
     apply_scaled_entity_velocity(state_data);
 
     if (*(s8 *)(state_data + 0x6D) != 0) {
-        u8 *action_data;
+        DungeonGlobalStatus *action_data;
         actor->movement_queue_state &= 0x7F;
-        action_data = ((u8 *)(&g_dungeon_status));
-        if (!(*(u16 *)(action_data + 2) & 0x2000)) {
+        action_data = &g_dungeon_status;
+        if (!(action_data->flags & 0x2000)) {
             direction_table = D_801755B4;
             body->action_id = 0x17;
             body->unk_8C.word = 0;
@@ -44,7 +44,7 @@ void wait_for_barong_activity(ActorRecord *body, ObjectPosition *unused, SpriteF
             select_sprite_entry(animation, direction_table[data_page & 7], 0);
             advance_status_timers(actor);
             actor->pending_turn_updates = actor->pending_turn_updates - (1);
-            *(u16 *)(action_data + 0xA) += 1;
+            *(u16 *)&action_data->activity_counts.parts.pending_action_count += 1; /* the counter is signed; this site counts it as unsigned */
         }
     }
 }

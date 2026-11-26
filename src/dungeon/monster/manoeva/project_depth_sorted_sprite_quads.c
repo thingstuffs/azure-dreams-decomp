@@ -255,5 +255,5 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
         PopMatrix();
     }
 
-    ((GpuContext *)render_globals->draw_buffer)->packetCursor = packet;
+    render_globals->draw_buffer->packetCursor = packet;
 }

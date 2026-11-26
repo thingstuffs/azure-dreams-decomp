@@ -2136,7 +2136,7 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
     R12_80174618_EMPTY_ARG no_arg;
 
     work_base = &g_game_work;
-    scratch->ordering_table = &((GpuContext *)work_base->draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE];
+    scratch->ordering_table = &work_base->draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->local_matrix.t[0] = position->unk_02;
     scratch->local_matrix.t[1] = position->unk_06;
     scratch->local_matrix.t[2] = position->unk_0A;

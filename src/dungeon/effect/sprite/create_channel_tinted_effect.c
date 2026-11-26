@@ -33,7 +33,7 @@ void func_800248C0(void *state, s32 unused, Rec_D_80082E80 *primitive);
 #include "dungeon/effect/sprite/flash_entries.h"
 
 /* Creates a colored object, copies its transform, and applies a vertical offset. */
-s32 create_channel_tinted_effect(s32 *owner_id, void *transform, s16 color_index, s32 y_offset) {
+s32 create_channel_tinted_effect(s32 *owner_id, ObjectPosition *transform, s16 color_index, s32 y_offset) {
     s16 color_channel;
     u16 pos_y;
     s32 phase_value;
@@ -90,8 +90,7 @@ s32 create_channel_tinted_effect(s32 *owner_id, void *transform, s16 color_index
         visual->scale_x = 0x2000;
         register_node(object, project_sprite_chain);
         transform_ptr = object->position;
-        (*(ObjectPosition *)((u8 *)transform_ptr + 0)) =
-            (*(ObjectPosition *)((u8 *)transform + 0));
+        *transform_ptr = *transform;
         pos_y = transform_ptr->z.unsigned_parts.integer;
         object_result = (s32) object;
         pos_y -= saved_y_offset;

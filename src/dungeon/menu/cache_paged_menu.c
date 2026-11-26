@@ -419,6 +419,50 @@ void cancel_paged_menu(CachedPagedMenu *menu)
     release_paged_menu(menu);
 }
 
+void update_cached_paged_row_motion(CachedPagedMenu *menu)
+{
+    s32 cursor_row;
+    s32 delta_y;
+    s32 index;
+
+    cursor_row = menu->previous_row;
+    delta_y = ((menu->selected_row - cursor_row) * (menu->row_transition_progress << 4)) /
+              menu->row_transition_duration + 10;
+    menu->rows->cursor->data->y = cursor_row * 16 + delta_y;
+    index = 0;
+    if (index < menu->entry_count) {
+        do {
+            s32 highlight = menu->row_highlight[index];
+            s32 next_highlight;
+            /* BYTES: Direct indexing changes the address held for the shared shade store. */
+            u8 *highlight_slot = (u8 *)menu + index + (menu->row_highlight - (u8 *)menu);
+            ItemMenuRowDisplay *text_row;
+            s32 display_shade;
+
+            if (index == menu->selected_row) {
+                next_highlight = brighten_cached_menu_highlight(highlight, menu->row_transition_duration,
+                                                            menu->row_transition_progress);
+            } else {
+                next_highlight = fade_cached_menu_highlight(highlight);
+            }
+            *highlight_slot = next_highlight;
+            text_row = menu->rows->text[index];
+            display_shade = menu->row_highlight[index];
+            text_row->data->x = display_shade + 52;
+            menu->rows->right[index]->data->x = display_shade + 143;
+            menu->rows->left[index]->data->x = display_shade + 9;
+            menu->rows->middle[index]->data->x = display_shade + 97;
+            menu->rows->text[index]->data->red = menu->row_highlight[index] * 3 + 104;
+            menu->rows->text[index]->data->green = menu->row_highlight[index] * 3 + 104;
+            menu->rows->text[index]->data->blue = menu->row_highlight[index] * 4 + 96;
+            index++;
+        } while (index < menu->entry_count);
+    }
+    if (menu->row_transition_progress < menu->row_transition_duration) {
+        menu->row_transition_progress++;
+    }
+}
+
 void initialize_paged_rows(CachedPagedMenu *menu)
 {
     s32 slot = 14;

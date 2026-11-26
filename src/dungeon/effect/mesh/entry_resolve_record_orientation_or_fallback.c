@@ -65,7 +65,7 @@ void follow_source_then_seek_target(S_81976850_0 *effect, ObjectPosition *motion
 {
     S_81976850_4 *visual = visual_arg;
     Vec16 delta;
-    void *source;
+    SpriteFrameState *source;
     MovingPosition *source_pos;
     S_81976850_5 *target_pos;
     ActorRecord *scene;
@@ -87,15 +87,15 @@ void follow_source_then_seek_target(S_81976850_0 *effect, ObjectPosition *motion
 
     case 1:
         source = ((S_81976850_8 *)(effect->unk_00))->unk_0C;
-        if ((((SpriteFrameState *)source)->flags & 0x8000) ||
-            resolve_record_orientation_or_fallback(((SpriteFrameState *)source)->source, source, &delta, 0)) {
+        if ((source->flags & 0x8000) ||
+            resolve_record_orientation_or_fallback(source->source, source, &delta, 0)) {
             source_pos = ((S_81976850_8 *)(effect->unk_00))->unk_08;
             motion->x.w.i = source_pos->x;
             motion->y.w.i = source_pos->y;
             source_z = source_pos->z;
             motion->z.w.i = source_z;
 
-            if (!(((SpriteFrameState *)source)->flags & 0x8000)) {
+            if (!(source->flags & 0x8000)) {
                 motion->x.w.i = (u16)((u16)(motion->x.w.i) + (delta.x));
                 motion->y.w.i = (u16)((u16)(motion->y.w.i) + (delta.y));
                 motion->z.w.i = (u16)((u16)(motion->z.w.i) + (delta.z));

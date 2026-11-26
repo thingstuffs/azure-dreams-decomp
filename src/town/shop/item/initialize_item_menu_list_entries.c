@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/resident_resources.h"
 #include "engine/util.h"
 #include "slus.h"
 #include "town/shop.h"
@@ -6,8 +7,6 @@
 #include "town/shop/item_menu_cursor_transition_g00601.h"
 
 extern u8 menu_leaf_template_6[12];
-extern u8 D_80077EF0[12];
-extern u8 D_80077EFC[12];
 
 /* Initializes the list display entries and activates the list. */
 void initialize_item_menu_list_entries(ItemMenuTransition *list) {
@@ -20,8 +19,8 @@ void initialize_item_menu_list_entries(ItemMenuTransition *list) {
     list->rows.as_rows->count_display->handler = get_menu_count_template(list->entry_count);
     list->rows.as_rows->count_display->data->y = (s16)((list->entry_count * 8) + 2);
     if (list->entry_count > 0) {
-        u8 *row_data_a = D_80077EF0;
-        u8 *row_data_b = D_80077EFC;
+        u8 *row_data_a = cached_selection_row_left_template;
+        u8 *row_data_b = cached_selection_row_middle_template;
         entry_y = 0x82;
         row_y = 0xA;
         do {

@@ -14,12 +14,12 @@ typedef struct S_800DC5B4_1 {
 /* Processes a change in the global state value and updates the cached value. */
 void update_cached_level_number(S_800DC5B4_1 *cachedState) {
     u8 currentValue;
-    void **globalStateSlot;
+    ActorRecord **globalStateSlot;
 
-    globalStateSlot = (void **)(&primary_actor_record);
-    currentValue = ((ActorRecord *)(*globalStateSlot))->level;
+    globalStateSlot = &primary_actor_record;
+    currentValue = (*globalStateSlot)->level;
     if (currentValue != cachedState->unk_30) {
         draw_hud_number_tall(currentValue, cachedState->unk_30, 2, 0x18A, 0x190, 0);
-        cachedState->unk_30 = ((ActorRecord *)(*globalStateSlot))->level;
+        cachedState->unk_30 = (*globalStateSlot)->level;
     }
 }

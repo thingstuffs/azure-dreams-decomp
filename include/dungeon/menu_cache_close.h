@@ -14,7 +14,8 @@ typedef struct CachedMenuOwnerLink {
 
 /* The fusion constructor owns the two display nodes and the result node. */
 typedef struct CachedFusionMenu {
-    u8 pad_00[0x8c];
+    /* The actor preview ends where a live actor keeps its action handler (0x8C bytes, pointer fields included). */
+    u8 actor_preview[0x8C];
     ObjectNodeHeader *owner;
     ObjectNodeHeader *actor_choice;
     MenuEntryObject *confirmation_panel;

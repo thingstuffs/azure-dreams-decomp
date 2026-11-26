@@ -58,7 +58,6 @@ struct CardDevCommandPanel;
 void card_dev_initialize_command_panel(struct CardDevCommandPanel *panel, struct ObjectNodeHeader *owner);
 void func_80403B84(struct CardDevCommandPanel *panel, struct ObjectNodeHeader *owner);
 void card_dev_init_row_panel(struct CardDevCommandPanel *panel);
-void card_dev_init_command_panel_frame(void *templates, void *primary, void *secondary);
 void func_80403B7C(struct CardDevCommandPanel *panel, struct ObjectNodeHeader *owner);   /* card_dev_set_word */
 void func_80404708(void *templates, void *primary, void *secondary);
 void func_80404B10(struct CardBackgroundBody *record);   /* card_background_init_components */
@@ -71,6 +70,8 @@ void func_80404314(struct CardDevMenu10 *record, struct ObjectNodeHeader *owner,
 void card_dev_layout_selected_slot_entries(struct CardDevMenu10 *window);
 void func_80402EA4(struct CardDevDialogDisplay *record, struct ObjectNodeHeader *owner, s32 entry_index, s32 value_0c, s32 value_20);   /* set_layout_params */
 void card_dev_set_slot_index_and_owner(struct CardDevMenu10 *record, struct ObjectNodeHeader *owner, s32 slot_index);   /* the server copy of card_boot_set_slot_index_and_owner */
+void func_804030CC(struct ObjectNodeHeader *target, s32 *answer_slot);   /* card_dev_show_format_confirmation */
+void func_804032D4(struct ObjectNodeHeader *node);   /* card_dev_show_damaged_memory_card_notice */
 
 /* Imported declarations, one per address. */
 void func_8003830C(s32, void *);
@@ -141,8 +142,6 @@ struct DevCardDirectoryEntry *nextfile_8007CAC8(struct DevCardDirectoryEntry *en
 void rename_8007CAD8(const char *old_path, const char *new_path);
 void erase_8007CAE8(const char *path);
 void ChangeClearPAD_8007CB08(s32 mode);
-void func_80404618(void *, s32);
-void func_80404888(u8 *packets);
 /* the server's own libcard BIOS stubs (config/names.tsv: address-suffixed, the plain names are the SLUS stubs) */
 s32 _card_status_80408644(s32);
 void _card_wait_80408654(s32);

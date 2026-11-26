@@ -29,7 +29,7 @@ s32 draw_randomized_white_points(TownMapPhaseObject *object, ObjectPosition *coo
 
     render_state = &g_game_work;
     scratch = WHITE_POINT_SCRATCH;
-    scratch->ordering_table = render_state->draw_buffer + 0xB0;
+    scratch->ordering_table = &render_state->draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE];
     addr_mask = 0x00FFFFFF;
     tag_mask = 0xFF000000;
 

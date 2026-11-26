@@ -117,10 +117,6 @@ typedef struct T_80170874_S_80DB9000_4 {
     u32 unk_100;
 } T_80170874_S_80DB9000_4;
 
-typedef struct T_80170874_S_80DB9000_6 {
-    u8 pad_00[0x8D0];
-    void * unk_8D0;
-} T_80170874_S_80DB9000_6;
 
 typedef struct T_80170874_S_80DB9000_7 {
     u8 unk_00;

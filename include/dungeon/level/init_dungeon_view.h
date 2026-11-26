@@ -38,7 +38,6 @@ typedef struct S_804FE87C_0 {
 
 
 extern u8 monster_spawn_records[];
-extern u8 upper_draw_context[0x1C];
 extern u8 lower_draw_context[0x1C];
 
 static __inline__ void set_light_vectors(S_804FE87C_0 *state, s16 x, s16 y) {

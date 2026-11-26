@@ -254,13 +254,13 @@ void remove_runtime_callback(void (*value)(void));
 s32 select_mapped_object_status_code(void *object);
 
 /* w_8004DCA8.c */
-void register_message_command_object(void *object);
+void register_message_command_object(const void *object);
 
 /* w_8004DCEC.c */
 void call_message_mode_handler(void);
 
 /* w_8004DD2C.c */
-void submit_script_with_registered_context(void *context);
+void submit_script_with_registered_context(const void *context);
 
 /* w_8004DDE4.c */
 void build_object_registration_script(void *data);

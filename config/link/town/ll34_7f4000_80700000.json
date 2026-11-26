@@ -12,6 +12,15 @@
   },
   "entries": [
     {
+      "row": "town/func_80874C08",
+      "home": "town/func_80874C08",
+      "tu": "src/town/devkit/propagate_devkit_page_flag_pair.c",
+      "foff": "0x7f4c08",
+      "vma": "0x80700c08",
+      "size": 148,
+      "evidence": "run_devkit_page_3_flag_scan calls this entry at TOWN +0x7f512c."
+    },
+    {
       "row": "town/func_80874C9C",
       "home": "town/func_80874C9C",
       "tu": "src/town/devkit/check_devkit_secondary_condition.c",
@@ -181,6 +190,15 @@
       "vma": "0x807015AC",
       "size": 108,
       "evidence": "Recorded in the production link map."
+    },
+    {
+      "row": "town/func_80875618",
+      "home": "town/func_80875618",
+      "tu": "src/town/devkit/handle_devkit_page_2_clear.c",
+      "foff": "0x7f5618",
+      "vma": "0x80701618",
+      "size": 108,
+      "evidence": "Slot 2 of the page callback table at TOWN +0x7f4bf4, read by call_indexed_callback_failed_test at +0x7f568c, holds this entry."
     },
     {
       "row": "town/func_80875684",

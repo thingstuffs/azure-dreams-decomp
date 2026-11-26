@@ -14,6 +14,21 @@ typedef struct OvWork {
 } OvWork;
 struct CardDevSlotDetails;
 
+/* advance_devkit_entry_step_152.c */
+s32 advance_devkit_entry_step_152(s32 index);
+
+/* advance_devkit_entry_step_278.c */
+s32 advance_devkit_entry_step_278(s32 index);
+
+/* handle_devkit_page_2_clear.c */
+s32 handle_devkit_page_2_clear(s32 value);
+
+/* propagate_devkit_page_flag_pair.c */
+void propagate_devkit_page_flag_pair(s32 index);
+
+/* select_first_unset_devkit_entry.c */
+s32 select_first_unset_devkit_entry(void);
+
 /* set_stage_flag_four_if_ready.c */
 s32 set_stage_flag_four_if_ready(s32 entry);
 
@@ -130,6 +145,9 @@ void *init_card_dev_slot_screen_object(struct ObjectNodeHeader *request, s32 mod
 
 /* noop_hook_k.c */
 void noop_hook_k(void);
+
+/* set_devkit_flag_by_index.c */
+void set_devkit_flag_by_index(s32 index);
 
 /* clear_devkit_flag_for_index.c */
 void clear_devkit_flag_for_index(s32 index);

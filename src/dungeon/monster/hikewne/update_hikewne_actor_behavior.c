@@ -27,7 +27,7 @@ extern void update_directional_sprite_state_and_signals(ActorRecord *, void *, v
 
 /* Updates actor behavior, animation, and facing from its status and current tile. */
 void update_hikewne_actor_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *sprite_arg, ActorRecord *stats_arg) {
-    register void *actor_head = actor_arg;
+    register ActorRecord *actor_head = actor_arg;
     register void *context = context_arg;
     register SpriteFrameState *sprite= sprite_arg;
     register ActorRecord *stats = stats_arg;
@@ -44,7 +44,7 @@ void update_hikewne_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
 #define context_arg context
 
     if (g_dungeon_status.flags & 0x1000) {
-        ((ActorRecord *)actor_arg)->action_id = 14;
+        actor_arg->action_id = 14;
         advance_actor_along_queued_path(actor_arg, context_arg, sprite, stats);
         return;
     }
@@ -64,9 +64,9 @@ void update_hikewne_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
 
     if ((stats->flags1C) & ACTOR_ASLEEP) {
         if (*(u8 **)&sprite->frameTable == hikewne_frame_set_2) {
-            ((ActorRecord *)actor_arg)->action_id = 13;
-            ((ActorRecord *)actor_arg)->action_phase = 1;
-            ((ActorRecord *)actor_arg)->unk_8C.word = 0;
+            actor_arg->action_id = 13;
+            actor_arg->action_phase = 1;
+            actor_arg->unk_8C.word = 0;
             stats->flags1C &= ~0x40000;
             return;
         }
@@ -81,8 +81,8 @@ void update_hikewne_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
             return;
         }
 
-        if (((ActorRecord *)actor_arg)->action_id != 14) {
-            ((ActorRecord *)actor_arg)->action_id = 14;
+        if (actor_arg->action_id != 14) {
+            actor_arg->action_id = 14;
         }
 
         if ((*(u8 **)&sprite->frameTable != hikewne_direction_frames) &&
@@ -93,12 +93,12 @@ void update_hikewne_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
                 hikewne_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + stats->facing + 0x100) >> 9) & 7],
                 0);
             sprite->frame_ticks = 1;
-            ((ActorRecord *)actor_arg)->unk_A0.parts.high = 0;
-            ((ActorRecord *)actor_arg)->unk_9E = 0;
+            actor_arg->unk_A0.parts.high = 0;
+            actor_arg->unk_9E = 0;
         }
 
         stats->flags1C |= 0x40000;
-        ((ActorRecord *)actor_arg)->action_state_flags &= 0xFFF7;
+        actor_arg->action_state_flags &= 0xFFF7;
 
         if (stats->hp_delta != 0) {
             if (begin_ready_actor_directional_action(actor_arg, context_arg, sprite, hikewne_frame_set_18) != 0) {
@@ -108,9 +108,9 @@ void update_hikewne_actor_behavior(ActorRecord *actor_arg, ObjectPosition *conte
 
         if ((stats->flags1C) & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(actor_arg, context_arg, sprite, stats);
-            ((ActorRecord *)actor_arg)->unk_90.parts.high -= ((ActorRecord *)actor_arg)->unk_A0.parts.high;
-            ((ActorRecord *)actor_arg)->unk_A0.parts.high = 0;
-            ((ActorRecord *)actor_arg)->unk_9E = 0;
+            actor_arg->unk_90.parts.high -= actor_arg->unk_A0.parts.high;
+            actor_arg->unk_A0.parts.high = 0;
+            actor_arg->unk_9E = 0;
             update_directional_sprite_state_and_signals(actor_arg, context_arg, sprite, stats);
             return;
         }

@@ -389,12 +389,11 @@ s32 draw_jittered_triangle_trails(void *first_item)
         item_data = list_item;
         point_index = 3;
         do {
-            draw_mode = render_context->draw_buffer + 0x8D0;
-            draw_mode = *(u8 **)draw_mode;
-            *(u8 **)(render_context->draw_buffer + 0x8D0) = draw_mode + 0xC;
+            draw_mode = render_context->draw_buffer->packetCursor;
+            render_context->draw_buffer->packetCursor = draw_mode + 0xC;
 
-            triangle = *(u8 **)(render_context->draw_buffer + 0x8D0);
-            *(u8 **)(render_context->draw_buffer + 0x8D0) = triangle + 0x14;
+            triangle = render_context->draw_buffer->packetCursor;
+            render_context->draw_buffer->packetCursor = triangle + 0x14;
 
             ((TrailTriangle *)triangle)->color = item_data->color;
             SetPolyF3(triangle);
@@ -423,7 +422,7 @@ s32 draw_jittered_triangle_trails(void *first_item)
                 u32 length_mask = 0xFF000000;
 
                 byte_offset = depth_index * 4;
-                ((GpuLinkTag *)triangle)->addr = ((GpuLinkTag *)&((u32 *)(render_context->draw_buffer + 0xB0))[depth_index])->addr;
+                ((GpuLinkTag *)triangle)->addr = ((GpuLinkTag *)&(&render_context->draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE])[depth_index])->addr;
                 ot_entry_base = (u32 *)(byte_offset + (long)render_context->draw_buffer);
                 ot_tag = ((TrailOrderEntry *)ot_entry_base)->tag;
                 (*(u32 *)((u8 *)ot_entry_base + 0xB0)) = (ot_tag & length_mask) |
@@ -431,9 +430,9 @@ s32 draw_jittered_triangle_trails(void *first_item)
 
                 (*(u32 *)(draw_mode + 0)) =
                     (((TrailDrawMode *)draw_mode)->tag & length_mask) |
-                    (((u32 *)(render_context->draw_buffer + 0xB0))[depth_index] & addr_mask);
-                ((u32 *)(render_context->draw_buffer + 0xB0))[depth_index] =
-                    (((u32 *)(render_context->draw_buffer + 0xB0))[depth_index] & length_mask) |
+                    ((&render_context->draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE])[depth_index] & addr_mask);
+                (&render_context->draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE])[depth_index] =
+                    ((&render_context->draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE])[depth_index] & length_mask) |
                     ((u32)draw_mode & addr_mask);
             }
             point_index--;

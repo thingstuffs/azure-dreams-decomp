@@ -43,10 +43,6 @@ void create_two_row_object_group(void *payload, s16 value_scale) {
 }
 #include "shared/game_work.h"
 
-typedef struct S_800DA93C_0 {
-    u8 pad_00[0x8D0];
-    void * unk_8D0;
-} S_800DA93C_0;   /* base->unk0 in draw_linked_textured_quads */
 
 typedef struct S_800DA93C_1_pre {
     s32 unk_00;
@@ -87,7 +83,7 @@ extern s32 RotTransPers(void *, s32 *, s32 *, s32 *);
 
 /* Build textured quad packets from a linked list and insert them into the ordering table. */
 s32 draw_linked_textured_quads(TwoRowObjectGroupBody *first_quad) {
-    void *quad_data;
+    TwoRowObjectGroupBody *quad_data;
     PolyFT4 *packet;
     GameWork *render_state;
     s32 scratch;
@@ -109,8 +105,8 @@ s32 draw_linked_textured_quads(TwoRowObjectGroupBody *first_quad) {
     tag_mask = 0xFF000000;
 
     do {
-        packet = ((S_800DA93C_0 *)(render_state->draw_buffer))->unk_8D0;
-        ((S_800DA93C_0 *)(render_state->draw_buffer))->unk_8D0 = (u8 *)packet + 0x28;
+        packet = render_state->draw_buffer->packetCursor;
+        render_state->draw_buffer->packetCursor = (u8 *)packet + 0x28;
 
         depth = RotTransPers((u8 *)quad_data + 0x28,
                               &packet->xy0, &scratch, &scratch);
@@ -123,15 +119,15 @@ s32 draw_linked_textured_quads(TwoRowObjectGroupBody *first_quad) {
         depth = (depth >> 2) - 8;
 
         if ((u32)depth < 0x1E0U) {
-            scratch = 0xFF - ((s16)((TwoRowObjectGroupBody *)quad_data)->unk_02);
+            scratch = 0xFF - ((s16)quad_data->unk_02);
             packet->colorCode = (*(s32 *)((u8 *)quad_data + 0x10));
             SetPolyFT4(packet);
             SetSemiTrans(packet, 1);
 
-            packet->tpage = ((TwoRowObjectGroupBody *)quad_data)->unk_04;
-            packet->clut = ((TwoRowObjectGroupBody *)quad_data)->unk_06;
+            packet->tpage = quad_data->unk_04;
+            packet->clut = quad_data->unk_06;
 
-            tile_index = (s16)(((s16)((TwoRowObjectGroupBody *)quad_data)->unk_02) % 8);
+            tile_index = (s16)(((s16)quad_data->unk_02) % 8);
             scratch = tile_index;
 
             u_offset = (tile_index % 4) << 5;

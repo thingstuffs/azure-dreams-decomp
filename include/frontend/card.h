@@ -102,6 +102,9 @@ void *card_background_init_overlay_prims(u8 *record);
 /* card_background_init_prims.c */
 void *card_background_init_prims(u8 *record);
 
+/* card_background_init_selected_prims.c */
+void *card_background_init_selected_prims(u8 *record);
+
 /* card_background_layout_entries.c */
 void card_background_layout_entries(struct CardBackgroundBody *owner);
 
@@ -224,6 +227,9 @@ s32 card_dev_has_selected_channel(void);
 /* card_dev_init.c */
 void card_dev_init(void);
 
+/* card_dev_init_command_panel_frame.c */
+void card_dev_init_command_panel_frame(MenuDisplayNode *node, MenuDisplayBlock *block, DisplayPositionWords *vector);
+
 /* card_dev_init_output_pointers.c */
 void card_dev_init_output_pointers(CardDevMenu4 *panel);
 
@@ -293,6 +299,9 @@ void card_dev_refresh_options_object(ObjectNodeHeader *node);
 
 /* card_dev_refresh_save_screen.c */
 void release_card_screen_parts(ObjectNodeHeader *node);
+
+/* card_dev_clear_slot_window_words.c */
+void card_dev_clear_slot_window_words(CardDevMenu10 *window);
 
 /* card_dev_refresh_slot_outputs.c */
 void card_dev_refresh_slot_outputs(ObjectNodeHeader *node, s32 *enabled, s32 *selected);
@@ -429,6 +438,9 @@ s32 card_dev_write_file_units_128(s32 filename, void *buffer, s32 block_count, s
 s32 card_dev_write_save_via_temporary_path(s32 entry_id, struct CardDevSaveWork *request_id);
 /* Devkit server calls to the same row at 0x80402084. */
 s32 process_entry_with_table_value(s32 entry_id, s32 request_id);
+
+/* card_devkit_set_window_saved_marker.c */
+void card_devkit_set_window_saved_marker(CardDevSlotWindow *panel, s32 flag);
 
 /* card_devkit_set_window_selection_marker.c */
 void card_devkit_set_window_selection_marker(CardDevSlotWindow *panel, s32 flag);

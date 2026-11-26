@@ -7849,3 +7849,15 @@
 {"id":"dungeon/D_80E01000","path":"src/dungeon/monster/volcano/volcano_slot_c_bank_header.c"}
 {"id":"dungeon/D_80EEB000","path":"src/dungeon/monster/weadog/weadog_bank_header.c"}
 {"id":"dungeon/D_81826800","path":"src/dungeon/effect/directional_spell_bank_header.c"}
+{"id":"main/func_80020FD4","path":"src/frontend/card/menu/card_dev_open_format_confirmation_dialog.c"}
+{"id":"main/func_8002101C","path":"src/frontend/card/menu/card_dev_open_no_memory_card_dialog.c"}
+{"id":"main/func_80021060","path":"src/frontend/card/menu/card_dev_open_damaged_card_dialog.c"}
+{"id":"main/func_8001C9F8","path":"src/frontend/card/card_dev_init_command_panel_frame.c"}
+{"id":"main/func_8001D4D8","path":"src/frontend/card/card_dev_clear_slot_window_words.c"}
+{"id":"main/func_8001D618","path":"src/frontend/card/card_devkit_set_window_saved_marker.c"}
+{"id":"main/func_8001D888","path":"src/frontend/card/card_background_init_selected_prims.c"}
+{"id":"town/func_80874C08","path":"src/town/devkit/propagate_devkit_page_flag_pair.c"}
+{"id":"town/func_80875618","path":"src/town/devkit/handle_devkit_page_2_clear.c"}
+{"id":"town/func_808811B4","path":"src/town/devkit/advance_devkit_entry_step_278.c"}
+{"id":"town/func_808B9394","path":"src/town/devkit/advance_devkit_entry_step_152.c"}
+{"id":"town/func_808B942C","path":"src/town/devkit/select_first_unset_devkit_entry.c"}

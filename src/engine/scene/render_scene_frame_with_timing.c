@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -24,15 +25,15 @@ void render_scene_frame_with_timing(void)
 {
     s32 copied_value;
     void *current_buffer;
-    u8 *next_buffer;
+    GpuContext *next_buffer;
     void *ordering_table;
     s32 frame_ticks;
     u16 sync_flags;
 
-    PutDispEnv((u8 *)g_game_work.draw_buffer + 0x5C);
-    PutDrawEnv(g_game_work.draw_buffer);
+    PutDispEnv(&g_game_work.draw_buffer->disp);
+    PutDrawEnv(&g_game_work.draw_buffer->draw);
     if (!(system_update_flags[0] & 2)) {
-        DrawOTag((u8 *)g_game_work.draw_buffer + 0x8CC);
+        DrawOTag(&g_game_work.draw_buffer->orderTag[0x218 - 1]);
     }
     service_cd_command_queue();
     drain_audio_commands_and_service_channels();
@@ -44,13 +45,12 @@ void render_scene_frame_with_timing(void)
     next_buffer = upper_draw_context;
     current_buffer = g_game_work.draw_buffer;
     if (current_buffer == next_buffer) {
-        next_buffer += 0x108D4;
+        next_buffer++;
     }
-    ordering_table = next_buffer + 0x70;
+    ordering_table = next_buffer->orderTag;
     g_game_work.draw_buffer = next_buffer;
     ClearOTagR(ordering_table, 0x218);
-    *(void **)((u8 *)g_game_work.draw_buffer + 0x8D0) =
-        (u8 *)g_game_work.draw_buffer + 0x8D4;
+    g_game_work.draw_buffer->packetCursor = g_game_work.draw_buffer->packets;
     tick_screen_fade_slots();
     update_active_nodes_and_render_frame();
     if (!(system_update_flags[0] & 2)) {

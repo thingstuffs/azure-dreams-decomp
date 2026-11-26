@@ -249,7 +249,7 @@ void cycle_seven_color_fade(B28_818B6AFC_FxEffect *effect, ObjectPosition *rende
 s32 draw_indexed_shaded_quad(s32 texture_index, SpriteFrameState *color_source_arg)
 {
     SpriteFrameState *color_source = color_source_arg;
-    u8 *render_buffer;
+    GpuContext *render_buffer;
     POLY_GT4 *packet;
     RadialBandQuadScratch *scratch;
     s32 texture_u;
@@ -268,9 +268,9 @@ s32 draw_indexed_shaded_quad(s32 texture_index, SpriteFrameState *color_source_a
 
     scratch = RADIAL_BAND_SCRATCH;
     render_buffer = g_game_work.draw_buffer;
-    scratch->ordering_table = (u32 *)(render_buffer + 0xB0);
-    packet = ((GpuContext *)render_buffer)->packetCursor;
-    ((GpuContext *)render_buffer)->packetCursor = packet + 1;
+    scratch->ordering_table = &render_buffer->orderTag[GPU_ORDER_DEPTH_BASE];
+    packet = render_buffer->packetCursor;
+    render_buffer->packetCursor = packet + 1;
     ((GpuLinkTag *)&packet->tag)->len = 0x0C;
     packet->code = 0x3E;
 

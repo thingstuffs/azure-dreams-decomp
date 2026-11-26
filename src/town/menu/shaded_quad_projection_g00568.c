@@ -27,7 +27,7 @@ void project_and_enqueue_shaded_quad(vertex_0, vertex_1, vertex_2, vertex_3, sha
     {
         GpuContext *quad_ctx;
 
-        quad_ctx = (GpuContext *)(*(u8 **)&g_game_work.draw_buffer);
+        quad_ctx = g_game_work.draw_buffer;
         packet = quad_ctx->packetCursor;
         quad_packet = (ShadedQuadPacket *)packet;
         quad_ctx->packetCursor = packet + 0x24;
@@ -67,15 +67,15 @@ void project_and_enqueue_shaded_quad(vertex_0, vertex_1, vertex_2, vertex_3, sha
         depth_or_page = 0;
     }
 
-    AddPrim(*(u8 **)&g_game_work.draw_buffer + 0xD8, packet);
+    AddPrim(&g_game_work.draw_buffer->orderTag[26], packet);
 
-    draw_ctx = (GpuContext *)(*(u8 **)&g_game_work.draw_buffer);
+    draw_ctx = g_game_work.draw_buffer;
     packet = draw_ctx->packetCursor;
     draw_ctx->packetCursor = packet + 0xC;
     depth_or_page = GetTPage(0, 1, 0x140, 0);
     SetDrawMode(packet, 0, 0, (u16)depth_or_page, 0);
 
-    AddPrim(*(u8 **)&g_game_work.draw_buffer + 0xD8, packet);
+    AddPrim(&g_game_work.draw_buffer->orderTag[26], packet);
 }
 
 /* Returns the signed low halfword of the trigonometric value times radius shifted right 16 bits. */

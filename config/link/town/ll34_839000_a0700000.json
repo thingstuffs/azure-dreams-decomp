@@ -12,6 +12,24 @@
   },
   "entries": [
     {
+      "row": "town/func_808B91B4",
+      "home": "town/func_808B7D44",
+      "tu": "src/town/scene/print_scene_sequence_number_sno.c",
+      "foff": "0x8391b4",
+      "vma": "0xa07001b4",
+      "size": 144,
+      "evidence": "The devkit flag-test dispatcher at TOWN +0x8394e0 calls this entry at +0x8394f8. The 36 words equal print_scene_sequence_number_sno after relocation; its four label strings equal the home image's and its two values are this image's mode and scene-number words.",
+      "bindings": {
+        "0x000034B0": "0xA0700100",
+        "0x000034BC": "0xA070010C",
+        "0x000034C4": "0xA0700114",
+        "0x000034CC": "0xA070011C",
+        "0x00004610": "0xA0700B50",
+        "0x00003F54": "0xA07009D8",
+        "0x00003F50": "0xA07009D4"
+      }
+    },
+    {
       "row": "town/func_808B9244",
       "home": "town/func_808B7DD4",
       "tu": "src/town/scene/flags/update_entry_value_flag_from_test_flag.c",
@@ -25,6 +43,24 @@
         "0x80003c1c": "0xa07006fc"
       },
       "evidence": "Recorded in the production link map."
+    },
+    {
+      "row": "town/func_808B9394",
+      "home": "town/func_808B9394",
+      "tu": "src/town/devkit/advance_devkit_entry_step_152.c",
+      "foff": "0x839394",
+      "vma": "0xa0700394",
+      "size": 152,
+      "evidence": "select_first_unset_devkit_entry calls this entry at TOWN +0x839468."
+    },
+    {
+      "row": "town/func_808B942C",
+      "home": "town/func_808B942C",
+      "tu": "src/town/devkit/select_first_unset_devkit_entry.c",
+      "foff": "0x83942c",
+      "vma": "0xa070042c",
+      "size": 92,
+      "evidence": "The devkit flag-test dispatcher at TOWN +0x8394e0 calls this entry at +0x839510."
     },
     {
       "row": "town/func_808B95EC",

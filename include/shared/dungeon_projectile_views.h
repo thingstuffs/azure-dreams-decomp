@@ -122,15 +122,6 @@ typedef struct {
 } ProjectileTargetTransform;
 
 
-/* Partial frame draw-context view selected through GameWork.draw_buffer; init_frame_buffers owns the backing contexts.
- * func_800248F8 allocates projectile quads through its packet cursor. */
-typedef struct {
-    u8 pad0[0xB0];
-    u32 ot[0x208]; /* ordering-table words; projectile packets use depth-indexed entries beginning at +0xB0 */
-    u8 pad8D0[0x8D0 - 0x8D0];
-    u8 *next_prim; /* next free GPU packet byte, advanced by 0x28 per projectile quad */
-} RenderContext;
-
 /* Projectile render-work slice within the pooled object; func_800248F8 advances its texture frame. */
 typedef struct {
     u8 pad0[0x52];

@@ -447,10 +447,6 @@ void place_actor_item(void *object_context, struct DungeonItemEntry *target) {
 }
 #include "records/Rec_D_80083160.h"
 
-typedef struct S_800A5FC0_0 {
-    u8 pad_00[0x8D0];
-    void * unk_8D0;
-} S_800A5FC0_0;
 
 typedef struct S_800A5FC0_2 {
     s32 unk_00;
@@ -471,14 +467,7 @@ typedef struct S_800A5FC0_3 {
     s16 unk_16;
 } S_800A5FC0_3;
 
-typedef struct S_800A5FC0_4 {
-    void * unk_00;
-} S_800A5FC0_4;
 
-typedef struct S_800A5FC0_5 {
-    u8 pad_00[0x8D0];
-    void * unk_8D0;
-} S_800A5FC0_5;   /* ((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv in draw_expanding_screen_rectangle */
 
 /* Advance a rectangle's right edge toward 320 and queue it for rendering. */
 s32 draw_expanding_screen_rectangle(S_800A5FC0_2 *state) {
@@ -486,15 +475,15 @@ s32 draw_expanding_screen_rectangle(S_800A5FC0_2 *state) {
     u16 right_x;
     void *quad;
     void *draw_mode;
-    S_800A5FC0_0 *render_ctx;
-    void **render_ctx_ref;
+    GpuContext *render_ctx;
+    GpuContext **render_ctx_ref;
 
     render_ctx = g_game_work.draw_buffer;
-    draw_mode = render_ctx->unk_8D0;
-    render_ctx->unk_8D0 = (draw_mode + 0xC);
-    quad = ((S_800A5FC0_5 *)g_game_work.draw_buffer)->unk_8D0;
-    ((S_800A5FC0_5 *)g_game_work.draw_buffer)->unk_8D0 = (quad + 0x18);
-    render_ctx_ref = ((void * *)(&g_game_work));
+    draw_mode = render_ctx->packetCursor;
+    render_ctx->packetCursor = (draw_mode + 0xC);
+    quad = g_game_work.draw_buffer->packetCursor;
+    g_game_work.draw_buffer->packetCursor = (quad + 0x18);
+    render_ctx_ref = &g_game_work.draw_buffer;
     SetDrawMode(draw_mode, 0, 0, state->unk_04, 0);
     ((S_800A5FC0_3 *)quad)->unk_04 = (s32) state->unk_00;
     SetPolyF4(quad);
@@ -515,8 +504,8 @@ s32 draw_expanding_screen_rectangle(S_800A5FC0_2 *state) {
     right_x = state->unk_0A;
     ((S_800A5FC0_3 *)quad)->unk_14 = right_x;
     ((S_800A5FC0_3 *)quad)->unk_0C = right_x;
-    AddPrim((u8 *)((S_800A5FC0_4 *)render_ctx_ref)->unk_00 + ((state->unk_0C * 4) + 0x70), quad);
-    AddPrim((u8 *)((S_800A5FC0_4 *)render_ctx_ref)->unk_00 + ((state->unk_0C * 4) + 0x70), draw_mode);
+    AddPrim(&(*render_ctx_ref)->orderTag[state->unk_0C], quad);
+    AddPrim(&(*render_ctx_ref)->orderTag[state->unk_0C], draw_mode);
     return 0;
 }
 
@@ -638,8 +627,8 @@ s32 draw_fullscreen_grayscale_quad(Input *input) {
     quad->start = 0xE00000;
     quad->end = 0xE00140;
 
-    AddPrim((u8 *)g_game_work.draw_buffer + ((input->index * 4) + 0xB0), quad);
-    AddPrim((u8 *)g_game_work.draw_buffer + ((input->index * 4) + 0xB0), draw_mode);
+    AddPrim(&g_game_work.draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE + input->index], quad);
+    AddPrim(&g_game_work.draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE + input->index], draw_mode);
     return 0;
 }
 

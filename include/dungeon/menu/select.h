@@ -650,7 +650,7 @@ extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
 #include "dungeon/effect/tracked_sprite.h"
 void set_message_mode(int value);                     /* extern */
 void call_message_mode_handler(void);                            /* extern */
-void submit_script_with_registered_context(void *context);                   /* extern */
+void submit_script_with_registered_context(const void *context);                   /* extern */
 extern M2C_UNK D_80027160;
 extern Cell menu_mesh_cells[];
 extern s16 D_8002713A[];

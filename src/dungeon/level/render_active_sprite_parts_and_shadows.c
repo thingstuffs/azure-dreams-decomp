@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "dungeon/level/floor_flags.h"
 #ifdef PERMUTER_PARSER
 #define GEOM_SIDE_EFFECTS() (*(GeomSideEffects *)0)
@@ -592,7 +593,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, Sprit
         }
     }
     } while (++entry_index < 0x20);
-    *((void **) (((s8 *) (game_base->draw_buffer)) + 0x8D0)) =
+    game_base->draw_buffer->packetCursor =
          (scr->unk_018);
     return 0;
 }

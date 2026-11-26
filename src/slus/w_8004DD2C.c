@@ -3,7 +3,7 @@
 #include "slus.h"
 
 /* Build a command sequence with a header and terminator, then submit it. */
-void submit_script_with_registered_context(void *context)
+void submit_script_with_registered_context(const void *context)
 {
     s32 submit_index;
     s32 entry_value;

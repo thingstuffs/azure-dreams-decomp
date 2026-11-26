@@ -68,7 +68,7 @@ void update_familiar_prompt_page(ItemMenuPart **parts, CachedFamiliarPrompt *pro
 void update_familiar_prompt_description(CachedFamiliarPrompt *prompt)
 {
     if (prompt->actor_count != 0) {
-        submit_script_with_registered_context((void *)monster_species_table[0][prompt->selected_actor->species].text_08);
+        submit_script_with_registered_context(monster_species_table[0][prompt->selected_actor->species].text_08);
     } else {
         build_object_registration_script(cached_familiar_empty_description);
     }

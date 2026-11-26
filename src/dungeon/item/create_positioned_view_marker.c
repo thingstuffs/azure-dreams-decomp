@@ -632,14 +632,9 @@ void *find_pulunpa_in_ring(ActorRecord *entity)
     return 0;
 }
 #include "shared/game_work.h"
+#include "shared/gpu_packets.h"
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
-
-typedef struct DungeonRoot DungeonRoot;
-struct DungeonRoot {
-    u8 pad[0x8D0];
-    s32 cursor;
-};
 
 typedef struct DungeonObject DungeonObject;
 struct DungeonObject {
@@ -697,8 +692,8 @@ typedef struct {
 
 /* Advances particle levels and queues colored quads in the dungeon ordering table. */
 s32 draw_linked_particle_effect_primitives(DungeonObject *object, u16 *origin) {
-    DungeonRoot *dungeon = g_game_work.draw_buffer;
-    s32 packet_cursor = dungeon->cursor;
+    GpuContext *dungeon = g_game_work.draw_buffer;
+    u8 *packet_cursor = dungeon->packetCursor;
     GameWork *root_slot = &g_game_work;
     Scratch *scratch;
     s16 particle_index = 0;
@@ -707,7 +702,7 @@ s32 draw_linked_particle_effect_primitives(DungeonObject *object, u16 *origin) {
 
     object->count = 0;
     scratch = (Scratch *)0x1F800000;
-    scratch->base = *(u8 **)&g_game_work.draw_buffer + 0xB0;
+    scratch->base = (u8 *)&g_game_work.draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->values[0] = origin[1];
     projection_flags = (u8 *)scratch;
     scratch->values[1] = origin[3];
@@ -781,7 +776,7 @@ s32 draw_linked_particle_effect_primitives(DungeonObject *object, u16 *origin) {
             }
         }
     }
-    ((DungeonRoot *)root_slot->draw_buffer)->cursor = packet_cursor;
+    root_slot->draw_buffer->packetCursor = packet_cursor;
     return 0;
 }
 #include "shared/object_flags.h"

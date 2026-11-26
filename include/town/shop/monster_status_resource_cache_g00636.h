@@ -30,7 +30,7 @@ extern s32 Control_CD();
 
 /* Functions defined in this translation unit. */
 void fill_cd_read_descriptor(s32 mode, s32 value_base, MonsterStatusCdDescriptor *entry, s32 data_base);
-s32 get_monster_status_species_code(void *object);
+s32 get_monster_status_species_code(ActorRecord *object);
 void set_monster_status_cd_read_target(ShopFirstCallbackObject *object);
 void clear_monster_status_texture(SpritePartCommand *texture);
 s32 queue_monster_status_reload(ShopFirstCallbackObject *state);

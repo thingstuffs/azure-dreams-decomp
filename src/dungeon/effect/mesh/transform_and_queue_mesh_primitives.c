@@ -143,7 +143,7 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
     GameWork *game_work;
 
     game_work = &g_game_work;
-    scratch->ordering_table = &((GpuContext *)game_work->draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE];
+    scratch->ordering_table = &game_work->draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->local_matrix.t[0] = transform->x.w.i;
     scratch->local_matrix.t[1] = transform->y.w.i;
     scratch->local_matrix.t[2] = transform->z.w.i;

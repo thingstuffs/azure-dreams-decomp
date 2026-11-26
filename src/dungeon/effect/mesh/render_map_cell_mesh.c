@@ -378,7 +378,8 @@ void render_map_cell_mesh(void) {
             scratch->row_mask = max_row;
             scratch->overlay_color = flat_color;
             scratch->draw_mode = draw_mode;
-            render_buffer = scene->draw_buffer;
+            /* one local holds the context, then a packet limit 0xAF3A bytes into it (inside the packet storage) */
+            render_buffer = (u8 *)scene->draw_buffer;
             scratch->map_height = map_height;
             packet = ((GpuContext *)render_buffer)->packetCursor;
             render_buffer += 0xAF3A;
@@ -807,7 +808,7 @@ next_face:
                             } while (0);
 
                             if ((u32) scratch->packet_end < (u32) packet) {
-                                ((GpuContext *)scene->draw_buffer)->packetCursor = packet;
+                                scene->draw_buffer->packetCursor = packet;
                                 return;
                             }
                         }
@@ -834,6 +835,6 @@ next_face:
             }
             } while (scratch->active_edges != 0);
         }
-        ((GpuContext *)scene->draw_buffer)->packetCursor = packet;
+        scene->draw_buffer->packetCursor = packet;
     }
 }

@@ -78,7 +78,7 @@ void render_shaded_map_tiles(void) {
     S_func_800AED64_11 *work_ptr;
     void *coord_offset;
     void *edge_count;
-    S_func_800AED64_6 *render_buffer;
+    GpuContext *render_buffer;
     u32 tag_low_mask;
     u32 tag_high_mask;
     s32 one;
@@ -137,7 +137,7 @@ void render_shaded_map_tiles(void) {
     scratch.ptr->unk_176 = draw_mode;
     render_buffer = render_state->draw_buffer;
     scratch.ptr->unk_118 = 0x40 << scratch.ptr->unk_128;
-    packet = render_buffer->unk_8D0;
+    packet = render_buffer->packetCursor;
     scratch.ptr->unk_14C = 0xFFFF;
     scratch.ptr->unk_174 = 4;
     scratch.ptr->unk_164 = (u8 *) packet + 0xCCCC;
@@ -564,7 +564,7 @@ void render_shaded_map_tiles(void) {
                             break;
                         }
                         if ((u32) scratch.ptr->unk_164 < packet) {
-                            ((S_func_800AED64_6 *)(render_state->draw_buffer))->unk_8D0 = packet;
+                            render_state->draw_buffer->packetCursor = packet;
                             {
                                 MapRuntimeState *scene_state;
                                 scene_state = &map_runtime_state;
@@ -599,7 +599,7 @@ void render_shaded_map_tiles(void) {
             }
         } while (scratch.ptr->unk_174 != 0);
     }
-    ((S_func_800AED64_6 *)(render_state->draw_buffer))->unk_8D0 = packet;
+    render_state->draw_buffer->packetCursor = packet;
     {
         MapRuntimeState *scene_state;
         scene_state = &map_runtime_state;
@@ -616,7 +616,7 @@ void draw_empty_map_cell_quads(u32 packet_limit)
     MapQuadScratch *scratch;
     S_800AD138_1 *state;
     MapGrid *map_bounds;
-    u8 *render_state;
+    GpuContext *render_state;
     u8 *edge_buffer;
     S_800AD138_2 *packet_fields;
     u16 *cell_table;
@@ -687,7 +687,7 @@ void draw_empty_map_cell_quads(u32 packet_limit)
     x_shift = map_bounds->shiftX;
     initial_size = 0x01000100;
     y_shift = map_bounds->shiftY;
-    chain_addr = (s32)(render_state + 0x8AC);
+    chain_addr = (s32)&render_state->orderTag[527];
     scratch->chain_address = chain_addr;
     scratch->y_shift = y_shift;
     scratch->x_shift = x_shift;
@@ -701,7 +701,7 @@ void draw_empty_map_cell_quads(u32 packet_limit)
     scratch->map_height = bound_y;
     scratch->uv_scroll.value = uv_scroll;
 
-    packet = ((S_800AD138_5 *)render_state)->unk_8D0;
+    packet = render_state->packetCursor;
     scratch->color = state->unk_A8;
     draw_rect[0] = 0;
     draw_rect[1] = initial_size;
@@ -969,6 +969,6 @@ done:
     SetDrawMode(packet, 0, 0, 0x20, draw_rect);
     AddPrim((void *)scratch->chain_address, packet);
     packet += 3;
-    ((S_800AD138_5 *)(state->unk_00))->unk_8D0 = packet;
+    ((GpuContext *)(state->unk_00))->packetCursor = packet;
     return;
 }

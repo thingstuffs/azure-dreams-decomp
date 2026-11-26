@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "shared/game_work.h"
@@ -31,11 +32,11 @@ void init_frame_buffers(void)
     reset_node_pool(saved_state);
     reset_scene_frame_callback_list();
     g_game_work.draw_buffer = upper_draw_context;
-    ClearOTagR((OT_TYPE *)(upper_draw_context + 0x70), 0x218);
+    ClearOTagR(upper_draw_context->orderTag, 0x218);
     ClearOTagR(alternate_frame_ordering_table.ot, 0x218);
     {
-        u8 *frame_data = g_game_work.draw_buffer;
-        *(void **)(frame_data + 0x8D0) = frame_data + 0x8D4;
+        GpuContext *frame_data = g_game_work.draw_buffer;
+        frame_data->packetCursor = frame_data->packets;
     }
     SetDispMask(1);
     clear_vram_row_upload_cache();

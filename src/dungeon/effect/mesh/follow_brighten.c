@@ -293,8 +293,8 @@ s32 queue_shaded_line_segments(void *unused_0, ObjectPosition *origin, SpriteFra
     {
       DR_MODE *draw_mode_prim;
       ovl_18d0850_818B0E10_addPrim(scratch->ordering_table + scratch->ot_index, line_prim);
-      draw_mode_prim = ((GpuContext *)render_state->draw_buffer)->packetCursor;
-      ((GpuContext *)render_state->draw_buffer)->packetCursor = draw_mode_prim + 1;
+      draw_mode_prim = render_state->draw_buffer->packetCursor;
+      render_state->draw_buffer->packetCursor = draw_mode_prim + 1;
       SetDrawMode(draw_mode_prim, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
       ovl_18d0850_818B0E10_addPrim(scratch->ordering_table + scratch->ot_index, draw_mode_prim);
     }

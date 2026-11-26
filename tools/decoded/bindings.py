@@ -2,7 +2,7 @@
 import csv
 import re
 
-from tools.decoded import import_ranges
+from tools.decoded.extents import extent_digest, valid_digest
 
 
 SYMBOL_DEFINITION = re.compile(r'(\w+)\s*=\s*(0x[0-9a-fA-F]+);')
@@ -38,7 +38,7 @@ def read_evidence(path):
         for row in rows:
             key = (row['symbol'], int(row['address'], 16))
             size, sha = int(row['size']), row['sha256']
-            if key in evidence or size < 0 or not import_ranges.valid_digest(size, sha):
+            if key in evidence or size < 0 or not valid_digest(size, sha):
                 raise ValueError(f'invalid decoded binding evidence for {key[0]}')
             evidence[key] = size, sha
     return evidence
@@ -50,10 +50,12 @@ def audit(image, homes, evidence, *, data=None, number=int):
     exports = {number(f['address']): f.get('symbol', f['name'])
                for unit in image['units'] for f in unit['functions']}
     used = set()
-    counts = {'placement': 0, 'global': 0}
+    counts = {'placement': 0, 'global': 0, 'address_names': 0}
 
     def check(scope, symbol, target):
         address = number(target)
+        if re.fullmatch(r'(?:D|func)_[0-9a-fA-F]{8}', symbol) and int(symbol.split('_')[1], 16) == address:
+            counts['address_names'] += 1
         key = symbol, address
         if address in exports:
             if exports[address] != symbol:
@@ -69,7 +71,7 @@ def audit(image, homes, evidence, *, data=None, number=int):
             raise ValueError(f'{scope}: invalid binding extent for {symbol}')
         if data is not None and inside:
             start = address - base
-            if import_ranges.range_digest(data[start:start+size]) != sha:
+            if extent_digest(data[start:start+size]) != sha:
                 raise ValueError(f'{scope}: binding extent differs for {symbol}')
         used.add(key)
 

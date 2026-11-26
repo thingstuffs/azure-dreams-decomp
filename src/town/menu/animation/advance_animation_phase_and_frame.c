@@ -7,7 +7,7 @@
 
 
 
-extern void *D_8008274C;
+extern TownObjectRecord *D_8008274C;
 extern s32 D_800C5100;
 
 /* Advances the animation phase and frame index, applying the state-one offset transition. */
@@ -31,7 +31,7 @@ void advance_animation_phase_and_frame(MenuAnimationPhaseObject *anim, ObjectPos
             anim->offset = phase;
         }
         anim->frame++;
-        if (((TownObjectRecord *)D_8008274C)->unk_74.as_pv == &D_800C5100) {
+        if (D_8008274C->unk_74.as_pv == &D_800C5100) {
             anim->transition = 1;
         }
         break;

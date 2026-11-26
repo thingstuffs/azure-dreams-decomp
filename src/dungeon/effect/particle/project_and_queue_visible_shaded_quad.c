@@ -55,7 +55,7 @@ void project_and_queue_visible_shaded_quad(FadingSequenceChildBody *quad, Object
     GameWork *render_state_ptr = &g_game_work;
     MATRIX matrix;
 
-    scratch->ordering_table = &((GpuContext *)g_game_work.draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE];
+    scratch->ordering_table = &g_game_work.draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->local_matrix.t[0] = position->x.w.i;
     scratch->local_matrix.t[1] = position->y.w.i;
     scratch->local_matrix.t[2] = position->z.w.i;
@@ -79,13 +79,13 @@ void project_and_queue_visible_shaded_quad(FadingSequenceChildBody *quad, Object
     texture = object->source;
     scratch->render_flags = object->flags;
 
-    mode = ((GpuContext *)g_game_work.draw_buffer)->packetCursor;
-    ((GpuContext *)g_game_work.draw_buffer)->packetCursor = mode + 1;
+    mode = g_game_work.draw_buffer->packetCursor;
+    g_game_work.draw_buffer->packetCursor = mode + 1;
     SetDrawMode(mode, 0, 0, GetTPage(0, 0, 0, 0) & 0xFFFF, 0);
     mode->tag = (mode->tag & 0xFF000000) |
-        (((GpuContext *)g_game_work.draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE] & 0x00FFFFFF);
-    ((GpuContext *)g_game_work.draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE] =
-        (((GpuContext *)g_game_work.draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE] & 0xFF000000) |
+        (g_game_work.draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE] & 0x00FFFFFF);
+    g_game_work.draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE] =
+        (g_game_work.draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE] & 0xFF000000) |
         ((u32)mode & 0x00FFFFFF);
 
     {
@@ -151,8 +151,8 @@ void project_and_queue_visible_shaded_quad(FadingSequenceChildBody *quad, Object
                 (scratch->ordering_table[scratch->ot_index] & 0xFF000000) |
                 ((u32)packet & 0x00FFFFFF);
 
-            mode = ((GpuContext *)render_state_ptr->draw_buffer)->packetCursor;
-            ((GpuContext *)render_state_ptr->draw_buffer)->packetCursor = mode + 1;
+            mode = render_state_ptr->draw_buffer->packetCursor;
+            render_state_ptr->draw_buffer->packetCursor = mode + 1;
             SetDrawMode(mode, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
             mode->tag = (mode->tag & 0xFF000000) |
                 (scratch->ordering_table[scratch->ot_index] & 0x00FFFFFF);
@@ -210,7 +210,7 @@ s32 project_scaled_colored_point(RisingPointEffectBody *record, ObjectPosition *
     u32 depth_index;
 
     render_state = g_game_work.draw_buffer;
-    state_ptr = (GpuContext **)&g_game_work;
+    state_ptr = &g_game_work.draw_buffer;
     scratch = SPRITE_SCRATCH;
     scratch->packet_cursor = render_state->packetCursor;
     scratch->ordering_table = &render_state->orderTag[GPU_ORDER_DEPTH_BASE];

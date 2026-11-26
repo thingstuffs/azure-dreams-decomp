@@ -2,6 +2,7 @@
 #include "common.h"
 #include "engine/audio/commands.h"
 #include "shared/game_work.h"
+#include "shared/gpu_packets.h"
 #include "engine/entity.h"
 #include "shared/entity.h"
 #include "slus/data.h"
@@ -67,9 +68,6 @@ void load_primary_optional_resource_descriptor(void)
     map_runtime_state.next_descriptor = primary_optional_resource_descriptor;
     resource_load_current_optional_descriptor();
 }
-
-/* size >8B to force %hi/%lo (not gp_rel) codegen for all three globals */
-extern u8 upper_draw_context[16];
 
 /* Stop drawing when the packet cursor exceeds the selected frame arena address. */
 s32 is_frame_packet_arena_overflowed(const u8 *cursor)

@@ -34,9 +34,9 @@ physical ranges in `build/decoded/disc/`, which has the ordinary disc layout.
 `tools/build/container_check.py` also consumes these streams when composing the
 standard disc containers. Nothing writes the extracted retail inputs.
 
-The menu cache owns 421 C functions, 54,116 decoded text bytes
+The menu cache owns 426 C functions, 56,012 decoded text bytes
 and 920 bytes of C-emitted tables. The full image is 60,192 bytes at
-0x80016000. The 5,156 imported bytes comprise 3,052 bytes of code, 1,964 bytes
+0x80016000. The 3,260 imported bytes comprise 1,156 bytes of code, 1,964 bytes
 of text, 128 bytes of alignment and 12 data bytes with unproved owners.
 The two regenerated compressed streams occupy 28,662 bytes in the disc
 container. Registry validation checks the registered function count and the text, data, import and stream byte totals. Headers,
@@ -47,13 +47,16 @@ The coverage ledger identifies the physical streams as `compressed_code_stream`.
 manifest. Coverage and status report the decoded totals alongside the
 container accounting.
 
-The import table records decoded offsets, sizes, classes and SHA-256 digests.
-The executable interval identifies the unowned code. A named string import
+The import table records decoded offsets, sizes, classes and SHA-256 digests for ranges of at least 16 bytes.
+The executable interval identifies the unowned code. The hold table gives
+each imported function a reason and bounds its first differing offset when one exists. A named string import
 or a pointer in an owned string table identifies text through its first NUL.
 A gap of zero bytes that ends at the next four-byte boundary is alignment.
 The remaining data has unproved owners, including the byte at 0x083B and the
 aligned zero word at 0xEAAC. With extracted inputs present, the registry and
-build checks derive the table and compare every range. Regenerate the table
+build checks derive the table and compare every range. Compiled references must
+reach each text symbol. The table's pointer fields must relocate to its declared
+text bank and agree with the linked addresses in the decoded image. Regenerate the table
 with `python3 tools/decoded_images.py imports --image dungeon/menu_cache`.
 
 The status template tables in town and the decoded menu have four matching
@@ -107,10 +110,14 @@ decoded addresses. The linker discards unselected sections and requires
 all relocations from the selected sections to resolve.
 `make decoded-check` validates placement and global bindings against
 decoded exports, ordinary symbol registries and the binding evidence table.
-With the extracted inputs present, it verifies all decoded evidence extents
-by SHA-256. The evidence table records address identity for resident data
-with no entry in the ordinary registries. The full decoded build checks
-the linked functions and tables with every relocation applied.
+With the extracted inputs present, it verifies digests of decoded evidence extents of at least 16 bytes.
+Short ranges are covered by the whole-image comparison. The evidence table records address identity for resident data
+with no entry in the ordinary registries. For direct calls, the checker resolves the decoded target in the resident
+executable, the dungeon engine or the specified loaded bank. For ordinary
+placements of a reused caller it reads the transfer from each load image and
+compares the destination's function owner. Two town calls have recorded
+interior-address exceptions. Address-spelled names are counted separately.
+The full decoded build checks the linked functions and tables with every relocation applied.
 New TUs can register a complete emitted `.rodata` or `.data` section by
 name, address and size. Those sections take part in the whole-image byte
 comparison and are counted separately from text in the proof. The linked pointer tables are checked with their relocations applied.
@@ -136,7 +143,10 @@ scratch path for the original tools and writes its receipt under
 `build/decoded/genuine/`. A unit can record `genuine_asflags: ["-0"]` when the retail instructions
 omit the assembler's signed division checks. The actor selector, party
 selector and command panel use this flag because plain `-G0` adds a 36-byte
-division guard to each shade routine.
+division guard to each shade routine. The familiar command row motion contains two signed divisions.
+Plain assembly adds 72 bytes there. The unchecked-division recipe reproduces all
+50 functions in its translation unit. The same two checks add 72 bytes in the paged
+row motion. Its unchecked recipe reproduces all 43 functions in the paged menu unit.
 
 `tools/tests/test_decoded_images.py` checks coordinate confusion, overlaps,
 malformed inputs, resource-relative offsets, split alignment, scope selection,

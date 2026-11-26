@@ -227,7 +227,6 @@ typedef struct dungeon_setup_802842A0_S_800172A0_3 {
     s16 unk_26;
 } dungeon_setup_802842A0_S_800172A0_3;
 extern u8 monster_spawn_records;
-extern dungeon_setup_80283000_ColorState upper_draw_context;
 extern dungeon_setup_80283000_ColorState lower_draw_context;
 extern u8 D_80080AA0[16];
 extern u8 generation_cells[16];

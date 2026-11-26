@@ -5377,21 +5377,6 @@
 {"container":"dungeon","foff":25798660,"size":48,"category":"imported_retail_text","module":"dungeon_ovl_189a800","source":"src/dungeon/effect/mesh/transform_and_queue_mesh_primitives.c","symbol":"no_effect_target_prefix","canonical":"D_80024004","vma":2147631108}
 {"container":"dungeon","foff":25798708,"size":4,"category":"imported_retail_text","module":"dungeon_ovl_189a800","source":"src/dungeon/effect/mesh/transform_and_queue_mesh_primitives.c","symbol":"no_effect_target_period","canonical":"D_80024034","vma":2147631156}
 {"container":"dungeon","foff":26388484,"size":52,"category":"imported_retail_text","module":"dungeon_ovl_192a800","source":"src/dungeon/effect/motion/raise_position_toward_height.c","symbol":"level_not_decreased_suffix","canonical":"D_80024004","vma":2147631108}
-{"call_foff":2542496,"caller":"main/func_8001CB84","category":"linked_diagnostic_code","container":"main","foff":2542072,"image_foff":2527232,"size":168}
-{"call_foff":2545028,"caller":"main/func_8001D570","category":"linked_diagnostic_code","container":"main","foff":2544856,"image_foff":2527232,"size":116}
-{"call_foff":2550732,"caller":"main/func_8001EB98","category":"linked_diagnostic_code","container":"main","foff":2545176,"image_foff":2527232,"size":80}
-{"call_foff":2546480,"caller":"main/func_8001DB10","category":"linked_diagnostic_code","container":"main","foff":2545800,"image_foff":2527232,"size":112}
-{"call_foff":2558956,"caller":"main/func_80020BD0","category":"linked_diagnostic_code","container":"main","foff":2558532,"image_foff":2527232,"size":168}
-{"call_foff":8343852,"caller":"town/func_80875124","category":"linked_diagnostic_code","container":"town","foff":8342536,"image_foff":8339456,"size":148}
-{"call_foff":8388360,"caller":"town/func_8087FEF0","category":"linked_diagnostic_code","container":"town","foff":8387524,"image_foff":8384512,"size":144}
-{"call_foff":8393904,"caller":"town/func_80881478","category":"linked_diagnostic_code","container":"town","foff":8392664,"image_foff":8390656,"size":144}
-{"call_foff":8623352,"caller":"town/func_808B94E0","category":"linked_diagnostic_code","container":"town","foff":8622516,"image_foff":8622080,"size":144}
-{"call_foff":8630164,"caller":"town/func_808BAF54","category":"linked_diagnostic_code","container":"town","foff":8631240,"image_foff":8628224,"size":164}
-{"caller":"main/func_800210A4","category":"linked_diagnostic_code","container":"main","entry_foff":2564332,"foff":2559956,"image_foff":2527232,"size":72,"table_foff":2564320,"table_reader":[2560324,2560332]}
-{"caller":"main/func_800210A4","category":"linked_diagnostic_code","container":"main","entry_foff":2564336,"foff":2560028,"image_foff":2527232,"size":68,"table_foff":2564320,"table_reader":[2560324,2560332]}
-{"caller":"main/func_800210A4","category":"linked_diagnostic_code","container":"main","entry_foff":2564340,"foff":2560096,"image_foff":2527232,"size":68,"table_foff":2564320,"table_reader":[2560324,2560332]}
-{"caller":"town/func_8087568C","category":"linked_diagnostic_code","container":"town","entry_foff":8342524,"foff":8345112,"image_foff":8339456,"size":108,"table_foff":8342516,"table_reader":[8345292,8345296]}
-{"caller":"town/func_8088134C","category":"linked_diagnostic_code","container":"town","entry_foff":8392412,"foff":8393140,"image_foff":8390656,"size":152,"table_foff":8392412,"table_reader":[8393628,8393636]}
 {"caller":"main/func_80021848","category":"linked_diagnostic_code","container":"main","foff":2562140,"image_foff":2527232,"jump_foff":2562128,"size":68}
 {"basis":"ledger/instance_load_regions.jsonl and main/func_8001DEA0","category":"foreign_program_fragment","compare_container":"main","compare_foff":2548000,"container":"town","equal_words":160,"evidence":"The interior and return of the MAIN development card-server function match at the shared link address.","foff":2548000,"size":640,"words":160}
 {"container":"town","foff":45056,"size":569344,"category":"scene_resource_read","group":1,"evidence":"src/engine/scene/load_scene_resource_group.c"}
@@ -5507,8 +5492,6 @@
 {"schema":"azure-clean.coverage-region.v1","container":"town","foff":7526400,"size":61440,"category":"town_character_resource_read","group":6}
 {"schema":"azure-clean.coverage-region.v1","container":"town","foff":9058304,"size":4096,"category":"town_character_resource_read","group":7}
 {"schema":"azure-clean.coverage-region.v1","container":"town","foff":9142272,"size":32768,"category":"town_character_resource_read","group":8}
-{"call_foff":8623376,"caller":"town/func_808B94E0","category":"linked_diagnostic_code","container":"town","foff":8623148,"image_foff":8622080,"size":92}
-{"call_foff":8623208,"caller_foff":8623148,"category":"linked_diagnostic_code","container":"town","foff":8622996,"image_foff":8622080,"size":152}
 {"category":"dungeon_floor_image_read","container":"dungeon","foff":9668608,"group":1,"size":28672}
 {"category":"dungeon_floor_image_read","container":"dungeon","foff":8093696,"group":2,"size":59392}
 {"category":"dungeon_floor_image_read","container":"dungeon","foff":8218624,"group":3,"size":38912}

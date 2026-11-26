@@ -9,7 +9,7 @@ s32 render_rotated_grid_surface(DirectionalGridEffectBody *node) {
     u8 *source_points;
     u8 *grid_row;
     s32 ring_x;
-    void **render_context;
+    GpuContext **render_context;
     s32 grid_origin;
     u8 *rotated_points;
     u8 *grid;
@@ -213,11 +213,11 @@ s32 render_rotated_grid_surface(DirectionalGridEffectBody *node) {
                             ((PolyFT4 *)quad)->xy3 = bottom_right;
                         }
                         bottom_pair = (u8 *)((((PolyFT4 *)quad)->tag & tag_mask)
-                            | (((GpuContext *)(*render_context))->orderTag[GPU_ORDER_DEPTH_BASE] & address_mask));
+                            | ((*render_context)->orderTag[GPU_ORDER_DEPTH_BASE] & address_mask));
                         (*(s32 *)quad) = (s32)bottom_pair;
                         point_index += 1;
-                        ((GpuContext *)(*render_context))->orderTag[GPU_ORDER_DEPTH_BASE] =
-                            (((GpuContext *)(*render_context))->orderTag[GPU_ORDER_DEPTH_BASE] & tag_mask) | ((s32) quad & address_mask);
+                        (*render_context)->orderTag[GPU_ORDER_DEPTH_BASE] =
+                            ((*render_context)->orderTag[GPU_ORDER_DEPTH_BASE] & tag_mask) | ((s32) quad & address_mask);
                     }
                 } while (point_index < 0xF);
                 side += 1;

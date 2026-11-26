@@ -10,7 +10,7 @@ MainPacket12 *initialize_drawing();                         /* extern */
 void card_background_init_components(CardBackgroundBody *object) {
     initialize_consecutive(object->first_packets);
     card_background_init_overlay_prims(object->alternate_packets);
-    func_80404888(object->selected_packets);
+    card_background_init_selected_prims(object->selected_packets);
     initialize_drawing(object->shared_packets);
     card_background_layout_entries(object);
 }

@@ -5,7 +5,7 @@
 
 
 /* Copies byte_count / 4 words backward, starting at source + byte_count and destination + byte_count. */
-void copy_words_backward_from_offset(s32 dest_addr, s32 src_addr, s32 byte_count) {
+void copy_words_backward_from_offset(u8 *dest_addr, u8 *src_addr, s32 byte_count) {
     s32 *dest_word;
     s32 *src_word;
     s32 word;
@@ -57,19 +57,19 @@ s32 find_resource_index_by_key(s32 first_byte, s32 second_byte, s32 halfword_val
 
 /* Shifts cache records back one slot and moves their data backward by the requested byte offset. */
 void shift_resource_entries_and_data(s32 record_count, s32 data_offset) {
-    s32 data_addr;
+    u8 *data_addr;
     s32 record_value;
     s32 src_index;
     s32 dst_index;
     ovl_d54c_7FFED630_Record *dst_record;
     ovl_d54c_7FFED630_Record *src_record;
     long records_base;
-    u8 *state;
+    DungeonCacheState *state;
 
     dst_index = record_count;
     if (dst_index != 0) {
         records_base = (long)resource_cache_records;
-        state = (u8 *)&town_resource_context;
+        state = &town_resource_context;
         do {
             dst_record = (ovl_d54c_7FFED630_Record *)(dst_index * 8 + records_base);
             src_index = dst_index - 1;
@@ -79,7 +79,7 @@ void shift_resource_entries_and_data(s32 record_count, s32 data_offset) {
             dst_record->h2 = src_record->h2;
             record_value = src_record->w4;
             dst_record->w4 = record_value;
-            data_addr = *(s32 *)(state + 0x2c) + sum_resource_bytes(src_index);
+            data_addr = state->field_2C + sum_resource_bytes(src_index);
             copy_words_backward_from_offset(data_addr + data_offset, data_addr, record_value);
             dst_index = src_index;
         } while (dst_index != 0);

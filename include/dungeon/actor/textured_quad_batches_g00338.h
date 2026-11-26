@@ -9,7 +9,7 @@
 
 typedef struct S_800B06F0_0 {
     u8 pad_00[0x20];
-    u8 * unk_20;
+    u32 *ordering_table; /* the current draw context's depth buckets */
     u8 pad_24[0xC];
     u32 unk_30;
     u32 unk_34;
@@ -65,12 +65,6 @@ typedef struct S_800B06F0_0 {
 } S_800B06F0_0;
 
 /* scratch in transform_linked_quad_batches */
-typedef struct S_800B06F0_1 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_800B06F0_1;
-
-/* initial_manager in transform_linked_quad_batches */
 typedef struct S_800B06F0_2_pre {
     u8 * unk_00;
     u8 pad_04[0x4];
@@ -125,12 +119,6 @@ typedef struct S_800B06F0_6 {
 } S_800B06F0_6;
 
 /* next_manager in transform_linked_quad_batches */
-typedef struct S_800B06F0_7 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} S_800B06F0_7;
-
-/* manager in transform_linked_quad_batches */
 
 typedef struct { u32 entry; } OtSlot;
 

@@ -13,7 +13,7 @@ typedef struct {
 } Tag;
 
 typedef struct {
-    u8 *ordering_table;
+    u32 *ordering_table;
 } Scratch;
 
 typedef union {
@@ -21,11 +21,6 @@ typedef union {
     u16 halfwords[0x20];
     u32 words[0x10];
 } Poly;
-
-typedef struct {
-    u8 pad[0x8D0];
-    Poly *poly;
-} Context;
 
 
 
@@ -36,7 +31,7 @@ typedef struct {
  */
 s32 queue_gouraud_textured_quad(s32 color0, s32 color1, s32 color2, s32 color3) {
     Poly *quad;
-    Context *u_right;
+    GpuContext *context;
     s16 texture_page;
     Scratch *scratch;
     RadialBandQuadScratch *band;
@@ -54,13 +49,13 @@ s32 queue_gouraud_textured_quad(s32 color0, s32 color1, s32 color2, s32 color3) 
 
     vertex0 = 0;
     vertex1 = (void *)3;
-    u_right = g_game_work.draw_buffer;
+    context = g_game_work.draw_buffer;
     vertex2 = (void *)0x300;
     scratch = (Scratch *)0x1F800000;
     band = RADIAL_BAND_SCRATCH;
-    scratch->ordering_table = (u8 *)u_right + 0xB0;
-    quad = u_right->poly;
-    u_right->poly = (Poly *)((u8 *)quad + 0x34);
+    scratch->ordering_table = &context->orderTag[GPU_ORDER_DEPTH_BASE];
+    quad = context->packetCursor;
+    context->packetCursor = (u8 *)quad + 0x34;
     quad->bytes[3] = 0xC;
     quad->bytes[7] = 0x3E;
     vertex3 = (void *)0x100;
@@ -121,8 +116,8 @@ s32 queue_gouraud_textured_quad(s32 color0, s32 color1, s32 color2, s32 color3) 
     quad->halfwords[0x2C / 2] = band->screen[3].x;
     quad->halfwords[0x2E / 2] = band->screen[3].y;
     if (band->ot_index < 0x1E0U) {
-        ((Tag *)quad)->addr = ((Tag *)((u32 *)scratch->ordering_table + band->ot_index))->addr;
-        ((Tag *)((u32 *)scratch->ordering_table + band->ot_index))->addr = (u32)quad;
+        ((Tag *)quad)->addr = ((Tag *)(scratch->ordering_table + band->ot_index))->addr;
+        ((Tag *)(scratch->ordering_table + band->ot_index))->addr = (u32)quad;
     }
     return 0;
 }

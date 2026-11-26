@@ -89,7 +89,7 @@ typedef struct S_81874988_4 {
 void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position, SpriteFrameState *material, s16 depth_bias)
 {
     S_81874988_4 *quad = quad_arg;
-    u8 *render_state = g_game_work.draw_buffer;
+    GpuContext *render_state = g_game_work.draw_buffer;
     ShadedQuadScratch *scratch = SHADED_QUAD_SCRATCH;
     POLY_FT4 *packet;
     u32 tex_attr;
@@ -101,13 +101,13 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
     u8 tex_flags;
     MATRIX view_matrix;
 
-    scratch->ordering_table = (u32 *)(render_state + 0xB0);
+    scratch->ordering_table = &render_state->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->local_matrix.t[0] = position->x.w.i;
     scratch->local_matrix.t[1] = position->y.w.i;
     scratch->local_matrix.t[2] = position->z.w.i;
 
-    packet = ((GpuContext *)render_state)->packetCursor;
-    ((GpuContext *)render_state)->packetCursor = packet + 1;
+    packet = render_state->packetCursor;
+    render_state->packetCursor = packet + 1;
 
     material->flags |= 0x8000;
     PushMatrix();
@@ -276,9 +276,9 @@ void draw_textured_sphere_mesh(TexturedSparkSphereBody *mesh, ObjectPosition *po
     s32 row;
     ShadedQuadScratch *scratch = SHADED_QUAD_SCRATCH;
     GpuContext *page;
-    u8 *initial_page;
+    GpuContext *initial_page;
     u32 page_dependency;
-    void **page_ptr;
+    GpuContext **page_ptr;
     POLY_FT4 *quad;
     s32 column_count;
     s32 row_count;
@@ -311,7 +311,7 @@ void draw_textured_sphere_mesh(TexturedSparkSphereBody *mesh, ObjectPosition *po
 
     page_ptr = &g_game_work.draw_buffer;
     initial_page = *page_ptr;
-    scratch->ordering_table = (u32 *)(initial_page + 0xB0);
+    scratch->ordering_table = &initial_page->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->local_matrix.t[0] = position->x.w.i;
     scratch->local_matrix.t[1] = position->y.w.i;
     scratch->local_matrix.t[2] = position->z.w.i;
@@ -533,7 +533,7 @@ s32 project_colored_point(TerrainSeekingPointBody *render_data, ObjectPosition *
     u32 *mode_ot_entry;
 
     context = g_game_work.draw_buffer;
-    context_slot = (GpuContext **)&g_game_work;
+    context_slot = &g_game_work.draw_buffer;
     address_mask = 0x00FFFFFF;
     length_mask = 0xFF000000;
     scratch = SPRITE_SCRATCH;

@@ -194,8 +194,8 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
     ObjectPosition *third_position;
     ObjectPosition *fourth_position;
     S_818FF710_27 *target_release_flags;
-    void *flight_target;
-    void *impact_target;
+    ActorRecord *flight_target;
+    ActorRecord *impact_target;
 
     parent = effect->owner;
     texture_rect.packed = D_80024028;
@@ -247,7 +247,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
         if (flight_target != NULL) {
             target_pos_or_step = ((S_818FF710_7_pre *)flight_target)[-1].unk_00;
             effect->target_height = (s16) (target_pos_or_step->z.unsigned_parts.integer
-                - (entity_height_offsets[((ActorRecord *)flight_target)->species] + 0x40));
+                - (entity_height_offsets[flight_target->species] + 0x40));
             origin = ((SpriteLinkPrefixView *)parent)[-1].sprite;
             effect->next_tile_x = (s8) (origin->tile_x + ((u8 *)dir_step_x)[effect->direction * 2]);
             effect->next_tile_y = (s8) (origin->tile_y + ((u8 *)dir_step_y)[effect->direction * 2]);
@@ -329,7 +329,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 impact_target = parent->unk_60;
                 target_hit_flags = ((SpriteLinkPrefixView *)impact_target)[-1].sprite;
-                if ((u32) (((ActorRecord *)impact_target)->species - 0x33) >= 4U) {
+                if ((u32) (impact_target->species - 0x33) >= 4U) {
                     target_hit_flags->flags = (u16) (target_hit_flags->flags | 0x800);
                     hit_target = parent->unk_60;
                     hit_target->velocity_z = (s32) (hit_target->velocity_z | 0x100000);

@@ -65,10 +65,6 @@ typedef struct {
 
 
 
-typedef struct S_80F90E88_7 {
-    u8 pad_00[0x8D0];
-    s32 * unk_8D0;
-} S_80F90E88_7;   /* g_game_work.unk_000 in func_80F90E88 */
 
 
 
@@ -193,8 +189,8 @@ loop_1:
         bottom_y = max_xy >> 0x10;
         ot_offset = depth * 4;
         do {
-            quad = (S_80F90E88_1 *)((S_80F90E88_7 *)gw->draw_buffer)->unk_8D0;
-            ((S_80F90E88_7 *)gw->draw_buffer)->unk_8D0 = (s32 *) ((s8 *) quad + 0x24);
+            quad = gw->draw_buffer->packetCursor;
+            gw->draw_buffer->packetCursor = (s8 *)quad + 0x24;
             if (side != 0) {
                 color = model->shade;
                 quad->unk_1C = 0;
@@ -242,8 +238,8 @@ loop_1:
             color |= link;
             ((S_80F90E88_2 *)ot_entry_address)->unk_B0 = color;
         } while (side >= 0);
-        draw_mode = ((S_80F90E88_7 *)gw->draw_buffer)->unk_8D0;
-        ((S_80F90E88_7 *)gw->draw_buffer)->unk_8D0 = (s32 *) ((s8 *) draw_mode + 0xC);
+        draw_mode = gw->draw_buffer->packetCursor;
+        gw->draw_buffer->packetCursor = (s8 *)draw_mode + 0xC;
         SetDrawMode(draw_mode, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
         mode_ot_offset = depth * 4;
         link = GPU_TAG_LINK(((S_80F90E88_2 *)(mode_ot_offset + (long)gw->draw_buffer))->unk_B0, address_mask);

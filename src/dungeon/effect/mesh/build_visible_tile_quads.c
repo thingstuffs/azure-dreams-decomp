@@ -94,5 +94,5 @@ void build_visible_tile_quads(MeshEffectObjectBody *tiles)
         tiles++;
     }
 
-    ((GpuContext *)globals->draw_buffer)->packetCursor = prim;
+    globals->draw_buffer->packetCursor = prim;
 }

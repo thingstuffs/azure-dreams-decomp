@@ -1,4 +1,5 @@
 /* Target-following sprite motion, timed texture changes, and jittered strip rendering. */
+#include "shared/gpu_packets.h"
 #include "dungeon/effect/motion/target.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
@@ -201,10 +202,9 @@ s32 render_linked_jittered_effect_strips(DirectionalActorEffectBody *node_data) 
                         u32 primitive_color;
 
                         {
-                            Row_818E747C_S_80024C7C_2 *context = global_base->draw_buffer;
-                            primitive = context->unk_8D0;
-                            context->unk_8D0 =
-                                ((u8 *)primitive + 0x34);
+                            GpuContext *context = global_base->draw_buffer;
+                            primitive = context->packetCursor;
+                            context->packetCursor = (u8 *)primitive + 0x34;
                         }
                         primitive_color = 0x00808080;
                         primitive->unk_04 = primitive_color;

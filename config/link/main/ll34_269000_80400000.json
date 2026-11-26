@@ -60,6 +60,15 @@
       }
     },
     {
+      "row": "main/func_8001C9F8",
+      "home": "main/func_8001C9F8",
+      "tu": "src/frontend/card/card_dev_init_command_panel_frame.c",
+      "foff": "0x26c9f8",
+      "vma": "0x804039f8",
+      "size": 168,
+      "evidence": "Called by card_dev_initialize_command_panel at MAIN +0x26cba0 with the panel template node, primary block and secondary vector."
+    },
+    {
       "row": "main/func_8001CAC8",
       "home": "main/func_8001CAC8",
       "tu": "src/frontend/card/card_dev_init_options_menu_entries.c",
@@ -137,6 +146,15 @@
       "evidence": "docs/evidence/opus_nobody1.md"
     },
     {
+      "row": "main/func_8001D4D8",
+      "home": "main/func_8001D4D8",
+      "tu": "src/frontend/card/card_dev_clear_slot_window_words.c",
+      "foff": "0x26d4d8",
+      "vma": "0x804044d8",
+      "size": 116,
+      "evidence": "Called at MAIN +0x26d584 by the placement of card_dev_refresh_options_object at +0x26d570 with the slot window body."
+    },
+    {
       "row": "main/func_8001D570",
       "tu": "src/frontend/card/card_dev_refresh_options_object.c",
       "home": "main/func_8001CD24",
@@ -149,6 +167,15 @@
         "0x8001CD24": "0x80404570"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "main/func_8001D618",
+      "home": "main/func_8001D618",
+      "tu": "src/frontend/card/card_devkit_set_window_saved_marker.c",
+      "foff": "0x26d618",
+      "vma": "0x80404618",
+      "size": 80,
+      "evidence": "card_devkit_refresh_save_slot_pair_highlights calls this entry at MAIN +0x26ebcc for the saved entry; card_devkit_set_window_selection_marker is its selected-entry twin."
     },
     {
       "row": "main/func_8001D688",
@@ -182,6 +209,15 @@
         "0x8002D6A4": "0x8002D6A4",
         "0x8002D6A8": "0x8002D6A8"
       }
+    },
+    {
+      "row": "main/func_8001D888",
+      "home": "main/func_8001D888",
+      "tu": "src/frontend/card/card_background_init_selected_prims.c",
+      "foff": "0x26d888",
+      "vma": "0x80404888",
+      "size": 112,
+      "evidence": "card_background_init_components calls this entry at MAIN +0x26db30 for its selected packet buffer; card_background_init_overlay_prims is its twin."
     },
     {
       "row": "main/func_8001DC44",
@@ -537,6 +573,15 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "main/func_80020A44",
+      "home": "main/func_8001C9F8",
+      "tu": "src/frontend/card/card_dev_init_command_panel_frame.c",
+      "foff": "0x270a44",
+      "vma": "0x80407a44",
+      "size": 168,
+      "evidence": "The save-heading layout placement at MAIN +0x270bd0 calls this entry at +0x270bec; its 42 words equal the command-panel frame initializer at +0x26c9f8 after relocation."
+    },
+    {
       "row": "main/func_80020AEC",
       "tu": "src/frontend/card/card_dev_bind_slot_rows_template.c",
       "home": "main/func_800205A8",
@@ -601,6 +646,33 @@
         "0x80024FAC": "0x80407DB8"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "main/func_80020FD4",
+      "home": "main/func_80020FD4",
+      "tu": "src/frontend/card/menu/card_dev_open_format_confirmation_dialog.c",
+      "foff": "0x270fd4",
+      "vma": "0x80407fd4",
+      "size": 72,
+      "evidence": "MAIN +0x2720ec is card status slot 3 in the server callback table at +0x2720e0; the registered card updater at +0x2710a4 reads the table and installs this callback."
+    },
+    {
+      "row": "main/func_8002101C",
+      "home": "main/func_8002101C",
+      "tu": "src/frontend/card/menu/card_dev_open_no_memory_card_dialog.c",
+      "foff": "0x27101c",
+      "vma": "0x8040801c",
+      "size": 68,
+      "evidence": "MAIN +0x2720f0 is card status slot 4 in the server callback table at +0x2720e0; the registered card updater at +0x2710a4 reads the table and installs this callback."
+    },
+    {
+      "row": "main/func_80021060",
+      "home": "main/func_80021060",
+      "tu": "src/frontend/card/menu/card_dev_open_damaged_card_dialog.c",
+      "foff": "0x271060",
+      "vma": "0x80408060",
+      "size": 68,
+      "evidence": "MAIN +0x2720f4 is card status slot 5 in the server callback table at +0x2720e0; the registered card updater at +0x2710a4 reads the table and installs this callback."
     },
     {
       "row": "main/func_800213A0",

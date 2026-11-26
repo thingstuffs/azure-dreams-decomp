@@ -362,8 +362,8 @@ void draw_effect_and_restore_clip(s32 draw_data, Row_818ED25C_S_80024A5C_5 *clip
     u32 tag_mask;
     u8 *pos_or_ot;
     Row_818ED25C_S_80024A5C_6 *order_table;
-    Row_818ED25C_S_80024A5C_0 *draw_page;
-    Row_818ED25C_S_80024A5C_3 *packet_page;
+    GpuContext *draw_page;
+    GpuContext *packet_page;
     s16 offset_y;
     void *call_pos;
     s32 call_data;
@@ -372,23 +372,23 @@ void draw_effect_and_restore_clip(s32 draw_data, Row_818ED25C_S_80024A5C_5 *clip
 
     draw_page = g_game_work.draw_buffer;
     pos_or_ot = screen_pos;
-    clip_packet = draw_page->unk_8D0;
-    offset_y = draw_page != (void *)upper_draw_context;
-    draw_page->unk_8D0 = clip_packet + 0xC;
+    clip_packet = draw_page->packetCursor;
+    offset_y = draw_page != upper_draw_context;
+    draw_page->packetCursor = clip_packet + 0xC;
     saved_param = draw_param;
     clear_enabled = clear_rect;
     page_ptr = &g_game_work;
-    SetDrawArea(clip_packet, g_game_work.draw_buffer);
+    SetDrawArea(clip_packet, &g_game_work.draw_buffer->draw.clip);
     tag_mask = 0xFF000000U;
 
     ((Row_818ED25C_S_80024A5C_1 *)clip_packet)->unk_00 = (((Row_818ED25C_S_80024A5C_1 *)clip_packet)->unk_00 & tag_mask) |
-                            (draw_page->unk_8B0 & 0x00FFFFFFU);
-    draw_page->unk_8B0 = (draw_page->unk_8B0 & tag_mask) |
+                            (draw_page->orderTag[528] & 0x00FFFFFFU);
+    draw_page->orderTag[528] = (draw_page->orderTag[528] & tag_mask) |
                              ((u32)clip_packet & 0x00FFFFFFU);
 
     draw_pos[0] = ((Row_818ED25C_S_80024A5C_2 *)pos_or_ot)->unk_00;
     draw_y = ((Row_818ED25C_S_80024A5C_2 *)pos_or_ot)->unk_02;
-    pos_or_ot = (u8 *)draw_page + 0x8B0;
+    pos_or_ot = (u8 *)&draw_page->orderTag[528];
     order_table = (Row_818ED25C_S_80024A5C_6 *)pos_or_ot;
     if (offset_y != 0) {
         draw_y -= 0xE0;
@@ -404,8 +404,8 @@ void draw_effect_and_restore_clip(s32 draw_data, Row_818ED25C_S_80024A5C_5 *clip
         Row_818ED25C_S_80024A5C_4 *fill_packet;
 
         packet_page = g_game_work.draw_buffer;
-        fill_packet = (Row_818ED25C_S_80024A5C_4 *)packet_page->unk_8D0;
-        packet_page->unk_8D0 = (u8 *)fill_packet + 0x10;
+        fill_packet = packet_page->packetCursor;
+        packet_page->packetCursor = (u8 *)fill_packet + 0x10;
         fill_packet->unk_04 = 0x60000000;
         fill_packet->unk_00.at03.v = 3;
         fill_packet->unk_08 = clip_rect->unk_00;
@@ -422,8 +422,8 @@ void draw_effect_and_restore_clip(s32 draw_data, Row_818ED25C_S_80024A5C_5 *clip
     }
 
     packet_page = page_ptr->draw_buffer;
-    clip_packet = packet_page->unk_8D0;
-    packet_page->unk_8D0 = clip_packet + 0xC;
+    clip_packet = packet_page->packetCursor;
+    packet_page->packetCursor = clip_packet + 0xC;
     SetDrawArea(clip_packet, clip_rect);
     ((Row_818ED25C_S_80024A5C_1 *)clip_packet)->unk_00 = (((Row_818ED25C_S_80024A5C_1 *)clip_packet)->unk_00 & 0xFF000000U) |
                             (order_table->unk_00 & 0x00FFFFFFU);

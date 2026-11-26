@@ -2,6 +2,7 @@
 #define DUNGEON_MENU_CACHE_SELECTION_H
 
 #include "shared/item_menu.h"
+#include "shared/resident_resources.h"
 #include "shared/menu_display.h"
 #include "shared/object_node.h"
 #include "town/shop/storage_menu.h"
@@ -33,8 +34,6 @@ typedef struct CachedSelectionPanelNode {
     CachedSelectionPanel panel;
 } CachedSelectionPanelNode;
 
-extern u8 cached_selection_row_left_template[];
-extern u8 cached_selection_row_middle_template[];
 extern u8 menu_leaf_template_6[12];
 extern char *cached_selection_row_indicator_texts[2];
 

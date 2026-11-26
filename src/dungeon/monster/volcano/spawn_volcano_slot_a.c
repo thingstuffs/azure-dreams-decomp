@@ -33,7 +33,7 @@ void *spawn_volcano(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 
         part_a = object->position;
         part_a->z.w.i = attr_c;
-        part_b = (SpriteFrameState *)*(u8 * *)&object->sprite;
+        part_b = object->sprite;
         part_b->tile_x = attr_a;
         part_b->tile_y = attr_b;
         work_copy = (long)work;

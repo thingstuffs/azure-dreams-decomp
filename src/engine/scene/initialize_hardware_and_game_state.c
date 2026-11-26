@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_state.h"
+#include "shared/game_work.h"
 #include "shared/dungeon_floor.h"
 #include "shared/runtime_dispatch.h"
 #include "shared/object_flags.h"
@@ -15,10 +16,6 @@
 #include "slus/data.h"
 #include "slus.h"
 #include "sdk/libapi.h"
-
-/* D_80083160[0] holds the current CD/streaming state pointer; default value is
- * the sentinel D_801C9E40. size>8 to force %hi/%lo. */
-extern u8 *D_80083160[3];
 
 /* short globals D_80080A94/98/9C read via %hi/%lo; accessed via fixed
  * absolute-address casts (see D_80013180 group note below) so gcc reuses the
@@ -40,9 +37,9 @@ extern u8 *D_80083160[3];
  */
 void initialize_hardware_and_game_state(void)
 {
-    u8 **stream_slot = D_80083160;
+    GpuContext **stream_slot = &g_game_work.draw_buffer;
     s32 pad_byte;
-    u8 *stream_state;
+    GpuContext *stream_state;
 
     SetVideoMode(0);
     CdInit();
@@ -90,10 +87,10 @@ void initialize_hardware_and_game_state(void)
 
     stream_state = upper_draw_context;
     if (*stream_slot == upper_draw_context) {
-        stream_state = stream_state + 0x108D4;
+        stream_state = stream_state + 1;
     }
     *stream_slot = stream_state;
-    *(u32 *)(stream_state + 0x8D0) = (u32)(stream_state + 0x8D4);
+    stream_state->packetCursor = stream_state->packets;
     default_textured_quad_color[0] = 0x2C808080;
     reset_scene_sprite_history();
 

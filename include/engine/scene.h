@@ -10,8 +10,7 @@ struct SceneLoadBody;
 #include "shared/vector.h"
 #include "shared/object_node.h"
 
-/* Two contiguous draw/packet contexts, each 0x108D4 bytes long. */
-extern u8 upper_draw_context[2 * 0x108D4];
+#include "shared/gpu_packets.h"
 
 struct SpriteFrameState;
 struct SpriteAttachmentEntry;

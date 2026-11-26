@@ -20,8 +20,8 @@ void fill_cd_read_descriptor(s32 mode, s32 value_base, MonsterStatusCdDescriptor
 }
 
 /* Returns a mapped code for the object, or its fallback value when the code is zero. */
-s32 get_monster_status_species_code(void *object) {
-    s32 code = *((u8 *) object + 0x13);
+s32 get_monster_status_species_code(ActorRecord *object) {
+    s32 code = object->species;
 
     if (code != 0) {
         if ((get_entity_effect_value(object, 10) << 0x10) != 0) {

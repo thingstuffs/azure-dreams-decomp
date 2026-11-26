@@ -37,8 +37,6 @@ typedef struct {
     u32 wordC;
 } DungeonPacket;
 
-extern u8 upper_draw_context[16];
-
 extern void SetDrawArea(void *, void *);
 extern void AddPrim(void *, void *, ...);
 struct DungeonPosition;
@@ -48,8 +46,8 @@ extern void draw_textured_ellipse_segments(struct DungeonPosition *position, str
 void draw_textured_ellipse(void *draw_value, GpuRect *rect, u16 fill_rect, u16 draw_mode) {
     GpuContext *initial_state;
     GpuContext *active_state;
-    void **state_slot = &g_game_work.draw_buffer;
-    u8 *draw_list;
+    GpuContext **state_slot = &g_game_work.draw_buffer;
+    u32 *draw_list;
     u8 *command_cursor;
     DungeonPacket *fill_packet;
     s16 center[2];
@@ -58,11 +56,11 @@ void draw_textured_ellipse(void *draw_value, GpuRect *rect, u16 fill_rect, u16 d
     s16 offset_y;
 
     initial_state = g_game_work.draw_buffer;
-    offset_y = initial_state != (GpuContext *)upper_draw_context ? 1 : 0;
+    offset_y = initial_state != upper_draw_context ? 1 : 0;
     command_cursor = initial_state->packetCursor;
-    draw_list = (u8 *)initial_state + 0x8B0;
+    draw_list = &initial_state->orderTag[528];
     initial_state->packetCursor = command_cursor + 0xC;
-    SetDrawArea(command_cursor, g_game_work.draw_buffer);
+    SetDrawArea(command_cursor, &g_game_work.draw_buffer->draw.clip);
     AddPrim(draw_list, command_cursor);
 
     center[0] = rect->x + ((s32)(rect->data.half.z << 0x10) >> 0x11);
@@ -162,7 +160,7 @@ void draw_textured_ellipse_segments(DungeonPosition *position, DungeonParameters
         angle_step = segment;
 loop_0:
         {
-            state_slot = (GpuContext **)&g_game_work;
+            state_slot = &g_game_work.draw_buffer;
             scratchpad->prev = scratchpad->cur.xy;
             center_u = (u8)scratchpad->tex_u
                 + (scratchpad->tex_w >> 1);
@@ -396,7 +394,7 @@ void update_arcing_effect(ArcingEffectBody *motion, S_800B8830_3 *coords, S_800B
             }
         }
 
-        if (((ObjectPosition *)(motion->unk_08))->x.w.frac & 0x80) {
+        if (motion->unk_08->x.w.frac & 0x80) {
             motion->arc_steps = 9;
             motion->phase = (s16)((u16)motion->phase + 1);
         }
@@ -762,22 +760,14 @@ typedef struct {
     u32 data;
 } Packet;
 
-typedef struct DrawContext {
-    u8 pad[0x8B0];
-    u8 ordering_table[0x20];
-    Packet *next_packet;
-} DrawContext;
-
 extern void AddPrim(void *, void *, ...);
 extern void SetDrawArea(void *, void *);
 extern void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16 draw_mode);
-extern u8 upper_draw_context[16];
-
 /* Queue a clipped sprite with an optional black background, adjusting Y for the active buffer. */
 void draw_transformed_sprite_with_clip_rect(void *sprite, Position *clip_rect, Position *screen_pos, s32 clear_bg, s16 draw_flags)
 {
     Position draw_pos;
-    DrawContext *context;
+    GpuContext *context;
     void *draw_context;
     void *ordering_table;
     Packet *area_packet;
@@ -787,10 +777,10 @@ void draw_transformed_sprite_with_clip_rect(void *sprite, Position *clip_rect, P
 
     context = g_game_work.draw_buffer;
     saved_clear_bg = clear_bg;
-    shift_y = context != (DrawContext *)upper_draw_context;
-    area_packet = context->next_packet;
-    ordering_table = context->ordering_table;
-    context->next_packet = (Packet *)((u8 *)area_packet + 0xC);
+    shift_y = context != upper_draw_context;
+    area_packet = context->packetCursor;
+    ordering_table = &context->orderTag[528];
+    context->packetCursor = (u8 *)area_packet + 0xC;
     draw_context = g_game_work.draw_buffer;
     SetDrawArea(area_packet, draw_context);
     AddPrim(ordering_table, area_packet);
@@ -798,12 +788,12 @@ void draw_transformed_sprite_with_clip_rect(void *sprite, Position *clip_rect, P
     draw_pos.x = screen_pos->x;
     y = screen_pos->y;
     {
-        DrawContext **context_slot;
+        GpuContext **context_slot;
 
         if (shift_y) {
             y -= 0xE0;
         }
-        context_slot = (DrawContext **)&g_game_work.draw_buffer;
+        context_slot = &g_game_work.draw_buffer;
         draw_pos.y = y;
         draw_transformed_sprite_parts(&draw_pos, sprite, ordering_table, draw_flags);
 
@@ -811,8 +801,8 @@ void draw_transformed_sprite_with_clip_rect(void *sprite, Position *clip_rect, P
             Packet *clear_packet;
 
             context = *context_slot;
-            clear_packet = context->next_packet;
-            context->next_packet = (Packet *)((u8 *)clear_packet + 0x10);
+            clear_packet = context->packetCursor;
+            context->packetCursor = (u8 *)clear_packet + 0x10;
             clear_packet->code = 0x60000000;
             clear_packet->size = 3;
             clear_packet->x = clip_rect->x;
@@ -826,8 +816,8 @@ void draw_transformed_sprite_with_clip_rect(void *sprite, Position *clip_rect, P
         }
 
         context = *context_slot;
-        area_packet = context->next_packet;
-        context->next_packet = (Packet *)((u8 *)area_packet + 0xC);
+        area_packet = context->packetCursor;
+        context->packetCursor = (u8 *)area_packet + 0xC;
         SetDrawArea(area_packet, clip_rect);
         AddPrim(ordering_table, area_packet);
     }
@@ -1829,7 +1819,7 @@ s32 draw_linked_quad_chain(void *node_payload, ObjectPosition *position, SpriteF
 
 typedef struct S_800BA414_0 {
     u8 pad_00[0x20];
-    u8 * unk_20;
+    u32 *ordering_table; /* the current draw context's depth buckets */
     u8 pad_24[0x9C];
     u32 unk_C0;
     u8 pad_C4[0x20];
@@ -1876,7 +1866,7 @@ void draw_projected_quad_with_depth_bias(void *unused, ObjectPosition *position,
 {
     S_800BA414_0 *scratch;
     u8 *prim;
-    u8 **state_slot;
+    GpuContext **state_slot;
     s16 depth_offset;
     u8 *rotation;
     u8 *local_matrix;
@@ -1890,7 +1880,7 @@ void draw_projected_quad_with_depth_bias(void *unused, ObjectPosition *position,
     u8 *vertex_3;
     u8 *transform_flags;
     u8 *depth_cue;
-    u8 *state;
+    GpuContext *state;
     u8 *quad;
     u8 *draw_mode;
     u32 ot_index;
@@ -1901,15 +1891,15 @@ void draw_projected_quad_with_depth_bias(void *unused, ObjectPosition *position,
     s32 corner_visible;
 
     (void)unused;
-    state = *(u8 **)((s8 *)(&g_game_work));
+    state = g_game_work.draw_buffer;
     scratch = (S_800BA414_0 *)0x1F800000;
     depth_offset = depth_bias;
-    scratch->unk_20 = state + 0xB0;
+    scratch->ordering_table = &state->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->unk_E4 = position->x.w.i;
     scratch->unk_E8 = position->y.w.i;
     scratch->unk_EC = position->z.w.i;
-    prim = ((GpuContext *)state)->packetCursor;
-    state_slot = (u8 **)((s8 *)(&g_game_work));
+    prim = state->packetCursor;
+    state_slot = &g_game_work.draw_buffer;
 
     PushMatrix();
     rotation = (u8 *)0x1F800100;
@@ -1985,19 +1975,15 @@ void draw_projected_quad_with_depth_bias(void *unused, ObjectPosition *position,
             draw_mode = prim + 0x18;
             ((S_800BA414_3 *)prim)->unk_04.at03.v |= 2;
             prim += 0x24;
-            AddPrim(scratch->unk_20 +
-                          scratch->unk_C0 * 4,
-                          quad);
+            AddPrim(scratch->ordering_table + scratch->unk_C0, quad);
             mode_ptr = draw_mode;
             mode_zero = 0;
             SetDrawMode(mode_ptr, (s32)mode_zero, (s32)mode_zero, 0x20, 0);
-            AddPrim(scratch->unk_20 +
-                          scratch->unk_C0 * 4,
-                          draw_mode);
+            AddPrim(scratch->ordering_table + scratch->unk_C0, draw_mode);
         }
     }
 
-    ((GpuContext *)(*state_slot))->packetCursor = prim;
+    (*state_slot)->packetCursor = prim;
     PopMatrix();
 }
 
@@ -2288,7 +2274,7 @@ s32 draw_particle_effect_primitives(DungeonObject *object, u16 *position) {
 
     object->count = 0;
     scratch = (Scratch_800B5448 *)0x1F800000;
-    scratch->base = ((u8 *)root_slot->draw_buffer) + 0xB0;
+    scratch->base = (u8 *)&root_slot->draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->values[0] = position[1];
     scratch->values[1] = position[3];
     scratch_94 = (u8 *)0x1F800094;
@@ -2366,7 +2352,7 @@ s32 draw_particle_effect_primitives(DungeonObject *object, u16 *position) {
             }
         }
     } while ((particle = particle + 1) < 32);
-    ((GpuContext *)(root_slot->draw_buffer))->packetCursor = packet_cursor;
+    root_slot->draw_buffer->packetCursor = packet_cursor;
     {
         s32 result = 0;
         return result;
@@ -2615,24 +2601,22 @@ extern void SetPriority(void *, s32, s32);
 struct Position;
 struct Position;
 
-extern u8 upper_draw_context[16];
-
 /* Queues a line or filled rectangle with optional content and drawing state commands. */
 void draw_sprite_or_fill_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, void *content_id)
 {
     CoordPair bottom_center;
-    u8 **state_addr;
+    GpuContext **state_addr;
     GpuContext *state;
     GpuContext *buf;
-    u8 *ordering_table;
+    u32 *ordering_table;
     S_800BB2E4_2 *packet;
     u8 *primitive;
     s32 y;
     s16 odd;
 
-    state_addr = (u8 **)((u8 *)(&g_game_work));
-    state = (GpuContext *)*(u8 **)((u8 *)(&g_game_work));
-    ordering_table = (u8 *)state + 0x8B0;
+    state_addr = &g_game_work.draw_buffer;
+    state = g_game_work.draw_buffer;
+    ordering_table = &state->orderTag[528];
     odd = state != upper_draw_context;
 
     if (content_id != 0) {
@@ -2644,7 +2628,7 @@ void draw_sprite_or_fill_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill
         bottom_center.x = ((S_800BB2E4_1 *)rect)->unk_00 + (s16)((S_800BB2E4_1 *)rect)->unk_04 / 2;
         bottom_center.y = ((S_800BB2E4_1 *)rect)->unk_02.u + ((S_800BB2E4_1 *)rect)->unk_06;
         draw_transformed_sprite_with_clip_rect(content_id, rect, &bottom_center, 0, 0);
-        buf = (GpuContext *)(*(u8 **)((u8 *)(&g_game_work)));
+        buf = g_game_work.draw_buffer;
         primitive = buf->packetCursor;
         buf->packetCursor = primitive + 0xC;
         SetPriority(primitive, 1, 0);
@@ -2663,7 +2647,7 @@ void draw_sprite_or_fill_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill
         packet->unk_04.at03.v = 0x40;
         AddPrim(ordering_table, packet);
 
-        buf = (GpuContext *)(*(u8 **)((u8 *)(&g_game_work)));
+        buf = g_game_work.draw_buffer;
         primitive = buf->packetCursor;
         buf->packetCursor = primitive + 0xC;
         SetPriority(primitive, 0, 0);
@@ -2671,7 +2655,7 @@ void draw_sprite_or_fill_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill
     }
 
     if (fill != 0) {
-        buf = (GpuContext *)(*state_addr);
+        buf = *state_addr;
         packet = buf->packetCursor;
         buf->packetCursor = (u8 *)packet + 0x10;
         packet->unk_04.at00.v = 0x60000000;
@@ -2686,13 +2670,13 @@ void draw_sprite_or_fill_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill
         packet->unk_0C.at02.v = ((S_800BB2E4_1 *)rect)->unk_06;
         AddPrim(ordering_table, packet);
 
-        buf = (GpuContext *)(*state_addr);
+        buf = *state_addr;
         primitive = buf->packetCursor;
         buf->packetCursor = primitive + 0xC;
         SetPriority(primitive, 0, 1);
         AddPrim(ordering_table, primitive);
 
-        buf = (GpuContext *)(*state_addr);
+        buf = *state_addr;
         primitive = buf->packetCursor;
         buf->packetCursor = primitive + 0xC;
         SetDrawArea(primitive, rect);
@@ -3004,7 +2988,7 @@ void update_orbiting_color_particle(OrbitingColorParticleBody *state, ObjectPosi
 
 typedef struct S_800BBDEC_0 {
     u8 pad_00[0x20];
-    void *unk_20;
+    u32 *ordering_table; /* the current draw context's depth buckets */
 } S_800BBDEC_0;   /* scratch in draw_shaded_vertical_quad */
 
    /* arg1 in draw_shaded_vertical_quad */
@@ -3049,17 +3033,17 @@ void draw_shaded_vertical_quad(OrbitingColorParticleBody *object, ObjectPosition
 {
     S_800BBDEC_0 *legacy = (S_800BBDEC_0 *)0x1F800000;
     SpriteQuadScratch *scratch = SPRITE_SCRATCH;
-    void **render_ctx = &g_game_work.draw_buffer;
+    GpuContext **render_ctx = &g_game_work.draw_buffer;
     u8 *prim;
     u32 depth_index;
     s32 color_word;
     s16 end_z;
 
-    legacy->unk_20 = (u8 *)*render_ctx + 0xB0;
+    legacy->ordering_table = &(*render_ctx)->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->matrix_D0.t[0] = position->x.w.i;
     scratch->matrix_D0.t[1] = position->y.w.i;
     scratch->matrix_D0.t[2] = position->z.w.i;
-    prim = ((GpuContext *)(*render_ctx))->packetCursor;
+    prim = (*render_ctx)->packetCursor;
 
     PushMatrix();
 
@@ -3106,22 +3090,18 @@ void draw_shaded_vertical_quad(OrbitingColorParticleBody *object, ObjectPosition
             ((S_800BBDEC_5 *)prim)->unk_04.at03.v |= 2;
         }
 
-        AddPrim((u8 *)legacy->unk_20 +
-                      scratch->sort_depth * 4,
-                      prim);
+        AddPrim(legacy->ordering_table + scratch->sort_depth, prim);
         prim += 0x24;
 
         if (appearance->flags & 4) {
             SetDrawMode(prim, 0, 0, 0x20, 0);
-            AddPrim((u8 *)legacy->unk_20 +
-                          scratch->sort_depth * 4,
-                          prim);
+            AddPrim(legacy->ordering_table + scratch->sort_depth, prim);
             prim += 0xC;
         }
     }
 
     PopMatrix();
-    ((GpuContext *)(*render_ctx))->packetCursor = prim;
+    (*render_ctx)->packetCursor = prim;
 }
 
 struct OrbitingColorParticleBody;

@@ -2,7 +2,7 @@
 #include "town/scene.h"
 
 /* Copy words backward from the supplied byte offset in the source and destination. */
-void copy_words_backward_from_offset(s32 dest_addr, s32 src_addr, s32 byte_count) {
+void copy_words_backward_from_offset(u8 *dest_addr, u8 *src_addr, s32 byte_count) {
     s32 *dest_word;
     s32 *src_word;
     s32 word;
@@ -10,8 +10,8 @@ void copy_words_backward_from_offset(s32 dest_addr, s32 src_addr, s32 byte_count
     s32 words_left;
 
     adjusted_bytes = byte_count;
-    dest_word = dest_addr + adjusted_bytes;
-    src_word = src_addr + adjusted_bytes;
+    dest_word = (s32 *)(dest_addr + adjusted_bytes);
+    src_word = (s32 *)(src_addr + adjusted_bytes);
     words_left = (adjusted_bytes / 4);
     if (words_left > 0) {
         do {

@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "sdk/libc.h"
 /* Timed target effects, jittered intermediate points, and linked trail quad rendering. */
@@ -555,8 +556,8 @@ s32 draw_chained_trail_quads(void *node)
         prim.f0C = ((u16)(base->view.camera_rotation.parts.viewAngle));
         transform_rotated_vertices(&prim, (s16) sxy[5].half.y);
         for (i = 0; i < 4; i++) {
-            poly = *((void **) (((s8 *) (base->draw_buffer)) + 0x8D0));
-            *((void **) (((s8 *) (base->draw_buffer)) + 0x8D0)) =  (((u8 *) poly) + 0x28);
+            poly = base->draw_buffer->packetCursor;
+            base->draw_buffer->packetCursor =  (((u8 *) poly) + 0x28);
             *((s32 *) (((s8 *) poly) + 4)) = *((s32 *) (((s8 *) obj) + 0x38));
             SetPolyFT4(poly);
             SetSemiTrans(poly, 1);

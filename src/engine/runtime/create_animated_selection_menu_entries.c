@@ -11,23 +11,20 @@ s32 create_animated_selection_menu_entries(AnimatedSelectionMenuBody *state) {
     s32 item_result;
     s32 item_index;
     u8 position;
-    u8 *slot;
     u8 *table;
     u8 *row;
 
     item_index = 0;
     if (state->count > 0) {
         table = selection_menu_animation_keys;
-        slot = (u8 *)state;
 
         do {
-            slot = (u8 *)state + item_index * 4;
             row = (u8 *)((u32)(state->selected_index * 3) + (u32)table);
             position = row[item_index];
-            item_result = cache_event_handle_value_and_get_id(*(s32 *)(slot + 0x10), item_index, 0x18,
+            item_result = cache_event_handle_value_and_get_id(state->entry_ids[item_index], item_index, 0x18,
                                    position * 0xC - 0x40,
                                    position * 0x1E + 0x200);
-            *(s32 *)(slot + 4) = item_result;
+            *(s32 *)&state->entries[item_index] = item_result;
             if (item_result == 0) {
                 return 0;
             }

@@ -55,9 +55,9 @@
     "config/overlays/modules.json": "693d46c5a4960f4295736b13632f6aa3d5967630a3b86cdcda51baa7a7e437ae",
     "ledger/containers.jsonl": "cf4aad759e95ab9ad808ccfbb5dad565d8affd85ae14e991695c049aeb195cb5",
     "ledger/instance_load_regions.jsonl": "6c305bede2388a65a81f6840b756dbf1b4d5b8c4b339f13e7a7490f61c5c6217",
-    "ledger/layout.jsonl": "e88a997b53b81341a4b37d46f4a225cefc8b6b29877cd5106c444ea239b4a210",
-    "ledger/layout_inline.jsonl": "fd00bd333106f899a72347e0327a9c96254f4cc65fb556d345ee509e36b8d7ee",
-    "ledger/rows.jsonl": "7726b039777843a69774676181e425052cc1922d68071cc4a7c9947d2ef21f2b",
+    "ledger/layout.jsonl": "7dc8d949bac4da21290e5cd83a09a98e067259089bf0c8b89bce218da7463507",
+    "ledger/layout_inline.jsonl": "bfefa09b9ab3871983caea3b63b43fd0aaf4b4f701da41ffeedd9f994af3d143",
+    "ledger/rows.jsonl": "e4ac1a872dd69b65232657b894674d54c93e515b62734741c3a57c8dfe28903d",
     "ledger/splits/slus.jsonl": "223b4e507d700e4c5d6052b159a39274473b6e94d4005bbd99797179716e1fd5"
   },
   "schema": "azure-clean.link-graph.v1",
@@ -75,13 +75,13 @@
       },
       {
         "path": "entries.002.jsonl",
-        "records": 5383,
-        "sha256": "d96c9029c5a36a995fde84cab4d10a140803bbc42080db79a0c78eb6f59b5b8b"
+        "records": 5384,
+        "sha256": "48ed97983954db5b352faccc92dd5a64c85879c5d13f17ff0553f23012f79181"
       },
       {
         "path": "entries.003.jsonl",
-        "records": 1160,
-        "sha256": "a936ec36b0c49127c8a5e858083e56f3d7d316818f154584826bfab6da4f54a0"
+        "records": 1177,
+        "sha256": "d5a11dd0bfa22e24f114716fd309384ca1ecfaa1b4f084a5eba2a19532bc77b8"
       }
     ],
     "files": [
@@ -101,13 +101,13 @@
     "tus": [
       {
         "path": "tus.000.jsonl",
-        "records": 6569,
-        "sha256": "5f5bf9be3eabf590fc2d38b0c2bd68876ae4417b06a3ccd166ba367b1998b47b"
+        "records": 6570,
+        "sha256": "ea9db62f05afbb29292374c0689b92ccd8a26109818aff0af5960526424e8cbe"
       },
       {
         "path": "tus.001.jsonl",
-        "records": 1856,
-        "sha256": "2d484474e065859867398616f6a77ebbe6c4cc28943afd5eca31a270134f7ac2"
+        "records": 1867,
+        "sha256": "1d7294fceae2609821585a92dbb69d3b60db15353ce25fedfc737d21f89db687"
       }
     ],
     "views": [
@@ -119,7 +119,7 @@
       {
         "path": "views.001.jsonl",
         "records": 719,
-        "sha256": "33c3bd2fc41a6ca38999f64d14e35069388ff7fc96e14bd3cbedf13b1e23b1ea"
+        "sha256": "e99064c7c4da87db721d4deb4465da3c686d561d5b4f7b18459df1ce979353df"
       }
     ]
   }

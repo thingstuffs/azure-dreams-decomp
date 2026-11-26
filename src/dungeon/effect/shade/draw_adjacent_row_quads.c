@@ -45,17 +45,17 @@ s32 draw_adjacent_row_quads(void)
 {
     s32 quad_index = 0;
     Scratch *scratch = (Scratch *)0x1F800000;
-    u8 *state = g_game_work.draw_buffer;
-    u8 *packet_start = *(u8 **)(state + 0x8D0);
+    GpuContext *state = g_game_work.draw_buffer;
+    u8 *packet_start = state->packetCursor;
     SVECTOR *vertices;
     SVECTOR *vertex_record;
 
-    scratch->table = (u32 *)(state + 0xB0);
+    scratch->table = &state->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->current = packet_start;
 
             /* This address is needed only by the loop's terminal writeback. */
     {
-        void **state_slot = &g_game_work.draw_buffer;
+        GpuContext **state_slot = &g_game_work.draw_buffer;
 
         if (D_80026476 > 0) {
             vertices = particle_quad_vertices;
@@ -145,7 +145,7 @@ s32 draw_adjacent_row_quads(void)
                 quad_index++;
             } while (quad_index < D_80026476);
         }
-        ((GpuContext *)*state_slot)->packetCursor = scratch->current;
+        (*state_slot)->packetCursor = scratch->current;
     }
     return 0;
 }

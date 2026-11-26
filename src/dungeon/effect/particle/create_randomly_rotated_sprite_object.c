@@ -201,7 +201,7 @@ s32 draw_red_triangle_fan(TimedTransformCopyEffectBody *effect, ObjectPosition *
         angle_step = 0x100;
 
         for (segment = 0; segment < 8; segment++) {
-            B22_81892C5C_S_81892C5C_3 *render_context;
+            GpuContext *render_context;
             s32 end_y_scaled;
             void *polyline;
             s32 start_angle;
@@ -212,8 +212,8 @@ s32 draw_red_triangle_fan(TimedTransformCopyEffectBody *effect, ObjectPosition *
             s32 x_trig;
 
             render_context = ot_ctx->draw_buffer;
-            polyline = render_context->unk_8D0;
-            render_context->unk_8D0 = (u8 *)polyline + 0x18;
+            polyline = render_context->packetCursor;
+            render_context->packetCursor = (u8 *)polyline + 0x18;
             ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_00.at03.v = 5;
             ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_07 = 0x48;
             ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_14 = 0x55555555;
@@ -276,11 +276,11 @@ s32 draw_red_triangle_fan(TimedTransformCopyEffectBody *effect, ObjectPosition *
                     addPrim(scratch->ordering_table + scratch->ot_index, polyline);
 
                     {
-                        B22_81892C5C_S_81892C5C_5 *draw_context;
+                        GpuContext *draw_context;
 
                         draw_context = ot_ctx->draw_buffer;
-                        tpage = draw_context->unk_8D0;
-                        draw_context->unk_8D0 = (u8 *)tpage + 0xC;
+                        tpage = draw_context->packetCursor;
+                        draw_context->packetCursor = (u8 *)tpage + 0xC;
                     }
                     SetDrawMode(tpage, 0, 0, GetTPage(0, 1, 0, 0) & 0xFFFF, 0);
 

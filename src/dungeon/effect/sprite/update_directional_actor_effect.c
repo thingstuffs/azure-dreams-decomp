@@ -1,4 +1,5 @@
 /* Timed target effects, textured quad rendering, scattered fragments, and segment animation. */
+#include "shared/gpu_packets.h"
 #include "slus.h"
 #include "shared/sprite_frame_state.h"
 #include "sdk/libgte.h"
@@ -236,10 +237,6 @@ typedef struct S_81988C1C_2 {
     union { void * s; u32 u; } unk_00;   /* accessed as both */
 } S_81988C1C_2;   /* base in create_counted_sprite_effect */
 
-typedef struct S_81988C1C_3 {
-    u8 pad_00[0x8D0];
-    void * unk_8D0;
-} S_81988C1C_3;   /* pool in create_counted_sprite_effect */
 
 typedef struct S_81988C1C_4 {
     u32 unk_00;
@@ -313,7 +310,7 @@ s32 create_counted_sprite_effect(void *first_item) {
 
         half_width = (((S_81988C1C_1 *)screen_points)->unk_02.s - ((S_81988C1C_1 *)screen_points)->unk_06.s) >> 1;
         if (depth_index < 0x1E0U) {
-            S_81988C1C_3 *packet_pool;
+            GpuContext *packet_pool;
             S_81988C1C_4 *packet;
             register u8 tex_v;
             u8 tex_u;
@@ -325,8 +322,8 @@ s32 create_counted_sprite_effect(void *first_item) {
             u32 color_or_tag_mask = 0;
 
             packet_pool = render_state->draw_buffer;
-            packet = packet_pool->unk_8D0;
-            packet_pool->unk_8D0 = (u8 *)packet + 0x34;
+            packet = packet_pool->packetCursor;
+            packet_pool->packetCursor = (u8 *)packet + 0x34;
             packet->unk_04 = 0xA0A0A0;
             SetPolyFT4(packet);
             SetSemiTrans(packet, 1);

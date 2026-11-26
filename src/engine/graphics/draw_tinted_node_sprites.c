@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "engine/graphics.h"
@@ -24,7 +25,7 @@ void draw_tinted_node_sprites(u8 *parent, u8 *node)
     u8 *cmd;
     u8 *parent_matrix = 0;
     u8 *rotation;
-    u8 *render_ctx;
+    GpuContext *render_ctx;
     u8 **render_state;
 
     node_matrix = work_buf + 0xE4;
@@ -34,8 +35,8 @@ void draw_tinted_node_sprites(u8 *parent, u8 *node)
     render_ctx = g_game_work.draw_buffer;
     size_mask = 0xFF000000;
     work = work_buf;
-    packet = *(u8 **)(render_ctx + 0x8D0);
-    U32_AT(work, 0x18) = (u32)(render_ctx + 0x70);
+    packet = render_ctx->packetCursor;
+    U32_AT(work, 0x18) = (u32)render_ctx->orderTag;
     U32_AT(work, 0x38) = 0;
     PushMatrix();
     U16_AT(work, 0x74) = 0;

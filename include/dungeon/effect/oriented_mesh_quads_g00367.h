@@ -145,12 +145,6 @@ typedef struct S_800CEFB8_8 {
     } unk_24;   /* overlapping accesses */
 } S_800CEFB8_8;
 
-/* packet in draw_mesh_quads_with_orientation_mode */
-typedef struct S_800CEFB8_9 {
-    u8 pad_00[0x8D0];
-    void * unk_8D0;
-} S_800CEFB8_9;
-
 s32 CompMatrix(void *, void *, void *);
 s32 PushMatrix(void);
 s32 PopMatrix(void);

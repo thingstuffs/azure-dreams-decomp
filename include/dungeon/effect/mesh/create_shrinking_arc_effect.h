@@ -138,10 +138,6 @@ typedef struct ovl_1930844_81911A8C_S_81911A8C_4 {
     u8 pad_00[0x5];
     s8 unk_05;
 } ovl_1930844_81911A8C_S_81911A8C_4;
-typedef struct ovl_1930844_81911A8C_S_81911A8C_5 {
-    u8 pad_00[0x8D0];
-    void * unk_8D0;
-} ovl_1930844_81911A8C_S_81911A8C_5;
 typedef struct ovl_1930844_81911B9C_S_81911B9C_0 {
     u8 pad_00[0x10];
     M2C_UNK * unk_10;

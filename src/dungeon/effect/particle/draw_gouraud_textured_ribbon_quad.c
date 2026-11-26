@@ -60,7 +60,7 @@ void draw_gouraud_textured_ribbon_quad(S_801663AC_4 *quad, ObjectPosition *posit
     u8 tex_flags;
     MATRIX view_matrix;
 
-    scratch->ordering_table = (u32 *)(*(u8 **)&g_game_work.draw_buffer + 0xB0);
+    scratch->ordering_table = &g_game_work.draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->local_matrix.t[0] = position->x.w.i;
     scratch->local_matrix.t[1] = position->y.w.i;
     scratch->local_matrix.t[2] = position->z.w.i;

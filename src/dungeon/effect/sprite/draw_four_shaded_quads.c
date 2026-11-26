@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_moving_views.h"
@@ -53,10 +54,6 @@ typedef struct S_func_818BC9CC_4 {
     u32 unk_00;
 } S_func_818BC9CC_4;
 
-typedef struct S_func_818BC9CC_5 {
-    u8 pad_00[0x8D0];
-    void *unk_8D0;
-} S_func_818BC9CC_5;
 
 typedef struct { unsigned addr : 24; unsigned len : 8; } PacketTag;
 
@@ -73,9 +70,9 @@ s32 draw_four_shaded_quads(OffsetColorEffectBody *effect, MovingPosition *positi
     S_func_818BC9CC_3 *packet;
     S_func_818BC9CC_4 *draw_mode;
     S_func_818BC9CC_4 *draw_mode_2;
-    S_func_818BC9CC_5 *render_ctx;
-    S_func_818BC9CC_5 *full_ctx;
-    S_func_818BC9CC_5 *tile_ctx;
+    GpuContext *render_ctx;
+    GpuContext *full_ctx;
+    GpuContext *tile_ctx;
     GameWork *render_state;
     s32 page_depth;
     s32 page_blend;
@@ -97,7 +94,7 @@ s32 draw_four_shaded_quads(OffsetColorEffectBody *effect, MovingPosition *positi
     render_state = &g_game_work;
     scratch = PROJECTED_QUAD_SCRATCH;
     angle = render_state->view.camera_rotation.parts.viewAngle;
-    scratch->ordering_table = (u32 *)((u8 *)g_game_work.draw_buffer + 0xB0);
+    scratch->ordering_table = &g_game_work.draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE];
     x_extent = (u32)((rcos(angle) >> 4) * (s16)effect->unk_08) >> 8;
     y_extent = (u32)((rsin(angle) >> 4) * (s16)effect->unk_08) >> 8;
     texture_v = (effect->unk_04.s16 % 4) << 3;
@@ -106,8 +103,8 @@ s32 draw_four_shaded_quads(OffsetColorEffectBody *effect, MovingPosition *positi
 
     do {
         render_ctx = render_state->draw_buffer;
-        packet = render_ctx->unk_8D0;
-        render_ctx->unk_8D0 = (u8 *)packet + 0x34;
+        packet = render_ctx->packetCursor;
+        render_ctx->packetCursor = (u8 *)packet + 0x34;
 
         packet->unk_00.unk_03 = 0x0C;
         packet->unk_07 = 0x3E;
@@ -250,8 +247,8 @@ s32 draw_four_shaded_quads(OffsetColorEffectBody *effect, MovingPosition *positi
             full_ctx = render_state->draw_buffer;
             full_window[3] = 0xFF;
             full_window[2] = 0xFF;
-            draw_mode = full_ctx->unk_8D0;
-            full_ctx->unk_8D0 = (u8 *)draw_mode + 0x0C;
+            draw_mode = full_ctx->packetCursor;
+            full_ctx->packetCursor = (u8 *)draw_mode + 0x0C;
             SetDrawMode(draw_mode, 0, 0, GetTPage(0, 1, 0x280, 0x100), full_window);
             page_depth = 0;
 
@@ -288,8 +285,8 @@ s32 draw_four_shaded_quads(OffsetColorEffectBody *effect, MovingPosition *positi
             tile_ctx = render_state->draw_buffer;
             tile_window[3] = 0x40;
             tile_window[2] = 0x40;
-            draw_mode_2 = tile_ctx->unk_8D0;
-            tile_ctx->unk_8D0 = (u8 *)draw_mode_2 + 0x0C;
+            draw_mode_2 = tile_ctx->packetCursor;
+            tile_ctx->packetCursor = (u8 *)draw_mode_2 + 0x0C;
             SetDrawMode(draw_mode_2, 0, 0, GetTPage(page_depth, page_blend, page_x, 0x100), tile_window);
 
             {

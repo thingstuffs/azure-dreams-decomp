@@ -1247,31 +1247,29 @@ void *select_containing_cell_surface(s32 world_x, s32 world_y, s16 min_height) {
     return best_polygon;
 }
 
-extern u8 upper_draw_context[16];
-
 /* Renders data with the active buffer offset between ordering-table commands. */
 void draw_buffered_textured_quad_pair(void *draw_data, s32 draw_mode)
 {
-    s32 start_packet;
-    s32 end_packet;
+    u8 *start_packet;
+    u8 *end_packet;
     s16 buffer_shift;
     void *ordering_table;
     s32 mode_offset;
     s32 base_offset;
-    void **draw_contexts;
-    void *draw_context;
-    void *end_context;
+    GpuContext **draw_contexts;
+    GpuContext *draw_context;
+    GpuContext *end_context;
 
     draw_context = g_game_work.draw_buffer;
-    draw_contexts = ((void * *)(&g_game_work));
-    buffer_shift = draw_context != (void *)upper_draw_context;
-    start_packet = *(s32 *)((u8 *)draw_context + 0x8D0);
-    ordering_table = (u8 *)draw_context + 0x8B0;
-    *(s32 *)((u8 *)draw_context + 0x8D0) = start_packet + 0xC;
+    draw_contexts = &g_game_work.draw_buffer;
+    buffer_shift = draw_context != upper_draw_context;
+    start_packet = draw_context->packetCursor;
+    ordering_table = &draw_context->orderTag[528];
+    draw_context->packetCursor = start_packet + 0xC;
     SetDrawArea(start_packet, g_game_work.draw_buffer, draw_context);
     {
         void *packet_table;
-        s32 packet_addr;
+        u8 *packet_addr;
 
         packet_table = ordering_table;
         packet_addr = start_packet;
@@ -1301,8 +1299,8 @@ void draw_buffered_textured_quad_pair(void *draw_data, s32 draw_mode)
     build_shaded_textured_quad(base_offset, draw_data, 0, ordering_table);
 
     end_context = *draw_contexts;
-    end_packet = *(s32 *)((u8 *)end_context + 0x8D0);
-    *(s32 *)((u8 *)end_context + 0x8D0) = end_packet + 0xC;
+    end_packet = end_context->packetCursor;
+    end_context->packetCursor = end_packet + 0xC;
     SetDrawArea(end_packet, draw_data);
     AddPrim(ordering_table, end_packet);
 }
@@ -1327,7 +1325,7 @@ static __inline__ u16 translate_x(s32 x, u16 offset) { x -= 0xA0; return offset 
 
 /* Builds and submits a shaded textured quad at the requested screen position. */
 void build_shaded_textured_quad(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth) {
-    Root *root = g_game_work.draw_buffer;
+    GpuContext *root = g_game_work.draw_buffer;
     Record *record;
     Record *quad_packet;
     Input *quad_input = quad_data;
@@ -1343,7 +1341,7 @@ void build_shaded_textured_quad(s32 y_offset, Input *origin, Input *quad_data, s
     s32 neutral_color;
     s32 shade;
 
-    record = root->record;
+    record = root->packetCursor;
     globals = &g_game_work;
     scratch = (Bank56_8196096C_Scratch *)0x1F800000;
     scratch->value = draw_depth;
@@ -1435,7 +1433,7 @@ void build_shaded_textured_quad(s32 y_offset, Input *origin, Input *quad_data, s
     AddPrim(scratch->value, record);
     PopMatrix();
     record = (Record *)((u8 *)record + 0x28);
-    ((Root *)globals->draw_buffer)->record = record;
+    globals->draw_buffer->packetCursor = record;
 }
 
    /* scratch in update_rotating_fading_tile_quad */
@@ -1582,7 +1580,7 @@ s32 project_and_queue_semitransparent_quad(Quad *quad, ObjectPosition *unused, S
     u16 z;
     u16 z3;
 
-    slot = (GpuContext **)&g_game_work;
+    slot = &g_game_work.draw_buffer;
     packet = (*slot)->packetCursor;
     scratch = PACKED_SHADED_QUAD_SCRATCH;
     scratch->ordering_table = (u8 *)&(*slot)->orderTag[GPU_ORDER_DEPTH_BASE];

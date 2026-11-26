@@ -22,6 +22,34 @@ typedef struct RECT {
     s16 h;
 } RECT;
 
+/* Psy-Q DR_ENV: the drawing-environment packet PutDrawEnv sends (a tag word and fifteen command words). */
+typedef struct DR_ENV {
+    u32 tag;
+    u32 code[15];
+} DR_ENV;
+
+/* Psy-Q DRAWENV: the drawing environment SetDefDrawEnv fills and PutDrawEnv applies (0x5C bytes). */
+typedef struct DRAWENV {
+    RECT clip; /* drawing area; SetDrawArea takes it */
+    s16 ofs[2]; /* drawing offset */
+    RECT tw; /* texture window */
+    u16 tpage; /* initial texture page */
+    u8 dtd; /* dither flag */
+    u8 dfe; /* draw-on-display flag */
+    u8 isbg; /* clear the area with the colour below when applied */
+    u8 r0, g0, b0; /* background colour */
+    DR_ENV dr_env;
+} DRAWENV;
+
+/* Psy-Q DISPENV: the display environment SetDefDispEnv fills and PutDispEnv applies (0x14 bytes). */
+typedef struct DISPENV {
+    RECT disp; /* displayed VRAM area */
+    RECT screen; /* output screen position and size */
+    u8 isinter; /* interlace flag */
+    u8 isrgb24; /* 24-bit colour flag */
+    u8 pad0, pad1;
+} DISPENV;
+
 /* Psy-Q DR_MODE: the draw-mode packet SetDrawMode fills (a tag word and two GPU command words). */
 typedef struct DR_MODE {
     u32 tag;

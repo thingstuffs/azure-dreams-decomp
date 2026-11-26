@@ -221,12 +221,12 @@ s32 project_and_queue_shaded_line(void *line, SpriteFrameState *unused_render_co
     s32 depth_or_tag;
     s32 depth_sum;
     u32 *ordering_table;
-    u8 *render_ctx = g_game_work.draw_buffer;
+    GpuContext *render_ctx = g_game_work.draw_buffer;
 
-    scratch->unk_18 = (u32 *)(render_ctx + 0xB0);
-    packet = ((GpuContext *)render_ctx)->packetCursor;
+    scratch->unk_18 = &render_ctx->orderTag[GPU_ORDER_DEPTH_BASE];
+    packet = render_ctx->packetCursor;
     line_or_red = line_bytes;
-    ((GpuContext *)render_ctx)->packetCursor = (u8 *)packet + 0x14;
+    render_ctx->packetCursor = (u8 *)packet + 0x14;
 
     packet->unk_00.at03.v = 4;
     packet->unk_07 = 0x50;

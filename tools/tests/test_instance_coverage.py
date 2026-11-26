@@ -107,11 +107,15 @@ class CoverageTests(unittest.TestCase):
         image = report['containers']['dungeon']['whole_image']
         self.assertEqual((image['compressed_code_stream'], image['unknown'], image['c_rows']), (9, 51, 30))
         self.assertEqual(report['decoded_images']['dungeon/sample']['bytes_with_c'], 20)
+        (self.root / 'tools').mkdir()
+        (self.root / 'tools/coverage.py').write_bytes((LANE / 'tools/coverage.py').read_bytes())
         for changed in ({'retail_sha256': '2' * 64}, {'foff': 33}, {'size': 8},
                         {'decoded_manifest': 'config/decoded/other.json'}):
             write(self.led / 'coverage_regions.jsonl', [dict(row, **changed)])
             with self.subTest(changed=changed):
                 with self.assertRaisesRegex(ValueError, 'differs from decoded manifest'):
                     C.coverage(self.root)
+                with self.assertRaisesRegex(ValueError, 'differs from decoded manifest'):
+                    status.coverage_summary(self.root)
 
 if __name__=='__main__':unittest.main()

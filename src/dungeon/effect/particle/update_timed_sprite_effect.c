@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "shared/audio_commands.h"
 /* Projectile movement and impact sequencing with projected textured sprite animation. */
 #include "modules/dungeon_ovl_1858800.h"
@@ -324,8 +325,8 @@ next_record:
         s32 tex_v;
         s32 ot_offset;
 
-        poly = (POLY_FT4 *)((RenderContext *)render_state->draw_buffer)->next_prim;
-        ((RenderContext *)render_state->draw_buffer)->next_prim = (u8 *)poly + sizeof(POLY_FT4);
+        poly = render_state->draw_buffer->packetCursor;
+        render_state->draw_buffer->packetCursor = (u8 *)poly + sizeof(POLY_FT4);
         *(u32 *)&poly->r0 = 0x00808080;
         SetPolyFT4(poly);
         SetSemiTrans(poly, 1);
@@ -348,10 +349,10 @@ next_record:
         poly->v1 = poly->v3 = tex_v - 97;
 
         poly->tag = (poly->tag & 0xFF000000) |
-                    (*(u32 *)((u8 *)((RenderContext *)render_state->draw_buffer) + 0xB0 + ot_offset) &
+                    (*(u32 *)((u8 *)&render_state->draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE] + ot_offset) &
                      0x00FFFFFF);
-        *(u32 *)((u8 *)((RenderContext *)render_state->draw_buffer) + 0xB0 + ot_offset) =
-            (*(u32 *)((u8 *)((RenderContext *)render_state->draw_buffer) + 0xB0 + ot_offset) & 0xFF000000) |
+        *(u32 *)((u8 *)&render_state->draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE] + ot_offset) =
+            (*(u32 *)((u8 *)&render_state->draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE] + ot_offset) & 0xFF000000) |
             ((u32)poly & 0x00FFFFFF);
     }
 

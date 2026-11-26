@@ -35,7 +35,7 @@ void draw_window_rects(DRAW_DESC *desc) {
     owner = desc->owner;
     textured = &desc->textured;
     solid = &desc->solid;
-    displays = (GpuContext **)&g_game_work;
+    displays = &g_game_work.draw_buffer;
 
     vertices[0].vx = vertices[2].vx = textured->x;
     vertices[1].vx = vertices[3].vx = textured->x + textured->width;
@@ -78,7 +78,7 @@ void draw_window_rects(DRAW_DESC *desc) {
         *(u32 *)&tex_quad->x2 = *(u32 *)&projected[2];
         /* BYTES: retail copies the packed screen XY word with one lw/sw; member copies compile to two lh/sh */
         *(u32 *)&tex_quad->x3 = *(u32 *)&projected[3];
-        AddPrim(g_game_work.draw_buffer + 0x70 + (*(s32 *)((u8 *)owner + 0x60) * 4), tex_quad);
+        AddPrim(&g_game_work.draw_buffer->orderTag[*(s32 *)((u8 *)owner + 0x60)], tex_quad);
     }
 
     vertices[0].vx = vertices[2].vx = solid->x;

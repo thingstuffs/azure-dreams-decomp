@@ -20,7 +20,7 @@ void render_cd_wait_animation_on_new_field(void)
         u8 field_id = (u8)((u32)VSync(1) >> 8);
 
         if (field_id != scene_sprite_last_field) {
-            u8 *next_buffer;
+            GpuContext *next_buffer;
             s32 layer;
             s32 trig_value;
             s32 wave_offset;
@@ -32,10 +32,10 @@ void render_cd_wait_animation_on_new_field(void)
 
             next_buffer = upper_draw_context;
             if (*draw_buffer == upper_draw_context) {
-                next_buffer += 0x108D4;
+                next_buffer++;
             }
             g_game_work[0] = next_buffer;
-            *(u32 *)(next_buffer + 0x8D0) = (u32)next_buffer + 0x8D4;
+            next_buffer->packetCursor = next_buffer->packets;
 
             if (scene_sprite_cached_mode != scene_sprite_mode_word[0]) {
                 scene_sprite_cached_mode = scene_sprite_mode_word[0];

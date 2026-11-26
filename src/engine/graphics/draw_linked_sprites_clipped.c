@@ -18,7 +18,7 @@ s32 draw_linked_sprites_clipped(u8 *first_data, struct ObjectPosition *position,
     do {
         if (!(value_record->flags & 0x80)) {
             draw_sprite_clipped(link_data, position, value_record, value_record->depth_bias);
-            if (is_frame_packet_arena_overflowed(((GpuContext *)g_game_work.draw_buffer)->packetCursor)) {
+            if (is_frame_packet_arena_overflowed(g_game_work.draw_buffer->packetCursor)) {
                 return 0;
             }
         }

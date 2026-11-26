@@ -72,7 +72,7 @@ extern void start_cd_read(u32 *, s32);
 extern void func_80053CFC(u32 *, s32);
 extern s32 func_8008AC84(s32);
 extern s32 town_resource_buffer;
-void copy_words_backward_from_offset(s32 dest_addr, s32 src_addr, s32 byte_count);
+void copy_words_backward_from_offset(u8 *dest_addr, u8 *src_addr, s32 byte_count);
 s32 sum_resource_bytes(s32 entry_count);
 s32 find_resource_index_by_key(s32 first_byte, s32 second_byte, s32 halfword_value);
 void shift_resource_entries_and_data(s32 record_count, s32 data_offset);

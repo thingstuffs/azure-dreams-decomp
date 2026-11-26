@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "dungeon/level/tile_flags.h"
 #include "shared/object_node_flags.h"
 #include "shared/audio_commands.h"
@@ -157,7 +158,7 @@ void *create_blue_decelerating_sprite(s32 object_id, ObjectPosition *initial_dat
 void create_counted_sprite_effect(void *context, s32 unused, Row_81916C1C_Arg81916C1C *countdown)
 {
     Row_81916C1C_Inner81916C1C *tick_state;
-    Row_81916C1C_State81916C1C *render_state;
+    GpuContext *render_state;
     Row_81916C1C_Prim81916C1C *prim;
     s32 step;
     s8 x_value;
@@ -166,8 +167,8 @@ void create_counted_sprite_effect(void *context, s32 unused, Row_81916C1C_Arg819
     tick_state = *(Row_81916C1C_Inner81916C1C **)context;
     tick_state->counter++;
     render_state = g_game_work.draw_buffer;
-    prim = render_state->next;
-    render_state->next = prim + 1;
+    prim = render_state->packetCursor;
+    render_state->packetCursor = prim + 1;
     prim->x3 = 0x140;
     prim->x2 = 0;
     prim->y2 = 0;
@@ -179,7 +180,7 @@ void create_counted_sprite_effect(void *context, s32 unused, Row_81916C1C_Arg819
     prim->x0 = x_value;
     SetTile(prim, step);
     prim->flags |= 2;
-    AddPrim((u8 *)g_game_work.draw_buffer + 0xB0, prim);
+    AddPrim(&g_game_work.draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE], prim);
     remaining = (u8)countdown->count - 1;
     countdown->count = remaining;
     if ((remaining << 24) == 0) {

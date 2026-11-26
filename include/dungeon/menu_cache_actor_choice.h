@@ -183,7 +183,7 @@ void poll_cached_actor_message_switch(CachedActorMessage *message);
 ObjectNodeHeader *create_cached_actor_message(ObjectNodeHeader *owner);
 
 void poll_familiar_behavior_panel(CachedFamiliarBehaviorPanel *panel);
-void update_cached_familiar_behavior_motion(CachedFamiliarBehaviorPanel *panel);
+void update_familiar_behavior_motion(CachedFamiliarBehaviorPanel *panel);
 void bind_familiar_behavior_vectors(ItemMenuPart **parts, DisplayPositionWords **banks,
                                              DisplayPositionWords *common);
 extern SpritePartCommand cached_behavior_header_graphic[];

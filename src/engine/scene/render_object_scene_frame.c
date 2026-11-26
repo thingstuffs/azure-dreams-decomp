@@ -17,11 +17,11 @@
 /* Draw the current frame, swap draw buffers, and wait for optional vertical synchronization. */
 void render_object_scene_frame(void)
 {
-    u8 *next_buffer;
+    GpuContext *next_buffer;
 
-    PutDispEnv((u8 *)g_game_work.draw_buffer + 0x5C);
-    PutDrawEnv(g_game_work.draw_buffer);
-    DrawOTag((u8 *)g_game_work.draw_buffer + 0x8CC);
+    PutDispEnv(&g_game_work.draw_buffer->disp);
+    PutDrawEnv(&g_game_work.draw_buffer->draw);
+    DrawOTag(&g_game_work.draw_buffer->orderTag[0x218 - 1]);
     service_cd_command_queue();
     drain_audio_commands_and_service_channels();
     gpu_scratch_write_pointer = gpu_scratch_buffer_base;
@@ -29,13 +29,13 @@ void render_object_scene_frame(void)
     update_controller_buttons_and_triggers();
     next_buffer = upper_draw_context;
     if (g_game_work.draw_buffer == next_buffer) {
-        next_buffer += 0x108D4;
+        next_buffer++;
     }
     g_game_work.draw_buffer = next_buffer;
-    ClearOTagR((u32 *)(next_buffer + 0x70), 0x218);
+    ClearOTagR(next_buffer->orderTag, 0x218);
     {
         GpuContext *frame = g_game_work.draw_buffer;
-        frame->packetCursor = (u8 *)frame + 0x8D4;
+        frame->packetCursor = frame->packets;
     }
     tick_screen_fade_slots();
     update_active_nodes();

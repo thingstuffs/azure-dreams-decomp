@@ -1,10 +1,12 @@
 /* Processes circular segments and projects depth strips and quads. */
+#include "shared/gpu_packets.h"
 #include "dungeon/actor/depth_strip_projection_g00337.h"
 #include "dungeon/actor.h"
 
 /* Processes circular segments in both directions and saves the last successful result. */
 s32 process_circular_segments(Arg0_800AFBFC *shape, ObjectPosition *unused, Arg2_800AFBFC *segment) {
-    s32 last_result = 0;
+    u8 *last_result = 0;
+    u8 *cursor;
     s32 result;
     s16 angle;
     s16 next_angle;
@@ -14,7 +16,7 @@ s32 process_circular_segments(Arg0_800AFBFC *shape, ObjectPosition *unused, Arg2
     s16 coord;
     s16 *scratch = (s16 *)0x1F800000;
     GameWork *gw = &g_game_work;
-    State_80083160 *state;
+    GpuContext *state;
     s16 start_angle;
     void *segment_data;
     s32 rotation;
@@ -24,8 +26,8 @@ s32 process_circular_segments(Arg0_800AFBFC *shape, ObjectPosition *unused, Arg2
     s32 offset_y;
 
     state = gw->draw_buffer;
-    last_result = state->value;
-    ((ScratchHeader_800AFBFC *)scratch)->state_data = (u8 *)state + 0x8b0;
+    last_result = state->packetCursor;
+    ((ScratchHeader_800AFBFC *)scratch)->state_data = &state->orderTag[528];
     segment_data = segment->temp;
     ((ScratchHeader_800AFBFC *)scratch)->segment_data = segment_data;
     offset_x = ((u16)gw->view.view_offset.parts.view_offset_x);
@@ -79,11 +81,11 @@ s32 process_circular_segments(Arg0_800AFBFC *shape, ObjectPosition *unused, Arg2
             scratch[0x78 / 2] = coord;
             scratch[0x8a / 2] = end_y;
             scratch[0x7a / 2] = end_y;
-            result = project_depth_strips_and_quads((void *)call_value, call_segment, call_scratch, last_result, 0);
+            cursor = project_depth_strips_and_quads((void *)call_value, call_segment, call_scratch, last_result, 0);
             next_angle += 0x80;
-            if (result == 0)
+            if (cursor == 0)
                 break;
-            last_result = result;
+            last_result = cursor;
             angle_step = next_angle;
             scratch[0x80 / 2] = coord;
             scratch[0x70 / 2] = coord;
@@ -97,10 +99,10 @@ s32 process_circular_segments(Arg0_800AFBFC *shape, ObjectPosition *unused, Arg2
             scratch[0x78 / 2] = end_x;
             scratch[0x8a / 2] = scaled_coord;
             scratch[0x7a / 2] = scaled_coord;
-            result = project_depth_strips_and_quads(shape, segment, scratch, last_result, 1);
-            if (result == 0)
+            cursor = project_depth_strips_and_quads(shape, segment, scratch, last_result, 1);
+            if (cursor == 0)
                 break;
-            last_result = result;
+            last_result = cursor;
         }
     }
 
@@ -110,7 +112,7 @@ s32 process_circular_segments(Arg0_800AFBFC *shape, ObjectPosition *unused, Arg2
         s32 call_value;
         void *call_segment;
         s16 *call_scratch;
-        s32 call_previous;
+        u8 *call_previous;
         s32 scaled_coord;
         s32 end_x;
         angle = start_angle;
@@ -140,11 +142,11 @@ s32 process_circular_segments(Arg0_800AFBFC *shape, ObjectPosition *unused, Arg2
             scratch[0x70 / 2] = coord;
             scratch[0x82 / 2] = segment_end_y;
             scratch[0x72 / 2] = segment_end_y;
-            result = project_depth_strips_and_quads((void *)call_value, call_segment, call_scratch, call_previous, 1);
+            cursor = project_depth_strips_and_quads((void *)call_value, call_segment, call_scratch, call_previous, 1);
             next_angle -= 0x80;
-            if (result == 0)
+            if (cursor == 0)
                 break;
-            last_result = result;
+            last_result = cursor;
             start_angle = next_angle;
             scratch[0x88 / 2] = coord;
             scratch[0x78 / 2] = coord;
@@ -163,23 +165,23 @@ s32 process_circular_segments(Arg0_800AFBFC *shape, ObjectPosition *unused, Arg2
             scratch[0x82 / 2] = scaled_coord;
             scratch[0x72 / 2] = scaled_coord;
             next_angle = 0;
-            result = project_depth_strips_and_quads((void *)call_value, call_segment, call_scratch, call_previous, next_angle);
-            if (result == 0)
+            cursor = project_depth_strips_and_quads((void *)call_value, call_segment, call_scratch, call_previous, next_angle);
+            if (cursor == 0)
                 break;
-            last_result = result;
+            last_result = cursor;
         }
     }
     {
-        State_80083160 *final_state;
+        GpuContext *final_state;
         final_state = gw->draw_buffer;
         result = 0;
-        final_state->value = last_result;
+        final_state->packetCursor = last_result;
     }
     return result;
 }
 
 /* Projects depth strips and queues visible textured quad pairs with distance shading. */
-s32 project_depth_strips_and_quads(S_800AFFB4_0 *origin, void *unused, S_800AFFB4_1 *render_data_in, u8 *packet_buffer, s16 texture_arg) {
+u8 *project_depth_strips_and_quads(S_800AFFB4_0 *origin, void *unused, S_800AFFB4_1 *render_data_in, u8 *packet_buffer, s16 texture_arg) {
     s32 depth_step;
     u32 cached_v;
     s32 shade_uv;
@@ -414,9 +416,11 @@ s32 project_depth_strips_and_quads(S_800AFFB4_0 *origin, void *unused, S_800AFFB
             }
         }
     }
-    coord_bits = 0;
-    if (visible_strips != 0) {
-        coord_bits = (s32)packet_buffer;
+    {
+        u8 *end_cursor = 0;
+        if (visible_strips != 0) {
+            end_cursor = packet_buffer;
+        }
+        return end_cursor;
     }
-    return coord_bits;
 }

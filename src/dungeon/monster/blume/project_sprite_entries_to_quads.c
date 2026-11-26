@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "sdk/libgpu.h"
 #include "dungeon/monster/blume/project_sprite_entries_to_quads.h"
 #include "dungeon/monster/garuda.h"
@@ -37,7 +38,7 @@ void project_sprite_entries_to_quads(T_80170874_S_80DB9000_1 *sprite_size, T_801
     u32 depth_scaled;
     register u32 coord_offset;
     u32 uv_right;
-    T_80170874_S_80DB9000_6 *state;
+    GpuContext *state;
     s16 screen_offset;
     s16 screen_offset_2;
     register u32 coord_value;
@@ -58,11 +59,11 @@ void project_sprite_entries_to_quads(T_80170874_S_80DB9000_1 *sprite_size, T_801
     scratch_page->unk_C4 = 0;
     scratch_page->unk_BC = 0;
     scratch_page->unk_B4 = 0;
-    scratch_page->unk_24 = (u8 *)state + 0xB0;
+    scratch_page->unk_24 = (u8 *)&state->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch_page->unk_04 = position->unk_02;
     scratch_page->unk_06 = position->unk_06;
     scratch_page->unk_08 = position->unk_0A;
-    packet = state->unk_8D0;
+    packet = state->packetCursor;
     render_state = &g_game_work;
     scratch_page->unk_100 = RotTransPers(&scratch_page->unk_04, &scratch_page->origin.word, &scratch_page->transform_p, &scratch_page->transform_flags);
     sprite->unk_14 = (u16)(sprite->unk_14 | 0x8000);
@@ -277,5 +278,5 @@ void project_sprite_entries_to_quads(T_80170874_S_80DB9000_1 *sprite_size, T_801
         }
         PopMatrix();
     }
-    ((T_80170874_S_80DB9000_6 *)render_state->draw_buffer)->unk_8D0 = packet;
+    render_state->draw_buffer->packetCursor = packet;
 }

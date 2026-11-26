@@ -93,10 +93,6 @@ typedef struct S_func_800AED64_5 {
     u8 unk_3185;
 } S_func_800AED64_5;
 
-typedef struct S_func_800AED64_6 {
-    u8 pad_00[0x8D0];
-    u32 unk_8D0;
-} S_func_800AED64_6;
 
 /* The tile-texture setter fills these fields in the order copied to a textured quad. */
 typedef struct MapTileTextureCoords {
@@ -204,10 +200,6 @@ typedef struct S_800AD138_4 {
 } S_800AD138_4;
 
 /* (void *)((MapQuadScratch *)scratch)->chain_address in draw_empty_map_cell_quads */
-typedef struct S_800AD138_5 {
-    u8 pad_00[0x8D0];
-    s32 * unk_8D0;
-} S_800AD138_5;
 
 /* ((S_800AD138_1 *)state)->unk_00 in draw_empty_map_cell_quads */
 typedef struct MapQuadTextureWords {

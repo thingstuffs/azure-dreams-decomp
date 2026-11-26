@@ -55,7 +55,7 @@ void draw_fading_flickering_triangle(FadingTriangleEffectBody *effect)
         (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     } else {
-        render_state = (GpuContext *)(*(u8 **)&g_game_work.draw_buffer);
+        render_state = g_game_work.draw_buffer;
         triangle = (FlickeringTrianglePacket *)render_state->packetCursor;
         render_state->packetCursor = (u8 *)triangle + 0x24;
 
@@ -102,20 +102,20 @@ void draw_fading_flickering_triangle(FadingTriangleEffectBody *effect)
         (*(s16 *)((u8 *)&triangle->y2)) =
             (effect->triangle_width * rcos((s16)angle)) / 4096;
 
-        render_state = (GpuContext *)(*(u8 **)&g_game_work.draw_buffer);
+        render_state = g_game_work.draw_buffer;
         draw_packet = render_state->packetCursor;
         render_state->packetCursor = draw_packet + 1;
         draw_page = GetTPage(0, 0, 0x140, 0);
         SetDrawMode(draw_packet, 0, 0, draw_page & 0xFFFF, 0);
-        AddPrim(*(u8 **)&g_game_work.draw_buffer + 0xD8, draw_packet);
+        AddPrim(&g_game_work.draw_buffer->orderTag[26], draw_packet);
 
-        AddPrim(*(u8 **)&g_game_work.draw_buffer + 0xD8, triangle);
+        AddPrim(&g_game_work.draw_buffer->orderTag[26], triangle);
 
-        render_state = (GpuContext *)(*(u8 **)&g_game_work.draw_buffer);
+        render_state = g_game_work.draw_buffer;
         draw_packet = render_state->packetCursor;
         render_state->packetCursor = draw_packet + 1;
         draw_page = GetTPage(0, 1, 0x140, 0);
         SetDrawMode(draw_packet, 0, 0, draw_page & 0xFFFF, 0);
-        AddPrim(*(u8 **)&g_game_work.draw_buffer + 0xD8, draw_packet);
+        AddPrim(&g_game_work.draw_buffer->orderTag[26], draw_packet);
     }
 }

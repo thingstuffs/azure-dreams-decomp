@@ -4,6 +4,7 @@
 #include "common.h"
 #include "slus/data.h"
 #include "shared/game_work.h"
+#include "shared/gpu_packets.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 #include "dungeon/actor/effect.h"
@@ -70,11 +71,6 @@ typedef struct S_func_800CDFD8_1 {
 } S_func_800CDFD8_1;
 
 
-
-typedef struct S_func_800CDFD8_3 {
-    u8 pad_00[0x8D0];
-    void * unk_8D0;
-} S_func_800CDFD8_3;
 
 
 typedef struct S_func_800CDFD8_6 {
@@ -191,7 +187,7 @@ void render_actor_sprite_parts(void *unused, MovingPosition *position, SpriteFra
     S_func_800CDFD8_7 *part;
     GameWork *render_state;
     S_func_800CDFD8_9 *packet;
-    S_func_800CDFD8_3 *render_root;
+    GpuContext *render_root;
     s32 camera_rot_x;
     s32 camera_rot_y;
     s32 camera_rot_z;
@@ -216,7 +212,7 @@ void render_actor_sprite_parts(void *unused, MovingPosition *position, SpriteFra
     scratch->unk_00 = position->x;
     scratch->unk_02 = position->y;
     scratch->unk_04 = position->z;
-    packet = render_root->unk_8D0;
+    packet = render_root->packetCursor;
     scratch->unk_C0 = RotTransPers((void *)0x1F800000, (void *)0x1F8000B8, (void *)0x1F800090, (void *)0x1F800094);
     sprite->flags |= 0x8000;
     depth = scratch->unk_C0;
@@ -450,5 +446,5 @@ void render_actor_sprite_parts(void *unused, MovingPosition *position, SpriteFra
         }
         PopMatrix();
     }
-    ((S_func_800CDFD8_3 *)render_state->draw_buffer)->unk_8D0 = packet;
+    render_state->draw_buffer->packetCursor = packet;
 }

@@ -8,6 +8,7 @@ struct ObjectNodeHeader;
 #include "common.h"
 #include "engine/menu/selection_menu.h"
 #include "shared/gpu_packets.h"
+#include "sdk/libgpu_types.h"
 
 struct ObjA464;
 struct AnimatedMenuPanelBody;
@@ -131,8 +132,8 @@ void handle_selection_menu_input(void *object);
 void *init_paired_packet_records(void *record, const void *source);
 
 /* init_packet_pair_and_gradient.c */
-void func_80049D80(void *record_pair, const void *init_data);
-void init_packet_pair_and_gradient(void *record_pair, const void *init_data);
+void func_80049D80(u8 *packets, const RECT *rect);
+void init_packet_pair_and_gradient(u8 *packets, const RECT *rect);
 
 /* initialize_menu_backdrop_display_nodes.c */
 void initialize_menu_backdrop_display_nodes(SevenEntryMenuBackdropBody *body, s32 node_count);

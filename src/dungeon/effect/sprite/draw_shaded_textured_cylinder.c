@@ -21,7 +21,7 @@ s32 draw_shaded_textured_cylinder(B22_81893474_EffectState *unused_data, MovingP
     s16 segment;
     GameWork *game = &g_game_work;
 
-    scratch->ordering_table = &((GpuContext *)game->draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE];
+    scratch->ordering_table = &game->draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE];
     edge_z = center->z - height + 1;
     scratch->vertices[1].vz = edge_z;
     scratch->vertices[0].vz = edge_z;

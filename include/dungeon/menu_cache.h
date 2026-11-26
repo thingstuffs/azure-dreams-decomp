@@ -9,8 +9,19 @@
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 #include "shared/item_menu.h"
+#include "shared/resident_resources.h"
 #include "shared/sprite_part_command.h"
 #include "town/shop/object.h"
+
+static inline s32 fade_cached_menu_highlight(s32 shade)
+{
+    return shade ? shade - 1 : shade;
+}
+
+static inline s32 brighten_cached_menu_highlight(s32 shade, s32 frames, s32 tick)
+{
+    return shade + (8 - shade) / (frames - tick + 1);
+}
 
 /* Only this player body uses both scratch pointers as indexed familiar links. */
 static inline ActorRecord *read_cached_familiar_link(const u8 *actor_base)
@@ -115,7 +126,6 @@ void layout_item_menu_lower_pair_columns(ItemMenuPart **parts);
 CachedItemDisplayNode *create_item_display(ObjectNodeHeader *owner);
 CachedItemDisplayNode *create_open_item_display(ObjectNodeHeader *owner);
 void update_item_page_bounds(MenuPanelState *display);
-extern u8 cached_item_secondary_cursor[];
 CachedMenuRetryResult retry_item_pair_open(MenuPanelState *display);
 CachedMenuRetryResult open_item_display_selection_action(MenuPanelState *display);
 void advance_item_display_resume(MenuPanelState *display);

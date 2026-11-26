@@ -45,7 +45,7 @@ typedef struct S_800C55F4_0 {
 
 typedef struct S_800C55F4_1 {
     u8 pad_00[0x20];
-    u8 * unk_20;
+    u32 *ordering_table; /* the current draw context's depth buckets */
     u8 pad_24[0x4];
     s16 unk_28;
     s16 unk_2A;
@@ -125,7 +125,7 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
     u8 *vertices;
     Face *face;
     u8 *packet_code;
-    u8 *render_state;
+    GpuContext *render_state;
     u8 *packet;
     u8 *prim;
     u8 packet_flags;
@@ -189,8 +189,8 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
     SetRotMatrix(&scratch->composed_matrix);
 
     render_state = global_base->draw_buffer;
-    scratch->unk_20 = render_state + 0xB0;
-    prim = ((GpuContext *)render_state)->packetCursor;
+    scratch->ordering_table = &render_state->orderTag[GPU_ORDER_DEPTH_BASE];
+    prim = render_state->packetCursor;
     packet_code = prim + 7;
     sprite->flags |= 0x8000;
 
@@ -316,16 +316,14 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
                 prim += 0x1C;
                 ((S_800C55F4_4 *)packet_code)->unk_00 = packet_flags | 2;
                 packet_code += 0x1C;
-                AddPrim(scratch->unk_20 +
-                              (scratch->unk_C0 << 2), packet);
+                AddPrim(scratch->ordering_table + scratch->unk_C0, packet);
 
                 packet_code += 0xC;
                 sprite->flags &= 0x7FFF;
                 SetDrawMode(prim, 0, 0, 0, 0);
                 packet = prim;
                 prim += 0xC;
-                AddPrim(scratch->unk_20 +
-                              (scratch->unk_C0 << 2), packet);
+                AddPrim(scratch->ordering_table + scratch->unk_C0, packet);
             }
         }
 
@@ -337,7 +335,7 @@ void transform_mesh_and_append_draw_packets(u8 *params, ObjectPosition *record_a
         break;
     }
     PopMatrix();
-    ((GpuContext *)(((u8 *)global_base->draw_buffer)))->packetCursor = prim;
+    global_base->draw_buffer->packetCursor = prim;
 }
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -1303,7 +1301,7 @@ void draw_sprite_parts_as_quad_grid(ActorRecord *context, ObjectPosition *positi
         } while (part_flags >= 0);
         PopMatrix();
     }
-    ((GpuContext *)render_globals->draw_buffer)->packetCursor = packet_next;
+    render_globals->draw_buffer->packetCursor = packet_next;
 }
 
 typedef struct {

@@ -53,9 +53,9 @@ typedef struct S_80166968_5 {
 void draw_ribbon_center_lines(RibbonLineGeometry *geometry, ObjectPosition *position, SpriteFrameState *render_data, s32 depth_bias)
 {
     S_80166968_0 *scratch = (S_80166968_0 *)0x1F800000;
-    u8 *render_state = g_game_work.draw_buffer;
+    GpuContext *render_state = g_game_work.draw_buffer;
     u32 draw_flags;
-    void **render_state_ref;
+    GpuContext **render_state_ref;
     S_80166968_5 *packet;
     s8 *texture_entry;
     u32 color;
@@ -77,7 +77,8 @@ void draw_ribbon_center_lines(RibbonLineGeometry *geometry, ObjectPosition *posi
     s32 saved_depth_bias;
     MATRIX matrix;
 
-    scratch->unk_24 = render_state + 0xB0;
+    /* BYTES: the bucket base is kept as a byte pointer; indexing it as words moves loads */
+    scratch->unk_24 = (u8 *)&render_state->orderTag[GPU_ORDER_DEPTH_BASE];
     address_mask = 0x00FFFFFF;
     scratch->object_matrix.t[0] = position->x.w.i;
     scratch->object_matrix.t[1] = position->y.w.i;
@@ -105,8 +106,8 @@ void draw_ribbon_center_lines(RibbonLineGeometry *geometry, ObjectPosition *posi
     scratch->unk_28 = render_data->flags;
 
     for (;;) {
-        packet = ((GpuContext *)(*render_state_ref))->packetCursor;
-        ((GpuContext *)(*render_state_ref))->packetCursor = (u8 *)packet + 0x10;
+        packet = (*render_state_ref)->packetCursor;
+        (*render_state_ref)->packetCursor = (u8 *)packet + 0x10;
 
         point_a = &scratch->points[0];
         mid_a_x = (geometry->unk_74 + geometry->unk_7A) / 2;
@@ -161,8 +162,8 @@ void draw_ribbon_center_lines(RibbonLineGeometry *geometry, ObjectPosition *posi
                 + scratch->unk_100 * 4)) & length_mask) |
             ((u32)packet & address_mask);
 
-        packet = ((GpuContext *)(*render_state_ref))->packetCursor;
-        ((GpuContext *)(*render_state_ref))->packetCursor = (u8 *)packet + 0xC;
+        packet = (*render_state_ref)->packetCursor;
+        (*render_state_ref)->packetCursor = (u8 *)packet + 0xC;
         SetDrawMode(packet, zero, zero, GetTPage(zero, 1, zero, zero) & 0xFFFF, zero);
 
         packet->unk_00.at00.v = (packet->unk_00.at00.v & length_mask) |

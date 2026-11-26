@@ -1,4 +1,5 @@
 #include "dungeon/player/held_item_kind_data.h"
+#include "shared/gpu_packets.h"
 #include "dungeon/player/camera_depth_presets_data.h"
 #include "shared/dungeon_floor.h"
 #include "shared/actor_property_flags.h"
@@ -61,9 +62,9 @@ void init_dungeon_view(void) {
     *(s32 *)(view_state + 0x84) = 0x1000;
     SetFogFar(0x1000, *(s32 *)(view_state + 0x88));
     SetBackColor(0xA0, 0xA0, 0xA0);
-    upper_draw_context.red = 0;
-    upper_draw_context.green = 0;
-    upper_draw_context.blue = 0;
+    upper_draw_context[0].draw.r0 = 0;
+    upper_draw_context[0].draw.g0 = 0;
+    upper_draw_context[0].draw.b0 = 0;
     lower_draw_context.red = 0;
     lower_draw_context.green = 0;
     lower_draw_context.blue = 0;

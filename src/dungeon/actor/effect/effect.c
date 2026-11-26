@@ -827,7 +827,7 @@ s32 render_floor_items(s32 unused0, ObjectPosition *unused1, SpriteFrameState *r
         }
         entity_index += 1;
     } while (entity_index < 64);
-    ((GpuContext *)render_state->draw_buffer)->packetCursor = prim;
+    render_state->draw_buffer->packetCursor = prim;
     return 0;
 }
 #include "shared/slus_callbacks.h"

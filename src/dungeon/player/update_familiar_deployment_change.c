@@ -96,7 +96,7 @@ void update_familiar_deployment_change(ActorRecord *actor, ObjectPosition *map, 
     s32 object_slot;
     u8 state;
     u8 next_state;
-    void *new_object;
+    ActorRecord *new_object;
     void *selected_object;
     void *old_object;
     ObjectStatusPrefix16 *removed_object;
@@ -211,11 +211,11 @@ void update_familiar_deployment_change(ActorRecord *actor, ObjectPosition *map, 
                 object_position->x.unsigned_parts.integer = (u16) map->x.w.i;
                 object_position->y.unsigned_parts.integer = (u16) map->y.w.i;
                 object_position->z.w.i = (s16) (map->z.w.i - 0x10);
-                func_80042640(new_object, ((ActorRecord *)new_object)->species);
-                apply_actor_template_and_class(new_object, ((ActorRecord *)new_object)->species, *message_or_list.base);
-                object_flags = ((ActorRecord *)new_object)->flags1C;
+                func_80042640(new_object, new_object->species);
+                apply_actor_template_and_class(new_object, new_object->species, *message_or_list.base);
+                object_flags = new_object->flags1C;
                 object_slot = familiar_deployment_slots.slot;
-                ((ActorRecord *)new_object)->flags1C = object_flags | 0x02000000;
+                new_object->flags1C = object_flags | 0x02000000;
                 ((S_8009345C_14 *)(((object_slot * 4) + (u8 *)actor)))->unk_D0 = selected_item_record_alias.item;
                 selected_item_record_alias.item->unk_03 = (u8) (selected_item_record_alias.item->unk_03 | 0x20);
                 message_or_list.text = get_unused_text_buffer();

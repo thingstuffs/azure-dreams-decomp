@@ -102,10 +102,6 @@ typedef struct TimedTransformCopyEffectBody {
     union { u16 frame_count; s16 base_height; } frame;
     s16 frame_limit;
 } TimedTransformCopyEffectBody;
-typedef struct B22_81892C5C_S_81892C5C_3 {
-    u8 pad_00[0x8D0];
-    void * unk_8D0;
-} B22_81892C5C_S_81892C5C_3;
 typedef struct B22_81892C5C_S_81892C5C_4 {
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_00;   /* overlapping accesses */
     u8 unk_04;
@@ -120,10 +116,6 @@ typedef struct B22_81892C5C_S_81892C5C_4 {
     u16 unk_12;
     u32 unk_14;
 } B22_81892C5C_S_81892C5C_4;
-typedef struct B22_81892C5C_S_81892C5C_5 {
-    u8 pad_00[0x8D0];
-    void * unk_8D0;
-} B22_81892C5C_S_81892C5C_5;
 struct B22_81892C5C_OtCtxS { void *cur; };
 typedef struct B22_81892BF8_S_81892BF8_1 {
     u8 pad_00[0x14];

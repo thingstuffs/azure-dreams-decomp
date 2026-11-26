@@ -261,7 +261,7 @@ s32 draw_brightness_scaled_point_chain(PointRecord *first_point, ObjectPosition 
         break;
     }
 
-    ((GpuContext *)render_state->draw_buffer)->packetCursor = scratch->cursor;
+    render_state->draw_buffer->packetCursor = scratch->cursor;
     return 0;
 }
 

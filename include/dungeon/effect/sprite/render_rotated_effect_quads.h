@@ -17,12 +17,6 @@
 typedef struct { s32 w[4]; } Blk16;
 typedef struct { s32 w[2]; } Blk8;
 /* Draws a transformed sprite as horizontally displaced scanline quads. */
-typedef struct Row_818ED25C_S_80024A5C_0 {
-    u8 pad_00[0x8B0];
-    u32 unk_8B0;
-    u8 pad_8B4[0x1C];
-    u8 * unk_8D0;
-} Row_818ED25C_S_80024A5C_0;   /* ctx in func_80024A5C */
 
 typedef struct Row_818ED25C_S_80024A5C_1 {
     u32 unk_00;
@@ -33,10 +27,6 @@ typedef struct Row_818ED25C_S_80024A5C_2 {
     s16 unk_02;
 } Row_818ED25C_S_80024A5C_2;   /* work in func_80024A5C */
 
-typedef struct Row_818ED25C_S_80024A5C_3 {
-    u8 pad_00[0x8D0];
-    u8 * unk_8D0;
-} Row_818ED25C_S_80024A5C_3;   /* ctx2 in func_80024A5C */
 
 typedef struct Row_818ED25C_S_80024A5C_4 {
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; s8 v; } at03; } unk_00;   /* overlapping accesses */
@@ -65,7 +55,6 @@ typedef struct Row_818ED25C_S_80024A5C_7 {
  * reproduce the retail allocation and call-argument order. */
 void PushMatrix();
 void PopMatrix();
-extern u8 upper_draw_context[16];
 void render_rotated_effect_quads(void *screen_pos, void *effect, u32 *ordering_tag, u32 draw_mode);
 void draw_effect_and_restore_clip(s32 draw_data, Row_818ED25C_S_80024A5C_5 *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param);
 #endif

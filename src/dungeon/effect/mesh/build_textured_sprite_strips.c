@@ -506,12 +506,12 @@ void draw_clipped_sprite_strips(s32 draw_data, ScreenRect *clip_rect, Point *scr
 
     draw_page = g_game_work.draw_buffer;
     clip_packet = draw_page->packetCursor;
-    offset_y = (void *)draw_page != (void *)upper_draw_context;
+    offset_y = draw_page != upper_draw_context;
     draw_page->packetCursor = clip_packet + 0xC;
     saved_param = draw_param;
     clear_enabled = clear_rect;
     page_ptr = &g_game_work;
-    SetDrawArea(clip_packet, g_game_work.draw_buffer);
+    SetDrawArea(clip_packet, &g_game_work.draw_buffer->draw.clip);
     tag_mask = 0xFF000000U;
 
     *(u32 *)clip_packet = (*(u32 *)clip_packet & tag_mask) |

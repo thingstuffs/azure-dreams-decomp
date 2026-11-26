@@ -1,3 +1,4 @@
+#include "shared/gpu_packets.h"
 #include "sdk/libgpu.h"
 #include "shared/audio_commands.h"
 /* Staged target motion, layered sprite-chain drawing, and delayed sprite fading. */
@@ -370,7 +371,7 @@ void update_staged_color_flash_effect(s32 effect_or_count) {
     }
 }
 
-#define OTP(d) ((u32 *)((u8 *)render_state->draw_buffer + 0xB0) + (d))
+#define OTP(d) (&render_state->draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE] + (d))
 
 #define LOAD_PTR(p) (*(u8 **)(p))
 #define LOAD_U32(p) (*(u32 *)(p))
@@ -388,8 +389,8 @@ s32 draw_layered_vertical_sprite_chain(u8 *first_node)
     u8 *effect_node;
     u8 *next_link;
     GameWork *render_state;
-    u8 *alloc_ctx;
-    u8 *alloc_ctx_2;
+    GpuContext *alloc_ctx;
+    GpuContext *alloc_ctx_2;
     u8 *ot_entry;
     u8 *prim;
     ProjectedXY *screen_base;
@@ -438,8 +439,8 @@ s32 draw_layered_vertical_sprite_chain(u8 *first_node)
 
         if ((u32)depth_bucket < 0x1E0) {
             alloc_ctx = render_state->draw_buffer;
-            prim = LOAD_PTR(alloc_ctx + 0x8D0);
-            LOAD_PTR(alloc_ctx + 0x8D0) = prim + 0x34;
+            prim = alloc_ctx->packetCursor;
+            alloc_ctx->packetCursor = prim + 0x34;
             STORE_U32(prim + 4, 0x00808080);
             SetPolyFT4(prim);
             SetSemiTrans(prim, 1);
@@ -490,8 +491,8 @@ s32 draw_layered_vertical_sprite_chain(u8 *first_node)
         }
 
         alloc_ctx_2 = render_state->draw_buffer;
-        prim = LOAD_PTR(alloc_ctx_2 + 0x8D0);
-        LOAD_PTR(alloc_ctx_2 + 0x8D0) = prim + 0x34;
+        prim = alloc_ctx_2->packetCursor;
+        alloc_ctx_2->packetCursor = prim + 0x34;
         STORE_U32(prim + 4, 0x00161616);
         SetPolyFT4(prim);
         SetSemiTrans(prim, 1);

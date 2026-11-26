@@ -103,7 +103,7 @@ class NotYetC(unittest.TestCase):
 
     def test_every_byte_is_in_one_class(self):
         res = S.not_yet_c(self.root)
-        self.assertEqual(res, {'town': dict(in_c=64, copies=32, split=32, sdk=16, unported=0, heuristic=8)})   # the 32 B estimate under the copy is not counted twice
+        self.assertEqual(res, {'town': dict(in_c=64, copies=32, split=32, sdk=16, unported=0, heuristic=8, older_head_bank=0)})   # the 32 B estimate under the copy is not counted twice
         # Independent SDK evidence takes precedence over a historical raw
         # split. Existing compiled C keeps priority over an SDK label.
         import json
@@ -113,7 +113,7 @@ class NotYetC(unittest.TestCase):
                           dict(container='town', foff=96, size=16, category='unported')]:
                 f.write(json.dumps(event) + '\n')
         self.assertEqual(S.not_yet_c(self.root),
-                         {'town': dict(in_c=64, copies=32, split=16, sdk=32, unported=0, heuristic=8)})
+                         {'town': dict(in_c=64, copies=32, split=16, sdk=32, unported=0, heuristic=8, older_head_bank=0)})
 
 
     def test_section_has_totals_and_slus_note(self):

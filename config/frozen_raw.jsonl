@@ -11019,3 +11019,15 @@
 {"path":"raw/dungeon/D_80E01000.c","sha256":"a9b43e4c5f357950716b3c61019fa46fd051a3f1bb0bec1830b7e01fc7caa8b8","size":193}
 {"path":"raw/dungeon/D_80EEB000.c","sha256":"13c8a826752a4c38a2b2f1cb8cd79e0abb22dd32c662208ef333d421e5cb5c9f","size":298}
 {"path":"raw/dungeon/D_81826800.c","sha256":"773e7195387a7c25492832141d4a15a55191203b2017989c6ce8090f6c1a85db","size":289}
+{"path":"raw/main/func_80020FD4.c","sha256":"6de0e0a89203cd57df33f28bd3892b1deca37b05787778169e26fd5a3683817c","size":352}
+{"path":"raw/main/func_8002101C.c","sha256":"9ea66bc7085d718883ff692221103c9d2aeeba2b664852ec4981eab0e56397db","size":339}
+{"path":"raw/main/func_80021060.c","sha256":"ba7e9692e4a2c2171466a027b0e0c94003456b8cb475759f7739e58084f989ed","size":339}
+{"path":"raw/main/func_8001C9F8.c","sha256":"32df10b0b8a25b47fb089084d75217e34a35947050aff0ab2e99af07de5aec46","size":876}
+{"path":"raw/main/func_8001D4D8.c","sha256":"8c4ba1453c0c1c3e1a49caf2cb5acecc5a148b5321ebac17596bdf151281b20b","size":439}
+{"path":"raw/main/func_8001D618.c","sha256":"0254f1c02ce4aef8867616025cd81aafb57ccda199a57f6015b913ca1611c622","size":574}
+{"path":"raw/main/func_8001D888.c","sha256":"26a922e6584b633b6bbedf7c8ffacdb6f506db1f2df2af70114d62c5c978a73d","size":703}
+{"path":"raw/town/func_80874C08.c","sha256":"8d56fb435181549feee9dbb3e1ceb3c7fe80f43cd929170f6e1d8f15ceac1aec","size":695}
+{"path":"raw/town/func_80875618.c","sha256":"64bef05ca1579a314dd76293a5c70dae51ebea6087b5ccd775fdb53c7d35ed25","size":591}
+{"path":"raw/town/func_808811B4.c","sha256":"e51ee85d5324e09e4b6e6c8679ad54dd0495ff3046c4ffe75b591c5db1a36166","size":833}
+{"path":"raw/town/func_808B9394.c","sha256":"16e0a77cfbbf1fa3e1b6860a86a2c818d9c6ed272de363b6b86f973733bd2d17","size":852}
+{"path":"raw/town/func_808B942C.c","sha256":"84c487b6428c1feef1743623bfb8554c53e358576a65b5d9dc0740b66c941a01","size":452}

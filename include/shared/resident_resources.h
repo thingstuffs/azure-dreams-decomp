@@ -33,4 +33,8 @@ typedef struct ResourceReadState {
     int pad8;
 } ResourceReadState;
 
+extern u8 cached_selection_row_left_template[12];
+extern u8 cached_selection_row_middle_template[12];
+extern u8 cached_item_secondary_cursor[];
+
 #endif

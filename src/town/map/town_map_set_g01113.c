@@ -99,8 +99,8 @@ void initialize_town_map_object_state(s32 type_id, s32 *init_value_ptr, ObjectNo
     SpriteFrameState *render_data;
     ObjectPosition *transform;
     s32 *type_table;
-    s32 *value_table_base;
-    s32 *value_table;
+    TownMapUpdate *value_table_base;
+    TownMapUpdate *value_table;
     s32 *type_entry;
     object->update_callback = run_map_object_callback;
     register_node(object, &town_map_tag);
@@ -151,7 +151,7 @@ void initialize_town_map_object_state(s32 type_id, s32 *init_value_ptr, ObjectNo
     value_table_base = D_800CFC44;
     value_table = value_table_base;
     state->timer.as_s16 = (s16) ((s8) D_800CFC38[type_id]);
-    *((s32 *) (((s8 *) state) + 0x6C)) = value_table[type_id];
+    state->next_update = value_table[type_id];
     if (type_id == 9) {
         unlink_node_if_registered(state);
     }

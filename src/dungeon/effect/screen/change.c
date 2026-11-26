@@ -56,15 +56,6 @@ typedef struct S_8009BE2C_2 {
 } S_8009BE2C_2;   /* arg2 in draw_fullscreen_fade */
 
 
-typedef struct S_8009BE2C_5 {
-    u8 pad_00[0x8D0];
-    void * unk_8D0;
-} S_8009BE2C_5;   /* ((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv in draw_fullscreen_fade */
-
-typedef struct S_8009BE2C_6 {
-    u8 pad_00[0x8D0];
-    void * unk_8D0;
-} S_8009BE2C_6;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 struct S_8003E2D8;
@@ -80,9 +71,8 @@ void draw_fullscreen_fade(void *effect, ObjectPosition *unused, S_8009BE2C_2 *fa
     S_8009BE2C_1 *packet;
     GameWork *render_context;
 
-    packet = ((S_8009BE2C_5 *)(g_game_work.draw_buffer))->unk_8D0;
-    ((S_8009BE2C_5 *)(g_game_work.draw_buffer))->unk_8D0 =
-        ((u8 *)packet + 0x10);
+    packet = g_game_work.draw_buffer->packetCursor;
+    g_game_work.draw_buffer->packetCursor = (u8 *)packet + 0x10;
     packet->unk_0C = 0x140;
     packet->unk_08 = 0;
     packet->unk_0A = 0;
@@ -99,12 +89,12 @@ void draw_fullscreen_fade(void *effect, ObjectPosition *unused, S_8009BE2C_2 *fa
     }
     SetTile(packet, intensity);
     packet->unk_04.at03.v = (u8) (packet->unk_04.at03.v | 2);
-    AddPrim(render_context->draw_buffer + 0xB0, packet);
-    packet = ((S_8009BE2C_6 *)(render_context->draw_buffer))->unk_8D0;
-    ((S_8009BE2C_6 *)(render_context->draw_buffer))->unk_8D0 = ((u8 *)packet + 0xC);
+    AddPrim(&render_context->draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE], packet);
+    packet = render_context->draw_buffer->packetCursor;
+    render_context->draw_buffer->packetCursor = (u8 *)packet + 0xC;
     packet->unk_03 = 1;
     packet->unk_04.at00u.v = 0xE1000020;
-    AddPrim(render_context->draw_buffer + 0xB0, packet);
+    AddPrim(&render_context->draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE], packet);
     frames_left = (u8) fade->unk_05 - 1;
     fade->unk_05 = frames_left;
     if ((frames_left << 0x18) == 0) {

@@ -86,7 +86,7 @@ void draw_wave_distorted_sprite(WaveScreenOrigin *screen_pos, ParticleState *wav
     scratch->vertices[2].vz = 0;
     scratch->vertices[1].vz = 0;
     scratch->vertices[0].vz = 0;
-    packet = ((GpuContext *) g_game_work.draw_buffer)->packetCursor;
+    packet = g_game_work.draw_buffer->packetCursor;
     scratch->ordering_table = ordering_table;
     scratch->sort_depth = 0;
     scratch->screen_origin.x = screen_pos->x - 0xA0;
@@ -359,17 +359,10 @@ void draw_wave_distorted_sprite(WaveScreenOrigin *screen_pos, ParticleState *wav
         *end_link = (*end_link & 0xFF000000) | (u32) end_packet;
     }
     PopMatrix();
-    ((GpuContext *) globals->draw_buffer)->packetCursor = packet;
+    globals->draw_buffer->packetCursor = packet;
 }
 
 
-
-typedef struct DungeonState {
-    u8 pad0[0x8B0];
-    u32 ordering_table;
-    u8 pad8B4[0x1C];
-    u8 *next_packet;
-} DungeonState;
 
 typedef struct Packet16 {
     u32 tag;
@@ -379,16 +372,14 @@ typedef struct Packet16 {
     s32 value;
 } Packet16;
 
-extern u8 upper_draw_context[16];
-
 /* Queue drawing with an optional cleared rectangle, then restore the drawing area. */
 void draw_wave_sprite_in_draw_area(ParticleState *wave, void *context, GpuRect *restore_area, Pair16 *draw_pos,
                    u32 clear_area, s32 draw_option)
 {
     WaveScreenOrigin pos;
     u16 clear_enabled;
-    DungeonState *state;
-    void **state_ptr;
+    GpuContext *state;
+    GpuContext **state_ptr;
     u8 *packet;
     u32 *ordering_table;
     s16 offset_y;
@@ -397,20 +388,20 @@ void draw_wave_sprite_in_draw_area(ParticleState *wave, void *context, GpuRect *
 
     state = g_game_work.draw_buffer;
     state_ptr = &g_game_work.draw_buffer;
-    packet = state->next_packet;
-    offset_y = state != (DungeonState *)upper_draw_context;
-    state->next_packet = packet + 12;
+    packet = state->packetCursor;
+    offset_y = state != upper_draw_context;
+    state->packetCursor = packet + 12;
     clear_enabled = clear_area;
 
-    SetDrawArea(packet, g_game_work.draw_buffer);
+    SetDrawArea(packet, &g_game_work.draw_buffer->draw.clip);
     *(u32 *)packet = (*(u32 *)packet & 0xFF000000) |
-                     (state->ordering_table & 0x00FFFFFF);
-    state->ordering_table = (state->ordering_table & 0xFF000000) |
+                     (state->orderTag[528] & 0x00FFFFFF);
+    state->orderTag[528] = (state->orderTag[528] & 0xFF000000) |
                             ((u32)packet & 0x00FFFFFF);
 
     pos.x = draw_pos->x;
     y = draw_pos->y;
-    ordering_table = &state->ordering_table;
+    ordering_table = &state->orderTag[528];
     if (offset_y) {
         y -= 0xE0;
     }
@@ -423,11 +414,11 @@ void draw_wave_sprite_in_draw_area(ParticleState *wave, void *context, GpuRect *
 
     if (clear_enabled != 0) {
         Packet16 *clear_packet;
-        DungeonState *alloc_state;
+        GpuContext *alloc_state;
 
         alloc_state = g_game_work.draw_buffer;
-        clear_packet = (Packet16 *)alloc_state->next_packet;
-        alloc_state->next_packet = (u8 *)clear_packet + 16;
+        clear_packet = alloc_state->packetCursor;
+        alloc_state->packetCursor = (u8 *)clear_packet + 16;
         clear_packet->code = 0x60000000;
         ((u8 *)clear_packet)[3] = 3;
         clear_packet->x = restore_area->x;
@@ -438,17 +429,17 @@ void draw_wave_sprite_in_draw_area(ParticleState *wave, void *context, GpuRect *
         clear_packet->y = y;
         clear_packet->value = restore_area->data.word4;
         clear_packet->tag = (clear_packet->tag & 0xFF000000) |
-                     (state->ordering_table & 0x00FFFFFF);
-        state->ordering_table = (state->ordering_table & 0xFF000000) |
+                     (state->orderTag[528] & 0x00FFFFFF);
+        state->orderTag[528] = (state->orderTag[528] & 0xFF000000) |
                                 ((u32)clear_packet & 0x00FFFFFF);
     }
 
     {
-        DungeonState *tail_state;
+        GpuContext *tail_state;
 
         tail_state = state_ptr[0];
-        packet = tail_state->next_packet;
-        tail_state->next_packet = packet + 12;
+        packet = tail_state->packetCursor;
+        tail_state->packetCursor = packet + 12;
         SetDrawArea(packet, restore_area);
     }
     *(u32 *)packet = (*(u32 *)packet & 0xFF000000) |
@@ -481,7 +472,7 @@ s32 draw_linked_brightness_points(PointRecord *start_node, ObjectPosition *start
 
     node = start_node;
     coords = start_coords;
-    state_ptr = (GpuContext **)&g_game_work;
+    state_ptr = &g_game_work.draw_buffer;
     render_state = *state_ptr;
     scratch = (LinkedPointScratch *)0x1F800000;
 

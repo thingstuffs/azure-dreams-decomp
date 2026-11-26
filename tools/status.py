@@ -86,20 +86,20 @@ def _details(summary, header, lines):
 def coverage_summary(root):
     """Whole-image code coverage from the ledger alone (tools/coverage.py: no binary reads); None when unavailable.
     slus is not in that report (it has its own row accounting), so these figures are main + town + dungeon + ovmovie."""
-    try:
-        import importlib.util   # by path: a site-packages `coverage` must never shadow tools/coverage.py
-        spec = importlib.util.spec_from_file_location("azure_coverage", Path(root) / "tools" / "coverage.py")
-        _cov = importlib.util.module_from_spec(spec); spec.loader.exec_module(_cov)
-        coverage = _cov.coverage(root)
-        rep = coverage["containers"]
-        num_c = num_all = den = 0
-        for v in rep.values():
-            w = v["whole_image"]
-            den += w["code_bytes_classified_or_estimated"]
-            num_c += w["c_rows"]; num_all += w["c_rows"] + w["proven_instances"]
-        return {"containers": sorted(rep), "c_pct": 100 * num_c / den, "copy_pct": 100 * num_all / den, "code_bytes": den, "decoded_images": coverage["decoded_images"]} if den else None
-    except Exception:
+    if not (Path(root) / 'tools/coverage.py').is_file():
         return None
+    import importlib.util   # by path: a site-packages `coverage` must never shadow tools/coverage.py
+    spec = importlib.util.spec_from_file_location("azure_coverage", Path(root) / "tools" / "coverage.py")
+    _cov = importlib.util.module_from_spec(spec); spec.loader.exec_module(_cov)
+    coverage = _cov.coverage(root)
+    rep = coverage["containers"]
+    num_c = num_all = den = 0
+    for v in rep.values():
+        w = v["whole_image"]
+        den += w["code_bytes_classified_or_estimated"]
+        num_c += w["c_rows"]; num_all += w["c_rows"] + w["proven_instances"]
+    return {"containers": sorted(rep), "c_pct": 100 * num_c / den, "copy_pct": 100 * num_all / den, "code_bytes": den, "decoded_images": coverage["decoded_images"]} if den else None
+
 
 
 def decoded_coverage_section(summary):

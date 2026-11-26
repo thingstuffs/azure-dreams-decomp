@@ -4,7 +4,7 @@
 
 /* Devkit flag-test entry: select page 3, then run the page's flag scan. */
 void run_devkit_page_3_flag_scan(void) {
-    func_80700C08(3);
+    propagate_devkit_page_flag_pair(3);
     dispatch_devkit_callback_by_run_length();
 }
 

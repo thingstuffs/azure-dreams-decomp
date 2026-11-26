@@ -33,8 +33,8 @@ s32 draw_depth_sorted_gradient_lines(TownMapFallingObject *node)
 
     town = &g_game_work;
     do {
-        line = ((GpuContext *)town->draw_buffer)->packetCursor;
-        ((GpuContext *)town->draw_buffer)->packetCursor = (u8 *)line + 0x14;
+        line = town->draw_buffer->packetCursor;
+        town->draw_buffer->packetCursor = (u8 *)line + 0x14;
         init_line_colors(line, 0x202020, 0);
         SetLineG2(line);
         SetSemiTrans(line, 1);
@@ -47,12 +47,12 @@ s32 draw_depth_sorted_gradient_lines(TownMapFallingObject *node)
         zero = 0;
         if ((u16)mean_depth < 0x1E0U) {
             ot_offset = (s16)mean_depth * 4;
-            addPrim((u8 *)(ot_offset + (long)((GpuContext *)town->draw_buffer)) + 0xB0, line);
+            addPrim((u8 *)(ot_offset + (long)town->draw_buffer) + 0xB0, line);
             render = town->draw_buffer;
             draw_mode = render->packetCursor;
             render->packetCursor = draw_mode + 1;
             SetDrawMode(draw_mode, 0, 0, GetTPage(zero, 1, zero, zero) & 0xFFFF, 0);
-            addPrim((u8 *)(ot_offset + (long)((GpuContext *)town->draw_buffer)) + 0xB0, draw_mode);
+            addPrim((u8 *)(ot_offset + (long)town->draw_buffer) + 0xB0, draw_mode);
         }
         next_node = NODE_HEADER(node)->chain_next;
         if (next_node != 0) {

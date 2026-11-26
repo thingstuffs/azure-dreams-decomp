@@ -763,8 +763,8 @@ void project_visible_textured_quad(S_80024BF4_4 *quad, ObjectPosition *position,
 
     texture = render_state->source;
     scratch->render_flags = render_state->flags;
-    packet = ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor;
-    ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor = (u8 *)packet + 0x34;
+    packet = g_game_work.draw_buffer->packetCursor;
+    g_game_work.draw_buffer->packetCursor = (u8 *)packet + 0x34;
 
     scratch->vertices[0].vx = quad->unk_4A;
     scratch->vertices[1].vx = quad->unk_50;

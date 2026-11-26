@@ -279,6 +279,42 @@ void style_familiar_behavior_row(ItemMenuPart *part, ItemMenuPart *label, s32 in
     convert_hsv_to_rgb(128, saturation, value, &label->position->color.c.r);
 }
 
+void update_familiar_behavior_motion(CachedFamiliarBehaviorPanel *panel)
+{
+    s32 selected = panel->selected_mode;
+    s32 previous = panel->previous_mode;
+    s32 scaled_tick = panel->transition_tick;
+    s32 difference = selected - previous;
+    s32 slide;
+    s32 base_x;
+    s32 row;
+
+    scaled_tick *= 20;
+    slide = difference * scaled_tick / panel->transition_frames;
+    base_x = 39 - slide;
+    row = 0;
+    panel->parts[12]->position->x = base_x - previous * 20;
+    do {
+        /* BYTES: Indexing the member directly changes the address retained for the shade store. */
+        u8 *highlight_slot = (u8 *)panel + row + (panel->highlight - (u8 *)panel);
+        u32 shade = panel->highlight[row];
+        s32 next_shade;
+
+        if (row > panel->selected_mode) {
+            next_shade = fade_cached_menu_highlight(shade);
+        } else {
+            next_shade = shade + (shade < 8);
+        }
+        *highlight_slot = next_shade;
+        style_familiar_behavior_row(panel->parts[row + 7], panel->parts[row + 2],
+                                    row, panel->highlight[row]);
+        row++;
+    } while (row < 5);
+    if (panel->transition_tick < panel->transition_frames) {
+        panel->transition_tick++;
+    }
+}
+
 void confirm_familiar_behavior(ObjectNodeHeader *node)
 {
     if (node != 0) {
@@ -314,12 +350,11 @@ void populate_familiar_behavior_labels(CachedFamiliarBehaviorPanel *panel)
     do {
         s32 number = row + 1;
         char buffer[16];
-        char *text;
+        u8 *text;
 
         panel->parts[row + 7]->handler = graphic;
-        text = uint_to_dec_str(number, buffer);
-        text = (char *)remap_flagged_string_bytes((u8 *)text);
-        panel->parts[row + 2]->handler = build_positioned_text_glyphs((u8 *)&panel->packets->labels[row], (u8 *)text, 0);
+        text = remap_flagged_string_bytes((u8 *)uint_to_dec_str(number, buffer));
+        panel->parts[row + 2]->handler = build_positioned_text_glyphs((u8 *)&panel->packets->labels[row], text, 0);
         row = number;
     } while (row < 5);
     initialize_scaled_entry_cursor(&panel->cursor, &cached_behavior_cursor_template, (s32 *)panel->parts[12]);
@@ -477,7 +512,7 @@ ObjectNodeHeader *create_familiar_behavior_panel(ObjectNodeHeader *owner, ActorR
             node->sprite = (SpriteFrameState *)&panel->links;
             panel->draw_chain = link_familiar_behavior_parts(panel->parts);
             configure_familiar_behavior_panel(panel, owner, actor);
-            submit_script_with_registered_context((void *)cached_familiar_behavior_descriptions[panel->selected_mode]);
+            submit_script_with_registered_context(cached_familiar_behavior_descriptions[panel->selected_mode]);
             NODE_HEADER(panel)->update_callback = advance_familiar_behavior_opening;
             register_node(node, draw_tinted_node_sprites_scratch);
             return node;
@@ -524,7 +559,6 @@ void bind_familiar_behavior_vectors(ItemMenuPart **parts, DisplayPositionWords *
     parts[1]->vector = common;
     parts[12]->vector = common;
     do {
-        /* The indexed offset is the first operand of the address addition. */
         ItemMenuPart **row_parts = &parts[index];
 
         row_parts[2]->vector = common;
@@ -577,11 +611,11 @@ void poll_familiar_behavior_panel(CachedFamiliarBehaviorPanel *panel)
                 panel->transition_tick = 0;
                 panel->previous_mode = panel->selected_mode;
                 panel->selected_mode = advance_index_with_directional_clamp(panel->selected_mode, movement, 5);
-                submit_script_with_registered_context((void *)cached_familiar_behavior_descriptions[panel->selected_mode]);
+                submit_script_with_registered_context(cached_familiar_behavior_descriptions[panel->selected_mode]);
             }
         }
     }
-    update_cached_familiar_behavior_motion(panel);
+    update_familiar_behavior_motion(panel);
     if (panel->cursor_idle == 0 && advance_timed_tagged_stream(&panel->cursor) == 0) {
         panel->cursor_idle = 1;
     }

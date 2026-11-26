@@ -49,6 +49,30 @@
       "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; TU view gather: moved from town/ll34_83af54_80000754 (same load delta) so the merged file's members share one view"
     },
     {
+      "row": "town/func_808BB3C8",
+      "home": "town/func_80878670",
+      "tu": "src/town/shop/state/shop_set_indexed_flag.c",
+      "foff": "0x83b3c8",
+      "vma": "0x80000bc8",
+      "size": 80,
+      "evidence": "The placement of update_entry_value_flag_from_test_flag at TOWN +0x83af54 calls this entry at +0x83af94; the 20 words equal shop_set_indexed_flag after relocation, bound to this image's flag words.",
+      "bindings": {
+        "0x807030A4": "0x0000102C"
+      }
+    },
+    {
+      "row": "town/func_808BB418",
+      "home": "town/func_808786C0",
+      "tu": "src/town/shop/state/shop_clear_indexed_flag.c",
+      "foff": "0x83b418",
+      "vma": "0x80000c18",
+      "size": 84,
+      "evidence": "The placement of update_entry_value_flag_from_test_flag at TOWN +0x83af54 calls this entry at +0x83afb0; the 21 words equal shop_clear_indexed_flag after relocation, bound to this image's flag words.",
+      "bindings": {
+        "0x807030A4": "0x0000102C"
+      }
+    },
+    {
       "row": "town/func_808BB46C",
       "home": "town/func_80878714",
       "tu": "src/town/shop/state/shop_test_indexed_flag.c",

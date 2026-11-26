@@ -1383,6 +1383,11 @@
           "size": 48
         },
         {
+          "name": "update_cached_paged_row_motion",
+          "address": "0x8001dbb8",
+          "size": 468
+        },
+        {
           "name": "initialize_paged_rows",
           "address": "0x8001de94",
           "size": 560
@@ -1455,6 +1460,9 @@
           "size": 148,
           "trim_end_padding": true
         }
+      ],
+      "genuine_asflags": [
+        "-0"
       ]
     },
     {
@@ -1580,6 +1588,11 @@
           "name": "style_familiar_behavior_row",
           "address": "0x80021588",
           "size": 192
+        },
+        {
+          "name": "update_familiar_behavior_motion",
+          "address": "0x80021648",
+          "size": 280
         },
         {
           "name": "confirm_familiar_behavior",
@@ -1885,6 +1898,11 @@
           "name": "release_fusion_children",
           "address": "0x8001e760",
           "size": 88
+        },
+        {
+          "name": "create_cached_fusion_menu",
+          "address": "0x8001e7b8",
+          "size": 356
         },
         {
           "name": "ensure_fusion_close",
@@ -2246,6 +2264,11 @@
           "size": 40
         },
         {
+          "name": "update_cached_actor_command_row_motion",
+          "address": "0x8001f204",
+          "size": 472
+        },
+        {
           "name": "find_cached_actor_action_text",
           "address": "0x8001f3dc",
           "size": 92
@@ -2324,6 +2347,11 @@
           "name": "count_actor_command_abilities",
           "address": "0x800201a8",
           "size": 52
+        },
+        {
+          "name": "initialize_actor_command_request",
+          "address": "0x80020290",
+          "size": 320
         },
         {
           "name": "configure_actor_command_panel",
@@ -2452,6 +2480,9 @@
           "address": "0x80024910",
           "size": 336
         }
+      ],
+      "genuine_asflags": [
+        "-0"
       ]
     },
     {
@@ -3116,7 +3147,6 @@
     "clear_dungeon_menu_flag": "0x800dbf38",
     "update_selection_tile_markers": "0x800ba810",
     "selected_item_record_alias": "0x80082eb0",
-    "create_cached_fusion_menu": "0x8001e7b8",
     "create_cached_familiar_prompt_flow": "0x8001c9f8",
     "poll_window_switch_flags": "0x8004e0ac",
     "selected_item_action_alias": "0x80082eb8",
@@ -3133,7 +3163,6 @@
     "func_8004DF8C": "0x8004df8c",
     "cached_opening_status_templates": "0x800793cc",
     "cached_paged_item_action_labels": "0x800716f4",
-    "update_cached_paged_row_motion": "0x8001dbb8",
     "cached_available_slot_markers": "0x80077878",
     "cached_fixed_storage_cursor": "0x800788d4",
     "cached_storage_one_row_frame": "0x8007921c",
@@ -3152,7 +3181,6 @@
     "D_8002E5D8": "0x8002e5d8",
     "strcpy": "0x80069e78",
     "cached_actor_command_descriptions": "0x800716d0",
-    "initialize_cached_actor_command_request": "0x80020290",
     "func_8004EE70": "0x8004ee70",
     "cached_actor_message_text": "0x800716e8",
     "func_8004E0AC": "0x8004e0ac",
@@ -3181,9 +3209,7 @@
     "cached_familiar_behavior_descriptions": "0x80071748",
     "func_8004DDC4": "0x8004ddc4",
     "D_80082EB0": "0x80082eb0",
-    "update_cached_actor_command_row_motion": "0x8001f204",
     "func_8004B08C": "0x8004b08c",
-    "update_cached_familiar_behavior_motion": "0x80021648",
     "fusion_invalid_pair_message": "0x80071760",
     "item_action_nothing_found_notice": "0x80071768",
     "build_reverse_indexed_chain": "0x800491f4",
@@ -3260,8 +3286,9 @@
     "cached_stat_line_break": "0x80016070",
     "cached_stat_separator": "0x80016074",
     "cached_stat_column_labels": "0x8001607c",
-    "cached_status_line_break": "0x80016094",
-    "cached_hp_mp_break": "0x80016098"
+    "cached_hp_mp_break": "0x80016098",
+    "merge_creature_abilities_and_state": "0x800277f4",
+    "submit_control_command_six": "0x800bd158"
   },
   "binding_evidence": "config/decoded/evidence/menu_cache_bindings.tsv",
   "evidence": "docs/DECODED_IMAGES.md",
@@ -3294,7 +3321,6 @@
       "cached_stat_line_break",
       "cached_stat_separator",
       "cached_stat_column_labels",
-      "cached_status_line_break",
       "cached_hp_mp_break"
     ],
     "text_tables": [
@@ -3307,21 +3333,61 @@
         "pointers": [
           4,
           8
-        ]
+        ],
+        "symbol": "cached_linked_actor_action_text",
+        "bank": "cached_linked_actor_strings"
+      }
+    ],
+    "holds": "config/decoded/evidence/menu_cache_holds.tsv",
+    "reference_sources": [
+      "src/dungeon/menu/cache_status_line.c",
+      "src/dungeon/menu/cache_actor_stats.c",
+      "src/dungeon/menu/cache_familiar_prompt_display.c",
+      "src/dungeon/menu/cache_linked_actor_menu.c",
+      "src/town/shop/stat_panel.c"
+    ],
+    "text_placements": [
+      {
+        "placement": "stat_panel",
+        "symbol": "D_8008933C"
       }
     ]
   },
   "import_classes": {
-    "code": 3052,
+    "code": 1156,
     "text": 1964,
     "alignment": 128,
     "data": 12
   },
   "coverage": {
-    "functions": 421,
-    "text_bytes": 54116,
+    "functions": 426,
+    "text_bytes": 56012,
     "data_bytes": 920,
-    "imported_bytes": 5156,
+    "imported_bytes": 3260,
     "stream_bytes": 28662
+  },
+  "call_context": {
+    "engine": "dungeon/engine",
+    "bank_calls": {
+      "func_800260C8": "xfer_dungeon_1829800",
+      "func_800267F0": "xfer_dungeon_1829800",
+      "func_800277F4": "xfer_dungeon_182C000"
+    },
+    "exceptions": [
+      {
+        "image": "town/engine",
+        "caller": "town/func_800B7B94",
+        "site": "0x7c",
+        "owner": "town/func_800A8D60",
+        "address": "0x800a652c"
+      },
+      {
+        "image": "town/engine",
+        "caller": "town/func_800B85D0",
+        "site": "0x28",
+        "owner": "town/func_800A8D60",
+        "address": "0x800a652c"
+      }
+    ]
   }
 }

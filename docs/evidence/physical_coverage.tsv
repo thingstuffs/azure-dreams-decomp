@@ -5,11 +5,11 @@ foreign_program_fragment	0	0	0	0	1012	1012
 formatter_build_string	216	0	0	0	0	216
 formatter_remnant	3584	0	0	0	0	3584
 imported_retail_text	1856	0	0	0	60	1916
-linked_diagnostic_code	0	920	0	0	1248	2168
+linked_diagnostic_code	0	68	0	0	0	68
 older_dungeon_head_bank	12156	0	0	0	0	12156
 prior_town_image	0	0	0	0	0	0
 stale_town_copy	20108	0	0	0	0	20108
-c_text	6866304	71676	5516	181104	832304	7956904
+c_text	6866304	72528	5516	181104	833552	7959004
 c_data	6556	0	501	2084	3800	12941
 proven_c_copy	0	0	0	0	912	912
 sdk_asm	0	492	880	43872	132	45376
@@ -37,4 +37,4 @@ town_default_scene_read	0	0	0	0	7737	7737
 dungeon_floor_spawn_table_read	79872	0	0	0	0	79872
 dungeon_floor_module_read	632	0	0	0	0	632
 unclassed	11512729	2224694	2873221	176098	5816553	22603295
-c_placement_bytes	5167168	3944	0	0	338760	5509872
+c_placement_bytes	5167168	4112	0	0	339356	5510636

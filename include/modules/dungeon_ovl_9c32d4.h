@@ -13,14 +13,6 @@
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
 #include "sdk/rand.h"
-typedef struct ovl_9c32d4_809A32D4_S_80174AD4_0 {
-    u8 pad_00[0x8D0];
-    void * unk_8D0;
-} ovl_9c32d4_809A32D4_S_80174AD4_0;
-typedef struct ovl_9c32d4_809A32D4_S_80174AD4_1 {
-    u8 pad_00[0x8D0];
-    void * unk_8D0;
-} ovl_9c32d4_809A32D4_S_80174AD4_1;
 typedef struct ovl_9c32d4_809A32D4_S_80174AD4_2 {
     u8 pad_00[0x3];
     s8 unk_03;
@@ -29,10 +21,6 @@ typedef struct ovl_9c32d4_809A32D4_S_80174AD4_2 {
     s16 unk_0A;
     s32 unk_0C;
 } ovl_9c32d4_809A32D4_S_80174AD4_2;
-typedef struct ovl_9c32d4_809A32D4_S_80174AD4_3 {
-    u8 pad_00[0x8D0];
-    void * unk_8D0;
-} ovl_9c32d4_809A32D4_S_80174AD4_3;
 typedef struct ovl_9c32d4_809A32D4_S_80174AD4_4 {
     u8 pad_00[0xC];
     u8 unk_0C;
@@ -140,10 +128,6 @@ typedef struct ovl_9c32d4_809A38E4_S_801750E4_0 {
     u8 unk_16;
     u8 unk_17;
 } ovl_9c32d4_809A38E4_S_801750E4_0;
-typedef struct ovl_9c32d4_809A38E4_GraphicsState {
-    u8 pad[0x8D0];
-    void *next_prim;
-} ovl_9c32d4_809A38E4_GraphicsState;
 typedef struct ovl_9c32d4_809A38E4_Elem {
     u32 color;
     s16 x;
@@ -165,8 +149,7 @@ typedef struct ovl_9c32d4_809A38E4_RingRadii {
 extern void register_node(void *, void *);
 void emit_concentric_ellipse_quads(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_y,
                    u16 center_x, s16 center_y, s32 *color_b_ptr, s32 *color_a_ptr,
-                   s32 draw_bucket, s32 start_segment, s32 end_segment);
-extern u8 upper_draw_context[16];
+                   u32 *draw_bucket, s32 start_segment, s32 end_segment);
 extern void *allocate_list_node();
 extern void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head);
 extern u8 D_80175F90[12];

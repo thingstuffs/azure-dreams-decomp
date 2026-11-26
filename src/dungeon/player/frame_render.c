@@ -50,7 +50,6 @@ typedef s32 (*Callback)(void *, struct ObjectPosition *, struct SpriteFrameState
 
 extern s32 D_800814A0;
 extern void remove_marked_active_nodes(void);
-extern u8 upper_draw_context[16];
 extern Callback D_800DCF80[];
 extern u8 D_800E0000[];
 
@@ -107,15 +106,15 @@ void queue_framebuffer_strip_quads(void) {
     S_80089588_2 *context_slot;
 
     alternate_buffer = (s32) g_game_work.draw_buffer != (s32) upper_draw_context;
-    packet = ((Rec_D_80083160 *)g_game_work.draw_buffer)->unk_8D0;
-    SetDrawArea(packet, g_game_work.draw_buffer);
-    AddPrim((u8 *)g_game_work.draw_buffer + 0x7B0, packet);
+    packet = g_game_work.draw_buffer->packetCursor;
+    SetDrawArea(packet, &g_game_work.draw_buffer->draw.clip);
+    AddPrim(&g_game_work.draw_buffer->orderTag[464], packet);
     packet += 0xC;
-    SetDrawArea(packet, g_game_work.draw_buffer);
-    AddPrim((u8 *)g_game_work.draw_buffer + 0x830, packet);
+    SetDrawArea(packet, &g_game_work.draw_buffer->draw.clip);
+    AddPrim(&g_game_work.draw_buffer->orderTag[496], packet);
     packet += 0xC;
     SetPriority(packet, 0, 0);
-    AddPrim((u8 *)g_game_work.draw_buffer + 0x830, packet);
+    AddPrim(&g_game_work.draw_buffer->orderTag[496], packet);
     packet += 0xC;
     {
         s32 cmd_value;
@@ -301,7 +300,7 @@ loop_third:
                 if (!(entry_m->flags & 0x800)) {
                     callback(entry_m + 1, entry_m->position, entry_m->sprite);
                     stop_dispatch = is_frame_packet_arena_overflowed(
-                        ((GpuContext *)g_game_work.draw_buffer)->packetCursor);
+                        g_game_work.draw_buffer->packetCursor);
                     if (stop_dispatch != 0) {
                         return;
                     }

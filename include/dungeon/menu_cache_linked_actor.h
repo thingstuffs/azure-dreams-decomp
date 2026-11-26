@@ -85,7 +85,7 @@ void poll_actor_command_panel(CachedLinkedActorPanel *panel);
 void finish_actor_command_grid_opening(CachedLinkedActorPanel *panel);
 void animate_actor_command_change(CachedLinkedActorPanel *panel);
 void apply_actor_command(CachedLinkedActorPanel *panel);
-void initialize_cached_actor_command_request(CachedLinkedActorPanel *panel, ObjectNodeHeader *owner, s32 actor_index);
+void initialize_actor_command_request(CachedLinkedActorPanel *panel, ObjectNodeHeader *owner, s32 actor_index);
 void initialize_actor_command_row_layout(CachedLinkedActorPanel *panel);
 void bind_actor_command_part_vectors(ItemMenuPart **parts, DisplayPositionWords **buffers,
                                             DisplayPositionWords *common);

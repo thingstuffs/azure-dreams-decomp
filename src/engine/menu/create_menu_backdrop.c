@@ -34,12 +34,12 @@ void *create_menu_backdrop(struct ObjectNodeHeader *owner, s32 state)
         bzero(body, 0x31C);
     }
 
-    upper_draw_context[0x19] = 0;
-    upper_draw_context[0x1A] = 0;
-    upper_draw_context[0x1B] = 0;
-    upper_draw_context[0x108ED] = 0;
-    upper_draw_context[0x108EE] = 0;
-    upper_draw_context[0x108EF] = 0;
+    upper_draw_context[0].draw.r0 = 0;
+    upper_draw_context[0].draw.g0 = 0;
+    upper_draw_context[0].draw.b0 = 0;
+    upper_draw_context[1].draw.r0 = 0;
+    upper_draw_context[1].draw.g0 = 0;
+    upper_draw_context[1].draw.b0 = 0;
     initialize_menu_backdrop_display_nodes(body, 7);
 
     template_node = body->template_anchor;

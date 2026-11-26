@@ -5,6 +5,8 @@
 #include "dungeon/menu_cache_linked_actor.h"
 #include "dungeon/menu_cache_actor_choice.h"
 #include "dungeon/item.h"
+#include "engine/item.h"
+#include "shared/item_ids.h"
 #include "dungeon/menu_cache_familiar_prompt.h"
 #include "dungeon/menu_cache_paged.h"
 #include "dungeon/menu/state.h"
@@ -137,6 +139,47 @@ void reset_cached_linked_actor_preview(ObjectNodeHeader *node)
     if (node != 0) {
         CachedLinkedActorMenu *menu = NODE_BODY(node);
         reset_actor_command_panel(menu->command_panel);
+    }
+}
+
+/* Slide the command cursor toward the selected row and fade or brighten each action row. */
+void update_cached_actor_command_row_motion(CachedLinkedActorPanel *panel)
+{
+    s32 row;
+    s32 y;
+    s32 previous = panel->previous_row;
+    s32 delta = (panel->selected_row - previous) * (panel->transition_tick << 4) / panel->transition_frames;
+
+    y = delta + 10;
+    panel->parts[1]->position->y = previous * 16 + y;
+    row = 0;
+    if (row < panel->action_count) {
+        do {
+            s32 shade = panel->row_highlight[row];
+            /* BYTES: Direct member indexing folds away the writable address shared by both shade paths. */
+            u8 *highlight = (u8 *)panel + row + (panel->row_highlight - (u8 *)panel);
+            s32 next_shade;
+            s32 slide;
+
+            if (row == panel->selected_row) {
+                next_shade = brighten_cached_menu_highlight(shade, panel->transition_frames, panel->transition_tick);
+            } else {
+                next_shade = fade_cached_menu_highlight(shade);
+            }
+            *highlight = next_shade;
+            slide = panel->row_highlight[row];
+            panel->parts[row + 26]->position->x = slide + 77;
+            panel->parts[row + 38]->position->x = slide + 143;
+            panel->parts[row + 2]->position->x = slide + 9;
+            panel->parts[row + 14]->position->x = slide + 145;
+            panel->parts[row + 26]->position->color.c.r = 104 + panel->row_highlight[row] * 3;
+            panel->parts[row + 26]->position->color.c.g = 104 + panel->row_highlight[row] * 3;
+            panel->parts[row + 26]->position->color.c.b = 96 + panel->row_highlight[row] * 4;
+            row++;
+        } while (row < panel->action_count);
+    }
+    if (panel->transition_tick < panel->transition_frames) {
+        panel->transition_tick++;
     }
 }
 
@@ -406,9 +449,46 @@ s32 count_actor_command_abilities(ActorRecord *actor)
     return available;
 }
 
+static inline s32 familiar_command_flag(s32 species, s32 bit)
+{
+    const ItemRecord *records = itemCategoryTable[ITEM_KIND_FAMILIAR].records;
+    u32 flags = records[species].flags;
+
+    return (flags >> bit) & 1;
+}
+
+static inline void submit_selected_actor_command_hint(CachedLinkedActorPanel *panel)
+{
+    const char *hint = get_actor_command_hint(panel->action_ids[panel->selected_row + 1], panel->actor);
+
+    submit_script_with_registered_context(hint);
+}
+
+void initialize_actor_command_request(CachedLinkedActorPanel *panel, ObjectNodeHeader *owner, s32 actor_index)
+{
+    s32 secondary;
+
+    panel->actor_index = actor_index;
+    panel->owner = owner;
+    panel->actor = get_cached_player_familiar(actor_index);
+    panel->ability_count = count_actor_command_abilities(panel->actor);
+    panel->has_primary_action = familiar_command_flag(panel->actor->species, 5);
+    secondary = familiar_command_flag(panel->actor->species, 6);
+    panel->has_secondary_action = secondary;
+    /* BYTES: The count reloads this flag unsigned. An unsigned field changes the option builder's test. */
+    panel->action_count = secondary + (panel->ability_count * 2 + ((u16)panel->has_primary_action + 2)) + 1;
+    panel->action_count = build_actor_command_options(panel, &panel->action_ids[1], panel->actor);
+    initialize_linked_actor_panel_packets(panel->panel_packets);
+    populate_actor_command_descriptions(panel, panel->actor);
+    panel->selected_row = find_actor_command_row(panel, panel->actor);
+    panel->previous_row = panel->selected_row;
+    update_selection_tile_markers(panel->actor, panel->action_ids[panel->selected_row + 1]);
+    submit_selected_actor_command_hint(panel);
+}
+
 void configure_actor_command_panel(CachedLinkedActorPanel *panel, ObjectNodeHeader *owner, s32 actor_index)
 {
-    initialize_cached_actor_command_request(panel, owner, actor_index);
+    initialize_actor_command_request(panel, owner, actor_index);
     initialize_actor_command_background(panel, &panel->links, &panel->display, &panel->position);
     initialize_actor_command_row_layout(panel);
 }
@@ -741,7 +821,7 @@ void poll_actor_command_panel(CachedLinkedActorPanel *panel)
                 panel->transition_tick = 0;
                 panel->previous_row = panel->selected_row;
                 panel->selected_row = advance_index_with_single_wrap(panel->selected_row, step, panel->action_count);
-                submit_script_with_registered_context((void *)get_actor_command_hint(panel->action_ids[panel->selected_row + 1], panel->actor));
+                submit_selected_actor_command_hint(panel);
                 update_selection_tile_markers(panel->actor, panel->action_ids[panel->selected_row + 1]);
             }
         }
@@ -757,7 +837,6 @@ void bind_actor_command_part_vectors(ItemMenuPart **parts, DisplayPositionWords 
     parts[0]->vector = common;
     parts[1]->vector = common;
     do {
-        /* The indexed offset is the first operand of the address addition. */
         ItemMenuPart **row_parts = &parts[index];
 
         row_parts[26]->vector = &banks[(u32)index / 21][(u32)index % 21];

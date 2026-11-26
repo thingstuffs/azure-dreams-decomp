@@ -104,10 +104,6 @@ typedef struct Row_81916C1C_Prim81916C1C {
     s16 y3;
 } Row_81916C1C_Prim81916C1C;
 
-typedef struct Row_81916C1C_State81916C1C {
-    u8 pad0[0x8D0];
-    Row_81916C1C_Prim81916C1C *next;
-} Row_81916C1C_State81916C1C;
 
 typedef struct Row_81916C1C_Inner81916C1C {
     u8 pad0[0x14];

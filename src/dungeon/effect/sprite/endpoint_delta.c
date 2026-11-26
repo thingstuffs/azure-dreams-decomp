@@ -78,9 +78,9 @@ static __inline__ s32 endpoint_delta(u16 end, u16 start)
 s32 draw_animated_shaded_lines(void *effect_data, void *unused_render_data)
 {
     S_800247D4_3 *effect = effect_data;
-    u8 *initial_render_ctx = g_game_work.draw_buffer;
+    GpuContext *initial_render_ctx = g_game_work.draw_buffer;
     GpuContext *render_ctx;
-    u8 **ctx_ref = (u8 **)((u8 *)(&g_game_work));
+    GameWork *ctx_ref = &g_game_work;
     s32 red_scale = 15;
     s32 blue_scale = 23;
     s32 red_cap = 0x7F;
@@ -109,11 +109,11 @@ s32 draw_animated_shaded_lines(void *effect_data, void *unused_render_data)
     color_base = 0x40;
     radial_step = 0x15;
     scratch = (S_800247D4_0 *)0x1F800000;
-    scratch->unk_18 = initial_render_ctx + 0xB0;
+    scratch->unk_18 = &initial_render_ctx->orderTag[GPU_ORDER_DEPTH_BASE];
 
     do {
         s32 red;
-        render_ctx = (GpuContext *)(*ctx_ref);
+        render_ctx = ctx_ref->draw_buffer;
         packet = render_ctx->packetCursor;
         render_ctx->packetCursor = (u8 *)packet + 0x14;
 

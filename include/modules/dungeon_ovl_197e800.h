@@ -246,10 +246,6 @@ typedef struct {
     s32 w90;
     s32 w94;
 } Bank56_8196096C_Scratch;
-typedef struct {
-    u8 pad0[0x8D0];
-    Record *record;
-} Root;
 typedef struct TableEntry {
     s32 value;
     s32 pad;

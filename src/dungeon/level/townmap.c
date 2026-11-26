@@ -143,7 +143,7 @@ s32 clear_town_map_status(void) {
 void initialize_town_map_object_state(s32 mode, s32 *list, u8 *init_context, u8 *target_object) {
     u8 *context = init_context;
     u8 *object = target_object;
-    u8 *record;
+    TownMapBody *record;
     u8 *transform;
     u8 *display;
     s32 list_value;
@@ -156,7 +156,7 @@ void initialize_town_map_object_state(s32 mode, s32 *list, u8 *init_context, u8 
     transform = *(u8 **)(context + 8);
     display = *(u8 **)(context + 0xC);
 
-    record = context + 0x20;
+    record = NODE_BODY(context);
     list_value = 0;
     if (list != 0) {
         list_value = *list;
@@ -165,16 +165,16 @@ void initialize_town_map_object_state(s32 mode, s32 *list, u8 *init_context, u8 
     mode_table = D_800CFB74;
     *(u8 **)(context + 0x20) = object;
     *(u32 *)(object + 0x60) = 2;
-    *(u32 *)(record + 4) = 0;
-    *(u16 *)(record + 0x66) = (u16)mode;
+    record->unk_04 = 0;
+    record->type_id = (u16)mode;
     mode_entry = mode_table[mode];
     if (mode_entry != 0) {
-        *(u8 **)(record + 8) = &D_80037714;
+        record->window_callback = &D_80037714;
         copy_window_params(record, mode_entry);
     } else {
-        *(u8 **)(record + 8) = 0;
+        record->window_callback = 0;
     }
-    *(u16 *)(record + 0x60) = 0;
+    record->unk_60 = 0;
     *(u32 *)(display + 0xC) = 0x00808080;
     if ((u32)(mode - 9) < 2U) {
         select_record_entry_and_value(display, &D_800794AC, 0);
@@ -187,12 +187,12 @@ void initialize_town_map_object_state(s32 mode, s32 *list, u8 *init_context, u8 
         *(s16 *)(transform + 0xA) = 0x200;
     }
     if (mode == 10) {
-        *(u32 *)(record + 0x74) = 0;
-        town_map_selection = *(*(u8 **)(record + 0x7C));
+        record->selection = 0;
+        town_map_selection = *record->entries;
     }
-    ((TownMapBody *)record)->update = advance_town_map_countdown_callback;
-    *(s16 *)(record + 0x64) = (s16)(s8)D_800CFC38[mode];
-    *(u32 *)(record + 0x6C) = D_800CFC44[mode];
+    record->update = advance_town_map_countdown_callback;
+    *(s16 *)&record->timer = (s16)(s8)D_800CFC38[mode];
+    record->next_update = D_800CFC44[mode];
     if (mode == 9) {
         unlink_node_if_registered(record);
     }

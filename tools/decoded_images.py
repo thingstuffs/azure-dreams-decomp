@@ -12,11 +12,15 @@ import re
 import struct
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from tools.decoded import bindings, import_ranges
+from tools.decoded import bindings, call_targets, import_ranges
+from tools.build.name_inputs import table as name_table
+from tools.fidelity.objread import read_elf
+from tools.decoded.extents import extent_digest, valid_digest
 from tools.decoded.lz import decode, encode
 from tools.build.slus_rodata_trim import trim
 
@@ -60,6 +64,13 @@ def source_symbol(function):
     return function.get('symbol', function['name'])
 
 
+def require_evidence(image):
+    if image['proof_mode'] == 'recompress':
+        for key in ('import_layout', 'binding_evidence', 'call_context'):
+            if not image.get(key):
+                raise ValueError('recompression requires ' + key)
+
+
 def manifests(root=ROOT):
     root = Path(root).resolve()
     images, names = [], set()
@@ -67,6 +78,7 @@ def manifests(root=ROOT):
         image = json.loads(path.read_text())
         if image.get('schema') != 'azure.decoded-image.v1' or image.get('proof_mode') not in ('decoded-only', 'recompress'):
             raise ValueError('unsupported decoded image producer')
+        require_evidence(image)
         name = image['image']
         if not re.fullmatch(r'[a-z][a-z0-9_]*/[a-z][a-z0-9_]*', name) or name in names:
             raise ValueError('invalid or duplicate decoded image identity')
@@ -75,7 +87,7 @@ def manifests(root=ROOT):
         if size <= 0 or base & 3 or size & 3 or not 0x80010000 <= base < base + size <= 0x80200000:
             raise ValueError('invalid decoded image bounds')
         sha = image['sha256']
-        if not re.fullmatch('[a-f0-9]{64}', sha):
+        if not valid_digest(size, sha):
             raise ValueError('invalid decoded image digest')
         if not image['streams'] or sum(number(s['size']) for s in image['streams']) != size:
             raise ValueError('decoded stream extents do not cover image')
@@ -90,9 +102,9 @@ def manifests(root=ROOT):
             if (len(stream['command']) != 8 or stream['command'][:3] != [5, 16, 20]
                     or stream['command'][7] != 0):
                 raise ValueError('unsupported source command contract')
-            for key in ('source_sha256', 'decoded_sha256'):
-                if not re.fullmatch('[a-f0-9]{64}', stream[key]):
-                    raise ValueError('invalid stream digest')
+            if not (valid_digest(used, stream['source_sha256']) and
+                    valid_digest(number(stream['size']), stream['decoded_sha256'])):
+                raise ValueError('invalid stream digest')
         functions, data, seen, sources, placements = [], [], set(), set(), set()
         for unit in image['units']:
             source = unit['source']
@@ -196,14 +208,14 @@ def reproduce(root, image):
         if len(compressed) != number(stream['input_limit']):
             raise ValueError('truncated source resource')
         data, consumed = decode(compressed, size)
-        if consumed != used or len(data) != size or digest(compressed[:used]) != stream['source_sha256'] or digest(data) != stream['decoded_sha256']:
+        if consumed != used or len(data) != size or extent_digest(compressed[:used]) != stream['source_sha256'] or extent_digest(data) != stream['decoded_sha256']:
             raise ValueError('compressed or decoded stream identity differs')
         receipts.append(dict(container=stream['container'], offset=hex(offset), used=used,
-                             source_sha256=digest(compressed[:used]), decoded_offset=len(decoded),
-                             size=size, decoded_sha256=digest(data)))
+                             source_sha256=extent_digest(compressed[:used]), decoded_offset=len(decoded),
+                             size=size, decoded_sha256=extent_digest(data)))
         decoded.extend(data)
     data = bytes(decoded)
-    if len(data) != number(image['size']) or digest(data) != image['sha256']:
+    if len(data) != number(image['size']) or extent_digest(data) != image['sha256']:
         raise ValueError('complete decoded image differs')
     return data, receipts
 
@@ -217,7 +229,35 @@ def audit_bindings(root, image, expected=None):
 def audit_import_ranges(root, image, expected=None):
     path = local(root, image['import_layout']['table'], 'config/decoded/evidence/')
     rows = import_ranges.read_table(path)
+    holds = local(root, image['import_layout']['holds'], 'config/decoded/evidence/')
+    import_ranges.audit_holds(holds, image, rows, number)
     return import_ranges.audit(image, rows, number, data=expected)
+
+
+def audit_object_references(root, image, expected, objects=None):
+    layout = image['import_layout']
+    sources = layout['reference_sources']
+    units = {u['source']: u for u in image['units']}
+    if not set(sources) <= units.keys() or len(sources) != len(set(sources)):
+        raise ValueError('invalid text reference sources')
+    aliases = name_table(root / 'config/names.tsv')
+    # A clean check compiles the reference owners. The link can reuse the objects it just compiled.
+    build_dir = root / 'build'
+    build_dir.mkdir(exist_ok=True)
+    with tempfile.TemporaryDirectory(dir=build_dir) as tmp:
+        parsed = {}
+        for i, source in enumerate(units):
+            unit = units[source]
+            if objects is None:
+                path = Path(tmp) / f'{i}.o'
+                run(root, ['nice', '-n', '10', 'bash', 'build_ovl/tools/cc.sh', source,
+                           str(path), unit['compiler'], unit['flags']], path.with_suffix('.log'))
+            else:
+                path = objects[source]
+            parsed[source] = read_elf(path.read_bytes())
+        import_ranges.audit_references(image, {src: parsed[src] for src in sources}, aliases, expected, number)
+        if 'call_context' in image:
+            return call_targets.audit(root, image, parsed, aliases, expected, number)
 
 
 def run(root, command, log=None):
@@ -255,6 +295,7 @@ def build(root, image, *, compile_units=True):
     base, size = number(image['address']), number(image['size'])
     work = local(root, 'build/decoded/' + image['image'])
     work.mkdir(parents=True, exist_ok=True)
+    require_evidence(image)
     expected, streams = reproduce(root, image)
     if 'binding_evidence' in image:
         audit_bindings(root, image, expected)
@@ -309,6 +350,8 @@ def build(root, image, *, compile_units=True):
         for key in ('source', 'header'):
             if key in unit and unit[key] not in inputs:
                 inputs[unit[key]] = digest(local(root, unit[key]).read_bytes())
+    if 'import_layout' in image:
+        audit_object_references(root, image, expected, {key[0]: value[0] for key, value in compiled.items()})
     symbols = dict(image['symbols'])
     # ccproc may canonicalize resident names. Accept only aliases of the same
     # explicit binding; no unresolved relocation is masked or guessed.
@@ -373,24 +416,27 @@ def build(root, image, *, compile_units=True):
         for index, stream in enumerate(streams):
             begin, length = stream['decoded_offset'], stream['size']
             packed = encode(actual[begin:begin+length])
-            if len(packed) != stream['used'] or digest(packed) != stream['source_sha256']:
+            with local(root, stream['container']).open('rb') as source:
+                source.seek(number(stream['offset']))
+                original = source.read(stream['used'])
+            if len(packed) != stream['used'] or packed != original:
                 raise ValueError('recompressed stream differs from retail')
             target = work / f'stream_{index}.lz'
             target.write_bytes(packed)
             compressed.append(dict(container=stream['container'], offset=stream['offset'],
-                                   size=len(packed), sha256=digest(packed), output=target.relative_to(root).as_posix()))
+                                   size=len(packed), sha256=extent_digest(packed), output=target.relative_to(root).as_posix()))
     result = dict(result='PASS', image=image['image'], proof_mode=image['proof_mode'],
                   compressed_streams_produced_from_linked_image=bool(compressed), raw_c_coverage_bytes=0,
                   compressed_stream_bytes=sum(s['size'] for s in compressed), compressed_streams=compressed,
                   decoded_c_text_bytes=sum(s for _, s, *_ in functions),
                   decoded_c_data_bytes=sum(s for _, s, *_ in data),
                   data=[dict(section=section, source=u['source'], address=hex(a),
-                             offset=a-base, size=s, sha256=digest(actual[a-base:a-base+s]))
+                             offset=a-base, size=s, sha256=extent_digest(actual[a-base:a-base+s]))
                         for a, s, section, u, _ in sorted(data)],
                   decoded_imported_bytes=sum(g['size'] for g in gaps),
-                  size=len(actual), sha256=digest(actual), source_sha256=inputs, streams=streams,
+                  size=len(actual), sha256=extent_digest(actual), source_sha256=inputs, streams=streams,
                   functions=[dict(id='decoded/'+image['image']+'/'+n, name=n, address=hex(a),
-                                  offset=a-base, size=s, source=u['source'], sha256=digest(actual[a-base:a-base+s]),
+                                  offset=a-base, size=s, source=u['source'], sha256=extent_digest(actual[a-base:a-base+s]),
                                   **({'placement': u['placement'], 'symbol': export} if 'placement' in u else {}))
                              for a, s, n, u, _, _, export, _ in functions], gaps=gaps)
     (work / 'proof.json').write_text(json.dumps(result, indent=2) + '\n')
@@ -403,7 +449,7 @@ def container_overlays(root, proofs):
     for proof in proofs:
         for stream in proof['compressed_streams']:
             data = local(root, stream['output'], 'build/decoded/').read_bytes()
-            if len(data) != stream['size'] or digest(data) != stream['sha256']:
+            if len(data) != stream['size'] or extent_digest(data) != stream['sha256']:
                 raise ValueError('generated compressed artifact changed')
             result.setdefault(stream['container'], []).append((number(stream['offset']), data))
     for name, spans in result.items():
@@ -468,19 +514,29 @@ def main():
         for proof in build_all(root, images):
             print(json.dumps(proof, sort_keys=True))
     else:
+        missing = []
         for image in images:
             available = all(local(root, stream['container']).is_file() for stream in image['streams'])
             expected = reproduce(root, image)[0] if available else None
             counts = audit_bindings(root, image, expected)
             print(f"{image['image']}: {counts['placement']} placement bindings and "
-                  f"{counts['global']} global symbols verified")
+                  f"{counts['global']} global symbols checked, including "
+                  f"{counts['address_names']} address-spelled bindings")
             if 'import_layout' in image:
+                if available:
+                    calls = audit_object_references(root, image, expected)
+                if available and calls is not None:
+                    outside, placements, exceptions = calls
+                    print(f"{image['image']}: {outside} distinct external callees, {placements} ordinary "
+                          f"placement call sites, {exceptions} recorded ordinary exceptions")
                 totals = audit_import_ranges(root, image, expected)
                 detail = ', '.join(f'{kind} {size:,}' for kind, size in totals.items())
                 print(f"{image['image']}: imported bytes ({detail})")
             if not available:
-                print(f"{image['image']}: decoded extent digests skipped (retail input unavailable)")
-        print(f'decoded registry OK: {len(images)} images, {len(rows(root))} functions; physical rows unchanged')
+                missing.append(image['image'])
+        detail = ('; no disc for ' + ', '.join(missing) +
+                  ': import totals and registered ranges only; disc bytes and text references unchecked') if missing else ''
+        print(f'decoded registry OK: {len(images)} images, {len(rows(root))} functions{detail}')
 
 
 if __name__ == '__main__':

@@ -1,12 +1,12 @@
 #include "slus/map_state.h"
 #include "common.h"
+#include "shared/gpu_packets.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "sdk/libgte.h"
 #include "town/person.h"
 
 /* Retail writes +0x19..+0x1B; the asset allocation extent is not established here. */
-extern u8 upper_draw_context[];
 extern u8 lower_draw_context[];
 
 /* Initialize town projection, lighting, view bounds, and color state. */
@@ -74,9 +74,9 @@ void initialize_person_projection(void) {
     view_state->tint.parts.tint_r = 0x80;
     view_state->tint.parts.tint_g = 0x80;
     view_state->tint.parts.tint_b = 0x80;
-    upper_draw_context[0x19] = 0;
-    upper_draw_context[0x1A] = 0;
-    upper_draw_context[0x1B] = 0;
+    upper_draw_context[0].draw.r0 = 0;
+    upper_draw_context[0].draw.g0 = 0;
+    upper_draw_context[0].draw.b0 = 0;
     lower_draw_context[0x19] = 0;
     lower_draw_context[0x1A] = 0;
     lower_draw_context[0x1B] = 0;

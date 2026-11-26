@@ -29,7 +29,6 @@ extern const char cached_stat_suffix[8];
 extern const char cached_stat_line_break[4];
 extern const char cached_stat_separator[8];
 extern const char cached_stat_column_labels[24];
-extern const char cached_status_line_break[4];
 extern const char cached_hp_mp_break[4];
 extern SpritePartCommand cached_opening_status_templates[4];
 
