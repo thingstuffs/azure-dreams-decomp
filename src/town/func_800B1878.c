@@ -7,13 +7,11 @@
 #include "town/shop/item_menu_cursor_transition_g00601.h"
 #include "engine/item.h"
 #include "town.h"
+#include "town/shop/item.h"
 struct ItemMenuTransition;
 
 
 extern void *allocate_list_node(s32 value, ObjectNodeHeader **list_head);
-extern void *link_item_menu_display_entries(void *entries);
-extern void initialize_item_menu_list_display(ItemMenuTransition *payload, ObjectNodeHeader *parent, s32 resource_id, s32 resource_data,
-                          s32 x, s32 y, u8 *entry_ids);
 
 /* Create and initialize a child object at (x, y), marking allocation failure for cleanup. */
 ObjectNodeHeader *create_item_menu_child_at_position(ObjectNodeHeader *parent, s32 x, s32 y, s32 resource_id,

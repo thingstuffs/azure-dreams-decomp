@@ -22,4 +22,5 @@ void update_shuffled_rect_clear_effect(struct ShuffledSpriteClearBody *,s32 *,vo
 struct S_func_8190B2D0_0;
 void update_rising_capture_effect(struct S_func_8190B2D0_0 *,void *,void *);
 void draw_transformed_sprite_with_clip_rect(void *,void *,void *,s32,s32);
+extern const u8 level_not_decreased_suffix[52];
 #endif

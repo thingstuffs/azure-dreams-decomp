@@ -166,9 +166,9 @@ s32 find_floor_item_at_world_position(s32 input_x, s32 input_y, s32 input_z) {
 
 }
 
-/* MECHANISM: True-space epilogue targets are two pre-scan return trampolines; s32 formals
-   plus guarded s1/s2/s0 carriers reproduce the raw/narrow argument lifetimes and 0x28 saves.
-   Counter/y carriers fix volatile roles; v0 page keeps emit the split +36C8/+3548 bases. */
+/* The two early return paths skip the scan. The
+ * coordinates used by the scan retain their original
+ * argument widths, and the map tables are loaded separately. */
 
 /* Returns the first entry index with a zero second byte among 64 entries, or -1. */
 s32 find_first_empty_floor_item_slot(void) {
@@ -423,9 +423,9 @@ void update_floor_object_motion(FuncObj *obj, ObjectPosition *pos, FuncVec *targ
     }
 }
 
-/* MECHANISM: Preserve the seed's 0x20 frame, s0 object hold, s1 target hold, and v0 entry pin.
-   The allocator call is zero-arity: the preceding signed divisor may remain incidental in a0,
-   avoiding the false unsigned reload at word 36 and restoring retail's post-mflo nop. */
+/* The allocator takes no arguments.
+ * The preceding signed division needs no
+ * argument setup for that call. */
 
 typedef struct S_800A794C_2 {
     u8 pad_00[0x98];
@@ -616,7 +616,7 @@ s32 render_floor_items(s32 unused0, ObjectPosition *unused1, SpriteFrameState *r
     render_state = &g_game_work;
     render_ctx = g_game_work.draw_buffer;
     prim = render_ctx->packetCursor;
-    scratch->ordering_table = (u32 *)&render_ctx->orderTag;
+    scratch->ordering_table = &render_ctx->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->matrix_D0.t[0] = 0;
     scratch->matrix_D0.t[1] = 0;
     scratch->matrix_D0.t[2] = 0;
@@ -735,13 +735,13 @@ s32 render_floor_items(s32 unused0, ObjectPosition *unused1, SpriteFrameState *r
                             scratch->uv_u_extent = tex_right + tex_left;
                             scratch->uv_v_extent = (tex_bottom + tex_top) << 8;
                             scratch->uv_v_start <<= 8;
-                            /* BYTES: retail stores the u/v pair with the CLUT or texture-page halfword as one sw; member stores compile to two sb and an sh */
+                            /* BYTES: The UV pair and palette or texture-page selector are stored together. Separate members split the word store into byte and halfword stores. */
                             *(u32 *)&prim->u0 = scratch->uv_v_start + scratch->uv_u_start + (sprite->clut << 16);
-                            /* BYTES: retail stores the u/v pair with the CLUT or texture-page halfword as one sw; member stores compile to two sb and an sh */
+                            /* BYTES: The UV pair and palette or texture-page selector are stored together. Separate members split the word store into byte and halfword stores. */
                             *(u32 *)&prim->u1 = scratch->uv_v_start + scratch->uv_u_extent + (sprite->tpage << 16);
-                            /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                            /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
                             *(s16 *)&prim->u2 = scratch->uv_v_extent + scratch->uv_u_start;
-                            /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                            /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
                             *(s16 *)&prim->u3 = scratch->uv_v_extent + scratch->uv_u_extent;
                             if (scratch->matrix_50.m[0][0] >= 0x1800) {
                                 prim->u1 = prim->u3--;
@@ -757,7 +757,7 @@ s32 render_floor_items(s32 unused0, ObjectPosition *unused1, SpriteFrameState *r
                                 prim->v2 = prim->v2 - 1;
                                 prim->v3 = prim->v3 - 1;
                             }
-                            /* BYTES: retail stores the sprite colour word (r0, g0, b0 and code) with one sw; member stores compile to four sb */
+                            /* BYTES: The sprite color and command are written together. Separate members generate four byte stores. */
                             *(u32 *)&prim->r0 = render_params->color.word;
                             SetPolyFT4(prim);
                             matrix_or_prim = prim;
@@ -792,13 +792,13 @@ s32 render_floor_items(s32 unused0, ObjectPosition *unused1, SpriteFrameState *r
                             prim->y2 = scratch->projected_vertices[2].y + scratch->screen_origin.y;
                             prim->x3 = scratch->projected_vertices[3].x + scratch->screen_origin.x;
                             prim->y3 = scratch->projected_vertices[3].y + scratch->screen_origin.y;
-                            /* BYTES: retail stores the u/v pair with the CLUT or texture-page halfword as one sw; member stores compile to two sb and an sh */
+                            /* BYTES: The UV pair and palette or texture-page selector are stored together. Separate members split the word store into byte and halfword stores. */
                             *(u32 *)&prim->u0 = scratch->uv_v_start + scratch->uv_u_start + 0x7FC00000;
-                            /* BYTES: retail stores the u/v pair with the CLUT or texture-page halfword as one sw; member stores compile to two sb and an sh */
+                            /* BYTES: The UV pair and palette or texture-page selector are stored together. Separate members split the word store into byte and halfword stores. */
                             *(u32 *)&prim->u1 = scratch->uv_v_start + scratch->uv_u_extent + (sprite->tpage << 16);
-                            /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                            /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
                             *(s16 *)&prim->u2 = scratch->uv_v_extent + scratch->uv_u_start;
-                            /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                            /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
                             *(s16 *)&prim->u3 = scratch->uv_v_extent + scratch->uv_u_extent;
                             if (prim->x0 > prim->x3) {
                                 prim->u1 = prim->u1 - 1;
@@ -808,7 +808,7 @@ s32 render_floor_items(s32 unused0, ObjectPosition *unused1, SpriteFrameState *r
                                 prim->v2 = prim->v2 - 1;
                                 prim->v3 = prim->v3 - 1;
                             }
-                            /* BYTES: retail stores the sprite colour word (r0, g0, b0 and code) with one sw; member stores compile to four sb */
+                            /* BYTES: The sprite color and command are written together. Separate members generate four byte stores. */
                             *(u32 *)&prim->r0 = render_params->color.word;
                             SetPolyFT4(prim);
                             prim->code = prim->code | 2;
@@ -1391,10 +1391,10 @@ void snapshot_item_flag_bitmap(u16 unused_saved_setting)
     } while (group_index < 0x13);
 }
 
-/* MECHANISM: Frameless leaf; typed 20-byte groups recover the two local do-loops
-   and the outer +20 delay-slot stride. Held current/inner group roles plus an
-   index-first 0x80010000 RAM address reproduce t2/t0 and the 0x5720 accesses.
-   A preincrement condition emits count-load before index increment and closes. */
+/* The outer loop advances through the
+ * typed groups while the inner loop
+ * scans their entries. The group count
+ * is read before advancing the index. */
 struct EntityLinkNode;
 struct Node;
 
@@ -1463,6 +1463,6 @@ s32 select_random_eligible_item_entry(void *actor)
     return result;
 }
 
-/* MECHANISM: A four-byte stack result and actor-only s0 lifetime produce the 0x20 frame.
-   The literal D_80012090 read coalesces its address/load in v1; an unsigned lvalue gives lbu.
-   Splitting table index, base, and entry moves sll after the held lui/addiu and closes reorder. */
+/* The lookup reads one unsigned byte.
+ * The table base is set up
+ * before computing the indexed entry address. */

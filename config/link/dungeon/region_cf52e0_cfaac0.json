@@ -5,7 +5,7 @@
   "foff": "0xcf52e0",
   "size": "0x57e0",
   "vma": "0x80158ae0",
-  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase img_cf52e0_80158ae0",
+  "evidence": ": rowbase img_cf52e0_80158ae0",
   "entries": [
     {
       "row": "dungeon/func_80CD77A0",
@@ -18,7 +18,7 @@
         "0x800AD058": "0x800AD058",
         "0x8016D2C0": "0x8015AFA0"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "dungeon/func_80CD7F20",
@@ -39,7 +39,7 @@
         "0x80083160": "0x80083160",
         "0x80047784": "0x80047784"
       },
-      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+      "evidence": "current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "dungeon/func_80CD8030",
@@ -55,7 +55,7 @@
         "0x80173000": "0x80173000",
         "0x8016D2C0": "0x8016D2C0"
       },
-      "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_80CD8030; LL3a preserves prior rule-3 binding"
+      "evidence": ": dungeon/func_80CD8030; LL3a preserves prior rule-3 binding"
     },
     {
       "row": "dungeon/func_80CD80B0",
@@ -140,7 +140,7 @@
         "0x80175e6c": "0x8015de6c",
         "0x8016D2C0": "0x8016D2C0"
       },
-      "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_80CD8398"
+      "evidence": ": dungeon/func_80CD8398"
     },
     {
       "row": "dungeon/func_80CDA828",
@@ -155,7 +155,7 @@
         "0x80173000": "0x80173000",
         "0x8016D2C0": "0x8016D2C0"
       },
-      "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_80CDA828; LL3a preserves prior rule-3 binding"
+      "evidence": ": dungeon/func_80CDA828; LL3a preserves prior rule-3 binding"
     }
   ]
 }

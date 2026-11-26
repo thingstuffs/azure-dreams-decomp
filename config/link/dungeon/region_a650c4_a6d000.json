@@ -5,7 +5,7 @@
   "foff": "0xa650c4",
   "size": "0x7f3c",
   "vma": "0x8016e8c4",
-  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase beldo_boss_cluster The resource-5 slot-6 load owns the preceding bytes through +0xa650c4.",
+  "evidence": ": rowbase beldo_boss_cluster The resource-5 slot-6 load owns the preceding bytes through +0xa650c4",
   "entries": [
     {
       "row": "dungeon/func_80A4AB34",

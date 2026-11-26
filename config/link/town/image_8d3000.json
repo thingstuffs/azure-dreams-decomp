@@ -5,7 +5,7 @@
   "foff": "0x8d3000",
   "size": "0x4800",
   "vma": "0x80020000",
-  "evidence": "config/overlays/town.rowbase.jsonl proven regions with delta 0x7F74D000: r121c3_8D6FA8, r121nd_8D6E64, sweep_8D33D8; docs/evidence/r124w_carve1_run10.md; descriptor/grid bounds; existing source addresses preserved",
+  "evidence": "config/overlays/town.rowbase.jsonl proven regions with delta 0x7F74D000. Image-local bindings are recorded in the link map.",
   "entries": [
     {
       "row": "town/func_809531C8",
@@ -14,7 +14,7 @@
       "foff": "0x8D31C8",
       "vma": "0x800201C8",
       "size": 148,
-      "evidence": "docs/evidence/r124w_carve1_run6.md"
+      "evidence": "Recorded in the production link map."
     },
     {
       "row": "town/func_8095325C",
@@ -23,7 +23,7 @@
       "foff": "0x8D325C",
       "vma": "0x8002025C",
       "size": 164,
-      "evidence": "docs/evidence/r124w_carve1_run6.md"
+      "evidence": "Recorded in the production link map."
     },
     {
       "row": "town/func_808B408C",
@@ -48,7 +48,7 @@
       "foff": "0x8D5484",
       "vma": "0x80022484",
       "size": 144,
-      "evidence": "docs/evidence/r124w_carve1_run11.md"
+      "evidence": "Recorded in the production link map."
     },
     {
       "row": "town/func_809555F0",
@@ -57,7 +57,7 @@
       "foff": "0x8D55F0",
       "vma": "0x800225F0",
       "size": 76,
-      "evidence": "docs/evidence/r124w_carve1_run11.md"
+      "evidence": "Recorded in the production link map."
     }
   ]
 }

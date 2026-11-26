@@ -263,7 +263,7 @@ void update_univern_motion_and_facing(ActorRecord *actor, ObjectPosition *motion
             object->flags = flip_flags;
         }
         if (actor->action_id != 8) {
-            apply_monster_koyaw_data(actor_state->flags1C, (u8 *)object + 0xC);
+            apply_monster_koyaw_data(actor_state->flags1C, &object->color.c.r);
         }
 
         if (!(actor_state->flags1C & 0x20)) {
@@ -1791,7 +1791,7 @@ void update_sleeping_univern(ActorRecord *actor_arg, ObjectPosition *motion_arg,
                 return;
             }
         }
-        if (((R17_801738E0_S_801738E0_2 *)entity)->unk_25 == 0) {
+        if (entity->mp == 0) {
             if (global_state->flags & 0x2008) {
                 return;
             }

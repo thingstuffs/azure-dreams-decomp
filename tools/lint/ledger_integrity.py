@@ -1456,6 +1456,7 @@ def main(argv=None):
     for problem in text_problems:
         print('  RETAIL TEXT ' + problem)
     text_lint = retail_text.check(root)
+    text_lint.extend(f'{path}:{line}: {kind}' for path, line, kind in retail_text.documents(root, strict=True))
     print(f'retail text lint: {len(text_lint)} findings')
     for problem in text_lint:
         print('  TEXT LINT ' + problem)

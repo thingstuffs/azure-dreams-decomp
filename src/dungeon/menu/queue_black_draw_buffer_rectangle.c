@@ -19,7 +19,7 @@ void queue_black_draw_buffer_rectangle(InactiveTypeTwelveObjectBody *object) {
     draw_rect[1] = 0x400040;
     draw_buffer = g_game_work.draw_buffer;
     adjust_y = (u8 *)draw_buffer != upper_draw_context;
-    ordering_table = &draw_buffer->orderTag8B0;
+    ordering_table = &draw_buffer->orderTag[528];
     area_packet = draw_buffer->packetCursor;
     draw_buffer->packetCursor = area_packet + 0xC;
     SetDrawArea(area_packet, g_game_work.draw_buffer);

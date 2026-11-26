@@ -5,7 +5,7 @@
   "foff": "0x437800",
   "size": "0x3800",
   "vma": "0x80016000",
-  "evidence": "config/overlays/town.rowbase.jsonl proven regions with delta 0x7FBDE800: r121c2_437930, r121c2_437950, r121c2_437970, r121c2_437990, r121c2_4379B0, r121c2_4379D0 (+13 more); docs/evidence/r124w_carve1_run10.md; descriptor/grid bounds; existing source addresses preserved",
+  "evidence": "config/overlays/town.rowbase.jsonl proven regions with delta 0x7FBDE800. Image-local bindings are recorded in the link map.",
   "entries": [
     {
       "row": "town/func_804B7C44",
@@ -120,7 +120,7 @@
       "foff": "0x43A1BC",
       "vma": "0x800189BC",
       "size": 60,
-      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "evidence": "Recorded in the production link map.",
       "bindings": {
         "0x80016000": "0x80016000"
       }
@@ -132,7 +132,7 @@
       "foff": "0x43A234",
       "vma": "0x80018A34",
       "size": 60,
-      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "evidence": "Recorded in the production link map.",
       "bindings": {
         "0x80016000": "0x80016000"
       }

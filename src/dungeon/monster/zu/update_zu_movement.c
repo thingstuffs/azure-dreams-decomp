@@ -2303,7 +2303,7 @@ void update_zu_effect_fade(void *effect_arg, ObjectPosition *position, SpriteFra
 
 
 
-const u8 D_80170854[20] = {129,64,130,146,130,143,130,129,130,146,130,133,130,132,129,68,0,0,0,0};
+
 extern u8 D_80174B0C[];
 
 /* Start the actor's hit reaction, then build and post the damage message for it. */
@@ -2345,7 +2345,7 @@ void begin_zu_action_with_message(ActorRecord *work, ObjectPosition *part_a, Spr
         pass_result = raw_result;
         result = pass_result;
         raw_result = append_entity_display_text(call_arg, pass_result);
-        clear_byte_and_advance(expand_text_control_codes(D_80170854, raw_result));
+        clear_byte_and_advance(expand_text_control_codes(zu_action_message_suffix, raw_result));
         display_text_with_fullwidth_adjustment(result);
     }
 }

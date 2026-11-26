@@ -82,7 +82,7 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, ObjectPosition
             monster->flags |= 0x7000;
         }
 
-        apply_monster_koyaw_data(actor->unk_1C, (u8 *)monster + 0xC);
+        apply_monster_koyaw_data(actor->unk_1C, &monster->color.c.r);
     } else if (model_flags & 0x800) {
         monster->flags = model_flags & 0x8FFF;
     } else {

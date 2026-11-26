@@ -34,24 +34,13 @@ typedef struct PolyFT4 {
     /* 0x26 */ unsigned char pad_26[2];
 } PolyFT4;
 
-/* Current render state reached through gameWork.unk_000. The grid renderer
- * inserts packets into the low 24 bits of +B0 and advances +8D0 after each
- * allocation. This is a partial observed layout; full allocation unknown. */
+enum { GPU_ORDER_DEPTH_BASE = 16 };
+
 /* Partial frame draw context owned by the frame-buffer setup, borrowed through GameWork.draw_buffer.
  * render_scene_frame_with_timing reuses contexts, clears ordering tags and resets packet storage each frame. */
 typedef struct GpuContext {
     /* 0x000 */ unsigned char pad_000[0x70];
-    /* 0x070 */ unsigned int orderTag070; /* ordering-table tag used by text sprites and draw-mode packets */
-    /* 0x074 */ unsigned int orderTag074; /* ordering-table tag used by tile and draw-mode packets */
-    /* 0x078 */ unsigned char pad_078[0x38];
-    /* 0x0B0 */ int orderTag; /* ordering-table tag used by the textured grid renderer */
-    /* 0x0B4 */ unsigned char pad_0B4[0x17C];
-    /* 0x230 */ unsigned int orderTag230; /* ordering-table tag used by the three-line shade renderer */
-    /* 0x234 */ unsigned char pad_234[0x5F8];
-    /* 0x82C */ int orderTag82C; /* ordering-table tag used by the layered tile renderer */
-    /* 0x830 */ unsigned char pad_830[0x80];
-    /* 0x8B0 */ unsigned int orderTag8B0; /* ordering-table tag used by clipped draw/fill packets */
-    /* 0x8B4 */ unsigned char pad_8B4[0x1C];
+    /* 0x070 */ unsigned int orderTag[0x218]; /* ordering buckets cleared together by frame setup */
     /* 0x8D0 */ void *packetCursor; /* next free packet byte; reset to context +0x8D4 when reused, then advanced by each packet builder */
 } GpuContext;
 

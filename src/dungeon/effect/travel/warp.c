@@ -53,9 +53,9 @@ extern s16 D_800287A0;
 extern void upload_vram_row_and_cache(void *, s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 extern s32 decode_and_upload_image(void *, void *);
 
-/* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The state table of the switch below follows
- * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
+/* The module entry occupies the
+ * first read-only word. The aligned switch
+ * table follows, before the code. */
 
 /* Advances a dungeon event through setup, activation, timed color fades, and cleanup. */
 void run_warp_effect_sequence(EventState *event) {

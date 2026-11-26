@@ -76,14 +76,14 @@ s32 build_sorted_effect_quads(void *quad_entry) {
         scratch->ot_index = depth_index;
         if (depth_index < 0x1E0U) {
             color_01 = entry->unk_54;
-            /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+            /* BYTES: Write the first packed color to the second vertex before the first vertex. Separate members split the word into byte stores. */
             *(s32 *)&packet->red1 = color_01;
-            /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+            /* BYTES: Write the same packed color to the first vertex after the second vertex. Separate members split the word into byte stores. */
             *(s32 *)&packet->red0 = color_01;
             color_23 = entry->unk_58;
-            /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+            /* BYTES: Write the second packed color to the fourth vertex before the third vertex. Separate members split the word into byte stores. */
             *(s32 *)&packet->red3 = color_23;
-            /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+            /* BYTES: Write the same packed color to the third vertex after the fourth vertex. Separate members split the word into byte stores. */
             *(s32 *)&packet->red2 = color_23;
             SetPolyG4(packet);
             packet->code = packet->code | 2;

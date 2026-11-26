@@ -236,7 +236,7 @@ void render_actor_sprite_parts(void *unused, MovingPosition *position, SpriteFra
         scratch->input.vx = camera_rot_x;
         scratch->input.vy = camera_rot_y;
         scratch->input.vz = camera_rot_z;
-        /* BYTES: the low-halfword conversion keeps lhu at scratch offset 0x34. */
+        /* BYTES: The conversion reads the unsigned low halfword of the camera Y component before the same slot is reused for scale. */
         camera_y = (u16)scratch->input.vy;
         scratch->angles.vx = sprite->angle_x;
         rotation_delta = sprite->angle_z;

@@ -1260,13 +1260,13 @@ s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_posi
                             scratch->depth = depth;
                             if ((u32) (depth - 1) < 0x1DF) {
                                 NormalColorCol(&materials[face->tex], &render_state->blend, (CVECTOR *)&prim->r0);
-                                /* BYTES: retail stores u0, v0 and the CLUT with one sw of the face word; member stores compile to sb, sb, sh */
+                                /* BYTES: The first UV pair and palette selector are stored together from the face word. Separate members split that store into three. */
                                 *(s32 *)&prim->u0 = face->a;
-                                /* BYTES: retail stores u1, v1 and the texture page with one sw of the face word; member stores compile to sb, sb, sh */
+                                /* BYTES: The second UV pair and texture-page selector are stored together from the face word. Separate members split that store into three. */
                                 *(s32 *)&prim->u1 = face->b;
-                                /* BYTES: retail writes the packet u/v byte pair with one sh of the face halfword; storing u and v separately compiles to two sb */
+                                /* BYTES: The packed face UV pair is stored together. Separate members generate two byte stores. */
                                 *(u16 *)&prim->u2 = face->u2;
-                                /* BYTES: retail writes the packet u/v byte pair with one sh of the face halfword; storing u and v separately compiles to two sb */
+                                /* BYTES: The packed face UV pair is stored together. Separate members generate two byte stores. */
                                 *(u16 *)&prim->u3 = face->u3;
                                 if (render_params->color[0] != 0x80) {
                                     prim->r0 = (prim->r0 * render_params->color[0]) >> 7;
@@ -1420,19 +1420,19 @@ s32 queue_four_shaded_quadrants(MenuFadeRect *rect_arg, ObjectPosition *owner_ar
             packet->y2 = edge_coord;
 
             packet_word = rect_data->color.word;
-            /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+            /* BYTES: Each vertex RGB value and its following byte are stored together in one word. Separate members write the bytes individually. */
             *(u32 *)&packet->red3 = 0;
-            /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+            /* BYTES: Each vertex RGB value and its following byte are stored together in one word. Separate members write the bytes individually. */
             *(u32 *)&packet->red1 = 0;
-            /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+            /* BYTES: Each vertex RGB value and its following byte are stored together in one word. Separate members write the bytes individually. */
             *(u32 *)&packet->red2 = 0;
-            /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+            /* BYTES: Each vertex RGB value and its following byte are stored together in one word. Separate members write the bytes individually. */
             *(u32 *)&packet->red0 = packet_word;
             SetPolyG4(packet);
 
             quadrant--;
             packet->code |= 2;
-            AddPrim(&(*render_state_ptr)->orderTag + owner->z.w.i, packet);
+            AddPrim(&(*render_state_ptr)->orderTag[GPU_ORDER_DEPTH_BASE] + owner->z.w.i, packet);
         } while (quadrant >= 0);
 
         render_state = *render_state_ptr;
@@ -1440,7 +1440,7 @@ s32 queue_four_shaded_quadrants(MenuFadeRect *rect_arg, ObjectPosition *owner_ar
         render_state->packetCursor = mode_packet + 1;
         packet_word = GetTPage(0, 2, 0, 0);
         SetDrawMode(mode_packet, 0, 0, packet_word & 0xFFFF, 0);
-        AddPrim(&(*render_state_ptr)->orderTag + owner->z.w.i, mode_packet);
+        AddPrim(&(*render_state_ptr)->orderTag[GPU_ORDER_DEPTH_BASE] + owner->z.w.i, mode_packet);
 
         next_node = ((ObjectNodeHeader *)rect_data)[-1].chain_next;
         rect_data = NODE_BODY(next_node);

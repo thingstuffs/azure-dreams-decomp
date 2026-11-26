@@ -2,8 +2,7 @@
 """Naming and module evidence for every row -> ledger/evidence/ (docs/EVIDENCE.md is the index).
 
 Sources, all in-tree once imported:
-  docs/evidence/konami_assertion_sites.csv   Konami/Sony assert()/mark()/"%s = %d" sites left on the disc:
-                                             real source file + line, and real identifier text (ost_w, cdhd_cnt, ...)
+  docs/evidence/konami_assertion_sites.csv   Diagnostic call sites, source line numbers, and disc text locations.
   ledger/evidence/adrando_map.json           the De-Randomizer's address map as facts (name, disc offset, RAM, layouts)
   ledger/evidence/knowledge/<func>.json      prior per-function notes carried over (doc, globals, calls)
   baserom/slus_006.14                        resident pointer tables (event-script VM handler table and friends)
@@ -30,63 +29,62 @@ CSV = DOCS / "konami_assertion_sites.csv"
 CONT = {"TOWN.BIN": "town", "MAIN.BIN": "main", "DUNGEON.BIN": "dungeon", "OVMOVIE.BIN": "ovmovie"}
 SLUS_LO, SLUS_HI = 0x8002D000, 0x8008B000
 
-# Real identifiers printed by the shipped debug macros (docs/evidence/konami_assertion_sites.md §3.3, §4.1, §6, §7).
-# The meaning column is what the catalogue could establish; "unnamed object" means the owning .c file is not known.
+# Disc locations of expression strings and source names, with the catalogue's descriptions.
 IDENTIFIERS = {
-    "((u_long)p - (u_long)ost_w)/ sizeof(OSETDT)":   ("main.c",     "OSETDT = object-set table record type; ost_w = the object-set table (array of OSETDT); p indexes it"),
-    "((u_long)pp - (u_long)osel_w)/ sizeof(OSETDT*)": ("main.c",     "osel_w = object-select array (OSETDT* pointers parallel to ost_w); pp indexes it"),
-    "cdhd_cnt":            ("main.c",     "CD-header counter (global)"),
-    "ov_work.kind":        ("sn_main.c",  "ov_work = overlay work struct (devkit scene tool), .kind = overlay kind"),
-    "p->kind":             ("sn_main.c",  "kind field of the object pointed to by p (devkit scene tool)"),
-    "kind":                ("flgtst.c?",  "devkit blob, probably flgtst.c (inferred)"),
-    "mode":                ("flgtst.c?",  "devkit blob, probably flgtst.c (inferred)"),
-    "sno":                 ("flgtst.c?",  "scene/sequence number, devkit blob, probably flgtst.c (inferred)"),
-    "head":                ("(unnamed object before lshop.o)", "list head; same function also prints ptr[n].vx / ptr[n].vy -> a vertex array walker"),
-    "ptr[n].vx":           ("(unnamed object before lshop.o)", "vertex array element x (PSY-Q SVECTOR/DVECTOR .vx)"),
-    "ptr[n].vy":           ("(unnamed object before lshop.o)", "vertex array element y"),
-    "s0[0]": ("(unnamed object between main.o and player.o)", "first element of string/array s0"),
-    "s1[0]": ("(unnamed object between main.o and player.o)", "first element of string/array s1"),
-    "s[0]":  ("(unnamed object between main.o and player.o)", "first element of string/array s"),
-    "(int)gsw->check_sum": ("(MAIN.BIN devkit module)", "gsw = game-save work struct, .check_sum = save checksum"),
-    "card_first_flg":      ("c_server.c", "Sony libcard: first-access flag"),
-    "cnt":                 ("c_server.c", "Sony libcard: a counter"),
+    "TOWN.BIN+0x2ab8a0/44": ("TOWN.BIN+0x2ab88c/7", "Index into the object-set table"),
+    "TOWN.BIN+0x2ab8cc/47": ("TOWN.BIN+0x2ab88c/7", "Index into the parallel object pointer table"),
+    "TOWN.BIN+0x2ab8fc/9": ("TOWN.BIN+0x2ab88c/7", "Global CD-header counter"),
+    "TOWN.BIN+0x7f88c4/13": ("TOWN.BIN+0x7f88e8/10", "Overlay work record kind"),
+    "TOWN.BIN+0x7f88bc/8": ("TOWN.BIN+0x7f88e8/10", "Kind field of a referenced object"),
+    "TOWN.BIN+0x7f7fd8/5": ("TOWN.BIN+0x7ffb44/9?", "Development tool selector"),
+    "TOWN.BIN+0x7f7fe0/5": ("TOWN.BIN+0x7ffb44/9?", "Development tool mode"),
+    "TOWN.BIN+0x7f7fe8/4": ("TOWN.BIN+0x7ffb44/9?", "Scene or sequence number"),
+    "TOWN.BIN+0x3e817c/5": ("(unnamed object before shop code)", "List head in a vertex array walker"),
+    "TOWN.BIN+0x3e8184/10": ("(unnamed object before shop code)", "Vertex x coordinate"),
+    "TOWN.BIN+0x3e8190/10": ("(unnamed object before shop code)", "Vertex y coordinate"),
+    "TOWN.BIN+0x2ab918/6": ("(unnamed object between town main and player code)", "First element of an array"),
+    "TOWN.BIN+0x2ab920/6": ("(unnamed object between town main and player code)", "First element of an array"),
+    "TOWN.BIN+0x2ab928/5": ("(unnamed object between town main and player code)", "First element of an array"),
+    "MAIN.BIN+0x269120/20": ("(MAIN.BIN development image)", "Checksum field of the save work record"),
+    "MAIN.BIN+0x269044/15": ("MAIN.BIN+0x25d028/11", "Sony libcard first-access flag"),
+    "MAIN.BIN+0x2690f8/4": ("MAIN.BIN+0x25d028/11", "Sony libcard counter"),
 }
 SOURCE_FILES = {
-    "main.c":   "Konami town-scene main (linked into every one of the 54 TOWN event-script modules; two revisions: lines 40/55 in 47 modules, 39/54 in 7)",
-    "lshop.c":  "Konami shop code (small file; assertions at lines 65, 113, 118, 128 in three consecutive functions; linked before main.o)",
-    "player.c": "Konami player code (assert at line 64; linked after main.o)",
-    "tobjs.c":  "Konami devkit scene tool: town objects (TOWN.BIN devkit blob, not shipped game code)",
-    "sn_main.c": "Konami devkit scene tool main (mark: trace macro, devkit blob)",
-    "flgtst.c": "Konami devkit flag test (mark: trace macro, devkit blob)",
-    "c_server.c": "Sony libcard card server (MAIN.BIN; shipped copy at 0x80020000 and a devkit copy at 0x80400000)",
-    "card_mes.c": "Konami memory-card UI: messages (MAIN.BIN devkit module)",
-    "card_opt.c": "Konami memory-card UI: options (MAIN.BIN devkit module)",
-    "card_win.c": "Konami memory-card UI: windows (MAIN.BIN devkit module)",
-    "cardbk.c":  "Konami memory-card UI: background (MAIN.BIN devkit module)",
-    "cardinfo.c": "Konami memory-card UI: info (MAIN.BIN devkit module)",
-    "cardslot.c": "Konami memory-card UI: slots (MAIN.BIN devkit module)",
-    "cardsme.c": "Konami memory-card UI (MAIN.BIN devkit module)",
-    "memory.c":  "Konami memory-card module (MAIN.BIN devkit module; a code-only copy in TOWN.BIN)",
+    "TOWN.BIN+0x2ab88c/7": "Konami town-scene main, linked into 54 event-script modules. Lines 40 and 55 appear in 47. Lines 39 and 54 appear in seven.",
+    "TOWN.BIN+0x2ab85c/8": "Konami shop code. Lines 65, 113, 118 and 128 span three consecutive functions. The object precedes the town-scene main.",
+    "TOWN.BIN+0x2ab958/9": "Konami player code with an assertion at line 64. The object follows the town-scene main.",
+    "MAIN.BIN+0x25d028/11": "Sony libcard card server. The shipped image is at 0x80020000 and the development image is at 0x80400000.",
+    "MAIN.BIN+0x269570/11": "Konami memory-card messages in the development image",
+    "MAIN.BIN+0x2695c8/11": "Konami memory-card options in the development image",
+    "MAIN.BIN+0x269620/11": "Konami memory-card windows in the development image",
+    "MAIN.BIN+0x269654/9": "Konami memory-card background in the development image",
+    "MAIN.BIN+0x269760/11": "Konami memory-card information in the development image",
+    "MAIN.BIN+0x2697cc/11": "Konami memory-card slots in the development image",
+    "MAIN.BIN+0x269800/10": "Konami memory-card interface in the development image",
+    "MAIN.BIN+0x269894/9": "Konami memory-card module in the development image, with a code-only copy in TOWN.BIN",
+    "TOWN.BIN+0x7f891c/8": "Town objects in the Konami development scene tool",
+    "TOWN.BIN+0x7f88e8/10": "Konami development scene tool main, with a source trace",
+    "TOWN.BIN+0x7ffb44/9": "Konami development flag test, with a source trace",
 }
 DEV_STRINGS = [  # §7.1 of the catalogue: other developer strings, with container file offsets
-    {"string": "Development asset paths", "container": "town", "foff": ["0x65281C", "0x65283C"], "note": "Named disc imports for the town resource test image"},
-    {"string": "\\vx035\\data\\sn\\SENGEI00.BIN .. SENGEI10.BIN (11)", "container": "town", "foff": ["0x7F877C-0x7F8894"], "note": "scene data files (sn = scene), devkit blob path table"},
-    {"string": "\\vx035\\data\\town\\st.bin (6)", "container": "town", "foff": ["0x8CD128", "0x8CE128", "0x8CF124", "0x8D0124", "0x8D1124", "0x8D21E8"], "note": ""},
-    {"string": "\\vx035\\data\\sn\\mv05.bin", "container": "town", "foff": ["0x8D20FC"], "note": ""},
-    {"string": "GAME OVER (4)", "container": "town", "foff": ["0x78BA94", "0x796030", "0x796070", "0x7960B4"], "note": ""},
-    {"string": "BASLUS-00614", "container": "main", "foff": ["0x264F20"], "note": "save file name, shipped image, vram 0x80027F20"},
-    {"string": "BISLPS-00001", "container": "main", "foff": ["0x271AA8"], "note": "leftover JP save name, devkit image, vram 0x80408AA8"},
-    {"string": "CHAN %x, CARD STATUS0/1 %x, illegal data", "container": "main", "foff": ["0x269090", "0x2690BC", "0x2690D0", "0x269138"], "note": "devkit image card diagnostics"},
-    {"string": "bu10: / bu00:", "container": "main", "foff": ["0x25D074", "0x25D07C", "0x2690E4", "0x2690EC"], "note": "libcard device names"},
-    {"string": "$Id: intr.c,v 1.76 / bios.c,v 1.86 / sys.c,v 1.129", "container": "slus", "foff": ["0x6AC8", "0x6D78", "0x6EFC"], "note": "PSY-Q library RCS ids"},
+    {"description": "Development asset paths", "container": "town", "foff": ["0x65281C", "0x65283C"], "note": "Named disc imports for the town resource test image"},
+    {"description": "Scene data paths", "container": "town", "foff": ["0x7F877C-0x7F8894"], "note": "scene data files (sn = scene), devkit blob path table"},
+    {"description": "Town map data path", "container": "town", "foff": ["0x8CD128", "0x8CE128", "0x8CF124", "0x8D0124", "0x8D1124", "0x8D21E8"], "note": ""},
+    {"description": "Scene movie data path", "container": "town", "foff": ["0x8D20FC"], "note": ""},
+    {"description": "End-of-game display message", "container": "town", "foff": ["0x78BA94", "0x796030", "0x796070", "0x7960B4"], "note": ""},
+    {"description": "Shipped save identifier", "container": "main", "foff": ["0x264F20"], "note": "save file name, shipped image, vram 0x80027F20"},
+    {"description": "Development save identifier", "container": "main", "foff": ["0x271AA8"], "note": "leftover JP save name, devkit image, vram 0x80408AA8"},
+    {"description": "Development card diagnostics", "container": "main", "foff": ["0x269090", "0x2690BC", "0x2690D0", "0x269138"], "note": "devkit image card diagnostics"},
+    {"description": "Card device paths", "container": "main", "foff": ["0x25D074", "0x25D07C", "0x2690E4", "0x2690EC"], "note": "libcard device names"},
+    {"description": "Library build identifiers", "container": "slus", "foff": ["0x6AC8", "0x6D78", "0x6EFC"], "note": "PSY-Q library RCS ids"},
 ]
 # Resident pointer tables (docs/evidence: exe_census §2.2). (vram, file offset in slus_006.14, entries, role)
 VM_TABLES = [   # (vram, file offset in slus_006.14, entries, kind, role)
     ("0x8006AA90", 0x3E290, 89, "code", "event-script VM handler table: entry i = handler for opcode i (the interpreter func_80038AB8 does `D_8006AA90[opcode](context)`); four slots share the 8-byte 'unimplemented opcode' stub; the 89th word is the default/terminator (state-transition dispatcher)"),
-    ("0x8006AC9C", 0x3E49C, 19, "text", "town NPC name table (Shift-JIS fullwidth: Barry, Beldo, Okami, Barten, Wotta, Silver, Jorda, Dr.Hal, Tonka, Hush, Nadia, Coppe, NcsDad, Angel, Issac, Jacof, Etto, Romi, Shin)"),
-    ("0x8006AD74", 0x3E574, 12, "text", "second NPC name table (Danser x4, Aunt, Horse x4, Shiela, Butler, Bunny2)"),
-    ("0x8006B01C", 0x3E81C, 33, "text", "monster (familiar) name table in monster-id order (ifrit, flame, grineu, griff, saber, snow, ashra, aran, battne, nyuel, death, clown, univer, unicon, metal, block, pulun, troll, noise, u-boat, baloon, dream, blume, volcan, cyclo, maneva, barong, picket, kraken, weadog, steal, viper, naplas): the id space initialStatsTable (24-byte records) is indexed by"),
-    ("0x8007AED8", 0x4E6D8, 40, "text", "libcd command-name table (gCdCommandStringTable in config/slus_006.14.symbols.txt): CdlSync, CdlNop, ... DiskError"),
+    ("0x8006AC9C", 0x3E49C, 19, "text", "Town resident character name table, encoded as fullwidth Shift-JIS"),
+    ("0x8006AD74", 0x3E574, 12, "text", "Secondary town character name table, with shared entries"),
+    ("0x8006B01C", 0x3E81C, 33, "text", "Familiar name table in monster ID order, matching the initial statistics table"),
+    ("0x8007AED8", 0x4E6D8, 40, "text", "CD command name table in command order"),
     ("0x8008077C", 0x53F7C, 16, "unknown", "resident pointer table (targets not yet classified)"),
 ]
 
@@ -330,11 +328,20 @@ def cmd_import(a):
             (kd / p.name).write_text(s); n += 1
         print(f"knowledge: {n} files with doc/globals/calls")
 
+ASSERTION_LOCATION = re.compile(r'(MAIN|TOWN)\.BIN\+0x([0-9a-f]+)/([1-9]\d*)\Z')
+
+
+def assertion_location(value):
+    if value and not ASSERTION_LOCATION.fullmatch(value):
+        raise ValueError('assertion catalogue text must be a disc location')
+    return value or None
+
+
 def assertion_evidence(rs, sites):
     """Derive assertion ownership from audited CSV entries, never nearest-row guesses.
 
     A stack allocation need not be the entry: scheduled flag loads can precede it.
-    tools/assertion_boundaries.py checks the eight audited tobjs.c corrections.
+    tools/assertion_boundaries.py checks the eight audited development image corrections.
     """
     by_id = {r["id"]: r for r in rs}
     by_foff = {(r["container"], r["foff"]): r for r in rs if r.get("foff") is not None}
@@ -346,8 +353,8 @@ def assertion_evidence(rs, sites):
     if sites is not None:
         for s in sites:
             cont = CONT[s["container"]]; foff = int(s["containing_func_foff"], 16)
-            site = {"source_file": s["source_file"] or None, "line": int(s["line"]) if s["line"] else None, "kind": s["kind"],
-                    "expression": s["expression_or_null"] or None, "distinct_id": s["distinct_id"], "site_vram": s["site_vram"],
+            site = {"source_file": assertion_location(s["source_file"]), "line": int(s["line"]) if s["line"] else None, "kind": s["kind"],
+                    "expression": assertion_location(s["expression_or_null"]), "distinct_id": s["distinct_id"], "site_vram": s["site_vram"],
                     "copy_foff": s["containing_func_foff"], "copy_func": s["containing_function"], "attribution": s["attribution"]}
             r = by_foff.get((cont, foff))
             targets = [r] if r else by_true.get((cont, s["true_name"]), []) if s["true_name"] else []
@@ -400,8 +407,9 @@ def refresh_assertions(only=None):
         if only is not None and rid not in only:
             if rid in old: result.append(old[rid])
             continue
-        r = by_id[rid]; e = old.get(rid)
+        e = old.get(rid)
         if e is None:
+            r = by_id[rid]
             e = {"id": rid, "container": r["container"], "size": r["size"], "func": r["func"],
                  "true_name": r.get("true_name"), **{k: [] for k in
                  ("assert_sites", "identifiers", "knowledge", "adrando", "data", "vm", "name", "script_function")}}
@@ -422,6 +430,18 @@ def refresh_assertions(only=None):
     print(f"assertions: {len(asserts)} rows carry {sum(a['copies'] for a in asserts)} site copies; {len(unowned)} unowned")
 
 
+def vm_text_extent(executable, vram):
+    """Locate the NUL-terminated label without publishing its contents."""
+    base, size = struct.unpack_from("<II", executable, 0x18)
+    offset = vram - base + 0x800
+    if not 0x800 <= offset < min(0x800 + size, len(executable)):
+        raise ValueError(f"VM label outside the executable load at 0x{vram:08X}")
+    stop = executable.find(b"\0", offset, min(offset + 64, 0x800 + size))
+    if stop < 0:
+        raise ValueError(f"unterminated VM label at 0x{vram:08X}")
+    return {"text_foff": f"0x{offset:X}", "text_bytes": stop - offset + 1}
+
+
 def build():
     EV.mkdir(parents=True, exist_ok=True)
     rs = rows(); by_id = {r["id"]: r for r in rs}
@@ -435,7 +455,7 @@ def build():
     write_jsonl(EV / "assertions.jsonl", asserts)
     (EV / "assertions_unowned.json").write_text(json.dumps(unowned, indent=1) + "\n")
     (EV / "dev_identifiers.json").write_text(json.dumps({
-        "note": "Real identifier text printed by Konami's shipped debug macros; each entry lists the rows whose function prints it (docs/evidence/konami_assertion_sites.md).",
+        "note": "Disc locations of identifier strings printed by the shipped debug macros, with the rows that print them.",
         "identifiers": [{"text": k, "file": v[0], "meaning": v[1], "rows": sorted(rid for rid, e in per.items() if any(i["text"] == k for i in e["identifiers"]))} for k, v in IDENTIFIERS.items()],
         "source_files": SOURCE_FILES, "developer_strings": DEV_STRINGS}, indent=1) + "\n")
     # 2. adrando map -> rows by address
@@ -475,14 +495,6 @@ def build():
     slus = ROOT / "baserom" / "slus_006.14"; tables = []
     if slus.exists():
         b = slus.read_bytes()
-        def cstr(v):
-            o = v - 0x8002D000 + 0x800
-            if not (0 <= o < len(b)): return None
-            e = b.find(b"\0", o); raw = b[o:min(e if e >= 0 else o + 64, o + 64)]
-            for enc in ("shift_jis", "latin1"):
-                try: return raw.decode(enc)
-                except Exception: pass
-            return None
         for vram, foff, n, kind, role in VM_TABLES:
             ws = struct.unpack_from("<%dI" % n, b, foff); ents = []
             for i, w in enumerate(ws):
@@ -491,7 +503,10 @@ def build():
                     ents.append({"index": i, "target": f"0x{w:08X}", "row": hit[0] if hit else None, "symbol": (names.get(sym, (sym,))[0]) if hit and hit[2] == 0 else (hit[1] if hit else None)})
                     if hit and hit[2] == 0: per[hit[0]]["vm"].append({"table": vram, "index": i, "role": role.split(":")[0]})
                 else:
-                    ents.append({"index": i, "target": f"0x{w:08X}", "text": cstr(w) if kind == "text" else None})
+                    target = {"index": i, "target": f"0x{w:08X}"}
+                    if kind == "text":
+                        target.update(vm_text_extent(b, w))
+                    ents.append(target)
             tables.append({"vram": vram, "file_offset": f"0x{foff:X}", "entries": n, "kind": kind, "role": role, "targets": ents})
     (EV / "vm_tables.json").write_text(json.dumps(tables, indent=1) + "\n")
     # 4. knowledge notes (by nominal func name, or by the renamed symbol through names.tsv)
@@ -558,11 +573,10 @@ def prompt_block(rid):
     L = ["--- EVIDENCE for this row (facts from the retail disc and earlier analysis; see docs/EVIDENCE.md) ---"]
     for s in e["assert_sites"]:
         if s["kind"] in ("assert", "mark") and s["source_file"]:
-            L.append(f"- this function contains Konami's `{s['source_file']}` line {s['line']} ({s['kind']} macro; the file name is the developer's real source file). "
-                     f"Keep the assert shape and the line constant exactly; it proves where this function lives.")
+            L.append(f"- the {s['kind']} call records line {s['line']}. The source name is stored at {s['source_file']}.")
         elif s["expression"]:
             meta = IDENTIFIERS.get(s["expression"])
-            L.append(f"- this function prints the developer's expression `{s['expression']}`" + (f" -> {meta[1]}" if meta else "") + "; the identifiers in it are the real names: use them for the matching locals/globals.")
+            L.append(f"- this function prints the expression stored at {s['expression']}." + (f" {meta[1]}" if meta else ""))
     if e["assert_copies"] > len(e["assert_sites"]):
         L.append(f"- (the same site appears {e['assert_copies']} times across the overlay modules; this row is the representative)")
     for a in e["adrando"]:
@@ -634,7 +648,7 @@ maps; everything else stays `func_XXXXXXXX` / `unk_XX` until evidence arrives.
     byf = defaultdict(list)
     for a in asr:
         for f in (a["source_files"] or ["(no file attribution)"]): byf[f].append(a)
-    order = ["main.c", "lshop.c", "player.c", "c_server.c", "card_mes.c", "card_opt.c", "card_win.c", "cardbk.c", "cardinfo.c", "cardslot.c", "cardsme.c", "memory.c", "tobjs.c", "sn_main.c", "flgtst.c", "(no file attribution)"]
+    order = [*SOURCE_FILES, "(no file attribution)"]
     for f in order:
         rs_ = byf.get(f, [])
         if not rs_ and f != "(no file attribution)": continue
@@ -690,11 +704,10 @@ maps; everything else stays `func_XXXXXXXX` / `unk_XX` until evidence arrives.
 """)
     # 3. developer strings
     O.append("## 3. Other developer strings\n")
-    O.append("| string | container | file offsets | note |")
+    O.append("| description | container | file offsets | note |")
     O.append("|---|---|---|---|")
     for d in dev.get("developer_strings", []):
-        O.append(f"| `{d['string']}` | {d['container']} | {', '.join(d['foff'])} | {d['note']} |")
-    O.append("\nThe `\\vx035\\data\\sn\\SENGEI*.BIN` and `\\vx035\\data\\town\\*.bin` paths are the developer's data layout (`sn` = scene files, `town` = town map data); they name the data files the loaders open and are used in comments and in the names of the loader routines.\n")
+        O.append(f"| {d['description']} | {d['container']} | {', '.join(d['foff'])} | {d['note']} |")
     # 4. randomizer
     O.append("## 4. The randomizer's address map\n")
     O.append("The Azure Dreams De-Randomizer (ProGrammar-R, MPL-2.0) documents where the game's tables and a number of code sites live, with names and record layouts. Verified against this disc (`docs/evidence/adrando-findings.md`). Only the facts are used, never its code.\n")
@@ -846,13 +859,13 @@ Examples: """ + ", ".join(f"`{n}`={v}" for v, n in F[:10]) + " ...\n")
 2. **L4 names** are applied in one place each: functions through `config/names.tsv` (alias, byte-exact;
    `ledger/evidence/names_proposed.tsv` holds the script-function names ready to apply),
    data symbols through the symbol files, struct members through `include/records/Rec_*.h`. Trust order:
-   developer text (verbatim) → randomizer table names (verbatim for the data symbol) → pointer-table
+   developer text located on disc → randomizer table names → pointer-table
    numbering → prior notes (verified) → call-site roles. No name without an evidence line.
-3. **L4 modules** are cut on the assertion source map where it exists (`main.c`, `lshop.c`, `player.c`,
-   `c_server.c`, `card_*.c`, `memory.c`) and on call-graph clusters and address ranges elsewhere;
+3. **L4 modules** are cut on the assertion source map where it exists and on call-graph
+   clusters and address ranges elsewhere;
    `ledger/levels.jsonl` records each row's evidence kinds so the gate can check a row with a proven file
    is in that file's module.
-4. **Devkit leftovers** (`tobjs.c`, `sn_main.c`, `flgtst.c`, the card UI and libcard copies) are named from
+4. **Development copies** of the scene tools, card UI and libcard take names from
    the same evidence but kept apart from the shipped game code.
 5. `STATUS.md` reports how many rows carry each kind of evidence; `docs/EVIDENCE.md` is the index.
 """)

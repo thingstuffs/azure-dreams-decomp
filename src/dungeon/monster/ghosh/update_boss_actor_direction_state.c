@@ -87,7 +87,7 @@ void update_boss_actor_direction_state(ActorRecord *actor_data, void *output_dat
         return;
     }
 
-    apply_monster_koyaw_data(base->unk_1C.p, ((u8 *)context) + 0xC);
+    apply_monster_koyaw_data(base->unk_1C.p, &context->color.c.r);
     if ((base->unk_1C.i & 0x20) == 0) {
         advance_sprite_animation_and_textures(context);
     }

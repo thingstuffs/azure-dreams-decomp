@@ -5,7 +5,7 @@
   "foff": "0x18a6800",
   "size": "0x2324",
   "vma": "0x80024000",
-  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase native_18a6800_80024000",
+  "evidence": ": rowbase native_18a6800_80024000",
   "entries": [
     {
       "row": "dungeon/func_81887B40",

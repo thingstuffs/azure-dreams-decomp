@@ -53,7 +53,7 @@ extern void *create_source_adjusted_motion_object(Obj0 *, void *, Obj2 *);
 extern void show_entity_message(s32, Obj3 *);
 
 /* Advance the timed object state sequence and update its direction from flags. */
-void advance_source_adjusted_motion_action(Obj0 *controller, void *context, SpriteFrameState *object, Obj3 *actor) {
+void advance_source_adjusted_motion_action(Obj0 *controller, ObjectPosition *context, SpriteFrameState *object, Obj3 *actor) {
     s32 state;
     s32 old_state;
     u16 ticks_left;

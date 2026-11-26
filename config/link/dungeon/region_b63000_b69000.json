@@ -5,7 +5,7 @@
   "foff": "0xb63000",
   "size": "0x6000",
   "vma": "0x80170800",
-  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase native_resource_12_slot_0",
+  "evidence": ": rowbase native_resource_12_slot_0",
   "entries": [
     {
       "row": "dungeon/func_80B46E18",

@@ -43,8 +43,8 @@ s32 build_text_glyph_sprites(TextGlyphBody *first_text)
                     SetSemiTrans(sprite, 1);
                 }
                 if (!(text->flags & 2)) {
-                    sprite->tag.addr = ((GpuLinkTag *) (&render_state->context->orderTag070))->addr;
-                    ((GpuLinkTag *) (&render_state->context->orderTag070))->addr = (u32) sprite;
+                    sprite->tag.addr = ((GpuLinkTag *) (&render_state->context->orderTag[0]))->addr;
+                    ((GpuLinkTag *) (&render_state->context->orderTag[0]))->addr = (u32) sprite;
                 }
                 char_index++;
             }
@@ -54,8 +54,8 @@ s32 build_text_glyph_sprites(TextGlyphBody *first_text)
             GpuLinkTag *draw_mode = render_state->context->packetCursor;
             render_state->context->packetCursor = ((u8 *) draw_mode) + 0xC;
             SetDrawMode(draw_mode, 0, 0, texture_page = GetTPage(0, text->blend_mode, 0x3C0, 0) & 0xFFFF, 0);
-            draw_mode->addr = ((GpuLinkTag *) (&render_state->context->orderTag070))->addr;
-            ((GpuLinkTag *) (&render_state->context->orderTag070))->addr = (u32) draw_mode;
+            draw_mode->addr = ((GpuLinkTag *) (&render_state->context->orderTag[0]))->addr;
+            ((GpuLinkTag *) (&render_state->context->orderTag[0]))->addr = (u32) draw_mode;
         }
         next_node = ((ObjectNodeHeader *)text_record - 1)->chain_next;
         if (next_node == 0)

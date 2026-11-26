@@ -5,7 +5,7 @@
   "foff": "0xbbd000",
   "size": "0x6000",
   "vma": "0x8016a800",
-  "evidence": "docs/evidence/r121w_s2_receipts.json",
+  "evidence": "Recorded in the production link map.",
   "entries": [
     {
       "row": "dungeon/func_80B9D69C",
@@ -31,7 +31,7 @@
         "0x80172628": "0x8016DA08",
         "0x80174948": "0x8016E7D0"
       },
-      "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_80B9D69C"
+      "evidence": "#dungeon/func_80B9D69C"
     },
     {
       "row": "dungeon/func_80B9F13C",
@@ -44,7 +44,7 @@
         "0x80174520": "0x8016eee0",
         "0x80170e5c": "0x8016ae9c"
       },
-      "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_80B9F13C"
+      "evidence": "#dungeon/func_80B9F13C"
     },
     {
       "row": "dungeon/func_80BA11A8",
@@ -63,7 +63,7 @@
         "0x80174fd0": "0x8016efd0",
         "0x801745e0": "0x8016e5e0"
       },
-      "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_80BA11A8"
+      "evidence": "#dungeon/func_80BA11A8"
     }
   ]
 }

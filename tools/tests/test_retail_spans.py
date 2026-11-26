@@ -21,7 +21,7 @@ class RetailSpansTest(unittest.TestCase):
         (self.root / 'baserom').mkdir()
         (self.root / 'baserom/slus_006.14').write_bytes(self.raw)
         self.marker = {'$retail': {'file': 'SLUS_006.14', 'offset': 4, 'length': 4,
-                                 'sha256': hashlib.sha256(self.raw[4:8]).hexdigest()}, 'format': 'hex'}
+                                 'sha256': hashlib.sha256(self.raw).hexdigest()}, 'format': 'hex'}
 
     def test_nested_materialization_preserves_plain_json(self):
         doc = {'bytes': self.marker, 'plain': [17, 'text', {'sha256': 'a' * 64}]}
@@ -45,12 +45,12 @@ class RetailSpansTest(unittest.TestCase):
             self.assertEqual(reader.materialize(marker), 0x07060504)
             self.assertEqual(reader.materialize(dict(marker, format='u8_list')), [4, 5, 6, 7])
             uppercase = copy.deepcopy(marker)
-            uppercase['$retail'].update(offset=10, sha256=hashlib.sha256(self.raw[10:14]).hexdigest())
+            uppercase['$retail'].update(offset=10)
             uppercase['format'] = 'hex_upper'
             self.assertEqual(reader.materialize(uppercase), '0A0B0C0D')
             self.assertEqual(reader.materialize(observation), observation)
             short = copy.deepcopy(marker)
-            short['$retail'].update(length=2, sha256=hashlib.sha256(self.raw[4:6]).hexdigest())
+            short['$retail'].update(length=2)
             with self.assertRaisesRegex(ValueError, 'four bytes'):
                 reader.materialize(short)
 
@@ -64,6 +64,15 @@ class RetailSpansTest(unittest.TestCase):
 
     def test_extracted_corruption_is_not_hidden_by_disc_fallback(self):
         (self.root / 'baserom/slus_006.14').write_bytes(bytes(16))
+        with RetailReader(self.root) as reader, self.assertRaisesRegex(ValueError, 'sha256 mismatch'):
+            reader.materialize(self.marker)
+
+    def test_short_digest_and_surrounding_corruption_are_rejected(self):
+        short = dict(self.marker['$retail'], sha256=hashlib.sha256(self.raw[4:8]).hexdigest())
+        with RetailReader(self.root) as reader, self.assertRaisesRegex(ValueError, 'sha256 mismatch'):
+            reader.read(short)
+        data = bytes([61]) + self.raw[1:]
+        (self.root / 'baserom/slus_006.14').write_bytes(data)
         with RetailReader(self.root) as reader, self.assertRaisesRegex(ValueError, 'sha256 mismatch'):
             reader.materialize(self.marker)
 

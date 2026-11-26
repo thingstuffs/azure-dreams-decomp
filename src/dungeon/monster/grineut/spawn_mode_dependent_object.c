@@ -1549,13 +1549,13 @@ void remove_defeated_grineut(ActorRecord *body, ObjectPosition *motion, SpriteFr
 }
 
 /* Runs the shared hop and shrink sequence for the actor with the supplied callback arguments. */
-void shrink_hopping_grineut(void *state, void *motion, void *position, void *actor)
+void shrink_hopping_grineut(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor)
 {
     update_actor_hop_and_shrink(state, motion, position, actor);
 }
 
 /* Runs the shared actor removal sequence with the supplied callback arguments. */
-void advance_grineut_removal(void *state, void *motion, void *position, void *actor)
+void advance_grineut_removal(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor)
 {
     advance_actor_removal(state, motion, position, actor);
 }

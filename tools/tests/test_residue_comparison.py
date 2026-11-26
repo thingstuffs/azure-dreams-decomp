@@ -46,6 +46,22 @@ class ResidueComparison(unittest.TestCase):
         rows, compared, problems = self.check(row())
         self.assertEqual((rows, compared, problems), (1, 1, []))
 
+    def test_digest_free_comparison_refuses_a_single_changed_byte(self):
+        record = row(size=4, words=1, equal_words=1)
+        self.assertEqual(self.check(record), (1, 1, []))
+        for name in ('dungeon', 'town'):
+            with self.subTest(container=name):
+                path = self.root / placed_copies.CONTAINER_DIR / placed_copies.CONTAINERS[name]
+                original = path.read_bytes()
+                changed = bytearray(original)
+                changed[11] ^= 1
+                path.write_bytes(changed)
+                rows, compared, problems = self.check(record)
+                self.assertEqual((rows, compared), (1, 1))
+                self.assertEqual(len(problems), 1)
+                self.assertIn('0 of 1 words equal', problems[0])
+                path.write_bytes(original)
+
     def test_a_false_compare_fails(self):
         _, compared, problems = self.check(row(foff=32, compare_foff=32))
         self.assertEqual(compared, 1)
@@ -194,6 +210,15 @@ class HeadBankComparison(unittest.TestCase):
         self.assertTrue(any('differs from retail' in issue for issue in self.check()[2]))
         self.region['size'] += 4
         self.assertTrue(any('complete bank' in issue for issue in self.check()[2]))
+
+    def test_complete_bank_digest_refuses_mutation_between_witnesses(self):
+        del self.region['row']
+        self.region.update(scope='bank', foff=0, size=len(self.bank), retail_sha256=self.digest(self.bank))
+        self.assertEqual(self.check(), (1, 1, []))
+        changed = self.bank[:]
+        changed[8] ^= 1
+        self.dungeon.write_bytes(changed)
+        self.assertEqual(self.check(), (1, 1, ['older_dungeon_head_bank +0x0: classified extent differs from retail']))
 
     def test_changed_bank_witnesses_fail(self):
         for off, problem in [(0, 'entry pointer'), (12, 'call at +0xC'), (40, 'resident call sequence')]:

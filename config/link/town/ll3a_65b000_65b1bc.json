@@ -5,7 +5,7 @@
   "foff": "0x0065B000",
   "size": "0x000001BC",
   "vma": "0x80016000",
-  "evidence": "config/overlays/town.rowbase.jsonl proven region r121m_65b134_80016134",
+  "evidence": "config/overlays/town.rowbase.jsonl proven region placement review",
   "entries": [
     {
       "row": "town/func_806DB0F8",

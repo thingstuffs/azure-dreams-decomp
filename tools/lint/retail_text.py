@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
-"""Flag suspect retail text encodings without echoing their contents."""
+"""Flag suspect retail text encodings without echoing their contents.
+
+The required document check covers designated payload fields and marked
+display quotations or byte runs in tracked files up to four MiB. Generic
+JSON keys and ordinary Markdown quotes are outside that check. TSV files
+need named payload columns. The optional document audit also inspects
+generic payload keys like `text` and `bytes`, but arbitrary fields still
+need review.
+"""
 from __future__ import annotations
 
 import argparse

@@ -5,7 +5,7 @@
   "foff": "0x833374",
   "size": "0x8",
   "vma": "0xA0700B74",
-  "evidence": "config/overlays/town.rowbase.jsonl:r121c3_833374",
+  "evidence": "config/overlays/town.rowbase.jsonl:placement review",
   "entries": [
     {
       "row": "town/func_808B3374",
@@ -17,7 +17,7 @@
       "bindings": {
         "0x807013FC": "0xA0700B74"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     }
   ]
 }

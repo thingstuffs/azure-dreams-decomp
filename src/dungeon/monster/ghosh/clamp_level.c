@@ -26,7 +26,7 @@ s16 sample_terrain_surface_height(u16, u16, s16);                   /* extern */
 void clear_actor_action_markers(u8 *state);                         /* extern */
 extern u8 D_800F927E[16];
 extern void ghosh_action_resume_address(void);
-extern void (*ghosh_callbacks[256])(void *, void *, void *, void *);
+extern ActorActionHandler ghosh_callbacks[256];
 
 typedef struct S_8016B0E8_0 {
     u8 pad_00[0x11];

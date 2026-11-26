@@ -5,7 +5,7 @@
   "foff": "0xce6030",
   "size": "0x2a90",
   "vma": "0x8016d830",
-  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase img_ce6030_8016d830",
+  "evidence": ": rowbase img_ce6030_8016d830",
   "entries": [
     {
       "row": "dungeon/func_80CC6030",
@@ -20,7 +20,7 @@
         "0x800ab378": "0x800ac010",
         "0x80173000": "0x80173000"
       },
-      "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_80CC6030; LL3a preserves prior rule-3 binding"
+      "evidence": ": dungeon/func_80CC6030; LL3a preserves prior rule-3 binding"
     },
     {
       "row": "dungeon/func_80CC60B0",
@@ -100,7 +100,7 @@
         "0x80175c94": "0x8016fc94",
         "0x80175e6c": "0x8016fe6c"
       },
-      "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_80CC6398"
+      "evidence": ": dungeon/func_80CC6398"
     },
     {
       "row": "dungeon/func_80CC8828",
@@ -114,7 +114,7 @@
         "0x80175da4": "0x8016fda4",
         "0x80173000": "0x80173000"
       },
-      "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_80CC8828; LL3a preserves prior rule-3 binding"
+      "evidence": ": dungeon/func_80CC8828; LL3a preserves prior rule-3 binding"
     }
   ]
 }

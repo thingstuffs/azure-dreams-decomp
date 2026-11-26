@@ -47,7 +47,7 @@ extern u8 maximum_action_continuation_address[];
 
 /* Updates directional movement, then returns the actor to its tile position. */
 void decelerate_maximum_actor_to_tile(S810AF65C_0 *animation, ObjectPosition *motion,
-                   S810AF65C_2 *tile, S810AF65C_3 *actor) {
+                   SpriteFrameState *tile, S810AF65C_3 *actor) {
     s32 timer;
     s32 direction;
     s32 state;
@@ -75,7 +75,7 @@ void decelerate_maximum_actor_to_tile(S810AF65C_0 *animation, ObjectPosition *mo
             begin_actor_display_action(animation, motion, tile, maximum_frame_set_3);
             return;
         }
-        if ((tile->field_14 & 0x8000) != 0) {
+        if ((tile->flags & 0x8000) != 0) {
             animation->field_9b = 3;
             return;
         }
@@ -125,10 +125,10 @@ void decelerate_maximum_actor_to_tile(S810AF65C_0 *animation, ObjectPosition *mo
             s32 tile_y;
             s32 origin_y;
 
-            tile_x = tile->field_24 << 6;
+            tile_x = tile->tile_x << 6;
             origin_x = motion->x.w.i - 0x20;
             motion->velocity_x = (tile_x - origin_x) << 15;
-            tile_y = tile->field_25 << 6;
+            tile_y = tile->tile_y << 6;
             origin_y = motion->y.w.i - 0x20;
             motion->velocity_y = (tile_y - origin_y) << 15;
             if ((s16)animation->field_96 > 0) {
@@ -138,7 +138,7 @@ void decelerate_maximum_actor_to_tile(S810AF65C_0 *animation, ObjectPosition *mo
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, tile->field_24, tile->field_25);
+        set_record_integer_tile_center(motion, tile->tile_x, tile->tile_y);
         if (g_dungeon_status.pending_display_owner == NODE_HEADER(actor)) {
             g_dungeon_status.pending_display_owner = ((s32)g_dungeon_status.pending_display_owner) & 0x7fffffff;
         }

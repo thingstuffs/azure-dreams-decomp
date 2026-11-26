@@ -65,11 +65,11 @@ class LinkGraphTests(unittest.TestCase):
                         foff='0x0', vma='0x80010000', size=4, bindings={}, evidence='home proof')]
         entries += [dict(kind='unresolved', foff=4, size=4, evidence=evidence),
                     dict(kind='padding', foff='0x8', size=4, evidence=evidence,
-                         sha256='0'*64, extractor='container-slice-v1', symbols={'D_80010008':'0x80010008'}),
+                         sha256='0'*64, hash_size=16, extractor='container-slice-v1', symbols={'D_80010008':'0x80010008'}),
                     dict(kind='code_region', foff=12, size=4, evidence=evidence, census_label='library_code'),
                     dict(kind='data', foff=16, size=4, evidence=evidence, type='typing pending'),
                     dict(kind='asset', foff=20, size=4, evidence=evidence, format='opaque', sha256='0'*64,
-                         extractor='container-slice-v1', census_label='noncode_typing_pending'),
+                         hash_size=16, extractor='container-slice-v1', census_label='noncode_typing_pending'),
                     dict(kind='leftover', foff=24, size=4, evidence=evidence, reason='independently proved unused')]
         doc = dict(schema='azure-clean.linklist.v1', image='main/fixture', container='main',
                    foff=0, size='0x1c', vma='0x80010000', entries=entries, evidence=evidence,

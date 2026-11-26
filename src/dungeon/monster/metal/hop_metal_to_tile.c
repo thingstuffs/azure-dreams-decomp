@@ -63,14 +63,14 @@ extern void spend_actor_mp(Entity *, s32);
 
 
 /* Advance movement to the actor's tile and finish the timed action. */
-void hop_metal_to_tile(State *action, Motion *motion, SpriteFrameState *actor, Entity *entity)
+void hop_metal_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *actor, Entity *entity)
 {
     s32 direction_work[2];
     s32 direction_index;
     u8 phase;
     u32 entity_flags;
 
-    phase = action->state9B;
+    phase = action->action_phase;
     switch (phase) {
     case 0:
         if ((actor->flags & 0x6000) == 0) {
@@ -79,65 +79,65 @@ void hop_metal_to_tile(State *action, Motion *motion, SpriteFrameState *actor, E
         actor->frameTable = metal_movement_frames;
         direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->direction2A + 0x100) >> 9;
         select_sprite_entry(actor, metal_movement_frames[direction_index & 7], 0);
-        action->flags98 |= 8;
+        action->action_state_flags |= 8;
         entity->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
-        action->timer9E = 5;
-        action->velocityA0 = 0;
-        action->state9B++;
+        action->unk_9E = 5;
+        action->unk_A0.value = 0;
+        action->action_phase++;
                         /* fallthrough */
     case 1:
-        action->position90 -= action->velocityA0;
-        if (action->timer9E != 0) {
+        action->unk_90.value -= action->unk_A0.value;
+        if (action->unk_9E != 0) {
             s32 target_x;
             s32 current_x;
             s32 x_velocity;
             s32 current_y;
 
             target_x = actor->tile_x << 6;
-            current_x = motion->x2 - 0x20;
+            current_x = motion->x.w.i - 0x20;
             x_velocity = ((target_x - current_x) << 16) /
-                         action->timer9E;
-            current_y = motion->y6 - 0x20;
-            motion->dxC = x_velocity;
-            motion->dy10 = (((actor->tile_y << 6) - current_y) << 16) /
-                         action->timer9E;
-            action->velocityA0 = -rsin(action->timer9E * 0x199) << 10;
+                         action->unk_9E;
+            current_y = motion->y.w.i - 0x20;
+            motion->velocity_x = x_velocity;
+            motion->velocity_y = (((actor->tile_y << 6) - current_y) << 16) /
+                         action->unk_9E;
+            action->unk_A0.value = -rsin(action->unk_9E * 0x199) << 10;
         }
-        action->position90 += action->velocityA0;
-        action->timer9E--;
-        if (action->timer9E < 0) {
-            action->flags98 &= 0xFFF7;
-            action->position90 = 0;
+        action->unk_90.value += action->unk_A0.value;
+        action->unk_9E--;
+        if (action->unk_9E < 0) {
+            action->action_state_flags &= 0xFFF7;
+            action->unk_90.value = 0;
             entity->flags1C |= ACTOR_GROUNDED;
-            action->state9B++;
+            action->action_phase++;
         }
                         /* fallthrough */
     case 2:
         if ((entity->flags1C & ACTOR_GROUNDED) == 0) {
             break;
         }
-        action->flags98 &= 0xFFF7;
-        motion->dz14 = 0;
-        motion->dy10 = 0;
-        motion->dxC = 0;
+        action->action_state_flags &= 0xFFF7;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
         actor->frameTable = metal_frame_set_2;
         direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->direction2A + 0x100) >> 9;
         select_sprite_entry(actor, metal_frame_set_2[direction_index & 7], 0);
-        action->state9B++;
+        action->action_phase++;
         break;
     default:
         break;
     }
 
-    action->countdown96--;
-    if (action->countdown96 > 0) {
+    action->action_timer--;
+    if (action->action_timer > 0) {
         return;
     }
 
-    motion->dz14 = 0;
-    motion->dy10 = 0;
-    motion->dxC = 0;
+    motion->velocity_z = 0;
+    motion->velocity_y = 0;
+    motion->velocity_x = 0;
     set_record_integer_tile_center(motion, actor->tile_x, actor->tile_y);
     spend_actor_mp(entity, 4);
     advance_status_timers(entity);
@@ -163,7 +163,7 @@ void hop_metal_to_tile(State *action, Motion *motion, SpriteFrameState *actor, E
     }
 
     if ((check_actor_floor_trap(actor, entity) << 16) > 0) {
-        action->field8C = metal_action_resume_address;
+        action->unk_8C.address = metal_action_resume_address;
         on_actor_status_updated(entity);
     }
 }

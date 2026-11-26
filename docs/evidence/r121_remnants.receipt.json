@@ -1412,32 +1412,28 @@
         "foff": 677236,
         "size": 8,
         "source_sha256": "157d94507a67515a2fa4e00538fdfb00124c7b7632f3d7493147353acb56ea44",
-        "compiled_bin": "build_ovl/work/s3_splat/dungeon_engine/build/rowbase_func_8008ACD4.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1"
+        "compiled_bin": "build_ovl/work/s3_splat/dungeon_engine/build/rowbase_func_8008ACD4.bin"
       },
       {
         "id": "dungeon/func_800A1638",
         "foff": 792120,
         "size": 12,
         "source_sha256": "72860ba9c7e91a080543575c8ad6b880d270f5a322f7fb189ef64aeff5317405",
-        "compiled_bin": "build_ovl/work/s3_splat/dungeon_engine/build/rowbase_func_800A6D98.bin",
-        "compiled_and_retail_sha256": "01b1f7f62e4a12708c5cf4809271c4de5cd9daeddc9b8010cdf75d56f76493e8"
+        "compiled_bin": "build_ovl/work/s3_splat/dungeon_engine/build/rowbase_func_800A6D98.bin"
       },
       {
         "id": "dungeon/func_800A42A4",
         "foff": 803492,
         "size": 8,
         "source_sha256": "4ab444b38ff5b5a06b09650eda4202d7510edf52a3d3f51c31827ff473714aab",
-        "compiled_bin": "build_ovl/work/s3_splat/dungeon_engine/build/rowbase_func_800A9A04.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1"
+        "compiled_bin": "build_ovl/work/s3_splat/dungeon_engine/build/rowbase_func_800A9A04.bin"
       },
       {
         "id": "dungeon/func_800A44B0",
         "foff": 804016,
         "size": 8,
         "source_sha256": "c9617d5c580f015c59dcabb39bf19aa80be4ca0c2f8234867fad96e11c75a8af",
-        "compiled_bin": "build_ovl/work/s3_splat/dungeon_engine/build/rowbase_func_800A9C10.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1"
+        "compiled_bin": "build_ovl/work/s3_splat/dungeon_engine/build/rowbase_func_800A9C10.bin"
       },
       {
         "id": "dungeon/func_800AD92C",
@@ -1500,8 +1496,7 @@
         "foff": 882780,
         "size": 8,
         "source_sha256": "eb7a95cd2a2923ab3dc5522ec057396324592b30f35bab815feddfdc92f1db20",
-        "compiled_bin": "build_ovl/work/s3_splat/dungeon_engine/build/rowbase_func_800BCFBC.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1"
+        "compiled_bin": "build_ovl/work/s3_splat/dungeon_engine/build/rowbase_func_800BCFBC.bin"
       },
       {
         "id": "dungeon/func_800BFE40",
@@ -1564,8 +1559,7 @@
         "foff": 956308,
         "size": 8,
         "source_sha256": "af0f61c547265a5f7c93588572dd4d70d8acd150502c1a403b93a69fc4ac6063",
-        "compiled_bin": "build_ovl/work/s3_splat/dungeon_engine/build/rowbase_func_800CEEF4.bin",
-        "compiled_and_retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43"
+        "compiled_bin": "build_ovl/work/s3_splat/dungeon_engine/build/rowbase_func_800CEEF4.bin"
       },
       {
         "id": "dungeon/func_800CB014",
@@ -1588,16 +1582,14 @@
         "foff": 991908,
         "size": 8,
         "source_sha256": "4b251baa6684b79897f7294cd66766c58607c1b54ef630a0cf153f086eebed96",
-        "compiled_bin": "build_ovl/work/s3_splat/dungeon_engine/build/rowbase_func_800D7A04.bin",
-        "compiled_and_retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43"
+        "compiled_bin": "build_ovl/work/s3_splat/dungeon_engine/build/rowbase_func_800D7A04.bin"
       },
       {
         "id": "dungeon/func_800D22AC",
         "foff": 991916,
         "size": 8,
         "source_sha256": "e7c3297b9faee56e92fc134b1d35f7f63173a174f9c4060918efa5646cae48c1",
-        "compiled_bin": "build_ovl/work/s3_splat/dungeon_engine/build/rowbase_func_800D7A0C.bin",
-        "compiled_and_retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43"
+        "compiled_bin": "build_ovl/work/s3_splat/dungeon_engine/build/rowbase_func_800D7A0C.bin"
       },
       {
         "id": "dungeon/func_800D44B8",
@@ -1700,8 +1692,7 @@
         "foff": 1010004,
         "size": 8,
         "source_sha256": "6ec35ab9ed1eca633c9312e776718df980f607e6488ded86b370e205c96e7256",
-        "compiled_bin": "build_ovl/work/s3_splat/dungeon_engine/build/rowbase_func_800DC0B4.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1"
+        "compiled_bin": "build_ovl/work/s3_splat/dungeon_engine/build/rowbase_func_800DC0B4.bin"
       },
       {
         "id": "dungeon/func_800AFA08",

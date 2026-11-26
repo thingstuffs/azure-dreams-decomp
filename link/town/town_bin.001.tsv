@@ -1,5 +1,23 @@
-#{"a":1,"d":{"c":"town","e":"Physical container root; no runtime address asserted.","i":"town/town_bin","n":16889856,"o":0,"p":["788f7a54afae7122504420cb4471d635a71e1ea4b97606fc7eb90e5534b05e4e","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:7655fdde21b9be80f8ac883bd78b8ffef96bbc29d50b8ff0e820a1d50ba66b8f"],"t":[820196,132,15629,1971984,7594483,6483590,3842],"v":null},"p":[{"type":"typing pending"},{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:vab"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:adpcm"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:sjis"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:data_row"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: sliver_between_noncode"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"proven_code"},{"census_label":"strongly_code"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:matched_c_read"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:rodata_owner"},{"reason":"Census ledger stale/prior image witness: ledger:stale_or_prior_image_row"},{"census_label":"library_code"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"Imported retail text"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:offtab"},{"reason":"Bounded development residue; see docs/evidence/r121w_ll6/LEFTOVERS_REPORT.md"}],"s":"azure-clean.bytemap.tsv.v1","z":2}
+#{"a":1,"d":{"c":"town","e":"Physical container root; no runtime address asserted.","i":"town/town_bin","n":16889856,"o":0,"p":["788f7a54afae7122504420cb4471d635a71e1ea4b97606fc7eb90e5534b05e4e","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:7655fdde21b9be80f8ac883bd78b8ffef96bbc29d50b8ff0e820a1d50ba66b8f"],"t":[820196,132,15629,1971984,7594483,6483590,3842],"v":null},"p":[{"type":"typing pending"},{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:vab"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:adpcm"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:sjis"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"type":"compiled data"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: sliver_between_noncode","hash_size":16},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed","hash_size":16},{"census_label":"proven_code"},{"census_label":"strongly_code"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:matched_c_read","hash_size":16},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii","hash_size":16},{"reason":"Census ledger stale/prior image witness: ledger:stale_or_prior_image_row"},{"census_label":"library_code"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab","hash_size":16},{"census_label":"proven_data","extractor":"container-slice-v1","format":"Imported retail text"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:offtab"},{"reason":"Bounded development residue; see docs/evidence/r121w_ll6/LEFTOVERS_REPORT.md"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:data_row"}],"s":"azure-clean.bytemap.tsv.v1","z":2}
 o	n	k	r	h	x
+8564504	20	a	census:format:ascii	c518a7882a6991447bb51154aa874429a1fd2e2a90bba6c61fcdea024c47c9bb	9
+8564524	16	d	census:noncode:decode		0
+8564540	20	a	census:format:ascii	9765e4ca701284c3fe87cda22a42febdf23833136cda4029d04eea5ea345e0ea	9
+8564560	23	d	census:noncode:decode		0
+8564583	25	l	census:zero_fill>=16		20
+8564608	4	d	census:noncode:decode		0
+8564612	20	a	census:format:ascii	6e775e4708c457401fd38d68e2fdea1862ee85b9dcfa66d2146dba9adf62f4e5	9
+8564632	12	l	census:zero_fill>=16		20
+8564644	4	d	census:noncode:decode		0
+8564648	20	a	census:format:ascii	68ace62a1a61dd3fe1112ae03a578752e14ee3b8b2af00058dce3af76eb1f06f	9
+8564668	12	l	census:zero_fill>=16		20
+8564680	4	d	census:noncode:decode		0
+8564684	20	a	census:format:ascii	78b3fead3804692e02f3546b9a24cc54f4c0c103d6cd4ea1cddbf9ff76cf5f6b	9
+8564704	16	d	census:noncode:decode		0
+8564720	20	a	census:format:ascii	2b637895e7da47230f5fb9bdecbd651695686f66871c7e20c2c6f2cd296483ad	9
+8564740	16	d	census:noncode:decode		0
+8564756	20	a	census:format:ascii	f9c354f17d1861e56407e7f22fd0169c3277e405e04e954fd9afaebfde93c1e3	9
+8564776	16	d	census:noncode:decode		0
 8564792	20	a	census:format:ascii	fd7febdf27c8199fc48ad480f982fb3b4148adb4897f54b86f808eaba59cbf2c	9
 8564812	16	d	census:noncode:decode		0
 8564828	20	a	census:format:ascii	51ba1002624b2917954755fb049d6ab30d1df49ecb44a519ce531200891891b2	9
@@ -7,12 +25,12 @@ o	n	k	r	h	x
 8564864	24	a	census:format:ascii	4fbdbeb211464db23b1d8e1914d873e46f1a7d2308c79217a1a42e3212aafcd2	9
 8564888	12	d	census:noncode:decode		0
 8564900	16	a	census:format:ascii	0ccca1c0d91e356b6b35ddf3942e259d26feb36ba4d938f2b1696b1cc9c2135c	9
-8564916	16	l	census:zero_fill>=16		18
+8564916	16	l	census:zero_fill>=16		20
 8564932	11	d	census:noncode:decode		0
-8564943	25	l	census:zero_fill>=16		18
+8564943	25	l	census:zero_fill>=16		20
 8564968	4	d	census:noncode:decode		0
 8564972	16	a	census:format:ascii	6fef4367b29e3208dcb97f5e54c6e930bebdbacbd0ce1291e63da262f2f63554	9
-8564988	16	l	census:zero_fill>=16		18
+8564988	16	l	census:zero_fill>=16		20
 8565004	4	d	census:noncode:decode		0
 8565008	28	a	census:format:ascii	63744ff1274a307fbba379ce3e712f2a10fdd6d89b96fc42d1c06d4d3b958a3e	9
 8565036	8	d	census:noncode:decode		0
@@ -20,21 +38,21 @@ o	n	k	r	h	x
 8565064	16	d	census:noncode:decode		0
 8565080	24	a	census:format:ascii	f08527023a237259dd7a59911c4232133b8f4893b52182fbf5fe1674eb85a1ac	9
 8565104	12	d	census:noncode:decode		0
-8565116	12	a	census:format:ascii	56a1ee426f1bd749d09e6b421e47ceb33742f28174ef83524a1ca7a17c93a410	9
-8565128	20	l	census:zero_fill>=16		18
+8565116	12	a	census:format:ascii	4485fa212bd0c59a9348cb4c14652b5b5f11ec4f4a5e4953e7683b10e08bdebb	14
+8565128	20	l	census:zero_fill>=16		20
 8565148	4	d	census:noncode:decode		0
-8565152	12	a	census:format:ascii	fd028d6aa45e75d85c764d83507c25736a096f8cf4da662dd8d989b6ba33f2de	9
-8565164	20	l	census:zero_fill>=16		18
+8565152	12	a	census:format:ascii	e749e5cd53b753a522bc6071df4b40e9002eda82d707f1c598e48731607aa33f	14
+8565164	20	l	census:zero_fill>=16		20
 8565184	4	d	census:noncode:decode		0
 8565188	20	a	census:format:ascii	3574bf14563c5939bfadb5b5a73e4552f2108d53a1ede95187e9848c7c7ed474	9
 8565208	16	d	census:noncode:decode		0
 8565224	20	a	census:format:ascii	5f2d93ef7618b4b253bb5a94f9466097b7804006ad8ee4b6d085125113b49922	9
 8565244	16	d	census:noncode:decode		0
 8565260	16	a	census:format:ascii	b60c9501d004832ba2d5efbc975b849ea357a8e9bcb615d09dd7a271a620e961	9
-8565276	16	l	census:zero_fill>=16		18
+8565276	16	l	census:zero_fill>=16		20
 8565292	4	d	census:noncode:decode		0
-8565296	12	a	census:format:ascii	16af232ea97a38a8bc5869c1f953d85d5429579f9a2f4e0547d3c49841ac801c	9
-8565308	20	l	census:zero_fill>=16		18
+8565296	12	a	census:format:ascii	c095ddb7e3dbf1ba002e5c46f9dd9b6f679b003914e07f208f000c6abc918dd2	14
+8565308	20	l	census:zero_fill>=16		20
 8565328	4	d	census:noncode:decode		0
 8565332	24	a	census:format:ascii	f0978d3f26b8b93a3074c3682b264f42a0fc078088b0ae8b7a26bd6ff4b265a4	9
 8565356	12	d	census:noncode:decode		0
@@ -52,100 +70,100 @@ o	n	k	r	h	x
 8565568	16	d	census:noncode:decode		0
 8565584	20	a	census:format:ascii	c5e7f8a05921b13a0ad19e7a67b565346d1871a6d39f8fd18542ac1efbc020b1	9
 8565604	16	d	census:noncode:decode		0
-8565620	12	a	census:format:ascii	2f19a826f12191bf9e7bebb621d23d6d73fe0adda41aedfceb926a15f2397b9e	9
-8565632	20	l	census:zero_fill>=16		18
+8565620	12	a	census:format:ascii	ce0b3cc8e3659f680f4cf6be0d497bf310415c366888deb0eaf4efdb5d7a6372	14
+8565632	20	l	census:zero_fill>=16		20
 8565652	4	d	census:noncode:decode		0
-8565656	12	a	census:format:ascii	a29a807a981107a317dfb38f110fec317c2f15532742fc01fb1111cfc281b942	9
-8565668	20	l	census:zero_fill>=16		18
+8565656	12	a	census:format:ascii	e99b590339ea24d875fac90ee8b79a0ceacf3d056269d6c2800b857bbd2b335e	14
+8565668	20	l	census:zero_fill>=16		20
 8565688	4	d	census:noncode:decode		0
-8565692	12	a	census:format:ascii	99aacc7c3c1eb236b92c656ce25a949f8cfefe1e5b14e2d9e438e8affe6db52d	9
-8565704	20	l	census:zero_fill>=16		18
+8565692	12	a	census:format:ascii	5dbeedde32af990e6ed114061d7584deb7e232f34b322ce7e338522d4ad0ac7d	14
+8565704	20	l	census:zero_fill>=16		20
 8565724	10	d	census:noncode:decode		0
-8565734	26	l	census:zero_fill>=16		18
+8565734	26	l	census:zero_fill>=16		20
 8565760	4	d	census:noncode:decode		0
 8565764	20	a	census:format:ascii	ee06480a32a0564d86a3eab54a8f307ed60a1ebbe377a535262b84e730dc29c0	9
-8565784	16	l	census:zero_fill>=16		18
-8565800	12	a	census:format:ascii	7d81ffa68be43a8009f03b25273146b72765fa027ad4453cf1daed2d4fa1b671	9
-8565812	20	l	census:zero_fill>=16		18
+8565784	16	l	census:zero_fill>=16		20
+8565800	12	a	census:format:ascii	902483ab1d6320eb7ebb3505b2d4fba9c65b6ba8af604266b39d5050f4498e65	14
+8565812	20	l	census:zero_fill>=16		20
 8565832	4	d	census:noncode:decode		0
 8565836	20	a	census:format:ascii	ca79291ca5151be94178f80ccf77fb86c84ed587db53484628623f31520c9c7e	9
 8565856	23	d	census:noncode:decode		0
-8565879	25	l	census:zero_fill>=16		18
+8565879	25	l	census:zero_fill>=16		20
 8565904	11	d	census:noncode:decode		0
-8565915	25	l	census:zero_fill>=16		18
+8565915	25	l	census:zero_fill>=16		20
 8565940	11	d	census:noncode:decode		0
-8565951	25	l	census:zero_fill>=16		18
+8565951	25	l	census:zero_fill>=16		20
 8565976	11	d	census:noncode:decode		0
-8565987	25	l	census:zero_fill>=16		18
+8565987	25	l	census:zero_fill>=16		20
 8566012	11	d	census:noncode:decode		0
-8566023	25	l	census:zero_fill>=16		18
+8566023	25	l	census:zero_fill>=16		20
 8566048	11	d	census:noncode:decode		0
-8566059	25	l	census:zero_fill>=16		18
+8566059	25	l	census:zero_fill>=16		20
 8566084	11	d	census:noncode:decode		0
-8566095	25	l	census:zero_fill>=16		18
+8566095	25	l	census:zero_fill>=16		20
 8566120	11	d	census:noncode:decode		0
-8566131	25	l	census:zero_fill>=16		18
+8566131	25	l	census:zero_fill>=16		20
 8566156	11	d	census:noncode:decode		0
-8566167	25	l	census:zero_fill>=16		18
+8566167	25	l	census:zero_fill>=16		20
 8566192	11	d	census:noncode:decode		0
-8566203	25	l	census:zero_fill>=16		18
+8566203	25	l	census:zero_fill>=16		20
 8566228	11	d	census:noncode:decode		0
-8566239	25	l	census:zero_fill>=16		18
+8566239	25	l	census:zero_fill>=16		20
 8566264	11	d	census:noncode:decode		0
-8566275	25	l	census:zero_fill>=16		18
+8566275	25	l	census:zero_fill>=16		20
 8566300	11	d	census:noncode:decode		0
-8566311	25	l	census:zero_fill>=16		18
+8566311	25	l	census:zero_fill>=16		20
 8566336	11	d	census:noncode:decode		0
-8566347	25	l	census:zero_fill>=16		18
+8566347	25	l	census:zero_fill>=16		20
 8566372	11	d	census:noncode:decode		0
-8566383	25	l	census:zero_fill>=16		18
+8566383	25	l	census:zero_fill>=16		20
 8566408	11	d	census:noncode:decode		0
-8566419	25	l	census:zero_fill>=16		18
+8566419	25	l	census:zero_fill>=16		20
 8566444	11	d	census:noncode:decode		0
-8566455	25	l	census:zero_fill>=16		18
+8566455	25	l	census:zero_fill>=16		20
 8566480	11	d	census:noncode:decode		0
-8566491	25	l	census:zero_fill>=16		18
+8566491	25	l	census:zero_fill>=16		20
 8566516	4	d	census:noncode:decode		0
 8566520	16	a	census:format:ascii	2d2150b58cd61793de4435021131f83e1da322508d34949b4e734efc546bcc51	9
-8566536	16	l	census:zero_fill>=16		18
+8566536	16	l	census:zero_fill>=16		20
 8566552	4	d	census:noncode:decode		0
 8566556	16	a	census:format:ascii	071779ef84054f34e74b1356535a7c6afc89483d14201c8ebbb19dced0e95c7d	9
-8566572	16	l	census:zero_fill>=16		18
+8566572	16	l	census:zero_fill>=16		20
 8566588	4	d	census:noncode:decode		0
 8566592	16	a	census:format:ascii	d27753e39319ae0617c90ee22b41a33e7e07aa4671c7cb0eba388dc049342d7b	9
-8566608	16	l	census:zero_fill>=16		18
+8566608	16	l	census:zero_fill>=16		20
 8566624	4	d	census:noncode:decode		0
-8566628	12	a	census:format:ascii	6839da84b5803c5e6e8046d80122dccefb213127761fe0b445da3739017501fb	9
-8566640	20	l	census:zero_fill>=16		18
+8566628	12	a	census:format:ascii	3e4f01e612fef300756efb3a14da3d1314993996a40eb56a1641fa11de7dd889	14
+8566640	20	l	census:zero_fill>=16		20
 8566660	4	d	census:noncode:decode		0
 8566664	16	a	census:format:ascii	dade4529cb8ae10305c716f1e5abcab86b4f3c06062d1718a9af4cc1c6c881d4	9
-8566680	16	l	census:zero_fill>=16		18
+8566680	16	l	census:zero_fill>=16		20
 8566696	4	d	census:noncode:decode		0
 8566700	16	a	census:format:ascii	72175aee0ccaf27328aa7a2d2d6fa6010c8ded41633d587b3b3a50c95af2daec	9
-8566716	16	l	census:zero_fill>=16		18
+8566716	16	l	census:zero_fill>=16		20
 8566732	10	d	census:noncode:decode		0
-8566742	26	l	census:zero_fill>=16		18
+8566742	26	l	census:zero_fill>=16		20
 8566768	4	d	census:noncode:decode		0
 8566772	20	a	census:format:ascii	4d2bfd20d576ad627a4994a745038827357f2472040de35d0760e2ecaac9bce6	9
-8566792	12	l	census:zero_fill>=16		18
+8566792	12	l	census:zero_fill>=16		20
 8566804	9	d	census:noncode:decode		0
-8566813	27	l	census:zero_fill>=16		18
+8566813	27	l	census:zero_fill>=16		20
 8566840	4	d	census:noncode:decode		0
-8566844	12	a	census:format:ascii	cd0c7575667ac23f8448f99c216937e7085f63eb045a0500410e43044a82a215	9
-8566856	20	l	census:zero_fill>=16		18
+8566844	12	a	census:format:ascii	ee3110b22802e9754ec93ad3b3e853d28ebbe640d8930257de7aded0c7c1616c	14
+8566856	20	l	census:zero_fill>=16		20
 8566876	4	d	census:noncode:decode		0
 8566880	16	a	census:format:ascii	d598af185e008aa45dfeea00271894c92df804e21415994142847c331129cfbc	9
-8566896	20	l	census:zero_fill>=16		18
-8566916	12	a	census:format:ascii	2c6c075ecefd6e2ac77ba26cd6465cae9127b62010184ff006adbaea33a1a384	9
-8566928	20	l	census:zero_fill>=16		18
+8566896	20	l	census:zero_fill>=16		20
+8566916	12	a	census:format:ascii	4467b25bef819fcad260f3730deb2b594c4358d9434a3239671b221bb2b5d730	14
+8566928	20	l	census:zero_fill>=16		20
 8566948	11	d	census:noncode:decode		0
-8566959	29	l	census:zero_fill>=16		18
-8566988	12	a	census:format:ascii	688a534442d9bafd216f7f71e719c83244cb6ffa65ec9686c223a27cacd99573	9
-8567000	20	l	census:zero_fill>=16		18
+8566959	29	l	census:zero_fill>=16		20
+8566988	12	a	census:format:ascii	b19545637926d9cd77261fa6c66bf14c3911270c6b863f4aee0cf02fdb5202c3	14
+8567000	20	l	census:zero_fill>=16		20
 8567020	11	d	census:noncode:decode		0
-8567031	25	l	census:zero_fill>=16		18
+8567031	25	l	census:zero_fill>=16		20
 8567056	1	d	census:noncode:decode		0
-8567057	3	l	census:zero_fill>=16		18
+8567057	3	l	census:zero_fill>=16		20
 8567060	32	p	census:zero_fill>=16		1
 8567092	4	d	census:noncode:decode		0
 8567096	1736	p	census:zero_fill>=16		1
@@ -200,7 +218,7 @@ o	n	k	r	h	x
 8573308	12	d	census:noncode:decode		0
 8573320	111	a	census:format:sjis	16ceac923115e368766c84b0bff6105f2bf7f75c5120cc2b3405a47e641b4e04	4
 8573431	5	d	census:noncode:decode		0
-8573436	1540	l	census:zero_fill>=16		18
+8573436	1540	l	census:zero_fill>=16		20
 8574976	422	d	census:noncode:decode		0
 8575398	250	a	census:format:sjis	1e5cd157b76377a5c81ca0d492893d9ed0f2e5a888979f0451c495b5ab934e37	4
 8575648	20	d	census:noncode:decode		0
@@ -408,32 +426,32 @@ o	n	k	r	h	x
 8594782	674	p	census:zero_fill>=16		1
 8595456	101	a	census:audit+noncode_confirmed	c81b390d198eab5928ebb74ba26c54510c149c8a826d71fe3eb963d6189a40fa	5
 8595557	36	a	census:format:sjis	1bf9f64c5c771de0116f2a4a98e81e6d512469aa530dd10bbee9acc73059d6cb	4
-8595593	13	a	census:audit+noncode_confirmed	4fabf80cb4c7d746826dee501920936c950a39b3cbf79aff44e92d6818af1b22	5
+8595593	13	a	census:audit+noncode_confirmed	199a31d817b5c199419e79e9b8a5799040527f7f35c02b916fd25119d44c1030	10
 8595606	26	a	census:format:sjis	9843d32272c67f8f982f284d1d9be627386e2eab7ce6e1db2728f5a5bc1e6dc5	4
 8595632	24	a	census:audit+noncode_confirmed	277fa9e459f9154d311f00a185029b687769e74e7fe7b4d4f52b2310a078af33	5
 8595656	56	a	census:format:sjis	c07c899f84757a96e8d460861ba1746560ba7ec3551c3a8f8a74a1daa0ab0df2	4
 8595712	24	a	census:audit+noncode_confirmed	646898ea565931e5505368f05bc1f1560ac18301049c5d3f2da00b8d19fccf11	5
 8595736	16	a	census:format:ptrtab	7c7aac3e8ea4640ff0379a7c44db36e6a24f3e1955de237cdcad9700507d36eb	7
-8595752	8	a	census:audit+noncode_confirmed	a647eab945c75a9c8f8dbc90fed4436eabffde694deeb83c211cff310361dff4	5
+8595752	8	a	census:audit+noncode_confirmed	0fa5306fbb0fd8304cf277487b5170148436d0e5c80955a406587f2d8fd57803	10
 8595760	16	a	census:format:ptrtab	d5c7fab4624c9534073387a7caddc059792456dde76b751d370430031296614b	7
 8595776	24	a	census:audit+noncode_confirmed	639aef5ed702058cafbc9458d9d16bdb625402ceb8cd4f5d8a0190c0b2ad940d	5
 8595800	46	a	census:format:ascii	bbca7f5a9b57ccf64b7932a320a41869dc218d9956f4b31df4a0b7e18d7159ca	9
 8595846	2	u	census:unresolved:audit_data_unconfirmed		1
-8595848	140	r	census:T2_framed_ref:jal		11
-8595988	144	r	census:instance_partial		10
-8596132	936	r	census:c_row		10
-8597068	32	r	census:shape:T4_shape_noref		11
-8597100	908	r	census:c_row		10
-8598008	32	r	census:T2_framed_ref:ptr		11
-8598040	248	r	census:c_row		10
-8598288	100	r	census:instance_proven		10
-8598388	244	r	census:c_row		10
-8598632	32	r	census:T2_framed_ref:ptr		11
-8598664	148	r	census:c_row		10
-8598812	80	r	census:instance_partial		10
-8598892	84	r	census:c_row		10
-8598976	96	r	census:instance_proven		10
-8599072	252	r	census:c_row		10
+8595848	140	r	census:T2_framed_ref:jal		12
+8595988	144	r	census:instance_partial		11
+8596132	936	r	census:c_row		11
+8597068	32	r	census:shape:T4_shape_noref		12
+8597100	908	r	census:c_row		11
+8598008	32	r	census:T2_framed_ref:ptr		12
+8598040	248	r	census:c_row		11
+8598288	100	r	census:instance_proven		11
+8598388	244	r	census:c_row		11
+8598632	32	r	census:T2_framed_ref:ptr		12
+8598664	148	r	census:c_row		11
+8598812	80	r	census:instance_partial		11
+8598892	84	r	census:c_row		11
+8598976	96	r	census:instance_proven		11
+8599072	252	r	census:c_row		11
 8599324	30	d	census:noncode:decode		0
 8599354	58	p	census:zero_fill>=16		1
 8599412	60	d	census:noncode:decode		0
@@ -624,8 +642,8 @@ o	n	k	r	h	x
 8615929	1107	a	census:format:sjis	42db053712d872fa52b0663b70d1264cbcf1748a978806e7d383c6b39fb771f1	4
 8617036	152	a	census:audit+noncode_confirmed	ee7630b38df5be0de0ba3e53e087c6b93e08467cd0ffc81ac6d2493a69401e02	5
 8617188	88	a	census:format:ascii	06843e0adbda47a234f44687958db4d0d915be14d880755a3cebc555330de3d0	9
-8617276	8	a	census:audit+noncode_confirmed	6d478bf08d4038141fbdb93ea3b911cdbf4ff4ef4c6f0f566871bcb43bb0e6b4	5
-8617284	2572	r	census:c_row		10
+8617276	8	a	census:audit+noncode_confirmed	9b50e730de735fb91e50bd901c874ad50406c483bf458ef53b19dfdf10f66a1b	10
+8617284	2572	r	census:c_row		11
 8619856	8	p	census:zero_gap<16		1
 8619864	2275	a	census:audit+noncode_confirmed	47be80e34542d0016da72fea7deead4446c0c518ad71bd1b9f1ec7ffa12d73da	5
 8622139	141	a	census:format:sjis	f46a9f2b8317ed0a0e995ccc0948bb563d75110074ddf239f328352855c798fe	4
@@ -635,63 +653,63 @@ o	n	k	r	h	x
 8622368	29	a	census:format:ascii	07eecec3dd0e07f1432649dd4988575da5c4ea5f90505b2fd68dcf7bdc87d582	9
 8622397	23	a	census:audit+noncode_confirmed	a457cea29b0c0de6ba5fae1e6cf2c5c52eb80636e13f0595ef660c5143a778f6	5
 8622420	88	a	census:format:ascii	c89128e735d219bbc815d8fdbbdab145bf1b6529ced2e978a8170f4bac0cbf2c	9
-8622508	8	a	census:audit+noncode_confirmed	6d478bf08d4038141fbdb93ea3b911cdbf4ff4ef4c6f0f566871bcb43bb0e6b4	5
-8622516	136	r	census:T1_twin		11
-8622652	8	r	census:instance_partial		10
-8622660	260	r	census:instance_proven		10
-8622920	76	r	census:c_row		10
-8622996	48	r	census:T2_framed_ref:jal+jtbl		11
-8623044	48	r	census:T1_twin		11
-8623092	4	r	census:T2_framed_ref:jal+jtbl		11
-8623096	44	r	census:T1_twin		11
-8623140	8	r	census:instance_partial		10
-8623148	92	r	census:instance_proven		10
-8623240	712	r	census:c_row		10
-8623952	96	r	census:instance_proven		10
-8624048	548	r	census:c_row		10
+8622508	8	a	census:audit+noncode_confirmed	9b50e730de735fb91e50bd901c874ad50406c483bf458ef53b19dfdf10f66a1b	10
+8622516	136	r	census:T1_twin		12
+8622652	8	r	census:instance_partial		11
+8622660	260	r	census:instance_proven		11
+8622920	76	r	census:c_row		11
+8622996	48	r	census:T2_framed_ref:jal+jtbl		12
+8623044	48	r	census:T1_twin		12
+8623092	4	r	census:T2_framed_ref:jal+jtbl		12
+8623096	44	r	census:T1_twin		12
+8623140	8	r	census:instance_partial		11
+8623148	92	r	census:instance_proven		11
+8623240	712	r	census:c_row		11
+8623952	96	r	census:instance_proven		11
+8624048	548	r	census:c_row		11
 8624596	8	p	census:zero_gap<16		1
 8624604	427	a	census:audit+noncode_confirmed	e707ecce45b6c6fdb0f1eed0100f801cec2099a1264fe95e3c16d8492c0c36cc	5
 8625031	131	a	census:format:sjis	bc820b9d795177628f1853d76ebf58e81ede18a60b416597212822808a34a266	4
-8625162	12	a	census:audit+noncode_confirmed	3c5c450fcd7961947f814972f20a7c96894f11490452bded3cf9fbc23b2b4f7d	5
+8625162	12	a	census:audit+noncode_confirmed	f8374ba56d97bea1409d567bcbea1392f33580f46462e4c411edfb4c834d7b80	10
 8625174	182	a	census:format:sjis	4922107e560932b7b0301eabfc788c40e6b28851d14fd332706258984b75a0a4	4
-8625356	13	a	census:audit+noncode_confirmed	64f6eaaaed6ba97b58509e40040e6525c3edeecd8c9d041a9a35fde2adb34e92	5
+8625356	13	a	census:audit+noncode_confirmed	6a7b15f9ccf3c09b7bd0f147424b7711ff26655f2bf5df3537ba6ba1baece32a	10
 8625369	1007	a	census:format:sjis	57425dca3025261b9c154a4ee863cfba0d43629166f594689f01bf061f299718	4
 8626376	23	a	census:audit+noncode_confirmed	8bb3ae138e21c6f8be4d43b5064569a55cb8fa27b057052be0f6e2dba4150e79	5
 8626399	284	a	census:format:sjis	a0d6143face2409150192c5d31ecbcca204bd21835ddb3fa189566e9440004a4	4
-8626683	14	a	census:audit+noncode_confirmed	096daa9e0f6656e47834894bd88fc4167fb6f4cde7267b543be70874ce3ee3cb	5
+8626683	14	a	census:audit+noncode_confirmed	5c1b7c9b8133f6421a6c29e60446ae5da21d86ba06e71bab4d2df71f21056052	10
 8626697	437	a	census:format:sjis	24ffc0675834cdaec64a629deb6e6c9223f6fa660ad9a3c97392a245db20fea4	4
 8627134	28	a	census:audit+noncode_confirmed	f14ba06cc5b11d35d35da53e18d027bb70f57f85e39bb96e723b0de89f800533	5
 8627162	78	a	census:format:sjis	b9113be6132e6e99b89240948afcd0d84b62c8aa3d54ffd65b3db04bc95fb1d4	4
-8627240	13	a	census:audit+noncode_confirmed	f029c335b9a07af03781235030b119376eba3e5236df5f50e879dd8b05f1cda8	5
+8627240	13	a	census:audit+noncode_confirmed	d996ef69e5546ec00c03670ab27bff354103daf080fb68418c5dea5e4c0615d2	10
 8627253	171	a	census:format:sjis	a41c37481b38ba6b5f47d89777264fa43e4150a5f6e06d23174ad8e4892c2f55	4
 8627424	802	a	census:audit+noncode_confirmed	78e4bb2b1caac18685b8d35009803e3c2bdc43a1261b161d7b088b9678aacf1c	5
 8628226	97	a	census:format:sjis	109d7265c6bbdfe03fbcfd2902fb7e5cc718dec3374bfea63080a7e3a33b3539	4
 8628323	19	a	census:audit+noncode_confirmed	90003bd8eba8dfcffa39d8d797aa29035c8eafe099e445e9610d6a6f0f8047a7	5
 8628342	22	a	census:format:sjis	49e5c2769f9f5999b5e02365aeca018d075754646c3b4cbd04750754540065fc	4
-8628364	8	a	census:audit+noncode_confirmed	a45bad4a95db1b25eae0644eeafe8120bf5005202c28ed27407dfb81055d4608	5
-8628372	4	a	census:neighbour:proven_data	17eb70034b5b71092521d184c5e7b069d47de657e51aef2be11a00c115036943	8
+8628364	8	a	census:audit+noncode_confirmed	e97a62db7e7d8854e72130b8dd9b1a1d3689d03efbae8e3a468c27f39330f77b	10
+8628372	4	a	census:neighbour:proven_data	2b4bfe5513858f20ae06a6550f8e0a1c2ca32900a7c9e4f4356e68c63984a5de	8
 8628376	822	a	census:format:sjis	04100d83d854e1f129263cb2527eedb7f2947199bd2c2b0f91cbcdb31556a73a	4
 8629198	18	a	census:audit+noncode_confirmed	11ef02aca2bbbf234d5a4d05d64af7734ce7a46d7ec32470209aef5ee39e61b4	5
 8629216	116	a	census:format:sjis	c218076ab399d72622511c0538e49504ba07414cc873fbe7a785ee2d475023ba	4
-8629332	8	a	census:audit+noncode_confirmed	1d11c09f958ee2e032fffaf0654ac7c16022530e137c34c7950ec1abdc51510d	5
-8629340	7	a	census:neighbour:proven_data	c7c62c8c74db98f1ca0df6afc3f25e7ead61f3ebd68bf3870d06b562bfd32ec8	8
+8629332	8	a	census:audit+noncode_confirmed	635808c9024ed1675b35d9a85ddf038e2cb218d6956722ad72ab9a1b0bec382b	10
+8629340	7	a	census:neighbour:proven_data	d855de366676eb1356f3bfc4e10b9e2c8b12d611cd5089e9ec5f918dfff52503	8
 8629347	136	a	census:format:sjis	86b44e1e1d89fee24f36c725d5e9b4f959c973260abe1ec0d87202d862d0ff49	4
 8629483	21	a	census:audit+noncode_confirmed	f6fad045bb3193cfc28b2c932bf1a3940e80550667fa3eeeb1860f90b6f838d0	5
 8629504	110	a	census:format:sjis	a0c9ed63d6394cf5d974f206ffe08e14effe2f426aff6c6c52766a4d980d5429	4
-8629614	12	a	census:audit+noncode_confirmed	b22b36ad525ead9a3809cf24e6b08e9b00268d7909ac66bfe98ad4139b843d39	5
+8629614	12	a	census:audit+noncode_confirmed	3b7ad475cc66715d2ceb5b0ee6ddab26820a10833451f7d3dc9ae9141a083fea	10
 8629626	57	a	census:format:sjis	3b73a9ba91ce7db8d1a0d0f958d60414c73a73fd63263323b29a0f00cf890af2	4
-8629683	9	a	census:audit+noncode_confirmed	980219e577912a16ccf93f2159342729fa1c479cab3eba1311ecb0e718d93e1f	5
+8629683	9	a	census:audit+noncode_confirmed	d21b469e90c53196fce675e7eacdec7eceab9912be192b06c55f094360544899	10
 8629692	73	a	census:format:sjis	24a7f0da5ff8db205b973622e2f6f2ea5b7ff2e55e4294d80bbd8535b6b5e845	4
 8629765	95	a	census:audit+noncode_confirmed	c7657d314ac1c70bb48df44081888577cb336853ed7debe366d0e1f467cdcb14	5
 8629860	88	a	census:format:ascii	7f49d5619e30e666d08860846c4b4fdc475c96ff6ea8eca06dc1d910e568e05a	9
-8629948	8	a	census:audit+noncode_confirmed	6d478bf08d4038141fbdb93ea3b911cdbf4ff4ef4c6f0f566871bcb43bb0e6b4	5
-8629956	1100	r	census:c_row		10
-8631056	84	r	census:instance_partial		10
-8631140	100	r	census:c_row		10
-8631240	164	r	census:instance_partial		10
-8631404	96	r	census:instance_proven		10
-8631500	252	r	census:instance_partial		10
-8631752	320	r	census:c_row		10
+8629948	8	a	census:audit+noncode_confirmed	9b50e730de735fb91e50bd901c874ad50406c483bf458ef53b19dfdf10f66a1b	10
+8629956	1100	r	census:c_row		11
+8631056	84	r	census:instance_partial		11
+8631140	100	r	census:c_row		11
+8631240	164	r	census:instance_partial		11
+8631404	96	r	census:instance_proven		11
+8631500	252	r	census:instance_partial		11
+8631752	320	r	census:c_row		11
 8632072	54	d	census:noncode:decode		0
 8632126	18	p	census:zero_fill>=16		1
 8632144	190	d	census:noncode:decode		0
@@ -849,45 +867,45 @@ o	n	k	r	h	x
 8665298	23	p	census:zero_fill>=16		1
 8665321	11	d	census:noncode:decode		0
 8665332	68	p	census:zero_fill>=16		1
-8665400	164	r	census:instance_partial		10
-8665564	96	r	census:instance_proven		10
-8665660	72	r	census:instance_partial		10
+8665400	164	r	census:instance_partial		11
+8665564	96	r	census:instance_proven		11
+8665660	72	r	census:instance_partial		11
 8665732	1404	p	census:zero_fill>=16		1
 8667136	19	a	census:audit+noncode_confirmed	e5c368ccb9fd8f3890934c04015f0ef178db792318491667600b7b80d01ecdf2	5
 8667155	194	a	census:format:sjis	176de2246161a0b30dc1de7710cabc393c92ff158255d2f8ae7de2f2b10a1b87	4
-8667349	12	a	census:audit+noncode_confirmed	8145f2d520fff17baeca54812c2a821ed5d90a0865e89735a7bfdfef9991a092	5
+8667349	12	a	census:audit+noncode_confirmed	e62695ade966372380d0028a692f9ce1be86a48c82452772a1d0b4ac01e6a35b	10
 8667361	226	a	census:format:sjis	3b98f7c7ec302ebe80835066e39eb11f3829a7ce090342b3d2a5e4e0efa25e38	4
 8667587	28	a	census:audit+noncode_confirmed	5a52287af901e51af5d13342209f1167ec9d23be5f68029dd6167ec25908f454	5
 8667615	76	a	census:format:sjis	e27cce8f7f160784e74d88d6b60f3a7463e573d453cc464773b9c1560c747acd	4
 8667691	17	a	census:audit+noncode_confirmed	ce36cc592bd74ccb07ed4456157d4f7bf3e402c7307cbb7538ebc922c8841f61	5
 8667708	16	a	census:format:sjis	0332e0305c74caf3381bacbc18688e01edb50e634f61bda35e776bb865b8df21	4
-8667724	12	a	census:audit+noncode_confirmed	02f245063c613440c2078fffbfa006ed8d59b9bae2b936e464c5508448f7399a	5
+8667724	12	a	census:audit+noncode_confirmed	1fff66800f81a6e71a75c923686ccab15ed299bd221b3cce7c59c1f8de58dbe2	10
 8667736	226	a	census:format:sjis	9b96b3ad51465b7952ffa26a1a7b8ac7b88f78cdcb5ec07d6f4dd58259b24a5b	4
-8667962	11	a	census:audit+noncode_confirmed	6be74505ef7397bf5631133fc93fc914cb4e7fa7efeb6bbc5f967bdd4bad9fa0	5
+8667962	11	a	census:audit+noncode_confirmed	a4a2bd962302acb2bd18b8dd3287d78e2b778067f227703de912ecda89a612de	10
 8667973	76	a	census:format:sjis	fed98ddb8a1e560aa3f1bbb4967c24d8e4901baff1640d2f98019c9a77663996	4
 8668049	18	a	census:audit+noncode_confirmed	ab45d54ca232c827568f774f3577e720e748c25c402745e01581a590ab54adf2	5
 8668067	85	a	census:format:sjis	865630b8a041424a0363be776a7500ce9e3e3f54923aff873b6fcc02e35ebc93	4
-8668152	8	a	census:audit+noncode_confirmed	102dfbc93e8867e43e543a033a8a0bd897a27dd3ac6781683ab885348c0e3ec3	5
-8668160	4	a	census:neighbour:proven_data	157a12c6bad9d9bc65e53bc445c98b6b67b8307d8944f61bbfc58ca5f0cbe9fc	8
+8668152	8	a	census:audit+noncode_confirmed	890cfe2a5180ea5df73e8c7392baf7dea04dba55e27c51692a5df9b870947973	10
+8668160	4	a	census:neighbour:proven_data	a0d0ee3f32989ea5f30ba5f935dbd2dd8ff7bd8129a4a7f05657f051d34a19b8	8
 8668164	160	a	census:format:sjis	bebbba6a4c5445826aa9ba8c8c3f04bfe2e2b669dd4b2e7746d172a42b5d3a4d	4
 8668324	29	a	census:audit+noncode_confirmed	940cb3a1303c8f2ae7ace52cde0a6c6928b1656e20b2e202d9244b30cb886e15	5
 8668353	145	a	census:format:sjis	dffeaa89c567e208d4a77eef4abb5d751bb6ec0db804728e18db05276808729d	4
-8668498	15	a	census:audit+noncode_confirmed	5ffb16b82b1e8d587d925f6453d5e741a0a5845392434613fcbe9d0345b262dc	5
+8668498	15	a	census:audit+noncode_confirmed	1ce273436ded0768c56ebf1183b352b2c466ff0ce336edffd823a08b73a57106	10
 8668513	20	a	census:format:sjis	eed9bb4ab4c273a495e3dc364aa01c74b480cc6a91d92ba6401a7c280166c0ad	4
-8668533	12	a	census:audit+noncode_confirmed	cfbf9ab41379972ebf5749d871dbb86e22f4e379449acd1ca599034d16809b72	5
+8668533	12	a	census:audit+noncode_confirmed	1a81bd643f78b293d38dcc23d3d0f14fb50c9e8e187fc6fcbcb59f12394ce869	10
 8668545	48	a	census:format:sjis	5689cdc83af07b64f1f717d0d2bae8a9e09b405fc55b2b1bcc1d19d165586259	4
-8668593	12	a	census:audit+noncode_confirmed	0778d34ffa8978943b906cd0a52e6fc2947f2b8e32e89c0285943d4d2d7427a2	5
+8668593	12	a	census:audit+noncode_confirmed	293ca88b67438f624e6b4bfb5aa06208034f6e14a31ea28869c4fa2064a70078	10
 8668605	25	a	census:format:sjis	e5253f86e97ac77089178adefc165a758336b50d56d0904cc095e7e268bf4c0d	4
 8668630	20	a	census:audit+noncode_confirmed	169f5cce3095c7403f348b430855f8d2b4e680a3fe5e941d898c155ca33ea627	5
 8668650	20	a	census:format:sjis	f8a5cc4a55029ab3318c39d7864ffc21d7259242b4e8ba256f67180869770802	4
-8668670	11	a	census:audit+noncode_confirmed	794834229839af357679ccdf18c0240e074384a9e44a5328462e715fce3da4e6	5
+8668670	11	a	census:audit+noncode_confirmed	c7a9b671149d61d7294b7a966062136a70e7cc3ad8e81663157e00f0c2d22c0a	10
 8668681	27	a	census:format:sjis	a290aae50eecb6778c35019806e4bd1dcdacbbb11d55d33458f9c28c00a660f7	4
-8668708	10	a	census:audit+noncode_confirmed	e5a3348ab50092bbcb9457eba4d802fa46904af2b40dee05919775004808f100	5
+8668708	10	a	census:audit+noncode_confirmed	2595d5cf01d26860662c4abc03a52d4baf6f0c8c4805a93fab478f1ca9a635e3	10
 8668718	105	a	census:format:sjis	3774307e155794da78f77e7eda86eeaffa99dc9b27de0ff4c7e9e1562efacf79	4
 8668823	153	a	census:audit+noncode_confirmed	8bea910b5479caaf1548a1bde3088836b58c7e19fc6f002edfb747f939aca87c	5
 8668976	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	9
-8669016	8	a	census:audit+noncode_confirmed	6d478bf08d4038141fbdb93ea3b911cdbf4ff4ef4c6f0f566871bcb43bb0e6b4	5
-8669024	1596	r	census:c_row		10
+8669016	8	a	census:audit+noncode_confirmed	9b50e730de735fb91e50bd901c874ad50406c483bf458ef53b19dfdf10f66a1b	10
+8669024	1596	r	census:c_row		11
 8670620	154	d	census:noncode:decode		0
 8670774	22	p	census:zero_fill>=16		1
 8670796	4	d	census:noncode:decode		0
@@ -1226,7 +1244,7 @@ o	n	k	r	h	x
 8701433	70	d	census:noncode:decode		0
 8701503	63	a	census:format:sjis	e1155fa7e07370e5722cff2aed4f69701bef488583a3ac2e584bc842f02b036c	4
 8701566	4	d	census:noncode:decode		0
-8701570	382	l	census:zero_fill>=16		18
+8701570	382	l	census:zero_fill>=16		20
 8701952	161	d	census:noncode:decode		0
 8702113	541	a	census:format:sjis	2235a2b6bda40d002c343a546e76418ccd63ad8379dc4784aca66b66e183d2f9	4
 8702654	12	d	census:noncode:decode		0
@@ -1275,7 +1293,7 @@ o	n	k	r	h	x
 8706048	188	a	census:format:sjis	f437c0d02a8d44d36aafc319b044152622eba7b2b07a1248d5300532bb4e62c0	4
 8706236	22	d	census:noncode:decode		0
 8706258	170	a	census:format:sjis	6c0f01c244efa945a8f95e28c61bd5ac50138844b497dea684939e1ca2490d4e	4
-8706428	12	a	census:neighbour:proven_data	dadf01d7e586ac1606c5e5ed6973adf83180940b80813636205d126c8c1fc60f	8
+8706428	12	a	census:neighbour:proven_data	2477d0a0a5dc06a44ea64b2ea03dcad0064776725590cb3ca2dfeb2216dad403	8
 8706440	111	a	census:format:sjis	16ceac923115e368766c84b0bff6105f2bf7f75c5120cc2b3405a47e641b4e04	4
 8706551	2	d	census:noncode:decode		0
 8706553	1543	p	census:zero_fill>=16		1
@@ -1295,7 +1313,7 @@ o	n	k	r	h	x
 8709064	12	d	census:noncode:decode		0
 8709076	32	a	census:format:sjis	2e8c83a29fc4bddb3e1b2f3f35dda37c903750e4a450759fe783a29ab023a3cc	4
 8709108	5	d	census:noncode:decode		0
-8709113	1031	l	census:zero_fill>=16		18
+8709113	1031	l	census:zero_fill>=16		20
 8710144	77	d	census:noncode:decode		0
 8710221	367	a	census:format:sjis	411d3e58430da668e160fc31357212852c7a52a5694b1af894ac34c22639d515	4
 8710588	65	d	census:noncode:decode		0
@@ -1417,7 +1435,7 @@ o	n	k	r	h	x
 8728445	40	d	census:noncode:decode		0
 8728485	272	a	census:format:sjis	456c2a8d1b1e16ba9af7b5e1e30e664b6c104824cdd8db3b74a2b79b17ce5813	4
 8728757	51	d	census:noncode:decode		0
-8728808	36	a	census:format:offtab	5cc42c5909995a46ad9199c1d1d90c6b287363787ae81e0192a4532a0d226d71	17
+8728808	36	a	census:format:offtab	5cc42c5909995a46ad9199c1d1d90c6b287363787ae81e0192a4532a0d226d71	19
 8728844	116	d	census:noncode:decode		0
 8728960	250	a	census:format:sjis	621a0c9a4a89287291cfe0443df5adf57e64589a4ef120b9c0a774fc95098b55	4
 8729210	31	d	census:noncode:decode		0
@@ -1549,9 +1567,9 @@ o	n	k	r	h	x
 8747628	21	d	census:noncode:decode		0
 8747649	1407	p	census:zero_fill>=16		1
 8749056	24	d	census:noncode:decode		0
-8749080	44	a	census:format:offtab	5252002bbf79678106cbc7e42ed93a6f4439104aacc21b993ded248d76ff6526	17
+8749080	44	a	census:format:offtab	5252002bbf79678106cbc7e42ed93a6f4439104aacc21b993ded248d76ff6526	19
 8749124	628	d	census:noncode:decode		0
-8749752	44	a	census:format:offtab	cdbac2d62725131e9c2f6a661a2860ebf8d60c2d1b4a64f48befbcdbf10e8530	17
+8749752	44	a	census:format:offtab	cdbac2d62725131e9c2f6a661a2860ebf8d60c2d1b4a64f48befbcdbf10e8530	19
 8749796	41	d	census:noncode:decode		0
 8749837	56	a	census:format:sjis	57013f3358e89962e9073f3f7010860dd403c55994a178394c7f9a2a3b29311e	4
 8749893	15	d	census:noncode:decode		0
@@ -1812,7 +1830,7 @@ o	n	k	r	h	x
 8787545	33	d	census:noncode:decode		0
 8787578	110	a	census:format:sjis	e7572acb4df063a1e39aea20750acda6e5eb6b4f3112df20884b9dd99d516da4	4
 8787688	48	d	census:noncode:decode		0
-8787736	36	a	census:format:offtab	53d60b64d0b6855e112e8793cb86a3388b7c5ddb0116a4e1410919371a278621	17
+8787736	36	a	census:format:offtab	53d60b64d0b6855e112e8793cb86a3388b7c5ddb0116a4e1410919371a278621	19
 8787772	10	d	census:noncode:decode		0
 8787782	174	a	census:format:sjis	02ef932bbd8cecdae80a1f0511d7eed569e307b1bcd2320f97114198a893c6a0	4
 8787956	12	d	census:noncode:decode		0
@@ -1894,7 +1912,7 @@ o	n	k	r	h	x
 8794332	4	d	census:noncode:decode		0
 8794336	20	a	census:format:ascii	e9216cf4036c9eb5388f45baa3d57d22cef554e3ff8322c61c5b6f92fe049ec1	9
 8794356	299	d	census:noncode:decode		0
-8794655	9	a	census:format:ascii	3241f598dc996a3f16816ccafe5965699f7c0ffe3c481476d1870c019d152444	9
+8794655	9	a	census:format:ascii	fe832ff245ca9a72f507f8572a8c6e533e79eb618126563dceb636abf438e282	14
 8794664	20	d	census:noncode:decode		0
 8794684	12	d	census:neighbour:noncode_typing_pending		0
 8794696	44	d	census:noncode:decode		0
@@ -1908,7 +1926,7 @@ o	n	k	r	h	x
 8794796	8	d	census:noncode:decode		0
 8794804	8	d	census:neighbour:noncode_typing_pending		0
 8794812	186	d	census:noncode:decode		0
-8794998	10	a	census:format:ascii	9bbd61b16fccb7aeace1898aec9d5d5d4906c66356423c912c11d131ce540126	9
+8794998	10	a	census:format:ascii	3c6644e9b67103a0a114408fab0be0deaa30201760959bd495eee12f74b65dbb	14
 8795008	40	d	census:noncode:decode		0
 8795048	8	d	census:neighbour:noncode_typing_pending		0
 8795056	8	d	census:noncode:decode		0
@@ -1928,23 +1946,23 @@ o	n	k	r	h	x
 8796124	8	d	census:noncode:decode		0
 8796132	8	d	census:neighbour:noncode_typing_pending		0
 8796140	38	d	census:noncode:decode		0
-8796178	47	l	census:zero_fill>=16		18
+8796178	47	l	census:zero_fill>=16		20
 8796225	26	d	census:noncode:decode		0
-8796251	42	l	census:zero_fill>=16		18
+8796251	42	l	census:zero_fill>=16		20
 8796293	6	d	census:noncode:decode		0
-8796299	74	l	census:zero_fill>=16		18
+8796299	74	l	census:zero_fill>=16		20
 8796373	6	d	census:noncode:decode		0
-8796379	74	l	census:zero_fill>=16		18
+8796379	74	l	census:zero_fill>=16		20
 8796453	6	d	census:noncode:decode		0
-8796459	74	l	census:zero_fill>=16		18
+8796459	74	l	census:zero_fill>=16		20
 8796533	41	d	census:noncode:decode		0
-8796574	55	l	census:zero_fill>=16		18
+8796574	55	l	census:zero_fill>=16		20
 8796629	11	d	census:noncode:decode		0
-8796640	65	l	census:zero_fill>=16		18
+8796640	65	l	census:zero_fill>=16		20
 8796705	11	d	census:noncode:decode		0
-8796716	65	l	census:zero_fill>=16		18
+8796716	65	l	census:zero_fill>=16		20
 8796781	11	d	census:noncode:decode		0
-8796792	392	l	census:zero_fill>=16		18
+8796792	392	l	census:zero_fill>=16		20
 8797184	1024	p	census:zero_fill>=16		1
 8798208	32	d	census:noncode:decode		0
 8798240	8	d	census:neighbour:noncode_typing_pending		0
@@ -2239,7 +2257,7 @@ o	n	k	r	h	x
 8815560	12	d	census:noncode:decode		0
 8815572	32	a	census:format:sjis	2e8c83a29fc4bddb3e1b2f3f35dda37c903750e4a450759fe783a29ab023a3cc	4
 8815604	5	d	census:noncode:decode		0
-8815609	1031	l	census:zero_fill>=16		18
+8815609	1031	l	census:zero_fill>=16		20
 8816640	77	d	census:noncode:decode		0
 8816717	367	a	census:format:sjis	949ab0c17b231c496a343a469b01d01650d7c2859c2ec8d409df93edbc76bc1e	4
 8817084	61	d	census:noncode:decode		0
@@ -2253,7 +2271,7 @@ o	n	k	r	h	x
 8817434	12	d	census:noncode:decode		0
 8817446	34	a	census:format:sjis	c019cefceec8fe8ca13e66802da68c512e93919892937f632b5bf1bbd55ea4e0	4
 8817480	8	d	census:noncode:decode		0
-8817488	1200	l	census:zero_fill>=16		18
+8817488	1200	l	census:zero_fill>=16		20
 8818688	210	d	census:noncode:decode		0
 8818898	196	a	census:format:sjis	f0058ea9fb2c3f26a01fae09f5128467de16a055ebbc788e8c4d7196a9095e8c	4
 8819094	31	d	census:noncode:decode		0
@@ -2313,7 +2331,7 @@ o	n	k	r	h	x
 8827011	17	d	census:noncode:decode		0
 8827028	226	a	census:format:sjis	b799aa3b19b40006eaf3ff3664d5b513105a99a15919784dcaa7234e890d8c26	4
 8827254	2	d	census:noncode:decode		0
-8827256	1672	l	census:zero_fill>=16		18
+8827256	1672	l	census:zero_fill>=16		20
 8828928	64	d	census:noncode:decode		0
 8828992	116	a	census:format:sjis	77f2b8a889fcbde046352c8ed0b7c53aa6022417abea4bde72be8283b78ac117	4
 8829108	10	d	census:noncode:decode		0
@@ -2394,7 +2412,7 @@ o	n	k	r	h	x
 8839593	12	d	census:noncode:decode		0
 8839605	24	a	census:format:sjis	740cd3d1348b87a095b56096145bc3d5d24bc4676f95d409587abaa6cc0426dc	4
 8839629	3	d	census:noncode:decode		0
-8839632	1584	l	census:zero_fill>=16		18
+8839632	1584	l	census:zero_fill>=16		20
 8841216	30	d	census:noncode:decode		0
 8841246	525	a	census:format:sjis	bbcc6fce9ef7c0685319ed0a210c34916d052bf5bf308814211e149431f37c78	4
 8841771	87	d	census:noncode:decode		0
@@ -2471,7 +2489,7 @@ o	n	k	r	h	x
 8851880	31	d	census:noncode:decode		0
 8851911	464	a	census:format:sjis	955d095f9af028367d0a100a4fa5e8d7b712e318847b7e074a47a26acded0b03	4
 8852375	5	d	census:noncode:decode		0
-8852380	1124	l	census:zero_fill>=16		18
+8852380	1124	l	census:zero_fill>=16		20
 8853504	178	d	census:noncode:decode		0
 8853682	28	a	census:format:sjis	0f30688174b622c49da72cc96e5cf0c6cd67d5f01cb841a28af74776432f51a7	4
 8853710	29	d	census:noncode:decode		0
@@ -2485,11 +2503,11 @@ o	n	k	r	h	x
 8854031	56	d	census:noncode:decode		0
 8854087	37	a	census:format:sjis	d97485a345a670ae127ff319185a6ac377517553f1447c75604322396950be8e	4
 8854124	24	d	census:noncode:decode		0
-8854148	1404	l	census:zero_fill>=16		18
+8854148	1404	l	census:zero_fill>=16		20
 8855552	24	d	census:noncode:decode		0
-8855576	44	a	census:format:offtab	5252002bbf79678106cbc7e42ed93a6f4439104aacc21b993ded248d76ff6526	17
+8855576	44	a	census:format:offtab	5252002bbf79678106cbc7e42ed93a6f4439104aacc21b993ded248d76ff6526	19
 8855620	628	d	census:noncode:decode		0
-8856248	44	a	census:format:offtab	cdbac2d62725131e9c2f6a661a2860ebf8d60c2d1b4a64f48befbcdbf10e8530	17
+8856248	44	a	census:format:offtab	cdbac2d62725131e9c2f6a661a2860ebf8d60c2d1b4a64f48befbcdbf10e8530	19
 8856292	41	d	census:noncode:decode		0
 8856333	56	a	census:format:sjis	57013f3358e89962e9073f3f7010860dd403c55994a178394c7f9a2a3b29311e	4
 8856389	15	d	census:noncode:decode		0
@@ -2581,7 +2599,7 @@ o	n	k	r	h	x
 8868367	23	d	census:noncode:decode		0
 8868390	121	a	census:format:sjis	149a10132c4e5a62c1f8df79508564268c47499aef87aea23df9718b4626584c	4
 8868511	17	d	census:noncode:decode		0
-8868528	1360	l	census:zero_fill>=16		18
+8868528	1360	l	census:zero_fill>=16		20
 8869888	84	d	census:noncode:decode		0
 8869972	16	u	census:unknown		1
 8869988	10	d	census:noncode:decode		0
@@ -2595,9 +2613,9 @@ o	n	k	r	h	x
 8870918	11	d	census:noncode:decode		0
 8870929	222	a	census:format:sjis	9b51448ae85ccc950c18997fa7035b95159f21d5524a0658f658455a21b8f769	4
 8871151	1	d	census:noncode:decode		0
-8871152	784	l	census:zero_fill>=16		18
+8871152	784	l	census:zero_fill>=16		20
 8871936	10	d	census:noncode:decode		0
-8871946	66	l	census:zero_fill>=16		18
+8871946	66	l	census:zero_fill>=16		20
 8872012	90	d	census:noncode:decode		0
 8872102	174	a	census:format:sjis	02ef932bbd8cecdae80a1f0511d7eed569e307b1bcd2320f97114198a893c6a0	4
 8872276	12	d	census:noncode:decode		0
@@ -2901,7 +2919,7 @@ o	n	k	r	h	x
 8895826	14	d	census:noncode:decode		0
 8895840	85	a	census:format:sjis	b72b042cf33ab13c9fcc4494327fd0a6a16f1ee83534712c4588128f851abadc	4
 8895925	3	d	census:noncode:decode		0
-8895928	584	l	census:zero_fill>=16		18
+8895928	584	l	census:zero_fill>=16		20
 8896512	460	d	census:noncode:decode		0
 8896972	8	d	census:neighbour:noncode_typing_pending		0
 8896980	3308	d	census:noncode:decode		0
@@ -2913,17 +2931,17 @@ o	n	k	r	h	x
 8905064	392	d	census:noncode:decode		0
 8905456	8	d	census:neighbour:noncode_typing_pending		0
 8905464	421	d	census:noncode:decode		0
-8905885	9	a	census:format:ascii	9c1584f421d798f2fcac4e25b059f864151369d7ed816ff9244fa23620bc274a	9
+8905885	9	a	census:format:ascii	4d5de34d151162ae3e4fe0872b0f06df5072353924878962efe04c28b208e3f2	14
 8905894	154	d	census:noncode:decode		0
-8906048	10	a	census:format:ascii	c1fc7b1268673e815fbaacac9434f5c89b56f11dc0c2a98816a61c92024f85c3	9
+8906048	10	a	census:format:ascii	ee6a73539b89144b96730a3f37966be5eef795074c61e10e7577ddb452cfc80f	14
 8906058	10	d	census:noncode:decode		0
 8906068	12	d	census:neighbour:noncode_typing_pending		0
 8906080	217	d	census:noncode:decode		0
-8906297	9	a	census:format:ascii	a0257695dd841ca631341e909f3b4b8b79523ce93cdd4110409288fc6feba6a5	9
+8906297	9	a	census:format:ascii	684e95fc50a85a809cf1f7f9c274a1926f192868db557af1b1d284784f083d32	14
 8906306	339	d	census:noncode:decode		0
-8906645	9	a	census:format:ascii	7863aa890ffc2e1e253f0c9fd6136aede2ae5299fe0384bef0cf86a1e25933e8	9
+8906645	9	a	census:format:ascii	cc855f2ad1954e39a7e43b9c9ce598fa58d73a0f04975a8e8d3b832fa027fefd	14
 8906654	210	d	census:noncode:decode		0
-8906864	9	a	census:format:ascii	883ba936aee77794e10585f34205c7a8ffb5d693fef6a48c2d0c0175b23fc067	9
+8906864	9	a	census:format:ascii	d14cbfa39ba2c953881cc98668877e36ca62e0006135dce9cfe42bd3afd97c42	14
 8906873	635	d	census:noncode:decode		0
 8907508	8	d	census:neighbour:noncode_typing_pending		0
 8907516	1484	d	census:noncode:decode		0
@@ -2941,11 +2959,11 @@ o	n	k	r	h	x
 8913084	60	d	census:noncode:decode		0
 8913144	8	d	census:neighbour:noncode_typing_pending		0
 8913152	1051	d	census:noncode:decode		0
-8914203	9	a	census:format:ascii	2a016d17df1c3d9810b4a7c16c309687c71c66b5c1a3e81db9e2308f7feb8ab6	9
+8914203	9	a	census:format:ascii	fc9da0706ed777a7cc66afa9e86c31cbb2d4a935d0078fdad6f5d75bf21974e6	14
 8914212	711	d	census:noncode:decode		0
-8914923	9	a	census:format:ascii	6e2eaf4491a404c5cd8c7b07f37d5f7af664a30410f3f965617e9f9b9056505a	9
+8914923	9	a	census:format:ascii	71673b16af3533645c881a142355283dce1951219e5c64af49c30baccb0a56ad	14
 8914932	600	d	census:noncode:decode		0
-8915532	9	a	census:format:ascii	143f6ce9b04caad7f440f1877edb8e944155eb870443e0c25e9c08afa6667f83	9
+8915532	9	a	census:format:ascii	edc5a0be739e26b41a629016c61a8789e537174854431a01e8e81082a1b277f5	14
 8915541	2215	d	census:noncode:decode		0
 8917756	8	d	census:neighbour:noncode_typing_pending		0
 8917764	968	d	census:noncode:decode		0
@@ -2953,7 +2971,7 @@ o	n	k	r	h	x
 8918744	624	d	census:noncode:decode		0
 8919368	8	d	census:neighbour:noncode_typing_pending		0
 8919376	565	d	census:noncode:decode		0
-8919941	9	a	census:format:ascii	9feec005ae025ae98c9816900a35c50da903c1ad555bf94f0b07f38f70acdcc7	9
+8919941	9	a	census:format:ascii	5c0e9bcddcff7d7225912409ae51d4f410ad758d740c5d4b4a8d444b97046560	14
 8919950	190	d	census:noncode:decode		0
 8920140	18	a	census:format:ascii	bd602299780ed285934b62f99db7900e43cf8ed05a4b3c9e06169ad8a166746e	9
 8920158	538	d	census:noncode:decode		0
@@ -2961,17 +2979,17 @@ o	n	k	r	h	x
 8920704	356	d	census:noncode:decode		0
 8921060	8	d	census:neighbour:noncode_typing_pending		0
 8921068	892	d	census:noncode:decode		0
-8921960	9	a	census:format:ascii	74f7a1611028829f4b5238a46157a58a99d24c2afe4863ac031463e426bba3a0	9
+8921960	9	a	census:format:ascii	69cd464ddbb017420556291e1cf46202a1944f63b8ea71eaec240639e2a39998	14
 8921969	198	d	census:noncode:decode		0
-8922167	9	a	census:format:ascii	ccb399148b9bdd105e4a56c5076916b513302731ff3e1d5b257405880d9b5b4e	9
+8922167	9	a	census:format:ascii	9aa8d05e3b7f2e3ab3098898ca45ce65c5d43da6bd4276486335145f6512d039	14
 8922176	32	d	census:noncode:decode		0
 8922208	8	d	census:neighbour:noncode_typing_pending		0
 8922216	76	d	census:noncode:decode		0
 8922292	12	d	census:neighbour:noncode_typing_pending		0
 8922304	960	d	census:noncode:decode		0
-8923264	9	a	census:format:ascii	0e209c326dbfc32ec5fc921b37a0542557fe62672da1c9ae5d3d64c9314bf157	9
+8923264	9	a	census:format:ascii	6af07acf9d38d2a0537d82a26f4d873859228975a53d5cbf1cc512e7eb86ab2a	14
 8923273	315	d	census:noncode:decode		0
-8923588	9	a	census:format:ascii	cd55ed55605f5457c63888be8a44fc428bf0f903d546d64a703aec4e2e0e39ef	9
+8923588	9	a	census:format:ascii	2aabbab17b6d92ec169e934d57f48ccf9a6604f10d383fc79b25328de5190f2c	14
 8923597	451	d	census:noncode:decode		0
 8924048	8	d	census:neighbour:noncode_typing_pending		0
 8924056	564	d	census:noncode:decode		0
@@ -2979,25 +2997,25 @@ o	n	k	r	h	x
 8924628	164	d	census:noncode:decode		0
 8924792	27	a	census:format:ascii	70f61a8691866f7f9e278b4c801f25e8018644f9deaeb241988bf149ffcb5b26	9
 8924819	207	d	census:noncode:decode		0
-8925026	9	a	census:format:ascii	b7d359aa21462c96ee012e9e11f478b1498a8196daa26a3e40661140e174e31e	9
+8925026	9	a	census:format:ascii	394a74260771899ad0639645234cba226713eb20ddf1b94ea7a7ffdf5c0013a7	14
 8925035	231	d	census:noncode:decode		0
-8925266	9	a	census:format:ascii	91903ce44e62b0bd82e3ca5069a19f40423a5be32cecdcb46565cd1083b5195e	9
+8925266	9	a	census:format:ascii	2f2f66ccf25882acda92767c1f7cf0ade7fcd5f191604ade7a856b9acb807424	14
 8925275	43	d	census:noncode:decode		0
-8925318	9	a	census:format:ascii	f921c69a8895f17f92161a2568236db9b10848e26d1ff0b276505446245313db	9
+8925318	9	a	census:format:ascii	fa0a383f042b016dbae8addfdd5339a9ccb4e5b8b2929f4fc9a1ee4b29707da0	14
 8925327	468	d	census:noncode:decode		0
 8925795	18	a	census:format:ascii	3c42dee66ba96e81339ca31a71283f125aa8ea33e337ffd04fa5af48e90b026f	9
 8925813	670	d	census:noncode:decode		0
-8926483	9	a	census:format:ascii	ba93eb58c620c0ee9198bad25182e49158a52d41ab1e0be56a852f061bf01d1b	9
+8926483	9	a	census:format:ascii	fe11e4c41962e2ea84b0241381d132d90e25ffdcb69697377c5051b23fd1e453	14
 8926492	53	d	census:noncode:decode		0
-8926545	10	a	census:format:ascii	e1b2551865d0b0b4b4fa8c8a185cc2bae167268ac2ae2d7805a4a35face22034	9
+8926545	10	a	census:format:ascii	0f94187f99448dc873fe110b1591dee1fd81df2fbc49ab7de1d3f8213c95492f	14
 8926555	645	d	census:noncode:decode		0
 8927200	8	d	census:neighbour:noncode_typing_pending		0
 8927208	1087	d	census:noncode:decode		0
 8928295	18	a	census:format:ascii	a4dbf32f54aed8ce5c1a28a6f701379a30f4249e64b775c2ffcd2e829a6a065d	9
 8928313	330	d	census:noncode:decode		0
-8928643	9	a	census:format:ascii	2e9f7c495b4163f75cdc5d1836957f65a3ea3016a957c0357f3ca0c49ed506f2	9
+8928643	9	a	census:format:ascii	abacce7b985efcb160bec491a8ddf990fe5b1c3a9de647c6449ed84e9b24fe8d	14
 8928652	85	d	census:noncode:decode		0
-8928737	9	a	census:format:ascii	1dad78f330d51560214a6230aa07f09ea973907d427be75a79e836d17f7f3620	9
+8928737	9	a	census:format:ascii	65f3186679ac704936f154455305519c3c21cb49a3e4fbf62261a39f7f5e7c4c	14
 8928746	438	d	census:noncode:decode		0
 8929184	8	d	census:neighbour:noncode_typing_pending		0
 8929192	435	d	census:noncode:decode		0
@@ -3005,13 +3023,13 @@ o	n	k	r	h	x
 8929651	361	d	census:noncode:decode		0
 8930012	8	d	census:neighbour:noncode_typing_pending		0
 8930020	46	d	census:noncode:decode		0
-8930066	9	a	census:format:ascii	51edc6e331ac94a17355ec07f718f1cf1a56485d24157318417995da66f6b4c0	9
+8930066	9	a	census:format:ascii	8d12268ab8e682c0ffd663443d8586dcde2a6418020eb8d73331152f636613e2	14
 8930075	281	d	census:noncode:decode		0
 8930356	8	d	census:neighbour:noncode_typing_pending		0
 8930364	491	d	census:noncode:decode		0
-8930855	9	a	census:format:ascii	34b4cc0bff4a3706e7787b4355f7962db7af88e2cfdbaa0991843f4e146bf3c2	9
+8930855	9	a	census:format:ascii	5776eb038918d22ad2ef74ea5bcd47ac2f7316e46b55d53c1fc537c9e5cc66bf	14
 8930864	48	d	census:noncode:decode		0
-8930912	9	a	census:format:ascii	237199316ed077683db21b85fd7f6e1d6f8da37a39c04a1947a6e294c4a005da	9
+8930912	9	a	census:format:ascii	95b0eaffd486cec97343139a580a522e9acb63781ba48c4375aca6cf7cf4e525	14
 8930921	571	d	census:noncode:decode		0
 8931492	8	d	census:neighbour:noncode_typing_pending		0
 8931500	104	d	census:noncode:decode		0
@@ -3025,7 +3043,7 @@ o	n	k	r	h	x
 8933348	348	d	census:noncode:decode		0
 8933696	128	d	census:noncode:entropy:unplaced		0
 8933824	1280	d	census:noncode:decode		0
-8935104	9	a	census:format:ascii	b40a56d6e8491b2ae12b83ffa8e9f341aa34ab0747c6a805a9147d9e1d1fc1ba	9
+8935104	9	a	census:format:ascii	28491d5fb26484d078541110cb1dff1c4986ad9ef63d9d05ec50f1d4a13835e5	14
 8935113	351	d	census:noncode:decode		0
 8935464	8	d	census:neighbour:noncode_typing_pending		0
 8935472	464	d	census:noncode:decode		0
@@ -3033,11 +3051,11 @@ o	n	k	r	h	x
 8936120	16	a	census:format:ascii	276d245062276083771cf242e27c7c44c669413952dfff8aac8a2e722e3a983c	9
 8936136	56	d	census:noncode:entropy:unplaced		0
 8936192	96	d	census:noncode:decode		0
-8936288	9	a	census:format:ascii	a5800753b804554ea4b65155c5d08d082ff769f2ec7bfe7ac475e77205e725ba	9
+8936288	9	a	census:format:ascii	d1707a269b1e1e410661bb3745bdf82f248b23a7e4ef88334e615138d5738eb0	14
 8936297	779	d	census:noncode:decode		0
 8937076	8	d	census:neighbour:noncode_typing_pending		0
 8937084	1509	d	census:noncode:decode		0
-8938593	9	a	census:format:ascii	695bdc887f5e1bd481d41b3fe85ef36378660b858c5983d5fb8fd66263850056	9
+8938593	9	a	census:format:ascii	8e448136c30c1de4166a4b0ec84a56597351ab129221db2cac40fd36f0aa3ed8	14
 8938602	910	d	census:noncode:decode		0
 8939512	12	d	census:neighbour:noncode_typing_pending		0
 8939524	916	d	census:noncode:decode		0
@@ -3051,7 +3069,7 @@ o	n	k	r	h	x
 8941824	64	d	census:noncode:decode		0
 8941888	1024	d	census:noncode:entropy:unplaced		0
 8942912	1	d	census:noncode:decode		0
-8942913	9	a	census:format:ascii	b62eabf629d3546ee51b532ec7c14d39952402fb4388f11ccebc091b54781b02	9
+8942913	9	a	census:format:ascii	cf6230dab2f90c82589349fb94672162c4b79f18a6d455de020d171c0da887c4	14
 8942922	246	d	census:noncode:decode		0
 8943168	1664	d	census:noncode:entropy:unplaced		0
 8944832	192	d	census:noncode:decode		0
@@ -3062,7 +3080,7 @@ o	n	k	r	h	x
 8949480	8	d	census:neighbour:noncode_typing_pending		0
 8949488	400	d	census:noncode:decode		0
 8949888	3411	d	census:noncode:entropy:unplaced		0
-8953299	12	a	census:format:ascii	b7eff7320311bfcd8cceb30429ca0f942a5f8624fee639216b4d416325453fb5	9
+8953299	12	a	census:format:ascii	4996b9946548581e598d3cfdde31ac9b93c9863be1a75fc31fe0d033d27f4ad6	14
 8953311	1377	d	census:noncode:entropy:unplaced		0
 8954688	64	d	census:noncode:decode		0
 8954752	384	d	census:noncode:entropy:unplaced		0
@@ -3081,9 +3099,9 @@ o	n	k	r	h	x
 8966784	512	d	census:noncode:decode		0
 8967296	1216	d	census:noncode:entropy:unplaced		0
 8968512	580	d	census:noncode:decode		0
-8969092	9	a	census:format:ascii	a9bd7542e61e2a6e934fc1830bf108f3e6caac746586953432e6ccda0c8c26cb	9
+8969092	9	a	census:format:ascii	690053c68ef11d050304e0fe74155403f2fc57d29879469d688b0f5bdc0f6d6c	14
 8969101	255	d	census:noncode:decode		0
-8969356	9	a	census:format:ascii	e2881082342a7b5202e18ac5eeced38d56ef047aaaa5d758b4176f28ff8ebdf1	9
+8969356	9	a	census:format:ascii	6fec97d86127176e4953f09adf4467b9dc133ad15f3ef6ef5c5355286bd093a5	14
 8969365	1771	d	census:noncode:decode		0
 8971136	128	d	census:noncode:entropy:unplaced		0
 8971264	64	d	census:noncode:decode		0
@@ -3093,7 +3111,7 @@ o	n	k	r	h	x
 8972992	64	d	census:noncode:decode		0
 8973056	640	d	census:noncode:entropy:unplaced		0
 8973696	1201	d	census:noncode:decode		0
-8974897	9	a	census:format:ascii	1029904ca3fc964093ecf85a85c75c755c269fb0a1afc3ad49276e42c9cc5804	9
+8974897	9	a	census:format:ascii	1abc4b7622e72dfa8fa06f3d95404f97e885494f56315e7af8b3669eb1b0977b	14
 8974906	534	d	census:noncode:decode		0
 8975440	8	d	census:neighbour:noncode_typing_pending		0
 8975448	808	d	census:noncode:decode		0
@@ -3111,19 +3129,19 @@ o	n	k	r	h	x
 8982912	424	d	census:noncode:decode		0
 8983336	8	d	census:neighbour:noncode_typing_pending		0
 8983344	161	d	census:noncode:decode		0
-8983505	9	a	census:format:ascii	4953b87516d6c8eefc3a809ab0eac994aa3e1b51775f8af658c4c02cfb31dc8d	9
+8983505	9	a	census:format:ascii	d6f0238d456b721d5c5c91ccb774e1db972a9992c11ab35f7ac2dfc8c502df4c	14
 8983514	1062	d	census:noncode:decode		0
 8984576	640	d	census:noncode:entropy:unplaced		0
 8985216	64	d	census:noncode:decode		0
 8985280	1559	d	census:noncode:entropy:unplaced		0
-8986839	13	a	census:format:ascii	c74b06738af7b49db4c76b5a7ef71fe878818879a43958b19335dfd2eab245d7	9
+8986839	13	a	census:format:ascii	9cb17d6ecc1141fff417fa826b07c4518199e05dbfb8281062e5b96400e4e743	14
 8986852	2012	d	census:noncode:entropy:unplaced		0
 8988864	244	d	census:noncode:decode		0
 8989108	12	d	census:neighbour:noncode_typing_pending		0
 8989120	179	d	census:noncode:decode		0
-8989299	11	a	census:format:ascii	f2f89e9dbe42a8499df4001efbb2ab86b674d04ec753af917f4c53458d234149	9
+8989299	11	a	census:format:ascii	3374d273fb822417aba2bd4f8c328a54795bc7b0e5d0c8be6bd587ec7e25fcec	14
 8989310	1382	d	census:noncode:decode		0
-8990692	9	a	census:format:ascii	b0d278d3ae759b6176aaa9d7ce1b3ad14910bbb86a99aa6ebf5f5a79f3bcf72f	9
+8990692	9	a	census:format:ascii	abfe0516d718eaae39d1f75cbdc87771d2b599776c42d25b0ee1692fc5ea0079	14
 8990701	459	d	census:noncode:decode		0
 8991160	16	u	census:unknown		1
 8991176	1144	d	census:noncode:decode		0
@@ -3137,7 +3155,7 @@ o	n	k	r	h	x
 8996544	256	d	census:noncode:decode		0
 8996800	384	d	census:noncode:entropy:unplaced		0
 8997184	338	d	census:noncode:decode		0
-8997522	14	a	census:format:ascii	bd2d064a5ef0272bc9d85b673555d17541817afa0f93009c1d98b41c1418f40d	9
+8997522	14	a	census:format:ascii	2d8cff701293add187910ed7dee77a2a3038431a051c8aac442d930a8d3fa451	14
 8997536	240	d	census:noncode:decode		0
 8997776	8	d	census:neighbour:noncode_typing_pending		0
 8997784	936	d	census:noncode:decode		0
@@ -3145,7 +3163,7 @@ o	n	k	r	h	x
 8998976	348	d	census:noncode:decode		0
 8999324	8	d	census:neighbour:noncode_typing_pending		0
 8999332	1094	d	census:noncode:decode		0
-9000426	9	a	census:format:ascii	1baf811f8219d6f7cbbf35dad4d1c432457b0fdfdb8a5735f521dbf3525657b8	9
+9000426	9	a	census:format:ascii	37b510f30f18a34aa47c5e1ed855338b65818c06e955e36488b8575740a45569	14
 9000435	205	d	census:noncode:decode		0
 9000640	192	d	census:noncode:entropy:unplaced		0
 9000832	64	d	census:noncode:decode		0
@@ -3172,12 +3190,12 @@ o	n	k	r	h	x
 9011686	1562	p	census:zero_fill>=16		1
 9013248	1024	d	census:noncode:decode		0
 9014272	91	d	census:noncode:entropy:unplaced		0
-9014363	10	a	census:format:ascii	23e2fe43b52a1ec8f87545adad5835325ae63ea4ee962eaa1c9c9b9b2cc5877f	9
+9014363	10	a	census:format:ascii	b18b424bada6a9da79c1c183a951bdf1650ae46700a2f62f3fb59135cca89fa5	14
 9014373	27	d	census:noncode:entropy:unplaced		0
 9014400	2472	d	census:noncode:decode		0
 9016872	12	d	census:neighbour:noncode_typing_pending		0
 9016884	2350	d	census:noncode:decode		0
-9019234	9	a	census:format:ascii	ea507a4900eeac15c5ae5017bba5b3fa38d662ce6e7e550211c10deb48139f6b	9
+9019234	9	a	census:format:ascii	fd129966d4d4998b30997b48c8870898b8f094b14e1c3d704cadad996c4a362e	14
 9019243	37	d	census:noncode:decode		0
 9019280	12	d	census:neighbour:noncode_typing_pending		0
 9019292	868	d	census:noncode:decode		0
@@ -3235,7 +3253,7 @@ o	n	k	r	h	x
 9053120	556	d	census:noncode:decode		0
 9053676	64	p	census:zero_fill>=16		1
 9053740	96	d	census:noncode:decode		0
-9053836	32	a	census:format:offtab	a3f4c337c6d18943129a7756134049089fabee09877cd94f2b2d98c617b0d4f4	17
+9053836	32	a	census:format:offtab	a3f4c337c6d18943129a7756134049089fabee09877cd94f2b2d98c617b0d4f4	19
 9053868	640	d	census:noncode:decode		0
 9054508	127	a	census:format:sjis	971e72044f3ebd56e96cb13c226ce2d6fd9300a23f7ed3ec1886f9411ebf74b0	4
 9054635	32	d	census:noncode:decode		0
@@ -3298,7 +3316,7 @@ o	n	k	r	h	x
 9086336	896	d	census:noncode:entropy:unplaced		0
 9087232	576	d	census:noncode:decode		0
 9087808	1068	d	census:noncode:entropy:unplaced		0
-9088876	9	a	census:format:ascii	fe258c5b086b42d920064363eba47e306ebe6e75477d4e490290e6f8f3ca4086	9
+9088876	9	a	census:format:ascii	9f993d31062a787f99745df674147ad452a26eaa083677c2d7360388a6766719	14
 9088885	651	d	census:noncode:entropy:unplaced		0
 9089536	3648	d	census:noncode:decode		0
 9093184	320	d	census:noncode:entropy:unplaced		0
@@ -3335,7 +3353,7 @@ o	n	k	r	h	x
 9127616	472	d	census:noncode:decode		0
 9128088	8	d	census:neighbour:noncode_typing_pending		0
 9128096	202	d	census:noncode:decode		0
-9128298	9	a	census:format:ascii	a138fdb02238f2441b2f8ac5c732eabb719d3fc435a0c38205c5a12a1239fc74	9
+9128298	9	a	census:format:ascii	2d283cfdca4f3a845219953704bc384c1fe052f501d6e7f941a8ecf47260af45	14
 9128307	77	d	census:noncode:decode		0
 9128384	3776	d	census:noncode:entropy:unplaced		0
 9132160	256	d	census:noncode:decode		0
@@ -3344,7 +3362,7 @@ o	n	k	r	h	x
 9133120	3712	d	census:noncode:entropy:unplaced		0
 9136832	256	d	census:noncode:decode		0
 9137088	1461	d	census:noncode:entropy:unplaced		0
-9138549	9	a	census:format:ascii	373281b258112330eace2dbd9458a53f51d8d8b2ddc65bb8cbfc3d8d6ffde5bd	9
+9138549	9	a	census:format:ascii	0ceb50adbf715898fd180fe29bd54c8144d37380e11ee5965d08c1e46ace8b5c	14
 9138558	2946	d	census:noncode:entropy:unplaced		0
 9141504	192	d	census:noncode:decode		0
 9141696	66	p	census:zero_fill>=16		1
@@ -3440,63 +3458,63 @@ o	n	k	r	h	x
 9225216	512	d	census:noncode:entropy:unplaced		0
 9225728	691	d	census:noncode:decode		0
 9226419	1873	p	census:zero_fill>=16		1
-9228292	24	a	census:ledger:data_row	c7164e5ac04da81c06356221782e486c9d9698e33d18892a3e9e5a96874bfd2b	6
-9228316	24	r	census:c_row		10
+9228292	24	a	census:ledger:data_row	c7164e5ac04da81c06356221782e486c9d9698e33d18892a3e9e5a96874bfd2b	21
+9228316	24	r	census:c_row		11
 9228340	4	p	census:zero_gap<16		1
 9228344	76	a	census:audit+noncode_confirmed	42a285e93084f4b7354ab325e0cc1f5e97b6f508b2b7e6ef1d647cd1109c14aa	5
 9228420	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	9
 9228460	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	5
 9228480	101	a	census:format:ascii	216838d3363801614bce5ee2c7a256ea8900d64535044d0bf2b3bc9e65763171	9
 9228581	27	a	census:audit+noncode_confirmed	bd9e9ad7abb0458e5185bbb0f045163db27092d3e15f3f34deb66a1ff69f3b27	5
-9228608	196	r	census:instance_partial		10
-9228804	2752	r	census:c_row		10
+9228608	196	r	census:instance_partial		11
+9228804	2752	r	census:c_row		11
 9231556	856	a	census:audit+noncode_confirmed	6e848a9df95c37441f03b621771791caaef52f0f004137cd29fca3f90babef63	5
-9232412	24	r	census:c_row		10
+9232412	24	r	census:c_row		11
 9232436	4	p	census:zero_gap<16		1
 9232440	76	a	census:audit+noncode_confirmed	d3fec434392477530f356fce9a7e1b10a1eba77a75f1b93bc0952584bc8d1634	5
 9232516	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	9
 9232556	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	5
 9232576	128	a	census:format:ascii	e260488a008503af99380f0640f2224d7d9a296522a404a5425f7a2164a45183	9
-9232704	196	r	census:instance_partial		10
-9232900	3632	r	census:c_row		10
+9232704	196	r	census:instance_partial		11
+9232900	3632	r	census:c_row		11
 9236532	76	a	census:audit+noncode_confirmed	e9ce6b12c94d976b5dbfc0f971e770f4a2bff137259369d66d2c5bb4a4a52360	5
 9236608	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	9
 9236648	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	5
 9236668	128	a	census:format:ascii	f41f3bd9bcde0b9585d24d8a3aba138460e5a92cf005f6ff05e1649a637100e3	9
-9236796	196	r	census:instance_partial		10
-9236992	2288	r	census:c_row		10
-9239280	128	r	census:instance_proven		10
-9239408	336	r	census:c_row		10
+9236796	196	r	census:instance_partial		11
+9236992	2288	r	census:c_row		11
+9239280	128	r	census:instance_proven		11
+9239408	336	r	census:c_row		11
 9239744	860	a	census:audit+noncode_confirmed	cc60242638d6dad48a2387abd1c2077ba0079e28cb2a0385bfe6a46071bf59d9	5
-9240604	24	r	census:c_row		10
+9240604	24	r	census:c_row		11
 9240628	76	a	census:audit+noncode_confirmed	dbbf31db57181a01df0d9993a86a5e46e6541c005512e42bc4fd1ccc6ef87189	5
 9240704	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	9
 9240744	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	5
 9240764	128	a	census:format:ascii	e260488a008503af99380f0640f2224d7d9a296522a404a5425f7a2164a45183	9
-9240892	2484	r	census:c_row		10
-9243376	128	r	census:instance_proven		10
-9243504	336	r	census:c_row		10
-9243840	832	l	census:ledger:stale_or_prior_image_row		14
-9244672	28	a	census:ledger:data_row	f88ac002cc3e7675768ff0ba75c90259c9fd64f150b585528be93b53dd808655	6
-9244700	24	r	census:c_row		10
+9240892	2484	r	census:c_row		11
+9243376	128	r	census:instance_proven		11
+9243504	336	r	census:c_row		11
+9243840	832	l	census:ledger:stale_or_prior_image_row		15
+9244672	28	a	census:ledger:data_row	f88ac002cc3e7675768ff0ba75c90259c9fd64f150b585528be93b53dd808655	21
+9244700	24	r	census:c_row		11
 9244724	76	a	census:audit+noncode_confirmed	2aa6a3cf4467d8e5224be27a054a651fe98070451fd929e1f3e4459d1c82ef99	5
 9244800	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	9
 9244840	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	5
 9244860	128	a	census:format:ascii	6a06c0b48f3cddadfd1d9d73d15319025e197eec79842cd3a89ca55fbaf9e187	9
-9244988	196	r	census:instance_partial		10
-9245184	2288	r	census:c_row		10
-9247472	128	r	census:instance_proven		10
-9247600	336	r	census:c_row		10
+9244988	196	r	census:instance_partial		11
+9245184	2288	r	census:c_row		11
+9247472	128	r	census:instance_proven		11
+9247600	336	r	census:c_row		11
 9247936	1016	a	census:audit+noncode_confirmed	cee863438d9a6f3d0029c8ab4249cd42aa746bae58aec8aba0f639f4c1085cf1	5
 9248952	16	a	census:format:ptrtab	8fa9060b6b107212f181d7403a5aab872a433a16b63d62074bb36355c732e401	7
 9248968	52	a	census:audit+noncode_confirmed	846e26b8cbf7035e7f5d178306dfcc8e9abb59473f25206a800ffe160394c1ed	5
 9249020	24	a	census:format:ascii	c2229c23da3987ff3803a8abbd69b2f5f24f3b8341207cd00ed17d03f2bc5ab3	9
-9249044	48	r	census:c_row		10
+9249044	48	r	census:c_row		11
 9249092	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	9
 9249132	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	5
 9249152	128	a	census:format:ascii	e260488a008503af99380f0640f2224d7d9a296522a404a5425f7a2164a45183	9
-9249280	196	r	census:instance_partial		10
-9249476	2752	r	census:c_row		10
+9249280	196	r	census:instance_partial		11
+9249476	2752	r	census:c_row		11
 9252228	652	a	census:audit+noncode_confirmed	66bdcfcbcd6a06eaeab0c6fd9a5bbcfb0c1b67502928933c8d2e8f42fefac56a	5
 9252880	16	a	census:format:ptrtab	92c9ae7cb7855a85140815c55f85584be235f588469fcf56d3fb3efa01e1887a	7
 9252896	48	a	census:audit+noncode_confirmed	f08a9613d8c50e3e56103c001c95475b13f47c3b9e32eef3551c951d7b6a6d09	5
@@ -3507,18 +3525,18 @@ o	n	k	r	h	x
 9253120	20	a	census:format:ptrtab	fcc1be06279d8b3d847626ebf46f6de19b802acd61d1c2e116f45d62110f7b94	7
 9253140	32	a	census:audit+noncode_confirmed	5a471f8a3ab09fa71f785ef0d64aa2872647017a777edc5fccab19a14e73b04a	5
 9253172	16	a	census:format:ptrtab	8623de634855f6738fa65ce84e29680778f82d827cfa758718b7da2febc1a48a	7
-9253188	12	a	census:audit+noncode_confirmed	e6627b2fe234c715316eaadf501fd4c1167200f7b85e5a6824ad5068f82faf6a	5
+9253188	12	a	census:audit+noncode_confirmed	a59803cba551e39da6e3efebabea725ba096a2f2d28789511366e461ab18026a	10
 9253200	44	a	census:format:ptrtab	93093c0036a631c6bbfbe6db0f8e73b0d7e4ce6b041f76052fed8d9e02241117	7
-9253244	4	a	census:audit+noncode_confirmed	df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119	5
+9253244	4	a	census:audit+noncode_confirmed	72328bdebe32491788aad60bba47bc6c9b793588110995b986bfc7e5645ffeaa	10
 9253248	24	a	census:format:ptrtab	a2272fdefb1b0550a661f577f9949454f4a941ffc12bacff50f2b19484a9dec6	7
-9253272	8	a	census:audit+noncode_confirmed	e9a01ce8cb99d49ca47fc94eba6eb6cb261d98040c93edf9249d02296a8fb6ad	5
+9253272	8	a	census:audit+noncode_confirmed	c595f30b42725751ac1eb18a48bff95d81d2d4e96d5d1377460b8ad81cdb34df	10
 9253280	40	a	census:format:ptrtab	2c6441dff95c7438bfe5e44ab0d0a644aeecfc1d0714ac8cd0881d785d9dd597	7
-9253320	312	r	census:instance_partial		10
-9253632	8580	r	census:c_row		10
-9262212	144	r	census:T1_twin		11
-9262356	220	r	census:c_row		10
-9262576	76	r	census:T1_twin		11
-9262652	6628	r	census:c_row		10
+9253320	312	r	census:instance_partial		11
+9253632	8580	r	census:c_row		11
+9262212	144	r	census:T1_twin		12
+9262356	220	r	census:c_row		11
+9262576	76	r	census:T1_twin		12
+9262652	6628	r	census:c_row		11
 9269280	488	d	census:noncode:decode		0
 9269768	8	d	census:neighbour:noncode_typing_pending		0
 9269776	240	d	census:noncode:decode		0
@@ -3649,10 +3667,10 @@ o	n	k	r	h	x
 9342176	2334	a	census:format:sjis	57dedfc27acebbdd1b50af6de19944072a5b14f27c67ba9a9054e256d098bfc4	4
 9344510	18	a	census:audit+noncode_confirmed	364316572e99790ed71deeb1dc621442c0f8504c7c395846222935dd7414ee33	5
 9344528	106	a	census:format:sjis	f41b8569d7eaf7526b7f9513180477dc58b792a45f32330843d9a444e93576c8	4
-9344634	14	a	census:audit+noncode_confirmed	f50f2708d5abf1d15a6675474b743150271de67e228d7de01f667374c4bd1096	5
+9344634	14	a	census:audit+noncode_confirmed	11d29ad56743a83b9a88a726f68e460681c053ddfcb1989d381f5bf572c63809	10
 9344648	366	a	census:format:sjis	5369af56d95d227379a9b4a010a81f7adb011eb19e4c868e8aa7ec5409cc3146	4
-9345014	2	a	census:audit+noncode_confirmed	5e4cd10be9483fe8aa215c7ee1804f7f88c02e22fe5fb0336d297bec998471f8	5
-9345016	19660	r	census:c_row		10
+9345014	2	a	census:audit+noncode_confirmed	62d4b8ad3e2f5c2648e1922f7c982f1782d89cc81e61b0f39b9d67960d8c2f9a	10
+9345016	19660	r	census:c_row		11
 9364676	44	d	census:noncode:decode		0
 9364720	112	a	census:format:ptrtab	fc9eee9a165bacba7944c0e230b119e3507efd305114f23f4d1305a75cee2c14	7
 9364832	316	d	census:noncode:decode		0
@@ -3690,7 +3708,7 @@ o	n	k	r	h	x
 9418240	128	d	census:noncode:decode		0
 9418368	256	d	census:noncode:entropy:unplaced		0
 9418624	1854	d	census:noncode:decode		0
-9420478	9	a	census:format:ascii	da8093cb0d0b72e6c6beb722a5cbc1d97d6427c1eb2fbea974ebd3e3b4bcc7fc	9
+9420478	9	a	census:format:ascii	94e10d311e475f0bb4f0526d7b826a593b7e9a315c02560ed6c52b12e55df813	14
 9420487	2169	d	census:noncode:decode		0
 9422656	256	d	census:noncode:entropy:unplaced		0
 9422912	64	d	census:noncode:decode		0
@@ -3700,7 +3718,7 @@ o	n	k	r	h	x
 9424000	576	d	census:noncode:decode		0
 9424576	4992	d	census:noncode:entropy:unplaced		0
 9429568	639	d	census:noncode:decode		0
-9430207	9	a	census:format:ascii	be4d9c35cffff99b56b7b72f2047a9517df54a0f0e42a7bcd2e4e298659b57d3	9
+9430207	9	a	census:format:ascii	709a344a0081affa3933ab4034a3199e4acd55acb7a1eafdd9a22cb231f6656c	14
 9430216	683	d	census:noncode:decode		0
 9430899	143	p	census:zero_fill>=16		1
 9431042	446	d	census:noncode:decode		0
@@ -3717,79 +3735,79 @@ o	n	k	r	h	x
 9439878	1404	p	census:zero_fill>=16		1
 9441282	22	u	census:unknown		1
 9441304	576	d	census:noncode:decode		0
-9441880	9	a	census:format:ascii	b29926dfa9f83a00d0e8d48cd29454b445c3c35ccfa9cc90cdc4540950e8cf54	9
+9441880	9	a	census:format:ascii	40e0b9990f40fb7aa46d04a1d87985e680b6b8e8d9cb7d972fcbf6203f569ccb	14
 9441889	223	d	census:noncode:decode		0
 9442112	5678	d	census:noncode:entropy:unplaced		0
-9447790	9	a	census:format:ascii	afc7609a4975ee8a50edfc9ae7de7b5a83437e03023fa88eed8a659357e45f95	9
+9447790	9	a	census:format:ascii	3ad62c7a7df53fbb17a9459587be974461aed9f7b1a5c585278f5cc2f06bbb80	14
 9447799	1023	d	census:noncode:entropy:unplaced		0
-9448822	9	a	census:format:ascii	fc603e511b72c81c8021433c0acaac638f522505e62a6584f7e759c089f2437d	9
+9448822	9	a	census:format:ascii	775676ce890a9b24980706861db21a75ca34ae193d36f96756e348a17abe10d8	14
 9448831	696	d	census:noncode:entropy:unplaced		0
-9449527	9	a	census:format:ascii	1ff9dbf604803b4f2d37279c225a8ce53ec76cf28c6ece78b3342c24c0ea3e82	9
+9449527	9	a	census:format:ascii	4b5aec28a45ba953eaeff9c993a913209f41fbfa3efcd983fd83fc15eb25a295	14
 9449536	552	d	census:noncode:entropy:unplaced		0
-9450088	9	a	census:format:ascii	dfddff8a0307428549d6e5f73b2073c5ee94ae3b5dc2249b15536b11fc1b2b5b	9
+9450088	9	a	census:format:ascii	c52d5e0733f52fac6a8eea25b39abd0ba63695cda6e113b521560f0bcf86074b	14
 9450097	207	d	census:noncode:entropy:unplaced		0
 9450304	156	d	census:noncode:decode		0
-9450460	9	a	census:format:ascii	6d6464ac6a0f2641dff356019d270a0aa08c16d58b155add53ab7a3963ae7ef7	9
+9450460	9	a	census:format:ascii	722c964b0929fa67f2058d915a60d0fcc622fc93452e82ed6c4ab30a9aa79947	14
 9450469	235	d	census:noncode:decode		0
 9450704	12	d	census:neighbour:noncode_typing_pending		0
 9450716	26	d	census:noncode:decode		0
-9450742	9	a	census:format:ascii	39069601f3c33c525737bc96888cc32f210b9b758a0cf0cfb0cc2c5891cba107	9
+9450742	9	a	census:format:ascii	eb89f8cb8f0ecc7893935de2de41b1742473a0d25c3385c7f6997813257d821d	14
 9450751	225	d	census:noncode:decode		0
-9450976	9	a	census:format:ascii	0e7d52e246ddf2857949ea3b3a676931e7d50ec546262622be49af3bdd355510	9
+9450976	9	a	census:format:ascii	f15983531bea78ed2bd3664de85c05bd5ca28c492faea13e83dce1bfe153bcca	14
 9450985	72	d	census:noncode:decode		0
-9451057	9	a	census:format:ascii	a38e243f2b95d149c297b1c430b35ab911121b9fbbddb622d236b5083ab622e8	9
+9451057	9	a	census:format:ascii	49eeab111aaa9d27c671c38e6ee4afeda8b79b3dbc25ff2431bb89d7d06ac8fc	14
 9451066	33	d	census:noncode:decode		0
-9451099	9	a	census:format:ascii	f2c353dc1117164f126aa4760b814a222b1933bb856400d8b2eb36937ba3d636	9
+9451099	9	a	census:format:ascii	e2115366f6c788d2d9df4bf61b86b30f3fd66470ec2e4cb84622e7644d380823	14
 9451108	141	d	census:noncode:decode		0
-9451249	9	a	census:format:ascii	ba7f6304b5b759c9e93d55ea2235b6701cedd05e63d42ffa6fd5af31fd7827b3	9
+9451249	9	a	census:format:ascii	9d7f31ce4360e17d4e407649ca07f4130265e033690d041ffedea246b505ea86	14
 9451258	18	d	census:noncode:decode		0
 9451276	8	d	census:neighbour:noncode_typing_pending		0
 9451284	52	d	census:noncode:decode		0
 9451336	8	d	census:neighbour:noncode_typing_pending		0
 9451344	31	d	census:noncode:decode		0
-9451375	9	a	census:format:ascii	f95118d2f6126968a179c3209c3a1d416522cbb894bbc71a85160baf25d0da21	9
+9451375	9	a	census:format:ascii	d19ca9d810931f5a34939fb9937850f4b48ab4fda023d9a7f1327a5b2cd6f629	14
 9451384	99	d	census:noncode:decode		0
-9451483	9	a	census:format:ascii	b7a19db17d53168648f9211db48fd9b405fada4a07d25b9ba3154f640f1c5d6f	9
+9451483	9	a	census:format:ascii	9592df6d831450a622b943b1c37c5e6936c2a66de3dcff04e8483349375f6e90	14
 9451492	15	d	census:noncode:decode		0
-9451507	9	a	census:format:ascii	d368ee3c927a6b0d7821974fbdf9915282de88ab2d1e8c8881fbb4026e903233	9
+9451507	9	a	census:format:ascii	ca0992c6d71100806ead8ba884c36a74a14f4f276501ae25cccd4e292efab784	14
 9451516	90	d	census:noncode:decode		0
-9451606	9	a	census:format:ascii	720d25d01d4a6635fb57bd1cfbacde034d7bd870e9eaba9f40fb79a653276c06	9
+9451606	9	a	census:format:ascii	7c681cec2277667d6724cd3cbd0d7b395dc79c7692a1b8dd0facee80afb6172b	14
 9451615	69	d	census:noncode:decode		0
-9451684	9	a	census:format:ascii	2e5c7035357ecd47a9c97e9aaef41c74717e45a8cceee75e1d2adf1e377a5c60	9
+9451684	9	a	census:format:ascii	fb69a4739a791d2462a4538922580e1d00fe262cff33dfa6038cb470c4ca0f14	14
 9451693	123	d	census:noncode:decode		0
-9451816	9	a	census:format:ascii	5f4682f2ff36141bccc91a7c6f0db54bb5b97c71b47456c7fc0db743382ff6e7	9
+9451816	9	a	census:format:ascii	50f354ad2414545b9b1271902026964ead8afc145df3890fd06cb552eead7f59	14
 9451825	54	d	census:noncode:decode		0
-9451879	9	a	census:format:ascii	4e4d01edaf9f67726cee4d5d9598595db2062d2973ae3e440abfba5089a5c4e0	9
+9451879	9	a	census:format:ascii	0f80e3f067e5862f4a64df50e911424a30d354738c7e942dea05f22daee70953	14
 9451888	117	d	census:noncode:decode		0
-9452005	9	a	census:format:ascii	5853f36dffa5db6cba10128152e395f68937724fc88fa74cee93fb08a71e1e60	9
+9452005	9	a	census:format:ascii	2693f5444457b624f3a0f1c5c92b4fd3541db44208942fbd78a0100ae0b74b79	14
 9452014	57	d	census:noncode:decode		0
-9452071	9	a	census:format:ascii	b0e614eab93f2bbe632578887e446fee778e946ce718a8d58028bf273a923882	9
+9452071	9	a	census:format:ascii	6b5fbdf5779c44f990146c61c17cc8d7b481ff66792519aceb82c54152edbbc7	14
 9452080	159	d	census:noncode:decode		0
-9452239	9	a	census:format:ascii	f4b638c80c823b6e3939c9b625a16650f9216ca1edde430087b4f6b401c18a79	9
+9452239	9	a	census:format:ascii	78d0afb48b3bbcff2a864d53abf9ea2c555192cf511e2f0242be9cad225f011e	14
 9452248	123	d	census:noncode:decode		0
-9452371	9	a	census:format:ascii	ec891473e4ab61a72942ea3b18da992dc04a1e1a97dd94e25638789c03d6e71b	9
+9452371	9	a	census:format:ascii	aa68ba61b975ac9b10b617e7fb41ce53372fb0619ae4afd859659399fb5d6af1	14
 9452380	102	d	census:noncode:decode		0
-9452482	9	a	census:format:ascii	1ef65f0f17bfe3550fdee7277473c1335c95000b7b26df2e5d104edc260c8553	9
+9452482	9	a	census:format:ascii	3a43d85e65750a3c6d1f7276eddd0bfc59f05dcacce4371390a707106bb61d0f	14
 9452491	18	d	census:noncode:decode		0
-9452509	9	a	census:format:ascii	fda4ee879054c165177640852e54771f1f2ef9834f2fe7b7650163eb5419f025	9
+9452509	9	a	census:format:ascii	88011b7aedbba30a023ce944724b04ba6fc3f17815d04d20852ab1aaf6954dfb	14
 9452518	717	d	census:noncode:decode		0
-9453235	9	a	census:format:ascii	4ce57bd7d4e6ab612d14a8a19690781e1e7058585b9a74a83ad69bdb167c3063	9
+9453235	9	a	census:format:ascii	45ef1ce1e5d5f1b86457c4526cbbf32d59751d23471f1c2763ba8d2b959c4622	14
 9453244	81	d	census:noncode:decode		0
-9453325	9	a	census:format:ascii	49b654574c1b05e2714c3f29b6bd46207c1e744e7dd557c6749dd3a4512b7629	9
+9453325	9	a	census:format:ascii	b97c240e7296bcae574f1454e6b29c0c3742f31cf5349b88668407cae6f20a67	14
 9453334	34	d	census:noncode:decode		0
 9453368	12	d	census:neighbour:noncode_typing_pending		0
 9453380	302	d	census:noncode:decode		0
-9453682	9	a	census:format:ascii	1a4ad269d3e2c79ffe60cfa717182ab2b0fe9573609cfb6df8162df816a4aaf6	9
+9453682	9	a	census:format:ascii	acee4fbc45af0bbf133da41d709687d52935d6ccc70d1495e2e542a01e66b693	14
 9453691	102	d	census:noncode:decode		0
 9453793	18	a	census:format:ascii	5232106b5a7c266f62fa3b0f1d98286ee270dea941626e856452be28b0f7761a	9
 9453811	210	d	census:noncode:decode		0
 9454021	36	a	census:format:ascii	920f4227567c0af6ee0a283d4d15ba5271bfbb3447de4b8f3dc9fd37b80484d0	9
 9454057	315	d	census:noncode:decode		0
-9454372	9	a	census:format:ascii	6fadb435fb08e6820be6c3cae2c8a894622e34614d06d67acf6a226da32a5be2	9
+9454372	9	a	census:format:ascii	42feb14309cc619009ec48e91771d753195786ee0cc219eee2a142a9c768b107	14
 9454381	111	d	census:noncode:decode		0
 9454492	18	a	census:format:ascii	43003a3638f6b608b9b7317de0181fadde9aa0a4e90c5a7e58853eb40efaa358	9
 9454510	105	d	census:noncode:decode		0
-9454615	9	a	census:format:ascii	7740cdc812c54640362334f4c25817f20ba63798fbb4c54e638c1b660e92f5bf	9
+9454615	9	a	census:format:ascii	4c8f630c80af59b074c93719ddb2a34f81497e26298bf6164b20adc944f9c3f9	14
 9454624	184	d	census:noncode:decode		0
 9454808	12	d	census:neighbour:noncode_typing_pending		0
 9454820	185	d	census:noncode:decode		0
@@ -3799,7 +3817,7 @@ o	n	k	r	h	x
 9456128	384	d	census:noncode:decode		0
 9456512	128	d	census:noncode:entropy:unplaced		0
 9456640	38	d	census:noncode:decode		0
-9456678	9	a	census:format:ascii	437957f5c506deba1a05f7a8883ff221dbbbf475ce0ae16a3350f0e3e4b1c057	9
+9456678	9	a	census:format:ascii	d237bae2dac8730933f13fae9b74847d20d1797045381b6d855865328290fbb1	14
 9456687	209	d	census:noncode:decode		0
 9456896	128	d	census:noncode:entropy:unplaced		0
 9457024	64	d	census:noncode:decode		0
@@ -3810,7 +3828,7 @@ o	n	k	r	h	x
 9457856	128	d	census:noncode:entropy:unplaced		0
 9457984	384	d	census:noncode:decode		0
 9458368	1841	d	census:noncode:entropy:unplaced		0
-9460209	9	a	census:format:ascii	9e1ef32a3dd9c5f55ee5be61c33e175d2b1046d968896cae65b09916ea123169	9
+9460209	9	a	census:format:ascii	446b713327d5426d03905b33c975e23873ec969ee36469c42d50eb4a9cc3053e	14
 9460218	5190	d	census:noncode:entropy:unplaced		0
 9465408	64	d	census:noncode:decode		0
 9465472	128	d	census:noncode:entropy:unplaced		0
@@ -3824,13 +3842,13 @@ o	n	k	r	h	x
 9470198	266	p	census:zero_fill>=16		1
 9470464	448	d	census:noncode:decode		0
 9470912	1700	d	census:noncode:entropy:unplaced		0
-9472612	9	a	census:format:ascii	1a0e7f7787f932c8c31aee055f80ad9b3b6de5f0b02db2e24d364d3e7ccdebb3	9
+9472612	9	a	census:format:ascii	bf7c2196fdca5be631732943902e2601129fe9478a8751bae43a016a2fcf50f9	14
 9472621	339	d	census:noncode:entropy:unplaced		0
 9472960	188	d	census:noncode:decode		0
 9473148	8	d	census:neighbour:noncode_typing_pending		0
 9473156	508	d	census:noncode:decode		0
 9473664	513	d	census:noncode:entropy:unplaced		0
-9474177	9	a	census:format:ascii	02589acb1d60db5e95dfc498c008e9a40ad543295f1511380847da78a4b49104	9
+9474177	9	a	census:format:ascii	c7d7cbc0c191a261b95eec206fd85aec06f4958a1d7d685c7cc1a4f8cb0329b8	14
 9474186	118	d	census:noncode:entropy:unplaced		0
 9474304	192	d	census:noncode:decode		0
 9474496	1344	d	census:noncode:entropy:unplaced		0
@@ -3846,7 +3864,7 @@ o	n	k	r	h	x
 9480708	8	d	census:neighbour:noncode_typing_pending		0
 9480716	180	d	census:noncode:decode		0
 9480896	3812	d	census:noncode:entropy:unplaced		0
-9484708	9	a	census:format:ascii	d060e02b8622f6501c9b670713be5793b2dd907569c9f449449384b3b7475114	9
+9484708	9	a	census:format:ascii	eb6e50ef14dbe2f93b1d17755c0b0a8451b7f04ceb46f36cac7feb200e567320	14
 9484717	19	d	census:noncode:entropy:unplaced		0
 9484736	260	d	census:noncode:decode		0
 9484996	8	d	census:neighbour:noncode_typing_pending		0
@@ -3896,59 +3914,59 @@ o	n	k	r	h	x
 9501752	970	p	census:zero_fill>=16		1
 9502722	638	d	census:noncode:decode		0
 9503360	281	d	census:noncode:entropy:unplaced		0
-9503641	9	a	census:format:ascii	6756aaed012f9e6674cbf59da25657106f7b712a941f9045d8f4886f29ff3442	9
+9503641	9	a	census:format:ascii	44ed34f8f6993dc5385cb7ad68f092038948f5e12ce1b1c327f1be7b11fc8858	14
 9503650	255	d	census:noncode:entropy:unplaced		0
-9503905	9	a	census:format:ascii	90f238828e0671abad293e1c35bd895f73cee1a72117751d41d2509bbbf16980	9
+9503905	9	a	census:format:ascii	6f74069685087e061eea3c298ccfff9bee9f88c65be26eda7cfd8bd10b9c086d	14
 9503914	42	d	census:noncode:entropy:unplaced		0
-9503956	9	a	census:format:ascii	e484fbc6703f6a95d575278fdd08c121d11d45eacd42038fb540d908333fbdae	9
+9503956	9	a	census:format:ascii	8e81bf59d7c282db05f8571ef1c50080ff24c801f902d86ba067467aa41f82d4	14
 9503965	35	d	census:noncode:entropy:unplaced		0
 9504000	94	d	census:noncode:decode		0
-9504094	9	a	census:format:ascii	1f30a03a3489ae0719ed44e524c59ca2590ba925251e9c9ff7d9e3ba8a4c3933	9
+9504094	9	a	census:format:ascii	2097496571f69f4298c627ea75b30d36b4b6b17332db4ac622477bf4cc661c14	14
 9504103	75	d	census:noncode:decode		0
-9504178	9	a	census:format:ascii	15e575776c43d09a3a084fe20e67fe2f1a2a4fa6ac30b31261ac667d53c55cbd	9
+9504178	9	a	census:format:ascii	a63f22530739a7349ac7eb3d9f14a65e25f643c026a29eeded74c06210691aea	14
 9504187	150	d	census:noncode:decode		0
-9504337	9	a	census:format:ascii	ba17b82f03f9242d9490ba57009a0c34f73a1ffb1c8b9a855ce253f1c705810d	9
+9504337	9	a	census:format:ascii	5f9d1bd55681531a35f8222686a270ab13eeecd7a89d61138b556c83d4822134	14
 9504346	105	d	census:noncode:decode		0
-9504451	9	a	census:format:ascii	1f5c3d89bced9a83e20806f8e38541b35f0157725c06d16733da88e07fbb1230	9
+9504451	9	a	census:format:ascii	bfd4fbe46af05c26a5c2c2d9556ef37e96792fe1bd8e97c0aaf1ba34ce0478db	14
 9504460	164	d	census:noncode:decode		0
 9504624	8	d	census:neighbour:noncode_typing_pending		0
 9504632	8	d	census:noncode:decode		0
 9504640	528	d	census:noncode:entropy:unplaced		0
-9505168	9	a	census:format:ascii	7970254c3ce9087979625ca3eb81c4cd4580d36dc1769da0132fb6a336c909ef	9
+9505168	9	a	census:format:ascii	bf95e460dbbf9e35a765cd4e5abfcd93d1d35c0d4814d30f3bd94cec73f0b9f9	14
 9505177	837	d	census:noncode:entropy:unplaced		0
 9506014	18	a	census:format:ascii	ee58334170a6c609d97b94a449824c59ee9c3a38b855fca7fce7237f07b281bc	9
 9506032	105	d	census:noncode:entropy:unplaced		0
-9506137	9	a	census:format:ascii	135fd6c0d280bc1b7de5f8c3569a34975a8e9d46ea57e28900031f7b174ce825	9
+9506137	9	a	census:format:ascii	0bf86b923565bed7db92027cabfc71fb5b170d927906b6e19530ae4b7b8f5052	14
 9506146	492	d	census:noncode:entropy:unplaced		0
-9506638	9	a	census:format:ascii	c2d250e36f88a94ffe891b822dbc696c06528900f43af8322057d3488a505558	9
+9506638	9	a	census:format:ascii	d59fb9eb27d99c3726006f25c9b51ff819d006e764699f22977677b576476594	14
 9506647	696	d	census:noncode:entropy:unplaced		0
-9507343	9	a	census:format:ascii	9b9fd0c75a842b1299e3df305f4e30243670bd7a1e33a5addb6fde9543808fd9	9
+9507343	9	a	census:format:ascii	7036bd2d85ca360554833f2d94687358d43631205d7577b237342a9cba618078	14
 9507352	393	d	census:noncode:entropy:unplaced		0
 9507745	18	a	census:format:ascii	485b08361a92df74fb503727b7d2219e2bb3bb27131f8a9a95eb0af270fb215c	9
 9507763	228	d	census:noncode:entropy:unplaced		0
 9507991	21	a	census:format:ascii	d152bb772f63e0710a947d3dda02dd5a676ac0267698af9980d7ee023a97fbdb	9
 9508012	195	d	census:noncode:entropy:unplaced		0
-9508207	9	a	census:format:ascii	339169d1456ba9eee3f97b15e36c0c963708ff8e2c14c1198329532ef43c3362	9
+9508207	9	a	census:format:ascii	5707c1298eb9138ec1035853f287e91865bcc516e6036b49ca6f1dfeb6d288cb	14
 9508216	108	d	census:noncode:entropy:unplaced		0
-9508324	9	a	census:format:ascii	e4975f71f0ee5c7adbaac5364eaa0d474f753362fa4c7a3167e22a8ed7653c6d	9
+9508324	9	a	census:format:ascii	ec032a9a0fdf63c3d384cf977e6ed19ddea252e905a64d8a2e4f5b027fd483ff	14
 9508333	378	d	census:noncode:entropy:unplaced		0
-9508711	9	a	census:format:ascii	1dc148d32f7ef50d3d7b322b7e89c030b88c88188734ebb2eac4561204e1d631	9
+9508711	9	a	census:format:ascii	81527c1fe264641bec500efb82853572f71a565fb50e78bff0c94c6c91440bd2	14
 9508720	252	d	census:noncode:entropy:unplaced		0
-9508972	9	a	census:format:ascii	db8d5d35c3c287ef34fcb725324c71506306f2d8655f57003a7288a1d5b87324	9
+9508972	9	a	census:format:ascii	d539f208bb17b29274d08a39666e534f5ed8392d5fdd5958aa273f5cc1f515ff	14
 9508981	654	d	census:noncode:entropy:unplaced		0
-9509635	9	a	census:format:ascii	46f1869dfedecaea65ab2599031bcf195dbf97737855e9f582c8b3cc7c6bda88	9
+9509635	9	a	census:format:ascii	0da6f003db8c668ffa5111376fe01e915b55efc56ba8c289f7294994dde86fd2	14
 9509644	483	d	census:noncode:entropy:unplaced		0
-9510127	9	a	census:format:ascii	da280d597d259cf0b6f9d150c5dffc2bcd6d6b95756a655dde7d45b67534bbdb	9
+9510127	9	a	census:format:ascii	d62df63bd740f893680a62cf7ab27632a49b893757fa45b5f80ec6f52c045420	14
 9510136	2466	d	census:noncode:entropy:unplaced		0
-9512602	9	a	census:format:ascii	95c407734334396c1651d29e6bd263a5d70a627360a4b35b471b446e1a1bf537	9
+9512602	9	a	census:format:ascii	7603c009c56cdf5071ed3b94092331e04643f5e76d2b652695d70eacb5547f02	14
 9512611	15	d	census:noncode:entropy:unplaced		0
-9512626	9	a	census:format:ascii	cdabb5c54f090efac2bf5c92bc3c1fb32e9a604e21dbc3661d8298a55744d97c	9
+9512626	9	a	census:format:ascii	2c5fdeedb48ff954810dc6324ec6dd63341a83eab4a2facbf6cf0006d2bf6336	14
 9512635	96	d	census:noncode:entropy:unplaced		0
-9512731	9	a	census:format:ascii	b2d2b953b92cdeb7a906238f95fec1c1fbc598f6993413f84609c2d69d0b8ce2	9
+9512731	9	a	census:format:ascii	0d361fb57cf185ce5a00b5ca67885097df504cab2f936e921b797ba20dae5e11	14
 9512740	600	d	census:noncode:entropy:unplaced		0
-9513340	9	a	census:format:ascii	7975f7ad8424ef7af4af0196f75f3f68a18a8a918f26f2cddd3cbd0f8576c0e7	9
+9513340	9	a	census:format:ascii	47283e4c96dea724abb286d986f03cba0c8d57245b2eced71b5eea2f6244abae	14
 9513349	36	d	census:noncode:entropy:unplaced		0
-9513385	9	a	census:format:ascii	c83b40344bd0c681c9e805f9413478cfb554a92e3a9624a0927947caf08f5fc8	9
+9513385	9	a	census:format:ascii	45face49229f7df20210c7b16092fdbb61134e8cfd1af7cfcddc4f03a44c9072	14
 9513394	3470	d	census:noncode:entropy:unplaced		0
 9516864	832	d	census:noncode:decode		0
 9517696	128	d	census:noncode:entropy:unplaced		0
@@ -3958,13 +3976,13 @@ o	n	k	r	h	x
 9520000	192	d	census:noncode:entropy:unplaced		0
 9520192	320	d	census:noncode:decode		0
 9520512	1002	d	census:noncode:entropy:unplaced		0
-9521514	10	a	census:format:ascii	b3f81a1219fca3ac03e75fd9151833eeec7856e36fb556dffa845024bcfb25ee	9
+9521514	10	a	census:format:ascii	615540d8486e51c91f78b35587d71c5442f140fcaf6223e759da946905979258	14
 9521524	4697	d	census:noncode:entropy:unplaced		0
-9526221	9	a	census:format:ascii	c64bd45062e124a7338607a7d22321123bd555a48d946b8f6d985474ce4511a0	9
+9526221	9	a	census:format:ascii	f93aadce21d07093f1ae804601be579cf0fef7cf10db88568ea33e58ad5b56d2	14
 9526230	279	d	census:noncode:entropy:unplaced		0
-9526509	9	a	census:format:ascii	a70744ffb7e4a1813e70cc803a63dc849aef64effa2d955713d1e52208412eaf	9
+9526509	9	a	census:format:ascii	9fed56623665ced98c689e86b5db88497883ba472f3b2ed554f79f17ee278258	14
 9526518	1449	d	census:noncode:entropy:unplaced		0
-9527967	9	a	census:format:ascii	c0dbd4b105e21e090bffa5879ba583d7f67b7fe9397f081932ee9e31872515b5	9
+9527967	9	a	census:format:ascii	c6c8898bdc45b69f39f019df5c8a4e4933125222551077d86e4b38d57be473aa	14
 9527976	2392	d	census:noncode:entropy:unplaced		0
 9530368	207	d	census:noncode:decode		0
 9530575	819	p	census:zero_fill>=16		1
@@ -3995,7 +4013,7 @@ o	n	k	r	h	x
 9554624	2112	d	census:noncode:entropy:unplaced		0
 9556736	384	d	census:noncode:decode		0
 9557120	212	d	census:noncode:entropy:unplaced		0
-9557332	9	a	census:format:ascii	58d03f675fd2f6eb861d2c36703ecfcf4354c5585aa5370aa0c3963efb3b9c1f	9
+9557332	9	a	census:format:ascii	fda0bfe5b5bcdfa4ea88ba578a6bd6e94cb1508c1821e78c1ecaaef7b063d4b7	14
 9557341	483	d	census:noncode:entropy:unplaced		0
 9557824	704	d	census:noncode:decode		0
 9558528	128	d	census:noncode:entropy:unplaced		0
@@ -4114,7 +4132,7 @@ o	n	k	r	h	x
 9650748	8	d	census:neighbour:noncode_typing_pending		0
 9650756	188	d	census:noncode:decode		0
 9650944	1070	d	census:noncode:entropy:unplaced		0
-9652014	9	a	census:format:ascii	db46477b95fac01c1b5693128f9a1ebb9c609a8e155944e8a5162a52cc71c25b	9
+9652014	9	a	census:format:ascii	bf9cad4530088eb1725a79bc3efe9a76352f99b480efd76bd219ac1fe77a7d4c	14
 9652023	5705	d	census:noncode:entropy:unplaced		0
 9657728	248	d	census:noncode:decode		0
 9657976	394	p	census:zero_fill>=16		1
@@ -4142,7 +4160,7 @@ o	n	k	r	h	x
 9671420	12	d	census:neighbour:noncode_typing_pending		0
 9671432	56	d	census:noncode:decode		0
 9671488	2642	d	census:noncode:entropy:unplaced		0
-9674130	9	a	census:format:ascii	a439ce93a6de5e66c82119a3135c5145165d56f552358563dcf08b9fe9725773	9
+9674130	9	a	census:format:ascii	d86f33e182fe86cd6552af657f4d297a58f9b314c2a23521ca9d629436b1dbef	14
 9674139	869	d	census:noncode:entropy:unplaced		0
 9675008	68	d	census:noncode:decode		0
 9675076	8	d	census:neighbour:noncode_typing_pending		0
@@ -4214,7 +4232,7 @@ o	n	k	r	h	x
 9713536	640	d	census:noncode:entropy:unplaced		0
 9714176	896	d	census:noncode:decode		0
 9715072	725	d	census:noncode:entropy:unplaced		0
-9715797	9	a	census:format:ascii	4504c701c13533842c28900695be28a470e3cd2e5a04903d89966ca3f2237055	9
+9715797	9	a	census:format:ascii	e470c21532c4cbace77977cd3c9e370733bbe8a79c8dfa52c541b74482624614	14
 9715806	418	d	census:noncode:entropy:unplaced		0
 9716224	448	d	census:noncode:decode		0
 9716672	512	d	census:noncode:entropy:unplaced		0
@@ -4239,10 +4257,10 @@ o	n	k	r	h	x
 9723906	1150	d	census:noncode:decode		0
 9725056	960	d	census:noncode:entropy:unplaced		0
 9726016	415	d	census:noncode:decode		0
-9726431	9	a	census:format:ascii	7d8721c686bde8af282914673b8336ea4b6307a2000a6473d1649b67dc5f9fac	9
+9726431	9	a	census:format:ascii	ccace592bc0ce63ca39fe1c82cf46d9aecc13c5782a6b3bcd8bf6600e939a234	14
 9726440	280	d	census:noncode:decode		0
 9726720	431	d	census:noncode:entropy:unplaced		0
-9727151	9	a	census:format:ascii	0adf9894eb0c0dc2903c90b9d627066b5968316e7737c17e8d26b62eb49124c7	9
+9727151	9	a	census:format:ascii	d1f0aac91d68369f381cd08b485f28b59b550b5b51fc81b1228d7a52634cc611	14
 9727160	2696	d	census:noncode:entropy:unplaced		0
 9729856	640	d	census:noncode:decode		0
 9730496	1408	d	census:noncode:entropy:unplaced		0
@@ -4255,7 +4273,7 @@ o	n	k	r	h	x
 9736606	98	p	census:zero_fill>=16		1
 9736704	256	d	census:noncode:decode		0
 9736960	862	d	census:noncode:entropy:unplaced		0
-9737822	9	a	census:format:ascii	411ba98ad25b9bec1377d84f47d0cd65040c901927ff733a2181a28ab0c60186	9
+9737822	9	a	census:format:ascii	308d9319ce2939f5e67ae139d03f2a502c3fa22f3419d231174b0947c9be153a	14
 9737831	1945	d	census:noncode:entropy:unplaced		0
 9739776	64	d	census:noncode:decode		0
 9739840	3904	d	census:noncode:entropy:unplaced		0
@@ -4267,10 +4285,10 @@ o	n	k	r	h	x
 9748804	188	p	census:zero_fill>=16		1
 9748992	320	d	census:noncode:decode		0
 9749312	3059	d	census:noncode:entropy:unplaced		0
-9752371	9	a	census:format:ascii	ec8ebb7c27218cee73e53f261d0de37b0737f7b2df2dab56d816f6993cd92c08	9
+9752371	9	a	census:format:ascii	613ae69bf745d16c3371e01eb7a227c2b424e1aee3ce5a133a9a8668fc403fa5	14
 9752380	1348	d	census:noncode:entropy:unplaced		0
 9753728	193	d	census:noncode:decode		0
-9753921	9	a	census:format:ascii	860a6fcb9e2f700482763016e2c39a0fc59f38633a4d0d63af91952f56c0da97	9
+9753921	9	a	census:format:ascii	3caa9ec729bd572f0a2e27cf6191cf2b68577bb9fdb63317aaf1b1a145dad554	14
 9753930	758	d	census:noncode:decode		0
 9754688	320	d	census:noncode:entropy:unplaced		0
 9755008	284	d	census:noncode:decode		0
@@ -4304,9 +4322,9 @@ o	n	k	r	h	x
 9769408	1792	d	census:noncode:entropy:unplaced		0
 9771200	64	d	census:noncode:decode		0
 9771264	2728	d	census:noncode:entropy:unplaced		0
-9773992	9	a	census:format:ascii	6f6cd49664e352ac28ca3caa631494ffd1c29f63ddb3adfdf4ad04e2c981f267	9
+9773992	9	a	census:format:ascii	8d79b430b1512a2310af28a712539595e45a97c6605e5f6c03859d6ec6a5c5ea	14
 9774001	4188	d	census:noncode:entropy:unplaced		0
-9778189	9	a	census:format:ascii	250f4388c467dce0e67dfe818e39f33218ce546e59c4c6e37da366b54fa4492b	9
+9778189	9	a	census:format:ascii	26723d0797c653bf48706af98ad94b59002c15181982b66b9e1c32ad416f557a	14
 9778198	2090	d	census:noncode:entropy:unplaced		0
 9780288	173	d	census:noncode:decode		0
 9780461	789	p	census:zero_fill>=16		1
@@ -4327,7 +4345,7 @@ o	n	k	r	h	x
 9789440	476	d	census:noncode:decode		0
 9789916	8	d	census:neighbour:noncode_typing_pending		0
 9789924	1716	d	census:noncode:decode		0
-9791640	9	a	census:format:ascii	46e75a7610664c1cc5f6f1251f69d076db130636bc34c101a56e44746e5d0ddf	9
+9791640	9	a	census:format:ascii	56f4cd318cf76b28887bd848e861a9fc5c85fc95006b64be1115f3f8e237bbd2	14
 9791649	1183	d	census:noncode:decode		0
 9792832	192	d	census:noncode:entropy:unplaced		0
 9793024	215	d	census:noncode:decode		0
@@ -4344,75 +4362,75 @@ o	n	k	r	h	x
 9803277	501	p	census:zero_fill>=16		1
 9803778	766	d	census:noncode:decode		0
 9804544	699	d	census:noncode:entropy:unplaced		0
-9805243	9	a	census:format:ascii	3b56274f0103f954b0854d84bc609b6d931d1a0e16d4635d546d3889abff4abd	9
+9805243	9	a	census:format:ascii	d19359c57fd4fbbeb0684995eba7b51482cd21d32e26d4c3c319ced1f487f56c	14
 9805252	1047	d	census:noncode:entropy:unplaced		0
-9806299	9	a	census:format:ascii	3f41673e328b94786de34638d5d0de84c4fa5b98253de8e5ced1a274ca76af6a	9
+9806299	9	a	census:format:ascii	72351623857a37faec2b122fe3237b3582ecb2c432f2125144d606237550ab50	14
 9806308	116	d	census:noncode:entropy:unplaced		0
-9806424	13	a	census:format:ascii	7b59f71c8eb0d5df204fb95a2edb53e380ff157477455be751a2e410dd587c47	9
+9806424	13	a	census:format:ascii	d1a7194e4fde5fefbadcd787bfdfb0453231206f9ce9bf0c9e3aeaac1de3fbd8	14
 9806437	120	d	census:noncode:entropy:unplaced		0
-9806557	9	a	census:format:ascii	a754f6cfe947982eba941b750b236322f299763be1f7bc875cf359bb6cf4fbcc	9
+9806557	9	a	census:format:ascii	7ed09ccb93ef4daf79b337a8485f067b6d50f486ef57dff0399474f3bc485368	14
 9806566	66	d	census:noncode:entropy:unplaced		0
-9806632	9	a	census:format:ascii	05f14c00801ba5bcef76f4979149e5386acdbc62b7911ff34fb9b9f920acfbb7	9
+9806632	9	a	census:format:ascii	7992205cdad8c71b5e4a60199e60dca824e8cdb9826b9ef16a15d16bd2f99562	14
 9806641	1191	d	census:noncode:entropy:unplaced		0
 9807832	18	a	census:format:ascii	2ec84f6170e3d1fa6c8f416b6dab21141cc257c83ac3c7e49c927264a058772d	9
 9807850	2919	d	census:noncode:entropy:unplaced		0
-9810769	9	a	census:format:ascii	6634409c4ffe6f7813503018fe7072e47c58f0571300fd74481abe28fb250d93	9
+9810769	9	a	census:format:ascii	875223afb750f7db7c18da12be77da00c2c871cedb9834135bcce075c877a33b	14
 9810778	252	d	census:noncode:entropy:unplaced		0
-9811030	9	a	census:format:ascii	d9363191a00ee69bf12f7db84a000f5548cf7a2209cf9682499f68a76536fc43	9
+9811030	9	a	census:format:ascii	5d4f5260d919e1e56ff06f8f41f7480a448ed806b6d37da181d1d7aca6ee932f	14
 9811039	174	d	census:noncode:entropy:unplaced		0
-9811213	9	a	census:format:ascii	716d796ac2a6ecb4615e3755ac100770313bba7c129fc9d1fca79f326ab94f84	9
+9811213	9	a	census:format:ascii	e87bc0c12e03da6a8fa54d79255f2b2ba54b022cfc94edcf4b1b970366b6bcc1	14
 9811222	579	d	census:noncode:entropy:unplaced		0
-9811801	9	a	census:format:ascii	2c9cc38c8b08f0accf9660e8732ae76aabd87e04b08888507bf28dd3f4fbc2a1	9
+9811801	9	a	census:format:ascii	ddd109eef4dc2f85e89bf3b44b36d770309569c5f2d9fea9d8249fecdc1628cc	14
 9811810	267	d	census:noncode:entropy:unplaced		0
-9812077	9	a	census:format:ascii	bc1705558b92ff3a02ec8e6b5309aef9125b66e1f7f70eb20fc49d14b1f7b255	9
+9812077	9	a	census:format:ascii	6ce002045b80072dc1cc37cb8775a79d07211e0783c9d2a69d83368e8467b8a1	14
 9812086	435	d	census:noncode:entropy:unplaced		0
-9812521	9	a	census:format:ascii	f095d83a4e6eda18162b732b1633ed43311848f12ba7303eb99550139f008a73	9
+9812521	9	a	census:format:ascii	b04492d27fab1538a811f1e751745ff78f44a2996a4e1612531eab7cf57a4083	14
 9812530	63	d	census:noncode:entropy:unplaced		0
-9812593	9	a	census:format:ascii	8a2639bf495faf0084721e54922665b888c90b0c6302480a9efe0f80f29e8c5d	9
+9812593	9	a	census:format:ascii	31655c41c666e1cfb502dbfe04cf2a04ceb2f4d304a0b04ac1364f733a280a24	14
 9812602	255	d	census:noncode:entropy:unplaced		0
-9812857	9	a	census:format:ascii	3ed9d776429ff7c199e2b8dfa61e74a7f98fce5df1d3995fab204ce47ba1755e	9
+9812857	9	a	census:format:ascii	4f3499345cd8dd16f696b81da11e75cf7da395a4647e71e8895820bd9cd0fe35	14
 9812866	51	d	census:noncode:entropy:unplaced		0
 9812917	18	a	census:format:ascii	7e7fd82e06fdcee7d363d77f690277fc260b4bfcb05c9b4736ba2b7655846ff7	9
 9812935	246	d	census:noncode:entropy:unplaced		0
-9813181	9	a	census:format:ascii	952775744478836af17b495fd2a582e02a9f12ba412990b12bd772c72795301e	9
+9813181	9	a	census:format:ascii	2fb13beb5154be23cbe43e8468390f916693afed7b4470a6d93145f82c8e8fc5	14
 9813190	51	d	census:noncode:entropy:unplaced		0
-9813241	9	a	census:format:ascii	43c35331e7f3dc3b7a035a52619af0380faa21b9e1420a995eaf9721024f2825	9
+9813241	9	a	census:format:ascii	bec00d9952f3861364140e84b0ebfb7f2f98bdc63e8f4f3b14597cc2828cc958	14
 9813250	267	d	census:noncode:entropy:unplaced		0
-9813517	9	a	census:format:ascii	03a34fe6f69e644c108a084087642f2f488677dfa2db3372245192490ea6794a	9
+9813517	9	a	census:format:ascii	48e2bf45a736b1ab56914b3c4dafec0787f9ad768a1ac231eae8c19b2fdb2ad1	14
 9813526	69	d	census:noncode:entropy:unplaced		0
-9813595	9	a	census:format:ascii	944ebb2d139a7216a0d1e1d876564431be4fba4c5d37904f20b2a45c2422407b	9
+9813595	9	a	census:format:ascii	ebe3981ba300303975060df1d0b82803fac9a83ad03f69aad7bdb1422c831326	14
 9813604	123	d	census:noncode:entropy:unplaced		0
-9813727	9	a	census:format:ascii	dca0b47f53b7852844869aecd825414eda9e181df1a9217589ad932e6ae86016	9
+9813727	9	a	census:format:ascii	5a27148ce8ce4277eee692dfd5e21785226b8b18c26d2d9ca15cbadb39459fc2	14
 9813736	510	d	census:noncode:entropy:unplaced		0
-9814246	9	a	census:format:ascii	d685c7063b3955350986946f4c0bc09c48b56b724d29066444d9153e154e56b1	9
+9814246	9	a	census:format:ascii	03b76a4607b5532a336da5b14f6e2041b0e91f26a2c6487a63236b1970de54db	14
 9814255	243	d	census:noncode:entropy:unplaced		0
-9814498	9	a	census:format:ascii	d9d1556d820def4865449b54d6c004a44df00185753c7b5f1b82c5748aa68922	9
+9814498	9	a	census:format:ascii	21b2427778e9e06dac3bee5f910a44bb9cbff241f5c4f066ccf37e1fc2d80cb0	14
 9814507	180	d	census:noncode:entropy:unplaced		0
-9814687	9	a	census:format:ascii	b4438d4df70b3f60a9fbdf85631986320a11ffed489a79c981dde78ac461e1b3	9
+9814687	9	a	census:format:ascii	9c65836aa443b2980cc72e3a1126ff2d399bee9689fcc2aec71cdede98eafe6a	14
 9814696	756	d	census:noncode:entropy:unplaced		0
-9815452	9	a	census:format:ascii	d57c34dd3caaefa689af230854842e5571f9acc63db7fc741c110f75b2efe92a	9
+9815452	9	a	census:format:ascii	526af1bfe7c9a5ef0da01bfd3f1f3c5ddf6b76bd83bc541803468e0b916a5842	14
 9815461	105	d	census:noncode:entropy:unplaced		0
-9815566	9	a	census:format:ascii	2f7f4e6da40b2dd32200dde7f617d9f5d23d3069a8d52bc7f5926fce867cf62e	9
+9815566	9	a	census:format:ascii	878db5afd5b28833a75115aae296384c8d6f33a9f3d046817a405a5f59681e44	14
 9815575	9	d	census:noncode:entropy:unplaced		0
-9815584	9	a	census:format:ascii	ef10454e6863621b4b480bb6333af62e9cf7ae88f6bf7b48e83bba23c0f16628	9
+9815584	9	a	census:format:ascii	1f49b369290605137aa7155811b1c5af379b94be59fccc2b36c76abf2fc0528b	14
 9815593	96	d	census:noncode:entropy:unplaced		0
-9815689	9	a	census:format:ascii	598c7778ec11a7160fb43a32138d428969de81cd456b807e3c180f0a462f7543	9
+9815689	9	a	census:format:ascii	795e3c710341341c54fdab82a37a469152b71f0ed124ac786099a0558675d988	14
 9815698	762	d	census:noncode:entropy:unplaced		0
-9816460	9	a	census:format:ascii	b2433c190ca0cc9102e16f57884b009a8f11f962c5af1bf2553bdd57c6c2cae8	9
+9816460	9	a	census:format:ascii	01092cb715f63d323e993871017a0ead64dcc5f5c3468c74067cff8ebf0be70b	14
 9816469	252	d	census:noncode:entropy:unplaced		0
-9816721	9	a	census:format:ascii	f50cac38a697ea2fa087a11c2deab990e3def8019ba19ce85a2be0ca5468c562	9
+9816721	9	a	census:format:ascii	10cdaf77eefb7fab9c66037ffc93d957f30a964cf6bc7a7beda45d365a462fed	14
 9816730	120	d	census:noncode:entropy:unplaced		0
-9816850	9	a	census:format:ascii	724020a6006dabf2fcc17bfb1d81f94e38670f862a55ef2311710e644874ed0f	9
+9816850	9	a	census:format:ascii	1a0e250fc463c87f2364bbf60ae0e9203b8fde09ac20f898ea741896b1f6491e	14
 9816859	117	d	census:noncode:entropy:unplaced		0
-9816976	9	a	census:format:ascii	dbc77ff680a9b4b7faec7b2141c0205b0b77116c10fd19fc1c65339f4678ef48	9
+9816976	9	a	census:format:ascii	0cd4d4543fb0b19e70ee5a5d1b575eb39fd936a23624e8ae8e2a7b9c91ebe602	14
 9816985	103	d	census:noncode:entropy:unplaced		0
 9817088	536	d	census:noncode:decode		0
-9817624	9	a	census:format:ascii	665ad60c91c3f8c3d4099e4756eb61f7755e703467bb8b20a99598d4327b877a	9
+9817624	9	a	census:format:ascii	db4b3435252f8c7f90331f459a66aaa87d2be0b21608e58d0e3af71901f47a9f	14
 9817633	123	d	census:noncode:decode		0
-9817756	9	a	census:format:ascii	a283f8ef2825c526a2775e75824e234248f55a4238ee22c87d87f5852dfb68e5	9
+9817756	9	a	census:format:ascii	8f097f3a3e3ab751bf41449201574fc0502400f3d16b66881f540f2aa8a9f244	14
 9817765	91	d	census:noncode:decode		0
 9817856	416	d	census:noncode:entropy:unplaced		0
-9818272	9	a	census:format:ascii	602e13d0c71210c6f1a35e75d497138311d084270f0bbc54a8e7b66daf9050a0	9
+9818272	9	a	census:format:ascii	102d27e284e8734155e0adefd09604969ae21e6c673e21b90fcf50d591c3f738	14
 9818281	1175	d	census:noncode:entropy:unplaced		0
 9819456	212	d	census:noncode:decode		0
 9819668	494	p	census:zero_fill>=16		1
@@ -4420,7 +4438,7 @@ o	n	k	r	h	x
 9820544	192	d	census:noncode:entropy:unplaced		0
 9820736	192	d	census:noncode:decode		0
 9820928	3749	d	census:noncode:entropy:unplaced		0
-9824677	9	a	census:format:ascii	35cbdd61fd1e172aa66784da1d7a35baae2b1ad831464b7d4026fc9830332d56	9
+9824677	9	a	census:format:ascii	c856ca97a69235e339b894c903e75216ca6a9bef5a5a96115cfb9bb81c81fd81	14
 9824686	4498	d	census:noncode:entropy:unplaced		0
 9829184	108	d	census:noncode:decode		0
 9829292	8	d	census:neighbour:noncode_typing_pending		0
@@ -4485,7 +4503,7 @@ o	n	k	r	h	x
 9878912	128	d	census:noncode:entropy:unplaced		0
 9879040	64	d	census:noncode:decode		0
 9879104	4588	d	census:noncode:entropy:unplaced		0
-9883692	9	a	census:format:ascii	153da4d81696f350913a396f726271d1c988a8772ac6bcba37567a6fdf65189d	9
+9883692	9	a	census:format:ascii	aac6bf459fbf8352063fff726e65db25ca2b138443345e86ec55b5c14e22f293	14
 9883701	2571	d	census:noncode:entropy:unplaced		0
 9886272	212	d	census:noncode:decode		0
 9886484	1262	p	census:zero_fill>=16		1
@@ -4507,18 +4525,18 @@ o	n	k	r	h	x
 9895881	57	p	census:zero_fill>=16		1
 9895938	490	d	census:noncode:decode		0
 9896428	21	p	census:zero_fill>=16		1
-9896449	9	a	census:format:ascii	07f645c494ca3bf3b316e685e242f6332c4e05156c41acdcf908f13603b84a9b	9
+9896449	9	a	census:format:ascii	eee3813fc4f36a88b9514e91895f303c06cf6b161c5912dcfd535231350d39a6	14
 9896458	310	d	census:noncode:decode		0
 9896768	1024	d	census:noncode:entropy:unplaced		0
 9897792	128	d	census:noncode:decode		0
 9897920	2936	d	census:noncode:entropy:unplaced		0
 9900856	18	a	census:format:ascii	a620142212ced67ce9a9ae65bb2718b0e06e12b8f9107a5855ba11c6301b1815	9
 9900874	207	d	census:noncode:entropy:unplaced		0
-9901081	15	a	census:format:ascii	bbab00a4f12ec9c7347092da7bf64fbf8e3391c667b62b74238aa80cb98950be	9
+9901081	15	a	census:format:ascii	2bfe5c84f730e8c5f92400cceb67c88e37614c9a5e4f036ec6890a4aa001b9c4	14
 9901096	1437	d	census:noncode:entropy:unplaced		0
-9902533	9	a	census:format:ascii	ea39acd0a6301c47c6a3eabc801e66da99c4de596705b88e6498304017e5b184	9
+9902533	9	a	census:format:ascii	72d559286bd30302e546d126c2d1d63b0722b88f9a2a87344c96e2706ad2d203	14
 9902542	1765	d	census:noncode:entropy:unplaced		0
-9904307	9	a	census:format:ascii	7a805b2cbd2c00ee103bb5fa431553db0d53cf182d5afad508c01c5ac63f069c	9
+9904307	9	a	census:format:ascii	05cb4b96b98ba5f9828342d36ca5c888a086202f81936abae20defeb6f7afe2f	14
 9904316	3012	d	census:noncode:entropy:unplaced		0
 9907328	189	d	census:noncode:decode		0
 9907517	709	p	census:zero_fill>=16		1
@@ -4566,7 +4584,7 @@ o	n	k	r	h	x
 9957378	1022	d	census:noncode:decode		0
 9958400	768	d	census:noncode:entropy:unplaced		0
 9959168	712	d	census:noncode:decode		0
-9959880	11	a	census:format:ascii	026504e5bbdcede49aa8d9adf770ff752a1301b7ebb45996ebfee168af658758	9
+9959880	11	a	census:format:ascii	6b6004cf62e927b1d59a932cd8e2501254727ffbb975479aedefbb519e11e61e	14
 9959891	877	d	census:noncode:decode		0
 9960768	256	d	census:noncode:entropy:unplaced		0
 9961024	256	d	census:noncode:decode		0
@@ -4599,15 +4617,15 @@ o	n	k	r	h	x
 9981440	896	d	census:noncode:entropy:unplaced		0
 9982336	64	d	census:noncode:decode		0
 9982400	1773	d	census:noncode:entropy:unplaced		0
-9984173	9	a	census:format:ascii	7322ee6a618401dadf18d4226a6ef3a83d4f4740444817044608feb544898bd6	9
+9984173	9	a	census:format:ascii	74f21dadb436b3fc3bed35e9c0308deb136ea8f5231e0626de801a5230e3d663	14
 9984182	1338	d	census:noncode:entropy:unplaced		0
-9985520	9	a	census:format:ascii	4e7cab0741949ed745dd69c12d2fe014742f61b7400a3cdedad3a9bdb243f0cc	9
+9985520	9	a	census:format:ascii	2f2ef6dd198610d3c3e8fc263472932188f0b9637354266c43a9c67f4ab1c22d	14
 9985529	7	d	census:noncode:entropy:unplaced		0
 9985536	448	d	census:noncode:decode		0
 9985984	673	d	census:noncode:entropy:unplaced		0
-9986657	9	a	census:format:ascii	1a8c16f9c127eb042cfffab2f1477eb80b62d6a536525faf2ee0fc8bac306f55	9
+9986657	9	a	census:format:ascii	292bdd928910cf8c213a387dd95c249d9ce3e80b43c6c9853e34a10ec7db94cc	14
 9986666	723	d	census:noncode:entropy:unplaced		0
-9987389	9	a	census:format:ascii	63f0adb1247618d9c7100eff3df6316f7982d1fde9ab6e936168792c014998c4	9
+9987389	9	a	census:format:ascii	22e67f7757976b495e056c835354c823299bb12a9b934476196f0007cab129bb	14
 9987398	250	d	census:noncode:entropy:unplaced		0
 9987648	8	d	census:neighbour:noncode_typing_pending		0
 9987656	120	d	census:noncode:decode		0
@@ -4626,15 +4644,15 @@ o	n	k	r	h	x
 9989504	8	d	census:neighbour:noncode_typing_pending		0
 9989512	312	d	census:noncode:decode		0
 9989824	631	d	census:noncode:entropy:unplaced		0
-9990455	9	a	census:format:ascii	f4213e6a651fcf644fb7b18c2837520228925b1e7432e96330a0adddcb40559e	9
+9990455	9	a	census:format:ascii	abfc4717e8f0730c04049e06eb1a3cd0a611ea0cb2dc5690c98a9612fa46bae1	14
 9990464	192	d	census:noncode:entropy:unplaced		0
 9990656	44	d	census:noncode:decode		0
-9990700	10	a	census:format:ascii	b80f0642bfdab2c2d01adcf427dd2f1e2f670e50fcdd987020c9e8aea9aa7f4b	9
+9990700	10	a	census:format:ascii	5395cbc6073af4116d01ee23c8362a0688f09d29fd7110d6a79003a7febc1470	14
 9990710	74	d	census:noncode:decode		0
 9990784	448	d	census:noncode:entropy:unplaced		0
 9991232	512	d	census:noncode:decode		0
 9991744	10	d	census:noncode:entropy:unplaced		0
-9991754	9	a	census:format:ascii	d10325d8f71a8b00e829436932d4a234ae09efa30b4a19d6b691edc6e0cb64d8	9
+9991754	9	a	census:format:ascii	24a287993fd0490d166ebb00d91082bf5084507da7744e54574260d7fc353833	14
 9991763	365	d	census:noncode:entropy:unplaced		0
 9992128	344	d	census:noncode:decode		0
 9992472	8	d	census:neighbour:noncode_typing_pending		0
@@ -4657,7 +4675,7 @@ o	n	k	r	h	x
 9999168	192	d	census:noncode:decode		0
 9999360	640	d	census:noncode:entropy:unplaced		0
 10000000	82	d	census:noncode:decode		0
-10000082	9	a	census:format:ascii	810d31e6967d60ce334dd8287e1fd696e4bd3c45e2f969bf51d5df9520213865	9
+10000082	9	a	census:format:ascii	ac62828476105270d8dfacd513e38c5bcfcf10d583a9cb60950659e9efc25902	14
 10000091	485	d	census:noncode:decode		0
 10000576	512	d	census:noncode:entropy:unplaced		0
 10001088	64	d	census:noncode:decode		0
@@ -4697,17 +4715,17 @@ o	n	k	r	h	x
 10025176	392	d	census:noncode:decode		0
 10025568	8	d	census:neighbour:noncode_typing_pending		0
 10025576	421	d	census:noncode:decode		0
-10025997	9	a	census:format:ascii	9c1584f421d798f2fcac4e25b059f864151369d7ed816ff9244fa23620bc274a	9
+10025997	9	a	census:format:ascii	4d5de34d151162ae3e4fe0872b0f06df5072353924878962efe04c28b208e3f2	14
 10026006	154	d	census:noncode:decode		0
-10026160	10	a	census:format:ascii	c1fc7b1268673e815fbaacac9434f5c89b56f11dc0c2a98816a61c92024f85c3	9
+10026160	10	a	census:format:ascii	ee6a73539b89144b96730a3f37966be5eef795074c61e10e7577ddb452cfc80f	14
 10026170	10	d	census:noncode:decode		0
 10026180	12	d	census:neighbour:noncode_typing_pending		0
 10026192	217	d	census:noncode:decode		0
-10026409	9	a	census:format:ascii	a0257695dd841ca631341e909f3b4b8b79523ce93cdd4110409288fc6feba6a5	9
+10026409	9	a	census:format:ascii	684e95fc50a85a809cf1f7f9c274a1926f192868db557af1b1d284784f083d32	14
 10026418	339	d	census:noncode:decode		0
-10026757	9	a	census:format:ascii	7863aa890ffc2e1e253f0c9fd6136aede2ae5299fe0384bef0cf86a1e25933e8	9
+10026757	9	a	census:format:ascii	cc855f2ad1954e39a7e43b9c9ce598fa58d73a0f04975a8e8d3b832fa027fefd	14
 10026766	210	d	census:noncode:decode		0
-10026976	9	a	census:format:ascii	883ba936aee77794e10585f34205c7a8ffb5d693fef6a48c2d0c0175b23fc067	9
+10026976	9	a	census:format:ascii	d14cbfa39ba2c953881cc98668877e36ca62e0006135dce9cfe42bd3afd97c42	14
 10026985	635	d	census:noncode:decode		0
 10027620	8	d	census:neighbour:noncode_typing_pending		0
 10027628	1484	d	census:noncode:decode		0
@@ -4723,11 +4741,11 @@ o	n	k	r	h	x
 10033196	60	d	census:noncode:decode		0
 10033256	8	d	census:neighbour:noncode_typing_pending		0
 10033264	1051	d	census:noncode:decode		0
-10034315	9	a	census:format:ascii	2a016d17df1c3d9810b4a7c16c309687c71c66b5c1a3e81db9e2308f7feb8ab6	9
+10034315	9	a	census:format:ascii	fc9da0706ed777a7cc66afa9e86c31cbb2d4a935d0078fdad6f5d75bf21974e6	14
 10034324	711	d	census:noncode:decode		0
-10035035	9	a	census:format:ascii	6e2eaf4491a404c5cd8c7b07f37d5f7af664a30410f3f965617e9f9b9056505a	9
+10035035	9	a	census:format:ascii	71673b16af3533645c881a142355283dce1951219e5c64af49c30baccb0a56ad	14
 10035044	600	d	census:noncode:decode		0
-10035644	9	a	census:format:ascii	143f6ce9b04caad7f440f1877edb8e944155eb870443e0c25e9c08afa6667f83	9
+10035644	9	a	census:format:ascii	edc5a0be739e26b41a629016c61a8789e537174854431a01e8e81082a1b277f5	14
 10035653	2215	d	census:noncode:decode		0
 10037868	8	d	census:neighbour:noncode_typing_pending		0
 10037876	968	d	census:noncode:decode		0
@@ -4735,7 +4753,7 @@ o	n	k	r	h	x
 10038856	624	d	census:noncode:decode		0
 10039480	8	d	census:neighbour:noncode_typing_pending		0
 10039488	565	d	census:noncode:decode		0
-10040053	9	a	census:format:ascii	9feec005ae025ae98c9816900a35c50da903c1ad555bf94f0b07f38f70acdcc7	9
+10040053	9	a	census:format:ascii	5c0e9bcddcff7d7225912409ae51d4f410ad758d740c5d4b4a8d444b97046560	14
 10040062	190	d	census:noncode:decode		0
 10040252	18	a	census:format:ascii	bd602299780ed285934b62f99db7900e43cf8ed05a4b3c9e06169ad8a166746e	9
 10040270	538	d	census:noncode:decode		0
@@ -4743,17 +4761,17 @@ o	n	k	r	h	x
 10040816	356	d	census:noncode:decode		0
 10041172	8	d	census:neighbour:noncode_typing_pending		0
 10041180	892	d	census:noncode:decode		0
-10042072	9	a	census:format:ascii	74f7a1611028829f4b5238a46157a58a99d24c2afe4863ac031463e426bba3a0	9
+10042072	9	a	census:format:ascii	69cd464ddbb017420556291e1cf46202a1944f63b8ea71eaec240639e2a39998	14
 10042081	198	d	census:noncode:decode		0
-10042279	9	a	census:format:ascii	ccb399148b9bdd105e4a56c5076916b513302731ff3e1d5b257405880d9b5b4e	9
+10042279	9	a	census:format:ascii	9aa8d05e3b7f2e3ab3098898ca45ce65c5d43da6bd4276486335145f6512d039	14
 10042288	32	d	census:noncode:decode		0
 10042320	8	d	census:neighbour:noncode_typing_pending		0
 10042328	76	d	census:noncode:decode		0
 10042404	12	d	census:neighbour:noncode_typing_pending		0
 10042416	960	d	census:noncode:decode		0
-10043376	9	a	census:format:ascii	0e209c326dbfc32ec5fc921b37a0542557fe62672da1c9ae5d3d64c9314bf157	9
+10043376	9	a	census:format:ascii	6af07acf9d38d2a0537d82a26f4d873859228975a53d5cbf1cc512e7eb86ab2a	14
 10043385	315	d	census:noncode:decode		0
-10043700	9	a	census:format:ascii	cd55ed55605f5457c63888be8a44fc428bf0f903d546d64a703aec4e2e0e39ef	9
+10043700	9	a	census:format:ascii	2aabbab17b6d92ec169e934d57f48ccf9a6604f10d383fc79b25328de5190f2c	14
 10043709	451	d	census:noncode:decode		0
 10044160	8	d	census:neighbour:noncode_typing_pending		0
 10044168	564	d	census:noncode:decode		0
@@ -4761,25 +4779,25 @@ o	n	k	r	h	x
 10044740	164	d	census:noncode:decode		0
 10044904	27	a	census:format:ascii	70f61a8691866f7f9e278b4c801f25e8018644f9deaeb241988bf149ffcb5b26	9
 10044931	207	d	census:noncode:decode		0
-10045138	9	a	census:format:ascii	b7d359aa21462c96ee012e9e11f478b1498a8196daa26a3e40661140e174e31e	9
+10045138	9	a	census:format:ascii	394a74260771899ad0639645234cba226713eb20ddf1b94ea7a7ffdf5c0013a7	14
 10045147	231	d	census:noncode:decode		0
-10045378	9	a	census:format:ascii	91903ce44e62b0bd82e3ca5069a19f40423a5be32cecdcb46565cd1083b5195e	9
+10045378	9	a	census:format:ascii	2f2f66ccf25882acda92767c1f7cf0ade7fcd5f191604ade7a856b9acb807424	14
 10045387	43	d	census:noncode:decode		0
-10045430	9	a	census:format:ascii	f921c69a8895f17f92161a2568236db9b10848e26d1ff0b276505446245313db	9
+10045430	9	a	census:format:ascii	fa0a383f042b016dbae8addfdd5339a9ccb4e5b8b2929f4fc9a1ee4b29707da0	14
 10045439	468	d	census:noncode:decode		0
 10045907	18	a	census:format:ascii	3c42dee66ba96e81339ca31a71283f125aa8ea33e337ffd04fa5af48e90b026f	9
 10045925	670	d	census:noncode:decode		0
-10046595	9	a	census:format:ascii	ba93eb58c620c0ee9198bad25182e49158a52d41ab1e0be56a852f061bf01d1b	9
+10046595	9	a	census:format:ascii	fe11e4c41962e2ea84b0241381d132d90e25ffdcb69697377c5051b23fd1e453	14
 10046604	53	d	census:noncode:decode		0
-10046657	10	a	census:format:ascii	e1b2551865d0b0b4b4fa8c8a185cc2bae167268ac2ae2d7805a4a35face22034	9
+10046657	10	a	census:format:ascii	0f94187f99448dc873fe110b1591dee1fd81df2fbc49ab7de1d3f8213c95492f	14
 10046667	645	d	census:noncode:decode		0
 10047312	8	d	census:neighbour:noncode_typing_pending		0
 10047320	1087	d	census:noncode:decode		0
 10048407	18	a	census:format:ascii	a4dbf32f54aed8ce5c1a28a6f701379a30f4249e64b775c2ffcd2e829a6a065d	9
 10048425	330	d	census:noncode:decode		0
-10048755	9	a	census:format:ascii	2e9f7c495b4163f75cdc5d1836957f65a3ea3016a957c0357f3ca0c49ed506f2	9
+10048755	9	a	census:format:ascii	abacce7b985efcb160bec491a8ddf990fe5b1c3a9de647c6449ed84e9b24fe8d	14
 10048764	85	d	census:noncode:decode		0
-10048849	9	a	census:format:ascii	1dad78f330d51560214a6230aa07f09ea973907d427be75a79e836d17f7f3620	9
+10048849	9	a	census:format:ascii	65f3186679ac704936f154455305519c3c21cb49a3e4fbf62261a39f7f5e7c4c	14
 10048858	438	d	census:noncode:decode		0
 10049296	8	d	census:neighbour:noncode_typing_pending		0
 10049304	435	d	census:noncode:decode		0
@@ -4787,13 +4805,13 @@ o	n	k	r	h	x
 10049763	361	d	census:noncode:decode		0
 10050124	8	d	census:neighbour:noncode_typing_pending		0
 10050132	46	d	census:noncode:decode		0
-10050178	9	a	census:format:ascii	51edc6e331ac94a17355ec07f718f1cf1a56485d24157318417995da66f6b4c0	9
+10050178	9	a	census:format:ascii	8d12268ab8e682c0ffd663443d8586dcde2a6418020eb8d73331152f636613e2	14
 10050187	281	d	census:noncode:decode		0
 10050468	8	d	census:neighbour:noncode_typing_pending		0
 10050476	491	d	census:noncode:decode		0
-10050967	9	a	census:format:ascii	34b4cc0bff4a3706e7787b4355f7962db7af88e2cfdbaa0991843f4e146bf3c2	9
+10050967	9	a	census:format:ascii	5776eb038918d22ad2ef74ea5bcd47ac2f7316e46b55d53c1fc537c9e5cc66bf	14
 10050976	48	d	census:noncode:decode		0
-10051024	9	a	census:format:ascii	237199316ed077683db21b85fd7f6e1d6f8da37a39c04a1947a6e294c4a005da	9
+10051024	9	a	census:format:ascii	95b0eaffd486cec97343139a580a522e9acb63781ba48c4375aca6cf7cf4e525	14
 10051033	571	d	census:noncode:decode		0
 10051604	8	d	census:neighbour:noncode_typing_pending		0
 10051612	104	d	census:noncode:decode		0
@@ -4805,7 +4823,7 @@ o	n	k	r	h	x
 10053156	296	d	census:noncode:decode		0
 10053452	8	d	census:neighbour:noncode_typing_pending		0
 10053460	1756	d	census:noncode:decode		0
-10055216	9	a	census:format:ascii	b40a56d6e8491b2ae12b83ffa8e9f341aa34ab0747c6a805a9147d9e1d1fc1ba	9
+10055216	9	a	census:format:ascii	28491d5fb26484d078541110cb1dff1c4986ad9ef63d9d05ec50f1d4a13835e5	14
 10055225	351	d	census:noncode:decode		0
 10055576	8	d	census:neighbour:noncode_typing_pending		0
 10055584	480	d	census:noncode:decode		0
@@ -4813,11 +4831,11 @@ o	n	k	r	h	x
 10056232	16	a	census:format:ascii	276d245062276083771cf242e27c7c44c669413952dfff8aac8a2e722e3a983c	9
 10056248	136	d	census:noncode:entropy:unplaced		0
 10056384	16	d	census:noncode:decode		0
-10056400	9	a	census:format:ascii	a5800753b804554ea4b65155c5d08d082ff769f2ec7bfe7ac475e77205e725ba	9
+10056400	9	a	census:format:ascii	d1707a269b1e1e410661bb3745bdf82f248b23a7e4ef88334e615138d5738eb0	14
 10056409	779	d	census:noncode:decode		0
 10057188	8	d	census:neighbour:noncode_typing_pending		0
 10057196	1509	d	census:noncode:decode		0
-10058705	9	a	census:format:ascii	695bdc887f5e1bd481d41b3fe85ef36378660b858c5983d5fb8fd66263850056	9
+10058705	9	a	census:format:ascii	8e448136c30c1de4166a4b0ec84a56597351ab129221db2cac40fd36f0aa3ed8	14
 10058714	910	d	census:noncode:decode		0
 10059624	12	d	census:neighbour:noncode_typing_pending		0
 10059636	916	d	census:noncode:decode		0
@@ -4827,15 +4845,15 @@ o	n	k	r	h	x
 10060752	192	d	census:noncode:decode		0
 10060944	8	d	census:neighbour:noncode_typing_pending		0
 10060952	1619	d	census:noncode:decode		0
-10062571	10	a	census:format:ascii	23e2fe43b52a1ec8f87545adad5835325ae63ea4ee962eaa1c9c9b9b2cc5877f	9
+10062571	10	a	census:format:ascii	b18b424bada6a9da79c1c183a951bdf1650ae46700a2f62f3fb59135cca89fa5	14
 10062581	2499	d	census:noncode:decode		0
 10065080	12	d	census:neighbour:noncode_typing_pending		0
 10065092	775	d	census:noncode:decode		0
 10065867	53	p	census:zero_fill>=16		1
 10065920	648	d	census:noncode:decode		0
-10066568	9	a	census:format:ascii	a9bd7542e61e2a6e934fc1830bf108f3e6caac746586953432e6ccda0c8c26cb	9
+10066568	9	a	census:format:ascii	690053c68ef11d050304e0fe74155403f2fc57d29879469d688b0f5bdc0f6d6c	14
 10066577	255	d	census:noncode:decode		0
-10066832	9	a	census:format:ascii	e2881082342a7b5202e18ac5eeced38d56ef047aaaa5d758b4176f28ff8ebdf1	9
+10066832	9	a	census:format:ascii	6fec97d86127176e4953f09adf4467b9dc133ad15f3ef6ef5c5355286bd093a5	14
 10066841	1767	d	census:noncode:decode		0
 10068608	128	d	census:noncode:entropy:unplaced		0
 10068736	64	d	census:noncode:decode		0
@@ -4845,7 +4863,7 @@ o	n	k	r	h	x
 10070464	64	d	census:noncode:decode		0
 10070528	640	d	census:noncode:entropy:unplaced		0
 10071168	1205	d	census:noncode:decode		0
-10072373	9	a	census:format:ascii	1029904ca3fc964093ecf85a85c75c755c269fb0a1afc3ad49276e42c9cc5804	9
+10072373	9	a	census:format:ascii	1abc4b7622e72dfa8fa06f3d95404f97e885494f56315e7af8b3669eb1b0977b	14
 10072382	534	d	census:noncode:decode		0
 10072916	8	d	census:neighbour:noncode_typing_pending		0
 10072924	804	d	census:noncode:decode		0
@@ -4863,17 +4881,17 @@ o	n	k	r	h	x
 10080384	428	d	census:noncode:decode		0
 10080812	8	d	census:neighbour:noncode_typing_pending		0
 10080820	161	d	census:noncode:decode		0
-10080981	9	a	census:format:ascii	4953b87516d6c8eefc3a809ab0eac994aa3e1b51775f8af658c4c02cfb31dc8d	9
+10080981	9	a	census:format:ascii	d6f0238d456b721d5c5c91ccb774e1db972a9992c11ab35f7ac2dfc8c502df4c	14
 10080990	1058	d	census:noncode:decode		0
 10082048	2267	d	census:noncode:entropy:unplaced		0
-10084315	13	a	census:format:ascii	c74b06738af7b49db4c76b5a7ef71fe878818879a43958b19335dfd2eab245d7	9
+10084315	13	a	census:format:ascii	9cb17d6ecc1141fff417fa826b07c4518199e05dbfb8281062e5b96400e4e743	14
 10084328	2008	d	census:noncode:entropy:unplaced		0
 10086336	248	d	census:noncode:decode		0
 10086584	12	d	census:neighbour:noncode_typing_pending		0
 10086596	179	d	census:noncode:decode		0
-10086775	11	a	census:format:ascii	f2f89e9dbe42a8499df4001efbb2ab86b674d04ec753af917f4c53458d234149	9
+10086775	11	a	census:format:ascii	3374d273fb822417aba2bd4f8c328a54795bc7b0e5d0c8be6bd587ec7e25fcec	14
 10086786	1382	d	census:noncode:decode		0
-10088168	9	a	census:format:ascii	b0d278d3ae759b6176aaa9d7ce1b3ad14910bbb86a99aa6ebf5f5a79f3bcf72f	9
+10088168	9	a	census:format:ascii	abfe0516d718eaae39d1f75cbdc87771d2b599776c42d25b0ee1692fc5ea0079	14
 10088177	459	d	census:noncode:decode		0
 10088636	16	u	census:unknown		1
 10088652	1140	d	census:noncode:decode		0
@@ -4889,7 +4907,7 @@ o	n	k	r	h	x
 10094016	128	d	census:noncode:decode		0
 10094144	576	d	census:noncode:entropy:unplaced		0
 10094720	278	d	census:noncode:decode		0
-10094998	14	a	census:format:ascii	bd2d064a5ef0272bc9d85b673555d17541817afa0f93009c1d98b41c1418f40d	9
+10094998	14	a	census:format:ascii	2d8cff701293add187910ed7dee77a2a3038431a051c8aac442d930a8d3fa451	14
 10095012	240	d	census:noncode:decode		0
 10095252	8	d	census:neighbour:noncode_typing_pending		0
 10095260	932	d	census:noncode:decode		0
@@ -4897,7 +4915,7 @@ o	n	k	r	h	x
 10096448	352	d	census:noncode:decode		0
 10096800	8	d	census:neighbour:noncode_typing_pending		0
 10096808	1094	d	census:noncode:decode		0
-10097902	9	a	census:format:ascii	1baf811f8219d6f7cbbf35dad4d1c432457b0fdfdb8a5735f521dbf3525657b8	9
+10097902	9	a	census:format:ascii	37b510f30f18a34aa47c5e1ed855338b65818c06e955e36488b8575740a45569	14
 10097911	201	d	census:noncode:decode		0
 10098112	640	d	census:noncode:entropy:unplaced		0
 10098752	384	d	census:noncode:decode		0
@@ -4927,7 +4945,7 @@ o	n	k	r	h	x
 10114176	216	d	census:noncode:decode		0
 10114392	680	p	census:zero_fill>=16		1
 10115072	1686	d	census:noncode:decode		0
-10116758	9	a	census:format:ascii	ea507a4900eeac15c5ae5017bba5b3fa38d662ce6e7e550211c10deb48139f6b	9
+10116758	9	a	census:format:ascii	fd129966d4d4998b30997b48c8870898b8f094b14e1c3d704cadad996c4a362e	14
 10116767	37	d	census:noncode:decode		0
 10116804	12	d	census:neighbour:noncode_typing_pending		0
 10116816	880	d	census:noncode:decode		0
@@ -4953,7 +4971,7 @@ o	n	k	r	h	x
 10128048	16	d	census:noncode:decode		0
 10128064	1152	d	census:noncode:entropy:unplaced		0
 10129216	49	d	census:noncode:decode		0
-10129265	9	a	census:format:ascii	b62eabf629d3546ee51b532ec7c14d39952402fb4388f11ccebc091b54781b02	9
+10129265	9	a	census:format:ascii	cf6230dab2f90c82589349fb94672162c4b79f18a6d455de020d171c0da887c4	14
 10129274	262	d	census:noncode:decode		0
 10129536	1600	d	census:noncode:entropy:unplaced		0
 10131136	256	d	census:noncode:decode		0
@@ -4964,7 +4982,7 @@ o	n	k	r	h	x
 10135832	8	d	census:neighbour:noncode_typing_pending		0
 10135840	160	d	census:noncode:decode		0
 10136000	3651	d	census:noncode:entropy:unplaced		0
-10139651	12	a	census:format:ascii	b7eff7320311bfcd8cceb30429ca0f942a5f8624fee639216b4d416325453fb5	9
+10139651	12	a	census:format:ascii	4996b9946548581e598d3cfdde31ac9b93c9863be1a75fc31fe0d033d27f4ad6	14
 10139663	1969	d	census:noncode:entropy:unplaced		0
 10141632	1792	d	census:noncode:decode		0
 10143424	1024	d	census:noncode:entropy:unplaced		0
@@ -5387,20 +5405,20 @@ o	n	k	r	h	x
 10322432	28	d	census:noncode:decode		0
 10322460	20	u	census:unknown		1
 10322480	104	d	census:noncode:decode		0
-10322584	9	a	census:format:ascii	9eb61bb687244c225586081f1d9a509f35a667d7c51b276a9e65bd3a1d9ff00e	9
+10322584	9	a	census:format:ascii	8467cf92d82858053cbaffc71257be33d3fa1ad19292781694d08f208aa1d995	14
 10322593	1055	d	census:noncode:decode		0
 10323648	448	d	census:noncode:entropy:unplaced		0
 10324096	284	d	census:noncode:decode		0
 10324380	12	d	census:neighbour:noncode_typing_pending		0
 10324392	1509	d	census:noncode:decode		0
-10325901	9	a	census:format:ascii	20aca933529d8ca1918c3ebe2a51a6ece6cd3deafc7cfd0001bd624b0cfcf873	9
+10325901	9	a	census:format:ascii	34ad23da9909147f5fc2a96733b2b138f12ad8e4a2c66c3ade5033d548633147	14
 10325910	746	d	census:noncode:decode		0
 10326656	128	d	census:noncode:entropy:unplaced		0
 10326784	832	d	census:noncode:decode		0
 10327616	256	d	census:noncode:entropy:unplaced		0
 10327872	64	d	census:noncode:decode		0
 10327936	448	d	census:noncode:entropy:unplaced		0
-10328384	9	a	census:format:ascii	11dacde1ce88b3b71e424db0f135f26aefe38084c7c210580b7e8eeb7f868514	9
+10328384	9	a	census:format:ascii	1e9ec29ebefeba3b27cdc210ca84c7697a17c9633f2bd4f049916eb84f60c844	14
 10328393	55	d	census:noncode:entropy:unplaced		0
 10328448	584	d	census:noncode:decode		0
 10329032	8	d	census:neighbour:noncode_typing_pending		0
@@ -5411,7 +5429,7 @@ o	n	k	r	h	x
 10331328	2048	d	census:noncode:decode		0
 10333376	128	d	census:noncode:entropy:unplaced		0
 10333504	1486	d	census:noncode:decode		0
-10334990	9	a	census:format:ascii	6a5972ae73b302f3fe6edbf16909a5659cb3923220dd1ce3f0f7e1631122a1c0	9
+10334990	9	a	census:format:ascii	dee9df38dc6fb76a260d8573efc7bc513294991d44ba3206d242a8312b2a1dca	14
 10334999	29	d	census:noncode:decode		0
 10335028	8	d	census:neighbour:noncode_typing_pending		0
 10335036	452	d	census:noncode:decode		0
@@ -5522,7 +5540,7 @@ o	n	k	r	h	x
 10414976	128	d	census:noncode:entropy:unplaced		0
 10415104	960	d	census:noncode:decode		0
 10416064	3489	d	census:noncode:entropy:unplaced		0
-10419553	9	a	census:format:ascii	a8263361c1771d2dc7f1fd651e151ceabbc0056e367653464d3269903b4b217c	9
+10419553	9	a	census:format:ascii	5647d8b80a89c74046dfab592254e44f52d701e1d7fc1f64a493ad391d586262	14
 10419562	22	d	census:noncode:entropy:unplaced		0
 10419584	840	d	census:noncode:decode		0
 10420424	12	d	census:neighbour:noncode_typing_pending		0
@@ -5540,13 +5558,13 @@ o	n	k	r	h	x
 10431808	2816	d	census:noncode:entropy:unplaced		0
 10434624	320	d	census:noncode:decode		0
 10434944	488	d	census:noncode:entropy:unplaced		0
-10435432	9	a	census:format:ascii	188a1682518152c3214a529eee2a5eb7e6cdf5d1a19f7af5a048bff3b23f3a30	9
+10435432	9	a	census:format:ascii	868b562b035689a2399fc2018a5eaea513627b737e05b4cd51a05bef0d0d7bda	14
 10435441	9167	d	census:noncode:entropy:unplaced		0
 10444608	64	d	census:noncode:decode		0
 10444672	3456	d	census:noncode:entropy:unplaced		0
 10448128	384	d	census:noncode:decode		0
 10448512	8941	d	census:noncode:entropy:unplaced		0
-10457453	9	a	census:format:ascii	8195ea67b4a3f0cd04ab23240b204f8e838275e661829c0df82efec834eac091	9
+10457453	9	a	census:format:ascii	0b7318508a9912ac375aecf3163a6b11b5eab12c5e2fae8b91c9adcabb636922	14
 10457462	3978	d	census:noncode:entropy:unplaced		0
 10461440	413	d	census:noncode:decode		0
 10461853	22	a	census:format:sjis	6f344e6301e8775d46277f0256b94448650e6d5487820a756ec609dcadb22ef2	4
@@ -14539,7 +14557,7 @@ o	n	k	r	h	x
 16133680	14	d	census:noncode:decode		0
 16133694	10690	p	census:zero_fill>=16		1
 16144384	1607	d	census:noncode:decode		0
-16145991	9	a	census:format:ascii	b1efcf6d86a4e62759dd23dd0f1a9888235f13793fc2cf866a62deef73518ee5	9
+16145991	9	a	census:format:ascii	31d36aede685b12726de3459c65c3c75cea89f5d113adc916e36ef7ec51099be	14
 16146000	512	d	census:noncode:decode		0
 16146512	8	d	census:neighbour:noncode_typing_pending		0
 16146520	232	d	census:noncode:decode		0
@@ -14552,7 +14570,7 @@ o	n	k	r	h	x
 16150912	640	d	census:noncode:entropy:unplaced		0
 16151552	1664	d	census:noncode:decode		0
 16153216	236	d	census:noncode:entropy:unplaced		0
-16153452	12	a	census:format:ascii	022f75c93f1cddcc5ced4841f74890128a3b1fe8a1a48820d6d2444b4fefc945	9
+16153452	12	a	census:format:ascii	e6a45fbd46f2964c133aa0feb4f5739f63bca62e0699f4f6c7c97e181354164d	14
 16153464	584	d	census:noncode:entropy:unplaced		0
 16154048	512	d	census:noncode:decode		0
 16154560	192	d	census:noncode:entropy:unplaced		0
@@ -14561,7 +14579,7 @@ o	n	k	r	h	x
 16156544	240	d	census:noncode:decode		0
 16156784	8	d	census:neighbour:noncode_typing_pending		0
 16156792	1039	d	census:noncode:decode		0
-16157831	9	a	census:format:ascii	a7a137568aa4dffb14d3843d13b4b1d316efedd662fa4f1e8e3914fb33d8e65d	9
+16157831	9	a	census:format:ascii	5cf5064f3a17047975ceea471a24926c8a1c0fbfc14b9ec103b68a69cba127f8	14
 16157840	368	d	census:noncode:decode		0
 16158208	192	d	census:noncode:entropy:unplaced		0
 16158400	64	d	census:noncode:decode		0
@@ -14570,20 +14588,20 @@ o	n	k	r	h	x
 16158992	8	d	census:neighbour:noncode_typing_pending		0
 16159000	168	d	census:noncode:decode		0
 16159168	950	d	census:noncode:entropy:unplaced		0
-16160118	10	a	census:format:ascii	00fb0c6b7b9731888a511e249891c53352cb13f93b151b6803e9e7455f467a11	9
+16160118	10	a	census:format:ascii	521a971eb63b313770c9fe578532ad4dad13e8d89ee41e4b0b3f9945e665bb73	14
 16160128	1472	d	census:noncode:entropy:unplaced		0
 16161600	128	d	census:noncode:decode		0
 16161728	44	d	census:noncode:entropy:unplaced		0
-16161772	9	a	census:format:ascii	e4caac71ca29ae33a64441ed773ffebfedfe889b57ecdc9ce0a27045393e63c8	9
+16161772	9	a	census:format:ascii	e6a8a3cd6311bc29eb3dc16fd0858a4ff3ae58bdd74d2d42239ea305f3277fd4	14
 16161781	1227	d	census:noncode:entropy:unplaced		0
 16163008	64	d	census:noncode:decode		0
 16163072	576	d	census:noncode:entropy:unplaced		0
 16163648	640	d	census:noncode:decode		0
 16164288	384	d	census:noncode:entropy:unplaced		0
 16164672	1253	d	census:noncode:decode		0
-16165925	10	a	census:format:ascii	bac53e25cab1593c7e2cf0c55d8f3fb86b3890bbaa70501b1064b8368e5c2b50	9
+16165925	10	a	census:format:ascii	acf260de2e325a03b06247b6ed15dd1e33e95ec3be16b73d0f1a4cdc475c8772	14
 16165935	32	d	census:noncode:decode		0
-16165967	10	a	census:format:ascii	763e9a77f0b6c876081cf7481af042138418322b4cebba5c2ee32c39d2690efb	9
+16165967	10	a	census:format:ascii	0e9b2a9762db945ab8e3bd0da308ece242e254e3ddb7798d1b7e31eb943a11b1	14
 16165977	423	d	census:noncode:decode		0
 16166400	1024	d	census:noncode:entropy:unplaced		0
 16167424	2624	d	census:noncode:decode		0
@@ -14681,7 +14699,7 @@ o	n	k	r	h	x
 16201552	8	d	census:neighbour:noncode_typing_pending		0
 16201560	872	d	census:noncode:decode		0
 16202432	49	d	census:noncode:entropy:unplaced		0
-16202481	9	a	census:format:ascii	94b27a464d25a6264b1221354fe4404364065043b44e547f76f5e852c5c84604	9
+16202481	9	a	census:format:ascii	5682f94ffb628aa71e7fa18e7c8fd88935ca67acaf276a6372cadba4f0bd1d6e	14
 16202490	454	d	census:noncode:entropy:unplaced		0
 16202944	832	d	census:noncode:decode		0
 16203776	704	d	census:noncode:entropy:unplaced		0
@@ -14691,7 +14709,7 @@ o	n	k	r	h	x
 16205504	512	d	census:noncode:entropy:unplaced		0
 16206016	128	d	census:noncode:decode		0
 16206144	879	d	census:noncode:entropy:unplaced		0
-16207023	9	a	census:format:ascii	cc9c841f772cadcedd5bcab85b15211f15a644db0d3f0e248f389bd0c9d42a3f	9
+16207023	9	a	census:format:ascii	8c7b8d5416aa19087a76b0f15d5e3df8e365fcc959eefdd7b929ee3d4753f83c	14
 16207032	72	d	census:noncode:entropy:unplaced		0
 16207104	128	d	census:noncode:decode		0
 16207232	128	d	census:noncode:entropy:unplaced		0
@@ -14730,7 +14748,7 @@ o	n	k	r	h	x
 16220868	188	d	census:noncode:decode		0
 16221056	384	d	census:noncode:entropy:unplaced		0
 16221440	726	d	census:noncode:decode		0
-16222166	10	a	census:format:ascii	ff402ad2028a825ff9ac745993e13b8b0c75d1fbf2f2deb41aa34e86d8710f1c	9
+16222166	10	a	census:format:ascii	cb194332bf75e9999e749804462a30907b25fd4b1239f700bab6998993868987	14
 16222176	544	d	census:noncode:decode		0
 16222720	128	d	census:noncode:entropy:unplaced		0
 16222848	256	d	census:noncode:decode		0
@@ -14750,11 +14768,11 @@ o	n	k	r	h	x
 16228215	27	a	census:format:ascii	4d1ea3af32a2862e22a933e49fbfeb34489f7e5d5da313d35ab3158cb8afe988	9
 16228242	46	d	census:noncode:entropy:unplaced		0
 16228288	53	d	census:noncode:decode		0
-16228341	9	a	census:format:ascii	2f3a5f0db64b8d31eecb3075d89704ce62c1dcfddc533de4946c52adf1f9d6ac	9
+16228341	9	a	census:format:ascii	b6cc1f24e6896c52addd19303a1dca1bcdaaeb9bebad84b5b17b0d8e1571345a	14
 16228350	402	d	census:noncode:decode		0
 16228752	8	d	census:neighbour:noncode_typing_pending		0
 16228760	247	d	census:noncode:decode		0
-16229007	12	a	census:format:ascii	a8a9e3a288a9c2faecb8815b9e74e0bd46efaaa2f842e0c79226ee54469ee436	9
+16229007	12	a	census:format:ascii	34144e63d844bcff24d8f7b8d69a893b273b3dffe073afe48f95945f94e64b03	14
 16229019	61	d	census:noncode:decode		0
 16229080	8	d	census:neighbour:noncode_typing_pending		0
 16229088	96	d	census:noncode:decode		0
@@ -14765,9 +14783,9 @@ o	n	k	r	h	x
 16230400	192	d	census:noncode:entropy:unplaced		0
 16230592	448	d	census:noncode:decode		0
 16231040	1	d	census:noncode:entropy:unplaced		0
-16231041	9	a	census:format:ascii	7fd40ee83d661614a0b25441fc7544ba505cf805acca07c20d51058a02049779	9
+16231041	9	a	census:format:ascii	4792fe262fc29044e629a4eb4b65896075aea6164095f182a8dc6b7b0437aa06	14
 16231050	114	d	census:noncode:entropy:unplaced		0
-16231164	9	a	census:format:ascii	97b5f38c23b60554364e3fa3551452020399112189db0fece865a30b039d63ef	9
+16231164	9	a	census:format:ascii	c6d21a8608149897b3c72db5927695157232cbdb0e36a651b3a330dcb3a04d21	14
 16231173	1275	d	census:noncode:entropy:unplaced		0
 16232448	128	d	census:noncode:decode		0
 16232576	1856	d	census:noncode:entropy:unplaced		0
@@ -14781,28 +14799,28 @@ o	n	k	r	h	x
 16237504	832	d	census:noncode:entropy:unplaced		0
 16238336	512	d	census:noncode:decode		0
 16238848	61	d	census:noncode:entropy:unplaced		0
-16238909	9	a	census:format:ascii	235902347d66a08a7b90e3af520bfff8ee8cc9f5ed2a854ca9c32efa16268b80	9
+16238909	9	a	census:format:ascii	ea03d56a591325fc07edbb9f171efd89df67cdc905f05f01ece870e7e3fd959a	14
 16238918	132	d	census:noncode:entropy:unplaced		0
 16239050	18	a	census:format:ascii	d776b708560f09877c81b2a616d779e22470ad7cf9fc6878e06e30f456fe8ab0	9
 16239068	36	d	census:noncode:entropy:unplaced		0
 16239104	33	d	census:noncode:decode		0
-16239137	9	a	census:format:ascii	3b22e9a8bc3514208b10640e6cf5a8e1ad462193a8e73e18dc7b6a5720c266c4	9
+16239137	9	a	census:format:ascii	f43baef49e48cfdec7ee025808c5014e8c5b48c3fa33684c04fbb598e93552ed	14
 16239146	150	d	census:noncode:decode		0
 16239296	192	d	census:noncode:entropy:unplaced		0
 16239488	1100	d	census:noncode:decode		0
 16240588	8	d	census:neighbour:noncode_typing_pending		0
 16240596	108	d	census:noncode:decode		0
 16240704	123	d	census:noncode:entropy:unplaced		0
-16240827	12	a	census:format:ascii	2aa329073dbfcffae743087bb22f43bfac0f16cc3175ef4ab686e847e5fd6a58	9
+16240827	12	a	census:format:ascii	9b33d019acc75fc5df4284f3e231e2aa9c3d35b3c090ad95dcb1fd77cc8662c1	14
 16240839	68	d	census:noncode:entropy:unplaced		0
-16240907	9	a	census:format:ascii	ccd315d7af0a254d6a4631a1a8430cac4595c1874a48c959a4487fb7b887440a	9
+16240907	9	a	census:format:ascii	62c3ac0f62ec3636a43aa003058442aaa2fc381d0b97121643545a2aa65f1ade	14
 16240916	172	d	census:noncode:entropy:unplaced		0
 16241088	212	d	census:noncode:decode		0
 16241300	12	d	census:neighbour:noncode_typing_pending		0
 16241312	396	d	census:noncode:decode		0
 16241708	12	d	census:neighbour:noncode_typing_pending		0
 16241720	905	d	census:noncode:decode		0
-16242625	9	a	census:format:ascii	9e27f69d3b9fbc86aafad571b4b048ec03282905e2a27c4fb6da63d17b811910	9
+16242625	9	a	census:format:ascii	77e19eaa7b85866f0534a832f0bcbab0a91003e96dde7034eaea3b66baafc152	14
 16242634	202	d	census:noncode:decode		0
 16242836	12	d	census:neighbour:noncode_typing_pending		0
 16242848	124	d	census:noncode:decode		0
@@ -14842,7 +14860,7 @@ o	n	k	r	h	x
 16258916	510	d	census:noncode:decode		0
 16259426	1694	p	census:zero_fill>=16		1
 16261120	484	d	census:noncode:decode		0
-16261604	9	a	census:format:ascii	0e3af95be96a583f13dd4d12cdbe51fefee3d62b93ce6c3478a4359091aa457f	9
+16261604	9	a	census:format:ascii	6f17bd228c9535c867732256e5e8cfced2c6258f2a7a9b479e4fbcf164b5d9ca	14
 16261613	83	d	census:noncode:decode		0
 16261696	320	d	census:noncode:entropy:unplaced		0
 16262016	512	d	census:noncode:decode		0
@@ -14851,7 +14869,7 @@ o	n	k	r	h	x
 16262720	128	d	census:noncode:entropy:unplaced		0
 16262848	192	d	census:noncode:decode		0
 16263040	364	d	census:noncode:entropy:unplaced		0
-16263404	9	a	census:format:ascii	358246a280eee5b7901ec6e6b2eb6b7dfb0a18d1319669b651c34c43b79fbea0	9
+16263404	9	a	census:format:ascii	dab9634de877aac8d9e97fd50516e7735d1554ace8b2258c4c07b86e15a16465	14
 16263413	395	d	census:noncode:entropy:unplaced		0
 16263808	768	d	census:noncode:decode		0
 16264576	384	d	census:noncode:entropy:unplaced		0
@@ -14864,9 +14882,9 @@ o	n	k	r	h	x
 16268060	556	d	census:noncode:decode		0
 16268616	8	d	census:neighbour:noncode_typing_pending		0
 16268624	573	d	census:noncode:decode		0
-16269197	9	a	census:format:ascii	6a543c92001c6d43a69e3caaa3827ade7097c07e28949315b0594e5988bde9ac	9
+16269197	9	a	census:format:ascii	1712e6ce0ab191ebee92a232b5fbd1e0b5c8a089bb7835a18682d84e1842f906	14
 16269206	372	d	census:noncode:decode		0
-16269578	12	a	census:format:ascii	6d7fd99fa578a909bd74fd62311202ab5b169816018795d4b160dbf47f220b13	9
+16269578	12	a	census:format:ascii	aebcf93da38a700f17fcb2ec45f453deb765bacce3196ce9df239ebf2561386e	14
 16269590	3050	d	census:noncode:decode		0
 16272640	1920	d	census:noncode:entropy:unplaced		0
 16274560	64	d	census:noncode:decode		0
@@ -14876,25 +14894,25 @@ o	n	k	r	h	x
 16278208	28	d	census:noncode:decode		0
 16278236	8	d	census:neighbour:noncode_typing_pending		0
 16278244	684	d	census:noncode:decode		0
-16278928	9	a	census:format:ascii	aceaffbedcd7f08562b39eebe3308ab8fadae6aed9cba33b9fc4469aaccc4248	9
+16278928	9	a	census:format:ascii	d63478a009040ef28279c07d024bccc907760c8f2ed28259cf8138e329433205	14
 16278937	1319	d	census:noncode:decode		0
 16280256	3456	d	census:noncode:entropy:unplaced		0
 16283712	1280	d	census:noncode:decode		0
 16284992	8	d	census:neighbour:noncode_typing_pending		0
 16285000	3	d	census:noncode:decode		0
-16285003	12	a	census:format:ascii	a24852df09b67c0e152037fd4de53b5c586022b7280011dd9d556418c203bfd6	9
+16285003	12	a	census:format:ascii	5245b4fa583832f62247335d137bd51b9fefb30ce9aaf96f40f16580f81c2022	14
 16285015	405	d	census:noncode:decode		0
-16285420	9	a	census:format:ascii	467bba22b0c7a41a0c1b0cb43ae373254b55bb2b59e61e496e20943cc214993f	9
+16285420	9	a	census:format:ascii	5602a05acc92e78fe64d01c6485433b8759f5794698c777d4124581e93812681	14
 16285429	71	d	census:noncode:decode		0
-16285500	11	a	census:format:ascii	977eb6211244271886660f7be8b43b1be66f90d20ab088bbd053cacc5349971b	9
+16285500	11	a	census:format:ascii	5e975d9fec016c31b01b65ad86754e2171911975d0e1275648c52d2809b7a560	14
 16285511	1013	d	census:noncode:decode		0
 16286524	8	d	census:neighbour:noncode_typing_pending		0
 16286532	64	d	census:noncode:decode		0
 16286596	8	d	census:neighbour:noncode_typing_pending		0
 16286604	2830	d	census:noncode:decode		0
-16289434	9	a	census:format:ascii	fcb3130ba8acbbe7dcc0972a74357c675fec08c33047c190fff826f69a7cff4d	9
+16289434	9	a	census:format:ascii	7cba6f5a8618a43a6a477904343e00011d1d160ece67b1f04a484e26f0919cca	14
 16289443	108	d	census:noncode:decode		0
-16289551	9	a	census:format:ascii	9fef94cab55017aaa7d1ad4cafd9ff3a6fb84ffda2dae3f424b6569ca99e0d63	9
+16289551	9	a	census:format:ascii	ffc0aa9cff3293c9a98a964f7eb416be4ceab3ce9087137537569aa6e858f082	14
 16289560	90	d	census:noncode:decode		0
 16289650	18	a	census:format:ascii	88ea739900eecc20313c65710c419ee36c4cb7299b63a424944086505eebf844	9
 16289668	444	d	census:noncode:decode		0
@@ -14903,7 +14921,7 @@ o	n	k	r	h	x
 16290880	128	d	census:noncode:entropy:unplaced		0
 16291008	640	d	census:noncode:decode		0
 16291648	73	d	census:noncode:entropy:unplaced		0
-16291721	15	a	census:format:ascii	9e96e52f4d49ee2cf154042ff23bfcb5df6174a6ed07b9a941a140e8511f6905	9
+16291721	15	a	census:format:ascii	aad069a7e1c6894216adfbb2c6f2e7523e8c36ab08e5a7f656d35c08f26ee308	14
 16291736	1448	d	census:noncode:entropy:unplaced		0
 16293184	64	d	census:noncode:decode		0
 16293248	128	d	census:noncode:entropy:unplaced		0
@@ -14914,7 +14932,7 @@ o	n	k	r	h	x
 16295168	128	d	census:noncode:decode		0
 16295296	1088	d	census:noncode:entropy:unplaced		0
 16296384	387	d	census:noncode:decode		0
-16296771	9	a	census:format:ascii	acc706ef5411d51031993c5f742f4c729ee3622e9b3003dbb5afaa1c3f2d91be	9
+16296771	9	a	census:format:ascii	74e260f810fb61dfb805cf8d190f8616b16e0745478ba4a5f6421be14f82718f	14
 16296780	308	d	census:noncode:decode		0
 16297088	512	d	census:noncode:entropy:unplaced		0
 16297600	128	d	census:noncode:decode		0
@@ -14932,21 +14950,21 @@ o	n	k	r	h	x
 16302912	64	d	census:noncode:decode		0
 16302976	192	d	census:noncode:entropy:unplaced		0
 16303168	538	d	census:noncode:decode		0
-16303706	9	a	census:format:ascii	f7bedec940eab1630c11730a83e3b53c38a9dc57bcdb538c6c7384f884cbf0f6	9
+16303706	9	a	census:format:ascii	7f4f836fbc6fb9dbbb3ebe5d827dc148669e16f0247f9504538005a7c69e074d	14
 16303715	477	d	census:noncode:decode		0
 16304192	832	d	census:noncode:entropy:unplaced		0
 16305024	595	d	census:noncode:decode		0
-16305619	9	a	census:format:ascii	0ec059873dd38c02a8d70666a22d8a7e6db4d41140a273f422335c0db9f23162	9
+16305619	9	a	census:format:ascii	cbf389ca5b2f772e7161a64fcdc258dc92a9cc2860f5673bd6b1bcce703d4273	14
 16305628	612	d	census:noncode:decode		0
 16306240	192	d	census:noncode:entropy:unplaced		0
 16306432	64	d	census:noncode:decode		0
 16306496	896	d	census:noncode:entropy:unplaced		0
 16307392	357	d	census:noncode:decode		0
-16307749	9	a	census:format:ascii	dfd35be08a2a68853308d6b49e228566df5d2c34736ccbc1bc9a2210a05e2e0d	9
+16307749	9	a	census:format:ascii	dc605bd8a890531457fc1aaea34881969a45da5dc868edf2f55578532121dfe2	14
 16307758	338	d	census:noncode:decode		0
 16308096	192	d	census:noncode:entropy:unplaced		0
 16308288	154	d	census:noncode:decode		0
-16308442	12	a	census:format:ascii	28c57096f0e8406ff6bb0ea68a66422bfcda9946d0b4f98c0f2acb47ae62360c	9
+16308442	12	a	census:format:ascii	8a12e9584edab2f24f14e934ad7c82c892918f57493f4f1cfd2f59406dae838a	14
 16308454	1306	d	census:noncode:decode		0
 16309760	320	d	census:noncode:entropy:unplaced		0
 16310080	448	d	census:noncode:decode		0
@@ -15014,7 +15032,7 @@ o	n	k	r	h	x
 16330176	320	d	census:noncode:decode		0
 16330496	640	d	census:noncode:entropy:unplaced		0
 16331136	390	d	census:noncode:decode		0
-16331526	9	a	census:format:ascii	8daf163e4d434f8b17906b26f60dec95fb8eeb983e54ed72e0a4c5fc3102f0d1	9
+16331526	9	a	census:format:ascii	74be7292ccd633f6afb3f3f663c9f1fc7b18f6081afedb6f5957632963dc84bf	14
 16331535	1421	d	census:noncode:decode		0
 16332956	8	d	census:neighbour:noncode_typing_pending		0
 16332964	648	d	census:noncode:decode		0
@@ -15024,7 +15042,7 @@ o	n	k	r	h	x
 16335680	12	d	census:noncode:decode		0
 16335692	8	d	census:neighbour:noncode_typing_pending		0
 16335700	684	d	census:noncode:decode		0
-16336384	9	a	census:format:ascii	aceaffbedcd7f08562b39eebe3308ab8fadae6aed9cba33b9fc4469aaccc4248	9
+16336384	9	a	census:format:ascii	d63478a009040ef28279c07d024bccc907760c8f2ed28259cf8138e329433205	14
 16336393	1271	d	census:noncode:decode		0
 16337664	3520	d	census:noncode:entropy:unplaced		0
 16341184	285	d	census:noncode:decode		0
@@ -15152,14 +15170,14 @@ o	n	k	r	h	x
 16377664	324	d	census:noncode:decode		0
 16377988	1916	p	census:zero_fill>=16		1
 16379904	308	d	census:noncode:decode		0
-16380212	9	a	census:format:ascii	0e3af95be96a583f13dd4d12cdbe51fefee3d62b93ce6c3478a4359091aa457f	9
+16380212	9	a	census:format:ascii	6f17bd228c9535c867732256e5e8cfced2c6258f2a7a9b479e4fbcf164b5d9ca	14
 16380221	67	d	census:noncode:decode		0
 16380288	320	d	census:noncode:entropy:unplaced		0
 16380608	576	d	census:noncode:decode		0
 16381184	320	d	census:noncode:entropy:unplaced		0
 16381504	128	d	census:noncode:decode		0
 16381632	380	d	census:noncode:entropy:unplaced		0
-16382012	9	a	census:format:ascii	358246a280eee5b7901ec6e6b2eb6b7dfb0a18d1319669b651c34c43b79fbea0	9
+16382012	9	a	census:format:ascii	dab9634de877aac8d9e97fd50516e7735d1554ace8b2258c4c07b86e15a16465	14
 16382021	379	d	census:noncode:entropy:unplaced		0
 16382400	768	d	census:noncode:decode		0
 16383168	448	d	census:noncode:entropy:unplaced		0
@@ -15174,9 +15192,9 @@ o	n	k	r	h	x
 16387232	100	d	census:noncode:decode		0
 16387332	8	d	census:neighbour:noncode_typing_pending		0
 16387340	465	d	census:noncode:decode		0
-16387805	9	a	census:format:ascii	6a543c92001c6d43a69e3caaa3827ade7097c07e28949315b0594e5988bde9ac	9
+16387805	9	a	census:format:ascii	1712e6ce0ab191ebee92a232b5fbd1e0b5c8a089bb7835a18682d84e1842f906	14
 16387814	372	d	census:noncode:decode		0
-16388186	12	a	census:format:ascii	6d7fd99fa578a909bd74fd62311202ab5b169816018795d4b160dbf47f220b13	9
+16388186	12	a	census:format:ascii	aebcf93da38a700f17fcb2ec45f453deb765bacce3196ce9df239ebf2561386e	14
 16388198	3034	d	census:noncode:decode		0
 16391232	1664	d	census:noncode:entropy:unplaced		0
 16392896	320	d	census:noncode:decode		0
@@ -15184,7 +15202,7 @@ o	n	k	r	h	x
 16395456	512	d	census:noncode:decode		0
 16395968	896	d	census:noncode:entropy:unplaced		0
 16396864	672	d	census:noncode:decode		0
-16397536	9	a	census:format:ascii	aceaffbedcd7f08562b39eebe3308ab8fadae6aed9cba33b9fc4469aaccc4248	9
+16397536	9	a	census:format:ascii	d63478a009040ef28279c07d024bccc907760c8f2ed28259cf8138e329433205	14
 16397545	1303	d	census:noncode:decode		0
 16398848	3456	d	census:noncode:entropy:unplaced		0
 16402304	251	d	census:noncode:decode		0
@@ -15294,17 +15312,17 @@ o	n	k	r	h	x
 16430032	624	d	census:noncode:decode		0
 16430656	256	d	census:noncode:entropy:unplaced		0
 16430912	838	d	census:noncode:decode		0
-16431750	9	a	census:format:ascii	f7bedec940eab1630c11730a83e3b53c38a9dc57bcdb538c6c7384f884cbf0f6	9
+16431750	9	a	census:format:ascii	7f4f836fbc6fb9dbbb3ebe5d827dc148669e16f0247f9504538005a7c69e074d	14
 16431759	433	d	census:noncode:decode		0
 16432192	896	d	census:noncode:entropy:unplaced		0
 16433088	575	d	census:noncode:decode		0
-16433663	9	a	census:format:ascii	0ec059873dd38c02a8d70666a22d8a7e6db4d41140a273f422335c0db9f23162	9
+16433663	9	a	census:format:ascii	cbf389ca5b2f772e7161a64fcdc258dc92a9cc2860f5673bd6b1bcce703d4273	14
 16433672	632	d	census:noncode:decode		0
 16434304	192	d	census:noncode:entropy:unplaced		0
 16434496	64	d	census:noncode:decode		0
 16434560	896	d	census:noncode:entropy:unplaced		0
 16435456	337	d	census:noncode:decode		0
-16435793	9	a	census:format:ascii	dfd35be08a2a68853308d6b49e228566df5d2c34736ccbc1bc9a2210a05e2e0d	9
+16435793	9	a	census:format:ascii	dc605bd8a890531457fc1aaea34881969a45da5dc868edf2f55578532121dfe2	14
 16435802	671	d	census:noncode:decode		0
 16436473	775	p	census:zero_fill>=16		1
 16437248	469	d	census:noncode:decode		0
@@ -15390,9 +15408,9 @@ o	n	k	r	h	x
 16464960	212	d	census:noncode:decode		0
 16465172	748	p	census:zero_fill>=16		1
 16465920	197	d	census:noncode:decode		0
-16466117	9	a	census:format:ascii	6a543c92001c6d43a69e3caaa3827ade7097c07e28949315b0594e5988bde9ac	9
+16466117	9	a	census:format:ascii	1712e6ce0ab191ebee92a232b5fbd1e0b5c8a089bb7835a18682d84e1842f906	14
 16466126	372	d	census:noncode:decode		0
-16466498	12	a	census:format:ascii	6d7fd99fa578a909bd74fd62311202ab5b169816018795d4b160dbf47f220b13	9
+16466498	12	a	census:format:ascii	aebcf93da38a700f17fcb2ec45f453deb765bacce3196ce9df239ebf2561386e	14
 16466510	3058	d	census:noncode:decode		0
 16469568	1792	d	census:noncode:entropy:unplaced		0
 16471360	256	d	census:noncode:decode		0
@@ -15414,9 +15432,9 @@ o	n	k	r	h	x
 16478784	448	d	census:noncode:decode		0
 16479232	1664	d	census:noncode:entropy:unplaced		0
 16480896	461	d	census:noncode:decode		0
-16481357	9	a	census:format:ascii	4c40a45fd6cdf6859cf7bf890d99d14e24bdae755782d545fe39f282b679a163	9
+16481357	9	a	census:format:ascii	b08a369eb6a7b3ec21af9014fa1d98c448a3fedfc15bd4b82d2243935c963067	14
 16481366	57	d	census:noncode:decode		0
-16481423	9	a	census:format:ascii	8ad0c2d8ace5276e56df2f25f5efcc4e26d07c4bc832cd3dc154c93df7032dc0	9
+16481423	9	a	census:format:ascii	89902048aa940fc8f1048acba59be53db0486f189a540aec46e8c733aa671bdc	14
 16481432	488	d	census:noncode:decode		0
 16481920	384	d	census:noncode:entropy:unplaced		0
 16482304	768	d	census:noncode:decode		0
@@ -15588,7 +15606,7 @@ o	n	k	r	h	x
 16593984	216	d	census:noncode:decode		0
 16594200	745	p	census:zero_fill>=16		1
 16594945	2798	d	census:noncode:decode		0
-16597743	11	a	census:format:ascii	49e3caead81e890a1685a508ab7f84a6b9a22b05a92c5e9f75e4d4cea180773f	9
+16597743	11	a	census:format:ascii	a3ebdcbcbb66c6af2ba11fa5f4bb1b61b0491097a8cda713763108d5a4f92031	14
 16597754	3538	d	census:noncode:decode		0
 16601292	8	d	census:neighbour:noncode_typing_pending		0
 16601300	968	d	census:noncode:decode		0
@@ -15654,47 +15672,47 @@ o	n	k	r	h	x
 16634239	32	d	census:noncode:decode		0
 16634271	96	a	census:format:sjis	89969310f56cf8917b734043616fe6662d2470db4c906e2a4b7f090e4b0a51f3	4
 16634367	26	d	census:noncode:decode		0
-16634393	9	a	census:format:ascii	bb41ec55bef1acb939e3aee0ffc49a26d93d1fe6e29b2bb164f9c768da1b7714	9
+16634393	9	a	census:format:ascii	6a3cde02a7797c2fba19169c9ff89c58d53293862d84b9c8c54d794fb4bbf48a	14
 16634402	9	d	census:noncode:decode		0
 16634411	18	a	census:format:ascii	f23b687f2338b96275c64681bf23018ad17c61754cfdde811c302dbc7ea778b8	9
 16634429	45	d	census:noncode:decode		0
-16634474	9	a	census:format:ascii	542f16730b891d24f9f6ea7874f6ac32551428ce40f9dcd12ef4598d619de7c6	9
+16634474	9	a	census:format:ascii	431a221309b21c0497933bfaf7055ec61204398481e6baf60e6068cc441e1afa	14
 16634483	279	d	census:noncode:decode		0
-16634762	9	a	census:format:ascii	66bbd37c73ccb28a6ecaa46e79a06b6e5b706ed5c0152c84261cf6ebee18639e	9
+16634762	9	a	census:format:ascii	f9feffef6c871088436aea15a631570a71747171941c42bc903fbc1b08558ab3	14
 16634771	123	d	census:noncode:decode		0
-16634894	9	a	census:format:ascii	87a560d6d24355a0cb5eb1651f94ab525be78486898149fd8687b8faec4a2e0a	9
+16634894	9	a	census:format:ascii	add6df0d7f759e06d06aba08e401e4e46fe40207c92bb9855865511e95d3837a	14
 16634903	357	d	census:noncode:decode		0
 16635260	21	a	census:format:ascii	8184ef2bd375d3ba7757e4ec14b9c2be93367d79f45f8112fead194c2b239d33	9
 16635281	45	d	census:noncode:decode		0
 16635326	21	a	census:format:ascii	138a5f84ef9742921efed3ad22b7aa261517006eac81834d7705c29a7b612024	9
 16635347	1377	d	census:noncode:decode		0
-16636724	9	a	census:format:ascii	1228d750f61ff282c2aaf73344d7f0f664345cae69c210495b9e93c62b524042	9
+16636724	9	a	census:format:ascii	ea50f402954dff062b91cda2d1d84a1167cd9c1c2d154afd5ea743b3f3bbd941	14
 16636733	57	d	census:noncode:decode		0
 16636790	24	a	census:format:ascii	a1133d72c197993964e776792fc9dc984ed53fd2f594f181bb82da90d2640f4a	9
 16636814	30	d	census:noncode:decode		0
-16636844	9	a	census:format:ascii	be844d497e3993690fb90734a66dce03f606e99a6b406656c3454fd757d99168	9
+16636844	9	a	census:format:ascii	20346869cafcc5ef63428c49cce6811f99c77e8f15e186a8d288a0067b3bd2b5	14
 16636853	642	d	census:noncode:decode		0
-16637495	9	a	census:format:ascii	f37dcf5261a43bc1f9cc8e29d1b6aaeacbadc173b460443fc7e42eae54b444d2	9
+16637495	9	a	census:format:ascii	1a7158029270f1a47ecdcda17e377e91c8ae8ca37ef4b5136f47429878cd374b	14
 16637504	348	d	census:noncode:decode		0
-16637852	9	a	census:format:ascii	cb41a4b79bcfb29d912e44a097d5be46726bb4abe4b2f84b2d312ede52d943a7	9
+16637852	9	a	census:format:ascii	7e78664c405e3414efd64bba778078914901bc9aa3908261dcfe987c1ec8d239	14
 16637861	345	d	census:noncode:decode		0
-16638206	9	a	census:format:ascii	57b0b39f2c8e90b0426e30185907b3a243934de13e84210af6fe18c4b3055872	9
+16638206	9	a	census:format:ascii	8c667cd417db3cddb076c91c08d7a191159e20849c4f0a386966926b193261a1	14
 16638215	54	d	census:noncode:decode		0
-16638269	9	a	census:format:ascii	a4dd13e6be9d9285feec6049d9540141b2d2bff76ec24b9135244ed91396d0d6	9
+16638269	9	a	census:format:ascii	ef94c7c89750e60e86e4e09eff59dd501d4a4d3bc7033f995674fa9708804915	14
 16638278	1287	d	census:noncode:decode		0
-16639565	9	a	census:format:ascii	72aa75cdb17b03a5cbd4fd3f628f90f0e84ea347d685088cd417217d802f2fa4	9
+16639565	9	a	census:format:ascii	65d66404e6028b901e344dfb460510b16d00eb72976d4cabebced42e2dc51e86	14
 16639574	339	d	census:noncode:decode		0
-16639913	9	a	census:format:ascii	1a94d567e1fc15f0f7200aef6d7f4a1359d5bed2002c1409206f83d30ac83348	9
+16639913	9	a	census:format:ascii	81b7d17256ae6952857c03ced2b17449c67f2182b6bc3396c6be4e478ede21d8	14
 16639922	506	d	census:noncode:decode		0
 16640428	8	d	census:neighbour:noncode_typing_pending		0
 16640436	48	d	census:noncode:decode		0
 16640484	12	d	census:neighbour:noncode_typing_pending		0
 16640496	23	d	census:noncode:decode		0
-16640519	9	a	census:format:ascii	3a2c0df86ff69a6bf650ab25604e6d1d8ef02c2e74a42c4d919216b4b0997c8e	9
+16640519	9	a	census:format:ascii	b4b30f1df47312b5deb4a780849960f97c3859eecaeaf2e33809eb8b4d185a9d	14
 16640528	108	d	census:noncode:decode		0
-16640636	9	a	census:format:ascii	2b7fcbf5a378b40c127ddece30ed7b3374be06369a9a61f0ab62422e77876164	9
+16640636	9	a	census:format:ascii	cd562911b1b6e4c2cabd70fff5fbedb031f7c8396b9818f58fee7225660904d9	14
 16640645	97	d	census:noncode:decode		0
-16640742	11	a	census:format:ascii	156bfbc4e1b4ee98297ad1d39ab2aece4060f686ea23b1cb9b91a0ea57b7fe84	9
+16640742	11	a	census:format:ascii	659f4adaf5bcaf26c62e008f67e436ab688fe79c4e2fc5f97b659800407c1cbf	14
 16640753	451	d	census:noncode:decode		0
 16641204	12	d	census:neighbour:noncode_typing_pending		0
 16641216	220	d	census:noncode:decode		0
@@ -15714,13 +15732,13 @@ o	n	k	r	h	x
 16644672	192	d	census:noncode:decode		0
 16644864	512	d	census:noncode:entropy:unplaced		0
 16645376	516	d	census:noncode:decode		0
-16645892	9	a	census:format:ascii	21a433b2a9a02e936bff32b8fff54e787742d61cca5bb4d1ac3479a6cd93f5ca	9
+16645892	9	a	census:format:ascii	986256d80a1f150fe74a78964cd1365f49f9f7712b23080be83b7396d6dae156	14
 16645901	687	d	census:noncode:decode		0
-16646588	9	a	census:format:ascii	94680e36c45d4e1dd82729a9a90ff1818c88e5b83f4689856925e208f50f2632	9
+16646588	9	a	census:format:ascii	c1170fe84542e555fec3e72e258d9f5d2b7bf59714e21019f4df7309e0630b0b	14
 16646597	59	d	census:noncode:decode		0
 16646656	448	d	census:noncode:entropy:unplaced		0
 16647104	936	d	census:noncode:decode		0
-16648040	9	a	census:format:ascii	4b1c1af4f7d231d33633066e574fcb54c8507342fb7c5503bd57712732f817d8	9
+16648040	9	a	census:format:ascii	4d7bd27af67e22b7d218adfa75c6005842545e8c1d2657b9ab71ee2ea2d15f50	14
 16648049	106	d	census:noncode:decode		0
 16648155	39	p	census:zero_fill>=16		1
 16648194	104	d	census:noncode:decode		0
@@ -15734,19 +15752,19 @@ o	n	k	r	h	x
 16648703	257	d	census:noncode:decode		0
 16648960	512	d	census:noncode:entropy:unplaced		0
 16649472	1228	d	census:noncode:decode		0
-16650700	9	a	census:format:ascii	2756c1ead2f95cba8c6f4cc3a61a4cea86dfa6a3ff24b8ae45ed0321475fda74	9
+16650700	9	a	census:format:ascii	70cd18e4a452cf906d2ca70274b618fdd3726d3c5c36f5a73f7769521d7a6fd3	14
 16650709	87	d	census:noncode:decode		0
 16650796	8	d	census:neighbour:noncode_typing_pending		0
 16650804	377	d	census:noncode:decode		0
 16651181	18	a	census:format:ascii	a131f76279a22b0eb83e8bd92f2d9ea83a7f32e085a267704b104d22b8c12b51	9
 16651199	144	d	census:noncode:decode		0
-16651343	9	a	census:format:ascii	b024ef038701f7741ba7030ff6f6af1686c2312058bd4444d82f49e65520cbb0	9
+16651343	9	a	census:format:ascii	6c940ffd5cfeb677b65d56333bd44f444c508c8f2a9bfa228f0bd0a2592d6e77	14
 16651352	140	d	census:noncode:decode		0
 16651492	8	d	census:neighbour:noncode_typing_pending		0
 16651500	458	d	census:noncode:decode		0
-16651958	9	a	census:format:ascii	d2ee886727382cd85d068781d3879f27fe6a139e19af806be4116ac2277632e6	9
+16651958	9	a	census:format:ascii	499040556d68042b082acc591772ae0763858c115c494215b54fe47687db8f04	14
 16651967	24	d	census:noncode:decode		0
-16651991	9	a	census:format:ascii	bdae10084b2efe272c89c711378f1c9817a72454de4ea1edaec63082c0c42fe6	9
+16651991	9	a	census:format:ascii	e34ed835bbb9b38b00c79906bd20ae82a3c947ec82ae812e54b9b19fe1923ac1	14
 16652000	272	d	census:noncode:decode		0
 16652272	8	d	census:neighbour:noncode_typing_pending		0
 16652280	2312	d	census:noncode:decode		0
@@ -15760,13 +15778,13 @@ o	n	k	r	h	x
 16657472	304	d	census:noncode:decode		0
 16657776	8	d	census:neighbour:noncode_typing_pending		0
 16657784	60	d	census:noncode:decode		0
-16657844	9	a	census:format:ascii	93b33bbf936d837693caa83c577f510d0a375cba250962fd2c1421a4e745f541	9
+16657844	9	a	census:format:ascii	b22804bc8b7a2802233962ebf80bcf0486098e074bf22d69e6bda97e5de8ec80	14
 16657853	183	d	census:noncode:decode		0
 16658036	8	d	census:neighbour:noncode_typing_pending		0
 16658044	884	d	census:noncode:decode		0
 16658928	8	d	census:neighbour:noncode_typing_pending		0
 16658936	12	d	census:noncode:decode		0
-16658948	9	a	census:format:ascii	bc5b3998ce65b38f25d9760aef7d696eaaa088c0a05e570a8aa8345a71e1e746	9
+16658948	9	a	census:format:ascii	87757e159a8f235f977a74f7f95a5bb26ab7d01a42993532aedf5b4b520e2fa9	14
 16658957	1075	d	census:noncode:decode		0
 16660032	1088	d	census:noncode:entropy:unplaced		0
 16661120	171	d	census:noncode:decode		0
@@ -15840,7 +15858,7 @@ o	n	k	r	h	x
 16700352	472	d	census:noncode:decode		0
 16700824	8	d	census:neighbour:noncode_typing_pending		0
 16700832	1721	d	census:noncode:decode		0
-16702553	9	a	census:format:ascii	47609495ce2593c4639a241270c37dfd6992189ad4a313346b12852f61435009	9
+16702553	9	a	census:format:ascii	8337677c570f92c2bc78de1ec4edd97e5f055a834a3883975f19838ad6b160d0	14
 16702562	798	d	census:noncode:decode		0
 16703360	256	d	census:noncode:entropy:unplaced		0
 16703616	228	d	census:noncode:decode		0
@@ -16039,7 +16057,7 @@ o	n	k	r	h	x
 16818176	1088	d	census:noncode:decode		0
 16819264	128	d	census:noncode:entropy:unplaced		0
 16819392	459	d	census:noncode:decode		0
-16819851	10	a	census:format:ascii	bd048fbda37c0fd7c1fc4160e426ffa884619c03b44fada622e505fd3b38eef1	9
+16819851	10	a	census:format:ascii	68c4757dd0a29d711d3aa26ab934f8fd7c3e25eb3235e3f70eae1f43cfebc879	14
 16819861	107	d	census:noncode:decode		0
 16819968	640	d	census:noncode:entropy:unplaced		0
 16820608	448	d	census:noncode:decode		0

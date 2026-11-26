@@ -5,8 +5,8 @@
 #include "town/player/state.h"
 #include "town.h"
 #include "town/scene/component_values_data.h"
+#include "town/player.h"
 
-extern s32 record_value_table_contains(s32 target_value); /* placed copy of record_value_table_contains */
 extern s32 *D_80017B6C;
 
 /* Set the active data pointer and process entries for the two checks for index 7. */

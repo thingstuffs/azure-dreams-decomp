@@ -18,6 +18,7 @@
 #include "town/map.h"
 #include "town/minigame/object.h"
 #include "town/player.h"
+#include "town/player/state.h"
 
    /* root in update_collection_cutscene_step */
 
@@ -76,7 +77,6 @@ extern u8 town_interaction_action_address[];
 
 extern void create_paired_vector_color_effect(void *, TownPos *, s32 *, TownCollectionSequence *);
 extern void return_zero_variadic(void *, s32);
-extern void stop_scene_player_and_defer_action_setup(void);
 
 /* Town cutscene step machine: the 0x36 stage byte selects this frame's work -- seed the camera motion, run each animation phase in turn, and once past stage 4 clamp the camera to its limits. */
 void update_collection_cutscene_step(TownCollectionSequence *scene)

@@ -48,11 +48,13 @@ def window_files(root, container, start, end):
 def extract_slice(container, entry, target):
     """Publish one verified extractor slice; a bad hash preserves prior output."""
     target = Path(target)
+    hash_size = entry.get('hash_size', entry['size'])
     with Path(container).open('rb') as stream:
         stream.seek(entry['foff'])
-        blob = stream.read(entry['size'])
-    if len(blob) != entry['size'] or hashlib.sha256(blob).hexdigest() != entry['sha256']:
+        blob = stream.read(hash_size)
+    if len(blob) != hash_size or hashlib.sha256(blob).hexdigest() != entry['sha256']:
         raise ValueError('linker-owned word SHA-256 differs at 0x%X' % entry['foff'])
+    blob = blob[:entry['size']]
     target.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.NamedTemporaryFile(dir=target.parent, prefix='.word-', delete=False) as stream:
         temp = Path(stream.name)

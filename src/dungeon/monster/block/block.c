@@ -1384,12 +1384,12 @@ void remove_defeated_block(ActorRecord *state,ObjectPosition *position,SpriteFra
 }
 
 /* Runs the shared hop and shrink sequence for the actor with the supplied callback arguments. */
-void shrink_hopping_block(void *state,void *position,void *render_state,void *entity) {
+void shrink_hopping_block(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity) {
     update_actor_hop_and_shrink(state,position,render_state,entity);
 }
 
 /* Runs the shared actor removal sequence with the supplied callback arguments. */
-void advance_block_removal(void *state,void *position,void *render_state,void *entity) {
+void advance_block_removal(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity) {
     advance_actor_removal(state,position,render_state,entity);
 }
 
@@ -1787,7 +1787,7 @@ void project_visible_effect_quad(CB_80173E40_S_80173E40_6 *body, ObjectPosition 
     GameWork *render_state_ptr = &g_game_work;
     MATRIX current_matrix;
 
-    scratch->ordering_table = (u32 *)&((GpuContext *)g_game_work.draw_buffer)->orderTag;
+    scratch->ordering_table = &((GpuContext *)g_game_work.draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->local_matrix.t[0] = position->x.w.i;
     scratch->local_matrix.t[1] = position->y.w.i;
     scratch->local_matrix.t[2] = position->z.w.i;
@@ -1816,9 +1816,9 @@ void project_visible_effect_quad(CB_80173E40_S_80173E40_6 *body, ObjectPosition 
     SetDrawMode(mode, 0, 0, texture_page, 0);
 
     mode->tag = (mode->tag & 0xFF000000) |
-        (((GpuContext *)g_game_work.draw_buffer)->orderTag & 0x00FFFFFF);
-    ((GpuContext *)g_game_work.draw_buffer)->orderTag =
-        (((GpuContext *)g_game_work.draw_buffer)->orderTag & 0xFF000000) |
+        (((GpuContext *)g_game_work.draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE] & 0x00FFFFFF);
+    ((GpuContext *)g_game_work.draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE] =
+        (((GpuContext *)g_game_work.draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE] & 0xFF000000) |
         ((u32)mode & 0x00FFFFFF);
 
     {
@@ -1868,13 +1868,13 @@ void project_visible_effect_quad(CB_80173E40_S_80173E40_6 *body, ObjectPosition 
             }
 
             {
-                /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+                /* BYTES: Each loaded vertex color is written together with its command or padding byte. Separate members generate four byte stores. */
                 *(u32 *)&packet->red0 = body->unk_04;
-                /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+                /* BYTES: Each loaded vertex color is written together with its command or padding byte. Separate members generate four byte stores. */
                 *(u32 *)&packet->red1 = body->unk_08;
-                /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+                /* BYTES: Each loaded vertex color is written together with its command or padding byte. Separate members generate four byte stores. */
                 *(u32 *)&packet->red2 = body->unk_0C;
-                /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+                /* BYTES: Each loaded vertex color is written together with its command or padding byte. Separate members generate four byte stores. */
                 *(u32 *)&packet->red3 = body->unk_10;
             }
             SetPolyG4(packet);

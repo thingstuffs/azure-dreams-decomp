@@ -35,7 +35,7 @@ void load_catalog_detail_texture(CatalogDisplay *loader_arg)
                       catalog_texture_resources[loader->unk_13][1]);
         Control_CD(6, catalog_texture_request, 0);
         loader->unk_0D = 0;
-        Control_CD(0xFF, resource_completion_callback_address, (u8 *)loader + 0xD);
+        Control_CD(0xFF, resource_completion_callback_address, &loader->unk_0D);
         loader->unk_0B++;
     }
     if (loader->unk_0D == 0) {

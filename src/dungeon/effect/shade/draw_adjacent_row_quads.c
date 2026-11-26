@@ -108,22 +108,22 @@ s32 draw_adjacent_row_quads(void)
 
                 if (scratch->index < 0x1E0U) {
                     if ((quad_index % 32) < 16) {
-                        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+                        /* BYTES: Each vertex RGB value and its following byte are stored together in one word. Separate members write the bytes individually. */
                         *(u32 *)&quad->red1 = row_quad_top_color;
-                        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+                        /* BYTES: Each vertex RGB value and its following byte are stored together in one word. Separate members write the bytes individually. */
                         *(u32 *)&quad->red0 = row_quad_top_color;
-                        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+                        /* BYTES: Each vertex RGB value and its following byte are stored together in one word. Separate members write the bytes individually. */
                         *(u32 *)&quad->red3 = row_quad_bottom_color;
-                        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+                        /* BYTES: Each vertex RGB value and its following byte are stored together in one word. Separate members write the bytes individually. */
                         *(u32 *)&quad->red2 = row_quad_bottom_color;
                     } else {
-                        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+                        /* BYTES: Each vertex RGB value and its following byte are stored together in one word. Separate members write the bytes individually. */
                         *(u32 *)&quad->red3 = row_quad_top_color;
-                        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+                        /* BYTES: Each vertex RGB value and its following byte are stored together in one word. Separate members write the bytes individually. */
                         *(u32 *)&quad->red2 = row_quad_top_color;
-                        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+                        /* BYTES: Each vertex RGB value and its following byte are stored together in one word. Separate members write the bytes individually. */
                         *(u32 *)&quad->red1 = row_quad_bottom_color;
-                        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+                        /* BYTES: Each vertex RGB value and its following byte are stored together in one word. Separate members write the bytes individually. */
                         *(u32 *)&quad->red0 = row_quad_bottom_color;
                     }
 

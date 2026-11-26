@@ -128,7 +128,7 @@ class Census(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td);binary=root/C.FILES['main'];binary.parent.mkdir(parents=True);binary.write_bytes(bytes(range(16)))
             source=root/'source.c';source.write_text('int value;')
-            rec=dict(container='main',foff=0,size=4,source='source.c',source_sha256=hashlib.sha256(source.read_bytes()).hexdigest(),bytes_sha256=hashlib.sha256(bytes(range(4))).hexdigest())
+            rec=dict(container='main',foff=0,size=4,source='source.c',source_sha256=hashlib.sha256(source.read_bytes()).hexdigest(),bytes_sha256=hashlib.sha256(bytes(range(16))).hexdigest())
             records=root/'reads.jsonl';records.write_text(json.dumps(rec)+'\n'+json.dumps(rec)+'\n')
             original=Path.read_bytes;reads=[]
             def measured(p):
@@ -145,12 +145,12 @@ class Census(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td);source=root/'source.c';source.write_text('synthetic matched reader')
             word=struct.pack('<I',0x8c220000)
-            blob=word+bytes(4)+b'abcd'
+            blob=word+bytes(4)+b'abcd'+bytes(12)
             binary=root/C.FILES['main'];binary.parent.mkdir(parents=True);binary.write_bytes(blob)
             record=dict(container='main',foff=8,size=4,source='source.c',
                         source_sha256=hashlib.sha256(source.read_bytes()).hexdigest(),
-                        bytes_sha256=hashlib.sha256(b'abcd').hexdigest(),read_foff=0,
-                        read_sha256=hashlib.sha256(word).hexdigest())
+                        bytes_sha256=hashlib.sha256(blob[8:24]).hexdigest(),read_foff=0,
+                        read_sha256=hashlib.sha256(blob[:16]).hexdigest())
             proof=root/'reads.jsonl'
             def apply(rec,matched=True):
                 proof.write_text(json.dumps(rec)+'\n');layers,_=self.inputs()
@@ -159,6 +159,8 @@ class Census(unittest.TestCase):
             self.assertEqual(apply(record)[0]['records'],1)
             with self.assertRaisesRegex(AssertionError,'instruction changed'):
                 apply(dict(record,read_sha256='0'*64))
+            with self.assertRaisesRegex(AssertionError,'read evidence bytes changed'):
+                apply(dict(record,bytes_sha256=hashlib.sha256(b'abcd').hexdigest()))
             with self.assertRaisesRegex(AssertionError,'outside matched C'):apply(record,False)
             arithmetic=struct.pack('<I',0x24420001)
             binary.write_bytes(arithmetic+blob[4:])

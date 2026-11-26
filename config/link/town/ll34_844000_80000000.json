@@ -33,7 +33,7 @@
         "0x807026C0": "0x807026C0",
         "0x80702714": "0x80702714"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_844760_80000760 (same load delta) so the merged file's members share one view"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; TU view gather: moved from town/ll34_844760_80000760 (same load delta) so the merged file's members share one view"
     },
     {
       "row": "town/func_808C47F0",
@@ -54,7 +54,7 @@
         "0x807026C0": "0x807026C0",
         "0x80702714": "0x80702714"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_8447f0_800007f0 (same load delta) so the merged file's members share one view"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; TU view gather: moved from town/ll34_8447f0_800007f0 (same load delta) so the merged file's members share one view"
     },
     {
       "row": "town/func_808C4884",
@@ -63,7 +63,7 @@
       "foff": "0x844884",
       "vma": "0x80000884",
       "size": 112,
-      "evidence": "docs/evidence/r141w_town_dev.md"
+      "evidence": "Recorded in the production link map."
     },
     {
       "row": "town/func_808C4B40",
@@ -80,7 +80,7 @@
         "0x807026C0": "0x807026C0",
         "0x80702714": "0x80702714"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_844b40_80000b40 (same load delta) so the merged file's members share one view"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; TU view gather: moved from town/ll34_844b40_80000b40 (same load delta) so the merged file's members share one view"
     },
     {
       "row": "town/func_808C4B90",
@@ -97,7 +97,7 @@
         "0x80702670": "0x80702670",
         "0x80702714": "0x80702714"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_844b90_80000b90 (same load delta) so the merged file's members share one view"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; TU view gather: moved from town/ll34_844b90_80000b90 (same load delta) so the merged file's members share one view"
     },
     {
       "row": "town/func_808C4BE4",
@@ -114,7 +114,7 @@
         "0x80702670": "0x80702670",
         "0x807026C0": "0x807026C0"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_844be4_80000be4 (same load delta) so the merged file's members share one view"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; TU view gather: moved from town/ll34_844be4_80000be4 (same load delta) so the merged file's members share one view"
     },
     {
       "row": "town/func_808C4C8C",
@@ -133,7 +133,7 @@
         "0x807026C0": "0x807026C0",
         "0x80702714": "0x80702714"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_844c8c_80000c8c (same load delta) so the merged file's members share one view"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; TU view gather: moved from town/ll34_844c8c_80000c8c (same load delta) so the merged file's members share one view"
     }
   ]
 }

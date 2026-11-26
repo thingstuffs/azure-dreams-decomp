@@ -41,7 +41,7 @@ typedef s32 R03_80170854_M2C_UNK;
 
 
 
-typedef void (*R03_80170A28_EntityCallback)(void *, void *, void *, void *);
+typedef ActorActionHandler R03_80170A28_EntityCallback;
 
 typedef struct R03_8017139C_S_8017139C_2 {
     u8 pad_00[0x8C];
@@ -214,8 +214,8 @@ void advance_dragon_attack(ActorRecord *body, ObjectPosition *position, SpriteFr
 void cast_dragon_targeted_spell(ActorRecord *body, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor);
 void damp_dragon_motion_and_recenter(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *source);
 void remove_defeated_dragon(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-void shrink_hopping_dragon(void *state, void *motion, void *position, void *actor);
-void advance_dragon_removal(void *state, void *motion, void *position, void *actor);
+void shrink_hopping_dragon(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
+void advance_dragon_removal(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void finish_dragon_hop_and_grow(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void wait_dragon_status_and_animate(ActorRecord *in_controller, ObjectPosition *in_context, SpriteFrameState *sprite, ActorRecord *in_actor);
 void wait_for_dragon_mp(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);

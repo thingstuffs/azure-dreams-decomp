@@ -15,7 +15,6 @@ typedef struct S_800B260C_1 {
 extern void SD_Call(s32);
 extern void update_active_entry_and_notify_handlers(ItemMenuInputObject *state, s32 input);
 extern void decrement_entry_and_notify_handlers(ItemMenuInputObject *);
-extern s32 move_item_to_list(ItemMenuInputObject *);
 
 /* Handles menu button actions and directional cursor movement with key repeat. */
 void handle_item_move_menu_input(ItemMenuInputObject *menu) {

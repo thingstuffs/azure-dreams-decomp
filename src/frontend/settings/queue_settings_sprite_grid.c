@@ -47,14 +47,14 @@ s32 queue_settings_sprite_grid(SettingsMenuBody *entry, ObjectPosition *position
                 sprite->height = 0x100;
                 sprite->texture.packed = 0;
                 sprite->clut = GetClut(0, 0x1F0);
-                addPrim(&main_state->context->orderTag82C, sprite);
+                addPrim(&main_state->context->orderTag[495], sprite);
 
                 draw_mode = main_state->context->packetCursor;
                 main_state->context->packetCursor = draw_mode + 1;
                 texture_page = GetTPage(1, 0, texture_x, base_y);
                 SetDrawMode(draw_mode, 0, 0, texture_page & 0xFFFF, 0);
                 column--;
-                addPrim(&main_state->context->orderTag82C, draw_mode);
+                addPrim(&main_state->context->orderTag[495], draw_mode);
                 texture_x -= 0x80;
             } while (column >= 0);
             row++;

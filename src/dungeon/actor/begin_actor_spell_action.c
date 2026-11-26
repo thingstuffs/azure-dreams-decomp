@@ -82,7 +82,7 @@ void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState 
                 }
             }
 
-            slot_flags = (u16 *)((u8 *)object + 0x46);
+            slot_flags = &object->action_flags;
             if (!(*slot_flags & 0x4000)) {
                 slot_offset = *slot_flags;
                 slot_offset &= 0x3FFF;

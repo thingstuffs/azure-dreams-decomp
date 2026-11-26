@@ -23,7 +23,7 @@
         "0x80083460": "0x80083460",
         "0x8017276C": "0x801727B0"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     }
   ],
   "load_evidence": {

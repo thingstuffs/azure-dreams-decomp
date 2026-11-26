@@ -21,7 +21,6 @@ extern void advance_entity_along_stored_path(ActorRecord *body, ObjectPosition *
 extern void choose_griffon_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 /* Bank copy of update_kewne_parent_motion. */
 extern void func_801743E8(void *, ObjectPosition *, SpriteFrameState *, ActorRecord *);
-void begin_saber_action_and_spend_turn(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor);
 
 #include "dungeon/monster/saber.h"
 #include "dungeon/item.h"

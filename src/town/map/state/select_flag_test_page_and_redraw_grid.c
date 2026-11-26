@@ -2,7 +2,7 @@
 #include "common.h"
 #include "town/devkit.h"
 #include "town/map/state.h"
-void func_80700674(void);                            /* extern */
+#include "town/devkit/flag_test_imports.h"
 
 /* Devkit flag-test entry: select page 0, redraw the grid, then run the flag scan. */
 s32 select_flag_test_page_and_redraw_grid(void) {

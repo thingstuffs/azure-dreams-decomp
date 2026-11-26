@@ -18,8 +18,8 @@ typedef struct LinkedPointScratch {
     u8 pad1C[4];
     u32 *ot;
     u8 pad24[0x6C];
-    u32 xy;
-    u32 depth;
+    s32 xy;
+    s32 depth;
     u8 pad98[0x28];
     u32 index;
 } LinkedPointScratch;
@@ -122,7 +122,7 @@ void update_attached_fading_effect(struct ActorValuePopupBody *effect, ObjectPos
 struct OrbitRingSpell;
 struct SpellMotion;
 void update_orbit_ring_spell(struct OrbitRingSpell *spell, struct SpellMotion *motion, SpriteFrameState *sprite);
-/* The callback at 0x80024714 reads only a0. */
+/* The callback at 0x80024714 reads only its first argument. */
 s32 draw_rippled_screen_strips(void *entry);
 
 #endif

@@ -16,7 +16,7 @@
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"
 #include "shared/sprite_frame_state.h"
-void init_actor_action_state(TownObjectRecord *record, void *ptr, void *ptr2);
+#include "town/player/action_initializers.h"
 
 
 

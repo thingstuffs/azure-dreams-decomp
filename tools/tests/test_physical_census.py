@@ -1,12 +1,31 @@
 import struct
 import tempfile
 import unittest
+from pathlib import Path
 
 from tools import physical_census as census
 from tools import monster_bank_loads
 
 
 class PhysicalCensusTests(unittest.TestCase):
+    def test_spawn_tables_contribute_to_declared_bytes(self):
+        report = {'dungeon': {'classes': {'dungeon_floor_spawn_table_read': 2048}}}
+        self.assertEqual(census.headline(report),
+                         '0 bytes with C, 0 bytes with a checked class, '
+                         '2,048 bytes with a declared class, 0 bytes unclassed')
+
+    def test_summary_rejects_changed_classes_even_when_file_total_is_equal(self):
+        report = {'town': dict(file_bytes=24, classes={'c_text': 8, 'unclassed': 16},
+                               c_placement_bytes=0)}
+        with tempfile.TemporaryDirectory() as temporary:
+            summary = Path(temporary) / 'coverage.tsv'
+            summary.write_text(census.table(report))
+            census.check_summary(report, summary)
+            report['town']['classes']['c_text'] += 4
+            report['town']['classes']['unclassed'] -= 4
+            with self.assertRaisesRegex(ValueError, 'class totals differ'):
+                census.check_summary(report, summary)
+
     def test_overlap_in_copy_views_counts_once(self):
         owned, unclassed = census.partition(24, {
             'c_text': [[4, 16], [8, 16]], 'c_data': [[16, 20]],
@@ -55,8 +74,8 @@ Linker script and memory map
         start = (lba - 0x3016) * 0x800
         end = start + monster_bank_loads.BANK_BYTES
         data = bytearray(end)
-        data[start:start+4] = (0x80170800 + 8).to_bytes(4, 'little')
-        loader = dict(foff=0, size=4, sha256=monster_bank_loads.digest(data[:4]))
+        data[start:start+4] = (0x80170804).to_bytes(4, 'little')
+        loader = dict(foff=0, size=16, sha256=monster_bank_loads.digest(data[:16]))
         slot = dict(resource_id=1, slot=0, sectors=12, lba=lba, destination=0x80170800,
                     file_start=start, file_end=end, delta=0x80170800-start, disc_container_equal=True,
                     bank_sha256=monster_bank_loads.digest(data[start:end]))
@@ -70,17 +89,22 @@ Linker script and memory map
         data[start+8] ^= 1
         with self.assertRaisesRegex(ValueError, 'disc bytes'):
             check(record, data, loader)
+        for entry in (0, 0x80176800):
+            data[start:start+4] = entry.to_bytes(4, 'little')
+            forged = dict(slot, bank_sha256=monster_bank_loads.digest(data[start:end]))
+            with self.assertRaisesRegex(ValueError, 'outside its load window'):
+                check(dict(record, slot_load=forged), data, loader)
 
     def test_monster_bank_entry_word_must_be_an_aligned_window_address(self):
         lba = 0x4340
         start = (lba - 0x3016) * 0x800
         end = start + monster_bank_loads.BANK_BYTES
-        loader = dict(foff=0, size=4, sha256=monster_bank_loads.digest(bytes(4)))
+        loader = dict(foff=0, size=16, sha256=monster_bank_loads.digest(bytes(16)))
         for word in (17, 0x80170800 + 2, 0x80170800 + monster_bank_loads.BANK_BYTES, 0):
             with self.subTest(word=word):
                 data = bytearray(end)
                 data[start:start+4] = word.to_bytes(4, 'little')
-                data[:4] = bytes(4)
+                data[:16] = bytes(16)
                 slot = dict(resource_id=1, slot=0, sectors=12, lba=lba, destination=0x80170800,
                             file_start=start, file_end=end, delta=0x80170800-start,
                             disc_container_equal=True,
@@ -99,9 +123,7 @@ Linker script and memory map
     def test_placement_receipt_checks_transfer_identity(self):
         lba, start = 0x4340, (0x4340 - 0x3016) * 0x800
         end = start + monster_bank_loads.BANK_BYTES
-        retail = bytearray(end)
-        retail[start:start+4] = (0x80170800 + 8).to_bytes(4, 'little')
-        retail = bytes(retail)
+        retail = bytes(start) + (0x80170804).to_bytes(4, 'little') + bytes(end-start-4)
         historical_hash = 'a' * 64
         placement = dict(resource_id=1, slot=0, lba=lba, sectors=12, destination=0x80170800,
                          file_start=start, file_end=end, delta=0x80170800-start,
@@ -117,15 +139,54 @@ Linker script and memory map
         with self.assertRaisesRegex(ValueError, 'loader provenance'):
             check(placement, retail, (1, 0), 'b' * 64)
 
+    def test_registered_bank_needs_the_named_entry_at_the_disc_pointer(self):
+        _, base, start = monster_bank_loads.normal_geometry(1, 0)
+        end = start + monster_bank_loads.BANK_BYTES
+        data = bytearray(end)
+        struct.pack_into('<I', data, start, base + 12)
+        row = dict(row='dungeon/func_fixture', vma=base + 8, foff=start + 8, body_offset=4)
+        view = dict(foff=start, vma=base, entries=[row])
+        views = {f'dungeon/bank_{start:x}': view}
+        record = dict(resource_id=1, slot=0, entry=row['row'])
+        check = monster_bank_loads.registered_interval
+        self.assertEqual(check(record, data, views), (start, end))
+        with self.assertRaisesRegex(ValueError, 'missing from its production view'):
+            check(dict(record, entry='dungeon/func_different'), data, views)
+        with self.assertRaisesRegex(ValueError, 'lacks its expected production view'):
+            check(dict(record, slot=1), data, views)
+        struct.pack_into('<I', data, start, base + 16)
+        with self.assertRaisesRegex(ValueError, 'pointer differs from its production entry'):
+            check(record, data, views)
+
     def test_placement_loader_checks_both_input_files(self):
-        files = {monster_bank_loads.DISC_FILE: bytes(4), 'SLUS_006.14': bytes([2, 3, 5, 7])}
+        files = {monster_bank_loads.DISC_FILE: bytes(16), 'SLUS_006.14': bytes([2, 3, 5, 7]) + bytes(12)}
         words = [dict(foff='0x0', word={'$retail': dict(file=file, offset=0, length=4,
                                                        sha256=monster_bank_loads.digest(data))})
                  for file, data in files.items()]
         receipt = dict(schema='azure-clean.resource-loader-static.v1', source=monster_bank_loads.LOADER,
-                       iso=dict(path=monster_bank_loads.DISC_FILE, lba=0x3016, size=4),
+                       iso=dict(path=monster_bank_loads.DISC_FILE, lba=0x3016, size=16),
                        iso_directory_record_verified=True, words=words)
         check = monster_bank_loads.check_placement_loader
         check(receipt, *files.values(), dict(foff=0, size=4))
-        with self.assertRaisesRegex(ValueError, 'differs from disc'):
-            check(receipt, files[monster_bank_loads.DISC_FILE], bytes(4), dict(foff=0, size=4))
+        with self.assertRaisesRegex(ValueError, 'sha256 mismatch'):
+            check(receipt, files[monster_bank_loads.DISC_FILE], bytes(16), dict(foff=0, size=4))
+
+    def test_fixed_monster_bank_binds_its_pointer_to_a_registered_body(self):
+        lba, base, sectors = monster_bank_loads.EXCEPTIONAL_BANKS[49]
+        start = (lba - monster_bank_loads.DISC_LBA) * 2048
+        end = start + sectors * 2048
+        data = bytearray(end)
+        struct.pack_into('<I', data, start, base + 16)
+        entry = dict(kind='overlay', container='dungeon', exists=True, c_path='fixture.c',
+                     foff=start + 16, size=12, true_name=f'func_{base + 16:08X}')
+        registry = {'dungeon/func_fixture': entry}
+        record = dict(resource_id=49, entry='dungeon/func_fixture')
+        check = monster_bank_loads.exceptional_interval
+        self.assertEqual(check(record, data, registry), (start, end))
+        with self.assertRaisesRegex(ValueError, 'does not select a fixed monster bank'):
+            check(dict(record, resource_id=48), data, registry)
+        with self.assertRaisesRegex(ValueError, 'pointer differs from its registered C entry'):
+            check(dict(record, entry='dungeon/func_other'), data, registry)
+        entry['foff'] += 4
+        with self.assertRaisesRegex(ValueError, 'pointer differs from its registered C entry'):
+            check(record, data, registry)

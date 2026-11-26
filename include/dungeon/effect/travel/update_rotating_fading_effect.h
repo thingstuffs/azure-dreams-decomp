@@ -112,12 +112,6 @@ typedef struct {
     GteOffset offset;
 } ovl_18ca83c_818AAE60_Func818AAE60Scratch;
 extern void func_8002488C(void);
-extern void func_800248D4(void);
-extern void func_80024DF0(void);
-extern void func_80024F30(void);
-extern void func_80024FB0(void);
-extern void func_800250E0(void);
-extern void func_80025118(void);
 #include "dungeon/effect/screen.h"
 #include "sdk/abs.h"
 #include "sdk/libgte.h"

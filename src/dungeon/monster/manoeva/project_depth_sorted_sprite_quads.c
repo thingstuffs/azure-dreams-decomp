@@ -54,7 +54,7 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
     scratch->vertices[2].vz = 0;
     scratch->vertices[1].vz = 0;
     scratch->vertices[0].vz = 0;
-    scratch->ordering_table = (u32 *)&state->orderTag;
+    scratch->ordering_table = &state->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->position.vx = position->x.unsigned_parts.integer;
     scratch->position.vy = position->y.unsigned_parts.integer;
     scratch->position.vz = position->z.unsigned_parts.integer;
@@ -209,9 +209,9 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
 
                 packet->clut =
                     render->unk_12 + texture->f6;
-                /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
                 *(u16 *)&packet->u0 = scratch->uv_v_start + scratch->uv_u_start;
-                /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
                 *(u16 *)&packet->u1 = scratch->uv_v_start + scratch->uv_u_extent;
                 if (render->unk_10 != 0) {
                     packet->tpage =
@@ -220,9 +220,9 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
                 } else {
                     packet->tpage = texture->f4;
                 }
-                /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
                 *(u16 *)&packet->u2 = scratch->uv_v_extent + scratch->uv_u_start;
-                /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
                 *(u16 *)&packet->u3 = scratch->uv_v_extent + scratch->uv_u_extent;
 
                 if (packet->u1 == 0) {
@@ -234,7 +234,7 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
                     packet->v3--;
                 }
 
-                /* BYTES: retail stores the sprite colour word (r0, g0, b0 and code) with one sw; member stores compile to four sb */
+                /* BYTES: The sprite color and command are written together. Separate members generate four byte stores. */
                 *(u32 *)&packet->r0 = render->unk_0C;
                 SetPolyFT4(packet);
                 if (scratch->sprite_flags & 8) {

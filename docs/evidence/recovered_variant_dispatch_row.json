@@ -79,7 +79,7 @@
                   "file": "DUNGEON/DUNGEON.BIN",
                   "offset": 972360,
                   "length": 4,
-                  "sha256": "9876565b896a9d99c14e7439feb6a4a6fba59b8338f3e3a3d91d91b9e1f43129"
+                  "sha256": "59ef3f281ab73343db709d11e90b2e07579d94cfbc3b16ba744765e67813071d"
                 },
                 "format": {
                   "kind": "int_hex",
@@ -93,7 +93,7 @@
                   "file": "DUNGEON/DUNGEON.BIN",
                   "offset": 972364,
                   "length": 4,
-                  "sha256": "2301d95ae274b72009757678822dab5530aaa698f848b3c18aeb74a2c84dce37"
+                  "sha256": "4de67f64529148a015a42bbabf5a118fbbe0f914070adc06f810349db9e1761d"
                 },
                 "format": {
                   "kind": "int_hex",
@@ -107,7 +107,7 @@
                   "file": "DUNGEON/DUNGEON.BIN",
                   "offset": 972368,
                   "length": 4,
-                  "sha256": "c53ce4eea9cc80bafa4600b1603766a9bcf6c7aac95690b1bc413bc94c0a74de"
+                  "sha256": "bc0dec43b7e6273272f64d7527d4997c86f8e67b0681ce19c8aad9a2d1e2f357"
                 },
                 "format": {
                   "kind": "int_hex",
@@ -121,7 +121,7 @@
                   "file": "DUNGEON/DUNGEON.BIN",
                   "offset": 972372,
                   "length": 4,
-                  "sha256": "4d9e433f39dc96438bb0abcff77b700c99478ae5bb3205035fff9a58f2acb36f"
+                  "sha256": "1278d3a1cebd6d8246d2e018b4918613ac3b370d0857dc49dcca94dcaa845226"
                 },
                 "format": {
                   "kind": "int_hex",
@@ -135,7 +135,7 @@
                   "file": "DUNGEON/DUNGEON.BIN",
                   "offset": 972376,
                   "length": 4,
-                  "sha256": "9876565b896a9d99c14e7439feb6a4a6fba59b8338f3e3a3d91d91b9e1f43129"
+                  "sha256": "670ff1c791efac140c3524ff0906ce8429e3117a1bae2f5dd81f1ec59292e058"
                 },
                 "format": {
                   "kind": "int_hex",

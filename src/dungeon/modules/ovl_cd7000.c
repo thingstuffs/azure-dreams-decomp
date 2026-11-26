@@ -1750,7 +1750,7 @@ void draw_shaded_effect_quad_slot_a(CL_CD7000_80173E40_S_80173E40_6 *quad, Objec
     GameWork *render_state_ptr = &g_game_work;
     MATRIX current_matrix;
 
-    scratch->ordering_table = (u32 *)&((GpuContext *)g_game_work.draw_buffer)->orderTag;
+    scratch->ordering_table = &((GpuContext *)g_game_work.draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->local_matrix.t[0] = position->x.w.i;
     scratch->local_matrix.t[1] = position->y.w.i;
     scratch->local_matrix.t[2] = position->z.w.i;
@@ -1778,9 +1778,9 @@ void draw_shaded_effect_quad_slot_a(CL_CD7000_80173E40_S_80173E40_6 *quad, Objec
     SetDrawMode(mode, 0, 0, GetTPage(0, 0, 0, 0), 0);
 
     mode->tag = (mode->tag & 0xFF000000) |
-        (((GpuContext *)g_game_work.draw_buffer)->orderTag & 0x00FFFFFF);
-    ((GpuContext *)g_game_work.draw_buffer)->orderTag =
-        (((GpuContext *)g_game_work.draw_buffer)->orderTag & 0xFF000000) |
+        (((GpuContext *)g_game_work.draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE] & 0x00FFFFFF);
+    ((GpuContext *)g_game_work.draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE] =
+        (((GpuContext *)g_game_work.draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE] & 0xFF000000) |
         ((u32)mode & 0x00FFFFFF);
 
     {
@@ -1827,13 +1827,13 @@ void draw_shaded_effect_quad_slot_a(CL_CD7000_80173E40_S_80173E40_6 *quad, Objec
                     (texture_flags | 2) : (texture_flags & 0xFD);
             }
 
-            /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+            /* BYTES: Each loaded vertex color is written together with its command or padding byte. Separate members generate four byte stores. */
             *(u32 *)&packet->red0 = quad->unk_04;
-            /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+            /* BYTES: Each loaded vertex color is written together with its command or padding byte. Separate members generate four byte stores. */
             *(u32 *)&packet->red1 = quad->unk_08;
-            /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+            /* BYTES: Each loaded vertex color is written together with its command or padding byte. Separate members generate four byte stores. */
             *(u32 *)&packet->red2 = quad->unk_0C;
-            /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+            /* BYTES: Each loaded vertex color is written together with its command or padding byte. Separate members generate four byte stores. */
             *(u32 *)&packet->red3 = quad->unk_10;
             SetPolyG4(packet);
             packet->code |= 2;

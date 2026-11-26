@@ -25,8 +25,8 @@ void initialize_busy_checked_countdown_action(TownObjectRecord *record,void *unu
 #include "town/player/move_both_components_toward_zero_direction_dependent_steps_clamping_zero_api.h"
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"
-void init_motion_action_callback(s32 record, s32 setup_value, s32 init_value);
 #include "records/Rec_func_8009B828_arg0.h"
+#include "town/player/action_initializers.h"
 
 extern ColliderView town_actor_control;
 extern s32 *town_player_action_callback;

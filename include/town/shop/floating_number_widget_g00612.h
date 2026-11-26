@@ -103,7 +103,6 @@ extern u8 money_label_text[16];
 void init_display_blocks_at_position(s32, s32, s32, s32, s32);
 
 /* object in create_floating_number_widget */
-extern void *process_context_with_selector_4(void *);
 extern void lower_value_toward_target(struct ObjectNodeHeader *object);
 extern int dungeon_menu_tag(void *forwarded_ptr, int unused_arg, void *second_ptr);
 

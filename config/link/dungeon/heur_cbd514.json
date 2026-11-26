@@ -5,7 +5,7 @@
   "foff": "0xcbd514",
   "size": "0x528",
   "vma": "0x8016ed14",
-  "evidence": "work/native_lane/r121_heur/evidence/placements.json",
+  "evidence": "Recorded in the production link map.",
   "entries": [
     {
       "row": "dungeon/func_80C9D514",

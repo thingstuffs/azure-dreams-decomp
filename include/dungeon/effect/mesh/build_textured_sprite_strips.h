@@ -83,60 +83,6 @@ typedef struct S_func_81904990_3 {
     } unk_08;
 } S_func_81904990_3;
 
-typedef struct S_func_81904990_4 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    s32 unk_0C;
-    union {
-        s32 as_s32_10;
-        u16 as_u16_10;
-    } unk_10;
-    union {
-        s32 as_s32_14;
-        u16 as_u16_14;
-    } unk_14;
-    u8 pad_18[0x8];
-    s32 * unk_20;
-    u16 unk_24;
-    u8 pad_26[0xA];
-    VECTOR scale;
-    u8 pad_40[0x10];
-    MATRIX matrix_50;
-    u16 unk_70;
-    u16 unk_72;
-    u16 unk_74;
-    u8 pad_76[0x2];
-    u16 unk_78;
-    u16 unk_7A;
-    u16 unk_7C;
-    u8 pad_7E[0x2];
-    u16 unk_80;
-    u16 unk_82;
-    u16 unk_84;
-    u8 pad_86[0x2];
-    u16 unk_88;
-    u16 unk_8A;
-    u16 unk_8C;
-    u8 pad_8E[0x2A];
-    u16 unk_B8;
-    u16 unk_BA;
-    u8 pad_BC[0x4];
-    s32 unk_C0;
-    u8 pad_C4[0xC];
-    MATRIX matrix_D0;
-    u16 unk_F0;
-    u16 unk_F2;
-    u16 unk_F4;
-    u16 unk_F6;
-    u16 unk_F8;
-    u16 unk_FA;
-    u16 unk_FC;
-    u16 unk_FE;
-    SVECTOR angles;
-    u16 unk_108;
-    u16 unk_10A;
-} S_func_81904990_4;
-
 typedef struct S_func_81904990_6 {
     u16 unk_00;
     u16 unk_02;
@@ -472,7 +418,7 @@ extern u8 D_800267A8[12];
 extern struct SpriteAttachmentEntry *get_sprite_attachment_vector(void *, void *, Vec3 *, s32);
 extern s32 func_8003DF74(void *, void *, Vec3 *, s32);
 void try_halve_actor_counter(u8 *entity, s32 chance, void *unused_context);
-void build_textured_sprite_strips(void *screen_pos, struct TravelingSpriteEffectBody *sprite, s32 *ordering_table, s32 draw_mode);
+void build_textured_sprite_strips(void *screen_pos, struct TravelingSpriteEffectBody *sprite, u32 *ordering_table, s32 draw_mode);
 void draw_clipped_sprite_strips(s32 draw_data, ScreenRect *clip_rect, Point *screen_pos, u16 clear_rect, s16 draw_param);
 s32 draw_linked_brightness_points(PointRecord *first_point, ObjectPosition *first_position);
 void raise_effect_to_height_limit(EffectRecord *object, ObjectPosition *source);

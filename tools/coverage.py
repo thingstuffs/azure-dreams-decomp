@@ -12,6 +12,7 @@ from pathlib import Path
 RETAIL_RESIDUE_CATEGORIES = {
     'stale_town_copy', 'foreign_program_fragment', 'formatter_remnant',
     'formatter_build_string', 'older_dungeon_head_bank', 'imported_retail_text', 'prior_town_image', 'bank_pointer_table',
+    'linked_diagnostic_code',
 }
 
 def records(p):
@@ -112,7 +113,7 @@ def module_data_ranges(root):
 
 def overlay_c_ranges(rows, container, native):
     """Split registered C into instructions, data, and native alignment."""
-    text, data, alignment = [], [], []
+    text, data, alignment, imports = [], [], [], []
     for row in rows:
         if row['container'] != container or row.get('foff') is None:
             continue
@@ -122,9 +123,9 @@ def overlay_c_ranges(rows, container, native):
     for allocation in native.get(container, []):
         raw = [allocation[k] for k in ('foff', 'size')]
         start, size = [int(v, 0) if isinstance(v, str) else int(v) for v in raw]
-        destination = alignment if allocation['kind'] == 'alignment' else data
+        destination = {'alignment': alignment, 'imported_retail_text': imports}.get(allocation['kind'], data)
         destination.append([start, start+size])
-    return subtract(text, data+alignment), subtract(data, alignment), merge(alignment)
+    return subtract(text, data+alignment+imports), subtract(data, alignment+imports), merge(alignment)
 
 
 def coverage(root):

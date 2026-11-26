@@ -17,7 +17,7 @@
       "file": "DUNGEON/DUNGEON.BIN",
       "offset": 26367044,
       "length": 4,
-      "sha256": "002193500d2d28c4552beb2001655d788b179ad819eef587c59d097212ba5d9d"
+      "sha256": "abc0fb43c9ca1caa37957dba80fa950c6847cf98985779c47baaa1ab9a2a0bbb"
     },
     "format": {
       "kind": "int_hex",

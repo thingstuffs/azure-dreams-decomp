@@ -35,7 +35,7 @@ extern u8 D_80174110[];
 /* Advance item use through effect activation, actor animation, and cleanup. */
 /* Starts a targeted spell, waits for loading, emits directional effects, and restores the actor after
  * either sequence. */
-void advance_item_use_and_cleanup(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *actor, void *item)
+void advance_item_use_and_cleanup(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *actor, ActorRecord *item)
 {
     register u8 *effect_slot;
     s16 is_special;
@@ -52,7 +52,7 @@ void advance_item_use_and_cleanup(ActorRecord *action, ObjectPosition *motion, S
         if ((*(u32 *)((u8 *)item + 0x1C)) & ACTOR_PLAYER_SIDE) {
             u32 kind_index;
 
-            kind_index = ((*(u16 *)((u8 *)item + 0x46)) & 0x3FFF) - 1;
+            kind_index = (item->action_flags & 0x3FFF) - 1;
             switch (kind_index) {
             case 6:
                 is_special = 1;
@@ -76,7 +76,7 @@ void advance_item_use_and_cleanup(ActorRecord *action, ObjectPosition *motion, S
         } else {
             s32 item_kind;
 
-            item_kind = (*(u16 *)((u8 *)item + 0x46)) & 0x3FFF;
+            item_kind = item->action_flags & 0x3FFF;
             switch (item_kind) {
             case 3:
                 effect_slot = (u8 *)item + 0xE;
@@ -101,20 +101,20 @@ void advance_item_use_and_cleanup(ActorRecord *action, ObjectPosition *motion, S
                 special_target = is_special;
                 if (special_target != 0) {
                     target = (ObjectNodeHeader *)primary_actor_record;
-                    (*(void * *)((u8 *)item + 0x60)) = target;
+                    item->target = target;
                     linked = (MovingTile *)(target - 1)->sprite;
-                    (*((u8 *)item + 0x72)) = linked->tile_x;
-                    (*((u8 *)item + 0x73)) = linked->tile_y;
+                    item->target_tile_x = linked->tile_x;
+                    item->target_tile_y = linked->tile_y;
                 } else {
                     u8 effect_id;
 
                     effect_id = *effect_slot;
                     if (item_action_definitions[effect_id].kind == 2) {
-                        target = (*(void **)((u8 *)item + 0x60));
+                        target = item->target;
                         if (target != 0) {
                             linked = (MovingTile *)(target - 1)->sprite;
-                            (*((u8 *)item + 0x72)) = linked->tile_x;
-                            (*((u8 *)item + 0x73)) = linked->tile_y;
+                            item->target_tile_x = linked->tile_x;
+                            item->target_tile_y = linked->tile_y;
                         }
                     } else {
                         s32 dx;
@@ -122,12 +122,12 @@ void advance_item_use_and_cleanup(ActorRecord *action, ObjectPosition *motion, S
 
                         target = scan_actor_along_heading(
                             item, actor->tile_x, actor->tile_y,
-                            (*(s16 *)((u8 *)item + 0x2A)), 0x10);
-                        (*(void **)((u8 *)item + 0x60)) = target;
-                        dx = abs(*(s8 *)((u8 *)item + 0x72));
-                        dy = abs(*(s8 *)((u8 *)item + 0x73));
-                        (*((u8 *)item + 0x72)) = dx;
-                        (*((u8 *)item + 0x73)) = dy;
+                            item->facing, 0x10);
+                        item->target = target;
+                        dx = abs(item->target_tile_x);
+                        dy = abs(item->target_tile_y);
+                        item->target_tile_x = dx;
+                        item->target_tile_y = dy;
                     }
                 }
             }
@@ -160,9 +160,9 @@ void advance_item_use_and_cleanup(ActorRecord *action, ObjectPosition *motion, S
         advance_status_timers(item);
         (*((u8 *)item + 0x6D))--;
         action->unk_8C.handler = update_hikewne_actor_behavior;
-        (*((u8 *)item + 0x73)) = 0;
-        (*((u8 *)item + 0x72)) = 0;
-        (*(u16 *)((u8 *)item + 0x46)) &= 0x7FFF;
+        item->target_tile_y = 0;
+        item->target_tile_x = 0;
+        item->action_flags &= 0x7FFF;
         return;
 
     case 1:
@@ -208,7 +208,7 @@ void advance_item_use_and_cleanup(ActorRecord *action, ObjectPosition *motion, S
         play_sound_if_enabled(0x703);
         (actor->frameTable) = D_80174110;
         select_sprite_entry(actor,
-            *((u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7) + (u32)D_80174110)),
+            *((u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + item->facing + 0x100) >> 9) & 7) + (u32)D_80174110)),
             0);
         return;
 
@@ -270,7 +270,7 @@ void advance_item_use_and_cleanup(ActorRecord *action, ObjectPosition *motion, S
 
             (actor->frameTable) = model;
             select_sprite_entry(actor,
-                model[((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7],
+                model[((g_game_work.view.camera_rotation.parts.viewAngle + item->facing + 0x100) >> 9) & 7],
                 0);
         }
         action->unk_9E = 0;
@@ -286,10 +286,10 @@ void advance_item_use_and_cleanup(ActorRecord *action, ObjectPosition *motion, S
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         action->unk_8C.handler = update_hikewne_actor_behavior;
         advance_status_timers(item);
-        (*((u8 *)item + 0x73)) = 0;
-        (*((u8 *)item + 0x72)) = 0;
+        item->target_tile_y = 0;
+        item->target_tile_x = 0;
         (*((u8 *)item + 0x6D))--;
-        (*(u16 *)((u8 *)item + 0x46)) &= 0x7FFF;
+        item->action_flags &= 0x7FFF;
         play_sound_if_enabled(AUDIO_FADE_CD_FAST);
     }
         return;
@@ -336,7 +336,7 @@ void advance_item_use_and_cleanup(ActorRecord *action, ObjectPosition *motion, S
                     /* MATCH: the preceding eight-byte model table uses a distinct address expression in this arm. */
         (actor->frameTable) = (u8 *)((u32)hikewne_frame_set_17 - 8);
         select_sprite_entry(actor,
-            *((u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7)
+            *((u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + item->facing + 0x100) >> 9) & 7)
                 + (u32)(u8 *)((u32)hikewne_frame_set_17 - 8))),
             0);
         return;
@@ -390,7 +390,7 @@ void advance_item_use_and_cleanup(ActorRecord *action, ObjectPosition *motion, S
 
             (actor->frameTable) = hikewne_frame_set_17;
             select_sprite_entry(actor,
-                *((u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7)
+                *((u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + item->facing + 0x100) >> 9) & 7)
                     + (u32)hikewne_frame_set_17)),
                 0);
         }

@@ -5,7 +5,7 @@
   "foff": "0x5ff1d0",
   "size": "0x4a4",
   "vma": "0x800161d0",
-  "evidence": "docs/evidence/r121w_s1_wave2.receipt.json",
+  "evidence": "Recorded in the production link map.",
   "entries": [
     {
       "row": "town/func_8067F230",
@@ -31,7 +31,7 @@
         "0x80019D44": "0x80017A54",
         "0x80019DFC": "0x80017B0C"
       },
-      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+      "evidence": "current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_8067F410",
@@ -47,7 +47,7 @@
         "0x80019D44": "0x80017A54",
         "0x80019DFC": "0x80017B0C"
       },
-      "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8067F410"
+      "evidence": ": town/func_8067F410"
     },
     {
       "row": "town/func_8067F4A0",
@@ -68,7 +68,7 @@
         "0x8001849C": "0x80018514",
         "0x800164A0": "0x800164C0"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "town/func_8067F52C",
@@ -81,7 +81,7 @@
         "0x80016000": "0x80016000",
         "0x80019040": "0x80018864"
       },
-      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+      "evidence": "current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_8067F564",

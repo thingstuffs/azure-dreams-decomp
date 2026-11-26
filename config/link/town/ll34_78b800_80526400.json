@@ -36,7 +36,7 @@
       "foff": "0x78e534",
       "vma": "0x80529134",
       "size": 96,
-      "evidence": "docs/evidence/r124w_carve1_run7.md; independently recompiled legacy home, not new source coverage; TU view gather: moved from town/r124w7_home_func_8080e534 (same load delta) so the merged file's members share one view"
+      "evidence": "independently recompiled legacy home, not new source coverage; TU view gather: moved from town/placement review (same load delta) so the merged file's members share one view"
     },
     {
       "row": "town/func_808105EC",
@@ -45,7 +45,7 @@
       "foff": "0x7905ec",
       "vma": "0x8052b1ec",
       "size": 100,
-      "evidence": "docs/evidence/r124w_carve1_run7.md; independently recompiled legacy home, not new source coverage; TU view gather: moved from town/r124w7_home_func_808105ec (same load delta) so the merged file's members share one view"
+      "evidence": "independently recompiled legacy home, not new source coverage; TU view gather: moved from town/placement review (same load delta) so the merged file's members share one view"
     },
     {
       "row": "town/func_80811034",

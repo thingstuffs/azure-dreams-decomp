@@ -21,7 +21,6 @@
 #include "dungeon/monster/death_frames.h"
 
 #include "dungeon/item/find_active_rect_containing_point_api.h"
-extern void func_801743F0(void *, void *, void *, void *);
 
 
 

@@ -5,7 +5,7 @@
   "foff": "0x5dd4fc",
   "size": "0x84",
   "vma": "0x80017cfc",
-  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase r121w_s1_town_5db954",
+  "evidence": ": rowbase placement review",
   "entries": [
     {
       "row": "town/func_8065D4FC",
@@ -25,7 +25,7 @@
         "0x80019860": "0x800170d8",
         "0x8001a044": "0x800178bc"
       },
-      "evidence": "docs/evidence/r121w_s1.receipt.json: town/func_8065D4FC"
+      "evidence": ": town/func_8065D4FC"
     }
   ]
 }

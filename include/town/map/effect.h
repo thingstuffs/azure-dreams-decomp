@@ -13,7 +13,7 @@
  * clips its two halves and submits them with the corresponding packed color. */
 typedef struct TownRingProjection {
     u8 pad_00[0x24];
-    s32 *ordering_table;
+    u32 *ordering_table;
     u8 pad_28[0x4C];
     SVECTOR start_point;
     SVECTOR mid_point;

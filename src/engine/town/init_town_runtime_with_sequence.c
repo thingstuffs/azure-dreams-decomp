@@ -2,7 +2,7 @@
 
 #include "engine/graphics.h"
 #include "engine/town.h"
-void town_seq_reserve(s16 sequence_effect, s16 sequence_id);            /* extern */
+#include "town/map/resource.h"
 
 /* Run the runtime sequence ending in town_seq_reserve(0x2B, 0x200). */
 void init_town_runtime_with_sequence(void) {

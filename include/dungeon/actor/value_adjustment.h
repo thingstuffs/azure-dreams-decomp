@@ -18,14 +18,7 @@ void *get_unused_text_buffer(void);
 void adjust_source_value_and_finalize(void *context, const void *source);
 #include "dungeon/effect/screen.h"
 s32 generate_random_value(void);
-void func_80024658(void);
-void func_8002469C(void);
 void func_800250A4(void);
-void func_8002536C(void);
-void func_8002561C(void);
-void func_80025BB0(void);
-void func_80025CDC(void);
-void func_80025D20(void);
 void func_80025DF4(void);
 void func_80025D90(void);
 extern u8 D_800E2096[38];

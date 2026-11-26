@@ -5,7 +5,7 @@
   "foff": "0x5dce18",
   "size": "0x5c",
   "vma": "0x80017618",
-  "evidence": "docs/evidence/r121w_s1_wave2.receipt.json",
+  "evidence": "Recorded in the production link map.",
   "entries": [
     {
       "row": "town/func_8065CE18",
@@ -20,7 +20,7 @@
         "0x800194E4": "0x80016D5C",
         "0x8001ADE0": "0x80017F7C"
       },
-      "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8065CE18"
+      "evidence": ": town/func_8065CE18"
     }
   ]
 }

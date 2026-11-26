@@ -134,7 +134,7 @@ void update_glacier_actor(ActorRecord *body, ObjectPosition *motion_arg, SpriteF
                 }
             } else {
                 apply_monster_koyaw_data((actor->flags1C),
-                              (u8 *)monster + 0xC);
+                              &monster->color.c.r);
             }
         }
     } else {

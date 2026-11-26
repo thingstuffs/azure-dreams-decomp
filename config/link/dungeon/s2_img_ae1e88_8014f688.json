@@ -5,7 +5,7 @@
   "foff": "0xae1e88",
   "size": "0x15a4",
   "vma": "0x8014f688",
-  "evidence": "docs/evidence/r121w_s2_receipts.json",
+  "evidence": "Recorded in the production link map.",
   "entries": [
     {
       "row": "dungeon/func_80AC1E88",
@@ -20,7 +20,7 @@
         "0x801741D0": "0x801741D0",
         "0x80174BF4": "0x80174BF4"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "dungeon/func_80AC1F20",
@@ -54,7 +54,7 @@
         "0x80170E54": "0x8014CE7C",
         "0x801736F4": "0x8014F720"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "dungeon/func_80AC2E48",
@@ -75,7 +75,7 @@
         "0x8017451c": "0x8015051c",
         "0x8016D2C0": "0x8016D2C0"
       },
-      "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_80AC2E48"
+      "evidence": "#dungeon/func_80AC2E48"
     },
     {
       "row": "dungeon/func_80AC33F4",

@@ -5,7 +5,7 @@
   "foff": "0x1003B14",
   "size": "0x20",
   "vma": "0x8016D314",
-  "evidence": "config/overlays/dungeon.rowbase.jsonl:r121_followup_1003B14",
+  "evidence": "config/overlays/dungeon.rowbase.jsonl:placement review",
   "entries": [
     {
       "row": "dungeon/func_80FE3B14",
@@ -18,7 +18,7 @@
         "0x800AD058": "0x800AD058",
         "0x8016D2C0": "0x8016D314"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     }
   ]
 }

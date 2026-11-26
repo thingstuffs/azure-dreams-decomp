@@ -24,13 +24,13 @@ void build_visible_tile_quads(MeshEffectObjectBody *tiles)
     s32 tri_depth;
     u16 z;
 
-    /* BYTES: retail clears the normal's vx and vy with one sw of zero; member stores compile to two sh */
+    /* BYTES: Both normal components are cleared with one word store. Separate members produce two halfword stores. */
     *(s32 *)&scratch->rotation.vx = 0;
     render_state = globals->draw_buffer;
     style = globals->map.cell_faces[4];
     prim = render_state->packetCursor;
     scratch->rotation.vz = -0x1000;
-    scratch->ordering_table = (u32 *)&render_state->orderTag;
+    scratch->ordering_table = &render_state->orderTag[GPU_ORDER_DEPTH_BASE];
 
     while (tiles->x != 0) {
         if (tiles->height != 0x8000) {
@@ -77,13 +77,13 @@ void build_visible_tile_quads(MeshEffectObjectBody *tiles)
                 if ((u32)depth < 0x1E0) {
                     gte_stsxy(&prim->x3);
                     NormalColorCol(&scratch->rotation, (CVECTOR *)&globals->view.tint, (CVECTOR *)&prim->r0);
-                    /* BYTES: retail stores u0, v0 and the CLUT with one sw of the style word; member stores compile to sb, sb, sh */
+                    /* BYTES: The first UV pair and palette selector are stored together. Separate members split the style word into three stores. */
                     *(u32 *)&prim->u0 = style->uv_clut;
-                    /* BYTES: retail stores u1, v1 and the texture page with one sw of the style word; member stores compile to sb, sb, sh */
+                    /* BYTES: The second UV pair and texture-page selector are stored together. Separate members split the style word into three stores. */
                     *(u32 *)&prim->u1 = style->uv_page;
-                    /* BYTES: retail writes the packet u/v byte pair with one sh of the style halfword; storing u and v separately compiles to two sb */
+                    /* BYTES: The packed style UV pair is stored together. Separate members generate two byte stores. */
                     *(u16 *)&prim->u2 = style->uv2;
-                    /* BYTES: retail writes the packet u/v byte pair with one sh of the style halfword; storing u and v separately compiles to two sb */
+                    /* BYTES: The packed style UV pair is stored together. Separate members generate two byte stores. */
                     *(u16 *)&prim->u3 = style->uv3;
                     ((GpuLinkTag *)&prim->tag)->len = 9;
                     AddPrim(scratch->ordering_table + scratch->sort_depth, prim);

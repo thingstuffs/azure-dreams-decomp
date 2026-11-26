@@ -127,8 +127,6 @@ s32 card_dev_advance_boot_step(void);
 /* card_dev_begin_value_transition.c */
 void card_dev_begin_value_transition(ObjectNodeHeader *object, s32 new_value);
 
-/* card_dev_bind_info_template.c */
-void card_dev_bind_info_template(s32 context);
 
 /* card_dev_bind_panel_template.c */
 s32 card_dev_bind_panel_template(void *entries);
@@ -277,8 +275,6 @@ s32 card_dev_load_slot_metadata(s32 slot_index);
 /* card_dev_load_wait_countdown.c */
 void card_dev_load_wait_countdown(CardDevLoadSlotScreen *screen);
 
-/* card_dev_menu_wait_countdown.c */
-void card_dev_menu_wait_countdown(void *record_data);
 
 /* card_dev_no_op_save.c */
 void card_dev_no_op_save(s32 unused_event);

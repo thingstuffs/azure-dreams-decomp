@@ -14,7 +14,7 @@ typedef struct S_80172474_0 {
 } S_80172474_0;   /* entity in finish_beldo_tile_move */
 
 /* Runs actor callbacks, updates entity state on success, and applies the global flag adjustment. */
-void finish_beldo_tile_move(void *entity_ptr, void *motion, void *check_arg, void *actor_arg)
+void finish_beldo_tile_move(void *entity_ptr, ObjectPosition *motion, SpriteFrameState *check_arg, ActorRecord *actor_arg)
 {
     S_80172474_0 *entity = entity_ptr;
     void *check_value = check_arg;

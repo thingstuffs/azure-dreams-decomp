@@ -18,7 +18,7 @@
       "foff": "0x803004",
       "vma": "0x80700804",
       "size": 144,
-      "evidence": "docs/evidence/r141w_town_dev.md"
+      "evidence": "Recorded in the production link map."
     },
     {
       "row": "town/func_80883198",
@@ -27,7 +27,7 @@
       "foff": "0x803198",
       "vma": "0x80700998",
       "size": 72,
-      "evidence": "docs/evidence/r141w_town_dev.md"
+      "evidence": "Recorded in the production link map."
     },
     {
       "row": "town/func_808831E0",
@@ -36,7 +36,7 @@
       "foff": "0x8031E0",
       "vma": "0x807009E0",
       "size": 152,
-      "evidence": "docs/evidence/r141w_town_dev.md"
+      "evidence": "Recorded in the production link map."
     },
     {
       "row": "town/func_808832D4",
@@ -45,7 +45,7 @@
       "foff": "0x8032D4",
       "vma": "0x80700AD4",
       "size": 88,
-      "evidence": "docs/evidence/r141w_town_dev.md"
+      "evidence": "Recorded in the production link map."
     },
     {
       "row": "town/func_8088332C",
@@ -54,7 +54,7 @@
       "foff": "0x80332C",
       "vma": "0x80700B2C",
       "size": 84,
-      "evidence": "docs/evidence/r141w_town_dev.md"
+      "evidence": "Recorded in the production link map."
     },
     {
       "row": "town/func_80883380",
@@ -63,7 +63,7 @@
       "foff": "0x803380",
       "vma": "0x80700B80",
       "size": 88,
-      "evidence": "docs/evidence/r141w_town_dev.md"
+      "evidence": "Recorded in the production link map."
     },
     {
       "row": "town/func_808833D8",
@@ -77,7 +77,7 @@
         "0x80702670": "0x80700BD8",
         "0x807026C0": "0x807026C0"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_8033d8_80700bd8 (same load delta) so the merged file's members share one view"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; TU view gather: moved from town/ll34_8033d8_80700bd8 (same load delta) so the merged file's members share one view"
     },
     {
       "row": "town/func_80883428",
@@ -91,7 +91,7 @@
         "0x807026C0": "0x80700C28",
         "0x80702670": "0x80702670"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_803428_80700c28 (same load delta) so the merged file's members share one view"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; TU view gather: moved from town/ll34_803428_80700c28 (same load delta) so the merged file's members share one view"
     },
     {
       "row": "town/func_8088347C",
@@ -103,7 +103,7 @@
       "bindings": {
         "0x807030a4": "0x80700e38"
       },
-      "evidence": "docs/evidence/r141w_town_dev.md"
+      "evidence": "Recorded in the production link map."
     },
     {
       "row": "town/func_808834DC",
@@ -112,7 +112,7 @@
       "foff": "0x8034DC",
       "vma": "0x80700CDC",
       "size": 72,
-      "evidence": "docs/evidence/r141w_town_dev.md"
+      "evidence": "Recorded in the production link map."
     },
     {
       "row": "town/func_80883524",
@@ -130,7 +130,7 @@
       "foff": "0x803548",
       "vma": "0x80700D48",
       "size": 236,
-      "evidence": "docs/evidence/r141w_town_dev.md"
+      "evidence": "Recorded in the production link map."
     }
   ]
 }

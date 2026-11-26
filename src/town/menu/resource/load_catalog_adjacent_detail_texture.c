@@ -30,7 +30,7 @@ void load_catalog_adjacent_detail_texture(CatalogDisplay *context_arg) {
                       catalog_texture_resources[context->unk_13][1]);
         Control_CD(6, catalog_texture_request, 0);
         context->unk_0D = 0;
-        Control_CD(0xFF, resource_completion_callback_address, (u8 *)context + 0xD);
+        Control_CD(0xFF, resource_completion_callback_address, &context->unk_0D);
         context->unk_0B++;
     }
     if (context->unk_0D == 0) {

@@ -161,4 +161,6 @@ s16 round_sampled_height_to_cell_boundary(s32 grid_x, s32 grid_y);
 
 void *create_five_point_orbit_effect(s32 state_value, ObjectPosition *source_data, s16 initial_setting);
 
+extern const u8 no_effect_target_prefix[48];
+extern const u8 no_effect_target_period[4];
 #endif

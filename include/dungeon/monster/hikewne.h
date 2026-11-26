@@ -13,7 +13,7 @@ void choose_hikewne_move(ActorRecord *move_data, ObjectPosition *context, Sprite
 
 struct Rec_D_80082E80;
 /* Slows directional motion, then recenters the entity on its tile. */
-void update_hikewne_recoil(ActorRecord *motion_state, ObjectPosition *motion, struct Rec_D_80082E80 *tile_state, ActorRecord *entity);
+void update_hikewne_recoil(ActorRecord *motion_state, ObjectPosition *motion, SpriteFrameState *tile_state, ActorRecord *entity);
 
 
 void update_sleeping_hikewne(ActorRecord *action, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *actor);

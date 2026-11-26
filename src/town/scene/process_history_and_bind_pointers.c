@@ -2,8 +2,8 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "town/scene.h"
+#include "town/scene/flags/call_reset_dispatch_state_flags_g01229.h"
 
-void process_history_entries_by_mode(void);
 extern s32 D_8001691C;
 extern s32 *D_80019BB8;
 extern u8 *D_80019BBC;

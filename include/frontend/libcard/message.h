@@ -143,7 +143,5 @@ void init_card_continue_templates(CardDisplayNode *entry, CardDisplayBlock *bloc
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 struct CardContinueNodes;
-void func_800237EC(struct CardContinueNodes *owner, s32 count);
-void func_80024C70(struct CardFileListPanel *owner, s32 count);
 
 #endif

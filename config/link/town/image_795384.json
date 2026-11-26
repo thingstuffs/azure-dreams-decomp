@@ -39,7 +39,7 @@
       "foff": "0x798C2C",
       "vma": "0x80022C2C",
       "size": 96,
-      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "evidence": "Recorded in the production link map.",
       "bindings": {
         "0x8025E01C": "0x800C2AE8"
       }
@@ -51,7 +51,7 @@
       "foff": "0x799934",
       "vma": "0x80023934",
       "size": 96,
-      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "evidence": "Recorded in the production link map.",
       "bindings": {
         "0x8025E01C": "0x800C2AE8"
       }
@@ -74,7 +74,7 @@
       "bindings": {
         "0x800814A0": "0x800814A0"
       },
-      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+      "evidence": "current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     }
   ]
 }

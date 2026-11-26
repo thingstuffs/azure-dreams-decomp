@@ -2,13 +2,93 @@
   "schema": "azure-clean.assertion-boundaries.v1",
   "reason": "Stack-allocation refinement skipped lui/lw flag loads scheduled before the prologue. These are attribution corrections; existing row extents remain intact.",
   "sites": [
-    {"site_foff": "0x7F8ABC", "entry_foff": "0x7F8A78", "size": 304, "line": 226, "scan_start": "0x7F6000", "scan_end": "0x7FF000"},
-    {"site_foff": "0x8002D4", "entry_foff": "0x800298", "size": 260, "line": 89, "scan_start": "0x7FF000", "scan_end": "0x800800"},
-    {"site_foff": "0x80170C", "entry_foff": "0x8016D8", "size": 236, "line": 75, "scan_start": "0x800800", "scan_end": "0x802800"},
-    {"site_foff": "0x80357C", "entry_foff": "0x803548", "size": 236, "line": 75, "scan_start": "0x802800", "scan_end": "0x804000"},
-    {"site_foff": "0x838634", "entry_foff": "0x8385F0", "size": 304, "line": 225, "scan_start": "0x837800", "scan_end": "0x839000"},
-    {"site_foff": "0x83990C", "entry_foff": "0x8398D0", "size": 260, "line": 89, "scan_start": "0x839000", "scan_end": "0x83A800"},
-    {"site_foff": "0x83B620", "entry_foff": "0x83B5EC", "size": 236, "line": 75, "scan_start": "0x83A800", "scan_end": "0x83C000"},
-    {"site_foff": "0x844CE4", "entry_foff": "0x844CB0", "size": 236, "line": 75, "scan_start": "0x844000", "scan_end": "0x845000"}
+    {
+      "site_foff": "0x7F8ABC",
+      "entry_foff": "0x7F8A78",
+      "size": 304,
+      "line": 226,
+      "scan_start": "0x7F6000",
+      "scan_end": "0x7FF000",
+      "pool_sha256": "0ed92aabcf61ee7305a09030e3d78e385593577882b3c733791fe7d47ba3e14e",
+      "source_name_ref": "TOWN.BIN+0x7f891c/8",
+      "range_sha256": "ef719021b27b957ea888630f7e5feaa15520332b9d953a93eff987aa8f62ee48"
+    },
+    {
+      "site_foff": "0x8002D4",
+      "entry_foff": "0x800298",
+      "size": 260,
+      "line": 89,
+      "scan_start": "0x7FF000",
+      "scan_end": "0x800800",
+      "pool_sha256": "d7444357f64bdc8788728a2e5684bda6751f749ef393ea8a25c55a4dbbfd7cde",
+      "source_name_ref": "TOWN.BIN+0x7f891c/8",
+      "range_sha256": "9e67681d78fca10a69ef17ec40aa8f2362a91a5f3c023b839d037cd5bbf0c67a"
+    },
+    {
+      "site_foff": "0x80170C",
+      "entry_foff": "0x8016D8",
+      "size": 236,
+      "line": 75,
+      "scan_start": "0x800800",
+      "scan_end": "0x802800",
+      "pool_sha256": "d7444357f64bdc8788728a2e5684bda6751f749ef393ea8a25c55a4dbbfd7cde",
+      "source_name_ref": "TOWN.BIN+0x7f891c/8",
+      "range_sha256": "1363cd3e5aaad9ac653c15ffa431488bf9d21bb1d30b392c2f2d197bc6449b6b"
+    },
+    {
+      "site_foff": "0x80357C",
+      "entry_foff": "0x803548",
+      "size": 236,
+      "line": 75,
+      "scan_start": "0x802800",
+      "scan_end": "0x804000",
+      "pool_sha256": "d7444357f64bdc8788728a2e5684bda6751f749ef393ea8a25c55a4dbbfd7cde",
+      "source_name_ref": "TOWN.BIN+0x7f891c/8",
+      "range_sha256": "46abd8477a10cf81cb2a784ca47c19d0955d4c9251877b5623e5abda145e576f"
+    },
+    {
+      "site_foff": "0x838634",
+      "entry_foff": "0x8385F0",
+      "size": 304,
+      "line": 225,
+      "scan_start": "0x837800",
+      "scan_end": "0x839000",
+      "pool_sha256": "3a9a7ac27bfce627cb6a8348e957827dc3845ebf0f3d91a372424d5575627945",
+      "source_name_ref": "TOWN.BIN+0x7f891c/8",
+      "range_sha256": "00e5036ce768b5cb3c5644323aec42da9d0acd20df35c7087eae26989ae4b981"
+    },
+    {
+      "site_foff": "0x83990C",
+      "entry_foff": "0x8398D0",
+      "size": 260,
+      "line": 89,
+      "scan_start": "0x839000",
+      "scan_end": "0x83A800",
+      "pool_sha256": "bac7e8399653cdaeb2508b6eb38b07276add56cde1367ffc4839db9d3fa2ac91",
+      "source_name_ref": "TOWN.BIN+0x7f891c/8",
+      "range_sha256": "c46306e39234f798ae16f61bf883841b0f20f4057c56bd0df09378c4e72a3d15"
+    },
+    {
+      "site_foff": "0x83B620",
+      "entry_foff": "0x83B5EC",
+      "size": 236,
+      "line": 75,
+      "scan_start": "0x83A800",
+      "scan_end": "0x83C000",
+      "pool_sha256": "3a9a7ac27bfce627cb6a8348e957827dc3845ebf0f3d91a372424d5575627945",
+      "source_name_ref": "TOWN.BIN+0x7f891c/8",
+      "range_sha256": "f50a84ed6463210e8d2145dc720c4b971a86073c2e7e7574568f183c22df9f2f"
+    },
+    {
+      "site_foff": "0x844CE4",
+      "entry_foff": "0x844CB0",
+      "size": 236,
+      "line": 75,
+      "scan_start": "0x844000",
+      "scan_end": "0x845000",
+      "pool_sha256": "3a9a7ac27bfce627cb6a8348e957827dc3845ebf0f3d91a372424d5575627945",
+      "source_name_ref": "TOWN.BIN+0x7f891c/8",
+      "range_sha256": "be838a91bc37449031210803f44693050cc3c6445c0eecfffd3e8db8fb802357"
+    }
   ]
 }

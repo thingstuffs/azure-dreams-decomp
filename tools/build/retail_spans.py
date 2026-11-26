@@ -1,6 +1,10 @@
 """Resolve checked retail spans from a user's extracted files or ISO9660 disc.
 
 The committed form contains only a disc file id, offset, length and SHA-256.
+Spans under sixteen bytes are checked against a sixteen-byte enclosing range.
+The digest authenticates the window. The offset and length within it come
+from the marker. In particular, moving a short span's start back four bytes
+and increasing its length by four can leave the hash window unchanged.
 Materialisation is explicit: gate fingerprints continue to hash committed JSON.
 Directory ids end in '/' and denote ISO9660 directory data, not host paths.
 """
@@ -35,6 +39,20 @@ def validate_span(span):
         raise ValueError('invalid retail span sha256')
 
 
+def hash_extent(offset, size):
+    """Enclose the requested range, extending toward the start of the file."""
+    return max(0, offset + min(0, size - 16)), max(16, size)
+
+
+def check_span(span, raw):
+    """Verify the enclosing bytes and return only the requested allocation."""
+    start, length = hash_extent(span['offset'], span['length'])
+    if len(raw) != length or hashlib.sha256(raw).hexdigest() != span['sha256']:
+        raise ValueError('retail span length/sha256 mismatch: ' + span['file'])
+    skip = span['offset'] - start
+    return raw[skip:skip + span['length']]
+
+
 class RetailReader:
     def __init__(self, root, disc=None):
         self.root = Path(root)
@@ -57,7 +75,10 @@ class RetailReader:
 
     def read(self, span):
         validate_span(span)
-        name, offset, size = (span[k] for k in ('file', 'offset', 'length'))
+        offset, size = hash_extent(span['offset'], span['length'])
+        return check_span(span, self._read_range(span['file'], offset, size))
+
+    def _read_range(self, name, offset, size):
         local = self.root / FILES[name] if name in FILES else None
         if local is not None and local.is_file():
             if name not in self.files:
@@ -87,8 +108,6 @@ class RetailReader:
                 raw = self.disc.logical(extent[0], offset, size)
             else:
                 raw = self.disc.slice(name, offset, size)
-        if len(raw) != size or hashlib.sha256(raw).hexdigest() != span['sha256']:
-            raise ValueError('retail span length/sha256 mismatch: ' + name)
         return raw
 
     def materialize(self, value):

@@ -190,11 +190,11 @@ void *draw_sprite_effect_quads(u8 *sprite_list, ObjectPosition *position, Sprite
                             }
                             scratch->uv_v_extent <<= 8;
                             scratch->uv_v_start <<= 8;
-                            /* BYTES: retail stores u0, v0 and the CLUT with one sw of the combined word; member stores compile to sb, sb, sh */
+                            /* BYTES: The first UV pair and palette selector are stored together. Separate members generate two byte stores and one halfword store. */
                             *(s32 *)&packet->u0 = (scratch->uv_v_start + scratch->uv_u_start)
                                 + ((render_state_addr->clut
                                 + (*((u16 *) (quad + 0x6)))) << 16);
-                            /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                            /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
                             *(s16 *)&packet->u1 =
                                 ((u16)scratch->uv_v_start) + ((u16)scratch->uv_u_extent);
                             {
@@ -209,7 +209,7 @@ void *draw_sprite_effect_quads(u8 *sprite_list, ObjectPosition *position, Sprite
                                 }
                                 packet->tpage = tpage;
                             }
-                            /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                            /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
                             *(s16 *)&packet->u2 =
                                 ((u16)scratch->uv_v_extent) + ((u16)scratch->uv_u_start);
                             {
@@ -218,7 +218,7 @@ void *draw_sprite_effect_quads(u8 *sprite_list, ObjectPosition *position, Sprite
                                 s32 count_or_x;
                                 bottom_right_uv = (u16)scratch->uv_v_extent;
                                 bottom_right_uv += (u16)scratch->uv_u_extent;
-                                /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                                /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
                                 *(s16 *)&packet->u3 = bottom_right_uv;
                                 count_or_x = packet->x0;
                                 right_x = packet->x3;
@@ -258,7 +258,7 @@ void *draw_sprite_effect_quads(u8 *sprite_list, ObjectPosition *position, Sprite
                                 }
                                 *((part + 0xF)) = flags;
                             }
-                            /* BYTES: retail copies the sprite colour word (r0, g0, b0 and code) with one lw/sw; member copies compile to four lbu/sb */
+                            /* BYTES: Sprite RGB and command are copied with one word load and store. Separate members copy four individual bytes. */
                             *(s32 *)&packet->r0 = *((s32 *) (part + 0xC));
                             if (!((*((u16 *) (sprite + 4))) & 0x8000)) {
                                 ((GpuLinkTag *)&packet->tag)->addr = ((GpuLinkTag *)(scratch->ordering_table + scratch->sort_depth))->addr;

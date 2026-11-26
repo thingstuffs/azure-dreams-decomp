@@ -131,9 +131,9 @@ extern u8 D_8002632C[];
 extern u8 D_80026344[];
 extern u8 D_80026878[];
 
-/* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The state table of the switch below follows
- * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
+/* The module entry occupies the
+ * first read-only word. The aligned switch
+ * table follows, before the code. */
 void (*const dungeon_18a6800_entry)(RadialSequenceBody *, ObjectPosition *, SpriteFrameState *) = run_radial_sprite_sequence;
 
 /* Initialize and update a moving effect through targeting, collision, and fading states. */
@@ -770,22 +770,22 @@ s32 queue_glow_grid_quads(void)
 
                 if (scratch->index < 0x1E0U) {
                     if ((quad_index % 32) < 16) {
-                        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+                        /* BYTES: Each vertex RGB value and its following byte are stored together in one word. Separate members write the bytes individually. */
                         *(u32 *)&quad->red1 = (*(u32 *)radial_effect_colors);
-                        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+                        /* BYTES: Each vertex RGB value and its following byte are stored together in one word. Separate members write the bytes individually. */
                         *(u32 *)&quad->red0 = (*(u32 *)radial_effect_colors);
-                        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+                        /* BYTES: Each vertex RGB value and its following byte are stored together in one word. Separate members write the bytes individually. */
                         *(u32 *)&quad->red3 = (*(u32 *)D_80026474);
-                        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+                        /* BYTES: Each vertex RGB value and its following byte are stored together in one word. Separate members write the bytes individually. */
                         *(u32 *)&quad->red2 = (*(u32 *)D_80026474);
                     } else {
-                        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+                        /* BYTES: Each vertex RGB value and its following byte are stored together in one word. Separate members write the bytes individually. */
                         *(u32 *)&quad->red3 = (*(u32 *)radial_effect_colors);
-                        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+                        /* BYTES: Each vertex RGB value and its following byte are stored together in one word. Separate members write the bytes individually. */
                         *(u32 *)&quad->red2 = (*(u32 *)radial_effect_colors);
-                        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+                        /* BYTES: Each vertex RGB value and its following byte are stored together in one word. Separate members write the bytes individually. */
                         *(u32 *)&quad->red1 = (*(u32 *)D_80026474);
-                        /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+                        /* BYTES: Each vertex RGB value and its following byte are stored together in one word. Separate members write the bytes individually. */
                         *(u32 *)&quad->red0 = (*(u32 *)D_80026474);
                     }
 
@@ -956,7 +956,7 @@ s32 queue_shaded_line_chain(GradientLineParticleBody *first_owner, ObjectPositio
     s32 color_word;
     register void **render_state = &g_game_work.draw_buffer;
     scratch->packet_cursor = render_data->packetCursor;
-    scratch->ordering_table = &render_data->orderTag;
+    scratch->ordering_table = &render_data->orderTag[GPU_ORDER_DEPTH_BASE];
     for (;;) {
         line_packet = scratch->packet_cursor;
         scratch->packet_cursor = line_packet + 1;
@@ -1373,14 +1373,14 @@ s32 queue_linked_shaded_quads(S_80025E4C_1 *quad) {
         scratch->ot_index = depth_bucket;
         if (depth_bucket < 0x1E0U) {
             first_color = quad->unk_50;
-            /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+            /* BYTES: Each vertex RGB value and its following byte are stored together in one word. Separate members write the bytes individually. */
             *(s32 *)&packet->red1 = first_color;
-            /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+            /* BYTES: Each vertex RGB value and its following byte are stored together in one word. Separate members write the bytes individually. */
             *(s32 *)&packet->red0 = first_color;
             second_color = quad->unk_54;
-            /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+            /* BYTES: Each vertex RGB value and its following byte are stored together in one word. Separate members write the bytes individually. */
             *(s32 *)&packet->red3 = second_color;
-            /* BYTES: retail stores each vertex colour word (red, green, blue and the next byte) with one sw; member stores compile to sb sequences */
+            /* BYTES: Each vertex RGB value and its following byte are stored together in one word. Separate members write the bytes individually. */
             *(s32 *)&packet->red2 = second_color;
             SetPolyG4(packet);
             packet->code = packet->code | 2;

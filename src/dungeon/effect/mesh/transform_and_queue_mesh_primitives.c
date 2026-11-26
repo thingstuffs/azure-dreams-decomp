@@ -23,8 +23,8 @@
 #include "dungeon/data.h"
 
 void (*const dungeon_189a800_entry)(ProjectileEffect *, ObjectPosition *, SpriteFrameState *) = update_projectile_trail_and_hit_effect;
-const u8 no_effect_target_prefix[48] = {0x82,0x73,0x82,0x88,0x82,0x85,0x82,0x92,0x82,0x85,0x81,0x40,0x82,0x97,0x82,0x81,0x82,0x93,0x81,0x40,0x82,0x8e,0x82,0x8f,0x81,0x40,0x82,0x85,0x82,0x86,0x82,0x86,0x82,0x85,0x82,0x83,0x82,0x94,0x81,0x40,0x82,0x8f,0x82,0x8e,0x81,0x40,0x0,0x0};
-const u8 no_effect_target_period[4] = {0x81,0x44,0x0,0x0};
+
+
 extern s32 D_800E1CB0;
 
 /* Attempts to apply an effect and reports the outcome for flagged targets. */
@@ -143,7 +143,7 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition
     GameWork *game_work;
 
     game_work = &g_game_work;
-    scratch->ordering_table = (u32 *)&((GpuContext *)game_work->draw_buffer)->orderTag;
+    scratch->ordering_table = &((GpuContext *)game_work->draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->local_matrix.t[0] = transform->x.w.i;
     scratch->local_matrix.t[1] = transform->y.w.i;
     scratch->local_matrix.t[2] = transform->z.w.i;
@@ -596,7 +596,7 @@ s32 project_colored_point_to_ordering_table(TerrainSeekingColoredPointBody *rend
     length_mask = 0xFF000000;
     scratch = SPRITE_SCRATCH;
     scratch->packet_cursor = context->packetCursor;
-    scratch->ordering_table = (u32 *)&context->orderTag;
+    scratch->ordering_table = &context->orderTag[GPU_ORDER_DEPTH_BASE];
     do {
         point_packet = scratch->packet_cursor;
         scratch->position.vx = position->x.w.i;
@@ -608,7 +608,7 @@ s32 project_colored_point_to_ordering_table(TerrainSeekingColoredPointBody *rend
                                    &scratch->gte_flag);
         scratch->sort_depth = depth_index;
         if (depth_index < 0x1E0U) {
-            /* BYTES: retail stores the tile colour word (r0, g0, b0 and code) with one sw; member stores compile to four sb */
+            /* BYTES: The tile color and command are written together. Separate members generate four byte stores. */
             *(u32 *)&point_packet->r0 = render_data->color;
             point_packet->r0 = (u8)((point_packet->r0 * render_data->intensity) /
                                       render_data->divisor);

@@ -613,6 +613,8 @@ def build(m,out,root=ROOT,substitutions=None,*,artifact_only=False):
   # Headers are resolved through -I root/include below. Every replaced source is bound.
   source=out/'candidate.c';source.write_text(text)
   candidate_hashes={k:sha(v) for k,v in substitutions.items()}
+ if N.text_imports(m):
+  N.validate_text_declarations(m,source.read_text(),root)
  # Native cohorts are one TU in one validated load region. They must use
  # the same bank scope as ordinary row compiles, never the family union.
  if m['container'] in {'town','dungeon'}:
@@ -634,6 +636,9 @@ def build(m,out,root=ROOT,substitutions=None,*,artifact_only=False):
  name_tools=importlib.util.module_from_spec(name_spec);name_spec.loader.exec_module(name_tools)
  names=name_tools.table(root/'config/names.tsv')
  entry_raw,entry_bindings=bind_native_entries(m,raw,rows(root),names,name_tools.copies(root/'config/names.tsv'))
+ if N.text_imports(m):
+  disc=root/'work/disc/containers'/CONTAINERS[m['container']]
+  entry_raw=N.insert_text_imports(m,entry_raw.decode(),disc).encode()
  proc=command([sys.executable,gate_tool(root,'ccproc.py'),'--names-tsv',root/'config/names.tsv'],root,env,out/'ccproc.log',entry_raw);(out/'sectioned.s').write_bytes(proc)
  command([root/'.venv/bin/python',root/'toolchain/maspsx/maspsx.py','--aspsx-version=2.79','--dont-force-G0','--run-assembler','--gnu-as-path=mipsel-linux-gnu-as','-I'+str(root),'-I'+str(root/'include'),'-EL','-march=r3000','-G8','-o',obj],root,env,out/'assemble.log',proc)
  shutil.copy2(obj,out/'module.untrimmed.o')

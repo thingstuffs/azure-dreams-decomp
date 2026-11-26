@@ -352,10 +352,10 @@ void update_flame_motion_and_facing(ActorRecord *actor, ObjectPosition *motion, 
                 if (subject_flags & 0x00040000) {
                     if (!(entity->flags & 0x40) &&
                         ((u8 *)entity->frameTable) == flame_direction_frames) {
-                        /* BYTES: the bob frame counter is one halfword at +0xB8 (lhu/sh), over the two bytes ActorRecord declares there (kewne uses them as two bytes) */
+                        /* BYTES: The bob frame counter is read and written as one unsigned halfword. Another actor action uses its two bytes independently. */
                         u16 bob_frame = *(u16 *)&actor->unk_B8;
 
-                        /* BYTES: the bob frame counter is one halfword at +0xB8 (lhu/sh), over the two bytes ActorRecord declares there (kewne uses them as two bytes) */
+                        /* BYTES: The bob frame counter is read and written as one unsigned halfword. Another actor action uses its two bytes independently. */
                         *(u16 *)&actor->unk_B8 = bob_frame + 1;
                         actor->unk_B4.value +=
                             rsin((s16)bob_frame * 0xAA) << 5;
@@ -394,7 +394,7 @@ void update_flame_motion_and_facing(ActorRecord *actor, ObjectPosition *motion, 
                         s16 reset_floor_offset;
 
                         reset_bob_offset = actor->unk_B4.value;
-                        /* BYTES: the bob frame counter is one halfword at +0xB8 (lhu/sh), over the two bytes ActorRecord declares there (kewne uses them as two bytes) */
+                        /* BYTES: The bob frame counter is read and written as one unsigned halfword. Another actor action uses its two bytes independently. */
                         *(u16 *)&actor->unk_B8 = 0;
                         actor->unk_B4.value = 0;
                         actor->unk_90.value -= reset_bob_offset;
@@ -427,7 +427,7 @@ void update_flame_motion_and_facing(ActorRecord *actor, ObjectPosition *motion, 
                 if (!(subject_flags & 0x00040000)) {
 
                     bob_offset = actor->unk_B4.value;
-                    /* BYTES: the bob frame counter is one halfword at +0xB8 (lhu/sh), over the two bytes ActorRecord declares there (kewne uses them as two bytes) */
+                    /* BYTES: The bob frame counter is read and written as one unsigned halfword. Another actor action uses its two bytes independently. */
                     *(u16 *)&actor->unk_B8 = 0;
                     actor->unk_B4.value = 0;
                     actor->unk_90.value -= bob_offset;
@@ -447,10 +447,10 @@ void update_flame_motion_and_facing(ActorRecord *actor, ObjectPosition *motion, 
                 } else {
                     if (!(entity->flags & 0x40) &&
                         ((u8 *)entity->frameTable) == flame_direction_frames) {
-                        /* BYTES: the bob frame counter is one halfword at +0xB8 (lhu/sh), over the two bytes ActorRecord declares there (kewne uses them as two bytes) */
+                        /* BYTES: The bob frame counter is read and written as one unsigned halfword. Another actor action uses its two bytes independently. */
                         u16 bob_frame = *(u16 *)&actor->unk_B8;
 
-                        /* BYTES: the bob frame counter is one halfword at +0xB8 (lhu/sh), over the two bytes ActorRecord declares there (kewne uses them as two bytes) */
+                        /* BYTES: The bob frame counter is read and written as one unsigned halfword. Another actor action uses its two bytes independently. */
                         *(u16 *)&actor->unk_B8 = bob_frame + 1;
                         actor->unk_B4.value +=
                             rsin((s16)bob_frame * 0xAA) << 5;
@@ -563,7 +563,7 @@ void dispatch_flame_actions(ActorRecord *actor, ObjectPosition *actor_context, S
                 0);
             sprite->frame_ticks = 1;
             actor->unk_B4.halves.high.s = 0;
-            /* BYTES: this action handler clears or keeps its +0xB8 action scratch as one halfword (sh/lhu) over the two bytes ActorRecord declares there (kewne uses them as two bytes) */
+            /* BYTES: This action reads and clears the scratch value as one unsigned halfword. Another actor action uses its two bytes independently. */
             *(u16 *)&actor->unk_B8 = 0;
         }
 
@@ -582,7 +582,7 @@ void dispatch_flame_actions(ActorRecord *actor, ObjectPosition *actor_context, S
             begin_actor_move_to_target_facing(actor, actor_context, sprite, creature);
             adjusted_offset = actor->unk_90.parts.high - actor->unk_B4.halves.high.u;
             actor->unk_B4.halves.high.s = 0;
-            /* BYTES: this action handler clears or keeps its +0xB8 action scratch as one halfword (sh/lhu) over the two bytes ActorRecord declares there (kewne uses them as two bytes) */
+            /* BYTES: This action reads and clears the scratch value as one unsigned halfword. Another actor action uses its two bytes independently. */
             *(u16 *)&actor->unk_B8 = 0;
             actor->unk_90.parts.high = adjusted_offset;
             update_flame_parent_motion(actor, actor_context, sprite, creature);
@@ -1594,7 +1594,7 @@ void update_flame_hop_shrink(ActorRecord *body, ObjectPosition *motion, SpriteFr
 }
 
 /* Runs the shared actor removal sequence with the supplied callback arguments. */
-void advance_flame_removal(void *state, void *motion, void *position, void *actor)
+void advance_flame_removal(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor)
 {
     advance_actor_removal(state, motion, position, actor);
 }
@@ -1685,7 +1685,7 @@ void wait_flame_status_and_animate(ActorRecord *in_actor, ObjectPosition *in_con
                 stat_value = in_actor->unk_90.parts.high;
                 stat_delta = in_actor->unk_B4.halves.high.u;
                 in_actor->unk_B4.halves.high.u = 0;
-                /* BYTES: this action handler clears or keeps its +0xB8 action scratch as one halfword (sh/lhu) over the two bytes ActorRecord declares there (kewne uses them as two bytes) */
+                /* BYTES: This action reads and clears the scratch value as one unsigned halfword. Another actor action uses its two bytes independently. */
                 *(u16 *)&in_actor->unk_B8 = 0;
                 in_actor->unk_90.parts.high = stat_value - stat_delta;
                 update_flame_parent_motion(in_actor, context, in_sprite, in_entity);
@@ -1835,7 +1835,7 @@ void wait_for_flame_mp(ActorRecord *entity, ObjectPosition *context, SpriteFrame
             entity_value = entity->unk_90.parts.high;
             pending_delta = entity->unk_B4.halves.high.u;
             entity->unk_B4.halves.high.u = 0;
-            /* BYTES: this action handler clears or keeps its +0xB8 action scratch as one halfword (sh/lhu) over the two bytes ActorRecord declares there (kewne uses them as two bytes) */
+            /* BYTES: This action reads and clears the scratch value as one unsigned halfword. Another actor action uses its two bytes independently. */
             *(u16 *)&entity->unk_B8 = 0;
             entity->unk_90.parts.high = entity_value - pending_delta;
             update_flame_parent_motion(entity, context, anim, actor);
@@ -1966,7 +1966,7 @@ s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg)
     register GpuContext *final_state;
     register PointPacket *packet_end;
     PointPacket *next_packet;
-    register R06_80173E94_S_80173E94_3 *packet;
+    register PointPacket *packet;
     PointPacket *mode_packet;
     R06_80173E94_S_80173E94_2 *vertex;
     R06_80173E94_S_80173E94_5 *previous;
@@ -1979,18 +1979,18 @@ s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg)
     scratch = (LinkedPointScratch *)0x1F800000;
 
     scratch->cursor = state->packetCursor;
-    scratch->ot = (u32 *)&state->orderTag;
+    scratch->ot = &state->orderTag[GPU_ORDER_DEPTH_BASE];
 
     do {
         vertex_x = vertex->unk_02;
         next_packet = scratch->cursor;
-        packet = (R06_80173E94_S_80173E94_3 *)next_packet;
+        packet = next_packet;
         scratch->x = vertex_x;
         scratch->y = vertex->unk_06;
         scratch->z = vertex->unk_0A;
         scratch->cursor = next_packet + 1;
 
-        depth_index = RotTransPers(scratch, &packet->screen, &scratch->xy,
+        depth_index = RotTransPers(scratch, &packet->data, &scratch->xy,
                              &scratch->depth);
         scratch->index = depth_index;
 
@@ -2002,20 +2002,20 @@ s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg)
             s32 page_x;
             s32 tile_code;
 
-            packet->unk_04.at00.v = node_view->unk_08;
-            shade_or_page = packet->unk_04.at00u.v * node_view->unk_32;
+            *(u32 *)&packet->r = node_view->unk_08;
+            shade_or_page = packet->r * node_view->unk_32;
             if (shade_or_page < 0) {
                 shade_or_page += 0xFF;
             }
-            packet->unk_04.at00u.v = shade_or_page >> 8;
+            packet->r = shade_or_page >> 8;
 
-            shade_or_page = packet->unk_04.at01.v * node_view->unk_32;
+            shade_or_page = packet->g * node_view->unk_32;
             if (shade_or_page < 0) {
                 shade_or_page += 0xFF;
             }
-            packet->unk_04.at01.v = shade_or_page >> 8;
+            packet->g = shade_or_page >> 8;
 
-            shade_or_page = packet->unk_04.at02.v * node_view->unk_32;
+            shade_or_page = packet->b * node_view->unk_32;
             if (shade_or_page < 0) {
                 shade_or_page += 0xFF;
                 pixel_mode = 0;
@@ -2023,25 +2023,23 @@ s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg)
                 pixel_mode = 0;
             }
             blend_mode = 1;
-            packet->unk_04.at02.v = shade_or_page >> 8;
-            packet->unk_00.at03.v = 2;
+            packet->b = shade_or_page >> 8;
+            ((u8 *)&packet->tag)[3] = 2;
             tile_code = 0x6A;
             page_x = pixel_mode;
-            packet->unk_04.at03.v = tile_code;
+            packet->code = tile_code;
 
-            ((R06_80173E94_OrderingTag *)packet)->addr =
-                ((R06_80173E94_OrderingTag *)(scratch->ot
+            ((GpuLinkTag *)packet)->addr =
+                ((GpuLinkTag *)(scratch->ot
                     + scratch->index))->addr;
             {
                 u32 *ot_entry;
                 u32 ot_tag;
                 u32 packet_addr;
 
-                ot_entry = (u32 *)(scratch->index << 2);
-                ot_entry = (u32 *)((u32)ot_entry +
-                                   (u32)scratch->ot);
+                ot_entry = (u32 *)((scratch->index << 2) + (u32)scratch->ot);
                 ot_tag = *ot_entry;
-                *ot_entry = ((u32)((ot_tag & 0xFF000000) | ((u32)((u32)packet & 0x00FFFFFF))));
+                *ot_entry = (ot_tag & 0xFF000000) | ((u32)packet & 0x00FFFFFF);
             }
 
             mode_packet = scratch->cursor;
@@ -2049,8 +2047,8 @@ s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg)
             shade_or_page = GetTPage(pixel_mode, blend_mode, page_x, pixel_mode);
             SetDrawMode(mode_packet, 0, 0, (u16)shade_or_page, 0);
 
-            ((R06_80173E94_OrderingTag *)mode_packet)->addr =
-                ((R06_80173E94_OrderingTag *)(scratch->ot
+            ((GpuLinkTag *)mode_packet)->addr =
+                ((GpuLinkTag *)(scratch->ot
                     + scratch->index))->addr;
             mode_packet = (PointPacket *)((u32)mode_packet & 0x00FFFFFF);
             (*(u32 *)((u8 *)(scratch->ot) + scratch->index * 4)) =
@@ -2175,7 +2173,7 @@ void project_and_queue_textured_quad(ActorRecord *quad, ObjectPosition *position
 
     GpuContext *context = g_game_work.draw_buffer;
 
-    scratch->ordering_table = (u32 *)&context->orderTag;
+    scratch->ordering_table = &context->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->local_matrix.t[0] = position->x.w.i;
     scratch->local_matrix.t[1] = position->y.w.i;
     scratch->local_matrix.t[2] = position->z.w.i;

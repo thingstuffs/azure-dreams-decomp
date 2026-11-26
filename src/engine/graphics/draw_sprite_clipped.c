@@ -63,7 +63,7 @@ void draw_sprite_clipped(void *context, ObjectPosition *position, SpriteFrameSta
     frame_slot = (void **)&g_game_work;
     frame = *frame_slot;
     scratchpad = SPRITE_SCRATCH;
-    scratchpad->ordering_table = (u32 *)&frame->orderTag;
+    scratchpad->ordering_table = &frame->orderTag[GPU_ORDER_DEPTH_BASE];
     {
         s32 translation;
         translation = position->x.w.i;

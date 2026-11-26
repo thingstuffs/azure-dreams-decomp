@@ -134,10 +134,10 @@ void update_volcano_motion_and_facing(ActorRecord *entity, ObjectPosition *motio
             if (!(monster->flags & 0x40)) {
                 advance_sprite_animation_and_textures(monster);
             }
-            apply_monster_koyaw_data(actor->flags1C, (u8 *)monster + 0xC);
+            apply_monster_koyaw_data(actor->flags1C, &monster->color.c.r);
         } else {
             monster->flags |= 0x7000;
-            apply_monster_koyaw_data(actor->flags1C, (u8 *)monster + 0xC);
+            apply_monster_koyaw_data(actor->flags1C, &monster->color.c.r);
         }
     } else {
         if (monster_flags & 0x0800) {

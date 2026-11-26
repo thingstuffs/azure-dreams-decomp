@@ -14,7 +14,7 @@ s32 queue_linked_object_draw_packets(u8 *item_data, u16 *coords)
     u32 address_mask = 0x00FFFFFF;
     u32 length_mask = 0xFF000000;
 
-    scratch->ordering_table = (u32 *)&render_state->orderTag;
+    scratch->ordering_table = &render_state->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->packet_cursor = first_packet;
     for (;;) {
         scratch->position.vx = coords[1];
@@ -34,7 +34,7 @@ s32 queue_linked_object_draw_packets(u8 *item_data, u16 *coords)
             u8 g;
             u8 b;
 
-            /* BYTES: retail copies the tile colour word (r0, g0, b0 and code) with one lw/sw; member copies compile to four lbu/sb */
+            /* BYTES: The tile color and command are loaded and stored together. Copying the individual members uses four byte loads and stores. */
             *(u32 *)&packet->r0 = *(u32 *)(item_data + 8);
             ((GpuLinkTag *)&packet->tag)->len = 2;
             r = packet->r0;

@@ -11,7 +11,6 @@
 
 typedef void (*Callback)(CardDevCommandPanel *panel);
 
-extern void card_dev_init_options_menu_entries(CardDevMenu18 *state, s32 entry_count);
 
 /* Initializes or retrieves the memory card options object. */
 void * init_card_options_object(ObjectNodeHeader *owner) {

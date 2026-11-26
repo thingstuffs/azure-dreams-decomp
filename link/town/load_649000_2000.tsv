@@ -1,14 +1,14 @@
-#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: validated packed-CD loader record; docs/evidence/town_scene_loader_receipt.json","i":"town/load_649000_2000","n":8192,"o":6590464,"p":["788f7a54afae7122504420cb4471d635a71e1ea4b97606fc7eb90e5534b05e4e","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:7655fdde21b9be80f8ac883bd78b8ffef96bbc29d50b8ff0e820a1d50ba66b8f"],"t":[5776,0,0,2416,0,0,0],"v":2147573760},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"proven_code"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: sliver_between_noncode"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: validated packed-CD loader record; docs/evidence/town_scene_loader_receipt.json","i":"town/load_649000_2000","n":8192,"o":6590464,"p":["788f7a54afae7122504420cb4471d635a71e1ea4b97606fc7eb90e5534b05e4e","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:7655fdde21b9be80f8ac883bd78b8ffef96bbc29d50b8ff0e820a1d50ba66b8f"],"t":[5776,0,0,2416,0,0,0],"v":2147573760},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"proven_code"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed","hash_size":16},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: sliver_between_noncode","hash_size":16},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
 6590464	28	a	census:audit+noncode_confirmed	d5d090ceff751d677f377ebc58f39cef863dfd417f5a65e29b961ecab3285cf8	0
 6590492	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	1
 6590532	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	0
 6590552	104	a	census:format:ascii	435d2a968c01e2395956577ebc6b17b1c08b37fc0970ea41de1b71c73bc8ec7d	1
 6590656	5776	r	census:c_row		2
-6596432	4	a	census:audit+noncode_confirmed	d3986a45b72c7392d944889d273fba20377b7aa3c3d66fb5ab341c5092471960	0
-6596436	12	a	census:neighbour:proven_data	532587642de94052d60f1bb08cc11190011f5b70e591d24ea07bdc2e1d451dc2	3
+6596432	4	a	census:audit+noncode_confirmed	aebee5428ec8908762002a7e7eb0f9138ab6ca04b4a58f500d60d959ba2ca34c	3
+6596436	12	a	census:neighbour:proven_data	65b2d6ef3f660aa7b4d369d4eed4d2b642b251c239af952716ee8d488b6a285e	4
 6596448	44	a	census:audit+noncode_confirmed	fbe8bb40150987e12ec708562e2181e380e1c33a2743e54fcaa57bcbeb55f623	0
-6596492	16	a	census:format:ptrtab	8c181e5359c6b7cc67ba15332f09059265f6abdbe0da7a9a135872b3ec9ec0d8	4
+6596492	16	a	census:format:ptrtab	8c181e5359c6b7cc67ba15332f09059265f6abdbe0da7a9a135872b3ec9ec0d8	5
 6596508	136	a	census:audit+noncode_confirmed	a673e0695a6fdb35110e1724787f2300371415b02e824fce8694321fc7db5e37	0
-6596644	16	a	census:format:ptrtab	3f2c98beceadd572b0129a93cab103a3eee9a3dc96837a17e2fff74a0435530b	4
+6596644	16	a	census:format:ptrtab	3f2c98beceadd572b0129a93cab103a3eee9a3dc96837a17e2fff74a0435530b	5
 6596660	1996	a	census:audit+noncode_confirmed	05c2daea0041fe8d0db2f3642b51df5379c34448dd59d9195807f97cd45f4438	0

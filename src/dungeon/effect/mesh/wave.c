@@ -203,9 +203,9 @@ void draw_wave_distorted_sprite(WaveScreenOrigin *screen_pos, ParticleState *wav
             else {
                 packet->clut = part->clut;
             }
-            /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+            /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
             *(s16 *) &packet->u0 = scratch->uv_v_start + scratch->uv_u_start;
-            /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+            /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
             *(s16 *) &packet->u1 = scratch->uv_v_start + scratch->uv_u_extent;
             texture_page = sprite->tpage_abr;
             if (texture_page != 0) {
@@ -214,9 +214,9 @@ void draw_wave_distorted_sprite(WaveScreenOrigin *screen_pos, ParticleState *wav
             else {
                 packet->tpage = part->tpage;
             }
-            /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+            /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
             *(s16 *) &packet->u2 = scratch->uv_v_extent | scratch->uv_u_start;
-            /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+            /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
             *(s16 *) &packet->u3 = scratch->uv_v_extent | scratch->uv_u_extent;
             if (packet->x0 > packet->x3) {
                 right_u = packet->u3;
@@ -240,7 +240,7 @@ void draw_wave_distorted_sprite(WaveScreenOrigin *screen_pos, ParticleState *wav
                 }
                 sprite->color.c.code = draw_command;
             }
-            /* BYTES: retail stores the sprite colour word (r0, g0, b0 and code) with one sw; member stores compile to four sb */
+            /* BYTES: The sprite color and command are written together. Separate members generate four byte stores. */
             *(s32 *) &packet->r0 = sprite->color.word;
             base_quad = *packet;
             strip_quad = base_quad;
@@ -486,7 +486,7 @@ s32 draw_linked_brightness_points(PointRecord *start_node, ObjectPosition *start
     scratch = (LinkedPointScratch *)0x1F800000;
 
     scratch->cursor = render_state->packetCursor;
-    scratch->ot = (u32 *)&render_state->orderTag;
+    scratch->ot = &render_state->orderTag[GPU_ORDER_DEPTH_BASE];
 
     for (;;) {
         coord_x = coords->x.w.i;

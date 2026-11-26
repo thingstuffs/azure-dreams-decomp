@@ -50,12 +50,12 @@ void update_map_world_extents(void)
 s32 find_min_qualifying_plane_height(u32 query_x, u32 query_y, s16 query_height, void **plane_out)
 {
     MapSurfacePlaneScratch *scratch;
-    TargetGlobal *globals;
-    TargetMap *world;
+    GameWork *globals;
+    MapGrid *world;
     u16 *tiles;
     Vec8 *vertices;
     Vec8 *planes;
-    u8 *face;
+    TownIndexedSurfaceCell *face;
     u16 x;
     s16 y;
     void **result_plane;
@@ -85,19 +85,19 @@ s32 find_min_qualifying_plane_height(u32 query_x, u32 query_y, s16 query_height,
     scratch->plane_range.best = 0x400;
     scratch->result = (void *)D_800CFCAC;
     masked_y = query_y & 0x3F;
-    globals = ((TargetGlobal *)&g_game_work);
+    globals = &g_game_work;
     world = &globals->map;
     masked_x = query_x & 0x3F;
     threshold = query_height - 0x14;
     scratch->x = masked_x;
     scratch->y = masked_y;
     scratch->plane_range.threshold = threshold;
-    planes = world->planes;
+    planes = world->surface_planes;
     scratch->base_x = masked_x;
     left_half = (s32)masked_x < 0x20;
     scratch->base_y = masked_y;
     scratch->planes = planes;
-    tiles = world->tiles;
+    tiles = world->cells;
     vertices = world->vertices;
 
     if (!left_half) {
@@ -150,63 +150,65 @@ s32 find_min_qualifying_plane_height(u32 query_x, u32 query_y, s16 query_height,
                 }
             }
             cell_x_coord = (s16)x;
-            cell = world->x_mask & (cell_x_coord / 64);
+            cell = world->maskX & (cell_x_coord / 64);
             scratch->lookup.index = cell;
             cell_y_coord = (s16)y;
-            cell += (s16)(world->y_mask & (cell_y_coord / 64)) << world->shift;
+            cell += (s16)(world->maskY & (cell_y_coord / 64)) << world->shiftX;
             scratch->lookup.index = cell;
             if (tiles[(s16)cell] != 0) {
                 scratch->x = scratch->base_x - scratch->scan.inner_offset;
-                face = world->cells[(tiles[scratch->lookup.index] & 0x3FFF)];
-                while (scratch->planes[*(u16 *)(face + 0x10)].z < 0) {
-                    if (!(face[0x17] & 1)) {
+                face = world->cell_faces[(tiles[scratch->lookup.index] & 0x3FFF)];
+                while (scratch->planes[face->plane].z < 0) {
+                    /* BYTES: The face marker is read as an unsigned byte. Taking it from the flags word adds a halfword load and shift. */
+                    if (!(((u8 *)&face->flags)[1] & 1)) {
                         local_x = scratch->x;
                         local_y = scratch->y;
 
-                        scratch->quad.words[0] = vertices[*(u16 *)(face + 0)].xy;
+                        scratch->quad.words[0] = vertices[face->v0].xy;
                         scratch->quad.halves[0] -= local_x;
                         scratch->quad.halves[1] -= local_y;
 
-                        scratch->quad.words[1] = vertices[*(u16 *)(face + 2)].xy;
+                        scratch->quad.words[1] = vertices[face->v2].xy;
                         scratch->quad.halves[2] -= local_x;
                         scratch->quad.halves[3] -= local_y;
 
-                        scratch->quad.words[2] = vertices[*(u16 *)(face + 6)].xy;
+                        scratch->quad.words[2] = vertices[face->v6].xy;
                         scratch->quad.halves[4] -= local_x;
                         scratch->quad.halves[5] -= local_y;
 
-                        scratch->quad.words[3] = vertices[*(u16 *)(face + 4)].xy;
+                        scratch->quad.words[3] = vertices[face->v4].xy;
                         scratch->quad.halves[6] -= local_x;
                         scratch->quad.halves[7] -= local_y;
                         if (check_scratch_quad_half_turn_gaps(scratch) != 0) {
-                            height = ((s16)scratch->planes[*(u16 *)(face + 0x10)].xy *
-                                      ((s16)vertices[*(u16 *)face].xy -
+                            height = ((s16)scratch->planes[face->plane].xy *
+                                      ((s16)vertices[face->v0].xy -
                                        scratch->x) +
-                                      (s16)(scratch->planes[*(u16 *)(face + 0x10)].xy >> 16) *
-                                      ((s16)(vertices[*(u16 *)face].xy >> 16) -
+                                      (s16)(scratch->planes[face->plane].xy >> 16) *
+                                      ((s16)(vertices[face->v0].xy >> 16) -
                                        scratch->y) +
-                                      scratch->planes[*(u16 *)(face + 0x10)].z *
-                                      vertices[*(u16 *)face].z) /
-                                     scratch->planes[*(u16 *)(face + 0x10)].z;
+                                      scratch->planes[face->plane].z *
+                                      vertices[face->v0].z) /
+                                     scratch->planes[face->plane].z;
                             scratch->plane_range.candidate = height;
                             if (height >= scratch->plane_range.threshold && height < scratch->plane_range.best) {
                                 scratch->plane_range.best = height;
-                                scratch->result = &scratch->planes[*(u16 *)(face + 0x10)];
+                                scratch->result = &scratch->planes[face->plane];
                             }
                         }
                     }
 
-                    flags = face[0x16];
+                    flags = face->flags;
                     if ((flags & 0xF) == 1) {
-                        if ((s8)face[0x17] < 0) {
+                        /* BYTES: The face end marker is read as a signed byte. Taking it from the flags word adds a halfword load and shift. */
+                        if (((s8 *)&face->flags)[1] < 0) {
                             break;
                         }
                         if (flags & 0xF0) {
-                            face += ((flags >> 4) * 3 << 3) + 0x18;
+                            face += (flags >> 4) + 1;
                             continue;
                         }
                     }
-                    face += 0x18;
+                    face++;
                 }
             }
             scratch->scan.inner_count++;
@@ -227,8 +229,8 @@ s32 find_highest_surface_within_range(s32 world_x, s32 world_y, s16 height) {
     u16 scan_x = world_x;
     s16 scan_y = world_y;
     MapSurfacePlaneScratch *scratch = (MapSurfacePlaneScratch *)0x1F800000;
-    GlobalState *global = ((GlobalState *)&g_game_work);
-    MapInfo *map;
+    GameWork *global = &g_game_work;
+    MapGrid *map;
     u16 *grid;
     Vec8 *vertices;
     Vec8 *plane_base;
@@ -253,9 +255,9 @@ s32 find_highest_surface_within_range(s32 world_x, s32 world_y, s16 height) {
     scratch->y = offset_y;
     scratch->plane_range.threshold = height + 0x14;
     scratch->base_y = offset_y;
-    scratch->planes = map->planes;
+    scratch->planes = map->surface_planes;
     scratch->base_x = offset_x;
-    grid = global->map.grid;
+    grid = global->map.cells;
     vertices = map->vertices;
     if (scratch->x >= 0x20) {
         offset_x = 0;
@@ -303,10 +305,10 @@ s32 find_highest_surface_within_range(s32 world_x, s32 world_y, s16 height) {
             biased_x = (s16)scan_x;
             if (biased_x < 0)
                 biased_x += 0x3F;
-            tile_x = map->x_mask & (biased_x >> 6);
+            tile_x = (u16)map->maskX & (biased_x >> 6);
             scratch->lookup.index = tile_x;
             biased_y = scan_y;
-            tile_index = tile_x + ((s16)(map->y_mask & (biased_y / 64)) << map->shift);
+            tile_index = tile_x + ((s16)(map->maskY & (biased_y / 64)) << map->shiftX);
             scratch->lookup.index = tile_index;
 
             if (grid[scratch->lookup.index] != 0) {
@@ -314,7 +316,7 @@ s32 find_highest_surface_within_range(s32 world_x, s32 world_y, s16 height) {
                 u16 grid_value;
                 scratch->x = scratch->base_x - scratch->scan.inner_offset;
                 grid_value = grid[scratch->lookup.index];
-                cell = map->records[grid_value & 0x3FFF];
+                cell = map->cell_faces[grid_value & 0x3FFF];
                 if (!(cell->flags & 0x40)) {
                     cell = (CellRecord *)((u8 *)cell - 0x0C);
                     do {
@@ -379,14 +381,14 @@ s32 find_highest_surface_within_range(s32 world_x, s32 world_y, s16 height) {
 /* Finds the smallest eligible surface X coordinate across neighboring grid tiles. */
 s16 find_smallest_surface_x_across_tiles(s32 query_x, s32 query_y, s32 query_z)
 {
-    Scratch_80090854 *scratch;
-    Grid80090320 *grid;
+    MapSurfaceXScratch *scratch;
+    MapGrid *grid;
     u16 *occupancy;
     GameWork *grid_data;
-    u8 *vertices;
-    u8 *entry;
-    Vec_80090854 *plane;
-    S_8008DA80_3 *vertex;
+    TownMapVector *vertices;
+    TownIndexedSurfaceCell *entry;
+    TownMapVector *plane;
+    TownMapVector *vertex;
     s16 block_base;
     s16 tile;
     s16 candidate_x;
@@ -398,7 +400,7 @@ s16 find_smallest_surface_x_across_tiles(s32 query_x, s32 query_y, s32 query_z)
 
     x = query_x;
     y = query_y;
-    scratch = (Scratch_80090854 *)0x1F800000;
+    scratch = (MapSurfaceXScratch *)0x1F800000;
     scratch->query.search.range.best = 0x7FFF;
     block_base = query_x & ~0x3F;
     scratch->query.search.range.base = block_base;
@@ -406,11 +408,11 @@ s16 find_smallest_surface_x_across_tiles(s32 query_x, s32 query_y, s32 query_z)
     scratch->query.y = query_y & 0x3F;
     scratch->query.z = query_z;
     grid_data = &g_game_work;
-    grid = (Grid80090320 *)((u8 *)grid_data + 0x1DC);
+    grid = &grid_data->map;
     scratch->query.result = query_x & 0x3F;
     query_x &= 0x3F;
     scratch->query.base_y = query_y & 0x3F;
-    scratch->planes = grid->height_data;
+    scratch->planes = grid->surface_planes;
     occupancy = grid_data->map.cells;
     vertices = grid->vertices;
     if (query_x >= 0x20) {
@@ -452,47 +454,49 @@ s16 find_smallest_surface_x_across_tiles(s32 query_x, s32 query_y, s32 query_z)
                 break;
             }
 
-            scratch->lookup.index = grid->x_mask &
+            scratch->lookup.index = grid->maskX &
                 ((s16)x / 64);
             tile = scratch->lookup.index +
-                ((s16)(grid->y_mask & ((s16)y / 64)) << grid->shift);
+                ((s16)(grid->maskY & ((s16)y / 64)) << grid->shiftX);
             scratch->lookup.index = tile;
             if (occupancy[tile] != 0) {
                 scratch->query.search.inner_offset = scratch->scan.inner_offset;
-                entry = grid->entries[occupancy[scratch->lookup.index] & 0x3FFF];
+                entry = grid->cell_faces[occupancy[scratch->lookup.index] & 0x3FFF];
                 for (;;) {
-                    S_8008DA80_1 *current = (S_8008DA80_1 *)entry;
-                    if (scratch->planes[current->unk_10].x < 0 &&
-                        !(current->unk_16.at01.v & 1)) {
-                        scratch->quad[0].y = ((S_8008DA80_5 *)(current->unk_00 * 8 + vertices))->unk_02
+                    TownIndexedSurfaceCell *current = entry;
+                    /* BYTES: Reading the flag byte directly preserves the byte load. Shifting the flags reads the whole halfword first. */
+                    if (scratch->planes[current->plane].x < 0 &&
+                        !(((u8 *)&current->flags)[1] & 1)) {
+                        scratch->quad[0].y = vertices[current->v0].y
                             - scratch->query.y;
-                        scratch->quad[0].z = ((S_8008DA80_5 *)(current->unk_00 * 8 + vertices))->unk_04
+                        scratch->quad[0].z = vertices[current->v0].z
                             - scratch->query.z;
-                        scratch->quad[1].y = ((S_8008DA80_6 *)(current->unk_02 * 8 + vertices))->unk_02
+                        scratch->quad[1].y = vertices[current->v2].y
                             - scratch->query.y;
-                        scratch->quad[1].z = ((S_8008DA80_6 *)(current->unk_02 * 8 + vertices))->unk_04
+                        scratch->quad[1].z = vertices[current->v2].z
                             - scratch->query.z;
-                        scratch->quad[2].y = ((S_8008DA80_7 *)(current->unk_06 * 8 + vertices))->unk_02
+                        scratch->quad[2].y = vertices[current->v6].y
                             - scratch->query.y;
-                        scratch->quad[2].z = ((S_8008DA80_7 *)(current->unk_06 * 8 + vertices))->unk_04
+                        scratch->quad[2].z = vertices[current->v6].z
                             - scratch->query.z;
-                        scratch->quad[3].y = ((S_8008DA80_8 *)(current->unk_04 * 8 + vertices))->unk_02
+                        scratch->quad[3].y = vertices[current->v4].y
                             - scratch->query.y;
-                        scratch->quad[3].z = ((S_8008DA80_8 *)(current->unk_04 * 8 + vertices))->unk_04
+                        scratch->quad[3].z = vertices[current->v4].z
                             - scratch->query.z;
 
                         if (check_scratch_quad_half_turn_gaps(scratch) != 0) {
-                            plane = (Vec_80090854 *)(current->unk_10 * 8 + (u32)scratch->planes);
-                            vertex = (S_8008DA80_3 *)(current->unk_00 * 8 +
+                            /* BYTES: Integer address arithmetic keeps the face index and plane-table base in their original temporaries before scaling the index. */
+                            plane = (TownMapVector *)(current->plane * 8 + (u32)scratch->planes);
+                            vertex = (TownMapVector *)(current->v0 * 8 +
                                             (u32)vertices);
                             plane_x =
                                 (plane->y *
-                                 (vertex->unk_02 -
+                                 (vertex->y -
                                   (s16)scratch->query.y) +
                                  plane->z *
-                                 (vertex->unk_04 -
+                                 (vertex->z -
                                   (s16)scratch->query.z) +
-                                 plane->x * vertex->unk_00) /
+                                 plane->x * vertex->x) /
                                 plane->x;
                             scratch->query.result = plane_x;
                             plane_x += scratch->query.search.inner_offset;
@@ -502,9 +506,9 @@ s16 find_smallest_surface_x_across_tiles(s32 query_x, s32 query_y, s32 query_z)
                                 scratch->query.search.range.best = candidate_x;
                         }
                     }
-                    if ((current->unk_16.at00.v & 0x80FF) == 0x8001)
+                    if ((current->flags & 0x80FF) == 0x8001)
                         break;
-                    entry += 0x18;
+                    entry++;
                 }
             }
             scratch->scan.inner_count++;
@@ -524,14 +528,14 @@ s16 query_x;
 u16 query_y;
 u16 query_z;
 {
-    Scratch_80090854 *scratch = (Scratch_80090854 *)0x1F800000;
+    MapSurfaceXScratch *scratch = (MapSurfaceXScratch *)0x1F800000;
     s16 scan_z;
     s16 scan_x;
     s32 block = (s16)(query_x & -0x40);
-    Global_80090854 *global = ((Global_80090854 *)&g_game_work);
-    Map_80090854 *map;
+    GameWork *global = &g_game_work;
+    MapGrid *map;
     u16 *tiles;
-    Vec_80090854 *vertices;
+    TownMapVector *vertices;
 
     scan_x = query_x;
     scan_z = query_y;
@@ -543,11 +547,11 @@ u16 query_z;
     query_y &= 0x3F;
     scratch->query.y = query_y;
     scratch->query.z = query_z;
-    scratch->planes = map->planes;
+    scratch->planes = map->surface_planes;
     query_x &= 0x3F;
     scratch->query.result = query_x;
     scratch->query.base_y = query_y;
-    tiles = global->map.tiles;
+    tiles = global->map.cells;
     vertices = map->vertices;
 
     if (query_x >= 0x20) {
@@ -611,20 +615,20 @@ u16 query_z;
 
                 shifted_x = (s32)((u32)(u16)scan_x << 16);
                 signed_x = shifted_x >> 16;
-                tile_x = map->x_mask & (signed_x / 64);
+                tile_x = map->maskX & (signed_x / 64);
                 scratch->lookup.index = tile_x;
                 tile_index = tile_x +
-                    ((s16)(map->z_mask & (scan_z / 64)) << map->shift);
+                    ((s16)(map->maskY & (scan_z / 64)) << map->shiftX);
                 scratch->lookup.index = tile_index;
 
                 if (tiles[scratch->lookup.index] != 0) {
-                    Cell_80090854 *cell;
+                    TownIndexedSurfaceCell *cell;
                     u16 tile_value;
                     s32 vertex_delta;
 
                     scratch->query.search.inner_offset = scratch->scan.inner_offset;
                     tile_value = tiles[scratch->lookup.index];
-                    cell = map->cells[tile_value & 0x3FFF];
+                    cell = map->cell_faces[tile_value & 0x3FFF];
                     for (;;) {
                         if (scratch->planes[cell->plane].x > 0 &&
                             !(((u8 *)&cell->flags)[1] & 1)) {
@@ -658,16 +662,17 @@ u16 query_z;
                             if (check_scratch_quad_half_turn_gaps(scratch) != 0) {
                                 u16 plane_index = cell->plane;
                                 u16 vertex_index = cell->v0;
-                                register Vec_80090854 *plane;
-                                register Vec_80090854 *vertex;
+                                register TownMapVector *plane;
+                                register TownMapVector *vertex;
                                 s32 delta_y;
                                 s32 delta_z;
                                 s32 y_product;
                                 s32 z_product;
                                 s32 x_product;
 
-                                plane = (Vec_80090854 *)(plane_index * 8 + (unsigned long)scratch->planes);
-                                vertex = (Vec_80090854 *)(vertex_index * 8 + (unsigned long)vertices);
+                                /* BYTES: Integer address arithmetic keeps the face index and plane-table base in their original temporaries before scaling the index. */
+                                plane = (TownMapVector *)(plane_index * 8 + (unsigned long)scratch->planes);
+                                vertex = (TownMapVector *)(vertex_index * 8 + (unsigned long)vertices);
                                 delta_y = vertex->y - (s16)scratch->query.y;
                                 delta_z = vertex->z - (s16)scratch->query.z;
                                 y_product = plane->y * delta_y;
@@ -687,7 +692,7 @@ u16 query_z;
                             s32 end_flags;
                             end_flags = cell->flags & 0x80FF;
                             if (end_flags != 0x8001) {
-                                cell = (Cell_80090854 *)((u8 *)cell + 0x18);
+                                cell = (TownIndexedSurfaceCell *)((u8 *)cell + 0x18);
                             } else {
                                 break;
                             }
@@ -706,10 +711,7 @@ u16 query_z;
     if (scratch->query.search.range.best == 0) {
         return 0;
     }
-    {
-        map = (Map_80090854 *)((s16)((u16)scratch->query.search.range.base + (u16)scratch->query.search.range.best));
-        return (s32)map;
-    }
+    return (s16)((u16)scratch->query.search.range.base + (u16)scratch->query.search.range.best);
 }
 
 /* Find the lowest qualifying surface height among neighboring map cells. */
@@ -720,12 +722,12 @@ u16 world_z;
 {
     MapSurfaceHeightScratch *scratch = (MapSurfaceHeightScratch *)0x1F800000;
     u16 *grid;
-    MapSurfaceHeightVector *vertices;
+    TownMapVector *vertices;
     register s16 scan_x;
     s16 scan_y;
     s32 base_y;
-    LowestSurfaceGlobal *global;
-    LowestSurfaceMap *map;
+    GameWork *global;
+    MapGrid *map;
 
     scan_x = world_x;
     scan_y = world_y;
@@ -737,10 +739,10 @@ u16 world_z;
     scratch->query_z = world_z;
     scratch->candidate_height = world_y & 0x3F;
     scratch->tile_query_x = world_x & 0x3F;
-    global = &D_80083160;
-    map = &D_80083160.map;
-    scratch->planes = map->planes;
-    grid = global->map.grid;
+    global = &g_game_work;
+    map = &global->map;
+    scratch->planes = map->surface_planes;
+    grid = global->map.cells;
     vertices = map->vertices;
 
     if (scratch->query_x >= 0x20) {
@@ -805,53 +807,53 @@ u16 world_z;
                 {
                     u16 x_mask;
                     s32 column;
-                    x_mask = map->x_mask;
+                    x_mask = map->maskX;
                     column = cell_x >> 6;
                     scratch->lookup.index = x_mask & column;
                 }
                 if (cell_y < 0) {
                     cell_y += 0x3F;
                 }
-                cell = scratch->lookup.index + ((s16)(map->y_mask & (cell_y >> 6)) << map->shift);
+                cell = scratch->lookup.index + ((s16)(map->maskY & (cell_y >> 6)) << map->shiftX);
                 scratch->lookup.index = cell;
 
                 if (grid[scratch->lookup.index] != 0) {
-                    LowestSurfaceCell *record;
+                    TownIndexedSurfaceCell *record;
                     u16 grid_value;
 
                     scratch->query_x = scratch->tile_query_x - scratch->scan.inner_offset;
                     grid_value = grid[scratch->lookup.index];
-                    record = map->records[grid_value & 0x3FFF];
+                    record = map->cell_faces[grid_value & 0x3FFF];
                     for (;;) {
                         if ((scratch->planes[record->plane].y < 0) && !(((u8 *)&record->flags)[1] & 1)) {
                             s32 height;
                             u32 vertex_index;
 
-                            vertex_index = record->vertex4;
+                            vertex_index = record->v4;
                             scratch->quad[0] = ((s16)(vertices[vertex_index].x)) - *&scratch->query_x;
-                            vertex_index = record->vertex4;
+                            vertex_index = record->v4;
                             scratch->quad[1] = ((s16)(vertices[vertex_index].z)) - *&scratch->query_z;
-                            vertex_index = record->vertex6;
+                            vertex_index = record->v6;
                             scratch->quad[2] = ((s16)(vertices[vertex_index].x)) - *&scratch->query_x;
-                            vertex_index = record->vertex6;
+                            vertex_index = record->v6;
                             scratch->quad[3] = ((s16)(vertices[vertex_index].z)) - *&scratch->query_z;
-                            vertex_index = record->vertex2;
+                            vertex_index = record->v2;
                             scratch->quad[4] = ((s16)(vertices[vertex_index].x)) - *&scratch->query_x;
-                            vertex_index = record->vertex2;
+                            vertex_index = record->v2;
                             scratch->quad[5] = ((s16)(vertices[vertex_index].z)) - *&scratch->query_z;
-                            vertex_index = record->vertex0;
+                            vertex_index = record->v0;
                             scratch->quad[6] = ((s16)(vertices[vertex_index].x)) - *&scratch->query_x;
-                            vertex_index = record->vertex0;
+                            vertex_index = record->v0;
                             scratch->quad[7] = ((s16)(vertices[vertex_index].z)) - *&scratch->query_z;
 
                             if (check_scratch_quad_half_turn_gaps(scratch) != 0) {
                                 {
                                     s16 vertex_coord;
                                     s32 normal_x;
-                                    height = ((normal_x = scratch->planes[record->plane].x) * ((vertex_coord = vertices[record->vertex0].x) - (s16)scratch->query_x)
-                                              + scratch->planes[record->plane].z * ((vertex_coord = vertices[record->vertex0].z)
+                                    height = ((normal_x = scratch->planes[record->plane].x) * ((vertex_coord = vertices[record->v0].x) - (s16)scratch->query_x)
+                                              + scratch->planes[record->plane].z * ((vertex_coord = vertices[record->v0].z)
                                                   - scratch->query_z)
-                                              + scratch->planes[record->plane].y * vertices[record->vertex0].y) / scratch->planes[record->plane].y;
+                                              + scratch->planes[record->plane].y * vertices[record->v0].y) / scratch->planes[record->plane].y;
                                 }
                                 scratch->candidate_height = height;
                                 scratch->candidate_height += scratch->cell_row_offset;
@@ -865,7 +867,7 @@ u16 world_z;
                             u16 flags;
                             flags = record->flags & 0x80FF;
                             if (flags != 0x8001) {
-                                record = (LowestSurfaceCell *)((u8 *)record + 0x18);
+                                record = (TownIndexedSurfaceCell *)((u8 *)record + 0x18);
                                 continue;
                             }
                         }
@@ -897,10 +899,10 @@ s32 find_highest_valid_cell_height(s32 world_x, s32 world_z, s32 world_y)
     s16 query_y = world_y;
     s32 z_base;
     s32 tile_mask;
-    Global_8008EA20 *global = ((Global_8008EA20 *)&g_game_work);
-    Map_8008EA20 *map = &global->map;
+    GameWork *global = &g_game_work;
+    MapGrid *map = &global->map;
     u16 *tiles;
-    MapSurfaceHeightVector *vertices;
+    TownMapVector *vertices;
 
     tile_mask = -0x40;
     z_base = (s32)((u32)(world_z & tile_mask) << 16) >> 16;
@@ -909,10 +911,10 @@ s32 find_highest_valid_cell_height(s32 world_x, s32 world_z, s32 world_y)
     scratch->height_range.base = z_base;
     scratch->query_x = world_x & 0x3F;
     scratch->query_z = query_y;
-    scratch->planes = map->heights;
+    scratch->planes = map->surface_planes;
     scratch->candidate_height = world_z & 0x3F;
     scratch->tile_query_x = world_x & 0x3F;
-    tiles = global->map.tiles;
+    tiles = global->map.cells;
     vertices = map->vertices;
 
     if ((world_x & 0x3F) >= 0x20) {
@@ -960,23 +962,23 @@ s32 find_highest_valid_cell_height(s32 world_x, s32 world_z, s32 world_y)
             }
 
             grid_x = scan_x;
-            scratch->lookup.index = map->x_mask & (grid_x / 64);
+            scratch->lookup.index = map->maskX & (grid_x / 64);
 
             grid_z = scan_z;
             scratch->lookup.index +=
-                (s16)(map->z_mask & (grid_z / 64)) << map->shift;
+                (s16)(map->maskY & (grid_z / 64)) << map->shiftX;
 
             if (tiles[scratch->lookup.index] != 0) {
                 u16 tile_entry;
-                Cell_8008EA20 *cell;
+                TownIndexedSurfaceCell *cell;
 
                 scratch->query_x =
                     scratch->tile_query_x - scratch->scan.inner_offset;
                 tile_entry = tiles[scratch->lookup.index];
-                cell = map->cells[tile_entry & 0x3FFF];
+                cell = map->cell_faces[tile_entry & 0x3FFF];
 
                 for (;;) {
-                    if (scratch->planes[cell->height_index].y > 0 &&
+                    if (scratch->planes[cell->plane].y > 0 &&
                         !(((u8 *)&cell->flags)[1] & 1)) {
                         s32 cell_height;
 
@@ -985,29 +987,29 @@ s32 find_highest_valid_cell_height(s32 world_x, s32 world_z, s32 world_y)
                         scratch->quad[1] =
                             vertices[cell->v0].z - scratch->query_z;
                         scratch->quad[2] =
-                            vertices[cell->v1].x - (u16)scratch->query_x;
-                        scratch->quad[3] =
-                            vertices[cell->v1].z - scratch->query_z;
-                        scratch->quad[4] =
                             vertices[cell->v2].x - (u16)scratch->query_x;
-                        scratch->quad[5] =
+                        scratch->quad[3] =
                             vertices[cell->v2].z - scratch->query_z;
+                        scratch->quad[4] =
+                            vertices[cell->v6].x - (u16)scratch->query_x;
+                        scratch->quad[5] =
+                            vertices[cell->v6].z - scratch->query_z;
                         scratch->quad[6] =
-                            vertices[cell->v3].x - (u16)scratch->query_x;
+                            vertices[cell->v4].x - (u16)scratch->query_x;
                         scratch->quad[7] =
-                            vertices[cell->v3].z - scratch->query_z;
+                            vertices[cell->v4].z - scratch->query_z;
 
                         if (check_scratch_quad_half_turn_gaps(scratch) != 0) {
                             s16 local_x = scratch->query_x;
 
                             cell_height =
-                                (scratch->planes[cell->height_index].x *
+                                (scratch->planes[cell->plane].x *
                                  (vertices[cell->v0].x - local_x) +
-                                 scratch->planes[cell->height_index].z *
+                                 scratch->planes[cell->plane].z *
                                  (vertices[cell->v0].z - scratch->query_z) +
-                                 scratch->planes[cell->height_index].y *
+                                 scratch->planes[cell->plane].y *
                                  vertices[cell->v0].y) /
-                                scratch->planes[cell->height_index].y;
+                                scratch->planes[cell->plane].y;
                             scratch->candidate_height = cell_height;
                             scratch->candidate_height += scratch->cell_row_offset;
                             if (scratch->height_range.bound >= scratch->candidate_height &&
@@ -1020,7 +1022,7 @@ s32 find_highest_valid_cell_height(s32 world_x, s32 world_z, s32 world_y)
                     if ((cell->flags & 0x80FF) == 0x8001) {
                         break;
                     }
-                    cell = (Cell_8008EA20 *)((u8 *)cell + 0x18);
+                    cell = (TownIndexedSurfaceCell *)((u8 *)cell + 0x18);
                 }
             }
 

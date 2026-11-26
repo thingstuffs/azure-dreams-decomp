@@ -5,7 +5,7 @@
   "foff": "0xd79284",
   "size": "0x5880",
   "vma": "0x80152a84",
-  "evidence": "docs/evidence/r121w_s1_wave2.receipt.json",
+  "evidence": "Recorded in the production link map.",
   "entries": [
     {
       "row": "dungeon/func_80D5979C",
@@ -20,7 +20,7 @@
         "0x801708b8": "0x801528b8",
         "0x8016D568": "0x8016D568"
       },
-      "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: dungeon/func_80D5979C"
+      "evidence": ": dungeon/func_80D5979C"
     },
     {
       "row": "dungeon/func_80D599B0",
@@ -60,7 +60,7 @@
         "0x801711B0": "0x801711B0",
         "0x80171D3C": "0x80154B4C"
       },
-      "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: dungeon/func_80D5A944"
+      "evidence": ": dungeon/func_80D5A944"
     },
     {
       "row": "dungeon/func_80D5B8C4",
@@ -75,7 +75,7 @@
         "0x8016D568": "0x8016D568",
         "0x801711B0": "0x801711B0"
       },
-      "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: dungeon/func_80D5B8C4"
+      "evidence": ": dungeon/func_80D5B8C4"
     },
     {
       "row": "dungeon/func_80D5BD10",
@@ -90,7 +90,7 @@
         "0x8016D568": "0x8016D568",
         "0x801711B0": "0x801711B0"
       },
-      "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: dungeon/func_80D5BD10"
+      "evidence": ": dungeon/func_80D5BD10"
     },
     {
       "row": "dungeon/func_80D5C260",
@@ -105,7 +105,7 @@
         "0x8016D568": "0x8016D568",
         "0x801711B0": "0x801711B0"
       },
-      "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: dungeon/func_80D5C260"
+      "evidence": ": dungeon/func_80D5C260"
     },
     {
       "row": "dungeon/func_80D5CB38",
@@ -119,7 +119,7 @@
         "0x8016D568": "0x80156338",
         "0x801711B0": "0x801711B0"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "dungeon/func_80D5D268",
@@ -134,7 +134,7 @@
         "0x8016D568": "0x8016D568",
         "0x801711B0": "0x801711B0"
       },
-      "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: dungeon/func_80D5D268"
+      "evidence": ": dungeon/func_80D5D268"
     },
     {
       "row": "dungeon/func_80D5E884",
@@ -149,7 +149,7 @@
         "0x8016D568": "0x8016D568",
         "0x801711B0": "0x801711B0"
       },
-      "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: dungeon/func_80D5E884"
+      "evidence": ": dungeon/func_80D5E884"
     }
   ]
 }

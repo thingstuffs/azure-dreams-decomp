@@ -2,11 +2,11 @@
 #include "town/devkit/memory_task.h"
 #include "frontend/card/save_slot.h"
 #include "town/devkit.h"
+#include "frontend/card.h"
 
 
 
 
-void card_build_selected_slot_details(CardDevSlotDetails *panel);
 
 
 /* Select the exit or fallback path using the indexed table entry. */

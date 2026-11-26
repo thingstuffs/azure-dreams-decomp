@@ -22,11 +22,6 @@ void tick_player_countdown(void *object, struct ObjectPosition *position);
 void initialize_player_data_reference(struct S_8009A18C_0 *data_ref, struct ObjectPosition *position);
 
 /* Phase-specific names of the existing linked-value and flag helpers. */
-s32 get_entry_linked_value(void);
-s32 read_entry_linked_value(void);
-s32 get_scene_script_flag_mask(s32 flag);
-void set_scene_script_flag_bit(s32 flag);
-void clear_scene_script_flag_bit(s32 flag);
 
 void set_no_op_scene_handler(s32 **out_ptr, struct ObjectPosition *unused_position, s32 unused_context);
 

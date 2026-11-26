@@ -1,8 +1,8 @@
-#{"a":0,"d":{"c":"dungeon","e":"ledger/instance_load_regions.jsonl: validated dungeon loader arithmetic (a1=0; selector 1..63); docs/evidence/dungeon_gap_183a800.json","i":"dungeon/load_1936800_6000","n":24576,"o":26437632,"p":["788f7a54afae7122504420cb4471d635a71e1ea4b97606fc7eb90e5534b05e4e","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:7655fdde21b9be80f8ac883bd78b8ffef96bbc29d50b8ff0e820a1d50ba66b8f"],"t":[6892,0,0,36,17648,0,0],"v":2147631104},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:data_row"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:rodata_owner"},{"census_label":"proven_code"},{"type":"typing pending"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"dungeon","e":"ledger/instance_load_regions.jsonl: validated dungeon loader arithmetic (a1=0; selector 1..63); docs/evidence/dungeon_gap_183a800.json","i":"dungeon/load_1936800_6000","n":24576,"o":26437632,"p":["788f7a54afae7122504420cb4471d635a71e1ea4b97606fc7eb90e5534b05e4e","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:7655fdde21b9be80f8ac883bd78b8ffef96bbc29d50b8ff0e820a1d50ba66b8f"],"t":[6892,0,0,36,17648,0,0],"v":2147631104},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:data_row","hash_size":16},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:rodata_owner","hash_size":16},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:data_row"},{"census_label":"proven_code"},{"type":"typing pending"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
-26437632	4	a	census:ledger:data_row	b635a83928beb9dcf4703665f82558140e79eab62fbb43db51b89f3a17bfeb6f	0
-26437636	4	a	census:ledger:rodata_owner	df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119	1
-26437640	28	a	census:ledger:data_row	8142899e480b32a4e4aae367cbb2acb30a2a64b60c445dc350fb7286b9c9d477	0
-26437668	6892	r	census:c_row		2
-26444560	48	d	census:noncode:decode		3
-26444608	17600	d	census:noncode:entropy:unplaced		3
+26437632	4	a	census:ledger:data_row	2bf02972b2be1213d8dc9d834d83c19f543de5c65bd10ed3191e790a8e90bfb0	0
+26437636	4	a	census:ledger:rodata_owner	ca840cb14399cef04c6f522f6a5e21eb5ae7120ab0b72b8e4f916266e7f402ae	1
+26437640	28	a	census:ledger:data_row	8142899e480b32a4e4aae367cbb2acb30a2a64b60c445dc350fb7286b9c9d477	2
+26437668	6892	r	census:c_row		3
+26444560	48	d	census:noncode:decode		4
+26444608	17600	d	census:noncode:entropy:unplaced		4

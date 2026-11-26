@@ -5,7 +5,7 @@
   "foff": "0xA7F000",
   "size": "0x6000",
   "vma": "0x80158800",
-  "evidence": "r124w_carve1 run 2: supplied live fallback census and complete source-section equality; docs/evidence/r124w_carve1_run2.md",
+  "evidence": "supplied live fallback census and complete source-section equality",
   "entries": [
     {
       "row": "dungeon/func_80A5F07C",
@@ -14,7 +14,7 @@
       "foff": "0xA7F07C",
       "vma": "0x8015887C",
       "size": 828,
-      "evidence": "docs/evidence/r124_opus_carve2.md",
+      "evidence": "Recorded in the production link map.",
       "bindings": {
         "0x80170BB8": "0x80158BB8",
         "0x8017586C": "0x8015D86C",
@@ -34,7 +34,7 @@
         "0x8017589C": "0x8015D89C",
         "0x8017586C": "0x8015D86C"
       },
-      "evidence": "r124w_carve1 run 2: complete registered-home section equality"
+      "evidence": "complete registered-home section equality"
     }
   ]
 }

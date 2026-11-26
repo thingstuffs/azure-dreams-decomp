@@ -5,7 +5,7 @@
   "foff": "0x12da898",
   "size": "0x578",
   "vma": "0x80162098",
-  "evidence": "work/native_lane/r121_heur/evidence/placements.json",
+  "evidence": "Recorded in the production link map.",
   "entries": [
     {
       "row": "dungeon/func_812DA898",
@@ -22,7 +22,7 @@
         "0x80175F40": "0x80163D2C",
         "0x80175F6E": "0x80163D5A"
       },
-      "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json; B10 re-homed from dungeon/func_809BFD60 (now an LL placement of dungeon/func_809A1D60): bindings translated through dungeon/func_809BFD60's object-screen resolution"
+      "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in; B10 re-homed from dungeon/func_809BFD60 (now an LL placement of dungeon/func_809A1D60): bindings translated through dungeon/func_809BFD60's object-screen resolution"
     }
   ]
 }

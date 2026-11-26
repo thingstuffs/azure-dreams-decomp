@@ -36,10 +36,10 @@ extern u8 scene_object_payload_alias[];
 extern s32 camera_height_mode[3];
 extern u8 D_800D0080[];
 
-extern void stop_scene_player_and_defer_action_setup(void);
 #include "town/shop/display_objects.h"
 #include "town/shop/object.h"
 #include "town/minigame/effect.h"
+#include "town/player/state.h"
 
 
    /* object in update_betting_effect */
@@ -479,7 +479,7 @@ void update_betting_effect(TownEffect *input)
         motion = &view_reference_entity;
         motion_words = motion;
         motion_words->x.v = (s32)((u32)(orbit_component * 5) << 9) + 0x03600000;
-        timer_ptr = (s16 *)((u8 *)effect + 0x1A);
+        timer_ptr = &effect->timer;
         orbit_component = rcos(0x1000 - *timer_ptr);
         motion_words->y.v = (s32)((u32)(orbit_component * 5) << 9) + 0x03600000;
         if (--effect->count == 0) {

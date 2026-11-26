@@ -144,10 +144,10 @@ void draw_gouraud_textured_ribbon_quad(S_801663AC_4 *quad, ObjectPosition *posit
                 packet->clut = ((ObjectPosition *)texture)->y.unsigned_parts.integer;
             }
 
-            /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+            /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
             *(u16 *)&packet->u0 = scratch->uv_v_start +
                                       scratch->uv_u_start;
-            /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+            /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
             *(u16 *)&packet->u1 = scratch->uv_v_start +
                                        scratch->uv_u_extent;
 
@@ -158,10 +158,10 @@ void draw_gouraud_textured_ribbon_quad(S_801663AC_4 *quad, ObjectPosition *posit
                 packet->tpage = ((ObjectPosition *)texture)->y.w.frac;
             }
 
-            /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+            /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
             *(u16 *)&packet->u2 = scratch->uv_v_extent +
                                        scratch->uv_u_start;
-            /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+            /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
             *(u16 *)&packet->u3 = scratch->uv_v_extent +
                                        scratch->uv_u_extent;
 
@@ -174,13 +174,13 @@ void draw_gouraud_textured_ribbon_quad(S_801663AC_4 *quad, ObjectPosition *posit
                 packet->v3--;
             }
 
-            /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+            /* BYTES: Each loaded vertex color is written together with its command or padding byte. Separate members generate four byte stores. */
             *(u32 *)&packet->r0 = quad->unk_00;
-            /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+            /* BYTES: Each loaded vertex color is written together with its command or padding byte. Separate members generate four byte stores. */
             *(u32 *)&packet->r1 = quad->unk_04;
-            /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+            /* BYTES: Each loaded vertex color is written together with its command or padding byte. Separate members generate four byte stores. */
             *(u32 *)&packet->r2 = quad->unk_08;
-            /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+            /* BYTES: Each loaded vertex color is written together with its command or padding byte. Separate members generate four byte stores. */
             *(u32 *)&packet->r3 = quad->unk_0C;
 
             SetPolyGT4(packet);

@@ -69,9 +69,6 @@ void advance_barong_attack(ActorRecord *action, ObjectPosition *motion, SpriteFr
 
 void advance_arcing_actor_move(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void hop_actor_and_restore_scale(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void update_actor_hop_action(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void update_hop_motion_and_completion(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void update_tile_centering_motion_animation_restores_actor_timer_expires(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void update_timed_hop_and_landing(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 /* Callback entry points. */

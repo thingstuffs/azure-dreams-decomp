@@ -67,7 +67,7 @@ extern void spend_actor_mp(Entity *, s32);
  * Moves Blume to its target tile over a timed arc and, when the action timer expires, spends its
  * MP, updates its facing and checks for a floor trap.
  */
-void update_timed_tile_approach(ActorRecord *body, Motion *motion, SpriteFrameState *sprite, Entity *entity)
+void update_timed_tile_approach(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, Entity *entity)
 {
     s32 direction_work[2];
     s32 facing_index;
@@ -98,12 +98,12 @@ void update_timed_tile_approach(ActorRecord *body, Motion *motion, SpriteFrameSt
             s32 y_origin;
 
             target_x = sprite->tile_x << 6;
-            x_origin = motion->x2 - 0x20;
+            x_origin = motion->x.w.i - 0x20;
             x_velocity = ((target_x - x_origin) << 16) /
                          body->unk_9E;
-            y_origin = motion->y6 - 0x20;
-            motion->dxC = x_velocity;
-            motion->dy10 = (((sprite->tile_y << 6) - y_origin) << 16) /
+            y_origin = motion->y.w.i - 0x20;
+            motion->velocity_x = x_velocity;
+            motion->velocity_y = (((sprite->tile_y << 6) - y_origin) << 16) /
                          body->unk_9E;
             body->unk_A0.value = -rsin(body->unk_9E * 0x199) << 9;
         }
@@ -121,9 +121,9 @@ void update_timed_tile_approach(ActorRecord *body, Motion *motion, SpriteFrameSt
             break;
         }
         body->action_state_flags &= 0xFFF7;
-        motion->dz14 = 0;
-        motion->dy10 = 0;
-        motion->dxC = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         sprite->frameTable = (u32)D_801753DC;
         facing_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->direction2A + 0x100) >> 9;
@@ -140,9 +140,9 @@ end_state:
         return;
     }
 
-    motion->dz14 = 0;
-    motion->dy10 = 0;
-    motion->dxC = 0;
+    motion->velocity_z = 0;
+    motion->velocity_y = 0;
+    motion->velocity_x = 0;
     set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
     spend_actor_mp(entity, 4);
     advance_status_timers(entity);

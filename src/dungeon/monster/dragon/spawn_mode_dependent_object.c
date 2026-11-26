@@ -1451,13 +1451,13 @@ void remove_defeated_dragon(ActorRecord *body, ObjectPosition *position, SpriteF
 }
 
 /* Runs the shared hop and shrink sequence for the actor with the supplied callback arguments. */
-void shrink_hopping_dragon(void *state, void *motion, void *position, void *actor)
+void shrink_hopping_dragon(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor)
 {
     update_actor_hop_and_shrink(state, motion, position, actor);
 }
 
 /* Runs the shared actor removal sequence with the supplied callback arguments. */
-void advance_dragon_removal(void *state, void *motion, void *position, void *actor)
+void advance_dragon_removal(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor)
 {
     advance_actor_removal(state, motion, position, actor);
 }

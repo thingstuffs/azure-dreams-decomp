@@ -19,8 +19,8 @@ struct ObjectPosition;
 #include "dungeon/effect/particle.h"
 #include "dungeon/system.h"
 void (*const dungeon_1894800_entry)(TargetParticleStatusSpellBody *, ObjectPosition *, SpriteFrameState *) = update_animated_effect_sprite;
-const u8 no_effect_target_prefix[48] = { 0x82, 0x73, 0x82, 0x88, 0x82, 0x85, 0x82, 0x92, 0x82, 0x85, 0x81, 0x40, 0x82, 0x97, 0x82, 0x81, 0x82, 0x93, 0x81, 0x40, 0x82, 0x8E, 0x82, 0x8F, 0x81, 0x40, 0x82, 0x85, 0x82, 0x86, 0x82, 0x86, 0x82, 0x85, 0x82, 0x83, 0x82, 0x94, 0x81, 0x40, 0x82, 0x8F, 0x82, 0x8E, 0x81, 0x40, 0x00, 0x00 };
-const u8 no_effect_target_period[4] = { 0x81, 0x44, 0x00, 0x00 };
+
+
 #include "modules/dungeon_native_abi.h"
 
 extern u8 D_800E1C8A[38];
@@ -192,10 +192,10 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
                     packet->clut = (*(u16 *)(texture + 6));
                 }
 
-                /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
                 *(u16 *)&packet->u0 = scratch->uv_v_start +
                                           scratch->uv_u_start;
-                /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
                 *(u16 *)&packet->u1 = scratch->uv_v_start +
                                            scratch->uv_u_extent;
 
@@ -207,10 +207,10 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
                     packet->tpage = (*(u16 *)(texture + 4));
                 }
 
-                /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
                 *(u16 *)&packet->u2 = scratch->uv_v_extent +
                                            scratch->uv_u_start;
-                /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
                 *(u16 *)&packet->u3 = scratch->uv_v_extent +
                                            scratch->uv_u_extent;
 
@@ -231,7 +231,7 @@ void project_textured_quad_or_callback(void *quad_arg, ObjectPosition *position,
                         (tex_flags | 2) : (tex_flags & 0xFD);
                 }
 
-                /* BYTES: retail stores the sprite colour word (r0, g0, b0 and code) with one sw; member stores compile to four sb */
+                /* BYTES: The sprite color and command are written together. Separate members generate four byte stores. */
                 *(u32 *)&packet->r0 = material->color.word;
                 packet->tag = (packet->tag & 0xFF000000) |
                     (scratch->ordering_table[scratch->ot_index] & 0x00FFFFFF);
@@ -439,9 +439,9 @@ void draw_textured_sphere_mesh(TexturedSparkSphereBody *mesh, ObjectPosition *po
                             clut = *(u16 *)(texture + 6);
                             quad->clut = clut;
                         }
-                        /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                        /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
                         *(u16 *)&quad->u0 = scratch->uv_v_start + scratch->uv_u_start;
-                        /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                        /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
                         *(u16 *)&quad->u1 = scratch->uv_v_start + scratch->uv_u_extent;
                         tpage_override = material->tpage_abr;
                         if (tpage_override != 0) {
@@ -450,9 +450,9 @@ void draw_textured_sphere_mesh(TexturedSparkSphereBody *mesh, ObjectPosition *po
                             tpage = *(u16 *)(texture + 4);
                         }
                         quad->tpage = tpage;
-                        /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                        /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
                         *(u16 *)&quad->u2 = scratch->uv_v_extent + scratch->uv_u_start;
-                        /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                        /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
                         *(u16 *)&quad->u3 = scratch->uv_v_extent + scratch->uv_u_extent;
                         if (quad->x0 > quad->x3) {
                             quad->u1--;
@@ -478,7 +478,7 @@ void draw_textured_sphere_mesh(TexturedSparkSphereBody *mesh, ObjectPosition *po
                             u32 address_mask = 0x00FFFFFF;
                             u32 tag_mask = 0xFF000000;
                             u32 *ordering_slot;
-                            /* BYTES: retail stores the colour word (r0, g0, b0 and code) with one sw; member stores compile to four sb */
+                            /* BYTES: Color and command are written together. Separate members generate four byte stores. */
                             *(s32 *)&quad->r0 = material->color.word;
                             ((GpuLinkTag *)&quad->tag)->addr = ((GpuLinkTag *)&scratch->ordering_table[scratch->ot_index])->addr;
                             ordering_slot = (u32 *)(scratch->ot_index * 4 + (unsigned long)scratch->ordering_table);
@@ -538,7 +538,7 @@ s32 project_colored_point(TerrainSeekingPointBody *render_data, ObjectPosition *
     length_mask = 0xFF000000;
     scratch = SPRITE_SCRATCH;
     scratch->packet_cursor = context->packetCursor;
-    scratch->ordering_table = (u32 *)&context->orderTag;
+    scratch->ordering_table = &context->orderTag[GPU_ORDER_DEPTH_BASE];
     do {
         point_packet = scratch->packet_cursor;
         scratch->position.vx = position->x.w.i;
@@ -550,7 +550,7 @@ s32 project_colored_point(TerrainSeekingPointBody *render_data, ObjectPosition *
                                    &scratch->gte_flag);
         scratch->sort_depth = depth_index;
         if (depth_index < 0x1E0U) {
-            /* BYTES: retail stores the tile colour word (r0, g0, b0 and code) with one sw; member stores compile to four sb */
+            /* BYTES: The tile color and command are written together. Separate members generate four byte stores. */
             *(u32 *)&point_packet->r0 = render_data->color;
             point_packet->r0 = (u8)((point_packet->r0 * render_data->intensity) /
                                       render_data->divisor);

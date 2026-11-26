@@ -119,7 +119,7 @@ void update_entity_motion_facing_and_ground(void *entity, ObjectPosition *motion
         } else {
             sprite->flags &= 0xFFFE;
         }
-        apply_monster_koyaw_data(entity_base->unk_1C, (u8 *)sprite + 0xC);
+        apply_monster_koyaw_data(entity_base->unk_1C, &sprite->color.c.r);
         if (!(entity_base->unk_1C & 0x20)) {
             if (!(sprite->flags & 0x40)) {
                 advance_sprite_animation_and_textures(sprite);

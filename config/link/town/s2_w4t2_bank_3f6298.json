@@ -5,7 +5,7 @@
   "foff": "0x3f6298",
   "size": "0x2450",
   "vma": "0x80017298",
-  "evidence": "docs/evidence/r121w_s2_receipts.json",
+  "evidence": "Recorded in the production link map.",
   "entries": [
     {
       "row": "town/func_803D8650",
@@ -25,7 +25,7 @@
         "0x8001DC10": "0x8001A008",
         "0x8001DCD0": "0x8001A050"
       },
-      "evidence": "docs/evidence/r121w_s2_receipts.json#town/func_803D8650; B10 re-homed from town/func_803D3144 (now an LL placement of town/func_8032FC84): bindings translated through town/func_803D3144's object-screen resolution"
+      "evidence": "#town/func_803D8650; B10 re-homed from town/func_803D3144 (now an LL placement of town/func_8032FC84): bindings translated through town/func_803D3144's object-screen resolution"
     }
   ]
 }

@@ -63,7 +63,7 @@ typedef struct R16_80170878_S_80170878_4 {
     u8 pad_9B[0x1];
     s8 unk_9C;
 } R16_80170878_S_80170878_4;
-typedef void (*R16_80170A58_Callback)(void *, void *, void *, void *);
+typedef ActorActionHandler R16_80170A58_Callback;
 typedef struct R16_80171014_S_80171014_0 {
     u8 pad_00[0x8C];
     s32 unk_8C;
@@ -327,9 +327,9 @@ void finish_clown_linked_motion(ActorRecord *state, ObjectPosition *entity, Spri
 
 void update_overlay_object_action(ActorRecord *body, ObjectPosition *position, struct SpriteFrameState *sprite, ActorRecord *actor);
 void damp_actor_motion_and_recenter(R16_801729D8_S_80173294_0 *motion_state, ObjectPosition *motion, SpriteFrameState *tile_state, ActorRecord *entity);
-void remove_defeated_clown(void *state, void *motion, void *position, void *actor);
-void shrink_hopping_clown(R16_80172CCC_S_80173588_0 *state, void *context, SpriteFrameState *data, void *render);
-void advance_clown_removal(void *state, void *motion, void *position, void *actor);
+void remove_defeated_clown(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
+void shrink_hopping_clown(ActorRecord *state, ObjectPosition *context, SpriteFrameState *data, ActorRecord *render);
+void advance_clown_removal(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void finish_clown_hop_and_grow(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void advance_clown_status_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *render_record, ActorRecord *actor_state);
 void advance_clown_mp_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *entity);

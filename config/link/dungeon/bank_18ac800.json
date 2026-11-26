@@ -5,7 +5,7 @@
   "foff": "0x18AC800",
   "size": "0x6000",
   "vma": "0x80024000",
-  "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7E777800: bank21_assets_18aec70, img_18ad004_80024804, img_18ae1dc_800259dc, img_18ae3a0_80025ba0, img_18aec04_80026404, native_18ac800_80024000; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
+  "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7E777800. Image-local bindings are recorded in the link map.",
   "entries": [
     {
       "row": "dungeon/func_8188D0E4",

@@ -51,7 +51,7 @@ s32 draw_ball_effect_points(PointRecord *first_point, ObjectPosition *first_posi
 
         render_ctx = g_game_work.draw_buffer;
         packet_start = render_ctx->packetCursor;
-        table = &render_ctx->orderTag;
+        table = &render_ctx->orderTag[GPU_ORDER_DEPTH_BASE];
         scratch->ot = table;
         scratch->cursor = packet_start;
 

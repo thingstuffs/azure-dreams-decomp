@@ -51,7 +51,7 @@ typedef struct { ObjectNodeHeader header; } E_80170854_SpawnObject;
 extern u8 volcano_frame_set_6[8],volcano_frame_set_2[8];
 /* Allocate an actor, initialize its action and sprite views, then apply spawn flags. */
 
-typedef void (*E_80170A58_Callback)(void *, void *, void *, void *);
+typedef ActorActionHandler E_80170A58_Callback;
 
 typedef struct E_80170A58_S_80170A58_0 {
     u8 pad_00[0x4];

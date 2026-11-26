@@ -106,7 +106,7 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, ObjectPosition *
 
     state = work->draw_buffer;
     base_color = (CVECTOR *)&sprite->color;
-    scratch->ordering_table = (u32 *)&state->orderTag;
+    scratch->ordering_table = &state->orderTag[GPU_ORDER_DEPTH_BASE];
     packet = state->packetCursor;
     sprite->flags |= 0x8000;
 
@@ -116,22 +116,22 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, ObjectPosition *
     normals = descriptor->normals;
 
     for (;;) {
-    /* BYTES: retail copies the packed vertex XY word with one lw/sw */
+    /* BYTES: Each packed vertex XY is loaded and stored as one word. */
     indices = (u8 *)face->vertices;
     vertex_xy = *(s32 *)&positions[((u16 *)indices)[0]].vx;
     vertex_index = (*(u16 *)(indices + 2));
     *(s32 *)&scratch->vertices[0].vx = vertex_xy;
-    /* BYTES: retail copies the packed vertex XY word with one lw/sw */
+    /* BYTES: Each packed vertex XY is loaded and stored as one word. */
     vertex_xy = *(s32 *)&positions[vertex_index].vx;
     vertex2_pos = (SVECTOR *)(*(u16 *)(indices + 4) * 8 + (unsigned long)positions);
     *(s32 *)&scratch->vertices[1].vx = vertex_xy;
     last_index = (*(u16 *)(indices + 6));
-    /* BYTES: retail copies the packed vertex XY word with one lw/sw */
+    /* BYTES: Each packed vertex XY is loaded and stored as one word. */
     vertex2_xy = *(s32 *)&vertex2_pos->vx;
     vertex3_pos = (SVECTOR *)(last_index * 8 + (unsigned long)positions);
     *(s32 *)&scratch->vertices[2].vx = vertex2_xy;
     z_index = ((u16 *)indices)[0];
-    /* BYTES: retail copies the packed vertex XY word with one lw/sw */
+    /* BYTES: Each packed vertex XY is loaded and stored as one word. */
     vertex3_xy = *(s32 *)&vertex3_pos->vx;
 
     vertex_z = positions[z_index].vz;
@@ -163,35 +163,35 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, ObjectPosition *
     flags = sprite->flags & 3;
     switch (flags) {
     case 0:
-        /* BYTES: retail copies the packed screen XY word with one lw/sw */
+        /* BYTES: Each projected screen XY is loaded and stored as one word. */
         screen_xy0 = *(s32 *)&packet->x0;
-        /* BYTES: retail copies the packed screen XY word with one lw/sw */
+        /* BYTES: Each projected screen XY is loaded and stored as one word. */
         screen_xy1 = *(s32 *)&packet->x1;
-        /* BYTES: retail copies the packed screen XY word with one lw/sw */
+        /* BYTES: Each projected screen XY is loaded and stored as one word. */
         screen_xy2 = *(s32 *)&packet->x2;
         break;
     case 1:
-        /* BYTES: retail copies the packed screen XY word with one lw/sw */
+        /* BYTES: Each projected screen XY is loaded and stored as one word. */
         screen_xy0 = *(s32 *)&packet->x1;
-        /* BYTES: retail copies the packed screen XY word with one lw/sw */
+        /* BYTES: Each projected screen XY is loaded and stored as one word. */
         screen_xy1 = *(s32 *)&packet->x0;
-        /* BYTES: retail copies the packed screen XY word with one lw/sw */
+        /* BYTES: Each projected screen XY is loaded and stored as one word. */
         screen_xy2 = *(s32 *)&packet->x2;
         break;
     case 2:
-        /* BYTES: retail copies the packed screen XY word with one lw/sw */
+        /* BYTES: Each projected screen XY is loaded and stored as one word. */
         screen_xy0 = *(s32 *)&packet->x2;
-        /* BYTES: retail copies the packed screen XY word with one lw/sw */
+        /* BYTES: Each projected screen XY is loaded and stored as one word. */
         screen_xy1 = *(s32 *)&packet->x1;
-        /* BYTES: retail copies the packed screen XY word with one lw/sw */
+        /* BYTES: Each projected screen XY is loaded and stored as one word. */
         screen_xy2 = *(s32 *)&packet->x0;
         break;
     default:
-        /* BYTES: retail copies the packed screen XY word with one lw/sw */
+        /* BYTES: Each projected screen XY is loaded and stored as one word. */
         screen_xy0 = *(s32 *)&packet->x2;
-        /* BYTES: retail copies the packed screen XY word with one lw/sw */
+        /* BYTES: Each projected screen XY is loaded and stored as one word. */
         screen_xy1 = *(s32 *)&packet->x0;
-        /* BYTES: retail copies the packed screen XY word with one lw/sw */
+        /* BYTES: Each projected screen XY is loaded and stored as one word. */
         screen_xy2 = *(s32 *)&packet->x1;
         break;
     }
@@ -211,17 +211,17 @@ void transform_shade_and_queue_model_quads(void *parent_matrix, ObjectPosition *
             NormalColorCol(&normals[face->normals[3]],
                           base_color, (CVECTOR *)&packet->r3);
 
-            /* BYTES: retail stores the u/v pair with the CLUT or texture-page halfword as one sw; member stores compile to two sb and an sh */
+            /* BYTES: The UV pair and palette or texture-page selector are stored together. Separate members split the word store into byte and halfword stores. */
             *(s32 *)&packet->u0 = face->uv0_clut;
             packet->clut += sprite->clut;
-            /* BYTES: retail stores the u/v pair with the CLUT or texture-page halfword as one sw; member stores compile to two sb and an sh */
+            /* BYTES: The UV pair and palette or texture-page selector are stored together. Separate members split the word store into byte and halfword stores. */
             *(s32 *)&packet->u1 = face->uv1_tpage;
             if (sprite->tpage_abr != 0) {
                 packet->tpage = (packet->tpage & 0xFF9F) + sprite->tpage_abr;
             }
-            /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+            /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
             *(u16 *)&packet->u2 = face->uv2;
-            /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+            /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
             *(u16 *)&packet->u3 = face->uv3;
 
             SetPolyGT4(packet);

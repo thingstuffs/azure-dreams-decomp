@@ -6,9 +6,9 @@
 #include "town/data.h"
 #include "town/scene/motion/coordinate_entries.h"
 #include "town/scene.h"
+#include "town/shop.h"
 
 
-s8 *clear_bytes(s8 *buffer, s32 length); /* Unprototyped: retail call passes more arguments than the callee reads */
 extern s8 D_80019440[];
 
 /* Prepare D_80019440 for the callback and store its result in D_80019540. */

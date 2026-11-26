@@ -80,7 +80,7 @@ void draw_lit_mesh(void *unused, ObjectPosition *position_arg, SpriteFrameState 
 
     depth_offset = depth_bias;
     render_state = g_game_work.draw_buffer;
-    scratch->ordering_table = &render_state->orderTag;
+    scratch->ordering_table = &render_state->orderTag[GPU_ORDER_DEPTH_BASE];
     prim = render_state->packetCursor;
     sprite->flags |= 0x8000;
 

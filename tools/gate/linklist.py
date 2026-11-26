@@ -76,7 +76,7 @@ def _metadata(raw):
              "asset": {"format", "sha256", "extractor", "census_label"}, "code_region": {"census_label"},
              "image": {"ref"}}
     kind = raw.get("kind")
-    optional = {"vma"} | ({"sha256", "extractor", "symbols"} if kind in ("data", "padding") else set())
+    optional = {"vma", "hash_size"} | ({"sha256", "extractor", "symbols"} if kind in ("data", "padding") else set())
     if kind not in extra or not common | extra[kind] <= set(raw) or set(raw) - common - extra[kind] - optional:
         raise ValueError("link list metadata entry keys: " + str(kind))
     for k in (common | extra[kind]) - {"foff", "size"}:
@@ -105,8 +105,16 @@ def _metadata(raw):
             raise ValueError("invalid asset sha256")
         if raw["extractor"] != "container-slice-v1":
             raise ValueError("unknown asset extractor: " + raw["extractor"])
+        size = num(raw["size"])
+        if size < 16:
+            if type(raw.get("hash_size")) is not int or raw["hash_size"] != 16:
+                raise ValueError("short extraction hash must cover sixteen bytes")
+        elif "hash_size" in raw:
+            raise ValueError("expanded extraction hash is only valid for short entries")
         if kind == "asset" and raw["census_label"] not in ("proven_data", "noncode_typing_pending"):
             raise ValueError("asset must retain a non-code census label")
+    elif "hash_size" in raw:
+        raise ValueError("expanded hash requires a disc extractor")
     if kind == "code_region" and raw["census_label"] not in CENSUS_LABELS[:3]:
         raise ValueError("code_region must retain a code census label")
 

@@ -209,9 +209,9 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, u32 *ordering_t
         else {
             packet->clut = frame->clut;
         }
-        /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+        /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
         *(s16 *) &packet->u0 = scratch->uv_v_start + scratch->uv_u_start;
-        /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+        /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
         *(s16 *) &packet->u1 = scratch->uv_v_start + scratch->uv_u_extent;
         tpage_offset = sprite->tpage_abr;
         if (tpage_offset != 0) {
@@ -220,9 +220,9 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, u32 *ordering_t
         else {
             packet->tpage = frame->tpage;
         }
-        /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+        /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
         *(s16 *) &packet->u2 = scratch->uv_v_extent | scratch->uv_u_start;
-        /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+        /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
         *(s16 *) &packet->u3 = scratch->uv_v_extent | scratch->uv_u_extent;
         left_x = packet->x0;
         if (packet->x3 < left_x) {
@@ -247,7 +247,7 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, u32 *ordering_t
                 sprite->color.c.code = prim_code & 0xFD;
             }
         }
-        /* BYTES: retail stores the sprite colour word (r0, g0, b0 and code) with one sw; member stores compile to four sb */
+        /* BYTES: The sprite color and command are written together. Separate members generate four byte stores. */
         *(s32 *) &packet->r0 = sprite->color.word;
         quad_copies[0] = *packet;
         {

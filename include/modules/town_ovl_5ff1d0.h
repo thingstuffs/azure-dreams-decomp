@@ -19,7 +19,6 @@ void start_casino_slot_and_update_flags(void);
 s32 clear_script_flag_sbs07_pad27(void);
 s32 *lookup_entry_with_special_override(struct TownObjectSet *lookup_key, s32 unused, s32 entry_id);
 s32 process_entry_if_field_ten_plus(struct TownObjectSet *check_value, s32 check_data);
-s32 *lookup_entry_with_special_id(s32 lookup_key, s32 unused, s32 entry_id);
 s32 *func_80016320(s32 lookup_key, s32 unused, s32 entry_id);
 s32 process_entry_if_field_twenty_plus(struct TownObjectSet *check_value, s32 check_data);
 

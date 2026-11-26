@@ -472,17 +472,17 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
                 + (linked_actor->fall_ticks * 0x14000));
             linked_actor->fall_ticks = (s8) ((u8) linked_actor->fall_ticks + 1);
         }
-        (*(s32 *)((u8 *)linked_actor + 0x90)) = (s32) ((*(s32 *)((u8 *)linked_actor + 0x90))
+        linked_actor->unk_90.value = (s32) (linked_actor->unk_90.value
             + motion_or_count->velocity_z);
         floor_height = sample_terrain_surface_height(motion_or_count->x.unsigned_parts.integer,
             motion_or_count->y.unsigned_parts.integer, (s16) ((*(u16 *)((u8 *)actor + 0x88)) - 0x20));
         if (floor_height < 0x200) {
-            if (((*(s16 *)((u8 *)linked_actor + 0x92)) + (s16) (*(u16 *)((u8 *)actor + 0x88))) >= floor_height) {
+            if ((linked_actor->unk_90.parts.high + (s16) (*(u16 *)((u8 *)actor + 0x88))) >= floor_height) {
                 if ((linked_actor->action_state_flags & 4) || (motion_or_count->velocity_z < 0)) {
-                    (*(u16 *)((u8 *)linked_actor + 0xA2)) =
+                    linked_actor->unk_A0.parts.high =
                         (u16)((*(u16 *)((u8 *)linked_actor + 0xA2)) & 0xFFEF);
                 } else {
-                    (*(s32 *)((u8 *)linked_actor + 0x90)) = 0;
+                    linked_actor->unk_90.value = 0;
                     motion_or_count->velocity_z = 0;
                     linked_actor->fall_ticks = 0;
                     if (!((*(u16 *)((u8 *)linked_actor + 0xA2)) & 0x10)) {
@@ -491,16 +491,16 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
                         }
                         emit_scattered_effects_unless_blocked(motion_or_count);
                     }
-                    (*(u16 *)((u8 *)linked_actor + 0xA2)) = (u16) ((*(u16 *)((u8 *)linked_actor + 0xA2)) | 0x10);
+                    linked_actor->unk_A0.parts.high = (u16) ((*(u16 *)((u8 *)linked_actor + 0xA2)) | 0x10);
                 }
-                (*(u16 *)((u8 *)linked_actor + 0xA2)) =
+                linked_actor->unk_A0.parts.high =
                     (u16)((*(u16 *)((u8 *)linked_actor + 0xA2)) & 0xF7FF);
             } else {
                 air_flags = (*(u16 *)((u8 *)linked_actor + 0xA2));
                 if (air_flags & 0x800) {
-                    (*(u16 *)((u8 *)linked_actor + 0xA2)) = (u16) (air_flags & 0xFFEF);
+                    linked_actor->unk_A0.parts.high = (u16) (air_flags & 0xFFEF);
                 }
-                (*(u16 *)((u8 *)linked_actor + 0xA2)) = (u16) ((*(u16 *)((u8 *)linked_actor + 0xA2)) | 0x800);
+                linked_actor->unk_A0.parts.high = (u16) ((*(u16 *)((u8 *)linked_actor + 0xA2)) | 0x800);
             }
             flags_or_height = actor->flags1C;
             if (flags_or_height & 0x40000000) {
@@ -515,26 +515,26 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
                 actor->unk_8A = height_or_callback;
                 flags_or_height = (s16)sample_terrain_surface_height((((S_80089AA0_16 *)sprite_or_root)->unk_24 << 6) | 0x20,
                     (((S_80089AA0_16 *)sprite_or_root)->unk_25 << 6) | 0x20, height_limit);
-                (*(s16 *)((u8 *)linked_actor + 0x92)) = (s16) ((u16) (*(s16 *)((u8 *)linked_actor + 0x92))
+                linked_actor->unk_90.parts.high = (s16) ((u16) linked_actor->unk_90.parts.high
                     + ((*(u16 *)((u8 *)actor + 0x88)) - flags_or_height));
                 actor->ground_height = (u16) flags_or_height;
                 if (g_dungeon_status.flags & 0x80) {
-                    (*(s32 *)((u8 *)linked_actor + 0x90)) = 0;
+                    linked_actor->unk_90.value = 0;
                     motion_or_count->velocity_z = 0;
                     linked_actor->fall_ticks = 0;
-                    (*(u16 *)((u8 *)linked_actor + 0xA2)) =
+                    linked_actor->unk_A0.parts.high =
                         (u16)((*(u16 *)((u8 *)linked_actor + 0xA2)) | 0x10);
                 }
             }
         } else {
             fall_flags = (*(u16 *)((u8 *)linked_actor + 0xA2));
             if (fall_flags & 0x800) {
-                (*(u16 *)((u8 *)linked_actor + 0xA2)) = (u16) (fall_flags & 0xFFEF);
+                linked_actor->unk_A0.parts.high = (u16) (fall_flags & 0xFFEF);
             }
-            (*(u16 *)((u8 *)linked_actor + 0xA2)) = (u16) ((*(u16 *)((u8 *)linked_actor + 0xA2)) | 0x800);
+            linked_actor->unk_A0.parts.high = (u16) ((*(u16 *)((u8 *)linked_actor + 0xA2)) | 0x800);
         }
         motion_or_count->z.w.i = (s16) ((*(u16 *)((u8 *)actor + 0x88))
-            + (u16) (*(s16 *)((u8 *)linked_actor + 0x92)));
+            + (u16) linked_actor->unk_90.parts.high);
     }
     update_sound_settings_from_pad(linked_actor, motion_or_count, sprite_or_root, actor);
     if (!(actor->flags14 & 0x100000)) {
@@ -544,10 +544,10 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
             if ((has_pending_actor_or_turn_action(0) << 0x10) == 0) {
                 if ((lookup_definition_pair_value(((S_80089AA0_16 *)sprite_or_root)->unk_24,
                     ((S_80089AA0_16 *)sprite_or_root)->unk_25) << 0x10) != 0) {
-                    (*(u16 *)((u8 *)linked_actor + 0xA2)) =
+                    linked_actor->unk_A0.parts.high =
                         (u16)((*(u16 *)((u8 *)linked_actor + 0xA2)) | 0x200);
                 } else {
-                    (*(u16 *)((u8 *)linked_actor + 0xA2)) = (u16) ((*(u16 *)((u8 *)linked_actor + 0xA2)) & 0xFDFF);
+                    linked_actor->unk_A0.parts.high = (u16) ((*(u16 *)((u8 *)linked_actor + 0xA2)) & 0xFDFF);
                 }
             }
         }

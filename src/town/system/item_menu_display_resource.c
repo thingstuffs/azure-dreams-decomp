@@ -11,15 +11,13 @@
 #include "town/shop.h"
 #include "town/shop/item_menu_cursor_transition_g00601.h"
 #include "engine/graphics.h"
+#include "town/shop/item.h"
 /* object in create_item_menu_child_at_position */
 
 /* payload in create_item_menu_child_at_position */
 
 
 static s32 load_item_menu_display_resource(ItemMenuTransition *payload, s32 value);
-extern void *link_item_menu_display_entries(void *entries);
-extern void initialize_item_menu_list_display(ItemMenuTransition *payload, ObjectNodeHeader *parent, s32 resource_id, s32 resource_data,
-                          s32 x, s32 y, u8 *entry_ids);
 extern void register_node(void *object, void *callback);
 
 /* Allocates menu display entries, copies the default vector, and shares it among the entries on success. */

@@ -232,7 +232,6 @@ typedef struct R06_801738E0_S_801738E0_4 {
 } R06_801738E0_S_801738E0_4;
 
 
-typedef struct R06_80173E94_OrderingTag { u32 addr : 24; u32 count : 8; } R06_80173E94_OrderingTag;
 typedef struct R06_80173E94_S_80173E94_2 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -241,17 +240,6 @@ typedef struct R06_80173E94_S_80173E94_2 {
     u8 pad_08[0x2];
     u16 unk_0A;
 } R06_80173E94_S_80173E94_2;
-typedef struct R06_80173E94_S_80173E94_3 {
-    union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_00;   
-    union {
-        struct { u32 v; } at00;
-        struct { u8 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-        struct { u8 pad[0x2]; u8 v; } at02;
-        struct { u8 pad[0x3]; u8 v; } at03;
-    } unk_04;   
-    s32 screen;
-} R06_80173E94_S_80173E94_3;
 typedef struct R06_80173E94_S_80173E94_4_pre {
     void * unk_00;
     u8 pad_04[0x4];
@@ -610,7 +598,7 @@ void cast_flame_targeted_spell(ActorRecord *action, ObjectPosition *position, Sp
 void damp_flame_motion_and_recenter(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *tile_state, ActorRecord *entity);
 void fade_sprites_and_remove_entity(void *actor, ObjectPosition *unused, struct SpriteFrameState *sprite, void *entity);
 void update_flame_hop_shrink(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void advance_flame_removal(void *state, void *motion, void *position, void *actor);
+void advance_flame_removal(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void grow_hopping_flame(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void wait_flame_status_and_animate(ActorRecord *in_actor, ObjectPosition *in_context, SpriteFrameState *in_sprite, ActorRecord *in_entity);
 void wait_for_flame_mp(ActorRecord *entity, ObjectPosition *context, SpriteFrameState *anim, ActorRecord *actor);

@@ -121,7 +121,8 @@ def read_labels(path):
                 raise ValueError("census header container differs: " + image)
             headers[image] = dict(r, foff=L.num(r["foff"]), size=L.num(r["size"]), census=L._totals(r["census"]))
         else:
-            allowed = {"image", "foff", "size", "label", "evidence", "kind", "type", "format", "sha256", "extractor", "reason"}
+            allowed = {"image", "foff", "size", "label", "evidence", "kind", "type", "format", "sha256",
+                       "hash_size", "extractor", "reason"}
             if set(r) - allowed or not {"foff", "size", "label", "evidence"} <= r.keys():
                 raise ValueError("invalid census span keys: " + image)
             if r["label"] not in L.CENSUS_LABELS or not isinstance(r["evidence"], str) or not r["evidence"].strip():
@@ -172,12 +173,15 @@ def metadata(span, retail=None):
         out["reason"] = span.get("reason")
     if kind == "asset":
         out.update(format=span.get("format"), sha256=span.get("sha256"), extractor=span.get("extractor"))
-        if retail is not None:
-            retail.seek(span["foff"])
-            blob = retail.read(span["size"])
-            if len(blob) != span["size"] or hashlib.sha256(blob).hexdigest() != out["sha256"]:
-                raise ValueError("asset slice sha256 differs at " + out["foff"])
+        if "hash_size" in span:
+            out["hash_size"] = span["hash_size"]
     L._metadata(out)
+    if kind == "asset" and retail is not None:
+        hash_size = out.get("hash_size", span["size"])
+        retail.seek(span["foff"])
+        blob = retail.read(hash_size)
+        if len(blob) != hash_size or hashlib.sha256(blob).hexdigest() != out["sha256"]:
+            raise ValueError("asset slice sha256 differs at " + out["foff"])
     if L.census_label(out) != label:
         raise ValueError("kind contradicts census label: " + kind)
     return out

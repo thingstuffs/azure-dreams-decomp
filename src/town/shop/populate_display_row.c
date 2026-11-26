@@ -3,8 +3,8 @@
 #include "engine/menu.h"
 #include "town/shop.h"
 #include "town/shop/position.h"
+#include "town/shop/stat_display.h"
 
-extern u8 *format_optional_signed_value(DungeonItemEntry *input, u8 *text);
 
 
 /* Populate and position a display row from an entry. */

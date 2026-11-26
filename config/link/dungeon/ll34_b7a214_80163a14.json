@@ -19,7 +19,7 @@
         "0x800D4494": "0x8015EE70",
         "0x800D491C": "0x80163A14"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     }
   ],
   "load_evidence": {

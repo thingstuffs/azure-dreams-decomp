@@ -91,7 +91,7 @@ void initialize_settings_screen(void) {
         settings = NODE_BODY(screen_object);
         screen_object->position->y.w.i = 0xF0;
         settings->fade.param = 0x20;
-        (*(s16 *)((u8 *)settings + 0x14)) = (s16) ((u8) GAME_STATE->options.unk_3184 >> 5);
+        settings->shade = (s16) ((u8) GAME_STATE->options.unk_3184 >> 5);
         index = 2;
         (*(s16 *)((u8 *)settings + 0xE)) = (u8)GAME_STATE->options.option_color;
         (*(s16 *)((u8 *)settings + 0x10)) = ((const u8 *)&GAME_STATE->options.option_color)[1];

@@ -30,7 +30,6 @@ typedef struct CardSlotScreenEffect CardSlotScreenEffect;
 
 struct CardChooserBody;
 void release_devkit_node_handles(struct ObjectNodeHeader *node);
-void process_embedded_data_and_propagate_flags(struct ObjectNodeHeader *node);
 void release_card_screen_parts(struct ObjectNodeHeader *node);
 void assert_card_slot_and_set_high_bit(struct ObjectNodeHeader *slot);
 void set_record_values(struct CardChooserBody *menu, struct ObjectNodeHeader *request, s32 mode);

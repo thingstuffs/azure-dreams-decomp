@@ -5846,7 +5846,6 @@
    "cfg": "2.7.2-cdk-G0",
    "source_sha256": "a093ce9adb03c0703330e0c701dd03419e88d1cba718174a82ec807c9509a4c7",
    "raw_sha256": "3ef23dc27915ab58c65cbd5b7a172d7c11106e5d102216706ca7d34dd3e1a5df",
-   "retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
    "template": "town/func_8032FD14",
    "score": {
     "status": "ok",
@@ -5918,7 +5917,6 @@
    "cfg": "2.7.2-cdk-G0",
    "source_sha256": "bc09e84db7e4e2d217b98429bc0681f3da10f31cc5281c2c1185e8665c73fe55",
    "raw_sha256": "7d76f41c6e041fe64ef5ad093f3ff4fcb7a2c6dfb3a6a71d007d00e4de89251f",
-   "retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
    "template": "town/func_8032FD14",
    "score": {
     "status": "ok",
@@ -5990,7 +5988,6 @@
    "cfg": "2.7.2-cdk-G0",
    "source_sha256": "1b2e5409d44774a6be188967aaabb1c0c3ffac6f8b306fe3f85ce60b8230761c",
    "raw_sha256": "8c804711fdbcc181b01c3fcbd111f1b2b076bd77324a4ff5cbbfb67fb0838b73",
-   "retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
    "template": "town/func_8032FD14",
    "score": {
     "status": "ok",
@@ -6062,7 +6059,6 @@
    "cfg": "2.7.2-cdk-G0",
    "source_sha256": "41b4f3c76e86bac88b25f43ac720e2d6e5388a537d95a834697cab6f1d4bc865",
    "raw_sha256": "5aec15dc96f1596950da1d3cad17cc830b596462447e29917baa1e595ea39276",
-   "retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
    "template": "town/func_8032FD14",
    "score": {
     "status": "ok",
@@ -6134,7 +6130,6 @@
    "cfg": "2.7.2-cdk-G0",
    "source_sha256": "87e889e7e0e42bd1cfe177cc4bc55c49d9de3ef3b691ac0b7cfe6237da718f25",
    "raw_sha256": "c3d520d3f9ce998dae73fe90aa534e31b94a76a418f4a1983e8d8bcb0776a16d",
-   "retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
    "template": "town/func_8032FD14",
    "score": {
     "status": "ok",
@@ -6206,7 +6201,6 @@
    "cfg": "2.7.2-cdk-G0",
    "source_sha256": "883faafb5dbf93c5da3ed8559e38f86e6c9b5e70268202e9e305c311ffb1c1a1",
    "raw_sha256": "a3ca943b79dd8c604f1a6a2b5c428ba025780239600bc86057237eaa705ba03c",
-   "retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
    "template": "town/func_8032FD14",
    "score": {
     "status": "ok",
@@ -6278,7 +6272,6 @@
    "cfg": "2.7.2-cdk-G0",
    "source_sha256": "f63b474a2b096a1c7671e9f6cb70bba7662639a890c28ee68a24c6ff507197f8",
    "raw_sha256": "1ded485a8bea8e91bf95cb0214693a15316a710361015a2b02add3e7ed9a4617",
-   "retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
    "template": "town/func_8032FD14",
    "score": {
     "status": "ok",
@@ -6350,7 +6343,6 @@
    "cfg": "2.7.2-cdk-G0",
    "source_sha256": "311ad069847aceeaebe3a2f79c4c22e78d10350bc071b167e58c5f4bf8265cec",
    "raw_sha256": "8300cae59d3f9291508de86438f02330b4d7b2e9c52fe00c1d7ba3ea7c982394",
-   "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
    "template": "town/func_80092860",
    "score": {
     "status": "ok",
@@ -6374,7 +6366,6 @@
    "cfg": "2.7.2-cdk-G0",
    "source_sha256": "1f89bc88ee2bdfac37e429b67197ac2ada77ac92fdaf5b694f6cd7074a6ca5d5",
    "raw_sha256": "6b9ea3da873f1b98b539005124e56a1e6c61231dfb59d834f1b9cc5d215a0a18",
-   "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
    "template": "town/func_80092860",
    "score": {
     "status": "ok",
@@ -6398,7 +6389,6 @@
    "cfg": "2.7.2-cdk-G0",
    "source_sha256": "66dc7a0f26452350438f6d3dc99d6335f0862c065d372d5b39456d04adc104a8",
    "raw_sha256": "9eb45de0018d4d90a011dd4cd518a8e2c5786f297daf4e83a7b016c0020d3766",
-   "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
    "template": "town/func_80092860",
    "score": {
     "status": "ok",
@@ -6422,7 +6412,6 @@
    "cfg": "2.7.2-cdk-G0",
    "source_sha256": "e883e8d5fb704c6fd5c92528ddf9f415c8b8a09e6dc8487df2a25a9eeaae8e1f",
    "raw_sha256": "2f0ae06513491d234dcfb80da511fcb874692fddd5b3f1d2c68c6eeb92b82f95",
-   "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
    "template": "town/func_80092860",
    "score": {
     "status": "ok",
@@ -6446,7 +6435,6 @@
    "cfg": "2.7.2-cdk-G0",
    "source_sha256": "c9aeaeb525ba152b306cab2cb1b5f614ef9b4460a0e874ff4f845cf88407a147",
    "raw_sha256": "ac22673ffc7010ef64af4f8c3264c8a8717c0b48cca233da597f6fc1aa16c37b",
-   "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
    "template": "town/func_80092860",
    "score": {
     "status": "ok",
@@ -6470,7 +6458,6 @@
    "cfg": "2.7.2-cdk-G0",
    "source_sha256": "a5a36b906106638d154a9bc8d13312457e8e676057e00f633ab9cd6024cb5cd7",
    "raw_sha256": "8e60fb4e4c0563358999fbc4372dcc17f7e3c737a6d9a9c2a259d8c5e07d18b2",
-   "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
    "template": "town/func_80092860",
    "score": {
     "status": "ok",
@@ -6494,7 +6481,6 @@
    "cfg": "2.7.2-cdk-G0",
    "source_sha256": "325329b5c5f13063ea95263d344c978d1b85e2ed3b65383063721dc9328e34bf",
    "raw_sha256": "093631060418b05650a47bdae335a25d080a4d43aee5937de3827e84c1cbca0d",
-   "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
    "template": "town/func_80092860",
    "score": {
     "status": "ok",
@@ -6518,7 +6504,6 @@
    "cfg": "2.7.2-cdk-G0",
    "source_sha256": "ac101266f1a24fcb8caf2f925ba65aa76671568a7436fe7242af9aa80c033a3a",
    "raw_sha256": "90e3674da5ccc192f65930f766a449851e5dc3a0a80f57f2cf8ea330e7fe0636",
-   "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
    "template": "town/func_80092860",
    "score": {
     "status": "ok",
@@ -6542,7 +6527,6 @@
    "cfg": "2.7.2-cdk-G0",
    "source_sha256": "acd74e70fe5e8e550fc3ea21e229da19c1bc0180ee498e85fa941107cc591a34",
    "raw_sha256": "4d3a1e8a33079a4978fc8ac243ac7fdfd278377de2799b8fc011c409714a9902",
-   "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
    "template": "town/func_80092860",
    "score": {
     "status": "ok",
@@ -6566,7 +6550,6 @@
    "cfg": "2.7.2-cdk-G0",
    "source_sha256": "2dfb5d7b525e344f7ae0858d521cd65a4b41db8879dc876a56280b33646d7bc6",
    "raw_sha256": "4acbcb5c2682c0464e5de9ce26daf34770d088629851bfdcf7aa7ecf4f48438d",
-   "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
    "template": "town/func_80092860",
    "score": {
     "status": "ok",
@@ -6590,7 +6573,6 @@
    "cfg": "2.7.2-cdk-G0",
    "source_sha256": "d8c4afc5e07b016a779d7bda7bec5ff03fc6d916bc134a36ceef18d033a60483",
    "raw_sha256": "bb5c4020ceb30918e19276da7892251f110bc54841de8459baa9f3600934f24e",
-   "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
    "template": "town/func_80092860",
    "score": {
     "status": "ok",
@@ -6614,7 +6596,6 @@
    "cfg": "2.7.2-cdk-G0",
    "source_sha256": "4ee01200955d1ec9f30e9d501ce3b768e3c3dae5daaa0998d4ccd1419abe6018",
    "raw_sha256": "92d4ad63d1a4853ba1bcd10e950bad73cdafdda38b7e2f1d334f7f9e7a6a8880",
-   "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
    "template": "town/func_80092860",
    "score": {
     "status": "ok",
@@ -6638,7 +6619,6 @@
    "cfg": "2.7.2-cdk-G0",
    "source_sha256": "99ce3ef29fd2add87763be3174f5436f97114dcfe550525b90a22fa64bccc454",
    "raw_sha256": "08b9b3910d98362b0685ae077dc1134863cf44da7693451a47b2c54cdec9c14a",
-   "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
    "template": "town/func_80092860",
    "score": {
     "status": "ok",
@@ -6662,7 +6642,6 @@
    "cfg": "2.7.2-cdk-G0",
    "source_sha256": "6718be4c1448a4c88627c658c501e0f6149cf35cdcfb2f7ed0e1e3a6d727a691",
    "raw_sha256": "d6a97fa616004ad92ad8bf3b75c26b21863ca84e1415c9be292d307325786152",
-   "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
    "template": "town/func_80092860",
    "score": {
     "status": "ok",

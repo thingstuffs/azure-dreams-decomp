@@ -16,18 +16,18 @@
 void (*const dungeon_18ee800_entry)(void *, void *, void *) = follow_entity_effect_and_cleanup;
 const B32_818CFB74_PackedOffsets sprite_route_direction_offsets = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
 #include "shared/gpu_packets.h"
-/* func_8002403C (dungeon, foff 0x18EE83C) -- true base 0x8002403C by bank law
- * (bank 0x18EA800 -> 0x80020000, delta 0x7E735800, same delta as the proven region
- * leaf_18efb74_truebase_80025374 in this bank).  The retail `j 0x80024094` at word 132
- * is this function's OWN loop head (word 22): reorg steals `move a0,s1` from the target
- * thread into the j delay slot and retargets the jump one word past the label.  Written
- * as an ordinary loop it needs no fake extern callee, no census entry and no maspsx
- * name table: gcc emits `j $Lloop` itself and the word links to 0x08009025 at the true base.
- * Stock 2.7.2-cdk -O2 -G0, as_flags container default --fill-shadowed-return-delay.
- * Landing route (codegen_nudges §7.45): rowbase record for [0x18EE83C,0x18EEA8C) delta
- * 0x7E735800 -> rowbase.py promote -> rowbase_rename_reverify.py --execute (TU then
- * defines func_8002403C) -> overlay_land_function.
- */
+/* Project each
+ * node in
+ * the routed
+ * chain,
+ * scale its
+ * tile color
+ * and link
+ * the tile
+ * and
+ * draw-mode packet
+ * into its
+ * depth bucket. */
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -53,7 +53,7 @@ s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, vo
     scratch = (LinkedPointScratch *)0x1F800000;
 
     scratch->cursor = render_state->packetCursor;
-    scratch->ot = (u32 *)&render_state->orderTag;
+    scratch->ot = &render_state->orderTag[GPU_ORDER_DEPTH_BASE];
 
     for (;;) {
         coord_x = coords->unk_02;
@@ -75,20 +75,20 @@ s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, vo
             s32 opcode;
             PointPacket *mode_packet;
 
-            ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at00.v = node->unk_08.word;
-            color_or_tpage = ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at00u.v * node->unk_32;
+            *(u32 *)&packet->r = node->unk_08.word;
+            color_or_tpage = packet->r * node->unk_32;
             if (color_or_tpage < 0) {
                 color_or_tpage += 0xFF;
             }
-            ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at00u.v = color_or_tpage >> 8;
+            packet->r = color_or_tpage >> 8;
 
-            color_or_tpage = ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at01.v * node->unk_32;
+            color_or_tpage = packet->g * node->unk_32;
             if (color_or_tpage < 0) {
                 color_or_tpage += 0xFF;
             }
-            ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at01.v = color_or_tpage >> 8;
+            packet->g = color_or_tpage >> 8;
 
-            color_or_tpage = ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at02.v * node->unk_32;
+            color_or_tpage = packet->b * node->unk_32;
             if (color_or_tpage < 0) {
                 color_or_tpage += 0xFF;
                 texture_depth = 0;
@@ -96,14 +96,14 @@ s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, vo
                 texture_depth = 0;
             }
             blend_mode = 1;
-            ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at02.v = color_or_tpage >> 8;
-            ((B32_818CE83C_S_8002403C_3 *)packet)->unk_00.at03.v = 2;
+            packet->b = color_or_tpage >> 8;
+            ((u8 *)&packet->tag)[3] = 2;
             opcode = 0x6A;
             page_x = texture_depth;
-            ((B32_818CE83C_S_8002403C_3 *)packet)->unk_04.at03.v = opcode;
+            packet->code = opcode;
 
-            ((B32_818CE83C_PacketTag *)packet)->addr =
-                ((B32_818CE83C_PacketTag *)((u8 *)(scratch->ot) + (scratch->index * 4)))->addr;
+            ((GpuLinkTag *)packet)->addr =
+                ((GpuLinkTag *)((u8 *)(scratch->ot) + (scratch->index * 4)))->addr;
             {
                 u32 *ot_entry;
                 u32 ot_tag;
@@ -121,8 +121,8 @@ s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, vo
             color_or_tpage = GetTPage(texture_depth, blend_mode, page_x, texture_depth);
             SetDrawMode(mode_packet, 0, 0, (u16)color_or_tpage, 0);
 
-            ((B32_818CE83C_PacketTag *)mode_packet)->addr =
-                ((B32_818CE83C_PacketTag *)((u8 *)(scratch->ot) + (scratch->index * 4)))->addr;
+            ((GpuLinkTag *)mode_packet)->addr =
+                ((GpuLinkTag *)((u8 *)(scratch->ot) + (scratch->index * 4)))->addr;
             mode_packet = (PointPacket *)((u32)mode_packet & 0x00FFFFFF);
             (*(u32 *)((u8 *)(scratch->ot) + (scratch->index * 4))) =
                 ((*(u32 *)((u8 *)(scratch->ot) + (scratch->index * 4))) & 0xFF000000) |
@@ -403,7 +403,7 @@ void advance_damped_ground_sliding_sprite(SlidingGroundSpriteBody *state, Object
 
    /* gfx in update_chasing_star_effect */
 
-   /* s3 in update_chasing_star_effect */
+   /* a local view in update_chasing_star_effect */
 
    /* obj in update_chasing_star_effect */
 

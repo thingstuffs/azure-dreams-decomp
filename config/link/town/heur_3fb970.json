@@ -5,7 +5,7 @@
   "foff": "0x3fb970",
   "size": "0x40",
   "vma": "0x80018170",
-  "evidence": "work/native_lane/r121_heur/evidence/placements.json",
+  "evidence": "Recorded in the production link map.",
   "entries": [
     {
       "row": "town/func_8047B970",

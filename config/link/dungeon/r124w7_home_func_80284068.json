@@ -13,8 +13,8 @@
       "foff": "0x2a4068",
       "vma": "0x80017068",
       "size": 556,
-      "evidence": "docs/evidence/r124w_carve1_run7.md; independently recompiled legacy home, not new source coverage"
+      "evidence": "independently recompiled legacy home, not new source coverage"
     }
   ],
-  "evidence": "docs/evidence/r124w_carve1_run7.md; complete existing registry home; diagnostic placement only, no loader occurrence claim"
+  "evidence": "complete existing registry home; diagnostic placement only, no loader occurrence claim"
 }

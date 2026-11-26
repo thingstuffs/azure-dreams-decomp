@@ -68,7 +68,7 @@ s32 draw_sprites_with_dimmed_copies(u8 *node_data, ObjectPosition *position, Spr
     next_prim = render_pool->packetCursor;
     {
         SpriteLinkedScratch *linked = (SpriteLinkedScratch *)scratch;
-        linked->ordering_table = (u32 *)&render_pool->orderTag;
+        linked->ordering_table = &render_pool->orderTag[GPU_ORDER_DEPTH_BASE];
         scratch->sw[0xE4 / 4] = 0;
         linked->packet_cursor = next_prim;
     }

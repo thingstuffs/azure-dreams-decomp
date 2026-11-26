@@ -7,10 +7,10 @@
 #include "town/scene/resource.h"
 #include "town/player/state.h"
 #include "town/scene.h"
+#include "town/scene/entry_requests.h"
 
 
 
-void select_handler_by_state_code_0x798(s32 slotIndex);
 extern s32 D_8002116C;
 
 

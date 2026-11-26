@@ -1,4 +1,4 @@
-#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F7B5000: img_9411bc_800f61bc, img_9417d4_800f67d4","i":"dungeon/bank_941000","n":"0x6000","o":"0x941000","p":["788f7a54afae7122504420cb4471d635a71e1ea4b97606fc7eb90e5534b05e4e","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:7655fdde21b9be80f8ac883bd78b8ffef96bbc29d50b8ff0e820a1d50ba66b8f"],"t":[3368,0,0,50,19620,1518,20],"v":"0x800F6000"},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:data_row"},{"census_label":"proven_code"},{"tu":"src/dungeon/effect/sprite/play_transition_sound_and_reset_status.c"},{"tu":"src/dungeon/actor/no_op_hook_third.c"},{"type":"typing pending"},{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F7B5000: img_9411bc_800f61bc, img_9417d4_800f67d4","i":"dungeon/bank_941000","n":"0x6000","o":"0x941000","p":["788f7a54afae7122504420cb4471d635a71e1ea4b97606fc7eb90e5534b05e4e","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:7655fdde21b9be80f8ac883bd78b8ffef96bbc29d50b8ff0e820a1d50ba66b8f"],"t":[3368,0,0,50,19620,1518,20],"v":"0x800F6000"},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:data_row"},{"census_label":"proven_code"},{"tu":"src/dungeon/effect/sprite/play_transition_sound_and_reset_status.c"},{"tu":"src/dungeon/actor/no_op_hook_third.c"},{"type":"typing pending"},{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii","hash_size":16}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
 9703424	32	a	census:ledger:data_row	e438c9c7c2307051c57157d3c10762061a80a5ebba160c2114b1678624ec3632	0
 9703456	1924	r	census:c_row		1
@@ -36,10 +36,10 @@ o	n	k	r	h	x
 9723912	504	d	census:noncode:decode		4
 9724416	1344	d	census:noncode:entropy:unplaced		4
 9725760	671	d	census:noncode:decode		4
-9726431	9	a	census:format:ascii	7d8721c686bde8af282914673b8336ea4b6307a2000a6473d1649b67dc5f9fac	6
+9726431	9	a	census:format:ascii	ccace592bc0ce63ca39fe1c82cf46d9aecc13c5782a6b3bcd8bf6600e939a234	6
 9726440	280	d	census:noncode:decode		4
 9726720	431	d	census:noncode:entropy:unplaced		4
-9727151	9	a	census:format:ascii	0adf9894eb0c0dc2903c90b9d627066b5968316e7737c17e8d26b62eb49124c7	6
+9727151	9	a	census:format:ascii	d1f0aac91d68369f381cd08b485f28b59b550b5b51fc81b1228d7a52634cc611	6
 9727160	648	d	census:noncode:entropy:unplaced		4
 9727808	8	d	census:noncode:decode		4
 9727816	8	d	census:neighbour:noncode_typing_pending		4

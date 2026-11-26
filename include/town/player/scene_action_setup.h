@@ -18,7 +18,6 @@ void initialize_flagged_actor_action_d(void *actor, void *action_id, void *actio
 void initialize_optional_scene_state_a(void *object, s32 selector, void *state);
 void initialize_optional_scene_state_b(void *object, s32 selector, void *state);
 void initialize_optional_scene_state_c(void *object, s32 selector, void *state);
-void initialize_scene_state_four(struct SceneActionReset *object, void *position, void *handler_context);
 void init_stopped_target_action(struct SceneActionReset *object, void *position, void *handler_context);
 
 

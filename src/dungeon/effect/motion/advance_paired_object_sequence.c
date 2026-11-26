@@ -251,7 +251,7 @@ case 4:
         timer = sequence->action_timer;
         delta = (32 - brightness) / timer;
         brightness = brightness + delta;
-        message_text = (u8 *)scene + 0xA8;
+        message_text = &scene->view.tint.parts.tint_r;
         object_index_m = 0;
         object_slot = sequence;
         move_scene = &g_game_work;
@@ -547,17 +547,17 @@ case 4:
                 void **removed_slot;
 
                 message_id = get_unused_text_buffer();
-                first_slot = (void **)((u8 *)sequence + 0xAC);
+                first_slot = &sequence->unk_AC.address;
                 text_slot = first_slot;
                 if (*first_slot != object_m) {
-                    text_slot = (void **)((u8 *)sequence + 0xB0);
+                    text_slot = &sequence->unk_B0.address;
                 }
                 message_text = message_id;
                 message_text = append_entity_display_text(*text_slot, message_text);
                 message_text = expand_text_control_codes(D_80025068, message_text);
                 text_slot = first_slot;
                 if (*first_slot == object_m) {
-                    text_slot = (void **)((u8 *)sequence + 0xB0);
+                    text_slot = &sequence->unk_B0.address;
                 }
                 message_text = append_entity_display_text(*text_slot, message_text);
                 message_text = expand_text_control_codes(D_80025024, message_text);
@@ -569,7 +569,7 @@ case 4:
                     sequence->unk_B0.address, 0);
                 removed_slot = first_slot;
                 if (*first_slot == object_m) {
-                    removed_slot = (void **)((u8 *)sequence + 0xB0);
+                    removed_slot = &sequence->unk_B0.address;
                 }
                 *removed_slot = 0;
                 message_id = get_unused_text_buffer();
@@ -659,7 +659,7 @@ loop_7:
         register u32 clear_flags;
 
         step = (128 - scene->view.tint.parts.tint_r) / sequence->action_timer;
-        page_cursor = ((u8 *)scene + 0xA8);
+        page_cursor = (&scene->view.tint.parts.tint_r);
         object_index_m = 0;
         child_slot = sequence;
         shade = scene->view.tint.parts.tint_r + step;

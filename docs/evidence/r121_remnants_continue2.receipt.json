@@ -27,7 +27,6 @@
       "canonical_baseline": "raw/dungeon/func_8127E3E8.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_8127E3E8.c",
       "m2c_sha256": "6b9ea3da873f1b98b539005124e56a1e6c61231dfb59d834f1b9cc5d215a0a18",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -55,7 +54,6 @@
       "canonical_baseline": "raw/dungeon/func_812843E8.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_812843E8.c",
       "m2c_sha256": "2f0ae06513491d234dcfb80da511fcb874692fddd5b3f1d2c68c6eeb92b82f95",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -83,7 +81,6 @@
       "canonical_baseline": "raw/dungeon/func_8128A3E8.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_8128A3E8.c",
       "m2c_sha256": "8e60fb4e4c0563358999fbc4372dcc17f7e3c737a6d9a9c2a259d8c5e07d18b2",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -111,7 +108,6 @@
       "canonical_baseline": "raw/dungeon/func_812903E8.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_812903E8.c",
       "m2c_sha256": "90e3674da5ccc192f65930f766a449851e5dc3a0a80f57f2cf8ea330e7fe0636",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -139,7 +135,6 @@
       "canonical_baseline": "raw/dungeon/func_812963E8.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_812963E8.c",
       "m2c_sha256": "4acbcb5c2682c0464e5de9ce26daf34770d088629851bfdcf7aa7ecf4f48438d",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -167,7 +162,6 @@
       "canonical_baseline": "raw/dungeon/func_8129C3E8.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_8129C3E8.c",
       "m2c_sha256": "92d4ad63d1a4853ba1bcd10e950bad73cdafdda38b7e2f1d334f7f9e7a6a8880",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -195,7 +189,6 @@
       "canonical_baseline": "raw/dungeon/func_812A23E8.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_812A23E8.c",
       "m2c_sha256": "d6a97fa616004ad92ad8bf3b75c26b21863ca84e1415c9be292d307325786152",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -223,7 +216,6 @@
       "canonical_baseline": "raw/dungeon/func_80506908.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_80506908.c",
       "m2c_sha256": "9422e44adf12c3ffc745954f234780c2c59590615c5d92b017e677be13a5b629",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -251,7 +243,6 @@
       "canonical_baseline": "raw/dungeon/func_8108BDB4.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_8108BDB4.c",
       "m2c_sha256": "2014a8644881bc638df918b4ff23635ed7fe10c614de638118b5ebdcc1e41a20",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -279,7 +270,6 @@
       "canonical_baseline": "raw/dungeon/func_81091DB4.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_81091DB4.c",
       "m2c_sha256": "c10614baa3fe954fe85bd3462414a083d9a8bff08c99680f56ef8093c2c70003",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -307,7 +297,6 @@
       "canonical_baseline": "raw/dungeon/func_81097DB4.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_81097DB4.c",
       "m2c_sha256": "905b3900dc869831a85486d6205ce477077dcc84c7ba32cd8980b807fedb32c3",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -335,7 +324,6 @@
       "canonical_baseline": "raw/dungeon/func_8109DDB4.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_8109DDB4.c",
       "m2c_sha256": "22a961f35bf8ea126cf3b301e4924fb4d0e96dabdf06a96dcaba3cf10c3658d9",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -363,7 +351,6 @@
       "canonical_baseline": "raw/dungeon/func_810A3DB4.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_810A3DB4.c",
       "m2c_sha256": "88be13a8acb4c7ca3ad921860a2c9e20f1c528f8e212ada234f975b43a9b7c13",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -391,7 +378,6 @@
       "canonical_baseline": "raw/dungeon/func_810A9DB4.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_810A9DB4.c",
       "m2c_sha256": "b0dfadeb5792ccc02ab872faa89ef107919f6786819eebe024f3583761e3138a",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -419,7 +405,6 @@
       "canonical_baseline": "raw/dungeon/func_81258B28.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_81258B28.c",
       "m2c_sha256": "cf4b8bf84781e46b627207a2c143482b883aac38e655d54bc012e05ad4336031",
-      "retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
       "score": {
         "status": "ok",
         "exact": true,
@@ -447,7 +432,6 @@
       "canonical_baseline": "raw/dungeon/func_8125A0F0.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_8125A0F0.c",
       "m2c_sha256": "54e71dbfefe2eb8f65c6baf0fcd88bf7a6149b9b090f4222ddec8494415c002a",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -475,7 +459,6 @@
       "canonical_baseline": "raw/dungeon/func_8125A3E8.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_8125A3E8.c",
       "m2c_sha256": "f74901531585b83377273e0bf1caa13722f9930a20dd063aa96064501c631f43",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -503,7 +486,6 @@
       "canonical_baseline": "raw/dungeon/func_8125EB28.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_8125EB28.c",
       "m2c_sha256": "3b6502e07166d5403051bbc1fbfb48199816fed9d8ca9978ae16d2c119b9ffc7",
-      "retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
       "score": {
         "status": "ok",
         "exact": true,
@@ -531,7 +513,6 @@
       "canonical_baseline": "raw/dungeon/func_812600F0.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_812600F0.c",
       "m2c_sha256": "8d177c1ffb50d7fa87f9425de2c59f76431344a2eb9386ea7c871fb2dfbbce7b",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -559,7 +540,6 @@
       "canonical_baseline": "raw/dungeon/func_812603E8.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_812603E8.c",
       "m2c_sha256": "604e8c6f02bc55ad549bdb8c6c7d4b8f54c56c5bfcc1ade0f5b5eedd72f7552c",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -587,7 +567,6 @@
       "canonical_baseline": "raw/dungeon/func_81264B28.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_81264B28.c",
       "m2c_sha256": "048ef6d0c8fda1604444837a02ba16004ab6550535bd25af0668330e5a5ac1be",
-      "retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
       "score": {
         "status": "ok",
         "exact": true,
@@ -615,7 +594,6 @@
       "canonical_baseline": "raw/dungeon/func_812660F0.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_812660F0.c",
       "m2c_sha256": "2ff31537a66ccb4a7eb710ab79966594b56d46e5a1853ac24c00ef42dbe85ab5",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -643,7 +621,6 @@
       "canonical_baseline": "raw/dungeon/func_812663E8.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_812663E8.c",
       "m2c_sha256": "5b6a0392d224757ceccdd7c2875b46801c19bc253e9f0a01b7d424f25c9e80df",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -671,7 +648,6 @@
       "canonical_baseline": "raw/dungeon/func_8126AB28.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_8126AB28.c",
       "m2c_sha256": "277098a30fab2e97e028e8b86559bbf2bcfaa698950e9018aafb8db37af5b249",
-      "retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
       "score": {
         "status": "ok",
         "exact": true,
@@ -699,7 +675,6 @@
       "canonical_baseline": "raw/dungeon/func_8126C0F0.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_8126C0F0.c",
       "m2c_sha256": "88e8a9be45e45b61c73cf52fb7c273e901cb22cecd78d5d1c8b1a48e5a540bc8",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -727,7 +702,6 @@
       "canonical_baseline": "raw/dungeon/func_8126C3E8.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_8126C3E8.c",
       "m2c_sha256": "d8fe0b539be91e14821c3b728fa144d8b0ba282631f547b05d68dc2284c563f0",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -755,7 +729,6 @@
       "canonical_baseline": "raw/dungeon/func_81270B28.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_81270B28.c",
       "m2c_sha256": "17f638a88537517dc6cec34fb92234e4597a8ae312135d00e0543e501034f3ed",
-      "retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
       "score": {
         "status": "ok",
         "exact": true,
@@ -783,7 +756,6 @@
       "canonical_baseline": "raw/dungeon/func_812720F0.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_812720F0.c",
       "m2c_sha256": "178f87f78f824f43e593a2e1248527bbfc6f780313cc77b37d3e6643b22ca1f8",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -811,7 +783,6 @@
       "canonical_baseline": "raw/dungeon/func_812723E8.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_812723E8.c",
       "m2c_sha256": "7e52818ec7f2b8f747aca96ba5877a453d4cbe776b9a9aab9061f60e4d8954f8",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -839,7 +810,6 @@
       "canonical_baseline": "raw/dungeon/func_81276B28.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_81276B28.c",
       "m2c_sha256": "43795cfc86251b9834eae6b4a5aa4cdf20aade3b45aa5faadbe29f68d5cfd310",
-      "retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
       "score": {
         "status": "ok",
         "exact": true,
@@ -867,7 +837,6 @@
       "canonical_baseline": "raw/dungeon/func_812780F0.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_812780F0.c",
       "m2c_sha256": "5f0a9ade1b63531d8f7628092b20f719f8c200f7d7c02981f56894becfa3044b",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -895,7 +864,6 @@
       "canonical_baseline": "raw/dungeon/func_812783E8.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_812783E8.c",
       "m2c_sha256": "804bc9693d048b93025d98fb94ef1cba12ef710435407a4c0386f9d4a678b5a7",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -923,7 +891,6 @@
       "canonical_baseline": "raw/dungeon/func_8127CB28.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_8127CB28.c",
       "m2c_sha256": "3ef23dc27915ab58c65cbd5b7a172d7c11106e5d102216706ca7d34dd3e1a5df",
-      "retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
       "score": {
         "status": "ok",
         "exact": true,
@@ -951,7 +918,6 @@
       "canonical_baseline": "raw/dungeon/func_8127E0F0.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_8127E0F0.c",
       "m2c_sha256": "8300cae59d3f9291508de86438f02330b4d7b2e9c52fe00c1d7ba3ea7c982394",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -979,7 +945,6 @@
       "canonical_baseline": "raw/dungeon/func_81282B28.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_81282B28.c",
       "m2c_sha256": "7d76f41c6e041fe64ef5ad093f3ff4fcb7a2c6dfb3a6a71d007d00e4de89251f",
-      "retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
       "score": {
         "status": "ok",
         "exact": true,
@@ -1007,7 +972,6 @@
       "canonical_baseline": "raw/dungeon/func_812840F0.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_812840F0.c",
       "m2c_sha256": "9eb45de0018d4d90a011dd4cd518a8e2c5786f297daf4e83a7b016c0020d3766",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -1035,7 +999,6 @@
       "canonical_baseline": "raw/dungeon/func_81288B28.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_81288B28.c",
       "m2c_sha256": "8c804711fdbcc181b01c3fcbd111f1b2b076bd77324a4ff5cbbfb67fb0838b73",
-      "retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
       "score": {
         "status": "ok",
         "exact": true,
@@ -1063,7 +1026,6 @@
       "canonical_baseline": "raw/dungeon/func_8128A0F0.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_8128A0F0.c",
       "m2c_sha256": "ac22673ffc7010ef64af4f8c3264c8a8717c0b48cca233da597f6fc1aa16c37b",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -1091,7 +1053,6 @@
       "canonical_baseline": "raw/dungeon/func_8128EB28.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_8128EB28.c",
       "m2c_sha256": "5aec15dc96f1596950da1d3cad17cc830b596462447e29917baa1e595ea39276",
-      "retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
       "score": {
         "status": "ok",
         "exact": true,
@@ -1119,7 +1080,6 @@
       "canonical_baseline": "raw/dungeon/func_812900F0.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_812900F0.c",
       "m2c_sha256": "093631060418b05650a47bdae335a25d080a4d43aee5937de3827e84c1cbca0d",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -1147,7 +1107,6 @@
       "canonical_baseline": "raw/dungeon/func_81294B28.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_81294B28.c",
       "m2c_sha256": "c3d520d3f9ce998dae73fe90aa534e31b94a76a418f4a1983e8d8bcb0776a16d",
-      "retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
       "score": {
         "status": "ok",
         "exact": true,
@@ -1175,7 +1134,6 @@
       "canonical_baseline": "raw/dungeon/func_812960F0.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_812960F0.c",
       "m2c_sha256": "4d3a1e8a33079a4978fc8ac243ac7fdfd278377de2799b8fc011c409714a9902",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -1203,7 +1161,6 @@
       "canonical_baseline": "raw/dungeon/func_8129AB28.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_8129AB28.c",
       "m2c_sha256": "a3ca943b79dd8c604f1a6a2b5c428ba025780239600bc86057237eaa705ba03c",
-      "retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
       "score": {
         "status": "ok",
         "exact": true,
@@ -1231,7 +1188,6 @@
       "canonical_baseline": "raw/dungeon/func_8129C0F0.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_8129C0F0.c",
       "m2c_sha256": "bb5c4020ceb30918e19276da7892251f110bc54841de8459baa9f3600934f24e",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -1259,7 +1215,6 @@
       "canonical_baseline": "raw/dungeon/func_812A0B28.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_812A0B28.c",
       "m2c_sha256": "1ded485a8bea8e91bf95cb0214693a15316a710361015a2b02add3e7ed9a4617",
-      "retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
       "score": {
         "status": "ok",
         "exact": true,
@@ -1287,7 +1242,6 @@
       "canonical_baseline": "raw/dungeon/func_812A20F0.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_812A20F0.c",
       "m2c_sha256": "08b9b3910d98362b0685ae077dc1134863cf44da7693451a47b2c54cdec9c14a",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -1315,7 +1269,6 @@
       "canonical_baseline": "raw/town/func_8059E6D0.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_8059E6D0.c",
       "m2c_sha256": "a67e2fea14a521ec2f86840426f852efd71321d6fbf9739992b855ba4ab78a7c",
-      "retail_sha256": "cc2f57dc1c5c5ee329396057543d3064afa7123e129c2762a785689020b6ff60",
       "score": {
         "status": "ok",
         "exact": true,
@@ -1707,7 +1660,6 @@
       "canonical_baseline": "raw/town/func_806C937C.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_806C937C.c",
       "m2c_sha256": "8f4b70d8822cd856a2f10eda01c778172efa74e95ae405900b483580b56cb44d",
-      "retail_sha256": "f3c79250851e32c634fd42eb887a190f9895096b73f09b1c8ff74095ef4eb2d8",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3191,7 +3143,6 @@
       "canonical_baseline": "raw/town/func_8048225C.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_8048225C.c",
       "m2c_sha256": "397ac5a7566e14dbd844c42f9306b84fa7f3efb83e26189c7e161fce6aed4a2c",
-      "retail_sha256": "a73b90ca04d6f5c81721d009c8b5136d7bf2182e8ca564982128c57d700b473f",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3219,7 +3170,6 @@
       "canonical_baseline": "raw/town/func_804822EC.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_804822EC.c",
       "m2c_sha256": "64007d6502c847b918e4b8bfb914026f9dfbf31945ea39d378ec21fffe917b39",
-      "retail_sha256": "696b1f3bbbb55ba6578257f17d731d762921971a7491fa871f32d1a75a38c853",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3247,7 +3197,6 @@
       "canonical_baseline": "raw/town/func_804B9EC0.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_804B9EC0.c",
       "m2c_sha256": "cb863e923a792e22c055f2c48c15d3eb9b69b4839f804c61e554a89962a9561a",
-      "retail_sha256": "c3fefa1704fc3b886fa18f302ce70a63890b4e328f5f5ca5f288b3411a36d8ed",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3275,7 +3224,6 @@
       "canonical_baseline": "raw/town/func_804B9F50.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_804B9F50.c",
       "m2c_sha256": "1b9cd4d696636b4cba099e1047f4d4438eaf81bd5e9717883c9985379efe8fa0",
-      "retail_sha256": "8b858e71d9e5a804ed5afc5c4ffd1e018550b2a14196992fe8c3b2c501e887e8",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3303,7 +3251,6 @@
       "canonical_baseline": "raw/town/func_804D1968.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_804D1968.c",
       "m2c_sha256": "fb69f81f11fade16ec0ce1b1eb87957fd8c0089e8c0ffc4fc0a2837dc627d075",
-      "retail_sha256": "128c62e9828cdb92d9f4a724248a8197bf016df1dd36e58cd201002ffd0f2fe0",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3331,7 +3278,6 @@
       "canonical_baseline": "raw/town/func_804D19F8.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_804D19F8.c",
       "m2c_sha256": "ffe91215b07b84cc59e9e106c1673cd192f8813bee9811140ccd423e5d50beb7",
-      "retail_sha256": "db1f674c8e69388b9b717afaadf93ab0c215f1221f74df4689aea0041c51deef",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3359,7 +3305,6 @@
       "canonical_baseline": "raw/town/func_804D923C.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_804D923C.c",
       "m2c_sha256": "8e13d18f2df0d1e5e4493d96e37ce2389bcb14c672243ae018f9dff791001c60",
-      "retail_sha256": "fc6287fc05e32a40b2368cf083c88702b54e1354bb9ae9a8459bd5b1eec61a69",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3387,7 +3332,6 @@
       "canonical_baseline": "raw/town/func_804D92CC.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_804D92CC.c",
       "m2c_sha256": "4efd18123085ce59a5bc324103eb15ff3e49597232130f0c966b0df1fa30fbdd",
-      "retail_sha256": "03f15fb8ea9ff188be7598c81af4a906aeeec2e27de08f923af8bda5fad3d74e",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3415,7 +3359,6 @@
       "canonical_baseline": "raw/town/func_804F1260.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_804F1260.c",
       "m2c_sha256": "e5ea0d4c786ac334515a254d2e1f1ea0b58fd8df12dbfe6e20e403f6dc7e4d93",
-      "retail_sha256": "3853a7b1a126a340915ef8e53e058f2df0a531c296490ad19b3ddf5558ed3466",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3443,7 +3386,6 @@
       "canonical_baseline": "raw/town/func_804F12F0.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_804F12F0.c",
       "m2c_sha256": "9870390bdb26b243acdf9919e08be664a15bb5151c6b25f278a387e69f789c0d",
-      "retail_sha256": "19d59500dcc623fa6f0c55c5a791d5243677ae78dba056a7cbece6b10b8e45ea",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3471,7 +3413,6 @@
       "canonical_baseline": "raw/town/func_80501144.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_80501144.c",
       "m2c_sha256": "7ab47639cda58285ec689b24a19c3e7457cd0125ab175f86c4cb4605cb53771c",
-      "retail_sha256": "5e34c001609ed4d88c868cf8f0040037e91d069c5fba57c96a592d24b47b469f",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3499,7 +3440,6 @@
       "canonical_baseline": "raw/town/func_805011D4.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_805011D4.c",
       "m2c_sha256": "0c4e244121f6c618768b5bca4bd5900df6586625e8406ed2c24900c5ebd672b9",
-      "retail_sha256": "ec41893afe9e2bca3761f52ce9859c4870b859f7894bd63caaba5778c71af37a",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3527,7 +3467,6 @@
       "canonical_baseline": "raw/town/func_8050F1EC.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_8050F1EC.c",
       "m2c_sha256": "475b8c64662a52ccf8183e6ecfd5ae44d8ad1a7393acc69898f4cbafcc76e30f",
-      "retail_sha256": "640aabeb3e353b4fd1463c3c8ae01ee2e5ebe2cc7fdcfe8b62819beb7d49b85b",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3555,7 +3494,6 @@
       "canonical_baseline": "raw/town/func_8050F27C.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_8050F27C.c",
       "m2c_sha256": "f793dea6d6ceae2303b227e55e6dd91e3512e358db1e235ded666ea688eef018",
-      "retail_sha256": "a787a4f74d60081d49ab4b7b5759ee3a4b13c55e72d3f10b0e3dd8e69bfafef0",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3583,7 +3521,6 @@
       "canonical_baseline": "raw/town/func_80520EA4.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_80520EA4.c",
       "m2c_sha256": "d2eb7fb5cb44e3eeb3b0e68816eb4b2b5276272dec4109d0759f163c22e65be6",
-      "retail_sha256": "041265366e46b0b664e65d07408ff7bc1f2f7eb8853de02729bcb6ff179d81c7",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3611,7 +3548,6 @@
       "canonical_baseline": "raw/town/func_80520F34.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_80520F34.c",
       "m2c_sha256": "4dfdb60239a34e6ab65860ff0651615e74706fc7a1f4fc6feb363ea30074935f",
-      "retail_sha256": "08c1057d0f33a32bedb98e73537c3d78ef37ae7cb0f5a01abb92e4ec98c15fe8",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3639,7 +3575,6 @@
       "canonical_baseline": "raw/town/func_80550B8C.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_80550B8C.c",
       "m2c_sha256": "987639dacd4775dd362bd417a9864dae3d761bc5139bed9d5196c149787dea4c",
-      "retail_sha256": "0e91ba9fd9306b9e5c8502a4a53340a878ab8344b607c563008386f1873589ba",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3667,7 +3602,6 @@
       "canonical_baseline": "raw/town/func_80550C1C.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_80550C1C.c",
       "m2c_sha256": "7fcf69d6992379661815abd62d0b4bc04ff5a25c5d21f3f1d2afc886bbc03765",
-      "retail_sha256": "8c637024907338f77438d64b1597ad414af3909722252f211f0223c553cb7a5e",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3695,7 +3629,6 @@
       "canonical_baseline": "raw/town/func_8055A0D8.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_8055A0D8.c",
       "m2c_sha256": "7bf8b1df9832b73e4f362a2aca457bbeb75017bc095f1deca70e60b180236477",
-      "retail_sha256": "5a3822ff481f7009336153dd988469442a404f14c484f8041a9ada478e60195b",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3723,7 +3656,6 @@
       "canonical_baseline": "raw/town/func_8055A168.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_8055A168.c",
       "m2c_sha256": "4c2b989f24ae9a036f027c3e5536a1751ee6827b15d96bf1056dc4b9bb9ca37b",
-      "retail_sha256": "08cd6f8e2f398d11723a67224be835a0e7d7ea276ce7743125a0e6677c6cf443",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3751,7 +3683,6 @@
       "canonical_baseline": "raw/town/func_8057A18C.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_8057A18C.c",
       "m2c_sha256": "ba54b7e3fedb15d425a33d8b564fa59a61bd0a0efcfded9a2adb67cc454cc3bd",
-      "retail_sha256": "92ed04105884cba9242a58f81b3d56bbee1eb133073d649e835614ad7b02274e",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3779,7 +3710,6 @@
       "canonical_baseline": "raw/town/func_8057A21C.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_8057A21C.c",
       "m2c_sha256": "bf0662e6966b65bddf0170c2d6cf090ecbd66e8fcc25434b3920009bd8e89653",
-      "retail_sha256": "1281ffb8ab23668aa2576142681755e3f1826c68f422e630b9c7a155f84c13f8",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3807,7 +3737,6 @@
       "canonical_baseline": "raw/town/func_805A0558.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_805A0558.c",
       "m2c_sha256": "32accf76e0417069527450c99c0413c4b4d787a70ae89fbbaf93eb4c738359f3",
-      "retail_sha256": "54af8e05f77b9a337a80cb4268bb21960505aed0926997c86a87a05db64fd0ad",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3835,7 +3764,6 @@
       "canonical_baseline": "raw/town/func_805A05E8.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_805A05E8.c",
       "m2c_sha256": "8a421329cb3ad8fc72acf0704a49377a9e22eae1a3f50f48ffb1c0e80159907a",
-      "retail_sha256": "417a20ead0f609196bea27f4f83cbe9e0a2082f335acdc3135c28ae5635b8d92",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3863,7 +3791,6 @@
       "canonical_baseline": "raw/town/func_805D4E28.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_805D4E28.c",
       "m2c_sha256": "7b395718ecc89cdca28c9156144dd348acff3e973f2022ef6a838a5f770c6ee1",
-      "retail_sha256": "e22572912be772fba758173294835a4d25350de643f9b079bd75c9f422a48818",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3891,7 +3818,6 @@
       "canonical_baseline": "raw/town/func_805D4EB8.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_805D4EB8.c",
       "m2c_sha256": "6b10032498a566144c870f87223c214085d64dbfc07cc6a5d5be265ed98451bf",
-      "retail_sha256": "91feac5dbc34e1d529b176371e3e2e6c04cdf700d3d26e2942c8aeae42c94288",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3919,7 +3845,6 @@
       "canonical_baseline": "raw/town/func_80602C74.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_80602C74.c",
       "m2c_sha256": "e3203d366f6606b986fc3312a35ef6e201d297c8d0615bf6a54ab691abb5293e",
-      "retail_sha256": "81878416330f433ed599345341cefd6887963704f01f7c5bb1bd4222b1645082",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3947,7 +3872,6 @@
       "canonical_baseline": "raw/town/func_80602D04.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_80602D04.c",
       "m2c_sha256": "e58ec2e5dcfbf7757f5e75048ecfb956d09493dcc2d5c4df9a818bb244d73444",
-      "retail_sha256": "0e0ff01caf57cf5a9851e8532e3dd2be6abaa1c239b5f983b4ffb43f912441cd",
       "score": {
         "status": "ok",
         "exact": true,
@@ -3975,7 +3899,6 @@
       "canonical_baseline": "raw/town/func_80617044.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_80617044.c",
       "m2c_sha256": "89bbe03ac26acc6f29e79ef569947b828443fbdc450042d8b8e6a04ace1615d1",
-      "retail_sha256": "91c853e140bd1830598cb473f8f21f886ad0023b289ddc8954c758fa4044afe7",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4003,7 +3926,6 @@
       "canonical_baseline": "raw/town/func_806170D4.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_806170D4.c",
       "m2c_sha256": "e8760f1fd8760dc53260707bd351badeab6309c942012f398575faad179c6750",
-      "retail_sha256": "c96618387bf243874b7d519373b81b001de7914095df5f75f7b80898139ab10f",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4031,7 +3953,6 @@
       "canonical_baseline": "raw/town/func_8063324C.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_8063324C.c",
       "m2c_sha256": "baa25e3a0b49992b4c38600c2421697274f3beac52ebd24633351c04b8e6e4ac",
-      "retail_sha256": "e33d7bc2d291b7e5afe61d2856a07b27e8ee185947e153f44ba20eff4bbadbca",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4059,7 +3980,6 @@
       "canonical_baseline": "raw/town/func_806332DC.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_806332DC.c",
       "m2c_sha256": "5e3d1ddcd9f6ec459bef9f687454bd45defb61910048db4ca73ed6c6089d4dfe",
-      "retail_sha256": "d13160fab1cc590702a289f56199ef6fe17eda3965034b1d632380960537613f",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4087,7 +4007,6 @@
       "canonical_baseline": "raw/town/func_806482E0.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_806482E0.c",
       "m2c_sha256": "82fdcab06be0b118c3efe6d4e344027b2ebfa9ae3fbca5e79a9e66200683a461",
-      "retail_sha256": "9ee186aa48c61cab660df2786c7b76cfd798e5501973dd66d14c1002722a7f7f",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4115,7 +4034,6 @@
       "canonical_baseline": "raw/town/func_80648370.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_80648370.c",
       "m2c_sha256": "35d74c8bec6151f7b7a13d609cfa35dd7be4e329fe8a3fa3f29ee726c939e853",
-      "retail_sha256": "bfc18501cf547a7117e12273decdce215a5ed2fb88db2974ae25236c6ea32e7b",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4143,7 +4061,6 @@
       "canonical_baseline": "raw/town/func_8065BFA8.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_8065BFA8.c",
       "m2c_sha256": "a08cc906cdb0a8a7bba1f5947740f36032e4ebda968e384cd19f59407b20c8c2",
-      "retail_sha256": "15feb5316861343d6e1424243a9479ea22b27b502c9d803daec27dc1408347d9",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4171,7 +4088,6 @@
       "canonical_baseline": "raw/town/func_8065BFF4.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_8065BFF4.c",
       "m2c_sha256": "dd2c949ef6399eb5e470f1bd3c4a041da0f0641ffb394720529a5a7633481b31",
-      "retail_sha256": "dd70fa236da497deabbc98c8f38a982ccf6526827f5a3dcfcae7fd5eb56821a7",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4199,7 +4115,6 @@
       "canonical_baseline": "raw/town/func_80681188.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_80681188.c",
       "m2c_sha256": "487925c2264f07018ada379e259cd0effcfded80899339f4ce20e0f501e4c0c6",
-      "retail_sha256": "17445874037c962e215999d5cf627cb3253e9e72b841c58f2d837094a2fd65c2",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4227,7 +4142,6 @@
       "canonical_baseline": "raw/town/func_80681218.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_80681218.c",
       "m2c_sha256": "d4d139ce27ad496c39c85f9beccbf825fcb7605c918639d111f5c3db0c8b3e4c",
-      "retail_sha256": "006bb4677ed4970d523fef27922fa933499e232f19bec440724b1969facc9535",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4255,7 +4169,6 @@
       "canonical_baseline": "raw/town/func_80699258.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_80699258.c",
       "m2c_sha256": "3bc994ff043cc75411708925e48b7f0655ff8032f89c6119e6af235be75a5107",
-      "retail_sha256": "2e3a2a16a977a9c843b6e42a54adc344ff1ef2b7c74d79041d91b37ee2d1e9cc",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4283,7 +4196,6 @@
       "canonical_baseline": "raw/town/func_806992E8.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_806992E8.c",
       "m2c_sha256": "14ac8be07164c3d270b9ad0ec5e9cde64e2ef6ea12b405e6dc12ef489d1286c4",
-      "retail_sha256": "ddd91d4b679b395fa5894f18cc64b85d8f108f737968f8b634b20bd89eaedddb",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4311,7 +4223,6 @@
       "canonical_baseline": "raw/town/func_806AA0FC.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_806AA0FC.c",
       "m2c_sha256": "ffcc762e21fd8bd995aebdf21d8f3d6e3c36ff00dedeef164fe0ca4cd99c4601",
-      "retail_sha256": "b7d521ffe45f088935c1e50584a1d3c2f9109ff0d6c73446acbc99ad4a0a1f69",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4339,7 +4250,6 @@
       "canonical_baseline": "raw/town/func_806AA18C.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_806AA18C.c",
       "m2c_sha256": "3f46bcf08c0be134347fa4ccc6ceada969f796a28823a8cbde40444e2d4dad46",
-      "retail_sha256": "dc33b8b40e3e69bd69ab3e2edc22a62526d3b41d3e4fbba22415d0cdba4f3eca",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4367,7 +4277,6 @@
       "canonical_baseline": "raw/town/func_806C7960.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_806C7960.c",
       "m2c_sha256": "e76282f620339b0a33dcf8731128a27dddb6279631a8fb0bd84867f6904c2224",
-      "retail_sha256": "bbe8ffacb7da649840c18869de41d3b5a02353949c0edaa2302a49d5599a3cb3",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4395,7 +4304,6 @@
       "canonical_baseline": "raw/town/func_806C79F0.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_806C79F0.c",
       "m2c_sha256": "2f52945168ac3b4515a9af1fbe05718c064324db6cfccf84a04277b598f920a2",
-      "retail_sha256": "b721521359541852a598ac418e09a11c0db984f1ab50991885928de75e5cbde4",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4423,7 +4331,6 @@
       "canonical_baseline": "raw/town/func_806CA330.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_806CA330.c",
       "m2c_sha256": "4fc9910845c618842f75aad6f6d4cff09604c2eb4505080594b59633f8488018",
-      "retail_sha256": "1dc8f9f36e42a7d616b2751a02da0a51e853c76b98e0b2fa9433ad152c6e5b33",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4451,7 +4358,6 @@
       "canonical_baseline": "raw/town/func_806CA3C0.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_806CA3C0.c",
       "m2c_sha256": "df116f16da7112cc819aa4c568c6c8554bdb532cd8211eff2e0d2d115456a86b",
-      "retail_sha256": "56513039d114df64f5600d7bde9c491537aa79cbcfd8cd846618d26f30e016a6",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4479,7 +4385,6 @@
       "canonical_baseline": "raw/town/func_806CC32C.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_806CC32C.c",
       "m2c_sha256": "8a4ce3b1d86b818edbe6e605b1ae5a27dd29edea2c6dc4039de79ffa42379716",
-      "retail_sha256": "4e0beba0ccf466d54464a63452d0fe80d579ece7e0ee36d5908071dfe088939e",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4507,7 +4412,6 @@
       "canonical_baseline": "raw/town/func_806CC3BC.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_806CC3BC.c",
       "m2c_sha256": "4e6a195fa3425a12be485dfb94eca9c687fa52e136139fbd3a8df6362556c8b7",
-      "retail_sha256": "f429a7e8a38312b81ccbd69687611940256083b9194fdc064fbe62930b891cc5",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4535,7 +4439,6 @@
       "canonical_baseline": "raw/town/func_806CE2D4.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_806CE2D4.c",
       "m2c_sha256": "cb5b91cc33dae059082ff4c2f03fa08144cc1d798e1b255ca2bceb17f7631023",
-      "retail_sha256": "5d6f8da73c66338a3661e5e4f5d6884a6013250d55bd8b98d955061564d00db0",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4563,7 +4466,6 @@
       "canonical_baseline": "raw/town/func_806CE364.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_806CE364.c",
       "m2c_sha256": "72bb6c8b5e09f3e61482e1c0efe87c41cbb5e77eeb1493e1286b377568385b2e",
-      "retail_sha256": "65b56c1635a88227c4006173f9ea1cc985f7ad79ddd02046500c30c74d1235e7",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4591,7 +4493,6 @@
       "canonical_baseline": "raw/town/func_806D0138.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_806D0138.c",
       "m2c_sha256": "1c4f14df9e0d0ded39b66f8b9965d81e0e91925afd2a5ef6b0c78cf516d81ade",
-      "retail_sha256": "1d76a0b029b2f2e083cfde6df35856e8d33b5a388dd781cf26476977ac1c29d3",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4619,7 +4520,6 @@
       "canonical_baseline": "raw/town/func_806D01C8.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_806D01C8.c",
       "m2c_sha256": "a9c2468b461c61e051523cd9a117571ed8155e4cfe2d179fc77591ba0634368e",
-      "retail_sha256": "a1998d96c5351012fb75106b939022f445302fbf8958f08d3680ef805c14c657",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4647,7 +4547,6 @@
       "canonical_baseline": "raw/town/func_806D20A8.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_806D20A8.c",
       "m2c_sha256": "45ee65d11b1551f662b0e654695d37a26534ab183523582ef85ab5ca2f126337",
-      "retail_sha256": "8669d54d4869411c671720f9904f999fe7233d6e83e3c2e4a1e141b854ce43c5",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4675,7 +4574,6 @@
       "canonical_baseline": "raw/town/func_806D2138.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_806D2138.c",
       "m2c_sha256": "eb7c261784c1a1b556a5ba8cc8499b913e41019d9c4563a162544671fb78da45",
-      "retail_sha256": "bdd8a94fa0c75b3a7761ce9ab3f71f4f2db0315c1296e762fdf53ea9130a6810",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4703,7 +4601,6 @@
       "canonical_baseline": "raw/town/func_806D5FDC.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_806D5FDC.c",
       "m2c_sha256": "61b62219b24ec031c88bbc365a7a5ba1d1def864b66f69ba2e5f2b0f195e40f7",
-      "retail_sha256": "92358d1bbd336ff9446a2a18d97f49ada572fa10daf9267ce18af14eaee02a43",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4731,7 +4628,6 @@
       "canonical_baseline": "raw/town/func_806D606C.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_806D606C.c",
       "m2c_sha256": "f1002156842e7c9faefe8254fdcf0ae56fc07747f960ea23f151ace5886a15ef",
-      "retail_sha256": "0cecd4ff32757173d7509800a0cf57b06f43aed68f03bcd530212fc2f13a6a53",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4759,7 +4655,6 @@
       "canonical_baseline": "raw/town/func_806D9988.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_806D9988.c",
       "m2c_sha256": "c4ab18aa6ad0492d56ec39be5b7a38272060f785a7b9624823ff383b60b7023c",
-      "retail_sha256": "1cc2c75ce86aef0c27f73baae57aab1db59498feb707bdc3484ff754225c4217",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4787,7 +4682,6 @@
       "canonical_baseline": "raw/town/func_806D9A18.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_806D9A18.c",
       "m2c_sha256": "bb6c749ea2139c845ef89fefda950283c4778f0c65b6e2645c5da71bf4c39aa4",
-      "retail_sha256": "d352952f4103af5582677e34827bfcff675120e88e39dc70d4c4bb67f9e8cdf4",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4815,7 +4709,6 @@
       "canonical_baseline": "raw/town/func_806DC150.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_806DC150.c",
       "m2c_sha256": "517f5e8f7d856f540fc5282f8c3834b8921457cd3745f476b5c89ff4b6af66e6",
-      "retail_sha256": "b978bf335af73f8b0495d6b27412dbe58e4285d352c6a524aa63714a5688ff96",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4843,7 +4736,6 @@
       "canonical_baseline": "raw/town/func_806DC1E0.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_806DC1E0.c",
       "m2c_sha256": "6f2f9e92ddc12c5d23740553c804e9a5c3402e08ac59fc7b1f9762079163980b",
-      "retail_sha256": "c5312bb0004f72b0cf0490bcb937d2cfdcef246a1bc412d5d50a93451f8429d1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4871,7 +4763,6 @@
       "canonical_baseline": "raw/town/func_806F2B84.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_806F2B84.c",
       "m2c_sha256": "aaee162af692d581dcc60284fad069bfb11f938bce31272610a44f3501f2e5ea",
-      "retail_sha256": "ba5c4fe2e78b5613781ccdd776778c813b7d42932f46565acca4f7780dd5c00a",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4899,7 +4790,6 @@
       "canonical_baseline": "raw/town/func_806F2C14.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_806F2C14.c",
       "m2c_sha256": "8789022d775487e03851d8c167f8c6ff594539c05217f073bf6855ef3fe39f77",
-      "retail_sha256": "8c637024907338f77438d64b1597ad414af3909722252f211f0223c553cb7a5e",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4927,7 +4817,6 @@
       "canonical_baseline": "raw/town/func_8070F6BC.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_8070F6BC.c",
       "m2c_sha256": "3242ba15bcc36a5cce9cff0a92feaedfea497d1a76d1d9631ee5816ccd526c76",
-      "retail_sha256": "4026b8fa6dd7966b182abbe745c5c77b1f24f0d74ae91125e04fabbc233a8a9c",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4955,7 +4844,6 @@
       "canonical_baseline": "raw/town/func_8070F6D0.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_8070F6D0.c",
       "m2c_sha256": "c304f9d464ecc66da723edf9b39d912173866d4492dea0bf9fa291211ca99125",
-      "retail_sha256": "4026b8fa6dd7966b182abbe745c5c77b1f24f0d74ae91125e04fabbc233a8a9c",
       "score": {
         "status": "ok",
         "exact": true,
@@ -4983,7 +4871,6 @@
       "canonical_baseline": "raw/town/func_8070F6E4.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_8070F6E4.c",
       "m2c_sha256": "d0934b6f8b1236e5e2aa4392f05a751c9e9c3b91ae6d8c156a0bec514291bba6",
-      "retail_sha256": "4026b8fa6dd7966b182abbe745c5c77b1f24f0d74ae91125e04fabbc233a8a9c",
       "score": {
         "status": "ok",
         "exact": true,
@@ -5011,7 +4898,6 @@
       "canonical_baseline": "raw/town/func_80711240.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_80711240.c",
       "m2c_sha256": "ffc3fed007cb415fbc6db2241f58c549da271c6d472ec8de198806882b0d6f4b",
-      "retail_sha256": "e4fe7a5b55046a4b5bd4f5e5003e30d96df7159299ddae77bfc38602a0006c9e",
       "score": {
         "status": "ok",
         "exact": true,
@@ -5039,7 +4925,6 @@
       "canonical_baseline": "raw/town/func_807112D0.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_807112D0.c",
       "m2c_sha256": "0ddb5220222a84c7e7ec55f3f830720fd00087ace997356a2b0e0328e92ac35a",
-      "retail_sha256": "7e13756559e9614c71d3a158591c01fae96ea1c276f0e7fca4e6ffaf9a2e3e2b",
       "score": {
         "status": "ok",
         "exact": true,
@@ -5067,7 +4952,6 @@
       "canonical_baseline": "raw/town/func_8072B4F0.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_8072B4F0.c",
       "m2c_sha256": "cbc98a2c400d764ecaa86023c13368267fbc6cf497a5620a233e6a7fcf6e76d5",
-      "retail_sha256": "d29a49215f24ea56e1d3ed3061f4304cb6cb47962a43e4b35cefc3c07fc72018",
       "score": {
         "status": "ok",
         "exact": true,
@@ -5095,7 +4979,6 @@
       "canonical_baseline": "raw/town/func_8072B580.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_8072B580.c",
       "m2c_sha256": "69f7b3e435b4817ff12824d84578a88b7be7934e14a1fd3e23c1ea677ce796a3",
-      "retail_sha256": "7c2dd0d6a9b7213930526e711dae3458aaf27cd011166470324782856a6f0288",
       "score": {
         "status": "ok",
         "exact": true,
@@ -5123,7 +5006,6 @@
       "canonical_baseline": "raw/town/func_8074D934.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_8074D934.c",
       "m2c_sha256": "0692b3d88f5b65f50c77bc2f2778850b0dfc254e9a80e3accce9e585f33c5d70",
-      "retail_sha256": "746271beb24452d63ce4b681c85426f4301a44f68b062f36b6e3c709d5313df0",
       "score": {
         "status": "ok",
         "exact": true,
@@ -5151,7 +5033,6 @@
       "canonical_baseline": "raw/town/func_8074D9C4.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_8074D9C4.c",
       "m2c_sha256": "93428d320b722262762988bcbe56a993c37a62585e308a51bed87eda33e60d1d",
-      "retail_sha256": "ab302ee75c6448145544e100d0ec7f7568b533f6099fbe4de5d950c0ae4fbd03",
       "score": {
         "status": "ok",
         "exact": true,
@@ -5179,7 +5060,6 @@
       "canonical_baseline": "raw/town/func_80762D90.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_80762D90.c",
       "m2c_sha256": "b3f7ad6167bd99da986d8f9942faa5b2e93b874956695e086e1dbce23b817d63",
-      "retail_sha256": "35dbf310d5214dd119b6d2d3cf4120e134b1e86976b1a84ac2f4843b1023fea7",
       "score": {
         "status": "ok",
         "exact": true,
@@ -5207,7 +5087,6 @@
       "canonical_baseline": "raw/town/func_80762E20.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_80762E20.c",
       "m2c_sha256": "41a49b16c5be62b0c6f9b030838abdeea33e8c9e50a4f2dc7fb95bd999f188f7",
-      "retail_sha256": "c71634d3e9bee2a5e5acda13a203a0f38d80dd8f02cd26bd326dad69898fbb4d",
       "score": {
         "status": "ok",
         "exact": true,
@@ -5235,7 +5114,6 @@
       "canonical_baseline": "raw/town/func_80771180.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_80771180.c",
       "m2c_sha256": "384bd20b676abd27cb38cd970241229423d107c3decd90906fd20a2fa31b9cd0",
-      "retail_sha256": "b6a999aefaba54d62935fda57d4ab4eb28e9fa94ae38e97e069c93d558620f75",
       "score": {
         "status": "ok",
         "exact": true,
@@ -5263,7 +5141,6 @@
       "canonical_baseline": "raw/town/func_80771210.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_80771210.c",
       "m2c_sha256": "315a235e196d9ed8e71808f62779002baeb2e27a99c2692d818d7222265b23f2",
-      "retail_sha256": "0fb96cc836dcceab2fe73859531198f519dcd06e076a087e7445b940e46bb45c",
       "score": {
         "status": "ok",
         "exact": true,
@@ -5291,7 +5168,6 @@
       "canonical_baseline": "raw/town/func_807758E8.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_807758E8.c",
       "m2c_sha256": "4c58815827a4e52e5c9d373be0f21350f1461a0edeacb93e57cf267e480bcaf1",
-      "retail_sha256": "81c6229b9574d298c18db157302f8ed3d7b122cf8930cd45fa4f9363458e66ae",
       "score": {
         "status": "ok",
         "exact": true,
@@ -5319,7 +5195,6 @@
       "canonical_baseline": "raw/town/func_80775978.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_80775978.c",
       "m2c_sha256": "e042ca87782ee065d6385a1d5b5a1d6d3d7d128fc44fa3543d6a70c7f5f3f72d",
-      "retail_sha256": "704a6261b2b48a8bb5247a2dbbd89fca1dbd0a08ec5fb2042fe1297abbddcfd7",
       "score": {
         "status": "ok",
         "exact": true,
@@ -5347,7 +5222,6 @@
       "canonical_baseline": "raw/town/func_807780E8.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_807780E8.c",
       "m2c_sha256": "67d97530b73b22d3682e0ab31b24a5db6e06a65f382a09db72d2145f7f7834fd",
-      "retail_sha256": "2b3c3a64118188e75c43af8708e299e85a9023cf6984d6e14843bed41025e3d2",
       "score": {
         "status": "ok",
         "exact": true,
@@ -5375,7 +5249,6 @@
       "canonical_baseline": "raw/town/func_80778178.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_80778178.c",
       "m2c_sha256": "bc2eede20bb8f3c6e85f0f282f7f341a212df682b2755996ae087702696bad05",
-      "retail_sha256": "8bd06590159bc658c2d0fbf2782e47e82ffa7fd1f49ddb775fef54ba57f1dad9",
       "score": {
         "status": "ok",
         "exact": true,
@@ -5403,7 +5276,6 @@
       "canonical_baseline": "raw/town/func_8077EC64.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_8077EC64.c",
       "m2c_sha256": "e5be83102cda6ac6c0f1bd340b7e9f86acbda85f1638770d61f76d0e2ce2edf2",
-      "retail_sha256": "457ebd01520f8db1d5f78c3e0f801b68d1180816296c410c67aecbdbe96ded7f",
       "score": {
         "status": "ok",
         "exact": true,
@@ -5431,7 +5303,6 @@
       "canonical_baseline": "raw/town/func_8077ECF4.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_8077ECF4.c",
       "m2c_sha256": "0f8e502faf54312768c8a53b27e0a87995180a4ff312ebf9f56839261c6c7c5f",
-      "retail_sha256": "846c5fd8b8586612794d62a851f0271f51a3c31354f8ce99365bcf494bf53daa",
       "score": {
         "status": "ok",
         "exact": true,
@@ -5459,7 +5330,6 @@
       "canonical_baseline": "raw/town/func_807861E4.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_807861E4.c",
       "m2c_sha256": "e2574487383d4e1242a4d9bb617dc8b8fe3f260d490bafd2b14f2294460eb9da",
-      "retail_sha256": "762b198fc6c7da4df11ebc107936dfb51bd9897a186b7a70e8291296a621377d",
       "score": {
         "status": "ok",
         "exact": true,
@@ -5487,7 +5357,6 @@
       "canonical_baseline": "raw/town/func_80786274.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_80786274.c",
       "m2c_sha256": "89c8bc5fa17291be06b7a440f27ae30b2153c1aa5b19020e6675f3c13c26f2f6",
-      "retail_sha256": "bbe1e2a1415a3dec6582d970fccb9a7a8097d4ee175882976ed19428b97556e8",
       "score": {
         "status": "ok",
         "exact": true,
@@ -5515,7 +5384,6 @@
       "canonical_baseline": "raw/town/func_8079B20C.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_8079B20C.c",
       "m2c_sha256": "c95abd132707f1e21d3915044a568957f91737740b0d9632384a1d8149127f20",
-      "retail_sha256": "b7ab6d5c4dbed8db40b21267b114409c5688d65aaf6158538b517d62416eaa9b",
       "score": {
         "status": "ok",
         "exact": true,
@@ -5543,7 +5411,6 @@
       "canonical_baseline": "raw/town/func_8079B29C.c",
       "m2c_first_pass": "raw/town/m2c_first_pass/func_8079B29C.c",
       "m2c_sha256": "680992eb07d72fa62ca6ad5854be77d5a4a78e19f3ba36af41379f3655f09fb6",
-      "retail_sha256": "bbe1e2a1415a3dec6582d970fccb9a7a8097d4ee175882976ed19428b97556e8",
       "score": {
         "status": "ok",
         "exact": true,
@@ -7785,7 +7652,6 @@
         "size": 8,
         "source_sha256": "9422e44adf12c3ffc745954f234780c2c59590615c5d92b017e677be13a5b629",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_525000_truebase_8001c800/build/rowbase_func_8001E108.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_80506908.bin",
         "window": "config/overlays/dungeon_deep_525000_truebase_8001c800.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_80506908.c",
@@ -7801,7 +7667,6 @@
         "size": 8,
         "source_sha256": "2014a8644881bc638df918b4ff23635ed7fe10c614de638118b5ebdcc1e41a20",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_10a9060_truebase_8016a860/build/rowbase_func_8016D5B4.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_8108BDB4.bin",
         "window": "config/overlays/dungeon_deep_10a9060_truebase_8016a860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_8108BDB4.c",
@@ -7817,7 +7682,6 @@
         "size": 8,
         "source_sha256": "c10614baa3fe954fe85bd3462414a083d9a8bff08c99680f56ef8093c2c70003",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_10af284_truebase_80164a84/build/rowbase_func_801675B4.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_81091DB4.bin",
         "window": "config/overlays/dungeon_deep_10af284_truebase_80164a84.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_81091DB4.c",
@@ -7833,7 +7697,6 @@
         "size": 8,
         "source_sha256": "905b3900dc869831a85486d6205ce477077dcc84c7ba32cd8980b807fedb32c3",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_10b5284_truebase_8015ea84/build/rowbase_func_801615B4.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_81097DB4.bin",
         "window": "config/overlays/dungeon_deep_10b5284_truebase_8015ea84.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_81097DB4.c",
@@ -7849,7 +7712,6 @@
         "size": 8,
         "source_sha256": "22a961f35bf8ea126cf3b301e4924fb4d0e96dabdf06a96dcaba3cf10c3658d9",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_10bb284_truebase_80158a84/build/rowbase_func_8015B5B4.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_8109DDB4.bin",
         "window": "config/overlays/dungeon_deep_10bb284_truebase_80158a84.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_8109DDB4.c",
@@ -7865,7 +7727,6 @@
         "size": 8,
         "source_sha256": "88be13a8acb4c7ca3ad921860a2c9e20f1c528f8e212ada234f975b43a9b7c13",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_10c1284_truebase_80152a84/build/rowbase_func_801555B4.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_810A3DB4.bin",
         "window": "config/overlays/dungeon_deep_10c1284_truebase_80152a84.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_810A3DB4.c",
@@ -7881,7 +7742,6 @@
         "size": 8,
         "source_sha256": "b0dfadeb5792ccc02ab872faa89ef107919f6786819eebe024f3583761e3138a",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_10c7284_truebase_8014ca84/build/rowbase_func_8014F5B4.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_810A9DB4.bin",
         "window": "config/overlays/dungeon_deep_10c7284_truebase_8014ca84.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_810A9DB4.c",
@@ -7897,7 +7757,6 @@
         "size": 8,
         "source_sha256": "cf4b8bf84781e46b627207a2c143482b883aac38e655d54bc012e05ad4336031",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_1277060_truebase_8016a860/build/rowbase_func_8016C328.bin",
-        "compiled_and_retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
         "compiler_artifact": "proofs/dungeon/func_81258B28.bin",
         "window": "config/overlays/dungeon_deep_1277060_truebase_8016a860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_81258B28.c",
@@ -7913,7 +7772,6 @@
         "size": 8,
         "source_sha256": "54e71dbfefe2eb8f65c6baf0fcd88bf7a6149b9b090f4222ddec8494415c002a",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_1277060_truebase_8016a860/build/rowbase_func_8016D8F0.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_8125A0F0.bin",
         "window": "config/overlays/dungeon_deep_1277060_truebase_8016a860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_8125A0F0.c",
@@ -7929,7 +7787,6 @@
         "size": 8,
         "source_sha256": "f74901531585b83377273e0bf1caa13722f9930a20dd063aa96064501c631f43",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_1277060_truebase_8016a860/build/rowbase_func_8016DBE8.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_8125A3E8.bin",
         "window": "config/overlays/dungeon_deep_1277060_truebase_8016a860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_8125A3E8.c",
@@ -7945,7 +7802,6 @@
         "size": 8,
         "source_sha256": "3b6502e07166d5403051bbc1fbfb48199816fed9d8ca9978ae16d2c119b9ffc7",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_127d060_truebase_80164860/build/rowbase_func_80166328.bin",
-        "compiled_and_retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
         "compiler_artifact": "proofs/dungeon/func_8125EB28.bin",
         "window": "config/overlays/dungeon_deep_127d060_truebase_80164860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_8125EB28.c",
@@ -7961,7 +7817,6 @@
         "size": 8,
         "source_sha256": "8d177c1ffb50d7fa87f9425de2c59f76431344a2eb9386ea7c871fb2dfbbce7b",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_127d060_truebase_80164860/build/rowbase_func_801678F0.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_812600F0.bin",
         "window": "config/overlays/dungeon_deep_127d060_truebase_80164860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_812600F0.c",
@@ -7977,7 +7832,6 @@
         "size": 8,
         "source_sha256": "604e8c6f02bc55ad549bdb8c6c7d4b8f54c56c5bfcc1ade0f5b5eedd72f7552c",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_127d060_truebase_80164860/build/rowbase_func_80167BE8.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_812603E8.bin",
         "window": "config/overlays/dungeon_deep_127d060_truebase_80164860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_812603E8.c",
@@ -7993,7 +7847,6 @@
         "size": 8,
         "source_sha256": "048ef6d0c8fda1604444837a02ba16004ab6550535bd25af0668330e5a5ac1be",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_1283060_truebase_8015e860/build/rowbase_func_80160328.bin",
-        "compiled_and_retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
         "compiler_artifact": "proofs/dungeon/func_81264B28.bin",
         "window": "config/overlays/dungeon_deep_1283060_truebase_8015e860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_81264B28.c",
@@ -8009,7 +7862,6 @@
         "size": 8,
         "source_sha256": "2ff31537a66ccb4a7eb710ab79966594b56d46e5a1853ac24c00ef42dbe85ab5",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_1283060_truebase_8015e860/build/rowbase_func_801618F0.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_812660F0.bin",
         "window": "config/overlays/dungeon_deep_1283060_truebase_8015e860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_812660F0.c",
@@ -8025,7 +7877,6 @@
         "size": 8,
         "source_sha256": "5b6a0392d224757ceccdd7c2875b46801c19bc253e9f0a01b7d424f25c9e80df",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_1283060_truebase_8015e860/build/rowbase_func_80161BE8.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_812663E8.bin",
         "window": "config/overlays/dungeon_deep_1283060_truebase_8015e860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_812663E8.c",
@@ -8041,7 +7892,6 @@
         "size": 8,
         "source_sha256": "277098a30fab2e97e028e8b86559bbf2bcfaa698950e9018aafb8db37af5b249",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_1289060_truebase_80158860/build/rowbase_func_8015A328.bin",
-        "compiled_and_retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
         "compiler_artifact": "proofs/dungeon/func_8126AB28.bin",
         "window": "config/overlays/dungeon_deep_1289060_truebase_80158860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_8126AB28.c",
@@ -8057,7 +7907,6 @@
         "size": 8,
         "source_sha256": "88e8a9be45e45b61c73cf52fb7c273e901cb22cecd78d5d1c8b1a48e5a540bc8",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_1289060_truebase_80158860/build/rowbase_func_8015B8F0.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_8126C0F0.bin",
         "window": "config/overlays/dungeon_deep_1289060_truebase_80158860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_8126C0F0.c",
@@ -8073,7 +7922,6 @@
         "size": 8,
         "source_sha256": "d8fe0b539be91e14821c3b728fa144d8b0ba282631f547b05d68dc2284c563f0",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_1289060_truebase_80158860/build/rowbase_func_8015BBE8.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_8126C3E8.bin",
         "window": "config/overlays/dungeon_deep_1289060_truebase_80158860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_8126C3E8.c",
@@ -8089,7 +7937,6 @@
         "size": 8,
         "source_sha256": "17f638a88537517dc6cec34fb92234e4597a8ae312135d00e0543e501034f3ed",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_128f060_truebase_80152860/build/rowbase_func_80154328.bin",
-        "compiled_and_retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
         "compiler_artifact": "proofs/dungeon/func_81270B28.bin",
         "window": "config/overlays/dungeon_deep_128f060_truebase_80152860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_81270B28.c",
@@ -8105,7 +7952,6 @@
         "size": 8,
         "source_sha256": "178f87f78f824f43e593a2e1248527bbfc6f780313cc77b37d3e6643b22ca1f8",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_128f060_truebase_80152860/build/rowbase_func_801558F0.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_812720F0.bin",
         "window": "config/overlays/dungeon_deep_128f060_truebase_80152860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_812720F0.c",
@@ -8121,7 +7967,6 @@
         "size": 8,
         "source_sha256": "7e52818ec7f2b8f747aca96ba5877a453d4cbe776b9a9aab9061f60e4d8954f8",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_128f060_truebase_80152860/build/rowbase_func_80155BE8.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_812723E8.bin",
         "window": "config/overlays/dungeon_deep_128f060_truebase_80152860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_812723E8.c",
@@ -8137,7 +7982,6 @@
         "size": 8,
         "source_sha256": "43795cfc86251b9834eae6b4a5aa4cdf20aade3b45aa5faadbe29f68d5cfd310",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_1295060_truebase_8014c860/build/rowbase_func_8014E328.bin",
-        "compiled_and_retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
         "compiler_artifact": "proofs/dungeon/func_81276B28.bin",
         "window": "config/overlays/dungeon_deep_1295060_truebase_8014c860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_81276B28.c",
@@ -8153,7 +7997,6 @@
         "size": 8,
         "source_sha256": "5f0a9ade1b63531d8f7628092b20f719f8c200f7d7c02981f56894becfa3044b",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_1295060_truebase_8014c860/build/rowbase_func_8014F8F0.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_812780F0.bin",
         "window": "config/overlays/dungeon_deep_1295060_truebase_8014c860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_812780F0.c",
@@ -8169,7 +8012,6 @@
         "size": 8,
         "source_sha256": "804bc9693d048b93025d98fb94ef1cba12ef710435407a4c0386f9d4a678b5a7",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_1295060_truebase_8014c860/build/rowbase_func_8014FBE8.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_812783E8.bin",
         "window": "config/overlays/dungeon_deep_1295060_truebase_8014c860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_812783E8.c",
@@ -8185,7 +8027,6 @@
         "size": 8,
         "source_sha256": "3ef23dc27915ab58c65cbd5b7a172d7c11106e5d102216706ca7d34dd3e1a5df",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_129b060_truebase_8016f860/build/rowbase_func_80171328.bin",
-        "compiled_and_retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
         "compiler_artifact": "proofs/dungeon/func_8127CB28.bin",
         "window": "config/overlays/dungeon_deep_129b060_truebase_8016f860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_8127CB28.c",
@@ -8201,7 +8042,6 @@
         "size": 8,
         "source_sha256": "8300cae59d3f9291508de86438f02330b4d7b2e9c52fe00c1d7ba3ea7c982394",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_129b060_truebase_8016f860/build/rowbase_func_801728F0.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_8127E0F0.bin",
         "window": "config/overlays/dungeon_deep_129b060_truebase_8016f860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_8127E0F0.c",
@@ -8217,7 +8057,6 @@
         "size": 8,
         "source_sha256": "6b9ea3da873f1b98b539005124e56a1e6c61231dfb59d834f1b9cc5d215a0a18",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_129b060_truebase_8016f860/build/rowbase_func_80172BE8.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_8127E3E8.bin",
         "window": "config/overlays/dungeon_deep_129b060_truebase_8016f860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_8127E3E8.c",
@@ -8233,7 +8072,6 @@
         "size": 8,
         "source_sha256": "7d76f41c6e041fe64ef5ad093f3ff4fcb7a2c6dfb3a6a71d007d00e4de89251f",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_12a1060_truebase_80169860/build/rowbase_func_8016B328.bin",
-        "compiled_and_retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
         "compiler_artifact": "proofs/dungeon/func_81282B28.bin",
         "window": "config/overlays/dungeon_deep_12a1060_truebase_80169860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_81282B28.c",
@@ -8249,7 +8087,6 @@
         "size": 8,
         "source_sha256": "9eb45de0018d4d90a011dd4cd518a8e2c5786f297daf4e83a7b016c0020d3766",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_12a1060_truebase_80169860/build/rowbase_func_8016C8F0.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_812840F0.bin",
         "window": "config/overlays/dungeon_deep_12a1060_truebase_80169860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_812840F0.c",
@@ -8265,7 +8102,6 @@
         "size": 8,
         "source_sha256": "2f0ae06513491d234dcfb80da511fcb874692fddd5b3f1d2c68c6eeb92b82f95",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_12a1060_truebase_80169860/build/rowbase_func_8016CBE8.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_812843E8.bin",
         "window": "config/overlays/dungeon_deep_12a1060_truebase_80169860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_812843E8.c",
@@ -8281,7 +8117,6 @@
         "size": 8,
         "source_sha256": "8c804711fdbcc181b01c3fcbd111f1b2b076bd77324a4ff5cbbfb67fb0838b73",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_12a7060_truebase_80163860/build/rowbase_func_80165328.bin",
-        "compiled_and_retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
         "compiler_artifact": "proofs/dungeon/func_81288B28.bin",
         "window": "config/overlays/dungeon_deep_12a7060_truebase_80163860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_81288B28.c",
@@ -8297,7 +8132,6 @@
         "size": 8,
         "source_sha256": "ac22673ffc7010ef64af4f8c3264c8a8717c0b48cca233da597f6fc1aa16c37b",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_12a7060_truebase_80163860/build/rowbase_func_801668F0.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_8128A0F0.bin",
         "window": "config/overlays/dungeon_deep_12a7060_truebase_80163860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_8128A0F0.c",
@@ -8313,7 +8147,6 @@
         "size": 8,
         "source_sha256": "8e60fb4e4c0563358999fbc4372dcc17f7e3c737a6d9a9c2a259d8c5e07d18b2",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_12a7060_truebase_80163860/build/rowbase_func_80166BE8.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_8128A3E8.bin",
         "window": "config/overlays/dungeon_deep_12a7060_truebase_80163860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_8128A3E8.c",
@@ -8329,7 +8162,6 @@
         "size": 8,
         "source_sha256": "5aec15dc96f1596950da1d3cad17cc830b596462447e29917baa1e595ea39276",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_12ad060_truebase_8015d860/build/rowbase_func_8015F328.bin",
-        "compiled_and_retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
         "compiler_artifact": "proofs/dungeon/func_8128EB28.bin",
         "window": "config/overlays/dungeon_deep_12ad060_truebase_8015d860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_8128EB28.c",
@@ -8345,7 +8177,6 @@
         "size": 8,
         "source_sha256": "093631060418b05650a47bdae335a25d080a4d43aee5937de3827e84c1cbca0d",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_12ad060_truebase_8015d860/build/rowbase_func_801608F0.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_812900F0.bin",
         "window": "config/overlays/dungeon_deep_12ad060_truebase_8015d860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_812900F0.c",
@@ -8361,7 +8192,6 @@
         "size": 8,
         "source_sha256": "90e3674da5ccc192f65930f766a449851e5dc3a0a80f57f2cf8ea330e7fe0636",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_12ad060_truebase_8015d860/build/rowbase_func_80160BE8.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_812903E8.bin",
         "window": "config/overlays/dungeon_deep_12ad060_truebase_8015d860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_812903E8.c",
@@ -8377,7 +8207,6 @@
         "size": 8,
         "source_sha256": "c3d520d3f9ce998dae73fe90aa534e31b94a76a418f4a1983e8d8bcb0776a16d",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_12b3060_truebase_80157860/build/rowbase_func_80159328.bin",
-        "compiled_and_retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
         "compiler_artifact": "proofs/dungeon/func_81294B28.bin",
         "window": "config/overlays/dungeon_deep_12b3060_truebase_80157860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_81294B28.c",
@@ -8393,7 +8222,6 @@
         "size": 8,
         "source_sha256": "4d3a1e8a33079a4978fc8ac243ac7fdfd278377de2799b8fc011c409714a9902",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_12b3060_truebase_80157860/build/rowbase_func_8015A8F0.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_812960F0.bin",
         "window": "config/overlays/dungeon_deep_12b3060_truebase_80157860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_812960F0.c",
@@ -8409,7 +8237,6 @@
         "size": 8,
         "source_sha256": "4acbcb5c2682c0464e5de9ce26daf34770d088629851bfdcf7aa7ecf4f48438d",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_12b3060_truebase_80157860/build/rowbase_func_8015ABE8.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_812963E8.bin",
         "window": "config/overlays/dungeon_deep_12b3060_truebase_80157860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_812963E8.c",
@@ -8425,7 +8252,6 @@
         "size": 8,
         "source_sha256": "a3ca943b79dd8c604f1a6a2b5c428ba025780239600bc86057237eaa705ba03c",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_12b9060_truebase_80151860/build/rowbase_func_80153328.bin",
-        "compiled_and_retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
         "compiler_artifact": "proofs/dungeon/func_8129AB28.bin",
         "window": "config/overlays/dungeon_deep_12b9060_truebase_80151860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_8129AB28.c",
@@ -8441,7 +8267,6 @@
         "size": 8,
         "source_sha256": "bb5c4020ceb30918e19276da7892251f110bc54841de8459baa9f3600934f24e",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_12b9060_truebase_80151860/build/rowbase_func_801548F0.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_8129C0F0.bin",
         "window": "config/overlays/dungeon_deep_12b9060_truebase_80151860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_8129C0F0.c",
@@ -8457,7 +8282,6 @@
         "size": 8,
         "source_sha256": "92d4ad63d1a4853ba1bcd10e950bad73cdafdda38b7e2f1d334f7f9e7a6a8880",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_12b9060_truebase_80151860/build/rowbase_func_80154BE8.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_8129C3E8.bin",
         "window": "config/overlays/dungeon_deep_12b9060_truebase_80151860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_8129C3E8.c",
@@ -8473,7 +8297,6 @@
         "size": 8,
         "source_sha256": "1ded485a8bea8e91bf95cb0214693a15316a710361015a2b02add3e7ed9a4617",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_12bf060_truebase_8014b860/build/rowbase_func_8014D328.bin",
-        "compiled_and_retail_sha256": "207819bf4ebe30789debac4affc1a07c833e14f530eef04dc87a6cf369209b43",
         "compiler_artifact": "proofs/dungeon/func_812A0B28.bin",
         "window": "config/overlays/dungeon_deep_12bf060_truebase_8014b860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_812A0B28.c",
@@ -8489,7 +8312,6 @@
         "size": 8,
         "source_sha256": "08b9b3910d98362b0685ae077dc1134863cf44da7693451a47b2c54cdec9c14a",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_12bf060_truebase_8014b860/build/rowbase_func_8014E8F0.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_812A20F0.bin",
         "window": "config/overlays/dungeon_deep_12bf060_truebase_8014b860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_812A20F0.c",
@@ -8505,7 +8327,6 @@
         "size": 8,
         "source_sha256": "d6a97fa616004ad92ad8bf3b75c26b21863ca84e1415c9be292d307325786152",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_12bf060_truebase_8014b860/build/rowbase_func_8014EBE8.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_812A23E8.bin",
         "window": "config/overlays/dungeon_deep_12bf060_truebase_8014b860.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_812A23E8.c",
@@ -8681,7 +8502,6 @@
         "size": 12,
         "source_sha256": "8d65327faf90f021503215e877a56b9ff27fce8767ca718deddd1e27bb8bc5ca",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_40225C_true_8001825C/build/rowbase_func_8001825C.bin",
-        "compiled_and_retail_sha256": "a73b90ca04d6f5c81721d009c8b5136d7bf2182e8ca564982128c57d700b473f",
         "compiler_artifact": "proofs/town/func_8048225C.bin",
         "window": "config/overlays/town_r121c2_40225C_true_8001825C.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_8048225C.c",
@@ -8697,7 +8517,6 @@
         "size": 12,
         "source_sha256": "d7525a3a8f4d9f2c429a6e09337f12341de16b960ce07dea3514fea3a3848420",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_4022EC_true_800182EC/build/rowbase_func_800182EC.bin",
-        "compiled_and_retail_sha256": "696b1f3bbbb55ba6578257f17d731d762921971a7491fa871f32d1a75a38c853",
         "compiler_artifact": "proofs/town/func_804822EC.bin",
         "window": "config/overlays/town_r121c2_4022EC_true_800182EC.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_804822EC.c",
@@ -8889,7 +8708,6 @@
         "size": 12,
         "source_sha256": "701ae14ed84c5efcfb4ea5d48a098d6b0d751323a8ecb43b2e2952cbfbafcd22",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_439EC0_true_800186C0/build/rowbase_func_800186C0.bin",
-        "compiled_and_retail_sha256": "c3fefa1704fc3b886fa18f302ce70a63890b4e328f5f5ca5f288b3411a36d8ed",
         "compiler_artifact": "proofs/town/func_804B9EC0.bin",
         "window": "config/overlays/town_r121c2_439EC0_true_800186C0.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_804B9EC0.c",
@@ -8905,7 +8723,6 @@
         "size": 12,
         "source_sha256": "d829ac33c3572b44d4f1ccd117fa7bead70a03acc44c7ed865dfcc3c217ee7d7",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_439F50_true_80018750/build/rowbase_func_80018750.bin",
-        "compiled_and_retail_sha256": "8b858e71d9e5a804ed5afc5c4ffd1e018550b2a14196992fe8c3b2c501e887e8",
         "compiler_artifact": "proofs/town/func_804B9F50.bin",
         "window": "config/overlays/town_r121c2_439F50_true_80018750.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_804B9F50.c",
@@ -8953,7 +8770,6 @@
         "size": 12,
         "source_sha256": "e0d714e4e6f1c55f7e8f259272228d2e81c1bc555f0060fdbcafb2713c53b5b1",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_451968_true_80017168/build/rowbase_func_80017168.bin",
-        "compiled_and_retail_sha256": "128c62e9828cdb92d9f4a724248a8197bf016df1dd36e58cd201002ffd0f2fe0",
         "compiler_artifact": "proofs/town/func_804D1968.bin",
         "window": "config/overlays/town_r121c2_451968_true_80017168.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_804D1968.c",
@@ -8969,7 +8785,6 @@
         "size": 12,
         "source_sha256": "2fa4b32003bad360a0331480e94bab770b000909a93e6f6c79c1f5839de21f11",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_4519F8_true_800171F8/build/rowbase_func_800171F8.bin",
-        "compiled_and_retail_sha256": "db1f674c8e69388b9b717afaadf93ab0c215f1221f74df4689aea0041c51deef",
         "compiler_artifact": "proofs/town/func_804D19F8.bin",
         "window": "config/overlays/town_r121c2_4519F8_true_800171F8.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_804D19F8.c",
@@ -9017,7 +8832,6 @@
         "size": 12,
         "source_sha256": "9f0e6c12d27a851b715ef949474ed9f527f36ad96a1ae0780aa9201f338ae617",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_45923C_true_8001723C/build/rowbase_func_8001723C.bin",
-        "compiled_and_retail_sha256": "fc6287fc05e32a40b2368cf083c88702b54e1354bb9ae9a8459bd5b1eec61a69",
         "compiler_artifact": "proofs/town/func_804D923C.bin",
         "window": "config/overlays/town_r121c2_45923C_true_8001723C.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_804D923C.c",
@@ -9033,7 +8847,6 @@
         "size": 12,
         "source_sha256": "ce3a6e491da484f0c53a96383c490cd80d8f7b8cc88ec2ffff54ab86c8c3cd1c",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_4592CC_true_800172CC/build/rowbase_func_800172CC.bin",
-        "compiled_and_retail_sha256": "03f15fb8ea9ff188be7598c81af4a906aeeec2e27de08f923af8bda5fad3d74e",
         "compiler_artifact": "proofs/town/func_804D92CC.bin",
         "window": "config/overlays/town_r121c2_4592CC_true_800172CC.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_804D92CC.c",
@@ -9081,7 +8894,6 @@
         "size": 12,
         "source_sha256": "496245ba796fab018791d33d99fe794f3818798babbf9126b94030fe59cd2dec",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_471260_true_80017260/build/rowbase_func_80017260.bin",
-        "compiled_and_retail_sha256": "3853a7b1a126a340915ef8e53e058f2df0a531c296490ad19b3ddf5558ed3466",
         "compiler_artifact": "proofs/town/func_804F1260.bin",
         "window": "config/overlays/town_r121c2_471260_true_80017260.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_804F1260.c",
@@ -9097,7 +8909,6 @@
         "size": 12,
         "source_sha256": "ae4b9d3fc0ab6b3173d4170e7b5c590c1afa8624640f5bfbcb52a0b9e83854d7",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_4712F0_true_800172F0/build/rowbase_func_800172F0.bin",
-        "compiled_and_retail_sha256": "19d59500dcc623fa6f0c55c5a791d5243677ae78dba056a7cbece6b10b8e45ea",
         "compiler_artifact": "proofs/town/func_804F12F0.bin",
         "window": "config/overlays/town_r121c2_4712F0_true_800172F0.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_804F12F0.c",
@@ -9145,7 +8956,6 @@
         "size": 12,
         "source_sha256": "21433183bdcd70b5ca0902b04963b97a0937970d198e480da519727a39d70f51",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_481144_true_80017144/build/rowbase_func_80017144.bin",
-        "compiled_and_retail_sha256": "5e34c001609ed4d88c868cf8f0040037e91d069c5fba57c96a592d24b47b469f",
         "compiler_artifact": "proofs/town/func_80501144.bin",
         "window": "config/overlays/town_r121c2_481144_true_80017144.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_80501144.c",
@@ -9161,7 +8971,6 @@
         "size": 12,
         "source_sha256": "7685944af9d0001f2aa37aff02774f803f73bf15d6b17aed2d44a1479525bce8",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_4811D4_true_800171D4/build/rowbase_func_800171D4.bin",
-        "compiled_and_retail_sha256": "ec41893afe9e2bca3761f52ce9859c4870b859f7894bd63caaba5778c71af37a",
         "compiler_artifact": "proofs/town/func_805011D4.bin",
         "window": "config/overlays/town_r121c2_4811D4_true_800171D4.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_805011D4.c",
@@ -9225,7 +9034,6 @@
         "size": 12,
         "source_sha256": "c6551e2356ea8409cbd81cf747f41c680078217626b7c5c530244e2776149ca4",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_48F1EC_true_800171EC/build/rowbase_func_800171EC.bin",
-        "compiled_and_retail_sha256": "640aabeb3e353b4fd1463c3c8ae01ee2e5ebe2cc7fdcfe8b62819beb7d49b85b",
         "compiler_artifact": "proofs/town/func_8050F1EC.bin",
         "window": "config/overlays/town_r121c2_48F1EC_true_800171EC.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_8050F1EC.c",
@@ -9241,7 +9049,6 @@
         "size": 12,
         "source_sha256": "9387f1d2eec43129ffcc9502019cb3531b6ebc127754a5981223e6add0a26ef4",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_48F27C_true_8001727C/build/rowbase_func_8001727C.bin",
-        "compiled_and_retail_sha256": "a787a4f74d60081d49ab4b7b5759ee3a4b13c55e72d3f10b0e3dd8e69bfafef0",
         "compiler_artifact": "proofs/town/func_8050F27C.bin",
         "window": "config/overlays/town_r121c2_48F27C_true_8001727C.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_8050F27C.c",
@@ -9289,7 +9096,6 @@
         "size": 12,
         "source_sha256": "38832449cb0011e9dce7d68f4e350744516c5d1abf88021e15f4b37d84ac899a",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_4A0EA4_true_800186A4/build/rowbase_func_800186A4.bin",
-        "compiled_and_retail_sha256": "041265366e46b0b664e65d07408ff7bc1f2f7eb8853de02729bcb6ff179d81c7",
         "compiler_artifact": "proofs/town/func_80520EA4.bin",
         "window": "config/overlays/town_r121c2_4A0EA4_true_800186A4.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_80520EA4.c",
@@ -9305,7 +9111,6 @@
         "size": 12,
         "source_sha256": "314e66d4aad73b46dfe352b2054846f7b0b68027f8d02c783d4c8a5171f20fa6",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_4A0F34_true_80018734/build/rowbase_func_80018734.bin",
-        "compiled_and_retail_sha256": "08c1057d0f33a32bedb98e73537c3d78ef37ae7cb0f5a01abb92e4ec98c15fe8",
         "compiler_artifact": "proofs/town/func_80520F34.bin",
         "window": "config/overlays/town_r121c2_4A0F34_true_80018734.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_80520F34.c",
@@ -9353,7 +9158,6 @@
         "size": 12,
         "source_sha256": "a7ce01bb920c3f63eb7c743aaa446917ccd6590b09e2d89a3bb7a9be7e80ca54",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_4D0B8C_true_8001738C/build/rowbase_func_8001738C.bin",
-        "compiled_and_retail_sha256": "0e91ba9fd9306b9e5c8502a4a53340a878ab8344b607c563008386f1873589ba",
         "compiler_artifact": "proofs/town/func_80550B8C.bin",
         "window": "config/overlays/town_r121c2_4D0B8C_true_8001738C.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_80550B8C.c",
@@ -9369,7 +9173,6 @@
         "size": 12,
         "source_sha256": "a7c6017733c72203f4cd84e06c0611ce05a8eb5b18d30bc4f793d615a321c958",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_4D0C1C_true_8001741C/build/rowbase_func_8001741C.bin",
-        "compiled_and_retail_sha256": "8c637024907338f77438d64b1597ad414af3909722252f211f0223c553cb7a5e",
         "compiler_artifact": "proofs/town/func_80550C1C.bin",
         "window": "config/overlays/town_r121c2_4D0C1C_true_8001741C.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_80550C1C.c",
@@ -9417,7 +9220,6 @@
         "size": 12,
         "source_sha256": "2d4388aef32da6d74e40b3025ff4c56d47f1386c2b5a4fc3db62e9c22695953e",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_4DA0D8_true_800170D8/build/rowbase_func_800170D8.bin",
-        "compiled_and_retail_sha256": "5a3822ff481f7009336153dd988469442a404f14c484f8041a9ada478e60195b",
         "compiler_artifact": "proofs/town/func_8055A0D8.bin",
         "window": "config/overlays/town_r121c2_4DA0D8_true_800170D8.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_8055A0D8.c",
@@ -9433,7 +9235,6 @@
         "size": 12,
         "source_sha256": "570233fda5629df6e1d8c7c7f204d0bfc15e79960af997a9bda398e6fc1eeaba",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_4DA168_true_80017168/build/rowbase_func_80017168.bin",
-        "compiled_and_retail_sha256": "08cd6f8e2f398d11723a67224be835a0e7d7ea276ce7743125a0e6677c6cf443",
         "compiler_artifact": "proofs/town/func_8055A168.bin",
         "window": "config/overlays/town_r121c2_4DA168_true_80017168.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_8055A168.c",
@@ -9497,7 +9298,6 @@
         "size": 12,
         "source_sha256": "55ef84044f73113de8a10ae7d1f708904022c0e7355af5dd91bbdaa764754701",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_4FA18C_true_8001718C/build/rowbase_func_8001718C.bin",
-        "compiled_and_retail_sha256": "92ed04105884cba9242a58f81b3d56bbee1eb133073d649e835614ad7b02274e",
         "compiler_artifact": "proofs/town/func_8057A18C.bin",
         "window": "config/overlays/town_r121c2_4FA18C_true_8001718C.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_8057A18C.c",
@@ -9513,7 +9313,6 @@
         "size": 12,
         "source_sha256": "70b26c3b0131bb3ab88695b8d788c359f0dd8a461b8ddda0fb46eb3fbcc99014",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_4FA21C_true_8001721C/build/rowbase_func_8001721C.bin",
-        "compiled_and_retail_sha256": "1281ffb8ab23668aa2576142681755e3f1826c68f422e630b9c7a155f84c13f8",
         "compiler_artifact": "proofs/town/func_8057A21C.bin",
         "window": "config/overlays/town_r121c2_4FA21C_true_8001721C.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_8057A21C.c",
@@ -9529,7 +9328,6 @@
         "size": 8,
         "source_sha256": "a67e2fea14a521ec2f86840426f852efd71321d6fbf9739992b855ba4ab78a7c",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_51E6D0_true_800166D0/build/rowbase_func_800166D0.bin",
-        "compiled_and_retail_sha256": "cc2f57dc1c5c5ee329396057543d3064afa7123e129c2762a785689020b6ff60",
         "compiler_artifact": "proofs/town/func_8059E6D0.bin",
         "window": "config/overlays/town_r121c2_51E6D0_true_800166D0.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_8059E6D0.c",
@@ -9577,7 +9375,6 @@
         "size": 12,
         "source_sha256": "31e6885bbeb442cef0b90ddff03e83dc7102f1baa83510be80642f3b23999275",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_520558_true_80018558/build/rowbase_func_80018558.bin",
-        "compiled_and_retail_sha256": "54af8e05f77b9a337a80cb4268bb21960505aed0926997c86a87a05db64fd0ad",
         "compiler_artifact": "proofs/town/func_805A0558.bin",
         "window": "config/overlays/town_r121c2_520558_true_80018558.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_805A0558.c",
@@ -9593,7 +9390,6 @@
         "size": 12,
         "source_sha256": "5e8f889eb900adbadd92378a7e1436936abd62dfbf4eb8223a21462e678518f1",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_5205E8_true_800185E8/build/rowbase_func_800185E8.bin",
-        "compiled_and_retail_sha256": "417a20ead0f609196bea27f4f83cbe9e0a2082f335acdc3135c28ae5635b8d92",
         "compiler_artifact": "proofs/town/func_805A05E8.bin",
         "window": "config/overlays/town_r121c2_5205E8_true_800185E8.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_805A05E8.c",
@@ -9785,7 +9581,6 @@
         "size": 12,
         "source_sha256": "3449e6823f083e4b92ab0dcb8645e3a2a755c6c0568a5fa84e320dd561726856",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_554E28_true_80018E28/build/rowbase_func_80018E28.bin",
-        "compiled_and_retail_sha256": "e22572912be772fba758173294835a4d25350de643f9b079bd75c9f422a48818",
         "compiler_artifact": "proofs/town/func_805D4E28.bin",
         "window": "config/overlays/town_r121c2_554E28_true_80018E28.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_805D4E28.c",
@@ -9801,7 +9596,6 @@
         "size": 12,
         "source_sha256": "371c662d77fda17c46dce3950b690dca8edf897b42d43843291db0b5102e978d",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_554EB8_true_80018EB8/build/rowbase_func_80018EB8.bin",
-        "compiled_and_retail_sha256": "91feac5dbc34e1d529b176371e3e2e6c04cdf700d3d26e2942c8aeae42c94288",
         "compiler_artifact": "proofs/town/func_805D4EB8.bin",
         "window": "config/overlays/town_r121c2_554EB8_true_80018EB8.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_805D4EB8.c",
@@ -9897,7 +9691,6 @@
         "size": 12,
         "source_sha256": "cf0f255e7c6ca50e82ebfd954b876e660faaea1b28d7c8347da388f5298903ee",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_582C74_true_80017C74/build/rowbase_func_80017C74.bin",
-        "compiled_and_retail_sha256": "81878416330f433ed599345341cefd6887963704f01f7c5bb1bd4222b1645082",
         "compiler_artifact": "proofs/town/func_80602C74.bin",
         "window": "config/overlays/town_r121c2_582C74_true_80017C74.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_80602C74.c",
@@ -9913,7 +9706,6 @@
         "size": 12,
         "source_sha256": "ab3778e70820734720f3d69588988e2ee80087234478783705f002a75f946657",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_582D04_true_80017D04/build/rowbase_func_80017D04.bin",
-        "compiled_and_retail_sha256": "0e0ff01caf57cf5a9851e8532e3dd2be6abaa1c239b5f983b4ffb43f912441cd",
         "compiler_artifact": "proofs/town/func_80602D04.bin",
         "window": "config/overlays/town_r121c2_582D04_true_80017D04.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_80602D04.c",
@@ -9993,7 +9785,6 @@
         "size": 12,
         "source_sha256": "fe04b19e5de5e1b89d1766ef6ec668c858a3c4cac75ecdc93eb372751a9d8fac",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_597044_true_80018844/build/rowbase_func_80018844.bin",
-        "compiled_and_retail_sha256": "91c853e140bd1830598cb473f8f21f886ad0023b289ddc8954c758fa4044afe7",
         "compiler_artifact": "proofs/town/func_80617044.bin",
         "window": "config/overlays/town_r121c2_597044_true_80018844.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_80617044.c",
@@ -10009,7 +9800,6 @@
         "size": 12,
         "source_sha256": "bc370d96bb43cbe82491207b412b208963dc41ee720fabe9e9f828b3af5ea11b",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_5970D4_true_800188D4/build/rowbase_func_800188D4.bin",
-        "compiled_and_retail_sha256": "c96618387bf243874b7d519373b81b001de7914095df5f75f7b80898139ab10f",
         "compiler_artifact": "proofs/town/func_806170D4.bin",
         "window": "config/overlays/town_r121c2_5970D4_true_800188D4.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_806170D4.c",
@@ -10121,7 +9911,6 @@
         "size": 12,
         "source_sha256": "ec9fb611355507c04cf2ad48f7098c1cf23628adca8d28cc7efab2cfabc9822c",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_5B324C_true_8001724C/build/rowbase_func_8001724C.bin",
-        "compiled_and_retail_sha256": "e33d7bc2d291b7e5afe61d2856a07b27e8ee185947e153f44ba20eff4bbadbca",
         "compiler_artifact": "proofs/town/func_8063324C.bin",
         "window": "config/overlays/town_r121c2_5B324C_true_8001724C.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_8063324C.c",
@@ -10137,7 +9926,6 @@
         "size": 12,
         "source_sha256": "ff13a009a636c484ac39aa35ecaa1b8dbae0d44a8bb0380a59f4f4b2184ab6cb",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_5B32DC_true_800172DC/build/rowbase_func_800172DC.bin",
-        "compiled_and_retail_sha256": "d13160fab1cc590702a289f56199ef6fe17eda3965034b1d632380960537613f",
         "compiler_artifact": "proofs/town/func_806332DC.bin",
         "window": "config/overlays/town_r121c2_5B32DC_true_800172DC.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_806332DC.c",
@@ -10233,7 +10021,6 @@
         "size": 12,
         "source_sha256": "ccd4bdc0cb7f04f9320ebbb34384570e75563184a6bc25129aa531df23e76948",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_5C82E0_true_800172E0/build/rowbase_func_800172E0.bin",
-        "compiled_and_retail_sha256": "9ee186aa48c61cab660df2786c7b76cfd798e5501973dd66d14c1002722a7f7f",
         "compiler_artifact": "proofs/town/func_806482E0.bin",
         "window": "config/overlays/town_r121c2_5C82E0_true_800172E0.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_806482E0.c",
@@ -10249,7 +10036,6 @@
         "size": 12,
         "source_sha256": "2560b218b9f11dc05f1438319fe47733847d2ddfef560f487a973d1b350f2a91",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_5C8370_true_80017370/build/rowbase_func_80017370.bin",
-        "compiled_and_retail_sha256": "bfc18501cf547a7117e12273decdce215a5ed2fb88db2974ae25236c6ea32e7b",
         "compiler_artifact": "proofs/town/func_80648370.bin",
         "window": "config/overlays/town_r121c2_5C8370_true_80017370.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_80648370.c",
@@ -10281,7 +10067,6 @@
         "size": 12,
         "source_sha256": "43ea89f2e807d720a108f7c38165ddf416d6700da116150228dda9f47bae22e9",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_5DBF88_true_80016788/build/rowbase_func_800167A8.bin",
-        "compiled_and_retail_sha256": "15feb5316861343d6e1424243a9479ea22b27b502c9d803daec27dc1408347d9",
         "compiler_artifact": "proofs/town/func_8065BFA8.bin",
         "window": "config/overlays/town_r121c2_5DBF88_true_80016788.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_8065BFA8.c",
@@ -10297,7 +10082,6 @@
         "size": 12,
         "source_sha256": "3ceef9672322cd39ec044a59c55e4b414da06b04d98b405dc217fec22beb1a46",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_5DBFF4_true_800167F4/build/rowbase_func_800167F4.bin",
-        "compiled_and_retail_sha256": "dd70fa236da497deabbc98c8f38a982ccf6526827f5a3dcfcae7fd5eb56821a7",
         "compiler_artifact": "proofs/town/func_8065BFF4.bin",
         "window": "config/overlays/town_r121c2_5DBFF4_true_800167F4.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_8065BFF4.c",
@@ -10361,7 +10145,6 @@
         "size": 12,
         "source_sha256": "c103f3200fbced6b8feda8dcea78713c6f22aba6df294d7b751f021c92081864",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_601188_true_80018188/build/rowbase_func_80018188.bin",
-        "compiled_and_retail_sha256": "17445874037c962e215999d5cf627cb3253e9e72b841c58f2d837094a2fd65c2",
         "compiler_artifact": "proofs/town/func_80681188.bin",
         "window": "config/overlays/town_r121c2_601188_true_80018188.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_80681188.c",
@@ -10377,7 +10160,6 @@
         "size": 12,
         "source_sha256": "0ee6b83cc076fd28d46796d2da25131f30d199787ca2aa085319e9f38787c80e",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_601218_true_80018218/build/rowbase_func_80018218.bin",
-        "compiled_and_retail_sha256": "006bb4677ed4970d523fef27922fa933499e232f19bec440724b1969facc9535",
         "compiler_artifact": "proofs/town/func_80681218.bin",
         "window": "config/overlays/town_r121c2_601218_true_80018218.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_80681218.c",
@@ -10425,7 +10207,6 @@
         "size": 12,
         "source_sha256": "0fe05e145b238fea8e4044a4d08a815e208fa93efdc1446b75217d63c31e19b6",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_619258_true_80018258/build/rowbase_func_80018258.bin",
-        "compiled_and_retail_sha256": "2e3a2a16a977a9c843b6e42a54adc344ff1ef2b7c74d79041d91b37ee2d1e9cc",
         "compiler_artifact": "proofs/town/func_80699258.bin",
         "window": "config/overlays/town_r121c2_619258_true_80018258.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_80699258.c",
@@ -10441,7 +10222,6 @@
         "size": 12,
         "source_sha256": "7cfbb2c1773457946452f421e3caef54b3e0776b0bef09e7d64bb4335bff779c",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_6192E8_true_800182E8/build/rowbase_func_800182E8.bin",
-        "compiled_and_retail_sha256": "ddd91d4b679b395fa5894f18cc64b85d8f108f737968f8b634b20bd89eaedddb",
         "compiler_artifact": "proofs/town/func_806992E8.bin",
         "window": "config/overlays/town_r121c2_6192E8_true_800182E8.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_806992E8.c",
@@ -10489,7 +10269,6 @@
         "size": 12,
         "source_sha256": "829d84548120fb795ec5bcd8c4fb9b8778c50006fff3814393c7dedf023878d6",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_62A0FC_true_800170FC/build/rowbase_func_800170FC.bin",
-        "compiled_and_retail_sha256": "b7d521ffe45f088935c1e50584a1d3c2f9109ff0d6c73446acbc99ad4a0a1f69",
         "compiler_artifact": "proofs/town/func_806AA0FC.bin",
         "window": "config/overlays/town_r121c2_62A0FC_true_800170FC.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_806AA0FC.c",
@@ -10505,7 +10284,6 @@
         "size": 12,
         "source_sha256": "8194deaa3da3cfc3cd93758d798d20a4f1d6143b247ecb43361182a536ef73a9",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_62A18C_true_8001718C/build/rowbase_func_8001718C.bin",
-        "compiled_and_retail_sha256": "dc33b8b40e3e69bd69ab3e2edc22a62526d3b41d3e4fbba22415d0cdba4f3eca",
         "compiler_artifact": "proofs/town/func_806AA18C.bin",
         "window": "config/overlays/town_r121c2_62A18C_true_8001718C.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_806AA18C.c",
@@ -10553,7 +10331,6 @@
         "size": 12,
         "source_sha256": "99c10041e3ff9923a1bf82edb0e57092b6c7ef886d093102b159921dd556def5",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_647960_true_80018960/build/rowbase_func_80018960.bin",
-        "compiled_and_retail_sha256": "bbe8ffacb7da649840c18869de41d3b5a02353949c0edaa2302a49d5599a3cb3",
         "compiler_artifact": "proofs/town/func_806C7960.bin",
         "window": "config/overlays/town_r121c2_647960_true_80018960.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_806C7960.c",
@@ -10569,7 +10346,6 @@
         "size": 12,
         "source_sha256": "11f8617f6653eb97407db1d480f3b0786811637315b9b8dc1a40bbcdd1df6f9d",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_6479F0_true_800189F0/build/rowbase_func_800189F0.bin",
-        "compiled_and_retail_sha256": "b721521359541852a598ac418e09a11c0db984f1ab50991885928de75e5cbde4",
         "compiler_artifact": "proofs/town/func_806C79F0.bin",
         "window": "config/overlays/town_r121c2_6479F0_true_800189F0.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_806C79F0.c",
@@ -10585,7 +10361,6 @@
         "size": 12,
         "source_sha256": "589f257a1c9d571c34388f32f1d4833d53735e335ae9f3bada264326ba5c59a0",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_64937C_true_8001637C/build/rowbase_func_8001637C.bin",
-        "compiled_and_retail_sha256": "f3c79250851e32c634fd42eb887a190f9895096b73f09b1c8ff74095ef4eb2d8",
         "compiler_artifact": "proofs/town/func_806C937C.bin",
         "window": "config/overlays/town_r121c2_64937C_true_8001637C.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_806C937C.c",
@@ -10649,7 +10424,6 @@
         "size": 12,
         "source_sha256": "b3972229887388b1d4892d331f329459d6131e16561582fa1c4aa39b8da9d9b0",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_64A330_true_80017330/build/rowbase_func_80017330.bin",
-        "compiled_and_retail_sha256": "1dc8f9f36e42a7d616b2751a02da0a51e853c76b98e0b2fa9433ad152c6e5b33",
         "compiler_artifact": "proofs/town/func_806CA330.bin",
         "window": "config/overlays/town_r121c2_64A330_true_80017330.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_806CA330.c",
@@ -10665,7 +10439,6 @@
         "size": 12,
         "source_sha256": "a27d94303be184cd71cf4a49b438d92d0e125ea531f5fe7ed87cfba45d796452",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_64A3C0_true_800173C0/build/rowbase_func_800173C0.bin",
-        "compiled_and_retail_sha256": "56513039d114df64f5600d7bde9c491537aa79cbcfd8cd846618d26f30e016a6",
         "compiler_artifact": "proofs/town/func_806CA3C0.bin",
         "window": "config/overlays/town_r121c2_64A3C0_true_800173C0.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_806CA3C0.c",
@@ -10729,7 +10502,6 @@
         "size": 12,
         "source_sha256": "8fbc8eae78a3087eb2e534265915f98bd515e8dabfee498eb0eb97bc96ee7a0d",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_64C32C_true_8001732C/build/rowbase_func_8001732C.bin",
-        "compiled_and_retail_sha256": "4e0beba0ccf466d54464a63452d0fe80d579ece7e0ee36d5908071dfe088939e",
         "compiler_artifact": "proofs/town/func_806CC32C.bin",
         "window": "config/overlays/town_r121c2_64C32C_true_8001732C.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_806CC32C.c",
@@ -10745,7 +10517,6 @@
         "size": 12,
         "source_sha256": "54d971f8bcc33e8c6466e1b101a32c6b9763b958deabb87fa61c41717da8d125",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_64C3BC_true_800173BC/build/rowbase_func_800173BC.bin",
-        "compiled_and_retail_sha256": "f429a7e8a38312b81ccbd69687611940256083b9194fdc064fbe62930b891cc5",
         "compiler_artifact": "proofs/town/func_806CC3BC.bin",
         "window": "config/overlays/town_r121c2_64C3BC_true_800173BC.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_806CC3BC.c",
@@ -10809,7 +10580,6 @@
         "size": 12,
         "source_sha256": "566ed960d19e14bd1920bcffca00ba8422b29c45a592cbde1003428780ca0757",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_64E2D4_true_800172D4/build/rowbase_func_800172D4.bin",
-        "compiled_and_retail_sha256": "5d6f8da73c66338a3661e5e4f5d6884a6013250d55bd8b98d955061564d00db0",
         "compiler_artifact": "proofs/town/func_806CE2D4.bin",
         "window": "config/overlays/town_r121c2_64E2D4_true_800172D4.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_806CE2D4.c",
@@ -10825,7 +10595,6 @@
         "size": 12,
         "source_sha256": "ee9c4d824d4d93faea60f4842a043b8a84e34afeafb9e32fbd01da3421fd3cb0",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_64E364_true_80017364/build/rowbase_func_80017364.bin",
-        "compiled_and_retail_sha256": "65b56c1635a88227c4006173f9ea1cc985f7ad79ddd02046500c30c74d1235e7",
         "compiler_artifact": "proofs/town/func_806CE364.bin",
         "window": "config/overlays/town_r121c2_64E364_true_80017364.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_806CE364.c",
@@ -10889,7 +10658,6 @@
         "size": 12,
         "source_sha256": "21963f37ef28fd49a53b46b4ce2943817857df0e2ac13fa429480034fbf12c4f",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_650138_true_80017138/build/rowbase_func_80017138.bin",
-        "compiled_and_retail_sha256": "1d76a0b029b2f2e083cfde6df35856e8d33b5a388dd781cf26476977ac1c29d3",
         "compiler_artifact": "proofs/town/func_806D0138.bin",
         "window": "config/overlays/town_r121c2_650138_true_80017138.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_806D0138.c",
@@ -10905,7 +10673,6 @@
         "size": 12,
         "source_sha256": "100ba611de849c1ff7aff05b88bf56c8d544ae8e05c979608260a671f5d2469b",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_6501C8_true_800171C8/build/rowbase_func_800171C8.bin",
-        "compiled_and_retail_sha256": "a1998d96c5351012fb75106b939022f445302fbf8958f08d3680ef805c14c657",
         "compiler_artifact": "proofs/town/func_806D01C8.bin",
         "window": "config/overlays/town_r121c2_6501C8_true_800171C8.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_806D01C8.c",
@@ -10969,7 +10736,6 @@
         "size": 12,
         "source_sha256": "40988e1ba3e607c0a8400d558d99f399fcd48d703b6c011c325cb5213bcb5ccf",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_6520A8_true_800170A8/build/rowbase_func_800170A8.bin",
-        "compiled_and_retail_sha256": "8669d54d4869411c671720f9904f999fe7233d6e83e3c2e4a1e141b854ce43c5",
         "compiler_artifact": "proofs/town/func_806D20A8.bin",
         "window": "config/overlays/town_r121c2_6520A8_true_800170A8.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_806D20A8.c",
@@ -10985,7 +10751,6 @@
         "size": 12,
         "source_sha256": "cf53b6f84e7f72ab545d72ee13fc603b4b0cb19034c0367f24001d2cfad4c7d0",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_652138_true_80017138/build/rowbase_func_80017138.bin",
-        "compiled_and_retail_sha256": "bdd8a94fa0c75b3a7761ce9ab3f71f4f2db0315c1296e762fdf53ea9130a6810",
         "compiler_artifact": "proofs/town/func_806D2138.bin",
         "window": "config/overlays/town_r121c2_652138_true_80017138.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_806D2138.c",
@@ -11033,7 +10798,6 @@
         "size": 12,
         "source_sha256": "9f35f90ef215cfd9bc387ae91125c6c379ce6b856340e7524726f1ffe0dc5ea3",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_655FDC_true_80017FDC/build/rowbase_func_80017FDC.bin",
-        "compiled_and_retail_sha256": "92358d1bbd336ff9446a2a18d97f49ada572fa10daf9267ce18af14eaee02a43",
         "compiler_artifact": "proofs/town/func_806D5FDC.bin",
         "window": "config/overlays/town_r121c2_655FDC_true_80017FDC.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_806D5FDC.c",
@@ -11049,7 +10813,6 @@
         "size": 12,
         "source_sha256": "bf1da2d21d0a0003b8a59f53b64df341d0e57d563a7522c71229808209292b5a",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_65606C_true_8001806C/build/rowbase_func_8001806C.bin",
-        "compiled_and_retail_sha256": "0cecd4ff32757173d7509800a0cf57b06f43aed68f03bcd530212fc2f13a6a53",
         "compiler_artifact": "proofs/town/func_806D606C.bin",
         "window": "config/overlays/town_r121c2_65606C_true_8001806C.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_806D606C.c",
@@ -11113,7 +10876,6 @@
         "size": 12,
         "source_sha256": "0430230cca3243c57696225bcae03f7300dcd9071f0b6ff0ed82e978682bc8f0",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_659988_true_80018188/build/rowbase_func_80018188.bin",
-        "compiled_and_retail_sha256": "1cc2c75ce86aef0c27f73baae57aab1db59498feb707bdc3484ff754225c4217",
         "compiler_artifact": "proofs/town/func_806D9988.bin",
         "window": "config/overlays/town_r121c2_659988_true_80018188.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_806D9988.c",
@@ -11129,7 +10891,6 @@
         "size": 12,
         "source_sha256": "ebcb7140a70386cffae00faabde4e8616708d6120b7b2a897c0219bfc83fbf6e",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_659A18_true_80018218/build/rowbase_func_80018218.bin",
-        "compiled_and_retail_sha256": "d352952f4103af5582677e34827bfcff675120e88e39dc70d4c4bb67f9e8cdf4",
         "compiler_artifact": "proofs/town/func_806D9A18.bin",
         "window": "config/overlays/town_r121c2_659A18_true_80018218.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_806D9A18.c",
@@ -11193,7 +10954,6 @@
         "size": 12,
         "source_sha256": "9805270b8d21127fc90b8cf1beb1ffe2b684077fb600a97625449652bbfe0368",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_65C150_true_80017150/build/rowbase_func_80017150.bin",
-        "compiled_and_retail_sha256": "b978bf335af73f8b0495d6b27412dbe58e4285d352c6a524aa63714a5688ff96",
         "compiler_artifact": "proofs/town/func_806DC150.bin",
         "window": "config/overlays/town_r121c2_65C150_true_80017150.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_806DC150.c",
@@ -11209,7 +10969,6 @@
         "size": 12,
         "source_sha256": "618d5dd1fad9df06b7be0d0bdb8980c95294939267d07c4f11391ee677429d8e",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_65C1E0_true_800171E0/build/rowbase_func_800171E0.bin",
-        "compiled_and_retail_sha256": "c5312bb0004f72b0cf0490bcb937d2cfdcef246a1bc412d5d50a93451f8429d1",
         "compiler_artifact": "proofs/town/func_806DC1E0.bin",
         "window": "config/overlays/town_r121c2_65C1E0_true_800171E0.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_806DC1E0.c",
@@ -11257,7 +11016,6 @@
         "size": 12,
         "source_sha256": "6a9c4ff3e27a1550cff5a57b17ea8e633e35a4921bfd8e3aae4aa4fd167def03",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_672B84_true_80017384/build/rowbase_func_80017384.bin",
-        "compiled_and_retail_sha256": "ba5c4fe2e78b5613781ccdd776778c813b7d42932f46565acca4f7780dd5c00a",
         "compiler_artifact": "proofs/town/func_806F2B84.bin",
         "window": "config/overlays/town_r121c2_672B84_true_80017384.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_806F2B84.c",
@@ -11273,7 +11031,6 @@
         "size": 12,
         "source_sha256": "8bbf3de8f2d3277199ac01f4a61ad5d0fbbdcaa3480a675fc9b2cc65b69f911d",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_672C14_true_80017414/build/rowbase_func_80017414.bin",
-        "compiled_and_retail_sha256": "8c637024907338f77438d64b1597ad414af3909722252f211f0223c553cb7a5e",
         "compiler_artifact": "proofs/town/func_806F2C14.bin",
         "window": "config/overlays/town_r121c2_672C14_true_80017414.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_806F2C14.c",
@@ -11289,7 +11046,6 @@
         "size": 12,
         "source_sha256": "c9ec95cb5b6434a2ddaaa92a8fd8823991a65307c5f5d4ea5a502a4c92cf99c1",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_68F6BC_true_800186BC/build/rowbase_func_800186BC.bin",
-        "compiled_and_retail_sha256": "4026b8fa6dd7966b182abbe745c5c77b1f24f0d74ae91125e04fabbc233a8a9c",
         "compiler_artifact": "proofs/town/func_8070F6BC.bin",
         "window": "config/overlays/town_r121c2_68F6BC_true_800186BC.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_8070F6BC.c",
@@ -11305,7 +11061,6 @@
         "size": 12,
         "source_sha256": "87b0f0bc570ed23e8f1bc212f45051a0e6f748528716d97393884e2a4731ba4d",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_68F6D0_true_800186D0/build/rowbase_func_800186D0.bin",
-        "compiled_and_retail_sha256": "4026b8fa6dd7966b182abbe745c5c77b1f24f0d74ae91125e04fabbc233a8a9c",
         "compiler_artifact": "proofs/town/func_8070F6D0.bin",
         "window": "config/overlays/town_r121c2_68F6D0_true_800186D0.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_8070F6D0.c",
@@ -11321,7 +11076,6 @@
         "size": 12,
         "source_sha256": "8072fe3909712d7ea5b42a930c550c1a2d237b03d0b8203bbe7eab2a14602ed7",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_68F6E4_true_800186E4/build/rowbase_func_800186E4.bin",
-        "compiled_and_retail_sha256": "4026b8fa6dd7966b182abbe745c5c77b1f24f0d74ae91125e04fabbc233a8a9c",
         "compiler_artifact": "proofs/town/func_8070F6E4.bin",
         "window": "config/overlays/town_r121c2_68F6E4_true_800186E4.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_8070F6E4.c",
@@ -11481,7 +11235,6 @@
         "size": 12,
         "source_sha256": "d582179f9811e9aee707ea31029667e9f6952b04eae3dbd1c5f52b284c73b732",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_691240_true_8001A240/build/rowbase_func_8001A240.bin",
-        "compiled_and_retail_sha256": "e4fe7a5b55046a4b5bd4f5e5003e30d96df7159299ddae77bfc38602a0006c9e",
         "compiler_artifact": "proofs/town/func_80711240.bin",
         "window": "config/overlays/town_r121c2_691240_true_8001A240.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_80711240.c",
@@ -11497,7 +11250,6 @@
         "size": 12,
         "source_sha256": "0b90d979ad8acb2e243b30a7cc20e3d3121eb2b27b300e7e4f8e3a45b4b6fae1",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_6912D0_true_8001A2D0/build/rowbase_func_8001A2D0.bin",
-        "compiled_and_retail_sha256": "7e13756559e9614c71d3a158591c01fae96ea1c276f0e7fca4e6ffaf9a2e3e2b",
         "compiler_artifact": "proofs/town/func_807112D0.bin",
         "window": "config/overlays/town_r121c2_6912D0_true_8001A2D0.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_807112D0.c",
@@ -11593,7 +11345,6 @@
         "size": 12,
         "source_sha256": "44faa1b4e0274ceb7e7b641cd6f81947cf6b1dfb2ecd1d3121a5d93672f33264",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_6AB4F0_true_800174F0/build/rowbase_func_800174F0.bin",
-        "compiled_and_retail_sha256": "d29a49215f24ea56e1d3ed3061f4304cb6cb47962a43e4b35cefc3c07fc72018",
         "compiler_artifact": "proofs/town/func_8072B4F0.bin",
         "window": "config/overlays/town_r121c2_6AB4F0_true_800174F0.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_8072B4F0.c",
@@ -11609,7 +11360,6 @@
         "size": 12,
         "source_sha256": "85165ec58fc5a44b742fc9e518d26a7dd479ac3e080f6edcfdd35ae20380a5e6",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_6AB580_true_80017580/build/rowbase_func_80017580.bin",
-        "compiled_and_retail_sha256": "7c2dd0d6a9b7213930526e711dae3458aaf27cd011166470324782856a6f0288",
         "compiler_artifact": "proofs/town/func_8072B580.bin",
         "window": "config/overlays/town_r121c2_6AB580_true_80017580.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_8072B580.c",
@@ -11673,7 +11423,6 @@
         "size": 12,
         "source_sha256": "15d6d8f602b40a375a0557a27a6de8d64ec8e6f20caa3cbf2a322a4eb7e82b73",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_6CD934_true_80017134/build/rowbase_func_80017134.bin",
-        "compiled_and_retail_sha256": "746271beb24452d63ce4b681c85426f4301a44f68b062f36b6e3c709d5313df0",
         "compiler_artifact": "proofs/town/func_8074D934.bin",
         "window": "config/overlays/town_r121c2_6CD934_true_80017134.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_8074D934.c",
@@ -11689,7 +11438,6 @@
         "size": 12,
         "source_sha256": "cd896022cac157f52dfedfa1c240e399aa99da2ccf15a51b8ecc798d19ebba81",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_6CD9C4_true_800171C4/build/rowbase_func_800171C4.bin",
-        "compiled_and_retail_sha256": "ab302ee75c6448145544e100d0ec7f7568b533f6099fbe4de5d950c0ae4fbd03",
         "compiler_artifact": "proofs/town/func_8074D9C4.bin",
         "window": "config/overlays/town_r121c2_6CD9C4_true_800171C4.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_8074D9C4.c",
@@ -11753,7 +11501,6 @@
         "size": 12,
         "source_sha256": "f071e975f5f7ec58d905e4b80f845a355cd9ee0601cb261e82fcfd6978864c8f",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_6E2D90_true_80017590/build/rowbase_func_80017590.bin",
-        "compiled_and_retail_sha256": "35dbf310d5214dd119b6d2d3cf4120e134b1e86976b1a84ac2f4843b1023fea7",
         "compiler_artifact": "proofs/town/func_80762D90.bin",
         "window": "config/overlays/town_r121c2_6E2D90_true_80017590.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_80762D90.c",
@@ -11769,7 +11516,6 @@
         "size": 12,
         "source_sha256": "442d86c353fed7acf99b7ffd7320426446e02dd3284108c64455cd9d30867972",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_6E2E20_true_80017620/build/rowbase_func_80017620.bin",
-        "compiled_and_retail_sha256": "c71634d3e9bee2a5e5acda13a203a0f38d80dd8f02cd26bd326dad69898fbb4d",
         "compiler_artifact": "proofs/town/func_80762E20.bin",
         "window": "config/overlays/town_r121c2_6E2E20_true_80017620.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_80762E20.c",
@@ -11817,7 +11563,6 @@
         "size": 12,
         "source_sha256": "54b833da2e714203d58f448250c2d416bc92849aeeb80b6c998015c201860b87",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_6F1180_true_80017980/build/rowbase_func_80017980.bin",
-        "compiled_and_retail_sha256": "b6a999aefaba54d62935fda57d4ab4eb28e9fa94ae38e97e069c93d558620f75",
         "compiler_artifact": "proofs/town/func_80771180.bin",
         "window": "config/overlays/town_r121c2_6F1180_true_80017980.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_80771180.c",
@@ -11833,7 +11578,6 @@
         "size": 12,
         "source_sha256": "43b9f50a31e662503f2dfec904e60a7d5cf01690e7dadf344d7a61b48e207e43",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_6F1210_true_80017A10/build/rowbase_func_80017A10.bin",
-        "compiled_and_retail_sha256": "0fb96cc836dcceab2fe73859531198f519dcd06e076a087e7445b940e46bb45c",
         "compiler_artifact": "proofs/town/func_80771210.bin",
         "window": "config/overlays/town_r121c2_6F1210_true_80017A10.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_80771210.c",
@@ -11897,7 +11641,6 @@
         "size": 12,
         "source_sha256": "6c5af9ab0a2778575786b6f116ffc2b70d598561d7669e207bb1e83aa069bb6e",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_6F58E8_true_800170E8/build/rowbase_func_800170E8.bin",
-        "compiled_and_retail_sha256": "81c6229b9574d298c18db157302f8ed3d7b122cf8930cd45fa4f9363458e66ae",
         "compiler_artifact": "proofs/town/func_807758E8.bin",
         "window": "config/overlays/town_r121c2_6F58E8_true_800170E8.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_807758E8.c",
@@ -11913,7 +11656,6 @@
         "size": 12,
         "source_sha256": "e3e325b9c36e7e52a81a443bf7fd996fe58d2094e2084fb919b08744e0294f11",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_6F5978_true_80017178/build/rowbase_func_80017178.bin",
-        "compiled_and_retail_sha256": "704a6261b2b48a8bb5247a2dbbd89fca1dbd0a08ec5fb2042fe1297abbddcfd7",
         "compiler_artifact": "proofs/town/func_80775978.bin",
         "window": "config/overlays/town_r121c2_6F5978_true_80017178.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_80775978.c",
@@ -11977,7 +11719,6 @@
         "size": 12,
         "source_sha256": "5aebe39f2c08a9abe90c062e741373da9e4f535201bf5b4960900af84cf009db",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_6F80E8_true_800170E8/build/rowbase_func_800170E8.bin",
-        "compiled_and_retail_sha256": "2b3c3a64118188e75c43af8708e299e85a9023cf6984d6e14843bed41025e3d2",
         "compiler_artifact": "proofs/town/func_807780E8.bin",
         "window": "config/overlays/town_r121c2_6F80E8_true_800170E8.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_807780E8.c",
@@ -11993,7 +11734,6 @@
         "size": 12,
         "source_sha256": "47adbc4fdd0b71776924e2d94ecf088ed9ba5957ec499bc7f86a7d4b20049608",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_6F8178_true_80017178/build/rowbase_func_80017178.bin",
-        "compiled_and_retail_sha256": "8bd06590159bc658c2d0fbf2782e47e82ffa7fd1f49ddb775fef54ba57f1dad9",
         "compiler_artifact": "proofs/town/func_80778178.bin",
         "window": "config/overlays/town_r121c2_6F8178_true_80017178.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_80778178.c",
@@ -12041,7 +11781,6 @@
         "size": 12,
         "source_sha256": "c651aae00bd2f0632e9f058ed19e0062ee3c069f4c04bb311e3b95ffb53cb898",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_6FEC64_true_80017464/build/rowbase_func_80017464.bin",
-        "compiled_and_retail_sha256": "457ebd01520f8db1d5f78c3e0f801b68d1180816296c410c67aecbdbe96ded7f",
         "compiler_artifact": "proofs/town/func_8077EC64.bin",
         "window": "config/overlays/town_r121c2_6FEC64_true_80017464.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_8077EC64.c",
@@ -12057,7 +11796,6 @@
         "size": 12,
         "source_sha256": "350eef4389f269b0eab830097ac4f47e2558730ee405542682caa9e46127c8c0",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_6FECF4_true_800174F4/build/rowbase_func_800174F4.bin",
-        "compiled_and_retail_sha256": "846c5fd8b8586612794d62a851f0271f51a3c31354f8ce99365bcf494bf53daa",
         "compiler_artifact": "proofs/town/func_8077ECF4.bin",
         "window": "config/overlays/town_r121c2_6FECF4_true_800174F4.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_8077ECF4.c",
@@ -12121,7 +11859,6 @@
         "size": 12,
         "source_sha256": "ae3d7e6efd4df67565373453230f6f6d4bed1b008367b35cd7d7fe625c51573d",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_7061E4_true_800171E4/build/rowbase_func_800171E4.bin",
-        "compiled_and_retail_sha256": "762b198fc6c7da4df11ebc107936dfb51bd9897a186b7a70e8291296a621377d",
         "compiler_artifact": "proofs/town/func_807861E4.bin",
         "window": "config/overlays/town_r121c2_7061E4_true_800171E4.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_807861E4.c",
@@ -12137,7 +11874,6 @@
         "size": 12,
         "source_sha256": "b26a42158aae6789b0cddfe217a131c0718f52065253ba4f13d024102c59f1d7",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_706274_true_80017274/build/rowbase_func_80017274.bin",
-        "compiled_and_retail_sha256": "bbe1e2a1415a3dec6582d970fccb9a7a8097d4ee175882976ed19428b97556e8",
         "compiler_artifact": "proofs/town/func_80786274.bin",
         "window": "config/overlays/town_r121c2_706274_true_80017274.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_80786274.c",
@@ -12185,7 +11921,6 @@
         "size": 12,
         "source_sha256": "608ee287bf0e41fac571c364467b655f01d1d68851d9145bda746151a4e9dadf",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_71B20C_true_8001720C/build/rowbase_func_8001720C.bin",
-        "compiled_and_retail_sha256": "b7ab6d5c4dbed8db40b21267b114409c5688d65aaf6158538b517d62416eaa9b",
         "compiler_artifact": "proofs/town/func_8079B20C.bin",
         "window": "config/overlays/town_r121c2_71B20C_true_8001720C.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_8079B20C.c",
@@ -12201,7 +11936,6 @@
         "size": 12,
         "source_sha256": "23abc49499866b0cb1a3ca554cb709df929b7ece4feb46c4481fe60c6cead759",
         "compiled_file": "build_ovl/work/s3_splat/town_r121c2_71B29C_true_8001729C/build/rowbase_func_8001729C.bin",
-        "compiled_and_retail_sha256": "bbe1e2a1415a3dec6582d970fccb9a7a8097d4ee175882976ed19428b97556e8",
         "compiler_artifact": "proofs/town/func_8079B29C.bin",
         "window": "config/overlays/town_r121c2_71B29C_true_8001729C.overlay.yaml",
         "source": "overlays/town/first_pass_matched/func_8079B29C.c",
@@ -14994,8 +14728,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "a73b90ca04d6f5c81721d009c8b5136d7bf2182e8ca564982128c57d700b473f",
-      "retail_sha256": "a73b90ca04d6f5c81721d009c8b5136d7bf2182e8ca564982128c57d700b473f",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_40225C_true_8001825C/build/town_r121c2_40225C_true_8001825C.window.bin",
       "log_sha256": "00aed8eab662029f31c093507a96a5d8c8b546f4c40db067cfc443398dae6873",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -15016,8 +14748,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "696b1f3bbbb55ba6578257f17d731d762921971a7491fa871f32d1a75a38c853",
-      "retail_sha256": "696b1f3bbbb55ba6578257f17d731d762921971a7491fa871f32d1a75a38c853",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_4022EC_true_800182EC/build/town_r121c2_4022EC_true_800182EC.window.bin",
       "log_sha256": "fcc332990d67ff9ba9a75c2b5d7eea874bea1726205ce77cdb3b21f21149040c",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -15126,8 +14856,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "c3fefa1704fc3b886fa18f302ce70a63890b4e328f5f5ca5f288b3411a36d8ed",
-      "retail_sha256": "c3fefa1704fc3b886fa18f302ce70a63890b4e328f5f5ca5f288b3411a36d8ed",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_439EC0_true_800186C0/build/town_r121c2_439EC0_true_800186C0.window.bin",
       "log_sha256": "9c36f2286d47423a5cf6e9fdfea5cea516a87940581fbbb757516ef9d3d09d5d",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -15148,8 +14876,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "8b858e71d9e5a804ed5afc5c4ffd1e018550b2a14196992fe8c3b2c501e887e8",
-      "retail_sha256": "8b858e71d9e5a804ed5afc5c4ffd1e018550b2a14196992fe8c3b2c501e887e8",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_439F50_true_80018750/build/town_r121c2_439F50_true_80018750.window.bin",
       "log_sha256": "ba15e57b9464838a6297d9d91880d0b8ed4ac610d8f18a19a05c00d3468aaee8",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -15214,8 +14940,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "128c62e9828cdb92d9f4a724248a8197bf016df1dd36e58cd201002ffd0f2fe0",
-      "retail_sha256": "128c62e9828cdb92d9f4a724248a8197bf016df1dd36e58cd201002ffd0f2fe0",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_451968_true_80017168/build/town_r121c2_451968_true_80017168.window.bin",
       "log_sha256": "06e8b55bea6f41d8d4028f88cc6bdebf593e77d1f899649ca45843086ddf2db4",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -15236,8 +14960,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "db1f674c8e69388b9b717afaadf93ab0c215f1221f74df4689aea0041c51deef",
-      "retail_sha256": "db1f674c8e69388b9b717afaadf93ab0c215f1221f74df4689aea0041c51deef",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_4519F8_true_800171F8/build/town_r121c2_4519F8_true_800171F8.window.bin",
       "log_sha256": "a29f6b3ae3bfe4f05d0062cab01f7af5cd23844d85d535656e55b6530ed1d169",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -15302,8 +15024,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "fc6287fc05e32a40b2368cf083c88702b54e1354bb9ae9a8459bd5b1eec61a69",
-      "retail_sha256": "fc6287fc05e32a40b2368cf083c88702b54e1354bb9ae9a8459bd5b1eec61a69",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_45923C_true_8001723C/build/town_r121c2_45923C_true_8001723C.window.bin",
       "log_sha256": "18be28086ddae933c383fda5f2774958b7f8ab0667295cd562c5a5032d28f0eb",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -15324,8 +15044,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "03f15fb8ea9ff188be7598c81af4a906aeeec2e27de08f923af8bda5fad3d74e",
-      "retail_sha256": "03f15fb8ea9ff188be7598c81af4a906aeeec2e27de08f923af8bda5fad3d74e",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_4592CC_true_800172CC/build/town_r121c2_4592CC_true_800172CC.window.bin",
       "log_sha256": "c7dcc96192991d747d50b320d1111d92985c373a71203c16748b795f367aa7a4",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -15390,8 +15108,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "3853a7b1a126a340915ef8e53e058f2df0a531c296490ad19b3ddf5558ed3466",
-      "retail_sha256": "3853a7b1a126a340915ef8e53e058f2df0a531c296490ad19b3ddf5558ed3466",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_471260_true_80017260/build/town_r121c2_471260_true_80017260.window.bin",
       "log_sha256": "a5833a4a50a056b946740e51f9c3383c6221948172dd7c3da882038574b92c80",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -15412,8 +15128,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "19d59500dcc623fa6f0c55c5a791d5243677ae78dba056a7cbece6b10b8e45ea",
-      "retail_sha256": "19d59500dcc623fa6f0c55c5a791d5243677ae78dba056a7cbece6b10b8e45ea",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_4712F0_true_800172F0/build/town_r121c2_4712F0_true_800172F0.window.bin",
       "log_sha256": "fa27b83b87c042c6f9410309a2231ee740371bd10898784b802823033255b023",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -15478,8 +15192,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "5e34c001609ed4d88c868cf8f0040037e91d069c5fba57c96a592d24b47b469f",
-      "retail_sha256": "5e34c001609ed4d88c868cf8f0040037e91d069c5fba57c96a592d24b47b469f",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_481144_true_80017144/build/town_r121c2_481144_true_80017144.window.bin",
       "log_sha256": "28f578fac17b0e137c681029732e8451877bc2db68169146d5cccdf8930e164c",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -15500,8 +15212,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "ec41893afe9e2bca3761f52ce9859c4870b859f7894bd63caaba5778c71af37a",
-      "retail_sha256": "ec41893afe9e2bca3761f52ce9859c4870b859f7894bd63caaba5778c71af37a",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_4811D4_true_800171D4/build/town_r121c2_4811D4_true_800171D4.window.bin",
       "log_sha256": "462696a95660b6ce55605f7bfbff87e9bce8ef2d596046e7d00f523f9b7252ab",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -15588,8 +15298,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "640aabeb3e353b4fd1463c3c8ae01ee2e5ebe2cc7fdcfe8b62819beb7d49b85b",
-      "retail_sha256": "640aabeb3e353b4fd1463c3c8ae01ee2e5ebe2cc7fdcfe8b62819beb7d49b85b",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_48F1EC_true_800171EC/build/town_r121c2_48F1EC_true_800171EC.window.bin",
       "log_sha256": "5d41c38372919525b24e6652580a1b98397f541407e667bf3102af7f7607f059",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -15610,8 +15318,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "a787a4f74d60081d49ab4b7b5759ee3a4b13c55e72d3f10b0e3dd8e69bfafef0",
-      "retail_sha256": "a787a4f74d60081d49ab4b7b5759ee3a4b13c55e72d3f10b0e3dd8e69bfafef0",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_48F27C_true_8001727C/build/town_r121c2_48F27C_true_8001727C.window.bin",
       "log_sha256": "dfd3fef9654f96fee60bb77efa32fc2f24912dbde967e8e81a618ae0b10abb18",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -15676,8 +15382,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "041265366e46b0b664e65d07408ff7bc1f2f7eb8853de02729bcb6ff179d81c7",
-      "retail_sha256": "041265366e46b0b664e65d07408ff7bc1f2f7eb8853de02729bcb6ff179d81c7",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_4A0EA4_true_800186A4/build/town_r121c2_4A0EA4_true_800186A4.window.bin",
       "log_sha256": "0fc9b82b9388d5ab765acb9048f514248ab2d03b23813d94b74034a0dfdc200e",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -15698,8 +15402,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "08c1057d0f33a32bedb98e73537c3d78ef37ae7cb0f5a01abb92e4ec98c15fe8",
-      "retail_sha256": "08c1057d0f33a32bedb98e73537c3d78ef37ae7cb0f5a01abb92e4ec98c15fe8",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_4A0F34_true_80018734/build/town_r121c2_4A0F34_true_80018734.window.bin",
       "log_sha256": "498a7bfa524ddd2e181c2ccc71bbe56c13e9cbc46512d7aeed0b73c03c05d464",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -15764,8 +15466,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "0e91ba9fd9306b9e5c8502a4a53340a878ab8344b607c563008386f1873589ba",
-      "retail_sha256": "0e91ba9fd9306b9e5c8502a4a53340a878ab8344b607c563008386f1873589ba",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_4D0B8C_true_8001738C/build/town_r121c2_4D0B8C_true_8001738C.window.bin",
       "log_sha256": "4c29c8c0c66ec6a5d41b9fe4b22825948bd8efbce1aefe493bdcf7ebd0df6a39",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -15786,8 +15486,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "8c637024907338f77438d64b1597ad414af3909722252f211f0223c553cb7a5e",
-      "retail_sha256": "8c637024907338f77438d64b1597ad414af3909722252f211f0223c553cb7a5e",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_4D0C1C_true_8001741C/build/town_r121c2_4D0C1C_true_8001741C.window.bin",
       "log_sha256": "8ba41df375cc7ed417d67169eaff5c787a2769e316b54e0c3c0915fd776b25fd",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -15852,8 +15550,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "5a3822ff481f7009336153dd988469442a404f14c484f8041a9ada478e60195b",
-      "retail_sha256": "5a3822ff481f7009336153dd988469442a404f14c484f8041a9ada478e60195b",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_4DA0D8_true_800170D8/build/town_r121c2_4DA0D8_true_800170D8.window.bin",
       "log_sha256": "e6bd9053f725c236dcea01ee955d7324cf035b03426bdd879ea3381762aebb45",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -15874,8 +15570,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "08cd6f8e2f398d11723a67224be835a0e7d7ea276ce7743125a0e6677c6cf443",
-      "retail_sha256": "08cd6f8e2f398d11723a67224be835a0e7d7ea276ce7743125a0e6677c6cf443",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_4DA168_true_80017168/build/town_r121c2_4DA168_true_80017168.window.bin",
       "log_sha256": "41b144d5cd8438080da37609de52853e5e800946f7649ab7a1db4c639fd6c331",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -15962,8 +15656,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "92ed04105884cba9242a58f81b3d56bbee1eb133073d649e835614ad7b02274e",
-      "retail_sha256": "92ed04105884cba9242a58f81b3d56bbee1eb133073d649e835614ad7b02274e",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_4FA18C_true_8001718C/build/town_r121c2_4FA18C_true_8001718C.window.bin",
       "log_sha256": "fadc9b563e51a2fdb30239f510cf2bd1868ea61066aa82f9d60ea74cb36f7d9b",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -15984,8 +15676,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "1281ffb8ab23668aa2576142681755e3f1826c68f422e630b9c7a155f84c13f8",
-      "retail_sha256": "1281ffb8ab23668aa2576142681755e3f1826c68f422e630b9c7a155f84c13f8",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_4FA21C_true_8001721C/build/town_r121c2_4FA21C_true_8001721C.window.bin",
       "log_sha256": "11050f740106fbfc35a6af08402d071cd502dfdeca471bc9406e8ef3bc910530",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -16006,8 +15696,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 8,
-      "rebuilt_sha256": "cc2f57dc1c5c5ee329396057543d3064afa7123e129c2762a785689020b6ff60",
-      "retail_sha256": "cc2f57dc1c5c5ee329396057543d3064afa7123e129c2762a785689020b6ff60",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_51E6D0_true_800166D0/build/town_r121c2_51E6D0_true_800166D0.window.bin",
       "log_sha256": "e45bf6e18dbe8479c51e6279848c4a8fe4623235b3cd25777ebf3e15dbd2693b",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -16072,8 +15760,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "54af8e05f77b9a337a80cb4268bb21960505aed0926997c86a87a05db64fd0ad",
-      "retail_sha256": "54af8e05f77b9a337a80cb4268bb21960505aed0926997c86a87a05db64fd0ad",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_520558_true_80018558/build/town_r121c2_520558_true_80018558.window.bin",
       "log_sha256": "20c3832a202357f11839dd6de1e0284cb56d59d67f7a8630bad8c941257f8a92",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -16094,8 +15780,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "417a20ead0f609196bea27f4f83cbe9e0a2082f335acdc3135c28ae5635b8d92",
-      "retail_sha256": "417a20ead0f609196bea27f4f83cbe9e0a2082f335acdc3135c28ae5635b8d92",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_5205E8_true_800185E8/build/town_r121c2_5205E8_true_800185E8.window.bin",
       "log_sha256": "2563146452590d392473865c174567b359c96851fb9e1c3c26b2d09312ff9086",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -16248,8 +15932,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "e22572912be772fba758173294835a4d25350de643f9b079bd75c9f422a48818",
-      "retail_sha256": "e22572912be772fba758173294835a4d25350de643f9b079bd75c9f422a48818",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_554E28_true_80018E28/build/town_r121c2_554E28_true_80018E28.window.bin",
       "log_sha256": "e97b2078d56a37511a895f5d175e0241d218b680821067a426c2aaae132ee990",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -16270,8 +15952,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "91feac5dbc34e1d529b176371e3e2e6c04cdf700d3d26e2942c8aeae42c94288",
-      "retail_sha256": "91feac5dbc34e1d529b176371e3e2e6c04cdf700d3d26e2942c8aeae42c94288",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_554EB8_true_80018EB8/build/town_r121c2_554EB8_true_80018EB8.window.bin",
       "log_sha256": "5b952167a28faa529a6c09ec1477c7ccd637c1361900206804cb10600626f0f1",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -16380,8 +16060,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "81878416330f433ed599345341cefd6887963704f01f7c5bb1bd4222b1645082",
-      "retail_sha256": "81878416330f433ed599345341cefd6887963704f01f7c5bb1bd4222b1645082",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_582C74_true_80017C74/build/town_r121c2_582C74_true_80017C74.window.bin",
       "log_sha256": "1b1836b5af255ca8b6c79dc20908db843549c2dc80d40484680b125b56c01347",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -16402,8 +16080,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "0e0ff01caf57cf5a9851e8532e3dd2be6abaa1c239b5f983b4ffb43f912441cd",
-      "retail_sha256": "0e0ff01caf57cf5a9851e8532e3dd2be6abaa1c239b5f983b4ffb43f912441cd",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_582D04_true_80017D04/build/town_r121c2_582D04_true_80017D04.window.bin",
       "log_sha256": "0396f9adf61749456380b4867a312636d4da361eb86596fa67b9c64709a0b15a",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -16490,8 +16166,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "91c853e140bd1830598cb473f8f21f886ad0023b289ddc8954c758fa4044afe7",
-      "retail_sha256": "91c853e140bd1830598cb473f8f21f886ad0023b289ddc8954c758fa4044afe7",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_597044_true_80018844/build/town_r121c2_597044_true_80018844.window.bin",
       "log_sha256": "89542a2b78bcd4ee3ce363f93c1ea3913eacdd6d28b0dcda83b5a0aee7c9b4e6",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -16512,8 +16186,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "c96618387bf243874b7d519373b81b001de7914095df5f75f7b80898139ab10f",
-      "retail_sha256": "c96618387bf243874b7d519373b81b001de7914095df5f75f7b80898139ab10f",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_5970D4_true_800188D4/build/town_r121c2_5970D4_true_800188D4.window.bin",
       "log_sha256": "1981b51d0a2f3a251300156c57f97ee5147bf9f465401475bca5c38b75e5a29f",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -16644,8 +16316,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "e33d7bc2d291b7e5afe61d2856a07b27e8ee185947e153f44ba20eff4bbadbca",
-      "retail_sha256": "e33d7bc2d291b7e5afe61d2856a07b27e8ee185947e153f44ba20eff4bbadbca",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_5B324C_true_8001724C/build/town_r121c2_5B324C_true_8001724C.window.bin",
       "log_sha256": "c8c8b233628e0ad84e4ae8fea5d86341c7c40400bb8ef315fa7a18660e00e33c",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -16666,8 +16336,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "d13160fab1cc590702a289f56199ef6fe17eda3965034b1d632380960537613f",
-      "retail_sha256": "d13160fab1cc590702a289f56199ef6fe17eda3965034b1d632380960537613f",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_5B32DC_true_800172DC/build/town_r121c2_5B32DC_true_800172DC.window.bin",
       "log_sha256": "5372c9eb15b6fc7b101ee7d1ae30b413d3eecdba9b54f9095fc56757a3094499",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -16798,8 +16466,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "9ee186aa48c61cab660df2786c7b76cfd798e5501973dd66d14c1002722a7f7f",
-      "retail_sha256": "9ee186aa48c61cab660df2786c7b76cfd798e5501973dd66d14c1002722a7f7f",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_5C82E0_true_800172E0/build/town_r121c2_5C82E0_true_800172E0.window.bin",
       "log_sha256": "09735ba9583b8e4cbe27f224bf0c10902909ce7b0509ebad9bf7484990166651",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -16820,8 +16486,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "bfc18501cf547a7117e12273decdce215a5ed2fb88db2974ae25236c6ea32e7b",
-      "retail_sha256": "bfc18501cf547a7117e12273decdce215a5ed2fb88db2974ae25236c6ea32e7b",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_5C8370_true_80017370/build/town_r121c2_5C8370_true_80017370.window.bin",
       "log_sha256": "253d98df9323cfb3f4adf87e8c75726223642fdd7fbe2464fbec609c7cc25ef1",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -16864,8 +16528,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "dd70fa236da497deabbc98c8f38a982ccf6526827f5a3dcfcae7fd5eb56821a7",
-      "retail_sha256": "dd70fa236da497deabbc98c8f38a982ccf6526827f5a3dcfcae7fd5eb56821a7",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_5DBFF4_true_800167F4/build/town_r121c2_5DBFF4_true_800167F4.window.bin",
       "log_sha256": "16c41496c729a3a4ffdf0efde435e844399bb045329bee7f727d73a2488b14d8",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -16952,8 +16614,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "17445874037c962e215999d5cf627cb3253e9e72b841c58f2d837094a2fd65c2",
-      "retail_sha256": "17445874037c962e215999d5cf627cb3253e9e72b841c58f2d837094a2fd65c2",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_601188_true_80018188/build/town_r121c2_601188_true_80018188.window.bin",
       "log_sha256": "528248d117a7b6f381342e6014a7187f8e93ddbc20bf8272306a6574bd15bd12",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -16974,8 +16634,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "006bb4677ed4970d523fef27922fa933499e232f19bec440724b1969facc9535",
-      "retail_sha256": "006bb4677ed4970d523fef27922fa933499e232f19bec440724b1969facc9535",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_601218_true_80018218/build/town_r121c2_601218_true_80018218.window.bin",
       "log_sha256": "f69dce5be17598d4a2f93de4f212d537d430e28c22b723f6b1380607625281c7",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -17040,8 +16698,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "2e3a2a16a977a9c843b6e42a54adc344ff1ef2b7c74d79041d91b37ee2d1e9cc",
-      "retail_sha256": "2e3a2a16a977a9c843b6e42a54adc344ff1ef2b7c74d79041d91b37ee2d1e9cc",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_619258_true_80018258/build/town_r121c2_619258_true_80018258.window.bin",
       "log_sha256": "e66c0c3508bf1db9c99b6b9301aac329a9c1d0a9c8e3ef107cc81df1b11acad6",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -17062,8 +16718,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "ddd91d4b679b395fa5894f18cc64b85d8f108f737968f8b634b20bd89eaedddb",
-      "retail_sha256": "ddd91d4b679b395fa5894f18cc64b85d8f108f737968f8b634b20bd89eaedddb",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_6192E8_true_800182E8/build/town_r121c2_6192E8_true_800182E8.window.bin",
       "log_sha256": "9bbe7c7ce73b6b9fbb27b57e218ed8fba63558b17df133dc242b1b788520626f",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -17128,8 +16782,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "b7d521ffe45f088935c1e50584a1d3c2f9109ff0d6c73446acbc99ad4a0a1f69",
-      "retail_sha256": "b7d521ffe45f088935c1e50584a1d3c2f9109ff0d6c73446acbc99ad4a0a1f69",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_62A0FC_true_800170FC/build/town_r121c2_62A0FC_true_800170FC.window.bin",
       "log_sha256": "27f24945b5cb1d71ef6bf55fc33a461a64826521bbddd71def5d0cbb648d4676",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -17150,8 +16802,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "dc33b8b40e3e69bd69ab3e2edc22a62526d3b41d3e4fbba22415d0cdba4f3eca",
-      "retail_sha256": "dc33b8b40e3e69bd69ab3e2edc22a62526d3b41d3e4fbba22415d0cdba4f3eca",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_62A18C_true_8001718C/build/town_r121c2_62A18C_true_8001718C.window.bin",
       "log_sha256": "a6682061cf70a58ec722d0847500e91692b08b28d3adabd374a3d9ddee7d36c6",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -17216,8 +16866,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "bbe8ffacb7da649840c18869de41d3b5a02353949c0edaa2302a49d5599a3cb3",
-      "retail_sha256": "bbe8ffacb7da649840c18869de41d3b5a02353949c0edaa2302a49d5599a3cb3",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_647960_true_80018960/build/town_r121c2_647960_true_80018960.window.bin",
       "log_sha256": "3de7391d806a9eb68dae8cd35412bf41e30f4f99c93a23eb20aa5f7c0e29f622",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -17238,8 +16886,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "b721521359541852a598ac418e09a11c0db984f1ab50991885928de75e5cbde4",
-      "retail_sha256": "b721521359541852a598ac418e09a11c0db984f1ab50991885928de75e5cbde4",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_6479F0_true_800189F0/build/town_r121c2_6479F0_true_800189F0.window.bin",
       "log_sha256": "b63944aa7a213b0fe3c9baf95debc430e264241de1f5709ce5813d1c493d1621",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -17326,8 +16972,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "1dc8f9f36e42a7d616b2751a02da0a51e853c76b98e0b2fa9433ad152c6e5b33",
-      "retail_sha256": "1dc8f9f36e42a7d616b2751a02da0a51e853c76b98e0b2fa9433ad152c6e5b33",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_64A330_true_80017330/build/town_r121c2_64A330_true_80017330.window.bin",
       "log_sha256": "5be87a48e246a4a1beded054f0c889fe8796163a16011a435123b173c2dca5da",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -17348,8 +16992,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "56513039d114df64f5600d7bde9c491537aa79cbcfd8cd846618d26f30e016a6",
-      "retail_sha256": "56513039d114df64f5600d7bde9c491537aa79cbcfd8cd846618d26f30e016a6",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_64A3C0_true_800173C0/build/town_r121c2_64A3C0_true_800173C0.window.bin",
       "log_sha256": "ffd8a5ba767a94e01a43a49c3978d9a2de6bf815e4ae67d01f0b916fd36a3d7a",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -17436,8 +17078,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "4e0beba0ccf466d54464a63452d0fe80d579ece7e0ee36d5908071dfe088939e",
-      "retail_sha256": "4e0beba0ccf466d54464a63452d0fe80d579ece7e0ee36d5908071dfe088939e",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_64C32C_true_8001732C/build/town_r121c2_64C32C_true_8001732C.window.bin",
       "log_sha256": "a141b4328b1155255399b64862aa4989374905cada9eed77264350e925ac971e",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -17458,8 +17098,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "f429a7e8a38312b81ccbd69687611940256083b9194fdc064fbe62930b891cc5",
-      "retail_sha256": "f429a7e8a38312b81ccbd69687611940256083b9194fdc064fbe62930b891cc5",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_64C3BC_true_800173BC/build/town_r121c2_64C3BC_true_800173BC.window.bin",
       "log_sha256": "f593e2db400b44e12fd35dd4e6fcd73d2a6dd8e6c5356f4e78f3b317bd957686",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -17546,8 +17184,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "5d6f8da73c66338a3661e5e4f5d6884a6013250d55bd8b98d955061564d00db0",
-      "retail_sha256": "5d6f8da73c66338a3661e5e4f5d6884a6013250d55bd8b98d955061564d00db0",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_64E2D4_true_800172D4/build/town_r121c2_64E2D4_true_800172D4.window.bin",
       "log_sha256": "34df9491dbc2b07e1594cc5aea6953efb31058ad1aea62bf8b4086ec6a62c088",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -17568,8 +17204,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "65b56c1635a88227c4006173f9ea1cc985f7ad79ddd02046500c30c74d1235e7",
-      "retail_sha256": "65b56c1635a88227c4006173f9ea1cc985f7ad79ddd02046500c30c74d1235e7",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_64E364_true_80017364/build/town_r121c2_64E364_true_80017364.window.bin",
       "log_sha256": "34d5cf219612f34691a7861c5354eef0307c33cbbfc5ccc8633bf606f1782bc7",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -17656,8 +17290,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "1d76a0b029b2f2e083cfde6df35856e8d33b5a388dd781cf26476977ac1c29d3",
-      "retail_sha256": "1d76a0b029b2f2e083cfde6df35856e8d33b5a388dd781cf26476977ac1c29d3",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_650138_true_80017138/build/town_r121c2_650138_true_80017138.window.bin",
       "log_sha256": "85b710c0b6828644069a28868866f315a4f2194983c4f08978033e9c4667ac64",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -17678,8 +17310,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "a1998d96c5351012fb75106b939022f445302fbf8958f08d3680ef805c14c657",
-      "retail_sha256": "a1998d96c5351012fb75106b939022f445302fbf8958f08d3680ef805c14c657",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_6501C8_true_800171C8/build/town_r121c2_6501C8_true_800171C8.window.bin",
       "log_sha256": "0ee62c7f2f3422c87167622e3cac3e57943a32cd69cad75aff1cb55b822de499",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -17766,8 +17396,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "8669d54d4869411c671720f9904f999fe7233d6e83e3c2e4a1e141b854ce43c5",
-      "retail_sha256": "8669d54d4869411c671720f9904f999fe7233d6e83e3c2e4a1e141b854ce43c5",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_6520A8_true_800170A8/build/town_r121c2_6520A8_true_800170A8.window.bin",
       "log_sha256": "f73feee8fe81cc833f9510e6510c2e22374e9791c98d1210d151b2ece0bb1ba4",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -17788,8 +17416,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "bdd8a94fa0c75b3a7761ce9ab3f71f4f2db0315c1296e762fdf53ea9130a6810",
-      "retail_sha256": "bdd8a94fa0c75b3a7761ce9ab3f71f4f2db0315c1296e762fdf53ea9130a6810",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_652138_true_80017138/build/town_r121c2_652138_true_80017138.window.bin",
       "log_sha256": "8b73f26ff3d73f4360b287704830bd83b30e5e1125a89c6497bfb59e52244b64",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -17854,8 +17480,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "92358d1bbd336ff9446a2a18d97f49ada572fa10daf9267ce18af14eaee02a43",
-      "retail_sha256": "92358d1bbd336ff9446a2a18d97f49ada572fa10daf9267ce18af14eaee02a43",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_655FDC_true_80017FDC/build/town_r121c2_655FDC_true_80017FDC.window.bin",
       "log_sha256": "ea9cde1fa6e62639ecf001242307655f9e139387e67135ee05e5d71cc8946aa1",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -17876,8 +17500,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "0cecd4ff32757173d7509800a0cf57b06f43aed68f03bcd530212fc2f13a6a53",
-      "retail_sha256": "0cecd4ff32757173d7509800a0cf57b06f43aed68f03bcd530212fc2f13a6a53",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_65606C_true_8001806C/build/town_r121c2_65606C_true_8001806C.window.bin",
       "log_sha256": "44638c25e6f2158fb56b19efe5b5626b70c0699479afd357152f673011dc357e",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -17964,8 +17586,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "1cc2c75ce86aef0c27f73baae57aab1db59498feb707bdc3484ff754225c4217",
-      "retail_sha256": "1cc2c75ce86aef0c27f73baae57aab1db59498feb707bdc3484ff754225c4217",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_659988_true_80018188/build/town_r121c2_659988_true_80018188.window.bin",
       "log_sha256": "a10b4ead3efeb158f053cb32a18c8995e0501330b5c739ec59da65686efe66c9",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -17986,8 +17606,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "d352952f4103af5582677e34827bfcff675120e88e39dc70d4c4bb67f9e8cdf4",
-      "retail_sha256": "d352952f4103af5582677e34827bfcff675120e88e39dc70d4c4bb67f9e8cdf4",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_659A18_true_80018218/build/town_r121c2_659A18_true_80018218.window.bin",
       "log_sha256": "d38e1986614ec5dc7e87abb75d5a2ef7cefda477b51956f7f530f560d30b049f",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -18074,8 +17692,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "b978bf335af73f8b0495d6b27412dbe58e4285d352c6a524aa63714a5688ff96",
-      "retail_sha256": "b978bf335af73f8b0495d6b27412dbe58e4285d352c6a524aa63714a5688ff96",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_65C150_true_80017150/build/town_r121c2_65C150_true_80017150.window.bin",
       "log_sha256": "9933bf537b190251dd8ee6a49b879fd5fed289d7515fbd110ec7abbee12bc9ec",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -18096,8 +17712,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "c5312bb0004f72b0cf0490bcb937d2cfdcef246a1bc412d5d50a93451f8429d1",
-      "retail_sha256": "c5312bb0004f72b0cf0490bcb937d2cfdcef246a1bc412d5d50a93451f8429d1",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_65C1E0_true_800171E0/build/town_r121c2_65C1E0_true_800171E0.window.bin",
       "log_sha256": "766301eed9d2c8ec10d918e9c2e7d6275d7bf4c0cbb449872597517f7b798dca",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -18162,8 +17776,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "ba5c4fe2e78b5613781ccdd776778c813b7d42932f46565acca4f7780dd5c00a",
-      "retail_sha256": "ba5c4fe2e78b5613781ccdd776778c813b7d42932f46565acca4f7780dd5c00a",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_672B84_true_80017384/build/town_r121c2_672B84_true_80017384.window.bin",
       "log_sha256": "2ad174855da1d8c5c17187c914b9fa63eec7ce3ea783379a06dd342fddd7c05e",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -18184,8 +17796,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "8c637024907338f77438d64b1597ad414af3909722252f211f0223c553cb7a5e",
-      "retail_sha256": "8c637024907338f77438d64b1597ad414af3909722252f211f0223c553cb7a5e",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_672C14_true_80017414/build/town_r121c2_672C14_true_80017414.window.bin",
       "log_sha256": "d596a8d2901d6c8b154f2dcba9b40afd75a470aa3361dd269ee820b1887eb78c",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -18206,8 +17816,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "4026b8fa6dd7966b182abbe745c5c77b1f24f0d74ae91125e04fabbc233a8a9c",
-      "retail_sha256": "4026b8fa6dd7966b182abbe745c5c77b1f24f0d74ae91125e04fabbc233a8a9c",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_68F6BC_true_800186BC/build/town_r121c2_68F6BC_true_800186BC.window.bin",
       "log_sha256": "e370dfa311b890f1cd7bc8f144f9582a58feb87b4768d2ce019045dda9a4162d",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -18228,8 +17836,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "4026b8fa6dd7966b182abbe745c5c77b1f24f0d74ae91125e04fabbc233a8a9c",
-      "retail_sha256": "4026b8fa6dd7966b182abbe745c5c77b1f24f0d74ae91125e04fabbc233a8a9c",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_68F6D0_true_800186D0/build/town_r121c2_68F6D0_true_800186D0.window.bin",
       "log_sha256": "58aa49f2de28564cd67bdef36466abcd27ddb3505cb3c39787a77605876e2a5a",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -18250,8 +17856,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "4026b8fa6dd7966b182abbe745c5c77b1f24f0d74ae91125e04fabbc233a8a9c",
-      "retail_sha256": "4026b8fa6dd7966b182abbe745c5c77b1f24f0d74ae91125e04fabbc233a8a9c",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_68F6E4_true_800186E4/build/town_r121c2_68F6E4_true_800186E4.window.bin",
       "log_sha256": "531bb6b5c72324d415ea07d137b546fd0d678da43095f1fa856c1f38f6b6b3b0",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -18382,8 +17986,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "e4fe7a5b55046a4b5bd4f5e5003e30d96df7159299ddae77bfc38602a0006c9e",
-      "retail_sha256": "e4fe7a5b55046a4b5bd4f5e5003e30d96df7159299ddae77bfc38602a0006c9e",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_691240_true_8001A240/build/town_r121c2_691240_true_8001A240.window.bin",
       "log_sha256": "9350ce9142f96373da012046495b049124db969e7edaf37fb15304baaf6799ff",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -18404,8 +18006,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "7e13756559e9614c71d3a158591c01fae96ea1c276f0e7fca4e6ffaf9a2e3e2b",
-      "retail_sha256": "7e13756559e9614c71d3a158591c01fae96ea1c276f0e7fca4e6ffaf9a2e3e2b",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_6912D0_true_8001A2D0/build/town_r121c2_6912D0_true_8001A2D0.window.bin",
       "log_sha256": "d2dcd7be05019ed7c4adbf62ba376cfc5de50dc19abcb7965e3ac07aaa251394",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -18514,8 +18114,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "d29a49215f24ea56e1d3ed3061f4304cb6cb47962a43e4b35cefc3c07fc72018",
-      "retail_sha256": "d29a49215f24ea56e1d3ed3061f4304cb6cb47962a43e4b35cefc3c07fc72018",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_6AB4F0_true_800174F0/build/town_r121c2_6AB4F0_true_800174F0.window.bin",
       "log_sha256": "1f42e3ca975fa7d887dedb23620595e62c6bfcfa8052c643f21bda18c96a8037",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -18536,8 +18134,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "7c2dd0d6a9b7213930526e711dae3458aaf27cd011166470324782856a6f0288",
-      "retail_sha256": "7c2dd0d6a9b7213930526e711dae3458aaf27cd011166470324782856a6f0288",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_6AB580_true_80017580/build/town_r121c2_6AB580_true_80017580.window.bin",
       "log_sha256": "00a6bb232103a62b557af44e1bf047f2d8ea333a2a781464c8e3075e2857ff3b",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -18624,8 +18220,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "746271beb24452d63ce4b681c85426f4301a44f68b062f36b6e3c709d5313df0",
-      "retail_sha256": "746271beb24452d63ce4b681c85426f4301a44f68b062f36b6e3c709d5313df0",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_6CD934_true_80017134/build/town_r121c2_6CD934_true_80017134.window.bin",
       "log_sha256": "361f9d06d2dad52971f97e6b531346e99fe762039054a03aef9c463c26015d2a",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -18646,8 +18240,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "ab302ee75c6448145544e100d0ec7f7568b533f6099fbe4de5d950c0ae4fbd03",
-      "retail_sha256": "ab302ee75c6448145544e100d0ec7f7568b533f6099fbe4de5d950c0ae4fbd03",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_6CD9C4_true_800171C4/build/town_r121c2_6CD9C4_true_800171C4.window.bin",
       "log_sha256": "52f13d5abee72bb9514271fe0279feb37ba1fd46cd3be3f8193a80be7e2a817f",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -18734,8 +18326,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "35dbf310d5214dd119b6d2d3cf4120e134b1e86976b1a84ac2f4843b1023fea7",
-      "retail_sha256": "35dbf310d5214dd119b6d2d3cf4120e134b1e86976b1a84ac2f4843b1023fea7",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_6E2D90_true_80017590/build/town_r121c2_6E2D90_true_80017590.window.bin",
       "log_sha256": "b56b0d09133065851cbba7f03a0ff78cd65a4f3c6f8dc84b89d1a10dde7bdf4c",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -18756,8 +18346,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "c71634d3e9bee2a5e5acda13a203a0f38d80dd8f02cd26bd326dad69898fbb4d",
-      "retail_sha256": "c71634d3e9bee2a5e5acda13a203a0f38d80dd8f02cd26bd326dad69898fbb4d",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_6E2E20_true_80017620/build/town_r121c2_6E2E20_true_80017620.window.bin",
       "log_sha256": "18e65fa1d19b4853c86194b5964a116e17c04c0c6be542e555491e91212e207b",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -18822,8 +18410,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "b6a999aefaba54d62935fda57d4ab4eb28e9fa94ae38e97e069c93d558620f75",
-      "retail_sha256": "b6a999aefaba54d62935fda57d4ab4eb28e9fa94ae38e97e069c93d558620f75",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_6F1180_true_80017980/build/town_r121c2_6F1180_true_80017980.window.bin",
       "log_sha256": "26445d9e35c1a1975204accaee2a6479e1562d9787b0b54a19c845125051b1a6",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -18844,8 +18430,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "0fb96cc836dcceab2fe73859531198f519dcd06e076a087e7445b940e46bb45c",
-      "retail_sha256": "0fb96cc836dcceab2fe73859531198f519dcd06e076a087e7445b940e46bb45c",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_6F1210_true_80017A10/build/town_r121c2_6F1210_true_80017A10.window.bin",
       "log_sha256": "a2526d3cb96f129bda5a511660496f375278f1df22fe99289f305dbf627afb00",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -18932,8 +18516,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "81c6229b9574d298c18db157302f8ed3d7b122cf8930cd45fa4f9363458e66ae",
-      "retail_sha256": "81c6229b9574d298c18db157302f8ed3d7b122cf8930cd45fa4f9363458e66ae",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_6F58E8_true_800170E8/build/town_r121c2_6F58E8_true_800170E8.window.bin",
       "log_sha256": "d4f8dd8c445e89d2a23884853800e1d4c4a2f6be7d8b544df66a485afb4f4c34",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -18954,8 +18536,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "704a6261b2b48a8bb5247a2dbbd89fca1dbd0a08ec5fb2042fe1297abbddcfd7",
-      "retail_sha256": "704a6261b2b48a8bb5247a2dbbd89fca1dbd0a08ec5fb2042fe1297abbddcfd7",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_6F5978_true_80017178/build/town_r121c2_6F5978_true_80017178.window.bin",
       "log_sha256": "badade14d0366e752c0fb1063e9b7aa4c1b427594e44fbae97cb2a95a9381213",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -19042,8 +18622,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "2b3c3a64118188e75c43af8708e299e85a9023cf6984d6e14843bed41025e3d2",
-      "retail_sha256": "2b3c3a64118188e75c43af8708e299e85a9023cf6984d6e14843bed41025e3d2",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_6F80E8_true_800170E8/build/town_r121c2_6F80E8_true_800170E8.window.bin",
       "log_sha256": "652ddc9045c28d818959b1551e613bf379dabada356f9a88e68181be1cd93709",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -19064,8 +18642,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "8bd06590159bc658c2d0fbf2782e47e82ffa7fd1f49ddb775fef54ba57f1dad9",
-      "retail_sha256": "8bd06590159bc658c2d0fbf2782e47e82ffa7fd1f49ddb775fef54ba57f1dad9",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_6F8178_true_80017178/build/town_r121c2_6F8178_true_80017178.window.bin",
       "log_sha256": "cf6e9d6ad80ced410b7d4e30536a453441c04386d09e65fdb5e2b4d2e71bcb6c",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -19130,8 +18706,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "457ebd01520f8db1d5f78c3e0f801b68d1180816296c410c67aecbdbe96ded7f",
-      "retail_sha256": "457ebd01520f8db1d5f78c3e0f801b68d1180816296c410c67aecbdbe96ded7f",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_6FEC64_true_80017464/build/town_r121c2_6FEC64_true_80017464.window.bin",
       "log_sha256": "08689a15ccbfea436dd1e1b2d44b6599c5bafa49e9b1347a01230a5c53b31ad0",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -19152,8 +18726,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "846c5fd8b8586612794d62a851f0271f51a3c31354f8ce99365bcf494bf53daa",
-      "retail_sha256": "846c5fd8b8586612794d62a851f0271f51a3c31354f8ce99365bcf494bf53daa",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_6FECF4_true_800174F4/build/town_r121c2_6FECF4_true_800174F4.window.bin",
       "log_sha256": "0873f631900aefa5d853d282252fd608c8ec54564ed20effeefbaedad1a7eff5",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -19240,8 +18812,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "762b198fc6c7da4df11ebc107936dfb51bd9897a186b7a70e8291296a621377d",
-      "retail_sha256": "762b198fc6c7da4df11ebc107936dfb51bd9897a186b7a70e8291296a621377d",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_7061E4_true_800171E4/build/town_r121c2_7061E4_true_800171E4.window.bin",
       "log_sha256": "22c94d51fcc7647bee0f5ab8b3cfc6bd01ffe1b8d576eef1fd7363dc96e67557",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -19262,8 +18832,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "bbe1e2a1415a3dec6582d970fccb9a7a8097d4ee175882976ed19428b97556e8",
-      "retail_sha256": "bbe1e2a1415a3dec6582d970fccb9a7a8097d4ee175882976ed19428b97556e8",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_706274_true_80017274/build/town_r121c2_706274_true_80017274.window.bin",
       "log_sha256": "a97063e012de9ae58a7e027a93b143e7aca1eb7ac2fc6b389bb78faecee74c6c",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -19328,8 +18896,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "b7ab6d5c4dbed8db40b21267b114409c5688d65aaf6158538b517d62416eaa9b",
-      "retail_sha256": "b7ab6d5c4dbed8db40b21267b114409c5688d65aaf6158538b517d62416eaa9b",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_71B20C_true_8001720C/build/town_r121c2_71B20C_true_8001720C.window.bin",
       "log_sha256": "9acd5708efc93f667d21b5eb70d7eb7b0794d79bd3dec818e3de6f5c4e922666",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"
@@ -19350,8 +18916,6 @@
         "config/overlays/main.rowbase.jsonl": "e444bfb33ae5aa42811342fb1b8718e4c50a587294f22fec794c29e063be8c59"
       },
       "bytes": 12,
-      "rebuilt_sha256": "bbe1e2a1415a3dec6582d970fccb9a7a8097d4ee175882976ed19428b97556e8",
-      "retail_sha256": "bbe1e2a1415a3dec6582d970fccb9a7a8097d4ee175882976ed19428b97556e8",
       "rebuilt_file": "build_ovl/work/s3_splat/town_r121c2_71B29C_true_8001729C/build/town_r121c2_71B29C_true_8001729C.window.bin",
       "log_sha256": "58fe9933e1a09d1162d76134e7563230631cb5c5d56f941682ba25518d070d45",
       "retained_projection": "work/native_lane/r121_remnants/evidence/continue2_retained_after_tail.json"

@@ -9,7 +9,7 @@
 #include "dungeon/item.h"
 #include "dungeon/monster/pulunpa.h"
 
-typedef void (*Callback)(void *, void *, void *, void *);
+typedef ActorActionHandler Callback;
 
 extern s32 refresh_actor_facing_and_lifecycle();
 extern s16 sample_terrain_surface_height();

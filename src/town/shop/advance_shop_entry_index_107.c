@@ -3,6 +3,7 @@
 #include "town/scene/flags.h"
 #include "town/shop.h"
 #include "town/data.h"
+#include "town/scene.h"
 
 typedef struct {
     u16 field_0;
@@ -13,7 +14,6 @@ extern u16 D_00000DA6[];
 extern DevkitShopFlagLink D_00000DB4[];
 
 extern s32 is_next_entry_zero_after_skipping_b(s32 index);
-extern s32 select_first_unmet_table_entry(void);
 extern void func_80000B40(u16 value);
 extern void func_80000B90(s32 value);
 extern s32 func_80000BE4(u16 value);

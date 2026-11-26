@@ -19,9 +19,9 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
+#include "dungeon/monster/noise/move_fade_and_accelerate_effect.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void spawn_random_velocity_offset_effect(ObjectNodeHeader *parent, s16 effect_id, s32 effect_param, s32 unused, s16 x_offset, s16 y_offset, s16 z_offset); /* extern */
 void noise_ability_resume_address(ActorRecord *motion, ObjectPosition *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor);
 extern u8 noise_direction_frames[9];
 

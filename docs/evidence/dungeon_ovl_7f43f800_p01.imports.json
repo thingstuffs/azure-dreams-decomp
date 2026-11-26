@@ -71,7 +71,7 @@
           "file": "SLUS_006.14",
           "offset": 110776,
           "length": 4,
-          "sha256": "9da69f68f7f99868cf912d984e4ce2e36615cb9436236bbf3f4b97997331cddb"
+          "sha256": "33a09e7675e50c5096a3d40c86ef9cd60939f845d81672cd0919b5a9ef5c3c19"
         },
         "format": "hex"
       },
@@ -89,7 +89,7 @@
           "file": "SLUS_006.14",
           "offset": 232480,
           "length": 4,
-          "sha256": "edc2e25adbcc6de3602c5e76f2a701bd938c2426fb0a09770393392eb9bb3110"
+          "sha256": "62fb07203bd0cd50591f793197eda82b0c7bf68f506cb7916d7b4c161fcece8e"
         },
         "format": "hex"
       },
@@ -108,7 +108,7 @@
           "file": "DUNGEON/DUNGEON.BIN",
           "offset": 1013612,
           "length": 8,
-          "sha256": "1a9b28a65c35f8e31a7619c51e59996ac5b79a83de55a88421cd5a190b2fdba1"
+          "sha256": "0784e3a7ec8a7367681adbed2658f47ba964fb723045e36c228b02255e0f1c1d"
         },
         "format": "hex"
       },

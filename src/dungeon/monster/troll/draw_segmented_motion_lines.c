@@ -28,7 +28,7 @@ void draw_segmented_motion_lines(SegmentedLineState *state,
     u16 draw_page;
     u16 saved_depth_bias = depth_bias;
 
-    scratch->ordering_table.words = &initial_context->orderTag;
+    scratch->ordering_table.words = &initial_context->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->rotation.t[0] = position->x.w.i;
     scratch->rotation.t[1] = position->y.w.i;
     scratch->rotation.t[2] = position->z.w.i;

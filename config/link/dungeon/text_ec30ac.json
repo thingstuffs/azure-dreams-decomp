@@ -13,11 +13,12 @@
       "size": 12,
       "type": "Imported retail text",
       "evidence": "ledger/coverage_regions.jsonl",
-      "sha256": "782f7e5df0cdc3f902032091010b5f93ad004205bb58b06c0fada647597cf12d",
+      "sha256": "ee9dac0e8b27dc32639cd17777c2ade2eb18ee6de3d1079d8b051e92a70dad98",
       "extractor": "container-slice-v1",
       "symbols": {
         "D_801588AC": "0x801588ac"
-      }
+      },
+      "hash_size": 16
     }
   ],
   "census": {

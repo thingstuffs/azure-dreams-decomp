@@ -5,7 +5,7 @@
   "foff": "0x9a7060",
   "size": "0x3880",
   "vma": "0x8015e860",
-  "evidence": "docs/evidence/r121w_s2_receipts.json",
+  "evidence": "Recorded in the production link map.",
   "entries": [
     {
       "row": "dungeon/func_809870E8",
@@ -18,7 +18,7 @@
         "0x800478B8": "0x800478B8",
         "0x800814A0": "0x800814A0"
       },
-      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+      "evidence": "current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "dungeon/func_809875A8",
@@ -43,7 +43,7 @@
         "0x80047784": "0x80047784",
         "0x800BCB04": "0x800BCB04"
       },
-      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+      "evidence": "current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "dungeon/func_80989D68",
@@ -56,7 +56,7 @@
         "0x800AD058": "0x800AD058",
         "0x8016D568": "0x80161568"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "dungeon/func_8098A8A8",
@@ -69,7 +69,7 @@
         "0x801717F4": "0x8015F4D4",
         "0x8016D568": "0x8016D568"
       },
-      "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_8098A8A8; B10 re-homed from dungeon/func_809788A8 (now an LL placement of dungeon/func_80AF4148): bindings translated through dungeon/func_809788A8's object-screen resolution"
+      "evidence": "#dungeon/func_8098A8A8; B10 re-homed from dungeon/func_809788A8 (now an LL placement of dungeon/func_80AF4148): bindings translated through dungeon/func_809788A8's object-screen resolution"
     }
   ]
 }

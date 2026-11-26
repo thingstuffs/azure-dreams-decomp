@@ -95,7 +95,7 @@ void project_depth_sliced_quads(void *geometry, ObjectPosition *position, Sprite
                     (((u16)(packet->x3 + 0x20) < 0x181) &&
                      ((u16)(packet->y3 + 0x20) < 0x121))) {
                     render_state->flags &= 0x7FFF;
-                    /* BYTES: retail copies the colour word (red, green, blue and code) with one sw; member stores compile to four sb */
+                    /* BYTES: The RGB value and command byte are written together. Separate members write four bytes individually. */
                     *(u32 *)&packet->red = render_state->color.word;
                     SetPolyF4(packet);
 
@@ -143,7 +143,7 @@ void project_depth_sliced_quads(void *geometry, ObjectPosition *position, Sprite
                 (((u16)(packet->x3 + 0x20) < 0x181) &&
                  ((u16)(packet->y3 + 0x20) < 0x121))) {
                 render_state->flags &= 0x7FFF;
-                /* BYTES: retail copies the colour word (red, green, blue and code) with one sw; member stores compile to four sb */
+                /* BYTES: The RGB value and command byte are written together. Separate members write four bytes individually. */
                 *(u32 *)&packet->red = render_state->color.word;
                 SetPolyF4(packet);
 

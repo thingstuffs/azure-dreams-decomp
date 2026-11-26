@@ -34,7 +34,6 @@ void func_800B426C(void *);
 extern EntityDisplayLayout D_800D1658[5];
 extern M2C_UNK entity_display_gradient_color;
 /* arg0 in bind_storage_menu_object_color_update; pointer addresses record offset 0x10 */
-extern void D_800B3E68(void *);
 void initialize_entity_display_parts(ItemMenuDisplayLinks *links, StorageDisplayBlock *part, ItemMenuDisplayPosition *vector);
 
 /* Functions defined in this translation unit. */

@@ -116,7 +116,7 @@ void update_actor_animation_movement(ActorRecord *body, ObjectPosition *motion, 
             }
             sprite->flags = facing_flags;
         }
-        apply_monster_koyaw_data(entity_base->flags1C, (u8 *)sprite + 0xC);
+        apply_monster_koyaw_data(entity_base->flags1C, &sprite->color.c.r);
         if (!(entity_base->flags1C & 0x20)) {
             if (!(sprite->flags & 0x40)) {
                 advance_sprite_animation_and_textures(sprite);

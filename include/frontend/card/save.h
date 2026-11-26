@@ -7,7 +7,6 @@
 struct ObjectNodeHeader;
 struct S_func_804061C4_0;
 struct CardSaveOperationBody;
-void process_menu_input_and_cursor_state(struct CardSaveOperationBody *menu);
 
 /* The five window headers stored by the save-slot builder at body offset 0x04. */
 typedef struct CardDevSaveSlotWindows {

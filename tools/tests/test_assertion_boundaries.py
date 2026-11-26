@@ -1,5 +1,6 @@
 """Scheduled prologues must not become phantom functions or hide real stubs."""
 import csv
+import hashlib
 import io
 import json
 import struct
@@ -12,6 +13,7 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import assertion_boundaries as boundaries
 import evidence
+import modules
 
 
 class BoundaryTests(unittest.TestCase):
@@ -23,12 +25,15 @@ class BoundaryTests(unittest.TestCase):
                  0x40: 0x0040F809, 0x44: 0x3406004B,
                  0x78: 0x03E00008, 0x7C: 0x27BD0018}
         for at, w in words.items(): struct.pack_into("<I", data, at, w)
-        fmt = b'Assertion failed: file "%s", line %d\n\0'
+        fmt = b'Example check in %s at %d\n\0'
         data[0x100:0x100 + len(fmt)] = fmt
-        data[0x128:0x130] = b'tobjs.c\0'
+        data[0x128:0x132] = b'example.c\0'
+        source = "TOWN.BIN+0x128/10"
         spec = {"site_foff": "0x40", "entry_foff": "0x20", "size": 96, "line": 75,
-                "scan_start": "0x0", "scan_end": "0x80"}
-        site = {"container": "TOWN.BIN", "source_file": "tobjs.c", "kind": "assert", "line": "75",
+                "scan_start": "0x0", "scan_end": "0x80", "source_name_ref": source,
+                "pool_sha256": hashlib.sha256(data[0x100:0x140]).hexdigest(),
+                "range_sha256": hashlib.sha256(data[0x18:0x80]).hexdigest()}
+        site = {"container": "TOWN.BIN", "source_file": source, "kind": "assert", "line": "75",
                 "containing_func_foff": "0x28", "containing_func_size": "88",
                 "derived_base": "0x80000000", "site_foff": "0x40", "chunk_pool_foff": "0x100", "notes": ""}
         return data, spec, site
@@ -46,7 +51,13 @@ class BoundaryTests(unittest.TestCase):
     def test_genuine_eight_byte_return_stub_is_rejected(self):
         data, spec, site = self.fixture()
         struct.pack_into("<II", data, 0x20, 0x03E00008, 0)
-        with self.assertRaisesRegex(ValueError, "not lui"):
+        with self.assertRaisesRegex(ValueError, "expected flag address"):
+            boundaries.audit(site, spec, io.BytesIO(data), {})
+
+    def test_changed_pool_refuses_the_assertion_witness(self):
+        data, spec, site = self.fixture()
+        data[0x13f] ^= 1
+        with self.assertRaisesRegex(ValueError, "pool differ"):
             boundaries.audit(site, spec, io.BytesIO(data), {})
 
     def test_flag_clobber_before_branch_is_rejected(self):
@@ -84,7 +95,7 @@ class EvidenceTests(unittest.TestCase):
     def fixture(self):
         row = {"id": "town/func_80878A78", "container": "town", "func": "func_80878A78",
                "foff": 0x7F8A78, "size": 304, "true_name": "func_80702A78"}
-        site = {"container": "TOWN.BIN", "source_file": "tobjs.c", "line": "226", "kind": "assert",
+        site = {"container": "TOWN.BIN", "source_file": "TOWN.BIN+0x128/10", "line": "226", "kind": "assert",
                 "expression_or_null": "", "distinct_id": "D067", "site_vram": "0x80702ABC",
                 "containing_func_foff": "0x7F8A78", "containing_function": "func_80878A78",
                 "attribution": "direct", "true_name": "", "func_status": "MATCH", "containing_func_size": "304"}
@@ -94,7 +105,7 @@ class EvidenceTests(unittest.TestCase):
         row, site = self.fixture()
         aggregates, unowned, per = evidence.assertion_evidence([row], [site])
         self.assertEqual(unowned, [])
-        self.assertEqual(aggregates[0]["source_files"], ["tobjs.c"])
+        self.assertEqual(aggregates[0]["source_files"], [site["source_file"]])
         self.assertTrue(per[row["id"]]["assert_sites"][0]["own_copy"])
 
     def test_an_interior_offset_stays_unowned_without_audited_correction(self):
@@ -110,6 +121,30 @@ class EvidenceTests(unittest.TestCase):
         self.assertEqual(unowned, [])
         self.assertEqual(aggregates[0]["id"], row["id"])
         self.assertFalse(per[row["id"]]["assert_sites"][0]["own_copy"])
+
+    def test_module_check_uses_disc_source_name(self):
+        row, site = self.fixture()
+        proposal = {"container": "town", "modules": [{"name": "example.c", "rows": [row["id"]]}]}
+        site["source_file"] = "TOWN.BIN+0x4/10"
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            container = root / "work/disc/containers"
+            container.mkdir(parents=True)
+            (container / "TOWN_TOWN.BIN").write_bytes(b"xxxxexample.c\0")
+            with patch.object(modules, "ROOT", root), patch.object(modules, "rows", return_value=[row]), \
+                 patch.object(modules, "load_bases", return_value={}), \
+                 patch.object(modules, "assertion_files", return_value={row["id"]: {site["source_file"]}}):
+                self.assertEqual(modules.check(proposal), [])
+                proposal["modules"][0]["name"] = "different.c"
+                errors = modules.check(proposal)
+                self.assertEqual(len(errors), 1)
+                self.assertIn(site["source_file"], errors[0])
+
+    def test_catalogue_rejects_literal_expression_text(self):
+        row, site = self.fixture()
+        site["expression_or_null"] = "invented expression"
+        with self.assertRaisesRegex(ValueError, "must be a disc location"):
+            evidence.assertion_evidence([row], [site])
 
     def test_scoped_refresh_preserves_unrelated_evidence_and_is_idempotent(self):
         row, site = self.fixture()
@@ -127,9 +162,13 @@ class EvidenceTests(unittest.TestCase):
                 first = {p.name: p.read_bytes() for p in ev.iterdir()}
                 records = {r["id"]: r for r in evidence.read_jsonl(ev / "rows.jsonl")}
                 self.assertEqual(records[other["id"]], other_evidence)
-                self.assertEqual(records[row["id"]]["assert_sites"][0]["source_file"], "tobjs.c")
+                self.assertEqual(records[row["id"]]["assert_sites"][0]["source_file"], site["source_file"])
                 evidence.refresh_assertions([row["id"]])
                 self.assertEqual(first, {p.name: p.read_bytes() for p in ev.iterdir()})
+                with patch.object(evidence, "rows", return_value=[row]):
+                    evidence.refresh_assertions()
+                records = {r["id"]: r for r in evidence.read_jsonl(ev / "rows.jsonl")}
+                self.assertEqual(records[other["id"]]["knowledge"], other_evidence["knowledge"])
 
 
 if __name__ == "__main__":

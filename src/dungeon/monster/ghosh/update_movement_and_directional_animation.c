@@ -34,7 +34,7 @@ typedef struct S_8016CB80_0 {
 } S_8016CB80_0;   /* arg0 in update_movement_and_directional_animation */
 
 /* Updates movement, directional animation, and action completion. */
-void update_movement_and_directional_animation(void *state_arg, void *motion_arg, void *actor_arg, void *entity_arg) {
+void update_movement_and_directional_animation(void *state_arg, ObjectPosition *motion_arg, SpriteFrameState *actor_arg, ActorRecord *entity_arg) {
     S_8016CB80_0 *state = state_arg;
     ObjectPosition *motion = motion_arg;
     SpriteFrameState *actor= actor_arg;

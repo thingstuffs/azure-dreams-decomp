@@ -112,7 +112,7 @@ typedef struct R10_80170F3C_S_80170F3C_4 {
     u8 pad_9B[0x1];
     s8 unk_9C;
 } R10_80170F3C_S_80170F3C_4;
-typedef void (*R10_80171104_ActorCallback)(void *, void *, void *, void *);
+typedef ActorActionHandler R10_80171104_ActorCallback;
 
 typedef struct R10_80171104_S_80171104_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   
@@ -423,7 +423,7 @@ extern const Resource10DirectionOffset D_80170854[8];
 extern const Resource10DirectionOffset D_80170874[8];
 void advance_sprite_animation_and_textures(void *entity);
 void select_record_entry_and_value(void *state, void *entries, short index);
-s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
+s32 generate_random_value(); /* Callers pass zero or one argument. The function replaces the argument value before reading it. */
 void select_sprite_entry(void *object_data, s16 table_index, s16 entry_index);
 void func_80047784(void *object_data, s16 table_index, s16 entry_index);
 s32 refresh_actor_facing_and_lifecycle();

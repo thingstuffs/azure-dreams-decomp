@@ -52,7 +52,7 @@
           "file": "OVMOVIE.BIN",
           "offset": 6980,
           "length": 4,
-          "sha256": "d5217213f185d04d0125f2edc5bcd4481abd56712553188580e54dd6132a3ddc"
+          "sha256": "c96e9240bd327f877c8252250c10119fc453fd01860bbe715172f7ab12670651"
         },
         "format": {
           "kind": "int_hex",
@@ -66,7 +66,7 @@
           "file": "OVMOVIE.BIN",
           "offset": 6984,
           "length": 4,
-          "sha256": "6672f11579502f9f74dcb701dc0a3d0c66d513582700b7ca5bfdfe64b6fe9ab6"
+          "sha256": "0672605c620e9bafb40d89a902c02921e29f57f1449972280c75e52e79138c20"
         },
         "format": {
           "kind": "int_hex",

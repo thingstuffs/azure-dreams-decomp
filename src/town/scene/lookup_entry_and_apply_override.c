@@ -3,8 +3,8 @@
 #include "town/player/state.h"
 #include "town/scene/motion.h"
 #include "town/scene.h"
+#include "town/scene/flags.h"
 
-extern s32 resolve_entry_flag(void *, struct TownObjectSet *, s32); /* Unprototyped: retail call passes more arguments than the callee reads */
 
 extern s32 D_800178D8;
 extern u8 D_800179CC[];

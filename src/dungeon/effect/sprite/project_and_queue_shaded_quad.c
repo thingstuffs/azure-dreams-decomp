@@ -30,7 +30,7 @@ void project_and_queue_shaded_quad(Row_81922998_S_80024198_6 *quad, void *positi
     GameWork *render_state_ptr = &g_game_work;
     MATRIX current_matrix;
 
-    scratch->ordering_table = (u32 *)&((GpuContext *)g_game_work.draw_buffer)->orderTag;
+    scratch->ordering_table = &((GpuContext *)g_game_work.draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->local_matrix.t[0] = position->unk_02;
     scratch->local_matrix.t[1] = position->unk_06;
     scratch->local_matrix.t[2] = position->unk_0A;
@@ -58,9 +58,9 @@ void project_and_queue_shaded_quad(Row_81922998_S_80024198_6 *quad, void *positi
     ((GpuContext *)g_game_work.draw_buffer)->packetCursor = mode + 1;
     SetDrawMode(mode, 0, 1, GetTPage(0, 0, 0, 0) & 0xFFFF, 0);
     mode->tag = (mode->tag & 0xFF000000) |
-        (((GpuContext *)g_game_work.draw_buffer)->orderTag & 0x00FFFFFF);
-    ((GpuContext *)g_game_work.draw_buffer)->orderTag =
-        (((GpuContext *)g_game_work.draw_buffer)->orderTag & 0xFF000000) |
+        (((GpuContext *)g_game_work.draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE] & 0x00FFFFFF);
+    ((GpuContext *)g_game_work.draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE] =
+        (((GpuContext *)g_game_work.draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE] & 0xFF000000) |
         ((u32)mode & 0x00FFFFFF);
 
     {
@@ -109,13 +109,13 @@ void project_and_queue_shaded_quad(Row_81922998_S_80024198_6 *quad, void *positi
                     (texture_flags | 2) : (texture_flags & 0xFD);
             }
 
-            /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+            /* BYTES: Each loaded vertex color is written together with its command or padding byte. Separate members generate four byte stores. */
             *(u32 *)&packet->red0 = quad->unk_00;
-            /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+            /* BYTES: Each loaded vertex color is written together with its command or padding byte. Separate members generate four byte stores. */
             *(u32 *)&packet->red1 = quad->unk_04;
-            /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+            /* BYTES: Each loaded vertex color is written together with its command or padding byte. Separate members generate four byte stores. */
             *(u32 *)&packet->red2 = quad->unk_08;
-            /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+            /* BYTES: Each loaded vertex color is written together with its command or padding byte. Separate members generate four byte stores. */
             *(u32 *)&packet->red3 = quad->unk_0C;
             ((GpuLinkTag *)&packet->tag)->len = 8;
             packet->code = 0x3A;

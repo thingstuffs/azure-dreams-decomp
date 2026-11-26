@@ -802,14 +802,14 @@ s32 try_clown_attack(ActorRecord *action_state, ObjectPosition *action_id, Sprit
     return -1;
 }
 
-/*
- * Claims an action slot, starts the directional attack animation, and prepares its target and
- * damage state.
- *
- * MECHANISM: The true-rowbase CFG holds arg2 in $s3 and the status base in $s2 at cdk-G0. An
- * unused 8-byte local (unused[2]) raises the otherwise exact 0x38 frame to retail's 0x40 without
- * emitting body code; source-based byte indexing preserves the final call operands.
- */
+/* Claims an
+ * action slot,
+ * starts the
+ * directional attack
+ * animation, and
+ * prepares its
+ * target and
+ * damage state. */
 void begin_clown_attack(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *animation, ActorRecord *actor) {
     actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((((s16)try_claim_dungeon_action_slot(actor)) << 0x10) == 0)) {
@@ -1237,19 +1237,19 @@ void damp_actor_motion_and_recenter(R16_801729D8_S_80173294_0 *motion_state, Obj
 }
 
 /* Runs the shared actor defeat and removal sequence with the supplied callback arguments. */
-void remove_defeated_clown(void *state, void *motion, void *position, void *actor)
+void remove_defeated_clown(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor)
 {
     update_actor_defeat_removal(state, motion, position, actor);
 }
 
 /* Runs the shared hop and shrink update, then clears the halfword at offset 0xA2. */
-void shrink_hopping_clown(R16_80172CCC_S_80173588_0 *state, void *context, SpriteFrameState *data, void *render) {
+void shrink_hopping_clown(ActorRecord *state, ObjectPosition *context, SpriteFrameState *data, ActorRecord *render) {
     update_actor_hop_and_shrink(state, context, data, render);
-    state->unk_A2 = 0;
+    state->unk_A0.parts.high = 0;
 }
 
 /* Runs the shared actor removal sequence with the supplied callback arguments. */
-void advance_clown_removal(void *state, void *motion, void *position, void *actor)
+void advance_clown_removal(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor)
 {
     advance_actor_removal(state, motion, position, actor);
 }
@@ -1594,12 +1594,12 @@ s32 project_clown_sprite_chain(void *initial_payload, ObjectPosition *position, 
     }
 }
 
-/*
- * Moves the effect in an expanding spiral, advances its sprite, fades its color, and expires it on
- * timeout.
- *
- * MECHANISM: Typed page and scratch fields preserve the signed lh/sw widths and offsets.
- */
+/* Moves the effect
+ * in an expanding
+ * spiral, advances its
+ * sprite, fades its
+ * color, and expires
+ * it on timeout. */
 void update_expanding_spiral_effect(AngledSourceEffectBody *effect_arg, ObjectPosition *position, SpriteFrameState *primitive) {
     AngledSourceEffectBody *effect = effect_arg;
     s16 life;

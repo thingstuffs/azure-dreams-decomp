@@ -1,40 +1,40 @@
-#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F1B1800: img_fb3270_80164a70_rc5_FB3E70_FB5240, img_fb3270_80164a70_rc5_FB5700_FB725C, r101_rc5_func_80F93938, r101_rc5_func_80F95240, sweep_0FB3000","i":"dungeon/bank_fb3000","l":"bank_fa7000_family","n":"0x6000","o":"0xFB3000","p":["788f7a54afae7122504420cb4471d635a71e1ea4b97606fc7eb90e5534b05e4e","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:7655fdde21b9be80f8ac883bd78b8ffef96bbc29d50b8ff0e820a1d50ba66b8f"],"t":[16972,0,0,208,7396,0,0],"v":"0x80164800"},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:data_row"},{"extractor":"container-slice-v1","symbols":{"D_80164804":"0x80164804"},"type":"PSX overlay data address word"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"Imported retail text"},{"census_label":"proven_code"},{"bindings":{"0x80047738":"0x80047738","0x800478B8":"0x800478B8","0x800644B8":"0x800644B8","0x8006CCF8":"0x8006CCF8","0x80083160":"0x80083160","0x80083460":"0x80083460","0x800A020C":"0x800A020C","0x800A9E70":"0x800A9E70","0x800AA36C":"0x800AA36C","0x800BCB04":"0x800BCB04","0x80171138":"0x80165138","0x80174B1C":"0x80168B1C"},"evidence":"LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required","tu":"src/dungeon/monster/zu/update_bank_actor_movement.c"},{"bindings":{"0x8016E688":"0x8016E688","0x80F8ADE0":"0x80F8ADE0"},"evidence":"; LL3a preserves prior rule-3 binding","tu":"src/dungeon/monster/zu/update_bank_actor_movement.c"},{"bindings":{"0x800AC480":"0x800AC480","0x80171138":"0x80165138"},"evidence":"LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required","tu":"src/dungeon/monster/zu/update_bank_actor_movement.c"},{"bindings":{"0x800478B8":"0x800478B8","0x800814A0":"0x800814A0","0x800DBA90":"0x800DBA90"},"evidence":"LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required","tu":"src/dungeon/monster/zu/update_bank_actor_movement.c"},{"bindings":{"0x800814A0":"0x800814A0"},"evidence":"LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required","tu":"src/dungeon/monster/zu/update_bank_actor_movement.c"},{"bindings":{"0x80065420":"0x80065420","0x80066460":"0x80066460","0x80066640":"0x80066640","0x80066708":"0x80066708","0x80067F20":"0x80067F20","0x80083160":"0x80083160","0x800DBA90":"0x800DBA90","0x80170A70":"0x80170A70","0x80173E64":"0x80173E64","0x80173F0C":"0x80173F0C","0x80F8ADE0":"0x80F8ADE0","0x80F90E88":"0x80168688"},"evidence":"LL3a attestation sha256:ed2d0badc347a1f7b5ef041bf78737a569153757cf4087b2e4e0c5609d772274; current-TU paired HI16/LO16 relocation screen; scoped window gate","tu":"src/dungeon/monster/zu/entry_transform_rotated_vertices.c"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"dungeon","e":"config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F1B1800. Image-local bindings are recorded in the link map.","i":"dungeon/bank_fb3000","l":"bank_fa7000_family","n":"0x6000","o":"0xFB3000","p":["788f7a54afae7122504420cb4471d635a71e1ea4b97606fc7eb90e5534b05e4e","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:7655fdde21b9be80f8ac883bd78b8ffef96bbc29d50b8ff0e820a1d50ba66b8f"],"t":[16972,0,0,208,7396,0,0],"v":"0x80164800"},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:data_row","hash_size":16},{"extractor":"container-slice-v1","hash_size":16,"symbols":{"D_80164804":"0x80164804"},"type":"PSX overlay data address word"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:data_row"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"Imported retail text"},{"census_label":"proven_code"},{"bindings":{"0x80047738":"0x80047738","0x800478B8":"0x800478B8","0x800644B8":"0x800644B8","0x8006CCF8":"0x8006CCF8","0x80083160":"0x80083160","0x80083460":"0x80083460","0x800A020C":"0x800A020C","0x800A9E70":"0x800A9E70","0x800AA36C":"0x800AA36C","0x800BCB04":"0x800BCB04","0x80171138":"0x80165138","0x80174B1C":"0x80168B1C"},"evidence":"LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required","tu":"src/dungeon/monster/zu/update_bank_actor_movement.c"},{"bindings":{"0x8016E688":"0x8016E688","0x80F8ADE0":"0x80F8ADE0"},"evidence":"; LL3a preserves prior rule-3 binding","tu":"src/dungeon/monster/zu/update_bank_actor_movement.c"},{"bindings":{"0x800AC480":"0x800AC480","0x80171138":"0x80165138"},"evidence":"LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required","tu":"src/dungeon/monster/zu/update_bank_actor_movement.c"},{"bindings":{"0x800478B8":"0x800478B8","0x800814A0":"0x800814A0","0x800DBA90":"0x800DBA90"},"evidence":"LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required","tu":"src/dungeon/monster/zu/update_bank_actor_movement.c"},{"bindings":{"0x800814A0":"0x800814A0"},"evidence":"LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required","tu":"src/dungeon/monster/zu/update_bank_actor_movement.c"},{"bindings":{"0x80065420":"0x80065420","0x80066460":"0x80066460","0x80066640":"0x80066640","0x80066708":"0x80066708","0x80067F20":"0x80067F20","0x80083160":"0x80083160","0x800DBA90":"0x800DBA90","0x80170A70":"0x80170A70","0x80173E64":"0x80173E64","0x80173F0C":"0x80173F0C","0x80F8ADE0":"0x80F8ADE0","0x80F90E88":"0x80168688"},"evidence":"LL3a attestation sha256:ed2d0badc347a1f7b5ef041bf78737a569153757cf4087b2e4e0c5609d772274; current-TU paired HI16/LO16 relocation screen; scoped window gate","tu":"src/dungeon/monster/zu/entry_transform_rotated_vertices.c"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
-16461824	4	a	census:ledger:data_row	f0e8877ad7d96addc6c20c614d8e094072d0d1377ba0097b48daab6d3759f6f7	0
-16461828	4	d	census:ledger:linklist_data	ce717688ae61894b71d04b9224f585c1d2ead2b7c994a9d89644e7d6ddf3e2b1	1
-16461832	76	a	census:ledger:data_row	02281d2ccca6d1ef6fd2063c1421cf6a7bf9196fa181abd09f44ea87b907318f	0
-16461908	20	a	census:ledger:imported_retail_text	d7e7956ed262537d61593db855641e205629f241dd626a8f268ed4f493f02d5d	2
-16461928	24	a	census:ledger:data_row	61cf805d1988428345b82c734fa49d28d13fc8f382564f7fdfd52dd25b9e245c	0
-16461952	496	r	census:c_row		3
-"0xfb3270"	1736	c	census:registered_tu		["func_80F93270","func_80F87270","0x80164a70",4]
-16464184	1780	r	census:c_row		3
-"0xFB402C"	1864	c	census:registered_tu		["func_80F9402C","func_80F8802C","0x8016582C",5]
-16467828	452	r	census:c_row		3
-"0xFB4938"	288	c	census:registered_tu		["func_80F94938","func_80F88938","0x80166138",5]
-"0xFB4A58"	324	c	census:registered_tu		["func_80F94A58","func_80F88A58","0x80166258",5]
-"0xFB4B9C"	148	c	census:registered_tu		["func_80F94B9C","func_80F88B9C","0x8016639C",5]
-"0xFB4C30"	100	c	census:registered_tu		["func_80F94C30","func_80F88C30","0x80166430",5]
-16469140	3584	r	census:c_row		3
-"0xFB5A94"	624	c	census:registered_tu		["func_80F95A94","func_80F89A94","0x80167294",5]
-"0xFB5D04"	32	c	census:registered_tu		["func_80F95D04","func_80F89D04","0x80167504",5]
-"0xFB5D24"	32	c	census:registered_tu		["func_80F95D24","func_80F89D24","0x80167524",5]
-"0xFB5D44"	56	c	census:registered_tu		["func_80F95D44","func_80F89D44","0x80167544",5]
-16473468	1980	r	census:c_row		3
-"0xFB6538"	200	c	census:registered_tu		["func_80F96538","func_80F8A538","0x80167D38",5]
-"0xFB6600"	100	c	census:registered_tu		["func_80F96600","func_80F8A600","0x80167E00",5]
-"0xfb6664"	56	c	census:registered_tu		["func_80F96664","func_80F8A664","0x80167e64",6]
-"0xFB669C"	56	c	census:registered_tu		["func_80F9669C","func_80F8A69C","0x80167E9C",5]
-"0xFB66D4"	56	c	census:registered_tu		["func_80F966D4","func_80F8A6D4","0x80167ED4",5]
-"0xfb670c"	488	c	census:registered_tu		["func_80F9670C","func_80F8A70C","0x80167f0c",7]
-16476404	1260	r	census:c_row		3
-"0xfb6de0"	168	c	census:registered_tu		["func_80F96DE0","func_80F8ADE0","0x801685e0",8]
-"0x00FB6E88"	980	c	census:registered_tu		["func_80F96E88","func_80F90E88","0x80168688",9]
-16478812	112	r	census:c_row		3
-16478924	12	d	census:noncode:decode		10
-16478936	8	d	census:neighbour:noncode_typing_pending		10
-16478944	60	d	census:noncode:decode		10
-16479004	24	a	census:format:ptrtab	3c0af7261b5eb4159e8244d7d9eba943e174a99b8e877c4725c3dab0fbc399e5	11
-16479028	12	d	census:noncode:decode		10
-16479040	4	d	census:noncode:entropy:loaded		10
-16479044	56	a	census:format:ptrtab	be1a15557ce2cbc3ee1065b9caad41ed048b597de841f85ae75638b9c93bf75b	11
-16479100	7300	d	census:noncode:entropy:loaded		10
+16461824	4	a	census:ledger:data_row	7367b58365cc6be88d4a432337d1794fa85d8265df7652f77eb90d639c0aa1d0	0
+16461828	4	d	census:ledger:linklist_data	157b8e58e5774f0558e50632507ef68aba476f983f8b8a199038641d71058859	1
+16461832	76	a	census:ledger:data_row	02281d2ccca6d1ef6fd2063c1421cf6a7bf9196fa181abd09f44ea87b907318f	2
+16461908	20	a	census:ledger:imported_retail_text	d7e7956ed262537d61593db855641e205629f241dd626a8f268ed4f493f02d5d	3
+16461928	24	a	census:ledger:data_row	61cf805d1988428345b82c734fa49d28d13fc8f382564f7fdfd52dd25b9e245c	2
+16461952	496	r	census:c_row		4
+"0xfb3270"	1736	c	census:registered_tu		["func_80F93270","func_80F87270","0x80164a70",5]
+16464184	1780	r	census:c_row		4
+"0xFB402C"	1864	c	census:registered_tu		["func_80F9402C","func_80F8802C","0x8016582C",6]
+16467828	452	r	census:c_row		4
+"0xFB4938"	288	c	census:registered_tu		["func_80F94938","func_80F88938","0x80166138",6]
+"0xFB4A58"	324	c	census:registered_tu		["func_80F94A58","func_80F88A58","0x80166258",6]
+"0xFB4B9C"	148	c	census:registered_tu		["func_80F94B9C","func_80F88B9C","0x8016639C",6]
+"0xFB4C30"	100	c	census:registered_tu		["func_80F94C30","func_80F88C30","0x80166430",6]
+16469140	3584	r	census:c_row		4
+"0xFB5A94"	624	c	census:registered_tu		["func_80F95A94","func_80F89A94","0x80167294",6]
+"0xFB5D04"	32	c	census:registered_tu		["func_80F95D04","func_80F89D04","0x80167504",6]
+"0xFB5D24"	32	c	census:registered_tu		["func_80F95D24","func_80F89D24","0x80167524",6]
+"0xFB5D44"	56	c	census:registered_tu		["func_80F95D44","func_80F89D44","0x80167544",6]
+16473468	1980	r	census:c_row		4
+"0xFB6538"	200	c	census:registered_tu		["func_80F96538","func_80F8A538","0x80167D38",6]
+"0xFB6600"	100	c	census:registered_tu		["func_80F96600","func_80F8A600","0x80167E00",6]
+"0xfb6664"	56	c	census:registered_tu		["func_80F96664","func_80F8A664","0x80167e64",7]
+"0xFB669C"	56	c	census:registered_tu		["func_80F9669C","func_80F8A69C","0x80167E9C",6]
+"0xFB66D4"	56	c	census:registered_tu		["func_80F966D4","func_80F8A6D4","0x80167ED4",6]
+"0xfb670c"	488	c	census:registered_tu		["func_80F9670C","func_80F8A70C","0x80167f0c",8]
+16476404	1260	r	census:c_row		4
+"0xfb6de0"	168	c	census:registered_tu		["func_80F96DE0","func_80F8ADE0","0x801685e0",9]
+"0x00FB6E88"	980	c	census:registered_tu		["func_80F96E88","func_80F90E88","0x80168688",10]
+16478812	112	r	census:c_row		4
+16478924	12	d	census:noncode:decode		11
+16478936	8	d	census:neighbour:noncode_typing_pending		11
+16478944	60	d	census:noncode:decode		11
+16479004	24	a	census:format:ptrtab	3c0af7261b5eb4159e8244d7d9eba943e174a99b8e877c4725c3dab0fbc399e5	12
+16479028	12	d	census:noncode:decode		11
+16479040	4	d	census:noncode:entropy:loaded		11
+16479044	56	a	census:format:ptrtab	be1a15557ce2cbc3ee1065b9caad41ed048b597de841f85ae75638b9c93bf75b	12
+16479100	7300	d	census:noncode:entropy:loaded		11

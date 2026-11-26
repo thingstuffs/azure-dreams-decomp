@@ -11,13 +11,14 @@
       "kind": "data",
       "foff": "0xeb1004",
       "size": 4,
-      "sha256": "094b152463f678fe9fc27707a47cdec741716615f2606a6524d64daac2ef2052",
+      "sha256": "8c3aac51bc45f4db7d8c81b79e0c7dfc6ae55c79188cc6f6c8f570c04ffac6c2",
       "extractor": "container-slice-v1",
       "symbols": {
         "D_8016A804": "0x8016a804"
       },
       "evidence": "census:ledger:linklist_data",
-      "type": "PSX overlay data address word"
+      "type": "PSX overlay data address word",
+      "hash_size": 16
     }
   ],
   "census": {

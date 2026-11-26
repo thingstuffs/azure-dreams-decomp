@@ -1529,7 +1529,7 @@ void advance_arachne_hop_and_shrink(void *state, void *motion, void *position, v
 }
 
 /* Runs the shared actor removal sequence with the supplied callback arguments. */
-void advance_arachne_removal(void *state, void *motion, void *position, void *actor)
+void advance_arachne_removal(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor)
 {
     advance_actor_removal(state, motion, position, actor);
 }
@@ -1912,14 +1912,14 @@ s32 build_linked_curved_wireframe_grid(u8 *node, ObjectPosition *position, Sprit
         effect = (ArachneActionEffectBody *)node;
         /* BYTES: The bytes fix the test's shape (a scratchpad word, then next_node), not its meaning; the arm reconstructs a conditional update of a local nothing reads (decision 45). */
         if (screen_xy[0] && next_node) {
-            /* retail evidence (decision 45, docs/evidence/r97_decisions.md): both operands of this test are loaded in retail's
-               compilation and the arm compiled away. next_node: the tail's successor load (lw $5,8($5)) survives as this test's
-               operand. The scratchpad word: jump2 deleted it with the branch; its fingerprint is the empty
-               load-delay slot after the (frame.desc).angle field load (sched2 cannot issue the effect store there while this load waits on
-               the angle store), and the branch's label is why node is reloaded for ((s16)func_80065F90(JP build:
-               this placement matches JP at stock 2.7.2)). The arm reconstructs a conditional update of a local nothing reads; the
-               bytes fix the test's shape (a scratchpad word, then next_node), not its meaning. The second parameter is the
-               loop-carried successor field the tail reloads. */
+            /* The original compilation reads
+             * the scratch word
+             * and the successor
+             * field, then drops the
+             * conditional update because nothing
+             * reads its result.
+             * The loop tail
+             * still follows the successor. */
             row = 0;
         }
         (frame.desc).value = ((s16)ratan2(((ArachneActionEffectBody *)node)->unk_12, 0x40));
@@ -2135,8 +2135,8 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
     R12_80174618_MATRIX matrix;
     R12_80174618_EMPTY_ARG no_arg;
 
-    context = (GpuContext *)&g_game_work;
-    scratch->ordering_table = (u32 *)(*(u8 **)context + 0xB0);
+    work_base = &g_game_work;
+    scratch->ordering_table = &((GpuContext *)work_base->draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->local_matrix.t[0] = position->unk_02;
     scratch->local_matrix.t[1] = position->unk_06;
     scratch->local_matrix.t[2] = position->unk_0A;
@@ -2162,7 +2162,7 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
     start_vertex = &scratch->vertices[0];
 
     field_value = render_params->flags;
-    context = (GpuContext *)(*(u8 **)context);
+    context = work_base->draw_buffer;
     scratch->render_flags = field_value;
     line_packet = context->packetCursor;
     context->packetCursor = line_packet + 0x10;

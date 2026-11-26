@@ -133,7 +133,7 @@ void queue_radial_line_burst(ovl_1930844_81911BF4_Obj81911BF4 *effect_data, void
     angle = 0;
     projection = PROJECTED_QUAD_SCRATCH;
     initial_context = g_game_work.draw_buffer;
-    projection->ordering_table = (u32 *)&initial_context->orderTag;
+    projection->ordering_table = &initial_context->orderTag[GPU_ORDER_DEPTH_BASE];
     do {
         void **render_ptr = (void **) render_global;
         GpuContext *render_ctx = *render_ptr;
@@ -282,7 +282,7 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(u8 *sh
             scratch->step_x = (coord_delta / divisor) * scale;
         }
 
-        /* BYTES: retail reads the integer half of the 16.16 step with one lhu of its high halfword; the shift spelling compiles to lw and sra */
+        /* BYTES: The integer component is read directly as an unsigned halfword. A shift loads the full fixed-point word first. */
         coord = ovl_1930844_81910EC0_U16_AT(start_point, 0x1A) + ((u16 *)&scratch->step_x)[1];
         scratch->vertices[3].vx = coord;
         scratch->vertices[1].vx = coord;
@@ -297,7 +297,7 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(u8 *sh
             scratch->step_y = (coord_delta / divisor) * scale;
         }
 
-        /* BYTES: retail reads the integer half of the 16.16 step with one lhu of its high halfword; the shift spelling compiles to lw and sra */
+        /* BYTES: The integer component is read directly as an unsigned halfword. A shift loads the full fixed-point word first. */
         vertex_y = ovl_1930844_81910EC0_U16_AT(start_point, 0x2E) + ((u16 *)&scratch->step_y)[1];
         scratch->vertices[3].vy = vertex_y;
         scratch->vertices[1].vy = vertex_y;
@@ -470,7 +470,7 @@ void queue_perimeter_vertical_quads(ovl_1930844_81911BF4_Obj81911BF4 *effect_in,
         if (interpolate != 0) {
             scratch->step_x = (delta_x / duration) * step;
         }
-        /* BYTES: retail reads the integer half of the 16.16 step with one lhu of its high halfword; the shift spelling compiles to lw and sra */
+        /* BYTES: The integer component is read directly as an unsigned halfword. A shift loads the full fixed-point word first. */
         end_x = ((EffectCoords *)effect)->x[point_index].half.high + ((u16 *)&scratch->step_x)[1];
         scratch->vertices[3].vx = end_x;
         scratch->vertices[1].vx = end_x;
@@ -482,7 +482,7 @@ void queue_perimeter_vertical_quads(ovl_1930844_81911BF4_Obj81911BF4 *effect_in,
         if (interpolate != 0) {
             scratch->step_y = (delta_y / duration) * step;
         }
-        /* BYTES: retail reads the integer half of the 16.16 step with one lhu of its high halfword; the shift spelling compiles to lw and sra */
+        /* BYTES: The integer component is read directly as an unsigned halfword. A shift loads the full fixed-point word first. */
         end_y = ((EffectCoords *)effect)->y[point_index].half.high + ((u16 *)&scratch->step_y)[1];
         scratch->vertices[3].vy = end_y;
         scratch->vertices[1].vy = end_y;
@@ -568,7 +568,7 @@ void queue_perimeter_vertical_quads(ovl_1930844_81911BF4_Obj81911BF4 *effect_in,
         if (interpolate != 0) {
             scratch->step_x = (next_delta_x / duration) * step;
         }
-        /* BYTES: retail reads the integer half of the 16.16 step with one lhu of its high halfword; the shift spelling compiles to lw and sra */
+        /* BYTES: The integer component is read directly as an unsigned halfword. A shift loads the full fixed-point word first. */
         next_end_x = point->unk_18.at02.v + ((u16 *)&scratch->step_x)[1];
         scratch->vertices[3].vx = next_end_x;
         scratch->vertices[1].vx = next_end_x;
@@ -581,7 +581,7 @@ void queue_perimeter_vertical_quads(ovl_1930844_81911BF4_Obj81911BF4 *effect_in,
             scratch->step_y = (next_delta_y / duration) * step;
         }
         next_end_y = point->unk_2C.at02.v;
-        /* BYTES: retail reads the integer half of the 16.16 step with one lhu of its high halfword; the shift spelling compiles to lw and sra */
+        /* BYTES: The integer component is read directly as an unsigned halfword. A shift loads the full fixed-point word first. */
         y_step = ((u16 *)&scratch->step_y)[1];
         scratch->ot_index = RotAverage4(vertex_base, v1, v2, v3,
                                    (s32 *)sxy0, (s32 *)sxy1, (s32 *)sxy2, (s32 *)sxy3,

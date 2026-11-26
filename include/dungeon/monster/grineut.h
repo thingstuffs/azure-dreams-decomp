@@ -38,7 +38,7 @@ typedef s32 R07_80170854_M2C_UNK;
 
 
 
-typedef void (*R07_80170A28_EntityCallback)(void *, void *, void *, void *);
+typedef ActorActionHandler R07_80170A28_EntityCallback;
 typedef struct R07_80170A28_S_80170A28_0 {
     u8 pad_00[0x4];
     s8 unk_04;
@@ -244,8 +244,8 @@ void advance_grineut_attack_step(ActorRecord *action, ObjectPosition *motion, Sp
 void cast_grineut_targeted_spell(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void settle_directional_motion_at_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity);
 void remove_defeated_grineut(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void shrink_hopping_grineut(void *state, void *motion, void *position, void *actor);
-void advance_grineut_removal(void *state, void *motion, void *position, void *actor);
+void shrink_hopping_grineut(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
+void advance_grineut_removal(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void grow_hopping_grineut(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void update_sleeping_grineut(ActorRecord *controller, ObjectPosition *actor_index, SpriteFrameState *sprite, ActorRecord *actor);
 void wait_for_grineut_mp(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);

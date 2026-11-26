@@ -91,23 +91,6 @@ typedef struct MapSurfacePlaneScratch {
     Quad quad;
 } MapSurfacePlaneScratch;
 
-typedef struct TargetMap {
-    u16 *tiles;
-    u8 **cells;
-    Vec8 *vertices;
-    Vec8 *planes;
-    u8 pad10[4];
-    s16 shift;
-    u16 pad16;
-    u16 x_mask;
-    u16 y_mask;
-} TargetMap;
-
-typedef struct TargetGlobal {
-    u8 pad000[0x1dc];
-    TargetMap map;
-} TargetGlobal;
-
 struct ScratchQuad;
 
 
@@ -124,94 +107,21 @@ typedef struct CellRecord {
     u8 flags;
 } CellRecord;
 
-typedef struct MapInfo {
-    u16 * grid;
-    CellRecord **records;
-    Vec8 * vertices;
-    Vec8 * planes;
-    u8 pad10[4];
-    s16 shift;
-    u8 pad16[2];
-    u16 x_mask;
-    u16 y_mask;
-} MapInfo;
-
-typedef struct GlobalState { u8 pad000[0x1DC]; MapInfo map; } GlobalState;
-
 /* The Y and Z offsets of each corner from the X-intersection query point. */
 typedef struct MapSurfaceYZOffset {
     s16 y;
     s16 z;
 } MapSurfaceYZOffset;
 
-typedef struct Vec_80090854 Vec_80090854;
-
-typedef struct Grid80090320 {
-    u16 * occupancy;
-    u8 **entries;
-    u8 * vertices;
-    Vec_80090854 *height_data;
-    u8 pad10[4];
-    s16 shift;
-    u16 pad16;
-    u16 x_mask;
-    u16 y_mask;
-} Grid80090320;
-
-typedef struct S_8008DA80_1 {
-    u16 unk_00;
-    u16 unk_02;
-    u16 unk_04;
-    u16 unk_06;
-    u8 pad_08[0x8];
-    u16 unk_10;
-    u8 pad_12[0x4];
-    union { struct { u16 v; } at00; struct { u8 pad[0x1]; u8 v; } at01; } unk_16;   /* overlapping accesses */
-} S_8008DA80_1;
-
-/* plane in find_smallest_surface_x_across_tiles */
-typedef struct S_8008DA80_3 {
-    s16 unk_00;
-    s16 unk_02;
-    s16 unk_04;
-} S_8008DA80_3;
-
-/* ((S_8008DA80_1 *)entry)->unk_10 * 8 + scratch->height_data in find_smallest_surface_x_across_tiles */
-typedef struct S_8008DA80_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u16 unk_04;
-} S_8008DA80_5;
-
-/* ((S_8008DA80_1 *)entry)->unk_00 * 8 + vertices in find_smallest_surface_x_across_tiles */
-typedef struct S_8008DA80_6 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u16 unk_04;
-} S_8008DA80_6;
-
-/* ((S_8008DA80_1 *)entry)->unk_02 * 8 + vertices in find_smallest_surface_x_across_tiles */
-typedef struct S_8008DA80_7 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u16 unk_04;
-} S_8008DA80_7;
-
-/* ((S_8008DA80_1 *)entry)->unk_06 * 8 + vertices in find_smallest_surface_x_across_tiles */
-typedef struct S_8008DA80_8 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u16 unk_04;
-} S_8008DA80_8;
-
-struct Vec_80090854 {
+/* Signed components shared by side and height searches over the indexed surface map. */
+typedef struct TownMapVector {
     s16 x;
     s16 y;
     s16 z;
     s16 pad;
-};
+} TownMapVector;
 
-typedef struct Cell_80090854 {
+typedef struct TownIndexedSurfaceCell {
     u16 v0;
     u16 v2;
     u16 v4;
@@ -220,68 +130,21 @@ typedef struct Cell_80090854 {
     u16 plane;
     u8 pad12[4];
     u16 flags;
-} Cell_80090854;
+} TownIndexedSurfaceCell;
 
-typedef struct Map_80090854 {
-    u16 *tiles;
-    Cell_80090854 **cells;
-    Vec_80090854 *vertices;
-    Vec_80090854 *planes;
-    u8 pad10[4];
-    s16 shift;
-    u16 pad16;
-    u16 x_mask;
-    u16 z_mask;
-} Map_80090854;
-
-typedef struct Scratch_80090854 {
+typedef struct MapSurfaceXScratch {
     u8 pad00[4];
     MapSurfaceCell lookup;
-    Vec_80090854 *planes;
+    TownMapVector *planes;
     MapSurfaceXQuery query;
     MapSurfaceScan scan;
     MapSurfaceYZOffset quad[4];
-} Scratch_80090854;
-
-typedef struct Global_80090854 {
-    u8 pad000[0x1DC];
-    Map_80090854 map;
-} Global_80090854;
-
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 z;
-    s16 pad;
-} MapSurfaceHeightVector;
-
-typedef struct {
-    u16 vertex0;
-    u16 vertex2;
-    u16 vertex4;
-    u16 vertex6;
-    u8 pad08[8];
-    u16 plane;
-    u8 pad12[4];
-    u16 flags;
-} LowestSurfaceCell;
-
-typedef struct {
-    u16 *grid;
-    LowestSurfaceCell **records;
-    MapSurfaceHeightVector *vertices;
-    MapSurfaceHeightVector *planes;
-    u8 pad10[4];
-    s16 shift;
-    u8 pad16[2];
-    u16 x_mask;
-    u16 y_mask;
-} LowestSurfaceMap;
+} MapSurfaceXScratch;
 
 typedef struct MapSurfaceHeightScratch {
     u8 pad00[4];
     MapSurfaceCell lookup;
-    MapSurfaceHeightVector *planes;
+    TownMapVector *planes;
     s16 query_x;
     s16 candidate_height;
     s16 query_z;
@@ -295,41 +158,7 @@ typedef struct MapSurfaceHeightScratch {
     s16 quad[8];
 } MapSurfaceHeightScratch;
 
-typedef struct {
-    u8 pad000[0x1DC];
-    LowestSurfaceMap map;
-} LowestSurfaceGlobal;
-
-typedef struct Cell_8008EA20 {
-    u16 v0;
-    u16 v1;
-    u16 v3;
-    u16 v2;
-    u8 pad08[8];
-    u16 height_index;
-    u8 pad12[4];
-    u16 flags;
-} Cell_8008EA20;
-
-typedef struct Map_8008EA20 {
-    u16 *tiles;
-    Cell_8008EA20 **cells;
-    MapSurfaceHeightVector *vertices;
-    MapSurfaceHeightVector *heights;
-    u8 pad10[4];
-    s16 shift;
-    u16 pad16;
-    u16 x_mask;
-    u16 z_mask;
-} Map_8008EA20;
-
-typedef struct Global_8008EA20 {
-    u8 pad000[0x1DC];
-    Map_8008EA20 map;
-} Global_8008EA20;
-
 extern u8 D_800CFCAC[];
-extern GlobalState D_80083160;
 
 /* Shared import declarations; data casts preserve each measured view. */
 extern s32 town_map_column_extent;

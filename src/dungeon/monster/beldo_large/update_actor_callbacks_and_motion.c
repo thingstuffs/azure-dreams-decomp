@@ -21,7 +21,7 @@
 #define NULL ((void *)0)
 #endif
 
-typedef void (*Callback)(void *, void *, void *, void *);
+typedef ActorActionHandler Callback;
 
 #include "engine/texture/select_indirect_table_entry_api.h"
 #include "slus.h"

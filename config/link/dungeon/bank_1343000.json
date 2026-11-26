@@ -5,7 +5,7 @@
   "foff": "0x1343000",
   "size": "0xA000",
   "vma": "0x8016A800",
-  "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7EE27800: img_1343128_8016a928, img_134c5f0_80173df0, jtbl_1343F78, leaf_1343108; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
+  "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7EE27800. Image-local bindings are recorded in the link map.",
   "entries": [
     {
       "row": "dungeon/func_81323128",
@@ -219,7 +219,7 @@
         "0x812540F8": "0x812540F8",
         "0x81254134": "0x81254134"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "dungeon/func_8132648C",
@@ -296,7 +296,7 @@
         "0x812540F8": "0x812540F8",
         "0x81254134": "0x81254134"
       },
-      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+      "evidence": "obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
     },
     {
       "row": "dungeon/func_81328FD4",
@@ -400,7 +400,7 @@
         "0x812540F8": "0x812540F8",
         "0x81254134": "0x81254134"
       },
-      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+      "evidence": "obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
     },
     {
       "row": "dungeon/func_813290EC",
@@ -507,7 +507,7 @@
         "0x812540F8": "0x812540F8",
         "0x81254134": "0x81254134"
       },
-      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+      "evidence": "obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
     },
     {
       "row": "dungeon/func_8132921C",
@@ -522,7 +522,7 @@
         "0x812540F8": "0x812540F8",
         "0x81254134": "0x81254134"
       },
-      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+      "evidence": "obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
     },
     {
       "row": "dungeon/func_813293AC",
@@ -631,7 +631,7 @@
       "foff": "0x134A590",
       "vma": "0x80171D90",
       "size": 208,
-      "evidence": "docs/evidence/r124w_carve1_run11.md"
+      "evidence": "Recorded in the production link map."
     },
     {
       "row": "dungeon/func_8132C638",

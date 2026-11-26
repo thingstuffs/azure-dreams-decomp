@@ -154,7 +154,7 @@ void project_sprite_commands(void *context, ObjectPosition *position, SpriteFram
     scratch->vertices[1].vz = 0;
     scratch->vertices[0].vz = 0;
     draw_context = render_state->draw_buffer;
-    scratch->ordering_table = (u32 *)&draw_context->orderTag;
+    scratch->ordering_table = &draw_context->orderTag[GPU_ORDER_DEPTH_BASE];
 
     scratch->position.vx = position->x.w.i;
     scratch->position.vy = position->y.w.i;

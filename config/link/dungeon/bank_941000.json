@@ -5,7 +5,7 @@
   "foff": "0x941000",
   "size": "0x1000",
   "vma": "0x800f6000",
-  "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F7B5000: img_9411bc_800f61bc, img_9417d4_800f67d4; docs/evidence/r124w_carve1_run10.md; descriptor/grid bounds; existing source addresses preserved",
+  "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F7B5000. Image-local bindings are recorded in the link map.",
   "entries": [
     {
       "row": "dungeon/func_80921250",

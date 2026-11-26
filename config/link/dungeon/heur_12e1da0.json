@@ -5,6 +5,6 @@
   "foff": "0x12e1da0",
   "size": "0x2cc",
   "vma": "0x8015d5a0",
-  "evidence": "work/native_lane/r121_heur/evidence/placements.json",
+  "evidence": "Recorded in the production link map.",
   "entries": []
 }

@@ -3,8 +3,8 @@
 
 #include "engine/item.h"
 #include "slus/data.h"
+#include "town/map.h"
 
-extern int check_required_building_slots(void);
 
 /* Selects a global array based on the object check and returns get_item_name_text's result. */
 int get_item_name_with_fallback_pair(struct DungeonItemEntry *object)

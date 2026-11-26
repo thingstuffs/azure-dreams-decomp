@@ -21,6 +21,7 @@
 #include "town/shop/display_objects.h"
 #include "slus.h"
 #include "shared/sprite_source.h"
+#include "town/player/state.h"
 
 #ifndef NULL
 #define NULL 0
@@ -34,7 +35,6 @@ extern u8 D_80024470[];
 extern SpriteSourceEntry D_8007947C[6];
 extern s16 D_800834C8;
 
-extern void stop_scene_player_and_defer_action_setup(void);
 
 typedef struct ReelSlotCursor {
     u8 pad_00[0x4C];

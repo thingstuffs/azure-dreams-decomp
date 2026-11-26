@@ -24,7 +24,7 @@
         "0x80003bcc": "0xa07006ac",
         "0x80003c1c": "0xa07006fc"
       },
-      "evidence": "docs/evidence/r141w_town_dev.md"
+      "evidence": "Recorded in the production link map."
     },
     {
       "row": "town/func_808B95EC",
@@ -44,7 +44,7 @@
         "0x80702670": "0x80702670",
         "0x807026C0": "0x807026C0"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_8395ec_a07005ec (same load delta) so the merged file's members share one view"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; TU view gather: moved from town/ll34_8395ec_a07005ec (same load delta) so the merged file's members share one view"
     },
     {
       "row": "town/func_808B960C",
@@ -64,7 +64,7 @@
         "0x80702670": "0x80702670",
         "0x807026C0": "0x807026C0"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_83960c_a070060c (same load delta) so the merged file's members share one view"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; TU view gather: moved from town/ll34_83960c_a070060c (same load delta) so the merged file's members share one view"
     },
     {
       "row": "town/func_808B962C",
@@ -84,7 +84,7 @@
         "0x80702670": "0x80702670",
         "0x807026C0": "0x807026C0"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_83962c_a070062c (same load delta) so the merged file's members share one view"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; TU view gather: moved from town/ll34_83962c_a070062c (same load delta) so the merged file's members share one view"
     },
     {
       "row": "town/func_808B964C",
@@ -104,7 +104,7 @@
         "0x80702670": "0x80702670",
         "0x807026C0": "0x807026C0"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_83964c_a070064c (same load delta) so the merged file's members share one view"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; TU view gather: moved from town/ll34_83964c_a070064c (same load delta) so the merged file's members share one view"
     },
     {
       "row": "town/func_808B966C",
@@ -124,7 +124,7 @@
         "0x80702670": "0x80702670",
         "0x807026C0": "0x807026C0"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_83966c_a070066c (same load delta) so the merged file's members share one view"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; TU view gather: moved from town/ll34_83966c_a070066c (same load delta) so the merged file's members share one view"
     },
     {
       "row": "town/func_808B968C",
@@ -144,7 +144,7 @@
         "0x80702670": "0x80702670",
         "0x807026C0": "0x807026C0"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_83968c_a070068c (same load delta) so the merged file's members share one view"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; TU view gather: moved from town/ll34_83968c_a070068c (same load delta) so the merged file's members share one view"
     },
     {
       "row": "town/func_808B96AC",
@@ -158,7 +158,7 @@
         "0x80702670": "0xA07006AC",
         "0x807026C0": "0x807026C0"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_8396ac_a07006ac (same load delta) so the merged file's members share one view"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; TU view gather: moved from town/ll34_8396ac_a07006ac (same load delta) so the merged file's members share one view"
     },
     {
       "row": "town/func_808B96FC",
@@ -172,7 +172,7 @@
         "0x807026C0": "0xA07006FC",
         "0x80702670": "0x80702670"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_8396fc_a07006fc (same load delta) so the merged file's members share one view"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; TU view gather: moved from town/ll34_8396fc_a07006fc (same load delta) so the merged file's members share one view"
     },
     {
       "row": "town/func_808B9750",

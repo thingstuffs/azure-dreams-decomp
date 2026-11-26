@@ -2,7 +2,7 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-11-26T00:50:13Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-11-26T11:00:21Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
@@ -11,9 +11,9 @@ Generated 2026-11-26T00:50:13Z. Baseline: first-pass text frozen 2026-09-07.
 |---|---|
 | **Matched** | 21,662 functions and data rows, 8,281,568 bytes, in 5 containers (`slus` = SLUS_006.14 executable, `main` = MAIN.BIN, `town` = TOWN overlays, `dungeon` = DUNGEON overlays, `ovmovie` = OVMOVIE overlay) |
 | **Byte-identical to retail** | 21,106 of 21,662 rows (97.4%), 8,018,632 bytes; 556 unverified |
-| **Code that is C** | 99.9% as C; 99.9% counting byte-identical copies of C functions proven elsewhere (of 7,781,612 bytes of classified or estimated code in `dungeon`, `main`, `ovmovie`, `town`; `slus` is accounted by its own rows; breakdown under Not yet C) |
+| **Code that is C** | 99.9% as C; 100.0% counting byte-identical copies of C functions proven elsewhere (of 7,780,484 bytes of classified or estimated code in `dungeon`, `main`, `ovmovie`, `town`; `slus` is accounted by its own rows; breakdown under Not yet C) |
 | **Assembler scaffolding left** | 0 pin sites in 0 rows (from 25,916 at the first pass) |
-| **Readability** | L3 87.8%, L4 12.3%, L5 12.0% of bytes (levels below) |
+| **Readability** | L3 87.8%, L4 12.5%, L5 12.1% of bytes (levels below) |
 
 
 ## Not yet C
@@ -23,11 +23,11 @@ Code bytes per binary: `slus` = SLUS_006.14 executable, `main` = MAIN.BIN, `town
 | container | code bytes | in C | C % | byte-identical copies of C | undecompiled split segments | SDK library asm | other hand asm / unported | heuristic only | not yet C (excl. library) |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | `slus` (SLUS_006.14) | 225,000 | 181,104 | 80.5% | 0 | 0 | 43,872 | 24 | 0 | 24 |
-| `main` (MAIN.BIN) | 72,856 | 71,676 | 98.4% | 0 | 0 | 492 | 0 | 688 | 688 |
-| `town` (TOWN overlays) | 834,652 | 832,304 | 99.7% | 1,004 | 0 | 132 | 0 | 1,212 | 2,216 |
+| `main` (MAIN.BIN) | 72,192 | 71,676 | 99.3% | 0 | 0 | 492 | 0 | 24 | 24 |
+| `town` (TOWN overlays) | 834,188 | 832,304 | 99.8% | 912 | 0 | 132 | 0 | 840 | 1,752 |
 | `dungeon` (DUNGEON overlays) | 6,867,708 | 6,866,304 | 100.0% | 0 | 0 | 0 | 1,344 | 60 | 1,404 |
 | `ovmovie` (OVMOVIE overlay) | 6,396 | 5,516 | 86.2% | 0 | 0 | 880 | 0 | 0 | 0 |
-| **total** | 8,006,612 | 7,956,904 | 99.4% | 1,004 | 0 | 45,376 | 1,368 | 1,960 | 4,332 |
+| **total** | 8,005,484 | 7,956,904 | 99.4% | 912 | 0 | 45,376 | 1,368 | 924 | 3,204 |
 
 Older DUNGEON head-bank program: 12,156 bytes of separately reproduced code, outside the game-code totals.
 
@@ -73,14 +73,14 @@ Baseline NOT exact: 0 rows
 | L1 | 8,018,632 | 96.8% |
 | L2 | 8,018,632 | 96.8% |
 | L3 | 7,272,516 | 87.8% |
-| L4 | 1,019,256 | 12.3% |
-| L5 | 989,924 | 12.0% |
+| L4 | 1,035,264 | 12.5% |
+| L5 | 1,005,932 | 12.1% |
 
 L0 byte-exact, L1 no fidelity blockers, L2 typed field access, L3 readable body landed in `src/`, L4 zero pins and placed in a module with a shared header and current make image proof, L5 nothing left (no fidelity site, goto table, inline asm or `NON_MATCHING`). Full definitions: docs/PLAN.md.
 
 On shared record headers (T7, `include/records/`): 4490 rows, 2,780,448 bytes (33.6%); records used: 80.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 18,665 rows (6,993,612 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 18,637 rows (6,977,604 B).
 
 ## Code shape: what is left to clean in the C
 
@@ -94,7 +94,7 @@ Defects still present in the current tree (files = source files, bytes = image b
 | any live audit site, unnarrowed | 1,595 | 2,673,012 | 32.3% |
 | do{}while(0) scheduling barrier | 18 | 146,736 | 1.8% |
 | fake dependency x=(e)+a;x-=a / arg+v-v | 1 | 408 | 0.0% |
-| local address-named struct | 1,226 | 1,606,812 | 19.4% |
+| local address-named struct | 1,225 | 1,605,480 | 19.4% |
 | clean shape | 7,858 | 7,914,808 | 95.6% |
 
 <details><summary>pinned first-pass text vs current tree, every defect</summary>
@@ -115,7 +115,7 @@ Defects still present in the current tree (files = source files, bytes = image b
 | maspsx marker pins (scaffolding) | 394 | 347,664 | 4.2% | 0 | 0 | 0.0% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 1.9% | 18 | 146,736 | 1.8% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
-| local address-named struct | 633 | 346,824 | 4.2% | 1226 | 1,606,812 | 19.4% |
+| local address-named struct | 633 | 346,824 | 4.2% | 1225 | 1,605,480 | 19.4% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 7858 | 7,914,808 | 95.6% |
 
 </details>
@@ -226,8 +226,8 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 | container | assert file:line / expression | developer identifiers | randomizer map (code) | randomizer map (data tables) | resident pointer tables | script function names | prior notes | applied names | any (rows / bytes) |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | slus | 0 | 0 | 1 | 0 | 72 | 7 | 408 | 14 | 479 / 328,024 |
-| main | 18 | 5 | 1 | 0 | 0 | 0 | 0 | 0 | 19 / 6,420 |
-| town | 26 | 8 | 1 | 1 | 0 | 114 | 0 | 0 | 142 / 19,536 |
+| main | 20 | 5 | 1 | 0 | 0 | 0 | 0 | 0 | 21 / 6,772 |
+| town | 226 | 72 | 1 | 1 | 0 | 114 | 0 | 0 | 342 / 100,292 |
 | dungeon | 0 | 0 | 24 | 21 | 0 | 0 | 0 | 0 | 44 / 35,592 |
 
 </details>

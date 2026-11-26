@@ -453,7 +453,7 @@ void advance_item_interaction_and_save_creature(
         }
         clear_byte_and_advance(message_end);
         display_text_with_fullwidth_adjustment(message_start);
-        *(u16 *)((u8 *)action + 0x96) = 0x20U;
+        action->unk_96 = 0x20U;
         action->unk_9B = (u8) (action->unk_9B + 1);
         if (!(GAME_STATE->log.head.flags & 1)) {
             summon_state = &g_dungeon_status;

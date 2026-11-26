@@ -2,11 +2,10 @@
 #include "shared/entity.h"
 #include "m2c_compat.h"
 
-s32 get_probe_min_result(ObjectPosition *);                           /* extern */
-s16 get_probe_max_result(ObjectPosition *input);                           /* extern */
 struct EntityRec; void set_player_x_and_sync_collision(ObjectPosition *, s32);                  /* extern */
 struct EntityRec; void set_global_800_cfcea_initialize_call_callee_800954_c_4(struct EntityRec *, s32);                  /* extern */
 #include "town/player/probe_offset_data.h"
+#include "town/player/position_handlers.h"
 
 /* Applies fixed-point boundary corrections according to D_800FE5CC. */
 void clamp_x_to_probe_bounds(ObjectPosition *position) {

@@ -5,7 +5,7 @@
   "foff": "0xcddc68",
   "size": "0x4018",
   "vma": "0x80171468",
-  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase r101rc4_res_CDDC68_CE1C80",
+  "evidence": ": rowbase placement review",
   "entries": [
     {
       "row": "dungeon/func_80CBFF20",
@@ -26,7 +26,7 @@
         "0x800ab378": "0x800ac010",
         "0x80173000": "0x80173000"
       },
-      "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_80CC0030; LL3a preserves prior rule-3 binding"
+      "evidence": ": dungeon/func_80CC0030; LL3a preserves prior rule-3 binding"
     },
     {
       "row": "dungeon/func_80CC00B0",

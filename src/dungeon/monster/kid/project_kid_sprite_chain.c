@@ -37,4 +37,4 @@ s32 project_kid_sprite_chain(void *initial_payload, ObjectPosition *entry_data, 
     }
 }
 
-/* MECHANISM: Typed page and scratch fields preserve the signed lh/sw widths and offsets. */
+/* The action reads signed halfwords from the actor and stores the scratch values as full words. */

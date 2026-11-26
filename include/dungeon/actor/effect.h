@@ -57,7 +57,6 @@ void update_dropped_object_motion(DroppedObjectMotionBody *object, register Obje
 
 s32 update_spinning_actor_fall(ActorRecord *animation, ObjectPosition *position, SpriteFrameState *tile, void *object);
 s32 update_actor_fade_in(ActorRecord *object, ObjectPosition *unused, SpriteFrameState *effect);
-void run_actor_fade_in(void *owner, s32 context, void *effect);
 
 /* Callback entry points. */
 void advance_effect_positions_and_fade(void *effect, ObjectPosition *positions, SpriteFrameState *color);

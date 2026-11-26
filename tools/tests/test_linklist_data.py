@@ -34,12 +34,12 @@ class LinkDataTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
-        self.blob = b'abcdefghijkl'
+        self.blob = b'abcdefghijklmnopqrst'
         self.container = self.root / 'container'
         self.container.write_bytes(self.blob)
         self.entry = dict(kind='data', foff=4, size=4, type='synthetic word',
                           evidence='census:ledger:linklist_data', extractor='container-slice-v1',
-                          sha256=hashlib.sha256(self.blob[4:8]).hexdigest(),
+                          sha256=hashlib.sha256(self.blob[4:20]).hexdigest(), hash_size=16,
                           symbols={'D_80002004': '0x80002004'})
         self.doc = dict(schema=L.MAP_SCHEMA, image='dungeon/word_4', container='dungeon',
                         foff=4, size=4, vma=0x80002004, entries=[self.entry],
@@ -61,6 +61,32 @@ class LinkDataTests(unittest.TestCase):
         self.assertEqual(target.read_bytes(), b'efgh')
         self.assertFalse(list(self.root.glob('.word-*')))
 
+    def test_expanded_hash_verifies_context_without_emitting_it(self):
+        blob = self.blob
+        self.container.write_bytes(blob)
+        entry = dict(self.entry, hash_size=16, sha256=hashlib.sha256(blob[4:20]).hexdigest())
+        self.doc['entries'] = [entry]
+        L.validate_image(self.doc)
+        target = self.root / 'expanded'
+        D.extract_slice(self.container, entry, target)
+        self.assertEqual(target.read_bytes(), blob[4:8])
+        for offset in (7, 19):
+            with self.subTest(offset=offset), self.assertRaisesRegex(ValueError, 'SHA-256'):
+                changed = bytearray(blob)
+                changed[offset] ^= 1
+                self.container.write_bytes(changed)
+                D.extract_slice(self.container, entry, target)
+            self.assertEqual(target.read_bytes(), blob[4:8])
+        self.container.write_bytes(blob[:-1])
+        with self.assertRaisesRegex(ValueError, 'SHA-256'):
+            D.extract_slice(self.container, entry, target)
+        self.doc['entries'] = [dict(entry, hash_size=8)]
+        with self.assertRaisesRegex(ValueError, 'sixteen bytes'):
+            L.validate_image(self.doc)
+        del self.doc['entries'][0]['hash_size']
+        with self.assertRaisesRegex(ValueError, 'sixteen bytes'):
+            L.validate_image(self.doc)
+
     def test_projection_preserves_every_byte_and_symbol_binding(self):
         segments = [Segment()]
         receipt = D.project_segments(segments, self.container, self.root/'build', self.root, 'dungeon', 0, 12)
@@ -74,7 +100,7 @@ class LinkDataTests(unittest.TestCase):
             D.window_files(self.root,'dungeon',0,6)
 
     def test_window_can_clip_text_after_verifying_the_entire_import(self):
-        self.entry.update(type=L.RETAIL_TEXT, size=8, sha256=hashlib.sha256(self.blob[4:]).hexdigest())
+        self.entry.update(type=L.RETAIL_TEXT, size=8)
         self.doc.update(size=8, census={'proven_data': 8})
         self.save()
         segments = [Segment(end=10)]

@@ -223,14 +223,14 @@ void draw_cd_wait_sprite_trail(s32 blend_step)
         }
 
         packet->clut = U16_AT(sprite_uv, 2);
-        /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+        /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
         *(u16 *)&packet->u0 = (u16)scratch->uv_v_start + (u16)scratch->uv_u_start;
-        /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+        /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
         *(u16 *)&packet->u1 = (u16)scratch->uv_v_start + (u16)scratch->uv_u_extent;
         packet->tpage = U16_AT(sprite_uv, 0);
-        /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+        /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
         *(u16 *)&packet->u2 = (u16)scratch->uv_v_extent + (u16)scratch->uv_u_start;
-        /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+        /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
         *(u16 *)&packet->u3 = (u16)scratch->uv_v_extent + (u16)scratch->uv_u_extent;
 
         if (packet->x0 > packet->x3) {

@@ -13,7 +13,7 @@
         "file": "DUNGEON/DUNGEON.BIN",
         "offset": 58047,
         "length": 4,
-        "sha256": "fb5e512425fc9449316ec95969ebe71e2d576dbab833d61e2a5b9330fd70ee02"
+        "sha256": "dafa71d003be3af68eb8f591ee8dd712b711f4744de5e3fdac71299603e24d76"
       },
       "format": "hex"
     },
@@ -38,7 +38,7 @@
       "file": "DUNGEON/DUNGEON.BIN",
       "offset": 58047,
       "length": 4,
-      "sha256": "fb5e512425fc9449316ec95969ebe71e2d576dbab833d61e2a5b9330fd70ee02"
+      "sha256": "dafa71d003be3af68eb8f591ee8dd712b711f4744de5e3fdac71299603e24d76"
     },
     "format": "hex"
   },

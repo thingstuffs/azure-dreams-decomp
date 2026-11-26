@@ -12,7 +12,7 @@ A proposal ({"container", "modules": [{"name", "load_base", "foff_start", "foff_
 "rationale", "confidence"}]}) is accepted only when: every registered row of the container appears in
 exactly one module; modules are contiguous runs in file-offset order with no interleaving; a module
 never spans two load bases (sub-overlays are different files); a row whose evidence carries an
-assertion site `file.c:line` sits in a module named `file.c`; names are lowercase_snake_case `.c`.
+assertion site sits in the module named by its source file on the disc; names are lowercase_snake_case `.c`.
 Records: {"id", "container", "module", "module_index", "confidence"} one per row, replacing the
 container's previous records.  The map is the manifest the declaration and header work (T12) and the
 `l4_modules` journal build on; nothing here moves a file.
@@ -21,6 +21,7 @@ import argparse, json, re, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import ROOT, LEDGER, rows, read_jsonl, write_jsonl
+from evidence import ASSERTION_LOCATION
 
 NAME_RE = re.compile(r"^[a-z][a-z0-9_]*\.c$")
 
@@ -41,6 +42,27 @@ def assertion_files():
             files = {s.get("source_file") for s in e.get("assert_sites", []) if s.get("source_file")}
             if files: out[e["id"]] = files
     return out
+
+def assertion_source(reference):
+    """Read a catalogue source name, including names from older receipts."""
+    if NAME_RE.fullmatch(reference):
+        return reference
+    match = ASSERTION_LOCATION.fullmatch(reference)
+    if match is None:
+        raise ValueError("invalid assertion source location")
+    container, offset, size = match.groups()
+    size = int(size)
+    if not 4 <= size <= 256:
+        raise ValueError("invalid assertion source name extent")
+    path = ROOT / "work/disc/containers" / f"{container}_{container}.BIN"
+    with path.open("rb") as disc:
+        disc.seek(int(offset, 16))
+        data = disc.read(size)
+    name = data[:-1].decode("ascii")
+    if len(data) != size or data[-1:] != b"\0" or not NAME_RE.fullmatch(name):
+        raise ValueError("assertion source location does not contain a file name")
+    return name
+
 
 CONTAINERS = ("slus", "main", "town", "dungeon", "ovmovie")
 
@@ -70,6 +92,7 @@ def check(proposal, scope=None):
         reg = {k: v for k, v in reg.items() if k in ids_in_scope}
     lb = load_bases(cont); af = assertion_files()
     errors = []; seen = {}
+    asserted_names = {}
     mods = proposal.get("modules", [])
     last_end = -1
     for i, m in enumerate(mods):
@@ -86,8 +109,15 @@ def check(proposal, scope=None):
             seen[rid] = name
             offs.append(row_key(r))
             bases.add(lb.get(r["func"]))
-            for f in af.get(rid, ()):
-                if f != name: errors.append(f"{rid} carries assertion file {f} but sits in {name}")
+            for reference in af.get(rid, ()):
+                try:
+                    if reference not in asserted_names:
+                        asserted_names[reference] = assertion_source(reference)
+                except (OSError, ValueError) as error:
+                    errors.append(f"{rid} cannot verify assertion source {reference}: {error}")
+                    continue
+                if asserted_names[reference] != name:
+                    errors.append(f"{rid} has assertion source {reference} and a different module name {name}")
         if offs != sorted(offs): errors.append(f"module {name}: rows not in file-offset order")
         if len(bases) > 1: errors.append(f"module {name}: spans load bases {sorted(str(b) for b in bases)}")
         if offs and offs[0] < last_end: errors.append(f"module {name}: overlaps or interleaves with the previous module")

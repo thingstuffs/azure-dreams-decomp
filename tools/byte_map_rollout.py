@@ -71,6 +71,18 @@ def digest(blob):
     return hashlib.sha256(blob).hexdigest()
 
 
+def hash_asset(entry, blob):
+    start, size = L.num(entry['foff']), L.num(entry['size'])
+    end = start + max(size, 16)
+    if end > len(blob):
+        raise ValueError('asset hash window exceeds the container at '+hex(start))
+    if size < 16:
+        entry['hash_size'] = 16
+    else:
+        entry.pop('hash_size', None)
+    entry['sha256'] = digest(blob[start:end])
+
+
 def union(intervals):
     out = []
     for a, b in sorted(intervals):
@@ -173,7 +185,8 @@ def census_spans(root, blobs, census_dir):
                     # ownership. An opaque hashed asset preserves that distinction;
                     # it does not invent a C type or an allocation boundary.
                     span.update(kind='asset', format='census data slice: '+kind,
-                                sha256=digest(blob[a:b]), extractor='container-slice-v1')
+                                extractor='container-slice-v1')
+                    hash_asset(span, blob)
                 elif label == 'padding_leftover':
                     if 'stale_or_prior_image' in kind:
                         span.update(kind='leftover',reason='Census ledger stale/prior image witness: '+kind)
@@ -259,7 +272,7 @@ def coalesce(entries, blob):
     """
     out = []
     def identity(e):
-        return {k:v for k,v in e.items() if k not in ('foff','size','sha256')}
+        return {k:v for k,v in e.items() if k not in ('foff','size','sha256','hash_size')}
     for entry in entries:
         e = dict(entry)
         if 'kind' in e:
@@ -270,8 +283,7 @@ def coalesce(entries, blob):
             out.append(e)
     for e in out:
         if e.get('kind') == 'asset':
-            a = L.num(e['foff'])
-            e['sha256'] = digest(blob[a:a+L.num(e['size'])])
+            hash_asset(e, blob)
     return out
 
 def build(root, output, census_dir=None, bin_root=None, disc_path=None, link_out=None):
@@ -335,9 +347,9 @@ def build(root, output, census_dir=None, bin_root=None, disc_path=None, link_out
             label = L.census_label(e)
             if any(s['label'] != label for s in bounded(physical[c], a, a+n)):
                 raise ValueError('census contradicts linker-owned data at '+hex(a))
-            if digest(blobs[c][a:a+n]) != e['sha256']:
+            if digest(blobs[c][a:a+e.get('hash_size', n)]) != e['sha256']:
                 raise ValueError('linker-owned data SHA-256 differs at '+hex(a))
-            attrs = {k:v for k,v in e.items() if k in ('kind','type','sha256','extractor','symbols')}
+            attrs = {k:v for k,v in e.items() if k in ('kind','type','sha256','hash_size','extractor','symbols')}
             candidates[c].append(dict(attrs, foff=a, size=n, label=label,
                 category='padding' if e['kind']=='padding' else 'data_asset',
                 priority=110, evidence=e['evidence']))
@@ -348,11 +360,11 @@ def build(root, output, census_dir=None, bin_root=None, disc_path=None, link_out
                     candidates[c].append(dict(s, category='leftover', priority=30,
                                               kind='leftover', reason='Bounded development residue; see '+EVIDENCE))
     physical = {c:SpanIndex(partition(n,candidates[c])) for c,n in sizes.items()}
-    # Each refinement can cut a data asset, so hash the exact final slice.
+    # Each refinement can cut a data asset, so refresh its hash window.
     for c, spans in physical.items():
         for s in spans:
             if s.get('kind')=='asset':
-                s['sha256']=digest(blobs[c][s['foff']:s['foff']+s['size']])
+                hash_asset(s, blobs[c])
     docs = {k:dict(v) for k,v in originals.items()}
     for c,n in sizes.items():
         key = next(k for k in ROOTS if k.startswith(c+'/'))
@@ -404,13 +416,11 @@ def build(root, output, census_dir=None, bin_root=None, disc_path=None, link_out
                     # A view may not silently split a symbol-bearing extracted word.
                     if s['size'] != 4:
                         raise ValueError('load view cuts an emitted word')
-                    attrs = {k:v for k,v in s.items() if k in ('kind','type','sha256','extractor','symbols','evidence','size','foff')}
+                    attrs = {k:v for k,v in s.items() if k in ('kind','type','sha256','hash_size','extractor','symbols','evidence','size','foff')}
                     out.append(attrs)
                     continue
                 if s.get('kind')=='asset':
-                    actual = digest(blobs[c][s['foff']:s['foff']+s['size']])
-                    if actual != s['sha256']:
-                        s.update(sha256=actual)
+                    hash_asset(s, blobs[c])
                 out.append(B.metadata(s))
             return out
         for e in protected:

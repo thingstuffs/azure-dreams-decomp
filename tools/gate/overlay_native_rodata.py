@@ -1,7 +1,7 @@
 """Native entry/switch heads and replayable GNU-as tail-padding evidence.
 
-This supports typed native objects and compiler-emitted tables in the TU.
-It grants neither membership nor ownership of external objects.
+This supports typed native objects, compiler-emitted tables and explicitly
+imported text allocations in a native TU prefix.
 """
 import hashlib
 import importlib.util
@@ -10,6 +10,7 @@ import struct
 
 
 POINTER_KINDS = ('typed_function_pointer', 'typed_function_pointer_table')
+IMPORTED_TEXT = 'imported_retail_text'
 
 
 def pointer_targets(data):
@@ -23,6 +24,105 @@ def pointer_targets(data):
 
 def digest(data):
     return hashlib.sha256(data).hexdigest()
+
+
+def text_imports(m):
+    """Pair each allocation with the start of its hash window.
+
+    A short companion allocation is bound together with the immediately
+    preceding text object so the digest covers at least sixteen disc bytes.
+    """
+    imports = []
+    previous = None
+    for d in m['owned_data']:
+        if d['kind'] == IMPORTED_TEXT:
+            if (set(d) != {'kind', 'section', 'symbol', 'source_symbol', 'foff', 'vma',
+                          'size', 'sha256'}
+                    or not all(isinstance(d[k], str) and re.fullmatch(r'[A-Za-z_]\w*', d[k])
+                               for k in ('symbol', 'source_symbol'))
+                    or not isinstance(d['sha256'], str)
+                    or not re.fullmatch(r'[0-9a-f]{64}', d['sha256'])):
+                raise ValueError('invalid native text import')
+            start = d['foff']
+            if d['size'] < 16:
+                if (previous is None or previous['kind'] != IMPORTED_TEXT
+                        or previous['size'] < 16 or previous['foff'] + previous['size'] != start):
+                    raise ValueError('short native text needs an adjacent enclosing hash window')
+                start = previous['foff']
+            imports.append((d, start))
+        previous = d
+    for key in ('symbol', 'source_symbol'):
+        if len({d[key] for d, _ in imports}) != len(imports):
+            raise ValueError('duplicate native text symbol')
+    return imports
+
+
+def check_text_digest(d, blob):
+    if digest(blob) != d['sha256']:
+        raise ValueError(f"native text hash differs for {d['symbol']}")
+
+
+def validate_text_declarations(m, source, root=None):
+    if root is not None:
+        source = '\n'.join([source, *((root / path).read_text() for path in m['headers'])])
+    for d, _ in text_imports(m):
+        symbol = re.escape(d['source_symbol'])
+        declaration = rf'^\s*extern\s+const\s+u8\s+{symbol}\[\s*{d["size"]}\s*\]\s*;'
+        if len(re.findall(declaration, source, re.M)) != 1:
+            raise ValueError(f"missing or repeated native text extern for {d['source_symbol']}")
+
+
+def read_text_imports(m, disc):
+    imports = text_imports(m)
+    if not imports:
+        return {}
+    payloads = {}
+    with disc.open('rb') as stream:
+        for d, start in imports:
+            end = d['foff'] + d['size']
+            stream.seek(start)
+            blob = stream.read(end - start)
+            if len(blob) != end - start:
+                raise ValueError('truncated native text input')
+            check_text_digest(d, blob)
+            payloads[d['foff']] = (d['symbol'], blob[d['foff'] - start:])
+    return payloads
+
+
+def insert_text_imports(m, assembly, disc):
+    """Fill the declared holes in the compiler stream for both assemblers."""
+    payloads = read_text_imports(m, disc)
+    if not payloads:
+        return assembly
+    for d, _ in text_imports(m):
+        if d['source_symbol'] != d['symbol']:
+            assembly = re.sub(r'\b' + re.escape(d['source_symbol']) + r'\b', d['symbol'], assembly)
+    base = (m.get('data_members') or m['members'])[0]['foff']
+    lines = []
+    offset = 0
+    owner = rodata = False
+    for raw in assembly.splitlines(keepends=True):
+        fields = raw.partition('#')[0].split()
+        directive = fields[0] if fields else ''
+        while rodata and not owner and base + offset in payloads:
+            symbol, blob = payloads.pop(base + offset)
+            lines.extend([f'\t.globl {symbol}\n', f'{symbol}:\n'])
+            lines.extend(f'\t.byte {byte}\n' for byte in blob)
+            offset += len(blob)
+        if directive in ('.ent', '.end'):
+            owner = directive == '.ent'
+        elif directive in ('.rdata', '.rodata', '.text', '.data', '.bss', '.sdata', '.section'):
+            rodata = directive in ('.rdata', '.rodata')
+        elif rodata and directive == '.align':
+            alignment = 1 << int(fields[1])
+            offset += -offset % alignment
+        elif rodata and directive in ('.word', '.half', '.byte', '.space'):
+            offset += int(fields[1]) if directive == '.space' else {
+                '.word': 4, '.half': 2, '.byte': 1}[directive]
+        lines.append(raw)
+    if payloads:
+        raise ValueError('native text import does not meet a compiler prefix boundary')
+    return ''.join(lines)
 
 
 def validate_layout(m):
@@ -54,6 +154,8 @@ def validate_layout(m):
                         or any(not isinstance(c, str) or c not in owners for c in consumers)
                         or len(set(consumers)) != len(consumers)):
                     raise ValueError('typed native object requires complete-member consumers')
+        elif kind == IMPORTED_TEXT:
+            pass  # The record and its complete digest window are checked below.
         elif kind == 'direction_offsets':
             direction_bytes(d)
             if not d.get('symbol'):
@@ -81,6 +183,7 @@ def validate_layout(m):
         raise ValueError('owned prefix/code coverage differs')
     if not m.get('membership_evidence'):
         raise ValueError('data module requires strong membership evidence')
+    text_imports(m)
 
 
 def direction_bytes(d):
@@ -283,6 +386,7 @@ def validate_switch_assembly(m, assembly):
     expected = {}
     expected_halves = {}
     expected_bytes = {}
+    imported = {d['foff']: start - base for d, start in text_imports(m)}
     for d in m['owned_data']:
         start = d['foff'] - base
         if d['kind'] in POINTER_KINDS:
@@ -309,6 +413,17 @@ def validate_switch_assembly(m, assembly):
                                        for i in range(0, extent, 2)})
             else:
                 expected_bytes.update({start + i: (v, None) for i, v in enumerate(packed)})
+        elif d['kind'] == IMPORTED_TEXT:
+            end = start + d['size']
+            if (labels.get(d['symbol']) != (start, None)
+                    or any(start < loc[0] < end for loc in labels.values())):
+                raise ValueError('native text assembly symbol/bounds differ')
+            try:
+                payload = bytes(byte_values[i][0] for i in range(imported[d['foff']], end))
+                expected_bytes.update({i: (byte_values[i][0], None) for i in range(start, end)})
+            except KeyError as error:
+                raise ValueError('native text assembly bytes missing') from error
+            check_text_digest(d, payload)
         elif d['kind'] == 'direction_offsets':
             packed = direction_bytes(d)
             if labels.get(d['symbol']) != (start, None):
@@ -367,6 +482,7 @@ def validate_relocations(m, view):
     inventory = []
     base = (m.get('data_members') or m['members'])[0]['foff']
     members = {a['function']: a['size'] - a.get('body_offset', 0) for a in m['members']}
+    imported = {d['foff']: start - base for d, start in text_imports(m)}
     for d in ds:
         start = d['foff'] - base
         if d['kind'] in POINTER_KINDS:
@@ -396,6 +512,18 @@ def validate_relocations(m, view):
                             and start <= target[2] < start + extent}
                     if not {'HI16', 'LO16'} <= refs:
                         raise ValueError('typed native consumer relocation evidence missing')
+        elif d['kind'] == IMPORTED_TEXT:
+            end = start + d['size']
+            sym = view.obj.symbols.get(d['symbol'])
+            if (sym is None or sym[:2] != (sec, start)
+                    or any(s[0] == sec and start < s[1] < end for s in view.obj.symbols.values())):
+                raise ValueError('native text object symbol/bounds differ')
+            check_text_digest(d, data[imported[d['foff']]:end])
+            refs = {kind for (s, off), (kind, target) in view.rel.items()
+                    if any(s == fsec and begin <= off < stop for fsec, begin, stop in view.funcs.values())
+                    and target[0:2] == ('sec', '.rodata') and start <= target[2] < end}
+            if not {'HI16', 'LO16'} <= refs:
+                raise ValueError('native text consumer relocation evidence missing')
         elif d['kind'] == 'direction_offsets':
             sym = view.obj.symbols.get(d['symbol'])
             if sym is None or sym[0] != sec or sym[1] != start:

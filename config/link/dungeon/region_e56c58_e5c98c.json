@@ -5,7 +5,7 @@
   "foff": "0xe56c58",
   "size": "0x5d34",
   "vma": "0x80170458",
-  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase sweep_0E56C58",
+  "evidence": ": rowbase sweep_0E56C58",
   "entries": [
     {
       "row": "dungeon/func_80E38ABC",
@@ -34,7 +34,7 @@
         "0x800AD058": "0x800AD058",
         "0x8016D2C0": "0x80173084"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "dungeon/func_80E39FB8",

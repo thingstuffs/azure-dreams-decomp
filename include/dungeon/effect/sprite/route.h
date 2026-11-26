@@ -290,10 +290,6 @@ typedef struct B32_818CE83C_S_8002403C_2 {
     u8 pad_08[0x2];
     u16 unk_0A;
 } B32_818CE83C_S_8002403C_2;
-typedef struct B32_818CE83C_S_8002403C_3 {
-    union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_00;   /* overlapping accesses */
-    union { struct { u32 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; struct { u8 pad[0x3]; u8 v; } at03; } unk_04;   /* overlapping accesses */
-} B32_818CE83C_S_8002403C_3;
 typedef struct B32_818CE83C_S_8002403C_4_pre {
     void * unk_00;
     u8 pad_04[0x4];
@@ -302,7 +298,6 @@ typedef struct B32_818CE83C_S_8002403C_5 {
     u8 pad_00[0x8];
     u8 * unk_08;
 } B32_818CE83C_S_8002403C_5;
-typedef struct { u32 addr:24; u32 length:8; } B32_818CE83C_PacketTag;
 s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, void *start_coords);
 void advance_jittered_effect_toward_terrain(JitteredTerrainSeekingPointBody *object_data, ObjectPosition *source_data);
 void create_jittered_terrain_seeking_point( void *source, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);

@@ -6,9 +6,8 @@
 #include "main/data.h"
 #include "frontend/libcard_callbacks_api.h"
 #include "frontend/libcard/state_callbacks_api.h"
+#include "frontend/libcard.h"
 
-extern void card_boot_refresh_copy_slot_markers(struct CardSlotMenuState *menu);
-extern void card_boot_show_no_saved_game_notice(ObjectNodeHeader *object);
 
 
 

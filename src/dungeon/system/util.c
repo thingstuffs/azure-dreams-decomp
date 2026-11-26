@@ -952,7 +952,6 @@ s16 has_recorded_value_pair(s32 highByte, s32 lowByte) {
     return utility_count_word(highByte & 0xFF, lowByte & 0xFF);
 }
 
-extern void spawn_floor_monster_from_table(s32 spawn_mode);
 #include "dungeon/system/random_range.h"
 
 /* Initializes monster spawn rates with values 2 through 17 and a random number of value 1 entries. */

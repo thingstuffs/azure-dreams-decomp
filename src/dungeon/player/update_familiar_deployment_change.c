@@ -59,18 +59,6 @@ typedef struct S_8009345C_4 {
 
    /* 0x2-byte header immediately before the payload. */
 
-typedef struct S_8009345C_7 {
-    u8 unk_00;
-    u8 pad_01[0x2];
-    u8 unk_03;
-} S_8009345C_7;   /* *scratch_s1.base in update_familiar_deployment_change */
-
-typedef struct S_8009345C_9 {
-    u8 unk_00;
-    u8 pad_01[0x2];
-    u8 unk_03;
-} S_8009345C_9;   /* D_80082EB0[0] in update_familiar_deployment_change */
-
 typedef struct S_8009345C_10_pre {
     void * unk_00;
     void * unk_04;
@@ -187,10 +175,10 @@ void update_familiar_deployment_change(ActorRecord *actor, ObjectPosition *map, 
             return;
         }
         message_or_list.base = &selected_item_record_alias.item;
-        load_id = find_or_retain_sprite_resource_slot(((S_8009345C_7 *)(*message_or_list.base))->unk_00, 3);
+        load_id = find_or_retain_sprite_resource_slot((*message_or_list.base)->unk_00, 3);
         if (load_id != 0) {
-            loaded_entity_sprite_resource = begin_sprite_resource_load(((S_8009345C_7 *)(*message_or_list.base))->unk_00, &sprite_resource_completion_flag);
-            load_monster_code_module(((S_8009345C_7 *)(*message_or_list.base))->unk_00, load_id, 0);
+            loaded_entity_sprite_resource = begin_sprite_resource_load((*message_or_list.base)->unk_00, &sprite_resource_completion_flag);
+            load_monster_code_module((*message_or_list.base)->unk_00, load_id, 0);
             entity_resource_read_complete = 0;
             Control_CD(0xFF, set_byte_one, &entity_resource_read_complete);
         }
@@ -201,21 +189,21 @@ void update_familiar_deployment_change(ActorRecord *actor, ObjectPosition *map, 
             return;
         }
         if (loaded_entity_sprite_resource != 0) {
-            register_and_upload_sprite_resource(((S_8009345C_9 *)(selected_item_record_alias.item))->unk_00, loaded_entity_sprite_resource);
+            register_and_upload_sprite_resource(selected_item_record_alias.item->unk_00, loaded_entity_sprite_resource);
         }
         actor->action_phase++;
         return;
     case 5:
         message_or_list.base = &selected_item_record_alias.item;
-        create_id = find_or_retain_sprite_resource_slot(((S_8009345C_7 *)(*message_or_list.base))->unk_00, 3);
+        create_id = find_or_retain_sprite_resource_slot((*message_or_list.base)->unk_00, 3);
         if (create_id != 0) {
             map_familiar_spawn_variant_code(*message_or_list.base);
-            new_object = load_monster_code_module(((S_8009345C_7 *)(*message_or_list.base))->unk_00, create_id, 1)(1,
+            new_object = load_monster_code_module((*message_or_list.base)->unk_00, create_id, 1)(1,
                 context->target_tile_x, context->target_tile_y,
                 (s16) (context->ground_height - 0x20));
             if (new_object != NULL) {
                 (*(void **)((((familiar_deployment_slots.slot * 4) + (u8 *)actor)) + (0xAC))) = new_object;
-                familiar_record_slots[((S_8009345C_7 *)(*message_or_list.base))->unk_03 & 0x1F] = new_object;
+                familiar_record_slots[(*message_or_list.base)->unk_03 & 0x1F] = new_object;
                 object_scale = ((S_8009345C_10_pre *)new_object)[-1].unk_04;
                 object_scale->scale_y = 0x800;
                 object_scale->scale_x = 0x800;
@@ -229,7 +217,7 @@ void update_familiar_deployment_change(ActorRecord *actor, ObjectPosition *map, 
                 object_slot = familiar_deployment_slots.slot;
                 ((ActorRecord *)new_object)->flags1C = object_flags | 0x02000000;
                 ((S_8009345C_14 *)(((object_slot * 4) + (u8 *)actor)))->unk_D0 = selected_item_record_alias.item;
-                ((S_8009345C_9 *)(selected_item_record_alias.item))->unk_03 = (u8) (((S_8009345C_9 *)(selected_item_record_alias.item))->unk_03 | 0x20);
+                selected_item_record_alias.item->unk_03 = (u8) (selected_item_record_alias.item->unk_03 | 0x20);
                 message_or_list.text = get_unused_text_buffer();
                 create_message = message_or_list.text;
                 if (familiar_removed_during_change == 0) {
@@ -245,7 +233,7 @@ void update_familiar_deployment_change(ActorRecord *actor, ObjectPosition *map, 
                 display_text_with_fullwidth_adjustment(message_or_list.text);
                 cleanup_slot = familiar_deployment_slots.slot;
                 familiar_turn_counters_alias[cleanup_slot] = 0;
-                retain_spawn_resource(((S_8009345C_9 *)(selected_item_record_alias.item))->unk_00, 3);
+                retain_spawn_resource(selected_item_record_alias.item->unk_00, 3);
                 replay_actor_status_slots(new_object);
                 play_sound_if_enabled(0x704);
             }

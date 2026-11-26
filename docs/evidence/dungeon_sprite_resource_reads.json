@@ -1,0 +1,315 @@
+{
+  "schema": "azure-clean.dungeon-sprite-reads.v1",
+  "readers": {
+    "pack_tagged_resource_descriptor": "2a210bccfaffdff253fa816ffe72ed6c185be5f23a5b21e47b4e94d4a335395d",
+    "build_sprite_metadata_read_descriptor": "1b8252ed25a607b67502ab81139bda120a51cc420e13a021b659fed6e25224ea",
+    "build_sprite_image_read_descriptor": "6e93176dd1d56b2e1203b8ca0ba476d05192ff841c2d4fc2dcfb842c529e3249",
+    "relocate_sprite_metadata_pointers": "1f1caab1e613aa8ca59d6ca28271b2d83da81ec3a5bf6bd13c7f1808c82923e0",
+    "queue_entity_resource_descriptor_pair": "0cc6a5082b3558f69bdb7431be80fb0e370105b3d944dc09fe5783a3557121e1",
+    "queue_sprite_resource_slot_reads": "d8d1cfed6fee167e99d9a2148e9265929f20a92c8cdde8302524edc69c56c995",
+    "upload_image_tiles": "a222cb217238b53a020e9dab0ef55297377e74003a93e6e7040a5e83d7ece80e",
+    "queue_sprite_resource_in_free_slot": "c4b4fa496e0b155ed9984b52167a3e05cb3c676a4ae633d62a4ce614dd19addb",
+    "prepare_uncached_sprite_resource": "bcbf7299a2766b0073d6469487a6719e4797af27aa87f1b3be46edf1ca7eae1f",
+    "load_cd_resource": "96ba6717ddc5b0d6462b4630417da60b9aacac68b42679825ee99296b5612fe8",
+    "register_sprite_resource": "da1777d1219381617932664a9259cf0fddfd95a94f968a8ea43d9283e380a457",
+    "load_and_upload_sprite_resource": "e002617d1fb64a6dda76509400743d04d8de8dbc141b17d46ddeb019823d4482"
+  },
+  "transfers": [
+    {
+      "resource_id": 1,
+      "foff": 20316160,
+      "size": 88064
+    },
+    {
+      "resource_id": 2,
+      "foff": 20404224,
+      "size": 88064
+    },
+    {
+      "resource_id": 3,
+      "foff": 20492288,
+      "size": 88064
+    },
+    {
+      "resource_id": 4,
+      "foff": 20580352,
+      "size": 88064
+    },
+    {
+      "resource_id": 5,
+      "foff": 20668416,
+      "size": 88064
+    },
+    {
+      "resource_id": 6,
+      "foff": 20756480,
+      "size": 88064
+    },
+    {
+      "resource_id": 7,
+      "foff": 20844544,
+      "size": 88064
+    },
+    {
+      "resource_id": 8,
+      "foff": 20932608,
+      "size": 88064
+    },
+    {
+      "resource_id": 9,
+      "foff": 21020672,
+      "size": 88064
+    },
+    {
+      "resource_id": 10,
+      "foff": 21108736,
+      "size": 88064
+    },
+    {
+      "resource_id": 11,
+      "foff": 21196800,
+      "size": 88064
+    },
+    {
+      "resource_id": 12,
+      "foff": 21284864,
+      "size": 88064
+    },
+    {
+      "resource_id": 13,
+      "foff": 21372928,
+      "size": 88064
+    },
+    {
+      "resource_id": 14,
+      "foff": 21460992,
+      "size": 88064
+    },
+    {
+      "resource_id": 15,
+      "foff": 21549056,
+      "size": 88064
+    },
+    {
+      "resource_id": 16,
+      "foff": 21637120,
+      "size": 88064
+    },
+    {
+      "resource_id": 17,
+      "foff": 21725184,
+      "size": 88064
+    },
+    {
+      "resource_id": 18,
+      "foff": 21813248,
+      "size": 88064
+    },
+    {
+      "resource_id": 19,
+      "foff": 21901312,
+      "size": 88064
+    },
+    {
+      "resource_id": 20,
+      "foff": 21989376,
+      "size": 88064
+    },
+    {
+      "resource_id": 21,
+      "foff": 22077440,
+      "size": 88064
+    },
+    {
+      "resource_id": 22,
+      "foff": 22165504,
+      "size": 88064
+    },
+    {
+      "resource_id": 23,
+      "foff": 22253568,
+      "size": 88064
+    },
+    {
+      "resource_id": 24,
+      "foff": 22341632,
+      "size": 88064
+    },
+    {
+      "resource_id": 25,
+      "foff": 22429696,
+      "size": 88064
+    },
+    {
+      "resource_id": 26,
+      "foff": 22517760,
+      "size": 88064
+    },
+    {
+      "resource_id": 27,
+      "foff": 22605824,
+      "size": 88064
+    },
+    {
+      "resource_id": 28,
+      "foff": 22693888,
+      "size": 88064
+    },
+    {
+      "resource_id": 29,
+      "foff": 22781952,
+      "size": 88064
+    },
+    {
+      "resource_id": 30,
+      "foff": 22870016,
+      "size": 88064
+    },
+    {
+      "resource_id": 31,
+      "foff": 22958080,
+      "size": 88064
+    },
+    {
+      "resource_id": 32,
+      "foff": 23046144,
+      "size": 88064
+    },
+    {
+      "resource_id": 33,
+      "foff": 23134208,
+      "size": 88064
+    },
+    {
+      "resource_id": 34,
+      "foff": 23222272,
+      "size": 88064
+    },
+    {
+      "resource_id": 35,
+      "foff": 23310336,
+      "size": 88064
+    },
+    {
+      "resource_id": 36,
+      "foff": 23398400,
+      "size": 88064
+    },
+    {
+      "resource_id": 37,
+      "foff": 23486464,
+      "size": 88064
+    },
+    {
+      "resource_id": 38,
+      "foff": 23574528,
+      "size": 88064
+    },
+    {
+      "resource_id": 39,
+      "foff": 23662592,
+      "size": 88064
+    },
+    {
+      "resource_id": 40,
+      "foff": 23750656,
+      "size": 88064
+    },
+    {
+      "resource_id": 41,
+      "foff": 23838720,
+      "size": 88064
+    },
+    {
+      "resource_id": 42,
+      "foff": 23926784,
+      "size": 88064
+    },
+    {
+      "resource_id": 43,
+      "foff": 24014848,
+      "size": 88064
+    },
+    {
+      "resource_id": 44,
+      "foff": 24102912,
+      "size": 88064
+    },
+    {
+      "resource_id": 45,
+      "foff": 24190976,
+      "size": 88064
+    },
+    {
+      "resource_id": 46,
+      "foff": 24279040,
+      "size": 88064
+    },
+    {
+      "resource_id": 47,
+      "foff": 24367104,
+      "size": 88064
+    },
+    {
+      "resource_id": 49,
+      "foff": 24543232,
+      "size": 88064
+    },
+    {
+      "resource_id": 50,
+      "foff": 24631296,
+      "size": 88064
+    },
+    {
+      "resource_id": 51,
+      "foff": 24719360,
+      "size": 88064
+    },
+    {
+      "resource_id": 52,
+      "foff": 24807424,
+      "size": 88064
+    },
+    {
+      "resource_id": 53,
+      "foff": 24895488,
+      "size": 88064
+    },
+    {
+      "resource_id": 54,
+      "foff": 24983552,
+      "size": 88064
+    },
+    {
+      "resource_id": 55,
+      "foff": 25071616,
+      "size": 88064
+    },
+    {
+      "resource_id": 56,
+      "foff": 9455616,
+      "size": 194560
+    }
+  ],
+  "town_requests": {
+    "readers": {
+      "reserve_tw_mon_load": "328315ebb089ccbc44c568de957dec59b52f4a953f0f7adde866d9ee6f6a86bc",
+      "process_pending_resource_load": "e6485e12935550636a6b67fdcf453eeb87c2298ed773d5f5d75011fc8bbbd240",
+      "update_player_minigame_motion": "13b5e011f68749a179ce5da950e09302229995ee0fafc3c52fe7f0d926269cf3"
+    },
+    "transfers": [
+      {
+        "request": 1,
+        "resource_id": 58,
+        "foff": 8142848,
+        "size": 88064
+      },
+      {
+        "request": 2,
+        "resource_id": 59,
+        "foff": 8230912,
+        "size": 88064
+      }
+    ]
+  }
+}

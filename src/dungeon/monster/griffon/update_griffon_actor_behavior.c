@@ -1554,19 +1554,19 @@ void advance_action_phase_and_process_actor(ActorRecord *action, ObjectPosition 
 }
 
 /* Runs the shared actor defeat and removal sequence with the supplied callback arguments. */
-void remove_defeated_griffon(void *state, void *motion, void *position, void *actor)
+void remove_defeated_griffon(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor)
 {
     update_actor_defeat_removal(state, motion, position, actor);
 }
 
 /* Runs the shared hop and shrink sequence for the actor with the supplied callback arguments. */
-void shrink_hopping_griffon(void *state, void *motion, void *position, void *actor)
+void shrink_hopping_griffon(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor)
 {
     update_actor_hop_and_shrink(state, motion, position, actor);
 }
 
 /* Runs the shared actor removal sequence with the supplied callback arguments. */
-void advance_griffon_removal(void *state, void *motion, void *position, void *actor)
+void advance_griffon_removal(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor)
 {
     advance_actor_removal(state, motion, position, actor);
 }
@@ -1921,7 +1921,7 @@ s32 project_griffon_sprite_chain(void *initial_payload, ObjectPosition *entry_da
     }
 }
 
-/* MECHANISM: Typed page and scratch fields preserve the signed lh/sw widths and offsets. */
+/* The action reads signed halfwords from the actor and stores the scratch values as full words. */
 
 void spin_and_grow_sprite(u16 *record_data, ObjectPosition *unused_position, SpriteFrameState *object) {
     u16 height;

@@ -1,10 +1,10 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "town/shop.h"
+#include "town/shop/floating_number_widget_g00612.h"
 
 typedef void (*Callback)(void *, s32);
 
-extern void refresh_money_display(void *);
 
 typedef struct S_800B1890_0 {
     u8 pad_00[0x8];

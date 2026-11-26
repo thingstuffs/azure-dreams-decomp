@@ -29,7 +29,6 @@
 extern void initialize_depth_sprite_object(ObjectNodeHeader *, void *, ObjectPosition *);
 extern void choose_block_move_slot_a(void *, void *, void *, void *);
 extern void func_8017412C(void *, void *, void *, void *);
-extern void begin_saber_action_and_spend_turn(ActorRecord *action_state, ObjectPosition *effect_arg, SpriteFrameState *anim_state, ActorRecord *actor);
 
 extern u8 D_80170A0C[];
 
@@ -38,6 +37,7 @@ extern u8 D_80170A0C[];
 #include "dungeon/actor/motion.h"
 #include "dungeon/actor/state.h"
 #include "dungeon/monster/glacier_frames.h"
+#include "dungeon/monster/saber.h"
 
 extern u8 D_801760AC[];
 extern u8 D_801760DC[];

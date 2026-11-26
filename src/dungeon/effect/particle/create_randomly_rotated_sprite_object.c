@@ -191,7 +191,7 @@ s32 draw_red_triangle_fan(TimedTransformCopyEffectBody *effect, ObjectPosition *
 
     ot_ctx = &g_game_work;
     initial_context = ot_ctx->draw_buffer;
-    scratch->ordering_table = (u32 *)&initial_context->orderTag;
+    scratch->ordering_table = &initial_context->orderTag[GPU_ORDER_DEPTH_BASE];
     for (;;) {
         base_height = effect->frame.base_height;
         scratch->vertices[0].vz = scratch->vertices[1].vz =

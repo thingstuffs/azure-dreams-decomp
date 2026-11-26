@@ -121,14 +121,14 @@ void draw_sprite_list(void)
         scratch->uv_v_start <<= 8;
 
         prim->clut = U16_AT((sprite + 4), 2);
-        /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+        /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
         *(u16 *)&prim->u0 = (u16)scratch->uv_v_start + (u16)scratch->uv_u_start;
-        /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+        /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
         *(u16 *)&prim->u1 = (u16)scratch->uv_v_start + (u16)scratch->uv_u_extent;
         prim->tpage = U16_AT((sprite + 4), 0);
-        /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+        /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
         *(u16 *)&prim->u2 = (u16)scratch->uv_v_extent + (u16)scratch->uv_u_start;
-        /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+        /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
         *(u16 *)&prim->u3 = (u16)scratch->uv_v_extent + (u16)scratch->uv_u_extent;
 
         if (prim->x0 > prim->x3) {

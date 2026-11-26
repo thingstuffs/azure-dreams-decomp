@@ -11,7 +11,6 @@
     "row_asflags": ""
   },
   "result": "GNU_GENUINE_RETAIL_MATCH",
-  "sha256": "01b1f7f62e4a12708c5cf4809271c4de5cd9daeddc9b8010cdf75d56f76493e8",
   "source_sha256": "71f2a4c15bf03a368e03041aef9e05fe5aac6ac9da556f07cbd904681ff42b4c",
   "source_inputs": {
     "include/common.h": "35ebd67ff9f32d587459e79e964f1d4f9013849bb766ea442ab0965c32971dac",
@@ -31,7 +30,7 @@
           "file": "SLUS_006.14",
           "offset": 123816,
           "length": 4,
-          "sha256": "a5f1c8e201f1ad116f0b6ea371c69e42cd735f0dd15b2aa1cee386a325d11247"
+          "sha256": "f6f36c0c75c74a88cd94f7c5a6d542bae0c82c8c004a723cbcf74b3e6ad16a5a"
         },
         "format": {
           "kind": "int_hex",

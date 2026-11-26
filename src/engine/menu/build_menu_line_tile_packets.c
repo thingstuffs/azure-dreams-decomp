@@ -59,9 +59,9 @@ s32 build_menu_line_tile_packets(S_80053A88_Node *first_node)
                 SetSemiTrans(tile, 1);
             }
             if (!(node->unk16 & 2)) {
-                tile->tag = (tile->tag & tag_mask) | (((GpuContext *)work->draw_buffer)->orderTag074 & addr_mask);
+                tile->tag = (tile->tag & tag_mask) | (((GpuContext *)work->draw_buffer)->orderTag[1] & addr_mask);
                 next_link = work->draw_buffer;
-                next_link->orderTag074 = (next_link->orderTag074 & tag_mask)
+                next_link->orderTag[1] = (next_link->orderTag[1] & tag_mask)
                 | (((u32)tile) & addr_mask);
             }
             draw_base = work->draw_buffer;
@@ -70,9 +70,9 @@ s32 build_menu_line_tile_packets(S_80053A88_Node *first_node)
             tpage = GetTPage(0, node->unk14, 0, 0);
             SetDrawMode(draw_mode, 0, 0, tpage & 0xFFFF, 0);
             if (!(node->unk16 & 2)) {
-                draw_mode->tag = (draw_mode->tag & tag_mask) | (((GpuContext *)work->draw_buffer)->orderTag074 & addr_mask);
+                draw_mode->tag = (draw_mode->tag & tag_mask) | (((GpuContext *)work->draw_buffer)->orderTag[1] & addr_mask);
                 next_link = work->draw_buffer;
-                next_link->orderTag074 = (next_link->orderTag074 & tag_mask)
+                next_link->orderTag[1] = (next_link->orderTag[1] & tag_mask)
                 | (((u32)draw_mode) & addr_mask);
             }
             next_link = *((void **)(((u8 *)node) - 8));

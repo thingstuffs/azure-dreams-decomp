@@ -85,7 +85,7 @@ s32 draw_flagged_particle_points(PointRecord *first_point, ObjectPosition *first
     ObjectNodeHeader *next_node;
 
     packet_start = render_ctx->packetCursor;
-    scratch->ot = (u32 *)&render_ctx->orderTag;
+    scratch->ot = &render_ctx->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->cursor = packet_start;
 
     for (;;) {

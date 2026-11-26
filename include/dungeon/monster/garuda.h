@@ -10,7 +10,7 @@ void update_garuda_actor(ActorRecord *body, ObjectPosition *motion, SpriteFrameS
 
 
 
-void wait_garuda_mp_and_animate(void *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
+void wait_garuda_mp_and_animate(ActorRecord *entity, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
 
 void update_creature_animation_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite_arg, ActorRecord *creature);
 

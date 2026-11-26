@@ -51,7 +51,6 @@ void initialize_actor_clear_shared_flag(TownObjectRecord *actor, ObjectPosition 
 void initialize_actor_clear_table_flag(TownObjectRecord *actor, ObjectPosition *unused_position, SpriteFrameState *sprite);
 
 /* initialize_actor_reaction_and_fixed_state.c */
-void func_800CDF00(TownObjectRecord *actor, struct ReactionState *state, SpriteFrameState *output);
 void initialize_actor_reaction_and_fixed_state(TownObjectRecord *actor, struct ObjectPosition *state, SpriteFrameState *output);
 
 /* initialize_actor_state_table.c */

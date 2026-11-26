@@ -28,8 +28,6 @@ s32 is_next_entry_zero_after_skipping(s32 list_index);
 s32 check_progress_against_callback(void);
 
 
-/* get_record_value_tier.c */
-s32 get_record_value_tier(void);
 
 void *resolve_event_response_key(s32 unused_a, void *unused_b, s32 key);
 void *dispatch_event_request(s32 request, void *data, s32 mode);
@@ -74,9 +72,6 @@ void set_script_flag_sbs32_pad34(void);
 void start_keima_and_clear_flag(void);
 void set_active_entry_script_flag(void);
 void mark_active_entry_script_flag(void);
-s32 process_checked_scene_entry(void *object, s32 entry_index);
-s32 process_checked_entry_flags(void *object, s32 entry_index);
-void set_indexed_scene_entry_flag(void *object, s32 entry_index);
 extern u8 D_8001798C[];
 extern u8 *D_80017AA4;
 

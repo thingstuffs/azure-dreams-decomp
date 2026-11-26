@@ -5,7 +5,7 @@
   "foff": "0x005FF850",
   "size": "0x000008DC",
   "vma": "0x80016850",
-  "evidence": "config/overlays/town.rowbase.jsonl proven region r121o_5FF850",
+  "evidence": "config/overlays/town.rowbase.jsonl proven region placement review",
   "entries": [
     {
       "row": "town/func_8067F874",
@@ -167,7 +167,7 @@
         "0x80016D7C": "0x80016CA8",
         "0x80017098": "0x80016FC4"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "town/func_8067FFEC",
@@ -209,7 +209,7 @@
         "0x80017100": "0x8001702C",
         "0x800171BC": "0x800170E8"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "town/func_80680108",
@@ -222,7 +222,7 @@
         "0x80017100": "0x8001702C",
         "0x800171DC": "0x80017108"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     }
   ]
 }

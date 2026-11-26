@@ -45,8 +45,8 @@ void draw_shaded_horizontal_line(s16 x, s16 y, s16 width, s16 shade_step)
         center_line->x1 = x + width - 1;
         center_line->y1 = y;
     }
-    center_line->tag.word = (center_line->tag.word & 0xFF000000) | (render_state->context->orderTag230 & 0xFFFFFF);
-    render_state->context->orderTag230 = (render_state->context->orderTag230 & 0xFF000000)
+    center_line->tag.word = (center_line->tag.word & 0xFF000000) | (render_state->context->orderTag[112] & 0xFFFFFF);
+    render_state->context->orderTag[112] = (render_state->context->orderTag[112] & 0xFF000000)
     | ((u32)center_line & 0xFFFFFF);
 
     blue = blue / 3;
@@ -72,8 +72,8 @@ void draw_shaded_horizontal_line(s16 x, s16 y, s16 width, s16 shade_step)
         upper_line->x1 = x + width - 1;
         upper_line->y1 = y - 1;
     }
-    upper_line->tag.word = (upper_line->tag.word & 0xFF000000) | (render_state->context->orderTag230 & 0xFFFFFF);
-    render_state->context->orderTag230 = (render_state->context->orderTag230 & 0xFF000000)
+    upper_line->tag.word = (upper_line->tag.word & 0xFF000000) | (render_state->context->orderTag[112] & 0xFFFFFF);
+    render_state->context->orderTag[112] = (render_state->context->orderTag[112] & 0xFF000000)
     | ((u32)upper_line & 0xFFFFFF);
 
     lower_line = render_state->context->packetCursor;
@@ -94,7 +94,7 @@ void draw_shaded_horizontal_line(s16 x, s16 y, s16 width, s16 shade_step)
         lower_line->x1 = x + width - 1;
         lower_line->y1 = y + 1;
     }
-    lower_line->tag.word = (lower_line->tag.word & 0xFF000000) | (render_state->context->orderTag230 & 0xFFFFFF);
-    render_state->context->orderTag230 = (render_state->context->orderTag230 & 0xFF000000)
+    lower_line->tag.word = (lower_line->tag.word & 0xFF000000) | (render_state->context->orderTag[112] & 0xFFFFFF);
+    render_state->context->orderTag[112] = (render_state->context->orderTag[112] & 0xFF000000)
     | ((u32)lower_line & 0xFFFFFF);
 }

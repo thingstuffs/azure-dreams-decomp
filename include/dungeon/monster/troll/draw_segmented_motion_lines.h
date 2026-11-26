@@ -32,7 +32,7 @@ typedef struct SegmentedLineDrawMode {
 /* Projection workspace in the scratchpad while the lines are built. */
 typedef struct SegmentedLineScratch {
     u8 pad_00[0x24];
-    union { int *words; GpuLinkTag *links; } ordering_table;
+    union { u32 *words; GpuLinkTag *links; } ordering_table;
     u16 flags;
     u8 pad_2A[0xA];
     IntVector3 scale;

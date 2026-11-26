@@ -658,7 +658,7 @@ void dispatch_action_callback_by_opcode(FloorCollapseWork *w) {
         }
         play_sound_if_enabled(0x818);
         initialize_timed_motion_step(0x20, 8);
-        /* BYTES: a plain w->message_step store is a struct access gcc 2.7.2 does not order against the fixed-address system_update_flags load below, and sched moves it into the branch delay slot; retail stores first */
+        /* BYTES: This spelling writes the message step before reading the update flags. A plain member store is scheduled after the flag read. */
         *(u16 *) &w->message_step = w->message_step + 1;
         sys = (u8 *)0x80010000;
         if (!(*(u16 *)(sys + 0x3714) & 1)) {
@@ -809,7 +809,7 @@ L_zero:
                     }
                 } else {
                     if (w->player_in_room != 0) {
-                        /* BYTES: retail clears unk_6C and pending_turn_updates (+0x6D) with one sh zero,0x6C; two byte-member stores compile to two sb */
+                        /* BYTES: Both adjacent action bytes are cleared with one halfword store. Separate members produce two byte stores. */
                         *(s16 *)&e->turn_fraction = 0;
                     }
                     o = e;
@@ -1053,7 +1053,7 @@ void draw_sprite_parts_as_quad_grid(ActorRecord *context, ObjectPosition *positi
     scratch->vertices[2].vz = 0;
     scratch->vertices[1].vz = 0;
     scratch->vertices[0].vz = 0;
-    scratch->ordering_table = (u32 *)&state->orderTag;
+    scratch->ordering_table = &state->orderTag[GPU_ORDER_DEPTH_BASE];
     /* MATCH: retain these views for production byte identity. */
     scratch->position.vx = (u16)(*(u16 *)((u8 *)position + 2));
     scratch->position.vy = (u16)(*(u16 *)((u8 *)position + 6));
@@ -1258,7 +1258,7 @@ void draw_sprite_parts_as_quad_grid(ActorRecord *context, ObjectPosition *positi
                                 tpage = part->tpage;
                             }
                             packet_next->tpage = tpage;
-                            /* BYTES: retail stores the sprite colour word (r0, g0, b0 and code) with one sw; member stores compile to four sb */
+                            /* BYTES: The sprite color and command are written together. Separate members generate four byte stores. */
                             *(s32 *)&packet_next->r0 = (s32)sprite->color.word;
                             packet_next->code = 0x2C;
                             draw_flags = scratch->sprite_flags;

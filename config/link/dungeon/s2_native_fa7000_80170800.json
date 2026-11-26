@@ -5,7 +5,7 @@
   "foff": "0xfa7000",
   "size": "0x3e88",
   "vma": "0x80170800",
-  "evidence": "docs/evidence/r121w_s2_receipts.json",
+  "evidence": "Recorded in the production link map.",
   "entries": [
     {
       "row": "dungeon/func_80F87270",

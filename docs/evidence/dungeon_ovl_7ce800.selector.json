@@ -7,7 +7,7 @@
         "file": "DUNGEON/DUNGEON.BIN",
         "offset": 1023116,
         "length": 4,
-        "sha256": "18aa9483a278840d62057587da8117cf2a11cbd16b68c47bdb4d22e44e1f5a91"
+        "sha256": "5593897b8851c7c2d71c015b4b4184f014f6f19e98df03af474ea279175a9584"
       },
       "format": {
         "kind": "int_hex",
@@ -21,7 +21,7 @@
         "file": "DUNGEON/DUNGEON.BIN",
         "offset": 1023120,
         "length": 4,
-        "sha256": "dfa4aeba1c7df115935a4892a2d9428822f92a48a7be23000bebe613d8a74db5"
+        "sha256": "6df93aeda95a69c0db602ec8bd6726794f97d0b6b2f9e4397cf8e08d2372de6e"
       },
       "format": {
         "kind": "int_hex",
@@ -148,7 +148,7 @@
         "file": "DUNGEON/DUNGEON.BIN",
         "offset": 1023116,
         "length": 8,
-        "sha256": "a25f7329ae67d892cc005bb1cfc523127b77d5dd7c905075445da720101507d7"
+        "sha256": "6df93aeda95a69c0db602ec8bd6726794f97d0b6b2f9e4397cf8e08d2372de6e"
       },
       "format": "hex"
     },
@@ -157,7 +157,7 @@
         "file": "DUNGEON/DUNGEON.BIN",
         "offset": 1023116,
         "length": 4,
-        "sha256": "18aa9483a278840d62057587da8117cf2a11cbd16b68c47bdb4d22e44e1f5a91"
+        "sha256": "5593897b8851c7c2d71c015b4b4184f014f6f19e98df03af474ea279175a9584"
       },
       "format": {
         "kind": "int_hex",
@@ -196,7 +196,7 @@
             "file": "DUNGEON/DUNGEON.BIN",
             "offset": 883236,
             "length": 4,
-            "sha256": "9da69f68f7f99868cf912d984e4ce2e36615cb9436236bbf3f4b97997331cddb"
+            "sha256": "b5258192d080671321be0b9da41421cc2b2b1c99236bcc546119f3d6bace9933"
           },
           "format": {
             "kind": "int_hex",
@@ -213,7 +213,7 @@
             "file": "DUNGEON/DUNGEON.BIN",
             "offset": 883244,
             "length": 4,
-            "sha256": "1c9f41dcc6fa36dc9632a4cd03cb43eadc606134d942fc51033529286d1d4811"
+            "sha256": "06cf673a7caab171c6f6d5c5ac87f1276144d30a784fc9510a6beaa682fb63ec"
           },
           "format": {
             "kind": "int_hex",
@@ -230,7 +230,7 @@
             "file": "DUNGEON/DUNGEON.BIN",
             "offset": 883248,
             "length": 4,
-            "sha256": "2c9473750aec895a9c5d3e2fecc49829cf2f7210944f8edfc3ae755b474e3760"
+            "sha256": "00b00f6bdf1a5ac58a5b756c372f1e3ad5e951f903b34e7558c8bf87a955c8d8"
           },
           "format": {
             "kind": "int_hex",
@@ -247,7 +247,7 @@
             "file": "DUNGEON/DUNGEON.BIN",
             "offset": 883252,
             "length": 4,
-            "sha256": "acb251cd7f86aaef08d50f481faa614144ccfda8c89da630724c463ec2c0154b"
+            "sha256": "d6eab99ef29ee3c3fbd8263df58708dd215c8f8e415973101d82dc031db3887e"
           },
           "format": {
             "kind": "int_hex",
@@ -264,7 +264,7 @@
             "file": "DUNGEON/DUNGEON.BIN",
             "offset": 883256,
             "length": 4,
-            "sha256": "0f6cbc28a8c97e8c6953a2a646a4e97b730ee4452fed249c68223c541eb2a3a2"
+            "sha256": "2cf51ed3d6dbe6b11080d9ff6be4d283d80060d26b114cece641577e3c764df3"
           },
           "format": {
             "kind": "int_hex",
@@ -281,7 +281,7 @@
             "file": "DUNGEON/DUNGEON.BIN",
             "offset": 883260,
             "length": 4,
-            "sha256": "3e88cdb4dea657a0dcf7d98fa2f8bdaa2743f7d7200d5f7a5f88f1c326d11382"
+            "sha256": "831b3bff4e70e9b56d1424a8641029f4715c723d62f639f3645aa7d81a2ce42f"
           },
           "format": {
             "kind": "int_hex",
@@ -298,7 +298,7 @@
             "file": "DUNGEON/DUNGEON.BIN",
             "offset": 883264,
             "length": 4,
-            "sha256": "ca7f61e126a7338d1f5121f5149a7feab931367fbc7245c8c7e5bf3048e3fb2d"
+            "sha256": "52448d4f03ba84ec765d71b5013b4ae385e8e5e2804d2ace22fa8fda843d6416"
           },
           "format": {
             "kind": "int_hex",
@@ -315,7 +315,7 @@
             "file": "DUNGEON/DUNGEON.BIN",
             "offset": 883268,
             "length": 4,
-            "sha256": "93a577eee4d478edf44e29d05afe6719b4cca275e04a664f1eddf128579deb3a"
+            "sha256": "478a13f0af5e8911a8f30dc5606a529475c239df56178579c94ebedb7adacb07"
           },
           "format": {
             "kind": "int_hex",
@@ -332,7 +332,7 @@
             "file": "DUNGEON/DUNGEON.BIN",
             "offset": 883272,
             "length": 4,
-            "sha256": "f21ce9a8548968d13220643d5a3a4c9a64e02c46817d3dd9850fc0a75d90a974"
+            "sha256": "0097875b42e556078acd5dce3a46f964c42f458460e41686fba6733363cbacf6"
           },
           "format": {
             "kind": "int_hex",
@@ -349,7 +349,7 @@
             "file": "DUNGEON/DUNGEON.BIN",
             "offset": 883276,
             "length": 4,
-            "sha256": "ecdf427caadaab3217206b9936fa581f6471e3c004dd2b0ddcafb13dd55aece6"
+            "sha256": "ab89386dc7e9d956583442ddc70fa4366867f1e09217a6fc8595d729f0eb637f"
           },
           "format": {
             "kind": "int_hex",
@@ -370,7 +370,7 @@
             "file": "SLUS_006.14",
             "offset": 74220,
             "length": 4,
-            "sha256": "7dda045dd1199c8b447f247717db5d6975ef9c1d23edd97f78a00c93ed4b188e"
+            "sha256": "165522ee3602fc5da2154658464f24e0edc09ec0eaa086e6884c33705e71d5c7"
           },
           "format": {
             "kind": "int_hex",
@@ -389,7 +389,7 @@
             "file": "SLUS_006.14",
             "offset": 74224,
             "length": 4,
-            "sha256": "21846dbc30f1cb0ecf235f73f9cb899e04bfcca3124e0229e86c6f97dac75425"
+            "sha256": "c3233b46d6fe3934b8232c01e07eb7a80a0ddf4d3e016323b389c47a12f84346"
           },
           "format": {
             "kind": "int_hex",
@@ -408,7 +408,7 @@
             "file": "SLUS_006.14",
             "offset": 74228,
             "length": 4,
-            "sha256": "0b4b8c562643652954996cf42efb14fabe3a631fc6af2241643198d010eb02ef"
+            "sha256": "39492a64aa8d077a2115b14762c206146335edd782d61aab3e2f6c7942ec8b0a"
           },
           "format": {
             "kind": "int_hex",
@@ -427,7 +427,7 @@
             "file": "SLUS_006.14",
             "offset": 74232,
             "length": 4,
-            "sha256": "8bac6fc597e2e895d499d174810d01a27560cedb63cf60a9669b45950f252d1f"
+            "sha256": "a52fef0ea394710f917f148ce47642231e2bb4af72fb8bbb45a41992a917fc6c"
           },
           "format": {
             "kind": "int_hex",
@@ -446,7 +446,7 @@
             "file": "SLUS_006.14",
             "offset": 74236,
             "length": 4,
-            "sha256": "f629f8a62185b02895e83f711a9daf617ad459760547f1dd3da3137295c96123"
+            "sha256": "dad596d05825921839ec3a538fdcc37cab0c82742e7ad37b7412f513e75f16cf"
           },
           "format": {
             "kind": "int_hex",
@@ -465,7 +465,7 @@
             "file": "SLUS_006.14",
             "offset": 74244,
             "length": 4,
-            "sha256": "baad0bbece1743428e4a44a5a9387e1eac01dcd1c112ec18002730e905aae797"
+            "sha256": "2b712569c2b84204112ec0f27364b8afa9c5cd27863d7e496af9c4c80fb26688"
           },
           "format": {
             "kind": "int_hex",
@@ -484,7 +484,7 @@
             "file": "SLUS_006.14",
             "offset": 74264,
             "length": 4,
-            "sha256": "be1a9980b5c70b383e97a175f55bfd2ebfb2f10c3c12128e0e40e533e14b0bc5"
+            "sha256": "1e6abe7eb0c068f854f12f9fb98a3a22413a379df24edda36bf1b8dd1fffcf30"
           },
           "format": {
             "kind": "int_hex",
@@ -503,7 +503,7 @@
             "file": "SLUS_006.14",
             "offset": 74268,
             "length": 4,
-            "sha256": "51115f32935b3852cb2c857a9bcab7394fd8f6204420562931924575fc7a22c7"
+            "sha256": "d805baf274b046673890b15fce33815db70f61cb5a9f5ba4a8376bb5765ce087"
           },
           "format": {
             "kind": "int_hex",
@@ -522,7 +522,7 @@
             "file": "SLUS_006.14",
             "offset": 74404,
             "length": 4,
-            "sha256": "7e9d3d38f21a366608a4bcadac6f808688a065a416c41bedd16a30b09e964d69"
+            "sha256": "cb887678d7c324c2e11befbdf058ef6f73ecf6ef9321577c6a9b4c666cd3e858"
           },
           "format": {
             "kind": "int_hex",
@@ -541,7 +541,7 @@
             "file": "SLUS_006.14",
             "offset": 74408,
             "length": 4,
-            "sha256": "9e47aea491ced72deb25fa039953c19e7fe2a6b11b641f20dccf4d4b12bb09a3"
+            "sha256": "1aa5df152d9733cee9a32a2e94c673128865ce56a22ebb0332ee9d61d110cba4"
           },
           "format": {
             "kind": "int_hex",
@@ -560,7 +560,7 @@
             "file": "SLUS_006.14",
             "offset": 74468,
             "length": 4,
-            "sha256": "20711230d97e54c3911e4bb0acea21ef8efd3b17d709c3ecc86eb56e4e2bd273"
+            "sha256": "bf32890e881b798002cbb61802c8e76941dd5e67f9f94e6ac5818b6099df5d6f"
           },
           "format": {
             "kind": "int_hex",
@@ -579,7 +579,7 @@
             "file": "SLUS_006.14",
             "offset": 74472,
             "length": 4,
-            "sha256": "882794e1f2b13ff00e111dd66c03d0c6029b89948185a35363c46d4f4ab808ec"
+            "sha256": "060e3b56c95ac1950444030aa63e065b3e4b3b79a4119532e8495b99c265e169"
           },
           "format": {
             "kind": "int_hex",
@@ -598,7 +598,7 @@
             "file": "SLUS_006.14",
             "offset": 74476,
             "length": 4,
-            "sha256": "2c15f010700811765f216bc4e7e26f26e140a3248557ff0db38a206d368cf085"
+            "sha256": "17d0a5d9fb656064478afb6d805853b1e718ea8917a4a8fece18cec9d394f78d"
           },
           "format": {
             "kind": "int_hex",
@@ -617,7 +617,7 @@
             "file": "SLUS_006.14",
             "offset": 74480,
             "length": 4,
-            "sha256": "625f1c54d56b21b65a8940119d3a6d80ce1d11d9d4ba05dd4e77e34fabd50073"
+            "sha256": "3c4394a4987284e2334e2f9f1f344b9f82580ae78ac881920cfe9fda94c542c3"
           },
           "format": {
             "kind": "int_hex",

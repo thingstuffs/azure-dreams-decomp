@@ -66,19 +66,14 @@ void begin_town_rain_step(void);
 void clear_sbs34_pad15_and_process_entry(struct TownObjectSet *value, s32 context);
 void set_active_position_state_record(void);
 
-void func_80016278(void);
 void run_scene_service_224(void);
-void func_800162B8(void);
 void reset_camera_chase_fix(void);
 void play_town_sound_1705(void);
-void func_80016328(void);
 void play_town_sound_1706(void);
-void func_80016360(void);
 void play_town_sound_1700(void);
 s32 select_response_with_count_override(s32 context, s32 check_value, s32 selector);
 void start_town_movie3(void);
 s32 forward_selected_entry_values(struct TownObjectSet *row, s32 entry_index);
 void load_scene_sound_sequence(void);
-void func_80016408(void);
 
 #endif

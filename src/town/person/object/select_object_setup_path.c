@@ -12,7 +12,7 @@ s32 select_object_setup_path(TownObjectRecord *object, ObjectPosition *request_d
     }
 
     if (check_active_transform_object(object) != 0 ||
-        D_80082A39 == *(s32 *)((u8 *)object + 0x60)) {
+        D_80082A39 == object->slot) {
         reset_heading_and_update_object(object, request_data, request_param);
         return 1;
     }

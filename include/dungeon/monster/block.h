@@ -95,7 +95,7 @@ typedef struct CB_80170A5C_S_80170A5C_4 {
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 
-typedef void (*CB_80170C24_Callback)(void *, void *, void *, void *);
+typedef ActorActionHandler CB_80170C24_Callback;
 
 
 /* Runs entity callbacks, updates monster facing, and applies motion and floor collision. */
@@ -816,8 +816,8 @@ void advance_actor_item_action_effect(ActorRecord *work, ObjectPosition *positio
     CB_80172BCC_S_func_80C953CC_4 *actor);
 void update_block_value_reaction(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *action, ActorRecord *entity);
 void remove_defeated_block(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity);
-void shrink_hopping_block(void *state,void *position,void *render_state,void *entity);
-void advance_block_removal(void *state,void *position,void *render_state,void *entity);
+void shrink_hopping_block(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity);
+void advance_block_removal(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity);
 void resume_actor_after_growth(ActorRecord *state, ObjectPosition *position, SpriteFrameState *render_state, ActorRecord *entity);
 void wait_actor_status_and_animate(ActorRecord *action, ObjectPosition *context, SpriteFrameState *sprite_in, ActorRecord *actor_in);
 void wait_actor_mp_and_animate(ActorRecord *actor_in, ObjectPosition *actor_index, SpriteFrameState *target, ActorRecord *entity_in);

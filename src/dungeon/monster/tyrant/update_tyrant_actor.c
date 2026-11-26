@@ -114,7 +114,7 @@ void update_tyrant_actor(ActorRecord *body, TrailMotion *motion, SpriteFrameStat
         } else {
             sprite->flags |= 0x7000;
         }
-        apply_monster_koyaw_data(entity->flags1C, (u8 *)sprite + 0xC);
+        apply_monster_koyaw_data(entity->flags1C, &sprite->color.c.r);
     } else {
         if (part_flags & 0x800) {
             new_part_flags = part_flags & 0x8FFF;

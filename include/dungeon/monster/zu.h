@@ -72,6 +72,7 @@ typedef struct BankEffectFadeBody {
 void begin_zu_action_with_message(ActorRecord *work, ObjectPosition *part_a, SpriteFrameState *part_b, ActorRecord *actor);
 void update_zu_timed_effect(ActorRecord *state_input, ObjectPosition *motion_input, SpriteFrameState *animation_input, ActorRecord *actor_input);
 void create_cylindrical_effect(struct CylindricalEffectWork *state);
+extern const u8 zu_action_message_suffix[20];
 #endif
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */

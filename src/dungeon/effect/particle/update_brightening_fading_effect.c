@@ -29,9 +29,9 @@
 extern s32 D_80027328;
 extern u8 bright_effect_palette_work[];
 
-/* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The switch table follows it at 0x80024008
- * (gcc's .align 3 for jump tables), and the code starts after the table. */
+/* The module entry occupies the
+ * first read-only word. The aligned switch
+ * table follows, before the code. */
 void (*const dungeon_197e800_entry)(void *) = update_directional_actor_effect;
 
 /* Advances the object's state and draws its 7-by-7 grid. */
@@ -307,9 +307,9 @@ void update_shaking_tile_mesh(SettlingTileMeshBody *state, ObjectPosition *motio
     }
 }
 
-/* MECHANISM: An s32-held 0x48 condition produces retail's signed load and exact s0/s1/ra frame.
-   Reading the counter first preserves retail emission order; a guarded $v1 runtime-value pin
-   fixes the final counter/base coloring while the natural CFG retains both delay-slot stores. */
+/* The condition reads the signed
+ * counter before updating it. Both
+ * paths preserve their counter stores. */
 
 #ifndef NULL
 #define NULL 0
@@ -1307,9 +1307,9 @@ void draw_buffered_textured_quad_pair(void *draw_data, s32 draw_mode)
     AddPrim(ordering_table, end_packet);
 }
 
-/* MECHANISM: The 0x30 frame holds s0-s5; D_80083160 stays in s5 and the long-lived OT base in s1.
-   Fixed a0/a1 ABI locals move both args before func_8006658C, freeing its delay slot for the disjoint s0=s2 copy.
-   Leaving buffer_shift naturally allocated preserves retail's xor-in-v0 followed by sltu-into-s2 sequence. */
+/* The draw workspace and ordering-table base are reused
+ * across packet setup. The output buffer is
+ * selected from the comparison with the current context. */
 
 extern u8 bright_effect_palette_work[12];
 typedef struct TextureConfig {
@@ -1585,7 +1585,7 @@ s32 project_and_queue_semitransparent_quad(Quad *quad, ObjectPosition *unused, S
     slot = (GpuContext **)&g_game_work;
     packet = (*slot)->packetCursor;
     scratch = PACKED_SHADED_QUAD_SCRATCH;
-    scratch->ordering_table = (u8 *)&(*slot)->orderTag;
+    scratch->ordering_table = (u8 *)&(*slot)->orderTag[GPU_ORDER_DEPTH_BASE];
     for (;;) {
         scratch->vertices[0].xy = quad->v[0].xy;
         scratch->vertices[1].xy = quad->v[1].xy;
@@ -1775,19 +1775,19 @@ void create_terrain_tile_quad(s16 tile_x, s32 tile_y, ObjectPosition *origin) {
 
 extern void **actor_direction_sprites;
 
-/*
- * Moves a point toward the actor's sprite offset, flashes and fades it, then may create a tile
+/* Moves a point
+ * toward the actor's
+ * sprite offset,
+ * flashes and fades
+ * it, then may
+ * create a tile
  * grid ahead.
- *
- * MECHANISM: state->state selects with a switch, cases 0..3 laid out in source order so the
- * dispatch tree's last `beq ==3` is followed by case 0's body (an if-chain puts case 3's body
- * right after the default jump and jump.c inverts the test). case 0 falls through into case 1. The
- * `j 0x271ec` sites are the switch's end-of-switch edge = `return`; the `j 0x2711c` from case 1
- * ends with the same `state->state = value + 1; return` tail as case 2 (written out in both arms),
- * and case 2's step != 0 path repeats case 3's flag-setting tail. The 0x80080000 page plus 0x2E80
- * is the symbol reference_tile_object, which is what frees the $2 pin; one u16 carrying the 5 and
- * the 4 keeps the join value in v0.
- */
+ * The opening state
+ * falls through into
+ * the movement step,
+ * and the
+ * fade exits share
+ * the state update. */
 void interpolate_target_and_finish_transition(State *state, Target *target, SpriteFrameState *color)
 {
     Vec3s position_offset;

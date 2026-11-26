@@ -80,7 +80,7 @@ typedef struct R17_8017089C_S_8017089C_8 {
     void * unk_A4;
 } R17_8017089C_S_8017089C_8;
 
-typedef void (*R17_80170BB8_EntityCallback)(void *, void *, void *, void *);
+typedef ActorActionHandler R17_80170BB8_EntityCallback;
 
 typedef struct R17_80170BB8_S_if_0 {
     u8 pad_00[0x2A];
@@ -213,18 +213,6 @@ typedef struct R17_801738E0_S_801738E0_0 {
     s16 unk_A8;
 } R17_801738E0_S_801738E0_0;
 
-typedef struct R17_801738E0_S_801738E0_2 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x38];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} R17_801738E0_S_801738E0_2;
 typedef struct R17_801738E0_S_801738E0_3 {
     u8 pad_00[0x14];
     s32 unk_14;

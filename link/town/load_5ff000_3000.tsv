@@ -1,32 +1,32 @@
-#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: validated packed-CD loader record; docs/evidence/town_scene_loader_receipt.json","i":"town/load_5ff000_3000","n":12288,"o":6287360,"p":["788f7a54afae7122504420cb4471d635a71e1ea4b97606fc7eb90e5534b05e4e","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:7655fdde21b9be80f8ac883bd78b8ffef96bbc29d50b8ff0e820a1d50ba66b8f"],"t":[9568,0,208,264,600,1648,0],"v":2147573760},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"strongly_code"},{"census_label":"proven_code"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"town","e":"ledger/instance_load_regions.jsonl: validated packed-CD loader record; docs/evidence/town_scene_loader_receipt.json","i":"town/load_5ff000_3000","n":12288,"o":6287360,"p":["788f7a54afae7122504420cb4471d635a71e1ea4b97606fc7eb90e5534b05e4e","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:7655fdde21b9be80f8ac883bd78b8ffef96bbc29d50b8ff0e820a1d50ba66b8f"],"t":[9568,0,208,264,600,1648,0],"v":2147573760},"p":[{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed","hash_size":16},{"census_label":"strongly_code"},{"census_label":"proven_code"},{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
 6287360	28	a	census:audit+noncode_confirmed	319188a738bfba47cfab7393528bd553bc70c5457cc27f0372987fadae6fc247	0
 6287388	44	a	census:format:ascii	47be0dd6382ef68e60ce29a19cfa094667b69715333f36681c464fc85181f460	1
-6287432	8	a	census:audit+noncode_confirmed	d7bdadc8663c3b2cf4d7f2eaf12538561a12327d3d8368f1f2bfc2d659f37114	0
+6287432	8	a	census:audit+noncode_confirmed	26b5ba6d30f9003d4d2cf6667ea23c3832f9d33ae0a320db507d01b475a0c7de	2
 6287440	40	a	census:format:ascii	a902a1fbff5d94cd4c55b0ca586c316f4de0f7ee7064805ad924017a01861015	1
 6287480	20	a	census:audit+noncode_confirmed	2942d672329892edb2324d4051567a4f8b8fad57d6e17ff6bd1251f963ee1edb	0
 6287500	101	a	census:format:ascii	216838d3363801614bce5ee2c7a256ea8900d64535044d0bf2b3bc9e65763171	1
-6287601	7	a	census:audit+noncode_confirmed	c37bba07c6ada8822f0af5905e37069c4316b6a9d13e3684cddb8e860232cfed	0
-6287608	84	r	census:T1_twin		2
-6287692	80	r	census:T2_framed_ref:jal+jtbl+ptr		2
-6287772	44	r	census:T1_twin		2
-6287816	8	r	census:instance_partial		3
-6287824	1188	r	census:c_row		3
-6289012	216	r	census:instance_proven		3
-6289228	8156	r	census:c_row		3
-6297384	268	d	census:noncode:decode		4
-6297652	16	a	census:format:ptrtab	e299d567e053407a8c079c97cb295b6c3c1fb5c75c83db8e9bf5234a585a4240	5
-6297668	3	d	census:noncode:decode		4
-6297671	29	p	census:zero_fill>=16		6
-6297700	34	d	census:noncode:decode		4
-6297734	22	p	census:zero_fill>=16		6
-6297756	6	d	census:noncode:decode		4
-6297762	18	p	census:zero_fill>=16		6
-6297780	18	d	census:noncode:decode		4
-6297798	286	p	census:zero_fill>=16		6
-6298084	4	d	census:noncode:decode		4
-6298088	816	p	census:zero_fill>=16		6
-6298904	166	d	census:noncode:decode		4
-6299070	19	p	census:zero_fill>=16		6
-6299089	101	d	census:noncode:decode		4
-6299190	458	p	census:zero_fill>=16		6
+6287601	7	a	census:audit+noncode_confirmed	354c096ea032cc879d5767197397b3153fa066ff1054c45c151649d3c61711d5	2
+6287608	84	r	census:T1_twin		3
+6287692	80	r	census:T2_framed_ref:jal+jtbl+ptr		3
+6287772	44	r	census:T1_twin		3
+6287816	8	r	census:instance_partial		4
+6287824	1188	r	census:c_row		4
+6289012	216	r	census:instance_proven		4
+6289228	8156	r	census:c_row		4
+6297384	268	d	census:noncode:decode		5
+6297652	16	a	census:format:ptrtab	e299d567e053407a8c079c97cb295b6c3c1fb5c75c83db8e9bf5234a585a4240	6
+6297668	3	d	census:noncode:decode		5
+6297671	29	p	census:zero_fill>=16		7
+6297700	34	d	census:noncode:decode		5
+6297734	22	p	census:zero_fill>=16		7
+6297756	6	d	census:noncode:decode		5
+6297762	18	p	census:zero_fill>=16		7
+6297780	18	d	census:noncode:decode		5
+6297798	286	p	census:zero_fill>=16		7
+6298084	4	d	census:noncode:decode		5
+6298088	816	p	census:zero_fill>=16		7
+6298904	166	d	census:noncode:decode		5
+6299070	19	p	census:zero_fill>=16		7
+6299089	101	d	census:noncode:decode		5
+6299190	458	p	census:zero_fill>=16		7

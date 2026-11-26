@@ -2,8 +2,8 @@
 
 #include "engine/graphics.h"
 #include "engine/town.h"
+#include "town/map/resource.h"
 
-void town_se_reserve(s16 effect_id, s16 sound_id);
 
 /* Invoke operation 0xD with -1, then run the two runtime routines. */
 void init_town_runtime_with_sound_effect(void) {

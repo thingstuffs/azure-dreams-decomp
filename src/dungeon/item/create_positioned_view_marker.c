@@ -278,10 +278,10 @@ void trigger_view_marker_rotation(void *data)
     }
 }
 
-/* MECHANISM: Frameless leaf; an absolute scalar lvalue makes the assembler reuse $v1
-   for the D_80013718 lui/lw pair instead of gcc's separate symbolic page register.
-   A held 0x80080000 page splits the flags address around count initialization as
-   retail's lui / li / addiu while preserving both pointer inductions and the exact CFG. */
+/* The scalar count is read directly.
+ * The flags address is formed in
+ * steps around count setup while
+ * both pointers advance through their entries. */
 #include "shared/runtime_dispatch.h"
 #include "shared/sys_flags.h"
 typedef struct S_800F65CC_0 {
@@ -294,7 +294,7 @@ typedef struct S_800F65CC_0 {
 typedef struct S_800F65CC_1 {
     u8 pad_00[0x14];
     s16 unk_14;
-} S_800F65CC_1;   /* s1 in start_view_marker_transition */
+} S_800F65CC_1;   /* the entry_info view in start_view_marker_transition */
 
 typedef struct S_800F65CC_2 {
     u8 pad_00[0x4];
@@ -1556,7 +1556,7 @@ typedef struct S_807B0B3C_6 {
     u8 pad_00[0x2];
     u16 unk_02;
     u16 unk_04;
-} S_807B0B3C_6;   /* (u8 *)v1 in render_particle_effect_object */
+} S_807B0B3C_6;   /* the bucket_ptr_m view in render_particle_effect_object */
 
 typedef struct S_807B0B3C_7 {
     u32 unk_00;

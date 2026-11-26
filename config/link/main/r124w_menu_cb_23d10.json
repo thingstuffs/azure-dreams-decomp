@@ -5,7 +5,7 @@
   "foff": "0x23D10",
   "size": 68,
   "vma": "0x8008AC70",
-  "evidence": "Observed menu load address and complete C equality; docs/evidence/r124w_carve1.md",
+  "evidence": "Observed menu load address and complete C equality",
   "entries": [
     {
       "row": "main/func_7FDD3D10",

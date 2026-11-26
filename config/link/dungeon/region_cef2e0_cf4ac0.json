@@ -5,7 +5,7 @@
   "foff": "0xcef2e0",
   "size": "0x57e0",
   "vma": "0x8015eae0",
-  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase xfer_dungeon_CEF2E0",
+  "evidence": ": rowbase xfer_dungeon_CEF2E0",
   "entries": [
     {
       "row": "dungeon/func_80CD1F20",
@@ -26,7 +26,7 @@
         "0x80083160": "0x80083160",
         "0x80047784": "0x80047784"
       },
-      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+      "evidence": "current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "dungeon/func_80CD2030",
@@ -41,7 +41,7 @@
         "0x800ab378": "0x800ac010",
         "0x80173000": "0x80173000"
       },
-      "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_80CD2030; LL3a preserves prior rule-3 binding"
+      "evidence": ": dungeon/func_80CD2030; LL3a preserves prior rule-3 binding"
     },
     {
       "row": "dungeon/func_80CD20B0",

@@ -5,7 +5,7 @@
   "foff": "0xb81244",
   "size": "0x4f98",
   "vma": "0x80152a44",
-  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase img_b81244_80152a44",
+  "evidence": ": rowbase img_b81244_80152a44",
   "entries": [
     {
       "row": "dungeon/func_80B61E2C",
@@ -49,7 +49,7 @@
       "vma": "0x80156618",
       "size": 828,
       "bindings": {},
-      "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_80B64E18"
+      "evidence": ": dungeon/func_80B64E18"
     }
   ]
 }

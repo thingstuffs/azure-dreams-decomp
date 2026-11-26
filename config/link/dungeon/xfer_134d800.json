@@ -5,7 +5,7 @@
   "foff": "0x134D800",
   "size": "0x12000",
   "vma": "0x80164800",
-  "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7EE17000: xfer_dungeon_134D800; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
+  "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7EE17000. Image-local bindings are recorded in the link map.",
   "entries": [
     {
       "row": "dungeon/func_8132DBA4",
@@ -14,7 +14,7 @@
       "foff": "0x134DBA4",
       "vma": "0x80164BA4",
       "size": 32,
-      "evidence": "docs/evidence/r124w_carve1_run7.md"
+      "evidence": "Recorded in the production link map."
     },
     {
       "row": "dungeon/func_8132DBC4",
@@ -97,7 +97,7 @@
         "0x812540F8": "0x812540F8",
         "0x81254134": "0x81254134"
       },
-      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override); LL3a preserves prior rule-3 binding"
+      "evidence": "obj_screen (same object modulo symbols): copy relocation target (rule 2 override); LL3a preserves prior rule-3 binding"
     },
     {
       "row": "dungeon/func_81330088",
@@ -369,7 +369,7 @@
         "0x812540F8": "0x812540F8",
         "0x81254134": "0x81254134"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "dungeon/func_81337BB0",
@@ -502,7 +502,7 @@
         "0x812540F8": "0x812540F8",
         "0x81254134": "0x81254134"
       },
-      "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override); LL3a preserves prior rule-3 binding"
+      "evidence": "obj_screen (same object modulo symbols): copy relocation target (rule 2 override); LL3a preserves prior rule-3 binding"
     }
   ],
   "symbols": {

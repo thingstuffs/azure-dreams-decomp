@@ -29,7 +29,7 @@
         "0x80003544": "0x800006C4",
         "0x800035D4": "0x800035D4"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_83aec4_800006c4 (same load delta) so the merged file's members share one view"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; TU view gather: moved from town/ll34_83aec4_800006c4 (same load delta) so the merged file's members share one view"
     },
     {
       "row": "town/func_808BAF54",
@@ -46,7 +46,7 @@
         "0x800035D4": "0x80000754",
         "0x80003544": "0x80003544"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv; TU view gather: moved from town/ll34_83af54_80000754 (same load delta) so the merged file's members share one view"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes; TU view gather: moved from town/ll34_83af54_80000754 (same load delta) so the merged file's members share one view"
     },
     {
       "row": "town/func_808BB46C",
@@ -58,7 +58,7 @@
       "bindings": {
         "0x807030a4": "0x102c"
       },
-      "evidence": "docs/evidence/r141w_town_dev.md"
+      "evidence": "Recorded in the production link map."
     }
   ]
 }

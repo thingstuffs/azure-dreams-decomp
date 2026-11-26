@@ -91,7 +91,7 @@ void advance_kewne_ellipse_attack(ActorRecord *body, ObjectPosition *movement, S
         play_sound_if_enabled(0x808);
         body->action_phase++;
         create_ellipse_ring_effect((EntityRec *)NODE_HEADER(body), &actor->facing,
-                      (u8 *)body + 0x9B);
+                      &body->action_phase);
         return;
 
     case 3:

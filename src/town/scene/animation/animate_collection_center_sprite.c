@@ -90,7 +90,7 @@ void animate_collection_center_sprite(CollectionCenterControlBody *ctrl, ObjectP
     if (distance < (collection_target_y > 0x035FFFFF ? 0xB9 : 0xC1)) {
         if (D_80132AF2 >= setup->z.w.i) {
             town_motion_state.x.v = ctrl->unk_04;
-            collection_target_y = (*(s32 *)((u8 *)ctrl + (8)));
+            collection_target_y = ctrl->unk_08;
         }
         (*(s32 *)((u8 *)ctrl + (0x58))) = town_motion_state.x.v;
         ctrl->unk_5C = collection_target_y;
@@ -103,7 +103,7 @@ void animate_collection_center_sprite(CollectionCenterControlBody *ctrl, ObjectP
         if (early_far) {
             if (D_80132AF2 >= setup->z.w.i) {
                 town_motion_state.x.v = ctrl->unk_04;
-                collection_target_y = (*(s32 *)((u8 *)ctrl + (8)));
+                collection_target_y = ctrl->unk_08;
             }
     
             {

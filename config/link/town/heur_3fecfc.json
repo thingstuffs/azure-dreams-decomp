@@ -5,7 +5,7 @@
   "foff": "0x3fecfc",
   "size": "0x5c",
   "vma": "0x80016cfc",
-  "evidence": "work/native_lane/r121_heur/evidence/placements.json",
+  "evidence": "Recorded in the production link map.",
   "entries": [
     {
       "row": "town/func_803FECFC",
@@ -20,7 +20,7 @@
         "0x800194E4": "0x80016440",
         "0x8001ADE0": "0x80017660"
       },
-      "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json"
+      "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in"
     }
   ]
 }

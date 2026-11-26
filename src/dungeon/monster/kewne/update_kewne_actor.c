@@ -89,7 +89,7 @@ void update_kewne_actor(ActorRecord *actor, ObjectPosition *position, SpriteFram
     physics_flags = anim_flags & 0x8000;
     switch (physics_flags) {
     case 0:
-        apply_monster_koyaw_data(actor_base->flags1C, ((u8 *) sprite) + 0xC);
+        apply_monster_koyaw_data(actor_base->flags1C, &sprite->color.c.r);
         if (!(actor_base->flags1C & 0x20)) {
             if (!((sprite->flags) & 0x40)) {
                 advance_sprite_animation_and_textures(sprite);

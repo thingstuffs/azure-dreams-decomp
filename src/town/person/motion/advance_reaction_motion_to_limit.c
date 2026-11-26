@@ -6,7 +6,6 @@
 #include "town/person/motion.h"
 #include "town/player.h"
 
-void start_reaction_countdown(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite);
 
 
 /* Advance motion and handle reaching the position limit. */

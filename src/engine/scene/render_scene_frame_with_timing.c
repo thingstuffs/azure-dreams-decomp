@@ -13,8 +13,8 @@
 #include "slus/gpu_scratch_data.h"
 #include "slus/animation_tick_data.h"
 #include "sdk/libapi.h"
+#include "dungeon/player.h"
 
-extern void update_active_nodes_and_render_frame(void);
 
 
 extern u16 system_update_flags[];

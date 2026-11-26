@@ -33,7 +33,8 @@ class CompactMaps(Fixture):
         entries = [code,
             meta('code_region',4,4,census_label='library_code'),
             meta('code_region',8,4,census_label='strongly_code'),
-            meta('asset',12,4,census_label='proven_data',format='opaque',sha256='a'*64,extractor='container-slice-v1'),
+            meta('asset',12,4,census_label='proven_data',format='opaque',sha256='a'*64,hash_size=16,
+                 extractor='container-slice-v1'),
             meta('data',16,4,type='typing pending'),meta('padding',20,4),meta('unresolved',24,4)]
         d = doc(entries,size=28,vma='0x80000000',symbols={'0x80000000':'0x80000000'},layout='same')
         paths = self.public(d)
@@ -98,7 +99,8 @@ class CompactMaps(Fixture):
                  meta('unresolved',8,4),dict(meta('unresolved',12,4),evidence='other rule')]
         result=R.coalesce(entries,bytes(range(16)))
         self.assertEqual([(B.L.num(e['foff']),e['size']) for e in result],[(0,8),(8,4),(12,4)])
-        self.assertEqual(result[0]['sha256'],R.digest(bytes(range(8))))
+        self.assertEqual(result[0]['sha256'],R.digest(bytes(range(16))))
+        self.assertEqual(result[0]['hash_size'],16)
         self.assertEqual(len(entries),4)
 
     def test_coalescing_preserves_tu_and_census_label_boundaries(self):
@@ -108,12 +110,14 @@ class CompactMaps(Fixture):
 
     def test_asset_extractor_reads_the_compact_catalogue(self):
         disc=self.root/'disc.iso';payload=synthetic_disc(disc)
-        entry=meta('asset',0,16,census_label='proven_data',format='opaque',sha256=R.digest(payload[:16]),extractor='container-slice-v1')
-        d=doc([entry],name='dungeon/test',size=16);d['container']='dungeon'
+        entry=meta('asset',0,8,census_label='proven_data',format='opaque',sha256=R.digest(payload[:16]),
+                   hash_size=16,extractor='container-slice-v1')
+        d=doc([entry],name='dungeon/test',size=8);d['container']='dungeon'
         self.public(d)
         result=extract(self.root,disc,output=self.root/'work/assets',catalogue='link')
         self.assertEqual(result['count'],1)
-        self.assertEqual((self.root/result['assets'][0]['path']).read_bytes(),payload[:16])
+        self.assertEqual(result['assets'][0]['hash_size'],16)
+        self.assertEqual((self.root/result['assets'][0]['path']).read_bytes(),payload[:8])
 
 
 if __name__=='__main__':unittest.main()

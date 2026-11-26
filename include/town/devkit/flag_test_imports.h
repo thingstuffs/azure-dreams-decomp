@@ -18,7 +18,6 @@ void func_80000858(s32, s32);
 void func_80000BC8(s32);
 void func_80000C18(s32);
 #ifndef AZ_FOREIGN_LOCAL_FUNC_80000C6C
-s32 func_80000C6C(u16);
 #endif
 void func_80000DC8(void);
 void func_807001B4(s32);

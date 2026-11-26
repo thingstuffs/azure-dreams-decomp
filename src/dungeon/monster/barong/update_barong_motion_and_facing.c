@@ -101,7 +101,7 @@ void update_barong_motion_and_facing(ActorRecord *body, ObjectPosition *motion, 
             sprite->flags |= 0x7000;
         }
 
-        apply_monster_koyaw_data(actor->flags1C, (u8 *)sprite + 0xC);
+        apply_monster_koyaw_data(actor->flags1C, &sprite->color.c.r);
     } else {
         sprite->flags =
             (monster_flags & 0x0800) ? (monster_flags & 0x8FFF) : (monster_flags | 0x7000);

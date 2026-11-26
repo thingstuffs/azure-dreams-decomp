@@ -73,7 +73,7 @@ s32 draw_actor_effect_points(ReturningParticleBody *object, ObjectPosition *posi
     GpuContext *final_state;
 
     packet_start = state->packetCursor;
-    scratch->ot = (u32 *)&state->orderTag;
+    scratch->ot = &state->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->cursor = packet_start;
 
     do {

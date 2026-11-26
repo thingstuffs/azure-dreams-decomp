@@ -5,6 +5,7 @@
 #include "engine/node.h"
 #include "town/minigame.h"
 #include "town/minigame/object.h"
+#include "town/map/display_fade_g00643.h"
 
 #ifndef NULL
 #define NULL 0
@@ -26,7 +27,6 @@ typedef struct {
     s32 word[2];
 } __attribute__((packed)) Packed8;
 
-extern void create_positioned_callback_object(void *, void *, void *);
 
 extern Packed8 D_8002021C;
 extern u8 D_800223D8[8];

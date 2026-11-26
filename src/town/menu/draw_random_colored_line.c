@@ -31,7 +31,7 @@ void draw_random_colored_line(s32 end_point, void *start_point)
     s32 texture_y;
 
     draw_ctx = g_game_work.draw_buffer;
-    scratch->order_table.words = &draw_ctx->orderTag;
+    scratch->order_table.words = &draw_ctx->orderTag[GPU_ORDER_DEPTH_BASE];
     line = draw_ctx->packetCursor;
     draw_ctx->packetCursor = (u8 *)line + 0x14;
 

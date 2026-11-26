@@ -76,7 +76,6 @@ typedef struct S_func_819A6800_7 {
 } S_func_819A6800_7;
 
 struct S_800244BC_2;
-s32 draw_chained_trail_quads(void *);
 extern u32 D_800814A0[];
 
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
@@ -619,7 +618,6 @@ typedef struct S_819A764C_1 {
 
 
 
-s32 draw_chained_trail_quads(void *);
 
 
 /* Update randomized intermediate points and advance the effect state. */

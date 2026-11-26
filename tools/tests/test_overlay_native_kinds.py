@@ -11,6 +11,44 @@ sys.path[:0]=[str(ROOT/'tools/gate'),str(ROOT/'tools/fidelity')]
 import overlay_native_rodata as N
 import aspsx_diff as A
 
+class DiscTextTests(unittest.TestCase):
+    def setUp(self):
+        directory = tempfile.TemporaryDirectory()
+        self.addCleanup(directory.cleanup)
+        self.disc = Path(directory.name) / 'disc.bin'
+        self.prefix = b'Synthetic sample\0\0\0\0'
+        self.suffix = b'!\0\0\0'
+        self.disc.write_bytes(b'\0' * 4 + self.prefix + self.suffix)
+        head = dict(section='.rodata', kind='typed_function_pointer', foff=0,
+                    vma=0x80024000, size=4, symbol='entry', target='example')
+        message = dict(section='.rodata', kind=N.IMPORTED_TEXT, foff=4,
+                       vma=0x80024004, size=len(self.prefix), symbol='text',
+                       source_symbol='text', sha256=N.digest(self.prefix))
+        companion = dict(message, foff=4 + len(self.prefix), vma=0x80024004 + len(self.prefix),
+                         size=len(self.suffix), symbol='suffix', source_symbol='suffix',
+                         sha256=N.digest(self.prefix + self.suffix))
+        extent = 4 + len(self.prefix) + len(self.suffix)
+        self.module = dict(membership_evidence='example.json', owned_data=[head, message, companion],
+                           members=[dict(foff=0, vma=0x80024000, size=extent + 8,
+                                         body_offset=extent, function='example')])
+        self.assembly = '.rdata\nentry:\n.word example\n.text\n'
+
+    def test_disc_payload_and_companion(self):
+        N.validate_layout(self.module)
+        N.validate_text_declarations(self.module, 'extern const u8 text[20];\nextern const u8 suffix[4];')
+        assembly = N.insert_text_imports(self.module, self.assembly, self.disc)
+        N.validate_switch_assembly(self.module, assembly)
+
+    def test_false_digest_and_false_boundary_fail(self):
+        bad = copy.deepcopy(self.module)
+        bad['owned_data'][2]['sha256'] = N.digest(self.suffix)
+        with self.assertRaisesRegex(ValueError, 'hash differs'):
+            N.read_text_imports(bad, self.disc)
+        bad = copy.deepcopy(self.module)
+        bad['owned_data'][2]['foff'] += 4
+        with self.assertRaisesRegex(ValueError, 'layout'):
+            N.validate_layout(bad)
+
 class ShapeTests(unittest.TestCase):
     def test_typed_text_matches_encoded_message(self):
         text='Ｗｏｖｅｎ\u3000ｃｌｏｃｋｓ\u3000ｔｉｃｋ\u3000ｏｎｃｅ\u3000'

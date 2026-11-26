@@ -5,7 +5,7 @@
   "foff": "0xe332e8",
   "size": "0x5970",
   "vma": "0x8016aae8",
-  "evidence": "docs/evidence/r121w_s2_wave2_receipts.json",
+  "evidence": "Recorded in the production link map.",
   "entries": [
     {
       "row": "dungeon/func_80E132E8",
@@ -20,7 +20,7 @@
         "0x80176490": "0x80170490",
         "0x801766b8": "0x801706b8"
       },
-      "evidence": "docs/evidence/r121w_s2_wave2_receipts.json#dungeon/func_80E132E8"
+      "evidence": "#dungeon/func_80E132E8"
     }
   ]
 }

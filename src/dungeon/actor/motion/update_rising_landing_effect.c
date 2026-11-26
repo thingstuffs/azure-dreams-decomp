@@ -61,11 +61,6 @@ typedef struct S_FUNC_8197C800_BODY_6 {
 
 
 
-typedef struct S_FUNC_8197C800_BODY_9 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_FUNC_8197C800_BODY_9;   /* D_800DEDB0 in update_directional_actor_effect */
-
 typedef struct S_FUNC_8197C800_BODY_10 {
     u8 pad_00[0x4C];
     u16 unk_4C;
@@ -224,7 +219,7 @@ void update_directional_actor_effect(S_FUNC_8197C800_BODY_0 *input, S_FUNC_8197C
         sprite->tpage_abr = 0x20;
         sprite->unk_00 = rising_sprite_entries;
         sprite->flags |= 0xC;
-        sprite->source = ((S_FUNC_8197C800_BODY_9 *)rising_sprite_entries)->unk_04;
+        sprite->source = rising_sprite_entries->source;
         random_value |= 0x8080u;
         sprite->unk_04 = 0;
         sprite->frame_ticks = 0;

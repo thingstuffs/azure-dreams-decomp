@@ -55,7 +55,7 @@ void project_and_queue_visible_shaded_quad(FadingSequenceChildBody *quad, Object
     GameWork *render_state_ptr = &g_game_work;
     MATRIX matrix;
 
-    scratch->ordering_table = (u32 *)&((GpuContext *)g_game_work.draw_buffer)->orderTag;
+    scratch->ordering_table = &((GpuContext *)g_game_work.draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->local_matrix.t[0] = position->x.w.i;
     scratch->local_matrix.t[1] = position->y.w.i;
     scratch->local_matrix.t[2] = position->z.w.i;
@@ -83,9 +83,9 @@ void project_and_queue_visible_shaded_quad(FadingSequenceChildBody *quad, Object
     ((GpuContext *)g_game_work.draw_buffer)->packetCursor = mode + 1;
     SetDrawMode(mode, 0, 0, GetTPage(0, 0, 0, 0) & 0xFFFF, 0);
     mode->tag = (mode->tag & 0xFF000000) |
-        (((GpuContext *)g_game_work.draw_buffer)->orderTag & 0x00FFFFFF);
-    ((GpuContext *)g_game_work.draw_buffer)->orderTag =
-        (((GpuContext *)g_game_work.draw_buffer)->orderTag & 0xFF000000) |
+        (((GpuContext *)g_game_work.draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE] & 0x00FFFFFF);
+    ((GpuContext *)g_game_work.draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE] =
+        (((GpuContext *)g_game_work.draw_buffer)->orderTag[GPU_ORDER_DEPTH_BASE] & 0xFF000000) |
         ((u32)mode & 0x00FFFFFF);
 
     {
@@ -134,13 +134,13 @@ void project_and_queue_visible_shaded_quad(FadingSequenceChildBody *quad, Object
                     (tex_flags | 2) : (tex_flags & 0xFD);
             }
 
-            /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+            /* BYTES: Each loaded vertex color is written together with its command or padding byte. Separate members generate four byte stores. */
             *(u32 *)&packet->red0 = quad->colors[0].word;
-            /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+            /* BYTES: Each loaded vertex color is written together with its command or padding byte. Separate members generate four byte stores. */
             *(u32 *)&packet->red1 = quad->colors[1].word;
-            /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+            /* BYTES: Each loaded vertex color is written together with its command or padding byte. Separate members generate four byte stores. */
             *(u32 *)&packet->red2 = quad->colors[2].word;
-            /* BYTES: retail copies each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+            /* BYTES: Each loaded vertex color is written together with its command or padding byte. Separate members generate four byte stores. */
             *(u32 *)&packet->red3 = quad->colors[3].word;
             ((GpuLinkTag *)&packet->tag)->len = 8;
             packet->code = 0x3A;
@@ -213,7 +213,7 @@ s32 project_scaled_colored_point(RisingPointEffectBody *record, ObjectPosition *
     state_ptr = (GpuContext **)&g_game_work;
     scratch = SPRITE_SCRATCH;
     scratch->packet_cursor = render_state->packetCursor;
-    scratch->ordering_table = (u32 *)&render_state->orderTag;
+    scratch->ordering_table = &render_state->orderTag[GPU_ORDER_DEPTH_BASE];
     do {
         packet = scratch->packet_cursor;
         scratch->position.vx = position->x.w.i;
@@ -224,7 +224,7 @@ s32 project_scaled_colored_point(RisingPointEffectBody *record, ObjectPosition *
         depth_index = RotTransPers(&scratch->position, (s32 *)&packet->x0, &scratch->depth_cue, &scratch->gte_flag);
         scratch->sort_depth = depth_index;
         if (depth_index < 0x1E0U) {
-            /* BYTES: retail stores the tile colour word (r0, g0, b0 and code) with one sw; member stores compile to four sb */
+            /* BYTES: The tile color and command are written together. Separate members generate four byte stores. */
             *(u32 *)&packet->r0 = record->color;
             packet->r0 = (packet->r0 * record->scale) / record->scale_max;
             packet->g0 = (packet->g0 * record->scale) / record->scale_max;

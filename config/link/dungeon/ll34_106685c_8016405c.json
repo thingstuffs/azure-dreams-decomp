@@ -19,7 +19,7 @@
         "0x800B2A60": "0x8015F4B8",
         "0x800B2C68": "0x8016405C"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     }
   ],
   "load_evidence": {

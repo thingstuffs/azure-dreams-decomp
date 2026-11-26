@@ -27,8 +27,8 @@
 #include "dungeon/monster/grineut/path_motion.h"
 #include "dungeon/monster/hikewne.h"
 #include "dungeon/item/find_active_rect_containing_point_api.h"
+#include "dungeon/monster/noise/start_directional_action_and_record_tile.h"
 extern void func_80174598(void *, void *, void *, void *);
-void start_directional_action_and_record_tile(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 
 extern void noise_ability_resume_address(ActorRecord *motion, ObjectPosition *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor);
 extern u8 D_80174E98[];

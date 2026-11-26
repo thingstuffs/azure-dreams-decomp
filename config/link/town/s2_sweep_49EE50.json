@@ -5,7 +5,7 @@
   "foff": "0x49ee50",
   "size": "0xe34",
   "vma": "0x80016650",
-  "evidence": "docs/evidence/r121w_s2_wave2_receipts.json",
+  "evidence": "Recorded in the production link map.",
   "entries": [
     {
       "row": "town/func_8051EE50",
@@ -27,7 +27,7 @@
         "0x8001AD60": "0x80018ADC",
         "0x8001ADE0": "0x80018B5C"
       },
-      "evidence": "docs/evidence/r121w_s2_wave2_receipts.json#town/func_8047F068"
+      "evidence": "#town/func_8047F068"
     },
     {
       "row": "town/func_8047F0E0",
@@ -41,7 +41,7 @@
         "0x8001AD60": "0x80018ADC",
         "0x8001ADE0": "0x80018B5C"
       },
-      "evidence": "docs/evidence/r121w_s2_wave2_receipts.json#town/func_8047F0E0"
+      "evidence": "#town/func_8047F0E0"
     },
     {
       "row": "town/func_8047F158",
@@ -55,7 +55,7 @@
         "0x8001AD60": "0x80018ADC",
         "0x8001ADE0": "0x80018B5C"
       },
-      "evidence": "docs/evidence/r121w_s2_wave2_receipts.json#town/func_8047F158"
+      "evidence": "#town/func_8047F158"
     },
     {
       "row": "town/func_8051F1F8",
@@ -76,7 +76,7 @@
         "0x80018E30": "0x80018E60",
         "0x80016104": "0x80016104"
       },
-      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+      "evidence": "current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_8051F294",
@@ -89,7 +89,7 @@
         "0x80018E30": "0x80018E70",
         "0x80016104": "0x80016104"
       },
-      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+      "evidence": "current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_8051F304",
@@ -102,7 +102,7 @@
         "0x80018E30": "0x80018E90",
         "0x80016104": "0x80016104"
       },
-      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+      "evidence": "current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_8051F4AC",
@@ -124,7 +124,7 @@
         "0x8001C769": "0x8001C9C7",
         "0x8001D244": "0x8001D244"
       },
-      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+      "evidence": "current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     }
   ]
 }

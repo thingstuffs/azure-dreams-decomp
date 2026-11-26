@@ -55,7 +55,7 @@ s32 build_settings_sprite_tiles(SettingsScreenBody *node_data, ObjectPosition *s
                     screen_y = (tile_y - scroll_y) + layer_offset;
                     sprite->y = screen_y;
                     sprite->clut = GetClut(clut_x, 0x1F0);
-                    addPrim(&ctx_ptr->context->orderTag82C, sprite);
+                    addPrim(&ctx_ptr->context->orderTag[495], sprite);
 
                     ctx = ctx_ptr->context;
                     draw_mode = ctx->packetCursor;
@@ -63,7 +63,7 @@ s32 build_settings_sprite_tiles(SettingsScreenBody *node_data, ObjectPosition *s
                     SetDrawMode(draw_mode, 0, 0,
                                   GetTPage(1, 3, page_x, tile_y) & 0xFFFF, 0);
                     tile_col -= 1;
-                    addPrim(&ctx_ptr->context->orderTag82C, draw_mode);
+                    addPrim(&ctx_ptr->context->orderTag[495], draw_mode);
                     page_x -= 0x80;
                 } while (tile_col >= 0);
                 tile_row += 1;

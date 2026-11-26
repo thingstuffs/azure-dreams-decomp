@@ -8,6 +8,7 @@
 #include "slus.h"
 #include "town/map/variant_data.h"
 #include "town/map.h"
+#include "town/shop/position_object_initialization_g01134.h"
 
 typedef struct InputRecord {
     s16 field_00;
@@ -20,7 +21,6 @@ typedef struct InputRecord {
     u16 field_12;
 } InputRecord;
 
-extern void enqueue_unlinked_item_entries(void);
 extern u16 system_update_flags[5];
 
 

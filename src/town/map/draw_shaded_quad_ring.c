@@ -23,7 +23,7 @@ void draw_shaded_quad_ring(SpriteFrameState *shape, ObjectPosition *source)
     scratch = (TownRingProjection *)0x1F800000;
     ring_segment_count = ring_segment_counts[find_target_index_in_list()];
     draw_buffer = g_game_work.draw_buffer;
-    scratch->ordering_table = &draw_buffer->orderTag;
+    scratch->ordering_table = &draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE];
     update_projected_effect_points(scratch, 0, source, shape);
     saved_color = scratch->previous_color.word = scratch->color.word;
     saved_inner_xy = scratch->previous_inner_xy = scratch->inner_xy;

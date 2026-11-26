@@ -7,6 +7,7 @@
 #include "dungeon/actor/action_control_dispatch_g00352.h"
 #include "engine/node.h"
 #include "engine/scene.h"
+#include "dungeon/actor/depth_strip_projection_g00337.h"
 struct Arg0_800AFBFC;
 struct Arg2_800AFBFC;
 
@@ -18,7 +19,6 @@ typedef s32 M2C_UNK;
 
    /* obj in create_circular_segment_object */
 
-extern s32 process_circular_segments(struct Arg0_800AFBFC *shape, ObjectPosition *unused, struct Arg2_800AFBFC *segment);
 extern s8 D_800DCF4C;
 extern M2C_UNK D_800DEF90;
 

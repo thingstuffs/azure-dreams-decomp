@@ -4,9 +4,9 @@
 #include "shared/town_object.h"
 #include "town/player.h"
 #include "shared/sprite_frame_state.h"
-void init_actor_action_state(TownObjectRecord *record, void *ptr, void *ptr2);    /* extern */
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"  /* extern */
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"                     /* extern */
+#include "town/player/action_initializers.h"
 
 
 /* Decrements the state countdown and invokes its handler when it expires. */

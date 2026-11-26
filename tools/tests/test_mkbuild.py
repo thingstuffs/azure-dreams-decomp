@@ -148,6 +148,12 @@ class CheckBoundaryTests(unittest.TestCase):
             images.append(dict(image=family+'/'+family+'_bin', file=family, start=0, size=len(data), output=output))
         self.index = dict(files=self.files, images=images)
         self.save()
+        # Synthetic census report: the gate compares the census with the committed table.
+        self.report = dict(main=dict(file_bytes=10, classes=dict(c_text=4, unclassed=6), unclassed=6, c_placement_bytes=4))
+        self.census_patch = patch('tools.physical_census.census', return_value=self.report)
+        self.census_mock = self.census_patch.start()
+        self.addCleanup(self.census_patch.stop)
+        self.write_summary(self.report)
         fake_graph = type('FakeGraph', (), dict(files=self.files, documents=lambda self: {}))()
         for context in (patch.object(B,'ROOT',self.root), patch.object(B,'STATE',self.state),
                         patch.object(B,'Graph',return_value=fake_graph), patch.object(B,'selected_images',return_value=[])):
@@ -157,6 +163,12 @@ class CheckBoundaryTests(unittest.TestCase):
     def save(self):
         (self.state/'index.json').write_text(json.dumps(self.index))
 
+    def write_summary(self, report):
+        from tools.physical_census import SUMMARY, table
+        path = self.root/SUMMARY
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(table(report))
+
     def check(self):
         with contextlib.redirect_stdout(io.StringIO()):
             B.check()
@@ -164,6 +176,33 @@ class CheckBoundaryTests(unittest.TestCase):
     def test_all_images_and_executable_match(self):
         self.check()
         self.assertEqual(B.read(self.root/'build/check.json')['matched'],3)
+
+    def test_census_runs_on_full_check_and_agreeing_table_passes(self):
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            B.check()
+        self.census_mock.assert_called_once()
+        self.assertEqual(self.census_mock.call_args.args[0], self.root)
+        self.assertIn('bytes unclassed', out.getvalue())
+
+    def test_census_differing_from_committed_table_fails(self):
+        changed = json.loads(json.dumps(self.report))
+        changed['main']['classes']['c_text'] += 1
+        changed['main']['classes']['unclassed'] -= 1
+        self.write_summary(changed)
+        with self.assertRaisesRegex(ValueError,'physical class totals differ'):
+            self.check()
+
+    def test_missing_committed_table_fails(self):
+        (self.root/'docs/evidence/physical_coverage.tsv').unlink()
+        with self.assertRaises(FileNotFoundError):
+            self.check()
+
+    def test_missing_census_input_fails_not_passes(self):
+        self.census_patch.stop()
+        self.addCleanup(self.census_patch.start)  # restored so cleanup's stop stays balanced
+        with self.assertRaises(FileNotFoundError):
+            self.check()
 
     def test_edited_output_fails(self):
         (self.root/'build/main_main_bin.bin').write_bytes(b'bad')

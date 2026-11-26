@@ -23,7 +23,7 @@
       "foff": "0x79FA2C",
       "vma": "0x8002222C",
       "size": 100,
-      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "evidence": "Recorded in the production link map.",
       "bindings": {
         "0x8025E01C": "0x800C2AE8"
       }

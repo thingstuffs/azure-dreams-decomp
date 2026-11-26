@@ -21,6 +21,6 @@ s32 draw_linked_record_chain(u8 *record_data, ObjectPosition *position, SpriteFr
     }
 }
 
-/* MECHANISM: The true-space j to 0x80175D90 is a local loop backedge, not an external tail call.
-   Natural loop liveness holds arg0 in s0, yielding the 24-byte frame and exact save order.
-   Testing arg2 before its source-level advance lets gcc place that advance in the branch delay slot. */
+/* The backedge returns to the
+ * local loop. The loop tests the
+ * current position before advancing it. */

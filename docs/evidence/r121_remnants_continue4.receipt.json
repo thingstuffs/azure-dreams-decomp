@@ -56,7 +56,6 @@
       "canonical_baseline": "raw/dungeon/func_812540F0.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_812540F0.c",
       "m2c_sha256": "3498c1a375bc9c7ea0ea94114eb60bc8b499eef3d6abe7c7d0fab408b9c6e01a",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -85,7 +84,6 @@
       "canonical_baseline": "raw/dungeon/func_812543E8.c",
       "m2c_first_pass": "raw/dungeon/m2c_first_pass/func_812543E8.c",
       "m2c_sha256": "e58c09ce6c8dfc9659aa230b4f418d256f353d1622caac75cc90f1cbf16d3eaa",
-      "retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
       "score": {
         "status": "ok",
         "exact": true,
@@ -385,7 +383,6 @@
         "size": 8,
         "source_sha256": "dbf777f7c7941fed7acbc68a2a393cd53f7176c07404bb9cf6cd27a5a23627d1",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_1274/build/rowbase_func_801738F0.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_812540F0.bin",
         "window": "config/overlays/dungeon_deep_1274.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_812540F0.c",
@@ -401,7 +398,6 @@
         "size": 8,
         "source_sha256": "2b05a0bac8508015b82616a7c31d5a0b88997aced09b189fd2c3bf9d630718d7",
         "compiled_file": "build_ovl/work/s3_splat/dungeon_deep_1274/build/rowbase_func_80173BE8.bin",
-        "compiled_and_retail_sha256": "6d64edf91449c1b17746c1ef18afa2eb25c70bdf1322ab3df5a2630993b7e2f1",
         "compiler_artifact": "proofs/dungeon/func_812543E8.bin",
         "window": "config/overlays/dungeon_deep_1274.overlay.yaml",
         "source": "overlays/dungeon/first_pass_matched/func_812543E8.c",
@@ -1837,7 +1833,7 @@
           "file": "TOWN/TOWN.BIN",
           "offset": 9268680,
           "length": 8,
-          "sha256": "93f8d1b5a0e39a8ac14b9660c4f8ae9b65b506b7e711d2ae61ae3e0e61b0ddae"
+          "sha256": "592440400de6d80e6abfd8e1ed87a2e7564dbf41ab7ba678fd937cd6a6256fcf"
         },
         "format": "hex"
       },
@@ -1854,7 +1850,7 @@
           "file": "TOWN/TOWN.BIN",
           "offset": 9268964,
           "length": 8,
-          "sha256": "71bec77109b82cfde6b9ee9400ce0ee45d56bd48f949b21de9b71149f5ce826b"
+          "sha256": "989e4763a999462ff2ca5bf8976bfd83db464f1cf9f3b9a3861029f6b826cb1e"
         },
         "format": "hex"
       },

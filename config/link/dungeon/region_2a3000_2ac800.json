@@ -5,7 +5,7 @@
   "foff": "0x2a3000",
   "size": "0x9800",
   "vma": "0x80016000",
-  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase xfer_dungeon_2A3000",
+  "evidence": ": rowbase xfer_dungeon_2A3000",
   "entries": [
     {
       "row": "dungeon/func_8028325C",

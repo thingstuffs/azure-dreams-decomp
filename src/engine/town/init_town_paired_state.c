@@ -1,8 +1,8 @@
 #include "common.h"
 
 #include "engine/town.h"
+#include "town/map/state.h"
 
-void initialize_town_camera_states(void);
 
 /* Dispatch to the town runtime routine. */
 void init_town_paired_state(void) {

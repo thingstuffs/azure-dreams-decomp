@@ -1,147 +1,335 @@
 {
- "note": "Real identifier text printed by Konami's shipped debug macros; each entry lists the rows whose function prints it (docs/evidence/konami_assertion_sites.md).",
+ "note": "Disc locations of identifier strings printed by the shipped debug macros, with the rows that print them.",
  "identifiers": [
   {
-   "text": "((u_long)p - (u_long)ost_w)/ sizeof(OSETDT)",
-   "file": "main.c",
-   "meaning": "OSETDT = object-set table record type; ost_w = the object-set table (array of OSETDT); p indexes it",
+   "text": "TOWN.BIN+0x2ab8a0/44",
+   "file": "TOWN.BIN+0x2ab88c/7",
+   "meaning": "Index into the object-set table",
    "rows": [
     "town/func_8032F844",
-    "town/func_806D30B4"
+    "town/func_8046CFB0",
+    "town/func_80472D04",
+    "town/func_80478210",
+    "town/func_8047CA10",
+    "town/func_8047EFA0",
+    "town/func_80481E28",
+    "town/func_804B9A8C",
+    "town/func_804D1534",
+    "town/func_804D8E08",
+    "town/func_804F0E2C",
+    "town/func_80500D10",
+    "town/func_8050EDB8",
+    "town/func_80520A70",
+    "town/func_80550758",
+    "town/func_80559CA4",
+    "town/func_80579D58",
+    "town/func_805A0124",
+    "town/func_805D49F4",
+    "town/func_80602840",
+    "town/func_80616C10",
+    "town/func_80632E18",
+    "town/func_80647EAC",
+    "town/func_8065D0BC",
+    "town/func_80680D54",
+    "town/func_80698E24",
+    "town/func_806A9CC8",
+    "town/func_806C752C",
+    "town/func_806C9EFC",
+    "town/func_806CBEF8",
+    "town/func_806CDEA0",
+    "town/func_806CFD04",
+    "town/func_806D1C74",
+    "town/func_806D30B4",
+    "town/func_806D5BA8",
+    "town/func_806D9554",
+    "town/func_806DBD1C",
+    "town/func_806F2750",
+    "town/func_80710E0C",
+    "town/func_8072B0BC",
+    "town/func_8074D500",
+    "town/func_8076295C",
+    "town/func_80770D4C",
+    "town/func_807754B4",
+    "town/func_80777CB4",
+    "town/func_8077E830",
+    "town/func_80785DB0",
+    "town/func_8079ADD8",
+    "town/func_8094D774",
+    "town/func_8094E774",
+    "town/func_8094F770",
+    "town/func_80950770",
+    "town/func_80951770",
+    "town/func_80952834"
    ]
   },
   {
-   "text": "((u_long)pp - (u_long)osel_w)/ sizeof(OSETDT*)",
-   "file": "main.c",
-   "meaning": "osel_w = object-select array (OSETDT* pointers parallel to ost_w); pp indexes it",
+   "text": "TOWN.BIN+0x2ab8cc/47",
+   "file": "TOWN.BIN+0x2ab88c/7",
+   "meaning": "Index into the parallel object pointer table",
    "rows": [
     "town/func_8032F844",
-    "town/func_806D30B4"
+    "town/func_8046CFB0",
+    "town/func_80472D04",
+    "town/func_80478210",
+    "town/func_8047CA10",
+    "town/func_8047EFA0",
+    "town/func_80481E28",
+    "town/func_804B9A8C",
+    "town/func_804D1534",
+    "town/func_804D8E08",
+    "town/func_804F0E2C",
+    "town/func_80500D10",
+    "town/func_8050EDB8",
+    "town/func_80520A70",
+    "town/func_80550758",
+    "town/func_80559CA4",
+    "town/func_80579D58",
+    "town/func_805A0124",
+    "town/func_805D49F4",
+    "town/func_80602840",
+    "town/func_80616C10",
+    "town/func_80632E18",
+    "town/func_80647EAC",
+    "town/func_8065D0BC",
+    "town/func_80680D54",
+    "town/func_80698E24",
+    "town/func_806A9CC8",
+    "town/func_806C752C",
+    "town/func_806C9EFC",
+    "town/func_806CBEF8",
+    "town/func_806CDEA0",
+    "town/func_806CFD04",
+    "town/func_806D1C74",
+    "town/func_806D30B4",
+    "town/func_806D5BA8",
+    "town/func_806D9554",
+    "town/func_806DBD1C",
+    "town/func_806F2750",
+    "town/func_80710E0C",
+    "town/func_8072B0BC",
+    "town/func_8074D500",
+    "town/func_8076295C",
+    "town/func_80770D4C",
+    "town/func_807754B4",
+    "town/func_80777CB4",
+    "town/func_8077E830",
+    "town/func_80785DB0",
+    "town/func_8079ADD8",
+    "town/func_8094D774",
+    "town/func_8094E774",
+    "town/func_8094F770",
+    "town/func_80950770",
+    "town/func_80951770",
+    "town/func_80952834"
    ]
   },
   {
-   "text": "cdhd_cnt",
-   "file": "main.c",
-   "meaning": "CD-header counter (global)",
+   "text": "TOWN.BIN+0x2ab8fc/9",
+   "file": "TOWN.BIN+0x2ab88c/7",
+   "meaning": "Global CD-header counter",
    "rows": [
     "town/func_8032F844",
-    "town/func_806D30B4"
+    "town/func_8046CFB0",
+    "town/func_80472D04",
+    "town/func_80478210",
+    "town/func_8047CA10",
+    "town/func_8047EFA0",
+    "town/func_80481E28",
+    "town/func_804B9A8C",
+    "town/func_804D1534",
+    "town/func_804D8E08",
+    "town/func_804F0E2C",
+    "town/func_80500D10",
+    "town/func_8050EDB8",
+    "town/func_80520A70",
+    "town/func_80550758",
+    "town/func_80559CA4",
+    "town/func_80579D58",
+    "town/func_805A0124",
+    "town/func_805D49F4",
+    "town/func_80602840",
+    "town/func_80616C10",
+    "town/func_80632E18",
+    "town/func_80647EAC",
+    "town/func_8065D0BC",
+    "town/func_80680D54",
+    "town/func_80698E24",
+    "town/func_806A9CC8",
+    "town/func_806C752C",
+    "town/func_806C9EFC",
+    "town/func_806CBEF8",
+    "town/func_806CDEA0",
+    "town/func_806CFD04",
+    "town/func_806D1C74",
+    "town/func_806D30B4",
+    "town/func_806D5BA8",
+    "town/func_806D9554",
+    "town/func_806DBD1C",
+    "town/func_806F2750",
+    "town/func_80710E0C",
+    "town/func_8072B0BC",
+    "town/func_8074D500",
+    "town/func_8076295C",
+    "town/func_80770D4C",
+    "town/func_807754B4",
+    "town/func_80777CB4",
+    "town/func_8077E830",
+    "town/func_80785DB0",
+    "town/func_8079ADD8",
+    "town/func_8094D774",
+    "town/func_8094E774",
+    "town/func_8094F770",
+    "town/func_80950770",
+    "town/func_80951770",
+    "town/func_80952834"
    ]
   },
   {
-   "text": "ov_work.kind",
-   "file": "sn_main.c",
-   "meaning": "ov_work = overlay work struct (devkit scene tool), .kind = overlay kind",
+   "text": "TOWN.BIN+0x7f88c4/13",
+   "file": "TOWN.BIN+0x7f88e8/10",
+   "meaning": "Overlay work record kind",
    "rows": [
     "town/func_80878974",
-    "town/func_808B3620"
+    "town/func_80880194",
+    "town/func_808815D4",
+    "town/func_808B3620",
+    "town/func_808B84D0",
+    "town/func_808B97B0"
    ]
   },
   {
-   "text": "p->kind",
-   "file": "sn_main.c",
-   "meaning": "kind field of the object pointed to by p (devkit scene tool)",
+   "text": "TOWN.BIN+0x7f88bc/8",
+   "file": "TOWN.BIN+0x7f88e8/10",
+   "meaning": "Kind field of a referenced object",
    "rows": [
     "town/func_80878974",
-    "town/func_808B3620"
+    "town/func_80880194",
+    "town/func_808815D4",
+    "town/func_808B3620",
+    "town/func_808B84D0",
+    "town/func_808B97B0"
    ]
   },
   {
-   "text": "kind",
-   "file": "flgtst.c?",
-   "meaning": "devkit blob, probably flgtst.c (inferred)",
+   "text": "TOWN.BIN+0x7f7fd8/5",
+   "file": "TOWN.BIN+0x7ffb44/9?",
+   "meaning": "Development tool selector",
    "rows": [
     "town/func_80877FEC",
-    "town/func_80883004"
+    "town/func_80883004",
+    "town/func_808B7D44",
+    "town/func_808BAEC4",
+    "town/func_808C4760"
    ]
   },
   {
-   "text": "mode",
-   "file": "flgtst.c?",
-   "meaning": "devkit blob, probably flgtst.c (inferred)",
+   "text": "TOWN.BIN+0x7f7fe0/5",
+   "file": "TOWN.BIN+0x7ffb44/9?",
+   "meaning": "Development tool mode",
    "rows": [
     "town/func_80877FEC",
-    "town/func_80883004"
+    "town/func_80883004",
+    "town/func_808B7D44",
+    "town/func_808BAEC4",
+    "town/func_808C4760"
    ]
   },
   {
-   "text": "sno",
-   "file": "flgtst.c?",
-   "meaning": "scene/sequence number, devkit blob, probably flgtst.c (inferred)",
+   "text": "TOWN.BIN+0x7f7fe8/4",
+   "file": "TOWN.BIN+0x7ffb44/9?",
+   "meaning": "Scene or sequence number",
    "rows": [
     "town/func_80877FEC",
-    "town/func_80883004"
+    "town/func_80883004",
+    "town/func_808B7D44",
+    "town/func_808BAEC4",
+    "town/func_808C4760"
    ]
   },
   {
-   "text": "head",
-   "file": "(unnamed object before lshop.o)",
-   "meaning": "list head; same function also prints ptr[n].vx / ptr[n].vy -> a vertex array walker",
+   "text": "TOWN.BIN+0x3e817c/5",
+   "file": "(unnamed object before shop code)",
+   "meaning": "List head in a vertex array walker",
    "rows": [
-    "town/func_8046C280"
+    "town/func_803D1544",
+    "town/func_803D74E0",
+    "town/func_803DBCE0",
+    "town/func_8046C280",
+    "town/func_80480778",
+    "town/func_806D8824"
    ]
   },
   {
-   "text": "ptr[n].vx",
-   "file": "(unnamed object before lshop.o)",
-   "meaning": "vertex array element x (PSY-Q SVECTOR/DVECTOR .vx)",
+   "text": "TOWN.BIN+0x3e8184/10",
+   "file": "(unnamed object before shop code)",
+   "meaning": "Vertex x coordinate",
    "rows": [
-    "town/func_8046C280"
+    "town/func_803D1544",
+    "town/func_803D74E0",
+    "town/func_803DBCE0",
+    "town/func_8046C280",
+    "town/func_80480778",
+    "town/func_806D8824"
    ]
   },
   {
-   "text": "ptr[n].vy",
-   "file": "(unnamed object before lshop.o)",
-   "meaning": "vertex array element y",
+   "text": "TOWN.BIN+0x3e8190/10",
+   "file": "(unnamed object before shop code)",
+   "meaning": "Vertex y coordinate",
    "rows": [
-    "town/func_8046C280"
+    "town/func_803D1544",
+    "town/func_803D74E0",
+    "town/func_803DBCE0",
+    "town/func_8046C280",
+    "town/func_80480778",
+    "town/func_806D8824"
    ]
   },
   {
-   "text": "s0[0]",
-   "file": "(unnamed object between main.o and player.o)",
-   "meaning": "first element of string/array s0",
+   "text": "TOWN.BIN+0x2ab918/6",
+   "file": "(unnamed object between town main and player code)",
+   "meaning": "First element of an array",
    "rows": [
     "town/func_803301B8"
    ]
   },
   {
-   "text": "s1[0]",
-   "file": "(unnamed object between main.o and player.o)",
-   "meaning": "first element of string/array s1",
+   "text": "TOWN.BIN+0x2ab920/6",
+   "file": "(unnamed object between town main and player code)",
+   "meaning": "First element of an array",
    "rows": [
     "town/func_803301B8"
    ]
   },
   {
-   "text": "s[0]",
-   "file": "(unnamed object between main.o and player.o)",
-   "meaning": "first element of string/array s",
+   "text": "TOWN.BIN+0x2ab928/5",
+   "file": "(unnamed object between town main and player code)",
+   "meaning": "First element of an array",
    "rows": [
     "town/func_803301B8"
    ]
   },
   {
-   "text": "(int)gsw->check_sum",
-   "file": "(MAIN.BIN devkit module)",
-   "meaning": "gsw = game-save work struct, .check_sum = save checksum",
+   "text": "MAIN.BIN+0x269120/20",
+   "file": "(MAIN.BIN development image)",
+   "meaning": "Checksum field of the save work record",
    "rows": [
     "main/func_8001AF98",
     "main/func_8001AFEC"
    ]
   },
   {
-   "text": "card_first_flg",
-   "file": "c_server.c",
-   "meaning": "Sony libcard: first-access flag",
+   "text": "MAIN.BIN+0x269044/15",
+   "file": "MAIN.BIN+0x25d028/11",
+   "meaning": "Sony libcard first-access flag",
    "rows": [
     "main/func_80019E34"
    ]
   },
   {
-   "text": "cnt",
-   "file": "c_server.c",
-   "meaning": "Sony libcard: a counter",
+   "text": "MAIN.BIN+0x2690f8/4",
+   "file": "MAIN.BIN+0x25d028/11",
+   "meaning": "Sony libcard counter",
    "rows": [
     "main/func_8001AB30",
     "main/func_8001B2C8"
@@ -149,42 +337,41 @@
   }
  ],
  "source_files": {
-  "main.c": "Konami town-scene main (linked into every one of the 54 TOWN event-script modules; two revisions: lines 40/55 in 47 modules, 39/54 in 7)",
-  "lshop.c": "Konami shop code (small file; assertions at lines 65, 113, 118, 128 in three consecutive functions; linked before main.o)",
-  "player.c": "Konami player code (assert at line 64; linked after main.o)",
-  "tobjs.c": "Konami devkit scene tool: town objects (TOWN.BIN devkit blob, not shipped game code)",
-  "sn_main.c": "Konami devkit scene tool main (mark: trace macro, devkit blob)",
-  "flgtst.c": "Konami devkit flag test (mark: trace macro, devkit blob)",
-  "c_server.c": "Sony libcard card server (MAIN.BIN; shipped copy at 0x80020000 and a devkit copy at 0x80400000)",
-  "card_mes.c": "Konami memory-card UI: messages (MAIN.BIN devkit module)",
-  "card_opt.c": "Konami memory-card UI: options (MAIN.BIN devkit module)",
-  "card_win.c": "Konami memory-card UI: windows (MAIN.BIN devkit module)",
-  "cardbk.c": "Konami memory-card UI: background (MAIN.BIN devkit module)",
-  "cardinfo.c": "Konami memory-card UI: info (MAIN.BIN devkit module)",
-  "cardslot.c": "Konami memory-card UI: slots (MAIN.BIN devkit module)",
-  "cardsme.c": "Konami memory-card UI (MAIN.BIN devkit module)",
-  "memory.c": "Konami memory-card module (MAIN.BIN devkit module; a code-only copy in TOWN.BIN)"
+  "TOWN.BIN+0x2ab88c/7": "Konami town-scene main, linked into 54 event-script modules. Lines 40 and 55 appear in 47. Lines 39 and 54 appear in seven.",
+  "TOWN.BIN+0x2ab85c/8": "Konami shop code. Lines 65, 113, 118 and 128 span three consecutive functions. The object precedes the town-scene main.",
+  "TOWN.BIN+0x2ab958/9": "Konami player code with an assertion at line 64. The object follows the town-scene main.",
+  "MAIN.BIN+0x25d028/11": "Sony libcard card server. The shipped image is at 0x80020000 and the development image is at 0x80400000.",
+  "MAIN.BIN+0x269570/11": "Konami memory-card messages in the development image",
+  "MAIN.BIN+0x2695c8/11": "Konami memory-card options in the development image",
+  "MAIN.BIN+0x269620/11": "Konami memory-card windows in the development image",
+  "MAIN.BIN+0x269654/9": "Konami memory-card background in the development image",
+  "MAIN.BIN+0x269760/11": "Konami memory-card information in the development image",
+  "MAIN.BIN+0x2697cc/11": "Konami memory-card slots in the development image",
+  "MAIN.BIN+0x269800/10": "Konami memory-card interface in the development image",
+  "MAIN.BIN+0x269894/9": "Konami memory-card module in the development image, with a code-only copy in TOWN.BIN",
+  "TOWN.BIN+0x7f891c/8": "Town objects in the Konami development scene tool",
+  "TOWN.BIN+0x7f88e8/10": "Konami development scene tool main, with a source trace",
+  "TOWN.BIN+0x7ffb44/9": "Konami development flag test, with a source trace"
  },
  "developer_strings": [
   {
-   "string": "Development asset paths",
    "container": "town",
    "foff": [
     "0x65281C",
     "0x65283C"
    ],
-   "note": "Named disc imports for the town resource test image"
+   "note": "Named disc imports for the town resource test image",
+   "description": "Development asset paths"
   },
   {
-   "string": "\\vx035\\data\\sn\\SENGEI00.BIN .. SENGEI10.BIN (11)",
    "container": "town",
    "foff": [
     "0x7F877C-0x7F8894"
    ],
-   "note": "scene data files (sn = scene), devkit blob path table"
+   "note": "scene data files (sn = scene), devkit blob path table",
+   "description": "Scene data paths"
   },
   {
-   "string": "\\vx035\\data\\town\\st.bin (6)",
    "container": "town",
    "foff": [
     "0x8CD128",
@@ -194,18 +381,18 @@
     "0x8D1124",
     "0x8D21E8"
    ],
-   "note": ""
+   "note": "",
+   "description": "Town map data path"
   },
   {
-   "string": "\\vx035\\data\\sn\\mv05.bin",
    "container": "town",
    "foff": [
     "0x8D20FC"
    ],
-   "note": ""
+   "note": "",
+   "description": "Scene movie data path"
   },
   {
-   "string": "GAME OVER (4)",
    "container": "town",
    "foff": [
     "0x78BA94",
@@ -213,26 +400,26 @@
     "0x796070",
     "0x7960B4"
    ],
-   "note": ""
+   "note": "",
+   "description": "End-of-game display message"
   },
   {
-   "string": "BASLUS-00614",
    "container": "main",
    "foff": [
     "0x264F20"
    ],
-   "note": "save file name, shipped image, vram 0x80027F20"
+   "note": "save file name, shipped image, vram 0x80027F20",
+   "description": "Shipped save identifier"
   },
   {
-   "string": "BISLPS-00001",
    "container": "main",
    "foff": [
     "0x271AA8"
    ],
-   "note": "leftover JP save name, devkit image, vram 0x80408AA8"
+   "note": "leftover JP save name, devkit image, vram 0x80408AA8",
+   "description": "Development save identifier"
   },
   {
-   "string": "CHAN %x, CARD STATUS0/1 %x, illegal data",
    "container": "main",
    "foff": [
     "0x269090",
@@ -240,10 +427,10 @@
     "0x2690D0",
     "0x269138"
    ],
-   "note": "devkit image card diagnostics"
+   "note": "devkit image card diagnostics",
+   "description": "Development card diagnostics"
   },
   {
-   "string": "bu10: / bu00:",
    "container": "main",
    "foff": [
     "0x25D074",
@@ -251,17 +438,18 @@
     "0x2690E4",
     "0x2690EC"
    ],
-   "note": "libcard device names"
+   "note": "libcard device names",
+   "description": "Card device paths"
   },
   {
-   "string": "$Id: intr.c,v 1.76 / bios.c,v 1.86 / sys.c,v 1.129",
    "container": "slus",
    "foff": [
     "0x6AC8",
     "0x6D78",
     "0x6EFC"
    ],
-   "note": "PSY-Q library RCS ids"
+   "note": "PSY-Q library RCS ids",
+   "description": "Library build identifiers"
   }
  ]
 }

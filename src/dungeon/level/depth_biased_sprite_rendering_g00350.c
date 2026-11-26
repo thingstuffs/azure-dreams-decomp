@@ -70,7 +70,7 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, SpriteFra
 
     root = g_game_work.draw_buffer;
     packet = root->packetCursor;
-    scratch_view->ordering_table = (u32 *)&root->orderTag;
+    scratch_view->ordering_table = &root->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch_view->matrix_D0.t[2] = 0;
     scratch_view->matrix_D0.t[1] = 0;
     scratch_view->matrix_D0.t[0] = 0;
@@ -219,9 +219,9 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, SpriteFra
                     }
 
                 }
-                /* BYTES: retail stores u0, v0 and the CLUT with one sw of the combined word; member stores compile to sb, sb, sh */
+                /* BYTES: The first UV pair and palette selector are stored together. Separate members generate two byte stores and one halfword store. */
                 *(s32 *)&packet->u0 = uv_word;
-                /* BYTES: retail stores u1, v1 and the texture page with one sw of the combined word; member stores compile to sb, sb, sh */
+                /* BYTES: The second UV pair and texture-page selector are stored together. Separate members generate two byte stores and one halfword store. */
                 *(s32 *)&packet->u1 = scratch_view->uv_v_start +
                                                       scratch_view->uv_u_extent +
                                                       ((s16)part->tpage << 16);
@@ -234,7 +234,7 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, SpriteFra
                     u_left = (u16)scratch_view->uv_u_start;
                     left_x = packet->x0;
                     bottom_left_uv += u_left;
-                    /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                    /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
                     *(s16 *)&packet->u2 = bottom_left_uv;
                     {
                         s32 bottom_right_uv;
@@ -245,7 +245,7 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, SpriteFra
                         u_right = (u16)scratch_view->uv_u_extent;
                         right_x = packet->x3;
                         bottom_right_uv += u_right;
-                        /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                        /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
                         *(s16 *)&packet->u3 = bottom_right_uv;
 
                         if (right_x < left_x) {
@@ -259,7 +259,7 @@ void render_projected_sprite_with_depth_bias(ObjectPosition *position, SpriteFra
                     packet->v3--;
                 }
 
-                /* BYTES: retail copies the sprite colour word (r0, g0, b0 and code) with one lw/sw; member copies compile to four lbu/sb */
+                /* BYTES: Sprite RGB and command are copied with one word load and store. Separate members copy four individual bytes. */
                 *(s32 *)&packet->r0 = sprite->color.word;
                 packet->code = 0x2E;
                 AddPrim(scratch_view->ordering_table + scratch_view->sort_depth, packet);

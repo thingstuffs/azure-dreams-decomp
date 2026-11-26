@@ -31,7 +31,6 @@ void forward_context_value_to_handler_a(struct TownObjectSet *input_a, s32 input
 void forward_context_value_to_handler_b(struct TownObjectSet *first_value, s32 second_value);
 void forward_context_value_to_handler_c(struct TownObjectSet *context, s32 value);
 void forward_context_value_to_handler_e(struct TownObjectSet *first_input, s32 second_input);
-void apply_signed_value_to_indexed_entry(void *object, s32 index);
 u8 *build_town_event_records(void *unused);
 s32 record_checked_entry_result(struct TownObjectSet *check_input_1, s32 check_input_2);
 struct S_8046C8C4_0;
@@ -43,9 +42,7 @@ s32 process_entry_or_start_message(struct TownObjectSet *object, s32 entry_index
 s32 process_entry_set_pad36_on_failure(struct TownObjectSet *object, s32 entry_index);
 
 s32 *run_scene_helper_and_get_result(void);
-s32 dispatch_scene_entry_value(s32 entry_id, s32 unused, s32 value);
 s32 dispatch_scene_alt_tables(struct TownObjectSet *request, s32 unused, s32 mode);
-s32 dispatch_scene_request_with_fixed_data(s32 request, s32 unused, s32 value);
 u8 *get_shared_scene_result(void);
 void *lookup_scene_entry_with_kind_overrides(struct TownObjectSet *key, s32 unused, s32 kind);
 s32 apply_scene_entry_values(struct TownObjectSet *entry, s32 entry_index);

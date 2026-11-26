@@ -163,10 +163,10 @@ void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, Spri
                         packet->clut = sprite->clut + (*(u16 *)(part_uv
                             + -2));
                     }
-                    /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                    /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
                     *(s16 *)&packet->u0 = scratch->uv_v_start
                         + scratch->uv_u_start;
-                    /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                    /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
                     *(s16 *)&packet->u1 = scratch->uv_v_start
                         + scratch->uv_u_extent;
                     {
@@ -179,10 +179,10 @@ void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, Spri
                         }
                         packet->tpage = tpage;
                     }
-                    /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                    /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
                     *(s16 *)&packet->u2 = scratch->uv_v_extent
                         + scratch->uv_u_start;
-                    /* BYTES: retail writes the packet u/v byte pair with one sh of the combined value; storing u and v separately compiles to two sb */
+                    /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
                     *(s16 *)&packet->u3 = scratch->uv_v_extent
                         + scratch->uv_u_extent;
                     if ((s16)packet->x0 > (s16)packet->x3) {
@@ -194,14 +194,14 @@ void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, Spri
                         packet->v3--;
                     }
                     color = sprite->color.word;
-                    /* BYTES: retail stores each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+                    /* BYTES: Each vertex color and its command or padding byte are written together. Separate members generate four byte stores. */
                     *(s32 *)&packet->r3 = 0;
-                    /* BYTES: retail stores each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+                    /* BYTES: Each vertex color and its command or padding byte are written together. Separate members generate four byte stores. */
                     *(s32 *)&packet->r2 = 0;
                     ((GpuLinkTag *)&packet->tag)->len = 0xC;
-                    /* BYTES: retail stores each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+                    /* BYTES: Each vertex color and its command or padding byte are written together. Separate members generate four byte stores. */
                     *(s32 *)&packet->r1 = color;
-                    /* BYTES: retail stores each vertex colour word (red, green, blue and the code or pad byte) with one sw; member stores compile to four sb */
+                    /* BYTES: Each vertex color and its command or padding byte are written together. Separate members generate four byte stores. */
                     *(s32 *)&packet->r0 = color;
                     part_command = (*(part_uv + -7));
                     packet->code = part_command;

@@ -9,8 +9,8 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "engine/texture.h"
 
-extern s32 has_direct_actor_sprite_frames(void *record);
 #include "dungeon/player/object/action_state.h"
+#include "dungeon.h"
 extern void select_record_entry_and_value(void *state, s32 entries, s8 index);
 
 extern void begin_actor_fade_draw(void *object_state, s32 unused_context, void *properties, void *status); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */

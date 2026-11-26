@@ -179,7 +179,7 @@ void wait_garuda_status_and_animate(ActorRecord *body, ObjectPosition *position,
 }
 
 /* Advance the entity state, updating directional sprites and handling actor events. */
-void wait_garuda_mp_and_animate(void *entity_arg, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor) {
+void wait_garuda_mp_and_animate(ActorRecord *entity_arg, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor) {
     ActorRecord *entity = entity_arg;
     s32 state;
 

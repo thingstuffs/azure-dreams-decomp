@@ -77,10 +77,10 @@ void update_monster_facing_and_contact(ActorRecord *body, ObjectPosition *motion
             if (!(sprite->flags & 0x40)) {
                 advance_sprite_animation_and_textures(sprite);
             }
-            apply_monster_koyaw_data(actor->flags1C, (u8 *)sprite + 0xC);
+            apply_monster_koyaw_data(actor->flags1C, &sprite->color.c.r);
         } else {
             sprite->flags |= 0x7000;
-            apply_monster_koyaw_data(actor->flags1C, (u8 *)sprite + 0xC);
+            apply_monster_koyaw_data(actor->flags1C, &sprite->color.c.r);
         }
     } else {
         if (monster_flags & 0x0800) {

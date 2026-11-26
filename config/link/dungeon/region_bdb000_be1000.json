@@ -5,7 +5,7 @@
   "foff": "0xbdb000",
   "size": "0x6000",
   "vma": "0x8014c800",
-  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase native_resource_14_slot_6",
+  "evidence": ": rowbase native_resource_14_slot_6",
   "entries": [
     {
       "row": "dungeon/func_80BBE34C",
@@ -15,7 +15,7 @@
       "vma": "0x8014fb4c",
       "size": 1384,
       "bindings": {},
-      "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_80BBE34C"
+      "evidence": ": dungeon/func_80BBE34C"
     }
   ]
 }

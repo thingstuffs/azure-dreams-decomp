@@ -740,7 +740,7 @@ void project_visible_textured_quad(S_80024BF4_4 *quad, ObjectPosition *position,
 
     GpuContext *context = g_game_work.draw_buffer;
 
-    scratch->ordering_table = (u32 *)&context->orderTag;
+    scratch->ordering_table = &context->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->local_matrix.t[0] = position->x.w.i;
     scratch->local_matrix.t[1] = position->y.w.i;
     scratch->local_matrix.t[2] = position->z.w.i;
@@ -1772,11 +1772,11 @@ void create_impact_particle_at_offset(
         select_record_entry_and_value(sprite, effect_sprite_sources, 0);
     }
 }
-/* MECHANISM: The ten-argument ABI and reused pointer local produce the retail
-   0x38 frame, full hold set, and reload seam. The unk_88/unk_8C stores sit after
-   the base stores: that lengthens offset_x/offset_y's lives past base_x..base_z,
-   so global.c ranks them after the bases ($s6/$s7, offset_z last in $fp).
-   Byte-pointer BASE[index] sums select retail addu operand order. */
+/* The base stores
+ * precede the two
+ * offset stores. The row
+ * and entry addresses
+ * use byte strides. */
 
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"

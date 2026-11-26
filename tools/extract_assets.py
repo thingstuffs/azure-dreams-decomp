@@ -66,10 +66,11 @@ def extract(root, disc, keys=None, output=None, catalogue=None):
             with tempfile.NamedTemporaryFile(dir=directory, prefix=".extract-", delete=False) as f:
                 tmp = Path(f.name)
                 try:
-                    for start in range(0, size, 1 << 20):
-                        blob = source.slice(DISC_FILES[cont], off+start, min(1 << 20, size-start))
+                    hash_size = e.get("hash_size", size)
+                    for start in range(0, hash_size, 1 << 20):
+                        blob = source.slice(DISC_FILES[cont], off+start, min(1 << 20, hash_size-start))
                         h.update(blob)
-                        f.write(blob)
+                        f.write(blob[:size-start])
                     if h.hexdigest() != e["sha256"]:
                         raise ValueError("asset SHA-256 differs: %s 0x%X" % (cont, off))
                 except BaseException:
@@ -78,6 +79,8 @@ def extract(root, disc, keys=None, output=None, catalogue=None):
             tmp.replace(target)
             receipts.append({"container": cont, "foff": off, "size": size, "sha256": h.hexdigest(),
                              "path": target.relative_to(root).as_posix(), "verified": True})
+            if hash_size != size:
+                receipts[-1]["hash_size"] = hash_size
     return {"assets": receipts, "count": len(receipts), "bytes": sum(x["size"] for x in receipts)}
 
 

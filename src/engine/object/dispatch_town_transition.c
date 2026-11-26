@@ -10,17 +10,15 @@
 #include "engine/town.h"
 #include "slus/data.h"
 #include "slus/map_state.h"
+#include "town/shop/position_object_initialization_g01134.h"
+#include "town/map.h"
+#include "town/map/resource.h"
+#include "town/shop/state_entry_processing_g00562.h"
 
 extern void initialize_circular_list_head(void);
 extern void init_town_motion_list(void);
-extern void clear_shop_record_queue(void);
 extern void reserve_twch_load(s32 load_selector);
 extern void reserve_tw_mon_load(s32 load_selector);
-extern void load_building_slot_states(void);
-extern void refresh_all_snapshots(void);
-extern void load_resource_data(void);
-extern void load_and_apply_town_building_tiles(void);
-extern void town_sd_se_load_init(void);
 
 
 /* Handles change_map / chg_map_second_house_sel setup and clears the handled runtime flags. */

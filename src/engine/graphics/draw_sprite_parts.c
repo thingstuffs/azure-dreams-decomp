@@ -45,7 +45,7 @@ void draw_sprite_parts(void *unused, SpriteFrameState *sprite, s32 ot_depth)
     depth = ot_depth;
     contexts = (u8 **)((void * *)(&g_game_work));
     prim = context->packetCursor;
-    scratch->ordering_table = &context->orderTag070;
+    scratch->ordering_table = &context->orderTag[0];
     scratch->input.vz = 0x1000;
     scratch->translation.vz = 0;
     scratch->vertices[3].vz = 0;

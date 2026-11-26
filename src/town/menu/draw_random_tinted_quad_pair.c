@@ -27,7 +27,7 @@ void draw_random_tinted_quad_pair(struct DoorTransitionEffect *effect)
     s32 random_color;
 
     intensity = effect->intensity;
-    scratch->order_table.bytes = &(*render_ctx_addr)->orderTag;
+    scratch->order_table.words = &(*render_ctx_addr)->orderTag[GPU_ORDER_DEPTH_BASE];
     do {
         GpuContext *render_ctx = *render_ctx_addr;
         DR_MODE *draw_mode;
@@ -79,12 +79,12 @@ void draw_random_tinted_quad_pair(struct DoorTransitionEffect *effect)
             scratch->depth = 0x1DF;
         if (scratch->depth < 0)
             scratch->depth = 0;
-        AddPrim(scratch->order_table.bytes + scratch->depth * 4, quad);
+        AddPrim(scratch->order_table.words + scratch->depth, quad);
         vertex_index += 3;
         render_ctx = *render_ctx_addr;
         draw_mode = render_ctx->packetCursor;
         render_ctx->packetCursor = draw_mode + 1;
         SetDrawMode(draw_mode, 1, 0, GetTPage(0, 1, 0x140, 0), 0);
-        AddPrim(scratch->order_table.bytes + scratch->depth * 4, draw_mode);
+        AddPrim(scratch->order_table.words + scratch->depth, draw_mode);
     } while (vertex_index < 6);
 }

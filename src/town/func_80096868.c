@@ -12,7 +12,6 @@
 #include "town/player.h"
 
 #include "town/player/periodic_action_effect_g00533_api.h"
-void accelerate_toward_input_angle(ObjectPosition *context);
 
 
 void init_input_angle_random_timer_action(TownObjectRecord *object, ObjectPosition *motion, SpriteFrameState *sprite) {

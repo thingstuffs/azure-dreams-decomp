@@ -34,7 +34,7 @@ void try_halve_actor_counter(u8 *entity, s32 chance, void *unused_context) {
 
     roll = generate_random_value() & 0xffff;
     if (entity[3] != 0) {
-        roll_remainder = roll % entity[3];   /* retail rejoins the common path at +0xBC here */
+        roll_remainder = roll % entity[3];   /* Both remainder paths rejoin before the chance comparison. */
     } else {
         roll_remainder = 0;
     }
@@ -67,7 +67,7 @@ void try_halve_actor_counter(u8 *entity, s32 chance, void *unused_context) {
             clear_byte_and_advance(message_arg);
         }
         display_text_with_fullwidth_adjustment(effect_result);
-        create_actor_value_popup(0x53, entity, removed_count, 1);   /* retail jumps to the shared call at +0x16C */
+        create_actor_value_popup(0x53, entity, removed_count, 1);   /* The original shares the result popup call with the unchanged-value path. */
         return;
     }
 
@@ -78,7 +78,7 @@ void try_halve_actor_counter(u8 *entity, s32 chance, void *unused_context) {
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Build textured sprite strips and append their packets to the ordering table. */
-void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *sprite, s32 *ordering_table, s32 draw_mode) {
+void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *sprite, u32 *ordering_table, s32 draw_mode) {
     u16 saved_draw_mode;
     s32 callback_arg;
     s32 matrix_arg;
@@ -95,12 +95,12 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
     u16 base_tpage;
     FnPtr draw_callback;
     Blk40 *first_quad;
-    s32 *mode_link;
-    s32 *right_row_link;
-    s32 *restore_link;
-    s32 *first_link;
-    s32 *second_link;
-    s32 *left_row_link;
+    u32 *mode_link;
+    u32 *right_row_link;
+    u32 *restore_link;
+    u32 *first_link;
+    u32 *second_link;
+    u32 *left_row_link;
     u8 *restore_packet;
     S_func_81904990_7 *packet;
     s32 row_v_offset;
@@ -128,7 +128,7 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
     s32 tail_uv;
     s32 addr_mask;
     s32 length_mask;
-    S_func_81904990_4 *scratch;
+    SpriteQuadScratch *scratch;
     GameWork *state_page;
 
     setup_arg = screen_pos;
@@ -141,17 +141,17 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
         render_state = *state_ptr;
     }
     frame_header = frame->unk_08;
-    scratch = (S_func_81904990_4 *)0x1F800000;
+    scratch = SPRITE_SCRATCH;
     scratch->matrix_D0.t[2] = 0;
-    scratch->unk_8C = 0;
-    scratch->unk_84 = 0;
-    scratch->unk_7C = 0;
-    scratch->unk_74 = 0;
+    scratch->vertices[3].vz = 0;
+    scratch->vertices[2].vz = 0;
+    scratch->vertices[1].vz = 0;
+    scratch->vertices[0].vz = 0;
     packet = render_state->packetCursor;
-    scratch->unk_20 = ordering_table;
-    scratch->unk_C0 = NULL;
-    scratch->unk_B8 = (s16) (setup_arg->unk_00 - 0xA0);
-    scratch->unk_BA = (u16) (setup_arg->unk_02 - 0x78);
+    scratch->ordering_table = ordering_table;
+    scratch->sort_depth = 0;
+    scratch->screen_origin.x = (s16) (setup_arg->unk_00 - 0xA0);
+    scratch->screen_origin.y = setup_arg->unk_02 - 0x78;
     saved_draw_mode = (u16) draw_mode;
     mode_bits = draw_mode << 0x10;
     matrix_arg = 0;
@@ -160,9 +160,9 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
         {
             s32 link_mask = 0xFFFFFF;
             matrix_arg = 0xFF000000;
-            packet->unk_00.as_s32_00 = (packet->unk_00.as_s32_00 & 0xFF000000) | (*scratch->unk_20 & link_mask);
+            packet->unk_00.as_s32_00 = (packet->unk_00.as_s32_00 & 0xFF000000) | (*scratch->ordering_table & link_mask);
         }
-        mode_link = scratch->unk_20;
+        mode_link = scratch->ordering_table;
         setup_arg = (void *) ((s32) packet & 0xFFFFFF);
         packet = (S_func_81904990_7 *)((u8 *)packet + 12);
         *mode_link = (*mode_link & 0xFF000000) | (s32) setup_arg;
@@ -180,13 +180,13 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
         view_x = state_page->view.camera_rotation.parts.camera_rotation_x;
         view_y = state_page->view.camera_rotation.parts.camera_rotation_y;
         view_z = state_page->view.camera_rotation.parts.viewAngle;
-        scratch->scale.vx = view_x;
-        scratch->scale.vy = view_y;
-        scratch->scale.vz = view_z;
+        scratch->input.vx = view_x;
+        scratch->input.vy = view_y;
+        scratch->input.vz = view_z;
     }
     scratch->angles.vx = (u16) frame->unk_16;
-    scratch->angles.vz = (s16) (frame->unk_1A - (u16) scratch->scale.vy);
-    angle_or_pivot = (((u16) scratch->scale.vz + 0x100) & 0x1FF);
+    scratch->angles.vz = (s16) (frame->unk_1A - (u16) scratch->input.vy);
+    angle_or_pivot = (((u16) scratch->input.vz + 0x100) & 0x1FF);
     angle_bias = frame->unk_18 - 0x100;
     scratch->angles.vy = angle_or_pivot + angle_bias;
     {
@@ -194,114 +194,114 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
         s32 pivot_y;
         pivot_x = frame->unk_20;
         scratch->matrix_D0.t[0] = pivot_x;
-        scratch->unk_108 = pivot_x;
+        scratch->extent_x = pivot_x;
         pivot_y = frame->unk_22;
         scratch->matrix_D0.t[1] = pivot_y;
-        scratch->unk_10A = pivot_y;
+        scratch->extent_y = pivot_y;
     }
     RotMatrix(&scratch->angles, &scratch->matrix_D0);
     {
         s32 scale_x;
         s32 scale_y;
         scale_x = frame->unk_1C;
-        scratch->scale.vx = scale_x;
+        scratch->input.vx = scale_x;
         scale_y = frame->unk_1E;
-        scratch->scale.vz = (s32)0x1000;
-        scratch->scale.vy = scale_y;
+        scratch->input.vz = (s32)0x1000;
+        scratch->input.vy = scale_y;
     }
-    ScaleMatrix(&scratch->matrix_D0, &scratch->scale);
+    ScaleMatrix(&scratch->matrix_D0, &scratch->input);
     CompMatrix(view_matrix, &scratch->matrix_D0, &scratch->matrix_50);
     SetTransMatrix(&scratch->matrix_50);
     SetRotMatrix(&scratch->matrix_50);
-    scratch->unk_24 = (u16) frame->unk_14;
+    scratch->sprite_flags = frame->unk_14;
     for (;;) {
         if (!(frame_header->unk_00 & 0x20)) {
-            scratch->unk_08 = (s32) frame_header->unk_08.as_u8_08;
-            scratch->unk_0C = (s32) frame_header->unk_08.as_u8_09.unk_09;
-            scratch->unk_10.as_s32_10 = (s32) frame_header->unk_08.as_u8_0A.unk_0A;
-            scratch->unk_14.as_s32_14 = (s32) frame_header->unk_08.as_u8_0B.unk_0B;
+            scratch->uv_u_start = (s32) frame_header->unk_08.as_u8_08;
+            scratch->uv_v_start = (s32) frame_header->unk_08.as_u8_09.unk_09;
+            scratch->uv_u_extent = (s32) frame_header->unk_08.as_u8_0A.unk_0A;
+            scratch->uv_v_extent = (s32) frame_header->unk_08.as_u8_0B.unk_0B;
             {
                 s16 edge;
-                if ((frame_header->unk_00 ^ scratch->unk_24) & 1) {
-                    edge = -(s8)frame_header->unk_02 - scratch->unk_108;
-                    scratch->unk_80 = edge;
-                    scratch->unk_70 = edge;
-                    edge -= scratch->unk_10.as_u16_10;
-                    scratch->unk_88 = edge;
-                    scratch->unk_78 = edge;
+                if ((frame_header->unk_00 ^ scratch->sprite_flags) & 1) {
+                    edge = -(s8)frame_header->unk_02 - scratch->extent_x;
+                    scratch->vertices[2].vx = edge;
+                    scratch->vertices[0].vx = edge;
+                    edge -= scratch->uv_u_extent;
+                    scratch->vertices[3].vx = edge;
+                    scratch->vertices[1].vx = edge;
                 } else {
-                    edge = (s8)frame_header->unk_02 - scratch->unk_108;
-                    scratch->unk_80 = edge;
-                    scratch->unk_70 = edge;
-                    edge += (u16) scratch->unk_10.as_s32_10;
-                    scratch->unk_88 = edge;
-                    scratch->unk_78 = edge;
+                    edge = (s8)frame_header->unk_02 - scratch->extent_x;
+                    scratch->vertices[2].vx = edge;
+                    scratch->vertices[0].vx = edge;
+                    edge +=  scratch->uv_u_extent;
+                    scratch->vertices[3].vx = edge;
+                    scratch->vertices[1].vx = edge;
                 }
             }
             {
                 s16 edge;
-                if ((frame_header->unk_00 ^ scratch->unk_24) & 2) {
-                    edge = -(s8)frame_header->unk_03 - scratch->unk_10A;
-                    scratch->unk_7A = edge;
-                    scratch->unk_72 = edge;
-                    edge -= scratch->unk_14.as_u16_14;
-                    scratch->unk_8A = edge;
-                    scratch->unk_82 = edge;
+                if ((frame_header->unk_00 ^ scratch->sprite_flags) & 2) {
+                    edge = -(s8)frame_header->unk_03 - scratch->extent_y;
+                    scratch->vertices[1].vy = edge;
+                    scratch->vertices[0].vy = edge;
+                    edge -= scratch->uv_v_extent;
+                    scratch->vertices[3].vy = edge;
+                    scratch->vertices[2].vy = edge;
                 } else {
-                    edge = (s8)frame_header->unk_03 - scratch->unk_10A;
-                    scratch->unk_7A = edge;
-                    scratch->unk_72 = edge;
-                    edge += (u16) scratch->unk_14.as_s32_14;
-                    scratch->unk_8A = edge;
-                    scratch->unk_82 = edge;
+                    edge = (s8)frame_header->unk_03 - scratch->extent_y;
+                    scratch->vertices[1].vy = edge;
+                    scratch->vertices[0].vy = edge;
+                    edge +=  scratch->uv_v_extent;
+                    scratch->vertices[3].vy = edge;
+                    scratch->vertices[2].vy = edge;
                 }
             }
-            RotTransPers4(&scratch->unk_70, &scratch->unk_78, &scratch->unk_80, &scratch->unk_88,
-                &scratch->unk_F0, &scratch->unk_F4, &scratch->unk_F8, &scratch->unk_FC,
-                (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
-            packet->unk_08 = scratch->unk_F0 + scratch->unk_B8;
-            packet->unk_0A = (s16) (scratch->unk_F2 + scratch->unk_BA);
-            packet->unk_10 = (scratch->unk_F4 + scratch->unk_B8);
-            packet->unk_12 = (s16) (scratch->unk_F6 + scratch->unk_BA);
-            packet->unk_18 = (scratch->unk_F8 + scratch->unk_B8);
-            packet->unk_1A = (s16) (scratch->unk_FA + scratch->unk_BA);
-            packet->unk_20 = scratch->unk_FC + scratch->unk_B8;
-            packet->unk_22 = (s16) (scratch->unk_FE + scratch->unk_BA);
+            RotTransPers4(&scratch->vertices[0], &scratch->vertices[1], &scratch->vertices[2], &scratch->vertices[3],
+                &scratch->projected_vertices[0].x, &scratch->projected_vertices[1].x, &scratch->projected_vertices[2].x, &scratch->projected_vertices[3].x,
+                &scratch->depth_cue, &scratch->gte_flag);
+            packet->unk_08 = scratch->projected_vertices[0].x + scratch->screen_origin.x;
+            packet->unk_0A = (s16) (scratch->projected_vertices[0].y + scratch->screen_origin.y);
+            packet->unk_10 = (scratch->projected_vertices[1].x + scratch->screen_origin.x);
+            packet->unk_12 = (s16) (scratch->projected_vertices[1].y + scratch->screen_origin.y);
+            packet->unk_18 = (scratch->projected_vertices[2].x + scratch->screen_origin.x);
+            packet->unk_1A = (s16) (scratch->projected_vertices[2].y + scratch->screen_origin.y);
+            packet->unk_20 = scratch->projected_vertices[3].x + scratch->screen_origin.x;
+            packet->unk_22 = (s16) (scratch->projected_vertices[3].y + scratch->screen_origin.y);
             packet->unk_00.as_s8_03.unk_03 = quad_words;
             {
-                s32 width = scratch->unk_10.as_s32_10;
-                s32 u_start = scratch->unk_08;
+                s32 width = scratch->uv_u_extent;
+                s32 u_start = scratch->uv_u_start;
                 width = width - 1;
                 {
                     s32 last_u = width + u_start;
                     u_end = last_u;
                 }
             }
-            scratch->unk_10.as_s32_10 = u_end;
+            scratch->uv_u_extent = u_end;
             if (u_end & 0x100) {
-                scratch->unk_10.as_s32_10 = u_end - 1;
+                scratch->uv_u_extent = u_end - 1;
             }
             {
-                s32 height = scratch->unk_14.as_s32_14;
-                s32 v_start = scratch->unk_0C;
+                s32 height = scratch->uv_v_extent;
+                s32 v_start = scratch->uv_v_start;
                 height = height - 1;
                 {
                     s32 last_v = height + v_start;
                     v_end = last_v;
                 }
             }
-            scratch->unk_14.as_s32_14 = v_end;
+            scratch->uv_v_extent = v_end;
             if (v_end & 0x100) {
-                scratch->unk_14.as_s32_14 = v_end - 1;
+                scratch->uv_v_extent = v_end - 1;
             }
-            scratch->unk_14.as_s32_14 <<= 8;
-            scratch->unk_0C <<= 8;
+            scratch->uv_v_extent <<= 8;
+            scratch->uv_v_start <<= 8;
             clut_override = frame->unk_12;
             {
                 s32 clut_value;
 
                 if (clut_override != 0) {
-                    if (scratch->unk_24 & 0x100) {
+                    if (scratch->sprite_flags & 0x100) {
                         packet->unk_0E = clut_override;
                     } else {
                         clut_value = clut_override + frame_header->unk_06;
@@ -312,8 +312,8 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
                     packet->unk_0E = clut_value;
                 }
             }
-            packet->unk_0C.as_s16_0C = (s16) ((u16) scratch->unk_0C + (u16) scratch->unk_08);
-            packet->unk_14.as_s16_14 = (s16) ((u16) scratch->unk_0C + (u16) scratch->unk_10.as_s32_10);
+            packet->unk_0C.as_s16_0C = (s16) ((u16) scratch->uv_v_start + (u16) scratch->uv_u_start);
+            packet->unk_14.as_s16_14 = (s16) ((u16) scratch->uv_v_start +  scratch->uv_u_extent);
             tpage_offset = frame->unk_10;
             {
                 u16 tpage_value;
@@ -326,8 +326,8 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
                 }
                 packet->unk_16 = tpage_value;
             }
-            packet->unk_1C.as_s16_1C = (s16) ((u16) scratch->unk_14.as_s32_14 | (u16) scratch->unk_08);
-            packet->unk_24.as_s16_24 = (s16) ((u16) scratch->unk_14.as_s32_14 | (u16) scratch->unk_10.as_s32_10);
+            packet->unk_1C.as_s16_1C = (s16) ((u16) scratch->uv_v_extent | (u16) scratch->uv_u_start);
+            packet->unk_24.as_s16_24 = (s16) ((u16) scratch->uv_v_extent | (u16) scratch->uv_u_extent);
             if (packet->unk_08 > packet->unk_20) {
                 right_u = (u8) packet->unk_24.as_s16_24;
                 packet->unk_24.as_u8_24 = (u8) (right_u + 0xFF);
@@ -340,7 +340,7 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
             }
             prim_code = frame_header->unk_01;
             frame->unk_0C.as_u8_0F.unk_0F = prim_code;
-            tpage_offset = scratch->unk_24;
+            tpage_offset = scratch->sprite_flags;
             if (tpage_offset & 8) {
                 origin_byte = tpage_offset & 4;
                 if (origin_byte != 0) {
@@ -357,8 +357,8 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
             packet->unk_22 = strip_bottom;
             packet->unk_1A = strip_bottom;
             first_addr = (s32) packet & addr_mask;
-            packet->unk_00.as_s32_00 = (packet->unk_00.as_s32_00 & length_mask) | (*scratch->unk_20 & addr_mask);
-            first_link = scratch->unk_20;
+            packet->unk_00.as_s32_00 = (packet->unk_00.as_s32_00 & length_mask) | (*scratch->ordering_table & addr_mask);
+            first_link = scratch->ordering_table;
             packet = (S_func_81904990_7 *)((u8 *)packet + 40);
             *first_link = (*first_link & length_mask) | first_addr;
             packet->unk_00.as_s8_03.unk_03 = quad_words;
@@ -371,8 +371,8 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
             packet->unk_10 = (packet->unk_10 + 0x40);
             packet->unk_18 = (packet->unk_18 + 0x40);
             packet->unk_20 = packet->unk_20 + 0x40;
-            packet->unk_00.as_s32_00 = (packet->unk_00.as_s32_00 & length_mask) | (*scratch->unk_20 & addr_mask);
-            second_link = scratch->unk_20;
+            packet->unk_00.as_s32_00 = (packet->unk_00.as_s32_00 & length_mask) | (*scratch->ordering_table & addr_mask);
+            second_link = scratch->ordering_table;
             packet = (S_func_81904990_7 *)((u8 *)packet + 40);
             *second_link = (*second_link & length_mask) | second_addr;
             do {
@@ -416,8 +416,8 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
             }
             row_quad = (Blk40 *)packet;
             left_row_addr = (s32) packet & addr_mask;
-            packet->unk_00.as_s32_00 = (packet->unk_00.as_s32_00 & length_mask) | (*scratch->unk_20 & addr_mask);
-            left_row_link = scratch->unk_20;
+            packet->unk_00.as_s32_00 = (packet->unk_00.as_s32_00 & length_mask) | (*scratch->ordering_table & addr_mask);
+            left_row_link = scratch->ordering_table;
             packet = (S_func_81904990_7 *)((u8 *)packet + 40);
             *left_row_link = (*left_row_link & length_mask) | left_row_addr;
             packet->unk_00.as_s8_03.unk_03 = quad_words;
@@ -433,8 +433,8 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
                 (packet->unk_18 + 0x40);
             packet->unk_20 =
                 (u16) (packet->unk_20 + 0x40);
-            packet->unk_00.as_s32_00 = (packet->unk_00.as_s32_00 & length_mask) | (*scratch->unk_20 & addr_mask);
-            right_row_link = scratch->unk_20;
+            packet->unk_00.as_s32_00 = (packet->unk_00.as_s32_00 & length_mask) | (*scratch->ordering_table & addr_mask);
+            right_row_link = scratch->ordering_table;
             *right_row_link = (*right_row_link & length_mask) | right_row_addr;
             packet = (S_func_81904990_7 *)((u8 *)packet + 40);
             } while (row_index < 8);
@@ -459,8 +459,8 @@ void build_textured_sprite_strips(void *screen_pos, TravelingSpriteEffectBody *s
     restore_packet = (u8 *)packet;
     if (restore_mode != 0) {
         SetPriority(restore_packet, 0, 1);
-        packet->unk_00.as_s32_00 = (packet->unk_00.as_s32_00 & 0xFF000000) | (*scratch->unk_20 & 0xFFFFFF);
-        restore_link = scratch->unk_20;
+        packet->unk_00.as_s32_00 = (packet->unk_00.as_s32_00 & 0xFF000000) | (*scratch->ordering_table & 0xFFFFFF);
+        restore_link = scratch->ordering_table;
         restore_packet = (u8 *) ((s32) packet & 0xFFFFFF);
         packet = (S_func_81904990_7 *)((u8 *)packet + 12);
         *restore_link = (*restore_link & 0xFF000000) | (s32) restore_packet;
@@ -495,13 +495,13 @@ void draw_clipped_sprite_strips(s32 draw_data, ScreenRect *clip_rect, Point *scr
     GameWork *page_ptr;
     s16 saved_param;
     u32 tag_mask;
-    u8 *order_table;
+    u32 *order_table;
     GpuContext *draw_page;
     GpuContext *packet_page;
     s16 offset_y;
     void *call_pos;
     s32 call_data;
-    void *call_order_table;
+    u32 *call_order_table;
     s32 call_param;
 
     draw_page = g_game_work.draw_buffer;
@@ -515,13 +515,13 @@ void draw_clipped_sprite_strips(s32 draw_data, ScreenRect *clip_rect, Point *scr
     tag_mask = 0xFF000000U;
 
     *(u32 *)clip_packet = (*(u32 *)clip_packet & tag_mask) |
-                            (draw_page->orderTag8B0 & 0x00FFFFFFU);
-    draw_page->orderTag8B0 = (draw_page->orderTag8B0 & tag_mask) |
+                            (draw_page->orderTag[528] & 0x00FFFFFFU);
+    draw_page->orderTag[528] = (draw_page->orderTag[528] & tag_mask) |
                              ((u32)clip_packet & 0x00FFFFFFU);
 
     draw_pos[0] = screen_pos->x;
     draw_y = screen_pos->y;
-    order_table = (u8 *)draw_page + 0x8B0;
+    order_table = &draw_page->orderTag[528];
     if (offset_y != 0) {
         draw_y -= 0xE0;
     }
@@ -548,8 +548,8 @@ void draw_clipped_sprite_strips(s32 draw_data, ScreenRect *clip_rect, Point *scr
         fill_packet->y = rect_y;
         fill_packet->size = clip_rect->size;
         fill_packet->tag = (fill_packet->tag & tag_mask) |
-                                 (*(u32 *)order_table & 0x00FFFFFFU);
-        *(u32 *)order_table = (*(u32 *)order_table & tag_mask) |
+                                 (*order_table & 0x00FFFFFFU);
+        *order_table = (*order_table & tag_mask) |
                             ((u32)fill_packet & 0x00FFFFFFU);
     }
 
@@ -558,8 +558,8 @@ void draw_clipped_sprite_strips(s32 draw_data, ScreenRect *clip_rect, Point *scr
     packet_page->packetCursor = clip_packet + 0xC;
     SetDrawArea(clip_packet, clip_rect);
     *(u32 *)clip_packet = (*(u32 *)clip_packet & 0xFF000000U) |
-                            (*(u32 *)order_table & 0x00FFFFFFU);
-    *(u32 *)order_table = (*(u32 *)order_table & 0xFF000000U) |
+                            (*order_table & 0x00FFFFFFU);
+    *order_table = (*order_table & 0xFF000000U) |
                         ((u32)clip_packet & 0x00FFFFFFU);
 }
 #include "shared/entity.h"
@@ -585,7 +585,7 @@ s32 draw_linked_brightness_points(PointRecord *first_point, ObjectPosition *firs
     ObjectNodeHeader *next_node;
 
     packet_start = render_ctx->packetCursor;
-    scratch->ot = (u32 *)&render_ctx->orderTag;
+    scratch->ot = &render_ctx->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->cursor = packet_start;
 
     for (;;) {

@@ -43,7 +43,7 @@ typedef s32 R12_8017087C_M2C_UNK;
 
 
 
-typedef void (*R12_80170A44_EntityCallback)(void *, void *, void *, void *);
+typedef ActorActionHandler R12_80170A44_EntityCallback;
 typedef struct R12_80170E70_S_80170E70_0 {
     u8 pad_00[0x24];
     u8 unk_24;
@@ -558,7 +558,7 @@ void advance_actor_motion_and_wait(ActorRecord *action, ObjectPosition *transfor
 void update_arachne_recoil(R12_80172FE8_S_801730B8_1 *action, ObjectPosition *motion, SpriteFrameState *entity, ActorRecord *source);
 void advance_entity_fade_effect(ActorRecord *body, ObjectPosition *position, R12_801732EC_Entity *entity, R12_801732EC_Object *object);
 void advance_arachne_hop_and_shrink(void *state, void *motion, void *position, void *actor);
-void advance_arachne_removal(void *state, void *motion, void *position, void *actor);
+void advance_arachne_removal(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void finish_arachne_hop_and_grow(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void advance_arachne_status_action(ActorRecord *in_controller, ObjectPosition *in_context, SpriteFrameState *sprite, ActorRecord *in_actor);
 void resume_arachne_after_status_animation(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);

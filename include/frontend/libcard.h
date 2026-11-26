@@ -349,8 +349,6 @@ void card_boot_wait_before_formatting_card(CardFormatOperationBody *state);
 /* card_boot_wait_before_loading_slot.c */
 void card_boot_wait_before_loading_slot(Object_800128C8 *record_data);
 
-/* card_boot_wait_before_saving_slot.c */
-void card_boot_wait_before_saving_slot(void *record_data);
 
 /* create_save_heading.c */
 ObjectNodeHeader *create_save_heading(ObjectNodeHeader *owner);

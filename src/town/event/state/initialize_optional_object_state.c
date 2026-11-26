@@ -9,11 +9,6 @@
 #include "engine/node.h"
 #include "town/event.h"
 
-typedef struct TownObjectSetup {
-    u8 pad_00[0x58];
-    void *data;
-} TownObjectSetup;
-
 /* Initialize object and state, using the supplied value or default data. */
 void initialize_optional_object_state(void *object_arg, ObjectPosition *context, SpriteFrameState *state, void *init_value) {
     TownObjectRecord *object = object_arg;
@@ -26,7 +21,7 @@ void initialize_optional_object_state(void *object_arg, ObjectPosition *context,
     state->unk_04 = 0;
     state->frame_ticks = 0;
     if (init_value != 0) {
-        ((TownObjectSetup *)object)->data = init_value;
+        object->state_handlers = init_value;
         select_object_value_by_height_band(object, object, context, state);
         return;
     }

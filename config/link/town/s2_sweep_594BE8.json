@@ -5,7 +5,7 @@
   "foff": "0x594be8",
   "size": "0xa64",
   "vma": "0x800163e8",
-  "evidence": "docs/evidence/r121w_s2_wave2_receipts.json",
+  "evidence": "Recorded in the production link map.",
   "entries": [
     {
       "row": "town/func_80614C34",
@@ -28,7 +28,7 @@
         "0x80019DFC": "0x800181C8",
         "0x8001ADE0": "0x80018C50"
       },
-      "evidence": "docs/evidence/r121w_s2_wave2_receipts.json#town/func_80574CE4"
+      "evidence": "#town/func_80574CE4"
     },
     {
       "row": "town/func_80574D94",
@@ -43,7 +43,7 @@
         "0x80019DFC": "0x800181C8",
         "0x8001ADE0": "0x80018C50"
       },
-      "evidence": "docs/evidence/r121w_s2_wave2_receipts.json#town/func_80574D94"
+      "evidence": "#town/func_80574D94"
     }
   ]
 }

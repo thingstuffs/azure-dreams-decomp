@@ -5,7 +5,7 @@
   "foff": "0x51e800",
   "size": "0x9800",
   "vma": "0x80016000",
-  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase xfer_dungeon_51E800",
+  "evidence": ": rowbase xfer_dungeon_51E800",
   "entries": [
     {
       "row": "dungeon/func_804FE9D8",
@@ -14,7 +14,7 @@
       "foff": "0x51E9D8",
       "vma": "0x800161D8",
       "size": 132,
-      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "evidence": "Recorded in the production link map.",
       "bindings": {
         "0x80083160": "0x80083160",
         "0x800EA000": "0x800EA000",
@@ -70,7 +70,7 @@
       "vma": "0x800163f4",
       "size": 452,
       "bindings": {},
-      "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_804FEBF4"
+      "evidence": ": dungeon/func_804FEBF4"
     },
     {
       "row": "dungeon/func_804FF868",
@@ -79,7 +79,7 @@
       "foff": "0x51F868",
       "vma": "0x80017068",
       "size": 556,
-      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "evidence": "Recorded in the production link map.",
       "bindings": {
         "0x800E3DF0": "0x800E3DF0",
         "0x800E3E48": "0x800E3E48",
@@ -112,7 +112,7 @@
       "vma": "0x80019af8",
       "size": 3096,
       "bindings": {},
-      "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: dungeon/func_805022F8"
+      "evidence": ": dungeon/func_805022F8"
     },
     {
       "row": "dungeon/func_80502F68",
@@ -157,7 +157,7 @@
       "foff": "0x52344C",
       "vma": "0x8001AC4C",
       "size": 5152,
-      "evidence": "docs/evidence/r124w_carve1_run7.md",
+      "evidence": "Recorded in the production link map.",
       "bindings": {
         "0x800E2970": "0x800E2970",
         "0x8001CCEC": "0x8001CCEC",

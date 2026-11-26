@@ -7,9 +7,9 @@
 
 #include "dungeon/item/find_active_rect_containing_point_api.h"
 extern s32 can_entity_gain_level();
-extern void advance_actor_along_path_points(ActorRecord *motion, s32 unused, void *position, ActorRecord *path);
 #include "dungeon/actor/state.h"
 #include "dungeon/level.h"
+#include "dungeon.h"
 
 
 typedef struct S_800C9F34_3 {

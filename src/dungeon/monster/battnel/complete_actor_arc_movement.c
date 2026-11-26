@@ -15,7 +15,7 @@
 extern u8 battnel_action_resume_address[];
 
 /* Advance arcing movement toward the destination tile and finalize the landing. */
-void complete_actor_arc_movement(ActorRecord *action, ObjectPosition *motion, Rec_D_80082E80 *destination, ActorRecord *entity) {
+void complete_actor_arc_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *destination, ActorRecord *entity) {
     u16 query_output;
     s32 frames_left;
     s32 entity_flags;
@@ -34,13 +34,13 @@ void complete_actor_arc_movement(ActorRecord *action, ObjectPosition *motion, Re
         action->unk_90.value -= action->unk_A0.value;
         if (frames_left != 0) {
             {
-                s32 target_x = destination->unk_24 << 6;
+                s32 target_x = destination->tile_x << 6;
                 s32 current_x = motion->x.w.i - 0x20;
 
                 motion->velocity_x = ((target_x - current_x) << 16) / frames_left;
             }
             {
-                s32 target_y = destination->unk_25 << 6;
+                s32 target_y = destination->tile_y << 6;
                 s32 current_y = motion->y.w.i - 0x20;
 
                 motion->velocity_y =
@@ -63,7 +63,7 @@ void complete_actor_arc_movement(ActorRecord *action, ObjectPosition *motion, Re
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, destination->unk_24, destination->unk_25);
+            set_record_integer_tile_center(motion, destination->tile_x, destination->tile_y);
             action->action_phase++;
         }
     }
@@ -72,7 +72,7 @@ void complete_actor_arc_movement(ActorRecord *action, ObjectPosition *motion, Re
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, destination->unk_24, destination->unk_25);
+        set_record_integer_tile_center(motion, destination->tile_x, destination->tile_y);
         spend_actor_mp(entity, 4);
         advance_status_timers(entity);
 
@@ -93,7 +93,7 @@ void complete_actor_arc_movement(ActorRecord *action, ObjectPosition *motion, Re
             if (entity_flags & 0x20000) {
 
                 entity->facing = get_rounded_facing_and_rounding_flag(
-                    destination->unk_24, destination->unk_25,
+                    destination->tile_x, destination->tile_y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &query_output);
             }
         }

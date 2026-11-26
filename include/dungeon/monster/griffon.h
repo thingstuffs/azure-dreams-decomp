@@ -43,7 +43,7 @@ struct ObjectPosition;
 typedef s32 R08_8017087C_M2C_UNK;
 
 
-typedef void (*R08_80170A50_EntityCallback)(void *, void *, void *, void *);
+typedef ActorActionHandler R08_80170A50_EntityCallback;
 typedef struct R08_80170A50_S_80170A28_1 {
     u8 pad_00[0x1C];
     s32 unk_1C;
@@ -377,9 +377,9 @@ void finish_griffon_linked_motion(ActorRecord *state, ObjectPosition *entity, Sp
 void advance_griffon_attack(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void update_item_activation_and_cleanup(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *object);
 void advance_action_phase_and_process_actor(ActorRecord *action, struct ObjectPosition *motion,struct SpriteFrameState *sprite, ActorRecord *entity);
-void remove_defeated_griffon(void *state, void *motion, void *position, void *actor);
-void shrink_hopping_griffon(void *state, void *motion, void *position, void *actor);
-void advance_griffon_removal(void *state, void *motion, void *position, void *actor);
+void remove_defeated_griffon(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
+void shrink_hopping_griffon(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
+void advance_griffon_removal(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void finish_griffon_hop_and_grow(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *position, ActorRecord *actor);
 void update_sleeping_griffon(ActorRecord *controller, ObjectPosition *actor_index, SpriteFrameState *sprite, ActorRecord *actor);
 void wait_for_griffon_mp(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);

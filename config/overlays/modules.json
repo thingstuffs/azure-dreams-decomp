@@ -3085,7 +3085,8 @@
       "region": "native_189a800_80024000",
       "headers": [
         "include/modules/dungeon_native_abi.h",
-        "include/modules/dungeon_ovl_189a800.h"
+        "include/modules/dungeon_ovl_189a800.h",
+        "include/dungeon/effect/mesh.h"
       ],
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -3225,20 +3226,20 @@
           "foff": 25798660,
           "vma": 2147631108,
           "size": 48,
-          "kind": "typed_string",
-          "text": "\uff34\uff48\uff45\uff52\uff45\u3000\uff57\uff41\uff53\u3000\uff4e\uff4f\u3000\uff45\uff46\uff46\uff45\uff43\uff54\u3000\uff4f\uff4e\u3000",
+          "kind": "imported_retail_text",
           "symbol": "D_80024004",
-          "encoding": "shift_jis"
+          "source_symbol": "no_effect_target_prefix",
+          "sha256": "fd6711512618cd1cf18bae5c2601f2a916764f778024e300f57b0ee0f2c067b4"
         },
         {
           "section": ".rodata",
           "foff": 25798708,
           "vma": 2147631156,
           "size": 4,
-          "kind": "typed_string",
-          "text": "\uff0e",
+          "kind": "imported_retail_text",
           "symbol": "D_80024034",
-          "encoding": "shift_jis"
+          "source_symbol": "no_effect_target_period",
+          "sha256": "ef96e4ab6cb95d02aa84a7f108c93a943f0fce578ef36110eb4e58be20646e36"
         },
         {
           "section": ".rodata",
@@ -3704,70 +3705,20 @@
           "foff": 25749508,
           "vma": 2147631108,
           "size": 48,
-          "kind": "message_bytes",
-          "bytes": [
-            130,
-            115,
-            130,
-            136,
-            130,
-            133,
-            130,
-            146,
-            130,
-            133,
-            129,
-            64,
-            130,
-            151,
-            130,
-            129,
-            130,
-            147,
-            129,
-            64,
-            130,
-            142,
-            130,
-            143,
-            129,
-            64,
-            130,
-            133,
-            130,
-            134,
-            130,
-            134,
-            130,
-            133,
-            130,
-            131,
-            130,
-            148,
-            129,
-            64,
-            130,
-            143,
-            130,
-            142,
-            129,
-            64
-          ],
+          "kind": "imported_retail_text",
           "symbol": "D_80024004",
-          "encoding": "shift_jis"
+          "source_symbol": "no_effect_target_prefix",
+          "sha256": "fd6711512618cd1cf18bae5c2601f2a916764f778024e300f57b0ee0f2c067b4"
         },
         {
           "section": ".rodata",
           "foff": 25749556,
           "vma": 2147631156,
           "size": 4,
-          "kind": "message_bytes",
-          "bytes": [
-            129,
-            68
-          ],
+          "kind": "imported_retail_text",
           "symbol": "D_80024034",
-          "encoding": "shift_jis"
+          "source_symbol": "no_effect_target_period",
+          "sha256": "ef96e4ab6cb95d02aa84a7f108c93a943f0fce578ef36110eb4e58be20646e36"
         },
         {
           "section": ".rodata",
@@ -5007,20 +4958,20 @@
           "foff": 25774084,
           "vma": 2147631108,
           "size": 48,
-          "kind": "typed_string",
+          "kind": "imported_retail_text",
           "symbol": "D_80024004",
-          "encoding": "shift_jis",
-          "text": "\uff34\uff48\uff45\uff52\uff45\u3000\uff57\uff41\uff53\u3000\uff4e\uff4f\u3000\uff45\uff46\uff46\uff45\uff43\uff54\u3000\uff4f\uff4e\u3000"
+          "source_symbol": "no_effect_target_prefix",
+          "sha256": "fd6711512618cd1cf18bae5c2601f2a916764f778024e300f57b0ee0f2c067b4"
         },
         {
           "section": ".rodata",
           "foff": 25774132,
           "vma": 2147631156,
           "size": 4,
-          "kind": "typed_string",
+          "kind": "imported_retail_text",
           "symbol": "D_80024034",
-          "encoding": "shift_jis",
-          "text": "\uff0e"
+          "source_symbol": "no_effect_target_period",
+          "sha256": "ef96e4ab6cb95d02aa84a7f108c93a943f0fce578ef36110eb4e58be20646e36"
         },
         {
           "section": ".rodata",
@@ -9377,61 +9328,10 @@
           "foff": 26388484,
           "vma": 2147631108,
           "size": 52,
-          "kind": "message_bytes",
+          "kind": "imported_retail_text",
           "symbol": "D_80024004",
-          "encoding": "shift_jis",
-          "bytes": [
-            129,
-            102,
-            130,
-            147,
-            129,
-            64,
-            130,
-            140,
-            130,
-            133,
-            130,
-            150,
-            130,
-            133,
-            130,
-            140,
-            129,
-            64,
-            130,
-            132,
-            130,
-            137,
-            130,
-            132,
-            130,
-            142,
-            129,
-            102,
-            130,
-            148,
-            129,
-            64,
-            130,
-            132,
-            130,
-            133,
-            130,
-            131,
-            130,
-            146,
-            130,
-            133,
-            130,
-            129,
-            130,
-            147,
-            130,
-            133,
-            129,
-            68
-          ]
+          "source_symbol": "level_not_decreased_suffix",
+          "sha256": "bc0dd330f8c7582cc5fc5e059fc71ec45eb38d5277d8c7213546271edeb9f5a1"
         },
         {
           "section": ".rodata",
@@ -11807,7 +11707,8 @@
       "source": "src/dungeon/monster/zu/update_zu_movement.c",
       "region": "native_fa7000_80170800",
       "headers": [
-        "include/modules/dungeon_ovl_fa7000.h"
+        "include/modules/dungeon_ovl_fa7000.h",
+        "include/dungeon/monster/zu.h"
       ],
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -12107,27 +12008,10 @@
           "foff": 16412756,
           "vma": 2148993108,
           "size": 20,
-          "kind": "message_bytes",
+          "kind": "imported_retail_text",
           "symbol": "D_80170854",
-          "encoding": "shift_jis",
-          "bytes": [
-            129,
-            64,
-            130,
-            146,
-            130,
-            143,
-            130,
-            129,
-            130,
-            146,
-            130,
-            133,
-            130,
-            132,
-            129,
-            68
-          ]
+          "source_symbol": "zu_action_message_suffix",
+          "sha256": "d7e7956ed262537d61593db855641e205629f241dd626a8f268ed4f493f02d5d"
         },
         {
           "section": ".rodata",
@@ -88148,7 +88032,7 @@
         "membership": "reviewed",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex-r121w-tub8"
+        "reviewer": "project review"
       },
       "review_inputs": [
         "docs/evidence/town_progress_interaction_g00708.md",
@@ -88265,7 +88149,7 @@
         "membership": "reviewed",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex-r121w-tub8"
+        "reviewer": "project review"
       },
       "review_inputs": [
         "docs/evidence/town_scene_choice_g00709.md",
@@ -88407,7 +88291,7 @@
         "membership": "reviewed",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex-r121w-tub8"
+        "reviewer": "project review"
       },
       "review_inputs": [
         "docs/evidence/town_active_object_records_g00710.md",
@@ -88494,7 +88378,7 @@
         "membership": "reviewed",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex-r121w-tub8"
+        "reviewer": "project review"
       },
       "review_inputs": [
         "docs/evidence/town_flagged_entry_actions_g00711.md",
@@ -88554,7 +88438,7 @@
         "membership": "reviewed",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex-r121w-tub8"
+        "reviewer": "project review"
       },
       "review_inputs": [
         "docs/evidence/town_value_handler_modes_g00712.md",
@@ -88645,7 +88529,7 @@
         "membership": "reviewed",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex-r121w-tub8"
+        "reviewer": "project review"
       },
       "review_inputs": [
         "docs/evidence/town_context_callback_g00713.md",
@@ -88765,7 +88649,7 @@
         "membership": "reviewed",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex-r121w-tub9"
+        "reviewer": "project review"
       },
       "review_inputs": [
         "docs/evidence/town_scene_event_selection_g00721.md",
@@ -88920,7 +88804,7 @@
         "membership": "reviewed",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex-r121w-tub9"
+        "reviewer": "project review"
       },
       "review_inputs": [
         "docs/evidence/town_scene_event_state_dispatch_g00731.md",
@@ -89018,7 +88902,7 @@
         "membership": "reviewed",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex-r121w-tub9"
+        "reviewer": "project review"
       },
       "review_inputs": [
         "docs/evidence/town_scene_global_mode_dispatch_g00734.md",
@@ -89116,7 +89000,7 @@
         "membership": "reviewed",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex-r121w-tub9"
+        "reviewer": "project review"
       },
       "review_inputs": [
         "docs/evidence/town_scene_interface_setup_g00740.md",
@@ -89220,7 +89104,7 @@
         "membership": "reviewed",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex-r121w-tub9"
+        "reviewer": "project review"
       },
       "review_inputs": [
         "docs/evidence/town_scene_event_cycle_reset_g00753.md",
@@ -91179,7 +91063,7 @@
         "membership": "reviewed",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex-r121w-tuwave1"
+        "reviewer": "project review"
       },
       "review_inputs": [
         "docs/evidence/town_call_reset_dispatch_state_flags_g01229.md",
@@ -91308,7 +91192,7 @@
         "membership": "reviewed",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex-r121w-tuwave1"
+        "reviewer": "project review"
       },
       "review_inputs": [
         "docs/evidence/town_start_dispatch_event_g01230.md",
@@ -91414,7 +91298,7 @@
         "membership": "reviewed",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex-r121w-tuwave1"
+        "reviewer": "project review"
       },
       "review_inputs": [
         "docs/evidence/town_apply_global_pointer_deltas_a_g01232.md",
@@ -91520,7 +91404,7 @@
         "membership": "reviewed",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex-r121w-tuwave1"
+        "reviewer": "project review"
       },
       "review_inputs": [
         "docs/evidence/town_apply_global_delta_record_b_g01233.md",
@@ -91626,7 +91510,7 @@
         "membership": "reviewed",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex-r121w-tuwave1"
+        "reviewer": "project review"
       },
       "review_inputs": [
         "docs/evidence/town_apply_global_delta_record_f_g01234.md",
@@ -91732,7 +91616,7 @@
         "membership": "reviewed",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex-r121w-tuwave1"
+        "reviewer": "project review"
       },
       "review_inputs": [
         "docs/evidence/town_apply_global_delta_record_j_g01235.md",
@@ -94165,7 +94049,7 @@
         "membership": "reviewed",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex-r121w-tuwave1"
+        "reviewer": "project review"
       },
       "review_inputs": [
         "docs/evidence/town_build_selected_entry_output_g01237.md",
@@ -95006,7 +94890,7 @@
         "membership": "reviewed",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex-r121w-tuwave1"
+        "reviewer": "project review"
       },
       "review_inputs": [
         "docs/evidence/dungeon_steer_effect_toward_target_g00278.md",
@@ -95183,7 +95067,7 @@
         "membership": "reviewed",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex-r121w-tuwave1"
+        "reviewer": "project review"
       },
       "review_inputs": [
         "docs/evidence/town_set_scaled_record_coordinates_g00704.md",
@@ -95261,7 +95145,7 @@
         "membership": "reviewed",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex-r121w-tuwave1"
+        "reviewer": "project review"
       },
       "review_inputs": [
         "docs/evidence/town_squared_distance_g00705.md",
@@ -95337,7 +95221,7 @@
         "membership": "reviewed",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex-r121w-tuwave1"
+        "reviewer": "project review"
       },
       "review_inputs": [
         "docs/evidence/town_cache_scaled_service_result_g00738.md",
@@ -95518,7 +95402,7 @@
         "membership": "reviewed",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "codex-r121w-tuwave1"
+        "reviewer": "project review"
       },
       "review_inputs": [
         "docs/evidence/dungeon_face_target_and_start_action_g00250.md",
@@ -95965,7 +95849,7 @@
         "membership": "reviewed",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "r121w_tuwave2"
+        "reviewer": "project review"
       },
       "review_inputs": [
         "docs/evidence/ovmovie_game_movie_playback_g01063.md",
@@ -98924,7 +98808,7 @@
         "membership": "reviewed",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "r124w_tuwave4"
+        "reviewer": "project review"
       },
       "review_inputs": [
         "docs/evidence/town_state_lookup.md",
@@ -98999,7 +98883,7 @@
         "membership": "reviewed",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "r124w_tuwave4"
+        "reviewer": "project review"
       },
       "review_inputs": [
         "docs/evidence/town_event_counter.md",
@@ -99147,7 +99031,7 @@
         "membership": "reviewed",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "r124w_tuwave4"
+        "reviewer": "project review"
       },
       "review_inputs": [
         "docs/evidence/town_service_values.md",
@@ -99233,7 +99117,7 @@
         "membership": "reviewed",
         "types": "reviewed",
         "ownership": "reviewed",
-        "reviewer": "r124w_tuwave4"
+        "reviewer": "project review"
       },
       "review_inputs": [
         "docs/evidence/town_handler_commands.md",

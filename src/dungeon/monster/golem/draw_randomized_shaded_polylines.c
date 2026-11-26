@@ -58,7 +58,7 @@ void draw_randomized_shaded_polylines(S_80175A90_3 *start_pos, EntityRec *end_po
 
     GpuContext *initial_context = render_state->draw_buffer;
 
-    scratch->ordering_table = (u32 *)&initial_context->orderTag;
+    scratch->ordering_table = &initial_context->orderTag[GPU_ORDER_DEPTH_BASE];
 
     do {
         GpuContext *context = render_state->draw_buffer;

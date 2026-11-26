@@ -2,8 +2,8 @@
 #include "common.h"
 #include "town/scene/mode_data.h"
 #include "town/player/state.h"
+#include "town/scene.h"
 
-extern s32 * select_fallback_when_below_threshold(void *input); /* placed copy of select_fallback_when_below_threshold */
 
 extern void *D_80019688[3];
 extern u8 D_8001A730[9];

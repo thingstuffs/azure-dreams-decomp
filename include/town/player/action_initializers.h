@@ -21,7 +21,6 @@ void init_target_tile_action(TownObjectRecord *record, struct ObjectPosition *un
 void init_flagged_action_fallback(s32 **record, void *unused, void *handler_context);
 void init_input_action_fallback(s32 **record, void *unused, void *handler_context);
 void init_negative_x_step_action(TownObjectRecord *object, void *unused, void *handler_context);
-void init_eased_value_action(TownObjectRecord *object, s32 context, void *handler_context);
 void init_player_countdown_action(TownObjectRecord *object, void *unused, void *handler_context);
 void init_countdown_handler_action(TownObjectRecord *record, void *unused, void *handler_context);
 void init_four_tick_record_action(TownObjectRecord *object, s32 motion_context, void *handler_context);

@@ -175,7 +175,7 @@ void teleport_baloon(ActorRecord *body, ObjectPosition *position, SpriteFrameSta
         old_y = sprite->tile_y;
         for (;;) {
             do {
-                tile_result = select_dungeon_spawn_tile((u8 *)sprite + 0x24, (u8 *)sprite + 0x25);
+                tile_result = select_dungeon_spawn_tile(&sprite->tile_x, &sprite->tile_y);
             } while (tile_result < 0);
 
             dx = abs(reference_tile_object.tile_position.parts.tile_x - sprite->tile_x);

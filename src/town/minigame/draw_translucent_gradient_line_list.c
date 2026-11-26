@@ -74,7 +74,7 @@ s32 draw_translucent_gradient_line_list(void *first_entry) {
             s32 min_depth;
             u16 first_depth;
 
-            /* BYTES: The unsigned conversion keeps the first depth load as lhu. */
+            /* BYTES: The conversion keeps the first depth read as an unsigned halfword. */
             first_depth = depths[0];
             bucket_addr = first_depth << 0x10;
             min_depth = depths[1] << 0x10;

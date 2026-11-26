@@ -11,7 +11,7 @@
 #include "dungeon/actor.h"
 #include "sdk/libgte.h"
 
-typedef void (*Callback)(void *, void *, void *, void *);
+typedef ActorActionHandler Callback;
 
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 

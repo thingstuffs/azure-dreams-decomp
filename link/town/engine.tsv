@@ -1,4 +1,4 @@
-#{"a":0,"d":{"c":"town","e":"config/overlays/town.rowbase.jsonl proven regions with delta 0x8007D760: xfer_town_B000; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)","i":"town/engine","n":"0x8B0A0","o":"0xB000","p":["788f7a54afae7122504420cb4471d635a71e1ea4b97606fc7eb90e5534b05e4e","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:7655fdde21b9be80f8ac883bd78b8ffef96bbc29d50b8ff0e820a1d50ba66b8f"],"t":[274524,0,6680,23298,163258,101490,254],"v":"0x80088760","y":{"0x80082680":"0x800826B8","0x80082710":"0x800826B8","0x800891F8":"0x8008926C","0x8009A1A4":"0x800C9D40","0x800B5174":"0x800B5C60","0x800B52F4":"0x800B5D70","0x800B5774":"0x800B5E28","0x800B59A4":"0x800B63EC","0x800C26C0":"0x800C27DC","0x800C283C":"0x800C28E8","0x800C2D0C":"0x800C2D94","0x800C5620":"0x800C9F1C","0x800C56A8":"0x800CA458","0x800C5ADC":"0x800C3C28","0x800C641C":"0x800CB028","0x800C7A6C":"0x800C9DB8","0x800C7EF0":"0x800CA3EC","0x800C9864":"0x800C9B44","0x800CBFAC":"0x800CCC34","0x800CD650":"0x800CD9F4","0x800CD70C":"0x800CD87C","0x800CE9EC":"0x800C4174","0x800D0E04":"0x800ED15C","0x800D15B8":"0x800D161C","0x800D16FC":"0x800D172C","0x800D5360":"0x800D539C","0x800D5388":"0x800D64DC","0x800D54BC":"0x800D5BB4","0x800D54DC":"0x800D675C","0x800D5540":"0x800D5554","0x800D55E8":"0x800D67AC","0x800D55F0":"0x800D67B4","0x800D5618":"0x800D67DC","0x800D561C":"0x800D67E0","0x800D5670":"0x800D59C4","0x800D5FA0":"0x800D64C8","0x800D5FE8":"0x800D64DC","0x800D6244":"0x800D62C4","0x800D627C":"0x800D72D4","0x800D6290":"0x800D72E8","0x800D62C4":"0x800D6244","0x800D6330":"0x800D69DC","0x800D6338":"0x800D69E4","0x800D6360":"0x800D6A0C","0x800D6364":"0x800D6A10","0x800D64DC":"0x800D72E8","0x800D6A70":"0x800D6EE8","0x800D6AA8":"0x800D6A70","0x800D6ABC":"0x800D6F4C","0x800D6AD0":"0x800D6F60"}},"p":[{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:sjis"},{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:data_row"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: sliver_between_noncode"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"proven_code"},{"tu":"src/town/player/view_relative_angle_sector.c"},{"tu":"src/town/player/state/advance_player_state.c"},{"tu":"src/town/menu/window.c"},{"tu":"src/town/menu/animation/initialize_emote_animation.c"},{"tu":"src/town/shop/count_nonzero_fixed_table_words.c"},{"tu":"src/town/shop/position/position_item_menu_side_indicators.c"},{"tu":"src/town/shop/item/initialize_item_menu_panel_rectangle.c"},{"tu":"src/town/shop/object/link_item_menu_object_entries.c"},{"tu":"src/town/shop/item/clear_item_menu_entry_groups.c"},{"tu":"src/town/shop/state/reset_item_menu_object_state.c"},{"census_label":"strongly_code"},{"tu":"src/town/shop/arrange_ten_objects_in_columns.c"},{"bindings":{"0x800D15B8":"0x800D1650"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/shop/item/initialize_item_menu_panel_rectangle.c"},{"bindings":{"0x800B0318":"0x800B39E4"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/shop/state/reset_item_menu_object_state.c"},{"tu":"src/town/shop/copy_display_template_blocks.c"},{"tu":"src/town/shop/initialize_display_entry.c"},{"tu":"src/town/map/position/apply_building_tile_entry.c"},{"tu":"src/town/map/state/update_inactive_object_state.c"},{"tu":"src/town/person/object/initialize_transform_object_values.c"},{"tu":"src/town/person/initialize_indexed_transform_resource.c"},{"tu":"src/town/person/store_value_table_and_reset_target.c"},{"tu":"src/town/person/run_unhandled_update_and_choose_direction.c"},{"tu":"src/town/person/motion/advance_bounded_motion.c"},{"tu":"src/town/person/state/initialize_object_assigns_state_data.c"},{"tu":"src/town/person/choose_random_movement_direction.c"},{"tu":"src/town/person/state/dispatch_status_triggered_update.c"},{"tu":"src/town/person/animate_scale_and_restore.c"},{"tu":"src/town/person/decrement_countdown_call.c"},{"tu":"src/town/person/state/initialize_actor_clear_shared_flag.c"},{"bindings":{"0x80082710":"0x80082710","0x800C5620":"0x800C5620"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_shared_flag.c"},{"bindings":{"0x80082710":"0x80082710","0x800C5620":"0x800C5620","0x800D5360":"0x800D53B0"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_shared_flag.c"},{"tu":"src/town/person/adjust_two_state_values.c"},{"tu":"src/town/person/state/initialize_actor_clear_table_flag.c"},{"bindings":{"0x800C5ADC":"0x800C5C70","0x800D54BC":"0x800D54D4"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_table_flag.c"},{"tu":"src/town/person/object/initialize_object_tables.c"},{"tu":"src/town/person/state/initialize_actor_state_table.c"},{"bindings":{"0x800D5540":"0x800D5568"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_state_table.c"},{"bindings":{"0x800D5540":"0x800D557C"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_state_table.c"},{"tu":"src/town/person/try_apply_threshold_effect_variant_b.c"},{"tu":"src/town/person/run_record_countdown_follow_up.c"},{"bindings":{"0x800C641C":"0x800C645C"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/run_record_countdown_follow_up.c"},{"bindings":{"0x800C641C":"0x800C641C"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/run_record_countdown_follow_up.c"},{"bindings":{"0x800C641C":"0x800C6478"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/run_record_countdown_follow_up.c"},{"bindings":{"0x800D54BC":"0x800D5B90"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_table_flag.c"},{"bindings":{"0x800C5ADC":"0x800C3BF4"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_table_flag.c"},{"bindings":{"0x800C5ADC":"0x800C7138","0x800D54BC":"0x800D5CAC"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_table_flag.c"},{"bindings":{"0x800C5ADC":"0x800C71F8","0x800D54BC":"0x800D5CF4"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_table_flag.c"},{"bindings":{"0x800C382C":"0x800C7AC4"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/run_unhandled_update_and_choose_direction.c"},{"tu":"src/town/person/motion/advance_mother_event_bounded_motion.c"},{"tu":"src/town/person/decrement_mother_event_timer_and_restore.c"},{"bindings":{"0x80082710":"0x80082680","0x800C5620":"0x800C7CB4","0x800D5360":"0x800D5FE8"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_shared_flag.c"},{"tu":"src/town/person/initialize_mother_event_countdown.c"},{"tu":"src/town/person/object/initialize_mother_event_object.c"},{"tu":"src/town/person/object/initialize_object_configuration_x.c"},{"bindings":{"0x800D6244":"0x800D6220"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/object/initialize_object_configuration_x.c"},{"bindings":{"0x800C641C":"0x800C8928"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/run_record_countdown_follow_up.c"},{"tu":"src/town/person/initialize_scene_slot_context.c"},{"bindings":{"0x800D62C4":"0x800D6220"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/initialize_scene_slot_context.c"},{"tu":"src/town/person/position/advance_object_position.c"},{"tu":"src/town/person/check_action_six_eligibility.c"},{"tu":"src/town/person/object/initialize_object_callback.c"},{"tu":"src/town/person/object/assign_four_object_data_pointers.c"},{"bindings":{"0x800C641C":"0x800C895C"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/run_record_countdown_follow_up.c"},{"bindings":{"0x800C382C":"0x800C9610"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/run_unhandled_update_and_choose_direction.c"},{"bindings":{"0x800C37C4":"0x800C95A8"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/motion/advance_bounded_motion.c"},{"bindings":{"0x800C34EC":"0x800C92A4"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_object_assigns_state_data.c"},{"bindings":{"0x800C34EC":"0x800C9314"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_object_assigns_state_data.c"},{"bindings":{"0x800C382C":"0x800C9DB8"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/run_unhandled_update_and_choose_direction.c"},{"tu":"src/town/person/object/initialize_reaction_object.c"},{"bindings":{"0x800D64DC":"0x800D6518"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/object/initialize_reaction_object.c"},{"bindings":{"0x800D5360":"0x800D652C"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_shared_flag.c"},{"bindings":{"0x800D5360":"0x800D6504"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_shared_flag.c"},{"bindings":{"0x800C7E70":"0x800CA094"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/initialize_mother_event_countdown.c"},{"bindings":{"0x800D5360":"0x800D6554"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_shared_flag.c"},{"bindings":{"0x800C3BF4":"0x800C3BF4"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/object/initialize_object_tables.c"},{"bindings":{"0x800C3BF4":"0x800C3BF4","0x800D54DC":"0x800D6734","0x800D55E8":"0x800D6770","0x800D55F0":"0x800D6778","0x800D5618":"0x800D67A0","0x800D561C":"0x800D67A4"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/object/initialize_object_tables.c"},{"bindings":{"0x800C641C":"0x800CB060"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/run_record_countdown_follow_up.c"},{"bindings":{"0x800D6330":"0x800D6988","0x800D6338":"0x800D6990","0x800D6360":"0x800D69B8","0x800D6364":"0x800D69BC"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/object/assign_four_object_data_pointers.c"},{"tu":"src/town/person/state/initialize_indexed_callback_state.c"},{"tu":"src/town/person/object/initialize_object_and_advance.c"},{"tu":"src/town/person/motion/update_jump_motion.c"},{"bindings":{"0x800D54BC":"0x800D6DBC"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_table_flag.c"},{"bindings":{"0x800D54BC":"0x800D6DD0"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_table_flag.c"},{"bindings":{"0x800D54BC":"0x800D6DE4"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_table_flag.c"},{"bindings":{"0x800C5ADC":"0x800C3BF4","0x800D54BC":"0x800D6E68"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_table_flag.c"},{"bindings":{"0x800CBFAC":"0x800CCC70"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_indexed_callback_state.c"},{"bindings":{"0x800D6AA8":"0x800D6F24"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/object/initialize_object_and_advance.c"},{"bindings":{"0x800D6AA8":"0x800D6EE8"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/object/initialize_object_and_advance.c"},{"bindings":{"0x8009A1A4":"0x800CDF54"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/player/state/advance_player_state.c"},{"tu":"src/town/person/object/initialize_object_from_context.c"},{"tu":"src/town/person/object/initialize_object_and_data_pointer.c"},{"bindings":{"0x800C9864":"0x800CDADC"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/object/initialize_reaction_object.c"},{"bindings":{"0x800CD650":"0x800CDBB8"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/object/initialize_object_from_context.c"},{"bindings":{"0x800C9864":"0x800CDCA8"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/object/initialize_reaction_object.c"},{"tu":"src/town/person/motion/move_halfway_toward_transition_target.c"},{"tu":"src/town/person/tick_countdown_toward_target.c"},{"bindings":{"0x800C86EC":"0x800CE800"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/check_action_six_eligibility.c"},{"bindings":{"0x80082710":"0x80082688","0x800C5620":"0x800CE08C","0x800D5360":"0x800D72AC"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_shared_flag.c"},{"bindings":{"0x800C8788":"0x800CE19C"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/object/initialize_object_callback.c"},{"bindings":{"0x800C8788":"0x800CE38C"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/object/initialize_object_callback.c"},{"bindings":{"0x80082680":"0x80082688","0x800C7EF0":"0x800CE538","0x800D5FA0":"0x800D72C0"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/object/initialize_mother_event_object.c"},{"bindings":{"0x800D54BC":"0x800D7C68"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_table_flag.c"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:matched_c_read"}],"s":"azure-clean.bytemap.tsv.v1","z":1}
+#{"a":0,"d":{"c":"town","e":"config/overlays/town.rowbase.jsonl proven regions with delta 0x8007D760: xfer_town_B000; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)","i":"town/engine","n":"0x8B0A0","o":"0xB000","p":["788f7a54afae7122504420cb4471d635a71e1ea4b97606fc7eb90e5534b05e4e","a587cfbe35f4dbb2d7c15b0db0ec7486295e3e4f5a3bf1821347800dd964f46e","LL6 B13 census replay and retained TU entries sha256:7655fdde21b9be80f8ac883bd78b8ffef96bbc29d50b8ff0e820a1d50ba66b8f"],"t":[274524,0,6680,23298,163258,101490,254],"v":"0x80088760","y":{"0x80082680":"0x800826B8","0x80082710":"0x800826B8","0x800891F8":"0x8008926C","0x8009A1A4":"0x800C9D40","0x800B5174":"0x800B5C60","0x800B52F4":"0x800B5D70","0x800B5774":"0x800B5E28","0x800B59A4":"0x800B63EC","0x800C26C0":"0x800C27DC","0x800C283C":"0x800C28E8","0x800C2D0C":"0x800C2D94","0x800C5620":"0x800C9F1C","0x800C56A8":"0x800CA458","0x800C5ADC":"0x800C3C28","0x800C641C":"0x800CB028","0x800C7A6C":"0x800C9DB8","0x800C7EF0":"0x800CA3EC","0x800C9864":"0x800C9B44","0x800CBFAC":"0x800CCC34","0x800CD650":"0x800CD9F4","0x800CD70C":"0x800CD87C","0x800CE9EC":"0x800C4174","0x800D0E04":"0x800ED15C","0x800D15B8":"0x800D161C","0x800D16FC":"0x800D172C","0x800D5360":"0x800D539C","0x800D5388":"0x800D64DC","0x800D54BC":"0x800D5BB4","0x800D54DC":"0x800D675C","0x800D5540":"0x800D5554","0x800D55E8":"0x800D67AC","0x800D55F0":"0x800D67B4","0x800D5618":"0x800D67DC","0x800D561C":"0x800D67E0","0x800D5670":"0x800D59C4","0x800D5FA0":"0x800D64C8","0x800D5FE8":"0x800D64DC","0x800D6244":"0x800D62C4","0x800D627C":"0x800D72D4","0x800D6290":"0x800D72E8","0x800D62C4":"0x800D6244","0x800D6330":"0x800D69DC","0x800D6338":"0x800D69E4","0x800D6360":"0x800D6A0C","0x800D6364":"0x800D6A10","0x800D64DC":"0x800D72E8","0x800D6A70":"0x800D6EE8","0x800D6AA8":"0x800D6A70","0x800D6ABC":"0x800D6F4C","0x800D6AD0":"0x800D6F60"}},"p":[{"type":"typing pending"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:sjis"},{},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:data_row"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ptrtab"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: sliver_between_noncode","hash_size":16},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: format:ascii"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: audit+noncode_confirmed","hash_size":16},{"census_label":"proven_code"},{"tu":"src/town/player/view_relative_angle_sector.c"},{"tu":"src/town/player/state/advance_player_state.c"},{"tu":"src/town/menu/window.c"},{"tu":"src/town/menu/animation/initialize_emote_animation.c"},{"tu":"src/town/shop/count_nonzero_fixed_table_words.c"},{"tu":"src/town/shop/position/position_item_menu_side_indicators.c"},{"tu":"src/town/shop/item/initialize_item_menu_panel_rectangle.c"},{"tu":"src/town/shop/object/link_item_menu_object_entries.c"},{"tu":"src/town/shop/item/clear_item_menu_entry_groups.c"},{"tu":"src/town/shop/state/reset_item_menu_object_state.c"},{"census_label":"strongly_code"},{"tu":"src/town/shop/arrange_ten_objects_in_columns.c"},{"bindings":{"0x800D15B8":"0x800D1650"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/shop/item/initialize_item_menu_panel_rectangle.c"},{"bindings":{"0x800B0318":"0x800B39E4"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/shop/state/reset_item_menu_object_state.c"},{"tu":"src/town/shop/copy_display_template_blocks.c"},{"tu":"src/town/shop/initialize_display_entry.c"},{"tu":"src/town/map/position/apply_building_tile_entry.c"},{"tu":"src/town/map/state/update_inactive_object_state.c"},{"tu":"src/town/person/object/initialize_transform_object_values.c"},{"tu":"src/town/person/initialize_indexed_transform_resource.c"},{"tu":"src/town/person/store_value_table_and_reset_target.c"},{"tu":"src/town/person/run_unhandled_update_and_choose_direction.c"},{"tu":"src/town/person/motion/advance_bounded_motion.c"},{"tu":"src/town/person/state/initialize_object_assigns_state_data.c"},{"tu":"src/town/person/choose_random_movement_direction.c"},{"tu":"src/town/person/state/dispatch_status_triggered_update.c"},{"tu":"src/town/person/animate_scale_and_restore.c"},{"tu":"src/town/person/decrement_countdown_call.c"},{"tu":"src/town/person/state/initialize_actor_clear_shared_flag.c"},{"bindings":{"0x80082710":"0x80082710","0x800C5620":"0x800C5620"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_shared_flag.c"},{"bindings":{"0x80082710":"0x80082710","0x800C5620":"0x800C5620","0x800D5360":"0x800D53B0"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_shared_flag.c"},{"tu":"src/town/person/adjust_two_state_values.c"},{"tu":"src/town/person/state/initialize_actor_clear_table_flag.c"},{"bindings":{"0x800C5ADC":"0x800C5C70","0x800D54BC":"0x800D54D4"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_table_flag.c"},{"tu":"src/town/person/object/initialize_object_tables.c"},{"tu":"src/town/person/state/initialize_actor_state_table.c"},{"bindings":{"0x800D5540":"0x800D5568"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_state_table.c"},{"bindings":{"0x800D5540":"0x800D557C"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_state_table.c"},{"tu":"src/town/person/try_apply_threshold_effect_variant_b.c"},{"tu":"src/town/person/run_record_countdown_follow_up.c"},{"bindings":{"0x800C641C":"0x800C645C"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/run_record_countdown_follow_up.c"},{"bindings":{"0x800C641C":"0x800C641C"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/run_record_countdown_follow_up.c"},{"bindings":{"0x800C641C":"0x800C6478"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/run_record_countdown_follow_up.c"},{"bindings":{"0x800D54BC":"0x800D5B90"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_table_flag.c"},{"bindings":{"0x800C5ADC":"0x800C3BF4"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_table_flag.c"},{"bindings":{"0x800C5ADC":"0x800C7138","0x800D54BC":"0x800D5CAC"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_table_flag.c"},{"bindings":{"0x800C5ADC":"0x800C71F8","0x800D54BC":"0x800D5CF4"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_table_flag.c"},{"bindings":{"0x800C382C":"0x800C7AC4"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/run_unhandled_update_and_choose_direction.c"},{"tu":"src/town/person/motion/advance_mother_event_bounded_motion.c"},{"tu":"src/town/person/decrement_mother_event_timer_and_restore.c"},{"bindings":{"0x80082710":"0x80082680","0x800C5620":"0x800C7CB4","0x800D5360":"0x800D5FE8"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_shared_flag.c"},{"tu":"src/town/person/initialize_mother_event_countdown.c"},{"tu":"src/town/person/object/initialize_mother_event_object.c"},{"tu":"src/town/person/object/initialize_object_configuration_x.c"},{"bindings":{"0x800D6244":"0x800D6220"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/object/initialize_object_configuration_x.c"},{"bindings":{"0x800C641C":"0x800C8928"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/run_record_countdown_follow_up.c"},{"tu":"src/town/person/initialize_scene_slot_context.c"},{"bindings":{"0x800D62C4":"0x800D6220"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/initialize_scene_slot_context.c"},{"tu":"src/town/person/position/advance_object_position.c"},{"tu":"src/town/person/check_action_six_eligibility.c"},{"tu":"src/town/person/object/initialize_object_callback.c"},{"tu":"src/town/person/object/assign_four_object_data_pointers.c"},{"bindings":{"0x800C641C":"0x800C895C"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/run_record_countdown_follow_up.c"},{"bindings":{"0x800C382C":"0x800C9610"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/run_unhandled_update_and_choose_direction.c"},{"bindings":{"0x800C37C4":"0x800C95A8"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/motion/advance_bounded_motion.c"},{"bindings":{"0x800C34EC":"0x800C92A4"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_object_assigns_state_data.c"},{"bindings":{"0x800C34EC":"0x800C9314"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_object_assigns_state_data.c"},{"bindings":{"0x800C382C":"0x800C9DB8"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/run_unhandled_update_and_choose_direction.c"},{"tu":"src/town/person/object/initialize_reaction_object.c"},{"bindings":{"0x800D64DC":"0x800D6518"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/object/initialize_reaction_object.c"},{"bindings":{"0x800D5360":"0x800D652C"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_shared_flag.c"},{"bindings":{"0x800D5360":"0x800D6504"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_shared_flag.c"},{"bindings":{"0x800C7E70":"0x800CA094"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/initialize_mother_event_countdown.c"},{"bindings":{"0x800D5360":"0x800D6554"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_shared_flag.c"},{"bindings":{"0x800C3BF4":"0x800C3BF4"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/object/initialize_object_tables.c"},{"bindings":{"0x800C3BF4":"0x800C3BF4","0x800D54DC":"0x800D6734","0x800D55E8":"0x800D6770","0x800D55F0":"0x800D6778","0x800D5618":"0x800D67A0","0x800D561C":"0x800D67A4"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/object/initialize_object_tables.c"},{"bindings":{"0x800C641C":"0x800CB060"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/run_record_countdown_follow_up.c"},{"bindings":{"0x800D6330":"0x800D6988","0x800D6338":"0x800D6990","0x800D6360":"0x800D69B8","0x800D6364":"0x800D69BC"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/object/assign_four_object_data_pointers.c"},{"tu":"src/town/person/state/initialize_indexed_callback_state.c"},{"tu":"src/town/person/object/initialize_object_and_advance.c"},{"tu":"src/town/person/motion/update_jump_motion.c"},{"bindings":{"0x800D54BC":"0x800D6DBC"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_table_flag.c"},{"bindings":{"0x800D54BC":"0x800D6DD0"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_table_flag.c"},{"bindings":{"0x800D54BC":"0x800D6DE4"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_table_flag.c"},{"bindings":{"0x800C5ADC":"0x800C3BF4","0x800D54BC":"0x800D6E68"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_table_flag.c"},{"bindings":{"0x800CBFAC":"0x800CCC70"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_indexed_callback_state.c"},{"bindings":{"0x800D6AA8":"0x800D6F24"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/object/initialize_object_and_advance.c"},{"bindings":{"0x800D6AA8":"0x800D6EE8"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/object/initialize_object_and_advance.c"},{"bindings":{"0x8009A1A4":"0x800CDF54"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/player/state/advance_player_state.c"},{"tu":"src/town/person/object/initialize_object_from_context.c"},{"tu":"src/town/person/object/initialize_object_and_data_pointer.c"},{"bindings":{"0x800C9864":"0x800CDADC"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/object/initialize_reaction_object.c"},{"bindings":{"0x800CD650":"0x800CDBB8"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/object/initialize_object_from_context.c"},{"bindings":{"0x800C9864":"0x800CDCA8"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/object/initialize_reaction_object.c"},{"tu":"src/town/person/motion/move_halfway_toward_transition_target.c"},{"tu":"src/town/person/tick_countdown_toward_target.c"},{"bindings":{"0x800C86EC":"0x800CE800"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/check_action_six_eligibility.c"},{"bindings":{"0x80082710":"0x80082688","0x800C5620":"0x800CE08C","0x800D5360":"0x800D72AC"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_shared_flag.c"},{"bindings":{"0x800C8788":"0x800CE19C"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/object/initialize_object_callback.c"},{"bindings":{"0x800C8788":"0x800CE38C"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/object/initialize_object_callback.c"},{"bindings":{"0x80082680":"0x80082688","0x800C7EF0":"0x800CE538","0x800D5FA0":"0x800D72C0"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/object/initialize_mother_event_object.c"},{"bindings":{"0x800D54BC":"0x800D7C68"},"evidence":"r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)","tu":"src/town/person/state/initialize_actor_clear_table_flag.c"},{"census_label":"proven_data","extractor":"container-slice-v1","format":"census data slice: ledger:matched_c_read","hash_size":16}],"s":"azure-clean.bytemap.tsv.v1","z":1}
 o	n	k	r	h	x
 45056	16	d	census:noncode:decode		0
 45072	52	a	census:format:sjis	6e2b1a4f804921e7d4adc50415b0b12f62a11fb6bdfd624f95bc3ae5c0ac1079	1
@@ -21,18 +21,18 @@ o	n	k	r	h	x
 47584	60	a	census:format:ptrtab	76a9d4ab13daf8f396d6902359ea2c59b7608ee386a4da1059ff94d2eb2bd3ba	5
 47644	78	a	census:format:sjis	9a16444980e99b69464e527d0eb28412c4ffeac8c67aec2f98b71b6d6f98b213	1
 47722	62	a	census:audit+noncode_confirmed	73ca88b91e5941354aecb2600858e51234a41237f4fb97d856d2c0b498bc76b9	3
-47784	8	a	census:neighbour:proven_data	abbdb3bf0ad61d01f1551c2ee9d32fc5c2939e28ab76d21ab38c45696462c55d	6
+47784	8	a	census:neighbour:proven_data	b3e67cbfff293b2ffd2c7969902c69aed2ff51ec9310afdd90a95fc8b9fad77b	6
 47792	108	a	census:audit+noncode_confirmed	31797d174d519974dd8b20d6a4a17ec6b0252f134464c020efebb26f87d36103	3
-47900	8	a	census:neighbour:proven_data	abbdb3bf0ad61d01f1551c2ee9d32fc5c2939e28ab76d21ab38c45696462c55d	6
+47900	8	a	census:neighbour:proven_data	b3e67cbfff293b2ffd2c7969902c69aed2ff51ec9310afdd90a95fc8b9fad77b	6
 47908	160	a	census:audit+noncode_confirmed	2d069ba20b59530b4243664b70ee35eaf82f0cdc580c50a274bf561da52ce739	3
 48068	24	a	census:format:ascii	b8f60596d0c86e62a9c61e7dd6b7bf95829d215d24eb3332103e3d43081e298f	7
-48092	12	a	census:audit+noncode_confirmed	025e480155d257cd65dc53f94120df3e0f046771852d0ad1eab3c6a28d9b412f	3
+48092	12	a	census:audit+noncode_confirmed	e7ea2c56bd76d5b442b5b2adc512b0898cc6df4685530dbae71c06ee48eeb165	8
 48104	84	a	census:format:ptrtab	bc3a6b318cf74d7bb95f0aad858f1f9d49a15fc175a710bf98bb9890d82cff36	5
-48188	4	a	census:audit+noncode_confirmed	df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119	3
+48188	4	a	census:audit+noncode_confirmed	5b07dce524a8a93530b43e86467c6511b3e9dd027792353c034601da3e8f08bd	8
 48192	84	a	census:format:ptrtab	4966e2ea0f010b1bc483adb6d63c9a1be21d3a07e2ced6b44900e2c61d36fead	5
-48276	4	a	census:audit+noncode_confirmed	df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119	3
+48276	4	a	census:audit+noncode_confirmed	bfb0756d13fdb9b7fdfbc70c0f34ab144466cf7383f7b5e0c7e6dc03da57f317	8
 48280	84	a	census:format:ptrtab	0f875b24c16c35bb82a6cc39f8e510592e28492f2d1cbbf93382b4a496d8d62b	5
-48364	4	a	census:audit+noncode_confirmed	df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119	3
+48364	4	a	census:audit+noncode_confirmed	8d91517e6aea7ac7f9427810d41841c9f8181177093673a4f2cb4156036bbf96	8
 48368	128	a	census:format:ptrtab	0b6750ecf2b258c60d888c07555cb22b2e3080c01648be128c19698e6cc27e0b	5
 48496	24	a	census:audit+noncode_confirmed	d303b80f93ea7e5c0e4182b21b506cb1d1833a99622265734f65c74fdd3741d9	3
 48520	264	a	census:format:ptrtab	489d0a56ba8b4114f221b92df5547bea19f7afc0de04f25f59f43e6b33a0d70b	5
@@ -42,20 +42,20 @@ o	n	k	r	h	x
 48870	20	a	census:format:sjis	8984be80f842d21b035ac873b78b5d32f1ac420f203918a46be3fec180e0db54	1
 48890	22	a	census:audit+noncode_confirmed	4b31a63b2d73711af1c6249e8ecf2264d18a1343f04de830cd873596a949d48c	3
 48912	444	a	census:format:ptrtab	38068754405675e6e50980ebccd7953df0698acd0163c523dd49f20639acb8d4	5
-49356	4	a	census:audit+noncode_confirmed	df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119	3
+49356	4	a	census:audit+noncode_confirmed	6167cb7d54098b033abc741395ea1a03a04c5a8eef0596be9137a759b81cff13	8
 49360	148	a	census:format:ptrtab	1eae16decdf2f343c553794e84c871af13bb9aa227d5a466b8478fdcfe6c0afc	5
 49508	16	a	census:audit+noncode_confirmed	c658ff7b9b07d90d8a93de3d56cf49f379ed4217eed459afe002bdd7333f47ce	3
 49524	24	a	census:format:ptrtab	194d1247f8cc9cc04377b275d4d5236891c4bfd8300f5e16cf09f87f1b980d21	5
 49548	20	a	census:audit+noncode_confirmed	5acb78302a9aaedb5744eb5186a4f2ceab7914c3d423f2f12cbbcf4ce7772652	3
 49568	24	a	census:format:ptrtab	cd220ab60ec31b067c1454b4434526ee9946267d8a42a0b22e7ed76fa645c8d0	5
 49592	18	a	census:format:sjis	4ef4d244b9fd2ce92c2adcacbd518de1b2f1d4eb6a1bdeee3890e500c8cd6e6a	1
-49610	6	a	census:audit+noncode_confirmed	2e5cad238f72ee10daabd3d0f9b67898206ba40aa08eaf731d4572d3204de2e4	3
+49610	6	a	census:audit+noncode_confirmed	bd27d0a93d5ca8a05dc614f6f9fca426e98ad326e8babcfd25b35d32ce448cf7	8
 49616	20	a	census:format:ptrtab	218686e4b862df30a780d08a098ab493ebb7a620c53f89e00836b4566d12720a	5
 49636	22	a	census:format:sjis	93e5dd9d18b1cffd781477e5b014de5049339ebf891b5669ad50f812760d67a5	1
 49658	30	a	census:audit+noncode_confirmed	074e7eb7de339ea952a24dbc7a964682558ce63a3616d88b9a769160b1df89b3	3
 49688	20	a	census:format:ptrtab	4d81f4202e67071737a20a359c927785f2d44c1c11c1c8a79d4167c9b5c29234	5
 49708	50	a	census:format:sjis	5f1e5776b5ff97d05699a0b9bafddda2d957327443a59bcf53055ca5fe3b68f8	1
-49758	10	a	census:audit+noncode_confirmed	f07526252c6dbdf61fac5529669302c26a45c2e1078a6376ed107d2733d9763c	3
+49758	10	a	census:audit+noncode_confirmed	36903f13d01aa585a59077bc1bbc084fb5066b81a924fe1031f8d456ef681389	8
 49768	126	a	census:format:sjis	89a48bd8ca71262635b3d153102c51bd0010209a9db475bb6dfc92930ad6e8d0	1
 49894	18	a	census:audit+noncode_confirmed	193f0f1c9741e83a2e72eb22b294d5807c7a9ff047a51f2f8e1a42248596d33e	3
 49912	40	a	census:format:sjis	fdf64e6caea0fd270bd3419b268e0874bd140ae2fab88325437dbf27893713d6	1
@@ -67,13 +67,13 @@ o	n	k	r	h	x
 50220	109	a	census:format:sjis	b56a50146f8dfe228af826bf0202446cd9d24cf20d4c29d82991f5c3bf54e916	1
 50329	27	a	census:audit+noncode_confirmed	fd61152caaa4e8100785244c28316e422addd69bf9062f4a6d69feb656304d3e	3
 50356	129	a	census:format:sjis	08d49dfe29f83bed3ceffd6e8d57d932702a807e9b3722f3f2c1b8772dd1a24f	1
-50485	15	a	census:audit+noncode_confirmed	a0e24887b55af1a0a0940f681171ca4c77abad318a53fc797c83f5dd747cfa13	3
+50485	15	a	census:audit+noncode_confirmed	e8c09eec4fa0f9b9ad0442c4863e4533b58f0b77ca447b73c59cdc3daea74fcc	8
 50500	146	a	census:format:sjis	2b1df43239bbc8881d7b7cdf4a90e0b908eb69017dc5a6beae542a49eaaa1eea	1
 50646	18	a	census:audit+noncode_confirmed	11555c59d3a719cb0a5ee3bdc027a03c01beadd28ab480664ea124b5a42bbfe7	3
 50664	99	a	census:format:sjis	42d636549894c3f6850711ae609a99537c91ddb5ebc2ef54c8f15a6fbf36ac83	1
 50763	33	a	census:audit+noncode_confirmed	e5bea9dc9f5d0d8fbc124c2d0d78297cebc57afd091237177c573d534537188a	3
 50796	56	a	census:format:sjis	686ee4f17f274cc1b36fded68bca5cee42f0376e11e668d92cb1167f81dc9b59	1
-50852	12	a	census:audit+noncode_confirmed	511e51a04ebfdb0d5e23848d34d4292c0aba44118cb6d749015a44ec2c6fc95b	3
+50852	12	a	census:audit+noncode_confirmed	155641425aacdc8dcec53d6d31860e79cb047cd99936b69c72690aebb2f48072	8
 50864	117	a	census:format:sjis	7e2a4f43ddf436d9c2fe42aaef6b76c1dcaf24a462890d307dc3d350e1eaeb39	1
 50981	19	a	census:audit+noncode_confirmed	284ccd80d56204cae59331f6caca4836388ab99ecae3cbee0e0f4c744c9e9f81	3
 51000	28	a	census:format:sjis	4c0e65ee8ed45b0db8f55e42465c1130e9cfe741f3912f61b19af0f465a36dd8	1
@@ -87,31 +87,31 @@ o	n	k	r	h	x
 51460	155	a	census:format:sjis	2a9048c1fc2864cfbf083d235573b4ea6678447e46a1dd50ddd03da9d10c161e	1
 51615	17	a	census:audit+noncode_confirmed	475bab87f9559ee454755fe942974f7bb02805c0ddd5784210b023ca016f71b7	3
 51632	222	a	census:format:sjis	8a4ad3ba58044eb2844ea1d6df03bad7b7298117dcc6605cbd59d27000f30e72	1
-51854	14	a	census:audit+noncode_confirmed	835565117e129aa9afb91f7a713b55f03dbdb1fea7ff457a3b77380ad5308fc9	3
+51854	14	a	census:audit+noncode_confirmed	581f48341f013d7f7b6aa3841a9813b2dc522e68bf6f0b441a85c699c615ad6b	8
 51868	229	a	census:format:sjis	ed1d57e4b99744629e212c09b66043e8bb44d45d8d25febd6b3995d728fc68f2	1
 52097	19	a	census:audit+noncode_confirmed	da218efca2611d4a97b0501a6b5bece08e9150e38acf3e7cb6817d8327a8ebbb	3
 52116	199	a	census:format:sjis	ff9f158ed7711a8eced89d8f163a0a1f1cd20eef671b1c3ff4107aa8d3a90f27	1
-52315	13	a	census:audit+noncode_confirmed	725ec596f9a7150d0d86cfb192a352bb9794dbece0fc4354081d0d4d39af9579	3
+52315	13	a	census:audit+noncode_confirmed	8d5d983551228c8495438151bfd89813da1d432f5445839ed7931177e1bba3e8	8
 52328	28	a	census:format:sjis	b224137109f79e983c92440795bc98175c9336da57809cefe363e300719b3aa3	1
 52356	16	a	census:audit+noncode_confirmed	306b5b2b9396b0d60716b75cf6631e62e012cfa68535b97e5420069f5dad33cb	3
 52372	149	a	census:format:sjis	c0249893b576ae3016cc6c10ca227171887b282d59a85a8c677beebdbac387b5	1
 52521	19	a	census:audit+noncode_confirmed	43cff06d888c1a4d538ee70f45204733df9668232ecba050b075dd88dedf8ead	3
 52540	107	a	census:format:sjis	24a4a83b5c1ea7be5b421354454359d1ef53ceb63d67cec170e77b4a0aa92fc5	1
-52647	9	a	census:audit+noncode_confirmed	1d53e00d93d1cd220eefd6fa5ff4f0dbf71a5fa27491c58042dd23582c9b1aea	3
+52647	9	a	census:audit+noncode_confirmed	337e54312317f9af19b3433eae3af3e8ef30855f4a71806a9bbbfe177a1cce9c	8
 52656	204	a	census:format:sjis	1eb132669f12b8d29667eed7bc1f6a77a42641cd6c17acb9d51007c01b7d58b3	1
 52860	20	a	census:audit+noncode_confirmed	31e7dd4cc5a2be9fad37a9f24c8e4b90ec7e14ed5be759e954c2717ae8a0e4bf	3
 52880	36	a	census:format:sjis	c892872f50f2c435c061e8161e7999b68d6c62cdfc00548f8c343817331a6982	1
 52916	20	a	census:audit+noncode_confirmed	36824314a1a6aba6e808ad2b71a2d7ac65e655cdf1bd0b06eb5f1d7e601d9d24	3
 52936	942	a	census:format:sjis	44a6d019dfd13ed8fcd1e1594324120665e4942fed43091b303eebcf1b7234e3	1
-53878	14	a	census:audit+noncode_confirmed	21c932d6a8415ec1ef487f6eb89126d352fe84d5dbc8f0e48b6a65d482350dba	3
+53878	14	a	census:audit+noncode_confirmed	3074eae34ed9a529a65ec525ce7f73a0fa478b83fc5d9ae8167b1a6a58c4fd3e	8
 53892	60	a	census:format:sjis	92e685c3d3bd1400005b737312745539aae29668b733b087f0683f2186da3f51	1
 53952	20	a	census:audit+noncode_confirmed	198693d1d9086b7228677dc96369b895c8972b19c0245d1e445d6fad8db6e624	3
 53972	38	a	census:format:sjis	b7268cfc7d624e3beff5f2c636e5e79f72d939202e5b4903e1faeb62c89cabb4	1
-54010	14	a	census:audit+noncode_confirmed	b9f29e39e980367d9ef405806bdff673a991e76bb08369910d05a4bc8951473a	3
+54010	14	a	census:audit+noncode_confirmed	1052b886f75bfcdf1d11d178e13959f2fa6665ff7e626ff77e9ee5cede33dbc7	8
 54024	83	a	census:format:sjis	f106ba5fdb37209cfda804e87a22786db118a9c5f0453061b9172b0272e8dc8e	1
 54107	17	a	census:audit+noncode_confirmed	19dd05015b04a411e4c8bcadb92293a05cb3bbd45bdb2902d1a2b5a184806f68	3
 54124	61	a	census:format:sjis	e3618301789a0b739731df8df29cf80c1e105da5f0ee57902b7bec41727b8e83	1
-54185	11	a	census:audit+noncode_confirmed	d64febbdebd32c1b0bf7a575db3f6fe8e3c9ef403d296511e0bbd0d8372dcc4e	3
+54185	11	a	census:audit+noncode_confirmed	48a0ab9e3fea5fca7389357fd9cad8232e87557d3ae4d5803df6c8f74673160f	8
 54196	44	a	census:format:sjis	e3e1dd33602021f6af16555bacbaa1c766fffa85aec5974ce7a62edb5fedab52	1
 54240	16	a	census:audit+noncode_confirmed	dff1a41aa54406286a02cab5dba8f49e86befa36028d9577388e3885e2adc55d	3
 54256	94	a	census:format:sjis	cb2cc452fadf4497b9bbad5273f25af17749f7b037b0b460b0529bfad36c9404	1
@@ -124,366 +124,366 @@ o	n	k	r	h	x
 54516	16	a	census:audit+noncode_confirmed	b7ad9a6be5a465f3386bb1c38c54cbb46034083b0def6cb76c234903d7d4adfc	3
 54532	18	a	census:format:sjis	f8147c911a8ad9c1ca1494c356005acf5e17aee921d8149c5bf656fd8e7029e8	1
 54550	54	u	census:unresolved:audit_data_unconfirmed		2
-54604	42676	r	census:c_row		8
-"0x17C00"	40	c	census:registered_tu		["func_80097C00",null,"0x80095360",9]
-97320	18296	r	census:c_row		8
-"0x1C3A0"	112	c	census:registered_tu		["func_8009C3A0",null,"0x80099B00",10]
-115728	18532	r	census:c_row		8
-"0x20C74"	24	c	census:registered_tu		["func_800A0C74",null,"0x8009E3D4",11]
-134284	37224	r	census:c_row		8
-"0x29DF4"	100	c	census:registered_tu		["func_800A9DF4",null,"0x800A7554",12]
-171608	25520	r	census:c_row		8
-"0x30208"	52	c	census:registered_tu		["func_800B0208",null,"0x800AD968",13]
-197180	7576	r	census:c_row		8
-"0x31FD4"	80	c	census:registered_tu		["func_800B1FD4",null,"0x800AF734",14]
-204836	1612	r	census:c_row		8
-"0x32670"	64	c	census:registered_tu		["func_800B2670",null,"0x800AFDD0",15]
-"0x326B0"	240	c	census:registered_tu		["func_800B26B0",null,"0x800AFE10",16]
-206752	1048	r	census:c_row		8
-"0x32BB8"	156	c	census:registered_tu		["func_800B2BB8",null,"0x800B0318",17]
-"0x32C54"	100	c	census:registered_tu		["func_800B2C54",null,"0x800B03B4",18]
-208056	768	r	census:c_row		8
-"0x32FB8"	52	c	census:registered_tu		["func_80012FB8","func_800B0208","0x800B0718",13]
-208876	3304	r	census:c_row		8
-212180	72	r	census:T1_twin		19
-212252	4	r	census:T2_framed_ref:jal		19
-212256	40	r	census:T1_twin		19
-212296	1104	r	census:c_row		8
-"0x34198"	64	c	census:registered_tu		["func_80014198","func_800B2670","0x800B18F8",15]
-213464	5268	r	census:c_row		8
-"0x3566C"	112	c	census:registered_tu		["func_800B566C",null,"0x800B2DCC",20]
-218844	332	r	census:c_row		8
-219176	104	r	census:T1_twin		19
-219280	280	r	census:c_row		8
-219560	104	r	census:T1_twin		19
-219664	428	r	census:c_row		8
-"0x35BBC"	80	c	census:registered_tu		["func_80015BBC","func_800B1FD4","0x800B331C",14]
-220172	492	r	census:c_row		8
-"0x35DF8"	64	c	census:registered_tu		["func_80015DF8","func_800B2670","0x800B3558",21]
-"0x35E38"	240	c	census:registered_tu		["func_80015E38","func_800B26B0","0x800B3598",16]
-220968	860	r	census:c_row		8
-"0x36284"	156	c	census:registered_tu		["func_80016284","func_800B2BB8","0x800B39E4",17]
-"0x36320"	100	c	census:registered_tu		["func_80016320","func_800B2C54","0x800B3A80",22]
-222084	1700	r	census:c_row		8
-"0x36A28"	228	c	census:registered_tu		["func_800B6A28",null,"0x800B4188",23]
-"0x36B0C"	228	c	census:registered_tu		["func_80016B0C","func_800B6A28","0x800B426C",23]
-224240	568	r	census:c_row		8
-224808	52	r	census:T1_twin		19
-224860	4	r	census:T2_framed_ref:jal		19
-224864	128	r	census:T1_twin		19
-224992	268	r	census:c_row		8
-"0x36FEC"	112	c	census:registered_tu		["func_80016FEC","func_800B566C","0x800B474C",20]
-225372	252	r	census:c_row		8
-225624	72	r	census:T1_twin		19
-225696	168	r	census:c_row		8
-225864	184	r	census:T1_twin		19
-"0x37300"	80	c	census:registered_tu		["func_80017300","func_800B1FD4","0x800B4A60",14]
-226128	204	r	census:c_row		8
-226332	64	r	census:T1_twin		19
-226396	40	r	census:c_row		8
-226436	76	r	census:T1_twin		19
-226512	8	r	census:c_row		8
-226520	92	r	census:T1_twin		19
-226612	40	r	census:c_row		8
-226652	120	r	census:T1_twin		19
-226772	48	r	census:T3_leaf_ref:jal		19
-226820	508	r	census:c_row		8
-227328	52	r	census:T1_twin		19
-227380	4	r	census:T2_framed_ref:jal		19
-227384	136	r	census:T1_twin		19
-"0x378C0"	156	c	census:registered_tu		["func_800178C0","func_800B2BB8","0x800B5020",17]
-227676	768	r	census:c_row		8
-228444	104	r	census:T1_twin		19
-228548	32	r	census:T2_framed_ref:jal		19
-228580	1668	r	census:c_row		8
-"0x38368"	88	c	census:registered_tu		["func_800B8368",null,"0x800B5AC8",24]
-230336	2284	r	census:c_row		8
-"0x38CAC"	88	c	census:registered_tu		["func_80018CAC","func_800B8368","0x800B640C",24]
-232708	1324	r	census:c_row		8
-234032	72	r	census:T1_twin		19
-234104	4	r	census:T2_framed_ref:jal		19
-234108	40	r	census:T1_twin		19
-234148	3888	r	census:c_row		8
-"0x3A1D4"	68	c	census:registered_tu		["func_800BA1D4",null,"0x800B7934",25]
-238104	464	r	census:c_row		8
-"0x3A3E8"	68	c	census:registered_tu		["func_8001A3E8","func_800BA1D4","0x800B7B48",25]
-238636	8292	r	census:c_row		8
-246928	152	r	census:T1_twin		19
-247080	40	r	census:shape:T4_shape_noref		19
-247120	556	r	census:c_row		8
-"0x3C77C"	152	c	census:registered_tu		["func_800BC77C",null,"0x800B9EDC",26]
-"0x3C814"	152	c	census:registered_tu		["func_8001C814","func_800BC77C","0x800B9F74",26]
-247980	1116	r	census:c_row		8
-249096	1032	r	census:T1_twin		19
-250128	4	r	census:shape:T4_shape_noref		19
-250132	72	r	census:T1_twin		19
-250204	28488	r	census:c_row		8
-"0x440A4"	24	c	census:registered_tu		["func_800240A4","func_800A0C74","0x800C1804",11]
-278716	1024	r	census:c_row		8
-279740	76	r	census:instance_partial		8
-279816	2556	r	census:c_row		8
-"0x44F04"	92	c	census:registered_tu		["func_800C4F04",null,"0x800C2664",27]
-282464	192	r	census:c_row		8
-"0x45020"	92	c	census:registered_tu		["func_80025020","func_800C4F04","0x800C2780",27]
-282748	8	r	census:c_row		8
-"0x45084"	88	c	census:registered_tu		["func_800C5084",null,"0x800C27E4",28]
-282844	84	r	census:c_row		8
-"0x45130"	88	c	census:registered_tu		["func_80025130","func_800C5084","0x800C2890",28]
-283016	1100	r	census:c_row		8
-"0x455D4"	96	c	census:registered_tu		["func_800C55D4",null,"0x800C2D34",29]
-"0x45634"	40	c	census:registered_tu		["func_80025634","func_80097C00","0x800C2D94",9]
-"0x4565C"	96	c	census:registered_tu		["func_8002565C","func_800C55D4","0x800C2DBC",29]
-284348	1744	r	census:c_row		8
-"0x45D8C"	112	c	census:registered_tu		["func_800C5D8C",null,"0x800C34EC",30]
-"0x45DFC"	548	c	census:registered_tu		["func_800C5DFC",null,"0x800C355C",31]
-286752	68	r	census:c_row		8
-"0x46064"	104	c	census:registered_tu		["func_800C6064",null,"0x800C37C4",32]
-"0x460CC"	308	c	census:registered_tu		["func_800C60CC",null,"0x800C382C",33]
-287232	312	r	census:c_row		8
-287544	220	r	census:T1_twin		19
-287764	128	r	census:c_row		8
-"0x46494"	52	c	census:registered_tu		["func_800C6494",null,"0x800C3BF4",34]
-287944	84	r	census:c_row		8
-288028	132	r	census:T1_twin		19
-288160	8	r	census:c_row		8
-288168	420	r	census:T1_twin		19
-288588	948	r	census:c_row		8
-289536	92	r	census:T1_twin		19
-289628	304	r	census:c_row		8
-289932	92	r	census:T1_twin		19
-290024	608	r	census:c_row		8
-290632	444	r	census:T1_twin		19
-291076	244	r	census:c_row		8
-291320	96	r	census:T1_twin		19
-291416	8	r	census:c_row		8
-291424	112	r	census:T1_twin		19
-291536	1024	r	census:c_row		8
-"0x476D0"	216	c	census:registered_tu		["func_800C76D0",null,"0x800C4E30",35]
-292776	92	r	census:T1_twin		19
-292868	1172	r	census:c_row		8
-"0x47C98"	216	c	census:registered_tu		["func_80027C98","func_800C76D0","0x800C53F8",35]
-294256	48	r	census:c_row		8
-294304	64	r	census:T2_framed_ref:jtbl+lui_pair+ptr		19
-294368	8	r	census:c_row		8
-294376	72	r	census:T2_framed_ref:jtbl		19
-294448	204	r	census:c_row		8
-"0x47EFC"	76	c	census:registered_tu		["func_800C7EFC",null,"0x800C565C",36]
-294728	124	r	census:c_row		8
-"0x47FC4"	80	c	census:registered_tu		["func_800C7FC4",null,"0x800C5724",37]
-"0x48014"	80	c	census:registered_tu		["func_80028014","func_800C7FC4","0x800C5774",38]
-"0x48064"	80	c	census:registered_tu		["func_80028064","func_800C7FC4","0x800C57C4",39]
-295092	80	r	census:c_row		8
-"0x48104"	72	c	census:registered_tu		["func_800C8104",null,"0x800C5864",40]
-295244	64	r	census:T2_framed_ref:jal+jtbl+ptr		19
-295308	88	r	census:c_row		8
-"0x481E4"	88	c	census:registered_tu		["func_800C81E4",null,"0x800C5944",41]
-295484	96	r	census:c_row		8
-"0x4829C"	88	c	census:registered_tu		["func_8002829C","func_800C81E4","0x800C59FC",42]
-"0x482F4"	136	c	census:registered_tu		["func_800C82F4",null,"0x800C5A54",43]
-295804	804	r	census:c_row		8
-"0x486A0"	92	c	census:registered_tu		["func_800C86A0",null,"0x800C5E00",44]
-"0x486FC"	92	c	census:registered_tu		["func_800286FC","func_800C86A0","0x800C5E5C",44]
-"0x48758"	92	c	census:registered_tu		["func_80028758","func_800C86A0","0x800C5EB8",45]
-"0x487B4"	92	c	census:registered_tu		["func_800287B4","func_800C86A0","0x800C5F14",46]
-296976	292	r	census:c_row		8
-297268	64	r	census:T1_twin		19
-297332	312	r	census:c_row		8
-"0x48AAC"	100	c	census:registered_tu		["func_80028AAC","func_800A9DF4","0x800C620C",12]
-297744	44	r	census:c_row		8
-297788	64	r	census:T1_twin		19
-297852	8	r	census:c_row		8
-"0x48B84"	96	c	census:registered_tu		["func_800C8B84",null,"0x800C62E4",47]
-297956	64	r	census:T2_framed_ref:jtbl+ptr		19
-298020	1072	r	census:c_row		8
-299092	88	r	census:T1_twin		19
-299180	8	r	census:c_row		8
-"0x490B4"	108	c	census:registered_tu		["func_800C90B4",null,"0x800C6814",48]
-299296	96	r	census:c_row		8
-"0x49180"	108	c	census:registered_tu		["func_80029180","func_800C90B4","0x800C68E0",49]
-299500	96	r	census:c_row		8
-"0x4924C"	108	c	census:registered_tu		["func_8002924C","func_800C90B4","0x800C69AC",50]
-299704	96	r	census:c_row		8
-"0x49318"	108	c	census:registered_tu		["func_80029318","func_800C90B4","0x800C6A78",51]
-299908	96	r	census:c_row		8
-"0x493E4"	108	c	census:registered_tu		["func_800293E4","func_800C90B4","0x800C6B44",50]
-300112	608	r	census:c_row		8
-"0x496B0"	96	c	census:registered_tu		["func_800296B0","func_800C8B84","0x800C6E10",47]
-300816	248	r	census:c_row		8
-"0x49808"	88	c	census:registered_tu		["func_80029808","func_800C81E4","0x800C6F68",52]
-"0x49860"	88	c	census:registered_tu		["func_80029860","func_800C81E4","0x800C6FC0",53]
-"0x498B8"	88	c	census:registered_tu		["func_800298B8","func_800C81E4","0x800C7018",41]
-301328	304	r	census:c_row		8
-"0x49A40"	88	c	census:registered_tu		["func_80029A40","func_800C81E4","0x800C71A0",54]
-"0x49A98"	52	c	census:registered_tu		["func_80029A98","func_800C6494","0x800C71F8",34]
-"0x49ACC"	88	c	census:registered_tu		["func_80029ACC","func_800C81E4","0x800C722C",55]
-301860	896	r	census:c_row		8
-"0x49EA4"	112	c	census:registered_tu		["func_80029EA4","func_800C5D8C","0x800C7604",56]
-"0x49F14"	564	c	census:registered_tu		["func_800C9F14",null,"0x800C7674",57]
-303432	916	r	census:c_row		8
-304348	48	r	census:T1_twin		19
-304396	20	r	census:T2_framed_ref:jal+jtbl+lui_pair		19
-304416	496	r	census:c_row		8
-"0x4A710"	64	c	census:registered_tu		["func_800CA710",null,"0x800C7E70",58]
-"0x4A750"	64	c	census:registered_tu		["func_8002A750","func_800CA710","0x800C7EB0",58]
-305040	32	r	census:c_row		8
-"0x4A7B0"	80	c	census:registered_tu		["func_8002A7B0","func_800C7FC4","0x800C7F10",59]
-305152	160	r	census:c_row		8
-"0x4A8A0"	88	c	census:registered_tu		["func_800CA8A0",null,"0x800C8000",60]
-305400	80	r	census:T1_twin		19
-305480	8	r	census:c_row		8
-"0x4A950"	76	c	census:registered_tu		["func_800CA950",null,"0x800C80B0",61]
-305564	80	r	census:c_row		8
-305644	64	r	census:T1_twin		19
-305708	288	r	census:c_row		8
-305996	88	r	census:T1_twin		19
-306084	136	r	census:c_row		8
-"0x4AC2C"	100	c	census:registered_tu		["func_800CAC2C",null,"0x800C838C",62]
-"0x4AC90"	100	c	census:registered_tu		["func_8002AC90","func_800CAC2C","0x800C83F0",62]
-"0x4ACF4"	100	c	census:registered_tu		["func_8002ACF4","func_800CAC2C","0x800C8454",63]
-"0x4AD58"	108	c	census:registered_tu		["func_8002AD58","func_800C90B4","0x800C84B8",64]
-306628	124	r	census:c_row		8
-306752	88	r	census:T1_twin		19
-306840	8	r	census:c_row		8
-"0x4AEA0"	68	c	census:registered_tu		["func_800CAEA0",null,"0x800C8600",65]
-"0x4AEE4"	68	c	census:registered_tu		["func_8002AEE4","func_800CAEA0","0x800C8644",65]
-"0x4AF28"	68	c	census:registered_tu		["func_8002AF28","func_800CAEA0","0x800C8688",66]
-307052	32	r	census:c_row		8
-"0x4AF8C"	156	c	census:registered_tu		["func_800CAF8C",null,"0x800C86EC",67]
-"0x4B028"	128	c	census:registered_tu		["func_800CB028",null,"0x800C8788",68]
-"0x4B0A8"	84	c	census:registered_tu		["func_800CB0A8",null,"0x800C8808",69]
-307452	132	r	census:c_row		8
-307584	64	r	census:T1_twin		19
-307648	8	r	census:c_row		8
-"0x4B1C8"	52	c	census:registered_tu		["func_800CB1C8",null,"0x800C8928",70]
-307708	64	r	census:c_row		8
-"0x4B23C"	108	c	census:registered_tu		["func_8002B23C","func_800C90B4","0x800C899C",71]
-307880	812	r	census:c_row		8
-308692	104	r	census:T1_twin		19
-308796	28	r	census:T2_framed_ref:jal+jtbl+ptr		19
-308824	940	r	census:c_row		8
-309764	72	r	census:T2_framed_ref:jtbl+ptr		19
-309836	248	r	census:c_row		8
-"0x4BB44"	112	c	census:registered_tu		["func_8002BB44","func_800C5D8C","0x800C92A4",72]
-"0x4BBB4"	112	c	census:registered_tu		["func_8002BBB4","func_800C5D8C","0x800C9314",30]
-"0x4BC24"	548	c	census:registered_tu		["func_8002BC24","func_800C5DFC","0x800C9384",73]
-"0x4BE48"	104	c	census:registered_tu		["func_8002BE48","func_800C6064","0x800C95A8",74]
-"0x4BEB0"	104	c	census:registered_tu		["func_8002BEB0","func_800C6064","0x800C9610",75]
-"0x4BF18"	308	c	census:registered_tu		["func_8002BF18","func_800C60CC","0x800C9678",33]
-311372	72	r	census:c_row		8
-"0x4C094"	112	c	census:registered_tu		["func_8002C094","func_800C5D8C","0x800C97F4",76]
-"0x4C104"	564	c	census:registered_tu		["func_8002C104","func_800C9F14","0x800C9864",57]
-312120	60	r	census:c_row		8
-"0x4C374"	112	c	census:registered_tu		["func_8002C374","func_8009C3A0","0x800C9AD4",10]
-312292	272	r	census:c_row		8
-"0x4C4F4"	64	c	census:registered_tu		["func_800CC4F4",null,"0x800C9C54",77]
-312628	64	r	census:T2_framed_ref:jal+jtbl		19
-312692	108	r	census:c_row		8
-"0x4C5E0"	64	c	census:registered_tu		["func_8002C5E0","func_800CC4F4","0x800C9D40",78]
-312864	788	r	census:c_row		8
-"0x4C934"	64	c	census:registered_tu		["func_8002C934","func_800CA710","0x800CA094",58]
-"0x4C974"	64	c	census:registered_tu		["func_8002C974","func_800CA710","0x800CA0D4",58]
-313780	760	r	census:c_row		8
-"0x4CCAC"	76	c	census:registered_tu		["func_8002CCAC","func_800C7EFC","0x800CA40C",36]
-314616	116	r	census:c_row		8
-"0x4CD6C"	80	c	census:registered_tu		["func_8002CD6C","func_800C7FC4","0x800CA4CC",79]
-"0x4CDBC"	80	c	census:registered_tu		["func_8002CDBC","func_800C7FC4","0x800CA51C",80]
-314892	224	r	census:c_row		8
-"0x4CEEC"	88	c	census:registered_tu		["func_8002CEEC","func_800CA8A0","0x800CA64C",81]
-315204	232	r	census:c_row		8
-"0x4D02C"	76	c	census:registered_tu		["func_8002D02C","func_800CA950","0x800CA78C",61]
-315512	20	r	census:c_row		8
-"0x4D08C"	80	c	census:registered_tu		["func_8002D08C","func_800C7FC4","0x800CA7EC",82]
-315612	80	r	census:c_row		8
-"0x4D12C"	72	c	census:registered_tu		["func_8002D12C","func_800C8104","0x800CA88C",40]
-315764	532	r	census:c_row		8
-316296	84	r	census:T2_framed_ref:jtbl+ptr		19
-316380	380	r	census:c_row		8
-"0x4D558"	136	c	census:registered_tu		["func_8002D558","func_800C82F4","0x800CACB8",83]
-"0x4D5E0"	136	c	census:registered_tu		["func_8002D5E0","func_800C82F4","0x800CAD40",84]
-317032	684	r	census:c_row		8
-317716	32	r	census:T2_framed_ref:jal+jtbl+lui_pair+ptr		19
-317748	84	r	census:T1_twin		19
-317832	308	r	census:c_row		8
-318140	68	r	census:T1_twin		19
-318208	28	r	census:T2_framed_ref:jtbl+lui_pair+ptr		19
-318236	300	r	census:c_row		8
-"0x4DC48"	108	c	census:registered_tu		["func_8002DC48","func_800C90B4","0x800CB3A8",48]
-318644	348	r	census:c_row		8
-"0x4DE10"	108	c	census:registered_tu		["func_8002DE10","func_800C90B4","0x800CB570",85]
-319100	96	r	census:c_row		8
-"0x4DEDC"	108	c	census:registered_tu		["func_8002DEDC","func_800C90B4","0x800CB63C",48]
-319304	96	r	census:c_row		8
-"0x4DFA8"	52	c	census:registered_tu		["func_8002DFA8","func_800CB1C8","0x800CB708",70]
-"0x4DFDC"	52	c	census:registered_tu		["func_8002DFDC","func_800CB1C8","0x800CB73C",86]
-319504	1296	r	census:c_row		8
-320800	96	r	census:T2_framed_ref:jtbl+ptr		19
-320896	616	r	census:c_row		8
-"0x4E7E8"	100	c	census:registered_tu		["func_800CE7E8",null,"0x800CBF48",87]
-321612	60	r	census:c_row		8
-"0x4E888"	68	c	census:registered_tu		["func_800CE888",null,"0x800CBFE8",88]
-"0x4E8CC"	68	c	census:registered_tu		["func_8002E8CC","func_800CE888","0x800CC02C",88]
-"0x4E910"	320	c	census:registered_tu		["func_800CE910",null,"0x800CC070",89]
-322128	32	r	census:c_row		8
-322160	64	r	census:T2_framed_ref:jtbl+lui_pair+ptr		19
-322224	788	r	census:c_row		8
-"0x4EDC4"	216	c	census:registered_tu		["func_8002EDC4","func_800C76D0","0x800CC524",35]
-323228	352	r	census:c_row		8
-"0x4EFFC"	88	c	census:registered_tu		["func_8002EFFC","func_800C81E4","0x800CC75C",90]
-"0x4F054"	88	c	census:registered_tu		["func_8002F054","func_800C81E4","0x800CC7B4",91]
-"0x4F0AC"	88	c	census:registered_tu		["func_8002F0AC","func_800C81E4","0x800CC80C",92]
-323844	348	r	census:c_row		8
-"0x4F260"	88	c	census:registered_tu		["func_8002F260","func_800C81E4","0x800CC9C0",93]
-324280	340	r	census:c_row		8
-"0x4F40C"	100	c	census:registered_tu		["func_8002F40C","func_800CE7E8","0x800CCB6C",87]
-"0x4F470"	100	c	census:registered_tu		["func_8002F470","func_800CE7E8","0x800CCBD0",94]
-324820	172	r	census:c_row		8
-"0x4F580"	68	c	census:registered_tu		["func_8002F580","func_800CE888","0x800CCCE0",95]
-"0x4F5C4"	68	c	census:registered_tu		["func_8002F5C4","func_800CE888","0x800CCD24",96]
-325128	216	r	census:c_row		8
-325344	32	r	census:T3_leaf_ref:jtbl+ptr		19
-325376	92	r	census:T1_twin		19
-325468	4	r	census:T3_leaf_ref:jtbl+ptr		19
-325472	80	r	census:T1_twin		19
-325552	584	r	census:c_row		8
-"0x4F9F8"	320	c	census:registered_tu		["func_8002F9F8","func_800CE910","0x800CD158",89]
-326456	64	r	census:c_row		8
-326520	64	r	census:T2_framed_ref:jal+jtbl+ptr		19
-326584	1876	r	census:c_row		8
-"0x5030C"	112	c	census:registered_tu		["func_8003030C","func_8009C3A0","0x800CDA6C",97]
-328572	700	r	census:c_row		8
-"0x50638"	100	c	census:registered_tu		["func_800D0638",null,"0x800CDD98",98]
-"0x5069C"	80	c	census:registered_tu		["func_800D069C",null,"0x800CDDFC",99]
-"0x506EC"	80	c	census:registered_tu		["func_800306EC","func_800D069C","0x800CDE4C",99]
-"0x5073C"	100	c	census:registered_tu		["func_8003073C","func_800D0638","0x800CDE9C",98]
-329632	84	r	census:c_row		8
-"0x507F4"	64	c	census:registered_tu		["func_800307F4","func_800CC4F4","0x800CDF54",100]
-"0x50834"	100	c	census:registered_tu		["func_80030834","func_800D0638","0x800CDF94",101]
-329880	84	r	census:c_row		8
-"0x508EC"	64	c	census:registered_tu		["func_800308EC","func_800CC4F4","0x800CE04C",102]
-330028	60	r	census:c_row		8
-"0x50968"	212	c	census:registered_tu		["func_800D0968",null,"0x800CE0C8",103]
-330300	312	r	census:c_row		8
-"0x50B74"	184	c	census:registered_tu		["func_800D0B74",null,"0x800CE2D4",104]
-330796	460	r	census:c_row		8
-"0x50DF8"	212	c	census:registered_tu		["func_80030DF8","func_800D0968","0x800CE558",103]
-"0x50ECC"	184	c	census:registered_tu		["func_80030ECC","func_800D0B74","0x800CE62C",104]
-"0x50F84"	156	c	census:registered_tu		["func_80030F84","func_800CAF8C","0x800CE6E4",67]
-"0x51020"	128	c	census:registered_tu		["func_80031020","func_800CB028","0x800CE780",68]
-331936	204	r	census:c_row		8
-"0x5116C"	128	c	census:registered_tu		["func_8003116C","func_800CB028","0x800CE8CC",105]
-"0x511EC"	80	c	census:registered_tu		["func_800311EC","func_800C7FC4","0x800CE94C",106]
-332348	80	r	census:c_row		8
-"0x5128C"	84	c	census:registered_tu		["func_8003128C","func_800CB0A8","0x800CE9EC",107]
-332512	64	r	census:c_row		8
-332576	72	r	census:T2_framed_ref:jal+jtbl		19
-332648	56	r	census:c_row		8
-"0x513A0"	84	c	census:registered_tu		["func_800313A0","func_800CB0A8","0x800CEB00",108]
-332788	64	r	census:c_row		8
-332852	72	r	census:T2_framed_ref:jal+jtbl		19
-"0x5147C"	76	c	census:registered_tu		["func_8003147C","func_800CA950","0x800CEBDC",109]
-333000	2648	r	census:c_row		8
-"0x51F20"	88	c	census:registered_tu		["func_80031F20","func_800C81E4","0x800CF680",110]
-335736	72	r	census:c_row		8
+54604	42676	r	census:c_row		9
+"0x17C00"	40	c	census:registered_tu		["func_80097C00",null,"0x80095360",10]
+97320	18296	r	census:c_row		9
+"0x1C3A0"	112	c	census:registered_tu		["func_8009C3A0",null,"0x80099B00",11]
+115728	18532	r	census:c_row		9
+"0x20C74"	24	c	census:registered_tu		["func_800A0C74",null,"0x8009E3D4",12]
+134284	37224	r	census:c_row		9
+"0x29DF4"	100	c	census:registered_tu		["func_800A9DF4",null,"0x800A7554",13]
+171608	25520	r	census:c_row		9
+"0x30208"	52	c	census:registered_tu		["func_800B0208",null,"0x800AD968",14]
+197180	7576	r	census:c_row		9
+"0x31FD4"	80	c	census:registered_tu		["func_800B1FD4",null,"0x800AF734",15]
+204836	1612	r	census:c_row		9
+"0x32670"	64	c	census:registered_tu		["func_800B2670",null,"0x800AFDD0",16]
+"0x326B0"	240	c	census:registered_tu		["func_800B26B0",null,"0x800AFE10",17]
+206752	1048	r	census:c_row		9
+"0x32BB8"	156	c	census:registered_tu		["func_800B2BB8",null,"0x800B0318",18]
+"0x32C54"	100	c	census:registered_tu		["func_800B2C54",null,"0x800B03B4",19]
+208056	768	r	census:c_row		9
+"0x32FB8"	52	c	census:registered_tu		["func_80012FB8","func_800B0208","0x800B0718",14]
+208876	3304	r	census:c_row		9
+212180	72	r	census:T1_twin		20
+212252	4	r	census:T2_framed_ref:jal		20
+212256	40	r	census:T1_twin		20
+212296	1104	r	census:c_row		9
+"0x34198"	64	c	census:registered_tu		["func_80014198","func_800B2670","0x800B18F8",16]
+213464	5268	r	census:c_row		9
+"0x3566C"	112	c	census:registered_tu		["func_800B566C",null,"0x800B2DCC",21]
+218844	332	r	census:c_row		9
+219176	104	r	census:T1_twin		20
+219280	280	r	census:c_row		9
+219560	104	r	census:T1_twin		20
+219664	428	r	census:c_row		9
+"0x35BBC"	80	c	census:registered_tu		["func_80015BBC","func_800B1FD4","0x800B331C",15]
+220172	492	r	census:c_row		9
+"0x35DF8"	64	c	census:registered_tu		["func_80015DF8","func_800B2670","0x800B3558",22]
+"0x35E38"	240	c	census:registered_tu		["func_80015E38","func_800B26B0","0x800B3598",17]
+220968	860	r	census:c_row		9
+"0x36284"	156	c	census:registered_tu		["func_80016284","func_800B2BB8","0x800B39E4",18]
+"0x36320"	100	c	census:registered_tu		["func_80016320","func_800B2C54","0x800B3A80",23]
+222084	1700	r	census:c_row		9
+"0x36A28"	228	c	census:registered_tu		["func_800B6A28",null,"0x800B4188",24]
+"0x36B0C"	228	c	census:registered_tu		["func_80016B0C","func_800B6A28","0x800B426C",24]
+224240	568	r	census:c_row		9
+224808	52	r	census:T1_twin		20
+224860	4	r	census:T2_framed_ref:jal		20
+224864	128	r	census:T1_twin		20
+224992	268	r	census:c_row		9
+"0x36FEC"	112	c	census:registered_tu		["func_80016FEC","func_800B566C","0x800B474C",21]
+225372	252	r	census:c_row		9
+225624	72	r	census:T1_twin		20
+225696	168	r	census:c_row		9
+225864	184	r	census:T1_twin		20
+"0x37300"	80	c	census:registered_tu		["func_80017300","func_800B1FD4","0x800B4A60",15]
+226128	204	r	census:c_row		9
+226332	64	r	census:T1_twin		20
+226396	40	r	census:c_row		9
+226436	76	r	census:T1_twin		20
+226512	8	r	census:c_row		9
+226520	92	r	census:T1_twin		20
+226612	40	r	census:c_row		9
+226652	120	r	census:T1_twin		20
+226772	48	r	census:T3_leaf_ref:jal		20
+226820	508	r	census:c_row		9
+227328	52	r	census:T1_twin		20
+227380	4	r	census:T2_framed_ref:jal		20
+227384	136	r	census:T1_twin		20
+"0x378C0"	156	c	census:registered_tu		["func_800178C0","func_800B2BB8","0x800B5020",18]
+227676	768	r	census:c_row		9
+228444	104	r	census:T1_twin		20
+228548	32	r	census:T2_framed_ref:jal		20
+228580	1668	r	census:c_row		9
+"0x38368"	88	c	census:registered_tu		["func_800B8368",null,"0x800B5AC8",25]
+230336	2284	r	census:c_row		9
+"0x38CAC"	88	c	census:registered_tu		["func_80018CAC","func_800B8368","0x800B640C",25]
+232708	1324	r	census:c_row		9
+234032	72	r	census:T1_twin		20
+234104	4	r	census:T2_framed_ref:jal		20
+234108	40	r	census:T1_twin		20
+234148	3888	r	census:c_row		9
+"0x3A1D4"	68	c	census:registered_tu		["func_800BA1D4",null,"0x800B7934",26]
+238104	464	r	census:c_row		9
+"0x3A3E8"	68	c	census:registered_tu		["func_8001A3E8","func_800BA1D4","0x800B7B48",26]
+238636	8292	r	census:c_row		9
+246928	152	r	census:T1_twin		20
+247080	40	r	census:shape:T4_shape_noref		20
+247120	556	r	census:c_row		9
+"0x3C77C"	152	c	census:registered_tu		["func_800BC77C",null,"0x800B9EDC",27]
+"0x3C814"	152	c	census:registered_tu		["func_8001C814","func_800BC77C","0x800B9F74",27]
+247980	1116	r	census:c_row		9
+249096	1032	r	census:T1_twin		20
+250128	4	r	census:shape:T4_shape_noref		20
+250132	72	r	census:T1_twin		20
+250204	28488	r	census:c_row		9
+"0x440A4"	24	c	census:registered_tu		["func_800240A4","func_800A0C74","0x800C1804",12]
+278716	1024	r	census:c_row		9
+279740	76	r	census:instance_partial		9
+279816	2556	r	census:c_row		9
+"0x44F04"	92	c	census:registered_tu		["func_800C4F04",null,"0x800C2664",28]
+282464	192	r	census:c_row		9
+"0x45020"	92	c	census:registered_tu		["func_80025020","func_800C4F04","0x800C2780",28]
+282748	8	r	census:c_row		9
+"0x45084"	88	c	census:registered_tu		["func_800C5084",null,"0x800C27E4",29]
+282844	84	r	census:c_row		9
+"0x45130"	88	c	census:registered_tu		["func_80025130","func_800C5084","0x800C2890",29]
+283016	1100	r	census:c_row		9
+"0x455D4"	96	c	census:registered_tu		["func_800C55D4",null,"0x800C2D34",30]
+"0x45634"	40	c	census:registered_tu		["func_80025634","func_80097C00","0x800C2D94",10]
+"0x4565C"	96	c	census:registered_tu		["func_8002565C","func_800C55D4","0x800C2DBC",30]
+284348	1744	r	census:c_row		9
+"0x45D8C"	112	c	census:registered_tu		["func_800C5D8C",null,"0x800C34EC",31]
+"0x45DFC"	548	c	census:registered_tu		["func_800C5DFC",null,"0x800C355C",32]
+286752	68	r	census:c_row		9
+"0x46064"	104	c	census:registered_tu		["func_800C6064",null,"0x800C37C4",33]
+"0x460CC"	308	c	census:registered_tu		["func_800C60CC",null,"0x800C382C",34]
+287232	312	r	census:c_row		9
+287544	220	r	census:T1_twin		20
+287764	128	r	census:c_row		9
+"0x46494"	52	c	census:registered_tu		["func_800C6494",null,"0x800C3BF4",35]
+287944	84	r	census:c_row		9
+288028	132	r	census:T1_twin		20
+288160	8	r	census:c_row		9
+288168	420	r	census:T1_twin		20
+288588	948	r	census:c_row		9
+289536	92	r	census:T1_twin		20
+289628	304	r	census:c_row		9
+289932	92	r	census:T1_twin		20
+290024	608	r	census:c_row		9
+290632	444	r	census:T1_twin		20
+291076	244	r	census:c_row		9
+291320	96	r	census:T1_twin		20
+291416	8	r	census:c_row		9
+291424	112	r	census:T1_twin		20
+291536	1024	r	census:c_row		9
+"0x476D0"	216	c	census:registered_tu		["func_800C76D0",null,"0x800C4E30",36]
+292776	92	r	census:T1_twin		20
+292868	1172	r	census:c_row		9
+"0x47C98"	216	c	census:registered_tu		["func_80027C98","func_800C76D0","0x800C53F8",36]
+294256	48	r	census:c_row		9
+294304	64	r	census:T2_framed_ref:jtbl+lui_pair+ptr		20
+294368	8	r	census:c_row		9
+294376	72	r	census:T2_framed_ref:jtbl		20
+294448	204	r	census:c_row		9
+"0x47EFC"	76	c	census:registered_tu		["func_800C7EFC",null,"0x800C565C",37]
+294728	124	r	census:c_row		9
+"0x47FC4"	80	c	census:registered_tu		["func_800C7FC4",null,"0x800C5724",38]
+"0x48014"	80	c	census:registered_tu		["func_80028014","func_800C7FC4","0x800C5774",39]
+"0x48064"	80	c	census:registered_tu		["func_80028064","func_800C7FC4","0x800C57C4",40]
+295092	80	r	census:c_row		9
+"0x48104"	72	c	census:registered_tu		["func_800C8104",null,"0x800C5864",41]
+295244	64	r	census:T2_framed_ref:jal+jtbl+ptr		20
+295308	88	r	census:c_row		9
+"0x481E4"	88	c	census:registered_tu		["func_800C81E4",null,"0x800C5944",42]
+295484	96	r	census:c_row		9
+"0x4829C"	88	c	census:registered_tu		["func_8002829C","func_800C81E4","0x800C59FC",43]
+"0x482F4"	136	c	census:registered_tu		["func_800C82F4",null,"0x800C5A54",44]
+295804	804	r	census:c_row		9
+"0x486A0"	92	c	census:registered_tu		["func_800C86A0",null,"0x800C5E00",45]
+"0x486FC"	92	c	census:registered_tu		["func_800286FC","func_800C86A0","0x800C5E5C",45]
+"0x48758"	92	c	census:registered_tu		["func_80028758","func_800C86A0","0x800C5EB8",46]
+"0x487B4"	92	c	census:registered_tu		["func_800287B4","func_800C86A0","0x800C5F14",47]
+296976	292	r	census:c_row		9
+297268	64	r	census:T1_twin		20
+297332	312	r	census:c_row		9
+"0x48AAC"	100	c	census:registered_tu		["func_80028AAC","func_800A9DF4","0x800C620C",13]
+297744	44	r	census:c_row		9
+297788	64	r	census:T1_twin		20
+297852	8	r	census:c_row		9
+"0x48B84"	96	c	census:registered_tu		["func_800C8B84",null,"0x800C62E4",48]
+297956	64	r	census:T2_framed_ref:jtbl+ptr		20
+298020	1072	r	census:c_row		9
+299092	88	r	census:T1_twin		20
+299180	8	r	census:c_row		9
+"0x490B4"	108	c	census:registered_tu		["func_800C90B4",null,"0x800C6814",49]
+299296	96	r	census:c_row		9
+"0x49180"	108	c	census:registered_tu		["func_80029180","func_800C90B4","0x800C68E0",50]
+299500	96	r	census:c_row		9
+"0x4924C"	108	c	census:registered_tu		["func_8002924C","func_800C90B4","0x800C69AC",51]
+299704	96	r	census:c_row		9
+"0x49318"	108	c	census:registered_tu		["func_80029318","func_800C90B4","0x800C6A78",52]
+299908	96	r	census:c_row		9
+"0x493E4"	108	c	census:registered_tu		["func_800293E4","func_800C90B4","0x800C6B44",51]
+300112	608	r	census:c_row		9
+"0x496B0"	96	c	census:registered_tu		["func_800296B0","func_800C8B84","0x800C6E10",48]
+300816	248	r	census:c_row		9
+"0x49808"	88	c	census:registered_tu		["func_80029808","func_800C81E4","0x800C6F68",53]
+"0x49860"	88	c	census:registered_tu		["func_80029860","func_800C81E4","0x800C6FC0",54]
+"0x498B8"	88	c	census:registered_tu		["func_800298B8","func_800C81E4","0x800C7018",42]
+301328	304	r	census:c_row		9
+"0x49A40"	88	c	census:registered_tu		["func_80029A40","func_800C81E4","0x800C71A0",55]
+"0x49A98"	52	c	census:registered_tu		["func_80029A98","func_800C6494","0x800C71F8",35]
+"0x49ACC"	88	c	census:registered_tu		["func_80029ACC","func_800C81E4","0x800C722C",56]
+301860	896	r	census:c_row		9
+"0x49EA4"	112	c	census:registered_tu		["func_80029EA4","func_800C5D8C","0x800C7604",57]
+"0x49F14"	564	c	census:registered_tu		["func_800C9F14",null,"0x800C7674",58]
+303432	916	r	census:c_row		9
+304348	48	r	census:T1_twin		20
+304396	20	r	census:T2_framed_ref:jal+jtbl+lui_pair		20
+304416	496	r	census:c_row		9
+"0x4A710"	64	c	census:registered_tu		["func_800CA710",null,"0x800C7E70",59]
+"0x4A750"	64	c	census:registered_tu		["func_8002A750","func_800CA710","0x800C7EB0",59]
+305040	32	r	census:c_row		9
+"0x4A7B0"	80	c	census:registered_tu		["func_8002A7B0","func_800C7FC4","0x800C7F10",60]
+305152	160	r	census:c_row		9
+"0x4A8A0"	88	c	census:registered_tu		["func_800CA8A0",null,"0x800C8000",61]
+305400	80	r	census:T1_twin		20
+305480	8	r	census:c_row		9
+"0x4A950"	76	c	census:registered_tu		["func_800CA950",null,"0x800C80B0",62]
+305564	80	r	census:c_row		9
+305644	64	r	census:T1_twin		20
+305708	288	r	census:c_row		9
+305996	88	r	census:T1_twin		20
+306084	136	r	census:c_row		9
+"0x4AC2C"	100	c	census:registered_tu		["func_800CAC2C",null,"0x800C838C",63]
+"0x4AC90"	100	c	census:registered_tu		["func_8002AC90","func_800CAC2C","0x800C83F0",63]
+"0x4ACF4"	100	c	census:registered_tu		["func_8002ACF4","func_800CAC2C","0x800C8454",64]
+"0x4AD58"	108	c	census:registered_tu		["func_8002AD58","func_800C90B4","0x800C84B8",65]
+306628	124	r	census:c_row		9
+306752	88	r	census:T1_twin		20
+306840	8	r	census:c_row		9
+"0x4AEA0"	68	c	census:registered_tu		["func_800CAEA0",null,"0x800C8600",66]
+"0x4AEE4"	68	c	census:registered_tu		["func_8002AEE4","func_800CAEA0","0x800C8644",66]
+"0x4AF28"	68	c	census:registered_tu		["func_8002AF28","func_800CAEA0","0x800C8688",67]
+307052	32	r	census:c_row		9
+"0x4AF8C"	156	c	census:registered_tu		["func_800CAF8C",null,"0x800C86EC",68]
+"0x4B028"	128	c	census:registered_tu		["func_800CB028",null,"0x800C8788",69]
+"0x4B0A8"	84	c	census:registered_tu		["func_800CB0A8",null,"0x800C8808",70]
+307452	132	r	census:c_row		9
+307584	64	r	census:T1_twin		20
+307648	8	r	census:c_row		9
+"0x4B1C8"	52	c	census:registered_tu		["func_800CB1C8",null,"0x800C8928",71]
+307708	64	r	census:c_row		9
+"0x4B23C"	108	c	census:registered_tu		["func_8002B23C","func_800C90B4","0x800C899C",72]
+307880	812	r	census:c_row		9
+308692	104	r	census:T1_twin		20
+308796	28	r	census:T2_framed_ref:jal+jtbl+ptr		20
+308824	940	r	census:c_row		9
+309764	72	r	census:T2_framed_ref:jtbl+ptr		20
+309836	248	r	census:c_row		9
+"0x4BB44"	112	c	census:registered_tu		["func_8002BB44","func_800C5D8C","0x800C92A4",73]
+"0x4BBB4"	112	c	census:registered_tu		["func_8002BBB4","func_800C5D8C","0x800C9314",31]
+"0x4BC24"	548	c	census:registered_tu		["func_8002BC24","func_800C5DFC","0x800C9384",74]
+"0x4BE48"	104	c	census:registered_tu		["func_8002BE48","func_800C6064","0x800C95A8",75]
+"0x4BEB0"	104	c	census:registered_tu		["func_8002BEB0","func_800C6064","0x800C9610",76]
+"0x4BF18"	308	c	census:registered_tu		["func_8002BF18","func_800C60CC","0x800C9678",34]
+311372	72	r	census:c_row		9
+"0x4C094"	112	c	census:registered_tu		["func_8002C094","func_800C5D8C","0x800C97F4",77]
+"0x4C104"	564	c	census:registered_tu		["func_8002C104","func_800C9F14","0x800C9864",58]
+312120	60	r	census:c_row		9
+"0x4C374"	112	c	census:registered_tu		["func_8002C374","func_8009C3A0","0x800C9AD4",11]
+312292	272	r	census:c_row		9
+"0x4C4F4"	64	c	census:registered_tu		["func_800CC4F4",null,"0x800C9C54",78]
+312628	64	r	census:T2_framed_ref:jal+jtbl		20
+312692	108	r	census:c_row		9
+"0x4C5E0"	64	c	census:registered_tu		["func_8002C5E0","func_800CC4F4","0x800C9D40",79]
+312864	788	r	census:c_row		9
+"0x4C934"	64	c	census:registered_tu		["func_8002C934","func_800CA710","0x800CA094",59]
+"0x4C974"	64	c	census:registered_tu		["func_8002C974","func_800CA710","0x800CA0D4",59]
+313780	760	r	census:c_row		9
+"0x4CCAC"	76	c	census:registered_tu		["func_8002CCAC","func_800C7EFC","0x800CA40C",37]
+314616	116	r	census:c_row		9
+"0x4CD6C"	80	c	census:registered_tu		["func_8002CD6C","func_800C7FC4","0x800CA4CC",80]
+"0x4CDBC"	80	c	census:registered_tu		["func_8002CDBC","func_800C7FC4","0x800CA51C",81]
+314892	224	r	census:c_row		9
+"0x4CEEC"	88	c	census:registered_tu		["func_8002CEEC","func_800CA8A0","0x800CA64C",82]
+315204	232	r	census:c_row		9
+"0x4D02C"	76	c	census:registered_tu		["func_8002D02C","func_800CA950","0x800CA78C",62]
+315512	20	r	census:c_row		9
+"0x4D08C"	80	c	census:registered_tu		["func_8002D08C","func_800C7FC4","0x800CA7EC",83]
+315612	80	r	census:c_row		9
+"0x4D12C"	72	c	census:registered_tu		["func_8002D12C","func_800C8104","0x800CA88C",41]
+315764	532	r	census:c_row		9
+316296	84	r	census:T2_framed_ref:jtbl+ptr		20
+316380	380	r	census:c_row		9
+"0x4D558"	136	c	census:registered_tu		["func_8002D558","func_800C82F4","0x800CACB8",84]
+"0x4D5E0"	136	c	census:registered_tu		["func_8002D5E0","func_800C82F4","0x800CAD40",85]
+317032	684	r	census:c_row		9
+317716	32	r	census:T2_framed_ref:jal+jtbl+lui_pair+ptr		20
+317748	84	r	census:T1_twin		20
+317832	308	r	census:c_row		9
+318140	68	r	census:T1_twin		20
+318208	28	r	census:T2_framed_ref:jtbl+lui_pair+ptr		20
+318236	300	r	census:c_row		9
+"0x4DC48"	108	c	census:registered_tu		["func_8002DC48","func_800C90B4","0x800CB3A8",49]
+318644	348	r	census:c_row		9
+"0x4DE10"	108	c	census:registered_tu		["func_8002DE10","func_800C90B4","0x800CB570",86]
+319100	96	r	census:c_row		9
+"0x4DEDC"	108	c	census:registered_tu		["func_8002DEDC","func_800C90B4","0x800CB63C",49]
+319304	96	r	census:c_row		9
+"0x4DFA8"	52	c	census:registered_tu		["func_8002DFA8","func_800CB1C8","0x800CB708",71]
+"0x4DFDC"	52	c	census:registered_tu		["func_8002DFDC","func_800CB1C8","0x800CB73C",87]
+319504	1296	r	census:c_row		9
+320800	96	r	census:T2_framed_ref:jtbl+ptr		20
+320896	616	r	census:c_row		9
+"0x4E7E8"	100	c	census:registered_tu		["func_800CE7E8",null,"0x800CBF48",88]
+321612	60	r	census:c_row		9
+"0x4E888"	68	c	census:registered_tu		["func_800CE888",null,"0x800CBFE8",89]
+"0x4E8CC"	68	c	census:registered_tu		["func_8002E8CC","func_800CE888","0x800CC02C",89]
+"0x4E910"	320	c	census:registered_tu		["func_800CE910",null,"0x800CC070",90]
+322128	32	r	census:c_row		9
+322160	64	r	census:T2_framed_ref:jtbl+lui_pair+ptr		20
+322224	788	r	census:c_row		9
+"0x4EDC4"	216	c	census:registered_tu		["func_8002EDC4","func_800C76D0","0x800CC524",36]
+323228	352	r	census:c_row		9
+"0x4EFFC"	88	c	census:registered_tu		["func_8002EFFC","func_800C81E4","0x800CC75C",91]
+"0x4F054"	88	c	census:registered_tu		["func_8002F054","func_800C81E4","0x800CC7B4",92]
+"0x4F0AC"	88	c	census:registered_tu		["func_8002F0AC","func_800C81E4","0x800CC80C",93]
+323844	348	r	census:c_row		9
+"0x4F260"	88	c	census:registered_tu		["func_8002F260","func_800C81E4","0x800CC9C0",94]
+324280	340	r	census:c_row		9
+"0x4F40C"	100	c	census:registered_tu		["func_8002F40C","func_800CE7E8","0x800CCB6C",88]
+"0x4F470"	100	c	census:registered_tu		["func_8002F470","func_800CE7E8","0x800CCBD0",95]
+324820	172	r	census:c_row		9
+"0x4F580"	68	c	census:registered_tu		["func_8002F580","func_800CE888","0x800CCCE0",96]
+"0x4F5C4"	68	c	census:registered_tu		["func_8002F5C4","func_800CE888","0x800CCD24",97]
+325128	216	r	census:c_row		9
+325344	32	r	census:T3_leaf_ref:jtbl+ptr		20
+325376	92	r	census:T1_twin		20
+325468	4	r	census:T3_leaf_ref:jtbl+ptr		20
+325472	80	r	census:T1_twin		20
+325552	584	r	census:c_row		9
+"0x4F9F8"	320	c	census:registered_tu		["func_8002F9F8","func_800CE910","0x800CD158",90]
+326456	64	r	census:c_row		9
+326520	64	r	census:T2_framed_ref:jal+jtbl+ptr		20
+326584	1876	r	census:c_row		9
+"0x5030C"	112	c	census:registered_tu		["func_8003030C","func_8009C3A0","0x800CDA6C",98]
+328572	700	r	census:c_row		9
+"0x50638"	100	c	census:registered_tu		["func_800D0638",null,"0x800CDD98",99]
+"0x5069C"	80	c	census:registered_tu		["func_800D069C",null,"0x800CDDFC",100]
+"0x506EC"	80	c	census:registered_tu		["func_800306EC","func_800D069C","0x800CDE4C",100]
+"0x5073C"	100	c	census:registered_tu		["func_8003073C","func_800D0638","0x800CDE9C",99]
+329632	84	r	census:c_row		9
+"0x507F4"	64	c	census:registered_tu		["func_800307F4","func_800CC4F4","0x800CDF54",101]
+"0x50834"	100	c	census:registered_tu		["func_80030834","func_800D0638","0x800CDF94",102]
+329880	84	r	census:c_row		9
+"0x508EC"	64	c	census:registered_tu		["func_800308EC","func_800CC4F4","0x800CE04C",103]
+330028	60	r	census:c_row		9
+"0x50968"	212	c	census:registered_tu		["func_800D0968",null,"0x800CE0C8",104]
+330300	312	r	census:c_row		9
+"0x50B74"	184	c	census:registered_tu		["func_800D0B74",null,"0x800CE2D4",105]
+330796	460	r	census:c_row		9
+"0x50DF8"	212	c	census:registered_tu		["func_80030DF8","func_800D0968","0x800CE558",104]
+"0x50ECC"	184	c	census:registered_tu		["func_80030ECC","func_800D0B74","0x800CE62C",105]
+"0x50F84"	156	c	census:registered_tu		["func_80030F84","func_800CAF8C","0x800CE6E4",68]
+"0x51020"	128	c	census:registered_tu		["func_80031020","func_800CB028","0x800CE780",69]
+331936	204	r	census:c_row		9
+"0x5116C"	128	c	census:registered_tu		["func_8003116C","func_800CB028","0x800CE8CC",106]
+"0x511EC"	80	c	census:registered_tu		["func_800311EC","func_800C7FC4","0x800CE94C",107]
+332348	80	r	census:c_row		9
+"0x5128C"	84	c	census:registered_tu		["func_8003128C","func_800CB0A8","0x800CE9EC",108]
+332512	64	r	census:c_row		9
+332576	72	r	census:T2_framed_ref:jal+jtbl		20
+332648	56	r	census:c_row		9
+"0x513A0"	84	c	census:registered_tu		["func_800313A0","func_800CB0A8","0x800CEB00",109]
+332788	64	r	census:c_row		9
+332852	72	r	census:T2_framed_ref:jal+jtbl		20
+"0x5147C"	76	c	census:registered_tu		["func_8003147C","func_800CA950","0x800CEBDC",110]
+333000	2648	r	census:c_row		9
+"0x51F20"	88	c	census:registered_tu		["func_80031F20","func_800C81E4","0x800CF680",111]
+335736	72	r	census:c_row		9
 335808	2	d	census:noncode:decode		0
 335810	282	p	census:zero_fill>=16		2
 336092	52	a	census:format:ptrtab	1920b9ed5f9681d2ab770e24bfac60c4a3a04685f38939d51a93942f8979d845	5
@@ -551,7 +551,7 @@ o	n	k	r	h	x
 340932	4	d	census:noncode:decode		0
 340936	88	a	census:format:ptrtab	229248ec716a6847087fffa75cc4ecf3fe65de85ba52a23e2d9ec8039a9d5d7f	5
 341024	200	d	census:noncode:decode		0
-341224	8	a	census:ledger:matched_c_read	af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc	111
+341224	8	a	census:ledger:matched_c_read	103d8fae94f698d1849994228bbdc60df7ce53936712265c7802b12e4c604112	112
 341232	24	d	census:noncode:decode		0
 341256	18	p	census:zero_fill>=16		2
 341274	6	d	census:noncode:decode		0

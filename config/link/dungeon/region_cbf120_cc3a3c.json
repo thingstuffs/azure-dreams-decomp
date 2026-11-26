@@ -5,7 +5,7 @@
   "foff": "0xcbf120",
   "size": "0x491c",
   "vma": "0x80164920",
-  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase img_cbf120_80164920",
+  "evidence": ": rowbase img_cbf120_80164920",
   "entries": [
     {
       "row": "dungeon/func_80CA0010",
@@ -80,7 +80,7 @@
         "0x800AD058": "0x800AD058",
         "0x8016D2C0": "0x80167304"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "dungeon/func_80CA1B9C",
@@ -152,7 +152,7 @@
         "0x8016ED14": "0x8016ED14",
         "0x8016E724": "0x8016E724"
       },
-      "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_80CA2640"
+      "evidence": ": dungeon/func_80CA2640"
     },
     {
       "row": "dungeon/func_80CA2F24",

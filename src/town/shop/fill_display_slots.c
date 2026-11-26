@@ -52,7 +52,7 @@ void fill_display_slots(ActorRecord *source, ItemMenuPart **output) {
         } while ((index + scan_base) < 3);
     }
     if ((slot_count < 3) && (source->carried_item.kind != 0)) {
-        populate_display_row((u8 *)source + 0x48, output, slot_count);
+        populate_display_row(&source->carried_item, output, slot_count);
         slot_count += 1;
     }
     index = slot_count;

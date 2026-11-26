@@ -82,11 +82,11 @@ void update_actor_facing_and_lifecycle(ActorRecord *body, ObjectPosition *motion
         if (dir_sprite_flag[direction_index] != 0) {
             adjusted_flags = part->flags | 1;
             part->flags = adjusted_flags;
-            apply_monster_koyaw_data(secondary->flags1C, (u8 *)part + 0xC);
+            apply_monster_koyaw_data(secondary->flags1C, &part->color.c.r);
         } else {
             adjusted_flags = part->flags & 0xFFFE;
             part->flags = adjusted_flags;
-            apply_monster_koyaw_data(secondary->flags1C, (u8 *)part + 0xC);
+            apply_monster_koyaw_data(secondary->flags1C, &part->color.c.r);
         }
 
         if (!(secondary->flags1C & 0x20)) {

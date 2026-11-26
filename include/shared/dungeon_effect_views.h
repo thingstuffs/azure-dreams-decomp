@@ -2,8 +2,8 @@
 #define SHARED_DUNGEON_EFFECT_VIEWS_H
 #include "common.h"
 #include "shared/entity.h"
-/* Position consumers use EntityRec x/y/z directly. Retail lhu readers cast
- * the signed Fixed1616 integer half to u16 at the access site. */
+/* Position consumers use the entity coordinates directly. Sites that read the
+ * signed fixed-point integer half as unsigned cast it at the access. */
 /* Point payload at node +0x20, initialized by the point spawners and passed
  * to their registered PointRecord renderers. Color +08 is copied into the
  * packet; +32 is a signed brightness/movement/fade counter. The spawn
@@ -30,7 +30,7 @@ typedef struct RisingPointEffectBody {
 } RisingPointEffectBody;
 /* Twelve-byte point tile/draw-mode packet view allocated at the frame packet cursor.
  * Point renderers fill the tile form and append a draw-mode packet at the next cursor position. */
-typedef struct PointPacket { u32 tag; /* DMA chain address/count word; point tiles contain two command words */ u8 r; /* tile red modulation byte after brightness scaling */ u8 g; /* tile green modulation byte after brightness scaling */ u8 b; /* tile blue modulation byte after brightness scaling */ u8 code; /* tile GPU command byte; point renderers set 0x6A */ u32 data; /* packed projected screen X/Y for tiles; draw-mode form uses this word as command data */ } PointPacket;
+typedef struct PointPacket { u32 tag; /* DMA chain address/count word; point tiles contain two command words */ u8 r; /* tile red modulation byte after brightness scaling */ u8 g; /* tile green modulation byte after brightness scaling */ u8 b; /* tile blue modulation byte after brightness scaling */ u8 code; /* tile GPU command byte; point renderers set 0x6A */ s32 data; /* packed projected screen X/Y for tiles; draw-mode form uses this word as command data */ } PointPacket;
 
 
 /* Exact access views shared across registered binary consumers. */

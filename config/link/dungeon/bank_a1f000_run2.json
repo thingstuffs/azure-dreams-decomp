@@ -5,7 +5,7 @@
   "foff": "0xA1F000",
   "size": "0x6000",
   "vma": "0x80164800",
-  "evidence": "r124w_carve1 run 2: supplied live fallback census and complete source-section equality; docs/evidence/r124w_carve1_run2.md",
+  "evidence": "supplied live fallback census and complete source-section equality",
   "entries": [
     {
       "row": "dungeon/func_809FF0DC",
@@ -20,7 +20,7 @@
         "0x80175188": "0x80169188",
         "0x80171400": "0x80165400"
       },
-      "evidence": "r124w_carve1 run 2: complete registered-home section equality"
+      "evidence": "complete registered-home section equality"
     },
     {
       "row": "dungeon/func_809FF3F8",
@@ -37,7 +37,7 @@
         "0x80175170": "0x80169170",
         "0x80175178": "0x80169178"
       },
-      "evidence": "r124w_carve1 run 2: complete registered-home section equality"
+      "evidence": "complete registered-home section equality"
     },
     {
       "row": "dungeon/func_809FFC00",

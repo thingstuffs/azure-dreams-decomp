@@ -20,7 +20,7 @@
         "0x80016170": "0x800160A8",
         "0x806D2AB0": "0x80016200"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "town/func_809502CC",
@@ -32,7 +32,7 @@
       "bindings": {
         "0x800196A8": "0x800162CC"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "town/func_80950308",
@@ -46,7 +46,7 @@
         "0x80017008": "0x80016ED0",
         "0x806D2BB8": "0x80016308"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "town/func_8095038C",
@@ -59,7 +59,7 @@
         "0x80016DDC": "0x80016C98",
         "0x806D2C3C": "0x8001638C"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "town/func_80950460",
@@ -74,7 +74,7 @@
         "0x80016D20": "0x80016BDC",
         "0x80016510": "0x80016460"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "town/func_809504D4",
@@ -88,7 +88,7 @@
         "0x80016C38": "0x80016C34",
         "0x80016D78": "0x80016C34"
       },
-      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+      "evidence": "current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "town/func_8095052C",
@@ -103,7 +103,7 @@
         "0x80016D20": "0x80016BDC",
         "0x800165E4": "0x8001652C"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "town/func_8095059C",
@@ -116,7 +116,7 @@
         "0x80016D78": "0x80016C34",
         "0x80016654": "0x8001659C"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "town/func_809505F8",
@@ -133,7 +133,7 @@
         "0x8001670C": "0x800165F8",
         "0x8095013C": "0x8001613C"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "town/func_809506A0",
@@ -146,7 +146,7 @@
         "0x80016D20": "0x80016BDC",
         "0x800167B4": "0x800166A0"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "town/func_80950704",
@@ -160,7 +160,7 @@
         "0x8094D708": "0x80016704",
         "0x800167B4": "0x800166A0"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "town/func_80950770",
@@ -183,7 +183,7 @@
         "0x800161E0": "0x80016118",
         "0x800168B4": "0x80016770"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "town/func_80950A3C",
@@ -195,7 +195,7 @@
       "bindings": {
         "0x80016B80": "0x80016A3C"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "town/func_80950A90",
@@ -209,7 +209,7 @@
         "0x80016E40": "0x80016D08",
         "0x80016BD4": "0x80016A90"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "town/func_80950AF0",
@@ -218,7 +218,7 @@
       "foff": "0x8D0AF0",
       "vma": "0x80016AF0",
       "size": 128,
-      "evidence": "docs/evidence/r124w_carve1_run6.md",
+      "evidence": "Recorded in the production link map.",
       "bindings": {
         "0x800160B0": "0x80016ED4",
         "0x800160B2": "0x80016ED6",
@@ -243,7 +243,7 @@
         "0x80016CDC": "0x80016CD8",
         "0x80016B74": "0x80016B70"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "town/func_80950B80",
@@ -255,7 +255,7 @@
       "bindings": {
         "0x800AE510": "0x80016B80"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "town/func_80950B88",
@@ -268,7 +268,7 @@
         "0x80016000": "0x80016000",
         "0x80016CCC": "0x80016B88"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "town/func_80950BDC",
@@ -281,7 +281,7 @@
         "0x80016000": "0x80016000",
         "0x80016D20": "0x80016BDC"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "town/func_80950C34",
@@ -294,7 +294,7 @@
         "0x80016000": "0x80016000",
         "0x80016D78": "0x80016C34"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     },
     {
       "row": "town/func_80950C98",
@@ -306,7 +306,7 @@
       "bindings": {
         "0x806D35DC": "0x80016C98"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "fresh current-home native object, all relocation fields evaluated and exact retail bytes"
     }
   ],
   "load_evidence": {

@@ -5,7 +5,7 @@
   "foff": "0x12c5000",
   "size": "0x6000",
   "vma": "0x80170800",
-  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase w4d1_12c5000_bank",
+  "evidence": ": rowbase w4d1_12c5000_bank",
   "entries": [
     {
       "row": "dungeon/func_812A8130",

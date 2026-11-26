@@ -11,12 +11,13 @@
       "kind": "padding",
       "foff": "0xf11084",
       "size": 4,
-      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "sha256": "90d45be7879d0d6d46d2bc3fdf8222ebd0513738939ff8a24514c909c968e8f5",
       "extractor": "container-slice-v1",
       "symbols": {
         "D_8015E884": "0x8015e884"
       },
-      "evidence": "census:ledger:linklist_padding"
+      "evidence": "census:ledger:linklist_padding",
+      "hash_size": 16
     }
   ],
   "census": {

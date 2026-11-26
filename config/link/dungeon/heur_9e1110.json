@@ -5,7 +5,7 @@
   "foff": "0x9e1110",
   "size": "0x1c4",
   "vma": "0x80156910",
-  "evidence": "work/native_lane/r121_heur/evidence/placements.json",
+  "evidence": "Recorded in the production link map.",
   "entries": [
     {
       "row": "dungeon/func_809E1110",
@@ -18,7 +18,7 @@
         "0x801747b8": "0x801567b8",
         "0x80175f70": "0x80157f70"
       },
-      "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json"
+      "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in"
     }
   ]
 }

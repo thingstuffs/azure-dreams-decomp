@@ -62,7 +62,7 @@ typedef struct { unsigned addr : 24; unsigned len : 8; } PacketTag;
 
 static inline u32 *projected_ordering_entry(ProjectedQuadScratch *scratch)
 {
-    /* BYTES: pointer indexing changes the ordering-table load destination from $3 to $5. */
+    /* BYTES: Compute the scaled depth before adding the ordering-table base. Pointer indexing changes which temporary holds the loaded table base. */
     return (u32 *)((scratch->ot_index << 2) + (unsigned long)scratch->ordering_table);
 }
 

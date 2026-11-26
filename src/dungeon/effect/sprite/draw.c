@@ -38,7 +38,7 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
     layout = SPRITE_SCRATCH;
     scratch = (u8 *)layout;
 
-    layout->ordering_table = (u32 *)&graphics->orderTag;
+    layout->ordering_table = &graphics->orderTag[GPU_ORDER_DEPTH_BASE];
     layout->matrix_D0.t[0] = *(s16 *)((u8 *)position + 2);
     layout->matrix_D0.t[1] = *(s16 *)((u8 *)position + 6);
     position_z = *(s16 *)((u8 *)position + 0xA);
@@ -443,7 +443,7 @@ s32 draw_linked_shaded_tiles(RandomOffsetEffectObjectBody *first_point, void *fi
     Row_818F30EC_S_800248EC_4 *next_node;
 
     packet_start = render_ctx->packetCursor;
-    scratch->ot = (u32 *)&render_ctx->orderTag;
+    scratch->ot = &render_ctx->orderTag[GPU_ORDER_DEPTH_BASE];
     scratch->cursor = packet_start;
 
     for (;;) {

@@ -63,7 +63,8 @@ class Schema(Fixture):
         es = [meta('data',0,2,type='u16'), meta('data',2,2,type='typing pending'), meta('padding',4,2),
               meta('leftover',6,2,reason='independent overwrite witness'), meta('unresolved',8,2),
               meta('code_region',10,2,census_label='library_code'),
-              meta('asset',12,4,format='opaque',sha256='a'*64,extractor='container-slice-v1',census_label='noncode_typing_pending')]
+              meta('asset',12,4,format='opaque',sha256='a'*64,hash_size=16,
+                   extractor='container-slice-v1',census_label='noncode_typing_pending')]
         self.write(doc(es))
         imgs, by_place, by_row, local = L.load(self.root)
         self.assertEqual((by_place, by_row, local), ({}, {}, {}))

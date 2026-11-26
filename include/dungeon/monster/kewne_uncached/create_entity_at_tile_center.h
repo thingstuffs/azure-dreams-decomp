@@ -115,7 +115,7 @@ typedef struct {
 extern Packed16 D_80170804;
 extern u8 kewne_uncached_action_resume_address[16];
 extern u8 kewne_uncached_frame_set_1[16];
-extern void (*kewne_uncached_callbacks[])(void *, void *, void *, void *);
+extern ActorActionHandler kewne_uncached_callbacks[];
 
 #define event_base ((u8 *)((u8 *)(&reference_tile_object)))
 #define position_base ((u8 *)((u8 *)(&view_reference_entity)))

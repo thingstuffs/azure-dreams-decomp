@@ -16,7 +16,7 @@
 
 typedef s32 M2C_UNK;
 
-typedef void (*Callback)();
+typedef ActorActionHandler Callback;
 
 typedef union {
     long long value;

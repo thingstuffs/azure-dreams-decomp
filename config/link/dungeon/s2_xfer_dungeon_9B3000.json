@@ -5,7 +5,7 @@
   "foff": "0x9b3000",
   "size": "0x6000",
   "vma": "0x80152800",
-  "evidence": "docs/evidence/r121w_s2_receipts.json",
+  "evidence": "Recorded in the production link map.",
   "entries": [
     {
       "row": "dungeon/func_809935A8",
@@ -30,7 +30,7 @@
         "0x80047784": "0x80047784",
         "0x800BCB04": "0x800BCB04"
       },
-      "evidence": "r124w_dupes1: current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
+      "evidence": "current complete objects and dependent placements re-paired by tools/tu/copy_place.py; scoped retail proof required"
     },
     {
       "row": "dungeon/func_809968A8",
@@ -42,7 +42,7 @@
       "bindings": {
         "0x801717F4": "0x801534D4"
       },
-      "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_809968A8; B10 re-homed from dungeon/func_809A2F10 (now an LL placement of dungeon/func_80AF4148): bindings translated through dungeon/func_809A2F10's object-screen resolution"
+      "evidence": "#dungeon/func_809968A8; B10 re-homed from dungeon/func_809A2F10 (now an LL placement of dungeon/func_80AF4148): bindings translated through dungeon/func_809A2F10's object-screen resolution"
     }
   ]
 }

@@ -107,7 +107,7 @@
                   "file": "DUNGEON/DUNGEON.BIN",
                   "offset": 2778804,
                   "length": 4,
-                  "sha256": "a85e0333bff9d36375ed5f5ba0e790327b6f533c59109375c7f2f973b5117cef"
+                  "sha256": "a3696cc540b01c3c9201500e3005c39e6b340c1a3656fb8dd439308b78d4cc72"
                 },
                 "format": {
                   "kind": "int_hex",
@@ -121,7 +121,7 @@
                   "file": "DUNGEON/DUNGEON.BIN",
                   "offset": 2778808,
                   "length": 4,
-                  "sha256": "6dfa3fbb9ba24dfc0480cc0f02fbe6e27c7b8176ed0bc30e098b7695d15b1aa7"
+                  "sha256": "0c481b31ffc7404031f643ec4abd5d55e673fc532415f3f4712e53934a690d91"
                 },
                 "format": {
                   "kind": "int_hex",
@@ -158,7 +158,7 @@
                   "file": "DUNGEON/DUNGEON.BIN",
                   "offset": 56440,
                   "length": 4,
-                  "sha256": "cd1c2fcb5d875a190840278fbbf442cc796cbd496dff03a6b4e7de5880bfa8f2"
+                  "sha256": "d83c0dc44b02f5dce77eee38ce94582d8e331356a442cc9c9fd4024f439d35ca"
                 },
                 "format": {
                   "kind": "int_hex",
@@ -172,7 +172,7 @@
                   "file": "DUNGEON/DUNGEON.BIN",
                   "offset": 56444,
                   "length": 4,
-                  "sha256": "15cbfccf4e65710ce9988c5bcb3d0ed67944777a55004c3ab50ba53b22b98744"
+                  "sha256": "6dd41e266d9262277ffcd900f07f6044f601f1eb56253be536a6f3dc05814493"
                 },
                 "format": {
                   "kind": "int_hex",
@@ -233,7 +233,7 @@
                   "file": "SLUS_006.14",
                   "offset": 97440,
                   "length": 4,
-                  "sha256": "219bb7aa6b8323267473712eeb3219a5838ac3a514f6c7839b38c8c3f31a43d4"
+                  "sha256": "417b8309abf11cbe9a54fce56155d9cc7be1d6a5e138efd2e86f41dee399c8c4"
                 },
                 "format": {
                   "kind": "int_hex",
@@ -247,7 +247,7 @@
                   "file": "SLUS_006.14",
                   "offset": 97444,
                   "length": 4,
-                  "sha256": "ac886531b1ec4137ceceaf0aea21432b9a4d0e09a6450f92c7443297a82c3ccf"
+                  "sha256": "33a11e6e704c6dedb3a446d6426af6f148b382efe639b73af6425207ec4b7a61"
                 },
                 "format": {
                   "kind": "int_hex",

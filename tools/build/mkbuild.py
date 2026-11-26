@@ -1265,6 +1265,8 @@ def _generate():
         if 'module' in spec:
             deps += [a['source'] for a in spec['module']['members']] + spec['module']['headers'] + spec['module']['review_inputs']
             deps += [a['declaration'] for a in spec['module']['imports'] if 'declaration' in a]
+            if M.N.text_imports(spec['module']):
+                deps.append('work/disc/containers/' + CONTAINERS[spec['module']['container']])
             if spec['assembler'] == 'genuine_aspsx_verified':
                 deps += ['toolchain/genuine/bin/wibo', 'toolchain/genuine/psyq/psyq4.4/ASPSX.EXE']
         if spec.get('projection'):
@@ -1494,8 +1496,9 @@ def check_linker_words(root, family, start, size, compiled, padding, retail=None
             if b <= start or a >= start + size:
                 continue
             if entry.get('type') == linklist.RETAIL_TEXT:
-                if (retail is None or b > len(retail)
-                        or sha(retail[a:b]) != entry['sha256']):
+                hash_end = a + entry.get('hash_size', entry['size'])
+                if (retail is None or hash_end > len(retail)
+                        or sha(retail[a:hash_end]) != entry['sha256']):
                     raise ValueError('imported retail text SHA-256 differs at 0x%X' % a)
             over = [c for c in compiled if c['foff'] < b and a < c['foff'] + c['size']]
             if not over:
@@ -1933,6 +1936,13 @@ def check(scope=None):
     failures = [r['image'] for r in results if r['result'] != 'MATCH']
     if failures:
         raise ValueError('retail mismatch: ' + ', '.join(failures))
+    if scope is None:
+        from tools.physical_census import SUMMARY, census, check_summary, headline
+
+        slus = ROOT/'build_slus/build/slus_006.14'
+        report = census(ROOT, slus.with_suffix('.14.map'), slus)
+        check_summary(report, ROOT/SUMMARY)
+        print(headline(report))
     executable = ' (including SLUS EXE)' if scope is None or 'slus/slus_bin' in scope else ''
     print(f'{"CHECK" if scope is None else "SCOPE"} {matched}/{len(results)} images SHA-1 MATCH{executable}; {len(consumed)} overlay recipes checked')
 

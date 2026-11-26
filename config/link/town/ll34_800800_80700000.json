@@ -18,7 +18,7 @@
       "foff": "0x80116C",
       "vma": "0x8070096C",
       "size": 72,
-      "evidence": "docs/evidence/r141w_town_dev.md"
+      "evidence": "Recorded in the production link map."
     },
     {
       "row": "town/func_8088124C",
@@ -27,7 +27,7 @@
       "foff": "0x80124C",
       "vma": "0x80700A4C",
       "size": 256,
-      "evidence": "docs/evidence/r141w_town_dev.md"
+      "evidence": "Recorded in the production link map."
     },
     {
       "row": "town/func_8088134C",
@@ -36,7 +36,7 @@
       "foff": "0x80134C",
       "vma": "0x80700B4C",
       "size": 128,
-      "evidence": "docs/evidence/r141w_town_dev.md"
+      "evidence": "Recorded in the production link map."
     },
     {
       "row": "town/func_808813CC",
@@ -45,7 +45,7 @@
       "foff": "0x8013CC",
       "vma": "0x80700BCC",
       "size": 88,
-      "evidence": "docs/evidence/r141w_town_dev.md"
+      "evidence": "Recorded in the production link map."
     },
     {
       "row": "town/func_80881424",
@@ -54,7 +54,7 @@
       "foff": "0x801424",
       "vma": "0x80700C24",
       "size": 84,
-      "evidence": "docs/evidence/r141w_town_dev.md"
+      "evidence": "Recorded in the production link map."
     },
     {
       "row": "town/func_80881478",
@@ -63,7 +63,7 @@
       "foff": "0x801478",
       "vma": "0x80700C78",
       "size": 88,
-      "evidence": "docs/evidence/r141w_town_dev.md"
+      "evidence": "Recorded in the production link map."
     },
     {
       "row": "town/func_808814D0",
@@ -75,7 +75,7 @@
       "bindings": {
         "0x807030a4": "0x80700ff8"
       },
-      "evidence": "docs/evidence/r141w_town_dev.md"
+      "evidence": "Recorded in the production link map."
     },
     {
       "row": "town/func_80881520",
@@ -87,7 +87,7 @@
       "bindings": {
         "0xa0700f44": "0x80700ff8"
       },
-      "evidence": "docs/evidence/r141w_town_dev.md"
+      "evidence": "Recorded in the production link map."
     },
     {
       "row": "town/func_80881574",
@@ -126,7 +126,7 @@
       "foff": "0x8016B4",
       "vma": "0x80700EB4",
       "size": 36,
-      "evidence": "docs/evidence/r141w_town_dev.md"
+      "evidence": "Recorded in the production link map."
     },
     {
       "row": "town/func_808816D8",
@@ -135,7 +135,7 @@
       "foff": "0x8016D8",
       "vma": "0x80700ED8",
       "size": 236,
-      "evidence": "docs/evidence/r141w_town_dev.md"
+      "evidence": "Recorded in the production link map."
     },
     {
       "row": "town/func_808817C4",
@@ -144,7 +144,7 @@
       "foff": "0x8017C4",
       "vma": "0x80700FC4",
       "size": 48,
-      "evidence": "docs/evidence/r141w_town_dev.md"
+      "evidence": "Recorded in the production link map."
     }
   ]
 }

@@ -547,102 +547,121 @@
   "file_offset": "0x3E49C",
   "entries": 19,
   "kind": "text",
-  "role": "town NPC name table (Shift-JIS fullwidth: Barry, Beldo, Okami, Barten, Wotta, Silver, Jorda, Dr.Hal, Tonka, Hush, Nadia, Coppe, NcsDad, Angel, Issac, Jacof, Etto, Romi, Shin)",
+  "role": "Town resident character name table, encoded as fullwidth Shift-JIS",
   "targets": [
    {
     "index": 0,
     "target": "0x8002D2D4",
-    "text": "\uff22\uff41\uff52\uff52\uff59"
+    "text_foff": "0xAD4",
+    "text_bytes": 11
    },
    {
     "index": 1,
     "target": "0x8002D2C8",
-    "text": "\uff22\uff45\uff4c\uff44\uff4f"
+    "text_foff": "0xAC8",
+    "text_bytes": 11
    },
    {
     "index": 2,
     "target": "0x8002D2BC",
-    "text": "\uff2f\uff4b\uff41\uff4d\uff49"
+    "text_foff": "0xABC",
+    "text_bytes": 11
    },
    {
     "index": 3,
     "target": "0x8002D2AC",
-    "text": "\uff22\uff41\uff52\uff54\uff45\uff4e"
+    "text_foff": "0xAAC",
+    "text_bytes": 13
    },
    {
     "index": 4,
     "target": "0x8002D2A0",
-    "text": "\uff37\uff4f\uff54\uff54\uff41"
+    "text_foff": "0xAA0",
+    "text_bytes": 11
    },
    {
     "index": 5,
     "target": "0x8002D290",
-    "text": "\uff33\uff49\uff4c\uff56\uff45\uff52"
+    "text_foff": "0xA90",
+    "text_bytes": 13
    },
    {
     "index": 6,
     "target": "0x8002D284",
-    "text": "\uff2a\uff4f\uff52\uff44\uff41"
+    "text_foff": "0xA84",
+    "text_bytes": 11
    },
    {
     "index": 7,
     "target": "0x8002D274",
-    "text": "\uff24\uff52\uff0e\uff28\uff41\uff4c"
+    "text_foff": "0xA74",
+    "text_bytes": 13
    },
    {
     "index": 8,
     "target": "0x8002D268",
-    "text": "\uff34\uff4f\uff4e\uff4b\uff41"
+    "text_foff": "0xA68",
+    "text_bytes": 11
    },
    {
     "index": 9,
     "target": "0x8002D25C",
-    "text": "\uff28\uff55\uff53\uff48"
+    "text_foff": "0xA5C",
+    "text_bytes": 9
    },
    {
     "index": 10,
     "target": "0x8002D250",
-    "text": "\uff2e\uff41\uff44\uff49\uff41"
+    "text_foff": "0xA50",
+    "text_bytes": 11
    },
    {
     "index": 11,
     "target": "0x8002D244",
-    "text": "\uff23\uff4f\uff50\uff50\uff45"
+    "text_foff": "0xA44",
+    "text_bytes": 11
    },
    {
     "index": 12,
     "target": "0x8002D234",
-    "text": "\uff2e\uff43\uff53\uff24\uff41\uff44"
+    "text_foff": "0xA34",
+    "text_bytes": 13
    },
    {
     "index": 13,
     "target": "0x8002D228",
-    "text": "\uff21\uff4e\uff47\uff45\uff4c"
+    "text_foff": "0xA28",
+    "text_bytes": 11
    },
    {
     "index": 14,
     "target": "0x8002D21C",
-    "text": "\uff29\uff53\uff53\uff41\uff43"
+    "text_foff": "0xA1C",
+    "text_bytes": 11
    },
    {
     "index": 15,
     "target": "0x8002D210",
-    "text": "\uff2a\uff41\uff43\uff4f\uff46"
+    "text_foff": "0xA10",
+    "text_bytes": 11
    },
    {
     "index": 16,
     "target": "0x8002D204",
-    "text": "\uff25\uff54\uff54\uff4f"
+    "text_foff": "0xA04",
+    "text_bytes": 9
    },
    {
     "index": 17,
     "target": "0x8002D1F8",
-    "text": "\uff32\uff4f\uff4d\uff49"
+    "text_foff": "0x9F8",
+    "text_bytes": 9
    },
    {
     "index": 18,
     "target": "0x8002D1EC",
-    "text": "\uff33\uff48\uff49\uff4e"
+    "text_foff": "0x9EC",
+    "text_bytes": 9
    }
   ]
  },
@@ -651,67 +670,79 @@
   "file_offset": "0x3E574",
   "entries": 12,
   "kind": "text",
-  "role": "second NPC name table (Danser x4, Aunt, Horse x4, Shiela, Butler, Bunny2)",
+  "role": "Secondary town character name table, with shared entries",
   "targets": [
    {
     "index": 0,
     "target": "0x8002D0B4",
-    "text": "\uff24\uff41\uff4e\uff53\uff45\uff52"
+    "text_foff": "0x8B4",
+    "text_bytes": 13
    },
    {
     "index": 1,
     "target": "0x8002D0B4",
-    "text": "\uff24\uff41\uff4e\uff53\uff45\uff52"
+    "text_foff": "0x8B4",
+    "text_bytes": 13
    },
    {
     "index": 2,
     "target": "0x8002D0B4",
-    "text": "\uff24\uff41\uff4e\uff53\uff45\uff52"
+    "text_foff": "0x8B4",
+    "text_bytes": 13
    },
    {
     "index": 3,
     "target": "0x8002D0B4",
-    "text": "\uff24\uff41\uff4e\uff53\uff45\uff52"
+    "text_foff": "0x8B4",
+    "text_bytes": 13
    },
    {
     "index": 4,
     "target": "0x8002D188",
-    "text": "\uff21\uff55\uff4e\uff54"
+    "text_foff": "0x988",
+    "text_bytes": 9
    },
    {
     "index": 5,
     "target": "0x8002D0A8",
-    "text": "\uff28\uff4f\uff52\uff53\uff45"
+    "text_foff": "0x8A8",
+    "text_bytes": 11
    },
    {
     "index": 6,
     "target": "0x8002D0A8",
-    "text": "\uff28\uff4f\uff52\uff53\uff45"
+    "text_foff": "0x8A8",
+    "text_bytes": 11
    },
    {
     "index": 7,
     "target": "0x8002D0A8",
-    "text": "\uff28\uff4f\uff52\uff53\uff45"
+    "text_foff": "0x8A8",
+    "text_bytes": 11
    },
    {
     "index": 8,
     "target": "0x8002D0A8",
-    "text": "\uff28\uff4f\uff52\uff53\uff45"
+    "text_foff": "0x8A8",
+    "text_bytes": 11
    },
    {
     "index": 9,
     "target": "0x8002D098",
-    "text": "\uff33\uff48\uff49\uff45\uff4c\uff41"
+    "text_foff": "0x898",
+    "text_bytes": 13
    },
    {
     "index": 10,
     "target": "0x8002D088",
-    "text": "\uff22\uff55\uff54\uff4c\uff45\uff52"
+    "text_foff": "0x888",
+    "text_bytes": 13
    },
    {
     "index": 11,
     "target": "0x8002D078",
-    "text": "\uff22\uff55\uff4e\uff4e\uff59\uff12"
+    "text_foff": "0x878",
+    "text_bytes": 13
    }
   ]
  },
@@ -720,172 +751,205 @@
   "file_offset": "0x3E81C",
   "entries": 33,
   "kind": "text",
-  "role": "monster (familiar) name table in monster-id order (ifrit, flame, grineu, griff, saber, snow, ashra, aran, battne, nyuel, death, clown, univer, unicon, metal, block, pulun, troll, noise, u-boat, baloon, dream, blume, volcan, cyclo, maneva, barong, picket, kraken, weadog, steal, viper, naplas): the id space initialStatsTable (24-byte records) is indexed by",
+  "role": "Familiar name table in monster ID order, matching the initial statistics table",
   "targets": [
    {
     "index": 0,
     "target": "0x8002D560",
-    "text": "\uff49\uff46\uff52\uff49\uff54"
+    "text_foff": "0xD60",
+    "text_bytes": 11
    },
    {
     "index": 1,
     "target": "0x8002D554",
-    "text": "\uff46\uff4c\uff41\uff4d\uff45"
+    "text_foff": "0xD54",
+    "text_bytes": 11
    },
    {
     "index": 2,
     "target": "0x8002D544",
-    "text": "\uff47\uff52\uff49\uff4e\uff45\uff55"
+    "text_foff": "0xD44",
+    "text_bytes": 13
    },
    {
     "index": 3,
     "target": "0x8002D538",
-    "text": "\uff47\uff52\uff49\uff46\uff46"
+    "text_foff": "0xD38",
+    "text_bytes": 11
    },
    {
     "index": 4,
     "target": "0x8002D52C",
-    "text": "\uff53\uff41\uff42\uff45\uff52"
+    "text_foff": "0xD2C",
+    "text_bytes": 11
    },
    {
     "index": 5,
     "target": "0x8002D520",
-    "text": "\uff53\uff4e\uff4f\uff57"
+    "text_foff": "0xD20",
+    "text_bytes": 9
    },
    {
     "index": 6,
     "target": "0x8002D514",
-    "text": "\uff41\uff53\uff48\uff52\uff41"
+    "text_foff": "0xD14",
+    "text_bytes": 11
    },
    {
     "index": 7,
     "target": "0x8002D508",
-    "text": "\uff41\uff52\uff41\uff4e"
+    "text_foff": "0xD08",
+    "text_bytes": 9
    },
    {
     "index": 8,
     "target": "0x8002D4F8",
-    "text": "\uff42\uff41\uff54\uff54\uff4e\uff45"
+    "text_foff": "0xCF8",
+    "text_bytes": 13
    },
    {
     "index": 9,
     "target": "0x8002D4EC",
-    "text": "\uff4e\uff59\uff55\uff45\uff4c"
+    "text_foff": "0xCEC",
+    "text_bytes": 11
    },
    {
     "index": 10,
     "target": "0x8002D4E0",
-    "text": "\uff44\uff45\uff41\uff54\uff48"
+    "text_foff": "0xCE0",
+    "text_bytes": 11
    },
    {
     "index": 11,
     "target": "0x8002D4D4",
-    "text": "\uff43\uff4c\uff4f\uff57\uff4e"
+    "text_foff": "0xCD4",
+    "text_bytes": 11
    },
    {
     "index": 12,
     "target": "0x8002D4C4",
-    "text": "\uff55\uff4e\uff49\uff56\uff45\uff52"
+    "text_foff": "0xCC4",
+    "text_bytes": 13
    },
    {
     "index": 13,
     "target": "0x8002D4B4",
-    "text": "\uff55\uff4e\uff49\uff43\uff4f\uff4e"
+    "text_foff": "0xCB4",
+    "text_bytes": 13
    },
    {
     "index": 14,
     "target": "0x8002D4A8",
-    "text": "\uff4d\uff45\uff54\uff41\uff4c"
+    "text_foff": "0xCA8",
+    "text_bytes": 11
    },
    {
     "index": 15,
     "target": "0x8002D49C",
-    "text": "\uff42\uff4c\uff4f\uff43\uff4b"
+    "text_foff": "0xC9C",
+    "text_bytes": 11
    },
    {
     "index": 16,
     "target": "0x8002D490",
-    "text": "\uff50\uff55\uff4c\uff55\uff4e"
+    "text_foff": "0xC90",
+    "text_bytes": 11
    },
    {
     "index": 17,
     "target": "0x8002D484",
-    "text": "\uff54\uff52\uff4f\uff4c\uff4c"
+    "text_foff": "0xC84",
+    "text_bytes": 11
    },
    {
     "index": 18,
     "target": "0x8002D478",
-    "text": "\uff4e\uff4f\uff49\uff53\uff45"
+    "text_foff": "0xC78",
+    "text_bytes": 11
    },
    {
     "index": 19,
     "target": "0x8002D468",
-    "text": "\uff55\u2212\uff42\uff4f\uff41\uff54"
+    "text_foff": "0xC68",
+    "text_bytes": 13
    },
    {
     "index": 20,
     "target": "0x8002D458",
-    "text": "\uff42\uff41\uff4c\uff4f\uff4f\uff4e"
+    "text_foff": "0xC58",
+    "text_bytes": 13
    },
    {
     "index": 21,
     "target": "0x8002D44C",
-    "text": "\uff44\uff52\uff45\uff41\uff4d"
+    "text_foff": "0xC4C",
+    "text_bytes": 11
    },
    {
     "index": 22,
     "target": "0x8002D440",
-    "text": "\uff42\uff4c\uff55\uff4d\uff45"
+    "text_foff": "0xC40",
+    "text_bytes": 11
    },
    {
     "index": 23,
     "target": "0x8002D430",
-    "text": "\uff56\uff4f\uff4c\uff43\uff41\uff4e"
+    "text_foff": "0xC30",
+    "text_bytes": 13
    },
    {
     "index": 24,
     "target": "0x8002D424",
-    "text": "\uff43\uff59\uff43\uff4c\uff4f"
+    "text_foff": "0xC24",
+    "text_bytes": 11
    },
    {
     "index": 25,
     "target": "0x8002D414",
-    "text": "\uff4d\uff41\uff4e\uff45\uff56\uff41"
+    "text_foff": "0xC14",
+    "text_bytes": 13
    },
    {
     "index": 26,
     "target": "0x8002D404",
-    "text": "\uff42\uff41\uff52\uff4f\uff4e\uff47"
+    "text_foff": "0xC04",
+    "text_bytes": 13
    },
    {
     "index": 27,
     "target": "0x8002D3F4",
-    "text": "\uff50\uff49\uff43\uff4b\uff45\uff54"
+    "text_foff": "0xBF4",
+    "text_bytes": 13
    },
    {
     "index": 28,
     "target": "0x8002D3E4",
-    "text": "\uff4b\uff52\uff41\uff4b\uff45\uff4e"
+    "text_foff": "0xBE4",
+    "text_bytes": 13
    },
    {
     "index": 29,
     "target": "0x8002D3D4",
-    "text": "\uff57\uff45\uff41\uff44\uff4f\uff47"
+    "text_foff": "0xBD4",
+    "text_bytes": 13
    },
    {
     "index": 30,
     "target": "0x8002D3C8",
-    "text": "\uff53\uff54\uff45\uff41\uff4c"
+    "text_foff": "0xBC8",
+    "text_bytes": 11
    },
    {
     "index": 31,
     "target": "0x8002D3BC",
-    "text": "\uff56\uff49\uff50\uff45\uff52"
+    "text_foff": "0xBBC",
+    "text_bytes": 11
    },
    {
     "index": 32,
     "target": "0x8002D3AC",
-    "text": "\uff4e\uff41\uff50\uff4c\uff41\uff53"
+    "text_foff": "0xBAC",
+    "text_bytes": 13
    }
   ]
  },
@@ -894,207 +958,247 @@
   "file_offset": "0x4E6D8",
   "entries": 40,
   "kind": "text",
-  "role": "libcd command-name table (gCdCommandStringTable in config/slus_006.14.symbols.txt): CdlSync, CdlNop, ... DiskError",
+  "role": "CD command name table in command order",
   "targets": [
    {
     "index": 0,
     "target": "0x80033474",
-    "text": "CdlSync"
+    "text_foff": "0x6C74",
+    "text_bytes": 8
    },
    {
     "index": 1,
     "target": "0x8003346C",
-    "text": "CdlNop"
+    "text_foff": "0x6C6C",
+    "text_bytes": 7
    },
    {
     "index": 2,
     "target": "0x80033460",
-    "text": "CdlSetloc"
+    "text_foff": "0x6C60",
+    "text_bytes": 10
    },
    {
     "index": 3,
     "target": "0x80033458",
-    "text": "CdlPlay"
+    "text_foff": "0x6C58",
+    "text_bytes": 8
    },
    {
     "index": 4,
     "target": "0x8003344C",
-    "text": "CdlForward"
+    "text_foff": "0x6C4C",
+    "text_bytes": 11
    },
    {
     "index": 5,
     "target": "0x80033440",
-    "text": "CdlBackward"
+    "text_foff": "0x6C40",
+    "text_bytes": 12
    },
    {
     "index": 6,
     "target": "0x80033434",
-    "text": "CdlReadN"
+    "text_foff": "0x6C34",
+    "text_bytes": 9
    },
    {
     "index": 7,
     "target": "0x80033428",
-    "text": "CdlStandby"
+    "text_foff": "0x6C28",
+    "text_bytes": 11
    },
    {
     "index": 8,
     "target": "0x80033420",
-    "text": "CdlStop"
+    "text_foff": "0x6C20",
+    "text_bytes": 8
    },
    {
     "index": 9,
     "target": "0x80033414",
-    "text": "CdlPause"
+    "text_foff": "0x6C14",
+    "text_bytes": 9
    },
    {
     "index": 10,
     "target": "0x80033408",
-    "text": "CdlReset"
+    "text_foff": "0x6C08",
+    "text_bytes": 9
    },
    {
     "index": 11,
     "target": "0x80033400",
-    "text": "CdlMute"
+    "text_foff": "0x6C00",
+    "text_bytes": 8
    },
    {
     "index": 12,
     "target": "0x800333F4",
-    "text": "CdlDemute"
+    "text_foff": "0x6BF4",
+    "text_bytes": 10
    },
    {
     "index": 13,
     "target": "0x800333E4",
-    "text": "CdlSetfilter"
+    "text_foff": "0x6BE4",
+    "text_bytes": 13
    },
    {
     "index": 14,
     "target": "0x800333D8",
-    "text": "CdlSetmode"
+    "text_foff": "0x6BD8",
+    "text_bytes": 11
    },
    {
     "index": 15,
     "target": "0x800333D4",
-    "text": "?"
+    "text_foff": "0x6BD4",
+    "text_bytes": 2
    },
    {
     "index": 16,
     "target": "0x800333C8",
-    "text": "CdlGetlocL"
+    "text_foff": "0x6BC8",
+    "text_bytes": 11
    },
    {
     "index": 17,
     "target": "0x800333BC",
-    "text": "CdlGetlocP"
+    "text_foff": "0x6BBC",
+    "text_bytes": 11
    },
    {
     "index": 18,
     "target": "0x800333D4",
-    "text": "?"
+    "text_foff": "0x6BD4",
+    "text_bytes": 2
    },
    {
     "index": 19,
     "target": "0x800333B0",
-    "text": "CdlGetTN"
+    "text_foff": "0x6BB0",
+    "text_bytes": 9
    },
    {
     "index": 20,
     "target": "0x800333A4",
-    "text": "CdlGetTD"
+    "text_foff": "0x6BA4",
+    "text_bytes": 9
    },
    {
     "index": 21,
     "target": "0x80033398",
-    "text": "CdlSeekL"
+    "text_foff": "0x6B98",
+    "text_bytes": 9
    },
    {
     "index": 22,
     "target": "0x8003338C",
-    "text": "CdlSeekP"
+    "text_foff": "0x6B8C",
+    "text_bytes": 9
    },
    {
     "index": 23,
     "target": "0x800333D4",
-    "text": "?"
+    "text_foff": "0x6BD4",
+    "text_bytes": 2
    },
    {
     "index": 24,
     "target": "0x800333D4",
-    "text": "?"
+    "text_foff": "0x6BD4",
+    "text_bytes": 2
    },
    {
     "index": 25,
     "target": "0x800333D4",
-    "text": "?"
+    "text_foff": "0x6BD4",
+    "text_bytes": 2
    },
    {
     "index": 26,
     "target": "0x800333D4",
-    "text": "?"
+    "text_foff": "0x6BD4",
+    "text_bytes": 2
    },
    {
     "index": 27,
     "target": "0x80033380",
-    "text": "CdlReadS"
+    "text_foff": "0x6B80",
+    "text_bytes": 9
    },
    {
     "index": 28,
     "target": "0x800333D4",
-    "text": "?"
+    "text_foff": "0x6BD4",
+    "text_bytes": 2
    },
    {
     "index": 29,
     "target": "0x800333D4",
-    "text": "?"
+    "text_foff": "0x6BD4",
+    "text_bytes": 2
    },
    {
     "index": 30,
     "target": "0x800333D4",
-    "text": "?"
+    "text_foff": "0x6BD4",
+    "text_bytes": 2
    },
    {
     "index": 31,
     "target": "0x800333D4",
-    "text": "?"
+    "text_foff": "0x6BD4",
+    "text_bytes": 2
    },
    {
     "index": 32,
     "target": "0x800334B4",
-    "text": "NoIntr"
+    "text_foff": "0x6CB4",
+    "text_bytes": 7
    },
    {
     "index": 33,
     "target": "0x800334A8",
-    "text": "DataReady"
+    "text_foff": "0x6CA8",
+    "text_bytes": 10
    },
    {
     "index": 34,
     "target": "0x8003349C",
-    "text": "Complete"
+    "text_foff": "0x6C9C",
+    "text_bytes": 9
    },
    {
     "index": 35,
     "target": "0x80033490",
-    "text": "Acknowledge"
+    "text_foff": "0x6C90",
+    "text_bytes": 12
    },
    {
     "index": 36,
     "target": "0x80033488",
-    "text": "DataEnd"
+    "text_foff": "0x6C88",
+    "text_bytes": 8
    },
    {
     "index": 37,
     "target": "0x8003347C",
-    "text": "DiskError"
+    "text_foff": "0x6C7C",
+    "text_bytes": 10
    },
    {
     "index": 38,
     "target": "0x800333D4",
-    "text": "?"
+    "text_foff": "0x6BD4",
+    "text_bytes": 2
    },
    {
     "index": 39,
     "target": "0x800333D4",
-    "text": "?"
+    "text_foff": "0x6BD4",
+    "text_bytes": 2
    }
   ]
  },
@@ -1107,83 +1211,67 @@
   "targets": [
    {
     "index": 0,
-    "target": "0x800336FC",
-    "text": null
+    "target": "0x800336FC"
    },
    {
     "index": 1,
-    "target": "0x800690AC",
-    "text": null
+    "target": "0x800690AC"
    },
    {
     "index": 2,
-    "target": "0x800690D0",
-    "text": null
+    "target": "0x800690D0"
    },
    {
     "index": 3,
-    "target": "0x80068888",
-    "text": null
+    "target": "0x80068888"
    },
    {
     "index": 4,
-    "target": "0x80068FA4",
-    "text": null
+    "target": "0x80068FA4"
    },
    {
     "index": 5,
-    "target": "0x80068FE0",
-    "text": null
+    "target": "0x80068FE0"
    },
    {
     "index": 6,
-    "target": "0x80069030",
-    "text": null
+    "target": "0x80069030"
    },
    {
     "index": 7,
-    "target": "0x80068D20",
-    "text": null
+    "target": "0x80068D20"
    },
    {
     "index": 8,
-    "target": "0x80068AE4",
-    "text": null
+    "target": "0x80068AE4"
    },
    {
     "index": 9,
-    "target": "0x800693B0",
-    "text": null
+    "target": "0x800693B0"
    },
    {
     "index": 10,
-    "target": "0x80068FCC",
-    "text": null
+    "target": "0x80068FCC"
    },
    {
     "index": 11,
-    "target": "0x800687A0",
-    "text": null
+    "target": "0x800687A0"
    },
    {
     "index": 12,
-    "target": "0x8006907C",
-    "text": null
+    "target": "0x8006907C"
    },
    {
     "index": 13,
-    "target": "0x8006969C",
-    "text": null
+    "target": "0x8006969C"
    },
    {
     "index": 14,
-    "target": "0x80068788",
-    "text": null
+    "target": "0x80068788"
    },
    {
     "index": 15,
-    "target": "0x800697F8",
-    "text": null
+    "target": "0x800697F8"
    }
   ]
  }

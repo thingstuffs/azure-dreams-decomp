@@ -953,7 +953,8 @@ def apply_read_evidence(L, root, binroot, paths):
             if c not in binaries: binaries[c] = (Path(binroot) / FILES[c]).read_bytes()
             b = binaries[c]
             assert 0 <= s < e <= len(b), 'read evidence out of bounds'
-            assert hashlib.sha256(b[s:e]).hexdigest() == r['bytes_sha256'], 'read evidence bytes changed'
+            hash_end = max(e, s + 16)
+            assert hash_end <= len(b) and hashlib.sha256(b[s:hash_end]).hexdigest() == r['bytes_sha256'], 'read evidence bytes changed'
             source = r['source']; sourcepath = Path(root) / source
             assert not Path(source).is_absolute() and '..' not in Path(source).parts
             if source not in source_hashes: source_hashes[source] = hashlib.sha256(sourcepath.read_bytes()).hexdigest()
@@ -962,7 +963,7 @@ def apply_read_evidence(L, root, binroot, paths):
                 at = num(r['read_foff'])
                 assert size(inter([[at, at + 4]], L[c].get('c_row', []))) == 4, 'read is outside matched C'
                 word = u32(b, at)
-                assert hashlib.sha256(b[at:at + 4]).hexdigest() == r['read_sha256'] and word >> 26 in LOADS, 'read instruction changed'
+                assert at + 16 <= len(b) and hashlib.sha256(b[at:at + 16]).hexdigest() == r['read_sha256'] and word >> 26 in LOADS, 'read instruction changed'
             L[c]['matched_c_read'].append([s, e])
         receipts.append(dict(path=path.name, sha256=hashlib.sha256(path.read_bytes()).hexdigest(), records=len(records)))
     return receipts

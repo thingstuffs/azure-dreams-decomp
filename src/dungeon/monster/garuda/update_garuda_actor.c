@@ -11,7 +11,7 @@
 #include "dungeon/actor.h"
 #include "sdk/libgte.h"
 
-typedef void (*Callback)(void *, void *, void *, void *);
+typedef ActorActionHandler Callback;
 
 extern u8 garuda_walk_direction_frames[9];
 extern Callback garuda_callbacks[];

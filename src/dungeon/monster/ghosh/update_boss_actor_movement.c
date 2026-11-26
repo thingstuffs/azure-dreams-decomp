@@ -137,7 +137,7 @@ void update_boss_actor_movement(ActorRecord *entity, ObjectPosition *motion, Spr
             sprite->flags |= 0x7000;
         }
 
-        apply_monster_koyaw_data(actor->flags1C, (u8 *)sprite + 0xC);
+        apply_monster_koyaw_data(actor->flags1C, &sprite->color.c.r);
     } else {
         updated_flags = sprite_flags & 0x0800;
         if (updated_flags != 0) {
